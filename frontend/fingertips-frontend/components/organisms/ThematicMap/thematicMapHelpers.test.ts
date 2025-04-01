@@ -29,7 +29,7 @@ import { mockHealthData } from '@/mock/data/healthdata';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
-import {formatNumber} from "@/lib/numberFormatter";
+import { formatNumber } from '@/lib/numberFormatter';
 
 const mockMapData: MapGeographyData = {
   mapFile: regionsMap,

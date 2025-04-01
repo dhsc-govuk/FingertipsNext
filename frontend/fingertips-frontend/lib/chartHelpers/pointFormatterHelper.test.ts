@@ -1,5 +1,5 @@
-import {pointFormatterHelper, SymbolsEnum} from './pointFormatterHelper';
-import Highcharts from "highcharts";
+import { pointFormatterHelper, SymbolsEnum } from './pointFormatterHelper';
+import Highcharts from 'highcharts';
 
 const mockPoint = {
   graphic: {
@@ -21,9 +21,15 @@ const mockGenerateTooltipList = jest
 
 describe('pointFormatterHelper', () => {
   it('should return a string with the default symbol code for circle when symbolName is empty string', () => {
-    const actual = pointFormatterHelper(mockPoint as unknown as Highcharts.Point, mockGenerateTooltipList);
+    const actual = pointFormatterHelper(
+      mockPoint as unknown as Highcharts.Point,
+      mockGenerateTooltipList
+    );
     expect(actual).toContain(SymbolsEnum.Circle);
-    expect(mockGenerateTooltipList).toHaveBeenCalledWith(mockPoint, SymbolsEnum.Circle);
+    expect(mockGenerateTooltipList).toHaveBeenCalledWith(
+      mockPoint,
+      SymbolsEnum.Circle
+    );
   });
 
   it.each([
@@ -36,7 +42,10 @@ describe('pointFormatterHelper', () => {
     'should return a string with the correct symbol code',
     (symbolName, symbolCode) => {
       mockPoint.graphic.symbolName = symbolName;
-      const actual = pointFormatterHelper(mockPoint as unknown as Highcharts.Point, mockGenerateTooltipList);
+      const actual = pointFormatterHelper(
+        mockPoint as unknown as Highcharts.Point,
+        mockGenerateTooltipList
+      );
       expect(actual).toContain(symbolCode);
       expect(mockGenerateTooltipList).toHaveBeenCalledWith(
         mockPoint,

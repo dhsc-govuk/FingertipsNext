@@ -18,7 +18,7 @@ import {
 import { SparklineLabelEnum } from '@/components/organisms/BarChartEmbeddedTable';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { getBenchmarkLabelText } from '@/components/organisms/BenchmarkLabel';
-import {formatNumber} from "@/lib/numberFormatter";
+import { formatNumber } from '@/lib/numberFormatter';
 
 interface SparklineChartProps {
   value: (number | undefined)[];

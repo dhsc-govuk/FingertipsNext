@@ -27,7 +27,7 @@ import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { LineChart } from '../LineChart';
 import { LineChartVariant } from '../LineChart/lineChartHelpers';
 import { useSearchState } from '@/context/SearchStateContext';
-import {formatNumber} from "@/lib/numberFormatter";
+import { formatNumber } from '@/lib/numberFormatter';
 
 interface InequalitiesProps {
   healthIndicatorData: HealthDataForArea;
