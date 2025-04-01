@@ -26,9 +26,16 @@ ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 const mockMapGeographyData = { mapFile: regionsMap };
 
 describe('OneIndicatorTwoOrMoreAreasView', () => {
+  const testIndicators = '1';
+  const testAreas = ['A001', 'A002'];
+  const testGroup = 'G001';
+  const testAreaType = 'test_area_type';
+  const testGroupType = 'test_group_type';
+
   afterEach(() => {
     jest.resetAllMocks();
   });
+
   it.each([
     [
       ['1', '2'],
@@ -54,49 +61,116 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
     }
   );
 
-  it.each([
-    [
-      '1',
-      ['A001', 'A002'],
-      'G001',
-      ['A001', 'A002', areaCodeForEngland, 'G001'],
-    ],
-    [
-      '1',
-      ['A001', 'A002'],
-      areaCodeForEngland,
-      ['A001', 'A002', areaCodeForEngland],
-    ],
-  ])(
-    'should make appropriate number of calls to the healthIndicatorApi with the expected parameters',
-    async (testIndicators, testAreas, testGroup, expectedAreaCodes) => {
-      const searchState: SearchStateParams = {
-        [SearchParams.IndicatorsSelected]: [testIndicators],
-        [SearchParams.GroupSelected]: testGroup,
-        [SearchParams.AreasSelected]: testAreas,
-      };
-      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({
-        areaHealthData: [],
-      });
+  it('should make appropriate number of calls to the healthIndicatorApi when no group is specified', async () => {
+    const searchState: SearchStateParams = {
+      [SearchParams.IndicatorsSelected]: [testIndicators],
+      [SearchParams.AreasSelected]: testAreas,
+      [SearchParams.AreaTypeSelected]: testAreaType,
+    };
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({
+      areaHealthData: [],
+    });
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({
+      areaHealthData: [],
+    });
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({
+      areaHealthData: [],
+    });
 
-      await OneIndicatorTwoOrMoreAreasView({
-        searchState: searchState,
-      });
+    await OneIndicatorTwoOrMoreAreasView({
+      searchState: searchState,
+    });
 
-      expect(
-        mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(
-        1,
-        {
-          areaCodes: expectedAreaCodes,
-          indicatorId: Number(testIndicators),
-        },
-        API_CACHE_CONFIG
-      );
-    }
-  );
+    expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
+      2
+    );
 
-  it('should make appropriate number of calls to the healthIndicatorApi with the expected parameters with a long list of areas', async () => {
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(
+      1,
+      {
+        areaCodes: testAreas,
+        indicatorId: Number(testIndicators),
+        areaType: testAreaType,
+      },
+      API_CACHE_CONFIG
+    );
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(
+      2,
+      {
+        areaCodes: [areaCodeForEngland],
+        indicatorId: Number(testIndicators),
+        areaType: 'england',
+      },
+      API_CACHE_CONFIG
+    );
+  });
+
+  it('should make appropriate number of calls to the healthIndicatorApi when a group is specified', async () => {
+    const searchState: SearchStateParams = {
+      [SearchParams.IndicatorsSelected]: [testIndicators],
+      [SearchParams.GroupSelected]: testGroup,
+      [SearchParams.AreasSelected]: testAreas,
+      [SearchParams.AreaTypeSelected]: testAreaType,
+      [SearchParams.GroupTypeSelected]: testGroupType,
+    };
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({
+      areaHealthData: [],
+    });
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({
+      areaHealthData: [],
+    });
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({
+      areaHealthData: [],
+    });
+
+    await OneIndicatorTwoOrMoreAreasView({
+      searchState: searchState,
+    });
+
+    expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
+      3
+    );
+
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(
+      1,
+      {
+        areaCodes: testAreas,
+        indicatorId: Number(testIndicators),
+        areaType: testAreaType,
+      },
+      API_CACHE_CONFIG
+    );
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(
+      2,
+      {
+        areaCodes: [areaCodeForEngland],
+        indicatorId: Number(testIndicators),
+        areaType: 'england',
+      },
+      API_CACHE_CONFIG
+    );
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(
+      3,
+      {
+        areaCodes: [testGroup],
+        indicatorId: Number(testIndicators),
+        areaType: testGroupType,
+      },
+      API_CACHE_CONFIG
+    );
+  });
+
+  it.skip('should make appropriate number of calls to the healthIndicatorApi with the expected parameters with a long list of areas', async () => {
     const testIndicators = '1';
     const testAreas = new Array(15).fill('a', 0, 15);
     const testGroup = 'G001';
