@@ -1,5 +1,5 @@
 import BasePage from '../basePage';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { RawIndicatorDocument } from '@/lib/search/searchTypes';
 import { expect } from '../pageFactory';
 
 export default class IndicatorPage extends BasePage {
@@ -10,7 +10,7 @@ export default class IndicatorPage extends BasePage {
     await this.navigateTo(`/indicator/${indicatorId}`);
   }
 
-  async checkIndicatorNameTitle(indicator: IndicatorDocument) {
+  async checkIndicatorNameTitle(indicator: RawIndicatorDocument) {
     const indicatorName = indicator?.indicatorName;
 
     if (!indicatorName) {
