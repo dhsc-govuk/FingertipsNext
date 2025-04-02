@@ -14,7 +14,6 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { HeatmapHeader } from './heatmapHeader';
 import { HeatmapCell } from './heatmapCell';
-import { getTextColour, GovukColours } from '@/lib/styleHelpers/colours';
 import { BenchmarkLegend } from '../BenchmarkLegend';
 
 export interface HeatmapIndicatorData {
