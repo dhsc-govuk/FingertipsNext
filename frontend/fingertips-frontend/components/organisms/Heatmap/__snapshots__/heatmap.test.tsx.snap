@@ -2,6 +2,512 @@
 
 exports[`snapshot test 1`] = `
 <DocumentFragment>
+  .c4 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  display: inline-block;
+  padding-top: 5px;
+  padding-right: 8px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  -webkit-letter-spacing: 1px;
+  -moz-letter-spacing: 1px;
+  -ms-letter-spacing: 1px;
+  letter-spacing: 1px;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: #1d70b8;
+  color: #ffffff;
+}
+
+.c5 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #00703C;
+  tint: SOLID;
+}
+
+.c6 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #FFDD00;
+  color: #0B0C0C;
+}
+
+.c7 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #D4351C;
+  tint: SOLID;
+}
+
+.c8 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: transparent;
+  color: #0B0C0C;
+  border: 1px solid #0B0C0C;
+}
+
+.c9 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #5694CA;
+}
+
+.c10 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #003078;
+  tint: SOLID;
+}
+
+.c11 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #85994B;
+  color: #0B0C0C;
+}
+
+.c12 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #831504;
+  tint: SOLID;
+}
+
+.c13 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #AFCFE5;
+  color: #0B0C0C;
+}
+
+.c14 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #1D70B8;
+  tint: SOLID;
+}
+
+.c15 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #E4DDFF;
+  color: #0B0C0C;
+}
+
+.c16 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #CBBEF4;
+  color: #0B0C0C;
+}
+
+.c17 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #AA90EC;
+  color: #0B0C0C;
+}
+
+.c18 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #8B60E2;
+  tint: SOLID;
+}
+
+.c19 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #6B33C3;
+  tint: SOLID;
+}
+
+.c20 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #D494C1;
+  color: #0B0C0C;
+}
+
+.c21 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #BC6AAA;
+  color: #0B0C0C;
+}
+
+.c22 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #A44596;
+  tint: SOLID;
+}
+
+.c23 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #812972;
+  tint: SOLID;
+}
+
+.c24 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #561950;
+  tint: SOLID;
+}
+
+.c3 {
+  position: relative;
+  left: -5px;
+}
+
+.c2 {
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+  font-size: 0.842em;
+}
+
+.c0 {
+  margin-bottom: 2em;
+}
+
+.c1 {
+  -webkit-align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
+  margin: 1em 0.1em 0.1em 0;
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+  .c4 {
+    font-size: 14px;
+    line-height: 1;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    font-size: 16px;
+    line-height: 1;
+  }
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+<div
+    class="c0"
+    data-testid="benchmarkLegend-component"
+  >
+    <h4
+      class="c1"
+    >
+      Compared to England
+    </h4>
+    <span
+      class="c2"
+    >
+      95% confidence
+    </span>
+    <div
+      class="c3"
+    >
+      <strong
+        class="c4 c5"
+      >
+        Better
+      </strong>
+      <strong
+        class="c4 c6"
+      >
+        Similar
+      </strong>
+      <strong
+        class="c4 c7"
+      >
+        Worse
+      </strong>
+      <strong
+        class="c4 c8"
+      >
+        Not compared
+      </strong>
+      <strong
+        class="c4 c9"
+      >
+        Lower
+      </strong>
+      <strong
+        class="c4 c10"
+      >
+        Higher
+      </strong>
+    </div>
+    <span
+      class="c2"
+    >
+      99.8% confidence
+    </span>
+    <div
+      class="c3"
+    >
+      <strong
+        class="c4 c11"
+      >
+        Better
+      </strong>
+      <strong
+        class="c4 c6"
+      >
+        Similar
+      </strong>
+      <strong
+        class="c4 c12"
+      >
+        Worse
+      </strong>
+      <strong
+        class="c4 c8"
+      >
+        Not compared
+      </strong>
+      <strong
+        class="c4 c13"
+      >
+        Lower
+      </strong>
+      <strong
+        class="c4 c14"
+      >
+        Higher
+      </strong>
+    </div>
+    <h4
+      class="c1"
+    >
+      Quintiles
+    </h4>
+    <div
+      class="c3"
+    >
+      <strong
+        class="c4 c15"
+      >
+        Lowest
+      </strong>
+      <strong
+        class="c4 c16"
+      >
+        Low
+      </strong>
+      <strong
+        class="c4 c17"
+      >
+        Middle
+      </strong>
+      <strong
+        class="c4 c18"
+      >
+        High
+      </strong>
+      <strong
+        class="c4 c19"
+      >
+        Highest
+      </strong>
+    </div>
+    <div
+      class="c3"
+    >
+      <strong
+        class="c4 c20"
+      >
+        Worst
+      </strong>
+      <strong
+        class="c4 c21"
+      >
+        Worse
+      </strong>
+      <strong
+        class="c4 c22"
+      >
+        Middle
+      </strong>
+      <strong
+        class="c4 c23"
+      >
+        Better
+      </strong>
+      <strong
+        class="c4 c24"
+      >
+        Best
+      </strong>
+    </div>
+  </div>
   .c5 {
   color: #0b0c0c;
   font-family: "nta",Arial,sans-serif;
@@ -130,11 +636,18 @@ exports[`snapshot test 1`] = `
 }
 
 .c19 {
-  background-color: #FFDD00;
+  color: #0B0C0C;
+  background-color: #B1B4B6;
 }
 
 .c21 {
-  background-color: #F3F2F1;
+  color: #0B0C0C;
+  background-color: #FFFFFF;
+}
+
+.c22 {
+  color: #FFFFFF;
+  background-color: #6B33C3;
 }
 
 .c20 {
@@ -191,6 +704,14 @@ exports[`snapshot test 1`] = `
   .c5 {
     margin-bottom: 20px;
   }
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
 }
 
 @media print {
@@ -317,6 +838,7 @@ exports[`snapshot test 1`] = `
         >
           <td
             class="c14"
+            data-testid="heatmap-cell-indicator-title"
           >
             <div
               class="c15"
@@ -326,6 +848,7 @@ exports[`snapshot test 1`] = `
           </td>
           <td
             class="c14 c16"
+            data-testid="heatmap-cell-indicator-info"
           >
             <div
               class="c17"
@@ -335,6 +858,7 @@ exports[`snapshot test 1`] = `
           </td>
           <td
             class="c14 c16"
+            data-testid="heatmap-cell-indicator-info"
           >
             <div
               class="c17"
@@ -344,38 +868,58 @@ exports[`snapshot test 1`] = `
           </td>
           <td
             class="c14 c18 c19"
+            data-testid="heatmap-cell-data"
           >
             <div
               class="c20"
             >
-              1112.0
+              <div
+                class="c20"
+              >
+                1112.0
+              </div>
             </div>
           </td>
           <td
             class="c14 c18 c21"
+            data-testid="heatmap-cell-data"
           >
             <div
               class="c20"
             >
-              1132.0
-            </div>
-          </td>
-          <td
-            class="c14 c18 c19"
-          >
-            <div
-              class="c20"
-            >
-              1142.0
+              <div
+                class="c20"
+              >
+                1132.0
+              </div>
             </div>
           </td>
           <td
             class="c14 c18 c21"
+            data-testid="heatmap-cell-data"
           >
             <div
               class="c20"
             >
-              1122.0
+              <div
+                class="c20"
+              >
+                1142.0
+              </div>
+            </div>
+          </td>
+          <td
+            class="c14 c18 c21"
+            data-testid="heatmap-cell-data"
+          >
+            <div
+              class="c20"
+            >
+              <div
+                class="c20"
+              >
+                1122.0
+              </div>
             </div>
           </td>
         </tr>
@@ -384,6 +928,7 @@ exports[`snapshot test 1`] = `
         >
           <td
             class="c14"
+            data-testid="heatmap-cell-indicator-title"
           >
             <div
               class="c15"
@@ -393,6 +938,7 @@ exports[`snapshot test 1`] = `
           </td>
           <td
             class="c14 c16"
+            data-testid="heatmap-cell-indicator-info"
           >
             <div
               class="c17"
@@ -402,6 +948,7 @@ exports[`snapshot test 1`] = `
           </td>
           <td
             class="c14 c16"
+            data-testid="heatmap-cell-indicator-info"
           >
             <div
               class="c17"
@@ -410,39 +957,59 @@ exports[`snapshot test 1`] = `
             </div>
           </td>
           <td
-            class="c14 c18 c21"
-          >
-            <div
-              class="c20"
-            >
-              112.0
-            </div>
-          </td>
-          <td
             class="c14 c18 c19"
+            data-testid="heatmap-cell-data"
           >
             <div
               class="c20"
             >
-              132.0
+              <div
+                class="c20"
+              >
+                112.0
+              </div>
             </div>
           </td>
           <td
             class="c14 c18 c21"
+            data-testid="heatmap-cell-data"
           >
             <div
               class="c20"
             >
-              142.0
+              <div
+                class="c20"
+              >
+                132.0
+              </div>
             </div>
           </td>
           <td
-            class="c14 c18 c19"
+            class="c14 c18 c21"
+            data-testid="heatmap-cell-data"
           >
             <div
               class="c20"
             >
-              X
+              <div
+                class="c20"
+              >
+                142.0
+              </div>
+            </div>
+          </td>
+          <td
+            class="c14 c18 c21"
+            data-testid="heatmap-cell-data"
+          >
+            <div
+              class="c20"
+            >
+              <div
+                class="c20"
+              >
+                X
+              </div>
             </div>
           </td>
         </tr>
@@ -451,6 +1018,7 @@ exports[`snapshot test 1`] = `
         >
           <td
             class="c14"
+            data-testid="heatmap-cell-indicator-title"
           >
             <div
               class="c15"
@@ -460,6 +1028,7 @@ exports[`snapshot test 1`] = `
           </td>
           <td
             class="c14 c16"
+            data-testid="heatmap-cell-indicator-info"
           >
             <div
               class="c17"
@@ -469,6 +1038,7 @@ exports[`snapshot test 1`] = `
           </td>
           <td
             class="c14 c16"
+            data-testid="heatmap-cell-indicator-info"
           >
             <div
               class="c17"
@@ -478,38 +1048,58 @@ exports[`snapshot test 1`] = `
           </td>
           <td
             class="c14 c18 c19"
+            data-testid="heatmap-cell-data"
           >
             <div
               class="c20"
             >
-              X
+              <div
+                class="c20"
+              >
+                X
+              </div>
             </div>
           </td>
           <td
             class="c14 c18 c21"
+            data-testid="heatmap-cell-data"
           >
             <div
               class="c20"
             >
-              X
+              <div
+                class="c20"
+              >
+                X
+              </div>
             </div>
           </td>
           <td
-            class="c14 c18 c19"
+            class="c14 c18 c22"
+            data-testid="heatmap-cell-data"
           >
             <div
               class="c20"
             >
-              41.0
+              <div
+                class="c20"
+              >
+                41.0
+              </div>
             </div>
           </td>
           <td
             class="c14 c18 c21"
+            data-testid="heatmap-cell-data"
           >
             <div
               class="c20"
             >
-              X
+              <div
+                class="c20"
+              >
+                X
+              </div>
             </div>
           </td>
         </tr>

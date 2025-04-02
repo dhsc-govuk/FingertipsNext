@@ -1,4 +1,4 @@
-import { GovukColours } from '@/lib/styleHelpers/colours';
+import { getTextColour, GovukColours } from '@/lib/styleHelpers/colours';
 import { Table } from 'govuk-react';
 import styled from 'styled-components';
 import {
@@ -52,20 +52,18 @@ const StyledDivIndicatorInformationCellContent = styled.div({
 interface HeatmapCellProps {
   cellType: CellType;
   content: string;
-  textColour?: string;
   backgroundColour?: string;
 }
 
 export const HeatmapCell = ({
   cellType,
   content,
-  textColour,
-  backgroundColour,
+  backgroundColour = GovukColours.White,
 }: HeatmapCellProps): JSX.Element => {
   switch (cellType) {
     case CellType.IndicatorTitle:
       return (
-        <Table.Cell>
+        <Table.Cell data-testid="heatmap-cell-indicator-title">
           <StyledDivIndicatorTitleCellContent>
             {content}
           </StyledDivIndicatorTitleCellContent>
@@ -73,7 +71,7 @@ export const HeatmapCell = ({
       );
     case CellType.IndicatorInformation:
       return (
-        <StyledCellText>
+        <StyledCellText data-testid="heatmap-cell-indicator-info">
           <StyledDivIndicatorInformationCellContent>
             {content}
           </StyledDivIndicatorInformationCellContent>
@@ -81,7 +79,11 @@ export const HeatmapCell = ({
       );
     case CellType.Data:
       return (
-        <StyledCellData $color={textColour} $backgroundColor={backgroundColour}>
+        <StyledCellData
+          data-testid="heatmap-cell-data"
+          $color={getTextColour(backgroundColour)}
+          $backgroundColor={backgroundColour}
+        >
           <StyledDivDataCellContent>
             <StyledDivDataCellContent>{content}</StyledDivDataCellContent>
           </StyledDivDataCellContent>
