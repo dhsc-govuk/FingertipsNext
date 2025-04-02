@@ -27,19 +27,6 @@ public static class Constants {
         ]);
     }
 
-    public static class Indicator {
-        public const int GpRegisteredPopulationId = 337;
-        public const int ResidentPopulationId = 92708;
-
-        // IDs to skip for trend analysis. The following are full population indicators and are not
-        // displayed in the Fingertips website.
-        public static readonly IList<int> IdsToSkip = new ReadOnlyCollection<int>(
-        [
-            GpRegisteredPopulationId,
-            ResidentPopulationId
-        ]);
-    }
-
     public static class Polarity {
         public const string LowIsGood = "Low is good";
         public const string HighIsGood = "High is good";
