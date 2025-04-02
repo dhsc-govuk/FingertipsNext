@@ -13,51 +13,94 @@ import {
   SpineChartTableRowProps,
   SpineChartTable,
 } from '@/components/organisms/SpineChartTable';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants'; 
+import {
+  HealthDataForArea,
+  Indicator,
+  IndicatorPolarity,
+  QuartileData,
+} from '@/generated-sources/ft-api-client';
 import { extractAndSortHealthData } from '@/lib/chartHelpers/extractAndSortHealthData';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { SpineChartProps } from '@/components/organisms/SpineChart';
+
+export function mapToSpineChartTableIndicator(
+  indicatorMetadata: IndicatorDocument | undefined
+): Indicator {
+  const metadata = indicatorMetadata;
+
+  const rowIndicatorId: number =
+    metadata?.indicatorID !== undefined ? Number(metadata?.indicatorID) : 0;
+
+  const rowTitle: string =
+    metadata?.indicatorName !== undefined ? metadata?.indicatorName : '';
+
+  const rowIndicatorDefinition: string =
+    metadata?.indicatorDefinition !== undefined
+      ? metadata?.indicatorDefinition
+      : '';
+
+  const rowIndicator: Indicator = {
+    indicatorId: rowIndicatorId,
+    title: rowTitle,
+    definition: rowIndicatorDefinition,
+  };
+
+  return rowIndicator;
+}
+
+export function mapToSpineChartTableStatistics(
+  quartileData: QuartileData
+): SpineChartProps {
+  const q0Value = quartileData.q0Value !== undefined ? quartileData.q0Value : 0;
+  const q1Value = quartileData.q1Value !== undefined ? quartileData.q1Value : 0;
+  const q3Value = quartileData.q3Value !== undefined ? quartileData.q3Value : 0;
+  const q4Value = quartileData.q4Value !== undefined ? quartileData.q4Value : 0;
+
+  switch (quartileData.polarity) {
+    case IndicatorPolarity.LowIsGood:
+      return {
+        best: q0Value,
+        secondBest: q1Value,
+        secondWorst: q3Value,
+        worst: q4Value,
+      };
+    case IndicatorPolarity.Unknown:
+    case IndicatorPolarity.NoJudgement:
+    case IndicatorPolarity.HighIsGood:
+    default:
+      return {
+        best: q4Value,
+        secondBest: q3Value,
+        secondWorst: q1Value,
+        worst: q0Value,
+      };
+  }
+}
 
 export function mapToSpineChartTableProps(
   healthIndicatorData: HealthDataForArea[],
   groupIndicatorData: HealthDataForArea[],
   englandIndicatorData: HealthDataForArea[],
   indicatorMetadata: (IndicatorDocument | undefined)[],
-  benchmarkStatistics: SpineChartProps[]
+  quartileData: QuartileData[]
 ): SpineChartTableProps {
   const numberOfIndicators = healthIndicatorData.length;
   const tableData: SpineChartTableRowProps[] = new Array(numberOfIndicators);
 
   healthIndicatorData.forEach((indicatorData, index) => {
-    const metadata = indicatorMetadata[index];
-
-    const rowIndicatorId: number =
-      metadata?.indicatorID !== undefined ? Number(metadata?.indicatorID) : 0;
-
-    const rowTitle: string =
-      metadata?.indicatorName !== undefined ? metadata?.indicatorName : '';
-
-    const rowIndicatorDefinition: string =
-      metadata?.indicatorDefinition !== undefined
-        ? metadata?.indicatorDefinition
+    const rowMeasurementUnit: string =
+      indicatorMetadata[index] !== undefined
+        ? indicatorMetadata[index]?.unitLabel
         : '';
 
-    const rowMeasurementUnit: string =
-      metadata !== undefined ? metadata?.unitLabel : '';
-
-    const rowIndicator: Indicator = {
-      indicatorId: rowIndicatorId,
-      title: rowTitle,
-      definition: rowIndicatorDefinition,
-    };
-
     const row: SpineChartTableRowProps = {
-      indicator: rowIndicator,
+      indicator: mapToSpineChartTableIndicator(indicatorMetadata[index]),
       measurementUnit: rowMeasurementUnit,
       indicatorHealthData: indicatorData,
       groupIndicatorData: groupIndicatorData[index],
       englandBenchmarkData: englandIndicatorData[index],
-      benchmarkStatistics: benchmarkStatistics[index],
+      benchmarkStatistics: mapToSpineChartTableStatistics(quartileData[index]),
     };
 
     tableData[index] = row;
@@ -87,20 +130,21 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     orderedGroupData,
     orderedEnglandData,
     orderedMetadata,
-  } = extractingCombinedHealthData(
+    orderedQuartileData,
+  } = extractAndSortHealthData(
     indicatorData,
     indicatorMetadata,
     areasSelected,
     selectedGroupCode
   );
 
-    return mapToSpineChartTableProps(
-      orderedHealthData,
-      orderedGroupData,
-      orderedEnglandData,
-      orderedMetadata
-    ).rowData;
-  };
+  const spineTableData = mapToSpineChartTableProps(
+    orderedHealthData,
+    orderedGroupData,
+    orderedEnglandData,
+    orderedMetadata,
+    orderedQuartileData
+  );
 
   return (
     <section data-testid="twoOrMoreIndicatorsAreasViewPlot-component">

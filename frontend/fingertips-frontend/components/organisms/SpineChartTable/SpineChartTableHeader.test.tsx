@@ -18,9 +18,9 @@ describe('Spine chart table suite', () => {
         <table>
           <thead>
             <SpineChartTableHeader
-            areaName={mockHeaderData.area}
-            groupName={mockHeaderData.group}
-          />
+              areaName={mockHeaderData.area}
+              groupName={mockHeaderData.group}
+            />
           </thead>
         </table>
       );

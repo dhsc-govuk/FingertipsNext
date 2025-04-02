@@ -1,6 +1,9 @@
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { TwoOrMoreIndicatorsAreasViewPlot } from '.';
-import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataPointTrendEnum,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
 import { render, screen } from '@testing-library/react';
 import {
   HealthDataForArea,
@@ -150,6 +153,25 @@ const mockMetaData = [
   },
 ];
 
+const mockBenchmarkStatistics = [
+  {
+    indicatorId: Number(indicatorIds[0]),
+    polarity: IndicatorPolarity.LowIsGood,
+    q0Value: 0,
+    q1Value: 1,
+    q3Value: 3,
+    q4Value: 4,
+  },
+  {
+    indicatorId: Number(indicatorIds[1]),
+    polarity: IndicatorPolarity.LowIsGood,
+    q0Value: 4,
+    q1Value: 3,
+    q3Value: 1,
+    q4Value: 0,
+  },
+];
+
 describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
   it('should render all components with up to 2 areas selected', () => {
     const areas = [mockAreas[0], mockAreas[1]];
@@ -160,6 +182,7 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
         searchState={mockSearchParams}
         indicatorData={mockIndicatorData}
         indicatorMetadata={mockMetaData}
+        benchmarkStatistics={mockBenchmarkStatistics}
       />
     );
     expect(screen.getByTestId('heatmapChart-component')).toBeInTheDocument();

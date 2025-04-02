@@ -1,7 +1,7 @@
-import { QuartileData } from '@/components/views/TwoOrMoreIndicatorsAreasView';
 import {
   HealthDataForArea,
   IndicatorWithHealthDataForArea,
+  QuartileData,
 } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { IndicatorDocument } from '@/lib/search/searchTypes';

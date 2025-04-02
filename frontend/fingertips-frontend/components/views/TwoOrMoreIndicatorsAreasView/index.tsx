@@ -18,19 +18,6 @@ import {
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
-export interface QuartileData {
-  indicatorId: number;
-  polarity: IndicatorPolarity;
-  q0Value: number;
-  q1Value: number;
-  q2Value: number;
-  q3Value: number;
-  q4Value: number;
-  areaValue: number;
-  ancestorValue: number;
-  englandValue: number;
-}
-
 export default async function TwoOrMoreIndicatorsAreasView({
   searchState,
   selectedIndicatorsData,
