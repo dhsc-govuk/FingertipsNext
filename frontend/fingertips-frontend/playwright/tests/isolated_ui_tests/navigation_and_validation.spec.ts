@@ -60,6 +60,8 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
     indicatorPage,
     axeBuilder,
   }) => {
+    test.setTimeout(90000); // TODO - split this test up and remove this extension
+
     await test.step('Navigate to search page', async () => {
       await homePage.navigateToHomePage();
       await homePage.checkOnHomePage();

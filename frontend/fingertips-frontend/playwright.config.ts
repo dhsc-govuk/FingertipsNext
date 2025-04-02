@@ -16,7 +16,7 @@ const config: PlaywrightTestConfig = {
   forbidOnly: isCI, // fails the build on CI if you accidentally left test.only in the source code
   retries: isCI ? 1 : 0,
   workers: isCI ? 2 : '50%', // 50% of the available CPUs
-  timeout: 120_000, // TODO - WW to refactor
+  timeout: 60_000,
   expect: {
     timeout: 10_000,
     toHaveScreenshot: {
