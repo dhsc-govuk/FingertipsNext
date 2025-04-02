@@ -54,16 +54,16 @@ const getSelectedAreaFrom = (
 
 interface PyramidPopulationChartViewProps {
   healthDataForAreas: HealthDataForArea[];
+  groupAreaSelected?: string;
   xAxisTitle: string;
   yAxisTitle: string;
-  groupAreaSelected: string | undefined;
   searchState: SearchStateParams;
 }
 export const PopulationPyramidWithTable = ({
   healthDataForAreas,
-  groupAreaSelected,
   xAxisTitle,
   yAxisTitle,
+  groupAreaSelected,
   searchState,
 }: Readonly<PyramidPopulationChartViewProps>) => {
   const stateManager = SearchStateManager.initialise(searchState);
@@ -73,8 +73,10 @@ export const PopulationPyramidWithTable = ({
   const [selectedAreaCode, setSelectedAreaCode] = useState<string | undefined>(
     areaCode
   );
+
   const pathname = usePathname();
   const { replace } = useRouter();
+
   const convertedData = useMemo(() => {
     return createPyramidPopulationDataFrom(
       healthDataForAreas,
