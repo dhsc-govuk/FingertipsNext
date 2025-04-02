@@ -58,5 +58,5 @@ describe('Inequalities LineChart suite', () => {
       'highcharts-react-component-inequalitiesBarChart'
     );
     expect(barChart).toHaveTextContent('Inequality type: Sex');
-  })
+  });
 });

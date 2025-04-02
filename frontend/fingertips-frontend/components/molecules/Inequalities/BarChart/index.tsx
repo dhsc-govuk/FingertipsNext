@@ -75,7 +75,7 @@ export function InequalitiesBarChart({
     benchmarkValue,
   ]);
 
-  const timePeriod = barChartData.data.period
+  const timePeriod = barChartData.data.period;
   const comparedTo = `${barChartData.areaName}`;
 
   const seriesData: Highcharts.SeriesOptionsType[] = [
@@ -106,8 +106,11 @@ export function InequalitiesBarChart({
 
   const chartOverrides: Highcharts.ChartOptions = {
     // The deprivation chart needs more height
-    height: type === InequalitiesTypes.Deprivation ? '100%' : barChartDefaultOptions.chart?.height
-  }
+    height:
+      type === InequalitiesTypes.Deprivation
+        ? '100%'
+        : barChartDefaultOptions.chart?.height,
+  };
 
   const barChartOptions: Highcharts.Options = {
     ...barChartDefaultOptions,
