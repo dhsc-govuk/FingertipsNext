@@ -56,7 +56,6 @@ export function OneIndicatorOneAreaViewPlots({
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreasSelected]: areasSelected,
-    // [SearchParams.InequalityTypeSelected]: inequalityTypeSelected,
   } = stateManager.getSearchState();
   const polarity = indicatorData.polarity as IndicatorPolarity;
   const benchmarkComparisonMethod =
@@ -65,12 +64,6 @@ export function OneIndicatorOneAreaViewPlots({
     showStandardLineChartConfidenceIntervalsData,
     setShowStandardLineChartConfidenceIntervalsData,
   ] = useState<boolean>(false);
-
-  // // This will be updated when we add the dropdown to select inequality types
-  // const inequalityType =
-  //   inequalityTypeSelected === 'deprivation'
-  //     ? InequalitiesTypes.Deprivation
-  //     : InequalitiesTypes.Sex;
 
   const healthIndicatorData = indicatorData?.areaHealthData ?? [];
   const dataWithoutEnglandOrGroup = seriesDataWithoutEnglandOrGroup(

@@ -25,7 +25,6 @@ import { useSearchState } from '@/context/SearchStateContext';
 interface InequalitiesTrendProps {
   healthIndicatorData: HealthDataForArea;
   measurementUnit?: string;
-  type?: InequalitiesTypes;
 }
 
 const generateInequalitiesLineChartTooltipStringList = (
@@ -40,13 +39,20 @@ const generateInequalitiesLineChartTooltipStringList = (
 export function InequalitiesTrend({
   healthIndicatorData,
   measurementUnit,
-  type = InequalitiesTypes.Sex,
 }: Readonly<InequalitiesTrendProps>) {
   const { getSearchState } = useSearchState();
   const searchState = getSearchState();
   const stateManager = SearchStateManager.initialise(searchState);
-  const { [SearchParams.AreasSelected]: areasSelected } =
-    stateManager.getSearchState();
+  const {
+    [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.InequalityTypeSelected]: inequalityTypeSelected,
+  } = stateManager.getSearchState();
+
+  // This will be updated when we add the dropdown to select inequality types
+  const type =
+    inequalityTypeSelected === 'deprivation'
+      ? InequalitiesTypes.Deprivation
+      : InequalitiesTypes.Sex;
 
   const inequalityCategory = getInequalityCategory(type, healthIndicatorData);
 

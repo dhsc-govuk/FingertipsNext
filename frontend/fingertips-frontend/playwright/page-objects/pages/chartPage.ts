@@ -121,25 +121,6 @@ export default class ChartPage extends AreaFilter {
           value: dropdownOptions[dropdownOptions.length - 1].value,
         });
       }
-      // if its one of the chart components that has a single time period dropdown then select the last in the list
-      if (visibleComponent.componentProps.hasTimePeriodDropDown) {
-        const combobox = this.page
-          .getByTestId(ChartPage.timePeriodDropDownComponent)
-          .getByRole('combobox');
-        // get the options from the combobox
-        const dropdownOptions = await combobox.evaluate(
-          (select: HTMLSelectElement) => {
-            return Array.from(select.options).map((option) => ({
-              value: option.value,
-              text: option.text,
-            }));
-          }
-        );
-
-        await combobox.selectOption({
-          value: dropdownOptions[dropdownOptions.length - 1].value,
-        });
-      }
       // if its one of the chart components that has a confidence interval checkbox then click it
       if (visibleComponent.componentProps.hasConfidenceIntervals) {
         await this.clickAndAwaitLoadingComplete(

@@ -29,7 +29,6 @@ interface InequalitiesForSingleTimePeriodProps {
   measurementUnit?: string;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
-  type?: InequalitiesTypes;
 }
 
 export function InequalitiesForSingleTimePeriod({
@@ -37,13 +36,20 @@ export function InequalitiesForSingleTimePeriod({
   measurementUnit,
   benchmarkComparisonMethod,
   polarity,
-  type = InequalitiesTypes.Sex,
 }: Readonly<InequalitiesForSingleTimePeriodProps>) {
   const { getSearchState } = useSearchState();
   const searchState = getSearchState();
   const stateManager = SearchStateManager.initialise(searchState);
-  const { [SearchParams.InequalityYearSelected]: selectedYear } =
-    stateManager.getSearchState();
+  const {
+    [SearchParams.InequalityYearSelected]: selectedYear,
+    [SearchParams.InequalityTypeSelected]: inequalityTypeSelected,
+  } = stateManager.getSearchState();
+
+  // This will be updated when we add the dropdown to select inequality types
+  const type =
+    inequalityTypeSelected === 'deprivation'
+      ? InequalitiesTypes.Deprivation
+      : InequalitiesTypes.Sex;
 
   const inequalityCategory = getInequalityCategory(type, healthIndicatorData);
 
