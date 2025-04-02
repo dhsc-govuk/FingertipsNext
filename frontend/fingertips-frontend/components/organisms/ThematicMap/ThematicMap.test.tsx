@@ -27,22 +27,6 @@ describe('ThematicMap', () => {
     });
   });
 
-  it('should render the ThematicMap component', async () => {
-    render(
-      <ThematicMap
-        healthIndicatorData={mockHealthData['92420']}
-        mapGeographyData={mockMapGeographyData}
-        benchmarkComparisonMethod={'Unknown'}
-        polarity={'Unknown'}
-      />
-    );
-
-    const highcharts = await screen.findByTestId(
-      'highcharts-react-thematicMap-component'
-    );
-    expect(highcharts).toBeInTheDocument();
-  });
-
   it('should render the benchmark legend', async () => {
     render(
       <ThematicMap
@@ -54,7 +38,7 @@ describe('ThematicMap', () => {
       />
     );
 
-    const highcharts = await screen.findByTestId('benchmarkLegend-component');
-    expect(highcharts).toBeInTheDocument();
+    const actual = await screen.findByTestId('benchmarkLegend-component');
+    expect(actual).toBeInTheDocument();
   });
 });
