@@ -8,8 +8,8 @@ import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 
-export const heatmapIndicatorTitleColumnWidth = '240px';
-export const heatmapDataColumnWidth = '60px';
+export const heatmapIndicatorTitleColumnWidth = 240;
+export const heatmapDataColumnWidth = 60;
 
 export enum HeaderType {
   IndicatorTitle,

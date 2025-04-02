@@ -55,7 +55,7 @@ export function Heatmap({
     <>
       <BenchmarkLegend />
       <StyledDivTableContainer>
-        <StyledTable data-testid="heatmapChart-component">
+        <StyledTable data-testid="heatmapChartChart-component">
           <Table.Row>
             {headers.map((header) => {
               return (

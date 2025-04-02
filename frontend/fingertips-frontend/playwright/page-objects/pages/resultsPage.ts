@@ -7,7 +7,6 @@ import {
   SearchMode,
 } from '@/playwright/testHelpers';
 import AreaFilter from '../components/areaFilter';
-import { getIndicatorNameById } from '../../testHelpers';
 import { RawIndicatorDocument } from '@/lib/search/searchTypes';
 
 export default class ResultsPage extends AreaFilter {
@@ -100,6 +99,13 @@ export default class ResultsPage extends AreaFilter {
     indicatorMode: IndicatorMode
   ) {
     const filteredByDisplayIndicatorIds: string[] = [];
+
+    expect(
+      await this.page
+        .getByTestId(this.indicatorCheckboxContainer)
+        .getByRole('checkbox')
+        .count()
+    ).toBeGreaterThan(1);
 
     // filter down the full list of indicators passed to this method to just the ones displayed on the page
     const displayedIndicatorCheckboxList = await this.page
@@ -279,18 +285,16 @@ export default class ResultsPage extends AreaFilter {
   }
 
   async clickViewBackgroundInformationLinkForIndicator(
-    indicatorId: string,
-    typedIndicatorData: RawIndicatorDocument[]
+    indicator: RawIndicatorDocument
   ) {
-    const indicatorName = getIndicatorNameById(indicatorId, typedIndicatorData);
-    if (!indicatorName) {
-      throw new Error(`Indicator with ID ${indicatorId} not found`);
+    if (!indicator) {
+      throw new Error(`Indicator not found`);
     }
 
     await this.clickAndAwaitLoadingComplete(
       this.page
         .getByTestId(this.pillContainer)
-        .getByText(indicatorName)
+        .getByText(indicator.indicatorName)
         .getByRole('link', { name: 'View background information' })
     );
   }

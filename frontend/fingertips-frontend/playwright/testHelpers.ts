@@ -131,8 +131,14 @@ export function getScenarioConfig(
     },
     // Enable in DHSCFT-237
     // ChartPage.basicTableComponent,
-    // Enable in DHSCFT-230
-    // ChartPage.heatMapComponent,
+    {
+      componentLocator: ChartPage.heatMapComponent,
+      componentProps: {
+        hasConfidenceIntervals: false,
+        isTabTable: false,
+        hasDetailsExpander: false,
+      },
+    },
   ];
 
   let visibleComponents: component[] = [];
@@ -281,12 +287,4 @@ export function returnIndicatorIDsByIndicatorMode(
 
 export function sortAlphabetically(array: (string | null)[]) {
   array.sort((a, b) => a!.localeCompare(b!));
-}
-
-export function getIndicatorNameById(
-  indicatorId: string,
-  indicators: RawIndicatorDocument[]
-): string | undefined {
-  const indicator = indicators.find((ind) => ind.indicatorID === indicatorId);
-  return indicator ? indicator.indicatorName : undefined;
 }

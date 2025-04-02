@@ -151,7 +151,7 @@ const mockMetaData = [
 ];
 
 describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
-  it('should render all components with 2 areas selected', () => {
+  it('should render all components with up to 2 areas selected', () => {
     const areas = [mockAreas[0], mockAreas[1]];
     mockSearchParams[SearchParams.AreasSelected] = areas;
 
