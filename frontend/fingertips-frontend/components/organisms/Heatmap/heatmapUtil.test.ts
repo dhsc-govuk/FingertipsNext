@@ -1,5 +1,6 @@
 import {
   BenchmarkComparisonMethod,
+  BenchmarkOutcome,
   HealthDataPoint,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
@@ -125,9 +126,11 @@ export const placeholderGroupAreaCode = 'area3';
 const newHealthDataPoint = ({
   year,
   value,
+  outcome,
 }: {
   year: number;
   value?: number;
+  outcome?: BenchmarkOutcome;
 }): HealthDataPoint => {
   return {
     year: year,
@@ -136,6 +139,7 @@ const newHealthDataPoint = ({
     sex: personsSex,
     trend: 'Not yet calculated',
     deprivation: noDeprivation,
+    benchmarkComparison: { outcome: outcome },
   };
 };
 
@@ -348,5 +352,18 @@ describe('extract sorted areas, indicators, and data points', () => {
     expect(
       dataPoints[indicator1.id][expectedSortedAreas[3].code].value
     ).toBeUndefined();
+  });
+
+  it('should populate data points with benchmarking information', () => {
+    const indicators = [indicator1, indicator2, indicator3];
+    indicators.forEach((indicator) => {
+      expect(
+        dataPoints[indicator.id][expectedSortedAreas[0].code].benchmark
+      ).toEqual({
+        outcome: BenchmarkOutcome.NotCompared,
+        method: indicator.method,
+        polarity: indicator.polarity,
+      });
+    });
   });
 });
