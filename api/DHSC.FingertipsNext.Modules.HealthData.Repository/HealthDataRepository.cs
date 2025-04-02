@@ -3,8 +3,7 @@ using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
-using System.Diagnostics.Metrics;
-using System.Reflection.Metadata;
+
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Repository;
 
@@ -140,4 +139,34 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .Select(a => a.Normalise())
             .OrderBy(a => a.Year)];
     }
+
+    public async Task<IEnumerable<QuartileDataModel>> GetQuartileDataAsync(IEnumerable<int> indicatorIds, string areaCode, string areaTypeKey, string ancestorCode)
+    {
+        // Convert the array parameters into DataTables for presentation to the Stored Procedure.
+        var IndicatorIdTable = new DataTable();
+        IndicatorIdTable.Columns.Add("IndicatorId", typeof(int));
+        foreach (var indicator in indicatorIds)
+        {
+            IndicatorIdTable.Rows.Add(indicator);
+        }
+
+        var RequestedIndicators = new SqlParameter("@RequestedIndicators", IndicatorIdTable)
+        {
+            SqlDbType = SqlDbType.Structured,
+            TypeName = "IndicatorList"
+        };
+
+        var AreaType = new SqlParameter("@RequestedAreaType", areaTypeKey);
+        var AreaCode = new SqlParameter("@RequestedArea", areaCode);
+        var AncestorCode = new SqlParameter("@RequestedAncestorCode", ancestorCode);
+
+        var retVal = await _dbContext.QuartileData.FromSql
+            (@$"
+              EXEC dbo.GetIndicatorQuartileDataForLatestYear @RequestedAreaType={AreaType}, @RequestedIndicatorIds={RequestedIndicators}, @RequestedArea={AreaCode}, @RequestedAncestor={AncestorCode}
+              "
+            ).ToListAsync();
+
+        return retVal;
+    }
+
 }

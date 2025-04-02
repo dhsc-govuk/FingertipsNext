@@ -3,9 +3,13 @@ import React from 'react';
 
 interface ArrowProps {
   direction: Direction;
+  strokeColour?: string;
 }
 
-export function Arrow({ direction }: Readonly<ArrowProps>) {
+export function Arrow({
+  direction,
+  strokeColour = '#000000',
+}: Readonly<ArrowProps>) {
   return (
     <svg
       data-testid="arrow-icon"
@@ -14,7 +18,7 @@ export function Arrow({ direction }: Readonly<ArrowProps>) {
       height="15"
       viewBox="0 0 20 20"
       fill="none"
-      stroke="#000000"
+      stroke={strokeColour}
       strokeWidth="1.5"
       strokeLinecap="square"
     >

@@ -100,6 +100,13 @@ export default class ResultsPage extends AreaFilter {
   ) {
     const filteredByDisplayIndicatorIds: string[] = [];
 
+    expect(
+      await this.page
+        .getByTestId(this.indicatorCheckboxContainer)
+        .getByRole('checkbox')
+        .count()
+    ).toBeGreaterThan(1);
+
     // filter down the full list of indicators passed to this method to just the ones displayed on the page
     const displayedIndicatorCheckboxList = await this.page
       .getByTestId(this.indicatorCheckboxContainer)

@@ -3,9 +3,8 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { formatNumber } from '@/lib/numberFormatter';
 
-export const heatmapIndicatorTitleColumnWidth = '240px';
-export const heatmapTitleColumnWidth = '60px';
-export const heatmapDataColumnWidth = '60px';
+export const heatmapIndicatorTitleColumnWidth = 240;
+export const heatmapDataColumnWidth = 60;
 
 export enum HeaderType {
   IndicatorTitle,
