@@ -152,9 +152,8 @@ export default class ChartPage extends AreaFilter {
       if (visibleComponent.componentProps.hasDetailsExpander) {
         await this.clickAndAwaitLoadingComplete(
           this.page
-            .getByTestId('oneIndicatorOneAreaViewPlot-component')
-            .locator('summary')
-            .getByText('Population data')
+            .getByTestId('populationPyramidWithTable-component')
+            .getByText('Show population data')
         );
       }
 

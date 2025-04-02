@@ -9,6 +9,7 @@ export enum SearchParams {
   GroupSelected = 'gs',
   GroupAreaSelected = 'gas',
   InequalityTypeSelected = 'its',
+  PopulationAreaSelected = 'pas',
   InequalityYearSelected = 'iys',
 }
 
@@ -28,6 +29,7 @@ export type SearchStateParams = {
   [SearchParams.GroupSelected]?: string;
   [SearchParams.GroupAreaSelected]?: string;
   [SearchParams.InequalityTypeSelected]?: string;
+  [SearchParams.PopulationAreaSelected]?: string;
   [SearchParams.InequalityYearSelected]?: string;
 };
 

@@ -18,5 +18,6 @@ export * from './Indicator';
 export * from './IndicatorPolarity';
 export * from './IndicatorSummary';
 export * from './IndicatorWithHealthDataForArea';
+export * from './QuartileData';
 export * from './RootArea';
 export * from './SexData';
