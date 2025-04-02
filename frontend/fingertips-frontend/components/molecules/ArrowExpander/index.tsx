@@ -36,6 +36,8 @@ const StyleLabelTextForExpander = styled(Label)<{ fill?: string }>(
       padding: '2px 1px 1px 1px',
       cursor: 'pointer',
       spacing: 0,
+      fontSize: 19,
+      fontFamily: 'nta, Arial, sans-serif',
     }
   )
 );

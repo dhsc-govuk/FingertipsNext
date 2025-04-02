@@ -8,15 +8,11 @@ import { PyramidTable } from './PyramidTable';
 import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
 
 const StylePopulationPyramidTableSection = styled('section')({
-  'display': 'flex',
-  'flexDirection': 'row',
-  'flexWrap': 'nowrap',
-  'justifyContent': 'flex-start',
-  'alignItems': 'stretch',
-  '& table td, th': {
-    borderTopColor: '#F3F2F1',
-    borderBottomColor: '#F3F2F1',
-  },
+  display: 'flex',
+  flexDirection: 'row',
+  flexWrap: 'nowrap',
+  justifyContent: 'flex-start',
+  alignItems: 'stretch',
 });
 
 const StyleBenchmarkDataDiv = styled('div')({
@@ -38,6 +34,7 @@ const StyleBenchmarkDataDiv = styled('div')({
       padding: ' 0px',
     },
   },
+  'minWidth': 200,
 });
 
 const StyleScrollableContentDiv = styled('div')({
@@ -48,6 +45,31 @@ const StyleScrollableContentDiv = styled('div')({
   width: '500px',
   overflow: 'hidden',
   overflowX: 'auto',
+});
+
+const StyleGroupTableContentDiv = styled('div')({
+  'flexGrow': 2,
+  'backgroundColor': '#F3F2F1',
+  '& table ': {
+    'margin': '0px',
+
+    '& td, th': {
+      borderBottomColor: ' #B1B4B6',
+      borderTopColor: '#B1B4B6',
+    },
+  },
+  'minWidth': 180,
+});
+
+const StyleSelectedAreaTableContextDiv = styled('div')({
+  'flexGrow': 8,
+  'minWidth': 230,
+  '& table': {
+    '& td, th': {
+      borderTopColor: '#B1B4B6',
+      borderBottomColor: '#B1B4B6',
+    },
+  },
 });
 
 export interface PopulationPyramidTableProps {
@@ -73,15 +95,15 @@ export function PopulationPyramidTable({
   return (
     <StylePopulationPyramidTableSection>
       <StyleScrollableContentDiv>
-        <div style={{ flexGrow: 6 }}>
+        <StyleSelectedAreaTableContextDiv>
           <PyramidTable
             headers={['Age range', 'Male', 'Female']}
             title={`${healthDataForArea?.areaName}`}
             healthDataForArea={healthDataForArea}
           />
-        </div>
+        </StyleSelectedAreaTableContextDiv>
         {groupData ? (
-          <div style={{ flexGrow: 4, backgroundColor: '#F3F2F1' }}>
+          <StyleGroupTableContentDiv>
             <PyramidTable
               headers={['Male', 'Female']}
               title={`Group: ${groupData?.areaName}`}
@@ -90,7 +112,7 @@ export function PopulationPyramidTable({
                 return columns.slice(1);
               }}
             />
-          </div>
+          </StyleGroupTableContentDiv>
         ) : null}
       </StyleScrollableContentDiv>
       {benchmarkData ? (

@@ -1,14 +1,22 @@
 'use client';
 
 import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
-import { H4, Table } from 'govuk-react';
+import { Label, Table } from 'govuk-react';
 import { typography } from '@govuk-react/lib';
 import { StyledAlignLeftHeader } from '@/lib/tableHelpers';
 import styled from 'styled-components';
 
-const StyledAreaTitleHeader = styled(H4)({
-  borderTop: `solid #F3F2F1 2px`, // aligns top to match grey heading cells
+const StyledAreaTitleHeader = styled(Label)({
   textAlign: 'center',
+  maxHeight: '45px',
+  minHeight: '45px',
+  wordWrap: 'break-word',
+  border: '0px',
+  padding: '0px',
+  display: 'block',
+  fontSize: '19px',
+  letterSpacing: '0px',
+  fontWeight: '700',
 });
 
 export const StyledTableCell = styled(Table.Cell)(
