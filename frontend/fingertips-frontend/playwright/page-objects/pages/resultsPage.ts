@@ -101,6 +101,8 @@ export default class ResultsPage extends AreaFilter {
   ) {
     const filteredByDisplayIndicatorIds: string[] = [];
 
+    await this.page.waitForLoadState();
+
     // filter down the full list of indicators passed to this method to just the ones displayed on the page
     const displayedIndicatorCheckboxList = await this.page
       .getByTestId(this.indicatorCheckboxContainer)
