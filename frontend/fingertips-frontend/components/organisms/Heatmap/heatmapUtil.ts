@@ -177,7 +177,7 @@ const generatedDataBackgroundColor = (dataPoint: DataPoint): string => {
     dataPoint.benchmark.polarity
   );
 
-  return colour || GovukColours.White;
+  return colour ?? GovukColours.White;
 };
 
 const extractAreasIndicatorsAndDataPoints = (

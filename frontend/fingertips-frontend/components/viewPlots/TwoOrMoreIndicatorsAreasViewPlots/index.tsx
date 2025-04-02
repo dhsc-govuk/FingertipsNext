@@ -84,7 +84,7 @@ const extractIndicatorInformation = (
       return metadata.indicatorName;
     }
 
-    return indicatorData.name || 'undefined indicator name';
+    return indicatorData.name ?? 'undefined indicator name';
   };
 
   return { indicatorId: indicatorId(), indicatorName: indicatorName() };
