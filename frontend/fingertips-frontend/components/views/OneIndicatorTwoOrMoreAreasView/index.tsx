@@ -12,10 +12,7 @@ import {
   AreaTypeKeysForMapMeta,
   getMapGeographyData,
 } from '@/components/organisms/ThematicMap/thematicMapHelpers';
-import {
-  chunkArray,
-  maxNumAreasThatCanBeRequestedAPI,
-} from '@/lib/ViewsHelpers';
+import { chunkArray } from '@/lib/ViewsHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 
@@ -46,10 +43,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
 
   let indicatorData: IndicatorWithHealthDataForArea | undefined;
 
-  const indicatorRequestArray = chunkArray(
-    areasSelected,
-    maxIndicatorAPIRequestSize
-  ).map((requestAreas) =>
+  const indicatorRequestArray = chunkArray(areasSelected).map((requestAreas) =>
     indicatorApi.getHealthDataForAnIndicator(
       {
         indicatorId: Number(indicatorSelected[0]),
