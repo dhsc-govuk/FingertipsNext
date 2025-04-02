@@ -1,8 +1,8 @@
-### check GET health data with quintile comparison -- existing site doesn't expose this data to allow us to validate against -- this test fails intermitently becasue lots of data has 'zero count' making it indeterminate if a value is Lowest or Lower
+### Basic Quartile generation
 GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85008&area_type=gps&ancestor_code=U79121
 
 > {%
-    client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
+    client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
         const expected = [{
             "indicatorId": 94063,
             "polarity": "NoJudgement",
@@ -21,11 +21,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85
     });
 %}
 
-### check quartile calculation for two areas
+### check quartile calculation for two indicators
 GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids=90453&area_code=N85008&area_type=gps&ancestor_code=U79121
 
 > {%
-    client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
+    client.test("Calculate Quartile for two indicators", function (callbackfn, thisArg) {
         const expected = [
         {
             "indicatorId": 94063,
@@ -87,7 +87,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=241&area_code=N8500
 GET http://localhost:5144/indicators/quartiles?indicator_ids=999999&area_code=N85008&area_type=gps&ancestor_code=U79121
 
 > {%
-    client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
+    client.test("check Quartile comparison where indicator is unknown", function (callbackfn, thisArg) {
         const expected = [{
             "indicatorId": 999999,
             "polarity": null,
@@ -110,7 +110,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=999999&area_code=N8
 GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_code=N85008&area_type=gps
 
 > {%
-    client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
+    client.test("check Quartile comparison where ancestor_code is unknown", function (callbackfn, thisArg) {
         const expected = [{
             "indicatorId": 90453,
             "polarity": "NoJudgement",
@@ -134,7 +134,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_code=N85
 GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_type=gps
 
 > {%
-    client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
+    client.test("check Quartile comparison where area_code is unknown", function (callbackfn, thisArg) {
         const expected = [{
             "indicatorId": 90453,
             "polarity": "NoJudgement",
@@ -157,7 +157,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_type=gps
 GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_type=erroneous_area_type
 
 > {%
-    client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
+    client.test("check Quartile comparison where area_type is erroneous", function (callbackfn, thisArg) {
         const expected = [{
             "indicatorId": 90453,
             "polarity": "NoJudgement",
@@ -180,7 +180,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_type=err
 GET http://localhost:5144/indicators/quartiles?indicator_ids=90453
 
 > {%
-    client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
+    client.test("check Quartile comparison where area_type is missing", function (callbackfn, thisArg) {
         const expected = {
             "message": "Parameter area_type must be supplied."
             }
@@ -193,11 +193,55 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453
 GET http://localhost:5144/indicators/quartiles?
 
 > {%
-    client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
+    client.test("check Quartile comparison where indicator_ids is missing", function (callbackfn, thisArg) {
         const expected = {
             "message": "Parameter indicator_ids must be supplied."
         }
         client.assert(response.status === 400, "Response status is not 400");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+
+### check Quartile comparison for county
+GET http://localhost:5144/indicators/quartiles?indicator_ids=94103&area_code=E09000027&area_type=counties-and-unitary-authorities&years=2019
+> {%
+    client.test("check Quartile comparison for county", function (callbackfn, thisArg) {
+        const expected = [  {
+            "indicatorId": 94103,
+            "polarity": "LowIsGood",
+            "year": 2019,
+            "q0Value": 20.76935,
+            "q1Value": 24.72157,
+            "q2Value": 25.99248,
+            "q3Value": 27.44265,
+            "q4Value": 29.42533,
+            "areaValue": 20.76935,
+            "ancestorValue": null,
+            "englandValue": 25.80061
+        }]
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+
+### check Quartile comparison for district - same area as above - different result!
+GET http://localhost:5144/indicators/quartiles?indicator_ids=94103&area_code=E09000027&area_type=districts-and-unitary-authorities&years=2019
+> {%
+    client.test("check Quartile comparison for district", function (callbackfn, thisArg) {
+        const expected = [{
+            "indicatorId": 94103,
+            "polarity": "LowIsGood",
+            "year": 2019,
+            "q0Value": 20.76935,
+            "q1Value": 24.79926,
+            "q2Value": 26.05024,
+            "q3Value": 27.5906,
+            "q4Value": 29.42533,
+            "areaValue": 20.76935,
+            "ancestorValue": null,
+            "englandValue": 25.80061
+        }]
+        client.assert(response.status === 200, "Response status is not 200");
         client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
     });
 %}
