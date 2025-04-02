@@ -11,6 +11,7 @@ import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-clien
 import {
   AreaTypeKeysForMapMeta,
   getMapGeographyData,
+  allowedAreaTypeMapMetaKeys,
 } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 import {
   chunkArray,
@@ -75,9 +76,11 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   }
 
   const indicatorMetadata = selectedIndicatorsData?.[0];
-
   const mapGeographyData =
-    selectedGroupArea === ALL_AREAS_SELECTED && selectedAreaType
+    selectedGroupArea === ALL_AREAS_SELECTED &&
+    allowedAreaTypeMapMetaKeys.includes(
+      selectedAreaType as AreaTypeKeysForMapMeta
+    )
       ? getMapGeographyData(
           selectedAreaType as AreaTypeKeysForMapMeta,
           areasSelected
@@ -85,7 +88,10 @@ export default async function OneIndicatorTwoOrMoreAreasView({
       : undefined;
 
   return (
-    <ViewsWrapper searchState={searchState} indicatorData={indicatorData}>
+    <ViewsWrapper
+      searchState={searchState}
+      indicatorsDataForAreas={[indicatorData]}
+    >
       <OneIndicatorTwoOrMoreAreasViewPlots
         indicatorData={indicatorData}
         searchState={searchState}

@@ -10,6 +10,7 @@ import {
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 
 export default async function TwoOrMoreIndicatorsAreasView({
   searchState,
@@ -75,10 +76,15 @@ export default async function TwoOrMoreIndicatorsAreasView({
   }
 
   return (
-    <TwoOrMoreIndicatorsAreasViewPlot
-      indicatorData={combinedIndicatorData}
+    <ViewsWrapper
       searchState={searchState}
-      indicatorMetadata={indicatorMetadata}
-    />
+      indicatorsDataForAreas={combinedIndicatorData}
+    >
+      <TwoOrMoreIndicatorsAreasViewPlot
+        indicatorData={combinedIndicatorData}
+        searchState={searchState}
+        indicatorMetadata={indicatorMetadata}
+      />
+    </ViewsWrapper>
   );
 }

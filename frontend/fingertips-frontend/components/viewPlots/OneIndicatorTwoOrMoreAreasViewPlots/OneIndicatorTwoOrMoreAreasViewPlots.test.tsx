@@ -17,8 +17,9 @@ jest.mock('next/navigation', () => {
   };
 });
 
+const mockGetSearchState = jest.fn();
 const mockSearchStateContext: SearchStateContext = {
-  getSearchState: jest.fn(),
+  getSearchState: mockGetSearchState,
   setSearchState: jest.fn(),
 };
 jest.mock('@/context/SearchStateContext', () => {
@@ -213,6 +214,8 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         [SearchParams.AreaTypeSelected]: 'regions',
       };
 
+      mockGetSearchState.mockReturnValue(searchState);
+
       render(
         <OneIndicatorTwoOrMoreAreasViewPlots
           indicatorData={{
@@ -236,6 +239,8 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         [SearchParams.GroupAreaSelected]: 'not ALL',
         [SearchParams.AreaTypeSelected]: 'regions',
       };
+
+      mockGetSearchState.mockReturnValue(searchState);
 
       render(
         <OneIndicatorTwoOrMoreAreasViewPlots

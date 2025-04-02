@@ -8,7 +8,7 @@ import {
   seriesDataWithoutEnglandOrGroup,
 } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import { SearchParams } from '@/lib/searchStateManager';
 import { H3, Paragraph } from 'govuk-react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
@@ -57,9 +57,6 @@ export function OneIndicatorOneAreaViewPlots({
     setSearchState(searchState ?? {});
   }, [setSearchState, searchState]);
 
-  console.log(`Plots searchState ${JSON.stringify(searchState)}`);
-
-  // const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreasSelected]: areasSelected,

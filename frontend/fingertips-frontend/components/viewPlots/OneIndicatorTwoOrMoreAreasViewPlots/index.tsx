@@ -11,10 +11,7 @@ import { H3, Paragraph } from 'govuk-react';
 import { OneIndicatorViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
-import {
-  AreaTypeKeysForMapMeta,
-  MapGeographyData,
-} from '@/components/organisms/ThematicMap/thematicMapHelpers';
+import { MapGeographyData } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import {
@@ -53,7 +50,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
     [SearchParams.AreasSelected]: areasSelected,
-    [SearchParams.AreaTypeSelected]: areasTypeSelected,
   } = stateManager.getSearchState();
   const healthIndicatorData = indicatorData?.areaHealthData ?? [];
   const { benchmarkMethod, polarity } = indicatorData;
@@ -151,7 +147,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
         <ThematicMap
           healthIndicatorData={dataWithoutEnglandOrGroup}
           mapGeographyData={mapGeographyData}
-          areaType={areasTypeSelected as AreaTypeKeysForMapMeta}
           benchmarkComparisonMethod={
             benchmarkMethod ?? BenchmarkComparisonMethod.Unknown
           }

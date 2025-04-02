@@ -94,7 +94,10 @@ export default async function OneIndicatorOneAreaView({
   })();
 
   return (
-    <ViewsWrapper searchState={searchState} indicatorData={indicatorData}>
+    <ViewsWrapper
+      searchState={searchState}
+      indicatorsDataForAreas={[indicatorData]}
+    >
       <OneIndicatorOneAreaViewPlots
         populationHealthDataForArea={indicatorPopulationData?.areaHealthData}
         indicatorData={indicatorData}
