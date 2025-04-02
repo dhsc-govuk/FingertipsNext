@@ -69,7 +69,6 @@ export function ViewsContext({
       selectedIndicatorsData={selectedIndicatorsData}
     >
       <ViewsSelector
-        // key={JSON.stringify(searchState)}
         areaCodes={areaCodes}
         indicators={indicators}
         searchState={searchState}

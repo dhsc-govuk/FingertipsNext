@@ -55,7 +55,7 @@ export function OneIndicatorOneAreaViewPlots({
 
   useEffect(() => {
     setSearchState(searchState ?? {});
-  }, [setSearchState, searchState]);
+  }, [searchState, setSearchState]);
 
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
