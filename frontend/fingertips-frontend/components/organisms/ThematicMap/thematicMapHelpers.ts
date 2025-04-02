@@ -379,8 +379,7 @@ export function generateThematicMapTooltipString(
       }; font-size: large;">${areaMarkerSymbol}</span>` +
       `<span>${point.value} ${measurementUnit}</span>` +
       `<br /><span>${point.benchmarkComparisonOutcome} than ${benchmarkArea}</span>` +
-      `<br /><span>(${benchmarkConfidenceLimitLabel})</span>` +
-      `<br /><span>(${point.benchmarkColourCode})</span>`,
+      `<br /><span>(${benchmarkConfidenceLimitLabel})</span>`,
   ];
 
   if (groupIndicatorData !== undefined) {
