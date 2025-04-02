@@ -20,16 +20,14 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
     /// </summary>
     /// <param name="indicatorId"></param>
     /// <param name="areaCodes">
-    ///     An array of upto 10 area codes. If more than 10 elements exist,
-    ///     only the first 10 are used. If the array is empty all area codes are retrieved.
+    ///     An array of area codes. If the array is empty all area codes are retrieved.
     /// </param>
     /// <param name="areaType">
     ///     The areaType which these codes should be compared against. This is important to specify to discriminate between
     ///     counties and districts which introduce amiguity to the areaType by duplicating areas.
     /// </param>
     /// <param name="years">
-    ///     An array of upto 10 years. If more than 10 elements exist,
-    ///     only the first 10 are used. If the array is empty all years are retrieved.
+    ///     An array of years. If the array is empty all years are retrieved.
     /// </param>
     /// <param name="inequalities">
     ///     An array of inequality dimensions to return. If the array is empty only data with no
@@ -166,5 +164,34 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
             benchmarkHealthData,
             polarity
         );
+    }
+
+    /// <summary>
+    ///     Obtain health point data for a single indicator.
+    /// </summary>
+    /// <param name="indicatorIds">An array of upto 50 indicator Ids.</param>
+    /// <param name="areaCode">
+    ///     An area code for which we want to include data for the indicator.
+    /// </param>
+    /// <param name="areaType">
+    ///     The areaType which these codes should be compared against. This is important to specify to discriminate between
+    ///     counties and districts which introduce amiguity to the areaType by duplicating areas.
+    /// </param>
+    /// <param name="ancestorCode">
+    ///     An additional areaType for which we want to return the value for for this indicator.
+    /// </param>
+    /// <returns>
+    ///     <c>QuartileData for the latest years for which the indicators have data.
+    /// </returns>
+    public async Task<IEnumerable<IndicatorQuartileData>> GetQuartileDataAsync(
+        IEnumerable<int> indicatorIds,
+        string areaCode,
+        string areaType,
+        string ancestorCode
+        )
+    {
+        var quartileData = await healthDataRepository.GetQuartileDataAsync(indicatorIds, areaCode, areaType, ancestorCode);
+        if (quartileData == null) return null;
+        return _mapper.Map<IEnumerable<IndicatorQuartileData>>(quartileData.ToList());
     }
 }
