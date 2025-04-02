@@ -32,6 +32,16 @@ public class AreaService : IAreaService
         _areaRepository.GetHierarchiesAsync();
 
     /// <summary>
+    /// Gets a list of areas for the list of requested area codes.
+    /// </summary>
+    /// <param name="areaCodes"></param>
+    /// <returns></returns>
+    public async Task<List<Schemas.Area>> GetMultipleAreaDetails(string[] areaCodes)
+    {
+        return _mapper.Map<List<Schemas.Area>>(await _areaRepository.GetMultipleAreaDetailsAsync(areaCodes));
+    }
+
+    /// <summary>
     ///
     /// </summary>
     /// <param name="hierarchyType"></param>

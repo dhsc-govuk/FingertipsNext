@@ -14,6 +14,13 @@ public interface IAreaRepository
     Task<List<string>> GetHierarchiesAsync();
 
     /// <summary>
+    /// Retrieves a list of area models based on the requested area codes.
+    /// </summary>
+    /// <param name="areaCodes"></param>
+    /// <returns></returns>
+    Task<List<AreaModel>> GetMultipleAreaDetailsAsync(string[] areaCodes);
+
+    /// <summary>
     ///
     /// </summary>
     /// <param name="hierarchyType"></param>

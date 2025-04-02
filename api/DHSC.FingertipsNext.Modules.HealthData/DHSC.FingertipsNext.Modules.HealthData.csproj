@@ -15,6 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Common.Schemas\DHSC.FingertipsNext.Modules.Common.Schemas.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.HealthData.Repository\DHSC.FingertipsNext.Modules.HealthData.Repository.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.HealthData.Schemas\DHSC.FingertipsNext.Modules.HealthData.Schemas.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.HealthData.Service\DHSC.FingertipsNext.Modules.HealthData.Service.csproj" />

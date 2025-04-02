@@ -1,8 +1,12 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using DHSC.FingertipsNext.Modules.Area.Schemas;
+using DHSC.FingertipsNext.Modules.Common.Schemas;
 using DHSC.FingertipsNext.Modules.Area.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using AutoMapper.Internal;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace DHSC.FingertipsNext.Modules.Area.Controllers.V1;
 
@@ -20,6 +24,39 @@ public class AreaController : ControllerBase
     /// </summary>
     /// <param name="areaService"></param>
     public AreaController(IAreaService areaService) => _areaService = areaService;
+
+    /// <summary>
+    /// Gets the fulls details of each of the areas requested by the client.
+    /// </summary>
+    /// <param name="areaCodes">A list of area codes provided in the query params</param>
+    /// <returns>The corresponding area data for the list of area codes provided</returns>
+    /// <remarks>
+    /// If not area codes are provided then a client error response is returned.
+    /// </remarks>
+    [HttpGet]
+    [ProducesResponseType(typeof(List<Schemas.Area>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(SimpleError), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetMultipleAreaDetailsAsync(
+        [FromQuery(Name = "area_codes")] string[]? areaCodes = null
+    )
+    {
+        // Could discuss in PR - .IsNullOrEmpty() is nicer but makes the linter sad - why?
+        if (areaCodes == null || areaCodes.Length == 0) {
+            return new BadRequestObjectResult(new SimpleError
+            {
+                Message = "Please provide at least one area for the parameter area_codes"
+            });
+        }
+
+        var areasData = await _areaService.GetMultipleAreaDetails(areaCodes);
+
+        if (areasData.IsNullOrEmpty()) {
+            return NotFound();
+        }
+
+        return Ok(areasData);
+    }
 
     /// <summary>
     /// Get all available hierarchy types

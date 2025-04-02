@@ -14,6 +14,13 @@ public interface IAreaService
     public Task<List<string>> GetHierarchies();
 
     /// <summary>
+    /// Gets a list of areas for the list of requested area codes.
+    /// </summary>
+    /// <param name="areaCodes"></param>
+    /// <returns></returns>
+    public Task<List<Schemas.Area>> GetMultipleAreaDetails(string[] areaCodes);
+
+    /// <summary>
     /// Get area types, optionally filtering by hierarchy type
     /// </summary>
     /// <param name="hierarchyType"></param>

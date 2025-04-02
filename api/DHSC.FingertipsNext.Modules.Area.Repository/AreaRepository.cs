@@ -27,6 +27,32 @@ public class AreaRepository : IAreaRepository
             .ToListAsync();
 
     /// <summary>
+    /// Retrieves a list of area models based on the requested area codes.
+    /// </summary>
+    /// <param name="areaCodes"></param>
+    /// <returns></returns>
+    public async Task<List<AreaModel>> GetMultipleAreaDetailsAsync(string[] areaCodes)
+    {
+        return await _dbContext.Area
+            .Where(area => EF.Constant(areaCodes).Contains(area.AreaCode))
+            .Include(area => area.AreaType)
+            .Select(area => new AreaModel
+            {
+                AreaCode = area.AreaCode,
+                AreaName = area.AreaName,
+                AreaType = new AreaTypeModel
+                {
+                    AreaTypeKey = area.AreaType.AreaTypeKey,
+                    AreaTypeName = area.AreaType.AreaTypeName,
+                    HierarchyType = area.AreaType.HierarchyType,
+                    Level = area.AreaType.Level
+                }
+            })
+            .AsNoTracking()
+            .ToListAsync();
+    }
+
+    /// <summary>
     ///
     /// </summary>
     /// <param name="hierarchyType"></param>
