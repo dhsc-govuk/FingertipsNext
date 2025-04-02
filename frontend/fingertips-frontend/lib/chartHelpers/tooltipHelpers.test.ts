@@ -2,45 +2,120 @@ import { generateThematicMapTooltipString } from '@/components/organisms/Themati
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
+  HealthDataPoint,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { generateBenchmarkTooltipForArea } from './tooltipHelpers';
 import { GovukColours } from '../styleHelpers/colours';
 import { symbolEncoder } from './pointFormatterHelper';
+import { getBenchmarkColour, getConfidenceLimitNumber } from './chartHelpers';
 
-const mockHcPointRAG = {
-  areaName: 'area',
+const mockThematicMapPointRAG = {
+  areaName: 'mockarea',
   year: 2004,
   benchmarkComparisonOutcome: BenchmarkOutcome.Better,
   value: 10,
 };
 
-const expectedAreaTooltip =
-  `<br /><span style="font-weight: bold">${mockHcPointRAG.areaName}</span>` +
-  `<br /><span>${mockHcPointRAG.year}</span>` +
-  `<br /><span style="color: ${GovukColours.Green}; font-size: large;">${symbolEncoder.circle}</span>` +
-  `<span>${mockHcPointRAG.value} mock units</span>` +
-  `<br /><span>${mockHcPointRAG.benchmarkComparisonOutcome} than England</span><br /><span>(95%)</span>`;
+const mockUnits = 'Mpa';
+const mockBenchmarkArea = 'England';
 
 describe(generateBenchmarkTooltipForArea, () => {
   it.each([
-    [BenchmarkOutcome.NotCompared],
-    [BenchmarkOutcome.Better],
-    [BenchmarkOutcome.Similar],
-    [BenchmarkOutcome.Worse],
-    [BenchmarkOutcome.Lower],
-    [BenchmarkOutcome.Higher],
-  ])('should return the expected RAG tooltip for an area', (testOutcome) => {
-    const actual = generateThematicMapTooltipString(
-      mockHcPointRAG,
-      undefined,
-      undefined,
+    [
+      BenchmarkOutcome.NotCompared,
       BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-      IndicatorPolarity.Unknown,
-      'mock units'
-    );
-    expect(actual).toEqual(expectedAreaTooltip);
-  });
+      symbolEncoder.multiplicationX,
+      'with',
+    ],
+    [
+      BenchmarkOutcome.Better,
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      symbolEncoder.circle,
+      'than',
+    ],
+    [
+      BenchmarkOutcome.Similar,
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      symbolEncoder.circle,
+      'to',
+    ],
+    [
+      BenchmarkOutcome.Worse,
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      symbolEncoder.circle,
+      'than',
+    ],
+    [
+      BenchmarkOutcome.Lower,
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      symbolEncoder.circle,
+      'than',
+    ],
+    [
+      BenchmarkOutcome.Higher,
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      symbolEncoder.circle,
+      'than',
+    ],
+  ])(
+    'should return the expected RAG tooltip for an area',
+    (
+      testBenchmarkOutcome: BenchmarkOutcome,
+      testBenchmarkComparisonMethod: BenchmarkComparisonMethod,
+      expectedSymbol: string,
+      expectedPreposition: string
+    ) => {
+      const mockPoint = {
+        ...mockThematicMapPointRAG,
+        benchmarkComparisonOutcome: testBenchmarkOutcome,
+      };
+
+      const testPolarity: IndicatorPolarity = IndicatorPolarity.Unknown;
+
+      const actual = generateThematicMapTooltipString(
+        mockPoint,
+        undefined,
+        undefined,
+        testBenchmarkComparisonMethod,
+        testPolarity,
+        mockUnits
+      );
+
+      console.log(actual);
+
+      const expectedColour =
+        getBenchmarkColour(
+          testBenchmarkComparisonMethod,
+          mockPoint.benchmarkComparisonOutcome,
+          testPolarity
+        ) ?? '';
+
+      expect(actual).toEqual(expect.stringContaining(mockPoint.areaName));
+      expect(actual).toEqual(
+        expect.stringContaining(mockPoint.year.toString())
+      );
+      expect(actual).toEqual(expect.stringContaining(expectedColour));
+      expect(actual).toEqual(expect.stringContaining(expectedSymbol));
+      expect(actual).toEqual(
+        expect.stringContaining(
+          [mockPoint.value.toString(), mockUnits].join(' ')
+        )
+      );
+      expect(actual).toEqual(
+        expect.stringContaining(
+          [testBenchmarkOutcome, expectedPreposition, mockBenchmarkArea].join(
+            ' '
+          )
+        )
+      );
+      expect(actual).toEqual(
+        expect.stringContaining(
+          getConfidenceLimitNumber(testBenchmarkComparisonMethod).toString()
+        )
+      );
+    }
+  );
 
   //   each([
   //     [BenchmarkOutcome.Lowest],
