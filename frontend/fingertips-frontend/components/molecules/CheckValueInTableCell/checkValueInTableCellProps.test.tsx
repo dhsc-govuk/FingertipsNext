@@ -1,5 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import {CheckValueInTableCell, FormatNumberInTableCell} from '@/components/molecules/CheckValueInTableCell/index';
+import {
+  CheckValueInTableCell,
+  FormatNumberInTableCell,
+} from '@/components/molecules/CheckValueInTableCell/index';
 import React from 'react';
 
 describe('CheckValueInTableCell', () => {
@@ -35,11 +38,11 @@ describe('CheckValueInTableCell', () => {
 describe('FormatNumberInTableCell', () => {
   const renderWithTableComponent = (component: React.ReactNode) => {
     return render(
-        <table>
-          <tbody>
+      <table>
+        <tbody>
           <tr>{component}</tr>
-          </tbody>
-        </table>
+        </tbody>
+      </table>
     );
   };
 
