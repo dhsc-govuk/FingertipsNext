@@ -3,7 +3,7 @@ import {
   getAllIndicatorIdsForSearchTerm,
   returnIndicatorIDsByIndicatorMode,
   sortAlphabetically,
-  getAllNHSRegionAreas,
+  getAllAreasByAreaType,
   IndicatorMode,
   SearchMode,
   AreaMode,
@@ -49,7 +49,7 @@ test.beforeAll(
       indicatorMode
     );
 
-    allNHSRegionAreas = getAllNHSRegionAreas(mockAreas);
+    allNHSRegionAreas = getAllAreasByAreaType(mockAreas, 'nhs-regions');
   }
 );
 test.describe(`Navigation, accessibility and validation tests`, () => {
@@ -294,6 +294,9 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
   test('check area filtering on results page', async ({ resultsPage }) => {
     await test.step('Navigate directly to the results page and check filtering by England (default)', async () => {
       await resultsPage.navigateToResults(subjectSearchTerm, []);
+
+      const englandArea = getAllAreasByAreaType(mockAreas, 'england');
+      console.log(englandArea);
     });
   });
 });
