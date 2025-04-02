@@ -42,10 +42,12 @@ const StyleScrollableContentDiv = styled('div')({
     flexDirection: 'row',
     flexWrap: 'nowrap',
     flexGrow: 8,
-    maxWidth: '600px',
     overflow: 'hidden',
     clear: "both",
     overflowX: 'auto',
+    // "@media only": {
+
+    // }
 });
 
 const StyleGroupTableContentDiv = styled('div')({
