@@ -156,15 +156,15 @@ export function SearchResult({
             </TagRow>
           </Checkbox>
         </GridCol>
-        <GridCol setWidth="one-quarter">
-          {showTrends ? (
+        {showTrends ? (
+          <GridCol setWidth="one-quarter">
             <TrendTag
               trendFromResponse={
                 result.trend ?? HealthDataPointTrendEnum.CannotBeCalculated
               }
             />
-          ) : null}
-        </GridCol>
+          </GridCol>
+        ) : null}
       </PrimaryRow>
       <SectionBreak visible={true} />
     </ListItem>

@@ -28,7 +28,6 @@ import {
   getAllDataWithoutInequalities,
   InequalitiesTypes,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
-import { PopulationPyramidWithTable } from '@/components/organisms/PopulationPyramidWithTable';
 import { useSearchState } from '@/context/SearchStateContext';
 
 const StyledParagraphDataSource = styled(Paragraph)(
@@ -49,7 +48,6 @@ export function OneIndicatorOneAreaViewPlots({
   indicatorData,
   searchState,
   indicatorMetadata,
-  populationHealthDataForArea,
 }: Readonly<OneIndicatorViewPlotProps>) {
   const { setSearchState } = useSearchState();
 
@@ -183,13 +181,6 @@ export function OneIndicatorOneAreaViewPlots({
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
         type={inequalityType}
-      />
-
-      <PopulationPyramidWithTable
-        healthDataForAreas={populationHealthDataForArea ?? []}
-        selectedGroupAreaCode={selectedGroupCode}
-        xAxisTitle="Age"
-        yAxisTitle="Percentage of total population"
       />
     </section>
   );

@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, within } from '@testing-library/react';
 import { PopulationPyramidWithTable } from './index';
 import {
   HealthDataForArea,
@@ -9,6 +9,22 @@ import { mockHealthData } from '@/mock/data/healthdata';
 import '@testing-library/jest-dom';
 import { AreaDocument } from '@/lib/search/searchTypes';
 import { disaggregatedAge, femaleSex, noDeprivation } from '@/lib/mocks';
+
+const mockPath = 'some-mock-path';
+const mockReplace = jest.fn();
+
+jest.mock('next/navigation', () => {
+  const originalModule = jest.requireActual('next/navigation');
+
+  return {
+    ...originalModule,
+    usePathname: () => mockPath,
+    useSearchParams: () => {},
+    useRouter: jest.fn().mockImplementation(() => ({
+      replace: mockReplace,
+    })),
+  };
+});
 
 const mockHealthDataPoint: HealthDataPoint[] = [
   {
@@ -59,6 +75,8 @@ describe('PopulationPyramidWithTable', () => {
     return render(
       <PopulationPyramidWithTable
         healthDataForAreas={dataForArea}
+        groupAreaSelected="123"
+        searchState={{}}
         xAxisTitle="Age"
         yAxisTitle="Percentage of population"
       />
@@ -70,42 +88,48 @@ describe('PopulationPyramidWithTable', () => {
       areaName: 'Test Area',
       healthData: mockHealthDataPoint,
     },
+    {
+      areaCode: '124',
+      areaName: 'Test Area',
+      healthData: mockHealthDataPoint,
+    },
   ];
 
   test('renders component with default title', () => {
     setupUI(mockHealthDataForArea);
-
     expect(screen.getByText('Related Population Data')).toBeInTheDocument();
-    expect(screen.getByTestId('population-pyramid')).toBeInTheDocument();
-  });
-
-  test('updates title when area is selected', () => {
-    setupUI(mockHealthDataForArea);
-
-    fireEvent.click(screen.getByTestId('select-input'));
-
-    expect(
-      screen.getByText(/Resident population profile for Test Area 2025/)
-    ).toBeInTheDocument();
   });
 
   test('renders tabs correctly', () => {
-    setupUI(mockHealthDataForArea);
+    const container = setupUI(mockHealthDataForArea);
+    expect(screen.getByText('Show population data')).toBeInTheDocument();
 
-    expect(screen.getByText('Population pyramid')).toBeInTheDocument();
-    expect(screen.getByText('Table')).toBeInTheDocument();
+    fireEvent.click(container.getByText('Show population data'));
+    expect(screen.getByText('Hide population data')).toBeInTheDocument();
+  });
+
+  it('test that we can clicked the expander', async () => {
+    setupUI(mockHealthDataForArea);
+    const populationPyramid = screen.getByTestId(
+      'populationPyramidWithTable-component'
+    );
+    const expander = await within(populationPyramid).findByText(
+      'Show population data'
+    );
+    fireEvent.click(expander);
+    expect(screen.getByText('Hide population data')).toBeInTheDocument();
   });
 
   test('take a snapshot', () => {
-    const pyramid = (
+    const container = render(
       <PopulationPyramidWithTable
         healthDataForAreas={mockHealthData['337']}
-        selectedGroupAreaCode={mockHealthData['337'][1].areaCode}
+        groupAreaSelected={mockHealthData['337'][2].areaCode}
+        searchState={{}}
         xAxisTitle="Age"
         yAxisTitle="Percentage of population"
       />
     );
-    const container = render(pyramid);
     expect(container.asFragment()).toMatchSnapshot();
   });
 });
