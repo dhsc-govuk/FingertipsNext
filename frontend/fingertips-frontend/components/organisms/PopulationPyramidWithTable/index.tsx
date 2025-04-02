@@ -140,7 +140,7 @@ export const PopulationPyramidWithTable = ({
   }
 
   return (
-    <div data-testid='populationPyramidWithTable-component'>
+    <div data-testid="populationPyramidWithTable-component">
       <H3 style={{ fontSize: '24px' }}>Related Population Data</H3>
       <ArrowExpander
         openTitle="Show population data"
