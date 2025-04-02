@@ -24,7 +24,11 @@ import {
   LineChartVariant,
 } from '@/components/organisms/LineChart/lineChartHelpers';
 import { useState, useEffect } from 'react';
-import { getAllDataWithoutInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import {
+  getAllDataWithoutInequalities,
+  InequalitiesTypes,
+} from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { PopulationPyramidWithTable } from '@/components/organisms/PopulationPyramidWithTable';
 import { useSearchState } from '@/context/SearchStateContext';
 
 const StyledParagraphDataSource = styled(Paragraph)(
@@ -45,6 +49,7 @@ export function OneIndicatorOneAreaViewPlots({
   indicatorData,
   searchState,
   indicatorMetadata,
+  populationHealthDataForArea,
 }: Readonly<OneIndicatorViewPlotProps>) {
   const { setSearchState } = useSearchState();
 
@@ -56,6 +61,7 @@ export function OneIndicatorOneAreaViewPlots({
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.InequalityTypeSelected]: inequalityTypeSelected,
   } = stateManager.getSearchState();
   const polarity = indicatorData.polarity as IndicatorPolarity;
   const benchmarkComparisonMethod =
@@ -64,6 +70,12 @@ export function OneIndicatorOneAreaViewPlots({
     showStandardLineChartConfidenceIntervalsData,
     setShowStandardLineChartConfidenceIntervalsData,
   ] = useState<boolean>(false);
+
+  // This will be updated when we add the dropdown to select inequality types
+  const inequalityType =
+    inequalityTypeSelected === 'deprivation'
+      ? InequalitiesTypes.Deprivation
+      : InequalitiesTypes.Sex;
 
   const healthIndicatorData = indicatorData?.areaHealthData ?? [];
   const dataWithoutEnglandOrGroup = seriesDataWithoutEnglandOrGroup(
@@ -76,7 +88,7 @@ export function OneIndicatorOneAreaViewPlots({
   );
 
   const groupData =
-    selectedGroupCode && selectedGroupCode != areaCodeForEngland
+    selectedGroupCode && selectedGroupCode !== areaCodeForEngland
       ? healthIndicatorData.find(
           (areaData) => areaData.areaCode === selectedGroupCode
         )
@@ -171,6 +183,14 @@ export function OneIndicatorOneAreaViewPlots({
         measurementUnit={indicatorMetadata?.unitLabel}
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
+        type={inequalityType}
+      />
+
+      <PopulationPyramidWithTable
+        healthDataForAreas={populationHealthDataForArea ?? []}
+        selectedGroupAreaCode={selectedGroupCode}
+        xAxisTitle="Age"
+        yAxisTitle="Percentage of total population"
       />
     </section>
   );
