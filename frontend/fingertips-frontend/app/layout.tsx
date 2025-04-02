@@ -1,7 +1,9 @@
 import { FTContainer } from '@/components/layouts/container';
 import { FTFooter } from '@/components/molecules/Footer';
 import { FTHeader } from '@/components/molecules/Header';
+import { PopulationPyramidWithTable } from '@/components/organisms/PopulationPyramidWithTable';
 import StyledComponentsRegistry from '@/lib/registry';
+import { mockHealthData } from '@/mock/data/healthdata';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -20,7 +22,15 @@ export default function RootLayout({
       <body>
         <StyledComponentsRegistry>
           <FTHeader />
-          <FTContainer>{children}</FTContainer>
+          <FTContainer>
+            <PopulationPyramidWithTable
+              healthDataForAreas={mockHealthData['337']}
+              groupAreaSelected={mockHealthData['337'][1].areaCode}
+              xAxisTitle="Age"
+              yAxisTitle="Percentage of population"
+              searchState={{}}
+            />
+          </FTContainer>
           <FTFooter />
         </StyledComponentsRegistry>
       </body>

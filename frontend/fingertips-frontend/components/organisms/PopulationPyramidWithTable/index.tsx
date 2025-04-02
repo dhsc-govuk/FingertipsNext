@@ -23,6 +23,7 @@ import {
 } from '@/lib/searchStateManager';
 import { usePathname, useRouter } from 'next/navigation';
 import { ArrowExpander } from '@/components/molecules/ArrowExpander';
+import { PopulationPyramidTable } from '../PopulationPyramidTable';
 
 const getHeaderTitle = (
   healthData: HealthDataForArea | undefined,
@@ -189,7 +190,15 @@ export const PopulationPyramidWithTable = ({
                 {
                   id: 'populationPyramidTable',
                   title: 'Table',
-                  content: <div>The table here</div>,
+                  content: (
+                    <div>
+                      <PopulationPyramidTable
+                        healthDataForArea={selectedArea}
+                        benchmarkData={convertedData.benchmark}
+                        groupData={convertedData.group}
+                      />
+                    </div>
+                  ),
                 },
               ]}
             />
