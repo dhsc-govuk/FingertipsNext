@@ -20,7 +20,7 @@ export const StyledAlignRightHeader = styled(StyledTableCellHeader)({
 export const StyledGreyHeader = styled(StyledAlignRightHeader)({
   backgroundColor: GovukColours.MidGrey,
   borderTop: `solid #F3F2F1 2px`,
-  width: '16%',
+  verticalAlign: 'top',
 });
 
 export const StyledTableCell = styled(Table.Cell)(
