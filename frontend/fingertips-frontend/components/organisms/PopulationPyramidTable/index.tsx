@@ -10,31 +10,40 @@ import {
 import styled from 'styled-components';
 import React, { ReactNode } from 'react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import {
-  StyledAlignLeftHeader,
-  StyledAlignLeftTableCell,
-  StyledAlignRightHeader,
-  StyledAlignRightTableCell,
-  StyledDiv,
-  StyledGreyHeader,
-  StyledGreyTableCellValue,
-} from '@/lib/tableHelpers';
-import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel';
-import { TrendTag } from '@/components/molecules/TrendTag';
-import { getConfidenceLimitNumber } from '@/lib/chartHelpers/chartHelpers';
 import { PyramidTable } from './PyramidTable';
 import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
-import { ZodUndefined } from 'zod';
 
-export enum LineChartTableHeadingEnum {
-  AreaPeriod = 'Period',
-  BenchmarkTrend = 'Compared to benchmark',
-  AreaCount = 'Count',
-  AreaValue = 'Value',
-  AreaLower = 'Lower',
-  AreaUpper = 'Upper',
-  BenchmarkValue = 'Value ',
-}
+const StyleBenchmarkDataDiv = styled('div')({
+  'flexGrow': 2,
+  'marginLeft': 'auto',
+  'backgroundColor': '#B1B4B6',
+  '& table ': {
+    'margin': '0px',
+    'border': '0px',
+    'padding': '0px',
+
+    '& td, th': {
+      borderBottomColor: ' #F3F2F1',
+      borderTopColor: '#F3F2F1',
+    },
+    '& tr': {
+      backgroundColor: 'transparent !important',
+      margin: '0px',
+      padding: ' 0px',
+    },
+  },
+});
+
+const ScrollableContentDiv = styled('div')({
+  display: 'flex',
+  flexDirection: 'row',
+  flexWrap: 'nowrap',
+  flexGrow: 8,
+  width: '500px',
+  overflow: 'hidden',
+  scrollbarWidth: '20px',
+  overflowX: 'auto',
+});
 
 export interface PopulationPyramidTableProps {
   healthDataForArea: PopulationDataForArea;
@@ -67,14 +76,7 @@ export function PopulationPyramidTable({
         alignItems: 'stretch',
       }}
     >
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          flexWrap: 'nowrap',
-          flexGrow: 8,
-        }}
-      >
+      <ScrollableContentDiv>
         <div style={{ flexGrow: 6 }}>
           <PyramidTable
             headers={['Age range', 'Male', 'Female']}
@@ -82,29 +84,31 @@ export function PopulationPyramidTable({
             healthDataForArea={groupData}
           />
         </div>
-        <div style={{ flexGrow: 4 }}>
+        {groupData ? (
+          <div style={{ flexGrow: 4, backgroundColor: '#F3F2F1' }}>
+            <PyramidTable
+              headers={['Male', 'Female']}
+              title={`Group: ${groupData?.areaName}`}
+              healthDataForArea={groupData}
+              filterValues={(columns) => {
+                return columns.slice(1);
+              }}
+            />
+          </div>
+        ) : null}
+      </ScrollableContentDiv>
+      {benchmarkData ? (
+        <StyleBenchmarkDataDiv>
           <PyramidTable
             headers={['Male', 'Female']}
-            title={`Group: ${groupData?.areaName}`}
-            healthDataForArea={groupData}
+            title={`Benchmark: ${benchmarkData?.areaName}`}
+            healthDataForArea={benchmarkData}
             filterValues={(columns) => {
               return columns.slice(1);
             }}
           />
-        </div>
-      </div>
-      <div
-        style={{ flexGrow: 2, marginLeft: 'auto', backgroundColor: '#B1B4B6' }}
-      >
-        <PyramidTable
-          headers={['Male', 'Female']}
-          title={`Benchmark: ${benchmarkData?.areaName}`}
-          healthDataForArea={benchmarkData}
-          filterValues={(columns) => {
-            return columns.slice(1);
-          }}
-        />
-      </div>
+        </StyleBenchmarkDataDiv>
+      ) : null}
     </section>
   );
 }
