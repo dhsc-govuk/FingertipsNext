@@ -1,7 +1,6 @@
 import { OneIndicatorOneAreaViewPlots } from '@/components/viewPlots/OneIndicatorOneAreaViewPlots';
 import {
   GetHealthDataForAnIndicatorInequalitiesEnum,
-  HealthDataForArea,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import {
@@ -32,7 +31,7 @@ export default async function OneIndicatorOneAreaView({
   if (!areaCodesToRequest.includes(areaCodeForEngland)) {
     areaCodesToRequest.push(areaCodeForEngland);
   }
-  if (selectedGroupCode && selectedGroupCode != areaCodeForEngland) {
+  if (selectedGroupCode && selectedGroupCode !== areaCodeForEngland) {
     areaCodesToRequest.push(selectedGroupCode);
   }
 
@@ -40,29 +39,28 @@ export default async function OneIndicatorOneAreaView({
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
   let indicatorData: IndicatorWithHealthDataForArea | undefined;
-  let healthIndicatorData: HealthDataForArea[] | [];
   try {
     indicatorData = await indicatorApi.getHealthDataForAnIndicator(
       {
         indicatorId: Number(indicatorSelected[0]),
         areaCodes: areaCodesToRequest,
-        inequalities: [GetHealthDataForAnIndicatorInequalitiesEnum.Sex],
+        inequalities: [
+          GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
+          GetHealthDataForAnIndicatorInequalitiesEnum.Deprivation,
+        ],
       },
       API_CACHE_CONFIG
     );
-    healthIndicatorData = indicatorData?.areaHealthData ?? [];
   } catch (error) {
     console.error('error getting health indicator data for area', error);
     throw new Error('error getting health indicator data for area');
   }
 
-  const indicatorMetadata = selectedIndicatorsData?.[0];
-
   return (
     <OneIndicatorOneAreaViewPlots
-      healthIndicatorData={healthIndicatorData}
+      indicatorData={indicatorData}
       searchState={searchState}
-      indicatorMetadata={indicatorMetadata}
+      indicatorMetadata={selectedIndicatorsData?.[0]}
     />
   );
 }

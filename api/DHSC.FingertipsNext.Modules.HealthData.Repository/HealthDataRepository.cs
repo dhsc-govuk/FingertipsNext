@@ -1,6 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
 using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
+
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Repository;
 
@@ -49,7 +52,6 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .Include(healthMeasure => healthMeasure.AgeDimension)
             .Include(healthMeasure => healthMeasure.SexDimension)
             .Include(healthMeasure => healthMeasure.IndicatorDimension)
-            .Include(hm => hm.TrendDimension)
             .Include(healthMeasure => healthMeasure.DeprivationDimension)
             .Select(healthMeasure => new HealthMeasureModel
             {
@@ -62,11 +64,13 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
                 {
                     Name = healthMeasure.AgeDimension.Name,
                     HasValue = healthMeasure.AgeDimension.HasValue,
+                    IsAggregate = healthMeasure.IsAgeAggregatedOrSingle
                 },
                 SexDimension = new SexDimensionModel
                 {
                     Name = healthMeasure.SexDimension.Name,
-                    HasValue = healthMeasure.SexDimension.HasValue
+                    HasValue = healthMeasure.SexDimension.HasValue,
+                    IsAggregate = healthMeasure.IsSexAggregatedOrSingle
                 },
                 IndicatorDimension = new IndicatorDimensionModel
                 {
@@ -86,11 +90,83 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
                     Name = healthMeasure.DeprivationDimension.Name,
                     Type = healthMeasure.DeprivationDimension.Type,
                     Sequence = healthMeasure.DeprivationDimension.Sequence,
-                    HasValue = healthMeasure.DeprivationDimension.HasValue
+                    HasValue = healthMeasure.DeprivationDimension.HasValue,
+                    IsAggregate = healthMeasure.IsDeprivationAggregatedOrSingle
                 },
                 IsAggregate = healthMeasure.IsAgeAggregatedOrSingle && healthMeasure.IsSexAggregatedOrSingle && healthMeasure.IsDeprivationAggregatedOrSingle
             })
             .AsNoTracking()
             .ToListAsync();
     }
+
+    public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync(int indicatorId, string[] areaCodes, int[] years, string areaTypeKey)
+    {
+        // Convert the array parameters into DataTables for presentation to the Stored Procedure.
+        var AreaCodesTable = new DataTable();
+        AreaCodesTable.Columns.Add("AreaCode", typeof(string));
+        foreach (var area in areaCodes)
+        {
+            AreaCodesTable.Rows.Add(area);
+        }
+        var areasOfInterest = new SqlParameter("@RequestedAreas", AreaCodesTable)
+        {
+            SqlDbType = SqlDbType.Structured,
+            TypeName = "AreaCodeList"
+        };
+
+        var YearsTable = new DataTable();
+        YearsTable.Columns.Add("YearNum", typeof(int));
+        foreach (var item in years)
+        {
+            YearsTable.Rows.Add(item);
+        }
+        var yearsOfInterest = new SqlParameter("@RequestedYears", YearsTable)
+        {
+            SqlDbType = SqlDbType.Structured,
+            TypeName = "YearList"
+        };
+
+        var areaTypeOfInterest = new SqlParameter("@RequestedAreaType", areaTypeKey);
+        var requestedIndicatorId = new SqlParameter("@RequestedIndicatorId", indicatorId);
+
+        var denormalisedHealthData = await _dbContext.DenormalisedHealthMeasure.FromSql
+            (@$"
+              EXEC dbo.GetIndicatorDetailsWithQuintileBenchmarkComparison @RequestedAreas={areasOfInterest}, @RequestedAreaType={areaTypeOfInterest}, @RequestedYears={yearsOfInterest}, @RequestedIndicatorId={requestedIndicatorId}
+              "
+            ).ToListAsync();
+
+        return [.. denormalisedHealthData
+            .Select(a => a.Normalise())
+            .OrderBy(a => a.Year)];
+    }
+
+    public async Task<IEnumerable<QuartileDataModel>> GetQuartileDataAsync(IEnumerable<int> indicatorIds, string areaCode, string areaTypeKey, string ancestorCode)
+    {
+        // Convert the array parameters into DataTables for presentation to the Stored Procedure.
+        var IndicatorIdTable = new DataTable();
+        IndicatorIdTable.Columns.Add("IndicatorId", typeof(int));
+        foreach (var indicator in indicatorIds)
+        {
+            IndicatorIdTable.Rows.Add(indicator);
+        }
+
+        var RequestedIndicators = new SqlParameter("@RequestedIndicators", IndicatorIdTable)
+        {
+            SqlDbType = SqlDbType.Structured,
+            TypeName = "IndicatorList"
+        };
+
+        var AreaType = new SqlParameter("@RequestedAreaType", areaTypeKey);
+        var AreaCode = new SqlParameter("@RequestedArea", areaCode);
+        var AncestorCode = new SqlParameter("@RequestedAncestorCode", ancestorCode);
+
+        var retVal = await _dbContext.QuartileData.FromSql
+            (@$"
+              EXEC dbo.GetIndicatorQuartileDataForLatestYear @RequestedAreaType={AreaType}, @RequestedIndicatorIds={RequestedIndicators}, @RequestedArea={AreaCode}, @RequestedAncestor={AncestorCode}
+              "
+            ).ToListAsync();
+
+        return retVal;
+    }
+
 }

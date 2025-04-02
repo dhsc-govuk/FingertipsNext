@@ -11,20 +11,20 @@ import {
 } from 'govuk-react';
 import { spacing, typography } from '@govuk-react/lib';
 import styled from 'styled-components';
-import {
-  SearchParams,
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { TagColours } from '@/lib/styleHelpers/colours';
 import { formatDate, isWithinOneMonth } from '@/lib/dateHelpers/dateHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { useLoadingState } from '@/context/LoaderContext';
+import { useSearchState } from '@/context/SearchStateContext';
+import { TrendTag } from '../TrendTag';
+import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 
 type SearchResultProps = {
   result: IndicatorDocument;
+  showTrends: boolean;
   indicatorSelected?: boolean;
-  searchState?: SearchStateParams;
   handleClick: (indicatorId: string, checked: boolean) => void;
   currentDate?: Date;
 };
@@ -73,11 +73,15 @@ const GreyTag = styled(Tag)({
 
 export function SearchResult({
   result,
+  showTrends,
   indicatorSelected,
-  searchState,
   handleClick,
   currentDate = new Date(),
 }: Readonly<SearchResultProps>) {
+  const { setIsLoading } = useLoadingState();
+  const { getSearchState } = useSearchState();
+  const searchState = getSearchState();
+
   const stateManager = SearchStateManager.initialise(searchState);
 
   const generateIndicatorChartPath = (indicatorId: string): string => {
@@ -118,9 +122,11 @@ export function SearchResult({
             onChange={(e) => {
               handleClick(result.indicatorID.toString(), e.target.checked);
             }}
+            className=""
           >
             <H5>
               <Link
+                onClick={() => setIsLoading(true)}
                 href={generateIndicatorChartPath(result.indicatorID.toString())}
               >
                 {result.indicatorName}
@@ -150,6 +156,15 @@ export function SearchResult({
             </TagRow>
           </Checkbox>
         </GridCol>
+        {showTrends ? (
+          <GridCol setWidth="one-quarter">
+            <TrendTag
+              trendFromResponse={
+                result.trend ?? HealthDataPointTrendEnum.CannotBeCalculated
+              }
+            />
+          </GridCol>
+        ) : null}
       </PrimaryRow>
       <SectionBreak visible={true} />
     </ListItem>

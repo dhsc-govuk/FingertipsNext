@@ -3,7 +3,6 @@ import {
   getScenarioConfig,
   IndicatorMode,
 } from '@/playwright/testHelpers';
-import BasePage from '../basePage';
 import { expect } from '../pageFactory';
 import {
   PlaywrightTestArgs,
@@ -12,8 +11,9 @@ import {
   PlaywrightWorkerOptions,
   TestType,
 } from '@playwright/test';
+import AreaFilter from '../components/areaFilter';
 
-export default class ChartPage extends BasePage {
+export default class ChartPage extends AreaFilter {
   readonly backLink = 'chart-page-back-link';
   static readonly lineChartComponent = 'standardLineChart-component';
   static readonly lineChartTableComponent = 'lineChartTable-component';
@@ -31,6 +31,7 @@ export default class ChartPage extends BasePage {
   static readonly heatMapComponent = 'heatmapChart-component';
   static readonly barChartEmbeddedTableComponent =
     'barChartEmbeddedTable-component';
+  static readonly spineChartTableComponent = 'spineChartTable-component';
 
   async navigateToChart() {
     await this.navigateTo('chart');
@@ -42,8 +43,14 @@ export default class ChartPage extends BasePage {
     ).toBeVisible();
   }
 
+  async checkSpecificChartComponent(chartComponent: string) {
+    await this.page.getByTestId(chartComponent).isVisible();
+  }
+
   async clickBackLink() {
-    await this.page.getByTestId(this.backLink).click();
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByTestId(this.backLink)
+    );
   }
 
   /**
@@ -67,60 +74,76 @@ export default class ChartPage extends BasePage {
       indicatorMode,
       areaMode
     );
-    console.log(
-      `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart components: ${visibleComponents} are displayed and that`,
-      `chart components: ${hiddenComponents} are not displayed. Also checking the visible components via screenshot snapshot testing.`
+    // click the hide filters pane before asserting visibility and taking screenshots
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByTestId('area-filter-pane-hidefilters')
     );
     // Check that components expected to be visible are displayed
     for (const visibleComponent of visibleComponents) {
+      console.log(
+        `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart component: ${visibleComponent.componentLocator} is displayed.`
+      );
       // click tab to view the table view if checking a none embedded table component
-      if (
-        visibleComponent.toLowerCase().includes('table') &&
-        visibleComponent !== 'barChartEmbeddedTable-component'
-      ) {
-        await this.page
-          .getByTestId(`tabTitle-${visibleComponent.replace('-component', '')}`)
-          .click();
+      if (visibleComponent.componentProps.isTabTable) {
+        await this.clickAndAwaitLoadingComplete(
+          this.page.getByTestId(
+            `tabTitle-${visibleComponent.componentLocator.replace('-component', '')}`
+          )
+        );
       }
       // if its one of the chart components that has a confidence interval checkbox then click it
-      if (
-        visibleComponent.includes('LineChart-component') ||
-        visibleComponent === 'inequalitiesBarChart-component' ||
-        visibleComponent === 'barChartEmbeddedTable-component'
-      ) {
-        await this.page
-          .getByTestId(
-            `confidence-interval-checkbox-${visibleComponent.replace('-component', '')}`
+      if (visibleComponent.componentProps.hasConfidenceIntervals) {
+        await this.clickAndAwaitLoadingComplete(
+          this.page.getByTestId(
+            `confidence-interval-checkbox-${visibleComponent.componentLocator.replace('-component', '')}`
           )
-          .click();
+        );
       }
-
-      await expect(this.page.getByTestId(visibleComponent)).toBeVisible({
+      // if its one of the chart components that has a details expander then click it
+      if (visibleComponent.componentProps.hasDetailsExpander) {
+        await this.clickAndAwaitLoadingComplete(
+          this.page
+            .getByTestId('populationPyramidWithTable-component')
+            .getByText('Show population data')
+        );
+      }
+      await expect(
+        this.page.getByTestId(visibleComponent.componentLocator)
+      ).toBeVisible({
         visible: true,
       });
 
       // screenshot snapshot comparisons are skipped when running against deployed azure environments
       console.log(
-        `checking component:${visibleComponent} for unexpected visual changes - see directory README.md for details.`
+        `checking component:${visibleComponent.componentLocator} for unexpected visual changes - see directory README.md for details.`
       );
-      await this.page.waitForTimeout(500); // change this to wait for loading spinner to no longer appear in DHSCFT-490
+      await this.page.waitForLoadState();
+      await expect(this.page.getByText('Loading')).toHaveCount(0);
+      await this.page.waitForTimeout(500); // delete this line in DHSCFT-510 once animations are disabled
 
       // for now just warn if visual comparisons do not match
       try {
-        await expect(this.page.getByTestId(visibleComponent)).toHaveScreenshot(
-          `${testName}-${visibleComponent}.png`
+        await expect(
+          this.page.getByTestId(visibleComponent.componentLocator)
+        ).toHaveScreenshot(
+          `${testName}-${visibleComponent.componentLocator}.png`
         );
       } catch (error) {
         const typedError = error as Error;
         console.warn(
-          `⚠️ Screenshot comparison warning for ${visibleComponent}: ${typedError.message}`
+          `⚠️ Screenshot comparison warning for ${visibleComponent.componentLocator}: ${typedError.message}`
         );
       }
     }
 
     // Check that components expected not to be visible are not displayed
     for (const hiddenComponent of hiddenComponents) {
-      await expect(this.page.getByTestId(hiddenComponent)).toBeVisible({
+      console.log(
+        `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart component: ${hiddenComponent.componentLocator} is not displayed.`
+      );
+      await expect(
+        this.page.getByTestId(hiddenComponent.componentLocator)
+      ).toBeVisible({
         visible: false,
       });
     }

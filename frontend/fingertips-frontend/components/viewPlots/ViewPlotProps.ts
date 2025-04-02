@@ -1,9 +1,15 @@
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { SearchStateParams } from '@/lib/searchStateManager';
 
-export type ViewPlotProps = {
-  healthIndicatorData: HealthDataForArea[];
+export type OneIndicatorViewPlotProps = {
   searchState: SearchStateParams;
+  indicatorData: IndicatorWithHealthDataForArea;
   indicatorMetadata?: IndicatorDocument;
+};
+
+export type TwoOrMoreIndicatorsViewPlotProps = {
+  searchState: SearchStateParams;
+  indicatorData: IndicatorWithHealthDataForArea[];
+  indicatorMetadata: IndicatorDocument[];
 };

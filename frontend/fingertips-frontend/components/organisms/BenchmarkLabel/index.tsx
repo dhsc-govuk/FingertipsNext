@@ -4,20 +4,23 @@ import styled from 'styled-components';
 import React from 'react';
 import { getBenchmarkTagStyle } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelConfig';
 import {
-  BenchmarkLabelGroupType,
-  BenchmarkLabelType,
-} from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
 
 interface BenchmarkLabelProps {
-  type?: BenchmarkLabelType | string;
-  group?: BenchmarkLabelGroupType | string;
+  outcome?: BenchmarkOutcome;
+  method?: BenchmarkComparisonMethod;
+  polarity?: IndicatorPolarity;
 }
 
 export const BenchmarkTagStyle = styled(Tag)<{
-  legendType: BenchmarkLabelType;
-  group: BenchmarkLabelGroupType;
-}>(({ legendType, group }) => {
-  const theme = getBenchmarkTagStyle(group, legendType);
+  outcome: BenchmarkOutcome;
+  group: BenchmarkComparisonMethod;
+  polarity: IndicatorPolarity;
+}>(({ outcome, group, polarity }) => {
+  const theme = getBenchmarkTagStyle(group, outcome, polarity);
   return {
     padding: '5px 8px 4px 8px',
     alignItems: 'center',
@@ -28,23 +31,33 @@ export const BenchmarkTagStyle = styled(Tag)<{
   };
 });
 
-const getBenchmarkLabelText = (type: BenchmarkLabelType) => {
-  const validTypes = Object.values(BenchmarkLabelType);
-  return validTypes.includes(type) ? type : 'Not compared';
+export const getBenchmarkLabelText = (type: BenchmarkOutcome) => {
+  const validTypes = Object.values(BenchmarkOutcome);
+  return validTypes.includes(type) && type !== BenchmarkOutcome.NotCompared
+    ? type
+    : 'Not compared';
 };
 
 export const BenchmarkLabel: React.FC<BenchmarkLabelProps> = ({
-  type,
-  group,
+  outcome,
+  method,
+  polarity,
 }) => {
-  const legendType =
-    (type as BenchmarkLabelType) ?? BenchmarkLabelType.NOT_COMPARED;
-  const groupType =
-    (group?.toLowerCase() as BenchmarkLabelGroupType) ??
-    BenchmarkLabelGroupType.RAG;
-  const labelText = getBenchmarkLabelText(legendType);
+  const outcomeParsed =
+    (outcome as BenchmarkOutcome) ?? BenchmarkOutcome.NotCompared;
+  const methodParsed =
+    (method as BenchmarkComparisonMethod) ??
+    BenchmarkComparisonMethod.CIOverlappingReferenceValue95;
+  const polarityParsed =
+    (polarity as IndicatorPolarity) ?? IndicatorPolarity.Unknown;
+
+  const labelText = getBenchmarkLabelText(outcomeParsed);
   return (
-    <BenchmarkTagStyle legendType={legendType} group={groupType}>
+    <BenchmarkTagStyle
+      outcome={outcomeParsed}
+      group={methodParsed}
+      polarity={polarityParsed}
+    >
       {labelText}
     </BenchmarkTagStyle>
   );

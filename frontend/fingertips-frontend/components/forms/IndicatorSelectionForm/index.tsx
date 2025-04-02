@@ -1,4 +1,6 @@
 import { SearchResult } from '@/components/molecules/Result';
+import { useLoadingState } from '@/context/LoaderContext';
+import { useSearchState } from '@/context/SearchStateContext';
 import { localeSort } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
@@ -15,10 +17,21 @@ import {
   Checkbox,
 } from 'govuk-react';
 import { usePathname, useRouter } from 'next/navigation';
+import styled from 'styled-components';
+
+const ResultLabelsContainer = styled.span({
+  alignItems: 'center',
+  display: 'flex',
+  justifyContent: 'space-between',
+});
+
+const StyledParagraph = styled(Paragraph)({
+  fontWeight: 'bold',
+});
 
 type IndicatorSelectionProps = {
   searchResults: IndicatorDocument[];
-  searchState?: SearchStateParams;
+  showTrends: boolean;
   formAction: (payload: FormData) => void;
   currentDate?: Date;
 };
@@ -30,6 +43,13 @@ const isIndicatorSelected = (
   return state?.[SearchParams.IndicatorsSelected]
     ? state[SearchParams.IndicatorsSelected]?.some((ind) => ind === indicatorId)
     : false;
+};
+
+const generateKey = (
+  indicatorId: string,
+  state?: SearchStateParams
+): string => {
+  return `${indicatorId}-${isIndicatorSelected(indicatorId, state)}`;
 };
 
 const shouldDisableViewDataButton = (state?: SearchStateParams): boolean => {
@@ -44,13 +64,15 @@ const shouldDisableViewDataButton = (state?: SearchStateParams): boolean => {
 
 export function IndicatorSelectionForm({
   searchResults,
-  searchState,
+  showTrends,
   formAction,
   currentDate,
 }: Readonly<IndicatorSelectionProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
-
+  const { setIsLoading } = useLoadingState();
+  const { getSearchState } = useSearchState();
+  const searchState = getSearchState();
   const stateManager = SearchStateManager.initialise(searchState);
 
   const checkAllIndicatorsSelected = (
@@ -71,12 +93,15 @@ export function IndicatorSelectionForm({
 
   const selectedIndicators =
     searchState?.[SearchParams.IndicatorsSelected] || [];
+
   const areAllIndicatorsSelected = checkAllIndicatorsSelected(
     searchResults,
     selectedIndicators
   );
 
   const handleClick = async (indicatorId: string, checked: boolean) => {
+    setIsLoading(true);
+
     if (checked) {
       stateManager.addParamValueToState(
         SearchParams.IndicatorsSelected,
@@ -93,6 +118,8 @@ export function IndicatorSelectionForm({
   };
 
   const handleSelectAll = (checked: boolean) => {
+    setIsLoading(true);
+
     if (checked) {
       const allIndicatorIds = searchResults.map((result) =>
         result.indicatorID.toString()
@@ -117,19 +144,27 @@ export function IndicatorSelectionForm({
       }}
     >
       <input
+        key={`indicators-selection-form-state-${JSON.stringify(searchState)}`}
         name="searchState"
         defaultValue={JSON.stringify(searchState)}
         hidden
       />
       {searchResults.length ? (
         <>
-          <Checkbox
-            data-testid="select-all-checkbox"
-            defaultChecked={areAllIndicatorsSelected}
-            onChange={(e) => handleSelectAll(e.target.checked)}
-          >
-            Select all
-          </Checkbox>
+          <ResultLabelsContainer>
+            <Checkbox
+              key={`select-all-indicator-${areAllIndicatorsSelected}`}
+              data-testid="select-all-checkbox"
+              defaultChecked={areAllIndicatorsSelected}
+              onChange={(e) => handleSelectAll(e.target.checked)}
+            >
+              Select all
+            </Checkbox>
+
+            {showTrends ? (
+              <StyledParagraph>Recent trend for selected area</StyledParagraph>
+            ) : null}
+          </ResultLabelsContainer>
 
           <UnorderedList listStyleType="none">
             <ListItem>
@@ -137,13 +172,13 @@ export function IndicatorSelectionForm({
             </ListItem>
             {searchResults.map((result) => (
               <SearchResult
-                key={result.indicatorID}
+                key={generateKey(result.indicatorID.toString(), searchState)}
                 result={result}
+                showTrends={showTrends}
                 indicatorSelected={isIndicatorSelected(
                   result.indicatorID.toString(),
                   searchState
                 )}
-                searchState={searchState}
                 handleClick={handleClick}
                 currentDate={currentDate}
               />
@@ -154,6 +189,7 @@ export function IndicatorSelectionForm({
             type="submit"
             data-testid="search-results-button-submit"
             disabled={shouldDisableViewDataButton(searchState)}
+            onClick={() => setIsLoading(true)}
           >
             View data
           </Button>

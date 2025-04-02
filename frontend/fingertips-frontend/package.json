@@ -10,9 +10,10 @@
     "generate:ft-mocks": "npx msw-auto-mock ./../../api/definition/swagger.yaml -o ./mock/server",
     "build": "next build",
     "start": "next start",
+    "start-local-mocks": "cross-env MOCK_SERVER=true next start",
     "api:start": "COMPOSE_BAKE=true docker compose --profile api up --build",
     "api:stop": "docker compose --profile api down",
-    "start:all": "COMPOSE_BAKE=true docker compose --profile all up --build --remove-orphans --wait -d",
+    "start:all": "COMPOSE_BAKE=false docker compose --profile all up --build --remove-orphans --wait -d",
     "stop:all": "docker compose --profile all down",
     "lint": "eslint",
     "typecheck": "tsc",
@@ -21,7 +22,7 @@
     "test-ui-local-mocks": "playwright test isolated_ui_tests --ignore-snapshots",
     "test-e2e-local-docker": "cross-env MOCK_SERVER=false npm run start:all && playwright test fully_integrated_e2e_tests || true && npm run stop:all",
     "test-e2e-local-update-snapshots": "cross-env MOCK_SERVER=false npm run start:all && playwright test fully_integrated_e2e_tests --update-snapshots",
-    "test-e2e-ci-docker": "MOCK_SERVER=false npm run start:all && playwright test fully_integrated_e2e_tests",
+    "test-e2e-ci": "MOCK_SERVER=false playwright test fully_integrated_e2e_tests",
     "test-e2e-ci-azure": "MOCK_SERVER=false playwright test fully_integrated_e2e_tests --ignore-snapshots",
     "prettier": "prettier --write .",
     "prettier-ci": "prettier . --check"
@@ -43,7 +44,7 @@
     "govuk-react": "^0.10.7",
     "highcharts": "^12.1.2",
     "highcharts-react-official": "^3.2.1",
-    "next": "^15.1.3",
+    "next": "^15.2.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "styled-components": "^5.3.0"
@@ -54,7 +55,7 @@
     "@eslint/js": "^9.17.0",
     "@estruyf/github-actions-reporter": "^1.10.0",
     "@faker-js/faker": "^9.3.0",
-    "@openapitools/openapi-generator-cli": "^2.15.3",
+    "@openapitools/openapi-generator-cli": "^2.18.4",
     "@playwright/test": "^1.51.1",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
@@ -77,7 +78,7 @@
     "jest-mock-extended": "^4.0.0-beta1",
     "jest-styled-components": "^7.2.0",
     "msw": "^2.6.8",
-    "playwright-ctrf-json-reporter": "^0.0.18",
+    "playwright-ctrf-json-reporter": "^0.0.19",
     "playwright-webkit": "^1.51.1",
     "postcss": "^8.4.49",
     "prettier": "^3.4.2",
@@ -94,6 +95,7 @@
     "govuk-react": {
       "styled-components": "^5.3.0"
     },
-    "whatwg-url": "^14.0.0"
+    "whatwg-url": "^14.0.0",
+    "@nestjs/common": "^11.0.12"
   }
 }

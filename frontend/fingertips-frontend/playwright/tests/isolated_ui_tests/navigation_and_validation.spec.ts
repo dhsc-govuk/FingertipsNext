@@ -6,29 +6,32 @@ import {
   getAllNHSRegionAreas,
   IndicatorMode,
   SearchMode,
+  AreaMode,
 } from '../../testHelpers';
 import mockIndicators from '../../../assets/mockIndicatorData.json';
 import mockAreas from '../../../assets/mockAreaData.json';
-import { AreaDocument, IndicatorDocument } from '@/lib/search/searchTypes';
+import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
+import ChartPage from '@/playwright/page-objects/pages/chartPage';
 
 // tests in this file use mock service worker to mock the API response
 // so that the tests can be run without the need for a backend
 // see frontend/fingertips-frontend/assets/mockIndicatorData.json
 // and frontend/fingertips-frontend/assets/mockAreaData.json
 //@ts-expect-error don't care about type checking this json file
-const indicatorData = mockIndicators as IndicatorDocument[];
+const indicatorData = mockIndicators as RawIndicatorDocument[];
 const subjectSearchTerm = 'hospital';
 const indicatorMode = IndicatorMode.ONE_INDICATOR;
 const searchMode = SearchMode.ONLY_SUBJECT;
 let allIndicatorIDs: string[];
 let filteredIndicatorIds: string[];
 let allNHSRegionAreas: AreaDocument[];
+let typedIndicatorData: RawIndicatorDocument[];
 
 test.beforeAll(
   `get indicatorIDs from the mock data source for searchTerm: ${subjectSearchTerm} and get mock area data`,
   () => {
-    const typedIndicatorData = indicatorData.map(
-      (indicator: IndicatorDocument) => {
+    typedIndicatorData = indicatorData.map(
+      (indicator: RawIndicatorDocument) => {
         return {
           ...indicator,
           lastUpdated: new Date(indicator.lastUpdatedDate),
@@ -54,8 +57,11 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
     homePage,
     resultsPage,
     chartPage,
+    indicatorPage,
     axeBuilder,
   }) => {
+    test.setTimeout(90000); // TODO - split this test up and remove this extension
+
     await test.step('Navigate to search page', async () => {
       await homePage.navigateToHomePage();
       await homePage.checkOnHomePage();
@@ -78,11 +84,11 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       await chartPage.expectNoAccessibilityViolations(axeBuilder);
 
       await resultsPage.fillIndicatorSearch(subjectSearchTerm);
-      await resultsPage.clickIndicatorSearchButtonAndWait(subjectSearchTerm);
+      await resultsPage.clickIndicatorSearchButton();
       await resultsPage.checkSearchResultsTitle(subjectSearchTerm);
     });
 
-    await test.step('Select single indicator, let area default to England and check on charts page', async () => {
+    await test.step('Select single indicator and let default to England, and check on charts page', async () => {
       await resultsPage.selectIndicatorCheckboxes(
         filteredIndicatorIds,
         indicatorMode
@@ -91,6 +97,45 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       await resultsPage.clickViewChartsButton();
 
       await chartPage.waitForURLToContain('chart');
+
+      await chartPage.expectNoAccessibilityViolations(axeBuilder, [
+        'color-contrast',
+      ]);
+    });
+
+    await test.step('Select "View background information" link, verify indicator page title and Return to charts page', async () => {
+      const indicator = typedIndicatorData.find(
+        (ind) => ind.indicatorID === filteredIndicatorIds[0]
+      );
+
+      if (!indicator) {
+        throw new Error(
+          `Indicator with ID ${filteredIndicatorIds[0]} not found`
+        );
+      }
+
+      await resultsPage.clickViewBackgroundInformationLinkForIndicator(
+        indicator
+      );
+
+      await indicatorPage.waitForURLToContain('indicator');
+
+      await indicatorPage.checkIndicatorNameTitle(indicator);
+
+      await indicatorPage.clickBackLink();
+    });
+
+    await test.step('Select area filters on charts page', async () => {
+      await chartPage.selectAreasFiltersIfRequired(
+        searchMode,
+        AreaMode.TWO_PLUS_AREAS, // change to 2 areas to see different view with barChartEmbeddedTable-component
+        subjectSearchTerm,
+        'gps'
+      );
+
+      await chartPage.checkSpecificChartComponent(
+        ChartPage.barChartEmbeddedTableComponent
+      );
 
       await chartPage.expectNoAccessibilityViolations(axeBuilder, [
         'color-contrast',
@@ -112,6 +157,8 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
 
     await test.step('Verify after clearing search field that search page validation prevents forward navigation', async () => {
       await homePage.clearSearchIndicatorField();
+      await homePage.closeAreaFilterPill(0);
+      await homePage.closeAreaFilterPill(0);
 
       await homePage.clickSearchButton();
       await homePage.checkSearchFieldIsPrePopulatedWith(); // nothing should be prepopulated after clearing search field

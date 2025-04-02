@@ -162,7 +162,7 @@ VALUES
     N'All',
     N'All',
     0,
-    1
+    10
 )
 
 INSERT INTO [dbo].[DeprivationDimension] 
@@ -289,14 +289,16 @@ INSERT INTO dbo.AreaDimension
     Name,
     StartDate,
     EndDate,
-    AreaType
+    AreaType,
+    IsDistrictAndCounty
 )
 SELECT
     RTRIM(AreaCode),
     RTRIM(AreaName),
     DATEADD(YEAR, -10, GETDATE()),
     DATEADD(YEAR, 10, GETDATE()),
-    replace(replace(AreaTypeCode, char(10),''), char(13),'')
+    replace(replace(AreaTypeCode, char(10),''), char(13),''),
+    IIF(RTRIM(AreaCode) LIKE 'E09%' OR RTRIM(AreaCode) LIKE 'E08%' OR RTRIM(AreaCode) LIKE 'E06%', 1, 0)
 FROM
      #TempAreaData;
 

@@ -5,11 +5,19 @@ import { HighchartsReact } from 'highcharts-react-official';
 import { useEffect, useState } from 'react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
+  generateConfidenceIntervalSeries,
   getBenchmarkColour,
+  getConfidenceLimitNumber,
   loadHighchartsModules,
 } from '@/lib/chartHelpers/chartHelpers';
-import { BenchmarkOutcome } from '@/generated-sources/ft-api-client';
-import { BenchmarkLabelType } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
+import {
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
+import { SparklineLabelEnum } from '@/components/organisms/BarChartEmbeddedTable';
+import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
+import { getBenchmarkLabelText } from '@/components/organisms/BenchmarkLabel';
 
 interface SparklineChartProps {
   value: (number | undefined)[];
@@ -17,31 +25,86 @@ interface SparklineChartProps {
   confidenceIntervalValues: (number | undefined)[];
   showConfidenceIntervalsData: boolean;
   benchmarkOutcome?: BenchmarkOutcome;
+  benchmarkComparisonMethod?: BenchmarkComparisonMethod;
+  polarity?: IndicatorPolarity;
+  label: string;
+  area: string | undefined;
+  year: number | undefined;
+  measurementUnit: string | undefined;
 }
+
+export const sparklineTooltipContent = (
+  benchmarkOutcome: BenchmarkOutcome,
+  label: string,
+  benchmarkComparisonMethod: BenchmarkComparisonMethod
+) => {
+  let category = '';
+  let benchmarkLabel = '';
+  let comparisonLabel = '';
+  const outcome = getBenchmarkLabelText(benchmarkOutcome);
+  const comparison = getConfidenceLimitNumber(benchmarkComparisonMethod);
+
+  if (label === SparklineLabelEnum.Benchmark && benchmarkOutcome) {
+    category = 'Benchmark: ';
+    return { benchmarkLabel, category, comparisonLabel };
+  }
+  if (label === SparklineLabelEnum.Group) {
+    category = 'Group: ';
+  }
+
+  if (benchmarkOutcome === BenchmarkOutcome.Similar) {
+    benchmarkLabel = `${outcome} to England`;
+    comparisonLabel = `(${comparison}%)`;
+  } else if (
+    benchmarkOutcome &&
+    benchmarkOutcome !== BenchmarkOutcome.NotCompared
+  ) {
+    benchmarkLabel = `${outcome} than England`;
+    comparisonLabel = `(${comparison}%)`;
+  }
+
+  return { benchmarkLabel, category, comparisonLabel };
+};
 
 export function SparklineChart({
   value,
   maxValue,
   confidenceIntervalValues,
   showConfidenceIntervalsData,
-  benchmarkOutcome,
+  benchmarkOutcome = BenchmarkOutcome.NotCompared,
+  benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
+  polarity = IndicatorPolarity.Unknown,
+  label,
+  area,
+  year,
+  measurementUnit,
 }: Readonly<SparklineChartProps>) {
-  const color = getBenchmarkColour(benchmarkOutcome as BenchmarkLabelType);
+  const color = getBenchmarkColour(
+    benchmarkComparisonMethod,
+    benchmarkOutcome,
+    polarity
+  );
   const [options, setOptions] = useState<Highcharts.Options>();
 
-  const series: Highcharts.SeriesOptionsType[] = [
-    { type: 'bar', data: [value], color },
-  ];
+  const sparklineTooltips = (point: Highcharts.Point, symbol: string) => {
+    const { benchmarkLabel, category, comparisonLabel } =
+      sparklineTooltipContent(
+        benchmarkOutcome,
+        label,
+        benchmarkComparisonMethod
+      );
 
-  if (showConfidenceIntervalsData) {
-    series.push({
-      type: 'errorbar',
-      data: [confidenceIntervalValues],
-      color: GovukColours.Black,
-      whiskerLength: '50%',
-      lineWidth: 3,
-    });
-  }
+    return [
+      `<b>${category}${area}</b><br/>${year}<br/><br/><span style="color:${point.color}">${symbol}</span><span> ${value}${measurementUnit}</span><br/><span>${benchmarkLabel}</span><br/><span>${comparisonLabel}</span>`,
+    ];
+  };
+
+  const confidenceIntervalSeries = generateConfidenceIntervalSeries(
+    area,
+    [confidenceIntervalValues],
+    showConfidenceIntervalsData,
+    { color: GovukColours.Black, whiskerLength: '50%', lineWidth: 3 }
+  );
 
   const sparklineOptions: Highcharts.Options = {
     credits: {
@@ -49,7 +112,7 @@ export function SparklineChart({
     },
     chart: {
       type: 'bar',
-      height: 60,
+      height: 90,
       width: 200,
       backgroundColor: 'transparent',
     },
@@ -60,7 +123,7 @@ export function SparklineChart({
     },
     yAxis: { visible: false, min: 0, max: maxValue },
     xAxis: { visible: false },
-    series: series,
+    series: [{ type: 'bar', data: [value], color }, confidenceIntervalSeries],
     accessibility: {
       enabled: false,
     },
@@ -78,6 +141,15 @@ export function SparklineChart({
     },
     tooltip: {
       hideDelay: 0,
+      style: {
+        width: 200,
+        overflow: 'visible',
+      },
+      outside: true,
+      headerFormat: '',
+      pointFormatter: function (this: Highcharts.Point) {
+        return pointFormatterHelper(this, sparklineTooltips);
+      },
     },
   };
 

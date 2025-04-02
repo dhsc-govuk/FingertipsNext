@@ -2,8 +2,9 @@ import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { OneIndicatorOneAreaViewPlots } from '.';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { render, screen, waitFor } from '@testing-library/react';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { SearchStateContext } from '@/context/SearchStateContext';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -11,6 +12,16 @@ jest.mock('next/navigation', () => {
   return {
     ...originalModule,
     useRouter: jest.fn().mockImplementation(() => ({})),
+  };
+});
+
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: jest.fn(),
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
   };
 });
 
@@ -22,10 +33,8 @@ const mockMetaData = {
   earliestDataPeriod: '2025',
   latestDataPeriod: '2025',
   lastUpdatedDate: new Date('March 4, 2025'),
-  associatedAreaCodes: ['E06000047'],
   unitLabel: 'pancakes',
   hasInequalities: true,
-  usedInPoc: true,
 };
 
 const mockSearch = 'test';
@@ -38,33 +47,15 @@ const searchState: SearchStateParams = {
   [SearchParams.AreasSelected]: mockAreas,
 };
 
-const testHealthData: HealthDataForArea[] = [mockHealthData['108'][1]];
+const testHealthData: IndicatorWithHealthDataForArea = {
+  areaHealthData: [mockHealthData['108'][1]],
+};
 
 describe('OneIndicatorOneAreaViewPlots', () => {
-  it('should render the view with correct title', async () => {
-    render(
-      <OneIndicatorOneAreaViewPlots
-        healthIndicatorData={[mockHealthData['108'][1]]}
-        searchState={searchState}
-        indicatorMetadata={mockMetaData}
-      />
-    );
-
-    const heading = await screen.findByRole('heading', { level: 2 });
-
-    expect(
-      screen.getByTestId('oneIndicatorOneAreaViewPlot-component')
-    ).toBeInTheDocument();
-    expect(heading).toBeInTheDocument();
-    expect(heading).toHaveTextContent(
-      'View data for selected indicators and areas'
-    );
-  });
-
   it('should render the LineChart components', async () => {
     render(
       <OneIndicatorOneAreaViewPlots
-        healthIndicatorData={testHealthData}
+        indicatorData={testHealthData}
         searchState={searchState}
         indicatorMetadata={mockMetaData}
       />
@@ -96,7 +87,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
 
     render(
       <OneIndicatorOneAreaViewPlots
-        healthIndicatorData={[mockHealthData['108'][0]]}
+        indicatorData={{ areaHealthData: [mockHealthData['108'][0]] }}
         searchState={searchState}
         indicatorMetadata={mockMetaData}
       />
@@ -128,7 +119,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
   it('should display data source when metadata exists', async () => {
     render(
       <OneIndicatorOneAreaViewPlots
-        healthIndicatorData={testHealthData}
+        indicatorData={testHealthData}
         searchState={searchState}
         indicatorMetadata={mockMetaData}
       />
@@ -140,17 +131,19 @@ describe('OneIndicatorOneAreaViewPlots', () => {
   });
 
   it('should not display line chart and line chart table when there are less than 2 time periods per area selected', async () => {
-    const MOCK_DATA = [
-      {
-        areaCode: 'A1',
-        areaName: 'Area 1',
-        healthData: [mockHealthData['1'][0].healthData[0]],
-      },
-    ];
+    const MOCK_DATA = {
+      areaHealthData: [
+        {
+          areaCode: 'A1',
+          areaName: 'Area 1',
+          healthData: [mockHealthData['1'][0].healthData[0]],
+        },
+      ],
+    };
 
     render(
       <OneIndicatorOneAreaViewPlots
-        healthIndicatorData={MOCK_DATA}
+        indicatorData={MOCK_DATA}
         searchState={searchState}
         indicatorMetadata={mockMetaData}
       />
@@ -174,15 +167,17 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('should render the inequalities component', () => {
+  it('should render the inequalities component', async () => {
     render(
       <OneIndicatorOneAreaViewPlots
-        healthIndicatorData={testHealthData}
+        indicatorData={testHealthData}
         searchState={searchState}
         indicatorMetadata={mockMetaData}
       />
     );
 
-    expect(screen.queryByTestId('inequalities-component')).toBeInTheDocument();
+    expect(
+      await screen.findByTestId('inequalities-component')
+    ).toBeInTheDocument();
   });
 });

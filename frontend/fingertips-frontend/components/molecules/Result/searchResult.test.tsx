@@ -5,6 +5,8 @@ import { UserEvent, userEvent } from '@testing-library/user-event';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { LoaderContext } from '@/context/LoaderContext';
+import { SearchStateContext } from '@/context/SearchStateContext';
 
 let user: UserEvent;
 
@@ -18,10 +20,9 @@ const MOCK_DATA: IndicatorDocument[] = [
     latestDataPeriod: '2023',
     dataSource: 'NHS website',
     lastUpdatedDate: new Date('December 6, 2024'),
-    associatedAreaCodes: [],
+    trend: 'Increasing and getting worse',
     hasInequalities: false,
     unitLabel: '',
-    usedInPoc: true,
   },
   {
     indicatorID: '2',
@@ -32,10 +33,8 @@ const MOCK_DATA: IndicatorDocument[] = [
     latestDataPeriod: '1999',
     dataSource: 'Student article',
     lastUpdatedDate: new Date('November 5, 2023'),
-    associatedAreaCodes: [],
     hasInequalities: true,
     unitLabel: '',
-    usedInPoc: true,
   },
 ];
 
@@ -47,13 +46,33 @@ const MOCK_DATA_LASTUPDATED_INEQUALITIES: IndicatorDocument = {
   latestDataPeriod: '2023',
   dataSource: 'NHS website',
   lastUpdatedDate: new Date('December 6, 2024'),
-  associatedAreaCodes: [],
   hasInequalities: true,
   unitLabel: '',
-  usedInPoc: true,
 };
 
 const mockHandleClick = jest.fn();
+
+const mockSetIsLoading = jest.fn();
+const mockLoaderContext: LoaderContext = {
+  getIsLoading: jest.fn(),
+  setIsLoading: mockSetIsLoading,
+};
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoadingState: () => mockLoaderContext,
+  };
+});
+
+const mockGetSearchState = jest.fn();
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: mockGetSearchState,
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
+  };
+});
 
 const initialSearchState: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'test',
@@ -62,6 +81,7 @@ const initialSearchState: SearchStateParams = {
 
 beforeEach(() => {
   user = userEvent.setup();
+  mockGetSearchState.mockReturnValue(initialSearchState);
 });
 
 describe('content', () => {
@@ -69,8 +89,8 @@ describe('content', () => {
     render(
       <SearchResult
         result={MOCK_DATA[0]}
-        searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
       />
     );
 
@@ -81,8 +101,8 @@ describe('content', () => {
     render(
       <SearchResult
         result={MOCK_DATA[0]}
-        searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
       />
     );
 
@@ -94,8 +114,8 @@ describe('content', () => {
     render(
       <SearchResult
         result={MOCK_DATA[0]}
-        searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
       />
     );
 
@@ -113,8 +133,8 @@ describe('content', () => {
     render(
       <SearchResult
         result={MOCK_DATA[0]}
-        searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
         currentDate={currentDate}
       />
     );
@@ -129,8 +149,8 @@ describe('content', () => {
     render(
       <SearchResult
         result={MOCK_DATA[0]}
-        searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
         currentDate={currentDate}
       />
     );
@@ -138,13 +158,39 @@ describe('content', () => {
     expect(screen.queryByText('Updated in last month')).not.toBeInTheDocument();
   });
 
+  describe('trend tag tests', () => {
+    it('should display trend tags if showTrends is passed in as props', () => {
+      render(
+        <SearchResult
+          result={MOCK_DATA[0]}
+          handleClick={mockHandleClick}
+          showTrends={true}
+        />
+      );
+      expect(
+        screen.queryByText('Increasing and getting worse')
+      ).toBeInTheDocument();
+    });
+
+    it('should display No trend data available when trend is undefined for a given indicator', () => {
+      render(
+        <SearchResult
+          result={MOCK_DATA[1]}
+          handleClick={mockHandleClick}
+          showTrends={true}
+        />
+      );
+      expect(screen.queryByText('No trend data available')).toBeInTheDocument();
+    });
+  });
+
   it('should display tag if inequalities data present for indicator', () => {
     const currentDate = new Date(MOCK_DATA[0].lastUpdatedDate);
     render(
       <SearchResult
         result={MOCK_DATA[1]}
-        searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
         currentDate={currentDate}
       />
     );
@@ -156,8 +202,8 @@ describe('content', () => {
     render(
       <SearchResult
         result={MOCK_DATA[0]}
-        searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
         currentDate={currentDate}
       />
     );
@@ -173,8 +219,8 @@ describe('content', () => {
     render(
       <SearchResult
         result={MOCK_DATA_LASTUPDATED_INEQUALITIES}
-        searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
         currentDate={currentDate}
       />
     );
@@ -196,8 +242,8 @@ describe('content', () => {
     render(
       <SearchResult
         result={MOCK_DATA[0]}
-        searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
       />
     );
 
@@ -212,8 +258,8 @@ describe('content', () => {
     render(
       <SearchResult
         result={MOCK_DATA[1]}
-        searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
       />
     );
 
@@ -229,8 +275,8 @@ describe('Indicator Checkbox', () => {
       <SearchResult
         result={MOCK_DATA[0]}
         indicatorSelected={true}
-        searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
       />
     );
 
@@ -242,8 +288,8 @@ describe('Indicator Checkbox', () => {
       <SearchResult
         result={MOCK_DATA[0]}
         indicatorSelected={false}
-        searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
       />
     );
 
@@ -255,8 +301,8 @@ describe('Indicator Checkbox', () => {
       <SearchResult
         result={MOCK_DATA[0]}
         indicatorSelected={false}
-        searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
       />
     );
 
@@ -270,8 +316,8 @@ describe('Indicator Checkbox', () => {
       <SearchResult
         result={MOCK_DATA[0]}
         indicatorSelected={true}
-        searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
       />
     );
 
@@ -285,12 +331,27 @@ describe('Indicator Checkbox', () => {
     render(
       <SearchResult
         result={MOCK_DATA[0]}
-        searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
       />
     );
 
     expect(screen.getByRole('link')).toHaveAttribute('href', expectedPath);
+  });
+
+  it('should call setIsLoading with true when clicking on the direct link to the indicator chart', async () => {
+    render(
+      <SearchResult
+        result={MOCK_DATA[0]}
+        showTrends={false}
+        handleClick={mockHandleClick}
+      />
+    );
+
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('link'));
+
+    expect(mockSetIsLoading).toHaveBeenCalledWith(true);
   });
 
   it('should populate the area selected parameter with the code for england if no area is selected', () => {
@@ -300,11 +361,13 @@ describe('Indicator Checkbox', () => {
     };
     searchState[SearchParams.AreasSelected] = undefined;
 
+    mockGetSearchState.mockReturnValue(searchState);
+
     render(
       <SearchResult
         result={MOCK_DATA[0]}
-        searchState={searchState}
         handleClick={mockHandleClick}
+        showTrends={false}
       />
     );
 
@@ -315,8 +378,8 @@ describe('Indicator Checkbox', () => {
     const container = render(
       <SearchResult
         result={MOCK_DATA[0]}
-        searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
       />
     );
 

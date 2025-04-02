@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Security.Cryptography.X509Certificates;
 using DataCreator.PholioDatabase;
 
 namespace DataCreator
@@ -58,7 +59,7 @@ namespace DataCreator
             var simpleAreasWeWant = cleanedAreas.Select(area => new SimpleAreaWithChildren
             {
                 AreaCode = area.AreaCode.Trim(),
-                AreaName = area.AreaName.Trim(),
+                AreaName = area.AreaName.Trim().Replace("Of", "of").Replace("And The","and the"),
                 Children = string.Join('|', area.ChildAreas.Select(c => c.AreaCode.Trim())),
                 Level = area.Level,
                 HierarchyType = area.HierarchyType,
@@ -194,6 +195,7 @@ namespace DataCreator
             foreach (var healthMeasure in healthMeasures.Where(hm => hm.Category != "All"))
             {
                 healthMeasure.CategoryType = CleanCategoryTypeName(healthMeasure.CategoryType);
+                healthMeasure.Category=healthMeasure.Category.Replace(" (IMD2015)", string.Empty).Replace(" (IMD2019)", string.Empty);
                 if (categoryData.FirstOrDefault(cd =>
                     cd.CategoryName.Equals(healthMeasure.Category, StringComparison.CurrentCultureIgnoreCase) &&
                     cd.CategoryTypeName.Equals(healthMeasure.CategoryType, StringComparison.CurrentCultureIgnoreCase)) == null)
@@ -209,6 +211,7 @@ namespace DataCreator
 
             DataFileWriter.WriteCategoryCsvData("categories", categoryData);
         }
+
 
         private static string CleanCategoryTypeName(string originalName)
         {

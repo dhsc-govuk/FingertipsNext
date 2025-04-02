@@ -2,7 +2,12 @@
  * @jest-environment node
  */
 
-import { IndicatorsApi } from '@/generated-sources/ft-api-client';
+import {
+  BenchmarkComparisonMethod,
+  GetHealthDataForAnIndicatorInequalitiesEnum,
+  IndicatorPolarity,
+  IndicatorsApi,
+} from '@/generated-sources/ft-api-client';
 import { mockDeep } from 'jest-mock-extended';
 import OneIndicatorOneAreaView from '.';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
@@ -65,7 +70,10 @@ describe('OneIndicatorOneAreaView', () => {
         {
           areaCodes: expectedAreaCodes,
           indicatorId: 1,
-          inequalities: ['sex'],
+          inequalities: [
+            GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
+            GetHealthDataForAnIndicatorInequalitiesEnum.Deprivation,
+          ],
         },
         API_CACHE_CONFIG
       );
@@ -94,13 +102,18 @@ describe('OneIndicatorOneAreaView', () => {
       [SearchParams.IndicatorsSelected]: ['1'],
       [SearchParams.AreasSelected]: ['A001'],
     };
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({
+    const mockIndicator = {
+      polarity: IndicatorPolarity.NoJudgement,
+      benchmarkComparisonMethod:
+        BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
       areaHealthData: [mockHealthData['108'][1]],
-    });
+    };
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+      mockIndicator
+    );
 
     const page = await OneIndicatorOneAreaView({ searchState: searchState });
-
-    expect(page.props.healthIndicatorData).toEqual([mockHealthData['108'][1]]);
+    expect(page.props.indicatorData).toEqual(mockIndicator);
     expect(page.props.searchState).toEqual(searchState);
   });
 });

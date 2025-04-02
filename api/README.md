@@ -22,7 +22,14 @@ It can also be run directly in Visual Studio during development.
 
 ## Testing
 
-The project included unit tests which must be run and extended as needed.The project also includes .http files which define API requests and validation which should be run as integration tests with the DB. These can be run using the VSCode "REST Client" plugin
+This project includes unit tests which must be run and extended as needed. They are automatically executed in push and pull_request pipelines, any failures will cause the job to fail.
 
-The .http files include embedded scripts to validate the responses.These require the use of paid for IntelliJ subscriptions.
+The project also includes .http files which define API requests and validation which should be run as integration tests with the DB. These can be run using the VSCode "REST Client" plugin.
 
+The .http files include embedded scripts to validate the responses. To execute these tests locally, first spin up the docker environment and then, from the api directory do:
+
+`npx httpyac send ./**/*.http --all --json --output-failed short --output short > httpyacresults.json`
+
+This will execute the .http test files and build an output report file.
+
+Note that these tests are executed in the push and pull_request pipelines, once the docker services have been started, and before the e2e tests run.

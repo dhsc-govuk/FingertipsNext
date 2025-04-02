@@ -20,6 +20,7 @@ import type {
   Indicator,
   IndicatorSummary,
   IndicatorWithHealthDataForArea,
+  QuartileData,
 } from '../models/index';
 import {
     BadRequestFromJSON,
@@ -32,6 +33,8 @@ import {
     IndicatorSummaryToJSON,
     IndicatorWithHealthDataForAreaFromJSON,
     IndicatorWithHealthDataForAreaToJSON,
+    QuartileDataFromJSON,
+    QuartileDataToJSON,
 } from '../models/index';
 
 export interface FilterIndicatorsRequest {
@@ -41,12 +44,20 @@ export interface FilterIndicatorsRequest {
 export interface GetHealthDataForAnIndicatorRequest {
     indicatorId: number;
     areaCodes?: Array<string>;
+    areaType?: string;
     years?: Array<number>;
     inequalities?: Array<GetHealthDataForAnIndicatorInequalitiesEnum>;
 }
 
 export interface GetIndicatorRequest {
     indicatorId: number;
+}
+
+export interface IndicatorsQuartilesGetRequest {
+    areaCode: string;
+    ancestorCode: string;
+    indicatorIds?: Array<number>;
+    areaType?: string;
 }
 
 /**
@@ -77,6 +88,7 @@ export interface IndicatorsApiInterface {
      * @summary Get health data for an indicator
      * @param {number} indicatorId The unique identifier of the indicator
      * @param {Array<string>} [areaCodes] A list of area codes, up to 10 area codes can be requested
+     * @param {string} [areaType] The area type which the areas belong to
      * @param {Array<number>} [years] A list of years, up to 10 years can be requested
      * @param {Array<'age' | 'sex' | 'deprivation'>} [inequalities] Determines the kind of inequality data that should be returned if an option is specified
      * @param {*} [options] Override http request option.
@@ -106,6 +118,25 @@ export interface IndicatorsApiInterface {
      * Get indicator
      */
     getIndicator(requestParameters: GetIndicatorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Indicator>;
+
+    /**
+     * Get quartile information for indicators including  
+     * @summary Get quartile values for indicators
+     * @param {string} areaCode The area code of the area/ geography
+     * @param {string} ancestorCode The area code of an ancestor area
+     * @param {Array<number>} [indicatorIds] A list of indicator_ids, up to 10 can be requested
+     * @param {string} [areaType] The area type which the areas belong to
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof IndicatorsApiInterface
+     */
+    indicatorsQuartilesGetRaw(requestParameters: IndicatorsQuartilesGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<QuartileData>>>;
+
+    /**
+     * Get quartile information for indicators including  
+     * Get quartile values for indicators
+     */
+    indicatorsQuartilesGet(requestParameters: IndicatorsQuartilesGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<QuartileData>>;
 
 }
 
@@ -162,6 +193,10 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
 
         if (requestParameters['areaCodes'] != null) {
             queryParameters['area_codes'] = requestParameters['areaCodes'];
+        }
+
+        if (requestParameters['areaType'] != null) {
+            queryParameters['area_type'] = requestParameters['areaType'];
         }
 
         if (requestParameters['years'] != null) {
@@ -225,6 +260,56 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
      */
     async getIndicator(requestParameters: GetIndicatorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Indicator> {
         const response = await this.getIndicatorRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get quartile information for indicators including  
+     * Get quartile values for indicators
+     */
+    async indicatorsQuartilesGetRaw(requestParameters: IndicatorsQuartilesGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<QuartileData>>> {
+        if (requestParameters['areaCode'] == null) {
+            throw new runtime.RequiredError(
+                'areaCode',
+                'Required parameter "areaCode" was null or undefined when calling indicatorsQuartilesGet().'
+            );
+        }
+
+        if (requestParameters['ancestorCode'] == null) {
+            throw new runtime.RequiredError(
+                'ancestorCode',
+                'Required parameter "ancestorCode" was null or undefined when calling indicatorsQuartilesGet().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['indicatorIds'] != null) {
+            queryParameters['indicator_ids'] = requestParameters['indicatorIds'];
+        }
+
+        if (requestParameters['areaType'] != null) {
+            queryParameters['area_type'] = requestParameters['areaType'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/indicators/quartiles`.replace(`{${"area_code"}}`, encodeURIComponent(String(requestParameters['areaCode']))).replace(`{${"ancestor_code"}}`, encodeURIComponent(String(requestParameters['ancestorCode']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(QuartileDataFromJSON));
+    }
+
+    /**
+     * Get quartile information for indicators including  
+     * Get quartile values for indicators
+     */
+    async indicatorsQuartilesGet(requestParameters: IndicatorsQuartilesGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<QuartileData>> {
+        const response = await this.indicatorsQuartilesGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

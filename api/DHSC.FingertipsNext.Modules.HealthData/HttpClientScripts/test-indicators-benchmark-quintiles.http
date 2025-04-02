@@ -1,0 +1,186 @@
+### check GET health data with quintile comparison -- existing site doesn't expose this data to allow us to validate against -- this test fails intermitently becasue lots of data has 'zero count' making it indeterminate if a value is Lowest or Lower
+GET http://localhost:5144/indicators/383/data?area_codes=A84022&area_type=gps
+
+> {%
+    const expected = require ('./test-indicators-benchmark-quintiles-response.json');
+
+    client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body.length === expected.length, "Response length does not match");
+        // Disabling this validation for now as the response has indeterminate elements
+        // client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+
+### check quintile comparison for specific years -- existing site doesn't expose this data to allow us to validate against
+GET http://localhost:5144/indicators/383/data?area_codes=A84022&area_type=gps&years=2023&years=2022
+
+> {%
+    client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body.areaHealthData[0].healthData.length ==2, "HealthData doesn't contain two records");
+        client.assert(response.body.areaHealthData[0].healthData[0].year ==2022, "HealthData doesn't contain two records");
+        client.assert(response.body.areaHealthData[0].healthData[1].year ==2023, "HealthData doesn't contain two records");
+    });
+%}
+
+### check quintile comparison for multiple areas
+GET http://localhost:5144/indicators/383/data?area_codes=A84022&area_codes=K84031&area_type=gps&years=2023
+
+> {%
+    client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body.areaHealthData[0].areaCode =="A84022", "AreaCode not as expected");
+        client.assert(response.body.areaHealthData[1].areaCode =="K84031", "AreaCode not as expected");
+    });
+%}
+
+### check quintile comparison for counties - this makes sure get data for 4 areas - Quintile values have been validated against current site
+GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=E10000032&area_codes=E10000018&area_codes=E06000062&area_codes=E06000030&area_codes=E06000052&area_codes=E10000020&area_codes=E06000013&area_codes=E06000005&area_codes=E06000009&area_type=counties-and-unitary-authorities&years=2019
+
+> {%
+    client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body.areaHealthData.length == 10, "Have not received data for all areas");
+    });
+%}
+
+### check quintile comparison for districts - this makes sure get data for 3 areas - current site does not return data for this indicator for Districts!
+GET http://localhost:5144/indicators/94103/data?area_codes=E08000029&area_codes=E06000005&area_codes=E09000023&area_type=districts-and-unitary-authorities&years=2019
+
+> {%
+    client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body.areaHealthData.length == 3, "Have not received data for all areas");
+    });
+%}
+
+### check High is good TODO - POC data doesn't offer data to validate this
+
+### check No Judgement - current site doesn't 
+GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=A84022&area_type=gps&years=2023&years=2022&years=2021&years=2020
+
+> {%
+        const expectedResults = [ 
+            {areaName:"Coquet Medical Group", year:2020, outcome:"Similar"},
+            {areaName:"Coquet Medical Group", year:2021, outcome:"Lower"},
+            {areaName:"Coquet Medical Group", year:2022, outcome:"Highest"},
+            {areaName:"Coquet Medical Group", year:2023, outcome:"Highest"},
+            {areaName:"The Leys Health Centre", year:2020, outcome:"Similar"},
+            {areaName:"The Leys Health Centre", year:2021, outcome:"Lower"},
+            {areaName:"The Leys Health Centre", year:2022, outcome:"Similar"},
+            {areaName:"The Leys Health Centre", year:2023, outcome:"Higher"},
+            ];
+
+        expectedResults.forEach((expected) => {
+             client.assert(
+                response.body.areaHealthData.find(area => area.areaName === expected.areaName)
+                .healthData.find(dataPoint => dataPoint.year === expected.year)
+                .benchmarkComparison.outcome === expected.outcome
+            );
+        });    
+%}
+
+
+### check Low is good 
+GET http://localhost:5144/indicators/94103/data?area_codes=E10000014&area_codes=E08000029&area_codes=E06000005&area_codes=E09000023&area_type=counties-and-unitary-authorities&years=2019&years=2018&years=2017&years=2016
+
+> {%
+        const expectedResults = [ 
+            {areaName:"Darlington", year:2016, outcome:"Worse"},
+            {areaName:"Darlington", year:2019, outcome:"Worse"},
+            {areaName:"Hampshire", year:2016, outcome:"Best"},
+            {areaName:"Hampshire", year:2019, outcome:"Best"},
+            {areaName:"Lewisham", year:2016, outcome:"Better"},
+            {areaName:"Lewisham", year:2019, outcome:"Better"},
+            ];
+
+        expectedResults.forEach((expected) => {
+             client.assert(
+                response.body.areaHealthData.find(area => area.areaName === expected.areaName)
+                .healthData.find(dataPoint => dataPoint.year === expected.year)
+                .benchmarkComparison.outcome === expected.outcome
+            );
+        });
+%}
+
+
+### check quintile comparison for counties - Quintile values have been validated against current site - there are known differences
+GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=E10000032&area_codes=E10000018&area_codes=E06000062&area_codes=E06000030&area_codes=E06000050&area_type=counties-and-unitary-authorities&years=2019
+
+> {%
+    client.test("Expected health data returned with quintile comparison", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body.areaHealthData.length == 6, "Have not received data for all areas");
+
+        const expectedResults = [ 
+            {areaName:"Cheshire West and Chester", year:2019, outcome:"Middle"},
+            {areaName:"Leicestershire", year:2019, outcome:"Better"},
+            {areaName:"Richmond upon Thames", year:2019, outcome:"Best"},
+            {areaName:"Swindon", year:2019, outcome:"Better"},
+            {areaName:"West Northamptonshire", year:2019, outcome:"Better"},
+            {areaName:"West Sussex", year:2019, outcome:"Best"},
+            ];
+
+        expectedResults.forEach((expected) => {
+             client.assert(
+                response.body.areaHealthData.find(area => area.areaName === expected.areaName)
+                .healthData.find(dataPoint => dataPoint.year === expected.year)
+                .benchmarkComparison.outcome === expected.outcome,
+                `failed for ${expected.areaName}`
+            );
+        });
+    });
+%}
+### check quintile comparison for counties - Quintile values have been validated against current site - there are known differences
+GET http://localhost:5144/indicators/94103/data?area_codes=E06000052&area_codes=E10000020&area_codes=E06000013&area_codes=E06000005&area_codes=E08000001&area_codes=E06000009&area_type=counties-and-unitary-authorities&years=2019
+
+> {%
+    client.test("Expected health data returned with quintile comparison", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body.areaHealthData.length == 6, "Have not received data for all areas");
+
+        const expectedResults = [ 
+            {areaName:"Blackpool", year:2019, outcome:"Worst"},
+            {areaName:"Bolton", year:2019, outcome:"Worst"},
+            {areaName:"Cornwall", year:2019, outcome:"Middle"},
+            {areaName:"Darlington", year:2019, outcome:"Worse"},
+            {areaName:"Norfolk", year:2019, outcome:"Worse"},
+            {areaName:"North Lincolnshire", year:2019, outcome:"Worse"},
+            ];
+
+        expectedResults.forEach((expected) => {
+             client.assert(
+                response.body.areaHealthData.find(area => area.areaName === expected.areaName)
+                .healthData.find(dataPoint => dataPoint.year === expected.year)
+                .benchmarkComparison.outcome === expected.outcome
+            );
+        });
+    });
+%}
+### check quintile comparison is unchanged when including multiple years
+GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=E10000032&area_codes=E10000018&area_codes=E06000062&area_codes=E06000030&area_codes=E06000050&area_type=counties-and-unitary-authorities&years=2019&years=2016
+
+> {%
+    client.test("Expected health data returned with quintile comparison", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body.areaHealthData.length == 6, "Have not received data for all areas");
+
+        const expectedResults = [ 
+            {areaName:"Cheshire West and Chester", year:2019, outcome:"Middle"},
+            {areaName:"Leicestershire", year:2019, outcome:"Better"},
+            {areaName:"Richmond upon Thames", year:2019, outcome:"Best"},
+            {areaName:"Swindon", year:2019, outcome:"Better"},
+            {areaName:"West Northamptonshire", year:2019, outcome:"Better"},
+            {areaName:"West Sussex", year:2019, outcome:"Best"},
+            ];
+
+        expectedResults.forEach((expected) => {
+             client.assert(
+                response.body.areaHealthData.find(area => area.areaName === expected.areaName)
+                .healthData.find(dataPoint => dataPoint.year === expected.year)
+                .benchmarkComparison.outcome === expected.outcome
+            );
+        });
+    });
+%}

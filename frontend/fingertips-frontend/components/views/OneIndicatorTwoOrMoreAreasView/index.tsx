@@ -7,12 +7,15 @@ import {
   API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import {
   AreaTypeKeysForMapMeta,
-  getMapData,
-} from '@/lib/thematicMapUtils/getMapData';
-import { chunkArray, maxIndicatorAPIRequestSize } from '@/lib/ViewsHelpers';
+  getMapGeographyData,
+} from '@/components/organisms/ThematicMap/thematicMapHelpers';
+import {
+  chunkArray,
+  maxNumAreasThatCanBeRequestedAPI,
+} from '@/lib/ViewsHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 export default async function OneIndicatorTwoOrMoreAreasView({
@@ -40,29 +43,30 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   if (!areaCodesToRequest.includes(areaCodeForEngland)) {
     areaCodesToRequest.push(areaCodeForEngland);
   }
-  if (selectedGroupCode && selectedGroupCode != areaCodeForEngland) {
+  if (selectedGroupCode && selectedGroupCode !== areaCodeForEngland) {
     areaCodesToRequest.push(selectedGroupCode);
   }
 
   await connection();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
-  let healthIndicatorData: HealthDataForArea[] | undefined;
+  let indicatorData: IndicatorWithHealthDataForArea | undefined;
   try {
-    healthIndicatorData = (
-      await Promise.all(
-        chunkArray(areaCodesToRequest, maxIndicatorAPIRequestSize).map(
-          (requestAreas) =>
-            indicatorApi.getHealthDataForAnIndicator(
-              {
-                indicatorId: Number(indicatorSelected[0]),
-                areaCodes: [...requestAreas],
-              },
-              API_CACHE_CONFIG
-            )
-        )
+    const healthIndicatorDataChunks = await Promise.all(
+      chunkArray(areaCodesToRequest, maxNumAreasThatCanBeRequestedAPI).map(
+        (requestAreas) =>
+          indicatorApi.getHealthDataForAnIndicator(
+            {
+              indicatorId: Number(indicatorSelected[0]),
+              areaCodes: [...requestAreas],
+              areaType: selectedAreaType,
+            },
+            API_CACHE_CONFIG
+          )
       )
-    )
+    );
+    indicatorData = healthIndicatorDataChunks[0];
+    indicatorData.areaHealthData = healthIndicatorDataChunks
       .map((indicatorData) => indicatorData?.areaHealthData ?? [])
       .flat();
   } catch (error) {
@@ -72,17 +76,20 @@ export default async function OneIndicatorTwoOrMoreAreasView({
 
   const indicatorMetadata = selectedIndicatorsData?.[0];
 
-  const mapData =
+  const mapGeographyData =
     selectedGroupArea === ALL_AREAS_SELECTED && selectedAreaType
-      ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areasSelected)
+      ? getMapGeographyData(
+          selectedAreaType as AreaTypeKeysForMapMeta,
+          areasSelected
+        )
       : undefined;
 
   return (
     <OneIndicatorTwoOrMoreAreasViewPlots
-      healthIndicatorData={healthIndicatorData}
+      indicatorData={indicatorData}
       searchState={searchState}
       indicatorMetadata={indicatorMetadata}
-      mapData={mapData}
+      mapGeographyData={mapGeographyData}
     />
   );
 }
