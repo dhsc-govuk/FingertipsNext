@@ -46,7 +46,7 @@ const StyledH4Header = styled(H4)({
 });
 
 const StyledH4IndicatorHeader = styled(StyledH4Header)({
-  width: heatmapIndicatorTitleColumnWidth,
+  width: `${heatmapIndicatorTitleColumnWidth}px`,
 });
 
 interface HeatmapHeaderProps {
@@ -56,11 +56,17 @@ interface HeatmapHeaderProps {
 
 const StyledCellHeaderIndicatorTitle = styled(Table.CellHeader)({
   verticalAlign: 'bottom',
-  width: heatmapIndicatorTitleColumnWidth,
+  width: `${heatmapIndicatorTitleColumnWidth}px`,
 });
-const StyledCellHeader = styled(Table.CellHeader)({
+
+const StyledCellHeaderIndicatorInformation = styled(Table.CellHeader)({
   verticalAlign: 'bottom',
-  width: heatmapDataColumnWidth,
+  paddingRight: '0px',
+});
+
+const StyledCellHeaderArea = styled(Table.CellHeader)({
+  verticalAlign: 'bottom',
+  width: `${heatmapDataColumnWidth}px`,
   paddingRight: '0px',
 });
 
@@ -78,41 +84,41 @@ export const HeatmapHeader = ({
 
     case HeaderType.IndicatorInformation: {
       return (
-        <StyledCellHeader>
+        <StyledCellHeaderIndicatorInformation>
           <StyledH4Header>{content}</StyledH4Header>
-        </StyledCellHeader>
+        </StyledCellHeaderIndicatorInformation>
       );
     }
 
     case HeaderType.BenchmarkArea: {
       return (
-        <StyledCellHeader>
+        <StyledCellHeaderArea>
           <StyledDivRotate>
             <StyledH4BenchmarkHeader>
               Benchmark: {content}
             </StyledH4BenchmarkHeader>
           </StyledDivRotate>
-        </StyledCellHeader>
+        </StyledCellHeaderArea>
       );
     }
 
     case HeaderType.GroupArea: {
       return (
-        <StyledCellHeader>
+        <StyledCellHeaderArea>
           <StyledDivRotate>
             <StyledH4GroupAreaCodeHeader>{content}</StyledH4GroupAreaCodeHeader>
           </StyledDivRotate>
-        </StyledCellHeader>
+        </StyledCellHeaderArea>
       );
     }
 
     case HeaderType.Area:
       return (
-        <StyledCellHeader>
+        <StyledCellHeaderArea>
           <StyledDivRotate>
             <StyledH4AreaScaled>{content}</StyledH4AreaScaled>
           </StyledDivRotate>
-        </StyledCellHeader>
+        </StyledCellHeaderArea>
       );
   }
 };

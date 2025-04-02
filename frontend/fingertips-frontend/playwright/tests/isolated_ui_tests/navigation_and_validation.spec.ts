@@ -10,7 +10,7 @@ import {
 } from '../../testHelpers';
 import mockIndicators from '../../../assets/mockIndicatorData.json';
 import mockAreas from '../../../assets/mockAreaData.json';
-import { AreaDocument, IndicatorDocument } from '@/lib/search/searchTypes';
+import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
 import ChartPage from '@/playwright/page-objects/pages/chartPage';
 
 // tests in this file use mock service worker to mock the API response
@@ -18,24 +18,26 @@ import ChartPage from '@/playwright/page-objects/pages/chartPage';
 // see frontend/fingertips-frontend/assets/mockIndicatorData.json
 // and frontend/fingertips-frontend/assets/mockAreaData.json
 //@ts-expect-error don't care about type checking this json file
-const indicatorData = mockIndicators as IndicatorDocument[];
+const indicatorData = mockIndicators as RawIndicatorDocument[];
 const subjectSearchTerm = 'hospital';
 const indicatorMode = IndicatorMode.ONE_INDICATOR;
 const searchMode = SearchMode.ONLY_SUBJECT;
 let allIndicatorIDs: string[];
 let filteredIndicatorIds: string[];
 let allNHSRegionAreas: AreaDocument[];
-let typedIndicatorData: IndicatorDocument[];
+let typedIndicatorData: RawIndicatorDocument[];
 
 test.beforeAll(
   `get indicatorIDs from the mock data source for searchTerm: ${subjectSearchTerm} and get mock area data`,
   () => {
-    typedIndicatorData = indicatorData.map((indicator: IndicatorDocument) => {
-      return {
-        ...indicator,
-        lastUpdated: new Date(indicator.lastUpdatedDate),
-      };
-    });
+    typedIndicatorData = indicatorData.map(
+      (indicator: RawIndicatorDocument) => {
+        return {
+          ...indicator,
+          lastUpdated: new Date(indicator.lastUpdatedDate),
+        };
+      }
+    );
 
     allIndicatorIDs = getAllIndicatorIdsForSearchTerm(
       typedIndicatorData,
@@ -58,6 +60,8 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
     indicatorPage,
     axeBuilder,
   }) => {
+    test.setTimeout(90000); // TODO - split this test up and remove this extension
+
     await test.step('Navigate to search page', async () => {
       await homePage.navigateToHomePage();
       await homePage.checkOnHomePage();
@@ -100,17 +104,23 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
     });
 
     await test.step('Select "View background information" link, verify indicator page title and Return to charts page', async () => {
+      const indicator = typedIndicatorData.find(
+        (ind) => ind.indicatorID === filteredIndicatorIds[0]
+      );
+
+      if (!indicator) {
+        throw new Error(
+          `Indicator with ID ${filteredIndicatorIds[0]} not found`
+        );
+      }
+
       await resultsPage.clickViewBackgroundInformationLinkForIndicator(
-        filteredIndicatorIds[0],
-        typedIndicatorData
+        indicator
       );
 
       await indicatorPage.waitForURLToContain('indicator');
 
-      await indicatorPage.checkIndicatorNameTitle(
-        filteredIndicatorIds[0],
-        typedIndicatorData
-      );
+      await indicatorPage.checkIndicatorNameTitle(indicator);
 
       await indicatorPage.clickBackLink();
     });

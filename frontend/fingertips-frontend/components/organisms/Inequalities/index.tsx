@@ -16,6 +16,10 @@ import {
   InequalitiesTypes,
   mapToInequalitiesTableData,
   generateInequalitiesLineChartOptions,
+  valueSelectorForInequality,
+  sequenceSelectorForInequality,
+  filterHealthData,
+  healthDataFilterFunctionGeneratorForInequality,
 } from './inequalitiesHelpers';
 import { H4 } from 'govuk-react';
 import { TabContainer } from '@/components/layouts/tabContainer';
@@ -53,8 +57,35 @@ export function Inequalities({
 
   const stateManager = SearchStateManager.initialise(searchState);
 
+  let inequalityCategory = '';
+  if (type == InequalitiesTypes.Deprivation) {
+    // This value will ultimately come from the inequality type dropdown
+    // For now, we just use the first deprivation type available
+    const disaggregatedDeprivationData = filterHealthData(
+      healthIndicatorData.healthData,
+      (data) => !data.deprivation.isAggregate
+    );
+    const deprivationTypes = Object.keys(
+      Object.groupBy(
+        disaggregatedDeprivationData,
+        (data) => data.deprivation.type
+      )
+    );
+    inequalityCategory = deprivationTypes[0];
+  }
+
+  const filterFunctionGenerator =
+    healthDataFilterFunctionGeneratorForInequality[type];
+  const healthIndicatorDataWithoutOtherInequalities = {
+    ...healthIndicatorData,
+    healthData: filterHealthData(
+      healthIndicatorData.healthData,
+      filterFunctionGenerator(inequalityCategory)
+    ),
+  };
+
   const yearlyHealthdata = groupHealthDataByYear(
-    healthIndicatorData.healthData
+    healthIndicatorDataWithoutOtherInequalities.healthData
   );
 
   const { [SearchParams.AreasSelected]: areasSelected } =
@@ -66,16 +97,23 @@ export function Inequalities({
   ] = useState<boolean>(false);
 
   const yearlyHealthDataGroupedByInequalities =
-    getYearDataGroupedByInequalities(yearlyHealthdata);
+    getYearDataGroupedByInequalities(
+      yearlyHealthdata,
+      valueSelectorForInequality[type]
+    );
 
+  const sequenceSelector = sequenceSelectorForInequality[type];
   const dynamicKeys = getDynamicKeys(
     yearlyHealthDataGroupedByInequalities,
-    type
+    sequenceSelector
   );
 
   const lineChartData: InequalitiesChartData = {
     areaName: healthIndicatorData.areaName,
-    rowData: mapToInequalitiesTableData(yearlyHealthDataGroupedByInequalities),
+    rowData: mapToInequalitiesTableData(
+      yearlyHealthDataGroupedByInequalities,
+      sequenceSelector
+    ),
   };
 
   const latestDataIndex = lineChartData.rowData.length - 1;
@@ -115,6 +153,7 @@ export function Inequalities({
                 yAxisLabel="Value"
                 benchmarkComparisonMethod={benchmarkComparisonMethod}
                 polarity={polarity}
+                type={type}
               />
             ),
           },
