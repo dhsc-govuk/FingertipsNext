@@ -1,6 +1,5 @@
 import BasePage from '../basePage';
-import { getIndicatorNameById } from '../../testHelpers';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { RawIndicatorDocument } from '@/lib/search/searchTypes';
 import { expect } from '../pageFactory';
 
 export default class IndicatorPage extends BasePage {
@@ -11,15 +10,15 @@ export default class IndicatorPage extends BasePage {
     await this.navigateTo(`/indicator/${indicatorId}`);
   }
 
-  async checkIndicatorNameTitle(
-    indicatorId: string,
-    typedIndicatorData: IndicatorDocument[]
-  ) {
-    const indicatorName = getIndicatorNameById(indicatorId, typedIndicatorData);
+  async checkIndicatorNameTitle(indicator: RawIndicatorDocument) {
+    const indicatorName = indicator?.indicatorName;
 
     if (!indicatorName) {
-      throw new Error(`Indicator name not found for ID: ${indicatorId}`);
+      throw new Error(
+        `Indicator name not found for ID: ${indicator.indicatorID}`
+      );
     }
+
     await expect(this.page.getByTestId(this.indicatorTitle)).toBeVisible();
     await expect(this.page.getByTestId(this.indicatorTitle)).toHaveText(
       indicatorName
