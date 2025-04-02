@@ -5,7 +5,9 @@ import { Heatmap, HeatmapIndicatorData } from '@/components/organisms/Heatmap';
 import {
   HealthDataForArea,
   Indicator,
+  IndicatorPolarity,
   IndicatorWithHealthDataForArea,
+  QuartileData,
 } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
@@ -13,16 +15,10 @@ import {
   SpineChartTableRowProps,
   SpineChartTable,
 } from '@/components/organisms/SpineChartTable';
-import {
-  HealthDataForArea,
-  Indicator,
-  IndicatorPolarity,
-  QuartileData,
-} from '@/generated-sources/ft-api-client';
-import { extractAndSortHealthData } from '@/lib/chartHelpers/extractAndSortHealthData';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SpineChartProps } from '@/components/organisms/SpineChart';
+import { extractingCombinedHealthData } from '@/lib/chartHelpers/extractingCombinedHealthData';
 
 export function mapToSpineChartTableIndicator(
   indicatorMetadata: IndicatorDocument | undefined
@@ -125,26 +121,55 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     throw new Error('Invalid parameters provided to view plot');
   }
 
-  const {
-    orderedHealthData,
-    orderedGroupData,
-    orderedEnglandData,
-    orderedMetadata,
-    orderedQuartileData,
-  } = extractAndSortHealthData(
-    indicatorData,
-    indicatorMetadata,
-    areasSelected,
-    selectedGroupCode
-  );
+  const buildHeatmapIndicatorData = (
+    indicatorData: IndicatorWithHealthDataForArea[],
+    indicatorMetadata: IndicatorDocument[]
+  ): HeatmapIndicatorData[] => {
+    return indicatorMetadata.map((metadata, index): HeatmapIndicatorData => {
+      return {
+        indicatorId: metadata.indicatorID,
+        indicatorName: metadata.indicatorName,
+        healthDataForAreas: indicatorData[index].areaHealthData
+          ? indicatorData[index].areaHealthData
+          : [],
+        unitLabel: metadata.unitLabel,
+      };
+    });
+  };
 
-  const spineTableData = mapToSpineChartTableProps(
-    orderedHealthData,
-    orderedGroupData,
-    orderedEnglandData,
-    orderedMetadata,
-    orderedQuartileData
-  );
+  const groupAreaCode =
+    selectedGroupCode && selectedGroupCode !== areaCodeForEngland
+      ? selectedGroupCode
+      : undefined;
+
+  const buildSpineTableRowData = (
+    indicatorData: IndicatorWithHealthDataForArea[],
+    indicatorMetadata: IndicatorDocument[],
+    areasSelected: string[],
+    selectedGroupCode: string | undefined
+  ) => {
+    const {
+      orderedHealthData,
+      orderedGroupData,
+      orderedEnglandData,
+      orderedMetadata,
+      orderedQuartileData,
+    } = extractingCombinedHealthData(
+      indicatorData,
+      indicatorMetadata,
+      benchmarkStatistics,
+      areasSelected,
+      selectedGroupCode
+    );
+
+    return mapToSpineChartTableProps(
+      orderedHealthData,
+      orderedGroupData,
+      orderedEnglandData,
+      orderedMetadata,
+      orderedQuartileData
+    ).rowData;
+  };
 
   return (
     <section data-testid="twoOrMoreIndicatorsAreasViewPlot-component">

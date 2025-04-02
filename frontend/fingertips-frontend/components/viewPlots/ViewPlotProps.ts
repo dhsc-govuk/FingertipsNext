@@ -14,6 +14,6 @@ export type OneIndicatorViewPlotProps = {
 export type TwoOrMoreIndicatorsViewPlotProps = {
   searchState: SearchStateParams;
   indicatorData: IndicatorWithHealthDataForArea[];
-  indicatorMetadata: (IndicatorDocument | undefined)[];
+  indicatorMetadata: IndicatorDocument[];
   benchmarkStatistics: QuartileData[];
 };

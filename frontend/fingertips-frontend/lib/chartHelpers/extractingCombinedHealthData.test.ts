@@ -1,4 +1,4 @@
-import { extractingCombinedHealthData  } from './extractingCombinedHealthData';
+import { extractingCombinedHealthData } from './extractingCombinedHealthData';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import {
   HealthDataForArea,
@@ -102,7 +102,7 @@ describe('extractingCombinedHealthData ', () => {
     const indicatorData: IndicatorWithHealthDataForArea = {};
 
     expect(() => {
-      extractingCombinedHealthData (
+      extractingCombinedHealthData(
         [indicatorData],
         [],
         [],
@@ -119,7 +119,7 @@ describe('extractingCombinedHealthData ', () => {
     };
 
     expect(() => {
-      extractingCombinedHealthData (
+      extractingCombinedHealthData(
         [indicatorData],
         [],
         [],
@@ -136,7 +136,7 @@ describe('extractingCombinedHealthData ', () => {
     };
 
     expect(() => {
-      extractingCombinedHealthData (
+      extractingCombinedHealthData(
         [indicatorData],
         [],
         [],
@@ -170,7 +170,7 @@ describe('extractingCombinedHealthData ', () => {
     };
 
     expect(() => {
-      extractingCombinedHealthData (
+      extractingCombinedHealthData(
         [indicatorData],
         [],
         [],

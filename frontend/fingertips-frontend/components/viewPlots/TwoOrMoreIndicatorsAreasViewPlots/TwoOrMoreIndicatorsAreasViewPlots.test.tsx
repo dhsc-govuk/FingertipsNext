@@ -197,6 +197,7 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
         searchState={mockSearchParams}
         indicatorData={mockIndicatorData}
         indicatorMetadata={mockMetaData}
+        benchmarkStatistics={mockBenchmarkStatistics}
       />
     );
     expect(screen.getByTestId('heatmapChart-component')).toBeInTheDocument();
