@@ -163,8 +163,6 @@ const formatValue = (value?: number): string => {
 };
 
 const generatedDataBackgroundColor = (dataPoint: DataPoint): string => {
-  console.log(dataPoint);
-
   if (
     !dataPoint.value ||
     !dataPoint.benchmark ||
@@ -174,14 +172,12 @@ const generatedDataBackgroundColor = (dataPoint: DataPoint): string => {
     return GovukColours.White;
   }
 
-  console.log('HERE');
   const colour = getBenchmarkColour(
     dataPoint.benchmark.method,
     dataPoint.benchmark.outcome,
     dataPoint.benchmark.polarity
   );
 
-  console.log(`COL:${colour}`);
   return colour ? colour : GovukColours.White;
 };
 
