@@ -66,16 +66,21 @@ export function InequalitiesBarChart({
     useState<boolean>(false);
   const [options, setOptions] = useState<Highcharts.Options>();
 
-  // for sex inequality we always want Male, Female which is reverse alphabetical order
+  // For sex inequality we always want Male, Female which is reverse alphabetical order
   // pending a better solution where an order key is supplied by API
   if (type === InequalitiesTypes.Sex) barChartFields.reverse();
+
+  // For the sex inequality we want to make it clear that we're comparing to all
+  // people in the area.
+  let comparedTo = barChartData.areaName;
+  if (type === InequalitiesTypes.Sex) {
+    comparedTo = `${barChartData.areaName} persons`
+  }
 
   const yAxisMaxValue = getMaxValue([
     ...barChartFields.map((field) => inequalities[field]?.value),
     benchmarkValue,
   ]);
-
-  const comparedTo = `${barChartData.areaName} persons`;
 
   const seriesData: Highcharts.SeriesOptionsType[] = [
     {
