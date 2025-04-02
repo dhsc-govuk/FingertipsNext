@@ -72,10 +72,8 @@ const MOCK_DATA: IndicatorDocument[] = [
     latestDataPeriod: '2023',
     dataSource: 'NHS website',
     lastUpdatedDate: new Date('December 6, 2024'),
-    associatedAreaCodes: [],
     unitLabel: '',
     hasInequalities: false,
-    usedInPoc: true,
   },
   {
     indicatorID: '2',
@@ -86,10 +84,8 @@ const MOCK_DATA: IndicatorDocument[] = [
     latestDataPeriod: '2022',
     dataSource: 'Student article',
     lastUpdatedDate: new Date('November 5, 2023'),
-    associatedAreaCodes: [],
     unitLabel: '',
     hasInequalities: true,
-    usedInPoc: true,
   },
 ];
 const searchedIndicator = 'test';
@@ -106,6 +102,7 @@ describe('Search Results Suite', () => {
   it('should render elements', () => {
     render(
       <SearchResults
+        isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={initialState}
         searchResults={[]}
         searchState={state}
@@ -122,6 +119,7 @@ describe('Search Results Suite', () => {
   it('should render the backLink', () => {
     render(
       <SearchResults
+        isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={initialState}
         searchResults={[]}
         searchState={state}
@@ -140,6 +138,7 @@ describe('Search Results Suite', () => {
   it('should call setIsLoading when the back link is clicked', async () => {
     render(
       <SearchResults
+        isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={initialState}
         searchResults={[]}
         searchState={state}
@@ -155,6 +154,7 @@ describe('Search Results Suite', () => {
   it('should render the IndicatorSearchForm', () => {
     render(
       <SearchResults
+        isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={initialState}
         searchResults={[]}
         searchState={state}
@@ -167,6 +167,7 @@ describe('Search Results Suite', () => {
   it('should render the AreaFilter', () => {
     render(
       <SearchResults
+        isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={initialState}
         searchResults={[]}
         searchState={state}
@@ -179,6 +180,7 @@ describe('Search Results Suite', () => {
   it('should render the IndicatorSelectionForm', () => {
     render(
       <SearchResults
+        isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={initialState}
         searchResults={[]}
         searchState={state}
@@ -198,6 +200,7 @@ describe('Search Results Suite', () => {
 
     render(
       <SearchResults
+        isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={errorState}
         searchResults={MOCK_DATA}
         searchState={state}
@@ -223,6 +226,7 @@ describe('Search Results Suite', () => {
 
     render(
       <SearchResults
+        isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={errorState}
         searchResults={MOCK_DATA}
         searchState={state}

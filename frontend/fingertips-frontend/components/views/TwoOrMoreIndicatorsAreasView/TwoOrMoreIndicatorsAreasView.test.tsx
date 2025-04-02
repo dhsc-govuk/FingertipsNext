@@ -2,95 +2,156 @@
  * @jest-environment node
  */
 
-import { IndicatorsApi } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  IndicatorsApi,
+} from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { mockDeep } from 'jest-mock-extended';
 import TwoOrMoreIndicatorsAreasView from '.';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
-import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
-import { IIndicatorSearchService } from '@/lib/search/searchTypes';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 
-const mockIndicatorSearchService = mockDeep<IIndicatorSearchService>();
-SearchServiceFactory.getIndicatorSearchService = () =>
-  mockIndicatorSearchService;
+const mockAreaCode = 'A001';
+const mockGroupCode = 'G001';
+
+const mockAreaData: HealthDataForArea = {
+  areaCode: mockAreaCode,
+  areaName: 'area',
+  healthData: [],
+};
+
+const mockGroupData: HealthDataForArea = {
+  areaCode: mockGroupCode,
+  areaName: 'group',
+  healthData: [],
+};
+
+const mockEnglandData: HealthDataForArea = {
+  areaCode: areaCodeForEngland,
+  areaName: 'england',
+  healthData: [],
+};
+
+const mockIndicator: IndicatorWithHealthDataForArea = {
+  areaHealthData: [mockAreaData, mockGroupData, mockEnglandData],
+};
+
+const mockIndicatorDocument = (indicatorId: string): IndicatorDocument => {
+  return {
+    indicatorID: indicatorId,
+    indicatorName: 'mock indicator',
+    indicatorDefinition: 'mock description',
+    dataSource: '1',
+    earliestDataPeriod: '1',
+    latestDataPeriod: '1',
+    lastUpdatedDate: new Date(),
+    hasInequalities: false,
+    unitLabel: '1',
+  };
+};
+
+const fullSearchParams: SearchStateParams = {
+  [SearchParams.IndicatorsSelected]: ['1', '2'],
+  [SearchParams.AreasSelected]: ['A001'],
+  [SearchParams.GroupSelected]: 'G001',
+};
+
+const fullSelectedIndicatorsData: IndicatorDocument[] = [
+  mockIndicatorDocument('id 1'),
+  mockIndicatorDocument('id 2'),
+];
 
 describe('TwoOrMoreIndicatorsAreasView', () => {
-  afterEach(() => {
-    jest.resetAllMocks();
+  beforeEach(() => {
+    mockIndicatorsApi.getHealthDataForAnIndicator
+      .mockResolvedValueOnce(mockIndicator)
+      .mockResolvedValueOnce(mockIndicator);
   });
-  it.each([
-    [
-      ['1', '2'],
-      ['A001', 'A002', 'A003'],
-    ],
-    [['1'], ['A001']],
-  ])(
-    'should return an error if given invalid parameters',
-    async (testIndicators, testAreas) => {
-      const searchState: SearchStateParams = {
-        [SearchParams.IndicatorsSelected]: testIndicators,
-        [SearchParams.AreasSelected]: testAreas,
-      };
 
-      await expect(async () => {
-        await TwoOrMoreIndicatorsAreasView({ searchState: searchState });
-      }).rejects.toThrow('Invalid parameters provided to view');
-    }
-  );
+  it('should call TwoOrMoreIndicatorsAreasViewPlots with the correct props', async () => {
+    const page = await TwoOrMoreIndicatorsAreasView({
+      searchState: fullSearchParams,
+      selectedIndicatorsData: fullSelectedIndicatorsData,
+    });
 
-  it('should call get indicator endpoint and pass indicator metadata', async () => {
-    const indicatorIds = ['123', '321'];
+    expect(page.props.searchState).toEqual(fullSearchParams);
+    expect(page.props.indicatorData).toEqual([mockIndicator, mockIndicator]);
+    expect(page.props.indicatorMetadata).toEqual(fullSelectedIndicatorsData);
+  });
 
-    const searchParams: SearchStateParams = {
-      [SearchParams.SearchedIndicator]: 'testing',
-      [SearchParams.IndicatorsSelected]: indicatorIds,
-      [SearchParams.AreasSelected]: ['E06000047'],
+  it('should throw an error when search state contains no selected indicators', async () => {
+    const searchState: SearchStateParams = {
+      ...fullSearchParams,
+      [SearchParams.IndicatorsSelected]: [],
     };
 
-    const mockResponses = [
-      {
-        indicatorID: indicatorIds[0],
-        indicatorName: 'pancakes eaten',
-        indicatorDefinition: 'number of pancakes consumed',
-        dataSource: 'BJSS Leeds',
-        earliestDataPeriod: '2025',
-        latestDataPeriod: '2025',
-        lastUpdatedDate: new Date('March 4, 2025'),
-        associatedAreaCodes: ['E06000047'],
-        unitLabel: 'pancakes',
-        hasInequalities: true,
-        usedInPoc: false,
-      },
-      {
-        indicatorID: indicatorIds[1],
-        indicatorName: 'pizzas eaten',
-        indicatorDefinition: 'number of pizzas consumed',
-        dataSource: 'BJSS Leeds',
-        earliestDataPeriod: '2023',
-        latestDataPeriod: '2023',
-        lastUpdatedDate: new Date('March 4, 2023'),
-        associatedAreaCodes: ['E06000047'],
-        unitLabel: 'pizzas',
-        hasInequalities: true,
-        usedInPoc: false,
-      },
-    ];
+    await expect(async () => {
+      await TwoOrMoreIndicatorsAreasView({
+        searchState: searchState,
+        selectedIndicatorsData: fullSelectedIndicatorsData,
+      });
+    }).rejects.toThrow('indicators');
+  });
 
-    mockIndicatorSearchService.getIndicator
-      .mockResolvedValueOnce(mockResponses[0])
-      .mockResolvedValueOnce(mockResponses[1]);
+  it('should throw an error when search state contains fewer than 2 selected indicators', async () => {
+    const searchState: SearchStateParams = {
+      ...fullSearchParams,
+      [SearchParams.IndicatorsSelected]: ['1'],
+    };
 
-    const _ = await TwoOrMoreIndicatorsAreasView({
-      searchState: searchParams,
-    });
+    await expect(async () => {
+      await TwoOrMoreIndicatorsAreasView({
+        searchState: searchState,
+        selectedIndicatorsData: fullSelectedIndicatorsData,
+      });
+    }).rejects.toThrow('indicators');
+  });
 
-    indicatorIds.forEach((indicator) => {
-      expect(mockIndicatorSearchService.getIndicator).toHaveBeenCalledWith(
-        indicator
-      );
-    });
+  it('should throw an error when search state contains no selected areas', async () => {
+    const searchState: SearchStateParams = {
+      ...fullSearchParams,
+      [SearchParams.AreasSelected]: [],
+    };
+
+    await expect(async () => {
+      await TwoOrMoreIndicatorsAreasView({
+        searchState: searchState,
+        selectedIndicatorsData: fullSelectedIndicatorsData,
+      });
+    }).rejects.toThrow('areas');
+  });
+
+  it('should throw an error when indicator metadata is empty', async () => {
+    const selectedIndicatorsData: IndicatorDocument[] = [];
+
+    await expect(async () => {
+      await TwoOrMoreIndicatorsAreasView({
+        searchState: fullSearchParams,
+        selectedIndicatorsData: selectedIndicatorsData,
+      });
+    }).rejects.toThrow('indicator metadata');
+  });
+
+  it('should throw an error when indicator metadata mismatches selected indicators', async () => {
+    const selectedIndicatorsData: IndicatorDocument[] = [];
+    fullSearchParams[SearchParams.IndicatorsSelected]?.forEach(
+      (indicatorId) => {
+        selectedIndicatorsData.push(mockIndicatorDocument(indicatorId));
+      }
+    );
+    selectedIndicatorsData.push(mockIndicatorDocument('99999'));
+
+    await expect(async () => {
+      await TwoOrMoreIndicatorsAreasView({
+        searchState: fullSearchParams,
+        selectedIndicatorsData: selectedIndicatorsData,
+      });
+    }).rejects.toThrow('indicator metadata');
   });
 });

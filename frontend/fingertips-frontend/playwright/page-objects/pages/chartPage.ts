@@ -74,6 +74,10 @@ export default class ChartPage extends AreaFilter {
       indicatorMode,
       areaMode
     );
+    // click the hide filters pane before asserting visibility and taking screenshots
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByTestId('area-filter-pane-hidefilters')
+    );
     // Check that components expected to be visible are displayed
     for (const visibleComponent of visibleComponents) {
       console.log(
@@ -93,6 +97,14 @@ export default class ChartPage extends AreaFilter {
           this.page.getByTestId(
             `confidence-interval-checkbox-${visibleComponent.componentLocator.replace('-component', '')}`
           )
+        );
+      }
+      // if its one of the chart components that has a details expander then click it
+      if (visibleComponent.componentProps.hasDetailsExpander) {
+        await this.clickAndAwaitLoadingComplete(
+          this.page
+            .getByTestId('populationPyramidWithTable-component')
+            .getByText('Show population data')
         );
       }
       await expect(
