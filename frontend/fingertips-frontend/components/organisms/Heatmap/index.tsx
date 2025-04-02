@@ -55,7 +55,7 @@ export function Heatmap({
     <>
       <BenchmarkLegend />
       <StyledDivTableContainer>
-        <StyledTable data-testid="heatmapChartChart-component">
+        <StyledTable data-testid="heatmapChart-component">
           <Table.Row>
             {headers.map((header) => {
               return (
@@ -76,11 +76,6 @@ export function Heatmap({
                       key={cell.key}
                       cellType={cell.type}
                       content={cell.content}
-                      textColour={
-                        cell.backgroundColour
-                          ? getTextColour(cell.backgroundColour)
-                          : GovukColours.Black
-                      }
                       backgroundColour={cell.backgroundColour}
                     />
                   );
