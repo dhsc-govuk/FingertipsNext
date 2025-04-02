@@ -65,6 +65,31 @@ export function mapToSpineChartTableProps(
   return { rowData: tableData };
 }
 
+const extractIndicatorInformation = (
+  indicatorData: IndicatorWithHealthDataForArea,
+  metadata?: IndicatorDocument
+) => {
+  const indicatorId = (): string => {
+    if (metadata) {
+      return metadata.indicatorID;
+    }
+
+    return indicatorData.indicatorId !== undefined
+      ? indicatorData.indicatorId?.toString()
+      : 'undefined indicator id';
+  };
+
+  const indicatorName = (): string => {
+    if (metadata) {
+      return metadata.indicatorName;
+    }
+
+    return indicatorData.name || 'undefined indicator name';
+  };
+
+  return { indicatorId: indicatorId(), indicatorName: indicatorName() };
+};
+
 export function TwoOrMoreIndicatorsAreasViewPlot({
   searchState,
   indicatorData,
@@ -89,19 +114,10 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
         return metadata.indicatorID === indicatorData.indicatorId?.toString();
       });
 
-      // TODO BAD USE OF TERNERY
-      const indicatorId: string = metadata?.indicatorID
-        ? metadata?.indicatorID
-        : indicatorData.indicatorId !== undefined
-          ? indicatorData.indicatorId.toString()
-          : 'undefined indicator id';
-
-      // TODO BAD USE OF TERNERY
-      const indicatorName: string = metadata?.indicatorName
-        ? metadata.indicatorName
-        : indicatorData.name
-          ? indicatorData.name
-          : 'undefined indicator name';
+      const { indicatorId, indicatorName } = extractIndicatorInformation(
+        indicatorData,
+        metadata
+      );
 
       return {
         indicatorId: indicatorId,

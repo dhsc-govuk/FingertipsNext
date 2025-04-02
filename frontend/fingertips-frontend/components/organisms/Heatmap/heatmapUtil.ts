@@ -165,9 +165,8 @@ const formatValue = (value?: number): string => {
 const generatedDataBackgroundColor = (dataPoint: DataPoint): string => {
   if (
     !dataPoint.value ||
-    !dataPoint.benchmark ||
-    !dataPoint.benchmark.method ||
-    !dataPoint.benchmark.polarity
+    !dataPoint.benchmark?.method ||
+    !dataPoint.benchmark?.polarity
   ) {
     return GovukColours.White;
   }
@@ -178,7 +177,7 @@ const generatedDataBackgroundColor = (dataPoint: DataPoint): string => {
     dataPoint.benchmark.polarity
   );
 
-  return colour ? colour : GovukColours.White;
+  return colour || GovukColours.White;
 };
 
 const extractAreasIndicatorsAndDataPoints = (
