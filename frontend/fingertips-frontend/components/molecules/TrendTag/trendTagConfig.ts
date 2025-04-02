@@ -42,3 +42,14 @@ export const getTrendConditionColours = (trendCondition?: TrendCondition) => {
       return null;
   }
 };
+
+export const getArrowColour = (
+  trend: Trend,
+  trendCondition?: TrendCondition
+): TagColours | undefined => {
+  if (trend === Trend.NO_SIGNIFICANT_CHANGE) {
+    return TagColours.YellowText;
+  }
+
+  return getTrendConditionColours(trendCondition)?.color;
+};
