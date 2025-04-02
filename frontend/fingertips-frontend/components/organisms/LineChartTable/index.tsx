@@ -374,10 +374,10 @@ export function LineChartTable({
                   {formatNumber(sortedAreaData[index].value)}
                 </StyledAlignRightTableCell>
                 <StyledAlignRightTableCell numeric>
-                  {sortedAreaData[index].lower}
+                  {formatNumber(sortedAreaData[index].lower)}
                 </StyledAlignRightTableCell>
                 <StyledAlignRightTableCell numeric>
-                  {sortedAreaData[index].upper}
+                  {formatNumber(sortedAreaData[index].upper)}
                 </StyledAlignRightTableCell>
               </React.Fragment>
             ))}

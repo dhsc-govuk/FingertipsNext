@@ -250,7 +250,7 @@ describe('generateThematicMapTooltipString', () => {
     `<br /><span style="font-weight: bold">${mockHcPoint.areaName}</span>` +
     `<br /><span>${mockHcPoint.year}</span>` +
     `<br /><span style="color: ${GovukColours.Green}; font-size: large;">${SymbolsEnum.Circle}</span>` +
-    `<span>${mockHcPoint.value} mock units</span>` +
+    `<span>${formatNumber(mockHcPoint.value)} mock units</span>` +
     `<br /><span>${mockHcPoint.benchmarkComparisonOutcome} than England</span><br /><span>(95%)</span>`;
 
   const expectedGroupTooltip =
@@ -296,7 +296,7 @@ describe('generateThematicMapTooltipString', () => {
       `<br /><span style="font-weight: bold">${mockHcPoint.areaName}</span>` +
       `<br /><span>${mockHcPoint.year}</span>` +
       `<br /><span style="color: ${GovukColours.Black}; font-size: large;">${SymbolsEnum.MultiplicationX}</span>` +
-      `<span>${mockHcPoint.value} mock units</span>` +
+      `<span>${formatNumber(mockHcPoint.value)} mock units</span>` +
       `<br /><span>${mockHcPoint.benchmarkComparisonOutcome} than England</span><br /><span>(95%)</span>`;
     expect(actual).toEqual(expectedAreaToolTip);
   });

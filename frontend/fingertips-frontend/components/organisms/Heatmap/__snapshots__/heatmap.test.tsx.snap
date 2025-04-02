@@ -219,226 +219,302 @@ exports[`snapshot test 1`] = `
   }
 }
 
-<table
-    class="c0 c1"
-    data-testid="heatmap-component"
+<div
+    class="c0"
   >
-    <tbody
-      class=""
+    <table
+      class="c1 c2"
+      data-testid="heatmapChart-component"
     >
-      <tr
+      <tbody
         class=""
       >
-        <th
-          class="c2 c3"
+        <tr
+          class=""
         >
-          <h4
-            class="c4 c5 c6"
-          >
-            Indicators
-          </h4>
-        </th>
-        <th
-          class="c2 c7"
-        >
-          <h4
-            class="c4 c5"
-          >
-            Value unit
-          </h4>
-        </th>
-        <th
-          class="c2 c7"
-        >
-          <h4
-            class="c4 c5"
-          >
-            Period
-          </h4>
-        </th>
-        <th
-          class="c2 c7"
-        >
-          <div
-            class="c8"
+          <th
+            class="c3 c4"
           >
             <h4
-              class="c4 c9 c10"
+              class="c5 c6 c7"
             >
-              Benchmark: England
+              Indicators
             </h4>
-          </div>
-        </th>
-        <th
-          class="c2 c7"
-        >
-          <div
-            class="c8"
+          </th>
+          <th
+            class="c3 c8"
           >
             <h4
-              class="c4 c9 c11"
+              class="c5 c6"
             >
-              Dentdale
+              Value unit
             </h4>
-          </div>
-        </th>
-        <th
-          class="c2 c7"
-        >
-          <div
-            class="c8"
+          </th>
+          <th
+            class="c3 c8"
           >
             <h4
-              class="c4 c9"
+              class="c5 c6"
             >
-              Comedically Long Area Name with a Devilishly Difficult Distance to Display
+              Period
             </h4>
-          </div>
-        </th>
-        <th
-          class="c2 c7"
-        >
-          <div
-            class="c8"
+          </th>
+          <th
+            class="c3 c9"
           >
-            <h4
-              class="c4 c9"
+            <div
+              class="c10"
             >
-              Garsdale
-            </h4>
-          </div>
-        </th>
-      </tr>
-      <tr
-        class=""
-      >
-        <td
-          class="c12"
-        >
-          <div
-            class="c13"
+              <h4
+                class="c5 c11 c12"
+              >
+                Benchmark: England
+              </h4>
+            </div>
+          </th>
+          <th
+            class="c3 c9"
           >
-            Donkey / Goose ratio
-          </div>
-        </td>
-        <td
-          class="c12 c14"
-        >
-          %
-        </td>
-        <td
-          class="c12 c14"
-        >
-          2002
-        </td>
-        <td
-          class="c12 c15 c16"
-        >
-          1,112
-        </td>
-        <td
-          class="c12 c15 c17"
-        >
-          1,132
-        </td>
-        <td
-          class="c12 c15 c16"
-        >
-          1,142
-        </td>
-        <td
-          class="c12 c15 c17"
-        >
-          1,122
-        </td>
-      </tr>
-      <tr
-        class=""
-      >
-        <td
-          class="c12"
-        >
-          <div
-            class="c13"
+            <div
+              class="c10"
+            >
+              <h4
+                class="c5 c11 c13"
+              >
+                Dentdale
+              </h4>
+            </div>
+          </th>
+          <th
+            class="c3 c9"
           >
-            Rate of walkers tripping over sheep
-          </div>
-        </td>
-        <td
-          class="c12 c14"
-        >
-          per 100
-        </td>
-        <td
-          class="c12 c14"
-        >
-          2002
-        </td>
-        <td
-          class="c12 c15 c17"
-        >
-          112
-        </td>
-        <td
-          class="c12 c15 c16"
-        >
-          132
-        </td>
-        <td
-          class="c12 c15 c17"
-        >
-          142
-        </td>
-        <td
-          class="c12 c15 c16"
-        >
-          X
-        </td>
-      </tr>
-      <tr
-        class=""
-      >
-        <td
-          class="c12"
-        >
-          <div
-            class="c13"
+            <div
+              class="c10"
+            >
+              <h4
+                class="c5 c11"
+              >
+                Comedically Long Area Name with a Devilishly Difficult Distance to Display
+              </h4>
+            </div>
+          </th>
+          <th
+            class="c3 c9"
           >
-            Very Verbose Indicator Name With an Extreeeeeeeme Number of Words to Try And Trip Up The View. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus varius magna massa, commodo consectetur erat hendrerit id. In semper, nibh eu efficitur sagittis, quam lectus semper augue, quis vestibulum ipsum urna ut orci.
-          </div>
-        </td>
-        <td
-          class="c12 c14"
+            <div
+              class="c10"
+            >
+              <h4
+                class="c5 c11"
+              >
+                Garsdale
+              </h4>
+            </div>
+          </th>
+        </tr>
+        <tr
+          class=""
         >
-          per 1000
-        </td>
-        <td
-          class="c12 c14"
+          <td
+            class="c14"
+          >
+            <div
+              class="c15"
+            >
+              Donkey / Goose ratio
+            </div>
+          </td>
+          <td
+            class="c14 c16"
+          >
+            <div
+              class="c17"
+            >
+              %
+            </div>
+          </td>
+          <td
+            class="c14 c16"
+          >
+            <div
+              class="c17"
+            >
+              2002
+            </div>
+          </td>
+          <td
+            class="c14 c18 c19"
+          >
+            <div
+              class="c20"
+            >
+              1,112.0
+            </div>
+          </td>
+          <td
+            class="c14 c18 c21"
+          >
+            <div
+              class="c20"
+            >
+              1,132.0
+            </div>
+          </td>
+          <td
+            class="c14 c18 c19"
+          >
+            <div
+              class="c20"
+            >
+              1,142.0
+            </div>
+          </td>
+          <td
+            class="c14 c18 c21"
+          >
+            <div
+              class="c20"
+            >
+              1,122.0
+            </div>
+          </td>
+        </tr>
+        <tr
+          class=""
         >
-          2004
-        </td>
-        <td
-          class="c12 c15 c16"
+          <td
+            class="c14"
+          >
+            <div
+              class="c15"
+            >
+              Rate of walkers tripping over sheep
+            </div>
+          </td>
+          <td
+            class="c14 c16"
+          >
+            <div
+              class="c17"
+            >
+              per 100
+            </div>
+          </td>
+          <td
+            class="c14 c16"
+          >
+            <div
+              class="c17"
+            >
+              2002
+            </div>
+          </td>
+          <td
+            class="c14 c18 c21"
+          >
+            <div
+              class="c20"
+            >
+              112.0
+            </div>
+          </td>
+          <td
+            class="c14 c18 c19"
+          >
+            <div
+              class="c20"
+            >
+              132.0
+            </div>
+          </td>
+          <td
+            class="c14 c18 c21"
+          >
+            <div
+              class="c20"
+            >
+              142.0
+            </div>
+          </td>
+          <td
+            class="c14 c18 c19"
+          >
+            <div
+              class="c20"
+            >
+              X
+            </div>
+          </td>
+        </tr>
+        <tr
+          class=""
         >
-          X
-        </td>
-        <td
-          class="c12 c15 c17"
-        >
-          X
-        </td>
-        <td
-          class="c12 c15 c16"
-        >
-          41
-        </td>
-        <td
-          class="c12 c15 c17"
-        >
-          X
-        </td>
-      </tr>
-    </tbody>
-  </table>
+          <td
+            class="c14"
+          >
+            <div
+              class="c15"
+            >
+              Very Verbose Indicator Name With an Extreeeeeeeme Number of Words to Try And Trip Up The View. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus varius magna massa, commodo consectetur erat hendrerit id. In semper, nibh eu efficitur sagittis, quam lectus semper augue, quis vestibulum ipsum urna ut orci.
+            </div>
+          </td>
+          <td
+            class="c14 c16"
+          >
+            <div
+              class="c17"
+            >
+              per 1000
+            </div>
+          </td>
+          <td
+            class="c14 c16"
+          >
+            <div
+              class="c17"
+            >
+              2004
+            </div>
+          </td>
+          <td
+            class="c14 c18 c19"
+          >
+            <div
+              class="c20"
+            >
+              X
+            </div>
+          </td>
+          <td
+            class="c14 c18 c21"
+          >
+            <div
+              class="c20"
+            >
+              X
+            </div>
+          </td>
+          <td
+            class="c14 c18 c19"
+          >
+            <div
+              class="c20"
+            >
+              41.0
+            </div>
+          </td>
+          <td
+            class="c14 c18 c21"
+          >
+            <div
+              class="c20"
+            >
+              X
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </DocumentFragment>
 `;

@@ -2,6 +2,7 @@ const FormattingLocale = 'en-GB';
 const NumberOfDecimalPlaces = 1;
 
 const numberFormat = new Intl.NumberFormat(FormattingLocale, {
+  minimumFractionDigits: NumberOfDecimalPlaces,
   maximumFractionDigits: NumberOfDecimalPlaces,
   roundingMode: 'halfCeil',
 });
