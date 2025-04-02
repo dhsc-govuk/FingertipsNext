@@ -18,15 +18,9 @@ export function ViewsWrapper({
 }: Readonly<ViewsWrapperProps>) {
   const areasSelected = searchState?.[SearchParams.AreasSelected];
 
-  console.log(`ViewsWrapper ${areasSelected}`);
-
   const hasNoHealthDataForAllSelectedAreasAndIndicators = hasNoHealthDataCheck(
     indicatorsDataForAreas ?? [],
     areasSelected ?? []
-  );
-
-  console.log(
-    `hasNoHealthDataForAllSelectedAreasAndIndicators ${hasNoHealthDataForAllSelectedAreasAndIndicators}`
   );
 
   return (

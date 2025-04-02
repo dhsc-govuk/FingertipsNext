@@ -4,7 +4,9 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { hasNoHealthDataCheck } from './hasNoHealthDataCheck';
 
-const generateMockAreaHealthData = (areaCode: string): HealthDataForArea => {
+export const generateMockAreaHealthData = (
+  areaCode: string
+): HealthDataForArea => {
   return {
     areaCode,
     areaName: `Name ${areaCode}`,
@@ -12,7 +14,7 @@ const generateMockAreaHealthData = (areaCode: string): HealthDataForArea => {
   };
 };
 
-const generateMockIndicatorWithAreaHealthData = (
+export const generateMockIndicatorWithAreaHealthData = (
   indicatorId: number,
   areaHealthData: HealthDataForArea[]
 ): IndicatorWithHealthDataForArea => {
