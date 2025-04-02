@@ -5,7 +5,9 @@ import { InequalitiesBarChart } from '../BarChart';
 import { InequalitiesBarChartTable } from '../BarChart/Table';
 import {
   filterHealthData,
+  getInequalityCategory,
   getYearDataGroupedByInequalities,
+  getYearsWithInequalityData,
   groupHealthDataByYear,
   healthDataFilterFunctionGeneratorForInequality,
   InequalitiesBarChartData,
@@ -43,22 +45,7 @@ export function InequalitiesForSingleTimePeriod({
   const { [SearchParams.InequalityYearSelected]: selectedYear } =
     stateManager.getSearchState();
 
-  let inequalityCategory = '';
-  if (type == InequalitiesTypes.Deprivation) {
-    // This value will ultimately come from the inequality type dropdown
-    // For now, we just use the first deprivation type available
-    const disaggregatedDeprivationData = filterHealthData(
-      healthIndicatorData.healthData,
-      (data) => !data.deprivation.isAggregate
-    );
-    const deprivationTypes = Object.keys(
-      Object.groupBy(
-        disaggregatedDeprivationData,
-        (data) => data.deprivation.type
-      )
-    );
-    inequalityCategory = deprivationTypes[0];
-  }
+  const inequalityCategory = getInequalityCategory(type, healthIndicatorData);
 
   const filterFunctionGenerator =
     healthDataFilterFunctionGeneratorForInequality[type];
@@ -82,16 +69,22 @@ export function InequalitiesForSingleTimePeriod({
 
   const sequenceSelector = sequenceSelectorForInequality[type];
 
-  const yearsDesc = Object.keys(
-    yearlyHealthDataGroupedByInequalities
-  ).reverse();
+  const allData = mapToInequalitiesTableData(
+    yearlyHealthDataGroupedByInequalities,
+    sequenceSelector
+  );
+
+  const yearsDesc = getYearsWithInequalityData(allData).reverse();
+
+  const periodData = allData.find(
+    (data) => data.period === Number(selectedYear ?? yearsDesc[0])
+  );
+
+  if (!periodData) throw new Error('data does not exist for selected year');
 
   const barChartData: InequalitiesBarChartData = {
     areaName: healthIndicatorData.areaName,
-    data: mapToInequalitiesTableData(
-      yearlyHealthDataGroupedByInequalities,
-      sequenceSelector
-    ).find((data) => data.period === Number(selectedYear ?? yearsDesc[0]))!,
+    data: periodData,
   };
   return (
     <div data-testid="inequalitiesForSingleTimePeriod-component">

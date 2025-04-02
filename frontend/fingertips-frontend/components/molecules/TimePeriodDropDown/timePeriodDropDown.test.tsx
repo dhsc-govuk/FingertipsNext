@@ -55,7 +55,7 @@ describe('TimePeriodDropDown suite', () => {
     expect(screen.getByText(/Select a time period/i)).toBeInTheDocument();
   });
 
-  it('should add selected year to the url', async () => {
+  it('should add selected year to the url when an option is selected', async () => {
     const expectedPath = [
       mockPath,
       `?${SearchParams.InequalityYearSelected}=2022`,
