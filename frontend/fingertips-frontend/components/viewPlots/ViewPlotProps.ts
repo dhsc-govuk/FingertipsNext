@@ -1,6 +1,5 @@
 import {
   HealthDataForArea,
-  Indicator,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';

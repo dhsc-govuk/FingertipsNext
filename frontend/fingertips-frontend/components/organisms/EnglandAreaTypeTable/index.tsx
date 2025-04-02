@@ -1,6 +1,9 @@
 'use client';
 
-import { type HealthDataPoint, HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
+import {
+  type HealthDataPoint,
+  HealthDataPointTrendEnum,
+} from '@/generated-sources/ft-api-client';
 import { Table } from 'govuk-react';
 import React from 'react';
 import { CheckValueInTableCell } from '@/components/molecules/CheckValueInTableCell';
@@ -34,7 +37,6 @@ export interface EnglandAreaTypeTableProps {
 export function EnglandAreaTypeTable({
   indicatorData,
 }: Readonly<EnglandAreaTypeTableProps>) {
-
   return (
     <div data-testid={'EnglandAreaTypeTable-component'}>
       <Table
@@ -71,7 +73,9 @@ export function EnglandAreaTypeTable({
               >
                 {EnglandAreaTypeTableEnum.Value}
               </Table.CellHeader>
-              <Table.CellHeader style={{ verticalAlign: 'top', textAlign: 'right' }}>
+              <Table.CellHeader
+                style={{ verticalAlign: 'top', textAlign: 'right' }}
+              >
                 {EnglandAreaTypeTableEnum.RecentTrend}
               </Table.CellHeader>
             </Table.Row>
@@ -98,9 +102,14 @@ export function EnglandAreaTypeTable({
               style={{ textAlign: 'right' }}
             />
             <Table.Cell>
-            <TrendTag trendFromResponse={item?.latestEnglandHealthData?.trend ?? HealthDataPointTrendEnum.CannotBeCalculated }/>
+              <TrendTag
+                trendFromResponse={
+                  item?.latestEnglandHealthData?.trend ??
+                  HealthDataPointTrendEnum.CannotBeCalculated
+                }
+              />
             </Table.Cell>
-            </Table.Row>
+          </Table.Row>
         ))}
       </Table>
     </div>

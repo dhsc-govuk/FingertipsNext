@@ -17,7 +17,9 @@ export function TwoOrMoreIndicatorsEnglandViewPlots({
   searchState,
 }: Readonly<TwoOrMoreIndicatorsEnglandViewPlotProps>) {
   SearchStateManager.initialise(searchState);
-
+  // console.log(indicatorData)
+  // console.log(indicatorMetadata)
+  // console.log(searchState)
   const getLatestHealthDataForEngland = (
     indicatorData: IndicatorWithHealthDataForArea,
     latestPeriod: string | undefined
@@ -44,10 +46,9 @@ export function TwoOrMoreIndicatorsEnglandViewPlots({
         ? metaDataForIndicator?.latestDataPeriod
         : undefined;
 
-      const latestEnglandHealthData = hasHealthDataForEngland ? getLatestHealthDataForEngland(
-        indicator,
-        latestPeriod
-      ) : undefined;
+      const latestEnglandHealthData = hasHealthDataForEngland
+        ? getLatestHealthDataForEngland(indicator, latestPeriod)
+        : undefined;
 
       const unitLabel = hasHealthDataForEngland
         ? metaDataForIndicator?.unitLabel
