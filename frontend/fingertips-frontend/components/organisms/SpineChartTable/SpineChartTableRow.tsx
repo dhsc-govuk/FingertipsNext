@@ -12,7 +12,7 @@ import {
   StyledGroupCell,
   StyledBenchmarkCell,
 } from './SpineChartTableStyles';
-import { formatNumber } from '@/lib/numberFormatter';
+import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
 
 export interface SpineChartMissingData {
   value?: number;
@@ -60,7 +60,7 @@ export function SpineChartTableRow({
         {period}
       </StyledAlignCentreTableCell>
       <StyledAlignCentreTableCell data-testid={`count-cell`}>
-        {formatNumber(count)}
+        {formatWholeNumber(count)}
       </StyledAlignCentreTableCell>
       <StyledAlignRightTableCell data-testid={`value-cell`}>
         {formatNumber(value)}
@@ -72,10 +72,10 @@ export function SpineChartTableRow({
         {formatNumber(benchmarkValue)}
       </StyledBenchmarkCell>
       <StyledBenchmarkCell data-testid={`benchmark-worst-cell`}>
-        {benchmarkWorst}
+        {formatNumber(benchmarkWorst)}
       </StyledBenchmarkCell>
       <StyledBenchmarkCell data-testid={`benchmark-best-cell`}>
-        {benchmarkBest}
+        {formatNumber(benchmarkBest)}
       </StyledBenchmarkCell>
     </Table.Row>
   );

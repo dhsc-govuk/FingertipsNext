@@ -176,7 +176,10 @@ export function BarChartEmbeddedTable({
             <Table.Cell>
               <TrendTag trendFromResponse={mostRecentBenchmarkData.trend} />
             </Table.Cell>
-            <FormatNumberInTableCell value={mostRecentBenchmarkData.count} />
+            <FormatNumberInTableCell
+              value={mostRecentBenchmarkData.count}
+              numberStyle={'whole'}
+            />
             <FormatNumberInTableCell
               value={mostRecentBenchmarkData.value}
               style={{ textAlign: 'right', paddingRight: '0px' }}
@@ -217,7 +220,10 @@ export function BarChartEmbeddedTable({
             <Table.Cell>
               <TrendTag trendFromResponse={mostRecentGroupData.trend} />
             </Table.Cell>
-            <FormatNumberInTableCell value={mostRecentGroupData.count} />
+            <FormatNumberInTableCell
+              value={mostRecentGroupData.count}
+              numberStyle={'whole'}
+            />
             <FormatNumberInTableCell
               value={mostRecentGroupData.value}
               style={{ textAlign: 'right', paddingRight: '0px' }}
@@ -242,8 +248,8 @@ export function BarChartEmbeddedTable({
                 measurementUnit={measurementUnit}
               />
             </Table.Cell>
-            <CheckValueInTableCell value={mostRecentGroupData.lowerCi} />
-            <CheckValueInTableCell value={mostRecentGroupData.upperCi} />
+            <FormatNumberInTableCell value={mostRecentGroupData.lowerCi} />
+            <FormatNumberInTableCell value={mostRecentGroupData.upperCi} />
           </Table.Row>
         ) : null}
 
@@ -254,7 +260,7 @@ export function BarChartEmbeddedTable({
             <Table.Cell>
               <TrendTag trendFromResponse={item.trend} />
             </Table.Cell>
-            <FormatNumberInTableCell value={item.count} />
+            <FormatNumberInTableCell value={item.count} numberStyle={'whole'} />
             <FormatNumberInTableCell
               value={item.value}
               style={{ textAlign: 'right', paddingRight: '0px' }}
@@ -274,8 +280,8 @@ export function BarChartEmbeddedTable({
                 measurementUnit={measurementUnit}
               />
             </Table.Cell>
-            <CheckValueInTableCell value={item.lowerCi} />
-            <CheckValueInTableCell value={item.upperCi} />
+            <FormatNumberInTableCell value={item.lowerCi} />
+            <FormatNumberInTableCell value={item.upperCi} />
           </Table.Row>
         ))}
       </Table>

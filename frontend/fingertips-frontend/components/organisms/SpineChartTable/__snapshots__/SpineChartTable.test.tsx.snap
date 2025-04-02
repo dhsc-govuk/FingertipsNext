@@ -408,7 +408,7 @@ exports[`Spine chart table suite Spine chart table snapshot test - should match 
             class="c12 c13 c16 c18"
             data-testid="benchmark-best-cell"
           >
-            1666
+            1,666
           </td>
         </tr>
       </tbody>

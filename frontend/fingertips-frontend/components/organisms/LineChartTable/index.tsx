@@ -21,7 +21,7 @@ import {
 import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel';
 import { TrendTag } from '@/components/molecules/TrendTag';
 import { getConfidenceLimitNumber } from '@/lib/chartHelpers/chartHelpers';
-import { formatNumber } from '@/lib/numberFormatter';
+import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
 
 export enum LineChartTableHeadingEnum {
   AreaPeriod = 'Period',
@@ -368,7 +368,7 @@ export function LineChartTable({
                   border={areaIndex > 0}
                 />
                 <StyledAlignRightTableCell numeric>
-                  {formatNumber(sortedAreaData[index].count)}
+                  {formatWholeNumber(sortedAreaData[index].count)}
                 </StyledAlignRightTableCell>
                 <StyledAlignRightTableCell numeric>
                   {formatNumber(sortedAreaData[index].value)}
