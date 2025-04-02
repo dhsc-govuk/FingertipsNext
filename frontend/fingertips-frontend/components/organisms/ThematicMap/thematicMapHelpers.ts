@@ -23,6 +23,7 @@ import {
   getConfidenceLimitNumber,
 } from '@/lib/chartHelpers/chartHelpers';
 import { symbolEncoder } from '@/lib/chartHelpers/pointFormatterHelper';
+import { generateBenchmarkTooltipForArea } from '@/lib/chartHelpers/tooltipHelpers';
 
 export type MapGeographyData = {
   mapFile: GeoJSON;
@@ -355,12 +356,6 @@ export function generateThematicMapTooltipString(
     ? `${benchmarkConfidenceLimit}%`
     : null;
 
-  const areaMarkerSymbol =
-    (point.benchmarkComparisonOutcome as BenchmarkOutcome) ===
-    BenchmarkOutcome.NotCompared
-      ? symbolEncoder.multiplicationX
-      : symbolEncoder.circle;
-
   const groupMarkerSymbol =
     groupIndicatorData?.healthData[0].benchmarkComparison?.outcome ===
     BenchmarkOutcome.NotCompared
@@ -368,18 +363,14 @@ export function generateThematicMapTooltipString(
       : symbolEncoder.diamond;
 
   const tooltipString = [
-    `<br /><span style="font-weight: bold">${point.areaName}</span>` +
-      `<br /><span>${point.year}</span>` +
-      `<br /><span style="color: ${
-        getBenchmarkColour(
-          benchmarkComparisonMethod,
-          point.benchmarkComparisonOutcome,
-          polarity
-        ) ?? GovukColours.Black
-      }; font-size: large;">${areaMarkerSymbol}</span>` +
-      `<span>${point.value} ${measurementUnit}</span>` +
-      `<br /><span>${point.benchmarkComparisonOutcome} than ${benchmarkArea}</span>` +
-      `<br /><span>(${benchmarkConfidenceLimitLabel})</span>`,
+    generateBenchmarkTooltipForArea(
+      point,
+      benchmarkComparisonMethod,
+      polarity,
+      measurementUnit,
+      benchmarkArea,
+      benchmarkConfidenceLimitLabel
+    ),
   ];
 
   if (groupIndicatorData !== undefined) {
