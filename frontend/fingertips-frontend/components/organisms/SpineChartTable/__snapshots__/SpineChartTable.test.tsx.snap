@@ -57,7 +57,7 @@ exports[`Spine chart table suite Spine chart table snapshot test - should match 
 .c6 {
   background-color: #B1B4B6;
   border-top: solid #F3F2F1 2px;
-  width: 16%;
+  vertical-align: top;
 }
 
 .c13 {
