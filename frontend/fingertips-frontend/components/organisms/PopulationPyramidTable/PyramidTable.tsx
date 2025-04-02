@@ -1,13 +1,12 @@
 'use client';
 
 import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
-import { H3, Table } from 'govuk-react';
+import { H4, Table } from 'govuk-react';
 import { typography } from '@govuk-react/lib';
 import { StyledAlignLeftHeader } from '@/lib/tableHelpers';
 import styled from 'styled-components';
-import { number } from 'zod';
 
-const StyledAreaTitleHeader = styled(H3)({
+const StyledAreaTitleHeader = styled(H4)({
   borderTop: `solid #F3F2F1 2px`, // aligns top to match grey heading cells
   textAlign: 'center',
 });
@@ -47,16 +46,13 @@ const getSortAgeBandIndexes = (ageBands: string[] | undefined): number[] => {
     .map((item) => item.index);
 };
 
-const getActualCount = (total: number, percent: number) => {
-  // return (total * (percent ?? 0)) / 100
-  return percent ?? 0;
-};
-
 interface PyramidTableProps {
   headers: string[];
   title: string;
   healthDataForArea: PopulationDataForArea | undefined;
-  filterValues?: (header: string) => React.ReactNode | string;
+  filterValues?: (
+    header: (string | undefined | number)[]
+  ) => (string | undefined | number)[];
 }
 
 export const PyramidTable = ({
