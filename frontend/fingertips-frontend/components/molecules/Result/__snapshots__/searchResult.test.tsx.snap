@@ -183,6 +183,12 @@ exports[`Indicator Checkbox snapshot test 1`] = `
   padding-left: 15px;
 }
 
+.c13 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
 .c1 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -194,7 +200,7 @@ exports[`Indicator Checkbox snapshot test 1`] = `
   margin: 0 -15px;
 }
 
-.c13 {
+.c14 {
   margin: 0;
   border: 0;
   border-bottom: 1px solid #bfc1c3;
@@ -333,6 +339,19 @@ exports[`Indicator Checkbox snapshot test 1`] = `
 }
 
 @media only screen and (min-width:641px) {
+  .c13 {
+    width: 25%;
+    -webkit-box-flex: 0;
+    -webkit-flex-grow: 0;
+    -ms-flex-positive: 0;
+    flex-grow: 0;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
   .c1 {
     -webkit-flex-direction: row;
     -ms-flex-direction: row;
@@ -444,9 +463,12 @@ exports[`Indicator Checkbox snapshot test 1`] = `
           </span>
         </label>
       </div>
+      <div
+        class="c13"
+      />
     </div>
     <hr
-      class="c13"
+      class="c14"
     />
   </li>
 </DocumentFragment>

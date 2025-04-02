@@ -1,4 +1,4 @@
-import { IndicatorDocument, AreaDocument } from '@/lib/search/searchTypes';
+import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
 import ChartPage from './page-objects/pages/chartPage';
 
 export enum SearchMode {
@@ -231,9 +231,9 @@ export function getScenarioConfig(
 }
 
 function filterIndicatorsByName(
-  indicators: IndicatorDocument[],
+  indicators: RawIndicatorDocument[],
   searchTerm: string
-): IndicatorDocument[] {
+): RawIndicatorDocument[] {
   if (!searchTerm) return [];
 
   const normalizedSearchTerm = searchTerm.toLowerCase();
@@ -249,7 +249,7 @@ function filterIndicatorsByName(
 }
 
 export function getAllIndicatorIdsForSearchTerm(
-  indicators: IndicatorDocument[],
+  indicators: RawIndicatorDocument[],
   searchTerm: string
 ): string[] {
   return filterIndicatorsByName(indicators, searchTerm).map(
@@ -285,7 +285,7 @@ export function sortAlphabetically(array: (string | null)[]) {
 
 export function getIndicatorNameById(
   indicatorId: string,
-  indicators: IndicatorDocument[]
+  indicators: RawIndicatorDocument[]
 ): string | undefined {
   const indicator = indicators.find((ind) => ind.indicatorID === indicatorId);
   return indicator ? indicator.indicatorName : undefined;
