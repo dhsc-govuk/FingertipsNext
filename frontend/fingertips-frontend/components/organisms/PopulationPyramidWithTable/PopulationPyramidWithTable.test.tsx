@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, within } from '@testing-library/react';
 import { PopulationPyramidWithTable } from './index';
 import {
   HealthDataForArea,
@@ -105,6 +105,18 @@ describe('PopulationPyramidWithTable', () => {
     expect(screen.getByText('Show population data')).toBeInTheDocument();
 
     fireEvent.click(container.getByText('Show population data'));
+    expect(screen.getByText('Hide population data')).toBeInTheDocument();
+  });
+
+  it('test that we can clicked the expander', async () => {
+    setupUI(mockHealthDataForArea);
+    const populationPyramid = screen.getByTestId(
+      'populationPyramidWithTable-component'
+    );
+    const expander = await within(populationPyramid).findByText(
+      'Show population data'
+    );
+    fireEvent.click(expander);
     expect(screen.getByText('Hide population data')).toBeInTheDocument();
   });
 

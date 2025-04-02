@@ -134,7 +134,9 @@ exports[`PopulationPyramidWithTable take a snapshot 1`] = `
   }
 }
 
-<div>
+<div
+    data-testid="populationPyramidWithTable-component"
+  >
     <h3
       class="c0"
       style="font-size: 24px;"
