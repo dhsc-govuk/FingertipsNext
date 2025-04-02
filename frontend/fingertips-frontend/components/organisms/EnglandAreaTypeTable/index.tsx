@@ -1,12 +1,10 @@
 'use client';
 
-import {
-  type HealthDataPoint,
-} from '@/generated-sources/ft-api-client';
+import { type HealthDataPoint, HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 import { Table } from 'govuk-react';
 import React from 'react';
 import { CheckValueInTableCell } from '@/components/molecules/CheckValueInTableCell';
-
+import { TrendTag } from '@/components/molecules/TrendTag';
 
 export enum EnglandAreaTypeTableEnum {
   Indicator = 'Indicator',
@@ -15,6 +13,10 @@ export enum EnglandAreaTypeTableEnum {
   ValueUnit = 'Value unit',
   Value = 'Value',
   RecentTrend = 'Recent trend',
+}
+
+export enum EnglandAreaTypeHeaderEnum {
+  England = 'England',
 }
 
 export interface EnglandAreaTypeIndicatorData {
@@ -28,9 +30,11 @@ export interface EnglandAreaTypeIndicatorData {
 export interface EnglandAreaTypeTableProps {
   indicatorData: EnglandAreaTypeIndicatorData[];
 }
+
 export function EnglandAreaTypeTable({
   indicatorData,
 }: Readonly<EnglandAreaTypeTableProps>) {
+
   return (
     <div data-testid={'EnglandAreaTypeTable-component'}>
       <Table
@@ -38,27 +42,36 @@ export function EnglandAreaTypeTable({
           <React.Fragment>
             <Table.Row>
               <Table.CellHeader colSpan={6} style={{ fontSize: 24 }}>
-                {'England'}
+                {EnglandAreaTypeHeaderEnum.England}
               </Table.CellHeader>
             </Table.Row>
 
             <Table.Row>
-              <Table.CellHeader>
+              <Table.CellHeader style={{ verticalAlign: 'top' }}>
                 {EnglandAreaTypeTableEnum.Indicator}
               </Table.CellHeader>
-              <Table.CellHeader>
+              <Table.CellHeader style={{ verticalAlign: 'top' }}>
                 {EnglandAreaTypeTableEnum.Period}
               </Table.CellHeader>
-              <Table.CellHeader>
+              <Table.CellHeader
+                style={{ verticalAlign: 'top', textAlign: 'right' }}
+              >
                 {EnglandAreaTypeTableEnum.Count}
               </Table.CellHeader>
-              <Table.CellHeader>
+              <Table.CellHeader
+                style={{
+                  verticalAlign: 'top',
+                  textAlign: 'right',
+                }}
+              >
                 {EnglandAreaTypeTableEnum.ValueUnit}
               </Table.CellHeader>
-              <Table.CellHeader>
+              <Table.CellHeader
+                style={{ verticalAlign: 'top', textAlign: 'right' }}
+              >
                 {EnglandAreaTypeTableEnum.Value}
               </Table.CellHeader>
-              <Table.CellHeader>
+              <Table.CellHeader style={{ verticalAlign: 'top', textAlign: 'right' }}>
                 {EnglandAreaTypeTableEnum.RecentTrend}
               </Table.CellHeader>
             </Table.Row>
@@ -67,23 +80,27 @@ export function EnglandAreaTypeTable({
       >
         {indicatorData.map((item) => (
           <Table.Row key={item.indicatorId}>
+            <CheckValueInTableCell value={item?.indicatorName} />
             <CheckValueInTableCell
-              value={item?.indicatorName}
-            ></CheckValueInTableCell>
-            <CheckValueInTableCell value={item?.period}></CheckValueInTableCell>
+              value={item?.period}
+              style={{ textAlign: 'center' }}
+            />
             <CheckValueInTableCell
               value={item?.latestEnglandHealthData?.count}
-            ></CheckValueInTableCell>
+              style={{ textAlign: 'right' }}
+            />
             <CheckValueInTableCell
               value={item?.unitLabel}
-            ></CheckValueInTableCell>
+              style={{ textAlign: 'right' }}
+            />
             <CheckValueInTableCell
               value={item?.latestEnglandHealthData?.value}
-            ></CheckValueInTableCell>
-            <CheckValueInTableCell
-              value={item?.latestEnglandHealthData?.trend}
-            ></CheckValueInTableCell>
-          </Table.Row>
+              style={{ textAlign: 'right' }}
+            />
+            <Table.Cell>
+            <TrendTag trendFromResponse={item?.latestEnglandHealthData?.trend ?? HealthDataPointTrendEnum.CannotBeCalculated }/>
+            </Table.Cell>
+            </Table.Row>
         ))}
       </Table>
     </div>

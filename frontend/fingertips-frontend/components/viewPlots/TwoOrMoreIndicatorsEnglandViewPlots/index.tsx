@@ -43,10 +43,11 @@ export function TwoOrMoreIndicatorsEnglandViewPlots({
       const latestPeriod = hasHealthDataForEngland
         ? metaDataForIndicator?.latestDataPeriod
         : undefined;
-      const latestData2 = getLatestHealthDataForEngland(
+
+      const latestEnglandHealthData = hasHealthDataForEngland ? getLatestHealthDataForEngland(
         indicator,
         latestPeriod
-      );
+      ) : undefined;
 
       const unitLabel = hasHealthDataForEngland
         ? metaDataForIndicator?.unitLabel
@@ -56,7 +57,7 @@ export function TwoOrMoreIndicatorsEnglandViewPlots({
         indicatorId: indicator.indicatorId,
         indicatorName: indicator.name,
         period: latestPeriod,
-        latestEnglandHealthData: latestData2,
+        latestEnglandHealthData,
         unitLabel,
       };
     });
