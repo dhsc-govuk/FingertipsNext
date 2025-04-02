@@ -1,16 +1,12 @@
 'use client';
 
 import {
-  HealthDataForArea, type HealthDataPoint,
-  Indicator,
+  type HealthDataPoint,
 } from '@/generated-sources/ft-api-client';
 import { Table } from 'govuk-react';
 import React from 'react';
 import { CheckValueInTableCell } from '@/components/molecules/CheckValueInTableCell';
-import {
-  latestSingleHealthDataPoint,
-  sortHealthDataByYearDescending,
-} from '@/lib/chartHelpers/chartHelpers';
+
 
 export enum EnglandAreaTypeTableEnum {
   Indicator = 'Indicator',
@@ -30,45 +26,19 @@ export interface EnglandAreaTypeIndicatorData {
 }
 
 export interface EnglandAreaTypeTableProps {
-  indicator: EnglandAreaTypeIndicatorData[];
-  // englandBenchmarkData: HealthDataForArea[];
+  indicatorData: EnglandAreaTypeIndicatorData[];
 }
 export function EnglandAreaTypeTable({
-  indicator,
-  // englandBenchmarkData,
+  indicatorData,
 }: Readonly<EnglandAreaTypeTableProps>) {
-  
-  console.log('EnglandAreaTypeTableIndicator', indicator);
-  // console.log('EnglandAreaTypeTableenglandBenchmarkData', englandBenchmarkData);
-  
-  // const orderedEnglandBenchmarkData =  sortHealthDataByYearDescending(englandBenchmarkData)
-  // console.log('ordered', orderedEnglandBenchmarkData);
-  // const sortedEnglandBenchmarkData = latestSingleHealthDataPoint(orderedEnglandBenchmarkData)
-  // console.log('sort', sortedEnglandBenchmarkData)
-  
-  // const mappedSortedEnglandBenchmarkData = sortedEnglandBenchmarkData.map((item) => ({
-  //   period: item.healthData[0].year,
-  //   count: item.healthData[0].count,
-  //   value: item.healthData[0].value,
-  //   trend: item.healthData[0].trend,
-  // }))
-  
-  
-  // const rowData = indicator.map((item, index) => {
-  //   return mappedSortedEnglandBenchmarkData[index] || []
-  // });
-  //
-  
-  
-  
   return (
     <div data-testid={'EnglandAreaTypeTable-component'}>
       <Table
         head={
           <React.Fragment>
             <Table.Row>
-              <Table.CellHeader colSpan={5} style={{fontSize: 24}}>
-                {"England"}
+              <Table.CellHeader colSpan={6} style={{ fontSize: 24 }}>
+                {'England'}
               </Table.CellHeader>
             </Table.Row>
 
@@ -93,20 +63,28 @@ export function EnglandAreaTypeTable({
               </Table.CellHeader>
             </Table.Row>
           </React.Fragment>
-        }>
-        
-        {indicator.map((item, index) => (
-            <Table.Row>
-              <CheckValueInTableCell value={item?.indicatorName}></CheckValueInTableCell>
-              <CheckValueInTableCell value={item?.period}></CheckValueInTableCell>
-              <CheckValueInTableCell value={item?.latestEnglandHealthData?.count}></CheckValueInTableCell>
-              <CheckValueInTableCell value={item?.unitLabel}></CheckValueInTableCell>
-              <CheckValueInTableCell value={item?.latestEnglandHealthData?.value}></CheckValueInTableCell>
-              <CheckValueInTableCell value={item?.latestEnglandHealthData?.trend}></CheckValueInTableCell>
-            </Table.Row>
-          ))
         }
-
+      >
+        {indicatorData.map((item) => (
+          <Table.Row key={item.indicatorId}>
+            <CheckValueInTableCell
+              value={item?.indicatorName}
+            ></CheckValueInTableCell>
+            <CheckValueInTableCell value={item?.period}></CheckValueInTableCell>
+            <CheckValueInTableCell
+              value={item?.latestEnglandHealthData?.count}
+            ></CheckValueInTableCell>
+            <CheckValueInTableCell
+              value={item?.unitLabel}
+            ></CheckValueInTableCell>
+            <CheckValueInTableCell
+              value={item?.latestEnglandHealthData?.value}
+            ></CheckValueInTableCell>
+            <CheckValueInTableCell
+              value={item?.latestEnglandHealthData?.trend}
+            ></CheckValueInTableCell>
+          </Table.Row>
+        ))}
       </Table>
     </div>
   );

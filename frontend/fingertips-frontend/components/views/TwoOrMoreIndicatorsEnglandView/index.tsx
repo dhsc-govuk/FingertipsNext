@@ -50,8 +50,8 @@ export default async function TwoOrMoreIndicatorsEnglandView({
     console.error('error getting health indicator data for areas', error);
     throw new Error('error getting health indicator data for areas');
   }
-  
-  console.log('combinedIndicatorData', combinedIndicatorData)
+
+  console.log('combinedIndicatorData', combinedIndicatorData);
 
   let indicatorMetadata: (IndicatorDocument | undefined)[] = [];
   try {
@@ -66,8 +66,8 @@ export default async function TwoOrMoreIndicatorsEnglandView({
     console.error('error getting health indicator data for areas', error);
     throw new Error('error getting health indicator data for areas');
   }
-  console.log('indicatorMetadata', indicatorMetadata)
-  
+  console.log('indicatorMetadata', indicatorMetadata);
+
   console.log('TODO: fetch health data with inequalites');
   console.log(`TODO: fetch population data for areas: [${areaCodesToRequest}]`);
 

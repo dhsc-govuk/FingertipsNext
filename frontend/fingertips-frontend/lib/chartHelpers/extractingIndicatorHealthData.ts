@@ -12,30 +12,27 @@ type ExtractedIndicatorHealthData = {
 
 export const extractingIndicatorHealthData = (
   combinedIndicatorData: IndicatorWithHealthDataForArea[],
-  unsortedMetaData: (IndicatorDocument | undefined)[],
+  unsortedMetaData: (IndicatorDocument | undefined)[]
 ): ExtractedIndicatorHealthData => {
-  
   const orderedEnglandData: HealthDataForArea[] = new Array(
     combinedIndicatorData.length
   );
-  
+
   const orderedMetadata: (IndicatorDocument | undefined)[] = new Array(
     combinedIndicatorData.length
   );
-  
 
   combinedIndicatorData.forEach((indicator, index) => {
     if (!indicator.areaHealthData) {
       throw new Error('Missing health data for indicator');
     }
 
-
     const englandData = indicator.areaHealthData.find(
       (areaData) => areaData.areaCode === areaCodeForEngland
     );
 
     if (!englandData) {
-      return []
+      return [];
     }
     orderedEnglandData[index] = englandData;
 
@@ -44,7 +41,7 @@ export const extractingIndicatorHealthData = (
         Number(indicatorMetaData?.indicatorID) === indicator.indicatorId
     );
   });
-  
+
   console.log(orderedEnglandData);
   console.log(orderedMetadata);
 
