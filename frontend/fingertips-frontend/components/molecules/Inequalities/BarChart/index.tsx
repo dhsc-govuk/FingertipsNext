@@ -104,8 +104,14 @@ export function InequalitiesBarChart({
     ),
   ];
 
+  const chartOverrides: Highcharts.ChartOptions = {
+    // The deprivation chart needs more height
+    height: type === InequalitiesTypes.Deprivation ? '100%' : barChartDefaultOptions.chart?.height
+  }
+
   const barChartOptions: Highcharts.Options = {
     ...barChartDefaultOptions,
+    chart: { ...barChartDefaultOptions.chart, ...chartOverrides },
     xAxis: {
       ...barChartDefaultOptions.xAxis,
       title: {
