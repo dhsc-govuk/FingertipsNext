@@ -12,6 +12,7 @@ import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
 import { HierarchyNameTypes } from '@/lib/areaFilterHelpers/areaType';
+import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 
 const enum PopulationIndicatorIdsTypes {
   ADMINISTRATIVE = 92708,
@@ -93,11 +94,13 @@ export default async function OneIndicatorOneAreaView({
   })();
 
   return (
-    <OneIndicatorOneAreaViewPlots
-      populationHealthDataForArea={indicatorPopulationData?.areaHealthData}
-      indicatorData={indicatorData}
-      searchState={searchState}
-      indicatorMetadata={selectedIndicatorsData?.[0]}
-    />
+    <ViewsWrapper searchState={searchState} indicatorData={indicatorData}>
+      <OneIndicatorOneAreaViewPlots
+        populationHealthDataForArea={indicatorPopulationData?.areaHealthData}
+        indicatorData={indicatorData}
+        searchState={searchState}
+        indicatorMetadata={selectedIndicatorsData?.[0]}
+      />
+    </ViewsWrapper>
   );
 }

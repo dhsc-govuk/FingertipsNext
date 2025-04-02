@@ -55,14 +55,16 @@ export function OneIndicatorOneAreaViewPlots({
 
   useEffect(() => {
     setSearchState(searchState ?? {});
-  }, [searchState, setSearchState]);
+  }, [setSearchState, searchState]);
 
-  const stateManager = SearchStateManager.initialise(searchState);
+  console.log(`Plots searchState ${JSON.stringify(searchState)}`);
+
+  // const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.InequalityTypeSelected]: inequalityTypeSelected,
-  } = stateManager.getSearchState();
+  } = searchState;
   const polarity = indicatorData.polarity as IndicatorPolarity;
   const benchmarkComparisonMethod =
     indicatorData.benchmarkMethod as BenchmarkComparisonMethod;

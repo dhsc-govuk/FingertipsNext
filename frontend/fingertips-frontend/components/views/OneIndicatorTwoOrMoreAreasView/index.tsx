@@ -17,6 +17,7 @@ import {
   maxNumAreasThatCanBeRequestedAPI,
 } from '@/lib/ViewsHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 
 export default async function OneIndicatorTwoOrMoreAreasView({
   selectedIndicatorsData,
@@ -84,11 +85,13 @@ export default async function OneIndicatorTwoOrMoreAreasView({
       : undefined;
 
   return (
-    <OneIndicatorTwoOrMoreAreasViewPlots
-      indicatorData={indicatorData}
-      searchState={searchState}
-      indicatorMetadata={indicatorMetadata}
-      mapGeographyData={mapGeographyData}
-    />
+    <ViewsWrapper searchState={searchState} indicatorData={indicatorData}>
+      <OneIndicatorTwoOrMoreAreasViewPlots
+        indicatorData={indicatorData}
+        searchState={searchState}
+        indicatorMetadata={indicatorMetadata}
+        mapGeographyData={mapGeographyData}
+      />
+    </ViewsWrapper>
   );
 }

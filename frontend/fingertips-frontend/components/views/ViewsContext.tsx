@@ -62,13 +62,14 @@ export function ViewsContext({
 
   return (
     <ChartPageWrapper
+      key={JSON.stringify(searchState)}
       searchState={searchState}
       areaFilterData={areaFilterData}
       selectedAreasData={selectedAreasData}
       selectedIndicatorsData={selectedIndicatorsData}
     >
       <ViewsSelector
-        key={JSON.stringify(searchState)}
+        // key={JSON.stringify(searchState)}
         areaCodes={areaCodes}
         indicators={indicators}
         searchState={searchState}
