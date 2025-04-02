@@ -5,6 +5,7 @@ import { H3, Table } from 'govuk-react';
 import { typography } from '@govuk-react/lib';
 import { StyledAlignLeftHeader } from '@/lib/tableHelpers';
 import styled from 'styled-components';
+import { number } from 'zod';
 
 const StyledAreaTitleHeader = styled(H3)({
   borderTop: `solid #F3F2F1 2px`, // aligns top to match grey heading cells
@@ -18,6 +19,13 @@ export const StyledTableCell = styled(Table.Cell)(
     textAlign: 'center',
   }
 );
+
+const valueFormatter = (value: number | string | undefined) => {
+  if (typeof value === 'number') {
+    return value?.toLocaleString();
+  }
+  return value;
+};
 
 const StyledAreaNameHeader = styled(StyledAlignLeftHeader)({
   borderTop: `solid #F3F2F1 2px`, // aligns top to match grey heading cells
@@ -48,18 +56,24 @@ interface PyramidTableProps {
   headers: string[];
   title: string;
   healthDataForArea: PopulationDataForArea | undefined;
-  renderRow?: (header: string) => React.ReactNode | string;
+  filterValues?: (header: string) => React.ReactNode | string;
 }
 
 export const PyramidTable = ({
   headers,
   healthDataForArea,
   title,
-  renderRow,
+  filterValues,
 }: PyramidTableProps) => {
   if (!healthDataForArea) return <></>;
 
   const indexes = getSortAgeBandIndexes(healthDataForArea?.ageCategories);
+
+  const points = healthDataForArea.ageCategories.map((value, index) => [
+    value,
+    healthDataForArea.raw?.femaleSeries[index],
+    healthDataForArea.raw?.maleSeries[index],
+  ]);
   return (
     <section>
       <StyledAreaTitleHeader>{title}</StyledAreaTitleHeader>
@@ -78,23 +92,19 @@ export const PyramidTable = ({
         }
       >
         {indexes.map((index, _) => {
+          const columnValues = filterValues
+            ? filterValues(points[index])
+            : points[index];
+
           return (
             <Table.Row key={`${healthDataForArea.areaName}-${index}`}>
-              <StyledTableCell>
-                {healthDataForArea.ageCategories[index]}
-              </StyledTableCell>
-              <StyledTableCell>
-                {getActualCount(
-                  healthDataForArea.populationCounts,
-                  healthDataForArea.raw?.maleSeries[index]
-                )}
-              </StyledTableCell>
-              <StyledTableCell>
-                {getActualCount(
-                  healthDataForArea.populationCounts,
-                  healthDataForArea.raw?.femaleSeries[index]
-                )}
-              </StyledTableCell>
+              {columnValues.map((value, valueIndex: number) => (
+                <StyledTableCell
+                  key={`${healthDataForArea.areaName}-${index}-${valueIndex}`}
+                >
+                  {valueFormatter(value)}
+                </StyledTableCell>
+              ))}
             </Table.Row>
           );
         })}

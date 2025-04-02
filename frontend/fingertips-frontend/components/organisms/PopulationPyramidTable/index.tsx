@@ -87,14 +87,22 @@ export function PopulationPyramidTable({
             headers={['Male', 'Female']}
             title={`Group: ${groupData?.areaName}`}
             healthDataForArea={groupData}
+            filterValues={(columns) => {
+              return columns.slice(1);
+            }}
           />
         </div>
       </div>
-      <div style={{ flexGrow: 2 }}>
+      <div
+        style={{ flexGrow: 2, marginLeft: 'auto', backgroundColor: '#B1B4B6' }}
+      >
         <PyramidTable
           headers={['Male', 'Female']}
           title={`Benchmark: ${benchmarkData?.areaName}`}
           healthDataForArea={benchmarkData}
+          filterValues={(columns) => {
+            return columns.slice(1);
+          }}
         />
       </div>
     </section>

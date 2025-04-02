@@ -169,7 +169,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 500,
+          count: 9000,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
