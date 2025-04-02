@@ -3,14 +3,22 @@ import { HeatmapCell } from './heatmapCell';
 import { CellType } from './heatmapUtil';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 
-describe('heatmap cell', () => {
+describe('cell types', () => {
   it.each([
-    [CellType.IndicatorTitle, 'heatmap-cell-indicator-title'],
-    [CellType.IndicatorInformation, 'heatmap-cell-indicator-info'],
-    [CellType.Data, 'heatmap-cell-data'],
+    [
+      'indicator title',
+      CellType.IndicatorTitle,
+      'heatmap-cell-indicator-title',
+    ],
+    [
+      'indicator information',
+      CellType.IndicatorInformation,
+      'heatmap-cell-indicator-info',
+    ],
+    ['data', CellType.Data, 'heatmap-cell-data'],
   ])(
-    'should render appropriate cell type %s with default background and text colour',
-    (cellType, expectedTestId) => {
+    'should render appropriate type for %s cell',
+    (_, cellType, expectedTestId) => {
       const screen = render(
         <table>
           <tbody>
