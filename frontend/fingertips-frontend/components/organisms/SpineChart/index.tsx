@@ -1,6 +1,6 @@
 export interface SpineChartProps {
   best: number;
-  percentile25th: number;
-  percentile75th: number;
+  secondBest: number;
+  secondWorst: number;
   worst: number;
 }
