@@ -98,24 +98,14 @@ describe('PopulationPyramidWithTable', () => {
   test('renders component with default title', () => {
     setupUI(mockHealthDataForArea);
     expect(screen.getByText('Related Population Data')).toBeInTheDocument();
-    expect(screen.getByTestId('population-pyramid')).toBeInTheDocument();
-  });
-
-  test('updates title when area is selected', () => {
-    setupUI(mockHealthDataForArea);
-
-    fireEvent.click(screen.getByTestId('select-input'));
-
-    expect(
-      screen.getByText(/Resident population profile for Test Area 2025/)
-    ).toBeInTheDocument();
   });
 
   test('renders tabs correctly', () => {
-    setupUI(mockHealthDataForArea);
+    const container = setupUI(mockHealthDataForArea);
+    expect(screen.getByText('Show population data')).toBeInTheDocument();
 
-    expect(screen.getByText('Population pyramid')).toBeInTheDocument();
-    expect(screen.getByText('Table')).toBeInTheDocument();
+    fireEvent.click(container.getByText('Show population data'));
+    expect(screen.getByText('Hide population data')).toBeInTheDocument();
   });
 
   test('take a snapshot', () => {

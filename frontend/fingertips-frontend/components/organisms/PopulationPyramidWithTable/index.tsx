@@ -8,7 +8,6 @@ import {
   createPyramidPopulationDataFrom,
   PopulationDataForArea,
 } from '@/lib/chartHelpers/preparePopulationData';
-import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
 import { TabContainer } from '@/components/layouts/tabContainer';
 import {
   AreaSelectInputData,
@@ -23,6 +22,7 @@ import {
   SearchStateParams,
 } from '@/lib/searchStateManager';
 import { usePathname, useRouter } from 'next/navigation';
+import { ArrowExpander } from '@/components/molecules/ArrowExpander';
 
 const getHeaderTitle = (
   healthData: HealthDataForArea | undefined,
@@ -141,9 +141,10 @@ export const PopulationPyramidWithTable = ({
 
   return (
     <div>
-      <H3>Related Population Data</H3>
-      <ShowHideContainer
-        summary="Population data"
+      <H3 style={{ fontSize: '24px' }}>Related Population Data</H3>
+      <ArrowExpander
+        openTitle="Show population data"
+        closeTitle="Hide population data"
         open={
           selectedAreaCode != undefined &&
           selectedAreaCode === selectedArea?.areaCode
@@ -194,7 +195,7 @@ export const PopulationPyramidWithTable = ({
             />
           ) : null}
         </div>
-      </ShowHideContainer>
+      </ArrowExpander>
     </div>
   );
 };
