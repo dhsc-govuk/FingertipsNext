@@ -20,7 +20,9 @@ describe('formatNumber and formatWholeNumber', () => {
     [1867.5, '1,867.5'],
     [318.75, '318.8'],
     [1867.75, '1,867.8'],
-  ])('formatNumber: %d to %d', (value: number, expected: string) => {
+    [-1867.743, '-1,867.7'],
+    [undefined, 'X'],
+  ])('formatNumber: %d to %d', (value: number | undefined, expected: string) => {
     expect(formatNumber(value)).toBe(expected);
   });
 
@@ -33,7 +35,9 @@ describe('formatNumber and formatWholeNumber', () => {
     [1867.5, '1,868'],
     [318.75, '319'],
     [1867.75, '1,868'],
-  ])('formatWholeNumber: %d to %d', (value: number, expected: string) => {
+    [-1867.75, '-1,868'],
+    [undefined, 'X'],
+  ])('formatWholeNumber: %d to %d', (value: number | undefined, expected: string) => {
     expect(formatWholeNumber(value)).toBe(expected);
   });
 });
