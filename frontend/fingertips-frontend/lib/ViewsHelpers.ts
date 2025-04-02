@@ -1,4 +1,4 @@
-export const maxIndicatorAPIRequestSize = 10;
+export const maxNumAreasThatCanBeRequestedAPI = 100;
 export function chunkArray(arrayToChunk: string[], chunkSize: number) {
   const chunkedArray = [];
   for (let i = 0; i < arrayToChunk.length; i += chunkSize) {

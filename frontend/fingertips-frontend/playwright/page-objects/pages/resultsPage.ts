@@ -1,13 +1,13 @@
 import { SearchParams } from '@/lib/searchStateManager';
 import { expect } from '../pageFactory';
 import {
+  AreaMode,
   IndicatorMode,
   returnIndicatorIDsByIndicatorMode,
   SearchMode,
 } from '@/playwright/testHelpers';
 import AreaFilter from '../components/areaFilter';
-import { getIndicatorNameById } from '../../testHelpers';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { RawIndicatorDocument } from '@/lib/search/searchTypes';
 
 export default class ResultsPage extends AreaFilter {
   readonly resultsText = 'Search results';
@@ -71,6 +71,13 @@ export default class ResultsPage extends AreaFilter {
     if (searchMode === SearchMode.ONLY_AREA) {
       await expect(heading).toContainText(this.resultsText);
     }
+  }
+
+  async checkRecentTrends(areaMode: AreaMode) {
+    const trendsShouldBeVisible = areaMode !== AreaMode.TWO_PLUS_AREAS;
+    await expect(
+      this.page.getByText('Recent trend for selected area')
+    ).toBeVisible({ visible: trendsShouldBeVisible });
   }
 
   async clickBackLink() {
@@ -271,18 +278,16 @@ export default class ResultsPage extends AreaFilter {
   }
 
   async clickViewBackgroundInformationLinkForIndicator(
-    indicatorId: string,
-    typedIndicatorData: IndicatorDocument[]
+    indicator: RawIndicatorDocument
   ) {
-    const indicatorName = getIndicatorNameById(indicatorId, typedIndicatorData);
-    if (!indicatorName) {
-      throw new Error(`Indicator with ID ${indicatorId} not found`);
+    if (!indicator) {
+      throw new Error(`Indicator not found`);
     }
 
     await this.clickAndAwaitLoadingComplete(
       this.page
         .getByTestId(this.pillContainer)
-        .getByText(indicatorName)
+        .getByText(indicator.indicatorName)
         .getByRole('link', { name: 'View background information' })
     );
   }
