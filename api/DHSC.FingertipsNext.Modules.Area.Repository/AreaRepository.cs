@@ -30,7 +30,7 @@ public class AreaRepository : IAreaRepository
     /// Retrieves a list of area models based on the requested area codes.
     /// </summary>
     /// <param name="areaCodes"></param>
-    /// <returns></returns>
+    /// <returns>List of areas requested</returns>
     public async Task<List<AreaModel>> GetMultipleAreaDetailsAsync(string[] areaCodes)
     {
         return await _dbContext.Area

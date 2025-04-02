@@ -18,6 +18,7 @@ namespace DHSC.FingertipsNext.Modules.Area.Controllers.V1;
 public class AreaController : ControllerBase
 {
     private readonly IAreaService _areaService;
+    private const int MaxNumberAreas = 100;
 
     /// <summary>
     ///
@@ -42,18 +43,22 @@ public class AreaController : ControllerBase
     )
     {
         // Could discuss in PR - .IsNullOrEmpty() is nicer but makes the linter sad - why?
-        if (areaCodes == null || areaCodes.Length == 0) {
+        if (areaCodes == null || areaCodes.Length == 0)
             return new BadRequestObjectResult(new SimpleError
             {
-                Message = "Please provide at least one area for the parameter area_codes"
+                Message = "Please provide at least one value for the parameter area_codes"
             });
-        }
+
+        if (areaCodes is {Length: > MaxNumberAreas})
+            return new BadRequestObjectResult(new SimpleError
+            {
+                Message =
+                    $"Too many values supplied for parameter area_codes. The maximum is {MaxNumberAreas} but {areaCodes.Length} supplied."
+            });
 
         var areasData = await _areaService.GetMultipleAreaDetails(areaCodes);
 
-        if (areasData.IsNullOrEmpty()) {
-            return NotFound();
-        }
+        if (areasData.IsNullOrEmpty()) return NotFound();
 
         return Ok(areasData);
     }

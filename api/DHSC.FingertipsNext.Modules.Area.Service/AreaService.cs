@@ -35,7 +35,7 @@ public class AreaService : IAreaService
     /// Gets a list of areas for the list of requested area codes.
     /// </summary>
     /// <param name="areaCodes"></param>
-    /// <returns></returns>
+    /// <returns>List of areas requested</returns>
     public async Task<List<Schemas.Area>> GetMultipleAreaDetails(string[] areaCodes)
     {
         return _mapper.Map<List<Schemas.Area>>(await _areaRepository.GetMultipleAreaDetailsAsync(areaCodes));
