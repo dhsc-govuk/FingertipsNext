@@ -148,7 +148,11 @@ const filterHealthDataForArea = (
 export const createPyramidPopulationDataFrom = (
   dataForAreas: HealthDataForArea[],
   groupAreaCode: string
-) => {
+): {
+  areas: (PopulationDataForArea | undefined)[];
+  benchmark: PopulationDataForArea | undefined;
+  group: PopulationDataForArea | undefined;
+} => {
   const { areas, benchmark, group } = filterHealthDataForArea(
     dataForAreas,
     groupAreaCode
