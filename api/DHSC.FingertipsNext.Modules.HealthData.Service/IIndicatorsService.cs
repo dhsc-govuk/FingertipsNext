@@ -25,4 +25,22 @@ public interface IIndicatorsService
         string areaType,
         IEnumerable<int> years,
         IEnumerable<string> inequalities);
+
+    /// <summary>
+    ///     Get quartile data for set of public health indicators. Returns data for all
+    ///     indicators for the latest year for that indicator. It includes the average value for the
+    ///     selected area, ancestor area and Englad where available.
+    /// </summary>
+    /// <param name="indicatorIds">The unique identifiers for the requested indicators.</param>
+    /// <param name="areaCode">The area code for comparison.</param>
+    /// <param name="areaType">The area type which the codes are taken from.</param>
+    /// <param name="ancestorCode">The ancestor for comparison.</param>
+    /// <returns>
+    ///     <c>IndicatorWithHealthDataForArea</c> matching the criteria
+    /// </returns>
+    Task<IEnumerable<IndicatorQuartileData>> GetQuartileDataAsync(
+        IEnumerable<int> indicatorIds,
+        string areaCode,
+        string areaType,
+        string ancestorCode);
 }

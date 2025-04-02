@@ -18,7 +18,7 @@ import {
   generateStandardLineChartOptions,
   LineChartVariant,
 } from '@/components/organisms/LineChart/lineChartHelpers';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchState } from '@/context/SearchStateContext';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
 import { IndicatorPolarity } from '@/generated-sources/ft-api-client';
@@ -70,7 +70,8 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
       : undefined;
 
   const shouldLineChartbeShown =
-    dataWithoutEnglandOrGroup[0]?.healthData.length > 1 &&
+    (dataWithoutEnglandOrGroup[0]?.healthData.length > 1 ||
+      benchmarkMethod === BenchmarkComparisonMethod.Quintiles) &&
     areasSelected &&
     areasSelected?.length <= 2;
 

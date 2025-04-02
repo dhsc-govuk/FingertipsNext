@@ -4,17 +4,19 @@ import { ArrowToggleButton } from '@/components/molecules/ArrowToggleButton';
 import styled from 'styled-components';
 import { Label } from 'govuk-react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import { typography } from '@govuk-react/lib';
 
 const StyleButtonExpander = styled('span')({
   'display': 'flex',
   'flexDirection': 'row',
   'justifyContent': 'left',
   'width': 'fit-content',
+  'margin': '0px',
+  'marginBottom': '15px',
   'flexWrap': 'wrap',
   'cursor': 'pointer',
-  'padding': '5px',
+  'padding': '0px',
   'alignItems': 'center',
-
   ':hover svg circle': {
     fill: GovukColours.Black,
     stroke: GovukColours.Black,
@@ -26,13 +28,16 @@ const StyleButtonExpander = styled('span')({
 });
 
 const StyleLabelTextForExpander = styled(Label)<{ fill?: string }>(
-  ({ fill }) => ({
-    fontWeight: '300',
-    fontSize: '19px',
-    color: fill,
-    padding: '2px 1px 1px 1px',
-    cursor: 'pointer',
-  })
+  ({ fill }) => (
+    typography.font({ size: 19, lineHeight: '19' }),
+    {
+      fontWeight: '300',
+      color: fill,
+      padding: '2px 1px 1px 1px',
+      cursor: 'pointer',
+      spacing: 0,
+    }
+  )
 );
 
 interface ExpanderProps {
@@ -40,14 +45,16 @@ interface ExpanderProps {
   fill?: string;
   openTitle?: string;
   closeTitle?: string;
+  open?: boolean;
 }
 export const ArrowExpander = ({
   children,
   fill = '#1D70B8',
   openTitle,
   closeTitle,
+  open = false,
 }: ExpanderProps) => {
-  const [isOpen, setIsOpen] = useState<boolean>();
+  const [isOpen, setIsOpen] = useState<boolean>(open);
   return (
     <>
       <StyleButtonExpander onClick={() => setIsOpen(!isOpen)}>
