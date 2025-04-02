@@ -25,18 +25,18 @@ export default async function TwoOrMoreIndicatorsAreasView({
   } = stateManager.getSearchState();
 
   if (!indicatorsSelected || indicatorsSelected.length < 2) {
-    throw new Error('Invalid indicators selected passed to view');
+    throw new Error('invalid indicators selected passed to view');
   }
 
   if (!areasSelected || areasSelected.length < 1) {
-    throw new Error('Invalid areas selected passed to view');
+    throw new Error('invalid areas selected passed to view');
   }
 
   if (
     !selectedIndicatorsData ||
     selectedIndicatorsData.length !== indicatorsSelected.length
   ) {
-    throw new Error('Invalid indicator metadata passed to view');
+    throw new Error('invalid indicator metadata passed to view');
   }
 
   const areaCodesToRequest = [...areasSelected];
@@ -76,8 +76,9 @@ export default async function TwoOrMoreIndicatorsAreasView({
         .map((indicatorData) => indicatorData?.areaHealthData ?? [])
         .flat();
     } catch (error) {
-      console.error('error getting health indicator data for areas', error);
-      throw new Error('error getting health indicator data for areas');
+      throw new Error(
+        `error getting health indicator data for areas: ${error}`
+      );
     }
 
     return healthIndicatorData;
