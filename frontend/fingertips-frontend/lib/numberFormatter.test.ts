@@ -22,9 +22,12 @@ describe('formatNumber and formatWholeNumber', () => {
     [1867.75, '1,867.8'],
     [-1867.743, '-1,867.7'],
     [undefined, 'X'],
-  ])('formatNumber: %d to %d', (value: number | undefined, expected: string) => {
-    expect(formatNumber(value)).toBe(expected);
-  });
+  ])(
+    'formatNumber: %d to %d',
+    (value: number | undefined, expected: string) => {
+      expect(formatNumber(value)).toBe(expected);
+    }
+  );
 
   it.each([
     [318.443, '318'],
@@ -37,7 +40,10 @@ describe('formatNumber and formatWholeNumber', () => {
     [1867.75, '1,868'],
     [-1867.75, '-1,868'],
     [undefined, 'X'],
-  ])('formatWholeNumber: %d to %d', (value: number | undefined, expected: string) => {
-    expect(formatWholeNumber(value)).toBe(expected);
-  });
+  ])(
+    'formatWholeNumber: %d to %d',
+    (value: number | undefined, expected: string) => {
+      expect(formatWholeNumber(value)).toBe(expected);
+    }
+  );
 });
