@@ -159,8 +159,8 @@ INSERT [dbo].[DeprivationDimension]
 )
 VALUES
 (
-    N'England',
-    N'England',
+    N'Persons',
+    N'Persons',
     0,
     11
 )
