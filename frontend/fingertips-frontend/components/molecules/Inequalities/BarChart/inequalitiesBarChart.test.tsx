@@ -37,7 +37,7 @@ describe('Inequalities LineChart suite', () => {
     expect(barChart).toHaveTextContent(yAxisLabel);
     expect(barChart).toHaveTextContent('$');
     expect(
-      screen.getByText('Compared to South FooBar')
+      screen.getByText('Compared to South FooBar for 2008 time period')
     ).toBeInTheDocument();
     expect(screen.getByText('Lower')).toBeInTheDocument();
     expect(screen.getByText('Higher')).toBeInTheDocument();
@@ -58,10 +58,5 @@ describe('Inequalities LineChart suite', () => {
       'highcharts-react-component-inequalitiesBarChart'
     );
     expect(barChart).toHaveTextContent('Inequality type: Sex');
-
-
-    expect(
-      screen.getByText('Compared to South FooBar persons')
-    ).toBeInTheDocument();
   })
 });

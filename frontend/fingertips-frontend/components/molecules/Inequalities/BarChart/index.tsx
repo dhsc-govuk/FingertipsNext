@@ -70,17 +70,13 @@ export function InequalitiesBarChart({
   // pending a better solution where an order key is supplied by API
   if (type === InequalitiesTypes.Sex) barChartFields.reverse();
 
-  // For the sex inequality we want to make it clear that we're comparing to all
-  // people in the area.
-  let comparedTo = barChartData.areaName;
-  if (type === InequalitiesTypes.Sex) {
-    comparedTo = `${barChartData.areaName} persons`
-  }
-
   const yAxisMaxValue = getMaxValue([
     ...barChartFields.map((field) => inequalities[field]?.value),
     benchmarkValue,
   ]);
+
+  const timePeriod = barChartData.data.period
+  const comparedTo = `${barChartData.areaName}`;
 
   const seriesData: Highcharts.SeriesOptionsType[] = [
     {
@@ -126,7 +122,7 @@ export function InequalitiesBarChart({
       max: yAxisMaxValue + 0.2 * yAxisMaxValue,
       plotLines: [
         {
-          ...getPlotline(comparedTo, benchmarkValue),
+          ...getPlotline(`${comparedTo} persons`, benchmarkValue),
           events: {
             mouseover: function (
               this: Highcharts.PlotLineOrBand,
@@ -206,7 +202,7 @@ export function InequalitiesBarChart({
         setShowConfidenceIntervalsData={setShowConfidenceIntervalsData}
       />
       <BenchmarkLegend
-        title={`Compared to ${comparedTo}`}
+        title={`Compared to ${comparedTo} for ${timePeriod} time period`}
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
       />

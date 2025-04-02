@@ -19,7 +19,7 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { getConfidenceLimitNumber } from '@/lib/chartHelpers/chartHelpers';
 
-export const StyledAlignLeftTableCellNoPadding = styled(
+const StyledAlignLeftTableCellNoPadding = styled(
   StyledAlignLeftTableCell
 )({
   padding: 0,
