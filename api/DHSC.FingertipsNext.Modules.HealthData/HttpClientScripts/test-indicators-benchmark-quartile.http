@@ -203,7 +203,7 @@ GET http://localhost:5144/indicators/quartiles?
 %}
 
 ### check Quartile comparison for county
-GET http://localhost:5144/indicators/quartiles?indicator_ids=94103&area_code=E09000027&area_type=counties-and-unitary-authorities&years=2019
+GET http://localhost:5144/indicators/quartiles?indicator_ids=94103&area_code=E09000027&area_type=counties-and-unitary-authorities
 > {%
     client.test("check Quartile comparison for county", function (callbackfn, thisArg) {
         const expected = [  {
@@ -225,7 +225,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94103&area_code=E09
 %}
 
 ### check Quartile comparison for district - same area as above - different result!
-GET http://localhost:5144/indicators/quartiles?indicator_ids=94103&area_code=E09000027&area_type=districts-and-unitary-authorities&years=2019
+GET http://localhost:5144/indicators/quartiles?indicator_ids=94103&area_code=E09000027&area_type=districts-and-unitary-authorities
 > {%
     client.test("check Quartile comparison for district", function (callbackfn, thisArg) {
         const expected = [{
@@ -240,6 +240,73 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94103&area_code=E09
             "areaValue": 20.76935,
             "ancestorValue": null,
             "englandValue": 25.80061
+        }]
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+
+### check Quartile comparison against Fingertips - https://fingertips.phe.org.uk/profile/dementia/data#page/1
+GET http://localhost:5144/indicators/quartiles?indicator_ids=91894&area_code=E54000028&area_type=nhs-integrated-care-boards&ancestor_code=E40000003
+> {%
+    client.test("check Quartile comparison for district", function (callbackfn, thisArg) {
+        const expected = [{
+            "indicatorId": 91894,
+            "polarity": "NoJudgement",
+            "year": 2023,
+            "q0Value": 17.03,
+            "q1Value": 21.08,
+            "q2Value": 26.23,
+            "q3Value": 29.69,
+            "q4Value": 39.48,
+            "areaValue": 34.98,
+            "ancestorValue": 36.66473,
+            "englandValue": 26.26
+        }]
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+
+### check Quartile comparison against Fingertips - https://fingertips.phe.org.uk/profile/tobacco-control/data#page/1/gid/1938132885/ati/502/iid/92443/age/168/sex/4/cat/-1/ctp/-1/yrr/1/cid/4/tbm/1
+GET http://localhost:5144/indicators/quartiles?indicator_ids=93085&area_code=E09000002&area_type=counties-and-unitary-authorities
+> {%
+    client.test("check Quartile comparison for district", function (callbackfn, thisArg) {
+        const expected = [{
+            "indicatorId": 93085,
+            "polarity": "LowIsGood",
+            "year": 2023,
+            "q0Value": 2.8,
+            "q1Value": 5.3,
+            "q2Value": 7.5,
+            "q3Value": 9.1,
+            "q4Value": 17.5,
+            "areaValue": 3.7,
+            "ancestorValue": null,
+            "englandValue": 7.4
+
+        }]
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+
+### check Quartile comparison when there is insufficient data
+GET http://localhost:5144/indicators/quartiles?indicator_ids=247&area_code=E92000001&area_type=england
+> {%
+    client.test("check Quartile comparison when there is in sufficient data", function (callbackfn, thisArg) {
+        const expected = [{
+            "indicatorId": 247,
+            "polarity": "NoJudgement",
+            "year": 2023,
+            "q0Value": null,
+            "q1Value": null,
+            "q2Value": null,
+            "q3Value": null,
+            "q4Value": null,
+            "areaValue": 0.7625772,
+            "ancestorValue": null,
+            "englandValue": 0.7625772
         }]
         client.assert(response.status === 200, "Response status is not 200");
         client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
