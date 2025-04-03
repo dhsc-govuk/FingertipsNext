@@ -368,3 +368,41 @@ export const filterHealthData = (
 ): HealthDataPoint[] => {
   return healthData.filter(filterFn);
 };
+
+export const getInequalityCategory = (
+  type: InequalitiesTypes,
+  healthIndicatorData: HealthDataForArea
+) => {
+  let inequalityCategory = '';
+  if (type == InequalitiesTypes.Deprivation) {
+    // This value will ultimately come from the inequality type dropdown
+    // For now, we just use the first deprivation type available
+    const disaggregatedDeprivationData = filterHealthData(
+      healthIndicatorData.healthData,
+      (data) => !data.deprivation.isAggregate
+    );
+    const deprivationTypes = Object.keys(
+      Object.groupBy(
+        disaggregatedDeprivationData,
+        (data) => data.deprivation.type
+      )
+    );
+    inequalityCategory = deprivationTypes[0];
+  }
+  return inequalityCategory;
+};
+
+export const getYearsWithInequalityData = (
+  allData: InequalitiesTableRowData[]
+): number[] =>
+  allData.reduce((acc: number[], periodData: InequalitiesTableRowData) => {
+    if (
+      !(
+        Object.keys(periodData.inequalities).length === 1 &&
+        periodData.inequalities[Object.keys(periodData.inequalities)[0]]
+          ?.isAggregate
+      )
+    )
+      acc.push(periodData.period);
+    return acc;
+  }, []);

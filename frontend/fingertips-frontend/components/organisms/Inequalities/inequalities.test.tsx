@@ -22,13 +22,34 @@ jest.mock('@/context/SearchStateContext', () => {
   };
 });
 
+const mockPath = 'some-mock-path';
+const mockReplace = jest.fn();
+
+jest.mock('next/navigation', () => {
+  const originalModule = jest.requireActual('next/navigation');
+
+  return {
+    ...originalModule,
+    usePathname: () => mockPath,
+    useSearchParams: () => {},
+    useRouter: jest.fn().mockImplementation(() => ({
+      replace: mockReplace,
+    })),
+  };
+});
+
 describe('Inequalities suite', () => {
   beforeEach(() => {
     mockGetSearchState.mockReturnValue(state);
   });
 
   it('should render inequalities component', async () => {
-    render(<Inequalities healthIndicatorData={MOCK_HEALTH_DATA[1]} />);
+    render(
+      <Inequalities
+        healthIndicatorData={MOCK_HEALTH_DATA[1]}
+        searchState={state}
+      />
+    );
 
     expect(screen.getByTestId('inequalities-component')).toBeInTheDocument();
     expect(
@@ -52,7 +73,12 @@ describe('Inequalities suite', () => {
   });
 
   it('should render expected text', () => {
-    render(<Inequalities healthIndicatorData={MOCK_HEALTH_DATA[1]} />);
+    render(
+      <Inequalities
+        healthIndicatorData={MOCK_HEALTH_DATA[1]}
+        searchState={state}
+      />
+    );
 
     expect(
       screen.getByText(/Inequalities data for a single time period/i)
@@ -66,6 +92,7 @@ describe('Inequalities suite', () => {
     render(
       <Inequalities
         healthIndicatorData={MOCK_HEALTH_DATA[1]}
+        searchState={state}
         measurementUnit="kg"
       />
     );
