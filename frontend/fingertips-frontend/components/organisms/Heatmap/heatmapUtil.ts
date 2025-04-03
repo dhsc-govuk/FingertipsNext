@@ -149,7 +149,7 @@ export const generateRows = (
         backgroundColour:
           area.code === areaCodeForEngland
             ? GovukColours.MidGrey
-            : generatedDataBackgroundColor(dataPoints[indicator.id][area.code]),
+            : generateDataBackgroundColour(dataPoints[indicator.id][area.code]),
       };
     });
     rows[indicatorIndex] = { key: `row-${indicator.id}`, cells: cols };
@@ -162,7 +162,7 @@ const formatValue = (value?: number): string => {
   return value !== undefined ? value.toFixed(1) : 'X';
 };
 
-const generatedDataBackgroundColor = (dataPoint?: DataPoint): string => {
+const generateDataBackgroundColour = (dataPoint?: DataPoint): string => {
   if (
     !dataPoint ||
     !dataPoint.value ||
