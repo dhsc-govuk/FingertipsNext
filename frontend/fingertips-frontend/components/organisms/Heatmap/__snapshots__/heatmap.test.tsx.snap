@@ -874,56 +874,10 @@ exports[`snapshot test 1`] = `
             <div
               class="c20"
             >
-<<<<<<< HEAD
               <div
                 class="c20"
               >
-                1112.0
-              </div>
-=======
-              1,112.0
->>>>>>> main
-            </div>
-          </td>
-          <td
-            class="c14 c18 c21"
-            data-testid="heatmap-cell-data"
-          >
-            <div
-              class="c20"
-            >
-<<<<<<< HEAD
-              <div
-                class="c20"
-              >
-                1132.0
-              </div>
-=======
-              1,132.0
-            </div>
-          </td>
-          <td
-            class="c14 c18 c19"
-          >
-            <div
-              class="c20"
-            >
-              1,142.0
->>>>>>> main
-            </div>
-          </td>
-          <td
-            class="c14 c18 c21"
-            data-testid="heatmap-cell-data"
-          >
-            <div
-              class="c20"
-            >
-<<<<<<< HEAD
-              <div
-                class="c20"
-              >
-                1142.0
+                1,112.0
               </div>
             </div>
           </td>
@@ -937,11 +891,36 @@ exports[`snapshot test 1`] = `
               <div
                 class="c20"
               >
-                1122.0
+                1,132.0
               </div>
-=======
-              1,122.0
->>>>>>> main
+            </div>
+          </td>
+          <td
+            class="c14 c18 c21"
+            data-testid="heatmap-cell-data"
+          >
+            <div
+              class="c20"
+            >
+              <div
+                class="c20"
+              >
+                1,142.0
+              </div>
+            </div>
+          </td>
+          <td
+            class="c14 c18 c21"
+            data-testid="heatmap-cell-data"
+          >
+            <div
+              class="c20"
+            >
+              <div
+                class="c20"
+              >
+                1,122.0
+              </div>
             </div>
           </td>
         </tr>
