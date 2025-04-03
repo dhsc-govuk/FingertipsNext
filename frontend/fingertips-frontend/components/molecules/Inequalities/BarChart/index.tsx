@@ -158,7 +158,10 @@ export function InequalitiesBarChart({
                 y: plotlineOptions.value,
                 plotX: normalizedEvent.chartX - chart.plotLeft,
                 plotY: normalizedEvent.chartY - chart.plotTop,
-                tooltipPos: [normalizedEvent.chartX, normalizedEvent.chartY],
+                tooltipPos: [
+                  normalizedEvent.chartX - chart.plotLeft,
+                  normalizedEvent.chartY - chart.plotTop,
+                ],
               } as unknown as Highcharts.Point;
 
               tooltip.update({ shape: 'rect' });
