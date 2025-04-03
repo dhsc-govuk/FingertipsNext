@@ -69,9 +69,10 @@ export default async function TwoOrMoreIndicatorsAreasView({
       );
 
       healthIndicatorData = healthIndicatorDataChunks[0];
- 
-      healthIndicatorData.indicatorId = healthIndicatorData.indicatorId ?? Number(indicatorId);
- 
+
+      healthIndicatorData.indicatorId =
+        healthIndicatorData.indicatorId ?? Number(indicatorId);
+
       healthIndicatorData.areaHealthData = healthIndicatorDataChunks
         .map((indicatorData) => indicatorData?.areaHealthData ?? [])
         .flat();

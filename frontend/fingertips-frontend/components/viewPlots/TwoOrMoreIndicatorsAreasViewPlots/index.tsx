@@ -29,8 +29,7 @@ export function mapToSpineChartTableIndicator(
 
   const rowTitle: string = metadata?.indicatorName ?? '';
 
-  const rowIndicatorDefinition: string =
-    metadata?.indicatorDefinition ?? '';
+  const rowIndicatorDefinition: string = metadata?.indicatorDefinition ?? '';
 
   const rowIndicator: Indicator = {
     indicatorId: rowIndicatorId,
