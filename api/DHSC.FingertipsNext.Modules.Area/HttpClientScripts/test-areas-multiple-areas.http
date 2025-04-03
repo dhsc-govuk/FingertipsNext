@@ -1,0 +1,34 @@
+### check get multiple areas returns the list of area details for the requested area codes.
+
+# North East Region and Yorkshire and the Humber Region
+GET http://localhost:5144/areas?area_codes=E12000001&area_codes=E12000003
+
+> {%
+    const expected = require ('./test-areas-multiple-areas-response.json');
+
+    client.test("Expected areas returned in response", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+
+### check endpoint returns validation error if no area codes provided.
+GET http://localhost:5144/areas
+
+> {%
+    const validationErrorMessage = "Please provide at least one area for the parameter area_codes";
+
+    client.test("Expected validation error received", function (callbackfn, thisArg) {
+        client.assert(response.status === 400, "Response status is not 400");
+        client.assert(response.body.message === validationErrorMessage, "Received unexpected validation error message");
+    });
+%}
+
+### check endpoint returns a not found error for an area code which does not exist.
+GET http://localhost:5144/areas?area_codes=narnia
+
+> {%
+    client.test("Expected not found error received", function (callbackfn, thisArg) {
+        client.assert(response.status === 404, "Response status is not 404");
+    });
+%}
