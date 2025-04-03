@@ -33,8 +33,8 @@ export function ViewsWrapper({
           style={{ marginBottom: '3em' }}
         >
           <Paragraph>
-            There is no indicator data available for the selected areas. You can
-            try again by selecting a different area.
+            There is no indicator data available for the selected areas. Try
+            again by selecting a different area.
           </Paragraph>
         </div>
       )}
