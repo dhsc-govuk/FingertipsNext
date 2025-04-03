@@ -126,24 +126,22 @@ export const PopulationDataTable = ({
           );
         })}
 
-        <Table.Header>
-          {(() => {
-            const items = filterValues
-              ? filterValues(footerRowItems)
-              : footerRowItems;
-            return (
-              <Table.Row key={`footer-${healthDataForArea.areaName}`}>
-                {items.map((value, valueIndex: number) => (
-                  <StyledAreaNameHeader
-                    key={`footer-${healthDataForArea.areaName}-${valueIndex}`}
-                  >
-                    {valueFormatter(value)}
-                  </StyledAreaNameHeader>
-                ))}
-              </Table.Row>
-            );
-          })()}
-        </Table.Header>
+        {(() => {
+          const items = filterValues
+            ? filterValues(footerRowItems)
+            : footerRowItems;
+          return (
+            <Table.Row key={`footer-${healthDataForArea.areaName}`}>
+              {items.map((value, valueIndex: number) => (
+                <StyledAreaNameHeader
+                  key={`footer-${healthDataForArea.areaName}-${valueIndex}`}
+                >
+                  {valueFormatter(value)}
+                </StyledAreaNameHeader>
+              ))}
+            </Table.Row>
+          );
+        })()}
       </Table>
     </section>
   );

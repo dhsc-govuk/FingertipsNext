@@ -107,7 +107,7 @@ export function PopulationPyramidTable({
           <StyleGroupTableContentDiv>
             <PopulationDataTable
               headers={['Male', 'Female']}
-              title={`Group: ${groupData?.areaName}`}
+              title={`${groupData?.areaName}`}
               healthDataForArea={groupData}
               filterValues={(columns) => {
                 return columns.slice(1);
