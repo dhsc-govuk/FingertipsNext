@@ -19,15 +19,3 @@ const wholeNumberFormat = new Intl.NumberFormat(FormattingLocale, {
 export function formatWholeNumber(value: number | undefined): string {
   return value !== undefined ? wholeNumberFormat.format(value) : 'X';
 }
-
-/*
-  needs looking at
-  ~~~~~~~~~~~~~~~~
-  only 1 decimal place, so look at other values that I previously ignored
-
-generateInequalitiesLineChartTooltipStringList
-pointFormatterHelper
-
-
-SparklineChart - unsure what the values are
- */
