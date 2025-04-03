@@ -12,13 +12,7 @@ import { Area, AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { ViewsSelector } from './ViewsSelector';
-
-export type ViewProps = {
-  searchState: SearchStateParams;
-  areaFilterData?: AreaFilterData;
-  selectedAreasData?: AreaWithRelations[];
-  selectedIndicatorsData?: IndicatorDocument[];
-};
+import { PopulationPyramidWithTableDataProvider } from '@/app/chart/PopulationPyramidWithTableDataProvider';
 
 const determineAreaCodes = (
   groupAreaSelected?: string,
@@ -38,6 +32,13 @@ const determineAreaCodes = (
   }
 
   return areaSelected ?? [];
+};
+
+export type ViewProps = {
+  searchState: SearchStateParams;
+  areaFilterData?: AreaFilterData;
+  selectedAreasData?: AreaWithRelations[];
+  selectedIndicatorsData?: IndicatorDocument[];
 };
 
 export function ViewsContext({
@@ -62,17 +63,22 @@ export function ViewsContext({
 
   return (
     <ChartPageWrapper
+      key={JSON.stringify(searchState)}
       searchState={searchState}
       areaFilterData={areaFilterData}
       selectedAreasData={selectedAreasData}
       selectedIndicatorsData={selectedIndicatorsData}
     >
       <ViewsSelector
-        key={JSON.stringify(searchState)}
         areaCodes={areaCodes}
         indicators={indicators}
         searchState={searchState}
         selectedIndicatorsData={selectedIndicatorsData}
+      />
+
+      <PopulationPyramidWithTableDataProvider
+        areaCodes={areaCodes}
+        searchState={searchState}
       />
     </ChartPageWrapper>
   );

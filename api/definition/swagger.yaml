@@ -81,7 +81,7 @@ paths:
     get:
       tags:
         - areas
-      summary: Get area
+      summary: Get single area
       description: Get the full details of a given area, including it's parents, optionally including it's children, siblings and cousins
       operationId: getArea
       parameters:
@@ -114,6 +114,43 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RootArea"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /areas:
+    get:
+      tags:
+        - areas
+      summary: Get multiple areas
+      description: Get the basic details without children, parent relationships etc.
+        for 1 or more areas
+      operationId: getAreas
+      parameters:
+        - $ref: "#/components/parameters/area_codes"
+      responses:
+        "200":
+          description: A list of the basic area details for each of the requested area codes.
+          content:
+            application/json:
+              schema:
+                type: array
+                maxItems: 100
+                items:
+                  $ref: "#/components/schemas/Area"
+        "400":
+          description: A validation error due to improper usage of the area_codes parameter.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequest"
+              examples:
+                No area_codes provided:
+                  value:
+                    message: Please provide at least value for the parameter area_codes.
+                Too many area_codes:
+                  value:
+                    message: Too many values supplied for parameter area_codes. The maximum is 100 but 101 supplied.
+        "404":
+          $ref: "#/components/responses/NotFound"
         "500":
           $ref: "#/components/responses/InternalServerError"
   /healthcheck:
@@ -239,6 +276,36 @@ paths:
         - $ref: "#/components/parameters/years"
         - $ref: "#/components/parameters/inequalities"
       operationId: getHealthDataForAnIndicator
+  /indicators/quartiles:
+    get:
+      tags:
+        - indicators
+      summary: Get quartile values for indicators
+      description: |
+        Get quartile information for indicators including 
+      parameters:
+        - $ref: "#/components/parameters/indicator_ids"
+        - $ref: "#/components/parameters/area_code"
+        - $ref: "#/components/parameters/area_type"
+        - $ref: "#/components/parameters/ancestor_code"
+      responses:
+        "200":
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/QuartileData"
+        "400":
+          description: Bad request. The server could not process the request.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequest"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
 components:
   schemas:
     IndicatorPolarity: # Define enum globally
@@ -452,7 +519,7 @@ components:
               description: The name of the benchmark area
             benchmarkValue:
               type: number
-              example: 123
+              example: 123.5
               description: The value used in the comparison
         deprivation:
           $ref: "#/components/schemas/DeprivationData"
@@ -554,6 +621,45 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/HealthDataForArea"
+    QuartileData:
+      type: object
+      description: Quartile data for an indicator plus supporting information 
+      properties:
+        indicatorId:
+          type: integer
+          example: 21404
+          description: Unique ID of the indicator
+        year:
+          type: integer
+          format: int32
+          example: 2023
+          description: The year that the data point is for        
+        polarity:
+          $ref: "#/components/schemas/IndicatorPolarity"
+        q0Value:
+           type: number
+           description: Quartile Q0 value - the minimum value
+        q1Value:
+           type: number
+           description: Quartile Q1 value - the lower quartile value
+        q2Value:
+           type: number
+           description: Quartile Q2 value - the median value
+        q3Value:
+           type: number
+           description: Quartile Q3 value - the upper quartile value
+        q4Value:
+           type: number
+           description: Quartile Q4 value - the maximum value
+        areaValue:
+          type: number
+          description: the average value for the area requested for comparison 
+        ancestorValue:
+          type: number
+          description: the average value for the ancestor area requested for comparison 
+        englandValue:
+          type: number
+          description: the average value for England for comparison
     BadRequest:
       type: object
       required:
@@ -576,6 +682,16 @@ components:
           type: integer
           example: 2023
         maxItems: 20
+    ancestor_code:
+      in: path
+      name: ancestor_code
+      style: simple
+      schema:
+        type: string
+        example: E12000001
+      explode: false
+      required: true
+      description: The area code of an ancestor area
     area_code:
       in: path
       name: area_code

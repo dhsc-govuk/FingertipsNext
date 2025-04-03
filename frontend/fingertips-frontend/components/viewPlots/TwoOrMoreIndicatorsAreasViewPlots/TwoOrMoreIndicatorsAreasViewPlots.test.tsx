@@ -1,6 +1,9 @@
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { TwoOrMoreIndicatorsAreasViewPlot } from '.';
-import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataPointTrendEnum,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
 import { render, screen } from '@testing-library/react';
 import {
   HealthDataForArea,
@@ -19,7 +22,7 @@ jest.mock('next/navigation', () => {
 });
 
 const indicatorIds = ['123', '321'];
-const mockAreas = ['A001'];
+const mockAreas = ['A001', 'A002', 'A003'];
 const mockGroupArea = 'G001';
 
 const mockSearchParams: SearchStateParams = {
@@ -104,6 +107,7 @@ const mockAreaHealthData: HealthDataForArea[] = [
 
 const mockIndicatorData: IndicatorWithHealthDataForArea[] = [
   {
+    indicatorId: Number(indicatorIds[0]),
     areaHealthData: [
       mockAreaHealthData[0],
       mockGroupHealthData,
@@ -111,6 +115,7 @@ const mockIndicatorData: IndicatorWithHealthDataForArea[] = [
     ],
   },
   {
+    indicatorId: Number(indicatorIds[1]),
     areaHealthData: [
       mockAreaHealthData[1],
       mockGroupHealthData,
@@ -148,15 +153,56 @@ const mockMetaData = [
   },
 ];
 
+const mockBenchmarkStatistics = [
+  {
+    indicatorId: Number(indicatorIds[0]),
+    polarity: IndicatorPolarity.LowIsGood,
+    q0Value: 0,
+    q1Value: 1,
+    q3Value: 3,
+    q4Value: 4,
+  },
+  {
+    indicatorId: Number(indicatorIds[1]),
+    polarity: IndicatorPolarity.LowIsGood,
+    q0Value: 4,
+    q1Value: 3,
+    q3Value: 1,
+    q4Value: 0,
+  },
+];
+
 describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
-  it('should render the SpineChartTable components', async () => {
+  it('should render all components with up to 2 areas selected', () => {
+    const areas = [mockAreas[0], mockAreas[1]];
+    mockSearchParams[SearchParams.AreasSelected] = areas;
+
     render(
       <TwoOrMoreIndicatorsAreasViewPlot
         searchState={mockSearchParams}
         indicatorData={mockIndicatorData}
         indicatorMetadata={mockMetaData}
+        benchmarkStatistics={mockBenchmarkStatistics}
       />
     );
+    expect(screen.getByTestId('heatmapChart-component')).toBeInTheDocument();
     expect(screen.getByTestId('spineChartTable-component')).toBeInTheDocument();
+  });
+  it('should not render the spine chart component with more than 2 areas selected', () => {
+    const areas = [mockAreas[0], mockAreas[1], mockAreas[2]];
+    mockSearchParams[SearchParams.AreasSelected] = areas;
+
+    render(
+      <TwoOrMoreIndicatorsAreasViewPlot
+        searchState={mockSearchParams}
+        indicatorData={mockIndicatorData}
+        indicatorMetadata={mockMetaData}
+        benchmarkStatistics={mockBenchmarkStatistics}
+      />
+    );
+    expect(screen.getByTestId('heatmapChart-component')).toBeInTheDocument();
+    expect(
+      screen.queryByTestId('spineChartTable-component')
+    ).not.toBeInTheDocument();
   });
 });

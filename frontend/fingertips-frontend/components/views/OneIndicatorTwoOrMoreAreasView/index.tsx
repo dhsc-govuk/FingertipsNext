@@ -11,9 +11,11 @@ import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-clien
 import {
   AreaTypeKeysForMapMeta,
   getMapGeographyData,
+  allowedAreaTypeMapMetaKeys,
 } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 import { chunkArray } from '@/lib/ViewsHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 
 export default async function OneIndicatorTwoOrMoreAreasView({
@@ -92,9 +94,11 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   }
 
   const indicatorMetadata = selectedIndicatorsData?.[0];
-
   const mapGeographyData =
-    selectedGroupArea === ALL_AREAS_SELECTED && selectedAreaType
+    selectedGroupArea === ALL_AREAS_SELECTED &&
+    allowedAreaTypeMapMetaKeys.includes(
+      selectedAreaType as AreaTypeKeysForMapMeta
+    )
       ? getMapGeographyData(
           selectedAreaType as AreaTypeKeysForMapMeta,
           areasSelected
@@ -102,11 +106,16 @@ export default async function OneIndicatorTwoOrMoreAreasView({
       : undefined;
 
   return (
-    <OneIndicatorTwoOrMoreAreasViewPlots
-      indicatorData={indicatorData}
+    <ViewsWrapper
       searchState={searchState}
-      indicatorMetadata={indicatorMetadata}
-      mapGeographyData={mapGeographyData}
-    />
+      indicatorsDataForAreas={[indicatorData]}
+    >
+      <OneIndicatorTwoOrMoreAreasViewPlots
+        indicatorData={indicatorData}
+        searchState={searchState}
+        indicatorMetadata={indicatorMetadata}
+        mapGeographyData={mapGeographyData}
+      />
+    </ViewsWrapper>
   );
 }

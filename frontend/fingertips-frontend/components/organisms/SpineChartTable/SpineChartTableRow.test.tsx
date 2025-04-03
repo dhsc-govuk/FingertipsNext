@@ -16,25 +16,32 @@ describe('Spine chart table suite', () => {
     value: 456,
     groupValue: 789,
     benchmarkValue: 987,
-    benchmarkWorst: 345,
-    benchmarkBest: 999,
+    benchmarkStatistics: {
+      best: 999,
+      bestQuartile: 760,
+      worstQuartile: 500,
+      worst: 345,
+    },
   };
 
   describe('Spine chart table row', () => {
     it('should have grey cell color for benchmark column', () => {
       render(
-        <SpineChartTableRow
-          indicatorId={mockRowData.indicatorId}
-          indicator={mockRowData.indicator}
-          unit={mockRowData.unit}
-          period={mockRowData.period}
-          count={mockRowData.count}
-          value={mockRowData.value}
-          groupValue={mockRowData.groupValue}
-          benchmarkValue={mockRowData.benchmarkValue}
-          benchmarkBest={mockRowData.benchmarkBest}
-          benchmarkWorst={mockRowData.benchmarkWorst}
-        />
+        <table>
+          <tbody>
+            <SpineChartTableRow
+              indicatorId={mockRowData.indicatorId}
+              indicator={mockRowData.indicator}
+              unit={mockRowData.unit}
+              period={mockRowData.period}
+              count={mockRowData.count}
+              value={mockRowData.value}
+              groupValue={mockRowData.groupValue}
+              benchmarkValue={mockRowData.benchmarkValue}
+              benchmarkStatistics={mockRowData.benchmarkStatistics}
+            />
+          </tbody>
+        </table>
       );
 
       expect(screen.getByTestId('benchmark-value-cell')).toHaveStyle(
@@ -50,18 +57,21 @@ describe('Spine chart table suite', () => {
 
     it('should have light grey cell color for benchmark column', () => {
       render(
-        <SpineChartTableRow
-          indicatorId={mockRowData.indicatorId}
-          indicator={mockRowData.indicator}
-          unit={mockRowData.unit}
-          period={mockRowData.period}
-          count={mockRowData.count}
-          value={mockRowData.value}
-          groupValue={mockRowData.groupValue}
-          benchmarkValue={mockRowData.benchmarkValue}
-          benchmarkBest={mockRowData.benchmarkBest}
-          benchmarkWorst={mockRowData.benchmarkWorst}
-        />
+        <table>
+          <tbody>
+            <SpineChartTableRow
+              indicatorId={mockRowData.indicatorId}
+              indicator={mockRowData.indicator}
+              unit={mockRowData.unit}
+              period={mockRowData.period}
+              count={mockRowData.count}
+              value={mockRowData.value}
+              groupValue={mockRowData.groupValue}
+              benchmarkValue={mockRowData.benchmarkValue}
+              benchmarkStatistics={mockRowData.benchmarkStatistics}
+            />
+          </tbody>
+        </table>
       );
 
       expect(screen.getByTestId('group-value-cell')).toHaveStyle(
@@ -71,18 +81,21 @@ describe('Spine chart table suite', () => {
 
     it('should have X for missing data', () => {
       render(
-        <SpineChartTableRow
-          indicatorId={mockRowData.indicatorId}
-          indicator={mockRowData.indicator}
-          unit={mockRowData.unit}
-          period={mockRowData.period}
-          count={undefined}
-          value={undefined}
-          groupValue={undefined}
-          benchmarkValue={undefined}
-          benchmarkBest={mockRowData.benchmarkBest}
-          benchmarkWorst={mockRowData.benchmarkWorst}
-        />
+        <table>
+          <tbody>
+            <SpineChartTableRow
+              indicatorId={mockRowData.indicatorId}
+              indicator={mockRowData.indicator}
+              unit={mockRowData.unit}
+              period={mockRowData.period}
+              count={undefined}
+              value={undefined}
+              groupValue={undefined}
+              benchmarkValue={undefined}
+              benchmarkStatistics={mockRowData.benchmarkStatistics}
+            />
+          </tbody>
+        </table>
       );
 
       expect(screen.getByTestId('count-cell')).toHaveTextContent(`X`);

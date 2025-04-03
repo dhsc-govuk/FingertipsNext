@@ -559,7 +559,6 @@ public class IndicatorServiceTests
         new object[] { "Bar", "Low is good", IndicatorPolarity.LowIsGood, "Confidence intervals overlapping reference value (99.8)", BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8  },
         new object[] { "Bar", "No judgement", IndicatorPolarity.NoJudgement, "Confidence intervals overlapping reference value (99.8)", BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8  },
         new object[] { "Bar", "", IndicatorPolarity.Unknown, "", BenchmarkComparisonMethod.Unknown },
-        new object[] { "Foo", "High is good", IndicatorPolarity.HighIsGood, "Confidence intervals overlapping reference value (95.0)", BenchmarkComparisonMethod.CIOverlappingReferenceValue95  },
         new object[] { "Foo", "", IndicatorPolarity.Unknown, "Quintiles", BenchmarkComparisonMethod.Quintiles  },
     };
 

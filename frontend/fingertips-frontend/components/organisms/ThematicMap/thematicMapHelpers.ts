@@ -8,7 +8,6 @@ import combinedAuthoritiesMap from '@/assets/maps/Combined_Authorities_December_
 import NHSRegionsMap from '@/assets/maps/NHS_England_Regions_January_2024_EN_BSC_7500404208533377417.geo.json';
 import NHSICBMap from '@/assets/maps/Integrated_Care_Boards_April_2023_EN_BSC_-187828753279616787.geo.json';
 import NHSSubICBMap from '@/assets/maps/NHS_SubICB_April_2023_EN_BSC_8040841744469859785.geo.json';
-import { AreaTypeKeys } from '../../../lib/areaFilterHelpers/areaType';
 import { GovukColours } from '../../../lib/styleHelpers/colours';
 import {
   BenchmarkComparisonMethod,
@@ -26,16 +25,19 @@ export type MapGeographyData = {
   mapGroupBoundary: GeoJSON;
 };
 
-export type AreaTypeKeysForMapMeta = Extract<
-  AreaTypeKeys,
-  | 'regions'
-  | 'combined-authorities'
-  | 'counties-and-unitary-authorities'
-  | 'districts-and-unitary-authorities'
-  | 'nhs-regions'
-  | 'nhs-integrated-care-boards'
-  | 'nhs-sub-integrated-care-boards'
->;
+export const allowedAreaTypeMapMetaKeys = [
+  'regions',
+  'combined-authorities',
+  'counties-and-unitary-authorities',
+  'districts-and-unitary-authorities',
+  'nhs-regions',
+  'nhs-integrated-care-boards',
+  'nhs-sub-integrated-care-boards',
+] as const;
+
+export type AreaTypeKeysForMapMeta =
+  (typeof allowedAreaTypeMapMetaKeys)[number];
+
 interface MapMetaData {
   joinKey: string;
   mapFile: GeoJSON;
