@@ -25,16 +25,12 @@ export function mapToSpineChartTableIndicator(
 ): Indicator {
   const metadata = indicatorMetadata;
 
-  const rowIndicatorId: number =
-    metadata?.indicatorID !== undefined ? Number(metadata?.indicatorID) : 0;
+  const rowIndicatorId: number = Number(metadata?.indicatorID) ?? 0;
 
-  const rowTitle: string =
-    metadata?.indicatorName !== undefined ? metadata?.indicatorName : '';
+  const rowTitle: string = metadata?.indicatorName ?? '';
 
   const rowIndicatorDefinition: string =
-    metadata?.indicatorDefinition !== undefined
-      ? metadata?.indicatorDefinition
-      : '';
+    metadata?.indicatorDefinition ?? '';
 
   const rowIndicator: Indicator = {
     indicatorId: rowIndicatorId,
