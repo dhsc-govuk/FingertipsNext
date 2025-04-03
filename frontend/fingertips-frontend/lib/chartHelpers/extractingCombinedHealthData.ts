@@ -1,6 +1,7 @@
 import {
   HealthDataForArea,
   IndicatorWithHealthDataForArea,
+  QuartileData,
 } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
@@ -10,11 +11,13 @@ type ExtractedHealthData = {
   orderedGroupData: HealthDataForArea[];
   orderedEnglandData: HealthDataForArea[];
   orderedMetadata: (IndicatorDocument | undefined)[];
+  orderedQuartileData: QuartileData[];
 };
 
 export const extractingCombinedHealthData = (
   combinedIndicatorData: IndicatorWithHealthDataForArea[],
   unsortedMetaData: (IndicatorDocument | undefined)[],
+  unsortedQuartileData: QuartileData[],
   areasSelected: string[],
   selectedGroupCode?: string
 ): ExtractedHealthData => {
@@ -28,6 +31,9 @@ export const extractingCombinedHealthData = (
     combinedIndicatorData.length
   );
   const orderedMetadata: (IndicatorDocument | undefined)[] = new Array(
+    combinedIndicatorData.length
+  );
+  const orderedQuartileData: QuartileData[] = new Array(
     combinedIndicatorData.length
   );
 
@@ -63,10 +69,21 @@ export const extractingCombinedHealthData = (
     }
     orderedEnglandData[index] = englandData;
 
-    orderedMetadata[index] = unsortedMetaData.find(
+    const metadata = unsortedMetaData.find(
       (indicatorMetaData) =>
         Number(indicatorMetaData?.indicatorID) === indicator.indicatorId
     );
+
+    orderedMetadata[index] = metadata;
+
+    const quartileData = unsortedQuartileData.find(
+      (data) => data.indicatorId === indicator.indicatorId
+    );
+
+    if (!quartileData) {
+      throw new Error('Missing quartile data for indicator');
+    }
+    orderedQuartileData[index] = quartileData;
   });
 
   return {
@@ -74,5 +91,6 @@ export const extractingCombinedHealthData = (
     orderedGroupData,
     orderedEnglandData,
     orderedMetadata,
+    orderedQuartileData,
   };
 };

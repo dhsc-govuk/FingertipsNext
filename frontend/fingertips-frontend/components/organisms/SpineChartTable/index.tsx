@@ -14,6 +14,7 @@ import {
   SpineChartTableRowData,
   SpineChartTableRow,
 } from './SpineChartTableRow';
+import { SpineChartProps } from '../SpineChart';
 
 export interface SpineChartTableProps {
   rowData: SpineChartTableRowProps[];
@@ -25,8 +26,7 @@ export interface SpineChartTableRowProps {
   indicatorHealthData: HealthDataForArea;
   groupIndicatorData: HealthDataForArea;
   englandBenchmarkData: HealthDataForArea;
-  best: number;
-  worst: number;
+  benchmarkStatistics: SpineChartProps;
 }
 
 export const mapToSpineChartTableData = (
@@ -41,8 +41,7 @@ export const mapToSpineChartTableData = (
     value: item.indicatorHealthData.healthData[0].value,
     groupValue: item.groupIndicatorData.healthData[0].value,
     benchmarkValue: item.englandBenchmarkData.healthData[0].value,
-    benchmarkBest: item.best,
-    benchmarkWorst: item.worst,
+    benchmarkStatistics: item.benchmarkStatistics,
   }));
 
 const sortByIndicator = (tableRowData: SpineChartTableRowData[]) =>
@@ -70,8 +69,7 @@ export function SpineChartTable(dataTable: Readonly<SpineChartTableProps>) {
               value={row.value}
               groupValue={row.groupValue}
               benchmarkValue={row.benchmarkValue}
-              benchmarkWorst={row.benchmarkWorst}
-              benchmarkBest={row.benchmarkBest}
+              benchmarkStatistics={row.benchmarkStatistics}
             />
           </React.Fragment>
         ))}
