@@ -30,7 +30,7 @@ export const AreaFilterPaneCheckboxes: FC<AreaFilterPaneCheckboxesProps> = ({
 }) => {
   const { triggerRef, rowsToShow, hasMore } = useMoreRowsWhenScrolling<Area>(
     rows,
-    20
+    10
   );
 
   return (

@@ -25,7 +25,7 @@ export const BarChartEmbeddedRows: FC<BarChartEmbeddedRowsProps> = ({
   measurementUnit = '',
 }) => {
   const { triggerRef, rowsToShow, hasMore } =
-    useMoreRowsWhenScrolling<BarChartEmbeddedTableRow>(rows, 50);
+    useMoreRowsWhenScrolling<BarChartEmbeddedTableRow>(rows, 10);
 
   return (
     <>
