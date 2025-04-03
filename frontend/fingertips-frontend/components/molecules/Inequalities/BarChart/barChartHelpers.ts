@@ -14,10 +14,11 @@ export const getPlotline = (
     text: benchmarkLabel,
     align: 'center',
     rotation: 0,
-    y: -10,
+    y: -5,
     style: {
       color: 'black',
       fontWeight: 'bold',
+      fontSize: '16',
     },
   },
 });
