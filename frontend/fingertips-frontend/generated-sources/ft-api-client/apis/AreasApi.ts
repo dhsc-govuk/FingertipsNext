@@ -18,6 +18,7 @@ import type {
   Area,
   AreaType,
   AreaWithRelations,
+  BadRequest,
   GetAreaHierarchies500Response,
   RootArea,
 } from '../models/index';
@@ -28,6 +29,8 @@ import {
     AreaTypeToJSON,
     AreaWithRelationsFromJSON,
     AreaWithRelationsToJSON,
+    BadRequestFromJSON,
+    BadRequestToJSON,
     GetAreaHierarchies500ResponseFromJSON,
     GetAreaHierarchies500ResponseToJSON,
     RootAreaFromJSON,
@@ -49,6 +52,10 @@ export interface GetAreaTypesRequest {
     hierarchyType?: string;
 }
 
+export interface GetAreasRequest {
+    areaCodes?: Array<string>;
+}
+
 /**
  * AreasApi - interface
  * 
@@ -58,7 +65,7 @@ export interface GetAreaTypesRequest {
 export interface AreasApiInterface {
     /**
      * Get the full details of a given area, including it\'s parents, optionally including it\'s children, siblings and cousins
-     * @summary Get area
+     * @summary Get single area
      * @param {string} areaCode The area code of the area/ geography
      * @param {boolean} [includeChildren] include the child areas
      * @param {boolean} [includeSiblings] include the sibling areas
@@ -71,7 +78,7 @@ export interface AreasApiInterface {
 
     /**
      * Get the full details of a given area, including it\'s parents, optionally including it\'s children, siblings and cousins
-     * Get area
+     * Get single area
      */
     getArea(requestParameters: GetAreaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AreaWithRelations>;
 
@@ -137,6 +144,22 @@ export interface AreasApiInterface {
      */
     getAreaTypes(requestParameters: GetAreaTypesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<AreaType>>;
 
+    /**
+     * Get the basic details without children, parent relationships etc. for 1 or more areas
+     * @summary Get multiple areas
+     * @param {Array<string>} [areaCodes] A list of area codes, up to 100 area codes can be requested
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AreasApiInterface
+     */
+    getAreasRaw(requestParameters: GetAreasRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Area>>>;
+
+    /**
+     * Get the basic details without children, parent relationships etc. for 1 or more areas
+     * Get multiple areas
+     */
+    getAreas(requestParameters: GetAreasRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Area>>;
+
 }
 
 /**
@@ -146,7 +169,7 @@ export class AreasApi extends runtime.BaseAPI implements AreasApiInterface {
 
     /**
      * Get the full details of a given area, including it\'s parents, optionally including it\'s children, siblings and cousins
-     * Get area
+     * Get single area
      */
     async getAreaRaw(requestParameters: GetAreaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AreaWithRelations>> {
         if (requestParameters['areaCode'] == null) {
@@ -184,7 +207,7 @@ export class AreasApi extends runtime.BaseAPI implements AreasApiInterface {
 
     /**
      * Get the full details of a given area, including it\'s parents, optionally including it\'s children, siblings and cousins
-     * Get area
+     * Get single area
      */
     async getArea(requestParameters: GetAreaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AreaWithRelations> {
         const response = await this.getAreaRaw(requestParameters, initOverrides);
@@ -311,6 +334,38 @@ export class AreasApi extends runtime.BaseAPI implements AreasApiInterface {
      */
     async getAreaTypes(requestParameters: GetAreaTypesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<AreaType>> {
         const response = await this.getAreaTypesRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get the basic details without children, parent relationships etc. for 1 or more areas
+     * Get multiple areas
+     */
+    async getAreasRaw(requestParameters: GetAreasRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Area>>> {
+        const queryParameters: any = {};
+
+        if (requestParameters['areaCodes'] != null) {
+            queryParameters['area_codes'] = requestParameters['areaCodes'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/areas`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(AreaFromJSON));
+    }
+
+    /**
+     * Get the basic details without children, parent relationships etc. for 1 or more areas
+     * Get multiple areas
+     */
+    async getAreas(requestParameters: GetAreasRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Area>> {
+        const response = await this.getAreasRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

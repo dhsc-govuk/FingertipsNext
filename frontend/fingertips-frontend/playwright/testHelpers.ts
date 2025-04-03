@@ -24,6 +24,7 @@ type componentProps = {
   hasConfidenceIntervals: boolean;
   isTabTable: boolean;
   hasDetailsExpander: boolean;
+  hasTimePeriodDropDown: boolean;
 };
 
 type component = {
@@ -48,6 +49,7 @@ export function getScenarioConfig(
         hasConfidenceIntervals: true,
         isTabTable: false,
         hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
       },
     },
     {
@@ -56,6 +58,7 @@ export function getScenarioConfig(
         hasConfidenceIntervals: false,
         isTabTable: true,
         hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
       },
     },
     {
@@ -64,6 +67,7 @@ export function getScenarioConfig(
         hasConfidenceIntervals: false,
         isTabTable: false,
         hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
       },
     },
     {
@@ -71,6 +75,16 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: true,
         isTabTable: false,
+        hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
+      },
+    },
+    {
+      componentLocator: ChartPage.inequalitiesForSingleTimePeriodComponent,
+      componentProps: {
+        hasConfidenceIntervals: false,
+        isTabTable: false,
+        hasTimePeriodDropDown: true,
         hasDetailsExpander: false,
       },
     },
@@ -80,6 +94,7 @@ export function getScenarioConfig(
         hasConfidenceIntervals: true,
         isTabTable: false,
         hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
       },
     },
     {
@@ -88,6 +103,7 @@ export function getScenarioConfig(
         hasConfidenceIntervals: false,
         isTabTable: true,
         hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
       },
     },
     {
@@ -96,6 +112,7 @@ export function getScenarioConfig(
         hasConfidenceIntervals: false,
         isTabTable: true,
         hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
       },
     },
     {
@@ -104,6 +121,7 @@ export function getScenarioConfig(
         hasConfidenceIntervals: false,
         isTabTable: false,
         hasDetailsExpander: true,
+        hasTimePeriodDropDown: false,
       },
     },
     {
@@ -112,6 +130,7 @@ export function getScenarioConfig(
         hasConfidenceIntervals: false,
         isTabTable: false,
         hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
       },
     },
     {
@@ -120,6 +139,7 @@ export function getScenarioConfig(
         hasConfidenceIntervals: true,
         isTabTable: false,
         hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
       },
     },
     {
@@ -128,6 +148,7 @@ export function getScenarioConfig(
         hasConfidenceIntervals: false,
         isTabTable: false,
         hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
       },
     },
     // Enable in DHSCFT-237
@@ -138,6 +159,7 @@ export function getScenarioConfig(
         hasConfidenceIntervals: false,
         isTabTable: false,
         hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
       },
     },
   ];
@@ -158,6 +180,7 @@ export function getScenarioConfig(
         ChartPage.inequalitiesLineChartComponent,
         ChartPage.inequalitiesBarChartTableComponent,
         ChartPage.inequalitiesLineChartTableComponent,
+        ChartPage.inequalitiesForSingleTimePeriodComponent,
         ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
     );

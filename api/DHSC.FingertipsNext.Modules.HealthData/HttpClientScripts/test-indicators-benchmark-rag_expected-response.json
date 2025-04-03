@@ -19,9 +19,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -48,9 +48,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -77,9 +77,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -106,9 +106,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -135,9 +135,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -164,9 +164,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -193,9 +193,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -222,9 +222,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -251,9 +251,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -280,9 +280,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -309,9 +309,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {

@@ -15,7 +15,7 @@ public class AreaModel
     /// The unique area key of the area - this is a surrogate key
     /// </summary>
     [Key]
-    public required int AreaKey { get; set; }
+    public int AreaKey { get; set; }
 
     /// <summary>
     /// The area code of the area - may not be unique because
@@ -41,7 +41,7 @@ public class AreaModel
     /// 
     /// </summary>
     [MaxLength(50)]
-    public required string AreaTypeKey { get; set; }
+    public string AreaTypeKey { get; set; }
     
     public virtual ICollection<AreaModel> Children { get; set; }
     
