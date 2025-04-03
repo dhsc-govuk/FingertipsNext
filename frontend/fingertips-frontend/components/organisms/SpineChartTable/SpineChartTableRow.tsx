@@ -80,6 +80,8 @@ export function SpineChartTableRow({
       <StyledBenchmarkCell data-testid={`benchmark-worst-cell`}>
         {formatNumber(benchmarkStatistics.worst)}
       </StyledBenchmarkCell>
+      <StyledBenchmarkCell data-testid={`benchmark-range`}>
+      </StyledBenchmarkCell>
       <StyledBenchmarkCell data-testid={`benchmark-best-cell`}>
         {formatNumber(benchmarkStatistics.best)}
       </StyledBenchmarkCell>

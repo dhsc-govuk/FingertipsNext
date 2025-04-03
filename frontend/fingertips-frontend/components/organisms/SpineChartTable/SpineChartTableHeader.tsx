@@ -28,6 +28,7 @@ export enum SpineChartTableHeadingEnum {
   GroupValue = 'GroupValue',
   BenchmarkValue = 'Value',
   BenchmarkWorst = 'Worst',
+  BenchmarkRange = 'Range',
   BenchmarkBest = 'Best',
 }
 

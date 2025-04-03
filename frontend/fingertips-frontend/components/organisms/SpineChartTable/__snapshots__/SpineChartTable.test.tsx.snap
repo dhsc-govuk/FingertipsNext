@@ -446,6 +446,12 @@ exports[`Spine chart table suite Spine chart table snapshot test - should match 
           </th>
           <th
             class="c3 c4 c6 c7 c12"
+            data-testid="Range-header"
+          >
+            Range
+          </th>
+          <th
+            class="c3 c4 c6 c7 c12"
             data-testid="Best-header"
           >
             Best
@@ -528,6 +534,10 @@ exports[`Spine chart table suite Spine chart table snapshot test - should match 
           >
             100.0
           </td>
+          <td
+            class="c13 c14 c22 c24"
+            data-testid="benchmark-range"
+          />
           <td
             class="c13 c14 c22 c24"
             data-testid="benchmark-best-cell"
@@ -630,6 +640,10 @@ exports[`Spine chart table suite Spine chart table snapshot test - should match 
           >
             959.0
           </td>
+          <td
+            class="c13 c14 c22 c24"
+            data-testid="benchmark-range"
+          />
           <td
             class="c13 c14 c22 c24"
             data-testid="benchmark-best-cell"
