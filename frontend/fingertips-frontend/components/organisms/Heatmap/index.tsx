@@ -21,7 +21,7 @@ export interface HeatmapIndicatorData {
   indicatorName: string;
   healthDataForAreas: HealthDataForArea[];
   unitLabel: string;
-  method?: BenchmarkComparisonMethod;
+  benchmarkMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
 }
 

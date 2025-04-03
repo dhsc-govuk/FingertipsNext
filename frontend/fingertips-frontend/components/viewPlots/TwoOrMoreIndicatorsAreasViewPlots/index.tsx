@@ -65,11 +65,11 @@ export function mapToSpineChartTableProps(
   return { rowData: tableData };
 }
 
-const extractIndicatorInformation = (
+export function extractHeatmapIndicatorData(
   indicatorData: IndicatorWithHealthDataForArea,
   metadata?: IndicatorDocument
-) => {
-  const indicatorId = (): string => {
+): HeatmapIndicatorData {
+  const getIndicatorId = (): string => {
     if (metadata) {
       return metadata.indicatorID;
     }
@@ -79,7 +79,7 @@ const extractIndicatorInformation = (
       : 'undefined indicator id';
   };
 
-  const indicatorName = (): string => {
+  const getIndicatorName = (): string => {
     if (metadata) {
       return metadata.indicatorName;
     }
@@ -87,8 +87,19 @@ const extractIndicatorInformation = (
     return indicatorData.name ?? 'undefined indicator name';
   };
 
-  return { indicatorId: indicatorId(), indicatorName: indicatorName() };
-};
+  return {
+    indicatorId: getIndicatorId(),
+    indicatorName: getIndicatorName(),
+    healthDataForAreas: indicatorData.areaHealthData
+      ? indicatorData.areaHealthData
+      : [],
+    unitLabel: metadata?.unitLabel
+      ? metadata.unitLabel
+      : 'undefined unit label',
+    benchmarkMethod: indicatorData.benchmarkMethod,
+    polarity: indicatorData.polarity,
+  };
+}
 
 export function TwoOrMoreIndicatorsAreasViewPlot({
   searchState,
@@ -114,23 +125,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
         return metadata.indicatorID === indicatorData.indicatorId?.toString();
       });
 
-      const { indicatorId, indicatorName } = extractIndicatorInformation(
-        indicatorData,
-        metadata
-      );
-
-      return {
-        indicatorId: indicatorId,
-        indicatorName: indicatorName,
-        healthDataForAreas: indicatorData.areaHealthData
-          ? indicatorData.areaHealthData
-          : [],
-        unitLabel: metadata?.unitLabel
-          ? metadata.unitLabel
-          : 'undefined unit label',
-        method: indicatorData.benchmarkMethod,
-        polarity: indicatorData.polarity,
-      };
+      return extractHeatmapIndicatorData(indicatorData, metadata);
     });
   };
 
