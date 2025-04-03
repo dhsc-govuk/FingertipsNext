@@ -11,6 +11,7 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
+import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 
 export default async function OneIndicatorOneAreaView({
   selectedIndicatorsData,
@@ -57,10 +58,15 @@ export default async function OneIndicatorOneAreaView({
   }
 
   return (
-    <OneIndicatorOneAreaViewPlots
-      indicatorData={indicatorData}
+    <ViewsWrapper
       searchState={searchState}
-      indicatorMetadata={selectedIndicatorsData?.[0]}
-    />
+      indicatorsDataForAreas={[indicatorData]}
+    >
+      <OneIndicatorOneAreaViewPlots
+        indicatorData={indicatorData}
+        searchState={searchState}
+        indicatorMetadata={selectedIndicatorsData?.[0]}
+      />
+    </ViewsWrapper>
   );
 }
