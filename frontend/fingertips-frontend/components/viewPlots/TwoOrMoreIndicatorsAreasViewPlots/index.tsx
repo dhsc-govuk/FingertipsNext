@@ -16,7 +16,6 @@ import {
   SpineChartTable,
 } from '@/components/organisms/SpineChartTable';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SpineChartProps } from '@/components/organisms/SpineChart';
 import { extractingCombinedHealthData } from '@/lib/chartHelpers/extractingCombinedHealthData';
 
