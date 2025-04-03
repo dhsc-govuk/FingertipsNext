@@ -11,33 +11,31 @@ import {
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 
+export const getLatestHealthDataPointForEngland = (
+  indicatorData: IndicatorWithHealthDataForArea,
+  latestPeriod: string | undefined
+): HealthDataPoint | undefined => {
+  if (indicatorData.areaHealthData?.[0]?.healthData) {
+    return indicatorData.areaHealthData?.[0].healthData?.find(
+      (item) => item.year.toString() === latestPeriod
+    );
+  }
+  return undefined;
+};
+
 export function TwoOrMoreIndicatorsEnglandViewPlots({
   indicatorData,
   indicatorMetadata,
   searchState,
 }: Readonly<TwoOrMoreIndicatorsEnglandViewPlotProps>) {
   SearchStateManager.initialise(searchState);
-  // console.log(indicatorData)
-  // console.log(indicatorMetadata)
-  // console.log(searchState)
-  const getLatestHealthDataForEngland = (
-    indicatorData: IndicatorWithHealthDataForArea,
-    latestPeriod: string | undefined
-  ): HealthDataPoint | undefined => {
-    if (indicatorData.areaHealthData?.[0]?.healthData) {
-      return indicatorData.areaHealthData?.[0].healthData?.find(
-        (item) => item.year.toString() === latestPeriod
-      );
-    }
-    return undefined;
-  };
 
   const englandIndicatorData: EnglandAreaTypeIndicatorData[] =
     indicatorData.map((indicator) => {
       const hasHealthDataForEngland =
         indicator.areaHealthData?.[0]?.healthData !== undefined;
 
-      const metaDataForIndicator = indicatorMetadata.find(
+      const metaDataForIndicator = indicatorMetadata?.find(
         (indicatorMeta) =>
           indicatorMeta?.indicatorID === indicator.indicatorId?.toString()
       );
@@ -47,7 +45,7 @@ export function TwoOrMoreIndicatorsEnglandViewPlots({
         : undefined;
 
       const latestEnglandHealthData = hasHealthDataForEngland
-        ? getLatestHealthDataForEngland(indicator, latestPeriod)
+        ? getLatestHealthDataPointForEngland(indicator, latestPeriod)
         : undefined;
 
       const unitLabel = hasHealthDataForEngland

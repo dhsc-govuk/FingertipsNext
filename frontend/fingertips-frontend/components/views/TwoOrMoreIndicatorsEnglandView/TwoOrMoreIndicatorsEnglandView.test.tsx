@@ -1,67 +1,84 @@
-import { TwoOrMoreIndicatorsEnglandViewPlots } from '@/components/viewPlots/TwoOrMoreIndicatorsEnglandViewPlots/index';
+/**
+ * @jest-environment node
+ */
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { BenchmarkComparisonMethod, IndicatorPolarity, IndicatorsApi } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  IndicatorsApi,
+  IndicatorWithHealthDataForArea,
+} from '@/generated-sources/ft-api-client';
 import { mockDeep } from 'jest-mock-extended';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
-
+import TwoOrMoreIndicatorsEnglandView from '@/components/views/TwoOrMoreIndicatorsEnglandView/index';
 
 const mockSearchParams: SearchStateParams = {
   [SearchParams.IndicatorsSelected]: ['1', '2'],
   [SearchParams.AreasSelected]: [areaCodeForEngland],
 };
 
-const mockIndicatorData = [
-  {indicatorId: 1,
-    name: ' ',
-    polarity: IndicatorPolarity.Unknown,
-    benchmarkMethod: BenchmarkComparisonMethod.Unknown,
-    areaHealthData: []},
-  {indicatorId: 2,
-    name: ' ',
-    polarity: IndicatorPolarity.Unknown,
-    benchmarkMethod: BenchmarkComparisonMethod.Unknown,
-    areaHealthData: []} ]
+const mockEnglandData: HealthDataForArea = {
+  areaCode: areaCodeForEngland,
+  areaName: 'england',
+  healthData: [],
+};
 
-const mockIndicatorMetaData = [
-  {   indicatorID: '4444',
-    indicatorName: 'mockIndicator',
-    indicatorDefinition: '',
-    dataSource: '',
-    earliestDataPeriod: '',
-    latestDataPeriod: '',
+const mockIndicator: IndicatorWithHealthDataForArea = {
+  areaHealthData: [mockEnglandData],
+};
+
+const mockIndicatorDocument = (indicatorId: string): IndicatorDocument => {
+  return {
+    indicatorID: indicatorId,
+    indicatorName: 'mock indicator',
+    indicatorDefinition: 'mock description',
+    dataSource: '1',
+    earliestDataPeriod: '1',
+    latestDataPeriod: '1',
     lastUpdatedDate: new Date(),
-    associatedAreaCodes: [''],
     hasInequalities: false,
-    unitLabel: '',
-    usedInPoc: false },
+    unitLabel: '1',
+  };
+};
 
-  {   indicatorID: '5555',
-    indicatorName: 'mockIndicator',
-    indicatorDefinition: '',
-    dataSource: '',
-    earliestDataPeriod: '',
-    latestDataPeriod: '',
-    lastUpdatedDate: new Date(),
-    associatedAreaCodes: [''],
-    hasInequalities: false,
-    unitLabel: '',
-    usedInPoc: false }
-]
+const fullSelectedIndicatorsData: IndicatorDocument[] = [
+  mockIndicatorDocument('id 1'),
+  mockIndicatorDocument('id 2'),
+];
 
+const mockIndicatorsApi = mockDeep<IndicatorsApi>();
+ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 
 describe('TwoOrMoreIndicatorsEnglandView', () => {
+  beforeEach(() => {
+    mockIndicatorsApi.getHealthDataForAnIndicator
+      .mockResolvedValueOnce(mockIndicator)
+      .mockResolvedValueOnce(mockIndicator);
+  });
 
   it('should call TwoOrMoreIndicatorsEnglandViewPlots with the correct props', async () => {
+    const page = await TwoOrMoreIndicatorsEnglandView({
+      searchState: mockSearchParams,
+      selectedIndicatorsData: fullSelectedIndicatorsData,
+    });
 
-    const page = await TwoOrMoreIndicatorsEnglandViewPlots(
-      { searchState: mockSearchParams,
-        indicatorData: mockIndicatorData,
-        indicatorMetadata: mockIndicatorMetaData})
+    expect(page.props.searchState).toEqual(mockSearchParams);
+    expect(page.props.indicatorData).toEqual([mockIndicator, mockIndicator]);
+    expect(page.props.indicatorMetadata).toEqual(fullSelectedIndicatorsData);
+  });
 
+  it('should throw an error when search state contains fewer than 2 selected indicators', async () => {
+    const searchState: SearchStateParams = {
+      ...mockSearchParams,
+      [SearchParams.IndicatorsSelected]: ['1'],
+    };
 
-    // expect(page.props.searchState).toEqual(mockSearchParams);
-    expect(page.props.indicatorData).toEqual(mockIndicatorData);
+    await expect(async () => {
+      await TwoOrMoreIndicatorsEnglandView({
+        searchState: searchState,
+        selectedIndicatorsData: fullSelectedIndicatorsData,
+      });
+    }).rejects.toThrow('Invalid parameters provided to view');
   });
 });

@@ -7,12 +7,15 @@ import {
   API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
-import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
+import {
+  chunkArray,
+  maxNumAreasThatCanBeRequestedAPI,
+} from '@/lib/ViewsHelpers';
 
 export default async function TwoOrMoreIndicatorsEnglandView({
   searchState,
+  selectedIndicatorsData,
 }: Readonly<ViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
@@ -33,41 +36,44 @@ export default async function TwoOrMoreIndicatorsEnglandView({
   await connection();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
-  let combinedIndicatorData: IndicatorWithHealthDataForArea[];
-  try {
-    const promises = indicatorsSelected.map((indicator) => {
-      return indicatorApi.getHealthDataForAnIndicator(
-        {
-          indicatorId: Number(indicator),
-          areaCodes: areaCodesToRequest,
-        },
-        API_CACHE_CONFIG
+  const getHealthDataForIndicator = async (indicatorId: string) => {
+    let healthIndicatorData: IndicatorWithHealthDataForArea | undefined;
+    try {
+      const healthIndicatorDataChunks = await Promise.all(
+        chunkArray(areaCodesToRequest, maxNumAreasThatCanBeRequestedAPI).map(
+          (requestAreas) =>
+            indicatorApi.getHealthDataForAnIndicator(
+              {
+                indicatorId: Number(indicatorId),
+                areaCodes: [...requestAreas],
+              },
+              API_CACHE_CONFIG
+            )
+        )
       );
-    });
 
-    combinedIndicatorData = await Promise.all(promises);
-  } catch (error) {
-    console.error('error getting health indicator data for areas', error);
-    throw new Error('error getting health indicator data for areas');
-  }
+      healthIndicatorData = healthIndicatorDataChunks[0];
+      if (!healthIndicatorData.indicatorId) {
+        healthIndicatorData.indicatorId = Number(indicatorId);
+      }
 
-  console.log('combinedIndicatorData', combinedIndicatorData);
-
-  let indicatorMetadata: (IndicatorDocument | undefined)[] = [];
-  try {
-    const promises = indicatorsSelected.map((indicator) => {
-      return SearchServiceFactory.getIndicatorSearchService().getIndicator(
-        indicator
+      healthIndicatorData.areaHealthData = healthIndicatorDataChunks
+        .map((indicatorData) => indicatorData?.areaHealthData ?? [])
+        .flat();
+    } catch (error) {
+      throw new Error(
+        `error getting health indicator data for areas: ${error}`
       );
-    });
+    }
 
-    indicatorMetadata = await Promise.all(promises);
-  } catch (error) {
-    console.error('error getting health indicator data for areas', error);
-    throw new Error('error getting health indicator data for areas');
-  }
-  console.log('indicatorMetadata', indicatorMetadata);
+    return healthIndicatorData;
+  };
 
+  const combinedIndicatorData = await Promise.all(
+    indicatorsSelected.map((indicator) => {
+      return getHealthDataForIndicator(indicator);
+    })
+  );
   console.log('TODO: fetch health data with inequalites');
   console.log(`TODO: fetch population data for areas: [${areaCodesToRequest}]`);
 
@@ -75,7 +81,7 @@ export default async function TwoOrMoreIndicatorsEnglandView({
     <TwoOrMoreIndicatorsEnglandViewPlots
       indicatorData={combinedIndicatorData}
       searchState={searchState}
-      indicatorMetadata={indicatorMetadata}
+      indicatorMetadata={selectedIndicatorsData}
     />
   );
 }

@@ -38,7 +38,7 @@ export function EnglandAreaTypeTable({
   indicatorData,
 }: Readonly<EnglandAreaTypeTableProps>) {
   return (
-    <div data-testid={'EnglandAreaTypeTable-component'}>
+    <div data-testid={'englandAreaTypeTable-component'}>
       <Table
         head={
           <React.Fragment>
