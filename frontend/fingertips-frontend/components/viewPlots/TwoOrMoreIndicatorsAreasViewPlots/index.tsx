@@ -103,31 +103,17 @@ export function mapToSpineChartTableProps(
 
 export function extractHeatmapIndicatorData(
   indicatorData: IndicatorWithHealthDataForArea,
-  metadata?: IndicatorDocument
-): HeatmapIndicatorData {
-  const getIndicatorId = (): string => {
-    if (metadata) {
-      return metadata.indicatorID;
-    }
-
-    return indicatorData.indicatorId !== undefined
-      ? indicatorData.indicatorId?.toString()
-      : 'undefined indicator id';
-  };
-
-  const getIndicatorName = (): string => {
-    if (metadata) {
-      return metadata.indicatorName;
-    }
-
-    return indicatorData.name ?? 'undefined indicator name';
-  };
+  metadata: IndicatorDocument
+): HeatmapIndicatorData | undefined {
+  if (!indicatorData.areaHealthData) {
+    return undefined;
+  }
 
   return {
-    indicatorId: getIndicatorId(),
-    indicatorName: getIndicatorName(),
-    healthDataForAreas: indicatorData.areaHealthData ?? [],
-    unitLabel: metadata?.unitLabel ?? 'undefined unit label',
+    indicatorId: metadata.indicatorID,
+    indicatorName: metadata.indicatorName,
+    healthDataForAreas: indicatorData.areaHealthData,
+    unitLabel: metadata.unitLabel,
     benchmarkMethod:
       indicatorData.benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
     polarity: indicatorData.polarity ?? IndicatorPolarity.Unknown,
@@ -154,13 +140,19 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     allIndicatorData: IndicatorWithHealthDataForArea[],
     indicatorMetadata: IndicatorDocument[]
   ): HeatmapIndicatorData[] => {
-    return allIndicatorData.map((indicatorData) => {
-      const metadata = indicatorMetadata.find((metadata) => {
-        return metadata.indicatorID === indicatorData.indicatorId?.toString();
-      });
+    return allIndicatorData
+      .map((indicatorData) => {
+        const metadata = indicatorMetadata.find((metadata) => {
+          return metadata.indicatorID === indicatorData.indicatorId?.toString();
+        });
 
-      return extractHeatmapIndicatorData(indicatorData, metadata);
-    });
+        if (!metadata) return undefined;
+
+        return extractHeatmapIndicatorData(indicatorData, metadata);
+      })
+      .filter((data) => {
+        return data !== undefined;
+      });
   };
 
   const groupAreaCode = selectedGroupCode ?? undefined;
