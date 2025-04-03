@@ -122,6 +122,8 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
 
       await indicatorPage.checkIndicatorNameTitle(indicator);
 
+      await indicatorPage.expectNoAccessibilityViolations(axeBuilder);
+
       await indicatorPage.clickBackLink();
     });
 
