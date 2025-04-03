@@ -63,6 +63,7 @@ export function getTextColour(backgroundColour: string) {
     case GovukColours.LightBlue:
     case GovukColours.DarkBlue:
     case GovukColours.Blue:
+    case GovukColours.Black:
 
     case TagColours.DarkRed:
 
@@ -72,6 +73,8 @@ export function getTextColour(backgroundColour: string) {
     case QuintileColours.Better:
     case QuintileColours.Best:
       return GovukColours.White;
+
+    default:
+      return GovukColours.Black;
   }
-  return GovukColours.Black;
 }
