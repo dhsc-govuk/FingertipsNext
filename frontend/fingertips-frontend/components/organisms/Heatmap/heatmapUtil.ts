@@ -1,6 +1,7 @@
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import { formatNumber } from '@/lib/numberFormatter';
 
 export const heatmapIndicatorTitleColumnWidth = 240;
 export const heatmapDataColumnWidth = 60;
@@ -128,7 +129,7 @@ export const generateRows = (
       cols[areaIndex + leadingCols.length] = {
         key: `col-${indicator.id}-${area.code}`,
         type: CellType.Data,
-        content: formatValue(dataPoints[indicator.id][area.code].value), // TODO format numbers
+        content: formatNumber(dataPoints[indicator.id][area.code].value),
         backgroundColour: generateBackgroundColor(areaIndex, indicatorIndex),
       };
     });
@@ -136,10 +137,6 @@ export const generateRows = (
   });
 
   return rows;
-};
-
-const formatValue = (value?: number): string => {
-  return value !== undefined ? value.toFixed(1) : 'X';
 };
 
 const generateBackgroundColor = (x: number, y: number): string => {

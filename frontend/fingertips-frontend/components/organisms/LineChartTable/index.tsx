@@ -21,6 +21,7 @@ import {
 import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel';
 import { TrendTag } from '@/components/molecules/TrendTag';
 import { getConfidenceLimitNumber } from '@/lib/chartHelpers/chartHelpers';
+import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 export enum LineChartTableHeadingEnum {
@@ -387,27 +388,27 @@ export function LineChartTable({
                   border={areaIndex > 0}
                 />
                 <StyledAlignRightTableCell numeric>
-                  {sortedAreaData[index].count}
+                  {formatWholeNumber(sortedAreaData[index].count)}
                 </StyledAlignRightTableCell>
                 <StyledAlignRightTableCell numeric>
-                  {sortedAreaData[index].value}
+                  {formatNumber(sortedAreaData[index].value)}
                 </StyledAlignRightTableCell>
                 <StyledAlignRightTableCell numeric>
-                  {sortedAreaData[index].lower}
+                  {formatNumber(sortedAreaData[index].lower)}
                 </StyledAlignRightTableCell>
                 <StyledAlignRightTableCell numeric>
-                  {sortedAreaData[index].upper}
+                  {formatNumber(sortedAreaData[index].upper)}
                 </StyledAlignRightTableCell>
               </React.Fragment>
             ))}
             {groupIndicatorData ? (
               <StyledGroupValueTableCell>
-                {sortedGroupData[index].value}
+                {formatNumber(sortedGroupData[index].value)}
               </StyledGroupValueTableCell>
             ) : null}
             {showBenchmarkColumn ? (
               <StyledStickyRight data-testid="grey-table-cell">
-                {point.benchmarkValue}
+                {formatNumber(point.benchmarkValue)}
               </StyledStickyRight>
             ) : null}
           </Table.Row>

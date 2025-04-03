@@ -348,7 +348,7 @@ exports[`snapshot test 1`] = `
             <div
               class="c20"
             >
-              1112.0
+              1,112.0
             </div>
           </td>
           <td
@@ -357,7 +357,7 @@ exports[`snapshot test 1`] = `
             <div
               class="c20"
             >
-              1132.0
+              1,132.0
             </div>
           </td>
           <td
@@ -366,7 +366,7 @@ exports[`snapshot test 1`] = `
             <div
               class="c20"
             >
-              1142.0
+              1,142.0
             </div>
           </td>
           <td
@@ -375,7 +375,7 @@ exports[`snapshot test 1`] = `
             <div
               class="c20"
             >
-              1122.0
+              1,122.0
             </div>
           </td>
         </tr>
