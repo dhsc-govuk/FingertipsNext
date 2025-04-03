@@ -4,7 +4,6 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { UserEvent, userEvent } from '@testing-library/user-event';
 import { formatDate } from '@/lib/dateHelpers/dateHelpers';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { LoaderContext } from '@/context/LoaderContext';
 import { SearchStateContext } from '@/context/SearchStateContext';
 

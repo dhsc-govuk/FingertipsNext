@@ -15,7 +15,6 @@ import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { TagColours } from '@/lib/styleHelpers/colours';
 import { formatDate, isWithinOneMonth } from '@/lib/dateHelpers/dateHelpers';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
 import { TrendTag } from '../TrendTag';

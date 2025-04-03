@@ -4,7 +4,6 @@ import { SearchResult } from '.';
 import { UserEvent, userEvent } from '@testing-library/user-event';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { LoaderContext } from '@/context/LoaderContext';
 import { SearchStateContext } from '@/context/SearchStateContext';
 
