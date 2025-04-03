@@ -3,8 +3,15 @@
 import React, { useState } from 'react';
 import { useServerInsertedHTML } from 'next/navigation';
 import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 
 const isBrowser = () => typeof window !== 'undefined';
+
+const GlobalStyle = createGlobalStyle`
+  body * {
+    font-family: 'gdsTransportFont', arial, sans-serif !important;
+  }
+`;
 
 export default function StyledComponentsRegistry({
   children,
@@ -18,16 +25,29 @@ export default function StyledComponentsRegistry({
   useServerInsertedHTML(() => {
     const styles = styledComponentsStyleSheet.getStyleElement();
     styledComponentsStyleSheet.instance.clearTag();
-    return <>{styles}</>;
+    return (
+      <>
+        <GlobalStyle />
+        {styles}
+      </>
+    );
   });
 
   if (isBrowser()) {
-    return <>{children}</>;
+    return (
+      <>
+        <GlobalStyle />
+        {children}
+      </>
+    );
   }
 
   return (
     <StyleSheetManager sheet={styledComponentsStyleSheet.instance}>
-      <>{children}</>
+      <>
+        <GlobalStyle />
+        {children}
+      </>
     </StyleSheetManager>
   );
 }
