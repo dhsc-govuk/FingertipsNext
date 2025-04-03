@@ -8,6 +8,7 @@ export default class AreaFilter extends BasePage {
   readonly areaSearchField = 'area-search-input-field';
   readonly areaTypeSelector = 'area-type-selector-container';
   readonly groupTypeSelector = 'group-type-selector-container';
+  readonly groupSelector = 'group-selector-container';
   readonly selectedAreasContainer = 'selected-areas-panel';
   readonly selectAreasContainer = 'select-areas-filter-panel';
   readonly pillContainer = 'pill-container';
@@ -60,6 +61,33 @@ export default class AreaFilter extends BasePage {
     return Promise.all(options.map((l) => l.textContent()));
   }
 
+  async selectAreaType(areaType: string) {
+    await this.selectOptionAndAwaitLoadingComplete(
+      this.page.getByTestId(this.areaTypeSelector),
+      areaType
+    );
+
+    await this.waitForURLToContain(areaType);
+  }
+
+  async selectGroupType(groupType: string) {
+    await this.selectOptionAndAwaitLoadingComplete(
+      this.page.getByTestId(this.groupTypeSelector),
+      groupType
+    );
+
+    await this.waitForURLToContain(groupType);
+  }
+
+  async selectGroup(group: string) {
+    await this.selectOptionAndAwaitLoadingComplete(
+      this.page.getByTestId(this.groupSelector),
+      group
+    );
+
+    await this.waitForURLToContain(group);
+  }
+
   /**
    * Selects the required area filters based on area mode if the search mode is ONLY_SUBJECT
    *
@@ -76,12 +104,7 @@ export default class AreaFilter extends BasePage {
     if (searchMode === SearchMode.ONLY_SUBJECT) {
       await this.waitForURLToContain(searchTerm);
 
-      await this.selectOptionAndAwaitLoadingComplete(
-        this.page.getByTestId(this.areaTypeSelector),
-        areaTypeFilter
-      );
-
-      await this.waitForURLToContain(areaTypeFilter);
+      await this.selectAreaType(areaTypeFilter);
 
       // Select appropriate number of checkboxes based on area mode
       const areaCheckboxList = this.page
@@ -107,15 +130,9 @@ export default class AreaFilter extends BasePage {
 
       // England area mode
       if (AreaMode.ENGLAND_AREA === areaMode) {
-        await this.selectOptionAndAwaitLoadingComplete(
-          this.page.getByTestId(this.areaTypeSelector),
-          'England'
-        );
-        await this.selectOptionAndAwaitLoadingComplete(
-          this.page.getByTestId(this.groupTypeSelector),
-          'England'
-        );
-        await this.waitForURLToContain('England');
+        await this.selectAreaType('england');
+        await this.selectGroupType('england');
+        await this.waitForURLToContain('england');
       }
     } else if (
       searchMode === SearchMode.ONLY_AREA &&

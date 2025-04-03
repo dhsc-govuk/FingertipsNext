@@ -303,8 +303,28 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
     await test.step('Navigate directly to the results page and check filtering by England (default)', async () => {
       await resultsPage.navigateToResults(subjectSearchTerm, []);
 
-      const englandArea = getAllAreasByAreaType(mockAreas, 'england');
-      console.log(englandArea);
+      const englandAreaType = getAllAreasByAreaType(mockAreas, 'england')[0]
+        .areaType;
+
+      await resultsPage.selectAreaType(englandAreaType);
+    });
+
+    await test.step('Navigate directly to the results page and check filtering by GPs', async () => {
+      await resultsPage.navigateToResults(subjectSearchTerm, []);
+
+      const areaDocument: AreaDocument = getAllAreasByAreaType(
+        mockAreas,
+        'gps'
+      )[0];
+
+      await resultsPage.selectAreaType(areaDocument.areaType);
+
+      await resultsPage.selectGroupType('nhs-primary-care-networks');
+
+      await resultsPage.selectGroup(
+        getAllAreasByAreaType(mockAreas, 'nhs-primary-care-networks')[0]
+          .areaName
+      );
     });
   });
 });
