@@ -39,6 +39,11 @@ export const barChartDefaultOptions: Highcharts.Options = {
   },
   xAxis: {
     lineWidth: 0,
+    labels: {
+      style: {
+        fontSize: 16,
+      },
+    },
   },
   plotOptions: {
     bar: {
