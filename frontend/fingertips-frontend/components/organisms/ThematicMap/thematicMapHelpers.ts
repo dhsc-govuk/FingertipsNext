@@ -363,14 +363,14 @@ export function generateThematicMapTooltipString(
       : symbolEncoder.diamond;
 
   const tooltipString = [
-    generateBenchmarkTooltipForArea(
+    generateBenchmarkTooltipForArea({
       point,
       benchmarkComparisonMethod,
       polarity,
       measurementUnit,
       benchmarkArea,
-      benchmarkConfidenceLimitLabel
-    ),
+      benchmarkConfidenceLimitLabel,
+    }),
   ];
 
   if (groupIndicatorData !== undefined) {

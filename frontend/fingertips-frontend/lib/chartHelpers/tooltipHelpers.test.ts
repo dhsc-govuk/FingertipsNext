@@ -6,7 +6,6 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { generateBenchmarkTooltipForArea } from './tooltipHelpers';
-import { GovukColours } from '../styleHelpers/colours';
 import { symbolEncoder } from './pointFormatterHelper';
 import { getBenchmarkColour, getConfidenceLimitNumber } from './chartHelpers';
 
@@ -26,37 +25,37 @@ describe(generateBenchmarkTooltipForArea, () => {
       BenchmarkOutcome.NotCompared,
       BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
       symbolEncoder.multiplicationX,
-      'with',
+      '',
     ],
     [
       BenchmarkOutcome.Better,
       BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
       symbolEncoder.circle,
-      'than',
+      `than ${mockBenchmarkArea}`,
     ],
     [
       BenchmarkOutcome.Similar,
       BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
       symbolEncoder.circle,
-      'to',
+      `to ${mockBenchmarkArea}`,
     ],
     [
       BenchmarkOutcome.Worse,
       BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
       symbolEncoder.circle,
-      'than',
+      `than ${mockBenchmarkArea}`,
     ],
     [
       BenchmarkOutcome.Lower,
       BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
       symbolEncoder.circle,
-      'than',
+      `than ${mockBenchmarkArea}`,
     ],
     [
       BenchmarkOutcome.Higher,
       BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
       symbolEncoder.circle,
-      'than',
+      `than ${mockBenchmarkArea}`,
     ],
   ])(
     'should return the expected RAG tooltip for an area',
@@ -64,7 +63,7 @@ describe(generateBenchmarkTooltipForArea, () => {
       testBenchmarkOutcome: BenchmarkOutcome,
       testBenchmarkComparisonMethod: BenchmarkComparisonMethod,
       expectedSymbol: string,
-      expectedPreposition: string
+      expectedComparisonString: string
     ) => {
       const mockPoint = {
         ...mockThematicMapPointRAG,
@@ -104,9 +103,7 @@ describe(generateBenchmarkTooltipForArea, () => {
       );
       expect(actual).toEqual(
         expect.stringContaining(
-          [testBenchmarkOutcome, expectedPreposition, mockBenchmarkArea].join(
-            ' '
-          )
+          [testBenchmarkOutcome, expectedComparisonString].join(' ')
         )
       );
       expect(actual).toEqual(
