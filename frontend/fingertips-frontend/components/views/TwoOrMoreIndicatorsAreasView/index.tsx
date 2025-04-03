@@ -8,10 +8,7 @@ import {
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
-import {
-  chunkArray,
-  maxNumAreasThatCanBeRequestedAPI,
-} from '@/lib/ViewsHelpers';
+import { chunkArray } from '@/lib/ViewsHelpers';
 
 export default async function TwoOrMoreIndicatorsAreasView({
   searchState,
