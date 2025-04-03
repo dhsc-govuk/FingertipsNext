@@ -238,9 +238,9 @@ const extractAreasIndicatorsAndDataPoints = (
           : undefined;
 
       const benchmark: Benchmark = {
-        outcome: healthDataForYear?.benchmarkComparison?.outcome
-          ? healthDataForYear.benchmarkComparison.outcome
-          : BenchmarkOutcome.NotCompared,
+        outcome:
+          healthDataForYear?.benchmarkComparison?.outcome ??
+          BenchmarkOutcome.NotCompared,
         method: indicatorData.method,
         polarity: indicatorData.polarity,
       };

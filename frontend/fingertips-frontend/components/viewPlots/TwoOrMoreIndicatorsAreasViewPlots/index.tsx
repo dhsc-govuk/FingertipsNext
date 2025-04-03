@@ -29,7 +29,9 @@ export function mapToSpineChartTableProps(
   healthIndicatorData.forEach((indicatorData, index) => {
     const metadata = indicatorMetadata[index];
 
-    const rowIndicatorId: number = Number(metadata?.indicatorID) ?? 0;
+    const rowIndicatorId: number = metadata?.indicatorID
+      ? Number(metadata?.indicatorID)
+      : 0;
 
     const rowTitle: string = metadata?.indicatorName ?? '';
 
