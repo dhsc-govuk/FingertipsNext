@@ -131,6 +131,10 @@ describe('generate headers and rows', () => {
     expect(rows[1].cells[4].content).toEqual('11.0');
     expect(rows[1].cells[5].content).toEqual('X');
   });
+
+  it('should fill missing data points with the symbol X', () => {
+    expect(rows[1].cells[5].content).toEqual('X');
+  });
 });
 
 export const placeholderGroupAreaCode = 'area3';
@@ -379,5 +383,3 @@ describe('extract sorted areas, indicators, and data points', () => {
     });
   });
 });
-
-// TODO JH write test for absent data
