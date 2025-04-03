@@ -2,7 +2,7 @@ import { Table } from 'govuk-react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import { GovukColours } from '../styleHelpers/colours';
-import {formatNumber} from "@/lib/numberFormatter";
+import { formatNumber } from '@/lib/numberFormatter';
 
 export const StyledTableCellHeader = styled(Table.CellHeader)(
   typography.font({ size: 16 }),
