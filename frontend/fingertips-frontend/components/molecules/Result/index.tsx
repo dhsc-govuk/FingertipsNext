@@ -92,16 +92,6 @@ export function SearchResult({
       indicatorId
     );
 
-    const areasSelected =
-      stateManager.getSearchState()[SearchParams.AreasSelected];
-
-    if (!areasSelected || areasSelected.length < 1) {
-      stateManager.addParamValueToState(
-        SearchParams.AreasSelected,
-        areaCodeForEngland
-      );
-    }
-
     return stateManager.generatePath(chartPath);
   };
 

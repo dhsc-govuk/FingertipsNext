@@ -199,8 +199,8 @@ describe('IndicatorSelectionForm', () => {
 
   it('should have appropriate direct link for each indicator regardless of checkbox state', () => {
     const expectedPaths = [
-      `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].indicatorID.toString()}&${SearchParams.AreasSelected}=${areaCodeForEngland}`,
-      `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[1].indicatorID.toString()}&${SearchParams.AreasSelected}=${areaCodeForEngland}`,
+      `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].indicatorID.toString()}`,
+      `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[1].indicatorID.toString()}`,
     ];
 
     render(
