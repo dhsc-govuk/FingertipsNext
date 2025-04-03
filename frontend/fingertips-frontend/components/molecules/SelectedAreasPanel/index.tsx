@@ -10,6 +10,8 @@ import { AreaFilterData } from '../SelectAreasFilterPanel';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
+import React from 'react';
+import { useMoreRowsWhenScrolling } from '@/components/hooks/useMoreRowsWhenScrolling';
 
 interface SelectedAreasPanelProps {
   selectedAreasData?: Area[];
@@ -68,6 +70,9 @@ export function SelectedAreasPanel({
     (group) => group.code === searchState?.[SearchParams.GroupSelected]
   );
 
+  const { triggerRef, rowsToShow, hasMore } =
+    useMoreRowsWhenScrolling<AreaWithRelations>(selectedAreasData ?? [], 10);
+
   return (
     <StyledFilterSelectedAreaDiv data-testid="selected-areas-panel">
       {searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED ? (
@@ -88,7 +93,7 @@ export function SelectedAreasPanel({
             {`Selected areas (${selectedAreasData?.length ?? 0})`}
           </StyledFilterLabel>
           {selectedAreasData
-            ? selectedAreasData.map((selectedArea) => (
+            ? rowsToShow.map((selectedArea) => (
                 <AreaSelectedPill
                   key={selectedArea.code}
                   area={selectedArea}
@@ -97,6 +102,7 @@ export function SelectedAreasPanel({
                 />
               ))
             : null}
+          <div ref={triggerRef}>{hasMore ? 'Loading...' : null}</div>
         </div>
       )}
     </StyledFilterSelectedAreaDiv>
