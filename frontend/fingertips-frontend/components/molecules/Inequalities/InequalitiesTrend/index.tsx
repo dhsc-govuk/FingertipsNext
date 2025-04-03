@@ -24,7 +24,7 @@ import {
   healthDataFilterFunctionGeneratorForInequality,
   getInequalityCategory,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
-import {formatNumber} from "@/lib/numberFormatter";
+import { formatNumber } from '@/lib/numberFormatter';
 
 interface InequalitiesTrendProps {
   healthIndicatorData: HealthDataForArea;
