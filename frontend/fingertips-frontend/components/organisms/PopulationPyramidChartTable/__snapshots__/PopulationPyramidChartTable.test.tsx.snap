@@ -63,7 +63,7 @@ exports[`PopulationPyramidChartTable take a snapshot 1`] = `
   text-align: center;
   height: 70px;
   border: 0px;
-  margin: 5px;
+  margin: auto;
   display: block;
   -webkit-letter-spacing: 0px;
   -moz-letter-spacing: 0px;
@@ -77,13 +77,19 @@ exports[`PopulationPyramidChartTable take a snapshot 1`] = `
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
-  font-size: 14px;
-  line-height: 1.1428571428571428;
+  font-size: 16px;
+  line-height: 1.25;
   padding-right: 0;
   text-align: center;
 }
 
 .c8 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
   border-top: solid #F3F2F1 2px;
   text-align: center;
 }
@@ -122,7 +128,7 @@ exports[`PopulationPyramidChartTable take a snapshot 1`] = `
   flex-grow: 2;
   margin-left: auto;
   background-color: #B1B4B6;
-  min-width: 200px;
+  min-width: 300px;
 }
 
 .c12 table {
@@ -162,7 +168,7 @@ exports[`PopulationPyramidChartTable take a snapshot 1`] = `
   -ms-flex-positive: 2;
   flex-grow: 2;
   background-color: #F3F2F1;
-  min-width: 200px;
+  min-width: 300px;
 }
 
 .c11 table {
@@ -180,7 +186,7 @@ exports[`PopulationPyramidChartTable take a snapshot 1`] = `
   -webkit-flex-grow: 8;
   -ms-flex-positive: 8;
   flex-grow: 8;
-  min-width: 300px;
+  min-width: 460px;
 }
 
 .c2 table td,
@@ -246,14 +252,28 @@ exports[`PopulationPyramidChartTable take a snapshot 1`] = `
 @media print {
   .c10 {
     font-size: 14px;
-    line-height: 1.2;
+    line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
   .c10 {
-    font-size: 16px;
-    line-height: 1.25;
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c8 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c8 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
   }
 }
 
