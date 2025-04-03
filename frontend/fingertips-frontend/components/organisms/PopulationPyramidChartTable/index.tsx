@@ -1,9 +1,6 @@
 'use client';
-
-import { HealthDataPointBenchmarkComparison } from '@/generated-sources/ft-api-client';
 import styled from 'styled-components';
 import React from 'react';
-
 import { PopulationDataTable } from './PopulationDataTable';
 import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
 
@@ -79,16 +76,7 @@ export interface PopulationPyramidTableProps {
   groupData?: PopulationDataForArea | undefined;
 }
 
-export interface LineChartTableRowData {
-  period: number;
-  count?: number;
-  value?: number;
-  lower?: number;
-  upper?: number;
-  benchmarkComparison?: HealthDataPointBenchmarkComparison;
-}
-
-export function PopulationPyramidTable({
+export function PopulationPyramidChartTable({
   healthDataForArea,
   benchmarkData,
   groupData,
