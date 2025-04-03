@@ -380,5 +380,3 @@ describe('extract sorted areas, indicators, and data points', () => {
     });
   });
 });
-
-// TODO JH write test for absent data
