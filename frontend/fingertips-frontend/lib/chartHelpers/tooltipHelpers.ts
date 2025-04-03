@@ -18,7 +18,7 @@ interface IBenchmarkToolTip {
 }
 
 function getComparisionString(point: any, benchmarkArea: string) {
-  let comparisonString = `<br /><span>${point.benchmarkComparisonOutcome}`;
+  let comparisonString = `<span style="display:block">${point.benchmarkComparisonOutcome}`;
   if (
     point.benchmarkComparisonOutcome === BenchmarkOutcome.NotCompared ||
     point.benchmarkComparisonOutcome === BenchmarkOutcome.Similar
@@ -44,22 +44,29 @@ export function generateBenchmarkTooltipForArea({
       ? symbolEncoder.multiplicationX
       : symbolEncoder.circle;
 
+  // <div style="display: flex; align-items: center; gap: 0.25em;">${symbolItem} ${value}${measurementUnit}</div>
+  // <div>${benchmarkLabel}</div>
+  // <div>${comparisonLabel}</div>`,
+
   let tooltipString =
-    `<br /><span style="font-weight: bold">${point.areaName}</span>` +
-    `<br /><span>${point.year}</span>` +
-    `<br /><span style="color: ${
+    `<div style="font-weight: bold">${point.areaName}</div>` +
+    `<div>${point.year}</div>` +
+    `<div style="display: flex; align-items: left; gap: 0.25em;">` +
+    `<div style="color: ${
       getBenchmarkColour(
         benchmarkComparisonMethod,
         point.benchmarkComparisonOutcome,
         polarity
       ) ?? GovukColours.Black
-    }; font-size: large;">${areaMarkerSymbol}</span>` +
-    `<span>${point.value} ${measurementUnit}</span>`; // TODO: apply formatWholeNumber when DHSCFT-472 merges in
+    }; display: flex; align-items: center; gap: 0.25em; font-size: large;">${areaMarkerSymbol}</div>` +
+    `<div>` +
+    `<span style="display:block;">${point.value} ${measurementUnit}</span>`; // TODO: apply formatWholeNumber when DHSCFT-472 merges in
   tooltipString += getComparisionString(point, benchmarkArea);
   if (benchmarkConfidenceLimitLabel !== null) {
-    tooltipString += `<br /><span>(${benchmarkConfidenceLimitLabel})</span>`;
+    tooltipString += `<span style="display:block;">(${benchmarkConfidenceLimitLabel})</span>`;
   }
 
+  tooltipString += `</div></div>`;
   return tooltipString;
 }
 
