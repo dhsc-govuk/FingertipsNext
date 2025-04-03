@@ -15,7 +15,6 @@ import { IndicatorPolarity } from '@/generated-sources/ft-api-client/models/Indi
 import { useSearchState } from '@/context/SearchStateContext';
 import { SearchParams } from '@/lib/searchStateManager';
 import { BenchmarkTooltip } from '@/components/molecules/BenchmarkTooltip/BenchmarkTooltip';
-import { getIndicatorDataForAreasForMostRecentYearOnly } from '@/lib/chartHelpers/chartHelpers';
 
 interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];
@@ -55,12 +54,8 @@ export function ThematicMap({
             healthIndicatorData,
             mapGeographyData,
             areaType as AreaTypeKeysForMapMeta,
-            // TODO: change to use healthIndicatorData[0].healthData[0].benchmarkComparison?.method,
             benchmarkComparisonMethod,
-            polarity,
-            measurementUnit,
-            benchmarkIndicatorData,
-            groupIndicatorData
+            polarity
           )
         );
       }
