@@ -87,6 +87,8 @@ exports[`ArrowExpander take a snapshot 1`] = `
   padding: 2px 1px 1px 1px;
   cursor: pointer;
   spacing: 0;
+  font-size: 19px;
+  font-family: nta,Arial,sans-serif;
 }
 
 @media only screen and (min-width:641px) {
