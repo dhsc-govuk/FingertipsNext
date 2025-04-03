@@ -1,8 +1,9 @@
 'use client';
 
 import { TwoOrMoreIndicatorsViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
-import { Heatmap, HeatmapIndicatorData } from '@/components/organisms/Heatmap';
+import { Heatmap } from '@/components/organisms/Heatmap';
 import {
+  BenchmarkComparisonMethod,
   HealthDataForArea,
   Indicator,
   IndicatorPolarity,
@@ -18,6 +19,7 @@ import {
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { SpineChartProps } from '@/components/organisms/SpineChart';
 import { extractingCombinedHealthData } from '@/lib/chartHelpers/extractingCombinedHealthData';
+import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmapUtil';
 
 export function mapToSpineChartTableIndicator(
   indicatorMetadata: IndicatorDocument | undefined
@@ -126,8 +128,9 @@ export function extractHeatmapIndicatorData(
     indicatorName: getIndicatorName(),
     healthDataForAreas: indicatorData.areaHealthData ?? [],
     unitLabel: metadata?.unitLabel ?? 'undefined unit label',
-    benchmarkMethod: indicatorData.benchmarkMethod,
-    polarity: indicatorData.polarity,
+    benchmarkMethod:
+      indicatorData.benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
+    polarity: indicatorData.polarity ?? IndicatorPolarity.Unknown,
   };
 }
 

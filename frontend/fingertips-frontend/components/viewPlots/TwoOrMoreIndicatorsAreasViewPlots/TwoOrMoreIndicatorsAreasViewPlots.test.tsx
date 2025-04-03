@@ -16,7 +16,7 @@ import {
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { HeatmapIndicatorData } from '@/components/organisms/Heatmap';
+import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmapUtil';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -240,12 +240,17 @@ describe('extractHeatmapIndicatorData', () => {
       ],
     },
   ];
+
+  const benchmarkMethod =
+    BenchmarkComparisonMethod.CIOverlappingReferenceValue95;
+  const polarity = IndicatorPolarity.HighIsGood;
+
   const populatedIndicatorData: IndicatorWithHealthDataForArea = {
     indicatorId: 123,
     name: 'some name',
     areaHealthData: populatedAreaHealthData,
-    benchmarkMethod: BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-    polarity: IndicatorPolarity.HighIsGood,
+    benchmarkMethod: benchmarkMethod,
+    polarity: polarity,
   };
 
   const populatedIndicatorMetadata: IndicatorDocument = {
@@ -266,8 +271,8 @@ describe('extractHeatmapIndicatorData', () => {
       indicatorName: populatedIndicatorMetadata.indicatorName,
       healthDataForAreas: populatedAreaHealthData,
       unitLabel: populatedIndicatorMetadata.unitLabel,
-      benchmarkMethod: populatedIndicatorData.benchmarkMethod,
-      polarity: populatedIndicatorData.polarity,
+      benchmarkMethod: benchmarkMethod,
+      polarity: polarity,
     };
 
     const heatmapData = extractHeatmapIndicatorData(

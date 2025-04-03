@@ -27,7 +27,7 @@ describe('generate headers and rows', () => {
       name: 'Indicator 1',
       unitLabel: 'per 100',
       latestDataPeriod: 1234,
-      method: BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      benchmarkMethod: BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
       polarity: IndicatorPolarity.HighIsGood,
     },
     {
@@ -35,7 +35,8 @@ describe('generate headers and rows', () => {
       name: 'Indicator 2',
       unitLabel: 'per 1000',
       latestDataPeriod: 5678,
-      method: BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
+      benchmarkMethod:
+        BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
       polarity: IndicatorPolarity.LowIsGood,
     },
   ];
@@ -160,7 +161,7 @@ const indicator1 = {
   name: 'Very Verbose Indicator Name With an Extreeeeeeeme Number of Words to Try And Trip Up The View. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus varius magna massa, commodo consectetur erat hendrerit id. In semper, nibh eu efficitur sagittis, quam lectus semper augue, quis vestibulum ipsum urna ut orci.',
   unitLabel: 'per 1000',
   latestDataPeriod: 2004,
-  method: BenchmarkComparisonMethod.Quintiles,
+  benchmarkMethod: BenchmarkComparisonMethod.Quintiles,
   polarity: IndicatorPolarity.NoJudgement,
 };
 
@@ -169,7 +170,7 @@ const indicator2 = {
   name: 'Rate of walkers tripping over sheep',
   unitLabel: 'per 100',
   latestDataPeriod: 2002,
-  method: BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+  benchmarkMethod: BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
   polarity: IndicatorPolarity.LowIsGood,
 };
 const indicator3 = {
@@ -177,7 +178,7 @@ const indicator3 = {
   name: 'Donkey / Goose ratio',
   unitLabel: '%',
   latestDataPeriod: 2002,
-  method: BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
+  benchmarkMethod: BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
   polarity: IndicatorPolarity.HighIsGood,
 };
 
@@ -270,7 +271,7 @@ export const placeholderHeatmapIndicatorData = [
         healthData: data[0][3],
       },
     ],
-    method: indicator1.method,
+    benchmarkMethod: indicator1.benchmarkMethod,
     polarity: indicator1.polarity,
   },
   {
@@ -299,7 +300,7 @@ export const placeholderHeatmapIndicatorData = [
         healthData: data[1][3],
       },
     ],
-    method: indicator2.method,
+    benchmarkMethod: indicator2.benchmarkMethod,
     polarity: indicator2.polarity,
   },
   {
@@ -328,7 +329,7 @@ export const placeholderHeatmapIndicatorData = [
         healthData: data[2][3],
       },
     ],
-    method: indicator3.method,
+    benchmarkMethod: indicator3.benchmarkMethod,
     polarity: indicator3.polarity,
   },
 ];
@@ -373,7 +374,7 @@ describe('extract sorted areas, indicators, and data points', () => {
         dataPoints[indicator.id][expectedSortedAreas[0].code].benchmark
       ).toEqual({
         outcome: BenchmarkOutcome.NotCompared,
-        method: indicator.method,
+        benchmarkMethod: indicator.benchmarkMethod,
         polarity: indicator.polarity,
       });
     });

@@ -25,13 +25,13 @@ export enum CellType {
   Data,
 }
 
-interface IndicatorData {
+export interface HeatmapIndicatorData {
   indicatorId: string;
   indicatorName: string;
   healthDataForAreas: HealthDataForArea[];
   unitLabel: string;
-  method?: BenchmarkComparisonMethod;
-  polarity?: IndicatorPolarity;
+  benchmarkMethod: BenchmarkComparisonMethod;
+  polarity: IndicatorPolarity;
 }
 
 interface Row {
@@ -43,7 +43,7 @@ interface Cell {
   key: string;
   type: CellType;
   content: string;
-  backgroundColour?: string; // not yet implemented
+  backgroundColour?: string;
 }
 
 interface Header {
@@ -64,7 +64,7 @@ interface Indicator {
   name: string;
   unitLabel: string;
   latestDataPeriod: number;
-  method?: BenchmarkComparisonMethod;
+  benchmarkMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
 }
 
@@ -77,12 +77,12 @@ interface DataPoint {
 
 interface Benchmark {
   outcome: BenchmarkOutcome;
-  method?: BenchmarkComparisonMethod;
-  polarity?: IndicatorPolarity;
+  benchmarkMethod: BenchmarkComparisonMethod;
+  polarity: IndicatorPolarity;
 }
 
 export const extractSortedAreasIndicatorsAndDataPoints = (
-  indicatorData: IndicatorData[],
+  indicatorData: HeatmapIndicatorData[],
   groupAreaCode?: string
 ): {
   areas: Area[];
@@ -165,14 +165,14 @@ const formatValue = (value?: number): string => {
 const generateDataBackgroundColour = (dataPoint?: DataPoint): string => {
   if (
     !dataPoint?.value ||
-    !dataPoint.benchmark?.method ||
+    !dataPoint.benchmark?.benchmarkMethod ||
     !dataPoint.benchmark?.polarity
   ) {
     return GovukColours.White;
   }
 
   const colour = getBenchmarkColour(
-    dataPoint.benchmark.method,
+    dataPoint.benchmark.benchmarkMethod,
     dataPoint.benchmark.outcome,
     dataPoint.benchmark.polarity
   );
@@ -181,7 +181,7 @@ const generateDataBackgroundColour = (dataPoint?: DataPoint): string => {
 };
 
 const extractAreasIndicatorsAndDataPoints = (
-  indicatorDataForAllAreas: IndicatorData[]
+  indicatorDataForAllAreas: HeatmapIndicatorData[]
 ): {
   areas: Record<string, Area>;
   indicators: Record<string, Indicator>;
@@ -198,8 +198,8 @@ const extractAreasIndicatorsAndDataPoints = (
         name: indicatorData.indicatorName,
         unitLabel: indicatorData.unitLabel,
         latestDataPeriod: 0,
-        method: indicatorData.method ?? BenchmarkComparisonMethod.Unknown,
-        polarity: indicatorData.polarity ?? IndicatorPolarity.Unknown,
+        benchmarkMethod: indicatorData.benchmarkMethod,
+        polarity: indicatorData.polarity,
       };
 
       dataPoints[indicatorData.indicatorId] = {};
@@ -241,7 +241,7 @@ const extractAreasIndicatorsAndDataPoints = (
         outcome:
           healthDataForYear?.benchmarkComparison?.outcome ??
           BenchmarkOutcome.NotCompared,
-        method: indicatorData.method,
+        benchmarkMethod: indicatorData.benchmarkMethod,
         polarity: indicatorData.polarity,
       };
 
