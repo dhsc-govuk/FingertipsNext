@@ -24,9 +24,8 @@ const StyledCellData = styled(StyledCellNumeric)<{
   $color?: string;
   $backgroundColor?: string;
 }>`
-  color: ${(props) => (props.$color ? props.$color : GovukColours.Black)};
-  background-color: ${(props) =>
-    props.$backgroundColor ? props.$backgroundColor : GovukColours.White};
+  color: ${(props) => props.$color ?? GovukColours.Black};
+  background-color: ${(props) => props.$backgroundColor ?? GovukColours.White};
 `;
 
 const StyledDivDataCellContent = styled.div({
