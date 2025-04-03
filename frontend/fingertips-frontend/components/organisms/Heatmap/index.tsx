@@ -14,7 +14,6 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { HeatmapHeader } from './heatmapHeader';
 import { HeatmapCell } from './heatmapCell';
-import { getTextColour, GovukColours } from '@/lib/styleHelpers/colours';
 import { BenchmarkLegend } from '../BenchmarkLegend';
 
 export interface HeatmapIndicatorData {
@@ -22,7 +21,7 @@ export interface HeatmapIndicatorData {
   indicatorName: string;
   healthDataForAreas: HealthDataForArea[];
   unitLabel: string;
-  method?: BenchmarkComparisonMethod;
+  benchmarkMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
 }
 
@@ -41,6 +40,7 @@ const StyledTable = styled(Table)({
 const StyledDivTableContainer = styled.div({
   overflowY: 'visible',
   overflowX: 'scroll',
+  maxWidth: '960px',
 });
 
 const StyledDivHeatmapContainer = styled.div({
@@ -62,7 +62,7 @@ export function Heatmap({
     <StyledDivHeatmapContainer>
       <BenchmarkLegend />
       <StyledDivTableContainer>
-        <StyledTable data-testid="heatmap-component">
+        <StyledTable data-testid="heatmapChart-component">
           <Table.Row>
             {headers.map((header) => {
               return (
@@ -83,11 +83,6 @@ export function Heatmap({
                       key={cell.key}
                       cellType={cell.type}
                       content={cell.content}
-                      textColour={
-                        cell.backgroundColour
-                          ? getTextColour(cell.backgroundColour)
-                          : GovukColours.Black
-                      }
                       backgroundColour={cell.backgroundColour}
                       hoverProps={cell.hoverProps}
                     />

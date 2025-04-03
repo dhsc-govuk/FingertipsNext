@@ -46,7 +46,7 @@ const StyledH4Header = styled(H4)({
 });
 
 const StyledH4IndicatorHeader = styled(StyledH4Header)({
-  width: heatmapIndicatorTitleColumnWidth,
+  width: `${heatmapIndicatorTitleColumnWidth}px`,
 });
 
 interface HeatmapHeaderProps {
@@ -56,7 +56,7 @@ interface HeatmapHeaderProps {
 
 const StyledCellHeaderIndicatorTitle = styled(Table.CellHeader)({
   verticalAlign: 'bottom',
-  width: heatmapIndicatorTitleColumnWidth,
+  width: `${heatmapIndicatorTitleColumnWidth}px`,
 });
 
 const StyledCellHeaderIndicatorInformation = styled(Table.CellHeader)({
@@ -66,7 +66,7 @@ const StyledCellHeaderIndicatorInformation = styled(Table.CellHeader)({
 
 const StyledCellHeaderArea = styled(Table.CellHeader)({
   verticalAlign: 'bottom',
-  width: heatmapDataColumnWidth,
+  width: `${heatmapDataColumnWidth}px`,
   paddingRight: '0px',
 });
 

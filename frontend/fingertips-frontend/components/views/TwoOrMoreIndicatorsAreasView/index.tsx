@@ -1,4 +1,4 @@
-import { TwoOrMoreIndicatorsAreasViewPlots } from '@/components/viewPlots/TwoOrMoreIndicatorsAreasViewPlots';
+import { TwoOrMoreIndicatorsAreasViewPlot } from '@/components/viewPlots/TwoOrMoreIndicatorsAreasViewPlots';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
@@ -8,7 +8,10 @@ import {
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
-import { chunkArray, maxIndicatorAPIRequestSize } from '@/lib/ViewsHelpers';
+import {
+  chunkArray,
+  maxNumAreasThatCanBeRequestedAPI,
+} from '@/lib/ViewsHelpers';
 
 export default async function TwoOrMoreIndicatorsAreasView({
   searchState,
@@ -21,12 +24,19 @@ export default async function TwoOrMoreIndicatorsAreasView({
     [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
 
-  if (!indicatorsSelected || indicatorsSelected.length < 2 || !areasSelected) {
-    throw new Error('Invalid parameters provided to view');
+  if (!indicatorsSelected || indicatorsSelected.length < 2) {
+    throw new Error('invalid indicators selected passed to view');
   }
 
-  if (!selectedIndicatorsData) {
-    throw new Error('Unable to retrieve indicator metadata');
+  if (!areasSelected || areasSelected.length < 1) {
+    throw new Error('invalid areas selected passed to view');
+  }
+
+  if (
+    !selectedIndicatorsData ||
+    selectedIndicatorsData.length !== indicatorsSelected.length
+  ) {
+    throw new Error('invalid indicator metadata passed to view');
   }
 
   const areaCodesToRequest = [...areasSelected];
@@ -45,7 +55,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
     let healthIndicatorData: IndicatorWithHealthDataForArea | undefined;
     try {
       const healthIndicatorDataChunks = await Promise.all(
-        chunkArray(areaCodesToRequest, maxIndicatorAPIRequestSize).map(
+        chunkArray(areaCodesToRequest, maxNumAreasThatCanBeRequestedAPI).map(
           (requestAreas) =>
             indicatorApi.getHealthDataForAnIndicator(
               {
@@ -66,31 +76,25 @@ export default async function TwoOrMoreIndicatorsAreasView({
         .map((indicatorData) => indicatorData?.areaHealthData ?? [])
         .flat();
     } catch (error) {
-      console.error('error getting health indicator data for areas', error);
-      throw new Error('error getting health indicator data for areas');
+      throw new Error(
+        `error getting health indicator data for areas: ${error}`
+      );
     }
 
     return healthIndicatorData;
   };
 
-  const healthDataForAllIndicators = await Promise.all(
+  const combinedIndicatorData = await Promise.all(
     indicatorsSelected.map((indicator) => {
       return getHealthDataForIndicator(indicator);
     })
   );
 
-  const groupAreaCode =
-    selectedGroupCode && selectedGroupCode !== areaCodeForEngland
-      ? selectedGroupCode
-      : undefined;
-
-  console.log(`TODO: fetch population data for areas: [${areaCodesToRequest}]`);
-
   return (
-    <TwoOrMoreIndicatorsAreasViewPlots
-      indicatorData={healthDataForAllIndicators}
+    <TwoOrMoreIndicatorsAreasViewPlot
+      searchState={searchState}
+      indicatorData={combinedIndicatorData}
       indicatorMetadata={selectedIndicatorsData}
-      groupAreaCode={groupAreaCode}
     />
   );
 }

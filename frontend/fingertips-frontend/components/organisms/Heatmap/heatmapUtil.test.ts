@@ -1,5 +1,6 @@
 import {
   BenchmarkComparisonMethod,
+  BenchmarkOutcome,
   HealthDataPoint,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
@@ -10,6 +11,7 @@ import {
   HeaderType,
 } from './heatmapUtil';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 
 describe('generate headers and rows', () => {
   const groupAreaCode = 'groupAreaCode';
@@ -38,6 +40,11 @@ describe('generate headers and rows', () => {
     },
   ];
 
+  const missingDataPoint = {
+    areaCode: sortedAreas[2].code,
+    indicatorId: sortedIndicators[1].id,
+  };
+
   interface DataPoint {
     value?: number;
     areaCode: string;
@@ -48,11 +55,18 @@ describe('generate headers and rows', () => {
   sortedIndicators.forEach((indicator, indicatorIndex) => {
     dataPoints[indicator.id] = {};
     sortedAreas.forEach((area, areaIndex) => {
-      dataPoints[indicator.id][area.code] = {
-        value: areaIndex + indicatorIndex * 10,
-        indicatorId: indicator.id,
-        areaCode: area.code,
-      };
+      if (
+        !(
+          indicator.id === missingDataPoint.indicatorId &&
+          area.code === missingDataPoint.areaCode
+        )
+      ) {
+        dataPoints[indicator.id][area.code] = {
+          value: areaIndex + indicatorIndex * 10,
+          indicatorId: indicator.id,
+          areaCode: area.code,
+        };
+      }
     });
   });
 
@@ -115,7 +129,7 @@ describe('generate headers and rows', () => {
 
     expect(rows[1].cells[3].content).toEqual('10.0');
     expect(rows[1].cells[4].content).toEqual('11.0');
-    expect(rows[1].cells[5].content).toEqual('12.0');
+    expect(rows[1].cells[5].content).toEqual('X');
   });
 });
 
@@ -124,21 +138,20 @@ export const placeholderGroupAreaCode = 'area3';
 const newHealthDataPoint = ({
   year,
   value,
+  outcome,
 }: {
   year: number;
   value?: number;
+  outcome?: BenchmarkOutcome;
 }): HealthDataPoint => {
   return {
     year: year,
     value: value,
-    ageBand: '',
-    sex: '',
+    ageBand: allAgesAge,
+    sex: personsSex,
     trend: 'Not yet calculated',
-    deprivation: {
-      sequence: 0,
-      value: '',
-      type: '',
-    },
+    deprivation: noDeprivation,
+    benchmarkComparison: { outcome: outcome },
   };
 };
 
@@ -352,4 +365,19 @@ describe('extract sorted areas, indicators, and data points', () => {
       dataPoints[indicator1.id][expectedSortedAreas[3].code].value
     ).toBeUndefined();
   });
+
+  it('should populate data points with benchmarking information', () => {
+    const indicators = [indicator1, indicator2, indicator3];
+    indicators.forEach((indicator) => {
+      expect(
+        dataPoints[indicator.id][expectedSortedAreas[0].code].benchmark
+      ).toEqual({
+        outcome: BenchmarkOutcome.NotCompared,
+        method: indicator.method,
+        polarity: indicator.polarity,
+      });
+    });
+  });
 });
+
+// TODO JH write test for absent data

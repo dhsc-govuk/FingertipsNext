@@ -9,8 +9,8 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { HeatmapHoverProps } from './heatmapHover';
 
-export const heatmapIndicatorTitleColumnWidth = '240px';
-export const heatmapDataColumnWidth = '60px';
+export const heatmapIndicatorTitleColumnWidth = 240;
+export const heatmapDataColumnWidth = 60;
 
 export enum HeaderType {
   IndicatorTitle,
@@ -145,16 +145,16 @@ export const generateRows = (
 
     areas.forEach((area, areaIndex) => {
       const formattedValue = formatValue(
-        dataPoints[indicator.id][area.code].value
+        dataPoints[indicator.id][area.code]?.value
       ); // TODO format numbers
       cols[areaIndex + leadingCols.length] = {
         key: `col-${indicator.id}-${area.code}`,
         type: CellType.Data,
         content: formattedValue,
         backgroundColour:
-          areaIndex === 0
+          area.code === areaCodeForEngland
             ? GovukColours.MidGrey
-            : generatedDataBackgroundColor(dataPoints[indicator.id][area.code]),
+            : generateDataBackgroundColour(dataPoints[indicator.id][area.code]),
         hoverProps: {
           areaName: getHoverAreaName(area),
           period: indicator.latestDataPeriod.toString(),
@@ -175,12 +175,12 @@ const formatValue = (value?: number): string => {
   return value !== undefined ? value.toFixed(1) : 'X';
 };
 
-const generatedDataBackgroundColor = (dataPoint: DataPoint): string => {
+const generateDataBackgroundColour = (dataPoint?: DataPoint): string => {
   if (
+    !dataPoint ||
     !dataPoint.value ||
-    !dataPoint.benchmark ||
-    !dataPoint.benchmark.method ||
-    !dataPoint.benchmark.polarity
+    !dataPoint.benchmark?.method ||
+    !dataPoint.benchmark?.polarity
   ) {
     return GovukColours.White;
   }
@@ -191,7 +191,7 @@ const generatedDataBackgroundColor = (dataPoint: DataPoint): string => {
     dataPoint.benchmark.polarity
   );
 
-  return colour ? colour : GovukColours.White;
+  return colour ?? GovukColours.White;
 };
 
 const getHoverAreaName = (area: Area, groupAreaCode?: string): string => {

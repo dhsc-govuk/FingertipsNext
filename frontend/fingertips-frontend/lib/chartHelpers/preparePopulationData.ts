@@ -16,8 +16,8 @@ export interface PopulationDataForArea {
 const removeDuplicateDataPointByAgeBand = (dataPoints: HealthDataPoint[]) => {
   const seenPoints = new Set<string>();
   return dataPoints.filter((value) => {
-    if (!seenPoints.has(value.ageBand)) {
-      seenPoints.add(value.ageBand);
+    if (!seenPoints.has(value.ageBand.value)) {
+      seenPoints.add(value.ageBand.value);
       return true;
     }
     return false;
@@ -30,7 +30,10 @@ const sortHealthDataByAgeBand = (data: HealthDataPoint[]) => {
       if (range.includes('+')) return parseInt(range.split('-')[0]);
       return parseInt(range.split('-')[0]);
     };
-    return getLowerBandValue(a.ageBand) > getLowerBandValue(b.ageBand) ? -1 : 1;
+    return getLowerBandValue(a.ageBand.value) >
+      getLowerBandValue(b.ageBand.value)
+      ? -1
+      : 1;
   });
 };
 
@@ -59,8 +62,8 @@ export const convertHealthDataForAreaForPyramidData = (
     const maleFemaleDataPoints = healthDataForArea.healthData.filter(
       (value) => {
         if (
-          !value.ageBand.includes('All') &&
-          (value.sex == 'Male' || value.sex == 'Female') &&
+          !value.ageBand.value.includes('All') &&
+          (value.sex.value == 'Male' || value.sex.value == 'Female') &&
           (year ? year == value.year : true)
         ) {
           return true;
@@ -71,20 +74,20 @@ export const convertHealthDataForAreaForPyramidData = (
     const maleDataPoints = sortHealthDataByAgeBand(
       removeDuplicateDataPointByAgeBand(
         maleFemaleDataPoints.filter((value) => {
-          return value.sex == 'Male';
+          return value.sex.value == 'Male';
         })
       )
     );
     const femaleDataPoints = sortHealthDataByAgeBand(
       removeDuplicateDataPointByAgeBand(
         maleFemaleDataPoints.filter((value) => {
-          return value.sex == 'Female';
+          return value.sex.value == 'Female';
         })
       )
     );
 
     ageCategories = femaleDataPoints.map((point) =>
-      point.ageBand.replace('yrs', '').replace('-', ' to ')
+      point.ageBand.value.replace('yrs', '').replace('-', ' to ')
     );
 
     let totalPopulation = femaleDataPoints.reduce((prev, { count }) => {
@@ -145,7 +148,11 @@ const filterHealthDataForArea = (
 export const createPyramidPopulationDataFrom = (
   dataForAreas: HealthDataForArea[],
   groupAreaCode: string
-) => {
+): {
+  areas: (PopulationDataForArea | undefined)[];
+  benchmark: PopulationDataForArea | undefined;
+  group: PopulationDataForArea | undefined;
+} => {
   const { areas, benchmark, group } = filterHealthDataForArea(
     dataForAreas,
     groupAreaCode

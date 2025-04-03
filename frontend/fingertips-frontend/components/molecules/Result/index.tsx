@@ -18,9 +18,12 @@ import { formatDate, isWithinOneMonth } from '@/lib/dateHelpers/dateHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
+import { TrendTag } from '../TrendTag';
+import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 
 type SearchResultProps = {
   result: IndicatorDocument;
+  showTrends: boolean;
   indicatorSelected?: boolean;
   handleClick: (indicatorId: string, checked: boolean) => void;
   currentDate?: Date;
@@ -70,6 +73,7 @@ const GreyTag = styled(Tag)({
 
 export function SearchResult({
   result,
+  showTrends,
   indicatorSelected,
   handleClick,
   currentDate = new Date(),
@@ -118,6 +122,7 @@ export function SearchResult({
             onChange={(e) => {
               handleClick(result.indicatorID.toString(), e.target.checked);
             }}
+            className=""
           >
             <H5>
               <Link
@@ -151,6 +156,15 @@ export function SearchResult({
             </TagRow>
           </Checkbox>
         </GridCol>
+        {showTrends ? (
+          <GridCol setWidth="one-quarter">
+            <TrendTag
+              trendFromResponse={
+                result.trend ?? HealthDataPointTrendEnum.CannotBeCalculated
+              }
+            />
+          </GridCol>
+        ) : null}
       </PrimaryRow>
       <SectionBreak visible={true} />
     </ListItem>

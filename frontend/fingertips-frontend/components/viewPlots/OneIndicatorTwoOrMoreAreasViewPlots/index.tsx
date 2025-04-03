@@ -21,8 +21,10 @@ import {
   generateStandardLineChartOptions,
   LineChartVariant,
 } from '@/components/organisms/LineChart/lineChartHelpers';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchState } from '@/context/SearchStateContext';
+import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
+import { IndicatorPolarity } from '@/generated-sources/ft-api-client';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
@@ -67,14 +69,15 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   );
 
   const groupData =
-    selectedGroupCode && selectedGroupCode != areaCodeForEngland
+    selectedGroupCode && selectedGroupCode !== areaCodeForEngland
       ? healthIndicatorData.find(
           (areaData) => areaData.areaCode === selectedGroupCode
         )
       : undefined;
 
   const shouldLineChartbeShown =
-    dataWithoutEnglandOrGroup[0]?.healthData.length > 1 &&
+    (dataWithoutEnglandOrGroup[0]?.healthData.length > 1 ||
+      benchmarkMethod === BenchmarkComparisonMethod.Quintiles) &&
     areasSelected &&
     areasSelected?.length <= 2;
 
@@ -150,8 +153,13 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
           healthIndicatorData={dataWithoutEnglandOrGroup}
           mapGeographyData={mapGeographyData}
           areaType={areasTypeSelected as AreaTypeKeysForMapMeta}
-          benchmarkComparisonMethod={benchmarkMethod}
-          polarity={polarity}
+          benchmarkComparisonMethod={
+            benchmarkMethod ?? BenchmarkComparisonMethod.Unknown
+          }
+          polarity={polarity ?? IndicatorPolarity.Unknown}
+          measurementUnit={indicatorMetadata?.unitLabel}
+          benchmarkIndicatorData={englandBenchmarkData}
+          groupIndicatorData={groupData}
         />
       )}
       <BarChartEmbeddedTable

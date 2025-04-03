@@ -1,7 +1,11 @@
-import { GovukColours } from '@/lib/styleHelpers/colours';
+import { getTextColour, GovukColours } from '@/lib/styleHelpers/colours';
 import { Table } from 'govuk-react';
 import styled from 'styled-components';
-import { CellType, heatmapIndicatorTitleColumnWidth } from './heatmapUtil';
+import {
+  CellType,
+  heatmapDataColumnWidth,
+  heatmapIndicatorTitleColumnWidth,
+} from './heatmapUtil';
 import { JSX } from 'react';
 import { HeatmapHover, HeatmapHoverProps } from './heatmapHover';
 
@@ -13,7 +17,7 @@ const StyledCellText = styled(Table.Cell)({
 const StyledCellNumeric = styled(Table.Cell)({
   textAlign: 'center',
   minHeight: '70px',
-  width: '100%',
+  width: `${heatmapDataColumnWidth}px`,
   padding: 0,
   position: 'relative',
 });
@@ -36,7 +40,7 @@ const StyledDivDataCellContent = styled.div({
 const StyledDivIndicatorTitleCellContent = styled.div({
   textOverflow: 'ellipsis',
   overflow: 'hidden',
-  width: heatmapIndicatorTitleColumnWidth,
+  width: `${heatmapIndicatorTitleColumnWidth}px`,
   display: '-webkit-box',
   WebkitLineClamp: 4,
   WebkitBoxOrient: 'vertical',
@@ -50,7 +54,6 @@ const StyledDivIndicatorInformationCellContent = styled.div({
 interface HeatmapCellProps {
   cellType: CellType;
   content: string;
-  textColour?: string;
   backgroundColour?: string;
   hoverProps?: HeatmapHoverProps;
 }
@@ -58,15 +61,14 @@ interface HeatmapCellProps {
 export const HeatmapCell = ({
   cellType,
   content,
-  textColour,
-  backgroundColour,
+  backgroundColour = GovukColours.White,
   hoverProps,
 }: HeatmapCellProps): JSX.Element => {
   console.log(hoverProps);
   switch (cellType) {
     case CellType.IndicatorTitle:
       return (
-        <Table.Cell>
+        <Table.Cell data-testid="heatmap-cell-indicator-title">
           <StyledDivIndicatorTitleCellContent>
             {content}
           </StyledDivIndicatorTitleCellContent>
@@ -74,7 +76,7 @@ export const HeatmapCell = ({
       );
     case CellType.IndicatorInformation:
       return (
-        <StyledCellText>
+        <StyledCellText data-testid="heatmap-cell-indicator-info">
           <StyledDivIndicatorInformationCellContent>
             {content}
           </StyledDivIndicatorInformationCellContent>
@@ -84,7 +86,7 @@ export const HeatmapCell = ({
       if (hoverProps) {
         return (
           <StyledCellData
-            $color={textColour}
+            $color={getTextColour(backgroundColour)}
             $backgroundColor={backgroundColour}
           >
             <StyledDivDataCellContent>
@@ -104,10 +106,13 @@ export const HeatmapCell = ({
       } else
         return (
           <StyledCellData
-            $color={textColour}
+            data-testid="heatmap-cell-data"
+            $color={getTextColour(backgroundColour)}
             $backgroundColor={backgroundColour}
           >
-            <StyledDivDataCellContent>{content}</StyledDivDataCellContent>
+            <StyledDivDataCellContent>
+              <StyledDivDataCellContent>{content}</StyledDivDataCellContent>
+            </StyledDivDataCellContent>
           </StyledCellData>
         );
     }

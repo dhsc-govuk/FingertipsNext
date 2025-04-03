@@ -11,7 +11,20 @@ public static class Constants {
         // The name for the Fingertips DB: used in the environment variable for the connection string.
         public const string FingertipsDbName = "FINGERTIPS_DB";
         // With the current DB settings, when running load-heavy processes we may need longer than the default 30s.
-        public const int CommandTimeout = 120;
+        public const int CommandTimeout = 180;
+    }
+
+    public static class Indicator {
+        public const int GpRegisteredPopulationId = 337;
+        public const int ResidentPopulationId = 92708;
+
+        // IDs to skip for trend analysis. The following are full population indicators and are not
+        // displayed in the Fingertips website.
+        public static readonly IList<int> IdsToSkip = new ReadOnlyCollection<int>(
+        [
+            GpRegisteredPopulationId,
+            ResidentPopulationId
+        ]);
     }
 
     public static class Polarity {
