@@ -150,19 +150,19 @@ SET @sqlDeprivation = 'BULK INSERT #TempDeprivationData FROM ''' + @filePathDepr
 EXEC sp_executesql @sqlDeprivation;
 
 --manually insert the ALL deprivation value
-INSERT [dbo].[DeprivationDimension] 
+INSERT [dbo].[DeprivationDimension]
 (
     [Name],
     [Type],
     [HasValue],
     [Sequence]
-) 
-VALUES 
+)
+VALUES
 (
-    N'All',
-    N'All',
+    N'Persons',
+    N'Persons',
     0,
-    10
+    11
 )
 
 INSERT INTO [dbo].[DeprivationDimension] 
@@ -320,9 +320,9 @@ CREATE TABLE #RawHealthData
     CategoryType NVARCHAR(MAX),
     Category NVARCHAR(MAX),
     AgeID INT,
-    IsSexAggregatedOrSingle NVARCHAR(255),
-    IsAgeAggregatedOrSingle NVARCHAR(255),
-    IsDeprivationAggregatedOrSingle NVARCHAR(255),
+    IsSexAggregatedOrSingle bit,
+    IsAgeAggregatedOrSingle bit,
+    IsDeprivationAggregatedOrSingle bit,
     Avoid INT
 );
 
@@ -358,9 +358,9 @@ CREATE TABLE #TempHealthData
     CategoryType NVARCHAR(MAX),
     Category NVARCHAR(255),
     AgeID INT,
-    IsSexAggregatedOrSingle NVARCHAR(255),
-    IsAgeAggregatedOrSingle NVARCHAR(255),
-    IsDeprivationAggregatedOrSingle NVARCHAR(255)
+    IsSexAggregatedOrSingle bit,
+    IsAgeAggregatedOrSingle bit,
+    IsDeprivationAggregatedOrSingle bit
 );
 
 INSERT INTO #TempHealthData
