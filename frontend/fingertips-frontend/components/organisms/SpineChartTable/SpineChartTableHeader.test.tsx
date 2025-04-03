@@ -16,12 +16,12 @@ describe('Spine chart table suite', () => {
     it('should contain the expected elements', () => {
       render(
         <table>
-          <tbody>
+          <thead>
             <SpineChartTableHeader
               areaName={mockHeaderData.area}
               groupName={mockHeaderData.group}
             />
-          </tbody>
+          </thead>
         </table>
       );
 
@@ -44,12 +44,12 @@ describe('Spine chart table suite', () => {
     it('should have grey cell color for benchmark column', () => {
       render(
         <table>
-          <tbody>
+          <thead>
             <SpineChartTableHeader
               areaName={mockHeaderData.area}
               groupName={mockHeaderData.group}
             />
-          </tbody>
+          </thead>
         </table>
       );
 
@@ -71,12 +71,12 @@ describe('Spine chart table suite', () => {
     it('should have light grey cell color for the group column', () => {
       render(
         <table>
-          <tbody>
+          <thead>
             <SpineChartTableHeader
               areaName={mockHeaderData.area}
               groupName={mockHeaderData.group}
             />
-          </tbody>
+          </thead>
         </table>
       );
 

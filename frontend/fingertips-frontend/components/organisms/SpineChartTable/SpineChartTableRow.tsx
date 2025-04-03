@@ -12,6 +12,7 @@ import {
   StyledGroupCell,
   StyledBenchmarkCell,
 } from './SpineChartTableStyles';
+import { SpineChartProps } from '../SpineChart';
 import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
 
 export interface SpineChartMissingData {
@@ -27,8 +28,7 @@ export interface SpineChartTableRowData {
   value?: number;
   groupValue?: number;
   benchmarkValue?: number;
-  benchmarkBest?: number;
-  benchmarkWorst?: number;
+  benchmarkStatistics: SpineChartProps;
 }
 
 export function SpineChartMissingValue({
@@ -45,8 +45,7 @@ export function SpineChartTableRow({
   value,
   groupValue,
   benchmarkValue,
-  benchmarkWorst,
-  benchmarkBest,
+  benchmarkStatistics,
 }: Readonly<SpineChartTableRowData>) {
   return (
     <Table.Row>
@@ -72,10 +71,10 @@ export function SpineChartTableRow({
         {formatNumber(benchmarkValue)}
       </StyledBenchmarkCell>
       <StyledBenchmarkCell data-testid={`benchmark-worst-cell`}>
-        {formatNumber(benchmarkWorst)}
+        {formatNumber(benchmarkStatistics.worst)}
       </StyledBenchmarkCell>
       <StyledBenchmarkCell data-testid={`benchmark-best-cell`}>
-        {formatNumber(benchmarkBest)}
+        {formatNumber(benchmarkStatistics.best)}
       </StyledBenchmarkCell>
     </Table.Row>
   );

@@ -12,11 +12,12 @@ import {
 import { BenchmarkLegend } from '../BenchmarkLegend';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
 import { IndicatorPolarity } from '@/generated-sources/ft-api-client/models/IndicatorPolarity';
+import { useSearchState } from '@/context/SearchStateContext';
+import { SearchParams } from '@/lib/searchStateManager';
 
 interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];
   mapGeographyData: MapGeographyData;
-  areaType: AreaTypeKeysForMapMeta;
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
   measurementUnit?: string;
@@ -31,37 +32,45 @@ const loadHighchartsModules = async (callback: () => void) => {
 export function ThematicMap({
   healthIndicatorData,
   mapGeographyData,
-  areaType,
   benchmarkComparisonMethod,
   polarity,
   measurementUnit,
   benchmarkIndicatorData,
   groupIndicatorData,
 }: Readonly<ThematicMapProps>) {
+  const { getSearchState } = useSearchState();
+  const { [SearchParams.AreaTypeSelected]: areaType } = getSearchState();
+
   const [options, setOptions] = useState<Highcharts.Options>();
   // useEffect and async loading of map module to address issue with Highcharts 12 with Next 15.
   // See: https://github.com/highcharts/highcharts-react/issues/502#issuecomment-2531711517
-  //
-  // as such, we're (mis)using useEffect to load the map on initial render, and not for interactivity.
-  // the lint directive doesn't really apply here, and having either no dependency array, or mapOptions as a dependency
-  // causes it to loop infinitely. (https://react.dev/reference/react/useEffect#examples-dependencies)
   useEffect(() => {
-    void loadHighchartsModules(async () =>
-      setOptions(
-        createThematicMapChartOptions(
-          healthIndicatorData,
-          mapGeographyData,
-          areaType,
-          benchmarkComparisonMethod,
-          polarity,
-          measurementUnit,
-          benchmarkIndicatorData,
-          groupIndicatorData
-        )
-      )
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    void loadHighchartsModules(async () => {
+      if (areaType) {
+        setOptions(
+          createThematicMapChartOptions(
+            healthIndicatorData,
+            mapGeographyData,
+            areaType as AreaTypeKeysForMapMeta,
+            benchmarkComparisonMethod,
+            polarity,
+            measurementUnit,
+            benchmarkIndicatorData,
+            groupIndicatorData
+          )
+        );
+      }
+    });
+  }, [
+    healthIndicatorData,
+    mapGeographyData,
+    areaType,
+    benchmarkComparisonMethod,
+    polarity,
+    measurementUnit,
+    benchmarkIndicatorData,
+    groupIndicatorData,
+  ]);
 
   // This prevents errors from trying to render before the module is loaded in the useEffect callback
   if (!options) {
