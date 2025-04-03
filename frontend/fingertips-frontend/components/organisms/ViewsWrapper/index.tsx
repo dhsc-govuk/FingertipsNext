@@ -28,7 +28,15 @@ export function ViewsWrapper({
       {hasHealthDataForAllSelectedAreasAndIndicators ? (
         children
       ) : (
-        <Paragraph>No data</Paragraph>
+        <div
+          data-testid="no-health-data-message"
+          style={{ marginBottom: '3em' }}
+        >
+          <Paragraph>
+            There is no indicator data available for the selected areas. You can
+            try again by selecting a different area.
+          </Paragraph>
+        </div>
       )}
     </>
   );

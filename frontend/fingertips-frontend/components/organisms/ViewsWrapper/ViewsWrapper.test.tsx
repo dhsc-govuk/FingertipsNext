@@ -36,7 +36,9 @@ describe('ViewsWrapper', () => {
     );
 
     expect(screen.getByText('Some child component')).toBeInTheDocument();
-    expect(screen.queryByText('No data')).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId('no-health-data-message')
+    ).not.toBeInTheDocument();
   });
 
   it('should render "No data" if there are no healthData for all the selected areas', () => {
@@ -60,6 +62,6 @@ describe('ViewsWrapper', () => {
     );
 
     expect(screen.queryByText('Some child component')).not.toBeInTheDocument();
-    expect(screen.getByText('No data')).toBeInTheDocument();
+    expect(screen.getByTestId('no-health-data-message')).toBeInTheDocument();
   });
 });
