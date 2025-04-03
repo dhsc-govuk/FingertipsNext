@@ -51,8 +51,8 @@ export function mapToSpineChartTableStatistics(
     case IndicatorPolarity.LowIsGood:
       return {
         best: q0Value,
-        secondBest: q1Value,
-        secondWorst: q3Value,
+        bestQuartile: q1Value,
+        worstQuartile: q3Value,
         worst: q4Value,
       };
     case IndicatorPolarity.Unknown:
@@ -61,8 +61,8 @@ export function mapToSpineChartTableStatistics(
     default:
       return {
         best: q4Value,
-        secondBest: q3Value,
-        secondWorst: q1Value,
+        bestQuartile: q3Value,
+        worstQuartile: q1Value,
         worst: q0Value,
       };
   }

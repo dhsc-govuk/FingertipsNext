@@ -102,14 +102,14 @@ describe('Spine chart table suite', () => {
   const mockBenchmarkStatistics = [
     {
       best: 1666,
-      secondBest: 1000,
-      secondWorst: 969,
+      bestQuartile: 1000,
+      worstQuartile: 969,
       worst: 959,
     },
     {
       best: 22,
-      secondBest: 40,
-      secondWorst: 60,
+      bestQuartile: 40,
+      worstQuartile: 60,
       worst: 100,
     },
   ];
@@ -161,8 +161,8 @@ describe('Spine chart table suite', () => {
         {
           benchmarkStatistics: {
             best: 1666,
-            secondBest: 1000,
-            secondWorst: 969,
+            bestQuartile: 1000,
+            worstQuartile: 969,
             worst: 959,
           },
           benchmarkValue: 890.305692,
@@ -177,8 +177,8 @@ describe('Spine chart table suite', () => {
         {
           benchmarkStatistics: {
             best: 22,
-            secondBest: 40,
-            secondWorst: 60,
+            bestQuartile: 40,
+            worstQuartile: 60,
             worst: 100,
           },
           benchmarkValue: 135.149304,

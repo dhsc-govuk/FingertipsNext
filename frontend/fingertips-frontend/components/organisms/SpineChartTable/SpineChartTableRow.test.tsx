@@ -18,8 +18,8 @@ describe('Spine chart table suite', () => {
     benchmarkValue: 987,
     benchmarkStatistics: {
       best: 999,
-      secondBest: 760,
-      secondWorst: 500,
+      bestQuartile: 760,
+      worstQuartile: 500,
       worst: 345,
     },
   };
