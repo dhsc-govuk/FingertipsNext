@@ -121,6 +121,10 @@ public class AreaRepository : IAreaRepository
             .AsSplitQuery()
             .FirstOrDefaultAsync();
 
+        if (area == null) {
+            return null;
+        }
+
         var areasWithRelations = new AreaWithRelationsModel
         {
             Area = area,
