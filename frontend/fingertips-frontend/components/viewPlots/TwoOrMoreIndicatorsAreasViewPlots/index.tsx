@@ -48,10 +48,10 @@ export function mapToSpineChartTableIndicator(
 export function mapToSpineChartTableStatistics(
   quartileData: QuartileData
 ): SpineChartProps {
-  const q0Value = quartileData.q0Value !== undefined ? quartileData.q0Value : 0;
-  const q1Value = quartileData.q1Value !== undefined ? quartileData.q1Value : 0;
-  const q3Value = quartileData.q3Value !== undefined ? quartileData.q3Value : 0;
-  const q4Value = quartileData.q4Value !== undefined ? quartileData.q4Value : 0;
+  const q0Value = quartileData.q0Value ?? 0;
+  const q1Value = quartileData.q1Value ?? 0;
+  const q3Value = quartileData.q3Value ?? 0;
+  const q4Value = quartileData.q4Value ?? 0;
 
   switch (quartileData.polarity) {
     case IndicatorPolarity.LowIsGood:
