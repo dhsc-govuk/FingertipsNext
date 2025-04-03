@@ -19,6 +19,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
+    [SearchParams.AreaTypeSelected]: areaTypeSelected,
   } = stateManager.getSearchState();
 
   if (!indicatorsSelected || indicatorsSelected.length < 2) {
@@ -64,9 +65,9 @@ export default async function TwoOrMoreIndicatorsAreasView({
       );
 
       healthIndicatorData = healthIndicatorDataChunks[0];
-      if (!healthIndicatorData.indicatorId) {
-        healthIndicatorData.indicatorId = Number(indicatorId);
-      }
+
+      healthIndicatorData.indicatorId =
+        healthIndicatorData.indicatorId ?? Number(indicatorId);
 
       healthIndicatorData.areaHealthData = healthIndicatorDataChunks
         .map((indicatorData) => indicatorData?.areaHealthData ?? [])
@@ -86,11 +87,26 @@ export default async function TwoOrMoreIndicatorsAreasView({
     })
   );
 
+  const indicatorList = indicatorsSelected.map((indicatorAsAString) => {
+    return Number(indicatorAsAString);
+  });
+
+  const benchmarkQuartiles = await indicatorApi.indicatorsQuartilesGet(
+    {
+      indicatorIds: indicatorList,
+      areaCode: areasSelected[0],
+      ancestorCode: selectedGroupCode ?? areaCodeForEngland,
+      areaType: areaTypeSelected,
+    },
+    API_CACHE_CONFIG
+  );
+
   return (
     <TwoOrMoreIndicatorsAreasViewPlot
       searchState={searchState}
       indicatorData={combinedIndicatorData}
       indicatorMetadata={selectedIndicatorsData}
+      benchmarkStatistics={benchmarkQuartiles}
     />
   );
 }

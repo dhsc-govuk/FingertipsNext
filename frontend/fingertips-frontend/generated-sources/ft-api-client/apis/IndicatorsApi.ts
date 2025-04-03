@@ -87,9 +87,9 @@ export interface IndicatorsApiInterface {
      * Get data for a public health indicator. This will return all data for all areas and all years for the indicators. Optionally filter the results by supplying one or more area codes and one or more years in the query string.
      * @summary Get health data for an indicator
      * @param {number} indicatorId The unique identifier of the indicator
-     * @param {Array<string>} [areaCodes] A list of area codes, up to 10 area codes can be requested
+     * @param {Array<string>} [areaCodes] A list of area codes, up to 100 area codes can be requested
      * @param {string} [areaType] The area type which the areas belong to
-     * @param {Array<number>} [years] A list of years, up to 10 years can be requested
+     * @param {Array<number>} [years] A list of years, up to 20 years can be requested
      * @param {Array<'age' | 'sex' | 'deprivation'>} [inequalities] Determines the kind of inequality data that should be returned if an option is specified
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
