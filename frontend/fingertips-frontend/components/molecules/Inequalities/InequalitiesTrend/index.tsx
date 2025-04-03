@@ -4,7 +4,11 @@ import { LineChartVariant } from '@/components/organisms/LineChart/lineChartHelp
 import { H4 } from 'govuk-react';
 import { InequalitiesLineChartTable } from '../LineChart/Table';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import {
+  SearchParams,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
 import { useState } from 'react';
 import {
   generateInequalitiesLineChartOptions,
@@ -20,10 +24,10 @@ import {
   healthDataFilterFunctionGeneratorForInequality,
   getInequalityCategory,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
-import { useSearchState } from '@/context/SearchStateContext';
 
 interface InequalitiesTrendProps {
   healthIndicatorData: HealthDataForArea;
+  searchState: SearchStateParams;
   measurementUnit?: string;
 }
 
@@ -38,10 +42,9 @@ const generateInequalitiesLineChartTooltipStringList = (
 
 export function InequalitiesTrend({
   healthIndicatorData,
+  searchState,
   measurementUnit,
 }: Readonly<InequalitiesTrendProps>) {
-  const { getSearchState } = useSearchState();
-  const searchState = getSearchState();
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.AreasSelected]: areasSelected,

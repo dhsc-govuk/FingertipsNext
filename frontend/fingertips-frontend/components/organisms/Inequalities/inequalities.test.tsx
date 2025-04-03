@@ -44,7 +44,12 @@ describe('Inequalities suite', () => {
   });
 
   it('should render inequalities component', async () => {
-    render(<Inequalities healthIndicatorData={MOCK_HEALTH_DATA[1]} />);
+    render(
+      <Inequalities
+        healthIndicatorData={MOCK_HEALTH_DATA[1]}
+        searchState={state}
+      />
+    );
 
     expect(screen.getByTestId('inequalities-component')).toBeInTheDocument();
     expect(
@@ -68,7 +73,12 @@ describe('Inequalities suite', () => {
   });
 
   it('should render expected text', () => {
-    render(<Inequalities healthIndicatorData={MOCK_HEALTH_DATA[1]} />);
+    render(
+      <Inequalities
+        healthIndicatorData={MOCK_HEALTH_DATA[1]}
+        searchState={state}
+      />
+    );
 
     expect(
       screen.getByText(/Inequalities data for a single time period/i)
@@ -82,6 +92,7 @@ describe('Inequalities suite', () => {
     render(
       <Inequalities
         healthIndicatorData={MOCK_HEALTH_DATA[1]}
+        searchState={state}
         measurementUnit="kg"
       />
     );

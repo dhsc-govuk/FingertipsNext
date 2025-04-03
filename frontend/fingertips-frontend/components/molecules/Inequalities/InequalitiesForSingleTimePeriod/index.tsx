@@ -16,16 +16,20 @@ import {
   sequenceSelectorForInequality,
   valueSelectorForInequality,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import {
+  SearchParams,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
 import {
   BenchmarkComparisonMethod,
   HealthDataForArea,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
-import { useSearchState } from '@/context/SearchStateContext';
 
 interface InequalitiesForSingleTimePeriodProps {
   healthIndicatorData: HealthDataForArea;
+  searchState: SearchStateParams;
   measurementUnit?: string;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
@@ -36,9 +40,8 @@ export function InequalitiesForSingleTimePeriod({
   measurementUnit,
   benchmarkComparisonMethod,
   polarity,
+  searchState,
 }: Readonly<InequalitiesForSingleTimePeriodProps>) {
-  const { getSearchState } = useSearchState();
-  const searchState = getSearchState();
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.InequalityYearSelected]: selectedYear,

@@ -171,6 +171,7 @@ export function OneIndicatorOneAreaViewPlots({
         measurementUnit={indicatorMetadata?.unitLabel}
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
+        searchState={searchState}
       />
     </section>
   );
