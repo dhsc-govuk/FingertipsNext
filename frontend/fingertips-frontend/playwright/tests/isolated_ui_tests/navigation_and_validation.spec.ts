@@ -7,6 +7,7 @@ import {
   IndicatorMode,
   SearchMode,
   AreaMode,
+  getAreasByAreaName,
 } from '../../testHelpers';
 import mockIndicators from '../../../assets/mockIndicatorData.json';
 import mockAreas from '../../../assets/mockAreaData.json';
@@ -301,8 +302,10 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
     });
   });
 
-  test('check area filtering on results page', async ({ resultsPage }) => {
-    await test.step('Navigate directly to the results page and check filtering by England (default)', async () => {
+  test('check area filtering on results page by navigating directly to the results page and checking', async ({
+    resultsPage,
+  }) => {
+    await test.step('filtering by England (default)', async () => {
       await resultsPage.navigateToResults(subjectSearchTerm, []);
 
       const englandAreaType = getAllAreasByAreaType(mockAreas, 'england')[0]
@@ -311,22 +314,23 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       await resultsPage.selectAreaType(englandAreaType);
     });
 
-    await test.step('Navigate directly to the results page and check filtering by GPs', async () => {
-      await resultsPage.navigateToResults(subjectSearchTerm, []);
+    await test.step('filtering by GPs', async () => {
+      const knownGoodGP = 'archway medical centre';
 
-      const areaDocument: AreaDocument = getAllAreasByAreaType(
+      const areaDocument: AreaDocument = getAreasByAreaName(
         mockAreas,
-        'gps'
+        knownGoodGP
       )[0];
+
+      await resultsPage.navigateToResults(subjectSearchTerm, []);
 
       await resultsPage.selectAreaType(areaDocument.areaType);
 
       await resultsPage.selectGroupType('nhs-primary-care-networks');
 
-      await resultsPage.selectGroup(
-        getAllAreasByAreaType(mockAreas, 'nhs-primary-care-networks')[0]
-          .areaName
-      );
+      await resultsPage.selectGroup('North 2 Islington PCN');
+
+      await resultsPage.selectArea(areaDocument.areaName);
     });
   });
 });

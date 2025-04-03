@@ -1,3 +1,4 @@
+import { SearchParams } from '@/lib/searchStateManager';
 import BasePage from '../basePage';
 import { expect } from '../pageFactory';
 import { AreaMode, SearchMode } from '@/playwright/testHelpers';
@@ -85,7 +86,15 @@ export default class AreaFilter extends BasePage {
       group
     );
 
-    await this.waitForURLToContain(group);
+    await this.waitForURLToContain(SearchParams.GroupSelected);
+  }
+
+  async selectArea(areaName: string) {
+    await this.checkAndAwaitLoadingComplete(
+      this.page.getByRole('checkbox', { name: areaName })
+    );
+
+    await this.waitForURLToContain(SearchParams.AreasSelected);
   }
 
   /**
