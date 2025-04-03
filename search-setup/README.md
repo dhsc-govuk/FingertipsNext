@@ -27,8 +27,8 @@ your changes will not affect anyone else.
 Note: when run in the pipeline, the indicators.json file is provided by the previous workflow job after being
 processed by the trend-analysis app. This means it has the latest data and trends.
 
-When running this locally, the search-service use this file `./assets/indicators.json`. This will be up to date,
-but if you want to load your target index with trend data you will also need to run the trend-analysis app locally
+When running this locally, the search-service uses this file `./assets/indicators.json`. This will be up to date but
+without trend data. If you want to load your target index with trend data you will also need to run the trend-analysis app locally
 and then copy the contents of `../trend-analysis/TrendAnalysisApp/SearchData/assets/` to `./assets/indicators.json`.
 
 ```bash
