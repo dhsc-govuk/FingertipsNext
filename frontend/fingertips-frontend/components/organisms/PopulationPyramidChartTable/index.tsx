@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import React from 'react';
 import { PopulationDataTable } from './PopulationDataTable';
 import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 const StylePopulationPyramidTableSection = styled('section')({
   'display': 'flex',
@@ -20,14 +21,14 @@ const StylePopulationPyramidTableSection = styled('section')({
 const StyleBenchmarkDataDiv = styled('div')({
   'flexGrow': 2,
   'marginLeft': 'auto',
-  'backgroundColor': '#B1B4B6',
+  'backgroundColor': GovukColours.MidGrey,
   '& table ': {
     'margin': '0px',
     'border': '0px',
     'padding': '0px',
     '& td, th': {
-      borderBottomColor: ' #F3F2F1',
-      borderTopColor: '#F3F2F1',
+      borderBottomColor: GovukColours.LightGrey,
+      borderTopColor: GovukColours.LightGrey,
     },
   },
   'minWidth': 200,
@@ -47,13 +48,13 @@ const StyleScrollableContentDiv = styled('div')({
 
 const StyleGroupTableContentDiv = styled('div')({
   'flexGrow': 2,
-  'backgroundColor': '#F3F2F1',
+  'backgroundColor': GovukColours.LightGrey,
   '& table ': {
     'margin': '0px',
 
     '& td, th': {
-      borderBottomColor: ' #B1B4B6',
-      borderTopColor: '#B1B4B6',
+      borderBottomColor: GovukColours.MidGrey,
+      borderTopColor: GovukColours.MidGrey,
     },
   },
   'minWidth': 200,
@@ -64,8 +65,8 @@ const StyleSelectedAreaTableContextDiv = styled('div')({
   'minWidth': 300,
   '& table': {
     '& td, th': {
-      borderTopColor: '#B1B4B6',
-      borderBottomColor: '#B1B4B6',
+      borderTopColor: GovukColours.MidGrey,
+      borderBottomColor: GovukColours.MidGrey,
     },
   },
 });
