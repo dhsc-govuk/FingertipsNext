@@ -1,6 +1,10 @@
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
-import { TwoOrMoreIndicatorsAreasViewPlot } from '.';
 import {
+  extractHeatmapIndicatorData,
+  TwoOrMoreIndicatorsAreasViewPlot,
+} from '.';
+import {
+  BenchmarkComparisonMethod,
   HealthDataPointTrendEnum,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
@@ -11,6 +15,8 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmapUtil';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -204,5 +210,76 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
     expect(
       screen.queryByTestId('spineChartTable-component')
     ).not.toBeInTheDocument();
+  });
+});
+
+describe('extractHeatmapIndicatorData', () => {
+  const populatedAreaHealthData: HealthDataForArea[] = [
+    {
+      areaCode: 'A123',
+      areaName: 'some area',
+      healthData: [
+        {
+          year: 2012,
+          ageBand: {
+            value: '',
+            isAggregate: false,
+          },
+          sex: {
+            value: '',
+            isAggregate: false,
+          },
+          trend: 'Not yet calculated',
+          deprivation: {
+            sequence: 0,
+            value: '',
+            type: '',
+            isAggregate: false,
+          },
+        },
+      ],
+    },
+  ];
+
+  const benchmarkMethod =
+    BenchmarkComparisonMethod.CIOverlappingReferenceValue95;
+  const polarity = IndicatorPolarity.HighIsGood;
+
+  const populatedIndicatorData: IndicatorWithHealthDataForArea = {
+    indicatorId: 123,
+    name: 'some name',
+    areaHealthData: populatedAreaHealthData,
+    benchmarkMethod: benchmarkMethod,
+    polarity: polarity,
+  };
+
+  const populatedIndicatorMetadata: IndicatorDocument = {
+    indicatorID: '123',
+    indicatorName: 'some name',
+    indicatorDefinition: 'not relevant',
+    dataSource: 'not relevant',
+    earliestDataPeriod: 'not relevant',
+    latestDataPeriod: 'not relevant',
+    lastUpdatedDate: new Date(),
+    hasInequalities: false,
+    unitLabel: 'valid unit label',
+  };
+
+  it('should populate heatmap indicator data with values from indicator data and metadata', () => {
+    const expectedHeatmapIndicatorData: HeatmapIndicatorData = {
+      indicatorId: populatedIndicatorMetadata.indicatorID,
+      indicatorName: populatedIndicatorMetadata.indicatorName,
+      healthDataForAreas: populatedAreaHealthData,
+      unitLabel: populatedIndicatorMetadata.unitLabel,
+      benchmarkMethod: benchmarkMethod,
+      polarity: polarity,
+    };
+
+    const heatmapData = extractHeatmapIndicatorData(
+      populatedIndicatorData,
+      populatedIndicatorMetadata
+    );
+
+    expect(heatmapData).toEqual(expectedHeatmapIndicatorData);
   });
 });

@@ -91,11 +91,18 @@ export function InequalitiesBarChart({
           inequalities[field]?.benchmarkComparison?.outcome as BenchmarkOutcome,
           polarity
         );
-        return {
+        const point: Highcharts.PointOptionsObject = {
           name: field,
           y: inequalities[field]?.value,
           color,
         };
+        if (color) return point;
+
+        // we can't have a high chart default color here
+        point.color = '#fff';
+        point.borderColor = '#000';
+        point.borderWidth = 1;
+        return point;
       }),
     },
     generateConfidenceIntervalSeries(

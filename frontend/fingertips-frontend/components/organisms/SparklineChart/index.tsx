@@ -80,14 +80,16 @@ export function SparklineChart({
   year,
   measurementUnit,
 }: Readonly<SparklineChartProps>) {
-  const color = getBenchmarkColour(
+  const benchmarkColor = getBenchmarkColour(
     benchmarkComparisonMethod,
     benchmarkOutcome,
     polarity
   );
+  const color = benchmarkColor ?? '#fff';
+
   const [options, setOptions] = useState<Highcharts.Options>();
 
-  const sparklineTooltips = (point: Highcharts.Point, symbol: string) => {
+  const sparklineTooltips = (point: Highcharts.Point) => {
     const { benchmarkLabel, category, comparisonLabel } =
       sparklineTooltipContent(
         benchmarkOutcome,
@@ -95,8 +97,23 @@ export function SparklineChart({
         benchmarkComparisonMethod
       );
 
+    const symbolStyles = [
+      `background-color: ${point.color}`,
+      'width: 0.5em',
+      'height: 0.5em',
+      'display: block',
+      'border-radius: 4px',
+      `border: 1px solid ${point.color === '#fff' ? '#000' : point.color}`,
+    ];
+
+    const symbolItem = `<span style="${symbolStyles.join('; ')};"></span>`;
+
     return [
-      `<b>${category}${area}</b><br/>${year}<br/><br/><span style="color:${point.color}">${symbol}</span><span> ${formatNumber(value[0])}${measurementUnit}</span><br/><span>${benchmarkLabel}</span><br/><span>${comparisonLabel}</span>`,
+      `<div><b>${category}${area}</b></div>
+      <div style="padding-bottom: 1em;">${year}</div>
+      <div style="display: flex; align-items: center; gap: 0.25em;">${symbolItem} ${formatNumber(value[0])}${measurementUnit}</div>
+      <div>${benchmarkLabel}</div>
+      <div>${comparisonLabel}</div>`,
     ];
   };
 
@@ -124,7 +141,16 @@ export function SparklineChart({
     },
     yAxis: { visible: false, min: 0, max: maxValue },
     xAxis: { visible: false },
-    series: [{ type: 'bar', data: [value], color }, confidenceIntervalSeries],
+    series: [
+      {
+        type: 'bar',
+        data: [value],
+        color,
+        borderColor: '#000',
+        borderWidth: color === '#fff' ? 1 : 0,
+      },
+      confidenceIntervalSeries,
+    ],
     accessibility: {
       enabled: false,
     },
@@ -142,6 +168,7 @@ export function SparklineChart({
     },
     tooltip: {
       hideDelay: 0,
+      useHTML: true,
       style: {
         width: 200,
         overflow: 'visible',

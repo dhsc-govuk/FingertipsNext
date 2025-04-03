@@ -9,10 +9,7 @@ import {
 } from '@/lib/apiClient/apiClientFactory';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
-import {
-  chunkArray,
-  maxNumAreasThatCanBeRequestedAPI,
-} from '@/lib/ViewsHelpers';
+import { chunkArray } from '@/lib/ViewsHelpers';
 
 export default async function TwoOrMoreIndicatorsAreasView({
   searchState,
@@ -57,15 +54,14 @@ export default async function TwoOrMoreIndicatorsAreasView({
     let healthIndicatorData: IndicatorWithHealthDataForArea | undefined;
     try {
       const healthIndicatorDataChunks = await Promise.all(
-        chunkArray(areaCodesToRequest, maxNumAreasThatCanBeRequestedAPI).map(
-          (requestAreas) =>
-            indicatorApi.getHealthDataForAnIndicator(
-              {
-                indicatorId: Number(indicatorId),
-                areaCodes: [...requestAreas],
-              },
-              API_CACHE_CONFIG
-            )
+        chunkArray(areaCodesToRequest).map((requestAreas) =>
+          indicatorApi.getHealthDataForAnIndicator(
+            {
+              indicatorId: Number(indicatorId),
+              areaCodes: [...requestAreas],
+            },
+            API_CACHE_CONFIG
+          )
         )
       );
 
