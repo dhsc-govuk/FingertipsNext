@@ -73,8 +73,8 @@ const StyleSelectedAreaTableContextDiv = styled('div')({
 
 export interface PopulationPyramidTableProps {
   healthDataForArea: PopulationDataForArea;
-  benchmarkData: PopulationDataForArea | undefined;
-  groupData?: PopulationDataForArea | undefined;
+  benchmarkData?: PopulationDataForArea;
+  groupData?: PopulationDataForArea;
 }
 
 export function PopulationPyramidChartTable({
