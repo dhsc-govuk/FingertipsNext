@@ -51,7 +51,7 @@ GET http://localhost:5144/indicators/22401/data?area_codes=E92000001&inequalitie
             { sequence: 1, value: "Least deprived decile",
             type: "Districts and Unitary Authorities deprivation deciles: Apr 2023 geography (Index of Multiple Deprivation 2019)", deprivationIsAggregate: false, isAggregate: false },
 
-            { sequence: 10, value: "All", type: "All", deprivationIsAggregate: true, isAggregate: true },
+            { sequence: 11, value: "Persons", type: "Persons", deprivationIsAggregate: true, isAggregate: true },
         ];
 
         expectedResults.forEach((expected) => {

@@ -66,7 +66,7 @@ export function InequalitiesBarChart({
     useState<boolean>(false);
   const [options, setOptions] = useState<Highcharts.Options>();
 
-  // for sex inequality we always want Male, Female which is reverse alphabetical order
+  // For sex inequality we always want Male, Female which is reverse alphabetical order
   // pending a better solution where an order key is supplied by API
   if (type === InequalitiesTypes.Sex) barChartFields.reverse();
 
@@ -75,7 +75,8 @@ export function InequalitiesBarChart({
     benchmarkValue,
   ]);
 
-  const comparedTo = `${barChartData.areaName} persons`;
+  const timePeriod = barChartData.data.period;
+  const comparedTo = `${barChartData.areaName}`;
 
   const seriesData: Highcharts.SeriesOptionsType[] = [
     {
@@ -103,8 +104,17 @@ export function InequalitiesBarChart({
     ),
   ];
 
+  const chartOverrides: Highcharts.ChartOptions = {
+    // The deprivation chart needs more height
+    height:
+      type === InequalitiesTypes.Deprivation
+        ? '100%'
+        : barChartDefaultOptions.chart?.height,
+  };
+
   const barChartOptions: Highcharts.Options = {
     ...barChartDefaultOptions,
+    chart: { ...barChartDefaultOptions.chart, ...chartOverrides },
     xAxis: {
       ...barChartDefaultOptions.xAxis,
       title: {
@@ -121,7 +131,7 @@ export function InequalitiesBarChart({
       max: yAxisMaxValue + 0.2 * yAxisMaxValue,
       plotLines: [
         {
-          ...getPlotline(comparedTo, benchmarkValue),
+          ...getPlotline(`${comparedTo} persons`, benchmarkValue),
           events: {
             mouseover: function (
               this: Highcharts.PlotLineOrBand,
@@ -201,7 +211,7 @@ export function InequalitiesBarChart({
         setShowConfidenceIntervalsData={setShowConfidenceIntervalsData}
       />
       <BenchmarkLegend
-        title={`Compared to ${comparedTo}`}
+        title={`Compared to ${comparedTo} for ${timePeriod} time period`}
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
       />
