@@ -31,7 +31,7 @@ const StyleBenchmarkDataDiv = styled('div')({
       borderTopColor: GovukColours.LightGrey,
     },
   },
-  'minWidth': 200,
+  'minWidth': 300,
 });
 
 const StyleScrollableContentDiv = styled('div')({
@@ -57,12 +57,12 @@ const StyleGroupTableContentDiv = styled('div')({
       borderTopColor: GovukColours.MidGrey,
     },
   },
-  'minWidth': 200,
+  'minWidth': 300,
 });
 
 const StyleSelectedAreaTableContextDiv = styled('div')({
   'flexGrow': 8,
-  'minWidth': 300,
+  'minWidth': 460,
   '& table': {
     '& td, th': {
       borderTopColor: GovukColours.MidGrey,

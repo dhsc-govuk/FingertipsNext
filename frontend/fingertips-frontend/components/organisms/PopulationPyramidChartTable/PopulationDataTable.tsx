@@ -10,14 +10,14 @@ const StyledAreaTitleHeader = styled('h3')(typography.font({ size: 19 }), {
   textAlign: 'center',
   height: '70px',
   border: '0px',
-  margin: '5px',
+  margin: 'auto',
   display: 'block',
   letterSpacing: '0px',
   fontWeight: '700',
 });
 
 export const StyledTableCell = styled(Table.Cell)(
-  typography.font({ size: 16 }),
+  typography.font({ size: 19 }),
   {
     paddingRight: '0',
     textAlign: 'center',
@@ -31,10 +31,13 @@ const valueFormatter = (value: number | string | undefined) => {
   return value;
 };
 
-const StyledAreaNameHeader = styled(StyledAlignLeftHeader)({
-  borderTop: `solid #F3F2F1 2px`,
-  textAlign: 'center',
-});
+const StyledAreaNameHeader = styled(StyledAlignLeftHeader)(
+  typography.font({ size: 19 }),
+  {
+    borderTop: `solid #F3F2F1 2px`,
+    textAlign: 'center',
+  }
+);
 
 const getSortAgeBandIndexes = (ageBands: string[] | undefined): number[] => {
   if (!ageBands) return [];
