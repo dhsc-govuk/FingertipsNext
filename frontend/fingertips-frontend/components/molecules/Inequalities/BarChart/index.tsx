@@ -131,6 +131,9 @@ export function InequalitiesBarChart({
       title: {
         text: `${xAxisTitlePrefix} ${mapToXAxisTitle[type]}`,
         margin: 20,
+        style: {
+          fontSize: 19,
+        },
       },
       categories: barChartFields,
     },
@@ -138,6 +141,9 @@ export function InequalitiesBarChart({
       title: {
         text: `${yAxisLabel}${measurementUnit ? ': ' + measurementUnit : ''}`,
         margin: 20,
+        style: {
+          fontSize: 19,
+        },
       },
       max: yAxisMaxValue + 0.2 * yAxisMaxValue,
       plotLines: [
