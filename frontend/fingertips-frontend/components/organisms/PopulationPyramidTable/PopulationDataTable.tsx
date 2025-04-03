@@ -1,20 +1,17 @@
 'use client';
 
 import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
-import { Label, Table } from 'govuk-react';
+import { Table } from 'govuk-react';
 import { typography } from '@govuk-react/lib';
 import { StyledAlignLeftHeader } from '@/lib/tableHelpers';
 import styled from 'styled-components';
 
-const StyledAreaTitleHeader = styled(Label)({
+const StyledAreaTitleHeader = styled('h3')(typography.font({ size: 19 }), {
   textAlign: 'center',
-  maxHeight: '45px',
-  minHeight: '45px',
-  wordWrap: 'break-word',
+  height: '70px',
   border: '0px',
-  padding: '0px',
+  margin: '5px',
   display: 'block',
-  fontSize: '19px',
   letterSpacing: '0px',
   fontWeight: '700',
 });
@@ -35,7 +32,7 @@ const valueFormatter = (value: number | string | undefined) => {
 };
 
 const StyledAreaNameHeader = styled(StyledAlignLeftHeader)({
-  borderTop: `solid #F3F2F1 2px`, // aligns top to match grey heading cells
+  borderTop: `solid #F3F2F1 2px`,
   textAlign: 'center',
 });
 
@@ -54,7 +51,7 @@ const getSortAgeBandIndexes = (ageBands: string[] | undefined): number[] => {
     .map((item) => item.index);
 };
 
-interface PyramidTableProps {
+interface PopulationDataTableProps {
   headers: string[];
   title: string;
   healthDataForArea: PopulationDataForArea | undefined;
@@ -63,12 +60,12 @@ interface PyramidTableProps {
   ) => (string | undefined | number)[];
 }
 
-export const PyramidTable = ({
+export const PopulationDataTable = ({
   headers,
   healthDataForArea,
   title,
   filterValues,
-}: PyramidTableProps) => {
+}: PopulationDataTableProps) => {
   if (!healthDataForArea) return <></>;
 
   const indexes = getSortAgeBandIndexes(healthDataForArea?.ageCategories);
@@ -78,6 +75,22 @@ export const PyramidTable = ({
     healthDataForArea.raw?.femaleSeries[index],
     healthDataForArea.raw?.maleSeries[index],
   ]);
+
+  const footerRowItems = ((): (string | undefined | number)[] => {
+    const males = healthDataForArea.raw?.maleSeries.reduce((prev, current) => {
+      return (prev ?? 0) + (current ?? 0);
+    }, 0);
+
+    const females = healthDataForArea.raw?.femaleSeries.reduce(
+      (prev, current) => {
+        return (prev ?? 0) + (current ?? 0);
+      },
+      0
+    );
+
+    return ['All ages', males, females];
+  })();
+
   return (
     <section>
       <StyledAreaTitleHeader>{title}</StyledAreaTitleHeader>
@@ -112,6 +125,25 @@ export const PyramidTable = ({
             </Table.Row>
           );
         })}
+
+        <Table.Header>
+          {(() => {
+            const items = filterValues
+              ? filterValues(footerRowItems)
+              : footerRowItems;
+            return (
+              <Table.Row key={`footer-${healthDataForArea.areaName}`}>
+                {items.map((value, valueIndex: number) => (
+                  <StyledAreaNameHeader
+                    key={`footer-${healthDataForArea.areaName}-${valueIndex}`}
+                  >
+                    {valueFormatter(value)}
+                  </StyledAreaNameHeader>
+                ))}
+              </Table.Row>
+            );
+          })()}
+        </Table.Header>
       </Table>
     </section>
   );
