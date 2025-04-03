@@ -7,16 +7,11 @@ import {
   API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
-import {
-  IndicatorPolarity,
-  IndicatorWithHealthDataForArea,
-} from '@/generated-sources/ft-api-client';
+import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import {
   chunkArray,
   maxNumAreasThatCanBeRequestedAPI,
 } from '@/lib/ViewsHelpers';
-import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 export default async function TwoOrMoreIndicatorsAreasView({
   searchState,
@@ -27,6 +22,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
+    [SearchParams.AreaTypeSelected]: areaTypeSelected,
   } = stateManager.getSearchState();
 
   if (!indicatorsSelected || indicatorsSelected.length < 2) {
@@ -95,11 +91,29 @@ export default async function TwoOrMoreIndicatorsAreasView({
     })
   );
 
+  const indicatorList = indicatorsSelected.map((indicatorAsAString) => {
+    return Number(indicatorAsAString);
+  });
+
+  const benchmarkQuartiles = await indicatorApi.indicatorsQuartilesGet(
+    {
+      indicatorIds: indicatorList,
+      areaCode: areasSelected[0],
+      ancestorCode:
+        selectedGroupCode !== undefined
+          ? selectedGroupCode
+          : areaCodeForEngland,
+      areaType: areaTypeSelected,
+    },
+    API_CACHE_CONFIG
+  );
+
   return (
     <TwoOrMoreIndicatorsAreasViewPlot
       searchState={searchState}
       indicatorData={combinedIndicatorData}
       indicatorMetadata={selectedIndicatorsData}
+      benchmarkStatistics={benchmarkQuartiles}
     />
   );
 }
