@@ -109,6 +109,7 @@ export function InequalitiesForSingleTimePeriod({
               <InequalitiesBarChart
                 barChartData={barChartData}
                 measurementUnit={measurementUnit}
+                type={type}
                 yAxisLabel="Value"
                 benchmarkComparisonMethod={benchmarkComparisonMethod}
                 polarity={polarity}
