@@ -12,7 +12,7 @@ import {
   StyledGroupCell,
   StyledBenchmarkCell,
 } from './SpineChartTableStyles';
-import { SpineChartProps } from '../SpineChart';
+import { SpineChart, SpineChartProps } from '../SpineChart';
 import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
 import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 import { TrendTag } from '@/components/molecules/TrendTag';
@@ -81,6 +81,12 @@ export function SpineChartTableRow({
         {formatNumber(benchmarkStatistics.worst)}
       </StyledBenchmarkCell>
       <StyledBenchmarkCell data-testid={`benchmark-range`}>
+        <SpineChart 
+            best={benchmarkStatistics.best}
+            bestQuartile={benchmarkStatistics.bestQuartile}
+            worstQuartile={benchmarkStatistics.worstQuartile}
+            worst={benchmarkStatistics.worst} 
+        />
       </StyledBenchmarkCell>
       <StyledBenchmarkCell data-testid={`benchmark-best-cell`}>
         {formatNumber(benchmarkStatistics.best)}
