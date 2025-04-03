@@ -5,12 +5,9 @@ import { PopulationDataTable } from './PopulationDataTable';
 const mockHealthDataForArea = {
   areaName: 'Test Area',
   ageCategories: ['0-4', '5-9', '10-14', '15+'],
-  femaleSeries: [10.0, 12.0, 11.0, 13.0],
-  maleSeries: [9.0, 11.0, 10.5, 12.5],
-  raw: {
-    femaleSeries: [1000, 1200, 1100, 1300],
-    maleSeries: [900, 1100, 1050, 1250],
-  },
+  femaleSeries: [1000, 1200, 1100, 1300],
+  maleSeries: [900, 1100, 1050, 1250],
+  total: 0,
 };
 
 describe('PopulationDataTable', () => {

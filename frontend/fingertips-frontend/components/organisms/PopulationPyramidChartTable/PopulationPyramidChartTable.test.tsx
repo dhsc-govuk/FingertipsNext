@@ -5,35 +5,25 @@ import { PopulationPyramidChartTable } from './index';
 const mockHealthDataForArea = {
   areaName: 'Test Area',
   ageCategories: ['0-4', '5-9', '10-14', '15+'],
-  femaleSeries: [10.0, 12.0, 11.0, 13.0],
-  maleSeries: [9.0, 11.0, 10.5, 12.5],
-
-  raw: {
-    femaleSeries: [1000, 1200, 1100, 1300],
-    maleSeries: [900, 1100, 1050, 1250],
-  },
+  femaleSeries: [1000, 1200, 1100, 1300],
+  maleSeries: [900, 1100, 1050, 1250],
+  total: 0,
 };
 
 const mockBenchmarkData = {
   areaName: 'Benchmark Area',
   ageCategories: ['0-4', '5-9', '10-14', '15+'],
-  femaleSeries: [],
-  maleSeries: [],
-  raw: {
-    femaleSeries: [1100, 1300, 1200, 1400],
-    maleSeries: [1100, 1200, 1150, 1350],
-  },
+  femaleSeries: [1100, 1300, 1200, 1400],
+  maleSeries: [1100, 1200, 1150, 1350],
+  total: 0,
 };
 
 const mockGroupData = {
   areaName: 'Group Area',
   ageCategories: ['0-4', '5-9', '10-14', '15+'],
-  femaleSeries: [],
-  maleSeries: [],
-  raw: {
-    femaleSeries: [1100, 1300, 1200, 1400],
-    maleSeries: [100, 10, 1150, 150],
-  },
+  femaleSeries: [1100, 1300, 1200, 1400],
+  maleSeries: [100, 10, 1150, 150],
+  total: 0,
 };
 
 describe('PopulationPyramidChartTable', () => {

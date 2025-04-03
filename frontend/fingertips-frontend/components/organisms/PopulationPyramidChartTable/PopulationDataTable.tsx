@@ -76,21 +76,18 @@ export const PopulationDataTable = ({
 
   const points = healthDataForArea.ageCategories.map((value, index) => [
     value,
-    healthDataForArea.raw?.femaleSeries[index],
-    healthDataForArea.raw?.maleSeries[index],
+    healthDataForArea.femaleSeries[index],
+    healthDataForArea.maleSeries[index],
   ]);
 
   const footerRowItems = ((): ItemDataType[] => {
-    const males = healthDataForArea.raw?.maleSeries.reduce((prev, current) => {
+    const males = healthDataForArea.maleSeries.reduce((prev, current) => {
       return (prev ?? 0) + (current ?? 0);
     }, 0);
 
-    const females = healthDataForArea.raw?.femaleSeries.reduce(
-      (prev, current) => {
-        return (prev ?? 0) + (current ?? 0);
-      },
-      0
-    );
+    const females = healthDataForArea.femaleSeries.reduce((prev, current) => {
+      return (prev ?? 0) + (current ?? 0);
+    }, 0);
 
     return ['All ages', males, females];
   })();
