@@ -61,4 +61,13 @@ GET http://localhost:5144/areas/E92000001?include_children=true&child_area_type=
     });
 %}
 
+### check endpoint returns a not found error for an area code which does not exist.
+GET http://localhost:5144/areas/narnia
+
+> {%
+    client.test("Expected not found error received", function (callbackfn, thisArg) {
+        client.assert(response.status === 404, "Response status is not 404");
+    });
+%}
+
 ###
