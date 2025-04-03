@@ -326,31 +326,31 @@ exports[`Spine chart table suite Spine chart table snapshot test - should match 
             class="c12 c13 c16"
             data-testid="value-cell"
           >
-            690.305692
+            690.3
           </td>
           <td
             class="c12 c13 c16 c17"
             data-testid="group-value-cell"
           >
-            690.305692
+            690.3
           </td>
           <td
             class="c12 c13 c16 c18"
             data-testid="benchmark-value-cell"
           >
-            135.149304
+            135.1
           </td>
           <td
             class="c12 c13 c16 c18"
             data-testid="benchmark-worst-cell"
           >
-            100
+            100.0
           </td>
           <td
             class="c12 c13 c16 c18"
             data-testid="benchmark-best-cell"
           >
-            22
+            22.0
           </td>
         </tr>
         <tr
@@ -384,31 +384,31 @@ exports[`Spine chart table suite Spine chart table snapshot test - should match 
             class="c12 c13 c16"
             data-testid="value-cell"
           >
-            890.305692
+            890.3
           </td>
           <td
             class="c12 c13 c16 c17"
             data-testid="group-value-cell"
           >
-            980.305692
+            980.3
           </td>
           <td
             class="c12 c13 c16 c18"
             data-testid="benchmark-value-cell"
           >
-            890.305692
+            890.3
           </td>
           <td
             class="c12 c13 c16 c18"
             data-testid="benchmark-worst-cell"
           >
-            959
+            959.0
           </td>
           <td
             class="c12 c13 c16 c18"
             data-testid="benchmark-best-cell"
           >
-            1666
+            1,666.0
           </td>
         </tr>
       </tbody>

@@ -248,18 +248,24 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       [SearchParams.SearchedIndicator]: 'testing',
       [SearchParams.IndicatorsSelected]: ['1'],
       [SearchParams.AreasSelected]: ['E12000001', 'E12000003'],
+      [SearchParams.AreaTypeSelected]: 'regions',
     };
 
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({
-      areaHealthData: [mockHealthData['108'][1]],
-    });
+    const mockIndicatorData = {
+      areaHealthData: [mockHealthData['108'][1], mockHealthData['108'][2]],
+    };
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+      mockIndicatorData
+    );
 
     const page = await OneIndicatorTwoOrMoreAreasView({
       selectedIndicatorsData: [firstIndicatorDocument],
       searchState: searchParams,
     });
 
-    expect(page.props.indicatorMetadata).toEqual(firstIndicatorDocument);
+    expect(page.props.children.props.indicatorMetadata).toEqual(
+      firstIndicatorDocument
+    );
   });
 
   it('should call OneIndicatorTwoOrMoreAreasViewPlot with the correct props', async () => {
@@ -270,7 +276,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       [SearchParams.AreasSelected]: ['E12000001', 'E12000003'],
     };
     const mockIndicatorData = {
-      areaHealthData: [mockHealthData['108'][1]],
+      areaHealthData: [mockHealthData['108'][1], mockHealthData['108'][2]],
     };
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
       mockIndicatorData
@@ -280,8 +286,8 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       searchState: searchState,
     });
 
-    expect(page.props.indicatorData).toEqual(mockIndicatorData);
-    expect(page.props.searchState).toEqual(searchState);
+    expect(page.props.children.props.indicatorData).toEqual(mockIndicatorData);
+    expect(page.props.children.props.searchState).toEqual(searchState);
   });
 
   it('should pass the map data if all areas in the group are selected', async () => {
@@ -305,9 +311,9 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       searchState: searchState,
     });
 
-    expect(page.props.indicatorData).toEqual(mockIndicatorData);
-    expect(page.props.searchState).toEqual(searchState);
-    expect(page.props.mapGeographyData.mapFile).toEqual(
+    expect(page.props.children.props.indicatorData).toEqual(mockIndicatorData);
+    expect(page.props.children.props.searchState).toEqual(searchState);
+    expect(page.props.children.props.mapGeographyData.mapFile).toEqual(
       mockMapGeographyData.mapFile
     );
   });

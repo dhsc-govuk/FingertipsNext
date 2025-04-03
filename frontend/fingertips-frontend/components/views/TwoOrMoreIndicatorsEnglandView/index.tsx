@@ -3,6 +3,7 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
+import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 
 export default async function TwoOrMoreIndicatorsEnglandView({
   searchState,
@@ -25,5 +26,9 @@ export default async function TwoOrMoreIndicatorsEnglandView({
   console.log('TODO: fetch health data with inequalites');
   console.log(`TODO: fetch population data for areas: [${areaCodesToRequest}]`);
 
-  return <TwoOrMoreIndicatorsEnglandViewPlots />;
+  return (
+    <ViewsWrapper searchState={searchState}>
+      <TwoOrMoreIndicatorsEnglandViewPlots />
+    </ViewsWrapper>
+  );
 }

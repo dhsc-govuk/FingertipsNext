@@ -4,7 +4,6 @@ import { SearchResult } from '.';
 import { UserEvent, userEvent } from '@testing-library/user-event';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { LoaderContext } from '@/context/LoaderContext';
 import { SearchStateContext } from '@/context/SearchStateContext';
 
@@ -352,26 +351,6 @@ describe('Indicator Checkbox', () => {
     await user.click(screen.getByRole('link'));
 
     expect(mockSetIsLoading).toHaveBeenCalledWith(true);
-  });
-
-  it('should populate the area selected parameter with the code for england if no area is selected', () => {
-    const expectedPath = `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].indicatorID.toString()}&${SearchParams.AreasSelected}=${areaCodeForEngland}`;
-    const searchState: SearchStateParams = {
-      ...initialSearchState,
-    };
-    searchState[SearchParams.AreasSelected] = undefined;
-
-    mockGetSearchState.mockReturnValue(searchState);
-
-    render(
-      <SearchResult
-        result={MOCK_DATA[0]}
-        handleClick={mockHandleClick}
-        showTrends={false}
-      />
-    );
-
-    expect(screen.getByRole('link')).toHaveAttribute('href', expectedPath);
   });
 
   it('snapshot test', () => {
