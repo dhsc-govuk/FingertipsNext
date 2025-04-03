@@ -1,4 +1,10 @@
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
+  HealthDataForArea,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
+import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { formatNumber } from '@/lib/numberFormatter';
@@ -20,11 +26,13 @@ export enum CellType {
   Data,
 }
 
-interface IndicatorData {
+export interface HeatmapIndicatorData {
   indicatorId: string;
   indicatorName: string;
   healthDataForAreas: HealthDataForArea[];
   unitLabel: string;
+  benchmarkMethod: BenchmarkComparisonMethod;
+  polarity: IndicatorPolarity;
 }
 
 interface Row {
@@ -36,7 +44,7 @@ interface Cell {
   key: string;
   type: CellType;
   content: string;
-  backgroundColour?: string; // not yet implemented
+  backgroundColour?: string;
 }
 
 interface Header {
@@ -57,16 +65,25 @@ interface Indicator {
   name: string;
   unitLabel: string;
   latestDataPeriod: number;
+  benchmarkMethod?: BenchmarkComparisonMethod;
+  polarity?: IndicatorPolarity;
 }
 
 interface DataPoint {
   value?: number;
   areaCode: string;
   indicatorId: string;
+  benchmark?: Benchmark;
+}
+
+interface Benchmark {
+  outcome: BenchmarkOutcome;
+  benchmarkMethod: BenchmarkComparisonMethod;
+  polarity: IndicatorPolarity;
 }
 
 export const extractSortedAreasIndicatorsAndDataPoints = (
-  indicatorData: IndicatorData[],
+  indicatorData: HeatmapIndicatorData[],
   groupAreaCode?: string
 ): {
   areas: Area[];
@@ -129,8 +146,11 @@ export const generateRows = (
       cols[areaIndex + leadingCols.length] = {
         key: `col-${indicator.id}-${area.code}`,
         type: CellType.Data,
-        content: formatNumber(dataPoints[indicator.id][area.code].value),
-        backgroundColour: generateBackgroundColor(areaIndex, indicatorIndex),
+        content: formatNumber(dataPoints[indicator.id][area.code]?.value),
+        backgroundColour:
+          area.code === areaCodeForEngland
+            ? GovukColours.MidGrey
+            : generateDataBackgroundColour(dataPoints[indicator.id][area.code]),
       };
     });
     rows[indicatorIndex] = { key: `row-${indicator.id}`, cells: cols };
@@ -139,12 +159,26 @@ export const generateRows = (
   return rows;
 };
 
-const generateBackgroundColor = (x: number, y: number): string => {
-  return x % 2 == y % 2 ? GovukColours.Yellow : GovukColours.LightGrey;
+const generateDataBackgroundColour = (dataPoint?: DataPoint): string => {
+  if (
+    !dataPoint?.value ||
+    !dataPoint.benchmark?.benchmarkMethod ||
+    !dataPoint.benchmark?.polarity
+  ) {
+    return GovukColours.White;
+  }
+
+  const colour = getBenchmarkColour(
+    dataPoint.benchmark.benchmarkMethod,
+    dataPoint.benchmark.outcome,
+    dataPoint.benchmark.polarity
+  );
+
+  return colour ?? GovukColours.White;
 };
 
 const extractAreasIndicatorsAndDataPoints = (
-  indicatorDataForAllAreas: IndicatorData[]
+  indicatorDataForAllAreas: HeatmapIndicatorData[]
 ): {
   areas: Record<string, Area>;
   indicators: Record<string, Indicator>;
@@ -161,6 +195,8 @@ const extractAreasIndicatorsAndDataPoints = (
         name: indicatorData.indicatorName,
         unitLabel: indicatorData.unitLabel,
         latestDataPeriod: 0,
+        benchmarkMethod: indicatorData.benchmarkMethod,
+        polarity: indicatorData.polarity,
       };
 
       dataPoints[indicatorData.indicatorId] = {};
@@ -193,11 +229,22 @@ const extractAreasIndicatorsAndDataPoints = (
         };
       }
 
+      const healthDataForYear =
+        healthData.healthData[0].year === latestDataPeriod
+          ? healthData.healthData[0]
+          : undefined;
+
+      const benchmark: Benchmark = {
+        outcome:
+          healthDataForYear?.benchmarkComparison?.outcome ??
+          BenchmarkOutcome.NotCompared,
+        benchmarkMethod: indicatorData.benchmarkMethod,
+        polarity: indicatorData.polarity,
+      };
+
       dataPoints[indicatorData.indicatorId][healthData.areaCode] = {
-        value:
-          healthData.healthData[0].year === latestDataPeriod
-            ? healthData.healthData[0].value
-            : undefined,
+        value: healthDataForYear?.value,
+        benchmark: benchmark,
         areaCode: healthData.areaCode,
         indicatorId: indicatorData.indicatorId,
       };
