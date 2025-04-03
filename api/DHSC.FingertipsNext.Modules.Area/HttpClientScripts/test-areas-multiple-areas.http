@@ -8,7 +8,12 @@ GET http://localhost:5144/areas?area_codes=E12000001&area_codes=E12000003
 
     client.test("Expected areas returned in response", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
-        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+        client.assert(response.body.length === expected.length, "Receieved unexpected number of areas");
+
+        // Cannot guarantee order in which areas are returned, hence the assertion approach
+        client.assert(JSON.stringify(response.body).length === JSON.stringify(expected).length, "Received unexpected response");
+        client.assert((response.body[0].name === "North East Region" || response.body[0].name === "Yorkshire and the Humber Region"), "Received unexpected area");
+        client.assert((response.body[1].name === "North East Region" || response.body[1].name === "Yorkshire and the Humber Region"), "Received unexpected area");
     });
 %}
 
@@ -16,11 +21,13 @@ GET http://localhost:5144/areas?area_codes=E12000001&area_codes=E12000003
 GET http://localhost:5144/areas
 
 > {%
-    const validationErrorMessage = "Please provide at least one area for the parameter area_codes";
+    const expected = {
+        "message": "Please provide at least one value for the parameter area_codes"
+    }
 
     client.test("Expected validation error received", function (callbackfn, thisArg) {
         client.assert(response.status === 400, "Response status is not 400");
-        client.assert(response.body.message === validationErrorMessage, "Received unexpected validation error message");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Received unexpected validation error message");
     });
 %}
 
