@@ -28,21 +28,11 @@ export default function StyledComponentsRegistry({
   useServerInsertedHTML(() => {
     const styles = styledComponentsStyleSheet.getStyleElement();
     styledComponentsStyleSheet.instance.clearTag();
-    return (
-      <>
-        <GlobalStyle />
-        {styles}
-      </>
-    );
+    return <>{styles}</>;
   });
 
   if (isBrowser()) {
-    return (
-      <>
-        <GlobalStyle />
-        {children}
-      </>
-    );
+    return <>{children}</>;
   }
 
   return (
