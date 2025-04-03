@@ -26,7 +26,12 @@ describe('InequalitiesTrend suite', () => {
   });
 
   it('should render expected elements', async () => {
-    render(<InequalitiesTrend healthIndicatorData={MOCK_HEALTH_DATA[1]} />);
+    render(
+      <InequalitiesTrend
+        healthIndicatorData={MOCK_HEALTH_DATA[1]}
+        searchState={state}
+      />
+    );
 
     expect(
       screen.getByTestId('inequalitiesLineChartTable-component')

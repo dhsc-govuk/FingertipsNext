@@ -46,6 +46,7 @@ describe('InequalitiesForSingleTimePeriod suite', () => {
     render(
       <InequalitiesForSingleTimePeriod
         healthIndicatorData={MOCK_HEALTH_DATA[0]}
+        searchState={mockSearchState}
       />
     );
 
