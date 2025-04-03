@@ -145,9 +145,9 @@ export const generateRows = (
       cols[areaIndex + leadingCols.length] = {
         key: `col-${indicator.id}-${area.code}`,
         type: CellType.Data,
-        content: formatValue(dataPoints[indicator.id][area.code].value), // TODO format numbers
+        content: formatValue(dataPoints[indicator.id][area.code]?.value), // TODO format numbers
         backgroundColour:
-          areaIndex === 0
+          area.code === areaCodeForEngland
             ? GovukColours.MidGrey
             : generatedDataBackgroundColor(dataPoints[indicator.id][area.code]),
       };
@@ -162,8 +162,9 @@ const formatValue = (value?: number): string => {
   return value !== undefined ? value.toFixed(1) : 'X';
 };
 
-const generatedDataBackgroundColor = (dataPoint: DataPoint): string => {
+const generatedDataBackgroundColor = (dataPoint?: DataPoint): string => {
   if (
+    !dataPoint ||
     !dataPoint.value ||
     !dataPoint.benchmark?.method ||
     !dataPoint.benchmark?.polarity

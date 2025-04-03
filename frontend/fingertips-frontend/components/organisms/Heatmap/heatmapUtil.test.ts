@@ -40,6 +40,11 @@ describe('generate headers and rows', () => {
     },
   ];
 
+  const missingDataPoint = {
+    areaCode: sortedAreas[2].code,
+    indicatorId: sortedIndicators[1].id,
+  };
+
   interface DataPoint {
     value?: number;
     areaCode: string;
@@ -50,11 +55,18 @@ describe('generate headers and rows', () => {
   sortedIndicators.forEach((indicator, indicatorIndex) => {
     dataPoints[indicator.id] = {};
     sortedAreas.forEach((area, areaIndex) => {
-      dataPoints[indicator.id][area.code] = {
-        value: areaIndex + indicatorIndex * 10,
-        indicatorId: indicator.id,
-        areaCode: area.code,
-      };
+      if (
+        !(
+          indicator.id === missingDataPoint.indicatorId &&
+          area.code === missingDataPoint.areaCode
+        )
+      ) {
+        dataPoints[indicator.id][area.code] = {
+          value: areaIndex + indicatorIndex * 10,
+          indicatorId: indicator.id,
+          areaCode: area.code,
+        };
+      }
     });
   });
 
@@ -117,7 +129,7 @@ describe('generate headers and rows', () => {
 
     expect(rows[1].cells[3].content).toEqual('10.0');
     expect(rows[1].cells[4].content).toEqual('11.0');
-    expect(rows[1].cells[5].content).toEqual('12.0');
+    expect(rows[1].cells[5].content).toEqual('X');
   });
 });
 
@@ -367,3 +379,5 @@ describe('extract sorted areas, indicators, and data points', () => {
     });
   });
 });
+
+// TODO JH write test for absent data
