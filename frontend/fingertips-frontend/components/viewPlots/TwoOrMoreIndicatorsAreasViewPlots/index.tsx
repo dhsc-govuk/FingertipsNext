@@ -25,7 +25,7 @@ export function mapToSpineChartTableIndicator(
 ): Indicator {
   const metadata = indicatorMetadata;
 
-  const rowIndicatorId: number = Number(metadata?.indicatorID) ?? 0;
+  const rowIndicatorId: number = Number(metadata?.indicatorID ?? 0);
 
   const rowTitle: string = metadata?.indicatorName ?? '';
 
@@ -124,18 +124,13 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
       return {
         indicatorId: metadata.indicatorID,
         indicatorName: metadata.indicatorName,
-        healthDataForAreas: indicatorData[index].areaHealthData
-          ? indicatorData[index].areaHealthData
-          : [],
+        healthDataForAreas: indicatorData[index].areaHealthData ?? [],
         unitLabel: metadata.unitLabel,
       };
     });
   };
 
-  const groupAreaCode =
-    selectedGroupCode && selectedGroupCode !== areaCodeForEngland
-      ? selectedGroupCode
-      : undefined;
+  const groupAreaCode = selectedGroupCode ?? undefined;
 
   const buildSpineTableRowData = (
     indicatorData: IndicatorWithHealthDataForArea[],
