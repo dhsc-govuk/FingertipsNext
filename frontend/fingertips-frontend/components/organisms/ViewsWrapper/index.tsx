@@ -3,7 +3,7 @@
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { Paragraph } from 'govuk-react';
-import { hasNoHealthDataCheck } from './hasNoHealthDataCheck';
+import { hasHealthDataCheck } from './hasHealthDataCheck';
 
 interface ViewsWrapperProps {
   children: React.ReactNode;
@@ -18,14 +18,14 @@ export function ViewsWrapper({
 }: Readonly<ViewsWrapperProps>) {
   const areasSelected = searchState?.[SearchParams.AreasSelected];
 
-  const hasNoHealthDataForAllSelectedAreasAndIndicators = hasNoHealthDataCheck(
+  const hasHealthDataForAllSelectedAreasAndIndicators = hasHealthDataCheck(
     indicatorsDataForAreas ?? [],
     areasSelected ?? []
   );
 
   return (
     <>
-      {!hasNoHealthDataForAllSelectedAreasAndIndicators ? (
+      {hasHealthDataForAllSelectedAreasAndIndicators ? (
         children
       ) : (
         <Paragraph>No data</Paragraph>

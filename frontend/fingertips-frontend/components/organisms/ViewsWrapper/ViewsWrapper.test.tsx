@@ -4,7 +4,7 @@ import { SearchParams } from '@/lib/searchStateManager';
 import {
   generateMockAreaHealthData,
   generateMockIndicatorWithAreaHealthData,
-} from './hasNoHealthDataCheck.test';
+} from './hasHealthDataCheck.test';
 
 const TestComponent = () => {
   return (
