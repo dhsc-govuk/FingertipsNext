@@ -44,10 +44,6 @@ export function ThematicMap({
   const [options, setOptions] = useState<Highcharts.Options>();
   // useEffect and async loading of map module to address issue with Highcharts 12 with Next 15.
   // See: https://github.com/highcharts/highcharts-react/issues/502#issuecomment-2531711517
-  //
-  // as such, we're (mis)using useEffect to load the map on initial render, and not for interactivity.
-  // the lint directive doesn't really apply here, and having either no dependency array, or mapOptions as a dependency
-  // causes it to loop infinitely. (https://react.dev/reference/react/useEffect#examples-dependencies)
   useEffect(() => {
     void loadHighchartsModules(async () => {
       if (areaType) {

@@ -7,7 +7,7 @@ import React, { FC } from 'react';
 
 export enum InequalitiesBarChartTableHeaders {
   INEQUALITY_TYPE = 'Inequality type',
-  COMPARED_TO = 'Compared to Persons',
+  COMPARED_TO = 'Compared to persons',
   COUNT = 'Count',
   VALUE = 'Value',
   LOWER = 'Lower',

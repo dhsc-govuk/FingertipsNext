@@ -100,13 +100,13 @@ const mapBenchmarkToColourRef: Record<BenchmarkOutcome, number> = {
   Worse: 35,
   Lower: 45,
   Higher: 55,
-  Lowest: 0, // DHSCFT-528 will define mapping for Quintiles
-  Low: 0,
-  Middle: 0,
-  High: 0,
-  Highest: 0,
-  Best: 0,
-  Worst: 0,
+  Lowest: 105,
+  Low: 115,
+  Middle: 125,
+  High: 135,
+  Highest: 145,
+  Best: 155,
+  Worst: 165,
 };
 
 function getBenchmarkColourScale(
@@ -160,9 +160,73 @@ function getBenchmarkColourScale(
     },
     {
       from: 50,
+      to: 60,
       color: getBenchmarkColour(
         benchmarkComparisonMethod,
         BenchmarkOutcome.Higher,
+        polarity
+      ),
+    },
+    {
+      from: 100,
+      to: 110,
+      color: getBenchmarkColour(
+        benchmarkComparisonMethod,
+        BenchmarkOutcome.Lowest,
+        polarity
+      ),
+    },
+    {
+      from: 110,
+      to: 120,
+      color: getBenchmarkColour(
+        benchmarkComparisonMethod,
+        BenchmarkOutcome.Low,
+        polarity
+      ),
+    },
+    {
+      from: 120,
+      to: 130,
+      color: getBenchmarkColour(
+        benchmarkComparisonMethod,
+        BenchmarkOutcome.Middle,
+        polarity
+      ),
+    },
+    {
+      from: 130,
+      to: 140,
+      color: getBenchmarkColour(
+        benchmarkComparisonMethod,
+        BenchmarkOutcome.High,
+        polarity
+      ),
+    },
+    {
+      from: 140,
+      to: 150,
+      color: getBenchmarkColour(
+        benchmarkComparisonMethod,
+        BenchmarkOutcome.Highest,
+        polarity
+      ),
+    },
+    {
+      from: 150,
+      to: 160,
+      color: getBenchmarkColour(
+        benchmarkComparisonMethod,
+        BenchmarkOutcome.Best,
+        polarity
+      ),
+    },
+    {
+      from: 160,
+      to: 170,
+      color: getBenchmarkColour(
+        benchmarkComparisonMethod,
+        BenchmarkOutcome.Worst,
         polarity
       ),
     },

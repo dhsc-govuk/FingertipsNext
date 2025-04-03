@@ -14,7 +14,7 @@ describe('Inequalities LineChart suite', () => {
       <InequalitiesBarChart
         barChartData={getTestData()}
         yAxisLabel={yAxisLabel}
-        type={InequalitiesTypes.Sex}
+        type={InequalitiesTypes.Deprivation}
         measurementUnit={'$'}
         benchmarkComparisonMethod={
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95
@@ -33,14 +33,30 @@ describe('Inequalities LineChart suite', () => {
     expect(screen.getByRole('checkbox')).toBeInTheDocument();
     expect(screen.getByText(/Show confidence intervals/i)).toBeInTheDocument();
     expect(barChart).toBeInTheDocument();
-    expect(barChart).toHaveTextContent(`Inequality type: Sex`);
+    expect(barChart).toHaveTextContent('Inequality type: Deprivation deciles');
     expect(barChart).toHaveTextContent(yAxisLabel);
     expect(barChart).toHaveTextContent('$');
     expect(
-      screen.getByText('Compared to South FooBar persons')
+      screen.getByText('Compared to South FooBar for 2008 time period')
     ).toBeInTheDocument();
     expect(screen.getByText('Lower')).toBeInTheDocument();
     expect(screen.getByText('Higher')).toBeInTheDocument();
     expect(screen.getByText('Similar')).toBeInTheDocument();
+  });
+
+  it('should render the sex inequality variant with the expected changes', async () => {
+    render(
+      <InequalitiesBarChart
+        barChartData={getTestData()}
+        yAxisLabel={'Y Axis'}
+        type={InequalitiesTypes.Sex}
+        measurementUnit={'$'}
+      />
+    );
+
+    const barChart = await screen.findByTestId(
+      'highcharts-react-component-inequalitiesBarChart'
+    );
+    expect(barChart).toHaveTextContent('Inequality type: Sex');
   });
 });
