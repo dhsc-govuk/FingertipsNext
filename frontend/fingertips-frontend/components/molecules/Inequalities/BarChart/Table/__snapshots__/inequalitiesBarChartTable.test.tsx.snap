@@ -176,10 +176,10 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
           </th>
           <th
             class="c1 c2 c3"
-            data-testid="heading-Compared to Persons"
+            data-testid="heading-Compared to persons"
             style="width: 16%;"
           >
-            Compared to Persons
+            Compared to persons
           </th>
           <th
             class="c1 c2 c4"

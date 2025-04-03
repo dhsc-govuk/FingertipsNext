@@ -29,11 +29,11 @@ export function mapToSpineChartTableProps(
   healthIndicatorData.forEach((indicatorData, index) => {
     const metadata = indicatorMetadata[index];
 
-    const rowIndicatorId: number =
-      metadata?.indicatorID !== undefined ? Number(metadata?.indicatorID) : 0;
+    const rowIndicatorId: number = metadata?.indicatorID
+      ? Number(metadata?.indicatorID)
+      : 0;
 
-    const rowTitle: string =
-      metadata?.indicatorName !== undefined ? metadata?.indicatorName : '';
+    const rowTitle: string = metadata?.indicatorName ?? '';
 
     const rowIndicatorDefinition: string =
       metadata?.indicatorDefinition !== undefined
@@ -90,12 +90,8 @@ export function extractHeatmapIndicatorData(
   return {
     indicatorId: getIndicatorId(),
     indicatorName: getIndicatorName(),
-    healthDataForAreas: indicatorData.areaHealthData
-      ? indicatorData.areaHealthData
-      : [],
-    unitLabel: metadata?.unitLabel
-      ? metadata.unitLabel
-      : 'undefined unit label',
+    healthDataForAreas: indicatorData.areaHealthData ?? [],
+    unitLabel: metadata?.unitLabel ?? 'undefined unit label',
     benchmarkMethod: indicatorData.benchmarkMethod,
     polarity: indicatorData.polarity,
   };

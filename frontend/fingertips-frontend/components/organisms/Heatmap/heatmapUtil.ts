@@ -177,8 +177,7 @@ const formatValue = (value?: number): string => {
 
 const generateDataBackgroundColour = (dataPoint?: DataPoint): string => {
   if (
-    !dataPoint ||
-    !dataPoint.value ||
+    !dataPoint?.value ||
     !dataPoint.benchmark?.method ||
     !dataPoint.benchmark?.polarity
   ) {
@@ -226,12 +225,8 @@ const extractAreasIndicatorsAndDataPoints = (
         name: indicatorData.indicatorName,
         unitLabel: indicatorData.unitLabel,
         latestDataPeriod: 0,
-        method: indicatorData.method
-          ? indicatorData.method
-          : BenchmarkComparisonMethod.Unknown,
-        polarity: indicatorData.polarity
-          ? indicatorData.polarity
-          : IndicatorPolarity.Unknown,
+        method: indicatorData.method ?? BenchmarkComparisonMethod.Unknown,
+        polarity: indicatorData.polarity ?? IndicatorPolarity.Unknown,
       };
 
       dataPoints[indicatorData.indicatorId] = {};
@@ -270,9 +265,9 @@ const extractAreasIndicatorsAndDataPoints = (
           : undefined;
 
       const benchmark: Benchmark = {
-        outcome: healthDataForYear?.benchmarkComparison?.outcome
-          ? healthDataForYear.benchmarkComparison.outcome
-          : BenchmarkOutcome.NotCompared,
+        outcome:
+          healthDataForYear?.benchmarkComparison?.outcome ??
+          BenchmarkOutcome.NotCompared,
         method: indicatorData.method,
         polarity: indicatorData.polarity,
       };

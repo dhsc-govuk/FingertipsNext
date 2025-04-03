@@ -166,33 +166,33 @@ namespace DataCreator
                 var matchingIndicator = indicatorWithAreasAndLatestUpdates.First(x => x.IndicatorID == healthMeasure.IndicatorId);
 
                 if (!matchingIndicator.HasMultipleSexes) //the associated indicator only has 1 sex value
-                    healthMeasure.IsSexAggregatedOrSingle = true;
+                    healthMeasure.IsSexAggregatedOrSingle = 1;
                 else //the associated indicator has more than 1 sex, the health measure could be for 'Persons', 'Male' or 'Female'. If it is 'Persons' set the flag to true, otherwise false
-                    healthMeasure.IsSexAggregatedOrSingle=healthMeasure.Sex== PERSONS;
+                    healthMeasure.IsSexAggregatedOrSingle=healthMeasure.Sex== PERSONS ? 1 : 0;
 
                 if (!matchingIndicator.HasMultipleAges) //the associated indicator only has 1 age value
-                    healthMeasure.IsAgeAggregatedOrSingle = true;
+                    healthMeasure.IsAgeAggregatedOrSingle = 1;
                 else //the associated indicator has more than 1 age, the health measure could be for 'All ages', or others. If it is 'All ages' set the flag to true, otherwise false
-                    healthMeasure.IsAgeAggregatedOrSingle = healthMeasure.Age == "All ages";
+                    healthMeasure.IsAgeAggregatedOrSingle = healthMeasure.Age == "All ages" ? 1 : 0;
 
                 //there are 2 indicators that have multiple ages but no aggregate age
                 //using the same behaviour as current Fingertips set the default age specifically
                 if (healthMeasure.IndicatorId == 93015 && healthMeasure.Age == "19+ yrs")
-                    healthMeasure.IsAgeAggregatedOrSingle = true;
+                    healthMeasure.IsAgeAggregatedOrSingle = 1;
                 if (healthMeasure.IndicatorId == 93088 && healthMeasure.Age == "18+ yrs")
-                    healthMeasure.IsAgeAggregatedOrSingle = true;
+                    healthMeasure.IsAgeAggregatedOrSingle = 1;
 
                 if (!matchingIndicator.HasMultipleDeprivation) //the associated indicator only has 1 deprivation value
-                    healthMeasure.IsDeprivationAggregatedOrSingle = true;
-                else //the associated indicator has more than 1 deprivation, the health measure could be for 'All', or others. If it is 'All' set the flag to true, otherwise false
-                    healthMeasure.IsDeprivationAggregatedOrSingle = healthMeasure.CategoryType == "All";
+                    healthMeasure.IsDeprivationAggregatedOrSingle = 1;
+                else //the associated indicator has more than 1 deprivation, the health measure could be for 'Persons', or others. If it is 'Persons' set the flag to true, otherwise false
+                    healthMeasure.IsDeprivationAggregatedOrSingle = healthMeasure.CategoryType == "Persons" ? 1 : 0;
             }
         }
 
         private static void CreateCategoryData(List<HealthMeasureEntity> healthMeasures)
         {
             var categoryData = new List<CategoryEntity>();
-            foreach (var healthMeasure in healthMeasures.Where(hm => hm.Category != "All"))
+            foreach (var healthMeasure in healthMeasures.Where(hm => hm.Category != "Persons"))
             {
                 healthMeasure.CategoryType = CleanCategoryTypeName(healthMeasure.CategoryType);
                 healthMeasure.Category=healthMeasure.Category.Replace(" (IMD2015)", string.Empty).Replace(" (IMD2019)", string.Empty);
