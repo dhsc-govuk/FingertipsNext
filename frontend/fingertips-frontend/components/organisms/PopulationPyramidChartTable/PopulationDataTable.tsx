@@ -51,13 +51,13 @@ const getSortAgeBandIndexes = (ageBands: string[] | undefined): number[] => {
     .map((item) => item.index);
 };
 
+type ItemDataType = string | undefined | number;
+
 interface PopulationDataTableProps {
   headers: string[];
   title: string;
   healthDataForArea: PopulationDataForArea | undefined;
-  filterValues?: (
-    header: (string | undefined | number)[]
-  ) => (string | undefined | number)[];
+  filterValues?: (header: ItemDataType[]) => ItemDataType[];
 }
 
 export const PopulationDataTable = ({
@@ -76,7 +76,7 @@ export const PopulationDataTable = ({
     healthDataForArea.raw?.maleSeries[index],
   ]);
 
-  const footerRowItems = ((): (string | undefined | number)[] => {
+  const footerRowItems = ((): ItemDataType[] => {
     const males = healthDataForArea.raw?.maleSeries.reduce((prev, current) => {
       return (prev ?? 0) + (current ?? 0);
     }, 0);
