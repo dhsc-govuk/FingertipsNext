@@ -256,10 +256,7 @@ export function createThematicMapChartOptions(
   mapGeographyData: MapGeographyData,
   areaType: AreaTypeKeysForMapMeta,
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
-  polarity: IndicatorPolarity,
-  measurementUnit?: string,
-  benchmarkIndicatorData?: HealthDataForArea,
-  groupIndicatorData?: HealthDataForArea
+  polarity: IndicatorPolarity
 ): Highcharts.Options {
   const data = prepareThematicMapSeriesData(healthIndicatorData);
   const options: Highcharts.Options = {
@@ -319,23 +316,25 @@ export function createThematicMapChartOptions(
         },
       },
     ],
+    // tooltip: { enabled: false },
     tooltip: {
       headerFormat: '',
       useHTML: true,
       pointFormatter: function (this: Highcharts.Point) {
-        return generateThematicMapTooltipString(
-          this,
-          benchmarkIndicatorData,
-          groupIndicatorData,
-          benchmarkComparisonMethod,
-          polarity,
-          measurementUnit
-        );
+        return thematicMapTooltips(this);
       },
     },
   };
 
   return options;
+}
+
+function thematicMapTooltips(point: any) {
+  const el = document.getElementById(
+    `thematicMap-chart-hover-${point.areaCode}`
+  );
+  if (el) return el.innerHTML;
+  return '<div>MISSING</div>';
 }
 
 export function generateThematicMapTooltipString(

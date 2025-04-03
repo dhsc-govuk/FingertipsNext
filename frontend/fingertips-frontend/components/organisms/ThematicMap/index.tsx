@@ -14,6 +14,8 @@ import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/mod
 import { IndicatorPolarity } from '@/generated-sources/ft-api-client/models/IndicatorPolarity';
 import { useSearchState } from '@/context/SearchStateContext';
 import { SearchParams } from '@/lib/searchStateManager';
+import { BenchmarkTooltip } from '@/components/molecules/BenchmarkTooltip/BenchmarkTooltip';
+import { getIndicatorDataForAreasForMostRecentYearOnly } from '@/lib/chartHelpers/chartHelpers';
 
 interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];
@@ -40,6 +42,7 @@ export function ThematicMap({
 }: Readonly<ThematicMapProps>) {
   const { getSearchState } = useSearchState();
   const { [SearchParams.AreaTypeSelected]: areaType } = getSearchState();
+  const benchmarkArea = benchmarkIndicatorData?.areaName ?? 'England';
 
   const [options, setOptions] = useState<Highcharts.Options>();
   // useEffect and async loading of map module to address issue with Highcharts 12 with Next 15.
@@ -52,6 +55,7 @@ export function ThematicMap({
             healthIndicatorData,
             mapGeographyData,
             areaType as AreaTypeKeysForMapMeta,
+            // TODO: change to use healthIndicatorData[0].healthData[0].benchmarkComparison?.method,
             benchmarkComparisonMethod,
             polarity,
             measurementUnit,
@@ -79,6 +83,23 @@ export function ThematicMap({
 
   return (
     <div data-testid="thematicMap-component">
+      {healthIndicatorData.map((indicatorDataForArea) => {
+        return (
+          <div
+            key={`thematicMap-chart-hover-${indicatorDataForArea.areaCode}`}
+            id={`thematicMap-chart-hover-${indicatorDataForArea.areaCode}`}
+            style={{ display: 'none' }}
+          >
+            <BenchmarkTooltip
+              indicatorDataForArea={indicatorDataForArea}
+              benchmarkComparisonMethod={benchmarkComparisonMethod}
+              polarity={polarity}
+              benchmarkArea={benchmarkArea}
+              measurementUnit={measurementUnit}
+            />
+          </div>
+        );
+      })}
       <BenchmarkLegend
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}

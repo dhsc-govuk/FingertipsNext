@@ -44,10 +44,6 @@ export function generateBenchmarkTooltipForArea({
       ? symbolEncoder.multiplicationX
       : symbolEncoder.circle;
 
-  // <div style="display: flex; align-items: center; gap: 0.25em;">${symbolItem} ${value}${measurementUnit}</div>
-  // <div>${benchmarkLabel}</div>
-  // <div>${comparisonLabel}</div>`,
-
   let tooltipString =
     `<div style="font-weight: bold">${point.areaName}</div>` +
     `<div>${point.year}</div>` +
