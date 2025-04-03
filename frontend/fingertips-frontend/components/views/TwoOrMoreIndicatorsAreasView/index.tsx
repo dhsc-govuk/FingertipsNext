@@ -8,6 +8,7 @@ import {
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
+import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 import { chunkArray } from '@/lib/ViewsHelpers';
 
 export default async function TwoOrMoreIndicatorsAreasView({
@@ -102,11 +103,16 @@ export default async function TwoOrMoreIndicatorsAreasView({
   );
 
   return (
-    <TwoOrMoreIndicatorsAreasViewPlot
+    <ViewsWrapper
       searchState={searchState}
-      indicatorData={combinedIndicatorData}
-      indicatorMetadata={selectedIndicatorsData}
-      benchmarkStatistics={benchmarkQuartiles}
-    />
+      indicatorsDataForAreas={combinedIndicatorData}
+    >
+      <TwoOrMoreIndicatorsAreasViewPlot
+        indicatorData={combinedIndicatorData}
+        indicatorMetadata={selectedIndicatorsData}
+        benchmarkStatistics={benchmarkQuartiles}
+        searchState={searchState}
+      />
+    </ViewsWrapper>
   );
 }

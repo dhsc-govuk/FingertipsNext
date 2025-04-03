@@ -1,9 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import {
-  SpineChartMissingValue,
-  SpineChartTableRow,
-} from './SpineChartTableRow';
+import { SpineChartTableRow } from './SpineChartTableRow';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 
 describe('Spine chart table suite', () => {
@@ -105,20 +102,6 @@ describe('Spine chart table suite', () => {
       expect(screen.getByTestId('group-value-cell')).toHaveTextContent(`X`);
 
       expect(screen.getByTestId('benchmark-value-cell')).toHaveTextContent(`X`);
-    });
-  });
-
-  describe('Spine chart missing value', () => {
-    it('should have the value', () => {
-      render(<SpineChartMissingValue value={100} />);
-
-      expect(screen.getByText('100')).toBeInTheDocument();
-    });
-
-    it('should have X', () => {
-      render(<SpineChartMissingValue value={undefined} />);
-
-      expect(screen.getByText('X')).toBeInTheDocument();
     });
   });
 });
