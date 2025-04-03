@@ -92,6 +92,7 @@ exports[`PopulationDataTable take a snapshot 1`] = `
   line-height: 1.25;
   border-top: solid #F3F2F1 2px;
   text-align: center;
+  font-weight: 700;
 }
 
 @media print {

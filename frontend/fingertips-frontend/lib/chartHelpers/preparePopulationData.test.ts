@@ -4,6 +4,7 @@ import {
   HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
 import {
+  computeDataPercentages,
   convertHealthDataForAreaForPyramidData,
   PopulationDataForArea,
 } from './preparePopulationData';
@@ -212,8 +213,12 @@ describe('convertHealthDataForAreaForPyramidData', () => {
 
     const actual: PopulationDataForArea | undefined =
       convertHealthDataForAreaForPyramidData(mockHealthDataForArea, 2023);
-    expect(actual?.femaleSeries).toEqual(mockFemaleSeries);
-    expect(actual?.maleSeries).toEqual(mockMaleSeries);
+    expect(
+      computeDataPercentages(actual?.femaleSeries ?? [], actual?.total ?? 0)
+    ).toEqual(mockFemaleSeries);
+    expect(
+      computeDataPercentages(actual?.maleSeries ?? [], actual?.total ?? 0)
+    ).toEqual(mockMaleSeries);
     expect(actual?.ageCategories).toEqual(mockAgeCategories);
   });
 

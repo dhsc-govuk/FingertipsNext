@@ -1,4 +1,7 @@
-import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
+import {
+  computeDataPercentages,
+  PopulationDataForArea,
+} from '@/lib/chartHelpers/preparePopulationData';
 import Highcharts, { SeriesOptionsType } from 'highcharts';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { generatePopPyramidTooltipStringList } from '.';
@@ -10,9 +13,15 @@ const createChartSeriesOptions = (
   dataForArea: PopulationDataForArea,
   accessibilityLabel: string
 ): Highcharts.Options => {
-  const maxTick = Math.abs(
-    Math.max(...dataForArea.femaleSeries, ...dataForArea.maleSeries)
+  const femaleSeries = computeDataPercentages(
+    dataForArea.femaleSeries,
+    dataForArea.total
   );
+  const maleSeries = computeDataPercentages(
+    dataForArea.maleSeries,
+    dataForArea.total
+  );
+  const maxTick = Math.abs(Math.max(...femaleSeries, ...maleSeries));
   return {
     chart: {
       type: 'bar',
@@ -106,7 +115,7 @@ const createChartSeriesOptions = (
       {
         name: 'Female',
         type: 'bar',
-        data: dataForArea.femaleSeries,
+        data: femaleSeries,
         xAxis: 0,
         color: GovukColours.Female,
         pointWidth: 17,
@@ -123,7 +132,7 @@ const createChartSeriesOptions = (
       {
         name: 'Male',
         type: 'bar',
-        data: dataForArea.maleSeries.map((datapoint) => -datapoint),
+        data: maleSeries.map((datapoint) => -datapoint),
         xAxis: 1,
         color: GovukColours.Male,
         pointWidth: 17,
@@ -152,11 +161,20 @@ const createAdditionalChartSeries = (
   const series: Array<SeriesOptionsType> = [];
 
   if (dataForGroup) {
+    const femaleSeries = computeDataPercentages(
+      dataForGroup.femaleSeries,
+      dataForGroup.total
+    );
+    const maleSeries = computeDataPercentages(
+      dataForGroup.maleSeries,
+      dataForGroup.total
+    );
+
     series.push(
       {
         name: `Group: ${dataForGroup.areaName}`,
         type: 'line',
-        data: dataForGroup.femaleSeries,
+        data: femaleSeries,
         stack: 2,
         color: GovukColours.Turquoise,
         dashStyle: 'Dash',
@@ -167,7 +185,7 @@ const createAdditionalChartSeries = (
         name: `Group: ${dataForGroup.areaName}`,
         type: 'line',
         stack: 4,
-        data: dataForGroup.maleSeries.map((datapoint) => -datapoint),
+        data: maleSeries.map((datapoint) => -datapoint),
         color: GovukColours.Turquoise,
         dashStyle: 'Dash',
         marker: { symbol: 'diamond' },
@@ -178,10 +196,18 @@ const createAdditionalChartSeries = (
   }
 
   if (dataForBenchmark) {
+    const femaleSeries = computeDataPercentages(
+      dataForBenchmark.femaleSeries,
+      dataForBenchmark.total
+    );
+    const maleSeries = computeDataPercentages(
+      dataForBenchmark.maleSeries,
+      dataForBenchmark.total
+    );
     series.push(
       {
         name: `Benchmark: ${dataForBenchmark.areaName}`,
-        data: dataForBenchmark.femaleSeries,
+        data: femaleSeries,
         type: 'line',
         stack: 1,
         color: GovukColours.CharcoalGray,
@@ -190,7 +216,7 @@ const createAdditionalChartSeries = (
       },
       {
         name: `Benchmark: ${dataForBenchmark.areaName}`,
-        data: dataForBenchmark.maleSeries.map((datapoint) => -datapoint),
+        data: maleSeries.map((datapoint) => -datapoint),
         type: 'line',
         stack: 3,
         color: GovukColours.CharcoalGray,
