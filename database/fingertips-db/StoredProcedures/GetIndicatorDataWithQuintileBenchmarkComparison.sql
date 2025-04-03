@@ -5,35 +5,30 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
---- This stored procedure Gets HealthData and performs Quintile calculations
+-- This stored procedure Gets HealthData and performs Quintile calculations
 ALTER PROCEDURE [dbo].[GetIndicatorDetailsWithQuintileBenchmarkComparison]
+-- The Areas we want data for
 @RequestedAreas AreaCodeList READONLY,
---- The Areas we want data for
-@RequestedAreaType varchar(50),
---- The AreaType we are comparing against - this needs to be passed in because the AreaCodes can be ambiguous for districts and counties
+-- The AreaType we are comparing against - this needs to be passed in because the AreaCodes can be ambiguous for districts and counties
+@RequestedAreaType VARCHAR(50),
+-- The Years we are interested in - can be empty
 @RequestedYears YearList READONLY,
---- The Years we are interested in - can be empty
-@RequestedIndicatorId int
---- The specific indicatorId we are interested in
+-- The specific indicatorId we are interested in
+@RequestedIndicatorId INT,
+
+@ExcludeDisaggregatedSexValues BIT,
+@ExcludeDisaggregatedAgeValues BIT,
+@ExcludeDisaggregatedDeprivationValues BIT
+
 AS
 BEGIN
-	DECLARE @BenchmarkMethod nvarchar(255)
-	
-	-- First get the benchmark comparison method for the indicator
-	SELECT @BenchmarkMethod = 
-		[BenchmarkComparisonMethod]
-	FROM
-		[dbo].[IndicatorDimension]
-	WHERE
-		[IndicatorId] = @RequestedIndicatorId
-	--need to do something here if the indicator does not exist
-
-	IF @BenchmarkMethod = 'Quintiles'
+	--If the indicator uses quintiles for benchmarking use different handling
+	IF EXISTS (SELECT 1 FROM [IndicatorDimension] WHERE [IndicatorId] = @RequestedIndicatorId AND [BenchmarkComparisonMethod]= 'Quintiles')  
 	BEGIN
 
 		-- If the indicator has a quintiles benchmark comparison method we want to calculate that
 		WITH
-		--- Finds the indicator of interest from the passed in IndicatorId.
+		-- Finds the indicator of interest from the passed in IndicatorId.
 		RequestedIndicator AS (
 		SELECT
 			IndicatorKey,
@@ -44,7 +39,7 @@ BEGIN
 		WHERE
 			ind.IndicatorId = @RequestedIndicatorId
 		),
-		--- This finds ALL data points in England of the same areaType which are aggregated (not inequalities) data points
+		-- This finds ALL data points in England of the same areaType which are aggregated (not inequalities) data points
 		HealthData AS (
 		SELECT
 				hm.HealthMeasureKey,
@@ -96,13 +91,13 @@ BEGIN
 				hm.TrendKey = trendDim.TrendKey
 		WHERE
 			(
-				--- This ensures we are only dealing with Aggregate data
+				-- This ensures we are only dealing with Aggregate data
 				hm.IsSexAggregatedOrSingle=1 AND hm.IsAgeAggregatedOrSingle=1 AND hm.IsDeprivationAggregatedOrSingle=1
 			)
 			AND
 			(
 				areaDim.AreaType = @RequestedAreaType
-				--- This is special case handling for data which has a dual identity as both district and county.
+				-- This is special case handling for data which has a dual identity as both district and county.
 				OR
 				(
 				   @RequestedAreaType = 'districts-and-unitary-authorities'
@@ -112,22 +107,12 @@ BEGIN
 			)
 			AND
 			(
-				hm.Year IN (
-					SELECT
-						YearNum
-					FROM
-						@RequestedYears
-				)
-				OR NOT EXISTS (
-					--- If no years are passed in then return data for ALL years
-					SELECT
-						1
-					FROM
-					   @RequestedYears
-				)
+				hm.Year IN (SELECT YearNum FROM @RequestedYears)
+				-- If no years are passed in then return data for ALL years
+				OR NOT EXISTS (SELECT 1 FROM @RequestedYears)
 			)
 		)
-		--- The final select now filters based on the requested areas and calculates the Benchmark outcome
+		-- The final select now filters based on the requested areas and calculates the Benchmark outcome
 		SELECT
 			hd.HealthMeasureKey,
 			hd.Quintile,
@@ -155,38 +140,30 @@ BEGIN
 			ind.Polarity AS BenchmarkComparisonIndicatorPolarity,
 			ind.Name AS IndicatorDimensionName,
 			CASE
-				WHEN ind.Polarity = 'High is good'
-				AND hd.Quintile = 1 THEN 'WORST'
-				WHEN ind.Polarity = 'High is good'
-				AND hd.Quintile = 2 THEN 'WORSE'
-				WHEN ind.Polarity = 'High is good'
-				AND hd.Quintile = 3 THEN 'MIDDLE'
-				WHEN ind.Polarity = 'High is good'
-				AND hd.Quintile = 4 THEN 'BETTER'
-				WHEN ind.Polarity = 'High is good'
-				AND hd.Quintile = 5 THEN 'BEST'
-
-				WHEN ind.Polarity = 'Low is good'
-				AND hd.Quintile = 1 THEN 'BEST'
-				WHEN ind.Polarity = 'Low is good'
-				AND hd.Quintile = 2 THEN 'BETTER'
-				WHEN ind.Polarity = 'Low is good'
-				AND hd.Quintile = 3 THEN 'MIDDLE'
-				WHEN ind.Polarity = 'Low is good'
-				AND hd.Quintile = 4 THEN 'WORSE'
-				WHEN ind.Polarity = 'Low is good'
-				AND hd.Quintile = 5 THEN 'WORST'
-
-				WHEN ind.Polarity = 'No judgement'
-				AND hd.Quintile = 1 THEN 'LOWEST'
-				WHEN ind.Polarity = 'No judgement'
-				AND hd.Quintile = 2 THEN 'LOWER'
-				WHEN ind.Polarity = 'No judgement'
-				AND hd.Quintile = 3 THEN 'SIMILAR'
-				WHEN ind.Polarity = 'No judgement'
-				AND hd.Quintile = 4 THEN 'HIGHER'
-				WHEN ind.Polarity = 'No judgement'
-				AND hd.Quintile = 5 THEN 'HIGHEST'
+				WHEN ind.Polarity = 'High is good' THEN
+					CASE 
+						WHEN hd.Quintile = 1 THEN 'WORST'
+						WHEN hd.Quintile = 2 THEN 'WORSE'
+						WHEN hd.Quintile = 3 THEN 'MIDDLE'
+						WHEN hd.Quintile = 4 THEN 'BETTER'
+						WHEN hd.Quintile = 5 THEN 'BEST'
+					END
+				WHEN ind.Polarity = 'Low is good' THEN
+					CASE
+						WHEN hd.Quintile = 1 THEN 'BEST'
+						WHEN hd.Quintile = 2 THEN 'BETTER'
+						WHEN hd.Quintile = 3 THEN 'MIDDLE'
+						WHEN hd.Quintile = 4 THEN 'WORSE'
+						WHEN hd.Quintile = 5 THEN 'WORST'
+					END
+				WHEN ind.Polarity = 'No judgement' THEN
+					CASE
+						WHEN hd.Quintile = 1 THEN 'LOWEST'
+						WHEN hd.Quintile = 2 THEN 'LOWER'
+						WHEN hd.Quintile = 3 THEN 'SIMILAR'
+						WHEN hd.Quintile = 4 THEN 'HIGHER'
+						WHEN hd.Quintile = 5 THEN 'HIGHEST'
+					END
 			END AS BenchmarkComparisonOutcome
 		FROM
 				HealthData AS hd
@@ -245,27 +222,24 @@ BEGIN
 			[TrendDimension] trend ON hm.[TrendKey] = trend.[TrendKey]
 		JOIN
 			[DeprivationDimension] AS [d] ON hm.[DeprivationKey] = [d].[DeprivationKey]
-		JOIN
-    		@RequestedAreas AS areas
-		ON
-			area.Code = areas.AreaCode
 		WHERE 
 			ind.[IndicatorId] = @RequestedIndicatorId
 		AND
-			(
-				hm.Year IN 
-					(SELECT YearNum FROM @RequestedYears)
-				OR NOT EXISTS
-				--- If no years are passed in then return data for ALL years
-					(SELECT 1 FROM @RequestedYears)
-			)
-		AND 
-			hm.[IsSexAggregatedOrSingle] = 1 
+		(
+			hm.Year IN (SELECT YearNum FROM @RequestedYears)
+			OR NOT EXISTS --- If no years are passed in then return data for ALL years
+			(SELECT 1 FROM @RequestedYears)
+		)
 		AND
-			hm.[IsAgeAggregatedOrSingle] = 1
-		AND
-			hm.[IsDeprivationAggregatedOrSingle] = 1
-
+		(
+			area.Code IN (SELECT AreaCode FROM @RequestedAreas)
+			OR NOT EXISTS --- If no areas are passed in then return data for ALL areas
+			(SELECT 1 FROM @RequestedAreas)
+		)
+		AND (@ExcludeDisaggregatedSexValues = 0 OR hm.[IsSexAggregatedOrSingle] = 1)
+		AND (@ExcludeDisaggregatedAgeValues = 0 OR hm.[IsAgeAggregatedOrSingle] = 1)
+		AND (@ExcludeDisaggregatedDeprivationValues = 0 OR hm.[IsDeprivationAggregatedOrSingle] = 1)
+		
 		ORDER BY 
 			hm.[Year]
 	END
