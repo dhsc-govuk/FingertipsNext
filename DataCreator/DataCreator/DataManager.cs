@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Security.Cryptography.X509Certificates;
 using DataCreator.PholioDatabase;
 
 namespace DataCreator
@@ -52,25 +53,24 @@ namespace DataCreator
                 area.ChildAreas.RemoveAll(a=>!areasWeWant.Contains(a.AreaCode));
                 cleanedAreas.Add(area);
             }
-
             
-            DataFileManager.WriteJsonData("areas", cleanedAreas);
+            DataFileWriter.WriteJsonData("areas", cleanedAreas);
 
             var simpleAreasWeWant = cleanedAreas.Select(area => new SimpleAreaWithChildren
             {
                 AreaCode = area.AreaCode.Trim(),
-                AreaName = area.AreaName.Trim(),
+                AreaName = area.AreaName.Trim().Replace("Of", "of").Replace("And The","and the"),
                 Children = string.Join('|', area.ChildAreas.Select(c => c.AreaCode.Trim())),
                 Level = area.Level,
                 HierarchyType = area.HierarchyType,
-                AreaTypeCode = area.AreaType
+                AreaTypeCode = area.AreaType //rule to get an area type code
                             .Trim()
                             .Replace(' ', '-')
                             .ToLower(),
                 AreaType = area.AreaType
             })
             .ToList();
-            DataFileManager.WriteSimpleAreaCsvData("areas", simpleAreasWeWant);
+            DataFileWriter.WriteSimpleAreaCsvData("areas", simpleAreasWeWant);
             return areasWeWant;
         }
        
@@ -80,8 +80,8 @@ namespace DataCreator
             var indicators = (await _pholioDataFetcher.FetchIndicatorsAsync(pocIndicators)).ToList();
             foreach (var indicator in indicators)
             {
-                var match = indicatorWithAreasAndLatestUpdates.FirstOrDefault(indicatorWithAreasAndLatestUpdate =>
-                    indicatorWithAreasAndLatestUpdate.IndicatorID == indicator.IndicatorID);
+                var match = indicatorWithAreasAndLatestUpdates
+                    .FirstOrDefault(indicatorWithAreasAndLatestUpdate => indicatorWithAreasAndLatestUpdate.IndicatorID == indicator.IndicatorID);
 
                 if (match != null)
                 {
@@ -106,15 +106,14 @@ namespace DataCreator
                 }
             }
             AddLastUpdatedDate(indicators);
-            var simpleIndicators = indicators.Where(i => i.UsedInPoc).Cast<SimpleIndicator>().ToList();
-            DataFileManager.WriteJsonData("indicators", indicators);
 
-            DataFileManager.WriteSimpleIndicatorCsvData("indicators", simpleIndicators);
+            DataFileWriter.WriteJsonData("indicators", indicators);
+            DataFileWriter.WriteSimpleIndicatorCsvData("indicators", indicators.Where(i => i.UsedInPoc).Cast<SimpleIndicator>());
         }
 
         private static void AddLastUpdatedDate(List<IndicatorEntity> indicatorEntities)
         {
-            var lastUpdatedDates = DataFileManager.GetLastUpdatedDataForIndicators();
+            var lastUpdatedDates = DataFileReader.GetLastUpdatedDataForIndicators();
             foreach (var indicatorEntity in indicatorEntities)
             {
                 var match = lastUpdatedDates.FirstOrDefault(l => l.IndicatorId == indicatorEntity.IndicatorID);
@@ -123,13 +122,13 @@ namespace DataCreator
             }
         }
 
-        public static List<IndicatorWithAreasAndLatestUpdate> CreateHealthDataAndAgeData(List<string> areasWeWant, List<SimpleIndicator> pocIndicators, IEnumerable<AgeEntity> allAges, int yearFrom, bool useIndicators = false)
+        public static List<IndicatorWithAreasAndLatestUpdate> CreateHealthDataAndAgeData(List<string> areasWeWant, List<SimpleIndicator> pocIndicators, IEnumerable<AgeEntity> allAges)
         {
-            var healthMeasures = new List<HealthMeasureEntity>();
-            var areasDict = areasWeWant.ToDictionary(a => a);
+            var healthMeasures = new List<HealthMeasureEntity>(1000000);
+            var areasDictionary = areasWeWant.ToDictionary(areaCode => areaCode);
             foreach (var pocIndicator in pocIndicators)
             {
-                var data = DataFileManager.GetHealthDataForIndicator(pocIndicator.IndicatorID, yearFrom, areasDict);
+                var data = DataFileReader.GetHealthDataForIndicator(pocIndicator.IndicatorID, areasDictionary);
 
                 Console.WriteLine($"Grabbed {data.Count} points for indicator {pocIndicator.IndicatorID}");
                 healthMeasures.AddRange(data);
@@ -138,7 +137,8 @@ namespace DataCreator
            
             CreateCategoryData(healthMeasures);
 
-            var indicatorWithAreasAndLatestUpdates = healthMeasures.GroupBy(measure => measure.IndicatorId)
+            var indicatorWithAreasAndLatestUpdates = healthMeasures
+                .GroupBy(measure => measure.IndicatorId)
                 .Select(group => new IndicatorWithAreasAndLatestUpdate
                 {
                     IndicatorID = group.Key,
@@ -146,22 +146,23 @@ namespace DataCreator
                     LatestDataPeriod = group.OrderByDescending(healthMeasureEntity => healthMeasureEntity.Year).First().Year,
                     EarliestDataPeriod = group.OrderBy(healthMeasureEntity => healthMeasureEntity.Year).First().Year,
                     HasInequalities = group.Any(healthMeasureEntity => healthMeasureEntity.Sex != PERSONS || !string.IsNullOrEmpty(healthMeasureEntity.CategoryType)), //if an indicator has any data that is sex specific or has deciles it is said to have inequality data
-                    HasMultipleSexes= group.Select(healthMeasureEntity=> healthMeasureEntity.Sex).Distinct().Count() > 1,
-                    HasMultipleAges= group.Select(healthMeasureEntity => healthMeasureEntity.Age).Distinct().Count() > 1,
-                    HasMultipleDeprivation= group.Select(healthMeasureEntity => healthMeasureEntity.CategoryType).Distinct().Count() > 1
+                    HasMultipleSexes = group.Select(healthMeasureEntity=> healthMeasureEntity.Sex).Distinct().Count() > 1,
+                    HasMultipleAges = group.Select(healthMeasureEntity => healthMeasureEntity.Age).Distinct().Count() > 1,
+                    HasMultipleDeprivation = group.Select(healthMeasureEntity => healthMeasureEntity.CategoryType).Distinct().Count() > 1
                 })
                 .ToList();
             SetAggregateFlags(indicatorWithAreasAndLatestUpdates, healthMeasures);
-            DataFileManager.WriteAgeCsvData("agedata", usedAges);
-            DataFileManager.WriteHealthCsvData("healthdata", healthMeasures);
+            DataFileWriter.WriteAgeCsvData("agedata", usedAges);
+            DataFileWriter.WriteHealthCsvData("healthdata", healthMeasures);
 
             return indicatorWithAreasAndLatestUpdates;
         }
 
         private static void SetAggregateFlags(List<IndicatorWithAreasAndLatestUpdate> indicatorWithAreasAndLatestUpdates, List<HealthMeasureEntity> healthMeasures)
         {
-            foreach (var healthMeasure in healthMeasures) 
+            for (var count = 0; count < healthMeasures.Count; count++)
             {
+                var healthMeasure = healthMeasures[count];
                 var matchingIndicator = indicatorWithAreasAndLatestUpdates.First(x => x.IndicatorID == healthMeasure.IndicatorId);
 
                 if (!matchingIndicator.HasMultipleSexes) //the associated indicator only has 1 sex value
@@ -194,6 +195,7 @@ namespace DataCreator
             foreach (var healthMeasure in healthMeasures.Where(hm => hm.Category != "All"))
             {
                 healthMeasure.CategoryType = CleanCategoryTypeName(healthMeasure.CategoryType);
+                healthMeasure.Category=healthMeasure.Category.Replace(" (IMD2015)", string.Empty).Replace(" (IMD2019)", string.Empty);
                 if (categoryData.FirstOrDefault(cd =>
                     cd.CategoryName.Equals(healthMeasure.Category, StringComparison.CurrentCultureIgnoreCase) &&
                     cd.CategoryTypeName.Equals(healthMeasure.CategoryType, StringComparison.CurrentCultureIgnoreCase)) == null)
@@ -205,11 +207,11 @@ namespace DataCreator
                         Sequence = CreateSequenceForCategory(healthMeasure.Category)
                     });
                 }
-                
             }
-            //clean up the names and make GDS compliant - ticket 412
-            DataFileManager.WriteCategoryCsvData("categories", categoryData);
+
+            DataFileWriter.WriteCategoryCsvData("categories", categoryData);
         }
+
 
         private static string CleanCategoryTypeName(string originalName)
         {
@@ -286,17 +288,16 @@ namespace DataCreator
         private static List<AgeEntity> AddAgeIds(List<HealthMeasureEntity> healthMeasures, IEnumerable<AgeEntity> allAges)
         {
             var usedAgeIds = new HashSet<int>();
-
-            foreach (var healthMeasure in healthMeasures)
+            for(var count = 0; count < healthMeasures.Count; count++)
             {
-                var ageId = allAges.First(x => x.Age == healthMeasure.Age).AgeID;
+                var healthMeasure=healthMeasures[count];
+                var ageId = allAges.First(age => age.Age == healthMeasure.Age).AgeID;
                 healthMeasure.AgeID = ageId;
                 usedAgeIds.Add(ageId);
             }
 
             return allAges.Where(age => usedAgeIds.Contains(age.AgeID)).ToList();
         }
-
 
         public async Task<IEnumerable<AgeEntity>> GetAgeDataAsync() =>
             await _pholioDataFetcher.FetchAgeDataAsync();

@@ -48,8 +48,6 @@ namespace DataCreator
         public string Frequency { get; set; }
         public string Rounding { get; set; }
 
-        
-
         public List<string> AssociatedAreaCodes { get; set; } = [];
 
         public int LatestDataPeriod { get; set; } = 1999;
@@ -78,7 +76,6 @@ namespace DataCreator
 
         [CsvColumn(FieldIndex = 5)]
         public string IndicatorName { get; set; }
-
         
         public bool HasMultipleSexes { get; set; }
 
