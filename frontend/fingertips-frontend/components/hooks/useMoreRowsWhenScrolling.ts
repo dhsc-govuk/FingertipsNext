@@ -34,7 +34,6 @@ export const useMoreRowsWhenScrolling = <T>(
     // add more rows to show
     numberOfRowsRef.current += incrementRowCount;
     const isThereMore = numberOfRowsRef.current < rows.length;
-
     // call the setState callback supplied
     setRowsToShow(rows.slice(0, numberOfRowsRef.current));
 
@@ -65,6 +64,7 @@ export const useMoreRowsWhenScrolling = <T>(
 
     return () => {
       controller.abort();
+      clearInterval(timerRef.current);
     };
   }, [addMore, startChecking]);
 
