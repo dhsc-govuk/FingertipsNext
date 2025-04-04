@@ -59,10 +59,6 @@ export function BenchmarkTooltipArea({
     polarity
   );
 
-  const benchmarkConfidenceLimit = getConfidenceLimitNumber(
-    benchmarkComparisonMethod
-  );
-
   return (
     <div>
       <div>
@@ -88,6 +84,7 @@ export function BenchmarkTooltipArea({
             </span>
             {getComparisionText(
               benchmarkArea,
+              benchmarkComparisonMethod,
               indicatorDataForAreaForMostRecentYear[0].healthData[0]
                 .benchmarkComparison?.outcome
             )}
@@ -100,12 +97,19 @@ export function BenchmarkTooltipArea({
 
 function getComparisionText(
   benchmarkArea: string,
-  benchmarkOutcome?: BenchmarkOutcome,
-  benchmarkConfidenceLimit?: number
+  benchmarkComparisonMethod: BenchmarkComparisonMethod,
+  benchmarkOutcome?: BenchmarkOutcome
 ) {
+  const benchmarkConfidenceLimit = getConfidenceLimitNumber(
+    benchmarkComparisonMethod
+  );
   // TODO: DHSCFT-518 to handle no data
-  if (benchmarkOutcome === BenchmarkOutcome.NotCompared) {
-    return null;
+  // benchmarkComparisonMethod !== BenchmarkComparisonMethod.Quintiles
+  if (
+    benchmarkOutcome === BenchmarkOutcome.NotCompared ||
+    benchmarkComparisonMethod === BenchmarkComparisonMethod.Quintiles
+  ) {
+    return <span style={{ display: 'block' }}>{benchmarkOutcome}</span>;
   }
   if (benchmarkOutcome === BenchmarkOutcome.Similar) {
     return (

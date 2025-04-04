@@ -12,21 +12,19 @@ import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 import { formatNumber } from '@/lib/numberFormatter';
 
 describe('BenchmarkTooltipArea', () => {
-  const mockIndicatorData: Record<string, HealthDataForArea> = {
-    RAG: {
-      areaCode: 'A001',
-      areaName: 'RAG_area',
-      healthData: [
-        {
-          year: 1976,
-          ageBand: allAgesAge,
-          sex: personsSex,
-          trend: 'Not yet calculated',
-          deprivation: noDeprivation,
-          value: 333,
-        },
-      ],
-    },
+  const mockIndicatorData: HealthDataForArea = {
+    areaCode: 'A001',
+    areaName: 'RAG_area',
+    healthData: [
+      {
+        year: 1976,
+        ageBand: allAgesAge,
+        sex: personsSex,
+        trend: 'Not yet calculated',
+        deprivation: noDeprivation,
+        value: 333,
+      },
+    ],
   };
   const mockUnits = 'Mpa';
   const mockBenchmarkArea = 'England';
@@ -40,7 +38,7 @@ describe('BenchmarkTooltipArea', () => {
     ],
     [
       BenchmarkOutcome.Better,
-      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
       SymbolsEnum.Circle,
       `than ${mockBenchmarkArea}`,
     ],
@@ -76,11 +74,10 @@ describe('BenchmarkTooltipArea', () => {
       expectedSymbol: SymbolsEnum,
       expectedComparisonString?: string
     ) => {
-      const testIndicatorDataForArea = mockIndicatorData.RAG;
-
+      const testIndicatorDataForArea = mockIndicatorData;
       testIndicatorDataForArea.healthData[0].benchmarkComparison = {
-        method: testBenchmarkComparisonMethod,
         outcome: testBenchmarkOutcome,
+        method: testBenchmarkComparisonMethod,
       };
 
       const testPolarity: IndicatorPolarity = IndicatorPolarity.Unknown;
@@ -91,7 +88,7 @@ describe('BenchmarkTooltipArea', () => {
           testIndicatorDataForArea.healthData[0].benchmarkComparison?.outcome ??
             BenchmarkOutcome.NotCompared,
           testPolarity
-        ) ?? '';
+        ) ?? undefined;
 
       if (expectedComparisonString) {
         expectedComparisonString = [
@@ -110,11 +107,9 @@ describe('BenchmarkTooltipArea', () => {
         />
       );
 
+      expect(screen.getByText(mockIndicatorData.areaName)).toBeInTheDocument();
       expect(
-        screen.getByText(mockIndicatorData.RAG.areaName)
-      ).toBeInTheDocument();
-      expect(
-        screen.getByText(mockIndicatorData.RAG.healthData[0].year)
+        screen.getByText(mockIndicatorData.healthData[0].year)
       ).toBeInTheDocument();
       expect(screen.getByText(expectedSymbol)).toBeInTheDocument();
       expect(screen.getByText(expectedSymbol)).toHaveStyle({
@@ -123,7 +118,7 @@ describe('BenchmarkTooltipArea', () => {
 
       expect(
         screen.getByText(
-          RegExp(formatNumber(mockIndicatorData.RAG.healthData[0].value))
+          RegExp(formatNumber(mockIndicatorData.healthData[0].value))
         )
       ).toBeInTheDocument();
 
@@ -133,18 +128,82 @@ describe('BenchmarkTooltipArea', () => {
       }
     }
   );
+  [
+    BenchmarkOutcome.Lower,
+    BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+    SymbolsEnum.Circle,
+    `than ${mockBenchmarkArea}`,
+  ];
 
-  //   each([
-  //     [BenchmarkOutcome.Lowest],
-  //     [BenchmarkOutcome.Low],
-  //     [BenchmarkOutcome.Middle],
-  //     [BenchmarkOutcome.High],
-  //     [BenchmarkOutcome.Highest],
-  //     [BenchmarkOutcome.Best],
-  //     [BenchmarkOutcome.Worst],
-  // ]
-  //   )
-  it.todo(
-    'should return the expected RAG tooltip for an area when outcome is similar'
+  it.each([
+    [
+      BenchmarkOutcome.NotCompared,
+      BenchmarkComparisonMethod.Quintiles,
+      SymbolsEnum.MultiplicationX,
+    ],
+    [
+      BenchmarkOutcome.Lowest,
+      BenchmarkComparisonMethod.Quintiles,
+      SymbolsEnum.Circle,
+    ],
+    // [BenchmarkOutcome.Low],
+    // [BenchmarkOutcome.Middle],
+    // [BenchmarkOutcome.High],
+    // [BenchmarkOutcome.Highest],
+    // [BenchmarkOutcome.Best],
+    // [BenchmarkOutcome.Worst],
+  ])(
+    'should return the expected Quintiles tooltip',
+    (
+      testBenchmarkOutcome: BenchmarkOutcome,
+      testBenchmarkComparisonMethod: BenchmarkComparisonMethod,
+      expectedSymbol: SymbolsEnum
+    ) => {
+      const testIndicatorDataForArea = mockIndicatorData;
+      testIndicatorDataForArea.healthData[0].benchmarkComparison = {
+        outcome: testBenchmarkOutcome,
+        method: testBenchmarkComparisonMethod,
+      };
+
+      const testPolarity: IndicatorPolarity = IndicatorPolarity.Unknown;
+      const expectedColour =
+        getBenchmarkColour(
+          testIndicatorDataForArea.healthData[0].benchmarkComparison.method ??
+            BenchmarkComparisonMethod.Unknown,
+          testIndicatorDataForArea.healthData[0].benchmarkComparison?.outcome ??
+            BenchmarkOutcome.NotCompared,
+          testPolarity
+        ) ?? undefined;
+
+      render(
+        <BenchmarkTooltipArea
+          indicatorDataForArea={testIndicatorDataForArea}
+          benchmarkComparisonMethod={testBenchmarkComparisonMethod}
+          polarity={testPolarity}
+          measurementUnit={mockUnits}
+          benchmarkArea={mockBenchmarkArea}
+        />
+      );
+
+      expect(screen.getByText(mockIndicatorData.areaName)).toBeInTheDocument();
+      expect(
+        screen.getByText(mockIndicatorData.healthData[0].year)
+      ).toBeInTheDocument();
+      expect(screen.getByText(expectedSymbol)).toBeInTheDocument();
+      expect(screen.getByText(expectedSymbol)).toHaveStyle({
+        color: expectedColour,
+      });
+
+      expect(
+        screen.getByText(
+          RegExp(formatNumber(mockIndicatorData.healthData[0].value))
+        )
+      ).toBeInTheDocument();
+
+      expect(screen.getByText(RegExp(mockUnits))).toBeInTheDocument();
+      expect(screen.queryByText(/England/)).not.toBeInTheDocument();
+      expect(screen.queryByText(/than/)).not.toBeInTheDocument();
+      expect(screen.queryByText(/to/)).not.toBeInTheDocument();
+    }
   );
 });
