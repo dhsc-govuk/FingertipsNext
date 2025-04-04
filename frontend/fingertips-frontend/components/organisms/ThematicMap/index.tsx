@@ -14,6 +14,7 @@ import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/mod
 import { IndicatorPolarity } from '@/generated-sources/ft-api-client/models/IndicatorPolarity';
 import { useSearchState } from '@/context/SearchStateContext';
 import { SearchParams } from '@/lib/searchStateManager';
+import { BenchmarkTooltip } from '@/components/molecules/BenchmarkTooltip/BenchmarkTooltip';
 
 interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];
@@ -53,10 +54,7 @@ export function ThematicMap({
             mapGeographyData,
             areaType as AreaTypeKeysForMapMeta,
             benchmarkComparisonMethod,
-            polarity,
-            measurementUnit,
-            benchmarkIndicatorData,
-            groupIndicatorData
+            polarity
           )
         );
       }
@@ -79,6 +77,23 @@ export function ThematicMap({
 
   return (
     <div data-testid="thematicMap-component">
+      {healthIndicatorData.map((indicatorDataForArea) => {
+        return (
+          <div
+            key={`thematicMap-chart-hover-${indicatorDataForArea.areaCode}`}
+            id={`thematicMap-chart-hover-${indicatorDataForArea.areaCode}`}
+            style={{ display: 'none' }}
+          >
+            <BenchmarkTooltip
+              indicatorData={indicatorDataForArea}
+              benchmarkComparisonMethod={benchmarkComparisonMethod}
+              measurementUnit={measurementUnit}
+              indicatorDataForBenchmark={benchmarkIndicatorData}
+              indicatorDataForGroup={groupIndicatorData}
+            />
+          </div>
+        );
+      })}
       <BenchmarkLegend
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
