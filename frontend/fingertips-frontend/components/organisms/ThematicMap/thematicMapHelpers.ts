@@ -333,5 +333,5 @@ function thematicMapTooltips(point: Highcharts.Point & { areaCode: string }) {
     `thematicMap-chart-hover-${point.areaCode}`
   );
   if (el) return el.innerHTML;
-  return '<div>MISSING</div>';
+  return '';
 }

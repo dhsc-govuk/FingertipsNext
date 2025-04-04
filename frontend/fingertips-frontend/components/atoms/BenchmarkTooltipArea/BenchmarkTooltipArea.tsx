@@ -105,34 +105,26 @@ function getComparisionText(
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
   benchmarkOutcome?: BenchmarkOutcome
 ) {
+  // TODO: DHSCFT-518 to handle no data
   const benchmarkConfidenceLimit = getConfidenceLimitNumber(
     benchmarkComparisonMethod
   );
-  // TODO: DHSCFT-518 to handle no data
+  let joiningWord: string;
+  benchmarkOutcome === BenchmarkOutcome.Similar
+    ? (joiningWord = 'to')
+    : (joiningWord = 'than');
+
   if (
     benchmarkOutcome === BenchmarkOutcome.NotCompared ||
     benchmarkComparisonMethod === BenchmarkComparisonMethod.Quintiles
   ) {
     return <span style={{ display: 'block' }}>{benchmarkOutcome}</span>;
   }
-  if (benchmarkOutcome === BenchmarkOutcome.Similar) {
-    return (
-      <>
-        <span style={{ display: 'block' }}>
-          {benchmarkOutcome} to {benchmarkArea}
-        </span>
-        {benchmarkConfidenceLimit ? (
-          <span style={{ display: 'block' }}>
-            ({benchmarkConfidenceLimit}%)
-          </span>
-        ) : null}
-      </>
-    );
-  }
+
   return (
     <>
       <span style={{ display: 'block' }}>
-        {benchmarkOutcome} than {benchmarkArea}
+        {benchmarkOutcome} {joiningWord} {benchmarkArea}
       </span>
       {benchmarkConfidenceLimit ? (
         <span style={{ display: 'block' }}>({benchmarkConfidenceLimit}%)</span>
