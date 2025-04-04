@@ -9,8 +9,7 @@ export default class BasePage {
   constructor(public readonly page: PlaywrightPage) {}
 
   async waitForURLToContain(containsURL: string) {
-    const containsURLToLowerCase = containsURL.toLowerCase();
-    await this.page.waitForURL(new RegExp(containsURLToLowerCase));
+    await this.page.waitForURL(new RegExp(containsURL, 'i'));
   }
 
   async waitForURLToContainBasedOnSearchMode(
