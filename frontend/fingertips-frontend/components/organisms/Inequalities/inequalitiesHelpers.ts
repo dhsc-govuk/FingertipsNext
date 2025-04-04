@@ -5,6 +5,7 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { chartColours, UniqueChartColours } from '@/lib/chartHelpers/colours';
 import {
+  AXIS_TITLE_FONT_SIZE,
   generateConfidenceIntervalSeries,
   getHealthDataWithoutInequalities,
   isEnglandSoleSelectedArea,
@@ -297,11 +298,16 @@ export function generateInequalitiesLineChartOptions(
       title: {
         text: `${optionalParams?.yAxisTitleText}${optionalParams?.measurementUnit ? ': ' + optionalParams?.measurementUnit : ''}`,
         margin: 20,
+        style: { fontSize: AXIS_TITLE_FONT_SIZE },
       },
     },
     xAxis: {
       ...lineChartDefaultOptions.xAxis,
-      title: { text: optionalParams?.xAxisTitleText, margin: 20 },
+      title: {
+        text: optionalParams?.xAxisTitleText,
+        margin: 20,
+        style: { fontSize: AXIS_TITLE_FONT_SIZE },
+      },
     },
     series: seriesData,
     tooltip: {
