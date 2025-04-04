@@ -11,6 +11,7 @@ import {
   StyledAlignCentreTableCell,
   StyledGroupCell,
   StyledBenchmarkCell,
+  StyledBenchmarkChart,
 } from './SpineChartTableStyles';
 import { SpineChart, SpineChartProps } from '../SpineChart';
 import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
@@ -80,14 +81,14 @@ export function SpineChartTableRow({
       <StyledBenchmarkCell data-testid={`benchmark-worst-cell`}>
         {formatNumber(benchmarkStatistics.worst)}
       </StyledBenchmarkCell>
-      <StyledBenchmarkCell data-testid={`benchmark-range`}>
+      <StyledBenchmarkChart data-testid={`benchmark-range`}>
         <SpineChart 
             best={benchmarkStatistics.best}
             bestQuartile={benchmarkStatistics.bestQuartile}
             worstQuartile={benchmarkStatistics.worstQuartile}
             worst={benchmarkStatistics.worst} 
         />
-      </StyledBenchmarkCell>
+      </StyledBenchmarkChart>
       <StyledBenchmarkCell data-testid={`benchmark-best-cell`}>
         {formatNumber(benchmarkStatistics.best)}
       </StyledBenchmarkCell>

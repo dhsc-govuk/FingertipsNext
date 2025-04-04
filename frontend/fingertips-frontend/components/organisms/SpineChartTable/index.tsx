@@ -1,6 +1,4 @@
 'use client';
-
-import { Table } from 'govuk-react';
 import {
   HealthDataForArea,
   Indicator,
@@ -14,7 +12,7 @@ import {
   SpineChartTableRow,
 } from './SpineChartTableRow';
 import { SpineChartProps } from '../SpineChart';
-import styled from 'styled-components';
+import { StyledDivTableContainer, StyledTable } from './SpineChartTableStyles';
 
 export interface SpineChartTableProps {
   rowData: SpineChartTableRowProps[];
@@ -28,16 +26,6 @@ export interface SpineChartTableRowProps {
   englandBenchmarkData: HealthDataForArea;
   benchmarkStatistics: SpineChartProps;
 }
-
-const StyledDivTableContainer = styled.div({
-  overflowX: 'scroll',
-});
-
-const StyledTable = styled(Table)({
-  display: 'block',
-  width: '100%',
-  tableLayout: 'fixed',
-});
 
 export const mapToSpineChartTableData = (
   tableData: SpineChartTableRowProps[]
@@ -88,5 +76,6 @@ export function SpineChartTable(dataTable: Readonly<SpineChartTableProps>) {
         ))}
       </StyledTable>
     </StyledDivTableContainer>
+
   );
 }

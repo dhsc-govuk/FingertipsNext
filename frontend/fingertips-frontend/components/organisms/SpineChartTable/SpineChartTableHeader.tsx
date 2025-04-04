@@ -50,7 +50,7 @@ export function SpineChartTableHeader({
         <StyledGroupHeader data-testid="group-header">
           {groupName}
         </StyledGroupHeader>
-        <StyledBenchmarkHeader colSpan={3} data-testid="england-header">
+        <StyledBenchmarkHeader colSpan={4} data-testid="england-header">
           Benchmark: England
         </StyledBenchmarkHeader>
       </Table.Row>

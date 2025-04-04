@@ -6,6 +6,17 @@ import {
   StyledAlignRightTableCell,
   StyledGreyHeader,
 } from '@/lib/tableHelpers';
+import { Table } from 'govuk-react';
+
+export const StyledTable = styled(Table)({
+  display: 'block',
+  width: '100%',
+  tableLayout: 'fixed',
+});
+
+export const StyledDivTableContainer = styled.div({
+  overflowX: 'scroll',
+});
 
 export const StyledAlignCentreHeader = styled(StyledAlignLeftHeader)({
   textAlign: 'center',
@@ -49,4 +60,8 @@ export const StyledBenchmarkCell = styled(StyledAlignRightTableCell)({
   backgroundColor: GovukColours.MidGrey,
   borderTop: GovukColours.LightGrey,
   textAlign: 'right',
+});
+
+export const StyledBenchmarkChart = styled(StyledBenchmarkCell)({
+  minWidth: 200
 });
