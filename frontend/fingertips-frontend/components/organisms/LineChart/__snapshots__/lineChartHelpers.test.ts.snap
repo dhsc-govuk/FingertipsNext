@@ -1,5 +1,94 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`generateStandardLineChartOptions should generate standard line chart options 1`] = `
+{
+  "accessibility": {
+    "description": "accessibility",
+    "enabled": false,
+  },
+  "chart": {
+    "height": "50%",
+    "spacingBottom": 50,
+    "spacingTop": 20,
+    "type": "line",
+  },
+  "credits": {
+    "enabled": false,
+  },
+  "legend": {
+    "align": "left",
+    "title": {
+      "text": "Areas",
+    },
+    "verticalAlign": "top",
+  },
+  "series": [
+    {
+      "color": "#F46A25",
+      "data": [
+        [
+          2004,
+          703.420759,
+        ],
+        [
+          2006,
+          278.29134,
+        ],
+      ],
+      "marker": {
+        "symbol": "arc",
+      },
+      "name": "North FooBar",
+      "type": "line",
+    },
+    {
+      "color": "#B1B4B6",
+      "data": [
+        [
+          2004,
+          441.69151,
+          578.32766,
+        ],
+        [
+          2006,
+          441.69151,
+          578.32766,
+        ],
+      ],
+      "lineWidth": 2,
+      "name": "North FooBar",
+      "type": "errorbar",
+      "visible": false,
+      "whiskerLength": "20%",
+    },
+  ],
+  "title": {
+    "style": {
+      "display": "none",
+    },
+  },
+  "tooltip": {
+    "formatter": [Function],
+  },
+  "xAxis": {
+    "allowDecimals": false,
+    "tickLength": 0,
+    "title": {
+      "margin": 20,
+      "text": "xAxis",
+    },
+  },
+  "yAxis": {
+    "minorTickInterval": "auto",
+    "minorTicksPerMajor": 2,
+    "title": {
+      "margin": 20,
+      "text": "yAxis",
+    },
+  },
+}
+`;
+
 exports[`generateStandardLineChartOptions should generate standard line chart options with benchmark data 1`] = `
 {
   "accessibility": {
@@ -104,7 +193,7 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
     },
   },
   "tooltip": {
-    "format": "<b>{point.series.name}</b><br/>Year: {point.x}<br/><br/><span style="color:{color}">●</span> Value {point.y}%",
+    "formatter": [Function],
   },
   "xAxis": {
     "allowDecimals": false,

@@ -13,6 +13,9 @@ import {
   StyledBenchmarkCell,
 } from './SpineChartTableStyles';
 import { SpineChartProps } from '../SpineChart';
+import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
+import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
+import { TrendTag } from '@/components/molecules/TrendTag';
 
 export interface SpineChartMissingData {
   value?: number;
@@ -23,6 +26,7 @@ export interface SpineChartTableRowData {
   indicator: string;
   unit: string;
   period: number;
+  trend: HealthDataPointTrendEnum;
   count?: number;
   value?: number;
   groupValue?: number;
@@ -33,13 +37,14 @@ export interface SpineChartTableRowData {
 export function SpineChartMissingValue({
   value,
 }: Readonly<SpineChartMissingData>) {
-  return <>{value ?? 'X'}</>;
+  return value ?? 'X';
 }
 
 export function SpineChartTableRow({
   indicator,
   unit,
   period,
+  trend,
   count,
   value,
   groupValue,
@@ -57,23 +62,26 @@ export function SpineChartTableRow({
       <StyledAlignCentreTableCell data-testid={`period-cell`}>
         {period}
       </StyledAlignCentreTableCell>
+      <StyledAlignCentreTableCell>
+        <TrendTag trendFromResponse={trend} />
+      </StyledAlignCentreTableCell>
       <StyledAlignCentreTableCell data-testid={`count-cell`}>
-        <SpineChartMissingValue value={count} />
+        {formatWholeNumber(count)}
       </StyledAlignCentreTableCell>
       <StyledAlignRightTableCell data-testid={`value-cell`}>
-        <SpineChartMissingValue value={value} />
+        {formatNumber(value)}
       </StyledAlignRightTableCell>
       <StyledGroupCell data-testid={`group-value-cell`}>
-        <SpineChartMissingValue value={groupValue} />
+        {formatNumber(groupValue)}
       </StyledGroupCell>
       <StyledBenchmarkCell data-testid={`benchmark-value-cell`}>
-        <SpineChartMissingValue value={benchmarkValue} />
+        {formatNumber(benchmarkValue)}
       </StyledBenchmarkCell>
       <StyledBenchmarkCell data-testid={`benchmark-worst-cell`}>
-        {benchmarkStatistics.worst}
+        {formatNumber(benchmarkStatistics.worst)}
       </StyledBenchmarkCell>
       <StyledBenchmarkCell data-testid={`benchmark-best-cell`}>
-        {benchmarkStatistics.best}
+        {formatNumber(benchmarkStatistics.best)}
       </StyledBenchmarkCell>
     </Table.Row>
   );

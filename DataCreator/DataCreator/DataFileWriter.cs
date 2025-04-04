@@ -8,15 +8,21 @@ namespace DataCreator
         private const string OutFilePath = @"..\..\..\data\out\";
 
         private static readonly CsvFileDescription csvFileDescription=new() {EnforceCsvColumnAttribute=true};
-
-        public static void WriteJsonData(string dataType, object data)
+        private static JsonSerializerOptions jsonSerializerOptions = new()
         {
-            var contents = JsonSerializer.Serialize(data,
-                new JsonSerializerOptions
-                {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                });
-            File.WriteAllText($@"..\..\..\..\..\trend-analysis\TrendAnalysisApp\SearchData\assets\{dataType}.json", contents);
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
+        public static void WriteIndicatorsJsonData(object data)
+        {
+            var contents = JsonSerializer.Serialize(data, jsonSerializerOptions);
+            File.WriteAllText($@"..\..\..\..\..\trend-analysis\TrendAnalysisApp\SearchData\assets\indicators.json", contents);
+            File.WriteAllText($@"..\..\..\..\..\search-setup\assets\indicators.json", contents);
+        }
+
+        public static void WriteAreasJsonData(object data)
+        {
+            var contents = JsonSerializer.Serialize(data, jsonSerializerOptions);
+            File.WriteAllText($@"..\..\..\..\..\search-setup\assets\areas.json", contents);
         }
 
         public static void WriteHealthCsvData(string fileName, IEnumerable<HealthMeasureEntity> data) => 

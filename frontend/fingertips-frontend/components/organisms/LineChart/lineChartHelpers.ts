@@ -7,10 +7,16 @@ import {
   sortHealthDataForAreaByDate,
   generateConfidenceIntervalSeries,
 } from '@/lib/chartHelpers/chartHelpers';
+import { formatNumber } from '@/lib/numberFormatter';
+import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 
 export enum LineChartVariant {
   Standard = 'standard',
   Inequalities = 'inequalities',
+}
+
+function tooltipFormatter(point: Highcharts.Point): string {
+  return `<b>${point.series.name}</b><br/>Year: ${point.x}<br/><br/><span style="color:${point.color}">${SymbolsEnum.Circle}</span> Value ${formatNumber(point.y)}`;
 }
 
 export const lineChartDefaultOptions: Highcharts.Options = {
@@ -36,8 +42,9 @@ export const lineChartDefaultOptions: Highcharts.Options = {
     enabled: false,
   },
   tooltip: {
-    format:
-      '<b>{point.series.name}</b><br/>Year: {point.x}<br/><br/><span style="color:{color}">\u25CF</span> Value {point.y}',
+    formatter: function (this: Highcharts.Point): string {
+      return tooltipFormatter(this);
+    },
   },
 };
 
@@ -180,9 +187,9 @@ export function generateStandardLineChartOptions(
     },
     series: seriesData,
     tooltip: {
-      format:
-        lineChartDefaultOptions.tooltip?.format +
-        `${optionalParams?.measurementUnit}`,
+      formatter: function (this: Highcharts.Point): string {
+        return tooltipFormatter(this) + `${optionalParams?.measurementUnit}`;
+      },
     },
     accessibility: {
       ...lineChartDefaultOptions.accessibility,

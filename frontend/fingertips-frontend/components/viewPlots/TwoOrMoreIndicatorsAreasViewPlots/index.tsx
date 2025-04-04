@@ -1,8 +1,9 @@
 'use client';
 
 import { TwoOrMoreIndicatorsViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
-import { Heatmap, HeatmapIndicatorData } from '@/components/organisms/Heatmap';
+import { Heatmap } from '@/components/organisms/Heatmap';
 import {
+  BenchmarkComparisonMethod,
   HealthDataForArea,
   Indicator,
   IndicatorPolarity,
@@ -18,6 +19,7 @@ import {
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { SpineChartProps } from '@/components/organisms/SpineChart';
 import { extractingCombinedHealthData } from '@/lib/chartHelpers/extractingCombinedHealthData';
+import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmapUtil';
 
 export function mapToSpineChartTableIndicator(
   indicatorMetadata: IndicatorDocument | undefined
@@ -99,6 +101,25 @@ export function mapToSpineChartTableProps(
   return { rowData: tableData };
 }
 
+export function extractHeatmapIndicatorData(
+  indicatorData: IndicatorWithHealthDataForArea,
+  metadata: IndicatorDocument
+): HeatmapIndicatorData | undefined {
+  if (!indicatorData.areaHealthData) {
+    return undefined;
+  }
+
+  return {
+    indicatorId: metadata.indicatorID,
+    indicatorName: metadata.indicatorName,
+    healthDataForAreas: indicatorData.areaHealthData,
+    unitLabel: metadata.unitLabel,
+    benchmarkMethod:
+      indicatorData.benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
+    polarity: indicatorData.polarity ?? IndicatorPolarity.Unknown,
+  };
+}
+
 export function TwoOrMoreIndicatorsAreasViewPlot({
   searchState,
   indicatorData,
@@ -116,17 +137,22 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
   }
 
   const buildHeatmapIndicatorData = (
-    indicatorData: IndicatorWithHealthDataForArea[],
+    allIndicatorData: IndicatorWithHealthDataForArea[],
     indicatorMetadata: IndicatorDocument[]
   ): HeatmapIndicatorData[] => {
-    return indicatorMetadata.map((metadata, index): HeatmapIndicatorData => {
-      return {
-        indicatorId: metadata.indicatorID,
-        indicatorName: metadata.indicatorName,
-        healthDataForAreas: indicatorData[index].areaHealthData ?? [],
-        unitLabel: metadata.unitLabel,
-      };
-    });
+    return allIndicatorData
+      .map((indicatorData) => {
+        const metadata = indicatorMetadata.find((metadata) => {
+          return metadata.indicatorID === indicatorData.indicatorId?.toString();
+        });
+
+        if (!metadata) return undefined;
+
+        return extractHeatmapIndicatorData(indicatorData, metadata);
+      })
+      .filter((data) => {
+        return data !== undefined;
+      });
   };
 
   const groupAreaCode = selectedGroupCode ?? undefined;
@@ -136,7 +162,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     indicatorMetadata: IndicatorDocument[],
     areasSelected: string[],
     selectedGroupCode: string | undefined
-  ) => {
+  ): SpineChartTableRowProps[] => {
     const {
       orderedHealthData,
       orderedGroupData,

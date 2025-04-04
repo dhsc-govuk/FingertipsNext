@@ -9,7 +9,10 @@ import {
   barChartDefaultOptions,
   getPlotline,
 } from '@/components/molecules/Inequalities/BarChart/barChartHelpers';
-import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
+import {
+  pointFormatterHelper,
+  SymbolNames,
+} from '@/lib/chartHelpers/pointFormatterHelper';
 import { BenchmarkLegend } from '@/components/organisms/BenchmarkLegend';
 import { ConfidenceIntervalCheckbox } from '../../ConfidenceIntervalCheckbox';
 import { useEffect, useState } from 'react';
@@ -23,6 +26,7 @@ import {
   BenchmarkOutcome,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
+import { formatNumber } from '@/lib/numberFormatter';
 
 interface InequalitiesBarChartProps {
   barChartData: InequalitiesBarChartData;
@@ -41,13 +45,13 @@ const mapToXAxisTitle: Record<InequalitiesTypes, string> = {
 const getMaxValue = (values: (number | undefined)[]) =>
   Math.max(...values.filter((number) => number !== undefined));
 
-const generateInequalitiesBarChartTooltipList = (
+const generateInequalitiesBarChartTooltipForPoint = (
   point: Highcharts.Point,
   symbol: string
 ) => [
   `<div style="display: flex; margin-top: 7px; align-items: center;"><div style="margin-right: 10px;">
   <span style="color: ${point.color}; font-weight: bold;">${symbol}</span></div>`,
-  `<div><span>${point.category}</br>Value: ${point.y}`,
+  `<div><span>${point.category}</br>Value: ${formatNumber(point.y)}`,
 ];
 
 export function InequalitiesBarChart({
@@ -87,11 +91,18 @@ export function InequalitiesBarChart({
           inequalities[field]?.benchmarkComparison?.outcome as BenchmarkOutcome,
           polarity
         );
-        return {
+        const point: Highcharts.PointOptionsObject = {
           name: field,
           y: inequalities[field]?.value,
           color,
         };
+        if (color) return point;
+
+        // we can't have a high chart default color here
+        point.color = '#fff';
+        point.borderColor = '#000';
+        point.borderWidth = 1;
+        return point;
       }),
     },
     generateConfidenceIntervalSeries(
@@ -152,7 +163,7 @@ export function InequalitiesBarChart({
               const point = {
                 series: series,
                 color: 'black',
-                graphic: { symbolName: 'plot-line' },
+                graphic: { symbolName: SymbolNames.PlotLine },
                 category: 'Persons',
                 x: 'PlotLine',
                 y: plotlineOptions.value,
@@ -188,15 +199,17 @@ export function InequalitiesBarChart({
       useHTML: true,
       pointFormatter: function (this: Highcharts.Point) {
         return (
-          pointFormatterHelper(this, generateInequalitiesBarChartTooltipList) +
-          `${measurementUnit ? ' ' + measurementUnit : ''}`
+          pointFormatterHelper(
+            this,
+            generateInequalitiesBarChartTooltipForPoint
+          ) + `${measurementUnit ? ' ' + measurementUnit : ''}`
         );
       },
     },
   };
 
   useEffect(() => {
-    loadHighchartsModules(() => {
+    void loadHighchartsModules(() => {
       setOptions(barChartOptions);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
