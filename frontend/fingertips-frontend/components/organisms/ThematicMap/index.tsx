@@ -41,7 +41,6 @@ export function ThematicMap({
 }: Readonly<ThematicMapProps>) {
   const { getSearchState } = useSearchState();
   const { [SearchParams.AreaTypeSelected]: areaType } = getSearchState();
-  const benchmarkArea = benchmarkIndicatorData?.areaName ?? 'England';
 
   const [options, setOptions] = useState<Highcharts.Options>();
   // useEffect and async loading of map module to address issue with Highcharts 12 with Next 15.
@@ -86,10 +85,8 @@ export function ThematicMap({
             style={{ display: 'none' }}
           >
             <BenchmarkTooltip
-              indicatorDataForArea={indicatorDataForArea}
+              indicatorData={indicatorDataForArea}
               benchmarkComparisonMethod={benchmarkComparisonMethod}
-              polarity={polarity}
-              benchmarkArea={benchmarkArea}
               measurementUnit={measurementUnit}
               indicatorDataForBenchmark={benchmarkIndicatorData}
               indicatorDataForGroup={groupIndicatorData}

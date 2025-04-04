@@ -6,21 +6,17 @@ import {
 } from '@/generated-sources/ft-api-client';
 
 interface BenchmarkTooltipProps {
-  indicatorDataForArea: HealthDataForArea;
+  indicatorData: HealthDataForArea;
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
-  polarity: IndicatorPolarity;
   measurementUnit: string | undefined;
-  benchmarkArea: string;
   indicatorDataForBenchmark?: HealthDataForArea;
   indicatorDataForGroup?: HealthDataForArea;
 }
 
 export function BenchmarkTooltip({
-  indicatorDataForArea,
+  indicatorData,
   benchmarkComparisonMethod,
-  polarity,
   measurementUnit,
-  benchmarkArea,
   indicatorDataForBenchmark,
   indicatorDataForGroup,
 }: Readonly<BenchmarkTooltipProps>) {
@@ -28,28 +24,25 @@ export function BenchmarkTooltip({
     <>
       {indicatorDataForBenchmark ? (
         <BenchmarkTooltipArea
-          indicatorDataForArea={indicatorDataForBenchmark}
+          indicatorData={indicatorDataForBenchmark}
           benchmarkComparisonMethod={benchmarkComparisonMethod}
-          polarity={polarity}
           measurementUnit={measurementUnit}
-          benchmarkArea={benchmarkArea}
+          tooltipType={'benchmark'}
         />
       ) : null}
       {indicatorDataForGroup ? (
         <BenchmarkTooltipArea
-          indicatorDataForArea={indicatorDataForGroup}
+          indicatorData={indicatorDataForGroup}
           benchmarkComparisonMethod={benchmarkComparisonMethod}
-          polarity={polarity}
           measurementUnit={measurementUnit}
-          benchmarkArea={benchmarkArea}
+          tooltipType={'group'}
         />
       ) : null}
       <BenchmarkTooltipArea
-        indicatorDataForArea={indicatorDataForArea}
+        indicatorData={indicatorData}
         benchmarkComparisonMethod={benchmarkComparisonMethod}
-        polarity={polarity}
         measurementUnit={measurementUnit}
-        benchmarkArea={benchmarkArea}
+        tooltipType={'area'}
       />
     </>
   );

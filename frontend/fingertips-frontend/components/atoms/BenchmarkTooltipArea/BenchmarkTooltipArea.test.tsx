@@ -99,11 +99,10 @@ describe('BenchmarkTooltipArea', () => {
 
       render(
         <BenchmarkTooltipArea
-          indicatorDataForArea={testIndicatorDataForArea}
+          indicatorData={testIndicatorDataForArea}
           benchmarkComparisonMethod={testBenchmarkComparisonMethod}
-          polarity={testPolarity}
           measurementUnit={mockUnits}
-          benchmarkArea={mockBenchmarkArea}
+          tooltipType={'area'}
         />
       );
 
@@ -177,11 +176,10 @@ describe('BenchmarkTooltipArea', () => {
 
       render(
         <BenchmarkTooltipArea
-          indicatorDataForArea={testIndicatorDataForArea}
+          indicatorData={testIndicatorDataForArea}
           benchmarkComparisonMethod={testBenchmarkComparisonMethod}
-          polarity={testPolarity}
           measurementUnit={mockUnits}
-          benchmarkArea={mockBenchmarkArea}
+          tooltipType={'area'}
         />
       );
 

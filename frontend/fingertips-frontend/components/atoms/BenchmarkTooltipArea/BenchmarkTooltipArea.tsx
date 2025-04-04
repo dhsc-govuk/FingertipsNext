@@ -11,37 +11,21 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 import { formatNumber } from '@/lib/numberFormatter';
-// import { symbolEncoder } from '@/lib/chartHelpers/pointFormatterHelper';
 
-type IndicatorDataForTooltip =
-  | { indicatorDataForArea: HealthDataForArea }
-  | { indicatorDataForBenchmark: HealthDataForArea }
-  | { indicatorDataForGroup: HealthDataForArea };
-
-// interface BenchmarkTooltipArea {
-//   indicatorDataForTooltip: indicatorDataForTooltip;
-//   benchmarkComparisonMethod: BenchmarkComparisonMethod;
-//   polarity: IndicatorPolarity;
-//   measurementUnit: string | undefined;
-//   benchmarkArea: string;
-// }
+type TooltipType = 'area' | 'benchmark' | 'group';
 
 interface BenchmarkTooltipArea {
-  indicatorDataForArea: HealthDataForArea;
+  indicatorData: HealthDataForArea;
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
-  polarity: IndicatorPolarity;
   measurementUnit: string | undefined;
-  benchmarkArea: string;
-  indicatorDataForBenchmark?: HealthDataForArea;
-  indicatorDataForGroup?: HealthDataForArea;
+  tooltipType: TooltipType;
 }
 
 export function BenchmarkTooltipArea({
-  indicatorDataForArea,
+  indicatorData: indicatorDataForArea,
   benchmarkComparisonMethod,
-  polarity,
   measurementUnit,
-  benchmarkArea,
+  tooltipType,
 }: Readonly<BenchmarkTooltipArea>) {
   const areaMarkerSymbol =
     indicatorDataForArea.healthData[0].benchmarkComparison?.outcome ===
@@ -51,18 +35,27 @@ export function BenchmarkTooltipArea({
 
   const indicatorDataForAreaForMostRecentYear =
     getIndicatorDataForAreasForMostRecentYearOnly([indicatorDataForArea]);
+  const polarity =
+    indicatorDataForAreaForMostRecentYear[0].healthData[0].benchmarkComparison
+      ?.indicatorPolarity ?? IndicatorPolarity.Unknown;
+  const benchmarkArea =
+    indicatorDataForAreaForMostRecentYear[0].healthData[0].benchmarkComparison
+      ?.benchmarkAreaName ?? 'England';
+  const benchmarkOutcome =
+    indicatorDataForAreaForMostRecentYear[0].healthData[0].benchmarkComparison
+      ?.outcome;
 
+  // TODO: check quintile colour for benchmark
   const benchmarkColour = getBenchmarkColour(
     benchmarkComparisonMethod,
-    indicatorDataForAreaForMostRecentYear[0].healthData[0].benchmarkComparison
-      ?.outcome ?? BenchmarkOutcome.NotCompared,
+    benchmarkOutcome ?? BenchmarkOutcome.NotCompared,
     polarity
   );
 
   return (
     <div>
       <div>
-        <b>{indicatorDataForArea.areaName}</b>
+        <b>{getAreaTitle(indicatorDataForArea.areaName, tooltipType)}</b>
         <p>{indicatorDataForArea.healthData[0].year}</p>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.25em' }}>
           <div
@@ -82,12 +75,14 @@ export function BenchmarkTooltipArea({
               )}{' '}
               {measurementUnit}
             </span>
-            {getComparisionText(
-              benchmarkArea,
-              benchmarkComparisonMethod,
-              indicatorDataForAreaForMostRecentYear[0].healthData[0]
-                .benchmarkComparison?.outcome
-            )}
+            {tooltipType !== 'benchmark'
+              ? getComparisionText(
+                  benchmarkArea,
+                  benchmarkComparisonMethod,
+                  indicatorDataForAreaForMostRecentYear[0].healthData[0]
+                    .benchmarkComparison?.outcome
+                )
+              : null}
           </div>
         </div>
       </div>
@@ -134,4 +129,16 @@ function getComparisionText(
       ) : null}
     </>
   );
+}
+
+function getAreaTitle(areaName: string, tooltipType: TooltipType) {
+  switch (tooltipType) {
+    case 'benchmark':
+      return `Benchmark: ${areaName}`;
+    case 'group':
+      return `Group: ${areaName}`;
+
+    default:
+      return areaName;
+  }
 }
