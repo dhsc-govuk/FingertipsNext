@@ -10,7 +10,7 @@ Object.defineProperty(window, 'innerHeight', {
 const rows = Array.from({ length: 100 }, (_, i) => `Row ${i + 1}`);
 
 const TestComponent = ({ incrementRowCount = 10 }) => {
-  const { rowsToShow, triggerRef } = useMoreRowsWhenScrolling(
+  const { rowsToShow, triggerRef, hasMore } = useMoreRowsWhenScrolling(
     rows,
     incrementRowCount
   );
@@ -23,7 +23,7 @@ const TestComponent = ({ incrementRowCount = 10 }) => {
         </div>
       ))}
       <div data-testid="trigger" ref={triggerRef}>
-        Trigger
+        {hasMore ? 'Loading...' : 'ALL SHOWING'}
       </div>
     </>
   );
@@ -61,12 +61,14 @@ describe('useMoreRowsWhenScrolling', () => {
   });
 
   it('adds rows when trigger is visible in viewport on initial render', async () => {
+    // starts with 10
     act(() => {
       render(<TestComponent incrementRowCount={10} />);
     });
 
     expect(intervalSpy).toHaveBeenCalledWith(expect.any(Function), 100);
 
+    // as trigger is visible immediated add another 10
     const renderedRows = screen.getAllByRole('row');
     expect(renderedRows).toHaveLength(20);
   });
@@ -118,7 +120,15 @@ describe('useMoreRowsWhenScrolling', () => {
     act(() => {
       timerFunc(); // 60 rows
       timerFunc(); // 80 rows
+    });
+
+    expect(screen.getByText('Loading...')).toBeInTheDocument();
+    act(() => {
       timerFunc(); // 100 rows
+    });
+    expect(screen.getByText('ALL SHOWING')).toBeInTheDocument();
+
+    act(() => {
       timerFunc(); // 100 rows - no difference
       timerFunc(); // 100 rows - no difference
     });
