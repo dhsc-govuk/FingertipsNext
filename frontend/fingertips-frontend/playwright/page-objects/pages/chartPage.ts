@@ -86,9 +86,10 @@ export default class ChartPage extends AreaFilter {
       `chart components: ${hiddenComponents.map((component) => component.componentLocator).join(', ')} are not displayed. Also checking the visible components via screenshot snapshot testing.`
     );
     // click the hide filters pane before asserting visibility and taking screenshots
-    await this.clickAndAwaitLoadingComplete(
+    await this.clickAndWaitForLoadState(
       this.page.getByTestId('area-filter-pane-hidefilters')
     );
+
     // Check that components expected to be visible are displayed
     for (const visibleComponent of visibleComponents) {
       console.log(
