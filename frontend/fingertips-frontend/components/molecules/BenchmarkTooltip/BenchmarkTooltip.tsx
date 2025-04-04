@@ -20,7 +20,7 @@ export function BenchmarkTooltip({
   indicatorDataForGroup,
 }: Readonly<BenchmarkTooltipProps>) {
   return (
-    <>
+    <div style={{ width: 185, fontSize: '16px' }}>
       {indicatorDataForBenchmark ? (
         <BenchmarkTooltipArea
           indicatorData={indicatorDataForBenchmark}
@@ -43,6 +43,6 @@ export function BenchmarkTooltip({
         measurementUnit={measurementUnit}
         tooltipType={'area'}
       />
-    </>
+    </div>
   );
 }

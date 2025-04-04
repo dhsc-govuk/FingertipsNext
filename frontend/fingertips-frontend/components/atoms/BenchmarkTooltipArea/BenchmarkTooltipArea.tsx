@@ -53,37 +53,47 @@ export function BenchmarkTooltipArea({
   );
 
   return (
-    <div>
-      <div>
+    <div style={{ marginBlock: '10px' }}>
+      <div style={{ textWrap: 'wrap' }}>
         <b>{getAreaTitle(indicatorDataForArea.areaName, tooltipType)}</b>
-        <p>{indicatorDataForArea.healthData[0].year}</p>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.25em' }}>
-          <div
-            style={{
-              color: benchmarkColour,
-              display: 'flex',
-              gap: '0.25em',
-              fontSize: 'large',
-            }}
-          >
-            {areaMarkerSymbol}
-          </div>
-          <div>
-            <span style={{ display: 'block' }}>
-              {formatNumber(
-                indicatorDataForAreaForMostRecentYear[0].healthData[0].value
-              )}{' '}
-              {measurementUnit}
-            </span>
-            {tooltipType !== 'benchmark'
-              ? getComparisionText(
-                  benchmarkArea,
-                  benchmarkComparisonMethod,
-                  indicatorDataForAreaForMostRecentYear[0].healthData[0]
-                    .benchmarkComparison?.outcome
-                )
-              : null}
-          </div>
+        <p style={{ marginBlock: 0 }}>
+          {indicatorDataForArea.healthData[0].year}
+        </p>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.5em',
+        }}
+      >
+        <div
+          style={{
+            color: benchmarkColour,
+            display: 'flex',
+            marginLeft: '5px',
+            gap: '0.5em',
+            fontSize: '24pt',
+          }}
+        >
+          {areaMarkerSymbol}
+        </div>
+
+        <div style={{ marginTop: '5px' }}>
+          <span style={{ display: 'block' }}>
+            {formatNumber(
+              indicatorDataForAreaForMostRecentYear[0].healthData[0].value
+            )}{' '}
+            {measurementUnit}
+          </span>
+          {tooltipType !== 'benchmark'
+            ? getComparisionText(
+                benchmarkArea,
+                benchmarkComparisonMethod,
+                indicatorDataForAreaForMostRecentYear[0].healthData[0]
+                  .benchmarkComparison?.outcome
+              )
+            : null}
         </div>
       </div>
     </div>
