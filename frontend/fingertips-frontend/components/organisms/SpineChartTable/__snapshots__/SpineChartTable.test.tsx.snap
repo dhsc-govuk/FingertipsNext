@@ -464,7 +464,7 @@ exports[`Spine chart table suite Spine chart table snapshot test - should match 
             class="c13 c14 c15"
             data-testid="unit-cell"
           >
-            per 1000
+            per 1,000
           </td>
           <td
             class="c13 c14 c15 c16"
