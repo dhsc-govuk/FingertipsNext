@@ -97,7 +97,9 @@ export const PopulationDataTable = ({
     healthDataForArea.maleSeries,
     healthDataForArea.femaleSeries
   );
-
+  const filterFooterRowItems = filterValues
+    ? filterValues(footerRowItems)
+    : footerRowItems;
   return (
     <section>
       <StyledAreaTitleHeader>{title}</StyledAreaTitleHeader>
@@ -133,22 +135,17 @@ export const PopulationDataTable = ({
           );
         })}
 
-        {(() => {
-          const items = filterValues
-            ? filterValues(footerRowItems)
-            : footerRowItems;
-          return (
-            <Table.Row key={`footer-${healthDataForArea.areaName}`}>
-              {items.map((value, valueIndex: number) => (
-                <StyledAreaNameHeader
-                  key={`footer-${healthDataForArea.areaName}-${valueIndex}`}
-                >
-                  {valueFormatter(value)}
-                </StyledAreaNameHeader>
-              ))}
-            </Table.Row>
-          );
-        })()}
+        {
+          <Table.Row key={`footer-${healthDataForArea.areaName}`}>
+            {filterFooterRowItems.map((value, valueIndex: number) => (
+              <StyledAreaNameHeader
+                key={`footer-${healthDataForArea.areaName}-${valueIndex}`}
+              >
+                {valueFormatter(value)}
+              </StyledAreaNameHeader>
+            ))}
+          </Table.Row>
+        }
       </Table>
     </section>
   );
