@@ -293,9 +293,11 @@ exports[`snapshot test 1`] = `
 }
 
 .c2 {
+  display: block;
+  margin: 4px 0 0 0;
   font-family: nta,Arial,sans-serif;
   font-weight: 300;
-  font-size: 0.842em;
+  font-size: 16px;
 }
 
 .c0 {
@@ -306,9 +308,10 @@ exports[`snapshot test 1`] = `
   -webkit-align-self: stretch;
   -ms-flex-item-align: stretch;
   align-self: stretch;
-  margin: 1em 0.1em 0.1em 0;
+  margin: 16px 0 8px 0;
   font-family: nta,Arial,sans-serif;
   font-weight: 300;
+  font-size: 19px;
 }
 
 @media print {
@@ -444,11 +447,11 @@ exports[`snapshot test 1`] = `
         Higher
       </strong>
     </div>
-    <h4
-      class="c1"
+    <span
+      class="c2"
     >
       Quintiles
-    </h4>
+    </span>
     <div
       class="c3"
     >
@@ -478,6 +481,11 @@ exports[`snapshot test 1`] = `
         Highest
       </strong>
     </div>
+    <span
+      class="c2"
+    >
+      Quintiles
+    </span>
     <div
       class="c3"
     >
