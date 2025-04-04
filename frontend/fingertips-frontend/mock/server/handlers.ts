@@ -179,8 +179,12 @@ export function getGetArea200Response(
 }
 
 export function getGetAreas200Response(areaCodes: string[]): Area[] {
-  const mockDataForAreas = areaCodes.map((areaCode) => {
-    return mockAreaData[areaCode] as Area;
+  const mockDataForAreas: Area[] = [];
+
+  areaCodes.forEach((areaCode) => {
+    if (mockAreaData[areaCode]) {
+      mockDataForAreas.push(mockAreaData[areaCode] as Area);
+    }
   });
 
   return mockDataForAreas;

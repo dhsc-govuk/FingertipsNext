@@ -1,5 +1,5 @@
 import { mockDeep } from 'jest-mock-extended';
-import { AreaTypeKeys, nhsRegionsAreaType } from './areaType';
+import { AreaTypeKeys, englandAreaType, nhsRegionsAreaType } from './areaType';
 import { getSelectedAreasDataByAreaType } from './getSelectedAreasData';
 import { Area, AreasApi } from '@/generated-sources/ft-api-client';
 import {
@@ -84,5 +84,34 @@ describe('getSelectedAreasDataByAreaType', () => {
       API_CACHE_CONFIG
     );
     expect(selectedAreasData).toEqual([area1, area2]);
+  });
+
+  it('should throw an error if no areaData is found for any of the areaSelected', async () => {
+    mockAreasApi.getAreas.mockResolvedValue([]);
+
+    await expect(
+      async () => await getSelectedAreasDataByAreaType(['A001', 'A002'])
+    ).rejects.toThrow('No area data found for any of the areas selected');
+  });
+
+  it('should return the selectedAreaData of the areas that were found', async () => {
+    const area1 = generateMockArea('A001', 'nhs-regions');
+    mockAreasApi.getAreas.mockResolvedValue([area1]);
+
+    const selectedAreaData = await getSelectedAreasDataByAreaType(
+      ['A001', 'A002'],
+      'nhs-regions'
+    );
+
+    expect(selectedAreaData).toEqual([area1]);
+  });
+
+  it('should default to filtering by england areaType when areaTypeSelected in not provided', async () => {
+    const area1 = generateMockArea('A001', englandAreaType.key as AreaTypeKeys);
+    mockAreasApi.getAreas.mockResolvedValue([area1]);
+
+    const selectedAreaData = await getSelectedAreasDataByAreaType(['A001']);
+
+    expect(selectedAreaData).toEqual([area1]);
   });
 });

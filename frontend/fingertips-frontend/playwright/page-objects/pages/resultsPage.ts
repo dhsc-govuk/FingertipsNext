@@ -8,6 +8,10 @@ import {
 } from '@/playwright/testHelpers';
 import AreaFilter from '../components/areaFilter';
 import { RawIndicatorDocument } from '@/lib/search/searchTypes';
+import {
+  AreaTypeKeys,
+  englandAreaType,
+} from '@/lib/areaFilterHelpers/areaType';
 
 export default class ResultsPage extends AreaFilter {
   readonly resultsText = 'Search results';
@@ -34,7 +38,8 @@ export default class ResultsPage extends AreaFilter {
 
   async navigateToResults(
     searchIndicator: string,
-    selectedAreaCodes: string[]
+    selectedAreaCodes: string[],
+    selectedAreaType?: AreaTypeKeys
   ) {
     const asQuery = selectedAreaCodes.reduce(
       (accumulator, currentValue) =>
@@ -42,8 +47,12 @@ export default class ResultsPage extends AreaFilter {
       ''
     );
 
+    const determineAreaTypeSelected = selectedAreaType
+      ? selectedAreaType
+      : englandAreaType.key;
+
     await this.page.goto(
-      `results?${SearchParams.SearchedIndicator}=${searchIndicator}${asQuery}`
+      `results?${SearchParams.SearchedIndicator}=${searchIndicator}&${SearchParams.AreaTypeSelected}=${determineAreaTypeSelected}${asQuery}`
     );
   }
 
