@@ -19,7 +19,7 @@ jest.mock('next/navigation', () => {
   return {
     ...originalModule,
     usePathname: () => mockPath,
-    useSearchParams: () => {},
+    useSearchParams: () => { },
     useRouter: jest.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
@@ -97,7 +97,7 @@ describe('PopulationPyramidWithTable', () => {
 
   test('renders component with default title', () => {
     setupUI(mockHealthDataForArea);
-    expect(screen.getByText('Related Population Data')).toBeInTheDocument();
+    expect(screen.getByText('Related population data')).toBeInTheDocument();
   });
 
   test('renders tabs correctly', () => {
