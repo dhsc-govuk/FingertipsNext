@@ -8,6 +8,10 @@ import { HighlightText } from '@/components/atoms/HighlightText';
 import { FOCUSABLE } from '@govuk-react/constants';
 import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
+import {
+  allAreaTypes,
+  englandAreaType,
+} from '@/lib/areaFilterHelpers/areaType';
 
 const StyleSearchSuggestionPanel = styled(UnorderedList)`
   display: flex;
@@ -63,18 +67,28 @@ export const AreaAutoCompleteSuggestionPanel = ({
   const pathname = usePathname();
   const router = useRouter();
 
-  const updateUrlWithSelectedArea = (selectedAreaCode: string | undefined) => {
+  const updateUrlWithSelectedArea = (
+    selectedAreaCode: string | undefined,
+    areaTypeSelected: string
+  ) => {
     setIsLoading(true);
+
+    const selectedAreaTypeKey =
+      allAreaTypes.find((areaType) => areaType.name === areaTypeSelected)
+        ?.key ?? englandAreaType.key;
 
     if (!selectedAreaCode) {
       stateManager.removeAllParamFromState(SearchParams.AreasSelected);
     } else {
-      stateManager.removeParamValueFromState(SearchParams.AreaTypeSelected);
       stateManager.removeParamValueFromState(SearchParams.GroupTypeSelected);
       stateManager.removeParamValueFromState(SearchParams.GroupSelected);
       stateManager.addParamValueToState(
         SearchParams.AreasSelected,
         selectedAreaCode
+      );
+      stateManager.addParamValueToState(
+        SearchParams.AreaTypeSelected,
+        selectedAreaTypeKey
       );
     }
     router.replace(stateManager.generatePath(pathname), { scroll: false });
@@ -96,7 +110,7 @@ export const AreaAutoCompleteSuggestionPanel = ({
             data-testid={`area-suggestion-item-${area.areaCode}`}
             onClick={(e) => {
               e.preventDefault();
-              updateUrlWithSelectedArea(area.areaCode);
+              updateUrlWithSelectedArea(area.areaCode, area.areaType);
             }}
           >
             <SearchIcon
