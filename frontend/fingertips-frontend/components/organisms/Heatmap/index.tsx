@@ -4,26 +4,13 @@ import {
   extractSortedAreasIndicatorsAndDataPoints,
   generateHeaders,
   generateRows,
+  HeatmapIndicatorData,
 } from './heatmapUtil';
 import { SectionBreak, Table } from 'govuk-react';
 import styled from 'styled-components';
-import {
-  BenchmarkComparisonMethod,
-  HealthDataForArea,
-  IndicatorPolarity,
-} from '@/generated-sources/ft-api-client';
 import { HeatmapHeader } from './heatmapHeader';
 import { HeatmapCell } from './heatmapCell';
 import { BenchmarkLegend } from '../BenchmarkLegend';
-
-export interface HeatmapIndicatorData {
-  indicatorId: string;
-  indicatorName: string;
-  healthDataForAreas: HealthDataForArea[];
-  unitLabel: string;
-  benchmarkMethod?: BenchmarkComparisonMethod;
-  polarity?: IndicatorPolarity;
-}
 
 export interface HeatmapProps {
   indicatorData: HeatmapIndicatorData[];
@@ -59,7 +46,7 @@ export function Heatmap({
   const rows = generateRows(areas, indicators, dataPoints);
 
   return (
-    <StyledDivHeatmapContainer>
+    <>
       <BenchmarkLegend />
       <StyledDivTableContainer>
         <StyledTable data-testid="heatmapChart-component">
@@ -84,7 +71,6 @@ export function Heatmap({
                       cellType={cell.type}
                       content={cell.content}
                       backgroundColour={cell.backgroundColour}
-                      hoverProps={cell.hoverProps}
                     />
                   );
                 })}
@@ -92,8 +78,7 @@ export function Heatmap({
             );
           })}
         </StyledTable>
-        <SectionBreak />
       </StyledDivTableContainer>
-    </StyledDivHeatmapContainer>
+    </>
   );
 }

@@ -1,11 +1,14 @@
 'use client';
 
 import { TwoOrMoreIndicatorsViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
-import { Heatmap, HeatmapIndicatorData } from '@/components/organisms/Heatmap';
+import { Heatmap } from '@/components/organisms/Heatmap';
 import {
+  BenchmarkComparisonMethod,
   HealthDataForArea,
   Indicator,
+  IndicatorPolarity,
   IndicatorWithHealthDataForArea,
+  QuartileData,
 } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
@@ -13,50 +16,83 @@ import {
   SpineChartTableRowProps,
   SpineChartTable,
 } from '@/components/organisms/SpineChartTable';
-import { extractingCombinedHealthData } from '@/lib/chartHelpers/extractHealthDataForArea';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { SpineChartProps } from '@/components/organisms/SpineChart';
+import { extractingCombinedHealthData } from '@/lib/chartHelpers/extractingCombinedHealthData';
+import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmapUtil';
+
+export function mapToSpineChartTableIndicator(
+  indicatorMetadata: IndicatorDocument | undefined
+): Indicator {
+  const metadata = indicatorMetadata;
+
+  const rowIndicatorId: number = Number(metadata?.indicatorID ?? 0);
+
+  const rowTitle: string = metadata?.indicatorName ?? '';
+
+  const rowIndicatorDefinition: string = metadata?.indicatorDefinition ?? '';
+
+  const rowIndicator: Indicator = {
+    indicatorId: rowIndicatorId,
+    title: rowTitle,
+    definition: rowIndicatorDefinition,
+  };
+
+  return rowIndicator;
+}
+
+export function mapToSpineChartTableStatistics(
+  quartileData: QuartileData
+): SpineChartProps {
+  const q0Value = quartileData.q0Value ?? 0;
+  const q1Value = quartileData.q1Value ?? 0;
+  const q3Value = quartileData.q3Value ?? 0;
+  const q4Value = quartileData.q4Value ?? 0;
+
+  switch (quartileData.polarity) {
+    case IndicatorPolarity.LowIsGood:
+      return {
+        best: q0Value,
+        bestQuartile: q1Value,
+        worstQuartile: q3Value,
+        worst: q4Value,
+      };
+    case IndicatorPolarity.Unknown:
+    case IndicatorPolarity.NoJudgement:
+    case IndicatorPolarity.HighIsGood:
+    default:
+      return {
+        best: q4Value,
+        bestQuartile: q3Value,
+        worstQuartile: q1Value,
+        worst: q0Value,
+      };
+  }
+}
 
 export function mapToSpineChartTableProps(
   healthIndicatorData: HealthDataForArea[],
   groupIndicatorData: HealthDataForArea[],
   englandIndicatorData: HealthDataForArea[],
-  indicatorMetadata: (IndicatorDocument | undefined)[]
+  indicatorMetadata: (IndicatorDocument | undefined)[],
+  quartileData: QuartileData[]
 ): SpineChartTableProps {
   const numberOfIndicators = healthIndicatorData.length;
   const tableData: SpineChartTableRowProps[] = new Array(numberOfIndicators);
 
   healthIndicatorData.forEach((indicatorData, index) => {
-    const metadata = indicatorMetadata[index];
-
-    const rowIndicatorId: number = metadata?.indicatorID
-      ? Number(metadata?.indicatorID)
-      : 0;
-
-    const rowTitle: string = metadata?.indicatorName ?? '';
-
-    const rowIndicatorDefinition: string =
-      metadata?.indicatorDefinition !== undefined
-        ? metadata?.indicatorDefinition
+    const rowMeasurementUnit: string =
+      indicatorMetadata[index] !== undefined
+        ? indicatorMetadata[index]?.unitLabel
         : '';
 
-    const rowMeasurementUnit: string =
-      metadata !== undefined ? metadata?.unitLabel : '';
-
-    const rowIndicator: Indicator = {
-      indicatorId: rowIndicatorId,
-      title: rowTitle,
-      definition: rowIndicatorDefinition,
-    };
-
     const row: SpineChartTableRowProps = {
-      indicator: rowIndicator,
+      indicator: mapToSpineChartTableIndicator(indicatorMetadata[index]),
       measurementUnit: rowMeasurementUnit,
       indicatorHealthData: indicatorData,
       groupIndicatorData: groupIndicatorData[index],
       englandBenchmarkData: englandIndicatorData[index],
-      best: 100,
-      worst: 0,
+      benchmarkStatistics: mapToSpineChartTableStatistics(quartileData[index]),
     };
 
     tableData[index] = row;
@@ -67,33 +103,20 @@ export function mapToSpineChartTableProps(
 
 export function extractHeatmapIndicatorData(
   indicatorData: IndicatorWithHealthDataForArea,
-  metadata?: IndicatorDocument
-): HeatmapIndicatorData {
-  const getIndicatorId = (): string => {
-    if (metadata) {
-      return metadata.indicatorID;
-    }
-
-    return indicatorData.indicatorId !== undefined
-      ? indicatorData.indicatorId?.toString()
-      : 'undefined indicator id';
-  };
-
-  const getIndicatorName = (): string => {
-    if (metadata) {
-      return metadata.indicatorName;
-    }
-
-    return indicatorData.name ?? 'undefined indicator name';
-  };
+  metadata: IndicatorDocument
+): HeatmapIndicatorData | undefined {
+  if (!indicatorData.areaHealthData) {
+    return undefined;
+  }
 
   return {
-    indicatorId: getIndicatorId(),
-    indicatorName: getIndicatorName(),
-    healthDataForAreas: indicatorData.areaHealthData ?? [],
-    unitLabel: metadata?.unitLabel ?? 'undefined unit label',
-    benchmarkMethod: indicatorData.benchmarkMethod,
-    polarity: indicatorData.polarity,
+    indicatorId: metadata.indicatorID,
+    indicatorName: metadata.indicatorName,
+    healthDataForAreas: indicatorData.areaHealthData,
+    unitLabel: metadata.unitLabel,
+    benchmarkMethod:
+      indicatorData.benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
+    polarity: indicatorData.polarity ?? IndicatorPolarity.Unknown,
   };
 }
 
@@ -101,6 +124,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
   searchState,
   indicatorData,
   indicatorMetadata,
+  benchmarkStatistics,
 }: Readonly<TwoOrMoreIndicatorsViewPlotProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
@@ -116,34 +140,39 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     allIndicatorData: IndicatorWithHealthDataForArea[],
     indicatorMetadata: IndicatorDocument[]
   ): HeatmapIndicatorData[] => {
-    return allIndicatorData.map((indicatorData) => {
-      const metadata = indicatorMetadata.find((metadata) => {
-        return metadata.indicatorID === indicatorData.indicatorId?.toString();
-      });
+    return allIndicatorData
+      .map((indicatorData) => {
+        const metadata = indicatorMetadata.find((metadata) => {
+          return metadata.indicatorID === indicatorData.indicatorId?.toString();
+        });
 
-      return extractHeatmapIndicatorData(indicatorData, metadata);
-    });
+        if (!metadata) return undefined;
+
+        return extractHeatmapIndicatorData(indicatorData, metadata);
+      })
+      .filter((data) => {
+        return data !== undefined;
+      });
   };
 
-  const groupAreaCode =
-    selectedGroupCode && selectedGroupCode !== areaCodeForEngland
-      ? selectedGroupCode
-      : undefined;
+  const groupAreaCode = selectedGroupCode ?? undefined;
 
   const buildSpineTableRowData = (
     indicatorData: IndicatorWithHealthDataForArea[],
     indicatorMetadata: IndicatorDocument[],
     areasSelected: string[],
     selectedGroupCode: string | undefined
-  ) => {
+  ): SpineChartTableRowProps[] => {
     const {
       orderedHealthData,
       orderedGroupData,
       orderedEnglandData,
       orderedMetadata,
+      orderedQuartileData,
     } = extractingCombinedHealthData(
       indicatorData,
       indicatorMetadata,
+      benchmarkStatistics,
       areasSelected,
       selectedGroupCode
     );
@@ -152,7 +181,8 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
       orderedHealthData,
       orderedGroupData,
       orderedEnglandData,
-      orderedMetadata
+      orderedMetadata,
+      orderedQuartileData
     ).rowData;
   };
 

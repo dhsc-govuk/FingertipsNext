@@ -219,6 +219,8 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         [SearchParams.AreaTypeSelected]: 'regions',
       };
 
+      mockGetSearchState.mockReturnValue(searchState);
+
       render(
         <OneIndicatorTwoOrMoreAreasViewPlots
           indicatorData={{
@@ -242,6 +244,8 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         [SearchParams.GroupAreaSelected]: 'not ALL',
         [SearchParams.AreaTypeSelected]: 'regions',
       };
+
+      mockGetSearchState.mockReturnValue(searchState);
 
       render(
         <OneIndicatorTwoOrMoreAreasViewPlots

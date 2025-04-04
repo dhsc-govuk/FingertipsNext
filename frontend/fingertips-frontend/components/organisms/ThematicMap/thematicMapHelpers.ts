@@ -8,7 +8,6 @@ import combinedAuthoritiesMap from '@/assets/maps/Combined_Authorities_December_
 import NHSRegionsMap from '@/assets/maps/NHS_England_Regions_January_2024_EN_BSC_7500404208533377417.geo.json';
 import NHSICBMap from '@/assets/maps/Integrated_Care_Boards_April_2023_EN_BSC_-187828753279616787.geo.json';
 import NHSSubICBMap from '@/assets/maps/NHS_SubICB_April_2023_EN_BSC_8040841744469859785.geo.json';
-import { AreaTypeKeys } from '../../../lib/areaFilterHelpers/areaType';
 import { GovukColours } from '../../../lib/styleHelpers/colours';
 import {
   BenchmarkComparisonMethod,
@@ -22,23 +21,27 @@ import {
   getAreaIndicatorDataForYear,
   getConfidenceLimitNumber,
 } from '@/lib/chartHelpers/chartHelpers';
-import { symbolEncoder } from '@/lib/chartHelpers/pointFormatterHelper';
+import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
+import { formatNumber } from '@/lib/numberFormatter';
 
 export type MapGeographyData = {
   mapFile: GeoJSON;
   mapGroupBoundary: GeoJSON;
 };
 
-export type AreaTypeKeysForMapMeta = Extract<
-  AreaTypeKeys,
-  | 'regions'
-  | 'combined-authorities'
-  | 'counties-and-unitary-authorities'
-  | 'districts-and-unitary-authorities'
-  | 'nhs-regions'
-  | 'nhs-integrated-care-boards'
-  | 'nhs-sub-integrated-care-boards'
->;
+export const allowedAreaTypeMapMetaKeys = [
+  'regions',
+  'combined-authorities',
+  'counties-and-unitary-authorities',
+  'districts-and-unitary-authorities',
+  'nhs-regions',
+  'nhs-integrated-care-boards',
+  'nhs-sub-integrated-care-boards',
+] as const;
+
+export type AreaTypeKeysForMapMeta =
+  (typeof allowedAreaTypeMapMetaKeys)[number];
+
 interface MapMetaData {
   joinKey: string;
   mapFile: GeoJSON;
@@ -358,14 +361,14 @@ export function generateThematicMapTooltipString(
   const areaMarkerSymbol =
     (point.benchmarkComparisonOutcome as BenchmarkOutcome) ===
     BenchmarkOutcome.NotCompared
-      ? symbolEncoder.multiplicationX
-      : symbolEncoder.circle;
+      ? SymbolsEnum.MultiplicationX
+      : SymbolsEnum.Circle;
 
   const groupMarkerSymbol =
     groupIndicatorData?.healthData[0].benchmarkComparison?.outcome ===
     BenchmarkOutcome.NotCompared
-      ? symbolEncoder.multiplicationX
-      : symbolEncoder.diamond;
+      ? SymbolsEnum.MultiplicationX
+      : SymbolsEnum.Diamond;
 
   const tooltipString = [
     `<br /><span style="font-weight: bold">${point.areaName}</span>` +
@@ -377,7 +380,7 @@ export function generateThematicMapTooltipString(
           polarity
         ) ?? GovukColours.Black
       }; font-size: large;">${areaMarkerSymbol}</span>` +
-      `<span>${point.value} ${measurementUnit}</span>` +
+      `<span>${formatNumber(point.value)} ${measurementUnit}</span>` +
       `<br /><span>${point.benchmarkComparisonOutcome} than ${benchmarkArea}</span>` +
       `<br /><span>(${benchmarkConfidenceLimitLabel})</span>`,
   ];
@@ -398,7 +401,7 @@ export function generateThematicMapTooltipString(
             polarity
           ) ?? GovukColours.Black
         }; font-size: large;">${groupMarkerSymbol}</span>` +
-        `<span>${groupIndicatorDataForYear.healthData[0].value} ${measurementUnit}</span>` +
+        `<span>${formatNumber(groupIndicatorDataForYear.healthData[0].value)} ${measurementUnit}</span>` +
         `<br /><span>${
           groupIndicatorDataForYear.healthData[0].benchmarkComparison?.outcome
         } than ${benchmarkArea}</span>` +
@@ -414,8 +417,8 @@ export function generateThematicMapTooltipString(
     tooltipString.unshift(
       `<span style="font-weight: bold">Benchmark: ${benchmarkIndicatorDataForYear.areaName}</span>` +
         `<br /><span>${benchmarkIndicatorDataForYear.healthData[0].year}</span>` +
-        `<br /><span style="color: ${GovukColours.Black}; font-size: large;">${symbolEncoder.circle}</span>` +
-        `<span>${benchmarkIndicatorDataForYear.healthData[0].value} ${measurementUnit}</span>`
+        `<br /><span style="color: ${GovukColours.Black}; font-size: large;">${SymbolsEnum.Circle}</span>` +
+        `<span>${formatNumber(benchmarkIndicatorDataForYear.healthData[0].value)} ${measurementUnit}</span>`
     );
   }
 

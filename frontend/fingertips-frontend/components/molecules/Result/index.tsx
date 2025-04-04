@@ -15,7 +15,6 @@ import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { TagColours } from '@/lib/styleHelpers/colours';
 import { formatDate, isWithinOneMonth } from '@/lib/dateHelpers/dateHelpers';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
 import { TrendTag } from '../TrendTag';
@@ -91,16 +90,6 @@ export function SearchResult({
       SearchParams.IndicatorsSelected,
       indicatorId
     );
-
-    const areasSelected =
-      stateManager.getSearchState()[SearchParams.AreasSelected];
-
-    if (!areasSelected || areasSelected.length < 1) {
-      stateManager.addParamValueToState(
-        SearchParams.AreasSelected,
-        areaCodeForEngland
-      );
-    }
 
     return stateManager.generatePath(chartPath);
   };

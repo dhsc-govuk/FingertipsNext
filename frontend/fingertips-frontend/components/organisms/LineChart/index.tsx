@@ -23,7 +23,7 @@ export function LineChart({
   const [options, setOptions] = useState<Highcharts.Options>();
 
   useEffect(() => {
-    loadHighchartsModules(() => {
+    void loadHighchartsModules(() => {
       setOptions(lineChartOptions);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
