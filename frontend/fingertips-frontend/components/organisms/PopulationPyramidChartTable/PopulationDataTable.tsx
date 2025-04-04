@@ -62,6 +62,21 @@ interface PopulationDataTableProps {
   filterValues?: (header: ItemDataType[]) => ItemDataType[];
 }
 
+const computeFooterItems = (
+  maleSeries: (number | undefined)[],
+  femaleSeries: (number | undefined)[]
+): ItemDataType[] => {
+  const males = maleSeries.reduce((prev, current) => {
+    return (prev ?? 0) + (current ?? 0);
+  }, 0);
+
+  const females = femaleSeries.reduce((prev, current) => {
+    return (prev ?? 0) + (current ?? 0);
+  }, 0);
+
+  return ['All ages', males, females];
+};
+
 export const PopulationDataTable = ({
   headers,
   healthDataForArea,
@@ -78,17 +93,10 @@ export const PopulationDataTable = ({
     healthDataForArea.maleSeries[index],
   ]);
 
-  const footerRowItems = ((): ItemDataType[] => {
-    const males = healthDataForArea.maleSeries.reduce((prev, current) => {
-      return (prev ?? 0) + (current ?? 0);
-    }, 0);
-
-    const females = healthDataForArea.femaleSeries.reduce((prev, current) => {
-      return (prev ?? 0) + (current ?? 0);
-    }, 0);
-
-    return ['All ages', males, females];
-  })();
+  const footerRowItems = computeFooterItems(
+    healthDataForArea.maleSeries,
+    healthDataForArea.femaleSeries
+  );
 
   return (
     <section>
