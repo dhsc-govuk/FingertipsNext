@@ -9,9 +9,9 @@ import {
 } from '@/lib/apiClient/apiClientFactory';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import {
+  allowedAreaTypeMapMetaKeys,
   AreaTypeKeysForMapMeta,
   getMapGeographyData,
-  allowedAreaTypeMapMetaKeys,
 } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 import { chunkArray } from '@/lib/ViewsHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
@@ -99,7 +99,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     allowedAreaTypeMapMetaKeys.includes(
       selectedAreaType as AreaTypeKeysForMapMeta
     )
-      ? getMapGeographyData(
+      ? await getMapGeographyData(
           selectedAreaType as AreaTypeKeysForMapMeta,
           areasSelected
         )
