@@ -149,7 +149,7 @@ export function SparklineChart({
         color,
         borderColor: '#000',
         borderWidth: color === '#fff' ? 1 : 0,
-        animation: false
+        animation: false,
       },
       confidenceIntervalSeries,
     ],
