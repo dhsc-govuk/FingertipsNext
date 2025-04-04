@@ -85,6 +85,8 @@ export function InequalitiesForSingleTimePeriod({
 
   const yearsDesc = getYearsWithInequalityData(allData).reverse();
 
+  if (!yearsDesc.length) return null;
+
   const periodData = allData.find(
     (data) => data.period === Number(selectedYear ?? yearsDesc[0])
   );
