@@ -6,6 +6,7 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { Table } from 'govuk-react';
+
 import {
   getConfidenceLimitNumber,
   getMostRecentData,
@@ -23,6 +24,14 @@ import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceInt
 import { TrendTag } from '@/components/molecules/TrendTag';
 import { BenchmarkLegend } from '@/components/organisms/BenchmarkLegend';
 
+const StyleTableWrapper = styled('div')({
+  'display': 'flex',
+  'flexDirection': 'row',
+  'flexWrap': 'nowrap',
+  'overflowX': 'auto',
+  'clear': 'both',
+});
+import styled from 'styled-components';
 export enum BarChartEmbeddedTableHeadingEnum {
   AreaName = 'Area',
   RecentTrend = 'Recent trend',
@@ -124,167 +133,172 @@ export function BarChartEmbeddedTable({
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
       />
-      <Table
-        head={
-          <React.Fragment>
-            <Table.Row>
-              <Table.CellHeader colSpan={6}></Table.CellHeader>
-              <Table.CellHeader colSpan={2} style={{ textAlign: 'center' }}>
-                {confidenceLimit
-                  ? formatHeader(`${confidenceLimit}% confidence limits`)
-                  : null}
-              </Table.CellHeader>
-            </Table.Row>
+      <StyleTableWrapper>
+        <Table
+          head={
+            <React.Fragment>
+              <Table.Row>
+                <Table.CellHeader colSpan={6}></Table.CellHeader>
+                <Table.CellHeader colSpan={2} style={{ textAlign: 'center' }}>
+                  {confidenceLimit
+                    ? formatHeader(`${confidenceLimit}% confidence limits`)
+                    : null}
+                </Table.CellHeader>
+              </Table.Row>
 
-            <Table.Row>
-              <Table.CellHeader>
-                {BarChartEmbeddedTableHeadingEnum.AreaName}
-              </Table.CellHeader>
-              <Table.CellHeader>
-                {BarChartEmbeddedTableHeadingEnum.Period}
-              </Table.CellHeader>
-              <Table.CellHeader>
-                {BarChartEmbeddedTableHeadingEnum.RecentTrend}
-              </Table.CellHeader>
-              <Table.CellHeader>
-                {BarChartEmbeddedTableHeadingEnum.Count}
-              </Table.CellHeader>
-              <Table.CellHeader
+              <Table.Row>
+                <Table.CellHeader>
+                  {BarChartEmbeddedTableHeadingEnum.AreaName}
+                </Table.CellHeader>
+                <Table.CellHeader>
+                  {BarChartEmbeddedTableHeadingEnum.Period}
+                </Table.CellHeader>
+                <Table.CellHeader>
+                  {BarChartEmbeddedTableHeadingEnum.RecentTrend}
+                </Table.CellHeader>
+                <Table.CellHeader>
+                  {BarChartEmbeddedTableHeadingEnum.Count}
+                </Table.CellHeader>
+                <Table.CellHeader
+                  style={{ textAlign: 'right', paddingRight: '0px' }}
+                >
+                  {BarChartEmbeddedTableHeadingEnum.Value} {measurementUnit}
+                </Table.CellHeader>
+                <Table.CellHeader></Table.CellHeader>
+                <Table.CellHeader>
+                  {BarChartEmbeddedTableHeadingEnum.Lower}
+                </Table.CellHeader>
+                <Table.CellHeader>
+                  {BarChartEmbeddedTableHeadingEnum.Upper}
+                </Table.CellHeader>
+              </Table.Row>
+            </React.Fragment>
+          }
+        >
+          {mostRecentBenchmarkData ? (
+            <Table.Row
+              key={`${benchmarkData?.areaName}`}
+              style={{ backgroundColor: GovukColours.MidGrey }}
+              data-testid="table-row-benchmark"
+            >
+              <CheckValueInTableCell value={benchmarkData?.areaName} />
+              <CheckValueInTableCell value={mostRecentBenchmarkData.year} />
+              <Table.Cell>
+                <TrendTag trendFromResponse={mostRecentBenchmarkData.trend} />
+              </Table.Cell>
+              <FormatNumberInTableCell
+                value={mostRecentBenchmarkData.count}
+                numberStyle={'whole'}
+              />
+              <FormatNumberInTableCell
+                value={mostRecentBenchmarkData.value}
                 style={{ textAlign: 'right', paddingRight: '0px' }}
-              >
-                {BarChartEmbeddedTableHeadingEnum.Value} {measurementUnit}
-              </Table.CellHeader>
-              <Table.CellHeader></Table.CellHeader>
-              <Table.CellHeader>
-                {BarChartEmbeddedTableHeadingEnum.Lower}
-              </Table.CellHeader>
-              <Table.CellHeader>
-                {BarChartEmbeddedTableHeadingEnum.Upper}
-              </Table.CellHeader>
+              />
+              <Table.Cell style={{ paddingRight: '0px' }}>
+                <SparklineChart
+                  value={[mostRecentBenchmarkData.value]}
+                  maxValue={maxValue}
+                  confidenceIntervalValues={[
+                    mostRecentBenchmarkData.lowerCi,
+                    mostRecentBenchmarkData.upperCi,
+                  ]}
+                  showConfidenceIntervalsData={showConfidenceIntervalsData}
+                  benchmarkOutcome={
+                    mostRecentBenchmarkData.benchmarkComparison?.outcome
+                  }
+                  benchmarkComparisonMethod={benchmarkComparisonMethod}
+                  polarity={polarity}
+                  label={SparklineLabelEnum.Benchmark}
+                  area={benchmarkData?.areaName}
+                  year={mostRecentBenchmarkData.year}
+                  measurementUnit={measurementUnit}
+                ></SparklineChart>
+              </Table.Cell>
+              <CheckValueInTableCell value={mostRecentBenchmarkData.lowerCi} />
+              <CheckValueInTableCell value={mostRecentBenchmarkData.upperCi} />
             </Table.Row>
-          </React.Fragment>
-        }
-      >
-        {mostRecentBenchmarkData ? (
-          <Table.Row
-            key={`${benchmarkData?.areaName}`}
-            style={{ backgroundColor: GovukColours.MidGrey }}
-            data-testid="table-row-benchmark"
-          >
-            <CheckValueInTableCell value={benchmarkData?.areaName} />
-            <CheckValueInTableCell value={mostRecentBenchmarkData.year} />
-            <Table.Cell>
-              <TrendTag trendFromResponse={mostRecentBenchmarkData.trend} />
-            </Table.Cell>
-            <FormatNumberInTableCell
-              value={mostRecentBenchmarkData.count}
-              numberStyle={'whole'}
-            />
-            <FormatNumberInTableCell
-              value={mostRecentBenchmarkData.value}
-              style={{ textAlign: 'right', paddingRight: '0px' }}
-            />
-            <Table.Cell style={{ paddingRight: '0px' }}>
-              <SparklineChart
-                value={[mostRecentBenchmarkData.value]}
-                maxValue={maxValue}
-                confidenceIntervalValues={[
-                  mostRecentBenchmarkData.lowerCi,
-                  mostRecentBenchmarkData.upperCi,
-                ]}
-                showConfidenceIntervalsData={showConfidenceIntervalsData}
-                benchmarkOutcome={
-                  mostRecentBenchmarkData.benchmarkComparison?.outcome
-                }
-                benchmarkComparisonMethod={benchmarkComparisonMethod}
-                polarity={polarity}
-                label={SparklineLabelEnum.Benchmark}
-                area={benchmarkData?.areaName}
-                year={mostRecentBenchmarkData.year}
-                measurementUnit={measurementUnit}
-              ></SparklineChart>
-            </Table.Cell>
-            <CheckValueInTableCell value={mostRecentBenchmarkData.lowerCi} />
-            <CheckValueInTableCell value={mostRecentBenchmarkData.upperCi} />
-          </Table.Row>
-        ) : null}
+          ) : null}
 
-        {mostRecentGroupData ? (
-          <Table.Row
-            key={`${groupIndicatorData?.areaName}`}
-            style={{ backgroundColor: GovukColours.LightGrey }}
-            data-testid="table-row-group"
-          >
-            <CheckValueInTableCell value={groupIndicatorData?.areaName} />
-            <CheckValueInTableCell value={mostRecentGroupData.year} />
-            <Table.Cell>
-              <TrendTag trendFromResponse={mostRecentGroupData.trend} />
-            </Table.Cell>
-            <FormatNumberInTableCell
-              value={mostRecentGroupData.count}
-              numberStyle={'whole'}
-            />
-            <FormatNumberInTableCell
-              value={mostRecentGroupData.value}
-              style={{ textAlign: 'right', paddingRight: '0px' }}
-            />
-            <Table.Cell style={{ paddingRight: '0px' }}>
-              <SparklineChart
-                value={[mostRecentGroupData.value]}
-                maxValue={maxValue}
-                confidenceIntervalValues={[
-                  mostRecentGroupData.lowerCi,
-                  mostRecentGroupData.upperCi,
-                ]}
-                showConfidenceIntervalsData={showConfidenceIntervalsData}
-                benchmarkOutcome={
-                  mostRecentGroupData.benchmarkComparison?.outcome
-                }
-                benchmarkComparisonMethod={benchmarkComparisonMethod}
-                polarity={polarity}
-                label={SparklineLabelEnum.Group}
-                area={groupIndicatorData?.areaName}
-                year={mostRecentGroupData.year}
-                measurementUnit={measurementUnit}
+          {mostRecentGroupData ? (
+            <Table.Row
+              key={`${groupIndicatorData?.areaName}`}
+              style={{ backgroundColor: GovukColours.LightGrey }}
+              data-testid="table-row-group"
+            >
+              <CheckValueInTableCell value={groupIndicatorData?.areaName} />
+              <CheckValueInTableCell value={mostRecentGroupData.year} />
+              <Table.Cell>
+                <TrendTag trendFromResponse={mostRecentGroupData.trend} />
+              </Table.Cell>
+              <FormatNumberInTableCell
+                value={mostRecentGroupData.count}
+                numberStyle={'whole'}
               />
-            </Table.Cell>
-            <FormatNumberInTableCell value={mostRecentGroupData.lowerCi} />
-            <FormatNumberInTableCell value={mostRecentGroupData.upperCi} />
-          </Table.Row>
-        ) : null}
+              <FormatNumberInTableCell
+                value={mostRecentGroupData.value}
+                style={{ textAlign: 'right', paddingRight: '0px' }}
+              />
+              <Table.Cell style={{ paddingRight: '0px' }}>
+                <SparklineChart
+                  value={[mostRecentGroupData.value]}
+                  maxValue={maxValue}
+                  confidenceIntervalValues={[
+                    mostRecentGroupData.lowerCi,
+                    mostRecentGroupData.upperCi,
+                  ]}
+                  showConfidenceIntervalsData={showConfidenceIntervalsData}
+                  benchmarkOutcome={
+                    mostRecentGroupData.benchmarkComparison?.outcome
+                  }
+                  benchmarkComparisonMethod={benchmarkComparisonMethod}
+                  polarity={polarity}
+                  label={SparklineLabelEnum.Group}
+                  area={groupIndicatorData?.areaName}
+                  year={mostRecentGroupData.year}
+                  measurementUnit={measurementUnit}
+                />
+              </Table.Cell>
+              <FormatNumberInTableCell value={mostRecentGroupData.lowerCi} />
+              <FormatNumberInTableCell value={mostRecentGroupData.upperCi} />
+            </Table.Row>
+          ) : null}
 
-        {sortedTableRows.map((item) => (
-          <Table.Row key={`${item.area}`}>
-            <CheckValueInTableCell value={item.area} />
-            <CheckValueInTableCell value={item.period} />
-            <Table.Cell>
-              <TrendTag trendFromResponse={item.trend} />
-            </Table.Cell>
-            <FormatNumberInTableCell value={item.count} numberStyle={'whole'} />
-            <FormatNumberInTableCell
-              value={item.value}
-              style={{ textAlign: 'right', paddingRight: '0px' }}
-            />
-            <Table.Cell style={{ paddingRight: '0px' }}>
-              <SparklineChart
-                value={[item.value]}
-                maxValue={maxValue}
-                confidenceIntervalValues={[item.lowerCi, item.upperCi]}
-                showConfidenceIntervalsData={showConfidenceIntervalsData}
-                benchmarkOutcome={item.benchmarkComparison?.outcome}
-                benchmarkComparisonMethod={benchmarkComparisonMethod}
-                polarity={polarity}
-                label={SparklineLabelEnum.Area}
-                area={item.area}
-                year={item.period}
-                measurementUnit={measurementUnit}
+          {sortedTableRows.map((item) => (
+            <Table.Row key={`${item.area}`}>
+              <CheckValueInTableCell value={item.area} />
+              <CheckValueInTableCell value={item.period} />
+              <Table.Cell>
+                <TrendTag trendFromResponse={item.trend} />
+              </Table.Cell>
+              <FormatNumberInTableCell
+                value={item.count}
+                numberStyle={'whole'}
               />
-            </Table.Cell>
-            <FormatNumberInTableCell value={item.lowerCi} />
-            <FormatNumberInTableCell value={item.upperCi} />
-          </Table.Row>
-        ))}
-      </Table>
+              <FormatNumberInTableCell
+                value={item.value}
+                style={{ textAlign: 'right', paddingRight: '0px' }}
+              />
+              <Table.Cell style={{ paddingRight: '0px' }}>
+                <SparklineChart
+                  value={[item.value]}
+                  maxValue={maxValue}
+                  confidenceIntervalValues={[item.lowerCi, item.upperCi]}
+                  showConfidenceIntervalsData={showConfidenceIntervalsData}
+                  benchmarkOutcome={item.benchmarkComparison?.outcome}
+                  benchmarkComparisonMethod={benchmarkComparisonMethod}
+                  polarity={polarity}
+                  label={SparklineLabelEnum.Area}
+                  area={item.area}
+                  year={item.period}
+                  measurementUnit={measurementUnit}
+                />
+              </Table.Cell>
+              <FormatNumberInTableCell value={item.lowerCi} />
+              <FormatNumberInTableCell value={item.upperCi} />
+            </Table.Row>
+          ))}
+        </Table>
+      </StyleTableWrapper>
     </div>
   );
 }

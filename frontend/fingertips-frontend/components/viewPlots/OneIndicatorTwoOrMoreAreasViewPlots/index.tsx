@@ -156,6 +156,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
           groupIndicatorData={groupData}
         />
       )}
+
       <BarChartEmbeddedTable
         data-testid="barChartEmbeddedTable-component"
         healthIndicatorData={dataWithoutEnglandOrGroup}

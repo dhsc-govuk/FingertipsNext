@@ -13,6 +13,11 @@ import {
 import { BackLink, GridCol, GridRow, H2 } from 'govuk-react';
 import { useEffect, useState } from 'react';
 import { FilterSummaryPanel } from '@/components/molecules/FilterSummaryPanel';
+import styled from 'styled-components';
+
+const StyleGridColumnContentPanel = styled(GridCol)({
+  overflow: 'hidden !important',
+});
 
 interface ChartPageWrapperProps {
   children: React.ReactNode;
@@ -65,7 +70,7 @@ export function ChartPageWrapper({
             />
           </GridCol>
         )}
-        <GridCol setWidth={width}>
+        <StyleGridColumnContentPanel setWidth={width}>
           <H2>View data for selected indicators and areas</H2>
 
           {isHideFilters ? (
@@ -75,7 +80,7 @@ export function ChartPageWrapper({
             />
           ) : null}
           {children}
-        </GridCol>
+        </StyleGridColumnContentPanel>
       </GridRow>
     </>
   );
