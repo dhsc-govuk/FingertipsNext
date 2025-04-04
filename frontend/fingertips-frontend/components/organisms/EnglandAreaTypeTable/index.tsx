@@ -6,7 +6,10 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { Table } from 'govuk-react';
 import React from 'react';
-import { CheckValueInTableCell } from '@/components/molecules/CheckValueInTableCell';
+import {
+  CheckValueInTableCell,
+  FormatNumberInTableCell,
+} from '@/components/molecules/CheckValueInTableCell';
 import { TrendTag } from '@/components/molecules/TrendTag';
 
 export enum EnglandAreaTypeTableEnum {
@@ -30,7 +33,7 @@ export interface EnglandAreaTypeIndicatorData {
   unitLabel: string | undefined;
 }
 
-export interface EnglandAreaTypeTableProps {
+interface EnglandAreaTypeTableProps {
   indicatorData: EnglandAreaTypeIndicatorData[];
 }
 
@@ -89,16 +92,18 @@ export function EnglandAreaTypeTable({
               value={item?.period}
               style={{ textAlign: 'center' }}
             />
-            <CheckValueInTableCell
+            <FormatNumberInTableCell
               value={item?.latestEnglandHealthData?.count}
+              numberStyle={'whole'}
               style={{ textAlign: 'right' }}
             />
             <CheckValueInTableCell
               value={item?.unitLabel}
               style={{ textAlign: 'right' }}
             />
-            <CheckValueInTableCell
+            <FormatNumberInTableCell
               value={item?.latestEnglandHealthData?.value}
+              numberStyle={'whole'}
               style={{ textAlign: 'right' }}
             />
             <Table.Cell>
