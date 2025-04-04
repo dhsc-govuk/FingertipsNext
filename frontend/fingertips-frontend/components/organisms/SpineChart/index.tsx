@@ -23,9 +23,15 @@ export function SpineChart({
     const spineChartsOptions = {
         chart: {
             type: 'bar',
+            backgroundColor: 'transparent',
             spacingBottom: 0, 
-            spacingTop: 0 
+            spacingTop: 0,
+            height: 30,
+            width: 400,
         },
+        credits: {
+            enabled: false,
+          },
         legend: {
             enabled: false
         },

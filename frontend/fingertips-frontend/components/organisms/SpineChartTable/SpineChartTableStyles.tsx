@@ -63,5 +63,6 @@ export const StyledBenchmarkCell = styled(StyledAlignRightTableCell)({
 });
 
 export const StyledBenchmarkChart = styled(StyledBenchmarkCell)({
-  minWidth: 200
+  backgroundColor: GovukColours.White,
+  minWidth: 200,
 });
