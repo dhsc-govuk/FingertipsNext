@@ -14,6 +14,8 @@ import {
 } from './SpineChartTableStyles';
 import { SpineChartProps } from '../SpineChart';
 import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
+import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
+import { TrendTag } from '@/components/molecules/TrendTag';
 
 export interface SpineChartMissingData {
   value?: number;
@@ -24,6 +26,7 @@ export interface SpineChartTableRowData {
   indicator: string;
   unit: string;
   period: number;
+  trend: HealthDataPointTrendEnum;
   count?: number;
   value?: number;
   groupValue?: number;
@@ -41,6 +44,7 @@ export function SpineChartTableRow({
   indicator,
   unit,
   period,
+  trend,
   count,
   value,
   groupValue,
@@ -57,6 +61,9 @@ export function SpineChartTableRow({
       </StyledAlignLeftTableCell>
       <StyledAlignCentreTableCell data-testid={`period-cell`}>
         {period}
+      </StyledAlignCentreTableCell>
+      <StyledAlignCentreTableCell>
+        <TrendTag trendFromResponse={trend} />
       </StyledAlignCentreTableCell>
       <StyledAlignCentreTableCell data-testid={`count-cell`}>
         {formatWholeNumber(count)}
