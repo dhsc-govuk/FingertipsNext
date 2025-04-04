@@ -145,6 +145,11 @@ export function InequalitiesBarChart({
           fontSize: 19,
         },
       },
+      labels: {
+        style: {
+          fontSize: 16,
+        },
+      },
       max: yAxisMaxValue + 0.2 * yAxisMaxValue,
       plotLines: [
         {
