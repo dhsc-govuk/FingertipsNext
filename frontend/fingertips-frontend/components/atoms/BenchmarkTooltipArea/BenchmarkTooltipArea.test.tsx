@@ -106,12 +106,6 @@ describe('BenchmarkTooltipArea', () => {
       }
     }
   );
-  [
-    BenchmarkOutcome.Lower,
-    BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-    SymbolsEnum.Circle,
-    `than ${mockBenchmarkArea}`,
-  ];
 
   it.each([
     [BenchmarkOutcome.NotCompared, SymbolsEnum.MultiplicationX],

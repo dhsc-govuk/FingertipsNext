@@ -19,8 +19,6 @@ import {
   getBenchmarkColour,
   getIndicatorDataForAreasForMostRecentYearOnly,
 } from '@/lib/chartHelpers/chartHelpers';
-import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
-import { formatNumber } from '@/lib/numberFormatter';
 
 export type MapGeographyData = {
   mapFile: GeoJSON;
