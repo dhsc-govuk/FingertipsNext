@@ -4,7 +4,7 @@ import {
   InequalitiesTypes,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import {
-  getDisplayedValue,
+  getDisplayValue,
   StyledAlignLeftTableCell,
   StyledAlignRightTableCell,
 } from '@/lib/tableHelpers';
@@ -19,9 +19,7 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { getConfidenceLimitNumber } from '@/lib/chartHelpers/chartHelpers';
 
-export const StyledAlignLeftTableCellNoPadding = styled(
-  StyledAlignLeftTableCell
-)({
+const StyledAlignLeftTableCellNoPadding = styled(StyledAlignLeftTableCell)({
   padding: 0,
   height: '2.8125em', //45px
 });
@@ -76,16 +74,16 @@ export function InequalitiesBarChartTable({
               ) : null}
             </StyledAlignLeftTableCellNoPadding>
             <StyledAlignRightTableCell>
-              {getDisplayedValue(inequalities[key]?.count)}
+              {getDisplayValue(inequalities[key]?.count)}
             </StyledAlignRightTableCell>
             <StyledAlignRightTableCell>
-              {getDisplayedValue(inequalities[key]?.value)}
+              {getDisplayValue(inequalities[key]?.value)}
             </StyledAlignRightTableCell>
             <StyledAlignRightTableCell>
-              {getDisplayedValue(inequalities[key]?.lower)}
+              {getDisplayValue(inequalities[key]?.lower)}
             </StyledAlignRightTableCell>
             <StyledAlignRightTableCell>
-              {getDisplayedValue(inequalities[key]?.upper)}
+              {getDisplayValue(inequalities[key]?.upper)}
             </StyledAlignRightTableCell>
           </Table.Row>
         ))}

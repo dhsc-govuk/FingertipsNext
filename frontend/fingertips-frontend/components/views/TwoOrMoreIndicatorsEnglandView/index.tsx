@@ -3,6 +3,7 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
+import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 import {
   API_CACHE_CONFIG,
   ApiClientFactory,
@@ -78,10 +79,10 @@ export default async function TwoOrMoreIndicatorsEnglandView({
   console.log(`TODO: fetch population data for areas: [${areaCodesToRequest}]`);
 
   return (
-    <TwoOrMoreIndicatorsEnglandViewPlots
-      indicatorData={combinedIndicatorData}
-      searchState={searchState}
-      indicatorMetadata={selectedIndicatorsData}
-    />
+    <ViewsWrapper searchState={searchState}>
+      <TwoOrMoreIndicatorsEnglandViewPlots indicatorData={combinedIndicatorData}
+                                           searchState={searchState}
+                                           indicatorMetadata={selectedIndicatorsData} />
+    </ViewsWrapper>
   );
 }

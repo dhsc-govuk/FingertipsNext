@@ -4,6 +4,7 @@ import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
 import { createChartPyramidOptions } from './createChartOptions';
+import { formatNumber } from '@/lib/numberFormatter';
 
 interface PyramidChartProps {
   dataForSelectedArea: PopulationDataForArea;
@@ -14,12 +15,12 @@ interface PyramidChartProps {
   accessibilityLabel?: string;
 }
 
-export const generatePopPyramidTooltipStringList = (
+export const generatePopPyramidTooltipForPoint = (
   point: Highcharts.Point,
   symbol: string
 ) => [
   `<span style="color:${point.series.color}">${symbol}</span>`,
-  `<span> Value ${Math.abs(Number(point.y))}%<br/>${point.series.name}</span>`,
+  `<span> Value ${formatNumber(Math.abs(Number(point.y)))}%<br/>${point.series.name}</span>`,
 ];
 
 export function PopulationPyramid({

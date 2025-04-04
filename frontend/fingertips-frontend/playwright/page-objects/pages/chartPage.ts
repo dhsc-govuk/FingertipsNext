@@ -32,6 +32,9 @@ export default class ChartPage extends AreaFilter {
   static readonly barChartEmbeddedTableComponent =
     'barChartEmbeddedTable-component';
   static readonly spineChartTableComponent = 'spineChartTable-component';
+  static readonly inequalitiesForSingleTimePeriodComponent =
+    'inequalitiesForSingleTimePeriod-component';
+  static readonly timePeriodDropDownComponent = 'timePeriod-dropDown-component';
   static readonly englandAreaTypeTableComponent =
     'englandAreaTypeTable-component';
 
@@ -58,8 +61,7 @@ export default class ChartPage extends AreaFilter {
   /**
    * This function tests a subset of indicator + area scenario combinations from
    * https://confluence.collab.test-and-trace.nhs.uk/pages/viewpage.action?pageId=419245267
-   * The selected scenario combinations are defined above in scenarioConfigs and were chosen
-   * as they are happy paths covering lots of chart components.
+   * The scenario combinations were were chosen as they are happy paths covering lots of chart components.
    * Note all 15 scenarios are covered in lower level unit testing.
    */
   async checkChartVisibility(
@@ -76,6 +78,15 @@ export default class ChartPage extends AreaFilter {
       indicatorMode,
       areaMode
     );
+    console.log(
+      `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart components: ${visibleComponents
+        .map(
+          (component) =>
+            `${component.componentLocator}(hasCI:${component.componentProps.hasConfidenceIntervals},isTab:${component.componentProps.isTabTable},hasTimePeriod:${component.componentProps.hasTimePeriodDropDown})`
+        )
+        .join(', ')} are displayed and that`,
+      `chart components: ${hiddenComponents.map((component) => component.componentLocator).join(', ')} are not displayed. Also checking the visible components via screenshot snapshot testing.`
+    );
     // click the hide filters pane before asserting visibility and taking screenshots
     await this.clickAndAwaitLoadingComplete(
       this.page.getByTestId('area-filter-pane-hidefilters')
@@ -85,13 +96,32 @@ export default class ChartPage extends AreaFilter {
       console.log(
         `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart component: ${visibleComponent.componentLocator} is displayed.`
       );
-      // click tab to view the table view if checking a none embedded table component
+      // if its one of the chart components that you need to click on the tab first to see it then click it
       if (visibleComponent.componentProps.isTabTable) {
         await this.clickAndAwaitLoadingComplete(
           this.page.getByTestId(
             `tabTitle-${visibleComponent.componentLocator.replace('-component', '')}`
           )
         );
+      }
+      // if its one of the chart components that has a single time period dropdown then select the last in the list
+      if (visibleComponent.componentProps.hasTimePeriodDropDown) {
+        const combobox = this.page
+          .getByTestId(ChartPage.timePeriodDropDownComponent)
+          .getByRole('combobox');
+        // get the options from the combobox
+        const dropdownOptions = await combobox.evaluate(
+          (select: HTMLSelectElement) => {
+            return Array.from(select.options).map((option) => ({
+              value: option.value,
+              text: option.text,
+            }));
+          }
+        );
+
+        await combobox.selectOption({
+          value: dropdownOptions[dropdownOptions.length - 1].value,
+        });
       }
       // if its one of the chart components that has a confidence interval checkbox then click it
       if (visibleComponent.componentProps.hasConfidenceIntervals) {
@@ -109,6 +139,8 @@ export default class ChartPage extends AreaFilter {
             .getByText('Show population data')
         );
       }
+
+      // check chart component is now visible
       await expect(
         this.page.getByTestId(visibleComponent.componentLocator)
       ).toBeVisible({
@@ -121,7 +153,7 @@ export default class ChartPage extends AreaFilter {
       );
       await this.page.waitForLoadState();
       await expect(this.page.getByText('Loading')).toHaveCount(0);
-      await this.page.waitForTimeout(500); // delete this line in DHSCFT-510 once animations are disabled
+      await this.page.waitForTimeout(750); // delete this line in DHSCFT-510 once animations are disabled
 
       // for now just warn if visual comparisons do not match
       try {

@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { SeriesLineOptions, SymbolKeyValue } from 'highcharts';
 import {
   generateSeriesData,
   generateStandardLineChartOptions,
-  lineChartDefaultOptions,
 } from './lineChartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { mockIndicatorData, mockBenchmarkData, mockParentData } from './mocks';
@@ -442,59 +442,10 @@ describe('generateSeriesData', () => {
 
 describe('generateStandardLineChartOptions', () => {
   it('should generate standard line chart options', () => {
-    const expectedSeriesData = [
+    const generatedOptions = generateStandardLineChartOptions(
+      [mockIndicatorData[0]],
+      false,
       {
-        color: '#F46A25',
-        data: [
-          [2004, 703.420759],
-          [2006, 278.29134],
-        ],
-        name: 'North FooBar',
-        type: 'line',
-        marker: {
-          symbol: 'arc',
-        },
-      },
-      {
-        color: '#B1B4B6',
-        data: [
-          [2004, 441.69151, 578.32766],
-          [2006, 441.69151, 578.32766],
-        ],
-        name: 'North FooBar',
-        type: 'errorbar',
-        visible: false,
-        lineWidth: 2,
-        whiskerLength: '20%',
-      },
-    ];
-
-    const expected = {
-      ...lineChartDefaultOptions,
-      yAxis: {
-        ...lineChartDefaultOptions.yAxis,
-        title: { text: 'yAxis', margin: 20 },
-      },
-      xAxis: {
-        ...lineChartDefaultOptions.xAxis,
-        title: { text: 'xAxis', margin: 20 },
-      },
-      legend: {
-        ...lineChartDefaultOptions.legend,
-        title: { text: 'Areas' },
-      },
-      accessibility: {
-        ...lineChartDefaultOptions.accessibility,
-        description: 'accessibility',
-      },
-      series: expectedSeriesData,
-      tooltip: {
-        format: lineChartDefaultOptions.tooltip?.format + '%',
-      },
-    };
-
-    expect(
-      generateStandardLineChartOptions([mockIndicatorData[0]], false, {
         benchmarkData: undefined,
         groupIndicatorData: undefined,
         yAxisTitle: 'yAxis',
@@ -503,8 +454,14 @@ describe('generateStandardLineChartOptions', () => {
         accessibilityLabel: 'accessibility',
         colours: chartColours,
         symbols,
-      })
-    ).toEqual(expected);
+      }
+    );
+
+    expect((generatedOptions.yAxis as any)!.title.text).toBe('yAxis');
+    expect((generatedOptions.xAxis as any)!.title.text).toBe('xAxis');
+    expect(generatedOptions.accessibility!.description).toBe('accessibility');
+
+    expect(generatedOptions).toMatchSnapshot();
   });
 
   it('should generate standard line chart options with benchmark data', () => {
