@@ -4,19 +4,13 @@ import {
   extractSortedAreasIndicatorsAndDataPoints,
   generateHeaders,
   generateRows,
+  HeatmapIndicatorData,
 } from './heatmapUtil';
 import { Table } from 'govuk-react';
 import styled from 'styled-components';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { HeatmapHeader } from './heatmapHeader';
 import { HeatmapCell } from './heatmapCell';
-
-export interface HeatmapIndicatorData {
-  indicatorId: string;
-  indicatorName: string;
-  healthDataForAreas: HealthDataForArea[];
-  unitLabel: string;
-}
+import { BenchmarkLegend } from '../BenchmarkLegend';
 
 export interface HeatmapProps {
   indicatorData: HeatmapIndicatorData[];
@@ -31,6 +25,7 @@ const StyledTable = styled(Table)({
 
 const StyledDivTableContainer = styled.div({
   overflowX: 'scroll',
+  maxWidth: '960px',
 });
 
 export function Heatmap({
@@ -44,36 +39,39 @@ export function Heatmap({
   const rows = generateRows(areas, indicators, dataPoints);
 
   return (
-    <StyledDivTableContainer>
-      <StyledTable data-testid="heatmapChart-component">
-        <Table.Row>
-          {headers.map((header) => {
+    <>
+      <BenchmarkLegend />
+      <StyledDivTableContainer>
+        <StyledTable data-testid="heatmapChart-component">
+          <Table.Row>
+            {headers.map((header) => {
+              return (
+                <HeatmapHeader
+                  key={header.key}
+                  headerType={header.type}
+                  content={header.content}
+                />
+              );
+            })}
+          </Table.Row>
+          {rows.map((row) => {
             return (
-              <HeatmapHeader
-                key={header.key}
-                headerType={header.type}
-                content={header.content}
-              />
+              <Table.Row key={row.key}>
+                {row.cells.map((cell) => {
+                  return (
+                    <HeatmapCell
+                      key={cell.key}
+                      cellType={cell.type}
+                      content={cell.content}
+                      backgroundColour={cell.backgroundColour}
+                    />
+                  );
+                })}
+              </Table.Row>
             );
           })}
-        </Table.Row>
-        {rows.map((row) => {
-          return (
-            <Table.Row key={row.key}>
-              {row.cells.map((cell) => {
-                return (
-                  <HeatmapCell
-                    key={cell.key}
-                    cellType={cell.type}
-                    content={cell.content}
-                    backgroundColour={cell.backgroundColour}
-                  />
-                );
-              })}
-            </Table.Row>
-          );
-        })}
-      </StyledTable>
-    </StyledDivTableContainer>
+        </StyledTable>
+      </StyledDivTableContainer>
+    </>
   );
 }
