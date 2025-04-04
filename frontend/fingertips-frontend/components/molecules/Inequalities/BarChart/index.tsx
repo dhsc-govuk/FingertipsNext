@@ -5,14 +5,8 @@ import {
   InequalitiesBarChartData,
   InequalitiesTypes,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
-import {
-  barChartDefaultOptions,
-  getPlotline,
-} from '@/components/molecules/Inequalities/BarChart/barChartHelpers';
-import {
-  pointFormatterHelper,
-  SymbolNames,
-} from '@/lib/chartHelpers/pointFormatterHelper';
+import { getBarChartOptions } from '@/components/molecules/Inequalities/BarChart/barChartHelpers';
+import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { BenchmarkLegend } from '@/components/organisms/BenchmarkLegend';
 import { ConfidenceIntervalCheckbox } from '../../ConfidenceIntervalCheckbox';
 import { useEffect, useState } from 'react';
@@ -115,98 +109,26 @@ export function InequalitiesBarChart({
     ),
   ];
 
-  const chartOverrides: Highcharts.ChartOptions = {
+  const barChartOptions = getBarChartOptions({
     // The deprivation chart needs more height
-    height:
-      type === InequalitiesTypes.Deprivation
-        ? '100%'
-        : barChartDefaultOptions.chart?.height,
-  };
-
-  const barChartOptions: Highcharts.Options = {
-    ...barChartDefaultOptions,
-    chart: { ...barChartDefaultOptions.chart, ...chartOverrides },
-    xAxis: {
-      ...barChartDefaultOptions.xAxis,
-      title: {
-        text: `${xAxisTitlePrefix} ${mapToXAxisTitle[type]}`,
-        margin: 20,
-      },
-      categories: barChartFields,
+    height: type === InequalitiesTypes.Deprivation ? '100%' : undefined,
+    xAxisTitleText: `${xAxisTitlePrefix} ${mapToXAxisTitle[type]}`,
+    xAxisCategories: barChartFields,
+    yAxisTitleText: `${yAxisLabel}${measurementUnit ? ': ' + measurementUnit : ''}`,
+    yAxisMax: yAxisMaxValue + 0.2 * yAxisMaxValue,
+    plotLineLabel: `${comparedTo} persons`,
+    plotLineValue: benchmarkValue,
+    seriesData: seriesData,
+    tooltipAreaName: barChartData.areaName,
+    tooltipPointFormatter: function (this: Highcharts.Point) {
+      return (
+        pointFormatterHelper(
+          this,
+          generateInequalitiesBarChartTooltipForPoint
+        ) + `${measurementUnit ? ' ' + measurementUnit : ''}`
+      );
     },
-    yAxis: {
-      title: {
-        text: `${yAxisLabel}${measurementUnit ? ': ' + measurementUnit : ''}`,
-        margin: 20,
-      },
-      max: yAxisMaxValue + 0.2 * yAxisMaxValue,
-      plotLines: [
-        {
-          ...getPlotline(`${comparedTo} persons`, benchmarkValue),
-          events: {
-            mouseover: function (
-              this: Highcharts.PlotLineOrBand,
-              e: Highcharts.PointerEventObject
-            ) {
-              const context = { ...this };
-              const axis = context.axis;
-              const series = axis.series[0];
-              const chart = series.chart;
-              const tooltip = chart.tooltip;
-
-              if (!series || !tooltip) return;
-
-              const normalizedEvent = chart.pointer.normalize(e);
-              const plotlineOptions =
-                context.options as Highcharts.AxisPlotLinesOptions;
-
-              const point = {
-                series: series,
-                color: 'black',
-                graphic: { symbolName: SymbolNames.PlotLine },
-                category: 'Persons',
-                x: 'PlotLine',
-                y: plotlineOptions.value,
-                plotX: normalizedEvent.chartX - chart.plotLeft,
-                plotY: normalizedEvent.chartY - chart.plotTop,
-                tooltipPos: [
-                  normalizedEvent.chartX - chart.plotLeft,
-                  normalizedEvent.chartY - chart.plotTop,
-                ],
-              } as unknown as Highcharts.Point;
-
-              tooltip.update({ shape: 'rect' });
-              tooltip.refresh(point);
-            } as Highcharts.EventCallbackFunction<Highcharts.PlotLineOrBand>,
-            mouseout: function (this: Highcharts.PlotLineOrBand) {
-              const context = { ...this };
-              const chart = context.axis.chart;
-              chart.tooltip.hide();
-              chart.tooltip.update({ shape: 'callout' });
-            },
-          },
-        },
-      ],
-    },
-    series: seriesData,
-    plotOptions: {
-      bar: {
-        pointPadding: 0.3,
-      },
-    },
-    tooltip: {
-      headerFormat: `<span style="font-weight: bold">${barChartData.areaName}</span><br/>`,
-      useHTML: true,
-      pointFormatter: function (this: Highcharts.Point) {
-        return (
-          pointFormatterHelper(
-            this,
-            generateInequalitiesBarChartTooltipForPoint
-          ) + `${measurementUnit ? ' ' + measurementUnit : ''}`
-        );
-      },
-    },
-  };
+  });
 
   useEffect(() => {
     void loadHighchartsModules(() => {
