@@ -9,7 +9,22 @@ import {
   getConfidenceLimitNumber,
   getIndicatorDataForAreasForMostRecentYearOnly,
 } from '@/lib/chartHelpers/chartHelpers';
-import { symbolEncoder } from '@/lib/chartHelpers/pointFormatterHelper';
+import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
+import { formatNumber } from '@/lib/numberFormatter';
+// import { symbolEncoder } from '@/lib/chartHelpers/pointFormatterHelper';
+
+type IndicatorDataForTooltip =
+  | { indicatorDataForArea: HealthDataForArea }
+  | { indicatorDataForBenchmark: HealthDataForArea }
+  | { indicatorDataForGroup: HealthDataForArea };
+
+// interface BenchmarkTooltipArea {
+//   indicatorDataForTooltip: indicatorDataForTooltip;
+//   benchmarkComparisonMethod: BenchmarkComparisonMethod;
+//   polarity: IndicatorPolarity;
+//   measurementUnit: string | undefined;
+//   benchmarkArea: string;
+// }
 
 interface BenchmarkTooltipArea {
   indicatorDataForArea: HealthDataForArea;
@@ -17,6 +32,8 @@ interface BenchmarkTooltipArea {
   polarity: IndicatorPolarity;
   measurementUnit: string | undefined;
   benchmarkArea: string;
+  indicatorDataForBenchmark?: HealthDataForArea;
+  indicatorDataForGroup?: HealthDataForArea;
 }
 
 export function BenchmarkTooltipArea({
@@ -29,8 +46,8 @@ export function BenchmarkTooltipArea({
   const areaMarkerSymbol =
     indicatorDataForArea.healthData[0].benchmarkComparison?.outcome ===
     BenchmarkOutcome.NotCompared
-      ? symbolEncoder.multiplicationX
-      : symbolEncoder.circle;
+      ? SymbolsEnum.MultiplicationX
+      : SymbolsEnum.Circle;
 
   const indicatorDataForAreaForMostRecentYear =
     getIndicatorDataForAreasForMostRecentYearOnly([indicatorDataForArea]);
@@ -64,7 +81,9 @@ export function BenchmarkTooltipArea({
           </div>
           <div>
             <span style={{ display: 'block' }}>
-              {indicatorDataForAreaForMostRecentYear[0].healthData[0].value}{' '}
+              {formatNumber(
+                indicatorDataForAreaForMostRecentYear[0].healthData[0].value
+              )}{' '}
               {measurementUnit}
             </span>
             {getComparisionText(
@@ -72,11 +91,6 @@ export function BenchmarkTooltipArea({
               indicatorDataForAreaForMostRecentYear[0].healthData[0]
                 .benchmarkComparison?.outcome
             )}
-            {benchmarkConfidenceLimit ? (
-              <span style={{ display: 'block' }}>
-                ({benchmarkConfidenceLimit}%)
-              </span>
-            ) : null}
           </div>
         </div>
       </div>
@@ -86,22 +100,35 @@ export function BenchmarkTooltipArea({
 
 function getComparisionText(
   benchmarkArea: string,
-  benchmarkOutcome?: BenchmarkOutcome
+  benchmarkOutcome?: BenchmarkOutcome,
+  benchmarkConfidenceLimit?: number
 ) {
   // TODO: DHSCFT-518 to handle no data
-  if (
-    benchmarkOutcome === BenchmarkOutcome.NotCompared ||
-    benchmarkOutcome === BenchmarkOutcome.Similar
-  ) {
+  if (benchmarkOutcome === BenchmarkOutcome.NotCompared) {
+    return null;
+  }
+  if (benchmarkOutcome === BenchmarkOutcome.Similar) {
     return (
-      <span style={{ display: 'block' }}>
-        {benchmarkOutcome} to {benchmarkArea}
-      </span>
+      <>
+        <span style={{ display: 'block' }}>
+          {benchmarkOutcome} to {benchmarkArea}
+        </span>
+        {benchmarkConfidenceLimit ? (
+          <span style={{ display: 'block' }}>
+            ({benchmarkConfidenceLimit}%)
+          </span>
+        ) : null}
+      </>
     );
   }
   return (
-    <span style={{ display: 'block' }}>
-      {benchmarkOutcome} than {benchmarkArea}
-    </span>
+    <>
+      <span style={{ display: 'block' }}>
+        {benchmarkOutcome} than {benchmarkArea}
+      </span>
+      {benchmarkConfidenceLimit ? (
+        <span style={{ display: 'block' }}>({benchmarkConfidenceLimit}%)</span>
+      ) : null}
+    </>
   );
 }

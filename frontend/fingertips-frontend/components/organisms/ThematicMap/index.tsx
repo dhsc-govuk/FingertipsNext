@@ -91,6 +91,8 @@ export function ThematicMap({
               polarity={polarity}
               benchmarkArea={benchmarkArea}
               measurementUnit={measurementUnit}
+              indicatorDataForBenchmark={benchmarkIndicatorData}
+              indicatorDataForGroup={groupIndicatorData}
             />
           </div>
         );

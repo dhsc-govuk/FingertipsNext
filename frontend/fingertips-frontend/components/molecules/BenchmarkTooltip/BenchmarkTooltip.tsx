@@ -11,8 +11,8 @@ interface BenchmarkTooltipProps {
   polarity: IndicatorPolarity;
   measurementUnit: string | undefined;
   benchmarkArea: string;
-  // indicatorDataForBenchmark: HealthDataForArea
-  // indicatorDataForGroup: HealthDataForArea
+  indicatorDataForBenchmark?: HealthDataForArea;
+  indicatorDataForGroup?: HealthDataForArea;
 }
 
 export function BenchmarkTooltip({
@@ -21,11 +21,29 @@ export function BenchmarkTooltip({
   polarity,
   measurementUnit,
   benchmarkArea,
+  indicatorDataForBenchmark,
+  indicatorDataForGroup,
 }: Readonly<BenchmarkTooltipProps>) {
   return (
     <>
-      {/* Add Benchmark if required */}
-      {/* Add Group if required */}
+      {indicatorDataForBenchmark ? (
+        <BenchmarkTooltipArea
+          indicatorDataForArea={indicatorDataForBenchmark}
+          benchmarkComparisonMethod={benchmarkComparisonMethod}
+          polarity={polarity}
+          measurementUnit={measurementUnit}
+          benchmarkArea={benchmarkArea}
+        />
+      ) : null}
+      {indicatorDataForGroup ? (
+        <BenchmarkTooltipArea
+          indicatorDataForArea={indicatorDataForGroup}
+          benchmarkComparisonMethod={benchmarkComparisonMethod}
+          polarity={polarity}
+          measurementUnit={measurementUnit}
+          benchmarkArea={benchmarkArea}
+        />
+      ) : null}
       <BenchmarkTooltipArea
         indicatorDataForArea={indicatorDataForArea}
         benchmarkComparisonMethod={benchmarkComparisonMethod}

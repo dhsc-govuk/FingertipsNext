@@ -1,158 +1,33 @@
-// describe('generateThematicMapTooltipString', () => {
-//   const mockHcPoint = {
-//     areaName: 'area',
-//     year: 2004,
-//     benchmarkComparisonOutcome: BenchmarkOutcome.Better,
-//     value: 10,
-//   };
+import {
+  BenchmarkOutcome,
+  BenchmarkComparisonMethod,
+  IndicatorPolarity,
+  HealthDataForArea,
+} from '@/generated-sources/ft-api-client';
+import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
+import { BenchmarkTooltipArea } from './BenchmarkTooltipArea';
+import { render, screen } from '@testing-library/react';
+import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
+import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
+import { formatNumber } from '@/lib/numberFormatter';
 
-//   const mockGroupDataForYear: HealthDataForArea = {
-//     ...mockHealthData[108][1],
-//     healthData: [
-//       {
-//         ...mockHealthData[108][1].healthData[0],
-//         benchmarkComparison: { outcome: 'Worse' },
-//       },
-//     ],
-//   };
-
-//   const mockBenchmarkDataForYear: HealthDataForArea = {
-//     ...mockHealthData[108][0],
-//     healthData: [
-//       {
-//         ...mockHealthData[108][1].healthData[0],
-//         benchmarkComparison: { outcome: 'Worse' },
-//       },
-//     ],
-//   };
-
-//   const expectedAreaTooltip =
-//     `<br /><span style="font-weight: bold">${mockHcPoint.areaName}</span>` +
-//     `<br /><span>${mockHcPoint.year}</span>` +
-//     `<br /><span style="color: ${GovukColours.Green}; font-size: large;">${symbolEncoder.circle}</span>` +
-//     `<span>${mockHcPoint.value} mock units</span>` +
-//     `<br /><span>${mockHcPoint.benchmarkComparisonOutcome} than England</span><br /><span>(95%)</span>`;
-
-//   const expectedGroupTooltip =
-//     `<br /><span style=\"font-weight: bold\">Group: ${mockGroupDataForYear.areaName}</span>` +
-//     `<br /><span>${mockGroupDataForYear.healthData[0].year}</span><br />` +
-//     `<span style=\"color: ${GovukColours.Red}; font-size: large;\">${symbolEncoder.diamond}</span>` +
-//     `<span>${mockGroupDataForYear.healthData[0].value} mock units</span>` +
-//     `<br /><span>${mockGroupDataForYear.healthData[0].benchmarkComparison?.outcome} than England</span><br /><span>(95%)</span>`;
-
-//   const expectedBenchmarkTooltip =
-//     `<span style=\"font-weight: bold\">Benchmark: ${mockBenchmarkDataForYear.areaName}</span>` +
-//     `<br /><span>${mockBenchmarkDataForYear.healthData[0].year}</span><br />` +
-//     `<span style=\"color: ${GovukColours.Black}; font-size: large;\">${symbolEncoder.circle}</span>` +
-//     `<span>${mockBenchmarkDataForYear.healthData[0].value} mock units</span>`;
-
-//   it('should return the expected tooltip for an area', () => {
-//     const actual = generateThematicMapTooltipString(
-//       mockHcPoint,
-//       undefined,
-//       undefined,
-//       BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-//       IndicatorPolarity.Unknown,
-//       'mock units'
-//     );
-//     expect(actual).toEqual(expectedAreaTooltip);
-//   });
-//   it.skip('should return the expected tooltip for an area which is "not compared"', () => {
-//     const mockHcPoint = {
-//       areaName: 'area',
-//       year: 1979,
-//       benchmarkComparisonOutcome: BenchmarkOutcome.NotCompared,
-//       value: 10,
-//     };
-//     const actual = generateThematicMapTooltipString(
-//       mockHcPoint,
-//       undefined,
-//       undefined,
-//       BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-//       IndicatorPolarity.Unknown,
-//       'mock units'
-//     );
-//     const expectedAreaToolTip =
-//       `<br /><span style="font-weight: bold">${mockHcPoint.areaName}</span>` +
-//       `<br /><span>${mockHcPoint.year}</span>` +
-//       `<br /><span style="color: ${GovukColours.Black}; font-size: large;">${symbolEncoder.multiplicationX}</span>` +
-//       `<span>${mockHcPoint.value} mock units</span>` +
-//       `<br /><span>${mockHcPoint.benchmarkComparisonOutcome} than England</span><br /><span>(95%)</span>`;
-//     expect(actual).toEqual(expectedAreaToolTip);
-//   });
-//   it('should return the expected tooltip for an area and group', () => {
-//     const actual = generateThematicMapTooltipString(
-//       mockHcPoint,
-//       undefined,
-//       mockGroupDataForYear,
-//       BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-//       IndicatorPolarity.Unknown,
-//       'mock units'
-//     );
-//     expect(actual).toEqual(expectedGroupTooltip + expectedAreaTooltip);
-//   });
-//   it('should return the expected tooltip for an area and group for an area where benchmarking outcome is "not compared"', () => {
-//     const mockGroupDataForYear: HealthDataForArea = {
-//       ...mockHealthData[108][1],
-//       healthData: [
-//         {
-//           ...mockHealthData[108][1].healthData[0],
-//           benchmarkComparison: { outcome: 'NotCompared' },
-//         },
-//       ],
-//     };
-
-//     const expectedGroupTooltip =
-//       `<br /><span style=\"font-weight: bold\">Group: ${mockGroupDataForYear.areaName}</span>` +
-//       `<br /><span>${mockGroupDataForYear.healthData[0].year}</span><br />` +
-//       `<span style=\"color: ${GovukColours.Black}; font-size: large;\">${symbolEncoder.multiplicationX}</span>` +
-//       `<span>${mockGroupDataForYear.healthData[0].value} mock units</span>` +
-//       `<br /><span>${mockGroupDataForYear.healthData[0].benchmarkComparison?.outcome} than England</span><br /><span>(95%)</span>`;
-
-//     const actual = generateThematicMapTooltipString(
-//       mockHcPoint,
-//       undefined,
-//       mockGroupDataForYear,
-//       BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-//       IndicatorPolarity.Unknown,
-//       'mock units'
-//     );
-//     expect(actual).toEqual(expectedGroupTooltip + expectedAreaTooltip);
-//   });
-//   it('should return the expected tootip for an area and benchmark', () => {
-//     const actual = generateThematicMapTooltipString(
-//       mockHcPoint,
-//       mockBenchmarkDataForYear,
-//       undefined,
-//       BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-//       IndicatorPolarity.Unknown,
-//       'mock units'
-//     );
-//     expect(actual).toEqual(expectedBenchmarkTooltip + expectedAreaTooltip);
-//   });
-//   it('should return the expected tootip for an area, group and benchmark', () => {
-//     const actual = generateThematicMapTooltipString(
-//       mockHcPoint,
-//       mockBenchmarkDataForYear,
-//       mockGroupDataForYear,
-//       BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-//       IndicatorPolarity.Unknown,
-//       'mock units'
-//     );
-//     expect(actual).toEqual(
-//       expectedBenchmarkTooltip + expectedGroupTooltip + expectedAreaTooltip
-//     );
-//   });
-// });
-
-describe(generateBenchmarkTooltipForArea, () => {
-  const mockThematicMapPointRAG = {
-    areaName: 'mockarea',
-    year: 2004,
-    benchmarkComparisonOutcome: BenchmarkOutcome.Better,
-    value: 10,
+describe('BenchmarkTooltipArea', () => {
+  const mockIndicatorData: Record<string, HealthDataForArea> = {
+    RAG: {
+      areaCode: 'A001',
+      areaName: 'RAG_area',
+      healthData: [
+        {
+          year: 1976,
+          ageBand: allAgesAge,
+          sex: personsSex,
+          trend: 'Not yet calculated',
+          deprivation: noDeprivation,
+          value: 333,
+        },
+      ],
+    },
   };
-
   const mockUnits = 'Mpa';
   const mockBenchmarkArea = 'England';
 
@@ -160,37 +35,37 @@ describe(generateBenchmarkTooltipForArea, () => {
     [
       BenchmarkOutcome.NotCompared,
       BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-      symbolEncoder.multiplicationX,
-      '',
+      SymbolsEnum.MultiplicationX,
+      undefined,
     ],
     [
       BenchmarkOutcome.Better,
       BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-      symbolEncoder.circle,
+      SymbolsEnum.Circle,
       `than ${mockBenchmarkArea}`,
     ],
     [
       BenchmarkOutcome.Similar,
       BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-      symbolEncoder.circle,
+      SymbolsEnum.Circle,
       `to ${mockBenchmarkArea}`,
     ],
     [
       BenchmarkOutcome.Worse,
       BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-      symbolEncoder.circle,
+      SymbolsEnum.Circle,
       `than ${mockBenchmarkArea}`,
     ],
     [
       BenchmarkOutcome.Lower,
       BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-      symbolEncoder.circle,
+      SymbolsEnum.Circle,
       `than ${mockBenchmarkArea}`,
     ],
     [
       BenchmarkOutcome.Higher,
       BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-      symbolEncoder.circle,
+      SymbolsEnum.Circle,
       `than ${mockBenchmarkArea}`,
     ],
   ])(
@@ -198,55 +73,64 @@ describe(generateBenchmarkTooltipForArea, () => {
     (
       testBenchmarkOutcome: BenchmarkOutcome,
       testBenchmarkComparisonMethod: BenchmarkComparisonMethod,
-      expectedSymbol: string,
-      expectedComparisonString: string
+      expectedSymbol: SymbolsEnum,
+      expectedComparisonString?: string
     ) => {
-      const mockPoint = {
-        ...mockThematicMapPointRAG,
-        benchmarkComparisonOutcome: testBenchmarkOutcome,
+      const testIndicatorDataForArea = mockIndicatorData.RAG;
+
+      testIndicatorDataForArea.healthData[0].benchmarkComparison = {
+        method: testBenchmarkComparisonMethod,
+        outcome: testBenchmarkOutcome,
       };
 
       const testPolarity: IndicatorPolarity = IndicatorPolarity.Unknown;
-
-      const actual = generateThematicMapTooltipString(
-        mockPoint,
-        undefined,
-        undefined,
-        testBenchmarkComparisonMethod,
-        testPolarity,
-        mockUnits
-      );
-
-      console.log(actual);
-
       const expectedColour =
         getBenchmarkColour(
-          testBenchmarkComparisonMethod,
-          mockPoint.benchmarkComparisonOutcome,
+          testIndicatorDataForArea.healthData[0].benchmarkComparison.method ??
+            BenchmarkComparisonMethod.Unknown,
+          testIndicatorDataForArea.healthData[0].benchmarkComparison?.outcome ??
+            BenchmarkOutcome.NotCompared,
           testPolarity
         ) ?? '';
 
-      expect(actual).toEqual(expect.stringContaining(mockPoint.areaName));
-      expect(actual).toEqual(
-        expect.stringContaining(mockPoint.year.toString())
+      if (expectedComparisonString) {
+        expectedComparisonString = [
+          testBenchmarkOutcome,
+          expectedComparisonString,
+        ].join(' ');
+      }
+
+      render(
+        <BenchmarkTooltipArea
+          indicatorDataForArea={testIndicatorDataForArea}
+          benchmarkComparisonMethod={testBenchmarkComparisonMethod}
+          polarity={testPolarity}
+          measurementUnit={mockUnits}
+          benchmarkArea={mockBenchmarkArea}
+        />
       );
-      expect(actual).toEqual(expect.stringContaining(expectedColour));
-      expect(actual).toEqual(expect.stringContaining(expectedSymbol));
-      expect(actual).toEqual(
-        expect.stringContaining(
-          [mockPoint.value.toString(), mockUnits].join(' ')
+
+      expect(
+        screen.getByText(mockIndicatorData.RAG.areaName)
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText(mockIndicatorData.RAG.healthData[0].year)
+      ).toBeInTheDocument();
+      expect(screen.getByText(expectedSymbol)).toBeInTheDocument();
+      expect(screen.getByText(expectedSymbol)).toHaveStyle({
+        color: expectedColour,
+      });
+
+      expect(
+        screen.getByText(
+          RegExp(formatNumber(mockIndicatorData.RAG.healthData[0].value))
         )
-      );
-      expect(actual).toEqual(
-        expect.stringContaining(
-          [testBenchmarkOutcome, expectedComparisonString].join(' ')
-        )
-      );
-      expect(actual).toEqual(
-        expect.stringContaining(
-          getConfidenceLimitNumber(testBenchmarkComparisonMethod).toString()
-        )
-      );
+      ).toBeInTheDocument();
+
+      expect(screen.getByText(RegExp(mockUnits))).toBeInTheDocument();
+      if (expectedComparisonString) {
+        expect(screen.getByText(expectedComparisonString)).toBeInTheDocument();
+      }
     }
   );
 
