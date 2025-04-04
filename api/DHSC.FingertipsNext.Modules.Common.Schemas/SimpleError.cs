@@ -1,6 +1,6 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
-namespace DHSC.FingertipsNext.Modules.HealthData.Schemas;
+namespace DHSC.FingertipsNext.Modules.Common.Schemas;
 
 public class SimpleError
 {

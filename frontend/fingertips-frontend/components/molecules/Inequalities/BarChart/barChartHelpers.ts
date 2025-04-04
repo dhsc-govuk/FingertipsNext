@@ -1,3 +1,7 @@
+import Highcharts from 'highcharts';
+import { formatNumber } from '@/lib/numberFormatter';
+import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
+
 export const getPlotline = (
   benchmarkLabel?: string,
   benchmarkValue?: number
@@ -17,6 +21,10 @@ export const getPlotline = (
     },
   },
 });
+
+function tooltipFormatter(point: Highcharts.Point): string {
+  return `<b>${point.category}</b><br/><br/><span style="color:${point.color}">${SymbolsEnum.Circle}</span> Value ${formatNumber(point.y)}`;
+}
 
 export const barChartDefaultOptions: Highcharts.Options = {
   credits: {
@@ -53,7 +61,8 @@ export const barChartDefaultOptions: Highcharts.Options = {
     enabled: false,
   },
   tooltip: {
-    format:
-      '<b>{point.category}</b><br/><br/><span style="color:{color}">\u25CF</span> Value {point.y}',
+    formatter: function (this: Highcharts.Point): string {
+      return tooltipFormatter(this);
+    },
   },
 };

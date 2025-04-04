@@ -11,12 +11,12 @@ import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-clien
 import {
   AreaTypeKeysForMapMeta,
   getMapGeographyData,
+  allowedAreaTypeMapMetaKeys,
 } from '@/components/organisms/ThematicMap/thematicMapHelpers';
-import {
-  chunkArray,
-  maxNumAreasThatCanBeRequestedAPI,
-} from '@/lib/ViewsHelpers';
+import { chunkArray } from '@/lib/ViewsHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
+import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 
 export default async function OneIndicatorTwoOrMoreAreasView({
   selectedIndicatorsData,
@@ -27,6 +27,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     [SearchParams.IndicatorsSelected]: indicatorSelected,
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
+    [SearchParams.GroupTypeSelected]: selectedGroupType,
     [SearchParams.AreaTypeSelected]: selectedAreaType,
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
   } = stateManager.getSearchState();
@@ -39,31 +40,50 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     throw new Error('Invalid parameters provided to view');
   }
 
-  const areaCodesToRequest = [...areasSelected];
-  if (!areaCodesToRequest.includes(areaCodeForEngland)) {
-    areaCodesToRequest.push(areaCodeForEngland);
-  }
-  if (selectedGroupCode && selectedGroupCode !== areaCodeForEngland) {
-    areaCodesToRequest.push(selectedGroupCode);
-  }
-
   await connection();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
   let indicatorData: IndicatorWithHealthDataForArea | undefined;
-  try {
-    const healthIndicatorDataChunks = await Promise.all(
-      chunkArray(areaCodesToRequest, maxNumAreasThatCanBeRequestedAPI).map(
-        (requestAreas) =>
-          indicatorApi.getHealthDataForAnIndicator(
-            {
-              indicatorId: Number(indicatorSelected[0]),
-              areaCodes: [...requestAreas],
-            },
-            API_CACHE_CONFIG
-          )
+
+  const indicatorRequestArray = chunkArray(areasSelected).map((requestAreas) =>
+    indicatorApi.getHealthDataForAnIndicator(
+      {
+        indicatorId: Number(indicatorSelected[0]),
+        areaCodes: [...requestAreas],
+        areaType: selectedAreaType,
+      },
+      API_CACHE_CONFIG
+    )
+  );
+
+  if (!areasSelected.includes(areaCodeForEngland)) {
+    indicatorRequestArray.push(
+      indicatorApi.getHealthDataForAnIndicator(
+        {
+          indicatorId: Number(indicatorSelected[0]),
+          areaCodes: [areaCodeForEngland],
+          areaType: englandAreaType.key,
+        },
+        API_CACHE_CONFIG
       )
     );
+  }
+
+  if (selectedGroupCode && selectedGroupCode !== areaCodeForEngland) {
+    indicatorRequestArray.push(
+      indicatorApi.getHealthDataForAnIndicator(
+        {
+          indicatorId: Number(indicatorSelected[0]),
+          areaCodes: [selectedGroupCode],
+          areaType: selectedGroupType,
+        },
+        API_CACHE_CONFIG
+      )
+    );
+  }
+
+  try {
+    const healthIndicatorDataChunks = await Promise.all(indicatorRequestArray);
     indicatorData = healthIndicatorDataChunks[0];
     indicatorData.areaHealthData = healthIndicatorDataChunks
       .map((indicatorData) => indicatorData?.areaHealthData ?? [])
@@ -74,9 +94,11 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   }
 
   const indicatorMetadata = selectedIndicatorsData?.[0];
-
   const mapGeographyData =
-    selectedGroupArea === ALL_AREAS_SELECTED && selectedAreaType
+    selectedGroupArea === ALL_AREAS_SELECTED &&
+    allowedAreaTypeMapMetaKeys.includes(
+      selectedAreaType as AreaTypeKeysForMapMeta
+    )
       ? getMapGeographyData(
           selectedAreaType as AreaTypeKeysForMapMeta,
           areasSelected
@@ -84,11 +106,16 @@ export default async function OneIndicatorTwoOrMoreAreasView({
       : undefined;
 
   return (
-    <OneIndicatorTwoOrMoreAreasViewPlots
-      indicatorData={indicatorData}
+    <ViewsWrapper
       searchState={searchState}
-      indicatorMetadata={indicatorMetadata}
-      mapGeographyData={mapGeographyData}
-    />
+      indicatorsDataForAreas={[indicatorData]}
+    >
+      <OneIndicatorTwoOrMoreAreasViewPlots
+        indicatorData={indicatorData}
+        searchState={searchState}
+        indicatorMetadata={indicatorMetadata}
+        mapGeographyData={mapGeographyData}
+      />
+    </ViewsWrapper>
   );
 }

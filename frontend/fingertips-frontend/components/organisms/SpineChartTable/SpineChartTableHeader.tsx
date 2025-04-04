@@ -22,6 +22,7 @@ export enum SpineChartTableHeadingEnum {
   IndicatorName = 'Indicator',
   IndicatorUnit = 'Unit',
   IndicatorPeriod = 'Period',
+  AreaTrend = 'Recent trend',
   AreaCount = 'Count',
   AreaValue = 'AreaValue',
   GroupValue = 'GroupValue',
@@ -34,6 +35,7 @@ export function SpineChartTableHeader({
   areaName,
   groupName,
 }: Readonly<TableHeaderProps>) {
+  // DHSCFT-582 - extend to allow up to 2 areas. Trends should only show for 1.
   return (
     <>
       <Table.Row key={areaName}>
@@ -41,7 +43,7 @@ export function SpineChartTableHeader({
           colSpan={3}
           data-testid="empty-header"
         ></Table.CellHeader>
-        <StyledAlignLeftHeader colSpan={2} data-testid="area-header">
+        <StyledAlignLeftHeader colSpan={3} data-testid="area-header">
           {areaName}
         </StyledAlignLeftHeader>
         <StyledGroupHeader data-testid="group-header">
@@ -65,6 +67,7 @@ export function SpineChartTableHeader({
                 </StyledAlignLeftHeader>
               );
             case SpineChartTableHeadingEnum.IndicatorPeriod:
+            case SpineChartTableHeadingEnum.AreaTrend:
             case SpineChartTableHeadingEnum.AreaCount:
               return (
                 <StyledAlignCentreHeader

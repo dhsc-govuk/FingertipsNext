@@ -1,4 +1,9 @@
-import { HealthDataPoint } from '@/generated-sources/ft-api-client';
+import {
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
+  HealthDataPoint,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
 import {
   extractSortedAreasIndicatorsAndDataPoints,
   generateHeaders,
@@ -22,14 +27,24 @@ describe('generate headers and rows', () => {
       name: 'Indicator 1',
       unitLabel: 'per 100',
       latestDataPeriod: 1234,
+      benchmarkMethod: BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      polarity: IndicatorPolarity.HighIsGood,
     },
     {
       id: '2',
       name: 'Indicator 2',
-      unitLabel: 'per 1000',
+      unitLabel: 'per 1,000',
       latestDataPeriod: 5678,
+      benchmarkMethod:
+        BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
+      polarity: IndicatorPolarity.LowIsGood,
     },
   ];
+
+  const missingDataPoint = {
+    areaCode: sortedAreas[2].code,
+    indicatorId: sortedIndicators[1].id,
+  };
 
   interface DataPoint {
     value?: number;
@@ -41,11 +56,18 @@ describe('generate headers and rows', () => {
   sortedIndicators.forEach((indicator, indicatorIndex) => {
     dataPoints[indicator.id] = {};
     sortedAreas.forEach((area, areaIndex) => {
-      dataPoints[indicator.id][area.code] = {
-        value: areaIndex + indicatorIndex * 10,
-        indicatorId: indicator.id,
-        areaCode: area.code,
-      };
+      if (
+        !(
+          indicator.id === missingDataPoint.indicatorId &&
+          area.code === missingDataPoint.areaCode
+        )
+      ) {
+        dataPoints[indicator.id][area.code] = {
+          value: areaIndex + indicatorIndex * 10,
+          indicatorId: indicator.id,
+          areaCode: area.code,
+        };
+      }
     });
   });
 
@@ -102,13 +124,13 @@ describe('generate headers and rows', () => {
   });
 
   it('should lay out data points in the correct order', () => {
-    expect(rows[0].cells[3].content).toEqual('0');
-    expect(rows[0].cells[4].content).toEqual('1');
-    expect(rows[0].cells[5].content).toEqual('2');
+    expect(rows[0].cells[3].content).toEqual('0.0');
+    expect(rows[0].cells[4].content).toEqual('1.0');
+    expect(rows[0].cells[5].content).toEqual('2.0');
 
-    expect(rows[1].cells[3].content).toEqual('10');
-    expect(rows[1].cells[4].content).toEqual('11');
-    expect(rows[1].cells[5].content).toEqual('12');
+    expect(rows[1].cells[3].content).toEqual('10.0');
+    expect(rows[1].cells[4].content).toEqual('11.0');
+    expect(rows[1].cells[5].content).toEqual('X');
   });
 });
 
@@ -117,9 +139,11 @@ export const placeholderGroupAreaCode = 'area3';
 const newHealthDataPoint = ({
   year,
   value,
+  outcome,
 }: {
   year: number;
   value?: number;
+  outcome?: BenchmarkOutcome;
 }): HealthDataPoint => {
   return {
     year: year,
@@ -128,14 +152,17 @@ const newHealthDataPoint = ({
     sex: personsSex,
     trend: 'Not yet calculated',
     deprivation: noDeprivation,
+    benchmarkComparison: { outcome: outcome },
   };
 };
 
 const indicator1 = {
   id: 'indicator1',
   name: 'Very Verbose Indicator Name With an Extreeeeeeeme Number of Words to Try And Trip Up The View. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus varius magna massa, commodo consectetur erat hendrerit id. In semper, nibh eu efficitur sagittis, quam lectus semper augue, quis vestibulum ipsum urna ut orci.',
-  unitLabel: 'per 1000',
+  unitLabel: 'per 1,000',
   latestDataPeriod: 2004,
+  benchmarkMethod: BenchmarkComparisonMethod.Quintiles,
+  polarity: IndicatorPolarity.NoJudgement,
 };
 
 const indicator2 = {
@@ -143,12 +170,16 @@ const indicator2 = {
   name: 'Rate of walkers tripping over sheep',
   unitLabel: 'per 100',
   latestDataPeriod: 2002,
+  benchmarkMethod: BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+  polarity: IndicatorPolarity.LowIsGood,
 };
 const indicator3 = {
   id: 'indicator3',
   name: 'Donkey / Goose ratio',
   unitLabel: '%',
   latestDataPeriod: 2002,
+  benchmarkMethod: BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
+  polarity: IndicatorPolarity.HighIsGood,
 };
 
 const areaEngland = { code: 'E92000001', name: 'England' };
@@ -240,6 +271,8 @@ export const placeholderHeatmapIndicatorData = [
         healthData: data[0][3],
       },
     ],
+    benchmarkMethod: indicator1.benchmarkMethod,
+    polarity: indicator1.polarity,
   },
   {
     indicatorId: indicator2.id,
@@ -267,6 +300,8 @@ export const placeholderHeatmapIndicatorData = [
         healthData: data[1][3],
       },
     ],
+    benchmarkMethod: indicator2.benchmarkMethod,
+    polarity: indicator2.polarity,
   },
   {
     indicatorId: indicator3.id,
@@ -294,6 +329,8 @@ export const placeholderHeatmapIndicatorData = [
         healthData: data[2][3],
       },
     ],
+    benchmarkMethod: indicator3.benchmarkMethod,
+    polarity: indicator3.polarity,
   },
 ];
 
@@ -328,5 +365,18 @@ describe('extract sorted areas, indicators, and data points', () => {
     expect(
       dataPoints[indicator1.id][expectedSortedAreas[3].code].value
     ).toBeUndefined();
+  });
+
+  it('should populate data points with benchmarking information', () => {
+    const indicators = [indicator1, indicator2, indicator3];
+    indicators.forEach((indicator) => {
+      expect(
+        dataPoints[indicator.id][expectedSortedAreas[0].code].benchmark
+      ).toEqual({
+        outcome: BenchmarkOutcome.NotCompared,
+        benchmarkMethod: indicator.benchmarkMethod,
+        polarity: indicator.polarity,
+      });
+    });
   });
 });

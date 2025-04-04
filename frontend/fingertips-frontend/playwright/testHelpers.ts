@@ -23,6 +23,7 @@ type componentProps = {
   hasConfidenceIntervals: boolean;
   isTabTable: boolean;
   hasDetailsExpander: boolean;
+  hasTimePeriodDropDown: boolean;
 };
 
 type component = {
@@ -47,6 +48,7 @@ export function getScenarioConfig(
         hasConfidenceIntervals: true,
         isTabTable: false,
         hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
       },
     },
     {
@@ -55,6 +57,7 @@ export function getScenarioConfig(
         hasConfidenceIntervals: false,
         isTabTable: true,
         hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
       },
     },
     {
@@ -63,6 +66,7 @@ export function getScenarioConfig(
         hasConfidenceIntervals: false,
         isTabTable: false,
         hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
       },
     },
     {
@@ -70,6 +74,16 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: true,
         isTabTable: false,
+        hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
+      },
+    },
+    {
+      componentLocator: ChartPage.inequalitiesForSingleTimePeriodComponent,
+      componentProps: {
+        hasConfidenceIntervals: false,
+        isTabTable: false,
+        hasTimePeriodDropDown: true,
         hasDetailsExpander: false,
       },
     },
@@ -79,6 +93,7 @@ export function getScenarioConfig(
         hasConfidenceIntervals: true,
         isTabTable: false,
         hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
       },
     },
     {
@@ -87,6 +102,7 @@ export function getScenarioConfig(
         hasConfidenceIntervals: false,
         isTabTable: true,
         hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
       },
     },
     {
@@ -95,6 +111,7 @@ export function getScenarioConfig(
         hasConfidenceIntervals: false,
         isTabTable: true,
         hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
       },
     },
     {
@@ -103,6 +120,7 @@ export function getScenarioConfig(
         hasConfidenceIntervals: false,
         isTabTable: false,
         hasDetailsExpander: true,
+        hasTimePeriodDropDown: false,
       },
     },
     {
@@ -111,6 +129,7 @@ export function getScenarioConfig(
         hasConfidenceIntervals: false,
         isTabTable: false,
         hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
       },
     },
     {
@@ -119,6 +138,7 @@ export function getScenarioConfig(
         hasConfidenceIntervals: true,
         isTabTable: false,
         hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
       },
     },
     {
@@ -127,12 +147,20 @@ export function getScenarioConfig(
         hasConfidenceIntervals: false,
         isTabTable: false,
         hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
       },
     },
     // Enable in DHSCFT-237
     // ChartPage.basicTableComponent,
-    // Enable in DHSCFT-230
-    // ChartPage.heatMapComponent,
+    {
+      componentLocator: ChartPage.heatMapComponent,
+      componentProps: {
+        hasConfidenceIntervals: false,
+        isTabTable: false,
+        hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
+      },
+    },
   ];
 
   let visibleComponents: component[] = [];
@@ -151,6 +179,7 @@ export function getScenarioConfig(
         ChartPage.inequalitiesLineChartComponent,
         ChartPage.inequalitiesBarChartTableComponent,
         ChartPage.inequalitiesLineChartTableComponent,
+        ChartPage.inequalitiesForSingleTimePeriodComponent,
         ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
     );
@@ -206,8 +235,7 @@ export function getScenarioConfig(
     visibleComponents = allComponents.filter((component) =>
       [
         ChartPage.spineChartTableComponent,
-        // Enable in DHSCFT-230
-        // ChartPage.heatMapComponent,
+        ChartPage.heatMapComponent,
         // Enable in DHSCFT-225
         // ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)

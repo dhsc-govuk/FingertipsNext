@@ -1,7 +1,7 @@
 import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
 import Highcharts, { SeriesOptionsType } from 'highcharts';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
-import { generatePopPyramidTooltipStringList } from '.';
+import { generatePopPyramidTooltipForPoint } from '.';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 
 const createChartSeriesOptions = (
@@ -99,7 +99,7 @@ const createChartSeriesOptions = (
             </span>
         <span>Age {key}</span><div>`,
       pointFormatter: function (this: Highcharts.Point) {
-        return pointFormatterHelper(this, generatePopPyramidTooltipStringList);
+        return pointFormatterHelper(this, generatePopPyramidTooltipForPoint);
       },
       useHTML: true,
     },
@@ -218,14 +218,18 @@ export const createChartPyramidOptions = (
     dataForSelectedArea,
     accessibilityLabel
   );
-  if (populationPyramidOptions.series?.length) {
+  if (!populationPyramidOptions.series) {
+    return populationPyramidOptions;
+  }
+  if (populationPyramidOptions.series.length > 0) {
     const seriesOptions = createAdditionalChartSeries(
       dataForBenchmark,
       dataForSelectedGroup
     );
-    seriesOptions.forEach((series) => {
-      populationPyramidOptions.series?.push(series);
-    });
+    if (seriesOptions)
+      seriesOptions.forEach((series) => {
+        populationPyramidOptions.series?.push(series);
+      });
   }
   return populationPyramidOptions;
 };

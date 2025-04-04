@@ -46,7 +46,7 @@ GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=
 %}
 
 ### check quintile comparison for districts - this makes sure get data for 3 areas - current site does not return data for this indicator for Districts!
-GET http://localhost:5144/indicators/94103/data?&area_codes=E08000029&area_codes=E06000005&area_codes=E09000023&area_type=districts-and-unitary-authorities&years=2019
+GET http://localhost:5144/indicators/94103/data?area_codes=E08000029&area_codes=E06000005&area_codes=E09000023&area_type=districts-and-unitary-authorities&years=2019
 
 > {%
     client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
@@ -58,7 +58,8 @@ GET http://localhost:5144/indicators/94103/data?&area_codes=E08000029&area_codes
 ### check High is good TODO - POC data doesn't offer data to validate this
 
 ### check No Judgement - current site doesn't 
-GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=A84022&comparison_method=Quintiles&area_type=gps&years=2023&years=2022&years=2021&years=2020
+GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=A84022&area_type=gps&years=2023&years=2022&years=2021&years=2020
+
 > {%
         const expectedResults = [ 
             {areaName:"Coquet Medical Group", year:2020, outcome:"Similar"},
@@ -82,7 +83,8 @@ GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=A84
 
 
 ### check Low is good 
-GET http://localhost:5144/indicators/94103/data?area_codes=E10000014&area_codes=E08000029&area_codes=E06000005&area_codes=E09000023&comparison_method=Quintiles&area_type=counties-and-unitary-authorities&years=2019&years=2018&years=2017&years=2016
+GET http://localhost:5144/indicators/94103/data?area_codes=E10000014&area_codes=E08000029&area_codes=E06000005&area_codes=E09000023&area_type=counties-and-unitary-authorities&years=2019&years=2018&years=2017&years=2016
+
 > {%
         const expectedResults = [ 
             {areaName:"Darlington", year:2016, outcome:"Worse"},
@@ -104,7 +106,7 @@ GET http://localhost:5144/indicators/94103/data?area_codes=E10000014&area_codes=
 
 
 ### check quintile comparison for counties - Quintile values have been validated against current site - there are known differences
-GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=E10000032&area_codes=E10000018&area_codes=E06000062&area_codes=E06000030&area_codes=E06000050&comparison_method=Quintiles&area_type=counties-and-unitary-authorities&years=2019
+GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=E10000032&area_codes=E10000018&area_codes=E06000062&area_codes=E06000030&area_codes=E06000050&area_type=counties-and-unitary-authorities&years=2019
 
 > {%
     client.test("Expected health data returned with quintile comparison", function (callbackfn, thisArg) {
@@ -131,7 +133,7 @@ GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=
     });
 %}
 ### check quintile comparison for counties - Quintile values have been validated against current site - there are known differences
-GET http://localhost:5144/indicators/94103/data?&area_codes=E06000052&area_codes=E10000020&area_codes=E06000013&area_codes=E06000005&area_codes=E08000001&area_codes=E06000009&comparison_method=Quintiles&area_type=counties-and-unitary-authorities&years=2019
+GET http://localhost:5144/indicators/94103/data?area_codes=E06000052&area_codes=E10000020&area_codes=E06000013&area_codes=E06000005&area_codes=E08000001&area_codes=E06000009&area_type=counties-and-unitary-authorities&years=2019
 
 > {%
     client.test("Expected health data returned with quintile comparison", function (callbackfn, thisArg) {
@@ -157,7 +159,7 @@ GET http://localhost:5144/indicators/94103/data?&area_codes=E06000052&area_codes
     });
 %}
 ### check quintile comparison is unchanged when including multiple years
-GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=E10000032&area_codes=E10000018&area_codes=E06000062&area_codes=E06000030&area_codes=E06000050&comparison_method=Quintiles&area_type=counties-and-unitary-authorities&years=2019&years=2016
+GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=E10000032&area_codes=E10000018&area_codes=E06000062&area_codes=E06000030&area_codes=E06000050&area_type=counties-and-unitary-authorities&years=2019&years=2016
 
 > {%
     client.test("Expected health data returned with quintile comparison", function (callbackfn, thisArg) {

@@ -22,6 +22,7 @@ import {
   valueSelectorForInequality,
   sequenceSelectorForInequality,
   healthDataFilterFunctionGeneratorForInequality,
+  getYearsWithInequalityData,
 } from './inequalitiesHelpers';
 import { GROUPED_YEAR_DATA } from '@/lib/tableHelpers/mocks';
 import { UniqueChartColours } from '@/lib/chartHelpers/colours';
@@ -114,6 +115,8 @@ const mockInequalitiesRowData: InequalitiesTableRowData[] = [
         upper: 578.32766,
         lower: 441.69151,
         sequence: 1,
+        isAggregate: false,
+        benchmarkComparison: undefined,
       },
       Female: {
         value: 703.420759,
@@ -121,6 +124,8 @@ const mockInequalitiesRowData: InequalitiesTableRowData[] = [
         upper: 578.32766,
         lower: 441.69151,
         sequence: 1,
+        isAggregate: false,
+        benchmarkComparison: undefined,
       },
     },
   },
@@ -133,6 +138,8 @@ const mockInequalitiesRowData: InequalitiesTableRowData[] = [
         upper: 578.32766,
         lower: 441.69151,
         sequence: 1,
+        isAggregate: true,
+        benchmarkComparison: undefined,
       },
       Male: {
         value: 890.328253,
@@ -140,6 +147,8 @@ const mockInequalitiesRowData: InequalitiesTableRowData[] = [
         upper: 578.32766,
         lower: 441.69151,
         sequence: 1,
+        isAggregate: false,
+        benchmarkComparison: undefined,
       },
       Female: {
         value: 890.328253,
@@ -147,6 +156,8 @@ const mockInequalitiesRowData: InequalitiesTableRowData[] = [
         upper: 578.32766,
         lower: 441.69151,
         sequence: 1,
+        isAggregate: false,
+        benchmarkComparison: undefined,
       },
     },
   },
@@ -451,8 +462,9 @@ describe('getDynamicKeys', () => {
 
 describe('mapToInequalitiesTableData', () => {
   it('should map to inequalitiesSexTable row data', () => {
-    const expectedInequalitiesTableRow: InequalitiesTableRowData[] =
-      mockInequalitiesRowData;
+    const expectedInequalitiesTableRow: InequalitiesTableRowData[] = [
+      ...mockInequalitiesRowData,
+    ];
     expect(
       mapToInequalitiesTableData(
         GROUPED_YEAR_DATA,
@@ -855,5 +867,38 @@ describe('filterHealthData', () => {
     );
 
     expect(filteredHealthData).toEqual([healthData[0], healthData[1]]);
+  });
+});
+
+describe('getYearsWithInequalityData', () => {
+  it('should return the years that contain inequalities data', () => {
+    const expectedYears = [2004, 2008];
+
+    expect(getYearsWithInequalityData(mockInequalitiesRowData)).toEqual(
+      expectedYears
+    );
+  });
+
+  it('should filter out the years without inequalities data', () => {
+    const expectedYears = [2004, 2008];
+
+    const mockRowData = [
+      ...mockInequalitiesRowData,
+      {
+        period: 2010,
+        inequalities: {
+          Persons: {
+            value: 703.420759,
+            count: 267,
+            upper: 578.32766,
+            lower: 441.69151,
+            sequence: 1,
+            isAggregate: true,
+          },
+        },
+      },
+    ];
+
+    expect(getYearsWithInequalityData(mockRowData)).toEqual(expectedYears);
   });
 });

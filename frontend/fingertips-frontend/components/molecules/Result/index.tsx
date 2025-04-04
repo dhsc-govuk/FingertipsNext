@@ -15,7 +15,6 @@ import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { TagColours } from '@/lib/styleHelpers/colours';
 import { formatDate, isWithinOneMonth } from '@/lib/dateHelpers/dateHelpers';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
 import { TrendTag } from '../TrendTag';
@@ -92,16 +91,6 @@ export function SearchResult({
       indicatorId
     );
 
-    const areasSelected =
-      stateManager.getSearchState()[SearchParams.AreasSelected];
-
-    if (!areasSelected || areasSelected.length < 1) {
-      stateManager.addParamValueToState(
-        SearchParams.AreasSelected,
-        areaCodeForEngland
-      );
-    }
-
     return stateManager.generatePath(chartPath);
   };
 
@@ -156,15 +145,15 @@ export function SearchResult({
             </TagRow>
           </Checkbox>
         </GridCol>
-        <GridCol setWidth="one-quarter">
-          {showTrends ? (
+        {showTrends ? (
+          <GridCol setWidth="one-quarter">
             <TrendTag
               trendFromResponse={
                 result.trend ?? HealthDataPointTrendEnum.CannotBeCalculated
               }
             />
-          ) : null}
-        </GridCol>
+          </GridCol>
+        ) : null}
       </PrimaryRow>
       <SectionBreak visible={true} />
     </ListItem>

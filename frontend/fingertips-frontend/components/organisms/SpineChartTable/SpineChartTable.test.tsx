@@ -23,7 +23,7 @@ describe('Spine chart table suite', () => {
     },
   ];
 
-  const mockUnits = ['kg', 'per 1000'];
+  const mockUnits = ['kg', 'per 1,000'];
 
   const mockHealthData: HealthDataForArea[] = [
     {
@@ -38,7 +38,7 @@ describe('Spine chart table suite', () => {
           upperCi: 578.32766,
           ageBand: allAgesAge,
           sex: personsSex,
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
+          trend: HealthDataPointTrendEnum.IncreasingAndGettingWorse,
           deprivation: noDeprivation,
         },
       ],
@@ -55,7 +55,7 @@ describe('Spine chart table suite', () => {
           upperCi: 478.32766,
           ageBand: allAgesAge,
           sex: personsSex,
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
+          trend: HealthDataPointTrendEnum.CannotBeCalculated,
           deprivation: noDeprivation,
         },
       ],
@@ -99,9 +99,20 @@ describe('Spine chart table suite', () => {
     },
   ];
 
-  const mockBest = [1666, 22];
-
-  const mockWorst = [959, 100];
+  const mockBenchmarkStatistics = [
+    {
+      best: 1666,
+      bestQuartile: 1000,
+      worstQuartile: 969,
+      worst: 959,
+    },
+    {
+      best: 22,
+      bestQuartile: 40,
+      worstQuartile: 60,
+      worst: 100,
+    },
+  ];
 
   const mockTableData = [
     {
@@ -110,8 +121,7 @@ describe('Spine chart table suite', () => {
       indicatorHealthData: mockHealthData[0],
       groupIndicatorData: mockGroup[0],
       englandBenchmarkData: MOCK_HEALTH_DATA[0],
-      best: mockBest[0],
-      worst: mockWorst[0],
+      benchmarkStatistics: mockBenchmarkStatistics[0],
     },
     {
       indicator: mockIndicatorData[1],
@@ -119,8 +129,7 @@ describe('Spine chart table suite', () => {
       indicatorHealthData: mockHealthData[1],
       groupIndicatorData: mockGroup[1],
       englandBenchmarkData: MOCK_HEALTH_DATA[1],
-      best: mockBest[1],
-      worst: mockWorst[1],
+      benchmarkStatistics: mockBenchmarkStatistics[1],
     },
   ];
 
@@ -150,27 +159,37 @@ describe('Spine chart table suite', () => {
     it('should map to spine chart table row data', () => {
       const expectedRowData: SpineChartTableRowData[] = [
         {
-          benchmarkBest: 1666,
+          benchmarkStatistics: {
+            best: 1666,
+            bestQuartile: 1000,
+            worstQuartile: 969,
+            worst: 959,
+          },
           benchmarkValue: 890.305692,
-          benchmarkWorst: 959,
           count: 222,
           groupValue: 980.305692,
           indicator: 'Test indicator 1',
           indicatorId: 2,
           period: 2008,
+          trend: 'Increasing and getting worse',
           unit: 'kg',
           value: 890.305692,
         },
         {
-          benchmarkBest: 22,
+          benchmarkStatistics: {
+            best: 22,
+            bestQuartile: 40,
+            worstQuartile: 60,
+            worst: 100,
+          },
           benchmarkValue: 135.149304,
-          benchmarkWorst: 100,
           count: 111,
           groupValue: 690.305692,
           indicator: 'Test indicator 2',
           indicatorId: 1,
           period: 2024,
-          unit: 'per 1000',
+          trend: 'Cannot be calculated',
+          unit: 'per 1,000',
           value: 690.305692,
         },
       ];

@@ -13,7 +13,10 @@ import {
   sortHealthDataPointsByDescendingYear,
 } from '@/lib/chartHelpers/chartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { CheckValueInTableCell } from '@/components/molecules/CheckValueInTableCell';
+import {
+  CheckValueInTableCell,
+  FormatNumberInTableCell,
+} from '@/components/molecules/CheckValueInTableCell';
 import React, { useState } from 'react';
 import { SparklineChart } from '@/components/organisms/SparklineChart';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
@@ -173,8 +176,11 @@ export function BarChartEmbeddedTable({
             <Table.Cell>
               <TrendTag trendFromResponse={mostRecentBenchmarkData.trend} />
             </Table.Cell>
-            <CheckValueInTableCell value={mostRecentBenchmarkData.count} />
-            <CheckValueInTableCell
+            <FormatNumberInTableCell
+              value={mostRecentBenchmarkData.count}
+              numberStyle={'whole'}
+            />
+            <FormatNumberInTableCell
               value={mostRecentBenchmarkData.value}
               style={{ textAlign: 'right', paddingRight: '0px' }}
             />
@@ -214,8 +220,11 @@ export function BarChartEmbeddedTable({
             <Table.Cell>
               <TrendTag trendFromResponse={mostRecentGroupData.trend} />
             </Table.Cell>
-            <CheckValueInTableCell value={mostRecentGroupData.count} />
-            <CheckValueInTableCell
+            <FormatNumberInTableCell
+              value={mostRecentGroupData.count}
+              numberStyle={'whole'}
+            />
+            <FormatNumberInTableCell
               value={mostRecentGroupData.value}
               style={{ textAlign: 'right', paddingRight: '0px' }}
             />
@@ -239,8 +248,8 @@ export function BarChartEmbeddedTable({
                 measurementUnit={measurementUnit}
               />
             </Table.Cell>
-            <CheckValueInTableCell value={mostRecentGroupData.lowerCi} />
-            <CheckValueInTableCell value={mostRecentGroupData.upperCi} />
+            <FormatNumberInTableCell value={mostRecentGroupData.lowerCi} />
+            <FormatNumberInTableCell value={mostRecentGroupData.upperCi} />
           </Table.Row>
         ) : null}
 
@@ -251,8 +260,8 @@ export function BarChartEmbeddedTable({
             <Table.Cell>
               <TrendTag trendFromResponse={item.trend} />
             </Table.Cell>
-            <CheckValueInTableCell value={item.count} />
-            <CheckValueInTableCell
+            <FormatNumberInTableCell value={item.count} numberStyle={'whole'} />
+            <FormatNumberInTableCell
               value={item.value}
               style={{ textAlign: 'right', paddingRight: '0px' }}
             />
@@ -271,8 +280,8 @@ export function BarChartEmbeddedTable({
                 measurementUnit={measurementUnit}
               />
             </Table.Cell>
-            <CheckValueInTableCell value={item.lowerCi} />
-            <CheckValueInTableCell value={item.upperCi} />
+            <FormatNumberInTableCell value={item.lowerCi} />
+            <FormatNumberInTableCell value={item.upperCi} />
           </Table.Row>
         ))}
       </Table>

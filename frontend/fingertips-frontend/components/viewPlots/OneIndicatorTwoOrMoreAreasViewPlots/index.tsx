@@ -6,22 +6,19 @@ import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { BarChartEmbeddedTable } from '@/components/organisms/BarChartEmbeddedTable';
 import { seriesDataWithoutEnglandOrGroup } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import { SearchParams } from '@/lib/searchStateManager';
 import { H3, Paragraph } from 'govuk-react';
 import { OneIndicatorViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
-import {
-  AreaTypeKeysForMapMeta,
-  MapGeographyData,
-} from '@/components/organisms/ThematicMap/thematicMapHelpers';
+import { MapGeographyData } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import {
   generateStandardLineChartOptions,
   LineChartVariant,
 } from '@/components/organisms/LineChart/lineChartHelpers';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchState } from '@/context/SearchStateContext';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
 import { IndicatorPolarity } from '@/generated-sources/ft-api-client';
@@ -47,14 +44,12 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     setSearchState(searchState ?? {});
   }, [searchState, setSearchState]);
 
-  const stateManager = SearchStateManager.initialise(searchState);
-
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
     [SearchParams.AreasSelected]: areasSelected,
-    [SearchParams.AreaTypeSelected]: areasTypeSelected,
-  } = stateManager.getSearchState();
+  } = searchState;
+
   const healthIndicatorData = indicatorData?.areaHealthData ?? [];
   const { benchmarkMethod, polarity } = indicatorData;
   const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
@@ -76,7 +71,8 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
       : undefined;
 
   const shouldLineChartbeShown =
-    dataWithoutEnglandOrGroup[0]?.healthData.length > 1 &&
+    (dataWithoutEnglandOrGroup[0]?.healthData.length > 1 ||
+      benchmarkMethod === BenchmarkComparisonMethod.Quintiles) &&
     areasSelected &&
     areasSelected?.length <= 2;
 
@@ -151,7 +147,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
         <ThematicMap
           healthIndicatorData={dataWithoutEnglandOrGroup}
           mapGeographyData={mapGeographyData}
-          areaType={areasTypeSelected as AreaTypeKeysForMapMeta}
           benchmarkComparisonMethod={
             benchmarkMethod ?? BenchmarkComparisonMethod.Unknown
           }
