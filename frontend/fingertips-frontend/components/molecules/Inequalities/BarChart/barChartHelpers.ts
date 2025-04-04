@@ -1,6 +1,9 @@
 import { SymbolNames } from '@/lib/chartHelpers/pointFormatterHelper';
 import Highcharts from 'highcharts';
 
+const AXIS_TITLE_FONT_SIZE = 19;
+const AXIS_LABEL_FONT_SIZE = 16;
+
 const getPlotline = (
   benchmarkLabel?: string,
   benchmarkValue?: number
@@ -53,13 +56,13 @@ export const getBarChartOptions = (options: {
       lineWidth: 0,
       labels: {
         style: {
-          fontSize: 16,
+          fontSize: AXIS_LABEL_FONT_SIZE,
         },
       },
       title: {
         text: options.xAxisTitleText,
         style: {
-          fontSize: 19,
+          fontSize: AXIS_TITLE_FONT_SIZE,
         },
         margin: 20,
       },
@@ -69,13 +72,13 @@ export const getBarChartOptions = (options: {
       title: {
         text: options.yAxisTitleText,
         style: {
-          fontSize: 19,
+          fontSize: AXIS_TITLE_FONT_SIZE,
         },
         margin: 20,
       },
       labels: {
         style: {
-          fontSize: 16,
+          fontSize: AXIS_LABEL_FONT_SIZE,
         },
       },
       max: options.yAxisMax,
