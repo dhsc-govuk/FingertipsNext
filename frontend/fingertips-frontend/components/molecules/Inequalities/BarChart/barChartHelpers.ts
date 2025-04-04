@@ -22,7 +22,7 @@ export const barChartDefaultOptions: Highcharts.Options = {
   credits: {
     enabled: false,
   },
-  chart: { type: 'bar', height: '50%', spacingTop: 20, spacingBottom: 50 },
+  chart: { type: 'bar', height: '50%', spacingTop: 20, spacingBottom: 50, animation: false },
   title: {
     style: {
       display: 'none',

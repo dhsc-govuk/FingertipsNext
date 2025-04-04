@@ -115,6 +115,7 @@ export function SparklineChart({
       height: 90,
       width: 200,
       backgroundColor: 'transparent',
+      animation: false,
     },
     title: {
       style: {
