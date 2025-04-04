@@ -89,9 +89,7 @@ export const handlers = [
     const url = new URL(request.url);
     const areaCodes = url.searchParams.getAll('area_codes') ?? [];
 
-    const resultArray = [
-      [await getGetAreas200Response(areaCodes), { status: 200 }],
-    ];
+    const resultArray = [[getGetAreas200Response(areaCodes), { status: 200 }]];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
