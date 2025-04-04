@@ -74,7 +74,7 @@ export function EnglandAreaTypeTable({
                 {EnglandAreaTypeTableEnum.Value}
               </Table.CellHeader>
               <Table.CellHeader
-                style={{ verticalAlign: 'top', textAlign: 'right' }}
+                style={{ verticalAlign: 'top', textAlign: 'center' }}
               >
                 {EnglandAreaTypeTableEnum.RecentTrend}
               </Table.CellHeader>
