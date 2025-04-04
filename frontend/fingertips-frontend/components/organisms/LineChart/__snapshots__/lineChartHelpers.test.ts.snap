@@ -7,7 +7,6 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
     "enabled": false,
   },
   "chart": {
-    "height": "50%",
     "spacingBottom": 50,
     "spacingTop": 20,
     "type": "line",
@@ -115,7 +114,6 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
     "enabled": false,
   },
   "chart": {
-    "height": "50%",
     "spacingBottom": 50,
     "spacingTop": 20,
     "type": "line",
