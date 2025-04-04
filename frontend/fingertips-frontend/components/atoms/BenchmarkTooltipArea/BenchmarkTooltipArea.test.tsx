@@ -32,47 +32,26 @@ describe('BenchmarkTooltipArea', () => {
   it.each([
     [
       BenchmarkOutcome.NotCompared,
+      undefined,
       BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
       SymbolsEnum.MultiplicationX,
-      undefined,
     ],
     [
       BenchmarkOutcome.Better,
+      `than ${mockBenchmarkArea}`,
       BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
-      SymbolsEnum.Circle,
-      `than ${mockBenchmarkArea}`,
     ],
-    [
-      BenchmarkOutcome.Similar,
-      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-      SymbolsEnum.Circle,
-      `to ${mockBenchmarkArea}`,
-    ],
-    [
-      BenchmarkOutcome.Worse,
-      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-      SymbolsEnum.Circle,
-      `than ${mockBenchmarkArea}`,
-    ],
-    [
-      BenchmarkOutcome.Lower,
-      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-      SymbolsEnum.Circle,
-      `than ${mockBenchmarkArea}`,
-    ],
-    [
-      BenchmarkOutcome.Higher,
-      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-      SymbolsEnum.Circle,
-      `than ${mockBenchmarkArea}`,
-    ],
+    [BenchmarkOutcome.Similar, `to ${mockBenchmarkArea}`],
+    [BenchmarkOutcome.Worse, `than ${mockBenchmarkArea}`],
+    [BenchmarkOutcome.Lower, `than ${mockBenchmarkArea}`],
+    [BenchmarkOutcome.Higher, `than ${mockBenchmarkArea}`],
   ])(
     'should return the expected RAG tooltip for an area',
     (
       testBenchmarkOutcome: BenchmarkOutcome,
-      testBenchmarkComparisonMethod: BenchmarkComparisonMethod,
-      expectedSymbol: SymbolsEnum,
-      expectedComparisonString?: string
+      expectedComparisonString?: string,
+      testBenchmarkComparisonMethod: BenchmarkComparisonMethod = BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      expectedSymbol: SymbolsEnum = SymbolsEnum.Circle
     ) => {
       const testIndicatorDataForArea = mockIndicatorData;
       testIndicatorDataForArea.healthData[0].benchmarkComparison = {
@@ -135,29 +114,21 @@ describe('BenchmarkTooltipArea', () => {
   ];
 
   it.each([
-    [
-      BenchmarkOutcome.NotCompared,
-      BenchmarkComparisonMethod.Quintiles,
-      SymbolsEnum.MultiplicationX,
-    ],
-    [
-      BenchmarkOutcome.Lowest,
-      BenchmarkComparisonMethod.Quintiles,
-      SymbolsEnum.Circle,
-    ],
-    // [BenchmarkOutcome.Low],
-    // [BenchmarkOutcome.Middle],
-    // [BenchmarkOutcome.High],
-    // [BenchmarkOutcome.Highest],
-    // [BenchmarkOutcome.Best],
-    // [BenchmarkOutcome.Worst],
+    [BenchmarkOutcome.NotCompared, SymbolsEnum.MultiplicationX],
+    [BenchmarkOutcome.Lowest],
+    [BenchmarkOutcome.Low],
+    [BenchmarkOutcome.Middle],
+    [BenchmarkOutcome.High],
+    [BenchmarkOutcome.Highest],
+    [BenchmarkOutcome.Best],
+    [BenchmarkOutcome.Worst],
   ])(
     'should return the expected Quintiles tooltip',
     (
       testBenchmarkOutcome: BenchmarkOutcome,
-      testBenchmarkComparisonMethod: BenchmarkComparisonMethod,
-      expectedSymbol: SymbolsEnum
+      expectedSymbol: SymbolsEnum = SymbolsEnum.Circle
     ) => {
+      const testBenchmarkComparisonMethod = BenchmarkComparisonMethod.Quintiles;
       const testIndicatorDataForArea = mockIndicatorData;
       testIndicatorDataForArea.healthData[0].benchmarkComparison = {
         outcome: testBenchmarkOutcome,
@@ -205,8 +176,33 @@ describe('BenchmarkTooltipArea', () => {
     }
   );
 
-  it.todo('should include Group when passed a group');
-  it.todo(
-    'should include Benchmark and only required elements when passed a group'
-  );
+  it('should include Group when passed a RAG group', () => {
+    render(
+      <BenchmarkTooltipArea
+        indicatorData={mockIndicatorData}
+        benchmarkComparisonMethod={
+          BenchmarkComparisonMethod.CIOverlappingReferenceValue95
+        }
+        measurementUnit={mockUnits}
+        tooltipType={'group'}
+      />
+    );
+    expect(screen.queryByText(/Group/)).toBeInTheDocument();
+  });
+  it('should include Benchmark and only required elements when passed a RAG bechmark', () => {
+    render(
+      <BenchmarkTooltipArea
+        indicatorData={mockIndicatorData}
+        benchmarkComparisonMethod={
+          BenchmarkComparisonMethod.CIOverlappingReferenceValue95
+        }
+        measurementUnit={mockUnits}
+        tooltipType={'benchmark'}
+      />
+    );
+    expect(screen.queryByText(/Benchmark/)).toBeInTheDocument();
+    expect(screen.queryByText(/England/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/than/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/to/)).not.toBeInTheDocument();
+  });
 });
