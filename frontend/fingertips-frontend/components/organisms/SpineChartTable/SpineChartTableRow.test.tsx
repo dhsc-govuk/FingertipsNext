@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { SpineChartTableRow } from './SpineChartTableRow';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 
 describe('Spine chart table suite', () => {
   const mockRowData = {
@@ -9,6 +10,7 @@ describe('Spine chart table suite', () => {
     indicator: 'indicator',
     unit: '%',
     period: 2025,
+    trend: HealthDataPointTrendEnum.Decreasing,
     count: 123,
     value: 456,
     groupValue: 789,
@@ -31,6 +33,7 @@ describe('Spine chart table suite', () => {
               indicator={mockRowData.indicator}
               unit={mockRowData.unit}
               period={mockRowData.period}
+              trend={mockRowData.trend}
               count={mockRowData.count}
               value={mockRowData.value}
               groupValue={mockRowData.groupValue}
@@ -61,6 +64,7 @@ describe('Spine chart table suite', () => {
               indicator={mockRowData.indicator}
               unit={mockRowData.unit}
               period={mockRowData.period}
+              trend={mockRowData.trend}
               count={mockRowData.count}
               value={mockRowData.value}
               groupValue={mockRowData.groupValue}
@@ -85,6 +89,7 @@ describe('Spine chart table suite', () => {
               indicator={mockRowData.indicator}
               unit={mockRowData.unit}
               period={mockRowData.period}
+              trend={mockRowData.trend}
               count={undefined}
               value={undefined}
               groupValue={undefined}
