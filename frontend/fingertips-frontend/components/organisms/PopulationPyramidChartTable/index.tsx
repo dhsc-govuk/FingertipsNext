@@ -14,9 +14,9 @@ const StylePopulationPyramidTableSection = styled('section')({
   'justifyContent': 'flex-start',
   'alignItems': 'stretch',
   '& table ': {
-    'margin': '0px !important',
-    'border': '0px',
-    'padding': '0px',
+    margin: '0px !important',
+    border: '0px',
+    padding: '0px',
   },
 });
 
@@ -64,10 +64,10 @@ const StyleGroupTableContentDiv = styled('div')({
 
 const StyleSelectedAreaTableContextDiv = styled('div')({
   'flexGrow': 8,
-  'minWidth': DefaultMinimumWidthForTablePanel + 50,
+  'minWidth': DefaultMinimumWidthForTablePanel + 30,
   '& table': {
     '& td:first-child': {
-      width: '28%',
+      minWidth: '90px',
     },
     '& td, th': {
       borderTopColor: GovukColours.MidGrey,

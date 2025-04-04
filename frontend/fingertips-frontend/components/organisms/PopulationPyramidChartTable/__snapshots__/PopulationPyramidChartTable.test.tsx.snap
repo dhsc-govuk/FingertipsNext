@@ -185,11 +185,11 @@ exports[`PopulationPyramidChartTable take a snapshot 1`] = `
   -webkit-flex-grow: 8;
   -ms-flex-positive: 8;
   flex-grow: 8;
-  min-width: 300px;
+  min-width: 280px;
 }
 
 .c2 table td:first-child {
-  width: 28%;
+  min-width: 90px;
 }
 
 .c2 table td,
