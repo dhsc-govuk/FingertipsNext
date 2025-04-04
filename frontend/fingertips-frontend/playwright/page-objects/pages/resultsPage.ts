@@ -47,9 +47,7 @@ export default class ResultsPage extends AreaFilter {
       ''
     );
 
-    const determineAreaTypeSelected = selectedAreaType
-      ? selectedAreaType
-      : englandAreaType.key;
+    const determineAreaTypeSelected = selectedAreaType ?? englandAreaType.key;
 
     await this.page.goto(
       `results?${SearchParams.SearchedIndicator}=${searchIndicator}&${SearchParams.AreaTypeSelected}=${determineAreaTypeSelected}${asQuery}`

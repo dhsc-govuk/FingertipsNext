@@ -11,9 +11,7 @@ export const getSelectedAreasDataByAreaType = async (
 ): Promise<Area[]> => {
   const areasApi = ApiClientFactory.getAreasApiClient();
 
-  const determineAreaTypeSelected = areaTypeSelected
-    ? areaTypeSelected
-    : englandAreaType.key;
+  const determineAreaTypeSelected = areaTypeSelected ?? englandAreaType.key;
 
   const selectedAreasData =
     areasSelected && areasSelected?.length > 0
