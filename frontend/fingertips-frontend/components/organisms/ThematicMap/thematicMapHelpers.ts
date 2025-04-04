@@ -40,7 +40,7 @@ interface MapMetaData {
   mapFile: () => Promise<{ default: GeoJSON }>;
 }
 
-//
+// where to find map data, the compiler needs to see import('@/...') it cannot accept a variable in import
 const regionsMap = () =>
   import(
     '@/assets/maps/Regions_December_2023_Boundaries_EN_BUC_1958740832896680092.geo.json'
