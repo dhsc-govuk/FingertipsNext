@@ -61,10 +61,8 @@ exports[`PopulationDataTable take a snapshot 1`] = `
   font-size: 16px;
   line-height: 1.25;
   text-align: center;
-  height: 70px;
-  border: 0px;
-  margin: auto;
-  display: block;
+  height: 65px;
+  line-height: 65px;
   -webkit-letter-spacing: 0px;
   -moz-letter-spacing: 0px;
   -ms-letter-spacing: 0px;

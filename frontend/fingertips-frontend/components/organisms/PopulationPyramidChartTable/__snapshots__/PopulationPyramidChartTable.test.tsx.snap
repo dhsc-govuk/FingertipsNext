@@ -61,10 +61,8 @@ exports[`PopulationPyramidChartTable take a snapshot 1`] = `
   font-size: 16px;
   line-height: 1.25;
   text-align: center;
-  height: 70px;
-  border: 0px;
-  margin: auto;
-  display: block;
+  height: 65px;
+  line-height: 65px;
   -webkit-letter-spacing: 0px;
   -moz-letter-spacing: 0px;
   -ms-letter-spacing: 0px;
@@ -129,7 +127,7 @@ exports[`PopulationPyramidChartTable take a snapshot 1`] = `
   flex-grow: 2;
   margin-left: auto;
   background-color: #B1B4B6;
-  min-width: 300px;
+  min-width: 250px;
 }
 
 .c12 table {
@@ -169,7 +167,7 @@ exports[`PopulationPyramidChartTable take a snapshot 1`] = `
   -ms-flex-positive: 2;
   flex-grow: 2;
   background-color: #F3F2F1;
-  min-width: 300px;
+  min-width: 250px;
 }
 
 .c11 table {
@@ -187,7 +185,11 @@ exports[`PopulationPyramidChartTable take a snapshot 1`] = `
   -webkit-flex-grow: 8;
   -ms-flex-positive: 8;
   flex-grow: 8;
-  min-width: 460px;
+  min-width: 250px;
+}
+
+.c2 table td:first-child {
+  width: 28%;
 }
 
 .c2 table td,
