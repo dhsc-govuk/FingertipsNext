@@ -21,10 +21,6 @@ export enum EnglandAreaTypeTableEnum {
   RecentTrend = 'Recent trend',
 }
 
-export enum EnglandAreaTypeHeaderEnum {
-  England = 'England',
-}
-
 export interface EnglandAreaTypeIndicatorData {
   indicatorId: number | undefined;
   indicatorName: string | undefined;
@@ -37,6 +33,8 @@ interface EnglandAreaTypeTableProps {
   indicatorData: EnglandAreaTypeIndicatorData[];
 }
 
+const EnglandAreaTypeHeader = 'England'
+
 export function EnglandAreaTypeTable({
   indicatorData,
 }: Readonly<EnglandAreaTypeTableProps>) {
@@ -47,7 +45,7 @@ export function EnglandAreaTypeTable({
           <React.Fragment>
             <Table.Row>
               <Table.CellHeader colSpan={6}>
-                {EnglandAreaTypeHeaderEnum.England}
+                {EnglandAreaTypeHeader}
               </Table.CellHeader>
             </Table.Row>
 

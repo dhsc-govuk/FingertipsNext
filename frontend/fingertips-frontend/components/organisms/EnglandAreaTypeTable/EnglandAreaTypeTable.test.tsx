@@ -3,50 +3,21 @@ import {
   EnglandAreaTypeIndicatorData,
   EnglandAreaTypeTable,
 } from '@/components/organisms/EnglandAreaTypeTable/index';
-import {
-  HealthDataForArea,
-  HealthDataPointTrendEnum,
-} from '@/generated-sources/ft-api-client';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
-
-const mockEnglandHealthData: HealthDataForArea = {
-  areaCode: areaCodeForEngland,
-  areaName: 'England',
-  healthData: [
-    {
-      year: 2008,
-      count: 222,
-      value: 890.305692,
-      lowerCi: 441.69151,
-      upperCi: 578.32766,
-      ageBand: allAgesAge,
-      sex: personsSex,
-      trend: HealthDataPointTrendEnum.NotYetCalculated,
-      deprivation: noDeprivation,
-    },
-  ],
-};
-
-const mockNoHealthData: HealthDataForArea = {
-  areaCode: areaCodeForEngland,
-  areaName: 'England',
-  healthData: [],
-};
+import { healthDataPoint } from '@/lib/mocks';
 
 const mockIndicatorData: EnglandAreaTypeIndicatorData[] = [
   {
     indicatorId: 1,
     indicatorName: ' ',
     period: '2008',
-    latestEnglandHealthData: mockEnglandHealthData.healthData[0],
+    latestEnglandHealthData: healthDataPoint,
     unitLabel: '',
   },
   {
     indicatorId: 2,
     indicatorName: 'no data indicator',
     period: '',
-    latestEnglandHealthData: mockNoHealthData.healthData[0],
+    latestEnglandHealthData: undefined,
     unitLabel: '',
   },
 ];

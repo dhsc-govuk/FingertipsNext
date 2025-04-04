@@ -12,6 +12,7 @@ import {
 import { mockDeep } from 'jest-mock-extended';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import TwoOrMoreIndicatorsEnglandView from '@/components/views/TwoOrMoreIndicatorsEnglandView/index';
+import TwoOrMoreIndicatorsAreasView from '@/components/views/TwoOrMoreIndicatorsAreasView';
 
 const mockSearchParams: SearchStateParams = {
   [SearchParams.IndicatorsSelected]: ['1', '2'],
@@ -73,6 +74,20 @@ describe('TwoOrMoreIndicatorsEnglandView', () => {
     );
   });
 
+  it('should throw an error when search state contains no selected indicators', async () => {
+    const searchState: SearchStateParams = {
+      ...mockSearchParams,
+      [SearchParams.IndicatorsSelected]: [],
+    };
+
+    await expect(async () => {
+      await TwoOrMoreIndicatorsEnglandView({
+        searchState: searchState,
+        selectedIndicatorsData: fullSelectedIndicatorsData,
+      });
+    }).rejects.toThrow('Invalid parameters provided to view');
+  });
+
   it('should throw an error when search state contains fewer than 2 selected indicators', async () => {
     const searchState: SearchStateParams = {
       ...mockSearchParams,
@@ -87,3 +102,6 @@ describe('TwoOrMoreIndicatorsEnglandView', () => {
     }).rejects.toThrow('Invalid parameters provided to view');
   });
 });
+
+
+// write test for - should throw an error when the area code isnt england
