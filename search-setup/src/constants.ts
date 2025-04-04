@@ -14,7 +14,7 @@ export const ONS_AREA_TYPE_CODE_LONDON_BOROUGHS = 'E09';
 interface AreaCodeWithTrend {
   areaCode: string;
   trend: string;
-};
+}
 
 export interface IndicatorDocument {
   indicatorID: string;
@@ -47,8 +47,8 @@ export enum IndicatorSearchIndexColumnNames {
   INDICATOR_LAST_UPDATED = 'lastUpdatedDate',
   INDICATOR_AREAS = 'associatedAreaCodes',
   INDICATOR_AREAS_WITH_TRENDS = 'trendsByArea',
-  INDICATOR_AREAS_WITH_TRENDS_TREND = "trend",
-  INDICATOR_AREAS_WITH_TRENDS_AREA_CODE = "areaCode",
+  INDICATOR_AREAS_WITH_TRENDS_TREND = 'trend',
+  INDICATOR_AREAS_WITH_TRENDS_AREA_CODE = 'areaCode',
   INDICATOR_HAS_INEQUALITIES = 'hasInequalities',
   INDICATOR_UNIT_LABEL = 'unitLabel',
 }
