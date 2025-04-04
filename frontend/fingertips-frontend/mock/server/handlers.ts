@@ -7,6 +7,7 @@ import {
   AreaTypeKeys,
 } from '../../lib/areaFilterHelpers/areaType';
 import {
+  Area,
   AreaWithRelations,
   BenchmarkComparisonMethod,
   IndicatorWithHealthDataForArea,
@@ -81,6 +82,16 @@ export const handlers = [
   }),
   http.get(`${baseURL}/areas/root`, async () => {
     const resultArray = [[getGetAreaRoot200Response(), { status: 200 }]];
+
+    return HttpResponse.json(...resultArray[next() % resultArray.length]);
+  }),
+  http.get(`${baseURL}/areas`, async ({ request }) => {
+    const url = new URL(request.url);
+    const areaCodes = url.searchParams.getAll('area_codes') ?? [];
+
+    const resultArray = [
+      [await getGetAreas200Response(areaCodes), { status: 200 }],
+    ];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
@@ -167,6 +178,14 @@ export function getGetArea200Response(
   }
 
   return mockDataForArea;
+}
+
+export function getGetAreas200Response(areaCodes: string[]): Area[] {
+  const mockDataForAreas = areaCodes.map((areaCode) => {
+    return mockAreaData[areaCode] as Area;
+  });
+
+  return mockDataForAreas;
 }
 
 export function getGetAreaRoot200Response() {
