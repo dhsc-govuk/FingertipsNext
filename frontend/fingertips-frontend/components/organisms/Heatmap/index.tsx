@@ -6,7 +6,7 @@ import {
   generateRows,
   HeatmapIndicatorData,
 } from './heatmapUtil';
-import { SectionBreak, Table } from 'govuk-react';
+import { Table } from 'govuk-react';
 import styled from 'styled-components';
 import { HeatmapHeader } from './heatmapHeader';
 import { HeatmapCell } from './heatmapCell';

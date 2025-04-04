@@ -3,6 +3,7 @@ import { H5, Paragraph } from 'govuk-react';
 import { JSX, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
+import { HeatmapBenchmarkProps } from './heatmapUtil';
 
 const StyledDivHoverWrapper = styled.div({});
 const StyledDivHover = styled.div(
@@ -56,10 +57,8 @@ export interface HeatmapHoverProps extends PropsWithChildren {
   indicatorName: string;
   value: string;
   unitLabel: string;
-  benchmark: HeatmapHoverBenchmarkProps;
+  benchmark: HeatmapBenchmarkProps;
 }
-
-interface HeatmapHoverBenchmarkProps {}
 
 export function HeatmapHover({
   children,

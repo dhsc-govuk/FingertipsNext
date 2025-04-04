@@ -75,10 +75,10 @@ interface DataPoint {
   value?: number;
   areaCode: string;
   indicatorId: string;
-  benchmark?: Benchmark;
+  benchmark?: HeatmapBenchmarkProps;
 }
 
-interface Benchmark {
+export interface HeatmapBenchmarkProps {
   outcome: BenchmarkOutcome;
   benchmarkMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
@@ -145,9 +145,9 @@ export const generateRows = (
     });
 
     areas.forEach((area, areaIndex) => {
-      const formattedValue = formatValue(
+      const formattedValue = formatNumber(
         dataPoints[indicator.id][area.code]?.value
-      ); // TODO format numbers
+      );
       cols[areaIndex + leadingCols.length] = {
         key: `col-${indicator.id}-${area.code}`,
         type: CellType.Data,
@@ -162,7 +162,11 @@ export const generateRows = (
           indicatorName: indicator.name,
           value: formattedValue,
           unitLabel: indicator.unitLabel,
-          benchmark: {},
+          benchmark: {
+            outcome: BenchmarkOutcome.NotCompared,
+            benchmarkMethod: BenchmarkComparisonMethod.Unknown,
+            polarity: IndicatorPolarity.Unknown,
+          },
         },
       };
     });
@@ -170,10 +174,6 @@ export const generateRows = (
   });
 
   return rows;
-};
-
-const formatValue = (value?: number): string => {
-  return value !== undefined ? value.toFixed(1) : 'X';
 };
 
 const generateDataBackgroundColour = (dataPoint?: DataPoint): string => {
@@ -265,7 +265,7 @@ const extractAreasIndicatorsAndDataPoints = (
           ? healthData.healthData[0]
           : undefined;
 
-      const benchmark: Benchmark = {
+      const benchmark: HeatmapBenchmarkProps = {
         outcome:
           healthDataForYear?.benchmarkComparison?.outcome ??
           BenchmarkOutcome.NotCompared,
