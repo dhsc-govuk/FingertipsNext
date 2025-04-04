@@ -4,12 +4,8 @@ import {
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
-
-import {
-  API_CACHE_CONFIG,
-  ApiClientFactory,
-} from '@/lib/apiClient/apiClientFactory';
-
+import { getSelectedAreasDataByAreaType } from '@/lib/areaFilterHelpers/getSelectedAreasData';
+import { AreaTypeKeys } from '@/lib/areaFilterHelpers/areaType';
 import { ViewsContext } from '@/components/views/ViewsContext';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
@@ -26,6 +22,7 @@ export default async function ChartPage(
     const {
       [SearchParams.AreasSelected]: areaCodes,
       [SearchParams.IndicatorsSelected]: indicatorsSelected,
+      [SearchParams.AreaTypeSelected]: areaTypeSelected,
     } = stateManager.getSearchState();
 
     const areasSelected = areaCodes ?? [];
@@ -45,16 +42,11 @@ export default async function ChartPage(
             )
           ).filter((indicatorDocument) => indicatorDocument !== undefined)
         : [];
-    const areasApi = ApiClientFactory.getAreasApiClient();
 
-    const selectedAreasData =
-      areasSelected && areasSelected.length > 0
-        ? await Promise.all(
-            areasSelected.map((area) =>
-              areasApi.getArea({ areaCode: area }, API_CACHE_CONFIG)
-            )
-          )
-        : [];
+    const selectedAreasData = await getSelectedAreasDataByAreaType(
+      areasSelected,
+      areaTypeSelected as AreaTypeKeys
+    );
 
     const {
       availableAreaTypes,
