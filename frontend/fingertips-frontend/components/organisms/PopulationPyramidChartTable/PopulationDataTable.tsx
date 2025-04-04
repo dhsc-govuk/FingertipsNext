@@ -134,18 +134,15 @@ export const PopulationDataTable = ({
             </Table.Row>
           );
         })}
-
-        {
-          <Table.Row key={`footer-${healthDataForArea.areaName}`}>
-            {filterFooterRowItems.map((value, valueIndex: number) => (
-              <StyledAreaNameHeader
-                key={`footer-${healthDataForArea.areaName}-${valueIndex}`}
-              >
-                {valueFormatter(value)}
-              </StyledAreaNameHeader>
-            ))}
-          </Table.Row>
-        }
+        <Table.Row key={`footer-${healthDataForArea.areaName}`}>
+          {filterFooterRowItems.map((value, valueIndex: number) => (
+            <StyledAreaNameHeader
+              key={`footer-${healthDataForArea.areaName}-${valueIndex}`}
+            >
+              {valueFormatter(value)}
+            </StyledAreaNameHeader>
+          ))}
+        </Table.Row>
       </Table>
     </section>
   );
