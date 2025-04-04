@@ -291,8 +291,10 @@ export function getAllAreasByAreaType(
   areas: AreaDocument[],
   areaType: AreaTypeKeys
 ): AreaDocument[] {
+  const sanitisedAreaType = areaType.toLowerCase().replaceAll('-', ' ');
+  console.log(sanitisedAreaType);
   return areas.filter((area) =>
-    area.areaType.toLowerCase().includes(areaType.replace('-', ' '))
+    area.areaType.toLowerCase().includes(sanitisedAreaType)
   );
 }
 

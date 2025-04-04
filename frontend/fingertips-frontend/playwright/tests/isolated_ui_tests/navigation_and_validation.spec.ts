@@ -316,6 +316,7 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
 
     await test.step('filtering by GPs', async () => {
       const knownGoodGP = 'archway medical centre';
+      const groupType = 'nhs-primary-care-networks';
 
       const areaDocument: AreaDocument = getAreasByAreaName(
         mockAreas,
@@ -326,9 +327,11 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
 
       await resultsPage.selectAreaType(areaDocument.areaType);
 
-      await resultsPage.selectGroupType('nhs-primary-care-networks');
+      await resultsPage.selectGroupType(groupType);
 
-      await resultsPage.selectGroup('North 2 Islington PCN');
+      const group = getAllAreasByAreaType(mockAreas, groupType)[0].areaName;
+
+      await resultsPage.selectGroup(group);
 
       await resultsPage.selectArea(areaDocument.areaName);
     });
