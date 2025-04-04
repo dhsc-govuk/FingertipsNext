@@ -117,7 +117,7 @@ export const PopulationDataTable = ({
           </Table.Row>
         }
       >
-        {indexes.map((index, _) => {
+        {indexes.map((index) => {
           const columnValues = filterValues
             ? filterValues(points[index])
             : points[index];
