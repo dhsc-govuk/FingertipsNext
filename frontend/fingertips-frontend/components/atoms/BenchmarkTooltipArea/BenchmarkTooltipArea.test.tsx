@@ -206,4 +206,9 @@ describe('BenchmarkTooltipArea', () => {
       expect(screen.queryByText(/to/)).not.toBeInTheDocument();
     }
   );
+
+  it.todo('should include Group when passed a group');
+  it.todo(
+    'should include Benchmark and only required elements when passed a group'
+  );
 });

@@ -104,7 +104,6 @@ function getComparisionText(
     benchmarkComparisonMethod
   );
   // TODO: DHSCFT-518 to handle no data
-  // benchmarkComparisonMethod !== BenchmarkComparisonMethod.Quintiles
   if (
     benchmarkOutcome === BenchmarkOutcome.NotCompared ||
     benchmarkComparisonMethod === BenchmarkComparisonMethod.Quintiles
