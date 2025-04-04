@@ -5,6 +5,8 @@ import { PopulationDataTable } from './PopulationDataTable';
 import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 
+const DefaultMinimumWidthForTablePanel = 250;
+
 const StylePopulationPyramidTableSection = styled('section')({
   'display': 'flex',
   'flexDirection': 'row',
@@ -31,7 +33,7 @@ const StyleBenchmarkDataDiv = styled('div')({
       borderTopColor: GovukColours.LightGrey,
     },
   },
-  'minWidth': 300,
+  'minWidth': DefaultMinimumWidthForTablePanel,
 });
 
 const StyleScrollableContentDiv = styled('div')({
@@ -57,13 +59,16 @@ const StyleGroupTableContentDiv = styled('div')({
       borderTopColor: GovukColours.MidGrey,
     },
   },
-  'minWidth': 300,
+  'minWidth': DefaultMinimumWidthForTablePanel,
 });
 
 const StyleSelectedAreaTableContextDiv = styled('div')({
   'flexGrow': 8,
-  'minWidth': 460,
+  'minWidth': DefaultMinimumWidthForTablePanel,
   '& table': {
+    '& td:first-child': {
+      width: '28%',
+    },
     '& td, th': {
       borderTopColor: GovukColours.MidGrey,
       borderBottomColor: GovukColours.MidGrey,

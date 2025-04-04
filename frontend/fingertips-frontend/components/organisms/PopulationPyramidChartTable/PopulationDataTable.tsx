@@ -8,10 +8,8 @@ import styled from 'styled-components';
 
 const StyledAreaTitleHeader = styled('h3')(typography.font({ size: 19 }), {
   textAlign: 'center',
-  height: '70px',
-  border: '0px',
-  margin: 'auto',
-  display: 'block',
+  height: '65px',
+  lineHeight: '65px',
   letterSpacing: '0px',
   fontWeight: '700',
 });
