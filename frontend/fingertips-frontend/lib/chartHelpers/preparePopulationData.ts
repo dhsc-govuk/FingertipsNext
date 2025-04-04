@@ -40,12 +40,12 @@ const sortHealthDataByAgeBand = (data: HealthDataPoint[]) => {
 
 export function computeDataPercentages(
   data: (undefined | number)[],
-  totalPopulation: number,
-  decimal_places: number = 2
+  totalPopulation: number
 ): Array<number> {
+  if (!data) return [];
   return data.map((value: number | undefined) => {
     const percentage = ((value ?? 0) / totalPopulation) * 100;
-    return parseFloat(percentage.toFixed(decimal_places));
+    return parseFloat(percentage.toFixed(2));
   });
 }
 
