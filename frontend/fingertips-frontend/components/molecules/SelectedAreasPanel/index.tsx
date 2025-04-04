@@ -1,4 +1,4 @@
-import { AreaWithRelations } from '@/generated-sources/ft-api-client';
+import { Area } from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
@@ -12,7 +12,7 @@ import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
 
 interface SelectedAreasPanelProps {
-  selectedAreasData?: AreaWithRelations[];
+  selectedAreasData?: Area[];
   areaFilterData?: AreaFilterData;
   isFullWidth?: boolean;
 }

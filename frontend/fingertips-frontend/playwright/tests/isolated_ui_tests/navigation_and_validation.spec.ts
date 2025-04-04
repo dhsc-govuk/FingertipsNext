@@ -172,11 +172,15 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
     resultsPage,
   }) => {
     await test.step('Navigate directly to the results page', async () => {
-      await resultsPage.navigateToResults(subjectSearchTerm, [
-        allNHSRegionAreas[0].areaCode,
-        allNHSRegionAreas[1].areaCode,
-        allNHSRegionAreas[2].areaCode,
-      ]);
+      await resultsPage.navigateToResults(
+        subjectSearchTerm,
+        [
+          allNHSRegionAreas[0].areaCode,
+          allNHSRegionAreas[1].areaCode,
+          allNHSRegionAreas[2].areaCode,
+        ],
+        'nhs-regions'
+      );
     });
 
     await test.step('Check selected area pills matches those specified in url', async () => {
@@ -244,11 +248,15 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
     resultsPage,
   }) => {
     await test.step('Navigate directly to the results page', async () => {
-      await resultsPage.navigateToResults(subjectSearchTerm, [
-        allNHSRegionAreas[0].areaCode,
-        allNHSRegionAreas[1].areaCode,
-        allNHSRegionAreas[2].areaCode,
-      ]);
+      await resultsPage.navigateToResults(
+        subjectSearchTerm,
+        [
+          allNHSRegionAreas[0].areaCode,
+          allNHSRegionAreas[1].areaCode,
+          allNHSRegionAreas[2].areaCode,
+        ],
+        'nhs-regions'
+      );
     });
 
     await test.step('Select single indicator, and verify url is updated to include indicator', async () => {

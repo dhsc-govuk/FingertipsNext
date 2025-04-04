@@ -7,12 +7,10 @@ import {
   SearchStateParams,
 } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
-import {
-  API_CACHE_CONFIG,
-  ApiClientFactory,
-} from '@/lib/apiClient/apiClientFactory';
 import { ErrorPage } from '@/components/pages/error';
 import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
+import { getSelectedAreasDataByAreaType } from '@/lib/areaFilterHelpers/getSelectedAreasData';
+import { AreaTypeKeys } from '@/lib/areaFilterHelpers/areaType';
 
 export default async function Page(
   props: Readonly<{
@@ -25,20 +23,16 @@ export default async function Page(
   const {
     [SearchParams.SearchedIndicator]: searchedIndicator,
     [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.AreaTypeSelected]: areaTypeSelected,
   } = stateManager.getSearchState();
 
   try {
     await connection();
 
-    const areasApi = ApiClientFactory.getAreasApiClient();
-    const selectedAreasData =
-      areasSelected && areasSelected.length > 0
-        ? await Promise.all(
-            areasSelected.map((area) =>
-              areasApi.getArea({ areaCode: area }, API_CACHE_CONFIG)
-            )
-          )
-        : [];
+    const selectedAreasData = await getSelectedAreasDataByAreaType(
+      areasSelected,
+      areaTypeSelected as AreaTypeKeys
+    );
 
     const {
       availableAreaTypes,

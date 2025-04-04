@@ -145,7 +145,7 @@ export interface AreasApiInterface {
     getAreaTypes(requestParameters: GetAreaTypesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<AreaType>>;
 
     /**
-     * Get the basic details without children, parent relationships etc. for 1 or more areas
+     * Get the basic details without children, parent relationships etc. for 1 or more areas. Will return duplicate of areas that are applicable to multiple areaTypes.
      * @summary Get multiple areas
      * @param {Array<string>} [areaCodes] A list of area codes, up to 100 area codes can be requested
      * @param {*} [options] Override http request option.
@@ -155,7 +155,7 @@ export interface AreasApiInterface {
     getAreasRaw(requestParameters: GetAreasRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Area>>>;
 
     /**
-     * Get the basic details without children, parent relationships etc. for 1 or more areas
+     * Get the basic details without children, parent relationships etc. for 1 or more areas. Will return duplicate of areas that are applicable to multiple areaTypes.
      * Get multiple areas
      */
     getAreas(requestParameters: GetAreasRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Area>>;
@@ -338,7 +338,7 @@ export class AreasApi extends runtime.BaseAPI implements AreasApiInterface {
     }
 
     /**
-     * Get the basic details without children, parent relationships etc. for 1 or more areas
+     * Get the basic details without children, parent relationships etc. for 1 or more areas. Will return duplicate of areas that are applicable to multiple areaTypes.
      * Get multiple areas
      */
     async getAreasRaw(requestParameters: GetAreasRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Area>>> {
@@ -361,7 +361,7 @@ export class AreasApi extends runtime.BaseAPI implements AreasApiInterface {
     }
 
     /**
-     * Get the basic details without children, parent relationships etc. for 1 or more areas
+     * Get the basic details without children, parent relationships etc. for 1 or more areas. Will return duplicate of areas that are applicable to multiple areaTypes.
      * Get multiple areas
      */
     async getAreas(requestParameters: GetAreasRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Area>> {

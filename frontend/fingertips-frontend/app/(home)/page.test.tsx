@@ -5,12 +5,6 @@
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import HomePage from './page';
 import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
-import { AreasApi } from '@/generated-sources/ft-api-client';
-import { mockDeep } from 'jest-mock-extended';
-import {
-  API_CACHE_CONFIG,
-  ApiClientFactory,
-} from '@/lib/apiClient/apiClientFactory';
 import {
   allAreaTypes,
   nhsRegionsAreaType,
@@ -25,17 +19,21 @@ import {
   londonNHSRegion,
 } from '@/mock/data/areas/nhsRegionsAreas';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { getSelectedAreasDataByAreaType } from '@/lib/areaFilterHelpers/getSelectedAreasData';
 
 jest.mock('@/lib/areaFilterHelpers/getAreaFilterData');
+jest.mock('@/lib/areaFilterHelpers/getSelectedAreasData');
 jest.mock('@/components/pages/home');
 
 const mockGetAreaFilterData = getAreaFilterData as jest.MockedFunction<
   typeof getAreaFilterData
 >;
 
-const mockAreasApi = mockDeep<AreasApi>();
-
-ApiClientFactory.getAreasApiClient = () => mockAreasApi;
+const mockGetSelectedAreasDataByAreaType =
+  getSelectedAreasDataByAreaType as jest.MockedFunction<
+    typeof getSelectedAreasDataByAreaType
+  >;
+mockGetSelectedAreasDataByAreaType.mockResolvedValue([]);
 
 async function generateSearchParams(value: SearchStateParams) {
   return value;
@@ -88,11 +86,14 @@ describe('Home page', () => {
       expect(page.props.areaFilterData).toEqual(areaFilterData);
     });
 
-    it('should pass the selectedAreasData prop with data from getArea for each areaSelected', async () => {
-      mockAreasApi.getArea.mockResolvedValueOnce(eastEnglandNHSRegion);
-      mockAreasApi.getArea.mockResolvedValueOnce(londonNHSRegion);
+    it('should pass the selectedAreasData prop with data from getSelectedAreasDataByAreaType', async () => {
+      mockGetSelectedAreasDataByAreaType.mockResolvedValue([
+        eastEnglandNHSRegion,
+        londonNHSRegion,
+      ]);
 
       const searchState: SearchStateParams = {
+        [SearchParams.AreaTypeSelected]: 'nhs-regions',
         [SearchParams.AreasSelected]: ['E40000007', 'E40000003'],
       };
 
@@ -100,19 +101,9 @@ describe('Home page', () => {
         searchParams: generateSearchParams(searchState),
       });
 
-      expect(mockAreasApi.getArea).toHaveBeenNthCalledWith(
-        1,
-        {
-          areaCode: eastEnglandNHSRegion.code,
-        },
-        API_CACHE_CONFIG
-      );
-      expect(mockAreasApi.getArea).toHaveBeenNthCalledWith(
-        2,
-        {
-          areaCode: londonNHSRegion.code,
-        },
-        API_CACHE_CONFIG
+      expect(mockGetSelectedAreasDataByAreaType).toHaveBeenCalledWith(
+        ['E40000007', 'E40000003'],
+        'nhs-regions'
       );
       expect(page.props.selectedAreasData).toEqual([
         eastEnglandNHSRegion,
@@ -136,12 +127,10 @@ describe('Home page', () => {
         updatedSearchState,
       });
 
-      mockAreasApi.getArea.mockResolvedValueOnce({
-        ...eastEnglandNHSRegion,
-      });
-      mockAreasApi.getArea.mockResolvedValueOnce({
-        ...londonNHSRegion,
-      });
+      mockGetSelectedAreasDataByAreaType.mockResolvedValue([
+        eastEnglandNHSRegion,
+        londonNHSRegion,
+      ]);
 
       const page = await HomePage({
         searchParams: generateSearchParams(initialSearchState),

@@ -19,7 +19,7 @@ import {
 import { useActionState, useEffect } from 'react';
 import styled from 'styled-components';
 import { spacing } from '@govuk-react/lib';
-import { AreaWithRelations } from '@/generated-sources/ft-api-client';
+import { Area } from '@/generated-sources/ft-api-client';
 import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
 import { useSearchState } from '@/context/SearchStateContext';
 
@@ -30,7 +30,7 @@ const ZeroMarginParagraph = styled(Paragraph)(
 interface HomeProps {
   searchState?: SearchStateParams;
   areaFilterData?: AreaFilterData;
-  selectedAreasData?: AreaWithRelations[];
+  selectedAreasData?: Area[];
   initialFormState: SearchFormState;
 }
 export const Home = ({

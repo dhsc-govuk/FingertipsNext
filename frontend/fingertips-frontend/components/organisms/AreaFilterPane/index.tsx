@@ -1,4 +1,4 @@
-import { AreaWithRelations } from '@/generated-sources/ft-api-client';
+import { Area } from '@/generated-sources/ft-api-client';
 import { H3, SectionBreak } from 'govuk-react';
 import styled from 'styled-components';
 import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
@@ -14,7 +14,7 @@ import { typography } from '@govuk-react/lib';
 import { GovukColours, TagColours } from '@/lib/styleHelpers/colours';
 
 interface AreaFilterPaneProps {
-  selectedAreasData?: AreaWithRelations[];
+  selectedAreasData?: Area[];
   selectedIndicatorsData?: IndicatorDocument[];
   areaFilterData?: AreaFilterData;
   hideFilters?: () => void;
