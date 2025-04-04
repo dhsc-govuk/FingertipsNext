@@ -156,6 +156,7 @@ export function getScenarioConfig(
         hasConfidenceIntervals: false,
         isTabTable: false,
         hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
       },
     },
     {

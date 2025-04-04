@@ -79,10 +79,12 @@ export default async function TwoOrMoreIndicatorsEnglandView({
   console.log(`TODO: fetch population data for areas: [${areaCodesToRequest}]`);
 
   return (
-    <ViewsWrapper searchState={searchState}>
-      <TwoOrMoreIndicatorsEnglandViewPlots indicatorData={combinedIndicatorData}
-                                           searchState={searchState}
-                                           indicatorMetadata={selectedIndicatorsData} />
+    <ViewsWrapper searchState={searchState} indicatorsDataForAreas={combinedIndicatorData}>
+      <TwoOrMoreIndicatorsEnglandViewPlots
+        indicatorData={combinedIndicatorData}
+        searchState={searchState}
+        indicatorMetadata={selectedIndicatorsData}
+      />
     </ViewsWrapper>
   );
 }

@@ -63,9 +63,9 @@ describe('TwoOrMoreIndicatorsEnglandView', () => {
       selectedIndicatorsData: fullSelectedIndicatorsData,
     });
 
-    expect(page.props.searchState).toEqual(mockSearchParams);
-    expect(page.props.indicatorData).toEqual([mockIndicator, mockIndicator]);
-    expect(page.props.indicatorMetadata).toEqual(fullSelectedIndicatorsData);
+    expect(page.props.children.props.searchState).toEqual(mockSearchParams);
+    expect(page.props.children.props.indicatorData).toEqual([mockIndicator, mockIndicator]);
+    expect(page.props.children.props.indicatorMetadata).toEqual(fullSelectedIndicatorsData);
   });
 
   it('should throw an error when search state contains fewer than 2 selected indicators', async () => {
