@@ -191,13 +191,11 @@ export const PopulationPyramidWithTable = ({
                   id: 'populationPyramidTable',
                   title: 'Table',
                   content: (
-                    <div>
-                      <PopulationPyramidChartTable
-                        healthDataForArea={selectedArea}
-                        benchmarkData={convertedData.benchmark}
-                        groupData={convertedData.group}
-                      />
-                    </div>
+                    <PopulationPyramidChartTable
+                      healthDataForArea={selectedArea}
+                      benchmarkData={convertedData.benchmark}
+                      groupData={convertedData.group}
+                    />
                   ),
                 },
               ]}

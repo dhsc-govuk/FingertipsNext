@@ -59,7 +59,7 @@ describe('PopulationPyramidChartTable', () => {
     ).not.toBeInTheDocument();
   });
 
-  test('take a snapshot', () => {
+  test('check  that all 3 tables are rendered and then take a snapshot', () => {
     const { asFragment } = render(
       <PopulationPyramidChartTable
         healthDataForArea={mockHealthDataForArea}
@@ -67,6 +67,9 @@ describe('PopulationPyramidChartTable', () => {
         groupData={mockGroupData}
       />
     );
+
+    const tables = screen.getAllByRole('table');
+    expect(tables).toHaveLength(3);
     expect(asFragment()).toMatchSnapshot();
   });
 });

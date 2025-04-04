@@ -161,11 +161,11 @@ const createAdditionalChartSeries = (
   const series: Array<SeriesOptionsType> = [];
 
   if (dataForGroup) {
-    const femaleSeries = computeDataPercentages(
+    const femaleGroupSeries = computeDataPercentages(
       dataForGroup.femaleSeries,
       dataForGroup.total
     );
-    const maleSeries = computeDataPercentages(
+    const maleGroupSeries = computeDataPercentages(
       dataForGroup.maleSeries,
       dataForGroup.total
     );
@@ -174,7 +174,7 @@ const createAdditionalChartSeries = (
       {
         name: `Group: ${dataForGroup.areaName}`,
         type: 'line',
-        data: femaleSeries,
+        data: femaleGroupSeries,
         stack: 2,
         color: GovukColours.Turquoise,
         dashStyle: 'Dash',
@@ -185,7 +185,7 @@ const createAdditionalChartSeries = (
         name: `Group: ${dataForGroup.areaName}`,
         type: 'line',
         stack: 4,
-        data: maleSeries.map((datapoint) => -datapoint),
+        data: maleGroupSeries.map((datapoint) => -datapoint),
         color: GovukColours.Turquoise,
         dashStyle: 'Dash',
         marker: { symbol: 'diamond' },
@@ -196,18 +196,18 @@ const createAdditionalChartSeries = (
   }
 
   if (dataForBenchmark) {
-    const femaleSeries = computeDataPercentages(
+    const femaleBenchmarkSeries = computeDataPercentages(
       dataForBenchmark.femaleSeries,
       dataForBenchmark.total
     );
-    const maleSeries = computeDataPercentages(
+    const maleBenchmarkSeries = computeDataPercentages(
       dataForBenchmark.maleSeries,
       dataForBenchmark.total
     );
     series.push(
       {
         name: `Benchmark: ${dataForBenchmark.areaName}`,
-        data: femaleSeries,
+        data: femaleBenchmarkSeries,
         type: 'line',
         stack: 1,
         color: GovukColours.CharcoalGray,
@@ -216,7 +216,7 @@ const createAdditionalChartSeries = (
       },
       {
         name: `Benchmark: ${dataForBenchmark.areaName}`,
-        data: maleSeries.map((datapoint) => -datapoint),
+        data: maleBenchmarkSeries.map((datapoint) => -datapoint),
         type: 'line',
         stack: 3,
         color: GovukColours.CharcoalGray,

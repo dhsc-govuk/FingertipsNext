@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PopulationPyramidChartTable take a snapshot 1`] = `
+exports[`PopulationPyramidChartTable check  that all 3 tables are rendered and then take a snapshot 1`] = `
 <DocumentFragment>
   .c5 {
   padding: 10px 20px 10px 0;

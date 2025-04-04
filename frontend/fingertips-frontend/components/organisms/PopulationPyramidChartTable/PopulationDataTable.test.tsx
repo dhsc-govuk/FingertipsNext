@@ -40,6 +40,19 @@ describe('PopulationDataTable', () => {
     expect(container.firstChild).toBeNull();
   });
 
+  it('check the number of rows rendered including header and footer is correctly', () => {
+    render(
+      <PopulationDataTable
+        headers={['Age Band', 'Females', 'Males']}
+        title="Population Data"
+        healthDataForArea={mockHealthDataForArea}
+      />
+    );
+
+    const rows = screen.getAllByRole('row');
+    expect(rows).toHaveLength(6);
+  });
+
   test('take a snapshot', () => {
     const { asFragment } = render(
       <PopulationDataTable
