@@ -46,7 +46,7 @@ export function EnglandAreaTypeTable({
         head={
           <React.Fragment>
             <Table.Row>
-              <Table.CellHeader colSpan={6} style={{ fontSize: 24 }}>
+              <Table.CellHeader colSpan={6}>
                 {EnglandAreaTypeHeaderEnum.England}
               </Table.CellHeader>
             </Table.Row>
@@ -90,7 +90,7 @@ export function EnglandAreaTypeTable({
             <CheckValueInTableCell value={item?.indicatorName} />
             <CheckValueInTableCell
               value={item?.period}
-              style={{ textAlign: 'center' }}
+              style={{ textAlign: 'right' }}
             />
             <FormatNumberInTableCell
               value={item?.latestEnglandHealthData?.count}

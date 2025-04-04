@@ -1,7 +1,9 @@
 'use client';
 
-import { TwoOrMoreIndicatorsEnglandViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
-import { SearchStateManager } from '@/lib/searchStateManager';
+import {
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
 import {
   EnglandAreaTypeIndicatorData,
   EnglandAreaTypeTable,
@@ -10,6 +12,14 @@ import {
   HealthDataPoint,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { H3 } from 'govuk-react';
+
+type TwoOrMoreIndicatorsEnglandViewPlotProps = {
+  indicatorData: IndicatorWithHealthDataForArea[];
+  searchState: SearchStateParams;
+  indicatorMetadata: IndicatorDocument[] | undefined;
+};
 
 export const getLatestHealthDataPointForEngland = (
   indicatorData: IndicatorWithHealthDataForArea,
@@ -63,6 +73,7 @@ export function TwoOrMoreIndicatorsEnglandViewPlots({
 
   return (
     <section data-testid="twoOrMoreIndicatorsEnglandViewPlot-component">
+      <H3>Compare indicators for an area</H3>
       <EnglandAreaTypeTable indicatorData={englandIndicatorData} />
     </section>
   );

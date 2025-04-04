@@ -17,9 +17,3 @@ export type TwoOrMoreIndicatorsViewPlotProps = {
   indicatorMetadata: IndicatorDocument[];
   benchmarkStatistics: QuartileData[];
 };
-
-export type TwoOrMoreIndicatorsEnglandViewPlotProps = {
-  indicatorData: IndicatorWithHealthDataForArea[];
-  searchState: SearchStateParams;
-  indicatorMetadata: IndicatorDocument[] | undefined;
-};
