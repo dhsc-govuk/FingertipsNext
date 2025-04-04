@@ -25,12 +25,13 @@ const removeDuplicateDataPointByAgeBand = (dataPoints: HealthDataPoint[]) => {
   });
 };
 
+export const getLowerBandValue = (range: string) => {
+  if (range.includes('+')) return parseInt(range.split('-')[0]);
+  return parseInt(range.split('-')[0]);
+};
+
 const sortHealthDataByAgeBand = (data: HealthDataPoint[]) => {
   return data.sort((a, b) => {
-    const getLowerBandValue = (range: string) => {
-      if (range.includes('+')) return parseInt(range.split('-')[0]);
-      return parseInt(range.split('-')[0]);
-    };
     return getLowerBandValue(a.ageBand.value) >
       getLowerBandValue(b.ageBand.value)
       ? -1

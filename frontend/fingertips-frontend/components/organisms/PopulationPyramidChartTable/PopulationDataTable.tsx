@@ -1,10 +1,14 @@
 'use client';
 
-import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
+import {
+  PopulationDataForArea,
+  getLowerBandValue,
+} from '@/lib/chartHelpers/preparePopulationData';
 import { Table } from 'govuk-react';
 import { typography } from '@govuk-react/lib';
 import { StyledAlignLeftHeader } from '@/lib/tableHelpers';
 import styled from 'styled-components';
+import { formatWholeNumber } from '@/lib/numberFormatter';
 
 const StyledAreaTitleHeader = styled('h3')(typography.font({ size: 19 }), {
   textAlign: 'center',
@@ -24,7 +28,7 @@ export const StyledTableCell = styled(Table.Cell)(
 
 const valueFormatter = (value: number | string | undefined) => {
   if (typeof value === 'number') {
-    return value?.toLocaleString();
+    return formatWholeNumber(value);
   }
   return value;
 };
@@ -44,10 +48,6 @@ const getSortAgeBandIndexes = (ageBands: string[] | undefined): number[] => {
   return ageBands
     .map((item, index) => ({ index, value: item }))
     .sort((a, b) => {
-      const getLowerBandValue = (range: string) => {
-        if (range.includes('+')) return parseInt(range.split('-')[0]);
-        return parseInt(range.split('-')[0]);
-      };
       return getLowerBandValue(a.value) - getLowerBandValue(b.value);
     })
     .map((item) => item.index);
