@@ -1,5 +1,5 @@
 import { TabContainer } from '@/components/layouts/tabContainer';
-import { H4 } from 'govuk-react';
+import { H3 } from 'govuk-react';
 import { TimePeriodDropDown } from '../../TimePeriodDropDown';
 import { InequalitiesBarChart } from '../BarChart';
 import { InequalitiesBarChartTable } from '../BarChart/Table';
@@ -85,6 +85,8 @@ export function InequalitiesForSingleTimePeriod({
 
   const yearsDesc = getYearsWithInequalityData(allData).reverse();
 
+  if (!yearsDesc.length) return null;
+
   const periodData = allData.find(
     (data) => data.period === Number(selectedYear ?? yearsDesc[0])
   );
@@ -97,7 +99,7 @@ export function InequalitiesForSingleTimePeriod({
   };
   return (
     <div data-testid="inequalitiesForSingleTimePeriod-component">
-      <H4>Inequalities data for a single time period</H4>
+      <H3>Inequalities data for a single time period</H3>
       <TimePeriodDropDown years={yearsDesc} />
       <TabContainer
         id="inequalitiesBarChartAndTable"

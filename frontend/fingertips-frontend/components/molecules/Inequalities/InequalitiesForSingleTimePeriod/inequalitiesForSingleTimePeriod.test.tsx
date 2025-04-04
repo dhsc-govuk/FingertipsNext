@@ -4,6 +4,11 @@ import { InequalitiesForSingleTimePeriod } from '.';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { SearchStateContext } from '@/context/SearchStateContext';
 import { SearchParams } from '@/lib/searchStateManager';
+import {
+  HealthDataForArea,
+  HealthDataPointTrendEnum,
+} from '@/generated-sources/ft-api-client';
+import { allAgesAge, noDeprivation, maleSex } from '@/lib/mocks';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -40,12 +45,31 @@ describe('InequalitiesForSingleTimePeriod suite', () => {
   beforeEach(() => {
     mockGetSearchState.mockReturnValue(mockSearchState);
   });
+
   it('should render expected elements', async () => {
     const years = ['2008', '2004'];
+    const mockHealthData: HealthDataForArea = {
+      ...MOCK_HEALTH_DATA[0],
+      healthData: [
+        ...MOCK_HEALTH_DATA[0].healthData,
+        {
+          year: 2008,
+          count: 267,
+          value: 703.420759,
+          lowerCi: 441.69151,
+          upperCi: 578.32766,
+          ageBand: allAgesAge,
+          sex: maleSex,
+          trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
+          isAggregate: false,
+        },
+      ],
+    };
 
     render(
       <InequalitiesForSingleTimePeriod
-        healthIndicatorData={MOCK_HEALTH_DATA[0]}
+        healthIndicatorData={mockHealthData}
         searchState={mockSearchState}
       />
     );
@@ -70,5 +94,23 @@ describe('InequalitiesForSingleTimePeriod suite', () => {
     yearOptions.forEach((option, index) => {
       expect(option.textContent).toBe(years[index]);
     });
+  });
+
+  it('should not render component if inequalities data is absent', () => {
+    const mockHealthData: HealthDataForArea = {
+      ...MOCK_HEALTH_DATA[0],
+      healthData: MOCK_HEALTH_DATA[0].healthData.slice(0, 2),
+    };
+
+    render(
+      <InequalitiesForSingleTimePeriod
+        healthIndicatorData={mockHealthData}
+        searchState={mockSearchState}
+      />
+    );
+
+    expect(
+      screen.queryByTestId('inequalitiesForSingleTimePeriod-component')
+    ).not.toBeInTheDocument();
   });
 });

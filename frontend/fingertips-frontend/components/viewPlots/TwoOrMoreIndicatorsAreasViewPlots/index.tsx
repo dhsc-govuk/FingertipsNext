@@ -162,7 +162,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     indicatorMetadata: IndicatorDocument[],
     areasSelected: string[],
     selectedGroupCode: string | undefined
-  ) => {
+  ): SpineChartTableRowProps[] => {
     const {
       orderedHealthData,
       orderedGroupData,
