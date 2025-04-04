@@ -188,13 +188,6 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
 
   return (
     <section data-testid="twoOrMoreIndicatorsAreasViewPlot-component">
-      <Heatmap
-        indicatorData={buildHeatmapIndicatorData(
-          indicatorData,
-          indicatorMetadata
-        )}
-        groupAreaCode={groupAreaCode}
-      />
       {areasSelected.length < 3 ? (
         <SpineChartTable
           rowData={buildSpineTableRowData(
@@ -205,6 +198,13 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
           )}
         />
       ) : null}
+      <Heatmap
+        indicatorData={buildHeatmapIndicatorData(
+          indicatorData,
+          indicatorMetadata
+        )}
+        groupAreaCode={groupAreaCode}
+      />
     </section>
   );
 }
