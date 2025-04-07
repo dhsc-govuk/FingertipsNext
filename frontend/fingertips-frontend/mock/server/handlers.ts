@@ -278,5 +278,7 @@ function getMockSelectedAreaData(areaCodes: string[]) {
     }
   });
 
-  return mockDataForAreas;
+  return mockDataForAreas.filter(
+    (mockArea) => !mockArea.code.toLowerCase().includes('error')
+  );
 }
