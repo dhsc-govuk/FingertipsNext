@@ -149,7 +149,7 @@ export const generateRows = (
         dataPoints[indicator.id][area.code]?.value
       );
       cols[areaIndex + leadingCols.length] = {
-        key: `col-${indicator.id}-${area.code}`,
+        key: `cell-${indicator.id}-${area.code}`,
         type: CellType.Data,
         content: formattedValue,
         backgroundColour:
@@ -198,8 +198,6 @@ const getHoverAreaName = (area: Area, groupAreaCode?: string): string => {
   if (area.code === areaCodeForEngland) {
     return `Benchmark: ${area.name}`;
   }
-
-  console.log(groupAreaCode);
 
   if (groupAreaCode && area.code === groupAreaCode) {
     return `Group: ${area.name}`;

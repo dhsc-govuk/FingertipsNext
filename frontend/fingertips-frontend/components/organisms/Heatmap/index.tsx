@@ -11,6 +11,8 @@ import styled from 'styled-components';
 import { HeatmapHeader } from './heatmapHeader';
 import { HeatmapCell } from './heatmapCell';
 import { BenchmarkLegend } from '../BenchmarkLegend';
+import { HeatmapHover, HeatmapHoverProps } from './heatmapHover';
+import { useState } from 'react';
 
 export interface HeatmapProps {
   indicatorData: HeatmapIndicatorData[];
@@ -30,11 +32,6 @@ const StyledDivTableContainer = styled.div({
   maxWidth: '960px',
 });
 
-const StyledDivHeatmapContainer = styled.div({
-  paddingBottom: '100px',
-  overflow: 'visible',
-});
-
 export function Heatmap({
   indicatorData,
   groupAreaCode,
@@ -45,9 +42,26 @@ export function Heatmap({
   const headers = generateHeaders(areas, groupAreaCode);
   const rows = generateRows(areas, indicators, dataPoints);
 
+  const [hoverState, setHoverState] = useState<HeatmapHoverProps | undefined>(
+    undefined
+  );
+
+  const buildOnMouseEnterByProps = (
+    hoverProps: HeatmapHoverProps | undefined
+  ) => {
+    return () => {
+      setHoverState(hoverProps);
+    };
+  };
+
+  const onMouseLeave = () => {
+    setHoverState(undefined);
+  };
+
   return (
     <>
       <BenchmarkLegend />
+      <HeatmapHover hoverProps={hoverState} />
       <StyledDivTableContainer>
         <StyledTable data-testid="heatmapChart-component">
           <Table.Row>
@@ -71,6 +85,8 @@ export function Heatmap({
                       cellType={cell.type}
                       content={cell.content}
                       backgroundColour={cell.backgroundColour}
+                      onMouseEnter={buildOnMouseEnterByProps(cell.hoverProps)}
+                      onMouseLeave={onMouseLeave}
                     />
                   );
                 })}

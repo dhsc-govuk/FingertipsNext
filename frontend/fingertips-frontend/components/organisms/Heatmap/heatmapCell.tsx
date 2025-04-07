@@ -6,8 +6,7 @@ import {
   heatmapDataColumnWidth,
   heatmapIndicatorTitleColumnWidth,
 } from './heatmapUtil';
-import { JSX } from 'react';
-import { HeatmapHover, HeatmapHoverProps } from './heatmapHover';
+import { JSX, MouseEventHandler } from 'react';
 
 const StyledCellText = styled(Table.Cell)({
   minHeight: '70px',
@@ -54,16 +53,17 @@ interface HeatmapCellProps {
   cellType: CellType;
   content: string;
   backgroundColour?: string;
-  hoverProps?: HeatmapHoverProps;
+  onMouseEnter?: MouseEventHandler;
+  onMouseLeave?: MouseEventHandler;
 }
 
 export const HeatmapCell = ({
   cellType,
   content,
   backgroundColour = GovukColours.White,
-  hoverProps,
+  onMouseEnter: onMouseOver,
+  onMouseLeave,
 }: HeatmapCellProps): JSX.Element => {
-  console.log(hoverProps);
   switch (cellType) {
     case CellType.IndicatorTitle:
       return (
@@ -82,38 +82,19 @@ export const HeatmapCell = ({
         </StyledCellText>
       );
     case CellType.Data: {
-      if (hoverProps) {
-        return (
-          <StyledCellData
-            $color={getTextColour(backgroundColour)}
-            $backgroundColor={backgroundColour}
-          >
-            <StyledDivDataCellContent>
-              <HeatmapHover
-                areaName={hoverProps.areaName}
-                period={hoverProps.period}
-                indicatorName={hoverProps.indicatorName}
-                value={hoverProps.value}
-                unitLabel={hoverProps.unitLabel}
-                benchmark={hoverProps.benchmark}
-              >
-                {content}
-              </HeatmapHover>
-            </StyledDivDataCellContent>
-          </StyledCellData>
-        );
-      } else
-        return (
-          <StyledCellData
-            data-testid="heatmap-cell-data"
-            $color={getTextColour(backgroundColour)}
-            $backgroundColor={backgroundColour}
-          >
+      return (
+        <StyledCellData
+          data-testid="heatmap-cell-data"
+          $color={getTextColour(backgroundColour)}
+          $backgroundColor={backgroundColour}
+        >
+          <div onMouseOver={onMouseOver} onMouseLeave={onMouseLeave}>
             <StyledDivDataCellContent>
               <StyledDivDataCellContent>{content}</StyledDivDataCellContent>
             </StyledDivDataCellContent>
-          </StyledCellData>
-        );
+          </div>
+        </StyledCellData>
+      );
     }
   }
 };
