@@ -61,7 +61,7 @@ export function HeatmapHoverBenchmarkPill({
     <GridRow>
       <StyledGridColIcon setWidth={'12px'}>
         {
-          <Icon
+          <BenchmarkPillIcon
             value={value}
             unitLabel={unitLabel}
             outcome={outcome}
@@ -71,7 +71,7 @@ export function HeatmapHoverBenchmarkPill({
         }
       </StyledGridColIcon>
       <GridCol>
-        <Text
+        <BenchmarkPillText
           value={value}
           unitLabel={unitLabel}
           outcome={outcome}
@@ -83,7 +83,7 @@ export function HeatmapHoverBenchmarkPill({
   );
 }
 
-function Icon({
+function BenchmarkPillIcon({
   value,
   outcome,
   benchmarkMethod,
@@ -111,12 +111,11 @@ function Icon({
   );
 }
 
-function Text({
+function BenchmarkPillText({
   value,
   unitLabel,
   outcome,
   benchmarkMethod,
-  polarity,
 }: HeatmapHoverBenchmarkPillProps): React.ReactNode {
   if (!value || value === 'X') {
     return <StyledText>No data available</StyledText>;
