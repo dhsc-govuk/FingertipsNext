@@ -55,9 +55,9 @@ describe('Search Service Factory', () => {
     SearchServiceFactory.getIndicatorSearchService();
 
     expect(mocked(IndicatorSearchService)).toHaveBeenCalledWith(
-        'someUrl',
-        'someKey',
-        'unittest-indicator-search-index-name'
+      'someUrl',
+      'someKey',
+      'unittest-indicator-search-index-name'
     );
   });
 });

@@ -13,8 +13,8 @@ import {
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { ErrorIdPrefix } from '@/mock/ErrorTriggeringIds';
-import {readEnvVar} from "@/lib/envUtils";
-import EnvironmentVariables from "@/EnvironmentVariables";
+import { readEnvVar } from '@/lib/envUtils';
+import EnvironmentVariables from '@/EnvironmentVariables';
 
 faker.seed(1);
 

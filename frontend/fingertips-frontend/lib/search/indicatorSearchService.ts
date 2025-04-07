@@ -15,7 +15,11 @@ export class IndicatorSearchService implements IIndicatorSearchService {
   private readonly searchClient: SearchClient<RawIndicatorDocument>;
   private readonly mapper: IndicatorMapper;
 
-  constructor(fingertipsAzureAiSearchUrl: string, apiKey: string, indexName: string) {
+  constructor(
+    fingertipsAzureAiSearchUrl: string,
+    apiKey: string,
+    indexName: string
+  ) {
     const credentials = new AzureKeyCredential(apiKey);
 
     this.searchClient = new SearchClient<RawIndicatorDocument>(

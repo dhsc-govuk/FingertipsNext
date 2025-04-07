@@ -1,5 +1,5 @@
 import { readEnvVar, tryReadEnvVar } from './envUtils';
-import EnvironmentVariables from "@/EnvironmentVariables";
+import EnvironmentVariables from '@/EnvironmentVariables';
 
 describe('Validate Environment Variable Utils', () => {
   const OLD_ENV = process.env;

@@ -8,7 +8,11 @@ import {
 export class AreaSearchService implements IAreaSearchService {
   private readonly searchClient: SearchClient<AreaDocument>;
 
-  constructor(fingertipsAzureAiSearchUrl: string, apiKey: string, indexName: string) {
+  constructor(
+    fingertipsAzureAiSearchUrl: string,
+    apiKey: string,
+    indexName: string
+  ) {
     const credentials = new AzureKeyCredential(apiKey);
 
     this.searchClient = new SearchClient<AreaDocument>(

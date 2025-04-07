@@ -34,18 +34,18 @@ export class SearchServiceFactory {
 
   private static buildAreaSearchService(): IAreaSearchService {
     return new AreaSearchService(
-        readEnvVar(EnvironmentVariables.DHSC_AI_SEARCH_SERVICE_URL),
-        readEnvVar(EnvironmentVariables.DHSC_AI_SEARCH_API_KEY),
-        tryReadEnvVar(EnvironmentVariables.AREA_SEARCH_INDEX_NAME) ??
+      readEnvVar(EnvironmentVariables.DHSC_AI_SEARCH_SERVICE_URL),
+      readEnvVar(EnvironmentVariables.DHSC_AI_SEARCH_API_KEY),
+      tryReadEnvVar(EnvironmentVariables.AREA_SEARCH_INDEX_NAME) ??
         AREA_SEARCH_INDEX_NAME
     );
   }
 
   private static buildIndicatorSearchService(): IIndicatorSearchService {
     return new IndicatorSearchService(
-        readEnvVar(EnvironmentVariables.DHSC_AI_SEARCH_SERVICE_URL),
-        readEnvVar(EnvironmentVariables.DHSC_AI_SEARCH_API_KEY),
-        tryReadEnvVar(EnvironmentVariables.INDICATOR_SEARCH_INDEX_NAME) ??
+      readEnvVar(EnvironmentVariables.DHSC_AI_SEARCH_SERVICE_URL),
+      readEnvVar(EnvironmentVariables.DHSC_AI_SEARCH_API_KEY),
+      tryReadEnvVar(EnvironmentVariables.INDICATOR_SEARCH_INDEX_NAME) ??
         INDICATOR_SEARCH_INDEX_NAME
     );
   }

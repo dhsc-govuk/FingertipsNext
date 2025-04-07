@@ -5,7 +5,7 @@ import {
   SystemApi,
 } from '@/generated-sources/ft-api-client';
 import { readEnvVar } from '../envUtils';
-import EnvironmentVariables from "@/EnvironmentVariables";
+import EnvironmentVariables from '@/EnvironmentVariables';
 
 export const API_CACHE_CONFIG = { next: { revalidate: 600 } };
 

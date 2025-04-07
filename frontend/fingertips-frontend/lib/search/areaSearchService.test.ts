@@ -26,8 +26,12 @@ describe('AreaSearchService', () => {
   mockSearch.mockResolvedValue({ results: [] });
 
   beforeEach(() => {
-    searchService = new AreaSearchService('someUrl', 'someKey', AREA_SEARCH_INDEX_NAME);
-  })
+    searchService = new AreaSearchService(
+      'someUrl',
+      'someKey',
+      AREA_SEARCH_INDEX_NAME
+    );
+  });
 
   describe('if the environment is configured it', () => {
     it('should successfully create a search service instance', () => {
