@@ -54,7 +54,7 @@ namespace DataCreator
                 cleanedAreas.Add(area);
             }
             
-            DataFileWriter.WriteJsonData("areas", cleanedAreas);
+            DataFileWriter.WriteAreasJsonData(cleanedAreas);
 
             var simpleAreasWeWant = cleanedAreas.Select(area => new SimpleAreaWithChildren
             {
@@ -107,7 +107,7 @@ namespace DataCreator
             }
             AddLastUpdatedDate(indicators);
 
-            DataFileWriter.WriteJsonData("indicators", indicators);
+            DataFileWriter.WriteIndicatorsJsonData(indicators);
             DataFileWriter.WriteSimpleIndicatorCsvData("indicators", indicators.Where(i => i.UsedInPoc).Cast<SimpleIndicator>());
         }
 
