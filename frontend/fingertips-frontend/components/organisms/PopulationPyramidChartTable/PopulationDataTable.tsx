@@ -16,6 +16,7 @@ const StyledAreaTitleHeader = styled('h3')(typography.font({ size: 19 }), {
   lineHeight: '65px',
   letterSpacing: '0px',
   fontWeight: '700',
+  padding: '5px',
 });
 
 export const StyledTableCell = styled(Table.Cell)(

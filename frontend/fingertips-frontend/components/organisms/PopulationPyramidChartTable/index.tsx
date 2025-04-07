@@ -34,6 +34,9 @@ const StyleBenchmarkDataDiv = styled('div')({
     },
   },
   'minWidth': DefaultMinimumWidthForTablePanel,
+  '& h3': {
+    textAlign: 'left',
+  },
 });
 
 const StyleScrollableContentDiv = styled('div')({
@@ -56,7 +59,7 @@ const StyleGroupTableContentDiv = styled('div')({
     '& td, th': {
       borderBottomColor: GovukColours.MidGrey,
       borderTopColor: GovukColours.MidGrey,
-      textAlign: "right"
+      textAlign: 'right',
     },
   },
   'minWidth': DefaultMinimumWidthForTablePanel,
@@ -68,7 +71,7 @@ const StyleSelectedAreaTableContextDiv = styled('div')({
   '& table': {
     '& td:first-child, th:first-child': {
       minWidth: '90px',
-      textAlign: "left"
+      textAlign: 'left',
     },
     '& td, th': {
       borderTopColor: GovukColours.MidGrey,

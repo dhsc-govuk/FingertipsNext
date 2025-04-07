@@ -43,8 +43,8 @@ const createChartSeriesOptions = (
       alignColumns: true,
       reversed: true,
       itemStyle: {
-        fontSize: "19px"
-      }
+        fontSize: '19px',
+      },
     },
     xAxis: [
       {
@@ -62,9 +62,9 @@ const createChartSeriesOptions = (
         tickColor: GovukColours.DarkSlateGray,
         labels: {
           style: {
-            fontSize: 16
-          }
-        }
+            fontSize: 16,
+          },
+        },
       },
       {
         opposite: true,
@@ -87,9 +87,9 @@ const createChartSeriesOptions = (
         },
         labels: {
           style: {
-            fontSize: 16
-          }
-        }
+            fontSize: 16,
+          },
+        },
       },
     ],
     yAxis: {
@@ -108,8 +108,8 @@ const createChartSeriesOptions = (
         format: '{abs value}%',
         align: 'center',
         style: {
-          fontSize: 16
-        }
+          fontSize: 16,
+        },
       },
       accessibility: {
         enabled: false,
@@ -144,7 +144,7 @@ const createChartSeriesOptions = (
           color: GovukColours.Black,
           style: {
             fontWeight: 'light',
-            fontSize: "16px"
+            fontSize: '16px',
           },
         },
       },
@@ -162,7 +162,7 @@ const createChartSeriesOptions = (
           color: GovukColours.Black,
           style: {
             fontWeight: 'light',
-            fontSize: "16px"
+            fontSize: '16px',
           },
         },
       },
