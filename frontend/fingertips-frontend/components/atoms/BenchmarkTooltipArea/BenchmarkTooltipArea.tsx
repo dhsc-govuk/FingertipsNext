@@ -11,6 +11,7 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 import { formatNumber } from '@/lib/numberFormatter';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 type TooltipType = 'area' | 'benchmark' | 'group';
 
@@ -22,19 +23,19 @@ interface BenchmarkTooltipArea {
 }
 
 export function BenchmarkTooltipArea({
-  indicatorData: indicatorDataForArea,
+  indicatorData,
   benchmarkComparisonMethod,
   measurementUnit,
   tooltipType,
 }: Readonly<BenchmarkTooltipArea>) {
   const areaMarkerSymbol =
-    indicatorDataForArea.healthData[0].benchmarkComparison?.outcome ===
+    indicatorData.healthData[0].benchmarkComparison?.outcome ===
     BenchmarkOutcome.NotCompared
       ? SymbolsEnum.MultiplicationX
       : SymbolsEnum.Circle;
 
   const indicatorDataForAreaForMostRecentYear =
-    getIndicatorDataForAreasForMostRecentYearOnly([indicatorDataForArea]);
+    getIndicatorDataForAreasForMostRecentYearOnly([indicatorData]);
   const polarity =
     indicatorDataForAreaForMostRecentYear[0].healthData[0].benchmarkComparison
       ?.indicatorPolarity ?? IndicatorPolarity.Unknown;
@@ -45,20 +46,20 @@ export function BenchmarkTooltipArea({
     indicatorDataForAreaForMostRecentYear[0].healthData[0].benchmarkComparison
       ?.outcome;
 
-  // TODO: check quintile colour for benchmark
-  const benchmarkColour = getBenchmarkColour(
+  let benchmarkColour = getBenchmarkColour(
     benchmarkComparisonMethod,
     benchmarkOutcome ?? BenchmarkOutcome.NotCompared,
     polarity
   );
+  if (tooltipType === 'benchmark') {
+    benchmarkColour = GovukColours.Black;
+  }
 
   return (
     <div data-testid={'benchmark-tooltip-area'} style={{ marginBlock: '10px' }}>
       <div style={{ textWrap: 'wrap' }}>
-        <b>{getAreaTitle(indicatorDataForArea.areaName, tooltipType)}</b>
-        <p style={{ marginBlock: 0 }}>
-          {indicatorDataForArea.healthData[0].year}
-        </p>
+        <b>{getAreaTitle(indicatorData.areaName, tooltipType)}</b>
+        <p style={{ marginBlock: 0 }}>{indicatorData.healthData[0].year}</p>
       </div>
       <div
         style={{

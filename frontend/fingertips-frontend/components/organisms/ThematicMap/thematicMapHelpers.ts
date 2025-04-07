@@ -315,6 +315,7 @@ export function createThematicMapChartOptions(
       },
     ],
     tooltip: {
+      followPointer: false,
       headerFormat: '',
       useHTML: true,
       // any required to allow for customised Highchart Point
