@@ -109,9 +109,9 @@ function getComparisionText(
   const benchmarkConfidenceLimit = getConfidenceLimitNumber(
     benchmarkComparisonMethod
   );
-  let joiningWord = 'to';
+  let joiningWord = 'than';
   if (benchmarkOutcome === BenchmarkOutcome.Similar) {
-    joiningWord = 'than';
+    joiningWord = 'to';
   }
 
   if (
