@@ -9,7 +9,7 @@ export default class BasePage {
   constructor(public readonly page: PlaywrightPage) {}
 
   async waitForURLToContain(containsURL: string) {
-    await this.page.waitForURL(new RegExp(containsURL));
+    await this.page.waitForURL(new RegExp(containsURL, 'i'));
   }
 
   async waitForURLToContainBasedOnSearchMode(
@@ -82,6 +82,16 @@ export default class BasePage {
     await expect(this.page.getByText('Loading')).toHaveCount(0);
 
     await locator.clear();
+
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
+  }
+
+  async selectOptionAndAwaitLoadingComplete(locator: Locator, option: string) {
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
+
+    await locator.selectOption(option);
 
     await this.page.waitForLoadState();
     await expect(this.page.getByText('Loading')).toHaveCount(0);
