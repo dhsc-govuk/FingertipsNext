@@ -23,7 +23,7 @@ type TwoOrMoreIndicatorsEnglandViewPlotProps = {
 
 export const getLatestPeriodHealthDataPoint = (
   indicatorData: IndicatorWithHealthDataForArea,
-  latestPeriod: string | undefined
+  latestPeriod: string | undefined,
 ): HealthDataPoint | undefined => {
   if (indicatorData.areaHealthData?.[0]?.healthData) {
     return indicatorData.areaHealthData?.[0].healthData?.find(
@@ -33,43 +33,51 @@ export const getLatestPeriodHealthDataPoint = (
   return undefined;
 };
 
+export const getEnglandIndicatorTableData = (
+  indicatorData: IndicatorWithHealthDataForArea[], indicatorMetadata: IndicatorDocument[] | undefined
+): EnglandAreaTypeIndicatorData[] => {
+  
+  return indicatorData.map((indicator) => {
+
+    const hasHealthDataForEngland =
+      indicator.areaHealthData?.[0]?.healthData !== undefined;
+    
+    const metaDataForIndicator = indicatorMetadata?.find(
+      (indicatorMeta) =>
+        indicatorMeta?.indicatorID === indicator.indicatorId?.toString()
+    );
+
+    const latestPeriod = hasHealthDataForEngland
+      ? metaDataForIndicator?.latestDataPeriod
+      : undefined;
+
+    const latestEnglandHealthData = hasHealthDataForEngland
+      ? getLatestPeriodHealthDataPoint(indicator, latestPeriod)
+      : undefined;
+
+    const unitLabel = hasHealthDataForEngland
+      ? metaDataForIndicator?.unitLabel
+      : undefined;
+
+    return {
+      indicatorId: indicator.indicatorId,
+      indicatorName: indicator.name,
+      period: latestPeriod,
+      latestEnglandHealthData,
+      unitLabel,
+    };
+  });
+};
+
 export function TwoOrMoreIndicatorsEnglandViewPlots({
   indicatorData,
   indicatorMetadata,
   searchState,
 }: Readonly<TwoOrMoreIndicatorsEnglandViewPlotProps>) {
   SearchStateManager.initialise(searchState);
-
-  const englandIndicatorData: EnglandAreaTypeIndicatorData[] =
-    indicatorData.map((indicator) => {
-      const hasHealthDataForEngland =
-        indicator.areaHealthData?.[0]?.healthData !== undefined;
-
-      const metaDataForIndicator = indicatorMetadata?.find(
-        (indicatorMeta) =>
-          indicatorMeta?.indicatorID === indicator.indicatorId?.toString()
-      );
-
-      const latestPeriod = hasHealthDataForEngland
-        ? metaDataForIndicator?.latestDataPeriod
-        : undefined;
-
-      const latestEnglandHealthData = hasHealthDataForEngland
-        ? getLatestPeriodHealthDataPoint(indicator, latestPeriod)
-        : undefined;
-
-      const unitLabel = hasHealthDataForEngland
-        ? metaDataForIndicator?.unitLabel
-        : undefined;
-
-      return {
-        indicatorId: indicator.indicatorId,
-        indicatorName: indicator.name,
-        period: latestPeriod,
-        latestEnglandHealthData,
-        unitLabel,
-      };
-    });
+  
+  const englandIndicatorData = getEnglandIndicatorTableData(indicatorData,
+    indicatorMetadata,)
 
   return (
     <section data-testid="twoOrMoreIndicatorsEnglandViewPlot-component">

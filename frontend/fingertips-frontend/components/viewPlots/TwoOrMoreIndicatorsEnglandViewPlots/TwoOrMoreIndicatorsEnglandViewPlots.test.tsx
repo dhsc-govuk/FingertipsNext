@@ -1,4 +1,5 @@
 import {
+  getEnglandIndicatorTableData,
   getLatestPeriodHealthDataPoint,
   TwoOrMoreIndicatorsEnglandViewPlots,
 } from '@/components/viewPlots/TwoOrMoreIndicatorsEnglandViewPlots/index';
@@ -28,14 +29,14 @@ const mockEnglandHealthData: HealthDataForArea = {
 const mockIndicatorData: IndicatorWithHealthDataForArea[] = [
   {
     indicatorId: 1,
-    name: ' ',
+    name: 'indicator 1',
     polarity: IndicatorPolarity.Unknown,
     benchmarkMethod: BenchmarkComparisonMethod.Unknown,
     areaHealthData: [mockEnglandHealthData],
   },
   {
     indicatorId: 2,
-    name: ' ',
+    name: 'indicator 2 ',
     polarity: IndicatorPolarity.Unknown,
     benchmarkMethod: BenchmarkComparisonMethod.Unknown,
     areaHealthData: [],
@@ -72,6 +73,8 @@ const mockIndicatorMetaData = [
   },
 ];
 
+// const mockIndicatorTableData = []
+
 describe('TwoOrMoreIndicatorsEnglandView', () => {
   it('should render the EnglandAreaTypeTable component', () => {
     render(
@@ -104,4 +107,25 @@ describe('TwoOrMoreIndicatorsEnglandView', () => {
       expect(result).toEqual(undefined);
     });
   });
+  
+  describe('getEnglandIndicatorTableData', () => {
+    it('should return the englandIndicatorTableData component', () => {
+      
+      const result = getEnglandIndicatorTableData(
+        mockIndicatorData,
+        mockIndicatorMetaData
+      );
+      
+      expect(result).toEqual([
+        {
+          indicatorId: 1,
+          indicatorName: "indicator 1",
+        },
+        {
+          indicatorId: 2,
+          indicatorName: "indicator 2",
+        }
+      ])
+    })
+  })
 });

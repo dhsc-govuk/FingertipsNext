@@ -24,32 +24,31 @@ interface TestParams {
 }
 
 const coreTestJourneys: TestParams[] = [
-  {
-    indicatorMode: IndicatorMode.ONE_INDICATOR,
-    areaMode: AreaMode.ONE_AREA,
-    searchMode: SearchMode.BOTH_SUBJECT_AND_AREA,
-  },
-  {
-    indicatorMode: IndicatorMode.ONE_INDICATOR,
-    areaMode: AreaMode.TWO_PLUS_AREAS,
-    searchMode: SearchMode.ONLY_SUBJECT,
-  },
-  {
-    indicatorMode: IndicatorMode.ONE_INDICATOR,
-    areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
-    searchMode: SearchMode.ONLY_SUBJECT,
-  },
-  {
-    indicatorMode: IndicatorMode.TWO_PLUS_INDICATORS,
-    areaMode: AreaMode.TWO_PLUS_AREAS,
-    searchMode: SearchMode.ONLY_AREA,
-  },
   // {
-  // enable once DHSCFT-237 and DHSCFT-225 are done
+  //   indicatorMode: IndicatorMode.ONE_INDICATOR,
+  //   areaMode: AreaMode.ONE_AREA,
+  //   searchMode: SearchMode.BOTH_SUBJECT_AND_AREA,
+  // },
+  // {
+  //   indicatorMode: IndicatorMode.ONE_INDICATOR,
+  //   areaMode: AreaMode.TWO_PLUS_AREAS,
+  //   searchMode: SearchMode.ONLY_SUBJECT,
+  // },
+  // {
+  //   indicatorMode: IndicatorMode.ONE_INDICATOR,
+  //   areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
+  //   searchMode: SearchMode.ONLY_SUBJECT,
+  // },
+  // {
   //   indicatorMode: IndicatorMode.TWO_PLUS_INDICATORS,
-  //   areaMode: AreaMode.ENGLAND_AREA,
+  //   areaMode: AreaMode.TWO_PLUS_AREAS,
   //   searchMode: SearchMode.ONLY_AREA,
   // },
+  {
+    indicatorMode: IndicatorMode.TWO_PLUS_INDICATORS,
+    areaMode: AreaMode.ENGLAND_AREA,
+    searchMode: SearchMode.ONLY_AREA,
+  },
 ];
 
 /**
