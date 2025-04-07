@@ -4,6 +4,7 @@ import { orderStatistics } from './SpineChartHelpers';
 describe('Spine chart helper', () => {
   it('empty stats should return zeros', () => {
     const emptyStats = {};
+
     const emptyResults = {
       best: 0,
       bestQuartile: 0,
@@ -21,6 +22,7 @@ describe('Spine chart helper', () => {
       q3Value: 3,
       q4Value: 4,
     };
+
     const results = {
       best: 4,
       worst: 1,
@@ -39,6 +41,7 @@ describe('Spine chart helper', () => {
       q3Value: 3,
       q4Value: 4,
     };
+
     const results = {
       best: 4,
       worst: 1,
@@ -57,6 +60,7 @@ describe('Spine chart helper', () => {
       q3Value: 3,
       q4Value: 4,
     };
+
     const results = {
       best: 4,
       worst: 1,
@@ -75,6 +79,7 @@ describe('Spine chart helper', () => {
       q3Value: 3,
       q4Value: 4,
     };
+
     const results = {
       best: 4,
       worst: 1,
@@ -93,6 +98,7 @@ describe('Spine chart helper', () => {
       q3Value: 3,
       q4Value: 4,
     };
+
     const results = {
       best: 1,
       worst: 4,

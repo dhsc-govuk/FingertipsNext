@@ -3,16 +3,14 @@ import {
   QuartileData,
 } from '@/generated-sources/ft-api-client';
 
-type StatisticsExtremes = {
+type orderedQuartiles = {
   best: number;
   bestQuartile: number;
   worstQuartile: number;
   worst: number;
 };
 
-export function orderStatistics(
-  quartileData: QuartileData
-): StatisticsExtremes {
+export function orderStatistics(quartileData: QuartileData): orderedQuartiles {
   const q0Value = quartileData.q0Value ?? 0;
   const q1Value = quartileData.q1Value ?? 0;
   const q3Value = quartileData.q3Value ?? 0;
