@@ -172,86 +172,75 @@ FROM
                     NewAreaType=COUNTIESANDUA,
                     HierarchyType=Administrative,
                     Level=2
-                }
-                ,
+                },
                 new() {
                     OriginalAreaType="LA new 2019",
                     NewAreaType=DISTRICT,
                     HierarchyType=Administrative,
                     Level=3
-                }
-                ,
+                },
                 new() {
                     OriginalAreaType="LA unchanged",
                     NewAreaType=DISTRICT,
                     HierarchyType=Administrative,
                     Level=3
-                }
-                ,
+                },
                 new()
                 {
                     OriginalAreaType="UA new 2019",
                     NewAreaType=COUNTIESANDUA,
                     HierarchyType=Administrative,
                     Level=2
-                }
-                ,
+                },
                 new()
                 {
                     OriginalAreaType="UA new 2020",
                     NewAreaType=COUNTIESANDUA,
                     HierarchyType=Administrative,
                     Level=2
-                }
-                ,
+                },
                 new()
                 {
                     OriginalAreaType="UA new 2021",
                     NewAreaType=COUNTIESANDUA,
                     HierarchyType=Administrative,
                     Level=2
-                }
-                ,
+                },
                 new()
                 {
                     OriginalAreaType="UA new 2023",
                     NewAreaType=COUNTIESANDUA,
                     HierarchyType=Administrative,
                     Level=2
-                }
-                ,
+                },
                 new()
                 {
                     OriginalAreaType="UA unchanged",
                     NewAreaType=COUNTIESANDUA,
                     HierarchyType=Administrative,
                     Level=2
-                }
-                ,
+                },
                 new()
                 {
                     OriginalAreaType="NHS region",
                     NewAreaType=NHSREGION,
                     HierarchyType=NHS,
                     Level=1
-                }
-                ,
+                },
                 new()
                 {
                     OriginalAreaType="NHS regions - new due to ICB changes",
                     NewAreaType=NHSREGION,
                     HierarchyType=NHS,
                     Level=1
-                }
-                ,
+                },
                 new()
                 {
                     OriginalAreaType="PCNs (v. 26/04/24)",
                     NewAreaType="NHS Primary Care Networks",
                     HierarchyType=NHS,
                     Level=4
-                }
-                ,
+                },
                 new()
                 {
                     OriginalAreaType="GPs",

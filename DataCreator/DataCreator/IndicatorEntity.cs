@@ -58,6 +58,8 @@ namespace DataCreator
         public bool UsedInPoc { get; set; }
 
         public bool HasInequalities { get; set; }
+
+        public bool HideInSearch => IndicatorID == 337 || IndicatorID == 92708;
     }
 
     public record SimpleIndicator
