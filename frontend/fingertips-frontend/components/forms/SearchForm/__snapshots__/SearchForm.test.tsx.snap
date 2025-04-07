@@ -820,6 +820,7 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
             <hr
               class="c23 c24"
             />
+            <div />
           </div>
         </div>
       </div>

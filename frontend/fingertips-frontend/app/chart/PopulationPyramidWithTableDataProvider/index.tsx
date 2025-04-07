@@ -15,11 +15,20 @@ import {
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
 import { PopulationPyramidWithTable } from '@/components/organisms/PopulationPyramidWithTable';
+import { chunkArray } from '@/lib/ViewsHelpers';
 const enum PopulationIndicatorIdsTypes {
   ADMINISTRATIVE = 92708,
   NHS = 337,
 }
 
+const fetchPopulationIndicatorID = async (areaCode: string) => {
+  const areasApi = ApiClientFactory.getAreasApiClient();
+  const area = await areasApi.getArea({ areaCode: areaCode });
+  if (area.areaType.hierarchyName == HierarchyNameTypes.NHS) {
+    return PopulationIndicatorIdsTypes.NHS;
+  }
+  return PopulationIndicatorIdsTypes.ADMINISTRATIVE;
+};
 interface PyramidContextProviderProps {
   areaCodes: string[];
   searchState: SearchStateParams;
@@ -48,7 +57,6 @@ export const PopulationPyramidWithTableDataProvider = async ({
     return areaCodesToRequest;
   })();
 
-  const areasApi = ApiClientFactory.getAreasApiClient();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
   const populationDataForArea: IndicatorWithHealthDataForArea | undefined =
     await (async () => {
@@ -56,16 +64,44 @@ export const PopulationPyramidWithTableDataProvider = async ({
         if (areaCodesToRequest.length == 0) {
           return undefined;
         }
+        let indicatorWithData: IndicatorWithHealthDataForArea | undefined =
+          undefined;
+        const populationIndicatorID = await fetchPopulationIndicatorID(
+          areaCodesToRequest[0]
+        );
 
-        const populationIndicatorID: number = await (async (
-          areaCode: string
-        ) => {
-          const area = await areasApi.getArea({ areaCode: areaCode });
-          if (area.areaType.hierarchyName == HierarchyNameTypes.NHS) {
-            return PopulationIndicatorIdsTypes.NHS;
+        chunkArray(areaCodesToRequest).forEach(
+          async (requestAreas: string[]) => {
+            try {
+              const fetchedIndicatorWithData =
+                await indicatorApi.getHealthDataForAnIndicator(
+                  {
+                    indicatorId: populationIndicatorID,
+                    areaCodes: requestAreas,
+                    inequalities: [
+                      GetHealthDataForAnIndicatorInequalitiesEnum.Age,
+                      GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
+                    ],
+                  },
+                  API_CACHE_CONFIG
+                );
+
+              //append the new data to the list of areas
+              if (!indicatorWithData) {
+                indicatorWithData = fetchedIndicatorWithData;
+                return;
+              }
+              indicatorWithData?.areaHealthData?.push(
+                ...(fetchedIndicatorWithData.areaHealthData ?? [])
+              );
+            } catch (error) {
+              console.error(
+                'error getting population health indicator data for area',
+                error
+              );
+            }
           }
-          return PopulationIndicatorIdsTypes.ADMINISTRATIVE;
-        })(areaCodesToRequest[0]);
+        );
 
         return await indicatorApi.getHealthDataForAnIndicator(
           {
