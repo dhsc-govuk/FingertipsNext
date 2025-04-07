@@ -28,7 +28,7 @@ export const StyledTableCell = styled(Table.Cell)(
 );
 
 const valueFormatter = (value: number | string | undefined) => {
-  if (typeof value === 'number') {
+  if (typeof value === 'number' || typeof value === "undefined") {
     return formatWholeNumber(value);
   }
   return value;

@@ -43,7 +43,7 @@ const createChartSeriesOptions = (
       alignColumns: true,
       reversed: true,
       itemStyle: {
-        fontSize: '19px',
+        fontSize: '16px',
       },
     },
     xAxis: [
