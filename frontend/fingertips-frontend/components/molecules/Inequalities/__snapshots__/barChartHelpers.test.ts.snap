@@ -19,7 +19,7 @@ exports[`getBarChartOptions should return an object matching the snapshot 1`] = 
   },
   "plotOptions": {
     "bar": {
-      "pointPadding": 0.3,
+      "pointPadding": 0.2,
     },
   },
   "series": [],
@@ -112,7 +112,7 @@ exports[`getBarChartOptions should return an object matching the snapshot when o
   },
   "plotOptions": {
     "bar": {
-      "pointPadding": 0.3,
+      "pointPadding": 0.2,
     },
   },
   "series": [],
