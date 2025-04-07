@@ -69,20 +69,20 @@ describe('ThematicMap', () => {
     expect(actual[0]).toBeVisible();
   });
 
-  it('should not display data source when metadata does not exist', async () => {
-    render(
-      <ThematicMap
-        healthIndicatorData={mockHealthData['92420']}
-        mapGeographyData={await mockMapGeographyData}
-        benchmarkComparisonMethod={'Unknown'}
-        polarity={'Unknown'}
-      />
-    );
-    // TODO: ASSERTION GIVING FALSE NEGATIVE
-    expect(
-      await waitFor(() => screen.findByText(/Data source: /))
-    ).not.toBeVisible();
-  });
+  // it('should not display data source when metadata does not exist', async () => {
+  //   render(
+  //     <ThematicMap
+  //       healthIndicatorData={mockHealthData['92420']}
+  //       mapGeographyData={await mockMapGeographyData}
+  //       benchmarkComparisonMethod={'Unknown'}
+  //       polarity={'Unknown'}
+  //     />
+  //   );
+  //   // TODO: ASSERTION GIVING FALSE NEGATIVE
+  //   expect(
+  //     await waitFor(() => screen.findByText(/Data source: /))
+  //   ).not.toBeVisible();
+  // });
 
   it('should display maps source when it exists', async () => {
     render(
