@@ -68,6 +68,7 @@ exports[`PopulationDataTable take a snapshot 1`] = `
   -ms-letter-spacing: 0px;
   letter-spacing: 0px;
   font-weight: 700;
+  padding: 5px;
 }
 
 .c7 {

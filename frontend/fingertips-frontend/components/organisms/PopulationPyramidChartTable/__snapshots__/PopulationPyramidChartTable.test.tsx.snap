@@ -68,6 +68,7 @@ exports[`PopulationPyramidChartTable check  that all 3 tables are rendered and t
   -ms-letter-spacing: 0px;
   letter-spacing: 0px;
   font-weight: 700;
+  padding: 5px;
 }
 
 .c10 {
@@ -140,6 +141,12 @@ exports[`PopulationPyramidChartTable check  that all 3 tables are rendered and t
 .c12 table th {
   border-bottom-color: #F3F2F1;
   border-top-color: #F3F2F1;
+  text-align: right;
+  padding: 5px;
+}
+
+.c12 h3 {
+  text-align: left;
 }
 
 .c1 {
@@ -178,6 +185,8 @@ exports[`PopulationPyramidChartTable check  that all 3 tables are rendered and t
 .c11 table th {
   border-bottom-color: #B1B4B6;
   border-top-color: #B1B4B6;
+  text-align: right;
+  padding: 5px;
 }
 
 .c2 {
@@ -188,14 +197,18 @@ exports[`PopulationPyramidChartTable check  that all 3 tables are rendered and t
   min-width: 280px;
 }
 
-.c2 table td:first-child {
+.c2 table td:first-child,
+.c2 table th:first-child {
   min-width: 90px;
+  text-align: left;
 }
 
 .c2 table td,
 .c2 table th {
   border-top-color: #B1B4B6;
   border-bottom-color: #B1B4B6;
+  text-align: right;
+  padding: 5px;
 }
 
 @media print {
