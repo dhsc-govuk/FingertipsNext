@@ -5,6 +5,7 @@ import {
   SystemApi,
 } from '@/generated-sources/ft-api-client';
 import { readEnvVar } from '../envUtils';
+import EnvironmentVariables from "@/EnvironmentVariables";
 
 export const API_CACHE_CONFIG = { next: { revalidate: 600 } };
 
@@ -15,7 +16,7 @@ export class ApiClientFactory {
 
   public static getAreasApiClient(): AreasApi {
     if (!this.areasApiInstance) {
-      const apiUrl = readEnvVar('FINGERTIPS_API_URL');
+      const apiUrl = readEnvVar(EnvironmentVariables.FINGERTIPS_API_URL);
       const config: Configuration = new Configuration({
         basePath: apiUrl,
         fetchApi: fetch,
@@ -29,7 +30,7 @@ export class ApiClientFactory {
 
   public static getIndicatorsApiClient(): IndicatorsApi {
     if (!this.indicatorsApiInstance) {
-      const apiUrl = readEnvVar('FINGERTIPS_API_URL');
+      const apiUrl = readEnvVar(EnvironmentVariables.FINGERTIPS_API_URL);
       const config: Configuration = new Configuration({
         basePath: apiUrl,
         fetchApi: fetch,
@@ -43,7 +44,7 @@ export class ApiClientFactory {
 
   public static getSystemApiClient(): SystemApi {
     if (!this.systemApiInstance) {
-      const apiUrl = readEnvVar('FINGERTIPS_API_URL');
+      const apiUrl = readEnvVar(EnvironmentVariables.FINGERTIPS_API_URL);
       const config: Configuration = new Configuration({
         basePath: apiUrl,
         fetchApi: fetch,

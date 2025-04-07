@@ -1,6 +1,5 @@
 import { AzureKeyCredential, SearchClient } from '@azure/search-documents';
 import {
-  AREA_SEARCH_INDEX_NAME,
   AREA_SEARCH_SUGGESTER_NAME,
   AreaDocument,
   IAreaSearchService,
@@ -9,8 +8,7 @@ import {
 export class AreaSearchService implements IAreaSearchService {
   private readonly searchClient: SearchClient<AreaDocument>;
 
-  constructor(fingertipsAzureAiSearchUrl: string, apiKey: string) {
-    const indexName = AREA_SEARCH_INDEX_NAME;
+  constructor(fingertipsAzureAiSearchUrl: string, apiKey: string, indexName: string) {
     const credentials = new AzureKeyCredential(apiKey);
 
     this.searchClient = new SearchClient<AreaDocument>(

@@ -8,6 +8,8 @@ import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
 import { ATTR_SERVICE_NAMESPACE } from '@opentelemetry/semantic-conventions/incubating';
 import { LogRecord, LogRecordProcessor } from '@opentelemetry/sdk-logs';
 import { Context, trace } from '@opentelemetry/api';
+import {tryReadEnvVar} from "@/lib/envUtils";
+import EnvironmentVariables from "@/EnvironmentVariables";
 
 class ConsoleLogRecordProcessor implements LogRecordProcessor {
   forceFlush(): Promise<void> {
@@ -34,7 +36,7 @@ const customResource = new Resource({
 
 const options: AzureMonitorOpenTelemetryOptions = {
   azureMonitorExporterOptions: {
-    connectionString: process.env.APPLICATIONINSIGHTS_CONNECTION_STRING,
+    connectionString: tryReadEnvVar(EnvironmentVariables.APPLICATIONINSIGHTS_CONNECTION_STRING),
   },
   resource: customResource,
   logRecordProcessors: [new ConsoleLogRecordProcessor()],

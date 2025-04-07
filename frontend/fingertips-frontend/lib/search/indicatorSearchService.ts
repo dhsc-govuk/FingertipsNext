@@ -6,7 +6,6 @@ import {
 
 import {
   IIndicatorSearchService,
-  INDICATOR_SEARCH_INDEX_NAME,
   IndicatorDocument,
   RawIndicatorDocument,
 } from './searchTypes';
@@ -16,8 +15,7 @@ export class IndicatorSearchService implements IIndicatorSearchService {
   private readonly searchClient: SearchClient<RawIndicatorDocument>;
   private readonly mapper: IndicatorMapper;
 
-  constructor(fingertipsAzureAiSearchUrl: string, apiKey: string) {
-    const indexName = INDICATOR_SEARCH_INDEX_NAME;
+  constructor(fingertipsAzureAiSearchUrl: string, apiKey: string, indexName: string) {
     const credentials = new AzureKeyCredential(apiKey);
 
     this.searchClient = new SearchClient<RawIndicatorDocument>(

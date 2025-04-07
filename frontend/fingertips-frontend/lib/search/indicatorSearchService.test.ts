@@ -45,7 +45,6 @@ describe('IndicatorSearchService', () => {
 
   describe('if the environment is configured it', () => {
     beforeEach(() => {
-      process.env.DHSC_AI_SEARCH_USE_MOCK_SERVICE = undefined;
       process.env.DHSC_AI_SEARCH_SERVICE_URL = 'test-url';
       process.env.DHSC_AI_SEARCH_API_KEY = 'test-api-key';
 

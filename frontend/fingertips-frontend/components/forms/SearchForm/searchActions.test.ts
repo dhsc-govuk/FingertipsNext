@@ -130,7 +130,7 @@ describe('Search actions', () => {
 describe('getSearchSuggestions', () => {
   it('should return search suggestions', async () => {
     SearchServiceFactory.reset();
-    process.env.DHSC_AI_SEARCH_USE_MOCK_SERVICE = 'true';
+    // TODO: mock search suggestion
     const suggestions = await getSearchSuggestions('Springwood');
     expect(suggestions).toHaveLength(1);
     expect(suggestions[0]).toMatchObject({
@@ -142,7 +142,7 @@ describe('getSearchSuggestions', () => {
 
   it('should return a maximum of 20 suggestions', async () => {
     SearchServiceFactory.reset();
-    process.env.DHSC_AI_SEARCH_USE_MOCK_SERVICE = 'true';
+    // TODO: mock search suggestion
     expect(await getSearchSuggestions('Surgery')).toHaveLength(20);
   });
 });

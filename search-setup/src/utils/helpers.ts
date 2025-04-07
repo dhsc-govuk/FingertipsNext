@@ -2,6 +2,7 @@ import { fileURLToPath } from 'url';
 import { config } from 'dotenv';
 import { readFileSync } from 'fs';
 import path, { dirname } from 'path';
+import { EnvironmentVariables } from '../../EnvironmentVariables';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -13,7 +14,7 @@ const __dirname = dirname(__filename);
  * @throws Error if the variable is not available and no default value was provided
  */
 export function getEnvironmentVariable(
-  variableName: string,
+  variableName: EnvironmentVariables,
   defaultValue?: string
 ): string {
   config();

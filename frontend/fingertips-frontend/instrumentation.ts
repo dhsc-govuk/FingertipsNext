@@ -1,7 +1,10 @@
+import {tryReadEnvVar} from "@/lib/envUtils";
+import EnvironmentVariables from "@/EnvironmentVariables";
+
 const startMockServer = async () => {
   if (
-    process.env.NEXT_RUNTIME === 'nodejs' &&
-    process.env.MOCK_SERVER === 'true'
+      tryReadEnvVar(EnvironmentVariables.NEXT_RUNTIME) === 'nodejs' &&
+      tryReadEnvVar(EnvironmentVariables.MOCK_SERVER) === 'true'
   ) {
     const { server } = await import('./mock/server/node');
     server.listen({
@@ -11,8 +14,8 @@ const startMockServer = async () => {
 };
 
 export async function register() {
-  if (process.env.NEXT_RUNTIME === 'nodejs') {
-    if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
+  if (tryReadEnvVar(EnvironmentVariables.NEXT_RUNTIME) === 'nodejs') {
+    if (tryReadEnvVar(EnvironmentVariables.APPLICATIONINSIGHTS_CONNECTION_STRING)) {
       console.log('** Application Insights Enabled - Configuring Telemetry **');
       await import('./instrumentation.node');
     } else {

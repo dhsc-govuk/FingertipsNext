@@ -23,11 +23,11 @@ async function main(): Promise<void> {
   const endpoint = getEnvironmentVariable('AI_SEARCH_SERVICE_ENDPOINT');
   const apiKey = getEnvironmentVariable('AI_SEARCH_API_KEY');
   const indicatorSearchIndexName = getEnvironmentVariable(
-    'INDICATOR_SEARCH_INDEX_NAME_OVERRIDE',
+    'INDICATOR_SEARCH_INDEX_NAME',
     INDICATOR_SEARCH_INDEX_NAME
   );
   const areaSearchIndexName = getEnvironmentVariable(
-    'AREA_SEARCH_INDEX_NAME_OVERRIDE',
+    'AREA_SEARCH_INDEX_NAME',
     AREA_SEARCH_INDEX_NAME
   );
   const rawIndicatorData = getIndicatorsJsonData();

@@ -12,10 +12,12 @@ import {
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { ErrorIdPrefix } from '@/mock/ErrorTriggeringIds';
+import {readEnvVar} from "@/lib/envUtils";
+import EnvironmentVariables from "@/EnvironmentVariables";
 
 faker.seed(1);
 
-const baseURL = process.env.FINGERTIPS_API_URL;
+const baseURL = readEnvVar(EnvironmentVariables.FINGERTIPS_API_URL);
 const MAX_ARRAY_LENGTH = 20;
 
 let i = 0;
