@@ -47,7 +47,7 @@ const coreTestJourneys: TestParams[] = [
   {
     indicatorMode: IndicatorMode.TWO_PLUS_INDICATORS,
     areaMode: AreaMode.ENGLAND_AREA,
-    searchMode: SearchMode.ONLY_AREA,
+    searchMode: SearchMode.ONLY_SUBJECT,
   },
 ];
 
