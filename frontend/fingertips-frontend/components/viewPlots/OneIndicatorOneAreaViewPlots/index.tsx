@@ -23,7 +23,7 @@ import {
   generateStandardLineChartOptions,
   LineChartVariant,
 } from '@/components/organisms/LineChart/lineChartHelpers';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getAllDataWithoutInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { useSearchState } from '@/context/SearchStateContext';
 
