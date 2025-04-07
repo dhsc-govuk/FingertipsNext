@@ -11,7 +11,6 @@ import { SearchParams } from '@/lib/searchStateManager';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { AreaDocument, IAreaSearchService } from '@/lib/search/searchTypes';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
-import EnvironmentVariables from '@/EnvironmentVariables';
 
 jest.mock('next/navigation');
 const redirectMock = jest.mocked(redirect);
