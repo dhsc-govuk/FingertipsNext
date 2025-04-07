@@ -67,6 +67,30 @@ describe('PopulationPyramidWithTableDataProvider', () => {
     expect(mockGetHealthDataForAnIndicator).toHaveBeenCalledTimes(1);
   });
 
+  it('renders PopulationPyramidWithTable with more than 100 areas data to be fetch', async () => {
+    const areaCodes = ((n: number) => {
+      //generate random area codes
+      const results: string[] = [];
+      for (let i = 0; i < n; i++) {
+        const randomNum = Math.floor(Math.random() * 100000);
+        const paddedNum = String(randomNum).padStart(5, '0');
+        const randomString = `E090${paddedNum}`;
+        results.push(randomString);
+      }
+      return results;
+    })(130);
+
+    const jsxView = await PopulationPyramidWithTableDataProvider({
+      areaCodes,
+      searchState: searchParams,
+    });
+    const view = render(jsxView);
+    expect(view).toBeTruthy();
+    expect(view.getByText('PopulationPyramidWithTable')).toBeInTheDocument();
+    expect(mockGetArea).toHaveBeenCalledTimes(1);
+    expect(mockGetHealthDataForAnIndicator).toHaveBeenCalledTimes(2);
+  });
+
   it('handles empty area codes', async () => {
     const jsxView = await PopulationPyramidWithTableDataProvider({
       areaCodes: [],

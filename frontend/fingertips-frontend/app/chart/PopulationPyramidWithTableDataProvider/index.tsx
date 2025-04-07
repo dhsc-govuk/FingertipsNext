@@ -29,6 +29,43 @@ const fetchPopulationIndicatorID = async (areaCode: string) => {
   }
   return PopulationIndicatorIdsTypes.ADMINISTRATIVE;
 };
+
+const fetchBatchIndicatorRequest = async (
+  populationIndicatorID: number,
+  areaCodesToRequest: string[]
+): Promise<IndicatorWithHealthDataForArea> => {
+  const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
+  let population: IndicatorWithHealthDataForArea | undefined = undefined;
+
+  for (const requestAreas of chunkArray(areaCodesToRequest)) {
+    if (!requestAreas) continue;
+
+    const data = await indicatorApi.getHealthDataForAnIndicator(
+      {
+        indicatorId: populationIndicatorID,
+        areaCodes: requestAreas,
+        inequalities: [
+          GetHealthDataForAnIndicatorInequalitiesEnum.Age,
+          GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
+        ],
+      },
+      API_CACHE_CONFIG
+    );
+
+    if (!population) {
+      population = data;
+    } else {
+      population.areaHealthData?.push(...(data.areaHealthData ?? []));
+    }
+  }
+
+  if (!population) {
+    throw new Error('No data returned from API.');
+  }
+
+  return population;
+};
+
 interface PyramidContextProviderProps {
   areaCodes: string[];
   searchState: SearchStateParams;
@@ -57,69 +94,18 @@ export const PopulationPyramidWithTableDataProvider = async ({
     return areaCodesToRequest;
   })();
 
-  const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
   const populationDataForArea: IndicatorWithHealthDataForArea | undefined =
     await (async () => {
-      try {
-        if (areaCodesToRequest.length == 0) {
-          return undefined;
-        }
-        let indicatorWithData: IndicatorWithHealthDataForArea | undefined =
-          undefined;
-        const populationIndicatorID = await fetchPopulationIndicatorID(
-          areaCodesToRequest[0]
-        );
-        console.log(areaCodesToRequest)
-        chunkArray(areaCodesToRequest).forEach(
-          async (requestAreas: string[]) => {
-            try {
-              const fetchedIndicatorWithData =
-                await indicatorApi.getHealthDataForAnIndicator(
-                  {
-                    indicatorId: populationIndicatorID,
-                    areaCodes: requestAreas,
-                    inequalities: [
-                      GetHealthDataForAnIndicatorInequalitiesEnum.Age,
-                      GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
-                    ],
-                  },
-                  API_CACHE_CONFIG
-                );
-
-              //append the new data to the list of areas
-              if (!indicatorWithData) {
-                indicatorWithData = fetchedIndicatorWithData;
-                return;
-              }
-              indicatorWithData?.areaHealthData?.push(
-                ...(fetchedIndicatorWithData.areaHealthData ?? [])
-              );
-            } catch (error) {
-              console.error(
-                'error getting population health indicator data for area',
-                error
-              );
-            }
-          }
-        );
-
-        return await indicatorApi.getHealthDataForAnIndicator(
-          {
-            indicatorId: populationIndicatorID,
-            areaCodes: areaCodesToRequest,
-            inequalities: [
-              GetHealthDataForAnIndicatorInequalitiesEnum.Age,
-              GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
-            ],
-          },
-          API_CACHE_CONFIG
-        );
-      } catch (error) {
-        console.error(
-          'error getting population health indicator data for area',
-          error
-        );
+      if (areaCodesToRequest.length == 0) {
+        return undefined;
       }
+      const populationIndicatorID = await fetchPopulationIndicatorID(
+        areaCodesToRequest[0]
+      );
+      return await fetchBatchIndicatorRequest(
+        populationIndicatorID,
+        areaCodesToRequest
+      );
     })();
 
   return (
