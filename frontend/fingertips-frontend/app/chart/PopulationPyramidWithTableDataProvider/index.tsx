@@ -69,7 +69,7 @@ export const PopulationPyramidWithTableDataProvider = async ({
         const populationIndicatorID = await fetchPopulationIndicatorID(
           areaCodesToRequest[0]
         );
-
+        console.log(areaCodesToRequest)
         chunkArray(areaCodesToRequest).forEach(
           async (requestAreas: string[]) => {
             try {
