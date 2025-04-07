@@ -23,7 +23,7 @@ const StyledDivHover = styled.div.attrs<PositionProps>(({ $xPos, $yPos }) => ({
   borderRadius: '8px',
   display: 'block',
   zIndex: 2,
-  position: 'absolute',
+  position: 'fixed',
   textAlign: 'left',
   padding: '16px',
   whiteSpace: 'nowrap',
