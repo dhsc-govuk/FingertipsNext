@@ -14,9 +14,11 @@ const LegendGroup = styled('div')({
 });
 
 const StyledLegendLabel = styled('span')({
+  display: 'block',
+  margin: '4px 0 0 0',
   fontFamily: 'nta,Arial,sans-serif',
   fontWeight: 300,
-  fontSize: '0.842em', //16px
+  fontSize: '16px', //16px
 });
 
 interface BenchmarkLegendProps {
@@ -31,7 +33,9 @@ const BenchmarkLegendGroup: FC<BenchmarkLegendProps> = ({
   polarity,
 }) => {
   const confidenceLimit = getConfidenceLimitNumber(benchmarkComparisonMethod);
-  const prefix = confidenceLimit ? `${confidenceLimit}% confidence` : null;
+  const prefix = confidenceLimit
+    ? `${confidenceLimit}% confidence`
+    : 'Quintiles';
   return (
     <>
       {prefix ? <StyledLegendLabel>{prefix}</StyledLegendLabel> : null}

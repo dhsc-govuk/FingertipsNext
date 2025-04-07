@@ -1,0 +1,192 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getBarChartOptions should return an object matching the snapshot 1`] = `
+{
+  "accessibility": {
+    "enabled": false,
+  },
+  "chart": {
+    "animation": false,
+    "height": "73%",
+    "spacingBottom": 50,
+    "spacingTop": 20,
+    "type": "bar",
+  },
+  "credits": {
+    "enabled": false,
+  },
+  "legend": {
+    "enabled": false,
+  },
+  "plotOptions": {
+    "bar": {
+      "pointPadding": 0.3,
+    },
+    "series": {
+      "animation": false,
+    },
+  },
+  "series": [],
+  "title": {
+    "style": {
+      "display": "none",
+    },
+  },
+  "tooltip": {
+    "headerFormat": "<span style="font-weight: bold">Tooltip Area</span><br/>",
+    "pointFormatter": [MockFunction],
+    "useHTML": true,
+  },
+  "xAxis": {
+    "categories": [
+      "Category 1",
+      "Category 2",
+    ],
+    "labels": {
+      "style": {
+        "fontSize": 16,
+      },
+    },
+    "lineWidth": 0,
+    "title": {
+      "margin": 20,
+      "style": {
+        "fontSize": 19,
+      },
+      "text": "X Axis Title",
+    },
+  },
+  "yAxis": {
+    "labels": {
+      "style": {
+        "fontSize": 16,
+      },
+    },
+    "max": 150,
+    "plotLines": [
+      {
+        "color": "black",
+        "events": {
+          "mouseout": [Function],
+          "mouseover": [Function],
+        },
+        "label": {
+          "align": "center",
+          "rotation": 0,
+          "style": {
+            "color": "black",
+            "fontSize": "16",
+            "fontWeight": "bold",
+          },
+          "text": "Plot line",
+          "y": -5,
+        },
+        "value": 75,
+        "width": 2,
+        "zIndex": 5,
+      },
+    ],
+    "title": {
+      "margin": 20,
+      "style": {
+        "fontSize": 19,
+      },
+      "text": "Y Axis Title",
+    },
+  },
+}
+`;
+
+exports[`getBarChartOptions should return an object matching the snapshot when only mandatory parameters are supplied 1`] = `
+{
+  "accessibility": {
+    "enabled": false,
+  },
+  "chart": {
+    "animation": false,
+    "height": "50%",
+    "spacingBottom": 50,
+    "spacingTop": 20,
+    "type": "bar",
+  },
+  "credits": {
+    "enabled": false,
+  },
+  "legend": {
+    "enabled": false,
+  },
+  "plotOptions": {
+    "bar": {
+      "pointPadding": 0.3,
+    },
+    "series": {
+      "animation": false,
+    },
+  },
+  "series": [],
+  "title": {
+    "style": {
+      "display": "none",
+    },
+  },
+  "tooltip": {
+    "headerFormat": "<span style="font-weight: bold">Tooltip Area</span><br/>",
+    "pointFormatter": [MockFunction],
+    "useHTML": true,
+  },
+  "xAxis": {
+    "categories": undefined,
+    "labels": {
+      "style": {
+        "fontSize": 16,
+      },
+    },
+    "lineWidth": 0,
+    "title": {
+      "margin": 20,
+      "style": {
+        "fontSize": 19,
+      },
+      "text": undefined,
+    },
+  },
+  "yAxis": {
+    "labels": {
+      "style": {
+        "fontSize": 16,
+      },
+    },
+    "max": undefined,
+    "plotLines": [
+      {
+        "color": "black",
+        "events": {
+          "mouseout": [Function],
+          "mouseover": [Function],
+        },
+        "label": {
+          "align": "center",
+          "rotation": 0,
+          "style": {
+            "color": "black",
+            "fontSize": "16",
+            "fontWeight": "bold",
+          },
+          "text": undefined,
+          "y": -5,
+        },
+        "value": undefined,
+        "width": 2,
+        "zIndex": 5,
+      },
+    ],
+    "title": {
+      "margin": 20,
+      "style": {
+        "fontSize": 19,
+      },
+      "text": undefined,
+    },
+  },
+}
+`;

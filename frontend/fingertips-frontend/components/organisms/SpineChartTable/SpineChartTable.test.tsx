@@ -23,7 +23,7 @@ describe('Spine chart table suite', () => {
     },
   ];
 
-  const mockUnits = ['kg', 'per 1000'];
+  const mockUnits = ['kg', 'per 1,000'];
 
   const mockHealthData: HealthDataForArea[] = [
     {
@@ -189,7 +189,7 @@ describe('Spine chart table suite', () => {
           indicatorId: 1,
           period: 2024,
           trend: 'Cannot be calculated',
-          unit: 'per 1000',
+          unit: 'per 1,000',
           value: 690.305692,
         },
       ];

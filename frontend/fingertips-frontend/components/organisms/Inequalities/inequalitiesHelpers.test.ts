@@ -115,6 +115,8 @@ const mockInequalitiesRowData: InequalitiesTableRowData[] = [
         upper: 578.32766,
         lower: 441.69151,
         sequence: 1,
+        isAggregate: false,
+        benchmarkComparison: undefined,
       },
       Female: {
         value: 703.420759,
@@ -122,6 +124,8 @@ const mockInequalitiesRowData: InequalitiesTableRowData[] = [
         upper: 578.32766,
         lower: 441.69151,
         sequence: 1,
+        isAggregate: false,
+        benchmarkComparison: undefined,
       },
     },
   },
@@ -134,6 +138,8 @@ const mockInequalitiesRowData: InequalitiesTableRowData[] = [
         upper: 578.32766,
         lower: 441.69151,
         sequence: 1,
+        isAggregate: true,
+        benchmarkComparison: undefined,
       },
       Male: {
         value: 890.328253,
@@ -141,6 +147,8 @@ const mockInequalitiesRowData: InequalitiesTableRowData[] = [
         upper: 578.32766,
         lower: 441.69151,
         sequence: 1,
+        isAggregate: false,
+        benchmarkComparison: undefined,
       },
       Female: {
         value: 890.328253,
@@ -148,6 +156,8 @@ const mockInequalitiesRowData: InequalitiesTableRowData[] = [
         upper: 578.32766,
         lower: 441.69151,
         sequence: 1,
+        isAggregate: false,
+        benchmarkComparison: undefined,
       },
     },
   },
@@ -452,8 +462,9 @@ describe('getDynamicKeys', () => {
 
 describe('mapToInequalitiesTableData', () => {
   it('should map to inequalitiesSexTable row data', () => {
-    const expectedInequalitiesTableRow: InequalitiesTableRowData[] =
-      mockInequalitiesRowData;
+    const expectedInequalitiesTableRow: InequalitiesTableRowData[] = [
+      ...mockInequalitiesRowData,
+    ];
     expect(
       mapToInequalitiesTableData(
         GROUPED_YEAR_DATA,

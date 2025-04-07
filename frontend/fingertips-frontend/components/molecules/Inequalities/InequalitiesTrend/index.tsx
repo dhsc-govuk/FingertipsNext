@@ -23,6 +23,7 @@ import {
   filterHealthData,
   healthDataFilterFunctionGeneratorForInequality,
   getInequalityCategory,
+  getYearsWithInequalityData,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
 
@@ -91,12 +92,18 @@ export function InequalitiesTrend({
     sequenceSelector
   );
 
+  const allData = mapToInequalitiesTableData(
+    yearlyHealthDataGroupedByInequalities,
+    sequenceSelector
+  );
+
+  const yearsDesc = getYearsWithInequalityData(allData);
+
+  if (!yearsDesc.length || allData.length < 2) return null;
+
   const lineChartData: InequalitiesChartData = {
     areaName: healthIndicatorData.areaName,
-    rowData: mapToInequalitiesTableData(
-      yearlyHealthDataGroupedByInequalities,
-      sequenceSelector
-    ),
+    rowData: allData,
   };
 
   const inequalitiesLineChartOptions: Highcharts.Options =

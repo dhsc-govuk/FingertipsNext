@@ -785,6 +785,7 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
           </label>
           <label
             class="c1 c14"
+            data-testid="group-selector-container"
           >
             <span
               class="c3"

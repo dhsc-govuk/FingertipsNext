@@ -15,9 +15,10 @@ const LegendContainer = styled.div({
 
 const BenchmarkLegendHeader = styled('h4')({
   alignSelf: 'stretch',
-  margin: '1em 0.1em 0.1em 0',
+  margin: '16px 0 8px 0',
   fontFamily: 'nta,Arial,sans-serif',
   fontWeight: 300,
+  fontSize: '19px',
 });
 
 interface BenchmarkLegendProps {
@@ -112,7 +113,6 @@ const BenchmarkLegendAll: FC<BenchmarkLegendAllProps> = ({ title }) => {
         outcomes={allRag}
       />
 
-      <BenchmarkLegendHeader>Quintiles</BenchmarkLegendHeader>
       <BenchmarkLegendGroup
         polarity={IndicatorPolarity.NoJudgement}
         benchmarkComparisonMethod={BenchmarkComparisonMethod.Quintiles}

@@ -9,7 +9,7 @@ import indicators from '../../../../../search-setup/assets/indicators.json';
 import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
 //@ts-expect-error don't care about type checking this json file
 const indicatorData = indicators as RawIndicatorDocument[];
-const subjectSearchTerm = 'hospital';
+const subjectSearchTerm = 'emergency';
 const areaSearchTerm: AreaDocument = {
   areaCode: 'E12000002',
   areaType: 'Regions',

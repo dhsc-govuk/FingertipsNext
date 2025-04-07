@@ -1,5 +1,6 @@
 import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
 import ChartPage from './page-objects/pages/chartPage';
+import { AreaTypeKeys } from '@/lib/areaFilterHelpers/areaType';
 
 export enum SearchMode {
   ONLY_SUBJECT = 'ONLY_SUBJECT',
@@ -292,12 +293,15 @@ export function getAllIndicatorIdsForSearchTerm(
   );
 }
 
-export function getAllNHSRegionAreas(areas: AreaDocument[]): AreaDocument[] {
-  const nhsRegionAreas = areas.filter((area) =>
-    area.areaType.includes('NHS Region')
+export function getAllAreasByAreaType(
+  areas: AreaDocument[],
+  areaType: AreaTypeKeys
+): AreaDocument[] {
+  const sanitisedAreaType = areaType.toLowerCase().replaceAll('-', ' ');
+  console.log(sanitisedAreaType);
+  return areas.filter((area) =>
+    area.areaType.toLowerCase().includes(sanitisedAreaType)
   );
-
-  return nhsRegionAreas;
 }
 
 export function returnIndicatorIDsByIndicatorMode(
