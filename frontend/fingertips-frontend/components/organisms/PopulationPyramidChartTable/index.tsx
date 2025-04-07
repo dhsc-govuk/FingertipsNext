@@ -53,10 +53,10 @@ const StyleGroupTableContentDiv = styled('div')({
   'backgroundColor': GovukColours.LightGrey,
   '& table ': {
     'margin': '0px',
-
     '& td, th': {
       borderBottomColor: GovukColours.MidGrey,
       borderTopColor: GovukColours.MidGrey,
+      textAlign: "right"
     },
   },
   'minWidth': DefaultMinimumWidthForTablePanel,
@@ -66,8 +66,9 @@ const StyleSelectedAreaTableContextDiv = styled('div')({
   'flexGrow': 8,
   'minWidth': DefaultMinimumWidthForTablePanel + 30,
   '& table': {
-    '& td:first-child': {
+    '& td:first-child, th:first-child': {
       minWidth: '90px',
+      textAlign: "left"
     },
     '& td, th': {
       borderTopColor: GovukColours.MidGrey,
