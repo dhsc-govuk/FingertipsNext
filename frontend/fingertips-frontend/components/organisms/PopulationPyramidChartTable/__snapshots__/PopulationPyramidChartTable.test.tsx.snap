@@ -146,7 +146,7 @@ exports[`PopulationPyramidChartTable check  that all 3 tables are rendered and t
 }
 
 .c12 h3 {
-  text-align: left;
+  text-align: right;
 }
 
 .c1 {
