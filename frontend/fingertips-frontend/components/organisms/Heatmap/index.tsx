@@ -24,6 +24,11 @@ const StyledTable = styled(Table)({
   width: '100%',
   tableLayout: 'fixed',
   overflow: 'visible',
+  height: 'fit-content',
+});
+
+const StyledRow = styled(Table.Row)({
+  height: '100%',
 });
 
 const StyledDivTableContainer = styled.div({
@@ -56,10 +61,10 @@ export function Heatmap({
     }
 
     return (e) => {
-      const cellRect = e.currentTarget.parentElement?.getBoundingClientRect();
+      const cellRect = e.currentTarget.getBoundingClientRect();
       const hoverPropsWithPosition: HeatmapHoverProps = {
         ...hoverProps,
-        xPos: cellRect?.right,
+        xPos: cellRect?.right + 12,
         yPos: cellRect?.top,
       };
 
@@ -77,7 +82,7 @@ export function Heatmap({
       <HeatmapHover hoverProps={hoverState} />
       <StyledDivTableContainer>
         <StyledTable data-testid="heatmapChart-component">
-          <Table.Row>
+          <StyledRow>
             {headers.map((header) => {
               return (
                 <HeatmapHeader
@@ -87,10 +92,10 @@ export function Heatmap({
                 />
               );
             })}
-          </Table.Row>
+          </StyledRow>
           {rows.map((row) => {
             return (
-              <Table.Row key={row.key}>
+              <StyledRow key={row.key}>
                 {row.cells.map((cell) => {
                   return (
                     <HeatmapCell
@@ -98,12 +103,14 @@ export function Heatmap({
                       cellType={cell.type}
                       content={cell.content}
                       backgroundColour={cell.backgroundColour}
-                      onMouseEnter={buildOnMouseEnterByProps(cell.hoverProps)}
-                      onMouseLeave={onMouseLeave}
+                      mouseEnterHandler={buildOnMouseEnterByProps(
+                        cell.hoverProps
+                      )}
+                      mouseLeaveHandler={onMouseLeave}
                     />
                   );
                 })}
-              </Table.Row>
+              </StyledRow>
             );
           })}
         </StyledTable>

@@ -15,10 +15,10 @@ const StyledCellText = styled(Table.Cell)({
 
 const StyledCellNumeric = styled(Table.Cell)({
   textAlign: 'center',
-  width: `${heatmapDataColumnWidth}px`,
   padding: 0,
   position: 'relative',
   borderLeft: `1px solid #bfc1c3`,
+  verticalAlign: 'middle',
 });
 
 const StyledCellData = styled(StyledCellNumeric)<{
@@ -31,12 +31,14 @@ const StyledCellData = styled(StyledCellNumeric)<{
 
 const StyledDivDataCellContent = styled.div({
   margin: '2px',
-  padding: '8px',
+  padding: '10px',
   minWidth: '40px',
   maxWidth: '120px',
-  display: 'inline-block',
-  textAlign: 'justify',
-  verticalAlign: 'middle',
+  minHeight: '2em',
+  height: '100%',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
 });
 
 const StyledDivIndicatorTitleCellContent = styled.div({
@@ -57,16 +59,16 @@ interface HeatmapCellProps {
   cellType: CellType;
   content: string;
   backgroundColour?: string;
-  onMouseEnter?: MouseEventHandler;
-  onMouseLeave?: MouseEventHandler;
+  mouseEnterHandler?: MouseEventHandler;
+  mouseLeaveHandler?: MouseEventHandler;
 }
 
 export const HeatmapCell = ({
   cellType,
   content,
   backgroundColour = GovukColours.White,
-  onMouseEnter: onMouseOver,
-  onMouseLeave,
+  mouseEnterHandler,
+  mouseLeaveHandler,
 }: HeatmapCellProps): JSX.Element => {
   switch (cellType) {
     case CellType.IndicatorTitle:
@@ -91,13 +93,10 @@ export const HeatmapCell = ({
           data-testid="heatmap-cell-data"
           $color={getTextColour(backgroundColour)}
           $backgroundColor={backgroundColour}
+          onMouseOver={mouseEnterHandler}
+          onMouseLeave={mouseLeaveHandler}
         >
-          <StyledDivDataCellContent
-            onMouseOver={onMouseOver}
-            onMouseLeave={onMouseLeave}
-          >
-            {content}
-          </StyledDivDataCellContent>
+          <StyledDivDataCellContent>{content}</StyledDivDataCellContent>
         </StyledCellData>
       );
     }

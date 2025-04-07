@@ -78,8 +78,10 @@ interface DataPoint {
   benchmark?: HeatmapBenchmarkProps;
 }
 
+export type HeatmapBenchmarkOutcome = BenchmarkOutcome | 'Baseline';
+
 export interface HeatmapBenchmarkProps {
-  outcome: BenchmarkOutcome;
+  outcome: HeatmapBenchmarkOutcome;
   benchmarkMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
 }
@@ -96,6 +98,7 @@ export const extractSortedAreasIndicatorsAndDataPoints = (
     extractAreasIndicatorsAndDataPoints(indicatorData);
 
   const precedingAreas = [areaCodeForEngland];
+
   if (groupAreaCode) {
     precedingAreas.push(groupAreaCode);
   }
@@ -152,10 +155,9 @@ export const generateRows = (
         key: `cell-${indicator.id}-${area.code}`,
         type: CellType.Data,
         content: formattedValue,
-        backgroundColour:
-          area.code === areaCodeForEngland
-            ? GovukColours.MidGrey
-            : generateDataBackgroundColour(dataPoints[indicator.id][area.code]),
+        backgroundColour: generateDataBackgroundColour(
+          dataPoints[indicator.id][area.code]
+        ),
         hoverProps: {
           areaName: getHoverAreaName(area),
           period: indicator.latestDataPeriod.toString(),
@@ -163,9 +165,15 @@ export const generateRows = (
           value: formattedValue,
           unitLabel: indicator.unitLabel,
           benchmark: {
-            outcome: BenchmarkOutcome.NotCompared,
-            benchmarkMethod: BenchmarkComparisonMethod.Unknown,
-            polarity: IndicatorPolarity.Unknown,
+            outcome:
+              dataPoints[indicator.id][area.code]?.benchmark?.outcome ??
+              BenchmarkOutcome.NotCompared,
+            benchmarkMethod:
+              dataPoints[indicator.id][area.code]?.benchmark?.benchmarkMethod ??
+              BenchmarkComparisonMethod.Unknown,
+            polarity:
+              dataPoints[indicator.id][area.code]?.benchmark?.polarity ??
+              IndicatorPolarity.Unknown,
           },
         },
       };
@@ -183,6 +191,10 @@ const generateDataBackgroundColour = (dataPoint?: DataPoint): string => {
     !dataPoint.benchmark?.polarity
   ) {
     return GovukColours.White;
+  }
+
+  if (dataPoint.benchmark.outcome === 'Baseline') {
+    return GovukColours.MidGrey;
   }
 
   const colour = getBenchmarkColour(
@@ -263,10 +275,20 @@ const extractAreasIndicatorsAndDataPoints = (
           ? healthData.healthData[0]
           : undefined;
 
+      const getBenchmarkOutcome = (
+        outcome?: BenchmarkOutcome
+      ): HeatmapBenchmarkOutcome => {
+        if (healthData.areaCode === areaCodeForEngland) {
+          return 'Baseline';
+        }
+
+        return outcome ?? BenchmarkOutcome.NotCompared;
+      };
+
       const benchmark: HeatmapBenchmarkProps = {
-        outcome:
-          healthDataForYear?.benchmarkComparison?.outcome ??
-          BenchmarkOutcome.NotCompared,
+        outcome: getBenchmarkOutcome(
+          healthDataForYear?.benchmarkComparison?.outcome
+        ),
         benchmarkMethod: indicatorData.benchmarkMethod,
         polarity: indicatorData.polarity,
       };

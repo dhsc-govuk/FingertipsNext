@@ -1,20 +1,20 @@
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { H5, Paragraph } from 'govuk-react';
+import { Paragraph, SectionBreak } from 'govuk-react';
 import { JSX, PropsWithChildren, ReactNode } from 'react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import { HeatmapBenchmarkProps } from './heatmapUtil';
-import { number } from 'zod';
+import { HeatmapHoverBenchmarkPill } from './heatmapHoverBenchmarkPill';
 
 interface PositionProps {
-  $xPos: number;
-  $yPos: number;
+  $left: number;
+  $top: number;
 }
 
-const StyledDivHover = styled.div.attrs<PositionProps>(({ $xPos, $yPos }) => ({
+const StyledDivHover = styled.div.attrs<PositionProps>(({ $left, $top }) => ({
   style: {
-    left: `${$xPos}px`,
-    top: `${$yPos}px`,
+    left: `${$left}px`,
+    top: `${$top}px`,
   },
 }))<PositionProps>({
   color: GovukColours.Black,
@@ -26,8 +26,9 @@ const StyledDivHover = styled.div.attrs<PositionProps>(({ $xPos, $yPos }) => ({
   position: 'fixed',
   textAlign: 'left',
   padding: '16px',
-  whiteSpace: 'nowrap',
+  whiteSpace: 'normal',
   overflow: 'hidden',
+  maxWidth: '240px',
 });
 
 const StyledDivTriangle = styled.div(
@@ -45,15 +46,10 @@ const StyledDivTriangle = styled.div(
   }`
 );
 
-const StyledH5 = styled(H5)(
-  { marginBottom: '0' },
-  typography.font({ size: 16 })
-);
-
-const StyledText = styled(Paragraph)(
-  { marginBottom: '0' },
-  typography.font({ size: 16 })
-);
+const StyledParagraph = styled(Paragraph)(typography.font({ size: 16 }));
+const StyledParagraphZeroMargin = styled(StyledParagraph)({
+  marginBottom: '0',
+});
 
 export interface HeatmapHoverProps extends PropsWithChildren {
   areaName: string;
@@ -64,6 +60,7 @@ export interface HeatmapHoverProps extends PropsWithChildren {
   benchmark: HeatmapBenchmarkProps;
   xPos?: number;
   yPos?: number;
+  anchor?: 'left' | 'right';
 }
 
 export function HeatmapHover({
@@ -81,6 +78,7 @@ export function HeatmapHover({
       benchmark={hoverProps.benchmark}
       xPos={hoverProps.xPos}
       yPos={hoverProps.yPos}
+      anchor={hoverProps.anchor}
     />
   ) : null;
 }
@@ -94,13 +92,21 @@ function HeatmapHoverInner({
   benchmark,
   xPos,
   yPos,
+  anchor = 'left',
 }: HeatmapHoverProps): JSX.Element {
   return (
-    <StyledDivHover $xPos={xPos ?? 0} $yPos={yPos ?? 0}>
+    <StyledDivHover $left={xPos ?? 0} $top={yPos ?? 0}>
       <StyledDivTriangle />
-      <StyledH5>{areaName}</StyledH5>
-      <StyledText>{period}</StyledText>
-      <StyledText>{indicatorName}</StyledText>
+      <StyledParagraphZeroMargin>{`**${areaName}**`}</StyledParagraphZeroMargin>
+      <StyledParagraphZeroMargin>{period}</StyledParagraphZeroMargin>
+      <StyledParagraph>{indicatorName}</StyledParagraph>
+      <HeatmapHoverBenchmarkPill
+        value={value}
+        unitLabel={unitLabel}
+        outcome={benchmark.outcome}
+        benchmarkMethod={benchmark.benchmarkMethod}
+        polarity={benchmark.polarity}
+      />
     </StyledDivHover>
   );
 }
