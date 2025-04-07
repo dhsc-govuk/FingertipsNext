@@ -151,7 +151,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
             benchmarkMethod ?? BenchmarkComparisonMethod.Unknown
           }
           polarity={polarity ?? IndicatorPolarity.Unknown}
-          measurementUnit={indicatorMetadata?.unitLabel}
+          indicatorMetadata={indicatorMetadata}
           benchmarkIndicatorData={englandBenchmarkData}
           groupIndicatorData={groupData}
         />

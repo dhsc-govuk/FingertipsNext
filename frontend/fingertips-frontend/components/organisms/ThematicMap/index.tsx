@@ -14,15 +14,18 @@ import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/mod
 import { IndicatorPolarity } from '@/generated-sources/ft-api-client/models/IndicatorPolarity';
 import { useSearchState } from '@/context/SearchStateContext';
 import { SearchParams } from '@/lib/searchStateManager';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { ThematicMapCredits } from '../../molecules/ThematicMapCredits';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];
   mapGeographyData: MapGeographyData;
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
-  measurementUnit?: string;
   benchmarkIndicatorData?: HealthDataForArea;
   groupIndicatorData?: HealthDataForArea;
+  indicatorMetadata?: IndicatorDocument;
 }
 
 const loadHighchartsModules = async (callback: () => void) => {
@@ -34,9 +37,9 @@ export function ThematicMap({
   mapGeographyData,
   benchmarkComparisonMethod,
   polarity,
-  measurementUnit,
   benchmarkIndicatorData,
   groupIndicatorData,
+  indicatorMetadata,
 }: Readonly<ThematicMapProps>) {
   const { getSearchState } = useSearchState();
   const { [SearchParams.AreaTypeSelected]: areaType } = getSearchState();
@@ -54,7 +57,7 @@ export function ThematicMap({
             areaType as AreaTypeKeysForMapMeta,
             benchmarkComparisonMethod,
             polarity,
-            measurementUnit,
+            indicatorMetadata,
             benchmarkIndicatorData,
             groupIndicatorData
           )
@@ -67,7 +70,7 @@ export function ThematicMap({
     areaType,
     benchmarkComparisonMethod,
     polarity,
-    measurementUnit,
+    indicatorMetadata,
     benchmarkIndicatorData,
     groupIndicatorData,
   ]);
@@ -78,7 +81,13 @@ export function ThematicMap({
   }
 
   return (
-    <div data-testid="thematicMap-component">
+    <div
+      data-testid="thematicMap-component"
+      style={{
+        border: `1px solid ${GovukColours.Black}`,
+        paddingInline: '5px',
+      }}
+    >
       <BenchmarkLegend
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
@@ -90,6 +99,10 @@ export function ThematicMap({
         highcharts={Highcharts}
         constructorType={'mapChart'}
         options={options}
+      />
+      <ThematicMapCredits
+        areaType={areaType as AreaTypeKeysForMapMeta}
+        dataSource={indicatorMetadata?.dataSource}
       />
     </div>
   );

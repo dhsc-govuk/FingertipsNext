@@ -16,6 +16,7 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 import { formatNumber } from '@/lib/numberFormatter';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 export type MapGeographyData = {
   mapFile: GeoJSON;
@@ -38,6 +39,7 @@ export type AreaTypeKeysForMapMeta =
 interface MapMetaData {
   joinKey: string;
   mapFile: () => Promise<{ default: GeoJSON }>;
+  mapSource: string;
 }
 
 // where to find map data, the compiler needs to see import('@/...') it cannot accept a variable in import
@@ -70,25 +72,55 @@ const NHSSubICBMap = () =>
     '@/assets/maps/NHS_SubICB_April_2023_EN_BSC_8040841744469859785.geo.json'
   );
 
-const mapMetaDataEncoder: Record<AreaTypeKeysForMapMeta, MapMetaData> = {
-  'regions': { joinKey: 'RGN23CD', mapFile: regionsMap },
+export const mapMetaDataEncoder: Record<AreaTypeKeysForMapMeta, MapMetaData> = {
+  'regions': {
+    joinKey: 'RGN23CD',
+    mapFile: regionsMap,
+    mapSource: `Office for National Statistics: Regions 2023
+    Office for National Statistics licensed under the Open Government Licence v.3.0
+    Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`,
+  },
   'combined-authorities': {
     joinKey: 'CAUTH23CD',
     mapFile: combinedAuthoritiesMap,
+    mapSource: `Office for National Statistics: Combined Authorities December 2023
+    Office for National Statistics licensed under the Open Government Licence v.3.0
+    Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`,
   },
   'counties-and-unitary-authorities': {
     joinKey: 'CTYUA23CD',
     mapFile: countiesAndUAsMap,
+    mapSource: `Office for National Statistics: Counties and Unitary Authorities December 2023
+    Office for National Statistics licensed under the Open Government Licence v.3.0
+    Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`,
   },
   'districts-and-unitary-authorities': {
     joinKey: 'LAD24CD',
     mapFile: districtsAndUAsMap,
+    mapSource: `Office for National Statistics: Local Authority Districts May 2024
+    Office for National Statistics licensed under the Open Government Licence v.3.0
+    Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`,
   },
-  'nhs-regions': { joinKey: 'NHSER24CD', mapFile: NHSRegionsMap },
-  'nhs-integrated-care-boards': { joinKey: 'ICB23CD', mapFile: NHSICBMap },
+  'nhs-regions': {
+    joinKey: 'NHSER24CD',
+    mapFile: NHSRegionsMap,
+    mapSource: `Office for National Statistics: NHS Regions January 2024
+    Office for National Statistics licensed under the Open Government Licence v.3.0
+    Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`,
+  },
+  'nhs-integrated-care-boards': {
+    joinKey: 'ICB23CD',
+    mapFile: NHSICBMap,
+    mapSource: `Office for National Statistics: NHS Integrated Care Boards April 2023  
+    Office for National Statistics licensed under the Open Government Licence v.3.0
+    Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`,
+  },
   'nhs-sub-integrated-care-boards': {
     joinKey: 'SICBL23CD',
     mapFile: NHSSubICBMap,
+    mapSource: `Office for National Statistics: Sub NHS Integrated Care Boards April 2023 
+    Office for National Statistics licensed under the Open Government Licence v.3.0
+    Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`,
   },
 };
 
@@ -282,7 +314,7 @@ export function createThematicMapChartOptions(
   areaType: AreaTypeKeysForMapMeta,
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
   polarity: IndicatorPolarity,
-  measurementUnit?: string,
+  indicatorMetadata?: IndicatorDocument,
   benchmarkIndicatorData?: HealthDataForArea,
   groupIndicatorData?: HealthDataForArea
 ): Highcharts.Options {
@@ -291,8 +323,8 @@ export function createThematicMapChartOptions(
     chart: {
       height: 800,
       animation: false,
-      borderWidth: 0.2,
-      borderColor: GovukColours.Black,
+      marginLeft: 0,
+      marginRight: 0,
     },
     title: { text: undefined },
     accessibility: { enabled: false },
@@ -354,7 +386,7 @@ export function createThematicMapChartOptions(
           groupIndicatorData,
           benchmarkComparisonMethod,
           polarity,
-          measurementUnit
+          indicatorMetadata?.unitLabel
         );
       },
     },
