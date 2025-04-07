@@ -17,7 +17,6 @@ import {
   SpineChartTable,
 } from '@/components/organisms/SpineChartTable';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
-import { SpineChartProps } from '@/components/organisms/SpineChart';
 import { extractingCombinedHealthData } from '@/lib/chartHelpers/extractingCombinedHealthData';
 import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmapUtil';
 
@@ -39,35 +38,6 @@ export function mapToSpineChartTableIndicator(
   };
 
   return rowIndicator;
-}
-
-export function mapToSpineChartTableStatistics(
-  quartileData: QuartileData
-): SpineChartProps {
-  const q0Value = quartileData.q0Value ?? 0;
-  const q1Value = quartileData.q1Value ?? 0;
-  const q3Value = quartileData.q3Value ?? 0;
-  const q4Value = quartileData.q4Value ?? 0;
-
-  switch (quartileData.polarity) {
-    case IndicatorPolarity.LowIsGood:
-      return {
-        best: q0Value,
-        bestQuartile: q1Value,
-        worstQuartile: q3Value,
-        worst: q4Value,
-      };
-    case IndicatorPolarity.Unknown:
-    case IndicatorPolarity.NoJudgement:
-    case IndicatorPolarity.HighIsGood:
-    default:
-      return {
-        best: q4Value,
-        bestQuartile: q3Value,
-        worstQuartile: q1Value,
-        worst: q0Value,
-      };
-  }
 }
 
 export function mapToSpineChartTableProps(
@@ -92,7 +62,7 @@ export function mapToSpineChartTableProps(
       indicatorHealthData: indicatorData,
       groupIndicatorData: groupIndicatorData[index],
       englandBenchmarkData: englandIndicatorData[index],
-      benchmarkStatistics: mapToSpineChartTableStatistics(quartileData[index]),
+      benchmarkStatistics: quartileData[index],
     };
 
     tableData[index] = row;

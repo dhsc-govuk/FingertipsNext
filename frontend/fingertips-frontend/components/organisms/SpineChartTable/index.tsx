@@ -2,6 +2,7 @@
 import {
   HealthDataForArea,
   Indicator,
+  QuartileData,
 } from '@/generated-sources/ft-api-client';
 import React from 'react';
 
@@ -11,7 +12,6 @@ import {
   SpineChartTableRowData,
   SpineChartTableRow,
 } from './SpineChartTableRow';
-import { SpineChartProps } from '../SpineChart';
 import { StyledDivTableContainer, StyledTable } from './SpineChartTableStyles';
 
 export interface SpineChartTableProps {
@@ -24,7 +24,7 @@ export interface SpineChartTableRowProps {
   indicatorHealthData: HealthDataForArea;
   groupIndicatorData: HealthDataForArea;
   englandBenchmarkData: HealthDataForArea;
-  benchmarkStatistics: SpineChartProps;
+  benchmarkStatistics: QuartileData;
 }
 
 export const mapToSpineChartTableData = (
@@ -76,6 +76,5 @@ export function SpineChartTable(dataTable: Readonly<SpineChartTableProps>) {
         ))}
       </StyledTable>
     </StyledDivTableContainer>
-
   );
 }

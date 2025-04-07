@@ -13,10 +13,14 @@ import {
   StyledBenchmarkCell,
   StyledBenchmarkChart,
 } from './SpineChartTableStyles';
-import { SpineChart, SpineChartProps } from '../SpineChart';
+import { SpineChart } from '../SpineChart';
 import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
-import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataPointTrendEnum,
+  QuartileData,
+} from '@/generated-sources/ft-api-client';
 import { TrendTag } from '@/components/molecules/TrendTag';
+import { orderStatistics } from '../SpineChart/SpineChartHelpers';
 
 export interface SpineChartMissingData {
   value?: number;
@@ -32,7 +36,7 @@ export interface SpineChartTableRowData {
   value?: number;
   groupValue?: number;
   benchmarkValue?: number;
-  benchmarkStatistics: SpineChartProps;
+  benchmarkStatistics: QuartileData;
 }
 
 export function SpineChartMissingValue({
@@ -52,6 +56,8 @@ export function SpineChartTableRow({
   benchmarkValue,
   benchmarkStatistics,
 }: Readonly<SpineChartTableRowData>) {
+  const { best, worst} = orderStatistics(benchmarkStatistics);
+
   return (
     <Table.Row>
       <StyledAlignLeftTableCell data-testid={`indicator-cell`}>
@@ -79,18 +85,16 @@ export function SpineChartTableRow({
         {formatNumber(benchmarkValue)}
       </StyledBenchmarkCell>
       <StyledBenchmarkCell data-testid={`benchmark-worst-cell`}>
-        {formatNumber(benchmarkStatistics.worst)}
+        {formatNumber(worst)}
       </StyledBenchmarkCell>
       <StyledBenchmarkChart data-testid={`benchmark-range`}>
-        <SpineChart 
-            best={benchmarkStatistics.best}
-            bestQuartile={benchmarkStatistics.bestQuartile}
-            worstQuartile={benchmarkStatistics.worstQuartile}
-            worst={benchmarkStatistics.worst} 
+        <SpineChart
+          value={benchmarkValue ?? 0}
+          quartileData={benchmarkStatistics}
         />
       </StyledBenchmarkChart>
       <StyledBenchmarkCell data-testid={`benchmark-best-cell`}>
-        {formatNumber(benchmarkStatistics.best)}
+        {formatNumber(best)}
       </StyledBenchmarkCell>
     </Table.Row>
   );
