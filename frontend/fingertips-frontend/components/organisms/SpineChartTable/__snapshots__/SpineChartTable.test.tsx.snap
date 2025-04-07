@@ -171,38 +171,38 @@ exports[`Spine chart table suite Spine chart table snapshot test - should match 
 }
 
 .c8 {
-  background-color: #F3F2F1;
-  border-top: #B1B4B6;
+  background-color: #B1B4B6;
+  border-top: #505A5F;
   text-align: left;
 }
 
 .c11 {
-  background-color: #F3F2F1;
-  border-top: #B1B4B6;
+  background-color: #B1B4B6;
+  border-top: #505A5F;
   text-align: right;
 }
 
 .c9 {
-  background-color: #B1B4B6;
-  border-top: #F3F2F1;
+  background-color: #505A5F;
+  border-top: #B1B4B6;
   text-align: center;
 }
 
 .c12 {
-  background-color: #B1B4B6;
-  border-top: #F3F2F1;
-  text-align: right;
-}
-
-.c23 {
-  background-color: #F3F2F1;
+  background-color: #505A5F;
   border-top: #B1B4B6;
   text-align: right;
 }
 
-.c24 {
+.c23 {
   background-color: #B1B4B6;
-  border-top: #F3F2F1;
+  border-top: #505A5F;
+  text-align: right;
+}
+
+.c24 {
+  background-color: #505A5F;
+  border-top: #B1B4B6;
   text-align: right;
 }
 
@@ -554,7 +554,7 @@ exports[`Spine chart table suite Spine chart table snapshot test - should match 
                 <div
                   class="highcharts-container "
                   dir="ltr"
-                  id="highcharts-myfh3yy-0"
+                  id="highcharts-2psuf1m-0"
                   style="position: relative; overflow: hidden; width: 400px; height: 30px; text-align: left; line-height: normal; z-index: 0; user-select: none; outline: none; padding: 0px;"
                 >
                   <svg
@@ -584,7 +584,7 @@ exports[`Spine chart table suite Spine chart table snapshot test - should match 
                         />
                       </filter>
                       <clippath
-                        id="highcharts-myfh3yy-14-"
+                        id="highcharts-2psuf1m-14-"
                       >
                         <rect
                           fill="none"
@@ -808,7 +808,7 @@ exports[`Spine chart table suite Spine chart table snapshot test - should match 
                     >
                       <g
                         class="highcharts-series highcharts-series-0 highcharts-bar-series highcharts-tracker"
-                        clip-path="url(#highcharts-myfh3yy-14-)"
+                        clip-path="url(#highcharts-2psuf1m-14-)"
                         data-z-index="0.1"
                         opacity="1"
                         transform="translate(-179,0) rotate(90 175 205) scale(-1 0.001)"
@@ -832,7 +832,7 @@ exports[`Spine chart table suite Spine chart table snapshot test - should match 
                       />
                       <g
                         class="highcharts-series highcharts-series-1 highcharts-bar-series highcharts-tracker"
-                        clip-path="url(#highcharts-myfh3yy-14-)"
+                        clip-path="url(#highcharts-2psuf1m-14-)"
                         data-z-index="0.1"
                         opacity="1"
                         transform="translate(-179,0) rotate(90 175 205) scale(-1 0.001)"
@@ -856,7 +856,7 @@ exports[`Spine chart table suite Spine chart table snapshot test - should match 
                       />
                       <g
                         class="highcharts-series highcharts-series-2 highcharts-bar-series highcharts-tracker"
-                        clip-path="url(#highcharts-myfh3yy-14-)"
+                        clip-path="url(#highcharts-2psuf1m-14-)"
                         data-z-index="0.1"
                         opacity="1"
                         transform="translate(-179,0) rotate(90 175 205) scale(-1 0.001)"
@@ -880,7 +880,7 @@ exports[`Spine chart table suite Spine chart table snapshot test - should match 
                       />
                       <g
                         class="highcharts-series highcharts-series-3 highcharts-bar-series highcharts-tracker"
-                        clip-path="url(#highcharts-myfh3yy-14-)"
+                        clip-path="url(#highcharts-2psuf1m-14-)"
                         data-z-index="0.1"
                         opacity="1"
                         transform="translate(-179,0) rotate(90 175 205) scale(-1 0.001)"
@@ -1070,7 +1070,7 @@ exports[`Spine chart table suite Spine chart table snapshot test - should match 
                 <div
                   class="highcharts-container "
                   dir="ltr"
-                  id="highcharts-myfh3yy-18"
+                  id="highcharts-2psuf1m-18"
                   style="position: relative; overflow: hidden; width: 400px; height: 30px; text-align: left; line-height: normal; z-index: 0; user-select: none; outline: none; padding: 0px;"
                 >
                   <svg
@@ -1100,7 +1100,7 @@ exports[`Spine chart table suite Spine chart table snapshot test - should match 
                         />
                       </filter>
                       <clippath
-                        id="highcharts-myfh3yy-32-"
+                        id="highcharts-2psuf1m-32-"
                       >
                         <rect
                           fill="none"
@@ -1324,7 +1324,7 @@ exports[`Spine chart table suite Spine chart table snapshot test - should match 
                     >
                       <g
                         class="highcharts-series highcharts-series-0 highcharts-bar-series highcharts-tracker"
-                        clip-path="url(#highcharts-myfh3yy-32-)"
+                        clip-path="url(#highcharts-2psuf1m-32-)"
                         data-z-index="0.1"
                         opacity="1"
                         transform="translate(-179,0) rotate(90 175 205) scale(-1 0.001)"
@@ -1348,7 +1348,7 @@ exports[`Spine chart table suite Spine chart table snapshot test - should match 
                       />
                       <g
                         class="highcharts-series highcharts-series-1 highcharts-bar-series highcharts-tracker"
-                        clip-path="url(#highcharts-myfh3yy-32-)"
+                        clip-path="url(#highcharts-2psuf1m-32-)"
                         data-z-index="0.1"
                         opacity="1"
                         transform="translate(-179,0) rotate(90 175 205) scale(-1 0.001)"
@@ -1372,7 +1372,7 @@ exports[`Spine chart table suite Spine chart table snapshot test - should match 
                       />
                       <g
                         class="highcharts-series highcharts-series-2 highcharts-bar-series highcharts-tracker"
-                        clip-path="url(#highcharts-myfh3yy-32-)"
+                        clip-path="url(#highcharts-2psuf1m-32-)"
                         data-z-index="0.1"
                         opacity="1"
                         transform="translate(-179,0) rotate(90 175 205) scale(-1 0.001)"
@@ -1396,7 +1396,7 @@ exports[`Spine chart table suite Spine chart table snapshot test - should match 
                       />
                       <g
                         class="highcharts-series highcharts-series-3 highcharts-bar-series highcharts-tracker"
-                        clip-path="url(#highcharts-myfh3yy-32-)"
+                        clip-path="url(#highcharts-2psuf1m-32-)"
                         data-z-index="0.1"
                         opacity="1"
                         transform="translate(-179,0) rotate(90 175 205) scale(-1 0.001)"

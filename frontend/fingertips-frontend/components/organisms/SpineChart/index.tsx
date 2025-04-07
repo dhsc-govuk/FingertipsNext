@@ -38,11 +38,8 @@ export function generateChartOptions({
   value,
   quartileData,
 }: Readonly<SpineChartProps>) {
-  const {best,
-    bestQuartile,
-    worstQuartile,
-    worst,
-    } = orderStatistics(quartileData)
+  const { best, bestQuartile, worstQuartile, worst } =
+    orderStatistics(quartileData);
 
   const categories = ['Important stat'];
 
@@ -125,11 +122,8 @@ export function generateChartOptions({
   };
 }
 
-export function SpineChart({
-  value,
-  quartileData,
-}: Readonly<SpineChartProps>) {
-  const spineChartsOptions = generateChartOptions(value, quartileData);
+export function SpineChart({ value, quartileData }: Readonly<SpineChartProps>) {
+  const spineChartsOptions = generateChartOptions({ value, quartileData });
 
   return (
     <div data-testid={`spineChart-component`}>

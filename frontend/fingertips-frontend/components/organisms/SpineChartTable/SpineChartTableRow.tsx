@@ -56,7 +56,7 @@ export function SpineChartTableRow({
   benchmarkValue,
   benchmarkStatistics,
 }: Readonly<SpineChartTableRowData>) {
-  const { best, worst} = orderStatistics(benchmarkStatistics);
+  const { best, worst } = orderStatistics(benchmarkStatistics);
 
   return (
     <Table.Row>
