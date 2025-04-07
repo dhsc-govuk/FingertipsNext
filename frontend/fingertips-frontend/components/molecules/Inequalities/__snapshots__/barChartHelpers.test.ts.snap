@@ -6,6 +6,7 @@ exports[`getBarChartOptions should return an object matching the snapshot 1`] = 
     "enabled": false,
   },
   "chart": {
+    "animation": false,
     "height": "73%",
     "spacingBottom": 50,
     "spacingTop": 20,
@@ -20,6 +21,9 @@ exports[`getBarChartOptions should return an object matching the snapshot 1`] = 
   "plotOptions": {
     "bar": {
       "pointPadding": 0.2,
+    },
+    "series": {
+      "animation": false,
     },
   },
   "series": [],
@@ -99,6 +103,7 @@ exports[`getBarChartOptions should return an object matching the snapshot when o
     "enabled": false,
   },
   "chart": {
+    "animation": false,
     "height": "50%",
     "spacingBottom": 50,
     "spacingTop": 20,
@@ -113,6 +118,9 @@ exports[`getBarChartOptions should return an object matching the snapshot when o
   "plotOptions": {
     "bar": {
       "pointPadding": 0.2,
+    },
+    "series": {
+      "animation": false,
     },
   },
   "series": [],

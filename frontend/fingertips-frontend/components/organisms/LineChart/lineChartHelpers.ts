@@ -25,7 +25,12 @@ export const lineChartDefaultOptions: Highcharts.Options = {
   credits: {
     enabled: false,
   },
-  chart: { type: 'line', spacingBottom: 50, spacingTop: 20 },
+  chart: {
+    type: 'line',
+    spacingBottom: 50,
+    spacingTop: 20,
+    animation: false,
+  },
   title: {
     style: {
       display: 'none',
@@ -54,6 +59,11 @@ export const lineChartDefaultOptions: Highcharts.Options = {
   tooltip: {
     formatter: function (this: Highcharts.Point): string {
       return tooltipFormatter(this);
+    },
+  },
+  plotOptions: {
+    series: {
+      animation: false,
     },
   },
 };

@@ -7,6 +7,7 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
     "enabled": false,
   },
   "chart": {
+    "animation": false,
     "spacingBottom": 50,
     "spacingTop": 20,
     "type": "line",
@@ -23,6 +24,11 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
       "text": "Areas",
     },
     "verticalAlign": "top",
+  },
+  "plotOptions": {
+    "series": {
+      "animation": false,
+    },
   },
   "series": [
     {
@@ -114,6 +120,7 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
     "enabled": false,
   },
   "chart": {
+    "animation": false,
     "spacingBottom": 50,
     "spacingTop": 20,
     "type": "line",
@@ -130,6 +137,11 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
       "text": "Areas",
     },
     "verticalAlign": "top",
+  },
+  "plotOptions": {
+    "series": {
+      "animation": false,
+    },
   },
   "series": [
     {

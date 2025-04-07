@@ -47,6 +47,7 @@ export const getBarChartOptions = (options: {
       height: options.height ?? '50%',
       spacingTop: 20,
       spacingBottom: 50,
+      animation: false,
     },
     title: {
       style: {
@@ -135,6 +136,9 @@ export const getBarChartOptions = (options: {
     plotOptions: {
       bar: {
         pointPadding: 0.2,
+      },
+      series: {
+        animation: false,
       },
     },
     legend: {
