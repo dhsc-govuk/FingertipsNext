@@ -25,11 +25,11 @@ import { TrendTag } from '@/components/molecules/TrendTag';
 import { BenchmarkLegend } from '@/components/organisms/BenchmarkLegend';
 
 const StyleTableWrapper = styled('div')({
-  'display': 'flex',
-  'flexDirection': 'row',
-  'flexWrap': 'nowrap',
-  'overflowX': 'auto',
-  'clear': 'both',
+  display: 'flex',
+  flexDirection: 'row',
+  flexWrap: 'nowrap',
+  overflowX: 'auto',
+  clear: 'both',
 });
 import styled from 'styled-components';
 export enum BarChartEmbeddedTableHeadingEnum {
