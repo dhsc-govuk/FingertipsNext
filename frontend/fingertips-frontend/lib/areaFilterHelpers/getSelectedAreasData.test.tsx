@@ -86,6 +86,14 @@ describe('getSelectedAreasDataByAreaType', () => {
     expect(selectedAreasData).toEqual([area1, area2]);
   });
 
+  it('should throw an error if no areaData is found for any of the areaSelected', async () => {
+    mockAreasApi.getAreas.mockResolvedValue([]);
+
+    await expect(
+      async () => await getSelectedAreasDataByAreaType(['A001', 'A002'])
+    ).rejects.toThrow('No area data found for any of the areas selected');
+  });
+
   it('should return the selectedAreaData of the areas that were found', async () => {
     const area1 = generateMockArea('A001', 'nhs-regions');
     mockAreasApi.getAreas.mockResolvedValue([area1]);

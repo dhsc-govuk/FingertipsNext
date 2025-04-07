@@ -25,5 +25,13 @@ export const getSelectedAreasDataByAreaType = async (
         ).filter((area) => area.areaType.key === determineAreaTypeSelected)
       : [];
 
+  if (
+    areasSelected &&
+    areasSelected.length > 0 &&
+    selectedAreasData.length === 0
+  ) {
+    throw new Error('No area data found for any of the areas selected');
+  }
+
   return selectedAreasData;
 };

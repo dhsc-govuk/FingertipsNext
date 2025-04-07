@@ -90,13 +90,13 @@ export const handlers = [
     const areaCodes = url.searchParams.getAll('area_codes') ?? [];
 
     const selectedAreaData = getMockSelectedAreaData(areaCodes);
-    if (selectedAreaData.length > 0) {
-      return HttpResponse.json(selectedAreaData, { status: 200 });
+    if (selectedAreaData.length === 0) {
+      return HttpResponse.json(
+        { error: 'No area data found for selected areas' },
+        { status: 404 }
+      );
     }
-    return HttpResponse.json(
-      { error: 'No area data found for selected areas' },
-      { status: 404 }
-    );
+    return HttpResponse.json(selectedAreaData, { status: 200 });
   }),
   http.get(`${baseURL}/indicators`, async () => {
     const resultArray = [[getFilterIndicators200Response(), { status: 200 }]];
@@ -181,18 +181,6 @@ export function getGetArea200Response(
   }
 
   return mockDataForArea;
-}
-
-export function getGetAreas200Response(areaCodes: string[]): Area[] {
-  const mockDataForAreas: Area[] = [];
-
-  areaCodes.forEach((areaCode) => {
-    if (mockAreaData[areaCode]) {
-      mockDataForAreas.push(mockAreaData[areaCode] as Area);
-    }
-  });
-
-  return mockDataForAreas;
 }
 
 export function getGetAreaRoot200Response() {
