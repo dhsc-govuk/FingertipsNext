@@ -57,8 +57,8 @@ describe('getMapGeographyData', () => {
     ],
   ])(
     'should return an object with the correct mapFile for the given areaType',
-    (areaType, areaCodes, expectedMapData) => {
-      const actual = getMapGeographyData(areaType, areaCodes);
+    async (areaType, areaCodes, expectedMapData) => {
+      const actual = await getMapGeographyData(areaType, areaCodes);
       expect(actual.mapFile).toEqual(expectedMapData);
     }
   );
@@ -79,8 +79,8 @@ describe('getMapGeographyData', () => {
     ],
   ])(
     'should return an object with the expected mapGroupBoundary',
-    (areaType, areaCodes) => {
-      const actual = getMapGeographyData(areaType, areaCodes);
+    async (areaType, areaCodes) => {
+      const actual = await getMapGeographyData(areaType, areaCodes);
       expect(actual.mapGroupBoundary).toEqual(mockMapGroupBoundaries[areaType]);
     }
   );
