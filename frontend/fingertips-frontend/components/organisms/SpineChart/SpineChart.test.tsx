@@ -17,7 +17,9 @@ describe('Spine chart', () => {
   };
 
   it('should render the SpineChart component', () => {
-    render(<SpineChart value={mockValue} quartileData={mockQuartileData} />);
+    render(
+      <SpineChart benchmarkValue={mockValue} quartileData={mockQuartileData} />
+    );
 
     const spineChartComponent = screen.getByTestId('spineChart-component');
     expect(spineChartComponent).toBeInTheDocument();

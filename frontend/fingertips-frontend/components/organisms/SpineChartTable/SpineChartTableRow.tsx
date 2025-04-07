@@ -89,7 +89,7 @@ export function SpineChartTableRow({
       </StyledBenchmarkCell>
       <StyledBenchmarkChart data-testid={`benchmark-range`}>
         <SpineChart
-          value={benchmarkValue ?? 0}
+          benchmarkValue={benchmarkValue ?? 0}
           quartileData={benchmarkStatistics}
         />
       </StyledBenchmarkChart>

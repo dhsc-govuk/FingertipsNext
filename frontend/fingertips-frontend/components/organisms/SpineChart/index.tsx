@@ -5,21 +5,25 @@ import { QuartileData } from '@/generated-sources/ft-api-client';
 import { orderStatistics } from './SpineChartHelpers';
 
 export interface SpineChartProps {
-  value: number;
+  benchmarkValue: number;
   quartileData: QuartileData;
 }
 
+function absDiff(value: number, benchmark: number): number {
+  return Math.abs(Math.abs(value) - Math.abs(benchmark));
+}
+
 export function generateSeriesData({
-  value,
+  benchmarkValue,
   quartileData,
 }: Readonly<SpineChartProps>) {
   const { best, bestQuartile, worstQuartile, worst } =
     orderStatistics(quartileData);
 
-  const absBest = Math.abs(Math.abs(best) - Math.abs(value));
-  const absdWorst = Math.abs(Math.abs(worst) - Math.abs(value));
-  const absBestQuartile = Math.abs(Math.abs(bestQuartile) - Math.abs(value));
-  const absWorstQuartile = Math.abs(Math.abs(worstQuartile) - Math.abs(value));
+  const absBest = absDiff(best, benchmarkValue);
+  const absdWorst = absDiff(worst, benchmarkValue);
+  const absBestQuartile = absDiff(bestQuartile, benchmarkValue);
+  const absWorstQuartile = absDiff(worstQuartile, benchmarkValue);
 
   const maxValue = Math.max(absBest, absdWorst);
 
@@ -53,7 +57,7 @@ export function generateSeriesData({
 }
 
 export function generateChartOptions({
-  value,
+  benchmarkValue,
   quartileData,
 }: Readonly<SpineChartProps>) {
   const categories = ['Important stat'];
@@ -133,12 +137,18 @@ export function generateChartOptions({
         'Population: {(abs point.y):.2f}%',
     },
 
-    series: generateSeriesData({ value, quartileData }),
+    series: generateSeriesData({ benchmarkValue, quartileData }),
   };
 }
 
-export function SpineChart({ value, quartileData }: Readonly<SpineChartProps>) {
-  const spineChartsOptions = generateChartOptions({ value, quartileData });
+export function SpineChart({
+  benchmarkValue,
+  quartileData,
+}: Readonly<SpineChartProps>) {
+  const spineChartsOptions = generateChartOptions({
+    benchmarkValue,
+    quartileData,
+  });
 
   return (
     <div data-testid={`spineChart-component`}>
