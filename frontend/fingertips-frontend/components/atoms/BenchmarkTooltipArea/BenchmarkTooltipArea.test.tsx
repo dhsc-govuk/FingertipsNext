@@ -34,7 +34,7 @@ describe('BenchmarkTooltipArea', () => {
       BenchmarkOutcome.NotCompared,
       'Not compared',
       BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-      SymbolsEnum.MultiplicationX,
+      SymbolsEnum.WhiteCircle,
     ],
     [
       BenchmarkOutcome.Better,
@@ -111,7 +111,7 @@ describe('BenchmarkTooltipArea', () => {
   );
 
   it.each([
-    [BenchmarkOutcome.NotCompared, SymbolsEnum.MultiplicationX],
+    [BenchmarkOutcome.NotCompared, SymbolsEnum.WhiteCircle],
     [BenchmarkOutcome.Lowest],
     [BenchmarkOutcome.Low],
     [BenchmarkOutcome.Middle],

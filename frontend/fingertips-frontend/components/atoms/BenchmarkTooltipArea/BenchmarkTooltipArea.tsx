@@ -28,11 +28,23 @@ export function BenchmarkTooltipArea({
   measurementUnit,
   tooltipType,
 }: Readonly<BenchmarkTooltipArea>) {
-  const areaMarkerSymbol =
+  const areaMarkerSymbolOld =
     indicatorData.healthData[0].benchmarkComparison?.outcome ===
     BenchmarkOutcome.NotCompared
       ? SymbolsEnum.MultiplicationX
       : SymbolsEnum.Circle;
+
+  const areaMarkerSymbol = () => {
+    switch (true) {
+      case tooltipType === 'benchmark':
+        return SymbolsEnum.Circle;
+      case benchmarkComparisonMethod === BenchmarkComparisonMethod.Unknown:
+      case benchmarkOutcome === BenchmarkOutcome.NotCompared:
+        return SymbolsEnum.WhiteCircle;
+      default:
+        return SymbolsEnum.Circle;
+    }
+  };
 
   const indicatorDataForAreaForMostRecentYear =
     getIndicatorDataForAreasForMostRecentYearOnly([indicatorData]);
@@ -77,7 +89,7 @@ export function BenchmarkTooltipArea({
             fontSize: '24pt',
           }}
         >
-          {areaMarkerSymbol}
+          {areaMarkerSymbol()}
         </div>
 
         <div style={{ marginTop: '5px' }}>
