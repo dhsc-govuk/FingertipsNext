@@ -32,7 +32,7 @@ describe('BenchmarkTooltipArea', () => {
   it.each([
     [
       BenchmarkOutcome.NotCompared,
-      undefined,
+      'Not compared',
       BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
       SymbolsEnum.MultiplicationX,
     ],
@@ -69,7 +69,10 @@ describe('BenchmarkTooltipArea', () => {
           testPolarity
         ) ?? undefined;
 
-      if (expectedComparisonString) {
+      if (
+        expectedComparisonString &&
+        testBenchmarkOutcome !== BenchmarkOutcome.NotCompared
+      ) {
         expectedComparisonString = [
           testBenchmarkOutcome,
           expectedComparisonString,
@@ -164,6 +167,7 @@ describe('BenchmarkTooltipArea', () => {
       ).toBeInTheDocument();
 
       expect(screen.getByText(RegExp(mockUnits))).toBeInTheDocument();
+      expect(screen.getByText(RegExp('quintile'))).toBeInTheDocument();
       expect(screen.queryByText(/England/)).not.toBeInTheDocument();
       expect(screen.queryByText(/than/)).not.toBeInTheDocument();
       expect(screen.queryByText(/to/)).not.toBeInTheDocument();

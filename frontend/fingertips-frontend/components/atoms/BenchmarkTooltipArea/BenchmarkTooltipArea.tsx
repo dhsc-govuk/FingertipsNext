@@ -110,23 +110,24 @@ function getComparisionText(
   const benchmarkConfidenceLimit = getConfidenceLimitNumber(
     benchmarkComparisonMethod
   );
-  let joiningWord = 'than';
-  if (benchmarkOutcome === BenchmarkOutcome.Similar) {
-    joiningWord = 'to';
-  }
 
-  if (
-    benchmarkOutcome === BenchmarkOutcome.NotCompared ||
-    benchmarkComparisonMethod === BenchmarkComparisonMethod.Quintiles
-  ) {
-    return <span style={{ display: 'block' }}>{benchmarkOutcome}</span>;
-  }
+  const comparisonText = () => {
+    switch (true) {
+      case benchmarkComparisonMethod === BenchmarkComparisonMethod.Quintiles:
+        return `${benchmarkOutcome} quintile`;
+      case benchmarkComparisonMethod === BenchmarkComparisonMethod.Unknown:
+      case benchmarkOutcome === BenchmarkOutcome.NotCompared:
+        return `Not compared`;
+      case benchmarkOutcome === BenchmarkOutcome.Similar:
+        return `${benchmarkOutcome} to ${benchmarkArea}`;
+      default:
+        return `${benchmarkOutcome} than ${benchmarkArea}`;
+    }
+  };
 
   return (
     <>
-      <span style={{ display: 'block' }}>
-        {benchmarkOutcome} {joiningWord} {benchmarkArea}
-      </span>
+      <span style={{ display: 'block' }}>{comparisonText()}</span>
       {benchmarkConfidenceLimit ? (
         <span style={{ display: 'block' }}>({benchmarkConfidenceLimit}%)</span>
       ) : null}
