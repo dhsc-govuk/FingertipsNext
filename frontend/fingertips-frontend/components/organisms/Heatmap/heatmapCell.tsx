@@ -88,11 +88,12 @@ export const HeatmapCell = ({
           $color={getTextColour(backgroundColour)}
           $backgroundColor={backgroundColour}
         >
-          <div onMouseOver={onMouseOver} onMouseLeave={onMouseLeave}>
-            <StyledDivDataCellContent>
-              <StyledDivDataCellContent>{content}</StyledDivDataCellContent>
-            </StyledDivDataCellContent>
-          </div>
+          <StyledDivDataCellContent
+            onMouseOver={onMouseOver}
+            onMouseLeave={onMouseLeave}
+          >
+            <StyledDivDataCellContent>{content}</StyledDivDataCellContent>
+          </StyledDivDataCellContent>
         </StyledCellData>
       );
     }

@@ -12,7 +12,7 @@ import { HeatmapHeader } from './heatmapHeader';
 import { HeatmapCell } from './heatmapCell';
 import { BenchmarkLegend } from '../BenchmarkLegend';
 import { HeatmapHover, HeatmapHoverProps } from './heatmapHover';
-import { useState } from 'react';
+import { MouseEventHandler, useState } from 'react';
 
 export interface HeatmapProps {
   indicatorData: HeatmapIndicatorData[];
@@ -48,13 +48,25 @@ export function Heatmap({
 
   const buildOnMouseEnterByProps = (
     hoverProps: HeatmapHoverProps | undefined
-  ) => {
-    return () => {
-      setHoverState(hoverProps);
+  ): MouseEventHandler => {
+    if (!hoverProps) {
+      return () => {
+        setHoverState(undefined);
+      };
+    }
+
+    return (e) => {
+      const hoverPropsWithPosition: HeatmapHoverProps = {
+        ...hoverProps,
+        xPos: e.clientX,
+        yPos: e.clientY,
+      };
+
+      setHoverState(hoverPropsWithPosition);
     };
   };
 
-  const onMouseLeave = () => {
+  const onMouseLeave: MouseEventHandler = () => {
     setHoverState(undefined);
   };
 

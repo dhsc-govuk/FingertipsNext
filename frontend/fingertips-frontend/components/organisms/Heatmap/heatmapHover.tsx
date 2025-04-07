@@ -4,13 +4,22 @@ import { JSX, PropsWithChildren, ReactNode } from 'react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import { HeatmapBenchmarkProps } from './heatmapUtil';
+import { number } from 'zod';
 
-const StyledDivHover = styled.div({
+interface PositionProps {
+  $xPos: number;
+  $yPos: number;
+}
+
+const StyledDivHover = styled.div.attrs<PositionProps>(({ $xPos, $yPos }) => ({
+  left: `${$xPos}px`,
+  top: `${$yPos}px`,
+}))<PositionProps>({
   color: GovukColours.Black,
   backgroundColor: GovukColours.White,
-  boxShadow: `0px 0px 16px 4px ${GovukColours.DarkGrey}`,
+  boxShadow: `0px 0px 4px 0px ${GovukColours.DarkGrey}`,
   borderRadius: '8px',
-  display: 'none',
+  display: 'block',
   zIndex: 2,
   position: 'absolute',
   textAlign: 'left',
@@ -18,6 +27,7 @@ const StyledDivHover = styled.div({
   whiteSpace: 'nowrap',
   overflow: 'hidden',
 });
+
 const StyledDivTriangle = styled.div(
   {
     backgroundColor: GovukColours.White,
@@ -50,6 +60,8 @@ export interface HeatmapHoverProps extends PropsWithChildren {
   value: string;
   unitLabel: string;
   benchmark: HeatmapBenchmarkProps;
+  xPos?: number;
+  yPos?: number;
 }
 
 export function HeatmapHover({
@@ -65,6 +77,8 @@ export function HeatmapHover({
       value={hoverProps.value}
       unitLabel={hoverProps.unitLabel}
       benchmark={hoverProps.benchmark}
+      xPos={hoverProps.xPos}
+      yPos={hoverProps.yPos}
     />
   ) : null;
 }
@@ -73,12 +87,14 @@ function HeatmapHoverInner({
   areaName,
   period,
   indicatorName,
-  // value,
-  // unitLabel,
-  // benchmark,
+  value,
+  unitLabel,
+  benchmark,
+  xPos,
+  yPos,
 }: HeatmapHoverProps): JSX.Element {
   return (
-    <StyledDivHover>
+    <StyledDivHover $xPos={xPos ?? 0} $yPos={yPos ?? 0}>
       <StyledDivTriangle />
       <StyledH5>{areaName}</StyledH5>
       <StyledText>{period}</StyledText>
