@@ -1,5 +1,5 @@
 import {
-  getLatestHealthDataPointForEngland,
+  getLatestPeriodHealthDataPoint,
   TwoOrMoreIndicatorsEnglandViewPlots,
 } from '@/components/viewPlots/TwoOrMoreIndicatorsEnglandViewPlots/index';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
@@ -7,12 +7,11 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import {
   BenchmarkComparisonMethod,
   HealthDataForArea,
-  HealthDataPointTrendEnum,
   IndicatorPolarity,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { render, screen } from '@testing-library/react';
-import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
+import {  healthDataPoint } from '@/lib/mocks';
 
 const mockSearchParams: SearchStateParams = {
   [SearchParams.IndicatorsSelected]: ['1', '2'],
@@ -22,24 +21,8 @@ const mockEnglandHealthData: HealthDataForArea = {
   areaCode: areaCodeForEngland,
   areaName: 'England',
   healthData: [
-    {
-      year: 2008,
-      count: 222,
-      value: 890.305692,
-      lowerCi: 441.69151,
-      upperCi: 578.32766,
-      ageBand: allAgesAge,
-      sex: personsSex,
-      trend: HealthDataPointTrendEnum.NotYetCalculated,
-      deprivation: noDeprivation,
-    },
+    healthDataPoint
   ],
-};
-
-const mockNoHealthData: HealthDataForArea = {
-  areaCode: areaCodeForEngland,
-  areaName: 'England',
-  healthData: [],
 };
 
 const mockIndicatorData: IndicatorWithHealthDataForArea[] = [
@@ -55,7 +38,7 @@ const mockIndicatorData: IndicatorWithHealthDataForArea[] = [
     name: ' ',
     polarity: IndicatorPolarity.Unknown,
     benchmarkMethod: BenchmarkComparisonMethod.Unknown,
-    areaHealthData: [mockNoHealthData],
+    areaHealthData: [],
   },
 ];
 
@@ -66,7 +49,7 @@ const mockIndicatorMetaData = [
     indicatorDefinition: '',
     dataSource: '',
     earliestDataPeriod: '',
-    latestDataPeriod: '2008',
+    latestDataPeriod: '2006',
     lastUpdatedDate: new Date(),
     associatedAreaCodes: [''],
     hasInequalities: false,
@@ -104,9 +87,9 @@ describe('TwoOrMoreIndicatorsEnglandView', () => {
     ).toBeInTheDocument();
   });
 
-  describe('getLatestHealthDataPointForEngland', () => {
+  describe('getLatestPeriodHealthDataPoint', () => {
     it('should return the latest health data point when there is healthData', async () => {
-      const result = getLatestHealthDataPointForEngland(
+      const result = getLatestPeriodHealthDataPoint(
         mockIndicatorData[0],
         mockIndicatorMetaData[0].latestDataPeriod
       );
@@ -114,7 +97,7 @@ describe('TwoOrMoreIndicatorsEnglandView', () => {
     });
 
     it('should return undefined when there is no healthData', async () => {
-      const result = getLatestHealthDataPointForEngland(
+      const result = getLatestPeriodHealthDataPoint(
         mockIndicatorData[1],
         ''
       );

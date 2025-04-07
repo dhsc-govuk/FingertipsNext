@@ -38,7 +38,7 @@ export default async function TwoOrMoreIndicatorsEnglandView({
   ) {
     throw new Error('invalid indicator metadata passed to view');
   }
-  
+
   const areaCodesToRequest = [areaCodeForEngland];
 
   await connection();

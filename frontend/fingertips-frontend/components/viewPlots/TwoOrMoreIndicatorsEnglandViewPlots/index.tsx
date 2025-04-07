@@ -21,7 +21,7 @@ type TwoOrMoreIndicatorsEnglandViewPlotProps = {
   indicatorMetadata: IndicatorDocument[] | undefined;
 };
 
-export const getLatestHealthDataPointForEngland = (
+export const getLatestPeriodHealthDataPoint = (
   indicatorData: IndicatorWithHealthDataForArea,
   latestPeriod: string | undefined
 ): HealthDataPoint | undefined => {
@@ -55,7 +55,7 @@ export function TwoOrMoreIndicatorsEnglandViewPlots({
         : undefined;
 
       const latestEnglandHealthData = hasHealthDataForEngland
-        ? getLatestHealthDataPointForEngland(indicator, latestPeriod)
+        ? getLatestPeriodHealthDataPoint(indicator, latestPeriod)
         : undefined;
 
       const unitLabel = hasHealthDataForEngland

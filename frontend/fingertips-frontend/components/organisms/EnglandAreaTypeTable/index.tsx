@@ -11,6 +11,7 @@ import {
   FormatNumberInTableCell,
 } from '@/components/molecules/CheckValueInTableCell';
 import { TrendTag } from '@/components/molecules/TrendTag';
+import { englandArea } from '@/mock/data/areas/englandAreas';
 
 export enum EnglandAreaTypeTableEnum {
   Indicator = 'Indicator',
@@ -33,8 +34,6 @@ interface EnglandAreaTypeTableProps {
   indicatorData: EnglandAreaTypeIndicatorData[];
 }
 
-const EnglandAreaTypeHeader = 'England'
-
 export function EnglandAreaTypeTable({
   indicatorData,
 }: Readonly<EnglandAreaTypeTableProps>) {
@@ -45,7 +44,7 @@ export function EnglandAreaTypeTable({
           <React.Fragment>
             <Table.Row>
               <Table.CellHeader colSpan={6}>
-                {EnglandAreaTypeHeader}
+                {englandArea.name}
               </Table.CellHeader>
             </Table.Row>
 
