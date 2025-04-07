@@ -96,6 +96,11 @@ export function ScatterChart({
       enabled: false,
       description: accessibilityLabel,
     },
+    plotOptions: {
+      series: {
+        animation: false,
+      },
+    },
   };
   return (
     <div data-testid="scatterChart-component">

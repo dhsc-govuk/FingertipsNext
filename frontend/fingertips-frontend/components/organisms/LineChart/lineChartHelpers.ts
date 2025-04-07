@@ -52,6 +52,11 @@ export const lineChartDefaultOptions: Highcharts.Options = {
       return tooltipFormatter(this);
     },
   },
+  plotOptions: {
+    series: {
+      animation: false,
+    },
+  },
 };
 
 export const chartSymbols: SymbolKeyValue[] = [

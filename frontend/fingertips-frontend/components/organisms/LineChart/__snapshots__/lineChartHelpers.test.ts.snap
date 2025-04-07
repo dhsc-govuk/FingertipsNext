@@ -23,6 +23,11 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
     },
     "verticalAlign": "top",
   },
+  "plotOptions": {
+    "series": {
+      "animation": false,
+    },
+  },
   "series": [
     {
       "color": "#F46A25",
@@ -112,6 +117,11 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
       "text": "Areas",
     },
     "verticalAlign": "top",
+  },
+  "plotOptions": {
+    "series": {
+      "animation": false,
+    },
   },
   "series": [
     {

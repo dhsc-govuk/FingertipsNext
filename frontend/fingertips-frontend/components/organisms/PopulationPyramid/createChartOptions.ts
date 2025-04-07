@@ -23,6 +23,7 @@ const createChartSeriesOptions = (
       series: {
         stacking: 'normal',
         crisp: false,
+        animation: false,
       },
     },
     credits: { enabled: false },

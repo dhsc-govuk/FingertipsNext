@@ -53,6 +53,9 @@ export const barChartDefaultOptions: Highcharts.Options = {
       pointPadding: 0.3,
       groupPadding: 0,
     },
+    series: {
+      animation: false,
+    },
   },
   legend: {
     enabled: false,

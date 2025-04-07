@@ -166,6 +166,9 @@ export function SparklineChart({
       column: {
         pointPadding: 0.1,
       },
+      series: {
+        animation: false,
+      },
     },
     tooltip: {
       hideDelay: 0,
