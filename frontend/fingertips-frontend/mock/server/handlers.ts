@@ -7,6 +7,7 @@ import {
   AreaTypeKeys,
 } from '../../lib/areaFilterHelpers/areaType';
 import {
+  Area,
   AreaWithRelations,
   BenchmarkComparisonMethod,
   IndicatorWithHealthDataForArea,
@@ -85,6 +86,19 @@ export const handlers = [
     const resultArray = [[getGetAreaRoot200Response(), { status: 200 }]];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
+  }),
+  http.get(`${baseURL}/areas`, async ({ request }) => {
+    const url = new URL(request.url);
+    const areaCodes = url.searchParams.getAll('area_codes') ?? [];
+
+    const selectedAreaData = getMockSelectedAreaData(areaCodes);
+    if (selectedAreaData.length === 0) {
+      return HttpResponse.json(
+        { error: 'No area data found for selected areas' },
+        { status: 404 }
+      );
+    }
+    return HttpResponse.json(selectedAreaData, { status: 200 });
   }),
   http.get(`${baseURL}/indicators`, async () => {
     const resultArray = [[getFilterIndicators200Response(), { status: 200 }]];
@@ -243,4 +257,18 @@ export function getGetHealthDataForAnIndicator200Response(
 
 function isAreaCodesEmpty(areaCodes: string[]) {
   return !areaCodes.length || (areaCodes.length === 1 && areaCodes[0] === '');
+}
+
+function getMockSelectedAreaData(areaCodes: string[]) {
+  const mockDataForAreas: Area[] = [];
+
+  areaCodes.forEach((areaCode) => {
+    if (mockAreaData[areaCode]) {
+      mockDataForAreas.push(mockAreaData[areaCode] as Area);
+    }
+  });
+
+  return mockDataForAreas.filter(
+    (mockArea) => !mockArea.code.toLowerCase().includes('error')
+  );
 }

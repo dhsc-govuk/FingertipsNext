@@ -30,7 +30,7 @@ type AreaFilterData = {
 
 export const getAreaFilterData = async (
   searchState: SearchStateParams,
-  selectedAreasData?: AreaWithRelations[]
+  selectedAreasData?: Area[]
 ): Promise<AreaFilterData> => {
   const stateManager = SearchStateManager.initialise(searchState);
 

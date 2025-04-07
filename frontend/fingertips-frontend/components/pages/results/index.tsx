@@ -13,7 +13,7 @@ import {
 } from '@/lib/searchStateManager';
 import { AreaFilterPane } from '@/components/organisms/AreaFilterPane';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { AreaWithRelations } from '@/generated-sources/ft-api-client';
+import { Area } from '@/generated-sources/ft-api-client';
 import { IndicatorSearchForm } from '@/components/forms/IndicatorSearchForm';
 import {
   IndicatorSearchFormState,
@@ -29,7 +29,7 @@ type SearchResultsProps = {
   searchResults: IndicatorDocument[];
   areaFilterData?: AreaFilterData;
   isEnglandSelectedAsGroup: boolean;
-  selectedAreasData?: AreaWithRelations[];
+  selectedAreasData?: Area[];
   searchState?: SearchStateParams;
   currentDate?: Date;
 };

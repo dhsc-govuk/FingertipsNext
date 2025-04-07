@@ -4,7 +4,7 @@ import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
 import { AreaFilterPane } from '@/components/organisms/AreaFilterPane';
 import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
-import { AreaWithRelations } from '@/generated-sources/ft-api-client';
+import { Area } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
   SearchStateManager,
@@ -18,7 +18,7 @@ interface ChartPageWrapperProps {
   children: React.ReactNode;
   searchState?: SearchStateParams;
   areaFilterData?: AreaFilterData;
-  selectedAreasData?: AreaWithRelations[];
+  selectedAreasData?: Area[];
   selectedIndicatorsData?: IndicatorDocument[];
 }
 
