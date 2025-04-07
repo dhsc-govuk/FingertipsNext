@@ -6,7 +6,7 @@ import {
   StyledAlignLeftTableCell,
   StyledAlignRightHeader,
   StyledAlignRightTableCell,
-  StyledDiv,
+  StyledDivWithScrolling,
   StyledTableCellHeader,
 } from '@/lib/tableHelpers';
 import { InequalitiesChartData } from '@/components/organisms/Inequalities/inequalitiesHelpers';
@@ -55,7 +55,7 @@ export function InequalitiesLineChartTable({
   ];
 
   return (
-    <StyledDiv data-testid="inequalitiesLineChartTable-component">
+    <StyledDivWithScrolling data-testid="inequalitiesLineChartTable-component">
       <Table
         head={
           <>
@@ -93,6 +93,6 @@ export function InequalitiesLineChartTable({
           </Table.Row>
         ))}
       </Table>
-    </StyledDiv>
+    </StyledDivWithScrolling>
   );
 }

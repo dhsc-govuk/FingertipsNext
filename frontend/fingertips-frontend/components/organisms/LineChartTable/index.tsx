@@ -15,6 +15,7 @@ import {
   StyledAlignLeftTableCell,
   StyledAlignRightHeader,
   StyledAlignRightTableCell,
+  StyledDivWithScrolling,
   StyledGreyHeader,
   StyledGreyTableCellValue,
 } from '@/lib/tableHelpers';
@@ -230,10 +231,6 @@ export const mapToLineChartTableData = (
 
 const StyledTitleCell = styled(StyledAlignLeftHeader)({
   border: 'none',
-});
-const StyledDivWithScrolling = styled('div')({
-  overflowX: 'scroll',
-  width: '100%',
 });
 
 const getConfidenceLimitCellSpan = (index: number): number =>

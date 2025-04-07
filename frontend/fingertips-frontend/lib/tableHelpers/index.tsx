@@ -57,6 +57,11 @@ export const StyledDiv = styled('div')({
   alignItems: 'center',
 });
 
+export const StyledDivWithScrolling = styled('div')({
+  overflowX: 'auto',
+  width: '100%',
+});
+
 // When value is undefined, it returns an X with an aria-label for screen readers.
 export const convertToPercentage = (value?: number) => {
   return value
