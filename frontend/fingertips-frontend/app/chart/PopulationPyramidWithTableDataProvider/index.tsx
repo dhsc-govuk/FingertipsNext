@@ -81,8 +81,6 @@ export const PopulationPyramidWithTableDataProvider = async ({
   areaCodes,
   searchState,
 }: PyramidContextProviderProps) => {
-  console.log('Areas');
-  console.log(areaCodes);
   const stateManager = SearchStateManager.initialise(searchState);
 
   const { [SearchParams.GroupSelected]: groupAreaSelected } =
