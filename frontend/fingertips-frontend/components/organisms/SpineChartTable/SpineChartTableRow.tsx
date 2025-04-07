@@ -5,6 +5,7 @@ import React from 'react';
 import {
   StyledAlignLeftTableCell,
   StyledAlignRightTableCell,
+  StyledIndicatorTitleCell,
 } from '@/lib/tableHelpers';
 
 import {
@@ -12,9 +13,9 @@ import {
   StyledGroupCell,
   StyledBenchmarkCell,
   StyledBenchmarkChart,
-  StyledAlignStickyCentreTableCell,
-  StyledAlignCentreBorderRightTableCell,
+  StyledAlignRightBorderRightTableCell,
   StyledStickyRightGroupCell,
+  StyledAlignCentreStickyTableCell,
 } from './SpineChartTableStyles';
 import { SpineChart } from '../SpineChart';
 import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
@@ -71,22 +72,22 @@ export function SpineChartTableRow({
 
   return (
     <Table.Row>
-      <StyledAlignLeftTableCell data-testid={`indicator-cell`}>
+      <StyledIndicatorTitleCell data-testid={`indicator-cell`}>
         {indicator}
-      </StyledAlignLeftTableCell>
+      </StyledIndicatorTitleCell>
       <StyledAlignLeftTableCell data-testid={`unit-cell`}>
         {unit}
       </StyledAlignLeftTableCell>
-      {!twoAreasRequested ?
+      {twoAreasRequested ?
+        (
+          <StyledAlignCentreStickyTableCell data-testid={`period-cell`}>
+            {period}
+          </StyledAlignCentreStickyTableCell>
+        ) :
         (
           <StyledAlignCentreTableCell data-testid={`period-cell`}>
             {period}
           </StyledAlignCentreTableCell>
-        ) :
-        (
-          <StyledAlignStickyCentreTableCell data-testid={`period-cell`}>
-            {period}
-          </StyledAlignStickyCentreTableCell>
         )
       }
 
@@ -95,9 +96,9 @@ export function SpineChartTableRow({
           <StyledAlignCentreTableCell data-testid={`area-1-count-cell`}>
             {formatWholeNumber(areaOneCount)}
           </StyledAlignCentreTableCell>
-          <StyledAlignCentreBorderRightTableCell data-testid={`area-1-value-cell`}>
+          <StyledAlignRightBorderRightTableCell data-testid={`area-1-value-cell`}>
             {formatNumber(areaOneValue)}
-          </StyledAlignCentreBorderRightTableCell>
+          </StyledAlignRightBorderRightTableCell>
           <StyledAlignCentreTableCell data-testid={`area-2-count-cell`}>
             {formatWholeNumber(areaTwoCount)}
           </StyledAlignCentreTableCell>
@@ -110,12 +111,12 @@ export function SpineChartTableRow({
           <StyledAlignCentreTableCell data-testid={`trend-cell`}>
             <TrendTag trendFromResponse={trend} />
           </StyledAlignCentreTableCell>
-          <StyledAlignRightTableCell data-testid={`count-cell`}>
+          <StyledAlignCentreTableCell data-testid={`count-cell`}>
             {formatWholeNumber(areaOneCount)}
-          </StyledAlignRightTableCell>
-          <StyledAlignCentreTableCell data-testid={`value-cell`}>
-            {formatNumber(areaOneValue)}
           </StyledAlignCentreTableCell>
+          <StyledAlignRightTableCell data-testid={`value-cell`}>
+            {formatNumber(areaOneValue)}
+          </StyledAlignRightTableCell>
         </>
       }
 

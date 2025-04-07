@@ -20,6 +20,7 @@ export const StyledDivTableContainer = styled.div({
 });
 
 const stickyLeft = {
+  background: 'white',
   position: 'sticky',
   left: 0,
   zIndex: 10,
@@ -36,19 +37,20 @@ const stickyRight = {
 };
 
 export const StyledStickyEmptyLeftHeader = styled(Table.CellHeader)({
+  background: 'white',
   position: 'sticky',
   left: 0,
   zIndex: 10,
   paddingRight: '0.5em',
 });
 
-export const StyledAlignStickyLeftHeader = styled(StyledAlignLeftHeader)(
-  stickyLeft as unknown as TemplateStringsArray
-);
-
 export const StyledAlignCentreHeader = styled(StyledAlignLeftHeader)({
   textAlign: 'center'
 });
+
+export const StyledAlignCentreStickyLeftHeader = styled(StyledAlignCentreHeader)(
+  stickyLeft as unknown as TemplateStringsArray
+);
 
 export const StyledAlignRightBorderHeader = styled(StyledAlignRightHeader)({
   borderRight: 'solid #bfc1c3 1px',
@@ -59,12 +61,12 @@ export const StyledAlignCentreTableCell = styled(StyledAlignLeftTableCell)({
   textAlign: 'center',
 });
 
-export const StyledAlignCentreBorderRightTableCell = styled(StyledAlignCentreTableCell)({
+export const StyledAlignRightBorderRightTableCell = styled(StyledAlignRightTableCell)({
   borderRight: 'solid #bfc1c3 1px',
   paddingRight: '0.5em',
 });
 
-export const StyledAlignStickyCentreTableCell = styled(StyledAlignCentreTableCell)(
+export const StyledAlignCentreStickyTableCell = styled(StyledAlignCentreTableCell)(
   stickyLeft as unknown as TemplateStringsArray
 );
 

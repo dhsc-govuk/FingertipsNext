@@ -17,8 +17,8 @@ import {
   SpineChartTable,
 } from '@/components/organisms/SpineChartTable';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
-import { extractingCombinedHealthData } from '@/lib/chartHelpers/extractingCombinedHealthData';
 import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmapUtil';
+import { extractCombinedHealthData } from '@/components/organisms/SpineChartTable/spineChartTableHelpers';
 
 export function mapToSpineChartTableIndicator(
   indicatorMetadata: IndicatorDocument | undefined
@@ -143,7 +143,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
       orderedEnglandData,
       orderedMetadata,
       orderedQuartileData,
-    } = extractingCombinedHealthData(
+    } = extractCombinedHealthData(
       indicatorData,
       indicatorMetadata,
       benchmarkStatistics,

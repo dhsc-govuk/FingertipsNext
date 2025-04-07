@@ -6,6 +6,9 @@ import {
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
+export const spineChartImproperUsageError = 'Improper usage: Spine chart should only be shown when 1-2 areas are selected';
+export const spineChartIndicatorTitleColumnMinWidth = 240;
+
 type ExtractedHealthData = {
   orderedHealthDataAreaOne: HealthDataForArea[];
   orderedHealthDataAreaTwo?: HealthDataForArea[];
@@ -20,7 +23,7 @@ interface RequestedAreaHealthData {
   areaTwoLatestHealthData?: HealthDataForArea;
 }
 
-export const extractingCombinedHealthData = (
+export const extractCombinedHealthData = (
   combinedIndicatorData: IndicatorWithHealthDataForArea[],
   unsortedMetaData: (IndicatorDocument | undefined)[],
   unsortedQuartileData: QuartileData[],
@@ -108,13 +111,20 @@ export const extractingCombinedHealthData = (
   };
 };
 
+/**
+ * Retrieves the area health data for each of the areas requested for the spine chart.
+ * Up to 2 areas are permitted on the spine chart.
+ *
+ * @param indicatorWithHealthData - all health data for the requested areas for the given indicator.
+ * @param areasSelected - list of area codes requested.
+ * @returns per area data for up to 2 areas.
+ */
 const extractPerAreaHealthData = (
   indicatorWithHealthData: IndicatorWithHealthDataForArea,
   areasSelected: string[],
 ): RequestedAreaHealthData => {
   if (areasSelected.length < 1 || 2 < areasSelected.length) {
-    // TODO make error message common
-    throw new Error('Improper usage: Spine chart should only be shown when 1-2 areas are selected');
+    throw new Error(spineChartImproperUsageError);
   }
 
   const areaOneLatestHealthData = indicatorWithHealthData.areaHealthData?.find(

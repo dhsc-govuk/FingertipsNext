@@ -13,6 +13,7 @@ import {
   SpineChartTableRow,
 } from './SpineChartTableRow';
 import { StyledDivTableContainer, StyledTable } from './SpineChartTableStyles';
+import { spineChartImproperUsageError } from './spineChartTableHelpers';
 
 export interface SpineChartTableProps {
   rowData: SpineChartTableRowProps[];
@@ -68,7 +69,7 @@ export function SpineChartTable({
   areasSelected
 }: Readonly<SpineChartTableProps>) {
   if (areasSelected.length < 1 || 2 < areasSelected.length) {
-    throw new Error('Improper usage: Spine chart should only be shown when 1-2 areas are selected');
+    throw new Error(spineChartImproperUsageError);
   }
 
   const twoAreasRequested = areasSelected.length === 2;

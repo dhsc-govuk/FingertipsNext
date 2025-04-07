@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import { GovukColours } from '../styleHelpers/colours';
 import { formatNumber } from '@/lib/numberFormatter';
+import { spineChartIndicatorTitleColumnMinWidth } from '@/components/organisms/SpineChartTable/spineChartTableHelpers';
 
 export const StyledTableCellHeader = styled(Table.CellHeader)(
   typography.font({ size: 16 }),
@@ -44,6 +45,11 @@ export const StyledGreyTableCellValue = styled(StyledAlignRightTableCell)({
 export const StyledAlignLeftTableCell = styled(StyledTableCell)({
   textAlign: 'left',
   width: '10%',
+});
+
+export const StyledIndicatorTitleCell = styled(StyledAlignLeftTableCell)({
+  width: '20%',
+  minWidth: `${spineChartIndicatorTitleColumnMinWidth}px`
 });
 
 export const StyledAlignLeftHeader = styled(StyledTableCellHeader)({

@@ -11,7 +11,7 @@ import {
   StyledGroupSubHeader,
   StyledBenchmarkHeader,
   StyledBenchmarkSubHeader,
-  StyledAlignStickyLeftHeader,
+  StyledAlignCentreStickyLeftHeader,
   StyledAlignRightBorderHeader,
   StyledGroupStickyRightHeader,
   StyledGroupStickyRightSubHeader,
@@ -46,12 +46,18 @@ export function SpineChartTableHeader({
     <>
       <Table.Row key='area-headers'>
         {twoAreasRequested ?
-          <StyledStickyEmptyLeftHeader 
-            colSpan={3} 
-            data-testid="empty-header"
-          >
-          </StyledStickyEmptyLeftHeader>
-        : 
+          <>
+            <Table.CellHeader
+              colSpan={2}
+              data-testid="empty-header"
+            ></Table.CellHeader>
+            <StyledStickyEmptyLeftHeader 
+              colSpan={1} 
+              data-testid="empty-header-sticky"
+            >
+            </StyledStickyEmptyLeftHeader>
+          </>
+        :
           <Table.CellHeader
             colSpan={3}
             data-testid="empty-header"
@@ -100,12 +106,12 @@ export function SpineChartTableHeader({
                   {heading}
                 </StyledAlignCentreHeader>
               ) : (
-                <StyledAlignStickyLeftHeader
+                <StyledAlignCentreStickyLeftHeader
                   key={heading}
                   data-testid={`${heading}-header`}
                 >
                   {heading}
-                </StyledAlignStickyLeftHeader>
+                </StyledAlignCentreStickyLeftHeader>
               );
             case SpineChartTableHeadingEnum.AreaTrend:
               return !twoAreasRequested ? (
