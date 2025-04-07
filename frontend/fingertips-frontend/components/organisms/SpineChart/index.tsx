@@ -9,27 +9,45 @@ export interface SpineChartProps {
   quartileData: QuartileData;
 }
 
-export function generateSeriesData() {
+export function generateSeriesData({
+  value,
+  quartileData,
+}: Readonly<SpineChartProps>) {
+  const { best, bestQuartile, worstQuartile, worst } =
+    orderStatistics(quartileData);
+
+  const absBest = Math.abs(Math.abs(best) - Math.abs(value))
+  const absdWorst = Math.abs(Math.abs(worst) - Math.abs(value))
+  const absBestQuartile = Math.abs(Math.abs(bestQuartile) - Math.abs(value))
+  const absWorstQuartile =  Math.abs(Math.abs(worstQuartile) - Math.abs(value))
+
+  const maxValue = Math.max(absBest, absdWorst)
+
+  const scaledBest = absBest/maxValue
+  const scaledWorst = absdWorst/maxValue
+  const scaledBestQuartile = absBestQuartile /maxValue
+  const scaledWorstQuartile =  absWorstQuartile/maxValue
+
   return [
     {
       name: 'Worst',
       color: GovukColours.MidGrey,
-      data: [-1.38],
+      data: [-scaledWorst],
     },
     {
       name: 'Best',
       color: GovukColours.MidGrey,
-      data: [1.35],
+      data: [scaledBest],
     },
     {
       name: '25th percentile',
       color: GovukColours.DarkGrey,
-      data: [-0.78],
+      data: [-scaledWorstQuartile],
     },
     {
       name: '75th percentile',
       color: GovukColours.DarkGrey,
-      data: [0.55],
+      data: [scaledBestQuartile],
     },
   ];
 }
@@ -38,9 +56,6 @@ export function generateChartOptions({
   value,
   quartileData,
 }: Readonly<SpineChartProps>) {
-  const { best, bestQuartile, worstQuartile, worst } =
-    orderStatistics(quartileData);
-
   const categories = ['Important stat'];
 
   return {
@@ -118,7 +133,7 @@ export function generateChartOptions({
         'Population: {(abs point.y):.2f}%',
     },
 
-    series: generateSeriesData(),
+    series: generateSeriesData({value, quartileData}),
   };
 }
 
