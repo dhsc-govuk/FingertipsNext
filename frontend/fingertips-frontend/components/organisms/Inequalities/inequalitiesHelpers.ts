@@ -16,6 +16,7 @@ import {
   lineChartDefaultOptions,
 } from '../LineChart/lineChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
+import { DashStyleValue } from 'highcharts';
 
 export const localeSort = (a: string, b: string) => a.localeCompare(b);
 
@@ -186,6 +187,16 @@ export const getDynamicKeys = (
   return uniqueKeys;
 };
 
+const dashStyle = (index: number): DashStyleValue => {
+  if (index < 3) {
+    return 'Solid';
+  } else if (index < 8) {
+    return 'ShortDash';
+  } else {
+    return 'Dash';
+  }
+};
+
 export const generateInequalitiesLineChartSeriesData = (
   keys: string[],
   type: InequalitiesTypes,
@@ -194,9 +205,6 @@ export const generateInequalitiesLineChartSeriesData = (
   showConfidenceIntervalsData?: boolean
 ): Highcharts.SeriesOptionsType[] => {
   const colorList = mapToChartColorsForInequality[type];
-
-  if (isEnglandSoleSelectedArea(areasSelected))
-    colorList[0] = GovukColours.Black;
 
   const seriesData: Highcharts.SeriesOptionsType[] = keys.flatMap(
     (key, index) => {
@@ -211,7 +219,15 @@ export const generateInequalitiesLineChartSeriesData = (
           symbol: chartSymbols[index % chartSymbols.length],
         },
         color: colorList[index % colorList.length],
+        dashStyle: dashStyle(index),
       };
+
+      // We have different display requirements for the aggregate
+      // data when England is the selected area
+      if (index === 0 && isEnglandSoleSelectedArea(areasSelected)) {
+        lineSeries.color = GovukColours.Black;
+        lineSeries.marker = { symbol: 'circle' };
+      }
 
       const confidenceIntervalSeries: Highcharts.SeriesOptionsType =
         generateConfidenceIntervalSeries(
