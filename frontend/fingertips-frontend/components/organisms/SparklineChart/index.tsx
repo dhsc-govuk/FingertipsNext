@@ -133,6 +133,7 @@ export function SparklineChart({
       height: 90,
       width: 200,
       backgroundColor: 'transparent',
+      animation: false,
     },
     title: {
       style: {
@@ -164,6 +165,9 @@ export function SparklineChart({
       },
       column: {
         pointPadding: 0.1,
+      },
+      series: {
+        animation: false,
       },
     },
     tooltip: {

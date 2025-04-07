@@ -49,6 +49,7 @@ export function ScatterChart({
       height: '50%',
       spacingBottom: 50,
       spacingTop: 40,
+      animation: false,
     },
     title: {
       text: 'Scatter chart to show how the indicator has changed over time for the area',
@@ -94,6 +95,11 @@ export function ScatterChart({
     accessibility: {
       enabled: false,
       description: accessibilityLabel,
+    },
+    plotOptions: {
+      series: {
+        animation: false,
+      },
     },
   };
   return (
