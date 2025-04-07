@@ -37,7 +37,7 @@ const StyleBenchmarkDataDiv = styled('div')({
   },
   'minWidth': DefaultMinimumWidthForTablePanel,
   '& h3': {
-    textAlign: 'left',
+    textAlign: 'right',
   },
 });
 
