@@ -33,7 +33,7 @@ describe('generate headers and rows', () => {
     {
       id: '2',
       name: 'Indicator 2',
-      unitLabel: 'per 1000',
+      unitLabel: 'per 1,000',
       latestDataPeriod: 5678,
       benchmarkMethod:
         BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
@@ -159,7 +159,7 @@ const newHealthDataPoint = ({
 const indicator1 = {
   id: 'indicator1',
   name: 'Very Verbose Indicator Name With an Extreeeeeeeme Number of Words to Try And Trip Up The View. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus varius magna massa, commodo consectetur erat hendrerit id. In semper, nibh eu efficitur sagittis, quam lectus semper augue, quis vestibulum ipsum urna ut orci.',
-  unitLabel: 'per 1000',
+  unitLabel: 'per 1,000',
   latestDataPeriod: 2004,
   benchmarkMethod: BenchmarkComparisonMethod.Quintiles,
   polarity: IndicatorPolarity.NoJudgement,

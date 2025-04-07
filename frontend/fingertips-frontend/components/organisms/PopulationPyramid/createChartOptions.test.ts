@@ -2,10 +2,27 @@ import { createChartPyramidOptions } from './createChartOptions';
 
 describe('createChartPyramidOptions', () => {
   const mockPopulationData = {
+    total: 860,
     areaName: 'Test Area',
     ageCategories: ['0-4', '5-9', '10-14'],
     femaleSeries: [100, 200, 150],
     maleSeries: [90, 180, 140],
+  };
+
+  const benchmarkData = {
+    total: 920,
+    areaName: 'Benchmark Area',
+    ageCategories: ['0-4', '5-9', '10-14'],
+    femaleSeries: [110, 210, 160],
+    maleSeries: [100, 190, 150],
+  };
+
+  const groupData = {
+    total: 920,
+    areaName: 'Group Name',
+    ageCategories: ['0-4', '5-9', '10-14'],
+    femaleSeries: [110, 210, 160],
+    maleSeries: [100, 190, 150],
   };
 
   it('should return a valid Highcharts.Options object', () => {
@@ -23,12 +40,6 @@ describe('createChartPyramidOptions', () => {
   });
 
   it('should add additional series when benchmark is provided', () => {
-    const benchmarkData = {
-      areaName: 'Benchmark Area',
-      ageCategories: ['0-4', '5-9', '10-14'],
-      femaleSeries: [110, 210, 160],
-      maleSeries: [100, 190, 150],
-    };
     const options: Highcharts.Options = createChartPyramidOptions(
       'Age',
       'Population (%)',
@@ -43,12 +54,6 @@ describe('createChartPyramidOptions', () => {
   });
 
   it('should add additional series when group data is provided', () => {
-    const groupData = {
-      areaName: 'Group Name',
-      ageCategories: ['0-4', '5-9', '10-14'],
-      femaleSeries: [110, 210, 160],
-      maleSeries: [100, 190, 150],
-    };
     const options: Highcharts.Options = createChartPyramidOptions(
       'Age',
       'Population (%)',
@@ -65,19 +70,6 @@ describe('createChartPyramidOptions', () => {
   });
 
   it('should add additional series when group data and benchmark data is provided', () => {
-    const groupData = {
-      areaName: 'Group Name',
-      ageCategories: ['0-4', '5-9', '10-14'],
-      femaleSeries: [110, 210, 160],
-      maleSeries: [100, 190, 150],
-    };
-
-    const benchmarkData = {
-      areaName: 'Benchmark Area',
-      ageCategories: ['0-4', '5-9', '10-14'],
-      femaleSeries: [110, 210, 160],
-      maleSeries: [100, 190, 150],
-    };
     const options: Highcharts.Options = createChartPyramidOptions(
       'Age',
       'Population (%)',

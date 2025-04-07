@@ -31,7 +31,7 @@ describe('ThematicMap', () => {
     render(
       <ThematicMap
         healthIndicatorData={mockHealthData['92420']}
-        mapGeographyData={mockMapGeographyData}
+        mapGeographyData={await mockMapGeographyData}
         benchmarkComparisonMethod={'Unknown'}
         polarity={'Unknown'}
         measurementUnit={''}
