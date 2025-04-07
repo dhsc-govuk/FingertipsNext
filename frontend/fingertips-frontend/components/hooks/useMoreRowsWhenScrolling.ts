@@ -24,7 +24,7 @@ export const useMoreRowsWhenScrolling = <T>(
     const isComplete = numberOfRowsRef.current >= rows.length;
 
     // if trigger is off the bottom of the screen or all rows are now shown
-    // the cancel the timer and stop
+    // then cancel the timer and stop
     if (isHidden || isComplete) {
       clearInterval(timerRef.current);
       timerRef.current = undefined;
@@ -44,7 +44,7 @@ export const useMoreRowsWhenScrolling = <T>(
     // timer is already in play
     if (timerRef.current) return;
 
-    // stop is there is no more to add
+    // stop it there is no more to add
     const isThereMore = addMore();
     if (!isThereMore) return;
 
