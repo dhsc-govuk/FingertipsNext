@@ -48,5 +48,14 @@ describe('BenchmarkTooltip', () => {
     ).toHaveLength(3);
     expect(screen.queryByText(/Group/)).toBeInTheDocument();
     expect(screen.queryByText(/Benchmark/)).toBeInTheDocument();
+    expect(
+      screen.getAllByTestId('benchmark-tooltip-area')[0]
+    ).toHaveTextContent(`Benchmark: ${testIndicatorData.areaName}`);
+    expect(
+      screen.getAllByTestId('benchmark-tooltip-area')[1]
+    ).toHaveTextContent(`Group: ${testIndicatorData.areaName}`);
+    expect(
+      screen.getAllByTestId('benchmark-tooltip-area')[2]
+    ).toHaveTextContent(`${testIndicatorData.areaName}`);
   });
 });

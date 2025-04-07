@@ -53,7 +53,7 @@ export function BenchmarkTooltipArea({
   );
 
   return (
-    <div style={{ marginBlock: '10px' }}>
+    <div data-testid={'benchmark-tooltip-area'} style={{ marginBlock: '10px' }}>
       <div style={{ textWrap: 'wrap' }}>
         <b>{getAreaTitle(indicatorDataForArea.areaName, tooltipType)}</b>
         <p style={{ marginBlock: 0 }}>
