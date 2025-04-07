@@ -55,6 +55,7 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
         sex: personsSex,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
         deprivation: noDeprivation,
+        isAggregate: true,
       },
       {
         year: 2004,
@@ -66,6 +67,7 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
         sex: personsSex,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
         deprivation: noDeprivation,
+        isAggregate: true,
       },
       {
         year: 2004,
@@ -77,6 +79,7 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
         sex: maleSex,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
         deprivation: noDeprivation,
+        isAggregate: false,
       },
       {
         year: 2004,
@@ -88,6 +91,7 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
         sex: femaleSex,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
         deprivation: noDeprivation,
+        isAggregate: false,
       },
     ],
   },
@@ -105,6 +109,7 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
         sex: personsSex,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
         deprivation: noDeprivation,
+        isAggregate: true,
       },
       {
         year: 2008,
@@ -116,6 +121,7 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
         sex: maleSex,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
         deprivation: noDeprivation,
+        isAggregate: false,
       },
       {
         year: 2008,
@@ -127,6 +133,19 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
         sex: femaleSex,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
         deprivation: noDeprivation,
+        isAggregate: false,
+      },
+      {
+        year: 2004,
+        count: 131,
+        value: 890.328253,
+        lowerCi: 441.69151,
+        upperCi: 578.32766,
+        ageBand: allAgesAge,
+        sex: femaleSex,
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
+        isAggregate: false,
       },
     ],
   },
@@ -163,8 +182,8 @@ export const MOCK_PARENT_DATA: HealthDataForArea = {
 
 export const GROUPED_YEAR_DATA = {
   2004: {
-    Male: [MOCK_HEALTH_DATA[0].healthData[1]],
-    Female: [MOCK_HEALTH_DATA[0].healthData[2]],
+    Male: [MOCK_HEALTH_DATA[0].healthData[2]],
+    Female: [MOCK_HEALTH_DATA[0].healthData[3]],
     Persons: [],
   },
   2008: {

@@ -59,7 +59,7 @@ describe('Line chart table suite', () => {
     {
       ...MOCK_HEALTH_DATA[1],
       healthData: [
-        ...MOCK_HEALTH_DATA[1].healthData,
+        ...MOCK_HEALTH_DATA[1].healthData.slice(0, -1),
         {
           year: 2004,
           count: 222,
