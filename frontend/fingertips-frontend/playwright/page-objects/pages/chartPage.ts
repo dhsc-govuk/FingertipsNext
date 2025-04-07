@@ -88,9 +88,12 @@ export default class ChartPage extends AreaFilter {
       `chart components: ${hiddenComponents.map((component) => component.componentLocator).join(', ')} are not displayed. Also checking the visible components via screenshot snapshot testing.`
     );
     // click the hide filters pane before asserting visibility and taking screenshots
-    await this.clickAndAwaitLoadingComplete(
+    await this.clickAndWaitForLoadState(
       this.page.getByTestId('area-filter-pane-hidefilters')
     );
+
+    expect(this.page.getByTestId('show-filter-cta')).toHaveText('Show filter');
+
     // Check that components expected to be visible are displayed
     for (const visibleComponent of visibleComponents) {
       console.log(
@@ -153,7 +156,7 @@ export default class ChartPage extends AreaFilter {
       );
       await this.page.waitForLoadState();
       await expect(this.page.getByText('Loading')).toHaveCount(0);
-      await this.page.waitForTimeout(750); // delete this line in DHSCFT-510 once animations are disabled
+      await this.page.waitForLoadState();
 
       // for now just warn if visual comparisons do not match
       try {

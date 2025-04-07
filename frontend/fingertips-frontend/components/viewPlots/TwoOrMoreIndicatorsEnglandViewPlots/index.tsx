@@ -79,7 +79,7 @@ export function TwoOrMoreIndicatorsEnglandViewPlots({
     indicatorData,
     indicatorMetadata
   );
-  console.log(englandIndicatorData);
+
   return (
     <section data-testid="twoOrMoreIndicatorsEnglandViewPlot-component">
       <H3>Compare indicators for an area</H3>

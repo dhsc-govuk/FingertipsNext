@@ -9,7 +9,7 @@ import indicators from '../../../../../search-setup/assets/indicators.json';
 import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
 //@ts-expect-error don't care about type checking this json file
 const indicatorData = indicators as RawIndicatorDocument[];
-const subjectSearchTerm = 'hospital';
+const subjectSearchTerm = 'emergency';
 const areaSearchTerm: AreaDocument = {
   areaCode: 'E12000002',
   areaType: 'Regions',
@@ -24,30 +24,30 @@ interface TestParams {
 }
 
 const coreTestJourneys: TestParams[] = [
-  // {
-  //   indicatorMode: IndicatorMode.ONE_INDICATOR,
-  //   areaMode: AreaMode.ONE_AREA,
-  //   searchMode: SearchMode.BOTH_SUBJECT_AND_AREA,
-  // },
-  // {
-  //   indicatorMode: IndicatorMode.ONE_INDICATOR,
-  //   areaMode: AreaMode.TWO_PLUS_AREAS,
-  //   searchMode: SearchMode.ONLY_SUBJECT,
-  // },
-  // {
-  //   indicatorMode: IndicatorMode.ONE_INDICATOR,
-  //   areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
-  //   searchMode: SearchMode.ONLY_SUBJECT,
-  // },
-  // {
-  //   indicatorMode: IndicatorMode.TWO_PLUS_INDICATORS,
-  //   areaMode: AreaMode.TWO_PLUS_AREAS,
-  //   searchMode: SearchMode.ONLY_AREA,
-  // },
+  {
+    indicatorMode: IndicatorMode.ONE_INDICATOR,
+    areaMode: AreaMode.ONE_AREA,
+    searchMode: SearchMode.BOTH_SUBJECT_AND_AREA,
+  },
+  {
+    indicatorMode: IndicatorMode.ONE_INDICATOR,
+    areaMode: AreaMode.TWO_PLUS_AREAS,
+    searchMode: SearchMode.ONLY_SUBJECT,
+  },
+  {
+    indicatorMode: IndicatorMode.ONE_INDICATOR,
+    areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
+    searchMode: SearchMode.ONLY_SUBJECT,
+  },
+  {
+    indicatorMode: IndicatorMode.TWO_PLUS_INDICATORS,
+    areaMode: AreaMode.TWO_PLUS_AREAS,
+    searchMode: SearchMode.ONLY_AREA,
+  },
   {
     indicatorMode: IndicatorMode.TWO_PLUS_INDICATORS,
     areaMode: AreaMode.ENGLAND_AREA,
-    searchMode: SearchMode.ONLY_AREA,
+    searchMode: SearchMode.ONLY_SUBJECT,
   },
 ];
 

@@ -1,3 +1,4 @@
+import { SearchParams } from '@/lib/searchStateManager';
 import BasePage from '../basePage';
 import { expect } from '../pageFactory';
 import { AreaMode, SearchMode } from '@/playwright/testHelpers';
@@ -8,6 +9,7 @@ export default class AreaFilter extends BasePage {
   readonly areaSearchField = 'area-search-input-field';
   readonly areaTypeSelector = 'area-type-selector-container';
   readonly groupTypeSelector = 'group-type-selector-container';
+  readonly groupSelector = 'group-selector-container';
   readonly selectedAreasContainer = 'selected-areas-panel';
   readonly selectAreasContainer = 'select-areas-filter-panel';
   readonly pillContainer = 'pill-container';
@@ -60,6 +62,67 @@ export default class AreaFilter extends BasePage {
     return Promise.all(options.map((l) => l.textContent()));
   }
 
+  async assertFiltersDisabled() {
+    const areaType = this.page.getByTestId(this.areaTypeSelector);
+    const groupType = this.page.getByTestId(this.groupTypeSelector);
+    const group = this.page.getByTestId(this.groupSelector);
+
+    expect(areaType).toBeDisabled();
+    expect(groupType).toBeDisabled();
+    expect(group).toBeDisabled();
+  }
+
+  async assertGroupTypeFilterContainsOnly(contain: string) {
+    const groupType = this.page.getByTestId(this.groupTypeSelector);
+
+    const groupTypeOptions = await groupType
+      .locator('option')
+      .allTextContents();
+    expect(String(groupTypeOptions)).toContain(contain);
+  }
+
+  async assertGroupFilterContainsOnly(contain: string) {
+    const group = this.page.getByTestId(this.groupSelector);
+
+    const groupOptions = await group.locator('option').allTextContents();
+    expect(String(groupOptions)).toContain(contain);
+  }
+
+  async selectAreaType(areaType: string) {
+    await this.selectOptionAndAwaitLoadingComplete(
+      this.page.getByTestId(this.areaTypeSelector),
+      areaType
+    );
+
+    await this.waitForURLToContain(areaType);
+  }
+
+  async selectGroupType(groupType: string) {
+    await this.selectOptionAndAwaitLoadingComplete(
+      this.page.getByTestId(this.groupTypeSelector),
+      groupType
+    );
+
+    await this.waitForURLToContain(groupType);
+  }
+
+  async selectGroup(group: string) {
+    await this.selectOptionAndAwaitLoadingComplete(
+      this.page.getByTestId(this.groupSelector),
+      group
+    );
+
+    await this.waitForURLToContain(SearchParams.GroupSelected);
+  }
+
+  async selectArea(areaName: string, areaCode: string) {
+    await this.checkAndAwaitLoadingComplete(
+      this.page.getByRole('checkbox', { name: areaName })
+    );
+
+    await this.waitForURLToContain(areaCode);
+  }
+
   /**
    * Selects the required area filters based on area mode if the search mode is ONLY_SUBJECT
    *
@@ -76,13 +139,7 @@ export default class AreaFilter extends BasePage {
     if (searchMode === SearchMode.ONLY_SUBJECT) {
       await this.waitForURLToContain(searchTerm);
 
-      await this.page
-        .getByTestId(this.areaTypeSelector)
-        .selectOption(areaTypeFilter);
-
-      await this.waitForURLToContain(areaTypeFilter);
-
-      // For group type filter currently defaults to using England due to picking regions for area type above - this will be refactored in DHSCFT-416
+      await this.selectAreaType(areaTypeFilter);
 
       // Select appropriate number of checkboxes based on area mode
       const areaCheckboxList = this.page
@@ -108,16 +165,17 @@ export default class AreaFilter extends BasePage {
 
       // England area mode
       if (AreaMode.ENGLAND_AREA === areaMode) {
-        await this.page
-          .getByTestId(this.areaTypeSelector)
-          .selectOption('England');
-        await this.page
-          .getByTestId(this.groupTypeSelector)
-          .selectOption('England');
-        await this.waitForURLToContain('England');
-      }
+        await this.selectAreaType('england');
+        await this.waitForURLToContain(SearchParams.AreaTypeSelected);
 
-      await this.waitForURLToContain(searchTerm);
+        await this.selectGroupType('england');
+        await this.waitForURLToContain(SearchParams.GroupTypeSelected);
+
+        await this.selectArea('england', 'england');
+        await this.waitForURLToContain(SearchParams.AreasSelected);
+
+        await this.waitForURLToContain('england');
+      }
     } else if (
       searchMode === SearchMode.ONLY_AREA &&
       areaMode === AreaMode.TWO_PLUS_AREAS
@@ -127,8 +185,6 @@ export default class AreaFilter extends BasePage {
         .getByTestId(this.areaFilterContainer)
         .getByRole('checkbox');
       await this.checkAndAwaitLoadingComplete(areaCheckboxList.nth(1)); // as first checkbox is 'All'
-
-      await this.page.waitForLoadState();
 
       await expect(
         this.page.getByTestId(this.areaFilterContainer)

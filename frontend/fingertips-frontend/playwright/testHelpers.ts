@@ -1,5 +1,6 @@
 import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
 import ChartPage from './page-objects/pages/chartPage';
+import { AreaTypeKeys } from '@/lib/areaFilterHelpers/areaType';
 
 export enum SearchMode {
   ONLY_SUBJECT = 'ONLY_SUBJECT',
@@ -201,8 +202,7 @@ export function getScenarioConfig(
         ChartPage.lineChartComponent,
         ChartPage.lineChartTableComponent,
         ChartPage.barChartEmbeddedTableComponent,
-        // Enable in DHSCFT-225
-        // ChartPage.populationPyramidComponent,
+        ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
     );
   }
@@ -215,8 +215,7 @@ export function getScenarioConfig(
       [
         ChartPage.thematicMapComponent,
         ChartPage.barChartEmbeddedTableComponent,
-        // Enable in DHSCFT-225
-        // ChartPage.populationPyramidComponent,
+        ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
     );
   }
@@ -228,8 +227,7 @@ export function getScenarioConfig(
     visibleComponents = allComponents.filter((component) =>
       [
         ChartPage.englandAreaTypeTableComponent,
-        // Enable in DHSCFT-225
-        // ChartPage.populationPyramidComponent,
+        ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
     );
   }
@@ -242,8 +240,7 @@ export function getScenarioConfig(
       [
         ChartPage.spineChartTableComponent,
         ChartPage.heatMapComponent,
-        // Enable in DHSCFT-225
-        // ChartPage.populationPyramidComponent,
+        ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
     );
   } else {
@@ -292,12 +289,15 @@ export function getAllIndicatorIdsForSearchTerm(
   );
 }
 
-export function getAllNHSRegionAreas(areas: AreaDocument[]): AreaDocument[] {
-  const nhsRegionAreas = areas.filter((area) =>
-    area.areaType.includes('NHS Region')
+export function getAllAreasByAreaType(
+  areas: AreaDocument[],
+  areaType: AreaTypeKeys
+): AreaDocument[] {
+  const sanitisedAreaType = areaType.toLowerCase().replaceAll('-', ' ');
+  console.log(sanitisedAreaType);
+  return areas.filter((area) =>
+    area.areaType.toLowerCase().includes(sanitisedAreaType)
   );
-
-  return nhsRegionAreas;
 }
 
 export function returnIndicatorIDsByIndicatorMode(

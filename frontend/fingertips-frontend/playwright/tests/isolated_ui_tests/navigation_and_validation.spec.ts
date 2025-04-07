@@ -3,7 +3,7 @@ import {
   getAllIndicatorIdsForSearchTerm,
   returnIndicatorIDsByIndicatorMode,
   sortAlphabetically,
-  getAllNHSRegionAreas,
+  getAllAreasByAreaType,
   IndicatorMode,
   SearchMode,
   AreaMode,
@@ -12,6 +12,7 @@ import mockIndicators from '../../../assets/mockIndicatorData.json';
 import mockAreas from '../../../assets/mockAreaData.json';
 import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
 import ChartPage from '@/playwright/page-objects/pages/chartPage';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 // tests in this file use mock service worker to mock the API response
 // so that the tests can be run without the need for a backend
@@ -49,7 +50,7 @@ test.beforeAll(
       indicatorMode
     );
 
-    allNHSRegionAreas = getAllNHSRegionAreas(mockAreas);
+    allNHSRegionAreas = getAllAreasByAreaType(mockAreas, 'nhs-regions');
   }
 );
 test.describe(`Navigation, accessibility and validation tests`, () => {
@@ -121,6 +122,8 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       await indicatorPage.waitForURLToContain('indicator');
 
       await indicatorPage.checkIndicatorNameTitle(indicator);
+
+      await indicatorPage.expectNoAccessibilityViolations(axeBuilder);
 
       await indicatorPage.clickBackLink();
     });
@@ -266,37 +269,129 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       await test.expect(resultsPage.page).not.toHaveURL(/&is=/);
     });
   });
-});
 
-test('check "select all" checkbox updates selected indicators and URL', async ({
-  resultsPage,
-}) => {
-  await test.step('Navigate directly to the results page', async () => {
-    await resultsPage.navigateToResults(subjectSearchTerm, []);
+  test('check "select all" checkbox updates selected indicators and URL', async ({
+    resultsPage,
+  }) => {
+    await test.step('Navigate directly to the results page', async () => {
+      await resultsPage.navigateToResults(subjectSearchTerm, []);
+    });
+
+    await test.step('Tick "Select all" checkbox and verify all indicators are selected and URL is updated', async () => {
+      await resultsPage.selectIndicatorSelectAllCheckbox();
+      await resultsPage.verifyAllIndicatorsSelected();
+      await resultsPage.verifyUrlContainsAllIndicators(allIndicatorIDs);
+    });
+
+    await test.step('Untick "Select all" checkbox and verify no indicators are selected and URL is updated', async () => {
+      await resultsPage.deselectIndicatorSelectAllCheckbox();
+      await resultsPage.verifyNoIndicatorsSelected();
+      await resultsPage.verifyUrlExcludesAllIndicators();
+    });
+
+    await test.step('Select indicators one by one and verify "Select all" checkbox becomes ticked and URL updates', async () => {
+      await resultsPage.selectEveryIndicator(allIndicatorIDs);
+      await resultsPage.verifySelectAllCheckboxTicked();
+      await resultsPage.verifyUrlContainsAllIndicators(allIndicatorIDs);
+    });
+
+    await test.step('Deselect one indicator and verify "Select all" checkbox becomes unticked and URL updates', async () => {
+      await resultsPage.deselectIndicator(allIndicatorIDs[0]);
+      await resultsPage.verifySelectAllCheckboxUnticked();
+      await resultsPage.verifyUrlUpdatedAfterDeselection(allIndicatorIDs[0]);
+    });
   });
 
-  await test.step('Tick "Select all" checkbox and verify all indicators are selected and URL is updated', async () => {
-    await resultsPage.selectSelectAllCheckbox();
-    await resultsPage.verifyAllIndicatorsSelected();
-    await resultsPage.verifyUrlContainsAllIndicators(allIndicatorIDs);
-  });
+  test('check area filtering on results page', async ({ resultsPage }) => {
+    await test.step('first filter by GPs', async () => {
+      await resultsPage.navigateToResults(subjectSearchTerm, []);
 
-  await test.step('Untick "Select all" checkbox and verify no indicators are selected and URL is updated', async () => {
-    await resultsPage.deselectSelectAllCheckbox();
-    await resultsPage.verifyNoIndicatorsSelected();
-    await resultsPage.verifyUrlExcludesAllIndicators();
-  });
+      const gpAreaType = 'gps';
+      const groupType = 'nhs-primary-care-networks';
+      const group = 'East Basildon PCN';
+      const area = 'aryan medical centre';
+      const areaCode = 'F81640';
 
-  await test.step('Select indicators one by one and verify "Select all" checkbox becomes ticked and URL updates', async () => {
-    await resultsPage.selectEveryIndicator(allIndicatorIDs);
-    await resultsPage.verifySelectAllCheckboxTicked();
-    await resultsPage.verifyUrlContainsAllIndicators(allIndicatorIDs);
-  });
+      await resultsPage.selectAreaType(gpAreaType);
 
-  await test.step('Deselect one indicator and verify "Select all" checkbox becomes unticked and URL updates', async () => {
-    await resultsPage.deselectIndicator(allIndicatorIDs[0]);
-    await resultsPage.verifySelectAllCheckboxUnticked();
-    await resultsPage.verifyUrlUpdatedAfterDeselection(allIndicatorIDs[0]);
+      await resultsPage.selectGroupType(groupType);
+
+      await resultsPage.selectGroup(group);
+
+      await resultsPage.selectArea(area, areaCode);
+
+      await resultsPage.assertFiltersDisabled();
+
+      // change group and pick another area
+      await resultsPage.closeAreaFilterPill(0);
+
+      const newGroup = 'North 2 Islington PCN';
+      const newArea = 'Archway Medical Centre';
+      const newAreaCode = 'F83004';
+
+      await resultsPage.selectGroup(newGroup);
+
+      await resultsPage.selectArea(newArea, newAreaCode);
+
+      await resultsPage.assertFiltersDisabled();
+    });
+
+    await test.step('then deselect gps and change to filter by England (default)', async () => {
+      await resultsPage.closeAreaFilterPill(0);
+
+      const englandAreaType = 'England';
+
+      await resultsPage.selectAreaType(englandAreaType);
+
+      await resultsPage.assertGroupTypeFilterContainsOnly(englandAreaType);
+      await resultsPage.assertGroupFilterContainsOnly(englandAreaType);
+
+      await resultsPage.selectArea(englandAreaType, areaCodeForEngland);
+
+      await resultsPage.assertFiltersDisabled();
+    });
+
+    await test.step('then deselect England and begin filtering by NHS Regions', async () => {
+      await resultsPage.closeAreaFilterPill(0);
+
+      const nhsRegionAreaType = 'nhs-regions';
+      const northWestNhsRegion = 'North West NHS Region';
+      const northWestNhsRegionCode = 'E40000010';
+
+      await resultsPage.selectAreaType(nhsRegionAreaType);
+
+      await resultsPage.assertGroupTypeFilterContainsOnly('England');
+      await resultsPage.assertGroupFilterContainsOnly('England');
+
+      await resultsPage.selectArea(northWestNhsRegion, northWestNhsRegionCode);
+
+      await resultsPage.assertFiltersDisabled();
+    });
+
+    await test.step('then deselect north west region and begin filtering by counties and unitary authorities', async () => {
+      await resultsPage.closeAreaFilterPill(0);
+
+      const countiesAndUnitaryAuthoritiesAreaType =
+        'counties-and-unitary-authorities';
+      const groupType = 'combined-authorities';
+      const area = 'County Durham';
+      const areaCode = 'E06000047';
+
+      await resultsPage.selectAreaType(countiesAndUnitaryAuthoritiesAreaType);
+
+      await resultsPage.assertGroupTypeFilterContainsOnly(
+        'England,Combined Authorities,Regions'
+      );
+      await resultsPage.assertGroupFilterContainsOnly('England');
+
+      await resultsPage.selectGroupType(groupType);
+
+      await resultsPage.assertGroupFilterContainsOnly('');
+
+      await resultsPage.selectArea(area, areaCode);
+
+      await resultsPage.assertFiltersDisabled();
+    });
   });
 });
 

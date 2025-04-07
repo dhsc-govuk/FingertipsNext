@@ -224,6 +224,7 @@ export function SelectAreasFilterPanel({
 
       <StyledFilterSelect
         label="Select a group"
+        data-testid="group-selector-container"
         input={{
           onChange: (e) => groupSelected(e.target.value),
           defaultValue: searchState?.[SearchParams.GroupSelected],
