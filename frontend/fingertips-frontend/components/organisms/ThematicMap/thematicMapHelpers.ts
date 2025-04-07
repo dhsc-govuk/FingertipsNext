@@ -9,9 +9,7 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import {
-  getAreaIndicatorDataForYear,
   getBenchmarkColour,
-  getConfidenceLimitNumber,
   getIndicatorDataForAreasForMostRecentYearOnly,
 } from '@/lib/chartHelpers/chartHelpers';
 
