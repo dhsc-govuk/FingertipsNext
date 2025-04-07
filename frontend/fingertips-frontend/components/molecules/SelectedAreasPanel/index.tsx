@@ -70,8 +70,10 @@ export function SelectedAreasPanel({
     (group) => group.code === searchState?.[SearchParams.GroupSelected]
   );
 
-  const { triggerRef, rowsToShow, hasMore } =
-    useMoreRowsWhenScrolling<AreaWithRelations>(selectedAreasData ?? [], 10);
+  const { triggerRef, rowsToShow, hasMore } = useMoreRowsWhenScrolling<Area>(
+    selectedAreasData ?? [],
+    10
+  );
 
   return (
     <StyledFilterSelectedAreaDiv data-testid="selected-areas-panel">
