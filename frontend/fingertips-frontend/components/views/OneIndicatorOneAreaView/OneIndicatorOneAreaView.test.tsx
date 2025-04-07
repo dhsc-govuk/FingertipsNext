@@ -2,7 +2,13 @@
  * @jest-environment node
  */
 
-import { IndicatorsApi } from '@/generated-sources/ft-api-client';
+import {
+  AreasApi,
+  BenchmarkComparisonMethod,
+  GetHealthDataForAnIndicatorInequalitiesEnum,
+  IndicatorPolarity,
+  IndicatorsApi,
+} from '@/generated-sources/ft-api-client';
 import { mockDeep } from 'jest-mock-extended';
 import OneIndicatorOneAreaView from '.';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
@@ -13,13 +19,20 @@ import {
 } from '@/lib/apiClient/apiClientFactory';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
+import { londonNHSRegion } from '@/mock/data/areas/nhsRegionsAreas';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 
+const mockAreasApi = mockDeep<AreasApi>();
+ApiClientFactory.getAreasApiClient = () => mockAreasApi;
+
 describe('OneIndicatorOneAreaView', () => {
   afterEach(() => {
     jest.resetAllMocks();
+  });
+  beforeEach(() => {
+    mockAreasApi.getArea.mockResolvedValue(londonNHSRegion);
   });
   it.each([
     [['1'], ['A001', 'A002']],
@@ -65,7 +78,10 @@ describe('OneIndicatorOneAreaView', () => {
         {
           areaCodes: expectedAreaCodes,
           indicatorId: 1,
-          inequalities: ['sex'],
+          inequalities: [
+            GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
+            GetHealthDataForAnIndicatorInequalitiesEnum.Deprivation,
+          ],
         },
         API_CACHE_CONFIG
       );
@@ -78,29 +94,44 @@ describe('OneIndicatorOneAreaView', () => {
     const searchParams: SearchStateParams = {
       [SearchParams.SearchedIndicator]: 'testing',
       [SearchParams.IndicatorsSelected]: ['1'],
-      [SearchParams.AreasSelected]: ['E06000047'],
+      [SearchParams.AreasSelected]: ['E12000001'],
+      [SearchParams.AreaTypeSelected]: 'regions',
     };
+
+    const mockIndicatorData = {
+      areaHealthData: [mockHealthData['108'][1]],
+    };
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+      mockIndicatorData
+    );
 
     const page = await OneIndicatorOneAreaView({
       selectedIndicatorsData: [firstIndicatorDocument],
       searchState: searchParams,
     });
 
-    expect(page.props.indicatorMetadata).toEqual(firstIndicatorDocument);
+    expect(page.props.children.props.indicatorMetadata).toEqual(
+      firstIndicatorDocument
+    );
   });
 
   it('should call OneIndicatorOneAreaViewPlots with the correct props', async () => {
     const searchState: SearchStateParams = {
       [SearchParams.IndicatorsSelected]: ['1'],
-      [SearchParams.AreasSelected]: ['A001'],
+      [SearchParams.AreasSelected]: ['E12000001'],
     };
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({
+    const mockIndicator = {
+      polarity: IndicatorPolarity.NoJudgement,
+      benchmarkComparisonMethod:
+        BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
       areaHealthData: [mockHealthData['108'][1]],
-    });
+    };
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+      mockIndicator
+    );
 
     const page = await OneIndicatorOneAreaView({ searchState: searchState });
-
-    expect(page.props.healthIndicatorData).toEqual([mockHealthData['108'][1]]);
-    expect(page.props.searchState).toEqual(searchState);
+    expect(page.props.children.props.indicatorData).toEqual(mockIndicator);
+    expect(page.props.children.props.searchState).toEqual(searchState);
   });
 });

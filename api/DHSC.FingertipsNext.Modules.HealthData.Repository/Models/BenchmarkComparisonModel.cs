@@ -11,5 +11,4 @@ public class BenchmarkComparisonModel
     public string BenchmarkAreaCode { get; set; }
 
     public string BenchmarkAreaName { get; set; }
-    
 }

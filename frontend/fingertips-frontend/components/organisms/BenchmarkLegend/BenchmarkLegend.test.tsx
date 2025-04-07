@@ -1,24 +1,88 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { BenchmarkLegend } from '.';
 import '@testing-library/jest-dom';
+import {
+  BenchmarkComparisonMethod,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
 
 describe('Testing the benchmark component', () => {
-  it('Snapshot testing of the UI', () => {
-    const container = render(<BenchmarkLegend rag quintiles />);
+  it('Snapshot testing of the UI RAG 95', () => {
+    const container = render(
+      <BenchmarkLegend
+        benchmarkComparisonMethod={
+          BenchmarkComparisonMethod.CIOverlappingReferenceValue95
+        }
+        polarity={IndicatorPolarity.HighIsGood}
+        title={'high is good'}
+      />
+    );
     expect(container.asFragment()).toMatchSnapshot();
   });
 
-  it('Should only render RAG points', () => {
-    render(<BenchmarkLegend rag />);
-    expect(screen.getAllByText('Better')).toHaveLength(2);
-    expect(screen.queryByText('Worst')).not.toBeInTheDocument();
-    expect(screen.queryByText('Quintiles')).not.toBeInTheDocument();
+  it('Snapshot testing of the UI BOB 95', () => {
+    const container = render(
+      <BenchmarkLegend
+        benchmarkComparisonMethod={
+          BenchmarkComparisonMethod.CIOverlappingReferenceValue95
+        }
+        polarity={IndicatorPolarity.NoJudgement}
+        title={'no judgement'}
+      />
+    );
+    expect(container.asFragment()).toMatchSnapshot();
   });
 
-  it('Should only render quintile points', () => {
-    render(<BenchmarkLegend quintiles />);
-    expect(screen.getAllByText('Worst')).toHaveLength(1);
-    expect(screen.getAllByText('Lowest')).toHaveLength(1);
-    expect(screen.queryByText('Not compared')).not.toBeInTheDocument();
+  it('Snapshot testing of the UI RAG 99.8', () => {
+    const container = render(
+      <BenchmarkLegend
+        benchmarkComparisonMethod={
+          BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8
+        }
+        polarity={IndicatorPolarity.LowIsGood}
+        title={'low is good'}
+      />
+    );
+    expect(container.asFragment()).toMatchSnapshot();
+  });
+
+  it('Snapshot testing of the UI BOB 99.8', () => {
+    const container = render(
+      <BenchmarkLegend
+        benchmarkComparisonMethod={
+          BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8
+        }
+        polarity={IndicatorPolarity.NoJudgement}
+        title={'NoJudgement'}
+      />
+    );
+    expect(container.asFragment()).toMatchSnapshot();
+  });
+
+  it('Snapshot testing of the UI RAG quintiles', () => {
+    const container = render(
+      <BenchmarkLegend
+        benchmarkComparisonMethod={BenchmarkComparisonMethod.Quintiles}
+        polarity={IndicatorPolarity.LowIsGood}
+        title={'low is good'}
+      />
+    );
+    expect(container.asFragment()).toMatchSnapshot();
+  });
+
+  it('Snapshot testing of the UI BOB quintiles', () => {
+    const container = render(
+      <BenchmarkLegend
+        benchmarkComparisonMethod={BenchmarkComparisonMethod.Quintiles}
+        polarity={IndicatorPolarity.NoJudgement}
+        title={'NoJudgement'}
+      />
+    );
+    expect(container.asFragment()).toMatchSnapshot();
+  });
+
+  it('Snapshot testing of the legend with all items shown', () => {
+    const container = render(<BenchmarkLegend title={'All'} />);
+    expect(container.asFragment()).toMatchSnapshot();
   });
 });

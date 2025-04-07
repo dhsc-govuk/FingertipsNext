@@ -38,7 +38,7 @@ const RemoveAreaButton = styled('button')({
   padding: '5px',
 });
 
-interface PillProps {
+export interface PillProps {
   children: React.ReactNode;
   selectedFilterId?: string;
   removeFilter?: (filterId: string) => void;

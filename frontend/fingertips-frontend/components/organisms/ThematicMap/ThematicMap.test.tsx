@@ -1,36 +1,44 @@
 import { render, screen } from '@testing-library/react';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { ThematicMap } from '.';
-import { getMapData } from '@/lib/thematicMapUtils/getMapData';
+import { getMapGeographyData } from '@/components/organisms/ThematicMap/thematicMapHelpers';
+import { SearchStateContext } from '@/context/SearchStateContext';
+import { SearchParams } from '@/lib/searchStateManager';
 
 const mockAreaType = 'regions';
 const mockAreaCodes = ['E12000001', 'E12000002'];
-const mockMapData = getMapData(mockAreaType, mockAreaCodes);
+const mockMapGeographyData = getMapGeographyData(mockAreaType, mockAreaCodes);
 
-it('should render the ThematicMap title', async () => {
-  render(
-    <ThematicMap
-      healthIndicatorData={mockHealthData['92420']}
-      mapData={mockMapData}
-      mapTitle="valid title"
-    />
-  );
-
-  const title = await screen.findByRole('heading', { level: 3 });
-  expect(title).toHaveTextContent('valid title');
+const mockGetSearchState = jest.fn();
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: mockGetSearchState,
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
+  };
 });
 
-it('should render the ThematicMap component', async () => {
-  render(
-    <ThematicMap
-      healthIndicatorData={mockHealthData['92420']}
-      mapData={mockMapData}
-      mapTitle="valid title"
-    />
-  );
+describe('ThematicMap', () => {
+  beforeEach(() => {
+    mockGetSearchState.mockReturnValue({
+      [SearchParams.AreaTypeSelected]: 'regions',
+    });
+  });
 
-  const highcharts = await screen.findByTestId(
-    'highcharts-react-thematicMap-component'
-  );
-  expect(highcharts).toBeInTheDocument();
+  it('should render the benchmark legend', async () => {
+    render(
+      <ThematicMap
+        healthIndicatorData={mockHealthData['92420']}
+        mapGeographyData={await mockMapGeographyData}
+        benchmarkComparisonMethod={'Unknown'}
+        polarity={'Unknown'}
+        measurementUnit={''}
+      />
+    );
+
+    const actual = await screen.findByTestId('benchmarkLegend-component');
+    expect(actual).toBeInTheDocument();
+  });
 });

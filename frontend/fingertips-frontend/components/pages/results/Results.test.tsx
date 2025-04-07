@@ -5,6 +5,8 @@ import { IndicatorSelectionState } from '../../forms/IndicatorSelectionForm/indi
 import userEvent from '@testing-library/user-event';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { LoaderContext } from '@/context/LoaderContext';
+import { SearchStateContext } from '@/context/SearchStateContext';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -18,6 +20,7 @@ jest.mock('next/navigation', () => {
     })),
   };
 });
+
 function setupMockUseActionState<T>() {
   return jest
     .fn()
@@ -38,6 +41,27 @@ jest.mock('react', () => {
   };
 });
 
+const mockSetIsLoading = jest.fn();
+const mockLoaderContext: LoaderContext = {
+  getIsLoading: jest.fn(),
+  setIsLoading: mockSetIsLoading,
+};
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoadingState: () => mockLoaderContext,
+  };
+});
+
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: jest.fn(),
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
+  };
+});
+
 const MOCK_DATA: IndicatorDocument[] = [
   {
     indicatorID: '1',
@@ -48,10 +72,8 @@ const MOCK_DATA: IndicatorDocument[] = [
     latestDataPeriod: '2023',
     dataSource: 'NHS website',
     lastUpdatedDate: new Date('December 6, 2024'),
-    associatedAreaCodes: [],
     unitLabel: '',
     hasInequalities: false,
-    usedInPoc: true,
   },
   {
     indicatorID: '2',
@@ -62,10 +84,8 @@ const MOCK_DATA: IndicatorDocument[] = [
     latestDataPeriod: '2022',
     dataSource: 'Student article',
     lastUpdatedDate: new Date('November 5, 2023'),
-    associatedAreaCodes: [],
     unitLabel: '',
     hasInequalities: true,
-    usedInPoc: true,
   },
 ];
 const searchedIndicator = 'test';
@@ -82,6 +102,7 @@ describe('Search Results Suite', () => {
   it('should render elements', () => {
     render(
       <SearchResults
+        isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={initialState}
         searchResults={[]}
         searchState={state}
@@ -98,6 +119,7 @@ describe('Search Results Suite', () => {
   it('should render the backLink', () => {
     render(
       <SearchResults
+        isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={initialState}
         searchResults={[]}
         searchState={state}
@@ -113,9 +135,26 @@ describe('Search Results Suite', () => {
     );
   });
 
+  it('should call setIsLoading when the back link is clicked', async () => {
+    render(
+      <SearchResults
+        isEnglandSelectedAsGroup={false}
+        initialIndicatorSelectionState={initialState}
+        searchResults={[]}
+        searchState={state}
+      />
+    );
+
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('link', { name: /back/i }));
+
+    expect(mockSetIsLoading).toHaveBeenCalledWith(true);
+  });
+
   it('should render the IndicatorSearchForm', () => {
     render(
       <SearchResults
+        isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={initialState}
         searchResults={[]}
         searchState={state}
@@ -128,6 +167,7 @@ describe('Search Results Suite', () => {
   it('should render the AreaFilter', () => {
     render(
       <SearchResults
+        isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={initialState}
         searchResults={[]}
         searchState={state}
@@ -140,6 +180,7 @@ describe('Search Results Suite', () => {
   it('should render the IndicatorSelectionForm', () => {
     render(
       <SearchResults
+        isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={initialState}
         searchResults={[]}
         searchState={state}
@@ -159,6 +200,7 @@ describe('Search Results Suite', () => {
 
     render(
       <SearchResults
+        isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={errorState}
         searchResults={MOCK_DATA}
         searchState={state}
@@ -184,6 +226,7 @@ describe('Search Results Suite', () => {
 
     render(
       <SearchResults
+        isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={errorState}
         searchResults={MOCK_DATA}
         searchState={state}

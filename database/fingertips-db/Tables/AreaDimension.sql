@@ -5,7 +5,8 @@ CREATE TABLE [dbo].[AreaDimension](
 	[Name] [nvarchar](255) NOT NULL,					--the name of the area e.g. Leeds
 	[StartDate] [datetime2](7) NOT NULL,				--the start data that this row was relevant for, to support slowly changing dimensions if an area changes over time
 	[EndDate] [datetime2](7) NOT NULL,					--the end data that this row was relevant for, to support slowly changing dimensions if an area changes over time
-	[AreaType] nvarchar(50) NULL						-- the area type of the area
+	[AreaType] nvarchar(50) NULL,						-- the area type of the area
+	[IsDistrictAndCounty] [bit] NULL
 CONSTRAINT [PK_AreaDimension] PRIMARY KEY CLUSTERED 
 (
 	[AreaKey] ASC
@@ -17,5 +18,12 @@ GO
 CREATE UNIQUE NONCLUSTERED INDEX [AreaCodeIndex] ON [dbo].[AreaDimension]
 (
 	[Code] ASC
+)
+
+GO
+
+CREATE NONCLUSTERED INDEX [IsDistrictAndCountyIndex] ON [dbo].[AreaDimension]
+(
+	[IsDistrictAndCounty]
 )
 GO

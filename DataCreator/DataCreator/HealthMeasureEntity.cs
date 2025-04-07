@@ -50,13 +50,13 @@ namespace DataCreator
         public int AgeID { get; set; }
 
         [CsvColumn(FieldIndex = 15)]
-        public bool IsSexAggregatedOrSingle {  get; set; }
+        public int IsSexAggregatedOrSingle {  get; set; }
 
         [CsvColumn(FieldIndex = 16)]
-        public bool IsAgeAggregatedOrSingle { get; set; }
+        public int IsAgeAggregatedOrSingle { get; set; }
 
         [CsvColumn(FieldIndex = 17)]
-        public bool IsDeprivationAggregatedOrSingle { get; set; }
+        public int IsDeprivationAggregatedOrSingle { get; set; }
 
         //avoid line ending nonsense in csv
         [CsvColumn(FieldIndex = 18)]

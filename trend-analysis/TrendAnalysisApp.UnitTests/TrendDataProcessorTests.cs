@@ -21,21 +21,6 @@ public class TrendDataProcessorTests
         _trendDataProcessor = new TrendDataProcessor(_mockRepository, _mockFileHelper);
     }
 
-    [Theory]
-    [InlineData(2, 30, 3)]
-    [InlineData(3, 2, 3)] // Indicator 3 uses the default dimensions
-    [InlineData(5, 24, 3)]
-    [InlineData(20, 2, 2)] // Indicator 20 is female-only
-    public void TestGetDefaultSearchDimsForIndicatorReturnsCorrectDimensions(
-        short indicatorId,
-        short expectedAgeDim,
-        byte expectedSexDim
-    ) {
-        var result = TrendDataProcessor.GetDefaultSearchDimsForIndicator(indicatorId);
-        result.AgeDimensionKey.ShouldBe(expectedAgeDim);
-        result.SexDimensionKey.ShouldBe(expectedSexDim);
-    }
-
     [Fact]
     public void TestUpdateIndicatorSearchDataWritesCorrectDataToFile() {
         const string expectedFilePath = "SearchData/assets/indicators.json";

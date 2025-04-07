@@ -1,0 +1,146 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AreaSelectInputField renders correctly and matches snapshot 1`] = `
+.c2 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #0b0c0c;
+  display: block;
+  clear: none;
+  padding-bottom: 2px;
+  margin-bottom: 0;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin-bottom: 0;
+}
+
+.c0:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.c3 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  width: 100%;
+  height: 33px;
+  padding: 5px 4px 4px;
+  border: 2px solid #0b0c0c;
+}
+
+.c3:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+}
+
+.c1 {
+  margin-bottom: 25px;
+}
+
+.c1 span {
+  font-weight: bold;
+}
+
+.c1 select {
+  width: 100%;
+}
+
+@media print {
+  .c2 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c2 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c2 {
+    color: #000;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c2 {
+    margin-bottom: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    margin-bottom: 0;
+  }
+}
+
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    width: 50%;
+    height: 38px;
+  }
+}
+
+<div>
+  <label
+    class="c0 c1"
+    data-testid="area-type-selector-container-pyramid"
+  >
+    <span
+      class="c2"
+    >
+      Select an Area
+    </span>
+    <select
+      class="c3"
+    >
+      <option
+        value="001"
+      >
+        Area One
+      </option>
+      <option
+        value="002"
+      >
+        Area Two
+      </option>
+    </select>
+  </label>
+</div>
+`;

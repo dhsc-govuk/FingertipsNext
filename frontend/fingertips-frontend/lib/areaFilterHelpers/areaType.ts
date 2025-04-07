@@ -1,5 +1,11 @@
 import { AreaType } from '@/generated-sources/ft-api-client';
 
+export enum HierarchyNameTypes {
+  ADMINISTRATIVE = 'Administrative',
+  NHS = 'NHS',
+  BOTH = 'Both',
+}
+
 export const combinedAuthoritiesAreaType = {
   key: 'combined-authorities',
   name: 'Combined Authorities',

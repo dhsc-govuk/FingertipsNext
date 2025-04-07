@@ -8,6 +8,7 @@ import { typography } from '@govuk-react/lib';
 import { Arrow } from '@/components/atoms/Arrow';
 import { TagColours } from '@/lib/styleHelpers/colours';
 import {
+  getArrowColour,
   getTrendColour,
   getTrendConditionColours,
 } from '@/components/molecules/TrendTag/trendTagConfig';
@@ -99,6 +100,9 @@ export const mapTrendResponse = (
 export const TrendTag = ({ trendFromResponse }: Readonly<TagProps>) => {
   const { trend, trendCondition } = mapTrendResponse(trendFromResponse);
   const arrowDirection = arrowDirectionMap[trend];
+  const trendTextAndArrowColour = arrowDirection
+    ? getArrowColour(trend, trendCondition)
+    : undefined;
   const trendMessage =
     trend === Trend.NO_SIGNIFICANT_CHANGE || trend === Trend.NOT_AVAILABLE
       ? trend
@@ -110,7 +114,10 @@ export const TrendTag = ({ trendFromResponse }: Readonly<TagProps>) => {
         <StyledDivContainer data-testid="trend-tag-component">
           {arrowDirection ? (
             <div>
-              <Arrow direction={arrowDirection} />
+              <Arrow
+                direction={arrowDirection}
+                strokeColour={trendTextAndArrowColour}
+              />
             </div>
           ) : null}
           <div>

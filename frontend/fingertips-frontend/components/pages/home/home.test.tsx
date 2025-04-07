@@ -3,6 +3,8 @@ import { Home } from '@/components/pages/home/index';
 import { SearchFormState } from '@/components/forms/SearchForm/searchActions';
 import { expect } from '@jest/globals';
 import { userEvent } from '@testing-library/user-event';
+import { LoaderContext } from '@/context/LoaderContext';
+import { SearchStateContext } from '@/context/SearchStateContext';
 
 const initialState: SearchFormState = {
   indicator: '',
@@ -16,9 +18,29 @@ jest.mock('next/navigation', () => ({
     push: jest.fn(),
     set: jest.fn(),
   }),
-  useSearchParams: jest.fn().mockReturnValue(new URLSearchParams()),
+  useSearchParams: jest.fn(),
   usePathname: jest.fn(),
 }));
+
+const mockLoaderContext: LoaderContext = {
+  getIsLoading: jest.fn(),
+  setIsLoading: jest.fn(),
+};
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoadingState: () => mockLoaderContext,
+  };
+});
+
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: jest.fn(),
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
+  };
+});
 
 const setupUI = (state?: SearchFormState) => {
   if (!state) {
@@ -27,9 +49,8 @@ const setupUI = (state?: SearchFormState) => {
   return render(<Home initialFormState={state} />);
 };
 
-it('snapshot test - renders the homepage', () => {
-  const container = setupUI();
-  expect(container.asFragment()).toMatchSnapshot();
+afterEach(() => {
+  jest.clearAllMocks();
 });
 
 it('should render an indicator link', () => {

@@ -14,4 +14,6 @@ public class AgeDimensionModel
     public short AgeID { get; set; }
 
     public bool HasValue { get; set; }
+
+    public bool IsAggregate { get; set; }
 }

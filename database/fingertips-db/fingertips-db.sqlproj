@@ -14,6 +14,7 @@
     <Folder Include="Tables" />
     <Folder Include="Scripts\" />
     <Folder Include="Security\" />
+    <Folder Include="StoredProcedures" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="PostDeployment\PopulateFingertips.sql" />
@@ -29,6 +30,7 @@
     <Build Include="Tables\Areas.sql" />
     <Build Include="Tables\AreaRelationships.sql" />
     <Build Include="Tables\AreaTypes.sql" />
+    <Build Include="StoredProcedures\GetIndicatorDataWithQuintileBenchmarkComparison.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="BlobStorageLocation">

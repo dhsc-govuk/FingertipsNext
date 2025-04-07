@@ -1,25 +1,17 @@
-export enum BenchmarkLabelType {
-  HIGHER = 'Higher',
-  LOWER = 'Lower',
-  BETTER = 'Better',
-  SIMILAR = 'Similar',
-  LOWEST = 'Lowest',
-  LOW = 'Low',
-  MIDDLE = 'Middle',
-  HIGH = 'High',
-  HIGHEST = 'Highest',
-  WORST = 'Worst',
-  WORSE = 'Worse',
-  BEST = 'Best',
-  NOT_COMPARED = 'Not compared',
-}
+import {
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
+} from '@/generated-sources/ft-api-client';
 
 export type BenchmarkLabelGroupConfig = Partial<
-  Record<BenchmarkLabelGroupType, BenchmarkLabelConfig>
+  Record<BenchmarkComparisonMethod, BenchmarkLabelConfig>
 >;
 
 export type BenchmarkLabelConfig = Partial<
-  Record<BenchmarkLabelType | 'default', BenchmarkLabelTypeConfig>
+  Record<
+    BenchmarkOutcome | 'default' | 'middleWithJudgement',
+    BenchmarkLabelTypeConfig
+  >
 >;
 
 export interface BenchmarkLabelTypeConfig {
@@ -27,13 +19,4 @@ export interface BenchmarkLabelTypeConfig {
   color?: string;
   border?: string;
   tint?: string;
-}
-
-export const enum BenchmarkLabelGroupType {
-  RAG = 'rag',
-  RAG_99 = 'rag_99',
-  BOB = 'bob',
-  BOB_99 = 'bob_99',
-  QUINTILES = 'quintiles',
-  QUINTILES_WITH_JUDGEMENT = 'quintiles_with_judgement',
 }

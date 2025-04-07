@@ -37,6 +37,12 @@ export interface DeprivationData {
      * @memberof DeprivationData
      */
     type: string;
+    /**
+     * Indicates if the datapoint is an aggregated value for the deprivation dimension.
+     * @type {boolean}
+     * @memberof DeprivationData
+     */
+    isAggregate: boolean;
 }
 
 /**
@@ -46,6 +52,7 @@ export function instanceOfDeprivationData(value: object): value is DeprivationDa
     if (!('sequence' in value) || value['sequence'] === undefined) return false;
     if (!('value' in value) || value['value'] === undefined) return false;
     if (!('type' in value) || value['type'] === undefined) return false;
+    if (!('isAggregate' in value) || value['isAggregate'] === undefined) return false;
     return true;
 }
 
@@ -62,6 +69,7 @@ export function DeprivationDataFromJSONTyped(json: any, ignoreDiscriminator: boo
         'sequence': json['sequence'],
         'value': json['value'],
         'type': json['type'],
+        'isAggregate': json['isAggregate'],
     };
 }
 
@@ -79,6 +87,7 @@ export function DeprivationDataToJSONTyped(value?: DeprivationData | null, ignor
         'sequence': value['sequence'],
         'value': value['value'],
         'type': value['type'],
+        'isAggregate': value['isAggregate'],
     };
 }
 

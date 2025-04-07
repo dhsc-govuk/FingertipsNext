@@ -112,7 +112,7 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
             sortable: false,
             filterable: false,
           },
-        ]
+        ],
       },
       {
         name: IndicatorSearchIndexColumnNames.INDICATOR_HAS_INEQUALITIES,

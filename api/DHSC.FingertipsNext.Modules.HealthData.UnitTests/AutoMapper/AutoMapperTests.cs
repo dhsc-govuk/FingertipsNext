@@ -20,8 +20,8 @@ public class AutoMapperTests
 
     private static HealthDataPoint BuildHealthDataPoint(
         int year,
-        string ageBand,
-        string sex,
+        Age ageBand,
+        Sex sex,
         string trend,
         Deprivation deprivation,
         float count = 1,
@@ -49,26 +49,44 @@ public class AutoMapperTests
         Mapper_ShouldMapAHealthMeasure_ToAHealthDataPoint()
     {
         // arrange
-        const string expectedAgeBand = "25-31";
-        const string expectedSex = "Female";
+        var expectedAgeBand = new Age
+        {
+            Value = "25-31",
+            IsAggregate = false
+        };
+        var expectedSex = new Sex
+        {
+            Value = "Female",
+            IsAggregate = false
+        };
         const string expectedTrend = "Not yet calculated";
         var expectedDeprivation = new Deprivation
         {
             Value = "Most deprived decile",
             Sequence = 1,
-            Type = "County & UA deprivation deciles in England"
+            Type = "County & UA deprivation deciles in England",
+            IsAggregate = false
         };
 
         var healthMeasure = new HealthMeasureModelHelper(year: 2007, isAggregate: false)
-            .WithAgeDimension(name: expectedAgeBand)
-            .WithSexDimension(name: expectedSex)
+            .WithAgeDimension(new AgeDimensionModel
+            {
+                Name = "25-31",
+                IsAggregate = false
+            })
+            .WithSexDimension(new SexDimensionModel
+            {
+                Name = "Female",
+                IsAggregate = false
+            })
             .WithDeprivationDimension(new DeprivationDimensionModel
             {
                 DeprivationKey = 1,
                 Name = "Most deprived decile",
                 Sequence = 1,
                 Type = "County & UA deprivation deciles in England",
-                HasValue = true
+                HasValue = true,
+                IsAggregate = false
             }).Build();
 
         var expectedHealthData = BuildHealthDataPoint(
@@ -82,6 +100,54 @@ public class AutoMapperTests
     }
 
     [Fact]
+    public void Mapper_ShouldMapAnAgeDimensionModel_ToAnAge()
+    {
+        // Arrange
+        var expectedAge = new Age
+        {
+            Value = "20-25",
+            IsAggregate = false
+        };
+
+        var ageDimension = new AgeDimensionModel
+        {
+            Name = "20-25",
+            HasValue = true,
+            IsAggregate = false
+        };
+
+        // Act
+        var actual = _mapper.Map<Age>(ageDimension);
+
+        // Assert
+        actual.ShouldBeEquivalentTo(expectedAge);
+    }
+
+    [Fact]
+    public void Mapper_ShouldMapASexDimensionModel_ToASex()
+    {
+        // Arrange
+        var expectedSex = new Sex
+        {
+            Value = "Female",
+            IsAggregate = false
+        };
+
+        var sexDimension = new SexDimensionModel
+        {
+            Name = "Female",
+            HasValue = true,
+            IsAggregate = false
+        };
+
+        // Act
+        var actual = _mapper.Map<Sex>(sexDimension);
+
+        // Assert
+        actual.ShouldBeEquivalentTo(expectedSex);
+    }
+
+    [Fact]
     public void Mapper_ShouldMapADeprivationDimensionModel_ToADeprivation()
     {
         // Arrange
@@ -89,7 +155,8 @@ public class AutoMapperTests
         {
             Value = "Most deprived decile",
             Sequence = 1,
-            Type = "County & UA deprivation deciles in England"
+            Type = "County & UA deprivation deciles in England",
+            IsAggregate = true
         };
 
         var deprivationDimension = new DeprivationDimensionModel
@@ -98,7 +165,8 @@ public class AutoMapperTests
             Name = "Most deprived decile",
             Sequence = 1,
             Type = "County & UA deprivation deciles in England",
-            HasValue = true
+            HasValue = true,
+            IsAggregate = true
         };
 
         // Act

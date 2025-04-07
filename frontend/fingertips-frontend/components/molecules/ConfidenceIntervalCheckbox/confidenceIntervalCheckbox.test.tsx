@@ -17,9 +17,8 @@ describe('ConfidenceIntervalCheckbox', () => {
     expect(screen.getByRole('checkbox')).toBeChecked();
   });
 
-  it('should call setShowConfidenceIntervalsData when the checkbox is clicked', async () => {
+  it('should show the confidenceIntervalSelected state when checkbox is checked', async () => {
     const setShowConfidenceIntervalsDataMock = jest.fn();
-
     render(
       <ConfidenceIntervalCheckbox
         chartName="example chart"
@@ -27,8 +26,26 @@ describe('ConfidenceIntervalCheckbox', () => {
         setShowConfidenceIntervalsData={setShowConfidenceIntervalsDataMock}
       />
     );
+    await userEvent.click(screen.getByRole('checkbox'));
+    expect(screen.getByRole('checkbox')).toBeChecked();
+
+    expect(setShowConfidenceIntervalsDataMock).toHaveBeenCalledWith(true);
+  });
+
+  it('should hide the confidenceIntervalSelected state when checkbox is un-checked', async () => {
+    const setShowConfidenceIntervalsDataMock = jest.fn();
+
+    render(
+      <ConfidenceIntervalCheckbox
+        chartName="example chart"
+        showConfidenceIntervalsData={true}
+        setShowConfidenceIntervalsData={setShowConfidenceIntervalsDataMock}
+      />
+    );
 
     await userEvent.click(screen.getByRole('checkbox'));
-    expect(setShowConfidenceIntervalsDataMock).toBeCalled();
+    expect(screen.getByRole('checkbox')).not.toBeChecked();
+
+    expect(setShowConfidenceIntervalsDataMock).toHaveBeenCalledWith(false);
   });
 });

@@ -320,9 +320,14 @@ FROM
                     child.IsDirect = area.Level == value.Level - 1 && area.HierarchyType == value.HierarchyType;
             }
             if (area.AreaCode == "E92000001") //England
-                allChildren = areas.Values.Where(a => a.Level == 1).Select(a => new AreaRelation { AreaCode = a.AreaCode, IsDirect = true }).ToList();
+                allChildren = areas.Values
+                    .Where(a => a.Level == 1)
+                    .Select(a => new AreaRelation { AreaCode = a.AreaCode, IsDirect = true })
+                    .ToList();
 
-            return allChildren.Where(x => x.IsDirect).ToList();
+            return allChildren
+                .Where(x => x.IsDirect)
+                .ToList();
         }
         
 
@@ -348,7 +353,7 @@ FROM
         }
     }
 
-    class AreaMap
+    record AreaMap
     {
         public string OriginalAreaType { get; set; }
 
@@ -359,26 +364,26 @@ FROM
         public string HierarchyType{get;set; }
     }
 
-    public class IndicatorArea
+    public record IndicatorArea
     {
         public int IndicatorId { get; set; }
         public string AreaCode { get; set; }
     }
 
-    public class IndicatorPolarity
+    public record IndicatorPolarity
     {
         public int IndicatorId { get; set; }
         public string Polarity { get; set; }
     }
 
-    public class IndicatorBenchmark
+    public record IndicatorBenchmark
     {
         public int IndicatorId { get; set; }
         public int ComparatorMethodID { get; set; }
         public string ShortName { get; set; }
     }
 
-    public class ParentChildAreaCode
+    public record ParentChildAreaCode
     {
         public string ParentAreaCode { get; set; }
         public string ChildAreaCode { get; set; }

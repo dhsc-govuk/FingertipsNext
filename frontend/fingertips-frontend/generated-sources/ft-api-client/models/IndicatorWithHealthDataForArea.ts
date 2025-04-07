@@ -42,23 +42,17 @@ import {
  */
 export interface IndicatorWithHealthDataForArea {
     /**
+     * Unique ID of the indicator
+     * @type {number}
+     * @memberof IndicatorWithHealthDataForArea
+     */
+    indicatorId?: number;
+    /**
      * Name of the indicator
      * @type {string}
      * @memberof IndicatorWithHealthDataForArea
      */
     name?: string;
-    /**
-     * start date of the indicator
-     * @type {string}
-     * @memberof IndicatorWithHealthDataForArea
-     */
-    startDate?: string;
-    /**
-     * end date of the indicator
-     * @type {string}
-     * @memberof IndicatorWithHealthDataForArea
-     */
-    endDate?: string;
     /**
      * 
      * @type {IndicatorPolarity}
@@ -98,9 +92,8 @@ export function IndicatorWithHealthDataForAreaFromJSONTyped(json: any, ignoreDis
     }
     return {
         
+        'indicatorId': json['indicatorId'] == null ? undefined : json['indicatorId'],
         'name': json['name'] == null ? undefined : json['name'],
-        'startDate': json['startDate'] == null ? undefined : json['startDate'],
-        'endDate': json['endDate'] == null ? undefined : json['endDate'],
         'polarity': json['polarity'] == null ? undefined : IndicatorPolarityFromJSON(json['polarity']),
         'benchmarkMethod': json['benchmarkMethod'] == null ? undefined : BenchmarkComparisonMethodFromJSON(json['benchmarkMethod']),
         'areaHealthData': json['areaHealthData'] == null ? undefined : ((json['areaHealthData'] as Array<any>).map(HealthDataForAreaFromJSON)),
@@ -118,9 +111,8 @@ export function IndicatorWithHealthDataForAreaToJSONTyped(value?: IndicatorWithH
 
     return {
         
+        'indicatorId': value['indicatorId'],
         'name': value['name'],
-        'startDate': value['startDate'],
-        'endDate': value['endDate'],
         'polarity': IndicatorPolarityToJSON(value['polarity']),
         'benchmarkMethod': BenchmarkComparisonMethodToJSON(value['benchmarkMethod']),
         'areaHealthData': value['areaHealthData'] == null ? undefined : ((value['areaHealthData'] as Array<any>).map(HealthDataForAreaToJSON)),

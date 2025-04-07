@@ -2,6 +2,8 @@ import { render, screen } from '@testing-library/react';
 import { AreaFilterPane } from '.';
 import { mockAreaDataForNHSRegion } from '@/mock/data/areaData';
 import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
+import { LoaderContext } from '@/context/LoaderContext';
+import { SearchStateContext } from '@/context/SearchStateContext';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -16,6 +18,26 @@ jest.mock('next/navigation', () => {
     useRouter: jest.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
+  };
+});
+
+const mockLoaderContext: LoaderContext = {
+  getIsLoading: jest.fn(),
+  setIsLoading: jest.fn(),
+};
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoadingState: () => mockLoaderContext,
+  };
+});
+
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: jest.fn(),
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
   };
 });
 

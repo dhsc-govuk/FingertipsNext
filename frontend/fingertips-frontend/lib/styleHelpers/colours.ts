@@ -21,6 +21,10 @@ export enum GovukColours {
   Turquoise = '#28A197',
   DarkPink = '#801650',
   OtherLightPurple = '#6F72AF',
+  CharcoalGray = '#3D3D3D',
+  Female = '#5352BE',
+  Male = '#57AEF8',
+  DarkSlateGray = '#D7D7D7',
 }
 
 export enum TagColours {
@@ -50,4 +54,27 @@ export enum QuintileColours {
   MiddleWithValue = '#A44596',
   Better = '#812972',
   Best = '#561950',
+}
+
+export function getTextColour(backgroundColour: string) {
+  switch (backgroundColour) {
+    case GovukColours.Green:
+    case GovukColours.Red:
+    case GovukColours.LightBlue:
+    case GovukColours.DarkBlue:
+    case GovukColours.Blue:
+    case GovukColours.Black:
+
+    case TagColours.DarkRed:
+
+    case QuintileColours.High:
+    case QuintileColours.Highest:
+    case QuintileColours.MiddleWithValue:
+    case QuintileColours.Better:
+    case QuintileColours.Best:
+      return GovukColours.White;
+
+    default:
+      return GovukColours.Black;
+  }
 }

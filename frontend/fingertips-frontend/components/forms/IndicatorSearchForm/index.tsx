@@ -3,7 +3,9 @@ import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
 import { IndicatorSearchFormState } from './indicatorSearchActions';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { SearchStateParams } from '@/lib/searchStateManager';
+import { useLoadingState } from '@/context/LoaderContext';
+import { useSearchState } from '@/context/SearchStateContext';
+import { useEffect } from 'react';
 
 const govukErrorBorderWidth = '2px';
 
@@ -21,17 +23,26 @@ const StyledHintParagraph = styled(styled(Paragraph)`
 
 export const IndicatorSearchForm = ({
   indicatorSearchFormState,
-  searchState,
 }: {
   indicatorSearchFormState: IndicatorSearchFormState;
-  searchState?: SearchStateParams;
 }) => {
+  const { setIsLoading } = useLoadingState();
+  const { getSearchState } = useSearchState();
+  const searchState = getSearchState();
+
+  useEffect(() => {
+    if (indicatorSearchFormState.message) {
+      setIsLoading(false);
+    }
+  });
+
   return (
     <FormGroup
       error={indicatorSearchFormState.message !== undefined}
       data-testid="indicator-search-form"
     >
       <input
+        key={`indicator-search-form-state-${JSON.stringify(searchState)}`}
         name="searchState"
         defaultValue={JSON.stringify(searchState)}
         hidden
@@ -68,6 +79,7 @@ export const IndicatorSearchForm = ({
         )}
         {SearchBox.Button && (
           <SearchBox.Button
+            onClick={() => setIsLoading(true)}
             type="submit"
             data-testid="indicator-search-form-submit"
           />

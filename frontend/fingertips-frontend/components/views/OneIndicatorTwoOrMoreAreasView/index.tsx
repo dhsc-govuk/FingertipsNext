@@ -7,13 +7,16 @@ import {
   API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import {
+  allowedAreaTypeMapMetaKeys,
   AreaTypeKeysForMapMeta,
-  getMapData,
-} from '@/lib/thematicMapUtils/getMapData';
-import { chunkArray, maxIndicatorAPIRequestSize } from '@/lib/ViewsHelpers';
+  getMapGeographyData,
+} from '@/components/organisms/ThematicMap/thematicMapHelpers';
+import { chunkArray } from '@/lib/ViewsHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
+import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 
 export default async function OneIndicatorTwoOrMoreAreasView({
   selectedIndicatorsData,
@@ -24,6 +27,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     [SearchParams.IndicatorsSelected]: indicatorSelected,
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
+    [SearchParams.GroupTypeSelected]: selectedGroupType,
     [SearchParams.AreaTypeSelected]: selectedAreaType,
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
   } = stateManager.getSearchState();
@@ -36,33 +40,52 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     throw new Error('Invalid parameters provided to view');
   }
 
-  const areaCodesToRequest = [...areasSelected];
-  if (!areaCodesToRequest.includes(areaCodeForEngland)) {
-    areaCodesToRequest.push(areaCodeForEngland);
-  }
-  if (selectedGroupCode && selectedGroupCode != areaCodeForEngland) {
-    areaCodesToRequest.push(selectedGroupCode);
-  }
-
   await connection();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
-  let healthIndicatorData: HealthDataForArea[] | undefined;
-  try {
-    healthIndicatorData = (
-      await Promise.all(
-        chunkArray(areaCodesToRequest, maxIndicatorAPIRequestSize).map(
-          (requestAreas) =>
-            indicatorApi.getHealthDataForAnIndicator(
-              {
-                indicatorId: Number(indicatorSelected[0]),
-                areaCodes: [...requestAreas],
-              },
-              API_CACHE_CONFIG
-            )
-        )
-      )
+  let indicatorData: IndicatorWithHealthDataForArea | undefined;
+
+  const indicatorRequestArray = chunkArray(areasSelected).map((requestAreas) =>
+    indicatorApi.getHealthDataForAnIndicator(
+      {
+        indicatorId: Number(indicatorSelected[0]),
+        areaCodes: [...requestAreas],
+        areaType: selectedAreaType,
+      },
+      API_CACHE_CONFIG
     )
+  );
+
+  if (!areasSelected.includes(areaCodeForEngland)) {
+    indicatorRequestArray.push(
+      indicatorApi.getHealthDataForAnIndicator(
+        {
+          indicatorId: Number(indicatorSelected[0]),
+          areaCodes: [areaCodeForEngland],
+          areaType: englandAreaType.key,
+        },
+        API_CACHE_CONFIG
+      )
+    );
+  }
+
+  if (selectedGroupCode && selectedGroupCode !== areaCodeForEngland) {
+    indicatorRequestArray.push(
+      indicatorApi.getHealthDataForAnIndicator(
+        {
+          indicatorId: Number(indicatorSelected[0]),
+          areaCodes: [selectedGroupCode],
+          areaType: selectedGroupType,
+        },
+        API_CACHE_CONFIG
+      )
+    );
+  }
+
+  try {
+    const healthIndicatorDataChunks = await Promise.all(indicatorRequestArray);
+    indicatorData = healthIndicatorDataChunks[0];
+    indicatorData.areaHealthData = healthIndicatorDataChunks
       .map((indicatorData) => indicatorData?.areaHealthData ?? [])
       .flat();
   } catch (error) {
@@ -71,18 +94,28 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   }
 
   const indicatorMetadata = selectedIndicatorsData?.[0];
-
-  const mapData =
-    selectedGroupArea === ALL_AREAS_SELECTED && selectedAreaType
-      ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areasSelected)
+  const mapGeographyData =
+    selectedGroupArea === ALL_AREAS_SELECTED &&
+    allowedAreaTypeMapMetaKeys.includes(
+      selectedAreaType as AreaTypeKeysForMapMeta
+    )
+      ? await getMapGeographyData(
+          selectedAreaType as AreaTypeKeysForMapMeta,
+          areasSelected
+        )
       : undefined;
 
   return (
-    <OneIndicatorTwoOrMoreAreasViewPlots
-      healthIndicatorData={healthIndicatorData}
+    <ViewsWrapper
       searchState={searchState}
-      indicatorMetadata={indicatorMetadata}
-      mapData={mapData}
-    />
+      indicatorsDataForAreas={[indicatorData]}
+    >
+      <OneIndicatorTwoOrMoreAreasViewPlots
+        indicatorData={indicatorData}
+        searchState={searchState}
+        indicatorMetadata={indicatorMetadata}
+        mapGeographyData={mapGeographyData}
+      />
+    </ViewsWrapper>
   );
 }

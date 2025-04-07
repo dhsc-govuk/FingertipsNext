@@ -4,7 +4,12 @@ import {
   HealthDataForArea,
   HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
-import { noDeprivation } from '@/lib/mocks';
+import {
+  allAgesAge,
+  disaggregatedAge,
+  noDeprivation,
+  personsSex,
+} from '@/lib/mocks';
 
 describe('BarChartEmbeddedTable', () => {
   const mockHealthIndicatorData: HealthDataForArea[] = [
@@ -18,8 +23,8 @@ describe('BarChartEmbeddedTable', () => {
           value: 890.305692,
           lowerCi: 441.69151,
           upperCi: 578.32766,
-          ageBand: 'All',
-          sex: 'All',
+          ageBand: allAgesAge,
+          sex: personsSex,
           trend: HealthDataPointTrendEnum.CannotBeCalculated,
           deprivation: noDeprivation,
         },
@@ -29,8 +34,8 @@ describe('BarChartEmbeddedTable', () => {
           value: 703.420759,
           lowerCi: 441.69151,
           upperCi: 578.32766,
-          ageBand: 'All',
-          sex: 'All',
+          ageBand: allAgesAge,
+          sex: personsSex,
           trend: HealthDataPointTrendEnum.NotYetCalculated, // Only the latest data point will have a trend calculated
           deprivation: noDeprivation,
         },
@@ -46,8 +51,8 @@ describe('BarChartEmbeddedTable', () => {
           value: 1000,
           lowerCi: 500,
           upperCi: 1500,
-          ageBand: 'All',
-          sex: 'All',
+          ageBand: allAgesAge,
+          sex: personsSex,
           trend: HealthDataPointTrendEnum.CannotBeCalculated,
           deprivation: noDeprivation,
         },
@@ -57,8 +62,8 @@ describe('BarChartEmbeddedTable', () => {
           value: 1000,
           lowerCi: 500,
           upperCi: 1500,
-          ageBand: 'All',
-          sex: 'All',
+          ageBand: allAgesAge,
+          sex: personsSex,
           trend: HealthDataPointTrendEnum.NotYetCalculated,
           deprivation: noDeprivation,
         },
@@ -74,8 +79,8 @@ describe('BarChartEmbeddedTable', () => {
           value: 723.090354,
           lowerCi: 441.69151,
           upperCi: 578.32766,
-          ageBand: 'All',
-          sex: 'Persons',
+          ageBand: allAgesAge,
+          sex: personsSex,
           trend: HealthDataPointTrendEnum.NotYetCalculated,
           deprivation: noDeprivation,
         },
@@ -85,8 +90,8 @@ describe('BarChartEmbeddedTable', () => {
           value: 905.145997,
           lowerCi: 441.69151,
           upperCi: 578.32766,
-          ageBand: 'All',
-          sex: 'Persons',
+          ageBand: allAgesAge,
+          sex: personsSex,
           trend: HealthDataPointTrendEnum.DecreasingAndGettingBetter,
           deprivation: noDeprivation,
         },
@@ -104,8 +109,8 @@ describe('BarChartEmbeddedTable', () => {
         value: 904.874,
         lowerCi: undefined,
         upperCi: undefined,
-        ageBand: '0-4',
-        sex: 'All',
+        ageBand: disaggregatedAge('0-4'),
+        sex: personsSex,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
         deprivation: noDeprivation,
       },
@@ -115,8 +120,8 @@ describe('BarChartEmbeddedTable', () => {
         value: 965.9843,
         lowerCi: undefined,
         upperCi: undefined,
-        ageBand: '10-14',
-        sex: 'All',
+        ageBand: disaggregatedAge('10-14'),
+        sex: personsSex,
         trend: HealthDataPointTrendEnum.DecreasingAndGettingBetter,
         deprivation: noDeprivation,
       },
@@ -133,8 +138,8 @@ describe('BarChartEmbeddedTable', () => {
         value: 1000,
         lowerCi: 500,
         upperCi: 1500,
-        ageBand: 'All',
-        sex: 'All',
+        ageBand: allAgesAge,
+        sex: personsSex,
         trend: HealthDataPointTrendEnum.NoSignificantChange,
         deprivation: noDeprivation,
       },
@@ -144,8 +149,8 @@ describe('BarChartEmbeddedTable', () => {
         value: 1000,
         lowerCi: 500,
         upperCi: 1500,
-        ageBand: 'All',
-        sex: 'All',
+        ageBand: allAgesAge,
+        sex: personsSex,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
         deprivation: noDeprivation,
       },
@@ -261,7 +266,7 @@ describe('BarChartEmbeddedTable', () => {
     expect(noValueCells).toHaveLength(2);
   });
 
-  it('should render the SparklineChart bars for each area displayed in the table', async () => {
+  it('should render the SparklineChart bars for each area displayed in the table and benchmark legend', async () => {
     render(
       <BarChartEmbeddedTable
         healthIndicatorData={mockHealthIndicatorData}
@@ -274,6 +279,7 @@ describe('BarChartEmbeddedTable', () => {
     );
 
     expect(sparkline).toHaveLength(4);
+    expect(screen.getByTestId('benchmarkLegend-component')).toBeInTheDocument();
   });
 
   it('should render the checkbox', async () => {

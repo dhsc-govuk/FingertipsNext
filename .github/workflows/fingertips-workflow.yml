@@ -244,7 +244,7 @@ jobs:
       )
     uses: ./.github/workflows/ui-tests.yml
 
-  e2e-tests-local-docker:
+  e2e-and-api-tests:
     needs: [check-changes]
     if: >
       always() &&
@@ -260,7 +260,7 @@ jobs:
           needs.check-changes.outputs.search_changed == 'true'
         )
       )
-    uses: ./.github/workflows/e2e-tests.yml
+    uses: ./.github/workflows/e2e-and-api-tests.yml
     with:
       playwright-mode: docker
     secrets:
@@ -312,9 +312,9 @@ jobs:
         determine-version,
         check-changes,
         database-build,
-        e2e-tests-local-docker,
+        e2e-and-api-tests,
         push-container-api,
-        push-container-frontend
+        push-container-frontend,
       ]
     environment: development
     runs-on: self-hosted
@@ -411,6 +411,14 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
+      - name: Cache NuGet packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
       - name: Process trends
         env:
           SQLCONNSTR_FINGERTIPS_DB: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
@@ -423,11 +431,7 @@ jobs:
           path: ./trend-analysis/TrendAnalysisApp/SearchData/assets/indicators.json
 
   search-setup-dev:
-    needs: [
-      check-changes,
-      deploy-db-dev,
-      run-trend-analysis-dev
-    ]
+    needs: [check-changes, deploy-db-dev, run-trend-analysis-dev]
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
@@ -508,12 +512,8 @@ jobs:
           AI_SEARCH_API_KEY: ${{ steps.azure-keyvault-secrets.outputs.fingertips-ai-search-api-key }}
 
   deploy-api-dev:
-    needs: [
-      determine-version,
-      check-changes,
-      push-container-api,
-      search-setup-dev
-    ]
+    needs:
+      [determine-version, check-changes, push-container-api, search-setup-dev]
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
@@ -578,12 +578,13 @@ jobs:
       arm-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
 
   deploy-frontend-dev:
-    needs: [
-      determine-version,
-      check-changes,
-      push-container-frontend,
-      deploy-api-dev
-    ]
+    needs:
+      [
+        determine-version,
+        check-changes,
+        push-container-frontend,
+        deploy-api-dev,
+      ]
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
@@ -653,15 +654,16 @@ jobs:
       arm-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
 
   e2e-tests-development:
-    needs: [
-      check-changes,
-      deploy-db-dev,
-      run-trend-analysis-dev,
-      search-setup-dev,
-      deploy-api-dev,
-      deploy-frontend-dev      
-    ]
-    uses: ./.github/workflows/e2e-tests.yml
+    needs:
+      [
+        check-changes,
+        deploy-db-dev,
+        run-trend-analysis-dev,
+        search-setup-dev,
+        deploy-api-dev,
+        deploy-frontend-dev,
+      ]
+    uses: ./.github/workflows/e2e-and-api-tests.yml
     if: >
       always() &&
       contains(needs.*.result, 'success') &&

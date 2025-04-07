@@ -158,4 +158,49 @@ public class AreaServiceTests
     }
     
     #endregion
+
+    #region GetMultipleAreaDetails
+
+    [Fact]
+    public async Task GetMultipleAreaDetails_ShouldReturnedMappedResult_IfRepositoryReturnsAreas()
+    {
+        var fakeAreaWithNoRelationsModel = new List<AreaModel>
+        {
+            Fake.AreaNoRelationsModel,
+            Fake.AreaNoRelationsModel
+        };
+        _mockRepository
+            .GetMultipleAreaDetailsAsync(Arg.Any<string[]>())
+            .Returns(fakeAreaWithNoRelationsModel);
+
+        var result = await _service.GetMultipleAreaDetails(["areaOne", "districtNine"]);
+
+        await _mockRepository.Received(1).GetMultipleAreaDetailsAsync(
+            Arg.Is<string[]>(areaCodes => areaCodes[0] == "areaOne" && areaCodes[1] == "districtNine")
+        );
+        result.Count.ShouldBe(2);
+        result[0].ShouldBeEquivalentTo(
+            _mapper.Map<Schemas.Area>(fakeAreaWithNoRelationsModel[0])
+        );
+        result[1].ShouldBeEquivalentTo(
+            _mapper.Map<Schemas.Area>(fakeAreaWithNoRelationsModel[1])
+        );
+    }
+
+    [Fact]
+    public async Task GetMultipleAreaDetails_ShouldReturnedEmptyList_IfRepositoryReturnsEmpty()
+    {
+        _mockRepository
+            .GetMultipleAreaDetailsAsync(Arg.Any<string[]>())
+            .Returns(new List<AreaModel>{});
+
+        var result = await _service.GetMultipleAreaDetails(["areaOne"]);
+
+        await _mockRepository.Received(1).GetMultipleAreaDetailsAsync(
+            Arg.Is<string[]>(areaCodes => areaCodes[0] == "areaOne")
+        );
+        result.Count.ShouldBe(0);
+    }
+
+    #endregion
 }

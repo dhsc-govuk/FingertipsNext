@@ -1,6 +1,6 @@
 import {
   convertToPercentage,
-  getDisplayedValue,
+  getDisplayValue,
   getNonAvailablePlaceHolder,
 } from '.';
 
@@ -37,12 +37,12 @@ describe('table helpers suite', () => {
   describe('getDisplayedValue', () => {
     it('should display value when available', () => {
       const value = 5;
-      expect(getDisplayedValue(value)).toBe(value);
+      expect(getDisplayValue(value)).toBe('5.0');
     });
 
     it('should return X when value not available', () => {
       const value = undefined;
-      expect(getDisplayedValue(value)).toHaveProperty(
+      expect(getDisplayValue(value)).toHaveProperty(
         'props',
         expect.objectContaining({
           'aria-label': 'Not available',

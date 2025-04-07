@@ -4,8 +4,9 @@ import React, { useEffect, useState, useRef } from 'react';
 import { AreaSearchInputField } from '@/components/molecules/AreaSearchInputField';
 import { AreaAutoCompleteSuggestionPanel } from '@/components/molecules/AreaSuggestionPanel';
 import styled from 'styled-components';
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { SearchParams } from '@/lib/searchStateManager';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import { useSearchState } from '@/context/SearchStateContext';
 
 const MIN_SEARCH_SIZE = 3;
 const DEBOUNCE_SEARCH_DELAY = 300;
@@ -17,15 +18,16 @@ const StyleAreaAutoCompleteInputField = styled('div')({
 
 interface AreaAutoCompleteInputFieldProps {
   inputFieldErrorStatus: boolean;
-  searchState?: SearchStateParams;
   selectedAreaName?: string;
 }
 
 export function AreaAutoCompleteInputField({
-  searchState,
   inputFieldErrorStatus = false,
   selectedAreaName,
 }: Readonly<AreaAutoCompleteInputFieldProps>) {
+  const { getSearchState } = useSearchState();
+  const searchState = getSearchState();
+
   const selectedAreasParams = searchState?.[SearchParams.AreasSelected];
 
   const [criteria, setCriteria] = useState<string>();
@@ -86,7 +88,6 @@ export function AreaAutoCompleteInputField({
       <AreaAutoCompleteSuggestionPanel
         suggestedAreas={searchAreas}
         searchHint={criteria ?? ''}
-        searchState={searchState}
       />
     </StyleAreaAutoCompleteInputField>
   );

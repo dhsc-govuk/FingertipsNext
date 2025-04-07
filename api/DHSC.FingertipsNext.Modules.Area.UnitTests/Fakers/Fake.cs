@@ -10,4 +10,7 @@ public static class Fake
 
     public static AreaWithRelationsModel AreaWithRelationsModel =>
         new AreaWithRelationsModelFaker().Generate();
+
+    public static AreaModel AreaNoRelationsModel =>
+        new AreaNoRelationsModelFaker().Generate();
 }

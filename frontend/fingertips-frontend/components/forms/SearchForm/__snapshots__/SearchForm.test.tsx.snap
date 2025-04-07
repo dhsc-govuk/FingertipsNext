@@ -740,6 +740,7 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
     </div>
     <details
       class="c8 c9"
+      data-testid="select-areas-filter-panel-label"
     >
       <summary
         class="c10 c11"
@@ -784,6 +785,7 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
           </label>
           <label
             class="c1 c14"
+            data-testid="group-selector-container"
           >
             <span
               class="c3"
@@ -818,6 +820,7 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
             <hr
               class="c23 c24"
             />
+            <div />
           </div>
         </div>
       </div>

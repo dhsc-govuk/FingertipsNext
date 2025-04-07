@@ -2,15 +2,15 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { IndicatorSelectedPill } from '../IndicatorSelectedPill';
 import styled from 'styled-components';
 import { Button, LabelText, SectionBreak } from 'govuk-react';
-import {
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
+import { SearchStateManager } from '@/lib/searchStateManager';
 import { useRouter } from 'next/navigation';
+import { useLoadingState } from '@/context/LoaderContext';
+import { useSearchState } from '@/context/SearchStateContext';
 
 interface SelectedIndicatorsPanelProps {
   selectedIndicatorsData: IndicatorDocument[];
-  searchState?: SearchStateParams;
+  isFullWidth?: boolean;
+  isViewOnly?: boolean;
 }
 
 const StyledFilterSelectedIndicatorDiv = styled('div')({
@@ -28,30 +28,45 @@ const StyledButtonLink = styled(Button)({
 
 export function SelectedIndicatorsPanel({
   selectedIndicatorsData,
-  searchState,
+  isViewOnly,
+  isFullWidth = true,
 }: Readonly<SelectedIndicatorsPanelProps>) {
   const { replace } = useRouter();
+  const { setIsLoading } = useLoadingState();
+  const { getSearchState } = useSearchState();
+  const searchState = getSearchState();
+
   const stateManager = SearchStateManager.initialise(searchState);
 
   const addOrChangeIndicatorClick = () => {
+    setIsLoading(true);
+
     replace(stateManager.generatePath('/results'));
   };
 
   return (
     <StyledFilterSelectedIndicatorDiv data-testid="selected-indicators-panel">
-      <StyledFilterLabel>Selected indicators</StyledFilterLabel>
+      <StyledFilterLabel>
+        {`Selected indicators (${selectedIndicatorsData?.length})`}
+      </StyledFilterLabel>
+
       {selectedIndicatorsData.map((indicator) => (
         <IndicatorSelectedPill
           key={indicator.indicatorID}
           indicator={indicator}
-          isFullWidth={true}
-          searchState={searchState}
+          isFullWidth={isFullWidth}
         />
       ))}
-      <StyledButtonLink onClick={addOrChangeIndicatorClick}>
-        Add or change indicators
-      </StyledButtonLink>
-      <SectionBreak visible={true} />
+
+      {isViewOnly ? null : (
+        <>
+          <StyledButtonLink onClick={addOrChangeIndicatorClick}>
+            Add or change indicators
+          </StyledButtonLink>
+
+          <SectionBreak visible={true} />
+        </>
+      )}
     </StyledFilterSelectedIndicatorDiv>
   );
 }

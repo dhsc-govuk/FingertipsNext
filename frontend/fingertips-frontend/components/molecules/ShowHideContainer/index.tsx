@@ -47,6 +47,8 @@ export function ShowHideContainer({
 }: Readonly<ShowHideContainerProps>) {
   return (
     <StyledFilterDetails
+      key={`select-areas-filter-panel-label-${open}`}
+      data-testid="select-areas-filter-panel-label"
       summary={summary}
       showSideBar={showSideBarWhenOpen}
       open={open}

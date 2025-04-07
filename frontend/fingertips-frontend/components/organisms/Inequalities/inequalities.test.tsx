@@ -3,6 +3,7 @@ import { expect } from '@jest/globals';
 import { Inequalities } from '.';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { SearchStateContext } from '@/context/SearchStateContext';
 
 const state: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'testing',
@@ -10,8 +11,39 @@ const state: SearchStateParams = {
   [SearchParams.AreasSelected]: ['A1245'],
 };
 
+const mockGetSearchState = jest.fn();
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: mockGetSearchState,
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
+  };
+});
+
+const mockPath = 'some-mock-path';
+const mockReplace = jest.fn();
+
+jest.mock('next/navigation', () => {
+  const originalModule = jest.requireActual('next/navigation');
+
+  return {
+    ...originalModule,
+    usePathname: () => mockPath,
+    useSearchParams: () => {},
+    useRouter: jest.fn().mockImplementation(() => ({
+      replace: mockReplace,
+    })),
+  };
+});
+
 describe('Inequalities suite', () => {
-  it('should render inequalities component', () => {
+  beforeEach(() => {
+    mockGetSearchState.mockReturnValue(state);
+  });
+
+  it('should render inequalities component', async () => {
     render(
       <Inequalities
         healthIndicatorData={MOCK_HEALTH_DATA[1]}
@@ -24,13 +56,13 @@ describe('Inequalities suite', () => {
       screen.getByTestId('inequalitiesLineChartTable-component')
     ).toBeInTheDocument();
     expect(
-      screen.getByTestId('inequalitiesLineChart-component')
+      await screen.findByTestId('inequalitiesLineChart-component')
     ).toBeInTheDocument();
     expect(
       screen.getByTestId('inequalitiesBarChartTable-component')
     ).toBeInTheDocument();
     expect(
-      screen.getByTestId('inequalitiesBarChart-component')
+      await screen.findByTestId('inequalitiesBarChart-component')
     ).toBeInTheDocument();
     expect(
       screen.getByTestId('tabContainer-inequalitiesLineChartAndTable')

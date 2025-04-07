@@ -25,6 +25,24 @@ describe('Arrow Suite', () => {
     expect(screen.getByTestId('arrow-down')).toBeInTheDocument();
   });
 
+  it('should use the default stroke colour when not provided', () => {
+    const defaultColour = '#000000';
+
+    render(<Arrow direction={Direction.DOWN} />);
+    expect(screen.getByTestId('arrow-icon').getAttribute('stroke')).toEqual(
+      defaultColour
+    );
+  });
+
+  it('should use the stroke colour provided by client when present', () => {
+    const requestedColour = '#270D0B';
+
+    render(<Arrow direction={Direction.DOWN} strokeColour={requestedColour} />);
+    expect(screen.getByTestId('arrow-icon').getAttribute('stroke')).toEqual(
+      requestedColour
+    );
+  });
+
   it('snapshot test', () => {
     const container = render(<Arrow direction={Direction.UP} />);
 

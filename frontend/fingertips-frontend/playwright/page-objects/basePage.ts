@@ -1,6 +1,7 @@
-import type { Page as PlaywrightPage } from 'playwright-core';
+import type { Locator, Page as PlaywrightPage } from 'playwright-core';
 import AxeBuilder from '@axe-core/playwright';
 import { expect } from './pageFactory';
+import { SearchMode } from '../testHelpers';
 
 export default class BasePage {
   readonly errorPageTitleHeaderId = 'error-page-title';
@@ -8,7 +9,92 @@ export default class BasePage {
   constructor(public readonly page: PlaywrightPage) {}
 
   async waitForURLToContain(containsURL: string) {
-    await this.page.waitForURL(new RegExp(containsURL));
+    await this.page.waitForURL(new RegExp(containsURL, 'i'));
+  }
+
+  async waitForURLToContainBasedOnSearchMode(
+    searchMode: SearchMode,
+    subjectSearchTerm: string,
+    areaSearchCode: string
+  ) {
+    if (searchMode === SearchMode.ONLY_SUBJECT) {
+      this.waitForURLToContain(subjectSearchTerm);
+    }
+    if (searchMode === SearchMode.BOTH_SUBJECT_AND_AREA) {
+      this.waitForURLToContain(subjectSearchTerm);
+      this.waitForURLToContain(areaSearchCode);
+    }
+    if (searchMode === SearchMode.ONLY_AREA) {
+      this.waitForURLToContain(areaSearchCode);
+    }
+  }
+
+  async clickAndWaitForLoadState(locator: Locator) {
+    await this.page.waitForLoadState();
+
+    await locator.click();
+
+    await this.page.waitForLoadState();
+  }
+
+  async clickAndAwaitLoadingComplete(locator: Locator) {
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
+
+    await locator.click();
+
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
+  }
+
+  async checkAndAwaitLoadingComplete(locator: Locator) {
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
+
+    await locator.check();
+
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
+  }
+
+  async uncheckAndAwaitLoadingComplete(locator: Locator) {
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
+
+    await locator.uncheck();
+
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
+  }
+
+  async fillAndAwaitLoadingComplete(locator: Locator, value: string) {
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
+
+    await locator.fill(value);
+
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
+  }
+
+  async clearAndAwaitLoadingComplete(locator: Locator) {
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
+
+    await locator.clear();
+
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
+  }
+
+  async selectOptionAndAwaitLoadingComplete(locator: Locator, option: string) {
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
+
+    await locator.selectOption(option);
+
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
   }
 
   async expectNoAccessibilityViolations(

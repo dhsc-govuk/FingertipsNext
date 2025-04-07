@@ -12,4 +12,6 @@ public class SexDimensionModel
     public string Name { get; set; }
 
     public bool HasValue { get; set; }
+
+    public bool IsAggregate { get; set; }
 }

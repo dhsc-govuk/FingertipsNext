@@ -2,6 +2,7 @@ import { Table } from 'govuk-react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import { GovukColours } from '../styleHelpers/colours';
+import { formatNumber } from '@/lib/numberFormatter';
 
 export const StyledTableCellHeader = styled(Table.CellHeader)(
   typography.font({ size: 16 }),
@@ -20,7 +21,7 @@ export const StyledAlignRightHeader = styled(StyledTableCellHeader)({
 export const StyledGreyHeader = styled(StyledAlignRightHeader)({
   backgroundColor: GovukColours.MidGrey,
   borderTop: `solid #F3F2F1 2px`,
-  width: '16%',
+  verticalAlign: 'top',
 });
 
 export const StyledTableCell = styled(Table.Cell)(
@@ -59,12 +60,12 @@ export const StyledDiv = styled('div')({
 // When value is undefined, it returns an X with an aria-label for screen readers.
 export const convertToPercentage = (value?: number) => {
   return value
-    ? `${((value / 10000) * 100).toFixed(1)}%`
+    ? `${formatNumber((value / 10000) * 100)}%`
     : getNonAvailablePlaceHolder();
 };
 
-export const getDisplayedValue = (value?: number) => {
-  return value ?? getNonAvailablePlaceHolder();
+export const getDisplayValue = (value?: number) => {
+  return value ? formatNumber(value) : getNonAvailablePlaceHolder();
 };
 
 export const getNonAvailablePlaceHolder = () => {

@@ -1,8 +1,10 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using DHSC.FingertipsNext.Modules.Area.Schemas;
+using DHSC.FingertipsNext.Modules.Common.Schemas;
 using DHSC.FingertipsNext.Modules.Area.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace DHSC.FingertipsNext.Modules.Area.Controllers.V1;
 
@@ -14,12 +16,49 @@ namespace DHSC.FingertipsNext.Modules.Area.Controllers.V1;
 public class AreaController : ControllerBase
 {
     private readonly IAreaService _areaService;
+    private const int MaxNumberAreas = 100;
 
     /// <summary>
     ///
     /// </summary>
     /// <param name="areaService"></param>
     public AreaController(IAreaService areaService) => _areaService = areaService;
+
+    /// <summary>
+    /// Gets the details of each area requested by the client.
+    /// </summary>
+    /// <param name="areaCodes">A list of area codes provided in the query params</param>
+    /// <returns>The corresponding area data for the list of area codes provided</returns>
+    /// <remarks>
+    /// If no area codes are provided then a client error response is returned.
+    /// </remarks>
+    [HttpGet]
+    [ProducesResponseType(typeof(List<Schemas.Area>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(SimpleError), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetMultipleAreaDetailsAsync(
+        [FromQuery(Name = "area_codes")] string[]? areaCodes = null
+    )
+    {
+        if (areaCodes == null || areaCodes.Length == 0)
+            return new BadRequestObjectResult(new SimpleError
+            {
+                Message = "Please provide at least one value for the parameter area_codes"
+            });
+
+        if (areaCodes is {Length: > MaxNumberAreas})
+            return new BadRequestObjectResult(new SimpleError
+            {
+                Message =
+                    $"Too many values supplied for parameter area_codes. The maximum is {MaxNumberAreas} but {areaCodes.Length} supplied."
+            });
+
+        var areasData = await _areaService.GetMultipleAreaDetails(areaCodes);
+
+        if (areasData.IsNullOrEmpty()) return NotFound();
+
+        return Ok(areasData);
+    }
 
     /// <summary>
     /// Get all available hierarchy types

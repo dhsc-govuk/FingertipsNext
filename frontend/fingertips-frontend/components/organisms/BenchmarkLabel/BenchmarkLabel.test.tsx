@@ -1,17 +1,20 @@
 import { render } from '@testing-library/react';
 import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel/index';
 import { QuintileColours } from '@/lib/styleHelpers/colours';
-import {
-  BenchmarkLabelGroupType,
-  BenchmarkLabelType,
-} from './BenchmarkLabelTypes';
+
 import { getBenchmarkTagStyle } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelConfig';
+import {
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
 
 describe('testing the function getBenchmarkLegendColourStyle', () => {
   test.each([
     [
-      BenchmarkLabelGroupType.RAG,
-      BenchmarkLabelType.BETTER,
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      BenchmarkOutcome.Better,
+      IndicatorPolarity.HighIsGood,
       {
         backgroundColor: '#00703C',
         tint: 'SOLID',
@@ -19,8 +22,9 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
     ],
 
     [
-      BenchmarkLabelGroupType.RAG,
-      BenchmarkLabelType.SIMILAR,
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      BenchmarkOutcome.Similar,
+      IndicatorPolarity.HighIsGood,
       {
         backgroundColor: '#FFDD00',
         color: '#0B0C0C',
@@ -28,32 +32,36 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
     ],
 
     [
-      BenchmarkLabelGroupType.RAG,
-      BenchmarkLabelType.WORSE,
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      BenchmarkOutcome.Worse,
+      IndicatorPolarity.HighIsGood,
       {
         backgroundColor: '#D4351C',
         tint: 'SOLID',
       },
     ],
     [
-      BenchmarkLabelGroupType.BOB,
-      BenchmarkLabelType.LOWER,
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      BenchmarkOutcome.Lower,
+      IndicatorPolarity.NoJudgement,
       {
         backgroundColor: '#5694CA',
       },
     ],
 
     [
-      BenchmarkLabelGroupType.BOB,
-      BenchmarkLabelType.HIGHER,
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      BenchmarkOutcome.Higher,
+      IndicatorPolarity.NoJudgement,
       {
         backgroundColor: '#003078',
         tint: 'SOLID',
       },
     ],
     [
-      BenchmarkLabelGroupType.RAG,
-      BenchmarkLabelType.NOT_COMPARED,
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      BenchmarkOutcome.NotCompared,
+      IndicatorPolarity.Unknown,
       {
         backgroundColor: 'transparent',
         color: '#0B0C0C',
@@ -61,91 +69,102 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       },
     ],
     [
-      BenchmarkLabelGroupType.QUINTILES,
-      BenchmarkLabelType.LOWEST,
+      BenchmarkComparisonMethod.Quintiles,
+      BenchmarkOutcome.Lowest,
+      IndicatorPolarity.NoJudgement,
       {
         backgroundColor: QuintileColours.Lowest,
         color: '#0B0C0C',
       },
     ],
     [
-      BenchmarkLabelGroupType.QUINTILES,
-      BenchmarkLabelType.LOW,
+      BenchmarkComparisonMethod.Quintiles,
+      BenchmarkOutcome.Low,
+      IndicatorPolarity.NoJudgement,
       {
         backgroundColor: '#CBBEF4',
         color: '#0B0C0C',
       },
     ],
     [
-      BenchmarkLabelGroupType.QUINTILES,
-      BenchmarkLabelType.MIDDLE,
+      BenchmarkComparisonMethod.Quintiles,
+      BenchmarkOutcome.Middle,
+      IndicatorPolarity.NoJudgement,
       {
         backgroundColor: '#AA90EC',
         color: '#0B0C0C',
       },
     ],
     [
-      BenchmarkLabelGroupType.QUINTILES,
-      BenchmarkLabelType.HIGH,
+      BenchmarkComparisonMethod.Quintiles,
+      BenchmarkOutcome.High,
+      IndicatorPolarity.NoJudgement,
       {
         backgroundColor: '#8B60E2',
         tint: 'SOLID',
       },
     ],
     [
-      BenchmarkLabelGroupType.QUINTILES,
-      BenchmarkLabelType.HIGHEST,
+      BenchmarkComparisonMethod.Quintiles,
+      BenchmarkOutcome.Highest,
+      IndicatorPolarity.NoJudgement,
       {
         backgroundColor: '#6B33C3',
         tint: 'SOLID',
       },
     ],
     [
-      BenchmarkLabelGroupType.QUINTILES_WITH_JUDGEMENT,
-      BenchmarkLabelType.WORST,
+      BenchmarkComparisonMethod.Quintiles,
+      BenchmarkOutcome.Worst,
+      IndicatorPolarity.HighIsGood,
       {
         backgroundColor: '#D494C1',
         color: '#0B0C0C',
       },
     ],
     [
-      BenchmarkLabelGroupType.QUINTILES_WITH_JUDGEMENT,
-      BenchmarkLabelType.WORSE,
+      BenchmarkComparisonMethod.Quintiles,
+      BenchmarkOutcome.Worse,
+      IndicatorPolarity.HighIsGood,
       {
         backgroundColor: '#BC6AAA',
         color: '#0B0C0C',
       },
     ],
     [
-      BenchmarkLabelGroupType.QUINTILES_WITH_JUDGEMENT,
-      BenchmarkLabelType.MIDDLE,
+      BenchmarkComparisonMethod.Quintiles,
+      BenchmarkOutcome.Middle,
+      IndicatorPolarity.HighIsGood,
       {
         backgroundColor: '#A44596',
         tint: 'SOLID',
       },
     ],
     [
-      BenchmarkLabelGroupType.QUINTILES_WITH_JUDGEMENT,
-      BenchmarkLabelType.BETTER,
+      BenchmarkComparisonMethod.Quintiles,
+      BenchmarkOutcome.Better,
+      IndicatorPolarity.HighIsGood,
       {
         backgroundColor: '#812972',
         tint: 'SOLID',
       },
     ],
     [
-      BenchmarkLabelGroupType.QUINTILES_WITH_JUDGEMENT,
-      BenchmarkLabelType.BEST,
+      BenchmarkComparisonMethod.Quintiles,
+      BenchmarkOutcome.Best,
+      IndicatorPolarity.HighIsGood,
       {
         backgroundColor: '#561950',
         tint: 'SOLID',
       },
     ],
   ])(
-    'returns correct style for %s group and %s type',
-    (group, type, expected) => {
+    'returns correct style for %s group and %s type with %s',
+    (group, type, polarity, expected) => {
       const result = getBenchmarkTagStyle(
-        group as BenchmarkLabelGroupType,
-        type as BenchmarkLabelType
+        group as BenchmarkComparisonMethod,
+        type as BenchmarkOutcome,
+        polarity as IndicatorPolarity
       );
       expect(result).toEqual(expected);
     }
@@ -164,8 +183,9 @@ describe('Testing the BenchmarkLabel Component', () => {
   test('renders with a specified type and group', () => {
     const { getByText } = render(
       <BenchmarkLabel
-        type={BenchmarkLabelType.BETTER}
-        group={BenchmarkLabelGroupType.RAG}
+        outcome={BenchmarkOutcome.Better}
+        method={BenchmarkComparisonMethod.CIOverlappingReferenceValue95}
+        polarity={IndicatorPolarity.HighIsGood}
       />
     );
     expect(getByText('Better')).toBeInTheDocument();
@@ -174,8 +194,9 @@ describe('Testing the BenchmarkLabel Component', () => {
   test('applies correct styles for RAG group and HIGHER type', () => {
     const { container } = render(
       <BenchmarkLabel
-        type={BenchmarkLabelType.HIGHER}
-        group={BenchmarkLabelGroupType.BOB}
+        outcome={BenchmarkOutcome.Higher}
+        method={BenchmarkComparisonMethod.CIOverlappingReferenceValue95}
+        polarity={IndicatorPolarity.HighIsGood}
       />
     );
 
@@ -185,8 +206,9 @@ describe('Testing the BenchmarkLabel Component', () => {
   test('applies correct styles for QUINTILE group and LOW type', () => {
     const { container } = render(
       <BenchmarkLabel
-        type={BenchmarkLabelType.LOW}
-        group={BenchmarkLabelGroupType.QUINTILES}
+        outcome={BenchmarkOutcome.Low}
+        method={BenchmarkComparisonMethod.Quintiles}
+        polarity={IndicatorPolarity.NoJudgement}
       />
     );
     expect(container.firstChild).toHaveStyle('background-color: #CBBEF4');
@@ -195,8 +217,9 @@ describe('Testing the BenchmarkLabel Component', () => {
   test('applies correct styles for OTHERS group and WORST type', () => {
     const { container } = render(
       <BenchmarkLabel
-        type={BenchmarkLabelType.WORST}
-        group={BenchmarkLabelGroupType.QUINTILES_WITH_JUDGEMENT}
+        outcome={BenchmarkOutcome.Worst}
+        method={BenchmarkComparisonMethod.Quintiles}
+        polarity={IndicatorPolarity.HighIsGood}
       />
     );
     expect(container.firstChild).toHaveStyle('background-color: #D494C1');
@@ -205,8 +228,9 @@ describe('Testing the BenchmarkLabel Component', () => {
   it('snapshot testing of the UI', () => {
     const container = render(
       <BenchmarkLabel
-        type={BenchmarkLabelType.WORST}
-        group={BenchmarkLabelGroupType.QUINTILES_WITH_JUDGEMENT}
+        outcome={BenchmarkOutcome.Worst}
+        method={BenchmarkComparisonMethod.Quintiles}
+        polarity={IndicatorPolarity.HighIsGood}
       />
     );
     expect(container.asFragment()).toMatchSnapshot();

@@ -273,7 +273,7 @@ exports[`SelectedIndicatorsPanel snapshot test 1`] = `
     <span
       class="c1 c2"
     >
-      Selected indicators
+      Selected indicators (2)
     </span>
     <div
       class="c3"
@@ -287,6 +287,7 @@ exports[`SelectedIndicatorsPanel snapshot test 1`] = `
         <br />
         <a
           class="c5 c6"
+          data-testid="view-background-info-link"
           href="/indicator/1"
         >
           View background information
@@ -305,6 +306,7 @@ exports[`SelectedIndicatorsPanel snapshot test 1`] = `
         <br />
         <a
           class="c5 c6"
+          data-testid="view-background-info-link"
           href="/indicator/2"
         >
           View background information

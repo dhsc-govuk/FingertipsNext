@@ -931,10 +931,10 @@ E07000223|E07000224|E07000225|E07000226|E07000227|E07000228|E07000229,E10000032,
 E07000234|E07000235|E07000236|E07000237|E07000238|E07000239,E10000034,Worcestershire,2,Administrative,Counties and Unitary Authorities,counties-and-unitary-authorities
 E06000001|E06000002|E06000003|E06000004|E06000005|E06000047|E06000057|E08000021|E08000022|E08000023|E08000024|E08000037,E12000001,North East Region,1,Administrative,Regions,regions
 E06000006|E06000007|E06000008|E06000009|E06000049|E06000050|E06000063|E06000064|E08000001|E08000002|E08000003|E08000004|E08000005|E08000006|E08000007|E08000008|E08000009|E08000010|E08000011|E08000012|E08000013|E08000014|E08000015|E10000017,E12000002,North West Region,1,Administrative,Regions,regions
-E06000010|E06000011|E06000012|E06000013|E06000014|E06000065|E08000016|E08000017|E08000018|E08000019|E08000032|E08000033|E08000034|E08000035|E08000036,E12000003,Yorkshire And The Humber Region,1,Administrative,Regions,regions
+E06000010|E06000011|E06000012|E06000013|E06000014|E06000065|E08000016|E08000017|E08000018|E08000019|E08000032|E08000033|E08000034|E08000035|E08000036,E12000003,Yorkshire and the Humber Region,1,Administrative,Regions,regions
 E06000015|E06000016|E06000017|E06000018|E06000061|E06000062|E10000007|E10000018|E10000019|E10000024,E12000004,East Midlands Region,1,Administrative,Regions,regions
 E06000019|E06000020|E06000021|E06000051|E08000025|E08000026|E08000027|E08000028|E08000029|E08000030|E08000031|E10000028|E10000031|E10000034,E12000005,West Midlands Region,1,Administrative,Regions,regions
-E06000031|E06000032|E06000033|E06000034|E06000055|E06000056|E10000003|E10000012|E10000015|E10000020|E10000029,E12000006,East Of England Region,1,Administrative,Regions,regions
+E06000031|E06000032|E06000033|E06000034|E06000055|E06000056|E10000003|E10000012|E10000015|E10000020|E10000029,E12000006,East of England Region,1,Administrative,Regions,regions
 E09000001|E09000002|E09000003|E09000004|E09000005|E09000006|E09000007|E09000008|E09000009|E09000010|E09000011|E09000012|E09000013|E09000014|E09000015|E09000016|E09000017|E09000018|E09000019|E09000020|E09000021|E09000022|E09000023|E09000024|E09000025|E09000026|E09000027|E09000028|E09000029|E09000030|E09000031|E09000032|E09000033,E12000007,London Region,1,Administrative,Regions,regions
 E06000035|E06000036|E06000037|E06000038|E06000039|E06000040|E06000041|E06000042|E06000043|E06000044|E06000045|E06000046|E06000060|E10000011|E10000014|E10000016|E10000025|E10000030|E10000032,E12000008,South East Region,1,Administrative,Regions,regions
 E06000022|E06000023|E06000024|E06000025|E06000026|E06000027|E06000030|E06000052|E06000053|E06000054|E06000058|E06000059|E06000066|E10000008|E10000013,E12000009,South West Region,1,Administrative,Regions,regions
@@ -1712,7 +1712,7 @@ E12000001|E12000002|E12000003|E12000004|E12000005|E12000006|E12000007|E12000008|
 "",M84036,Abbey Medical Centre,5,NHS,GPs,gps
 "",M84042,Hazelwood Group Practice,5,NHS,GPs,gps
 "",M84044,Harbury Surgery,5,NHS,GPs,gps
-"",M84062,Vale Of Red Horse,5,NHS,GPs,gps
+"",M84062,Vale of Red Horse,5,NHS,GPs,gps
 "",M84063,Chase Meadow Health Centre,5,NHS,GPs,gps
 "",M84066,Meon Medical Centre,5,NHS,GPs,gps
 "",M84615,Chancery Lane Surgery,5,NHS,GPs,gps
@@ -1889,7 +1889,7 @@ U06079|U08579|U18888|U20639|U24727,E38000079,Hertfordshire and West Essex ICB - 
 U16428|U32831|U55161|U64487|U78443,E38000080,Greater Manchester ICB - 01D,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
 U03824|U37411|U62384|U76349|U76753,E38000085,Humber and North Yorkshire ICB - 03F,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
 U10033|U26878|U27258|U40593|U49615,E38000086,Suffolk and North East Essex ICB - 06L,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
-U02610|U03864|U09081|U11625|U31970,E38000089,Cornwall and The Isles Of Scilly ICB - 11N,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
+U02610|U03864|U09081|U11625|U31970,E38000089,Cornwall and The Isles of Scilly ICB - 11N,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
 U10730|U37296|U71643,E38000091,Cheshire and Merseyside ICB - 01J,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
 U00147|U03186|U08206|U36231|U48026,E38000097,"Leicester, Leicestershire and Rutland ICB - 04C",3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
 U02731|U35980|U49727|U53230|U54911,E38000101,Cheshire and Merseyside ICB - 99A,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
@@ -1902,7 +1902,7 @@ U02739|U10386|U91110|U95193,E38000127,North East and North Cumbria ICB - 99C,3,N
 U05512|U09980|U11112|U24977|U25489,E38000130,North East and North Cumbria ICB - 00L,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
 U14327|U17156|U41563|U67660|U75449,E38000135,Greater Manchester ICB - 00Y,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
 U01367|U04862|U09893|U10847|U12754,E38000136,"Buckinghamshire, Oxfordshire and Berkshire West ICB - 10Q",3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
-U03810|U07449|U10335|U19124|U72114,E38000137,Hampshire and Isle Of Wight ICB - 10R,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
+U03810|U07449|U10335|U19124|U72114,E38000137,Hampshire and Isle of Wight ICB - 10R,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
 U01680|U09529|U36780|U87177|U88280,E38000141,South Yorkshire ICB - 03L,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
 U00203|U03153|U57786|U60510|U69393,E38000143,Greater Manchester ICB - 01G,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
 U12376|U13245|U20350|U24972|U26996,E38000146,South Yorkshire ICB - 03N,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
@@ -1959,7 +1959,7 @@ U01092|U03364|U04725|U04748|U06871,E38000248,Sussex ICB - 70F,3,NHS,NHS Sub Inte
 U09531|U15644|U23544|U27128|U28178,E38000249,"Bedfordshire, Luton and Milton Keynes ICB - M1J4Y",3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
 U04784|U07789|U10743|U11176|U11614,E38000251,Coventry and Warwickshire ICB - B2M3M,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
 U03055|U14074|U14694|U17969|U20320,E38000252,Frimley ICB - D4U1Y,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
-U01198|U08561|U10995|U11181|U15164,E38000253,Hampshire and Isle Of Wight ICB - D9Y0V,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
+U01198|U08561|U10995|U11181|U15164,E38000253,Hampshire and Isle of Wight ICB - D9Y0V,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
 U06092|U38221|U54372|U60176|U63540,E38000254,West Yorkshire ICB - X2C4Y,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
 U00367|U03653|U05451|U06978|U07169,E38000255,North East London ICB - A3A8R,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
 U02961|U05784|U07392|U10339|U11559,E38000256,North West London ICB - W2U3Z,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
@@ -2514,7 +2514,7 @@ F85008|F85046|F85669|F85697,U15334,Haringey - East Central PCN,4,NHS,NHS Primary
 P88003|P88008|P88026,U15435,Heatons Group Network PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 F81186|F81640|F81729|Y00469,U15488,East Basildon PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 E81003|E81004|E81044,U15644,Leighton Buzzard PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
-L84011|L84021|L84024|L84028|L84029,U16196,Forest Of Dean PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+L84011|L84021|L84024|L84028|L84029,U16196,Forest of Dean PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 M83001|M83022|M83703|M83738|Y02354,U16318,Rugeley & Great Haywood PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 L84014|L84047|L84067|L84084|L84606,U16338,North & South Gloucester (Nsg) PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 P86004|P86010|P86012|P86015|P86019,U16428,Middleton PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
@@ -2554,7 +2554,7 @@ E82009|E82032|E82066|E82129|E82640,U20639,Delta PCN,4,NHS,NHS Primary Care Netwo
 L83068|L83096|L83097|L83137,U21059,North Devon Coastal PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 B82031|B82073|B82105,U21078,Tadcaster And Selby PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 G81016|G81061|G81100,U21317,The Havens PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
-M81004|M81007|M81029|M81058|M81094,U21359,South Worcs Vale Of Evesham Health PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+M81004|M81007|M81029|M81058|M81094,U21359,South Worcs Vale of Evesham Health PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 P81025|P81065|P81078|P81732|P81757,U21400,Pendle East PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 J81012,U21465,Shore Medical PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 J83023|J83052,U21547,Salisbury Plain PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks

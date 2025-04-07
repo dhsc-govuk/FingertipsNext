@@ -1,6 +1,6 @@
-import { IndicatorDocument, AreaDocument } from '@/lib/search/searchTypes';
+import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
 import ChartPage from './page-objects/pages/chartPage';
-import { SimpleIndicatorDocument } from './tests/data_quality_testing/loop_all_indicators.spec';
+import { AreaTypeKeys } from '@/lib/areaFilterHelpers/areaType';
 
 export enum SearchMode {
   ONLY_SUBJECT = 'ONLY_SUBJECT',
@@ -21,35 +21,151 @@ export enum AreaMode {
   ENGLAND_AREA = 'ENGLAND_AREA',
 }
 
+type componentProps = {
+  hasConfidenceIntervals: boolean;
+  isTabTable: boolean;
+  hasDetailsExpander: boolean;
+  hasTimePeriodDropDown: boolean;
+};
+
+type component = {
+  componentLocator: string;
+  componentProps: componentProps;
+};
+
 type ScenarioConfig = {
-  visibleComponents: string[];
-  hiddenComponents: string[];
+  visibleComponents: component[];
+  hiddenComponents: component[];
 };
 
 export function getScenarioConfig(
   indicatorMode: IndicatorMode,
   areaMode: AreaMode
 ): ScenarioConfig {
-  // Define all available components
-  const allComponents = [
-    ChartPage.lineChartComponent,
-    ChartPage.lineChartTableComponent,
-    ChartPage.inequalitiesComponent,
-    ChartPage.inequalitiesBarChartComponent,
-    ChartPage.inequalitiesLineChartComponent,
-    ChartPage.inequalitiesBarChartTableComponent,
-    ChartPage.inequalitiesLineChartTableComponent,
-    // Enable in DHSCFT-148
-    // ChartPage.populationPyramidComponent,
-    ChartPage.thematicMapComponent,
-    ChartPage.barChartEmbeddedTableComponent,
-    // Pending
+  // Define all available components and their properties
+  const allComponents: component[] = [
+    {
+      componentLocator: ChartPage.lineChartComponent,
+      componentProps: {
+        hasConfidenceIntervals: true,
+        isTabTable: false,
+        hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
+      },
+    },
+    {
+      componentLocator: ChartPage.lineChartTableComponent,
+      componentProps: {
+        hasConfidenceIntervals: false,
+        isTabTable: true,
+        hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
+      },
+    },
+    {
+      componentLocator: ChartPage.inequalitiesComponent,
+      componentProps: {
+        hasConfidenceIntervals: false,
+        isTabTable: false,
+        hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
+      },
+    },
+    {
+      componentLocator: ChartPage.inequalitiesBarChartComponent,
+      componentProps: {
+        hasConfidenceIntervals: true,
+        isTabTable: false,
+        hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
+      },
+    },
+    {
+      componentLocator: ChartPage.inequalitiesForSingleTimePeriodComponent,
+      componentProps: {
+        hasConfidenceIntervals: false,
+        isTabTable: false,
+        hasTimePeriodDropDown: true,
+        hasDetailsExpander: false,
+      },
+    },
+    {
+      componentLocator: ChartPage.inequalitiesLineChartComponent,
+      componentProps: {
+        hasConfidenceIntervals: true,
+        isTabTable: false,
+        hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
+      },
+    },
+    {
+      componentLocator: ChartPage.inequalitiesBarChartTableComponent,
+      componentProps: {
+        hasConfidenceIntervals: false,
+        isTabTable: true,
+        hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
+      },
+    },
+    {
+      componentLocator: ChartPage.inequalitiesLineChartTableComponent,
+      componentProps: {
+        hasConfidenceIntervals: false,
+        isTabTable: true,
+        hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
+      },
+    },
+    {
+      componentLocator: ChartPage.populationPyramidComponent,
+      componentProps: {
+        hasConfidenceIntervals: false,
+        isTabTable: false,
+        hasDetailsExpander: true,
+        hasTimePeriodDropDown: false,
+      },
+    },
+    {
+      componentLocator: ChartPage.thematicMapComponent,
+      componentProps: {
+        hasConfidenceIntervals: false,
+        isTabTable: false,
+        hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
+      },
+    },
+    {
+      componentLocator: ChartPage.barChartEmbeddedTableComponent,
+      componentProps: {
+        hasConfidenceIntervals: true,
+        isTabTable: false,
+        hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
+      },
+    },
+    {
+      componentLocator: ChartPage.spineChartTableComponent,
+      componentProps: {
+        hasConfidenceIntervals: false,
+        isTabTable: false,
+        hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
+      },
+    },
+    // Enable in DHSCFT-237
     // ChartPage.basicTableComponent,
-    // ChartPage.spineChartComponent,
-    // ChartPage.heatMapComponent,
+    {
+      componentLocator: ChartPage.heatMapComponent,
+      componentProps: {
+        hasConfidenceIntervals: false,
+        isTabTable: false,
+        hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
+      },
+    },
   ];
 
-  let visibleComponents: string[] = [];
+  let visibleComponents: component[] = [];
 
   // 1 indicator, 1 area
   if (
@@ -58,17 +174,19 @@ export function getScenarioConfig(
     (indicatorMode === IndicatorMode.ONE_INDICATOR &&
       areaMode === AreaMode.ENGLAND_AREA)
   ) {
-    visibleComponents = [
-      ChartPage.lineChartComponent,
-      ChartPage.lineChartTableComponent,
-      ChartPage.inequalitiesComponent,
-      ChartPage.inequalitiesBarChartComponent,
-      ChartPage.inequalitiesLineChartComponent,
-      ChartPage.inequalitiesBarChartTableComponent,
-      ChartPage.inequalitiesLineChartTableComponent,
-      // Enable in DHSCFT-148
-      // ChartPage.populationPyramidComponent,
-    ];
+    visibleComponents = allComponents.filter((component) =>
+      [
+        ChartPage.lineChartComponent,
+        ChartPage.lineChartTableComponent,
+        ChartPage.inequalitiesComponent,
+        ChartPage.inequalitiesBarChartComponent,
+        ChartPage.inequalitiesLineChartComponent,
+        ChartPage.inequalitiesBarChartTableComponent,
+        ChartPage.inequalitiesLineChartTableComponent,
+        ChartPage.inequalitiesForSingleTimePeriodComponent,
+        ChartPage.populationPyramidComponent,
+      ].includes(component.componentLocator)
+    );
   }
   // 1 indicator, 2 areas
   else if (
@@ -88,46 +206,57 @@ export function getScenarioConfig(
     indicatorMode === IndicatorMode.ONE_INDICATOR &&
     areaMode === AreaMode.TWO_PLUS_AREAS
   ) {
-    visibleComponents = [
-      // Enable in DHSCFT-148
-      // ChartPage.populationPyramidComponent,
-      ChartPage.barChartEmbeddedTableComponent,
-    ];
+    visibleComponents = allComponents.filter((component) =>
+      [
+        ChartPage.lineChartComponent,
+        ChartPage.lineChartTableComponent,
+        ChartPage.barChartEmbeddedTableComponent,
+        // Enable in DHSCFT-225
+        // ChartPage.populationPyramidComponent,
+      ].includes(component.componentLocator)
+    );
   }
   // 1 indicator, all areas in a group
   else if (
     indicatorMode === IndicatorMode.ONE_INDICATOR &&
     areaMode === AreaMode.ALL_AREAS_IN_A_GROUP
   ) {
-    visibleComponents = [
-      ChartPage.thematicMapComponent,
-      ChartPage.barChartEmbeddedTableComponent,
-    ];
+    visibleComponents = allComponents.filter((component) =>
+      [
+        ChartPage.thematicMapComponent,
+        ChartPage.barChartEmbeddedTableComponent,
+        // Enable in DHSCFT-225
+        // ChartPage.populationPyramidComponent,
+      ].includes(component.componentLocator)
+    );
   }
   // 2+ indicators, England area
   else if (
     indicatorMode === IndicatorMode.TWO_PLUS_INDICATORS &&
     areaMode === AreaMode.ENGLAND_AREA
   ) {
-    visibleComponents = [
-      // Pending
-      // ChartPage.basicTableComponent,
-      // Enable in DHSCFT-148
-      // ChartPage.populationPyramidComponent,
-    ];
+    // visibleComponents = allComponents.filter((component) =>
+    //   [
+    //     // Enable in DHSCFT-237
+    //     // ChartPage.basicTableComponent,
+    //     // Enable in DHSCFT-225
+    //     // ChartPage.populationPyramidComponent,
+    //   ].includes(component.componentLocator)
+    // );
   }
   // 2+ indicators, 2+ areas (not England)
   else if (
     indicatorMode === IndicatorMode.TWO_PLUS_INDICATORS &&
     areaMode === AreaMode.TWO_PLUS_AREAS
   ) {
-    visibleComponents = [
-      // Pending
-      // ChartPage.spineChartComponent,
-      // ChartPage.heatMapComponent,
-      // Enable in DHSCFT-148
-      // ChartPage.populationPyramidComponent,
-    ];
+    visibleComponents = allComponents.filter((component) =>
+      [
+        ChartPage.spineChartTableComponent,
+        ChartPage.heatMapComponent,
+        // Enable in DHSCFT-225
+        // ChartPage.populationPyramidComponent,
+      ].includes(component.componentLocator)
+    );
   } else {
     throw new Error(
       `Combination of indicator mode: ${indicatorMode} + area mode: ${areaMode} is not supported.`
@@ -148,9 +277,9 @@ export function getScenarioConfig(
 }
 
 function filterIndicatorsByName(
-  indicators: IndicatorDocument[],
+  indicators: RawIndicatorDocument[],
   searchTerm: string
-): IndicatorDocument[] {
+): RawIndicatorDocument[] {
   if (!searchTerm) return [];
 
   const normalizedSearchTerm = searchTerm.toLowerCase();
@@ -166,7 +295,7 @@ function filterIndicatorsByName(
 }
 
 export function getAllIndicatorIdsForSearchTerm(
-  indicators: IndicatorDocument[],
+  indicators: RawIndicatorDocument[],
   searchTerm: string
 ): string[] {
   return filterIndicatorsByName(indicators, searchTerm).map(
@@ -174,50 +303,15 @@ export function getAllIndicatorIdsForSearchTerm(
   );
 }
 
-function filterIndicatorsOnlyPOC(
-  indicators: IndicatorDocument[]
-): SimpleIndicatorDocument[] {
-  return indicators.filter(
-    (indicator) => indicator.usedInPoc === true
-    // filters needed for one indicator (in loop) + all but one areas in group + only subject - log a bug for filtering by all regions - ticket 1
-    // !indicator.indicatorName.includes(
-    //   `People reporting Alzheimer's disease or dementia`
-    // ) &&
-    // !indicator.indicatorName.includes(
-    //   `People with caring responsibility aged 16 years and over`
-    // )
-    // filters needed for one indicator (in loop) + ( all areas in a group || ENGLAND ) + only subject - log a bug for these 4 data issues - ticket 2
-    // !indicator.indicatorName.includes(
-    //   'Hepatitis B vaccination coverage aged 2 years'
-    // ) &&
-    // !indicator.indicatorName.includes(
-    //   'Obesity prevalence (including severe obesity) in Year 6 children aged 10 to 11 years'
-    // ) &&
-    // !indicator.indicatorName.includes(
-    //   'Physically inactive in adults aged 19 years and over'
-    // ) &&
-    // !indicator.indicatorName.includes(
-    //   'Overweight prevalence (including obesity) in adults aged 18 years and over'
-    // )
+export function getAllAreasByAreaType(
+  areas: AreaDocument[],
+  areaType: AreaTypeKeys
+): AreaDocument[] {
+  const sanitisedAreaType = areaType.toLowerCase().replaceAll('-', ' ');
+  console.log(sanitisedAreaType);
+  return areas.filter((area) =>
+    area.areaType.toLowerCase().includes(sanitisedAreaType)
   );
-}
-
-export function getAllPOCIndicators(
-  indicators: IndicatorDocument[]
-): SimpleIndicatorDocument[] {
-  return filterIndicatorsOnlyPOC(indicators).map((indicator) => ({
-    indicatorName: indicator.indicatorName,
-    indicatorID: indicator.indicatorID,
-    associatedAreaCodes: indicator.associatedAreaCodes,
-  }));
-}
-
-export function getAllNHSRegionAreas(areas: AreaDocument[]): AreaDocument[] {
-  const nhsRegionAreas = areas.filter((area) =>
-    area.areaType.includes('NHS Region')
-  );
-
-  return nhsRegionAreas;
 }
 
 export function returnIndicatorIDsByIndicatorMode(

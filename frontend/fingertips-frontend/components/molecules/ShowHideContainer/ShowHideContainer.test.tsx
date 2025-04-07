@@ -2,6 +2,10 @@ import { render } from '@testing-library/react';
 import { ShowHideContainer } from '.';
 
 describe('ShowHideContainer', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should not show the side bar when showSideBarWhenOpen is false', () => {
     /**
      * In the snapshot you will still the following style

@@ -11,3 +11,9 @@ jest.mock('@/lib/logging', () => {
     logUsingMockAiSearchService: jest.fn(),
   };
 });
+
+const windowMock = {
+  scrollTo: jest.fn(),
+};
+
+Object.assign(global, windowMock);

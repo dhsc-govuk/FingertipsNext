@@ -17,4 +17,6 @@ public class DeprivationDimensionModel
     public bool HasValue { get; set; }
 
     public byte Sequence { get; set; }
+
+    public bool IsAggregate { get; set; }
 }

@@ -20,6 +20,9 @@ public class HealthMeasureRepository(HealthMeasureDbContext dbCtx)
                 Denominator = x.Denominator,
                 LowerCI = x.LowerCI,
                 UpperCI = x.UpperCI,
+                IsAgeAggregatedOrSingle = x.IsAgeAggregatedOrSingle,
+                IsDeprivationAggregatedOrSingle = x.IsDeprivationAggregatedOrSingle,
+                IsSexAggregatedOrSingle = x.IsSexAggregatedOrSingle,
                 HealthMeasureKey = x.HealthMeasureKey,
                 AgeKey = x.AgeKey,
                 AreaKey = x.AreaKey,
@@ -40,8 +43,11 @@ public class HealthMeasureRepository(HealthMeasureDbContext dbCtx)
     }
 
     public void UpdateTrendKey(HealthMeasureModel healthMeasure, byte newTrendKey) {
-        healthMeasure.TrendKey = newTrendKey;
-        _dbContext.Entry(healthMeasure).State = EntityState.Modified;
+        // Avoids registering an update in unlikely scenario where trend analysis is being rerun
+        if (healthMeasure.TrendKey != newTrendKey) {
+            healthMeasure.TrendKey = newTrendKey;
+            _dbContext.Entry(healthMeasure).State = EntityState.Modified;
+        }
     }
 
     public async Task SaveChanges() {

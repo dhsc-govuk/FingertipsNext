@@ -1,0 +1,22 @@
+[
+  {
+    "code": "E12000001",
+    "name": "North East Region",
+    "areaType": {
+      "key": "regions",
+      "name": "Regions",
+      "hierarchyName": "Administrative",
+      "level": 2
+    }
+  },
+  {
+    "code": "E12000003",
+    "name": "Yorkshire And The Humber Region",
+    "areaType": {
+      "key": "regions",
+      "name": "Regions",
+      "hierarchyName": "Administrative",
+      "level": 2
+    }
+  }
+]

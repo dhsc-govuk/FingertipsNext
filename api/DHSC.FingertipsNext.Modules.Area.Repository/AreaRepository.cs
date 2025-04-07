@@ -22,9 +22,35 @@ public class AreaRepository : IAreaRepository
     public async Task<List<string>> GetHierarchiesAsync() =>
         await _dbContext.AreaType
             .Select(areaType => areaType.HierarchyType)
-            .Where(areaType => areaType != InternalHierarchyTypes.All)
+            .Where(areaType => areaType != InternalHierarchyTypes.Both)
             .Distinct()
             .ToListAsync();
+
+    /// <summary>
+    /// Retrieves a list of area models based on the requested area codes.
+    /// </summary>
+    /// <param name="areaCodes"></param>
+    /// <returns>List of areas requested</returns>
+    public async Task<List<AreaModel>> GetMultipleAreaDetailsAsync(string[] areaCodes)
+    {
+        return await _dbContext.Area
+            .Where(area => EF.Constant(areaCodes).Contains(area.AreaCode))
+            .Include(area => area.AreaType)
+            .Select(area => new AreaModel
+            {
+                AreaCode = area.AreaCode,
+                AreaName = area.AreaName,
+                AreaType = new AreaTypeModel
+                {
+                    AreaTypeKey = area.AreaType.AreaTypeKey,
+                    AreaTypeName = area.AreaType.AreaTypeName,
+                    HierarchyType = area.AreaType.HierarchyType,
+                    Level = area.AreaType.Level
+                }
+            })
+            .AsNoTracking()
+            .ToListAsync();
+    }
 
     /// <summary>
     ///
@@ -36,7 +62,7 @@ public class AreaRepository : IAreaRepository
         IQueryable<AreaTypeModel> areaTypes;
         if (!string.IsNullOrEmpty(hierarchyType))
             areaTypes = _dbContext.AreaType
-                .Where(areaType => areaType.HierarchyType == hierarchyType || areaType.HierarchyType == InternalHierarchyTypes.All);
+                .Where(areaType => areaType.HierarchyType == hierarchyType || areaType.HierarchyType == InternalHierarchyTypes.Both);
         else
             areaTypes = _dbContext.AreaType;
 
@@ -94,6 +120,10 @@ public class AreaRepository : IAreaRepository
             .Where(area => area.AreaCode == areaCode)
             .AsSplitQuery()
             .FirstOrDefaultAsync();
+
+        if (area == null) {
+            return null;
+        }
 
         var areasWithRelations = new AreaWithRelationsModel
         {

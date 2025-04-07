@@ -1,7 +1,7 @@
 import { Table } from 'govuk-react';
 import styled from 'styled-components';
 import {
-  getDisplayedValue,
+  getDisplayValue,
   StyledAlignLeftHeader,
   StyledAlignLeftTableCell,
   StyledAlignRightHeader,
@@ -87,7 +87,7 @@ export function InequalitiesLineChartTable({
             </StyledAlignLeftTableCell>
             {dynamicKeys.map((key, index) => (
               <StyledAlignRightTableCell key={key + index}>
-                {getDisplayedValue(data.inequalities[key]?.value)}
+                {getDisplayValue(data.inequalities[key]?.value)}
               </StyledAlignRightTableCell>
             ))}
           </Table.Row>

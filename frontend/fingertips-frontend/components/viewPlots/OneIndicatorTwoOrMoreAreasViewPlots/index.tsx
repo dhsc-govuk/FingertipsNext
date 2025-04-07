@@ -6,37 +6,56 @@ import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { BarChartEmbeddedTable } from '@/components/organisms/BarChartEmbeddedTable';
 import { seriesDataWithoutEnglandOrGroup } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
-import { H2, H3, Paragraph } from 'govuk-react';
-import { ViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
+import { SearchParams } from '@/lib/searchStateManager';
+import { H3, Paragraph } from 'govuk-react';
+import { OneIndicatorViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
-import { MapData } from '@/lib/thematicMapUtils/getMapData';
+import { MapGeographyData } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import {
+  generateStandardLineChartOptions,
+  LineChartVariant,
+} from '@/components/organisms/LineChart/lineChartHelpers';
+import { useEffect, useState } from 'react';
+import { useSearchState } from '@/context/SearchStateContext';
+import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
+import { IndicatorPolarity } from '@/generated-sources/ft-api-client';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
 );
 
-interface OneIndicatorTwoOrMoreAreasViewPlotsProps extends ViewPlotProps {
-  mapData?: MapData;
+interface OneIndicatorTwoOrMoreAreasViewPlotsProps
+  extends OneIndicatorViewPlotProps {
+  mapGeographyData?: MapGeographyData;
 }
 
 export function OneIndicatorTwoOrMoreAreasViewPlots({
-  healthIndicatorData,
-  searchState,
+  indicatorData,
   indicatorMetadata,
-  mapData,
+  searchState,
+  mapGeographyData,
 }: Readonly<OneIndicatorTwoOrMoreAreasViewPlotsProps>) {
-  const stateManager = SearchStateManager.initialise(searchState);
+  const { setSearchState } = useSearchState();
+
+  useEffect(() => {
+    setSearchState(searchState ?? {});
+  }, [searchState, setSearchState]);
+
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
     [SearchParams.AreasSelected]: areasSelected,
-  } = stateManager.getSearchState();
+  } = searchState;
 
-  const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
+  const healthIndicatorData = indicatorData?.areaHealthData ?? [];
+  const { benchmarkMethod, polarity } = indicatorData;
+  const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
+    useState<boolean>(false);
+
+  const dataWithoutEnglandOrGroup = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData,
     selectedGroupCode
   );
@@ -45,20 +64,37 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   );
 
   const groupData =
-    selectedGroupCode && selectedGroupCode != areaCodeForEngland
+    selectedGroupCode && selectedGroupCode !== areaCodeForEngland
       ? healthIndicatorData.find(
           (areaData) => areaData.areaCode === selectedGroupCode
         )
       : undefined;
 
   const shouldLineChartbeShown =
-    dataWithoutEngland[0]?.healthData.length > 1 &&
+    (dataWithoutEnglandOrGroup[0]?.healthData.length > 1 ||
+      benchmarkMethod === BenchmarkComparisonMethod.Quintiles) &&
     areasSelected &&
     areasSelected?.length <= 2;
 
+  const yAxisTitle = indicatorMetadata?.unitLabel
+    ? `Value: ${indicatorMetadata?.unitLabel}`
+    : undefined;
+
+  const lineChartOptions: Highcharts.Options = generateStandardLineChartOptions(
+    dataWithoutEnglandOrGroup,
+    showConfidenceIntervalsData,
+    {
+      benchmarkData: englandBenchmarkData,
+      groupIndicatorData: groupData,
+      yAxisTitle,
+      xAxisTitle: 'Year',
+      measurementUnit: indicatorMetadata?.unitLabel,
+      accessibilityLabel: 'A line chart showing healthcare data',
+    }
+  );
+
   return (
     <section data-testid="oneIndicatorTwoOrMoreAreasViewPlots-component">
-      <H2>View data for selected indicators and areas</H2>
       {shouldLineChartbeShown && (
         <>
           <H3>Indicator data over time</H3>
@@ -70,13 +106,12 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                 title: 'Line chart',
                 content: (
                   <LineChart
-                    healthIndicatorData={dataWithoutEngland}
-                    benchmarkData={englandBenchmarkData}
-                    searchState={searchState}
-                    groupIndicatorData={groupData}
-                    xAxisTitle="Year"
-                    measurementUnit={indicatorMetadata?.unitLabel}
-                    accessibilityLabel="A line chart showing healthcare data"
+                    lineChartOptions={lineChartOptions}
+                    showConfidenceIntervalsData={showConfidenceIntervalsData}
+                    setShowConfidenceIntervalsData={
+                      setShowConfidenceIntervalsData
+                    }
+                    variant={LineChartVariant.Standard}
                   />
                 ),
               },
@@ -85,10 +120,12 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                 title: 'Table',
                 content: (
                   <LineChartTable
-                    healthIndicatorData={dataWithoutEngland}
+                    healthIndicatorData={dataWithoutEnglandOrGroup}
                     englandBenchmarkData={englandBenchmarkData}
                     groupIndicatorData={groupData}
                     measurementUnit={indicatorMetadata?.unitLabel}
+                    benchmarkComparisonMethod={benchmarkMethod}
+                    polarity={polarity}
                   />
                 ),
               },
@@ -105,19 +142,28 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
           />
         </>
       )}
-      {selectedGroupArea === ALL_AREAS_SELECTED && mapData && (
+      <H3>Compare an indicator by areas</H3>
+      {selectedGroupArea === ALL_AREAS_SELECTED && mapGeographyData && (
         <ThematicMap
-          healthIndicatorData={healthIndicatorData}
-          mapData={mapData}
+          healthIndicatorData={dataWithoutEnglandOrGroup}
+          mapGeographyData={mapGeographyData}
+          benchmarkComparisonMethod={
+            benchmarkMethod ?? BenchmarkComparisonMethod.Unknown
+          }
+          polarity={polarity ?? IndicatorPolarity.Unknown}
+          measurementUnit={indicatorMetadata?.unitLabel}
+          benchmarkIndicatorData={englandBenchmarkData}
+          groupIndicatorData={groupData}
         />
       )}
-      <H3>Compare an indicator by areas</H3>
       <BarChartEmbeddedTable
         data-testid="barChartEmbeddedTable-component"
-        healthIndicatorData={dataWithoutEngland}
+        healthIndicatorData={dataWithoutEnglandOrGroup}
         benchmarkData={englandBenchmarkData}
         groupIndicatorData={groupData}
         measurementUnit={indicatorMetadata?.unitLabel}
+        benchmarkComparisonMethod={benchmarkMethod}
+        polarity={polarity}
       ></BarChartEmbeddedTable>
     </section>
   );
