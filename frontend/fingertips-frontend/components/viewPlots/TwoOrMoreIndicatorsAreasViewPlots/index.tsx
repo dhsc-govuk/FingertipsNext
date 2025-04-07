@@ -41,16 +41,18 @@ export function mapToSpineChartTableIndicator(
 }
 
 export function mapToSpineChartTableProps(
-  healthIndicatorData: HealthDataForArea[],
+  areasSelected: string[],
+  healthDataAreaOne: HealthDataForArea[],
   groupIndicatorData: HealthDataForArea[],
   englandIndicatorData: HealthDataForArea[],
   indicatorMetadata: (IndicatorDocument | undefined)[],
-  quartileData: QuartileData[]
+  quartileData: QuartileData[],
+  healthDataAreaTwo?: HealthDataForArea[],
 ): SpineChartTableProps {
-  const numberOfIndicators = healthIndicatorData.length;
+  const numberOfIndicators = healthDataAreaOne.length;
   const tableData: SpineChartTableRowProps[] = new Array(numberOfIndicators);
 
-  healthIndicatorData.forEach((indicatorData, index) => {
+  healthDataAreaOne.forEach((indicatorData, index) => {
     const rowMeasurementUnit: string =
       indicatorMetadata[index] !== undefined
         ? indicatorMetadata[index]?.unitLabel
@@ -59,7 +61,8 @@ export function mapToSpineChartTableProps(
     const row: SpineChartTableRowProps = {
       indicator: mapToSpineChartTableIndicator(indicatorMetadata[index]),
       measurementUnit: rowMeasurementUnit,
-      indicatorHealthData: indicatorData,
+      indicatorHealthDataAreaOne: indicatorData,
+      indicatorHealthDataAreaTwo: healthDataAreaTwo ? healthDataAreaTwo[index] : undefined,
       groupIndicatorData: groupIndicatorData[index],
       englandBenchmarkData: englandIndicatorData[index],
       benchmarkStatistics: quartileData[index],
@@ -68,7 +71,7 @@ export function mapToSpineChartTableProps(
     tableData[index] = row;
   });
 
-  return { rowData: tableData };
+  return { rowData: tableData, areasSelected };
 }
 
 export function extractHeatmapIndicatorData(
@@ -127,14 +130,15 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
 
   const groupAreaCode = selectedGroupCode ?? undefined;
 
-  const buildSpineTableRowData = (
+  const buildSpineTableRowsData = (
     indicatorData: IndicatorWithHealthDataForArea[],
     indicatorMetadata: IndicatorDocument[],
     areasSelected: string[],
     selectedGroupCode: string | undefined
   ): SpineChartTableRowProps[] => {
     const {
-      orderedHealthData,
+      orderedHealthDataAreaOne,
+      orderedHealthDataAreaTwo,
       orderedGroupData,
       orderedEnglandData,
       orderedMetadata,
@@ -148,11 +152,13 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     );
 
     return mapToSpineChartTableProps(
-      orderedHealthData,
+      areasSelected,
+      orderedHealthDataAreaOne,
       orderedGroupData,
       orderedEnglandData,
       orderedMetadata,
-      orderedQuartileData
+      orderedQuartileData,
+      orderedHealthDataAreaTwo
     ).rowData;
   };
 
@@ -160,12 +166,13 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     <section data-testid="twoOrMoreIndicatorsAreasViewPlot-component">
       {areasSelected.length < 3 ? (
         <SpineChartTable
-          rowData={buildSpineTableRowData(
+          rowData={buildSpineTableRowsData(
             indicatorData,
             indicatorMetadata,
             areasSelected,
             selectedGroupCode
           )}
+          areasSelected={areasSelected}
         />
       ) : null}
       <Heatmap

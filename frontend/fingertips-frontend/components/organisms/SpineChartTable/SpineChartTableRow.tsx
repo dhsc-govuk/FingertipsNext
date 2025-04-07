@@ -12,6 +12,9 @@ import {
   StyledGroupCell,
   StyledBenchmarkCell,
   StyledBenchmarkChart,
+  StyledAlignStickyCentreTableCell,
+  StyledAlignCentreBorderRightTableCell,
+  StyledStickyRightGroupCell,
 } from './SpineChartTableStyles';
 import { SpineChart } from '../SpineChart';
 import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
@@ -32,11 +35,15 @@ export interface SpineChartTableRowData {
   unit: string;
   period: number;
   trend: HealthDataPointTrendEnum;
-  count?: number;
+  areaOneCount?: number;
+  areaOneValue?: number;
+  areaTwoCount?: number;
+  areaTwoValue?: number;
   value?: number;
   groupValue?: number;
   benchmarkValue?: number;
   benchmarkStatistics: QuartileData;
+  twoAreasRequested: boolean;
 }
 
 export function SpineChartMissingValue({
@@ -50,11 +57,15 @@ export function SpineChartTableRow({
   unit,
   period,
   trend,
-  count,
-  value,
+  areaOneCount,
+  areaOneValue,
+  areaTwoCount,
+  areaTwoValue,
   groupValue,
   benchmarkValue,
   benchmarkStatistics,
+  twoAreasRequested
+
 }: Readonly<SpineChartTableRowData>) {
   const { best, worst } = orderStatistics(benchmarkStatistics);
 
@@ -66,21 +77,57 @@ export function SpineChartTableRow({
       <StyledAlignLeftTableCell data-testid={`unit-cell`}>
         {unit}
       </StyledAlignLeftTableCell>
-      <StyledAlignCentreTableCell data-testid={`period-cell`}>
-        {period}
-      </StyledAlignCentreTableCell>
-      <StyledAlignCentreTableCell>
-        <TrendTag trendFromResponse={trend} />
-      </StyledAlignCentreTableCell>
-      <StyledAlignCentreTableCell data-testid={`count-cell`}>
-        {formatWholeNumber(count)}
-      </StyledAlignCentreTableCell>
-      <StyledAlignRightTableCell data-testid={`value-cell`}>
-        {formatNumber(value)}
-      </StyledAlignRightTableCell>
-      <StyledGroupCell data-testid={`group-value-cell`}>
-        {formatNumber(groupValue)}
-      </StyledGroupCell>
+      {!twoAreasRequested ?
+        (
+          <StyledAlignCentreTableCell data-testid={`period-cell`}>
+            {period}
+          </StyledAlignCentreTableCell>
+        ) :
+        (
+          <StyledAlignStickyCentreTableCell data-testid={`period-cell`}>
+            {period}
+          </StyledAlignStickyCentreTableCell>
+        )
+      }
+
+      {twoAreasRequested ?
+        <>
+          <StyledAlignCentreTableCell data-testid={`area-1-count-cell`}>
+            {formatWholeNumber(areaOneCount)}
+          </StyledAlignCentreTableCell>
+          <StyledAlignCentreBorderRightTableCell data-testid={`area-1-value-cell`}>
+            {formatNumber(areaOneValue)}
+          </StyledAlignCentreBorderRightTableCell>
+          <StyledAlignCentreTableCell data-testid={`area-2-count-cell`}>
+            {formatWholeNumber(areaTwoCount)}
+          </StyledAlignCentreTableCell>
+          <StyledAlignRightTableCell data-testid={`area-2-value-cell`}>
+            {formatNumber(areaTwoValue)}
+          </StyledAlignRightTableCell>
+        </>
+      :
+        <>
+          <StyledAlignCentreTableCell data-testid={`trend-cell`}>
+            <TrendTag trendFromResponse={trend} />
+          </StyledAlignCentreTableCell>
+          <StyledAlignRightTableCell data-testid={`count-cell`}>
+            {formatWholeNumber(areaOneCount)}
+          </StyledAlignRightTableCell>
+          <StyledAlignCentreTableCell data-testid={`value-cell`}>
+            {formatNumber(areaOneValue)}
+          </StyledAlignCentreTableCell>
+        </>
+      }
+
+      {!twoAreasRequested ?
+        (<StyledGroupCell data-testid={`group-value-cell`}>
+          {formatNumber(groupValue)}
+        </StyledGroupCell>)
+        :
+        (<StyledStickyRightGroupCell data-testid={`group-value-cell`}>
+          {formatNumber(groupValue)}
+        </StyledStickyRightGroupCell>)
+      }
       <StyledBenchmarkCell data-testid={`benchmark-value-cell`}>
         {formatNumber(benchmarkValue)}
       </StyledBenchmarkCell>

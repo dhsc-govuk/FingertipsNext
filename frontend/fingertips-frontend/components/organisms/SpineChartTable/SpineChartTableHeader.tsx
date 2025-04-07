@@ -11,10 +11,16 @@ import {
   StyledGroupSubHeader,
   StyledBenchmarkHeader,
   StyledBenchmarkSubHeader,
+  StyledAlignStickyLeftHeader,
+  StyledAlignRightBorderHeader,
+  StyledGroupStickyRightHeader,
+  StyledGroupStickyRightSubHeader,
+  StyledStickyEmptyLeftHeader,
 } from './SpineChartTableStyles';
 
 export interface TableHeaderProps {
-  areaName: string;
+  areaNames: string[];
+  twoAreasRequested: boolean;
   groupName: string;
 }
 
@@ -24,7 +30,6 @@ export enum SpineChartTableHeadingEnum {
   IndicatorPeriod = 'Period',
   AreaTrend = 'Recent trend',
   AreaCount = 'Count',
-  AreaValue = 'AreaValue',
   GroupValue = 'GroupValue',
   BenchmarkValue = 'Value',
   BenchmarkWorst = 'Worst',
@@ -33,23 +38,42 @@ export enum SpineChartTableHeadingEnum {
 }
 
 export function SpineChartTableHeader({
-  areaName,
+  areaNames,
+  twoAreasRequested,
   groupName,
 }: Readonly<TableHeaderProps>) {
-  // DHSCFT-582 - extend to allow up to 2 areas. Trends should only show for 1.
   return (
     <>
-      <Table.Row key={areaName}>
-        <Table.CellHeader
-          colSpan={3}
-          data-testid="empty-header"
-        ></Table.CellHeader>
-        <StyledAlignLeftHeader colSpan={3} data-testid="area-header">
-          {areaName}
-        </StyledAlignLeftHeader>
-        <StyledGroupHeader data-testid="group-header">
-          {groupName}
-        </StyledGroupHeader>
+      <Table.Row key='area-headers'>
+        {twoAreasRequested ?
+          <StyledStickyEmptyLeftHeader 
+            colSpan={3} 
+            data-testid="empty-header"
+          >
+          </StyledStickyEmptyLeftHeader>
+        : 
+          <Table.CellHeader
+            colSpan={3}
+            data-testid="empty-header"
+          ></Table.CellHeader>
+        }
+        <StyledAlignCentreHeader colSpan={twoAreasRequested ? 2 : 3} data-testid={`area-header${twoAreasRequested ? '-1' : ''}`}>
+          {areaNames[0]}
+        </StyledAlignCentreHeader>
+        {twoAreasRequested ?
+          <StyledAlignCentreHeader colSpan={2} data-testid="area-header-2">
+            {areaNames[1]}
+          </StyledAlignCentreHeader>
+        : null}
+        {twoAreasRequested ?
+          <StyledGroupStickyRightHeader data-testid="group-header">
+            {groupName}
+          </StyledGroupStickyRightHeader>
+        : 
+          <StyledGroupHeader data-testid="group-header">
+            {groupName}
+          </StyledGroupHeader>
+        }
         <StyledBenchmarkHeader colSpan={4} data-testid="england-header">
           Benchmark: England
         </StyledBenchmarkHeader>
@@ -68,33 +92,90 @@ export function SpineChartTableHeader({
                 </StyledAlignLeftHeader>
               );
             case SpineChartTableHeadingEnum.IndicatorPeriod:
-            case SpineChartTableHeadingEnum.AreaTrend:
-            case SpineChartTableHeadingEnum.AreaCount:
-              return (
+              return !twoAreasRequested ? (
                 <StyledAlignCentreHeader
                   key={heading}
                   data-testid={`${heading}-header`}
                 >
                   {heading}
                 </StyledAlignCentreHeader>
-              );
-            case SpineChartTableHeadingEnum.AreaValue:
-              return (
-                <StyledAlignRightHeader
+              ) : (
+                <StyledAlignStickyLeftHeader
                   key={heading}
                   data-testid={`${heading}-header`}
                 >
-                  Value
-                </StyledAlignRightHeader>
+                  {heading}
+                </StyledAlignStickyLeftHeader>
+              );
+            case SpineChartTableHeadingEnum.AreaTrend:
+              return !twoAreasRequested ? (
+                <StyledAlignCentreHeader
+                  key={heading}
+                  data-testid={`${heading}-header`}
+                >
+                  {heading}
+                </StyledAlignCentreHeader>
+              ) : null;
+            case SpineChartTableHeadingEnum.AreaCount:
+              return twoAreasRequested ? (
+                <>
+                  <StyledAlignCentreHeader
+                    key={`area-1-${heading}`}
+                    data-testid={`area-1-${heading}-header`}
+                  >
+                    {heading}
+                  </StyledAlignCentreHeader>
+                  <StyledAlignRightBorderHeader
+                    key={'area-1-value'}
+                    data-testid={'area-1-value-header'}
+                  >
+                    Value
+                  </StyledAlignRightBorderHeader>
+                  <StyledAlignCentreHeader
+                    key={`area-2-${heading}`}
+                    data-testid={`area-2-${heading}-header`}
+                  >
+                    {heading}
+                  </StyledAlignCentreHeader>
+                  <StyledAlignRightHeader
+                    key={'area-2-value'}
+                    data-testid={'area-2-value-header'}
+                  >
+                    Value
+                  </StyledAlignRightHeader>
+              </>
+              ) : (
+                <>
+                  <StyledAlignCentreHeader
+                    key={heading}
+                    data-testid={`${heading}-header`}
+                  >
+                    {heading}
+                  </StyledAlignCentreHeader>
+                  <StyledAlignRightHeader
+                    key={'area-value'}
+                    data-testid={'area-value-header'}
+                  >
+                    Value
+                  </StyledAlignRightHeader>
+                </>
               );
             case SpineChartTableHeadingEnum.GroupValue:
-              return (
+              return !twoAreasRequested ? (
                 <StyledGroupSubHeader
                   key={heading}
                   data-testid={`${heading}-header`}
                 >
                   Value
                 </StyledGroupSubHeader>
+              ) :
+              (
+                <StyledGroupStickyRightSubHeader
+                  key={heading}
+                  data-testid={`${heading}-header`}
+                >
+                  Value
+                </StyledGroupStickyRightSubHeader>
               );
             default:
               return (

@@ -16,48 +16,75 @@ import { StyledDivTableContainer, StyledTable } from './SpineChartTableStyles';
 
 export interface SpineChartTableProps {
   rowData: SpineChartTableRowProps[];
+  areasSelected: string[];
 }
 
 export interface SpineChartTableRowProps {
   indicator: Indicator;
   measurementUnit: string;
-  indicatorHealthData: HealthDataForArea;
+  indicatorHealthDataAreaOne: HealthDataForArea;
+  indicatorHealthDataAreaTwo?: HealthDataForArea;
   groupIndicatorData: HealthDataForArea;
   englandBenchmarkData: HealthDataForArea;
   benchmarkStatistics: QuartileData;
 }
 
 export const mapToSpineChartTableData = (
-  tableData: SpineChartTableRowProps[]
+  tableData: SpineChartTableRowProps[],
+  twoAreasRequested: boolean
 ): SpineChartTableRowData[] =>
+  // Add a check for data is in the same year
   tableData.map((item) => ({
     indicatorId: item.indicator.indicatorId,
     indicator: item.indicator.title,
     unit: item.measurementUnit,
-    period: item.indicatorHealthData.healthData[0].year,
-    trend: item.indicatorHealthData.healthData[0].trend,
-    count: item.indicatorHealthData.healthData[0].count,
-    value: item.indicatorHealthData.healthData[0].value,
+    period: item.indicatorHealthDataAreaOne.healthData[0].year,
+    trend: item.indicatorHealthDataAreaOne.healthData[0].trend,
+    areaOneCount: item.indicatorHealthDataAreaOne.healthData[0].count,
+    areaOneValue: item.indicatorHealthDataAreaOne.healthData[0].value,
+    areaTwoCount: twoAreasRequested ? item.indicatorHealthDataAreaTwo?.healthData[0].count : undefined,
+    areaTwoValue: twoAreasRequested ? item.indicatorHealthDataAreaTwo?.healthData[0].value : undefined,
     groupValue: item.groupIndicatorData.healthData[0].value,
     benchmarkValue: item.englandBenchmarkData.healthData[0].value,
     benchmarkStatistics: item.benchmarkStatistics,
+    twoAreasRequested
   }));
 
 const sortByIndicator = (tableRowData: SpineChartTableRowData[]) =>
   tableRowData.toSorted((a, b) => a.indicatorId - b.indicatorId);
 
-export function SpineChartTable(dataTable: Readonly<SpineChartTableProps>) {
-  const areaName = dataTable.rowData[0].indicatorHealthData.areaName;
-  const groupName = dataTable.rowData[0].groupIndicatorData.areaName;
+const getAreaNames = (twoAreaRequested: boolean, tableRowData: SpineChartTableRowProps): string[] => {
+  return twoAreaRequested ? [
+    tableRowData.indicatorHealthDataAreaOne.areaName,
+    tableRowData.indicatorHealthDataAreaTwo?.areaName ?? ''
+  ] :
+  [
+    tableRowData.indicatorHealthDataAreaOne.areaName
+  ];
+}
 
-  const tableData = mapToSpineChartTableData(dataTable.rowData);
-  const sortedData = sortByIndicator(tableData);
+export function SpineChartTable({
+  rowData,
+  areasSelected
+}: Readonly<SpineChartTableProps>) {
+  if (areasSelected.length < 1 || 2 < areasSelected.length) {
+    throw new Error('Improper usage: Spine chart should only be shown when 1-2 areas are selected');
+  }
 
-  // DHSCFT-582 - extend to allow up to 2 areas. Trends should only show for 1.
+  const twoAreasRequested = areasSelected.length === 2;
+  const groupName = rowData[0].groupIndicatorData.areaName;
+
+  const mappedTableData = mapToSpineChartTableData(rowData, twoAreasRequested);
+  const sortedData = sortByIndicator(mappedTableData);
+  const mappedAreaNames = getAreaNames(twoAreasRequested, rowData[0]);
   return (
     <StyledDivTableContainer data-testid="spineChartTable-component">
       <StyledTable>
-        <SpineChartTableHeader areaName={areaName} groupName={groupName} />
+        <SpineChartTableHeader
+          areaNames={mappedAreaNames}
+          twoAreasRequested={twoAreasRequested}
+          groupName={groupName}
+        />
         {sortedData.map((row) => (
           <React.Fragment key={row.indicatorId}>
             <SpineChartTableRow
@@ -66,11 +93,15 @@ export function SpineChartTable(dataTable: Readonly<SpineChartTableProps>) {
               unit={row.unit}
               period={row.period}
               trend={row.trend}
-              count={row.count}
+              areaOneCount={row.areaOneCount}
+              areaOneValue={row.areaOneValue}
+              areaTwoCount={row.areaTwoCount}
+              areaTwoValue={row.areaTwoValue}
               value={row.value}
               groupValue={row.groupValue}
               benchmarkValue={row.benchmarkValue}
               benchmarkStatistics={row.benchmarkStatistics}
+              twoAreasRequested={twoAreasRequested}
             />
           </React.Fragment>
         ))}

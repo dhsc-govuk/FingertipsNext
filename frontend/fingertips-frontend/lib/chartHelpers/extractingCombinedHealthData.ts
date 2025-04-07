@@ -7,12 +7,18 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 type ExtractedHealthData = {
-  orderedHealthData: HealthDataForArea[];
+  orderedHealthDataAreaOne: HealthDataForArea[];
+  orderedHealthDataAreaTwo?: HealthDataForArea[];
   orderedGroupData: HealthDataForArea[];
   orderedEnglandData: HealthDataForArea[];
   orderedMetadata: (IndicatorDocument | undefined)[];
   orderedQuartileData: QuartileData[];
 };
+
+interface RequestedAreaHealthData {
+  areaOneLatestHealthData: HealthDataForArea;
+  areaTwoLatestHealthData?: HealthDataForArea;
+}
 
 export const extractingCombinedHealthData = (
   combinedIndicatorData: IndicatorWithHealthDataForArea[],
@@ -21,7 +27,11 @@ export const extractingCombinedHealthData = (
   areasSelected: string[],
   selectedGroupCode?: string
 ): ExtractedHealthData => {
-  const orderedHealthData: HealthDataForArea[] = new Array(
+  const twoAreasDataRequired = areasSelected.length === 2;
+  const orderedHealthDataAreaOne: HealthDataForArea[] = new Array(
+    combinedIndicatorData.length
+  );
+  const orderedHealthDataAreaTwo: (HealthDataForArea)[] = new Array(
     combinedIndicatorData.length
   );
   const orderedGroupData: HealthDataForArea[] = new Array(
@@ -42,14 +52,16 @@ export const extractingCombinedHealthData = (
       throw new Error('Missing health data for indicator');
     }
 
-    const healthData = indicator.areaHealthData.find(
-      (areaData) => areaData.areaCode === areasSelected[0]
-    );
+    const {
+      areaOneLatestHealthData,
+      areaTwoLatestHealthData
+    } = extractPerAreaHealthData(indicator, areasSelected);
 
-    if (!healthData) {
-      throw new Error('Missing area health data for indicator');
+    orderedHealthDataAreaOne[index] = areaOneLatestHealthData;
+
+    if (twoAreasDataRequired && areaTwoLatestHealthData) {
+      orderedHealthDataAreaTwo[index] = areaTwoLatestHealthData;
     }
-    orderedHealthData[index] = healthData;
 
     const groupData = indicator.areaHealthData.find(
       (areaData) => areaData.areaCode === selectedGroupCode
@@ -87,10 +99,46 @@ export const extractingCombinedHealthData = (
   });
 
   return {
-    orderedHealthData,
+    orderedHealthDataAreaOne,
+    orderedHealthDataAreaTwo: twoAreasDataRequired ? orderedHealthDataAreaTwo: undefined,
     orderedGroupData,
     orderedEnglandData,
     orderedMetadata,
     orderedQuartileData,
   };
+};
+
+const extractPerAreaHealthData = (
+  indicatorWithHealthData: IndicatorWithHealthDataForArea,
+  areasSelected: string[],
+): RequestedAreaHealthData => {
+  if (areasSelected.length < 1 || 2 < areasSelected.length) {
+    // TODO make error message common
+    throw new Error('Improper usage: Spine chart should only be shown when 1-2 areas are selected');
+  }
+
+  const areaOneLatestHealthData = indicatorWithHealthData.areaHealthData?.find(
+    (areaData) => areaData.areaCode === areasSelected[0]
+  );
+
+  if (!areaOneLatestHealthData) {
+    throw new Error(`Missing area health data for indicator. ID: ${indicatorWithHealthData.indicatorId}, AreaCode: ${areasSelected[0]}`);
+  }
+
+  let areaTwoLatestHealthData;
+
+  if (areasSelected.length === 2) {
+    areaTwoLatestHealthData = indicatorWithHealthData.areaHealthData?.find(
+      (areaData) => areaData.areaCode === areasSelected[1]
+    );
+
+    if (!areaTwoLatestHealthData) {
+      throw new Error(`Missing area health data for indicator. ID: ${indicatorWithHealthData.indicatorId}, AreaCode: ${areasSelected[1]}`);
+    }
+  }
+
+  return {
+    areaOneLatestHealthData,
+    areaTwoLatestHealthData
+  }
 };
