@@ -18,12 +18,12 @@ import { H3 } from 'govuk-react';
 type TwoOrMoreIndicatorsEnglandViewPlotProps = {
   indicatorData: IndicatorWithHealthDataForArea[];
   searchState: SearchStateParams;
-  indicatorMetadata: IndicatorDocument[] | undefined;
+  indicatorMetadata: IndicatorDocument[];
 };
 
 export const getLatestPeriodHealthDataPoint = (
   indicatorData: IndicatorWithHealthDataForArea,
-  latestPeriod: string | undefined,
+  latestPeriod?: string
 ): HealthDataPoint | undefined => {
   if (indicatorData.areaHealthData?.[0]?.healthData) {
     return indicatorData.areaHealthData?.[0].healthData?.find(
@@ -34,14 +34,13 @@ export const getLatestPeriodHealthDataPoint = (
 };
 
 export const getEnglandIndicatorTableData = (
-  indicatorData: IndicatorWithHealthDataForArea[], indicatorMetadata: IndicatorDocument[] | undefined
+  indicatorData: IndicatorWithHealthDataForArea[],
+  indicatorMetadata: IndicatorDocument[]
 ): EnglandAreaTypeIndicatorData[] => {
-  
   return indicatorData.map((indicator) => {
-
     const hasHealthDataForEngland =
       indicator.areaHealthData?.[0]?.healthData !== undefined;
-    
+
     const metaDataForIndicator = indicatorMetadata?.find(
       (indicatorMeta) =>
         indicatorMeta?.indicatorID === indicator.indicatorId?.toString()
@@ -75,10 +74,12 @@ export function TwoOrMoreIndicatorsEnglandViewPlots({
   searchState,
 }: Readonly<TwoOrMoreIndicatorsEnglandViewPlotProps>) {
   SearchStateManager.initialise(searchState);
-  
-  const englandIndicatorData = getEnglandIndicatorTableData(indicatorData,
-    indicatorMetadata,)
 
+  const englandIndicatorData = getEnglandIndicatorTableData(
+    indicatorData,
+    indicatorMetadata
+  );
+  console.log(englandIndicatorData);
   return (
     <section data-testid="twoOrMoreIndicatorsEnglandViewPlot-component">
       <H3>Compare indicators for an area</H3>

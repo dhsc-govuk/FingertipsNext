@@ -23,11 +23,11 @@ export enum EnglandAreaTypeTableEnum {
 }
 
 export interface EnglandAreaTypeIndicatorData {
-  indicatorId: number | undefined;
-  indicatorName: string | undefined;
+  indicatorId?: number;
+  indicatorName?: string;
   period?: string;
   latestEnglandHealthData?: HealthDataPoint;
-  unitLabel: string | undefined;
+  unitLabel?: string;
 }
 
 interface EnglandAreaTypeTableProps {

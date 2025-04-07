@@ -28,7 +28,13 @@ const mockIndicator: IndicatorWithHealthDataForArea = {
   areaHealthData: [mockEnglandData],
 };
 
-const mockIndicatorDocument = (indicatorId: string, dataSource: string, earliestDataPeriod: string, latestDataPeriod: string, unitLabel: string): IndicatorDocument => {
+const mockIndicatorDocument = (
+  indicatorId: string,
+  dataSource: string,
+  earliestDataPeriod: string,
+  latestDataPeriod: string,
+  unitLabel: string
+): IndicatorDocument => {
   return {
     indicatorID: indicatorId,
     indicatorName: 'mock indicator',
