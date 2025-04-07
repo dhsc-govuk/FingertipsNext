@@ -39,23 +39,29 @@ const fetchBatchIndicatorRequest = async (
 
   for (const requestAreas of chunkArray(areaCodesToRequest)) {
     if (!requestAreas) continue;
+    try {
+      const data = await indicatorApi.getHealthDataForAnIndicator(
+        {
+          indicatorId: populationIndicatorID,
+          areaCodes: requestAreas,
+          inequalities: [
+            GetHealthDataForAnIndicatorInequalitiesEnum.Age,
+            GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
+          ],
+        },
+        API_CACHE_CONFIG
+      );
 
-    const data = await indicatorApi.getHealthDataForAnIndicator(
-      {
-        indicatorId: populationIndicatorID,
-        areaCodes: requestAreas,
-        inequalities: [
-          GetHealthDataForAnIndicatorInequalitiesEnum.Age,
-          GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
-        ],
-      },
-      API_CACHE_CONFIG
-    );
-
-    if (!population) {
-      population = data;
-    } else {
-      population.areaHealthData?.push(...(data.areaHealthData ?? []));
+      if (!population) {
+        population = data;
+      } else {
+        population.areaHealthData?.push(...(data.areaHealthData ?? []));
+      }
+    } catch (error) {
+      console.error(
+        'error getting population health indicator data for area',
+        error
+      );
     }
   }
 
@@ -75,6 +81,8 @@ export const PopulationPyramidWithTableDataProvider = async ({
   areaCodes,
   searchState,
 }: PyramidContextProviderProps) => {
+  console.log('Areas');
+  console.log(areaCodes);
   const stateManager = SearchStateManager.initialise(searchState);
 
   const { [SearchParams.GroupSelected]: groupAreaSelected } =
