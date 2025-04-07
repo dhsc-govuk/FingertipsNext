@@ -166,7 +166,14 @@ export default class AreaFilter extends BasePage {
       // England area mode
       if (AreaMode.ENGLAND_AREA === areaMode) {
         await this.selectAreaType('england');
+        await this.waitForURLToContain(SearchParams.AreaTypeSelected);
+
         await this.selectGroupType('england');
+        await this.waitForURLToContain(SearchParams.GroupTypeSelected);
+
+        await this.selectArea('england', 'england');
+        await this.waitForURLToContain(SearchParams.AreasSelected);
+
         await this.waitForURLToContain('england');
       }
     } else if (

@@ -202,8 +202,7 @@ export function getScenarioConfig(
         ChartPage.lineChartComponent,
         ChartPage.lineChartTableComponent,
         ChartPage.barChartEmbeddedTableComponent,
-        // Enable in DHSCFT-225
-        // ChartPage.populationPyramidComponent,
+        ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
     );
   }
@@ -216,8 +215,7 @@ export function getScenarioConfig(
       [
         ChartPage.thematicMapComponent,
         ChartPage.barChartEmbeddedTableComponent,
-        // Enable in DHSCFT-225
-        // ChartPage.populationPyramidComponent,
+        ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
     );
   }
@@ -229,8 +227,7 @@ export function getScenarioConfig(
     visibleComponents = allComponents.filter((component) =>
       [
         ChartPage.englandAreaTypeTableComponent,
-        // Enable in DHSCFT-225
-        // ChartPage.populationPyramidComponent,
+        ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
     );
   }
@@ -243,8 +240,7 @@ export function getScenarioConfig(
       [
         ChartPage.spineChartTableComponent,
         ChartPage.heatMapComponent,
-        // Enable in DHSCFT-225
-        // ChartPage.populationPyramidComponent,
+        ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
     );
   } else {
