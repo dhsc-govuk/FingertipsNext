@@ -1,9 +1,7 @@
 import { FTContainer } from '@/components/layouts/container';
 import { FTFooter } from '@/components/molecules/Footer';
 import { FTHeader } from '@/components/molecules/Header';
-import { PopulationPyramidWithTable } from '@/components/organisms/PopulationPyramidWithTable';
 import StyledComponentsRegistry from '@/lib/registry';
-import { mockHealthData } from '@/mock/data/healthdata';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
@@ -38,10 +36,7 @@ export default function RootLayout({
       <body className={gdsTransportFont.className}>
         <StyledComponentsRegistry>
           <FTHeader />
-          <FTContainer>
-
-            <PopulationPyramidWithTable healthDataForAreas={mockHealthData["337"]} xAxisTitle='' yAxisTitle='' groupAreaSelected={mockHealthData["337"][2].areaCode} searchState={{}} />
-          </FTContainer>
+          <FTContainer>{children}</FTContainer>
           <FTFooter />
         </StyledComponentsRegistry>
       </body>
