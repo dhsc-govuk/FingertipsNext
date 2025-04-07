@@ -136,11 +136,7 @@ function getBenchmarkColourScale(
   return [
     {
       to: 10,
-      color: getBenchmarkColour(
-        benchmarkComparisonMethod,
-        BenchmarkOutcome.NotCompared,
-        polarity
-      ),
+      color: GovukColours.White,
     },
     {
       from: 10,

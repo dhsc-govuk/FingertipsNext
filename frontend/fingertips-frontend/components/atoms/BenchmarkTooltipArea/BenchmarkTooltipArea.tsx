@@ -28,12 +28,6 @@ export function BenchmarkTooltipArea({
   measurementUnit,
   tooltipType,
 }: Readonly<BenchmarkTooltipArea>) {
-  const areaMarkerSymbolOld =
-    indicatorData.healthData[0].benchmarkComparison?.outcome ===
-    BenchmarkOutcome.NotCompared
-      ? SymbolsEnum.MultiplicationX
-      : SymbolsEnum.Circle;
-
   const areaMarkerSymbol = () => {
     switch (true) {
       case tooltipType === 'benchmark':
