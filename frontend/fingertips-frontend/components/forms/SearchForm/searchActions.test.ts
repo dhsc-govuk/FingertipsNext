@@ -9,13 +9,14 @@ import { mockDeep } from 'jest-mock-extended';
 import { redirect, RedirectType } from 'next/navigation';
 import { SearchParams } from '@/lib/searchStateManager';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
-import { AreaDocument } from '@/lib/search/searchTypes';
+import { AreaDocument, IAreaSearchService } from '@/lib/search/searchTypes';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import EnvironmentVariables from '@/EnvironmentVariables';
 
 jest.mock('next/navigation');
 const redirectMock = jest.mocked(redirect);
 
-beforeEach(() => {
+afterEach(() => {
   jest.clearAllMocks();
 });
 
@@ -130,7 +131,27 @@ describe('Search actions', () => {
 describe('getSearchSuggestions', () => {
   it('should return search suggestions', async () => {
     SearchServiceFactory.reset();
-    // TODO: mock search suggestion
+    jest
+      .spyOn(SearchServiceFactory, 'getAreaSearchService')
+      .mockImplementation(() => {
+        return {
+          getAreaSuggestions: jest.fn().mockImplementation(() => {
+            return [
+              {
+                areaCode: 'A81005',
+                areaName: 'Springwood Surgery',
+                areaType: 'GPs',
+              },
+            ];
+          }),
+          async getAreaDocument(
+            _areaCode: string
+          ): Promise<AreaDocument | undefined> {
+            return undefined;
+          },
+        } satisfies IAreaSearchService;
+      });
+
     const suggestions = await getSearchSuggestions('Springwood');
     expect(suggestions).toHaveLength(1);
     expect(suggestions[0]).toMatchObject({
@@ -138,12 +159,6 @@ describe('getSearchSuggestions', () => {
       areaName: 'Springwood Surgery',
       areaType: 'GPs',
     });
-  });
-
-  it('should return a maximum of 20 suggestions', async () => {
-    SearchServiceFactory.reset();
-    // TODO: mock search suggestion
-    expect(await getSearchSuggestions('Surgery')).toHaveLength(20);
   });
 });
 

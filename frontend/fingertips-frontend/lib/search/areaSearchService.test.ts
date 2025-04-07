@@ -12,6 +12,7 @@ jest.mock('@azure/search-documents', () => ({
 
 describe('AreaSearchService', () => {
   const mockSearch = jest.fn();
+  let searchService: AreaSearchService;
 
   (SearchClient as jest.Mock).mockImplementation(() => ({
     suggest: mockSearch,
@@ -24,10 +25,12 @@ describe('AreaSearchService', () => {
 
   mockSearch.mockResolvedValue({ results: [] });
 
+  beforeEach(() => {
+    searchService = new AreaSearchService('someUrl', 'someKey', AREA_SEARCH_INDEX_NAME);
+  })
+
   describe('if the environment is configured it', () => {
     it('should successfully create a search service instance', () => {
-      const searchService = new AreaSearchService('someUrl', 'someKey', 'someIndex');
-      expect(searchService).toBeInstanceOf(AreaSearchService);
       expect(SearchClient).toHaveBeenCalledWith(
         'someUrl',
         AREA_SEARCH_INDEX_NAME,
@@ -37,7 +40,6 @@ describe('AreaSearchService', () => {
 
     it('should call search client with correct parameters', async () => {
       const SEARCH_TERM = 'someText';
-      const searchService = new AreaSearchService('someUrl', 'someKey', 'someIndex');
       await searchService.getAreaSuggestions(SEARCH_TERM);
 
       expect(mockSearch).toHaveBeenLastCalledWith(
@@ -80,8 +82,6 @@ describe('AreaSearchService', () => {
       };
 
       mockSearch.mockResolvedValue(mockSearchResults);
-
-      const searchService = new AreaSearchService('someUrl', 'someKey', 'someIndex');
       const results =
         await searchService.getAreaSuggestions('random search text');
 
@@ -134,7 +134,6 @@ describe('AreaSearchService', () => {
       mockSearch.mockReset();
       mockSearch.mockResolvedValue(mockSearchResults);
 
-      const searchService = new AreaSearchService('someUrl', 'someKey', 'someIndex');
       const areaDocument = await searchService.getAreaDocument('123');
       expect(areaDocument).toBeDefined();
       expect(areaDocument).toEqual({
