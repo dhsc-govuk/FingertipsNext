@@ -12,8 +12,10 @@ interface PositionProps {
 }
 
 const StyledDivHover = styled.div.attrs<PositionProps>(({ $xPos, $yPos }) => ({
-  left: `${$xPos}px`,
-  top: `${$yPos}px`,
+  style: {
+    left: `${$xPos}px`,
+    top: `${$yPos}px`,
+  },
 }))<PositionProps>({
   color: GovukColours.Black,
   backgroundColor: GovukColours.White,
