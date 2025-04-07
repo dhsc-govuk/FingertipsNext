@@ -23,6 +23,7 @@ const StyledH4AreaScaled = styled(H4)({
   writingMode: 'vertical-lr',
   maxHeight: '300px',
   display: 'block',
+  margin: '0px',
 });
 
 const StyledH4BenchmarkHeader = styled(StyledH4AreaScaled)({
@@ -68,6 +69,7 @@ const StyledCellHeaderArea = styled(Table.CellHeader)({
   verticalAlign: 'bottom',
   width: `${heatmapDataColumnWidth}px`,
   paddingRight: '0px',
+  paddingLeft: '1em',
 });
 
 export const HeatmapHeader = ({

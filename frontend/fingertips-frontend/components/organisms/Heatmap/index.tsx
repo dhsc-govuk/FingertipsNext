@@ -56,11 +56,11 @@ export function Heatmap({
     }
 
     return (e) => {
-      const rect = e.currentTarget.getBoundingClientRect();
+      const cellRect = e.currentTarget.parentElement?.getBoundingClientRect();
       const hoverPropsWithPosition: HeatmapHoverProps = {
         ...hoverProps,
-        xPos: rect?.right,
-        yPos: rect?.top,
+        xPos: cellRect?.right,
+        yPos: cellRect?.top,
       };
 
       setHoverState(hoverPropsWithPosition);

@@ -15,10 +15,10 @@ const StyledCellText = styled(Table.Cell)({
 
 const StyledCellNumeric = styled(Table.Cell)({
   textAlign: 'center',
-  minHeight: '70px',
   width: `${heatmapDataColumnWidth}px`,
   padding: 0,
   position: 'relative',
+  borderLeft: `1px solid #bfc1c3`,
 });
 
 const StyledCellData = styled(StyledCellNumeric)<{
@@ -30,9 +30,13 @@ const StyledCellData = styled(StyledCellNumeric)<{
 `;
 
 const StyledDivDataCellContent = styled.div({
-  minWidth: '60px',
-  maxWidth: '80px',
-  display: 'inline',
+  margin: '2px',
+  padding: '8px',
+  minWidth: '40px',
+  maxWidth: '120px',
+  display: 'inline-block',
+  textAlign: 'justify',
+  verticalAlign: 'middle',
 });
 
 const StyledDivIndicatorTitleCellContent = styled.div({
@@ -92,7 +96,7 @@ export const HeatmapCell = ({
             onMouseOver={onMouseOver}
             onMouseLeave={onMouseLeave}
           >
-            <StyledDivDataCellContent>{content}</StyledDivDataCellContent>
+            {content}
           </StyledDivDataCellContent>
         </StyledCellData>
       );
