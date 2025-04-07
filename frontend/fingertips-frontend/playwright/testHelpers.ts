@@ -298,13 +298,6 @@ export function getAllAreasByAreaType(
   );
 }
 
-export function getAreasByAreaName(
-  areas: AreaDocument[],
-  areaName: string
-): AreaDocument[] {
-  return areas.filter((area) => area.areaName.toLowerCase().includes(areaName));
-}
-
 export function returnIndicatorIDsByIndicatorMode(
   indicators: string[],
   indicatorMode: IndicatorMode

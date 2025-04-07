@@ -62,6 +62,32 @@ export default class AreaFilter extends BasePage {
     return Promise.all(options.map((l) => l.textContent()));
   }
 
+  async assertFiltersDisabled() {
+    const areaType = this.page.getByTestId(this.areaTypeSelector);
+    const groupType = this.page.getByTestId(this.groupTypeSelector);
+    const group = this.page.getByTestId(this.groupSelector);
+
+    expect(areaType).toBeDisabled();
+    expect(groupType).toBeDisabled();
+    expect(group).toBeDisabled();
+  }
+
+  async assertGroupTypeFilterContainsOnly(contain: string) {
+    const groupType = this.page.getByTestId(this.groupTypeSelector);
+
+    const groupTypeOptions = await groupType
+      .locator('option')
+      .allTextContents();
+    expect(String(groupTypeOptions)).toContain(contain);
+  }
+
+  async assertGroupFilterContainsOnly(contain: string) {
+    const group = this.page.getByTestId(this.groupSelector);
+
+    const groupOptions = await group.locator('option').allTextContents();
+    expect(String(groupOptions)).toContain(contain);
+  }
+
   async selectAreaType(areaType: string) {
     await this.selectOptionAndAwaitLoadingComplete(
       this.page.getByTestId(this.areaTypeSelector),
@@ -89,12 +115,12 @@ export default class AreaFilter extends BasePage {
     await this.waitForURLToContain(SearchParams.GroupSelected);
   }
 
-  async selectArea(areaName: string) {
+  async selectArea(areaName: string, areaCode: string) {
     await this.checkAndAwaitLoadingComplete(
       this.page.getByRole('checkbox', { name: areaName })
     );
 
-    await this.waitForURLToContain(SearchParams.AreasSelected);
+    await this.waitForURLToContain(areaCode);
   }
 
   /**
