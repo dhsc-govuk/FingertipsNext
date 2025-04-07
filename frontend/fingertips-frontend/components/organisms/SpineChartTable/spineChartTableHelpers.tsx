@@ -6,7 +6,8 @@ import {
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
-export const spineChartImproperUsageError = 'Improper usage: Spine chart should only be shown when 1-2 areas are selected';
+export const spineChartImproperUsageError =
+  'Improper usage: Spine chart should only be shown when 1-2 areas are selected';
 export const spineChartIndicatorTitleColumnMinWidth = 240;
 
 type ExtractedHealthData = {
@@ -34,7 +35,7 @@ export const extractCombinedHealthData = (
   const orderedHealthDataAreaOne: HealthDataForArea[] = new Array(
     combinedIndicatorData.length
   );
-  const orderedHealthDataAreaTwo: (HealthDataForArea)[] = new Array(
+  const orderedHealthDataAreaTwo: HealthDataForArea[] = new Array(
     combinedIndicatorData.length
   );
   const orderedGroupData: HealthDataForArea[] = new Array(
@@ -55,10 +56,8 @@ export const extractCombinedHealthData = (
       throw new Error('Missing health data for indicator');
     }
 
-    const {
-      areaOneLatestHealthData,
-      areaTwoLatestHealthData
-    } = extractPerAreaHealthData(indicator, areasSelected);
+    const { areaOneLatestHealthData, areaTwoLatestHealthData } =
+      extractPerAreaHealthData(indicator, areasSelected);
 
     orderedHealthDataAreaOne[index] = areaOneLatestHealthData;
 
@@ -103,7 +102,9 @@ export const extractCombinedHealthData = (
 
   return {
     orderedHealthDataAreaOne,
-    orderedHealthDataAreaTwo: twoAreasDataRequired ? orderedHealthDataAreaTwo: undefined,
+    orderedHealthDataAreaTwo: twoAreasDataRequired
+      ? orderedHealthDataAreaTwo
+      : undefined,
     orderedGroupData,
     orderedEnglandData,
     orderedMetadata,
@@ -121,7 +122,7 @@ export const extractCombinedHealthData = (
  */
 const extractPerAreaHealthData = (
   indicatorWithHealthData: IndicatorWithHealthDataForArea,
-  areasSelected: string[],
+  areasSelected: string[]
 ): RequestedAreaHealthData => {
   if (areasSelected.length < 1 || 2 < areasSelected.length) {
     throw new Error(spineChartImproperUsageError);
@@ -132,7 +133,9 @@ const extractPerAreaHealthData = (
   );
 
   if (!areaOneLatestHealthData) {
-    throw new Error(`Missing area health data for indicator. ID: ${indicatorWithHealthData.indicatorId}, AreaCode: ${areasSelected[0]}`);
+    throw new Error(
+      `Missing area health data for indicator. ID: ${indicatorWithHealthData.indicatorId}, AreaCode: ${areasSelected[0]}`
+    );
   }
 
   let areaTwoLatestHealthData;
@@ -143,12 +146,14 @@ const extractPerAreaHealthData = (
     );
 
     if (!areaTwoLatestHealthData) {
-      throw new Error(`Missing area health data for indicator. ID: ${indicatorWithHealthData.indicatorId}, AreaCode: ${areasSelected[1]}`);
+      throw new Error(
+        `Missing area health data for indicator. ID: ${indicatorWithHealthData.indicatorId}, AreaCode: ${areasSelected[1]}`
+      );
     }
   }
 
   return {
     areaOneLatestHealthData,
-    areaTwoLatestHealthData
-  }
+    areaTwoLatestHealthData,
+  };
 };

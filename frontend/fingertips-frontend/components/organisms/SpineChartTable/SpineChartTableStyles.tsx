@@ -25,7 +25,7 @@ const stickyLeft = {
   left: 0,
   zIndex: 10,
   borderRight: 'solid #bfc1c3 1px',
-  paddingRight: '0.5em'
+  paddingRight: '0.5em',
 };
 
 const stickyRight = {
@@ -45,12 +45,12 @@ export const StyledStickyEmptyLeftHeader = styled(Table.CellHeader)({
 });
 
 export const StyledAlignCentreHeader = styled(StyledAlignLeftHeader)({
-  textAlign: 'center'
+  textAlign: 'center',
 });
 
-export const StyledAlignCentreStickyLeftHeader = styled(StyledAlignCentreHeader)(
-  stickyLeft as unknown as TemplateStringsArray
-);
+export const StyledAlignCentreStickyLeftHeader = styled(
+  StyledAlignCentreHeader
+)(stickyLeft as unknown as TemplateStringsArray);
 
 export const StyledAlignRightBorderHeader = styled(StyledAlignRightHeader)({
   borderRight: 'solid #bfc1c3 1px',
@@ -61,14 +61,16 @@ export const StyledAlignCentreTableCell = styled(StyledAlignLeftTableCell)({
   textAlign: 'center',
 });
 
-export const StyledAlignRightBorderRightTableCell = styled(StyledAlignRightTableCell)({
+export const StyledAlignRightBorderRightTableCell = styled(
+  StyledAlignRightTableCell
+)({
   borderRight: 'solid #bfc1c3 1px',
   paddingRight: '0.5em',
 });
 
-export const StyledAlignCentreStickyTableCell = styled(StyledAlignCentreTableCell)(
-  stickyLeft as unknown as TemplateStringsArray
-);
+export const StyledAlignCentreStickyTableCell = styled(
+  StyledAlignCentreTableCell
+)(stickyLeft as unknown as TemplateStringsArray);
 
 export const StyledGroupHeader = styled(StyledGreyHeader)({
   backgroundColor: GovukColours.LightGrey,

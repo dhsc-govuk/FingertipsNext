@@ -30,43 +30,66 @@ export interface SpineChartTableRowProps {
   benchmarkStatistics: QuartileData;
 }
 
+/**
+ * Checks the latest period for the pre-sorted health data for areas one and two match.
+ * I.e. the latest data point for both areas is the same.
+ */
+const checkLatestPeriodMatches = (
+  rowData: SpineChartTableRowProps
+): boolean => {
+  return (
+    rowData.indicatorHealthDataAreaOne.healthData[0].year ===
+    rowData.indicatorHealthDataAreaTwo?.healthData[0].year
+  );
+};
+
 export const mapToSpineChartTableData = (
   tableData: SpineChartTableRowProps[],
   twoAreasRequested: boolean
 ): SpineChartTableRowData[] =>
-  // Add a check for data is in the same year
-  tableData.map((item) => ({
-    indicatorId: item.indicator.indicatorId,
-    indicator: item.indicator.title,
-    unit: item.measurementUnit,
-    period: item.indicatorHealthDataAreaOne.healthData[0].year,
-    trend: item.indicatorHealthDataAreaOne.healthData[0].trend,
-    areaOneCount: item.indicatorHealthDataAreaOne.healthData[0].count,
-    areaOneValue: item.indicatorHealthDataAreaOne.healthData[0].value,
-    areaTwoCount: twoAreasRequested ? item.indicatorHealthDataAreaTwo?.healthData[0].count : undefined,
-    areaTwoValue: twoAreasRequested ? item.indicatorHealthDataAreaTwo?.healthData[0].value : undefined,
-    groupValue: item.groupIndicatorData.healthData[0].value,
-    benchmarkValue: item.englandBenchmarkData.healthData[0].value,
-    benchmarkStatistics: item.benchmarkStatistics,
-    twoAreasRequested
-  }));
+  tableData.map((item) => {
+    // Show no value for the second area if it does not have data for the latest period for the first area.
+    const showSecondArea = twoAreasRequested && checkLatestPeriodMatches(item);
+
+    return {
+      indicatorId: item.indicator.indicatorId,
+      indicator: item.indicator.title,
+      unit: item.measurementUnit,
+      period: item.indicatorHealthDataAreaOne.healthData[0].year,
+      trend: item.indicatorHealthDataAreaOne.healthData[0].trend,
+      areaOneCount: item.indicatorHealthDataAreaOne.healthData[0].count,
+      areaOneValue: item.indicatorHealthDataAreaOne.healthData[0].value,
+      areaTwoCount: showSecondArea
+        ? item.indicatorHealthDataAreaTwo?.healthData[0].count
+        : undefined,
+      areaTwoValue: showSecondArea
+        ? item.indicatorHealthDataAreaTwo?.healthData[0].value
+        : undefined,
+      groupValue: item.groupIndicatorData.healthData[0].value,
+      benchmarkValue: item.englandBenchmarkData.healthData[0].value,
+      benchmarkStatistics: item.benchmarkStatistics,
+      twoAreasRequested,
+    };
+  });
 
 const sortByIndicator = (tableRowData: SpineChartTableRowData[]) =>
   tableRowData.toSorted((a, b) => a.indicatorId - b.indicatorId);
 
-const getAreaNames = (twoAreaRequested: boolean, tableRowData: SpineChartTableRowProps): string[] => {
-  return twoAreaRequested ? [
-    tableRowData.indicatorHealthDataAreaOne.areaName,
-    tableRowData.indicatorHealthDataAreaTwo?.areaName ?? ''
-  ] :
-  [
-    tableRowData.indicatorHealthDataAreaOne.areaName
-  ];
-}
+const getAreaNames = (
+  twoAreaRequested: boolean,
+  tableRowData: SpineChartTableRowProps
+): string[] => {
+  return twoAreaRequested
+    ? [
+        tableRowData.indicatorHealthDataAreaOne.areaName,
+        tableRowData.indicatorHealthDataAreaTwo?.areaName ?? '',
+      ]
+    : [tableRowData.indicatorHealthDataAreaOne.areaName];
+};
 
 export function SpineChartTable({
   rowData,
-  areasSelected
+  areasSelected,
 }: Readonly<SpineChartTableProps>) {
   if (areasSelected.length < 1 || 2 < areasSelected.length) {
     throw new Error(spineChartImproperUsageError);

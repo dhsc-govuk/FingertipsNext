@@ -49,7 +49,7 @@ export const StyledAlignLeftTableCell = styled(StyledTableCell)({
 
 export const StyledIndicatorTitleCell = styled(StyledAlignLeftTableCell)({
   width: '20%',
-  minWidth: `${spineChartIndicatorTitleColumnMinWidth}px`
+  minWidth: `${spineChartIndicatorTitleColumnMinWidth}px`,
 });
 
 export const StyledAlignLeftHeader = styled(StyledTableCellHeader)({

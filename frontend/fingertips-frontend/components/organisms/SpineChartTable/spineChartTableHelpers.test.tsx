@@ -244,9 +244,10 @@ describe('extractCombinedHealthData ', () => {
       orderedGroupData: [
         { areaCode: 'G001', areaName: 'group', healthData: [] },
       ],
-      orderedHealthData: [
+      orderedHealthDataAreaOne: [
         { areaCode: 'A001', areaName: 'area', healthData: [] },
       ],
+      orderedHealthDataAreaTwo: undefined,
       orderedMetadata: [undefined],
       orderedQuartileData: mockQuartileData,
     };
@@ -291,9 +292,10 @@ describe('extractCombinedHealthData ', () => {
       orderedGroupData: [
         { areaCode: 'G001', areaName: 'group', healthData: [] },
       ],
-      orderedHealthData: [
+      orderedHealthDataAreaOne: [
         { areaCode: 'A001', areaName: 'area', healthData: [] },
       ],
+      orderedHealthDataAreaTwo: undefined,
       orderedMetadata: [undefined],
       orderedQuartileData: mockQuartileData,
     };
@@ -322,9 +324,10 @@ describe('extractCombinedHealthData ', () => {
       orderedGroupData: [
         { areaCode: 'G001', areaName: 'group', healthData: [] },
       ],
-      orderedHealthData: [
+      orderedHealthDataAreaOne: [
         { areaCode: 'A001', areaName: 'area', healthData: [] },
       ],
+      orderedHealthDataAreaTwo: undefined,
       orderedMetadata: mockValidMetaData,
       orderedQuartileData: mockQuartileData,
     };

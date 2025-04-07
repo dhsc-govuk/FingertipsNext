@@ -109,6 +109,40 @@ const mockAreaHealthData: HealthDataForArea[] = [
       },
     ],
   },
+  {
+    areaCode: mockAreas[1],
+    areaName: 'Greater Manchester ICB - 00T',
+    healthData: [
+      {
+        year: 2008,
+        count: 222,
+        value: 890.305692,
+        lowerCi: 441.69151,
+        upperCi: 578.32766,
+        ageBand: allAgesAge,
+        sex: personsSex,
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
+      },
+    ],
+  },
+  {
+    areaCode: mockAreas[1],
+    areaName: 'Greater Manchester ICB - 00T',
+    healthData: [
+      {
+        year: 2024,
+        count: 111,
+        value: 690.305692,
+        lowerCi: 341.69151,
+        upperCi: 478.32766,
+        ageBand: allAgesAge,
+        sex: personsSex,
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
+      },
+    ],
+  },
 ];
 
 const mockIndicatorData: IndicatorWithHealthDataForArea[] = [
@@ -116,6 +150,7 @@ const mockIndicatorData: IndicatorWithHealthDataForArea[] = [
     indicatorId: Number(indicatorIds[0]),
     areaHealthData: [
       mockAreaHealthData[0],
+      mockAreaHealthData[2],
       mockGroupHealthData,
       mockEnglandHealthData,
     ],
@@ -124,6 +159,7 @@ const mockIndicatorData: IndicatorWithHealthDataForArea[] = [
     indicatorId: Number(indicatorIds[1]),
     areaHealthData: [
       mockAreaHealthData[1],
+      mockAreaHealthData[3],
       mockGroupHealthData,
       mockEnglandHealthData,
     ],
@@ -139,7 +175,7 @@ const mockMetaData = [
     earliestDataPeriod: '2025',
     latestDataPeriod: '2025',
     lastUpdatedDate: new Date('March 4, 2025'),
-    associatedAreaCodes: [mockAreas[0]],
+    associatedAreaCodes: [mockAreas[0], mockAreas[1]],
     unitLabel: 'count',
     hasInequalities: true,
     usedInPoc: false,
@@ -152,7 +188,7 @@ const mockMetaData = [
     earliestDataPeriod: '2023',
     latestDataPeriod: '2023',
     lastUpdatedDate: new Date('March 4, 2023'),
-    associatedAreaCodes: [mockAreas[0]],
+    associatedAreaCodes: [mockAreas[0], mockAreas[1]],
     unitLabel: 'values',
     hasInequalities: true,
     usedInPoc: false,

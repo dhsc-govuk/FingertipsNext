@@ -47,7 +47,7 @@ export function mapToSpineChartTableProps(
   englandIndicatorData: HealthDataForArea[],
   indicatorMetadata: (IndicatorDocument | undefined)[],
   quartileData: QuartileData[],
-  healthDataAreaTwo?: HealthDataForArea[],
+  healthDataAreaTwo?: HealthDataForArea[]
 ): SpineChartTableProps {
   const numberOfIndicators = healthDataAreaOne.length;
   const tableData: SpineChartTableRowProps[] = new Array(numberOfIndicators);
@@ -62,7 +62,9 @@ export function mapToSpineChartTableProps(
       indicator: mapToSpineChartTableIndicator(indicatorMetadata[index]),
       measurementUnit: rowMeasurementUnit,
       indicatorHealthDataAreaOne: indicatorData,
-      indicatorHealthDataAreaTwo: healthDataAreaTwo ? healthDataAreaTwo[index] : undefined,
+      indicatorHealthDataAreaTwo: healthDataAreaTwo
+        ? healthDataAreaTwo[index]
+        : undefined,
       groupIndicatorData: groupIndicatorData[index],
       englandBenchmarkData: englandIndicatorData[index],
       benchmarkStatistics: quartileData[index],

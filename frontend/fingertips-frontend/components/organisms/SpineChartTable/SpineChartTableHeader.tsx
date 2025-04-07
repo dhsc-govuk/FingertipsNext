@@ -44,42 +44,44 @@ export function SpineChartTableHeader({
 }: Readonly<TableHeaderProps>) {
   return (
     <>
-      <Table.Row key='area-headers'>
-        {twoAreasRequested ?
+      <Table.Row key={`${areaNames.concat()}`}>
+        {twoAreasRequested ? (
           <>
             <Table.CellHeader
               colSpan={2}
               data-testid="empty-header"
             ></Table.CellHeader>
-            <StyledStickyEmptyLeftHeader 
-              colSpan={1} 
+            <StyledStickyEmptyLeftHeader
+              colSpan={1}
               data-testid="empty-header-sticky"
-            >
-            </StyledStickyEmptyLeftHeader>
+            ></StyledStickyEmptyLeftHeader>
           </>
-        :
+        ) : (
           <Table.CellHeader
             colSpan={3}
             data-testid="empty-header"
           ></Table.CellHeader>
-        }
-        <StyledAlignCentreHeader colSpan={twoAreasRequested ? 2 : 3} data-testid={`area-header${twoAreasRequested ? '-1' : ''}`}>
+        )}
+        <StyledAlignCentreHeader
+          colSpan={twoAreasRequested ? 2 : 3}
+          data-testid={`area-header${twoAreasRequested ? '-1' : ''}`}
+        >
           {areaNames[0]}
         </StyledAlignCentreHeader>
-        {twoAreasRequested ?
+        {twoAreasRequested ? (
           <StyledAlignCentreHeader colSpan={2} data-testid="area-header-2">
             {areaNames[1]}
           </StyledAlignCentreHeader>
-        : null}
-        {twoAreasRequested ?
+        ) : null}
+        {twoAreasRequested ? (
           <StyledGroupStickyRightHeader data-testid="group-header">
             {groupName}
           </StyledGroupStickyRightHeader>
-        : 
+        ) : (
           <StyledGroupHeader data-testid="group-header">
             {groupName}
           </StyledGroupHeader>
-        }
+        )}
         <StyledBenchmarkHeader colSpan={4} data-testid="england-header">
           Benchmark: England
         </StyledBenchmarkHeader>
@@ -124,7 +126,7 @@ export function SpineChartTableHeader({
               ) : null;
             case SpineChartTableHeadingEnum.AreaCount:
               return twoAreasRequested ? (
-                <>
+                <React.Fragment key={'count-value-for-areas'}>
                   <StyledAlignCentreHeader
                     key={`area-1-${heading}`}
                     data-testid={`area-1-${heading}-header`}
@@ -133,7 +135,7 @@ export function SpineChartTableHeader({
                   </StyledAlignCentreHeader>
                   <StyledAlignRightBorderHeader
                     key={'area-1-value'}
-                    data-testid={'area-1-value-header'}
+                    data-testid={'area-1-Value-header'}
                   >
                     Value
                   </StyledAlignRightBorderHeader>
@@ -145,13 +147,13 @@ export function SpineChartTableHeader({
                   </StyledAlignCentreHeader>
                   <StyledAlignRightHeader
                     key={'area-2-value'}
-                    data-testid={'area-2-value-header'}
+                    data-testid={'area-2-Value-header'}
                   >
                     Value
                   </StyledAlignRightHeader>
-              </>
+                </React.Fragment>
               ) : (
-                <>
+                <React.Fragment key={'count-value-for-area'}>
                   <StyledAlignCentreHeader
                     key={heading}
                     data-testid={`${heading}-header`}
@@ -164,7 +166,7 @@ export function SpineChartTableHeader({
                   >
                     Value
                   </StyledAlignRightHeader>
-                </>
+                </React.Fragment>
               );
             case SpineChartTableHeadingEnum.GroupValue:
               return !twoAreasRequested ? (
@@ -174,8 +176,7 @@ export function SpineChartTableHeader({
                 >
                   Value
                 </StyledGroupSubHeader>
-              ) :
-              (
+              ) : (
                 <StyledGroupStickyRightSubHeader
                   key={heading}
                   data-testid={`${heading}-header`}

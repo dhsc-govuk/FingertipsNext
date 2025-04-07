@@ -65,8 +65,7 @@ export function SpineChartTableRow({
   groupValue,
   benchmarkValue,
   benchmarkStatistics,
-  twoAreasRequested
-
+  twoAreasRequested,
 }: Readonly<SpineChartTableRowData>) {
   const { best, worst } = orderStatistics(benchmarkStatistics);
 
@@ -78,25 +77,24 @@ export function SpineChartTableRow({
       <StyledAlignLeftTableCell data-testid={`unit-cell`}>
         {unit}
       </StyledAlignLeftTableCell>
-      {twoAreasRequested ?
-        (
-          <StyledAlignCentreStickyTableCell data-testid={`period-cell`}>
-            {period}
-          </StyledAlignCentreStickyTableCell>
-        ) :
-        (
-          <StyledAlignCentreTableCell data-testid={`period-cell`}>
-            {period}
-          </StyledAlignCentreTableCell>
-        )
-      }
+      {twoAreasRequested ? (
+        <StyledAlignCentreStickyTableCell data-testid={`period-cell`}>
+          {period}
+        </StyledAlignCentreStickyTableCell>
+      ) : (
+        <StyledAlignCentreTableCell data-testid={`period-cell`}>
+          {period}
+        </StyledAlignCentreTableCell>
+      )}
 
-      {twoAreasRequested ?
+      {twoAreasRequested ? (
         <>
           <StyledAlignCentreTableCell data-testid={`area-1-count-cell`}>
             {formatWholeNumber(areaOneCount)}
           </StyledAlignCentreTableCell>
-          <StyledAlignRightBorderRightTableCell data-testid={`area-1-value-cell`}>
+          <StyledAlignRightBorderRightTableCell
+            data-testid={`area-1-value-cell`}
+          >
             {formatNumber(areaOneValue)}
           </StyledAlignRightBorderRightTableCell>
           <StyledAlignCentreTableCell data-testid={`area-2-count-cell`}>
@@ -106,7 +104,7 @@ export function SpineChartTableRow({
             {formatNumber(areaTwoValue)}
           </StyledAlignRightTableCell>
         </>
-      :
+      ) : (
         <>
           <StyledAlignCentreTableCell data-testid={`trend-cell`}>
             <TrendTag trendFromResponse={trend} />
@@ -118,17 +116,17 @@ export function SpineChartTableRow({
             {formatNumber(areaOneValue)}
           </StyledAlignRightTableCell>
         </>
-      }
+      )}
 
-      {!twoAreasRequested ?
-        (<StyledGroupCell data-testid={`group-value-cell`}>
+      {!twoAreasRequested ? (
+        <StyledGroupCell data-testid={`group-value-cell`}>
           {formatNumber(groupValue)}
-        </StyledGroupCell>)
-        :
-        (<StyledStickyRightGroupCell data-testid={`group-value-cell`}>
+        </StyledGroupCell>
+      ) : (
+        <StyledStickyRightGroupCell data-testid={`group-value-cell`}>
           {formatNumber(groupValue)}
-        </StyledStickyRightGroupCell>)
-      }
+        </StyledStickyRightGroupCell>
+      )}
       <StyledBenchmarkCell data-testid={`benchmark-value-cell`}>
         {formatNumber(benchmarkValue)}
       </StyledBenchmarkCell>
