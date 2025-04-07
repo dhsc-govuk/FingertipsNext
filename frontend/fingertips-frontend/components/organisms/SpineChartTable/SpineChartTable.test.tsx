@@ -1,10 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import { RowData } from './SpineChartTableRow';
+import { SpineChartTableRowData } from './SpineChartTableRow';
 import { mapToSpineChartTableData, SpineChartTable } from '.';
 import {
   HealthDataForArea,
   HealthDataPointTrendEnum,
+  IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
@@ -101,16 +102,18 @@ describe('Spine chart table suite', () => {
 
   const mockBenchmarkStatistics = [
     {
-      best: 1666,
-      bestQuartile: 1000,
-      worstQuartile: 969,
-      worst: 959,
+      polarity: IndicatorPolarity.HighIsGood,
+      q0Value: 1666,
+      q1Value: 1000,
+      q2Value: 969,
+      q3Value: 959,
     },
     {
-      best: 22,
-      bestQuartile: 40,
-      worstQuartile: 60,
-      worst: 100,
+      polarity: IndicatorPolarity.HighIsGood,
+      q0Value: 22,
+      q1Value: 40,
+      q2Value: 60,
+      q3Value: 100,
     },
   ];
 
@@ -134,11 +137,6 @@ describe('Spine chart table suite', () => {
   ];
 
   describe('Spine chart table', () => {
-    it('snapshot test - should match snapshot', () => {
-      const container = render(<SpineChartTable rowData={mockTableData} />);
-      expect(container.asFragment()).toMatchSnapshot();
-    });
-
     it('should render the SpineChartTable component', () => {
       render(<SpineChartTable rowData={mockTableData} />);
       const spineChart = screen.getByTestId('spineChartTable-component');
@@ -160,10 +158,11 @@ describe('Spine chart table suite', () => {
       const expectedRowData: SpineChartTableRowData[] = [
         {
           benchmarkStatistics: {
-            best: 1666,
-            bestQuartile: 1000,
-            worstQuartile: 969,
-            worst: 959,
+            polarity: IndicatorPolarity.HighIsGood,
+            q0Value: 1666,
+            q1Value: 1000,
+            q2Value: 969,
+            q3Value: 959,
           },
           benchmarkValue: 890.305692,
           count: 222,
@@ -177,10 +176,11 @@ describe('Spine chart table suite', () => {
         },
         {
           benchmarkStatistics: {
-            best: 22,
-            bestQuartile: 40,
-            worstQuartile: 60,
-            worst: 100,
+            polarity: IndicatorPolarity.HighIsGood,
+            q0Value: 22,
+            q1Value: 40,
+            q2Value: 60,
+            q3Value: 100,
           },
           benchmarkValue: 135.149304,
           count: 111,

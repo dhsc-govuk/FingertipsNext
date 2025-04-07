@@ -16,17 +16,17 @@ export function generateSeriesData({
   const { best, bestQuartile, worstQuartile, worst } =
     orderStatistics(quartileData);
 
-  const absBest = Math.abs(Math.abs(best) - Math.abs(value))
-  const absdWorst = Math.abs(Math.abs(worst) - Math.abs(value))
-  const absBestQuartile = Math.abs(Math.abs(bestQuartile) - Math.abs(value))
-  const absWorstQuartile =  Math.abs(Math.abs(worstQuartile) - Math.abs(value))
+  const absBest = Math.abs(Math.abs(best) - Math.abs(value));
+  const absdWorst = Math.abs(Math.abs(worst) - Math.abs(value));
+  const absBestQuartile = Math.abs(Math.abs(bestQuartile) - Math.abs(value));
+  const absWorstQuartile = Math.abs(Math.abs(worstQuartile) - Math.abs(value));
 
-  const maxValue = Math.max(absBest, absdWorst)
+  const maxValue = Math.max(absBest, absdWorst);
 
-  const scaledBest = absBest/maxValue
-  const scaledWorst = absdWorst/maxValue
-  const scaledBestQuartile = absBestQuartile /maxValue
-  const scaledWorstQuartile =  absWorstQuartile/maxValue
+  const scaledBest = absBest / maxValue;
+  const scaledWorst = absdWorst / maxValue;
+  const scaledBestQuartile = absBestQuartile / maxValue;
+  const scaledWorstQuartile = absWorstQuartile / maxValue;
 
   return [
     {
@@ -133,7 +133,7 @@ export function generateChartOptions({
         'Population: {(abs point.y):.2f}%',
     },
 
-    series: generateSeriesData({value, quartileData}),
+    series: generateSeriesData({ value, quartileData }),
   };
 }
 
