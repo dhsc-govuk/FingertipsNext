@@ -134,7 +134,7 @@ export const getBarChartOptions = (options: {
     series: options.seriesData,
     plotOptions: {
       bar: {
-        pointPadding: 0.3,
+        pointPadding: 0.2,
       },
     },
     legend: {
