@@ -3,6 +3,7 @@ import { InequalitiesTypesDropDown } from '.';
 import { SearchParams } from '@/lib/searchStateManager';
 import userEvent from '@testing-library/user-event';
 import { SearchStateContext } from '@/context/SearchStateContext';
+import { InequalitiesComponentType } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -21,7 +22,8 @@ jest.mock('next/navigation', () => {
 });
 
 const mockSearchState = {
-  [SearchParams.InequalityTypeSelected]: 'Sex',
+  [SearchParams.InequalityLineChartTypeSelected]: 'Sex',
+  [SearchParams.InequalityBarChartTypeSelected]: 'Sex',
 };
 
 const mockGetSearchState = jest.fn();
@@ -42,7 +44,12 @@ describe('InequalitiesTypesDropDown suite', () => {
   });
 
   it('should display expected elements', () => {
-    render(<InequalitiesTypesDropDown inequalitiesOptions={options} />);
+    render(
+      <InequalitiesTypesDropDown
+        inequalitiesOptions={options}
+        component={InequalitiesComponentType.Barchart}
+      />
+    );
     const dropDown = screen.getByRole('combobox');
     const inequalitiesOptions = within(dropDown).getAllByRole('option');
 
@@ -57,11 +64,16 @@ describe('InequalitiesTypesDropDown suite', () => {
   it('should add selected inequality type to the url when an option is selected', async () => {
     const expectedPath = [
       mockPath,
-      `?${SearchParams.InequalityTypeSelected}=deprivation2`,
+      `?${SearchParams.InequalityLineChartTypeSelected}=deprivation2&${SearchParams.InequalityBarChartTypeSelected}=Sex`,
     ].join('');
 
     const user = userEvent.setup();
-    render(<InequalitiesTypesDropDown inequalitiesOptions={options} />);
+    render(
+      <InequalitiesTypesDropDown
+        inequalitiesOptions={options}
+        component={InequalitiesComponentType.Linechart}
+      />
+    );
 
     await user.selectOptions(screen.getByRole('combobox'), 'deprivation2');
 

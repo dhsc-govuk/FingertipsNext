@@ -1,11 +1,16 @@
+import {
+  InequalitiesComponentType,
+  mapComponentToStateParams,
+} from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { useSearchState } from '@/context/SearchStateContext';
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import { SearchStateManager } from '@/lib/searchStateManager';
 import { H5, Select } from 'govuk-react';
 import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 
 interface InequalitiesTypeDropDownProps {
   inequalitiesOptions: string[];
+  component: InequalitiesComponentType;
 }
 
 const StyledSelect = styled(Select)({
@@ -15,23 +20,26 @@ const StyledSelect = styled(Select)({
 
 export function InequalitiesTypesDropDown({
   inequalitiesOptions,
+  component,
 }: Readonly<InequalitiesTypeDropDownProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
   const { getSearchState } = useSearchState();
   const searchState = getSearchState();
+  const inequalityTypeSelectedSearchParam =
+    mapComponentToStateParams[component];
 
   const searchStateManager = SearchStateManager.initialise(searchState);
 
   const setSelectedType = (selectedType: string) => {
     searchStateManager.addParamValueToState(
-      SearchParams.InequalityTypeSelected,
+      inequalityTypeSelectedSearchParam,
       selectedType
     );
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
 
-  const { [SearchParams.InequalityTypeSelected]: selectedType } =
+  const { [inequalityTypeSelectedSearchParam]: selectedType } =
     searchStateManager.getSearchState();
 
   return (

@@ -5,16 +5,19 @@ import { InequalitiesBarChart } from '../BarChart';
 import { InequalitiesBarChartTable } from '../BarChart/Table';
 import {
   filterHealthData,
-  getInequalityCategory,
+  getInequalityDeprivationCategories,
   getYearDataGroupedByInequalities,
   getYearsWithInequalityData,
   groupHealthDataByYear,
   healthDataFilterFunctionGeneratorForInequality,
   InequalitiesBarChartData,
+  InequalitiesComponentType,
   InequalitiesTypes,
   isSexTypePresent,
+  localeSort,
   mapToInequalitiesTableData,
   sequenceSelectorForInequality,
+  sexCategory,
   valueSelectorForInequality,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import {
@@ -47,19 +50,21 @@ export function InequalitiesForSingleTimePeriod({
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.InequalityYearSelected]: selectedYear,
-    [SearchParams.InequalityTypeSelected]: inequalityTypeSelected,
+    [SearchParams.InequalityBarChartTypeSelected]: inequalityTypeSelected,
   } = stateManager.getSearchState();
 
-  const inequalityCategory = isSexTypePresent(healthIndicatorData.healthData)
-    ? [...getInequalityCategory(healthIndicatorData), 'Sex'].toSorted((a, b) =>
-        a.localeCompare(b)
-      )
-    : getInequalityCategory(healthIndicatorData);
+  const inequalityCategories = isSexTypePresent(healthIndicatorData.healthData)
+    ? [
+        ...getInequalityDeprivationCategories(healthIndicatorData),
+        sexCategory,
+      ].toSorted(localeSort)
+    : getInequalityDeprivationCategories(healthIndicatorData);
 
-  if (!inequalityCategory.length) return null;
+  if (!inequalityCategories.length) return null;
 
   const type =
-    inequalityCategory[0] === 'Sex' || inequalityTypeSelected === 'Sex'
+    inequalityCategories[0] === sexCategory ||
+    inequalityTypeSelected === sexCategory
       ? InequalitiesTypes.Sex
       : InequalitiesTypes.Deprivation;
 
@@ -69,7 +74,7 @@ export function InequalitiesForSingleTimePeriod({
     ...healthIndicatorData,
     healthData: filterHealthData(
       healthIndicatorData.healthData,
-      filterFunctionGenerator(inequalityTypeSelected ?? inequalityCategory[0])
+      filterFunctionGenerator(inequalityTypeSelected ?? inequalityCategories[0])
     ),
   };
 
@@ -108,7 +113,10 @@ export function InequalitiesForSingleTimePeriod({
     <div data-testid="inequalitiesForSingleTimePeriod-component">
       <H3>Inequalities data for a single time period</H3>
       <TimePeriodDropDown years={yearsDesc} />
-      <InequalitiesTypesDropDown inequalitiesOptions={inequalityCategory} />
+      <InequalitiesTypesDropDown
+        inequalitiesOptions={inequalityCategories}
+        component={InequalitiesComponentType.Barchart}
+      />
       <TabContainer
         id="inequalitiesBarChartAndTable"
         items={[

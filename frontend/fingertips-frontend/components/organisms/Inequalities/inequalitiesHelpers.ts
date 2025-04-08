@@ -15,8 +15,10 @@ import {
   lineChartDefaultOptions,
 } from '../LineChart/lineChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
+import { SearchParams } from '@/lib/searchStateManager';
 
 export const localeSort = (a: string, b: string) => a.localeCompare(b);
+export const sexCategory = 'Sex';
 
 export type YearlyHealthDataGroupedByInequalities = Record<
   string,
@@ -64,6 +66,21 @@ export enum InequalitiesTypes {
   Sex = 'sex',
   Deprivation = 'deprivation',
 }
+
+export enum InequalitiesComponentType {
+  Linechart,
+  Barchart,
+}
+
+export const mapComponentToStateParams: Record<
+  InequalitiesComponentType,
+  SearchParams
+> = {
+  [InequalitiesComponentType.Barchart]:
+    SearchParams.InequalityBarChartTypeSelected,
+  [InequalitiesComponentType.Linechart]:
+    SearchParams.InequalityLineChartTypeSelected,
+};
 
 const mapToChartColorsForInequality: Record<InequalitiesTypes, string[]> = {
   [InequalitiesTypes.Sex]: [
@@ -369,7 +386,7 @@ export const filterHealthData = (
   return healthData.filter(filterFn);
 };
 
-export const getInequalityCategory = (
+export const getInequalityDeprivationCategories = (
   healthIndicatorData: HealthDataForArea
 ) => {
   const disaggregatedDeprivationData = filterHealthData(
