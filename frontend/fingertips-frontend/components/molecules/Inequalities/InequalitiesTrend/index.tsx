@@ -1,7 +1,7 @@
 import { TabContainer } from '@/components/layouts/tabContainer';
 import { LineChart } from '@/components/organisms/LineChart';
 import { LineChartVariant } from '@/components/organisms/LineChart/lineChartHelpers';
-import { H4 } from 'govuk-react';
+import { H3 } from 'govuk-react';
 import { InequalitiesLineChartTable } from '../LineChart/Table';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import {
@@ -123,7 +123,7 @@ export function InequalitiesTrend({
 
   return (
     <div data-testid="inequalitiesTrend-component">
-      <H4>Inequalities data over time</H4>
+      <H3>Inequalities data over time</H3>
       <TabContainer
         id="inequalitiesLineChartAndTable"
         items={[

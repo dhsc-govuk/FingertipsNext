@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using System.Security.Cryptography.X509Certificates;
 using DataCreator.PholioDatabase;
 
 namespace DataCreator
@@ -107,8 +106,8 @@ namespace DataCreator
             }
             AddLastUpdatedDate(indicators);
 
-            DataFileWriter.WriteIndicatorsJsonData(indicators);
-            DataFileWriter.WriteSimpleIndicatorCsvData("indicators", indicators.Where(i => i.UsedInPoc).Cast<SimpleIndicator>());
+            DataFileWriter.WriteIndicatorsJsonData(indicators.Where(indicator=>!indicator.HideInSearch));
+            DataFileWriter.WriteSimpleIndicatorCsvData("indicators", indicators.Where(indicator => indicator.UsedInPoc).Cast<SimpleIndicator>());
         }
 
         private static void AddLastUpdatedDate(List<IndicatorEntity> indicatorEntities)
@@ -116,7 +115,7 @@ namespace DataCreator
             var lastUpdatedDates = DataFileReader.GetLastUpdatedDataForIndicators();
             foreach (var indicatorEntity in indicatorEntities)
             {
-                var match = lastUpdatedDates.FirstOrDefault(l => l.IndicatorId == indicatorEntity.IndicatorID);
+                var match = lastUpdatedDates.FirstOrDefault(indicatorLastUpdated => indicatorLastUpdated.IndicatorId == indicatorEntity.IndicatorID);
                 if (match != null && match.LastUpdatedDate != "undefined")
                     indicatorEntity.LastUpdatedDate = match.LastUpdatedDate;
             }
@@ -168,7 +167,7 @@ namespace DataCreator
                 if (!matchingIndicator.HasMultipleSexes) //the associated indicator only has 1 sex value
                     healthMeasure.IsSexAggregatedOrSingle = 1;
                 else //the associated indicator has more than 1 sex, the health measure could be for 'Persons', 'Male' or 'Female'. If it is 'Persons' set the flag to true, otherwise false
-                    healthMeasure.IsSexAggregatedOrSingle=healthMeasure.Sex== PERSONS ? 1 : 0;
+                    healthMeasure.IsSexAggregatedOrSingle=healthMeasure.Sex == PERSONS ? 1 : 0;
 
                 if (!matchingIndicator.HasMultipleAges) //the associated indicator only has 1 age value
                     healthMeasure.IsAgeAggregatedOrSingle = 1;
@@ -185,14 +184,14 @@ namespace DataCreator
                 if (!matchingIndicator.HasMultipleDeprivation) //the associated indicator only has 1 deprivation value
                     healthMeasure.IsDeprivationAggregatedOrSingle = 1;
                 else //the associated indicator has more than 1 deprivation, the health measure could be for 'Persons', or others. If it is 'Persons' set the flag to true, otherwise false
-                    healthMeasure.IsDeprivationAggregatedOrSingle = healthMeasure.CategoryType == "Persons" ? 1 : 0;
+                    healthMeasure.IsDeprivationAggregatedOrSingle = healthMeasure.CategoryType == PERSONS ? 1 : 0;
             }
         }
 
         private static void CreateCategoryData(List<HealthMeasureEntity> healthMeasures)
         {
             var categoryData = new List<CategoryEntity>();
-            foreach (var healthMeasure in healthMeasures.Where(hm => hm.Category != "Persons"))
+            foreach (var healthMeasure in healthMeasures.Where(hm => hm.Category != PERSONS))
             {
                 healthMeasure.CategoryType = CleanCategoryTypeName(healthMeasure.CategoryType);
                 healthMeasure.Category=healthMeasure.Category.Replace(" (IMD2015)", string.Empty).Replace(" (IMD2019)", string.Empty);

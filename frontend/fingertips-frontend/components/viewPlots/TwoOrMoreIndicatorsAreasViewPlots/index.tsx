@@ -17,9 +17,8 @@ import {
   SpineChartTable,
 } from '@/components/organisms/SpineChartTable';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
-import { SpineChartProps } from '@/components/organisms/SpineChart';
-import { extractingCombinedHealthData } from '@/lib/chartHelpers/extractingCombinedHealthData';
 import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmapUtil';
+import { extractCombinedHealthData } from '@/components/organisms/SpineChartTable/spineChartTableHelpers';
 
 export function mapToSpineChartTableIndicator(
   indicatorMetadata: IndicatorDocument | undefined
@@ -41,46 +40,19 @@ export function mapToSpineChartTableIndicator(
   return rowIndicator;
 }
 
-export function mapToSpineChartTableStatistics(
-  quartileData: QuartileData
-): SpineChartProps {
-  const q0Value = quartileData.q0Value ?? 0;
-  const q1Value = quartileData.q1Value ?? 0;
-  const q3Value = quartileData.q3Value ?? 0;
-  const q4Value = quartileData.q4Value ?? 0;
-
-  switch (quartileData.polarity) {
-    case IndicatorPolarity.LowIsGood:
-      return {
-        best: q0Value,
-        bestQuartile: q1Value,
-        worstQuartile: q3Value,
-        worst: q4Value,
-      };
-    case IndicatorPolarity.Unknown:
-    case IndicatorPolarity.NoJudgement:
-    case IndicatorPolarity.HighIsGood:
-    default:
-      return {
-        best: q4Value,
-        bestQuartile: q3Value,
-        worstQuartile: q1Value,
-        worst: q0Value,
-      };
-  }
-}
-
 export function mapToSpineChartTableProps(
-  healthIndicatorData: HealthDataForArea[],
+  areasSelected: string[],
+  healthDataAreaOne: HealthDataForArea[],
   groupIndicatorData: HealthDataForArea[],
   englandIndicatorData: HealthDataForArea[],
   indicatorMetadata: (IndicatorDocument | undefined)[],
-  quartileData: QuartileData[]
+  quartileData: QuartileData[],
+  healthDataAreaTwo?: HealthDataForArea[]
 ): SpineChartTableProps {
-  const numberOfIndicators = healthIndicatorData.length;
+  const numberOfIndicators = healthDataAreaOne.length;
   const tableData: SpineChartTableRowProps[] = new Array(numberOfIndicators);
 
-  healthIndicatorData.forEach((indicatorData, index) => {
+  healthDataAreaOne.forEach((indicatorData, index) => {
     const rowMeasurementUnit: string =
       indicatorMetadata[index] !== undefined
         ? indicatorMetadata[index]?.unitLabel
@@ -89,16 +61,19 @@ export function mapToSpineChartTableProps(
     const row: SpineChartTableRowProps = {
       indicator: mapToSpineChartTableIndicator(indicatorMetadata[index]),
       measurementUnit: rowMeasurementUnit,
-      indicatorHealthData: indicatorData,
+      indicatorHealthDataAreaOne: indicatorData,
+      indicatorHealthDataAreaTwo: healthDataAreaTwo
+        ? healthDataAreaTwo[index]
+        : undefined,
       groupIndicatorData: groupIndicatorData[index],
       englandBenchmarkData: englandIndicatorData[index],
-      benchmarkStatistics: mapToSpineChartTableStatistics(quartileData[index]),
+      benchmarkStatistics: quartileData[index],
     };
 
     tableData[index] = row;
   });
 
-  return { rowData: tableData };
+  return { rowData: tableData, areasSelected };
 }
 
 export function extractHeatmapIndicatorData(
@@ -157,19 +132,20 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
 
   const groupAreaCode = selectedGroupCode ?? undefined;
 
-  const buildSpineTableRowData = (
+  const buildSpineTableRowsData = (
     indicatorData: IndicatorWithHealthDataForArea[],
     indicatorMetadata: IndicatorDocument[],
     areasSelected: string[],
     selectedGroupCode: string | undefined
   ): SpineChartTableRowProps[] => {
     const {
-      orderedHealthData,
+      orderedHealthDataAreaOne,
+      orderedHealthDataAreaTwo,
       orderedGroupData,
       orderedEnglandData,
       orderedMetadata,
       orderedQuartileData,
-    } = extractingCombinedHealthData(
+    } = extractCombinedHealthData(
       indicatorData,
       indicatorMetadata,
       benchmarkStatistics,
@@ -178,16 +154,29 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     );
 
     return mapToSpineChartTableProps(
-      orderedHealthData,
+      areasSelected,
+      orderedHealthDataAreaOne,
       orderedGroupData,
       orderedEnglandData,
       orderedMetadata,
-      orderedQuartileData
+      orderedQuartileData,
+      orderedHealthDataAreaTwo
     ).rowData;
   };
 
   return (
     <section data-testid="twoOrMoreIndicatorsAreasViewPlot-component">
+      {areasSelected.length < 3 ? (
+        <SpineChartTable
+          rowData={buildSpineTableRowsData(
+            indicatorData,
+            indicatorMetadata,
+            areasSelected,
+            selectedGroupCode
+          )}
+          areasSelected={areasSelected}
+        />
+      ) : null}
       <Heatmap
         indicatorData={buildHeatmapIndicatorData(
           indicatorData,
@@ -195,16 +184,6 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
         )}
         groupAreaCode={groupAreaCode}
       />
-      {areasSelected.length < 3 ? (
-        <SpineChartTable
-          rowData={buildSpineTableRowData(
-            indicatorData,
-            indicatorMetadata,
-            areasSelected,
-            selectedGroupCode
-          )}
-        />
-      ) : null}
     </section>
   );
 }

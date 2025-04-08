@@ -1,8 +1,9 @@
+import {
+  AXIS_LABEL_FONT_SIZE,
+  AXIS_TITLE_FONT_SIZE,
+} from '@/lib/chartHelpers/chartHelpers';
 import { SymbolNames } from '@/lib/chartHelpers/pointFormatterHelper';
 import Highcharts from 'highcharts';
-
-const AXIS_TITLE_FONT_SIZE = 19;
-const AXIS_LABEL_FONT_SIZE = 16;
 
 const getPlotline = (
   benchmarkLabel?: string,
@@ -134,7 +135,7 @@ export const getBarChartOptions = (options: {
     series: options.seriesData,
     plotOptions: {
       bar: {
-        pointPadding: 0.3,
+        pointPadding: 0.2,
       },
       series: {
         animation: false,
