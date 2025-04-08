@@ -106,7 +106,6 @@ export function SpineChartTable({
       <StyledTable>
         <SpineChartTableHeader
           areaNames={mappedAreaNames}
-          twoAreasRequested={twoAreasRequested}
           groupName={groupName}
         />
         {sortedData.map((row) => (

@@ -17,7 +17,6 @@ import {
 
 export interface TableHeaderProps {
   areaNames: string[];
-  twoAreasRequested: boolean;
   groupName: string;
 }
 
@@ -36,9 +35,10 @@ export enum SpineChartTableHeadingEnum {
 
 export function SpineChartTableHeader({
   areaNames,
-  twoAreasRequested,
   groupName,
 }: Readonly<TableHeaderProps>) {
+  const twoAreasRequested = areaNames.length === 2;
+
   return (
     <>
       <Table.Row key={`${areaNames.concat()}`}>
@@ -46,17 +46,15 @@ export function SpineChartTableHeader({
           colSpan={3}
           data-testid="empty-header"
         ></Table.CellHeader>
-        <StyledAlignCentreHeader
-          colSpan={twoAreasRequested ? 2 : 3}
-          data-testid={`area-header${twoAreasRequested ? '-1' : ''}`}
-        >
-          {areaNames[0]}
-        </StyledAlignCentreHeader>
-        {twoAreasRequested ? (
-          <StyledAlignCentreHeader colSpan={2} data-testid="area-header-2">
-            {areaNames[1]}
+        {areaNames.map((areaName, index) => (
+          <StyledAlignCentreHeader
+            colSpan={twoAreasRequested ? 2 : 3}
+            data-testid={`area-header-${index + 1}`}
+            key={areaName}
+          >
+            {areaName}
           </StyledAlignCentreHeader>
-        ) : null}
+        ))}
         <StyledGroupHeader data-testid="group-header">
           {groupName}
         </StyledGroupHeader>

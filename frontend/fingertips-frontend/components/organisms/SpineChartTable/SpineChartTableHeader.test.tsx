@@ -19,14 +19,13 @@ describe('Spine chart table header', () => {
           <SpineChartTableHeader
             areaNames={[mockHeaderData.area]}
             groupName={mockHeaderData.group}
-            twoAreasRequested={false}
           />
         </thead>
       </table>
     );
 
     expect(screen.getByTestId('empty-header')).toHaveTextContent('');
-    expect(screen.getByTestId('area-header')).toHaveTextContent(
+    expect(screen.getByTestId('area-header-1')).toHaveTextContent(
       `${mockHeaderData.area}`
     );
     expect(screen.getByTestId('group-header')).toHaveTextContent(
@@ -48,7 +47,6 @@ describe('Spine chart table header', () => {
           <SpineChartTableHeader
             areaNames={[mockHeaderData.area]}
             groupName={mockHeaderData.group}
-            twoAreasRequested={false}
           />
         </thead>
       </table>
@@ -76,7 +74,6 @@ describe('Spine chart table header', () => {
           <SpineChartTableHeader
             areaNames={[mockHeaderData.area]}
             groupName={mockHeaderData.group}
-            twoAreasRequested={false}
           />
         </thead>
       </table>
@@ -98,7 +95,6 @@ describe('Spine chart table header', () => {
           <SpineChartTableHeader
             areaNames={['East of England Region', 'East Midlands Region']}
             groupName={mockHeaderData.group}
-            twoAreasRequested={true}
           />
         </thead>
       </table>

@@ -39,7 +39,6 @@ export interface SpineChartTableRowData {
   areaOneValue?: number;
   areaTwoCount?: number;
   areaTwoValue?: number;
-  value?: number;
   groupValue?: number;
   benchmarkValue?: number;
   benchmarkStatistics: QuartileData;
