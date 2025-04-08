@@ -122,8 +122,6 @@ describe('Spine chart table header', () => {
     expect(screen.getByTestId('area-2-Value-header')).toHaveTextContent(
       'Value'
     );
-    expect(
-      screen.queryByTestId('Recent trend-header')
-    ).not.toBeInTheDocument();
+    expect(screen.queryByTestId('Recent trend-header')).not.toBeInTheDocument();
   });
 });

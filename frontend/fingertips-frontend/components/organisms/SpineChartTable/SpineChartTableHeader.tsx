@@ -11,11 +11,8 @@ import {
   StyledGroupSubHeader,
   StyledBenchmarkHeader,
   StyledBenchmarkSubHeader,
-  StyledAlignCentreStickyLeftHeader,
   StyledAlignRightBorderHeader,
-  StyledGroupStickyRightHeader,
-  StyledGroupStickyRightSubHeader,
-  StyledStickyEmptyLeftHeader,
+  StyledAlignCentreBorderRightHeader,
 } from './SpineChartTableStyles';
 
 export interface TableHeaderProps {
@@ -45,23 +42,10 @@ export function SpineChartTableHeader({
   return (
     <>
       <Table.Row key={`${areaNames.concat()}`}>
-        {twoAreasRequested ? (
-          <>
-            <Table.CellHeader
-              colSpan={2}
-              data-testid="empty-header"
-            ></Table.CellHeader>
-            <StyledStickyEmptyLeftHeader
-              colSpan={1}
-              data-testid="empty-header-sticky"
-            ></StyledStickyEmptyLeftHeader>
-          </>
-        ) : (
-          <Table.CellHeader
-            colSpan={3}
-            data-testid="empty-header"
-          ></Table.CellHeader>
-        )}
+        <Table.CellHeader
+          colSpan={3}
+          data-testid="empty-header"
+        ></Table.CellHeader>
         <StyledAlignCentreHeader
           colSpan={twoAreasRequested ? 2 : 3}
           data-testid={`area-header${twoAreasRequested ? '-1' : ''}`}
@@ -73,15 +57,9 @@ export function SpineChartTableHeader({
             {areaNames[1]}
           </StyledAlignCentreHeader>
         ) : null}
-        {twoAreasRequested ? (
-          <StyledGroupStickyRightHeader data-testid="group-header">
-            {groupName}
-          </StyledGroupStickyRightHeader>
-        ) : (
-          <StyledGroupHeader data-testid="group-header">
-            {groupName}
-          </StyledGroupHeader>
-        )}
+        <StyledGroupHeader data-testid="group-header">
+          {groupName}
+        </StyledGroupHeader>
         <StyledBenchmarkHeader colSpan={4} data-testid="england-header">
           Benchmark: England
         </StyledBenchmarkHeader>
@@ -100,20 +78,20 @@ export function SpineChartTableHeader({
                 </StyledAlignLeftHeader>
               );
             case SpineChartTableHeadingEnum.IndicatorPeriod:
-              return !twoAreasRequested ? (
+              return twoAreasRequested ? (
+                <StyledAlignCentreBorderRightHeader
+                  key={heading}
+                  data-testid={`${heading}-header`}
+                >
+                  {heading}
+                </StyledAlignCentreBorderRightHeader>
+              ) : (
                 <StyledAlignCentreHeader
                   key={heading}
                   data-testid={`${heading}-header`}
                 >
                   {heading}
                 </StyledAlignCentreHeader>
-              ) : (
-                <StyledAlignCentreStickyLeftHeader
-                  key={heading}
-                  data-testid={`${heading}-header`}
-                >
-                  {heading}
-                </StyledAlignCentreStickyLeftHeader>
               );
             case SpineChartTableHeadingEnum.AreaTrend:
               return !twoAreasRequested ? (
@@ -169,20 +147,13 @@ export function SpineChartTableHeader({
                 </React.Fragment>
               );
             case SpineChartTableHeadingEnum.GroupValue:
-              return !twoAreasRequested ? (
+              return (
                 <StyledGroupSubHeader
                   key={heading}
                   data-testid={`${heading}-header`}
                 >
                   Value
                 </StyledGroupSubHeader>
-              ) : (
-                <StyledGroupStickyRightSubHeader
-                  key={heading}
-                  data-testid={`${heading}-header`}
-                >
-                  Value
-                </StyledGroupStickyRightSubHeader>
               );
             default:
               return (

@@ -14,8 +14,7 @@ import {
   StyledBenchmarkCell,
   StyledBenchmarkChart,
   StyledAlignRightBorderRightTableCell,
-  StyledStickyRightGroupCell,
-  StyledAlignCentreStickyTableCell,
+  StyledAlignCentreBorderRightTableCell,
 } from './SpineChartTableStyles';
 import { SpineChart } from '../SpineChart';
 import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
@@ -77,10 +76,11 @@ export function SpineChartTableRow({
       <StyledAlignLeftTableCell data-testid={`unit-cell`}>
         {unit}
       </StyledAlignLeftTableCell>
+
       {twoAreasRequested ? (
-        <StyledAlignCentreStickyTableCell data-testid={`period-cell`}>
+        <StyledAlignCentreBorderRightTableCell data-testid={`period-cell`}>
           {period}
-        </StyledAlignCentreStickyTableCell>
+        </StyledAlignCentreBorderRightTableCell>
       ) : (
         <StyledAlignCentreTableCell data-testid={`period-cell`}>
           {period}
@@ -118,15 +118,9 @@ export function SpineChartTableRow({
         </>
       )}
 
-      {!twoAreasRequested ? (
-        <StyledGroupCell data-testid={`group-value-cell`}>
-          {formatNumber(groupValue)}
-        </StyledGroupCell>
-      ) : (
-        <StyledStickyRightGroupCell data-testid={`group-value-cell`}>
-          {formatNumber(groupValue)}
-        </StyledStickyRightGroupCell>
-      )}
+      <StyledGroupCell data-testid={`group-value-cell`}>
+        {formatNumber(groupValue)}
+      </StyledGroupCell>
       <StyledBenchmarkCell data-testid={`benchmark-value-cell`}>
         {formatNumber(benchmarkValue)}
       </StyledBenchmarkCell>

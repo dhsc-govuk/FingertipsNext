@@ -19,6 +19,7 @@ export const StyledDivTableContainer = styled.div({
   overflowX: 'scroll',
 });
 
+// Check if stickiness required with designers
 const stickyLeft = {
   background: 'white',
   position: 'sticky',
@@ -57,12 +58,26 @@ export const StyledAlignRightBorderHeader = styled(StyledAlignRightHeader)({
   paddingRight: '0.5em',
 });
 
+export const StyledAlignCentreBorderRightHeader = styled(
+  StyledAlignCentreHeader
+)({
+  borderRight: 'solid #bfc1c3 1px',
+  paddingRight: '0.5em',
+});
+
 export const StyledAlignCentreTableCell = styled(StyledAlignLeftTableCell)({
   textAlign: 'center',
 });
 
 export const StyledAlignRightBorderRightTableCell = styled(
   StyledAlignRightTableCell
+)({
+  borderRight: 'solid #bfc1c3 1px',
+  paddingRight: '0.5em',
+});
+
+export const StyledAlignCentreBorderRightTableCell = styled(
+  StyledAlignCentreTableCell
 )({
   borderRight: 'solid #bfc1c3 1px',
   paddingRight: '0.5em',
