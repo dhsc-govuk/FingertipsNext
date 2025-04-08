@@ -486,6 +486,7 @@ describe('generateLineChartSeriesData', () => {
       symbol: 'square',
     },
     color: GovukColours.Orange,
+    dashStyle: 'Solid',
   };
 
   const confidenceIntervalSeries = {
@@ -517,6 +518,7 @@ describe('generateLineChartSeriesData', () => {
         symbol: 'triangle',
       },
       color: UniqueChartColours.OtherLightBlue,
+      dashStyle: 'Solid',
     },
     {
       ...confidenceIntervalSeries,
@@ -537,6 +539,7 @@ describe('generateLineChartSeriesData', () => {
         symbol: 'triangle-down',
       },
       color: GovukColours.Purple,
+      dashStyle: 'Solid',
     },
     {
       ...confidenceIntervalSeries,
@@ -580,6 +583,9 @@ describe('generateLineChartSeriesData', () => {
     const expectedPersonsLine = {
       ...personsLine,
       color: GovukColours.Black,
+      marker: {
+        symbol: 'circle',
+      },
     };
 
     const expectedEnglandSeriesData = [
@@ -608,6 +614,209 @@ describe('generateLineChartSeriesData', () => {
         areasSelected
       )
     ).toEqual([]);
+  });
+
+  it('should use the expected styling for deprivation data', () => {
+    const mockChartData = {
+      areaName: 'North FooBar',
+      rowData: [
+        {
+          period: 2004,
+          inequalities: {
+            ['England']: {
+              value: 703.420759,
+              sequence: 11,
+              isAggregate: true,
+            },
+            ['Most deprived decile']: {
+              value: 703.420759,
+              sequence: 10,
+              isAggregate: false,
+            },
+            ['Second most deprived decile']: {
+              value: 693.420759,
+              sequence: 9,
+              isAggregate: false,
+            },
+            ['Third more deprived decile']: {
+              value: 683.420759,
+              sequence: 8,
+              isAggregate: false,
+            },
+            ['Fourth more deprived decile']: {
+              value: 673.420759,
+              sequence: 7,
+              isAggregate: false,
+            },
+            ['Fifth more deprived decile']: {
+              value: 663.420759,
+              sequence: 6,
+              isAggregate: false,
+            },
+            ['Fifth less deprived decile']: {
+              value: 653.420759,
+              sequence: 5,
+              isAggregate: false,
+            },
+            ['Fourth less deprived decile']: {
+              value: 643.420759,
+              sequence: 4,
+              isAggregate: false,
+            },
+            ['Third less deprived decile']: {
+              value: 633.420759,
+              sequence: 3,
+              isAggregate: false,
+            },
+            ['Second least deprived decile']: {
+              value: 623.420759,
+              sequence: 2,
+              isAggregate: false,
+            },
+            ['Least deprived decile']: {
+              value: 613.420759,
+              sequence: 1,
+              isAggregate: false,
+            },
+          },
+        },
+      ],
+    };
+
+    expect(
+      generateInequalitiesLineChartSeriesData(
+        [
+          'England',
+          'Most deprived decile',
+          'Second most deprived decile',
+          'Third more deprived decile',
+          'Fourth more deprived decile',
+          'Fifth more deprived decile',
+          'Fifth less deprived decile',
+          'Fourth less deprived decile',
+          'Third less deprived decile',
+          'Second least deprived decile',
+          'Least deprived decile',
+        ],
+        InequalitiesTypes.Deprivation,
+        mockChartData,
+        ['E92000001'],
+        false
+      )
+    ).toEqual(
+      expect.arrayContaining([
+        {
+          name: 'England',
+          color: GovukColours.Black,
+          dashStyle: 'Solid',
+          data: expect.anything(),
+          marker: {
+            symbol: 'circle',
+          },
+          type: 'line',
+        },
+        {
+          name: 'Most deprived decile',
+          color: GovukColours.LightPurple,
+          dashStyle: 'Solid',
+          data: expect.anything(),
+          marker: {
+            symbol: 'triangle',
+          },
+          type: 'line',
+        },
+        {
+          name: 'Second most deprived decile',
+          color: GovukColours.DarkPink,
+          dashStyle: 'Solid',
+          data: expect.anything(),
+          marker: {
+            symbol: 'triangle-down',
+          },
+          type: 'line',
+        },
+        {
+          name: 'Third more deprived decile',
+          color: GovukColours.Green,
+          dashStyle: 'ShortDash',
+          data: expect.anything(),
+          marker: {
+            symbol: 'circle',
+          },
+          type: 'line',
+        },
+        {
+          name: 'Fourth more deprived decile',
+          color: GovukColours.Pink,
+          dashStyle: 'ShortDash',
+          data: expect.anything(),
+          marker: {
+            symbol: 'diamond',
+          },
+          type: 'line',
+        },
+        {
+          name: 'Fifth more deprived decile',
+          color: GovukColours.Purple,
+          dashStyle: 'ShortDash',
+          data: expect.anything(),
+          marker: {
+            symbol: 'square',
+          },
+          type: 'line',
+        },
+        {
+          name: 'Fifth less deprived decile',
+          color: GovukColours.Yellow,
+          dashStyle: 'ShortDash',
+          data: expect.anything(),
+          marker: {
+            symbol: 'triangle',
+          },
+          type: 'line',
+        },
+        {
+          name: 'Fourth less deprived decile',
+          color: GovukColours.Red,
+          dashStyle: 'ShortDash',
+          data: expect.anything(),
+          marker: {
+            symbol: 'triangle-down',
+          },
+          type: 'line',
+        },
+        {
+          name: 'Third less deprived decile',
+          color: GovukColours.Blue,
+          dashStyle: 'Dash',
+          data: expect.anything(),
+          marker: {
+            symbol: 'circle',
+          },
+          type: 'line',
+        },
+        {
+          name: 'Second least deprived decile',
+          color: GovukColours.LightPink,
+          dashStyle: 'Dash',
+          data: expect.anything(),
+          marker: {
+            symbol: 'diamond',
+          },
+          type: 'line',
+        },
+        {
+          name: 'Least deprived decile',
+          color: GovukColours.Brown,
+          dashStyle: 'Dash',
+          data: expect.anything(),
+          marker: {
+            symbol: 'square',
+          },
+          type: 'line',
+        },
+      ])
+    );
   });
 });
 

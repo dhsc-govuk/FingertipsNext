@@ -6,6 +6,8 @@ import {
   sortHealthDataForAreasByDate,
   sortHealthDataForAreaByDate,
   generateConfidenceIntervalSeries,
+  AXIS_TITLE_FONT_SIZE,
+  AXIS_LABEL_FONT_SIZE,
 } from '@/lib/chartHelpers/chartHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
@@ -23,7 +25,12 @@ export const lineChartDefaultOptions: Highcharts.Options = {
   credits: {
     enabled: false,
   },
-  chart: { type: 'line', height: '50%', spacingBottom: 50, spacingTop: 20 },
+  chart: {
+    type: 'line',
+    spacingBottom: 50,
+    spacingTop: 20,
+    animation: false,
+  },
   title: {
     style: {
       display: 'none',
@@ -32,11 +39,19 @@ export const lineChartDefaultOptions: Highcharts.Options = {
   yAxis: {
     minorTickInterval: 'auto',
     minorTicksPerMajor: 2,
+    labels: { style: { fontSize: AXIS_LABEL_FONT_SIZE } },
   },
-  xAxis: { tickLength: 0, allowDecimals: false },
+  xAxis: {
+    tickLength: 0,
+    allowDecimals: false,
+    labels: { style: { fontSize: AXIS_LABEL_FONT_SIZE } },
+  },
   legend: {
     verticalAlign: 'top',
     align: 'left',
+    itemStyle: {
+      fontSize: '16px',
+    },
   },
   accessibility: {
     enabled: false,
@@ -44,6 +59,11 @@ export const lineChartDefaultOptions: Highcharts.Options = {
   tooltip: {
     formatter: function (this: Highcharts.Point): string {
       return tooltipFormatter(this);
+    },
+  },
+  plotOptions: {
+    series: {
+      animation: false,
     },
   },
 };
@@ -172,12 +192,20 @@ export function generateStandardLineChartOptions(
     yAxis: {
       ...lineChartDefaultOptions.yAxis,
       title: optionalParams?.yAxisTitle
-        ? { text: optionalParams?.yAxisTitle, margin: 20 }
+        ? {
+            text: optionalParams?.yAxisTitle,
+            margin: 20,
+            style: { fontSize: AXIS_TITLE_FONT_SIZE },
+          }
         : undefined,
     },
     xAxis: {
       ...lineChartDefaultOptions.xAxis,
-      title: { text: optionalParams?.xAxisTitle, margin: 20 },
+      title: {
+        text: optionalParams?.xAxisTitle,
+        margin: 20,
+        style: { fontSize: AXIS_TITLE_FONT_SIZE },
+      },
     },
     legend: {
       ...lineChartDefaultOptions.legend,

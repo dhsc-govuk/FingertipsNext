@@ -26,11 +26,13 @@ const createChartSeriesOptions = (
     chart: {
       type: 'bar',
       height: 800,
+      animation: false,
     },
     plotOptions: {
       series: {
         stacking: 'normal',
         crisp: false,
+        animation: false,
       },
     },
     credits: { enabled: false },

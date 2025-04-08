@@ -5,17 +5,25 @@ import React from 'react';
 import {
   StyledAlignLeftTableCell,
   StyledAlignRightTableCell,
+  StyledIndicatorTitleCell,
 } from '@/lib/tableHelpers';
 
 import {
   StyledAlignCentreTableCell,
   StyledGroupCell,
   StyledBenchmarkCell,
+  StyledBenchmarkChart,
+  StyledAlignRightBorderRightTableCell,
+  StyledAlignCentreBorderRightTableCell,
 } from './SpineChartTableStyles';
-import { SpineChartProps } from '../SpineChart';
+import { SpineChart } from '../SpineChart';
 import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
-import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataPointTrendEnum,
+  QuartileData,
+} from '@/generated-sources/ft-api-client';
 import { TrendTag } from '@/components/molecules/TrendTag';
+import { orderStatistics } from '../SpineChart/SpineChartHelpers';
 
 export interface SpineChartMissingData {
   value?: number;
@@ -27,11 +35,14 @@ export interface SpineChartTableRowData {
   unit: string;
   period: number;
   trend: HealthDataPointTrendEnum;
-  count?: number;
-  value?: number;
+  areaOneCount?: number;
+  areaOneValue?: number;
+  areaTwoCount?: number;
+  areaTwoValue?: number;
   groupValue?: number;
   benchmarkValue?: number;
-  benchmarkStatistics: SpineChartProps;
+  benchmarkStatistics: QuartileData;
+  twoAreasRequested: boolean;
 }
 
 export function SpineChartMissingValue({
@@ -45,32 +56,67 @@ export function SpineChartTableRow({
   unit,
   period,
   trend,
-  count,
-  value,
+  areaOneCount,
+  areaOneValue,
+  areaTwoCount,
+  areaTwoValue,
   groupValue,
   benchmarkValue,
   benchmarkStatistics,
+  twoAreasRequested,
 }: Readonly<SpineChartTableRowData>) {
+  const { best, worst } = orderStatistics(benchmarkStatistics);
+
   return (
     <Table.Row>
-      <StyledAlignLeftTableCell data-testid={`indicator-cell`}>
+      <StyledIndicatorTitleCell data-testid={`indicator-cell`}>
         {indicator}
-      </StyledAlignLeftTableCell>
+      </StyledIndicatorTitleCell>
       <StyledAlignLeftTableCell data-testid={`unit-cell`}>
         {unit}
       </StyledAlignLeftTableCell>
-      <StyledAlignCentreTableCell data-testid={`period-cell`}>
-        {period}
-      </StyledAlignCentreTableCell>
-      <StyledAlignCentreTableCell>
-        <TrendTag trendFromResponse={trend} />
-      </StyledAlignCentreTableCell>
-      <StyledAlignCentreTableCell data-testid={`count-cell`}>
-        {formatWholeNumber(count)}
-      </StyledAlignCentreTableCell>
-      <StyledAlignRightTableCell data-testid={`value-cell`}>
-        {formatNumber(value)}
-      </StyledAlignRightTableCell>
+
+      {twoAreasRequested ? (
+        <StyledAlignCentreBorderRightTableCell data-testid={`period-cell`}>
+          {period}
+        </StyledAlignCentreBorderRightTableCell>
+      ) : (
+        <StyledAlignCentreTableCell data-testid={`period-cell`}>
+          {period}
+        </StyledAlignCentreTableCell>
+      )}
+
+      {twoAreasRequested ? (
+        <>
+          <StyledAlignCentreTableCell data-testid={`area-1-count-cell`}>
+            {formatWholeNumber(areaOneCount)}
+          </StyledAlignCentreTableCell>
+          <StyledAlignRightBorderRightTableCell
+            data-testid={`area-1-value-cell`}
+          >
+            {formatNumber(areaOneValue)}
+          </StyledAlignRightBorderRightTableCell>
+          <StyledAlignCentreTableCell data-testid={`area-2-count-cell`}>
+            {formatWholeNumber(areaTwoCount)}
+          </StyledAlignCentreTableCell>
+          <StyledAlignRightTableCell data-testid={`area-2-value-cell`}>
+            {formatNumber(areaTwoValue)}
+          </StyledAlignRightTableCell>
+        </>
+      ) : (
+        <>
+          <StyledAlignCentreTableCell data-testid={`trend-cell`}>
+            <TrendTag trendFromResponse={trend} />
+          </StyledAlignCentreTableCell>
+          <StyledAlignCentreTableCell data-testid={`count-cell`}>
+            {formatWholeNumber(areaOneCount)}
+          </StyledAlignCentreTableCell>
+          <StyledAlignRightTableCell data-testid={`value-cell`}>
+            {formatNumber(areaOneValue)}
+          </StyledAlignRightTableCell>
+        </>
+      )}
+
       <StyledGroupCell data-testid={`group-value-cell`}>
         {formatNumber(groupValue)}
       </StyledGroupCell>
@@ -78,10 +124,16 @@ export function SpineChartTableRow({
         {formatNumber(benchmarkValue)}
       </StyledBenchmarkCell>
       <StyledBenchmarkCell data-testid={`benchmark-worst-cell`}>
-        {formatNumber(benchmarkStatistics.worst)}
+        {formatNumber(worst)}
       </StyledBenchmarkCell>
+      <StyledBenchmarkChart data-testid={`benchmark-range`}>
+        <SpineChart
+          benchmarkValue={benchmarkValue ?? 0}
+          quartileData={benchmarkStatistics}
+        />
+      </StyledBenchmarkChart>
       <StyledBenchmarkCell data-testid={`benchmark-best-cell`}>
-        {formatNumber(benchmarkStatistics.best)}
+        {formatNumber(best)}
       </StyledBenchmarkCell>
     </Table.Row>
   );

@@ -11,10 +11,12 @@ import {
   StyledGroupSubHeader,
   StyledBenchmarkHeader,
   StyledBenchmarkSubHeader,
+  StyledAlignRightBorderHeader,
+  StyledAlignCentreBorderRightHeader,
 } from './SpineChartTableStyles';
 
 export interface TableHeaderProps {
-  areaName: string;
+  areaNames: string[];
   groupName: string;
 }
 
@@ -24,32 +26,39 @@ export enum SpineChartTableHeadingEnum {
   IndicatorPeriod = 'Period',
   AreaTrend = 'Recent trend',
   AreaCount = 'Count',
-  AreaValue = 'AreaValue',
   GroupValue = 'GroupValue',
   BenchmarkValue = 'Value',
   BenchmarkWorst = 'Worst',
+  BenchmarkRange = 'Range',
   BenchmarkBest = 'Best',
 }
 
 export function SpineChartTableHeader({
-  areaName,
+  areaNames,
   groupName,
 }: Readonly<TableHeaderProps>) {
-  // DHSCFT-582 - extend to allow up to 2 areas. Trends should only show for 1.
+  const twoAreasRequested = areaNames.length === 2;
+
   return (
     <>
-      <Table.Row key={areaName}>
+      <Table.Row key={`${areaNames.concat()}`}>
         <Table.CellHeader
           colSpan={3}
           data-testid="empty-header"
         ></Table.CellHeader>
-        <StyledAlignLeftHeader colSpan={3} data-testid="area-header">
-          {areaName}
-        </StyledAlignLeftHeader>
+        {areaNames.map((areaName, index) => (
+          <StyledAlignCentreHeader
+            colSpan={twoAreasRequested ? 2 : 3}
+            data-testid={`area-header-${index + 1}`}
+            key={areaName}
+          >
+            {areaName}
+          </StyledAlignCentreHeader>
+        ))}
         <StyledGroupHeader data-testid="group-header">
           {groupName}
         </StyledGroupHeader>
-        <StyledBenchmarkHeader colSpan={3} data-testid="england-header">
+        <StyledBenchmarkHeader colSpan={4} data-testid="england-header">
           Benchmark: England
         </StyledBenchmarkHeader>
       </Table.Row>
@@ -67,9 +76,14 @@ export function SpineChartTableHeader({
                 </StyledAlignLeftHeader>
               );
             case SpineChartTableHeadingEnum.IndicatorPeriod:
-            case SpineChartTableHeadingEnum.AreaTrend:
-            case SpineChartTableHeadingEnum.AreaCount:
-              return (
+              return twoAreasRequested ? (
+                <StyledAlignCentreBorderRightHeader
+                  key={heading}
+                  data-testid={`${heading}-header`}
+                >
+                  {heading}
+                </StyledAlignCentreBorderRightHeader>
+              ) : (
                 <StyledAlignCentreHeader
                   key={heading}
                   data-testid={`${heading}-header`}
@@ -77,14 +91,58 @@ export function SpineChartTableHeader({
                   {heading}
                 </StyledAlignCentreHeader>
               );
-            case SpineChartTableHeadingEnum.AreaValue:
-              return (
-                <StyledAlignRightHeader
+            case SpineChartTableHeadingEnum.AreaTrend:
+              return !twoAreasRequested ? (
+                <StyledAlignCentreHeader
                   key={heading}
                   data-testid={`${heading}-header`}
                 >
-                  Value
-                </StyledAlignRightHeader>
+                  {heading}
+                </StyledAlignCentreHeader>
+              ) : null;
+            case SpineChartTableHeadingEnum.AreaCount:
+              return twoAreasRequested ? (
+                <React.Fragment key={'count-value-for-areas'}>
+                  <StyledAlignCentreHeader
+                    key={`area-1-${heading}`}
+                    data-testid={`area-1-${heading}-header`}
+                  >
+                    {heading}
+                  </StyledAlignCentreHeader>
+                  <StyledAlignRightBorderHeader
+                    key={'area-1-value'}
+                    data-testid={'area-1-Value-header'}
+                  >
+                    Value
+                  </StyledAlignRightBorderHeader>
+                  <StyledAlignCentreHeader
+                    key={`area-2-${heading}`}
+                    data-testid={`area-2-${heading}-header`}
+                  >
+                    {heading}
+                  </StyledAlignCentreHeader>
+                  <StyledAlignRightHeader
+                    key={'area-2-value'}
+                    data-testid={'area-2-Value-header'}
+                  >
+                    Value
+                  </StyledAlignRightHeader>
+                </React.Fragment>
+              ) : (
+                <React.Fragment key={'count-value-for-area'}>
+                  <StyledAlignCentreHeader
+                    key={heading}
+                    data-testid={`${heading}-header`}
+                  >
+                    {heading}
+                  </StyledAlignCentreHeader>
+                  <StyledAlignRightHeader
+                    key={'area-value'}
+                    data-testid={'area-value-header'}
+                  >
+                    Value
+                  </StyledAlignRightHeader>
+                </React.Fragment>
               );
             case SpineChartTableHeadingEnum.GroupValue:
               return (

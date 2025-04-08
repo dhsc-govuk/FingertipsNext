@@ -121,8 +121,9 @@ paths:
       tags:
         - areas
       summary: Get multiple areas
-      description: Get the basic details without children, parent relationships etc.
-        for 1 or more areas
+      description:
+        Get the basic details without children, parent relationships etc.
+        for 1 or more areas. Will return duplicate of areas that are applicable to multiple areaTypes.
       operationId: getAreas
       parameters:
         - $ref: "#/components/parameters/area_codes"
@@ -282,7 +283,7 @@ paths:
         - indicators
       summary: Get quartile values for indicators
       description: |
-        Get quartile information for indicators including 
+        Get quartile information for indicators including
       parameters:
         - $ref: "#/components/parameters/indicator_ids"
         - $ref: "#/components/parameters/area_code"
@@ -310,20 +311,62 @@ components:
   schemas:
     IndicatorPolarity: # Define enum globally
       type: string
-      enum: [ Unknown, NoJudgement, LowIsGood, HighIsGood ]
-      x-enum-varnames: [ Unknown, NoJudgement, LowIsGood, HighIsGood ]
+      enum: [Unknown, NoJudgement, LowIsGood, HighIsGood]
+      x-enum-varnames: [Unknown, NoJudgement, LowIsGood, HighIsGood]
     BenchmarkComparisonMethod:
       type: string
       example: CIOverlappingReferenceValue95
       description: the benchmark comparison method used
-      enum: [ Unknown, Quintiles, CIOverlappingReferenceValue95, CIOverlappingReferenceValue99_8 ]
-      x-enum-varnames: [ Unknown, Quintiles, CIOverlappingReferenceValue95, CIOverlappingReferenceValue99_8 ]
+      enum:
+        [
+          Unknown,
+          Quintiles,
+          CIOverlappingReferenceValue95,
+          CIOverlappingReferenceValue99_8,
+        ]
+      x-enum-varnames:
+        [
+          Unknown,
+          Quintiles,
+          CIOverlappingReferenceValue95,
+          CIOverlappingReferenceValue99_8,
+        ]
     BenchmarkOutcome:
       type: string
       example: Lower
       description: benchmark outcome
-      enum: [ NotCompared, Lowest, Lower, Low, Middle, High, Higher, Highest, Better, Best, Worse, Worst, Similar ]
-      x-enum-varnames: [ NotCompared, Lowest, Lower, Low, Middle, High, Higher, Highest, Better, Best, Worse, Worst, Similar ]
+      enum:
+        [
+          NotCompared,
+          Lowest,
+          Lower,
+          Low,
+          Middle,
+          High,
+          Higher,
+          Highest,
+          Better,
+          Best,
+          Worse,
+          Worst,
+          Similar,
+        ]
+      x-enum-varnames:
+        [
+          NotCompared,
+          Lowest,
+          Lower,
+          Low,
+          Middle,
+          High,
+          Higher,
+          Highest,
+          Better,
+          Best,
+          Worse,
+          Worst,
+          Similar,
+        ]
     AreaType:
       type: object
       description: An area type e.g. PCN or GP
@@ -483,17 +526,18 @@ components:
           description: The statistical trend that applies to the data point,
             given the preceding data. Will only be calculated if there are at
             least 5 data points to use.
-          enum: [
-            'Not yet calculated',
-            'Cannot be calculated',
-            'Increasing',
-            'Decreasing',
-            'No significant change',
-            'Increasing and getting better',
-            'Increasing and getting worse',
-            'Decreasing and getting better',
-            'Decreasing and getting worse'
-          ]
+          enum:
+            [
+              "Not yet calculated",
+              "Cannot be calculated",
+              "Increasing",
+              "Decreasing",
+              "No significant change",
+              "Increasing and getting better",
+              "Increasing and getting worse",
+              "Decreasing and getting better",
+              "Decreasing and getting worse",
+            ]
         isAggregate:
           type: boolean
           description: Indicates if the datapoint is an aggregate point.
@@ -508,7 +552,7 @@ components:
               type: string
               example: HighIsGood
               description: the type of polarity applied to the outcome
-              enum: [ NoJudgement, LowIsGood, HighIsGood ]
+              enum: [NoJudgement, LowIsGood, HighIsGood]
             benchmarkAreaCode:
               type: string
               example: E92000001
@@ -623,7 +667,7 @@ components:
             $ref: "#/components/schemas/HealthDataForArea"
     QuartileData:
       type: object
-      description: Quartile data for an indicator plus supporting information 
+      description: Quartile data for an indicator plus supporting information
       properties:
         indicatorId:
           type: integer
@@ -633,30 +677,30 @@ components:
           type: integer
           format: int32
           example: 2023
-          description: The year that the data point is for        
+          description: The year that the data point is for
         polarity:
           $ref: "#/components/schemas/IndicatorPolarity"
         q0Value:
-           type: number
-           description: Quartile Q0 value - the minimum value
+          type: number
+          description: Quartile Q0 value - the minimum value
         q1Value:
-           type: number
-           description: Quartile Q1 value - the lower quartile value
+          type: number
+          description: Quartile Q1 value - the lower quartile value
         q2Value:
-           type: number
-           description: Quartile Q2 value - the median value
+          type: number
+          description: Quartile Q2 value - the median value
         q3Value:
-           type: number
-           description: Quartile Q3 value - the upper quartile value
+          type: number
+          description: Quartile Q3 value - the upper quartile value
         q4Value:
-           type: number
-           description: Quartile Q4 value - the maximum value
+          type: number
+          description: Quartile Q4 value - the maximum value
         areaValue:
           type: number
-          description: the average value for the area requested for comparison 
+          description: the average value for the area requested for comparison
         ancestorValue:
           type: number
-          description: the average value for the ancestor area requested for comparison 
+          description: the average value for the ancestor area requested for comparison
         englandValue:
           type: number
           description: the average value for England for comparison
