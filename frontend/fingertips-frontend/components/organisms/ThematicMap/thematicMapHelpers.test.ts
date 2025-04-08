@@ -210,8 +210,7 @@ describe('createThematicMapChartOptions', () => {
       mockMapData,
       'regions',
       BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-      IndicatorPolarity.NoJudgement,
-      'units'
+      IndicatorPolarity.NoJudgement
     );
 
     expect(options).toBeDefined();
