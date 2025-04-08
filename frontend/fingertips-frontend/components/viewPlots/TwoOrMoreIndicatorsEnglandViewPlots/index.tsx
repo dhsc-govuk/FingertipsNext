@@ -39,7 +39,6 @@ export const getEnglandIndicatorTableData = (
   indicatorMetadata: IndicatorDocument[]
 ): OneAreaMultipleIndicatorsData[] => {
   return indicatorData.map((indicator) => {
-    
     const hasHealthDataForEngland =
       indicator.areaHealthData?.[0]?.healthData !== undefined;
 
