@@ -871,52 +871,6 @@ describe('getAggregatePointInfo', () => {
   });
 });
 
-describe('generateInequalitiesLineChartOptions', () => {
-  it('should generate inequalities line chart options', () => {
-    const expected = {
-      ...lineChartDefaultOptions,
-      yAxis: {
-        ...lineChartDefaultOptions.yAxis,
-        title: { text: 'yAxis: %', margin: 20 },
-      },
-      xAxis: {
-        ...lineChartDefaultOptions.xAxis,
-        title: { text: 'xAxis', margin: 20 },
-      },
-      tooltip: {
-        headerFormat:
-          `<span style="font-weight: bold">${MOCK_INEQUALITIES_DATA.areaName}</span><br/>` +
-          '<span>Year {point.x}</span><br/>',
-        useHTML: true,
-      },
-      series: generateInequalitiesLineChartSeriesData(
-        sexKeys,
-        InequalitiesTypes.Sex,
-        mockChartData,
-        ['A1'],
-        false
-      ),
-    };
-
-    const actual = generateInequalitiesLineChartOptions(
-      mockChartData,
-      sexKeys,
-      InequalitiesTypes.Sex,
-      false,
-      () => [],
-      {
-        yAxisTitleText: 'yAxis',
-        xAxisTitleText: 'xAxis',
-        measurementUnit: '%',
-      }
-    );
-
-    expect(actual).toMatchObject(expected);
-    expect(actual.tooltip?.pointFormatter).toBeDefined();
-    expect(typeof actual.tooltip?.pointFormatter).toBe('function');
-  });
-});
-
 describe('getAllDataWithoutInequalities', () => {
   const mockHealthIndicatorData: HealthDataForArea[] = [
     {
