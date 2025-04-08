@@ -62,7 +62,7 @@ const StyleGroupTableContentDiv = styled('div')({
       borderBottomColor: GovukColours.MidGrey,
       borderTopColor: GovukColours.MidGrey,
       textAlign: 'right',
-      padding: 5,
+      padding: '5px',
     },
   },
   'minWidth': DefaultMinimumWidthForTablePanel,
@@ -80,7 +80,7 @@ const StyleSelectedAreaTableContextDiv = styled('div')({
       borderTopColor: GovukColours.MidGrey,
       borderBottomColor: GovukColours.MidGrey,
       textAlign: 'right',
-      padding: 5,
+      padding: '5px',
     },
   },
 });

@@ -54,6 +54,9 @@ const createChartSeriesOptions = (
           align: 'high',
           offset: 2,
           rotation: 0,
+          style: {
+            fontSize: '19px',
+          },
         },
         lineColor: GovukColours.DarkSlateGray,
         tickWidth: 1,
@@ -62,7 +65,7 @@ const createChartSeriesOptions = (
         tickColor: GovukColours.DarkSlateGray,
         labels: {
           style: {
-            fontSize: 16,
+            fontSize: '16px',
           },
         },
       },
@@ -87,7 +90,7 @@ const createChartSeriesOptions = (
         },
         labels: {
           style: {
-            fontSize: 16,
+            fontSize: '16px',
           },
         },
       },
@@ -95,6 +98,9 @@ const createChartSeriesOptions = (
     yAxis: {
       title: {
         text: yAxisTitle,
+        style: {
+          fontSize: '19px',
+        },
       },
       min: -maxTick,
       max: maxTick,
@@ -105,10 +111,10 @@ const createChartSeriesOptions = (
       tickColor: GovukColours.DarkSlateGray,
       gridLineWidth: 0,
       labels: {
-        format: '{abs value}%',
+        format: '{abs value}',
         align: 'center',
         style: {
-          fontSize: 16,
+          fontSize: '16px',
         },
       },
       accessibility: {
