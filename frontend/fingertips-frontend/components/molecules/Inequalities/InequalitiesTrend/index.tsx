@@ -76,7 +76,7 @@ export function InequalitiesTrend({
     ...healthIndicatorData,
     healthData: filterHealthData(
       healthIndicatorData.healthData,
-      filterFunctionGenerator(inequalityCategories[0])
+      filterFunctionGenerator(inequalityTypeSelected ?? inequalityCategories[0])
     ),
   };
 
