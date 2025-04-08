@@ -99,7 +99,7 @@ export const extractSortedAreasIndicatorsAndDataPoints = (
 
   const precedingAreas = [areaCodeForEngland];
 
-  if (groupAreaCode) {
+  if (groupAreaCode && groupAreaCode !== areaCodeForEngland) {
     precedingAreas.push(groupAreaCode);
   }
 
