@@ -20,7 +20,7 @@ export function ThematicMapCredits({
     >
       <p>
         Map source:{' '}
-        <Link href={`${mapMetaDataEncoder[areaType].mapSoureURL}`}>
+        <Link href={`${mapMetaDataEncoder[areaType].mapSourceURL}`}>
           {mapMetaDataEncoder[areaType].mapSource}
         </Link>
         <br />

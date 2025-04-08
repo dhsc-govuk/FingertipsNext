@@ -11,7 +11,6 @@ describe('ThematicMapCredits', () => {
       <ThematicMapCredits areaType={mockAreaType} dataSource={mockDataSource} />
     );
 
-    screen.debug();
     expect(
       screen.getByText(`Map source:`, { exact: false })
     ).toBeInTheDocument();
@@ -24,7 +23,7 @@ describe('ThematicMapCredits', () => {
     ).toBeInTheDocument();
     expect(screen.getByRole('link')).toHaveAttribute(
       'href',
-      mapMetaDataEncoder[mockAreaType].mapSoureURL
+      mapMetaDataEncoder[mockAreaType].mapSourceURL
     );
   });
 
