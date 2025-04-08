@@ -106,10 +106,11 @@ describe('AreaSuggestionPanel', () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it('should update the url with the areaCode when a suggested area is clicked', async () => {
+  it('should update the url with the areaCode and areaType when a suggested area is clicked', async () => {
     const expectedPath = [
       `${mockPath}`,
       `?${SearchParams.AreasSelected}=GP01`,
+      `&${SearchParams.AreaTypeSelected}=gps`,
     ].join('');
 
     const user = userEvent.setup();
@@ -153,6 +154,7 @@ describe('AreaSuggestionPanel', () => {
     const expectedPath = [
       `${mockPath}`,
       `?${SearchParams.AreasSelected}=GP01`,
+      `&${SearchParams.AreaTypeSelected}=gps`,
     ].join('');
 
     const user = userEvent.setup();
