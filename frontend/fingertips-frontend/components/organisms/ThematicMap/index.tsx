@@ -16,6 +16,7 @@ import { useSearchState } from '@/context/SearchStateContext';
 import { SearchParams } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { ThematicMapCredits } from '../../molecules/ThematicMapCredits';
+import { BenchmarkTooltip } from '@/components/molecules/BenchmarkTooltip/BenchmarkTooltip';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 
 interface ThematicMapProps {
@@ -56,10 +57,7 @@ export function ThematicMap({
             mapGeographyData,
             areaType as AreaTypeKeysForMapMeta,
             benchmarkComparisonMethod,
-            polarity,
-            indicatorMetadata,
-            benchmarkIndicatorData,
-            groupIndicatorData
+            polarity
           )
         );
       }
@@ -88,6 +86,23 @@ export function ThematicMap({
         paddingInline: '5px',
       }}
     >
+      {healthIndicatorData.map((indicatorDataForArea) => {
+        return (
+          <div
+            key={`thematicMap-chart-hover-${indicatorDataForArea.areaCode}`}
+            id={`thematicMap-chart-hover-${indicatorDataForArea.areaCode}`}
+            style={{ display: 'none' }}
+          >
+            <BenchmarkTooltip
+              indicatorData={indicatorDataForArea}
+              benchmarkComparisonMethod={benchmarkComparisonMethod}
+              measurementUnit={indicatorMetadata?.unitLabel}
+              indicatorDataForBenchmark={benchmarkIndicatorData}
+              indicatorDataForGroup={groupIndicatorData}
+            />
+          </div>
+        );
+      })}
       <BenchmarkLegend
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
