@@ -5,6 +5,7 @@ import Highcharts from 'highcharts';
 
 export enum SymbolNames {
   Circle = 'circle',
+  WhiteCircle = 'white-circle',
   Square = 'square',
   Diamond = 'diamond',
   Triangle = 'triangle',
@@ -15,6 +16,7 @@ export enum SymbolNames {
 
 export enum SymbolsEnum {
   Circle = '\u25CF',
+  WhiteCircle = '\u25CB',
   Square = '\u25a0',
   Diamond = '\u25c6',
   Triangle = '\u25b2',

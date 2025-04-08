@@ -34,11 +34,26 @@ describe('ThematicMap', () => {
         mapGeographyData={await mockMapGeographyData}
         benchmarkComparisonMethod={'Unknown'}
         polarity={'Unknown'}
-        measurementUnit={''}
       />
     );
 
-    const actual = await screen.findByTestId('benchmarkLegend-component');
-    expect(actual).toBeInTheDocument();
+    expect(
+      await screen.findByTestId('benchmarkLegend-component')
+    ).toBeInTheDocument();
+  });
+
+  it('should render the credits', async () => {
+    render(
+      <ThematicMap
+        healthIndicatorData={mockHealthData['92420']}
+        mapGeographyData={await mockMapGeographyData}
+        benchmarkComparisonMethod={'Unknown'}
+        polarity={'Unknown'}
+      />
+    );
+
+    expect(
+      await screen.findByTestId('thematic-map-credits')
+    ).toBeInTheDocument();
   });
 });
