@@ -22,12 +22,10 @@ import {
   sequenceSelectorForInequality,
   filterHealthData,
   healthDataFilterFunctionGeneratorForInequality,
-  getInequalityDeprivationCategories,
   getYearsWithInequalityData,
-  isSexTypePresent,
   sexCategory,
-  localeSort,
   InequalitiesComponentType,
+  getInequalityCategories,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
 import { InequalitiesTypesDropDown } from '../InequalitiesTypesDropDown';
@@ -62,12 +60,7 @@ export function InequalitiesTrend({
     [SearchParams.InequalityLineChartTypeSelected]: inequalityTypeSelected,
   } = stateManager.getSearchState();
 
-  const inequalityCategories = isSexTypePresent(healthIndicatorData.healthData)
-    ? [
-        ...getInequalityDeprivationCategories(healthIndicatorData),
-        sexCategory,
-      ].toSorted(localeSort)
-    : getInequalityDeprivationCategories(healthIndicatorData);
+  const inequalityCategories = getInequalityCategories(healthIndicatorData);
 
   if (!inequalityCategories.length) return null;
 

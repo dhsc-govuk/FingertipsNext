@@ -24,8 +24,10 @@ import {
   healthDataFilterFunctionGeneratorForInequality,
   getYearsWithInequalityData,
   isSexTypePresent,
+  getInequalityCategories,
+  sexCategory,
 } from './inequalitiesHelpers';
-import { GROUPED_YEAR_DATA } from '@/lib/tableHelpers/mocks';
+import { GROUPED_YEAR_DATA, MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { UniqueChartColours } from '@/lib/chartHelpers/colours';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { GovukColours } from '@/lib/styleHelpers/colours';
@@ -1120,5 +1122,65 @@ describe('isSexTypePresent', () => {
 
   it('should return true if sex type is present', () => {
     expect(isSexTypePresent(MOCK_INEQUALITIES_DATA.healthData)).toBe(true);
+  });
+});
+
+describe('getInequalityCategories', () => {
+  const mockDeprivationData = {
+    year: 2008,
+    count: 267,
+    value: 703.420759,
+    lowerCi: 441.69151,
+    upperCi: 578.32766,
+    ageBand: allAgesAge,
+    sex: personsSex,
+    trend: HealthDataPointTrendEnum.NotYetCalculated,
+    deprivation: {
+      ...noDeprivation,
+      isAggregate: false,
+      type: 'Unitary deciles',
+    },
+    isAggregate: false,
+  };
+
+  it('should return only Sex category when sex is present and deprivation is not', () => {
+    expect(getInequalityCategories(MOCK_INEQUALITIES_DATA)).toEqual([
+      sexCategory,
+    ]);
+  });
+
+  it('should return only deprivation categories when deprivation data is present and sex is not', () => {
+    const mockHealthData: HealthDataForArea = {
+      ...MOCK_HEALTH_DATA[0],
+      healthData: [
+        ...MOCK_HEALTH_DATA[0].healthData.slice(0, 2),
+        mockDeprivationData,
+      ],
+    };
+
+    expect(getInequalityCategories(mockHealthData)).toEqual([
+      'Unitary deciles',
+    ]);
+  });
+
+  it('should return both sex and deprivation categories sorted in alphabetical order when both are present', () => {
+    const mockHealthData: HealthDataForArea = {
+      ...MOCK_INEQUALITIES_DATA,
+      healthData: [...MOCK_INEQUALITIES_DATA.healthData, mockDeprivationData],
+    };
+
+    expect(getInequalityCategories(mockHealthData)).toEqual([
+      'Sex',
+      'Unitary deciles',
+    ]);
+  });
+
+  it('should return empty list when neither inequality type is present', () => {
+    const mockHealthData: HealthDataForArea = {
+      ...MOCK_HEALTH_DATA[0],
+      healthData: MOCK_HEALTH_DATA[0].healthData.slice(0, 2),
+    };
+
+    expect(getInequalityCategories(mockHealthData)).toEqual([]);
   });
 });

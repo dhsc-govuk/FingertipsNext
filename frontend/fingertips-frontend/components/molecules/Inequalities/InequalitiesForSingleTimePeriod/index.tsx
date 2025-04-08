@@ -5,7 +5,7 @@ import { InequalitiesBarChart } from '../BarChart';
 import { InequalitiesBarChartTable } from '../BarChart/Table';
 import {
   filterHealthData,
-  getInequalityDeprivationCategories,
+  getInequalityCategories,
   getYearDataGroupedByInequalities,
   getYearsWithInequalityData,
   groupHealthDataByYear,
@@ -13,8 +13,6 @@ import {
   InequalitiesBarChartData,
   InequalitiesComponentType,
   InequalitiesTypes,
-  isSexTypePresent,
-  localeSort,
   mapToInequalitiesTableData,
   sequenceSelectorForInequality,
   sexCategory,
@@ -53,13 +51,7 @@ export function InequalitiesForSingleTimePeriod({
     [SearchParams.InequalityBarChartTypeSelected]: inequalityTypeSelected,
   } = stateManager.getSearchState();
 
-  const inequalityCategories = isSexTypePresent(healthIndicatorData.healthData)
-    ? [
-        ...getInequalityDeprivationCategories(healthIndicatorData),
-        sexCategory,
-      ].toSorted(localeSort)
-    : getInequalityDeprivationCategories(healthIndicatorData);
-
+  const inequalityCategories = getInequalityCategories(healthIndicatorData);
   if (!inequalityCategories.length) return null;
 
   const type =

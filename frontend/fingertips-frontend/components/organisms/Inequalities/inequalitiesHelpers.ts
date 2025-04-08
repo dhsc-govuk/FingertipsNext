@@ -412,7 +412,7 @@ export const filterHealthData = (
   return healthData.filter(filterFn);
 };
 
-export const getInequalityDeprivationCategories = (
+const getInequalityDeprivationCategories = (
   healthIndicatorData: HealthDataForArea
 ) => {
   const disaggregatedDeprivationData = filterHealthData(
@@ -444,3 +444,13 @@ export const getYearsWithInequalityData = (
 
 export const isSexTypePresent = (dataPoints: HealthDataPoint[]): boolean =>
   dataPoints.some((point) => !point.sex.isAggregate);
+
+export const getInequalityCategories = (
+  healthIndicatorData: HealthDataForArea
+) =>
+  isSexTypePresent(healthIndicatorData.healthData)
+    ? [
+        ...getInequalityDeprivationCategories(healthIndicatorData),
+        sexCategory,
+      ].toSorted(localeSort)
+    : getInequalityDeprivationCategories(healthIndicatorData);
