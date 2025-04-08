@@ -1,11 +1,7 @@
 import { getTextColour, GovukColours } from '@/lib/styleHelpers/colours';
 import { Table } from 'govuk-react';
 import styled from 'styled-components';
-import {
-  CellType,
-  heatmapDataColumnWidth,
-  heatmapIndicatorTitleColumnWidth,
-} from './heatmapUtil';
+import { CellType, heatmapIndicatorTitleColumnWidth } from './heatmapUtil';
 import { JSX, MouseEventHandler } from 'react';
 
 const StyledCellText = styled(Table.Cell)({

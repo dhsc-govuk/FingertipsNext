@@ -12,7 +12,7 @@ import { HeatmapHeader } from './heatmapHeader';
 import { HeatmapCell } from './heatmapCell';
 import { BenchmarkLegend } from '../BenchmarkLegend';
 import { HeatmapHover, HeatmapHoverProps } from './heatmapHover';
-import React, { MouseEventHandler, useState } from 'react';
+import React, { MouseEventHandler, useMemo, useState } from 'react';
 
 export interface HeatmapProps {
   indicatorData: HeatmapIndicatorData[];
@@ -41,8 +41,11 @@ export function Heatmap({
   indicatorData,
   groupAreaCode,
 }: Readonly<HeatmapProps>) {
-  const { areas, indicators, dataPoints } =
-    extractSortedAreasIndicatorsAndDataPoints(indicatorData, groupAreaCode);
+  const { areas, indicators, dataPoints } = useMemo(
+    () =>
+      extractSortedAreasIndicatorsAndDataPoints(indicatorData, groupAreaCode),
+    [indicatorData, groupAreaCode]
+  );
 
   const headers = generateHeaders(areas, groupAreaCode);
   const rows = generateRows(areas, indicators, dataPoints);
@@ -64,8 +67,9 @@ export function Heatmap({
       const cellRect = e.currentTarget.getBoundingClientRect();
       const hoverPropsWithPosition: HeatmapHoverProps = {
         ...hoverProps,
-        xPos: cellRect?.right + 12,
-        yPos: cellRect?.top,
+        cellRight: cellRect?.right + 12,
+        cellVerticalMidpoint:
+          cellRect?.top + (cellRect?.bottom - cellRect?.top) / 2,
       };
 
       setHoverState(hoverPropsWithPosition);
