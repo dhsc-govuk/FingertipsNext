@@ -71,6 +71,8 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
   beforeEach(() => {
     mockIndicatorsApi.getHealthDataForAnIndicator
       .mockResolvedValueOnce(mockIndicator)
+      .mockResolvedValueOnce(mockIndicator)
+      .mockResolvedValueOnce(mockIndicator)
       .mockResolvedValueOnce(mockIndicator);
   });
 
