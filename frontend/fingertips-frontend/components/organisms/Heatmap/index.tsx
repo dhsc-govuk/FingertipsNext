@@ -41,14 +41,15 @@ export function Heatmap({
   indicatorData,
   groupAreaCode,
 }: Readonly<HeatmapProps>) {
-  const { areas, indicators, dataPoints } = useMemo(
-    () =>
-      extractSortedAreasIndicatorsAndDataPoints(indicatorData, groupAreaCode),
-    [indicatorData, groupAreaCode]
-  );
+  const { headers, rows } = useMemo(() => {
+    const { areas, indicators, dataPoints } =
+      extractSortedAreasIndicatorsAndDataPoints(indicatorData, groupAreaCode);
 
-  const headers = generateHeaders(areas, groupAreaCode);
-  const rows = generateRows(areas, indicators, dataPoints);
+    const headers = generateHeaders(areas, groupAreaCode);
+    const rows = generateRows(areas, indicators, dataPoints);
+
+    return { headers, rows };
+  }, [indicatorData, groupAreaCode]);
 
   const [hoverState, setHoverState] = useState<HeatmapHoverProps | undefined>(
     undefined
@@ -76,6 +77,22 @@ export function Heatmap({
     };
   };
 
+  const handlers = useMemo(() => {
+    return rows.flatMap((row) => {
+      return row.cells.flatMap((cell) => {
+        return buildOnMouseEnterByProps(cell.hoverProps);
+      });
+    });
+  }, [rows]);
+
+  const getHandlerIndex = (
+    rowIndex: number,
+    cellIndex: number,
+    cellsPerRow: number
+  ): number => {
+    return rowIndex * cellsPerRow + cellIndex;
+  };
+
   const onMouseLeave: MouseEventHandler = () => {
     setHoverState(undefined);
   };
@@ -97,19 +114,21 @@ export function Heatmap({
               );
             })}
           </StyledRow>
-          {rows.map((row) => {
+          {rows.map((row, rowIndex) => {
             return (
               <StyledRow key={row.key}>
-                {row.cells.map((cell) => {
+                {row.cells.map((cell, cellIndex) => {
                   return (
                     <HeatmapCell
                       key={cell.key}
                       cellType={cell.type}
                       content={cell.content}
                       backgroundColour={cell.backgroundColour}
-                      mouseEnterHandler={buildOnMouseEnterByProps(
-                        cell.hoverProps
-                      )}
+                      mouseEnterHandler={
+                        handlers[
+                          getHandlerIndex(rowIndex, cellIndex, row.cells.length)
+                        ]
+                      }
                       mouseLeaveHandler={onMouseLeave}
                     />
                   );
