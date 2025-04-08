@@ -25,11 +25,20 @@ import { usePathname, useRouter } from 'next/navigation';
 import { ArrowExpander } from '@/components/molecules/ArrowExpander';
 import { PopulationPyramidChartTable } from '../PopulationPyramidChartTable';
 
+export const enum PopulationIndicatorIdsTypes {
+  ADMINISTRATIVE = 92708,
+  NHS = 337,
+}
+
 const getHeaderTitle = (
   healthData: HealthDataForArea | undefined,
-  year: number | undefined
+  year: number | undefined,
+  indicatorID: number | undefined
 ): string => {
   let title = undefined;
+  if (indicatorID == 337) {
+  } else {
+  }
   if (!year) {
     title = `Resident population profile for ${healthData?.areaName}`;
   } else {
@@ -55,6 +64,7 @@ const getSelectedAreaFrom = (
 
 interface PyramidPopulationChartViewProps {
   healthDataForAreas: HealthDataForArea[];
+  areaCodesMappingToIndicatorIds: Record<string, number>;
   groupAreaSelected?: string;
   xAxisTitle: string;
   yAxisTitle: string;
@@ -62,6 +72,7 @@ interface PyramidPopulationChartViewProps {
 }
 export const PopulationPyramidWithTable = ({
   healthDataForAreas,
+  areaCodesMappingToIndicatorIds,
   xAxisTitle,
   yAxisTitle,
   groupAreaSelected,
@@ -101,7 +112,11 @@ export const PopulationPyramidWithTable = ({
         }
       );
       const year = getLatestYear(healthData?.healthData);
-      return getHeaderTitle(healthData, year);
+      return getHeaderTitle(
+        healthData,
+        year,
+        areaCodesMappingToIndicatorIds[healthData?.areaCode ?? 0]
+      );
     })()
   );
 
@@ -125,7 +140,13 @@ export const PopulationPyramidWithTable = ({
           area.areaCode
         );
 
-        setTitle(getHeaderTitle(healthData, year));
+        setTitle(
+          getHeaderTitle(
+            healthData,
+            year,
+            areaCodesMappingToIndicatorIds[healthData?.areaCode ?? 0]
+          )
+        );
         setSelectedArea(
           convertHealthDataForAreaForPyramidData(healthData, year)
         );
@@ -133,7 +154,13 @@ export const PopulationPyramidWithTable = ({
         replace(stateManager.generatePath(pathname));
       }
     },
-    [healthDataForAreas, stateManager, replace, pathname]
+    [
+      healthDataForAreas,
+      stateManager,
+      replace,
+      pathname,
+      areaCodesMappingToIndicatorIds,
+    ]
   );
 
   if (!convertedData?.areas.length) {
