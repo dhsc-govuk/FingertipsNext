@@ -5,6 +5,7 @@ import React from 'react';
 import {
   StyledAlignLeftTableCell,
   StyledAlignRightTableCell,
+  StyledIndicatorTitleCell,
 } from '@/lib/tableHelpers';
 
 import {
@@ -12,6 +13,8 @@ import {
   StyledGroupCell,
   StyledBenchmarkCell,
   StyledBenchmarkChart,
+  StyledAlignRightBorderRightTableCell,
+  StyledAlignCentreBorderRightTableCell,
 } from './SpineChartTableStyles';
 import { SpineChart } from '../SpineChart';
 import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
@@ -32,11 +35,14 @@ export interface SpineChartTableRowData {
   unit: string;
   period: number;
   trend: HealthDataPointTrendEnum;
-  count?: number;
-  value?: number;
+  areaOneCount?: number;
+  areaOneValue?: number;
+  areaTwoCount?: number;
+  areaTwoValue?: number;
   groupValue?: number;
   benchmarkValue?: number;
   benchmarkStatistics: QuartileData;
+  twoAreasRequested: boolean;
 }
 
 export function SpineChartMissingValue({
@@ -50,34 +56,67 @@ export function SpineChartTableRow({
   unit,
   period,
   trend,
-  count,
-  value,
+  areaOneCount,
+  areaOneValue,
+  areaTwoCount,
+  areaTwoValue,
   groupValue,
   benchmarkValue,
   benchmarkStatistics,
+  twoAreasRequested,
 }: Readonly<SpineChartTableRowData>) {
   const { best, worst } = orderStatistics(benchmarkStatistics);
 
   return (
     <Table.Row>
-      <StyledAlignLeftTableCell data-testid={`indicator-cell`}>
+      <StyledIndicatorTitleCell data-testid={`indicator-cell`}>
         {indicator}
-      </StyledAlignLeftTableCell>
+      </StyledIndicatorTitleCell>
       <StyledAlignLeftTableCell data-testid={`unit-cell`}>
         {unit}
       </StyledAlignLeftTableCell>
-      <StyledAlignCentreTableCell data-testid={`period-cell`}>
-        {period}
-      </StyledAlignCentreTableCell>
-      <StyledAlignCentreTableCell>
-        <TrendTag trendFromResponse={trend} />
-      </StyledAlignCentreTableCell>
-      <StyledAlignCentreTableCell data-testid={`count-cell`}>
-        {formatWholeNumber(count)}
-      </StyledAlignCentreTableCell>
-      <StyledAlignRightTableCell data-testid={`value-cell`}>
-        {formatNumber(value)}
-      </StyledAlignRightTableCell>
+
+      {twoAreasRequested ? (
+        <StyledAlignCentreBorderRightTableCell data-testid={`period-cell`}>
+          {period}
+        </StyledAlignCentreBorderRightTableCell>
+      ) : (
+        <StyledAlignCentreTableCell data-testid={`period-cell`}>
+          {period}
+        </StyledAlignCentreTableCell>
+      )}
+
+      {twoAreasRequested ? (
+        <>
+          <StyledAlignCentreTableCell data-testid={`area-1-count-cell`}>
+            {formatWholeNumber(areaOneCount)}
+          </StyledAlignCentreTableCell>
+          <StyledAlignRightBorderRightTableCell
+            data-testid={`area-1-value-cell`}
+          >
+            {formatNumber(areaOneValue)}
+          </StyledAlignRightBorderRightTableCell>
+          <StyledAlignCentreTableCell data-testid={`area-2-count-cell`}>
+            {formatWholeNumber(areaTwoCount)}
+          </StyledAlignCentreTableCell>
+          <StyledAlignRightTableCell data-testid={`area-2-value-cell`}>
+            {formatNumber(areaTwoValue)}
+          </StyledAlignRightTableCell>
+        </>
+      ) : (
+        <>
+          <StyledAlignCentreTableCell data-testid={`trend-cell`}>
+            <TrendTag trendFromResponse={trend} />
+          </StyledAlignCentreTableCell>
+          <StyledAlignCentreTableCell data-testid={`count-cell`}>
+            {formatWholeNumber(areaOneCount)}
+          </StyledAlignCentreTableCell>
+          <StyledAlignRightTableCell data-testid={`value-cell`}>
+            {formatNumber(areaOneValue)}
+          </StyledAlignRightTableCell>
+        </>
+      )}
+
       <StyledGroupCell data-testid={`group-value-cell`}>
         {formatNumber(groupValue)}
       </StyledGroupCell>
