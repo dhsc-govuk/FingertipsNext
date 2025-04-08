@@ -171,6 +171,11 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   vertical-align: top;
 }
 
+.c0 {
+  overflow-x: auto;
+  width: 100%;
+}
+
 .c26 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
@@ -302,11 +307,6 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
 
 .c6 {
   border: none;
-}
-
-.c0 {
-  overflow-x: scroll;
-  width: 100%;
 }
 
 @media print {
