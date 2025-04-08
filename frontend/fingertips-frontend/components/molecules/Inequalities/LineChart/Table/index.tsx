@@ -26,21 +26,29 @@ const StyledAlignCenterHeader = styled(StyledTableCellHeader)({
   textAlign: 'center',
 });
 
+const StyledAlignRightHeaderWithPadding = styled(StyledAlignRightHeader)({
+  paddingLeft: '10px',
+});
+
+const StyledAlignLeftHeaderWithPadding = styled(StyledAlignLeftHeader)({
+  paddingRight: '10px',
+});
+
 const getCellHeader = (heading: string, index: number): ReactNode => {
   return heading === InequalitiesTableHeadingsEnum.PERIOD ? (
-    <StyledAlignLeftHeader
+    <StyledAlignLeftHeaderWithPadding
       data-testid={`header-${heading}-${index}`}
       key={heading + index}
     >
       {heading}
-    </StyledAlignLeftHeader>
+    </StyledAlignLeftHeaderWithPadding>
   ) : (
-    <StyledAlignRightHeader
+    <StyledAlignRightHeaderWithPadding
       data-testid={`header-${heading}-${index}`}
       key={heading + index}
     >
       {heading}
-    </StyledAlignRightHeader>
+    </StyledAlignRightHeaderWithPadding>
   );
 };
 

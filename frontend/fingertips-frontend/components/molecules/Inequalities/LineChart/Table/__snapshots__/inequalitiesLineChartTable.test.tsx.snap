@@ -13,13 +13,13 @@ exports[`Inequalities table suite Sex inequality snapshot test - should match sn
   padding-right: 0;
 }
 
-.c7 {
+.c9 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: left;
 }
 
-.c7:last-child {
+.c9:last-child {
   padding-right: 0;
 }
 
@@ -48,13 +48,13 @@ exports[`Inequalities table suite Sex inequality snapshot test - should match sn
   padding: 0.625em 0;
 }
 
-.c6 {
+.c7 {
   text-align: right;
   padding-right: 10px;
   vertical-align: top;
 }
 
-.c8 {
+.c10 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -64,12 +64,12 @@ exports[`Inequalities table suite Sex inequality snapshot test - should match sn
   padding-right: 0;
 }
 
-.c10 {
+.c12 {
   text-align: right;
   padding-right: 10px;
 }
 
-.c9 {
+.c11 {
   text-align: left;
   width: 10%;
 }
@@ -86,6 +86,14 @@ exports[`Inequalities table suite Sex inequality snapshot test - should match sn
 
 .c4 {
   text-align: center;
+}
+
+.c8 {
+  padding-left: 10px;
+}
+
+.c6 {
+  padding-right: 10px;
 }
 
 @media print {
@@ -129,14 +137,14 @@ exports[`Inequalities table suite Sex inequality snapshot test - should match sn
 }
 
 @media print {
-  .c8 {
+  .c10 {
     font-size: 14px;
     line-height: 1.2;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c8 {
+  .c10 {
     font-size: 16px;
     line-height: 1.25;
   }
@@ -172,25 +180,25 @@ exports[`Inequalities table suite Sex inequality snapshot test - should match sn
           class=""
         >
           <th
-            class="c2 c3 c5"
+            class="c2 c3 c5 c6"
             data-testid="header-Period-0"
           >
             Period
           </th>
           <th
-            class="c2 c3 c6"
+            class="c2 c3 c7 c8"
             data-testid="header-Persons-1"
           >
             Persons
           </th>
           <th
-            class="c2 c3 c6"
+            class="c2 c3 c7 c8"
             data-testid="header-Male-2"
           >
             Male
           </th>
           <th
-            class="c2 c3 c6"
+            class="c2 c3 c7 c8"
             data-testid="header-Female-3"
           >
             Female
@@ -204,22 +212,22 @@ exports[`Inequalities table suite Sex inequality snapshot test - should match sn
           class=""
         >
           <td
-            class="c7 c8 c9"
+            class="c9 c10 c11"
           >
             2004
           </td>
           <td
-            class="c7 c8 c10"
+            class="c9 c10 c12"
           >
             890.3
           </td>
           <td
-            class="c7 c8 c10"
+            class="c9 c10 c12"
           >
             703.4
           </td>
           <td
-            class="c7 c8 c10"
+            class="c9 c10 c12"
           >
             703.4
           </td>
@@ -228,22 +236,22 @@ exports[`Inequalities table suite Sex inequality snapshot test - should match sn
           class=""
         >
           <td
-            class="c7 c8 c9"
+            class="c9 c10 c11"
           >
             2008
           </td>
           <td
-            class="c7 c8 c10"
+            class="c9 c10 c12"
           >
             135.1
           </td>
           <td
-            class="c7 c8 c10"
+            class="c9 c10 c12"
           >
             890.3
           </td>
           <td
-            class="c7 c8 c10"
+            class="c9 c10 c12"
           >
             890.3
           </td>
