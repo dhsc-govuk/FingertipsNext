@@ -73,7 +73,7 @@ export const PopulationPyramidWithTableDataProvider = async ({
 
   const areaTypeCodeMappings =
     await getAreaCodeMappingsToIndicatorIds(areaCodesToRequest);
-
+  console.log(areaTypeCodeMappings);
   const populationDataForArea: IndicatorWithHealthDataForArea | undefined =
     await (async () => {
       try {
