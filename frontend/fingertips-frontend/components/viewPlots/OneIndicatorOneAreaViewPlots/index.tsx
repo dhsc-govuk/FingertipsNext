@@ -58,6 +58,7 @@ export function OneIndicatorOneAreaViewPlots({
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.GroupSelected]: groupSelected,
     [SearchParams.InequalityTypeSelected]: inequalityTypeSelected,
     [SearchParams.InequalityYearSelected]: inequalityYearSelected,
   } = searchState;
@@ -101,6 +102,7 @@ export function OneIndicatorOneAreaViewPlots({
     inequalityTypeSelected === 'sex' || inequalityTypeSelected === undefined
       ? getAreasWithSexInequalitiesData(
           healthIndicatorData,
+          groupSelected,
           inequalityYearSelected
         )
       : [];

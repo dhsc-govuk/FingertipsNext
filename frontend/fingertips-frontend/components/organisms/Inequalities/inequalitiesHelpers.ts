@@ -17,6 +17,7 @@ import {
   lineChartDefaultOptions,
 } from '../LineChart/lineChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 export const localeSort = (a: string, b: string) => a.localeCompare(b);
 
@@ -368,12 +369,16 @@ export const getAllDataWithoutInequalities = (
 
 export const getAreasWithSexInequalitiesData = (
   healthIndicatorData: HealthDataForArea[],
+  groupSelected?: string,
   year?: string
 ) => {
   const areasWithInequalitiesData: AreaWithoutAreaType[] = [];
 
   healthIndicatorData.forEach((areaWithHealthData) => {
-    if (hasHealthDataWithSexInequalities(areaWithHealthData, year)) {
+    if (
+      areaWithHealthData.areaCode !== groupSelected &&
+      hasHealthDataWithSexInequalities(areaWithHealthData, year)
+    ) {
       areasWithInequalitiesData.push({
         code: areaWithHealthData.areaCode,
         name: areaWithHealthData.areaName,
@@ -381,6 +386,15 @@ export const getAreasWithSexInequalitiesData = (
     }
   });
 
+  const englandArea = areasWithInequalitiesData.find(
+    (area) => area.code === areaCodeForEngland
+  );
+
+  if (englandArea) {
+    return areasWithInequalitiesData
+      .filter((area) => area.code !== areaCodeForEngland)
+      .concat(englandArea);
+  }
   return areasWithInequalitiesData;
 };
 
