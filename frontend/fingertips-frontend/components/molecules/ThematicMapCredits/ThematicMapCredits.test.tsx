@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { ThematicMapCredits } from '.';
 import { mapMetaDataEncoder } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 
-const mockDataSource = 'BJSS Leeds';
+const mockDataSource = 'Mock Data Provider';
 const mockAreaType = 'regions';
 
 describe('ThematicMapCredits', () => {
@@ -14,12 +14,20 @@ describe('ThematicMapCredits', () => {
     expect(
       screen.getByText(`Map source:`, { exact: false })
     ).toBeInTheDocument();
-    expect(screen.getByText(RegExp(mockDataSource))).toBeInTheDocument();
-    expect(screen.getByText(RegExp(mockDataSource))).toBeInTheDocument();
     expect(
-      screen.getByText(RegExp(mapMetaDataEncoder[mockAreaType].mapCopyright), {
-        collapseWhitespace: false,
-      })
+      screen.getByText(mockDataSource, { exact: false })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        mapMetaDataEncoder[mockAreaType].mapCopyright.split('\n')[0],
+        { exact: false }
+      )
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        mapMetaDataEncoder[mockAreaType].mapCopyright.split('\n')[1],
+        { exact: false }
+      )
     ).toBeInTheDocument();
     expect(screen.getByRole('link')).toHaveAttribute(
       'href',
@@ -29,6 +37,6 @@ describe('ThematicMapCredits', () => {
 
   it('should not display data source when metadata does not exist', async () => {
     render(<ThematicMapCredits areaType={mockAreaType} />);
-    expect(screen.queryByText(/Data source: /)).not.toBeInTheDocument();
+    expect(screen.queryByText('Data source: ')).not.toBeInTheDocument();
   });
 });
