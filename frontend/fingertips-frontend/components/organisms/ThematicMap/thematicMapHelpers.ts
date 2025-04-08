@@ -372,7 +372,7 @@ export function createThematicMapChartOptions(
         showInLegend: false,
         mapData: mapGeographyData.mapGroupBoundary,
         borderColor: GovukColours.Black,
-        borderWidth: 6,
+        borderWidth: 3,
       },
       {
         type: 'map',

@@ -84,7 +84,7 @@ export function ThematicMap({
     <div
       data-testid="thematicMap-component"
       style={{
-        border: `1px solid ${GovukColours.Black}`,
+        border: `1px solid ${GovukColours.LightGrey}`,
         paddingInline: '5px',
       }}
     >
