@@ -68,6 +68,31 @@ export function getHealthDataWithoutInequalities(
   return data?.healthData?.filter((data) => data.isAggregate);
 }
 
+export function hasHealthDataWithSexInequalities(
+  healthDataForArea: HealthDataForArea,
+  year?: string
+): boolean {
+  if (year) {
+    const healthDataPointsForYear = healthDataForArea.healthData.filter(
+      (healthData) => healthData.year.toString() === year
+    );
+
+    if (healthDataPointsForYear.length === 0) {
+      return false;
+    }
+
+    return (
+      healthDataPointsForYear?.filter(
+        (healthDataForYear) => !healthDataForYear.sex.isAggregate
+      ).length > 0
+    );
+  }
+  const healthDataPointWithSexInequalities =
+    healthDataForArea?.healthData?.filter((data) => !data.sex.isAggregate);
+
+  return healthDataPointWithSexInequalities.length > 0;
+}
+
 export function isEnglandSoleSelectedArea(areasSelected?: string[]) {
   const distinctAreas = [...new Set(areasSelected)];
   return distinctAreas.length === 1 && distinctAreas[0] === areaCodeForEngland;

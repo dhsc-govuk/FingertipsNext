@@ -5,6 +5,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchStateContext } from '@/context/SearchStateContext';
+import { LoaderContext } from '@/context/LoaderContext';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -15,8 +16,19 @@ jest.mock('next/navigation', () => {
   };
 });
 
+const mockLoaderContext: LoaderContext = {
+  getIsLoading: jest.fn(),
+  setIsLoading: jest.fn(),
+};
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoadingState: () => mockLoaderContext,
+  };
+});
+
+const mockGetSearchState = jest.fn();
 const mockSearchStateContext: SearchStateContext = {
-  getSearchState: jest.fn(),
+  getSearchState: mockGetSearchState,
   setSearchState: jest.fn(),
 };
 jest.mock('@/context/SearchStateContext', () => {
@@ -24,6 +36,7 @@ jest.mock('@/context/SearchStateContext', () => {
     useSearchState: () => mockSearchStateContext,
   };
 });
+mockGetSearchState.mockReturnValue({});
 
 const mockMetaData = {
   indicatorID: '108',

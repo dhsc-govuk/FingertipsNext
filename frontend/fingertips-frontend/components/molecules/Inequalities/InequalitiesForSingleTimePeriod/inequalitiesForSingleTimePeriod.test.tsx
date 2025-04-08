@@ -9,6 +9,7 @@ import {
   HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
 import { allAgesAge, noDeprivation, maleSex } from '@/lib/mocks';
+import { LoaderContext } from '@/context/LoaderContext';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -23,6 +24,16 @@ jest.mock('next/navigation', () => {
     useRouter: jest.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
+  };
+});
+
+const mockLoaderContext: LoaderContext = {
+  getIsLoading: jest.fn(),
+  setIsLoading: jest.fn(),
+};
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoadingState: () => mockLoaderContext,
   };
 });
 
@@ -70,11 +81,13 @@ describe('InequalitiesForSingleTimePeriod suite', () => {
     render(
       <InequalitiesForSingleTimePeriod
         healthIndicatorData={mockHealthData}
-        searchState={mockSearchState}
+        availableAreas={[]}
       />
     );
 
-    const dropDown = screen.getByRole('combobox');
+    const dropDown = screen.getByRole('combobox', {
+      name: 'Select a time period',
+    });
     const yearOptions = within(dropDown).getAllByRole('option');
 
     expect(
@@ -105,7 +118,7 @@ describe('InequalitiesForSingleTimePeriod suite', () => {
     render(
       <InequalitiesForSingleTimePeriod
         healthIndicatorData={mockHealthData}
-        searchState={mockSearchState}
+        availableAreas={[]}
       />
     );
 

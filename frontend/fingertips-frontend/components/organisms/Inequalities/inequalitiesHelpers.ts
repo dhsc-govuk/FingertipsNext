@@ -1,4 +1,5 @@
 import {
+  Area,
   HealthDataForArea,
   HealthDataPoint,
   HealthDataPointBenchmarkComparison,
@@ -8,6 +9,7 @@ import {
   generateConfidenceIntervalSeries,
   getHealthDataWithoutInequalities,
   isEnglandSoleSelectedArea,
+  hasHealthDataWithSexInequalities,
 } from '@/lib/chartHelpers/chartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
@@ -53,6 +55,8 @@ export interface InequalitiesTableRowData {
     [key: string]: RowDataFields | undefined;
   };
 }
+
+export type AreaWithoutAreaType = Pick<Area, 'code' | 'name'>;
 
 interface DataWithoutInequalities {
   areaDataWithoutInequalities: HealthDataForArea[];
@@ -360,6 +364,24 @@ export const getAllDataWithoutInequalities = (
     englandBenchmarkWithoutInequalities,
     groupDataWithoutInequalities,
   };
+};
+
+export const getAreasWithSexInequalitiesData = (
+  healthIndicatorData: HealthDataForArea[],
+  year?: string
+) => {
+  const areasWithInequalitiesData: AreaWithoutAreaType[] = [];
+
+  healthIndicatorData.forEach((areaWithHealthData) => {
+    if (hasHealthDataWithSexInequalities(areaWithHealthData, year)) {
+      areasWithInequalitiesData.push({
+        code: areaWithHealthData.areaCode,
+        name: areaWithHealthData.areaName,
+      });
+    }
+  });
+
+  return areasWithInequalitiesData;
 };
 
 export const filterHealthData = (

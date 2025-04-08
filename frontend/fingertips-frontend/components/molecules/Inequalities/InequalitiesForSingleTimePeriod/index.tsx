@@ -4,6 +4,7 @@ import { TimePeriodDropDown } from '../../TimePeriodDropDown';
 import { InequalitiesBarChart } from '../BarChart';
 import { InequalitiesBarChartTable } from '../BarChart/Table';
 import {
+  AreaWithoutAreaType,
   filterHealthData,
   getInequalityCategory,
   getYearDataGroupedByInequalities,
@@ -16,20 +17,18 @@ import {
   sequenceSelectorForInequality,
   valueSelectorForInequality,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
-import {
-  SearchParams,
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
+import { SearchParams } from '@/lib/searchStateManager';
 import {
   BenchmarkComparisonMethod,
   HealthDataForArea,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
+import { ChartSelectArea } from '../../ChartSelectArea';
+import { useSearchState } from '@/context/SearchStateContext';
 
 interface InequalitiesForSingleTimePeriodProps {
   healthIndicatorData: HealthDataForArea;
-  searchState: SearchStateParams;
+  availableAreas: AreaWithoutAreaType[];
   measurementUnit?: string;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
@@ -37,16 +36,18 @@ interface InequalitiesForSingleTimePeriodProps {
 
 export function InequalitiesForSingleTimePeriod({
   healthIndicatorData,
+  availableAreas,
   measurementUnit,
   benchmarkComparisonMethod,
   polarity,
-  searchState,
 }: Readonly<InequalitiesForSingleTimePeriodProps>) {
-  const stateManager = SearchStateManager.initialise(searchState);
+  const { getSearchState } = useSearchState();
+  const searchState = getSearchState();
+
   const {
     [SearchParams.InequalityYearSelected]: selectedYear,
     [SearchParams.InequalityTypeSelected]: inequalityTypeSelected,
-  } = stateManager.getSearchState();
+  } = searchState;
 
   // This will be updated when we add the dropdown to select inequality types
   const type =
@@ -101,6 +102,7 @@ export function InequalitiesForSingleTimePeriod({
     <div data-testid="inequalitiesForSingleTimePeriod-component">
       <H3>Inequalities data for a single time period</H3>
       <TimePeriodDropDown years={yearsDesc} />
+      <ChartSelectArea availableAreas={availableAreas} />
       <TabContainer
         id="inequalitiesBarChartAndTable"
         items={[

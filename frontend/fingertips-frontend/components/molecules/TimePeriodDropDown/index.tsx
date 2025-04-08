@@ -1,6 +1,6 @@
 import { useSearchState } from '@/context/SearchStateContext';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
-import { H5, Select } from 'govuk-react';
+import { Select } from 'govuk-react';
 import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 
@@ -8,9 +8,14 @@ interface TimePeriodDropDownProps {
   years: (number | string)[];
 }
 
-const StyledSelect = styled(Select)({
-  width: '25em',
-  marginBottom: '3em',
+const StyledFilterSelect = styled(Select)({
+  span: {
+    fontWeight: 'bold',
+  },
+  select: {
+    width: '100%',
+  },
+  marginBottom: '2em',
 });
 
 export function TimePeriodDropDown({
@@ -36,10 +41,9 @@ export function TimePeriodDropDown({
 
   return (
     <div data-testid="timePeriod-dropDown-component">
-      <H5>Select a time period</H5>
-      <StyledSelect
-        aria-label="select-timePeriod"
-        label=""
+      <StyledFilterSelect
+        aria-label="Select a time period"
+        label="Select a time period"
         input={{
           value: selectedYear,
           onChange: (e) => {
@@ -50,7 +54,7 @@ export function TimePeriodDropDown({
         {years.map((key) => (
           <option key={key}>{key}</option>
         ))}
-      </StyledSelect>
+      </StyledFilterSelect>
     </div>
   );
 }

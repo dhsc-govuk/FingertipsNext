@@ -24,7 +24,10 @@ import {
   LineChartVariant,
 } from '@/components/organisms/LineChart/lineChartHelpers';
 import { useState, useEffect } from 'react';
-import { getAllDataWithoutInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import {
+  getAllDataWithoutInequalities,
+  getAreasWithSexInequalitiesData,
+} from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { useSearchState } from '@/context/SearchStateContext';
 
 const StyledParagraphDataSource = styled(Paragraph)(
@@ -55,6 +58,8 @@ export function OneIndicatorOneAreaViewPlots({
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.InequalityTypeSelected]: inequalityTypeSelected,
+    [SearchParams.InequalityYearSelected]: inequalityYearSelected,
   } = searchState;
 
   const polarity = indicatorData.polarity as IndicatorPolarity;
@@ -91,6 +96,14 @@ export function OneIndicatorOneAreaViewPlots({
     { englandBenchmarkData, groupData },
     areasSelected
   );
+
+  const getAvailableAreasWithInequalities =
+    inequalityTypeSelected === 'sex' || inequalityTypeSelected === undefined
+      ? getAreasWithSexInequalitiesData(
+          healthIndicatorData,
+          inequalityYearSelected
+        )
+      : [];
 
   const yAxisTitle = indicatorMetadata?.unitLabel
     ? `Value: ${indicatorMetadata?.unitLabel}`
@@ -168,10 +181,10 @@ export function OneIndicatorOneAreaViewPlots({
             ? dataWithoutEnglandOrGroup[0]
             : healthIndicatorData[0]
         }
+        availableAreas={getAvailableAreasWithInequalities}
         measurementUnit={indicatorMetadata?.unitLabel}
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
-        searchState={searchState}
       />
     </section>
   );

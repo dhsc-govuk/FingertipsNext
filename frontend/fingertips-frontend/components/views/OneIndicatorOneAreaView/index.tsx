@@ -63,6 +63,7 @@ export default async function OneIndicatorOneAreaView({
       indicatorsDataForAreas={[indicatorData]}
     >
       <OneIndicatorOneAreaViewPlots
+        key={`OneIndicatorOneAreaViewPlots-${JSON.stringify(searchState)}`}
         indicatorData={indicatorData}
         searchState={searchState}
         indicatorMetadata={selectedIndicatorsData?.[0]}

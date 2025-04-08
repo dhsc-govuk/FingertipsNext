@@ -4,12 +4,23 @@ import { Inequalities } from '.';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { SearchStateContext } from '@/context/SearchStateContext';
+import { LoaderContext } from '@/context/LoaderContext';
 
 const state: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'testing',
   [SearchParams.IndicatorsSelected]: ['333'],
   [SearchParams.AreasSelected]: ['A1245'],
 };
+
+const mockLoaderContext: LoaderContext = {
+  getIsLoading: jest.fn(),
+  setIsLoading: jest.fn(),
+};
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoadingState: () => mockLoaderContext,
+  };
+});
 
 const mockGetSearchState = jest.fn();
 const mockSearchStateContext: SearchStateContext = {
@@ -47,7 +58,7 @@ describe('Inequalities suite', () => {
     render(
       <Inequalities
         healthIndicatorData={MOCK_HEALTH_DATA[1]}
-        searchState={state}
+        availableAreas={[]}
       />
     );
 
@@ -76,7 +87,7 @@ describe('Inequalities suite', () => {
     render(
       <Inequalities
         healthIndicatorData={MOCK_HEALTH_DATA[1]}
-        searchState={state}
+        availableAreas={[]}
       />
     );
 
@@ -92,7 +103,7 @@ describe('Inequalities suite', () => {
     render(
       <Inequalities
         healthIndicatorData={MOCK_HEALTH_DATA[1]}
-        searchState={state}
+        availableAreas={[]}
         measurementUnit="kg"
       />
     );
