@@ -15,8 +15,8 @@ import {
   lineChartDefaultOptions,
 } from '../LineChart/lineChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
-import Highcharts, {AxisLabelsFormatterContextObject} from "highcharts";
-import { formatWholeNumber } from "@/lib/numberFormatter";
+import Highcharts, { AxisLabelsFormatterContextObject } from 'highcharts';
+import { formatWholeNumber } from '@/lib/numberFormatter';
 
 export const localeSort = (a: string, b: string) => a.localeCompare(b);
 
