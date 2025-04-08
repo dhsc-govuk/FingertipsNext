@@ -12,7 +12,7 @@ interface ThematicMapCreditsProps {
 export function ThematicMapCredits({
   areaType,
   dataSource,
-}: ThematicMapCreditsProps) {
+}: Readonly<ThematicMapCreditsProps>) {
   return (
     <div
       data-testid="thematic-map-credits"
