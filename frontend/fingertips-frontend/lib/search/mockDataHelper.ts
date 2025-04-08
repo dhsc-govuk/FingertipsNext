@@ -13,6 +13,8 @@ export const generateIndicatorDocument = (id: string): IndicatorDocument => ({
   lastUpdatedDate: currentDate,
   unitLabel: 'some unit label',
   hasInequalities: true,
+  usedInPoc: true,
+  associatedAreaCodes: ['E92000001'],
 });
 
 export const generateRawIndicatorDocument = (

@@ -79,6 +79,8 @@ export class IndicatorSearchServiceMock implements IIndicatorSearchService {
       hasInequalities: rawDocument.hasInequalities,
       trend: undefined,
       unitLabel: rawDocument.unitLabel,
+      usedInPoc: rawDocument.usedInPoc,
+      associatedAreaCodes: rawDocument.associatedAreaCodes,
     };
   }
 }

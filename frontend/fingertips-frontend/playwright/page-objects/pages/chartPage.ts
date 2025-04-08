@@ -1,5 +1,6 @@
 import {
   AreaMode,
+  checkIfIndicatorAndAreaHasHealthData,
   getScenarioConfig,
   IndicatorMode,
 } from '@/playwright/testHelpers';
@@ -68,7 +69,8 @@ export default class ChartPage extends AreaFilter {
     test: TestType<
       PlaywrightTestArgs & PlaywrightTestOptions,
       PlaywrightWorkerArgs & PlaywrightWorkerOptions
-    >
+    >,
+    indicatorID?: string
   ) {
     const testInfo = test.info();
     const testName = testInfo.title;
@@ -76,111 +78,131 @@ export default class ChartPage extends AreaFilter {
       indicatorMode,
       areaMode
     );
-    console.log(
-      `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart components: ${visibleComponents
-        .map(
-          (component) =>
-            `${component.componentLocator}(hasCI:${component.componentProps.hasConfidenceIntervals},isTab:${component.componentProps.isTabTable},hasTimePeriod:${component.componentProps.hasTimePeriodDropDown})`
-        )
-        .join(', ')} are displayed and that`,
-      `chart components: ${hiddenComponents.map((component) => component.componentLocator).join(', ')} are not displayed. Also checking the visible components via screenshot snapshot testing.`
-    );
-    // click the hide filters pane before asserting visibility and taking screenshots
-    await this.clickAndWaitForLoadState(
-      this.page.getByTestId('area-filter-pane-hidefilters')
-    );
+    let hasData: boolean;
+    if (indicatorID) {
+      const areasSelected = new URL(this.page.url()).searchParams.getAll('gs');
+      console.log(areasSelected);
 
-    expect(this.page.getByTestId('show-filter-cta')).toHaveText('Show filter');
-
-    // Check that components expected to be visible are displayed
-    for (const visibleComponent of visibleComponents) {
-      console.log(
-        `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart component: ${visibleComponent.componentLocator} is displayed.`
+      hasData = await checkIfIndicatorAndAreaHasHealthData(
+        indicatorID,
+        areasSelected[0]
       );
-      // if its one of the chart components that you need to click on the tab first to see it then click it
-      if (visibleComponent.componentProps.isTabTable) {
-        await this.clickAndAwaitLoadingComplete(
-          this.page.getByTestId(
-            `tabTitle-${visibleComponent.componentLocator.replace('-component', '')}`
-          )
-        );
-      }
-      // if its one of the chart components that has a single time period dropdown then select the last in the list
-      if (visibleComponent.componentProps.hasTimePeriodDropDown) {
-        const combobox = this.page
-          .getByTestId(ChartPage.timePeriodDropDownComponent)
-          .getByRole('combobox');
-        // get the options from the combobox
-        const dropdownOptions = await combobox.evaluate(
-          (select: HTMLSelectElement) => {
-            return Array.from(select.options).map((option) => ({
-              value: option.value,
-              text: option.text,
-            }));
-          }
-        );
-
-        await combobox.selectOption({
-          value: dropdownOptions[dropdownOptions.length - 1].value,
-        });
-      }
-      // if its one of the chart components that has a confidence interval checkbox then click it
-      if (visibleComponent.componentProps.hasConfidenceIntervals) {
-        await this.clickAndAwaitLoadingComplete(
-          this.page.getByTestId(
-            `confidence-interval-checkbox-${visibleComponent.componentLocator.replace('-component', '')}`
-          )
-        );
-      }
-      // if its one of the chart components that has a details expander then click it
-      if (visibleComponent.componentProps.hasDetailsExpander) {
-        await this.clickAndAwaitLoadingComplete(
-          this.page
-            .getByTestId('populationPyramidWithTable-component')
-            .getByText('Show population data')
-        );
-      }
-
-      // check chart component is now visible
-      await expect(
-        this.page.getByTestId(visibleComponent.componentLocator)
-      ).toBeVisible({
-        visible: true,
-      });
-
-      // screenshot snapshot comparisons are skipped when running against deployed azure environments
+    }
+    if (hasData! || indicatorID === undefined) {
       console.log(
-        `checking component:${visibleComponent.componentLocator} for unexpected visual changes - see directory README.md for details.`
+        `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart components: ${visibleComponents
+          .map(
+            (component) =>
+              `${component.componentLocator}(hasCI:${component.componentProps.hasConfidenceIntervals},isTab:${component.componentProps.isTabTable},hasTimePeriod:${component.componentProps.hasTimePeriodDropDown})`
+          )
+          .join(', ')} are displayed and that`,
+        `chart components: ${hiddenComponents.map((component) => component.componentLocator).join(', ')} are not displayed. Also checking the visible components via screenshot snapshot testing.`
       );
-      await this.page.waitForLoadState();
-      await expect(this.page.getByText('Loading')).toHaveCount(0);
-      await this.page.waitForLoadState();
+      // click the hide filters pane before asserting visibility and taking screenshots
+      await this.clickAndWaitForLoadState(
+        this.page.getByTestId('area-filter-pane-hidefilters')
+      );
 
-      // for now just warn if visual comparisons do not match
-      try {
+      expect(this.page.getByTestId('show-filter-cta')).toHaveText(
+        'Show filter'
+      );
+
+      // Check that components expected to be visible are displayed
+      for (const visibleComponent of visibleComponents) {
+        console.log(
+          `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart component: ${visibleComponent.componentLocator} is displayed.`
+        );
+        // if its one of the chart components that you need to click on the tab first to see it then click it
+        if (visibleComponent.componentProps.isTabTable) {
+          await this.clickAndAwaitLoadingComplete(
+            this.page.getByTestId(
+              `tabTitle-${visibleComponent.componentLocator.replace('-component', '')}`
+            )
+          );
+        }
+        // if its one of the chart components that has a single time period dropdown then select the last in the list
+        if (visibleComponent.componentProps.hasTimePeriodDropDown) {
+          const combobox = this.page
+            .getByTestId(ChartPage.timePeriodDropDownComponent)
+            .getByRole('combobox');
+          // get the options from the combobox
+          const dropdownOptions = await combobox.evaluate(
+            (select: HTMLSelectElement) => {
+              return Array.from(select.options).map((option) => ({
+                value: option.value,
+                text: option.text,
+              }));
+            }
+          );
+
+          await combobox.selectOption({
+            value: dropdownOptions[dropdownOptions.length - 1].value,
+          });
+        }
+        // if its one of the chart components that has a confidence interval checkbox then click it
+        if (visibleComponent.componentProps.hasConfidenceIntervals) {
+          await this.clickAndAwaitLoadingComplete(
+            this.page.getByTestId(
+              `confidence-interval-checkbox-${visibleComponent.componentLocator.replace('-component', '')}`
+            )
+          );
+        }
+        // if its one of the chart components that has a details expander then click it
+        if (visibleComponent.componentProps.hasDetailsExpander) {
+          await this.clickAndAwaitLoadingComplete(
+            this.page
+              .getByTestId('populationPyramidWithTable-component')
+              .getByText('Show population data')
+          );
+        }
+
+        // check chart component is now visible
         await expect(
           this.page.getByTestId(visibleComponent.componentLocator)
-        ).toHaveScreenshot(
-          `${testName}-${visibleComponent.componentLocator}.png`
-        );
-      } catch (error) {
-        const typedError = error as Error;
-        console.warn(
-          `⚠️ Screenshot comparison warning for ${visibleComponent.componentLocator}: ${typedError.message}`
-        );
-      }
-    }
+        ).toBeVisible({
+          visible: true,
+        });
 
-    // Check that components expected not to be visible are not displayed
-    for (const hiddenComponent of hiddenComponents) {
-      console.log(
-        `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart component: ${hiddenComponent.componentLocator} is not displayed.`
-      );
+        // screenshot snapshot comparisons are skipped when running against deployed azure environments
+        console.log(
+          `checking component:${visibleComponent.componentLocator} for unexpected visual changes - see directory README.md for details.`
+        );
+        await this.page.waitForLoadState();
+        await expect(this.page.getByText('Loading')).toHaveCount(0);
+        await this.page.waitForLoadState();
+
+        // for now just warn if visual comparisons do not match
+        try {
+          await expect(
+            this.page.getByTestId(visibleComponent.componentLocator)
+          ).toHaveScreenshot(
+            `${testName}-${visibleComponent.componentLocator}.png`
+          );
+        } catch (error) {
+          const typedError = error as Error;
+          console.warn(
+            `⚠️ Screenshot comparison warning for ${visibleComponent.componentLocator}: ${typedError.message}`
+          );
+        }
+      }
+
+      // Check that components expected not to be visible are not displayed
+      for (const hiddenComponent of hiddenComponents) {
+        console.log(
+          `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart component: ${hiddenComponent.componentLocator} is not displayed.`
+        );
+        await expect(
+          this.page.getByTestId(hiddenComponent.componentLocator)
+        ).toBeVisible({
+          visible: false,
+        });
+      }
+    } else {
       await expect(
-        this.page.getByTestId(hiddenComponent.componentLocator)
-      ).toBeVisible({
-        visible: false,
-      });
+        this.page.getByText(
+          'There is no indicator data available for the selected areas. Try again by selecting a different area.'
+        )
+      ).toBeVisible();
     }
   }
 }

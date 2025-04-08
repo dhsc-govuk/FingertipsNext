@@ -1,4 +1,4 @@
-import { SearchMode } from '@/playwright/testHelpers';
+import { AreaMode, SearchMode } from '@/playwright/testHelpers';
 import AreaFilter from '../components/areaFilter';
 import { expect } from '../pageFactory';
 

@@ -24,14 +24,14 @@ interface TestParams {
 }
 
 const coreTestJourneys: TestParams[] = [
-  {
-    indicatorMode: IndicatorMode.ONE_INDICATOR,
-    areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
-    searchMode: SearchMode.ONLY_SUBJECT,
-  }, // 4 filters needed to be added to filterIndicatorsOnlyPOC - ticket 1
   // {
   //   indicatorMode: IndicatorMode.ONE_INDICATOR,
   //   areaMode: AreaMode.ENGLAND_AREA,
+  //   searchMode: SearchMode.ONLY_SUBJECT,
+  // }, // see comments in test helpers
+  // {
+  //   indicatorMode: IndicatorMode.ONE_INDICATOR,
+  //   areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
   //   searchMode: SearchMode.ONLY_SUBJECT,
   // }, // 4 filters needed to be added to filterIndicatorsOnlyPOC- ticket 1
   // {
@@ -39,6 +39,11 @@ const coreTestJourneys: TestParams[] = [
   //   areaMode: AreaMode.TWO_PLUS_AREAS, // seems to be a bug with filtering by select all - ticket 2
   //   searchMode: SearchMode.ONLY_SUBJECT,
   // },
+  {
+    indicatorMode: IndicatorMode.ONE_INDICATOR,
+    areaMode: AreaMode.ONE_AREA,
+    searchMode: SearchMode.ONLY_SUBJECT,
+  },
   // {
   //   indicatorMode: IndicatorMode.ONE_INDICATOR,
   //   areaMode: AreaMode.ONE_AREA,
@@ -94,9 +99,13 @@ test(`Run tests for all indicators`, async ({
         await resultsPage.selectFirstIndicatorCheckbox();
 
         await resultsPage.clickViewChartsButton();
-
         await chartPage.checkOnChartPage();
-        await chartPage.checkChartVisibility(indicatorMode, areaMode, test);
+        await chartPage.checkChartVisibility(
+          indicatorMode,
+          areaMode,
+          test,
+          indicator.indicatorID
+        );
       });
     }
   }

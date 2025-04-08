@@ -1,6 +1,11 @@
-import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
+import {
+  AreaDocument,
+  IndicatorDocument,
+  RawIndicatorDocument,
+} from '@/lib/search/searchTypes';
 import ChartPage from './page-objects/pages/chartPage';
 import { AreaTypeKeys } from '@/lib/areaFilterHelpers/areaType';
+import { SimpleIndicatorDocument } from './tests/data_quality_testing/loop_all_indicators.spec';
 
 export enum SearchMode {
   ONLY_SUBJECT = 'ONLY_SUBJECT',
@@ -167,7 +172,7 @@ export function getScenarioConfig(
 
   let visibleComponents: component[] = [];
 
-  // 1 indicator, 1 area
+  // 1 indicator, 1 area or England area
   if (
     (indicatorMode === IndicatorMode.ONE_INDICATOR &&
       areaMode === AreaMode.ONE_AREA) ||
@@ -193,13 +198,15 @@ export function getScenarioConfig(
     indicatorMode === IndicatorMode.ONE_INDICATOR &&
     areaMode === AreaMode.TWO_AREAS
   ) {
-    visibleComponents = [
-      // Enable in DHSCFT-148
-      // ChartPage.populationPyramidComponent,
-      ChartPage.lineChartComponent,
-      ChartPage.lineChartTableComponent,
-      ChartPage.barChartEmbeddedTableComponent,
-    ];
+    visibleComponents = allComponents.filter((component) =>
+      [
+        // Enable in DHSCFT-148
+        // ChartPage.populationPyramidComponent,
+        ChartPage.lineChartComponent,
+        ChartPage.lineChartTableComponent,
+        ChartPage.barChartEmbeddedTableComponent,
+      ].includes(component.componentLocator)
+    );
   }
   // 1 indicator, 2+ areas
   else if (
@@ -276,6 +283,109 @@ export function getScenarioConfig(
   return config;
 }
 
+export function getAllPOCIndicators(
+  indicators: IndicatorDocument[]
+): SimpleIndicatorDocument[] {
+  return filterIndicatorsOnlyPOC(indicators).map((indicator) => ({
+    indicatorName: indicator.indicatorName,
+    indicatorID: indicator.indicatorID,
+    associatedAreaCodes: indicator.associatedAreaCodes,
+  }));
+}
+
+export async function checkIfIndicatorAndAreaHasHealthData(
+  indicatorID: string,
+  areaCode: string
+): Promise<boolean> {
+  const url = `http://localhost:5144/indicators/${indicatorID}/data?area_codes=${areaCode}`;
+  const options = { method: 'GET' };
+  try {
+    const response = await fetch(url, options);
+    const data = await response.json();
+    if (JSON.stringify(data).includes('"areaHealthData":[]')) {
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+}
+
+function filterIndicatorsOnlyPOC(
+  indicators: IndicatorDocument[]
+): SimpleIndicatorDocument[] {
+  return indicators.filter(
+    (indicator) =>
+      indicator.usedInPoc === true &&
+      // DHSCFT-382 will add the data type dropdown for the line chart. DHSCFT-224 will do it for the bar.
+      // another ticket for area
+      // finding out off andy which dont have sex inequality data
+      // One indicator + England area:
+      !indicator.indicatorName.includes(
+        'Dementia prevelence (Quality and Outcomes Framework)'
+      ) &&
+      !indicator.indicatorName.includes(
+        'Conception rate in females aged 17 years and under'
+      ) &&
+      !indicator.indicatorName.includes(
+        'Preventable sight loss from diabetic eye disease'
+      ) &&
+      !indicator.indicatorName.includes(
+        'Diabetes prevelence aged 17 years and over (Quality and Outcomes Framework)'
+      ) &&
+      !indicator.indicatorName.includes(
+        'NHS Health Checks offered to the total eligible population in the quarter'
+      ) &&
+      !indicator.indicatorName.includes('Urgent suspected cancer referrals') &&
+      !indicator.indicatorName.includes(
+        'Deaths in hospital for people with dementia aged 65 years and over'
+      ) &&
+      !indicator.indicatorName.includes('General fertility rate in females') &&
+      !indicator.indicatorName.includes(
+        'Smokers at time of childbirth delivery'
+      ) &&
+      !indicator.indicatorName.includes('Acute hepatitis B incidence rate') &&
+      !indicator.indicatorName.includes('Deaths in hospital') &&
+      !indicator.indicatorName.includes(
+        'Children in absolute low income families aged 15 years and under'
+      ) &&
+      !indicator.indicatorName.includes(
+        'Smoking attributable mortality (new method)'
+      ) &&
+      !indicator.indicatorName.includes(
+        'Particulate air pollution attributable mortality (new method)'
+      ) &&
+      !indicator.indicatorName.includes(
+        'Hospital admissions for cataract surgery aged 65 years and over'
+      ) &&
+      !indicator.indicatorName.includes(
+        'Breast screening coverage aged 53 to 70 years'
+      )
+    // OLD LOT
+    // filters needed for one indicator (in loop) + all but one areas in group + only subject - log a bug for filtering by all regions - ticket 1
+    // !indicator.indicatorName.includes(
+    //   `People reporting Alzheimer's disease or dementia`
+    // ) &&
+    // !indicator.indicatorName.includes(
+    //   `People with caring responsibility aged 16 years and over`
+    // )
+    // filters needed for one indicator (in loop) + ( all areas in a group || ENGLAND ) + only subject - log a bug for these 4 data issues - ticket 2
+    // !indicator.indicatorName.includes(
+    //   'Hepatitis B vaccination coverage aged 2 years'
+    // ) &&
+    // !indicator.indicatorName.includes(
+    //   'Obesity prevalence (including severe obesity) in Year 6 children aged 10 to 11 years'
+    // ) &&
+    // !indicator.indicatorName.includes(
+    //   'Physically inactive in adults aged 19 years and over'
+    // ) &&
+    // !indicator.indicatorName.includes(
+    //   'Overweight prevalence (including obesity) in adults aged 18 years and over'
+    // )
+  );
+}
+
 function filterIndicatorsByName(
   indicators: RawIndicatorDocument[],
   searchTerm: string
@@ -308,7 +418,6 @@ export function getAllAreasByAreaType(
   areaType: AreaTypeKeys
 ): AreaDocument[] {
   const sanitisedAreaType = areaType.toLowerCase().replaceAll('-', ' ');
-  console.log(sanitisedAreaType);
   return areas.filter((area) =>
     area.areaType.toLowerCase().includes(sanitisedAreaType)
   );

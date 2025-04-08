@@ -147,7 +147,8 @@ export default class AreaFilter extends BasePage {
         .getByRole('checkbox');
       const checkboxCountMap = {
         [AreaMode.ONE_AREA]: 1,
-        [AreaMode.TWO_PLUS_AREAS]: 2,
+        [AreaMode.TWO_AREAS]: 2,
+        [AreaMode.TWO_PLUS_AREAS]: 3,
         [AreaMode.ALL_AREAS_IN_A_GROUP]: (await areaCheckboxList.count()) - 1, // as first checkbox is 'All'
         [AreaMode.ENGLAND_AREA]: 0, // for england we do not want to select any checkboxes
       };

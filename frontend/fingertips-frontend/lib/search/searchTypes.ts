@@ -42,6 +42,8 @@ export type IndicatorDocument = {
   lastUpdatedDate: Date;
   hasInequalities: boolean;
   unitLabel: string;
+  usedInPoc: boolean; // data maps to search-setup/assets/indicators.csv
+  associatedAreaCodes: string[];
 };
 
 export type AreaDocument = {
