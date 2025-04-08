@@ -14,7 +14,6 @@ import {
   mapToInequalitiesTableData,
   RowDataFields,
   shouldDisplayInequalities,
-  generateInequalitiesLineChartOptions,
   getAllDataWithoutInequalities,
   groupHealthDataByInequality,
   filterHealthData,
@@ -36,7 +35,6 @@ import {
   noDeprivation,
   personsSex,
 } from '@/lib/mocks';
-import { lineChartDefaultOptions } from '../LineChart/lineChartHelpers';
 import {
   mockIndicatorData,
   mockBenchmarkData,
