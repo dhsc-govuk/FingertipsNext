@@ -836,6 +836,11 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   vertical-align: top;
 }
 
+.c0 {
+  overflow-x: auto;
+  width: 100%;
+}
+
 .c27 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
@@ -975,11 +980,6 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
 
 .c6 {
   border: none;
-}
-
-.c0 {
-  overflow-x: scroll;
-  width: 100%;
 }
 
 @media print {

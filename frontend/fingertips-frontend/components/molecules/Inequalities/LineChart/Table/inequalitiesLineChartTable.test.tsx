@@ -143,6 +143,7 @@ describe('Inequalities table suite', () => {
         screen.queryByTestId('inequalitiesLineChartTable-measurementUnit')
       ).not.toBeInTheDocument();
     });
+
     it('snapshot test - should match snapshot', () => {
       const container = render(
         <InequalitiesLineChartTable
