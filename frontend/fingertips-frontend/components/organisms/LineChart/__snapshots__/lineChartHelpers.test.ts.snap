@@ -18,6 +18,7 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
   },
   "legend": {
     "align": "left",
+    "margin": 20,
     "verticalAlign": "top",
   },
   "plotOptions": {
@@ -110,6 +111,7 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
   },
   "legend": {
     "align": "left",
+    "margin": 20,
     "verticalAlign": "top",
   },
   "plotOptions": {

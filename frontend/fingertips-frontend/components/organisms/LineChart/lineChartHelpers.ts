@@ -43,6 +43,7 @@ export const lineChartDefaultOptions: Highcharts.Options = {
   legend: {
     verticalAlign: 'top',
     align: 'left',
+    margin: 20,
   },
   accessibility: {
     enabled: false,
