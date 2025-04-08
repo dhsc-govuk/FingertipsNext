@@ -515,7 +515,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           class=""
         >
           <th
-            class="c3 1 c4 c5 c18"
+            class="c3 2 c4 c5 c18"
             data-testid="header-Period-0"
           >
             Period
@@ -575,7 +575,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           class=""
         >
           <td
-            class="c21 c22 c23 c24"
+            class="0 c21 c22 c23 c24"
           >
             2004
           </td>
@@ -619,7 +619,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           class=""
         >
           <td
-            class="c21 c22 c23 c24"
+            class="0 c21 c22 c23 c24"
           >
             2008
           </td>
@@ -1240,7 +1240,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           class=""
         >
           <th
-            class="c3 1 c4 c5 c18"
+            class="c3 2 c4 c5 c18"
             data-testid="header-Period-0"
           >
             Period
@@ -1335,7 +1335,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           class=""
         >
           <td
-            class="c22 c23 c24 c25"
+            class="0 c22 c23 c24 c25"
           >
             2004
           </td>
@@ -1408,7 +1408,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           class=""
         >
           <td
-            class="c22 c23 c24 c25"
+            class="0 c22 c23 c24 c25"
           >
             2008
           </td>

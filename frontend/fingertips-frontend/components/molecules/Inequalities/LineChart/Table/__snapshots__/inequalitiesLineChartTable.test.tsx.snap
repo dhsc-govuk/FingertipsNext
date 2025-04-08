@@ -228,7 +228,7 @@ exports[`Inequalities table suite snapshot test - should match snapshot 1`] = `
           class=""
         >
           <td
-            class="c9 c10 c11 c12"
+            class="0 c9 c10 c11 c12"
           >
             2004
           </td>
@@ -252,7 +252,7 @@ exports[`Inequalities table suite snapshot test - should match snapshot 1`] = `
           class=""
         >
           <td
-            class="c9 c10 c11 c12"
+            class="0 c9 c10 c11 c12"
           >
             2008
           </td>
