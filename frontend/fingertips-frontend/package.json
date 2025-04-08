@@ -39,7 +39,7 @@
     "@opentelemetry/resources": "^1.30.0",
     "@opentelemetry/sdk-metrics": "^1.30.0",
     "@opentelemetry/sdk-node": "^0.57.0",
-    "@opentelemetry/sdk-trace-base": "^1.30.0",
+    "@opentelemetry/sdk-trace-base": "git checkout -^1.30.0",
     "@opentelemetry/semantic-conventions": "^1.28.0",
     "@turf/union": "^7.2.0",
     "@types/styled-components": "^5.1.34",

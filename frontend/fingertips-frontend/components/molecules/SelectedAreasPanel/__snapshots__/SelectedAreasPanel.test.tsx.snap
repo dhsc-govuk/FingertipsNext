@@ -238,6 +238,7 @@ exports[`SelectedAreasPanel When there are areas selected snapshot test 1`] = `
           </p>
         </div>
       </div>
+      <div />
     </div>
   </div>
 </DocumentFragment>
