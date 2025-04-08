@@ -8,8 +8,8 @@ export default class BasePage {
 
   constructor(public readonly page: PlaywrightPage) {}
 
-  async waitForURLToContain(containsURL: string) {
-    await this.page.waitForURL(new RegExp(containsURL));
+  waitForURLToContain(containsURL: string) {
+    return this.page.waitForURL(new RegExp(containsURL));
   }
 
   async waitForURLToContainBasedOnSearchMode(
@@ -18,14 +18,14 @@ export default class BasePage {
     areaSearchCode: string
   ) {
     if (searchMode === SearchMode.ONLY_SUBJECT) {
-      this.waitForURLToContain(subjectSearchTerm);
+      await this.waitForURLToContain(subjectSearchTerm);
     }
     if (searchMode === SearchMode.BOTH_SUBJECT_AND_AREA) {
-      this.waitForURLToContain(subjectSearchTerm);
-      this.waitForURLToContain(areaSearchCode);
+      await this.waitForURLToContain(subjectSearchTerm);
+      await this.waitForURLToContain(areaSearchCode);
     }
     if (searchMode === SearchMode.ONLY_AREA) {
-      this.waitForURLToContain(areaSearchCode);
+      await this.waitForURLToContain(areaSearchCode);
     }
   }
 
