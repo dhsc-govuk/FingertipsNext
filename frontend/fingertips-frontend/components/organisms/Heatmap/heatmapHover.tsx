@@ -73,7 +73,6 @@ export interface HeatmapHoverProps extends PropsWithChildren {
   benchmark: HeatmapBenchmarkProps;
   cellRight?: number;
   cellVerticalMidpoint?: number;
-  anchor?: 'left' | 'right';
 }
 
 export function HeatmapHover({
@@ -91,7 +90,6 @@ export function HeatmapHover({
       benchmark={hoverProps.benchmark}
       cellRight={hoverProps.cellRight}
       cellVerticalMidpoint={hoverProps.cellVerticalMidpoint}
-      anchor={hoverProps.anchor}
     />
   ) : null;
 }
@@ -105,7 +103,7 @@ function HeatmapHoverInner({
   benchmark,
   cellRight,
   cellVerticalMidpoint,
-}: HeatmapHoverProps): JSX.Element {
+}: Readonly<HeatmapHoverProps>): JSX.Element {
   return (
     <StyledDivHover $left={cellRight ?? 0} $top={cellVerticalMidpoint ?? 0}>
       <StyledDivTriangle />

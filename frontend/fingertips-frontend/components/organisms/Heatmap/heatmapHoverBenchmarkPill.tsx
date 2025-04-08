@@ -56,14 +56,13 @@ export function HeatmapHoverBenchmarkPill({
   outcome,
   benchmarkMethod,
   polarity,
-}: HeatmapHoverBenchmarkPillProps): React.ReactNode {
+}: Readonly<HeatmapHoverBenchmarkPillProps>): React.ReactNode {
   return (
     <GridRow>
       <StyledGridColIcon setWidth={'12px'}>
         {
           <BenchmarkPillIcon
             value={value}
-            unitLabel={unitLabel}
             outcome={outcome}
             benchmarkMethod={benchmarkMethod}
             polarity={polarity}
@@ -76,11 +75,17 @@ export function HeatmapHoverBenchmarkPill({
           unitLabel={unitLabel}
           outcome={outcome}
           benchmarkMethod={benchmarkMethod}
-          polarity={polarity}
         />
       </GridCol>
     </GridRow>
   );
+}
+
+interface BenchmarkPillIconProps {
+  value?: string;
+  outcome: HeatmapBenchmarkOutcome;
+  benchmarkMethod: BenchmarkComparisonMethod;
+  polarity: IndicatorPolarity;
 }
 
 function BenchmarkPillIcon({
@@ -88,7 +93,7 @@ function BenchmarkPillIcon({
   outcome,
   benchmarkMethod,
   polarity,
-}: HeatmapHoverBenchmarkPillProps): React.ReactNode {
+}: Readonly<BenchmarkPillIconProps>): React.ReactNode {
   if (!value || value === 'X') {
     return <StyledText>{'\u2715'}</StyledText>;
   }
@@ -111,12 +116,19 @@ function BenchmarkPillIcon({
   );
 }
 
+interface BenchmarkPillTextProps {
+  value?: string;
+  unitLabel: string;
+  outcome: HeatmapBenchmarkOutcome;
+  benchmarkMethod: BenchmarkComparisonMethod;
+}
+
 function BenchmarkPillText({
   value,
   unitLabel,
   outcome,
   benchmarkMethod,
-}: HeatmapHoverBenchmarkPillProps): React.ReactNode {
+}: Readonly<BenchmarkPillTextProps>): React.ReactNode {
   if (!value || value === 'X') {
     return <StyledText>No data available</StyledText>;
   }
