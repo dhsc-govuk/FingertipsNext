@@ -1,4 +1,5 @@
 import {
+  BenchmarkComparisonMethod,
   HealthDataForArea,
   IndicatorWithHealthDataForArea,
   QuartileData,
@@ -17,6 +18,7 @@ type ExtractedHealthData = {
   orderedEnglandData: HealthDataForArea[];
   orderedMetadata: (IndicatorDocument | undefined)[];
   orderedQuartileData: QuartileData[];
+  orderedMethods: BenchmarkComparisonMethod[];
 };
 
 interface RequestedAreaHealthData {
@@ -51,6 +53,7 @@ export const extractCombinedHealthData = (
     combinedIndicatorData.length
   );
 
+  const orderedMethods: BenchmarkComparisonMethod[] = [];
   combinedIndicatorData.forEach((indicator, index) => {
     if (!indicator.areaHealthData) {
       throw new Error('Missing health data for indicator');
@@ -60,6 +63,8 @@ export const extractCombinedHealthData = (
       extractPerAreaHealthData(indicator, areasSelected);
 
     orderedHealthDataAreaOne[index] = areaOneLatestHealthData;
+    orderedMethods[index] =
+      indicator.benchmarkMethod ?? BenchmarkComparisonMethod.Unknown;
 
     if (twoAreasDataRequired && areaTwoLatestHealthData) {
       orderedHealthDataAreaTwo[index] = areaTwoLatestHealthData;
@@ -109,6 +114,7 @@ export const extractCombinedHealthData = (
     orderedEnglandData,
     orderedMetadata,
     orderedQuartileData,
+    orderedMethods,
   };
 };
 
