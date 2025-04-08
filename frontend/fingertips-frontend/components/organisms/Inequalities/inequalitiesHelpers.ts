@@ -15,6 +15,8 @@ import {
   lineChartDefaultOptions,
 } from '../LineChart/lineChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
+import Highcharts, {AxisLabelsFormatterContextObject} from "highcharts";
+import { formatWholeNumber } from "@/lib/numberFormatter";
 
 export const localeSort = (a: string, b: string) => a.localeCompare(b);
 
@@ -298,11 +300,19 @@ export function generateInequalitiesLineChartOptions(
         text: `${optionalParams?.yAxisTitleText}${optionalParams?.measurementUnit ? ': ' + optionalParams?.measurementUnit : ''}`,
         margin: 20,
       },
+      labels: {
+        formatter: function (
+          this: AxisLabelsFormatterContextObject,
+          _ctx: AxisLabelsFormatterContextObject
+        ): string {
+          return formatWholeNumber(this.value as number);
+        },
+      },
     },
     xAxis: {
       ...lineChartDefaultOptions.xAxis,
       title: { text: optionalParams?.xAxisTitleText, margin: 20 },
-    },
+    } satisfies Highcharts.XAxisOptions,
     series: seriesData,
     tooltip: {
       headerFormat:
@@ -319,7 +329,7 @@ export function generateInequalitiesLineChartOptions(
       },
       useHTML: true,
     },
-  };
+  } satisfies Highcharts.Options;
 }
 
 export const getAllDataWithoutInequalities = (

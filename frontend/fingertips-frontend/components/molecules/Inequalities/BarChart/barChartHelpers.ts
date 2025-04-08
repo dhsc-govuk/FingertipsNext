@@ -1,5 +1,5 @@
 import { SymbolNames } from '@/lib/chartHelpers/pointFormatterHelper';
-import Highcharts from 'highcharts';
+import Highcharts, {AxisLabelsFormatterCallbackFunction} from 'highcharts';
 
 const AXIS_TITLE_FONT_SIZE = 19;
 const AXIS_LABEL_FONT_SIZE = 16;
@@ -36,6 +36,7 @@ export const getBarChartOptions = (options: {
   seriesData: Highcharts.SeriesOptionsType[];
   tooltipAreaName: string;
   tooltipPointFormatter: Highcharts.FormatterCallbackFunction<Highcharts.Point>;
+  yAxisLabelFormatter?: Highcharts.AxisLabelsFormatterCallbackFunction;
 }): Highcharts.Options => {
   return {
     credits: {
@@ -78,6 +79,7 @@ export const getBarChartOptions = (options: {
         margin: 20,
       },
       labels: {
+        formatter: options.yAxisLabelFormatter,
         style: {
           fontSize: AXIS_LABEL_FONT_SIZE,
         },

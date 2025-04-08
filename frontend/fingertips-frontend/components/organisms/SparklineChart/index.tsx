@@ -1,6 +1,6 @@
 'use client';
 
-import Highcharts from 'highcharts';
+import Highcharts, { AxisLabelsFormatterContextObject } from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import { useEffect, useState } from 'react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
@@ -18,7 +18,7 @@ import {
 import { SparklineLabelEnum } from '@/components/organisms/BarChartEmbeddedTable';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { getBenchmarkLabelText } from '@/components/organisms/BenchmarkLabel';
-import { formatNumber } from '@/lib/numberFormatter';
+import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
 
 interface SparklineChartProps {
   value: (number | undefined)[];
@@ -140,7 +140,19 @@ export function SparklineChart({
         display: 'none',
       },
     },
-    yAxis: { visible: false, min: 0, max: maxValue },
+    yAxis: {
+      visible: false,
+      min: 0,
+      max: maxValue,
+      labels: {
+        formatter: function (
+          this: AxisLabelsFormatterContextObject,
+          _ctx: AxisLabelsFormatterContextObject
+        ): string {
+          return formatWholeNumber(Math.abs(this.value as number));
+        },
+      },
+    },
     xAxis: { visible: false },
     series: [
       {
