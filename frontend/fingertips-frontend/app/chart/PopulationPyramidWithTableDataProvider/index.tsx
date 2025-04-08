@@ -10,12 +10,9 @@ import {
 } from '@/lib/searchStateManager';
 import { HierarchyNameTypes } from '@/lib/areaFilterHelpers/areaType';
 
-import {
-  API_CACHE_CONFIG,
-  ApiClientFactory,
-} from '@/lib/apiClient/apiClientFactory';
+import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { PopulationPyramidWithTable } from '@/components/organisms/PopulationPyramidWithTable';
-import { chunkArray } from '@/lib/ViewsHelpers';
+import { fetchBatchIndicatorWithHealthDataForArea } from '@/lib/ViewsHelpers';
 const enum PopulationIndicatorIdsTypes {
   ADMINISTRATIVE = 92708,
   NHS = 337,
@@ -28,44 +25,6 @@ const fetchPopulationIndicatorID = async (areaCode: string) => {
     return PopulationIndicatorIdsTypes.NHS;
   }
   return PopulationIndicatorIdsTypes.ADMINISTRATIVE;
-};
-
-const fetchBatchIndicatorWithHealthDataForArea = async (
-  populationIndicatorID: number,
-  areaCodesToRequest: string[]
-): Promise<IndicatorWithHealthDataForArea | undefined> => {
-  const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
-  let population: IndicatorWithHealthDataForArea | undefined = undefined;
-
-  await Promise.all(
-    chunkArray(areaCodesToRequest).map(async (requestAreas) => {
-      try {
-        const data = await indicatorApi.getHealthDataForAnIndicator(
-          {
-            indicatorId: populationIndicatorID,
-            areaCodes: requestAreas,
-            inequalities: [
-              GetHealthDataForAnIndicatorInequalitiesEnum.Age,
-              GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
-            ],
-          },
-          API_CACHE_CONFIG
-        );
-
-        if (!population) {
-          population = data;
-        } else {
-          population.areaHealthData?.push(...(data.areaHealthData ?? []));
-        }
-      } catch (error) {
-        console.error(
-          'error getting population health indicator data for area',
-          error
-        );
-      }
-    })
-  );
-  return population;
 };
 
 interface PyramidContextProviderProps {
@@ -106,7 +65,11 @@ export const PopulationPyramidWithTableDataProvider = async ({
       );
       return await fetchBatchIndicatorWithHealthDataForArea(
         populationIndicatorID,
-        areaCodesToRequest
+        areaCodesToRequest,
+        [
+          GetHealthDataForAnIndicatorInequalitiesEnum.Age,
+          GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
+        ]
       );
     })();
 
