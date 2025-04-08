@@ -1,7 +1,7 @@
-import type { Locator, Page as PlaywrightPage } from 'playwright-core';
+import type {Locator, Page as PlaywrightPage} from 'playwright-core';
 import AxeBuilder from '@axe-core/playwright';
-import { expect } from './pageFactory';
-import { SearchMode } from '../testHelpers';
+import {expect} from './pageFactory';
+import {SearchMode} from '../testHelpers';
 
 export default class BasePage {
   readonly errorPageTitleHeaderId = 'error-page-title';
@@ -17,15 +17,19 @@ export default class BasePage {
     subjectSearchTerm: string,
     areaSearchCode: string
   ) {
-    if (searchMode === SearchMode.ONLY_SUBJECT) {
-      await this.waitForURLToContain(subjectSearchTerm);
-    }
-    if (searchMode === SearchMode.BOTH_SUBJECT_AND_AREA) {
-      await this.waitForURLToContain(subjectSearchTerm);
-      await this.waitForURLToContain(areaSearchCode);
-    }
-    if (searchMode === SearchMode.ONLY_AREA) {
-      await this.waitForURLToContain(areaSearchCode);
+    switch (searchMode) {
+      case SearchMode.ONLY_AREA:
+        await this.waitForURLToContain(areaSearchCode);
+        break;
+
+      case SearchMode.ONLY_SUBJECT:
+        await this.waitForURLToContain(subjectSearchTerm);
+        break;
+
+      case SearchMode.BOTH_SUBJECT_AND_AREA:
+        await this.waitForURLToContain(subjectSearchTerm);
+        await this.waitForURLToContain(areaSearchCode);
+        break;
     }
   }
 
