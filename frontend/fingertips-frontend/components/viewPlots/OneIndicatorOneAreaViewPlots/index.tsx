@@ -26,6 +26,8 @@ import {
 import { useEffect, useState } from 'react';
 import { getAllDataWithoutInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { useSearchState } from '@/context/SearchStateContext';
+import { AxisLabelsFormatterContextObject } from 'highcharts';
+import { formatWholeNumber } from '@/lib/numberFormatter';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
@@ -103,6 +105,12 @@ export function OneIndicatorOneAreaViewPlots({
       benchmarkData: englandBenchmarkWithoutInequalities,
       groupIndicatorData: groupDataWithoutInequalities,
       yAxisTitle,
+      yAxisLabelFormatter: function (
+        this: AxisLabelsFormatterContextObject,
+        _ctx: AxisLabelsFormatterContextObject
+      ): string {
+        return formatWholeNumber(this.value as number);
+      },
       xAxisTitle: 'Year',
       measurementUnit: indicatorMetadata?.unitLabel,
       accessibilityLabel: 'A line chart showing healthcare data',
