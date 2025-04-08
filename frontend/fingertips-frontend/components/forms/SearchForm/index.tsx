@@ -8,7 +8,7 @@ import { AreaAutoCompleteInputField } from '@/components/molecules/AreaAutoCompl
 import { SearchParams } from '@/lib/searchStateManager';
 import { SearchFormState } from '@/components/forms/SearchForm/searchActions';
 import { SelectedAreasPanel } from '@/components/molecules/SelectedAreasPanel';
-import { AreaWithRelations } from '@/generated-sources/ft-api-client';
+import { Area } from '@/generated-sources/ft-api-client';
 import {
   AreaFilterData,
   SelectAreasFilterPanel,
@@ -25,7 +25,7 @@ const StyledInputField = styled(InputField)(
 
 interface SearchFormProps {
   formState: SearchFormState;
-  selectedAreasData?: AreaWithRelations[];
+  selectedAreasData?: Area[];
   areaFilterData?: AreaFilterData;
 }
 

@@ -133,6 +133,7 @@ export function SparklineChart({
       height: 90,
       width: 200,
       backgroundColor: 'transparent',
+      animation: false,
     },
     title: {
       style: {
@@ -148,6 +149,7 @@ export function SparklineChart({
         color,
         borderColor: '#000',
         borderWidth: color === '#fff' ? 1 : 0,
+        animation: false,
       },
       confidenceIntervalSeries,
     ],
@@ -164,6 +166,9 @@ export function SparklineChart({
       },
       column: {
         pointPadding: 0.1,
+      },
+      series: {
+        animation: false,
       },
     },
     tooltip: {

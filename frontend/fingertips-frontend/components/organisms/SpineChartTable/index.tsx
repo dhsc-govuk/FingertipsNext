@@ -1,9 +1,8 @@
 'use client';
-
-import { Table } from 'govuk-react';
 import {
   HealthDataForArea,
   Indicator,
+  QuartileData,
 } from '@/generated-sources/ft-api-client';
 import React from 'react';
 
@@ -13,8 +12,7 @@ import {
   SpineChartTableRowData,
   SpineChartTableRow,
 } from './SpineChartTableRow';
-import { SpineChartProps } from '../SpineChart';
-import styled from 'styled-components';
+import { StyledDivTableContainer, StyledTable } from './SpineChartTableStyles';
 
 export interface SpineChartTableProps {
   rowData: SpineChartTableRowProps[];
@@ -26,18 +24,8 @@ export interface SpineChartTableRowProps {
   indicatorHealthData: HealthDataForArea;
   groupIndicatorData: HealthDataForArea;
   englandBenchmarkData: HealthDataForArea;
-  benchmarkStatistics: SpineChartProps;
+  benchmarkStatistics: QuartileData;
 }
-
-const StyledDivTableContainer = styled.div({
-  overflowX: 'scroll',
-});
-
-const StyledTable = styled(Table)({
-  display: 'block',
-  width: '100%',
-  tableLayout: 'fixed',
-});
 
 export const mapToSpineChartTableData = (
   tableData: SpineChartTableRowProps[]

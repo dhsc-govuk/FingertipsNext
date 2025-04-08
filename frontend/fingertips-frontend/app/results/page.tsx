@@ -9,10 +9,8 @@ import { ErrorPage } from '@/components/pages/error';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { IndicatorSelectionState } from '@/components/forms/IndicatorSelectionForm/indicatorSelectionActions';
 import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
-import {
-  API_CACHE_CONFIG,
-  ApiClientFactory,
-} from '@/lib/apiClient/apiClientFactory';
+import { getSelectedAreasDataByAreaType } from '@/lib/areaFilterHelpers/getSelectedAreasData';
+import { AreaTypeKeys } from '@/lib/areaFilterHelpers/areaType';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 export default async function Page(
@@ -29,20 +27,15 @@ export default async function Page(
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.GroupSelected]: groupSelected,
+    [SearchParams.AreaTypeSelected]: areaTypeSelected,
   } = stateManager.getSearchState();
   try {
     await connection();
 
-    const areasApi = ApiClientFactory.getAreasApiClient();
-
-    const selectedAreasData =
-      areasSelected && areasSelected.length > 0
-        ? await Promise.all(
-            areasSelected.map((area) =>
-              areasApi.getArea({ areaCode: area }, API_CACHE_CONFIG)
-            )
-          )
-        : [];
+    const selectedAreasData = await getSelectedAreasDataByAreaType(
+      areasSelected,
+      areaTypeSelected as AreaTypeKeys
+    );
 
     const {
       availableAreaTypes,

@@ -6,6 +6,7 @@ import { areaCodeForEngland } from './constants';
 import { getLatestYear } from './chartHelpers';
 
 export interface PopulationDataForArea {
+  total: number;
   areaName?: string;
   areaCode?: string;
   ageCategories: Array<string>;
@@ -24,12 +25,13 @@ const removeDuplicateDataPointByAgeBand = (dataPoints: HealthDataPoint[]) => {
   });
 };
 
+export const getLowerBandValue = (range: string) => {
+  if (range.includes('+')) return parseInt(range.split('-')[0]);
+  return parseInt(range.split('-')[0]);
+};
+
 const sortHealthDataByAgeBand = (data: HealthDataPoint[]) => {
   return data.sort((a, b) => {
-    const getLowerBandValue = (range: string) => {
-      if (range.includes('+')) return parseInt(range.split('-')[0]);
-      return parseInt(range.split('-')[0]);
-    };
     return getLowerBandValue(a.ageBand.value) >
       getLowerBandValue(b.ageBand.value)
       ? -1
@@ -37,12 +39,13 @@ const sortHealthDataByAgeBand = (data: HealthDataPoint[]) => {
   });
 };
 
-function generatePopulationSeries(
-  healthData: HealthDataPoint[],
+export function computeDataPercentages(
+  data: (undefined | number)[],
   totalPopulation: number
 ): Array<number> {
-  return healthData.map((datapoint) => {
-    const percentage = ((datapoint.count ?? 0) / totalPopulation) * 100;
+  if (!data) return [];
+  return data.map((value: number | undefined) => {
+    const percentage = ((value ?? 0) / totalPopulation) * 100;
     return parseFloat(percentage.toFixed(2));
   });
 }
@@ -57,6 +60,7 @@ export const convertHealthDataForAreaForPyramidData = (
   let ageCategories: string[] = [];
   let femaleSeries: number[] = [];
   let maleSeries: number[] = [];
+  let totalPopulation = 0;
 
   if (healthDataForArea) {
     const maleFemaleDataPoints = healthDataForArea.healthData.filter(
@@ -90,18 +94,22 @@ export const convertHealthDataForAreaForPyramidData = (
       point.ageBand.value.replace('yrs', '').replace('-', ' to ')
     );
 
-    let totalPopulation = femaleDataPoints.reduce((prev, { count }) => {
+    totalPopulation = femaleDataPoints.reduce((prev, { count }) => {
       return prev + (count ?? 0);
     }, 0);
     totalPopulation = maleDataPoints.reduce((prev, { count }) => {
       return prev + (count ?? 0);
     }, totalPopulation);
-
-    femaleSeries = generatePopulationSeries(femaleDataPoints, totalPopulation);
-    maleSeries = generatePopulationSeries(maleDataPoints, totalPopulation);
+    femaleSeries = femaleDataPoints.map((data) => {
+      return data.count ?? 0;
+    });
+    maleSeries = maleDataPoints.map((data) => {
+      return data.count ?? 0;
+    });
   }
 
   return {
+    total: totalPopulation,
     areaName: healthDataForArea.areaName,
     areaCode: healthDataForArea.areaCode,
     ageCategories: ageCategories,

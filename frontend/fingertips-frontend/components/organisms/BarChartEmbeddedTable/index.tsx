@@ -22,6 +22,8 @@ import { SparklineChart } from '@/components/organisms/SparklineChart';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
 import { TrendTag } from '@/components/molecules/TrendTag';
 import { BenchmarkLegend } from '@/components/organisms/BenchmarkLegend';
+import { BarChartEmbeddedTableRow } from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedTable.types';
+import { BarChartEmbeddedRows } from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedRows';
 
 export enum BarChartEmbeddedTableHeadingEnum {
   AreaName = 'Area',
@@ -77,16 +79,18 @@ export function BarChartEmbeddedTable({
   );
   const maxValue = Math.max(...extractValues);
 
-  const tableRows = mostRecentYearData.map((item) => ({
-    area: item.areaName,
-    period: item.healthData[0].year,
-    trend: item.healthData[0].trend,
-    count: item.healthData[0].count,
-    value: item.healthData[0].value,
-    lowerCi: item.healthData[0].lowerCi,
-    upperCi: item.healthData[0].upperCi,
-    benchmarkComparison: item.healthData[0].benchmarkComparison,
-  }));
+  const tableRows: BarChartEmbeddedTableRow[] = mostRecentYearData.map(
+    (item) => ({
+      area: item.areaName,
+      period: item.healthData[0].year,
+      trend: item.healthData[0].trend,
+      count: item.healthData[0].count,
+      value: item.healthData[0].value,
+      lowerCi: item.healthData[0].lowerCi,
+      upperCi: item.healthData[0].upperCi,
+      benchmarkComparison: item.healthData[0].benchmarkComparison,
+    })
+  );
 
   const sortedTableRows = tableRows.toSorted((a, b) => {
     if (!a.value && !b.value) return 0;
@@ -113,6 +117,7 @@ export function BarChartEmbeddedTable({
     useState(false);
 
   const confidenceLimit = getConfidenceLimitNumber(benchmarkComparisonMethod);
+
   return (
     <div data-testid={'barChartEmbeddedTable-component'}>
       <ConfidenceIntervalCheckbox
@@ -124,6 +129,7 @@ export function BarChartEmbeddedTable({
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
       />
+
       <Table
         head={
           <React.Fragment>
@@ -253,37 +259,13 @@ export function BarChartEmbeddedTable({
           </Table.Row>
         ) : null}
 
-        {sortedTableRows.map((item) => (
-          <Table.Row key={`${item.area}`}>
-            <CheckValueInTableCell value={item.area} />
-            <CheckValueInTableCell value={item.period} />
-            <Table.Cell>
-              <TrendTag trendFromResponse={item.trend} />
-            </Table.Cell>
-            <FormatNumberInTableCell value={item.count} numberStyle={'whole'} />
-            <FormatNumberInTableCell
-              value={item.value}
-              style={{ textAlign: 'right', paddingRight: '0px' }}
-            />
-            <Table.Cell style={{ paddingRight: '0px' }}>
-              <SparklineChart
-                value={[item.value]}
-                maxValue={maxValue}
-                confidenceIntervalValues={[item.lowerCi, item.upperCi]}
-                showConfidenceIntervalsData={showConfidenceIntervalsData}
-                benchmarkOutcome={item.benchmarkComparison?.outcome}
-                benchmarkComparisonMethod={benchmarkComparisonMethod}
-                polarity={polarity}
-                label={SparklineLabelEnum.Area}
-                area={item.area}
-                year={item.period}
-                measurementUnit={measurementUnit}
-              />
-            </Table.Cell>
-            <FormatNumberInTableCell value={item.lowerCi} />
-            <FormatNumberInTableCell value={item.upperCi} />
-          </Table.Row>
-        ))}
+        <BarChartEmbeddedRows
+          rows={sortedTableRows}
+          benchmarkComparisonMethod={benchmarkComparisonMethod}
+          maxValue={maxValue}
+          showConfidenceIntervalsData={showConfidenceIntervalsData}
+          polarity={polarity}
+        />
       </Table>
     </div>
   );

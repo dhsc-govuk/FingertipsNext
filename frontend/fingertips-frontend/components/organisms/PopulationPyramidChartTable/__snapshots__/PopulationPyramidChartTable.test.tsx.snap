@@ -1,0 +1,649 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PopulationPyramidChartTable check  that all 3 tables are rendered and then take a snapshot 1`] = `
+<DocumentFragment>
+  .c5 {
+  padding: 10px 20px 10px 0;
+  border-bottom: 1px solid #bfc1c3;
+  text-align: left;
+  font-weight: 700;
+}
+
+.c5:last-child {
+  padding-right: 0;
+}
+
+.c9 {
+  padding: 10px 20px 10px 0;
+  border-bottom: 1px solid #bfc1c3;
+  text-align: left;
+}
+
+.c9:last-child {
+  padding-right: 0;
+}
+
+.c4 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #0b0c0c;
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.c6 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+  font-weight: bold;
+  padding: 0.625em 0;
+}
+
+.c7 {
+  text-align: left;
+  vertical-align: top;
+}
+
+.c3 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  text-align: center;
+  height: 65px;
+  line-height: 65px;
+  -webkit-letter-spacing: 0px;
+  -moz-letter-spacing: 0px;
+  -ms-letter-spacing: 0px;
+  letter-spacing: 0px;
+  font-weight: 700;
+}
+
+.c10 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  padding-right: 0;
+  text-align: center;
+}
+
+.c8 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  border-top: solid #F3F2F1 2px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -webkit-align-items: stretch;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+}
+
+.c0 table {
+  margin: 0px !important;
+  border: 0px;
+  padding: 0px;
+}
+
+.c12 {
+  -webkit-box-flex: 2;
+  -webkit-flex-grow: 2;
+  -ms-flex-positive: 2;
+  flex-grow: 2;
+  margin-left: auto;
+  background-color: #B1B4B6;
+  min-width: 250px;
+}
+
+.c12 table {
+  margin: 0px;
+  border: 0px;
+  padding: 0px;
+}
+
+.c12 table td,
+.c12 table th {
+  border-bottom-color: #F3F2F1;
+  border-top-color: #F3F2F1;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  -webkit-box-flex: 8;
+  -webkit-flex-grow: 8;
+  -ms-flex-positive: 8;
+  flex-grow: 8;
+  overflow: hidden;
+  clear: both;
+}
+
+.c11 {
+  -webkit-box-flex: 2;
+  -webkit-flex-grow: 2;
+  -ms-flex-positive: 2;
+  flex-grow: 2;
+  background-color: #F3F2F1;
+  min-width: 250px;
+}
+
+.c11 table {
+  margin: 0px;
+}
+
+.c11 table td,
+.c11 table th {
+  border-bottom-color: #B1B4B6;
+  border-top-color: #B1B4B6;
+}
+
+.c2 {
+  -webkit-box-flex: 8;
+  -webkit-flex-grow: 8;
+  -ms-flex-positive: 8;
+  flex-grow: 8;
+  min-width: 280px;
+}
+
+.c2 table td:first-child {
+  min-width: 90px;
+}
+
+.c2 table td,
+.c2 table th {
+  border-top-color: #B1B4B6;
+  border-bottom-color: #B1B4B6;
+}
+
+@media print {
+  .c4 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c4 {
+    color: #000;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    margin-bottom: 30px;
+  }
+}
+
+@media print {
+  .c6 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c6 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c10 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c10 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c8 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c8 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:480px) {
+  .c1 {
+    overflow-x: auto;
+  }
+}
+
+<section
+    class="c0"
+  >
+    <div
+      class="c1"
+    >
+      <div
+        class="c2"
+      >
+        <section>
+          <h3
+            class="c3"
+          >
+            Test Area
+          </h3>
+          <table
+            class="c4"
+          >
+            <thead
+              class=""
+            >
+              <tr
+                class=""
+              >
+                <th
+                  class="c5 c6 c7 c8"
+                >
+                  Age range
+                </th>
+                <th
+                  class="c5 c6 c7 c8"
+                >
+                  Male
+                </th>
+                <th
+                  class="c5 c6 c7 c8"
+                >
+                  Female
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              class=""
+            >
+              <tr
+                class=""
+              >
+                <td
+                  class="c9 c10"
+                >
+                  0-4
+                </td>
+                <td
+                  class="c9 c10"
+                >
+                  1,000
+                </td>
+                <td
+                  class="c9 c10"
+                >
+                  900
+                </td>
+              </tr>
+              <tr
+                class=""
+              >
+                <td
+                  class="c9 c10"
+                >
+                  5-9
+                </td>
+                <td
+                  class="c9 c10"
+                >
+                  1,200
+                </td>
+                <td
+                  class="c9 c10"
+                >
+                  1,100
+                </td>
+              </tr>
+              <tr
+                class=""
+              >
+                <td
+                  class="c9 c10"
+                >
+                  10-14
+                </td>
+                <td
+                  class="c9 c10"
+                >
+                  1,100
+                </td>
+                <td
+                  class="c9 c10"
+                >
+                  1,050
+                </td>
+              </tr>
+              <tr
+                class=""
+              >
+                <td
+                  class="c9 c10"
+                >
+                  15+
+                </td>
+                <td
+                  class="c9 c10"
+                >
+                  1,300
+                </td>
+                <td
+                  class="c9 c10"
+                >
+                  1,250
+                </td>
+              </tr>
+              <tr
+                class=""
+              >
+                <th
+                  class="c5 c6 c7 c8"
+                >
+                  All ages
+                </th>
+                <th
+                  class="c5 c6 c7 c8"
+                >
+                  4,300
+                </th>
+                <th
+                  class="c5 c6 c7 c8"
+                >
+                  4,600
+                </th>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </div>
+      <div
+        class="c11"
+      >
+        <section>
+          <h3
+            class="c3"
+          >
+            Group Area
+          </h3>
+          <table
+            class="c4"
+          >
+            <thead
+              class=""
+            >
+              <tr
+                class=""
+              >
+                <th
+                  class="c5 c6 c7 c8"
+                >
+                  Male
+                </th>
+                <th
+                  class="c5 c6 c7 c8"
+                >
+                  Female
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              class=""
+            >
+              <tr
+                class=""
+              >
+                <td
+                  class="c9 c10"
+                >
+                  1,100
+                </td>
+                <td
+                  class="c9 c10"
+                >
+                  100
+                </td>
+              </tr>
+              <tr
+                class=""
+              >
+                <td
+                  class="c9 c10"
+                >
+                  1,300
+                </td>
+                <td
+                  class="c9 c10"
+                >
+                  10
+                </td>
+              </tr>
+              <tr
+                class=""
+              >
+                <td
+                  class="c9 c10"
+                >
+                  1,200
+                </td>
+                <td
+                  class="c9 c10"
+                >
+                  1,150
+                </td>
+              </tr>
+              <tr
+                class=""
+              >
+                <td
+                  class="c9 c10"
+                >
+                  1,400
+                </td>
+                <td
+                  class="c9 c10"
+                >
+                  150
+                </td>
+              </tr>
+              <tr
+                class=""
+              >
+                <th
+                  class="c5 c6 c7 c8"
+                >
+                  1,410
+                </th>
+                <th
+                  class="c5 c6 c7 c8"
+                >
+                  5,000
+                </th>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </div>
+    </div>
+    <div
+      class="c12"
+    >
+      <section>
+        <h3
+          class="c3"
+        >
+          Benchmark: Benchmark Area
+        </h3>
+        <table
+          class="c4"
+        >
+          <thead
+            class=""
+          >
+            <tr
+              class=""
+            >
+              <th
+                class="c5 c6 c7 c8"
+              >
+                Male
+              </th>
+              <th
+                class="c5 c6 c7 c8"
+              >
+                Female
+              </th>
+            </tr>
+          </thead>
+          <tbody
+            class=""
+          >
+            <tr
+              class=""
+            >
+              <td
+                class="c9 c10"
+              >
+                1,100
+              </td>
+              <td
+                class="c9 c10"
+              >
+                1,100
+              </td>
+            </tr>
+            <tr
+              class=""
+            >
+              <td
+                class="c9 c10"
+              >
+                1,300
+              </td>
+              <td
+                class="c9 c10"
+              >
+                1,200
+              </td>
+            </tr>
+            <tr
+              class=""
+            >
+              <td
+                class="c9 c10"
+              >
+                1,200
+              </td>
+              <td
+                class="c9 c10"
+              >
+                1,150
+              </td>
+            </tr>
+            <tr
+              class=""
+            >
+              <td
+                class="c9 c10"
+              >
+                1,400
+              </td>
+              <td
+                class="c9 c10"
+              >
+                1,350
+              </td>
+            </tr>
+            <tr
+              class=""
+            >
+              <th
+                class="c5 c6 c7 c8"
+              >
+                4,800
+              </th>
+              <th
+                class="c5 c6 c7 c8"
+              >
+                5,000
+              </th>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+  </section>
+</DocumentFragment>
+`;

@@ -8,7 +8,7 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 import { AreaFilterData } from '../molecules/SelectAreasFilterPanel';
 import { ChartPageWrapper } from '../pages/chartPageWrapper';
-import { Area, AreaWithRelations } from '@/generated-sources/ft-api-client';
+import { Area } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { ViewsSelector } from './ViewsSelector';
@@ -37,7 +37,7 @@ const determineAreaCodes = (
 export type ViewProps = {
   searchState: SearchStateParams;
   areaFilterData?: AreaFilterData;
-  selectedAreasData?: AreaWithRelations[];
+  selectedAreasData?: Area[];
   selectedIndicatorsData?: IndicatorDocument[];
 };
 
@@ -61,6 +61,8 @@ export function ViewsContext({
     areaFilterData?.availableAreas
   );
 
+  const showPopulationPyramid = areaCodes.length < 50;
+
   return (
     <ChartPageWrapper
       key={JSON.stringify(searchState)}
@@ -75,11 +77,12 @@ export function ViewsContext({
         searchState={searchState}
         selectedIndicatorsData={selectedIndicatorsData}
       />
-
-      <PopulationPyramidWithTableDataProvider
-        areaCodes={areaCodes}
-        searchState={searchState}
-      />
+      {showPopulationPyramid ? (
+        <PopulationPyramidWithTableDataProvider
+          areaCodes={areaCodes}
+          searchState={searchState}
+        />
+      ) : null}
     </ChartPageWrapper>
   );
 }
