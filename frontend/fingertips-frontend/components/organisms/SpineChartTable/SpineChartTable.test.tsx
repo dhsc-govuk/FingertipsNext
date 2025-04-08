@@ -1,13 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
+import { mapToSpineChartTableData, SpineChartTable, SpineChartTableRowProps } from '.';
 import {
-  mapToSpineChartTableData,
-  SpineChartTable,
-  SpineChartTableRowProps,
-} from '.';
-import {
-  BenchmarkComparisonMethod,
-  BenchmarkOutcome,
+  BenchmarkComparisonMethod, BenchmarkOutcome,
   HealthDataForArea,
   HealthDataPointTrendEnum,
   IndicatorPolarity,

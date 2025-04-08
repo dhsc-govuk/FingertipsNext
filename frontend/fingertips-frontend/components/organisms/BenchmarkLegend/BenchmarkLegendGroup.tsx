@@ -25,21 +25,28 @@ interface BenchmarkLegendProps {
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   outcomes: BenchmarkOutcome[];
   polarity: IndicatorPolarity;
+  subTitle?: string;
 }
 
 const BenchmarkLegendGroup: FC<BenchmarkLegendProps> = ({
   outcomes,
   benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
   polarity,
+  subTitle,
 }) => {
   const confidenceLimit = getConfidenceLimitNumber(benchmarkComparisonMethod);
   const prefix = confidenceLimit
     ? `${confidenceLimit}% confidence`
     : 'Quintiles';
+
+  const subTitleText = subTitle ?? prefix;
+
   return (
     <>
-      {prefix ? <StyledLegendLabel>{prefix}</StyledLegendLabel> : null}
-      <LegendGroup>
+      {subTitleText ? (
+        <StyledLegendLabel>{subTitleText}</StyledLegendLabel>
+      ) : null}
+      <LegendGroup role={'group'}>
         {outcomes.map((outcome) => (
           <BenchmarkLabel
             key={benchmarkComparisonMethod + '_' + outcome}
