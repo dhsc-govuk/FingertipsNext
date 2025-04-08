@@ -15,6 +15,7 @@ import {
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
 import { PopulationPyramidWithTable } from '@/components/organisms/PopulationPyramidWithTable';
+import { string } from 'zod';
 const enum PopulationIndicatorIdsTypes {
   ADMINISTRATIVE = 92708,
   NHS = 337,
@@ -50,23 +51,33 @@ export const PopulationPyramidWithTableDataProvider = async ({
 
   const areasApi = ApiClientFactory.getAreasApiClient();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
+
+  //get the mappings of all the areaType to the indicator
+  const areaTypeCodeMappings = (() => {
+    const mappings: Record<string, number> = {};
+    areaCodesToRequest.forEach(async (areaCode) => {
+      const area = await areasApi.getArea({ areaCode: areaCode });
+      const indicatorTypeID =
+        area.areaType.hierarchyName == HierarchyNameTypes.NHS
+          ? PopulationIndicatorIdsTypes.NHS
+          : PopulationIndicatorIdsTypes.ADMINISTRATIVE;
+      mappings[area.code] = indicatorTypeID;
+    });
+    return mappings;
+  })();
+
+  console.log('area Mappings');
+  console.log(areaTypeCodeMappings);
+
   const populationDataForArea: IndicatorWithHealthDataForArea | undefined =
     await (async () => {
       try {
         if (areaCodesToRequest.length == 0) {
           return undefined;
         }
-
-        const populationIndicatorID: number = await (async (
-          areaCode: string
-        ) => {
-          const area = await areasApi.getArea({ areaCode: areaCode });
-          if (area.areaType.hierarchyName == HierarchyNameTypes.NHS) {
-            return PopulationIndicatorIdsTypes.NHS;
-          }
-          return PopulationIndicatorIdsTypes.ADMINISTRATIVE;
-        })(areaCodesToRequest[0]);
-
+        const populationIndicatorID: number = areaTypeCodeMappings
+          ? areaTypeCodeMappings[areaCodesToRequest[0]]
+          : 0;
         return await indicatorApi.getHealthDataForAnIndicator(
           {
             indicatorId: populationIndicatorID,

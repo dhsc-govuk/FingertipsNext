@@ -24,13 +24,6 @@ import {
 import { usePathname, useRouter } from 'next/navigation';
 import { ArrowExpander } from '@/components/molecules/ArrowExpander';
 import { PopulationPyramidChartTable } from '../PopulationPyramidChartTable';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
-import { HierarchyNameTypes } from '@/lib/areaFilterHelpers/areaType';
-
-export const enum PopulationIndicatorIdsTypes {
-  ADMINISTRATIVE = 92708,
-  NHS = 337,
-}
 
 const getHeaderTitle = (
   healthData: HealthDataForArea | undefined,
@@ -58,18 +51,6 @@ const getSelectedAreaFrom = (
   if (!populationArea)
     return convertedData.length > 0 ? convertedData[0] : undefined;
   return populationArea;
-};
-
-const fetchAreaIndicatorType = async (areaCode: string | undefined) => {
-  if (!areaCode) {
-    return;
-  }
-  const areasApi = ApiClientFactory.getAreasApiClient();
-  const area = await areasApi.getArea({ areaCode: areaCode });
-  if (area.areaType.hierarchyName == HierarchyNameTypes.NHS) {
-    return PopulationIndicatorIdsTypes.NHS;
-  }
-  return PopulationIndicatorIdsTypes.ADMINISTRATIVE;
 };
 
 interface PyramidPopulationChartViewProps {
@@ -135,8 +116,6 @@ export const PopulationPyramidWithTable = ({
             );
           }
         );
-        const indicatorType = fetchAreaIndicatorType(healthData?.areaCode);
-        console.log('Indicator Type = ' + indicatorType);
         const year = getLatestYear(healthData?.healthData);
         stateManager.removeParamValueFromState(
           SearchParams.PopulationAreaSelected
