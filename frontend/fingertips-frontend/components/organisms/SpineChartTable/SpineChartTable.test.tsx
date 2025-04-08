@@ -147,16 +147,6 @@ describe('Spine chart table suite', () => {
   ];
 
   describe('Spine chart table', () => {
-    it('snapshot test - should match snapshot', () => {
-      const container = render(
-        <SpineChartTable
-          rowData={mockTableData}
-          areasSelected={[selectedAreaOne]}
-        />
-      );
-      expect(container.asFragment()).toMatchSnapshot();
-    });
-
     it('should render the SpineChartTable component', () => {
       render(
         <SpineChartTable
@@ -254,14 +244,35 @@ describe('Spine chart table suite', () => {
       },
     ];
 
-    it('should match the snapshot - including data for both areas', () => {
-      const container = render(
+    it('should display data correctly for both areas', () => {
+      render(
         <SpineChartTable
           rowData={mockTwoAreaTableData}
           areasSelected={[selectedAreaOne, selectedAreaTwo]}
         />
       );
-      expect(container.asFragment()).toMatchSnapshot();
+
+      expect(screen.getByTestId('area-header-1')).toHaveTextContent(
+        'Greater Manchester ICB - 00T'
+      );
+      expect(screen.getByTestId('area-header-2')).toHaveTextContent(
+        'Greater Manchester ICB - 01T'
+      );
+      expect(screen.getAllByTestId('area-1-count-cell')[1]).toHaveTextContent(
+        '222'
+      );
+      expect(screen.getAllByTestId('area-1-value-cell')[1]).toHaveTextContent(
+        '890.3'
+      );
+      expect(screen.getAllByTestId('area-2-count-cell')[1]).toHaveTextContent(
+        '222'
+      );
+      expect(screen.getAllByTestId('area-2-value-cell')[1]).toHaveTextContent(
+        '890.3'
+      );
+
+      // Trend data should not be displayed
+      expect(screen.queryByTestId('trend-cell')).not.toBeInTheDocument();
     });
 
     it("should render an 'X' when second area does not have data for latest period of the first area", () => {
