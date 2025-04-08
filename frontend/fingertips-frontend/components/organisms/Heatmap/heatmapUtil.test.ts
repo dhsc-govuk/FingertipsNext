@@ -371,9 +371,20 @@ describe('extract sorted areas, indicators, and data points', () => {
     const indicators = [indicator1, indicator2, indicator3];
     indicators.forEach((indicator) => {
       expect(
-        dataPoints[indicator.id][expectedSortedAreas[0].code].benchmark
+        dataPoints[indicator.id][expectedSortedAreas[1].code].benchmark
       ).toEqual({
         outcome: BenchmarkOutcome.NotCompared,
+        benchmarkMethod: indicator.benchmarkMethod,
+        polarity: indicator.polarity,
+      });
+    });
+  });
+
+  it('should populate data points with benchmarking information with england as baseline', () => {
+    const indicators = [indicator1, indicator2, indicator3];
+    indicators.forEach((indicator) => {
+      expect(dataPoints[indicator.id][areaCodeForEngland].benchmark).toEqual({
+        outcome: 'Baseline',
         benchmarkMethod: indicator.benchmarkMethod,
         polarity: indicator.polarity,
       });

@@ -55,7 +55,7 @@ export function Heatmap({
     undefined
   );
 
-  const buildOnMouseEnterByProps = (
+  const buildMouseEnterHandler = (
     hoverProps: HeatmapHoverProps | undefined
   ): React.MouseEventHandler => {
     if (!hoverProps) {
@@ -108,7 +108,7 @@ export function Heatmap({
                       cellType={cell.type}
                       content={cell.content}
                       backgroundColour={cell.backgroundColour}
-                      mouseEnterHandler={buildOnMouseEnterByProps(
+                      mouseEnterHandler={buildMouseEnterHandler(
                         cell.hoverProps
                       )}
                       mouseLeaveHandler={onMouseLeave}
