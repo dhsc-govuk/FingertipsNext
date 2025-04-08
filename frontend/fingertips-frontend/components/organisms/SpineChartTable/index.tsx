@@ -32,7 +32,7 @@ export interface SpineChartTableRowProps {
 
 /**
  * Checks the latest period for the pre-sorted health data for areas one and two match.
- * I.e. the latest data point for both areas is the same.
+ * I.e. the latest data point for both areas is the same year.
  */
 const checkLatestPeriodMatches = (
   rowData: SpineChartTableRowProps
@@ -121,7 +121,6 @@ export function SpineChartTable({
               areaOneValue={row.areaOneValue}
               areaTwoCount={row.areaTwoCount}
               areaTwoValue={row.areaTwoValue}
-              value={row.value}
               groupValue={row.groupValue}
               benchmarkValue={row.benchmarkValue}
               benchmarkStatistics={row.benchmarkStatistics}
