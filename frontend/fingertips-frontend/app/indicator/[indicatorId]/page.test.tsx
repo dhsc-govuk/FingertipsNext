@@ -21,6 +21,8 @@ const mockGetIndicatorResponse: IndicatorDocument = {
   lastUpdatedDate: new Date('March 17, 2007'),
   hasInequalities: false,
   unitLabel: 'miles',
+  usedInPoc: false,
+  associatedAreaCodes: ['A001', 'A002'],
 };
 
 mockIndicatorSearchService.getIndicator.mockResolvedValue(

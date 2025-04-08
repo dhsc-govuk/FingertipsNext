@@ -65,6 +65,8 @@ describe('IndicatorSearchServiceMock', () => {
       trend: 'Increasing and getting worse',
       unitLabel: '',
       hasInequalities: false,
+      usedInPoc: false,
+      associatedAreaCodes: ['A001', 'A002'],
     },
     {
       indicatorID: '2',
@@ -77,6 +79,8 @@ describe('IndicatorSearchServiceMock', () => {
       trend: 'Decreasing',
       unitLabel: '',
       hasInequalities: true,
+      usedInPoc: false,
+      associatedAreaCodes: ['A001', 'A002'],
     },
   ];
   let indicatorSearchMock: IIndicatorSearchService;

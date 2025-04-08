@@ -35,6 +35,8 @@ const mockMetaData = {
   lastUpdatedDate: new Date('March 4, 2025'),
   unitLabel: 'pancakes',
   hasInequalities: true,
+  usedInPoc: false,
+  associatedAreaCodes: ['A001', 'A002'],
 };
 
 const mockSearch = 'test';

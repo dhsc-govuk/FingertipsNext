@@ -22,6 +22,8 @@ const MOCK_DATA: IndicatorDocument[] = [
     trend: 'Increasing and getting worse',
     hasInequalities: false,
     unitLabel: '',
+    usedInPoc: false,
+    associatedAreaCodes: ['A001', 'A002'],
   },
   {
     indicatorID: '2',
@@ -34,6 +36,8 @@ const MOCK_DATA: IndicatorDocument[] = [
     lastUpdatedDate: new Date('November 5, 2023'),
     hasInequalities: true,
     unitLabel: '',
+    usedInPoc: false,
+    associatedAreaCodes: ['A001', 'A002'],
   },
 ];
 
@@ -47,6 +51,8 @@ const MOCK_DATA_LASTUPDATED_INEQUALITIES: IndicatorDocument = {
   lastUpdatedDate: new Date('December 6, 2024'),
   hasInequalities: true,
   unitLabel: '',
+  usedInPoc: false,
+  associatedAreaCodes: ['A001', 'A002'],
 };
 
 const mockHandleClick = jest.fn();
