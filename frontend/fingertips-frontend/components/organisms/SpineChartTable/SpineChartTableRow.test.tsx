@@ -14,8 +14,10 @@ describe('Spine chart table row', () => {
     unit: '%',
     period: 2025,
     trend: HealthDataPointTrendEnum.Decreasing,
-    count: 123,
-    value: 456,
+    areaOneCount: 123,
+    areaTwoCount: 456,
+    areaOneValue: 12.3,
+    areaTwoValue: 45.6,
     groupValue: 789,
     benchmarkValue: 987,
     benchmarkStatistics: {
@@ -37,11 +39,12 @@ describe('Spine chart table row', () => {
             unit={mockRowData.unit}
             period={mockRowData.period}
             trend={mockRowData.trend}
-            count={mockRowData.count}
-            value={mockRowData.value}
+            areaOneCount={mockRowData.areaOneCount}
+            areaOneValue={mockRowData.areaOneValue}
             groupValue={mockRowData.groupValue}
             benchmarkValue={mockRowData.benchmarkValue}
             benchmarkStatistics={mockRowData.benchmarkStatistics}
+            twoAreasRequested={false}
           />
         </tbody>
       </table>
@@ -68,11 +71,12 @@ describe('Spine chart table row', () => {
             unit={mockRowData.unit}
             period={mockRowData.period}
             trend={mockRowData.trend}
-            count={mockRowData.count}
-            value={mockRowData.value}
+            areaOneCount={mockRowData.areaOneCount}
+            areaOneValue={mockRowData.areaOneValue}
             groupValue={mockRowData.groupValue}
             benchmarkValue={mockRowData.benchmarkValue}
             benchmarkStatistics={mockRowData.benchmarkStatistics}
+            twoAreasRequested={false}
           />
         </tbody>
       </table>
@@ -93,11 +97,12 @@ describe('Spine chart table row', () => {
             unit={mockRowData.unit}
             period={mockRowData.period}
             trend={mockRowData.trend}
-            count={undefined}
-            value={undefined}
+            areaOneCount={undefined}
+            areaOneValue={undefined}
             groupValue={undefined}
             benchmarkValue={undefined}
             benchmarkStatistics={mockRowData.benchmarkStatistics}
+            twoAreasRequested={false}
           />
         </tbody>
       </table>
@@ -110,5 +115,37 @@ describe('Spine chart table row', () => {
     expect(screen.getByTestId('group-value-cell')).toHaveTextContent(`X`);
 
     expect(screen.getByTestId('benchmark-value-cell')).toHaveTextContent(`X`);
+  });
+
+  it('should have an additional count and value section when an 2 areas are requested', () => {
+    render(
+      <table>
+        <tbody>
+          <SpineChartTableRow
+            indicatorId={mockRowData.indicatorId}
+            indicator={mockRowData.indicator}
+            unit={mockRowData.unit}
+            period={mockRowData.period}
+            trend={mockRowData.trend}
+            areaOneCount={mockRowData.areaOneCount}
+            areaOneValue={mockRowData.areaOneValue}
+            areaTwoCount={mockRowData.areaTwoCount}
+            areaTwoValue={mockRowData.areaTwoValue}
+            groupValue={mockRowData.groupValue}
+            benchmarkValue={mockRowData.benchmarkValue}
+            benchmarkStatistics={mockRowData.benchmarkStatistics}
+            twoAreasRequested={true}
+          />
+        </tbody>
+      </table>
+    );
+
+    expect(screen.getByTestId('area-1-count-cell')).toHaveTextContent('123');
+    expect(screen.getByTestId('area-1-value-cell')).toHaveTextContent('12.3');
+    expect(screen.getByTestId('area-2-count-cell')).toHaveTextContent('456');
+    expect(screen.getByTestId('area-2-value-cell')).toHaveTextContent('45.6');
+
+    // Trend cell should not be displayed when 2 areas selected
+    expect(screen.queryByTestId('trend-cell')).not.toBeInTheDocument();
   });
 });
