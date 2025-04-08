@@ -54,11 +54,11 @@ export default async function TwoOrMoreIndicatorsAreasView({
     let healthIndicatorData: IndicatorWithHealthDataForArea | undefined;
     try {
       const healthIndicatorDataChunks = await Promise.all(
-        chunkArray(areaCodesToRequest).map((requestAreas) =>
+        chunkArray(areaCodesToRequest).map((requestedAreas) =>
           indicatorApi.getHealthDataForAnIndicator(
             {
               indicatorId: Number(indicatorId),
-              areaCodes: [...requestAreas],
+              areaCodes: [...requestedAreas],
             },
             API_CACHE_CONFIG
           )

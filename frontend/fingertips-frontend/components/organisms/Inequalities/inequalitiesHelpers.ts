@@ -5,6 +5,7 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { chartColours, UniqueChartColours } from '@/lib/chartHelpers/colours';
 import {
+  AXIS_TITLE_FONT_SIZE,
   generateConfidenceIntervalSeries,
   getHealthDataWithoutInequalities,
   isEnglandSoleSelectedArea,
@@ -15,6 +16,7 @@ import {
   lineChartDefaultOptions,
 } from '../LineChart/lineChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
+import { DashStyleValue } from 'highcharts';
 import Highcharts, { AxisLabelsFormatterContextObject } from 'highcharts';
 import { formatWholeNumber } from '@/lib/numberFormatter';
 
@@ -187,6 +189,12 @@ export const getDynamicKeys = (
   return uniqueKeys;
 };
 
+const dashStyle = (index: number): DashStyleValue => {
+  if (index < 3) return 'Solid';
+  if (index < 8) return 'ShortDash';
+  return 'Dash';
+};
+
 export const generateInequalitiesLineChartSeriesData = (
   keys: string[],
   type: InequalitiesTypes,
@@ -195,9 +203,6 @@ export const generateInequalitiesLineChartSeriesData = (
   showConfidenceIntervalsData?: boolean
 ): Highcharts.SeriesOptionsType[] => {
   const colorList = mapToChartColorsForInequality[type];
-
-  if (isEnglandSoleSelectedArea(areasSelected))
-    colorList[0] = GovukColours.Black;
 
   const seriesData: Highcharts.SeriesOptionsType[] = keys.flatMap(
     (key, index) => {
@@ -212,7 +217,15 @@ export const generateInequalitiesLineChartSeriesData = (
           symbol: chartSymbols[index % chartSymbols.length],
         },
         color: colorList[index % colorList.length],
+        dashStyle: dashStyle(index),
       };
+
+      // We have different display requirements for the aggregate
+      // data when England is the selected area
+      if (index === 0 && isEnglandSoleSelectedArea(areasSelected)) {
+        lineSeries.color = GovukColours.Black;
+        lineSeries.marker = { symbol: 'circle' };
+      }
 
       const confidenceIntervalSeries: Highcharts.SeriesOptionsType =
         generateConfidenceIntervalSeries(
@@ -294,11 +307,20 @@ export function generateInequalitiesLineChartOptions(
 
   return {
     ...lineChartDefaultOptions,
+    chart: {
+      ...lineChartDefaultOptions.chart,
+      height:
+        // The deprivation chart needs a bit more height
+        type === InequalitiesTypes.Deprivation
+          ? '75%'
+          : lineChartDefaultOptions.chart?.height,
+    },
     yAxis: {
       ...lineChartDefaultOptions.yAxis,
       title: {
         text: `${optionalParams?.yAxisTitleText}${optionalParams?.measurementUnit ? ': ' + optionalParams?.measurementUnit : ''}`,
         margin: 20,
+        style: { fontSize: AXIS_TITLE_FONT_SIZE },
       },
       labels: {
         formatter: function (
@@ -311,8 +333,12 @@ export function generateInequalitiesLineChartOptions(
     },
     xAxis: {
       ...lineChartDefaultOptions.xAxis,
-      title: { text: optionalParams?.xAxisTitleText, margin: 20 },
-    } satisfies Highcharts.XAxisOptions,
+      title: {
+        text: optionalParams?.xAxisTitleText,
+        margin: 20,
+        style: { fontSize: AXIS_TITLE_FONT_SIZE },
+      },
+    },
     series: seriesData,
     tooltip: {
       headerFormat:

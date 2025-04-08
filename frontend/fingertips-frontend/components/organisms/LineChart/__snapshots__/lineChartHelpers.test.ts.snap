@@ -8,7 +8,6 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
   },
   "chart": {
     "animation": false,
-    "height": "50%",
     "spacingBottom": 50,
     "spacingTop": 20,
     "type": "line",
@@ -18,6 +17,9 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
   },
   "legend": {
     "align": "left",
+    "itemStyle": {
+      "fontSize": "16px",
+    },
     "title": {
       "text": "Areas",
     },
@@ -79,22 +81,32 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
   "xAxis": {
     "allowDecimals": false,
     "labels": {
-      "formatter": undefined,
+      "style": {
+        "fontSize": 16,
+      },
     },
     "tickLength": 0,
     "title": {
       "margin": 20,
+      "style": {
+        "fontSize": 19,
+      },
       "text": "xAxis",
     },
   },
   "yAxis": {
     "labels": {
-      "formatter": undefined,
+      "style": {
+        "fontSize": 16,
+      },
     },
     "minorTickInterval": "auto",
     "minorTicksPerMajor": 2,
     "title": {
       "margin": 20,
+      "style": {
+        "fontSize": 19,
+      },
       "text": "yAxis",
     },
   },
@@ -109,7 +121,6 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
   },
   "chart": {
     "animation": false,
-    "height": "50%",
     "spacingBottom": 50,
     "spacingTop": 20,
     "type": "line",
@@ -119,6 +130,9 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
   },
   "legend": {
     "align": "left",
+    "itemStyle": {
+      "fontSize": "16px",
+    },
     "title": {
       "text": "Areas",
     },
@@ -216,22 +230,32 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
   "xAxis": {
     "allowDecimals": false,
     "labels": {
-      "formatter": undefined,
+      "style": {
+        "fontSize": 16,
+      },
     },
     "tickLength": 0,
     "title": {
       "margin": 20,
+      "style": {
+        "fontSize": 19,
+      },
       "text": "xAxis",
     },
   },
   "yAxis": {
     "labels": {
-      "formatter": undefined,
+      "style": {
+        "fontSize": 16,
+      },
     },
     "minorTickInterval": "auto",
     "minorTicksPerMajor": 2,
     "title": {
       "margin": 20,
+      "style": {
+        "fontSize": 19,
+      },
       "text": "yAxis",
     },
   },
