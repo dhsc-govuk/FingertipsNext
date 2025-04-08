@@ -64,7 +64,7 @@ exports[`Inequalities table suite Sex inequality snapshot test - should match sn
   padding-right: 0;
 }
 
-.c12 {
+.c13 {
   text-align: right;
   padding-right: 10px;
 }
@@ -74,9 +74,29 @@ exports[`Inequalities table suite Sex inequality snapshot test - should match sn
   width: 10%;
 }
 
+.c12 {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  background-color: #FFFFFF;
+  z-index: 10;
+  border-right: solid black 1px;
+  padding-right: 0.5em;
+}
+
 .c5 {
   text-align: left;
   vertical-align: top;
+}
+
+.c6 {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  background-color: #FFFFFF;
+  z-index: 10;
+  border-right: solid black 1px;
+  padding-right: 0.5em;
 }
 
 .c0 {
@@ -90,10 +110,6 @@ exports[`Inequalities table suite Sex inequality snapshot test - should match sn
 
 .c8 {
   padding-left: 10px;
-}
-
-.c6 {
-  padding-right: 10px;
 }
 
 @media print {
@@ -212,22 +228,22 @@ exports[`Inequalities table suite Sex inequality snapshot test - should match sn
           class=""
         >
           <td
-            class="c9 c10 c11"
+            class="c9 c10 c11 c12"
           >
             2004
           </td>
           <td
-            class="c9 c10 c12"
+            class="c9 c10 c13"
           >
             890.3
           </td>
           <td
-            class="c9 c10 c12"
+            class="c9 c10 c13"
           >
             703.4
           </td>
           <td
-            class="c9 c10 c12"
+            class="c9 c10 c13"
           >
             703.4
           </td>
@@ -236,22 +252,22 @@ exports[`Inequalities table suite Sex inequality snapshot test - should match sn
           class=""
         >
           <td
-            class="c9 c10 c11"
+            class="c9 c10 c11 c12"
           >
             2008
           </td>
           <td
-            class="c9 c10 c12"
+            class="c9 c10 c13"
           >
             135.1
           </td>
           <td
-            class="c9 c10 c12"
+            class="c9 c10 c13"
           >
             890.3
           </td>
           <td
-            class="c9 c10 c12"
+            class="c9 c10 c13"
           >
             890.3
           </td>

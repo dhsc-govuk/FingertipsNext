@@ -2,10 +2,10 @@ import { Table } from 'govuk-react';
 import styled from 'styled-components';
 import {
   getDisplayValue,
-  StyledAlignLeftHeader,
-  StyledAlignLeftTableCell,
+  StyledAlignLeftStickyTableCell,
   StyledAlignRightHeader,
   StyledAlignRightTableCell,
+  StyledAlignStickyLeftHeader,
   StyledDivWithScrolling,
   StyledTableCellHeader,
 } from '@/lib/tableHelpers';
@@ -30,18 +30,14 @@ const StyledAlignRightHeaderWithPadding = styled(StyledAlignRightHeader)({
   paddingLeft: '10px',
 });
 
-const StyledAlignLeftHeaderWithPadding = styled(StyledAlignLeftHeader)({
-  paddingRight: '10px',
-});
-
 const getCellHeader = (heading: string, index: number): ReactNode => {
   return heading === InequalitiesTableHeadingsEnum.PERIOD ? (
-    <StyledAlignLeftHeaderWithPadding
+    <StyledAlignStickyLeftHeader
       data-testid={`header-${heading}-${index}`}
       key={heading + index}
     >
       {heading}
-    </StyledAlignLeftHeaderWithPadding>
+    </StyledAlignStickyLeftHeader>
   ) : (
     <StyledAlignRightHeaderWithPadding
       data-testid={`header-${heading}-${index}`}
@@ -90,9 +86,9 @@ export function InequalitiesLineChartTable({
       >
         {tableData.rowData.map((data, index) => (
           <Table.Row key={String(data.period) + index}>
-            <StyledAlignLeftTableCell>
+            <StyledAlignLeftStickyTableCell>
               {String(data.period)}
-            </StyledAlignLeftTableCell>
+            </StyledAlignLeftStickyTableCell>
             {dynamicKeys.map((key, index) => (
               <StyledAlignRightTableCell key={key + index}>
                 {getDisplayValue(data.inequalities[key]?.value)}
