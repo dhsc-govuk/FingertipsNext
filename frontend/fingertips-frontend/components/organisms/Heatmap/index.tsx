@@ -77,22 +77,6 @@ export function Heatmap({
     };
   };
 
-  const handlers = useMemo(() => {
-    return rows.flatMap((row) => {
-      return row.cells.flatMap((cell) => {
-        return buildOnMouseEnterByProps(cell.hoverProps);
-      });
-    });
-  }, [rows]);
-
-  const getHandlerIndex = (
-    rowIndex: number,
-    cellIndex: number,
-    cellsPerRow: number
-  ): number => {
-    return rowIndex * cellsPerRow + cellIndex;
-  };
-
   const onMouseLeave: MouseEventHandler = () => {
     setHoverState(undefined);
   };
@@ -124,11 +108,9 @@ export function Heatmap({
                       cellType={cell.type}
                       content={cell.content}
                       backgroundColour={cell.backgroundColour}
-                      mouseEnterHandler={
-                        handlers[
-                          getHandlerIndex(rowIndex, cellIndex, row.cells.length)
-                        ]
-                      }
+                      mouseEnterHandler={buildOnMouseEnterByProps(
+                        cell.hoverProps
+                      )}
                       mouseLeaveHandler={onMouseLeave}
                     />
                   );
