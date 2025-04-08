@@ -2,7 +2,11 @@ import {
   GetHealthDataForAnIndicatorInequalitiesEnum,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import {
+  areaCodeForEngland,
+  administratorIndicatorID,
+  nhsIndicatorIdForPopulation,
+} from '@/lib/chartHelpers/constants';
 import {
   SearchParams,
   SearchStateManager,
@@ -14,11 +18,7 @@ import {
   API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
-import {
-  PopulationPyramidWithTable,
-  NHSIndicatorID,
-  AdministratorIndicatorID,
-} from '@/components/organisms/PopulationPyramidWithTable';
+import { PopulationPyramidWithTable } from '@/components/organisms/PopulationPyramidWithTable';
 
 //get the mappings of all the areaType to the indicator
 const getAreaCodeMappingsToIndicatorIds = async (
@@ -32,10 +32,8 @@ const getAreaCodeMappingsToIndicatorIds = async (
       const area = await areasApi.getArea({ areaCode: areaCode });
       const indicatorTypeID =
         area.areaType.hierarchyName == HierarchyNameTypes.NHS
-          ? NHSIndicatorID
-          : AdministratorIndicatorID;
-
-      console.log(`Area Code = ${area.code} to ${AdministratorIndicatorID}`);
+          ? nhsIndicatorIdForPopulation
+          : administratorIndicatorID;
       mappings[area.code] = indicatorTypeID;
     })
   );
@@ -105,7 +103,7 @@ export const PopulationPyramidWithTableDataProvider = async ({
       }
     })();
 
-  console.log(areaTypeCodeMappings);
+
   return (
     <PopulationPyramidWithTable
       healthDataForAreas={populationDataForArea?.areaHealthData ?? []}

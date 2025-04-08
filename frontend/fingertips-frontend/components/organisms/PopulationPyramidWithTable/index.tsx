@@ -3,6 +3,7 @@
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { useCallback, useMemo, useState } from 'react';
+import { nhsIndicatorIdForPopulation } from '@/lib/chartHelpers/constants';
 import {
   convertHealthDataForAreaForPyramidData,
   createPyramidPopulationDataFrom,
@@ -25,16 +26,13 @@ import { usePathname, useRouter } from 'next/navigation';
 import { ArrowExpander } from '@/components/molecules/ArrowExpander';
 import { PopulationPyramidChartTable } from '../PopulationPyramidChartTable';
 
-export const NHSIndicatorID = 337;
-export const AdministratorIndicatorID = 92708;
-
 const getHeaderTitle = (
   healthData: HealthDataForArea | undefined,
   year: number | undefined,
   indicatorID: number | undefined
 ): string => {
   let title = undefined;
-  if (indicatorID == NHSIndicatorID) {
+  if (indicatorID == nhsIndicatorIdForPopulation) {
   } else {
   }
   if (!year) {
