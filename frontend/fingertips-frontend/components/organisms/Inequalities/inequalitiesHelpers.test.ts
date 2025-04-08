@@ -23,6 +23,7 @@ import {
   sequenceSelectorForInequality,
   healthDataFilterFunctionGeneratorForInequality,
   getYearsWithInequalityData,
+  isSexTypePresent,
 } from './inequalitiesHelpers';
 import { GROUPED_YEAR_DATA } from '@/lib/tableHelpers/mocks';
 import { UniqueChartColours } from '@/lib/chartHelpers/colours';
@@ -900,5 +901,15 @@ describe('getYearsWithInequalityData', () => {
     ];
 
     expect(getYearsWithInequalityData(mockRowData)).toEqual(expectedYears);
+  });
+});
+
+describe('isSexTypePresent', () => {
+  it('should return false if sex type is not present', () => {
+    expect(isSexTypePresent(mockIndicatorData[0].healthData)).toBe(false);
+  });
+
+  it('should return true if sex type is present', () => {
+    expect(isSexTypePresent(MOCK_INEQUALITIES_DATA.healthData)).toBe(true);
   });
 });

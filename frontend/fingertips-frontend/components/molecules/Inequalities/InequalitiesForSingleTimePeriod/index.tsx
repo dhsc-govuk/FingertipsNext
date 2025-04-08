@@ -12,6 +12,7 @@ import {
   healthDataFilterFunctionGeneratorForInequality,
   InequalitiesBarChartData,
   InequalitiesTypes,
+  isSexTypePresent,
   mapToInequalitiesTableData,
   sequenceSelectorForInequality,
   valueSelectorForInequality,
@@ -26,6 +27,7 @@ import {
   HealthDataForArea,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
+import { InequalitiesTypesDropDown } from '../InequalitiesTypesDropDown';
 
 interface InequalitiesForSingleTimePeriodProps {
   healthIndicatorData: HealthDataForArea;
@@ -48,13 +50,18 @@ export function InequalitiesForSingleTimePeriod({
     [SearchParams.InequalityTypeSelected]: inequalityTypeSelected,
   } = stateManager.getSearchState();
 
-  // This will be updated when we add the dropdown to select inequality types
-  const type =
-    inequalityTypeSelected === 'deprivation'
-      ? InequalitiesTypes.Deprivation
-      : InequalitiesTypes.Sex;
+  const inequalityCategory = isSexTypePresent(healthIndicatorData.healthData)
+    ? [...getInequalityCategory(healthIndicatorData), 'Sex'].toSorted((a, b) =>
+        a.localeCompare(b)
+      )
+    : getInequalityCategory(healthIndicatorData);
 
-  const inequalityCategory = getInequalityCategory(type, healthIndicatorData);
+  if (!inequalityCategory.length) return null;
+
+  const type =
+    inequalityCategory[0] === 'Sex' || inequalityTypeSelected === 'Sex'
+      ? InequalitiesTypes.Sex
+      : InequalitiesTypes.Deprivation;
 
   const filterFunctionGenerator =
     healthDataFilterFunctionGeneratorForInequality[type];
@@ -62,7 +69,7 @@ export function InequalitiesForSingleTimePeriod({
     ...healthIndicatorData,
     healthData: filterHealthData(
       healthIndicatorData.healthData,
-      filterFunctionGenerator(inequalityCategory)
+      filterFunctionGenerator(inequalityTypeSelected ?? inequalityCategory[0])
     ),
   };
 
@@ -85,7 +92,7 @@ export function InequalitiesForSingleTimePeriod({
 
   const yearsDesc = getYearsWithInequalityData(allData).reverse();
 
-  if (!yearsDesc.length) return null;
+  if (!yearsDesc.length && type !== InequalitiesTypes.Deprivation) return null;
 
   const periodData = allData.find(
     (data) => data.period === Number(selectedYear ?? yearsDesc[0])
@@ -101,6 +108,7 @@ export function InequalitiesForSingleTimePeriod({
     <div data-testid="inequalitiesForSingleTimePeriod-component">
       <H3>Inequalities data for a single time period</H3>
       <TimePeriodDropDown years={yearsDesc} />
+      <InequalitiesTypesDropDown inequalitiesOptions={inequalityCategory} />
       <TabContainer
         id="inequalitiesBarChartAndTable"
         items={[

@@ -370,26 +370,18 @@ export const filterHealthData = (
 };
 
 export const getInequalityCategory = (
-  type: InequalitiesTypes,
   healthIndicatorData: HealthDataForArea
 ) => {
-  let inequalityCategory = '';
-  if (type == InequalitiesTypes.Deprivation) {
-    // This value will ultimately come from the inequality type dropdown
-    // For now, we just use the first deprivation type available
-    const disaggregatedDeprivationData = filterHealthData(
-      healthIndicatorData.healthData,
-      (data) => !data.deprivation.isAggregate
-    );
-    const deprivationTypes = Object.keys(
-      Object.groupBy(
-        disaggregatedDeprivationData,
-        (data) => data.deprivation.type
-      )
-    );
-    inequalityCategory = deprivationTypes[0];
-  }
-  return inequalityCategory;
+  const disaggregatedDeprivationData = filterHealthData(
+    healthIndicatorData.healthData,
+    (data) => !data.deprivation.isAggregate
+  );
+  return Object.keys(
+    Object.groupBy(
+      disaggregatedDeprivationData,
+      (data) => data.deprivation.type
+    )
+  );
 };
 
 export const getYearsWithInequalityData = (
@@ -406,3 +398,6 @@ export const getYearsWithInequalityData = (
       acc.push(periodData.period);
     return acc;
   }, []);
+
+export const isSexTypePresent = (dataPoints: HealthDataPoint[]): boolean =>
+  dataPoints.some((point) => !point.sex.isAggregate);

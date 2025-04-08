@@ -4,18 +4,18 @@ import { H5, Select } from 'govuk-react';
 import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 
-interface TimePeriodDropDownProps {
-  years: (number | string)[];
+interface InequalitiesTypeDropDownProps {
+  inequalitiesOptions: string[];
 }
 
 const StyledSelect = styled(Select)({
-  width: '25em',
+  width: '75em',
   marginBottom: '3em',
 });
 
-export function TimePeriodDropDown({
-  years,
-}: Readonly<TimePeriodDropDownProps>) {
+export function InequalitiesTypesDropDown({
+  inequalitiesOptions,
+}: Readonly<InequalitiesTypeDropDownProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
   const { getSearchState } = useSearchState();
@@ -23,33 +23,33 @@ export function TimePeriodDropDown({
 
   const searchStateManager = SearchStateManager.initialise(searchState);
 
-  const setSelectedYear = (selectedYear: string) => {
+  const setSelectedType = (selectedType: string) => {
     searchStateManager.addParamValueToState(
-      SearchParams.InequalityYearSelected,
-      selectedYear
+      SearchParams.InequalityTypeSelected,
+      selectedType
     );
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
 
-  const { [SearchParams.InequalityYearSelected]: selectedYear } =
+  const { [SearchParams.InequalityTypeSelected]: selectedType } =
     searchStateManager.getSearchState();
 
   return (
-    <div data-testid="timePeriod-dropDown-component">
-      <H5>Select a time period</H5>
+    <div data-testid="inequalitiesTypes-dropDown-component">
+      <H5 style={{ marginBottom: '5px' }}>Select an inequality type</H5>
       <StyledSelect
-        data-testid="select-timePeriod"
-        aria-label="select-timePeriod"
         label=""
+        data-testid="select-inequality-type"
+        aria-label="select-inequality-type"
         input={{
-          value: selectedYear,
+          value: selectedType,
           onChange: (e) => {
-            setSelectedYear(e.target.value);
+            setSelectedType(e.target.value);
           },
         }}
       >
-        {years.map((key) => (
-          <option key={key}>{key}</option>
+        {inequalitiesOptions.map((option) => (
+          <option key={option}>{option}</option>
         ))}
       </StyledSelect>
     </div>

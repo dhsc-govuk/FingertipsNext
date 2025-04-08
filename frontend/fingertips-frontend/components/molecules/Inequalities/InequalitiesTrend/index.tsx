@@ -59,7 +59,7 @@ export function InequalitiesTrend({
       ? InequalitiesTypes.Deprivation
       : InequalitiesTypes.Sex;
 
-  const inequalityCategory = getInequalityCategory(type, healthIndicatorData);
+  const inequalityCategory = getInequalityCategory(healthIndicatorData);
 
   const filterFunctionGenerator =
     healthDataFilterFunctionGeneratorForInequality[type];
@@ -67,7 +67,7 @@ export function InequalitiesTrend({
     ...healthIndicatorData,
     healthData: filterHealthData(
       healthIndicatorData.healthData,
-      filterFunctionGenerator(inequalityCategory)
+      filterFunctionGenerator(inequalityCategory[0])
     ),
   };
 
