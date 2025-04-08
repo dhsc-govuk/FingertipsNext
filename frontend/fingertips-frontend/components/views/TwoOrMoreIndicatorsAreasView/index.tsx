@@ -10,6 +10,7 @@ import {
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 import { chunkArray } from '@/lib/ViewsHelpers';
+import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 
 export default async function TwoOrMoreIndicatorsAreasView({
   searchState,
@@ -20,7 +21,8 @@ export default async function TwoOrMoreIndicatorsAreasView({
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
-    [SearchParams.AreaTypeSelected]: areaTypeSelected,
+    [SearchParams.GroupTypeSelected]: selectedGroupType,
+    [SearchParams.AreaTypeSelected]: selectedAreaType,
   } = stateManager.getSearchState();
 
   if (!indicatorsSelected || indicatorsSelected.length < 2) {
@@ -38,48 +40,65 @@ export default async function TwoOrMoreIndicatorsAreasView({
     throw new Error('invalid indicator metadata passed to view');
   }
 
-  const areaCodesToRequest = [...areasSelected];
-  if (!areaCodesToRequest.includes(areaCodeForEngland)) {
-    areaCodesToRequest.push(areaCodeForEngland);
-  }
-
-  if (selectedGroupCode && selectedGroupCode != areaCodeForEngland) {
-    areaCodesToRequest.push(selectedGroupCode);
-  }
-
   await connection();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
   const getHealthDataForIndicator = async (indicatorId: string) => {
-    let healthIndicatorData: IndicatorWithHealthDataForArea | undefined;
-    try {
-      const healthIndicatorDataChunks = await Promise.all(
-        chunkArray(areaCodesToRequest).map((requestedAreas) =>
-          indicatorApi.getHealthDataForAnIndicator(
-            {
-              indicatorId: Number(indicatorId),
-              areaCodes: [...requestedAreas],
-            },
-            API_CACHE_CONFIG
-          )
+    let indicatorData: IndicatorWithHealthDataForArea | undefined;
+
+    const indicatorRequestArray = chunkArray(areasSelected).map(
+      (requestAreas) =>
+        indicatorApi.getHealthDataForAnIndicator(
+          {
+            indicatorId: Number(indicatorId),
+            areaCodes: [...requestAreas],
+            areaType: selectedAreaType,
+          },
+          API_CACHE_CONFIG
         )
-      );
+    );
 
-      healthIndicatorData = healthIndicatorDataChunks[0];
-
-      healthIndicatorData.indicatorId =
-        healthIndicatorData.indicatorId ?? Number(indicatorId);
-
-      healthIndicatorData.areaHealthData = healthIndicatorDataChunks
-        .map((indicatorData) => indicatorData?.areaHealthData ?? [])
-        .flat();
-    } catch (error) {
-      throw new Error(
-        `error getting health indicator data for areas: ${error}`
+    if (!areasSelected.includes(areaCodeForEngland)) {
+      indicatorRequestArray.push(
+        indicatorApi.getHealthDataForAnIndicator(
+          {
+            indicatorId: Number(indicatorId),
+            areaCodes: [areaCodeForEngland],
+            areaType: englandAreaType.key,
+          },
+          API_CACHE_CONFIG
+        )
       );
     }
 
-    return healthIndicatorData;
+    if (selectedGroupCode && selectedGroupCode !== areaCodeForEngland) {
+      indicatorRequestArray.push(
+        indicatorApi.getHealthDataForAnIndicator(
+          {
+            indicatorId: Number(indicatorId),
+            areaCodes: [selectedGroupCode],
+            areaType: selectedGroupType,
+          },
+          API_CACHE_CONFIG
+        )
+      );
+    }
+
+    try {
+      const healthIndicatorDataChunks = await Promise.all(
+        indicatorRequestArray
+      );
+      indicatorData = healthIndicatorDataChunks[0];
+      indicatorData.areaHealthData = healthIndicatorDataChunks
+        .map((indicatorData) => indicatorData?.areaHealthData ?? [])
+        .flat();
+    } catch (error) {
+      console.error('error getting health indicator data for areas', error);
+      throw new Error('error getting health indicator data for areas');
+    }
+
+    console.log(indicatorData.areaHealthData.length);
+    return indicatorData;
   };
 
   const combinedIndicatorData = await Promise.all(
@@ -97,7 +116,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
       indicatorIds: indicatorList,
       areaCode: areasSelected[0],
       ancestorCode: selectedGroupCode ?? areaCodeForEngland,
-      areaType: areaTypeSelected,
+      areaType: selectedAreaType,
     },
     API_CACHE_CONFIG
   );
