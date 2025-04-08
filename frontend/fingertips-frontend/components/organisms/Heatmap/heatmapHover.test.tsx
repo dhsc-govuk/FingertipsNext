@@ -6,21 +6,21 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 
-describe('heatmap hover', () => {
-  const testValue = 123;
-  const testHoverProps: HeatmapHoverProps = {
-    areaName: '123',
-    period: '344',
-    indicatorName: '213',
-    value: testValue,
-    unitLabel: 'per foobar',
-    benchmark: {
-      outcome: BenchmarkOutcome.NotCompared,
-      benchmarkMethod: BenchmarkComparisonMethod.Unknown,
-      polarity: IndicatorPolarity.Unknown,
-    },
-  };
+const testValue = 123;
+const testHoverProps: HeatmapHoverProps = {
+  areaName: '123',
+  period: '344',
+  indicatorName: '213',
+  value: testValue,
+  unitLabel: 'per foobar',
+  benchmark: {
+    outcome: BenchmarkOutcome.Better,
+    benchmarkMethod: BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
+    polarity: IndicatorPolarity.LowIsGood,
+  },
+};
 
+describe('heatmap hover', () => {
   it('should render nothing if passed undefined', () => {
     const screen = render(<HeatmapHover hoverProps={undefined} />);
     expect(screen.queryByTestId('heatmap-hover')).not.toBeInTheDocument();
@@ -33,4 +33,9 @@ describe('heatmap hover', () => {
     expect(screen.getByText(testHoverProps.period)).toBeInTheDocument();
     expect(screen.getByText(testHoverProps.indicatorName)).toBeInTheDocument();
   });
+});
+
+describe('snapshot', () => {
+  const container = render(<HeatmapHover hoverProps={testHoverProps} />);
+  expect(container.asFragment()).toMatchSnapshot();
 });

@@ -1,0 +1,307 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[` 1`] = `
+<DocumentFragment>
+  .c3 {
+  margin: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 15px;
+}
+
+.c3 > p {
+  margin: 0;
+}
+
+.c3 > p > code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,0.05);
+  border-radius: 3px;
+}
+
+.c3 > pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.c3 > pre > code {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+}
+
+.c7 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c10 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin: 0 -15px;
+}
+
+.c9 {
+  width: 10px;
+  height: 10px;
+  display: block;
+}
+
+.c11 {
+  margin-bottom: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+}
+
+.c8 {
+  margin: auto;
+  vertical-align: middle;
+  padding-right: 4px;
+}
+
+.c0 {
+  color: #0B0C0C;
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 4px 0px #505A5F;
+  border-radius: 8px;
+  display: block;
+  z-index: 1;
+  position: fixed;
+  text-align: left;
+  padding: 16px;
+  white-space: normal;
+  overflow: visible;
+  max-width: 240px;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.c1 {
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 4px 0px #505A5F;
+  border-radius: 2px;
+  display: block;
+  z-index: 1;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: -8px;
+  top: 50%;
+  -webkit-transform: translateX(1px) translateY(-8px) rotate(45deg);
+  -ms-transform: translateX(1px) translateY(-8px) rotate(45deg);
+  transform: translateX(1px) translateY(-8px) rotate(45deg);
+  border: none;
+}
+
+.c2 {
+  background-color: #FFFFFF;
+  display: block;
+  z-index: 2;
+  position: absolute;
+  width: 16px;
+  height: 24px;
+  left: 0px;
+  top: 50%;
+  -webkit-transform: translateY(-12px);
+  -ms-transform: translateY(-12px);
+  transform: translateY(-12px);
+}
+
+.c4 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+}
+
+.c5 {
+  margin-bottom: 0;
+}
+
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    margin-bottom: 20px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c7 {
+    width: 12px;
+    -webkit-box-flex: 0;
+    -webkit-flex-grow: 0;
+    -ms-flex-positive: 0;
+    flex-grow: 0;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c10 {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -webkit-flex-shrink: 1;
+    -ms-flex-negative: 1;
+    flex-shrink: 1;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c6 {
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+  }
+}
+
+@media print {
+  .c11 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c11 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+@media print {
+  .c4 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+<div
+    class="c0"
+    style="left: 0px; top: 0px;"
+  >
+    <div
+      class="c1"
+    />
+    <div
+      class="c2"
+    />
+    <div
+      class="c3 c4 c5"
+    >
+      <p>
+        <strong>
+          123
+        </strong>
+      </p>
+    </div>
+    <div
+      class="c3 c4 c5"
+    >
+      <p>
+        344
+      </p>
+    </div>
+    <div
+      class="c3 c4"
+    >
+      <p>
+        213
+      </p>
+    </div>
+    <div
+      class="c6"
+    >
+      <div
+        class="c7 c8"
+      >
+        <div
+          class="c9"
+          style="background-color: rgb(133, 153, 75); border: 1px solid #85994b;"
+        />
+      </div>
+      <div
+        class="c10"
+      >
+        <div
+          class="c3 c11"
+        >
+          <p>
+            123.0 per foobar
+          </p>
+        </div>
+        <div
+          class="c3 c11"
+        >
+          <p>
+            Better than England
+          </p>
+        </div>
+        <div
+          class="c3 c11"
+        >
+          <p>
+            (99.8%)
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
