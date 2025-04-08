@@ -190,12 +190,6 @@ export function generateStandardLineChartOptions(
       ...lineChartDefaultOptions.xAxis,
       title: { text: optionalParams?.xAxisTitle, margin: 20 },
     },
-    legend: {
-      ...lineChartDefaultOptions.legend,
-      title: {
-        text: 'Areas',
-      },
-    },
     series: seriesData,
     tooltip: {
       formatter: function (this: Highcharts.Point): string {

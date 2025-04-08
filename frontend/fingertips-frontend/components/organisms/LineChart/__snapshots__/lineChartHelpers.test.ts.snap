@@ -18,9 +18,6 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
   },
   "legend": {
     "align": "left",
-    "title": {
-      "text": "Areas",
-    },
     "verticalAlign": "top",
   },
   "plotOptions": {
@@ -113,9 +110,6 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
   },
   "legend": {
     "align": "left",
-    "title": {
-      "text": "Areas",
-    },
     "verticalAlign": "top",
   },
   "plotOptions": {
