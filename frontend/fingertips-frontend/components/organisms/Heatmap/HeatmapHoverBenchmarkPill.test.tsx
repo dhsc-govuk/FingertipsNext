@@ -91,7 +91,6 @@ describe('heatmap hover benchmark pill', () => {
     expect(
       screen.getByText(defaultProps.unitLabel, { exact: false })
     ).toBeInTheDocument();
-    expect(screen.getByText('Similar to England')).toBeInTheDocument();
-    expect(screen.getByText('(95%)')).toBeInTheDocument();
+    expect(screen.getByText('Similar to England (95%)')).toBeInTheDocument();
   });
 });

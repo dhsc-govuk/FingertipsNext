@@ -123,6 +123,7 @@ export const generateRows = (
 ): Row[] => {
   const rows = new Array<Row>(indicators.length);
   indicators.forEach((indicator, indicatorIndex) => {
+    console.log(`${indicatorIndex} ${indicator.latestDataPeriod}`);
     const leadingCols: Cell[] = [
       {
         key: `col-${indicator.id}-title`,
@@ -137,7 +138,7 @@ export const generateRows = (
       {
         key: `col-${indicator.id}-period`,
         type: CellType.IndicatorInformation,
-        content: indicator.latestDataPeriod.toString(),
+        content: `${indicator.latestDataPeriod ? indicator.latestDataPeriod : ''}`,
       },
     ];
 
@@ -157,7 +158,7 @@ export const generateRows = (
         ),
         hoverProps: {
           areaName: getHoverAreaName(area),
-          period: indicator.latestDataPeriod.toString(),
+          period: indicator.latestDataPeriod,
           indicatorName: indicator.name,
           value: dataPoints[indicator.id][area.code]?.value,
           unitLabel: indicator.unitLabel,

@@ -155,15 +155,15 @@ function BenchmarkPillText({
     }
   };
 
-  const benchmarkConfidenceLimit = getConfidenceLimitNumber(benchmarkMethod);
+  const benchmarkConfidenceLimit = () => {
+    const confidenceLimit = getConfidenceLimitNumber(benchmarkMethod);
+    return confidenceLimit ? ` (${confidenceLimit}%)` : '';
+  };
 
   return (
     <>
       <StyledText>{valueString}</StyledText>
-      <StyledText>{comparisonText()}</StyledText>
-      {benchmarkConfidenceLimit ? (
-        <StyledText>{`(${benchmarkConfidenceLimit}%)`}</StyledText>
-      ) : null}
+      <StyledText>{`${comparisonText()}${benchmarkConfidenceLimit()}`}</StyledText>
     </>
   );
 }

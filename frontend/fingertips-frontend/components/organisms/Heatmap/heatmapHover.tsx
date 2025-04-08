@@ -66,7 +66,7 @@ const StyledParagraphZeroMargin = styled(StyledParagraph)({
 
 export interface HeatmapHoverProps extends PropsWithChildren {
   areaName: string;
-  period: string;
+  period: number;
   indicatorName: string;
   value?: number;
   unitLabel: string;
@@ -110,7 +110,9 @@ function HeatmapHoverInner({
       <StyledDivTriangle />
       <StyledDivTriangleOccluder />
       <StyledParagraphZeroMargin>{`**${areaName}**`}</StyledParagraphZeroMargin>
-      <StyledParagraphZeroMargin>{period}</StyledParagraphZeroMargin>
+      {period ? (
+        <StyledParagraphZeroMargin>{`${period}`}</StyledParagraphZeroMargin>
+      ) : null}
       <StyledParagraph>{indicatorName}</StyledParagraph>
       <HeatmapHoverBenchmarkPill
         value={value}

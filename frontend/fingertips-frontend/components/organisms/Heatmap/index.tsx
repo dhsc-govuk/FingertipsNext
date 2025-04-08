@@ -84,7 +84,10 @@ export function Heatmap({
   return (
     <>
       <BenchmarkLegend />
-      <HeatmapHover hoverProps={hoverState} />
+      <HeatmapHover
+        hoverProps={hoverState}
+        data-testid={'heatmap-hover-component'}
+      />
       <StyledDivTableContainer>
         <StyledTable data-testid="heatmapChart-component">
           <StyledRow>
@@ -98,10 +101,10 @@ export function Heatmap({
               );
             })}
           </StyledRow>
-          {rows.map((row, rowIndex) => {
+          {rows.map((row) => {
             return (
               <StyledRow key={row.key}>
-                {row.cells.map((cell, cellIndex) => {
+                {row.cells.map((cell) => {
                   return (
                     <HeatmapCell
                       key={cell.key}

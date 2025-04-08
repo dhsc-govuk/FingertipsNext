@@ -62,7 +62,7 @@ const StyledCellHeaderIndicatorTitle = styled(Table.CellHeader)({
 
 const StyledCellHeaderIndicatorInformation = styled(Table.CellHeader)({
   verticalAlign: 'bottom',
-  paddingRight: '0px',
+  paddingRight: '10px',
 });
 
 const StyledCellHeaderArea = styled(Table.CellHeader)({

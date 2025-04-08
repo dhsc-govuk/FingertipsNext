@@ -247,7 +247,7 @@ exports[` 1`] = `
     >
       <p>
         <strong>
-          123
+          Sesame Street
         </strong>
       </p>
     </div>
@@ -255,14 +255,14 @@ exports[` 1`] = `
       class="c3 c4 c5"
     >
       <p>
-        344
+        1966
       </p>
     </div>
     <div
       class="c3 c4"
     >
       <p>
-        213
+        Cookies eaten by the cookie monster compared to total US production
       </p>
     </div>
     <div
@@ -283,21 +283,14 @@ exports[` 1`] = `
           class="c3 c11"
         >
           <p>
-            123.0 per foobar
+            67.0%
           </p>
         </div>
         <div
           class="c3 c11"
         >
           <p>
-            Better than England
-          </p>
-        </div>
-        <div
-          class="c3 c11"
-        >
-          <p>
-            (99.8%)
+            Better than England (99.8%)
           </p>
         </div>
       </div>

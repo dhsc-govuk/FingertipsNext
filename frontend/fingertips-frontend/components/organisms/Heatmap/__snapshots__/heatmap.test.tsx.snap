@@ -623,7 +623,7 @@ exports[`snapshot test 1`] = `
 
 .c9 {
   vertical-align: bottom;
-  padding-right: 0px;
+  padding-right: 10px;
 }
 
 .c10 {

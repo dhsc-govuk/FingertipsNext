@@ -6,17 +6,18 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 
-const testValue = 123;
+const testValue = 67;
 const testHoverProps: HeatmapHoverProps = {
-  areaName: '123',
-  period: '344',
-  indicatorName: '213',
+  areaName: 'Sesame Street',
+  period: 1966,
+  indicatorName:
+    'Cookies eaten by the cookie monster compared to total US production',
   value: testValue,
-  unitLabel: 'per foobar',
+  unitLabel: '%',
   benchmark: {
     outcome: BenchmarkOutcome.Better,
     benchmarkMethod: BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
-    polarity: IndicatorPolarity.LowIsGood,
+    polarity: IndicatorPolarity.HighIsGood,
   },
 };
 
