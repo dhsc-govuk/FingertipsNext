@@ -4,16 +4,17 @@ import {
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
-import {
-  EnglandAreaTypeIndicatorData,
-  EnglandAreaTypeTable,
-} from '@/components/organisms/EnglandAreaTypeTable';
+
 import {
   HealthDataPoint,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { H3 } from 'govuk-react';
+import {
+  OneAreaMultipleIndicatorsData,
+  OneAreaMultipleIndicatorsTable,
+} from '@/components/organisms/OneAreaMultipleIndicatorsTable';
 
 type TwoOrMoreIndicatorsEnglandViewPlotProps = {
   indicatorData: IndicatorWithHealthDataForArea[];
@@ -36,8 +37,9 @@ export const getLatestPeriodHealthDataPoint = (
 export const getEnglandIndicatorTableData = (
   indicatorData: IndicatorWithHealthDataForArea[],
   indicatorMetadata: IndicatorDocument[]
-): EnglandAreaTypeIndicatorData[] => {
+): OneAreaMultipleIndicatorsData[] => {
   return indicatorData.map((indicator) => {
+    console.log('indicator data', indicatorData);
     const hasHealthDataForEngland =
       indicator.areaHealthData?.[0]?.healthData !== undefined;
 
@@ -80,10 +82,17 @@ export function TwoOrMoreIndicatorsEnglandViewPlots({
     indicatorMetadata
   );
 
+  const areaName =
+    indicatorData.find((item) => item.areaHealthData?.[0]?.areaName)
+      ?.areaHealthData?.[0]?.areaName ?? '';
+
   return (
     <section data-testid="twoOrMoreIndicatorsEnglandViewPlot-component">
       <H3>Compare indicators for an area</H3>
-      <EnglandAreaTypeTable indicatorData={englandIndicatorData} />
+      <OneAreaMultipleIndicatorsTable
+        indicatorData={englandIndicatorData}
+        areaName={areaName}
+      />
     </section>
   );
 }

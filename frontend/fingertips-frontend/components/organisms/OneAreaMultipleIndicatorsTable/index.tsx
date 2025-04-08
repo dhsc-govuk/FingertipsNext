@@ -11,9 +11,8 @@ import {
   FormatNumberInTableCell,
 } from '@/components/molecules/CheckValueInTableCell';
 import { TrendTag } from '@/components/molecules/TrendTag';
-import { englandArea } from '@/mock/data/areas/englandAreas';
 
-export enum EnglandAreaTypeTableEnum {
+export enum OneAreaMultipleIndicatorsTableEnum {
   Indicator = 'Indicator',
   Period = 'Period',
   Count = 'Count',
@@ -22,7 +21,7 @@ export enum EnglandAreaTypeTableEnum {
   RecentTrend = 'Recent trend',
 }
 
-export interface EnglandAreaTypeIndicatorData {
+export interface OneAreaMultipleIndicatorsData {
   indicatorId?: number;
   indicatorName?: string;
   period?: string;
@@ -30,35 +29,35 @@ export interface EnglandAreaTypeIndicatorData {
   unitLabel?: string;
 }
 
-interface EnglandAreaTypeTableProps {
-  indicatorData: EnglandAreaTypeIndicatorData[];
+interface OneAreaMultipleIndicatorsTableProps {
+  indicatorData: OneAreaMultipleIndicatorsData[];
+  areaName: string;
 }
 
-export function EnglandAreaTypeTable({
+export function OneAreaMultipleIndicatorsTable({
   indicatorData,
-}: Readonly<EnglandAreaTypeTableProps>) {
+  areaName,
+}: Readonly<OneAreaMultipleIndicatorsTableProps>) {
   return (
-    <div data-testid={'englandAreaTypeTable-component'}>
+    <div data-testid={'oneAreaMultipleIndicatorsTable-component'}>
       <Table
         head={
           <React.Fragment>
             <Table.Row>
-              <Table.CellHeader colSpan={6}>
-                {englandArea.name}
-              </Table.CellHeader>
+              <Table.CellHeader colSpan={6}>{areaName}</Table.CellHeader>
             </Table.Row>
 
             <Table.Row>
               <Table.CellHeader style={{ verticalAlign: 'top' }}>
-                {EnglandAreaTypeTableEnum.Indicator}
+                {OneAreaMultipleIndicatorsTableEnum.Indicator}
               </Table.CellHeader>
               <Table.CellHeader style={{ verticalAlign: 'top' }}>
-                {EnglandAreaTypeTableEnum.Period}
+                {OneAreaMultipleIndicatorsTableEnum.Period}
               </Table.CellHeader>
               <Table.CellHeader
                 style={{ verticalAlign: 'top', textAlign: 'right' }}
               >
-                {EnglandAreaTypeTableEnum.Count}
+                {OneAreaMultipleIndicatorsTableEnum.Count}
               </Table.CellHeader>
               <Table.CellHeader
                 style={{
@@ -66,17 +65,17 @@ export function EnglandAreaTypeTable({
                   textAlign: 'right',
                 }}
               >
-                {EnglandAreaTypeTableEnum.ValueUnit}
+                {OneAreaMultipleIndicatorsTableEnum.ValueUnit}
               </Table.CellHeader>
               <Table.CellHeader
                 style={{ verticalAlign: 'top', textAlign: 'right' }}
               >
-                {EnglandAreaTypeTableEnum.Value}
+                {OneAreaMultipleIndicatorsTableEnum.Value}
               </Table.CellHeader>
               <Table.CellHeader
                 style={{ verticalAlign: 'top', textAlign: 'center' }}
               >
-                {EnglandAreaTypeTableEnum.RecentTrend}
+                {OneAreaMultipleIndicatorsTableEnum.RecentTrend}
               </Table.CellHeader>
             </Table.Row>
           </React.Fragment>

@@ -152,7 +152,7 @@ export function getScenarioConfig(
       },
     },
     {
-      componentLocator: ChartPage.englandAreaTypeTableComponent,
+      componentLocator: ChartPage.OneAreaMultipleIndicatorsTableComponent,
       componentProps: {
         hasConfidenceIntervals: false,
         isTabTable: false,
@@ -226,7 +226,7 @@ export function getScenarioConfig(
   ) {
     visibleComponents = allComponents.filter((component) =>
       [
-        ChartPage.englandAreaTypeTableComponent,
+        ChartPage.OneAreaMultipleIndicatorsTableComponent,
         ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
     );
