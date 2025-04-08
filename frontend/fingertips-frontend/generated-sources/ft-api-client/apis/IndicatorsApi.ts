@@ -120,7 +120,7 @@ export interface IndicatorsApiInterface {
     getIndicator(requestParameters: GetIndicatorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Indicator>;
 
     /**
-     * Get quartile information for indicators including  
+     * Get quartile information for indicators including 
      * @summary Get quartile values for indicators
      * @param {string} areaCode The area code of the area/ geography
      * @param {string} ancestorCode The area code of an ancestor area
@@ -133,7 +133,7 @@ export interface IndicatorsApiInterface {
     indicatorsQuartilesGetRaw(requestParameters: IndicatorsQuartilesGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<QuartileData>>>;
 
     /**
-     * Get quartile information for indicators including  
+     * Get quartile information for indicators including 
      * Get quartile values for indicators
      */
     indicatorsQuartilesGet(requestParameters: IndicatorsQuartilesGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<QuartileData>>;
@@ -264,7 +264,7 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
     }
 
     /**
-     * Get quartile information for indicators including  
+     * Get quartile information for indicators including 
      * Get quartile values for indicators
      */
     async indicatorsQuartilesGetRaw(requestParameters: IndicatorsQuartilesGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<QuartileData>>> {
@@ -305,7 +305,7 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
     }
 
     /**
-     * Get quartile information for indicators including  
+     * Get quartile information for indicators including 
      * Get quartile values for indicators
      */
     async indicatorsQuartilesGet(requestParameters: IndicatorsQuartilesGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<QuartileData>> {

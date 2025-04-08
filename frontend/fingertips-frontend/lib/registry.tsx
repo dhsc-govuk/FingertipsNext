@@ -2,9 +2,19 @@
 
 import React, { useState } from 'react';
 import { useServerInsertedHTML } from 'next/navigation';
-import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
+import {
+  ServerStyleSheet,
+  StyleSheetManager,
+  createGlobalStyle,
+} from 'styled-components';
 
 const isBrowser = () => typeof window !== 'undefined';
+
+const GlobalStyle = createGlobalStyle`
+  body * {
+    font-family: 'gdsTransportFont', arial, sans-serif !important;
+  }
+`;
 
 export default function StyledComponentsRegistry({
   children,
@@ -27,7 +37,10 @@ export default function StyledComponentsRegistry({
 
   return (
     <StyleSheetManager sheet={styledComponentsStyleSheet.instance}>
-      <>{children}</>
+      <>
+        <GlobalStyle />
+        {children}
+      </>
     </StyleSheetManager>
   );
 }

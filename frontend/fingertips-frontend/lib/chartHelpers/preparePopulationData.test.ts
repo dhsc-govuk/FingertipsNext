@@ -4,6 +4,7 @@ import {
   HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
 import {
+  computeDataPercentages,
   convertHealthDataForAreaForPyramidData,
   PopulationDataForArea,
 } from './preparePopulationData';
@@ -189,6 +190,42 @@ const mockData: HealthDataPoint[] = [
   },
 ];
 
+describe('computeDataPercentages', () => {
+  const mockFemalePercentageSeries = [
+    1.58, 2.48, 8.78, 7.67, 7.49, 7.81, 7.42, 6.78,
+  ];
+  const mockMalePercentageSeries = [
+    0.79, 1.71, 8.49, 7.99, 7.95, 8.19, 7.77, 7.11,
+  ];
+
+  it('check compute percentage matches series expected values ', () => {
+    const expectedFemaleSeries = [
+      347835, 547342, 1936763, 1692751, 1652231, 1721746, 1635842, 1496012,
+    ];
+
+    const expectedMaleSeries = [
+      173456, 377979, 1872253, 1763621, 1752832, 1807194, 1712925, 1568625,
+    ];
+
+    let total = expectedFemaleSeries.reduce((prev, value) => {
+      return (prev ?? 0) + (value ?? 0);
+    }, 0);
+
+    total = expectedMaleSeries.reduce((prev, value) => {
+      return (prev ?? 0) + (value ?? 0);
+    }, total);
+
+    const femaleSeries = computeDataPercentages(expectedFemaleSeries, total);
+    const maleSeries = computeDataPercentages(expectedMaleSeries, total);
+    expect(femaleSeries).toEqual(mockFemalePercentageSeries);
+    expect(maleSeries).toEqual(mockMalePercentageSeries);
+  });
+
+  it('check for empty list data returns an empty list', () => {
+    expect(computeDataPercentages([], 0)).toHaveLength(0);
+  });
+});
+
 describe('convertHealthDataForAreaForPyramidData', () => {
   it('should return the correct data points for female, male and categories', () => {
     const mockHealthDataForArea: HealthDataForArea = {
@@ -196,9 +233,14 @@ describe('convertHealthDataForAreaForPyramidData', () => {
       areaName: 'Selected Area',
       healthData: mockData,
     };
+    const expectedFemaleSeries = [
+      347835, 547342, 1936763, 1692751, 1652231, 1721746, 1635842, 1496012,
+    ];
 
-    const mockFemaleSeries = [1.58, 2.48, 8.78, 7.67, 7.49, 7.81, 7.42, 6.78];
-    const mockMaleSeries = [0.79, 1.71, 8.49, 7.99, 7.95, 8.19, 7.77, 7.11];
+    const expectedMaleSeries = [
+      173456, 377979, 1872253, 1763621, 1752832, 1807194, 1712925, 1568625,
+    ];
+
     const mockAgeCategories = [
       '90+',
       '85-89',
@@ -212,8 +254,8 @@ describe('convertHealthDataForAreaForPyramidData', () => {
 
     const actual: PopulationDataForArea | undefined =
       convertHealthDataForAreaForPyramidData(mockHealthDataForArea, 2023);
-    expect(actual?.femaleSeries).toEqual(mockFemaleSeries);
-    expect(actual?.maleSeries).toEqual(mockMaleSeries);
+    expect(actual?.femaleSeries).toEqual(expectedFemaleSeries);
+    expect(actual?.maleSeries).toEqual(expectedMaleSeries);
     expect(actual?.ageCategories).toEqual(mockAgeCategories);
   });
 

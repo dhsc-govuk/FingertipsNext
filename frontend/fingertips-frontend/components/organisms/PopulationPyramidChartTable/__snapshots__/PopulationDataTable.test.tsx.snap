@@ -1,0 +1,312 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PopulationDataTable take a snapshot 1`] = `
+<DocumentFragment>
+  .c2 {
+  padding: 10px 20px 10px 0;
+  border-bottom: 1px solid #bfc1c3;
+  text-align: left;
+  font-weight: 700;
+}
+
+.c2:last-child {
+  padding-right: 0;
+}
+
+.c6 {
+  padding: 10px 20px 10px 0;
+  border-bottom: 1px solid #bfc1c3;
+  text-align: left;
+}
+
+.c6:last-child {
+  padding-right: 0;
+}
+
+.c1 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #0b0c0c;
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.c3 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+  font-weight: bold;
+  padding: 0.625em 0;
+}
+
+.c4 {
+  text-align: left;
+  vertical-align: top;
+}
+
+.c0 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  text-align: center;
+  height: 65px;
+  line-height: 65px;
+  -webkit-letter-spacing: 0px;
+  -moz-letter-spacing: 0px;
+  -ms-letter-spacing: 0px;
+  letter-spacing: 0px;
+  font-weight: 700;
+}
+
+.c7 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  padding-right: 0;
+  text-align: center;
+}
+
+.c5 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  border-top: solid #F3F2F1 2px;
+  text-align: center;
+  font-weight: 700;
+}
+
+@media print {
+  .c1 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c1 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c1 {
+    color: #000;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c1 {
+    margin-bottom: 30px;
+  }
+}
+
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+@media print {
+  .c0 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c7 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c7 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c5 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c5 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+<section>
+    <h3
+      class="c0"
+    >
+      Population Data
+    </h3>
+    <table
+      class="c1"
+    >
+      <thead
+        class=""
+      >
+        <tr
+          class=""
+        >
+          <th
+            class="c2 c3 c4 c5"
+          >
+            Age Band
+          </th>
+          <th
+            class="c2 c3 c4 c5"
+          >
+            Females
+          </th>
+          <th
+            class="c2 c3 c4 c5"
+          >
+            Males
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class=""
+      >
+        <tr
+          class=""
+        >
+          <td
+            class="c6 c7"
+          >
+            0-4
+          </td>
+          <td
+            class="c6 c7"
+          >
+            1,000
+          </td>
+          <td
+            class="c6 c7"
+          >
+            900
+          </td>
+        </tr>
+        <tr
+          class=""
+        >
+          <td
+            class="c6 c7"
+          >
+            5-9
+          </td>
+          <td
+            class="c6 c7"
+          >
+            1,200
+          </td>
+          <td
+            class="c6 c7"
+          >
+            1,100
+          </td>
+        </tr>
+        <tr
+          class=""
+        >
+          <td
+            class="c6 c7"
+          >
+            10-14
+          </td>
+          <td
+            class="c6 c7"
+          >
+            1,100
+          </td>
+          <td
+            class="c6 c7"
+          >
+            1,050
+          </td>
+        </tr>
+        <tr
+          class=""
+        >
+          <td
+            class="c6 c7"
+          >
+            15+
+          </td>
+          <td
+            class="c6 c7"
+          >
+            1,300
+          </td>
+          <td
+            class="c6 c7"
+          >
+            1,250
+          </td>
+        </tr>
+        <tr
+          class=""
+        >
+          <th
+            class="c2 c3 c4 c5"
+          >
+            All ages
+          </th>
+          <th
+            class="c2 c3 c4 c5"
+          >
+            4,300
+          </th>
+          <th
+            class="c2 c3 c4 c5"
+          >
+            4,600
+          </th>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</DocumentFragment>
+`;
