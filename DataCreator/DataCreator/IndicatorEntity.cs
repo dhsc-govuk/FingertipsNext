@@ -59,6 +59,7 @@ namespace DataCreator
 
         public bool HasInequalities { get; set; }
 
+        //indicators 337 and 92708 are population indicators and we don't them to appear in search results
         public bool HideInSearch => IndicatorID == 337 || IndicatorID == 92708;
     }
 
