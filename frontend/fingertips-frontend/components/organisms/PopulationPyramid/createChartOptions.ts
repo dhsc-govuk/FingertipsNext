@@ -79,6 +79,9 @@ const createChartSeriesOptions = (
           align: 'high',
           offset: 4,
           rotation: 0,
+          style: {
+            fontSize: '19px',
+          },
         },
         lineColor: GovukColours.DarkSlateGray,
         tickWidth: 1,
