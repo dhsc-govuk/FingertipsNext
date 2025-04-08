@@ -32,13 +32,12 @@ const getHeaderTitle = (
   indicatorID: number | undefined
 ): string => {
   let title = undefined;
-  if (indicatorID == nhsIndicatorIdForPopulation) {
-  } else {
-  }
+  const titleTypeText =
+    indicatorID == nhsIndicatorIdForPopulation ? 'Registered' : 'Resident';
   if (!year) {
-    title = `Resident population profile for ${healthData?.areaName}`;
+    title = `${titleTypeText} population profile for ${healthData?.areaName}`;
   } else {
-    title = `Resident population profile for ${healthData?.areaName} ${year}`;
+    title = `${titleTypeText} population profile for ${healthData?.areaName} ${year}`;
   }
   return title;
 };
