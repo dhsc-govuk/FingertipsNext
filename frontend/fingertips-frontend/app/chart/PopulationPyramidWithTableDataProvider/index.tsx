@@ -73,20 +73,17 @@ export const PopulationPyramidWithTableDataProvider = async ({
 
   const areaTypeCodeMappings =
     await getAreaCodeMappingsToIndicatorIds(areaCodesToRequest);
-  console.log(areaTypeCodeMappings);
+
   const populationDataForArea: IndicatorWithHealthDataForArea | undefined =
     await (async () => {
       try {
         if (areaCodesToRequest.length == 0) {
           return undefined;
         }
-        const populationIndicatorID: number =
-          areaTypeCodeMappings[areaCodesToRequest[0]];
-        if (!populationIndicatorID) return undefined;
 
         return await indicatorApi.getHealthDataForAnIndicator(
           {
-            indicatorId: populationIndicatorID,
+            indicatorId: areaTypeCodeMappings[areaCodesToRequest[0]],
             areaCodes: areaCodesToRequest,
             inequalities: [
               GetHealthDataForAnIndicatorInequalitiesEnum.Age,

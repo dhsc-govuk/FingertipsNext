@@ -6,7 +6,7 @@ import { HierarchyNameTypes } from '@/lib/areaFilterHelpers/areaType';
 const mockGetHealthDataForAnIndicator = jest.fn();
 
 const mockGetArea = jest.fn().mockResolvedValue({
-  areaType: { hierarchyName: HierarchyNameTypes.NHS },
+  areaType: { hierarchyName: HierarchyNameTypes.NHS, code: 'E09000001' },
 });
 
 jest.mock('@/lib/apiClient/apiClientFactory', () => ({
@@ -63,7 +63,7 @@ describe('PopulationPyramidWithTableDataProvider', () => {
     const view = render(jsxView);
     expect(view).toBeTruthy();
     expect(view.getByText('PopulationPyramidWithTable')).toBeInTheDocument();
-    expect(mockGetArea).toHaveBeenCalledTimes(1);
+    expect(mockGetArea).toHaveBeenCalledTimes(2);
     expect(mockGetHealthDataForAnIndicator).toHaveBeenCalledTimes(1);
   });
 
