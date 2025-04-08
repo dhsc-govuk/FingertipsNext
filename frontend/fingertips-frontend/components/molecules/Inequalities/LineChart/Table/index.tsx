@@ -72,7 +72,7 @@ export function InequalitiesLineChartTable({
                 {tableData.areaName}
                 {measurementUnit ? (
                   <span
-                    style={{ display: 'block', marginTop: '21px' }}
+                    style={{ display: 'block', marginTop: '10px' }}
                     data-testid="inequalitiesLineChartTable-measurementUnit"
                   >
                     Value: {measurementUnit}
