@@ -148,13 +148,10 @@ export const generateRows = (
     });
 
     areas.forEach((area, areaIndex) => {
-      const formattedValue = formatNumber(
-        dataPoints[indicator.id][area.code]?.value
-      );
       cols[areaIndex + leadingCols.length] = {
         key: `cell-${indicator.id}-${area.code}`,
         type: CellType.Data,
-        content: formattedValue,
+        content: formatNumber(dataPoints[indicator.id][area.code]?.value),
         backgroundColour: generateDataBackgroundColour(
           dataPoints[indicator.id][area.code]
         ),
@@ -162,7 +159,7 @@ export const generateRows = (
           areaName: getHoverAreaName(area),
           period: indicator.latestDataPeriod.toString(),
           indicatorName: indicator.name,
-          value: formattedValue,
+          value: dataPoints[indicator.id][area.code]?.value,
           unitLabel: indicator.unitLabel,
           benchmark: {
             outcome:

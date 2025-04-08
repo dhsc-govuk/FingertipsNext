@@ -1,4 +1,4 @@
-import React from 'react';
+import { ReactNode } from 'react';
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
@@ -13,6 +13,7 @@ import {
   getBenchmarkColour,
   getConfidenceLimitNumber,
 } from '@/lib/chartHelpers/chartHelpers';
+import { formatNumber } from '@/lib/numberFormatter';
 
 const StyledDivSquare = styled.div({
   width: '10px',
@@ -42,8 +43,8 @@ const StyledGridColIcon = styled(GridCol)({
   paddingRight: '4px',
 });
 
-interface HeatmapHoverBenchmarkPillProps {
-  value?: string;
+export interface HeatmapHoverBenchmarkPillProps {
+  value?: number;
   unitLabel: string;
   outcome: HeatmapBenchmarkOutcome;
   benchmarkMethod: BenchmarkComparisonMethod;
@@ -56,7 +57,7 @@ export function HeatmapHoverBenchmarkPill({
   outcome,
   benchmarkMethod,
   polarity,
-}: Readonly<HeatmapHoverBenchmarkPillProps>): React.ReactNode {
+}: Readonly<HeatmapHoverBenchmarkPillProps>): ReactNode {
   return (
     <GridRow>
       <StyledGridColIcon setWidth={'12px'}>
@@ -66,6 +67,7 @@ export function HeatmapHoverBenchmarkPill({
             outcome={outcome}
             benchmarkMethod={benchmarkMethod}
             polarity={polarity}
+            data-testid="heatmap-hover-benchmark-icon"
           />
         }
       </StyledGridColIcon>
@@ -82,7 +84,7 @@ export function HeatmapHoverBenchmarkPill({
 }
 
 interface BenchmarkPillIconProps {
-  value?: string;
+  value?: number;
   outcome: HeatmapBenchmarkOutcome;
   benchmarkMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
@@ -94,7 +96,7 @@ function BenchmarkPillIcon({
   benchmarkMethod,
   polarity,
 }: Readonly<BenchmarkPillIconProps>): React.ReactNode {
-  if (!value || value === 'X') {
+  if (value === undefined) {
     return <StyledText>{'\u2715'}</StyledText>;
   }
 
@@ -117,7 +119,7 @@ function BenchmarkPillIcon({
 }
 
 interface BenchmarkPillTextProps {
-  value?: string;
+  value?: number;
   unitLabel: string;
   outcome: HeatmapBenchmarkOutcome;
   benchmarkMethod: BenchmarkComparisonMethod;
@@ -129,11 +131,11 @@ function BenchmarkPillText({
   outcome,
   benchmarkMethod,
 }: Readonly<BenchmarkPillTextProps>): React.ReactNode {
-  if (!value || value === 'X') {
+  if (value === undefined) {
     return <StyledText>No data available</StyledText>;
   }
 
-  const valueString = `${value}${formatUnitLabel(unitLabel)}`;
+  const valueString = `${formatNumber(value)}${formatUnitLabel(unitLabel)}`;
 
   if (outcome === 'Baseline') {
     return <StyledText>{valueString}</StyledText>;

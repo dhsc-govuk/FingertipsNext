@@ -68,7 +68,7 @@ export interface HeatmapHoverProps extends PropsWithChildren {
   areaName: string;
   period: string;
   indicatorName: string;
-  value: string;
+  value?: number;
   unitLabel: string;
   benchmark: HeatmapBenchmarkProps;
   cellRight?: number;
@@ -90,6 +90,7 @@ export function HeatmapHover({
       benchmark={hoverProps.benchmark}
       cellRight={hoverProps.cellRight}
       cellVerticalMidpoint={hoverProps.cellVerticalMidpoint}
+      data-testid={'heatmap-hover'}
     />
   ) : null;
 }
