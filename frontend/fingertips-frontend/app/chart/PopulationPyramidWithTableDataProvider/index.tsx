@@ -16,7 +16,8 @@ import {
 } from '@/lib/apiClient/apiClientFactory';
 import {
   PopulationPyramidWithTable,
-  PopulationIndicatorIdsTypes,
+  NHSIndicatorID,
+  AdministratorIndicatorID,
 } from '@/components/organisms/PopulationPyramidWithTable';
 
 //get the mappings of all the areaType to the indicator
@@ -26,16 +27,19 @@ const getAreaCodeMappingsToIndicatorIds = async (
   const areasApi = ApiClientFactory.getAreasApiClient();
   const mappings: Record<string, number> = {};
 
-  const promises = areaCodesToRequest.map(async (areaCode) => {
-    const area = await areasApi.getArea({ areaCode: areaCode });
-    const indicatorTypeID =
-      area.areaType.hierarchyName == HierarchyNameTypes.NHS
-        ? PopulationIndicatorIdsTypes.NHS
-        : PopulationIndicatorIdsTypes.ADMINISTRATIVE;
-    mappings[area.code] = indicatorTypeID;
-    return mappings;
-  });
-  await Promise.all(promises);
+  await Promise.all(
+    areaCodesToRequest.map(async (areaCode) => {
+      const area = await areasApi.getArea({ areaCode: areaCode });
+      const indicatorTypeID =
+        area.areaType.hierarchyName == HierarchyNameTypes.NHS
+          ? NHSIndicatorID
+          : AdministratorIndicatorID;
+
+      console.log(`Area Code = ${area.code} to ${AdministratorIndicatorID}`);
+      mappings[area.code] = indicatorTypeID;
+    })
+  );
+
   return mappings;
 };
 
@@ -101,6 +105,7 @@ export const PopulationPyramidWithTableDataProvider = async ({
       }
     })();
 
+  console.log(areaTypeCodeMappings);
   return (
     <PopulationPyramidWithTable
       healthDataForAreas={populationDataForArea?.areaHealthData ?? []}

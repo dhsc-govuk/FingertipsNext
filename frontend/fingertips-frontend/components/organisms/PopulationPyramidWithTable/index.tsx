@@ -25,10 +25,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import { ArrowExpander } from '@/components/molecules/ArrowExpander';
 import { PopulationPyramidChartTable } from '../PopulationPyramidChartTable';
 
-export const enum PopulationIndicatorIdsTypes {
-  ADMINISTRATIVE = 92708,
-  NHS = 337,
-}
+export const NHSIndicatorID = 337;
+export const AdministratorIndicatorID = 92708;
 
 const getHeaderTitle = (
   healthData: HealthDataForArea | undefined,
@@ -36,7 +34,7 @@ const getHeaderTitle = (
   indicatorID: number | undefined
 ): string => {
   let title = undefined;
-  if (indicatorID == 337) {
+  if (indicatorID == NHSIndicatorID) {
   } else {
   }
   if (!year) {
