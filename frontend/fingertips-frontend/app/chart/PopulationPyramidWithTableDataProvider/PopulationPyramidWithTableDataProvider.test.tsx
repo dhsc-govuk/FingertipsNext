@@ -67,7 +67,7 @@ describe('PopulationPyramidWithTableDataProvider', () => {
     expect(mockGetHealthDataForAnIndicator).toHaveBeenCalledTimes(1);
   });
 
-  it('renders PopulationPyramidWithTable with more than 100 areas data to be fetch', async () => {
+  it('renders PopulationPyramidWithTable with more than 100 areas data to be fetched', async () => {
     const areaCodes = ((n: number) => {
       //generate random area codes
       const results: string[] = [];
