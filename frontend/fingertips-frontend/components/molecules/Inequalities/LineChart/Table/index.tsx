@@ -60,7 +60,7 @@ export function InequalitiesLineChartTable({
         head={
           <>
             <Table.Row>
-              <StyledAlignCenterHeader colSpan={4}>
+              <StyledAlignCenterHeader colSpan={tableHeaders.length}>
                 {tableData.areaName}
                 {measurementUnit ? (
                   <span
