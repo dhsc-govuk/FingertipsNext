@@ -299,6 +299,8 @@ describe('extractHeatmapIndicatorData', () => {
     lastUpdatedDate: new Date(),
     hasInequalities: false,
     unitLabel: 'valid unit label',
+    usedInPoc: false,
+    associatedAreaCodes: ['A123'],
   };
 
   it('should populate heatmap indicator data with values from indicator data and metadata', () => {
