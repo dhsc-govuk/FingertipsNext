@@ -22,6 +22,8 @@ import { useEffect, useState } from 'react';
 import { useSearchState } from '@/context/SearchStateContext';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
 import { IndicatorPolarity } from '@/generated-sources/ft-api-client';
+import {AxisLabelsFormatterContextObject} from "highcharts";
+import {formatWholeNumber} from "@/lib/numberFormatter";
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
@@ -87,6 +89,12 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
       benchmarkData: englandBenchmarkData,
       groupIndicatorData: groupData,
       yAxisTitle,
+        yAxisLabelFormatter: function (
+            this: AxisLabelsFormatterContextObject,
+            _ctx: AxisLabelsFormatterContextObject
+        ): string {
+            return formatWholeNumber(this.value as number);
+        },
       xAxisTitle: 'Year',
       measurementUnit: indicatorMetadata?.unitLabel,
       accessibilityLabel: 'A line chart showing healthcare data',
