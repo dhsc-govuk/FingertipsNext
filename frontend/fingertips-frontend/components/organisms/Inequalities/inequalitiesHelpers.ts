@@ -188,13 +188,9 @@ export const getDynamicKeys = (
 };
 
 const dashStyle = (index: number): DashStyleValue => {
-  if (index < 3) {
-    return 'Solid';
-  } else if (index < 8) {
-    return 'ShortDash';
-  } else {
-    return 'Dash';
-  }
+  if (index < 3) return 'Solid';
+  if (index < 8) return 'ShortDash';
+  return 'Dash';
 };
 
 export const generateInequalitiesLineChartSeriesData = (
