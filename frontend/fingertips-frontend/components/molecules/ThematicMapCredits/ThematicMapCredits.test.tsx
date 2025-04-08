@@ -1,28 +1,35 @@
 import { render, screen } from '@testing-library/react';
 import { ThematicMapCredits } from '.';
+import { mapMetaDataEncoder } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 
 const mockDataSource = 'BJSS Leeds';
 const mockAreaType = 'regions';
 
 describe('ThematicMapCredits', () => {
-  it('should display the map source and data source', async () => {
+  it('should display the map source, copyright and data source', async () => {
     render(
       <ThematicMapCredits areaType={mockAreaType} dataSource={mockDataSource} />
     );
 
+    screen.debug();
     expect(
-      screen.getByText(`Map source: `, { exact: false })
+      screen.getByText(`Map source:`, { exact: false })
     ).toBeInTheDocument();
-    expect(screen.queryByText(RegExp(mockDataSource))).toBeInTheDocument();
+    expect(screen.getByText(RegExp(mockDataSource))).toBeInTheDocument();
+    expect(screen.getByText(RegExp(mockDataSource))).toBeInTheDocument();
     expect(
-      screen.getByText(`Data source: ${mockDataSource}`)
+      screen.getByText(RegExp(mapMetaDataEncoder[mockAreaType].mapCopyright), {
+        collapseWhitespace: false,
+      })
     ).toBeInTheDocument();
+    expect(screen.getByRole('link')).toHaveAttribute(
+      'href',
+      mapMetaDataEncoder[mockAreaType].mapSoureURL
+    );
   });
 
   it('should not display data source when metadata does not exist', async () => {
     render(<ThematicMapCredits areaType={mockAreaType} />);
-    screen.debug();
-
     expect(screen.queryByText(/Data source: /)).not.toBeInTheDocument();
   });
 });
