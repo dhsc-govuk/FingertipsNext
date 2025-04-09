@@ -2,10 +2,25 @@ import {
   computeDataPercentages,
   PopulationDataForArea,
 } from '@/lib/chartHelpers/preparePopulationData';
-import Highcharts, { SeriesOptionsType } from 'highcharts';
+import Highcharts, {
+  LegendItemClickEventObject,
+  Series,
+  SeriesOptionsType,
+} from 'highcharts';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { generatePopPyramidTooltipForPoint } from '.';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+
+const toggleClickSeries = (self: Series): boolean => {
+  self.chart.series.forEach((series) => {
+    if (series.name === self.name) {
+      series.setVisible(!series.visible);
+    }
+  });
+  return false;
+};
+
+const toggleHoverSeries = () => {};
 
 const createChartSeriesOptions = (
   xAxisTitle: string,
@@ -44,6 +59,11 @@ const createChartSeriesOptions = (
       reversed: true,
       itemStyle: {
         fontSize: '16px',
+      },
+      events: {
+        itemClick: function (event: LegendItemClickEventObject) {
+          return toggleClickSeries(event.legendItem as Series);
+        },
       },
     },
     xAxis: [
