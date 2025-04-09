@@ -93,7 +93,7 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
   afterEach(() => {});
 
   it('should call indicators API with correct parameters', async () => {
-    const page = await TwoOrMoreIndicatorsAreasView({
+    await TwoOrMoreIndicatorsAreasView({
       searchState: fullSearchParams,
       selectedIndicatorsData: fullSelectedIndicatorsData,
     });
