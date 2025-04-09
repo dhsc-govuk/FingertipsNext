@@ -12,9 +12,9 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
+  SpineChartTable,
   SpineChartTableProps,
   SpineChartTableRowProps,
-  SpineChartTable,
 } from '@/components/organisms/SpineChartTable';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmapUtil';
@@ -42,6 +42,7 @@ export function mapToSpineChartTableIndicator(
 
 export function mapToSpineChartTableProps(
   areasSelected: string[],
+  orderedMethods: BenchmarkComparisonMethod[],
   healthDataAreaOne: HealthDataForArea[],
   groupIndicatorData: HealthDataForArea[],
   englandIndicatorData: HealthDataForArea[],
@@ -68,6 +69,7 @@ export function mapToSpineChartTableProps(
       groupIndicatorData: groupIndicatorData[index],
       englandBenchmarkData: englandIndicatorData[index],
       benchmarkStatistics: quartileData[index],
+      benchmarkComparisonMethod: orderedMethods[index],
     };
 
     tableData[index] = row;
@@ -145,6 +147,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
       orderedEnglandData,
       orderedMetadata,
       orderedQuartileData,
+      orderedMethods,
     } = extractCombinedHealthData(
       indicatorData,
       indicatorMetadata,
@@ -155,6 +158,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
 
     return mapToSpineChartTableProps(
       areasSelected,
+      orderedMethods,
       orderedHealthDataAreaOne,
       orderedGroupData,
       orderedEnglandData,
