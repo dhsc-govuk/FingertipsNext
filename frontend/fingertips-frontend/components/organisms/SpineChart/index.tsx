@@ -11,6 +11,9 @@ import { orderStatistics } from './SpineChartHelpers';
 import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
 
 export interface SpineChartProps {
+  name: string;
+  units: string;
+  period: number;
   benchmarkValue: number;
   quartileData: QuartileData;
   areaOneValue?: number;
@@ -25,9 +28,28 @@ function absDiff(value: number, benchmark: number): number {
   return Math.abs(Math.abs(value) - Math.abs(benchmark));
 }
 
-const markerLineWidth = 1;
+function buildNameString(
+  lowerName: string,
+  lowerValue: number,
+  upperName: string,
+  upperValue: number,
+  units: string
+): string {
+  return (
+    lowerValue +
+    units +
+    ' to ' +
+    upperValue +
+    units +
+    '<br/>' +
+    lowerName +
+    ' to ' +
+    upperName
+  );
+}
 
 export function generateSeriesData({
+  units,
   benchmarkValue,
   quartileData,
   areaOneValue,
@@ -64,32 +86,57 @@ export function generateSeriesData({
   )[] = [
     {
       type: 'bar',
-      name: worst +' to '+ worstQuartile + '<br/>' + 'Worst to 25th percentile',
+      name: buildNameString(
+        'Worst',
+        worst,
+        '25th percentile',
+        worstQuartile,
+        units
+      ),
+      pointWidth: 30,
       color: GovukColours.MidGrey,
       data: [-scaledFourthQuartileBar],
     },
     {
       type: 'bar',
-      name: 'Best',
+      name: buildNameString(
+        'Best',
+        best,
+        '75th percentile',
+        bestQuartile,
+        units
+      ),
+      pointWidth: 30,
       color: GovukColours.MidGrey,
       data: [scaledFirstQuartileBar],
     },
     {
       type: 'bar',
-      name: '25th percentile',
+      name: buildNameString(
+        '25th percentile',
+        worstQuartile,
+        '75th percentile',
+        bestQuartile,
+        units
+      ),
+      pointWidth: 30,
       color: GovukColours.DarkGrey,
       data: [-scaledThirdQuartileBar],
-    },
+    }
     {
       type: 'bar',
-      name: bestQuartile +' to '+ best + '<br/>' + '75th percentile to Best',
+      name: buildNameString(
+        '25th percentile',
+        worstQuartile,
+        '75th percentile',
+        bestQuartile,
+        units
+      ),
+      pointWidth: 30,
       color: GovukColours.MidGrey,
-      data: [scaledSecondQuartileBar],
+      data: [],
     },
   ];
-
-  const inverter =
-    quartileData.polarity === IndicatorPolarity.LowIsGood ? -1 : 1;
 
   const inverter =
     quartileData.polarity === IndicatorPolarity.LowIsGood ? -1 : 1;
@@ -159,7 +206,7 @@ export function generateSeriesData({
 }
 
 export function generateChartOptions(props: Readonly<SpineChartProps>) {
-  const categories = ['Important stat'];
+  const categories = [''];
 
   return {
     chart: {
@@ -167,7 +214,7 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
       backgroundColor: 'transparent',
       spacing: [0, 0, 0, 0],
       margin: [5, 5, 5, 5],
-      height: 50,
+      height: 100,
       width: 400,
       inverted: true,
     },
@@ -182,7 +229,7 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
     },
     accessibility: {
       point: {
-        valueDescriptionFormat: '{index}. Age {xDescription}, {value}%.',
+        enabled: false,
       },
     },
     xAxis: [
@@ -195,7 +242,7 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
           step: 1,
         },
         accessibility: {
-          description: 'Age (male)',
+          enabled: false,
         },
       },
       {
@@ -210,7 +257,7 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
           step: 1,
         },
         accessibility: {
-          description: 'Age (female)',
+          enabled: false,
         },
       },
     ],
@@ -225,8 +272,7 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
         enabled: false,
       },
       accessibility: {
-        description: 'Percentage population',
-        rangeDescription: 'Range: 0 to 5%',
+        enabled: false,
       },
     },
 
@@ -239,8 +285,10 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
 
     tooltip: {
       format:
-        '<b>{series.name}, age {point.category}</b><br/>' +
-        'Population: {(abs point.y):.2f}%',
+      '<b>Benchmark: England</b><br/>'+
+      props.period+'<br/>'+
+      props.name+'<br/>'+
+      '{series.name}',
     },
     series: generateSeriesData(props),
   };

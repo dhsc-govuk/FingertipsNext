@@ -130,6 +130,9 @@ export function SpineChartTableRow({
       </StyledBenchmarkCell>
       <StyledBenchmarkChart data-testid={`benchmark-range`}>
         <SpineChart
+          name={indicatorName}
+          units={valueUnit}
+          period={latestDataPeriod}
           benchmarkValue={quartileData.englandValue ?? 0}
           quartileData={quartileData}
           areaOneValue={areasHealthData[0].healthData.at(-1)?.value}
