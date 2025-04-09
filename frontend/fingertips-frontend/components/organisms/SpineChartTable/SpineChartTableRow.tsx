@@ -26,28 +26,15 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { TrendTag } from '@/components/molecules/TrendTag';
 import { orderStatistics } from '../SpineChart/SpineChartHelpers';
+import { SpineChartIndicatorData } from './spineChartTableHelpers';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 export interface SpineChartMissingData {
   value?: number;
 }
 
-export interface SpineChartTableRowData {
-  indicatorId: number;
-  indicator: string;
-  unit: string;
-  period: number;
-  trend: HealthDataPointTrendEnum;
-  areaOneCount?: number;
-  areaOneValue?: number;
-  areaOneOutcome?: BenchmarkOutcome;
-  areaTwoCount?: number;
-  areaTwoValue?: number;
-  areaTwoOutcome?: BenchmarkOutcome;
-  groupValue?: number;
-  benchmarkValue?: number;
-  benchmarkStatistics: QuartileData;
-  twoAreasRequested: boolean;
-  benchmarkComparisonMethod: BenchmarkComparisonMethod;
+export interface SpineChartTableProps {
+  indicatorData: SpineChartIndicatorData
 }
 
 export function SpineChartMissingValue({
@@ -57,92 +44,98 @@ export function SpineChartMissingValue({
 }
 
 export function SpineChartTableRow({
-  indicator,
-  unit,
-  period,
-  trend,
-  areaOneCount,
-  areaOneValue,
-  areaOneOutcome,
-  areaTwoCount,
-  areaTwoValue,
-  areaTwoOutcome,
-  groupValue,
-  benchmarkValue,
-  benchmarkStatistics,
-  twoAreasRequested,
-  benchmarkComparisonMethod,
-}: Readonly<SpineChartTableRowData>) {
-  const { best, worst } = orderStatistics(benchmarkStatistics);
+  indicatorData
+}: Readonly<SpineChartTableProps>) {
+  const {
+    indicatorName,
+    benchmarkComparisonMethod,
+    latestDataPeriod,
+    valueUnit,
+    areasHealthData,
+    groupData,
+    quartileData
+  } = indicatorData;
+  const { best, worst } = orderStatistics(quartileData);
+  const groupIsEngland = groupData.areaCode === areaCodeForEngland;
+  const twoAreasRequested = areasHealthData.length === 2;
+  let twoAreasLatestPeriodMatching;
+
+  if (twoAreasRequested) {
+    twoAreasLatestPeriodMatching = areasHealthData[0].healthData.at(-1)?.year === areasHealthData[1].healthData.at(-1)?.year;
+  }
 
   return (
     <Table.Row>
       <StyledIndicatorTitleCell data-testid={`indicator-cell`}>
-        {indicator}
+        {indicatorName}
       </StyledIndicatorTitleCell>
       <StyledAlignLeftTableCell data-testid={`unit-cell`}>
-        {unit}
+        {valueUnit}
       </StyledAlignLeftTableCell>
 
       {twoAreasRequested ? (
         <StyledAlignCentreBorderRightTableCell data-testid={`period-cell`}>
-          {period}
+          {latestDataPeriod}
         </StyledAlignCentreBorderRightTableCell>
       ) : (
         <StyledAlignCentreTableCell data-testid={`period-cell`}>
-          {period}
+          {latestDataPeriod}
         </StyledAlignCentreTableCell>
       )}
 
       {twoAreasRequested ? (
         <>
-          <StyledAlignCentreTableCell data-testid={`area-1-count-cell`}>
-            {formatWholeNumber(areaOneCount)}
+          <StyledAlignCentreTableCell data-testid={'area-1-count-cell'}>
+            {formatWholeNumber(areasHealthData[0].healthData.at(-1)?.count)}
           </StyledAlignCentreTableCell>
           <StyledAlignRightBorderRightTableCell
-            data-testid={`area-1-value-cell`}
+            data-testid={'area-1-value-cell'}
           >
-            {formatNumber(areaOneValue)}
+            {formatNumber(areasHealthData[0].healthData.at(-1)?.value)}
           </StyledAlignRightBorderRightTableCell>
-          <StyledAlignCentreTableCell data-testid={`area-2-count-cell`}>
-            {formatWholeNumber(areaTwoCount)}
+          <StyledAlignCentreTableCell data-testid={'area-2-count-cell'}>
+            {formatWholeNumber(twoAreasLatestPeriodMatching ? areasHealthData[1].healthData.at(-1)?.count : undefined)}
           </StyledAlignCentreTableCell>
-          <StyledAlignRightTableCell data-testid={`area-2-value-cell`}>
-            {formatNumber(areaTwoValue)}
+          <StyledAlignRightTableCell data-testid={'area-2-value-cell'}>
+            {formatNumber(twoAreasLatestPeriodMatching ? areasHealthData[1].healthData.at(-1)?.value : undefined)}
           </StyledAlignRightTableCell>
         </>
       ) : (
         <>
           <StyledAlignCentreTableCell data-testid={`trend-cell`}>
-            <TrendTag trendFromResponse={trend} />
+            <TrendTag trendFromResponse={areasHealthData[0].healthData.at(-1)?.trend ?? HealthDataPointTrendEnum.CannotBeCalculated} />
           </StyledAlignCentreTableCell>
           <StyledAlignCentreTableCell data-testid={`count-cell`}>
-            {formatWholeNumber(areaOneCount)}
+            {formatWholeNumber(areasHealthData[0].healthData.at(-1)?.count)}
           </StyledAlignCentreTableCell>
           <StyledAlignRightTableCell data-testid={`value-cell`}>
-            {formatNumber(areaOneValue)}
+            {formatNumber(areasHealthData[0].healthData.at(-1)?.value)}
           </StyledAlignRightTableCell>
         </>
       )}
 
-      <StyledGroupCell data-testid={`group-value-cell`}>
-        {formatNumber(groupValue)}
-      </StyledGroupCell>
+      {!groupIsEngland ?
+        <StyledGroupCell data-testid={`group-value-cell`}>
+          {formatNumber(groupData.healthData.at(-1)?.value)}
+        </StyledGroupCell>
+        :
+        null
+      }
       <StyledBenchmarkCell data-testid={`benchmark-value-cell`}>
-        {formatNumber(benchmarkValue)}
+        {formatNumber(quartileData.englandValue)}
       </StyledBenchmarkCell>
       <StyledBenchmarkCell data-testid={`benchmark-worst-cell`}>
         {formatNumber(worst)}
       </StyledBenchmarkCell>
       <StyledBenchmarkChart data-testid={`benchmark-range`}>
         <SpineChart
-          benchmarkValue={benchmarkValue ?? 0}
-          quartileData={benchmarkStatistics}
-          areaOneValue={areaOneValue}
-          areaTwoValue={areaTwoValue}
-          areaOneOutcome={areaOneOutcome}
-          areaTwoOutcome={areaTwoOutcome}
-          groupValue={groupValue}
+          benchmarkValue={quartileData.englandValue ?? 0}
+          quartileData={quartileData}
+          areaOneValue={areasHealthData[0].healthData.at(-1)?.value}
+          areaTwoValue={areasHealthData[1].healthData.at(-1)?.value}
+          areaOneOutcome={areasHealthData[0].healthData.at(-1)?.benchmarkComparison?.outcome}
+          areaTwoOutcome={areasHealthData[1].healthData.at(-1)?.benchmarkComparison?.outcome}
+          groupValue={groupData.healthData.at(-1)?.value}
           benchmarkMethod={benchmarkComparisonMethod}
         />
       </StyledBenchmarkChart>
