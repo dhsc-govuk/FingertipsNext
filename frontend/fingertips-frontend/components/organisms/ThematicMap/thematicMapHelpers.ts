@@ -9,13 +9,9 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import {
-  getAreaIndicatorDataForYear,
   getBenchmarkColour,
-  getConfidenceLimitNumber,
   getIndicatorDataForAreasForMostRecentYearOnly,
 } from '@/lib/chartHelpers/chartHelpers';
-import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
-import { formatNumber } from '@/lib/numberFormatter';
 
 export type MapGeographyData = {
   mapFile: GeoJSON;
@@ -38,6 +34,9 @@ export type AreaTypeKeysForMapMeta =
 interface MapMetaData {
   joinKey: string;
   mapFile: () => Promise<{ default: GeoJSON }>;
+  mapSource: string;
+  mapCopyright: string;
+  mapSourceURL: string;
 }
 
 // where to find map data, the compiler needs to see import('@/...') it cannot accept a variable in import
@@ -70,25 +69,69 @@ const NHSSubICBMap = () =>
     '@/assets/maps/NHS_SubICB_April_2023_EN_BSC_8040841744469859785.geo.json'
   );
 
-const mapMetaDataEncoder: Record<AreaTypeKeysForMapMeta, MapMetaData> = {
-  'regions': { joinKey: 'RGN23CD', mapFile: regionsMap },
+export const mapMetaDataEncoder: Record<AreaTypeKeysForMapMeta, MapMetaData> = {
+  'regions': {
+    joinKey: 'RGN23CD',
+    mapFile: regionsMap,
+    mapSource: `Office for National Statistics: Regions 2023`,
+    mapCopyright: `Office for National Statistics licensed under the Open Government Licence v.3.0
+    Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`,
+    mapSourceURL:
+      'https://geoportal.statistics.gov.uk/maps/cc7bb689f5cc4bce9d03af8f519119a9',
+  },
   'combined-authorities': {
     joinKey: 'CAUTH23CD',
     mapFile: combinedAuthoritiesMap,
+    mapSource: `Office for National Statistics: Combined Authorities December 2023`,
+    mapCopyright: `Office for National Statistics licensed under the Open Government Licence v.3.0
+    Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`,
+    mapSourceURL:
+      'https://geoportal.statistics.gov.uk/maps/269d91ffb2de4c618c4cb6960444a08a',
   },
   'counties-and-unitary-authorities': {
     joinKey: 'CTYUA23CD',
     mapFile: countiesAndUAsMap,
+    mapSource: `Office for National Statistics: Counties and Unitary Authorities December 2023`,
+    mapCopyright: `Office for National Statistics licensed under the Open Government Licence v.3.0
+    Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`,
+    mapSourceURL:
+      'https://geoportal.statistics.gov.uk/maps/1d8e75f9179b4048ab1d7cbf712edc4e',
   },
   'districts-and-unitary-authorities': {
     joinKey: 'LAD24CD',
     mapFile: districtsAndUAsMap,
+    mapSource: `Office for National Statistics: Local Authority Districts May 2024`,
+    mapCopyright: `Office for National Statistics licensed under the Open Government Licence v.3.0
+        Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`,
+    mapSourceURL:
+      'https://geoportal.statistics.gov.uk/maps/1d4189a8b5db4c28afea8832ab73f93c',
   },
-  'nhs-regions': { joinKey: 'NHSER24CD', mapFile: NHSRegionsMap },
-  'nhs-integrated-care-boards': { joinKey: 'ICB23CD', mapFile: NHSICBMap },
+  'nhs-regions': {
+    joinKey: 'NHSER24CD',
+    mapFile: NHSRegionsMap,
+    mapSource: `Office for National Statistics: NHS Regions January 2024`,
+    mapCopyright: `Office for National Statistics licensed under the Open Government Licence v.3.0
+    Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`,
+    mapSourceURL:
+      'https://geoportal.statistics.gov.uk/maps/e9c506682a204bf6952a140af8e99bca',
+  },
+  'nhs-integrated-care-boards': {
+    joinKey: 'ICB23CD',
+    mapFile: NHSICBMap,
+    mapSource: `Office for National Statistics: NHS Integrated Care Boards April 2023`,
+    mapCopyright: `Office for National Statistics licensed under the Open Government Licence v.3.0
+    Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`,
+    mapSourceURL:
+      'https://geoportal.statistics.gov.uk/maps/76dad7f9577147b2b636d4f95345d28d',
+  },
   'nhs-sub-integrated-care-boards': {
     joinKey: 'SICBL23CD',
     mapFile: NHSSubICBMap,
+    mapSource: `Office for National Statistics: Sub NHS Integrated Care Boards April 2023 `,
+    mapCopyright: `Office for National Statistics licensed under the Open Government Licence v.3.0
+    Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`,
+    mapSourceURL:
+      'https://geoportal.statistics.gov.uk/maps/fe17bb9ca66446b6b8faf992b5d24274',
   },
 };
 
@@ -140,11 +183,7 @@ function getBenchmarkColourScale(
   return [
     {
       to: 10,
-      color: getBenchmarkColour(
-        benchmarkComparisonMethod,
-        BenchmarkOutcome.NotCompared,
-        polarity
-      ),
+      color: GovukColours.White,
     },
     {
       from: 10,
@@ -281,18 +320,15 @@ export function createThematicMapChartOptions(
   mapGeographyData: MapGeographyData,
   areaType: AreaTypeKeysForMapMeta,
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
-  polarity: IndicatorPolarity,
-  measurementUnit?: string,
-  benchmarkIndicatorData?: HealthDataForArea,
-  groupIndicatorData?: HealthDataForArea
+  polarity: IndicatorPolarity
 ): Highcharts.Options {
   const data = prepareThematicMapSeriesData(healthIndicatorData);
   const options: Highcharts.Options = {
     chart: {
       height: 800,
       animation: false,
-      borderWidth: 0.2,
-      borderColor: GovukColours.Black,
+      marginLeft: 0,
+      marginRight: 0,
     },
     title: { text: undefined },
     accessibility: { enabled: false },
@@ -324,7 +360,7 @@ export function createThematicMapChartOptions(
         showInLegend: false,
         mapData: mapGeographyData.mapGroupBoundary,
         borderColor: GovukColours.Black,
-        borderWidth: 6,
+        borderWidth: 3,
       },
       {
         type: 'map',
@@ -345,17 +381,13 @@ export function createThematicMapChartOptions(
       },
     ],
     tooltip: {
+      followPointer: false,
       headerFormat: '',
       useHTML: true,
-      pointFormatter: function (this: Highcharts.Point) {
-        return generateThematicMapTooltipString(
-          this,
-          benchmarkIndicatorData,
-          groupIndicatorData,
-          benchmarkComparisonMethod,
-          polarity,
-          measurementUnit
-        );
+      // any required to allow for customised Highchart Point
+      /* eslint-disable @typescript-eslint/no-explicit-any */
+      pointFormatter: function (this: any) {
+        return thematicMapTooltips(this);
       },
     },
   };
@@ -363,87 +395,10 @@ export function createThematicMapChartOptions(
   return options;
 }
 
-export function generateThematicMapTooltipString(
-  // any required to allow customisation of Highcharts tooltips
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  point: any,
-  benchmarkIndicatorData: HealthDataForArea | undefined,
-  groupIndicatorData: HealthDataForArea | undefined,
-  benchmarkComparisonMethod: BenchmarkComparisonMethod,
-  polarity: IndicatorPolarity,
-  measurementUnit?: string
-): string {
-  const benchmarkArea = benchmarkIndicatorData?.areaName ?? 'England';
-  const benchmarkConfidenceLimit = getConfidenceLimitNumber(
-    benchmarkComparisonMethod
+function thematicMapTooltips(point: Highcharts.Point & { areaCode: string }) {
+  const el = document.getElementById(
+    `thematicMap-chart-hover-${point.areaCode}`
   );
-  const benchmarkConfidenceLimitLabel = benchmarkConfidenceLimit
-    ? `${benchmarkConfidenceLimit}%`
-    : null;
-
-  const areaMarkerSymbol =
-    (point.benchmarkComparisonOutcome as BenchmarkOutcome) ===
-    BenchmarkOutcome.NotCompared
-      ? SymbolsEnum.MultiplicationX
-      : SymbolsEnum.Circle;
-
-  const groupMarkerSymbol =
-    groupIndicatorData?.healthData[0].benchmarkComparison?.outcome ===
-    BenchmarkOutcome.NotCompared
-      ? SymbolsEnum.MultiplicationX
-      : SymbolsEnum.Diamond;
-
-  const tooltipString = [
-    `<br /><span style="font-weight: bold">${point.areaName}</span>` +
-      `<br /><span>${point.year}</span>` +
-      `<br /><span style="color: ${
-        getBenchmarkColour(
-          benchmarkComparisonMethod,
-          point.benchmarkComparisonOutcome,
-          polarity
-        ) ?? GovukColours.Black
-      }; font-size: large;">${areaMarkerSymbol}</span>` +
-      `<span>${formatNumber(point.value)} ${measurementUnit}</span>` +
-      `<br /><span>${point.benchmarkComparisonOutcome} than ${benchmarkArea}</span>` +
-      `<br /><span>(${benchmarkConfidenceLimitLabel})</span>`,
-  ];
-
-  if (groupIndicatorData !== undefined) {
-    const groupIndicatorDataForYear = getAreaIndicatorDataForYear(
-      groupIndicatorData,
-      point.year
-    );
-    tooltipString.unshift(
-      `<br /><span style="font-weight: bold">Group: ${groupIndicatorDataForYear.areaName}</span>` +
-        `<br /><span>${groupIndicatorDataForYear.healthData[0].year}</span>` +
-        `<br /><span style="color: ${
-          getBenchmarkColour(
-            benchmarkComparisonMethod,
-            groupIndicatorDataForYear.healthData[0].benchmarkComparison
-              ?.outcome ?? 'NotCompared',
-            polarity
-          ) ?? GovukColours.Black
-        }; font-size: large;">${groupMarkerSymbol}</span>` +
-        `<span>${formatNumber(groupIndicatorDataForYear.healthData[0].value)} ${measurementUnit}</span>` +
-        `<br /><span>${
-          groupIndicatorDataForYear.healthData[0].benchmarkComparison?.outcome
-        } than ${benchmarkArea}</span>` +
-        `<br /><span>(${benchmarkConfidenceLimitLabel})</span>`
-    );
-  }
-
-  if (benchmarkIndicatorData !== undefined) {
-    const benchmarkIndicatorDataForYear = getAreaIndicatorDataForYear(
-      benchmarkIndicatorData,
-      point.year
-    );
-    tooltipString.unshift(
-      `<span style="font-weight: bold">Benchmark: ${benchmarkIndicatorDataForYear.areaName}</span>` +
-        `<br /><span>${benchmarkIndicatorDataForYear.healthData[0].year}</span>` +
-        `<br /><span style="color: ${GovukColours.Black}; font-size: large;">${SymbolsEnum.Circle}</span>` +
-        `<span>${formatNumber(benchmarkIndicatorDataForYear.healthData[0].value)} ${measurementUnit}</span>`
-    );
-  }
-
-  return tooltipString.join('');
+  if (el) return el.innerHTML;
+  return '';
 }

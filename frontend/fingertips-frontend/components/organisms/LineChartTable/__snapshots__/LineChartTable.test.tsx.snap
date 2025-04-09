@@ -141,6 +141,16 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   vertical-align: top;
 }
 
+.c15 {
+  position: -webkit-sticky;
+  position: sticky;
+  right: 0;
+  z-index: 10;
+  border-left: solid black 1px;
+  padding-left: 0.5em;
+  padding-right: 0.5em !important;
+}
+
 .c22 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -161,14 +171,49 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   border-top: solid #F3F2F1 2px;
 }
 
+.c29 {
+  position: -webkit-sticky;
+  position: sticky;
+  right: 0;
+  z-index: 10;
+  border-left: solid black 1px;
+  padding-left: 0.5em;
+  padding-right: 0.5em !important;
+}
+
 .c23 {
   text-align: left;
   width: 10%;
 }
 
+.c24 {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  background-color: #FFFFFF;
+  z-index: 10;
+  border-right: solid black 1px;
+  padding-right: 0.5em;
+}
+
 .c5 {
   text-align: left;
   vertical-align: top;
+}
+
+.c18 {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  background-color: #FFFFFF;
+  z-index: 10;
+  border-right: solid black 1px;
+  padding-right: 0.5em;
+}
+
+.c0 {
+  overflow-x: auto;
+  width: 100%;
 }
 
 .c26 {
@@ -260,53 +305,8 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   display: block;
 }
 
-.c24 {
-  position: -webkit-sticky;
-  position: sticky;
-  left: 0;
-  background-color: #FFFFFF;
-  z-index: 10;
-  border-right: solid black 1px;
-  padding-right: 0.5em;
-}
-
-.c18 {
-  position: -webkit-sticky;
-  position: sticky;
-  left: 0;
-  background-color: #FFFFFF;
-  z-index: 10;
-  border-right: solid black 1px;
-  padding-right: 0.5em;
-}
-
-.c29 {
-  position: -webkit-sticky;
-  position: sticky;
-  right: 0;
-  z-index: 10;
-  border-left: solid black 1px;
-  padding-left: 0.5em;
-  padding-right: 0.5em !important;
-}
-
-.c15 {
-  position: -webkit-sticky;
-  position: sticky;
-  right: 0;
-  z-index: 10;
-  border-left: solid black 1px;
-  padding-left: 0.5em;
-  padding-right: 0.5em !important;
-}
-
 .c6 {
   border: none;
-}
-
-.c0 {
-  overflow-x: scroll;
-  width: 100%;
 }
 
 @media print {
@@ -515,7 +515,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           class=""
         >
           <th
-            class="c3 3 c4 c5 c18"
+            class="c3 2 c4 c5 c18"
             data-testid="header-Period-0"
           >
             Period
@@ -575,7 +575,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           class=""
         >
           <td
-            class="2 c21 c22 c23 c24"
+            class="0 c21 c22 c23 c24"
           >
             2004
           </td>
@@ -609,7 +609,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
             578.3
           </td>
           <td
-            class="4 c25 c22 c27 c28 c29"
+            class="c25 c22 c27 c28 c29"
             data-testid="grey-table-cell"
           >
             904.9
@@ -619,7 +619,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           class=""
         >
           <td
-            class="2 c21 c22 c23 c24"
+            class="0 c21 c22 c23 c24"
           >
             2008
           </td>
@@ -653,7 +653,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
             578.3
           </td>
           <td
-            class="4 c25 c22 c27 c28 c29"
+            class="c25 c22 c27 c28 c29"
             data-testid="grey-table-cell"
           >
             966.0
@@ -806,6 +806,16 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   vertical-align: top;
 }
 
+.c15 {
+  position: -webkit-sticky;
+  position: sticky;
+  right: 0;
+  z-index: 10;
+  border-left: solid black 1px;
+  padding-left: 0.5em;
+  padding-right: 0.5em !important;
+}
+
 .c23 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -826,14 +836,49 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   border-top: solid #F3F2F1 2px;
 }
 
+.c31 {
+  position: -webkit-sticky;
+  position: sticky;
+  right: 0;
+  z-index: 10;
+  border-left: solid black 1px;
+  padding-left: 0.5em;
+  padding-right: 0.5em !important;
+}
+
 .c24 {
   text-align: left;
   width: 10%;
 }
 
+.c25 {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  background-color: #FFFFFF;
+  z-index: 10;
+  border-right: solid black 1px;
+  padding-right: 0.5em;
+}
+
 .c5 {
   text-align: left;
   vertical-align: top;
+}
+
+.c18 {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  background-color: #FFFFFF;
+  z-index: 10;
+  border-right: solid black 1px;
+  padding-right: 0.5em;
+}
+
+.c0 {
+  overflow-x: auto;
+  width: 100%;
 }
 
 .c27 {
@@ -933,53 +978,8 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   display: block;
 }
 
-.c25 {
-  position: -webkit-sticky;
-  position: sticky;
-  left: 0;
-  background-color: #FFFFFF;
-  z-index: 10;
-  border-right: solid black 1px;
-  padding-right: 0.5em;
-}
-
-.c18 {
-  position: -webkit-sticky;
-  position: sticky;
-  left: 0;
-  background-color: #FFFFFF;
-  z-index: 10;
-  border-right: solid black 1px;
-  padding-right: 0.5em;
-}
-
-.c31 {
-  position: -webkit-sticky;
-  position: sticky;
-  right: 0;
-  z-index: 10;
-  border-left: solid black 1px;
-  padding-left: 0.5em;
-  padding-right: 0.5em !important;
-}
-
-.c15 {
-  position: -webkit-sticky;
-  position: sticky;
-  right: 0;
-  z-index: 10;
-  border-left: solid black 1px;
-  padding-left: 0.5em;
-  padding-right: 0.5em !important;
-}
-
 .c6 {
   border: none;
-}
-
-.c0 {
-  overflow-x: scroll;
-  width: 100%;
 }
 
 @media print {
@@ -1240,7 +1240,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           class=""
         >
           <th
-            class="c3 3 c4 c5 c18"
+            class="c3 2 c4 c5 c18"
             data-testid="header-Period-0"
           >
             Period
@@ -1335,7 +1335,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           class=""
         >
           <td
-            class="2 c22 c23 c24 c25"
+            class="0 c22 c23 c24 c25"
           >
             2004
           </td>
@@ -1398,7 +1398,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             578.3
           </td>
           <td
-            class="4 c26 c23 c28 c30 c31"
+            class="c26 c23 c28 c30 c31"
             data-testid="grey-table-cell"
           >
             904.9
@@ -1408,7 +1408,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           class=""
         >
           <td
-            class="2 c22 c23 c24 c25"
+            class="0 c22 c23 c24 c25"
           >
             2008
           </td>
@@ -1471,7 +1471,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             578.3
           </td>
           <td
-            class="4 c26 c23 c28 c30 c31"
+            class="c26 c23 c28 c30 c31"
             data-testid="grey-table-cell"
           >
             966.0
