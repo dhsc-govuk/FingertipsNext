@@ -1124,6 +1124,18 @@ describe('isSexTypePresent', () => {
   it('should return true if sex type is present', () => {
     expect(isSexTypePresent(MOCK_INEQUALITIES_DATA.healthData)).toBe(true);
   });
+
+  it('should return false if sex type is not present for year provided', () => {
+    expect(isSexTypePresent(MOCK_INEQUALITIES_DATA.healthData, 2020)).toBe(
+      false
+    );
+  });
+
+  it('should return true if sex type is present for year provided', () => {
+    expect(isSexTypePresent(MOCK_INEQUALITIES_DATA.healthData, 2006)).toBe(
+      true
+    );
+  });
 });
 
 describe('getInequalityCategories', () => {
@@ -1183,6 +1195,15 @@ describe('getInequalityCategories', () => {
     };
 
     expect(getInequalityCategories(mockHealthData)).toEqual([]);
+  });
+
+  it('should not return deprivation categories when deprivation data is not available for year provided', () => {
+    const mockHealthData: HealthDataForArea = {
+      ...MOCK_INEQUALITIES_DATA,
+      healthData: [...MOCK_INEQUALITIES_DATA.healthData, mockDeprivationData],
+    };
+
+    expect(getInequalityCategories(mockHealthData, 2006)).toEqual(['Sex']);
   });
 });
 

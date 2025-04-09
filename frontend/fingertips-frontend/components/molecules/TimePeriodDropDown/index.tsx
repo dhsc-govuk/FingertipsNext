@@ -1,3 +1,4 @@
+import { useSearchState } from '@/context/SearchStateContext';
 import {
   SearchParams,
   SearchStateManager,
@@ -6,12 +7,10 @@ import {
 import { H5, Select } from 'govuk-react';
 import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
-import { useEffect } from 'react';
 
 interface TimePeriodDropDownProps {
   years: (number | string)[];
   searchState: SearchStateParams;
-  selectedYearOverride?: string;
 }
 
 const StyledSelect = styled(Select)({
@@ -21,11 +20,11 @@ const StyledSelect = styled(Select)({
 
 export function TimePeriodDropDown({
   years,
-  searchState,
-  selectedYearOverride,
 }: Readonly<TimePeriodDropDownProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
+  const { getSearchState } = useSearchState();
+  const searchState = getSearchState();
 
   const searchStateManager = SearchStateManager.initialise(searchState);
 
@@ -39,11 +38,6 @@ export function TimePeriodDropDown({
 
   const { [SearchParams.InequalityYearSelected]: selectedYear } =
     searchStateManager.getSearchState();
-
-  useEffect(() => {
-    if (selectedYearOverride) setSelectedYear(selectedYearOverride);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <div data-testid="timePeriod-dropDown-component">

@@ -49,7 +49,10 @@ export function InequalitiesForSingleTimePeriod({
     [SearchParams.InequalityBarChartTypeSelected]: inequalityTypeSelected,
   } = stateManager.getSearchState();
 
-  const inequalityCategories = getInequalityCategories(healthIndicatorData);
+  const inequalityCategories = getInequalityCategories(
+    healthIndicatorData,
+    Number(selectedYear)
+  );
   if (!inequalityCategories.length) return null;
 
   const type = getInequalitiesType(
@@ -88,11 +91,6 @@ export function InequalitiesForSingleTimePeriod({
 
   if (!yearsDesc.length) return null;
 
-  let selectedYearOverride = undefined;
-  if (!yearsDesc.includes(Number(selectedYear))) {
-    selectedYearOverride = String(yearsDesc[0]);
-  }
-
   const periodData = allData.find(
     (data) => data.period === Number(selectedYear ?? yearsDesc[0])
   );
@@ -106,11 +104,7 @@ export function InequalitiesForSingleTimePeriod({
   return (
     <div data-testid="inequalitiesForSingleTimePeriod-component">
       <H3>Inequalities data for a single time period</H3>
-      <TimePeriodDropDown
-        years={yearsDesc}
-        searchState={searchState}
-        selectedYearOverride={selectedYearOverride}
-      />
+      <TimePeriodDropDown years={yearsDesc} searchState={searchState} />
       <InequalitiesTypesDropDown
         inequalitiesOptions={inequalityCategories}
         inequalityTypeSelectedSearchParam={
