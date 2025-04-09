@@ -48,7 +48,12 @@ export const ViewsSelector = ({
     areaCodes.length === 1 &&
     areaCodes[0] === areaCodeForEngland
   ) {
-    return <TwoOrMoreIndicatorsEnglandView searchState={updatedSearchState} />;
+    return (
+      <TwoOrMoreIndicatorsEnglandView
+        searchState={updatedSearchState}
+        selectedIndicatorsData={selectedIndicatorsData}
+      />
+    );
   }
 
   if (indicators.length >= 2 && areaCodes.length >= 1) {
