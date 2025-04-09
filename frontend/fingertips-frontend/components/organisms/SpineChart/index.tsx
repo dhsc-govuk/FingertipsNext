@@ -162,8 +162,8 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
     chart: {
       type: 'bar',
       backgroundColor: 'transparent',
-      spacingBottom: 0,
-      spacingTop: 0,
+      spacing: [0, 0, 0, 0],
+      margin: [0, 0, 0, 0],
       height: 50,
       width: 400,
       inverted: true,
@@ -185,6 +185,7 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
     xAxis: [
       {
         categories: categories,
+        visible: false,
         reversed: false,
         labels: {
           enabled: false,
@@ -198,6 +199,7 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
         // mirror axis on right side
         opposite: true,
         reversed: false,
+        visible: false,
         categories: categories,
         linkedTo: 0,
         labels: {
@@ -210,6 +212,7 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
       },
     ],
     yAxis: {
+      gridLineWidth: 0,
       title: {
         text: null,
       },
