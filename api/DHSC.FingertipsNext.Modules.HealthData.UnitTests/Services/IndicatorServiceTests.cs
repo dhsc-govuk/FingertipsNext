@@ -639,4 +639,194 @@ public class IndicatorServiceTests
 
         result.Status.ShouldBe(ResponseStatus.NoDataForIndicator);
     }
+
+    [Fact]
+    // multiple areas, all with data
+    public async Task GetIndicatorDataAsync_ReturnsExpectedData_ForMultipleAreas()
+    {
+        string[] expectedAreaCodes = { expectedAreaCode, "Code2", "Code3", "Code4" };
+        string[] expectedAreaNames = { expectedAreaName, "Area 2", "Area 3", "Area 4" };
+
+        var healthMeasure0 = new HealthMeasureModelHelper()
+            .WithAreaDimension(expectedAreaCodes[0], expectedAreaNames[0])
+            .Build();
+        var healthMeasure1 = new HealthMeasureModelHelper()
+            .WithAreaDimension(expectedAreaCodes[1], expectedAreaNames[1])
+            .Build();
+        var healthMeasure2 = new HealthMeasureModelHelper()
+            .WithAreaDimension(expectedAreaCodes[2], expectedAreaNames[2])
+            .Build();
+        var healthMeasure3 = new HealthMeasureModelHelper()
+            .WithAreaDimension(expectedAreaCodes[3], expectedAreaNames[3])
+            .Build();
+
+        // TODO map over expected array?
+        var expected = new List<HealthDataForArea>
+        {
+            new()
+            {
+                AreaCode = expectedAreaCodes[0],
+                AreaName = expectedAreaNames[0],
+                HealthData = new List<HealthDataPoint>
+                {
+                    _mapper.Map<HealthDataPoint>(healthMeasure0),
+                }
+            },
+            new()
+            {
+                AreaCode = expectedAreaCodes[1],
+                AreaName = expectedAreaNames[1],
+                HealthData = new List<HealthDataPoint>
+                {
+                    _mapper.Map<HealthDataPoint>(healthMeasure1)
+                }
+            },
+            new()
+            {
+                AreaCode = expectedAreaCodes[2],
+                AreaName = expectedAreaNames[2],
+                HealthData = new List<HealthDataPoint>
+                {
+                    _mapper.Map<HealthDataPoint>(healthMeasure2)
+                }
+            },
+            new()
+            {
+                AreaCode = expectedAreaCodes[3],
+                AreaName = expectedAreaNames[3],
+                HealthData = new List<HealthDataPoint>
+                {
+                    _mapper.Map<HealthDataPoint>(healthMeasure3)
+                }
+            }
+        };
+
+        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
+        _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns([
+            healthMeasure0,
+            healthMeasure1, 
+            healthMeasure2,
+            healthMeasure3,
+            ]);
+        
+        var result = (await _indicatorService.GetIndicatorDataAsync(1, expectedAreaCodes, "", [], []));
+        
+        result.Content.AreaHealthData.ShouldNotBeEmpty();
+        result.Content.AreaHealthData.Count().ShouldBe(4);
+        result.Content.AreaHealthData.ShouldBeEquivalentTo(expected);
+    }
+
+    // multiple areas, none with data
+    [Fact]
+    public async Task GetIndicatorDataAsync_ReturnsExpectedData_ForMultipleAreas_WhenNoneHaveData()
+    {
+        string[] expectedAreaCodes = { expectedAreaCode, "Code2", "Code3", "Code4" };
+        string[] expectedAreaNames = { expectedAreaName, "Area 2", "Area 3", "Area 4" };
+
+        var healthMeasure0 = new HealthMeasureModelHelper()
+            .WithAreaDimension(expectedAreaCodes[0], expectedAreaNames[0])
+            .Build();
+        var healthMeasure1 = new HealthMeasureModelHelper()
+            .WithAreaDimension(expectedAreaCodes[1], expectedAreaNames[1])
+            .Build();
+        var healthMeasure2 = new HealthMeasureModelHelper()
+            .WithAreaDimension(expectedAreaCodes[2], expectedAreaNames[2])
+            .Build();
+        var healthMeasure3 = new HealthMeasureModelHelper()
+            .WithAreaDimension(expectedAreaCodes[3], expectedAreaNames[3])
+            .Build();
+
+        Console.WriteLine(healthMeasure0.AreaDimension.Name);
+
+        // TODO map over expected array?
+        var expected = new List<HealthDataForArea>
+        {
+            new()
+            {
+                AreaCode = expectedAreaCodes[0],
+                AreaName = expectedAreaNames[0],
+                HealthData = new List<HealthDataPoint>
+                {
+                    //_mapper.Map<HealthDataPoint>(healthMeasure0),
+                }
+            },
+            new()
+            {
+                AreaCode = expectedAreaCodes[1],
+                AreaName = expectedAreaNames[1],
+                HealthData = new List<HealthDataPoint>
+                {
+                    //_mapper.Map<HealthDataPoint>(healthMeasure1)
+                }
+            },
+            new()
+            {
+                AreaCode = expectedAreaCodes[2],
+                AreaName = expectedAreaNames[2],
+                HealthData = new List<HealthDataPoint>
+                {
+                    //_mapper.Map<HealthDataPoint>(healthMeasure2)
+                }
+            },
+            new()
+            {
+                AreaCode = expectedAreaCodes[3],
+                AreaName = expectedAreaNames[3],
+                HealthData = new List<HealthDataPoint>
+                {
+                    //_mapper.Map<HealthDataPoint>(healthMeasure3)
+                }
+            }
+        };
+
+        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
+        _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns([
+            healthMeasure0,
+            healthMeasure1,
+            healthMeasure2,
+            healthMeasure3,
+            ]);
+
+        var result = (await _indicatorService.GetIndicatorDataAsync(1, expectedAreaCodes, "", [], []));
+
+        result.Content.AreaHealthData.ShouldNotBeEmpty();
+        result.Content.AreaHealthData.Count().ShouldBe(4);
+        result.Content.AreaHealthData.ShouldBeEquivalentTo(expected);
+    }
+
+
+
+
+    // multiple areas, some with data
+    [Fact]
+    public async Task GetIndicatorDataAsync_ReturnsDataForAllRequestedAreas_WithEmptyHealthdataForAreasWithNoData()
+    {
+
+        // Arrange
+        string[] requestedAreaCodes = { expectedAreaCode, "Code2", "Code3", "Code4" };
+
+        var healthMeasure1 = new HealthMeasureModelHelper()
+            .WithAreaDimension(expectedAreaCode, expectedAreaName)
+            .Build();
+
+        // mocking the indicator (needed to get the method)
+        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
+        // mocking the response
+        _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns([ healthMeasure1, healthMeasure1]);
+        // mock areaAreasAsync - Andy's new code
+
+
+
+        // Act
+        var result = (await _indicatorService.GetIndicatorDataAsync(1, requestedAreaCodes, "", [], []));
+
+
+        // Assert
+        Console.WriteLine(result.Content);
+        result.Content.AreaHealthData.ShouldNotBeEmpty();
+        //result.Content.AreaHealthData.Count().ShouldBe(2);
+
+
+
+    }
 }
