@@ -37,6 +37,8 @@ export default class ChartPage extends AreaFilter {
   static readonly timePeriodDropDownComponent = 'timePeriod-dropDown-component';
   static readonly inequalitiesTypesDropDownComponent =
     'inequalitiesTypes-dropDown-component';
+  static readonly OneAreaMultipleIndicatorsTableComponent =
+    'oneAreaMultipleIndicatorsTable-component';
 
   async navigateToChart() {
     await this.navigateTo('chart');
