@@ -177,7 +177,7 @@ describe('TwoOrMoreIndicatorsEnglandView', () => {
           searchState: mockSearchParams,
           selectedIndicatorsData: selectedIndicatorsData,
         });
-      }).rejects.toThrow('indicator metadata');
+      }).rejects.toThrow('invalid indicator metadata passed to view');
     });
   });
 });
