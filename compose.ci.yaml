@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  frontend:
+    build:
+      context: frontend/fingertips-frontend
+      # These keys are used when running with BuildKit / Buildx.
+      # They instruct Docker to use the GitHub Actions cache.
+      cache_from:
+        - type=gha
+      cache_to:
+        - type=gha,mode=max
+
+  api:
+    build:
+      context: api
+      cache_from:
+        - type=gha
+      cache_to:
+        - type=gha,mode=max
+
+  db-setup:
+    build:
+      context: database/fingertips-db
+      cache_from:
+        - type=gha
+      cache_to:
+        - type=gha,mode=max
+
+  db-apply-trends:
+    build:
+      context: trend-analysis/TrendAnalysisApp
+      cache_from:
+        - type=gha
+      cache_to:
+        - type=gha,mode=max
