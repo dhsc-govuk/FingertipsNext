@@ -69,6 +69,7 @@ jobs:
         env:
           DOCKER_BUILDKIT: 1
           COMPOSE_DOCKER_CLI_BUILD: 1
+          BUILDKIT_PROGRESS: plain
 
       - name: Run .http API tests
         working-directory: ./api
