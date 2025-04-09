@@ -25,13 +25,13 @@ export interface HealthDataRequestAreas {
 export const getHealthDataForIndicator = async (
   indicatorApi: IndicatorsApi,
   indicatorId: string,
-  requestAreass: HealthDataRequestAreas[]
+  combinedRequestAreas: HealthDataRequestAreas[]
 ) => {
   let healthIndicatorData: IndicatorWithHealthDataForArea | undefined;
 
   try {
     const healthIndicatorDataChunks = await Promise.all(
-      requestAreass.flatMap((requestAreas) => {
+      combinedRequestAreas.flatMap((requestAreas) => {
         return chunkArray(requestAreas.areaCodes).map((areaCodes) =>
           indicatorApi.getHealthDataForAnIndicator(
             {
