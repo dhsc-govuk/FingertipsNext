@@ -17,7 +17,7 @@ import { StyledDivTableContainer, StyledTable } from './SpineChartTableStyles';
 import { spineChartImproperUsageError } from './spineChartTableHelpers';
 import { H2 } from 'govuk-react';
 import styled from 'styled-components';
-import { SpineChartLegend } from '@/components/organisms/SpineChart/SpineChartLegend/SpineChartLegend';
+import { SpineChartLegend } from '@/components/organisms/SpineChartLegend/SpineChartLegend';
 import { SpineChartQuartilesInfoContainer } from '@/components/organisms/SpineChart/SpineChartQuartilesInfo';
 import { getMethodsAndOutcomes } from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
 
@@ -122,7 +122,11 @@ export function SpineChartTable({
   return (
     <>
       <SpineChartHeading>Compare indicators by areas</SpineChartHeading>
-      <SpineChartLegend legendsToShow={methods} />
+      <SpineChartLegend
+        legendsToShow={methods}
+        groupName={groupName}
+        areaNames={mappedAreaNames}
+      />
       <SpineChartQuartilesInfoContainer />
       <StyledDivTableContainer data-testid="spineChartTable-component">
         <StyledTable>

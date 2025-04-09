@@ -1,4 +1,4 @@
-import { SpineChartLegendTypes } from '@/components/organisms/SpineChart/SpineChartLegend/SpineChartLegend.types';
+import { SpineChartLegendTypes } from '@/components/organisms/SpineChartLegend/SpineChartLegend.types';
 
 export const SpineChartLegendLine = () => (
   <svg width="1em" height="1em" viewBox="0 0 20 20">
@@ -17,6 +17,20 @@ export const SpineChartLegendDiamond = () => (
       strokeWidth={2}
       fill={'none'}
       transform="rotate(45, 10, 10)"
+    />
+  </svg>
+);
+
+export const SpineChartLegendSquare = () => (
+  <svg width="1em" height="1em" viewBox="0 0 20 20">
+    <rect
+      x={2}
+      y={2}
+      width={15}
+      height={15}
+      stroke={'#000'}
+      strokeWidth={2}
+      fill={'none'}
     />
   </svg>
 );
@@ -40,6 +54,8 @@ export const getLegendSymbol = (legendType: SpineChartLegendTypes) => {
       return SpineChartLegendLine;
     case SpineChartLegendTypes.Group:
       return SpineChartLegendDiamond;
+    case SpineChartLegendTypes.AreaTwo:
+      return SpineChartLegendSquare;
     default:
       return SpineChartLegendCircle;
   }

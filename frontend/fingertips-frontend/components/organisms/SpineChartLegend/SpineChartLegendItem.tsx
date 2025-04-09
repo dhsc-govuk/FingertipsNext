@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { SpineChartLegendTypes } from '@/components/organisms/SpineChart/SpineChartLegend/SpineChartLegend.types';
+import { SpineChartLegendTypes } from '@/components/organisms/SpineChartLegend/SpineChartLegend.types';
 import { FC } from 'react';
-import { getLegendSymbol } from '@/components/organisms/SpineChart/SpineChartLegend/SpineChartLegendSymbols';
+import { getLegendSymbol } from '@/components/organisms/SpineChartLegend/SpineChartLegendSymbols';
 
 const FlexDiv = styled.div({
   display: 'flex',

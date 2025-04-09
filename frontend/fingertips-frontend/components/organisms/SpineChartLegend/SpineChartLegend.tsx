@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { SpineChartLegendItem } from '@/components/organisms/SpineChart/SpineChartLegend/SpineChartLegendItem';
-import { SpineChartLegendTypes } from '@/components/organisms/SpineChart/SpineChartLegend/SpineChartLegend.types';
+import { SpineChartLegendItem } from '@/components/organisms/SpineChartLegend/SpineChartLegendItem';
+import { SpineChartLegendTypes } from '@/components/organisms/SpineChartLegend/SpineChartLegend.types';
 import { FC } from 'react';
 import { BenchmarkLegends } from '@/components/organisms/BenchmarkLegend';
 import { BenchmarkLegendsToShow } from '@/components/organisms/BenchmarkLegend/benchmarkLegend.types';
@@ -17,23 +17,38 @@ const FlexDiv = styled.div({
 
 interface SpineChartLegendProps {
   legendsToShow: BenchmarkLegendsToShow;
+  benchmarkName?: string;
+  groupName?: string;
+  areaNames?: string[];
 }
 
 export const SpineChartLegend: FC<SpineChartLegendProps> = ({
   legendsToShow,
+  benchmarkName = 'England',
+  groupName = '',
+  areaNames = ['Area'],
 }) => {
   return (
     <DivContainer>
       <FlexDiv>
         <SpineChartLegendItem itemType={SpineChartLegendTypes.Benchmark}>
-          Benchmark: England
+          Benchmark: {benchmarkName}
         </SpineChartLegendItem>
         <SpineChartLegendItem itemType={SpineChartLegendTypes.Group}>
-          Group:Name
+          Group: {groupName}
         </SpineChartLegendItem>
-        <SpineChartLegendItem itemType={SpineChartLegendTypes.Area}>
-          Area
-        </SpineChartLegendItem>
+        {areaNames.map((name, index) => (
+          <SpineChartLegendItem
+            key={`SpineChartLegendItem-${name}`}
+            itemType={
+              index === 0
+                ? SpineChartLegendTypes.Area
+                : SpineChartLegendTypes.AreaTwo
+            }
+          >
+            {name}
+          </SpineChartLegendItem>
+        ))}
       </FlexDiv>
 
       <BenchmarkLegends legendsToShow={legendsToShow} />
