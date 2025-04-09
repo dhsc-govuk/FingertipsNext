@@ -1,5 +1,5 @@
 import HighchartsReact from 'highcharts-react-official';
-import Highcharts, { AxisLabelsFormatterContextObject } from 'highcharts';
+import Highcharts from 'highcharts';
 import {
   getAggregatePointInfo,
   InequalitiesBarChartData,
@@ -20,7 +20,8 @@ import {
   BenchmarkOutcome,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
-import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
+import { formatNumber } from '@/lib/numberFormatter';
+import { FormatValueAsWholeNumber } from '@/lib/chartHelpers/labelFormatters';
 
 interface InequalitiesBarChartProps {
   barChartData: InequalitiesBarChartData;
@@ -128,12 +129,7 @@ export function InequalitiesBarChart({
         ) + `${measurementUnit ? ' ' + measurementUnit : ''}`
       );
     },
-    yAxisLabelFormatter: function (
-      this: AxisLabelsFormatterContextObject,
-      _ctx: AxisLabelsFormatterContextObject
-    ): string {
-      return formatWholeNumber(this.value as number);
-    },
+    yAxisLabelFormatter: FormatValueAsWholeNumber,
   });
 
   useEffect(() => {

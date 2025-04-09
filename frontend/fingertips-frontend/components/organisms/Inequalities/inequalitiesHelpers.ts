@@ -17,8 +17,8 @@ import {
 } from '../LineChart/lineChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { DashStyleValue } from 'highcharts';
-import Highcharts, { AxisLabelsFormatterContextObject } from 'highcharts';
-import { formatWholeNumber } from '@/lib/numberFormatter';
+import Highcharts from 'highcharts';
+import { FormatValueAsWholeNumber } from '@/lib/chartHelpers/labelFormatters';
 
 export const localeSort = (a: string, b: string) => a.localeCompare(b);
 
@@ -323,12 +323,7 @@ export function generateInequalitiesLineChartOptions(
         style: { fontSize: AXIS_TITLE_FONT_SIZE },
       },
       labels: {
-        formatter: function (
-          this: AxisLabelsFormatterContextObject,
-          _ctx: AxisLabelsFormatterContextObject
-        ): string {
-          return formatWholeNumber(this.value as number);
-        },
+        formatter: FormatValueAsWholeNumber,
       },
     },
     xAxis: {

@@ -2,14 +2,11 @@ import {
   computeDataPercentages,
   PopulationDataForArea,
 } from '@/lib/chartHelpers/preparePopulationData';
-import Highcharts, {
-  AxisLabelsFormatterContextObject,
-  SeriesOptionsType,
-} from 'highcharts';
+import Highcharts, { SeriesOptionsType } from 'highcharts';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { generatePopPyramidTooltipForPoint } from '.';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { formatWholeNumber } from '@/lib/numberFormatter';
+import { FormatValueAsWholeNumberAbsolute } from '@/lib/chartHelpers/labelFormatters';
 
 const createChartSeriesOptions = (
   xAxisTitle: string,
@@ -96,12 +93,7 @@ const createChartSeriesOptions = (
       tickColor: GovukColours.DarkSlateGray,
       gridLineWidth: 0,
       labels: {
-        formatter: function (
-          this: AxisLabelsFormatterContextObject,
-          _ctx: AxisLabelsFormatterContextObject
-        ): string {
-          return formatWholeNumber(Math.abs(this.value as number));
-        },
+        formatter: FormatValueAsWholeNumberAbsolute,
         align: 'center',
       },
       accessibility: {
