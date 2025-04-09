@@ -1,11 +1,10 @@
 import { render, screen, within } from '@testing-library/react';
 import { ChartSelectArea } from '.';
-import { Area } from '@/generated-sources/ft-api-client';
-import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 import { LoaderContext } from '@/context/LoaderContext';
 import { SearchStateContext } from '@/context/SearchStateContext';
 import { SearchParams } from '@/lib/searchStateManager';
 import userEvent from '@testing-library/user-event';
+import { AreaWithoutAreaType } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -33,9 +32,8 @@ jest.mock('@/context/LoaderContext', () => {
   };
 });
 
-const mockGetSearchState = jest.fn();
 const mockSearchStateContext: SearchStateContext = {
-  getSearchState: mockGetSearchState,
+  getSearchState: jest.fn(),
   setSearchState: jest.fn(),
 };
 jest.mock('@/context/SearchStateContext', () => {
@@ -44,11 +42,10 @@ jest.mock('@/context/SearchStateContext', () => {
   };
 });
 
-const generateArea = (id: string): Area => {
+const generateArea = (id: string): AreaWithoutAreaType => {
   return {
     code: id,
     name: `some name with ${id}`,
-    areaType: englandAreaType,
   };
 };
 
@@ -62,7 +59,13 @@ describe('ChartSelectArea', () => {
   const areaDropDownLabel = 'Select an area';
 
   it('should render all the available areas', () => {
-    render(<ChartSelectArea availableAreas={mockAvailableAreas} />);
+    render(
+      <ChartSelectArea
+        availableAreas={mockAvailableAreas}
+        chartAreaSelectedKey={SearchParams.InequalityBarChartAreaSelected}
+        searchState={{}}
+      />
+    );
 
     const areaSelectDropdown = screen.getByRole('combobox', {
       name: areaDropDownLabel,
@@ -77,11 +80,13 @@ describe('ChartSelectArea', () => {
   });
 
   it('should have the chart areaSelected as the pre-selected value', () => {
-    mockGetSearchState.mockReturnValue({
-      [SearchParams.InequalityBarChartAreaSelected]: 'A002',
-    });
-
-    render(<ChartSelectArea availableAreas={mockAvailableAreas} />);
+    render(
+      <ChartSelectArea
+        availableAreas={mockAvailableAreas}
+        chartAreaSelectedKey={SearchParams.InequalityBarChartAreaSelected}
+        searchState={{ [SearchParams.InequalityBarChartAreaSelected]: 'A002' }}
+      />
+    );
 
     expect(
       screen.getByRole('combobox', {
@@ -90,14 +95,20 @@ describe('ChartSelectArea', () => {
     ).toHaveTextContent(mockAvailableAreas[1].name);
   });
 
-  it('should add the selected area for the chart to the url', async () => {
+  it('should add the selected area for the chart to the url for the provided search param', async () => {
     const expectedPath = [
       `${mockPath}`,
-      `?${SearchParams.InequalityBarChartAreaSelected}=${mockAvailableAreas[2].code}`,
+      `?${SearchParams.InequalityLineChartAreaSelected}=${mockAvailableAreas[2].code}`,
     ].join('');
 
     const user = userEvent.setup();
-    render(<ChartSelectArea availableAreas={mockAvailableAreas} />);
+    render(
+      <ChartSelectArea
+        availableAreas={mockAvailableAreas}
+        chartAreaSelectedKey={SearchParams.InequalityLineChartAreaSelected}
+        searchState={{}}
+      />
+    );
 
     await user.selectOptions(
       screen.getByRole('combobox', { name: areaDropDownLabel }),

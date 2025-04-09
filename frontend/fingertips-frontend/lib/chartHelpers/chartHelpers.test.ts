@@ -9,6 +9,7 @@ import {
   sortHealthDataPointsByDescendingYear,
   getIndicatorDataForAreasForMostRecentYearOnly,
   hasHealthDataWithSexInequalities,
+  seriesDataWithoutGroup,
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { areaCodeForEngland } from './constants';
@@ -459,6 +460,38 @@ describe('seriesDataWithoutEnglandOrParent', () => {
 
     const result = seriesDataWithoutEnglandOrGroup(data, 'E12000001');
     expect(result).toEqual(dataWithoutParent);
+  });
+});
+
+describe('seriesDataWithoutGroup', () => {
+  it('should return data that does not have the group area code', () => {
+    const mockHealthDataForArea1 = generateMockHealthDataForArea('A001', [
+      generateHealthDataPoint(2024, false),
+      generateHealthDataPoint(2024, false),
+    ]);
+
+    const mockHealthDataForArea2 = generateMockHealthDataForArea('A002', [
+      generateHealthDataPoint(2024, false),
+      generateHealthDataPoint(2024, false),
+    ]);
+
+    const mockHealthDataForEngland = generateMockHealthDataForArea(
+      areaCodeForEngland,
+      [
+        generateHealthDataPoint(2024, false),
+        generateHealthDataPoint(2024, false),
+      ]
+    );
+
+    const result = seriesDataWithoutGroup(
+      [
+        mockHealthDataForArea1,
+        mockHealthDataForArea2,
+        mockHealthDataForEngland,
+      ],
+      'A002'
+    );
+    expect(result).toEqual([mockHealthDataForArea1, mockHealthDataForEngland]);
   });
 });
 

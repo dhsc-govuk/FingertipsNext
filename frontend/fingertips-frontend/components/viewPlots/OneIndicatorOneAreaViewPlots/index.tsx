@@ -3,10 +3,7 @@
 import { TabContainer } from '@/components/layouts/tabContainer';
 import { LineChart } from '@/components/organisms/LineChart';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
-import {
-  isEnglandSoleSelectedArea,
-  seriesDataWithoutEnglandOrGroup,
-} from '@/lib/chartHelpers/chartHelpers';
+import { seriesDataWithoutEnglandOrGroup } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams } from '@/lib/searchStateManager';
 import { H3, Paragraph } from 'govuk-react';
@@ -23,12 +20,8 @@ import {
   generateStandardLineChartOptions,
   LineChartVariant,
 } from '@/components/organisms/LineChart/lineChartHelpers';
-import { useState, useEffect } from 'react';
-import {
-  getAllDataWithoutInequalities,
-  getAreasWithSexInequalitiesData,
-} from '@/components/organisms/Inequalities/inequalitiesHelpers';
-import { useSearchState } from '@/context/SearchStateContext';
+import { useState } from 'react';
+import { getAllDataWithoutInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
@@ -49,18 +42,9 @@ export function OneIndicatorOneAreaViewPlots({
   searchState,
   indicatorMetadata,
 }: Readonly<OneIndicatorViewPlotProps>) {
-  const { setSearchState } = useSearchState();
-
-  useEffect(() => {
-    setSearchState(searchState ?? {});
-  }, [searchState, setSearchState]);
-
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreasSelected]: areasSelected,
-    [SearchParams.GroupSelected]: groupSelected,
-    [SearchParams.InequalityTypeSelected]: inequalityTypeSelected,
-    [SearchParams.InequalityYearSelected]: inequalityYearSelected,
   } = searchState;
 
   const polarity = indicatorData.polarity as IndicatorPolarity;
@@ -97,15 +81,6 @@ export function OneIndicatorOneAreaViewPlots({
     { englandBenchmarkData, groupData },
     areasSelected
   );
-
-  const getAvailableAreasWithInequalities =
-    inequalityTypeSelected === 'sex' || inequalityTypeSelected === undefined
-      ? getAreasWithSexInequalitiesData(
-          healthIndicatorData,
-          groupSelected,
-          inequalityYearSelected
-        )
-      : [];
 
   const yAxisTitle = indicatorMetadata?.unitLabel
     ? `Value: ${indicatorMetadata?.unitLabel}`
@@ -178,12 +153,8 @@ export function OneIndicatorOneAreaViewPlots({
         </>
       )}
       <Inequalities
-        healthIndicatorData={
-          !isEnglandSoleSelectedArea(searchState[SearchParams.AreasSelected])
-            ? dataWithoutEnglandOrGroup[0]
-            : healthIndicatorData[0]
-        }
-        availableAreas={getAvailableAreasWithInequalities}
+        healthIndicatorData={healthIndicatorData}
+        searchState={searchState}
         measurementUnit={indicatorMetadata?.unitLabel}
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}

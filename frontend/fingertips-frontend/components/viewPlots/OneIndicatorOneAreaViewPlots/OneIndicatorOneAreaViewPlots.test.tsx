@@ -26,9 +26,8 @@ jest.mock('@/context/LoaderContext', () => {
   };
 });
 
-const mockGetSearchState = jest.fn();
 const mockSearchStateContext: SearchStateContext = {
-  getSearchState: mockGetSearchState,
+  getSearchState: jest.fn(),
   setSearchState: jest.fn(),
 };
 jest.mock('@/context/SearchStateContext', () => {
@@ -36,7 +35,6 @@ jest.mock('@/context/SearchStateContext', () => {
     useSearchState: () => mockSearchStateContext,
   };
 });
-mockGetSearchState.mockReturnValue({});
 
 const mockMetaData = {
   indicatorID: '108',
@@ -61,7 +59,7 @@ const searchState: SearchStateParams = {
 };
 
 const testHealthData: IndicatorWithHealthDataForArea = {
-  areaHealthData: [mockHealthData['108'][1]],
+  areaHealthData: [mockHealthData['108'][0], mockHealthData['108'][1]],
 };
 
 describe('OneIndicatorOneAreaViewPlots', () => {

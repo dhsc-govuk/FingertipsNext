@@ -22,9 +22,8 @@ jest.mock('@/context/LoaderContext', () => {
   };
 });
 
-const mockGetSearchState = jest.fn();
 const mockSearchStateContext: SearchStateContext = {
-  getSearchState: mockGetSearchState,
+  getSearchState: jest.fn(),
   setSearchState: jest.fn(),
 };
 jest.mock('@/context/SearchStateContext', () => {
@@ -50,15 +49,11 @@ jest.mock('next/navigation', () => {
 });
 
 describe('Inequalities suite', () => {
-  beforeEach(() => {
-    mockGetSearchState.mockReturnValue(state);
-  });
-
   it('should render inequalities component', async () => {
     render(
       <Inequalities
-        healthIndicatorData={MOCK_HEALTH_DATA[1]}
-        availableAreas={[]}
+        healthIndicatorData={MOCK_HEALTH_DATA}
+        searchState={state}
       />
     );
 
@@ -86,8 +81,8 @@ describe('Inequalities suite', () => {
   it('should render expected text', () => {
     render(
       <Inequalities
-        healthIndicatorData={MOCK_HEALTH_DATA[1]}
-        availableAreas={[]}
+        healthIndicatorData={MOCK_HEALTH_DATA}
+        searchState={state}
       />
     );
 
@@ -102,8 +97,8 @@ describe('Inequalities suite', () => {
   it('check if the measurement unit value "kg" is rendered correctly', () => {
     render(
       <Inequalities
-        healthIndicatorData={MOCK_HEALTH_DATA[1]}
-        availableAreas={[]}
+        healthIndicatorData={MOCK_HEALTH_DATA}
+        searchState={state}
         measurementUnit="kg"
       />
     );

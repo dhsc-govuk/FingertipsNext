@@ -903,7 +903,6 @@ describe('getAreasWithSexInequalitiesData', () => {
 
       const areasWithSexInequalityDataForYear = getAreasWithSexInequalitiesData(
         mockHealthIndicatorData,
-        undefined,
         '2022'
       );
 
@@ -917,39 +916,21 @@ describe('getAreasWithSexInequalitiesData', () => {
     it('should return an empty array if there are no areas that have sex inequality data for the year provided', () => {
       const areasWithSexInequalityDataForYear = getAreasWithSexInequalitiesData(
         mockHealthIndicatorData,
-        undefined,
         '2021'
       );
 
       expect(areasWithSexInequalityDataForYear).toEqual([]);
     });
 
-    it('should not return the group area in the list even if it has sex inequality data', () => {
-      const expectedAreaCodes = ['A001', areaCodeForEngland];
-
-      const areasWithSexInequalityDataForYear = getAreasWithSexInequalitiesData(
-        mockHealthIndicatorData,
-        'A004',
-        '2022'
-      );
-
-      expect(areasWithSexInequalityDataForYear).toHaveLength(2);
-
-      areasWithSexInequalityDataForYear.forEach((area, i) => {
-        expect(area.code).toEqual(expectedAreaCodes[i]);
-      });
-    });
-
     it('should return england as the last area in the list if it has sex inequality data', () => {
-      const expectedAreaCodes = ['A002', areaCodeForEngland];
+      const expectedAreaCodes = ['A002', 'A004', areaCodeForEngland];
 
       const areasWithSexInequalityDataForYear = getAreasWithSexInequalitiesData(
         mockHealthIndicatorData,
-        'A004',
         '2023'
       );
 
-      expect(areasWithSexInequalityDataForYear).toHaveLength(2);
+      expect(areasWithSexInequalityDataForYear).toHaveLength(3);
 
       areasWithSexInequalityDataForYear.forEach((area, i) => {
         expect(area.code).toEqual(expectedAreaCodes[i]);

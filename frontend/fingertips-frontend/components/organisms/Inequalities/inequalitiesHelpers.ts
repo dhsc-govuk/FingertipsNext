@@ -369,16 +369,12 @@ export const getAllDataWithoutInequalities = (
 
 export const getAreasWithSexInequalitiesData = (
   healthIndicatorData: HealthDataForArea[],
-  groupSelected?: string,
   year?: string
 ) => {
   const areasWithInequalitiesData: AreaWithoutAreaType[] = [];
 
   healthIndicatorData.forEach((areaWithHealthData) => {
-    if (
-      areaWithHealthData.areaCode !== groupSelected &&
-      hasHealthDataWithSexInequalities(areaWithHealthData, year)
-    ) {
+    if (hasHealthDataWithSexInequalities(areaWithHealthData, year)) {
       areasWithInequalitiesData.push({
         code: areaWithHealthData.areaCode,
         name: areaWithHealthData.areaName,

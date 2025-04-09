@@ -1,6 +1,9 @@
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import {
+  SearchParamKeys,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
 import { useLoadingState } from '@/context/LoaderContext';
-import { useSearchState } from '@/context/SearchStateContext';
 import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import { Select } from 'govuk-react';
@@ -8,6 +11,8 @@ import { AreaWithoutAreaType } from '@/components/organisms/Inequalities/inequal
 
 interface ChartSelectAreaProps {
   availableAreas: AreaWithoutAreaType[];
+  chartAreaSelectedKey: SearchParamKeys;
+  searchState: SearchStateParams;
 }
 
 const StyledFilterSelect = styled(Select)({
@@ -22,12 +27,12 @@ const StyledFilterSelect = styled(Select)({
 
 export function ChartSelectArea({
   availableAreas,
+  chartAreaSelectedKey,
+  searchState,
 }: Readonly<ChartSelectAreaProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
   const { setIsLoading } = useLoadingState();
-  const { getSearchState } = useSearchState();
-  const searchState = getSearchState();
 
   const searchStateManager = SearchStateManager.initialise(searchState);
 
@@ -35,15 +40,14 @@ export function ChartSelectArea({
     setIsLoading(true);
 
     searchStateManager.addParamValueToState(
-      SearchParams.InequalityBarChartAreaSelected,
+      chartAreaSelectedKey,
       valueSelected
     );
 
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
 
-  const selectedArea =
-    searchState?.[SearchParams.InequalityBarChartAreaSelected];
+  const selectedArea = searchState?.[chartAreaSelectedKey];
 
   return (
     <>

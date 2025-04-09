@@ -62,6 +62,13 @@ export function seriesDataWithoutEnglandOrGroup(
   );
 }
 
+export function seriesDataWithoutGroup(
+  data: HealthDataForArea[],
+  groupAreaCode?: string
+) {
+  return data.filter((item) => item.areaCode !== groupAreaCode);
+}
+
 export function getHealthDataWithoutInequalities(
   data: HealthDataForArea
 ): HealthDataPoint[] {

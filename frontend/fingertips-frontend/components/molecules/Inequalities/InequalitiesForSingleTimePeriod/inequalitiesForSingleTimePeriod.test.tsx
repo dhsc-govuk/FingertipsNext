@@ -37,9 +37,8 @@ jest.mock('@/context/LoaderContext', () => {
   };
 });
 
-const mockGetSearchState = jest.fn();
 const mockSearchStateContext: SearchStateContext = {
-  getSearchState: mockGetSearchState,
+  getSearchState: jest.fn(),
   setSearchState: jest.fn(),
 };
 jest.mock('@/context/SearchStateContext', () => {
@@ -53,10 +52,6 @@ const mockSearchState = {
 };
 
 describe('InequalitiesForSingleTimePeriod suite', () => {
-  beforeEach(() => {
-    mockGetSearchState.mockReturnValue(mockSearchState);
-  });
-
   it('should render expected elements', async () => {
     const years = ['2008', '2004'];
     const mockHealthData: HealthDataForArea = {
@@ -80,8 +75,8 @@ describe('InequalitiesForSingleTimePeriod suite', () => {
 
     render(
       <InequalitiesForSingleTimePeriod
-        healthIndicatorData={mockHealthData}
-        availableAreas={[]}
+        healthIndicatorData={[mockHealthData]}
+        searchState={mockSearchState}
       />
     );
 
@@ -117,8 +112,8 @@ describe('InequalitiesForSingleTimePeriod suite', () => {
 
     render(
       <InequalitiesForSingleTimePeriod
-        healthIndicatorData={mockHealthData}
-        availableAreas={[]}
+        healthIndicatorData={[mockHealthData]}
+        searchState={mockSearchState}
       />
     );
 

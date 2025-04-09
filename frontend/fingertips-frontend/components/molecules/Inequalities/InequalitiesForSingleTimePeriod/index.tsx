@@ -4,8 +4,8 @@ import { TimePeriodDropDown } from '../../TimePeriodDropDown';
 import { InequalitiesBarChart } from '../BarChart';
 import { InequalitiesBarChartTable } from '../BarChart/Table';
 import {
-  AreaWithoutAreaType,
   filterHealthData,
+  getAreasWithSexInequalitiesData,
   getInequalityCategory,
   getYearDataGroupedByInequalities,
   getYearsWithInequalityData,
@@ -17,18 +17,19 @@ import {
   sequenceSelectorForInequality,
   valueSelectorForInequality,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
-import { SearchParams } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import {
   BenchmarkComparisonMethod,
   HealthDataForArea,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { ChartSelectArea } from '../../ChartSelectArea';
-import { useSearchState } from '@/context/SearchStateContext';
+import { seriesDataWithoutGroup } from '@/lib/chartHelpers/chartHelpers';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 interface InequalitiesForSingleTimePeriodProps {
-  healthIndicatorData: HealthDataForArea;
-  availableAreas: AreaWithoutAreaType[];
+  healthIndicatorData: HealthDataForArea[];
+  searchState: SearchStateParams;
   measurementUnit?: string;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
@@ -36,18 +37,39 @@ interface InequalitiesForSingleTimePeriodProps {
 
 export function InequalitiesForSingleTimePeriod({
   healthIndicatorData,
-  availableAreas,
+  searchState,
   measurementUnit,
   benchmarkComparisonMethod,
   polarity,
 }: Readonly<InequalitiesForSingleTimePeriodProps>) {
-  const { getSearchState } = useSearchState();
-  const searchState = getSearchState();
-
   const {
+    [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.InequalityYearSelected]: selectedYear,
     [SearchParams.InequalityTypeSelected]: inequalityTypeSelected,
+    [SearchParams.InequalityBarChartAreaSelected]:
+      inequalityBarChartAreaSelected,
   } = searchState;
+
+  const healthdataWithoutGroup = seriesDataWithoutGroup(
+    healthIndicatorData,
+    selectedGroupCode
+  );
+
+  const availableAreasWithInequalities =
+    inequalityTypeSelected === 'sex' || inequalityTypeSelected === undefined
+      ? getAreasWithSexInequalitiesData(healthdataWithoutGroup, selectedYear)
+      : [];
+
+  const areaToUse =
+    inequalityBarChartAreaSelected ??
+    healthdataWithoutGroup[0].areaCode ??
+    areaCodeForEngland;
+
+  const healthDataForArea = healthdataWithoutGroup.find(
+    (data) => data.areaCode === areaToUse
+  );
+
+  if (!healthDataForArea) return null;
 
   // This will be updated when we add the dropdown to select inequality types
   const type =
@@ -55,14 +77,14 @@ export function InequalitiesForSingleTimePeriod({
       ? InequalitiesTypes.Deprivation
       : InequalitiesTypes.Sex;
 
-  const inequalityCategory = getInequalityCategory(type, healthIndicatorData);
+  const inequalityCategory = getInequalityCategory(type, healthDataForArea);
 
   const filterFunctionGenerator =
     healthDataFilterFunctionGeneratorForInequality[type];
   const healthIndicatorDataWithoutOtherInequalities = {
-    ...healthIndicatorData,
+    ...healthDataForArea,
     healthData: filterHealthData(
-      healthIndicatorData.healthData,
+      healthDataForArea.healthData,
       filterFunctionGenerator(inequalityCategory)
     ),
   };
@@ -95,14 +117,18 @@ export function InequalitiesForSingleTimePeriod({
   if (!periodData) throw new Error('data does not exist for selected year');
 
   const barChartData: InequalitiesBarChartData = {
-    areaName: healthIndicatorData.areaName,
+    areaName: healthDataForArea.areaName,
     data: periodData,
   };
   return (
     <div data-testid="inequalitiesForSingleTimePeriod-component">
       <H3>Inequalities data for a single time period</H3>
       <TimePeriodDropDown years={yearsDesc} />
-      <ChartSelectArea availableAreas={availableAreas} />
+      <ChartSelectArea
+        availableAreas={availableAreasWithInequalities}
+        chartAreaSelectedKey={SearchParams.InequalityBarChartAreaSelected}
+        searchState={searchState}
+      />
       <TabContainer
         id="inequalitiesBarChartAndTable"
         items={[

@@ -7,6 +7,21 @@ import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { LoaderContext } from '@/context/LoaderContext';
 import { SearchStateContext } from '@/context/SearchStateContext';
 
+const mockPath = 'some-mock-path';
+const mockReplace = jest.fn();
+jest.mock('next/navigation', () => {
+  const originalModule = jest.requireActual('next/navigation');
+
+  return {
+    ...originalModule,
+    usePathname: () => mockPath,
+    useSearchParams: () => {},
+    useRouter: jest.fn().mockImplementation(() => ({
+      replace: mockReplace,
+    })),
+  };
+});
+
 const mockLoaderContext: LoaderContext = {
   getIsLoading: jest.fn(),
   setIsLoading: jest.fn(),
@@ -17,9 +32,8 @@ jest.mock('@/context/LoaderContext', () => {
   };
 });
 
-const mockGetSearchState = jest.fn();
 const mockSearchStateContext: SearchStateContext = {
-  getSearchState: mockGetSearchState,
+  getSearchState: jest.fn(),
   setSearchState: jest.fn(),
 };
 jest.mock('@/context/SearchStateContext', () => {
@@ -33,12 +47,13 @@ const state: SearchStateParams = {
 };
 
 describe('InequalitiesTrend suite', () => {
-  beforeEach(() => {
-    mockGetSearchState.mockReturnValue(state);
-  });
-
   it('should render expected elements', async () => {
-    render(<InequalitiesTrend healthIndicatorData={MOCK_HEALTH_DATA[1]} />);
+    render(
+      <InequalitiesTrend
+        healthIndicatorData={MOCK_HEALTH_DATA}
+        searchState={state}
+      />
+    );
 
     expect(
       screen.getByTestId('inequalitiesLineChartTable-component')
@@ -60,7 +75,12 @@ describe('InequalitiesTrend suite', () => {
       healthData: MOCK_HEALTH_DATA[0].healthData.slice(0, 2),
     };
 
-    render(<InequalitiesTrend healthIndicatorData={mockHealthData} />);
+    render(
+      <InequalitiesTrend
+        healthIndicatorData={[mockHealthData]}
+        searchState={state}
+      />
+    );
 
     expect(
       screen.queryByTestId('inequalitiesTrend-component')
@@ -73,7 +93,12 @@ describe('InequalitiesTrend suite', () => {
       healthData: [MOCK_HEALTH_DATA[0].healthData[0]],
     };
 
-    render(<InequalitiesTrend healthIndicatorData={mockHealthData} />);
+    render(
+      <InequalitiesTrend
+        healthIndicatorData={[mockHealthData]}
+        searchState={state}
+      />
+    );
 
     expect(
       screen.queryByTestId('inequalitiesTrend-component')
