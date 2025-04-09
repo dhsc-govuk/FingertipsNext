@@ -100,7 +100,7 @@ const createChartSeriesOptions = (
           this: AxisLabelsFormatterContextObject,
           _ctx: AxisLabelsFormatterContextObject
         ): string {
-          return formatWholeNumber(this.value as number);
+          return formatWholeNumber(Math.abs(this.value as number));
         },
         align: 'center',
       },
