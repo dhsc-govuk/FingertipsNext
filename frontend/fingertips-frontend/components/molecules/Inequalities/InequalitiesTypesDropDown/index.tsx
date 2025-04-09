@@ -31,22 +31,20 @@ export function InequalitiesTypesDropDown({
     searchStateManager.getSearchState();
 
   return (
-    <>
-      <StyledFilterSelect
-        label="Select an inequality type"
-        data-testid="select-inequality-type"
-        aria-label="select-inequality-type"
-        input={{
-          value: selectedType,
-          onChange: (e) => {
-            setSelectedType(e.target.value);
-          },
-        }}
-      >
-        {inequalitiesOptions.map((option) => (
-          <option key={option}>{option}</option>
-        ))}
-      </StyledFilterSelect>
-    </>
+    <StyledFilterSelect
+      label="Select an inequality type"
+      data-testid="select-inequality-type"
+      aria-label="select-inequality-type"
+      input={{
+        value: selectedType,
+        onChange: (e) => {
+          setSelectedType(e.target.value);
+        },
+      }}
+    >
+      {inequalitiesOptions.map((option) => (
+        <option key={option}>{option}</option>
+      ))}
+    </StyledFilterSelect>
   );
 }
