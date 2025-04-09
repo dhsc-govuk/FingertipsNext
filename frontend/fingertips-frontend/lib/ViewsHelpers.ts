@@ -3,10 +3,8 @@ import {
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { API_CACHE_CONFIG } from '@/lib/apiClient/apiClientFactory';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 export const maxNumAreasThatCanBeRequestedAPI = 100;
-const areaCodesToRequest = [areaCodeForEngland];
 
 export function chunkArray(
   arrayToChunk: string[],
@@ -20,22 +18,22 @@ export function chunkArray(
 }
 
 export const getHealthDataForIndicator = async (
+  indicatorApi: IndicatorsApi,
   indicatorId: string,
-  indicatorApi: IndicatorsApi
+  areaCodesToRequest: string[]
 ) => {
   let healthIndicatorData: IndicatorWithHealthDataForArea | undefined;
 
   try {
     const healthIndicatorDataChunks = await Promise.all(
-      chunkArray(areaCodesToRequest, maxNumAreasThatCanBeRequestedAPI).map(
-        (requestAreas) =>
-          indicatorApi.getHealthDataForAnIndicator(
-            {
-              indicatorId: Number(indicatorId),
-              areaCodes: [...requestAreas],
-            },
-            API_CACHE_CONFIG
-          )
+      chunkArray(areaCodesToRequest).map((requestedAreas) =>
+        indicatorApi.getHealthDataForAnIndicator(
+          {
+            indicatorId: Number(indicatorId),
+            areaCodes: [...requestedAreas],
+          },
+          API_CACHE_CONFIG
+        )
       )
     );
 
@@ -48,7 +46,7 @@ export const getHealthDataForIndicator = async (
       .map((indicatorData) => indicatorData?.areaHealthData ?? [])
       .flat();
   } catch (error) {
-    throw new Error(`error getting health indicator data for areas: ${error}`);
+    throw new Error(`Error getting health indicator data for areas: ${error}`);
   }
 
   return healthIndicatorData;
