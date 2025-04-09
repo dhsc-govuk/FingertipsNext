@@ -769,6 +769,42 @@ public class HealthDataRepositoryTests
             ResetKeys(aggregateDataPoint)
         });
     }
+    
+    [Fact]
+    public async Task Repository_ShouldReturnDataForAllAreas_IfSomeHaveNoData()
+    {
+        // arrange
+        string[] expectedAreaCodes = { "Code1", "Code2", "Code3", "Code4" };
+        string[] expectedAreaNames = { "Area 1", "Area 2", "Area 3", "Area 4" };
+
+        var healthMeasure0 = new HealthMeasureModelHelper(key:100)
+           .WithAreaDimension(expectedAreaCodes[0], expectedAreaNames[0])
+           .Build();
+        var healthMeasure1 = new HealthMeasureModelHelper(key: 101)
+            .WithAreaDimension(expectedAreaCodes[1], expectedAreaNames[1])
+            .Build();
+        var healthMeasure2 = new HealthMeasureModelHelper(key: 102)
+            .WithAreaDimension(expectedAreaCodes[2], expectedAreaNames[2])
+            .Build();
+
+        PopulateDatabase(healthMeasure0);
+        PopulateDatabase(healthMeasure1);
+        PopulateDatabase(healthMeasure2);
+
+        // act
+        var result = await _healthDataRepository.GetIndicatorDataAsync(1, expectedAreaCodes, [], []);
+
+        // assert
+        result.ShouldNotBeEmpty();
+        result.Count().ShouldBe(3);
+        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
+        {
+            ResetKeys(healthMeasure0),
+            ResetKeys(healthMeasure1),
+            ResetKeys(healthMeasure2),
+        });
+    }
+
 
     private void PopulateDatabase(HealthMeasureModel healthMeasure)
     {
@@ -805,4 +841,6 @@ public class HealthDataRepositoryTests
 
         return healthMeasure;
     }
+
+    
 }
