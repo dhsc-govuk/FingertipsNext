@@ -143,16 +143,16 @@ export function BarChartEmbeddedTable({
             </Table.Row>
 
             <Table.Row>
-              <Table.CellHeader>
+              <Table.CellHeader style={{ verticalAlign: 'top', textAlign: 'left' }}>
                 {BarChartEmbeddedTableHeadingEnum.AreaName}
               </Table.CellHeader>
-              <Table.CellHeader>
+              <Table.CellHeader style={{ verticalAlign: 'top' }}>
                 {BarChartEmbeddedTableHeadingEnum.Period}
               </Table.CellHeader>
-              <Table.CellHeader>
+              <Table.CellHeader style={{ verticalAlign: 'top' }}>
                 {BarChartEmbeddedTableHeadingEnum.RecentTrend}
               </Table.CellHeader>
-              <Table.CellHeader>
+              <Table.CellHeader style={{ verticalAlign: 'top' }}>
                 {BarChartEmbeddedTableHeadingEnum.Count}
               </Table.CellHeader>
               <Table.CellHeader
@@ -161,10 +161,10 @@ export function BarChartEmbeddedTable({
                 {BarChartEmbeddedTableHeadingEnum.Value} {measurementUnit}
               </Table.CellHeader>
               <Table.CellHeader></Table.CellHeader>
-              <Table.CellHeader>
+              <Table.CellHeader style={{ verticalAlign: 'top' }}>
                 {BarChartEmbeddedTableHeadingEnum.Lower}
               </Table.CellHeader>
-              <Table.CellHeader>
+              <Table.CellHeader style={{ verticalAlign: 'top' }}>
                 {BarChartEmbeddedTableHeadingEnum.Upper}
               </Table.CellHeader>
             </Table.Row>
@@ -174,10 +174,10 @@ export function BarChartEmbeddedTable({
         {mostRecentBenchmarkData ? (
           <Table.Row
             key={`${benchmarkData?.areaName}`}
-            style={{ backgroundColor: GovukColours.MidGrey }}
+            style={{ backgroundColor: GovukColours.LightGrey}}
             data-testid="table-row-benchmark"
           >
-            <CheckValueInTableCell value={benchmarkData?.areaName} />
+            <CheckValueInTableCell value={benchmarkData?.areaName}/>
             <CheckValueInTableCell value={mostRecentBenchmarkData.year} />
             <Table.Cell>
               <TrendTag trendFromResponse={mostRecentBenchmarkData.trend} />
