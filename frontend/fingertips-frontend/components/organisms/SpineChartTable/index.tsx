@@ -3,9 +3,7 @@ import React from 'react';
 
 import { SpineChartTableHeader } from './SpineChartTableHeader';
 
-import {
-  SpineChartTableRow
-} from './SpineChartTableRow';
+import { SpineChartTableRow } from './SpineChartTableRow';
 import { StyledDivTableContainer, StyledTable } from './SpineChartTableStyles';
 import { H2 } from 'govuk-react';
 import styled from 'styled-components';
@@ -48,15 +46,15 @@ export function SpineChartTable({
       <SpineChartQuartilesInfoContainer />
       <StyledDivTableContainer data-testid="spineChartTable-component">
         <StyledTable>
-        <SpineChartTableHeader
-          areaNames={areaNames}
-          groupName={sortedData[0].groupData.areaName}
-        />
-        {sortedData.map((indicatorData) => (
-          <React.Fragment key={indicatorData.indicatorId}>
-            <SpineChartTableRow indicatorData={indicatorData} />
-          </React.Fragment>
-        ))}
+          <SpineChartTableHeader
+            areaNames={areaNames}
+            groupName={sortedData[0].groupData.areaName}
+          />
+          {sortedData.map((indicatorData) => (
+            <React.Fragment key={indicatorData.indicatorId}>
+              <SpineChartTableRow indicatorData={indicatorData} />
+            </React.Fragment>
+          ))}
         </StyledTable>
       </StyledDivTableContainer>
     </>

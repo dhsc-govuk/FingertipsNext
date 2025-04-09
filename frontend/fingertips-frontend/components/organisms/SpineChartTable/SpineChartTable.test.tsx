@@ -1,11 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import { SpineChartTable } from '.';
-import {
-  mapToSpineChartTableData,
-  SpineChartTable,
-  SpineChartTableRowProps,
-} from './index';
+import { SpineChartTable } from './index';
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
@@ -14,7 +9,6 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
-import { SpineChartTableRowData } from '@/components/organisms/SpineChartTable/SpineChartTableRow';
 
 describe('Spine chart table suite', () => {
   // Greater Manchester ICB - 00T
@@ -145,7 +139,7 @@ describe('Spine chart table suite', () => {
         groupData: mockGroup,
         quartileData: mockBenchmarkStatistics[0],
         benchmarkComparisonMethod:
-        BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+          BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
       },
       {
         indicatorId: '2',
@@ -158,7 +152,7 @@ describe('Spine chart table suite', () => {
         groupData: mockGroup,
         quartileData: mockBenchmarkStatistics[1],
         benchmarkComparisonMethod:
-        BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+          BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
       },
     ];
 

@@ -96,7 +96,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
         indicatorId: relevantIndicatorMeta.indicatorID,
         indicatorName: relevantIndicatorMeta.indicatorName,
         valueUnit: relevantIndicatorMeta.unitLabel,
-        benchmarkComparisonMethod: areasHealthData[0].healthData[0].benchmarkComparison?.method,
+        benchmarkComparisonMethod: indicatorData.benchmarkMethod,
         // The latest period for the first area's data (health data is sorted be year ASC)
         latestDataPeriod:
           areasHealthData[0].healthData[

@@ -20,22 +20,36 @@ export const hasSomeMethodWithJudgement = (
   });
 };
 
-export const getMethodsAndOutcomes = (orderedIndicatorData: SpineChartIndicatorData[]) => {
+export const getMethodsAndOutcomes = (
+  orderedIndicatorData: SpineChartIndicatorData[]
+) => {
   const ci95 = BenchmarkComparisonMethod.CIOverlappingReferenceValue95;
   const ci99 = BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8;
   const quin = BenchmarkComparisonMethod.Quintiles;
   const methods: BenchmarkLegendsToShow = {
     [ci95]: {
       judgement: hasSomeMethodWithJudgement(orderedIndicatorData, ci95, true),
-      noJudgement: hasSomeMethodWithJudgement(orderedIndicatorData, ci95, false),
+      noJudgement: hasSomeMethodWithJudgement(
+        orderedIndicatorData,
+        ci95,
+        false
+      ),
     },
     [ci99]: {
       judgement: hasSomeMethodWithJudgement(orderedIndicatorData, ci99, true),
-      noJudgement: hasSomeMethodWithJudgement(orderedIndicatorData, ci99, false),
+      noJudgement: hasSomeMethodWithJudgement(
+        orderedIndicatorData,
+        ci99,
+        false
+      ),
     },
     [quin]: {
       judgement: hasSomeMethodWithJudgement(orderedIndicatorData, quin, true),
-      noJudgement: hasSomeMethodWithJudgement(orderedIndicatorData, quin, false),
+      noJudgement: hasSomeMethodWithJudgement(
+        orderedIndicatorData,
+        quin,
+        false
+      ),
     },
   };
 

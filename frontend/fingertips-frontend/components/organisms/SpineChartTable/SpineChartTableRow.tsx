@@ -18,9 +18,7 @@ import {
 } from './SpineChartTableStyles';
 import { SpineChart } from '../SpineChart';
 import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
-import {
-  HealthDataPointTrendEnum,
-} from '@/generated-sources/ft-api-client';
+import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 import { TrendTag } from '@/components/molecules/TrendTag';
 import { orderStatistics } from '../SpineChart/SpineChartHelpers';
 import { SpineChartIndicatorData } from './spineChartTableHelpers';
@@ -142,10 +140,16 @@ export function SpineChartTableRow({
           benchmarkValue={quartileData.englandValue ?? 0}
           quartileData={quartileData}
           areaOneValue={areasHealthData[0].healthData.at(-1)?.value}
-          areaTwoValue={areasHealthData[1].healthData.at(-1)?.value}
-          areaOneOutcome={areasHealthData[0].healthData.at(-1)?.benchmarkComparison?.outcome}
-          areaTwoOutcome={areasHealthData[1].healthData.at(-1)?.benchmarkComparison?.outcome}
-          groupValue={groupData.healthData.at(-1)?.value}
+          areaTwoValue={areasHealthData[1]?.healthData.at(-1)?.value}
+          areaOneOutcome={
+            areasHealthData[0].healthData.at(-1)?.benchmarkComparison?.outcome
+          }
+          areaTwoOutcome={
+            areasHealthData[1]?.healthData.at(-1)?.benchmarkComparison?.outcome
+          }
+          groupValue={
+            !groupIsEngland ? groupData.healthData.at(-1)?.value : undefined
+          }
           benchmarkMethod={benchmarkComparisonMethod}
         />
       </StyledBenchmarkChart>

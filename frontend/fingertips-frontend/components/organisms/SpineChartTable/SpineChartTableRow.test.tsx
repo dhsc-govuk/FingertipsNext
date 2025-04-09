@@ -17,7 +17,8 @@ describe('Spine chart table row', () => {
     indicatorName: 'indicator',
     latestDataPeriod: 2025,
     valueUnit: '%',
-    benchmarkComparisonMethod: BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+    benchmarkComparisonMethod:
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
     areasHealthData: [
       {
         areaCode: 'A1425',
@@ -35,8 +36,8 @@ describe('Spine chart table row', () => {
             deprivation: noDeprivation,
             benchmarkComparison: {
               method: BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-              outcome: BenchmarkOutcome.Similar
-            }
+              outcome: BenchmarkOutcome.Similar,
+            },
           },
         ],
       },
