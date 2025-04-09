@@ -134,13 +134,13 @@ export default class ChartPage extends AreaFilter {
 
       // if its one of the chart components that has a type dropdown for inequalities then select the last in the list
       if (visibleComponent.componentProps.hasTypeDropDown) {
+        const dropDownComponent =
+          visibleComponent.componentLocator ===
+          ChartPage.inequalitiesForSingleTimePeriodComponent
+            ? ChartPage.inequalitiesTypesDropDownComponentBC
+            : ChartPage.inequalitiesTypesDropDownComponentLC;
         const combobox = this.page
-          .getByTestId(
-            visibleComponent.componentLocator ===
-              ChartPage.inequalitiesForSingleTimePeriodComponent
-              ? ChartPage.inequalitiesTypesDropDownComponentBC
-              : ChartPage.inequalitiesTypesDropDownComponentLC
-          )
+          .getByTestId(dropDownComponent)
           .getByRole('combobox');
         // get the options from the combobox
         const dropdownOptions = await combobox.evaluate(
