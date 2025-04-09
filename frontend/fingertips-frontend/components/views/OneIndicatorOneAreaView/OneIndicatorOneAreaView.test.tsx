@@ -20,6 +20,8 @@ import {
 import { mockHealthData } from '@/mock/data/healthdata';
 import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 import { londonNHSRegion } from '@/mock/data/areas/nhsRegionsAreas';
+import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
+import { areaTypeSorter } from '@/lib/areaFilterHelpers/areaTypeSorter';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
@@ -54,16 +56,35 @@ describe('OneIndicatorOneAreaView', () => {
   );
 
   it.each([
-    [['1'], ['A001'], 'G001', ['A001', areaCodeForEngland, 'G001']],
-    [['1'], ['A001'], areaCodeForEngland, ['A001', areaCodeForEngland]],
-    [['1'], [areaCodeForEngland], undefined, [areaCodeForEngland]],
+    [['1'], ['A001'], 'G001', 'AT001', ['A001', areaCodeForEngland, 'G001']],
+    [
+      ['1'],
+      ['A001'],
+      areaCodeForEngland,
+      'AT001',
+      ['A001', areaCodeForEngland],
+    ],
+    [
+      ['1'],
+      [areaCodeForEngland],
+      undefined,
+      englandAreaType.key,
+      [areaCodeForEngland],
+    ],
   ])(
     'should make 1 call to the healthIndicatorApi with the expected parameters',
-    async (testIndicators, testAreas, testGroup, expectedAreaCodes) => {
+    async (
+      testIndicators,
+      testAreas,
+      testGroup,
+      testAreaType,
+      expectedAreaCodes
+    ) => {
       const searchState: SearchStateParams = {
         [SearchParams.IndicatorsSelected]: testIndicators,
         [SearchParams.AreasSelected]: testAreas,
         [SearchParams.GroupSelected]: testGroup,
+        [SearchParams.AreaTypeSelected]: testAreaType,
       };
       mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({
         areaHealthData: [],
@@ -82,6 +103,7 @@ describe('OneIndicatorOneAreaView', () => {
             GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
             GetHealthDataForAnIndicatorInequalitiesEnum.Deprivation,
           ],
+          areaType: testAreaType,
         },
         API_CACHE_CONFIG
       );
