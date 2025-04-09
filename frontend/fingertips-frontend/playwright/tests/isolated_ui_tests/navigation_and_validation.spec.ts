@@ -188,10 +188,11 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
 
     await test.step('Check selected area pills matches those specified in url', async () => {
       const expectedPillTexts = [
-        allNHSRegionAreas[0].areaName,
-        allNHSRegionAreas[1].areaName,
-        allNHSRegionAreas[2].areaName,
+        `${allNHSRegionAreas[0].areaName} ${allNHSRegionAreas[0].areaType}`,
+        `${allNHSRegionAreas[1].areaName} ${allNHSRegionAreas[1].areaType}`,
+        `${allNHSRegionAreas[2].areaName} ${allNHSRegionAreas[2].areaType}`,
       ];
+
       await test
         .expect(resultsPage.areaFilterPills())
         .toHaveCount(expectedPillTexts.length);
