@@ -64,7 +64,7 @@ export function generateSeriesData({
   )[] = [
     {
       type: 'bar',
-      name: 'Worst',
+      name: worst +' to '+ worstQuartile + '<br/>' + 'Worst to 25th percentile',
       color: GovukColours.MidGrey,
       data: [-scaledFourthQuartileBar],
     },
@@ -82,11 +82,14 @@ export function generateSeriesData({
     },
     {
       type: 'bar',
-      name: '75th percentile',
-      color: GovukColours.DarkGrey,
+      name: bestQuartile +' to '+ best + '<br/>' + '75th percentile to Best',
+      color: GovukColours.MidGrey,
       data: [scaledSecondQuartileBar],
     },
   ];
+
+  const inverter =
+    quartileData.polarity === IndicatorPolarity.LowIsGood ? -1 : 1;
 
   const inverter =
     quartileData.polarity === IndicatorPolarity.LowIsGood ? -1 : 1;
