@@ -44,12 +44,11 @@ const coreTestJourneys: TestParams[] = [
     areaMode: AreaMode.TWO_PLUS_AREAS,
     searchMode: SearchMode.ONLY_AREA,
   },
-  // {
-  // enable once DHSCFT-237 and DHSCFT-225 are done
-  //   indicatorMode: IndicatorMode.TWO_PLUS_INDICATORS,
-  //   areaMode: AreaMode.ENGLAND_AREA,
-  //   searchMode: SearchMode.ONLY_AREA,
-  // },
+  {
+    indicatorMode: IndicatorMode.TWO_PLUS_INDICATORS,
+    areaMode: AreaMode.ENGLAND_AREA,
+    searchMode: SearchMode.ONLY_SUBJECT,
+  },
 ];
 
 /**

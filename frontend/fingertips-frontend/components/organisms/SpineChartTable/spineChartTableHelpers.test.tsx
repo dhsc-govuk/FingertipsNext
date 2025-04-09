@@ -1,6 +1,7 @@
-import { extractingCombinedHealthData } from './extractingCombinedHealthData';
+import { extractCombinedHealthData } from './spineChartTableHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import {
+  BenchmarkComparisonMethod,
   HealthDataForArea,
   IndicatorPolarity,
   IndicatorWithHealthDataForArea,
@@ -97,12 +98,12 @@ const mockInvalidQuartileData = [
   },
 ];
 
-describe('extractingCombinedHealthData ', () => {
+describe('extractCombinedHealthData ', () => {
   it('empty data should raise an error', () => {
     const indicatorData: IndicatorWithHealthDataForArea = {};
 
     expect(() => {
-      extractingCombinedHealthData(
+      extractCombinedHealthData(
         [indicatorData],
         [],
         [],
@@ -119,7 +120,7 @@ describe('extractingCombinedHealthData ', () => {
     };
 
     expect(() => {
-      extractingCombinedHealthData(
+      extractCombinedHealthData(
         [indicatorData],
         [],
         [],
@@ -136,7 +137,7 @@ describe('extractingCombinedHealthData ', () => {
     };
 
     expect(() => {
-      extractingCombinedHealthData(
+      extractCombinedHealthData(
         [indicatorData],
         [],
         [],
@@ -153,7 +154,7 @@ describe('extractingCombinedHealthData ', () => {
     };
 
     expect(() => {
-      extractingCombinedHealthData(
+      extractCombinedHealthData(
         [indicatorData],
         [],
         [],
@@ -170,7 +171,7 @@ describe('extractingCombinedHealthData ', () => {
     };
 
     expect(() => {
-      extractingCombinedHealthData(
+      extractCombinedHealthData(
         [indicatorData],
         [],
         [],
@@ -187,7 +188,7 @@ describe('extractingCombinedHealthData ', () => {
     };
 
     expect(() => {
-      extractingCombinedHealthData(
+      extractCombinedHealthData(
         [indicatorData],
         [],
         [],
@@ -204,7 +205,7 @@ describe('extractingCombinedHealthData ', () => {
     };
 
     expect(() => {
-      extractingCombinedHealthData(
+      extractCombinedHealthData(
         [indicatorData],
         [],
         [],
@@ -221,7 +222,7 @@ describe('extractingCombinedHealthData ', () => {
     };
 
     expect(() => {
-      extractingCombinedHealthData(
+      extractCombinedHealthData(
         [indicatorData],
         [],
         mockInvalidQuartileData,
@@ -244,15 +245,17 @@ describe('extractingCombinedHealthData ', () => {
       orderedGroupData: [
         { areaCode: 'G001', areaName: 'group', healthData: [] },
       ],
-      orderedHealthData: [
+      orderedHealthDataAreaOne: [
         { areaCode: 'A001', areaName: 'area', healthData: [] },
       ],
+      orderedHealthDataAreaTwo: undefined,
       orderedMetadata: [undefined],
       orderedQuartileData: mockQuartileData,
+      orderedMethods: [BenchmarkComparisonMethod.Unknown],
     };
 
     expect(
-      extractingCombinedHealthData(
+      extractCombinedHealthData(
         [indicatorData],
         [],
         mockQuartileData,
@@ -268,7 +271,7 @@ describe('extractingCombinedHealthData ', () => {
     };
 
     expect(() => {
-      extractingCombinedHealthData(
+      extractCombinedHealthData(
         [indicatorData],
         mockValidMetaData,
         mockQuartileData,
@@ -291,15 +294,17 @@ describe('extractingCombinedHealthData ', () => {
       orderedGroupData: [
         { areaCode: 'G001', areaName: 'group', healthData: [] },
       ],
-      orderedHealthData: [
+      orderedHealthDataAreaOne: [
         { areaCode: 'A001', areaName: 'area', healthData: [] },
       ],
+      orderedHealthDataAreaTwo: undefined,
       orderedMetadata: [undefined],
       orderedQuartileData: mockQuartileData,
+      orderedMethods: [BenchmarkComparisonMethod.Unknown],
     };
 
     expect(
-      extractingCombinedHealthData(
+      extractCombinedHealthData(
         [indicatorData],
         mockInvalidMetaData,
         mockQuartileData,
@@ -322,15 +327,17 @@ describe('extractingCombinedHealthData ', () => {
       orderedGroupData: [
         { areaCode: 'G001', areaName: 'group', healthData: [] },
       ],
-      orderedHealthData: [
+      orderedHealthDataAreaOne: [
         { areaCode: 'A001', areaName: 'area', healthData: [] },
       ],
+      orderedHealthDataAreaTwo: undefined,
       orderedMetadata: mockValidMetaData,
       orderedQuartileData: mockQuartileData,
+      orderedMethods: [BenchmarkComparisonMethod.Unknown],
     };
 
     expect(
-      extractingCombinedHealthData(
+      extractCombinedHealthData(
         [indicatorData],
         mockValidMetaData,
         mockQuartileData,

@@ -1,13 +1,12 @@
 import {
   GetHealthDataForAnIndicatorInequalitiesEnum,
+  IndicatorsApi,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
-import {
-  API_CACHE_CONFIG,
-  ApiClientFactory,
-} from './apiClient/apiClientFactory';
+import { API_CACHE_CONFIG } from '@/lib/apiClient/apiClientFactory';
 
 export const maxNumAreasThatCanBeRequestedAPI = 100;
+
 export function chunkArray(
   arrayToChunk: string[],
   chunkSize: number = maxNumAreasThatCanBeRequestedAPI
@@ -19,38 +18,47 @@ export function chunkArray(
   return chunkedArray;
 }
 
-export const fetchIndicatorWithHealthDataForAreaInBatches = async (
-  populationIndicatorID: number,
-  areaCodesToRequest: string[],
-  inequalities: GetHealthDataForAnIndicatorInequalitiesEnum[]
-): Promise<IndicatorWithHealthDataForArea | undefined> => {
-  const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
-  let population: IndicatorWithHealthDataForArea | undefined = undefined;
+export interface HealthDataRequestAreas {
+  areaCodes: string[];
+  areaType?: string;
+  inequalities?: GetHealthDataForAnIndicatorInequalitiesEnum[];
+}
 
-  await Promise.all(
-    chunkArray(areaCodesToRequest).map(async (requestAreas) => {
-      try {
-        const data = await indicatorApi.getHealthDataForAnIndicator(
-          {
-            indicatorId: populationIndicatorID,
-            areaCodes: requestAreas,
-            inequalities: inequalities,
-          },
-          API_CACHE_CONFIG
-        );
+export const getHealthDataForIndicator = async (
+  indicatorApi: IndicatorsApi,
+  indicatorId: string | number,
+  combinedRequestAreas: HealthDataRequestAreas[]
+) => {
+  let healthIndicatorData: IndicatorWithHealthDataForArea | undefined;
 
-        if (!population) {
-          population = data;
-        } else {
-          population.areaHealthData?.push(...(data.areaHealthData ?? []));
-        }
-      } catch (error) {
-        console.error(
-          'error getting population health indicator data for area',
-          error
+  try {
+    const healthIndicatorDataChunks = await Promise.all(
+      combinedRequestAreas.flatMap((requestAreas) => {
+        return chunkArray(requestAreas.areaCodes).map((areaCodes) =>
+          indicatorApi.getHealthDataForAnIndicator(
+            {
+              indicatorId: Number(indicatorId),
+              areaCodes: areaCodes,
+              areaType: requestAreas.areaType,
+              inequalities: requestAreas.inequalities,
+            },
+            API_CACHE_CONFIG
+          )
         );
-      }
-    })
-  );
-  return population;
+      })
+    );
+
+    healthIndicatorData = healthIndicatorDataChunks[0];
+
+    healthIndicatorData.indicatorId =
+      healthIndicatorData.indicatorId ?? Number(indicatorId);
+
+    healthIndicatorData.areaHealthData = healthIndicatorDataChunks
+      .map((indicatorData) => indicatorData?.areaHealthData ?? [])
+      .flat();
+  } catch (error) {
+    throw new Error(`Error getting health indicator data for areas: ${error}`);
+  }
+
+  return healthIndicatorData;
 };

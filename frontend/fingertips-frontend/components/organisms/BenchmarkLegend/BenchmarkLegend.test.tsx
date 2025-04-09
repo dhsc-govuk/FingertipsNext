@@ -1,10 +1,11 @@
-import { render } from '@testing-library/react';
-import { BenchmarkLegend } from '.';
+import { render, screen } from '@testing-library/react';
+import { BenchmarkLegend, BenchmarkLegends } from '.';
 import '@testing-library/jest-dom';
 import {
   BenchmarkComparisonMethod,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
+import { BenchmarkLegendsToShow } from '@/components/organisms/BenchmarkLegend/benchmarkLegend.types';
 
 describe('Testing the benchmark component', () => {
   it('Snapshot testing of the UI RAG 95', () => {
@@ -84,5 +85,89 @@ describe('Testing the benchmark component', () => {
   it('Snapshot testing of the legend with all items shown', () => {
     const container = render(<BenchmarkLegend title={'All'} />);
     expect(container.asFragment()).toMatchSnapshot();
+  });
+
+  describe('BenchmarkLegends', () => {
+    describe('CI 95%', () => {
+      it.each([
+        [
+          BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+          true,
+          false,
+          /^BetterSimilarWorseNot compared$/,
+        ],
+        [
+          BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+          false,
+          true,
+          /^LowerSimilarHigherNot compared$/,
+        ],
+        [
+          BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+          true,
+          true,
+          /^BetterSimilarWorseNot comparedLowerHigher$/,
+        ],
+        [
+          BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
+          true,
+          false,
+          /^BetterSimilarWorseNot compared$/,
+        ],
+        [
+          BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
+          false,
+          true,
+          /^LowerSimilarHigherNot compared$/,
+        ],
+        [
+          BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
+          true,
+          true,
+          /^BetterSimilarWorseNot comparedLowerHigher$/,
+        ],
+        [
+          BenchmarkComparisonMethod.Quintiles,
+          true,
+          false,
+          /^WorstWorseMiddleBetterBest$/,
+        ],
+        [
+          BenchmarkComparisonMethod.Quintiles,
+          false,
+          true,
+          /^LowestLowMiddleHighHighest$/,
+        ],
+      ])(
+        'method: %s, judgement: %s, noJudgement: %s',
+        (method, judgement, noJudgement, reg) => {
+          const legendsToShow: BenchmarkLegendsToShow = {
+            [method]: {
+              judgement,
+              noJudgement,
+            },
+          };
+
+          render(<BenchmarkLegends legendsToShow={legendsToShow} />);
+
+          expect(screen.getAllByRole('group')).toHaveLength(1);
+          expect(screen.getByRole('group')).toHaveTextContent(reg);
+        }
+      );
+
+      it('should render both quintiles', () => {
+        const legendsToShow = {
+          [BenchmarkComparisonMethod.Quintiles]: {
+            judgement: true,
+            noJudgement: true,
+          },
+        };
+        render(<BenchmarkLegends legendsToShow={legendsToShow} />);
+        const groups = screen.getAllByRole('group');
+        expect(groups).toHaveLength(2);
+        expect(groups[0]).toHaveTextContent(/^LowestLowMiddleHighHighest$/);
+        expect(groups[1]).toHaveTextContent(/^WorstWorseMiddleBetterBest$/);
+      });
+    });
   });
 });
