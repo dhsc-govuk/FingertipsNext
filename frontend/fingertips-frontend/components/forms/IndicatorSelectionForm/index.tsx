@@ -10,14 +10,16 @@ import {
 } from '@/lib/searchStateManager';
 import {
   Button,
+  Checkbox,
   ListItem,
   Paragraph,
   SectionBreak,
   UnorderedList,
-  Checkbox,
 } from 'govuk-react';
 import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
+import { IndicatorSort } from '@/components/forms/IndicatorSort/IndicatorSort';
+import { useIndicatorSort } from '@/components/forms/IndicatorSort/useIndicatorSort';
 
 const ResultLabelsContainer = styled.span({
   alignItems: 'center',
@@ -135,6 +137,9 @@ export function IndicatorSelectionForm({
     replace(stateManager.generatePath(pathname), { scroll: false });
   };
 
+  const { sortedResults, selectedSortOrder, handleSortOrder } =
+    useIndicatorSort(searchResults);
+
   return (
     <form
       action={formAction}
@@ -149,7 +154,11 @@ export function IndicatorSelectionForm({
         defaultValue={JSON.stringify(searchState)}
         hidden
       />
-      {searchResults.length ? (
+      <IndicatorSort
+        selectedSortOrder={selectedSortOrder}
+        onChange={handleSortOrder}
+      />
+      {sortedResults.length ? (
         <>
           <ResultLabelsContainer>
             <Checkbox
@@ -170,7 +179,7 @@ export function IndicatorSelectionForm({
             <ListItem>
               <SectionBreak visible={true} />
             </ListItem>
-            {searchResults.map((result) => (
+            {sortedResults.map((result) => (
               <SearchResult
                 key={generateKey(result.indicatorID.toString(), searchState)}
                 result={result}

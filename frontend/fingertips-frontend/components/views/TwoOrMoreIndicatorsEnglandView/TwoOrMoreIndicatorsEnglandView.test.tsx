@@ -12,6 +12,7 @@ import {
 import { mockDeep } from 'jest-mock-extended';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import TwoOrMoreIndicatorsEnglandView from '@/components/views/TwoOrMoreIndicatorsEnglandView/index';
+import { healthDataPoint } from '@/lib/mocks';
 
 const mockSearchParams: SearchStateParams = {
   [SearchParams.IndicatorsSelected]: ['1', '2'],
@@ -26,6 +27,15 @@ const mockEnglandData: HealthDataForArea = {
 
 const mockIndicator: IndicatorWithHealthDataForArea = {
   areaHealthData: [mockEnglandData],
+};
+const mockEnglandDataWithHealthData: HealthDataForArea = {
+  areaCode: areaCodeForEngland,
+  areaName: 'england',
+  healthData: [healthDataPoint],
+};
+
+const mockIndicatorWithHealthData = {
+  areaHealthData: [mockEnglandDataWithHealthData],
 };
 
 const mockIndicatorDocument = (
@@ -102,7 +112,7 @@ describe('TwoOrMoreIndicatorsEnglandView', () => {
     beforeEach(() => {
       mockIndicatorsApi.getHealthDataForAnIndicator
         .mockResolvedValueOnce(mockIndicator)
-        .mockResolvedValueOnce(mockIndicator);
+        .mockResolvedValueOnce(mockIndicatorWithHealthData);
     });
 
     it('should call TwoOrMoreIndicatorsEnglandViewPlots with the correct props', async () => {
@@ -114,7 +124,7 @@ describe('TwoOrMoreIndicatorsEnglandView', () => {
       expect(page.props.children.props.searchState).toEqual(mockSearchParams);
       expect(page.props.children.props.indicatorData).toEqual([
         mockIndicator,
-        mockIndicator,
+        mockIndicatorWithHealthData,
       ]);
       expect(page.props.children.props.indicatorMetadata).toEqual(
         fullSelectedIndicatorsData
@@ -147,6 +157,27 @@ describe('TwoOrMoreIndicatorsEnglandView', () => {
           selectedIndicatorsData: fullSelectedIndicatorsData,
         });
       }).rejects.toThrow('Invalid parameters provided to view');
+    });
+
+    it('should throw an error when the incorrect metadata is passed', async () => {
+      const selectedIndicatorsData: IndicatorDocument[] = [];
+      mockSearchParams[SearchParams.IndicatorsSelected]?.forEach(
+        (indicatorId) => {
+          selectedIndicatorsData.push(
+            mockIndicatorDocument(indicatorId, '1', '1', '1', '1')
+          );
+        }
+      );
+      selectedIndicatorsData.push(
+        mockIndicatorDocument('5555', '5', '5', '5', '5')
+      );
+
+      await expect(async () => {
+        await TwoOrMoreIndicatorsEnglandView({
+          searchState: mockSearchParams,
+          selectedIndicatorsData: selectedIndicatorsData,
+        });
+      }).rejects.toThrow('invalid indicator metadata passed to view');
     });
   });
 });

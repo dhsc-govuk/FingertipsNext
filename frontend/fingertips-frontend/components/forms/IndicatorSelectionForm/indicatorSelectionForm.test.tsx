@@ -6,6 +6,7 @@ import { UserEvent, userEvent } from '@testing-library/user-event';
 import { formatDate } from '@/lib/dateHelpers/dateHelpers';
 import { LoaderContext } from '@/context/LoaderContext';
 import { SearchStateContext } from '@/context/SearchStateContext';
+import { SortOrderKeys } from '@/components/forms/IndicatorSort/indicatorSort.types';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -387,5 +388,19 @@ describe('IndicatorSelectionForm', () => {
     );
 
     expect(screen.getByRole('checkbox', { name: /Select all/i })).toBeChecked();
+  });
+
+  it('should show sort order', () => {
+    render(
+      <IndicatorSelectionForm
+        searchResults={MOCK_DATA}
+        showTrends={false}
+        formAction={mockFormAction}
+      />
+    );
+
+    expect(screen.getByRole('combobox', { name: /Sort by/i })).toHaveValue(
+      SortOrderKeys.relevance
+    );
   });
 });
