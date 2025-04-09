@@ -23,6 +23,8 @@ ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 
 const mockAreaCode = 'A001';
 const mockGroupCode = 'G001';
+const mockAreaType = 'AT001';
+const mockGroupType = 'GT001';
 
 const mockAreaData: HealthDataForArea = {
   areaCode: mockAreaCode,
@@ -60,17 +62,12 @@ const mockIndicatorDocument = (indicatorId: string): IndicatorDocument => {
   };
 };
 
-const testAreaCode = 'A001';
-const testAreaType = 'AT001';
-const testGroupCode = 'G001';
-const testGroupType = 'GT001';
-
 const fullSearchParams: SearchStateParams = {
   [SearchParams.IndicatorsSelected]: ['1', '2'],
-  [SearchParams.AreasSelected]: [testAreaCode],
-  [SearchParams.GroupSelected]: testGroupCode,
-  [SearchParams.AreaTypeSelected]: testAreaType,
-  [SearchParams.GroupTypeSelected]: testGroupType,
+  [SearchParams.AreasSelected]: [mockAreaCode],
+  [SearchParams.GroupSelected]: mockGroupCode,
+  [SearchParams.AreaTypeSelected]: mockAreaType,
+  [SearchParams.GroupTypeSelected]: mockGroupType,
 };
 
 const fullSelectedIndicatorsData: IndicatorDocument[] = [
@@ -81,16 +78,10 @@ const fullSelectedIndicatorsData: IndicatorDocument[] = [
 describe('TwoOrMoreIndicatorsAreasView', () => {
   beforeEach(() => {
     mockIndicatorsApi.getHealthDataForAnIndicator.mockClear();
-    mockIndicatorsApi.getHealthDataForAnIndicator
-      .mockResolvedValueOnce(mockIndicator)
-      .mockResolvedValueOnce(mockIndicator)
-      .mockResolvedValueOnce(mockIndicator)
-      .mockResolvedValueOnce(mockIndicator)
-      .mockResolvedValueOnce(mockIndicator)
-      .mockResolvedValueOnce(mockIndicator);
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
+      mockIndicator
+    );
   });
-
-  afterEach(() => {});
 
   it('should call indicators API with correct parameters', async () => {
     await TwoOrMoreIndicatorsAreasView({
@@ -98,14 +89,18 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
       selectedIndicatorsData: fullSelectedIndicatorsData,
     });
 
+    expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
+      6
+    );
+
     expect(
       mockIndicatorsApi.getHealthDataForAnIndicator
     ).toHaveBeenNthCalledWith(
       1,
       {
-        areaCodes: [testAreaCode],
+        areaCodes: [mockAreaCode],
         indicatorId: 1,
-        areaType: testAreaType,
+        areaType: mockAreaType,
       },
       API_CACHE_CONFIG
     );
@@ -127,9 +122,9 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
     ).toHaveBeenNthCalledWith(
       3,
       {
-        areaCodes: [testGroupCode],
+        areaCodes: [mockGroupCode],
         indicatorId: 1,
-        areaType: testGroupType,
+        areaType: mockGroupType,
       },
       API_CACHE_CONFIG
     );
@@ -139,9 +134,9 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
     ).toHaveBeenNthCalledWith(
       4,
       {
-        areaCodes: [testAreaCode],
+        areaCodes: [mockAreaCode],
         indicatorId: 2,
-        areaType: testAreaType,
+        areaType: mockAreaType,
       },
       API_CACHE_CONFIG
     );
@@ -163,9 +158,9 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
     ).toHaveBeenNthCalledWith(
       6,
       {
-        areaCodes: ['G001'],
+        areaCodes: [mockGroupCode],
         indicatorId: 2,
-        areaType: 'GT001',
+        areaType: mockGroupType,
       },
       API_CACHE_CONFIG
     );
