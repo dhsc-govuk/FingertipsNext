@@ -1,6 +1,7 @@
 import { extractCombinedHealthData } from './spineChartTableHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import {
+  BenchmarkComparisonMethod,
   HealthDataForArea,
   IndicatorPolarity,
   IndicatorWithHealthDataForArea,
@@ -250,6 +251,7 @@ describe('extractCombinedHealthData ', () => {
       orderedHealthDataAreaTwo: undefined,
       orderedMetadata: [undefined],
       orderedQuartileData: mockQuartileData,
+      orderedMethods: [BenchmarkComparisonMethod.Unknown],
     };
 
     expect(
@@ -298,6 +300,7 @@ describe('extractCombinedHealthData ', () => {
       orderedHealthDataAreaTwo: undefined,
       orderedMetadata: [undefined],
       orderedQuartileData: mockQuartileData,
+      orderedMethods: [BenchmarkComparisonMethod.Unknown],
     };
 
     expect(
@@ -330,6 +333,7 @@ describe('extractCombinedHealthData ', () => {
       orderedHealthDataAreaTwo: undefined,
       orderedMetadata: mockValidMetaData,
       orderedQuartileData: mockQuartileData,
+      orderedMethods: [BenchmarkComparisonMethod.Unknown],
     };
 
     expect(

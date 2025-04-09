@@ -1,5 +1,6 @@
 'use client';
 import {
+  BenchmarkComparisonMethod,
   HealthDataForArea,
   Indicator,
   QuartileData,
@@ -9,11 +10,21 @@ import React from 'react';
 import { SpineChartTableHeader } from './SpineChartTableHeader';
 
 import {
-  SpineChartTableRowData,
   SpineChartTableRow,
+  SpineChartTableRowData,
 } from './SpineChartTableRow';
 import { StyledDivTableContainer, StyledTable } from './SpineChartTableStyles';
 import { spineChartImproperUsageError } from './spineChartTableHelpers';
+import { H2 } from 'govuk-react';
+import styled from 'styled-components';
+import { SpineChartLegend } from '@/components/organisms/SpineChartLegend/SpineChartLegend';
+import { SpineChartQuartilesInfoContainer } from '@/components/organisms/SpineChart/SpineChartQuartilesInfo';
+import { getMethodsAndOutcomes } from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
+
+const SpineChartHeading = styled(H2)({
+  fontSize: '1.5rem',
+  marginTop: '1rem',
+});
 
 export interface SpineChartTableProps {
   rowData: SpineChartTableRowProps[];
@@ -28,6 +39,7 @@ export interface SpineChartTableRowProps {
   groupIndicatorData: HealthDataForArea;
   englandBenchmarkData: HealthDataForArea;
   benchmarkStatistics: QuartileData;
+  benchmarkComparisonMethod: BenchmarkComparisonMethod;
 }
 
 /**
@@ -51,23 +63,25 @@ export const mapToSpineChartTableData = (
     // Show no value for the second area if it does not have data for the latest period for the first area.
     const showSecondArea = twoAreasRequested && checkLatestPeriodMatches(item);
 
+    const areaOneHealthData = item.indicatorHealthDataAreaOne.healthData[0];
+    const areaTwoHealthData = item.indicatorHealthDataAreaTwo?.healthData[0];
+
     return {
       indicatorId: item.indicator.indicatorId,
       indicator: item.indicator.title,
       unit: item.measurementUnit,
-      period: item.indicatorHealthDataAreaOne.healthData[0].year,
-      trend: item.indicatorHealthDataAreaOne.healthData[0].trend,
-      areaOneCount: item.indicatorHealthDataAreaOne.healthData[0].count,
-      areaOneValue: item.indicatorHealthDataAreaOne.healthData[0].value,
-      areaTwoCount: showSecondArea
-        ? item.indicatorHealthDataAreaTwo?.healthData[0].count
-        : undefined,
-      areaTwoValue: showSecondArea
-        ? item.indicatorHealthDataAreaTwo?.healthData[0].value
-        : undefined,
+      period: areaOneHealthData.year,
+      trend: areaOneHealthData.trend,
+      areaOneCount: areaOneHealthData.count,
+      areaOneValue: areaOneHealthData.value,
+      areaOneOutcome: areaOneHealthData.benchmarkComparison?.outcome,
+      areaTwoCount: showSecondArea ? areaTwoHealthData?.count : undefined,
+      areaTwoValue: showSecondArea ? areaTwoHealthData?.value : undefined,
+      areaTwoOutcome: areaTwoHealthData?.benchmarkComparison?.outcome,
       groupValue: item.groupIndicatorData.healthData[0].value,
       benchmarkValue: item.englandBenchmarkData.healthData[0].value,
       benchmarkStatistics: item.benchmarkStatistics,
+      benchmarkComparisonMethod: item.benchmarkComparisonMethod,
       twoAreasRequested,
     };
   });
@@ -101,33 +115,49 @@ export function SpineChartTable({
   const mappedTableData = mapToSpineChartTableData(rowData, twoAreasRequested);
   const sortedData = sortByIndicator(mappedTableData);
   const mappedAreaNames = getAreaNames(twoAreasRequested, rowData[0]);
+  const methods = getMethodsAndOutcomes(rowData);
+
+  // DHSCFT-582 - extend to allow up to 2 areas. Trends should only show for 1.
+
   return (
-    <StyledDivTableContainer data-testid="spineChartTable-component">
-      <StyledTable>
-        <SpineChartTableHeader
-          areaNames={mappedAreaNames}
-          groupName={groupName}
-        />
-        {sortedData.map((row) => (
-          <React.Fragment key={row.indicatorId}>
-            <SpineChartTableRow
-              indicatorId={row.indicatorId}
-              indicator={row.indicator}
-              unit={row.unit}
-              period={row.period}
-              trend={row.trend}
-              areaOneCount={row.areaOneCount}
-              areaOneValue={row.areaOneValue}
-              areaTwoCount={row.areaTwoCount}
-              areaTwoValue={row.areaTwoValue}
-              groupValue={row.groupValue}
-              benchmarkValue={row.benchmarkValue}
-              benchmarkStatistics={row.benchmarkStatistics}
-              twoAreasRequested={twoAreasRequested}
-            />
-          </React.Fragment>
-        ))}
-      </StyledTable>
-    </StyledDivTableContainer>
+    <>
+      <SpineChartHeading>Compare indicators by areas</SpineChartHeading>
+      <SpineChartLegend
+        legendsToShow={methods}
+        groupName={groupName}
+        areaNames={mappedAreaNames}
+      />
+      <SpineChartQuartilesInfoContainer />
+      <StyledDivTableContainer data-testid="spineChartTable-component">
+        <StyledTable>
+          <SpineChartTableHeader
+            areaNames={mappedAreaNames}
+            groupName={groupName}
+          />
+          {sortedData.map((row) => (
+            <React.Fragment key={row.indicatorId}>
+              <SpineChartTableRow
+                indicatorId={row.indicatorId}
+                indicator={row.indicator}
+                unit={row.unit}
+                period={row.period}
+                trend={row.trend}
+                areaOneCount={row.areaOneCount}
+                areaOneValue={row.areaOneValue}
+                areaOneOutcome={row.areaOneOutcome}
+                areaTwoCount={row.areaTwoCount}
+                areaTwoValue={row.areaTwoValue}
+                areaTwoOutcome={row.areaTwoOutcome}
+                groupValue={row.groupValue}
+                benchmarkValue={row.benchmarkValue}
+                benchmarkStatistics={row.benchmarkStatistics}
+                twoAreasRequested={twoAreasRequested}
+                benchmarkComparisonMethod={row.benchmarkComparisonMethod}
+              />
+            </React.Fragment>
+          ))}
+        </StyledTable>
+      </StyledDivTableContainer>
+    </>
   );
 }

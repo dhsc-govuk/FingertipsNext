@@ -1,14 +1,20 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import { SpineChartTableRowData } from './SpineChartTableRow';
-import { mapToSpineChartTableData, SpineChartTable } from '.';
 import {
+  mapToSpineChartTableData,
+  SpineChartTable,
+  SpineChartTableRowProps,
+} from './index';
+import {
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
   HealthDataForArea,
   HealthDataPointTrendEnum,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
+import { SpineChartTableRowData } from '@/components/organisms/SpineChartTable/SpineChartTableRow';
 
 describe('Spine chart table suite', () => {
   const mockIndicatorData = [
@@ -50,6 +56,9 @@ describe('Spine chart table suite', () => {
             sex: personsSex,
             trend: HealthDataPointTrendEnum.IncreasingAndGettingWorse,
             deprivation: noDeprivation,
+            benchmarkComparison: {
+              outcome: BenchmarkOutcome.Better,
+            },
           },
         ],
       },
@@ -67,6 +76,9 @@ describe('Spine chart table suite', () => {
             sex: personsSex,
             trend: HealthDataPointTrendEnum.CannotBeCalculated,
             deprivation: noDeprivation,
+            benchmarkComparison: {
+              outcome: BenchmarkOutcome.Similar,
+            },
           },
         ],
       },
@@ -127,7 +139,7 @@ describe('Spine chart table suite', () => {
     },
   ];
 
-  const mockTableData = [
+  const mockTableData: SpineChartTableRowProps[] = [
     {
       indicator: mockIndicatorData[0],
       measurementUnit: mockUnits[0],
@@ -135,6 +147,8 @@ describe('Spine chart table suite', () => {
       groupIndicatorData: mockGroup[0],
       englandBenchmarkData: MOCK_HEALTH_DATA[0],
       benchmarkStatistics: mockBenchmarkStatistics[0],
+      benchmarkComparisonMethod:
+        BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
     },
     {
       indicator: mockIndicatorData[1],
@@ -143,6 +157,8 @@ describe('Spine chart table suite', () => {
       groupIndicatorData: mockGroup[1],
       englandBenchmarkData: MOCK_HEALTH_DATA[1],
       benchmarkStatistics: mockBenchmarkStatistics[1],
+      benchmarkComparisonMethod:
+        BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
     },
   ];
 
@@ -167,9 +183,9 @@ describe('Spine chart table suite', () => {
       );
 
       const expectedIndicators = ['Test indicator 2', 'Test indicator 1'];
-      const indictors = screen.getAllByTestId(`indicator-cell`);
-      expect(indictors[0]).toHaveTextContent(expectedIndicators[0]);
-      expect(indictors[1]).toHaveTextContent(expectedIndicators[1]);
+      const indicators = screen.getAllByTestId(`indicator-cell`);
+      expect(indicators[0]).toHaveTextContent(expectedIndicators[0]);
+      expect(indicators[1]).toHaveTextContent(expectedIndicators[1]);
     });
   });
 
@@ -185,15 +201,21 @@ describe('Spine chart table suite', () => {
             q3Value: 959,
           },
           benchmarkValue: 890.305692,
+          areaOneValue: 890.305692,
           areaOneCount: 222,
+          areaOneOutcome: 'Better',
+          areaTwoCount: undefined,
+          areaTwoOutcome: undefined,
+          areaTwoValue: undefined,
           groupValue: 980.305692,
           indicator: 'Test indicator 1',
           indicatorId: 2,
           period: 2024,
           trend: 'Increasing and getting worse',
           unit: 'kg',
-          areaOneValue: 890.305692,
           twoAreasRequested: false,
+          benchmarkComparisonMethod:
+            BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
         },
         {
           benchmarkStatistics: {
@@ -204,15 +226,22 @@ describe('Spine chart table suite', () => {
             q3Value: 100,
           },
           benchmarkValue: 135.149304,
+          areaOneValue: 690.305692,
           areaOneCount: 111,
+          areaOneOutcome: BenchmarkOutcome.Similar,
+          areaTwoCount: undefined,
+          areaTwoOutcome: undefined,
+          areaTwoValue: undefined,
           groupValue: 690.305692,
           indicator: 'Test indicator 2',
           indicatorId: 1,
           period: 2022,
           trend: 'Cannot be calculated',
           unit: 'per 1000',
-          areaOneValue: 690.305692,
+
           twoAreasRequested: false,
+          benchmarkComparisonMethod:
+            BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
         },
       ];
 
@@ -223,7 +252,7 @@ describe('Spine chart table suite', () => {
   });
 
   describe('Spine Chart with 2 areas', () => {
-    const mockTwoAreaTableData = [
+    const mockTwoAreaTableData: SpineChartTableRowProps[] = [
       {
         indicator: mockIndicatorData[0],
         measurementUnit: mockUnits[0],
@@ -232,6 +261,8 @@ describe('Spine chart table suite', () => {
         groupIndicatorData: mockGroup[0],
         englandBenchmarkData: MOCK_HEALTH_DATA[0],
         benchmarkStatistics: mockBenchmarkStatistics[0],
+        benchmarkComparisonMethod:
+          BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
       },
       {
         indicator: mockIndicatorData[1],
@@ -241,6 +272,8 @@ describe('Spine chart table suite', () => {
         groupIndicatorData: mockGroup[1],
         englandBenchmarkData: MOCK_HEALTH_DATA[1],
         benchmarkStatistics: mockBenchmarkStatistics[1],
+        benchmarkComparisonMethod:
+          BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
       },
     ];
 
