@@ -5,7 +5,7 @@ export enum SortOrderKeys {
 }
 
 export const sortOrderLabels: Record<SortOrderKeys, string> = {
-  relevance: 'Most relevant',
-  updated: 'Last updated',
-  alphabetical: 'Alphabetical',
+  [SortOrderKeys.relevance]: 'Most relevant',
+  [SortOrderKeys.updated]: 'Last updated',
+  [SortOrderKeys.alphabetical]: 'Alphabetical',
 };

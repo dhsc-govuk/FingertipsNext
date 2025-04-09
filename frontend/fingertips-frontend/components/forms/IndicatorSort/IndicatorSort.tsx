@@ -24,7 +24,7 @@ export const IndicatorSort: FC<IndicatorSortProps> = ({
       <Select label="Sort by" input={{ onChange, value: selectedSortOrder }}>
         {Object.keys(SortOrderKeys).map((key) => (
           <option key={key} value={key}>
-            {sortOrderLabels[key as keyof typeof SortOrderKeys]}
+            {sortOrderLabels[key as SortOrderKeys]}
           </option>
         ))}
       </Select>

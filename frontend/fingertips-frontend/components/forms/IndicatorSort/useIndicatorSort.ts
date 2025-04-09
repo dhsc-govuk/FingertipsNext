@@ -16,9 +16,8 @@ export const useIndicatorSort = (results: IndicatorDocument[]) => {
   const searchState = getSearchState();
   const stateManager = SearchStateManager.initialise(searchState);
 
-  const sortOrderFromState = searchState
-    ? searchState[SearchParams.SearchedOrder]
-    : undefined;
+  const sortOrderFromState = searchState?.[SearchParams.SearchedOrder];
+
   const selectedSortOrder = (
     Object.keys(SortOrderKeys).includes(sortOrderFromState ?? '')
       ? sortOrderFromState
