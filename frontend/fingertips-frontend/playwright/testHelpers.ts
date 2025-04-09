@@ -181,6 +181,7 @@ export function getScenarioConfig(
         ChartPage.inequalitiesBarChartTableComponent,
         ChartPage.inequalitiesLineChartTableComponent,
         ChartPage.inequalitiesForSingleTimePeriodComponent,
+        ChartPage.inequalitiesTypesDropDownComponent,
         ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
     );
