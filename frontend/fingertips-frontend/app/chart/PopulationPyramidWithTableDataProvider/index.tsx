@@ -12,7 +12,7 @@ import { HierarchyNameTypes } from '@/lib/areaFilterHelpers/areaType';
 
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { PopulationPyramidWithTable } from '@/components/organisms/PopulationPyramidWithTable';
-import { fetchBatchIndicatorWithHealthDataForArea } from '@/lib/ViewsHelpers';
+import { fetchIndicatorWithHealthDataForAreaInBatches } from '@/lib/ViewsHelpers';
 const enum PopulationIndicatorIdsTypes {
   ADMINISTRATIVE = 92708,
   NHS = 337,
@@ -63,7 +63,7 @@ export const PopulationPyramidWithTableDataProvider = async ({
       const populationIndicatorID = await fetchPopulationIndicatorID(
         areaCodesToRequest[0]
       );
-      return await fetchBatchIndicatorWithHealthDataForArea(
+      return await fetchIndicatorWithHealthDataForAreaInBatches(
         populationIndicatorID,
         areaCodesToRequest,
         [

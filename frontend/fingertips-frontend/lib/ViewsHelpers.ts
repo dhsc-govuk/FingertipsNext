@@ -19,7 +19,7 @@ export function chunkArray(
   return chunkedArray;
 }
 
-export const fetchBatchIndicatorWithHealthDataForArea = async (
+export const fetchIndicatorWithHealthDataForAreaInBatches = async (
   populationIndicatorID: number,
   areaCodesToRequest: string[],
   inequalities: GetHealthDataForAnIndicatorInequalitiesEnum[]
