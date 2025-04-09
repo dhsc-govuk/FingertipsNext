@@ -22,6 +22,7 @@ import {
   sequenceSelectorForInequality,
   healthDataFilterFunctionGeneratorForInequality,
   getYearsWithInequalityData,
+  generateInequalitiesLineChartOptions,
 } from './inequalitiesHelpers';
 import { GROUPED_YEAR_DATA } from '@/lib/tableHelpers/mocks';
 import { UniqueChartColours } from '@/lib/chartHelpers/colours';
@@ -40,6 +41,7 @@ import {
   mockBenchmarkData,
   mockParentData,
 } from '../LineChart/mocks';
+import { lineChartDefaultOptions } from '@/components/organisms/LineChart/lineChartHelpers';
 
 const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
   areaCode: 'A1425',
@@ -866,6 +868,52 @@ describe('getAggregatePointInfo', () => {
     const result = getAggregatePointInfo(sequenceTestData);
 
     expect(result).toHaveProperty('sortedKeys', ['Persons', 'Male', 'Female']);
+  });
+});
+
+describe('generateInequalitiesLineChartOptions', () => {
+  it('should generate inequalities line chart options', () => {
+    const expected = {
+      ...lineChartDefaultOptions,
+      yAxis: {
+        ...lineChartDefaultOptions.yAxis,
+        title: { text: 'yAxis: %', margin: 20 },
+      },
+      xAxis: {
+        ...lineChartDefaultOptions.xAxis,
+        title: { text: 'xAxis', margin: 20 },
+      },
+      tooltip: {
+        headerFormat:
+          `<span style="font-weight: bold">${MOCK_INEQUALITIES_DATA.areaName}</span><br/>` +
+          '<span>Year {point.x}</span><br/>',
+        useHTML: true,
+      },
+      series: generateInequalitiesLineChartSeriesData(
+        sexKeys,
+        InequalitiesTypes.Sex,
+        mockChartData,
+        ['A1'],
+        false
+      ),
+    };
+
+    const actual = generateInequalitiesLineChartOptions(
+      mockChartData,
+      sexKeys,
+      InequalitiesTypes.Sex,
+      false,
+      () => [],
+      {
+        yAxisTitleText: 'yAxis',
+        xAxisTitleText: 'xAxis',
+        measurementUnit: '%',
+      }
+    );
+
+    expect(actual).toMatchObject(expected);
+    expect(actual.tooltip?.pointFormatter).toBeDefined();
+    expect(typeof actual.tooltip?.pointFormatter).toBe('function');
   });
 });
 

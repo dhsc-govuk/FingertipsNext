@@ -80,6 +80,9 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
     "allowDecimals": false,
     "labels": {
       "formatter": undefined,
+      "style": {
+        "fontSize": 16,
+      },
     },
     "tickLength": 0,
     "title": {
@@ -93,6 +96,9 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
   "yAxis": {
     "labels": {
       "formatter": undefined,
+      "style": {
+        "fontSize": 16,
+      },
     },
     "minorTickInterval": "auto",
     "minorTicksPerMajor": 2,
@@ -223,6 +229,9 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
     "allowDecimals": false,
     "labels": {
       "formatter": undefined,
+      "style": {
+        "fontSize": 16,
+      },
     },
     "tickLength": 0,
     "title": {
@@ -236,6 +245,9 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
   "yAxis": {
     "labels": {
       "formatter": undefined,
+      "style": {
+        "fontSize": 16,
+      },
     },
     "minorTickInterval": "auto",
     "minorTicksPerMajor": 2,

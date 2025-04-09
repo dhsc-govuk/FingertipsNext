@@ -21,7 +21,7 @@ function tooltipFormatter(point: Highcharts.Point): string {
   return `<b>${point.series.name}</b><br/>Year: ${point.x}<br/><br/><span style="color:${point.color}">${SymbolsEnum.Circle}</span> Value ${formatNumber(point.y)}`;
 }
 
-export const lineChartDefaultOptions: Highcharts.Options = {
+export const lineChartDefaultOptions = {
   credits: {
     enabled: false,
   },
@@ -40,7 +40,7 @@ export const lineChartDefaultOptions: Highcharts.Options = {
     minorTickInterval: 'auto',
     minorTicksPerMajor: 2,
     labels: { style: { fontSize: AXIS_LABEL_FONT_SIZE } },
-  },
+  } satisfies Highcharts.YAxisOptions,
   xAxis: {
     tickLength: 0,
     allowDecimals: false,
@@ -67,7 +67,7 @@ export const lineChartDefaultOptions: Highcharts.Options = {
       animation: false,
     },
   },
-};
+} as const satisfies Highcharts.Options;
 
 export const chartSymbols: SymbolKeyValue[] = [
   'square',
@@ -195,6 +195,7 @@ export function generateStandardLineChartOptions(
     yAxis: {
       ...lineChartDefaultOptions.yAxis,
       labels: {
+        ...lineChartDefaultOptions.yAxis.labels,
         formatter: optionalParams?.yAxisLabelFormatter,
       },
       title: optionalParams?.yAxisTitle
@@ -213,6 +214,7 @@ export function generateStandardLineChartOptions(
         style: { fontSize: AXIS_TITLE_FONT_SIZE },
       },
       labels: {
+        ...lineChartDefaultOptions.yAxis.labels,
         formatter: optionalParams?.xAxisLabelFormatter,
       },
     },
