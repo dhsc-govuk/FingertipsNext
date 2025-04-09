@@ -21,7 +21,6 @@ import { mockHealthData } from '@/mock/data/healthdata';
 import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 import { londonNHSRegion } from '@/mock/data/areas/nhsRegionsAreas';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
-import { areaTypeSorter } from '@/lib/areaFilterHelpers/areaTypeSorter';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
