@@ -89,7 +89,12 @@ export function InequalitiesForSingleTimePeriod({
 
   const yearsDesc = getYearsWithInequalityData(allData).reverse();
 
-  if (!yearsDesc.length && type !== InequalitiesTypes.Deprivation) return null;
+  if (!yearsDesc.length) return null;
+
+  let selectedYearOverride = undefined;
+  if (!yearsDesc.includes(Number(selectedYear))) {
+    selectedYearOverride = String(yearsDesc[0]);
+  }
 
   const periodData = allData.find(
     (data) => data.period === Number(selectedYear ?? yearsDesc[0])
@@ -104,7 +109,11 @@ export function InequalitiesForSingleTimePeriod({
   return (
     <div data-testid="inequalitiesForSingleTimePeriod-component">
       <H3>Inequalities data for a single time period</H3>
-      <TimePeriodDropDown years={yearsDesc} />
+      <TimePeriodDropDown
+        years={yearsDesc}
+        searchState={searchState}
+        selectedYearOverride={selectedYearOverride}
+      />
       <InequalitiesTypesDropDown
         inequalitiesOptions={inequalityCategories}
         component={InequalitiesComponentType.Barchart}

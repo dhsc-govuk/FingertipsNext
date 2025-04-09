@@ -2,7 +2,6 @@ import { render, screen, within } from '@testing-library/react';
 import { TimePeriodDropDown } from '.';
 import { SearchParams } from '@/lib/searchStateManager';
 import userEvent from '@testing-library/user-event';
-import { SearchStateContext } from '@/context/SearchStateContext';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -24,26 +23,11 @@ const mockSearchState = {
   [SearchParams.InequalityYearSelected]: '2023',
 };
 
-const mockGetSearchState = jest.fn();
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: mockGetSearchState,
-  setSearchState: jest.fn(),
-};
-jest.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
-
 const years = ['2023', '2022', '2021', '2020'];
 
 describe('TimePeriodDropDown suite', () => {
-  beforeEach(() => {
-    mockGetSearchState.mockReturnValue(mockSearchState);
-  });
-
   it('should display expected elements', () => {
-    render(<TimePeriodDropDown years={years} />);
+    render(<TimePeriodDropDown years={years} searchState={mockSearchState} />);
     const dropDown = screen.getByRole('combobox');
     const yearOptions = within(dropDown).getAllByRole('option');
 
@@ -62,9 +46,26 @@ describe('TimePeriodDropDown suite', () => {
     ].join('');
 
     const user = userEvent.setup();
-    render(<TimePeriodDropDown years={years} />);
+    render(<TimePeriodDropDown years={years} searchState={mockSearchState} />);
 
     await user.selectOptions(screen.getByRole('combobox'), '2022');
+
+    expect(mockReplace).toHaveBeenCalledWith(expectedPath, { scroll: false });
+  });
+
+  it('should set the selected year to the selectedYearOverride value when it is provided', () => {
+    const expectedPath = [
+      mockPath,
+      `?${SearchParams.InequalityYearSelected}=2018`,
+    ].join('');
+
+    render(
+      <TimePeriodDropDown
+        years={years}
+        searchState={mockSearchState}
+        selectedYearOverride="2018"
+      />
+    );
 
     expect(mockReplace).toHaveBeenCalledWith(expectedPath, { scroll: false });
   });
