@@ -8,7 +8,11 @@ import {
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
 import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
-import { getHealthDataForIndicator } from '@/lib/ViewsHelpers';
+import {
+  getHealthDataForIndicator,
+  HealthDataRequestAreas,
+} from '@/lib/ViewsHelpers';
+import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 
 export default async function TwoOrMoreIndicatorsAreasView({
   searchState,
@@ -38,12 +42,33 @@ export default async function TwoOrMoreIndicatorsAreasView({
     throw new Error('invalid indicator metadata passed to view');
   }
 
+  const areasToRequest: HealthDataRequestAreas[] = [
+    {
+      areaCodes: areasSelected,
+      areaType: selectedAreaType,
+    },
+  ];
+
+  if (!areasSelected.includes(areaCodeForEngland)) {
+    areasToRequest.push({
+      areaCodes: [areaCodeForEngland],
+      areaType: englandAreaType.key,
+    });
+  }
+
+  if (selectedGroupCode && selectedGroupCode !== areaCodeForEngland) {
+    areasToRequest.push({
+      areaCodes: [selectedGroupCode],
+      areaType: selectedGroupType,
+    });
+  }
+
   await connection();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
   const combinedIndicatorData = await Promise.all(
     indicatorsSelected.map((indicator) => {
-      return getHealthDataForIndicator(indicatorApi, indicator, requestAreas);
+      return getHealthDataForIndicator(indicatorApi, indicator, areasToRequest);
     })
   );
 

@@ -17,24 +17,32 @@ export function chunkArray(
   return chunkedArray;
 }
 
+export interface HealthDataRequestAreas {
+  areaCodes: string[];
+  areaType?: string;
+}
+
 export const getHealthDataForIndicator = async (
   indicatorApi: IndicatorsApi,
   indicatorId: string,
-  areaCodesToRequest: string[]
+  requestAreass: HealthDataRequestAreas[]
 ) => {
   let healthIndicatorData: IndicatorWithHealthDataForArea | undefined;
 
   try {
     const healthIndicatorDataChunks = await Promise.all(
-      chunkArray(areaCodesToRequest).map((requestedAreas) =>
-        indicatorApi.getHealthDataForAnIndicator(
-          {
-            indicatorId: Number(indicatorId),
-            areaCodes: [...requestedAreas],
-          },
-          API_CACHE_CONFIG
-        )
-      )
+      requestAreass.flatMap((requestAreas) => {
+        return chunkArray(requestAreas.areaCodes).map((areaCodes) =>
+          indicatorApi.getHealthDataForAnIndicator(
+            {
+              indicatorId: Number(indicatorId),
+              areaCodes: areaCodes,
+              areaType: requestAreas.areaType,
+            },
+            API_CACHE_CONFIG
+          )
+        );
+      })
     );
 
     healthIndicatorData = healthIndicatorDataChunks[0];
