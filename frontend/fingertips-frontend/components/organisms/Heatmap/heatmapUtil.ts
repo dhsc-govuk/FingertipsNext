@@ -2,7 +2,6 @@ import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
   HealthDataForArea,
-  HealthDataPoint,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';

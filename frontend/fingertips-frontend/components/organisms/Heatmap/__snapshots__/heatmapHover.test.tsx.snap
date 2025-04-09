@@ -68,12 +68,6 @@ exports[` 1`] = `
 }
 
 .c9 {
-  width: 10px;
-  height: 10px;
-  display: block;
-}
-
-.c11 {
   margin-bottom: 0;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -94,7 +88,7 @@ exports[` 1`] = `
   background-color: #FFFFFF;
   box-shadow: 0px 0px 4px 0px #505A5F;
   border-radius: 8px;
-  display: block;
+  display: none;
   z-index: 1;
   position: fixed;
   text-align: left;
@@ -205,14 +199,14 @@ exports[` 1`] = `
 }
 
 @media print {
-  .c11 {
+  .c9 {
     font-size: 14px;
     line-height: 1.2;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c11 {
+  .c9 {
     font-size: 16px;
     line-height: 1.25;
   }
@@ -234,7 +228,6 @@ exports[` 1`] = `
 
 <div
     class="c0"
-    style="left: 0px; top: 0px;"
   >
     <div
       class="c1"
@@ -272,25 +265,21 @@ exports[` 1`] = `
         class="c7 c8"
       >
         <div
-          class="c9"
-          style="background-color: rgb(133, 153, 75); border: 1px solid #85994b;"
-        />
+          class="c3 c9"
+        >
+          <p>
+            ✕
+          </p>
+        </div>
       </div>
       <div
         class="c10"
       >
         <div
-          class="c3 c11"
+          class="c3 c9"
         >
           <p>
-            67.0%
-          </p>
-        </div>
-        <div
-          class="c3 c11"
-        >
-          <p>
-            Better than England (99.8%)
+            No data available
           </p>
         </div>
       </div>

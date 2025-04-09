@@ -1,27 +1,17 @@
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { Paragraph } from 'govuk-react';
-import { JSX, PropsWithChildren, ReactNode } from 'react';
+import { JSX } from 'react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import { HeatmapBenchmarkProps } from './heatmapUtil';
 import { HeatmapHoverBenchmarkPill } from './heatmapHoverBenchmarkPill';
 
-interface PositionProps {
-  $left: number;
-  $top: number;
-}
-
-const StyledDivHover = styled.div.attrs<PositionProps>(({ $left, $top }) => ({
-  style: {
-    left: `${$left}px`,
-    top: `${$top}px`,
-  },
-}))<PositionProps>({
+const StyledDivHover = styled.div({
   color: GovukColours.Black,
   backgroundColor: GovukColours.White,
   boxShadow: `0px 0px 4px 0px ${GovukColours.DarkGrey}`,
   borderRadius: '8px',
-  display: 'block',
+  display: 'none',
   zIndex: 1,
   position: 'fixed',
   textAlign: 'left',
@@ -64,49 +54,27 @@ const StyledParagraphZeroMargin = styled(StyledParagraph)({
   marginBottom: '0',
 });
 
-export interface HeatmapHoverProps extends PropsWithChildren {
+export interface HeatmapHoverProps {
   areaName: string;
   period: number;
   indicatorName: string;
   value?: number;
   unitLabel: string;
   benchmark: HeatmapBenchmarkProps;
-  cellRight?: number;
-  cellVerticalMidpoint?: number;
+  hoverId?: string;
 }
 
 export function HeatmapHover({
-  hoverProps,
-}: {
-  hoverProps?: HeatmapHoverProps;
-}): ReactNode {
-  return hoverProps ? (
-    <HeatmapHoverInner
-      areaName={hoverProps.areaName}
-      period={hoverProps.period}
-      indicatorName={hoverProps.indicatorName}
-      value={hoverProps.value}
-      unitLabel={hoverProps.unitLabel}
-      benchmark={hoverProps.benchmark}
-      cellRight={hoverProps.cellRight}
-      cellVerticalMidpoint={hoverProps.cellVerticalMidpoint}
-      data-testid={'heatmap-hover'}
-    />
-  ) : null;
-}
-
-function HeatmapHoverInner({
   areaName,
   period,
   indicatorName,
   value,
   unitLabel,
   benchmark,
-  cellRight,
-  cellVerticalMidpoint,
+  hoverId,
 }: Readonly<HeatmapHoverProps>): JSX.Element {
   return (
-    <StyledDivHover $left={cellRight ?? 0} $top={cellVerticalMidpoint ?? 0}>
+    <StyledDivHover id={hoverId}>
       <StyledDivTriangle />
       <StyledDivTriangleOccluder />
       <StyledParagraphZeroMargin>{`**${areaName}**`}</StyledParagraphZeroMargin>

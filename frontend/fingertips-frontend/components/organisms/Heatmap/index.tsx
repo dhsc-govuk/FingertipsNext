@@ -11,8 +11,8 @@ import styled from 'styled-components';
 import { HeatmapHeader } from './heatmapHeader';
 import { HeatmapCell } from './heatmapCell';
 import { BenchmarkLegend } from '../BenchmarkLegend';
-import { HeatmapHover, HeatmapHoverProps } from './heatmapHover';
-import React, { MouseEventHandler, useMemo, useState } from 'react';
+import { HeatmapHover } from './heatmapHover';
+import React, { useMemo } from 'react';
 
 export interface HeatmapProps {
   indicatorData: HeatmapIndicatorData[];
@@ -51,43 +51,52 @@ export function Heatmap({
     return { headers, rows };
   }, [indicatorData, groupAreaCode]);
 
-  const [hoverState, setHoverState] = useState<HeatmapHoverProps | undefined>(
-    undefined
-  );
-
-  const buildMouseEnterHandler = (
-    hoverProps: HeatmapHoverProps | undefined
-  ): React.MouseEventHandler => {
-    if (!hoverProps) {
-      return () => {
-        setHoverState(undefined);
-      };
-    }
-
-    return (e) => {
-      const cellRect = e.currentTarget.getBoundingClientRect();
-      const hoverPropsWithPosition: HeatmapHoverProps = {
-        ...hoverProps,
-        cellRight: cellRect?.right + 12,
-        cellVerticalMidpoint:
-          cellRect?.top + (cellRect?.bottom - cellRect?.top) / 2,
-      };
-
-      setHoverState(hoverPropsWithPosition);
-    };
+  const idPrefix = 'hover'; //useId(); // - useId breaks Next hydration for some reason
+  const getHoverId = (cellKey: string) => {
+    return `${idPrefix}-${cellKey}`;
   };
 
-  const onMouseLeave: MouseEventHandler = () => {
-    setHoverState(undefined);
+  const handleMouseOverCell = (event: React.MouseEvent, hoverId: string) => {
+    const hoverElement = document.getElementById(hoverId);
+    if (!hoverElement) {
+      return;
+    }
+    const cellRect = event.currentTarget.getBoundingClientRect();
+
+    hoverElement.style.display = 'block';
+    hoverElement.style.left = `${cellRect?.right + 12}px`;
+    console.log(cellRect?.top + (cellRect?.bottom - cellRect?.top) / 2);
+    hoverElement.style.top = `${cellRect?.top + (cellRect?.bottom - cellRect?.top) / 2}px`;
+  };
+
+  const handleMouseLeaveCell = (hoverId: string) => {
+    const hoverElement = document.getElementById(hoverId);
+    if (!hoverElement) {
+      return;
+    }
+
+    hoverElement.style.display = 'none';
   };
 
   return (
     <>
       <BenchmarkLegend />
-      <HeatmapHover
-        hoverProps={hoverState}
-        data-testid={'heatmap-hover-component'}
-      />
+      {rows.flatMap((row) => {
+        return row.cells.map((cell) => {
+          return cell.hoverProps ? (
+            <HeatmapHover
+              key={`hover-${cell.key}`}
+              areaName={cell.hoverProps.areaName}
+              period={cell.hoverProps.period}
+              indicatorName={cell.hoverProps.indicatorName}
+              value={cell.hoverProps.value}
+              unitLabel={cell.hoverProps.unitLabel}
+              benchmark={cell.hoverProps.benchmark}
+              hoverId={getHoverId(cell.key)}
+            />
+          ) : null;
+        });
+      })}
       <StyledDivTableContainer>
         <StyledTable data-testid="heatmapChart-component">
           <StyledRow>
@@ -111,10 +120,12 @@ export function Heatmap({
                       cellType={cell.type}
                       content={cell.content}
                       backgroundColour={cell.backgroundColour}
-                      mouseEnterHandler={buildMouseEnterHandler(
-                        cell.hoverProps
-                      )}
-                      mouseLeaveHandler={onMouseLeave}
+                      mouseEnterHandler={(e) => {
+                        handleMouseOverCell(e, getHoverId(cell.key));
+                      }}
+                      mouseLeaveHandler={() => {
+                        handleMouseLeaveCell(getHoverId(cell.key));
+                      }}
                     />
                   );
                 })}
