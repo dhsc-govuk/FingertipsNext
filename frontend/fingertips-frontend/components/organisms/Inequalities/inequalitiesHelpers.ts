@@ -5,7 +5,6 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { chartColours, UniqueChartColours } from '@/lib/chartHelpers/colours';
 import {
-  AXIS_LABEL_FONT_SIZE,
   AXIS_TITLE_FONT_SIZE,
   generateConfidenceIntervalSeries,
   getHealthDataWithoutInequalities,
@@ -17,7 +16,7 @@ import {
   lineChartDefaultOptions,
 } from '../LineChart/lineChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
-import Highcharts, { DashStyleValue } from 'highcharts';
+import Highcharts, { DashStyleValue, YAxisOptions } from 'highcharts';
 import { FormatValueAsWholeNumber } from '@/lib/chartHelpers/labelFormatters';
 
 export const localeSort = (a: string, b: string) => a.localeCompare(b);
@@ -323,10 +322,8 @@ export function generateInequalitiesLineChartOptions(
         style: { fontSize: AXIS_TITLE_FONT_SIZE },
       },
       labels: {
+        ...(lineChartDefaultOptions.yAxis as YAxisOptions)?.labels,
         formatter: FormatValueAsWholeNumber,
-        style: {
-          fontSize: AXIS_LABEL_FONT_SIZE,
-        },
       },
     },
     xAxis: {
