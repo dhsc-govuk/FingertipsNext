@@ -121,7 +121,7 @@ export function SparklineChart({
     area,
     [confidenceIntervalValues],
     showConfidenceIntervalsData,
-    { color: GovukColours.MidGrey, whiskerLength: '50%', lineWidth: 3 }
+    { color: GovukColours.MidGrey, whiskerLength: '50%', lineWidth: 2 }
   );
 
   const sparklineOptions: Highcharts.Options = {
