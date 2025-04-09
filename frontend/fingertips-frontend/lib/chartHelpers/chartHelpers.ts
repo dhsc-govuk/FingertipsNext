@@ -9,6 +9,9 @@ import { areaCodeForEngland } from './constants';
 import { getBenchmarkTagStyle } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelConfig';
 import { GovukColours } from '../styleHelpers/colours';
 
+export const AXIS_TITLE_FONT_SIZE = 19;
+export const AXIS_LABEL_FONT_SIZE = 16;
+
 export function sortHealthDataForAreasByDate(
   data: HealthDataForArea[]
 ): HealthDataForArea[] {

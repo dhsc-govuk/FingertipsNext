@@ -8,10 +8,11 @@ namespace DataCreator
         private const string OutFilePath = @"..\..\..\data\out\";
 
         private static readonly CsvFileDescription csvFileDescription=new() {EnforceCsvColumnAttribute=true};
-        private static JsonSerializerOptions jsonSerializerOptions = new()
+        private static readonly JsonSerializerOptions jsonSerializerOptions = new()
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
+
         public static void WriteIndicatorsJsonData(object data)
         {
             var contents = JsonSerializer.Serialize(data, jsonSerializerOptions);
