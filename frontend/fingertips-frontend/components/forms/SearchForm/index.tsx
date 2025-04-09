@@ -13,7 +13,6 @@ import {
   AreaFilterData,
   SelectAreasFilterPanel,
 } from '@/components/molecules/SelectAreasFilterPanel';
-import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
