@@ -400,14 +400,13 @@ const getInequalityDeprivationCategories = (
   healthIndicatorData: HealthDataForArea,
   selectedYear?: number
 ) => {
-  const filteredDeprivationData = filterHealthData(
+  const disaggregatedDeprivationData = filterHealthData(
     healthIndicatorData.healthData,
-    (data) => !data.deprivation.isAggregate
+    (data) =>
+      selectedYear
+        ? data.year === selectedYear && !data.deprivation.isAggregate
+        : !data.deprivation.isAggregate
   );
-  const disaggregatedDeprivationData = selectedYear
-    ? filteredDeprivationData.filter((data) => data.year === selectedYear)
-    : filteredDeprivationData;
-
   return Object.keys(
     Object.groupBy(
       disaggregatedDeprivationData,

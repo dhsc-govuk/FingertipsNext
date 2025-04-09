@@ -33,7 +33,7 @@ export function InequalitiesTypesDropDown({
     searchStateManager.getSearchState();
 
   return (
-    <div data-testid={`inequalitiesTypes-dropDown-component'-${testRef}`}>
+    <div data-testid={`inequalitiesTypes-dropDown-component-${testRef}`}>
       <StyledFilterSelect
         label="Select an inequality type"
         data-testid={`select-inequality-type-${testRef}`}

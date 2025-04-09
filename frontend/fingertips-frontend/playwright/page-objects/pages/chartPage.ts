@@ -34,9 +34,12 @@ export default class ChartPage extends AreaFilter {
   static readonly spineChartTableComponent = 'spineChartTable-component';
   static readonly inequalitiesForSingleTimePeriodComponent =
     'inequalitiesForSingleTimePeriod-component';
+  static readonly inequalitiesTrendComponent = 'inequalitiesTrend-component';
   static readonly timePeriodDropDownComponent = 'timePeriod-dropDown-component';
-  static readonly inequalitiesTypesDropDownComponent =
+  static readonly inequalitiesTypesDropDownComponentBC =
     'inequalitiesTypes-dropDown-component-bc';
+  static readonly inequalitiesTypesDropDownComponentLC =
+    'inequalitiesTypes-dropDown-component-lc';
   static readonly OneAreaMultipleIndicatorsTableComponent =
     'oneAreaMultipleIndicatorsTable-component';
 
@@ -132,7 +135,12 @@ export default class ChartPage extends AreaFilter {
       // if its one of the chart components that has a type dropdown for inequalities then select the last in the list
       if (visibleComponent.componentProps.hasTypeDropDown) {
         const combobox = this.page
-          .getByTestId(ChartPage.inequalitiesTypesDropDownComponent)
+          .getByTestId(
+            visibleComponent.componentLocator ===
+              ChartPage.inequalitiesForSingleTimePeriodComponent
+              ? ChartPage.inequalitiesTypesDropDownComponentBC
+              : ChartPage.inequalitiesTypesDropDownComponentLC
+          )
           .getByRole('combobox');
         // get the options from the combobox
         const dropdownOptions = await combobox.evaluate(

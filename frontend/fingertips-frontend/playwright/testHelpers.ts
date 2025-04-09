@@ -95,6 +95,16 @@ export function getScenarioConfig(
       },
     },
     {
+      componentLocator: ChartPage.inequalitiesTrendComponent,
+      componentProps: {
+        hasConfidenceIntervals: false,
+        isTabTable: false,
+        hasTimePeriodDropDown: false,
+        hasDetailsExpander: false,
+        hasTypeDropDown: true,
+      },
+    },
+    {
       componentLocator: ChartPage.inequalitiesLineChartComponent,
       componentProps: {
         hasConfidenceIntervals: true,
@@ -203,6 +213,7 @@ export function getScenarioConfig(
         ChartPage.inequalitiesBarChartTableComponent,
         ChartPage.inequalitiesLineChartTableComponent,
         ChartPage.inequalitiesForSingleTimePeriodComponent,
+        ChartPage.inequalitiesTrendComponent,
         ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
     );
