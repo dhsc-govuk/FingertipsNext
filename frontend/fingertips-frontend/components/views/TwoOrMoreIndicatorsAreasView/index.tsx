@@ -94,7 +94,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
         .flat();
     } catch (error) {
       throw new Error(
-        `error getting health indicator data for areas : ${error}`
+        `error getting health indicator data for areas: ${error}`
       );
     }
 

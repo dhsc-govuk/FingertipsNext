@@ -12,11 +12,15 @@ import React, { FC } from 'react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
   StyledAlignLeftHeader,
+  StyledAlignLeftStickyTableCell,
   StyledAlignLeftTableCell,
   StyledAlignRightHeader,
   StyledAlignRightTableCell,
+  StyledAlignStickyLeftHeader,
+  StyledDivWithScrolling,
   StyledGreyHeader,
-  StyledGreyTableCellValue,
+  StyledStickyRight,
+  StyledStickyRightHeader,
 } from '@/lib/tableHelpers';
 import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel';
 import { TrendTag } from '@/components/molecules/TrendTag';
@@ -116,40 +120,6 @@ const StyledSpan = styled('span')({
   display: 'block',
 });
 
-const stickyLeft = {
-  position: 'sticky',
-  left: 0,
-  backgroundColor: GovukColours.White,
-  zIndex: 10,
-  borderRight: 'solid black 1px',
-  paddingRight: '0.5em',
-};
-
-const stickyRight = {
-  position: 'sticky',
-  right: 0,
-  zIndex: 10,
-  borderLeft: 'solid black 1px',
-  paddingLeft: '0.5em',
-  paddingRight: '0.5em !important', // overrides the :last-child declaration which removes right padding
-};
-
-const StyledAlignLeftStickyTableCell = styled(StyledAlignLeftTableCell)(
-  stickyLeft as unknown as TemplateStringsArray
-);
-
-const StyledAlignStickyLeftHeader = styled(StyledAlignLeftHeader)(
-  stickyLeft as unknown as TemplateStringsArray
-);
-
-const StyledStickyRight = styled(StyledGreyTableCellValue)(
-  stickyRight as unknown as TemplateStringsArray
-);
-
-const StyledStickyRightHeader = styled(StyledGreyHeader)(
-  stickyRight as unknown as TemplateStringsArray
-);
-
 const sortPeriod = (
   tableRowData: LineChartTableRowData[]
 ): LineChartTableRowData[] =>
@@ -230,10 +200,6 @@ export const mapToLineChartTableData = (
 
 const StyledTitleCell = styled(StyledAlignLeftHeader)({
   border: 'none',
-});
-const StyledDivWithScrolling = styled('div')({
-  overflowX: 'scroll',
-  width: '100%',
 });
 
 const getConfidenceLimitCellSpan = (index: number): number =>

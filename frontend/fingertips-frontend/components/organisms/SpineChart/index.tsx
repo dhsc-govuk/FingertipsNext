@@ -1,21 +1,41 @@
 import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { QuartileData } from '@/generated-sources/ft-api-client';
+import {
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
+  IndicatorPolarity,
+  QuartileData,
+} from '@/generated-sources/ft-api-client';
 import { orderStatistics } from './SpineChartHelpers';
+import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
 
 export interface SpineChartProps {
   benchmarkValue: number;
   quartileData: QuartileData;
+  areaOneValue?: number;
+  areaOneOutcome?: BenchmarkOutcome;
+  areaTwoValue?: number;
+  areaTwoOutcome?: BenchmarkOutcome;
+  benchmarkMethod?: BenchmarkComparisonMethod;
+  groupValue?: number;
 }
 
 function absDiff(value: number, benchmark: number): number {
   return Math.abs(Math.abs(value) - Math.abs(benchmark));
 }
 
+const markerLineWidth = 0;
+
 export function generateSeriesData({
   benchmarkValue,
   quartileData,
+  areaOneValue,
+  areaOneOutcome,
+  areaTwoValue,
+  areaTwoOutcome,
+  groupValue,
+  benchmarkMethod,
 }: Readonly<SpineChartProps>) {
   const { best, bestQuartile, worstQuartile, worst } =
     orderStatistics(quartileData);
@@ -32,34 +52,101 @@ export function generateSeriesData({
   const scaledBestQuartile = absBestQuartile / maxValue;
   const scaledWorstQuartile = absWorstQuartile / maxValue;
 
-  return [
+  const seriesData: (
+    | Highcharts.SeriesBarOptions
+    | Highcharts.SeriesScatterOptions
+  )[] = [
     {
+      type: 'bar',
       name: 'Worst',
       color: GovukColours.MidGrey,
       data: [-scaledWorst],
     },
     {
+      type: 'bar',
       name: 'Best',
       color: GovukColours.MidGrey,
       data: [scaledBest],
     },
     {
+      type: 'bar',
       name: '25th percentile',
       color: GovukColours.DarkGrey,
       data: [-scaledWorstQuartile],
     },
     {
+      type: 'bar',
       name: '75th percentile',
       color: GovukColours.DarkGrey,
       data: [scaledBestQuartile],
     },
   ];
+
+  if (groupValue !== undefined) {
+    const absGroupValue = Math.abs(
+      Math.abs(groupValue) - Math.abs(benchmarkValue)
+    );
+    const scaledGroup = absGroupValue / maxValue;
+    seriesData.push({
+      type: 'scatter',
+      name: 'Group',
+      marker: {
+        symbol: 'diamond',
+        radius: 8,
+        fillColor: GovukColours.Green,
+        lineColor: '#fff',
+        lineWidth: markerLineWidth,
+      },
+      data: [scaledGroup],
+    });
+  }
+
+  const areas = [
+    { value: areaOneValue, outcome: areaOneOutcome },
+    { value: areaTwoValue, outcome: areaTwoOutcome },
+  ];
+  areas.forEach(({ value, outcome }) => {
+    if (value === undefined) return;
+    const fillColor = getBenchmarkColour(
+      benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
+      outcome ?? BenchmarkOutcome.NotCompared,
+      quartileData.polarity ?? IndicatorPolarity.NoJudgement
+    );
+
+    const absAreaValue = Math.abs(Math.abs(value) - Math.abs(benchmarkValue));
+    const scaledArea = absAreaValue / maxValue;
+    seriesData.push({
+      type: 'scatter',
+      name: `Area ${outcome}`,
+      marker: {
+        symbol: 'circle',
+        radius: 6,
+        fillColor,
+        lineColor: '#fff',
+        lineWidth: markerLineWidth,
+      },
+      data: [scaledArea],
+    });
+  });
+
+  if (benchmarkValue !== undefined) {
+    seriesData.push({
+      type: 'scatter',
+      name: 'Benchmark',
+      visible: false,
+      marker: {
+        symbol: 'circle',
+        radius: 2,
+        fillColor: '#000',
+      },
+      data: [0],
+    });
+  }
+
+  return seriesData;
 }
 
-export function generateChartOptions({
-  benchmarkValue,
-  quartileData,
-}: Readonly<SpineChartProps>) {
+export function generateChartOptions(props: Readonly<SpineChartProps>) {
   const categories = ['Important stat'];
 
   return {
@@ -68,8 +155,9 @@ export function generateChartOptions({
       backgroundColor: 'transparent',
       spacingBottom: 0,
       spacingTop: 0,
-      height: 30,
+      height: 50,
       width: 400,
+      inverted: true,
     },
     credits: {
       enabled: false,
@@ -136,20 +224,13 @@ export function generateChartOptions({
         '<b>{series.name}, age {point.category}</b><br/>' +
         'Population: {(abs point.y):.2f}%',
     },
-
-    series: generateSeriesData({ benchmarkValue, quartileData }),
+    series: generateSeriesData(props),
   };
 }
 
-export function SpineChart({
-  benchmarkValue,
-  quartileData,
-}: Readonly<SpineChartProps>) {
-  const spineChartsOptions = generateChartOptions({
-    benchmarkValue,
-    quartileData,
-  });
-
+export function SpineChart(props: Readonly<SpineChartProps>) {
+  const spineChartsOptions = generateChartOptions(props);
+  const { benchmarkValue } = props;
   return (
     <div data-testid={`spineChart-component`}>
       <HighchartsReact
@@ -158,6 +239,24 @@ export function SpineChart({
         }}
         highcharts={Highcharts}
         options={spineChartsOptions}
+        callback={(chart: Highcharts.Chart) => {
+          if (!chart) return;
+          if (!benchmarkValue) return;
+          if (!chart.series.length) return;
+
+          const benchmarkPoint =
+            chart.series[chart.series.length - 1].points[0];
+
+          const pos = benchmarkPoint.pos(true, benchmarkPoint.plotY);
+
+          if (!pos) return;
+
+          const [x, y] = pos;
+          chart.renderer
+            .rect(x - 1, y - 20, 2, 40)
+            .attr({ fill: '#000', zIndex: 5 })
+            .add();
+        }}
       />
     </div>
   );
