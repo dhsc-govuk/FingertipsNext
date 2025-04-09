@@ -230,6 +230,7 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
     plotOptions: {
       bar: {
         stacking: 'normal',
+        borderWidth: 0,
       },
     },
 
