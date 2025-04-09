@@ -136,6 +136,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB 95 1`] =
     </span>
     <div
       class="c3"
+      role="group"
     >
       <strong
         class="c4 c5"
@@ -299,6 +300,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB 99.8 1`]
     </span>
     <div
       class="c3"
+      role="group"
     >
       <strong
         class="c4 c5"
@@ -474,6 +476,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB quintile
     </span>
     <div
       class="c3"
+      role="group"
     >
       <strong
         class="c4 c5"
@@ -642,6 +645,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG 95 1`] =
     </span>
     <div
       class="c3"
+      role="group"
     >
       <strong
         class="c4 c5"
@@ -805,6 +809,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG 99.8 1`]
     </span>
     <div
       class="c3"
+      role="group"
     >
       <strong
         class="c4 c5"
@@ -980,6 +985,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG quintile
     </span>
     <div
       class="c3"
+      role="group"
     >
       <strong
         class="c4 c5"
@@ -1355,6 +1361,7 @@ exports[`Testing the benchmark component Snapshot testing of the legend with all
     </span>
     <div
       class="c3"
+      role="group"
     >
       <strong
         class="c4 c5"
@@ -1394,6 +1401,7 @@ exports[`Testing the benchmark component Snapshot testing of the legend with all
     </span>
     <div
       class="c3"
+      role="group"
     >
       <strong
         class="c4 c11"
@@ -1433,6 +1441,7 @@ exports[`Testing the benchmark component Snapshot testing of the legend with all
     </span>
     <div
       class="c3"
+      role="group"
     >
       <strong
         class="c4 c15"
@@ -1460,13 +1469,9 @@ exports[`Testing the benchmark component Snapshot testing of the legend with all
         Highest
       </strong>
     </div>
-    <span
-      class="c2"
-    >
-      Quintiles
-    </span>
     <div
       class="c3"
+      role="group"
     >
       <strong
         class="c4 c20"

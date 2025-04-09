@@ -20,9 +20,7 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
     "itemStyle": {
       "fontSize": "16px",
     },
-    "title": {
-      "text": "Areas",
-    },
+    "margin": 20,
     "verticalAlign": "top",
   },
   "plotOptions": {
@@ -129,9 +127,7 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
     "itemStyle": {
       "fontSize": "16px",
     },
-    "title": {
-      "text": "Areas",
-    },
+    "margin": 20,
     "verticalAlign": "top",
   },
   "plotOptions": {

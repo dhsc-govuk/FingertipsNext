@@ -10,6 +10,8 @@ describe('ThematicMapCredits', () => {
     render(
       <ThematicMapCredits areaType={mockAreaType} dataSource={mockDataSource} />
     );
+    const copyrightLines =
+      mapMetaDataEncoder[mockAreaType].mapCopyright.split(/\n/);
 
     expect(
       screen.getByText(`Map source:`, { exact: false })
@@ -18,16 +20,10 @@ describe('ThematicMapCredits', () => {
       screen.getByText(mockDataSource, { exact: false })
     ).toBeInTheDocument();
     expect(
-      screen.getByText(
-        mapMetaDataEncoder[mockAreaType].mapCopyright.split('\n')[0],
-        { exact: false }
-      )
+      screen.getByText(copyrightLines[0], { exact: false })
     ).toBeInTheDocument();
     expect(
-      screen.getByText(
-        mapMetaDataEncoder[mockAreaType].mapCopyright.split('\n')[1],
-        { exact: false }
-      )
+      screen.getByText(copyrightLines[1].trim(), { exact: false })
     ).toBeInTheDocument();
     expect(screen.getByRole('link')).toHaveAttribute(
       'href',
