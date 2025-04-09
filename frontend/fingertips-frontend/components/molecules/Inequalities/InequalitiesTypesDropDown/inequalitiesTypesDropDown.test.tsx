@@ -49,6 +49,7 @@ describe('InequalitiesTypesDropDown suite', () => {
         inequalityTypeSelectedSearchParam={
           SearchParams.InequalityBarChartTypeSelected
         }
+        testRef="bc"
       />
     );
     const dropDown = screen.getByRole('combobox');
@@ -75,6 +76,7 @@ describe('InequalitiesTypesDropDown suite', () => {
         inequalityTypeSelectedSearchParam={
           SearchParams.InequalityLineChartTypeSelected
         }
+        testRef="lc"
       />
     );
 
@@ -96,6 +98,7 @@ describe('InequalitiesTypesDropDown suite', () => {
         inequalityTypeSelectedSearchParam={
           SearchParams.InequalityLineChartTypeSelected
         }
+        testRef="bc"
       />
     );
 

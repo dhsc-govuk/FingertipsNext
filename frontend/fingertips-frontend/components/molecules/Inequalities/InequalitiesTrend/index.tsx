@@ -130,6 +130,7 @@ export function InequalitiesTrend({
         inequalityTypeSelectedSearchParam={
           SearchParams.InequalityLineChartTypeSelected
         }
+        testRef="lc"
       />
       <TabContainer
         id="inequalitiesLineChartAndTable"

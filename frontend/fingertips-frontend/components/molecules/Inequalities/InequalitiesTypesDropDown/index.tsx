@@ -6,11 +6,13 @@ import { StyledFilterSelect } from '../../SelectAreasFilterPanel';
 interface InequalitiesTypeDropDownProps {
   inequalitiesOptions: string[];
   inequalityTypeSelectedSearchParam: SearchParamKeys;
+  testRef: string;
 }
 
 export function InequalitiesTypesDropDown({
   inequalitiesOptions,
   inequalityTypeSelectedSearchParam,
+  testRef,
 }: Readonly<InequalitiesTypeDropDownProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -31,11 +33,11 @@ export function InequalitiesTypesDropDown({
     searchStateManager.getSearchState();
 
   return (
-    <div data-testid="inequalitiesTypes-dropDown-component">
+    <div data-testid={`inequalitiesTypes-dropDown-component'-${testRef}`}>
       <StyledFilterSelect
         label="Select an inequality type"
-        data-testid="select-inequality-type"
-        aria-label="select-inequality-type"
+        data-testid={`select-inequality-type-${testRef}`}
+        aria-label={`select-inequality-type-${testRef}`}
         input={{
           value: selectedType,
           onChange: (e) => {

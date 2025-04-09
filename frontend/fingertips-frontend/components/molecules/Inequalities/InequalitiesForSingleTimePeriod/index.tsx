@@ -110,6 +110,7 @@ export function InequalitiesForSingleTimePeriod({
         inequalityTypeSelectedSearchParam={
           SearchParams.InequalityBarChartTypeSelected
         }
+        testRef="bc"
       />
       <TabContainer
         id="inequalitiesBarChartAndTable"

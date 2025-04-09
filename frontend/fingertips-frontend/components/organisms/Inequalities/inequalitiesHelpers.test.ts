@@ -1126,9 +1126,17 @@ describe('isSexTypePresent', () => {
   });
 
   it('should return false if sex type is not present for year provided', () => {
-    expect(isSexTypePresent(MOCK_INEQUALITIES_DATA.healthData, 2020)).toBe(
-      false
-    );
+    const healthIndicatorData = {
+      ...MOCK_INEQUALITIES_DATA,
+      healthData: [
+        ...MOCK_INEQUALITIES_DATA.healthData,
+        {
+          ...MOCK_INEQUALITIES_DATA.healthData[0],
+          year: 2020,
+        },
+      ],
+    };
+    expect(isSexTypePresent(healthIndicatorData.healthData, 2020)).toBe(false);
   });
 
   it('should return true if sex type is present for year provided', () => {
