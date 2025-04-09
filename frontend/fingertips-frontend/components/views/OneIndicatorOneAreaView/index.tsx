@@ -22,6 +22,7 @@ export default async function OneIndicatorOneAreaView({
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.IndicatorsSelected]: indicatorSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
+    [SearchParams.AreaTypeSelected]: AreaTypeSelected,
   } = stateManager.getSearchState();
 
   if (areasSelected?.length !== 1 || indicatorSelected?.length !== 1) {
@@ -49,6 +50,7 @@ export default async function OneIndicatorOneAreaView({
           GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
           GetHealthDataForAnIndicatorInequalitiesEnum.Deprivation,
         ],
+        areaType: AreaTypeSelected,
       },
       API_CACHE_CONFIG
     );
