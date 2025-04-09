@@ -154,7 +154,9 @@ export function BarChartEmbeddedTable({
               >
                 {BarChartEmbeddedTableHeadingEnum.RecentTrend}
               </Table.CellHeader>
-              <Table.CellHeader style={{ verticalAlign: 'top' }}>
+              <Table.CellHeader
+                style={{ verticalAlign: 'top', textAlign: 'right' }}
+              >
                 {BarChartEmbeddedTableHeadingEnum.Count}
               </Table.CellHeader>
               <Table.CellHeader
