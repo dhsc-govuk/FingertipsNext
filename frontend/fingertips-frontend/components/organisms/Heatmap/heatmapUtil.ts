@@ -2,6 +2,7 @@ import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
   HealthDataForArea,
+  HealthDataPoint,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
@@ -123,7 +124,6 @@ export const generateRows = (
 ): Row[] => {
   const rows = new Array<Row>(indicators.length);
   indicators.forEach((indicator, indicatorIndex) => {
-    console.log(`${indicatorIndex} ${indicator.latestDataPeriod}`);
     const leadingCols: Cell[] = [
       {
         key: `col-${indicator.id}-title`,
@@ -217,7 +217,8 @@ const getHoverAreaName = (area: Area, groupAreaCode?: string): string => {
 };
 
 const extractAreasIndicatorsAndDataPoints = (
-  indicatorDataForAllAreas: HeatmapIndicatorData[]
+  indicatorDataForAllAreas: HeatmapIndicatorData[],
+  groupAreaCode?: string
 ): {
   areas: Record<string, Area>;
   indicators: Record<string, Indicator>;
@@ -255,7 +256,11 @@ const extractAreasIndicatorsAndDataPoints = (
       healthData.healthData.sort((a, b) => {
         return b.year - a.year;
       });
-      if (healthData.healthData[0].year > latestDataPeriod) {
+      if (
+        healthData.areaCode !== areaCodeForEngland &&
+        healthData.areaCode !== groupAreaCode &&
+        healthData.healthData[0].year > latestDataPeriod
+      ) {
         latestDataPeriod = healthData.healthData[0].year;
       }
     });
@@ -268,10 +273,9 @@ const extractAreasIndicatorsAndDataPoints = (
         };
       }
 
-      const healthDataForYear =
-        healthData.healthData[0].year === latestDataPeriod
-          ? healthData.healthData[0]
-          : undefined;
+      const healthDataForYear = healthData.healthData.find((dataPoint) => {
+        return dataPoint.year === latestDataPeriod;
+      });
 
       const getBenchmarkOutcome = (
         outcome?: BenchmarkOutcome
