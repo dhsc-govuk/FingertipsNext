@@ -94,11 +94,8 @@ describe('InequalitiesTrend suite', () => {
     expect(
       screen.getByText(/Inequalities data over time/i)
     ).toBeInTheDocument();
-    expect(
-      screen.getByTestId('inequalitiesTypes-dropDown-component')
-    ).toBeInTheDocument();
     expect(inequalitiesTypesDropDown).toBeInTheDocument();
-    expect(inequalitiesOptions).toHaveLength(2);
+    expect(inequalitiesDropDownOptions).toHaveLength(2);
     inequalitiesDropDownOptions.forEach((option, index) => {
       expect(option.textContent).toBe(inequalitiesOptions[index]);
     });

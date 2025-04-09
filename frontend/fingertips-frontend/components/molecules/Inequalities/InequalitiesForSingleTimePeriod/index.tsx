@@ -5,17 +5,15 @@ import { InequalitiesBarChart } from '../BarChart';
 import { InequalitiesBarChartTable } from '../BarChart/Table';
 import {
   filterHealthData,
+  getInequalitiesType,
   getInequalityCategories,
   getYearDataGroupedByInequalities,
   getYearsWithInequalityData,
   groupHealthDataByYear,
   healthDataFilterFunctionGeneratorForInequality,
   InequalitiesBarChartData,
-  InequalitiesComponentType,
-  InequalitiesTypes,
   mapToInequalitiesTableData,
   sequenceSelectorForInequality,
-  sexCategory,
   valueSelectorForInequality,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import {
@@ -54,11 +52,10 @@ export function InequalitiesForSingleTimePeriod({
   const inequalityCategories = getInequalityCategories(healthIndicatorData);
   if (!inequalityCategories.length) return null;
 
-  const type =
-    inequalityCategories[0] === sexCategory ||
-    inequalityTypeSelected === sexCategory
-      ? InequalitiesTypes.Sex
-      : InequalitiesTypes.Deprivation;
+  const type = getInequalitiesType(
+    inequalityCategories,
+    inequalityTypeSelected
+  );
 
   const filterFunctionGenerator =
     healthDataFilterFunctionGeneratorForInequality[type];
@@ -116,7 +113,9 @@ export function InequalitiesForSingleTimePeriod({
       />
       <InequalitiesTypesDropDown
         inequalitiesOptions={inequalityCategories}
-        component={InequalitiesComponentType.Barchart}
+        inequalityTypeSelectedSearchParam={
+          SearchParams.InequalityBarChartTypeSelected
+        }
       />
       <TabContainer
         id="inequalitiesBarChartAndTable"

@@ -17,7 +17,6 @@ import {
 } from '../LineChart/lineChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { DashStyleValue } from 'highcharts';
-import { SearchParams } from '@/lib/searchStateManager';
 
 export const localeSort = (a: string, b: string) => a.localeCompare(b);
 export const sexCategory = 'Sex';
@@ -68,21 +67,6 @@ export enum InequalitiesTypes {
   Sex = 'sex',
   Deprivation = 'deprivation',
 }
-
-export enum InequalitiesComponentType {
-  Linechart,
-  Barchart,
-}
-
-export const mapComponentToStateParams: Record<
-  InequalitiesComponentType,
-  SearchParams
-> = {
-  [InequalitiesComponentType.Barchart]:
-    SearchParams.InequalityBarChartTypeSelected,
-  [InequalitiesComponentType.Linechart]:
-    SearchParams.InequalityLineChartTypeSelected,
-};
 
 const mapToChartColorsForInequality: Record<InequalitiesTypes, string[]> = {
   [InequalitiesTypes.Sex]: [
@@ -454,3 +438,15 @@ export const getInequalityCategories = (
         sexCategory,
       ].toSorted(localeSort)
     : getInequalityDeprivationCategories(healthIndicatorData);
+
+export const getInequalitiesType = (
+  inequalityCategories: string[],
+  inequalityTypeSelected?: string
+): InequalitiesTypes => {
+  if (
+    (!inequalityTypeSelected && inequalityCategories[0] === sexCategory) ||
+    inequalityTypeSelected === sexCategory
+  )
+    return InequalitiesTypes.Sex;
+  return InequalitiesTypes.Deprivation;
+};

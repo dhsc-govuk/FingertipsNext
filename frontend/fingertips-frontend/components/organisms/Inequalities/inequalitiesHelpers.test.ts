@@ -26,6 +26,7 @@ import {
   isSexTypePresent,
   getInequalityCategories,
   sexCategory,
+  getInequalitiesType,
 } from './inequalitiesHelpers';
 import { GROUPED_YEAR_DATA, MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { UniqueChartColours } from '@/lib/chartHelpers/colours';
@@ -1182,5 +1183,26 @@ describe('getInequalityCategories', () => {
     };
 
     expect(getInequalityCategories(mockHealthData)).toEqual([]);
+  });
+});
+
+describe('getInequalitiesType', () => {
+  const categories = ['County deciles', 'Sex', 'Unitary deciles'];
+  it('should return sex type when Sex is the selected type', () => {
+    expect(getInequalitiesType(categories, sexCategory)).toBe(
+      InequalitiesTypes.Sex
+    );
+  });
+
+  it('should default to the first category when no inequality type is selected', () => {
+    expect(getInequalitiesType(categories, undefined)).toBe(
+      InequalitiesTypes.Deprivation
+    );
+  });
+
+  it('should return deprivation type when a deprivation category is selected', () => {
+    expect(getInequalitiesType(categories, 'Unitary deciles')).toBe(
+      InequalitiesTypes.Deprivation
+    );
   });
 });

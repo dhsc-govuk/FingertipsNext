@@ -3,7 +3,6 @@ import { InequalitiesTypesDropDown } from '.';
 import { SearchParams } from '@/lib/searchStateManager';
 import userEvent from '@testing-library/user-event';
 import { SearchStateContext } from '@/context/SearchStateContext';
-import { InequalitiesComponentType } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -47,7 +46,9 @@ describe('InequalitiesTypesDropDown suite', () => {
     render(
       <InequalitiesTypesDropDown
         inequalitiesOptions={options}
-        component={InequalitiesComponentType.Barchart}
+        inequalityTypeSelectedSearchParam={
+          SearchParams.InequalityBarChartTypeSelected
+        }
       />
     );
     const dropDown = screen.getByRole('combobox');
@@ -71,12 +72,34 @@ describe('InequalitiesTypesDropDown suite', () => {
     render(
       <InequalitiesTypesDropDown
         inequalitiesOptions={options}
-        component={InequalitiesComponentType.Linechart}
+        inequalityTypeSelectedSearchParam={
+          SearchParams.InequalityLineChartTypeSelected
+        }
       />
     );
 
     await user.selectOptions(screen.getByRole('combobox'), 'deprivation2');
 
     expect(mockReplace).toHaveBeenCalledWith(expectedPath, { scroll: false });
+  });
+
+  it('should select option specified in searchState', async () => {
+    const mockSearchState = {
+      [SearchParams.InequalityLineChartTypeSelected]: 'deprivation3',
+    };
+
+    mockGetSearchState.mockReturnValue(mockSearchState);
+
+    render(
+      <InequalitiesTypesDropDown
+        inequalitiesOptions={options}
+        inequalityTypeSelectedSearchParam={
+          SearchParams.InequalityLineChartTypeSelected
+        }
+      />
+    );
+
+    const dropDown = screen.getByRole('combobox');
+    expect(dropDown).toHaveDisplayValue('deprivation3');
   });
 });

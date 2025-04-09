@@ -16,16 +16,14 @@ import {
   getYearDataGroupedByInequalities,
   groupHealthDataByYear,
   InequalitiesChartData,
-  InequalitiesTypes,
   mapToInequalitiesTableData,
   valueSelectorForInequality,
   sequenceSelectorForInequality,
   filterHealthData,
   healthDataFilterFunctionGeneratorForInequality,
   getYearsWithInequalityData,
-  sexCategory,
-  InequalitiesComponentType,
   getInequalityCategories,
+  getInequalitiesType,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
 import { InequalitiesTypesDropDown } from '../InequalitiesTypesDropDown';
@@ -64,11 +62,10 @@ export function InequalitiesTrend({
 
   if (!inequalityCategories.length) return null;
 
-  const type =
-    inequalityCategories[0] === sexCategory ||
-    inequalityTypeSelected === sexCategory
-      ? InequalitiesTypes.Sex
-      : InequalitiesTypes.Deprivation;
+  const type = getInequalitiesType(
+    inequalityCategories,
+    inequalityTypeSelected
+  );
 
   const filterFunctionGenerator =
     healthDataFilterFunctionGeneratorForInequality[type];
@@ -130,7 +127,9 @@ export function InequalitiesTrend({
       <H3>Inequalities data over time</H3>
       <InequalitiesTypesDropDown
         inequalitiesOptions={inequalityCategories}
-        component={InequalitiesComponentType.Linechart}
+        inequalityTypeSelectedSearchParam={
+          SearchParams.InequalityLineChartTypeSelected
+        }
       />
       <TabContainer
         id="inequalitiesLineChartAndTable"

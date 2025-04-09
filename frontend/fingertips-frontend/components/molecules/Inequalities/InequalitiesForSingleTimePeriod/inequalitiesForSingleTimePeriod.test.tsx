@@ -112,9 +112,6 @@ describe('InequalitiesForSingleTimePeriod suite', () => {
       screen.getByText(/Inequalities data for a single time period/i)
     ).toBeInTheDocument();
     expect(
-      screen.getByTestId('inequalitiesTypes-dropDown-component')
-    ).toBeInTheDocument();
-    expect(
       screen.getByTestId('timePeriod-dropDown-component')
     ).toBeInTheDocument();
     expect(timePeriodDropDown).toBeInTheDocument();
@@ -123,7 +120,7 @@ describe('InequalitiesForSingleTimePeriod suite', () => {
       expect(option.textContent).toBe(years[index]);
     });
     expect(inequalitiesTypesDropDown).toBeInTheDocument();
-    expect(inequalitiesOptions).toHaveLength(2);
+    expect(inequalitiesDropDownOptions).toHaveLength(2);
     inequalitiesDropDownOptions.forEach((option, index) => {
       expect(option.textContent).toBe(inequalitiesOptions[index]);
     });

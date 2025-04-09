@@ -1,33 +1,21 @@
-import {
-  InequalitiesComponentType,
-  mapComponentToStateParams,
-} from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { useSearchState } from '@/context/SearchStateContext';
-import { SearchStateManager } from '@/lib/searchStateManager';
-import { H5, Select } from 'govuk-react';
+import { SearchParamKeys, SearchStateManager } from '@/lib/searchStateManager';
 import { usePathname, useRouter } from 'next/navigation';
-import styled from 'styled-components';
+import { StyledFilterSelect } from '../../SelectAreasFilterPanel';
 
 interface InequalitiesTypeDropDownProps {
   inequalitiesOptions: string[];
-  component: InequalitiesComponentType;
+  inequalityTypeSelectedSearchParam: SearchParamKeys;
 }
-
-const StyledSelect = styled(Select)({
-  width: '75em',
-  marginBottom: '3em',
-});
 
 export function InequalitiesTypesDropDown({
   inequalitiesOptions,
-  component,
+  inequalityTypeSelectedSearchParam,
 }: Readonly<InequalitiesTypeDropDownProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
   const { getSearchState } = useSearchState();
   const searchState = getSearchState();
-  const inequalityTypeSelectedSearchParam =
-    mapComponentToStateParams[component];
 
   const searchStateManager = SearchStateManager.initialise(searchState);
 
@@ -43,10 +31,9 @@ export function InequalitiesTypesDropDown({
     searchStateManager.getSearchState();
 
   return (
-    <div data-testid="inequalitiesTypes-dropDown-component">
-      <H5 style={{ marginBottom: '5px' }}>Select an inequality type</H5>
-      <StyledSelect
-        label=""
+    <>
+      <StyledFilterSelect
+        label="Select an inequality type"
         data-testid="select-inequality-type"
         aria-label="select-inequality-type"
         input={{
@@ -59,7 +46,7 @@ export function InequalitiesTypesDropDown({
         {inequalitiesOptions.map((option) => (
           <option key={option}>{option}</option>
         ))}
-      </StyledSelect>
-    </div>
+      </StyledFilterSelect>
+    </>
   );
 }
