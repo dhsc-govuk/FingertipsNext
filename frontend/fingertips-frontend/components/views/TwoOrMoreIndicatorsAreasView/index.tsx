@@ -7,7 +7,10 @@ import {
   API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
-import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  IndicatorsApi,
+  IndicatorWithHealthDataForArea,
+} from '@/generated-sources/ft-api-client';
 import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 import { chunkArray } from '@/lib/ViewsHelpers';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
@@ -20,9 +23,9 @@ export default async function TwoOrMoreIndicatorsAreasView({
   const {
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.AreaTypeSelected]: selectedAreaType,
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.GroupTypeSelected]: selectedGroupType,
-    [SearchParams.AreaTypeSelected]: selectedAreaType,
   } = stateManager.getSearchState();
 
   if (!indicatorsSelected || indicatorsSelected.length < 2) {
@@ -43,51 +46,57 @@ export default async function TwoOrMoreIndicatorsAreasView({
   await connection();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
-  const getHealthDataForIndicator = async (indicatorId: string) => {
+  type healthDataRequestAreas = {
+    areaCodes: string[];
+    areaType?: string;
+  };
+
+  const requestAreas: healthDataRequestAreas[] = [
+    {
+      areaCodes: areasSelected,
+      areaType: selectedAreaType,
+    },
+  ];
+
+  if (!areasSelected.includes(areaCodeForEngland)) {
+    requestAreas.push({
+      areaCodes: [areaCodeForEngland],
+      areaType: englandAreaType.key,
+    });
+  }
+
+  if (selectedGroupCode && selectedGroupCode !== areaCodeForEngland) {
+    requestAreas.push({
+      areaCodes: [selectedGroupCode],
+      areaType: selectedGroupType,
+    });
+  }
+
+  const getHealthDataForIndicator = async (
+    indicatorApi: IndicatorsApi,
+    indicatorId: string,
+    requestAreas: healthDataRequestAreas[]
+  ): Promise<IndicatorWithHealthDataForArea> => {
     let indicatorData: IndicatorWithHealthDataForArea | undefined;
 
-    const indicatorRequestArray = chunkArray(areasSelected).map(
-      (requestAreas) =>
+    const indicatorRequestArray = requestAreas.flatMap((requestArea) => {
+      return chunkArray(requestArea.areaCodes).map((areaCodes) =>
         indicatorApi.getHealthDataForAnIndicator(
           {
             indicatorId: Number(indicatorId),
-            areaCodes: [...requestAreas],
-            areaType: selectedAreaType,
-          },
-          API_CACHE_CONFIG
-        )
-    );
-
-    if (!areasSelected.includes(areaCodeForEngland)) {
-      indicatorRequestArray.push(
-        indicatorApi.getHealthDataForAnIndicator(
-          {
-            indicatorId: Number(indicatorId),
-            areaCodes: [areaCodeForEngland],
-            areaType: englandAreaType.key,
+            areaCodes: [...areaCodes],
+            areaType: requestArea.areaType,
           },
           API_CACHE_CONFIG
         )
       );
-    }
-
-    if (selectedGroupCode && selectedGroupCode !== areaCodeForEngland) {
-      indicatorRequestArray.push(
-        indicatorApi.getHealthDataForAnIndicator(
-          {
-            indicatorId: Number(indicatorId),
-            areaCodes: [selectedGroupCode],
-            areaType: selectedGroupType,
-          },
-          API_CACHE_CONFIG
-        )
-      );
-    }
+    });
 
     try {
       const healthIndicatorDataChunks = await Promise.all(
         indicatorRequestArray
       );
+
       indicatorData = healthIndicatorDataChunks[0];
       indicatorData.areaHealthData = healthIndicatorDataChunks
         .map((indicatorData) => indicatorData?.areaHealthData ?? [])
@@ -103,7 +112,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
 
   const combinedIndicatorData = await Promise.all(
     indicatorsSelected.map((indicator) => {
-      return getHealthDataForIndicator(indicator);
+      return getHealthDataForIndicator(indicatorApi, indicator, requestAreas);
     })
   );
 
