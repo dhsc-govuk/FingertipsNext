@@ -1,8 +1,4 @@
-import {
-  chunkArray,
-  getHealthDataForIndicator,
-  HealthDataRequestAreas,
-} from './ViewsHelpers';
+import { chunkArray, getHealthDataForIndicator } from './ViewsHelpers';
 import {
   IndicatorsApi,
   IndicatorWithHealthDataForArea,
