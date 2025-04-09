@@ -16,24 +16,6 @@ namespace DataCreator.PholioDatabase
         private const string NHSREGION = "NHS Regions";
         private const string DISTRICT = "Districts and Unitary Authorities";
         private const string GP = "GPs";
-        private const string AreaTypes = @"
-    ('Combined authorities',
-    'County unchanged',
-    'England',
-    'GPs',
-    'ICB sub-locations',
-    'ICBs',
-    'LA new 2019',
-    'LA unchanged',
-    'NHS region',
-    'NHS regions - new due to ICB changes',
-    'PCNs (v. 26/04/24)',
-    'Regions (statistical)',
-    'UA new 2019',
-    'UA new 2020',
-    'UA new 2021',
-    'UA new 2023',
-    'UA unchanged')";
 
         private readonly string AreaSql = @"
 SELECT  
@@ -54,7 +36,24 @@ ON
 WHERE
     area.iscurrent=1
 AND
-	areatypes.AreaType IN ";
+	areatypes.AreaType IN 
+('Combined authorities',
+    'County unchanged',
+    'England',
+    'GPs',
+    'ICB sub-locations',
+    'ICBs',
+    'LA new 2019',
+    'LA unchanged',
+    'NHS region',
+    'NHS regions - new due to ICB changes',
+    'PCNs (v. 26/04/24)',
+    'Regions (statistical)',
+    'UA new 2019',
+    'UA new 2020',
+    'UA new 2021',
+    'UA new 2023',
+    'UA unchanged')";
 
         private const string AreaChildSql = @"
 SELECT 
@@ -119,11 +118,23 @@ FROM
         {   
             using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
 
-            var areas = (await connection.QueryAsync<AreaEntity>($"{AreaSql}{AreaTypes}")).ToList();
+            var areas = (await connection.QueryAsync<AreaEntity>($"{AreaSql}")).ToList();
             SetAreaHierarchyAndCleanNames(areas);
             await AddChildAreas(areas, connection);
-
+            CleanAreaCodes(areas);
             return areas;
+        }
+
+        private static void CleanAreaCodes(List<AreaEntity> areas)
+        {
+            foreach (var area in areas)
+            {
+                area.AreaCode = area.AreaCode.CleanAreaCode();
+                foreach (var child in area.ChildAreas)
+                {
+                    child.AreaCode = child.AreaCode.CleanAreaCode();
+                }
+            }
         }
 
         private static async Task AddChildAreas(List<AreaEntity> areas, SqlConnection connection)
@@ -267,7 +278,7 @@ FROM
             const string CA = "CA-";
 
             foreach (var area in areas)
-            {
+            {   
                 //change the area type to a standard name and set the hierarchy type and level
                 var typeNameMatch = typeNameMap.FirstOrDefault(a => a.OriginalAreaType == area.AreaType);
                 if (typeNameMatch != null)
@@ -294,6 +305,7 @@ FROM
 
         private static List<AreaRelation> CreateChildAreas(AreaEntity area, IEnumerable<IGrouping<string,ParentChildAreaCode>> parentGroup, Dictionary<string, AreaEntity> areas)
         {
+            
             var group = parentGroup.FirstOrDefault(x => x.Key == area.AreaCode);
             if (group == null)
                 return [];
@@ -304,7 +316,6 @@ FROM
             foreach (var child in allChildren)
             {
                 var present = areas.TryGetValue(child.AreaCode, out AreaEntity value);
-
                 if (present)
                     child.IsDirect = area.Level == value.Level - 1 && area.HierarchyType == value.HierarchyType;
             }
