@@ -45,7 +45,7 @@ describe('getHealthDataForIndicator', () => {
     );
 
     const result = await getHealthDataForIndicator(mockIndicatorsApi, '5555', [
-      'A001',
+      { areaCodes: ['A001'] },
     ]);
 
     expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledWith(
@@ -62,7 +62,11 @@ describe('getHealthDataForIndicator', () => {
       mockIndicator
     );
 
-    await getHealthDataForIndicator(mockIndicatorsApi, '1', testAreas);
+    await getHealthDataForIndicator(mockIndicatorsApi, '1', [
+      {
+        areaCodes: testAreas,
+      },
+    ]);
 
     expect(
       mockIndicatorsApi.getHealthDataForAnIndicator
@@ -104,11 +108,9 @@ describe('getHealthDataForIndicator', () => {
       ],
     });
 
-    const result = await getHealthDataForIndicator(
-      mockIndicatorsApi,
-      '1',
-      testAreas
-    );
+    const result = await getHealthDataForIndicator(mockIndicatorsApi, '1', [
+      { areaCodes: testAreas },
+    ]);
 
     expect(result).toEqual({
       ...mockIndicator,
@@ -141,5 +143,50 @@ describe('getHealthDataForIndicator', () => {
       async () =>
         await getHealthDataForIndicator(mockIndicatorsApi, '1', testAreas)
     ).rejects.toThrow();
+  });
+
+  it('should make multiple requests if different area types are given', async () => {
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
+      mockIndicator
+    );
+    const mockAreaCode1 = 'A001';
+    const mockAreaType1 = 'AT001';
+    const mockAreaCode2 = 'A002';
+    const mockAreaType2 = 'AT002';
+
+    await getHealthDataForIndicator(mockIndicatorsApi, '1', [
+      {
+        areaCodes: [mockAreaCode1],
+        areaType: mockAreaType1,
+      },
+      {
+        areaCodes: [mockAreaCode2],
+        areaType: mockAreaType2,
+      },
+    ]);
+
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(
+      1,
+      {
+        areaCodes: [mockAreaCode1],
+        indicatorId: 1,
+        areaType: mockAreaType1,
+      },
+      API_CACHE_CONFIG
+    );
+
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(
+      2,
+      {
+        areaCodes: [mockAreaCode2],
+        indicatorId: 1,
+        areaType: mockAreaType2,
+      },
+      API_CACHE_CONFIG
+    );
   });
 });

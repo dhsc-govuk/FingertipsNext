@@ -7,6 +7,7 @@ import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 
 import { getHealthDataForIndicator } from '@/lib/ViewsHelpers';
+import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 
 export default async function TwoOrMoreIndicatorsEnglandView({
   searchState,
@@ -41,7 +42,7 @@ export default async function TwoOrMoreIndicatorsEnglandView({
   const combinedIndicatorData = await Promise.all(
     indicatorsSelected.map((indicator) => {
       return getHealthDataForIndicator(indicatorApi, indicator, [
-        areaCodeForEngland,
+        { areaCodes: [areaCodeForEngland], areaType: englandAreaType.key },
       ]);
     })
   );

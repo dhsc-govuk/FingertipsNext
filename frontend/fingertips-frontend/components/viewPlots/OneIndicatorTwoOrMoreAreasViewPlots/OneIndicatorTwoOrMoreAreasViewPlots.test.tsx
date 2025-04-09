@@ -167,25 +167,6 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     });
   });
 
-  it('should render the title for BarChartEmbeddedTable/ThematicMap', async () => {
-    const searchState: SearchStateParams = {
-      [SearchParams.SearchedIndicator]: mockSearch,
-      [SearchParams.IndicatorsSelected]: mockIndicator,
-      [SearchParams.AreasSelected]: ['A1245', 'A1246', 'A1427'],
-    };
-
-    render(
-      <OneIndicatorTwoOrMoreAreasViewPlots
-        indicatorData={testHealthData}
-        searchState={searchState}
-      />
-    );
-
-    expect(
-      await screen.findByText('Compare an indicator by areas')
-    ).toBeInTheDocument();
-  });
-
   describe('BarChartEmbeddedTable', () => {
     it('should render the BarChartEmbeddedTable component, when two or more areas are selected', async () => {
       const searchState: SearchStateParams = {
@@ -205,6 +186,25 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         await screen.findByTestId(barChartEmbeddedTable)
       ).toBeInTheDocument();
     });
+
+    it('should render the title for BarChartEmbeddedTable', async () => {
+      const searchState: SearchStateParams = {
+        [SearchParams.SearchedIndicator]: mockSearch,
+        [SearchParams.IndicatorsSelected]: mockIndicator,
+        [SearchParams.AreasSelected]: ['A1245', 'A1246', 'A1427'],
+      };
+
+      render(
+        <OneIndicatorTwoOrMoreAreasViewPlots
+          indicatorData={testHealthData}
+          searchState={searchState}
+        />
+      );
+
+      expect(
+        await screen.findByText('Compare indicator by areas')
+      ).toBeInTheDocument();
+    });
   });
 
   describe('ThematicMap', () => {
@@ -213,6 +213,34 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         [SearchParams.AreaTypeSelected]: 'regions',
       });
     });
+
+    it('should render the title for ThematicMap', async () => {
+      const searchState: SearchStateParams = {
+        [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
+        [SearchParams.AreaTypeSelected]: 'regions',
+      };
+
+      mockGetSearchState.mockReturnValue(searchState);
+
+      render(
+        <OneIndicatorTwoOrMoreAreasViewPlots
+          indicatorData={{
+            areaHealthData: [
+              mockHealthData[108][1],
+              mockHealthData[108][2],
+              mockHealthData[108][3],
+            ],
+          }}
+          searchState={searchState}
+          mapGeographyData={mockMapGeographyData}
+        />
+      );
+
+      expect(
+        await screen.findByText('Compare an indicator by areas')
+      ).toBeInTheDocument();
+    });
+
     it('should render the ThematicMap when all areas in a group are selected', async () => {
       const searchState: SearchStateParams = {
         [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
