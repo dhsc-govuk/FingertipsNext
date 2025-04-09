@@ -214,8 +214,8 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
-  font-size: 12px;
-  line-height: 1.25;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
 }
 
 .c2 {
@@ -405,15 +405,15 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
 
 @media print {
   .c12 {
-    font-size: 12px;
+    font-size: 14px;
     line-height: 1.2;
   }
 }
 
 @media only screen and (min-width:641px) {
   .c12 {
-    font-size: 14px;
-    line-height: 1.4285714285714286;
+    font-size: 16px;
+    line-height: 1.25;
   }
 }
 
@@ -879,8 +879,8 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
-  font-size: 12px;
-  line-height: 1.25;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
 }
 
 .c2 {
@@ -1078,15 +1078,15 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
 
 @media print {
   .c12 {
-    font-size: 12px;
+    font-size: 14px;
     line-height: 1.2;
   }
 }
 
 @media only screen and (min-width:641px) {
   .c12 {
-    font-size: 14px;
-    line-height: 1.4285714285714286;
+    font-size: 16px;
+    line-height: 1.25;
   }
 }
 
