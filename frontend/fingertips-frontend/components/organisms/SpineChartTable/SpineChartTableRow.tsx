@@ -9,16 +9,18 @@ import {
 } from '@/lib/tableHelpers';
 
 import {
+  StyledAlignCentreBorderRightTableCell,
   StyledAlignCentreTableCell,
-  StyledGroupCell,
+  StyledAlignRightBorderRightTableCell,
   StyledBenchmarkCell,
   StyledBenchmarkChart,
-  StyledAlignRightBorderRightTableCell,
-  StyledAlignCentreBorderRightTableCell,
+  StyledGroupCell,
 } from './SpineChartTableStyles';
 import { SpineChart } from '../SpineChart';
 import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
 import {
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
   HealthDataPointTrendEnum,
   QuartileData,
 } from '@/generated-sources/ft-api-client';
@@ -37,12 +39,15 @@ export interface SpineChartTableRowData {
   trend: HealthDataPointTrendEnum;
   areaOneCount?: number;
   areaOneValue?: number;
+  areaOneOutcome?: BenchmarkOutcome;
   areaTwoCount?: number;
   areaTwoValue?: number;
+  areaTwoOutcome?: BenchmarkOutcome;
   groupValue?: number;
   benchmarkValue?: number;
   benchmarkStatistics: QuartileData;
   twoAreasRequested: boolean;
+  benchmarkComparisonMethod: BenchmarkComparisonMethod;
 }
 
 export function SpineChartMissingValue({
@@ -58,12 +63,15 @@ export function SpineChartTableRow({
   trend,
   areaOneCount,
   areaOneValue,
+  areaOneOutcome,
   areaTwoCount,
   areaTwoValue,
+  areaTwoOutcome,
   groupValue,
   benchmarkValue,
   benchmarkStatistics,
   twoAreasRequested,
+  benchmarkComparisonMethod,
 }: Readonly<SpineChartTableRowData>) {
   const { best, worst } = orderStatistics(benchmarkStatistics);
 
@@ -130,6 +138,12 @@ export function SpineChartTableRow({
         <SpineChart
           benchmarkValue={benchmarkValue ?? 0}
           quartileData={benchmarkStatistics}
+          areaOneValue={areaOneValue}
+          areaTwoValue={areaTwoValue}
+          areaOneOutcome={areaOneOutcome}
+          areaTwoOutcome={areaTwoOutcome}
+          groupValue={groupValue}
+          benchmarkMethod={benchmarkComparisonMethod}
         />
       </StyledBenchmarkChart>
       <StyledBenchmarkCell data-testid={`benchmark-best-cell`}>

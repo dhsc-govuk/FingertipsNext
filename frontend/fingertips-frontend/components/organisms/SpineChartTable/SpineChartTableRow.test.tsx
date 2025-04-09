@@ -3,6 +3,7 @@ import { expect } from '@jest/globals';
 import { SpineChartTableRow } from './SpineChartTableRow';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
+  BenchmarkComparisonMethod,
   HealthDataPointTrendEnum,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
@@ -45,6 +46,9 @@ describe('Spine chart table row', () => {
             benchmarkValue={mockRowData.benchmarkValue}
             benchmarkStatistics={mockRowData.benchmarkStatistics}
             twoAreasRequested={false}
+            benchmarkComparisonMethod={
+              BenchmarkComparisonMethod.CIOverlappingReferenceValue95
+            }
           />
         </tbody>
       </table>
@@ -77,6 +81,9 @@ describe('Spine chart table row', () => {
             benchmarkValue={mockRowData.benchmarkValue}
             benchmarkStatistics={mockRowData.benchmarkStatistics}
             twoAreasRequested={false}
+            benchmarkComparisonMethod={
+              BenchmarkComparisonMethod.CIOverlappingReferenceValue95
+            }
           />
         </tbody>
       </table>
@@ -103,6 +110,9 @@ describe('Spine chart table row', () => {
             benchmarkValue={undefined}
             benchmarkStatistics={mockRowData.benchmarkStatistics}
             twoAreasRequested={false}
+            benchmarkComparisonMethod={
+              BenchmarkComparisonMethod.CIOverlappingReferenceValue95
+            }
           />
         </tbody>
       </table>
@@ -135,6 +145,9 @@ describe('Spine chart table row', () => {
             benchmarkValue={mockRowData.benchmarkValue}
             benchmarkStatistics={mockRowData.benchmarkStatistics}
             twoAreasRequested={true}
+            benchmarkComparisonMethod={
+              BenchmarkComparisonMethod.CIOverlappingReferenceValue95
+            }
           />
         </tbody>
       </table>
