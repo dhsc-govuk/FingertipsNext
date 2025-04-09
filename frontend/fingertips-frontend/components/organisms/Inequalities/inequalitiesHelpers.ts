@@ -5,6 +5,7 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { chartColours, UniqueChartColours } from '@/lib/chartHelpers/colours';
 import {
+  AXIS_LABEL_FONT_SIZE,
   AXIS_TITLE_FONT_SIZE,
   generateConfidenceIntervalSeries,
   getHealthDataWithoutInequalities,
@@ -324,6 +325,9 @@ export function generateInequalitiesLineChartOptions(
       },
       labels: {
         formatter: FormatValueAsWholeNumber,
+        style: {
+          fontSize: AXIS_LABEL_FONT_SIZE,
+        },
       },
     },
     xAxis: {
