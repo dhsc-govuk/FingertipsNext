@@ -44,7 +44,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         IEnumerable<string> inequalities)
     {
         var indicatorData = await healthDataRepository.GetIndicatorDimensionAsync(indicatorId);
-        if (indicatorData == null) return new ServiceResponse<IndicatorWithHealthDataForAreas>(ResponseStatus.IndicatorDoesNotExist);
+        if (indicatorData == null) 
+            return new ServiceResponse<IndicatorWithHealthDataForAreas>(ResponseStatus.IndicatorDoesNotExist);
 
         var method = _mapper.Map<BenchmarkComparisonMethod>(indicatorData.BenchmarkComparisonMethod);
         var polarity = _mapper.Map<IndicatorPolarity>(indicatorData.Polarity);
@@ -57,7 +58,10 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
             inequalities,
             method,
             polarity
-        )) ?? []).ToList();
+        )) ?? [])
+        .ToList();
+
+        await AddAreasWithNoData(areaHealthData, areaCodes);
 
         return new ServiceResponse<IndicatorWithHealthDataForAreas>()
         {
@@ -72,6 +76,20 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         };
     }
 
+    //if there is no health data for some areas we want to return empty data sets for those areas, so get the area data from the database
+    private async Task AddAreasWithNoData(List<HealthDataForArea> areaHealthData, IEnumerable<string> areaCodes)
+    {
+        var areasWithNoData = areaCodes.Except(areaHealthData.Select(data => data.AreaCode)).ToArray();
+        if (areasWithNoData.Length == 0)
+            return;
+        var areaWithNoData=await healthDataRepository.GetAreasAsync(areasWithNoData);
+
+        areaHealthData.AddRange(areaWithNoData.Select(area => new HealthDataForArea
+        {
+            AreaCode = area.Code,
+            AreaName = area.Name
+        }));
+    }
 
     private async Task<IEnumerable<HealthDataForArea>> GetIndicatorAreaDataAsync
     (
