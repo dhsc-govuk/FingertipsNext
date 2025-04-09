@@ -21,7 +21,8 @@ export default async function TwoOrMoreIndicatorsEnglandView({
   if (
     !indicatorsSelected ||
     indicatorsSelected?.length < 2 ||
-    (areasSelected?.length !== 1 && areasSelected?.[0] !== areaCodeForEngland)
+    areasSelected?.length !== 1 ||
+    areasSelected?.[0] !== areaCodeForEngland
   ) {
     throw new Error('Invalid parameters provided to view');
   }
@@ -39,7 +40,9 @@ export default async function TwoOrMoreIndicatorsEnglandView({
 
   const combinedIndicatorData = await Promise.all(
     indicatorsSelected.map((indicator) => {
-      return getHealthDataForIndicator(indicator, indicatorApi);
+      return getHealthDataForIndicator(indicatorApi, indicator, [
+        areaCodeForEngland,
+      ]);
     })
   );
 

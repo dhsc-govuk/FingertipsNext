@@ -1,21 +1,24 @@
 import { chunkArray, getHealthDataForIndicator } from './ViewsHelpers';
 import {
-  HealthDataForArea,
   IndicatorsApi,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { mockDeep } from 'jest-mock-extended';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-
-const mockEnglandData: HealthDataForArea = {
-  areaCode: areaCodeForEngland,
-  areaName: 'england',
-  healthData: [],
-};
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
+import { healthDataPoint } from './mocks';
 
 const mockIndicator: IndicatorWithHealthDataForArea = {
-  areaHealthData: [mockEnglandData],
+  indicatorId: 1,
+  areaHealthData: [
+    {
+      areaCode: 'A001',
+      areaName: 'North FooBar',
+      healthData: [healthDataPoint],
+    },
+  ],
 };
 
 describe('chunkArray', () => {
@@ -32,14 +35,111 @@ describe('getHealthDataForIndicator', () => {
   const mockIndicatorsApi = mockDeep<IndicatorsApi>();
   ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
   it('should return the health data for indicator', async () => {
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
       mockIndicator
     );
 
-    const result = await getHealthDataForIndicator('5555', mockIndicatorsApi);
+    const result = await getHealthDataForIndicator(mockIndicatorsApi, '5555', [
+      'A001',
+    ]);
 
-    expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalled();
+    expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledWith(
+      { indicatorId: 5555, areaCodes: ['A001'] },
+      API_CACHE_CONFIG
+    );
     expect(result).toEqual(mockIndicator);
+  });
+
+  it('should make the appropriate number of API calls when a long list of areas is requested', async () => {
+    const testAreas = new Array(101).fill('a', 0, 101);
+
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+      mockIndicator
+    );
+
+    await getHealthDataForIndicator(mockIndicatorsApi, '1', testAreas);
+
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(
+      1,
+      {
+        areaCodes: new Array(100).fill('a', 0, 100),
+        indicatorId: Number(1),
+      },
+      API_CACHE_CONFIG
+    );
+
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(
+      2,
+      {
+        areaCodes: ['a'],
+        indicatorId: Number(1),
+      },
+      API_CACHE_CONFIG
+    );
+  });
+
+  it('should return combined data when a long list of areas is requested', async () => {
+    const testAreas = new Array(101).fill('a', 0, 101);
+
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+      mockIndicator
+    );
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({
+      ...mockIndicator,
+      areaHealthData: [
+        {
+          areaCode: 'A002',
+          areaName: 'South FooBar',
+          healthData: [healthDataPoint],
+        },
+      ],
+    });
+
+    const result = await getHealthDataForIndicator(
+      mockIndicatorsApi,
+      '1',
+      testAreas
+    );
+
+    expect(result).toEqual({
+      ...mockIndicator,
+      areaHealthData: [
+        {
+          areaCode: 'A001',
+          areaName: 'North FooBar',
+          healthData: [healthDataPoint],
+        },
+        {
+          areaCode: 'A002',
+          areaName: 'South FooBar',
+          healthData: [healthDataPoint],
+        },
+      ],
+    });
+  });
+
+  it('should throw an error if there is an error making a request', async () => {
+    const testAreas = new Array(101).fill('a', 0, 101);
+
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+      mockIndicator
+    );
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockRejectedValueOnce(
+      'Something went wrong.'
+    );
+
+    await expect(
+      async () =>
+        await getHealthDataForIndicator(mockIndicatorsApi, '1', testAreas)
+    ).rejects.toThrow();
   });
 });
