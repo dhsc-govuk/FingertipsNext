@@ -21,7 +21,8 @@ export default async function TwoOrMoreIndicatorsEnglandView({
   if (
     !indicatorsSelected ||
     indicatorsSelected?.length < 2 ||
-    (areasSelected?.length !== 1 && areasSelected?.[0] !== areaCodeForEngland)
+    areasSelected?.length !== 1 ||
+    areasSelected?.[0] !== areaCodeForEngland
   ) {
     throw new Error('Invalid parameters provided to view');
   }

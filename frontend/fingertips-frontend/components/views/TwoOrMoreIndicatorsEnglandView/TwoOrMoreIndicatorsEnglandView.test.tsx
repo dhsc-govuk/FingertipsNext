@@ -68,7 +68,34 @@ describe('TwoOrMoreIndicatorsEnglandView', () => {
         searchState: searchState,
         selectedIndicatorsData: fullSelectedIndicatorsData,
       });
-    }).rejects.toThrow('error getting health indicator data for areas');
+    }).rejects.toThrow('Invalid parameters provided to view');
+  });
+
+  it('should throw an error when more than one area code is provided', async () => {
+    const searchState: SearchStateParams = {
+      [SearchParams.AreasSelected]: [areaCodeForEngland, areaCodeForEngland],
+      [SearchParams.IndicatorsSelected]: ['1', '2'],
+    };
+
+    await expect(async () => {
+      await TwoOrMoreIndicatorsEnglandView({
+        searchState: searchState,
+        selectedIndicatorsData: fullSelectedIndicatorsData,
+      });
+    }).rejects.toThrow('Invalid parameters provided to view');
+  });
+
+  it('should throw an error when no area code is provided', async () => {
+    const searchState: SearchStateParams = {
+      [SearchParams.IndicatorsSelected]: ['1', '2'],
+    };
+
+    await expect(async () => {
+      await TwoOrMoreIndicatorsEnglandView({
+        searchState: searchState,
+        selectedIndicatorsData: fullSelectedIndicatorsData,
+      });
+    }).rejects.toThrow('Invalid parameters provided to view');
   });
 
   describe('TwoOrMoreIndicatorsEnglandView when the area code is england', () => {
