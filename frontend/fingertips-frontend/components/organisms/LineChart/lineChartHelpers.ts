@@ -52,6 +52,7 @@ export const lineChartDefaultOptions: Highcharts.Options = {
     itemStyle: {
       fontSize: '16px',
     },
+    margin: 20,
   },
   accessibility: {
     enabled: false,
@@ -205,12 +206,6 @@ export function generateStandardLineChartOptions(
         text: optionalParams?.xAxisTitle,
         margin: 20,
         style: { fontSize: AXIS_TITLE_FONT_SIZE },
-      },
-    },
-    legend: {
-      ...lineChartDefaultOptions.legend,
-      title: {
-        text: 'Areas',
       },
     },
     series: seriesData,
