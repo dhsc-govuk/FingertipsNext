@@ -142,20 +142,23 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
           />
         </>
       )}
-      <H3>Compare an indicator by areas</H3>
       {selectedGroupArea === ALL_AREAS_SELECTED && mapGeographyData && (
-        <ThematicMap
-          healthIndicatorData={dataWithoutEnglandOrGroup}
-          mapGeographyData={mapGeographyData}
-          benchmarkComparisonMethod={
-            benchmarkMethod ?? BenchmarkComparisonMethod.Unknown
-          }
-          polarity={polarity ?? IndicatorPolarity.Unknown}
-          indicatorMetadata={indicatorMetadata}
-          benchmarkIndicatorData={englandBenchmarkData}
-          groupIndicatorData={groupData}
-        />
+        <>
+          <H3>Compare an indicator by areas</H3>
+          <ThematicMap
+            healthIndicatorData={dataWithoutEnglandOrGroup}
+            mapGeographyData={mapGeographyData}
+            benchmarkComparisonMethod={
+              benchmarkMethod ?? BenchmarkComparisonMethod.Unknown
+            }
+            polarity={polarity ?? IndicatorPolarity.Unknown}
+            indicatorMetadata={indicatorMetadata}
+            benchmarkIndicatorData={englandBenchmarkData}
+            groupIndicatorData={groupData}
+          />
+        </>
       )}
+      <H3>Compare indicator by areas</H3>
       <BarChartEmbeddedTable
         data-testid="barChartEmbeddedTable-component"
         healthIndicatorData={dataWithoutEnglandOrGroup}
