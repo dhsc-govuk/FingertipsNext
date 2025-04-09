@@ -24,7 +24,6 @@ export interface SpineChartTableProps {
 }
 
 const sortByIndicator = (indicatorData: SpineChartIndicatorData[]) =>
-  // TODO: Is this a requirement? Or would we want to sort by indicator name
   indicatorData.toSorted((a, b) => Number(a.indicatorId) - Number(b.indicatorId));
 
 export function SpineChartTable({

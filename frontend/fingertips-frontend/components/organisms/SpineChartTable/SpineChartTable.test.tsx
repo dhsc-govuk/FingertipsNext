@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
+import { SpineChartTable } from '.';
 import {
   mapToSpineChartTableData,
   SpineChartTable,
@@ -12,29 +13,13 @@ import {
   HealthDataPointTrendEnum,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
-import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 import { SpineChartTableRowData } from '@/components/organisms/SpineChartTable/SpineChartTableRow';
 
 describe('Spine chart table suite', () => {
-  const mockIndicatorData = [
-    {
-      indicatorId: 2,
-      title: 'Test indicator 1',
-      definition: '',
-    },
-    {
-      indicatorId: 1,
-      title: 'Test indicator 2',
-      definition: '',
-    },
-  ];
-
   // Greater Manchester ICB - 00T
   const selectedAreaOne = 'A1425';
   const selectedAreaTwo = 'A1426';
-
-  const mockUnits = ['kg', 'per 1000'];
 
   const getMockHealthData = (
     selectedArea: string = selectedAreaOne,
@@ -47,28 +32,8 @@ describe('Spine chart table suite', () => {
         areaName: areaName,
         healthData: [
           {
-            year: mismatchedYears ? 2023 : 2024,
+            year: mismatchedYears ? 2022 : 2023,
             count: 222,
-            value: 890.305692,
-            lowerCi: 441.69151,
-            upperCi: 578.32766,
-            ageBand: allAgesAge,
-            sex: personsSex,
-            trend: HealthDataPointTrendEnum.IncreasingAndGettingWorse,
-            deprivation: noDeprivation,
-            benchmarkComparison: {
-              outcome: BenchmarkOutcome.Better,
-            },
-          },
-        ],
-      },
-      {
-        areaCode: selectedArea,
-        areaName: areaName,
-        healthData: [
-          {
-            year: 2022,
-            count: 111,
             value: 690.305692,
             lowerCi: 341.69151,
             upperCi: 478.32766,
@@ -85,32 +50,15 @@ describe('Spine chart table suite', () => {
     ];
   };
 
-  const mockGroup: HealthDataForArea[] = [
+  const mockGroup: HealthDataForArea = 
     {
       areaCode: '90210',
       areaName: 'Manchester',
       healthData: [
         {
-          year: 2008,
-          count: 111,
-          value: 980.305692,
-          lowerCi: 441.69151,
-          upperCi: 578.32766,
-          ageBand: allAgesAge,
-          sex: personsSex,
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-          deprivation: noDeprivation,
-        },
-      ],
-    },
-    {
-      areaCode: '90210',
-      areaName: 'Manchester',
-      healthData: [
-        {
-          year: 2024,
+          year: 2023,
           count: 3333,
-          value: 690.305692,
+          value: 890.305692,
           lowerCi: 341.69151,
           upperCi: 478.32766,
           ageBand: allAgesAge,
@@ -119,44 +67,51 @@ describe('Spine chart table suite', () => {
           deprivation: noDeprivation,
         },
       ],
-    },
-  ];
+    };
 
   const mockBenchmarkStatistics = [
     {
+      indicatorId: 1,
       polarity: IndicatorPolarity.HighIsGood,
       q0Value: 1666,
       q1Value: 1000,
       q2Value: 969,
       q3Value: 959,
+      q4Value: 920,
+      englandValue: 1010.5623
     },
     {
+      indicatorId: 2,
       polarity: IndicatorPolarity.HighIsGood,
       q0Value: 22,
       q1Value: 40,
       q2Value: 60,
       q3Value: 100,
+      q4Value: 124,
+      englandValue: 61.5
     },
   ];
 
-  const mockTableData: SpineChartTableRowProps[] = [
+  const mockIndicatorData = [
     {
-      indicator: mockIndicatorData[0],
-      measurementUnit: mockUnits[0],
-      indicatorHealthDataAreaOne: getMockHealthData()[0],
-      groupIndicatorData: mockGroup[0],
-      englandBenchmarkData: MOCK_HEALTH_DATA[0],
-      benchmarkStatistics: mockBenchmarkStatistics[0],
+      indicatorId: '1',
+      indicatorName: 'testIndicator1',
+      latestDataPeriod: 2023,
+      valueUnit: '%',
+      areasHealthData: getMockHealthData(),
+      groupData: mockGroup,
+      quartileData: mockBenchmarkStatistics[0],
       benchmarkComparisonMethod:
         BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
     },
     {
-      indicator: mockIndicatorData[1],
-      measurementUnit: mockUnits[1],
-      indicatorHealthDataAreaOne: getMockHealthData()[1],
-      groupIndicatorData: mockGroup[1],
-      englandBenchmarkData: MOCK_HEALTH_DATA[1],
-      benchmarkStatistics: mockBenchmarkStatistics[1],
+      indicatorId: '2',
+      indicatorName: 'testIndicator2',
+      latestDataPeriod: 2023,
+      valueUnit: 'per 100,000',
+      areasHealthData: getMockHealthData(),
+      groupData: mockGroup,
+      quartileData: mockBenchmarkStatistics[1],
       benchmarkComparisonMethod:
         BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
     },
@@ -166,8 +121,7 @@ describe('Spine chart table suite', () => {
     it('should render the SpineChartTable component', () => {
       render(
         <SpineChartTable
-          rowData={mockTableData}
-          areasSelected={[selectedAreaOne]}
+          indicatorData={mockIndicatorData}
         />
       );
       const spineChart = screen.getByTestId('spineChartTable-component');
@@ -177,111 +131,46 @@ describe('Spine chart table suite', () => {
     it('should render the SpineChartTable in ascending indicator order', () => {
       render(
         <SpineChartTable
-          rowData={mockTableData}
-          areasSelected={[selectedAreaOne]}
+          indicatorData={mockIndicatorData}
         />
       );
 
-      const expectedIndicators = ['Test indicator 2', 'Test indicator 1'];
       const indicators = screen.getAllByTestId(`indicator-cell`);
-      expect(indicators[0]).toHaveTextContent(expectedIndicators[0]);
-      expect(indicators[1]).toHaveTextContent(expectedIndicators[1]);
-    });
-  });
-
-  describe('mapToSpineChartTableData', () => {
-    it('should map to spine chart table row data', () => {
-      const expectedRowData: SpineChartTableRowData[] = [
-        {
-          benchmarkStatistics: {
-            polarity: IndicatorPolarity.HighIsGood,
-            q0Value: 1666,
-            q1Value: 1000,
-            q2Value: 969,
-            q3Value: 959,
-          },
-          benchmarkValue: 890.305692,
-          areaOneValue: 890.305692,
-          areaOneCount: 222,
-          areaOneOutcome: 'Better',
-          areaTwoCount: undefined,
-          areaTwoOutcome: undefined,
-          areaTwoValue: undefined,
-          groupValue: 980.305692,
-          indicator: 'Test indicator 1',
-          indicatorId: 2,
-          period: 2024,
-          trend: 'Increasing and getting worse',
-          unit: 'kg',
-          twoAreasRequested: false,
-          benchmarkComparisonMethod:
-            BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-        },
-        {
-          benchmarkStatistics: {
-            polarity: IndicatorPolarity.HighIsGood,
-            q0Value: 22,
-            q1Value: 40,
-            q2Value: 60,
-            q3Value: 100,
-          },
-          benchmarkValue: 135.149304,
-          areaOneValue: 690.305692,
-          areaOneCount: 111,
-          areaOneOutcome: BenchmarkOutcome.Similar,
-          areaTwoCount: undefined,
-          areaTwoOutcome: undefined,
-          areaTwoValue: undefined,
-          groupValue: 690.305692,
-          indicator: 'Test indicator 2',
-          indicatorId: 1,
-          period: 2022,
-          trend: 'Cannot be calculated',
-          unit: 'per 1000',
-
-          twoAreasRequested: false,
-          benchmarkComparisonMethod:
-            BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-        },
-      ];
-
-      expect(mapToSpineChartTableData(mockTableData, false)).toEqual(
-        expectedRowData
-      );
+      expect(indicators[0]).toHaveTextContent('testIndicator1');
+      expect(indicators[1]).toHaveTextContent('testIndicator2');
     });
   });
 
   describe('Spine Chart with 2 areas', () => {
-    const mockTwoAreaTableData: SpineChartTableRowProps[] = [
+    const mockTwoAreasIndicatorData = [
       {
-        indicator: mockIndicatorData[0],
-        measurementUnit: mockUnits[0],
-        indicatorHealthDataAreaOne: getMockHealthData()[0],
-        indicatorHealthDataAreaTwo: getMockHealthData(selectedAreaTwo)[0],
-        groupIndicatorData: mockGroup[0],
-        englandBenchmarkData: MOCK_HEALTH_DATA[0],
-        benchmarkStatistics: mockBenchmarkStatistics[0],
+        indicatorId: '1',
+        indicatorName: 'testIndicator1',
+        latestDataPeriod: 2023,
+        valueUnit: '%',
+        areasHealthData: getMockHealthData().concat(getMockHealthData(selectedAreaTwo)),
+        groupData: mockGroup,
+        quartileData: mockBenchmarkStatistics[0],
         benchmarkComparisonMethod:
-          BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+        BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
       },
       {
-        indicator: mockIndicatorData[1],
-        measurementUnit: mockUnits[1],
-        indicatorHealthDataAreaOne: getMockHealthData()[1],
-        indicatorHealthDataAreaTwo: getMockHealthData(selectedAreaTwo)[1],
-        groupIndicatorData: mockGroup[1],
-        englandBenchmarkData: MOCK_HEALTH_DATA[1],
-        benchmarkStatistics: mockBenchmarkStatistics[1],
+        indicatorId: '2',
+        indicatorName: 'testIndicator1',
+        latestDataPeriod: 2023,
+        valueUnit: 'per 100,000',
+        areasHealthData: getMockHealthData().concat(getMockHealthData(selectedAreaTwo)),
+        groupData: mockGroup,
+        quartileData: mockBenchmarkStatistics[1],
         benchmarkComparisonMethod:
-          BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+        BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
       },
     ];
 
     it('should display data correctly for both areas', () => {
       render(
         <SpineChartTable
-          rowData={mockTwoAreaTableData}
-          areasSelected={[selectedAreaOne, selectedAreaTwo]}
+          indicatorData={mockTwoAreasIndicatorData}
         />
       );
 
@@ -295,13 +184,13 @@ describe('Spine chart table suite', () => {
         '222'
       );
       expect(screen.getAllByTestId('area-1-value-cell')[1]).toHaveTextContent(
-        '890.3'
+        '690.3'
       );
       expect(screen.getAllByTestId('area-2-count-cell')[1]).toHaveTextContent(
         '222'
       );
       expect(screen.getAllByTestId('area-2-value-cell')[1]).toHaveTextContent(
-        '890.3'
+        '690.3'
       );
 
       // Trend data should not be displayed
@@ -309,16 +198,12 @@ describe('Spine chart table suite', () => {
     });
 
     it("should render an 'X' when second area does not have data for latest period of the first area", () => {
-      const mockDataPeriodMismatch = [...mockTwoAreaTableData];
-      mockDataPeriodMismatch[0] = {
-        ...mockTwoAreaTableData[0],
-        indicatorHealthDataAreaTwo: getMockHealthData(selectedAreaTwo, true)[0],
-      };
+      const mockDataPeriodMismatch = [...mockTwoAreasIndicatorData];
+      mockDataPeriodMismatch[0].areasHealthData = getMockHealthData().concat(getMockHealthData(selectedAreaTwo, true));
 
       render(
         <SpineChartTable
-          rowData={mockDataPeriodMismatch}
-          areasSelected={[selectedAreaOne, selectedAreaTwo]}
+          indicatorData={mockDataPeriodMismatch}
         />
       );
 
@@ -329,17 +214,16 @@ describe('Spine chart table suite', () => {
         'Greater Manchester ICB - 01T'
       );
 
-      // When sorted by indicator ID, the 2nd indicator has the period mismatch by area.
-      expect(screen.getAllByTestId('area-1-count-cell')[1]).toHaveTextContent(
+      expect(screen.getAllByTestId('area-1-count-cell')[0]).toHaveTextContent(
         '222'
       );
-      expect(screen.getAllByTestId('area-1-value-cell')[1]).toHaveTextContent(
-        '890.3'
+      expect(screen.getAllByTestId('area-1-value-cell')[0]).toHaveTextContent(
+        '690.3'
       );
-      expect(screen.getAllByTestId('area-2-count-cell')[1]).toHaveTextContent(
+      expect(screen.getAllByTestId('area-2-count-cell')[0]).toHaveTextContent(
         'X'
       );
-      expect(screen.getAllByTestId('area-2-value-cell')[1]).toHaveTextContent(
+      expect(screen.getAllByTestId('area-2-value-cell')[0]).toHaveTextContent(
         'X'
       );
     });

@@ -19,7 +19,13 @@ export interface SpineChartIndicatorData {
   quartileData: QuartileData;
 };
 
-
+/**
+ * Finds the matching area health data based on the requested area code.
+ * 
+ * @param areaHealthData
+ * @param areaCode
+ * @returns the health data matching the requested area.
+ */
 export const getHealthDataForArea = (
   areaHealthData: HealthDataForArea[] | undefined,
   areaCode: string

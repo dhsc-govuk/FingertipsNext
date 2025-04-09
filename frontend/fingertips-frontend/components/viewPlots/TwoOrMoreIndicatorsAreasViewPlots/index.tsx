@@ -51,25 +51,9 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     throw new Error('Invalid parameters provided to view plot');
   }
 
-  const buildHeatmapIndicatorData = (
-    allIndicatorData: IndicatorWithHealthDataForArea[],
-    indicatorMetadata: IndicatorDocument[]
-  ): HeatmapIndicatorData[] => {
-    return allIndicatorData
-      .map((indicatorData) => {
-        const metadata = indicatorMetadata.find((metadata) => {
-          return metadata.indicatorID === indicatorData.indicatorId?.toString();
-        });
-
-        if (!metadata) return undefined;
-
-        return extractHeatmapIndicatorData(indicatorData, metadata);
-      })
-      .filter((data) => {
-        return data !== undefined;
-      });
-  };
-
+  /**
+   * Organises all the retrieved data into the desired structure for the spine chart.
+   */
   const buildSpineChartIndicatorData = (
     allIndicatorData: IndicatorWithHealthDataForArea[],
     allIndicatorMetadata: IndicatorDocument[],
@@ -108,6 +92,25 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
       }
     });
   }
+
+  const buildHeatmapIndicatorData = (
+    allIndicatorData: IndicatorWithHealthDataForArea[],
+    indicatorMetadata: IndicatorDocument[]
+  ): HeatmapIndicatorData[] => {
+    return allIndicatorData
+      .map((indicatorData) => {
+        const metadata = indicatorMetadata.find((metadata) => {
+          return metadata.indicatorID === indicatorData.indicatorId?.toString();
+        });
+
+        if (!metadata) return undefined;
+
+        return extractHeatmapIndicatorData(indicatorData, metadata);
+      })
+      .filter((data) => {
+        return data !== undefined;
+      });
+  };
 
   return (
     <section data-testid="twoOrMoreIndicatorsAreasViewPlot-component">

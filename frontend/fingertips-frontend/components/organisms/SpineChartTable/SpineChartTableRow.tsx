@@ -22,7 +22,6 @@ import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
   HealthDataPointTrendEnum,
-  QuartileData,
 } from '@/generated-sources/ft-api-client';
 import { TrendTag } from '@/components/molecules/TrendTag';
 import { orderStatistics } from '../SpineChart/SpineChartHelpers';
@@ -58,7 +57,7 @@ export function SpineChartTableRow({
   const { best, worst } = orderStatistics(quartileData);
   const groupIsEngland = groupData.areaCode === areaCodeForEngland;
   const twoAreasRequested = areasHealthData.length === 2;
-  let twoAreasLatestPeriodMatching;
+  let twoAreasLatestPeriodMatching = true;
 
   if (twoAreasRequested) {
     twoAreasLatestPeriodMatching = areasHealthData[0].healthData.at(-1)?.year === areasHealthData[1].healthData.at(-1)?.year;
