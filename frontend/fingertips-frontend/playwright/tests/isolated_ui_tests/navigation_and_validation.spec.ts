@@ -197,9 +197,12 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
         .toHaveCount(expectedPillTexts.length);
 
       const filterPillNames = await resultsPage.areaFilterPillsText();
+
+      sortAlphabetically(filterPillNames);
+      sortAlphabetically(expectedPillTexts)
       test
-        .expect(sortAlphabetically(filterPillNames))
-        .toEqual(sortAlphabetically(expectedPillTexts));
+        .expect(filterPillNames)
+        .toEqual(expectedPillTexts);
 
       await test.expect(resultsPage.areaFilterCombobox()).toBeDisabled();
     });
@@ -216,9 +219,12 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
         .toHaveCount(expectedPillTexts.length);
 
       const filterPillNames = await resultsPage.areaFilterPillsText();
+
+      sortAlphabetically(filterPillNames);
+      sortAlphabetically(expectedPillTexts)
       test
-        .expect(sortAlphabetically(filterPillNames))
-        .toEqual(sortAlphabetically(expectedPillTexts));
+          .expect(filterPillNames)
+          .toEqual(expectedPillTexts);
 
       await test.expect(resultsPage.areaFilterCombobox()).toBeDisabled();
     });
