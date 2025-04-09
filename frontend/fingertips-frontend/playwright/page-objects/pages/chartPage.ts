@@ -157,6 +157,7 @@ export default class ChartPage extends AreaFilter {
       await this.page.waitForLoadState();
       await expect(this.page.getByText('Loading')).toHaveCount(0);
       await this.page.waitForLoadState();
+      await this.page.waitForTimeout(1000);
 
       // for now just warn if visual comparisons do not match
       try {
