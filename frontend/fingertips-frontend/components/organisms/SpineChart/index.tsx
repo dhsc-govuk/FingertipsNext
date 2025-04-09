@@ -163,7 +163,7 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
       type: 'bar',
       backgroundColor: 'transparent',
       spacing: [0, 0, 0, 0],
-      margin: [0, 0, 0, 0],
+      margin: [5, 5, 5, 5],
       height: 50,
       width: 400,
       inverted: true,
@@ -212,6 +212,8 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
       },
     ],
     yAxis: {
+      min: -1,
+      max: 1,
       gridLineWidth: 0,
       title: {
         text: null,
