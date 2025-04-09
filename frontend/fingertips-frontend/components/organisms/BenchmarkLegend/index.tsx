@@ -4,10 +4,17 @@ import styled from 'styled-components';
 import { FC } from 'react';
 import {
   BenchmarkComparisonMethod,
-  BenchmarkOutcome,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import BenchmarkLegendGroup from '@/components/organisms/BenchmarkLegend/BenchmarkLegendGroup';
+import {
+  bobOutcomes,
+  getOutcomes,
+  quintilesOutcomes,
+  quintilesOutcomesWithJudgement,
+  ragOutcomes,
+} from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
+import { BenchmarkLegendsToShow } from '@/components/organisms/BenchmarkLegend/benchmarkLegend.types';
 
 const LegendContainer = styled.div({
   marginBottom: '2em',
@@ -26,46 +33,6 @@ interface BenchmarkLegendProps {
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
 }
-
-const ragOutcomes = [
-  BenchmarkOutcome.Better,
-  BenchmarkOutcome.Similar,
-  BenchmarkOutcome.Worse,
-  BenchmarkOutcome.NotCompared,
-];
-const bobOutcomes = [
-  BenchmarkOutcome.Lower,
-  BenchmarkOutcome.Similar,
-  BenchmarkOutcome.Higher,
-  BenchmarkOutcome.NotCompared,
-];
-const quintilesOutcomes = [
-  BenchmarkOutcome.Lowest,
-  BenchmarkOutcome.Low,
-  BenchmarkOutcome.Middle,
-  BenchmarkOutcome.High,
-  BenchmarkOutcome.Highest,
-];
-const quintilesOutcomesWithJudgement = [
-  BenchmarkOutcome.Worst,
-  BenchmarkOutcome.Worse,
-  BenchmarkOutcome.Middle,
-  BenchmarkOutcome.Better,
-  BenchmarkOutcome.Best,
-];
-
-export const getOutcomes = (
-  method: BenchmarkComparisonMethod,
-  polarity: IndicatorPolarity
-): BenchmarkOutcome[] => {
-  const withJudement =
-    polarity === IndicatorPolarity.HighIsGood ||
-    polarity === IndicatorPolarity.LowIsGood;
-  if (method === BenchmarkComparisonMethod.Quintiles)
-    return withJudement ? quintilesOutcomesWithJudgement : quintilesOutcomes;
-
-  return withJudement ? ragOutcomes : bobOutcomes;
-};
 
 export const BenchmarkLegend: FC<BenchmarkLegendProps> = ({
   title = 'Compared to England',
@@ -94,35 +61,92 @@ interface BenchmarkLegendAllProps {
 }
 
 const BenchmarkLegendAll: FC<BenchmarkLegendAllProps> = ({ title }) => {
-  const allRag = [...new Set([...ragOutcomes, ...bobOutcomes])];
+  const both = {
+    judgement: true,
+    noJudgement: true,
+  };
+  const all: BenchmarkLegendsToShow = {
+    [BenchmarkComparisonMethod.CIOverlappingReferenceValue95]: both,
+    [BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8]: both,
+    [BenchmarkComparisonMethod.Quintiles]: both,
+  };
+
+  return <BenchmarkLegends title={title} legendsToShow={all} />;
+};
+
+interface BenchmarkLegendsProps {
+  title?: string;
+  legendsToShow: BenchmarkLegendsToShow;
+}
+
+export const BenchmarkLegends: FC<BenchmarkLegendsProps> = ({
+  title = 'Compared to England',
+  legendsToShow,
+}) => {
+  const { judgement: judgement95 = false, noJudgement: noJudgement95 = false } =
+    legendsToShow[BenchmarkComparisonMethod.CIOverlappingReferenceValue95] ??
+    {};
+  const outcomes95 = [
+    ...new Set([
+      ...(judgement95 ? ragOutcomes : []),
+      ...(noJudgement95 ? bobOutcomes : []),
+    ]),
+  ];
+
+  const { judgement: judgement99 = false, noJudgement: noJudgement99 = false } =
+    legendsToShow[BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8] ??
+    {};
+  const outcomes99 = [
+    ...new Set([
+      ...(judgement99 ? ragOutcomes : []),
+      ...(noJudgement99 ? bobOutcomes : []),
+    ]),
+  ];
+  const { judgement: showQ = false, noJudgement: showQnoJudgement = false } =
+    legendsToShow[BenchmarkComparisonMethod.Quintiles] ?? {};
+
+  const show95 = outcomes95.length > 0;
+  const show99 = outcomes99.length > 0;
+  const hideDuplicateQuintileSubheading = showQ && showQnoJudgement;
   return (
     <LegendContainer data-testid="benchmarkLegend-component">
       <BenchmarkLegendHeader>{title}</BenchmarkLegendHeader>
-      <BenchmarkLegendGroup
-        polarity={IndicatorPolarity.HighIsGood}
-        benchmarkComparisonMethod={
-          BenchmarkComparisonMethod.CIOverlappingReferenceValue95
-        }
-        outcomes={allRag}
-      />
-      <BenchmarkLegendGroup
-        polarity={IndicatorPolarity.HighIsGood}
-        benchmarkComparisonMethod={
-          BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8
-        }
-        outcomes={allRag}
-      />
+      {show95 ? (
+        <BenchmarkLegendGroup
+          polarity={IndicatorPolarity.HighIsGood}
+          benchmarkComparisonMethod={
+            BenchmarkComparisonMethod.CIOverlappingReferenceValue95
+          }
+          outcomes={outcomes95}
+        />
+      ) : null}
 
-      <BenchmarkLegendGroup
-        polarity={IndicatorPolarity.NoJudgement}
-        benchmarkComparisonMethod={BenchmarkComparisonMethod.Quintiles}
-        outcomes={quintilesOutcomes}
-      />
-      <BenchmarkLegendGroup
-        polarity={IndicatorPolarity.LowIsGood}
-        benchmarkComparisonMethod={BenchmarkComparisonMethod.Quintiles}
-        outcomes={quintilesOutcomesWithJudgement}
-      />
+      {show99 ? (
+        <BenchmarkLegendGroup
+          polarity={IndicatorPolarity.HighIsGood}
+          benchmarkComparisonMethod={
+            BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8
+          }
+          outcomes={outcomes99}
+        />
+      ) : null}
+
+      {showQnoJudgement ? (
+        <BenchmarkLegendGroup
+          polarity={IndicatorPolarity.NoJudgement}
+          benchmarkComparisonMethod={BenchmarkComparisonMethod.Quintiles}
+          outcomes={quintilesOutcomes}
+        />
+      ) : null}
+
+      {showQ ? (
+        <BenchmarkLegendGroup
+          polarity={IndicatorPolarity.HighIsGood}
+          benchmarkComparisonMethod={BenchmarkComparisonMethod.Quintiles}
+          outcomes={quintilesOutcomesWithJudgement}
+          subTitle={hideDuplicateQuintileSubheading ? '' : undefined}
+        />
+      ) : null}
     </LegendContainer>
   );
 };

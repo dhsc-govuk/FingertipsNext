@@ -4,7 +4,7 @@ import {
   mapToSpineChartTableData,
   SpineChartTable,
   SpineChartTableRowProps,
-} from '.';
+} from './index';
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,

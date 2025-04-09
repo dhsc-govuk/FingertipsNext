@@ -93,7 +93,7 @@ export function generateSeriesData({
       marker: {
         symbol: 'diamond',
         radius: 8,
-        fillColor: GovukColours.Green,
+        fillColor: '#fff',
         lineColor: '#fff',
         lineWidth: markerLineWidth,
       },
@@ -105,7 +105,7 @@ export function generateSeriesData({
     { value: areaOneValue, outcome: areaOneOutcome },
     { value: areaTwoValue, outcome: areaTwoOutcome },
   ];
-  areas.forEach(({ value, outcome }) => {
+  areas.forEach(({ value, outcome }, index) => {
     if (value === undefined) return;
     const fillColor = getBenchmarkColour(
       benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
@@ -119,7 +119,7 @@ export function generateSeriesData({
       type: 'scatter',
       name: `Area ${outcome}`,
       marker: {
-        symbol: 'circle',
+        symbol: index === 0 ? 'circle' : 'square',
         radius: 6,
         fillColor,
         lineColor: '#fff',
