@@ -30,7 +30,7 @@ export const lineChartDefaultOptions = {
     spacingBottom: 50,
     spacingTop: 20,
     animation: false,
-  },
+  } satisfies Highcharts.ChartOptions,
   title: {
     style: {
       display: 'none',
@@ -45,7 +45,7 @@ export const lineChartDefaultOptions = {
     tickLength: 0,
     allowDecimals: false,
     labels: { style: { fontSize: AXIS_LABEL_FONT_SIZE } },
-  },
+  } satisfies Highcharts.XAxisOptions,
   legend: {
     verticalAlign: 'top',
     align: 'left',
