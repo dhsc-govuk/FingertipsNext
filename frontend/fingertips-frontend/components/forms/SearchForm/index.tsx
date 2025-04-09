@@ -18,7 +18,7 @@ import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
 import { useEffect } from 'react';
-import {ArrowExpander} from "@/components/molecules/ArrowExpander";
+import { ArrowExpander } from '@/components/molecules/ArrowExpander';
 
 const StyledInputField = styled(InputField)(
   spacing.withWhiteSpace({ marginBottom: 6 })
@@ -98,23 +98,24 @@ export const SearchForm = ({
         />
       ) : null}
 
-      <ArrowExpander
-          openTitle="Open area filter"
-          closeTitle="Close area filter"
-      >
-          <SelectAreasFilterPanel
-              key={`area-filter-panel-${JSON.stringify(searchState)}`}
-              areaFilterData={areaFilterData}
-          />
-      </ArrowExpander>
-
       <Button
         type="submit"
         data-testid="search-form-button-submit"
+        style={{ marginTop: 10 }}
         onClick={() => setIsLoading(true)}
       >
         Search
       </Button>
+
+      <ArrowExpander
+        openTitle="Open area filter"
+        closeTitle="Close area filter"
+      >
+        <SelectAreasFilterPanel
+          key={`area-filter-panel-${JSON.stringify(searchState)}`}
+          areaFilterData={areaFilterData}
+        />
+      </ArrowExpander>
     </div>
   );
 };
