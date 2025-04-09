@@ -20,8 +20,6 @@ const toggleClickSeries = (self: Series): boolean => {
   return false;
 };
 
-const toggleHoverSeries = () => {};
-
 const createChartSeriesOptions = (
   xAxisTitle: string,
   yAxisTitle: string,
@@ -42,6 +40,38 @@ const createChartSeriesOptions = (
       type: 'bar',
       height: 800,
       animation: false,
+      events: {
+        load: function () {
+          const items = this.legend.allItems;
+
+          items.forEach((item) => {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore - we know this item will be a legendItem and dynamic property 'group' will be created
+            if (!item || !item.legendItem || !item.legendItem.group) return;
+
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore - we know this item will be a legendItem and dynamic property 'group' will be created
+            item.legendItem.group.on('mouseover', () => {
+              this.series.forEach((series) => {
+                if (item.name === series.name) {
+                  series.setState('hover');
+                  series.setState('inactive');
+                }
+              });
+            });
+
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore - we know this item will be a legendItem and dynamic property 'group' will be created
+            item.legendItem.group.on('mouseout', () => {
+              this.series.forEach((series) => {
+                if (item.name === series.name) {
+                  series.setState('normal');
+                }
+              });
+            });
+          });
+        },
+      },
     },
     plotOptions: {
       series: {
