@@ -22,7 +22,6 @@ const StyledAreaTitleHeader = styled('h3')(typography.font({ size: 19 }), {
 export const StyledTableCell = styled(Table.Cell)(
   typography.font({ size: 19 }),
   {
-    paddingRight: '0',
     textAlign: 'center',
   }
 );
