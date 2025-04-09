@@ -64,17 +64,15 @@ describe('Spine chart table row', () => {
       q1Value: 760,
       q3Value: 500,
       q4Value: 345,
-      areaValue: 550
-    }
+      areaValue: 550,
+    },
   };
 
   it('should have dark grey cell color for benchmark column', () => {
     render(
       <table>
         <tbody>
-          <SpineChartTableRow
-            indicatorData={mockIndicatorData}
-          />
+          <SpineChartTableRow indicatorData={mockIndicatorData} />
         </tbody>
       </table>
     );
@@ -94,9 +92,7 @@ describe('Spine chart table row', () => {
     render(
       <table>
         <tbody>
-          <SpineChartTableRow
-            indicatorData={mockIndicatorData}
-          />
+          <SpineChartTableRow indicatorData={mockIndicatorData} />
         </tbody>
       </table>
     );
@@ -111,26 +107,24 @@ describe('Spine chart table row', () => {
       ...mockIndicatorData,
       groupData: {
         ...mockIndicatorData.groupData,
-        healthData: []
+        healthData: [],
       },
       areasHealthData: [
         {
           ...mockIndicatorData.areasHealthData[0],
-          healthData: []
-        }
+          healthData: [],
+        },
       ],
       quartileData: {
         ...mockIndicatorData.quartileData,
-        areaValue: undefined
-      }
+        areaValue: undefined,
+      },
     };
 
     render(
       <table>
         <tbody>
-          <SpineChartTableRow
-            indicatorData={indicatorWithMissingData}
-          />
+          <SpineChartTableRow indicatorData={indicatorWithMissingData} />
         </tbody>
       </table>
     );
@@ -165,15 +159,13 @@ describe('Spine chart table row', () => {
               deprivation: noDeprivation,
             },
           ],
-        }
-      ]
+        },
+      ],
     };
     render(
       <table>
         <tbody>
-          <SpineChartTableRow
-            indicatorData={indicatorDataWithTwoAreas}
-          />
+          <SpineChartTableRow indicatorData={indicatorDataWithTwoAreas} />
         </tbody>
       </table>
     );
@@ -185,5 +177,38 @@ describe('Spine chart table row', () => {
 
     // Trend cell should not be displayed when 2 areas selected
     expect(screen.queryByTestId('trend-cell')).not.toBeInTheDocument();
+  });
+
+  it('should not render a cell for group if the group is England', () => {
+    const indicatorDataGroupEngland = {
+      ...mockIndicatorData,
+      groupData: {
+        areaCode: 'E92000001',
+        areaName: 'England',
+        healthData: [
+          {
+            year: 2025,
+            count: 3333,
+            value: 890.305692,
+            lowerCi: 341.69151,
+            upperCi: 478.32766,
+            ageBand: allAgesAge,
+            sex: personsSex,
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: noDeprivation,
+          },
+        ],
+      },
+    };
+
+    render(
+      <table>
+        <tbody>
+          <SpineChartTableRow indicatorData={indicatorDataGroupEngland} />
+        </tbody>
+      </table>
+    );
+
+    expect(screen.queryByTestId('group-value-cell')).not.toBeInTheDocument();
   });
 });

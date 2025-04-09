@@ -9,12 +9,13 @@ import {
   QuartileData,
 } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import {
-  SpineChartTable,
-} from '@/components/organisms/SpineChartTable';
+import { SpineChartTable } from '@/components/organisms/SpineChartTable';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmapUtil';
-import { getHealthDataForArea, SpineChartIndicatorData } from '@/components/organisms/SpineChartTable/spineChartTableHelpers';
+import {
+  getHealthDataForArea,
+  SpineChartIndicatorData,
+} from '@/components/organisms/SpineChartTable/spineChartTableHelpers';
 
 export function extractHeatmapIndicatorData(
   indicatorData: IndicatorWithHealthDataForArea,
@@ -62,21 +63,33 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     selectedGroupCode: string
   ): SpineChartIndicatorData[] => {
     return allIndicatorData.map((indicatorData) => {
-      const relevantIndicatorMeta = allIndicatorMetadata.find((indicatorMetaData) => {
-        return indicatorMetaData.indicatorID === indicatorData.indicatorId?.toString();
-      });
+      const relevantIndicatorMeta = allIndicatorMetadata.find(
+        (indicatorMetaData) => {
+          return (
+            indicatorMetaData.indicatorID ===
+            indicatorData.indicatorId?.toString()
+          );
+        }
+      );
 
       if (!relevantIndicatorMeta) {
-        throw new Error('No indicator AI search metadata found matching health data from API');
+        throw new Error(
+          'No indicator AI search metadata found matching health data from API'
+        );
       }
 
       const areasHealthData = areasSelected.map((areaCode) => {
-        return getHealthDataForArea(indicatorData.areaHealthData, areaCode)
+        return getHealthDataForArea(indicatorData.areaHealthData, areaCode);
       });
-      const matchedQuartileData = quartileData.find((quartileDataItem) => quartileDataItem.indicatorId === indicatorData.indicatorId);
+      const matchedQuartileData = quartileData.find(
+        (quartileDataItem) =>
+          quartileDataItem.indicatorId === indicatorData.indicatorId
+      );
 
       if (!matchedQuartileData) {
-        throw new Error(`No quartile data found for the requested indicator ID: ${indicatorData.indicatorId}`);
+        throw new Error(
+          `No quartile data found for the requested indicator ID: ${indicatorData.indicatorId}`
+        );
       }
 
       return {
@@ -85,13 +98,19 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
         valueUnit: relevantIndicatorMeta.unitLabel,
         benchmarkComparisonMethod: areasHealthData[0].healthData[0].benchmarkComparison?.method,
         // The latest period for the first area's data (health data is sorted be year ASC)
-        latestDataPeriod: areasHealthData[0].healthData[areasHealthData[0].healthData.length - 1].year,
+        latestDataPeriod:
+          areasHealthData[0].healthData[
+            areasHealthData[0].healthData.length - 1
+          ].year,
         areasHealthData,
-        groupData: getHealthDataForArea(indicatorData.areaHealthData, selectedGroupCode),
-        quartileData: matchedQuartileData
-      }
+        groupData: getHealthDataForArea(
+          indicatorData.areaHealthData,
+          selectedGroupCode
+        ),
+        quartileData: matchedQuartileData,
+      };
     });
-  }
+  };
 
   const buildHeatmapIndicatorData = (
     allIndicatorData: IndicatorWithHealthDataForArea[],

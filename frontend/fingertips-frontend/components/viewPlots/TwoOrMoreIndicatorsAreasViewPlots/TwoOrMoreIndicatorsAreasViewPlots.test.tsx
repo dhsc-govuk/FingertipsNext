@@ -253,33 +253,39 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
     const areas = [mockAreas[0], mockAreas[1]];
     mockSearchParams[SearchParams.AreasSelected] = areas;
 
-    const renderComponentWithError = () => render(
-      <TwoOrMoreIndicatorsAreasViewPlot
-        searchState={mockSearchParams}
-        indicatorData={mockIndicatorData}
-        indicatorMetadata={[]}
-        benchmarkStatistics={mockBenchmarkStatistics}
-      />
-    );
+    const renderComponentWithError = () =>
+      render(
+        <TwoOrMoreIndicatorsAreasViewPlot
+          searchState={mockSearchParams}
+          indicatorData={mockIndicatorData}
+          indicatorMetadata={[]}
+          benchmarkStatistics={mockBenchmarkStatistics}
+        />
+      );
 
-    expect(renderComponentWithError).toThrow('No indicator AI search metadata found matching health data from API');
+    expect(renderComponentWithError).toThrow(
+      'No indicator AI search metadata found matching health data from API'
+    );
   });
 
   it('should throw an error if no quartile data for one of the requested indicators', () => {
     const areas = [mockAreas[0], mockAreas[1]];
     mockSearchParams[SearchParams.AreasSelected] = areas;
-    const quartileDataMissingOne = [mockBenchmarkStatistics[0]]
+    const quartileDataMissingOne = [mockBenchmarkStatistics[0]];
 
-    const renderComponentWithError = () => render(
-      <TwoOrMoreIndicatorsAreasViewPlot
-        searchState={mockSearchParams}
-        indicatorData={mockIndicatorData}
-        indicatorMetadata={mockMetaData}
-        benchmarkStatistics={quartileDataMissingOne}
-      />
+    const renderComponentWithError = () =>
+      render(
+        <TwoOrMoreIndicatorsAreasViewPlot
+          searchState={mockSearchParams}
+          indicatorData={mockIndicatorData}
+          indicatorMetadata={mockMetaData}
+          benchmarkStatistics={quartileDataMissingOne}
+        />
+      );
+
+    expect(renderComponentWithError).toThrow(
+      'No quartile data found for the requested indicator ID: 321'
     );
-
-    expect(renderComponentWithError).toThrow('No quartile data found for the requested indicator ID: 321');
   });
 });
 

@@ -57,13 +57,11 @@ export function SpineChartTableHeader({
             {areaName}
           </StyledAlignCentreHeader>
         ))}
-        {!groupIsEngland ?
+        {!groupIsEngland ? (
           <StyledGroupHeader data-testid="group-header">
             {groupName}
           </StyledGroupHeader>
-          :
-          null
-        }
+        ) : null}
         <StyledBenchmarkHeader colSpan={4} data-testid="england-header">
           Benchmark: England
         </StyledBenchmarkHeader>

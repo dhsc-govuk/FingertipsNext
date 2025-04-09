@@ -50,24 +50,23 @@ describe('Spine chart table suite', () => {
     ];
   };
 
-  const mockGroup: HealthDataForArea = 
-    {
-      areaCode: '90210',
-      areaName: 'Manchester',
-      healthData: [
-        {
-          year: 2023,
-          count: 3333,
-          value: 890.305692,
-          lowerCi: 341.69151,
-          upperCi: 478.32766,
-          ageBand: allAgesAge,
-          sex: personsSex,
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-          deprivation: noDeprivation,
-        },
-      ],
-    };
+  const mockGroup: HealthDataForArea = {
+    areaCode: '90210',
+    areaName: 'Manchester',
+    healthData: [
+      {
+        year: 2023,
+        count: 3333,
+        value: 890.305692,
+        lowerCi: 341.69151,
+        upperCi: 478.32766,
+        ageBand: allAgesAge,
+        sex: personsSex,
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
+      },
+    ],
+  };
 
   const mockBenchmarkStatistics = [
     {
@@ -78,7 +77,7 @@ describe('Spine chart table suite', () => {
       q2Value: 969,
       q3Value: 959,
       q4Value: 920,
-      englandValue: 1010.5623
+      englandValue: 1010.5623,
     },
     {
       indicatorId: 2,
@@ -88,7 +87,7 @@ describe('Spine chart table suite', () => {
       q2Value: 60,
       q3Value: 100,
       q4Value: 124,
-      englandValue: 61.5
+      englandValue: 61.5,
     },
   ];
 
@@ -119,21 +118,13 @@ describe('Spine chart table suite', () => {
 
   describe('Spine chart table', () => {
     it('should render the SpineChartTable component', () => {
-      render(
-        <SpineChartTable
-          indicatorData={mockIndicatorData}
-        />
-      );
+      render(<SpineChartTable indicatorData={mockIndicatorData} />);
       const spineChart = screen.getByTestId('spineChartTable-component');
       expect(spineChart).toBeInTheDocument();
     });
 
     it('should render the SpineChartTable in ascending indicator order', () => {
-      render(
-        <SpineChartTable
-          indicatorData={mockIndicatorData}
-        />
-      );
+      render(<SpineChartTable indicatorData={mockIndicatorData} />);
 
       const indicators = screen.getAllByTestId(`indicator-cell`);
       expect(indicators[0]).toHaveTextContent('testIndicator1');
@@ -148,7 +139,9 @@ describe('Spine chart table suite', () => {
         indicatorName: 'testIndicator1',
         latestDataPeriod: 2023,
         valueUnit: '%',
-        areasHealthData: getMockHealthData().concat(getMockHealthData(selectedAreaTwo)),
+        areasHealthData: getMockHealthData().concat(
+          getMockHealthData(selectedAreaTwo)
+        ),
         groupData: mockGroup,
         quartileData: mockBenchmarkStatistics[0],
         benchmarkComparisonMethod:
@@ -159,7 +152,9 @@ describe('Spine chart table suite', () => {
         indicatorName: 'testIndicator1',
         latestDataPeriod: 2023,
         valueUnit: 'per 100,000',
-        areasHealthData: getMockHealthData().concat(getMockHealthData(selectedAreaTwo)),
+        areasHealthData: getMockHealthData().concat(
+          getMockHealthData(selectedAreaTwo)
+        ),
         groupData: mockGroup,
         quartileData: mockBenchmarkStatistics[1],
         benchmarkComparisonMethod:
@@ -168,11 +163,7 @@ describe('Spine chart table suite', () => {
     ];
 
     it('should display data correctly for both areas', () => {
-      render(
-        <SpineChartTable
-          indicatorData={mockTwoAreasIndicatorData}
-        />
-      );
+      render(<SpineChartTable indicatorData={mockTwoAreasIndicatorData} />);
 
       expect(screen.getByTestId('area-header-1')).toHaveTextContent(
         'Greater Manchester ICB - 00T'
@@ -199,13 +190,11 @@ describe('Spine chart table suite', () => {
 
     it("should render an 'X' when second area does not have data for latest period of the first area", () => {
       const mockDataPeriodMismatch = [...mockTwoAreasIndicatorData];
-      mockDataPeriodMismatch[0].areasHealthData = getMockHealthData().concat(getMockHealthData(selectedAreaTwo, true));
-
-      render(
-        <SpineChartTable
-          indicatorData={mockDataPeriodMismatch}
-        />
+      mockDataPeriodMismatch[0].areasHealthData = getMockHealthData().concat(
+        getMockHealthData(selectedAreaTwo, true)
       );
+
+      render(<SpineChartTable indicatorData={mockDataPeriodMismatch} />);
 
       expect(screen.getByTestId('area-header-1')).toHaveTextContent(
         'Greater Manchester ICB - 00T'

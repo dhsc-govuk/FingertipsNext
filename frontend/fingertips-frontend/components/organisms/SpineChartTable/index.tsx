@@ -24,14 +24,18 @@ export interface SpineChartTableProps {
 }
 
 const sortByIndicator = (indicatorData: SpineChartIndicatorData[]) =>
-  indicatorData.toSorted((a, b) => Number(a.indicatorId) - Number(b.indicatorId));
+  indicatorData.toSorted(
+    (a, b) => Number(a.indicatorId) - Number(b.indicatorId)
+  );
 
 export function SpineChartTable({
-  indicatorData
+  indicatorData,
 }: Readonly<SpineChartTableProps>) {
   const sortedData = sortByIndicator(indicatorData);
-  const areaNames = sortedData[0].areasHealthData.map((areaHealthData) => areaHealthData.areaName);
   const methods = getMethodsAndOutcomes(indicatorData);
+  const areaNames = sortedData[0].areasHealthData.map(
+    (areaHealthData) => areaHealthData.areaName
+  );
 
   return (
     <>
@@ -50,9 +54,7 @@ export function SpineChartTable({
         />
         {sortedData.map((indicatorData) => (
           <React.Fragment key={indicatorData.indicatorId}>
-            <SpineChartTableRow
-              indicatorData={indicatorData}
-            />
+            <SpineChartTableRow indicatorData={indicatorData} />
           </React.Fragment>
         ))}
         </StyledTable>
