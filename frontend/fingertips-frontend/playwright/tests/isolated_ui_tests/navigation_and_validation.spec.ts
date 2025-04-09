@@ -210,8 +210,8 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       await resultsPage.closeAreaFilterPill(1);
 
       const expectedPillTexts = [
-        allNHSRegionAreas[0].areaName,
-        allNHSRegionAreas[2].areaName,
+        `${allNHSRegionAreas[0].areaName} ${allNHSRegionAreas[0].areaType}`,
+        `${allNHSRegionAreas[1].areaName} ${allNHSRegionAreas[1].areaType}`,
       ];
       await test
         .expect(resultsPage.areaFilterPills())
