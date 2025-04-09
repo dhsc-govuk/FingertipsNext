@@ -17,8 +17,7 @@ import {
   lineChartDefaultOptions,
 } from '../LineChart/lineChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
-import { DashStyleValue } from 'highcharts';
-import Highcharts from 'highcharts';
+import Highcharts, { DashStyleValue } from 'highcharts';
 import { FormatValueAsWholeNumber } from '@/lib/chartHelpers/labelFormatters';
 
 export const localeSort = (a: string, b: string) => a.localeCompare(b);
@@ -186,8 +185,7 @@ export const getDynamicKeys = (
     return allKeys;
   }, []);
 
-  const uniqueKeys = [...new Set(existingKeys)];
-  return uniqueKeys;
+  return [...new Set(existingKeys)];
 };
 
 const dashStyle = (index: number): DashStyleValue => {
