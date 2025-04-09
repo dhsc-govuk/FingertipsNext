@@ -5,10 +5,8 @@ import {
 } from './ViewsHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
 
-const mockGetHealthDataForAnIndicator = jest.fn().mockResolvedValue({
-  indicatorId: 337,
-  areaHealthData: mockHealthData['337'],
-} as IndicatorWithHealthDataForArea);
+const mockGetHealthDataForAnIndicator = jest.fn();
+
 jest.mock('@/lib/apiClient/apiClientFactory', () => ({
   ApiClientFactory: {
     getIndicatorsApiClient: jest.fn().mockImplementation(() => {
@@ -20,6 +18,13 @@ jest.mock('@/lib/apiClient/apiClientFactory', () => ({
 }));
 
 describe('chunkArray', () => {
+  beforeEach(() => {
+    mockGetHealthDataForAnIndicator.mockReset();
+    mockGetHealthDataForAnIndicator.mockResolvedValue({
+      indicatorId: 337,
+      areaHealthData: mockHealthData['337'],
+    } as IndicatorWithHealthDataForArea);
+  });
   it('should chunk an array into the correct sized sub arrays', () => {
     const testArray1: string[] = new Array(10).fill('a', 0, 10);
     const testArray2: string[] = new Array(5).fill('b', 0, 5);
@@ -56,5 +61,23 @@ describe('chunkArray', () => {
       []
     );
     expect(indicatorData).toBeUndefined();
+  });
+
+  it('check that the fetchIndicatorWithHealthDataForAreaInBatches more than once if the requests areaCodes are more than 100', async () => {
+    const areaCodes = ((n: number) => {
+      //generate random area codes
+      const results: string[] = [];
+      for (let i = 0; i < n; i++) {
+        const randomNum = Math.floor(Math.random() * 100000);
+        const paddedNum = String(randomNum).padStart(5, '0');
+        const randomString = `E090${paddedNum}`;
+        results.push(randomString);
+      }
+      return results;
+    })(230);
+
+    await fetchIndicatorWithHealthDataForAreaInBatches(337, areaCodes, []);
+
+    expect(mockGetHealthDataForAnIndicator).toHaveBeenCalledTimes(3);
   });
 });
