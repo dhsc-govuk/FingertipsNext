@@ -5,6 +5,7 @@ import { InequalitiesBarChart } from '../BarChart';
 import { InequalitiesBarChartTable } from '../BarChart/Table';
 import {
   filterHealthData,
+  getAreasWithDeprivationInequalitiesData,
   getAreasWithSexInequalitiesData,
   getInequalitiesType,
   getInequalityCategories,
@@ -46,7 +47,7 @@ export function InequalitiesForSingleTimePeriod({
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.InequalityYearSelected]: selectedYear,
-    [SearchParams.InequalityTypeSelected]: inequalityTypeSelected,
+    [SearchParams.InequalityBarChartTypeSelected]: inequalityTypeSelected,
     [SearchParams.InequalityBarChartAreaSelected]:
       inequalityBarChartAreaSelected,
   } = searchState;
@@ -58,9 +59,12 @@ export function InequalitiesForSingleTimePeriod({
   );
 
   const availableAreasWithInequalities =
-    inequalityTypeSelected === 'sex' || inequalityTypeSelected === undefined
+    inequalityTypeSelected === 'Sex' || inequalityTypeSelected === undefined
       ? getAreasWithSexInequalitiesData(healthdataWithoutGroup, selectedYear)
-      : [];
+      : getAreasWithDeprivationInequalitiesData(
+          healthdataWithoutGroup,
+          selectedYear
+        );
 
   const areaToUse =
     inequalityBarChartAreaSelected ??
@@ -135,6 +139,7 @@ export function InequalitiesForSingleTimePeriod({
           SearchParams.InequalityBarChartTypeSelected
         }
         testRef="bc"
+        searchState={searchState}
       />
       <ChartSelectArea
         availableAreas={availableAreasWithInequalities}

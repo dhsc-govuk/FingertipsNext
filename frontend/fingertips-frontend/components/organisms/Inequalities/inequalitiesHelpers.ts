@@ -11,6 +11,7 @@ import {
   getHealthDataWithoutInequalities,
   isEnglandSoleSelectedArea,
   hasHealthDataWithSexInequalities,
+  hasHealthDataWithDeprivationInequalities,
 } from '@/lib/chartHelpers/chartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
@@ -401,6 +402,24 @@ export const getAreasWithSexInequalitiesData = (
 
   healthIndicatorData.forEach((areaWithHealthData) => {
     if (hasHealthDataWithSexInequalities(areaWithHealthData, year)) {
+      areasWithInequalitiesData.push({
+        code: areaWithHealthData.areaCode,
+        name: areaWithHealthData.areaName,
+      });
+    }
+  });
+
+  return areasWithInequalitiesData;
+};
+
+export const getAreasWithDeprivationInequalitiesData = (
+  healthIndicatorData: HealthDataForArea[],
+  year?: string
+) => {
+  const areasWithInequalitiesData: AreaWithoutAreaType[] = [];
+
+  healthIndicatorData.forEach((areaWithHealthData) => {
+    if (hasHealthDataWithDeprivationInequalities(areaWithHealthData, year)) {
       areasWithInequalitiesData.push({
         code: areaWithHealthData.areaCode,
         name: areaWithHealthData.areaName,

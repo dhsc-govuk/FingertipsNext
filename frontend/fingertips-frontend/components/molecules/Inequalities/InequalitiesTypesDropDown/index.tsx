@@ -1,23 +1,37 @@
-import { useSearchState } from '@/context/SearchStateContext';
-import { SearchParamKeys, SearchStateManager } from '@/lib/searchStateManager';
+import {
+  SearchParamKeys,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
 import { usePathname, useRouter } from 'next/navigation';
-import { StyledFilterSelect } from '../../SelectAreasFilterPanel';
+import styled from 'styled-components';
+import { Select } from 'govuk-react';
 
 interface InequalitiesTypeDropDownProps {
   inequalitiesOptions: string[];
   inequalityTypeSelectedSearchParam: SearchParamKeys;
   testRef: string;
+  searchState: SearchStateParams;
 }
+
+const StyledFilterSelect = styled(Select)({
+  span: {
+    fontWeight: 'bold',
+  },
+  select: {
+    width: '100%',
+  },
+  marginBottom: '1.5em',
+});
 
 export function InequalitiesTypesDropDown({
   inequalitiesOptions,
   inequalityTypeSelectedSearchParam,
   testRef,
+  searchState,
 }: Readonly<InequalitiesTypeDropDownProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
-  const { getSearchState } = useSearchState();
-  const searchState = getSearchState();
 
   const searchStateManager = SearchStateManager.initialise(searchState);
 

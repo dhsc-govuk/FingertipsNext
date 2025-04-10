@@ -8,7 +8,6 @@ export enum SearchParams {
   GroupTypeSelected = 'gts',
   GroupSelected = 'gs',
   GroupAreaSelected = 'gas',
-  InequalityTypeSelected = 'its',
   InequalityYearSelected = 'iys',
   InequalityBarChartAreaSelected = 'ibas',
   InequalityLineChartAreaSelected = 'ilas',
@@ -27,9 +26,10 @@ const multiValueParams = [
 
 const chartStateParams = [
   SearchParams.InequalityYearSelected,
-  SearchParams.InequalityTypeSelected,
   SearchParams.InequalityBarChartAreaSelected,
   SearchParams.InequalityLineChartAreaSelected,
+  SearchParams.InequalityBarChartTypeSelected,
+  SearchParams.InequalityLineChartTypeSelected,
   SearchParams.PopulationAreaSelected,
 ];
 
@@ -41,7 +41,6 @@ export type SearchStateParams = {
   [SearchParams.GroupTypeSelected]?: string;
   [SearchParams.GroupSelected]?: string;
   [SearchParams.GroupAreaSelected]?: string;
-  [SearchParams.InequalityTypeSelected]?: string;
   [SearchParams.InequalityYearSelected]?: string;
   [SearchParams.InequalityBarChartAreaSelected]?: string;
   [SearchParams.InequalityLineChartAreaSelected]?: string;

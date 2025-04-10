@@ -25,6 +25,7 @@ import {
   getAreasWithSexInequalitiesData,
   getInequalityCategories,
   getInequalitiesType,
+  getAreasWithDeprivationInequalitiesData,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
 import { seriesDataWithoutGroup } from '@/lib/chartHelpers/chartHelpers';
@@ -61,7 +62,7 @@ export function InequalitiesTrend({
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreasSelected]: areasSelected,
-    [SearchParams.InequalityTypeSelected]: inequalityTypeSelected,
+    [SearchParams.InequalityLineChartTypeSelected]: inequalityTypeSelected,
     [SearchParams.InequalityLineChartAreaSelected]:
       inequalityLineChartAreaSelected,
   } = stateManager.getSearchState();
@@ -73,9 +74,9 @@ export function InequalitiesTrend({
   );
 
   const availableAreasWithInequalities =
-    inequalityTypeSelected === 'sex' || inequalityTypeSelected === undefined
+    inequalityTypeSelected === 'Sex' || inequalityTypeSelected === undefined
       ? getAreasWithSexInequalitiesData(healthdataWithoutGroup)
-      : [];
+      : getAreasWithDeprivationInequalitiesData(healthdataWithoutGroup);
 
   const areaToUse =
     inequalityLineChartAreaSelected ??
@@ -159,6 +160,7 @@ export function InequalitiesTrend({
           SearchParams.InequalityLineChartTypeSelected
         }
         testRef="lc"
+        searchState={searchState}
       />
       <ChartSelectArea
         availableAreas={availableAreasWithInequalities}

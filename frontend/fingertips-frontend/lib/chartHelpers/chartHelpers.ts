@@ -122,6 +122,33 @@ export function hasHealthDataWithSexInequalities(
   return healthDataPointWithSexInequalities.length > 0;
 }
 
+export function hasHealthDataWithDeprivationInequalities(
+  healthDataForArea: HealthDataForArea,
+  year?: string
+): boolean {
+  if (year) {
+    const healthDataPointsForYear = healthDataForArea.healthData.filter(
+      (healthData) => healthData.year.toString() === year
+    );
+
+    if (healthDataPointsForYear.length === 0) {
+      return false;
+    }
+
+    return (
+      healthDataPointsForYear?.filter(
+        (healthDataForYear) => !healthDataForYear.deprivation.isAggregate
+      ).length > 0
+    );
+  }
+  const healthDataPointWithDeprivationInequalities =
+    healthDataForArea?.healthData?.filter(
+      (data) => !data.deprivation.isAggregate
+    );
+
+  return healthDataPointWithDeprivationInequalities.length > 0;
+}
+
 export function isEnglandSoleSelectedArea(areasSelected?: string[]) {
   const distinctAreas = [...new Set(areasSelected)];
   return distinctAreas.length === 1 && distinctAreas[0] === areaCodeForEngland;

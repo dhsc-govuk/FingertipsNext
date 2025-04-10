@@ -20,7 +20,7 @@ const StyledFilterSelect = styled(Select)({
   select: {
     width: '100%',
   },
-  marginBottom: '2em',
+  marginBottom: '1.5em',
 });
 
 export function TimePeriodDropDown({

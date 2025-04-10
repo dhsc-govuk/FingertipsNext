@@ -211,7 +211,6 @@ describe('SearchStateManager', () => {
       const stateManager = SearchStateManager.initialise({
         [SearchParams.AreasSelected]: ['A001', 'A002'],
         [SearchParams.InequalityYearSelected]: '2023',
-        [SearchParams.InequalityTypeSelected]: 'Sex',
         [SearchParams.InequalityBarChartAreaSelected]: 'A003',
         [SearchParams.InequalityLineChartAreaSelected]: 'A002',
         [SearchParams.PopulationAreaSelected]: areaCodeForEngland,

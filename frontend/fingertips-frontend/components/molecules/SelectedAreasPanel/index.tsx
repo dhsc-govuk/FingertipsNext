@@ -55,6 +55,7 @@ export function SelectedAreasPanel({
   const removeSelectedGroup = () => {
     setIsLoading(true);
 
+    searchStateManager.clearChartState();
     searchStateManager.removeParamValueFromState(
       SearchParams.GroupAreaSelected
     );

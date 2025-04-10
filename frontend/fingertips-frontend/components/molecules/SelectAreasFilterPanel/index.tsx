@@ -163,6 +163,8 @@ export function SelectAreasFilterPanel({
   const handleSelectAllAreasSelected = (checked: boolean) => {
     setIsLoading(true);
 
+    searchStateManager.clearChartState();
+
     if (checked) {
       searchStateManager.removeAllParamFromState(SearchParams.AreasSelected);
       searchStateManager.addParamValueToState(
