@@ -62,7 +62,7 @@ export const PopulationPyramidWithTableDataProvider = async ({
       return await fetchPopulationIndicatorID(areaCodesToRequest[0]);
     })();
 
-  const getPopulationDataForArea = async (
+  const getPopulationData = async (
     populationIndicatorID: PopulationIndicatorIdsTypes
   ) => {
     return await getHealthDataForIndicator(
@@ -80,7 +80,7 @@ export const PopulationPyramidWithTableDataProvider = async ({
     );
   };
 
-  const getPopulationMetadata = async (
+  const getPopulationIndicatorMetadata = async (
     populationIndicatorID: PopulationIndicatorIdsTypes
   ) => {
     return await SearchServiceFactory.getIndicatorSearchService().getIndicator(
@@ -88,28 +88,25 @@ export const PopulationPyramidWithTableDataProvider = async ({
     );
   };
 
-  const { populationDataForArea, populationMetadata } = await (async () => {
+  const { populationData, populationMetadata } = await (async () => {
     if (!populationIndicatorID) {
       return {
-        populationDataForArea: undefined,
+        populationData: undefined,
         populationMetadata: undefined,
       };
     }
 
-    const promises = await Promise.all([
-      getPopulationDataForArea(populationIndicatorID),
-      getPopulationMetadata(populationIndicatorID),
+    const [populationData, populationIndicatorMetadata] = await Promise.all([
+      getPopulationData(populationIndicatorID),
+      getPopulationIndicatorMetadata(populationIndicatorID),
     ]);
 
-    return {
-      populationDataForArea: promises[0],
-      populationMetadata: promises[1],
-    };
+    return { populationData, populationMetadata: populationIndicatorMetadata };
   })();
 
   return (
     <PopulationPyramidWithTable
-      healthDataForAreas={populationDataForArea?.areaHealthData ?? []}
+      healthDataForAreas={populationData?.areaHealthData ?? []}
       groupAreaSelected={groupAreaSelected}
       searchState={searchState}
       xAxisTitle="Age"
