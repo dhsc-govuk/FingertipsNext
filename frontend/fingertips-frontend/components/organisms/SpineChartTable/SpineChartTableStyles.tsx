@@ -10,12 +10,13 @@ import {
 } from '@/lib/tableHelpers';
 import { Table } from 'govuk-react';
 import {
+  paddingSize,
   spineChartIndicatorTitleColumnMinWidth,
   spineChartPeriodColumnMinWidth,
 } from './spineChartTableHelpers';
 
 export const StyledTable = styled(Table)({
-  borderCollapse: 'separate',
+  borderCollapse: 'collapse',
 });
 
 export const StyledDivTableContainer = styled.div({
@@ -54,13 +55,13 @@ export const StyledAlignLeftStickyLeftHeader = styled(StyledAlignLeftHeader)(
 
 export const StickyValueUnitHeader = styled(StyledAlignRightBorderHeader)({
   ...(stickyLeft as unknown as TemplateStringsArray),
-  left: `${spineChartIndicatorTitleColumnMinWidth + spineChartPeriodColumnMinWidth}px`,
+  left: `${spineChartIndicatorTitleColumnMinWidth + spineChartPeriodColumnMinWidth + (paddingSize * 2)}px`,
 });
 
 export const StickyPeriodHeader = styled(StyledAlignCentreHeader)({
   ...(stickyLeft as unknown as TemplateStringsArray),
   minWidth: `${spineChartPeriodColumnMinWidth}px}`,
-  left: `${spineChartIndicatorTitleColumnMinWidth}px`,
+  left: `${spineChartIndicatorTitleColumnMinWidth + paddingSize}px`,
 });
 
 export const StyledAlignCentreTableCell = styled(StyledAlignLeftTableCell)({
@@ -82,13 +83,13 @@ export const StyledValueUnitStickyCell = styled(
   StyledAlignRightBorderRightTableCell
 )({
   ...(stickyLeft as unknown as TemplateStringsArray),
-  left: `${spineChartIndicatorTitleColumnMinWidth + spineChartPeriodColumnMinWidth}px`,
+  left: `${spineChartIndicatorTitleColumnMinWidth + spineChartPeriodColumnMinWidth + (paddingSize * 2)}px`,
 });
 
 export const StyledPeriodStickyCell = styled(StyledAlignCentreTableCell)({
   ...(stickyLeft as unknown as TemplateStringsArray),
   minWidth: `${spineChartPeriodColumnMinWidth}px}`,
-  left: `${spineChartIndicatorTitleColumnMinWidth}px`,
+  left: `${spineChartIndicatorTitleColumnMinWidth + paddingSize}px`,
 });
 
 export const StyledIndicatorTitleStickyLeftCell = styled(
