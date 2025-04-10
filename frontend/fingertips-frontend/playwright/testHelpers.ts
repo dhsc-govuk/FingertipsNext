@@ -246,7 +246,7 @@ export function getScenarioConfig(
       ].includes(component.componentLocator)
     );
   }
-  // 2 indicators, 2+ areas (not England)
+  // 2 indicators, 3+ areas (not England)
   else if (
     indicatorMode === IndicatorMode.TWO_INDICATORS &&
     areaMode === AreaMode.THREE_PLUS_AREAS
@@ -259,7 +259,7 @@ export function getScenarioConfig(
       ].includes(component.componentLocator)
     );
   }
-  // > 2 indicators, 2 areas (not England)
+  // 3+ indicators, 2 areas (not England)
   else if (
     indicatorMode === IndicatorMode.THREE_PLUS_INDICATORS &&
     areaMode === AreaMode.TWO_AREAS
