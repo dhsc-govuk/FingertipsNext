@@ -1,7 +1,4 @@
-import {
-  GetHealthDataForAnIndicatorInequalitiesEnum,
-  IndicatorWithHealthDataForArea,
-} from '@/generated-sources/ft-api-client';
+import { GetHealthDataForAnIndicatorInequalitiesEnum } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import {
   SearchParams,
@@ -13,6 +10,7 @@ import { HierarchyNameTypes } from '@/lib/areaFilterHelpers/areaType';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { PopulationPyramidWithTable } from '@/components/organisms/PopulationPyramidWithTable';
 import { getHealthDataForIndicator } from '@/lib/ViewsHelpers';
+import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 const enum PopulationIndicatorIdsTypes {
   ADMINISTRATIVE = 92708,
   NHS = 337,
@@ -55,28 +53,59 @@ export const PopulationPyramidWithTableDataProvider = async ({
     return areaCodesToRequest;
   })();
 
-  const populationDataForArea: IndicatorWithHealthDataForArea | undefined =
+  const populationIndicatorID: PopulationIndicatorIdsTypes | undefined =
     await (async () => {
-      if (areaCodesToRequest.length == 0) {
+      if (areaCodesToRequest.length < 1) {
         return undefined;
       }
-      const populationIndicatorID = await fetchPopulationIndicatorID(
-        areaCodesToRequest[0]
-      );
-      return await getHealthDataForIndicator(
-        ApiClientFactory.getIndicatorsApiClient(),
-        populationIndicatorID,
-        [
-          {
-            areaCodes: areaCodesToRequest,
-            inequalities: [
-              GetHealthDataForAnIndicatorInequalitiesEnum.Age,
-              GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
-            ],
-          },
-        ]
-      );
+
+      return await fetchPopulationIndicatorID(areaCodesToRequest[0]);
     })();
+
+  const getPopulationDataForArea = async (
+    populationIndicatorID: PopulationIndicatorIdsTypes
+  ) => {
+    return await getHealthDataForIndicator(
+      ApiClientFactory.getIndicatorsApiClient(),
+      populationIndicatorID,
+      [
+        {
+          areaCodes: areaCodesToRequest,
+          inequalities: [
+            GetHealthDataForAnIndicatorInequalitiesEnum.Age,
+            GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
+          ],
+        },
+      ]
+    );
+  };
+
+  const getPopulationMetadata = async (
+    populationIndicatorID: PopulationIndicatorIdsTypes
+  ) => {
+    return await SearchServiceFactory.getIndicatorSearchService().getIndicator(
+      populationIndicatorID.toString()
+    );
+  };
+
+  const { populationDataForArea, populationMetadata } = await (async () => {
+    if (!populationIndicatorID) {
+      return {
+        populationDataForArea: undefined,
+        populationMetadata: undefined,
+      };
+    }
+
+    const promises = await Promise.all([
+      getPopulationDataForArea(populationIndicatorID),
+      getPopulationMetadata(populationIndicatorID),
+    ]);
+
+    return {
+      populationDataForArea: promises[0],
+      populationMetadata: promises[1],
+    };
+  })();
 
   return (
     <PopulationPyramidWithTable
@@ -85,6 +114,7 @@ export const PopulationPyramidWithTableDataProvider = async ({
       searchState={searchState}
       xAxisTitle="Age"
       yAxisTitle="Percentage of total population"
+      dataSource={populationMetadata?.dataSource}
     />
   );
 };
