@@ -36,6 +36,25 @@ const getAreaCodeMappingsToIndicatorIds = async (
   return mappings;
 };
 
+const getPopulationData = async (
+  populationIndicatorID: number,
+  areaCodesToRequest: string[]
+) => {
+  return await getHealthDataForIndicator(
+    ApiClientFactory.getIndicatorsApiClient(),
+    populationIndicatorID,
+    [
+      {
+        areaCodes: areaCodesToRequest,
+        inequalities: [
+          GetHealthDataForAnIndicatorInequalitiesEnum.Age,
+          GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
+        ],
+      },
+    ]
+  );
+};
+
 interface PyramidContextProviderProps {
   areaCodes: string[];
   searchState: SearchStateParams;
@@ -69,22 +88,6 @@ export const PopulationPyramidWithTableDataProvider = async ({
 
   const populationIndicatorID = areaTypeCodeMappings[areaCodesToRequest[0]];
 
-  const getPopulationData = async () => {
-    return await getHealthDataForIndicator(
-      ApiClientFactory.getIndicatorsApiClient(),
-      populationIndicatorID,
-      [
-        {
-          areaCodes: areaCodesToRequest,
-          inequalities: [
-            GetHealthDataForAnIndicatorInequalitiesEnum.Age,
-            GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
-          ],
-        },
-      ]
-    );
-  };
-
   const getPopulationIndicatorMetadata = async () => {
     return await SearchServiceFactory.getIndicatorSearchService().getIndicator(
       populationIndicatorID.toString()
@@ -100,7 +103,7 @@ export const PopulationPyramidWithTableDataProvider = async ({
     }
 
     const [populationData, populationIndicatorMetadata] = await Promise.all([
-      getPopulationData(),
+      getPopulationData(populationIndicatorID, areaCodesToRequest),
       getPopulationIndicatorMetadata(),
     ]);
 
