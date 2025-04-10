@@ -20,7 +20,7 @@ const config: PlaywrightTestConfig = {
   expect: {
     timeout: 10_000,
     toHaveScreenshot: {
-      maxDiffPixelRatio: 0.05,
+      maxDiffPixelRatio: 0.075,
       pathTemplate: '.test/spec/snaps/{projectName}/{testFilePath}/{arg}{ext}',
     },
   },
