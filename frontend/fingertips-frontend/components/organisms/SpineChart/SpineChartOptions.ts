@@ -1,54 +1,40 @@
 import Highcharts from 'highcharts';
-import { HighchartsReact } from 'highcharts-react-official';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
-  QuartileData,
+  IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
-import { generateChartOptions } from './SpineChartOptions';
-
-export interface SpineChartProps {
-  name: string;
-  units: string;
-  period: number;
-  benchmarkValue: number;
-  quartileData: QuartileData;
-  areaOneValue?: number;
-  areaOneOutcome?: BenchmarkOutcome;
-  areaTwoValue?: number;
-  areaTwoOutcome?: BenchmarkOutcome;
-  benchmarkMethod?: BenchmarkComparisonMethod;
-  groupValue?: number;
-}
+import { orderStatistics } from './SpineChartHelpers';
+import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
+import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
+import { SpineChartProps } from '.';
 
 function absDiff(value: number, benchmark: number): number {
   return Math.abs(Math.abs(value) - Math.abs(benchmark));
 }
 
-function buildNameString(
-  lowerName: string,
-  lowerValue: number,
-  upperName: string,
-  upperValue: number,
-  units: string
-): string {
-  return (
-    '<span>' + 
-    lowerValue +
-    units +
-    ' to ' +
-    upperValue +
-    units +
-    '</span>' +
-    '<span>' +
-    lowerName +
-    ' to ' +
-    upperName +
-    '</span>'
-  );
+function formatHeader(
+    period: number, 
+    indicatorName: string, 
+    lowerName: string,
+    lowerValue: number,
+    upperName: string,
+    upperValue: number,
+    units: string) {
+    return `<div style="margin:0px; padding:0px;">
+            <span style="font-weight: bold; display: block;">
+            Benchmark: England
+            </span>
+            <span style="display: block;">${period}</span>
+            <span style="display: block;">${indicatorName}</span>
+            <span style="display: block; float: right;">${lowerValue}${units} to ${upperValue}${units}</span></br/>
+            <span style="display: block; float: right;">${lowerName} to ${upperName}</span><div>`
 }
 
 export function generateSeriesData({
+  name,
+  period,
   units,
   benchmarkValue,
   quartileData,
@@ -59,26 +45,22 @@ export function generateSeriesData({
   groupValue,
   benchmarkMethod,
 }: Readonly<SpineChartProps>) {
-  const {
-    best,
-    bestQuartile: upperQuartile,
-    worstQuartile: lowerQuartile,
-    worst,
-  } = orderStatistics(quartileData);
+  const { best, bestQuartile, worstQuartile, worst } =
+    orderStatistics(quartileData);
 
-  const maxDiffFromBenchmark = Math.max(
-    absDiff(best, benchmarkValue),
-    absDiff(worst, benchmarkValue)
-  );
+  const absBest = absDiff(best, benchmarkValue);
+  const absWorst = absDiff(worst, benchmarkValue);
+  const absBestQuartile = absDiff(bestQuartile, benchmarkValue);
+  const absWorstQuartile = absDiff(worstQuartile, benchmarkValue);
 
-  const scaledFirstQuartileBar =
-    absDiff(best, upperQuartile) / maxDiffFromBenchmark;
-  const scaledSecondQuartileBar =
-    absDiff(upperQuartile, benchmarkValue) / maxDiffFromBenchmark;
-  const scaledThirdQuartileBar =
-    absDiff(lowerQuartile, benchmarkValue) / maxDiffFromBenchmark;
-  const scaledFourthQuartileBar =
-    absDiff(worst, lowerQuartile) / maxDiffFromBenchmark;
+  const maxValue = Math.max(absBest, absWorst);
+
+  const scaledBest = absBest / maxValue;
+  const scaledWorst = absWorst / maxValue;
+  const scaledBestQuartile = absBestQuartile / maxValue;
+  const scaledWorstQuartile = absWorstQuartile / maxValue;
+
+  const markerLineWidth = 1;
 
   const seriesData: (
     | Highcharts.SeriesBarOptions
@@ -86,7 +68,9 @@ export function generateSeriesData({
   )[] = [
     {
       type: 'bar',
-      name: buildNameString(
+      name: formatHeader(
+        period,
+        name,
         'Worst',
         worst,
         '25th percentile',
@@ -95,11 +79,13 @@ export function generateSeriesData({
       ),
       pointWidth: 30,
       color: GovukColours.MidGrey,
-      data: [-scaledFourthQuartileBar],
+      data: [-scaledWorst + scaledWorstQuartile],
     },
     {
       type: 'bar',
-      name: buildNameString(
+      name: formatHeader(
+        period,
+        name,
         'Best',
         best,
         '75th percentile',
@@ -108,11 +94,13 @@ export function generateSeriesData({
       ),
       pointWidth: 30,
       color: GovukColours.MidGrey,
-      data: [scaledFirstQuartileBar],
+      data: [scaledBest - scaledBestQuartile],
     },
     {
       type: 'bar',
-      name: buildNameString(
+      name: formatHeader(
+        period,
+        name,
         '25th percentile',
         worstQuartile,
         '75th percentile',
@@ -121,11 +109,13 @@ export function generateSeriesData({
       ),
       pointWidth: 30,
       color: GovukColours.DarkGrey,
-      data: [-scaledThirdQuartileBar],
-    }
+      data: [-scaledWorstQuartile],
+    },
     {
       type: 'bar',
-      name: buildNameString(
+      name: formatHeader(
+        period,
+        name,
         '25th percentile',
         worstQuartile,
         '75th percentile',
@@ -133,18 +123,18 @@ export function generateSeriesData({
         units
       ),
       pointWidth: 30,
-      color: GovukColours.MidGrey,
-      data: [],
+      color: GovukColours.DarkGrey,
+      data: [scaledBestQuartile],
     },
   ];
 
-  const inverter =
+  const flipper =
     quartileData.polarity === IndicatorPolarity.LowIsGood ? -1 : 1;
 
   if (groupValue !== undefined) {
     const absGroupValue =
-      inverter * (Math.abs(groupValue) - Math.abs(benchmarkValue));
-    const scaledGroup = absGroupValue / maxDiffFromBenchmark;
+      flipper * (Math.abs(groupValue) - Math.abs(benchmarkValue));
+    const scaledGroup = absGroupValue / maxValue;
     seriesData.push({
       type: 'scatter',
       name: 'Group',
@@ -171,9 +161,8 @@ export function generateSeriesData({
       quartileData.polarity ?? IndicatorPolarity.NoJudgement
     );
 
-    const absAreaValue =
-      inverter * (Math.abs(value) - Math.abs(benchmarkValue));
-    const scaledArea = absAreaValue / maxDiffFromBenchmark;
+    const absAreaValue = flipper * (Math.abs(value) - Math.abs(benchmarkValue));
+    const scaledArea = absAreaValue / maxValue;
     seriesData.push({
       type: 'scatter',
       name: `Area ${outcome}`,
@@ -289,54 +278,14 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
         borderWidth: 0,
       },
     },
+    series: generateSeriesData(props),
     tooltip: {
       padding: 10,
-      headerFormat: `<div style="margin:0px; padding:0px;">
-            <span style="font-weight: bold; display: block;">
-            Benchmark: England
-            </span>
-            <span>`+ props.period+ `</span>
-            <span>{props.name}</span>
-            <span>{series.name}</span><div>`,
+      headerFormat: `{series.name}`,
       pointFormatter: function (this: Highcharts.Point) {
         return pointFormatterHelper(this, generateSpineChartTooltipForPoint);
       },
       useHTML: true,
     },
-    series: generateSeriesData(props),
   };
-}
-
-export function SpineChart(props: Readonly<SpineChartProps>) {
-  const spineChartsOptions = generateChartOptions(props);
-  const { benchmarkValue } = props;
-  return (
-    <div data-testid={`spineChart-component`}>
-      <HighchartsReact
-        containerProps={{
-          'data-testid': 'highcharts-react-component-spineChart',
-        }}
-        highcharts={Highcharts}
-        options={spineChartsOptions}
-        callback={(chart: Highcharts.Chart) => {
-          if (!chart) return;
-          if (!benchmarkValue) return;
-          if (!chart.series.length) return;
-
-          const benchmarkPoint =
-            chart.series[chart.series.length - 1].points[0];
-
-          const pos = benchmarkPoint.pos(true, benchmarkPoint.plotY);
-
-          if (!pos) return;
-
-          const [x, y] = pos;
-          chart.renderer
-            .rect(x - 1, y - 20, 2, 40)
-            .attr({ fill: '#000', zIndex: 5 })
-            .add();
-        }}
-      />
-    </div>
-  );
 }
