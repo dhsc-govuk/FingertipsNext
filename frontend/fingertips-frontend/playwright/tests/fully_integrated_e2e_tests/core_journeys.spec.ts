@@ -31,7 +31,7 @@ const coreTestJourneys: TestParams[] = [
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
-    areaMode: AreaMode.TWO_PLUS_AREAS,
+    areaMode: AreaMode.THREE_PLUS_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
   },
   {
@@ -40,13 +40,18 @@ const coreTestJourneys: TestParams[] = [
     searchMode: SearchMode.ONLY_SUBJECT,
   },
   {
-    indicatorMode: IndicatorMode.TWO_PLUS_INDICATORS,
-    areaMode: AreaMode.TWO_PLUS_AREAS,
+    indicatorMode: IndicatorMode.TWO_INDICATORS,
+    areaMode: AreaMode.ENGLAND_AREA,
+    searchMode: SearchMode.ONLY_SUBJECT,
+  },
+  {
+    indicatorMode: IndicatorMode.TWO_INDICATORS,
+    areaMode: AreaMode.THREE_PLUS_AREAS,
     searchMode: SearchMode.ONLY_AREA,
   },
   {
-    indicatorMode: IndicatorMode.TWO_PLUS_INDICATORS,
-    areaMode: AreaMode.ENGLAND_AREA,
+    indicatorMode: IndicatorMode.THREE_PLUS_INDICATORS,
+    areaMode: AreaMode.TWO_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
   },
 ];

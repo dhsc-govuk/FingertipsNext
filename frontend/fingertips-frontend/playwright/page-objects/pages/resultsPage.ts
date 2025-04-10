@@ -81,7 +81,7 @@ export default class ResultsPage extends AreaFilter {
   }
 
   async checkRecentTrends(areaMode: AreaMode) {
-    const trendsShouldBeVisible = areaMode !== AreaMode.TWO_PLUS_AREAS;
+    const trendsShouldBeVisible = areaMode !== AreaMode.THREE_PLUS_AREAS;
     await expect(
       this.page.getByText('Recent trend for selected area')
     ).toBeVisible({ visible: trendsShouldBeVisible });
