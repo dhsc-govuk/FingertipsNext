@@ -25,7 +25,7 @@ function absDiff(value: number, benchmark: number): number {
   return Math.abs(Math.abs(value) - Math.abs(benchmark));
 }
 
-const markerLineWidth = 0;
+const markerLineWidth = 1;
 
 export function generateSeriesData({
   benchmarkValue,
@@ -41,14 +41,14 @@ export function generateSeriesData({
     orderStatistics(quartileData);
 
   const absBest = absDiff(best, benchmarkValue);
-  const absdWorst = absDiff(worst, benchmarkValue);
+  const absWorst = absDiff(worst, benchmarkValue);
   const absBestQuartile = absDiff(bestQuartile, benchmarkValue);
   const absWorstQuartile = absDiff(worstQuartile, benchmarkValue);
 
-  const maxValue = Math.max(absBest, absdWorst);
+  const maxValue = Math.max(absBest, absWorst);
 
   const scaledBest = absBest / maxValue;
-  const scaledWorst = absdWorst / maxValue;
+  const scaledWorst = absWorst / maxValue;
   const scaledBestQuartile = absBestQuartile / maxValue;
   const scaledWorstQuartile = absWorstQuartile / maxValue;
 
@@ -60,13 +60,13 @@ export function generateSeriesData({
       type: 'bar',
       name: 'Worst',
       color: GovukColours.MidGrey,
-      data: [-scaledWorst],
+      data: [-scaledWorst + scaledWorstQuartile],
     },
     {
       type: 'bar',
       name: 'Best',
       color: GovukColours.MidGrey,
-      data: [scaledBest],
+      data: [scaledBest - scaledBestQuartile],
     },
     {
       type: 'bar',
@@ -82,10 +82,12 @@ export function generateSeriesData({
     },
   ];
 
+  const flipper =
+    quartileData.polarity === IndicatorPolarity.LowIsGood ? -1 : 1;
+
   if (groupValue !== undefined) {
-    const absGroupValue = Math.abs(
-      Math.abs(groupValue) - Math.abs(benchmarkValue)
-    );
+    const absGroupValue =
+      flipper * (Math.abs(groupValue) - Math.abs(benchmarkValue));
     const scaledGroup = absGroupValue / maxValue;
     seriesData.push({
       type: 'scatter',
@@ -94,7 +96,7 @@ export function generateSeriesData({
         symbol: 'diamond',
         radius: 8,
         fillColor: '#fff',
-        lineColor: '#fff',
+        lineColor: '#000',
         lineWidth: markerLineWidth,
       },
       data: [scaledGroup],
@@ -113,7 +115,7 @@ export function generateSeriesData({
       quartileData.polarity ?? IndicatorPolarity.NoJudgement
     );
 
-    const absAreaValue = Math.abs(Math.abs(value) - Math.abs(benchmarkValue));
+    const absAreaValue = flipper * (Math.abs(value) - Math.abs(benchmarkValue));
     const scaledArea = absAreaValue / maxValue;
     seriesData.push({
       type: 'scatter',
@@ -122,7 +124,7 @@ export function generateSeriesData({
         symbol: index === 0 ? 'circle' : 'square',
         radius: 6,
         fillColor,
-        lineColor: '#fff',
+        lineColor: '#000',
         lineWidth: markerLineWidth,
       },
       data: [scaledArea],
@@ -214,7 +216,7 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
     },
 
     plotOptions: {
-      series: {
+      bar: {
         stacking: 'normal',
       },
     },

@@ -11,6 +11,7 @@ jest.mock('next/navigation', () => {
 
   return {
     ...originalModule,
+    usePathname: () => 'some-mock-path',
     useRouter: jest.fn().mockImplementation(() => ({})),
   };
 });
