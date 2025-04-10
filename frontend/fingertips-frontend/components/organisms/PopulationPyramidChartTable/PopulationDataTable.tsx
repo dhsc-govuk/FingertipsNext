@@ -16,18 +16,18 @@ const StyledAreaTitleHeader = styled('h3')(typography.font({ size: 19 }), {
   lineHeight: '65px',
   letterSpacing: '0px',
   fontWeight: '700',
+  padding: '5px',
 });
 
 export const StyledTableCell = styled(Table.Cell)(
   typography.font({ size: 19 }),
   {
-    paddingRight: '0',
     textAlign: 'center',
   }
 );
 
 const valueFormatter = (value: number | string | undefined) => {
-  if (typeof value === 'number') {
+  if (typeof value === 'number' || typeof value === 'undefined') {
     return formatWholeNumber(value);
   }
   return value;
