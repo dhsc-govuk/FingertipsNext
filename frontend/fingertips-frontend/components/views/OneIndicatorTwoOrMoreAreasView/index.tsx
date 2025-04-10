@@ -17,6 +17,7 @@ import { chunkArray } from '@/lib/ViewsHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
+import { getIndicatorDataAllAreas } from '../ViewsHelpers';
 
 export default async function OneIndicatorTwoOrMoreAreasView({
   selectedIndicatorsData,
@@ -93,6 +94,14 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     throw new Error('error getting health indicator data for areas');
   }
 
+  const indicatorDataAllAreas = await getIndicatorDataAllAreas(
+    areasSelected,
+    indicatorSelected,
+    selectedAreaType,
+    selectedGroupCode,
+    selectedGroupType
+  );
+
   const indicatorMetadata = selectedIndicatorsData?.[0];
   const mapGeographyData =
     selectedGroupArea === ALL_AREAS_SELECTED &&
@@ -115,6 +124,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
         searchState={searchState}
         indicatorMetadata={indicatorMetadata}
         mapGeographyData={mapGeographyData}
+        indicatorDataAllAreas={indicatorDataAllAreas}
       />
     </ViewsWrapper>
   );

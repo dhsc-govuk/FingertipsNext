@@ -15,31 +15,31 @@
 import { mapValues } from '../runtime';
 import type { HealthDataPointBenchmarkComparison } from './HealthDataPointBenchmarkComparison';
 import {
-    HealthDataPointBenchmarkComparisonFromJSON,
-    HealthDataPointBenchmarkComparisonFromJSONTyped,
-    HealthDataPointBenchmarkComparisonToJSON,
-    HealthDataPointBenchmarkComparisonToJSONTyped,
+  HealthDataPointBenchmarkComparisonFromJSON,
+  HealthDataPointBenchmarkComparisonFromJSONTyped,
+  HealthDataPointBenchmarkComparisonToJSON,
+  HealthDataPointBenchmarkComparisonToJSONTyped,
 } from './HealthDataPointBenchmarkComparison';
 import type { DeprivationData } from './DeprivationData';
 import {
-    DeprivationDataFromJSON,
-    DeprivationDataFromJSONTyped,
-    DeprivationDataToJSON,
-    DeprivationDataToJSONTyped,
+  DeprivationDataFromJSON,
+  DeprivationDataFromJSONTyped,
+  DeprivationDataToJSON,
+  DeprivationDataToJSONTyped,
 } from './DeprivationData';
 import type { SexData } from './SexData';
 import {
-    SexDataFromJSON,
-    SexDataFromJSONTyped,
-    SexDataToJSON,
-    SexDataToJSONTyped,
+  SexDataFromJSON,
+  SexDataFromJSONTyped,
+  SexDataToJSON,
+  SexDataToJSONTyped,
 } from './SexData';
 import type { AgeData } from './AgeData';
 import {
-    AgeDataFromJSON,
-    AgeDataFromJSONTyped,
-    AgeDataToJSON,
-    AgeDataToJSONTyped,
+  AgeDataFromJSON,
+  AgeDataFromJSONTyped,
+  AgeDataToJSON,
+  AgeDataToJSONTyped,
 } from './AgeData';
 
 /**
@@ -48,150 +48,162 @@ import {
  * @interface HealthDataPoint
  */
 export interface HealthDataPoint {
-    /**
-     * The year that the data point is for
-     * @type {number}
-     * @memberof HealthDataPoint
-     */
-    year: number;
-    /**
-     * The count
-     * @type {number}
-     * @memberof HealthDataPoint
-     */
-    count?: number;
-    /**
-     * The value
-     * @type {number}
-     * @memberof HealthDataPoint
-     */
-    value?: number;
-    /**
-     * The lower confidence interval
-     * @type {number}
-     * @memberof HealthDataPoint
-     */
-    lowerCi?: number;
-    /**
-     * The upper confidence interval
-     * @type {number}
-     * @memberof HealthDataPoint
-     */
-    upperCi?: number;
-    /**
-     * 
-     * @type {AgeData}
-     * @memberof HealthDataPoint
-     */
-    ageBand: AgeData;
-    /**
-     * 
-     * @type {SexData}
-     * @memberof HealthDataPoint
-     */
-    sex: SexData;
-    /**
-     * The statistical trend that applies to the data point, given the preceding data. Will only be calculated if there are at least 5 data points to use.
-     * @type {string}
-     * @memberof HealthDataPoint
-     */
-    trend: HealthDataPointTrendEnum;
-    /**
-     * Indicates if the datapoint is an aggregate point.
-     * @type {boolean}
-     * @memberof HealthDataPoint
-     */
-    isAggregate?: boolean;
-    /**
-     * 
-     * @type {HealthDataPointBenchmarkComparison}
-     * @memberof HealthDataPoint
-     */
-    benchmarkComparison?: HealthDataPointBenchmarkComparison;
-    /**
-     * 
-     * @type {DeprivationData}
-     * @memberof HealthDataPoint
-     */
-    deprivation: DeprivationData;
+  /**
+   * The year that the data point is for
+   * @type {number}
+   * @memberof HealthDataPoint
+   */
+  year: number;
+  /**
+   * The count
+   * @type {number}
+   * @memberof HealthDataPoint
+   */
+  count?: number;
+  /**
+   * The value
+   * @type {number}
+   * @memberof HealthDataPoint
+   */
+  value?: number;
+  /**
+   * The lower confidence interval
+   * @type {number}
+   * @memberof HealthDataPoint
+   */
+  lowerCi?: number;
+  /**
+   * The upper confidence interval
+   * @type {number}
+   * @memberof HealthDataPoint
+   */
+  upperCi?: number;
+  /**
+   *
+   * @type {AgeData}
+   * @memberof HealthDataPoint
+   */
+  ageBand: AgeData;
+  /**
+   *
+   * @type {SexData}
+   * @memberof HealthDataPoint
+   */
+  sex: SexData;
+  /**
+   * The statistical trend that applies to the data point, given the preceding data. Will only be calculated if there are at least 5 data points to use.
+   * @type {string}
+   * @memberof HealthDataPoint
+   */
+  trend: HealthDataPointTrendEnum;
+  /**
+   * Indicates if the datapoint is an aggregate point.
+   * @type {boolean}
+   * @memberof HealthDataPoint
+   */
+  isAggregate?: boolean;
+  /**
+   *
+   * @type {HealthDataPointBenchmarkComparison}
+   * @memberof HealthDataPoint
+   */
+  benchmarkComparison?: HealthDataPointBenchmarkComparison;
+  /**
+   *
+   * @type {DeprivationData}
+   * @memberof HealthDataPoint
+   */
+  deprivation: DeprivationData;
 }
-
 
 /**
  * @export
  */
 export const HealthDataPointTrendEnum = {
-    NotYetCalculated: 'Not yet calculated',
-    CannotBeCalculated: 'Cannot be calculated',
-    Increasing: 'Increasing',
-    Decreasing: 'Decreasing',
-    NoSignificantChange: 'No significant change',
-    IncreasingAndGettingBetter: 'Increasing and getting better',
-    IncreasingAndGettingWorse: 'Increasing and getting worse',
-    DecreasingAndGettingBetter: 'Decreasing and getting better',
-    DecreasingAndGettingWorse: 'Decreasing and getting worse'
+  NotYetCalculated: 'Not yet calculated',
+  CannotBeCalculated: 'Cannot be calculated',
+  Increasing: 'Increasing',
+  Decreasing: 'Decreasing',
+  NoSignificantChange: 'No significant change',
+  IncreasingAndGettingBetter: 'Increasing and getting better',
+  IncreasingAndGettingWorse: 'Increasing and getting worse',
+  DecreasingAndGettingBetter: 'Decreasing and getting better',
+  DecreasingAndGettingWorse: 'Decreasing and getting worse',
 } as const;
-export type HealthDataPointTrendEnum = typeof HealthDataPointTrendEnum[keyof typeof HealthDataPointTrendEnum];
-
+export type HealthDataPointTrendEnum =
+  (typeof HealthDataPointTrendEnum)[keyof typeof HealthDataPointTrendEnum];
 
 /**
  * Check if a given object implements the HealthDataPoint interface.
  */
-export function instanceOfHealthDataPoint(value: object): value is HealthDataPoint {
-    if (!('year' in value) || value['year'] === undefined) return false;
-    if (!('ageBand' in value) || value['ageBand'] === undefined) return false;
-    if (!('sex' in value) || value['sex'] === undefined) return false;
-    if (!('trend' in value) || value['trend'] === undefined) return false;
-    if (!('deprivation' in value) || value['deprivation'] === undefined) return false;
-    return true;
+export function instanceOfHealthDataPoint(
+  value: object
+): value is HealthDataPoint {
+  if (!('year' in value) || value['year'] === undefined) return false;
+  if (!('ageBand' in value) || value['ageBand'] === undefined) return false;
+  if (!('sex' in value) || value['sex'] === undefined) return false;
+  if (!('trend' in value) || value['trend'] === undefined) return false;
+  if (!('deprivation' in value) || value['deprivation'] === undefined)
+    return false;
+  return true;
 }
 
 export function HealthDataPointFromJSON(json: any): HealthDataPoint {
-    return HealthDataPointFromJSONTyped(json, false);
+  return HealthDataPointFromJSONTyped(json, false);
 }
 
-export function HealthDataPointFromJSONTyped(json: any, ignoreDiscriminator: boolean): HealthDataPoint {
-    if (json == null) {
-        return json;
-    }
-    return {
-        
-        'year': json['year'],
-        'count': json['count'] == null ? undefined : json['count'],
-        'value': json['value'] == null ? undefined : json['value'],
-        'lowerCi': json['lowerCi'] == null ? undefined : json['lowerCi'],
-        'upperCi': json['upperCi'] == null ? undefined : json['upperCi'],
-        'ageBand': AgeDataFromJSON(json['ageBand']),
-        'sex': SexDataFromJSON(json['sex']),
-        'trend': json['trend'],
-        'isAggregate': json['isAggregate'] == null ? undefined : json['isAggregate'],
-        'benchmarkComparison': json['benchmarkComparison'] == null ? undefined : HealthDataPointBenchmarkComparisonFromJSON(json['benchmarkComparison']),
-        'deprivation': DeprivationDataFromJSON(json['deprivation']),
-    };
+export function HealthDataPointFromJSONTyped(
+  json: any,
+  ignoreDiscriminator: boolean
+): HealthDataPoint {
+  if (json == null) {
+    return json;
+  }
+  return {
+    year: json['year'],
+    count: json['count'] == null ? undefined : json['count'],
+    value: json['value'] == null ? undefined : json['value'],
+    lowerCi: json['lowerCi'] == null ? undefined : json['lowerCi'],
+    upperCi: json['upperCi'] == null ? undefined : json['upperCi'],
+    ageBand: AgeDataFromJSON(json['ageBand']),
+    sex: SexDataFromJSON(json['sex']),
+    trend: json['trend'],
+    isAggregate: json['isAggregate'] == null ? undefined : json['isAggregate'],
+    benchmarkComparison:
+      json['benchmarkComparison'] == null
+        ? undefined
+        : HealthDataPointBenchmarkComparisonFromJSON(
+            json['benchmarkComparison']
+          ),
+    deprivation: DeprivationDataFromJSON(json['deprivation']),
+  };
 }
 
 export function HealthDataPointToJSON(json: any): HealthDataPoint {
-    return HealthDataPointToJSONTyped(json, false);
+  return HealthDataPointToJSONTyped(json, false);
 }
 
-export function HealthDataPointToJSONTyped(value?: HealthDataPoint | null, ignoreDiscriminator: boolean = false): any {
-    if (value == null) {
-        return value;
-    }
+export function HealthDataPointToJSONTyped(
+  value?: HealthDataPoint | null,
+  ignoreDiscriminator: boolean = false
+): any {
+  if (value == null) {
+    return value;
+  }
 
-    return {
-        
-        'year': value['year'],
-        'count': value['count'],
-        'value': value['value'],
-        'lowerCi': value['lowerCi'],
-        'upperCi': value['upperCi'],
-        'ageBand': AgeDataToJSON(value['ageBand']),
-        'sex': SexDataToJSON(value['sex']),
-        'trend': value['trend'],
-        'isAggregate': value['isAggregate'],
-        'benchmarkComparison': HealthDataPointBenchmarkComparisonToJSON(value['benchmarkComparison']),
-        'deprivation': DeprivationDataToJSON(value['deprivation']),
-    };
+  return {
+    year: value['year'],
+    count: value['count'],
+    value: value['value'],
+    lowerCi: value['lowerCi'],
+    upperCi: value['upperCi'],
+    ageBand: AgeDataToJSON(value['ageBand']),
+    sex: SexDataToJSON(value['sex']),
+    trend: value['trend'],
+    isAggregate: value['isAggregate'],
+    benchmarkComparison: HealthDataPointBenchmarkComparisonToJSON(
+      value['benchmarkComparison']
+    ),
+    deprivation: DeprivationDataToJSON(value['deprivation']),
+  };
 }
-

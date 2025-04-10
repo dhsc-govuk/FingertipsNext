@@ -5,7 +5,7 @@ import {
   HealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
-import { BenchmarkTooltipArea } from './BenchmarkTooltipArea';
+import { BenchmarkTooltipArea } from '.';
 import { render, screen } from '@testing-library/react';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';

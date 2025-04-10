@@ -21,7 +21,10 @@ import {
 import { useEffect, useState } from 'react';
 import { useSearchState } from '@/context/SearchStateContext';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
-import { IndicatorPolarity } from '@/generated-sources/ft-api-client';
+import {
+  IndicatorPolarity,
+  IndicatorWithHealthDataForArea,
+} from '@/generated-sources/ft-api-client';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
@@ -30,6 +33,7 @@ const StyledParagraphDataSource = styled(Paragraph)(
 interface OneIndicatorTwoOrMoreAreasViewPlotsProps
   extends OneIndicatorViewPlotProps {
   mapGeographyData?: MapGeographyData;
+  indicatorDataAllAreas?: IndicatorWithHealthDataForArea;
 }
 
 export function OneIndicatorTwoOrMoreAreasViewPlots({
@@ -37,6 +41,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   indicatorMetadata,
   searchState,
   mapGeographyData,
+  indicatorDataAllAreas,
 }: Readonly<OneIndicatorTwoOrMoreAreasViewPlotsProps>) {
   const { setSearchState } = useSearchState();
 
@@ -51,6 +56,9 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   } = searchState;
 
   const healthIndicatorData = indicatorData?.areaHealthData ?? [];
+  const healthIndicatorDataAllAreas =
+    indicatorDataAllAreas?.areaHealthData ?? [];
+
   const { benchmarkMethod, polarity } = indicatorData;
   const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
     useState<boolean>(false);
@@ -59,6 +67,11 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     healthIndicatorData,
     selectedGroupCode
   );
+  const dataWithoutEnglandOrGroupAllAreas = seriesDataWithoutEnglandOrGroup(
+    healthIndicatorDataAllAreas,
+    selectedGroupCode
+  );
+
   const englandBenchmarkData = healthIndicatorData.find(
     (areaData) => areaData.areaCode === areaCodeForEngland
   );
@@ -146,7 +159,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
         <>
           <H3>Compare an indicator by areas</H3>
           <ThematicMap
-            healthIndicatorData={dataWithoutEnglandOrGroup}
+            healthIndicatorData={dataWithoutEnglandOrGroupAllAreas}
             mapGeographyData={mapGeographyData}
             benchmarkComparisonMethod={
               benchmarkMethod ?? BenchmarkComparisonMethod.Unknown
@@ -159,7 +172,9 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
         </>
       )}
       <H3>Compare indicator by areas</H3>
-      <BarChartEmbeddedTable
+      {/* DHSCFT-518 reinstate BarChartEmbeddedTable*/}
+      <H3>BarChartEmbeddedTable placholder</H3>
+      {/* <BarChartEmbeddedTable
         data-testid="barChartEmbeddedTable-component"
         healthIndicatorData={dataWithoutEnglandOrGroup}
         benchmarkData={englandBenchmarkData}
@@ -167,7 +182,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
         measurementUnit={indicatorMetadata?.unitLabel}
         benchmarkComparisonMethod={benchmarkMethod}
         polarity={polarity}
-      ></BarChartEmbeddedTable>
+      ></BarChartEmbeddedTable> */}
     </section>
   );
 }
