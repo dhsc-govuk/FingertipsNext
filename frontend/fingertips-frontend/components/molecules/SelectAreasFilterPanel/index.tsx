@@ -26,7 +26,7 @@ interface SelectAreasFilterPanelProps {
   areaFilterData?: AreaFilterData;
 }
 
-const StyledFilterSelect = styled(Select)({
+export const StyledFilterSelect = styled(Select)({
   span: {
     fontWeight: 'bold',
   },

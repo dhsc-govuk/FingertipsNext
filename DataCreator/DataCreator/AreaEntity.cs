@@ -15,10 +15,8 @@ namespace DataCreator
 
     public record SimpleArea
     {
-        private string areaCode;
-
         [CsvColumn(FieldIndex = 2)]
-        public string AreaCode { get => areaCode.CleanAreaCode(); set => areaCode = value; }
+        public string AreaCode { get; set; }
         
         [CsvColumn(FieldIndex = 3)]
         public string AreaName { get; set; }
