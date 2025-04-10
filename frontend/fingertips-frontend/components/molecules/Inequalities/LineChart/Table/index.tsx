@@ -2,11 +2,11 @@ import { Table } from 'govuk-react';
 import styled from 'styled-components';
 import {
   getDisplayValue,
-  StyledAlignLeftHeader,
-  StyledAlignLeftTableCell,
+  StyledAlignLeftStickyTableCell,
   StyledAlignRightHeader,
   StyledAlignRightTableCell,
-  StyledDiv,
+  StyledAlignStickyLeftHeader,
+  StyledDivWithScrolling,
   StyledTableCellHeader,
 } from '@/lib/tableHelpers';
 import { InequalitiesChartData } from '@/components/organisms/Inequalities/inequalitiesHelpers';
@@ -26,21 +26,25 @@ const StyledAlignCenterHeader = styled(StyledTableCellHeader)({
   textAlign: 'center',
 });
 
+const StyledAlignRightHeaderWithPadding = styled(StyledAlignRightHeader)({
+  paddingLeft: '10px',
+});
+
 const getCellHeader = (heading: string, index: number): ReactNode => {
   return heading === InequalitiesTableHeadingsEnum.PERIOD ? (
-    <StyledAlignLeftHeader
+    <StyledAlignStickyLeftHeader
       data-testid={`header-${heading}-${index}`}
       key={heading + index}
     >
       {heading}
-    </StyledAlignLeftHeader>
+    </StyledAlignStickyLeftHeader>
   ) : (
-    <StyledAlignRightHeader
+    <StyledAlignRightHeaderWithPadding
       data-testid={`header-${heading}-${index}`}
       key={heading + index}
     >
       {heading}
-    </StyledAlignRightHeader>
+    </StyledAlignRightHeaderWithPadding>
   );
 };
 
@@ -55,16 +59,16 @@ export function InequalitiesLineChartTable({
   ];
 
   return (
-    <StyledDiv data-testid="inequalitiesLineChartTable-component">
+    <StyledDivWithScrolling data-testid="inequalitiesLineChartTable-component">
       <Table
         head={
           <>
             <Table.Row>
-              <StyledAlignCenterHeader colSpan={4}>
+              <StyledAlignCenterHeader colSpan={tableHeaders.length}>
                 {tableData.areaName}
                 {measurementUnit ? (
                   <span
-                    style={{ display: 'block', marginTop: '21px' }}
+                    style={{ display: 'block', marginTop: '10px' }}
                     data-testid="inequalitiesLineChartTable-measurementUnit"
                   >
                     Value: {measurementUnit}
@@ -82,9 +86,9 @@ export function InequalitiesLineChartTable({
       >
         {tableData.rowData.map((data, index) => (
           <Table.Row key={String(data.period) + index}>
-            <StyledAlignLeftTableCell>
+            <StyledAlignLeftStickyTableCell>
               {String(data.period)}
-            </StyledAlignLeftTableCell>
+            </StyledAlignLeftStickyTableCell>
             {dynamicKeys.map((key, index) => (
               <StyledAlignRightTableCell key={key + index}>
                 {getDisplayValue(data.inequalities[key]?.value)}
@@ -93,6 +97,6 @@ export function InequalitiesLineChartTable({
           </Table.Row>
         ))}
       </Table>
-    </StyledDiv>
+    </StyledDivWithScrolling>
   );
 }

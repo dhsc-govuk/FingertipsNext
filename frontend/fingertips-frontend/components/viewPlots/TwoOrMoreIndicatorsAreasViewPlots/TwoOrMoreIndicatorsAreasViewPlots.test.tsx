@@ -109,6 +109,40 @@ const mockAreaHealthData: HealthDataForArea[] = [
       },
     ],
   },
+  {
+    areaCode: mockAreas[1],
+    areaName: 'Greater Manchester ICB - 00T',
+    healthData: [
+      {
+        year: 2008,
+        count: 222,
+        value: 890.305692,
+        lowerCi: 441.69151,
+        upperCi: 578.32766,
+        ageBand: allAgesAge,
+        sex: personsSex,
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
+      },
+    ],
+  },
+  {
+    areaCode: mockAreas[1],
+    areaName: 'Greater Manchester ICB - 00T',
+    healthData: [
+      {
+        year: 2024,
+        count: 111,
+        value: 690.305692,
+        lowerCi: 341.69151,
+        upperCi: 478.32766,
+        ageBand: allAgesAge,
+        sex: personsSex,
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
+      },
+    ],
+  },
 ];
 
 const mockIndicatorData: IndicatorWithHealthDataForArea[] = [
@@ -116,6 +150,7 @@ const mockIndicatorData: IndicatorWithHealthDataForArea[] = [
     indicatorId: Number(indicatorIds[0]),
     areaHealthData: [
       mockAreaHealthData[0],
+      mockAreaHealthData[2],
       mockGroupHealthData,
       mockEnglandHealthData,
     ],
@@ -124,6 +159,7 @@ const mockIndicatorData: IndicatorWithHealthDataForArea[] = [
     indicatorId: Number(indicatorIds[1]),
     areaHealthData: [
       mockAreaHealthData[1],
+      mockAreaHealthData[3],
       mockGroupHealthData,
       mockEnglandHealthData,
     ],
@@ -139,7 +175,7 @@ const mockMetaData = [
     earliestDataPeriod: '2025',
     latestDataPeriod: '2025',
     lastUpdatedDate: new Date('March 4, 2025'),
-    associatedAreaCodes: [mockAreas[0]],
+    associatedAreaCodes: [mockAreas[0], mockAreas[1]],
     unitLabel: 'count',
     hasInequalities: true,
     usedInPoc: false,
@@ -152,7 +188,7 @@ const mockMetaData = [
     earliestDataPeriod: '2023',
     latestDataPeriod: '2023',
     lastUpdatedDate: new Date('March 4, 2023'),
-    associatedAreaCodes: [mockAreas[0]],
+    associatedAreaCodes: [mockAreas[0], mockAreas[1]],
     unitLabel: 'values',
     hasInequalities: true,
     usedInPoc: false,
@@ -194,6 +230,7 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
     expect(screen.getByTestId('heatmapChart-component')).toBeInTheDocument();
     expect(screen.getByTestId('spineChartTable-component')).toBeInTheDocument();
   });
+
   it('should not render the spine chart component with more than 2 areas selected', () => {
     const areas = [mockAreas[0], mockAreas[1], mockAreas[2]];
     mockSearchParams[SearchParams.AreasSelected] = areas;
@@ -210,6 +247,45 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
     expect(
       screen.queryByTestId('spineChartTable-component')
     ).not.toBeInTheDocument();
+  });
+
+  it('should throw an error if no AI search indicator data present for on of the indicators with health data', () => {
+    const areas = [mockAreas[0], mockAreas[1]];
+    mockSearchParams[SearchParams.AreasSelected] = areas;
+
+    const renderComponentWithError = () =>
+      render(
+        <TwoOrMoreIndicatorsAreasViewPlot
+          searchState={mockSearchParams}
+          indicatorData={mockIndicatorData}
+          indicatorMetadata={[]}
+          benchmarkStatistics={mockBenchmarkStatistics}
+        />
+      );
+
+    expect(renderComponentWithError).toThrow(
+      'No indicator AI search metadata found matching health data from API'
+    );
+  });
+
+  it('should throw an error if no quartile data for one of the requested indicators', () => {
+    const areas = [mockAreas[0], mockAreas[1]];
+    mockSearchParams[SearchParams.AreasSelected] = areas;
+    const quartileDataMissingOne = [mockBenchmarkStatistics[0]];
+
+    const renderComponentWithError = () =>
+      render(
+        <TwoOrMoreIndicatorsAreasViewPlot
+          searchState={mockSearchParams}
+          indicatorData={mockIndicatorData}
+          indicatorMetadata={mockMetaData}
+          benchmarkStatistics={quartileDataMissingOne}
+        />
+      );
+
+    expect(renderComponentWithError).toThrow(
+      'No quartile data found for the requested indicator ID: 321'
+    );
   });
 });
 

@@ -1,80 +1,62 @@
 'use client';
-import {
-  HealthDataForArea,
-  Indicator,
-  QuartileData,
-} from '@/generated-sources/ft-api-client';
 import React from 'react';
 
 import { SpineChartTableHeader } from './SpineChartTableHeader';
 
-import {
-  SpineChartTableRowData,
-  SpineChartTableRow,
-} from './SpineChartTableRow';
+import { SpineChartTableRow } from './SpineChartTableRow';
 import { StyledDivTableContainer, StyledTable } from './SpineChartTableStyles';
+import { H2 } from 'govuk-react';
+import styled from 'styled-components';
+import { SpineChartLegend } from '@/components/organisms/SpineChartLegend/SpineChartLegend';
+import { SpineChartQuartilesInfoContainer } from '@/components/organisms/SpineChart/SpineChartQuartilesInfo';
+import { getMethodsAndOutcomes } from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
+import { SpineChartIndicatorData } from './spineChartTableHelpers';
+
+const SpineChartHeading = styled(H2)({
+  fontSize: '1.5rem',
+  marginTop: '1rem',
+});
 
 export interface SpineChartTableProps {
-  rowData: SpineChartTableRowProps[];
+  indicatorData: SpineChartIndicatorData[];
 }
 
-export interface SpineChartTableRowProps {
-  indicator: Indicator;
-  measurementUnit: string;
-  indicatorHealthData: HealthDataForArea;
-  groupIndicatorData: HealthDataForArea;
-  englandBenchmarkData: HealthDataForArea;
-  benchmarkStatistics: QuartileData;
-}
+const sortByIndicator = (indicatorData: SpineChartIndicatorData[]) =>
+  indicatorData.toSorted(
+    (a, b) => Number(a.indicatorId) - Number(b.indicatorId)
+  );
 
-export const mapToSpineChartTableData = (
-  tableData: SpineChartTableRowProps[]
-): SpineChartTableRowData[] =>
-  tableData.map((item) => ({
-    indicatorId: item.indicator.indicatorId,
-    indicator: item.indicator.title,
-    unit: item.measurementUnit,
-    period: item.indicatorHealthData.healthData[0].year,
-    trend: item.indicatorHealthData.healthData[0].trend,
-    count: item.indicatorHealthData.healthData[0].count,
-    value: item.indicatorHealthData.healthData[0].value,
-    groupValue: item.groupIndicatorData.healthData[0].value,
-    benchmarkValue: item.englandBenchmarkData.healthData[0].value,
-    benchmarkStatistics: item.benchmarkStatistics,
-  }));
+export function SpineChartTable({
+  indicatorData,
+}: Readonly<SpineChartTableProps>) {
+  const sortedData = sortByIndicator(indicatorData);
+  const methods = getMethodsAndOutcomes(indicatorData);
+  const areaNames = sortedData[0].areasHealthData.map(
+    (areaHealthData) => areaHealthData.areaName
+  );
 
-const sortByIndicator = (tableRowData: SpineChartTableRowData[]) =>
-  tableRowData.toSorted((a, b) => a.indicatorId - b.indicatorId);
-
-export function SpineChartTable(dataTable: Readonly<SpineChartTableProps>) {
-  const areaName = dataTable.rowData[0].indicatorHealthData.areaName;
-  const groupName = dataTable.rowData[0].groupIndicatorData.areaName;
-
-  const tableData = mapToSpineChartTableData(dataTable.rowData);
-  const sortedData = sortByIndicator(tableData);
-
-  // DHSCFT-582 - extend to allow up to 2 areas. Trends should only show for 1.
   return (
-    <StyledDivTableContainer data-testid="spineChartTable-component">
-      <StyledTable>
-        <SpineChartTableHeader areaName={areaName} groupName={groupName} />
-        {sortedData.map((row) => (
-          <React.Fragment key={row.indicatorId}>
-            <SpineChartTableRow
-              indicatorId={row.indicatorId}
-              indicator={row.indicator}
-              unit={row.unit}
-              period={row.period}
-              trend={row.trend}
-              count={row.count}
-              value={row.value}
-              groupValue={row.groupValue}
-              benchmarkValue={row.benchmarkValue}
-              benchmarkStatistics={row.benchmarkStatistics}
-            />
-          </React.Fragment>
-        ))}
-      </StyledTable>
-    </StyledDivTableContainer>
+    <>
+      <SpineChartHeading>Compare indicators by areas</SpineChartHeading>
+      <SpineChartLegend
+        legendsToShow={methods}
+        groupName={sortedData[0].groupData.areaName}
+        areaNames={areaNames}
+      />
+      <SpineChartQuartilesInfoContainer />
+      <StyledDivTableContainer data-testid="spineChartTable-component">
+        <StyledTable>
+          <SpineChartTableHeader
+            areaNames={areaNames}
+            groupName={sortedData[0].groupData.areaName}
+          />
+          {sortedData.map((indicatorData) => (
+            <React.Fragment key={indicatorData.indicatorId}>
+              <SpineChartTableRow indicatorData={indicatorData} />
+            </React.Fragment>
+          ))}
+        </StyledTable>
+      </StyledDivTableContainer>
+    </>
   );
 }

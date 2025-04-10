@@ -302,7 +302,6 @@ SELECT
 FROM
      #TempAreaData;
 
-
 -- Health Data
 CREATE TABLE #RawHealthData
 (

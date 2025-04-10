@@ -378,7 +378,27 @@
 "",B87039,King's Medical Practice,5,NHS,GPs,gps
 "",B87044,Alverthorpe,5,NHS,GPs,gps
 "",B87602,Patience Lane Surgery,5,NHS,GPs,gps
+"",C81008,Royal Primary Care Clay Cross,5,NHS,GPs,gps
+"",C81010,The Moir Medical Centre,5,NHS,GPs,gps
 "",C81018,Dove River,5,NHS,GPs,gps
+"",C81021,Old Station Surgery,5,NHS,GPs,gps
+"",C81022,Ilkeston Health Centre,5,NHS,GPs,gps
+"",C81023,The Aitune Medical Practice,5,NHS,GPs,gps
+"",C81026,Adam House Medical Centre,5,NHS,GPs,gps
+"",C81029,Staffa Health,5,NHS,GPs,gps
+"",C81033,Shires Healthcare,5,NHS,GPs,gps
+"",C81037,Ashbourne Medical Practice,5,NHS,GPs,gps
+"",C81041,Welbeck Road Health Centre,5,NHS,GPs,gps
+"",C81050,The Village Surgery,5,NHS,GPs,gps
+"",C81055,North Wingfield Medical Centre,5,NHS,GPs,gps
+"",C81056,Clay Cross Medical Centre,5,NHS,GPs,gps
+"",C81062,Hannage Brook Medical Centre,5,NHS,GPs,gps
+"",C81072,Lister House Surgery,5,NHS,GPs,gps
+"",C81075,Brailsford & Hulland Medical Practice,5,NHS,GPs,gps
+"",C81086,The Surgery Clifton Road,5,NHS,GPs,gps
+"",C81095,Emmett Carr Surgery,5,NHS,GPs,gps
+"",C81096,Crag's Health Care,5,NHS,GPs,gps
+"",C81638,Castle Street Medical Centre,5,NHS,GPs,gps
 "",C82001,South Leicestershire Medical Partnership,5,NHS,GPs,gps
 "",C82003,Greengate Medical Centre,5,NHS,GPs,gps
 "",C82007,Castle Donington Surgery,5,NHS,GPs,gps
@@ -556,6 +576,26 @@
 "",C88062,Rustlings Road Medical Centre,5,NHS,GPs,gps
 "",C88073,Heeley Green Surgery,5,NHS,GPs,gps
 "",C88076,Devonshire Green Medical Centre,5,NHS,GPs,gps
+"",D81014,Staploe Medical Centre,5,NHS,GPs,gps
+"",D81018,"Orchard Surgery,Melbourn",5,NHS,GPs,gps
+"",D81023,Paston Health Centre,5,NHS,GPs,gps
+"",D81026,Boroughbury Medical Centre,5,NHS,GPs,gps
+"",D81028,Firs House Surgery,5,NHS,GPs,gps
+"",D81033,Over Surgery,5,NHS,GPs,gps
+"",D81035,Comberton Surgery,5,NHS,GPs,gps
+"",D81041,Bourn Surgery,5,NHS,GPs,gps
+"",D81042,Waterbeach Surgery,5,NHS,GPs,gps
+"",D81051,Burwell Surgery,5,NHS,GPs,gps
+"",D81058,Harston Surgery,5,NHS,GPs,gps
+"",D81062,Haddenham Surgery,5,NHS,GPs,gps
+"",D81065,Nightingale Medical Centre,5,NHS,GPs,gps
+"",D81073,Westwood Clinic,5,NHS,GPs,gps
+"",D81078,Maple Surgery Bar Hill Health Centre,5,NHS,GPs,gps
+"",D81084,Willingham Medical Practice,5,NHS,GPs,gps
+"",D81618,Ailsworth Medical Centre,5,NHS,GPs,gps
+"",D81629,Willow Tree Surgery,5,NHS,GPs,gps
+"",D81637,Monkfield Medical Practice,5,NHS,GPs,gps
+"",D81645,The Grange Medical Centre,5,NHS,GPs,gps
 "",D82006,Chet Valley Medical Practice,5,NHS,GPs,gps
 "",D82009,Stalham Staithe Surgery,5,NHS,GPs,gps
 "",D82010,Grimston Medical Centre,5,NHS,GPs,gps
@@ -941,10 +981,10 @@ E06000022|E06000023|E06000024|E06000025|E06000026|E06000027|E06000030|E06000052|
 E54000027|E54000028|E54000029|E54000030|E54000031,E40000003,London NHS Region,1,NHS,NHS Regions,nhs-regions
 E54000032|E54000034|E54000042|E54000044|E54000052|E54000053,E40000005,South East NHS Region,1,NHS,NHS Regions,nhs-regions
 E54000036|E54000037|E54000038|E54000039|E54000040|E54000041|E54000043,E40000006,South West NHS Region,1,NHS,NHS Regions,nhs-regions
-E54000022|E54000023|E54000024|E54000025|E54000026,E40000007,East of England NHS Region,1,NHS,NHS Regions,nhs-regions
-E54000008|E54000048,E40000010,North West NHS Region,1,NHS,NHS Regions,nhs-regions
-E54000022|E54000023|E54000024|E54000025|E54000026,E40000011,Midlands NHS Region,1,NHS,NHS Regions,nhs-regions
-E54000010|E54000011|E54000013|E54000015|E54000018|E54000019,E40000012,North East and Yorkshire NHS Region,1,NHS,NHS Regions,nhs-regions
+E54000022|E54000023|E54000024|E54000025|E54000026|E54000056,E40000007,East of England NHS Region,1,NHS,NHS Regions,nhs-regions
+E54000008|E54000048|E54000057,E40000010,North West NHS Region,1,NHS,NHS Regions,nhs-regions
+E54000010|E54000011|E54000013|E54000015|E54000018|E54000019|E54000055|E54000058|E54000059|E54000060|E54000062,E40000011,Midlands NHS Region,1,NHS,NHS Regions,nhs-regions
+E54000050|E54000051|E54000054|E54000061,E40000012,North East and Yorkshire NHS Region,1,NHS,NHS Regions,nhs-regions
 E08000001|E08000002|E08000003|E08000004|E08000005|E08000006|E08000007|E08000008|E08000009|E08000010,E47000001,Greater Manchester Combined Authority,1,Administrative,Combined Authorities,combined-authorities
 E08000016|E08000017|E08000018|E08000019,E47000002,Sheffield City Region Combined Authority,1,Administrative,Combined Authorities,combined-authorities
 E08000032|E08000033|E08000034|E08000035|E08000036,E47000003,West Yorkshire Combined Authority,1,Administrative,Combined Authorities,combined-authorities
@@ -1443,6 +1483,27 @@ E12000001|E12000002|E12000003|E12000004|E12000005|E12000006|E12000007|E12000008|
 "",K82073,Westongrove Partnership,5,NHS,GPs,gps
 "",K82618,Prospect House Surgery,5,NHS,GPs,gps
 "",K82621,Little Chalfont Surgery,5,NHS,GPs,gps
+"",K83005,Queensway Medical Centre,5,NHS,GPs,gps
+"",K83011,The Redwell Medical Centre,5,NHS,GPs,gps
+"",K83012,King Edward Road Surgery,5,NHS,GPs,gps
+"",K83013,Eskdaill Medical,5,NHS,GPs,gps
+"",K83014,Leicester Terrace Health Care Centre,5,NHS,GPs,gps
+"",K83018,Springfield Surgery,5,NHS,GPs,gps
+"",K83021,Rothwell Medical Centre,5,NHS,GPs,gps
+"",K83022,Towcester Medical Centre,5,NHS,GPs,gps
+"",K83026,Albany House Medical Centre,5,NHS,GPs,gps
+"",K83029,Abington Park Surgery,5,NHS,GPs,gps
+"",K83036,Linden Medical Group,5,NHS,GPs,gps
+"",K83043,Abington Medical Centre,5,NHS,GPs,gps
+"",K83047,Abbey Medical Practice,5,NHS,GPs,gps
+"",K83049,Brackley Medical Centre,5,NHS,GPs,gps
+"",K83051,Weavers Medical,5,NHS,GPs,gps
+"",K83059,Woodsend Medical Centre,5,NHS,GPs,gps
+"",K83077,Greenview Surgery,5,NHS,GPs,gps
+"",K83081,Summerlee Medical Centre,5,NHS,GPs,gps
+"",K83607,Dr Sumira,5,NHS,GPs,gps
+"",K83620,The Brook Health Centre,5,NHS,GPs,gps
+"",K83622,Great Oakley Medical Centre,5,NHS,GPs,gps
 "",K84004,Donnington Medical Partnership,5,NHS,GPs,gps
 "",K84006,Eynsham Medical Group,5,NHS,GPs,gps
 "",K84007,Temple Cowley Health Centre,5,NHS,GPs,gps
@@ -1581,6 +1642,7 @@ E12000001|E12000002|E12000003|E12000004|E12000005|E12000006|E12000007|E12000008|
 "",M81048,Nunwell Surgery,5,NHS,GPs,gps
 "",M81054,Kington Medical Practice,5,NHS,GPs,gps
 "",M81058,Merstow Green Medical Practice,5,NHS,GPs,gps
+"",M81062,Frankley Health Centre,5,NHS,GPs,gps
 "",M81064,Hollywood Medical Centre,5,NHS,GPs,gps
 "",M81076,Colwall Surgery,5,NHS,GPs,gps
 "",M81077,The Ridgeway Surgery,5,NHS,GPs,gps
@@ -1717,10 +1779,58 @@ E12000001|E12000002|E12000003|E12000004|E12000005|E12000006|E12000007|E12000008|
 "",M84066,Meon Medical Centre,5,NHS,GPs,gps
 "",M84615,Chancery Lane Surgery,5,NHS,GPs,gps
 "",M84629,St Wulfstan Surgery,5,NHS,GPs,gps
+"",M85005,The Park Medical Centre,5,NHS,GPs,gps
+"",M85024,The Limes Medical Centre,5,NHS,GPs,gps
+"",M85060,The Oaks Medical Centre,5,NHS,GPs,gps
+"",M85076,Hollymoor Medical Centre,5,NHS,GPs,gps
+"",M85077,Northwood Medical Centre,5,NHS,GPs,gps
+"",M85078,Oakwood Surgery,5,NHS,GPs,gps
+"",M85081,The Dove Medical Practice,5,NHS,GPs,gps
+"",M85086,Cofton Medical Centre,5,NHS,GPs,gps
+"",M85087,College Road Surgery,5,NHS,GPs,gps
+"",M85094,Yardley Medical Centre,5,NHS,GPs,gps
+"",M85097,Cranes Park Road Surgery,5,NHS,GPs,gps
+"",M85108,Small Heath Medical Practice,5,NHS,GPs,gps
+"",M85136,Druids Heath Surgery,5,NHS,GPs,gps
+"",M85142,Keynell Covert,5,NHS,GPs,gps
+"",M85146,The Khattak Memorial Surgery,5,NHS,GPs,gps
+"",M85153,Weather Oak Medical Centre,5,NHS,GPs,gps
+"",M85179,Maypole Health Surgery Y,5,NHS,GPs,gps
+"",M85679,Charles Road Surgery,5,NHS,GPs,gps
+"",M85732,Bloomsbury Surgery,5,NHS,GPs,gps
 "",M86008,The Gables Medicentre,5,NHS,GPs,gps
 "",M86018,Moseley Avenue Surgery,5,NHS,GPs,gps
 "",M86021,Springfield Medical Practice,5,NHS,GPs,gps
 "",M86039,Allesley Village Surgery,5,NHS,GPs,gps
+"",M87006,Eve Hill Medical Practice,5,NHS,GPs,gps
+"",M87011,Lion Health,5,NHS,GPs,gps
+"",M87013,Horseley Heath Surgery,5,NHS,GPs,gps
+"",M87017,Steppingstones Medical Practice,5,NHS,GPs,gps
+"",M87019,The Limes Surgery Medical Centre,5,NHS,GPs,gps
+"",M87024,Wychbury Medical Group,5,NHS,GPs,gps
+"",M87025,Cross Street Health Centre,5,NHS,GPs,gps
+"",M87026,St James Medical Practice2,5,NHS,GPs,gps
+"",M87028,Anchor Medical Practice,5,NHS,GPs,gps
+"",M87030,Pedmore Medical Practice,5,NHS,GPs,gps
+"",M87628,Chapel Street Medical Centre,5,NHS,GPs,gps
+"",M88003,Warley Medical Centre,5,NHS,GPs,gps
+"",M88030,Church View Surgery,5,NHS,GPs,gps
+"",M88600,The Victoria Surgery,5,NHS,GPs,gps
+"",M88612,Glebefields Surgery,5,NHS,GPs,gps
+"",M89005,St Margaret's Medical Practice,5,NHS,GPs,gps
+"",M89007,Richmond Medical Centre,5,NHS,GPs,gps
+"",M89019,Hobs Moat Medical Centre,5,NHS,GPs,gps
+"",M89024,Grafton Road Surgery,5,NHS,GPs,gps
+"",M91003,Sina Health Centre,5,NHS,GPs,gps
+"",M91013,Lockfield Surgery,5,NHS,GPs,gps
+"",M91021,Lockstown Practice,5,NHS,GPs,gps
+"",M91033,Willenhall Medical Centre,5,NHS,GPs,gps
+"",M91624,Moxley Medical Centre,5,NHS,GPs,gps
+"",M92001,Poplars Medical Centre,5,NHS,GPs,gps
+"",M92004,Primrose Lane Practice,5,NHS,GPs,gps
+"",M92015,Improving Health (IH) Medical,5,NHS,GPs,gps
+"",M92022,Ashmore Park Medical Centre,5,NHS,GPs,gps
+"",M92026,Griffiths Drive Medical Practice,5,NHS,GPs,gps
 "",N81007,Holes Lane Medical Centre,5,NHS,GPs,gps
 "",N81008,The Cedars Medical Centre,5,NHS,GPs,gps
 "",N81009,Heath Lane Medical Centre,5,NHS,GPs,gps
@@ -1964,12 +2074,12 @@ U06092|U38221|U54372|U60176|U63540,E38000254,West Yorkshire ICB - X2C4Y,3,NHS,NH
 U00367|U03653|U05451|U06978|U07169,E38000255,North East London ICB - A3A8R,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
 U02961|U05784|U07392|U10339|U11559,E38000256,North West London ICB - W2U3Z,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
 U13205|U24883|U26254|U26345|U52026,E38000257,"Shropshire, Telford and Wrekin ICB - M2L0M",3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
-"",E38000258,Birmingham and Solihull ICB - 15E,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
-"",E38000259,Black Country ICB - D2P2L,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
-"",E38000260,Cambridgeshire and Peterborough ICB - 06H,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
-"",E38000261,Derby and Derbyshire ICB - 15M,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
-"",E38000262,Northamptonshire ICB - 78H,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
-"",E38000263,Greater Manchester ICB - 01Y,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
+U00351|U13655|U15552|U18195|U22471,E38000258,Birmingham and Solihull ICB - 15E,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
+U01577|U06610|U11746|U18020|U19348,E38000259,Black Country ICB - D2P2L,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
+U09738|U11694|U13771|U16004|U19471,E38000260,Cambridgeshire and Peterborough ICB - 06H,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
+U05048|U06438|U13621|U17168|U25882,E38000261,Derby and Derbyshire ICB - 15M,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
+U07902|U09187|U09772|U19031|U21248,E38000262,Northamptonshire ICB - 78H,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
+U01630|U02275|U38271|U53900,E38000263,Greater Manchester ICB - 01Y,3,NHS,NHS Sub Integrated Care Boards,nhs-sub-integrated-care-boards
 E38000068|E38000091|E38000101|E38000161|E38000170|E38000172|E38000194|E38000208|E38000233,E54000008,NHS Cheshire and Merseyside Integrated Care Board - QYG,2,NHS,NHS Integrated Care Boards,nhs-integrated-care-boards
 E38000028|E38000053|E38000126|E38000153|E38000173|E38000175,E54000010,NHS Staffordshire and Stoke-on-Trent Integrated Care Board - QNC,2,NHS,NHS Integrated Care Boards,nhs-integrated-care-boards
 E38000257,E54000011,"NHS Shropshire, Telford and Wrekin Integrated Care Board - QOC",2,NHS,NHS Integrated Care Boards,nhs-integrated-care-boards
@@ -2004,14 +2114,14 @@ E38000052|E38000085|E38000119|E38000122|E38000188|E38000241,E54000051,NHS Humber
 E38000246,E54000052,NHS Surrey Heartlands Integrated Care Board - QXU,2,NHS,NHS Integrated Care Boards,nhs-integrated-care-boards
 E38000021|E38000235|E38000248,E54000053,NHS Sussex Integrated Care Board - QNX,2,NHS,NHS Integrated Care Boards,nhs-integrated-care-boards
 E38000025|E38000190|E38000225|E38000232|E38000254,E54000054,NHS West Yorkshire Integrated Care Board - QWO,2,NHS,NHS Integrated Care Boards,nhs-integrated-care-boards
-"",E54000055,NHS Birmingham and Solihull Integrated Care Board - QHL,2,NHS,NHS Integrated Care Boards,nhs-integrated-care-boards
-"",E54000056,NHS Cambridgeshire and Peterborough Integrated Care Board - QUE,2,NHS,NHS Integrated Care Boards,nhs-integrated-care-boards
-"",E54000057,NHS Greater Manchester Integrated Care Board - QOP,2,NHS,NHS Integrated Care Boards,nhs-integrated-care-boards
-"",E54000058,NHS Derby and Derbyshire Integrated Care Board - QJ2,2,NHS,NHS Integrated Care Boards,nhs-integrated-care-boards
-"",E54000059,NHS Northamptonshire Integrated Care Board - QPM,2,NHS,NHS Integrated Care Boards,nhs-integrated-care-boards
-"",E54000060,NHS Nottingham and Nottinghamshire Integrated Care Board - QT1,2,NHS,NHS Integrated Care Boards,nhs-integrated-care-boards
-"",E54000061,NHS South Yorkshire Integrated Care Board - QF7,2,NHS,NHS Integrated Care Boards,nhs-integrated-care-boards
-"",E54000062,NHS Black Country Integrated Care Board - QUA,2,NHS,NHS Integrated Care Boards,nhs-integrated-care-boards
+E38000258,E54000055,NHS Birmingham and Solihull Integrated Care Board - QHL,2,NHS,NHS Integrated Care Boards,nhs-integrated-care-boards
+E38000260,E54000056,NHS Cambridgeshire and Peterborough Integrated Care Board - QUE,2,NHS,NHS Integrated Care Boards,nhs-integrated-care-boards
+E38000016|E38000024|E38000080|E38000135|E38000143|E38000174|E38000187|E38000205|E38000217|E38000263,E54000057,NHS Greater Manchester Integrated Care Board - QOP,2,NHS,NHS Integrated Care Boards,nhs-integrated-care-boards
+E38000261,E54000058,NHS Derby and Derbyshire Integrated Care Board - QJ2,2,NHS,NHS Integrated Care Boards,nhs-integrated-care-boards
+E38000262,E54000059,NHS Northamptonshire Integrated Care Board - QPM,2,NHS,NHS Integrated Care Boards,nhs-integrated-care-boards
+E38000008|E38000243,E54000060,NHS Nottingham and Nottinghamshire Integrated Care Board - QT1,2,NHS,NHS Integrated Care Boards,nhs-integrated-care-boards
+E38000006|E38000044|E38000141|E38000146,E54000061,NHS South Yorkshire Integrated Care Board - QF7,2,NHS,NHS Integrated Care Boards,nhs-integrated-care-boards
+E38000259,E54000062,NHS Black Country Integrated Care Board - QUA,2,NHS,NHS Integrated Care Boards,nhs-integrated-care-boards
 "",P81002,Lancaster Medical Practice,5,NHS,GPs,gps
 "",P81003,St James' Medical Centre,5,NHS,GPs,gps
 "",P81005,Little Harwood Health Centre,5,NHS,GPs,gps
@@ -2281,6 +2391,25 @@ E38000025|E38000190|E38000225|E38000232|E38000254,E54000054,NHS West Yorkshire I
 "",P88041,The Village Surgery,5,NHS,GPs,gps
 "",P88042,Finney Lane Surgery,5,NHS,GPs,gps
 "",P88632,Stockport Medical Group,5,NHS,GPs,gps
+"",P89002,The Brooke Surgery,5,NHS,GPs,gps
+"",P89003,Albion Medical Practice,5,NHS,GPs,gps
+"",P89004,Awburn House Medical Practice,5,NHS,GPs,gps
+"",P89005,Lockside Medical Centre,5,NHS,GPs,gps
+"",P89007,Staveleigh Medical Centre,5,NHS,GPs,gps
+"",P89008,Ashton Medical Group,5,NHS,GPs,gps
+"",P89010,Medlock Vale Medical Practice,5,NHS,GPs,gps
+"",P89011,Gordon Street Medical Centre,5,NHS,GPs,gps
+"",P89012,Clarendon Medical Centre,5,NHS,GPs,gps
+"",P89013,Hattersley Group Practice,5,NHS,GPs,gps
+"",P89014,Haughton Thornley Medical Centres,5,NHS,GPs,gps
+"",P89015,Millgate Healthcare Partnership,5,NHS,GPs,gps
+"",P89018,Denton Medical Practice,5,NHS,GPs,gps
+"",P89020,HT Practice,5,NHS,GPs,gps
+"",P89022,King Street Medical Centre,5,NHS,GPs,gps
+"",P89023,St Andrew's House Surgery,5,NHS,GPs,gps
+"",P89025,Town Hall Surgery,5,NHS,GPs,gps
+"",P89029,Market Street Medical Practice,5,NHS,GPs,gps
+"",P89030,West End Medical Centre,5,NHS,GPs,gps
 "",P91003,Park Medical Practice,5,NHS,GPs,gps
 "",P91004,Altrincham Medical Practice,5,NHS,GPs,gps
 "",P91006,Urmston Group Practice,5,NHS,GPs,gps
@@ -2335,6 +2464,7 @@ H85026|H85051,U00070,West Merton PCN,4,NHS,NHS Primary Care Networks,nhs-primary
 C82020|C82029|C82060|C82105|C82122,U00147,Aegis Healthcare PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 P87020|P87024|P87610|P87620|P87649,U00203,Eccles & Irlam PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 G83001|G83013|G83021|G83044,U00254,Blackheath And Charlton PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+M89005|M89007|M89019|M89024,U00351,Solihull South Central PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 F82002|F82006|F82008|F82022|F82028,U00367,Havering South PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 L81009|L81033|L81084|L81120|L81125,U00402,Connexus PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 A82012|A82646,U00639,Carlisle Rural PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
@@ -2343,11 +2473,14 @@ H82011|H82045|H82061|H82076,U01092,Cissbury Integrated Care PCN,4,NHS,NHS Primar
 F81048|F81062|F81136|F81152|F81165,U01096,Loughton Buckhurst Hill & Chigwell PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 J84003|J84013|J84016,U01198,South (Iw) PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 K84036|K84037|K84071,U01367,Wallingford & Surrounds PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+M91003|M91013|M91021|M91033|M91624,U01577,Walsall West 2 PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+P89005|P89007|P89022|P89023|P89025,U01630,Stalybridge PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 C87015|C87016|C87031|C87616|C87620,U01680,Maltby Wickersley PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 P81033|P81038|P81044|P81062|P81154,U01901,Chorley Central PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 K82010|K82017|K82022|K82053,U01916,Cygnet PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 A83022|A83030|A83036,U01989,Durham West PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 H81005|H81023|H81056,U02049,South Tandridge PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+P89002|P89004|P89012|P89013|P89014,U02275,Hyde PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 F81092|F81097|F81159|F81207|F81744,U02453,West Central PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 H85066|H85114,U02454,Nightingale PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 L82016|L82022|L82043|L82046|L82050,U02610,East Cornwall PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
@@ -2384,6 +2517,7 @@ K84025|K84051,U04862,White Horse Botley PCN,4,NHS,NHS Primary Care Networks,nhs-
 M83020|M83069|M83092,U04901,Stone & Eccleshall PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 G82122|G82212|G82809,U04973,Garden City PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 C84001|C84101|Y05346,U05001,Larwood & Bawtry PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+C81033|C81041|C81095|C81096|C81638,U05048,North Hardwick Bolsover PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 L81010|L81025|L81030|L81059|L81072,U05340,Three Valleys Health PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 D82006|D82022|D82031|D82034|D82036,U05433,South Norfolk Hip PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 F84003|F84015|F84060|F84105|F84719,U05451,Hackney Marshes PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
@@ -2405,7 +2539,9 @@ F81082|F81110|F81206|F81652|F81708,U06243,Tilbury And Chadwell PCN,4,NHS,NHS Pri
 M83021|M83127|M83650|M83682,U06256,Hipc (Holistic Patient Centred Care) PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 L83066|L83077|L83084|L83099|L83143,U06387,Nexus (Devon) PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 C84053|C84095|Y00026|Y06443,U06437,Byron PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+C81072|Y05286,U06438,Pcco PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 L81118|L81649,U06486,Stokes PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+M87006|M87017|M87025|M87026|M87028,U06610,Dudley And Netherton PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 L83024|L83042|L83058|L83115|L83655,U06816,Exeter City PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 H82003|H82057|H82072|H82084,U06871,Burgess Hill & Villages PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 F84006|F84070|F84074|F84739|F84741,U06978,Newham North East 2 PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
@@ -2422,6 +2558,7 @@ G82053|G82094|G82114|G82186,U07648,Ashford Rural PCN,4,NHS,NHS Primary Care Netw
 N81009|N81034|N81046|N81100,U07776,Chester East PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 M84012|M86008|M86018|M86021|M86039,U07789,Coventry North PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 A81005|A81013|A81022|A81032|A81053,U07842,East Cleveland PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+K83018|K83022|K83049|K83620,U07902,Brackley & Towcester PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 A82004|A82006|A82013|A82031|A82035,U08085,Eden (Cumbria) PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 P81032|P81070|P81123|P81170|P81731,U08086,Pendle West PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 C82018|C82086|C82094|C82116,U08206,Across Leicester PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
@@ -2435,12 +2572,15 @@ H83007|H83019|H83031|H83039|H83627,U09071,Gpnet5 PCN,4,NHS,NHS Primary Care Netw
 G81018|G81036|G81038|G81042|G81646,U09072,Preston Park Community PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 L82006|L82049|L82052|L82622,U09081,Falmouth And Penryn PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 P81046|P81071|P81103|P81119|P81181,U09100,Greater Preston PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+K83012|K83014|K83029|K83043|K83077,U09187,Grand Union PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 L85012|L85038|L85050,U09275,Taunton Deane West PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 C82013|C82021|C82048|C82067|C82071,U09521,Oadby & Wigston PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 C87003|C87012|C87020|C87603,U09529,Rotherham Central North PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 E81009|E81014|E81045|E81052|E81069,U09531,Chiltern Hills PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 N81019|N81054|N81057|N81066|N81072,U09643,Runcorn PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 F81126|F81130|F81170|F81183|F81674,U09727,Dengie & South Woodham Ferrers PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+D81028|D81033|D81042|D81078|D81084,U09738,Cambridge North Villages PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+K83013|K83036|K83051|K83059|K83607,U09772,Red Kite Healthcare PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 L84031|L84038|L84043|L84068|L84072,U09847,North Cotswolds PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 P82007|P82008|P82037|P82652,U09883,Farnworth & Kearsley PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 K84013,U09893,Spires PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
@@ -2476,6 +2616,8 @@ E84002|E84013|E84028|E84031|E84074,U11559,Harness South PCN,4,NHS,NHS Primary Ca
 P82003|P82006|Y03079,U11602,Horwich Network PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 M84006|M84007|M84042|M84615|Y04884,U11614,Warwickshire Rural PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 L82012|L82030,U11625,Launceston and Tamar Valley PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+D81023|D81026,U11694,Bmc Paston PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+M87013|M88003|M88030|M88600|M88612,U11746,Swb Newcomen PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 J82054|K81052|K81057,U11781,West Berkshire Rural PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 B86017|B86025|B86030|B86041|B86068,U11864,Woodsley PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 C82039|C82055|C82066|C82631,U12169,North Blaby PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
@@ -2495,7 +2637,10 @@ P84025|P84047|P84054|P84067|P84070,U13098,Miles Platting Newton Heath & Moston P
 M82009|M82039|M82057,U13205,Wrekin PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 C88016|C88034|C88052|C88053|C88062,U13245,Porter Valley PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 L81014|L81024|L81042|L81047|L81642,U13456,Yate & Frampton PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+C81037|C81062|C81075|C81086,U13621,South Dales PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+M81062|M85076|M85077|M85086|M85142,U13655,South Birmingham Alliance PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 A85004|A85009|A85011|A85611,U13720,Gateshead East PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+D81065|D81073|D81618|D81629|D81645,U13771,Peterborough Partnerships PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 L84004|L84015|L84036|L84040|L84048,U13956,Cheltenham Peripheral PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 B82008|B82010|B82030|B82036,U13990,Ripon & Masham PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 P88013|P88014|P88031|P88632,U14006,Victoria PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
@@ -2513,7 +2658,9 @@ J82017|J82025|J82053|J82082|J82103,U15164,Andover PCN,4,NHS,NHS Primary Care Net
 F85008|F85046|F85669|F85697,U15334,Haringey - East Central PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 P88003|P88008|P88026,U15435,Heatons Group Network PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 F81186|F81640|F81729|Y00469,U15488,East Basildon PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+M85005|M85024|M85094|M85146|M85679,U15552,Small Heath PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 E81003|E81004|E81044,U15644,Leighton Buzzard PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+D81014|D81051|D81062,U16004,Ely South PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 L84011|L84021|L84024|L84028|L84029,U16196,Forest of Dean PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 M83001|M83022|M83703|M83738|Y02354,U16318,Rugeley & Great Haywood PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 L84014|L84047|L84067|L84084|L84606,U16338,North & South Gloucester (Nsg) PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
@@ -2530,18 +2677,24 @@ C83026|C83028|C83036|C83039|C83054,U17012,South Lincolnshire Rural PCN,4,NHS,NHS
 B83012|B83038|B83045|B83641,U17022,Bradford North West PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 L85002|L85029|L85034|L85039|L85047,U17153,West Mendip PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 P85004|P85010|P85011|P85018|P85605,U17156,Milltown Alliance PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+C81008|C81029|C81050|C81055|C81056,U17168,South Hardwick PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 C83014|C83025|C83041|C83082,U17435,Apex PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 F81003|F81081|F81147|F81164|F81176,U17794,Southend Central PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 A86010|A86011|A86023|A86024|A86027,U17849,Newcastle East PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 H81027|H81088|H81615,U17969,Farnham PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 A82007|A82008|A82009|A82010|A82062,U17992,Barrow And Millom PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+M87011|M87019|M87024|M87030|M87628,U18020,"Stourbridge, Wollescote & Lye PCN",4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+M85060|M85081|M85087|M85108|M85732,U18195,"Kingstanding, Erdington & Nechells PCN",4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 C84020|C84036|C84069|C84106|C84679,U18267,Rosewood PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 N84005|N84006|N84008|N84012|N84013,U18460,Southport & Formby PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 E82048|E82073|E82655|Y01165,U18888,Manor View PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 F81022|F81030|F81076|F81099|F81193,U18990,Witham & Maldon PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+K83005|K83011|K83026|K83047|K83081,U19031,Wellingborough & District PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 J82073|J82102,U19124,Portsmouth North PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 E82040|E82041|E82062|Y02639,U19152,Welwyn Garden City A PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+M92001|M92004|M92015|M92022|M92026,U19348,Wolverhampton Unity East PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 H84025|H84050|H84054|H84618|H84619,U19424,Chessington And Surbiton PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+D81018|D81035|D81041|D81058|D81637,U19471,Meridian PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 P81002|P81013,U19808,Lancaster PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 J81002|J81034|J81061|J81077|J81644,U19923,Wimborne & Ferndown PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 H81033|H81042|H81658,U20165,Coco PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
@@ -2553,6 +2706,7 @@ H81007|H81020|H81065|H81073,U20410,Wham PCN,4,NHS,NHS Primary Care Networks,nhs-
 E82009|E82032|E82066|E82129|E82640,U20639,Delta PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 L83068|L83096|L83097|L83137,U21059,North Devon Coastal PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 B82031|B82073|B82105,U21078,Tadcaster And Selby PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+K83021|K83622,U21248,Triangle PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 G81016|G81061|G81100,U21317,The Havens PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 M81004|M81007|M81029|M81058|M81094,U21359,South Worcs Vale of Evesham Health PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 P81025|P81065|P81078|P81732|P81757,U21400,Pendle East PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
@@ -2562,6 +2716,7 @@ L81034,U21617,Tyntesfield PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-n
 P81014|P81041|P81045|P81695,U21757,Ormskirk PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 P92004|P92006|P92016|P92031|P92620,U21926,Hindley PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 G81075|G81076|G81613|G81694|Y02676,U22426,Brighton Ii PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+M85078|M85097|M85136|M85153|M85179,U22471,Smartcare Central PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 P92002|P92012|P92041|P92630|P92639,U23418,Liga Wigan PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 H81048|H81055|H81058,U23535,Redhill Phoenix PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 E81035|E81057,U23544,Sandhills PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
@@ -2580,6 +2735,7 @@ J83034|J83049|J83053|J83056,U25572,Devizes PCN,4,NHS,NHS Primary Care Networks,n
 N85012|N85023|N85024|N85025|N85027,U25656,Wallasey PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 A82014|A82022|A82028|A82029|A82037,U25680,Keswick & Solway PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 N81008|N81032|N81039|N81043|N81071,U25799,Smash PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+C81010|C81021|C81022|C81023|C81026,U25882,Erewash PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 M82038|Y01929,U26254,Teldoc PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 M82004|M82019|M82021|M82024|M82031,U26345,Se Shropshire PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 P84630|P84669|P84683,U26379,Hulme and City Centre South PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
@@ -2648,6 +2804,7 @@ A88001|A88004|A88010|A88012|A88022,U37826,South Tyneside West PCN,4,NHS,NHS Prim
 M81016|M81018|M81042|M81043|M81054,U38064,North & West Herefordshire PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 B83025|B83034|B83051|B83621|B83622,U38216,Bradford City 6 PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 B85010|B85023|B85024|B85058|B85060,U38221,Tolson Care Partnership PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+P89003|P89008|P89011|P89020|P89030,U38271,Ashton PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 E82042|E82063|E82081|E82123,U38328,Broxbourne Alliance PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 C83001|C83626,U38661,Marina PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 D83003|D83014|D83064|D83076,U39025,Wggl PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
@@ -2697,6 +2854,7 @@ D83012|D83021,U52763,Haverhill PCN,4,NHS,NHS Primary Care Networks,nhs-primary-c
 N82022|N82046|N82065|N82089|N82090,U53230,The Picton PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 B84001|B84007|B84009|B84016,U53279,Calder & Ryburn PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 K82073,U53775,Westongrove PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
+P89010|P89015|P89018|P89029|Y02663,U53900,Denton PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 B85001|B85012|B85014|B85021|B85030,U54372,Spen Health & Wellbeing PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 C86003|C86018|C86021|C86037|C86609,U54853,Doncaster East PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
 N82002|N82067|N82086|N82091|N82641,U54911,Liverpool First PCN,4,NHS,NHS Primary Care Networks,nhs-primary-care-networks
@@ -2805,6 +2963,7 @@ N85014|N85015|N85016|N85017|N85018,U99194,Birkenhead PCN,4,NHS,NHS Primary Care 
 "",Y02611,North Chelmsford Nhs HCC,5,NHS,GPs,gps
 "",Y02639,Spring House Health,5,NHS,GPs,gps
 "",Y02646,Turner Road Surgery,5,NHS,GPs,gps
+"",Y02663,Droylsden Medical Practice,5,NHS,GPs,gps
 "",Y02676,Brighton Station Health Centre,5,NHS,GPs,gps
 "",Y02684,Quayside Medical Centre,5,NHS,GPs,gps
 "",Y02718,Birtle View Medical Practice,5,NHS,GPs,gps
@@ -2820,5 +2979,6 @@ N85014|N85015|N85016|N85017|N85018,U99194,Birkenhead PCN,4,NHS,NHS Primary Care 
 "",Y04664,The Willaston Surgery,5,NHS,GPs,gps
 "",Y04884,Satis House,5,NHS,GPs,gps
 "",Y05023,Silver End Surgery,5,NHS,GPs,gps
+"",Y05286,Lister House Chellaston,5,NHS,GPs,gps
 "",Y05346,Westwood Primary Care Centre,5,NHS,GPs,gps
 "",Y06443,Whyburn Medical Practice,5,NHS,GPs,gps
