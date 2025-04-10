@@ -1,5 +1,5 @@
 import { expect } from '@jest/globals';
-import { render, screen } from '@testing-library/react';
+import {act, render, screen, waitFor} from '@testing-library/react';
 import { SearchForm } from '@/components/forms/SearchForm';
 import { SearchFormState } from './searchActions';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
@@ -154,10 +154,19 @@ describe('SearchForm', () => {
     expect(screen.getByTestId('selected-areas-panel')).toBeInTheDocument();
   });
 
-  it('should render the select areas filter panel', () => {
+  it('should not render the select areas filter panel by default', () => {
     render(<SearchForm formState={initialDataState} />);
 
-    expect(screen.getByTestId('select-areas-filter-panel')).toBeInTheDocument();
+    expect(screen.queryByTestId('select-areas-filter-panel')).not.toBeInTheDocument();
+  });
+
+  it('should render the select areas filter panel when open areas expander is expanded', async () => {
+    render(<SearchForm formState={initialDataState} />);
+    act( () => screen.getByText("Open area filter").click());
+
+    await waitFor(() => {
+      expect(screen.getByTestId('select-areas-filter-panel')).toBeInTheDocument();
+    });
   });
 
   it('should call setIsLoading with true when the search button is clicked', async () => {

@@ -1,6 +1,6 @@
 import { getSearchSuggestions } from '@/components/forms/SearchForm/searchActions';
 import { AreaDocument } from '@/lib/search/searchTypes';
-import React, {useEffect, useState, useRef, createRef, RefObject} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import { AreaSearchInputField } from '@/components/molecules/AreaSearchInputField';
 import { AreaAutoCompleteSuggestionPanel } from '@/components/molecules/AreaSuggestionPanel';
 import styled from 'styled-components';
@@ -19,13 +19,11 @@ const StyleAreaAutoCompleteInputField = styled('div')({
 interface AreaAutoCompleteInputFieldProps {
   inputFieldErrorStatus: boolean;
   selectedAreaName?: string;
-  ref?: RefObject<HTMLInputElement | null>
 }
 
 export function AreaAutoCompleteInputField({
   inputFieldErrorStatus = false,
   selectedAreaName,
-    ref,
 }: Readonly<AreaAutoCompleteInputFieldProps>) {
   const { getSearchState } = useSearchState();
   const searchState = getSearchState();
@@ -79,7 +77,6 @@ export function AreaAutoCompleteInputField({
   return (
     <StyleAreaAutoCompleteInputField>
       <AreaSearchInputField
-          ref={ref}
         value={criteria}
         onTextChange={setCriteria}
         disabled={
