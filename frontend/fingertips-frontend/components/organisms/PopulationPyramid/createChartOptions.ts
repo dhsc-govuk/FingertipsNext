@@ -10,7 +10,7 @@ import Highcharts, {
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { generatePopPyramidTooltipForPoint } from '.';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { FormatValueAsNumberAbsolute } from '@/lib/chartHelpers/labelFormatters';
+import { FormatValueAsWholeNumberAbsolute } from '@/lib/chartHelpers/labelFormatters';
 
 const toggleClickSeries = (self: Series): boolean => {
   self.chart.series.forEach((series) => {
@@ -21,7 +21,7 @@ const toggleClickSeries = (self: Series): boolean => {
   return false;
 };
 
-const createChartSeriesOptions = (
+const createPopPyramidSeriesOptions = (
   xAxisTitle: string,
   yAxisTitle: string,
   dataForArea: PopulationDataForArea,
@@ -165,7 +165,7 @@ const createChartSeriesOptions = (
       tickColor: GovukColours.DarkSlateGray,
       gridLineWidth: 0,
       labels: {
-        formatter: FormatValueAsNumberAbsolute,
+        formatter: FormatValueAsWholeNumberAbsolute,
         align: 'center',
         style: {
           fontSize: '16px',
@@ -317,7 +317,7 @@ export const createChartPyramidOptions = (
   dataForBenchmark?: PopulationDataForArea,
   dataForSelectedGroup?: PopulationDataForArea
 ): Highcharts.Options => {
-  const populationPyramidOptions: Highcharts.Options = createChartSeriesOptions(
+  const populationPyramidOptions: Highcharts.Options = createPopPyramidSeriesOptions(
     xAxisTitle,
     yAxisTitle,
     dataForSelectedArea,
