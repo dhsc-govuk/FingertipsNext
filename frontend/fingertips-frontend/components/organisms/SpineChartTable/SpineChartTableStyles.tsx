@@ -83,12 +83,12 @@ export const StyledValueUnitStickyCell = styled(
   StyledAlignRightBorderRightTableCell
 )({
   ...(stickyLeft as unknown as TemplateStringsArray),
-  left: `${spineChartIndicatorTitleColumnMinWidth + spineChartPeriodColumnMinWidth + paddingSize * 2}px`,
+  left: `${spineChartIndicatorTitleColumnMinWidth + spineChartPeriodColumnMinWidth + (paddingSize * 2)}px`,
 });
 
 export const StyledPeriodStickyCell = styled(StyledAlignCentreTableCell)({
   ...(stickyLeft as unknown as TemplateStringsArray),
-  minWidth: `${spineChartPeriodColumnMinWidth}px}`,
+  width: `${spineChartPeriodColumnMinWidth}px}`,
   left: `${spineChartIndicatorTitleColumnMinWidth + paddingSize}px`,
 });
 
