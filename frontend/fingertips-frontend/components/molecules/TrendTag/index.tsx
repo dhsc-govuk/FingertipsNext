@@ -47,7 +47,7 @@ const StyledParagraph = styled(Paragraph)(
     marginBottom: '0',
     marginLeft: '0.3125em',
   },
-  typography.font({ size: 14 })
+  typography.font({ size: 16 })
 );
 
 const displayTrendCondition = (trendCondition?: TrendCondition) => {
