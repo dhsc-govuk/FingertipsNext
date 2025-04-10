@@ -28,7 +28,6 @@ export const ViewsSelector = ({
       <OneIndicatorOneAreaView
         selectedIndicatorsData={selectedIndicatorsData}
         searchState={searchState}
-        availableAreas={availableAreas}
       />
     );
   }
@@ -52,7 +51,6 @@ export const ViewsSelector = ({
       <TwoOrMoreIndicatorsEnglandView
         searchState={searchState}
         selectedIndicatorsData={selectedIndicatorsData}
-        availableAreas={availableAreas}
       />
     );
   }
