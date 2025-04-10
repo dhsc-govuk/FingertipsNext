@@ -7,9 +7,9 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { orderStatistics } from './SpineChartHelpers';
 import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
-import { pointFormatterHelper} from '@/lib/chartHelpers/pointFormatterHelper';
+import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { SpineChartProps } from '.';
-import { formatNumber} from '@/lib/numberFormatter';
+import { formatNumber } from '@/lib/numberFormatter';
 
 const markerLineWidth = 1;
 
@@ -17,38 +17,37 @@ function absDiff(value: number, benchmark: number): number {
   return Math.abs(Math.abs(value) - Math.abs(benchmark));
 }
 
-
 export const generateSpineChartTooltipForPoint = (
   point: Highcharts.Point,
   symbol: string
-) => [
-  `<span style="color:${point.color}">${symbol}</span>`
-];
+) => [`<span style="color:${point.color}">${symbol}</span>`];
 
-function benchmarkComparisonMethodToString(benchmarkComparisonMethod: BenchmarkComparisonMethod):string {
+function benchmarkComparisonMethodToString(
+  benchmarkComparisonMethod: BenchmarkComparisonMethod
+): string {
   switch (benchmarkComparisonMethod) {
     case BenchmarkComparisonMethod.CIOverlappingReferenceValue95:
-      return '(95%)'
+      return '(95%)';
     case BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8:
-      return '(99.8%)'
+      return '(99.8%)';
     case BenchmarkComparisonMethod.Quintiles:
-      return 'Highest quintile'
+      return 'Highest quintile';
     default:
-      return 'Not compared'
+      return 'Not compared';
   }
 }
 
 function formatBarHover(
-    title: string,
-    period: number,
-    indicatorName: string,
-    lowerName: string,
-    lowerValue: number,
-    upperName: string,
-    upperValue: number,
-    units: string
-  ) {
-    return `<div style="margin:0px; padding:0px;">
+  title: string,
+  period: number,
+  indicatorName: string,
+  lowerName: string,
+  lowerValue: number,
+  upperName: string,
+  upperValue: number,
+  units: string
+) {
+  return `<div style="margin:0px; padding:0px;">
               <span style="font-weight: bold; display: block;">
               ${title}
               </span>
@@ -56,18 +55,18 @@ function formatBarHover(
               <span style="display: block;">${indicatorName}</span>
               <span style="display: block; float: right;">${formatNumber(lowerValue)}${units} to ${formatNumber(upperValue)}${units}</span></br/>
               <span style="display: block; float: right;">${lowerName} to ${upperName}</span><div>`;
-  }
+}
 
-  function formatSymbolHover(
-    title: string,
-    period: number,
-    indicatorName: string,
-    benchmarkComparisonMethod: BenchmarkComparisonMethod,
-    value: number,
-    units: string,
-    outcome: string,
-  ) {
-    return `<div style="margin:0px; padding:0px;">
+function formatSymbolHover(
+  title: string,
+  period: number,
+  indicatorName: string,
+  benchmarkComparisonMethod: BenchmarkComparisonMethod,
+  value: number,
+  units: string,
+  outcome: string
+) {
+  return `<div style="margin:0px; padding:0px;">
               <span style="font-weight: bold; display: block;">
               ${title}
               </span>
@@ -77,7 +76,7 @@ function formatBarHover(
               <span style="display: block; float: right;">${outcome}</span></br/>
               <span style="display: block; float: right;">${benchmarkComparisonMethodToString(benchmarkComparisonMethod)}</span>
               <div>`;
-  }
+}
 
 export function generateSeriesData({
   name,
@@ -199,10 +198,10 @@ export function generateSeriesData({
         `Group: ${groupName}`,
         period,
         name,
-        benchmarkMethod??BenchmarkComparisonMethod.Unknown,
+        benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
         groupValue,
         units,
-        groupOutcome?? 'Not compared',       
+        groupOutcome ?? 'Not compared'
       ),
       marker: {
         symbol: 'diamond',
@@ -216,8 +215,8 @@ export function generateSeriesData({
   }
 
   const areas = [
-    { value: areaOneValue, outcome: areaOneOutcome, areaName: areaNames[0]},
-    { value: areaTwoValue, outcome: areaTwoOutcome, areaName: areaNames[1]},
+    { value: areaOneValue, outcome: areaOneOutcome, areaName: areaNames[0] },
+    { value: areaTwoValue, outcome: areaTwoOutcome, areaName: areaNames[1] },
   ];
 
   areas.forEach(({ value, outcome, areaName }, index) => {
@@ -237,10 +236,10 @@ export function generateSeriesData({
         areaName,
         period,
         name,
-        benchmarkMethod??BenchmarkComparisonMethod.Unknown,
+        benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
         value,
         units,
-        outcome?? 'Not compared',
+        outcome ?? 'Not compared'
       ),
       marker: {
         symbol: index === 0 ? 'circle' : 'square',
