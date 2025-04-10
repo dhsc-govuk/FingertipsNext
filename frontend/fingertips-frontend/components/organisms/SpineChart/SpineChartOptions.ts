@@ -7,13 +7,27 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { orderStatistics } from './SpineChartHelpers';
 import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
-import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
+import { pointFormatterHelper} from '@/lib/chartHelpers/pointFormatterHelper';
 import { SpineChartProps } from '.';
+import { formatNumber} from '@/lib/numberFormatter';
 
 const markerLineWidth = 1;
 
 function absDiff(value: number, benchmark: number): number {
   return Math.abs(Math.abs(value) - Math.abs(benchmark));
+}
+
+function benchmarkComparisonMethodToString(benchmarkComparisonMethod: BenchmarkComparisonMethod):string {
+  switch (benchmarkComparisonMethod) {
+    case BenchmarkComparisonMethod.CIOverlappingReferenceValue95:
+      return '(95%)'
+    case BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8:
+      return '(99.8%)'
+    case BenchmarkComparisonMethod.Quintiles:
+      return 'Highest quintile'
+    default:
+      return 'Not compared'
+  }
 }
 
 function formatBarHover(
@@ -32,7 +46,7 @@ function formatBarHover(
               </span>
               <span style="display: block;">${period}</span>
               <span style="display: block;">${indicatorName}</span>
-              <span style="display: block; float: right;">${lowerValue}${units} to ${upperValue}${units}</span></br/>
+              <span style="display: block; float: right;">${formatNumber(lowerValue)}${units} to ${formatNumber(upperValue)}${units}</span></br/>
               <span style="display: block; float: right;">${lowerName} to ${upperName}</span><div>`;
   }
 
@@ -40,6 +54,7 @@ function formatBarHover(
     title: string,
     period: number,
     indicatorName: string,
+    benchmarkComparisonMethod: BenchmarkComparisonMethod,
     value: number,
     units: string,
     outcome: string,
@@ -50,8 +65,10 @@ function formatBarHover(
               </span>
               <span style="display: block;">${period}</span>
               <span style="display: block;">${indicatorName}</span>
-              <span style="display: block; float: right;">${value}${units}</span></br/>
-              <span style="display: block; float: right;">${outcome}</span><div>`;
+              <span style="display: block; float: right;">${formatNumber(value)}${units}</span></br/>
+              <span style="display: block; float: right;">${outcome}</span></br/>
+              <span style="display: block; float: right;">${benchmarkComparisonMethodToString(benchmarkComparisonMethod)}</span>
+              <div>`;
   }
 
 function generateSeriesData({
@@ -67,6 +84,7 @@ function generateSeriesData({
   areaNames,
   groupValue,
   groupName,
+  groupOutcome,
   benchmarkMethod,
 }: Readonly<SpineChartProps>) {
   const { best, bestQuartile, worstQuartile, worst } =
@@ -168,10 +186,10 @@ function generateSeriesData({
         `Group: ${groupName}`,
         period,
         name,
+        benchmarkMethod??BenchmarkComparisonMethod.Unknown,
         groupValue,
         units,
-        '',
-        
+        groupOutcome?? 'Not compared',       
       ),
       marker: {
         symbol: 'diamond',
@@ -204,6 +222,7 @@ function generateSeriesData({
         areaName,
         period,
         name,
+        benchmarkMethod??BenchmarkComparisonMethod.Unknown,
         value,
         units,
         outcome?? 'Not compared',
@@ -240,7 +259,6 @@ const generateSpineChartTooltipForPoint = (
   point: Highcharts.Point,
   symbol: string
 ) => [`<span style="fillColor:${point.color}; radius: 30; lineColor: '#000'; lineWidth: ${markerLineWidth};">${symbol}</span>`];
-
 
 export function generateChartOptions(props: Readonly<SpineChartProps>) {
   const categories = [''];

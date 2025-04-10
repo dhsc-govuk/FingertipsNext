@@ -21,6 +21,7 @@ export interface SpineChartProps {
   benchmarkMethod?: BenchmarkComparisonMethod;
   groupValue?: number;
   groupName: string;
+  groupOutcome?: BenchmarkOutcome;
 }
 
 function absDiff(value: number, benchmark: number): number {
