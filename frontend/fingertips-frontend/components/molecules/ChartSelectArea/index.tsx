@@ -50,21 +50,19 @@ export function ChartSelectArea({
   const selectedArea = searchState?.[chartAreaSelectedKey];
 
   return (
-    <>
-      <StyledFilterSelect
-        label="Select an area"
-        data-testid="chart-area-select"
-        input={{
-          value: selectedArea,
-          onChange: (e) => chartAreaTypeSelected(e.target.value),
-        }}
-      >
-        {availableAreas?.map((area) => (
-          <option key={area.code} value={area.code}>
-            {area.name}
-          </option>
-        ))}
-      </StyledFilterSelect>
-    </>
+    <StyledFilterSelect
+      label="Select an area"
+      data-testid="chart-area-select"
+      input={{
+        value: selectedArea,
+        onChange: (e) => chartAreaTypeSelected(e.target.value),
+      }}
+    >
+      {availableAreas?.map((area) => (
+        <option key={area.code} value={area.code}>
+          {area.name}
+        </option>
+      ))}
+    </StyledFilterSelect>
   );
 }

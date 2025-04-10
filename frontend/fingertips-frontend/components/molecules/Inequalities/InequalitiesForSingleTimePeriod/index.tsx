@@ -43,7 +43,6 @@ export function InequalitiesForSingleTimePeriod({
   polarity,
 }: Readonly<InequalitiesForSingleTimePeriodProps>) {
   const {
-    // [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.InequalityYearSelected]: selectedYear,
     [SearchParams.InequalityTypeSelected]: inequalityTypeSelected,
@@ -61,10 +60,6 @@ export function InequalitiesForSingleTimePeriod({
     inequalityTypeSelected === 'sex' || inequalityTypeSelected === undefined
       ? getAreasWithSexInequalitiesData(healthdataWithoutGroup, selectedYear)
       : [];
-
-  // const isInequalityBarChartAreaSelectedValid =
-  //   inequalityBarChartAreaSelected &&
-  //   areasSelected?.includes(inequalityBarChartAreaSelected);
 
   const areaToUse =
     inequalityBarChartAreaSelected ??
