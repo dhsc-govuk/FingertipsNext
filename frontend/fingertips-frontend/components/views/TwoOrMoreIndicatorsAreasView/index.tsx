@@ -18,6 +18,7 @@ import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 export default async function TwoOrMoreIndicatorsAreasView({
   searchState,
   selectedIndicatorsData,
+  availableAreas,
 }: Readonly<ViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
@@ -28,7 +29,11 @@ export default async function TwoOrMoreIndicatorsAreasView({
     [SearchParams.GroupTypeSelected]: selectedGroupType,
   } = stateManager.getSearchState();
 
-  const areaCodes = determineAreaCodes(areasSelected);
+  const areaCodes = determineAreaCodes(
+    areasSelected,
+    selectedGroupCode,
+    availableAreas
+  );
 
   if (!indicatorsSelected || indicatorsSelected.length < 2) {
     throw new Error('invalid indicators selected passed to view');
@@ -99,6 +104,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
         indicatorMetadata={selectedIndicatorsData}
         benchmarkStatistics={benchmarkQuartiles}
         searchState={searchState}
+        availableAreas={availableAreas}
       />
     </ViewsWrapper>
   );

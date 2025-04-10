@@ -22,6 +22,7 @@ import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 export default async function OneIndicatorTwoOrMoreAreasView({
   selectedIndicatorsData,
   searchState,
+  availableAreas,
 }: Readonly<ViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
@@ -33,9 +34,19 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
   } = stateManager.getSearchState();
 
-  const areaCodes = determineAreaCodes(areasSelected);
+  const areaCodes = determineAreaCodes(
+    areasSelected,
+    selectedGroupArea,
+    availableAreas
+  );
 
-  if (indicatorSelected?.length !== 1 || !areaCodes || areaCodes?.length < 2) {
+  console.log(`selectedGroupArea ${selectedGroupArea}`);
+
+  if (
+    indicatorSelected?.length !== 1 ||
+    (selectedGroupArea !== ALL_AREAS_SELECTED &&
+      (!areaCodes || areaCodes?.length < 2))
+  ) {
     throw new Error('Invalid parameters provided to view');
   }
 

@@ -17,6 +17,7 @@ import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 export default async function OneIndicatorOneAreaView({
   selectedIndicatorsData,
   searchState,
+  availableAreas,
 }: Readonly<ViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
@@ -26,7 +27,11 @@ export default async function OneIndicatorOneAreaView({
     [SearchParams.AreaTypeSelected]: AreaTypeSelected,
   } = stateManager.getSearchState();
 
-  const areaCodes = determineAreaCodes(areasSelected);
+  const areaCodes = determineAreaCodes(
+    areasSelected,
+    selectedGroupCode,
+    availableAreas
+  );
 
   if (areaCodes?.length !== 1 || indicatorSelected?.length !== 1) {
     throw new Error('Invalid parameters provided to view');

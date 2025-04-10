@@ -6,12 +6,14 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import TwoOrMoreIndicatorsEnglandView from './TwoOrMoreIndicatorsEnglandView';
 import { JSX } from 'react';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { Area } from '@/generated-sources/ft-api-client';
 
 interface ViewsSelectorProps {
   areaCodes: string[];
   indicators: string[];
   searchState: SearchStateParams;
   selectedIndicatorsData?: IndicatorDocument[];
+  availableAreas?: Area[];
 }
 
 export const ViewsSelector = ({
@@ -19,12 +21,14 @@ export const ViewsSelector = ({
   indicators,
   searchState,
   selectedIndicatorsData,
+  availableAreas,
 }: ViewsSelectorProps): JSX.Element => {
   if (indicators.length === 1 && areaCodes.length === 1) {
     return (
       <OneIndicatorOneAreaView
         selectedIndicatorsData={selectedIndicatorsData}
         searchState={searchState}
+        availableAreas={availableAreas}
       />
     );
   }
@@ -34,6 +38,7 @@ export const ViewsSelector = ({
       <OneIndicatorTwoOrMoreAreasView
         selectedIndicatorsData={selectedIndicatorsData}
         searchState={searchState}
+        availableAreas={availableAreas}
       />
     );
   }
@@ -47,6 +52,7 @@ export const ViewsSelector = ({
       <TwoOrMoreIndicatorsEnglandView
         searchState={searchState}
         selectedIndicatorsData={selectedIndicatorsData}
+        availableAreas={availableAreas}
       />
     );
   }
@@ -56,6 +62,7 @@ export const ViewsSelector = ({
       <TwoOrMoreIndicatorsAreasView
         searchState={searchState}
         selectedIndicatorsData={selectedIndicatorsData}
+        availableAreas={availableAreas}
       />
     );
   }

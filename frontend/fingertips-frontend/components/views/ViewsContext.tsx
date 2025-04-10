@@ -3,42 +3,20 @@ import {
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
-
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-
 import { AreaFilterData } from '../molecules/SelectAreasFilterPanel';
 import { ChartPageWrapper } from '../pages/chartPageWrapper';
 import { Area } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { ViewsSelector } from './ViewsSelector';
 import { PopulationPyramidWithTableDataProvider } from '@/app/chart/PopulationPyramidWithTableDataProvider';
-
-const determineAreaCodes = (
-  groupAreaSelected?: string,
-  areaSelected?: string[],
-  availableAreas?: Area[]
-): string[] => {
-  if (groupAreaSelected === ALL_AREAS_SELECTED) {
-    return (
-      availableAreas?.map((area) => {
-        return area.code;
-      }) ?? []
-    );
-  }
-
-  if (!areaSelected || areaSelected.length === 0) {
-    return [areaCodeForEngland];
-  }
-
-  return areaSelected ?? [];
-};
+import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 
 export type ViewProps = {
   searchState: SearchStateParams;
   areaFilterData?: AreaFilterData;
   selectedAreasData?: Area[];
   selectedIndicatorsData?: IndicatorDocument[];
+  availableAreas?: Area[];
 };
 
 export function ViewsContext({
@@ -56,8 +34,8 @@ export function ViewsContext({
   const indicators = indicatorsSelected ?? [];
 
   const areaCodes = determineAreaCodes(
-    groupAreaSelected,
     areasSelected,
+    groupAreaSelected,
     areaFilterData?.availableAreas
   );
 
@@ -73,6 +51,7 @@ export function ViewsContext({
         indicators={indicators}
         searchState={searchState}
         selectedIndicatorsData={selectedIndicatorsData}
+        availableAreas={areaFilterData?.availableAreas}
       />
       <PopulationPyramidWithTableDataProvider
         areaCodes={areaCodes}

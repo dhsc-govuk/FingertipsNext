@@ -42,6 +42,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
   indicatorData,
   indicatorMetadata,
   benchmarkStatistics,
+  availableAreas,
 }: Readonly<TwoOrMoreIndicatorsViewPlotProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
@@ -49,7 +50,11 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
 
-  const areaCodes = determineAreaCodes(areasSelected);
+  const areaCodes = determineAreaCodes(
+    areasSelected,
+    selectedGroupCode,
+    availableAreas
+  );
 
   if (!areaCodes || !selectedGroupCode) {
     throw new Error('Invalid parameters provided to view plot');

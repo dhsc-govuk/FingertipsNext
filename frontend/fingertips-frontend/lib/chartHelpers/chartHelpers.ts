@@ -1,4 +1,5 @@
 import {
+  Area,
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
   HealthDataForArea,
@@ -8,6 +9,7 @@ import {
 import { areaCodeForEngland } from './constants';
 import { getBenchmarkTagStyle } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelConfig';
 import { GovukColours } from '../styleHelpers/colours';
+import { ALL_AREAS_SELECTED } from '../areaFilterHelpers/constants';
 
 export const AXIS_TITLE_FONT_SIZE = 19;
 export const AXIS_LABEL_FONT_SIZE = 16;
@@ -18,10 +20,24 @@ export function sortHealthDataForAreasByDate(
   return data.map((area) => sortHealthDataForAreaByDate(area));
 }
 
-export function determineAreaCodes(areasSelected?: string[]): string[] {
-  return areasSelected && areasSelected.length > 0
-    ? areasSelected
-    : [areaCodeForEngland];
+export function determineAreaCodes(
+  areaSelected?: string[],
+  groupAreaSelected?: string,
+  availableAreas?: Area[]
+): string[] {
+  if (groupAreaSelected === ALL_AREAS_SELECTED) {
+    return (
+      availableAreas?.map((area) => {
+        return area.code;
+      }) ?? []
+    );
+  }
+
+  if (!areaSelected || areaSelected.length === 0) {
+    return [areaCodeForEngland];
+  }
+
+  return areaSelected ?? [];
 }
 
 export function sortHealthDataForAreaByDate(
