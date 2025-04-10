@@ -20,10 +20,6 @@ jest.mock('next/navigation', () => {
   };
 });
 
-const mockSearchState = {
-  [SearchParams.InequalityYearSelected]: '2023',
-};
-
 const mockGetSearchState = jest.fn();
 const mockSearchStateContext: SearchStateContext = {
   getSearchState: mockGetSearchState,
@@ -35,15 +31,18 @@ jest.mock('@/context/SearchStateContext', () => {
   };
 });
 
+const mockSearchState = {
+  [SearchParams.InequalityYearSelected]: '2023',
+};
+
 const years = ['2023', '2022', '2021', '2020'];
 
 describe('TimePeriodDropDown suite', () => {
   beforeEach(() => {
     mockGetSearchState.mockReturnValue(mockSearchState);
   });
-
   it('should display expected elements', () => {
-    render(<TimePeriodDropDown years={years} />);
+    render(<TimePeriodDropDown years={years} searchState={mockSearchState} />);
     const dropDown = screen.getByRole('combobox');
     const yearOptions = within(dropDown).getAllByRole('option');
 
@@ -62,7 +61,7 @@ describe('TimePeriodDropDown suite', () => {
     ].join('');
 
     const user = userEvent.setup();
-    render(<TimePeriodDropDown years={years} />);
+    render(<TimePeriodDropDown years={years} searchState={mockSearchState} />);
 
     await user.selectOptions(screen.getByRole('combobox'), '2022');
 
