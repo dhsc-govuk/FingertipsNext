@@ -28,7 +28,10 @@ import {
   getAreasWithDeprivationInequalitiesData,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
-import { seriesDataWithoutGroup } from '@/lib/chartHelpers/chartHelpers';
+import {
+  determineAreaCodes,
+  seriesDataWithoutGroup,
+} from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { ChartSelectArea } from '../../ChartSelectArea';
 import { InequalitiesTypesDropDown } from '../InequalitiesTypesDropDown';
@@ -66,6 +69,8 @@ export function InequalitiesTrend({
     [SearchParams.InequalityLineChartAreaSelected]:
       inequalityLineChartAreaSelected,
   } = stateManager.getSearchState();
+
+  const areaCodes = determineAreaCodes(areasSelected);
 
   const healthdataWithoutGroup = seriesDataWithoutGroup(
     healthIndicatorData,
@@ -144,7 +149,7 @@ export function InequalitiesTrend({
       showInequalitiesLineChartConfidenceIntervals,
       generateInequalitiesLineChartTooltipForPoint,
       {
-        areasSelected,
+        areasSelected: areaCodes,
         yAxisTitleText: 'Value',
         xAxisTitleText: 'Year',
         measurementUnit,

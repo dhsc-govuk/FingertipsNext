@@ -12,6 +12,7 @@ import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
 import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
+import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 
 export default async function OneIndicatorOneAreaView({
   selectedIndicatorsData,
@@ -25,11 +26,13 @@ export default async function OneIndicatorOneAreaView({
     [SearchParams.AreaTypeSelected]: AreaTypeSelected,
   } = stateManager.getSearchState();
 
-  if (areasSelected?.length !== 1 || indicatorSelected?.length !== 1) {
+  const areaCodes = determineAreaCodes(areasSelected);
+
+  if (areaCodes?.length !== 1 || indicatorSelected?.length !== 1) {
     throw new Error('Invalid parameters provided to view');
   }
 
-  const areaCodesToRequest = [...areasSelected];
+  const areaCodesToRequest = [...areaCodes];
   if (!areaCodesToRequest.includes(areaCodeForEngland)) {
     areaCodesToRequest.push(areaCodeForEngland);
   }

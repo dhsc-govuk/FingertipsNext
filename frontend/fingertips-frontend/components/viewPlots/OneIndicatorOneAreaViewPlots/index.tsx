@@ -3,7 +3,10 @@
 import { TabContainer } from '@/components/layouts/tabContainer';
 import { LineChart } from '@/components/organisms/LineChart';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
-import { seriesDataWithoutEnglandOrGroup } from '@/lib/chartHelpers/chartHelpers';
+import {
+  determineAreaCodes,
+  seriesDataWithoutEnglandOrGroup,
+} from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams } from '@/lib/searchStateManager';
 import { H3, Paragraph } from 'govuk-react';
@@ -47,6 +50,8 @@ export function OneIndicatorOneAreaViewPlots({
     [SearchParams.AreasSelected]: areasSelected,
   } = searchState;
 
+  const areaCodes = determineAreaCodes(areasSelected);
+
   const polarity = indicatorData.polarity as IndicatorPolarity;
   const benchmarkComparisonMethod =
     indicatorData.benchmarkMethod as BenchmarkComparisonMethod;
@@ -79,7 +84,7 @@ export function OneIndicatorOneAreaViewPlots({
   } = getAllDataWithoutInequalities(
     dataWithoutEnglandOrGroup,
     { englandBenchmarkData, groupData },
-    areasSelected
+    areaCodes
   );
 
   const yAxisTitle = indicatorMetadata?.unitLabel

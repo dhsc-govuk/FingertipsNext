@@ -1,5 +1,5 @@
 import OneIndicatorOneAreaView from './OneIndicatorOneAreaView';
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { SearchStateParams } from '@/lib/searchStateManager';
 import OneIndicatorTwoOrMoreAreasView from './OneIndicatorTwoOrMoreAreasView';
 import TwoOrMoreIndicatorsAreasView from './TwoOrMoreIndicatorsAreasView';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
@@ -20,16 +20,11 @@ export const ViewsSelector = ({
   searchState,
   selectedIndicatorsData,
 }: ViewsSelectorProps): JSX.Element => {
-  const updatedSearchState = {
-    ...searchState,
-    [SearchParams.AreasSelected]: areaCodes,
-  };
-
   if (indicators.length === 1 && areaCodes.length === 1) {
     return (
       <OneIndicatorOneAreaView
         selectedIndicatorsData={selectedIndicatorsData}
-        searchState={updatedSearchState}
+        searchState={searchState}
       />
     );
   }
@@ -38,7 +33,7 @@ export const ViewsSelector = ({
     return (
       <OneIndicatorTwoOrMoreAreasView
         selectedIndicatorsData={selectedIndicatorsData}
-        searchState={updatedSearchState}
+        searchState={searchState}
       />
     );
   }
@@ -50,7 +45,7 @@ export const ViewsSelector = ({
   ) {
     return (
       <TwoOrMoreIndicatorsEnglandView
-        searchState={updatedSearchState}
+        searchState={searchState}
         selectedIndicatorsData={selectedIndicatorsData}
       />
     );
@@ -59,7 +54,7 @@ export const ViewsSelector = ({
   if (indicators.length >= 2 && areaCodes.length >= 1) {
     return (
       <TwoOrMoreIndicatorsAreasView
-        searchState={updatedSearchState}
+        searchState={searchState}
         selectedIndicatorsData={selectedIndicatorsData}
       />
     );

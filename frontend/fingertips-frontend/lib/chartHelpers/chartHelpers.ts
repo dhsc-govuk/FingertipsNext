@@ -18,6 +18,12 @@ export function sortHealthDataForAreasByDate(
   return data.map((area) => sortHealthDataForAreaByDate(area));
 }
 
+export function determineAreaCodes(areasSelected?: string[]): string[] {
+  return areasSelected && areasSelected.length > 0
+    ? areasSelected
+    : [areaCodeForEngland];
+}
+
 export function sortHealthDataForAreaByDate(
   data: HealthDataForArea
 ): HealthDataForArea {

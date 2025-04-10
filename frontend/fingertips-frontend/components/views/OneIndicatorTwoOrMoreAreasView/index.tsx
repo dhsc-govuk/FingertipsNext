@@ -17,6 +17,7 @@ import { chunkArray } from '@/lib/ViewsHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
+import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 
 export default async function OneIndicatorTwoOrMoreAreasView({
   selectedIndicatorsData,
@@ -32,11 +33,9 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
   } = stateManager.getSearchState();
 
-  if (
-    indicatorSelected?.length !== 1 ||
-    !areasSelected ||
-    areasSelected?.length < 2
-  ) {
+  const areaCodes = determineAreaCodes(areasSelected);
+
+  if (indicatorSelected?.length !== 1 || !areaCodes || areaCodes?.length < 2) {
     throw new Error('Invalid parameters provided to view');
   }
 
@@ -45,7 +44,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
 
   let indicatorData: IndicatorWithHealthDataForArea | undefined;
 
-  const indicatorRequestArray = chunkArray(areasSelected).map((requestAreas) =>
+  const indicatorRequestArray = chunkArray(areaCodes).map((requestAreas) =>
     indicatorApi.getHealthDataForAnIndicator(
       {
         indicatorId: Number(indicatorSelected[0]),
@@ -56,7 +55,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     )
   );
 
-  if (!areasSelected.includes(areaCodeForEngland)) {
+  if (!areaCodes.includes(areaCodeForEngland)) {
     indicatorRequestArray.push(
       indicatorApi.getHealthDataForAnIndicator(
         {
@@ -101,7 +100,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     )
       ? await getMapGeographyData(
           selectedAreaType as AreaTypeKeysForMapMeta,
-          areasSelected
+          areaCodes
         )
       : undefined;
 

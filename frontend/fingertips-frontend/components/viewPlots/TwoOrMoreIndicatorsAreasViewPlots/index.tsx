@@ -16,6 +16,7 @@ import {
   getHealthDataForArea,
   SpineChartIndicatorData,
 } from '@/components/organisms/SpineChartTable/spineChartTableHelpers';
+import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 
 export function extractHeatmapIndicatorData(
   indicatorData: IndicatorWithHealthDataForArea,
@@ -48,7 +49,9 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
 
-  if (!areasSelected || !selectedGroupCode) {
+  const areaCodes = determineAreaCodes(areasSelected);
+
+  if (!areaCodes || !selectedGroupCode) {
     throw new Error('Invalid parameters provided to view plot');
   }
 
@@ -133,13 +136,13 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
 
   return (
     <section data-testid="twoOrMoreIndicatorsAreasViewPlot-component">
-      {areasSelected.length < 3 ? (
+      {areaCodes.length < 3 ? (
         <SpineChartTable
           indicatorData={buildSpineChartIndicatorData(
             indicatorData,
             indicatorMetadata,
             benchmarkStatistics,
-            areasSelected,
+            areaCodes,
             selectedGroupCode
           )}
         />
