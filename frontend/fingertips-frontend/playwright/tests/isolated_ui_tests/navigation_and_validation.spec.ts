@@ -131,7 +131,7 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
     await test.step('Select area filters on charts page', async () => {
       await chartPage.selectAreasFiltersIfRequired(
         searchMode,
-        AreaMode.THREE_PLUS_AREAS, // change to 2 areas to see different view with barChartEmbeddedTable-component
+        AreaMode.THREE_PLUS_AREAS, // change to 3 areas to see different view with barChartEmbeddedTable-component
         subjectSearchTerm,
         'gps'
       );

@@ -103,7 +103,7 @@ test.describe(`Search via`, () => {
           await homePage.clickSearchButton();
         });
 
-        await test.step(`check results page based off search Mode and select ${areaMode} then ${indicatorMode}`, async () => {
+        await test.step(`check results page based on search Mode and select ${areaMode} then ${indicatorMode}`, async () => {
           await resultsPage.waitForURLToContainBasedOnSearchMode(
             searchMode,
             subjectSearchTerm!,
