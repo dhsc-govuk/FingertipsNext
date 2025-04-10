@@ -230,7 +230,7 @@ export function LineChartTable({
     ...(groupIndicatorData?.healthData ?? []),
     ...healthIndicatorData.flatMap((area) => area.healthData),
   ].map(({ year }) => year);
-  const allYears = [...new Set(allHealthPointYears)].sort();
+  const allYears = [...new Set(allHealthPointYears)].sort((a, b) => a - b);
 
   const rowData = allYears
     .map((year) => {
@@ -245,7 +245,7 @@ export function LineChartTable({
       };
 
       // find a health point for each area for the given year
-      healthIndicatorData.map((areaData) => {
+      healthIndicatorData.forEach((areaData) => {
         const matchByYear = areaData.healthData.find(
           (healthPoint) => healthPoint.year === year
         );
