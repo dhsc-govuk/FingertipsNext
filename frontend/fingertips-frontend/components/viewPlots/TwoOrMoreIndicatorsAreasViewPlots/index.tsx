@@ -181,13 +181,15 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
           areasSelected={areasSelected}
         />
       ) : null}
-      <Heatmap
-        indicatorData={buildHeatmapIndicatorData(
-          indicatorData,
-          indicatorMetadata
-        )}
-        groupAreaCode={groupAreaCode}
-      />
+      {areasSelected.length > 1 ? (
+        <Heatmap
+          indicatorData={buildHeatmapIndicatorData(
+            indicatorData,
+            indicatorMetadata
+          )}
+          groupAreaCode={groupAreaCode}
+        />
+      ) : null}
     </section>
   );
 }
