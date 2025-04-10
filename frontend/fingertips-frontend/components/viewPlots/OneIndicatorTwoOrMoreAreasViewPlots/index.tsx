@@ -7,10 +7,8 @@ import { BarChartEmbeddedTable } from '@/components/organisms/BarChartEmbeddedTa
 import { seriesDataWithoutEnglandOrGroup } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams } from '@/lib/searchStateManager';
-import { H3, Paragraph } from 'govuk-react';
+import { H3 } from 'govuk-react';
 import { OneIndicatorViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
-import styled from 'styled-components';
-import { typography } from '@govuk-react/lib';
 import { MapGeographyData } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
@@ -22,11 +20,8 @@ import { useEffect, useState } from 'react';
 import { useSearchState } from '@/context/SearchStateContext';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
 import { IndicatorPolarity } from '@/generated-sources/ft-api-client';
+import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
-
-const StyledParagraphDataSource = styled(Paragraph)(
-  typography.font({ size: 16 })
-);
 
 interface OneIndicatorTwoOrMoreAreasViewPlotsProps
   extends OneIndicatorViewPlotProps {
@@ -132,15 +127,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                 ),
               },
             ]}
-            footer={
-              <>
-                {indicatorMetadata ? (
-                  <StyledParagraphDataSource>
-                    {`Data source: ${indicatorMetadata.dataSource}`}
-                  </StyledParagraphDataSource>
-                ) : null}
-              </>
-            }
+            footer={<DataSource dataSource={indicatorMetadata?.dataSource} />}
           />
         </>
       )}
@@ -169,7 +156,8 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
         measurementUnit={indicatorMetadata?.unitLabel}
         benchmarkComparisonMethod={benchmarkMethod}
         polarity={polarity}
-      ></BarChartEmbeddedTable>
+        dataSource={indicatorMetadata?.dataSource}
+      />
     </section>
   );
 }
