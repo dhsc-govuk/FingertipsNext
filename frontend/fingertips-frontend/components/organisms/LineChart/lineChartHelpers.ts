@@ -6,6 +6,8 @@ import {
   sortHealthDataForAreasByDate,
   sortHealthDataForAreaByDate,
   generateConfidenceIntervalSeries,
+  AXIS_TITLE_FONT_SIZE,
+  AXIS_LABEL_FONT_SIZE,
 } from '@/lib/chartHelpers/chartHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
@@ -25,7 +27,6 @@ export const lineChartDefaultOptions: Highcharts.Options = {
   },
   chart: {
     type: 'line',
-    height: '50%',
     spacingBottom: 50,
     spacingTop: 20,
     animation: false,
@@ -38,11 +39,20 @@ export const lineChartDefaultOptions: Highcharts.Options = {
   yAxis: {
     minorTickInterval: 'auto',
     minorTicksPerMajor: 2,
+    labels: { style: { fontSize: AXIS_LABEL_FONT_SIZE } },
   },
-  xAxis: { tickLength: 0, allowDecimals: false },
+  xAxis: {
+    tickLength: 0,
+    allowDecimals: false,
+    labels: { style: { fontSize: AXIS_LABEL_FONT_SIZE } },
+  },
   legend: {
     verticalAlign: 'top',
     align: 'left',
+    itemStyle: {
+      fontSize: '16px',
+    },
+    margin: 20,
   },
   accessibility: {
     enabled: false,
@@ -183,17 +193,19 @@ export function generateStandardLineChartOptions(
     yAxis: {
       ...lineChartDefaultOptions.yAxis,
       title: optionalParams?.yAxisTitle
-        ? { text: optionalParams?.yAxisTitle, margin: 20 }
+        ? {
+            text: optionalParams?.yAxisTitle,
+            margin: 20,
+            style: { fontSize: AXIS_TITLE_FONT_SIZE },
+          }
         : undefined,
     },
     xAxis: {
       ...lineChartDefaultOptions.xAxis,
-      title: { text: optionalParams?.xAxisTitle, margin: 20 },
-    },
-    legend: {
-      ...lineChartDefaultOptions.legend,
       title: {
-        text: 'Areas',
+        text: optionalParams?.xAxisTitle,
+        margin: 20,
+        style: { fontSize: AXIS_TITLE_FONT_SIZE },
       },
     },
     series: seriesData,
