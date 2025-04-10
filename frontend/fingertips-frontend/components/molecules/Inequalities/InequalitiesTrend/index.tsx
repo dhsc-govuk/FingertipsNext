@@ -78,11 +78,6 @@ export function InequalitiesTrend({
     true
   );
 
-  const availableAreasWithInequalities =
-    inequalityTypeSelected === 'Sex' || inequalityTypeSelected === undefined
-      ? getAreasWithSexInequalitiesData(healthdataWithoutGroup)
-      : getAreasWithDeprivationInequalitiesData(healthdataWithoutGroup);
-
   const areaToUse =
     inequalityLineChartAreaSelected ??
     healthdataWithoutGroup[0].areaCode ??
@@ -95,6 +90,15 @@ export function InequalitiesTrend({
 
   const inequalityCategories = getInequalityCategories(healthDataForArea);
   if (!inequalityCategories.length) return null;
+
+  const inequalityTypeToUse = inequalityTypeSelected
+    ? inequalityTypeSelected
+    : inequalityCategories[0];
+
+  const availableAreasWithInequalities =
+    inequalityTypeToUse === 'Sex'
+      ? getAreasWithSexInequalitiesData(healthdataWithoutGroup)
+      : getAreasWithDeprivationInequalitiesData(healthdataWithoutGroup);
 
   const type = getInequalitiesType(
     inequalityCategories,

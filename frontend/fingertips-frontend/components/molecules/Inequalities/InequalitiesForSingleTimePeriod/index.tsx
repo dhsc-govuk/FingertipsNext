@@ -58,14 +58,6 @@ export function InequalitiesForSingleTimePeriod({
     true
   );
 
-  const availableAreasWithInequalities =
-    inequalityTypeSelected === 'Sex' || inequalityTypeSelected === undefined
-      ? getAreasWithSexInequalitiesData(healthdataWithoutGroup, selectedYear)
-      : getAreasWithDeprivationInequalitiesData(
-          healthdataWithoutGroup,
-          selectedYear
-        );
-
   const areaToUse =
     inequalityBarChartAreaSelected ??
     healthdataWithoutGroup[0].areaCode ??
@@ -82,6 +74,18 @@ export function InequalitiesForSingleTimePeriod({
     Number(selectedYear)
   );
   if (!inequalityCategories.length) return null;
+
+  const inequalityTypeToUse = inequalityTypeSelected
+    ? inequalityTypeSelected
+    : inequalityCategories[0];
+
+  const availableAreasWithInequalities =
+    inequalityTypeToUse === 'Sex'
+      ? getAreasWithSexInequalitiesData(healthdataWithoutGroup, selectedYear)
+      : getAreasWithDeprivationInequalitiesData(
+          healthdataWithoutGroup,
+          selectedYear
+        );
 
   const type = getInequalitiesType(
     inequalityCategories,
