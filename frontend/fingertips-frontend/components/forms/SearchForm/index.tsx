@@ -16,7 +16,7 @@ import {
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
-import { useEffect } from 'react';
+import {createRef, useEffect } from 'react';
 import { ArrowExpander } from '@/components/molecules/ArrowExpander';
 
 const StyledInputField = styled(InputField)(
@@ -53,15 +53,25 @@ export const SearchForm = ({
         )?.name
       : selectedAreasData?.[0]?.name;
 
+  const areaSearchTermRef = createRef<HTMLInputElement>();
+
   return (
     <div data-testid="search-form">
       <H3>Find public health data</H3>
       <input
+          ref={areaSearchTermRef}
         name="searchState"
         defaultValue={JSON.stringify(searchState)}
         hidden
       />
       <StyledInputField
+          onKeyDown={e => {
+              if (e.code === 'Enter') {
+                  e.preventDefault();
+                  console.log(`keyDown - ${!!areaSearchTermRef.current}`);
+                  areaSearchTermRef.current?.focus();
+              }
+          }}
         input={{
           id: 'indicator',
           name: 'indicator',
@@ -82,6 +92,7 @@ export const SearchForm = ({
         Search by subject
       </StyledInputField>
       <AreaAutoCompleteInputField
+        ref={areaSearchTermRef}
         key={`area-auto-complete-${JSON.stringify(searchState)}`}
         inputFieldErrorStatus={!!formState.message}
         selectedAreaName={inputSuggestionDefaultValue}

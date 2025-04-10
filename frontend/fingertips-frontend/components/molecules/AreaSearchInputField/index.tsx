@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { InputField } from 'govuk-react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import {RefObject} from "react";
 
 const StyleAreaSearchInputField = styled('div')({
   marginBottom: '5px',
@@ -11,6 +12,7 @@ interface AreaSearchInputFieldProps {
   disabled?: boolean;
   hasError?: boolean;
   value: string | undefined;
+  ref?: RefObject<HTMLInputElement | null>;
 }
 
 export const AreaSearchInputField = ({
@@ -18,9 +20,11 @@ export const AreaSearchInputField = ({
   hasError,
   disabled,
   value,
+    ref
 }: AreaSearchInputFieldProps) => {
   return (
     <StyleAreaSearchInputField data-testid="area-search-input-field">
+        {/*ref={ref}*/}
       <InputField
         input={{
           id: 'areaSearched',
