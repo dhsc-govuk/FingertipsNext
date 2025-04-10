@@ -452,4 +452,44 @@ describe('Line chart table suite', () => {
       expect(screen.queryByTestId('england-header')).not.toBeInTheDocument();
     });
   });
+
+  describe('LineChartTable when mismatched years are supplied', () => {
+    it('should not render Xs but keep the correct years aligned', () => {
+      const mockHealthArea1 = JSON.parse(JSON.stringify(MOCK_ENGLAND_DATA));
+      mockHealthArea1.areaName = 'year-2005-in-between-england-values';
+      mockHealthArea1.areaCode = '2005';
+      mockHealthArea1.healthData[1] = {
+        ...mockHealthArea1.healthData[1],
+        year: 2005,
+      };
+
+      const mockHealthArea2 = JSON.parse(JSON.stringify(MOCK_ENGLAND_DATA));
+      mockHealthArea2.areaName = 'year-1999-not-in-england';
+      mockHealthArea2.areaCode = '1999';
+      mockHealthArea2.healthData[0] = {
+        ...mockHealthArea2.healthData[0],
+        year: 1999,
+      };
+
+      render(
+        <LineChartTable
+          healthIndicatorData={[mockHealthArea1, mockHealthArea2]}
+          englandBenchmarkData={MOCK_ENGLAND_DATA}
+          measurementUnit="%"
+          benchmarkComparisonMethod={
+            BenchmarkComparisonMethod.CIOverlappingReferenceValue95
+          }
+        />
+      );
+
+      const rows = screen.getAllByRole('row');
+      expect(rows).toHaveLength(6);
+      expect(rows[4]).toHaveTextContent(
+        /^2004Not compared200904.90.00.0Not comparedXXXX904.9$/
+      );
+      expect(rows[5]).toHaveTextContent(
+        /^2008Not comparedXXXXNot compared500966.00.00.0966.0$/
+      );
+    });
+  });
 });

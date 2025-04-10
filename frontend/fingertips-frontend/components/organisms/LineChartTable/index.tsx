@@ -4,6 +4,7 @@ import { Table } from 'govuk-react';
 import {
   BenchmarkComparisonMethod,
   HealthDataForArea,
+  HealthDataPoint,
   HealthDataPointBenchmarkComparison,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
@@ -120,11 +121,6 @@ const StyledSpan = styled('span')({
   display: 'block',
 });
 
-const sortPeriod = (
-  tableRowData: LineChartTableRowData[]
-): LineChartTableRowData[] =>
-  tableRowData.toSorted((a, b) => a.period - b.period);
-
 const getCellHeaderComponent = (
   heading: LineChartTableHeadingEnum,
   areaIndex: number
@@ -205,6 +201,13 @@ const StyledTitleCell = styled(StyledAlignLeftHeader)({
 const getConfidenceLimitCellSpan = (index: number): number =>
   index === 0 ? 4 : 3;
 
+interface AreaDataMatchedByYear {
+  year: number;
+  areas: (HealthDataPoint | null)[];
+  benchmarkValue?: number;
+  groupValue?: number;
+}
+
 export function LineChartTable({
   healthIndicatorData,
   englandBenchmarkData,
@@ -217,25 +220,37 @@ export function LineChartTable({
     healthIndicatorData = [englandBenchmarkData];
   }
 
-  const tableData = healthIndicatorData.map((areaData) =>
-    mapToLineChartTableData(areaData)
-  );
-
-  const groupData = groupIndicatorData
-    ? mapToLineChartTableData(groupIndicatorData)
-    : [];
-
-  const sortedDataPerArea = tableData.map((area) => sortPeriod(area));
-  const sortedEnglandData = sortedDataPerArea[0].map((row) => ({
-    period: row.period,
-    benchmarkValue: row.benchmarkComparison?.benchmarkValue,
-  }));
-  const sortedGroupData = sortPeriod(groupData);
-
   const confidenceLimit = getConfidenceLimitNumber(benchmarkComparisonMethod);
   const showBenchmarkColumn =
     healthIndicatorData[0]?.areaCode !== areaCodeForEngland &&
     benchmarkComparisonMethod !== BenchmarkComparisonMethod.Quintiles;
+
+  const rowData = (englandBenchmarkData?.healthData ?? [])
+    .map((englandHealthPoint) => {
+      const { year, value: benchmarkValue } = englandHealthPoint;
+      const row: AreaDataMatchedByYear = {
+        year,
+        areas: [],
+        benchmarkValue,
+      };
+
+      // find a health point for each area for the given year
+      healthIndicatorData.map((areaData) => {
+        const matchByYear = areaData.healthData.find(
+          (healthPoint) => healthPoint.year === year
+        );
+        row.areas.push(matchByYear ?? null);
+      });
+
+      // find the group value for the given year
+      const groupMatchedByYear = groupIndicatorData?.healthData.find(
+        (healthPoint) => healthPoint.year === year
+      );
+      row.groupValue = groupMatchedByYear?.value;
+
+      return row;
+    })
+    .toSorted((a, b) => a.year - b.year);
 
   return (
     <StyledDivWithScrolling data-testid="lineChartTable-component">
@@ -336,45 +351,43 @@ export function LineChartTable({
           </>
         }
       >
-        {sortedEnglandData.map((point, index) => (
-          <Table.Row key={point.period + index}>
+        {rowData.map(({ year, areas, benchmarkValue, groupValue }) => (
+          <Table.Row key={`lineChartTableRow-${year}`}>
             <StyledAlignLeftStickyTableCell numeric>
-              {point.period}
+              {year}
             </StyledAlignLeftStickyTableCell>
-            {sortedDataPerArea.map((sortedAreaData, areaIndex) => (
+            {areas.map((area, areaIndex) => (
               <React.Fragment
-                key={healthIndicatorData[areaIndex].areaCode + index}
+                key={`lineChartTableRow-${year}-area-${areaIndex}`}
               >
                 <BenchmarkCell
-                  benchmarkComparison={
-                    sortedAreaData[index].benchmarkComparison
-                  }
+                  benchmarkComparison={area?.benchmarkComparison}
                   benchmarkComparisonMethod={benchmarkComparisonMethod}
                   polarity={polarity}
                   border={areaIndex > 0}
                 />
                 <StyledAlignRightTableCell numeric>
-                  {formatWholeNumber(sortedAreaData[index].count)}
+                  {formatWholeNumber(area?.count)}
                 </StyledAlignRightTableCell>
                 <StyledAlignRightTableCell numeric>
-                  {formatNumber(sortedAreaData[index].value)}
+                  {formatNumber(area?.value)}
                 </StyledAlignRightTableCell>
                 <StyledAlignRightTableCell numeric>
-                  {formatNumber(sortedAreaData[index].lower)}
+                  {formatNumber(area?.lowerCi)}
                 </StyledAlignRightTableCell>
                 <StyledAlignRightTableCell numeric>
-                  {formatNumber(sortedAreaData[index].upper)}
+                  {formatNumber(area?.upperCi)}
                 </StyledAlignRightTableCell>
               </React.Fragment>
             ))}
             {groupIndicatorData ? (
               <StyledGroupValueTableCell>
-                {formatNumber(sortedGroupData[index].value)}
+                {formatNumber(groupValue)}
               </StyledGroupValueTableCell>
             ) : null}
             {showBenchmarkColumn ? (
               <StyledStickyRight data-testid="grey-table-cell">
-                {formatNumber(point.benchmarkValue)}
+                {formatNumber(benchmarkValue)}
               </StyledStickyRight>
             ) : null}
           </Table.Row>
