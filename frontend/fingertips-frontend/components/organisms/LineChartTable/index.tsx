@@ -323,7 +323,7 @@ export function LineChartTable({
               )}
               {groupIndicatorData ? (
                 <StyledLightGreySubHeader>
-                  Value ({measurementUnit})
+                  Value {measurementUnit}
                 </StyledLightGreySubHeader>
               ) : null}
               {showBenchmarkColumn ? (
