@@ -107,7 +107,7 @@ export function generateSeriesData(
           ]),
           showConfidenceIntervalsData
         );
-      
+
       return [lineSeries, confidenceIntervalSeries];
     }
   );
@@ -126,19 +126,19 @@ export function generateSeriesData(
       },
     };
 
-    const groupConfidenceIntervalSeries: Highcharts.SeriesOptionsType = generateConfidenceIntervalSeries(
-      parentIndicatorData.areaName,
-      parentIndicatorData.healthData.map((point) => [
-        point.year,
-        point.lowerCi,
-        point.upperCi,
-      ]),
-      showConfidenceIntervalsData
-    )
+    const groupConfidenceIntervalSeries: Highcharts.SeriesOptionsType =
+      generateConfidenceIntervalSeries(
+        parentIndicatorData.areaName,
+        parentIndicatorData.healthData.map((point) => [
+          point.year,
+          point.lowerCi,
+          point.upperCi,
+        ]),
+        showConfidenceIntervalsData
+      );
 
     seriesData.unshift(groupSeries, groupConfidenceIntervalSeries);
   }
-  
 
   if (benchmarkData) {
     const englandSeries: Highcharts.SeriesOptionsType = {
@@ -151,15 +151,16 @@ export function generateSeriesData(
       },
     };
 
-    const benchmarkConfidenceIntervalSeries: Highcharts.SeriesOptionsType = generateConfidenceIntervalSeries(
-      benchmarkData.areaName,
-      benchmarkData.healthData.map((point) => [
-        point.year,
-        point.lowerCi,
-        point.upperCi,
-      ]),
-      showConfidenceIntervalsData
-    )
+    const benchmarkConfidenceIntervalSeries: Highcharts.SeriesOptionsType =
+      generateConfidenceIntervalSeries(
+        benchmarkData.areaName,
+        benchmarkData.healthData.map((point) => [
+          point.year,
+          point.lowerCi,
+          point.upperCi,
+        ]),
+        showConfidenceIntervalsData
+      );
     seriesData.unshift(englandSeries, benchmarkConfidenceIntervalSeries);
   }
 
