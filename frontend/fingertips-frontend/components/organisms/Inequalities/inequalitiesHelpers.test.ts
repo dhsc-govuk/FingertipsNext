@@ -24,8 +24,12 @@ import {
   healthDataFilterFunctionGeneratorForInequality,
   getYearsWithInequalityData,
   getAreasWithSexInequalitiesData,
+  isSexTypePresent,
+  getInequalityCategories,
+  sexCategory,
+  getInequalitiesType,
 } from './inequalitiesHelpers';
-import { GROUPED_YEAR_DATA } from '@/lib/tableHelpers/mocks';
+import { GROUPED_YEAR_DATA, MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { UniqueChartColours } from '@/lib/chartHelpers/colours';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { GovukColours } from '@/lib/styleHelpers/colours';
@@ -491,6 +495,7 @@ describe('generateLineChartSeriesData', () => {
       symbol: 'square',
     },
     color: GovukColours.Orange,
+    dashStyle: 'Solid',
   };
 
   const confidenceIntervalSeries = {
@@ -522,6 +527,7 @@ describe('generateLineChartSeriesData', () => {
         symbol: 'triangle',
       },
       color: UniqueChartColours.OtherLightBlue,
+      dashStyle: 'Solid',
     },
     {
       ...confidenceIntervalSeries,
@@ -542,6 +548,7 @@ describe('generateLineChartSeriesData', () => {
         symbol: 'triangle-down',
       },
       color: GovukColours.Purple,
+      dashStyle: 'Solid',
     },
     {
       ...confidenceIntervalSeries,
@@ -585,6 +592,9 @@ describe('generateLineChartSeriesData', () => {
     const expectedPersonsLine = {
       ...personsLine,
       color: GovukColours.Black,
+      marker: {
+        symbol: 'circle',
+      },
     };
 
     const expectedEnglandSeriesData = [
@@ -613,6 +623,209 @@ describe('generateLineChartSeriesData', () => {
         areasSelected
       )
     ).toEqual([]);
+  });
+
+  it('should use the expected styling for deprivation data', () => {
+    const mockChartData = {
+      areaName: 'North FooBar',
+      rowData: [
+        {
+          period: 2004,
+          inequalities: {
+            ['England']: {
+              value: 703.420759,
+              sequence: 11,
+              isAggregate: true,
+            },
+            ['Most deprived decile']: {
+              value: 703.420759,
+              sequence: 10,
+              isAggregate: false,
+            },
+            ['Second most deprived decile']: {
+              value: 693.420759,
+              sequence: 9,
+              isAggregate: false,
+            },
+            ['Third more deprived decile']: {
+              value: 683.420759,
+              sequence: 8,
+              isAggregate: false,
+            },
+            ['Fourth more deprived decile']: {
+              value: 673.420759,
+              sequence: 7,
+              isAggregate: false,
+            },
+            ['Fifth more deprived decile']: {
+              value: 663.420759,
+              sequence: 6,
+              isAggregate: false,
+            },
+            ['Fifth less deprived decile']: {
+              value: 653.420759,
+              sequence: 5,
+              isAggregate: false,
+            },
+            ['Fourth less deprived decile']: {
+              value: 643.420759,
+              sequence: 4,
+              isAggregate: false,
+            },
+            ['Third less deprived decile']: {
+              value: 633.420759,
+              sequence: 3,
+              isAggregate: false,
+            },
+            ['Second least deprived decile']: {
+              value: 623.420759,
+              sequence: 2,
+              isAggregate: false,
+            },
+            ['Least deprived decile']: {
+              value: 613.420759,
+              sequence: 1,
+              isAggregate: false,
+            },
+          },
+        },
+      ],
+    };
+
+    expect(
+      generateInequalitiesLineChartSeriesData(
+        [
+          'England',
+          'Most deprived decile',
+          'Second most deprived decile',
+          'Third more deprived decile',
+          'Fourth more deprived decile',
+          'Fifth more deprived decile',
+          'Fifth less deprived decile',
+          'Fourth less deprived decile',
+          'Third less deprived decile',
+          'Second least deprived decile',
+          'Least deprived decile',
+        ],
+        InequalitiesTypes.Deprivation,
+        mockChartData,
+        ['E92000001'],
+        false
+      )
+    ).toEqual(
+      expect.arrayContaining([
+        {
+          name: 'England',
+          color: GovukColours.Black,
+          dashStyle: 'Solid',
+          data: expect.anything(),
+          marker: {
+            symbol: 'circle',
+          },
+          type: 'line',
+        },
+        {
+          name: 'Most deprived decile',
+          color: GovukColours.LightPurple,
+          dashStyle: 'Solid',
+          data: expect.anything(),
+          marker: {
+            symbol: 'triangle',
+          },
+          type: 'line',
+        },
+        {
+          name: 'Second most deprived decile',
+          color: GovukColours.DarkPink,
+          dashStyle: 'Solid',
+          data: expect.anything(),
+          marker: {
+            symbol: 'triangle-down',
+          },
+          type: 'line',
+        },
+        {
+          name: 'Third more deprived decile',
+          color: GovukColours.Green,
+          dashStyle: 'ShortDash',
+          data: expect.anything(),
+          marker: {
+            symbol: 'circle',
+          },
+          type: 'line',
+        },
+        {
+          name: 'Fourth more deprived decile',
+          color: GovukColours.Pink,
+          dashStyle: 'ShortDash',
+          data: expect.anything(),
+          marker: {
+            symbol: 'diamond',
+          },
+          type: 'line',
+        },
+        {
+          name: 'Fifth more deprived decile',
+          color: GovukColours.Purple,
+          dashStyle: 'ShortDash',
+          data: expect.anything(),
+          marker: {
+            symbol: 'square',
+          },
+          type: 'line',
+        },
+        {
+          name: 'Fifth less deprived decile',
+          color: GovukColours.Yellow,
+          dashStyle: 'ShortDash',
+          data: expect.anything(),
+          marker: {
+            symbol: 'triangle',
+          },
+          type: 'line',
+        },
+        {
+          name: 'Fourth less deprived decile',
+          color: GovukColours.Red,
+          dashStyle: 'ShortDash',
+          data: expect.anything(),
+          marker: {
+            symbol: 'triangle-down',
+          },
+          type: 'line',
+        },
+        {
+          name: 'Third less deprived decile',
+          color: GovukColours.Blue,
+          dashStyle: 'Dash',
+          data: expect.anything(),
+          marker: {
+            symbol: 'circle',
+          },
+          type: 'line',
+        },
+        {
+          name: 'Second least deprived decile',
+          color: GovukColours.LightPink,
+          dashStyle: 'Dash',
+          data: expect.anything(),
+          marker: {
+            symbol: 'diamond',
+          },
+          type: 'line',
+        },
+        {
+          name: 'Least deprived decile',
+          color: GovukColours.Brown,
+          dashStyle: 'Dash',
+          data: expect.anything(),
+          marker: {
+            symbol: 'square',
+          },
+          type: 'line',
+        },
+      ])
+    );
   });
 });
 
@@ -982,5 +1195,125 @@ describe('getYearsWithInequalityData', () => {
     ];
 
     expect(getYearsWithInequalityData(mockRowData)).toEqual(expectedYears);
+  });
+});
+
+describe('isSexTypePresent', () => {
+  it('should return false if sex type is not present', () => {
+    expect(isSexTypePresent(mockIndicatorData[0].healthData)).toBe(false);
+  });
+
+  it('should return true if sex type is present', () => {
+    expect(isSexTypePresent(MOCK_INEQUALITIES_DATA.healthData)).toBe(true);
+  });
+
+  it('should return false if sex type is not present for year provided', () => {
+    const healthIndicatorData = {
+      ...MOCK_INEQUALITIES_DATA,
+      healthData: [
+        ...MOCK_INEQUALITIES_DATA.healthData,
+        {
+          ...MOCK_INEQUALITIES_DATA.healthData[0],
+          year: 2020,
+        },
+      ],
+    };
+    expect(isSexTypePresent(healthIndicatorData.healthData, 2020)).toBe(false);
+  });
+
+  it('should return true if sex type is present for year provided', () => {
+    expect(isSexTypePresent(MOCK_INEQUALITIES_DATA.healthData, 2006)).toBe(
+      true
+    );
+  });
+});
+
+describe('getInequalityCategories', () => {
+  const mockDeprivationData = {
+    year: 2008,
+    count: 267,
+    value: 703.420759,
+    lowerCi: 441.69151,
+    upperCi: 578.32766,
+    ageBand: allAgesAge,
+    sex: personsSex,
+    trend: HealthDataPointTrendEnum.NotYetCalculated,
+    deprivation: {
+      ...noDeprivation,
+      isAggregate: false,
+      type: 'Unitary deciles',
+    },
+    isAggregate: false,
+  };
+
+  it('should return only Sex category when sex is present and deprivation is not', () => {
+    expect(getInequalityCategories(MOCK_INEQUALITIES_DATA)).toEqual([
+      sexCategory,
+    ]);
+  });
+
+  it('should return only deprivation categories when deprivation data is present and sex is not', () => {
+    const mockHealthData: HealthDataForArea = {
+      ...MOCK_HEALTH_DATA[0],
+      healthData: [
+        ...MOCK_HEALTH_DATA[0].healthData.slice(0, 2),
+        mockDeprivationData,
+      ],
+    };
+
+    expect(getInequalityCategories(mockHealthData)).toEqual([
+      'Unitary deciles',
+    ]);
+  });
+
+  it('should return both sex and deprivation categories sorted in alphabetical order when both are present', () => {
+    const mockHealthData: HealthDataForArea = {
+      ...MOCK_INEQUALITIES_DATA,
+      healthData: [...MOCK_INEQUALITIES_DATA.healthData, mockDeprivationData],
+    };
+
+    expect(getInequalityCategories(mockHealthData)).toEqual([
+      'Sex',
+      'Unitary deciles',
+    ]);
+  });
+
+  it('should return empty list when neither inequality type is present', () => {
+    const mockHealthData: HealthDataForArea = {
+      ...MOCK_HEALTH_DATA[0],
+      healthData: MOCK_HEALTH_DATA[0].healthData.slice(0, 2),
+    };
+
+    expect(getInequalityCategories(mockHealthData)).toEqual([]);
+  });
+
+  it('should not return deprivation categories when deprivation data is not available for year provided', () => {
+    const mockHealthData: HealthDataForArea = {
+      ...MOCK_INEQUALITIES_DATA,
+      healthData: [...MOCK_INEQUALITIES_DATA.healthData, mockDeprivationData],
+    };
+
+    expect(getInequalityCategories(mockHealthData, 2006)).toEqual(['Sex']);
+  });
+});
+
+describe('getInequalitiesType', () => {
+  const categories = ['County deciles', 'Sex', 'Unitary deciles'];
+  it('should return sex type when Sex is the selected type', () => {
+    expect(getInequalitiesType(categories, sexCategory)).toBe(
+      InequalitiesTypes.Sex
+    );
+  });
+
+  it('should default to the first category when no inequality type is selected', () => {
+    expect(getInequalitiesType(categories, undefined)).toBe(
+      InequalitiesTypes.Deprivation
+    );
+  });
+
+  it('should return deprivation type when a deprivation category is selected', () => {
+    expect(getInequalitiesType(categories, 'Unitary deciles')).toBe(
+      InequalitiesTypes.Deprivation
+    );
   });
 });

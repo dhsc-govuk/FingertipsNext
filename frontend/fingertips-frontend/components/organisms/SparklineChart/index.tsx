@@ -85,7 +85,7 @@ export function SparklineChart({
     benchmarkOutcome,
     polarity
   );
-  const color = benchmarkColor ?? '#fff';
+  const color = benchmarkColor ?? GovukColours.DarkGrey;
 
   const [options, setOptions] = useState<Highcharts.Options>();
 
@@ -121,7 +121,7 @@ export function SparklineChart({
     area,
     [confidenceIntervalValues],
     showConfidenceIntervalsData,
-    { color: GovukColours.Black, whiskerLength: '50%', lineWidth: 3 }
+    { color: GovukColours.MidGrey, whiskerLength: '50%', lineWidth: 2 }
   );
 
   const sparklineOptions: Highcharts.Options = {
@@ -149,6 +149,7 @@ export function SparklineChart({
         color,
         borderColor: '#000',
         borderWidth: color === '#fff' ? 1 : 0,
+        animation: false,
       },
       confidenceIntervalSeries,
     ],

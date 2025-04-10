@@ -6,6 +6,7 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { chartColours, UniqueChartColours } from '@/lib/chartHelpers/colours';
 import {
+  AXIS_TITLE_FONT_SIZE,
   generateConfidenceIntervalSeries,
   getHealthDataWithoutInequalities,
   isEnglandSoleSelectedArea,
@@ -17,8 +18,10 @@ import {
   lineChartDefaultOptions,
 } from '../LineChart/lineChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
+import { DashStyleValue } from 'highcharts';
 
 export const localeSort = (a: string, b: string) => a.localeCompare(b);
+export const sexCategory = 'Sex';
 
 export type YearlyHealthDataGroupedByInequalities = Record<
   string,
@@ -189,6 +192,12 @@ export const getDynamicKeys = (
   return uniqueKeys;
 };
 
+const dashStyle = (index: number): DashStyleValue => {
+  if (index < 3) return 'Solid';
+  if (index < 8) return 'ShortDash';
+  return 'Dash';
+};
+
 export const generateInequalitiesLineChartSeriesData = (
   keys: string[],
   type: InequalitiesTypes,
@@ -197,9 +206,6 @@ export const generateInequalitiesLineChartSeriesData = (
   showConfidenceIntervalsData?: boolean
 ): Highcharts.SeriesOptionsType[] => {
   const colorList = mapToChartColorsForInequality[type];
-
-  if (isEnglandSoleSelectedArea(areasSelected))
-    colorList[0] = GovukColours.Black;
 
   const seriesData: Highcharts.SeriesOptionsType[] = keys.flatMap(
     (key, index) => {
@@ -214,7 +220,15 @@ export const generateInequalitiesLineChartSeriesData = (
           symbol: chartSymbols[index % chartSymbols.length],
         },
         color: colorList[index % colorList.length],
+        dashStyle: dashStyle(index),
       };
+
+      // We have different display requirements for the aggregate
+      // data when England is the selected area
+      if (index === 0 && isEnglandSoleSelectedArea(areasSelected)) {
+        lineSeries.color = GovukColours.Black;
+        lineSeries.marker = { symbol: 'circle' };
+      }
 
       const confidenceIntervalSeries: Highcharts.SeriesOptionsType =
         generateConfidenceIntervalSeries(
@@ -296,16 +310,29 @@ export function generateInequalitiesLineChartOptions(
 
   return {
     ...lineChartDefaultOptions,
+    chart: {
+      ...lineChartDefaultOptions.chart,
+      height:
+        // The deprivation chart needs a bit more height
+        type === InequalitiesTypes.Deprivation
+          ? '75%'
+          : lineChartDefaultOptions.chart?.height,
+    },
     yAxis: {
       ...lineChartDefaultOptions.yAxis,
       title: {
         text: `${optionalParams?.yAxisTitleText}${optionalParams?.measurementUnit ? ': ' + optionalParams?.measurementUnit : ''}`,
         margin: 20,
+        style: { fontSize: AXIS_TITLE_FONT_SIZE },
       },
     },
     xAxis: {
       ...lineChartDefaultOptions.xAxis,
-      title: { text: optionalParams?.xAxisTitleText, margin: 20 },
+      title: {
+        text: optionalParams?.xAxisTitleText,
+        margin: 20,
+        style: { fontSize: AXIS_TITLE_FONT_SIZE },
+      },
     },
     series: seriesData,
     tooltip: {
@@ -391,27 +418,23 @@ export const filterHealthData = (
   return healthData.filter(filterFn);
 };
 
-export const getInequalityCategory = (
-  type: InequalitiesTypes,
-  healthIndicatorData: HealthDataForArea
+const getInequalityDeprivationCategories = (
+  healthIndicatorData: HealthDataForArea,
+  selectedYear?: number
 ) => {
-  let inequalityCategory = '';
-  if (type == InequalitiesTypes.Deprivation) {
-    // This value will ultimately come from the inequality type dropdown
-    // For now, we just use the first deprivation type available
-    const disaggregatedDeprivationData = filterHealthData(
-      healthIndicatorData.healthData,
-      (data) => !data.deprivation.isAggregate
-    );
-    const deprivationTypes = Object.keys(
-      Object.groupBy(
-        disaggregatedDeprivationData,
-        (data) => data.deprivation.type
-      )
-    );
-    inequalityCategory = deprivationTypes[0];
-  }
-  return inequalityCategory;
+  const disaggregatedDeprivationData = filterHealthData(
+    healthIndicatorData.healthData,
+    (data) =>
+      selectedYear
+        ? data.year === selectedYear && !data.deprivation.isAggregate
+        : !data.deprivation.isAggregate
+  );
+  return Object.keys(
+    Object.groupBy(
+      disaggregatedDeprivationData,
+      (data) => data.deprivation.type
+    )
+  );
 };
 
 export const getYearsWithInequalityData = (
@@ -428,3 +451,41 @@ export const getYearsWithInequalityData = (
       acc.push(periodData.period);
     return acc;
   }, []);
+
+export const isSexTypePresent = (
+  dataPoints: HealthDataPoint[],
+  selectedYear?: number
+): boolean => {
+  if (selectedYear) {
+    return dataPoints.some(
+      (point) => !point.sex.isAggregate && point.year === selectedYear
+    );
+  }
+  return dataPoints.some((point) => !point.sex.isAggregate);
+};
+
+export const getInequalityCategories = (
+  healthIndicatorData: HealthDataForArea,
+  selectedYear?: number
+) =>
+  isSexTypePresent(healthIndicatorData.healthData, selectedYear)
+    ? [
+        ...getInequalityDeprivationCategories(
+          healthIndicatorData,
+          selectedYear
+        ),
+        sexCategory,
+      ].toSorted(localeSort)
+    : getInequalityDeprivationCategories(healthIndicatorData, selectedYear);
+
+export const getInequalitiesType = (
+  inequalityCategories: string[],
+  inequalityTypeSelected?: string
+): InequalitiesTypes => {
+  if (
+    (!inequalityTypeSelected && inequalityCategories[0] === sexCategory) ||
+    inequalityTypeSelected === sexCategory
+  )
+    return InequalitiesTypes.Sex;
+  return InequalitiesTypes.Deprivation;
+};

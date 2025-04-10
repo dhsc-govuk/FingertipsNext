@@ -25,6 +25,7 @@ type componentProps = {
   isTabTable: boolean;
   hasDetailsExpander: boolean;
   hasTimePeriodDropDown: boolean;
+  hasTypeDropDown: boolean;
 };
 
 type component = {
@@ -50,6 +51,7 @@ export function getScenarioConfig(
         isTabTable: false,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -59,6 +61,7 @@ export function getScenarioConfig(
         isTabTable: true,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -68,6 +71,7 @@ export function getScenarioConfig(
         isTabTable: false,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -77,6 +81,7 @@ export function getScenarioConfig(
         isTabTable: false,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -86,6 +91,17 @@ export function getScenarioConfig(
         isTabTable: false,
         hasTimePeriodDropDown: true,
         hasDetailsExpander: false,
+        hasTypeDropDown: true,
+      },
+    },
+    {
+      componentLocator: ChartPage.inequalitiesTrendComponent,
+      componentProps: {
+        hasConfidenceIntervals: false,
+        isTabTable: false,
+        hasTimePeriodDropDown: false,
+        hasDetailsExpander: false,
+        hasTypeDropDown: true,
       },
     },
     {
@@ -95,6 +111,7 @@ export function getScenarioConfig(
         isTabTable: false,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -104,6 +121,7 @@ export function getScenarioConfig(
         isTabTable: true,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -113,6 +131,7 @@ export function getScenarioConfig(
         isTabTable: true,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -122,6 +141,7 @@ export function getScenarioConfig(
         isTabTable: false,
         hasDetailsExpander: true,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -131,6 +151,7 @@ export function getScenarioConfig(
         isTabTable: false,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -140,6 +161,7 @@ export function getScenarioConfig(
         isTabTable: false,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -149,10 +171,19 @@ export function getScenarioConfig(
         isTabTable: false,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
-    // Enable in DHSCFT-237
-    // ChartPage.basicTableComponent,
+    {
+      componentLocator: ChartPage.OneAreaMultipleIndicatorsTableComponent,
+      componentProps: {
+        hasConfidenceIntervals: false,
+        isTabTable: false,
+        hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
+      },
+    },
     {
       componentLocator: ChartPage.heatMapComponent,
       componentProps: {
@@ -160,6 +191,7 @@ export function getScenarioConfig(
         isTabTable: false,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
   ];
@@ -181,6 +213,7 @@ export function getScenarioConfig(
         ChartPage.inequalitiesBarChartTableComponent,
         ChartPage.inequalitiesLineChartTableComponent,
         ChartPage.inequalitiesForSingleTimePeriodComponent,
+        ChartPage.inequalitiesTrendComponent,
         ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
     );
@@ -195,8 +228,7 @@ export function getScenarioConfig(
         ChartPage.lineChartComponent,
         ChartPage.lineChartTableComponent,
         ChartPage.barChartEmbeddedTableComponent,
-        // Enable in DHSCFT-225
-        // ChartPage.populationPyramidComponent,
+        ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
     );
   }
@@ -209,8 +241,7 @@ export function getScenarioConfig(
       [
         ChartPage.thematicMapComponent,
         ChartPage.barChartEmbeddedTableComponent,
-        // Enable in DHSCFT-225
-        // ChartPage.populationPyramidComponent,
+        ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
     );
   }
@@ -219,14 +250,12 @@ export function getScenarioConfig(
     indicatorMode === IndicatorMode.TWO_PLUS_INDICATORS &&
     areaMode === AreaMode.ENGLAND_AREA
   ) {
-    // visibleComponents = allComponents.filter((component) =>
-    //   [
-    //     // Enable in DHSCFT-237
-    //     // ChartPage.basicTableComponent,
-    //     // Enable in DHSCFT-225
-    //     // ChartPage.populationPyramidComponent,
-    //   ].includes(component.componentLocator)
-    // );
+    visibleComponents = allComponents.filter((component) =>
+      [
+        ChartPage.OneAreaMultipleIndicatorsTableComponent,
+        ChartPage.populationPyramidComponent,
+      ].includes(component.componentLocator)
+    );
   }
   // 2+ indicators, 2+ areas (not England)
   else if (
@@ -237,8 +266,7 @@ export function getScenarioConfig(
       [
         ChartPage.spineChartTableComponent,
         ChartPage.heatMapComponent,
-        // Enable in DHSCFT-225
-        // ChartPage.populationPyramidComponent,
+        ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
     );
   } else {

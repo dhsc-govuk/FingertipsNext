@@ -21,10 +21,6 @@ jest.mock('next/navigation', () => {
   };
 });
 
-const mockSearchState = {
-  [SearchParams.InequalityYearSelected]: '2023',
-};
-
 const mockSetIsLoading = jest.fn();
 const mockLoaderContext: LoaderContext = {
   getIsLoading: jest.fn(),
@@ -45,6 +41,10 @@ jest.mock('@/context/SearchStateContext', () => {
     useSearchState: () => mockSearchStateContext,
   };
 });
+
+const mockSearchState = {
+  [SearchParams.InequalityYearSelected]: '2023',
+};
 
 const years = ['2023', '2022', '2021', '2020'];
 

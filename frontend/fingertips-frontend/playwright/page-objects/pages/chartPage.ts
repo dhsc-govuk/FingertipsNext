@@ -34,7 +34,14 @@ export default class ChartPage extends AreaFilter {
   static readonly spineChartTableComponent = 'spineChartTable-component';
   static readonly inequalitiesForSingleTimePeriodComponent =
     'inequalitiesForSingleTimePeriod-component';
+  static readonly inequalitiesTrendComponent = 'inequalitiesTrend-component';
   static readonly timePeriodDropDownComponent = 'timePeriod-dropDown-component';
+  static readonly inequalitiesTypesDropDownComponentBC =
+    'inequalitiesTypes-dropDown-component-bc';
+  static readonly inequalitiesTypesDropDownComponentLC =
+    'inequalitiesTypes-dropDown-component-lc';
+  static readonly OneAreaMultipleIndicatorsTableComponent =
+    'oneAreaMultipleIndicatorsTable-component';
 
   async navigateToChart() {
     await this.navigateTo('chart');
@@ -109,6 +116,31 @@ export default class ChartPage extends AreaFilter {
       if (visibleComponent.componentProps.hasTimePeriodDropDown) {
         const combobox = this.page
           .getByTestId(ChartPage.timePeriodDropDownComponent)
+          .getByRole('combobox');
+        // get the options from the combobox
+        const dropdownOptions = await combobox.evaluate(
+          (select: HTMLSelectElement) => {
+            return Array.from(select.options).map((option) => ({
+              value: option.value,
+              text: option.text,
+            }));
+          }
+        );
+
+        await combobox.selectOption({
+          value: dropdownOptions[dropdownOptions.length - 1].value,
+        });
+      }
+
+      // if its one of the chart components that has a type dropdown for inequalities then select the last in the list
+      if (visibleComponent.componentProps.hasTypeDropDown) {
+        const dropDownComponent =
+          visibleComponent.componentLocator ===
+          ChartPage.inequalitiesForSingleTimePeriodComponent
+            ? ChartPage.inequalitiesTypesDropDownComponentBC
+            : ChartPage.inequalitiesTypesDropDownComponentLC;
+        const combobox = this.page
+          .getByTestId(dropDownComponent)
           .getByRole('combobox');
         // get the options from the combobox
         const dropdownOptions = await combobox.evaluate(

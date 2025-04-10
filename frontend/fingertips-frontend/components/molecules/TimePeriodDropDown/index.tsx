@@ -53,6 +53,7 @@ export function TimePeriodDropDown({
   return (
     <div data-testid="timePeriod-dropDown-component">
       <StyledFilterSelect
+        data-testid="select-timePeriod"
         aria-label="Select a time period"
         label="Select a time period"
         input={{

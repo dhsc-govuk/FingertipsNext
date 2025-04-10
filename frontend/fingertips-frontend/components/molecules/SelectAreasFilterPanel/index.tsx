@@ -13,6 +13,7 @@ import {
 } from 'govuk-react';
 import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
+import { AreaFilterPaneCheckboxes } from '@/components/organisms/AreaFilterPane/AreaFilterPaneCheckboxes';
 
 export type AreaFilterData = {
   availableAreaTypes?: AreaType[];
@@ -25,7 +26,7 @@ interface SelectAreasFilterPanelProps {
   areaFilterData?: AreaFilterData;
 }
 
-const StyledFilterSelect = styled(Select)({
+export const StyledFilterSelect = styled(Select)({
   span: {
     fontWeight: 'bold',
   },
@@ -47,18 +48,6 @@ const StyledSectionBreak = styled(SectionBreak)({
 const StyledSelectAllCheckBox = styled(Checkbox)({
   marginBottom: '0em',
 });
-
-const isAreaSelected = (
-  areaCode: string,
-  selectedAreas?: string[],
-  groupAreaSelected?: string
-): boolean => {
-  if (groupAreaSelected === ALL_AREAS_SELECTED) return true;
-
-  return selectedAreas
-    ? selectedAreas?.some((area) => area === areaCode)
-    : false;
-};
 
 export function SelectAreasFilterPanel({
   areaFilterData,
@@ -190,6 +179,8 @@ export function SelectAreasFilterPanel({
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
 
+  const rows = areaFilterData?.availableAreas ?? [];
+
   return (
     <div data-testid="select-areas-filter-panel">
       <StyledFilterSelect
@@ -253,28 +244,11 @@ export function SelectAreasFilterPanel({
           Select all areas
         </StyledSelectAllCheckBox>
         <StyledSectionBreak visible />
-        {areaFilterData?.availableAreas?.map((area) => {
-          const isAreaSelectedValue = isAreaSelected(
-            area.code,
-            searchState?.[SearchParams.AreasSelected],
-            searchState?.[SearchParams.GroupAreaSelected]
-          );
-
-          return (
-            <Checkbox
-              key={area.code}
-              value={area.code}
-              sizeVariant="SMALL"
-              name="area"
-              defaultChecked={isAreaSelectedValue}
-              onChange={(e) => {
-                handleAreaSelected(area.code, e.target.checked);
-              }}
-            >
-              {area.name}
-            </Checkbox>
-          );
-        })}
+        <AreaFilterPaneCheckboxes
+          rows={rows}
+          searchState={searchState}
+          handleAreaSelected={handleAreaSelected}
+        />
       </FormGroup>
     </div>
   );

@@ -17,7 +17,9 @@ describe('SearchStateManager', () => {
         [SearchParams.GroupTypeSelected]: 'Some group type',
         [SearchParams.GroupSelected]: 'A003',
         [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
-        [SearchParams.InequalityTypeSelected]: 'Some inequality type',
+        [SearchParams.InequalityLineChartTypeSelected]: 'Some inequality type',
+        [SearchParams.InequalityBarChartTypeSelected]:
+          'Some other inequality type',
         [SearchParams.InequalityYearSelected]: '2021',
       };
 
@@ -32,7 +34,9 @@ describe('SearchStateManager', () => {
         [SearchParams.GroupTypeSelected]: 'Some group type',
         [SearchParams.GroupSelected]: 'A003',
         [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
-        [SearchParams.InequalityTypeSelected]: 'Some inequality type',
+        [SearchParams.InequalityLineChartTypeSelected]: 'Some inequality type',
+        [SearchParams.InequalityBarChartTypeSelected]:
+          'Some other inequality type',
         [SearchParams.InequalityYearSelected]: '2021',
       });
     });
@@ -250,7 +254,9 @@ describe('SearchStateManager', () => {
         [SearchParams.AreaTypeSelected]: 'Some area type',
         [SearchParams.GroupTypeSelected]: 'Some group type',
         [SearchParams.GroupSelected]: 'A003',
-        [SearchParams.InequalityTypeSelected]: 'Some inequality type',
+        [SearchParams.InequalityLineChartTypeSelected]: 'Some inequality type',
+        [SearchParams.InequalityBarChartTypeSelected]:
+          'Some other inequality type',
         [SearchParams.InequalityYearSelected]: '2021',
       };
 
@@ -277,7 +283,8 @@ describe('SearchStateManager', () => {
         `&${SearchParams.GroupTypeSelected}=Some+group+type`,
         `&${SearchParams.GroupSelected}=A003`,
         `&${SearchParams.GroupAreaSelected}=ALL`,
-        `&${SearchParams.InequalityTypeSelected}=Some+inequality+type`,
+        `&${SearchParams.InequalityLineChartTypeSelected}=Some+inequality+type`,
+        `&${SearchParams.InequalityBarChartTypeSelected}=Some+other+inequality+type`,
         `&${SearchParams.InequalityYearSelected}=2021`,
       ].join('');
 
@@ -289,7 +296,9 @@ describe('SearchStateManager', () => {
         [SearchParams.GroupTypeSelected]: 'Some group type',
         [SearchParams.GroupSelected]: 'A003',
         [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
-        [SearchParams.InequalityTypeSelected]: 'Some inequality type',
+        [SearchParams.InequalityLineChartTypeSelected]: 'Some inequality type',
+        [SearchParams.InequalityBarChartTypeSelected]:
+          'Some other inequality type',
         [SearchParams.InequalityYearSelected]: '2021',
       });
 

@@ -22,6 +22,8 @@ import { SparklineChart } from '@/components/organisms/SparklineChart';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
 import { TrendTag } from '@/components/molecules/TrendTag';
 import { BenchmarkLegend } from '@/components/organisms/BenchmarkLegend';
+import { BarChartEmbeddedTableRow } from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedTable.types';
+import { BarChartEmbeddedRows } from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedRows';
 
 export enum BarChartEmbeddedTableHeadingEnum {
   AreaName = 'Area',
@@ -77,16 +79,18 @@ export function BarChartEmbeddedTable({
   );
   const maxValue = Math.max(...extractValues);
 
-  const tableRows = mostRecentYearData.map((item) => ({
-    area: item.areaName,
-    period: item.healthData[0].year,
-    trend: item.healthData[0].trend,
-    count: item.healthData[0].count,
-    value: item.healthData[0].value,
-    lowerCi: item.healthData[0].lowerCi,
-    upperCi: item.healthData[0].upperCi,
-    benchmarkComparison: item.healthData[0].benchmarkComparison,
-  }));
+  const tableRows: BarChartEmbeddedTableRow[] = mostRecentYearData.map(
+    (item) => ({
+      area: item.areaName,
+      period: item.healthData[0].year,
+      trend: item.healthData[0].trend,
+      count: item.healthData[0].count,
+      value: item.healthData[0].value,
+      lowerCi: item.healthData[0].lowerCi,
+      upperCi: item.healthData[0].upperCi,
+      benchmarkComparison: item.healthData[0].benchmarkComparison,
+    })
+  );
 
   const sortedTableRows = tableRows.toSorted((a, b) => {
     if (!a.value && !b.value) return 0;
@@ -113,6 +117,7 @@ export function BarChartEmbeddedTable({
     useState(false);
 
   const confidenceLimit = getConfidenceLimitNumber(benchmarkComparisonMethod);
+
   return (
     <div data-testid={'barChartEmbeddedTable-component'}>
       <ConfidenceIntervalCheckbox
@@ -124,6 +129,7 @@ export function BarChartEmbeddedTable({
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
       />
+
       <Table
         head={
           <React.Fragment>
@@ -137,28 +143,32 @@ export function BarChartEmbeddedTable({
             </Table.Row>
 
             <Table.Row>
-              <Table.CellHeader>
+              <Table.CellHeader style={{ verticalAlign: 'top' }}>
                 {BarChartEmbeddedTableHeadingEnum.AreaName}
               </Table.CellHeader>
-              <Table.CellHeader>
+              <Table.CellHeader style={{ verticalAlign: 'top' }}>
                 {BarChartEmbeddedTableHeadingEnum.Period}
               </Table.CellHeader>
-              <Table.CellHeader>
+              <Table.CellHeader
+                style={{ verticalAlign: 'top', textAlign: 'center' }}
+              >
                 {BarChartEmbeddedTableHeadingEnum.RecentTrend}
               </Table.CellHeader>
-              <Table.CellHeader>
+              <Table.CellHeader
+                style={{ verticalAlign: 'top', textAlign: 'right' }}
+              >
                 {BarChartEmbeddedTableHeadingEnum.Count}
               </Table.CellHeader>
               <Table.CellHeader
-                style={{ textAlign: 'right', paddingRight: '0px' }}
+                colSpan={2}
+                style={{ verticalAlign: 'top', textAlign: 'center' }}
               >
                 {BarChartEmbeddedTableHeadingEnum.Value} {measurementUnit}
               </Table.CellHeader>
-              <Table.CellHeader></Table.CellHeader>
-              <Table.CellHeader>
+              <Table.CellHeader style={{ verticalAlign: 'top' }}>
                 {BarChartEmbeddedTableHeadingEnum.Lower}
               </Table.CellHeader>
-              <Table.CellHeader>
+              <Table.CellHeader style={{ verticalAlign: 'top' }}>
                 {BarChartEmbeddedTableHeadingEnum.Upper}
               </Table.CellHeader>
             </Table.Row>
@@ -168,17 +178,24 @@ export function BarChartEmbeddedTable({
         {mostRecentBenchmarkData ? (
           <Table.Row
             key={`${benchmarkData?.areaName}`}
-            style={{ backgroundColor: GovukColours.MidGrey }}
+            style={{ backgroundColor: GovukColours.LightGrey }}
             data-testid="table-row-benchmark"
           >
-            <CheckValueInTableCell value={benchmarkData?.areaName} />
-            <CheckValueInTableCell value={mostRecentBenchmarkData.year} />
-            <Table.Cell>
+            <CheckValueInTableCell
+              value={benchmarkData?.areaName}
+              style={{ textAlign: 'left' }}
+            />
+            <CheckValueInTableCell
+              value={mostRecentBenchmarkData.year}
+              style={{ textAlign: 'right' }}
+            />
+            <Table.Cell style={{ textAlign: 'center' }}>
               <TrendTag trendFromResponse={mostRecentBenchmarkData.trend} />
             </Table.Cell>
             <FormatNumberInTableCell
               value={mostRecentBenchmarkData.count}
               numberStyle={'whole'}
+              style={{ textAlign: 'right' }}
             />
             <FormatNumberInTableCell
               value={mostRecentBenchmarkData.value}
@@ -204,8 +221,14 @@ export function BarChartEmbeddedTable({
                 measurementUnit={measurementUnit}
               ></SparklineChart>
             </Table.Cell>
-            <CheckValueInTableCell value={mostRecentBenchmarkData.lowerCi} />
-            <CheckValueInTableCell value={mostRecentBenchmarkData.upperCi} />
+            <CheckValueInTableCell
+              value={mostRecentBenchmarkData.lowerCi}
+              style={{ textAlign: 'right' }}
+            />
+            <CheckValueInTableCell
+              value={mostRecentBenchmarkData.upperCi}
+              style={{ textAlign: 'right' }}
+            />
           </Table.Row>
         ) : null}
 
@@ -215,14 +238,21 @@ export function BarChartEmbeddedTable({
             style={{ backgroundColor: GovukColours.LightGrey }}
             data-testid="table-row-group"
           >
-            <CheckValueInTableCell value={groupIndicatorData?.areaName} />
-            <CheckValueInTableCell value={mostRecentGroupData.year} />
-            <Table.Cell>
+            <CheckValueInTableCell
+              value={groupIndicatorData?.areaName}
+              style={{ textAlign: 'left' }}
+            />
+            <CheckValueInTableCell
+              value={mostRecentGroupData.year}
+              style={{ textAlign: 'right' }}
+            />
+            <Table.Cell style={{ textAlign: 'center' }}>
               <TrendTag trendFromResponse={mostRecentGroupData.trend} />
             </Table.Cell>
             <FormatNumberInTableCell
               value={mostRecentGroupData.count}
               numberStyle={'whole'}
+              style={{ textAlign: 'right' }}
             />
             <FormatNumberInTableCell
               value={mostRecentGroupData.value}
@@ -248,42 +278,24 @@ export function BarChartEmbeddedTable({
                 measurementUnit={measurementUnit}
               />
             </Table.Cell>
-            <FormatNumberInTableCell value={mostRecentGroupData.lowerCi} />
-            <FormatNumberInTableCell value={mostRecentGroupData.upperCi} />
+            <FormatNumberInTableCell
+              value={mostRecentGroupData.lowerCi}
+              style={{ textAlign: 'right' }}
+            />
+            <FormatNumberInTableCell
+              value={mostRecentGroupData.upperCi}
+              style={{ textAlign: 'right' }}
+            />
           </Table.Row>
         ) : null}
 
-        {sortedTableRows.map((item) => (
-          <Table.Row key={`${item.area}`}>
-            <CheckValueInTableCell value={item.area} />
-            <CheckValueInTableCell value={item.period} />
-            <Table.Cell>
-              <TrendTag trendFromResponse={item.trend} />
-            </Table.Cell>
-            <FormatNumberInTableCell value={item.count} numberStyle={'whole'} />
-            <FormatNumberInTableCell
-              value={item.value}
-              style={{ textAlign: 'right', paddingRight: '0px' }}
-            />
-            <Table.Cell style={{ paddingRight: '0px' }}>
-              <SparklineChart
-                value={[item.value]}
-                maxValue={maxValue}
-                confidenceIntervalValues={[item.lowerCi, item.upperCi]}
-                showConfidenceIntervalsData={showConfidenceIntervalsData}
-                benchmarkOutcome={item.benchmarkComparison?.outcome}
-                benchmarkComparisonMethod={benchmarkComparisonMethod}
-                polarity={polarity}
-                label={SparklineLabelEnum.Area}
-                area={item.area}
-                year={item.period}
-                measurementUnit={measurementUnit}
-              />
-            </Table.Cell>
-            <FormatNumberInTableCell value={item.lowerCi} />
-            <FormatNumberInTableCell value={item.upperCi} />
-          </Table.Row>
-        ))}
+        <BarChartEmbeddedRows
+          rows={sortedTableRows}
+          benchmarkComparisonMethod={benchmarkComparisonMethod}
+          maxValue={maxValue}
+          showConfidenceIntervalsData={showConfidenceIntervalsData}
+          polarity={polarity}
+        />
       </Table>
     </div>
   );

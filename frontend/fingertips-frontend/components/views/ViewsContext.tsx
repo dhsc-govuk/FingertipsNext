@@ -74,7 +74,6 @@ export function ViewsContext({
         searchState={searchState}
         selectedIndicatorsData={selectedIndicatorsData}
       />
-
       <PopulationPyramidWithTableDataProvider
         areaCodes={areaCodes}
         searchState={searchState}

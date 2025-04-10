@@ -10,9 +10,12 @@ export enum SearchParams {
   GroupAreaSelected = 'gas',
   InequalityTypeSelected = 'its',
   InequalityYearSelected = 'iys',
-  PopulationAreaSelected = 'pas',
   InequalityBarChartAreaSelected = 'ibas',
   InequalityLineChartAreaSelected = 'ilas',
+  InequalityLineChartTypeSelected = 'ilts',
+  InequalityBarChartTypeSelected = 'ibts',
+  PopulationAreaSelected = 'pas',
+  SearchedOrder = 'so',
 }
 
 export type SearchParamKeys = `${SearchParams}`;
@@ -40,9 +43,12 @@ export type SearchStateParams = {
   [SearchParams.GroupAreaSelected]?: string;
   [SearchParams.InequalityTypeSelected]?: string;
   [SearchParams.InequalityYearSelected]?: string;
-  [SearchParams.PopulationAreaSelected]?: string;
   [SearchParams.InequalityBarChartAreaSelected]?: string;
   [SearchParams.InequalityLineChartAreaSelected]?: string;
+  [SearchParams.InequalityLineChartTypeSelected]?: string;
+  [SearchParams.InequalityBarChartTypeSelected]?: string;
+  [SearchParams.PopulationAreaSelected]?: string;
+  [SearchParams.SearchedOrder]?: string;
 };
 
 const isMultiValueTypeParam = (searchParamKey: SearchParamKeys) =>

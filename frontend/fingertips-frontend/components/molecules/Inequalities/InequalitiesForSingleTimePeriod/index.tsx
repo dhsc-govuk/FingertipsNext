@@ -6,13 +6,13 @@ import { InequalitiesBarChartTable } from '../BarChart/Table';
 import {
   filterHealthData,
   getAreasWithSexInequalitiesData,
-  getInequalityCategory,
+  getInequalitiesType,
+  getInequalityCategories,
   getYearDataGroupedByInequalities,
   getYearsWithInequalityData,
   groupHealthDataByYear,
   healthDataFilterFunctionGeneratorForInequality,
   InequalitiesBarChartData,
-  InequalitiesTypes,
   mapToInequalitiesTableData,
   sequenceSelectorForInequality,
   valueSelectorForInequality,
@@ -26,6 +26,7 @@ import {
 import { ChartSelectArea } from '../../ChartSelectArea';
 import { seriesDataWithoutGroup } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { InequalitiesTypesDropDown } from '../InequalitiesTypesDropDown';
 
 interface InequalitiesForSingleTimePeriodProps {
   healthIndicatorData: HealthDataForArea[];
@@ -72,13 +73,16 @@ export function InequalitiesForSingleTimePeriod({
 
   if (!healthDataForArea) return null;
 
-  // This will be updated when we add the dropdown to select inequality types
-  const type =
-    inequalityTypeSelected === 'deprivation'
-      ? InequalitiesTypes.Deprivation
-      : InequalitiesTypes.Sex;
+  const inequalityCategories = getInequalityCategories(
+    healthIndicatorData[0], // To look into
+    Number(selectedYear)
+  );
+  if (!inequalityCategories.length) return null;
 
-  const inequalityCategory = getInequalityCategory(type, healthDataForArea);
+  const type = getInequalitiesType(
+    inequalityCategories,
+    inequalityTypeSelected
+  );
 
   const filterFunctionGenerator =
     healthDataFilterFunctionGeneratorForInequality[type];
@@ -86,7 +90,7 @@ export function InequalitiesForSingleTimePeriod({
     ...healthDataForArea,
     healthData: filterHealthData(
       healthDataForArea.healthData,
-      filterFunctionGenerator(inequalityCategory)
+      filterFunctionGenerator(inequalityTypeSelected ?? inequalityCategories[0])
     ),
   };
 
@@ -125,6 +129,13 @@ export function InequalitiesForSingleTimePeriod({
     <div data-testid="inequalitiesForSingleTimePeriod-component">
       <H3>Inequalities data for a single time period</H3>
       <TimePeriodDropDown years={yearsDesc} searchState={searchState} />
+      <InequalitiesTypesDropDown
+        inequalitiesOptions={inequalityCategories}
+        inequalityTypeSelectedSearchParam={
+          SearchParams.InequalityBarChartTypeSelected
+        }
+        testRef="bc"
+      />
       <ChartSelectArea
         availableAreas={availableAreasWithInequalities}
         chartAreaSelectedKey={SearchParams.InequalityBarChartAreaSelected}

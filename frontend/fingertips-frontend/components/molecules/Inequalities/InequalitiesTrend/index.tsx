@@ -1,7 +1,7 @@
 import { TabContainer } from '@/components/layouts/tabContainer';
 import { LineChart } from '@/components/organisms/LineChart';
 import { LineChartVariant } from '@/components/organisms/LineChart/lineChartHelpers';
-import { H4 } from 'govuk-react';
+import { H3 } from 'govuk-react';
 import { InequalitiesLineChartTable } from '../LineChart/Table';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import {
@@ -16,20 +16,21 @@ import {
   getYearDataGroupedByInequalities,
   groupHealthDataByYear,
   InequalitiesChartData,
-  InequalitiesTypes,
   mapToInequalitiesTableData,
   valueSelectorForInequality,
   sequenceSelectorForInequality,
   filterHealthData,
   healthDataFilterFunctionGeneratorForInequality,
-  getInequalityCategory,
   getYearsWithInequalityData,
   getAreasWithSexInequalitiesData,
+  getInequalityCategories,
+  getInequalitiesType,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
 import { seriesDataWithoutGroup } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { ChartSelectArea } from '../../ChartSelectArea';
+import { InequalitiesTypesDropDown } from '../InequalitiesTypesDropDown';
 
 interface InequalitiesTrendProps {
   healthIndicatorData: HealthDataForArea[];
@@ -51,6 +52,11 @@ export function InequalitiesTrend({
   measurementUnit,
   searchState,
 }: Readonly<InequalitiesTrendProps>) {
+  const [
+    showInequalitiesLineChartConfidenceIntervals,
+    setShowInequalitiesLineChartConfidenceIntervals,
+  ] = useState<boolean>(false);
+
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
@@ -59,11 +65,6 @@ export function InequalitiesTrend({
     [SearchParams.InequalityLineChartAreaSelected]:
       inequalityLineChartAreaSelected,
   } = stateManager.getSearchState();
-
-  const [
-    showInequalitiesLineChartConfidenceIntervals,
-    setShowInequalitiesLineChartConfidenceIntervals,
-  ] = useState<boolean>(false);
 
   const healthdataWithoutGroup = seriesDataWithoutGroup(
     healthIndicatorData,
@@ -84,16 +85,15 @@ export function InequalitiesTrend({
   const healthDataForArea = healthdataWithoutGroup.find(
     (data) => data.areaCode === areaToUse
   );
-
   if (!healthDataForArea) return null;
 
-  // This will be updated when we add the dropdown to select inequality types
-  const type =
-    inequalityTypeSelected === 'deprivation'
-      ? InequalitiesTypes.Deprivation
-      : InequalitiesTypes.Sex;
+  const inequalityCategories = getInequalityCategories(healthDataForArea);
+  if (!inequalityCategories.length) return null;
 
-  const inequalityCategory = getInequalityCategory(type, healthDataForArea);
+  const type = getInequalitiesType(
+    inequalityCategories,
+    inequalityTypeSelected
+  );
 
   const filterFunctionGenerator =
     healthDataFilterFunctionGeneratorForInequality[type];
@@ -101,7 +101,7 @@ export function InequalitiesTrend({
     ...healthIndicatorData,
     healthData: filterHealthData(
       healthDataForArea.healthData,
-      filterFunctionGenerator(inequalityCategory)
+      filterFunctionGenerator(inequalityTypeSelected ?? inequalityCategories[0])
     ),
   };
 
@@ -152,7 +152,14 @@ export function InequalitiesTrend({
 
   return (
     <div data-testid="inequalitiesTrend-component">
-      <H4>Inequalities data over time</H4>
+      <H3>Inequalities data over time</H3>
+      <InequalitiesTypesDropDown
+        inequalitiesOptions={inequalityCategories}
+        inequalityTypeSelectedSearchParam={
+          SearchParams.InequalityLineChartTypeSelected
+        }
+        testRef="lc"
+      />
       <ChartSelectArea
         availableAreas={availableAreasWithInequalities}
         chartAreaSelectedKey={SearchParams.InequalityLineChartAreaSelected}

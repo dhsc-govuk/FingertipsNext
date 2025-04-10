@@ -1,200 +1,214 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import { SpineChartTableRowData } from './SpineChartTableRow';
-import { mapToSpineChartTableData, SpineChartTable } from '.';
+import { SpineChartTable } from './index';
 import {
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
   HealthDataForArea,
   HealthDataPointTrendEnum,
+  IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
-import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 
 describe('Spine chart table suite', () => {
-  const mockIndicatorData = [
-    {
-      indicatorId: 2,
-      title: 'Test indicator 1',
-      definition: '',
-    },
-    {
-      indicatorId: 1,
-      title: 'Test indicator 2',
-      definition: '',
-    },
-  ];
+  // Greater Manchester ICB - 00T
+  const selectedAreaOne = 'A1425';
+  const selectedAreaTwo = 'A1426';
 
-  const mockUnits = ['kg', 'per 1,000'];
+  const getMockHealthData = (
+    selectedArea: string = selectedAreaOne,
+    mismatchedYears: boolean = false
+  ): HealthDataForArea[] => {
+    const areaName = `Greater Manchester ICB - 0${selectedArea === selectedAreaOne ? '0' : '1'}T`;
+    return [
+      {
+        areaCode: selectedArea,
+        areaName: areaName,
+        healthData: [
+          {
+            year: mismatchedYears ? 2022 : 2023,
+            count: 222,
+            value: 690.305692,
+            lowerCi: 341.69151,
+            upperCi: 478.32766,
+            ageBand: allAgesAge,
+            sex: personsSex,
+            trend: HealthDataPointTrendEnum.CannotBeCalculated,
+            deprivation: noDeprivation,
+            benchmarkComparison: {
+              outcome: BenchmarkOutcome.Similar,
+            },
+          },
+        ],
+      },
+    ];
+  };
 
-  const mockHealthData: HealthDataForArea[] = [
-    {
-      areaCode: 'A1425',
-      areaName: 'Greater Manchester ICB - 00T',
-      healthData: [
-        {
-          year: 2008,
-          count: 222,
-          value: 890.305692,
-          lowerCi: 441.69151,
-          upperCi: 578.32766,
-          ageBand: allAgesAge,
-          sex: personsSex,
-          trend: HealthDataPointTrendEnum.IncreasingAndGettingWorse,
-          deprivation: noDeprivation,
-        },
-      ],
-    },
-    {
-      areaCode: 'A1425',
-      areaName: 'Greater Manchester ICB - 00T',
-      healthData: [
-        {
-          year: 2024,
-          count: 111,
-          value: 690.305692,
-          lowerCi: 341.69151,
-          upperCi: 478.32766,
-          ageBand: allAgesAge,
-          sex: personsSex,
-          trend: HealthDataPointTrendEnum.CannotBeCalculated,
-          deprivation: noDeprivation,
-        },
-      ],
-    },
-  ];
-
-  const mockGroup: HealthDataForArea[] = [
-    {
-      areaCode: '90210',
-      areaName: 'Manchester',
-      healthData: [
-        {
-          year: 2008,
-          count: 111,
-          value: 980.305692,
-          lowerCi: 441.69151,
-          upperCi: 578.32766,
-          ageBand: allAgesAge,
-          sex: personsSex,
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-          deprivation: noDeprivation,
-        },
-      ],
-    },
-    {
-      areaCode: '90210',
-      areaName: 'Manchester',
-      healthData: [
-        {
-          year: 2024,
-          count: 3333,
-          value: 690.305692,
-          lowerCi: 341.69151,
-          upperCi: 478.32766,
-          ageBand: allAgesAge,
-          sex: personsSex,
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-          deprivation: noDeprivation,
-        },
-      ],
-    },
-  ];
+  const mockGroup: HealthDataForArea = {
+    areaCode: '90210',
+    areaName: 'Manchester',
+    healthData: [
+      {
+        year: 2023,
+        count: 3333,
+        value: 890.305692,
+        lowerCi: 341.69151,
+        upperCi: 478.32766,
+        ageBand: allAgesAge,
+        sex: personsSex,
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
+      },
+    ],
+  };
 
   const mockBenchmarkStatistics = [
     {
-      best: 1666,
-      bestQuartile: 1000,
-      worstQuartile: 969,
-      worst: 959,
+      indicatorId: 1,
+      polarity: IndicatorPolarity.HighIsGood,
+      q0Value: 1666,
+      q1Value: 1000,
+      q2Value: 969,
+      q3Value: 959,
+      q4Value: 920,
+      englandValue: 1010.5623,
     },
     {
-      best: 22,
-      bestQuartile: 40,
-      worstQuartile: 60,
-      worst: 100,
+      indicatorId: 2,
+      polarity: IndicatorPolarity.HighIsGood,
+      q0Value: 22,
+      q1Value: 40,
+      q2Value: 60,
+      q3Value: 100,
+      q4Value: 124,
+      englandValue: 61.5,
     },
   ];
 
-  const mockTableData = [
+  const mockIndicatorData = [
     {
-      indicator: mockIndicatorData[0],
-      measurementUnit: mockUnits[0],
-      indicatorHealthData: mockHealthData[0],
-      groupIndicatorData: mockGroup[0],
-      englandBenchmarkData: MOCK_HEALTH_DATA[0],
-      benchmarkStatistics: mockBenchmarkStatistics[0],
+      indicatorId: '1',
+      indicatorName: 'testIndicator1',
+      latestDataPeriod: 2023,
+      valueUnit: '%',
+      areasHealthData: getMockHealthData(),
+      groupData: mockGroup,
+      quartileData: mockBenchmarkStatistics[0],
+      benchmarkComparisonMethod:
+        BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
     },
     {
-      indicator: mockIndicatorData[1],
-      measurementUnit: mockUnits[1],
-      indicatorHealthData: mockHealthData[1],
-      groupIndicatorData: mockGroup[1],
-      englandBenchmarkData: MOCK_HEALTH_DATA[1],
-      benchmarkStatistics: mockBenchmarkStatistics[1],
+      indicatorId: '2',
+      indicatorName: 'testIndicator2',
+      latestDataPeriod: 2023,
+      valueUnit: 'per 100,000',
+      areasHealthData: getMockHealthData(),
+      groupData: mockGroup,
+      quartileData: mockBenchmarkStatistics[1],
+      benchmarkComparisonMethod:
+        BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
     },
   ];
 
   describe('Spine chart table', () => {
-    it('snapshot test - should match snapshot', () => {
-      const container = render(<SpineChartTable rowData={mockTableData} />);
-      expect(container.asFragment()).toMatchSnapshot();
-    });
-
     it('should render the SpineChartTable component', () => {
-      render(<SpineChartTable rowData={mockTableData} />);
+      render(<SpineChartTable indicatorData={mockIndicatorData} />);
       const spineChart = screen.getByTestId('spineChartTable-component');
       expect(spineChart).toBeInTheDocument();
     });
 
     it('should render the SpineChartTable in ascending indicator order', () => {
-      render(<SpineChartTable rowData={mockTableData} />);
+      render(<SpineChartTable indicatorData={mockIndicatorData} />);
 
-      const expectedIndicators = ['Test indicator 2', 'Test indicator 1'];
-      const indictors = screen.getAllByTestId(`indicator-cell`);
-      expect(indictors[0]).toHaveTextContent(expectedIndicators[0]);
-      expect(indictors[1]).toHaveTextContent(expectedIndicators[1]);
+      const indicators = screen.getAllByTestId(`indicator-cell`);
+      expect(indicators[0]).toHaveTextContent('testIndicator1');
+      expect(indicators[1]).toHaveTextContent('testIndicator2');
     });
   });
 
-  describe('mapToSpineChartTableData', () => {
-    it('should map to spine chart table row data', () => {
-      const expectedRowData: SpineChartTableRowData[] = [
-        {
-          benchmarkStatistics: {
-            best: 1666,
-            bestQuartile: 1000,
-            worstQuartile: 969,
-            worst: 959,
-          },
-          benchmarkValue: 890.305692,
-          count: 222,
-          groupValue: 980.305692,
-          indicator: 'Test indicator 1',
-          indicatorId: 2,
-          period: 2008,
-          trend: 'Increasing and getting worse',
-          unit: 'kg',
-          value: 890.305692,
-        },
-        {
-          benchmarkStatistics: {
-            best: 22,
-            bestQuartile: 40,
-            worstQuartile: 60,
-            worst: 100,
-          },
-          benchmarkValue: 135.149304,
-          count: 111,
-          groupValue: 690.305692,
-          indicator: 'Test indicator 2',
-          indicatorId: 1,
-          period: 2024,
-          trend: 'Cannot be calculated',
-          unit: 'per 1,000',
-          value: 690.305692,
-        },
-      ];
+  describe('Spine Chart with 2 areas', () => {
+    const mockTwoAreasIndicatorData = [
+      {
+        indicatorId: '1',
+        indicatorName: 'testIndicator1',
+        latestDataPeriod: 2023,
+        valueUnit: '%',
+        areasHealthData: getMockHealthData().concat(
+          getMockHealthData(selectedAreaTwo)
+        ),
+        groupData: mockGroup,
+        quartileData: mockBenchmarkStatistics[0],
+        benchmarkComparisonMethod:
+          BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      },
+      {
+        indicatorId: '2',
+        indicatorName: 'testIndicator1',
+        latestDataPeriod: 2023,
+        valueUnit: 'per 100,000',
+        areasHealthData: getMockHealthData().concat(
+          getMockHealthData(selectedAreaTwo)
+        ),
+        groupData: mockGroup,
+        quartileData: mockBenchmarkStatistics[1],
+        benchmarkComparisonMethod:
+          BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      },
+    ];
 
-      expect(mapToSpineChartTableData(mockTableData)).toEqual(expectedRowData);
+    it('should display data correctly for both areas', () => {
+      render(<SpineChartTable indicatorData={mockTwoAreasIndicatorData} />);
+
+      expect(screen.getByTestId('area-header-1')).toHaveTextContent(
+        'Greater Manchester ICB - 00T'
+      );
+      expect(screen.getByTestId('area-header-2')).toHaveTextContent(
+        'Greater Manchester ICB - 01T'
+      );
+      expect(screen.getAllByTestId('area-1-count-cell')[1]).toHaveTextContent(
+        '222'
+      );
+      expect(screen.getAllByTestId('area-1-value-cell')[1]).toHaveTextContent(
+        '690.3'
+      );
+      expect(screen.getAllByTestId('area-2-count-cell')[1]).toHaveTextContent(
+        '222'
+      );
+      expect(screen.getAllByTestId('area-2-value-cell')[1]).toHaveTextContent(
+        '690.3'
+      );
+
+      // Trend data should not be displayed
+      expect(screen.queryByTestId('trend-cell')).not.toBeInTheDocument();
+    });
+
+    it("should render an 'X' when second area does not have data for latest period of the first area", () => {
+      const mockDataPeriodMismatch = [...mockTwoAreasIndicatorData];
+      mockDataPeriodMismatch[0].areasHealthData = getMockHealthData().concat(
+        getMockHealthData(selectedAreaTwo, true)
+      );
+
+      render(<SpineChartTable indicatorData={mockDataPeriodMismatch} />);
+
+      expect(screen.getByTestId('area-header-1')).toHaveTextContent(
+        'Greater Manchester ICB - 00T'
+      );
+      expect(screen.getByTestId('area-header-2')).toHaveTextContent(
+        'Greater Manchester ICB - 01T'
+      );
+
+      expect(screen.getAllByTestId('area-1-count-cell')[0]).toHaveTextContent(
+        '222'
+      );
+      expect(screen.getAllByTestId('area-1-value-cell')[0]).toHaveTextContent(
+        '690.3'
+      );
+      expect(screen.getAllByTestId('area-2-count-cell')[0]).toHaveTextContent(
+        'X'
+      );
+      expect(screen.getAllByTestId('area-2-value-cell')[0]).toHaveTextContent(
+        'X'
+      );
     });
   });
 });

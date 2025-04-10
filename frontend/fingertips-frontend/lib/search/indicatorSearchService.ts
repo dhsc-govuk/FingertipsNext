@@ -61,7 +61,7 @@ export class IndicatorSearchService implements IIndicatorSearchService {
     }
 
     return this.mapper.toEntities(
-      results.slice(0, 20),
+      results,
       areaCodes ?? [],
       isEnglandSelectedAsGroup
     );
