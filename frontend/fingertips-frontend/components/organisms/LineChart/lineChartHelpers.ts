@@ -107,7 +107,7 @@ export function generateSeriesData(
           ]),
           showConfidenceIntervalsData
         );
-
+      
       return [lineSeries, confidenceIntervalSeries];
     }
   );
@@ -125,8 +125,20 @@ export function generateSeriesData(
         symbol: 'diamond',
       },
     };
-    seriesData.unshift(groupSeries);
+
+    const groupConfidenceIntervalSeries: Highcharts.SeriesOptionsType = generateConfidenceIntervalSeries(
+      parentIndicatorData.areaName,
+      parentIndicatorData.healthData.map((point) => [
+        point.year,
+        point.lowerCi,
+        point.upperCi,
+      ]),
+      showConfidenceIntervalsData
+    )
+
+    seriesData.unshift(groupSeries, groupConfidenceIntervalSeries);
   }
+  
 
   if (benchmarkData) {
     const englandSeries: Highcharts.SeriesOptionsType = {
@@ -138,7 +150,17 @@ export function generateSeriesData(
         symbol: 'circle',
       },
     };
-    seriesData.unshift(englandSeries);
+
+    const benchmarkConfidenceIntervalSeries: Highcharts.SeriesOptionsType = generateConfidenceIntervalSeries(
+      benchmarkData.areaName,
+      benchmarkData.healthData.map((point) => [
+        point.year,
+        point.lowerCi,
+        point.upperCi,
+      ]),
+      showConfidenceIntervalsData
+    )
+    seriesData.unshift(englandSeries, benchmarkConfidenceIntervalSeries);
   }
 
   return seriesData;
