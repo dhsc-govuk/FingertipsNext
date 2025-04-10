@@ -114,6 +114,8 @@ export function SelectAreasFilterPanel({
   const handleAreaSelected = (areaCode: string, checked: boolean) => {
     setIsLoading(true);
 
+    searchStateManager.clearChartState();
+
     if (
       searchState?.[SearchParams.AreasSelected]?.length === 1 &&
       searchState?.[SearchParams.AreasSelected][0] === areaCodeForEngland

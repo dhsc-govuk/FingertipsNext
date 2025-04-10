@@ -1,11 +1,16 @@
-import { useSearchState } from '@/context/SearchStateContext';
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import { useLoadingState } from '@/context/LoaderContext';
+import {
+  SearchParams,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
 import { Select } from 'govuk-react';
 import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 
 interface TimePeriodDropDownProps {
   years: (number | string)[];
+  searchState: SearchStateParams;
 }
 
 const StyledFilterSelect = styled(Select)({
@@ -20,19 +25,25 @@ const StyledFilterSelect = styled(Select)({
 
 export function TimePeriodDropDown({
   years,
+  searchState,
 }: Readonly<TimePeriodDropDownProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
-  const { getSearchState } = useSearchState();
-  const searchState = getSearchState();
+  const { setIsLoading } = useLoadingState();
 
   const searchStateManager = SearchStateManager.initialise(searchState);
 
   const setSelectedYear = (selectedYear: string) => {
+    setIsLoading(true);
+
+    searchStateManager.removeParamValueFromState(
+      SearchParams.InequalityBarChartAreaSelected
+    );
     searchStateManager.addParamValueToState(
       SearchParams.InequalityYearSelected,
       selectedYear
     );
+
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
 

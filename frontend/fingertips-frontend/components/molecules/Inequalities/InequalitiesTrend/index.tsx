@@ -67,7 +67,8 @@ export function InequalitiesTrend({
 
   const healthdataWithoutGroup = seriesDataWithoutGroup(
     healthIndicatorData,
-    selectedGroupCode
+    selectedGroupCode,
+    true
   );
 
   const availableAreasWithInequalities =

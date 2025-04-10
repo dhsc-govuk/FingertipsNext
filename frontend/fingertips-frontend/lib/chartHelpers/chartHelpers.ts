@@ -64,9 +64,28 @@ export function seriesDataWithoutEnglandOrGroup(
 
 export function seriesDataWithoutGroup(
   data: HealthDataForArea[],
-  groupAreaCode?: string
+  groupAreaCode?: string,
+  moveEnglandLast?: boolean
 ) {
-  return data.filter((item) => item.areaCode !== groupAreaCode);
+  const withoutGroup =
+    groupAreaCode !== areaCodeForEngland
+      ? data.filter((item) => item.areaCode !== groupAreaCode)
+      : data;
+
+  if (moveEnglandLast) {
+    const englandArea = withoutGroup.find(
+      (area) => area.areaCode === areaCodeForEngland
+    );
+
+    if (englandArea) {
+      return withoutGroup
+        .filter((area) => area.areaCode !== areaCodeForEngland)
+        .concat(englandArea);
+    }
+    return withoutGroup;
+  }
+
+  return withoutGroup;
 }
 
 export function getHealthDataWithoutInequalities(

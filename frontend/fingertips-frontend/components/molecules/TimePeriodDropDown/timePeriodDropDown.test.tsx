@@ -3,6 +3,7 @@ import { TimePeriodDropDown } from '.';
 import { SearchParams } from '@/lib/searchStateManager';
 import userEvent from '@testing-library/user-event';
 import { SearchStateContext } from '@/context/SearchStateContext';
+import { LoaderContext } from '@/context/LoaderContext';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -24,9 +25,19 @@ const mockSearchState = {
   [SearchParams.InequalityYearSelected]: '2023',
 };
 
-const mockGetSearchState = jest.fn();
+const mockSetIsLoading = jest.fn();
+const mockLoaderContext: LoaderContext = {
+  getIsLoading: jest.fn(),
+  setIsLoading: mockSetIsLoading,
+};
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoadingState: () => mockLoaderContext,
+  };
+});
+
 const mockSearchStateContext: SearchStateContext = {
-  getSearchState: mockGetSearchState,
+  getSearchState: jest.fn(),
   setSearchState: jest.fn(),
 };
 jest.mock('@/context/SearchStateContext', () => {
@@ -38,12 +49,8 @@ jest.mock('@/context/SearchStateContext', () => {
 const years = ['2023', '2022', '2021', '2020'];
 
 describe('TimePeriodDropDown suite', () => {
-  beforeEach(() => {
-    mockGetSearchState.mockReturnValue(mockSearchState);
-  });
-
   it('should display expected elements', () => {
-    render(<TimePeriodDropDown years={years} />);
+    render(<TimePeriodDropDown years={years} searchState={mockSearchState} />);
     const dropDown = screen.getByRole('combobox');
     const yearOptions = within(dropDown).getAllByRole('option');
 
@@ -62,7 +69,7 @@ describe('TimePeriodDropDown suite', () => {
     ].join('');
 
     const user = userEvent.setup();
-    render(<TimePeriodDropDown years={years} />);
+    render(<TimePeriodDropDown years={years} searchState={mockSearchState} />);
 
     await user.selectOptions(screen.getByRole('combobox'), '2022');
 

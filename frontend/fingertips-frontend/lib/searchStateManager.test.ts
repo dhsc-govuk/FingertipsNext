@@ -1,4 +1,5 @@
 import { ALL_AREAS_SELECTED } from './areaFilterHelpers/constants';
+import { areaCodeForEngland } from './chartHelpers/constants';
 import {
   SearchParams,
   SearchStateManager,
@@ -197,6 +198,24 @@ describe('SearchStateManager', () => {
       const newState = stateManager.getSearchState();
       expect(newState).toEqual({
         [SearchParams.IndicatorsSelected]: ['1', '2', '3'],
+      });
+    });
+  });
+
+  describe('clearChartState', () => {
+    it('should clear all chart state params from state', () => {
+      const stateManager = SearchStateManager.initialise({
+        [SearchParams.AreasSelected]: ['A001', 'A002'],
+        [SearchParams.InequalityYearSelected]: '2023',
+        [SearchParams.InequalityTypeSelected]: 'Sex',
+        [SearchParams.InequalityBarChartAreaSelected]: 'A003',
+        [SearchParams.InequalityLineChartAreaSelected]: 'A002',
+        [SearchParams.PopulationAreaSelected]: areaCodeForEngland,
+      });
+
+      stateManager.clearChartState();
+      expect(stateManager.getSearchState()).toEqual({
+        [SearchParams.AreasSelected]: ['A001', 'A002'],
       });
     });
   });

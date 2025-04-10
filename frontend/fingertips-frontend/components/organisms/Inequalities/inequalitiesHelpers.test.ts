@@ -899,7 +899,7 @@ describe('getAreasWithSexInequalitiesData', () => {
 
   describe('for a particular year', () => {
     it('should return all the areas that have sex inequality data for the year provided', () => {
-      const expectedAreaCodes = ['A001', 'A004', areaCodeForEngland];
+      const expectedAreaCodes = ['A001', areaCodeForEngland, 'A004'];
 
       const areasWithSexInequalityDataForYear = getAreasWithSexInequalitiesData(
         mockHealthIndicatorData,
@@ -921,26 +921,11 @@ describe('getAreasWithSexInequalitiesData', () => {
 
       expect(areasWithSexInequalityDataForYear).toEqual([]);
     });
-
-    it('should return england as the last area in the list if it has sex inequality data', () => {
-      const expectedAreaCodes = ['A002', 'A004', areaCodeForEngland];
-
-      const areasWithSexInequalityDataForYear = getAreasWithSexInequalitiesData(
-        mockHealthIndicatorData,
-        '2023'
-      );
-
-      expect(areasWithSexInequalityDataForYear).toHaveLength(3);
-
-      areasWithSexInequalityDataForYear.forEach((area, i) => {
-        expect(area.code).toEqual(expectedAreaCodes[i]);
-      });
-    });
   });
 
   describe('for all years', () => {
     it('should return all the areas that have sex inequality data for at least one year', () => {
-      const expectedAreaCodes = ['A001', 'A002', 'A004', areaCodeForEngland];
+      const expectedAreaCodes = ['A001', areaCodeForEngland, 'A002', 'A004'];
 
       const areasWithSexInequalityDataForYear = getAreasWithSexInequalitiesData(
         mockHealthIndicatorData

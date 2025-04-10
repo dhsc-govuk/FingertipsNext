@@ -41,6 +41,7 @@ export function SelectedAreasPanel({
   const removeSelectedArea = (areaCode: string) => {
     setIsLoading(true);
 
+    searchStateManager.clearChartState();
     searchStateManager.removeParamValueFromState(
       SearchParams.AreasSelected,
       areaCode

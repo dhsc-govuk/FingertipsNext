@@ -22,6 +22,14 @@ const multiValueParams = [
   SearchParams.AreasSelected as string,
 ];
 
+const chartStateParams = [
+  SearchParams.InequalityYearSelected,
+  SearchParams.InequalityTypeSelected,
+  SearchParams.InequalityBarChartAreaSelected,
+  SearchParams.InequalityLineChartAreaSelected,
+  SearchParams.PopulationAreaSelected,
+];
+
 export type SearchStateParams = {
   [SearchParams.SearchedIndicator]?: string;
   [SearchParams.IndicatorsSelected]?: string[];
@@ -168,6 +176,12 @@ export class SearchStateManager {
 
   public removeAllParamFromState(searchParamKey: SearchParamKeys) {
     this.searchState[searchParamKey] = undefined;
+  }
+
+  public clearChartState() {
+    chartStateParams.forEach((chartParam) => {
+      this.removeParamValueFromState(chartParam);
+    });
   }
 
   public addAllParamsToState(

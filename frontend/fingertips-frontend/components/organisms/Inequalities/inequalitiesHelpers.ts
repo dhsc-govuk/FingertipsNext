@@ -17,7 +17,6 @@ import {
   lineChartDefaultOptions,
 } from '../LineChart/lineChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 export const localeSort = (a: string, b: string) => a.localeCompare(b);
 
@@ -382,15 +381,6 @@ export const getAreasWithSexInequalitiesData = (
     }
   });
 
-  const englandArea = areasWithInequalitiesData.find(
-    (area) => area.code === areaCodeForEngland
-  );
-
-  if (englandArea) {
-    return areasWithInequalitiesData
-      .filter((area) => area.code !== areaCodeForEngland)
-      .concat(englandArea);
-  }
   return areasWithInequalitiesData;
 };
 

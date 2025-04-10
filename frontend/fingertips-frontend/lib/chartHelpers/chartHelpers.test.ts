@@ -464,32 +464,44 @@ describe('seriesDataWithoutEnglandOrParent', () => {
 });
 
 describe('seriesDataWithoutGroup', () => {
+  const mockHealthDataForArea1 = generateMockHealthDataForArea('A001', [
+    generateHealthDataPoint(2024, false),
+    generateHealthDataPoint(2024, false),
+  ]);
+
+  const mockHealthDataForArea2 = generateMockHealthDataForArea('A002', [
+    generateHealthDataPoint(2024, false),
+    generateHealthDataPoint(2024, false),
+  ]);
+
+  const mockHealthDataForEngland = generateMockHealthDataForArea(
+    areaCodeForEngland,
+    [generateHealthDataPoint(2024, false), generateHealthDataPoint(2024, false)]
+  );
+
   it('should return data that does not have the group area code', () => {
-    const mockHealthDataForArea1 = generateMockHealthDataForArea('A001', [
-      generateHealthDataPoint(2024, false),
-      generateHealthDataPoint(2024, false),
-    ]);
-
-    const mockHealthDataForArea2 = generateMockHealthDataForArea('A002', [
-      generateHealthDataPoint(2024, false),
-      generateHealthDataPoint(2024, false),
-    ]);
-
-    const mockHealthDataForEngland = generateMockHealthDataForArea(
-      areaCodeForEngland,
+    const result = seriesDataWithoutGroup(
       [
-        generateHealthDataPoint(2024, false),
-        generateHealthDataPoint(2024, false),
-      ]
+        mockHealthDataForEngland,
+        mockHealthDataForArea1,
+        mockHealthDataForArea2,
+      ],
+      'A002'
     );
+    expect(result).toEqual([mockHealthDataForEngland, mockHealthDataForArea1]);
+  });
+
+  it('should return data with england as the last area when specified', () => {
+    const MOVE_ENGLAND_LAST = true;
 
     const result = seriesDataWithoutGroup(
       [
+        mockHealthDataForEngland,
         mockHealthDataForArea1,
         mockHealthDataForArea2,
-        mockHealthDataForEngland,
       ],
-      'A002'
+      'A002',
+      MOVE_ENGLAND_LAST
     );
     expect(result).toEqual([mockHealthDataForArea1, mockHealthDataForEngland]);
   });
