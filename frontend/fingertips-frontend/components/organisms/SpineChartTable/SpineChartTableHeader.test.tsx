@@ -17,7 +17,7 @@ describe('Spine chart table header', () => {
       <table>
         <thead>
           <SpineChartTableHeader
-            areaName={mockHeaderData.area}
+            areaNames={[mockHeaderData.area]}
             groupName={mockHeaderData.group}
           />
         </thead>
@@ -25,7 +25,7 @@ describe('Spine chart table header', () => {
     );
 
     expect(screen.getByTestId('empty-header')).toHaveTextContent('');
-    expect(screen.getByTestId('area-header')).toHaveTextContent(
+    expect(screen.getByTestId('area-header-1')).toHaveTextContent(
       `${mockHeaderData.area}`
     );
     expect(screen.getByTestId('group-header')).toHaveTextContent(
@@ -45,7 +45,7 @@ describe('Spine chart table header', () => {
       <table>
         <thead>
           <SpineChartTableHeader
-            areaName={mockHeaderData.area}
+            areaNames={[mockHeaderData.area]}
             groupName={mockHeaderData.group}
           />
         </thead>
@@ -72,7 +72,7 @@ describe('Spine chart table header', () => {
       <table>
         <thead>
           <SpineChartTableHeader
-            areaName={mockHeaderData.area}
+            areaNames={[mockHeaderData.area]}
             groupName={mockHeaderData.group}
           />
         </thead>
@@ -86,5 +86,54 @@ describe('Spine chart table header', () => {
     expect(screen.getByTestId('GroupValue-header')).toHaveStyle(
       `background-color: ${GovukColours.LightGrey}`
     );
+  });
+
+  it('it should render counts and values for 2 areas when requested', () => {
+    render(
+      <table>
+        <thead>
+          <SpineChartTableHeader
+            areaNames={['East of England Region', 'East Midlands Region']}
+            groupName={mockHeaderData.group}
+          />
+        </thead>
+      </table>
+    );
+
+    expect(screen.getByTestId('area-header-1')).toHaveTextContent(
+      'East of England Region'
+    );
+    expect(screen.getByTestId('area-header-2')).toHaveTextContent(
+      'East Midlands Region'
+    );
+    expect(screen.getByTestId('area-1-Count-header')).toHaveTextContent(
+      'Count'
+    );
+    expect(screen.getByTestId('area-1-Value-header')).toHaveTextContent(
+      'Value'
+    );
+    expect(screen.getByTestId('area-2-Count-header')).toHaveTextContent(
+      'Count'
+    );
+    expect(screen.getByTestId('area-2-Value-header')).toHaveTextContent(
+      'Value'
+    );
+    expect(screen.queryByTestId('Recent trend-header')).not.toBeInTheDocument();
+  });
+
+  it('should not render the group header value if group is England', () => {
+    render(
+      <table>
+        <thead>
+          <SpineChartTableHeader
+            areaNames={['East of England Region']}
+            groupName={'England'}
+          />
+        </thead>
+      </table>
+    );
+
+    expect(screen.queryByTestId('group-header')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('GroupValue-header')).not.toBeInTheDocument();
   });
 });

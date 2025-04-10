@@ -1,5 +1,5 @@
 import { IndicatorSearchService } from './indicatorSearchService';
-import { SearchClient, AzureKeyCredential } from '@azure/search-documents';
+import { AzureKeyCredential, SearchClient } from '@azure/search-documents';
 import { SearchServiceFactory } from './searchServiceFactory';
 import { INDICATOR_SEARCH_INDEX_NAME } from './searchTypes';
 import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client/models/HealthDataPoint';
@@ -204,7 +204,7 @@ describe('IndicatorSearchService', () => {
       ]);
     });
 
-    it('should only return the first 20 results', async () => {
+    it('should only return all results', async () => {
       const fiftyResults = Array(50).fill({
         document: {
           indicatorID: '123',
@@ -241,7 +241,7 @@ describe('IndicatorSearchService', () => {
       const searchService = SearchServiceFactory.getIndicatorSearchService();
       const results = await searchService.searchWith('Test Indicator', false);
 
-      expect(results).toHaveLength(20);
+      expect(results).toHaveLength(50);
     });
   });
 
