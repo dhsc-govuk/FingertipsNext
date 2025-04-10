@@ -2,11 +2,24 @@ import {
   computeDataPercentages,
   PopulationDataForArea,
 } from '@/lib/chartHelpers/preparePopulationData';
-import Highcharts, { SeriesOptionsType } from 'highcharts';
+import Highcharts, {
+  LegendItemClickEventObject,
+  Series,
+  SeriesOptionsType,
+} from 'highcharts';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { generatePopPyramidTooltipForPoint } from '.';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { FormatValueAsNumberAbsolute } from '@/lib/chartHelpers/labelFormatters';
+
+const toggleClickSeries = (self: Series): boolean => {
+  self.chart.series.forEach((series) => {
+    if (series.name === self.name) {
+      series.setVisible(!series.visible);
+    }
+  });
+  return false;
+};
 
 const createChartSeriesOptions = (
   xAxisTitle: string,
@@ -28,6 +41,38 @@ const createChartSeriesOptions = (
       type: 'bar',
       height: 800,
       animation: false,
+      events: {
+        load: function () {
+          const items = this.legend.allItems;
+
+          items.forEach((item) => {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore - we know this item will be a legendItem and dynamic property 'group' will be created
+            if (!item || !item.legendItem || !item.legendItem.group) return;
+
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore - we know this item will be a legendItem and dynamic property 'group' will be created
+            item.legendItem.group.on('mouseover', () => {
+              this.series.forEach((series) => {
+                if (item.name === series.name) {
+                  series.setState('hover');
+                  series.setState('inactive');
+                }
+              });
+            });
+
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore - we know this item will be a legendItem and dynamic property 'group' will be created
+            item.legendItem.group.on('mouseout', () => {
+              this.series.forEach((series) => {
+                if (item.name === series.name) {
+                  series.setState('normal');
+                }
+              });
+            });
+          });
+        },
+      },
     },
     plotOptions: {
       series: {
@@ -43,6 +88,14 @@ const createChartSeriesOptions = (
       layout: 'horizontal',
       alignColumns: true,
       reversed: true,
+      itemStyle: {
+        fontSize: '16px',
+      },
+      events: {
+        itemClick: function (event: LegendItemClickEventObject) {
+          return toggleClickSeries(event.legendItem as Series);
+        },
+      },
     },
     xAxis: [
       {
@@ -52,12 +105,20 @@ const createChartSeriesOptions = (
           align: 'high',
           offset: 2,
           rotation: 0,
+          style: {
+            fontSize: '19px',
+          },
         },
         lineColor: GovukColours.DarkSlateGray,
         tickWidth: 1,
         tickLength: 10,
         tickmarkPlacement: 'on',
         tickColor: GovukColours.DarkSlateGray,
+        labels: {
+          style: {
+            fontSize: '16px',
+          },
+        },
       },
       {
         opposite: true,
@@ -69,6 +130,9 @@ const createChartSeriesOptions = (
           align: 'high',
           offset: 4,
           rotation: 0,
+          style: {
+            fontSize: '19px',
+          },
         },
         lineColor: GovukColours.DarkSlateGray,
         tickWidth: 1,
@@ -78,11 +142,19 @@ const createChartSeriesOptions = (
         accessibility: {
           description: '{xAxisTitle} degrees {series.name}',
         },
+        labels: {
+          style: {
+            fontSize: '16px',
+          },
+        },
       },
     ],
     yAxis: {
       title: {
         text: yAxisTitle,
+        style: {
+          fontSize: '19px',
+        },
       },
       min: -maxTick,
       max: maxTick,
@@ -95,6 +167,9 @@ const createChartSeriesOptions = (
       labels: {
         formatter: FormatValueAsNumberAbsolute,
         align: 'center',
+        style: {
+          fontSize: '16px',
+        },
       },
       accessibility: {
         enabled: false,
@@ -129,6 +204,7 @@ const createChartSeriesOptions = (
           color: GovukColours.Black,
           style: {
             fontWeight: 'light',
+            fontSize: '16px',
           },
         },
       },
@@ -146,6 +222,7 @@ const createChartSeriesOptions = (
           color: GovukColours.Black,
           style: {
             fontWeight: 'light',
+            fontSize: '16px',
           },
         },
       },
