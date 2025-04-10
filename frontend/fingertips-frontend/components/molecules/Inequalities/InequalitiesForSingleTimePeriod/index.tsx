@@ -27,6 +27,7 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { InequalitiesTypesDropDown } from '../InequalitiesTypesDropDown';
+import { DataSource } from '@/components/atoms/DataSource/DataSource';
 
 interface InequalitiesForSingleTimePeriodProps {
   healthIndicatorData: HealthDataForArea;
@@ -34,6 +35,7 @@ interface InequalitiesForSingleTimePeriodProps {
   measurementUnit?: string;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
+  dataSource?: string;
 }
 
 export function InequalitiesForSingleTimePeriod({
@@ -42,6 +44,7 @@ export function InequalitiesForSingleTimePeriod({
   benchmarkComparisonMethod,
   polarity,
   searchState,
+  dataSource,
 }: Readonly<InequalitiesForSingleTimePeriodProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
@@ -143,6 +146,7 @@ export function InequalitiesForSingleTimePeriod({
             ),
           },
         ]}
+        footer={<DataSource dataSource={dataSource} />}
       />
     </div>
   );
