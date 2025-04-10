@@ -41,7 +41,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         IEnumerable<string> areaCodes,
         string areaType,
         IEnumerable<int> years,
-        IEnumerable<string> inequalities)
+        IEnumerable<string> inequalities,
+        bool includeEmptyAreas = false)
     {
         var indicatorData = await healthDataRepository.GetIndicatorDimensionAsync(indicatorId);
         if (indicatorData == null) 
@@ -61,7 +62,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         )) ?? [])
         .ToList();
 
-        await AddAreasWithNoData(areaHealthData, areaCodes);
+        if(includeEmptyAreas)
+            await AddAreasWithNoData(areaHealthData, areaCodes);
 
         return new ServiceResponse<IndicatorWithHealthDataForAreas>()
         {

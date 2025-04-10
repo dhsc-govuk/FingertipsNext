@@ -26,10 +26,11 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     /// <param name="areaType">The area type the area codes belong to.</param>
     /// <param name="years">A list of years. Up to 20 distinct years can be requested.</param>
     /// <param name="inequalities">A list of desired inequalities.</param>
+    /// <param name="include_empty_areas">Determines if areas with no data are returned as empty arrays, the default is false.</param>
     /// <returns></returns>
     /// <remarks>
-    /// If more than 10 years are supplied the request will fail.
-    /// If more than 10 area codes are supplied the request will fail.
+    /// If more than 20 years are supplied the request will fail.
+    /// If more than 100 area codes are supplied the request will fail.
     /// </remarks>
     [HttpGet]
     [Route("{indicatorId:int}/data")]
@@ -41,7 +42,8 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
         [FromQuery(Name = "area_codes")] string[]? areaCodes = null,
         [FromQuery(Name = "area_type")] string areaType = "",
         [FromQuery] int[]? years = null,
-        [FromQuery] string[]? inequalities = null)
+        [FromQuery] string[]? inequalities = null,
+        [FromQuery] bool include_empty_areas =false)
     {
         if (areaCodes is {Length: > MaxNumberAreas})
             return new BadRequestObjectResult(new SimpleError
@@ -63,7 +65,8 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
             areaCodes ?? [],
             areaType,
             years ?? [],
-            inequalities ?? []
+            inequalities ?? [],
+            include_empty_areas
         );
 
         return indicatorData?.Status switch
@@ -81,13 +84,12 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     /// supplying one or more area codes and one or more years in the query string.
     /// </summary>
     /// <param name="indicatorIds">The unique identifier of the indicator.</param>
-    /// <param name="areaCode">A list of area codes. Up to 10 distinct area codes can be requested.</param>
+    /// <param name="areaCode">A list of area codes.</param>
     /// <param name="areaType">The area type the area codes belong to.</param>
     /// <param name="ancestorCode">A list of desired inequalities.</param>
     /// <returns></returns>
     /// <remarks>
-    /// If more than 10 years are supplied the request will fail.
-    /// If more than 10 area codes are supplied the request will fail.
+    /// If more than 50 indicators are supplied the request will fail.
     /// </remarks>
     [HttpGet]
     [Route("quartiles")]
