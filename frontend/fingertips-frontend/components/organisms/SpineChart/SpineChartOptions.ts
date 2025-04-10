@@ -38,7 +38,6 @@ function benchmarkComparisonMethodToString(
 }
 
 function formatBarHover(
-  title: string,
   period: number,
   indicatorName: string,
   lowerName: string,
@@ -49,7 +48,7 @@ function formatBarHover(
 ) {
   return `<div style="margin:0px; padding:0px;">
               <span style="font-weight: bold; display: block;">
-              ${title}
+              Benchmark: England
               </span>
               <span style="display: block;">${period}</span>
               <span style="display: block;">${indicatorName}</span>
@@ -122,7 +121,6 @@ export function generateSeriesData({
     {
       type: 'bar',
       name: formatBarHover(
-        'Benchmark: England',
         period,
         name,
         'Worst',
@@ -138,7 +136,6 @@ export function generateSeriesData({
     {
       type: 'bar',
       name: formatBarHover(
-        'Benchmark: England',
         period,
         name,
         'Best',
@@ -154,7 +151,6 @@ export function generateSeriesData({
     {
       type: 'bar',
       name: formatBarHover(
-        'Benchmark: England',
         period,
         name,
         '25th percentile',
@@ -170,7 +166,6 @@ export function generateSeriesData({
     {
       type: 'bar',
       name: formatBarHover(
-        'Benchmark: England',
         period,
         name,
         '25th percentile',
