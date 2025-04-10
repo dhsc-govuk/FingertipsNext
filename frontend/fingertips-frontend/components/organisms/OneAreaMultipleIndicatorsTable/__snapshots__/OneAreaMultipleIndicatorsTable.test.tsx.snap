@@ -133,8 +133,8 @@ exports[`OneAreaMultipleIndicatorsTable should match snapshot 1`] = `
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
-  font-size: 12px;
-  line-height: 1.25;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
 }
 
 @media print {
@@ -199,15 +199,15 @@ exports[`OneAreaMultipleIndicatorsTable should match snapshot 1`] = `
 
 @media print {
   .c7 {
-    font-size: 12px;
+    font-size: 14px;
     line-height: 1.2;
   }
 }
 
 @media only screen and (min-width:641px) {
   .c7 {
-    font-size: 14px;
-    line-height: 1.4285714285714286;
+    font-size: 16px;
+    line-height: 1.25;
   }
 }
 
