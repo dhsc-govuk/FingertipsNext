@@ -20,7 +20,6 @@ import {
 } from '@/lib/apiClient/apiClientFactory';
 import { PopulationPyramidWithTable } from '@/components/organisms/PopulationPyramidWithTable';
 
-//get the mappings of all the areaType to the indicator
 const getAreaCodeMappingsToIndicatorIds = async (
   areaCodesToRequest: string[]
 ) => {
