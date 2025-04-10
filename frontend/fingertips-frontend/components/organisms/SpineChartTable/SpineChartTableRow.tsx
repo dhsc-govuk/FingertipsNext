@@ -2,19 +2,17 @@
 
 import { Table } from 'govuk-react';
 import React from 'react';
-import {
-  StyledAlignLeftTableCell,
-  StyledAlignRightTableCell,
-  StyledIndicatorTitleCell,
-} from '@/lib/tableHelpers';
 
 import {
-  StyledAlignCentreBorderRightTableCell,
   StyledAlignCentreTableCell,
   StyledAlignRightBorderRightTableCell,
+  StyledAlignRightCellPadLeft,
   StyledBenchmarkCell,
   StyledBenchmarkChart,
   StyledGroupCell,
+  StyledIndicatorTitleStickyLeftCell,
+  StyledPeriodStickyCell,
+  StyledValueUnitStickyCell,
 } from './SpineChartTableStyles';
 import { SpineChart } from '../SpineChart';
 import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
@@ -63,47 +61,42 @@ export function SpineChartTableRow({
 
   return (
     <Table.Row>
-      <StyledIndicatorTitleCell data-testid={`indicator-cell`}>
+      <StyledIndicatorTitleStickyLeftCell data-testid={`indicator-cell`}>
         {indicatorName}
-      </StyledIndicatorTitleCell>
-      <StyledAlignLeftTableCell data-testid={`unit-cell`}>
+      </StyledIndicatorTitleStickyLeftCell>
+      <StyledPeriodStickyCell data-testid={`period-cell`}>
+        {latestDataPeriod}
+      </StyledPeriodStickyCell>
+      <StyledValueUnitStickyCell data-testid={`unit-cell`}>
         {valueUnit}
-      </StyledAlignLeftTableCell>
-
-      {twoAreasRequested ? (
-        <StyledAlignCentreBorderRightTableCell data-testid={`period-cell`}>
-          {latestDataPeriod}
-        </StyledAlignCentreBorderRightTableCell>
-      ) : (
-        <StyledAlignCentreTableCell data-testid={`period-cell`}>
-          {latestDataPeriod}
-        </StyledAlignCentreTableCell>
-      )}
+      </StyledValueUnitStickyCell>
 
       {twoAreasRequested ? (
         <>
-          <StyledAlignCentreTableCell data-testid={'area-1-count-cell'}>
+          <StyledAlignRightCellPadLeft data-testid={'area-1-count-cell'}>
             {formatWholeNumber(areasHealthData[0].healthData.at(-1)?.count)}
-          </StyledAlignCentreTableCell>
+          </StyledAlignRightCellPadLeft>
           <StyledAlignRightBorderRightTableCell
             data-testid={'area-1-value-cell'}
           >
             {formatNumber(areasHealthData[0].healthData.at(-1)?.value)}
           </StyledAlignRightBorderRightTableCell>
-          <StyledAlignCentreTableCell data-testid={'area-2-count-cell'}>
+          <StyledAlignRightCellPadLeft data-testid={'area-2-count-cell'}>
             {formatWholeNumber(
               twoAreasLatestPeriodMatching
                 ? areasHealthData[1].healthData.at(-1)?.count
                 : undefined
             )}
-          </StyledAlignCentreTableCell>
-          <StyledAlignRightTableCell data-testid={'area-2-value-cell'}>
+          </StyledAlignRightCellPadLeft>
+          <StyledAlignRightBorderRightTableCell
+            data-testid={'area-2-value-cell'}
+          >
             {formatNumber(
               twoAreasLatestPeriodMatching
                 ? areasHealthData[1].healthData.at(-1)?.value
                 : undefined
             )}
-          </StyledAlignRightTableCell>
+          </StyledAlignRightBorderRightTableCell>
         </>
       ) : (
         <>
@@ -115,12 +108,12 @@ export function SpineChartTableRow({
               }
             />
           </StyledAlignCentreTableCell>
-          <StyledAlignCentreTableCell data-testid={`count-cell`}>
+          <StyledAlignRightCellPadLeft data-testid={`count-cell`}>
             {formatWholeNumber(areasHealthData[0].healthData.at(-1)?.count)}
-          </StyledAlignCentreTableCell>
-          <StyledAlignRightTableCell data-testid={`value-cell`}>
+          </StyledAlignRightCellPadLeft>
+          <StyledAlignRightBorderRightTableCell data-testid={`value-cell`}>
             {formatNumber(areasHealthData[0].healthData.at(-1)?.value)}
-          </StyledAlignRightTableCell>
+          </StyledAlignRightBorderRightTableCell>
         </>
       )}
 

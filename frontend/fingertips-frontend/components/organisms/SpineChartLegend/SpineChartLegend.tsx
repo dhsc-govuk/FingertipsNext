@@ -4,6 +4,7 @@ import { SpineChartLegendTypes } from '@/components/organisms/SpineChartLegend/S
 import { FC } from 'react';
 import { BenchmarkLegends } from '@/components/organisms/BenchmarkLegend';
 import { BenchmarkLegendsToShow } from '@/components/organisms/BenchmarkLegend/benchmarkLegend.types';
+import { englandAreaString } from '@/lib/chartHelpers/constants';
 
 const DivContainer = styled.div({
   fontFamily: 'nta, Arial, sans-serif',
@@ -34,9 +35,11 @@ export const SpineChartLegend: FC<SpineChartLegendProps> = ({
         <SpineChartLegendItem itemType={SpineChartLegendTypes.Benchmark}>
           Benchmark: {benchmarkName}
         </SpineChartLegendItem>
-        <SpineChartLegendItem itemType={SpineChartLegendTypes.Group}>
-          Group: {groupName}
-        </SpineChartLegendItem>
+        {groupName !== englandAreaString ? (
+          <SpineChartLegendItem itemType={SpineChartLegendTypes.Group}>
+            Group: {groupName}
+          </SpineChartLegendItem>
+        ) : null}
         {areaNames.map((name, index) => (
           <SpineChartLegendItem
             key={`SpineChartLegendItem-${name}`}
