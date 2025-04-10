@@ -640,25 +640,26 @@ public class IndicatorServiceTests
         result.Status.ShouldBe(ResponseStatus.NoDataForIndicator);
     }
 
+
+
+    /// <summary>
+    ///  DHSCFT-517
+    /// </summary>
+    static readonly string[] expectedAreaCodes = ["Code1", "Code2", "Code3", "Code4"];
+    static readonly string[] expectedAreaNames = ["Area 1", "Area 2", "Area 3", "Area 4"];
+
+    static readonly HealthMeasureModel healthMeasure0 = new HealthMeasureModelHelper().WithAreaDimension(expectedAreaCodes[0], expectedAreaNames[0])
+            .Build();
+    static readonly HealthMeasureModel healthMeasure1 = new HealthMeasureModelHelper().WithAreaDimension(expectedAreaCodes[1], expectedAreaNames[1])
+            .Build();
+    static readonly HealthMeasureModel healthMeasure2 = new HealthMeasureModelHelper().WithAreaDimension(expectedAreaCodes[2], expectedAreaNames[2])
+            .Build();
+    static readonly HealthMeasureModel healthMeasure3 = new HealthMeasureModelHelper().WithAreaDimension(expectedAreaCodes[3], expectedAreaNames[3])
+            .Build();
+
     [Fact]
     public async Task GetIndicatorDataAsync_ReturnsExpectedData_ForMultipleAreas()
     {
-        string[] expectedAreaCodes = { expectedAreaCode, "Code2", "Code3", "Code4" };
-        string[] expectedAreaNames = { expectedAreaName, "Area 2", "Area 3", "Area 4" };
-
-        var healthMeasure0 = new HealthMeasureModelHelper()
-            .WithAreaDimension(expectedAreaCodes[0], expectedAreaNames[0])
-            .Build();
-        var healthMeasure1 = new HealthMeasureModelHelper()
-            .WithAreaDimension(expectedAreaCodes[1], expectedAreaNames[1])
-            .Build();
-        var healthMeasure2 = new HealthMeasureModelHelper()
-            .WithAreaDimension(expectedAreaCodes[2], expectedAreaNames[2])
-            .Build();
-        var healthMeasure3 = new HealthMeasureModelHelper()
-            .WithAreaDimension(expectedAreaCodes[3], expectedAreaNames[3])
-            .Build();
-
         var expected = new List<HealthDataForArea>
         {
             new()
@@ -706,32 +707,19 @@ public class IndicatorServiceTests
             healthMeasure2,
             healthMeasure3,
             ]);
+        _healthDataRepository.GetAreasAsync(Arg.Any<string[]>()).Returns([]);
 
         var result = (await _indicatorService.GetIndicatorDataAsync(1, expectedAreaCodes, "", [], []));
 
         result.Content.AreaHealthData.ShouldNotBeEmpty();
         result.Content.AreaHealthData.Count().ShouldBe(4);
         result.Content.AreaHealthData.ShouldBeEquivalentTo(expected);
-        // TODO: getAreasAsync has not been called
+        await _healthDataRepository.DidNotReceiveWithAnyArgs().GetAreasAsync(null);
     }
 
-    // multiple areas, some with data
     [Fact]
     public async Task GetIndicatorDataAsync_ReturnsExpectedData_ForMultipleAreas_WhenSomeHaveNoData()
     {
-        string[] expectedAreaCodes = { expectedAreaCode, "Code2", "Code3", "Code4" };
-        string[] expectedAreaNames = { expectedAreaName, "Area 2", "Area 3", "Area 4" };
-
-        var healthMeasure0 = new HealthMeasureModelHelper()
-            .WithAreaDimension(expectedAreaCodes[0], expectedAreaNames[0])
-            .Build();
-        var healthMeasure1 = new HealthMeasureModelHelper()
-            .WithAreaDimension(expectedAreaCodes[1], expectedAreaNames[1])
-            .Build();
-        var healthMeasure2 = new HealthMeasureModelHelper()
-            .WithAreaDimension(expectedAreaCodes[2], expectedAreaNames[2])
-            .Build();
-
         var expected = new List<HealthDataForArea>
         {
             new()
@@ -777,28 +765,20 @@ public class IndicatorServiceTests
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns([healthMeasure0, healthMeasure1, healthMeasure2]);
         _healthDataRepository.GetAreasAsync(Arg.Any<string[]>()).Returns(missingAreas);
 
-
         var result = (await _indicatorService.GetIndicatorDataAsync(1, expectedAreaCodes, "", [], []));
+        string[] missingAreasCodes = [missingAreas[0].Code];
 
         result.Content.AreaHealthData.ShouldNotBeEmpty();
         result.Content.AreaHealthData.Count().ShouldBe(4);
         result.Content.AreaHealthData.ShouldBeEquivalentTo(expected);
-        // TODO: getAreasAsync called once https://nsubstitute.github.io/help/received-calls/
-        //GetAreasAsync.Received()
+        await _healthDataRepository.Received().GetAreasAsync(Arg.Is<String[]>(x => x.SequenceEqual(missingAreasCodes)));
 
 
     }
 
-
-
-
-    // multiple areas, none with data
     [Fact]
     public async Task GetIndicatorDataAsync_ReturnsDataForAllRequestedAreas_WhenNoneHaveData()
     {
-        string[] expectedAreaCodes = { expectedAreaCode, "Code2", "Code3", "Code4" };
-        string[] expectedAreaNames = { expectedAreaName, "Area 2", "Area 3", "Area 4" };
-
         var expected = new List<HealthDataForArea>
         {
             new()
@@ -836,13 +816,12 @@ public class IndicatorServiceTests
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns([]);
         _healthDataRepository.GetAreasAsync(Arg.Any<string[]>()).Returns(missingAreas);
 
-
         var result = (await _indicatorService.GetIndicatorDataAsync(1, expectedAreaCodes, "", [], []));
+        string[] missingAreasCodes = [missingAreas[0].Code, missingAreas[1].Code, missingAreas[2].Code, missingAreas[3].Code,];
 
         result.Content.AreaHealthData.ShouldNotBeEmpty();
         result.Content.AreaHealthData.Count().ShouldBe(4);
         result.Content.AreaHealthData.ShouldBeEquivalentTo(expected);
-        // TODO: getAreasAsync called once https://nsubstitute.github.io/help/received-calls/
-        // GetAreasAsync.Received()
+        await _healthDataRepository.Received().GetAreasAsync(Arg.Is<String[]>(x => x.SequenceEqual(missingAreasCodes)));
     }
 }
