@@ -162,6 +162,7 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       await homePage.clearSearchIndicatorField();
       await homePage.closeAreaFilterPill(0);
       await homePage.closeAreaFilterPill(0);
+      await homePage.closeAreaFilterPill(0);
 
       await homePage.clickSearchButton();
       await homePage.checkSearchFieldIsPrePopulatedWith(); // nothing should be prepopulated after clearing search field
