@@ -12,7 +12,7 @@ import { HeatmapHeader } from './heatmapHeader';
 import { HeatmapCell } from './heatmapCell';
 import { BenchmarkLegend } from '../BenchmarkLegend';
 import { HeatmapHover } from './heatmapHover';
-import React, { useMemo } from 'react';
+import React from 'react';
 
 export interface HeatmapProps {
   indicatorData: HeatmapIndicatorData[];
@@ -41,15 +41,11 @@ export function Heatmap({
   indicatorData,
   groupAreaCode,
 }: Readonly<HeatmapProps>) {
-  const { headers, rows } = useMemo(() => {
-    const { areas, indicators, dataPoints } =
-      extractSortedAreasIndicatorsAndDataPoints(indicatorData, groupAreaCode);
+  const { areas, indicators, dataPoints } =
+    extractSortedAreasIndicatorsAndDataPoints(indicatorData, groupAreaCode);
 
-    const headers = generateHeaders(areas, groupAreaCode);
-    const rows = generateRows(areas, indicators, dataPoints);
-
-    return { headers, rows };
-  }, [indicatorData, groupAreaCode]);
+  const headers = generateHeaders(areas, groupAreaCode);
+  const rows = generateRows(areas, indicators, dataPoints);
 
   const idPrefix = 'hover'; //useId(); // - useId breaks Next hydration for some reason
   const getHoverId = (cellKey: string) => {
