@@ -14,6 +14,7 @@ import {
   getConfidenceLimitNumber,
 } from '@/lib/chartHelpers/chartHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
+import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 
 const StyledDivSquare = styled.div({
   width: '10px',
@@ -97,7 +98,7 @@ function BenchmarkPillIcon({
   polarity,
 }: Readonly<BenchmarkPillIconProps>): React.ReactNode {
   if (value === undefined) {
-    return <StyledText>{'\u2715'}</StyledText>;
+    return <StyledText>{SymbolsEnum.MultiplicationX}</StyledText>;
   }
 
   if (outcome === BenchmarkOutcome.NotCompared) {
