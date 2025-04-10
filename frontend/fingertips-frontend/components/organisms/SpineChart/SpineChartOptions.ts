@@ -17,6 +17,14 @@ function absDiff(value: number, benchmark: number): number {
   return Math.abs(Math.abs(value) - Math.abs(benchmark));
 }
 
+
+export const generateSpineChartTooltipForPoint = (
+  point: Highcharts.Point,
+  symbol: string
+) => [
+  `<span style="color:${point.color}">${symbol}</span>`
+];
+
 function benchmarkComparisonMethodToString(benchmarkComparisonMethod: BenchmarkComparisonMethod):string {
   switch (benchmarkComparisonMethod) {
     case BenchmarkComparisonMethod.CIOverlappingReferenceValue95:
@@ -71,7 +79,7 @@ function formatBarHover(
               <div>`;
   }
 
-function generateSeriesData({
+export function generateSeriesData({
   name,
   period,
   units,
@@ -87,20 +95,26 @@ function generateSeriesData({
   groupOutcome,
   benchmarkMethod,
 }: Readonly<SpineChartProps>) {
-  const { best, bestQuartile, worstQuartile, worst } =
-    orderStatistics(quartileData);
+  const {
+    best,
+    bestQuartile: upperQuartile,
+    worstQuartile: lowerQuartile,
+    worst,
+  } = orderStatistics(quartileData);
 
-  const absBest = absDiff(best, benchmarkValue);
-  const absWorst = absDiff(worst, benchmarkValue);
-  const absBestQuartile = absDiff(bestQuartile, benchmarkValue);
-  const absWorstQuartile = absDiff(worstQuartile, benchmarkValue);
+  const maxDiffFromBenchmark = Math.max(
+    absDiff(best, benchmarkValue),
+    absDiff(worst, benchmarkValue)
+  );
 
-  const maxValue = Math.max(absBest, absWorst);
-
-  const scaledBest = absBest / maxValue;
-  const scaledWorst = absWorst / maxValue;
-  const scaledBestQuartile = absBestQuartile / maxValue;
-  const scaledWorstQuartile = absWorstQuartile / maxValue;
+  const scaledFirstQuartileBar =
+    absDiff(best, upperQuartile) / maxDiffFromBenchmark;
+  const scaledSecondQuartileBar =
+    absDiff(upperQuartile, benchmarkValue) / maxDiffFromBenchmark;
+  const scaledThirdQuartileBar =
+    absDiff(lowerQuartile, benchmarkValue) / maxDiffFromBenchmark;
+  const scaledFourthQuartileBar =
+    absDiff(worst, lowerQuartile) / maxDiffFromBenchmark;
 
   const seriesData: (
     | Highcharts.SeriesBarOptions
@@ -115,12 +129,12 @@ function generateSeriesData({
         'Worst',
         worst,
         '25th percentile',
-        worstQuartile,
+        lowerQuartile,
         units
       ),
       pointWidth: 30,
       color: GovukColours.MidGrey,
-      data: [-scaledWorst + scaledWorstQuartile],
+      data: [-scaledFourthQuartileBar],
     },
     {
       type: 'bar',
@@ -131,12 +145,12 @@ function generateSeriesData({
         'Best',
         best,
         '75th percentile',
-        bestQuartile,
+        upperQuartile,
         units
       ),
       pointWidth: 30,
       color: GovukColours.MidGrey,
-      data: [scaledBest - scaledBestQuartile],
+      data: [scaledFirstQuartileBar],
     },
     {
       type: 'bar',
@@ -145,14 +159,14 @@ function generateSeriesData({
         period,
         name,
         '25th percentile',
-        worstQuartile,
+        lowerQuartile,
         '75th percentile',
-        bestQuartile,
+        upperQuartile,
         units
       ),
       pointWidth: 30,
       color: GovukColours.DarkGrey,
-      data: [-scaledWorstQuartile],
+      data: [-scaledThirdQuartileBar],
     },
     {
       type: 'bar',
@@ -161,27 +175,26 @@ function generateSeriesData({
         period,
         name,
         '25th percentile',
-        worstQuartile,
+        lowerQuartile,
         '75th percentile',
-        bestQuartile,
+        upperQuartile,
         units
       ),
       pointWidth: 30,
-      color: GovukColours.DarkGrey,
-      data: [scaledBestQuartile],
+      color: GovukColours.MidGrey,
+      data: [scaledSecondQuartileBar],
     },
   ];
 
-  const flipper =
+  const inverter =
     quartileData.polarity === IndicatorPolarity.LowIsGood ? -1 : 1;
 
   if (groupValue !== undefined) {
     const absGroupValue =
-      flipper * (Math.abs(groupValue) - Math.abs(benchmarkValue));
-    const scaledGroup = absGroupValue / maxValue;
+      inverter * (Math.abs(groupValue) - Math.abs(benchmarkValue));
+    const scaledGroup = absGroupValue / maxDiffFromBenchmark;
     seriesData.push({
       type: 'scatter',
-      color: '#fff',
       name: formatSymbolHover(
         `Group: ${groupName}`,
         period,
@@ -206,6 +219,7 @@ function generateSeriesData({
     { value: areaOneValue, outcome: areaOneOutcome, areaName: areaNames[0]},
     { value: areaTwoValue, outcome: areaTwoOutcome, areaName: areaNames[1]},
   ];
+
   areas.forEach(({ value, outcome, areaName }, index) => {
     if (value === undefined) return;
     const fillColor = getBenchmarkColour(
@@ -214,8 +228,9 @@ function generateSeriesData({
       quartileData.polarity ?? IndicatorPolarity.NoJudgement
     );
 
-    const absAreaValue = flipper * (Math.abs(value) - Math.abs(benchmarkValue));
-    const scaledArea = absAreaValue / maxValue;
+    const absAreaValue =
+      inverter * (Math.abs(value) - Math.abs(benchmarkValue));
+    const scaledArea = absAreaValue / maxDiffFromBenchmark;
     seriesData.push({
       type: 'scatter',
       name: formatSymbolHover(
@@ -254,12 +269,6 @@ function generateSeriesData({
 
   return seriesData;
 }
-
-const generateSpineChartTooltipForPoint = (
-  point: Highcharts.Point,
-  symbol: string
-) => [`<span style="fillColor:${point.color}; radius: 30; lineColor: '#000'; lineWidth: ${markerLineWidth};">${symbol}</span>`];
-
 export function generateChartOptions(props: Readonly<SpineChartProps>) {
   const categories = [''];
 
@@ -337,7 +346,6 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
         borderWidth: 0,
       },
     },
-    series: generateSeriesData(props),
     tooltip: {
       padding: 10,
       headerFormat: `{series.name}`,
@@ -346,5 +354,6 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
       },
       useHTML: true,
     },
+    series: generateSeriesData(props),
   };
 }
