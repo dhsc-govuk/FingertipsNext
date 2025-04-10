@@ -27,6 +27,8 @@ describe('Spine chart', () => {
         period={mockPeriod}
         benchmarkValue={mockValue}
         quartileData={mockQuartileData}
+        areaNames={['Area Name']}
+        groupName={'Group Name'}
       />
     );
 

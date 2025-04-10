@@ -17,8 +17,10 @@ export interface SpineChartProps {
   areaOneOutcome?: BenchmarkOutcome;
   areaTwoValue?: number;
   areaTwoOutcome?: BenchmarkOutcome;
+  areaNames: string[];
   benchmarkMethod?: BenchmarkComparisonMethod;
   groupValue?: number;
+  groupName: string;
 }
 
 function absDiff(value: number, benchmark: number): number {
@@ -310,6 +312,7 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
 export function SpineChart(props: Readonly<SpineChartProps>) {
   const spineChartsOptions = generateChartOptions(props);
   const { benchmarkValue } = props;
+
   return (
     <div data-testid={`spineChart-component`}>
       <HighchartsReact

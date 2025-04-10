@@ -10,29 +10,51 @@ import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { SpineChartProps } from '.';
 
+const markerLineWidth = 1;
+
 function absDiff(value: number, benchmark: number): number {
   return Math.abs(Math.abs(value) - Math.abs(benchmark));
 }
 
-function formatHeader(
-    period: number, 
-    indicatorName: string, 
+function formatBarHover(
+    title: string,
+    period: number,
+    indicatorName: string,
     lowerName: string,
     lowerValue: number,
     upperName: string,
     upperValue: number,
-    units: string) {
+    units: string
+  ) {
     return `<div style="margin:0px; padding:0px;">
-            <span style="font-weight: bold; display: block;">
-            Benchmark: England
-            </span>
-            <span style="display: block;">${period}</span>
-            <span style="display: block;">${indicatorName}</span>
-            <span style="display: block; float: right;">${lowerValue}${units} to ${upperValue}${units}</span></br/>
-            <span style="display: block; float: right;">${lowerName} to ${upperName}</span><div>`
-}
+              <span style="font-weight: bold; display: block;">
+              ${title}
+              </span>
+              <span style="display: block;">${period}</span>
+              <span style="display: block;">${indicatorName}</span>
+              <span style="display: block; float: right;">${lowerValue}${units} to ${upperValue}${units}</span></br/>
+              <span style="display: block; float: right;">${lowerName} to ${upperName}</span><div>`;
+  }
 
-export function generateSeriesData({
+  function formatSymbolHover(
+    title: string,
+    period: number,
+    indicatorName: string,
+    value: number,
+    units: string,
+    outcome: string,
+  ) {
+    return `<div style="margin:0px; padding:0px;">
+              <span style="font-weight: bold; display: block;">
+              ${title}
+              </span>
+              <span style="display: block;">${period}</span>
+              <span style="display: block;">${indicatorName}</span>
+              <span style="display: block; float: right;">${value}${units}</span></br/>
+              <span style="display: block; float: right;">${outcome}</span><div>`;
+  }
+
+function generateSeriesData({
   name,
   period,
   units,
@@ -42,7 +64,9 @@ export function generateSeriesData({
   areaOneOutcome,
   areaTwoValue,
   areaTwoOutcome,
+  areaNames,
   groupValue,
+  groupName,
   benchmarkMethod,
 }: Readonly<SpineChartProps>) {
   const { best, bestQuartile, worstQuartile, worst } =
@@ -60,15 +84,14 @@ export function generateSeriesData({
   const scaledBestQuartile = absBestQuartile / maxValue;
   const scaledWorstQuartile = absWorstQuartile / maxValue;
 
-  const markerLineWidth = 1;
-
   const seriesData: (
     | Highcharts.SeriesBarOptions
     | Highcharts.SeriesScatterOptions
   )[] = [
     {
       type: 'bar',
-      name: formatHeader(
+      name: formatBarHover(
+        'Benchmark: England',
         period,
         name,
         'Worst',
@@ -83,7 +106,8 @@ export function generateSeriesData({
     },
     {
       type: 'bar',
-      name: formatHeader(
+      name: formatBarHover(
+        'Benchmark: England',
         period,
         name,
         'Best',
@@ -98,7 +122,8 @@ export function generateSeriesData({
     },
     {
       type: 'bar',
-      name: formatHeader(
+      name: formatBarHover(
+        'Benchmark: England',
         period,
         name,
         '25th percentile',
@@ -113,7 +138,8 @@ export function generateSeriesData({
     },
     {
       type: 'bar',
-      name: formatHeader(
+      name: formatBarHover(
+        'Benchmark: England',
         period,
         name,
         '25th percentile',
@@ -137,7 +163,16 @@ export function generateSeriesData({
     const scaledGroup = absGroupValue / maxValue;
     seriesData.push({
       type: 'scatter',
-      name: 'Group',
+      color: '#fff',
+      name: formatSymbolHover(
+        `Group: ${groupName}`,
+        period,
+        name,
+        groupValue,
+        units,
+        '',
+        
+      ),
       marker: {
         symbol: 'diamond',
         radius: 8,
@@ -150,10 +185,10 @@ export function generateSeriesData({
   }
 
   const areas = [
-    { value: areaOneValue, outcome: areaOneOutcome },
-    { value: areaTwoValue, outcome: areaTwoOutcome },
+    { value: areaOneValue, outcome: areaOneOutcome, areaName: areaNames[0]},
+    { value: areaTwoValue, outcome: areaTwoOutcome, areaName: areaNames[1]},
   ];
-  areas.forEach(({ value, outcome }, index) => {
+  areas.forEach(({ value, outcome, areaName }, index) => {
     if (value === undefined) return;
     const fillColor = getBenchmarkColour(
       benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
@@ -165,7 +200,14 @@ export function generateSeriesData({
     const scaledArea = absAreaValue / maxValue;
     seriesData.push({
       type: 'scatter',
-      name: `Area ${outcome}`,
+      name: formatSymbolHover(
+        areaName,
+        period,
+        name,
+        value,
+        units,
+        outcome?? 'Not compared',
+      ),
       marker: {
         symbol: index === 0 ? 'circle' : 'square',
         radius: 6,
@@ -194,12 +236,11 @@ export function generateSeriesData({
   return seriesData;
 }
 
-export const generateSpineChartTooltipForPoint = (
+const generateSpineChartTooltipForPoint = (
   point: Highcharts.Point,
   symbol: string
-) => [
-  `<span style="color:${point.color}">${symbol}</span>`
-];
+) => [`<span style="fillColor:${point.color}; radius: 30; lineColor: '#000'; lineWidth: ${markerLineWidth};">${symbol}</span>`];
+
 
 export function generateChartOptions(props: Readonly<SpineChartProps>) {
   const categories = [''];
