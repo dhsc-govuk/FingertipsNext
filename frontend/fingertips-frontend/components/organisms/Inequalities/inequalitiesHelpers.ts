@@ -17,7 +17,7 @@ import {
 } from '../LineChart/lineChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import Highcharts, { DashStyleValue, YAxisOptions } from 'highcharts';
-import { FormatValueAsWholeNumber } from '@/lib/chartHelpers/labelFormatters';
+import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
 
 export const localeSort = (a: string, b: string) => a.localeCompare(b);
 export const sexCategory = 'Sex';
@@ -324,7 +324,7 @@ export function generateInequalitiesLineChartOptions(
       },
       labels: {
         ...(lineChartDefaultOptions.yAxis as YAxisOptions)?.labels,
-        formatter: FormatValueAsWholeNumber,
+        formatter: FormatValueAsNumber,
       },
     },
     xAxis: {

@@ -22,7 +22,7 @@ import { useEffect, useState } from 'react';
 import { useSearchState } from '@/context/SearchStateContext';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
 import { IndicatorPolarity } from '@/generated-sources/ft-api-client';
-import { FormatValueAsWholeNumber } from '@/lib/chartHelpers/labelFormatters';
+import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
@@ -88,7 +88,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
       benchmarkData: englandBenchmarkData,
       groupIndicatorData: groupData,
       yAxisTitle,
-      yAxisLabelFormatter: FormatValueAsWholeNumber,
+      yAxisLabelFormatter: FormatValueAsNumber,
       xAxisTitle: 'Year',
       measurementUnit: indicatorMetadata?.unitLabel,
       accessibilityLabel: 'A line chart showing healthcare data',

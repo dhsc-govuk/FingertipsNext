@@ -1,16 +1,16 @@
 import { AxisLabelsFormatterContextObject } from 'highcharts';
-import { formatWholeNumber } from '@/lib/numberFormatter';
+import {formatNumber, formatWholeNumber} from '@/lib/numberFormatter';
 
-export function FormatValueAsWholeNumber(
-  this: AxisLabelsFormatterContextObject,
-  _ctx: AxisLabelsFormatterContextObject
+export function FormatValueAsNumber(
+    this: AxisLabelsFormatterContextObject,
+    _ctx: AxisLabelsFormatterContextObject
 ): string {
-  return formatWholeNumber(this.value as number);
+  return formatNumber(this.value as number);
 }
 
-export function FormatValueAsWholeNumberAbsolute(
+export function FormatValueAsNumberAbsolute(
   this: AxisLabelsFormatterContextObject,
   _ctx: AxisLabelsFormatterContextObject
 ): string {
-  return formatWholeNumber(Math.abs(this.value as number));
+  return formatNumber(Math.abs(this.value as number));
 }

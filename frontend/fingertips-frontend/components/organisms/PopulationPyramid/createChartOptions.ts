@@ -6,7 +6,7 @@ import Highcharts, { SeriesOptionsType } from 'highcharts';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { generatePopPyramidTooltipForPoint } from '.';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { FormatValueAsWholeNumberAbsolute } from '@/lib/chartHelpers/labelFormatters';
+import { FormatValueAsNumberAbsolute } from '@/lib/chartHelpers/labelFormatters';
 
 const createChartSeriesOptions = (
   xAxisTitle: string,
@@ -93,7 +93,7 @@ const createChartSeriesOptions = (
       tickColor: GovukColours.DarkSlateGray,
       gridLineWidth: 0,
       labels: {
-        formatter: FormatValueAsWholeNumberAbsolute,
+        formatter: FormatValueAsNumberAbsolute,
         align: 'center',
       },
       accessibility: {

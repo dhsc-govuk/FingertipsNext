@@ -19,7 +19,7 @@ import { SparklineLabelEnum } from '@/components/organisms/BarChartEmbeddedTable
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { getBenchmarkLabelText } from '@/components/organisms/BenchmarkLabel';
 import { formatNumber } from '@/lib/numberFormatter';
-import { FormatValueAsWholeNumberAbsolute } from '@/lib/chartHelpers/labelFormatters';
+import { FormatValueAsNumberAbsolute } from '@/lib/chartHelpers/labelFormatters';
 
 interface SparklineChartProps {
   value: (number | undefined)[];
@@ -146,7 +146,7 @@ export function SparklineChart({
       min: 0,
       max: maxValue,
       labels: {
-        formatter: FormatValueAsWholeNumberAbsolute,
+        formatter: FormatValueAsNumberAbsolute,
       },
     },
     xAxis: { visible: false },
