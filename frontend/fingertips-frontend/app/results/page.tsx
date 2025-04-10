@@ -12,6 +12,7 @@ import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
 import { getSelectedAreasDataByAreaType } from '@/lib/areaFilterHelpers/getSelectedAreasData';
 import { AreaTypeKeys } from '@/lib/areaFilterHelpers/areaType';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 export default async function Page(
   props: Readonly<{
@@ -28,6 +29,7 @@ export default async function Page(
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.GroupSelected]: groupSelected,
     [SearchParams.AreaTypeSelected]: areaTypeSelected,
+    [SearchParams.GroupAreaSelected]: groupAreaSelected,
   } = stateManager.getSearchState();
   try {
     await connection();
@@ -53,11 +55,16 @@ export default async function Page(
       stateManager.setState(updatedSearchState);
     }
 
+    const searchFilterAreas =
+      groupAreaSelected === ALL_AREAS_SELECTED
+        ? availableAreas?.map((area) => area.code)
+        : areasSelected;
+
     const searchResults =
       await SearchServiceFactory.getIndicatorSearchService().searchWith(
         searchedIndicator ?? '',
         isEnglandSelectedAsGroup,
-        areasSelected
+        searchFilterAreas
       );
 
     const initialState: IndicatorSelectionState = {
