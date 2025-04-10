@@ -37,7 +37,7 @@ export function InequalitiesTypesDropDown({
       <StyledFilterSelect
         label="Select an inequality type"
         data-testid={`select-inequality-type-${testRef}`}
-        aria-label={`select-inequality-type-${testRef}`}
+        aria-label="Select an inequality type"
         input={{
           value: selectedType,
           onChange: (e) => {

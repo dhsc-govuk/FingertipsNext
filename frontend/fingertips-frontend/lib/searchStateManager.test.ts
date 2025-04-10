@@ -283,9 +283,9 @@ describe('SearchStateManager', () => {
         `&${SearchParams.GroupTypeSelected}=Some+group+type`,
         `&${SearchParams.GroupSelected}=A003`,
         `&${SearchParams.GroupAreaSelected}=ALL`,
+        `&${SearchParams.InequalityYearSelected}=2021`,
         `&${SearchParams.InequalityLineChartTypeSelected}=Some+inequality+type`,
         `&${SearchParams.InequalityBarChartTypeSelected}=Some+other+inequality+type`,
-        `&${SearchParams.InequalityYearSelected}=2021`,
       ].join('');
 
       const stateManager = SearchStateManager.initialise({
