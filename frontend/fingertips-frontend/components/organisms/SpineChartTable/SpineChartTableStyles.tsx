@@ -39,6 +39,10 @@ export const StyledAlignCentreHeader = styled(StyledAlignLeftHeader)({
   textAlign: 'center',
 });
 
+export const StyledAlignRightHeaderPadLeft = styled(StyledAlignRightHeader)({
+  paddingLeft: '0.5em',
+});
+
 export const StyledAlignRightBorderHeader = styled(StyledAlignRightHeader)({
   borderRight: 'solid #bfc1c3 1px',
   paddingRight: '0.5em',
@@ -70,6 +74,10 @@ export const StyledAlignRightBorderRightTableCell = styled(
   paddingRight: '0.5em',
 });
 
+export const StyledAlignRightCellPadLeft = styled(StyledAlignRightTableCell)({
+  paddingLeft: '0.5em',
+});
+
 export const StyledValueUnitStickyCell = styled(
   StyledAlignRightBorderRightTableCell
 )({
@@ -90,7 +98,7 @@ export const StyledIndicatorTitleStickyLeftCell = styled(
 export const StyledGroupHeader = styled(StyledGreyHeader)({
   backgroundColor: GovukColours.LightGrey,
   borderTop: GovukColours.MidGrey,
-  textAlign: 'left',
+  textAlign: 'right',
 });
 
 export const StyledGroupSubHeader = styled(StyledGreyHeader)({
@@ -115,12 +123,14 @@ export const StyledGroupCell = styled(StyledAlignRightTableCell)({
   backgroundColor: GovukColours.LightGrey,
   borderTop: GovukColours.MidGrey,
   textAlign: 'right',
+  paddingLeft: '0.5em',
 });
 
 export const StyledBenchmarkCell = styled(StyledAlignRightTableCell)({
   backgroundColor: GovukColours.MidGrey,
   borderTop: GovukColours.LightGrey,
   textAlign: 'right',
+  paddingLeft: '0.5em',
 });
 
 export const StyledBenchmarkChart = styled(StyledBenchmarkCell)({

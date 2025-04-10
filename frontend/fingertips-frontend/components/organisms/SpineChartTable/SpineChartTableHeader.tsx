@@ -1,6 +1,5 @@
 import { Table } from 'govuk-react';
 import React from 'react';
-import { StyledAlignRightHeader } from '@/lib/tableHelpers';
 
 import {
   StyledAlignCentreHeader,
@@ -13,6 +12,7 @@ import {
   StickyValueUnitHeader,
   StickyPeriodHeader,
   StyledAlignLeftStickyLeftHeader,
+  StyledAlignRightHeaderPadLeft,
 } from './SpineChartTableStyles';
 import { englandAreaString } from '@/lib/chartHelpers/constants';
 
@@ -90,12 +90,12 @@ const oneAreaHeadingsList: HeaderData[] = [
   {
     title: SpineChartTableHeadingEnum.AreaCount,
     uniqueIdentifier: 'area-count-header',
-    styledComponent: StyledAlignRightHeader,
+    styledComponent: StyledAlignRightHeaderPadLeft,
   },
   {
     title: SpineChartTableHeadingEnum.Value,
     uniqueIdentifier: 'area-value-header',
-    styledComponent: StyledAlignRightHeader,
+    styledComponent: StyledAlignRightBorderHeader,
   },
   {
     title: SpineChartTableHeadingEnum.Value,
@@ -110,7 +110,7 @@ const twoAreasHeadingsList: HeaderData[] = [
   {
     title: SpineChartTableHeadingEnum.AreaCount,
     uniqueIdentifier: 'area-1-count-header',
-    styledComponent: StyledAlignRightHeader,
+    styledComponent: StyledAlignRightHeaderPadLeft,
   },
   {
     title: SpineChartTableHeadingEnum.Value,
@@ -120,12 +120,12 @@ const twoAreasHeadingsList: HeaderData[] = [
   {
     title: SpineChartTableHeadingEnum.AreaCount,
     uniqueIdentifier: 'area-2-count-header',
-    styledComponent: StyledAlignRightHeader,
+    styledComponent: StyledAlignRightHeaderPadLeft,
   },
   {
     title: SpineChartTableHeadingEnum.Value,
     uniqueIdentifier: 'area-2-value-header',
-    styledComponent: StyledAlignRightHeader,
+    styledComponent: StyledAlignRightBorderHeader,
   },
   {
     title: SpineChartTableHeadingEnum.Value,

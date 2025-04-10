@@ -2,11 +2,11 @@
 
 import { Table } from 'govuk-react';
 import React from 'react';
-import { StyledAlignRightTableCell } from '@/lib/tableHelpers';
 
 import {
   StyledAlignCentreTableCell,
   StyledAlignRightBorderRightTableCell,
+  StyledAlignRightCellPadLeft,
   StyledBenchmarkCell,
   StyledBenchmarkChart,
   StyledGroupCell,
@@ -73,28 +73,30 @@ export function SpineChartTableRow({
 
       {twoAreasRequested ? (
         <>
-          <StyledAlignRightTableCell data-testid={'area-1-count-cell'}>
+          <StyledAlignRightCellPadLeft data-testid={'area-1-count-cell'}>
             {formatWholeNumber(areasHealthData[0].healthData.at(-1)?.count)}
-          </StyledAlignRightTableCell>
+          </StyledAlignRightCellPadLeft>
           <StyledAlignRightBorderRightTableCell
             data-testid={'area-1-value-cell'}
           >
             {formatNumber(areasHealthData[0].healthData.at(-1)?.value)}
           </StyledAlignRightBorderRightTableCell>
-          <StyledAlignRightTableCell data-testid={'area-2-count-cell'}>
+          <StyledAlignRightCellPadLeft data-testid={'area-2-count-cell'}>
             {formatWholeNumber(
               twoAreasLatestPeriodMatching
                 ? areasHealthData[1].healthData.at(-1)?.count
                 : undefined
             )}
-          </StyledAlignRightTableCell>
-          <StyledAlignRightTableCell data-testid={'area-2-value-cell'}>
+          </StyledAlignRightCellPadLeft>
+          <StyledAlignRightBorderRightTableCell
+            data-testid={'area-2-value-cell'}
+          >
             {formatNumber(
               twoAreasLatestPeriodMatching
                 ? areasHealthData[1].healthData.at(-1)?.value
                 : undefined
             )}
-          </StyledAlignRightTableCell>
+          </StyledAlignRightBorderRightTableCell>
         </>
       ) : (
         <>
@@ -106,12 +108,12 @@ export function SpineChartTableRow({
               }
             />
           </StyledAlignCentreTableCell>
-          <StyledAlignRightTableCell data-testid={`count-cell`}>
+          <StyledAlignRightCellPadLeft data-testid={`count-cell`}>
             {formatWholeNumber(areasHealthData[0].healthData.at(-1)?.count)}
-          </StyledAlignRightTableCell>
-          <StyledAlignRightTableCell data-testid={`value-cell`}>
+          </StyledAlignRightCellPadLeft>
+          <StyledAlignRightBorderRightTableCell data-testid={`value-cell`}>
             {formatNumber(areasHealthData[0].healthData.at(-1)?.value)}
-          </StyledAlignRightTableCell>
+          </StyledAlignRightBorderRightTableCell>
         </>
       )}
 
