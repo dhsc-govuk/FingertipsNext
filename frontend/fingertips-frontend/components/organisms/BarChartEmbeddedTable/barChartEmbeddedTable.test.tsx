@@ -321,7 +321,7 @@ describe('BarChartEmbeddedTable', () => {
     );
 
     expect(
-      screen.getAllByText('Data source: bar chart data source')
-    ).toHaveLength(2);
+      screen.getByText('Data source: bar chart data source')
+    ).toBeInTheDocument();
   });
 });
