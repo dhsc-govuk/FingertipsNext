@@ -60,7 +60,7 @@ export function SpineChartTableRow({
   }
 
   const areaNames: string[] = [];
-  areasHealthData.map((areaHealthData) => {
+  areasHealthData.forEach((areaHealthData) => {
     areaNames.push(areaHealthData.areaName);
   });
   return (
