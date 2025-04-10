@@ -1,6 +1,6 @@
 import { getSearchSuggestions } from '@/components/forms/SearchForm/searchActions';
 import { AreaDocument } from '@/lib/search/searchTypes';
-import React, {useEffect, useState, useRef} from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { AreaSearchInputField } from '@/components/molecules/AreaSearchInputField';
 import { AreaAutoCompleteSuggestionPanel } from '@/components/molecules/AreaSuggestionPanel';
 import styled from 'styled-components';
