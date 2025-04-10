@@ -62,6 +62,12 @@ export default class ChartPage extends AreaFilter {
     );
   }
 
+  async waitAfterDropDownInteraction() {
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.page.waitForTimeout(1000);
+  }
+
   /**
    * This function tests a subset of indicator + area scenario combinations from
    * https://confluence.collab.test-and-trace.nhs.uk/pages/viewpage.action?pageId=419245267
@@ -129,9 +135,7 @@ export default class ChartPage extends AreaFilter {
         await combobox.selectOption({
           value: dropdownOptions[dropdownOptions.length - 1].value,
         });
-        await this.page.waitForLoadState();
-        await expect(this.page.getByText('Loading')).toHaveCount(0);
-        await this.page.waitForTimeout(1000);
+        await this.waitAfterDropDownInteraction();
       }
       // if its one of the chart components that has a type dropdown for inequalities then select the last in the list
       if (visibleComponent.componentProps.hasTypeDropDown) {
@@ -156,9 +160,7 @@ export default class ChartPage extends AreaFilter {
         await combobox.selectOption({
           value: dropdownOptions[dropdownOptions.length - 1].value,
         });
-        await this.page.waitForLoadState();
-        await expect(this.page.getByText('Loading')).toHaveCount(0);
-        await this.page.waitForTimeout(1000);
+        await this.waitAfterDropDownInteraction();
       }
       // if its one of the chart components that has a confidence interval checkbox then click it
       if (visibleComponent.componentProps.hasConfidenceIntervals) {
