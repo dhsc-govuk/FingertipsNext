@@ -79,7 +79,7 @@ export function getScenarioConfig(
     {
       componentLocator: ChartPage.inequalitiesForSingleTimePeriodComponent,
       componentProps: {
-        hasConfidenceIntervals: true,
+        hasConfidenceIntervals: false,
         isTabTable: false,
         hasTimePeriodDropDown: true,
         hasDetailsExpander: false,
@@ -209,15 +209,13 @@ export function getScenarioConfig(
       ].includes(component.componentLocator)
     );
   }
-  // 1 indicator, 2+ areas
+  // 1 indicator, 3+ areas
   else if (
     indicatorMode === IndicatorMode.ONE_INDICATOR &&
     areaMode === AreaMode.THREE_PLUS_AREAS
   ) {
     visibleComponents = allComponents.filter((component) =>
       [
-        ChartPage.lineChartComponent,
-        ChartPage.lineChartTableComponent,
         ChartPage.barChartEmbeddedTableComponent,
         ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
