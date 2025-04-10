@@ -61,7 +61,6 @@ export function Heatmap({
 
     hoverElement.style.display = 'block';
     hoverElement.style.left = `${cellRect?.right + 12}px`;
-    console.log(cellRect?.top + (cellRect?.bottom - cellRect?.top) / 2);
     hoverElement.style.top = `${cellRect?.top + (cellRect?.bottom - cellRect?.top) / 2}px`;
   };
 
