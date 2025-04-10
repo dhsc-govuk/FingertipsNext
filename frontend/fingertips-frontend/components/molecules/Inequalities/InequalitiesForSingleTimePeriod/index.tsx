@@ -74,7 +74,7 @@ export function InequalitiesForSingleTimePeriod({
   if (!healthDataForArea) return null;
 
   const inequalityCategories = getInequalityCategories(
-    healthIndicatorData[0], // To look into
+    healthDataForArea,
     Number(selectedYear)
   );
   if (!inequalityCategories.length) return null;
