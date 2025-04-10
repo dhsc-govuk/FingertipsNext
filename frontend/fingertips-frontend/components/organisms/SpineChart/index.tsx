@@ -9,6 +9,7 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { orderStatistics } from './SpineChartHelpers';
 import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
+import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 
 export interface SpineChartProps {
   name: string;
@@ -36,15 +37,18 @@ function buildNameString(
   units: string
 ): string {
   return (
+    '<span>' + 
     lowerValue +
     units +
     ' to ' +
     upperValue +
     units +
-    '<br/>' +
+    '</span>' +
+    '<span>' +
     lowerName +
     ' to ' +
-    upperName
+    upperName +
+    '</span>'
   );
 }
 
@@ -205,6 +209,13 @@ export function generateSeriesData({
   return seriesData;
 }
 
+export const generateSpineChartTooltipForPoint = (
+  point: Highcharts.Point,
+  symbol: string
+) => [
+  `<span style="color:${point.color}">${symbol}</span>`
+];
+
 export function generateChartOptions(props: Readonly<SpineChartProps>) {
   const categories = [''];
 
@@ -214,7 +225,7 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
       backgroundColor: 'transparent',
       spacing: [0, 0, 0, 0],
       margin: [5, 5, 5, 5],
-      height: 100,
+      height: 130,
       width: 400,
       inverted: true,
     },
@@ -282,13 +293,19 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
         borderWidth: 0,
       },
     },
-
     tooltip: {
-      format:
-      '<b>Benchmark: England</b><br/>'+
-      props.period+'<br/>'+
-      props.name+'<br/>'+
-      '{series.name}',
+      padding: 10,
+      headerFormat: `<div style="margin:0px; padding:0px;">
+            <span style="font-weight: bold; display: block;">
+            Benchmark: England
+            </span>
+            <span>`+ props.period+ `</span>
+            <span>{props.name}</span>
+            <span>{series.name}</span><div>`,
+      pointFormatter: function (this: Highcharts.Point) {
+        return pointFormatterHelper(this, generateSpineChartTooltipForPoint);
+      },
+      useHTML: true,
     },
     series: generateSeriesData(props),
   };
