@@ -225,13 +225,23 @@ export function LineChartTable({
     healthIndicatorData[0]?.areaCode !== areaCodeForEngland &&
     benchmarkComparisonMethod !== BenchmarkComparisonMethod.Quintiles;
 
-  const rowData = (englandBenchmarkData?.healthData ?? [])
-    .map((englandHealthPoint) => {
-      const { year, value: benchmarkValue } = englandHealthPoint;
+  const allHealthPointYears = [
+    ...(englandBenchmarkData?.healthData ?? []),
+    ...(groupIndicatorData?.healthData ?? []),
+    ...healthIndicatorData.flatMap((area) => area.healthData),
+  ].map(({ year }) => year);
+  const allYears = [...new Set(allHealthPointYears)].sort();
+
+  const rowData = allYears
+    .map((year) => {
+      const englandHealthPoint = englandBenchmarkData?.healthData.find(
+        (healthPoint) => healthPoint.year === year
+      );
+
       const row: AreaDataMatchedByYear = {
         year,
         areas: [],
-        benchmarkValue,
+        benchmarkValue: englandHealthPoint?.value,
       };
 
       // find a health point for each area for the given year

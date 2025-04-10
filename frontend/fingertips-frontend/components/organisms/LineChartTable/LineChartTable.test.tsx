@@ -483,11 +483,22 @@ describe('Line chart table suite', () => {
       );
 
       const rows = screen.getAllByRole('row');
-      expect(rows).toHaveLength(6);
+      expect(rows).toHaveLength(8);
+      // england and area 1 ara missing
       expect(rows[4]).toHaveTextContent(
+        /^1999Not comparedXXXXNot compared200904.90.00.0X$/
+      );
+      // area 2 is missing
+      expect(rows[5]).toHaveTextContent(
         /^2004Not compared200904.90.00.0Not comparedXXXX904.9$/
       );
-      expect(rows[5]).toHaveTextContent(
+      // england and area 2 are missing
+      expect(rows[6]).toHaveTextContent(
+        /^2005Not compared500966.00.00.0Not comparedXXXXX$/
+      );
+
+      // area 1 is missing
+      expect(rows[7]).toHaveTextContent(
         /^2008Not comparedXXXXNot compared500966.00.00.0966.0$/
       );
     });
