@@ -21,7 +21,7 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { formatNumber } from '@/lib/numberFormatter';
-import {FormatValueAsNumber} from '@/lib/chartHelpers/labelFormatters';
+import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
 
 interface InequalitiesBarChartProps {
   barChartData: InequalitiesBarChartData;

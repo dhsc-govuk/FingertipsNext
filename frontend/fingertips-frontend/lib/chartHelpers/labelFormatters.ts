@@ -1,9 +1,9 @@
 import { AxisLabelsFormatterContextObject } from 'highcharts';
-import {formatNumber, formatWholeNumber} from '@/lib/numberFormatter';
+import { formatNumber } from '@/lib/numberFormatter';
 
 export function FormatValueAsNumber(
-    this: AxisLabelsFormatterContextObject,
-    _ctx: AxisLabelsFormatterContextObject
+  this: AxisLabelsFormatterContextObject,
+  _ctx: AxisLabelsFormatterContextObject
 ): string {
   return formatNumber(this.value as number);
 }
