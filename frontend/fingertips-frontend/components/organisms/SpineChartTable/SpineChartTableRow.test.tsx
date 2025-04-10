@@ -4,29 +4,68 @@ import { SpineChartTableRow } from './SpineChartTableRow';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
   BenchmarkComparisonMethod,
+  BenchmarkOutcome,
   HealthDataPointTrendEnum,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
+import { SpineChartIndicatorData } from './spineChartTableHelpers';
+import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 
 describe('Spine chart table row', () => {
-  const mockRowData = {
-    indicatorId: 1,
-    indicator: 'indicator',
-    unit: '%',
-    period: 2025,
-    trend: HealthDataPointTrendEnum.Decreasing,
-    areaOneCount: 123,
-    areaTwoCount: 456,
-    areaOneValue: 12.3,
-    areaTwoValue: 45.6,
-    groupValue: 789,
-    benchmarkValue: 987,
-    benchmarkStatistics: {
+  const mockIndicatorData: SpineChartIndicatorData = {
+    indicatorId: '1',
+    indicatorName: 'indicator',
+    latestDataPeriod: 2025,
+    valueUnit: '%',
+    benchmarkComparisonMethod:
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+    areasHealthData: [
+      {
+        areaCode: 'A1425',
+        areaName: 'Greater Manchester ICB - 00T',
+        healthData: [
+          {
+            year: 2025,
+            count: 222,
+            value: 690.305692,
+            lowerCi: 341.69151,
+            upperCi: 478.32766,
+            ageBand: allAgesAge,
+            sex: personsSex,
+            trend: HealthDataPointTrendEnum.CannotBeCalculated,
+            deprivation: noDeprivation,
+            benchmarkComparison: {
+              method: BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+              outcome: BenchmarkOutcome.Similar,
+            },
+          },
+        ],
+      },
+    ],
+    groupData: {
+      areaCode: '90210',
+      areaName: 'Manchester',
+      healthData: [
+        {
+          year: 2025,
+          count: 3333,
+          value: 890.305692,
+          lowerCi: 341.69151,
+          upperCi: 478.32766,
+          ageBand: allAgesAge,
+          sex: personsSex,
+          trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
+        },
+      ],
+    },
+    quartileData: {
       polarity: IndicatorPolarity.HighIsGood,
       q0Value: 999,
       q1Value: 760,
       q3Value: 500,
       q4Value: 345,
+      areaValue: 550,
     },
   };
 
@@ -34,22 +73,7 @@ describe('Spine chart table row', () => {
     render(
       <table>
         <tbody>
-          <SpineChartTableRow
-            indicatorId={mockRowData.indicatorId}
-            indicator={mockRowData.indicator}
-            unit={mockRowData.unit}
-            period={mockRowData.period}
-            trend={mockRowData.trend}
-            areaOneCount={mockRowData.areaOneCount}
-            areaOneValue={mockRowData.areaOneValue}
-            groupValue={mockRowData.groupValue}
-            benchmarkValue={mockRowData.benchmarkValue}
-            benchmarkStatistics={mockRowData.benchmarkStatistics}
-            twoAreasRequested={false}
-            benchmarkComparisonMethod={
-              BenchmarkComparisonMethod.CIOverlappingReferenceValue95
-            }
-          />
+          <SpineChartTableRow indicatorData={mockIndicatorData} />
         </tbody>
       </table>
     );
@@ -69,22 +93,7 @@ describe('Spine chart table row', () => {
     render(
       <table>
         <tbody>
-          <SpineChartTableRow
-            indicatorId={mockRowData.indicatorId}
-            indicator={mockRowData.indicator}
-            unit={mockRowData.unit}
-            period={mockRowData.period}
-            trend={mockRowData.trend}
-            areaOneCount={mockRowData.areaOneCount}
-            areaOneValue={mockRowData.areaOneValue}
-            groupValue={mockRowData.groupValue}
-            benchmarkValue={mockRowData.benchmarkValue}
-            benchmarkStatistics={mockRowData.benchmarkStatistics}
-            twoAreasRequested={false}
-            benchmarkComparisonMethod={
-              BenchmarkComparisonMethod.CIOverlappingReferenceValue95
-            }
-          />
+          <SpineChartTableRow indicatorData={mockIndicatorData} />
         </tbody>
       </table>
     );
@@ -95,25 +104,28 @@ describe('Spine chart table row', () => {
   });
 
   it('should have X for missing data', () => {
+    const indicatorWithMissingData = {
+      ...mockIndicatorData,
+      groupData: {
+        ...mockIndicatorData.groupData,
+        healthData: [],
+      },
+      areasHealthData: [
+        {
+          ...mockIndicatorData.areasHealthData[0],
+          healthData: [],
+        },
+      ],
+      quartileData: {
+        ...mockIndicatorData.quartileData,
+        areaValue: undefined,
+      },
+    };
+
     render(
       <table>
         <tbody>
-          <SpineChartTableRow
-            indicatorId={mockRowData.indicatorId}
-            indicator={mockRowData.indicator}
-            unit={mockRowData.unit}
-            period={mockRowData.period}
-            trend={mockRowData.trend}
-            areaOneCount={undefined}
-            areaOneValue={undefined}
-            groupValue={undefined}
-            benchmarkValue={undefined}
-            benchmarkStatistics={mockRowData.benchmarkStatistics}
-            twoAreasRequested={false}
-            benchmarkComparisonMethod={
-              BenchmarkComparisonMethod.CIOverlappingReferenceValue95
-            }
-          />
+          <SpineChartTableRow indicatorData={indicatorWithMissingData} />
         </tbody>
       </table>
     );
@@ -128,37 +140,76 @@ describe('Spine chart table row', () => {
   });
 
   it('should have an additional count and value section when an 2 areas are requested', () => {
+    const indicatorDataWithTwoAreas = {
+      ...mockIndicatorData,
+      areasHealthData: [
+        mockIndicatorData.areasHealthData[0],
+        {
+          areaCode: 'A1426',
+          areaName: 'Greater Manchester ICB - 01T',
+          healthData: [
+            {
+              year: 2025,
+              count: 333,
+              value: 800.305692,
+              lowerCi: 341.69151,
+              upperCi: 478.32766,
+              ageBand: allAgesAge,
+              sex: personsSex,
+              trend: HealthDataPointTrendEnum.CannotBeCalculated,
+              deprivation: noDeprivation,
+            },
+          ],
+        },
+      ],
+    };
     render(
       <table>
         <tbody>
-          <SpineChartTableRow
-            indicatorId={mockRowData.indicatorId}
-            indicator={mockRowData.indicator}
-            unit={mockRowData.unit}
-            period={mockRowData.period}
-            trend={mockRowData.trend}
-            areaOneCount={mockRowData.areaOneCount}
-            areaOneValue={mockRowData.areaOneValue}
-            areaTwoCount={mockRowData.areaTwoCount}
-            areaTwoValue={mockRowData.areaTwoValue}
-            groupValue={mockRowData.groupValue}
-            benchmarkValue={mockRowData.benchmarkValue}
-            benchmarkStatistics={mockRowData.benchmarkStatistics}
-            twoAreasRequested={true}
-            benchmarkComparisonMethod={
-              BenchmarkComparisonMethod.CIOverlappingReferenceValue95
-            }
-          />
+          <SpineChartTableRow indicatorData={indicatorDataWithTwoAreas} />
         </tbody>
       </table>
     );
 
-    expect(screen.getByTestId('area-1-count-cell')).toHaveTextContent('123');
-    expect(screen.getByTestId('area-1-value-cell')).toHaveTextContent('12.3');
-    expect(screen.getByTestId('area-2-count-cell')).toHaveTextContent('456');
-    expect(screen.getByTestId('area-2-value-cell')).toHaveTextContent('45.6');
+    expect(screen.getByTestId('area-1-count-cell')).toHaveTextContent('222');
+    expect(screen.getByTestId('area-1-value-cell')).toHaveTextContent('690.3');
+    expect(screen.getByTestId('area-2-count-cell')).toHaveTextContent('333');
+    expect(screen.getByTestId('area-2-value-cell')).toHaveTextContent('800.3');
 
     // Trend cell should not be displayed when 2 areas selected
     expect(screen.queryByTestId('trend-cell')).not.toBeInTheDocument();
+  });
+
+  it('should not render a cell for group if the group is England', () => {
+    const indicatorDataGroupEngland = {
+      ...mockIndicatorData,
+      groupData: {
+        areaCode: 'E92000001',
+        areaName: 'England',
+        healthData: [
+          {
+            year: 2025,
+            count: 3333,
+            value: 890.305692,
+            lowerCi: 341.69151,
+            upperCi: 478.32766,
+            ageBand: allAgesAge,
+            sex: personsSex,
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: noDeprivation,
+          },
+        ],
+      },
+    };
+
+    render(
+      <table>
+        <tbody>
+          <SpineChartTableRow indicatorData={indicatorDataGroupEngland} />
+        </tbody>
+      </table>
+    );
+
+    expect(screen.queryByTestId('group-value-cell')).not.toBeInTheDocument();
   });
 });

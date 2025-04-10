@@ -25,6 +25,7 @@ import {
 import { usePathname, useRouter } from 'next/navigation';
 import { ArrowExpander } from '@/components/molecules/ArrowExpander';
 import { PopulationPyramidChartTable } from '../PopulationPyramidChartTable';
+import { DataSource } from '@/components/atoms/DataSource/DataSource';
 
 const getHeaderTitle = (
   healthData: HealthDataForArea | undefined,
@@ -64,6 +65,7 @@ interface PyramidPopulationChartViewProps {
   xAxisTitle: string;
   yAxisTitle: string;
   searchState: SearchStateParams;
+  dataSource?: string;
 }
 export const PopulationPyramidWithTable = ({
   healthDataForAreas,
@@ -72,6 +74,7 @@ export const PopulationPyramidWithTable = ({
   yAxisTitle,
   groupAreaSelected,
   searchState,
+  dataSource,
 }: Readonly<PyramidPopulationChartViewProps>) => {
   const stateManager = SearchStateManager.initialise(searchState);
   const { [SearchParams.PopulationAreaSelected]: areaCode } =
@@ -221,6 +224,7 @@ export const PopulationPyramidWithTable = ({
                   ),
                 },
               ]}
+              footer={<DataSource dataSource={dataSource} />}
             />
           ) : null}
         </div>

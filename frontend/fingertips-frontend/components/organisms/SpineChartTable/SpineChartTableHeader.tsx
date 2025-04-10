@@ -14,6 +14,7 @@ import {
   StyledAlignRightBorderHeader,
   StyledAlignCentreBorderRightHeader,
 } from './SpineChartTableStyles';
+import { englandAreaString } from '@/lib/chartHelpers/constants';
 
 export interface TableHeaderProps {
   areaNames: string[];
@@ -38,6 +39,7 @@ export function SpineChartTableHeader({
   groupName,
 }: Readonly<TableHeaderProps>) {
   const twoAreasRequested = areaNames.length === 2;
+  const groupIsEngland = groupName === englandAreaString;
 
   return (
     <>
@@ -55,9 +57,11 @@ export function SpineChartTableHeader({
             {areaName}
           </StyledAlignCentreHeader>
         ))}
-        <StyledGroupHeader data-testid="group-header">
-          {groupName}
-        </StyledGroupHeader>
+        {!groupIsEngland ? (
+          <StyledGroupHeader data-testid="group-header">
+            {groupName}
+          </StyledGroupHeader>
+        ) : null}
         <StyledBenchmarkHeader colSpan={4} data-testid="england-header">
           Benchmark: England
         </StyledBenchmarkHeader>
@@ -145,14 +149,14 @@ export function SpineChartTableHeader({
                 </React.Fragment>
               );
             case SpineChartTableHeadingEnum.GroupValue:
-              return (
+              return !groupIsEngland ? (
                 <StyledGroupSubHeader
                   key={heading}
                   data-testid={`${heading}-header`}
                 >
                   Value
                 </StyledGroupSubHeader>
-              );
+              ) : null;
             default:
               return (
                 <StyledBenchmarkSubHeader

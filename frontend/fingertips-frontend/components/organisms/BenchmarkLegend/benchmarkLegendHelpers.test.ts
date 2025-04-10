@@ -1,42 +1,42 @@
-import { SpineChartTableRowProps } from '@/components/organisms/SpineChartTable';
 import { getMethodsAndOutcomes } from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
 import {
   BenchmarkComparisonMethod,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
+import { SpineChartIndicatorData } from '../SpineChartTable/spineChartTableHelpers';
 
 const testRow95judged = {
   benchmarkComparisonMethod:
     BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-  benchmarkStatistics: { polarity: IndicatorPolarity.LowIsGood },
-} as SpineChartTableRowProps;
+  quartileData: { polarity: IndicatorPolarity.LowIsGood },
+} as SpineChartIndicatorData;
 
 const testRow95nonJudged = {
   benchmarkComparisonMethod:
     BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-} as SpineChartTableRowProps;
+} as SpineChartIndicatorData;
 
 const testRow99judged = {
   benchmarkComparisonMethod:
     BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
-  benchmarkStatistics: { polarity: IndicatorPolarity.LowIsGood },
-} as SpineChartTableRowProps;
+  quartileData: { polarity: IndicatorPolarity.LowIsGood },
+} as SpineChartIndicatorData;
 
 const testRow99nonJudged = {
   benchmarkComparisonMethod:
     BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
-  benchmarkStatistics: { polarity: IndicatorPolarity.NoJudgement },
-} as SpineChartTableRowProps;
+  quartileData: { polarity: IndicatorPolarity.NoJudgement },
+} as SpineChartIndicatorData;
 
 const testRowQuintilesJudged = {
   benchmarkComparisonMethod: BenchmarkComparisonMethod.Quintiles,
-  benchmarkStatistics: { polarity: IndicatorPolarity.LowIsGood },
-} as SpineChartTableRowProps;
+  quartileData: { polarity: IndicatorPolarity.LowIsGood },
+} as SpineChartIndicatorData;
 
 const testRowQuintilesNonJudged = {
   benchmarkComparisonMethod: BenchmarkComparisonMethod.Quintiles,
-  benchmarkStatistics: { polarity: IndicatorPolarity.NoJudgement },
-} as SpineChartTableRowProps;
+  quartileData: { polarity: IndicatorPolarity.NoJudgement },
+} as SpineChartIndicatorData;
 
 const expectedResult = (areTrue: string[]) => ({
   CIOverlappingReferenceValue95: {

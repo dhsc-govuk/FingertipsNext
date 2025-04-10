@@ -1,10 +1,7 @@
+import { GetHealthDataForAnIndicatorInequalitiesEnum } from '@/generated-sources/ft-api-client';
 import {
-  GetHealthDataForAnIndicatorInequalitiesEnum,
-  IndicatorWithHealthDataForArea,
-} from '@/generated-sources/ft-api-client';
-import {
-  areaCodeForEngland,
   administratorIndicatorID,
+  areaCodeForEngland,
   nhsIndicatorIdForPopulation,
 } from '@/lib/chartHelpers/constants';
 import {
@@ -14,11 +11,10 @@ import {
 } from '@/lib/searchStateManager';
 import { HierarchyNameTypes } from '@/lib/areaFilterHelpers/areaType';
 
-import {
-  API_CACHE_CONFIG,
-  ApiClientFactory,
-} from '@/lib/apiClient/apiClientFactory';
+import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { PopulationPyramidWithTable } from '@/components/organisms/PopulationPyramidWithTable';
+import { getHealthDataForIndicator } from '@/lib/ViewsHelpers';
+import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 
 const getAreaCodeMappingsToIndicatorIds = async (
   areaCodesToRequest: string[]
@@ -68,45 +64,58 @@ export const PopulationPyramidWithTableDataProvider = async ({
     return areaCodesToRequest;
   })();
 
-  const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
-
   const areaTypeCodeMappings =
     await getAreaCodeMappingsToIndicatorIds(areaCodesToRequest);
 
-  const populationDataForArea: IndicatorWithHealthDataForArea | undefined =
-    await (async () => {
-      try {
-        if (areaCodesToRequest.length == 0) {
-          return undefined;
-        }
+  const populationIndicatorID = areaTypeCodeMappings[areaCodesToRequest[0]];
 
-        return await indicatorApi.getHealthDataForAnIndicator(
-          {
-            indicatorId: areaTypeCodeMappings[areaCodesToRequest[0]],
-            areaCodes: areaCodesToRequest,
-            inequalities: [
-              GetHealthDataForAnIndicatorInequalitiesEnum.Age,
-              GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
-            ],
-          },
-          API_CACHE_CONFIG
-        );
-      } catch (error) {
-        console.error(
-          'error getting population health indicator data for area',
-          error
-        );
-      }
-    })();
+  const getPopulationData = async () => {
+    return await getHealthDataForIndicator(
+      ApiClientFactory.getIndicatorsApiClient(),
+      populationIndicatorID,
+      [
+        {
+          areaCodes: areaCodesToRequest,
+          inequalities: [
+            GetHealthDataForAnIndicatorInequalitiesEnum.Age,
+            GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
+          ],
+        },
+      ]
+    );
+  };
+
+  const getPopulationIndicatorMetadata = async () => {
+    return await SearchServiceFactory.getIndicatorSearchService().getIndicator(
+      populationIndicatorID.toString()
+    );
+  };
+
+  const { populationData, populationMetadata } = await (async () => {
+    if (!populationIndicatorID) {
+      return {
+        populationData: undefined,
+        populationMetadata: undefined,
+      };
+    }
+
+    const [populationData, populationIndicatorMetadata] = await Promise.all([
+      getPopulationData(),
+      getPopulationIndicatorMetadata(),
+    ]);
+
+    return { populationData, populationMetadata: populationIndicatorMetadata };
+  })();
 
   return (
     <PopulationPyramidWithTable
-      healthDataForAreas={populationDataForArea?.areaHealthData ?? []}
+      healthDataForAreas={populationData?.areaHealthData ?? []}
       groupAreaSelected={groupAreaSelected}
       searchState={searchState}
       areaCodesMappingToIndicatorIds={areaTypeCodeMappings}
       xAxisTitle="Age"
       yAxisTitle="Percentage of total population"
+      dataSource={populationMetadata?.dataSource}
     />
   );
 };

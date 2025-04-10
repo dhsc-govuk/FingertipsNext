@@ -32,12 +32,19 @@ export const BarChartEmbeddedRow: FC<BarChartEmbeddedRowProps> = ({
 }) => {
   return (
     <Table.Row key={`${item.area}`}>
-      <CheckValueInTableCell value={item.area} />
-      <CheckValueInTableCell value={item.period} />
-      <Table.Cell>
+      <CheckValueInTableCell value={item.area} style={{ textAlign: 'left' }} />
+      <CheckValueInTableCell
+        value={item.period}
+        style={{ textAlign: 'right' }}
+      />
+      <Table.Cell style={{ textAlign: 'center' }}>
         <TrendTag trendFromResponse={item.trend} />
       </Table.Cell>
-      <FormatNumberInTableCell value={item.count} numberStyle={'whole'} />
+      <FormatNumberInTableCell
+        value={item.count}
+        numberStyle={'whole'}
+        style={{ textAlign: 'right' }}
+      />
       <FormatNumberInTableCell
         value={item.value}
         style={{ textAlign: 'right', paddingRight: '0px' }}
@@ -57,8 +64,14 @@ export const BarChartEmbeddedRow: FC<BarChartEmbeddedRowProps> = ({
           measurementUnit={measurementUnit}
         />
       </Table.Cell>
-      <FormatNumberInTableCell value={item.lowerCi} />
-      <FormatNumberInTableCell value={item.upperCi} />
+      <FormatNumberInTableCell
+        value={item.lowerCi}
+        style={{ textAlign: 'right' }}
+      />
+      <FormatNumberInTableCell
+        value={item.upperCi}
+        style={{ textAlign: 'right' }}
+      />
     </Table.Row>
   );
 };

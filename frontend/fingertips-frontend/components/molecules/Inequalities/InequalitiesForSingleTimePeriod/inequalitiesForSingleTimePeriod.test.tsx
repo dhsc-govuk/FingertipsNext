@@ -48,6 +48,7 @@ describe('InequalitiesForSingleTimePeriod suite', () => {
 
   it('should render expected elements', async () => {
     const years = ['2008', '2004'];
+    const inequalitiesOptions = ['Sex', 'Unitary deciles'];
     const mockHealthData: HealthDataForArea = {
       ...MOCK_HEALTH_DATA[0],
       healthData: [
@@ -64,6 +65,22 @@ describe('InequalitiesForSingleTimePeriod suite', () => {
           deprivation: noDeprivation,
           isAggregate: false,
         },
+        {
+          year: 2008,
+          count: 267,
+          value: 703.420759,
+          lowerCi: 441.69151,
+          upperCi: 578.32766,
+          ageBand: allAgesAge,
+          sex: maleSex,
+          trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: {
+            ...noDeprivation,
+            isAggregate: false,
+            type: 'Unitary deciles',
+          },
+          isAggregate: false,
+        },
       ],
     };
 
@@ -71,11 +88,17 @@ describe('InequalitiesForSingleTimePeriod suite', () => {
       <InequalitiesForSingleTimePeriod
         healthIndicatorData={mockHealthData}
         searchState={mockSearchState}
+        dataSource={'inequalities data source'}
       />
     );
 
-    const dropDown = screen.getByRole('combobox');
-    const yearOptions = within(dropDown).getAllByRole('option');
+    const timePeriodDropDown = screen.getAllByRole('combobox')[0];
+    const yearOptions = within(timePeriodDropDown).getAllByRole('option');
+
+    const inequalitiesTypesDropDown = screen.getAllByRole('combobox')[1];
+    const inequalitiesDropDownOptions = within(
+      inequalitiesTypesDropDown
+    ).getAllByRole('option');
 
     expect(
       screen.getByTestId('inequalitiesBarChartTable-component')
@@ -89,11 +112,23 @@ describe('InequalitiesForSingleTimePeriod suite', () => {
     expect(
       screen.getByText(/Inequalities data for a single time period/i)
     ).toBeInTheDocument();
-    expect(dropDown).toBeInTheDocument();
-    expect(dropDown).toHaveLength(2);
+    expect(
+      screen.getByTestId('timePeriod-dropDown-component')
+    ).toBeInTheDocument();
+    expect(timePeriodDropDown).toBeInTheDocument();
+    expect(timePeriodDropDown).toHaveLength(2);
     yearOptions.forEach((option, index) => {
       expect(option.textContent).toBe(years[index]);
     });
+    expect(inequalitiesTypesDropDown).toBeInTheDocument();
+    expect(inequalitiesDropDownOptions).toHaveLength(2);
+    inequalitiesDropDownOptions.forEach((option, index) => {
+      expect(option.textContent).toBe(inequalitiesOptions[index]);
+    });
+
+    expect(
+      screen.getAllByText('Data source: inequalities data source')
+    ).toHaveLength(2);
   });
 
   it('should not render component if inequalities data is absent', () => {
