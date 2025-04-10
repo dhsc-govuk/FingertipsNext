@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[` 1`] = `
+exports[`heatmap hover snapshot 1`] = `
 <DocumentFragment>
   .c3 {
   margin: 0;

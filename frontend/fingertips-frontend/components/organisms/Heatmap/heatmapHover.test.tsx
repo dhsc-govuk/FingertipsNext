@@ -23,7 +23,6 @@ const testHoverProps: HeatmapHoverProps = {
 
 describe('heatmap hover', () => {
   it('should display area, period, and indicator name', () => {
-    // TODO why is this rendering twice?
     const screen = render(
       <HeatmapHover
         areaName={testHoverProps.areaName}
@@ -38,17 +37,17 @@ describe('heatmap hover', () => {
     expect(screen.getByText(testHoverProps.period)).toBeInTheDocument();
     expect(screen.getByText(testHoverProps.indicatorName)).toBeInTheDocument();
   });
-});
 
-describe('snapshot', () => {
-  const container = render(
-    <HeatmapHover
-      areaName={testHoverProps.areaName}
-      period={testHoverProps.period}
-      indicatorName={testHoverProps.indicatorName}
-      unitLabel={testHoverProps.unitLabel}
-      benchmark={testHoverProps.benchmark}
-    />
-  );
-  expect(container.asFragment()).toMatchSnapshot();
+  it('snapshot', () => {
+    const container = render(
+      <HeatmapHover
+        areaName={testHoverProps.areaName}
+        period={testHoverProps.period}
+        indicatorName={testHoverProps.indicatorName}
+        unitLabel={testHoverProps.unitLabel}
+        benchmark={testHoverProps.benchmark}
+      />
+    );
+    expect(container.asFragment()).toMatchSnapshot();
+  });
 });
