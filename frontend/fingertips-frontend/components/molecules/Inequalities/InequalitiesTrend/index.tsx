@@ -16,16 +16,17 @@ import {
   getYearDataGroupedByInequalities,
   groupHealthDataByYear,
   InequalitiesChartData,
-  InequalitiesTypes,
   mapToInequalitiesTableData,
   valueSelectorForInequality,
   sequenceSelectorForInequality,
   filterHealthData,
   healthDataFilterFunctionGeneratorForInequality,
-  getInequalityCategory,
   getYearsWithInequalityData,
+  getInequalityCategories,
+  getInequalitiesType,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
+import { InequalitiesTypesDropDown } from '../InequalitiesTypesDropDown';
 
 interface InequalitiesTrendProps {
   healthIndicatorData: HealthDataForArea;
@@ -47,19 +48,24 @@ export function InequalitiesTrend({
   searchState,
   measurementUnit,
 }: Readonly<InequalitiesTrendProps>) {
+  const [
+    showInequalitiesLineChartConfidenceIntervals,
+    setShowInequalitiesLineChartConfidenceIntervals,
+  ] = useState<boolean>(false);
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.AreasSelected]: areasSelected,
-    [SearchParams.InequalityTypeSelected]: inequalityTypeSelected,
+    [SearchParams.InequalityLineChartTypeSelected]: inequalityTypeSelected,
   } = stateManager.getSearchState();
 
-  // This will be updated when we add the dropdown to select inequality types
-  const type =
-    inequalityTypeSelected === 'deprivation'
-      ? InequalitiesTypes.Deprivation
-      : InequalitiesTypes.Sex;
+  const inequalityCategories = getInequalityCategories(healthIndicatorData);
 
-  const inequalityCategory = getInequalityCategory(type, healthIndicatorData);
+  if (!inequalityCategories.length) return null;
+
+  const type = getInequalitiesType(
+    inequalityCategories,
+    inequalityTypeSelected
+  );
 
   const filterFunctionGenerator =
     healthDataFilterFunctionGeneratorForInequality[type];
@@ -67,18 +73,13 @@ export function InequalitiesTrend({
     ...healthIndicatorData,
     healthData: filterHealthData(
       healthIndicatorData.healthData,
-      filterFunctionGenerator(inequalityCategory)
+      filterFunctionGenerator(inequalityTypeSelected ?? inequalityCategories[0])
     ),
   };
 
   const yearlyHealthdata = groupHealthDataByYear(
     healthIndicatorDataWithoutOtherInequalities.healthData
   );
-
-  const [
-    showInequalitiesLineChartConfidenceIntervals,
-    setShowInequalitiesLineChartConfidenceIntervals,
-  ] = useState<boolean>(false);
 
   const yearlyHealthDataGroupedByInequalities =
     getYearDataGroupedByInequalities(
@@ -124,6 +125,13 @@ export function InequalitiesTrend({
   return (
     <div data-testid="inequalitiesTrend-component">
       <H3>Inequalities data over time</H3>
+      <InequalitiesTypesDropDown
+        inequalitiesOptions={inequalityCategories}
+        inequalityTypeSelectedSearchParam={
+          SearchParams.InequalityLineChartTypeSelected
+        }
+        testRef="lc"
+      />
       <TabContainer
         id="inequalitiesLineChartAndTable"
         items={[

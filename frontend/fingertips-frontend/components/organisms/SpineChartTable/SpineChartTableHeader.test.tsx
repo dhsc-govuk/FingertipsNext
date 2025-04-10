@@ -120,4 +120,20 @@ describe('Spine chart table header', () => {
     );
     expect(screen.queryByTestId('Recent trend-header')).not.toBeInTheDocument();
   });
+
+  it('should not render the group header value if group is England', () => {
+    render(
+      <table>
+        <thead>
+          <SpineChartTableHeader
+            areaNames={['East of England Region']}
+            groupName={'England'}
+          />
+        </thead>
+      </table>
+    );
+
+    expect(screen.queryByTestId('group-header')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('GroupValue-header')).not.toBeInTheDocument();
+  });
 });

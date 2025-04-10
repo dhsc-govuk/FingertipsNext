@@ -25,6 +25,7 @@ type componentProps = {
   isTabTable: boolean;
   hasDetailsExpander: boolean;
   hasTimePeriodDropDown: boolean;
+  hasTypeDropDown: boolean;
 };
 
 type component = {
@@ -50,6 +51,7 @@ export function getScenarioConfig(
         isTabTable: false,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -59,6 +61,7 @@ export function getScenarioConfig(
         isTabTable: true,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -68,6 +71,7 @@ export function getScenarioConfig(
         isTabTable: false,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -77,6 +81,7 @@ export function getScenarioConfig(
         isTabTable: false,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -86,6 +91,17 @@ export function getScenarioConfig(
         isTabTable: false,
         hasTimePeriodDropDown: true,
         hasDetailsExpander: false,
+        hasTypeDropDown: true,
+      },
+    },
+    {
+      componentLocator: ChartPage.inequalitiesTrendComponent,
+      componentProps: {
+        hasConfidenceIntervals: false,
+        isTabTable: false,
+        hasTimePeriodDropDown: false,
+        hasDetailsExpander: false,
+        hasTypeDropDown: true,
       },
     },
     {
@@ -95,6 +111,7 @@ export function getScenarioConfig(
         isTabTable: false,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -104,6 +121,7 @@ export function getScenarioConfig(
         isTabTable: true,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -113,6 +131,7 @@ export function getScenarioConfig(
         isTabTable: true,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -122,6 +141,7 @@ export function getScenarioConfig(
         isTabTable: false,
         hasDetailsExpander: true,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -131,6 +151,7 @@ export function getScenarioConfig(
         isTabTable: false,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -140,6 +161,7 @@ export function getScenarioConfig(
         isTabTable: false,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -149,6 +171,7 @@ export function getScenarioConfig(
         isTabTable: false,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -158,6 +181,7 @@ export function getScenarioConfig(
         isTabTable: false,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -167,6 +191,7 @@ export function getScenarioConfig(
         isTabTable: false,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
   ];
@@ -188,6 +213,7 @@ export function getScenarioConfig(
         ChartPage.inequalitiesBarChartTableComponent,
         ChartPage.inequalitiesLineChartTableComponent,
         ChartPage.inequalitiesForSingleTimePeriodComponent,
+        ChartPage.inequalitiesTrendComponent,
         ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
     );

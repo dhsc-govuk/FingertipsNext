@@ -44,8 +44,7 @@ export class IndicatorSearchServiceMock implements IIndicatorSearchService {
               .includes(area.toLowerCase())
           )
         );
-      })
-      .slice(0, 20);
+      });
 
     return this.mapper.toEntities(
       searchResults,
