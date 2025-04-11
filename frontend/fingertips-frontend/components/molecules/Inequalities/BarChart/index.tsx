@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import {
   generateConfidenceIntervalSeries,
   getBenchmarkColour,
+  getConfidenceLimitNumber,
   loadHighchartsModules,
 } from '@/lib/chartHelpers/chartHelpers';
 import {
@@ -21,6 +22,7 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { formatNumber } from '@/lib/numberFormatter';
+import { getBenchmarkLabelText } from '@/components/organisms/BenchmarkLabel';
 import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
 
 interface InequalitiesBarChartProps {
@@ -32,6 +34,41 @@ interface InequalitiesBarChartProps {
   polarity?: IndicatorPolarity;
 }
 
+interface InequalitiesPointOptionsObject extends Highcharts.PointOptionsObject {
+  benchmarkOutcome: BenchmarkOutcome;
+}
+
+export interface InequalitiesPoint extends Highcharts.Point {
+  benchmarkOutcome?: BenchmarkOutcome;
+}
+
+// All inequality data is benchmarked against persons.
+const BenchmarkCategory = 'Persons';
+
+export const generateBenchmarkComparisonData = (
+  point: InequalitiesPoint,
+  benchmarkComparisonMethod: BenchmarkComparisonMethod
+) => {
+  const mappedBenchmarkComparisonMethod = getConfidenceLimitNumber(
+    benchmarkComparisonMethod
+  );
+  const mappedOutcome = getBenchmarkLabelText(
+    point.benchmarkOutcome ?? BenchmarkOutcome.NotCompared
+  );
+  const notCompared = point.benchmarkOutcome === BenchmarkOutcome.NotCompared;
+  let benchmarkOutcomeLabel = '';
+
+  if (mappedOutcome === BenchmarkOutcome.Similar) {
+    benchmarkOutcomeLabel = `${mappedOutcome} to England`;
+  } else if (notCompared) {
+    benchmarkOutcomeLabel = mappedOutcome;
+  } else {
+    benchmarkOutcomeLabel = `${mappedOutcome} than England`;
+  }
+
+  return { mappedBenchmarkComparisonMethod, benchmarkOutcomeLabel };
+};
+
 const mapToXAxisTitle: Record<InequalitiesTypes, string> = {
   [InequalitiesTypes.Sex]: 'Sex',
   [InequalitiesTypes.Deprivation]: 'Deprivation deciles',
@@ -39,15 +76,6 @@ const mapToXAxisTitle: Record<InequalitiesTypes, string> = {
 
 const getMaxValue = (values: (number | undefined)[]) =>
   Math.max(...values.filter((number) => number !== undefined));
-
-const generateInequalitiesBarChartTooltipForPoint = (
-  point: Highcharts.Point,
-  symbol: string
-) => [
-  `<div style="display: flex; margin-top: 7px; align-items: center;"><div style="margin-right: 10px;">
-  <span style="color: ${point.color}; font-weight: bold;">${symbol}</span></div>`,
-  `<div><span>${point.category}</br>Value: ${formatNumber(point.y)}`,
-];
 
 export function InequalitiesBarChart({
   barChartData,
@@ -77,19 +105,51 @@ export function InequalitiesBarChart({
   const timePeriod = barChartData.data.period;
   const comparedTo = `${barChartData.areaName}`;
 
+  const generateInequalitiesBarChartTooltipForPoint = (
+    point: InequalitiesPoint,
+    symbol: string
+  ) => {
+    const { mappedBenchmarkComparisonMethod, benchmarkOutcomeLabel } =
+      generateBenchmarkComparisonData(point, benchmarkComparisonMethod);
+    const isBenchmarkPoint = point.category === BenchmarkCategory;
+    const symbolStyles = [
+      `background-color: ${point.color}`,
+      'width: 0.6em',
+      'height: 0.6em',
+      'display: block',
+      'border-radius: 4px',
+      `border: 1px solid ${point.color === '#fff' ? '#000' : point.color}`,
+    ];
+    const symbolItem = `<span style="${symbolStyles.join('; ')};"></span>`;
+
+    return [
+      `
+      <span>${barChartData.data.period}</span>
+      <div><span>${point.category}</span></div>
+      <div style="display: flex; margin-top: 10px; align-items: center;"><div style="margin-right: 10px;">
+      ${isBenchmarkPoint ? `<span style="color: ${point.color}; font-weight: bold;">${symbol}</span>` : symbolItem}</div>`,
+      `<div><span>${formatNumber(point.y)} ${measurementUnit ? ' ' + measurementUnit : ''}`,
+      `<div><span>${isBenchmarkPoint ? '' : benchmarkOutcomeLabel} ${isBenchmarkPoint ? '' : mappedBenchmarkComparisonMethod !== 0 ? `(${mappedBenchmarkComparisonMethod}%)` : ''}</span></div></div>`,
+    ];
+  };
+
   const seriesData: Highcharts.SeriesOptionsType[] = [
     {
       type: 'bar',
       data: barChartFields.map((field) => {
+        const comparisonOutcome =
+          inequalities[field]?.benchmarkComparison?.outcome ??
+          BenchmarkOutcome.NotCompared;
         const color = getBenchmarkColour(
           benchmarkComparisonMethod,
-          inequalities[field]?.benchmarkComparison?.outcome as BenchmarkOutcome,
+          comparisonOutcome,
           polarity
         );
-        const point: Highcharts.PointOptionsObject = {
+        const point: InequalitiesPointOptionsObject = {
           name: field,
           y: inequalities[field]?.value,
           color,
+          benchmarkOutcome: comparisonOutcome,
         };
         if (color) return point;
 
@@ -122,11 +182,9 @@ export function InequalitiesBarChart({
     seriesData: seriesData,
     tooltipAreaName: barChartData.areaName,
     tooltipPointFormatter: function (this: Highcharts.Point) {
-      return (
-        pointFormatterHelper(
-          this,
-          generateInequalitiesBarChartTooltipForPoint
-        ) + `${measurementUnit ? ' ' + measurementUnit : ''}`
+      return pointFormatterHelper(
+        this,
+        generateInequalitiesBarChartTooltipForPoint
       );
     },
     yAxisLabelFormatter: FormatValueAsNumber,
