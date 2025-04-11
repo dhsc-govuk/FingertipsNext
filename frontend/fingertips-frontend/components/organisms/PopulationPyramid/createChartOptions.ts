@@ -7,8 +7,8 @@ import Highcharts, {
   Series,
   SeriesOptionsType,
 } from 'highcharts';
-import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
-import { generatePopPyramidTooltipForPoint } from '.';
+import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
+
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { FormatValueAsWholeNumberAbsolute } from '@/lib/chartHelpers/labelFormatters';
 
@@ -179,13 +179,35 @@ const createPopPyramidSeriesOptions = (
     },
     tooltip: {
       padding: 10,
-      headerFormat: `<div style="margin:0px; padding:0px;">
-            <span style="font-weight: bold; display: block;">
-            ${dataForArea.areaName}
-            </span>
-        <span>Age {key}</span><div>`,
+      headerFormat: '',
       pointFormatter: function (this: Highcharts.Point) {
-        return pointFormatterHelper(this, generatePopPyramidTooltipForPoint);
+        const value = Math.abs(this.y ?? 0);
+
+        return `
+                <div style="min-width: 100px; font-size: 12px;">
+                <div style="">
+                <h4 style="margin:0px; padding:0px;">
+                  ${this.series.name}
+                </h4>
+                <span style="display:block;" >${this.category}</span>
+                <span style="display:block;"> ${this.series.userOptions.custom?.tag}</span>
+                <div style="padding:0px; margin:0px;">
+                  <div style="display:flex; 
+                      flex-direction:row;
+                      align-items: center;
+                      flex-wrap:nowrap;
+                      justify-content: flex-start;
+                      ">
+                      <div style="flex-grow:2; 
+                        align-self:center;
+                        text-align:center;
+                        padding:1px;
+                        ">
+                        <span style="color:${this.color}; font-size:16px;">${this.series.userOptions.custom?.shape} </span> <span>${value}% of total population</span>
+                      </div>
+                  </div>
+                </div>
+            `;
       },
       useHTML: true,
     },
@@ -194,6 +216,7 @@ const createPopPyramidSeriesOptions = (
         name: 'Female',
         type: 'bar',
         data: femaleSeries,
+        custom: { tag: 'Female', shape: SymbolsEnum.Square },
         xAxis: 0,
         color: GovukColours.Female,
         pointWidth: 17,
@@ -212,6 +235,7 @@ const createPopPyramidSeriesOptions = (
         name: 'Male',
         type: 'bar',
         data: maleSeries.map((datapoint) => -datapoint),
+        custom: { tag: 'Male', shape: SymbolsEnum.Square },
         xAxis: 1,
         color: GovukColours.Male,
         pointWidth: 17,
@@ -252,23 +276,23 @@ const createAdditionalChartSeries = (
 
     series.push(
       {
-        name: `Group: ${dataForGroup.areaName}`,
+        name: `Group: ${dataForGroup.areaName} `,
         type: 'line',
         data: femaleGroupSeries,
         stack: 2,
         color: GovukColours.Turquoise,
         dashStyle: 'Dash',
-        marker: { symbol: 'diamond' },
         dataLabels: { enabled: false },
+        custom: { tag: 'Female', shape: SymbolsEnum.Diamond },
       },
       {
-        name: `Group: ${dataForGroup.areaName}`,
+        name: `Group: ${dataForGroup.areaName} `,
         type: 'line',
         stack: 4,
         data: maleGroupSeries.map((datapoint) => -datapoint),
         color: GovukColours.Turquoise,
         dashStyle: 'Dash',
-        marker: { symbol: 'diamond' },
+        custom: { tag: 'Male', shape: SymbolsEnum.Diamond },
         dataLabels: { enabled: false },
         showInLegend: false,
       }
@@ -286,23 +310,23 @@ const createAdditionalChartSeries = (
     );
     series.push(
       {
-        name: `Benchmark: ${dataForBenchmark.areaName}`,
+        name: `Benchmark: ${dataForBenchmark.areaName} `,
         data: femaleBenchmarkSeries,
         type: 'line',
         stack: 1,
         color: GovukColours.CharcoalGray,
         dashStyle: 'Solid',
-        marker: { symbol: 'circle' },
+        custom: { tag: 'Female', shape: SymbolsEnum.Circle },
       },
       {
-        name: `Benchmark: ${dataForBenchmark.areaName}`,
+        name: `Benchmark: ${dataForBenchmark.areaName} `,
         data: maleBenchmarkSeries.map((datapoint) => -datapoint),
         type: 'line',
         stack: 3,
         color: GovukColours.CharcoalGray,
         dashStyle: 'Solid',
-        marker: { symbol: 'circle' },
         showInLegend: false,
+        custom: { tag: 'Male', shape: SymbolsEnum.Circle },
       }
     );
   }
