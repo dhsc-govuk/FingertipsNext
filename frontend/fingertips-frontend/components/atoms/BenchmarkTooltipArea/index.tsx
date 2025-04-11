@@ -31,20 +31,20 @@ export function BenchmarkTooltipArea({
   const indicatorDataForAreaForMostRecentYear =
     getIndicatorDataForAreasForMostRecentYearOnly([indicatorData]);
   const polarity =
-    indicatorDataForAreaForMostRecentYear[0].healthData[0]?.benchmarkComparison
+    indicatorDataForAreaForMostRecentYear?.[0].healthData[0].benchmarkComparison
       ?.indicatorPolarity ?? IndicatorPolarity.Unknown;
   const benchmarkArea =
-    indicatorDataForAreaForMostRecentYear[0].healthData[0]?.benchmarkComparison
+    indicatorDataForAreaForMostRecentYear?.[0].healthData[0].benchmarkComparison
       ?.benchmarkAreaName ?? 'England';
   const benchmarkOutcome =
-    indicatorDataForAreaForMostRecentYear[0].healthData[0]?.benchmarkComparison
+    indicatorDataForAreaForMostRecentYear?.[0].healthData[0].benchmarkComparison
       ?.outcome ?? BenchmarkOutcome.NotCompared;
 
   const areaMarkerSymbol = () => {
     switch (true) {
       case tooltipType === 'benchmark':
         return SymbolsEnum.Circle;
-      case !indicatorDataForAreaForMostRecentYear[0].healthData[0]
+      case !indicatorDataForAreaForMostRecentYear?.[0].healthData[0]
         ?.benchmarkComparison?.outcome:
         return SymbolsEnum.MultiplicationX;
       case benchmarkComparisonMethod === BenchmarkComparisonMethod.Unknown:
@@ -62,8 +62,8 @@ export function BenchmarkTooltipArea({
   );
   if (
     tooltipType === 'benchmark' ||
-    !indicatorDataForAreaForMostRecentYear[0].healthData[0]?.benchmarkComparison
-      ?.outcome
+    !indicatorDataForAreaForMostRecentYear?.[0].healthData[0]
+      ?.benchmarkComparison?.outcome
   ) {
     benchmarkColour = GovukColours.Black;
   }
@@ -97,12 +97,12 @@ export function BenchmarkTooltipArea({
 
         <div style={{ marginTop: '5px' }}>
           <span style={{ display: 'block' }}>
-            {indicatorDataForAreaForMostRecentYear[0].healthData[0]?.value
+            {indicatorDataForAreaForMostRecentYear?.[0].healthData[0]?.value
               ? formatNumber(
                   indicatorDataForAreaForMostRecentYear[0].healthData[0].value
                 )
               : 'No data available'}{' '}
-            {indicatorDataForAreaForMostRecentYear[0].healthData[0]?.value
+            {indicatorDataForAreaForMostRecentYear?.[0].healthData[0]?.value
               ? measurementUnit
               : null}
           </span>
@@ -110,7 +110,7 @@ export function BenchmarkTooltipArea({
             ? getComparisionText(
                 benchmarkArea,
                 benchmarkComparisonMethod,
-                indicatorDataForAreaForMostRecentYear[0].healthData[0]
+                indicatorDataForAreaForMostRecentYear?.[0].healthData[0]
                   ?.benchmarkComparison?.outcome ?? undefined
               )
             : null}
