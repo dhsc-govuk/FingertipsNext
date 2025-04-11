@@ -175,7 +175,7 @@ export function generateSeriesData({
         units
       ),
       pointWidth: 30,
-      color: GovukColours.MidGrey,
+      color: GovukColours.DarkGrey,
       data: [scaledSecondQuartileBar],
     },
   ];
