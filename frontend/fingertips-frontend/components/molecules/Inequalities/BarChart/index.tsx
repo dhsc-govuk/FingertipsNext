@@ -12,7 +12,7 @@ import { ConfidenceIntervalCheckbox } from '../../ConfidenceIntervalCheckbox';
 import { useEffect, useState } from 'react';
 import {
   generateConfidenceIntervalSeries,
-  getBenchmarkColour,
+  getBenchmarkColour, getConfidenceLimitNumber,
   loadHighchartsModules,
 } from '@/lib/chartHelpers/chartHelpers';
 import {
@@ -21,6 +21,8 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { formatNumber } from '@/lib/numberFormatter';
+import { BenchmarkTooltip } from '@/components/molecules/BenchmarkTooltip/BenchmarkTooltip';
+import { getBenchmarkLabelText } from '@/components/organisms/BenchmarkLabel';
 
 interface InequalitiesBarChartProps {
   barChartData: InequalitiesBarChartData;
@@ -39,14 +41,30 @@ const mapToXAxisTitle: Record<InequalitiesTypes, string> = {
 const getMaxValue = (values: (number | undefined)[]) =>
   Math.max(...values.filter((number) => number !== undefined));
 
-const generateInequalitiesBarChartTooltipForPoint = (
-  point: Highcharts.Point,
-  symbol: string
-) => [
-  `<div style="display: flex; margin-top: 7px; align-items: center;"><div style="margin-right: 10px;">
-  <span style="color: ${point.color}; font-weight: bold;">${symbol}</span></div>`,
-  `<div><span>${point.category}</br>Value: ${formatNumber(point.y)}`,
-];
+const inequalitiesBarChartTooltip = (
+  barchartData: InequalitiesBarChartData,
+  benchmarkComparisonMethod: BenchmarkComparisonMethod,
+  benchmarkOutcome: BenchmarkOutcome
+) => {
+  let benchmarkLabel = '';
+  let comparisonLabel = '';
+  
+  const outcome = getBenchmarkLabelText(benchmarkOutcome);
+  const comparison = getConfidenceLimitNumber(benchmarkComparisonMethod);
+  
+  if (benchmarkOutcome === BenchmarkOutcome.Similar) {
+    benchmarkLabel = `${outcome} to England`;
+    comparisonLabel = `(${formatNumber(comparison)}%)`;
+  } else if (
+    benchmarkOutcome &&
+    benchmarkOutcome !== BenchmarkOutcome.NotCompared
+  ) {
+    benchmarkLabel = `${outcome} than England`;
+    comparisonLabel = `(${formatNumber(comparison)}%)`;
+  }
+  
+  return { barchartData, benchmarkLabel, comparisonLabel };
+};
 
 export function InequalitiesBarChart({
   barChartData,
@@ -76,6 +94,20 @@ export function InequalitiesBarChart({
   const timePeriod = barChartData.data.period;
   const comparedTo = `${barChartData.areaName}`;
 
+  const generateInequalitiesBarChartTooltipForPoint = (
+    point: Highcharts.Point,
+    symbol: string
+  ) => {
+    const { barchartData, benchmarkLabel, comparisonLabel } = inequalitiesBarChartTooltip()
+    return [
+      `
+<span>${barChartData.data.period}</span>
+<div style="display: flex; margin-top: 7px; align-items: center;"><div style="margin-right: 10px;">
+  <span style="color: ${point.color}; font-weight: bold;">${symbol}</span></div>`,
+      `<div><span>${point.category}</br>Value: ${formatNumber(point.y)}`,
+    ];
+  };
+
   const seriesData: Highcharts.SeriesOptionsType[] = [
     {
       type: 'bar',
@@ -89,6 +121,7 @@ export function InequalitiesBarChart({
           name: field,
           y: inequalities[field]?.value,
           color,
+          custom: { period: barChartData.data.period },
         };
         if (color) return point;
 
