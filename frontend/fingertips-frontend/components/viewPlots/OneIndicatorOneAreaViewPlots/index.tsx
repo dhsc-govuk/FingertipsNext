@@ -4,7 +4,7 @@ import { TabContainer } from '@/components/layouts/tabContainer';
 import { LineChart } from '@/components/organisms/LineChart';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import {
-  isEnglandSoleSelectedArea,
+  determineAreaCodes,
   seriesDataWithoutEnglandOrGroup,
 } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
@@ -21,9 +21,8 @@ import {
   generateStandardLineChartOptions,
   LineChartVariant,
 } from '@/components/organisms/LineChart/lineChartHelpers';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { getAllDataWithoutInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
-import { useSearchState } from '@/context/SearchStateContext';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
 
 function shouldLineChartBeShown(
@@ -41,16 +40,12 @@ export function OneIndicatorOneAreaViewPlots({
   searchState,
   indicatorMetadata,
 }: Readonly<OneIndicatorViewPlotProps>) {
-  const { setSearchState } = useSearchState();
-
-  useEffect(() => {
-    setSearchState(searchState ?? {});
-  }, [searchState, setSearchState]);
-
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreasSelected]: areasSelected,
   } = searchState;
+
+  const areaCodes = determineAreaCodes(areasSelected);
 
   const polarity = indicatorData.polarity as IndicatorPolarity;
   const benchmarkComparisonMethod =
@@ -84,7 +79,7 @@ export function OneIndicatorOneAreaViewPlots({
   } = getAllDataWithoutInequalities(
     dataWithoutEnglandOrGroup,
     { englandBenchmarkData, groupData },
-    areasSelected
+    areaCodes
   );
 
   const yAxisTitle = indicatorMetadata?.unitLabel
@@ -150,15 +145,11 @@ export function OneIndicatorOneAreaViewPlots({
         </>
       )}
       <Inequalities
-        healthIndicatorData={
-          !isEnglandSoleSelectedArea(searchState[SearchParams.AreasSelected])
-            ? dataWithoutEnglandOrGroup[0]
-            : healthIndicatorData[0]
-        }
+        healthIndicatorData={healthIndicatorData}
+        searchState={searchState}
         measurementUnit={indicatorMetadata?.unitLabel}
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
-        searchState={searchState}
         dataSource={indicatorMetadata?.dataSource}
       />
     </section>

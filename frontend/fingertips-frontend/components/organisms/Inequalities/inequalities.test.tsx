@@ -4,6 +4,7 @@ import { Inequalities } from '.';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { SearchStateContext } from '@/context/SearchStateContext';
+import { LoaderContext } from '@/context/LoaderContext';
 
 const state: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'testing',
@@ -11,9 +12,18 @@ const state: SearchStateParams = {
   [SearchParams.AreasSelected]: ['A1245'],
 };
 
-const mockGetSearchState = jest.fn();
+const mockLoaderContext: LoaderContext = {
+  getIsLoading: jest.fn(),
+  setIsLoading: jest.fn(),
+};
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoadingState: () => mockLoaderContext,
+  };
+});
+
 const mockSearchStateContext: SearchStateContext = {
-  getSearchState: mockGetSearchState,
+  getSearchState: jest.fn(),
   setSearchState: jest.fn(),
 };
 jest.mock('@/context/SearchStateContext', () => {
@@ -39,14 +49,10 @@ jest.mock('next/navigation', () => {
 });
 
 describe('Inequalities suite', () => {
-  beforeEach(() => {
-    mockGetSearchState.mockReturnValue(state);
-  });
-
   it('should render inequalities component', async () => {
     render(
       <Inequalities
-        healthIndicatorData={MOCK_HEALTH_DATA[1]}
+        healthIndicatorData={MOCK_HEALTH_DATA}
         searchState={state}
       />
     );
@@ -75,7 +81,7 @@ describe('Inequalities suite', () => {
   it('should render expected text', () => {
     render(
       <Inequalities
-        healthIndicatorData={MOCK_HEALTH_DATA[1]}
+        healthIndicatorData={MOCK_HEALTH_DATA}
         searchState={state}
       />
     );
@@ -91,7 +97,7 @@ describe('Inequalities suite', () => {
   it('check if the measurement unit value "kg" is rendered correctly', () => {
     render(
       <Inequalities
-        healthIndicatorData={MOCK_HEALTH_DATA[1]}
+        healthIndicatorData={MOCK_HEALTH_DATA}
         searchState={state}
         measurementUnit="kg"
       />

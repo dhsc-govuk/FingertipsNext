@@ -13,10 +13,12 @@ import {
   HealthDataRequestAreas,
 } from '@/lib/ViewsHelpers';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
+import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 
 export default async function TwoOrMoreIndicatorsAreasView({
   searchState,
   selectedIndicatorsData,
+  availableAreas,
 }: Readonly<ViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
@@ -27,11 +29,17 @@ export default async function TwoOrMoreIndicatorsAreasView({
     [SearchParams.GroupTypeSelected]: selectedGroupType,
   } = stateManager.getSearchState();
 
+  const areaCodes = determineAreaCodes(
+    areasSelected,
+    selectedGroupCode,
+    availableAreas
+  );
+
   if (!indicatorsSelected || indicatorsSelected.length < 2) {
     throw new Error('invalid indicators selected passed to view');
   }
 
-  if (!areasSelected || areasSelected.length < 1) {
+  if (!areaCodes || areaCodes.length < 1) {
     throw new Error('invalid areas selected passed to view');
   }
 
@@ -44,12 +52,12 @@ export default async function TwoOrMoreIndicatorsAreasView({
 
   const areasToRequest: HealthDataRequestAreas[] = [
     {
-      areaCodes: areasSelected,
+      areaCodes,
       areaType: selectedAreaType,
     },
   ];
 
-  if (!areasSelected.includes(areaCodeForEngland)) {
+  if (!areaCodes.includes(areaCodeForEngland)) {
     areasToRequest.push({
       areaCodes: [areaCodeForEngland],
       areaType: englandAreaType.key,
@@ -79,7 +87,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
   const benchmarkQuartiles = await indicatorApi.indicatorsQuartilesGet(
     {
       indicatorIds: indicatorList,
-      areaCode: areasSelected[0],
+      areaCode: areaCodes[0],
       ancestorCode: selectedGroupCode ?? areaCodeForEngland,
       areaType: selectedAreaType,
     },
@@ -96,6 +104,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
         indicatorMetadata={selectedIndicatorsData}
         benchmarkStatistics={benchmarkQuartiles}
         searchState={searchState}
+        availableAreas={availableAreas}
       />
     </ViewsWrapper>
   );
