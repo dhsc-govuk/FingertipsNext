@@ -71,10 +71,14 @@ jest.mock('@/components/molecules/SelectInputField', () => ({
 }));
 
 describe('PopulationPyramidWithTable', () => {
-  const setupUI = (dataForArea: HealthDataForArea[]) => {
+  const setupUI = (
+    dataForArea: HealthDataForArea[],
+    areaMappings: Record<string, number> = {}
+  ) => {
     return render(
       <PopulationPyramidWithTable
         healthDataForAreas={dataForArea}
+        areaCodesMappingToIndicatorIds={areaMappings}
         groupAreaSelected="123"
         searchState={{}}
         xAxisTitle="Age"
@@ -125,6 +129,7 @@ describe('PopulationPyramidWithTable', () => {
       <PopulationPyramidWithTable
         healthDataForAreas={mockHealthData['337']}
         groupAreaSelected={mockHealthData['337'][2].areaCode}
+        areaCodesMappingToIndicatorIds={{ E92000001: 337 }}
         searchState={{}}
         xAxisTitle="Age"
         yAxisTitle="Percentage of population"

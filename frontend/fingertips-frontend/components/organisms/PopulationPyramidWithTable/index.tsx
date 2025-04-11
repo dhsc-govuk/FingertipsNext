@@ -3,6 +3,7 @@
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { useCallback, useMemo, useState } from 'react';
+import { nhsIndicatorIdForPopulation } from '@/lib/chartHelpers/constants';
 import {
   convertHealthDataForAreaForPyramidData,
   createPyramidPopulationDataFrom,
@@ -28,13 +29,16 @@ import { DataSource } from '@/components/atoms/DataSource/DataSource';
 
 const getHeaderTitle = (
   healthData: HealthDataForArea | undefined,
-  year: number | undefined
+  year: number | undefined,
+  indicatorID: number | undefined
 ): string => {
   let title = undefined;
+  const titleTypeText =
+    indicatorID == nhsIndicatorIdForPopulation ? 'Registered' : 'Resident';
   if (!year) {
-    title = `Resident population profile for ${healthData?.areaName}`;
+    title = `${titleTypeText} population profile for ${healthData?.areaName}`;
   } else {
-    title = `Resident population profile for ${healthData?.areaName} ${year}`;
+    title = `${titleTypeText} population profile for ${healthData?.areaName} ${year}`;
   }
   return title;
 };
@@ -56,6 +60,7 @@ const getSelectedAreaFrom = (
 
 interface PyramidPopulationChartViewProps {
   healthDataForAreas: HealthDataForArea[];
+  areaCodesMappingToIndicatorIds: Record<string, number>;
   groupAreaSelected?: string;
   xAxisTitle: string;
   yAxisTitle: string;
@@ -64,6 +69,7 @@ interface PyramidPopulationChartViewProps {
 }
 export const PopulationPyramidWithTable = ({
   healthDataForAreas,
+  areaCodesMappingToIndicatorIds,
   xAxisTitle,
   yAxisTitle,
   groupAreaSelected,
@@ -104,7 +110,11 @@ export const PopulationPyramidWithTable = ({
         }
       );
       const year = getLatestYear(healthData?.healthData);
-      return getHeaderTitle(healthData, year);
+      return getHeaderTitle(
+        healthData,
+        year,
+        areaCodesMappingToIndicatorIds[healthData?.areaCode ?? 0]
+      );
     })()
   );
 
@@ -128,7 +138,13 @@ export const PopulationPyramidWithTable = ({
           area.areaCode
         );
 
-        setTitle(getHeaderTitle(healthData, year));
+        setTitle(
+          getHeaderTitle(
+            healthData,
+            year,
+            areaCodesMappingToIndicatorIds[healthData?.areaCode ?? 0]
+          )
+        );
         setSelectedArea(
           convertHealthDataForAreaForPyramidData(healthData, year)
         );
@@ -136,7 +152,13 @@ export const PopulationPyramidWithTable = ({
         replace(stateManager.generatePath(pathname));
       }
     },
-    [healthDataForAreas, stateManager, replace, pathname]
+    [
+      healthDataForAreas,
+      stateManager,
+      replace,
+      pathname,
+      areaCodesMappingToIndicatorIds,
+    ]
   );
 
   if (!convertedData?.areas.length) {

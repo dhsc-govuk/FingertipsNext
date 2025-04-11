@@ -1,5 +1,9 @@
 import { GetHealthDataForAnIndicatorInequalitiesEnum } from '@/generated-sources/ft-api-client';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import {
+  administratorIndicatorID,
+  areaCodeForEngland,
+  nhsIndicatorIdForPopulation,
+} from '@/lib/chartHelpers/constants';
 import {
   SearchParams,
   SearchStateManager,
@@ -11,18 +15,44 @@ import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { PopulationPyramidWithTable } from '@/components/organisms/PopulationPyramidWithTable';
 import { getHealthDataForIndicator } from '@/lib/ViewsHelpers';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
-const enum PopulationIndicatorIdsTypes {
-  ADMINISTRATIVE = 92708,
-  NHS = 337,
-}
 
-const fetchPopulationIndicatorID = async (areaCode: string) => {
+const getAreaCodeMappingsToIndicatorIds = async (
+  areaCodesToRequest: string[]
+) => {
   const areasApi = ApiClientFactory.getAreasApiClient();
-  const area = await areasApi.getArea({ areaCode: areaCode });
-  if (area.areaType.hierarchyName == HierarchyNameTypes.NHS) {
-    return PopulationIndicatorIdsTypes.NHS;
-  }
-  return PopulationIndicatorIdsTypes.ADMINISTRATIVE;
+  const mappings: Record<string, number> = {};
+
+  await Promise.all(
+    areaCodesToRequest.map(async (areaCode) => {
+      const area = await areasApi.getArea({ areaCode: areaCode });
+      const indicatorTypeID =
+        area.areaType.hierarchyName == HierarchyNameTypes.NHS
+          ? nhsIndicatorIdForPopulation
+          : administratorIndicatorID;
+      mappings[area.code] = indicatorTypeID;
+    })
+  );
+
+  return mappings;
+};
+
+const getPopulationData = (
+  populationIndicatorID: number,
+  areaCodesToRequest: string[]
+) => {
+  return getHealthDataForIndicator(
+    ApiClientFactory.getIndicatorsApiClient(),
+    populationIndicatorID,
+    [
+      {
+        areaCodes: areaCodesToRequest,
+        inequalities: [
+          GetHealthDataForAnIndicatorInequalitiesEnum.Age,
+          GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
+        ],
+      },
+    ]
+  );
 };
 
 interface PyramidContextProviderProps {
@@ -53,37 +83,13 @@ export const PopulationPyramidWithTableDataProvider = async ({
     return areaCodesToRequest;
   })();
 
-  const populationIndicatorID: PopulationIndicatorIdsTypes | undefined =
-    await (async () => {
-      if (areaCodesToRequest.length < 1) {
-        return undefined;
-      }
+  const areaTypeCodeMappings =
+    await getAreaCodeMappingsToIndicatorIds(areaCodesToRequest);
 
-      return await fetchPopulationIndicatorID(areaCodesToRequest[0]);
-    })();
+  const populationIndicatorID = areaTypeCodeMappings[areaCodesToRequest[0]];
 
-  const getPopulationData = async (
-    populationIndicatorID: PopulationIndicatorIdsTypes
-  ) => {
-    return await getHealthDataForIndicator(
-      ApiClientFactory.getIndicatorsApiClient(),
-      populationIndicatorID,
-      [
-        {
-          areaCodes: areaCodesToRequest,
-          inequalities: [
-            GetHealthDataForAnIndicatorInequalitiesEnum.Age,
-            GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
-          ],
-        },
-      ]
-    );
-  };
-
-  const getPopulationIndicatorMetadata = async (
-    populationIndicatorID: PopulationIndicatorIdsTypes
-  ) => {
-    return await SearchServiceFactory.getIndicatorSearchService().getIndicator(
+  const getPopulationIndicatorMetadata = () => {
+    return SearchServiceFactory.getIndicatorSearchService().getIndicator(
       populationIndicatorID.toString()
     );
   };
@@ -97,8 +103,8 @@ export const PopulationPyramidWithTableDataProvider = async ({
     }
 
     const [populationData, populationIndicatorMetadata] = await Promise.all([
-      getPopulationData(populationIndicatorID),
-      getPopulationIndicatorMetadata(populationIndicatorID),
+      await getPopulationData(populationIndicatorID, areaCodesToRequest),
+      await getPopulationIndicatorMetadata(),
     ]);
 
     return { populationData, populationMetadata: populationIndicatorMetadata };
@@ -109,6 +115,7 @@ export const PopulationPyramidWithTableDataProvider = async ({
       healthDataForAreas={populationData?.areaHealthData ?? []}
       groupAreaSelected={groupAreaSelected}
       searchState={searchState}
+      areaCodesMappingToIndicatorIds={areaTypeCodeMappings}
       xAxisTitle="Age"
       yAxisTitle="Percentage of total population"
       dataSource={populationMetadata?.dataSource}
