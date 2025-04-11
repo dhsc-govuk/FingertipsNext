@@ -42,11 +42,11 @@ export function BenchmarkTooltipArea({
 
   const areaMarkerSymbol = () => {
     switch (true) {
+      case tooltipType === 'benchmark':
+        return SymbolsEnum.Circle;
       case !indicatorDataForAreaForMostRecentYear[0].healthData[0]
         ?.benchmarkComparison?.outcome:
         return SymbolsEnum.MultiplicationX;
-      case tooltipType === 'benchmark':
-        return SymbolsEnum.Circle;
       case benchmarkComparisonMethod === BenchmarkComparisonMethod.Unknown:
       case benchmarkOutcome === BenchmarkOutcome.NotCompared:
         return SymbolsEnum.WhiteCircle;
