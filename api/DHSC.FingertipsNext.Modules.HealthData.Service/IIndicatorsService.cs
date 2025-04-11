@@ -20,11 +20,13 @@ public interface IIndicatorsService
     /// <returns>
     ///     <c>IndicatorWithHealthDataForArea</c> matching the criteria
     /// </returns>
-    Task<ServiceResponse<IndicatorWithHealthDataForAreas>> GetIndicatorDataAsync(int indicatorId,
+    Task<ServiceResponse<IndicatorWithHealthDataForAreas>> GetIndicatorDataAsync(
+        int indicatorId,
         IEnumerable<string> areaCodes,
         string areaType,
         IEnumerable<int> years,
-        IEnumerable<string> inequalities);
+        IEnumerable<string> inequalities,
+        bool includeEmptyAreas = false);
 
     /// <summary>
     ///     Get quartile data for set of public health indicators. Returns data for all
