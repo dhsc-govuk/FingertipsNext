@@ -47,6 +47,7 @@ export const StyledAlignRightHeaderPadLeft = styled(StyledAlignRightHeader)({
 export const StyledAlignRightBorderHeader = styled(StyledAlignRightHeader)({
   borderRight: 'solid #bfc1c3 1px',
   paddingRight: '0.5em',
+  textAlign: 'center',
 });
 
 export const StyledAlignLeftStickyLeftHeader = styled(StyledAlignLeftHeader)(
@@ -75,12 +76,19 @@ export const StyledAlignRightBorderRightTableCell = styled(
   paddingRight: '0.5em',
 });
 
+export const StyledAlignCentreBorderRightTableCell = styled(
+  StyledAlignCentreTableCell
+)({
+  borderRight: 'solid #bfc1c3 1px',
+  paddingRight: '0.5em',
+});
+
 export const StyledAlignRightCellPadLeft = styled(StyledAlignRightTableCell)({
   paddingLeft: '0.5em',
 });
 
 export const StyledValueUnitStickyCell = styled(
-  StyledAlignRightBorderRightTableCell
+  StyledAlignCentreBorderRightTableCell
 )({
   ...(stickyLeft as unknown as TemplateStringsArray),
   left: `${spineChartIndicatorTitleColumnMinWidth + spineChartPeriodColumnMinWidth + paddingSize * 2}px`,
