@@ -1,9 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import {
-  SpineChartTableHeadingEnum,
-  SpineChartTableHeader,
-} from './SpineChartTableHeader';
+import { SpineChartTableHeader } from './SpineChartTableHeader';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 
 describe('Spine chart table header', () => {
@@ -34,10 +31,11 @@ describe('Spine chart table header', () => {
     expect(screen.getByTestId('england-header')).toHaveTextContent(
       `Benchmark: England`
     );
-
-    Object.values(SpineChartTableHeadingEnum).forEach((heading) =>
-      expect(screen.getByTestId(`${heading}-header`)).toBeInTheDocument()
+    expect(screen.getByTestId('area-trend-header')).toHaveTextContent(
+      'Recent trend'
     );
+    expect(screen.getByTestId('area-count-header')).toHaveTextContent('Count');
+    expect(screen.getByTestId('area-value-header')).toHaveTextContent('Value');
   });
 
   it('should have grey cell color for benchmark column', () => {
@@ -56,13 +54,13 @@ describe('Spine chart table header', () => {
       `background-color: ${GovukColours.MidGrey}`
     );
 
-    expect(screen.getByTestId('Value-header')).toHaveStyle(
+    expect(screen.getByTestId('group-value-header')).toHaveStyle(
+      `background-color: ${GovukColours.LightGrey}`
+    );
+    expect(screen.getByTestId('benchmark-worst-header')).toHaveStyle(
       `background-color: ${GovukColours.MidGrey}`
     );
-    expect(screen.getByTestId('Worst-header')).toHaveStyle(
-      `background-color: ${GovukColours.MidGrey}`
-    );
-    expect(screen.getByTestId('Best-header')).toHaveStyle(
+    expect(screen.getByTestId('benchmark-best-header')).toHaveStyle(
       `background-color: ${GovukColours.MidGrey}`
     );
   });
@@ -83,7 +81,7 @@ describe('Spine chart table header', () => {
       `background-color: ${GovukColours.LightGrey}`
     );
 
-    expect(screen.getByTestId('GroupValue-header')).toHaveStyle(
+    expect(screen.getByTestId('group-value-header')).toHaveStyle(
       `background-color: ${GovukColours.LightGrey}`
     );
   });
@@ -106,19 +104,19 @@ describe('Spine chart table header', () => {
     expect(screen.getByTestId('area-header-2')).toHaveTextContent(
       'East Midlands Region'
     );
-    expect(screen.getByTestId('area-1-Count-header')).toHaveTextContent(
+    expect(screen.getByTestId('area-1-count-header')).toHaveTextContent(
       'Count'
     );
-    expect(screen.getByTestId('area-1-Value-header')).toHaveTextContent(
+    expect(screen.getByTestId('area-1-value-header')).toHaveTextContent(
       'Value'
     );
-    expect(screen.getByTestId('area-2-Count-header')).toHaveTextContent(
+    expect(screen.getByTestId('area-2-count-header')).toHaveTextContent(
       'Count'
     );
-    expect(screen.getByTestId('area-2-Value-header')).toHaveTextContent(
+    expect(screen.getByTestId('area-2-value-header')).toHaveTextContent(
       'Value'
     );
-    expect(screen.queryByTestId('Recent trend-header')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('area-trend-header')).not.toBeInTheDocument();
   });
 
   it('should not render the group header value if group is England', () => {
@@ -134,6 +132,6 @@ describe('Spine chart table header', () => {
     );
 
     expect(screen.queryByTestId('group-header')).not.toBeInTheDocument();
-    expect(screen.queryByTestId('GroupValue-header')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('group-value-header')).not.toBeInTheDocument();
   });
 });

@@ -7,6 +7,8 @@ import {
 export const spineChartImproperUsageError =
   'Improper usage: Spine chart should only be shown when 1-2 areas are selected';
 export const spineChartIndicatorTitleColumnMinWidth = 240;
+export const spineChartPeriodColumnMinWidth = 50;
+export const paddingSize = 8;
 
 export interface SpineChartIndicatorData {
   indicatorId: string;

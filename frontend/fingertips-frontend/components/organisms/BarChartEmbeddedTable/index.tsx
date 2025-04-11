@@ -24,6 +24,7 @@ import { TrendTag } from '@/components/molecules/TrendTag';
 import { BenchmarkLegend } from '@/components/organisms/BenchmarkLegend';
 import { BarChartEmbeddedTableRow } from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedTable.types';
 import { BarChartEmbeddedRows } from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedRows';
+import { DataSource } from '@/components/atoms/DataSource/DataSource';
 
 export enum BarChartEmbeddedTableHeadingEnum {
   AreaName = 'Area',
@@ -48,6 +49,7 @@ interface BarChartEmbeddedTableProps {
   measurementUnit?: string;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
+  dataSource?: string;
 }
 
 const formatHeader = (title: string) => {
@@ -68,6 +70,7 @@ export function BarChartEmbeddedTable({
   measurementUnit,
   benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
   polarity = IndicatorPolarity.Unknown,
+  dataSource,
 }: Readonly<BarChartEmbeddedTableProps>) {
   const mostRecentYearData =
     sortHealthDataByYearDescending(healthIndicatorData);
@@ -297,6 +300,7 @@ export function BarChartEmbeddedTable({
           polarity={polarity}
         />
       </Table>
+      <DataSource dataSource={dataSource} />
     </div>
   );
 }

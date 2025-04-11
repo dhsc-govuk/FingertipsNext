@@ -310,4 +310,18 @@ describe('BarChartEmbeddedTable', () => {
     expect(trendTags[2].textContent).toEqual('Decreasing and getting better'); // A1426 trend
     expect(trendTags[3].textContent).toEqual('No trend data available'); // A1425 trend
   });
+
+  it('should render the data source if provided', () => {
+    render(
+      <BarChartEmbeddedTable
+        healthIndicatorData={mockHealthIndicatorData}
+        benchmarkData={mockBenchmarkData}
+        dataSource={'bar chart data source'}
+      />
+    );
+
+    expect(
+      screen.getByText('Data source: bar chart data source')
+    ).toBeInTheDocument();
+  });
 });

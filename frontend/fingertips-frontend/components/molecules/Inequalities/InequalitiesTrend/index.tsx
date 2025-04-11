@@ -27,11 +27,13 @@ import {
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
 import { InequalitiesTypesDropDown } from '../InequalitiesTypesDropDown';
+import { DataSource } from '@/components/atoms/DataSource/DataSource';
 
 interface InequalitiesTrendProps {
   healthIndicatorData: HealthDataForArea;
   searchState: SearchStateParams;
   measurementUnit?: string;
+  dataSource?: string;
 }
 
 const generateInequalitiesLineChartTooltipForPoint = (
@@ -47,6 +49,7 @@ export function InequalitiesTrend({
   healthIndicatorData,
   searchState,
   measurementUnit,
+  dataSource,
 }: Readonly<InequalitiesTrendProps>) {
   const [
     showInequalitiesLineChartConfidenceIntervals,
@@ -163,6 +166,7 @@ export function InequalitiesTrend({
             ),
           },
         ]}
+        footer={<DataSource dataSource={dataSource} />}
       />
     </div>
   );

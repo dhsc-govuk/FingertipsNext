@@ -1,4 +1,5 @@
 import {
+  GetHealthDataForAnIndicatorInequalitiesEnum,
   IndicatorsApi,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
@@ -20,11 +21,12 @@ export function chunkArray(
 export interface HealthDataRequestAreas {
   areaCodes: string[];
   areaType?: string;
+  inequalities?: GetHealthDataForAnIndicatorInequalitiesEnum[];
 }
 
 export const getHealthDataForIndicator = async (
   indicatorApi: IndicatorsApi,
-  indicatorId: string,
+  indicatorId: string | number,
   combinedRequestAreas: HealthDataRequestAreas[]
 ) => {
   let healthIndicatorData: IndicatorWithHealthDataForArea | undefined;
@@ -38,6 +40,7 @@ export const getHealthDataForIndicator = async (
               indicatorId: Number(indicatorId),
               areaCodes: areaCodes,
               areaType: requestAreas.areaType,
+              inequalities: requestAreas.inequalities,
             },
             API_CACHE_CONFIG
           )
