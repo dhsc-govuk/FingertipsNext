@@ -180,39 +180,32 @@ const createChartSeriesOptions = (
       padding: 10,
       headerFormat: '',
       pointFormatter: function (this: Highcharts.Point) {
-        const tooltipIcon = ((series: Series): string => {
-          const name = series.name.toLowerCase();
-          if (name.includes('benchmark:')) return SymbolsEnum.Circle;
-          if (name.includes('group:')) return SymbolsEnum.Diamond;
-          return SymbolsEnum.Square;
-        })(this.series);
-
         const value = Math.abs(this.y ?? 0);
 
         return `
-             <div style="min-width: 100px; font-size: 12px;">
-                  <div style="">
-                    <h4 style="margin:0px; padding:0px;">
-                       ${this.series.name}
-                    </h4>
-                    <span style="display:block;" >${this.category}</span>
-                    <span style="display:block;"> ${this.series.userOptions.custom?.tag}</span>
-                  <div>
+                <div style="min-width: 100px; font-size: 12px;">
+                <div style="">
+                <h4 style="margin:0px; padding:0px;">
+                  ${this.series.name}
+                </h4>
+                <span style="display:block;" >${this.category}</span>
+                <span style="display:block;"> ${this.series.userOptions.custom?.tag}</span>
+                <div style="padding:0px; margin:0px;">
                   <div style="display:flex; 
-                              flex-direction:row;
-                              align-items: center;
-                              flex-wrap:nowrap;
-                              justify-content: flex-start;
-                               ">
+                      flex-direction:row;
+                      align-items: center;
+                      flex-wrap:nowrap;
+                      justify-content: flex-start;
+                      ">
                       <div style="flex-grow:2; 
-                                  align-self:center;
-                                  text-align:center;
-                                  padding:1px;
-                                  ">
-                        <span style="color:${this.color}; font-size:16px;">${tooltipIcon} </span> <span>${value}% of total population</span>
-                       </div>
-                 </div>
-              </div>
+                        align-self:center;
+                        text-align:center;
+                        padding:1px;
+                        ">
+                        <span style="color:${this.color}; font-size:16px;">${this.series.userOptions.custom?.shape} </span> <span>${value}% of total population</span>
+                      </div>
+                  </div>
+                </div>
             `;
       },
       useHTML: true,
@@ -222,7 +215,7 @@ const createChartSeriesOptions = (
         name: 'Female',
         type: 'bar',
         data: femaleSeries,
-        custom: { tag: 'Female' },
+        custom: { tag: 'Female', shape: SymbolsEnum.Square },
         xAxis: 0,
         color: GovukColours.Female,
         pointWidth: 17,
@@ -241,7 +234,7 @@ const createChartSeriesOptions = (
         name: 'Male',
         type: 'bar',
         data: maleSeries.map((datapoint) => -datapoint),
-        custom: { tag: 'Male' },
+        custom: { tag: 'Male', shape: SymbolsEnum.Square },
         xAxis: 1,
         color: GovukColours.Male,
         pointWidth: 17,
@@ -289,7 +282,7 @@ const createAdditionalChartSeries = (
         color: GovukColours.Turquoise,
         dashStyle: 'Dash',
         dataLabels: { enabled: false },
-        custom: { tag: 'Female' },
+        custom: { tag: 'Female', shape: SymbolsEnum.Diamond },
       },
       {
         name: `Group: ${dataForGroup.areaName} `,
@@ -298,7 +291,7 @@ const createAdditionalChartSeries = (
         data: maleGroupSeries.map((datapoint) => -datapoint),
         color: GovukColours.Turquoise,
         dashStyle: 'Dash',
-        custom: { tag: 'Male' },
+        custom: { tag: 'Male', shape: SymbolsEnum.Diamond },
         dataLabels: { enabled: false },
         showInLegend: false,
       }
@@ -322,7 +315,7 @@ const createAdditionalChartSeries = (
         stack: 1,
         color: GovukColours.CharcoalGray,
         dashStyle: 'Solid',
-        custom: { tag: 'Female' },
+        custom: { tag: 'Female', shape: SymbolsEnum.Circle },
       },
       {
         name: `Benchmark: ${dataForBenchmark.areaName} `,
@@ -332,7 +325,7 @@ const createAdditionalChartSeries = (
         color: GovukColours.CharcoalGray,
         dashStyle: 'Solid',
         showInLegend: false,
-        custom: { tag: 'Male' },
+        custom: { tag: 'Male', shape: SymbolsEnum.Circle },
       }
     );
   }
