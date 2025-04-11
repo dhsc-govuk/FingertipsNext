@@ -38,7 +38,10 @@ const SymbolMapping: Record<string, string> = {
 
 export const pointFormatterHelper = (
   point: Highcharts.Point | InequalitiesPoint,
-  generateTooltipForPoint: (point: Highcharts.Point | InequalitiesPoint, symbol: string) => string[]
+  generateTooltipForPoint: (
+    point: Highcharts.Point | InequalitiesPoint,
+    symbol: string
+  ) => string[]
 ) => {
   const symbol =
     SymbolMapping[(point.graphic as any)?.symbolName] ?? SymbolsEnum.Circle;

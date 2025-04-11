@@ -6,13 +6,14 @@ import {
   InequalitiesTypes,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { getBarChartOptions } from '@/components/molecules/Inequalities/BarChart/barChartHelpers';
-import { pointFormatterHelper, SymbolNames, SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
+import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { BenchmarkLegend } from '@/components/organisms/BenchmarkLegend';
 import { ConfidenceIntervalCheckbox } from '../../ConfidenceIntervalCheckbox';
 import { useEffect, useState } from 'react';
 import {
   generateConfidenceIntervalSeries,
-  getBenchmarkColour, getConfidenceLimitNumber,
+  getBenchmarkColour,
+  getConfidenceLimitNumber,
   loadHighchartsModules,
 } from '@/lib/chartHelpers/chartHelpers';
 import {
@@ -30,15 +31,15 @@ interface InequalitiesBarChartProps {
   measurementUnit?: string;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
-};
+}
 
 interface InequalitiesPointOptionsObject extends Highcharts.PointOptionsObject {
   benchmarkOutcome: BenchmarkOutcome;
-};
+}
 
 export interface InequalitiesPoint extends Highcharts.Point {
   benchmarkOutcome?: BenchmarkOutcome;
-};
+}
 
 const mapToXAxisTitle: Record<InequalitiesTypes, string> = {
   [InequalitiesTypes.Sex]: 'Sex',
@@ -80,12 +81,16 @@ export function InequalitiesBarChart({
     point: InequalitiesPoint,
     symbol: string
   ) => {
-    const mappedBenchmarkComparisonMethod = getConfidenceLimitNumber(benchmarkComparisonMethod);
-    const mappedOutcome = getBenchmarkLabelText(point.benchmarkOutcome ?? BenchmarkOutcome.NotCompared);
+    const mappedBenchmarkComparisonMethod = getConfidenceLimitNumber(
+      benchmarkComparisonMethod
+    );
+    const mappedOutcome = getBenchmarkLabelText(
+      point.benchmarkOutcome ?? BenchmarkOutcome.NotCompared
+    );
     const notCompared = point.benchmarkOutcome === BenchmarkOutcome.NotCompared;
     const isBenchmarkPoint = point.category === 'Persons';
     let benchmarkOutcomeLabel = '';
-  
+
     if (mappedOutcome === BenchmarkOutcome.Similar) {
       benchmarkOutcomeLabel = `${mappedOutcome} to England`;
     } else if (notCompared) {
@@ -111,7 +116,7 @@ export function InequalitiesBarChart({
       <div style="display: flex; margin-top: 7px; align-items: center;"><div style="margin-right: 10px;">
       ${isBenchmarkPoint ? `<span style="color: ${point.color}; font-weight: bold;">${symbol}</span>` : symbolItem}</div>`,
       `<div><span></br>${formatNumber(point.y)} ${measurementUnit ? ' ' + measurementUnit : ''}`,
-      `<div><span>${isBenchmarkPoint ? '' : benchmarkOutcomeLabel} ${isBenchmarkPoint ? '' : mappedBenchmarkComparisonMethod !== 0 ? `(${mappedBenchmarkComparisonMethod}%)` : ''}</span><div>`
+      `<div><span>${isBenchmarkPoint ? '' : benchmarkOutcomeLabel} ${isBenchmarkPoint ? '' : mappedBenchmarkComparisonMethod !== 0 ? `(${mappedBenchmarkComparisonMethod}%)` : ''}</span><div>`,
     ];
   };
 
@@ -119,7 +124,9 @@ export function InequalitiesBarChart({
     {
       type: 'bar',
       data: barChartFields.map((field) => {
-        const comparisonOutcome = inequalities[field]?.benchmarkComparison?.outcome ?? BenchmarkOutcome.NotCompared;
+        const comparisonOutcome =
+          inequalities[field]?.benchmarkComparison?.outcome ??
+          BenchmarkOutcome.NotCompared;
         const color = getBenchmarkColour(
           benchmarkComparisonMethod,
           comparisonOutcome,
@@ -129,7 +136,7 @@ export function InequalitiesBarChart({
           name: field,
           y: inequalities[field]?.value,
           color,
-          benchmarkOutcome: comparisonOutcome
+          benchmarkOutcome: comparisonOutcome,
         };
         if (color) return point;
 
@@ -162,11 +169,9 @@ export function InequalitiesBarChart({
     seriesData: seriesData,
     tooltipAreaName: barChartData.areaName,
     tooltipPointFormatter: function (this: Highcharts.Point) {
-      return (
-        pointFormatterHelper(
-          this,
-          generateInequalitiesBarChartTooltipForPoint
-        )
+      return pointFormatterHelper(
+        this,
+        generateInequalitiesBarChartTooltipForPoint
       );
     },
   });
