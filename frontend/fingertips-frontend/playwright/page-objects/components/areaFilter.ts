@@ -147,7 +147,8 @@ export default class AreaFilter extends BasePage {
         .getByRole('checkbox');
       const checkboxCountMap = {
         [AreaMode.ONE_AREA]: 1,
-        [AreaMode.TWO_PLUS_AREAS]: 2,
+        [AreaMode.TWO_AREAS]: 2,
+        [AreaMode.THREE_PLUS_AREAS]: 3,
         [AreaMode.ALL_AREAS_IN_A_GROUP]: (await areaCheckboxList.count()) - 1, // as first checkbox is 'All'
         [AreaMode.ENGLAND_AREA]: 0, // for england we do not want to select any checkboxes
       };
@@ -178,7 +179,7 @@ export default class AreaFilter extends BasePage {
       }
     } else if (
       searchMode === SearchMode.ONLY_AREA &&
-      areaMode === AreaMode.TWO_PLUS_AREAS
+      areaMode === AreaMode.THREE_PLUS_AREAS
     ) {
       // Need to select an additional checkbox for this scenario, as one is already selected
       const areaCheckboxList = this.page
