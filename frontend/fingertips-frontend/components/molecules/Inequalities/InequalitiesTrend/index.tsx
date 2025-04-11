@@ -22,10 +22,9 @@ import {
   filterHealthData,
   healthDataFilterFunctionGeneratorForInequality,
   getYearsWithInequalityData,
-  getAreasWithSexInequalitiesData,
+  getAreasWithInequalitiesData,
   getInequalityCategories,
   getInequalitiesType,
-  getAreasWithDeprivationInequalitiesData,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
 import {
@@ -97,8 +96,8 @@ export function InequalitiesTrend({
 
   const availableAreasWithInequalities =
     inequalityTypeToUse === 'Sex'
-      ? getAreasWithSexInequalitiesData(healthdataWithoutGroup)
-      : getAreasWithDeprivationInequalitiesData(healthdataWithoutGroup);
+      ? getAreasWithInequalitiesData(healthdataWithoutGroup, 'Sex')
+      : getAreasWithInequalitiesData(healthdataWithoutGroup, 'Deprivation');
 
   const type = getInequalitiesType(
     inequalityCategories,

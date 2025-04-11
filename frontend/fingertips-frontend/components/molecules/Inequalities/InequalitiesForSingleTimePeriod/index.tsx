@@ -5,8 +5,7 @@ import { InequalitiesBarChart } from '../BarChart';
 import { InequalitiesBarChartTable } from '../BarChart/Table';
 import {
   filterHealthData,
-  getAreasWithDeprivationInequalitiesData,
-  getAreasWithSexInequalitiesData,
+  getAreasWithInequalitiesData,
   getInequalitiesType,
   getInequalityCategories,
   getYearDataGroupedByInequalities,
@@ -81,9 +80,14 @@ export function InequalitiesForSingleTimePeriod({
 
   const availableAreasWithInequalities =
     inequalityTypeToUse === 'Sex'
-      ? getAreasWithSexInequalitiesData(healthdataWithoutGroup, selectedYear)
-      : getAreasWithDeprivationInequalitiesData(
+      ? getAreasWithInequalitiesData(
           healthdataWithoutGroup,
+          'Sex',
+          selectedYear
+        )
+      : getAreasWithInequalitiesData(
+          healthdataWithoutGroup,
+          'Deprivation',
           selectedYear
         );
 

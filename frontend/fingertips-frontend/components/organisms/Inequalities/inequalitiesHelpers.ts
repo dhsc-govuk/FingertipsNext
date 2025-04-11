@@ -392,8 +392,9 @@ export const getAllDataWithoutInequalities = (
   };
 };
 
-export function hasHealthDataWithSexInequalities(
+export function hasHealthDataForInequalities(
   healthDataForArea: HealthDataForArea,
+  inequalityType: 'Sex' | 'Deprivation',
   year?: string
 ): boolean {
   if (year) {
@@ -406,70 +407,34 @@ export function hasHealthDataWithSexInequalities(
     }
 
     return (
-      healthDataPointsForYear?.filter(
-        (healthDataForYear) => !healthDataForYear.sex.isAggregate
+      healthDataPointsForYear?.filter((healthDataForYear) =>
+        inequalityType === 'Sex'
+          ? !healthDataForYear.sex.isAggregate
+          : !healthDataForYear.deprivation.isAggregate
       ).length > 0
     );
   }
-  const healthDataPointWithSexInequalities =
-    healthDataForArea?.healthData?.filter((data) => !data.sex.isAggregate);
+  const healthDataPointWithInequalities = healthDataForArea?.healthData?.filter(
+    (data) =>
+      inequalityType === 'Sex'
+        ? !data.sex.isAggregate
+        : !data.deprivation.isAggregate
+  );
 
-  return healthDataPointWithSexInequalities.length > 0;
+  return healthDataPointWithInequalities.length > 0;
 }
 
-export function hasHealthDataWithDeprivationInequalities(
-  healthDataForArea: HealthDataForArea,
-  year?: string
-): boolean {
-  if (year) {
-    const healthDataPointsForYear = healthDataForArea.healthData.filter(
-      (healthData) => healthData.year.toString() === year
-    );
-
-    if (healthDataPointsForYear.length === 0) {
-      return false;
-    }
-
-    return (
-      healthDataPointsForYear?.filter(
-        (healthDataForYear) => !healthDataForYear.deprivation.isAggregate
-      ).length > 0
-    );
-  }
-  const healthDataPointWithDeprivationInequalities =
-    healthDataForArea?.healthData?.filter(
-      (data) => !data.deprivation.isAggregate
-    );
-
-  return healthDataPointWithDeprivationInequalities.length > 0;
-}
-
-export const getAreasWithSexInequalitiesData = (
+export const getAreasWithInequalitiesData = (
   healthIndicatorData: HealthDataForArea[],
+  inequalityType: 'Sex' | 'Deprivation',
   year?: string
 ) => {
   const areasWithInequalitiesData: AreaWithoutAreaType[] = [];
 
   healthIndicatorData.forEach((areaWithHealthData) => {
-    if (hasHealthDataWithSexInequalities(areaWithHealthData, year)) {
-      areasWithInequalitiesData.push({
-        code: areaWithHealthData.areaCode,
-        name: areaWithHealthData.areaName,
-      });
-    }
-  });
-
-  return areasWithInequalitiesData;
-};
-
-export const getAreasWithDeprivationInequalitiesData = (
-  healthIndicatorData: HealthDataForArea[],
-  year?: string
-) => {
-  const areasWithInequalitiesData: AreaWithoutAreaType[] = [];
-
-  healthIndicatorData.forEach((areaWithHealthData) => {
-    if (hasHealthDataWithDeprivationInequalities(areaWithHealthData, year)) {
+    if (
+      hasHealthDataForInequalities(areaWithHealthData, inequalityType, year)
+    ) {
       areasWithInequalitiesData.push({
         code: areaWithHealthData.areaCode,
         name: areaWithHealthData.areaName,

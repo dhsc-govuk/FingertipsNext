@@ -23,8 +23,8 @@ import {
   sequenceSelectorForInequality,
   healthDataFilterFunctionGeneratorForInequality,
   getYearsWithInequalityData,
-  hasHealthDataWithSexInequalities,
-  getAreasWithSexInequalitiesData,
+  hasHealthDataForInequalities,
+  getAreasWithInequalitiesData,
   isSexTypePresent,
   getInequalityCategories,
   sexCategory,
@@ -1077,7 +1077,7 @@ describe('getAllDataWithoutInequalities', () => {
   });
 });
 
-describe('hasHealthDataWithSexInequalities', () => {
+describe('hasHealthDataWithInequalities', () => {
   const mockHealthDataForArea = generateMockHealthDataForArea('A001', [
     generateHealthDataPoint(2024, false),
     generateHealthDataPoint(2024, false),
@@ -1089,8 +1089,9 @@ describe('hasHealthDataWithSexInequalities', () => {
 
   describe('for a particular year', () => {
     it('should return true if the aggregate value is false for at least one of the healthDataPoints for the year provided', () => {
-      const result = hasHealthDataWithSexInequalities(
+      const result = hasHealthDataForInequalities(
         mockHealthDataForArea,
+        'Sex',
         '2022'
       );
 
@@ -1098,8 +1099,9 @@ describe('hasHealthDataWithSexInequalities', () => {
     });
 
     it('should return false if the aggregate value is true for all healthDataPoints for the year provided', () => {
-      const result = hasHealthDataWithSexInequalities(
+      const result = hasHealthDataForInequalities(
         mockHealthDataForArea,
+        'Sex',
         '2023'
       );
 
@@ -1107,8 +1109,9 @@ describe('hasHealthDataWithSexInequalities', () => {
     });
 
     it('should return false if year provided is not found', () => {
-      const result = hasHealthDataWithSexInequalities(
+      const result = hasHealthDataForInequalities(
         mockHealthDataForArea,
+        'Sex',
         '2020'
       );
 
@@ -1118,7 +1121,7 @@ describe('hasHealthDataWithSexInequalities', () => {
 
   describe('for all years', () => {
     it('should return true if at least one healthDataPoint has sex inequality data', () => {
-      const result = hasHealthDataWithSexInequalities(mockHealthDataForArea);
+      const result = hasHealthDataForInequalities(mockHealthDataForArea, 'Sex');
 
       expect(result).toBe(true);
     });
@@ -1134,8 +1137,9 @@ describe('hasHealthDataWithSexInequalities', () => {
           generateHealthDataPoint(2022, true),
         ]);
 
-      const result = hasHealthDataWithSexInequalities(
-        mockHealthDataWithNoSexInequalityData
+      const result = hasHealthDataForInequalities(
+        mockHealthDataWithNoSexInequalityData,
+        'Sex'
       );
 
       expect(result).toBe(false);
@@ -1143,7 +1147,7 @@ describe('hasHealthDataWithSexInequalities', () => {
   });
 });
 
-describe('getAreasWithSexInequalitiesData', () => {
+describe('getAreasWithInequalitiesData', () => {
   const mockHealthIndicatorData = [
     generateMockHealthDataForArea('A001', [
       generateHealthDataPoint(2024, false),
@@ -1181,8 +1185,9 @@ describe('getAreasWithSexInequalitiesData', () => {
     it('should return all the areas that have sex inequality data for the year provided', () => {
       const expectedAreaCodes = ['A001', areaCodeForEngland, 'A004'];
 
-      const areasWithSexInequalityDataForYear = getAreasWithSexInequalitiesData(
+      const areasWithSexInequalityDataForYear = getAreasWithInequalitiesData(
         mockHealthIndicatorData,
+        'Sex',
         '2022'
       );
 
@@ -1194,8 +1199,9 @@ describe('getAreasWithSexInequalitiesData', () => {
     });
 
     it('should return an empty array if there are no areas that have sex inequality data for the year provided', () => {
-      const areasWithSexInequalityDataForYear = getAreasWithSexInequalitiesData(
+      const areasWithSexInequalityDataForYear = getAreasWithInequalitiesData(
         mockHealthIndicatorData,
+        'Sex',
         '2021'
       );
 
@@ -1207,8 +1213,9 @@ describe('getAreasWithSexInequalitiesData', () => {
     it('should return all the areas that have sex inequality data for at least one year', () => {
       const expectedAreaCodes = ['A001', areaCodeForEngland, 'A002', 'A004'];
 
-      const areasWithSexInequalityDataForYear = getAreasWithSexInequalitiesData(
-        mockHealthIndicatorData
+      const areasWithSexInequalityDataForYear = getAreasWithInequalitiesData(
+        mockHealthIndicatorData,
+        'Sex'
       );
 
       expect(areasWithSexInequalityDataForYear).toHaveLength(4);

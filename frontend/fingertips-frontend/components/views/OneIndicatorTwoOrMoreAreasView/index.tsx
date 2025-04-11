@@ -40,8 +40,6 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     availableAreas
   );
 
-  console.log(`selectedGroupArea ${selectedGroupArea}`);
-
   if (
     indicatorSelected?.length !== 1 ||
     (selectedGroupArea !== ALL_AREAS_SELECTED &&
