@@ -28,7 +28,7 @@ const stickyLeft = {
   background: 'white',
   position: 'sticky',
   left: 0,
-  zIndex: 10,
+  zIndex: 2,
   paddingRight: '0.5em',
 };
 

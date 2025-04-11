@@ -269,7 +269,7 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
       backgroundColor: 'transparent',
       spacing: [0, 0, 0, 0],
       margin: [5, 5, 5, 5],
-      height: 130,
+      height: 50,
       width: 400,
       inverted: true,
     },
@@ -338,6 +338,7 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
       },
     },
     tooltip: {
+      outside:true,
       padding: 10,
       headerFormat: `{series.name}`,
       pointFormatter: function (this: Highcharts.Point) {
