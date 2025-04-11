@@ -1,11 +1,10 @@
+import { StyledFilterSelect } from '@/components/styles/StyledFilterSelect';
 import {
   SearchParamKeys,
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
 import { usePathname, useRouter } from 'next/navigation';
-import styled from 'styled-components';
-import { Select } from 'govuk-react';
 
 interface InequalitiesTypeDropDownProps {
   inequalitiesOptions: string[];
@@ -13,16 +12,6 @@ interface InequalitiesTypeDropDownProps {
   testRef: string;
   searchState: SearchStateParams;
 }
-
-const StyledFilterSelect = styled(Select)({
-  span: {
-    fontWeight: 'bold',
-  },
-  select: {
-    width: '100%',
-  },
-  marginBottom: '1.5em',
-});
 
 export function InequalitiesTypesDropDown({
   inequalitiesOptions,
@@ -58,6 +47,7 @@ export function InequalitiesTypesDropDown({
             setSelectedType(e.target.value);
           },
         }}
+        style={{ marginBottom: '1.5em' }}
       >
         {inequalitiesOptions.map((option) => (
           <option key={option}>{option}</option>

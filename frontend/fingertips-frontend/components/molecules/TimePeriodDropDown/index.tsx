@@ -1,27 +1,16 @@
+import { StyledFilterSelect } from '@/components/styles/StyledFilterSelect';
 import { useLoadingState } from '@/context/LoaderContext';
 import {
   SearchParams,
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
-import { Select } from 'govuk-react';
 import { usePathname, useRouter } from 'next/navigation';
-import styled from 'styled-components';
 
 interface TimePeriodDropDownProps {
   years: (number | string)[];
   searchState: SearchStateParams;
 }
-
-const StyledFilterSelect = styled(Select)({
-  span: {
-    fontWeight: 'bold',
-  },
-  select: {
-    width: '100%',
-  },
-  marginBottom: '1.5em',
-});
 
 export function TimePeriodDropDown({
   years,
@@ -62,6 +51,7 @@ export function TimePeriodDropDown({
             setSelectedYear(e.target.value);
           },
         }}
+        style={{ marginBottom: '1.5em' }}
       >
         {years.map((key) => (
           <option key={key}>{key}</option>

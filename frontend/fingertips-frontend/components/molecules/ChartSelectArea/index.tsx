@@ -5,25 +5,14 @@ import {
 } from '@/lib/searchStateManager';
 import { useLoadingState } from '@/context/LoaderContext';
 import { usePathname, useRouter } from 'next/navigation';
-import styled from 'styled-components';
-import { Select } from 'govuk-react';
 import { AreaWithoutAreaType } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { StyledFilterSelect } from '@/components/styles/StyledFilterSelect';
 
 interface ChartSelectAreaProps {
   availableAreas: AreaWithoutAreaType[];
   chartAreaSelectedKey: SearchParamKeys;
   searchState: SearchStateParams;
 }
-
-const StyledFilterSelect = styled(Select)({
-  span: {
-    fontWeight: 'bold',
-  },
-  select: {
-    width: '100%',
-  },
-  marginBottom: '2em',
-});
 
 export function ChartSelectArea({
   availableAreas,
