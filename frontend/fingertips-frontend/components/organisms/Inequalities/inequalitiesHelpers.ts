@@ -10,8 +10,6 @@ import {
   generateConfidenceIntervalSeries,
   getHealthDataWithoutInequalities,
   isEnglandSoleSelectedArea,
-  hasHealthDataWithSexInequalities,
-  hasHealthDataWithDeprivationInequalities,
 } from '@/lib/chartHelpers/chartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
@@ -393,6 +391,58 @@ export const getAllDataWithoutInequalities = (
     groupDataWithoutInequalities,
   };
 };
+
+export function hasHealthDataWithSexInequalities(
+  healthDataForArea: HealthDataForArea,
+  year?: string
+): boolean {
+  if (year) {
+    const healthDataPointsForYear = healthDataForArea.healthData.filter(
+      (healthData) => healthData.year.toString() === year
+    );
+
+    if (healthDataPointsForYear.length === 0) {
+      return false;
+    }
+
+    return (
+      healthDataPointsForYear?.filter(
+        (healthDataForYear) => !healthDataForYear.sex.isAggregate
+      ).length > 0
+    );
+  }
+  const healthDataPointWithSexInequalities =
+    healthDataForArea?.healthData?.filter((data) => !data.sex.isAggregate);
+
+  return healthDataPointWithSexInequalities.length > 0;
+}
+
+export function hasHealthDataWithDeprivationInequalities(
+  healthDataForArea: HealthDataForArea,
+  year?: string
+): boolean {
+  if (year) {
+    const healthDataPointsForYear = healthDataForArea.healthData.filter(
+      (healthData) => healthData.year.toString() === year
+    );
+
+    if (healthDataPointsForYear.length === 0) {
+      return false;
+    }
+
+    return (
+      healthDataPointsForYear?.filter(
+        (healthDataForYear) => !healthDataForYear.deprivation.isAggregate
+      ).length > 0
+    );
+  }
+  const healthDataPointWithDeprivationInequalities =
+    healthDataForArea?.healthData?.filter(
+      (data) => !data.deprivation.isAggregate
+    );
+
+  return healthDataPointWithDeprivationInequalities.length > 0;
+}
 
 export const getAreasWithSexInequalitiesData = (
   healthIndicatorData: HealthDataForArea[],

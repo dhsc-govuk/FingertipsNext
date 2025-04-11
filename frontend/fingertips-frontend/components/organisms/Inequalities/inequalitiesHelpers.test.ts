@@ -23,6 +23,7 @@ import {
   sequenceSelectorForInequality,
   healthDataFilterFunctionGeneratorForInequality,
   getYearsWithInequalityData,
+  hasHealthDataWithSexInequalities,
   getAreasWithSexInequalitiesData,
   isSexTypePresent,
   getInequalityCategories,
@@ -1073,6 +1074,72 @@ describe('getAllDataWithoutInequalities', () => {
         [areaCodeForEngland]
       )
     ).toEqual(expected);
+  });
+});
+
+describe('hasHealthDataWithSexInequalities', () => {
+  const mockHealthDataForArea = generateMockHealthDataForArea('A001', [
+    generateHealthDataPoint(2024, false),
+    generateHealthDataPoint(2024, false),
+    generateHealthDataPoint(2023, true),
+    generateHealthDataPoint(2023, true),
+    generateHealthDataPoint(2022, false),
+    generateHealthDataPoint(2022, true),
+  ]);
+
+  describe('for a particular year', () => {
+    it('should return true if the aggregate value is false for at least one of the healthDataPoints for the year provided', () => {
+      const result = hasHealthDataWithSexInequalities(
+        mockHealthDataForArea,
+        '2022'
+      );
+
+      expect(result).toBe(true);
+    });
+
+    it('should return false if the aggregate value is true for all healthDataPoints for the year provided', () => {
+      const result = hasHealthDataWithSexInequalities(
+        mockHealthDataForArea,
+        '2023'
+      );
+
+      expect(result).toBe(false);
+    });
+
+    it('should return false if year provided is not found', () => {
+      const result = hasHealthDataWithSexInequalities(
+        mockHealthDataForArea,
+        '2020'
+      );
+
+      expect(result).toBe(false);
+    });
+  });
+
+  describe('for all years', () => {
+    it('should return true if at least one healthDataPoint has sex inequality data', () => {
+      const result = hasHealthDataWithSexInequalities(mockHealthDataForArea);
+
+      expect(result).toBe(true);
+    });
+
+    it('should return false if all health data points have no sex inequality data', () => {
+      const mockHealthDataWithNoSexInequalityData =
+        generateMockHealthDataForArea('A001', [
+          generateHealthDataPoint(2024, true),
+          generateHealthDataPoint(2024, true),
+          generateHealthDataPoint(2023, true),
+          generateHealthDataPoint(2023, true),
+          generateHealthDataPoint(2022, true),
+          generateHealthDataPoint(2022, true),
+        ]);
+
+      const result = hasHealthDataWithSexInequalities(
+        mockHealthDataWithNoSexInequalityData
+      );
+
+      expect(result).toBe(false);
+    });
   });
 });
 
