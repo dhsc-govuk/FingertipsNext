@@ -152,7 +152,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
           )}
         />
       ) : null}
-      {areasSelected.length > 1 ? (
+      {areaCodes.length > 1 ? (
         <Heatmap
           indicatorData={buildHeatmapIndicatorData(
             indicatorData,
