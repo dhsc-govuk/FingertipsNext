@@ -37,6 +37,14 @@ function benchmarkComparisonMethodToString(
   }
 }
 
+function formatUnits(units:string):string {
+  if (units !== '%') {
+    return ' ' + units
+  }
+
+  return units
+}
+
 function formatBarHover(
   period: number,
   lowerName: string,
@@ -50,7 +58,7 @@ function formatBarHover(
               Benchmark: England
               </span>
               <span style="display: block;">${period}</span>
-              <span style="display: block;">${formatNumber(lowerValue)}${units} to ${formatNumber(upperValue)}${units}</span></br/>
+              <span style="display: block;">${formatNumber(lowerValue)}${formatUnits(units)} to ${formatNumber(upperValue)}${formatUnits(units)}</span></br/>
               <span style="display: block;">${lowerName} to ${upperName}</span><div>`;
 }
 
@@ -67,7 +75,7 @@ function formatSymbolHover(
               ${title}
               </span>
               <span style="display: block;">${period}</span>
-              <span style="display: block;">${formatNumber(value)}${units}</span></br/>
+              <span style="display: block;">${formatNumber(value)}${formatUnits(units)}</span></br/>
               <span style="display: block;">${outcome}</span></br/>
               <span style="display: block;">${benchmarkComparisonMethodToString(benchmarkComparisonMethod)}</span>
               <div>`;
