@@ -413,7 +413,7 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
 }
 
 .c14 {
-  margin-bottom: 1em;
+  margin-bottom: 2em;
 }
 
 .c14 span {
@@ -760,6 +760,7 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
           <label
             class="c1 c14"
             data-testid="area-type-selector-container"
+            style="margin-bottom: 1em;"
           >
             <span
               class="c3"
@@ -773,6 +774,7 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
           <label
             class="c1 c14"
             data-testid="group-type-selector-container"
+            style="margin-bottom: 1em;"
           >
             <span
               class="c3"
@@ -786,6 +788,7 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
           <label
             class="c1 c14"
             data-testid="group-selector-container"
+            style="margin-bottom: 1em;"
           >
             <span
               class="c3"
