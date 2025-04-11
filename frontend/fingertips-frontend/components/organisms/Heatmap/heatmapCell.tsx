@@ -1,12 +1,8 @@
 import { getTextColour, GovukColours } from '@/lib/styleHelpers/colours';
 import { Table } from 'govuk-react';
 import styled from 'styled-components';
-import {
-  CellType,
-  heatmapDataColumnWidth,
-  heatmapIndicatorTitleColumnWidth,
-} from './heatmapUtil';
-import { JSX } from 'react';
+import { CellType, heatmapIndicatorTitleColumnWidth } from './heatmapUtil';
+import { FC, MouseEventHandler } from 'react';
 
 const StyledCellText = styled(Table.Cell)({
   minHeight: '70px',
@@ -15,9 +11,10 @@ const StyledCellText = styled(Table.Cell)({
 
 const StyledCellNumeric = styled(Table.Cell)({
   textAlign: 'center',
-  minHeight: '70px',
-  width: `${heatmapDataColumnWidth}px`,
   padding: 0,
+  position: 'relative',
+  borderLeft: `1px solid #bfc1c3`,
+  verticalAlign: 'middle',
 });
 
 const StyledCellData = styled(StyledCellNumeric)<{
@@ -29,9 +26,15 @@ const StyledCellData = styled(StyledCellNumeric)<{
 `;
 
 const StyledDivDataCellContent = styled.div({
-  minWidth: '60px',
-  maxWidth: '80px',
-  display: 'inline',
+  margin: '2px',
+  padding: '10px',
+  minWidth: '40px',
+  maxWidth: '120px',
+  minHeight: '2em',
+  height: '100%',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
 });
 
 const StyledDivIndicatorTitleCellContent = styled.div({
@@ -52,13 +55,17 @@ interface HeatmapCellProps {
   cellType: CellType;
   content: string;
   backgroundColour?: string;
+  mouseEnterHandler?: MouseEventHandler;
+  mouseLeaveHandler?: MouseEventHandler;
 }
 
-export const HeatmapCell = ({
+export const HeatmapCell: FC<HeatmapCellProps> = ({
   cellType,
   content,
   backgroundColour = GovukColours.White,
-}: HeatmapCellProps): JSX.Element => {
+  mouseEnterHandler,
+  mouseLeaveHandler,
+}) => {
   switch (cellType) {
     case CellType.IndicatorTitle:
       return (
@@ -76,17 +83,18 @@ export const HeatmapCell = ({
           </StyledDivIndicatorInformationCellContent>
         </StyledCellText>
       );
-    case CellType.Data:
+    case CellType.Data: {
       return (
         <StyledCellData
           data-testid="heatmap-cell-data"
           $color={getTextColour(backgroundColour)}
           $backgroundColor={backgroundColour}
+          onMouseOver={mouseEnterHandler}
+          onMouseLeave={mouseLeaveHandler}
         >
-          <StyledDivDataCellContent>
-            <StyledDivDataCellContent>{content}</StyledDivDataCellContent>
-          </StyledDivDataCellContent>
+          <StyledDivDataCellContent>{content}</StyledDivDataCellContent>
         </StyledCellData>
       );
+    }
   }
 };

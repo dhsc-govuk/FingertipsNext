@@ -132,6 +132,26 @@ describe('generate headers and rows', () => {
     expect(rows[1].cells[4].content).toEqual('11.0');
     expect(rows[1].cells[5].content).toEqual('X');
   });
+
+  it('should not populate hover properties on non-data cells', () => {
+    expect(rows[0].cells[0].hoverProps).toBeUndefined();
+    expect(rows[0].cells[1].hoverProps).toBeUndefined();
+    expect(rows[0].cells[2].hoverProps).toBeUndefined();
+
+    expect(rows[1].cells[0].hoverProps).toBeUndefined();
+    expect(rows[1].cells[1].hoverProps).toBeUndefined();
+    expect(rows[1].cells[2].hoverProps).toBeUndefined();
+  });
+
+  it('should populate hover properties on data cells', () => {
+    expect(rows[0].cells[3].hoverProps).not.toBeUndefined();
+    expect(rows[0].cells[4].hoverProps).not.toBeUndefined();
+    expect(rows[0].cells[5].hoverProps).not.toBeUndefined();
+
+    expect(rows[1].cells[3].hoverProps).not.toBeUndefined();
+    expect(rows[1].cells[4].hoverProps).not.toBeUndefined();
+    expect(rows[1].cells[5].hoverProps).not.toBeUndefined();
+  });
 });
 
 export const placeholderGroupAreaCode = 'area3';
@@ -371,9 +391,20 @@ describe('extract sorted areas, indicators, and data points', () => {
     const indicators = [indicator1, indicator2, indicator3];
     indicators.forEach((indicator) => {
       expect(
-        dataPoints[indicator.id][expectedSortedAreas[0].code].benchmark
+        dataPoints[indicator.id][expectedSortedAreas[1].code].benchmark
       ).toEqual({
         outcome: BenchmarkOutcome.NotCompared,
+        benchmarkMethod: indicator.benchmarkMethod,
+        polarity: indicator.polarity,
+      });
+    });
+  });
+
+  it('should populate data points with benchmarking information with england as baseline', () => {
+    const indicators = [indicator1, indicator2, indicator3];
+    indicators.forEach((indicator) => {
+      expect(dataPoints[indicator.id][areaCodeForEngland].benchmark).toEqual({
+        outcome: 'Baseline',
         benchmarkMethod: indicator.benchmarkMethod,
         polarity: indicator.polarity,
       });
