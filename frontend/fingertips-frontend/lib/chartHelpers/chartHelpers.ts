@@ -21,23 +21,19 @@ export function sortHealthDataForAreasByDate(
 }
 
 export function determineAreaCodes(
-  areaSelected?: string[],
+  areasSelected?: string[],
   groupAreaSelected?: string,
   availableAreas?: Area[]
 ): string[] {
   if (groupAreaSelected === ALL_AREAS_SELECTED) {
-    return (
-      availableAreas?.map((area) => {
-        return area.code;
-      }) ?? []
-    );
+    return availableAreas?.map((area) => area.code) ?? [];
   }
 
-  if (!areaSelected || areaSelected.length === 0) {
+  if (!areasSelected || areasSelected.length === 0) {
     return [areaCodeForEngland];
   }
 
-  return areaSelected ?? [];
+  return areasSelected ?? [];
 }
 
 export function sortHealthDataForAreaByDate(
