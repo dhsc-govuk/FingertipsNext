@@ -936,6 +936,6 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
       },
     ]);
 
-    expect(actual).toBeUndefined;
+    expect(actual).toBeUndefined();
   });
 });
