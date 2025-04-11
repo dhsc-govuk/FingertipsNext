@@ -83,12 +83,19 @@ export const StyledAlignCentreBorderRightTableCell = styled(
   paddingRight: '0.5em',
 });
 
+export const StyledAlignLeftBorderRightTableCell = styled(
+  StyledAlignLeftTableCell
+)({
+  borderRight: 'solid #bfc1c3 1px',
+  paddingRight: '0.5em',
+});
+
 export const StyledAlignRightCellPadLeft = styled(StyledAlignRightTableCell)({
   paddingLeft: '0.5em',
 });
 
 export const StyledValueUnitStickyCell = styled(
-  StyledAlignCentreBorderRightTableCell
+  StyledAlignLeftBorderRightTableCell
 )({
   ...(stickyLeft as unknown as TemplateStringsArray),
   left: `${spineChartIndicatorTitleColumnMinWidth + spineChartPeriodColumnMinWidth + paddingSize * 2}px`,
@@ -120,12 +127,14 @@ export const StyledBenchmarkHeader = styled(StyledGreyHeader)({
   backgroundColor: GovukColours.MidGrey,
   borderTop: GovukColours.LightGrey,
   textAlign: 'center',
+  paddingRight: '0.5em',
 });
 
 export const StyledBenchmarkSubHeader = styled(StyledGreyHeader)({
   backgroundColor: GovukColours.MidGrey,
   borderTop: GovukColours.LightGrey,
   textAlign: 'right',
+  paddingRight: '0.5em',
 });
 
 export const StyledGroupCell = styled(StyledAlignRightTableCell)({
@@ -140,6 +149,7 @@ export const StyledBenchmarkCell = styled(StyledAlignRightTableCell)({
   borderTop: GovukColours.LightGrey,
   textAlign: 'right',
   paddingLeft: '0.5em',
+  paddingRight: '0.5em',
 });
 
 export const StyledBenchmarkChart = styled(StyledBenchmarkCell)({
