@@ -109,7 +109,7 @@ export const PopulationPyramidWithTableDataProvider = async ({
 
     return { populationData, populationMetadata: populationIndicatorMetadata };
   })();
-
+  console.log(areaTypeCodeMappings);
   return (
     <PopulationPyramidWithTable
       healthDataForAreas={populationData?.areaHealthData ?? []}
