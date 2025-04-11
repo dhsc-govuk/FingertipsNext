@@ -465,18 +465,21 @@ describe('seriesDataWithoutEnglandOrParent', () => {
 
 describe('seriesDataWithoutGroup', () => {
   const mockHealthDataForArea1 = generateMockHealthDataForArea('A001', [
-    generateHealthDataPoint(2024, false),
-    generateHealthDataPoint(2024, false),
+    generateHealthDataPoint(2024, false, false),
+    generateHealthDataPoint(2024, false, false),
   ]);
 
   const mockHealthDataForArea2 = generateMockHealthDataForArea('A002', [
-    generateHealthDataPoint(2024, false),
-    generateHealthDataPoint(2024, false),
+    generateHealthDataPoint(2024, false, false),
+    generateHealthDataPoint(2024, false, false),
   ]);
 
   const mockHealthDataForEngland = generateMockHealthDataForArea(
     areaCodeForEngland,
-    [generateHealthDataPoint(2024, false), generateHealthDataPoint(2024, false)]
+    [
+      generateHealthDataPoint(2024, false, false),
+      generateHealthDataPoint(2024, false, false),
+    ]
   );
 
   it('should return data that does not have the group area code', () => {
@@ -509,18 +512,21 @@ describe('seriesDataWithoutGroup', () => {
 
 describe('determineHealthDataForArea', () => {
   const mockHealthDataForArea1 = generateMockHealthDataForArea('A001', [
-    generateHealthDataPoint(2024, false),
-    generateHealthDataPoint(2024, false),
+    generateHealthDataPoint(2024, false, false),
+    generateHealthDataPoint(2024, false, false),
   ]);
 
   const mockHealthDataForArea2 = generateMockHealthDataForArea('A002', [
-    generateHealthDataPoint(2024, false),
-    generateHealthDataPoint(2024, false),
+    generateHealthDataPoint(2024, false, false),
+    generateHealthDataPoint(2024, false, false),
   ]);
 
   const mockHealthDataForEngland = generateMockHealthDataForArea(
     areaCodeForEngland,
-    [generateHealthDataPoint(2024, false), generateHealthDataPoint(2024, false)]
+    [
+      generateHealthDataPoint(2024, false, false),
+      generateHealthDataPoint(2024, false, false),
+    ]
   );
 
   const mockDataForAreas = [

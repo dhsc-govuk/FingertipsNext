@@ -23,7 +23,6 @@ import {
   sequenceSelectorForInequality,
   healthDataFilterFunctionGeneratorForInequality,
   getYearsWithInequalityData,
-  hasHealthDataForInequalities,
   getAreasWithInequalitiesData,
   isSexTypePresent,
   getInequalityCategories,
@@ -1077,110 +1076,37 @@ describe('getAllDataWithoutInequalities', () => {
   });
 });
 
-describe('hasHealthDataWithInequalities', () => {
-  const mockHealthDataForArea = generateMockHealthDataForArea('A001', [
-    generateHealthDataPoint(2024, false),
-    generateHealthDataPoint(2024, false),
-    generateHealthDataPoint(2023, true),
-    generateHealthDataPoint(2023, true),
-    generateHealthDataPoint(2022, false),
-    generateHealthDataPoint(2022, true),
-  ]);
-
-  describe('for a particular year', () => {
-    it('should return true if the aggregate value is false for at least one of the healthDataPoints for the year provided', () => {
-      const result = hasHealthDataForInequalities(
-        mockHealthDataForArea,
-        InequalitiesTypes.Sex,
-        '2022'
-      );
-
-      expect(result).toBe(true);
-    });
-
-    it('should return false if the aggregate value is true for all healthDataPoints for the year provided', () => {
-      const result = hasHealthDataForInequalities(
-        mockHealthDataForArea,
-        InequalitiesTypes.Sex,
-        '2023'
-      );
-
-      expect(result).toBe(false);
-    });
-
-    it('should return false if year provided is not found', () => {
-      const result = hasHealthDataForInequalities(
-        mockHealthDataForArea,
-        InequalitiesTypes.Sex,
-        '2020'
-      );
-
-      expect(result).toBe(false);
-    });
-  });
-
-  describe('for all years', () => {
-    it('should return true if at least one healthDataPoint has sex inequality data', () => {
-      const result = hasHealthDataForInequalities(
-        mockHealthDataForArea,
-        InequalitiesTypes.Sex
-      );
-
-      expect(result).toBe(true);
-    });
-
-    it('should return false if all health data points have no sex inequality data', () => {
-      const mockHealthDataWithNoSexInequalityData =
-        generateMockHealthDataForArea('A001', [
-          generateHealthDataPoint(2024, true),
-          generateHealthDataPoint(2024, true),
-          generateHealthDataPoint(2023, true),
-          generateHealthDataPoint(2023, true),
-          generateHealthDataPoint(2022, true),
-          generateHealthDataPoint(2022, true),
-        ]);
-
-      const result = hasHealthDataForInequalities(
-        mockHealthDataWithNoSexInequalityData,
-        InequalitiesTypes.Sex
-      );
-
-      expect(result).toBe(false);
-    });
-  });
-});
-
 describe('getAreasWithInequalitiesData', () => {
   const mockHealthIndicatorData = [
     generateMockHealthDataForArea('A001', [
-      generateHealthDataPoint(2024, false),
-      generateHealthDataPoint(2023, true),
-      generateHealthDataPoint(2022, false),
-      generateHealthDataPoint(2021, true),
+      generateHealthDataPoint(2024, false, false),
+      generateHealthDataPoint(2023, true, false),
+      generateHealthDataPoint(2022, false, false),
+      generateHealthDataPoint(2021, true, false),
     ]),
     generateMockHealthDataForArea(areaCodeForEngland, [
-      generateHealthDataPoint(2024, false),
-      generateHealthDataPoint(2023, false),
-      generateHealthDataPoint(2022, false),
-      generateHealthDataPoint(2021, true),
+      generateHealthDataPoint(2024, true, false),
+      generateHealthDataPoint(2023, true, false),
+      generateHealthDataPoint(2022, false, false),
+      generateHealthDataPoint(2021, true, false),
     ]),
     generateMockHealthDataForArea('A002', [
-      generateHealthDataPoint(2024, false),
-      generateHealthDataPoint(2023, false),
-      generateHealthDataPoint(2022, true),
-      generateHealthDataPoint(2021, true),
+      generateHealthDataPoint(2024, false, false),
+      generateHealthDataPoint(2023, false, false),
+      generateHealthDataPoint(2022, true, false),
+      generateHealthDataPoint(2021, true, false),
     ]),
     generateMockHealthDataForArea('A003', [
-      generateHealthDataPoint(2024, true),
-      generateHealthDataPoint(2023, true),
-      generateHealthDataPoint(2022, true),
-      generateHealthDataPoint(2021, true),
+      generateHealthDataPoint(2024, true, false),
+      generateHealthDataPoint(2023, true, false),
+      generateHealthDataPoint(2022, true, false),
+      generateHealthDataPoint(2021, true, false),
     ]),
     generateMockHealthDataForArea('A004', [
-      generateHealthDataPoint(2024, false),
-      generateHealthDataPoint(2023, false),
-      generateHealthDataPoint(2022, false),
-      generateHealthDataPoint(2021, true),
+      generateHealthDataPoint(2024, false, true),
+      generateHealthDataPoint(2023, false, true),
+      generateHealthDataPoint(2022, false, true),
+      generateHealthDataPoint(2021, true, true),
     ]),
   ];
 
@@ -1195,6 +1121,22 @@ describe('getAreasWithInequalitiesData', () => {
       );
 
       expect(areasWithSexInequalityDataForYear).toHaveLength(3);
+
+      areasWithSexInequalityDataForYear.forEach((area, i) => {
+        expect(area.code).toEqual(expectedAreaCodes[i]);
+      });
+    });
+
+    it('should return all the areas that have deprivation inequality data for the year provided', () => {
+      const expectedAreaCodes = ['A001', areaCodeForEngland, 'A002', 'A003'];
+
+      const areasWithSexInequalityDataForYear = getAreasWithInequalitiesData(
+        mockHealthIndicatorData,
+        InequalitiesTypes.Deprivation,
+        '2023'
+      );
+
+      expect(areasWithSexInequalityDataForYear).toHaveLength(4);
 
       areasWithSexInequalityDataForYear.forEach((area, i) => {
         expect(area.code).toEqual(expectedAreaCodes[i]);
@@ -1219,6 +1161,21 @@ describe('getAreasWithInequalitiesData', () => {
       const areasWithSexInequalityDataForYear = getAreasWithInequalitiesData(
         mockHealthIndicatorData,
         InequalitiesTypes.Sex
+      );
+
+      expect(areasWithSexInequalityDataForYear).toHaveLength(4);
+
+      areasWithSexInequalityDataForYear.forEach((area, i) => {
+        expect(area.code).toEqual(expectedAreaCodes[i]);
+      });
+    });
+
+    it('should return all the areas that have deprivation inequality data for at least one year', () => {
+      const expectedAreaCodes = ['A001', areaCodeForEngland, 'A002', 'A003'];
+
+      const areasWithSexInequalityDataForYear = getAreasWithInequalitiesData(
+        mockHealthIndicatorData,
+        InequalitiesTypes.Deprivation
       );
 
       expect(areasWithSexInequalityDataForYear).toHaveLength(4);

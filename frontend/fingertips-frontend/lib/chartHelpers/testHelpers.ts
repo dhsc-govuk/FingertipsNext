@@ -6,14 +6,21 @@ import { healthDataPoint } from '../mocks';
 
 export const generateHealthDataPoint = (
   year: number,
-  isAggregate: boolean
+  sexIsAggregate: boolean,
+  deprivationIsAggregate: boolean
 ): HealthDataPoint => {
   return {
     ...healthDataPoint,
     year,
     sex: {
       value: 'male',
-      isAggregate,
+      isAggregate: sexIsAggregate,
+    },
+    deprivation: {
+      sequence: 1,
+      value: 'some value',
+      type: 'some type',
+      isAggregate: deprivationIsAggregate,
     },
   };
 };

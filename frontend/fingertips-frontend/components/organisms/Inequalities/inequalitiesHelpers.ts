@@ -392,7 +392,7 @@ export const getAllDataWithoutInequalities = (
   };
 };
 
-export function hasHealthDataForInequalities(
+function hasHealthDataForInequalities(
   healthDataForArea: HealthDataForArea,
   inequalityType: InequalitiesTypes,
   year?: string
