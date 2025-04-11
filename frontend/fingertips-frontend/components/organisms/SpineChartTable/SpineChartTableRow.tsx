@@ -59,10 +59,10 @@ export function SpineChartTableRow({
       areasHealthData[1].healthData.at(-1)?.year;
   }
 
-  const areaNames: string[] = [];
-  areasHealthData.forEach((areaHealthData) => {
-    areaNames.push(areaHealthData.areaName);
-  });
+  const areaNames = areasHealthData.map(
+    (areaHealthData) => areaHealthData.areaName
+  );
+
   return (
     <Table.Row>
       <StyledIndicatorTitleStickyLeftCell data-testid={`indicator-cell`}>
