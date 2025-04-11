@@ -317,12 +317,13 @@ export const createChartPyramidOptions = (
   dataForBenchmark?: PopulationDataForArea,
   dataForSelectedGroup?: PopulationDataForArea
 ): Highcharts.Options => {
-  const populationPyramidOptions: Highcharts.Options = createPopPyramidSeriesOptions(
-    xAxisTitle,
-    yAxisTitle,
-    dataForSelectedArea,
-    accessibilityLabel
-  );
+  const populationPyramidOptions: Highcharts.Options =
+    createPopPyramidSeriesOptions(
+      xAxisTitle,
+      yAxisTitle,
+      dataForSelectedArea,
+      accessibilityLabel
+    );
   if (!populationPyramidOptions.series) {
     return populationPyramidOptions;
   }
