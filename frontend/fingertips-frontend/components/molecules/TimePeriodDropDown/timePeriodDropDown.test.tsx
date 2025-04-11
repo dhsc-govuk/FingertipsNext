@@ -75,4 +75,27 @@ describe('TimePeriodDropDown suite', () => {
 
     expect(mockReplace).toHaveBeenCalledWith(expectedPath, { scroll: false });
   });
+
+  it('should reset the state of inequalityType and inequalityArea selected params when an option is selected', async () => {
+    const expectedPath = [
+      mockPath,
+      `?${SearchParams.InequalityYearSelected}=2022`,
+    ].join('');
+
+    const user = userEvent.setup();
+    render(
+      <TimePeriodDropDown
+        years={years}
+        searchState={{
+          ...mockSearchState,
+          [SearchParams.InequalityBarChartTypeSelected]: 'some type',
+          [SearchParams.InequalityBarChartAreaSelected]: 'A001',
+        }}
+      />
+    );
+
+    await user.selectOptions(screen.getByRole('combobox'), '2022');
+
+    expect(mockReplace).toHaveBeenCalledWith(expectedPath, { scroll: false });
+  });
 });

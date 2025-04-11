@@ -26,6 +26,9 @@ export function TimePeriodDropDown({
     setIsLoading(true);
 
     searchStateManager.removeParamValueFromState(
+      SearchParams.InequalityBarChartTypeSelected
+    );
+    searchStateManager.removeParamValueFromState(
       SearchParams.InequalityBarChartAreaSelected
     );
     searchStateManager.addParamValueToState(
