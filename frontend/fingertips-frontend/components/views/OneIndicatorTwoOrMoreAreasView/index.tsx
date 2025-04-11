@@ -9,7 +9,7 @@ import {
 } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
-import { getIndicatorData } from '../ViewsHelpers';
+import { getIndicatorData } from '@/lib/ViewsHelpers';
 
 export default async function OneIndicatorTwoOrMoreAreasView({
   selectedIndicatorsData,
