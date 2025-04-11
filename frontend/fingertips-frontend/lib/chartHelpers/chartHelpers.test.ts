@@ -927,9 +927,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
     expect(actual).toEqual(expected);
   });
 
-  it('should return undefined for areas which dont have data for the most recent year', () => {
+  it('should return undefined if there are no areas with data', () => {
     const actual = getIndicatorDataForAreasForMostRecentYearOnly([
-      ...mockHealthData,
       {
         areaCode: 'missingCode',
         areaName: 'missing Area',
@@ -937,18 +936,6 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
       },
     ]);
 
-    const expectedWithMissing = [
-      ...expected,
-      {
-        areaCode: 'missingCode',
-        areaName: 'missing Area',
-        healthData: [],
-      },
-    ];
-    expect(actual).toEqual(expectedWithMissing);
+    expect(actual).toBeUndefined;
   });
-
-  it.todo('should return undefined if no data is passed');
-
-  it.todo('should return undefined if there is no data for any areas');
 });

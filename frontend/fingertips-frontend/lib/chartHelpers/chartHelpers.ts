@@ -169,7 +169,6 @@ export function getIndicatorDataForAreasForMostRecentYearOnly(
   const mostRecentYearForAreas = getMostRecentYearForAreas(healthDataForAreas);
   if (!mostRecentYearForAreas) {
     return undefined;
-    // throw new Error('Indicator contains no area health data');
   }
   return getAreasIndicatorDataForYear(
     healthDataForAreas,
