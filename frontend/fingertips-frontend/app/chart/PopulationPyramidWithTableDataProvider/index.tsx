@@ -88,8 +88,8 @@ export const PopulationPyramidWithTableDataProvider = async ({
 
   const populationIndicatorID = areaTypeCodeMappings[areaCodesToRequest[0]];
 
-  const getPopulationIndicatorMetadata = async () => {
-    return await SearchServiceFactory.getIndicatorSearchService().getIndicator(
+  const getPopulationIndicatorMetadata = () => {
+    return SearchServiceFactory.getIndicatorSearchService().getIndicator(
       populationIndicatorID.toString()
     );
   };
@@ -104,7 +104,7 @@ export const PopulationPyramidWithTableDataProvider = async ({
 
     const [populationData, populationIndicatorMetadata] = await Promise.all([
       await getPopulationData(populationIndicatorID, areaCodesToRequest),
-      getPopulationIndicatorMetadata(),
+      await getPopulationIndicatorMetadata(),
     ]);
 
     return { populationData, populationMetadata: populationIndicatorMetadata };
