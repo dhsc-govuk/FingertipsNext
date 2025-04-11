@@ -74,26 +74,15 @@ export function InequalitiesForSingleTimePeriod({
   );
   if (!inequalityCategories.length) return null;
 
-  const inequalityTypeToUse = inequalityTypeSelected
-    ? inequalityTypeSelected
-    : inequalityCategories[0];
-
-  const availableAreasWithInequalities =
-    inequalityTypeToUse === 'Sex'
-      ? getAreasWithInequalitiesData(
-          healthdataWithoutGroup,
-          'Sex',
-          selectedYear
-        )
-      : getAreasWithInequalitiesData(
-          healthdataWithoutGroup,
-          'Deprivation',
-          selectedYear
-        );
-
   const type = getInequalitiesType(
     inequalityCategories,
     inequalityTypeSelected
+  );
+
+  const availableAreasWithInequalities = getAreasWithInequalitiesData(
+    healthdataWithoutGroup,
+    type,
+    selectedYear
   );
 
   const filterFunctionGenerator =

@@ -90,18 +90,14 @@ export function InequalitiesTrend({
   const inequalityCategories = getInequalityCategories(healthDataForArea);
   if (!inequalityCategories.length) return null;
 
-  const inequalityTypeToUse = inequalityTypeSelected
-    ? inequalityTypeSelected
-    : inequalityCategories[0];
-
-  const availableAreasWithInequalities =
-    inequalityTypeToUse === 'Sex'
-      ? getAreasWithInequalitiesData(healthdataWithoutGroup, 'Sex')
-      : getAreasWithInequalitiesData(healthdataWithoutGroup, 'Deprivation');
-
   const type = getInequalitiesType(
     inequalityCategories,
     inequalityTypeSelected
+  );
+
+  const availableAreasWithInequalities = getAreasWithInequalitiesData(
+    healthdataWithoutGroup,
+    type
   );
 
   const filterFunctionGenerator =

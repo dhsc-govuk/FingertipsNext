@@ -394,7 +394,7 @@ export const getAllDataWithoutInequalities = (
 
 export function hasHealthDataForInequalities(
   healthDataForArea: HealthDataForArea,
-  inequalityType: 'Sex' | 'Deprivation',
+  inequalityType: InequalitiesTypes,
   year?: string
 ): boolean {
   if (year) {
@@ -408,7 +408,7 @@ export function hasHealthDataForInequalities(
 
     return (
       healthDataPointsForYear?.filter((healthDataForYear) =>
-        inequalityType === 'Sex'
+        inequalityType === InequalitiesTypes.Sex
           ? !healthDataForYear.sex.isAggregate
           : !healthDataForYear.deprivation.isAggregate
       ).length > 0
@@ -416,7 +416,7 @@ export function hasHealthDataForInequalities(
   }
   const healthDataPointWithInequalities = healthDataForArea?.healthData?.filter(
     (data) =>
-      inequalityType === 'Sex'
+      inequalityType === InequalitiesTypes.Sex
         ? !data.sex.isAggregate
         : !data.deprivation.isAggregate
   );
@@ -426,7 +426,7 @@ export function hasHealthDataForInequalities(
 
 export const getAreasWithInequalitiesData = (
   healthIndicatorData: HealthDataForArea[],
-  inequalityType: 'Sex' | 'Deprivation',
+  inequalityType: InequalitiesTypes,
   year?: string
 ) => {
   const areasWithInequalitiesData: AreaWithoutAreaType[] = [];
