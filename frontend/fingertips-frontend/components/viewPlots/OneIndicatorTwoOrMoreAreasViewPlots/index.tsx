@@ -21,6 +21,7 @@ import { useSearchState } from '@/context/SearchStateContext';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
 import { IndicatorPolarity } from '@/generated-sources/ft-api-client';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
+import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
 
 interface OneIndicatorTwoOrMoreAreasViewPlotsProps
   extends OneIndicatorViewPlotProps {
@@ -82,6 +83,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
       benchmarkData: englandBenchmarkData,
       groupIndicatorData: groupData,
       yAxisTitle,
+      yAxisLabelFormatter: FormatValueAsNumber,
       xAxisTitle: 'Year',
       measurementUnit: indicatorMetadata?.unitLabel,
       accessibilityLabel: 'A line chart showing healthcare data',

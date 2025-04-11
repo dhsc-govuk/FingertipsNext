@@ -17,7 +17,8 @@ import {
   lineChartDefaultOptions,
 } from '../LineChart/lineChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
-import { DashStyleValue } from 'highcharts';
+import Highcharts, { DashStyleValue, YAxisOptions } from 'highcharts';
+import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
 
 export const localeSort = (a: string, b: string) => a.localeCompare(b);
 export const sexCategory = 'Sex';
@@ -187,8 +188,8 @@ export const getDynamicKeys = (
     return allKeys;
   }, []);
 
-  const uniqueKeys = [...new Set(existingKeys)];
-  return uniqueKeys;
+  // spreading a set ensures we have unique keys
+  return [...new Set(existingKeys)];
 };
 
 const dashStyle = (index: number): DashStyleValue => {
@@ -324,6 +325,10 @@ export function generateInequalitiesLineChartOptions(
         margin: 20,
         style: { fontSize: AXIS_TITLE_FONT_SIZE },
       },
+      labels: {
+        ...(lineChartDefaultOptions.yAxis as YAxisOptions)?.labels,
+        formatter: FormatValueAsNumber,
+      },
     },
     xAxis: {
       ...lineChartDefaultOptions.xAxis,
@@ -349,7 +354,7 @@ export function generateInequalitiesLineChartOptions(
       },
       useHTML: true,
     },
-  };
+  } satisfies Highcharts.Options;
 }
 
 export const getAllDataWithoutInequalities = (

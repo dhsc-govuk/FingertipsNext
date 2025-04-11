@@ -10,6 +10,7 @@ import Highcharts, {
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { generatePopPyramidTooltipForPoint } from '.';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import { FormatValueAsWholeNumberAbsolute } from '@/lib/chartHelpers/labelFormatters';
 
 const toggleClickSeries = (self: Series): boolean => {
   self.chart.series.forEach((series) => {
@@ -20,7 +21,7 @@ const toggleClickSeries = (self: Series): boolean => {
   return false;
 };
 
-const createChartSeriesOptions = (
+const createPopPyramidSeriesOptions = (
   xAxisTitle: string,
   yAxisTitle: string,
   dataForArea: PopulationDataForArea,
@@ -164,7 +165,7 @@ const createChartSeriesOptions = (
       tickColor: GovukColours.DarkSlateGray,
       gridLineWidth: 0,
       labels: {
-        format: '{abs value}',
+        formatter: FormatValueAsWholeNumberAbsolute,
         align: 'center',
         style: {
           fontSize: '16px',
@@ -316,12 +317,13 @@ export const createChartPyramidOptions = (
   dataForBenchmark?: PopulationDataForArea,
   dataForSelectedGroup?: PopulationDataForArea
 ): Highcharts.Options => {
-  const populationPyramidOptions: Highcharts.Options = createChartSeriesOptions(
-    xAxisTitle,
-    yAxisTitle,
-    dataForSelectedArea,
-    accessibilityLabel
-  );
+  const populationPyramidOptions: Highcharts.Options =
+    createPopPyramidSeriesOptions(
+      xAxisTitle,
+      yAxisTitle,
+      dataForSelectedArea,
+      accessibilityLabel
+    );
   if (!populationPyramidOptions.series) {
     return populationPyramidOptions;
   }

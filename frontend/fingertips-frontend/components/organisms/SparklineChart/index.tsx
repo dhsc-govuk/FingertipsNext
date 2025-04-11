@@ -19,6 +19,7 @@ import { SparklineLabelEnum } from '@/components/organisms/BarChartEmbeddedTable
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { formatNumber } from '@/lib/numberFormatter';
 import { getBenchmarkLabelText } from '@/components/organisms/BenchmarkLabel';
+import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
 
 interface SparklineChartProps {
   value: (number | undefined)[];
@@ -178,7 +179,14 @@ export function SparklineChart({
         display: 'none',
       },
     },
-    yAxis: { visible: false, min: 0, max: maxValue },
+    yAxis: {
+      visible: false,
+      min: 0,
+      max: maxValue,
+      labels: {
+        formatter: FormatValueAsNumber,
+      },
+    },
     xAxis: { visible: false },
     series: [
       {

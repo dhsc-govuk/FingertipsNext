@@ -179,6 +179,8 @@ export function generateStandardLineChartOptions(
     accessibilityLabel?: string;
     colours?: ChartColours[];
     symbols?: SymbolKeyValue[];
+    yAxisLabelFormatter?: Highcharts.AxisLabelsFormatterCallbackFunction;
+    xAxisLabelFormatter?: Highcharts.AxisLabelsFormatterCallbackFunction;
   }
 ): Highcharts.Options {
   const sortedHealthIndicatorData =
@@ -215,6 +217,10 @@ export function generateStandardLineChartOptions(
     ...lineChartDefaultOptions,
     yAxis: {
       ...lineChartDefaultOptions.yAxis,
+      labels: {
+        ...(lineChartDefaultOptions.yAxis as Highcharts.YAxisOptions)?.labels,
+        formatter: optionalParams?.yAxisLabelFormatter,
+      },
       title: optionalParams?.yAxisTitle
         ? {
             text: optionalParams?.yAxisTitle,
@@ -229,6 +235,10 @@ export function generateStandardLineChartOptions(
         text: optionalParams?.xAxisTitle,
         margin: 20,
         style: { fontSize: AXIS_TITLE_FONT_SIZE },
+      },
+      labels: {
+        ...(lineChartDefaultOptions.yAxis as Highcharts.XAxisOptions)?.labels,
+        formatter: optionalParams?.xAxisLabelFormatter,
       },
     },
     series: seriesData,

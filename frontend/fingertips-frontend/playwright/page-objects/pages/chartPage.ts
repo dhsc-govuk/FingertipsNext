@@ -42,10 +42,6 @@ export default class ChartPage extends AreaFilter {
   static readonly OneAreaMultipleIndicatorsTableComponent =
     'oneAreaMultipleIndicatorsTable-component';
 
-  async navigateToChart() {
-    await this.navigateTo('chart');
-  }
-
   async checkOnChartPage() {
     await expect(
       this.page.getByText('View data for selected indicators and areas')
@@ -102,7 +98,9 @@ export default class ChartPage extends AreaFilter {
       this.page.getByTestId('area-filter-pane-hidefilters')
     );
 
-    expect(this.page.getByTestId('show-filter-cta')).toHaveText('Show filter');
+    await expect(this.page.getByTestId('show-filter-cta')).toHaveText(
+      'Show filter'
+    );
 
     // Check that components expected to be visible are displayed
     for (const visibleComponent of visibleComponents) {
