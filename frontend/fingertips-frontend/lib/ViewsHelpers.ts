@@ -7,10 +7,20 @@ import { API_CACHE_CONFIG } from '@/lib/apiClient/apiClientFactory';
 
 export const maxNumAreasThatCanBeRequestedAPI = 100;
 
+/**
+ * Returns arrayToChunk broken into multiple arrays of a size allowed to be used in API calls
+ * @param arrayToChunk
+ * @param chunkSize optional chunk size, which will be coerced within a range the API supports
+ */
 export function chunkArray(
   arrayToChunk: string[],
   chunkSize: number = maxNumAreasThatCanBeRequestedAPI
-) {
+): string[][] {
+  chunkSize = Math.max(
+    1,
+    Math.min(chunkSize, maxNumAreasThatCanBeRequestedAPI)
+  );
+
   const chunkedArray = [];
   for (let i = 0; i < arrayToChunk.length; i += chunkSize) {
     chunkedArray.push(arrayToChunk.slice(i, i + chunkSize));

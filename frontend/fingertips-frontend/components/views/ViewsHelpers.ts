@@ -6,17 +6,34 @@ import {
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { chunkArray } from '@/lib/ViewsHelpers';
-import { connection } from 'next/server';
 
-// DHSCFT-518: use API flag from 517 to get data for all requested areas with healthdata[] for areas with no data
-export async function getIndicatorDataAllAreas(
-  areasSelected: string[],
-  indicatorSelected: string[],
-  selectedAreaType?: string,
-  selectedGroupCode?: string,
-  selectedGroupType?: string
+/**
+ *
+ * @param areasSelected
+ * @param indicatorSelected
+ * @param selectedAreaType
+ * @param selectedGroupCode
+ * @param selectedGroupType
+ * @param includeEmptyAreas if true, requests that the server return no-data/empty-array
+ * for areas that have no matching data. if false, non-matching areas will be excluded
+ * from the results
+ */
+export async function getIndicatorData(
+  {
+    areasSelected,
+    indicatorSelected,
+    selectedAreaType,
+    selectedGroupCode,
+    selectedGroupType,
+  }: {
+    areasSelected: string[];
+    indicatorSelected: string[];
+    selectedAreaType?: string;
+    selectedGroupCode?: string;
+    selectedGroupType?: string;
+  },
+  includeEmptyAreas: boolean
 ) {
-  await connection();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
   let indicatorDataAllAreas: IndicatorWithHealthDataForArea | undefined;
@@ -27,7 +44,7 @@ export async function getIndicatorDataAllAreas(
         indicatorId: Number(indicatorSelected[0]),
         areaCodes: [...requestAreas],
         areaType: selectedAreaType,
-        includeEmptyAreas: true,
+        includeEmptyAreas,
       },
       API_CACHE_CONFIG
     )

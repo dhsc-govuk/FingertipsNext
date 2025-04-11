@@ -1,23 +1,15 @@
 import { OneIndicatorTwoOrMoreAreasViewPlots } from '@/components/viewPlots/OneIndicatorTwoOrMoreAreasViewPlots';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
-import {
-  API_CACHE_CONFIG,
-  ApiClientFactory,
-} from '@/lib/apiClient/apiClientFactory';
-import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import {
   allowedAreaTypeMapMetaKeys,
   AreaTypeKeysForMapMeta,
   getMapGeographyData,
 } from '@/components/organisms/ThematicMap/thematicMapHelpers';
-import { chunkArray } from '@/lib/ViewsHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
-import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
-import { getIndicatorDataAllAreas } from '../ViewsHelpers';
+import { getIndicatorData } from '../ViewsHelpers';
 
 export default async function OneIndicatorTwoOrMoreAreasView({
   selectedIndicatorsData,
@@ -42,67 +34,26 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   }
 
   await connection();
-  const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
-  let indicatorData: IndicatorWithHealthDataForArea | undefined;
-
-  const indicatorRequestArray = chunkArray(areasSelected).map((requestAreas) =>
-    indicatorApi.getHealthDataForAnIndicator(
-      {
-        indicatorId: Number(indicatorSelected[0]),
-        areaCodes: [...requestAreas],
-        areaType: selectedAreaType,
-      },
-      API_CACHE_CONFIG
-    )
-  );
-
-  if (!areasSelected.includes(areaCodeForEngland)) {
-    indicatorRequestArray.push(
-      indicatorApi.getHealthDataForAnIndicator(
-        {
-          indicatorId: Number(indicatorSelected[0]),
-          areaCodes: [areaCodeForEngland],
-          areaType: englandAreaType.key,
-        },
-        API_CACHE_CONFIG
-      )
-    );
-  }
-
-  if (selectedGroupCode && selectedGroupCode !== areaCodeForEngland) {
-    indicatorRequestArray.push(
-      indicatorApi.getHealthDataForAnIndicator(
-        {
-          indicatorId: Number(indicatorSelected[0]),
-          areaCodes: [selectedGroupCode],
-          areaType: selectedGroupType,
-        },
-        API_CACHE_CONFIG
-      )
-    );
-  }
-
-  try {
-    const healthIndicatorDataChunks = await Promise.all(indicatorRequestArray);
-    indicatorData = healthIndicatorDataChunks[0];
-    indicatorData.areaHealthData = healthIndicatorDataChunks
-      .map((indicatorData) => indicatorData?.areaHealthData ?? [])
-      .flat();
-  } catch (error) {
-    console.error('error getting health indicator data for areas', error);
-    throw new Error('error getting health indicator data for areas');
-  }
-
-  // DHSCFT-518 required additional call for maps to show all areas.
-  // It is anticipated that as other components are able to handle empty healthdata[]
-  // they will also use this data and the other indicator data call can be removed.
-  const indicatorDataAllAreas = await getIndicatorDataAllAreas(
+  const indicatorsAndAreas = {
     areasSelected,
     indicatorSelected,
     selectedAreaType,
     selectedGroupCode,
-    selectedGroupType
+    selectedGroupType,
+  };
+
+  const indicatorDataAvailableAreas = await getIndicatorData(
+    indicatorsAndAreas,
+    false
+  );
+
+  // Additional call with empty areas included. Currently supported only by maps.
+  // It is anticipated that as other components are able to handle empty healthdata[]
+  // they will also use this data and the other indicator data call can be removed.
+  const indicatorDataIncludingEmptyAreas = await getIndicatorData(
+    indicatorsAndAreas,
+    true
   );
 
   const indicatorMetadata = selectedIndicatorsData?.[0];
@@ -120,14 +71,14 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   return (
     <ViewsWrapper
       searchState={searchState}
-      indicatorsDataForAreas={[indicatorData]}
+      indicatorsDataForAreas={[indicatorDataAvailableAreas]}
     >
       <OneIndicatorTwoOrMoreAreasViewPlots
-        indicatorData={indicatorData}
+        indicatorData={indicatorDataAvailableAreas}
         searchState={searchState}
         indicatorMetadata={indicatorMetadata}
         mapGeographyData={mapGeographyData}
-        indicatorDataAllAreas={indicatorDataAllAreas}
+        indicatorDataAllAreas={indicatorDataIncludingEmptyAreas}
       />
     </ViewsWrapper>
   );
