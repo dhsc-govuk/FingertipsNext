@@ -84,7 +84,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         var areasWithNoData = areaCodes.Except(areaHealthData.Select(data => data.AreaCode)).ToArray();
         if (areasWithNoData.Length == 0)
             return;
-        var areaWithNoData=await healthDataRepository.GetAreasAsync(areasWithNoData);
+        var areaWithNoData = await healthDataRepository.GetAreasAsync(areasWithNoData);
 
         areaHealthData.AddRange(areaWithNoData.Select(area => new HealthDataForArea
         {
