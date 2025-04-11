@@ -1,6 +1,6 @@
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { H4, Table } from 'govuk-react';
-import { JSX } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 import {
   HeaderType,
@@ -72,10 +72,10 @@ const StyledCellHeaderArea = styled(Table.CellHeader)({
   paddingLeft: '1em',
 });
 
-export const HeatmapHeader = ({
+export const HeatmapHeader: FC<HeatmapHeaderProps> = ({
   headerType,
   content,
-}: HeatmapHeaderProps): JSX.Element => {
+}) => {
   switch (headerType) {
     case HeaderType.IndicatorTitle:
       return (

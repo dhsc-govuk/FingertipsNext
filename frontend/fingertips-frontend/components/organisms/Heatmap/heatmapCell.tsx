@@ -2,7 +2,7 @@ import { getTextColour, GovukColours } from '@/lib/styleHelpers/colours';
 import { Table } from 'govuk-react';
 import styled from 'styled-components';
 import { CellType, heatmapIndicatorTitleColumnWidth } from './heatmapUtil';
-import { JSX, MouseEventHandler } from 'react';
+import { FC, MouseEventHandler } from 'react';
 
 const StyledCellText = styled(Table.Cell)({
   minHeight: '70px',
@@ -59,13 +59,13 @@ interface HeatmapCellProps {
   mouseLeaveHandler?: MouseEventHandler;
 }
 
-export const HeatmapCell = ({
+export const HeatmapCell: FC<HeatmapCellProps> = ({
   cellType,
   content,
   backgroundColour = GovukColours.White,
   mouseEnterHandler,
   mouseLeaveHandler,
-}: HeatmapCellProps): JSX.Element => {
+}) => {
   switch (cellType) {
     case CellType.IndicatorTitle:
       return (

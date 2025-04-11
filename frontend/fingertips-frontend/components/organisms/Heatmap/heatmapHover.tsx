@@ -1,6 +1,6 @@
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { Paragraph } from 'govuk-react';
-import { JSX } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import { HeatmapBenchmarkProps } from './heatmapUtil';
@@ -64,7 +64,7 @@ export interface HeatmapHoverProps {
   hoverId?: string;
 }
 
-export function HeatmapHover({
+export const HeatmapHover: FC<HeatmapHoverProps> = ({
   areaName,
   period,
   indicatorName,
@@ -72,7 +72,7 @@ export function HeatmapHover({
   unitLabel,
   benchmark,
   hoverId,
-}: Readonly<HeatmapHoverProps>): JSX.Element {
+}) => {
   return (
     <StyledDivHover id={hoverId}>
       <StyledDivTriangle />
@@ -91,4 +91,4 @@ export function HeatmapHover({
       />
     </StyledDivHover>
   );
-}
+};

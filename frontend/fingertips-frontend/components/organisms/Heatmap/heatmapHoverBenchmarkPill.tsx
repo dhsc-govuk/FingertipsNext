@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { FC } from 'react';
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
@@ -52,13 +52,13 @@ export interface HeatmapHoverBenchmarkPillProps {
   polarity: IndicatorPolarity;
 }
 
-export function HeatmapHoverBenchmarkPill({
+export const HeatmapHoverBenchmarkPill: FC<HeatmapHoverBenchmarkPillProps> = ({
   value,
   unitLabel,
   outcome,
   benchmarkMethod,
   polarity,
-}: Readonly<HeatmapHoverBenchmarkPillProps>): ReactNode {
+}) => {
   return (
     <GridRow>
       <StyledGridColIcon setWidth={'12px'}>
@@ -82,7 +82,7 @@ export function HeatmapHoverBenchmarkPill({
       </GridCol>
     </GridRow>
   );
-}
+};
 
 interface BenchmarkPillIconProps {
   value?: number;
@@ -91,12 +91,12 @@ interface BenchmarkPillIconProps {
   polarity: IndicatorPolarity;
 }
 
-function BenchmarkPillIcon({
+const BenchmarkPillIcon: FC<BenchmarkPillIconProps> = ({
   value,
   outcome,
   benchmarkMethod,
   polarity,
-}: Readonly<BenchmarkPillIconProps>): React.ReactNode {
+}) => {
   if (value === undefined) {
     return <StyledText>{SymbolsEnum.MultiplicationX}</StyledText>;
   }
@@ -117,7 +117,7 @@ function BenchmarkPillIcon({
       }
     />
   );
-}
+};
 
 interface BenchmarkPillTextProps {
   value?: number;
@@ -126,12 +126,12 @@ interface BenchmarkPillTextProps {
   benchmarkMethod: BenchmarkComparisonMethod;
 }
 
-function BenchmarkPillText({
+const BenchmarkPillText: FC<BenchmarkPillTextProps> = ({
   value,
   unitLabel,
   outcome,
   benchmarkMethod,
-}: Readonly<BenchmarkPillTextProps>): React.ReactNode {
+}) => {
   if (value === undefined) {
     return <StyledText>No data available</StyledText>;
   }
@@ -167,12 +167,12 @@ function BenchmarkPillText({
       <StyledText>{`${comparisonText()}${benchmarkConfidenceLimit()}`}</StyledText>
     </>
   );
-}
+};
 
-function formatUnitLabel(unitLabel: string) {
+const formatUnitLabel = (unitLabel: string) => {
   if (unitLabel === '%') {
     return unitLabel;
   } else {
     return ` ${unitLabel}`;
   }
-}
+};

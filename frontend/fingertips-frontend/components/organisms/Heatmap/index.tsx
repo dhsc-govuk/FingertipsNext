@@ -12,7 +12,7 @@ import { HeatmapHeader } from './heatmapHeader';
 import { HeatmapCell } from './heatmapCell';
 import { BenchmarkLegend } from '../BenchmarkLegend';
 import { HeatmapHover } from './heatmapHover';
-import React from 'react';
+import React, { FC } from 'react';
 
 export interface HeatmapProps {
   indicatorData: HeatmapIndicatorData[];
@@ -36,17 +36,14 @@ const StyledDivTableContainer = styled.div({
   overflowX: 'scroll',
 });
 
-export function Heatmap({
-  indicatorData,
-  groupAreaCode,
-}: Readonly<HeatmapProps>) {
+export const Heatmap: FC<HeatmapProps> = ({ indicatorData, groupAreaCode }) => {
   const { areas, indicators, dataPoints } =
     extractSortedAreasIndicatorsAndDataPoints(indicatorData, groupAreaCode);
 
   const headers = generateHeaders(areas, groupAreaCode);
   const rows = generateRows(areas, indicators, dataPoints);
 
-  const idPrefix = 'hover'; //useId(); // - useId breaks Next hydration for some reason
+  const idPrefix = 'hover';
   const getHoverId = (cellKey: string) => {
     return `${idPrefix}-${cellKey}`;
   };
@@ -94,35 +91,31 @@ export function Heatmap({
       <StyledDivTableContainer>
         <StyledTable data-testid="heatmapChart-component">
           <StyledRow>
-            {headers.map((header) => {
-              return (
-                <HeatmapHeader
-                  key={header.key}
-                  headerType={header.type}
-                  content={header.content}
-                />
-              );
-            })}
+            {headers.map((header) => (
+              <HeatmapHeader
+                key={header.key}
+                headerType={header.type}
+                content={header.content}
+              />
+            ))}
           </StyledRow>
           {rows.map((row) => {
             return (
               <StyledRow key={row.key}>
-                {row.cells.map((cell) => {
-                  return (
-                    <HeatmapCell
-                      key={cell.key}
-                      cellType={cell.type}
-                      content={cell.content}
-                      backgroundColour={cell.backgroundColour}
-                      mouseEnterHandler={(e) => {
-                        handleMouseOverCell(e, getHoverId(cell.key));
-                      }}
-                      mouseLeaveHandler={() => {
-                        handleMouseLeaveCell(getHoverId(cell.key));
-                      }}
-                    />
-                  );
-                })}
+                {row.cells.map((cell) => (
+                  <HeatmapCell
+                    key={cell.key}
+                    cellType={cell.type}
+                    content={cell.content}
+                    backgroundColour={cell.backgroundColour}
+                    mouseEnterHandler={(e) => {
+                      handleMouseOverCell(e, getHoverId(cell.key));
+                    }}
+                    mouseLeaveHandler={() => {
+                      handleMouseLeaveCell(getHoverId(cell.key));
+                    }}
+                  />
+                ))}
               </StyledRow>
             );
           })}
@@ -130,4 +123,4 @@ export function Heatmap({
       </StyledDivTableContainer>
     </>
   );
-}
+};
