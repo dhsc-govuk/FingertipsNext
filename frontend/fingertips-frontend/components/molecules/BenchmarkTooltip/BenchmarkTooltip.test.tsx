@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { BenchmarkTooltip } from './BenchmarkTooltip';
+import { BenchmarkTooltip } from '.';
 import { mockHealthData } from '@/mock/data/healthdata';
 
 describe('BenchmarkTooltip', () => {

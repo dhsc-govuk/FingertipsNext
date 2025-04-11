@@ -47,6 +47,7 @@ export interface GetHealthDataForAnIndicatorRequest {
     areaType?: string;
     years?: Array<number>;
     inequalities?: Array<GetHealthDataForAnIndicatorInequalitiesEnum>;
+    includeEmptyAreas?: boolean;
 }
 
 export interface GetIndicatorRequest {
@@ -91,6 +92,7 @@ export interface IndicatorsApiInterface {
      * @param {string} [areaType] The area type which the areas belong to
      * @param {Array<number>} [years] A list of years, up to 20 years can be requested
      * @param {Array<'age' | 'sex' | 'deprivation'>} [inequalities] Determines the kind of inequality data that should be returned if an option is specified
+     * @param {boolean} [includeEmptyAreas] Determines if areas with no data are returned as empty arrays, the default is false.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof IndicatorsApiInterface
@@ -205,6 +207,10 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
 
         if (requestParameters['inequalities'] != null) {
             queryParameters['inequalities'] = requestParameters['inequalities'];
+        }
+
+        if (requestParameters['includeEmptyAreas'] != null) {
+            queryParameters['include_empty_areas'] = requestParameters['includeEmptyAreas'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};

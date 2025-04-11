@@ -935,3 +935,5 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
     expect(actual).toEqual(expected);
   });
 });
+
+describe('getMostRecentYearForAreas', () => {});
