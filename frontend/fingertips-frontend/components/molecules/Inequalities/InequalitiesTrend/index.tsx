@@ -34,11 +34,13 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 import { ChartSelectArea } from '../../ChartSelectArea';
 import { InequalitiesTypesDropDown } from '../InequalitiesTypesDropDown';
+import { DataSource } from '@/components/atoms/DataSource/DataSource';
 
 interface InequalitiesTrendProps {
   healthIndicatorData: HealthDataForArea[];
   searchState: SearchStateParams;
   measurementUnit?: string;
+  dataSource?: string;
 }
 
 const generateInequalitiesLineChartTooltipForPoint = (
@@ -54,6 +56,7 @@ export function InequalitiesTrend({
   healthIndicatorData,
   measurementUnit,
   searchState,
+  dataSource,
 }: Readonly<InequalitiesTrendProps>) {
   const [
     showInequalitiesLineChartConfidenceIntervals,
@@ -199,6 +202,7 @@ export function InequalitiesTrend({
             ),
           },
         ]}
+        footer={<DataSource dataSource={dataSource} />}
       />
     </div>
   );

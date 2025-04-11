@@ -13,6 +13,7 @@ interface InequalitiesProps {
   searchState: SearchStateParams;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
+  dataSource?: string;
 }
 
 export function Inequalities({
@@ -21,6 +22,7 @@ export function Inequalities({
   searchState,
   benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
   polarity = IndicatorPolarity.Unknown,
+  dataSource,
 }: Readonly<InequalitiesProps>) {
   return (
     <div data-testid="inequalities-component">
@@ -30,12 +32,14 @@ export function Inequalities({
         measurementUnit={measurementUnit}
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
+        dataSource={dataSource}
       />
       <br />
       <InequalitiesTrend
         healthIndicatorData={healthIndicatorData}
         measurementUnit={measurementUnit}
         searchState={searchState}
+        dataSource={dataSource}
       />
     </div>
   );

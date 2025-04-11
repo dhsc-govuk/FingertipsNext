@@ -18,7 +18,6 @@ export default class ChartPage extends AreaFilter {
   static readonly lineChartComponent = 'standardLineChart-component';
   static readonly lineChartTableComponent = 'lineChartTable-component';
   static readonly populationPyramidComponent = 'populationPyramid-component';
-  static readonly inequalitiesComponent = 'inequalities-component';
   static readonly inequalitiesBarChartTableComponent =
     'inequalitiesBarChartTable-component';
   static readonly inequalitiesLineChartTableComponent =
@@ -61,6 +60,12 @@ export default class ChartPage extends AreaFilter {
     await this.clickAndAwaitLoadingComplete(
       this.page.getByTestId(this.backLink)
     );
+  }
+
+  async waitAfterDropDownInteraction() {
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.page.waitForTimeout(1000);
   }
 
   /**
@@ -130,8 +135,8 @@ export default class ChartPage extends AreaFilter {
         await combobox.selectOption({
           value: dropdownOptions[dropdownOptions.length - 1].value,
         });
+        await this.waitAfterDropDownInteraction();
       }
-
       // if its one of the chart components that has a type dropdown for inequalities then select the last in the list
       if (visibleComponent.componentProps.hasTypeDropDown) {
         const dropDownComponent =
@@ -155,10 +160,11 @@ export default class ChartPage extends AreaFilter {
         await combobox.selectOption({
           value: dropdownOptions[dropdownOptions.length - 1].value,
         });
+        await this.waitAfterDropDownInteraction();
       }
       // if its one of the chart components that has a confidence interval checkbox then click it
       if (visibleComponent.componentProps.hasConfidenceIntervals) {
-        await this.clickAndAwaitLoadingComplete(
+        await this.checkAndAwaitLoadingComplete(
           this.page.getByTestId(
             `confidence-interval-checkbox-${visibleComponent.componentLocator.replace('-component', '')}`
           )
@@ -187,6 +193,7 @@ export default class ChartPage extends AreaFilter {
       await this.page.waitForLoadState();
       await expect(this.page.getByText('Loading')).toHaveCount(0);
       await this.page.waitForLoadState();
+      await this.page.waitForTimeout(1000);
 
       // for now just warn if visual comparisons do not match
       try {

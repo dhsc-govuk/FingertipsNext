@@ -119,6 +119,18 @@ describe('generateSeriesData', () => {
         type: 'line',
       },
       {
+        color: '#B1B4B6',
+        data: [
+          [2006, 441.69151, 578.32766],
+          [2004, 441.69151, 578.32766],
+        ],
+        lineWidth: 2,
+        name: 'England',
+        type: 'errorbar',
+        visible: false,
+        whiskerLength: '20%',
+      },
+      {
         color: '#F46A25',
         data: [
           [2006, 278.29134],
@@ -219,6 +231,18 @@ describe('generateSeriesData', () => {
         type: 'line',
       },
       {
+        color: '#B1B4B6',
+        data: [
+          [2006, 441.69151, 578.32766],
+          [2004, 441.69151, 578.32766],
+        ],
+        lineWidth: 2,
+        name: 'England',
+        type: 'errorbar',
+        visible: false,
+        whiskerLength: '20%',
+      },
+      {
         color: GovukColours.Turquoise,
         data: [
           [2006, 300],
@@ -229,6 +253,18 @@ describe('generateSeriesData', () => {
         },
         name: 'Group: Parent',
         type: 'line',
+      },
+      {
+        color: '#B1B4B6',
+        data: [
+          [2006, 200, 400],
+          [2004, 201, 401],
+        ],
+        lineWidth: 2,
+        name: 'Parent',
+        type: 'errorbar',
+        visible: false,
+        whiskerLength: '20%',
       },
       {
         color: '#F46A25',

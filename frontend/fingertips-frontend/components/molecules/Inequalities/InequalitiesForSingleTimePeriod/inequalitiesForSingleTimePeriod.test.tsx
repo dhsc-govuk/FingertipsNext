@@ -94,6 +94,7 @@ describe('InequalitiesForSingleTimePeriod suite', () => {
       <InequalitiesForSingleTimePeriod
         healthIndicatorData={[mockHealthData]}
         searchState={mockSearchState}
+        dataSource={'inequalities data source'}
       />
     );
 
@@ -132,6 +133,10 @@ describe('InequalitiesForSingleTimePeriod suite', () => {
     inequalitiesDropDownOptions.forEach((option, index) => {
       expect(option.textContent).toBe(inequalitiesOptions[index]);
     });
+
+    expect(
+      screen.getAllByText('Data source: inequalities data source')
+    ).toHaveLength(2);
   });
 
   it('should not render component if inequalities data is absent', () => {

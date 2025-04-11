@@ -29,6 +29,7 @@ import {
   seriesDataWithoutGroup,
 } from '@/lib/chartHelpers/chartHelpers';
 import { InequalitiesTypesDropDown } from '../InequalitiesTypesDropDown';
+import { DataSource } from '@/components/atoms/DataSource/DataSource';
 
 interface InequalitiesForSingleTimePeriodProps {
   healthIndicatorData: HealthDataForArea[];
@@ -36,6 +37,7 @@ interface InequalitiesForSingleTimePeriodProps {
   measurementUnit?: string;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
+  dataSource?: string;
 }
 
 export function InequalitiesForSingleTimePeriod({
@@ -44,6 +46,7 @@ export function InequalitiesForSingleTimePeriod({
   measurementUnit,
   benchmarkComparisonMethod,
   polarity,
+  dataSource,
 }: Readonly<InequalitiesForSingleTimePeriodProps>) {
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
@@ -172,6 +175,7 @@ export function InequalitiesForSingleTimePeriod({
             ),
           },
         ]}
+        footer={<DataSource dataSource={dataSource} />}
       />
     </div>
   );

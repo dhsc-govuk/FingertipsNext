@@ -99,6 +99,12 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .ToListAsync();
     }
 
+    public async Task<IEnumerable<AreaDimensionModel>> GetAreasAsync(string[] areaCodes) =>
+        await _dbContext.AreaDimension
+            .Where(areaDimension => EF.Constant(areaCodes).Contains(areaDimension.Code))
+            .AsNoTracking()
+            .ToListAsync();
+
     public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync(int indicatorId, string[] areaCodes, int[] years, string areaTypeKey)
     {
         // Convert the array parameters into DataTables for presentation to the Stored Procedure.
