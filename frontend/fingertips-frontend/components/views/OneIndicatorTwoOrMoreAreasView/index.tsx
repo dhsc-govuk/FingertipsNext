@@ -40,11 +40,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     availableAreas
   );
 
-  if (
-    indicatorSelected?.length !== 1 ||
-    (selectedGroupArea !== ALL_AREAS_SELECTED &&
-      (!areaCodes || areaCodes?.length < 2))
-  ) {
+  if (indicatorSelected?.length !== 1 || !areaCodes || areaCodes?.length < 2) {
     throw new Error('Invalid parameters provided to view');
   }
 
