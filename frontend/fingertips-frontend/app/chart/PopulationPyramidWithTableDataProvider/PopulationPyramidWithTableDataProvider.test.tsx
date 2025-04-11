@@ -130,7 +130,7 @@ describe('PopulationPyramidWithTableDataProvider', () => {
     });
 
     const jsxView = await PopulationPyramidWithTableDataProvider({
-      areaCodes: [...areaCodes],
+      areaCodes: areaCodes,
       searchState: searchParams,
     });
     const view = render(jsxView);

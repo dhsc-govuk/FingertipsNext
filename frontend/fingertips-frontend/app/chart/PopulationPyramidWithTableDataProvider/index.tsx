@@ -36,11 +36,11 @@ const getAreaCodeMappingsToIndicatorIds = async (
   return mappings;
 };
 
-const getPopulationData = async (
+const getPopulationData = (
   populationIndicatorID: number,
   areaCodesToRequest: string[]
 ) => {
-  return await getHealthDataForIndicator(
+  return getHealthDataForIndicator(
     ApiClientFactory.getIndicatorsApiClient(),
     populationIndicatorID,
     [
@@ -103,7 +103,7 @@ export const PopulationPyramidWithTableDataProvider = async ({
     }
 
     const [populationData, populationIndicatorMetadata] = await Promise.all([
-      getPopulationData(populationIndicatorID, areaCodesToRequest),
+      await getPopulationData(populationIndicatorID, areaCodesToRequest),
       getPopulationIndicatorMetadata(),
     ]);
 
