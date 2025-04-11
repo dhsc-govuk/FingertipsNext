@@ -1,126 +1,41 @@
 'use client';
 
-import {
-  extractSortedAreasIndicatorsAndDataPoints,
-  generateHeaders,
-  generateRows,
-  HeatmapIndicatorData,
-} from './heatmapUtil';
-import { Table } from 'govuk-react';
-import styled from 'styled-components';
-import { HeatmapHeader } from './heatmapHeader';
-import { HeatmapCell } from './heatmapCell';
+import { HeatmapIndicatorData } from './heatmapUtil';
 import { BenchmarkLegend } from '../BenchmarkLegend';
 import { HeatmapHover } from './heatmapHover';
 import React, { FC } from 'react';
+import HeatmapTable from '@/components/organisms/Heatmap/HeatmapTable';
+import { useHeatmapTableData } from '@/components/organisms/Heatmap/useHeatmapTableData';
+import { useHeatmapHover } from '@/components/organisms/Heatmap/useHeatmapHover';
 
 export interface HeatmapProps {
   indicatorData: HeatmapIndicatorData[];
   groupAreaCode?: string;
 }
 
-const StyledTable = styled(Table)({
-  display: 'block',
-  width: '100%',
-  tableLayout: 'fixed',
-  overflow: 'visible',
-  height: 'fit-content',
-});
-
-const StyledRow = styled(Table.Row)({
-  height: '100%',
-});
-
-const StyledDivTableContainer = styled.div({
-  overflowY: 'visible',
-  overflowX: 'scroll',
-});
-
 export const Heatmap: FC<HeatmapProps> = ({ indicatorData, groupAreaCode }) => {
-  const { areas, indicators, dataPoints } =
-    extractSortedAreasIndicatorsAndDataPoints(indicatorData, groupAreaCode);
-
-  const headers = generateHeaders(areas, groupAreaCode);
-  const rows = generateRows(areas, indicators, dataPoints);
-
-  const idPrefix = 'hover';
-  const getHoverId = (cellKey: string) => {
-    return `${idPrefix}-${cellKey}`;
-  };
-
-  const handleMouseOverCell = (event: React.MouseEvent, hoverId: string) => {
-    const hoverElement = document.getElementById(hoverId);
-    if (!hoverElement) {
-      return;
-    }
-    const cellRect = event.currentTarget.getBoundingClientRect();
-
-    hoverElement.style.display = 'block';
-    hoverElement.style.left = `${cellRect?.right + 12}px`;
-    hoverElement.style.top = `${cellRect?.top + (cellRect?.bottom - cellRect?.top) / 2}px`;
-  };
-
-  const handleMouseLeaveCell = (hoverId: string) => {
-    const hoverElement = document.getElementById(hoverId);
-    if (!hoverElement) {
-      return;
-    }
-
-    hoverElement.style.display = 'none';
-  };
-
+  const { headers, rows } = useHeatmapTableData(indicatorData, groupAreaCode);
+  const { hover, left, top, handleMouseOverCell } = useHeatmapHover();
   return (
     <>
       <BenchmarkLegend />
-      {rows.flatMap((row) => {
-        return row.cells.map((cell) => {
-          return cell.hoverProps ? (
-            <HeatmapHover
-              key={`hover-${cell.key}`}
-              areaName={cell.hoverProps.areaName}
-              period={cell.hoverProps.period}
-              indicatorName={cell.hoverProps.indicatorName}
-              value={cell.hoverProps.value}
-              unitLabel={cell.hoverProps.unitLabel}
-              benchmark={cell.hoverProps.benchmark}
-              hoverId={getHoverId(cell.key)}
-            />
-          ) : null;
-        });
-      })}
-      <StyledDivTableContainer>
-        <StyledTable data-testid="heatmapChart-component">
-          <StyledRow>
-            {headers.map((header) => (
-              <HeatmapHeader
-                key={header.key}
-                headerType={header.type}
-                content={header.content}
-              />
-            ))}
-          </StyledRow>
-          {rows.map((row) => {
-            return (
-              <StyledRow key={row.key}>
-                {row.cells.map((cell) => (
-                  <HeatmapCell
-                    key={cell.key}
-                    cellType={cell.type}
-                    content={cell.content}
-                    backgroundColour={cell.backgroundColour}
-                    mouseEnterHandler={(e) => {
-                      handleMouseOverCell(e, getHoverId(cell.key));
-                    }}
-                    mouseLeaveHandler={() => {
-                      handleMouseLeaveCell(getHoverId(cell.key));
-                    }}
-                  />
-                ))}
-              </StyledRow>
-            );
-          })}
-        </StyledTable>
-      </StyledDivTableContainer>
+      {hover ? (
+        <HeatmapHover
+          areaName={hover.areaName}
+          period={hover.period}
+          indicatorName={hover.indicatorName}
+          value={hover.value}
+          unitLabel={hover.unitLabel}
+          benchmark={hover.benchmark}
+          left={left}
+          top={top}
+        />
+      ) : null}
+      <HeatmapTable
+        headers={headers}
+        rows={rows}
+        handleMouseOverCell={handleMouseOverCell}
+      />
     </>
   );
 };
