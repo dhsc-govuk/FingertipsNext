@@ -59,6 +59,10 @@ export function SpineChartTableRow({
       areasHealthData[1].healthData.at(-1)?.year;
   }
 
+  const areaNames = areasHealthData.map(
+    (areaHealthData) => areaHealthData.areaName
+  );
+
   return (
     <Table.Row>
       <StyledIndicatorTitleStickyLeftCell data-testid={`indicator-cell`}>
@@ -130,10 +134,14 @@ export function SpineChartTableRow({
       </StyledBenchmarkCell>
       <StyledBenchmarkChart data-testid={`benchmark-range`}>
         <SpineChart
+          name={indicatorName}
+          units={valueUnit}
+          period={latestDataPeriod}
           benchmarkValue={quartileData.englandValue ?? 0}
           quartileData={quartileData}
           areaOneValue={areasHealthData[0].healthData.at(-1)?.value}
           areaTwoValue={areasHealthData[1]?.healthData.at(-1)?.value}
+          areaNames={areaNames}
           areaOneOutcome={
             areasHealthData[0].healthData.at(-1)?.benchmarkComparison?.outcome
           }
@@ -142,6 +150,10 @@ export function SpineChartTableRow({
           }
           groupValue={
             !groupIsEngland ? groupData.healthData.at(-1)?.value : undefined
+          }
+          groupName={!groupIsEngland ? (groupData.areaName ?? '') : ''}
+          groupOutcome={
+            groupData.healthData.at(-1)?.benchmarkComparison?.outcome
           }
           benchmarkMethod={benchmarkComparisonMethod}
         />
