@@ -34,7 +34,6 @@ const StyledRow = styled(Table.Row)({
 const StyledDivTableContainer = styled.div({
   overflowY: 'visible',
   overflowX: 'scroll',
-  maxWidth: '960px',
 });
 
 export function Heatmap({

@@ -4730,7 +4730,6 @@ exports[`snapshot test 1`] = `
 .c0 {
   overflow-y: visible;
   overflow-x: scroll;
-  max-width: 960px;
 }
 
 @media print {
