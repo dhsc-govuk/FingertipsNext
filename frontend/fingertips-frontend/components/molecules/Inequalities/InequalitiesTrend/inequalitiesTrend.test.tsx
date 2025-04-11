@@ -1,22 +1,87 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { InequalitiesTrend } from '.';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  HealthDataPointTrendEnum,
+} from '@/generated-sources/ft-api-client';
+import { SearchStateContext } from '@/context/SearchStateContext';
+import { allAgesAge, maleSex, noDeprivation } from '@/lib/mocks';
 
 const state: SearchStateParams = {
-  [SearchParams.AreasSelected]: ['A1245'],
+  [SearchParams.InequalityLineChartTypeSelected]: 'Sex',
 };
 
+const mockPath = 'some-mock-path';
+const mockReplace = jest.fn();
+
+jest.mock('next/navigation', () => {
+  const originalModule = jest.requireActual('next/navigation');
+
+  return {
+    ...originalModule,
+    usePathname: () => mockPath,
+    useSearchParams: () => {},
+    useRouter: jest.fn().mockImplementation(() => ({
+      replace: mockReplace,
+    })),
+  };
+});
+
+const mockGetSearchState = jest.fn();
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: mockGetSearchState,
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
+  };
+});
+
 describe('InequalitiesTrend suite', () => {
+  beforeEach(() => {
+    mockGetSearchState.mockReturnValue(state);
+  });
+
   it('should render expected elements', async () => {
+    const inequalitiesOptions = ['Sex', 'Unitary deciles'];
+    const mockHealthData: HealthDataForArea = {
+      ...MOCK_HEALTH_DATA[1],
+      healthData: [
+        ...MOCK_HEALTH_DATA[1].healthData,
+        {
+          year: 2008,
+          count: 267,
+          value: 703.420759,
+          lowerCi: 441.69151,
+          upperCi: 578.32766,
+          ageBand: allAgesAge,
+          sex: maleSex,
+          trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: {
+            ...noDeprivation,
+            isAggregate: false,
+            type: 'Unitary deciles',
+          },
+          isAggregate: false,
+        },
+      ],
+    };
     render(
       <InequalitiesTrend
-        healthIndicatorData={MOCK_HEALTH_DATA[1]}
+        healthIndicatorData={mockHealthData}
         searchState={state}
+        dataSource="inequalities data source"
       />
     );
+
+    const inequalitiesTypesDropDown = screen.getByRole('combobox');
+    const inequalitiesDropDownOptions = within(
+      inequalitiesTypesDropDown
+    ).getAllByRole('option');
 
     expect(
       screen.getByTestId('inequalitiesLineChartTable-component')
@@ -30,6 +95,15 @@ describe('InequalitiesTrend suite', () => {
     expect(
       screen.getByText(/Inequalities data over time/i)
     ).toBeInTheDocument();
+    expect(inequalitiesTypesDropDown).toBeInTheDocument();
+    expect(inequalitiesDropDownOptions).toHaveLength(2);
+    inequalitiesDropDownOptions.forEach((option, index) => {
+      expect(option.textContent).toBe(inequalitiesOptions[index]);
+    });
+
+    expect(
+      screen.getAllByText('Data source: inequalities data source')
+    ).toHaveLength(2);
   });
 
   it('should not render component if inequalities data is absent', () => {

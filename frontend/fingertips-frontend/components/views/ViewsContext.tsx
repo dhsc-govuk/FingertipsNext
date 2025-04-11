@@ -61,8 +61,6 @@ export function ViewsContext({
     areaFilterData?.availableAreas
   );
 
-  const showPopulationPyramid = areaCodes.length < 50;
-
   return (
     <ChartPageWrapper
       key={JSON.stringify(searchState)}
@@ -77,12 +75,10 @@ export function ViewsContext({
         searchState={searchState}
         selectedIndicatorsData={selectedIndicatorsData}
       />
-      {showPopulationPyramid ? (
-        <PopulationPyramidWithTableDataProvider
-          areaCodes={areaCodes}
-          searchState={searchState}
-        />
-      ) : null}
+      <PopulationPyramidWithTableDataProvider
+        areaCodes={areaCodes}
+        searchState={searchState}
+      />
     </ChartPageWrapper>
   );
 }

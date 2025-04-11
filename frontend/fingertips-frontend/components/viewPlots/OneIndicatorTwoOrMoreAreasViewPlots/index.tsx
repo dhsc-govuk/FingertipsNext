@@ -9,8 +9,6 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams } from '@/lib/searchStateManager';
 import { H3, Paragraph } from 'govuk-react';
 import { OneIndicatorViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
-import styled from 'styled-components';
-import { typography } from '@govuk-react/lib';
 import { MapGeographyData } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
@@ -25,11 +23,7 @@ import {
   IndicatorPolarity,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
-
-const StyledParagraphDataSource = styled(Paragraph)(
-  typography.font({ size: 16 })
-);
-
+import { DataSource } from '@/components/atoms/DataSource/DataSource';
 interface OneIndicatorTwoOrMoreAreasViewPlotsProps
   extends OneIndicatorViewPlotProps {
   mapGeographyData?: MapGeographyData;
@@ -143,15 +137,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                 ),
               },
             ]}
-            footer={
-              <>
-                {indicatorMetadata ? (
-                  <StyledParagraphDataSource>
-                    {`Data source: ${indicatorMetadata.dataSource}`}
-                  </StyledParagraphDataSource>
-                ) : null}
-              </>
-            }
+            footer={<DataSource dataSource={indicatorMetadata?.dataSource} />}
           />
         </>
       )}
@@ -181,7 +167,8 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
         measurementUnit={indicatorMetadata?.unitLabel}
         benchmarkComparisonMethod={benchmarkMethod}
         polarity={polarity}
-      ></BarChartEmbeddedTable>
+        dataSource={indicatorMetadata?.dataSource}
+      />
     </section>
   );
 }

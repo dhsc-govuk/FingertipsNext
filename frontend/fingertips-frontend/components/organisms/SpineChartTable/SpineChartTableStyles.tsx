@@ -6,63 +6,62 @@ import {
   StyledAlignRightHeader,
   StyledAlignRightTableCell,
   StyledGreyHeader,
+  StyledIndicatorTitleCell,
 } from '@/lib/tableHelpers';
 import { Table } from 'govuk-react';
+import {
+  paddingSize,
+  spineChartIndicatorTitleColumnMinWidth,
+  spineChartPeriodColumnMinWidth,
+} from './spineChartTableHelpers';
 
 export const StyledTable = styled(Table)({
-  display: 'block',
-  width: '100%',
-  tableLayout: 'fixed',
+  borderCollapse: 'collapse',
 });
 
 export const StyledDivTableContainer = styled.div({
   overflowX: 'scroll',
+  maxWidth: '960px',
 });
 
-// Check if stickiness required with designers
 const stickyLeft = {
   background: 'white',
   position: 'sticky',
   left: 0,
   zIndex: 10,
-  borderRight: 'solid #bfc1c3 1px',
   paddingRight: '0.5em',
 };
 
-const stickyRight = {
-  position: 'sticky',
-  right: 0,
-  zIndex: 10,
-  paddingLeft: '0.5em',
-  paddingRight: '0.5em !important', // overrides the :last-child declaration which removes right padding
-};
-
-export const StyledStickyEmptyLeftHeader = styled(Table.CellHeader)({
-  background: 'white',
-  position: 'sticky',
-  left: 0,
-  zIndex: 10,
-  paddingRight: '0.5em',
-});
+export const StyledStickyEmptyLeftHeader = styled(Table.CellHeader)(
+  stickyLeft as unknown as TemplateStringsArray
+);
 
 export const StyledAlignCentreHeader = styled(StyledAlignLeftHeader)({
   textAlign: 'center',
 });
 
-export const StyledAlignCentreStickyLeftHeader = styled(
-  StyledAlignCentreHeader
-)(stickyLeft as unknown as TemplateStringsArray);
+export const StyledAlignRightHeaderPadLeft = styled(StyledAlignRightHeader)({
+  paddingLeft: '0.5em',
+});
 
 export const StyledAlignRightBorderHeader = styled(StyledAlignRightHeader)({
   borderRight: 'solid #bfc1c3 1px',
   paddingRight: '0.5em',
 });
 
-export const StyledAlignCentreBorderRightHeader = styled(
-  StyledAlignCentreHeader
-)({
-  borderRight: 'solid #bfc1c3 1px',
-  paddingRight: '0.5em',
+export const StyledAlignLeftStickyLeftHeader = styled(StyledAlignLeftHeader)(
+  stickyLeft as unknown as TemplateStringsArray
+);
+
+export const StickyValueUnitHeader = styled(StyledAlignRightBorderHeader)({
+  ...(stickyLeft as unknown as TemplateStringsArray),
+  left: `${spineChartIndicatorTitleColumnMinWidth + spineChartPeriodColumnMinWidth + paddingSize * 2}px`,
+});
+
+export const StickyPeriodHeader = styled(StyledAlignCentreHeader)({
+  ...(stickyLeft as unknown as TemplateStringsArray),
+  minWidth: `${spineChartPeriodColumnMinWidth}px}`,
+  left: `${spineChartIndicatorTitleColumnMinWidth + paddingSize}px`,
 });
 
 export const StyledAlignCentreTableCell = styled(StyledAlignLeftTableCell)({
@@ -76,36 +75,38 @@ export const StyledAlignRightBorderRightTableCell = styled(
   paddingRight: '0.5em',
 });
 
-export const StyledAlignCentreBorderRightTableCell = styled(
-  StyledAlignCentreTableCell
-)({
-  borderRight: 'solid #bfc1c3 1px',
-  paddingRight: '0.5em',
+export const StyledAlignRightCellPadLeft = styled(StyledAlignRightTableCell)({
+  paddingLeft: '0.5em',
 });
 
-export const StyledAlignCentreStickyTableCell = styled(
-  StyledAlignCentreTableCell
+export const StyledValueUnitStickyCell = styled(
+  StyledAlignRightBorderRightTableCell
+)({
+  ...(stickyLeft as unknown as TemplateStringsArray),
+  left: `${spineChartIndicatorTitleColumnMinWidth + spineChartPeriodColumnMinWidth + paddingSize * 2}px`,
+});
+
+export const StyledPeriodStickyCell = styled(StyledAlignCentreTableCell)({
+  ...(stickyLeft as unknown as TemplateStringsArray),
+  width: `${spineChartPeriodColumnMinWidth}px}`,
+  left: `${spineChartIndicatorTitleColumnMinWidth + paddingSize}px`,
+});
+
+export const StyledIndicatorTitleStickyLeftCell = styled(
+  StyledIndicatorTitleCell
 )(stickyLeft as unknown as TemplateStringsArray);
 
 export const StyledGroupHeader = styled(StyledGreyHeader)({
   backgroundColor: GovukColours.LightGrey,
   borderTop: GovukColours.MidGrey,
-  textAlign: 'left',
+  textAlign: 'right',
 });
-
-export const StyledGroupStickyRightHeader = styled(StyledGroupHeader)(
-  stickyRight as unknown as TemplateStringsArray
-);
 
 export const StyledGroupSubHeader = styled(StyledGreyHeader)({
   backgroundColor: GovukColours.LightGrey,
   borderTop: GovukColours.MidGrey,
   textAlign: 'right',
 });
-
-export const StyledGroupStickyRightSubHeader = styled(StyledGroupSubHeader)(
-  stickyRight as unknown as TemplateStringsArray
-);
 
 export const StyledBenchmarkHeader = styled(StyledGreyHeader)({
   backgroundColor: GovukColours.MidGrey,
@@ -123,16 +124,14 @@ export const StyledGroupCell = styled(StyledAlignRightTableCell)({
   backgroundColor: GovukColours.LightGrey,
   borderTop: GovukColours.MidGrey,
   textAlign: 'right',
+  paddingLeft: '0.5em',
 });
-
-export const StyledStickyRightGroupCell = styled(StyledGroupCell)(
-  stickyRight as unknown as TemplateStringsArray
-);
 
 export const StyledBenchmarkCell = styled(StyledAlignRightTableCell)({
   backgroundColor: GovukColours.MidGrey,
   borderTop: GovukColours.LightGrey,
   textAlign: 'right',
+  paddingLeft: '0.5em',
 });
 
 export const StyledBenchmarkChart = styled(StyledBenchmarkCell)({

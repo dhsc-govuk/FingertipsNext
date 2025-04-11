@@ -10,12 +10,14 @@ export enum SearchMode {
 
 export enum IndicatorMode {
   ONE_INDICATOR = 'ONE_INDICATOR',
-  TWO_PLUS_INDICATORS = 'TWO_PLUS_INDICATORS',
+  TWO_INDICATORS = 'TWO_INDICATORS',
+  THREE_PLUS_INDICATORS = 'THREE_PLUS_INDICATORS',
 }
 
 export enum AreaMode {
   ONE_AREA = 'ONE_AREA',
-  TWO_PLUS_AREAS = 'TWO_PLUS_AREAS',
+  TWO_AREAS = 'TWO_AREAS',
+  THREE_PLUS_AREAS = 'THREE_PLUS_AREAS',
   ALL_AREAS_IN_A_GROUP = 'ALL_AREAS_IN_A_GROUP',
   ENGLAND_AREA = 'ENGLAND_AREA',
 }
@@ -25,6 +27,7 @@ type componentProps = {
   isTabTable: boolean;
   hasDetailsExpander: boolean;
   hasTimePeriodDropDown: boolean;
+  hasTypeDropDown: boolean;
 };
 
 type component = {
@@ -50,6 +53,7 @@ export function getScenarioConfig(
         isTabTable: false,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -59,15 +63,7 @@ export function getScenarioConfig(
         isTabTable: true,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
-      },
-    },
-    {
-      componentLocator: ChartPage.inequalitiesComponent,
-      componentProps: {
-        hasConfidenceIntervals: false,
-        isTabTable: false,
-        hasDetailsExpander: false,
-        hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -77,6 +73,7 @@ export function getScenarioConfig(
         isTabTable: false,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -86,6 +83,17 @@ export function getScenarioConfig(
         isTabTable: false,
         hasTimePeriodDropDown: true,
         hasDetailsExpander: false,
+        hasTypeDropDown: true,
+      },
+    },
+    {
+      componentLocator: ChartPage.inequalitiesTrendComponent,
+      componentProps: {
+        hasConfidenceIntervals: false,
+        isTabTable: false,
+        hasTimePeriodDropDown: false,
+        hasDetailsExpander: false,
+        hasTypeDropDown: true,
       },
     },
     {
@@ -95,6 +103,7 @@ export function getScenarioConfig(
         isTabTable: false,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -104,6 +113,7 @@ export function getScenarioConfig(
         isTabTable: true,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -113,6 +123,7 @@ export function getScenarioConfig(
         isTabTable: true,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -122,6 +133,7 @@ export function getScenarioConfig(
         isTabTable: false,
         hasDetailsExpander: true,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -131,6 +143,7 @@ export function getScenarioConfig(
         isTabTable: false,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -140,6 +153,7 @@ export function getScenarioConfig(
         isTabTable: false,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -149,6 +163,7 @@ export function getScenarioConfig(
         isTabTable: false,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -158,6 +173,7 @@ export function getScenarioConfig(
         isTabTable: false,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
     {
@@ -167,6 +183,7 @@ export function getScenarioConfig(
         isTabTable: false,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
       },
     },
   ];
@@ -182,25 +199,23 @@ export function getScenarioConfig(
       [
         ChartPage.lineChartComponent,
         ChartPage.lineChartTableComponent,
-        ChartPage.inequalitiesComponent,
         ChartPage.inequalitiesBarChartComponent,
         ChartPage.inequalitiesLineChartComponent,
         ChartPage.inequalitiesBarChartTableComponent,
         ChartPage.inequalitiesLineChartTableComponent,
         ChartPage.inequalitiesForSingleTimePeriodComponent,
+        ChartPage.inequalitiesTrendComponent,
         ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
     );
   }
-  // 1 indicator, 2+ areas
+  // 1 indicator, 3+ areas
   else if (
     indicatorMode === IndicatorMode.ONE_INDICATOR &&
-    areaMode === AreaMode.TWO_PLUS_AREAS
+    areaMode === AreaMode.THREE_PLUS_AREAS
   ) {
     visibleComponents = allComponents.filter((component) =>
       [
-        ChartPage.lineChartComponent,
-        ChartPage.lineChartTableComponent,
         ChartPage.barChartEmbeddedTableComponent,
         ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
@@ -219,9 +234,9 @@ export function getScenarioConfig(
       ].includes(component.componentLocator)
     );
   }
-  // 2+ indicators, England area
+  // 2 indicators, England area
   else if (
-    indicatorMode === IndicatorMode.TWO_PLUS_INDICATORS &&
+    indicatorMode === IndicatorMode.TWO_INDICATORS &&
     areaMode === AreaMode.ENGLAND_AREA
   ) {
     visibleComponents = allComponents.filter((component) =>
@@ -231,10 +246,23 @@ export function getScenarioConfig(
       ].includes(component.componentLocator)
     );
   }
-  // 2+ indicators, 2+ areas (not England)
+  // 2 indicators, 3+ areas (not England)
   else if (
-    indicatorMode === IndicatorMode.TWO_PLUS_INDICATORS &&
-    areaMode === AreaMode.TWO_PLUS_AREAS
+    indicatorMode === IndicatorMode.TWO_INDICATORS &&
+    areaMode === AreaMode.THREE_PLUS_AREAS
+  ) {
+    visibleComponents = allComponents.filter((component) =>
+      [
+        ChartPage.spineChartTableComponent,
+        ChartPage.heatMapComponent,
+        ChartPage.populationPyramidComponent,
+      ].includes(component.componentLocator)
+    );
+  }
+  // 3+ indicators, 2 areas (not England)
+  else if (
+    indicatorMode === IndicatorMode.THREE_PLUS_INDICATORS &&
+    areaMode === AreaMode.TWO_AREAS
   ) {
     visibleComponents = allComponents.filter((component) =>
       [
@@ -307,8 +335,10 @@ export function returnIndicatorIDsByIndicatorMode(
   switch (indicatorMode) {
     case IndicatorMode.ONE_INDICATOR:
       return [indicators[0]];
-    case IndicatorMode.TWO_PLUS_INDICATORS:
+    case IndicatorMode.TWO_INDICATORS:
       return [indicators[0], indicators[1]];
+    case IndicatorMode.THREE_PLUS_INDICATORS:
+      return [indicators[0], indicators[1], indicators[2]];
     default:
       throw new Error('Invalid indicator mode');
   }

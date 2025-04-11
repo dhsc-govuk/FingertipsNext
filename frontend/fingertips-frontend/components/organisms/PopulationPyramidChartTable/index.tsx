@@ -14,9 +14,12 @@ const StylePopulationPyramidTableSection = styled('section')({
   'justifyContent': 'flex-start',
   'alignItems': 'stretch',
   '& table ': {
-    margin: '0px !important',
-    border: '0px',
-    padding: '0px',
+    'margin': '0px !important',
+    'border': '0px',
+
+    '& td, th': {
+      padding: '5px !important',
+    },
   },
 });
 
@@ -25,15 +28,16 @@ const StyleBenchmarkDataDiv = styled('div')({
   'marginLeft': 'auto',
   'backgroundColor': GovukColours.MidGrey,
   '& table ': {
-    'margin': '0px',
-    'border': '0px',
-    'padding': '0px',
     '& td, th': {
       borderBottomColor: GovukColours.LightGrey,
       borderTopColor: GovukColours.LightGrey,
+      textAlign: 'right',
     },
   },
   'minWidth': DefaultMinimumWidthForTablePanel,
+  '& h3': {
+    textAlign: 'right',
+  },
 });
 
 const StyleScrollableContentDiv = styled('div')({
@@ -52,11 +56,10 @@ const StyleGroupTableContentDiv = styled('div')({
   'flexGrow': 2,
   'backgroundColor': GovukColours.LightGrey,
   '& table ': {
-    'margin': '0px',
-
     '& td, th': {
       borderBottomColor: GovukColours.MidGrey,
       borderTopColor: GovukColours.MidGrey,
+      textAlign: 'right',
     },
   },
   'minWidth': DefaultMinimumWidthForTablePanel,
@@ -66,12 +69,14 @@ const StyleSelectedAreaTableContextDiv = styled('div')({
   'flexGrow': 8,
   'minWidth': DefaultMinimumWidthForTablePanel + 30,
   '& table': {
-    '& td:first-child': {
+    '& td:first-child, th:first-child': {
       minWidth: '90px',
+      textAlign: 'left',
     },
     '& td, th': {
       borderTopColor: GovukColours.MidGrey,
       borderBottomColor: GovukColours.MidGrey,
+      textAlign: 'right',
     },
   },
 });

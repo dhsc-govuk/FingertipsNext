@@ -18,6 +18,7 @@ import {
 import {
   allAreaTypes,
   englandAreaType,
+  nhsIntegratedCareBoardsAreaType,
   nhsRegionsAreaType,
 } from '@/lib/areaFilterHelpers/areaType';
 import {
@@ -28,6 +29,7 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
 import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 import { getSelectedAreasDataByAreaType } from '@/lib/areaFilterHelpers/getSelectedAreasData';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 jest.mock('@/lib/areaFilterHelpers/getAreaFilterData');
 jest.mock('@/lib/areaFilterHelpers/getSelectedAreasData');
@@ -63,6 +65,14 @@ async function generateSearchParams(value: SearchStateParams) {
 }
 
 describe('Results Page', () => {
+  const areaFilterData = {
+    availableAreaTypes: allAreaTypes,
+    availableGroupTypes: [nhsRegionsAreaType, englandAreaType],
+    availableGroups: mockAvailableAreas['nhs-integrated-care-boards'],
+    availableAreas:
+      mockAreaDataForNHSRegion[eastEnglandNHSRegion.code].children,
+  };
+
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -172,14 +182,6 @@ describe('Results Page', () => {
     });
 
     it('should pass the areaFilterData prop with the data from the getAreaFilterData call', async () => {
-      const areaFilterData = {
-        availableAreaTypes: allAreaTypes,
-        availableGroupTypes: [nhsRegionsAreaType, englandAreaType],
-        availableGroups: mockAvailableAreas['nhs-integrated-care-boards'],
-        availableAreas:
-          mockAreaDataForNHSRegion[eastEnglandNHSRegion.code].children,
-      };
-
       mockGetAreaFilterData.mockResolvedValue(areaFilterData);
       mockGetSelectedAreasDataByAreaType.mockResolvedValue([]);
 
@@ -265,6 +267,66 @@ describe('Results Page', () => {
       expect(page.props.currentDate).toEqual(date);
 
       jest.useRealTimers();
+    });
+  });
+
+  describe('results filtering', () => {
+    it('should pass the selected areas to the search service when specific areas are selected', async () => {
+      mockGetAreaFilterData.mockResolvedValue(areaFilterData);
+
+      const selectedAreas = ['E40000007', 'E40000003'];
+      const searchState: SearchStateParams = {
+        ...searchParams,
+        [SearchParams.AreasSelected]: selectedAreas,
+      };
+
+      await ResultsPage({
+        searchParams: generateSearchParams(searchState),
+      });
+
+      expect(mockIndicatorSearchService.searchWith).toHaveBeenCalledWith(
+        'testing',
+        false,
+        selectedAreas
+      );
+    });
+
+    it('should pass the available areas to the search service when all areas in a group are selected', async () => {
+      mockGetAreaFilterData.mockResolvedValue({
+        ...areaFilterData,
+        availableAreas: [
+          {
+            code: 'E38000007',
+            name: 'NHS Basildon And Brentwood ICB',
+            areaType: nhsIntegratedCareBoardsAreaType,
+          },
+          {
+            code: 'E38000026',
+            name: 'NHS Cambridgeshire and Peterborough ICB',
+            areaType: nhsIntegratedCareBoardsAreaType,
+          },
+          {
+            code: 'E38000240',
+            name: 'NHS North Central London ICB',
+            areaType: nhsIntegratedCareBoardsAreaType,
+          },
+        ],
+      });
+
+      const searchState: SearchStateParams = {
+        ...searchParams,
+        [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
+      };
+
+      await ResultsPage({
+        searchParams: generateSearchParams(searchState),
+      });
+
+      expect(mockIndicatorSearchService.searchWith).toHaveBeenCalledWith(
+        'testing',
+        false,
+        ['E38000007', 'E38000026', 'E38000240']
+      );
     });
   });
 });
