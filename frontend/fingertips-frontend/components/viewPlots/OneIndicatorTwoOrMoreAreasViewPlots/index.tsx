@@ -172,9 +172,8 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
         </>
       )}
       <H3>Compare indicator by areas</H3>
-      {/* DHSCFT-518 reinstate BarChartEmbeddedTable*/}
       <H3>BarChartEmbeddedTable placholder</H3>
-      {/* <BarChartEmbeddedTable
+      <BarChartEmbeddedTable
         data-testid="barChartEmbeddedTable-component"
         healthIndicatorData={dataWithoutEnglandOrGroup}
         benchmarkData={englandBenchmarkData}
@@ -182,7 +181,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
         measurementUnit={indicatorMetadata?.unitLabel}
         benchmarkComparisonMethod={benchmarkMethod}
         polarity={polarity}
-      ></BarChartEmbeddedTable> */}
+      ></BarChartEmbeddedTable>
     </section>
   );
 }

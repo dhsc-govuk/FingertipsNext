@@ -27,7 +27,7 @@ export async function getIndicatorDataAllAreas(
         indicatorId: Number(indicatorSelected[0]),
         areaCodes: [...requestAreas],
         areaType: selectedAreaType,
-        // TODO: add flag to get all areas from DHSCFT-517
+        includeEmptyAreas: true,
       },
       API_CACHE_CONFIG
     )
