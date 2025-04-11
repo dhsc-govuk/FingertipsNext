@@ -137,7 +137,9 @@ export const generateRows = (
       {
         key: `col-${indicator.id}-period`,
         type: CellType.IndicatorInformation,
-        content: `${indicator.latestDataPeriod ? indicator.latestDataPeriod : ''}`,
+        content: indicator.latestDataPeriod
+          ? indicator.latestDataPeriod.toString()
+          : '',
       },
     ];
 
