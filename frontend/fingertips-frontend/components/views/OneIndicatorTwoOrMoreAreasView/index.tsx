@@ -13,10 +13,10 @@ import {
   AreaTypeKeysForMapMeta,
   getMapGeographyData,
 } from '@/components/organisms/ThematicMap/thematicMapHelpers';
-import { chunkArray } from '@/lib/ViewsHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
+import { chunkArray } from '@/lib/chunkArray';
 
 export default async function OneIndicatorTwoOrMoreAreasView({
   selectedIndicatorsData,

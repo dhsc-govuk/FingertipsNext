@@ -4,19 +4,7 @@ import {
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { API_CACHE_CONFIG } from '@/lib/apiClient/apiClientFactory';
-
-export const maxNumAreasThatCanBeRequestedAPI = 100;
-
-export function chunkArray(
-  arrayToChunk: string[],
-  chunkSize: number = maxNumAreasThatCanBeRequestedAPI
-) {
-  const chunkedArray = [];
-  for (let i = 0; i < arrayToChunk.length; i += chunkSize) {
-    chunkedArray.push(arrayToChunk.slice(i, i + chunkSize));
-  }
-  return chunkedArray;
-}
+import { chunkArray } from './chunkArray';
 
 export interface HealthDataRequestAreas {
   areaCodes: string[];
