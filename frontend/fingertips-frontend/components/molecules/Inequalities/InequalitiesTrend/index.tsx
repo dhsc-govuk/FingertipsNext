@@ -29,9 +29,9 @@ import {
 import { formatNumber } from '@/lib/numberFormatter';
 import {
   determineAreaCodes,
+  determineHealthDataForArea,
   seriesDataWithoutGroup,
 } from '@/lib/chartHelpers/chartHelpers';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { ChartSelectArea } from '../../ChartSelectArea';
 import { InequalitiesTypesDropDown } from '../InequalitiesTypesDropDown';
 
@@ -77,14 +77,11 @@ export function InequalitiesTrend({
     true
   );
 
-  const areaToUse =
-    inequalityLineChartAreaSelected ??
-    healthdataWithoutGroup[0].areaCode ??
-    areaCodeForEngland;
-
-  const healthDataForArea = healthdataWithoutGroup.find(
-    (data) => data.areaCode === areaToUse
+  const healthDataForArea = determineHealthDataForArea(
+    healthdataWithoutGroup,
+    inequalityLineChartAreaSelected
   );
+
   if (!healthDataForArea) return null;
 
   const inequalityCategories = getInequalityCategories(healthDataForArea);

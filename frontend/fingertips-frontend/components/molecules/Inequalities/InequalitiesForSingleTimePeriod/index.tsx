@@ -24,8 +24,10 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { ChartSelectArea } from '../../ChartSelectArea';
-import { seriesDataWithoutGroup } from '@/lib/chartHelpers/chartHelpers';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import {
+  determineHealthDataForArea,
+  seriesDataWithoutGroup,
+} from '@/lib/chartHelpers/chartHelpers';
 import { InequalitiesTypesDropDown } from '../InequalitiesTypesDropDown';
 
 interface InequalitiesForSingleTimePeriodProps {
@@ -57,13 +59,9 @@ export function InequalitiesForSingleTimePeriod({
     true
   );
 
-  const areaToUse =
-    inequalityBarChartAreaSelected ??
-    healthdataWithoutGroup[0].areaCode ??
-    areaCodeForEngland;
-
-  const healthDataForArea = healthdataWithoutGroup.find(
-    (data) => data.areaCode === areaToUse
+  const healthDataForArea = determineHealthDataForArea(
+    healthdataWithoutGroup,
+    inequalityBarChartAreaSelected
   );
 
   if (!healthDataForArea) return null;

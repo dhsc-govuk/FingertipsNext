@@ -113,6 +113,17 @@ export function seriesDataWithoutGroup(
   return withoutGroup;
 }
 
+export function determineHealthDataForArea(
+  healthDataForAllAreas: HealthDataForArea[],
+  areaToFind?: string
+) {
+  if (areaToFind) {
+    return healthDataForAllAreas.find((data) => data.areaCode === areaToFind);
+  }
+
+  return healthDataForAllAreas[0];
+}
+
 export function getHealthDataWithoutInequalities(
   data: HealthDataForArea
 ): HealthDataPoint[] {
