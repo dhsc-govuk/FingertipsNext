@@ -331,6 +331,30 @@ exports[`snapshot test 1`] = `
 }
 
 @media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
   .c4 {
     font-size: 14px;
     line-height: 1;
@@ -342,6 +366,22 @@ exports[`snapshot test 1`] = `
     font-size: 16px;
     line-height: 1;
   }
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
 }
 
 @media print {
@@ -515,7 +555,3985 @@ exports[`snapshot test 1`] = `
       </strong>
     </div>
   </div>
-  .c5 {
+  .c3 {
+  margin: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 15px;
+}
+
+.c3 > p {
+  margin: 0;
+}
+
+.c3 > p > code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,0.05);
+  border-radius: 3px;
+}
+
+.c3 > pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.c3 > pre > code {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+}
+
+.c7 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c10 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin: 0 -15px;
+}
+
+.c9 {
+  width: 10px;
+  height: 10px;
+  display: block;
+}
+
+.c11 {
+  margin-bottom: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+}
+
+.c8 {
+  margin: auto;
+  vertical-align: middle;
+  padding-right: 4px;
+}
+
+.c0 {
+  color: #0B0C0C;
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 4px 0px #505A5F;
+  border-radius: 8px;
+  display: none;
+  z-index: 1;
+  position: fixed;
+  text-align: left;
+  padding: 16px;
+  white-space: normal;
+  overflow: visible;
+  max-width: 240px;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.c1 {
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 4px 0px #505A5F;
+  border-radius: 2px;
+  display: block;
+  z-index: 1;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: -8px;
+  top: 50%;
+  -webkit-transform: translateX(1px) translateY(-8px) rotate(45deg);
+  -ms-transform: translateX(1px) translateY(-8px) rotate(45deg);
+  transform: translateX(1px) translateY(-8px) rotate(45deg);
+  border: none;
+}
+
+.c2 {
+  background-color: #FFFFFF;
+  display: block;
+  z-index: 2;
+  position: absolute;
+  width: 16px;
+  height: 24px;
+  left: 0px;
+  top: 50%;
+  -webkit-transform: translateY(-12px);
+  -ms-transform: translateY(-12px);
+  transform: translateY(-12px);
+}
+
+.c4 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+}
+
+.c5 {
+  margin-bottom: 0;
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    margin-bottom: 20px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c7 {
+    width: 12px;
+    -webkit-box-flex: 0;
+    -webkit-flex-grow: 0;
+    -ms-flex-positive: 0;
+    flex-grow: 0;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c10 {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -webkit-flex-shrink: 1;
+    -ms-flex-negative: 1;
+    flex-shrink: 1;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c6 {
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+  }
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+  .c11 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c11 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+@media print {
+  .c4 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+<div
+    class="c0"
+    id="hover-cell-indicator3-E92000001"
+  >
+    <div
+      class="c1"
+    />
+    <div
+      class="c2"
+    />
+    <div
+      class="c3 c4 c5"
+    >
+      <p>
+        <strong>
+          Benchmark: England
+        </strong>
+      </p>
+    </div>
+    <div
+      class="c3 c4 c5"
+    >
+      <p>
+        2002
+      </p>
+    </div>
+    <div
+      class="c3 c4"
+    >
+      <p>
+        Donkey / Goose ratio
+      </p>
+    </div>
+    <div
+      class="c6"
+    >
+      <div
+        class="c7 c8"
+      >
+        <div
+          class="c9"
+          style="background-color: rgb(11, 12, 12); border: 1px solid #0b0c0c;"
+        />
+      </div>
+      <div
+        class="c10"
+      >
+        <div
+          class="c3 c11"
+        >
+          <p>
+            1,112.0%
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  .c3 {
+  margin: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 15px;
+}
+
+.c3 > p {
+  margin: 0;
+}
+
+.c3 > p > code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,0.05);
+  border-radius: 3px;
+}
+
+.c3 > pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.c3 > pre > code {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+}
+
+.c7 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c11 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin: 0 -15px;
+}
+
+.c9 {
+  width: 10px;
+  height: 10px;
+  display: block;
+}
+
+.c10 {
+  background-color: #FFFFFF;
+  border: 1px solid #0B0C0C;
+}
+
+.c12 {
+  margin-bottom: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+}
+
+.c8 {
+  margin: auto;
+  vertical-align: middle;
+  padding-right: 4px;
+}
+
+.c0 {
+  color: #0B0C0C;
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 4px 0px #505A5F;
+  border-radius: 8px;
+  display: none;
+  z-index: 1;
+  position: fixed;
+  text-align: left;
+  padding: 16px;
+  white-space: normal;
+  overflow: visible;
+  max-width: 240px;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.c1 {
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 4px 0px #505A5F;
+  border-radius: 2px;
+  display: block;
+  z-index: 1;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: -8px;
+  top: 50%;
+  -webkit-transform: translateX(1px) translateY(-8px) rotate(45deg);
+  -ms-transform: translateX(1px) translateY(-8px) rotate(45deg);
+  transform: translateX(1px) translateY(-8px) rotate(45deg);
+  border: none;
+}
+
+.c2 {
+  background-color: #FFFFFF;
+  display: block;
+  z-index: 2;
+  position: absolute;
+  width: 16px;
+  height: 24px;
+  left: 0px;
+  top: 50%;
+  -webkit-transform: translateY(-12px);
+  -ms-transform: translateY(-12px);
+  transform: translateY(-12px);
+}
+
+.c4 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+}
+
+.c5 {
+  margin-bottom: 0;
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    margin-bottom: 20px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c7 {
+    width: 12px;
+    -webkit-box-flex: 0;
+    -webkit-flex-grow: 0;
+    -ms-flex-positive: 0;
+    flex-grow: 0;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c11 {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -webkit-flex-shrink: 1;
+    -ms-flex-negative: 1;
+    flex-shrink: 1;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c6 {
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+  }
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+  .c12 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c12 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+@media print {
+  .c4 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+<div
+    class="c0"
+    id="hover-cell-indicator3-area3"
+  >
+    <div
+      class="c1"
+    />
+    <div
+      class="c2"
+    />
+    <div
+      class="c3 c4 c5"
+    >
+      <p>
+        <strong>
+          Dentdale
+        </strong>
+      </p>
+    </div>
+    <div
+      class="c3 c4 c5"
+    >
+      <p>
+        2002
+      </p>
+    </div>
+    <div
+      class="c3 c4"
+    >
+      <p>
+        Donkey / Goose ratio
+      </p>
+    </div>
+    <div
+      class="c6"
+    >
+      <div
+        class="c7 c8"
+      >
+        <div
+          class="c9 c10"
+        />
+      </div>
+      <div
+        class="c11"
+      >
+        <div
+          class="c3 c12"
+        >
+          <p>
+            1,132.0%
+          </p>
+        </div>
+        <div
+          class="c3 c12"
+        >
+          <p>
+            Not compared (99.8%)
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  .c3 {
+  margin: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 15px;
+}
+
+.c3 > p {
+  margin: 0;
+}
+
+.c3 > p > code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,0.05);
+  border-radius: 3px;
+}
+
+.c3 > pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.c3 > pre > code {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+}
+
+.c7 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c11 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin: 0 -15px;
+}
+
+.c9 {
+  width: 10px;
+  height: 10px;
+  display: block;
+}
+
+.c10 {
+  background-color: #FFFFFF;
+  border: 1px solid #0B0C0C;
+}
+
+.c12 {
+  margin-bottom: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+}
+
+.c8 {
+  margin: auto;
+  vertical-align: middle;
+  padding-right: 4px;
+}
+
+.c0 {
+  color: #0B0C0C;
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 4px 0px #505A5F;
+  border-radius: 8px;
+  display: none;
+  z-index: 1;
+  position: fixed;
+  text-align: left;
+  padding: 16px;
+  white-space: normal;
+  overflow: visible;
+  max-width: 240px;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.c1 {
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 4px 0px #505A5F;
+  border-radius: 2px;
+  display: block;
+  z-index: 1;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: -8px;
+  top: 50%;
+  -webkit-transform: translateX(1px) translateY(-8px) rotate(45deg);
+  -ms-transform: translateX(1px) translateY(-8px) rotate(45deg);
+  transform: translateX(1px) translateY(-8px) rotate(45deg);
+  border: none;
+}
+
+.c2 {
+  background-color: #FFFFFF;
+  display: block;
+  z-index: 2;
+  position: absolute;
+  width: 16px;
+  height: 24px;
+  left: 0px;
+  top: 50%;
+  -webkit-transform: translateY(-12px);
+  -ms-transform: translateY(-12px);
+  transform: translateY(-12px);
+}
+
+.c4 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+}
+
+.c5 {
+  margin-bottom: 0;
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    margin-bottom: 20px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c7 {
+    width: 12px;
+    -webkit-box-flex: 0;
+    -webkit-flex-grow: 0;
+    -ms-flex-positive: 0;
+    flex-grow: 0;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c11 {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -webkit-flex-shrink: 1;
+    -ms-flex-negative: 1;
+    flex-shrink: 1;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c6 {
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+  }
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+  .c12 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c12 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+@media print {
+  .c4 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+<div
+    class="c0"
+    id="hover-cell-indicator3-area4"
+  >
+    <div
+      class="c1"
+    />
+    <div
+      class="c2"
+    />
+    <div
+      class="c3 c4 c5"
+    >
+      <p>
+        <strong>
+          Comedically Long Area Name with a Devilishly Difficult Distance to Display
+        </strong>
+      </p>
+    </div>
+    <div
+      class="c3 c4 c5"
+    >
+      <p>
+        2002
+      </p>
+    </div>
+    <div
+      class="c3 c4"
+    >
+      <p>
+        Donkey / Goose ratio
+      </p>
+    </div>
+    <div
+      class="c6"
+    >
+      <div
+        class="c7 c8"
+      >
+        <div
+          class="c9 c10"
+        />
+      </div>
+      <div
+        class="c11"
+      >
+        <div
+          class="c3 c12"
+        >
+          <p>
+            1,142.0%
+          </p>
+        </div>
+        <div
+          class="c3 c12"
+        >
+          <p>
+            Not compared (99.8%)
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  .c3 {
+  margin: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 15px;
+}
+
+.c3 > p {
+  margin: 0;
+}
+
+.c3 > p > code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,0.05);
+  border-radius: 3px;
+}
+
+.c3 > pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.c3 > pre > code {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+}
+
+.c7 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c11 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin: 0 -15px;
+}
+
+.c9 {
+  width: 10px;
+  height: 10px;
+  display: block;
+}
+
+.c10 {
+  background-color: #FFFFFF;
+  border: 1px solid #0B0C0C;
+}
+
+.c12 {
+  margin-bottom: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+}
+
+.c8 {
+  margin: auto;
+  vertical-align: middle;
+  padding-right: 4px;
+}
+
+.c0 {
+  color: #0B0C0C;
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 4px 0px #505A5F;
+  border-radius: 8px;
+  display: none;
+  z-index: 1;
+  position: fixed;
+  text-align: left;
+  padding: 16px;
+  white-space: normal;
+  overflow: visible;
+  max-width: 240px;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.c1 {
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 4px 0px #505A5F;
+  border-radius: 2px;
+  display: block;
+  z-index: 1;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: -8px;
+  top: 50%;
+  -webkit-transform: translateX(1px) translateY(-8px) rotate(45deg);
+  -ms-transform: translateX(1px) translateY(-8px) rotate(45deg);
+  transform: translateX(1px) translateY(-8px) rotate(45deg);
+  border: none;
+}
+
+.c2 {
+  background-color: #FFFFFF;
+  display: block;
+  z-index: 2;
+  position: absolute;
+  width: 16px;
+  height: 24px;
+  left: 0px;
+  top: 50%;
+  -webkit-transform: translateY(-12px);
+  -ms-transform: translateY(-12px);
+  transform: translateY(-12px);
+}
+
+.c4 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+}
+
+.c5 {
+  margin-bottom: 0;
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    margin-bottom: 20px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c7 {
+    width: 12px;
+    -webkit-box-flex: 0;
+    -webkit-flex-grow: 0;
+    -ms-flex-positive: 0;
+    flex-grow: 0;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c11 {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -webkit-flex-shrink: 1;
+    -ms-flex-negative: 1;
+    flex-shrink: 1;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c6 {
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+  }
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+  .c12 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c12 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+@media print {
+  .c4 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+<div
+    class="c0"
+    id="hover-cell-indicator3-area2"
+  >
+    <div
+      class="c1"
+    />
+    <div
+      class="c2"
+    />
+    <div
+      class="c3 c4 c5"
+    >
+      <p>
+        <strong>
+          Garsdale
+        </strong>
+      </p>
+    </div>
+    <div
+      class="c3 c4 c5"
+    >
+      <p>
+        2002
+      </p>
+    </div>
+    <div
+      class="c3 c4"
+    >
+      <p>
+        Donkey / Goose ratio
+      </p>
+    </div>
+    <div
+      class="c6"
+    >
+      <div
+        class="c7 c8"
+      >
+        <div
+          class="c9 c10"
+        />
+      </div>
+      <div
+        class="c11"
+      >
+        <div
+          class="c3 c12"
+        >
+          <p>
+            1,122.0%
+          </p>
+        </div>
+        <div
+          class="c3 c12"
+        >
+          <p>
+            Not compared (99.8%)
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  .c3 {
+  margin: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 15px;
+}
+
+.c3 > p {
+  margin: 0;
+}
+
+.c3 > p > code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,0.05);
+  border-radius: 3px;
+}
+
+.c3 > pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.c3 > pre > code {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+}
+
+.c7 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c10 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin: 0 -15px;
+}
+
+.c9 {
+  width: 10px;
+  height: 10px;
+  display: block;
+}
+
+.c11 {
+  margin-bottom: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+}
+
+.c8 {
+  margin: auto;
+  vertical-align: middle;
+  padding-right: 4px;
+}
+
+.c0 {
+  color: #0B0C0C;
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 4px 0px #505A5F;
+  border-radius: 8px;
+  display: none;
+  z-index: 1;
+  position: fixed;
+  text-align: left;
+  padding: 16px;
+  white-space: normal;
+  overflow: visible;
+  max-width: 240px;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.c1 {
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 4px 0px #505A5F;
+  border-radius: 2px;
+  display: block;
+  z-index: 1;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: -8px;
+  top: 50%;
+  -webkit-transform: translateX(1px) translateY(-8px) rotate(45deg);
+  -ms-transform: translateX(1px) translateY(-8px) rotate(45deg);
+  transform: translateX(1px) translateY(-8px) rotate(45deg);
+  border: none;
+}
+
+.c2 {
+  background-color: #FFFFFF;
+  display: block;
+  z-index: 2;
+  position: absolute;
+  width: 16px;
+  height: 24px;
+  left: 0px;
+  top: 50%;
+  -webkit-transform: translateY(-12px);
+  -ms-transform: translateY(-12px);
+  transform: translateY(-12px);
+}
+
+.c4 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+}
+
+.c5 {
+  margin-bottom: 0;
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    margin-bottom: 20px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c7 {
+    width: 12px;
+    -webkit-box-flex: 0;
+    -webkit-flex-grow: 0;
+    -ms-flex-positive: 0;
+    flex-grow: 0;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c10 {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -webkit-flex-shrink: 1;
+    -ms-flex-negative: 1;
+    flex-shrink: 1;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c6 {
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+  }
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+  .c11 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c11 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+@media print {
+  .c4 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+<div
+    class="c0"
+    id="hover-cell-indicator2-E92000001"
+  >
+    <div
+      class="c1"
+    />
+    <div
+      class="c2"
+    />
+    <div
+      class="c3 c4 c5"
+    >
+      <p>
+        <strong>
+          Benchmark: England
+        </strong>
+      </p>
+    </div>
+    <div
+      class="c3 c4 c5"
+    >
+      <p>
+        2002
+      </p>
+    </div>
+    <div
+      class="c3 c4"
+    >
+      <p>
+        Rate of walkers tripping over sheep
+      </p>
+    </div>
+    <div
+      class="c6"
+    >
+      <div
+        class="c7 c8"
+      >
+        <div
+          class="c9"
+          style="background-color: rgb(11, 12, 12); border: 1px solid #0b0c0c;"
+        />
+      </div>
+      <div
+        class="c10"
+      >
+        <div
+          class="c3 c11"
+        >
+          <p>
+            112.0 per 100
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  .c3 {
+  margin: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 15px;
+}
+
+.c3 > p {
+  margin: 0;
+}
+
+.c3 > p > code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,0.05);
+  border-radius: 3px;
+}
+
+.c3 > pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.c3 > pre > code {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+}
+
+.c7 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c11 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin: 0 -15px;
+}
+
+.c9 {
+  width: 10px;
+  height: 10px;
+  display: block;
+}
+
+.c10 {
+  background-color: #FFFFFF;
+  border: 1px solid #0B0C0C;
+}
+
+.c12 {
+  margin-bottom: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+}
+
+.c8 {
+  margin: auto;
+  vertical-align: middle;
+  padding-right: 4px;
+}
+
+.c0 {
+  color: #0B0C0C;
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 4px 0px #505A5F;
+  border-radius: 8px;
+  display: none;
+  z-index: 1;
+  position: fixed;
+  text-align: left;
+  padding: 16px;
+  white-space: normal;
+  overflow: visible;
+  max-width: 240px;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.c1 {
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 4px 0px #505A5F;
+  border-radius: 2px;
+  display: block;
+  z-index: 1;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: -8px;
+  top: 50%;
+  -webkit-transform: translateX(1px) translateY(-8px) rotate(45deg);
+  -ms-transform: translateX(1px) translateY(-8px) rotate(45deg);
+  transform: translateX(1px) translateY(-8px) rotate(45deg);
+  border: none;
+}
+
+.c2 {
+  background-color: #FFFFFF;
+  display: block;
+  z-index: 2;
+  position: absolute;
+  width: 16px;
+  height: 24px;
+  left: 0px;
+  top: 50%;
+  -webkit-transform: translateY(-12px);
+  -ms-transform: translateY(-12px);
+  transform: translateY(-12px);
+}
+
+.c4 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+}
+
+.c5 {
+  margin-bottom: 0;
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    margin-bottom: 20px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c7 {
+    width: 12px;
+    -webkit-box-flex: 0;
+    -webkit-flex-grow: 0;
+    -ms-flex-positive: 0;
+    flex-grow: 0;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c11 {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -webkit-flex-shrink: 1;
+    -ms-flex-negative: 1;
+    flex-shrink: 1;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c6 {
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+  }
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+  .c12 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c12 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+@media print {
+  .c4 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+<div
+    class="c0"
+    id="hover-cell-indicator2-area3"
+  >
+    <div
+      class="c1"
+    />
+    <div
+      class="c2"
+    />
+    <div
+      class="c3 c4 c5"
+    >
+      <p>
+        <strong>
+          Dentdale
+        </strong>
+      </p>
+    </div>
+    <div
+      class="c3 c4 c5"
+    >
+      <p>
+        2002
+      </p>
+    </div>
+    <div
+      class="c3 c4"
+    >
+      <p>
+        Rate of walkers tripping over sheep
+      </p>
+    </div>
+    <div
+      class="c6"
+    >
+      <div
+        class="c7 c8"
+      >
+        <div
+          class="c9 c10"
+        />
+      </div>
+      <div
+        class="c11"
+      >
+        <div
+          class="c3 c12"
+        >
+          <p>
+            132.0 per 100
+          </p>
+        </div>
+        <div
+          class="c3 c12"
+        >
+          <p>
+            Not compared (95%)
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  .c3 {
+  margin: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 15px;
+}
+
+.c3 > p {
+  margin: 0;
+}
+
+.c3 > p > code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,0.05);
+  border-radius: 3px;
+}
+
+.c3 > pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.c3 > pre > code {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+}
+
+.c7 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c11 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin: 0 -15px;
+}
+
+.c9 {
+  width: 10px;
+  height: 10px;
+  display: block;
+}
+
+.c10 {
+  background-color: #FFFFFF;
+  border: 1px solid #0B0C0C;
+}
+
+.c12 {
+  margin-bottom: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+}
+
+.c8 {
+  margin: auto;
+  vertical-align: middle;
+  padding-right: 4px;
+}
+
+.c0 {
+  color: #0B0C0C;
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 4px 0px #505A5F;
+  border-radius: 8px;
+  display: none;
+  z-index: 1;
+  position: fixed;
+  text-align: left;
+  padding: 16px;
+  white-space: normal;
+  overflow: visible;
+  max-width: 240px;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.c1 {
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 4px 0px #505A5F;
+  border-radius: 2px;
+  display: block;
+  z-index: 1;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: -8px;
+  top: 50%;
+  -webkit-transform: translateX(1px) translateY(-8px) rotate(45deg);
+  -ms-transform: translateX(1px) translateY(-8px) rotate(45deg);
+  transform: translateX(1px) translateY(-8px) rotate(45deg);
+  border: none;
+}
+
+.c2 {
+  background-color: #FFFFFF;
+  display: block;
+  z-index: 2;
+  position: absolute;
+  width: 16px;
+  height: 24px;
+  left: 0px;
+  top: 50%;
+  -webkit-transform: translateY(-12px);
+  -ms-transform: translateY(-12px);
+  transform: translateY(-12px);
+}
+
+.c4 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+}
+
+.c5 {
+  margin-bottom: 0;
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    margin-bottom: 20px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c7 {
+    width: 12px;
+    -webkit-box-flex: 0;
+    -webkit-flex-grow: 0;
+    -ms-flex-positive: 0;
+    flex-grow: 0;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c11 {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -webkit-flex-shrink: 1;
+    -ms-flex-negative: 1;
+    flex-shrink: 1;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c6 {
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+  }
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+  .c12 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c12 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+@media print {
+  .c4 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+<div
+    class="c0"
+    id="hover-cell-indicator2-area4"
+  >
+    <div
+      class="c1"
+    />
+    <div
+      class="c2"
+    />
+    <div
+      class="c3 c4 c5"
+    >
+      <p>
+        <strong>
+          Comedically Long Area Name with a Devilishly Difficult Distance to Display
+        </strong>
+      </p>
+    </div>
+    <div
+      class="c3 c4 c5"
+    >
+      <p>
+        2002
+      </p>
+    </div>
+    <div
+      class="c3 c4"
+    >
+      <p>
+        Rate of walkers tripping over sheep
+      </p>
+    </div>
+    <div
+      class="c6"
+    >
+      <div
+        class="c7 c8"
+      >
+        <div
+          class="c9 c10"
+        />
+      </div>
+      <div
+        class="c11"
+      >
+        <div
+          class="c3 c12"
+        >
+          <p>
+            142.0 per 100
+          </p>
+        </div>
+        <div
+          class="c3 c12"
+        >
+          <p>
+            Not compared (95%)
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  .c3 {
+  margin: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 15px;
+}
+
+.c3 > p {
+  margin: 0;
+}
+
+.c3 > p > code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,0.05);
+  border-radius: 3px;
+}
+
+.c3 > pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.c3 > pre > code {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+}
+
+.c7 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c10 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin: 0 -15px;
+}
+
+.c9 {
+  margin-bottom: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+}
+
+.c8 {
+  margin: auto;
+  vertical-align: middle;
+  padding-right: 4px;
+}
+
+.c0 {
+  color: #0B0C0C;
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 4px 0px #505A5F;
+  border-radius: 8px;
+  display: none;
+  z-index: 1;
+  position: fixed;
+  text-align: left;
+  padding: 16px;
+  white-space: normal;
+  overflow: visible;
+  max-width: 240px;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.c1 {
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 4px 0px #505A5F;
+  border-radius: 2px;
+  display: block;
+  z-index: 1;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: -8px;
+  top: 50%;
+  -webkit-transform: translateX(1px) translateY(-8px) rotate(45deg);
+  -ms-transform: translateX(1px) translateY(-8px) rotate(45deg);
+  transform: translateX(1px) translateY(-8px) rotate(45deg);
+  border: none;
+}
+
+.c2 {
+  background-color: #FFFFFF;
+  display: block;
+  z-index: 2;
+  position: absolute;
+  width: 16px;
+  height: 24px;
+  left: 0px;
+  top: 50%;
+  -webkit-transform: translateY(-12px);
+  -ms-transform: translateY(-12px);
+  transform: translateY(-12px);
+}
+
+.c4 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+}
+
+.c5 {
+  margin-bottom: 0;
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    margin-bottom: 20px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c7 {
+    width: 12px;
+    -webkit-box-flex: 0;
+    -webkit-flex-grow: 0;
+    -ms-flex-positive: 0;
+    flex-grow: 0;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c10 {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -webkit-flex-shrink: 1;
+    -ms-flex-negative: 1;
+    flex-shrink: 1;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c6 {
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+  }
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+  .c9 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c9 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+@media print {
+  .c4 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+<div
+    class="c0"
+    id="hover-cell-indicator2-area2"
+  >
+    <div
+      class="c1"
+    />
+    <div
+      class="c2"
+    />
+    <div
+      class="c3 c4 c5"
+    >
+      <p>
+        <strong>
+          Garsdale
+        </strong>
+      </p>
+    </div>
+    <div
+      class="c3 c4 c5"
+    >
+      <p>
+        2002
+      </p>
+    </div>
+    <div
+      class="c3 c4"
+    >
+      <p>
+        Rate of walkers tripping over sheep
+      </p>
+    </div>
+    <div
+      class="c6"
+    >
+      <div
+        class="c7 c8"
+      >
+        <div
+          class="c3 c9"
+        >
+          <p>
+            ✕
+          </p>
+        </div>
+      </div>
+      <div
+        class="c10"
+      >
+        <div
+          class="c3 c9"
+        >
+          <p>
+            No data available
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  .c3 {
+  margin: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 15px;
+}
+
+.c3 > p {
+  margin: 0;
+}
+
+.c3 > p > code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,0.05);
+  border-radius: 3px;
+}
+
+.c3 > pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.c3 > pre > code {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+}
+
+.c7 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c10 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin: 0 -15px;
+}
+
+.c9 {
+  margin-bottom: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+}
+
+.c8 {
+  margin: auto;
+  vertical-align: middle;
+  padding-right: 4px;
+}
+
+.c0 {
+  color: #0B0C0C;
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 4px 0px #505A5F;
+  border-radius: 8px;
+  display: none;
+  z-index: 1;
+  position: fixed;
+  text-align: left;
+  padding: 16px;
+  white-space: normal;
+  overflow: visible;
+  max-width: 240px;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.c1 {
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 4px 0px #505A5F;
+  border-radius: 2px;
+  display: block;
+  z-index: 1;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: -8px;
+  top: 50%;
+  -webkit-transform: translateX(1px) translateY(-8px) rotate(45deg);
+  -ms-transform: translateX(1px) translateY(-8px) rotate(45deg);
+  transform: translateX(1px) translateY(-8px) rotate(45deg);
+  border: none;
+}
+
+.c2 {
+  background-color: #FFFFFF;
+  display: block;
+  z-index: 2;
+  position: absolute;
+  width: 16px;
+  height: 24px;
+  left: 0px;
+  top: 50%;
+  -webkit-transform: translateY(-12px);
+  -ms-transform: translateY(-12px);
+  transform: translateY(-12px);
+}
+
+.c4 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+}
+
+.c5 {
+  margin-bottom: 0;
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    margin-bottom: 20px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c7 {
+    width: 12px;
+    -webkit-box-flex: 0;
+    -webkit-flex-grow: 0;
+    -ms-flex-positive: 0;
+    flex-grow: 0;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c10 {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -webkit-flex-shrink: 1;
+    -ms-flex-negative: 1;
+    flex-shrink: 1;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c6 {
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+  }
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+  .c9 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c9 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+@media print {
+  .c4 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+<div
+    class="c0"
+    id="hover-cell-indicator1-E92000001"
+  >
+    <div
+      class="c1"
+    />
+    <div
+      class="c2"
+    />
+    <div
+      class="c3 c4 c5"
+    >
+      <p>
+        <strong>
+          Benchmark: England
+        </strong>
+      </p>
+    </div>
+    <div
+      class="c3 c4 c5"
+    >
+      <p>
+        2004
+      </p>
+    </div>
+    <div
+      class="c3 c4"
+    >
+      <p>
+        Very Verbose Indicator Name With an Extreeeeeeeme Number of Words to Try And Trip Up The View. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus varius magna massa, commodo consectetur erat hendrerit id. In semper, nibh eu efficitur sagittis, quam lectus semper augue, quis vestibulum ipsum urna ut orci.
+      </p>
+    </div>
+    <div
+      class="c6"
+    >
+      <div
+        class="c7 c8"
+      >
+        <div
+          class="c3 c9"
+        >
+          <p>
+            ✕
+          </p>
+        </div>
+      </div>
+      <div
+        class="c10"
+      >
+        <div
+          class="c3 c9"
+        >
+          <p>
+            No data available
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  .c3 {
+  margin: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 15px;
+}
+
+.c3 > p {
+  margin: 0;
+}
+
+.c3 > p > code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,0.05);
+  border-radius: 3px;
+}
+
+.c3 > pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.c3 > pre > code {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+}
+
+.c7 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c10 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin: 0 -15px;
+}
+
+.c9 {
+  margin-bottom: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+}
+
+.c8 {
+  margin: auto;
+  vertical-align: middle;
+  padding-right: 4px;
+}
+
+.c0 {
+  color: #0B0C0C;
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 4px 0px #505A5F;
+  border-radius: 8px;
+  display: none;
+  z-index: 1;
+  position: fixed;
+  text-align: left;
+  padding: 16px;
+  white-space: normal;
+  overflow: visible;
+  max-width: 240px;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.c1 {
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 4px 0px #505A5F;
+  border-radius: 2px;
+  display: block;
+  z-index: 1;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: -8px;
+  top: 50%;
+  -webkit-transform: translateX(1px) translateY(-8px) rotate(45deg);
+  -ms-transform: translateX(1px) translateY(-8px) rotate(45deg);
+  transform: translateX(1px) translateY(-8px) rotate(45deg);
+  border: none;
+}
+
+.c2 {
+  background-color: #FFFFFF;
+  display: block;
+  z-index: 2;
+  position: absolute;
+  width: 16px;
+  height: 24px;
+  left: 0px;
+  top: 50%;
+  -webkit-transform: translateY(-12px);
+  -ms-transform: translateY(-12px);
+  transform: translateY(-12px);
+}
+
+.c4 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+}
+
+.c5 {
+  margin-bottom: 0;
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    margin-bottom: 20px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c7 {
+    width: 12px;
+    -webkit-box-flex: 0;
+    -webkit-flex-grow: 0;
+    -ms-flex-positive: 0;
+    flex-grow: 0;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c10 {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -webkit-flex-shrink: 1;
+    -ms-flex-negative: 1;
+    flex-shrink: 1;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c6 {
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+  }
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+  .c9 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c9 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+@media print {
+  .c4 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+<div
+    class="c0"
+    id="hover-cell-indicator1-area3"
+  >
+    <div
+      class="c1"
+    />
+    <div
+      class="c2"
+    />
+    <div
+      class="c3 c4 c5"
+    >
+      <p>
+        <strong>
+          Dentdale
+        </strong>
+      </p>
+    </div>
+    <div
+      class="c3 c4 c5"
+    >
+      <p>
+        2004
+      </p>
+    </div>
+    <div
+      class="c3 c4"
+    >
+      <p>
+        Very Verbose Indicator Name With an Extreeeeeeeme Number of Words to Try And Trip Up The View. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus varius magna massa, commodo consectetur erat hendrerit id. In semper, nibh eu efficitur sagittis, quam lectus semper augue, quis vestibulum ipsum urna ut orci.
+      </p>
+    </div>
+    <div
+      class="c6"
+    >
+      <div
+        class="c7 c8"
+      >
+        <div
+          class="c3 c9"
+        >
+          <p>
+            ✕
+          </p>
+        </div>
+      </div>
+      <div
+        class="c10"
+      >
+        <div
+          class="c3 c9"
+        >
+          <p>
+            No data available
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  .c3 {
+  margin: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 15px;
+}
+
+.c3 > p {
+  margin: 0;
+}
+
+.c3 > p > code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,0.05);
+  border-radius: 3px;
+}
+
+.c3 > pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.c3 > pre > code {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+}
+
+.c7 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c11 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin: 0 -15px;
+}
+
+.c9 {
+  width: 10px;
+  height: 10px;
+  display: block;
+}
+
+.c10 {
+  background-color: #FFFFFF;
+  border: 1px solid #0B0C0C;
+}
+
+.c12 {
+  margin-bottom: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+}
+
+.c8 {
+  margin: auto;
+  vertical-align: middle;
+  padding-right: 4px;
+}
+
+.c0 {
+  color: #0B0C0C;
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 4px 0px #505A5F;
+  border-radius: 8px;
+  display: none;
+  z-index: 1;
+  position: fixed;
+  text-align: left;
+  padding: 16px;
+  white-space: normal;
+  overflow: visible;
+  max-width: 240px;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.c1 {
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 4px 0px #505A5F;
+  border-radius: 2px;
+  display: block;
+  z-index: 1;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: -8px;
+  top: 50%;
+  -webkit-transform: translateX(1px) translateY(-8px) rotate(45deg);
+  -ms-transform: translateX(1px) translateY(-8px) rotate(45deg);
+  transform: translateX(1px) translateY(-8px) rotate(45deg);
+  border: none;
+}
+
+.c2 {
+  background-color: #FFFFFF;
+  display: block;
+  z-index: 2;
+  position: absolute;
+  width: 16px;
+  height: 24px;
+  left: 0px;
+  top: 50%;
+  -webkit-transform: translateY(-12px);
+  -ms-transform: translateY(-12px);
+  transform: translateY(-12px);
+}
+
+.c4 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+}
+
+.c5 {
+  margin-bottom: 0;
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    margin-bottom: 20px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c7 {
+    width: 12px;
+    -webkit-box-flex: 0;
+    -webkit-flex-grow: 0;
+    -ms-flex-positive: 0;
+    flex-grow: 0;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c11 {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -webkit-flex-shrink: 1;
+    -ms-flex-negative: 1;
+    flex-shrink: 1;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c6 {
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+  }
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+  .c12 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c12 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+@media print {
+  .c4 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+<div
+    class="c0"
+    id="hover-cell-indicator1-area4"
+  >
+    <div
+      class="c1"
+    />
+    <div
+      class="c2"
+    />
+    <div
+      class="c3 c4 c5"
+    >
+      <p>
+        <strong>
+          Comedically Long Area Name with a Devilishly Difficult Distance to Display
+        </strong>
+      </p>
+    </div>
+    <div
+      class="c3 c4 c5"
+    >
+      <p>
+        2004
+      </p>
+    </div>
+    <div
+      class="c3 c4"
+    >
+      <p>
+        Very Verbose Indicator Name With an Extreeeeeeeme Number of Words to Try And Trip Up The View. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus varius magna massa, commodo consectetur erat hendrerit id. In semper, nibh eu efficitur sagittis, quam lectus semper augue, quis vestibulum ipsum urna ut orci.
+      </p>
+    </div>
+    <div
+      class="c6"
+    >
+      <div
+        class="c7 c8"
+      >
+        <div
+          class="c9 c10"
+        />
+      </div>
+      <div
+        class="c11"
+      >
+        <div
+          class="c3 c12"
+        >
+          <p>
+            41.0 per 1,000
+          </p>
+        </div>
+        <div
+          class="c3 c12"
+        >
+          <p>
+            NotCompared quintile
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  .c3 {
+  margin: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 15px;
+}
+
+.c3 > p {
+  margin: 0;
+}
+
+.c3 > p > code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,0.05);
+  border-radius: 3px;
+}
+
+.c3 > pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.c3 > pre > code {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+}
+
+.c7 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c10 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin: 0 -15px;
+}
+
+.c9 {
+  margin-bottom: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+}
+
+.c8 {
+  margin: auto;
+  vertical-align: middle;
+  padding-right: 4px;
+}
+
+.c0 {
+  color: #0B0C0C;
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 4px 0px #505A5F;
+  border-radius: 8px;
+  display: none;
+  z-index: 1;
+  position: fixed;
+  text-align: left;
+  padding: 16px;
+  white-space: normal;
+  overflow: visible;
+  max-width: 240px;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.c1 {
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 4px 0px #505A5F;
+  border-radius: 2px;
+  display: block;
+  z-index: 1;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: -8px;
+  top: 50%;
+  -webkit-transform: translateX(1px) translateY(-8px) rotate(45deg);
+  -ms-transform: translateX(1px) translateY(-8px) rotate(45deg);
+  transform: translateX(1px) translateY(-8px) rotate(45deg);
+  border: none;
+}
+
+.c2 {
+  background-color: #FFFFFF;
+  display: block;
+  z-index: 2;
+  position: absolute;
+  width: 16px;
+  height: 24px;
+  left: 0px;
+  top: 50%;
+  -webkit-transform: translateY(-12px);
+  -ms-transform: translateY(-12px);
+  transform: translateY(-12px);
+}
+
+.c4 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+}
+
+.c5 {
+  margin-bottom: 0;
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    margin-bottom: 20px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c7 {
+    width: 12px;
+    -webkit-box-flex: 0;
+    -webkit-flex-grow: 0;
+    -ms-flex-positive: 0;
+    flex-grow: 0;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c10 {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -webkit-flex-shrink: 1;
+    -ms-flex-negative: 1;
+    flex-shrink: 1;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c6 {
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+  }
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+  .c9 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c9 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+@media print {
+  .c4 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+<div
+    class="c0"
+    id="hover-cell-indicator1-area2"
+  >
+    <div
+      class="c1"
+    />
+    <div
+      class="c2"
+    />
+    <div
+      class="c3 c4 c5"
+    >
+      <p>
+        <strong>
+          Garsdale
+        </strong>
+      </p>
+    </div>
+    <div
+      class="c3 c4 c5"
+    >
+      <p>
+        2004
+      </p>
+    </div>
+    <div
+      class="c3 c4"
+    >
+      <p>
+        Very Verbose Indicator Name With an Extreeeeeeeme Number of Words to Try And Trip Up The View. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus varius magna massa, commodo consectetur erat hendrerit id. In semper, nibh eu efficitur sagittis, quam lectus semper augue, quis vestibulum ipsum urna ut orci.
+      </p>
+    </div>
+    <div
+      class="c6"
+    >
+      <div
+        class="c7 c8"
+      >
+        <div
+          class="c3 c9"
+        >
+          <p>
+            ✕
+          </p>
+        </div>
+      </div>
+      <div
+        class="c10"
+      >
+        <div
+          class="c3 c9"
+        >
+          <p>
+            No data available
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  .c6 {
   color: #0b0c0c;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -528,24 +4546,24 @@ exports[`snapshot test 1`] = `
   margin-bottom: 15px;
 }
 
-.c3 {
+.c4 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: left;
   font-weight: 700;
 }
 
-.c3:last-child {
+.c4:last-child {
   padding-right: 0;
 }
 
-.c14 {
+.c15 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: left;
 }
 
-.c14:last-child {
+.c15:last-child {
   padding-right: 0;
 }
 
@@ -563,7 +4581,7 @@ exports[`snapshot test 1`] = `
   margin-bottom: 20px;
 }
 
-.c10 {
+.c11 {
   -webkit-transform: translate(-15px) rotate(30deg);
   -ms-transform: translate(-15px) rotate(30deg);
   transform: translate(-15px) rotate(30deg);
@@ -572,7 +4590,7 @@ exports[`snapshot test 1`] = `
   transform-origin: bottom right;
 }
 
-.c11 {
+.c12 {
   -webkit-transform: scale(-1);
   -ms-transform: scale(-1);
   transform: scale(-1);
@@ -588,9 +4606,10 @@ exports[`snapshot test 1`] = `
   writing-mode: vertical-lr;
   max-height: 300px;
   display: block;
+  margin: 0px;
 }
 
-.c12 {
+.c13 {
   background-color: #B1B4B6;
   padding-top: 8px;
   padding-bottom: 8px;
@@ -598,7 +4617,7 @@ exports[`snapshot test 1`] = `
   padding-right: 4px;
 }
 
-.c13 {
+.c14 {
   background-color: #F3F2F1;
   padding-top: 8px;
   padding-bottom: 8px;
@@ -606,64 +4625,81 @@ exports[`snapshot test 1`] = `
   padding-right: 4px;
 }
 
-.c6 {
+.c7 {
   height: 30px;
 }
 
-.c7 {
-  width: 240px;
-}
-
-.c4 {
-  vertical-align: bottom;
-  width: 240px;
-}
-
 .c8 {
+  width: 240px;
+}
+
+.c5 {
   vertical-align: bottom;
-  padding-right: 0px;
+  width: 240px;
 }
 
 .c9 {
   vertical-align: bottom;
-  width: 60px;
-  padding-right: 0px;
+  padding-right: 10px;
 }
 
-.c16 {
+.c10 {
+  vertical-align: bottom;
+  width: 60px;
+  padding-right: 0px;
+  padding-left: 1em;
+}
+
+.c17 {
   min-height: 70px;
   padding-right: 0;
 }
 
-.c18 {
+.c19 {
   text-align: center;
-  min-height: 70px;
-  width: 60px;
   padding: 0;
+  position: relative;
+  border-left: 1px solid #bfc1c3;
+  vertical-align: middle;
 }
 
-.c19 {
+.c20 {
   color: #0B0C0C;
   background-color: #B1B4B6;
 }
 
-.c21 {
+.c22 {
   color: #0B0C0C;
   background-color: #FFFFFF;
 }
 
-.c22 {
+.c23 {
   color: #FFFFFF;
   background-color: #6B33C3;
 }
 
-.c20 {
-  min-width: 60px;
-  max-width: 80px;
-  display: inline;
+.c21 {
+  margin: 2px;
+  padding: 10px;
+  min-width: 40px;
+  max-width: 120px;
+  min-height: 2em;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
-.c15 {
+.c16 {
   text-overflow: ellipsis;
   overflow: hidden;
   width: 240px;
@@ -672,7 +4708,7 @@ exports[`snapshot test 1`] = `
   -webkit-box-orient: vertical;
 }
 
-.c17 {
+.c18 {
   min-width: 40px;
   padding-right: 20px;
 }
@@ -681,37 +4717,69 @@ exports[`snapshot test 1`] = `
   display: block;
   width: 100%;
   table-layout: fixed;
+  overflow: visible;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
+.c3 {
+  height: 100%;
 }
 
 .c0 {
+  overflow-y: visible;
   overflow-x: scroll;
-  max-width: 960px;
 }
 
 @media print {
-  .c5 {
+  .c6 {
     color: #000;
   }
 }
 
 @media print {
-  .c5 {
+  .c6 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c5 {
+  .c6 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c5 {
+  .c6 {
     margin-bottom: 20px;
   }
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
 }
 
 @media print {
@@ -748,6 +4816,22 @@ exports[`snapshot test 1`] = `
   }
 }
 
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
 <div
     class="c0"
   >
@@ -759,82 +4843,82 @@ exports[`snapshot test 1`] = `
         class=""
       >
         <tr
-          class=""
+          class=" c3"
         >
           <th
-            class="c3 c4"
+            class="c4 c5"
           >
             <h4
-              class="c5 c6 c7"
+              class="c6 c7 c8"
             >
               Indicators
             </h4>
           </th>
           <th
-            class="c3 c8"
+            class="c4 c9"
           >
             <h4
-              class="c5 c6"
+              class="c6 c7"
             >
               Value unit
             </h4>
           </th>
           <th
-            class="c3 c8"
+            class="c4 c9"
           >
             <h4
-              class="c5 c6"
+              class="c6 c7"
             >
               Period
             </h4>
           </th>
           <th
-            class="c3 c9"
+            class="c4 c10"
           >
             <div
-              class="c10"
+              class="c11"
             >
               <h4
-                class="c5 c11 c12"
+                class="c6 c12 c13"
               >
                 Benchmark: England
               </h4>
             </div>
           </th>
           <th
-            class="c3 c9"
+            class="c4 c10"
           >
             <div
-              class="c10"
+              class="c11"
             >
               <h4
-                class="c5 c11 c13"
+                class="c6 c12 c14"
               >
                 Dentdale
               </h4>
             </div>
           </th>
           <th
-            class="c3 c9"
+            class="c4 c10"
           >
             <div
-              class="c10"
+              class="c11"
             >
               <h4
-                class="c5 c11"
+                class="c6 c12"
               >
                 Comedically Long Area Name with a Devilishly Difficult Distance to Display
               </h4>
             </div>
           </th>
           <th
-            class="c3 c9"
+            class="c4 c10"
           >
             <div
-              class="c10"
+              class="c11"
             >
               <h4
-                class="c5 c11"
+                class="c6 c12"
               >
                 Garsdale
               </h4>
@@ -842,272 +4926,224 @@ exports[`snapshot test 1`] = `
           </th>
         </tr>
         <tr
-          class=""
+          class=" c3"
         >
           <td
-            class="c14"
+            class="c15"
             data-testid="heatmap-cell-indicator-title"
           >
             <div
-              class="c15"
+              class="c16"
             >
               Donkey / Goose ratio
             </div>
           </td>
           <td
-            class="c14 c16"
+            class="c15 c17"
             data-testid="heatmap-cell-indicator-info"
           >
             <div
-              class="c17"
+              class="c18"
             >
               %
             </div>
           </td>
           <td
-            class="c14 c16"
+            class="c15 c17"
             data-testid="heatmap-cell-indicator-info"
           >
             <div
-              class="c17"
+              class="c18"
             >
               2002
             </div>
           </td>
           <td
-            class="c14 c18 c19"
+            class="c15 c19 c20"
             data-testid="heatmap-cell-data"
           >
             <div
-              class="c20"
+              class="c21"
             >
-              <div
-                class="c20"
-              >
-                1,112.0
-              </div>
+              1,112.0
             </div>
           </td>
           <td
-            class="c14 c18 c21"
+            class="c15 c19 c22"
             data-testid="heatmap-cell-data"
           >
             <div
-              class="c20"
+              class="c21"
             >
-              <div
-                class="c20"
-              >
-                1,132.0
-              </div>
+              1,132.0
             </div>
           </td>
           <td
-            class="c14 c18 c21"
+            class="c15 c19 c22"
             data-testid="heatmap-cell-data"
           >
             <div
-              class="c20"
+              class="c21"
             >
-              <div
-                class="c20"
-              >
-                1,142.0
-              </div>
+              1,142.0
             </div>
           </td>
           <td
-            class="c14 c18 c21"
+            class="c15 c19 c22"
             data-testid="heatmap-cell-data"
           >
             <div
-              class="c20"
+              class="c21"
             >
-              <div
-                class="c20"
-              >
-                1,122.0
-              </div>
+              1,122.0
             </div>
           </td>
         </tr>
         <tr
-          class=""
+          class=" c3"
         >
           <td
-            class="c14"
+            class="c15"
             data-testid="heatmap-cell-indicator-title"
           >
             <div
-              class="c15"
+              class="c16"
             >
               Rate of walkers tripping over sheep
             </div>
           </td>
           <td
-            class="c14 c16"
+            class="c15 c17"
             data-testid="heatmap-cell-indicator-info"
           >
             <div
-              class="c17"
+              class="c18"
             >
               per 100
             </div>
           </td>
           <td
-            class="c14 c16"
+            class="c15 c17"
             data-testid="heatmap-cell-indicator-info"
           >
             <div
-              class="c17"
+              class="c18"
             >
               2002
             </div>
           </td>
           <td
-            class="c14 c18 c19"
+            class="c15 c19 c20"
             data-testid="heatmap-cell-data"
           >
             <div
-              class="c20"
+              class="c21"
             >
-              <div
-                class="c20"
-              >
-                112.0
-              </div>
+              112.0
             </div>
           </td>
           <td
-            class="c14 c18 c21"
+            class="c15 c19 c22"
             data-testid="heatmap-cell-data"
           >
             <div
-              class="c20"
+              class="c21"
             >
-              <div
-                class="c20"
-              >
-                132.0
-              </div>
+              132.0
             </div>
           </td>
           <td
-            class="c14 c18 c21"
+            class="c15 c19 c22"
             data-testid="heatmap-cell-data"
           >
             <div
-              class="c20"
+              class="c21"
             >
-              <div
-                class="c20"
-              >
-                142.0
-              </div>
+              142.0
             </div>
           </td>
           <td
-            class="c14 c18 c21"
+            class="c15 c19 c22"
             data-testid="heatmap-cell-data"
           >
             <div
-              class="c20"
+              class="c21"
             >
-              <div
-                class="c20"
-              >
-                X
-              </div>
+              X
             </div>
           </td>
         </tr>
         <tr
-          class=""
+          class=" c3"
         >
           <td
-            class="c14"
+            class="c15"
             data-testid="heatmap-cell-indicator-title"
           >
             <div
-              class="c15"
+              class="c16"
             >
               Very Verbose Indicator Name With an Extreeeeeeeme Number of Words to Try And Trip Up The View. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus varius magna massa, commodo consectetur erat hendrerit id. In semper, nibh eu efficitur sagittis, quam lectus semper augue, quis vestibulum ipsum urna ut orci.
             </div>
           </td>
           <td
-            class="c14 c16"
+            class="c15 c17"
             data-testid="heatmap-cell-indicator-info"
           >
             <div
-              class="c17"
+              class="c18"
             >
               per 1,000
             </div>
           </td>
           <td
-            class="c14 c16"
+            class="c15 c17"
             data-testid="heatmap-cell-indicator-info"
           >
             <div
-              class="c17"
+              class="c18"
             >
               2004
             </div>
           </td>
           <td
-            class="c14 c18 c19"
+            class="c15 c19 c22"
             data-testid="heatmap-cell-data"
           >
             <div
-              class="c20"
+              class="c21"
             >
-              <div
-                class="c20"
-              >
-                X
-              </div>
+              X
             </div>
           </td>
           <td
-            class="c14 c18 c21"
+            class="c15 c19 c22"
             data-testid="heatmap-cell-data"
           >
             <div
-              class="c20"
+              class="c21"
             >
-              <div
-                class="c20"
-              >
-                X
-              </div>
+              X
             </div>
           </td>
           <td
-            class="c14 c18 c22"
+            class="c15 c19 c23"
             data-testid="heatmap-cell-data"
           >
             <div
-              class="c20"
+              class="c21"
             >
-              <div
-                class="c20"
-              >
-                41.0
-              </div>
+              41.0
             </div>
           </td>
           <td
-            class="c14 c18 c21"
+            class="c15 c19 c22"
             data-testid="heatmap-cell-data"
           >
             <div
-              class="c20"
+              class="c21"
             >
-              <div
-                class="c20"
-              >
-                X
-              </div>
+              X
             </div>
           </td>
         </tr>
