@@ -101,7 +101,7 @@ export function BenchmarkTooltipArea({
               ? formatNumber(
                   indicatorDataForAreaForMostRecentYear[0].healthData[0].value
                 )
-              : 'No Data'}{' '}
+              : 'No data available'}{' '}
             {indicatorDataForAreaForMostRecentYear[0].healthData[0]?.value
               ? measurementUnit
               : null}
@@ -125,7 +125,6 @@ function getComparisionText(
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
   benchmarkOutcome?: BenchmarkOutcome
 ) {
-  // TODO: DHSCFT-518 to handle no data
   const benchmarkConfidenceLimit = getConfidenceLimitNumber(
     benchmarkComparisonMethod
   );

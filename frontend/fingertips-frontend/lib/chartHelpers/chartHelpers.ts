@@ -133,7 +133,7 @@ function getMostRecentYearForAreas(
 ): number {
   return healthDataForAreas.reduce((previous, area) => {
     return Math.max(previous, getLatestYear(area?.healthData) ?? 0);
-  }, healthDataForAreas[0].healthData[0]?.year ?? 0);
+  }, healthDataForAreas[0]?.healthData[0]?.year ?? 0);
 }
 
 function getAreasIndicatorDataForYear(

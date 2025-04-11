@@ -94,6 +94,9 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     throw new Error('error getting health indicator data for areas');
   }
 
+  // DHSCFT-518 required additional call for maps to show all areas.
+  // It is anticipated that as other components are able to handle empty healthdata[]
+  // they will also use this data and the other indicator data call can be removed.
   const indicatorDataAllAreas = await getIndicatorDataAllAreas(
     areasSelected,
     indicatorSelected,
