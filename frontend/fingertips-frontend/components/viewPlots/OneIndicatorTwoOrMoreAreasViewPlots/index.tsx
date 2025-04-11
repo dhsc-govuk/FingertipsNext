@@ -7,7 +7,7 @@ import { BarChartEmbeddedTable } from '@/components/organisms/BarChartEmbeddedTa
 import { seriesDataWithoutEnglandOrGroup } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams } from '@/lib/searchStateManager';
-import { H3, Paragraph } from 'govuk-react';
+import { H3 } from 'govuk-react';
 import { OneIndicatorViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
 import { MapGeographyData } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
