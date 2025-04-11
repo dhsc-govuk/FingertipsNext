@@ -34,7 +34,7 @@ export function SpineChartTable({
   const sortedData = sortByIndicator(indicatorData);
   const methods = getMethodsAndOutcomes(indicatorData);
   const areaNames = sortedData[0].areasHealthData.map(
-    (areaHealthData) => areaHealthData.areaName
+    (areaHealthData) => areaHealthData?.areaName ?? ''
   );
 
   return (
