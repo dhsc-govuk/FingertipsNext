@@ -1,4 +1,5 @@
 import {
+  Area,
   HealthDataForArea,
   HealthDataPoint,
   HealthDataPointBenchmarkComparison,
@@ -57,6 +58,8 @@ export interface InequalitiesTableRowData {
     [key: string]: RowDataFields | undefined;
   };
 }
+
+export type AreaWithoutAreaType = Pick<Area, 'code' | 'name'>;
 
 interface DataWithoutInequalities {
   areaDataWithoutInequalities: HealthDataForArea[];
@@ -392,6 +395,59 @@ export const getAllDataWithoutInequalities = (
     englandBenchmarkWithoutInequalities,
     groupDataWithoutInequalities,
   };
+};
+
+function hasHealthDataForInequalities(
+  healthDataForArea: HealthDataForArea,
+  inequalityType: InequalitiesTypes,
+  year?: string
+): boolean {
+  if (year) {
+    const healthDataPointsForYear = healthDataForArea.healthData.filter(
+      (healthData) => healthData.year.toString() === year
+    );
+
+    if (healthDataPointsForYear.length === 0) {
+      return false;
+    }
+
+    return (
+      healthDataPointsForYear?.filter((healthDataForYear) =>
+        inequalityType === InequalitiesTypes.Sex
+          ? !healthDataForYear.sex.isAggregate
+          : !healthDataForYear.deprivation.isAggregate
+      ).length > 0
+    );
+  }
+  const healthDataPointWithInequalities = healthDataForArea?.healthData?.filter(
+    (data) =>
+      inequalityType === InequalitiesTypes.Sex
+        ? !data.sex.isAggregate
+        : !data.deprivation.isAggregate
+  );
+
+  return healthDataPointWithInequalities.length > 0;
+}
+
+export const getAreasWithInequalitiesData = (
+  healthIndicatorData: HealthDataForArea[],
+  inequalityType: InequalitiesTypes,
+  year?: string
+) => {
+  const areasWithInequalitiesData: AreaWithoutAreaType[] = [];
+
+  healthIndicatorData.forEach((areaWithHealthData) => {
+    if (
+      hasHealthDataForInequalities(areaWithHealthData, inequalityType, year)
+    ) {
+      areasWithInequalitiesData.push({
+        code: areaWithHealthData.areaCode,
+        name: areaWithHealthData.areaName,
+      });
+    }
+  });
+
+  return areasWithInequalitiesData;
 };
 
 export const filterHealthData = (

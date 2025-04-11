@@ -8,10 +8,12 @@ export enum SearchParams {
   GroupTypeSelected = 'gts',
   GroupSelected = 'gs',
   GroupAreaSelected = 'gas',
+  InequalityYearSelected = 'iys',
+  InequalityBarChartAreaSelected = 'ibas',
+  InequalityLineChartAreaSelected = 'ilas',
   InequalityLineChartTypeSelected = 'ilts',
   InequalityBarChartTypeSelected = 'ibts',
   PopulationAreaSelected = 'pas',
-  InequalityYearSelected = 'iys',
   SearchedOrder = 'so',
 }
 
@@ -22,6 +24,15 @@ const multiValueParams = [
   SearchParams.AreasSelected as string,
 ];
 
+const chartStateParams = [
+  SearchParams.InequalityYearSelected,
+  SearchParams.InequalityBarChartAreaSelected,
+  SearchParams.InequalityLineChartAreaSelected,
+  SearchParams.InequalityBarChartTypeSelected,
+  SearchParams.InequalityLineChartTypeSelected,
+  SearchParams.PopulationAreaSelected,
+];
+
 export type SearchStateParams = {
   [SearchParams.SearchedIndicator]?: string;
   [SearchParams.IndicatorsSelected]?: string[];
@@ -30,10 +41,12 @@ export type SearchStateParams = {
   [SearchParams.GroupTypeSelected]?: string;
   [SearchParams.GroupSelected]?: string;
   [SearchParams.GroupAreaSelected]?: string;
+  [SearchParams.InequalityYearSelected]?: string;
+  [SearchParams.InequalityBarChartAreaSelected]?: string;
+  [SearchParams.InequalityLineChartAreaSelected]?: string;
   [SearchParams.InequalityLineChartTypeSelected]?: string;
   [SearchParams.InequalityBarChartTypeSelected]?: string;
   [SearchParams.PopulationAreaSelected]?: string;
-  [SearchParams.InequalityYearSelected]?: string;
   [SearchParams.SearchedOrder]?: string;
 };
 
@@ -168,6 +181,12 @@ export class SearchStateManager {
 
   public removeAllParamFromState(searchParamKey: SearchParamKeys) {
     this.searchState[searchParamKey] = undefined;
+  }
+
+  public clearChartState() {
+    chartStateParams.forEach((chartParam) => {
+      this.removeParamValueFromState(chartParam);
+    });
   }
 
   public addAllParamsToState(

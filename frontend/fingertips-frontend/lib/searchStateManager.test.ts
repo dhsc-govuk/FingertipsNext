@@ -1,4 +1,5 @@
 import { ALL_AREAS_SELECTED } from './areaFilterHelpers/constants';
+import { areaCodeForEngland } from './chartHelpers/constants';
 import {
   SearchParams,
   SearchStateManager,
@@ -20,6 +21,8 @@ describe('SearchStateManager', () => {
         [SearchParams.InequalityBarChartTypeSelected]:
           'Some other inequality type',
         [SearchParams.InequalityYearSelected]: '2021',
+        [SearchParams.InequalityBarChartAreaSelected]: 'A001',
+        [SearchParams.InequalityLineChartAreaSelected]: areaCodeForEngland,
       };
 
       const stateManager = SearchStateManager.initialise(params);
@@ -37,6 +40,8 @@ describe('SearchStateManager', () => {
         [SearchParams.InequalityBarChartTypeSelected]:
           'Some other inequality type',
         [SearchParams.InequalityYearSelected]: '2021',
+        [SearchParams.InequalityBarChartAreaSelected]: 'A001',
+        [SearchParams.InequalityLineChartAreaSelected]: areaCodeForEngland,
       });
     });
 
@@ -205,6 +210,26 @@ describe('SearchStateManager', () => {
     });
   });
 
+  describe('clearChartState', () => {
+    it('should clear all chart state params from state', () => {
+      const stateManager = SearchStateManager.initialise({
+        [SearchParams.AreasSelected]: ['A001', 'A002'],
+        [SearchParams.InequalityYearSelected]: '2023',
+        [SearchParams.InequalityLineChartTypeSelected]: 'Some inequality type',
+        [SearchParams.InequalityBarChartTypeSelected]:
+          'Some other inequality type',
+        [SearchParams.InequalityBarChartAreaSelected]: 'A003',
+        [SearchParams.InequalityLineChartAreaSelected]: 'A002',
+        [SearchParams.PopulationAreaSelected]: areaCodeForEngland,
+      });
+
+      stateManager.clearChartState();
+      expect(stateManager.getSearchState()).toEqual({
+        [SearchParams.AreasSelected]: ['A001', 'A002'],
+      });
+    });
+  });
+
   describe('addAllParamsToState', () => {
     it('should replace all the param values currently in state for the param key with the params provided', () => {
       const initialAreasSelected = ['A001', 'A002'];
@@ -239,6 +264,8 @@ describe('SearchStateManager', () => {
         [SearchParams.InequalityBarChartTypeSelected]:
           'Some other inequality type',
         [SearchParams.InequalityYearSelected]: '2021',
+        [SearchParams.InequalityBarChartAreaSelected]: 'A001',
+        [SearchParams.InequalityLineChartAreaSelected]: areaCodeForEngland,
       };
 
       const stateManager = SearchStateManager.initialise(state);
@@ -264,9 +291,11 @@ describe('SearchStateManager', () => {
         `&${SearchParams.GroupTypeSelected}=Some+group+type`,
         `&${SearchParams.GroupSelected}=A003`,
         `&${SearchParams.GroupAreaSelected}=ALL`,
+        `&${SearchParams.InequalityYearSelected}=2021`,
+        `&${SearchParams.InequalityBarChartAreaSelected}=A001`,
+        `&${SearchParams.InequalityLineChartAreaSelected}=${areaCodeForEngland}`,
         `&${SearchParams.InequalityLineChartTypeSelected}=Some+inequality+type`,
         `&${SearchParams.InequalityBarChartTypeSelected}=Some+other+inequality+type`,
-        `&${SearchParams.InequalityYearSelected}=2021`,
       ].join('');
 
       const stateManager = SearchStateManager.initialise({
@@ -281,6 +310,8 @@ describe('SearchStateManager', () => {
         [SearchParams.InequalityBarChartTypeSelected]:
           'Some other inequality type',
         [SearchParams.InequalityYearSelected]: '2021',
+        [SearchParams.InequalityBarChartAreaSelected]: 'A001',
+        [SearchParams.InequalityLineChartAreaSelected]: areaCodeForEngland,
       });
 
       const generatedPath = stateManager.generatePath('/some-path');

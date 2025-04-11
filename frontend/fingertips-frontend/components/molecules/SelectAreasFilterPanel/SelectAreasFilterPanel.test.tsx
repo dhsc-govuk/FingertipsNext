@@ -17,6 +17,7 @@ import {
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { LoaderContext } from '@/context/LoaderContext';
 import { SearchStateContext } from '@/context/SearchStateContext';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -643,6 +644,45 @@ describe('SelectAreasFilterPanel', () => {
       });
     });
 
+    it('should remove any chart state when an area is selected', async () => {
+      mockGetSearchState.mockReturnValue({
+        [SearchParams.AreaTypeSelected]: 'nhs-regions',
+        [SearchParams.InequalityYearSelected]: '2022',
+        [SearchParams.InequalityBarChartTypeSelected]: 'Some inequality type',
+        [SearchParams.InequalityLineChartTypeSelected]:
+          'Some other inequality type',
+        [SearchParams.InequalityBarChartAreaSelected]:
+          eastEnglandNHSRegion.code,
+        [SearchParams.InequalityLineChartAreaSelected]: areaCodeForEngland,
+        [SearchParams.PopulationAreaSelected]: areaCodeForEngland,
+      });
+
+      const expectedPath = [
+        `${mockPath}`,
+        `?${SearchParams.AreasSelected}=${eastEnglandNHSRegion.code}`,
+        `&${SearchParams.AreaTypeSelected}=nhs-regions`,
+      ].join('');
+      const availableAreas = mockAvailableAreas['nhs-regions'];
+
+      render(
+        <SelectAreasFilterPanel
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableAreas: availableAreas,
+          }}
+        />
+      );
+
+      const user = userEvent.setup();
+      await user.click(
+        screen.getByRole('checkbox', { name: eastEnglandNHSRegion.name })
+      );
+
+      expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
+        scroll: false,
+      });
+    });
+
     it('should call setIsLoading with true when an area is selected', async () => {
       mockGetSearchState.mockReturnValue({
         [SearchParams.AreaTypeSelected]: 'nhs-regions',
@@ -671,6 +711,45 @@ describe('SelectAreasFilterPanel', () => {
       mockGetSearchState.mockReturnValue({
         [SearchParams.AreaTypeSelected]: 'nhs-regions',
         [SearchParams.AreasSelected]: ['E40000007'],
+      });
+
+      const expectedPath = [
+        `${mockPath}`,
+        `?${SearchParams.AreaTypeSelected}=nhs-regions`,
+      ].join('');
+      const availableAreas = mockAvailableAreas['nhs-regions'];
+
+      render(
+        <SelectAreasFilterPanel
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableAreas: availableAreas,
+          }}
+        />
+      );
+
+      const user = userEvent.setup();
+      await user.click(
+        screen.getByRole('checkbox', { name: eastEnglandNHSRegion.name })
+      );
+
+      expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
+        scroll: false,
+      });
+    });
+
+    it('should remove any chart state when an area is de-selected', async () => {
+      mockGetSearchState.mockReturnValue({
+        [SearchParams.AreaTypeSelected]: 'nhs-regions',
+        [SearchParams.AreasSelected]: ['E40000007'],
+        [SearchParams.InequalityYearSelected]: '2022',
+        [SearchParams.InequalityBarChartTypeSelected]: 'Some inequality type',
+        [SearchParams.InequalityLineChartTypeSelected]:
+          'Some other inequality type',
+        [SearchParams.InequalityBarChartAreaSelected]:
+          eastEnglandNHSRegion.code,
+        [SearchParams.InequalityLineChartAreaSelected]: areaCodeForEngland,
+        [SearchParams.PopulationAreaSelected]: areaCodeForEngland,
       });
 
       const expectedPath = [
@@ -857,6 +936,46 @@ describe('SelectAreasFilterPanel', () => {
       });
     });
 
+    it('should remove any chart state when select all areas checkbox is selected', async () => {
+      mockGetSearchState.mockReturnValue({
+        [SearchParams.AreaTypeSelected]: 'nhs-regions',
+        [SearchParams.AreasSelected]: ['E40000007', 'E40000012'],
+        [SearchParams.InequalityYearSelected]: '2022',
+        [SearchParams.InequalityBarChartTypeSelected]: 'Some inequality type',
+        [SearchParams.InequalityLineChartTypeSelected]:
+          'Some other inequality type',
+        [SearchParams.InequalityBarChartAreaSelected]:
+          eastEnglandNHSRegion.code,
+        [SearchParams.InequalityLineChartAreaSelected]: areaCodeForEngland,
+        [SearchParams.PopulationAreaSelected]: areaCodeForEngland,
+      });
+
+      const expectedPath = [
+        `${mockPath}`,
+        `?${SearchParams.AreaTypeSelected}=nhs-regions`,
+        `&${SearchParams.GroupAreaSelected}=ALL`,
+      ].join('');
+      const availableAreas = mockAvailableAreas['nhs-regions'];
+
+      render(
+        <SelectAreasFilterPanel
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableAreas: availableAreas,
+          }}
+        />
+      );
+
+      const user = userEvent.setup();
+      await user.click(
+        screen.getByRole('checkbox', { name: selectAllAreasCheckboxLabel })
+      );
+
+      expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
+        scroll: false,
+      });
+    });
+
     it('should call setIsLoading with true when select all areas checkbox is checked', async () => {
       mockGetSearchState.mockReturnValue({
         [SearchParams.AreaTypeSelected]: 'nhs-regions',
@@ -884,6 +1003,46 @@ describe('SelectAreasFilterPanel', () => {
     it('should update the url when select all areas checkbox is de-selected', async () => {
       mockGetSearchState.mockReturnValue({
         [SearchParams.AreaTypeSelected]: 'nhs-regions',
+        [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
+      });
+
+      const expectedPath = [
+        `${mockPath}`,
+        `?${SearchParams.AreaTypeSelected}=nhs-regions`,
+      ].join('');
+      const availableAreas = mockAvailableAreas['nhs-regions'];
+
+      render(
+        <SelectAreasFilterPanel
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableAreas: availableAreas,
+          }}
+        />
+      );
+
+      const user = userEvent.setup();
+      await user.click(
+        screen.getByRole('checkbox', { name: selectAllAreasCheckboxLabel })
+      );
+
+      expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
+        scroll: false,
+      });
+    });
+
+    it('should remove any chart state when all areas checkbox is de-selected', async () => {
+      mockGetSearchState.mockReturnValue({
+        [SearchParams.AreaTypeSelected]: 'nhs-regions',
+        [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
+        [SearchParams.InequalityYearSelected]: '2022',
+        [SearchParams.InequalityBarChartTypeSelected]: 'Some inequality type',
+        [SearchParams.InequalityLineChartTypeSelected]:
+          'Some other inequality type',
+        [SearchParams.InequalityBarChartAreaSelected]:
+          eastEnglandNHSRegion.code,
+        [SearchParams.InequalityLineChartAreaSelected]: areaCodeForEngland,
+        [SearchParams.PopulationAreaSelected]: areaCodeForEngland,
       });
 
       const expectedPath = [

@@ -33,7 +33,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={gdsTransportFont.className}>
+      <body className={gdsTransportFont.className} style={{ margin: 0 }}>
         <StyledComponentsRegistry>
           <FTHeader />
           <FTContainer>{children}</FTContainer>

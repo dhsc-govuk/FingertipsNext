@@ -1,4 +1,5 @@
 import {
+  Area,
   IndicatorWithHealthDataForArea,
   QuartileData,
 } from '@/generated-sources/ft-api-client';
@@ -9,6 +10,7 @@ export type OneIndicatorViewPlotProps = {
   searchState: SearchStateParams;
   indicatorData: IndicatorWithHealthDataForArea;
   indicatorMetadata?: IndicatorDocument;
+  availableAreas?: Area[];
 };
 
 export type TwoOrMoreIndicatorsViewPlotProps = {
@@ -16,4 +18,5 @@ export type TwoOrMoreIndicatorsViewPlotProps = {
   indicatorData: IndicatorWithHealthDataForArea[];
   indicatorMetadata: IndicatorDocument[];
   benchmarkStatistics: QuartileData[];
+  availableAreas?: Area[];
 };
