@@ -134,7 +134,10 @@ export function generateSeriesData(
           point.lowerCi,
           point.upperCi,
         ]),
-        showConfidenceIntervalsData
+        showConfidenceIntervalsData,
+        {
+          whiskerLength: '50%',
+        }
       );
 
     seriesData.unshift(groupSeries, groupConfidenceIntervalSeries);
@@ -159,7 +162,10 @@ export function generateSeriesData(
           point.lowerCi,
           point.upperCi,
         ]),
-        showConfidenceIntervalsData
+        showConfidenceIntervalsData,
+        {
+          whiskerLength: '50%',
+        }
       );
     seriesData.unshift(englandSeries, benchmarkConfidenceIntervalSeries);
   }
