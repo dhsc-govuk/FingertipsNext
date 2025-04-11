@@ -10,6 +10,7 @@ import { render, screen } from '@testing-library/react';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 import { formatNumber } from '@/lib/numberFormatter';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 describe('BenchmarkTooltipArea', () => {
   const mockIndicatorData: HealthDataForArea = {
@@ -48,7 +49,7 @@ describe('BenchmarkTooltipArea', () => {
   ])(
     'should return the expected RAG tooltip for an area',
     (
-      testBenchmarkOutcome: BenchmarkOutcome,
+      testBenchmarkOutcome?: BenchmarkOutcome,
       expectedComparisonString?: string,
       testBenchmarkComparisonMethod: BenchmarkComparisonMethod = BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
       expectedSymbol: SymbolsEnum = SymbolsEnum.Circle
@@ -109,6 +110,27 @@ describe('BenchmarkTooltipArea', () => {
       }
     }
   );
+  it('should return the expected tooltip when there is no data', () => {
+    const expectedSymbol = SymbolsEnum.MultiplicationX;
+    const expectedColour = GovukColours.Black;
+    const testIndicatorDataForArea = { ...mockIndicatorData, healthData: [] };
+
+    render(
+      <BenchmarkTooltipArea
+        indicatorData={testIndicatorDataForArea}
+        benchmarkComparisonMethod={BenchmarkComparisonMethod.Unknown}
+        measurementUnit={mockUnits}
+        tooltipType={'area'}
+      />
+    );
+
+    expect(screen.getByText(mockIndicatorData.areaName)).toBeInTheDocument();
+    expect(screen.getByText(expectedSymbol)).toBeInTheDocument();
+    expect(screen.getByText(expectedSymbol)).toHaveStyle({
+      color: expectedColour,
+    });
+    expect(screen.getByText('No data available')).toBeInTheDocument();
+  });
 
   it.each([
     [BenchmarkOutcome.NotCompared, SymbolsEnum.WhiteCircle],
