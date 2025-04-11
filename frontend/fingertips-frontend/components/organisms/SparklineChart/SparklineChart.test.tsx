@@ -141,7 +141,7 @@ describe('SparklineChart', () => {
       });
     });
 
-    it('should not return Not compared when the benchmark outcome method of "Not compared" is passed in', () => {
+    it('should return Not compared when the benchmark outcome method of "Not compared" is passed in', () => {
       const benchmarkOutcome = BenchmarkOutcome.NotCompared;
       const benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown;
 
