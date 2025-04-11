@@ -190,3 +190,16 @@ describe('getHealthDataForIndicator', () => {
     );
   });
 });
+
+describe('getIndicatorData', () => {
+  //TODO: DHSCFT-518 move the following API call tests from OneIndicatorTwoOrMoreAreasView.test
+  it.todo(
+    'should make appropriate calls to the healthIndicatorApi when no group is specified'
+  );
+  it.todo(
+    'should make appropriate calls to the healthIndicatorApi when a group is specified'
+  );
+  it.todo(
+    'should make appropriate calls to the healthIndicatorApi when a long list of areas is specified'
+  );
+});

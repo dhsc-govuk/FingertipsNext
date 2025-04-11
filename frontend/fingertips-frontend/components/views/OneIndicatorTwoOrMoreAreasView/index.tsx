@@ -43,18 +43,17 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     selectedGroupType,
   };
 
-  const indicatorDataAvailableAreas = await getIndicatorData(
-    indicatorsAndAreas,
-    false
-  );
-
-  // Additional call with empty areas included. Currently supported only by maps.
-  // It is anticipated that as other components are able to handle empty healthdata[]
-  // they will also use this data and the other indicator data call can be removed.
   const indicatorDataIncludingEmptyAreas = await getIndicatorData(
     indicatorsAndAreas,
     true
   );
+
+  const indicatorDataAvailableAreas = {
+    ...indicatorDataIncludingEmptyAreas,
+    areaHealthData: indicatorDataIncludingEmptyAreas.areaHealthData?.filter(
+      (area) => area.healthData.length
+    ),
+  };
 
   const indicatorMetadata = selectedIndicatorsData?.[0];
   const mapGeographyData =

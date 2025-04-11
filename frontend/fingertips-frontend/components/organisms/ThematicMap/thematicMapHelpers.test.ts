@@ -200,6 +200,30 @@ describe('prepareThematicMapSeriesData', () => {
   it('should return the expected series data, for areas with no data', () => {
     const actual = prepareThematicMapSeriesData([
       {
+        areaCode: 'E12000001',
+        areaName: 'North East region (statistical)',
+        healthData: [
+          {
+            year: 2004,
+            value: 856.344,
+            ageBand: allAgesAge,
+            sex: personsSex,
+            trend: HealthDataPointTrendEnum.CannotBeCalculated,
+            benchmarkComparison: { outcome: 'NotCompared' },
+            deprivation: noDeprivation,
+          },
+          {
+            year: 2018,
+            value: 767.343,
+            ageBand: allAgesAge,
+            sex: personsSex,
+            trend: HealthDataPointTrendEnum.CannotBeCalculated,
+            benchmarkComparison: { outcome: 'Lower' },
+            deprivation: noDeprivation,
+          },
+        ],
+      },
+      {
         areaCode: 'Code1',
         areaName: 'Area 1',
         healthData: [],
@@ -207,6 +231,14 @@ describe('prepareThematicMapSeriesData', () => {
     ]);
 
     const expected = [
+      {
+        areaCode: 'E12000001',
+        areaName: 'North East region (statistical)',
+        value: 767.343,
+        year: 2018,
+        benchmarkComparisonOutcome: BenchmarkOutcome.Lower,
+        benchmarkColourCode: 45,
+      },
       {
         areaName: 'Area 1',
         areaCode: 'Code1',

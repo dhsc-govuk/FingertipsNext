@@ -5,12 +5,12 @@ import {
   HealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
-import { BenchmarkTooltipArea } from '.';
 import { render, screen } from '@testing-library/react';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 import { formatNumber } from '@/lib/numberFormatter';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import { BenchmarkTooltipArea } from '.';
 
 describe('BenchmarkTooltipArea', () => {
   const mockIndicatorData: HealthDataForArea = {

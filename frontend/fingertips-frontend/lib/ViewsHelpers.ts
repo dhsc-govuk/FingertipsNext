@@ -152,9 +152,9 @@ export async function getIndicatorData(
   try {
     const healthIndicatorDataChunks = await Promise.all(indicatorRequestArray);
     indicatorDataAllAreas = healthIndicatorDataChunks[0];
-    indicatorDataAllAreas.areaHealthData = healthIndicatorDataChunks
-      .map((indicatorData) => indicatorData?.areaHealthData ?? [])
-      .flat();
+    indicatorDataAllAreas.areaHealthData = healthIndicatorDataChunks.flatMap(
+      (indicatorData) => indicatorData?.areaHealthData ?? []
+    );
   } catch (error) {
     console.error('error getting health indicator data for areas', error);
     throw new Error('error getting health indicator data for areas');
