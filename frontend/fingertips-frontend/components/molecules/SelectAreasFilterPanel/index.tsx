@@ -4,16 +4,11 @@ import { Area, AreaType } from '@/generated-sources/ft-api-client';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
-import {
-  Checkbox,
-  FormGroup,
-  LabelText,
-  SectionBreak,
-  Select,
-} from 'govuk-react';
+import { Checkbox, FormGroup, LabelText, SectionBreak } from 'govuk-react';
 import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import { AreaFilterPaneCheckboxes } from '@/components/organisms/AreaFilterPane/AreaFilterPaneCheckboxes';
+import { StyledFilterSelect } from '@/components/styles/StyledFilterSelect';
 
 export type AreaFilterData = {
   availableAreaTypes?: AreaType[];
@@ -25,16 +20,6 @@ export type AreaFilterData = {
 interface SelectAreasFilterPanelProps {
   areaFilterData?: AreaFilterData;
 }
-
-export const StyledFilterSelect = styled(Select)({
-  span: {
-    fontWeight: 'bold',
-  },
-  select: {
-    width: '100%',
-  },
-  marginBottom: '1em',
-});
 
 const StyledFilterLabel = styled(LabelText)({
   fontWeight: 'bold',
@@ -103,6 +88,8 @@ export function SelectAreasFilterPanel({
   const handleAreaSelected = (areaCode: string, checked: boolean) => {
     setIsLoading(true);
 
+    searchStateManager.clearChartState();
+
     if (
       searchState?.[SearchParams.AreasSelected]?.length === 1 &&
       searchState?.[SearchParams.AreasSelected][0] === areaCodeForEngland
@@ -161,6 +148,8 @@ export function SelectAreasFilterPanel({
   const handleSelectAllAreasSelected = (checked: boolean) => {
     setIsLoading(true);
 
+    searchStateManager.clearChartState();
+
     if (checked) {
       searchStateManager.removeAllParamFromState(SearchParams.AreasSelected);
       searchStateManager.addParamValueToState(
@@ -189,6 +178,7 @@ export function SelectAreasFilterPanel({
           defaultValue: searchState?.[SearchParams.AreaTypeSelected],
           disabled: hasAreasSelected,
         }}
+        style={{ marginBottom: '1em' }}
       >
         {areaFilterData?.availableAreaTypes?.map((areaType) => (
           <option key={areaType.key} value={areaType.key}>
@@ -205,6 +195,7 @@ export function SelectAreasFilterPanel({
           defaultValue: searchState?.[SearchParams.GroupTypeSelected],
           disabled: hasAreasSelected,
         }}
+        style={{ marginBottom: '1em' }}
       >
         {areaFilterData?.availableGroupTypes?.map((areaType) => (
           <option key={areaType.key} value={areaType.key}>
@@ -221,6 +212,7 @@ export function SelectAreasFilterPanel({
           defaultValue: searchState?.[SearchParams.GroupSelected],
           disabled: hasAreasSelected,
         }}
+        style={{ marginBottom: '1em' }}
       >
         {areaFilterData?.availableGroups?.map((area) => (
           <option key={area.code} value={area.code}>

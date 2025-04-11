@@ -3,6 +3,7 @@ import { TimePeriodDropDown } from '.';
 import { SearchParams } from '@/lib/searchStateManager';
 import userEvent from '@testing-library/user-event';
 import { SearchStateContext } from '@/context/SearchStateContext';
+import { LoaderContext } from '@/context/LoaderContext';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -20,9 +21,19 @@ jest.mock('next/navigation', () => {
   };
 });
 
-const mockGetSearchState = jest.fn();
+const mockSetIsLoading = jest.fn();
+const mockLoaderContext: LoaderContext = {
+  getIsLoading: jest.fn(),
+  setIsLoading: mockSetIsLoading,
+};
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoadingState: () => mockLoaderContext,
+  };
+});
+
 const mockSearchStateContext: SearchStateContext = {
-  getSearchState: mockGetSearchState,
+  getSearchState: jest.fn(),
   setSearchState: jest.fn(),
 };
 jest.mock('@/context/SearchStateContext', () => {
@@ -38,9 +49,6 @@ const mockSearchState = {
 const years = ['2023', '2022', '2021', '2020'];
 
 describe('TimePeriodDropDown suite', () => {
-  beforeEach(() => {
-    mockGetSearchState.mockReturnValue(mockSearchState);
-  });
   it('should display expected elements', () => {
     render(<TimePeriodDropDown years={years} searchState={mockSearchState} />);
     const dropDown = screen.getByRole('combobox');
@@ -62,6 +70,29 @@ describe('TimePeriodDropDown suite', () => {
 
     const user = userEvent.setup();
     render(<TimePeriodDropDown years={years} searchState={mockSearchState} />);
+
+    await user.selectOptions(screen.getByRole('combobox'), '2022');
+
+    expect(mockReplace).toHaveBeenCalledWith(expectedPath, { scroll: false });
+  });
+
+  it('should reset the state of inequalityType and inequalityArea selected params when an option is selected', async () => {
+    const expectedPath = [
+      mockPath,
+      `?${SearchParams.InequalityYearSelected}=2022`,
+    ].join('');
+
+    const user = userEvent.setup();
+    render(
+      <TimePeriodDropDown
+        years={years}
+        searchState={{
+          ...mockSearchState,
+          [SearchParams.InequalityBarChartTypeSelected]: 'some type',
+          [SearchParams.InequalityBarChartAreaSelected]: 'A001',
+        }}
+      />
+    );
 
     await user.selectOptions(screen.getByRole('combobox'), '2022');
 

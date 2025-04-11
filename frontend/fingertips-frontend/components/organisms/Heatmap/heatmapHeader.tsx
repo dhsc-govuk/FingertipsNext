@@ -1,6 +1,6 @@
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { H4, Table } from 'govuk-react';
-import { JSX } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 import {
   HeaderType,
@@ -23,6 +23,7 @@ const StyledH4AreaScaled = styled(H4)({
   writingMode: 'vertical-lr',
   maxHeight: '300px',
   display: 'block',
+  margin: '0px',
 });
 
 const StyledH4BenchmarkHeader = styled(StyledH4AreaScaled)({
@@ -61,19 +62,20 @@ const StyledCellHeaderIndicatorTitle = styled(Table.CellHeader)({
 
 const StyledCellHeaderIndicatorInformation = styled(Table.CellHeader)({
   verticalAlign: 'bottom',
-  paddingRight: '0px',
+  paddingRight: '10px',
 });
 
 const StyledCellHeaderArea = styled(Table.CellHeader)({
   verticalAlign: 'bottom',
   width: `${heatmapDataColumnWidth}px`,
   paddingRight: '0px',
+  paddingLeft: '1em',
 });
 
-export const HeatmapHeader = ({
+export const HeatmapHeader: FC<HeatmapHeaderProps> = ({
   headerType,
   content,
-}: HeatmapHeaderProps): JSX.Element => {
+}) => {
   switch (headerType) {
     case HeaderType.IndicatorTitle:
       return (
