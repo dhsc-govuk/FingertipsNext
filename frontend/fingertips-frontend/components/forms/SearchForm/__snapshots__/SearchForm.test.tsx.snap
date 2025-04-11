@@ -2,7 +2,7 @@
 
 exports[`SearchForm snapshot test - renders the form 1`] = `
 <DocumentFragment>
-  .c25 {
+  .c8 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -27,36 +27,36 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   margin-bottom: 22px;
 }
 
-.c25:focus {
+.c8:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c25:link,
-.c25:visited,
-.c25:active,
-.c25:hover {
+.c8:link,
+.c8:visited,
+.c8:active,
+.c8:hover {
   color: #ffffff;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c25::-moz-focus-inner {
+.c8::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
 
-.c25:hover,
-.c25:focus {
+.c8:hover,
+.c8:focus {
   background-color: #00572e;
 }
 
-.c25:active {
+.c8:active {
   top: 2px;
   box-shadow: none;
 }
 
-.c25::before {
+.c8::before {
   content: "";
   display: block;
   position: absolute;
@@ -67,30 +67,30 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   background: transparent;
 }
 
-.c25:active::before {
+.c8:active::before {
   top: -4px;
 }
 
-.c25:disabled {
+.c8:disabled {
   opacity: 0.5;
   background: #00703c;
 }
 
-.c25:disabled:hover {
+.c8:disabled:hover {
   background-color: #00703c;
   cursor: default;
 }
 
-.c25:disabled:focus {
+.c8:disabled:focus {
   outline: none;
 }
 
-.c25:disabled:active {
+.c8:disabled:active {
   top: 0;
   box-shadow: 0 2px 0 #002413;
 }
 
-.c25 svg {
+.c8 svg {
   max-width: 15px;
 }
 
@@ -104,104 +104,6 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   display: block;
   margin-bottom: 15px;
   color: #6f777b;
-}
-
-.c19 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  display: block;
-  position: relative;
-  min-height: 40px;
-  padding: 0 0 0 40px;
-  clear: left;
-  padding-right: 22px;
-  margin-bottom: 10px;
-}
-
-.c19 span {
-  padding: 12px 15px 13px 0;
-  font-size: 16px;
-}
-
-.c19 span:before {
-  width: 25px;
-  height: 25px;
-  top: 8px;
-}
-
-.c19 span:after {
-  top: 15px;
-  left: 6px;
-  width: 11px;
-  height: 4.5px;
-  border-width: 0 0 3px 3px;
-}
-
-.c21 {
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  width: 40px;
-  height: 40px;
-  opacity: 0;
-  cursor: pointer;
-}
-
-.c21:checked + span:after {
-  opacity: 1;
-}
-
-.c21:focus + span:before {
-  outline: 3px solid transparent;
-  outline-offset: 3px;
-  box-shadow: 0 0 0 3px #ffdd00;
-}
-
-.c21 + span {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.c22 {
-  display: inline-block;
-  cursor: pointer;
-  padding: 8px 15px 5px;
-  -ms-touch-action: manipulation;
-  touch-action: manipulation;
-}
-
-.c22::before {
-  content: '';
-  box-sizing: border-box;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 40px;
-  height: 40px;
-  border: 2px solid black;
-  background: transparent;
-}
-
-.c22::after {
-  content: '';
-  position: absolute;
-  top: 11px;
-  left: 9px;
-  width: 18px;
-  height: 7px;
-  -webkit-transform: rotate(-45deg);
-  -ms-transform: rotate(-45deg);
-  transform: rotate(-45deg);
-  border: solid;
-  border-width: 0 0 5px 5px;
-  border-top-color: transparent;
-  background: transparent;
-  opacity: 0;
 }
 
 .c3 {
@@ -271,93 +173,6 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   clear: both;
 }
 
-.c8 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  color: #0b0c0c;
-  margin-bottom: 20px;
-  display: block;
-}
-
-.c11 {
-  display: inline-block;
-  position: relative;
-  margin-bottom: 5px;
-  padding-left: 25px;
-  color: #1d70b8;
-  cursor: pointer;
-}
-
-.c11:hover {
-  color: #2b8cc4;
-}
-
-.c11:focus {
-  outline: 4px solid #ffdd00;
-  outline-offset: -1px;
-  color: #0b0c0c;
-  background: #ffdd00;
-}
-
-.c11::-webkit-details-marker {
-  display: none;
-}
-
-.c11:before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  margin: auto;
-  display: block;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-color: transparent;
-  -webkit-clip-path: polygon(0% 0%,100% 50%,0% 100%);
-  clip-path: polygon(0% 0%,100% 50%,0% 100%);
-  border-width: 7px 0 7px 12.124px;
-  border-left-color: inherit;
-}
-
-[open] > .c10:before {
-  display: block;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-color: transparent;
-  -webkit-clip-path: polygon(0% 0%,50% 100%,100% 0%);
-  clip-path: polygon(0% 0%,50% 100%,100% 0%);
-  border-width: 12.124px 7px 0 7px;
-  border-top-color: inherit;
-}
-
-.c12 {
-  -webkit-text-decoration: underline;
-  text-decoration: underline;
-}
-
-.c13 {
-  padding: 15px;
-  padding-left: 20px;
-  border-left: 5px solid #bfc1c3;
-}
-
-.c13 p {
-  margin-top: 0;
-  margin-bottom: 20px;
-}
-
-.c13 > :last-child,
-.c13 p:last-child {
-  margin-bottom: 0;
-}
-
 .c0 {
   color: #0b0c0c;
   font-family: "nta",Arial,sans-serif;
@@ -371,39 +186,6 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   margin-bottom: 15px;
 }
 
-.c17 {
-  margin-bottom: 20px;
-}
-
-.c16 .c16:last-of-type {
-  margin-bottom: 0;
-}
-
-.c23 {
-  margin: 0;
-  border: 0;
-  border-bottom: 1px solid #bfc1c3;
-}
-
-.c15 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  box-sizing: border-box;
-  width: 100%;
-  height: 33px;
-  padding: 5px 4px 4px;
-  border: 2px solid #0b0c0c;
-}
-
-.c15:focus {
-  outline: 3px solid #ffdd00;
-  outline-offset: 0;
-}
-
 .c7 {
   margin-bottom: 5px;
 }
@@ -412,45 +194,74 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   margin-bottom: 1em;
 }
 
-.c14 {
-  margin-bottom: 1em;
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: left;
+  -webkit-justify-content: left;
+  -ms-flex-pack: left;
+  justify-content: left;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  cursor: pointer;
 }
 
-.c14 span {
-  font-weight: bold;
+.c10 circle {
+  outline: none;
+  fill: none;
 }
 
-.c14 select {
-  width: 100%;
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: left;
+  -webkit-justify-content: left;
+  -ms-flex-pack: left;
+  justify-content: left;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 0px;
+  margin-bottom: 15px;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  cursor: pointer;
+  padding: 0px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
-.c18 {
-  font-weight: bold;
+.c9:hover svg circle {
+  fill: #0B0C0C;
+  stroke: #0B0C0C;
 }
 
-.c24 {
-  border-bottom-color: black;
-  margin-bottom: 0.5em;
+.c9:hover svg path {
+  stroke: #FFFFFF;
 }
 
-.c20 {
-  margin-bottom: 0em;
-}
-
-.c9 div {
-  padding: 0.5em 0em;
-}
-
-.c9 summary {
-  color: #000000;
-}
-
-.c9 summary:hover {
-  color: #000000;
-}
-
-.c9 div {
-  border-left: none;
+.c11 {
+  font-weight: 300;
+  color: #1D70B8;
+  padding: 2px 1px 1px 1px;
+  cursor: pointer;
+  spacing: 0;
+  font-size: 19px;
 }
 
 .c2 {
@@ -458,33 +269,33 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
 }
 
 @media print {
-  .c25 {
+  .c8 {
     font-size: 14px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c25 {
+  .c8 {
     font-size: 19px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c25 {
+  .c8 {
     width: auto;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c25 svg {
+  .c8 svg {
     margin-left: 10px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c25 {
+  .c8 {
     margin-bottom: 32px;
   }
 }
@@ -500,33 +311,6 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   .c4 {
     font-size: 19px;
     line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c19 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c19 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c19 span {
-    font-size: 19px;
-    padding: 10px 15px 10px 1px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c19 {
-    margin-bottom: 10px;
   }
 }
 
@@ -583,32 +367,6 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
 }
 
 @media print {
-  .c8 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c8 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c8 {
-    color: #000;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c8 {
-    margin-bottom: 30px;
-  }
-}
-
-@media print {
   .c0 {
     color: #000;
   }
@@ -631,33 +389,6 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
 @media only screen and (min-width:641px) {
   .c0 {
     margin-bottom: 20px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c17 {
-    margin-bottom: 30px;
-  }
-}
-
-@media print {
-  .c15 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c15 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c15 {
-    width: 50%;
-    height: 38px;
   }
 }
 
@@ -738,101 +469,48 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
         </label>
       </div>
     </div>
-    <details
-      class="c8 c9"
-      data-testid="select-areas-filter-panel-label"
-    >
-      <summary
-        class="c10 c11"
-      >
-        <span
-          class="c12"
-        >
-          Filter by area
-        </span>
-      </summary>
-      <div
-        class="c13"
-      >
-        <div
-          data-testid="select-areas-filter-panel"
-        >
-          <label
-            class="c1 c14"
-            data-testid="area-type-selector-container"
-          >
-            <span
-              class="c3"
-            >
-              Select an area type
-            </span>
-            <select
-              class="c15"
-            />
-          </label>
-          <label
-            class="c1 c14"
-            data-testid="group-type-selector-container"
-          >
-            <span
-              class="c3"
-            >
-              Select a group type
-            </span>
-            <select
-              class="c15"
-            />
-          </label>
-          <label
-            class="c1 c14"
-            data-testid="group-selector-container"
-          >
-            <span
-              class="c3"
-            >
-              Select a group
-            </span>
-            <select
-              class="c15"
-            />
-          </label>
-          <div
-            class="c16 c17"
-          >
-            <span
-              class="c3 c18"
-            >
-              Select one or more areas
-            </span>
-            <label
-              class="c19 c20"
-            >
-              <input
-                class="c21"
-                type="checkbox"
-              />
-              <span
-                class="c22"
-              >
-                Select all areas
-              </span>
-            </label>
-            <hr
-              class="c23 c24"
-            />
-            <div />
-          </div>
-        </div>
-      </div>
-    </details>
     <button
-      class="c25"
+      class="c8"
       data-testid="search-form-button-submit"
-      style="margin-top: 25px;"
+      style="margin-top: 10px;"
       type="submit"
     >
       Search
     </button>
+    <span
+      class="c9"
+    >
+      <svg
+        class="c10"
+        data-testid="arrow-toggle-button"
+        height="30"
+        viewBox="0 0 25 25"
+        width="30"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="#1D70B8"
+          stroke-width="0.5"
+        />
+        <path
+          d="M8 10l4 4 4-4"
+          fill="none"
+          stroke="#1D70B8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+        />
+      </svg>
+      <label
+        class="c1 c11"
+        fill="#1D70B8"
+      >
+        Open area filter
+      </label>
+    </span>
   </div>
 </DocumentFragment>
 `;

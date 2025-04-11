@@ -22,6 +22,11 @@ export const AreaSearchInputField = ({
   return (
     <StyleAreaSearchInputField data-testid="area-search-input-field">
       <InputField
+        onKeyDown={(e) => {
+          if (e.code === 'Enter') {
+            e.preventDefault();
+          }
+        }}
         input={{
           id: 'areaSearched',
           name: 'areaSearched',
