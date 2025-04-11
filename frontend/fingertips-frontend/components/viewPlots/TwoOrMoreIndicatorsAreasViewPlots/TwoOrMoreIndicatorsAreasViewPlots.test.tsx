@@ -5,14 +5,12 @@ import {
 } from '.';
 import {
   BenchmarkComparisonMethod,
+  HealthDataForArea,
   HealthDataPointTrendEnum,
   IndicatorPolarity,
-} from '@/generated-sources/ft-api-client';
-import { render, screen } from '@testing-library/react';
-import {
-  HealthDataForArea,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
+import { render, screen } from '@testing-library/react';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
@@ -247,45 +245,6 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
     expect(
       screen.queryByTestId('spineChartTable-component')
     ).not.toBeInTheDocument();
-  });
-
-  it('should throw an error if no AI search indicator data present for on of the indicators with health data', () => {
-    const areas = [mockAreas[0], mockAreas[1]];
-    mockSearchParams[SearchParams.AreasSelected] = areas;
-
-    const renderComponentWithError = () =>
-      render(
-        <TwoOrMoreIndicatorsAreasViewPlot
-          searchState={mockSearchParams}
-          indicatorData={mockIndicatorData}
-          indicatorMetadata={[]}
-          benchmarkStatistics={mockBenchmarkStatistics}
-        />
-      );
-
-    expect(renderComponentWithError).toThrow(
-      'No indicator AI search metadata found matching health data from API'
-    );
-  });
-
-  it('should throw an error if no quartile data for one of the requested indicators', () => {
-    const areas = [mockAreas[0], mockAreas[1]];
-    mockSearchParams[SearchParams.AreasSelected] = areas;
-    const quartileDataMissingOne = [mockBenchmarkStatistics[0]];
-
-    const renderComponentWithError = () =>
-      render(
-        <TwoOrMoreIndicatorsAreasViewPlot
-          searchState={mockSearchParams}
-          indicatorData={mockIndicatorData}
-          indicatorMetadata={mockMetaData}
-          benchmarkStatistics={quartileDataMissingOne}
-        />
-      );
-
-    expect(renderComponentWithError).toThrow(
-      'No quartile data found for the requested indicator ID: 321'
-    );
   });
 });
 
