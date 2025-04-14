@@ -38,25 +38,6 @@ const getAreaCodeMappingsToIndicatorIds = async (
   return mappings;
 };
 
-const getPopulationData = (
-  populationIndicatorID: number,
-  areaCodesToRequest: string[]
-) => {
-  return getHealthDataForIndicator(
-    ApiClientFactory.getIndicatorsApiClient(),
-    populationIndicatorID,
-    [
-      {
-        areaCodes: areaCodesToRequest,
-        inequalities: [
-          GetHealthDataForAnIndicatorInequalitiesEnum.Age,
-          GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
-        ],
-      },
-    ]
-  );
-};
-
 interface PyramidContextProviderProps {
   areaCodes: string[];
   searchState: SearchStateParams;
@@ -87,44 +68,15 @@ export const PopulationPyramidWithTableDataProvider = async ({
 
   const areaTypeCodeMappings =
     await getAreaCodeMappingsToIndicatorIds(areaCodesToRequest);
+
   const populationDataForArea: IndicatorWithHealthDataForArea | undefined =
     await (async () => {
       if (areaCodesToRequest.length < 1) {
         return undefined;
       }
 
-      const populationIndicatorID = await fetchPopulationIndicatorID(
-        areaCodesToRequest[0]
-      );
-
       const populationIndicatorID = areaTypeCodeMappings[areaCodesToRequest[0]];
 
-      const getPopulationIndicatorMetadata = () => {
-        return SearchServiceFactory.getIndicatorSearchService().getIndicator(
-          populationIndicatorID.toString()
-        );
-      };
-
-      const { populationData, populationMetadata } = await (async () => {
-        if (!populationIndicatorID) {
-          return {
-            populationData: undefined,
-            populationMetadata: undefined,
-          };
-        }
-
-        const [populationData, populationIndicatorMetadata] = await Promise.all(
-          [
-            await getPopulationData(populationIndicatorID, areaCodesToRequest),
-            await getPopulationIndicatorMetadata(),
-          ]
-        );
-
-        return {
-          populationData,
-          populationMetadata: populationIndicatorMetadata,
-        };
-      })();
       return await getHealthDataForIndicator(
         ApiClientFactory.getIndicatorsApiClient(),
         populationIndicatorID,
