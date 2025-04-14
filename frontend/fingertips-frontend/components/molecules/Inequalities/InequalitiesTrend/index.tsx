@@ -32,18 +32,16 @@ import {
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
 import {
+  AreaTypeLabelEnum,
   determineAreaCodes,
   determineHealthDataForArea,
+  getTooltipContent,
   seriesDataWithoutGroup,
 } from '@/lib/chartHelpers/chartHelpers';
 import { ChartSelectArea } from '../../ChartSelectArea';
 import { InequalitiesTypesDropDown } from '../InequalitiesTypesDropDown';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import {
-  AreaTypeLabelEnum,
-  getTooltipContent,
-} from '@/lib/chartHelpers/chartHelpers';
 
 interface InequalitiesTrendProps {
   healthIndicatorData: HealthDataForArea[];
@@ -182,9 +180,10 @@ export function InequalitiesTrend({
       `<div style="display: flex; margin-top: 15px; align-items: center;">`,
       `<div style="margin-right: 10px;"><span style="color: ${point.series.color}; font-weight: bold;">${symbol}</span></div>`,
       `<div style="padding-right: 10px;"><span>${formatNumber(point.y)} ${measurementUnit ? ' ' + measurementUnit : ''}</span><br/>`,
-      `${label === AreaTypeLabelEnum.Benchmark || shouldHideLines ? '' : `<span>${benchmarkLabel}</span><br/>`}`,
-      `${label === AreaTypeLabelEnum.Benchmark || shouldHideLines ? '' : `<span>${comparisonLabelForInequality}</span><br/>`}`,
+      `${label === AreaTypeLabelEnum.Benchmark || shouldHideLines ? '' : '<span>' + benchmarkLabel + '</span><br/>'}`,
+      `${label === AreaTypeLabelEnum.Benchmark || shouldHideLines ? '' : '<span>' + comparisonLabelForInequality + '</span><br/>'}`,
       `</div`,
+      `</div>`,
       `</div>`,
     ];
   };

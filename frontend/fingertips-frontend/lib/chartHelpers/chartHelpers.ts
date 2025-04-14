@@ -288,7 +288,7 @@ const getBenchmarkLabel = (
   const joiningWord =
     benchmarkOutcome === BenchmarkOutcome.Similar ? 'to' : 'than';
   const outcome = getBenchmarkLabelText(benchmarkOutcome);
-  return `${outcome} ${joiningWord} ${areaName ? areaName : 'England'}`;
+  return `${outcome} ${joiningWord} ${areaName ?? 'England'}`;
 };
 
 export const getTooltipContent = (
