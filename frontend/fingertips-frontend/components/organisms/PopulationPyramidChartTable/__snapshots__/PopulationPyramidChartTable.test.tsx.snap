@@ -344,12 +344,12 @@ exports[`PopulationPyramidChartTable check  that all 3 tables are rendered and t
                 <td
                   class="c9 c10"
                 >
-                  1,000
+                  900
                 </td>
                 <td
                   class="c9 c10"
                 >
-                  900
+                  1,000
                 </td>
               </tr>
               <tr
@@ -363,12 +363,12 @@ exports[`PopulationPyramidChartTable check  that all 3 tables are rendered and t
                 <td
                   class="c9 c10"
                 >
-                  1,200
+                  1,100
                 </td>
                 <td
                   class="c9 c10"
                 >
-                  1,100
+                  1,200
                 </td>
               </tr>
               <tr
@@ -382,12 +382,12 @@ exports[`PopulationPyramidChartTable check  that all 3 tables are rendered and t
                 <td
                   class="c9 c10"
                 >
-                  1,100
+                  1,050
                 </td>
                 <td
                   class="c9 c10"
                 >
-                  1,050
+                  1,100
                 </td>
               </tr>
               <tr
@@ -401,12 +401,12 @@ exports[`PopulationPyramidChartTable check  that all 3 tables are rendered and t
                 <td
                   class="c9 c10"
                 >
-                  1,300
+                  1,250
                 </td>
                 <td
                   class="c9 c10"
                 >
-                  1,250
+                  1,300
                 </td>
               </tr>
               <tr
@@ -471,41 +471,41 @@ exports[`PopulationPyramidChartTable check  that all 3 tables are rendered and t
                 <td
                   class="c9 c10"
                 >
-                  1,100
+                  100
                 </td>
                 <td
                   class="c9 c10"
                 >
-                  100
+                  1,100
                 </td>
               </tr>
               <tr
                 class=""
               >
-                <td
-                  class="c9 c10"
-                >
-                  1,300
-                </td>
                 <td
                   class="c9 c10"
                 >
                   10
                 </td>
+                <td
+                  class="c9 c10"
+                >
+                  1,300
+                </td>
               </tr>
               <tr
                 class=""
               >
-                <td
-                  class="c9 c10"
-                >
-                  1,200
-                </td>
                 <td
                   class="c9 c10"
                 >
                   1,150
                 </td>
+                <td
+                  class="c9 c10"
+                >
+                  1,200
+                </td>
               </tr>
               <tr
                 class=""
@@ -513,12 +513,12 @@ exports[`PopulationPyramidChartTable check  that all 3 tables are rendered and t
                 <td
                   class="c9 c10"
                 >
-                  1,400
+                  150
                 </td>
                 <td
                   class="c9 c10"
                 >
-                  150
+                  1,400
                 </td>
               </tr>
               <tr
@@ -593,27 +593,27 @@ exports[`PopulationPyramidChartTable check  that all 3 tables are rendered and t
               <td
                 class="c9 c10"
               >
-                1,300
+                1,200
               </td>
               <td
                 class="c9 c10"
               >
-                1,200
+                1,300
               </td>
             </tr>
             <tr
               class=""
             >
-              <td
-                class="c9 c10"
-              >
-                1,200
-              </td>
               <td
                 class="c9 c10"
               >
                 1,150
               </td>
+              <td
+                class="c9 c10"
+              >
+                1,200
+              </td>
             </tr>
             <tr
               class=""
@@ -621,12 +621,12 @@ exports[`PopulationPyramidChartTable check  that all 3 tables are rendered and t
               <td
                 class="c9 c10"
               >
-                1,400
+                1,350
               </td>
               <td
                 class="c9 c10"
               >
-                1,350
+                1,400
               </td>
             </tr>
             <tr
