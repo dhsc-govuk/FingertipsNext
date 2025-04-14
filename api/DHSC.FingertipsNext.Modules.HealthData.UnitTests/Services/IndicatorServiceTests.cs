@@ -24,8 +24,6 @@ public class IndicatorServiceTests
         Name = "Name",
         IndicatorKey = 123,
         IndicatorId = 123,
-        StartDate = DateTime.Today,
-        EndDate = DateTime.Today,
         BenchmarkComparisonMethod = "Confidence intervals overlapping reference value (95.0)",
         Polarity = "High is good",
     };

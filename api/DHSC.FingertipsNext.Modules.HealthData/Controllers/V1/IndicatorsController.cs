@@ -43,7 +43,8 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
         [FromQuery(Name = "area_type")] string areaType = "",
         [FromQuery] int[]? years = null,
         [FromQuery] string[]? inequalities = null,
-        [FromQuery] bool include_empty_areas =false)
+        [FromQuery] bool include_empty_areas =false,
+        [FromQuery] bool latest_only = false)
     {
         if (areaCodes is {Length: > MaxNumberAreas})
             return new BadRequestObjectResult(new SimpleError

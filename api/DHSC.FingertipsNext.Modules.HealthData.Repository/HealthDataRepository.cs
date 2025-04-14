@@ -4,7 +4,6 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 
-
 namespace DHSC.FingertipsNext.Modules.HealthData.Repository;
 
 [SuppressMessage("ReSharper", "SimplifyConditionalTernaryExpression")]
@@ -19,19 +18,17 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
     public async Task<IndicatorDimensionModel> GetIndicatorDimensionAsync(int indicatorId)
     {
         var results = await _dbContext.IndicatorDimension
-            .Where(i => i.IndicatorId == indicatorId)
-            .Select(x => new IndicatorDimensionModel()
+            .Where(indicator => indicator.IndicatorId == indicatorId)
+            .Select(indicator => new IndicatorDimensionModel
             {
-                IndicatorId = x.IndicatorId,
-                IndicatorKey = x.IndicatorKey,
-                Name = x.Name,
-                StartDate = x.StartDate,
-                EndDate = x.EndDate,
-                Polarity = x.Polarity,
-                BenchmarkComparisonMethod = x.BenchmarkComparisonMethod,
+                IndicatorId = indicator.IndicatorId,
+                IndicatorKey = indicator.IndicatorKey,
+                Name = indicator.Name,
+                Polarity = indicator.Polarity,
+                BenchmarkComparisonMethod = indicator.BenchmarkComparisonMethod
             })
-            .ToListAsync();
-        return results.FirstOrDefault();
+            .FirstOrDefaultAsync();
+        return results;
     }
     
     public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataAsync(int indicatorId, string[] areaCodes, int[] years, string[] inequalities)

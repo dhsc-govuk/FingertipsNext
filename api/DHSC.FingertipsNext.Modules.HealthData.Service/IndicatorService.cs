@@ -42,7 +42,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         string areaType,
         IEnumerable<int> years,
         IEnumerable<string> inequalities,
-        bool includeEmptyAreas = false)
+        bool includeEmptyAreas = false,
+        bool latestOnly = false)
     {
         var indicatorData = await healthDataRepository.GetIndicatorDimensionAsync(indicatorId);
         if (indicatorData == null) 
@@ -117,6 +118,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
                 areaType
                 );
 
+           
             return healthMeasureData
                 .GroupBy(healthMeasure => new
                 {
