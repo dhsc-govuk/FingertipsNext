@@ -20,16 +20,30 @@ import { PopulationPyramidChartTable } from '../PopulationPyramidChartTable';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import { ChartSelectArea } from '@/components/molecules/ChartSelectArea';
 import { AreaWithoutAreaType } from '../Inequalities/inequalitiesHelpers';
+import {
+  allAreaTypes,
+  HierarchyNameTypes,
+} from '@/lib/areaFilterHelpers/areaType';
 
 const determineHeaderTitle = (
-  healthDataForAreaSelected?: HealthDataForArea
+  healthDataForAreaSelected?: HealthDataForArea,
+  areaTypeSelected?: string
 ): string => {
   if (healthDataForAreaSelected) {
+    const hierarchyName = allAreaTypes.find(
+      (areaType) => areaType.key === areaTypeSelected
+    );
+
+    const titleTypeText =
+      hierarchyName?.hierarchyName === HierarchyNameTypes.NHS
+        ? 'Registered'
+        : 'Resident';
+
     const year = sortHealthDataPointsByDescendingYear(
       healthDataForAreaSelected.healthData
     )[0].year;
 
-    return `Resident population profile for ${healthDataForAreaSelected?.areaName} ${year}`;
+    return `${titleTypeText} population profile for ${healthDataForAreaSelected?.areaName} ${year}`;
   }
   return '';
 };
@@ -49,6 +63,8 @@ export function determinePopulationDataForArea(
 
 interface PyramidPopulationChartViewProps {
   healthDataForAreas: HealthDataForArea[];
+  // areaCodesMappingToIndicatorIds: Record<string, number>;
+  groupAreaSelected?: string;
   xAxisTitle: string;
   yAxisTitle: string;
   searchState: SearchStateParams;
@@ -64,6 +80,7 @@ export const PopulationPyramidWithTable = ({
   const {
     [SearchParams.PopulationAreaSelected]: populationAreaSelected,
     [SearchParams.GroupSelected]: groupSelected,
+    [SearchParams.AreaTypeSelected]: areaTypeSelected,
   } = searchState;
 
   const [showPopulationPyramid, setShowPopulationPyramid] =
@@ -112,7 +129,10 @@ export const PopulationPyramidWithTable = ({
 
   if (!populationDataForSelectedArea) return null;
 
-  const title = determineHeaderTitle(healthDataForAreaSelected);
+  const title = determineHeaderTitle(
+    healthDataForAreaSelected,
+    areaTypeSelected
+  );
 
   return (
     <div data-testid="populationPyramidWithTable-component">

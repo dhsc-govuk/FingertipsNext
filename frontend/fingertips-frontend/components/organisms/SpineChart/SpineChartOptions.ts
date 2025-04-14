@@ -37,9 +37,16 @@ function benchmarkComparisonMethodToString(
   }
 }
 
+function formatUnits(units: string): string {
+  if (units !== '%') {
+    return ' ' + units;
+  }
+
+  return units;
+}
+
 function formatBarHover(
   period: number,
-  indicatorName: string,
   lowerName: string,
   lowerValue: number,
   upperName: string,
@@ -51,15 +58,16 @@ function formatBarHover(
               Benchmark: England
               </span>
               <span style="display: block;">${period}</span>
-              <span style="display: block;">${indicatorName}</span>
-              <span style="display: block; float: right;">${formatNumber(lowerValue)}${units} to ${formatNumber(upperValue)}${units}</span></br/>
-              <span style="display: block; float: right;">${lowerName} to ${upperName}</span><div>`;
+              <div>
+              <span style="display: block;">${formatNumber(lowerValue)}${formatUnits(units)} to ${formatNumber(upperValue)}${formatUnits(units)}</span>
+              <span style="display: block;">${lowerName} to ${upperName}</span>
+              </div>
+              </div>`;
 }
 
 function formatSymbolHover(
   title: string,
   period: number,
-  indicatorName: string,
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
   value: number,
   units: string,
@@ -70,15 +78,15 @@ function formatSymbolHover(
               ${title}
               </span>
               <span style="display: block;">${period}</span>
-              <span style="display: block;">${indicatorName}</span>
-              <span style="display: block; float: right;">${formatNumber(value)}${units}</span></br/>
-              <span style="display: block; float: right;">${outcome}</span></br/>
-              <span style="display: block; float: right;">${benchmarkComparisonMethodToString(benchmarkComparisonMethod)}</span>
+              <div>
+              <span style="display: block;">${formatNumber(value)}${formatUnits(units)}</span>
+              <span style="display: block;">${outcome}</span>
+              <span style="display: block;">${benchmarkComparisonMethodToString(benchmarkComparisonMethod)}</span>
+              </div>
               <div>`;
 }
 
 export function generateSeriesData({
-  name,
   period,
   units,
   benchmarkValue,
@@ -122,7 +130,6 @@ export function generateSeriesData({
       type: 'bar',
       name: formatBarHover(
         period,
-        name,
         'Worst',
         worst,
         '25th percentile',
@@ -137,7 +144,6 @@ export function generateSeriesData({
       type: 'bar',
       name: formatBarHover(
         period,
-        name,
         'Best',
         best,
         '75th percentile',
@@ -152,7 +158,6 @@ export function generateSeriesData({
       type: 'bar',
       name: formatBarHover(
         period,
-        name,
         '25th percentile',
         lowerQuartile,
         '75th percentile',
@@ -167,7 +172,6 @@ export function generateSeriesData({
       type: 'bar',
       name: formatBarHover(
         period,
-        name,
         '25th percentile',
         lowerQuartile,
         '75th percentile',
@@ -192,7 +196,6 @@ export function generateSeriesData({
       name: formatSymbolHover(
         `Group: ${groupName}`,
         period,
-        name,
         benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
         groupValue,
         units,
@@ -230,7 +233,6 @@ export function generateSeriesData({
       name: formatSymbolHover(
         areaName,
         period,
-        name,
         benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
         value,
         units,
@@ -272,7 +274,7 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
       backgroundColor: 'transparent',
       spacing: [0, 0, 0, 0],
       margin: [5, 5, 5, 5],
-      height: 130,
+      height: 50,
       width: 400,
       inverted: true,
     },
@@ -341,6 +343,7 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
       },
     },
     tooltip: {
+      outside: true,
       padding: 10,
       headerFormat: `{series.name}`,
       pointFormatter: function (this: Highcharts.Point) {

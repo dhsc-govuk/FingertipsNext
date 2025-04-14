@@ -28,7 +28,7 @@ const stickyLeft = {
   background: 'white',
   position: 'sticky',
   left: 0,
-  zIndex: 10,
+  zIndex: 2,
   paddingRight: '0.5em',
 };
 
@@ -47,6 +47,7 @@ export const StyledAlignRightHeaderPadLeft = styled(StyledAlignRightHeader)({
 export const StyledAlignRightBorderHeader = styled(StyledAlignRightHeader)({
   borderRight: 'solid #bfc1c3 1px',
   paddingRight: '0.5em',
+  textAlign: 'center',
 });
 
 export const StyledAlignLeftStickyLeftHeader = styled(StyledAlignLeftHeader)(
@@ -75,12 +76,26 @@ export const StyledAlignRightBorderRightTableCell = styled(
   paddingRight: '0.5em',
 });
 
+export const StyledAlignCentreBorderRightTableCell = styled(
+  StyledAlignCentreTableCell
+)({
+  borderRight: 'solid #bfc1c3 1px',
+  paddingRight: '0.5em',
+});
+
+export const StyledAlignLeftBorderRightTableCell = styled(
+  StyledAlignLeftTableCell
+)({
+  borderRight: 'solid #bfc1c3 1px',
+  paddingRight: '0.5em',
+});
+
 export const StyledAlignRightCellPadLeft = styled(StyledAlignRightTableCell)({
   paddingLeft: '0.5em',
 });
 
 export const StyledValueUnitStickyCell = styled(
-  StyledAlignRightBorderRightTableCell
+  StyledAlignLeftBorderRightTableCell
 )({
   ...(stickyLeft as unknown as TemplateStringsArray),
   left: `${spineChartIndicatorTitleColumnMinWidth + spineChartPeriodColumnMinWidth + paddingSize * 2}px`,
@@ -112,12 +127,14 @@ export const StyledBenchmarkHeader = styled(StyledGreyHeader)({
   backgroundColor: GovukColours.MidGrey,
   borderTop: GovukColours.LightGrey,
   textAlign: 'center',
+  paddingRight: '0.5em',
 });
 
 export const StyledBenchmarkSubHeader = styled(StyledGreyHeader)({
   backgroundColor: GovukColours.MidGrey,
   borderTop: GovukColours.LightGrey,
   textAlign: 'right',
+  paddingRight: '0.5em',
 });
 
 export const StyledGroupCell = styled(StyledAlignRightTableCell)({
@@ -132,6 +149,7 @@ export const StyledBenchmarkCell = styled(StyledAlignRightTableCell)({
   borderTop: GovukColours.LightGrey,
   textAlign: 'right',
   paddingLeft: '0.5em',
+  paddingRight: '0.5em',
 });
 
 export const StyledBenchmarkChart = styled(StyledBenchmarkCell)({
