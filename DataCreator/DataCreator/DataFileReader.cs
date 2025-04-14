@@ -75,6 +75,9 @@ namespace DataCreator
                 //there is bad data for indicator 92033, we don't want 4-5 yrs
                 if (indicatorId == 92033 && age == "4-5 yrs")
                     continue;
+                var year = int.Parse(split[23].Trim().Substring(0, 4));
+                if(year<2002)
+                    continue;
                 var indicatorData = new HealthMeasureEntity
                 {
                     IndicatorId = indicatorId,
@@ -88,14 +91,23 @@ namespace DataCreator
                     Lower98CI = GetDoubleValue(split[15]),
                     Upper98CI = GetDoubleValue(split[16]),
                     Denominator = GetDoubleValue(split[18]),
-                    Year = int.Parse(split[23].Trim().Substring(0, 4)),
+                    Year = year,
                     Category = category.Trim(),
-                    CategoryType = categoryType.Trim()
+                    CategoryType = categoryType.Trim(),
+                    PeriodLabel = CreatePeriodLabel(split[11].Trim())
                 };
                 allData.Add(indicatorData);
             }
 
             return allData;
+        }
+
+        private static string CreatePeriodLabel(string input)
+        {
+            if(input.Length==4)
+                return input;
+            var split=input.Split('/');
+            return $"{split[0]} to 20{split[1]}";
         }
 
         public static IEnumerable<IndicatorLastUpdatedEntity> GetLastUpdatedDataForIndicators()

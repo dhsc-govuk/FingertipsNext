@@ -322,6 +322,7 @@ CREATE TABLE #RawHealthData
     IsSexAggregatedOrSingle bit,
     IsAgeAggregatedOrSingle bit,
     IsDeprivationAggregatedOrSingle bit,
+    PeriodLabel NVARCHAR(50),
     Avoid INT
 );
 
@@ -359,7 +360,8 @@ CREATE TABLE #TempHealthData
     AgeID INT,
     IsSexAggregatedOrSingle bit,
     IsAgeAggregatedOrSingle bit,
-    IsDeprivationAggregatedOrSingle bit
+    IsDeprivationAggregatedOrSingle bit,
+    PeriodLabel NVARCHAR(50)
 );
 
 INSERT INTO #TempHealthData
@@ -380,7 +382,8 @@ INSERT INTO #TempHealthData
     AgeID,
     IsSexAggregatedOrSingle,
     IsAgeAggregatedOrSingle,
-    IsDeprivationAggregatedOrSingle
+    IsDeprivationAggregatedOrSingle,
+    PeriodLabel
 )
 SELECT 
     IndicatorId,
@@ -399,7 +402,8 @@ SELECT
     AgeID,
     IsSexAggregatedOrSingle,
     IsAgeAggregatedOrSingle,
-    IsDeprivationAggregatedOrSingle
+    IsDeprivationAggregatedOrSingle,
+    PeriodLabel
 FROM #RawHealthData;
 
 
@@ -426,7 +430,8 @@ INSERT INTO [dbo].[HealthMeasure]
     Year,
     IsSexAggregatedOrSingle,
     IsAgeAggregatedOrSingle,
-    IsDeprivationAggregatedOrSingle
+    IsDeprivationAggregatedOrSingle,
+    PeriodLabel
 )
 SELECT
     areadim.AreaKey,
@@ -442,7 +447,8 @@ SELECT
     Year,
     IsSexAggregatedOrSingle,
     IsAgeAggregatedOrSingle,
-    IsDeprivationAggregatedOrSingle
+    IsDeprivationAggregatedOrSingle,
+    PeriodLabel
 FROM 
 	#TempHealthData temp
 JOIN

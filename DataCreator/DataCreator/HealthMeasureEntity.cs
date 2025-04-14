@@ -58,8 +58,13 @@ namespace DataCreator
         [CsvColumn(FieldIndex = 17)]
         public int IsDeprivationAggregatedOrSingle { get; set; }
 
-        //avoid line ending nonsense in csv
         [CsvColumn(FieldIndex = 18)]
+        public string PeriodLabel { get; set; }
+
+        //avoid line ending nonsense in csv
+        [CsvColumn(FieldIndex = 19)]
         public int Avoid { get; set; }
+
+        
     }
 }

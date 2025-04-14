@@ -15,7 +15,8 @@ CREATE TABLE [dbo].[HealthMeasure](
 	[Year] [smallint] NOT NULL,                       --A junk dimension of the year that this row is for e.g. 2022
 	[IsSexAggregatedOrSingle] bit NULL,
 	[IsAgeAggregatedOrSingle] bit NULL,
-	[IsDeprivationAggregatedOrSingle] bit NULL
+	[IsDeprivationAggregatedOrSingle] bit NULL,
+	PeriodLabel NVARCHAR(50) NULL
  CONSTRAINT [PK_HealthMeasure] PRIMARY KEY CLUSTERED
 (
 	[HealthMeasureKey] ASC
