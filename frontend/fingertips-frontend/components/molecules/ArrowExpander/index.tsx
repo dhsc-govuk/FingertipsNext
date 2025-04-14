@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { ArrowToggleButton } from '@/components/molecules/ArrowToggleButton';
 import styled from 'styled-components';
 import { Label } from 'govuk-react';
@@ -47,7 +47,6 @@ interface ExpanderProps {
   openTitle?: string;
   closeTitle?: string;
   open?: boolean;
-  toggleClickFunction: () => void;
 }
 export const ArrowExpander = ({
   children,
@@ -55,17 +54,23 @@ export const ArrowExpander = ({
   openTitle = 'Open',
   closeTitle = 'Close',
   open = false,
-  toggleClickFunction,
 }: ExpanderProps) => {
+  const [showContent, setShowContent] = useState<boolean>(open);
+
   return (
     <>
-      <StyleButtonExpander onClick={() => toggleClickFunction()}>
-        <ArrowToggleButton fill={fill} width={30} height={30} isOpen={open} />
+      <StyleButtonExpander onClick={() => setShowContent(!showContent)}>
+        <ArrowToggleButton
+          fill={fill}
+          width={30}
+          height={30}
+          isOpen={showContent}
+        />
         <StyleLabelTextForExpander fill={fill}>
-          {open ? closeTitle : openTitle}
+          {showContent ? closeTitle : openTitle}
         </StyleLabelTextForExpander>
       </StyleButtonExpander>
-      {open ? children : null}
+      {showContent ? children : null}
     </>
   );
 };

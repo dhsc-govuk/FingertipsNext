@@ -5,25 +5,17 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ArrowExpander } from './index';
 
-const mockToggleClickFunction = jest.fn();
-
 describe('ArrowExpander', () => {
   it('should show "Show" and not show child content when open prop is not provided defaulted to false', () => {
     const contentText = 'Expandable content';
     render(
-      <ArrowExpander
-        fill="#ff0000"
-        openTitle="Show"
-        closeTitle="Hide"
-        toggleClickFunction={mockToggleClickFunction}
-      >
+      <ArrowExpander fill="#ff0000" openTitle="Show" closeTitle="Hide">
         <div>{contentText}</div>
       </ArrowExpander>
     );
 
     expect(screen.queryByText('Hide')).not.toBeInTheDocument();
     expect(screen.getByText('Show')).toBeInTheDocument();
-
     expect(screen.queryByText(contentText)).not.toBeInTheDocument();
   });
 
@@ -34,7 +26,6 @@ describe('ArrowExpander', () => {
         fill="#ff0000"
         openTitle="Show"
         closeTitle="Hide"
-        toggleClickFunction={mockToggleClickFunction}
         open={true}
       >
         <div>{contentText}</div>
@@ -43,35 +34,32 @@ describe('ArrowExpander', () => {
 
     expect(screen.getByText('Hide')).toBeInTheDocument();
     expect(screen.queryByText('Show')).not.toBeInTheDocument();
-
     expect(screen.getByText(contentText)).toBeInTheDocument();
   });
 
-  it('should call the provided toggle funtion when the title is clicked', async () => {
+  it('should call toggle the view when the title is clicked', async () => {
     const contentText = 'Expandable content';
     render(
-      <ArrowExpander
-        fill="#ff0000"
-        openTitle="Show"
-        closeTitle="Hide"
-        toggleClickFunction={mockToggleClickFunction}
-      >
+      <ArrowExpander fill="#ff0000" openTitle="Show" closeTitle="Hide">
         <div>{contentText}</div>
       </ArrowExpander>
     );
 
+    expect(screen.queryByText('Hide')).not.toBeInTheDocument();
+    expect(screen.getByText('Show')).toBeInTheDocument();
+    expect(screen.queryByText(contentText)).not.toBeInTheDocument();
+
     const user = userEvent.setup();
     await user.click(screen.getByText('Show'));
 
-    expect(mockToggleClickFunction).toHaveBeenCalled();
+    expect(screen.getByText('Hide')).toBeInTheDocument();
+    expect(screen.queryByText('Show')).not.toBeInTheDocument();
+    expect(screen.getByText(contentText)).toBeInTheDocument();
   });
 
   it('take a snapshot', () => {
     const container = render(
-      <ArrowExpander
-        fill="#ff0000"
-        toggleClickFunction={mockToggleClickFunction}
-      >
+      <ArrowExpander fill="#ff0000">
         <div> Collapse panel</div>
       </ArrowExpander>
     );

@@ -2,7 +2,6 @@
 
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
-import { useState } from 'react';
 import {
   createPyramidPopulationDataFrom,
   PopulationDataForArea,
@@ -74,13 +73,6 @@ export const PopulationPyramidWithTable = ({
     [SearchParams.AreaTypeSelected]: areaTypeSelected,
   } = searchState;
 
-  const [showPopulationPyramid, setShowPopulationPyramid] =
-    useState<boolean>(false);
-
-  const toggleExpander = () => {
-    setShowPopulationPyramid(!showPopulationPyramid);
-  };
-
   const healthdataWithoutGroup = seriesDataWithoutGroup(
     healthDataForAreas,
     groupSelected,
@@ -141,8 +133,6 @@ export const PopulationPyramidWithTable = ({
       <ArrowExpander
         openTitle="Show population data"
         closeTitle="Hide population data"
-        open={showPopulationPyramid}
-        toggleClickFunction={toggleExpander}
       >
         <div key={`population-pyramid-${JSON.stringify(searchState)}`}>
           <ChartSelectArea
