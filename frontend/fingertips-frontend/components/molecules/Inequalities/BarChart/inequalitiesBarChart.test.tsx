@@ -67,45 +67,51 @@ describe('Inequalities LineChart suite', () => {
         BenchmarkOutcome.Better,
         BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
         95,
-        'Better than England'
+        'Better than England',
       ],
       [
         BenchmarkOutcome.Similar,
         BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
         95,
-        'Similar to England'
+        'Similar to England',
       ],
       [
         BenchmarkOutcome.NotCompared,
         BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
         95,
-        'Not compared'
+        'Not compared',
       ],
       [
         BenchmarkOutcome.Worse,
         BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
         99.8,
-        'Worse than England'
+        'Worse than England',
       ],
       [
         BenchmarkOutcome.Similar,
         BenchmarkComparisonMethod.Unknown,
         0,
-        'Similar to England'
-      ]
-    ])('returns a syntactically outcome label string and comparison method', (
-      testOutcome,
-      testBenchmarkComparisonMethod,
-      expectedConfidenceLimitNumber,
-      expectedOutcomeString
-    ) => {
-      const { mappedBenchmarkComparisonMethod, benchmarkOutcomeLabel } = generateBenchmarkComparisonData(
+        'Similar to England',
+      ],
+    ])(
+      'returns a syntactically outcome label string and comparison method',
+      (
+        testOutcome,
         testBenchmarkComparisonMethod,
-        testOutcome
-      );
+        expectedConfidenceLimitNumber,
+        expectedOutcomeString
+      ) => {
+        const { mappedBenchmarkComparisonMethod, benchmarkOutcomeLabel } =
+          generateBenchmarkComparisonData(
+            testBenchmarkComparisonMethod,
+            testOutcome
+          );
 
-      expect(mappedBenchmarkComparisonMethod).toBe(expectedConfidenceLimitNumber);
-      expect(benchmarkOutcomeLabel).toBe(expectedOutcomeString);
-    });
+        expect(mappedBenchmarkComparisonMethod).toBe(
+          expectedConfidenceLimitNumber
+        );
+        expect(benchmarkOutcomeLabel).toBe(expectedOutcomeString);
+      }
+    );
   });
 });

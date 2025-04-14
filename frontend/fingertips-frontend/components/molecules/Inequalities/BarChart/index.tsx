@@ -110,7 +110,10 @@ export function InequalitiesBarChart({
     symbol: string
   ) => {
     const { mappedBenchmarkComparisonMethod, benchmarkOutcomeLabel } =
-      generateBenchmarkComparisonData(benchmarkComparisonMethod, point.benchmarkOutcome);
+      generateBenchmarkComparisonData(
+        benchmarkComparisonMethod,
+        point.benchmarkOutcome
+      );
     const isBenchmarkPoint = point.category === BenchmarkCategory;
     const symbolStyles = [
       `background-color: ${point.color}`,
