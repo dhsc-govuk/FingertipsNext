@@ -39,7 +39,7 @@ export function SpineChartTableRow({
     quartileData,
   } = indicatorData;
   const { best, worst } = orderStatistics(quartileData);
-  const groupIsEngland = groupData.areaCode === areaCodeForEngland;
+  const groupIsEngland = groupData?.areaCode === areaCodeForEngland;
   const twoAreasRequested = areasHealthData.length === 2;
   let twoAreasLatestPeriodMatching = true;
 
@@ -113,7 +113,7 @@ export function SpineChartTableRow({
 
       {!groupIsEngland ? (
         <StyledGroupCell data-testid={`group-value-cell`}>
-          {formatNumber(groupData.healthData.at(-1)?.value)}
+          {formatNumber(groupData?.healthData.at(-1)?.value)}
         </StyledGroupCell>
       ) : null}
       <StyledBenchmarkCell data-testid={`benchmark-value-cell`}>
@@ -139,11 +139,11 @@ export function SpineChartTableRow({
             areasHealthData[1]?.healthData.at(-1)?.benchmarkComparison?.outcome
           }
           groupValue={
-            !groupIsEngland ? groupData.healthData.at(-1)?.value : undefined
+            !groupIsEngland ? groupData?.healthData.at(-1)?.value : undefined
           }
-          groupName={!groupIsEngland ? (groupData.areaName ?? '') : ''}
+          groupName={!groupIsEngland ? (groupData?.areaName ?? '') : ''}
           groupOutcome={
-            groupData.healthData.at(-1)?.benchmarkComparison?.outcome
+            groupData?.healthData.at(-1)?.benchmarkComparison?.outcome
           }
           benchmarkMethod={benchmarkComparisonMethod}
         />

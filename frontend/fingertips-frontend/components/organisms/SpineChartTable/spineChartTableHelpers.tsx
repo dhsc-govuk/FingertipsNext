@@ -19,7 +19,7 @@ export interface SpineChartIndicatorData {
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   valueUnit: string;
   areasHealthData: (HealthDataForArea | null)[];
-  groupData: HealthDataForArea;
+  groupData: HealthDataForArea | null;
   quartileData: QuartileData;
 }
 
@@ -72,6 +72,9 @@ export const buildSpineChartIndicatorData = (
 
       if (!relevantIndicatorMeta) {
         // No indicator AI search metadata found matching health data from API
+        console.log(
+          `No indicator AI search metadata found matching health data from API: ${indicatorData.indicatorId}`
+        );
         return null;
       }
 
@@ -83,6 +86,7 @@ export const buildSpineChartIndicatorData = (
 
       if (areasHealthData.length !== areasSelected.length) {
         // there was missing data
+        console.log('an area was missing');
         return null;
       }
 
@@ -93,12 +97,14 @@ export const buildSpineChartIndicatorData = (
 
       if (!matchedQuartileData) {
         // No quartile data found for the requested indicator ID: ${indicatorData.indicatorId}
+        console.log('No quartile data found matching health data from API');
         return null;
       }
 
       if (!areasHealthData[0]) {
         // there is no latestDataPeriod - use the above rather than length check to satisfy typescript
         // assertion that latestDataPeriod must be a number in the main return
+        console.log('No healthdata');
         return null;
       }
 
@@ -108,7 +114,8 @@ export const buildSpineChartIndicatorData = (
       );
       if (!groupData) {
         // no group data
-        return null;
+        console.log('No group data');
+        // return null;
       }
 
       return {
