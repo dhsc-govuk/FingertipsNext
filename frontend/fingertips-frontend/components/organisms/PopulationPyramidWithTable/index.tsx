@@ -64,8 +64,6 @@ export function determinePopulationDataForArea(
 
 interface PyramidPopulationChartViewProps {
   healthDataForAreas: HealthDataForArea[];
-  // areaCodesMappingToIndicatorIds: Record<string, number>;
-  groupAreaSelected?: string;
   xAxisTitle: string;
   yAxisTitle: string;
   searchState: SearchStateParams;

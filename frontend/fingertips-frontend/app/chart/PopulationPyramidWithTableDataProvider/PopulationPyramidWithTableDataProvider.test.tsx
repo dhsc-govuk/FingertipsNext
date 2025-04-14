@@ -114,7 +114,7 @@ describe('PopulationPyramidWithTableDataProvider', () => {
     expect(mockIndicatorSearchService.getIndicator).toHaveBeenCalledTimes(1);
   });
 
-  it('Should use england as default when areaCodes provided', async () => {
+  it('Should use england as default when no areaCodes are provided', async () => {
     const jsxView = await PopulationPyramidWithTableDataProvider({
       areaCodes: [],
       searchState: searchParams,
