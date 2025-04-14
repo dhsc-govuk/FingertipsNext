@@ -5,6 +5,7 @@ import { H3 } from 'govuk-react';
 import { InequalitiesLineChartTable } from '../LineChart/Table';
 import {
   BenchmarkComparisonMethod,
+  BenchmarkOutcome,
   HealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import {
@@ -159,7 +160,7 @@ export function InequalitiesTrend({
         : AreaTypeLabelEnum.Area;
     const { benchmarkLabel, category, comparisonLabel } = getTooltipContent(
       getBenchmarkOutcomeForYear(point.x, point.series.name, lineChartData) ??
-        'NotCompared',
+        BenchmarkOutcome.NotCompared,
       label,
       benchmarkComparisonMethod ?? BenchmarkComparisonMethod.Unknown,
       type === InequalitiesTypes.Sex ? lineChartData.areaName : undefined
@@ -200,6 +201,7 @@ export function InequalitiesTrend({
         yAxisTitleText: 'Value',
         xAxisTitleText: 'Year',
         measurementUnit,
+        inequalityLineChartAreaSelected,
       }
     );
 

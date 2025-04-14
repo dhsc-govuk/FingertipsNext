@@ -19,6 +19,7 @@ import {
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import Highcharts, { DashStyleValue, YAxisOptions } from 'highcharts';
 import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 export const localeSort = (a: string, b: string) => a.localeCompare(b);
 export const sexCategory = 'Sex';
@@ -203,7 +204,8 @@ export const generateInequalitiesLineChartSeriesData = (
   type: InequalitiesTypes,
   chartData: InequalitiesChartData,
   areasSelected: string[],
-  showConfidenceIntervalsData?: boolean
+  showConfidenceIntervalsData?: boolean,
+  inequalitiesAreaSelected?: string
 ): Highcharts.SeriesOptionsType[] => {
   const colorList = mapToChartColorsForInequality[type];
 
@@ -225,7 +227,11 @@ export const generateInequalitiesLineChartSeriesData = (
 
       // We have different display requirements for the aggregate
       // data when England is the selected area
-      if (index === 0 && isEnglandSoleSelectedArea(areasSelected)) {
+      if (
+        index === 0 &&
+        (isEnglandSoleSelectedArea(areasSelected) ||
+          inequalitiesAreaSelected === areaCodeForEngland)
+      ) {
         lineSeries.color = GovukColours.Black;
         lineSeries.marker = { symbol: 'circle' };
       }
@@ -298,6 +304,7 @@ export function generateInequalitiesLineChartOptions(
     yAxisTitleText?: string;
     xAxisTitleText?: string;
     measurementUnit?: string;
+    inequalityLineChartAreaSelected?: string;
   }
 ): Highcharts.Options {
   const seriesData = generateInequalitiesLineChartSeriesData(
@@ -305,7 +312,8 @@ export function generateInequalitiesLineChartOptions(
     type,
     inequalitiesLineChartData,
     optionalParams?.areasSelected ?? [],
-    lineChartCI
+    lineChartCI,
+    optionalParams?.inequalityLineChartAreaSelected
   );
 
   return {

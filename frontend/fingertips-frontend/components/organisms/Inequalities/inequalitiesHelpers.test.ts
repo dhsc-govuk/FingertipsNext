@@ -613,6 +613,33 @@ describe('generateLineChartSeriesData', () => {
     ).toEqual(expectedEnglandSeriesData);
   });
 
+  it('should generate expected series data with appropriate line colour when England is selected as Inequality dropdown area', () => {
+    const areasSelected = ['A1'];
+    const expectedPersonsLine = {
+      ...personsLine,
+      color: GovukColours.Black,
+      marker: {
+        symbol: 'circle',
+      },
+    };
+
+    const expectedEnglandSeriesData = [
+      expectedPersonsLine,
+      ...seriesData.slice(1),
+    ];
+
+    expect(
+      generateInequalitiesLineChartSeriesData(
+        sexKeys,
+        InequalitiesTypes.Sex,
+        mockChartData,
+        areasSelected,
+        false,
+        areaCodeForEngland
+      )
+    ).toEqual(expectedEnglandSeriesData);
+  });
+
   it('should return empty list if no keys are passed', () => {
     const areasSelected = ['A1'];
     expect(
