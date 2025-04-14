@@ -58,8 +58,11 @@ function formatBarHover(
               Benchmark: England
               </span>
               <span style="display: block;">${period}</span>
-              <span style="display: block;">${formatNumber(lowerValue)}${formatUnits(units)} to ${formatNumber(upperValue)}${formatUnits(units)}</span></br/>
-              <span style="display: block;">${lowerName} to ${upperName}</span><div>`;
+              <div>
+              <span style="display: block;">${formatNumber(lowerValue)}${formatUnits(units)} to ${formatNumber(upperValue)}${formatUnits(units)}</span>
+              <span style="display: block;">${lowerName} to ${upperName}</span>
+              </div>
+              </div>`;
 }
 
 function formatSymbolHover(
@@ -75,9 +78,11 @@ function formatSymbolHover(
               ${title}
               </span>
               <span style="display: block;">${period}</span>
-              <span style="display: block;">${formatNumber(value)}${formatUnits(units)}</span></br/>
-              <span style="display: block;">${outcome}</span></br/>
+              <div>
+              <span style="display: block;">${formatNumber(value)}${formatUnits(units)}</span>
+              <span style="display: block;">${outcome}</span>
               <span style="display: block;">${benchmarkComparisonMethodToString(benchmarkComparisonMethod)}</span>
+              </div>
               <div>`;
 }
 
