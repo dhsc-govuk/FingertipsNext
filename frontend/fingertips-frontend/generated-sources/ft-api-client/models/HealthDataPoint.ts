@@ -49,11 +49,17 @@ import {
  */
 export interface HealthDataPoint {
     /**
-     * The year that the data point is for
+     * The year that the data point is for. Can be calendar or financial year
      * @type {number}
      * @memberof HealthDataPoint
      */
     year: number;
+    /**
+     * The label to show for the period e.g. '2023' if a calendar year or '2023 to 2024' for a financial year. In future, there will be a need to show more granular periods for certain indicators
+     * @type {string}
+     * @memberof HealthDataPoint
+     */
+    periodLabel: string;
     /**
      * The count
      * @type {number}
@@ -139,6 +145,7 @@ export type HealthDataPointTrendEnum = typeof HealthDataPointTrendEnum[keyof typ
  */
 export function instanceOfHealthDataPoint(value: object): value is HealthDataPoint {
     if (!('year' in value) || value['year'] === undefined) return false;
+    if (!('periodLabel' in value) || value['periodLabel'] === undefined) return false;
     if (!('ageBand' in value) || value['ageBand'] === undefined) return false;
     if (!('sex' in value) || value['sex'] === undefined) return false;
     if (!('trend' in value) || value['trend'] === undefined) return false;
@@ -157,6 +164,7 @@ export function HealthDataPointFromJSONTyped(json: any, ignoreDiscriminator: boo
     return {
         
         'year': json['year'],
+        'periodLabel': json['periodLabel'],
         'count': json['count'] == null ? undefined : json['count'],
         'value': json['value'] == null ? undefined : json['value'],
         'lowerCi': json['lowerCi'] == null ? undefined : json['lowerCi'],
@@ -182,6 +190,7 @@ export function HealthDataPointToJSONTyped(value?: HealthDataPoint | null, ignor
     return {
         
         'year': value['year'],
+        'periodLabel': value['periodLabel'],
         'count': value['count'],
         'value': value['value'],
         'lowerCi': value['lowerCi'],

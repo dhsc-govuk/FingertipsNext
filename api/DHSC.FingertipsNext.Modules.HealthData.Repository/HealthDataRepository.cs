@@ -56,6 +56,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .Select(healthMeasure => new HealthMeasureModel
             {
                 Year = healthMeasure.Year,
+                PeriodLabel = healthMeasure.PeriodLabel,
                 Value = healthMeasure.Value,
                 Count = healthMeasure.Count,
                 LowerCi = healthMeasure.LowerCi,

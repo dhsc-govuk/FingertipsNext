@@ -9,10 +9,18 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Schemas;
 public class HealthDataPoint
 {
     /// <summary>
-    ///     The year that the data point is for
+    ///     The year that the data point is for.
+    ///     Can be calendar or financial year
     /// </summary>
     [JsonPropertyName("year")]
     public int Year { get; init; }
+
+    /// <summary>
+    ///     The label to show for the period e.g.
+    ///     2023 if a calendar year or 2023 to 2024 for a financial year
+    /// </summary>
+    [JsonPropertyName("periodLabel")]
+    public string PeriodLabel { get; init; }
 
     /// <summary>
     ///     The count

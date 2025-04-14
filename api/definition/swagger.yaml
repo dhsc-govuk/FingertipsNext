@@ -490,6 +490,7 @@ components:
         year, age band and sex.
       required:
         - year
+        - periodLabel
         - ageBand
         - sex
         - trend
@@ -499,7 +500,11 @@ components:
           type: integer
           format: int32
           example: 2023
-          description: The year that the data point is for
+          description: The year that the data point is for. Can be calendar or financial year
+        periodLabel:
+          type: string
+          example: 2023 to 2024
+          description: The label to show for the period e.g. '2023' if a calendar year or '2023 to 2024' for a financial year. In future, there will be a need to show more granular periods for certain indicators
         count:
           type: number
           example: 222
