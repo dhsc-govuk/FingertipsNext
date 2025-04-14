@@ -47,6 +47,7 @@ const BenchmarkCategory = 'Persons';
 
 export const generateBenchmarkComparisonData = (
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
+  areaName: string,
   benchmarkOutcome?: BenchmarkOutcome
 ) => {
   const mappedBenchmarkComparisonMethod = getConfidenceLimitNumber(
@@ -56,14 +57,15 @@ export const generateBenchmarkComparisonData = (
     benchmarkOutcome ?? BenchmarkOutcome.NotCompared
   );
   const notCompared = benchmarkOutcome === BenchmarkOutcome.NotCompared;
+
   let benchmarkOutcomeLabel = '';
 
   if (mappedOutcome === BenchmarkOutcome.Similar) {
-    benchmarkOutcomeLabel = `${mappedOutcome} to England`;
+    benchmarkOutcomeLabel = `${mappedOutcome} to ${areaName}`;
   } else if (notCompared) {
     benchmarkOutcomeLabel = mappedOutcome;
   } else {
-    benchmarkOutcomeLabel = `${mappedOutcome} than England`;
+    benchmarkOutcomeLabel = `${mappedOutcome} than ${areaName}`;
   }
 
   return { mappedBenchmarkComparisonMethod, benchmarkOutcomeLabel };
@@ -112,6 +114,7 @@ export function InequalitiesBarChart({
     const { mappedBenchmarkComparisonMethod, benchmarkOutcomeLabel } =
       generateBenchmarkComparisonData(
         benchmarkComparisonMethod,
+        barChartData.areaName,
         point.benchmarkOutcome
       );
     const isBenchmarkPoint = point.category === BenchmarkCategory;
@@ -119,6 +122,7 @@ export function InequalitiesBarChart({
       isBenchmarkPoint || mappedBenchmarkComparisonMethod === 0
         ? ''
         : `(${mappedBenchmarkComparisonMethod}%)`;
+
     const symbolStyles = [
       `background-color: ${point.color}`,
       'width: 0.5em',
@@ -132,6 +136,11 @@ export function InequalitiesBarChart({
       ? `<span style="color: ${point.color}; font-weight: bold;">${symbol}</span>`
       : symbolItem;
 
+    const formatComparisonLabel =
+      type === InequalitiesTypes.Sex
+        ? `<br/>persons (${mappedBenchmarkComparisonMethod}%)`
+        : benchmarkComparisonMethodString;
+
     return [
       `
       <span>${barChartData.data.period}</span>
@@ -139,7 +148,7 @@ export function InequalitiesBarChart({
       <div style="display: flex; margin-top: 10px; align-items: center;"><div style="margin-right: 10px;">
       ${benchmarkComparisonSymbol}</div>`,
       `<div><span>${formatNumber(point.y)} ${measurementUnit ? ' ' + measurementUnit : ''}`,
-      `<div><span>${isBenchmarkPoint ? '' : benchmarkOutcomeLabel} ${benchmarkComparisonMethodString}</span></div></div>`,
+      `<div><span>${isBenchmarkPoint ? '' : benchmarkOutcomeLabel} ${formatComparisonLabel}</span></div></div>`,
     ];
   };
 

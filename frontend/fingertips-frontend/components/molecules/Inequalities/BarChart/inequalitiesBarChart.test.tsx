@@ -62,41 +62,48 @@ describe('Inequalities LineChart suite', () => {
   });
 
   describe('generateBenchmarkComparisonData', () => {
+    const areaName = 'England';
     test.each([
       [
         BenchmarkOutcome.Better,
+        areaName,
         BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
         95,
-        'Better than England',
+        `Better than ${areaName}`,
       ],
       [
         BenchmarkOutcome.Similar,
+        areaName,
         BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
         95,
-        'Similar to England',
+        `Similar to ${areaName}`,
       ],
       [
         BenchmarkOutcome.NotCompared,
+        areaName,
         BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
         95,
         'Not compared',
       ],
       [
         BenchmarkOutcome.Worse,
+        areaName,
         BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
         99.8,
-        'Worse than England',
+        `Worse than ${areaName}`,
       ],
       [
         BenchmarkOutcome.Similar,
+        areaName,
         BenchmarkComparisonMethod.Unknown,
         0,
-        'Similar to England',
+        `Similar to ${areaName}`,
       ],
     ])(
       'returns a syntactically outcome label string and comparison method',
       (
         testOutcome,
+        areaName,
         testBenchmarkComparisonMethod,
         expectedConfidenceLimitNumber,
         expectedOutcomeString
@@ -104,6 +111,7 @@ describe('Inequalities LineChart suite', () => {
         const { mappedBenchmarkComparisonMethod, benchmarkOutcomeLabel } =
           generateBenchmarkComparisonData(
             testBenchmarkComparisonMethod,
+            areaName,
             testOutcome
           );
 
