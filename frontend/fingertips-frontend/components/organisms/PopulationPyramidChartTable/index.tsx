@@ -125,7 +125,7 @@ export function PopulationPyramidChartTable({
             title={`Benchmark: ${benchmarkData?.areaName}`}
             healthDataForArea={benchmarkData}
             filterValues={(row) => {
-              return [row.age, row.male, row.female];
+              return [row.male, row.female];
             }}
           />
         </StyleBenchmarkDataDiv>
