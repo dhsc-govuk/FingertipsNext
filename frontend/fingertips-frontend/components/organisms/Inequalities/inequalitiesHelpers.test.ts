@@ -888,9 +888,7 @@ describe('generateInequalitiesLineChartOptions', () => {
         title: { text: 'xAxis', margin: 20 },
       },
       tooltip: {
-        headerFormat:
-          `<span style="font-weight: bold">${MOCK_INEQUALITIES_DATA.areaName}</span><br/>` +
-          '<span>Year {point.x}</span><br/>',
+        headerFormat: '',
         useHTML: true,
       },
       series: generateInequalitiesLineChartSeriesData(

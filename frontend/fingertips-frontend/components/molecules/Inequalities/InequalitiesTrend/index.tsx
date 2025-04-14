@@ -3,7 +3,10 @@ import { LineChart } from '@/components/organisms/LineChart';
 import { LineChartVariant } from '@/components/organisms/LineChart/lineChartHelpers';
 import { H3 } from 'govuk-react';
 import { InequalitiesLineChartTable } from '../LineChart/Table';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  BenchmarkComparisonMethod,
+  HealthDataForArea,
+} from '@/generated-sources/ft-api-client';
 import {
   SearchParams,
   SearchStateManager,
@@ -24,31 +27,39 @@ import {
   getYearsWithInequalityData,
   getInequalityCategories,
   getInequalitiesType,
+  InequalitiesTypes,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
 import { InequalitiesTypesDropDown } from '../InequalitiesTypesDropDown';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import {
+  AreaTypeLabelEnum,
+  getTooltipContent,
+} from '@/lib/chartHelpers/chartHelpers';
 
 interface InequalitiesTrendProps {
   healthIndicatorData: HealthDataForArea;
   searchState: SearchStateParams;
+  benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   measurementUnit?: string;
   dataSource?: string;
 }
 
-const generateInequalitiesLineChartTooltipForPoint = (
-  point: Highcharts.Point,
-  symbol: string
-) => [
-  `<div style="display: flex; margin-top: 7px; align-items: center;"><div style="margin-right: 10px;">
-    <span style="color: ${point.series.color}; font-weight: bold;">${symbol}</span></div>`,
-  `<div><span>${point.series.name}</br>Value: ${formatNumber(point.y)}`,
-];
+const getBenchmarkOutcomeForYear = (
+  year: number,
+  inequality: string,
+  chartData: InequalitiesChartData
+) => {
+  return chartData.rowData.find((point) => point.period === Number(year))
+    ?.inequalities[inequality]?.benchmarkComparison?.outcome;
+};
 
 export function InequalitiesTrend({
   healthIndicatorData,
   searchState,
   measurementUnit,
+  benchmarkComparisonMethod,
   dataSource,
 }: Readonly<InequalitiesTrendProps>) {
   const [
@@ -108,6 +119,44 @@ export function InequalitiesTrend({
   const lineChartData: InequalitiesChartData = {
     areaName: healthIndicatorData.areaName,
     rowData: allData,
+  };
+
+  const generateInequalitiesLineChartTooltipForPoint = (
+    point: Highcharts.Point,
+    symbol: string
+  ) => {
+    const label =
+      healthIndicatorData.areaCode === areaCodeForEngland
+        ? AreaTypeLabelEnum.Benchmark
+        : AreaTypeLabelEnum.Area;
+    const { benchmarkLabel, category, comparisonLabel } = getTooltipContent(
+      getBenchmarkOutcomeForYear(point.x, point.series.name, lineChartData) ??
+        'NotCompared',
+      label,
+      benchmarkComparisonMethod ?? BenchmarkComparisonMethod.Unknown,
+      type === InequalitiesTypes.Sex ? lineChartData.areaName : undefined
+    );
+    const comparisonLabelForInequality =
+      type === InequalitiesTypes.Deprivation
+        ? comparisonLabel
+        : `persons ${comparisonLabel}`;
+
+    const shouldHideLines = lineChartData.rowData.every(
+      (dataPoint) => dataPoint.inequalities[point.series.name]?.isAggregate
+    );
+
+    return [
+      `<div style="padding-right: 25px">`,
+      `<span style="font-weight: bold">${category}${lineChartData.areaName}</span><br/>`,
+      `<span>${point.x}</span><br/><span>${type === InequalitiesTypes.Deprivation && label === AreaTypeLabelEnum.Benchmark ? '' : point.series.name}</span><br/>`,
+      `<div style="display: flex; margin-top: 15px; align-items: center;">`,
+      `<div style="margin-right: 10px;"><span style="color: ${point.series.color}; font-weight: bold;">${symbol}</span></div>`,
+      `<div style="padding-right: 10px;"><span>${formatNumber(point.y)} ${measurementUnit ? ' ' + measurementUnit : ''}</span><br/>`,
+      `${label === AreaTypeLabelEnum.Benchmark || shouldHideLines ? '' : `<span>${benchmarkLabel}</span><br/>`}`,
+      `${label === AreaTypeLabelEnum.Benchmark || shouldHideLines ? '' : `<span>${comparisonLabelForInequality}</span><br/>`}`,
+      `</div`,
+      `</div>`,
+    ];
   };
 
   const inequalitiesLineChartOptions: Highcharts.Options =

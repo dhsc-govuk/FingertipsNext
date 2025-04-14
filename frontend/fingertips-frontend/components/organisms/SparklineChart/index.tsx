@@ -7,18 +7,16 @@ import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
   generateConfidenceIntervalSeries,
   getBenchmarkColour,
-  getConfidenceLimitNumber,
   loadHighchartsModules,
+  getTooltipContent,
 } from '@/lib/chartHelpers/chartHelpers';
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
-import { SparklineLabelEnum } from '@/components/organisms/BarChartEmbeddedTable';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { formatNumber } from '@/lib/numberFormatter';
-import { getBenchmarkLabelText } from '@/components/organisms/BenchmarkLabel';
 
 interface SparklineChartProps {
   value: (number | undefined)[];
@@ -33,77 +31,6 @@ interface SparklineChartProps {
   year: number | undefined;
   measurementUnit: string | undefined;
 }
-
-const getCategory = (
-  benchmarkOutcome: BenchmarkOutcome,
-  label: string
-): string => {
-  switch (true) {
-    case label === SparklineLabelEnum.Benchmark && !!benchmarkOutcome:
-      return 'Benchmark: ';
-    case label === SparklineLabelEnum.Group:
-      return 'Group: ';
-    default:
-      return '';
-  }
-};
-
-const getComparisonLabelText = (
-  benchmarkComparisonMethod: BenchmarkComparisonMethod,
-  benchmarkOutcome: BenchmarkOutcome
-) => {
-  if (
-    !benchmarkOutcome ||
-    benchmarkOutcome === BenchmarkOutcome.NotCompared ||
-    benchmarkComparisonMethod === BenchmarkComparisonMethod.Quintiles
-  )
-    return '';
-  const comparison = getConfidenceLimitNumber(benchmarkComparisonMethod);
-  return `(${formatNumber(comparison)}%)`;
-};
-
-const getBenchmarkLabel = (
-  benchmarkComparisonMethod: BenchmarkComparisonMethod,
-  benchmarkOutcome: BenchmarkOutcome
-) => {
-  if (!benchmarkOutcome || benchmarkOutcome === BenchmarkOutcome.NotCompared)
-    return 'Not compared';
-
-  if (benchmarkComparisonMethod === BenchmarkComparisonMethod.Quintiles)
-    return `${benchmarkOutcome} quintile`;
-
-  const joiningWord =
-    benchmarkOutcome === BenchmarkOutcome.Similar ? 'to' : 'than';
-  const outcome = getBenchmarkLabelText(benchmarkOutcome);
-  return `${outcome} ${joiningWord} England`;
-};
-
-export const sparklineTooltipContent = (
-  benchmarkOutcome: BenchmarkOutcome,
-  label: string,
-  benchmarkComparisonMethod: BenchmarkComparisonMethod
-) => {
-  const category = getCategory(benchmarkOutcome, label);
-
-  if (
-    label === SparklineLabelEnum.Benchmark ||
-    label === SparklineLabelEnum.Group
-  ) {
-    return { category, benchmarkLabel: '', comparisonLabel: '' };
-  }
-
-  return {
-    category,
-    benchmarkLabel: getBenchmarkLabel(
-      benchmarkComparisonMethod,
-      benchmarkOutcome
-    ),
-    comparisonLabel: getComparisonLabelText(
-      benchmarkComparisonMethod,
-      benchmarkOutcome
-    ),
-  };
-};
 
 export function SparklineChart({
   value,
@@ -128,12 +55,11 @@ export function SparklineChart({
   const [options, setOptions] = useState<Highcharts.Options>();
 
   const sparklineTooltips = (point: Highcharts.Point) => {
-    const { benchmarkLabel, category, comparisonLabel } =
-      sparklineTooltipContent(
-        benchmarkOutcome,
-        label,
-        benchmarkComparisonMethod
-      );
+    const { benchmarkLabel, category, comparisonLabel } = getTooltipContent(
+      benchmarkOutcome,
+      label,
+      benchmarkComparisonMethod
+    );
 
     const symbolStyles = [
       `background-color: ${point.color}`,

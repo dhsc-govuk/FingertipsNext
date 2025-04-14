@@ -332,16 +332,11 @@ export function generateInequalitiesLineChartOptions(
     },
     series: seriesData,
     tooltip: {
-      headerFormat:
-        `<span style="font-weight: bold">${inequalitiesLineChartData.areaName}</span><br/>` +
-        '<span>Year {point.x}</span><br/>',
+      headerFormat: '',
       pointFormatter: function (this: Highcharts.Point) {
-        return (
-          pointFormatterHelper(
-            this,
-            generateInequalitiesLineChartTooltipStringList
-          ) +
-          `${optionalParams?.measurementUnit ? ' ' + optionalParams?.measurementUnit : ''}</span></div></div>`
+        return pointFormatterHelper(
+          this,
+          generateInequalitiesLineChartTooltipStringList
         );
       },
       useHTML: true,
