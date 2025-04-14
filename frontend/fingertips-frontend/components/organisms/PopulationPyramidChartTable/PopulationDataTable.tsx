@@ -90,7 +90,7 @@ export const PopulationDataTable = ({
   const points = healthDataForArea.ageCategories.map((value, index) => [
     value,
     healthDataForArea.maleSeries[index],
-    healthDataForArea.femaleSeries[index]
+    healthDataForArea.femaleSeries[index],
   ]);
 
   const footerRowItems = computeFooterItems(
