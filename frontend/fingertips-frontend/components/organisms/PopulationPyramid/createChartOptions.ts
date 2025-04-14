@@ -54,7 +54,7 @@ const createPopPyramidSeriesOptions = (
             // @ts-ignore - we know this item will be a legendItem and dynamic property 'group' will be created
             item.legendItem.group.on('mouseover', () => {
               this.series.forEach((series) => {
-                if (item.name === series.name) {
+                if (item.name !== series.name) {
                   series.setState('hover');
                   series.setState('inactive');
                 }
@@ -65,7 +65,7 @@ const createPopPyramidSeriesOptions = (
             // @ts-ignore - we know this item will be a legendItem and dynamic property 'group' will be created
             item.legendItem.group.on('mouseout', () => {
               this.series.forEach((series) => {
-                if (item.name === series.name) {
+                if (item.name !== series.name) {
                   series.setState('normal');
                 }
               });

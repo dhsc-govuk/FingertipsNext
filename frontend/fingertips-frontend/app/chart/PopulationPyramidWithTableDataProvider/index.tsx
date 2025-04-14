@@ -2,7 +2,11 @@ import {
   GetHealthDataForAnIndicatorInequalitiesEnum,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import {
+  administratorIndicatorID,
+  areaCodeForEngland,
+  nhsIndicatorIdForPopulation,
+} from '@/lib/chartHelpers/constants';
 import {
   SearchParams,
   SearchStateManager,
@@ -13,18 +17,44 @@ import { HierarchyNameTypes } from '@/lib/areaFilterHelpers/areaType';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { PopulationPyramidWithTable } from '@/components/organisms/PopulationPyramidWithTable';
 import { getHealthDataForIndicator } from '@/lib/ViewsHelpers';
-const enum PopulationIndicatorIdsTypes {
-  ADMINISTRATIVE = 92708,
-  NHS = 337,
-}
 
-const fetchPopulationIndicatorID = async (areaCode: string) => {
+const getAreaCodeMappingsToIndicatorIds = async (
+  areaCodesToRequest: string[]
+) => {
   const areasApi = ApiClientFactory.getAreasApiClient();
-  const area = await areasApi.getArea({ areaCode: areaCode });
-  if (area.areaType.hierarchyName == HierarchyNameTypes.NHS) {
-    return PopulationIndicatorIdsTypes.NHS;
-  }
-  return PopulationIndicatorIdsTypes.ADMINISTRATIVE;
+  const mappings: Record<string, number> = {};
+
+  await Promise.all(
+    areaCodesToRequest.map(async (areaCode) => {
+      const area = await areasApi.getArea({ areaCode: areaCode });
+      const indicatorTypeID =
+        area.areaType.hierarchyName == HierarchyNameTypes.NHS
+          ? nhsIndicatorIdForPopulation
+          : administratorIndicatorID;
+      mappings[area.code] = indicatorTypeID;
+    })
+  );
+
+  return mappings;
+};
+
+const getPopulationData = (
+  populationIndicatorID: number,
+  areaCodesToRequest: string[]
+) => {
+  return getHealthDataForIndicator(
+    ApiClientFactory.getIndicatorsApiClient(),
+    populationIndicatorID,
+    [
+      {
+        areaCodes: areaCodesToRequest,
+        inequalities: [
+          GetHealthDataForAnIndicatorInequalitiesEnum.Age,
+          GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
+        ],
+      },
+    ]
+  );
 };
 
 interface PyramidContextProviderProps {
@@ -55,6 +85,8 @@ export const PopulationPyramidWithTableDataProvider = async ({
     return areaCodesToRequest;
   })();
 
+  const areaTypeCodeMappings =
+    await getAreaCodeMappingsToIndicatorIds(areaCodesToRequest);
   const populationDataForArea: IndicatorWithHealthDataForArea | undefined =
     await (async () => {
       if (areaCodesToRequest.length < 1) {
@@ -65,6 +97,34 @@ export const PopulationPyramidWithTableDataProvider = async ({
         areaCodesToRequest[0]
       );
 
+      const populationIndicatorID = areaTypeCodeMappings[areaCodesToRequest[0]];
+
+      const getPopulationIndicatorMetadata = () => {
+        return SearchServiceFactory.getIndicatorSearchService().getIndicator(
+          populationIndicatorID.toString()
+        );
+      };
+
+      const { populationData, populationMetadata } = await (async () => {
+        if (!populationIndicatorID) {
+          return {
+            populationData: undefined,
+            populationMetadata: undefined,
+          };
+        }
+
+        const [populationData, populationIndicatorMetadata] = await Promise.all(
+          [
+            await getPopulationData(populationIndicatorID, areaCodesToRequest),
+            await getPopulationIndicatorMetadata(),
+          ]
+        );
+
+        return {
+          populationData,
+          populationMetadata: populationIndicatorMetadata,
+        };
+      })();
       return await getHealthDataForIndicator(
         ApiClientFactory.getIndicatorsApiClient(),
         populationIndicatorID,
@@ -85,6 +145,7 @@ export const PopulationPyramidWithTableDataProvider = async ({
       healthDataForAreas={populationDataForArea?.areaHealthData ?? []}
       groupAreaSelected={groupAreaSelected}
       searchState={searchState}
+      areaCodesMappingToIndicatorIds={areaTypeCodeMappings}
       xAxisTitle="Age"
       yAxisTitle="Percentage of total population"
     />
