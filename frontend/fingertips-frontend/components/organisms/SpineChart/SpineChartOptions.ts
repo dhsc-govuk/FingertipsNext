@@ -37,12 +37,12 @@ function benchmarkComparisonMethodToString(
   }
 }
 
-function formatUnits(units:string):string {
+function formatUnits(units: string): string {
   if (units !== '%') {
-    return ' ' + units
+    return ' ' + units;
   }
 
-  return units
+  return units;
 }
 
 function formatBarHover(
@@ -338,7 +338,7 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
       },
     },
     tooltip: {
-      outside:true,
+      outside: true,
       padding: 10,
       headerFormat: `{series.name}`,
       pointFormatter: function (this: Highcharts.Point) {
