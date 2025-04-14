@@ -52,8 +52,8 @@ interface ExpanderProps {
 export const ArrowExpander = ({
   children,
   fill = '#1D70B8',
-  openTitle,
-  closeTitle,
+  openTitle = 'Open',
+  closeTitle = 'Close',
   open = false,
   toggleClickFunction,
 }: ExpanderProps) => {
