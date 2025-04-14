@@ -22,23 +22,13 @@ import { orderStatistics } from '../SpineChart/SpineChartHelpers';
 import { SpineChartIndicatorData } from './spineChartTableHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
-export interface SpineChartMissingData {
-  value?: number;
-}
-
-export interface SpineChartTableProps {
+export interface SpineChartTableRowProps {
   indicatorData: SpineChartIndicatorData;
-}
-
-export function SpineChartMissingValue({
-  value,
-}: Readonly<SpineChartMissingData>) {
-  return value ?? 'X';
 }
 
 export function SpineChartTableRow({
   indicatorData,
-}: Readonly<SpineChartTableProps>) {
+}: Readonly<SpineChartTableRowProps>) {
   const {
     indicatorName,
     benchmarkComparisonMethod,
@@ -55,12 +45,12 @@ export function SpineChartTableRow({
 
   if (twoAreasRequested) {
     twoAreasLatestPeriodMatching =
-      areasHealthData[0].healthData.at(-1)?.year ===
-      areasHealthData[1].healthData.at(-1)?.year;
+      areasHealthData[0]?.healthData.at(-1)?.year ===
+      areasHealthData[1]?.healthData.at(-1)?.year;
   }
 
   const areaNames = areasHealthData.map(
-    (areaHealthData) => areaHealthData.areaName
+    (areaHealthData) => areaHealthData?.areaName ?? ''
   );
 
   return (
@@ -78,17 +68,17 @@ export function SpineChartTableRow({
       {twoAreasRequested ? (
         <>
           <StyledAlignRightCellPadLeft data-testid={'area-1-count-cell'}>
-            {formatWholeNumber(areasHealthData[0].healthData.at(-1)?.count)}
+            {formatWholeNumber(areasHealthData[0]?.healthData.at(-1)?.count)}
           </StyledAlignRightCellPadLeft>
           <StyledAlignRightBorderRightTableCell
             data-testid={'area-1-value-cell'}
           >
-            {formatNumber(areasHealthData[0].healthData.at(-1)?.value)}
+            {formatNumber(areasHealthData[0]?.healthData.at(-1)?.value)}
           </StyledAlignRightBorderRightTableCell>
           <StyledAlignRightCellPadLeft data-testid={'area-2-count-cell'}>
             {formatWholeNumber(
               twoAreasLatestPeriodMatching
-                ? areasHealthData[1].healthData.at(-1)?.count
+                ? areasHealthData[1]?.healthData.at(-1)?.count
                 : undefined
             )}
           </StyledAlignRightCellPadLeft>
@@ -97,7 +87,7 @@ export function SpineChartTableRow({
           >
             {formatNumber(
               twoAreasLatestPeriodMatching
-                ? areasHealthData[1].healthData.at(-1)?.value
+                ? areasHealthData[1]?.healthData.at(-1)?.value
                 : undefined
             )}
           </StyledAlignRightBorderRightTableCell>
@@ -107,16 +97,16 @@ export function SpineChartTableRow({
           <StyledAlignCentreTableCell data-testid={`trend-cell`}>
             <TrendTag
               trendFromResponse={
-                areasHealthData[0].healthData.at(-1)?.trend ??
+                areasHealthData[0]?.healthData.at(-1)?.trend ??
                 HealthDataPointTrendEnum.CannotBeCalculated
               }
             />
           </StyledAlignCentreTableCell>
           <StyledAlignRightCellPadLeft data-testid={`count-cell`}>
-            {formatWholeNumber(areasHealthData[0].healthData.at(-1)?.count)}
+            {formatWholeNumber(areasHealthData[0]?.healthData.at(-1)?.count)}
           </StyledAlignRightCellPadLeft>
           <StyledAlignRightBorderRightTableCell data-testid={`value-cell`}>
-            {formatNumber(areasHealthData[0].healthData.at(-1)?.value)}
+            {formatNumber(areasHealthData[0]?.healthData.at(-1)?.value)}
           </StyledAlignRightBorderRightTableCell>
         </>
       )}
@@ -139,11 +129,11 @@ export function SpineChartTableRow({
           period={latestDataPeriod}
           benchmarkValue={quartileData.englandValue ?? 0}
           quartileData={quartileData}
-          areaOneValue={areasHealthData[0].healthData.at(-1)?.value}
+          areaOneValue={areasHealthData[0]?.healthData.at(-1)?.value}
           areaTwoValue={areasHealthData[1]?.healthData.at(-1)?.value}
           areaNames={areaNames}
           areaOneOutcome={
-            areasHealthData[0].healthData.at(-1)?.benchmarkComparison?.outcome
+            areasHealthData[0]?.healthData.at(-1)?.benchmarkComparison?.outcome
           }
           areaTwoOutcome={
             areasHealthData[1]?.healthData.at(-1)?.benchmarkComparison?.outcome

@@ -104,7 +104,7 @@ describe('Spine chart table row', () => {
   });
 
   it('should have X for missing data', () => {
-    const indicatorWithMissingData = {
+    const indicatorWithMissingData: SpineChartIndicatorData = {
       ...mockIndicatorData,
       groupData: {
         ...mockIndicatorData.groupData,
@@ -113,6 +113,8 @@ describe('Spine chart table row', () => {
       areasHealthData: [
         {
           ...mockIndicatorData.areasHealthData[0],
+          areaCode: 'A1425',
+          areaName: 'Greater Manchester ICB - 00T',
           healthData: [],
         },
       ],
