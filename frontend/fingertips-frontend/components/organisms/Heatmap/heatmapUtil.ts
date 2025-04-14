@@ -8,6 +8,7 @@ import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { formatNumber } from '@/lib/numberFormatter';
+import { HeatmapHoverProps } from './heatmapHover';
 
 export const heatmapIndicatorTitleColumnWidth = 240;
 export const heatmapDataColumnWidth = 60;
@@ -45,6 +46,7 @@ interface Cell {
   type: CellType;
   content: string;
   backgroundColour?: string;
+  hoverProps?: HeatmapHoverProps;
 }
 
 interface Header {
@@ -73,11 +75,13 @@ interface DataPoint {
   value?: number;
   areaCode: string;
   indicatorId: string;
-  benchmark?: Benchmark;
+  benchmark?: HeatmapBenchmarkProps;
 }
 
-interface Benchmark {
-  outcome: BenchmarkOutcome;
+export type HeatmapBenchmarkOutcome = BenchmarkOutcome | 'Baseline';
+
+export interface HeatmapBenchmarkProps {
+  outcome: HeatmapBenchmarkOutcome;
   benchmarkMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
 }
@@ -94,7 +98,8 @@ export const extractSortedAreasIndicatorsAndDataPoints = (
     extractAreasIndicatorsAndDataPoints(indicatorData);
 
   const precedingAreas = [areaCodeForEngland];
-  if (groupAreaCode) {
+
+  if (groupAreaCode && groupAreaCode !== areaCodeForEngland) {
     precedingAreas.push(groupAreaCode);
   }
 
@@ -132,7 +137,9 @@ export const generateRows = (
       {
         key: `col-${indicator.id}-period`,
         type: CellType.IndicatorInformation,
-        content: indicator.latestDataPeriod.toString(),
+        content: indicator.latestDataPeriod
+          ? indicator.latestDataPeriod.toString()
+          : '',
       },
     ];
 
@@ -144,13 +151,30 @@ export const generateRows = (
 
     areas.forEach((area, areaIndex) => {
       cols[areaIndex + leadingCols.length] = {
-        key: `col-${indicator.id}-${area.code}`,
+        key: `cell-${indicator.id}-${area.code}`,
         type: CellType.Data,
         content: formatNumber(dataPoints[indicator.id][area.code]?.value),
-        backgroundColour:
-          area.code === areaCodeForEngland
-            ? GovukColours.MidGrey
-            : generateDataBackgroundColour(dataPoints[indicator.id][area.code]),
+        backgroundColour: generateDataBackgroundColour(
+          dataPoints[indicator.id][area.code]
+        ),
+        hoverProps: {
+          areaName: getHoverAreaName(area),
+          period: indicator.latestDataPeriod,
+          indicatorName: indicator.name,
+          value: dataPoints[indicator.id][area.code]?.value,
+          unitLabel: indicator.unitLabel,
+          benchmark: {
+            outcome:
+              dataPoints[indicator.id][area.code]?.benchmark?.outcome ??
+              BenchmarkOutcome.NotCompared,
+            benchmarkMethod:
+              dataPoints[indicator.id][area.code]?.benchmark?.benchmarkMethod ??
+              BenchmarkComparisonMethod.Unknown,
+            polarity:
+              dataPoints[indicator.id][area.code]?.benchmark?.polarity ??
+              IndicatorPolarity.Unknown,
+          },
+        },
       };
     });
     rows[indicatorIndex] = { key: `row-${indicator.id}`, cells: cols };
@@ -168,6 +192,10 @@ const generateDataBackgroundColour = (dataPoint?: DataPoint): string => {
     return GovukColours.White;
   }
 
+  if (dataPoint.benchmark.outcome === 'Baseline') {
+    return GovukColours.MidGrey;
+  }
+
   const colour = getBenchmarkColour(
     dataPoint.benchmark.benchmarkMethod,
     dataPoint.benchmark.outcome,
@@ -177,8 +205,21 @@ const generateDataBackgroundColour = (dataPoint?: DataPoint): string => {
   return colour ?? GovukColours.White;
 };
 
+const getHoverAreaName = (area: Area, groupAreaCode?: string): string => {
+  if (area.code === areaCodeForEngland) {
+    return `Benchmark: ${area.name}`;
+  }
+
+  if (groupAreaCode && area.code === groupAreaCode) {
+    return `Group: ${area.name}`;
+  }
+
+  return area.name;
+};
+
 const extractAreasIndicatorsAndDataPoints = (
-  indicatorDataForAllAreas: HeatmapIndicatorData[]
+  indicatorDataForAllAreas: HeatmapIndicatorData[],
+  groupAreaCode?: string
 ): {
   areas: Record<string, Area>;
   indicators: Record<string, Indicator>;
@@ -216,7 +257,11 @@ const extractAreasIndicatorsAndDataPoints = (
       healthData.healthData.sort((a, b) => {
         return b.year - a.year;
       });
-      if (healthData.healthData[0].year > latestDataPeriod) {
+      if (
+        healthData.areaCode !== areaCodeForEngland &&
+        healthData.areaCode !== groupAreaCode &&
+        healthData.healthData[0].year > latestDataPeriod
+      ) {
         latestDataPeriod = healthData.healthData[0].year;
       }
     });
@@ -229,15 +274,24 @@ const extractAreasIndicatorsAndDataPoints = (
         };
       }
 
-      const healthDataForYear =
-        healthData.healthData[0].year === latestDataPeriod
-          ? healthData.healthData[0]
-          : undefined;
+      const healthDataForYear = healthData.healthData.find((dataPoint) => {
+        return dataPoint.year === latestDataPeriod;
+      });
 
-      const benchmark: Benchmark = {
-        outcome:
-          healthDataForYear?.benchmarkComparison?.outcome ??
-          BenchmarkOutcome.NotCompared,
+      const getBenchmarkOutcome = (
+        outcome?: BenchmarkOutcome
+      ): HeatmapBenchmarkOutcome => {
+        if (healthData.areaCode === areaCodeForEngland) {
+          return 'Baseline';
+        }
+
+        return outcome ?? BenchmarkOutcome.NotCompared;
+      };
+
+      const benchmark: HeatmapBenchmarkProps = {
+        outcome: getBenchmarkOutcome(
+          healthDataForYear?.benchmarkComparison?.outcome
+        ),
         benchmarkMethod: indicatorData.benchmarkMethod,
         polarity: indicatorData.polarity,
       };

@@ -1,7 +1,6 @@
 import { Area } from '@/generated-sources/ft-api-client';
 import { H3, SectionBreak } from 'govuk-react';
 import styled from 'styled-components';
-import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
 import { SelectedAreasPanel } from '@/components/molecules/SelectedAreasPanel';
 import {
   AreaFilterData,
@@ -101,12 +100,10 @@ export function AreaFilterPane({
           areaFilterData={areaFilterData}
         />
 
-        <ShowHideContainer summary="Add or change areas" open={true}>
-          <SelectAreasFilterPanel
-            key={`area-filter-panel-${JSON.stringify(searchState)}`}
-            areaFilterData={areaFilterData}
-          />
-        </ShowHideContainer>
+        <SelectAreasFilterPanel
+          key={`area-filter-panel-${JSON.stringify(searchState)}`}
+          areaFilterData={areaFilterData}
+        />
       </StyledFilterDiv>
     </StyledFilterPane>
   );

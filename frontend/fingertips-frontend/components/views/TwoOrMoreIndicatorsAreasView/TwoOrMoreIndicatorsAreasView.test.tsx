@@ -210,20 +210,6 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
     }).rejects.toThrow('indicators');
   });
 
-  it('should throw an error when search state contains no selected areas', async () => {
-    const searchState: SearchStateParams = {
-      ...fullSearchParams,
-      [SearchParams.AreasSelected]: [],
-    };
-
-    await expect(async () => {
-      await TwoOrMoreIndicatorsAreasView({
-        searchState: searchState,
-        selectedIndicatorsData: fullSelectedIndicatorsData,
-      });
-    }).rejects.toThrow('areas');
-  });
-
   it('should throw an error when indicator metadata is empty', async () => {
     const selectedIndicatorsData: IndicatorDocument[] = [];
 

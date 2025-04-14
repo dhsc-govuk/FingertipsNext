@@ -9,6 +9,7 @@ import {
   HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
 import { allAgesAge, noDeprivation, maleSex } from '@/lib/mocks';
+import { LoaderContext } from '@/context/LoaderContext';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -26,9 +27,18 @@ jest.mock('next/navigation', () => {
   };
 });
 
-const mockGetSearchState = jest.fn();
+const mockLoaderContext: LoaderContext = {
+  getIsLoading: jest.fn(),
+  setIsLoading: jest.fn(),
+};
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoadingState: () => mockLoaderContext,
+  };
+});
+
 const mockSearchStateContext: SearchStateContext = {
-  getSearchState: mockGetSearchState,
+  getSearchState: jest.fn(),
   setSearchState: jest.fn(),
 };
 jest.mock('@/context/SearchStateContext', () => {
@@ -42,10 +52,6 @@ const mockSearchState = {
 };
 
 describe('InequalitiesForSingleTimePeriod suite', () => {
-  beforeEach(() => {
-    mockGetSearchState.mockReturnValue(mockSearchState);
-  });
-
   it('should render expected elements', async () => {
     const years = ['2008', '2004'];
     const inequalitiesOptions = ['Sex', 'Unitary deciles'];
@@ -86,12 +92,15 @@ describe('InequalitiesForSingleTimePeriod suite', () => {
 
     render(
       <InequalitiesForSingleTimePeriod
-        healthIndicatorData={mockHealthData}
+        healthIndicatorData={[mockHealthData]}
         searchState={mockSearchState}
+        dataSource={'inequalities data source'}
       />
     );
 
-    const timePeriodDropDown = screen.getAllByRole('combobox')[0];
+    const timePeriodDropDown = screen.getByRole('combobox', {
+      name: 'Select a time period',
+    });
     const yearOptions = within(timePeriodDropDown).getAllByRole('option');
 
     const inequalitiesTypesDropDown = screen.getAllByRole('combobox')[1];
@@ -124,6 +133,10 @@ describe('InequalitiesForSingleTimePeriod suite', () => {
     inequalitiesDropDownOptions.forEach((option, index) => {
       expect(option.textContent).toBe(inequalitiesOptions[index]);
     });
+
+    expect(
+      screen.getAllByText('Data source: inequalities data source')
+    ).toHaveLength(2);
   });
 
   it('should not render component if inequalities data is absent', () => {
@@ -134,7 +147,7 @@ describe('InequalitiesForSingleTimePeriod suite', () => {
 
     render(
       <InequalitiesForSingleTimePeriod
-        healthIndicatorData={mockHealthData}
+        healthIndicatorData={[mockHealthData]}
         searchState={mockSearchState}
       />
     );

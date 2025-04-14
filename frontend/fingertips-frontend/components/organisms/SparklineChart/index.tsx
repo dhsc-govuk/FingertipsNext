@@ -17,8 +17,9 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { SparklineLabelEnum } from '@/components/organisms/BarChartEmbeddedTable';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
-import { getBenchmarkLabelText } from '@/components/organisms/BenchmarkLabel';
 import { formatNumber } from '@/lib/numberFormatter';
+import { getBenchmarkLabelText } from '@/components/organisms/BenchmarkLabel';
+import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
 
 interface SparklineChartProps {
   value: (number | undefined)[];
@@ -34,37 +35,75 @@ interface SparklineChartProps {
   measurementUnit: string | undefined;
 }
 
+const getCategory = (
+  benchmarkOutcome: BenchmarkOutcome,
+  label: string
+): string => {
+  switch (true) {
+    case label === SparklineLabelEnum.Benchmark && !!benchmarkOutcome:
+      return 'Benchmark: ';
+    case label === SparklineLabelEnum.Group:
+      return 'Group: ';
+    default:
+      return '';
+  }
+};
+
+const getComparisonLabelText = (
+  benchmarkComparisonMethod: BenchmarkComparisonMethod,
+  benchmarkOutcome: BenchmarkOutcome
+) => {
+  if (
+    !benchmarkOutcome ||
+    benchmarkOutcome === BenchmarkOutcome.NotCompared ||
+    benchmarkComparisonMethod === BenchmarkComparisonMethod.Quintiles
+  )
+    return '';
+  const comparison = getConfidenceLimitNumber(benchmarkComparisonMethod);
+  return `(${formatNumber(comparison)}%)`;
+};
+
+const getBenchmarkLabel = (
+  benchmarkComparisonMethod: BenchmarkComparisonMethod,
+  benchmarkOutcome: BenchmarkOutcome
+) => {
+  if (!benchmarkOutcome || benchmarkOutcome === BenchmarkOutcome.NotCompared)
+    return 'Not compared';
+
+  if (benchmarkComparisonMethod === BenchmarkComparisonMethod.Quintiles)
+    return `${benchmarkOutcome} quintile`;
+
+  const joiningWord =
+    benchmarkOutcome === BenchmarkOutcome.Similar ? 'to' : 'than';
+  const outcome = getBenchmarkLabelText(benchmarkOutcome);
+  return `${outcome} ${joiningWord} England`;
+};
+
 export const sparklineTooltipContent = (
   benchmarkOutcome: BenchmarkOutcome,
   label: string,
   benchmarkComparisonMethod: BenchmarkComparisonMethod
 ) => {
-  let category = '';
-  let benchmarkLabel = '';
-  let comparisonLabel = '';
-  const outcome = getBenchmarkLabelText(benchmarkOutcome);
-  const comparison = getConfidenceLimitNumber(benchmarkComparisonMethod);
+  const category = getCategory(benchmarkOutcome, label);
 
-  if (label === SparklineLabelEnum.Benchmark && benchmarkOutcome) {
-    category = 'Benchmark: ';
-    return { benchmarkLabel, category, comparisonLabel };
-  }
-  if (label === SparklineLabelEnum.Group) {
-    category = 'Group: ';
-  }
-
-  if (benchmarkOutcome === BenchmarkOutcome.Similar) {
-    benchmarkLabel = `${outcome} to England`;
-    comparisonLabel = `(${formatNumber(comparison)}%)`;
-  } else if (
-    benchmarkOutcome &&
-    benchmarkOutcome !== BenchmarkOutcome.NotCompared
+  if (
+    label === SparklineLabelEnum.Benchmark ||
+    label === SparklineLabelEnum.Group
   ) {
-    benchmarkLabel = `${outcome} than England`;
-    comparisonLabel = `(${formatNumber(comparison)}%)`;
+    return { category, benchmarkLabel: '', comparisonLabel: '' };
   }
 
-  return { benchmarkLabel, category, comparisonLabel };
+  return {
+    category,
+    benchmarkLabel: getBenchmarkLabel(
+      benchmarkComparisonMethod,
+      benchmarkOutcome
+    ),
+    comparisonLabel: getComparisonLabelText(
+      benchmarkComparisonMethod,
+      benchmarkOutcome
+    ),
+  };
 };
 
 export function SparklineChart({
@@ -140,7 +179,14 @@ export function SparklineChart({
         display: 'none',
       },
     },
-    yAxis: { visible: false, min: 0, max: maxValue },
+    yAxis: {
+      visible: false,
+      min: 0,
+      max: maxValue,
+      labels: {
+        formatter: FormatValueAsNumber,
+      },
+    },
     xAxis: { visible: false },
     series: [
       {

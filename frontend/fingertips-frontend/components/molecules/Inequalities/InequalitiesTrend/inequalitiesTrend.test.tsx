@@ -3,20 +3,16 @@ import { expect } from '@jest/globals';
 import { InequalitiesTrend } from '.';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
+import { LoaderContext } from '@/context/LoaderContext';
+import { SearchStateContext } from '@/context/SearchStateContext';
 import {
   HealthDataForArea,
   HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
-import { SearchStateContext } from '@/context/SearchStateContext';
 import { allAgesAge, maleSex, noDeprivation } from '@/lib/mocks';
-
-const state: SearchStateParams = {
-  [SearchParams.InequalityLineChartTypeSelected]: 'Sex',
-};
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
-
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
 
@@ -30,9 +26,18 @@ jest.mock('next/navigation', () => {
   };
 });
 
-const mockGetSearchState = jest.fn();
+const mockLoaderContext: LoaderContext = {
+  getIsLoading: jest.fn(),
+  setIsLoading: jest.fn(),
+};
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoadingState: () => mockLoaderContext,
+  };
+});
+
 const mockSearchStateContext: SearchStateContext = {
-  getSearchState: mockGetSearchState,
+  getSearchState: jest.fn(),
   setSearchState: jest.fn(),
 };
 jest.mock('@/context/SearchStateContext', () => {
@@ -41,43 +46,48 @@ jest.mock('@/context/SearchStateContext', () => {
   };
 });
 
-describe('InequalitiesTrend suite', () => {
-  beforeEach(() => {
-    mockGetSearchState.mockReturnValue(state);
-  });
+const state: SearchStateParams = {
+  [SearchParams.InequalityLineChartTypeSelected]: 'Sex',
+};
 
+describe('InequalitiesTrend suite', () => {
   it('should render expected elements', async () => {
     const inequalitiesOptions = ['Sex', 'Unitary deciles'];
-    const mockHealthData: HealthDataForArea = {
-      ...MOCK_HEALTH_DATA[1],
-      healthData: [
-        ...MOCK_HEALTH_DATA[1].healthData,
-        {
-          year: 2008,
-          count: 267,
-          value: 703.420759,
-          lowerCi: 441.69151,
-          upperCi: 578.32766,
-          ageBand: allAgesAge,
-          sex: maleSex,
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-          deprivation: {
-            ...noDeprivation,
+    const mockHealthData: HealthDataForArea[] = [
+      {
+        ...MOCK_HEALTH_DATA[1],
+        healthData: [
+          ...MOCK_HEALTH_DATA[1].healthData,
+          {
+            year: 2008,
+            count: 267,
+            value: 703.420759,
+            lowerCi: 441.69151,
+            upperCi: 578.32766,
+            ageBand: allAgesAge,
+            sex: maleSex,
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: {
+              ...noDeprivation,
+              isAggregate: false,
+              type: 'Unitary deciles',
+            },
             isAggregate: false,
-            type: 'Unitary deciles',
           },
-          isAggregate: false,
-        },
-      ],
-    };
+        ],
+      },
+    ];
     render(
       <InequalitiesTrend
         healthIndicatorData={mockHealthData}
         searchState={state}
+        dataSource="inequalities data source"
       />
     );
 
-    const inequalitiesTypesDropDown = screen.getByRole('combobox');
+    const inequalitiesTypesDropDown = screen.getByRole('combobox', {
+      name: 'Select an inequality type',
+    });
     const inequalitiesDropDownOptions = within(
       inequalitiesTypesDropDown
     ).getAllByRole('option');
@@ -99,6 +109,10 @@ describe('InequalitiesTrend suite', () => {
     inequalitiesDropDownOptions.forEach((option, index) => {
       expect(option.textContent).toBe(inequalitiesOptions[index]);
     });
+
+    expect(
+      screen.getAllByText('Data source: inequalities data source')
+    ).toHaveLength(2);
   });
 
   it('should not render component if inequalities data is absent', () => {
@@ -109,7 +123,7 @@ describe('InequalitiesTrend suite', () => {
 
     render(
       <InequalitiesTrend
-        healthIndicatorData={mockHealthData}
+        healthIndicatorData={[mockHealthData]}
         searchState={state}
       />
     );
@@ -127,7 +141,7 @@ describe('InequalitiesTrend suite', () => {
 
     render(
       <InequalitiesTrend
-        healthIndicatorData={mockHealthData}
+        healthIndicatorData={[mockHealthData]}
         searchState={state}
       />
     );

@@ -1,9 +1,5 @@
 import { Table } from 'govuk-react';
 import React from 'react';
-import {
-  StyledAlignLeftHeader,
-  StyledAlignRightHeader,
-} from '@/lib/tableHelpers';
 
 import {
   StyledAlignCentreHeader,
@@ -12,7 +8,11 @@ import {
   StyledBenchmarkHeader,
   StyledBenchmarkSubHeader,
   StyledAlignRightBorderHeader,
-  StyledAlignCentreBorderRightHeader,
+  StyledStickyEmptyLeftHeader,
+  StickyValueUnitHeader,
+  StickyPeriodHeader,
+  StyledAlignLeftStickyLeftHeader,
+  StyledAlignRightHeaderPadLeft,
 } from './SpineChartTableStyles';
 import { englandAreaString } from '@/lib/chartHelpers/constants';
 
@@ -21,33 +21,153 @@ export interface TableHeaderProps {
   groupName: string;
 }
 
+interface HeaderData {
+  title: string;
+  uniqueIdentifier: string;
+  styledComponent: typeof Table.CellHeader;
+}
+
 export enum SpineChartTableHeadingEnum {
   IndicatorName = 'Indicator',
-  IndicatorUnit = 'Unit',
   IndicatorPeriod = 'Period',
+  IndicatorUnit = 'Value Unit',
   AreaTrend = 'Recent trend',
   AreaCount = 'Count',
-  GroupValue = 'GroupValue',
-  BenchmarkValue = 'Value',
+  Value = 'Value',
   BenchmarkWorst = 'Worst',
   BenchmarkRange = 'Range',
   BenchmarkBest = 'Best',
 }
+
+const initialHeadersList: HeaderData[] = [
+  {
+    title: SpineChartTableHeadingEnum.IndicatorName,
+    uniqueIdentifier: 'indicator-name-header',
+    styledComponent: StyledAlignLeftStickyLeftHeader,
+  },
+  {
+    title: SpineChartTableHeadingEnum.IndicatorPeriod,
+    uniqueIdentifier: 'indicator-period-header',
+    styledComponent: StickyPeriodHeader,
+  },
+  {
+    title: SpineChartTableHeadingEnum.IndicatorUnit,
+    uniqueIdentifier: 'indicator-unit-header',
+    styledComponent: StickyValueUnitHeader,
+  },
+];
+
+const benchmarkHeaderList: HeaderData[] = [
+  {
+    title: SpineChartTableHeadingEnum.Value,
+    uniqueIdentifier: 'benchmark-value-header',
+    styledComponent: StyledBenchmarkSubHeader,
+  },
+  {
+    title: SpineChartTableHeadingEnum.BenchmarkWorst,
+    uniqueIdentifier: 'benchmark-worst-header',
+    styledComponent: StyledBenchmarkSubHeader,
+  },
+  {
+    title: SpineChartTableHeadingEnum.BenchmarkRange,
+    uniqueIdentifier: 'benchmark-range-header',
+    styledComponent: StyledBenchmarkHeader,
+  },
+  {
+    title: SpineChartTableHeadingEnum.BenchmarkBest,
+    uniqueIdentifier: 'benchmark-best-header',
+    styledComponent: StyledBenchmarkSubHeader,
+  },
+];
+
+const oneAreaHeadingsList: HeaderData[] = [
+  ...initialHeadersList,
+  {
+    title: SpineChartTableHeadingEnum.AreaTrend,
+    uniqueIdentifier: 'area-trend-header',
+    styledComponent: StyledAlignCentreHeader,
+  },
+  {
+    title: SpineChartTableHeadingEnum.AreaCount,
+    uniqueIdentifier: 'area-count-header',
+    styledComponent: StyledAlignRightHeaderPadLeft,
+  },
+  {
+    title: SpineChartTableHeadingEnum.Value,
+    uniqueIdentifier: 'area-value-header',
+    styledComponent: StyledAlignRightBorderHeader,
+  },
+  {
+    title: SpineChartTableHeadingEnum.Value,
+    uniqueIdentifier: 'group-value-header',
+    styledComponent: StyledGroupSubHeader,
+  },
+  ...benchmarkHeaderList,
+];
+
+const twoAreasHeadingsList: HeaderData[] = [
+  ...initialHeadersList,
+  {
+    title: SpineChartTableHeadingEnum.AreaCount,
+    uniqueIdentifier: 'area-1-count-header',
+    styledComponent: StyledAlignRightHeaderPadLeft,
+  },
+  {
+    title: SpineChartTableHeadingEnum.Value,
+    uniqueIdentifier: 'area-1-value-header',
+    styledComponent: StyledAlignRightBorderHeader,
+  },
+  {
+    title: SpineChartTableHeadingEnum.AreaCount,
+    uniqueIdentifier: 'area-2-count-header',
+    styledComponent: StyledAlignRightHeaderPadLeft,
+  },
+  {
+    title: SpineChartTableHeadingEnum.Value,
+    uniqueIdentifier: 'area-2-value-header',
+    styledComponent: StyledAlignRightBorderHeader,
+  },
+  {
+    title: SpineChartTableHeadingEnum.Value,
+    uniqueIdentifier: 'group-value-header',
+    styledComponent: StyledGroupSubHeader,
+  },
+  ...benchmarkHeaderList,
+];
+
+const getBenchmarkSubHeaderData = (
+  twoAreasRequested: boolean,
+  showGroupData: boolean
+) => {
+  const relevantHeaderList = twoAreasRequested
+    ? twoAreasHeadingsList
+    : oneAreaHeadingsList;
+
+  return showGroupData
+    ? relevantHeaderList
+    : relevantHeaderList.filter(
+        (headerData) => headerData.uniqueIdentifier !== 'group-value-header'
+      );
+};
 
 export function SpineChartTableHeader({
   areaNames,
   groupName,
 }: Readonly<TableHeaderProps>) {
   const twoAreasRequested = areaNames.length === 2;
-  const groupIsEngland = groupName === englandAreaString;
+  const showGroupData = groupName !== englandAreaString;
+  const benchmarkSubHeaderData = getBenchmarkSubHeaderData(
+    twoAreasRequested,
+    showGroupData
+  );
 
   return (
     <>
       <Table.Row key={`${areaNames.concat()}`}>
-        <Table.CellHeader
+        <StyledStickyEmptyLeftHeader
           colSpan={3}
           data-testid="empty-header"
-        ></Table.CellHeader>
+        ></StyledStickyEmptyLeftHeader>
         {areaNames.map((areaName, index) => (
           <StyledAlignCentreHeader
             colSpan={twoAreasRequested ? 2 : 3}
@@ -57,7 +177,7 @@ export function SpineChartTableHeader({
             {areaName}
           </StyledAlignCentreHeader>
         ))}
-        {!groupIsEngland ? (
+        {showGroupData ? (
           <StyledGroupHeader data-testid="group-header">
             {groupName}
           </StyledGroupHeader>
@@ -67,107 +187,14 @@ export function SpineChartTableHeader({
         </StyledBenchmarkHeader>
       </Table.Row>
       <Table.Row>
-        {Object.values(SpineChartTableHeadingEnum).map((heading) => {
-          switch (heading) {
-            case SpineChartTableHeadingEnum.IndicatorName:
-            case SpineChartTableHeadingEnum.IndicatorUnit:
-              return (
-                <StyledAlignLeftHeader
-                  key={heading}
-                  data-testid={`${heading}-header`}
-                >
-                  {heading}
-                </StyledAlignLeftHeader>
-              );
-            case SpineChartTableHeadingEnum.IndicatorPeriod:
-              return twoAreasRequested ? (
-                <StyledAlignCentreBorderRightHeader
-                  key={heading}
-                  data-testid={`${heading}-header`}
-                >
-                  {heading}
-                </StyledAlignCentreBorderRightHeader>
-              ) : (
-                <StyledAlignCentreHeader
-                  key={heading}
-                  data-testid={`${heading}-header`}
-                >
-                  {heading}
-                </StyledAlignCentreHeader>
-              );
-            case SpineChartTableHeadingEnum.AreaTrend:
-              return !twoAreasRequested ? (
-                <StyledAlignCentreHeader
-                  key={heading}
-                  data-testid={`${heading}-header`}
-                >
-                  {heading}
-                </StyledAlignCentreHeader>
-              ) : null;
-            case SpineChartTableHeadingEnum.AreaCount:
-              return twoAreasRequested ? (
-                <React.Fragment key={'count-value-for-areas'}>
-                  <StyledAlignCentreHeader
-                    key={`area-1-${heading}`}
-                    data-testid={`area-1-${heading}-header`}
-                  >
-                    {heading}
-                  </StyledAlignCentreHeader>
-                  <StyledAlignRightBorderHeader
-                    key={'area-1-value'}
-                    data-testid={'area-1-Value-header'}
-                  >
-                    Value
-                  </StyledAlignRightBorderHeader>
-                  <StyledAlignCentreHeader
-                    key={`area-2-${heading}`}
-                    data-testid={`area-2-${heading}-header`}
-                  >
-                    {heading}
-                  </StyledAlignCentreHeader>
-                  <StyledAlignRightHeader
-                    key={'area-2-value'}
-                    data-testid={'area-2-Value-header'}
-                  >
-                    Value
-                  </StyledAlignRightHeader>
-                </React.Fragment>
-              ) : (
-                <React.Fragment key={'count-value-for-area'}>
-                  <StyledAlignCentreHeader
-                    key={heading}
-                    data-testid={`${heading}-header`}
-                  >
-                    {heading}
-                  </StyledAlignCentreHeader>
-                  <StyledAlignRightHeader
-                    key={'area-value'}
-                    data-testid={'area-value-header'}
-                  >
-                    Value
-                  </StyledAlignRightHeader>
-                </React.Fragment>
-              );
-            case SpineChartTableHeadingEnum.GroupValue:
-              return !groupIsEngland ? (
-                <StyledGroupSubHeader
-                  key={heading}
-                  data-testid={`${heading}-header`}
-                >
-                  Value
-                </StyledGroupSubHeader>
-              ) : null;
-            default:
-              return (
-                <StyledBenchmarkSubHeader
-                  key={heading}
-                  data-testid={`${heading}-header`}
-                >
-                  {heading}
-                </StyledBenchmarkSubHeader>
-              );
-          }
-        })}
+        {benchmarkSubHeaderData.map((subHeader) => (
+          <subHeader.styledComponent
+            key={subHeader.uniqueIdentifier}
+            data-testid={subHeader.uniqueIdentifier}
+          >
+            {subHeader.title}
+          </subHeader.styledComponent>
+        ))}
       </Table.Row>
     </>
   );

@@ -131,7 +131,7 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
     await test.step('Select area filters on charts page', async () => {
       await chartPage.selectAreasFiltersIfRequired(
         searchMode,
-        AreaMode.TWO_PLUS_AREAS, // change to 2 areas to see different view with barChartEmbeddedTable-component
+        AreaMode.THREE_PLUS_AREAS, // change to 3 areas to see different view with barChartEmbeddedTable-component
         subjectSearchTerm,
         'gps'
       );
@@ -162,6 +162,7 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       await homePage.clearSearchIndicatorField();
       await homePage.closeAreaFilterPill(0);
       await homePage.closeAreaFilterPill(0);
+      await homePage.closeAreaFilterPill(0);
 
       await homePage.clickSearchButton();
       await homePage.checkSearchFieldIsPrePopulatedWith(); // nothing should be prepopulated after clearing search field
@@ -188,18 +189,20 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
 
     await test.step('Check selected area pills matches those specified in url', async () => {
       const expectedPillTexts = [
-        allNHSRegionAreas[0].areaName,
-        allNHSRegionAreas[1].areaName,
-        allNHSRegionAreas[2].areaName,
+        `${allNHSRegionAreas[0].areaName} ${allNHSRegionAreas[0].areaType}`,
+        `${allNHSRegionAreas[1].areaName} ${allNHSRegionAreas[1].areaType}`,
+        `${allNHSRegionAreas[2].areaName} ${allNHSRegionAreas[2].areaType}`,
       ];
+
       await test
         .expect(resultsPage.areaFilterPills())
         .toHaveCount(expectedPillTexts.length);
 
       const filterPillNames = await resultsPage.areaFilterPillsText();
-      test
-        .expect(sortAlphabetically(filterPillNames))
-        .toEqual(sortAlphabetically(expectedPillTexts));
+
+      sortAlphabetically(filterPillNames);
+      sortAlphabetically(expectedPillTexts);
+      test.expect(filterPillNames).toEqual(expectedPillTexts);
 
       await test.expect(resultsPage.areaFilterCombobox()).toBeDisabled();
     });
@@ -208,17 +211,18 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       await resultsPage.closeAreaFilterPill(1);
 
       const expectedPillTexts = [
-        allNHSRegionAreas[0].areaName,
-        allNHSRegionAreas[2].areaName,
+        `${allNHSRegionAreas[0].areaName} ${allNHSRegionAreas[0].areaType}`,
+        `${allNHSRegionAreas[2].areaName} ${allNHSRegionAreas[2].areaType}`,
       ];
       await test
         .expect(resultsPage.areaFilterPills())
         .toHaveCount(expectedPillTexts.length);
 
       const filterPillNames = await resultsPage.areaFilterPillsText();
-      test
-        .expect(sortAlphabetically(filterPillNames))
-        .toEqual(sortAlphabetically(expectedPillTexts));
+
+      sortAlphabetically(filterPillNames);
+      sortAlphabetically(expectedPillTexts);
+      test.expect(filterPillNames).toEqual(expectedPillTexts);
 
       await test.expect(resultsPage.areaFilterCombobox()).toBeDisabled();
     });

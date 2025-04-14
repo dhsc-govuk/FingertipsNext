@@ -22,8 +22,10 @@ export interface SpineChartTableProps {
 }
 
 const sortByIndicator = (indicatorData: SpineChartIndicatorData[]) =>
-  indicatorData.toSorted(
-    (a, b) => Number(a.indicatorId) - Number(b.indicatorId)
+  indicatorData.toSorted((a, b) =>
+    a.indicatorName.localeCompare(b.indicatorName, 'en', {
+      sensitivity: 'base',
+    })
   );
 
 export function SpineChartTable({

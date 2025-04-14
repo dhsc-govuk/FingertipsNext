@@ -5,6 +5,7 @@ import { InequalitiesBarChart } from '../BarChart';
 import { InequalitiesBarChartTable } from '../BarChart/Table';
 import {
   filterHealthData,
+  getAreasWithInequalitiesData,
   getInequalitiesType,
   getInequalityCategories,
   getYearDataGroupedByInequalities,
@@ -16,41 +17,60 @@ import {
   sequenceSelectorForInequality,
   valueSelectorForInequality,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
-import {
-  SearchParams,
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import {
   BenchmarkComparisonMethod,
   HealthDataForArea,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
+import { ChartSelectArea } from '../../ChartSelectArea';
+import {
+  determineHealthDataForArea,
+  seriesDataWithoutGroup,
+} from '@/lib/chartHelpers/chartHelpers';
 import { InequalitiesTypesDropDown } from '../InequalitiesTypesDropDown';
+import { DataSource } from '@/components/atoms/DataSource/DataSource';
 
 interface InequalitiesForSingleTimePeriodProps {
-  healthIndicatorData: HealthDataForArea;
+  healthIndicatorData: HealthDataForArea[];
   searchState: SearchStateParams;
   measurementUnit?: string;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
+  dataSource?: string;
 }
 
 export function InequalitiesForSingleTimePeriod({
   healthIndicatorData,
+  searchState,
   measurementUnit,
   benchmarkComparisonMethod,
   polarity,
-  searchState,
+  dataSource,
 }: Readonly<InequalitiesForSingleTimePeriodProps>) {
-  const stateManager = SearchStateManager.initialise(searchState);
   const {
+    [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.InequalityYearSelected]: selectedYear,
     [SearchParams.InequalityBarChartTypeSelected]: inequalityTypeSelected,
-  } = stateManager.getSearchState();
+    [SearchParams.InequalityBarChartAreaSelected]:
+      inequalityBarChartAreaSelected,
+  } = searchState;
+
+  const healthdataWithoutGroup = seriesDataWithoutGroup(
+    healthIndicatorData,
+    selectedGroupCode,
+    true
+  );
+
+  const healthDataForArea = determineHealthDataForArea(
+    healthdataWithoutGroup,
+    inequalityBarChartAreaSelected
+  );
+
+  if (!healthDataForArea) return null;
 
   const inequalityCategories = getInequalityCategories(
-    healthIndicatorData,
+    healthDataForArea,
     Number(selectedYear)
   );
   if (!inequalityCategories.length) return null;
@@ -60,12 +80,18 @@ export function InequalitiesForSingleTimePeriod({
     inequalityTypeSelected
   );
 
+  const availableAreasWithInequalities = getAreasWithInequalitiesData(
+    healthdataWithoutGroup,
+    type,
+    selectedYear
+  );
+
   const filterFunctionGenerator =
     healthDataFilterFunctionGeneratorForInequality[type];
   const healthIndicatorDataWithoutOtherInequalities = {
-    ...healthIndicatorData,
+    ...healthDataForArea,
     healthData: filterHealthData(
-      healthIndicatorData.healthData,
+      healthDataForArea.healthData,
       filterFunctionGenerator(inequalityTypeSelected ?? inequalityCategories[0])
     ),
   };
@@ -98,7 +124,7 @@ export function InequalitiesForSingleTimePeriod({
   if (!periodData) throw new Error('data does not exist for selected year');
 
   const barChartData: InequalitiesBarChartData = {
-    areaName: healthIndicatorData.areaName,
+    areaName: healthDataForArea.areaName,
     data: periodData,
   };
   return (
@@ -111,6 +137,12 @@ export function InequalitiesForSingleTimePeriod({
           SearchParams.InequalityBarChartTypeSelected
         }
         testRef="bc"
+        searchState={searchState}
+      />
+      <ChartSelectArea
+        availableAreas={availableAreasWithInequalities}
+        chartAreaSelectedKey={SearchParams.InequalityBarChartAreaSelected}
+        searchState={searchState}
       />
       <TabContainer
         id="inequalitiesBarChartAndTable"
@@ -143,6 +175,7 @@ export function InequalitiesForSingleTimePeriod({
             ),
           },
         ]}
+        footer={<DataSource dataSource={dataSource} />}
       />
     </div>
   );

@@ -16,6 +16,7 @@ import {
   getHealthDataForArea,
   SpineChartIndicatorData,
 } from '@/components/organisms/SpineChartTable/spineChartTableHelpers';
+import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 
 export function extractHeatmapIndicatorData(
   indicatorData: IndicatorWithHealthDataForArea,
@@ -41,6 +42,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
   indicatorData,
   indicatorMetadata,
   benchmarkStatistics,
+  availableAreas,
 }: Readonly<TwoOrMoreIndicatorsViewPlotProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
@@ -48,7 +50,13 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
 
-  if (!areasSelected || !selectedGroupCode) {
+  const areaCodes = determineAreaCodes(
+    areasSelected,
+    selectedGroupCode,
+    availableAreas
+  );
+
+  if (!areaCodes || !selectedGroupCode) {
     throw new Error('Invalid parameters provided to view plot');
   }
 
@@ -133,24 +141,26 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
 
   return (
     <section data-testid="twoOrMoreIndicatorsAreasViewPlot-component">
-      {areasSelected.length < 3 ? (
+      {areaCodes.length < 3 ? (
         <SpineChartTable
           indicatorData={buildSpineChartIndicatorData(
             indicatorData,
             indicatorMetadata,
             benchmarkStatistics,
-            areasSelected,
+            areaCodes,
             selectedGroupCode
           )}
         />
       ) : null}
-      <Heatmap
-        indicatorData={buildHeatmapIndicatorData(
-          indicatorData,
-          indicatorMetadata
-        )}
-        groupAreaCode={selectedGroupCode}
-      />
+      {areaCodes.length > 1 ? (
+        <Heatmap
+          indicatorData={buildHeatmapIndicatorData(
+            indicatorData,
+            indicatorMetadata
+          )}
+          groupAreaCode={selectedGroupCode}
+        />
+      ) : null}
     </section>
   );
 }

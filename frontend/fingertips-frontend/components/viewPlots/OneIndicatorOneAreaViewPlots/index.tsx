@@ -4,14 +4,12 @@ import { TabContainer } from '@/components/layouts/tabContainer';
 import { LineChart } from '@/components/organisms/LineChart';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import {
-  isEnglandSoleSelectedArea,
+  determineAreaCodes,
   seriesDataWithoutEnglandOrGroup,
 } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams } from '@/lib/searchStateManager';
-import { H3, Paragraph } from 'govuk-react';
-import styled from 'styled-components';
-import { typography } from '@govuk-react/lib';
+import { H3 } from 'govuk-react';
 import { OneIndicatorViewPlotProps } from '../ViewPlotProps';
 import {
   BenchmarkComparisonMethod,
@@ -23,13 +21,10 @@ import {
   generateStandardLineChartOptions,
   LineChartVariant,
 } from '@/components/organisms/LineChart/lineChartHelpers';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { getAllDataWithoutInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
-import { useSearchState } from '@/context/SearchStateContext';
-
-const StyledParagraphDataSource = styled(Paragraph)(
-  typography.font({ size: 16 })
-);
+import { DataSource } from '@/components/atoms/DataSource/DataSource';
+import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
 
 function shouldLineChartBeShown(
   dataWithoutEnglandOrGroup: HealthDataForArea[],
@@ -46,16 +41,12 @@ export function OneIndicatorOneAreaViewPlots({
   searchState,
   indicatorMetadata,
 }: Readonly<OneIndicatorViewPlotProps>) {
-  const { setSearchState } = useSearchState();
-
-  useEffect(() => {
-    setSearchState(searchState ?? {});
-  }, [searchState, setSearchState]);
-
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreasSelected]: areasSelected,
   } = searchState;
+
+  const areaCodes = determineAreaCodes(areasSelected);
 
   const polarity = indicatorData.polarity as IndicatorPolarity;
   const benchmarkComparisonMethod =
@@ -89,7 +80,7 @@ export function OneIndicatorOneAreaViewPlots({
   } = getAllDataWithoutInequalities(
     dataWithoutEnglandOrGroup,
     { englandBenchmarkData, groupData },
-    areasSelected
+    areaCodes
   );
 
   const yAxisTitle = indicatorMetadata?.unitLabel
@@ -103,6 +94,7 @@ export function OneIndicatorOneAreaViewPlots({
       benchmarkData: englandBenchmarkWithoutInequalities,
       groupIndicatorData: groupDataWithoutInequalities,
       yAxisTitle,
+      yAxisLabelFormatter: FormatValueAsNumber,
       xAxisTitle: 'Year',
       measurementUnit: indicatorMetadata?.unitLabel,
       accessibilityLabel: 'A line chart showing healthcare data',
@@ -150,28 +142,17 @@ export function OneIndicatorOneAreaViewPlots({
                 ),
               },
             ]}
-            footer={
-              <>
-                {indicatorMetadata ? (
-                  <StyledParagraphDataSource>
-                    {`Data source: ${indicatorMetadata.dataSource}`}
-                  </StyledParagraphDataSource>
-                ) : null}
-              </>
-            }
+            footer={<DataSource dataSource={indicatorMetadata?.dataSource} />}
           />
         </>
       )}
       <Inequalities
-        healthIndicatorData={
-          !isEnglandSoleSelectedArea(searchState[SearchParams.AreasSelected])
-            ? dataWithoutEnglandOrGroup[0]
-            : healthIndicatorData[0]
-        }
+        healthIndicatorData={healthIndicatorData}
+        searchState={searchState}
         measurementUnit={indicatorMetadata?.unitLabel}
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
-        searchState={searchState}
+        dataSource={indicatorMetadata?.dataSource}
       />
     </section>
   );

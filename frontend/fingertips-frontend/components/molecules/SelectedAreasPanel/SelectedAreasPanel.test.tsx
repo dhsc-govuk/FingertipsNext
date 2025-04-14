@@ -7,6 +7,7 @@ import { nhsPrimaryCareNetworksAreaType } from '@/lib/areaFilterHelpers/areaType
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { LoaderContext } from '@/context/LoaderContext';
 import { SearchStateContext } from '@/context/SearchStateContext';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 const mockSelectedAreasData = [
   mockAreaDataForNHSRegion['E40000007'],
@@ -188,6 +189,38 @@ describe('SelectedAreasPanel', () => {
       mockGetSearchState.mockReturnValue({
         [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
         [SearchParams.AreaTypeSelected]: 'NHS Regions',
+      });
+
+      const expectedPath = [
+        `${mockPath}`,
+        `?${SearchParams.AreasSelected}=E40000012`,
+        `&${SearchParams.AreaTypeSelected}=NHS+Regions`,
+      ].join('');
+
+      const user = userEvent.setup();
+      render(<SelectedAreasPanel selectedAreasData={mockSelectedAreasData} />);
+
+      const firstSelectedAreaPill = screen.getAllByTestId('pill-container')[0];
+      await user.click(
+        within(firstSelectedAreaPill).getByTestId('remove-icon-div')
+      );
+
+      expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
+        scroll: false,
+      });
+    });
+
+    it('should remove any chart state when an area is de-selected', async () => {
+      mockGetSearchState.mockReturnValue({
+        [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
+        [SearchParams.AreaTypeSelected]: 'NHS Regions',
+        [SearchParams.InequalityYearSelected]: '2022',
+        [SearchParams.InequalityBarChartTypeSelected]: 'Some inequality type',
+        [SearchParams.InequalityLineChartTypeSelected]:
+          'Some other inequality type',
+        [SearchParams.InequalityBarChartAreaSelected]: 'E40000007',
+        [SearchParams.InequalityLineChartAreaSelected]: areaCodeForEngland,
+        [SearchParams.PopulationAreaSelected]: areaCodeForEngland,
       });
 
       const expectedPath = [

@@ -123,5 +123,39 @@ describe('SparklineChart', () => {
         comparisonLabel: '',
       });
     });
+
+    it('should return tooltip for quintiles with no CI% shown', () => {
+      const benchmarkOutcome = BenchmarkOutcome.Worse;
+      const benchmarkComparisonMethod = BenchmarkComparisonMethod.Quintiles;
+
+      const result = sparklineTooltipContent(
+        benchmarkOutcome,
+        SparklineLabelEnum.Area,
+        benchmarkComparisonMethod
+      );
+
+      expect(result).toEqual({
+        benchmarkLabel: 'Worse quintile',
+        category: '',
+        comparisonLabel: '',
+      });
+    });
+
+    it('should return Not compared when the benchmark outcome method of "Not compared" is passed in', () => {
+      const benchmarkOutcome = BenchmarkOutcome.NotCompared;
+      const benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown;
+
+      const result = sparklineTooltipContent(
+        benchmarkOutcome,
+        SparklineLabelEnum.Area,
+        benchmarkComparisonMethod
+      );
+
+      expect(result).toEqual({
+        benchmarkLabel: 'Not compared',
+        category: '',
+        comparisonLabel: '',
+      });
+    });
   });
 });
