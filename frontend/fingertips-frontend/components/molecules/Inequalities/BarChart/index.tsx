@@ -128,13 +128,16 @@ export function InequalitiesBarChart({
       `border: 1px solid ${point.color === '#fff' ? '#000' : point.color}`,
     ];
     const symbolItem = `<span style="${symbolStyles.join('; ')};"></span>`;
+    const benchmarkComparisonSymbol = isBenchmarkPoint
+      ? `<span style="color: ${point.color}; font-weight: bold;">${symbol}</span>`
+      : symbolItem;
 
     return [
       `
       <span>${barChartData.data.period}</span>
       <div><span>${point.category}</span></div>
       <div style="display: flex; margin-top: 10px; align-items: center;"><div style="margin-right: 10px;">
-      ${isBenchmarkPoint ? `<span style="color: ${point.color}; font-weight: bold;">${symbol}</span>` : symbolItem}</div>`,
+      ${benchmarkComparisonSymbol}</div>`,
       `<div><span>${formatNumber(point.y)} ${measurementUnit ? ' ' + measurementUnit : ''}`,
       `<div><span>${isBenchmarkPoint ? '' : benchmarkOutcomeLabel} ${benchmarkComparisonMethodString}</span></div></div>`,
     ];
