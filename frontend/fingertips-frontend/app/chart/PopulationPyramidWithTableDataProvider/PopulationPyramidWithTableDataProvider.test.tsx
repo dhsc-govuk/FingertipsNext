@@ -2,9 +2,6 @@ import { PopulationPyramidWithTableDataProvider } from './index';
 import { render } from '@testing-library/react';
 import { SearchParams } from '@/lib/searchStateManager';
 import { HierarchyNameTypes } from '@/lib/areaFilterHelpers/areaType';
-import { mockDeep } from 'jest-mock-extended';
-import { IIndicatorSearchService } from '@/lib/search/searchTypes';
-import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { Area } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { API_CACHE_CONFIG } from '@/lib/apiClient/apiClientFactory';
@@ -21,10 +18,6 @@ jest.mock('@/lib/apiClient/apiClientFactory', () => ({
   },
 }));
 
-const mockIndicatorSearchService = mockDeep<IIndicatorSearchService>();
-SearchServiceFactory.getIndicatorSearchService = () =>
-  mockIndicatorSearchService;
-
 jest.mock('@/components/organisms/PopulationPyramidWithTable', () => ({
   PopulationPyramidWithTable: () => <div>PopulationPyramidWithTable</div>,
 }));
@@ -35,19 +28,6 @@ describe('PopulationPyramidWithTableDataProvider', () => {
     mockGetHealthDataForAnIndicator.mockClear();
     mockGetHealthDataForAnIndicator.mockResolvedValue({
       areaHealthData: [{ areaCode: 'E09000001', value: 100 }],
-    });
-
-    mockIndicatorSearchService.getIndicator.mockClear();
-    mockIndicatorSearchService.getIndicator.mockResolvedValue({
-      indicatorID: '',
-      indicatorName: '',
-      indicatorDefinition: '',
-      dataSource: 'data source',
-      earliestDataPeriod: '',
-      latestDataPeriod: '',
-      lastUpdatedDate: new Date(),
-      hasInequalities: false,
-      unitLabel: '',
     });
   });
 
@@ -67,7 +47,6 @@ describe('PopulationPyramidWithTableDataProvider', () => {
     expect(view).toBeTruthy();
     expect(view.getByText('PopulationPyramidWithTable')).toBeInTheDocument();
     expect(mockGetHealthDataForAnIndicator).toHaveBeenCalledTimes(1);
-    expect(mockIndicatorSearchService.getIndicator).toHaveBeenCalledTimes(1);
   });
 
   it('renders PopulationPyramidWithTable with more than 100 areas data to be fetched', async () => {
@@ -111,7 +90,6 @@ describe('PopulationPyramidWithTableDataProvider', () => {
     expect(view).toBeTruthy();
     expect(view.getByText('PopulationPyramidWithTable')).toBeInTheDocument();
     expect(mockGetHealthDataForAnIndicator).toHaveBeenCalledTimes(2);
-    expect(mockIndicatorSearchService.getIndicator).toHaveBeenCalledTimes(1);
   });
 
   it('Should use england as default when no areaCodes are provided', async () => {
@@ -129,9 +107,6 @@ describe('PopulationPyramidWithTableDataProvider', () => {
         inequalities: ['age', 'sex'],
       },
       API_CACHE_CONFIG
-    );
-    expect(mockIndicatorSearchService.getIndicator).toHaveBeenCalledWith(
-      '92708'
     );
   });
 });

@@ -13,7 +13,6 @@ import {
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { PopulationPyramidWithTable } from '@/components/organisms/PopulationPyramidWithTable';
 import { getHealthDataForIndicator } from '@/lib/ViewsHelpers';
-import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 
 const getPopulationData = (
   populationIndicatorID: number,
@@ -65,27 +64,10 @@ export const PopulationPyramidWithTableDataProvider = async ({
       ? nhsIndicatorIdForPopulation
       : administratorIndicatorID;
 
-  const getPopulationIndicatorMetadata = () => {
-    return SearchServiceFactory.getIndicatorSearchService().getIndicator(
-      populationIndicatorID.toString()
-    );
-  };
-
-  const { populationData, populationMetadata } = await (async () => {
-    if (!populationIndicatorID) {
-      return {
-        populationData: undefined,
-        populationMetadata: undefined,
-      };
-    }
-
-    const [populationData, populationIndicatorMetadata] = await Promise.all([
-      await getPopulationData(populationIndicatorID, areaCodesToRequest),
-      await getPopulationIndicatorMetadata(),
-    ]);
-
-    return { populationData, populationMetadata: populationIndicatorMetadata };
-  })();
+  const populationData = await getPopulationData(
+    populationIndicatorID,
+    areaCodesToRequest
+  );
 
   return (
     <PopulationPyramidWithTable
@@ -93,7 +75,6 @@ export const PopulationPyramidWithTableDataProvider = async ({
       searchState={searchState}
       xAxisTitle="Age"
       yAxisTitle="Percentage of total population"
-      dataSource={populationMetadata?.dataSource}
     />
   );
 };

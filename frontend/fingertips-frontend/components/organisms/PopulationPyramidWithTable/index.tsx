@@ -17,7 +17,6 @@ import {
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { ArrowExpander } from '@/components/molecules/ArrowExpander';
 import { PopulationPyramidChartTable } from '../PopulationPyramidChartTable';
-import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import { ChartSelectArea } from '@/components/molecules/ChartSelectArea';
 import { AreaWithoutAreaType } from '../Inequalities/inequalitiesHelpers';
 import {
@@ -62,14 +61,12 @@ interface PyramidPopulationChartViewProps {
   xAxisTitle: string;
   yAxisTitle: string;
   searchState: SearchStateParams;
-  dataSource?: string;
 }
 export const PopulationPyramidWithTable = ({
   healthDataForAreas,
   xAxisTitle,
   yAxisTitle,
   searchState,
-  dataSource,
 }: Readonly<PyramidPopulationChartViewProps>) => {
   const {
     [SearchParams.PopulationAreaSelected]: populationAreaSelected,
@@ -185,7 +182,6 @@ export const PopulationPyramidWithTable = ({
                   ),
                 },
               ]}
-              footer={<DataSource dataSource={dataSource} />}
             />
           ) : null}
         </div>
