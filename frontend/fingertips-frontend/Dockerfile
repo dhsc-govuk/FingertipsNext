@@ -62,6 +62,9 @@ EXPOSE 3000
 
 ENV PORT=3000
 
+# We need to support some long URLs that end up in the headers when calling server actions.
+ENV NODE_OPTIONS="--max-http-header-size=32768"
+
 # server.js is created by next build from the standalone output
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output
 ENV HOSTNAME="0.0.0.0"
