@@ -187,10 +187,12 @@ export function getLatestYear(
 
 function getMostRecentYearForAreas(
   healthDataForAreas: HealthDataForArea[]
-): number {
-  return healthDataForAreas.reduce((previous, area) => {
-    return Math.max(previous, getLatestYear(area?.healthData) ?? 0);
-  }, healthDataForAreas[0].healthData[0].year);
+): number | undefined {
+  const years = healthDataForAreas.map(
+    (area) => getLatestYear(area.healthData) ?? 0
+  );
+  const mostRecentYear = Math.max(...years);
+  return mostRecentYear === 0 ? undefined : mostRecentYear;
 }
 
 function getAreasIndicatorDataForYear(
@@ -220,8 +222,11 @@ export function getAreaIndicatorDataForYear(
 
 export function getIndicatorDataForAreasForMostRecentYearOnly(
   healthDataForAreas: HealthDataForArea[]
-): HealthDataForArea[] {
+): HealthDataForArea[] | undefined {
   const mostRecentYearForAreas = getMostRecentYearForAreas(healthDataForAreas);
+  if (!mostRecentYearForAreas) {
+    return undefined;
+  }
   return getAreasIndicatorDataForYear(
     healthDataForAreas,
     mostRecentYearForAreas

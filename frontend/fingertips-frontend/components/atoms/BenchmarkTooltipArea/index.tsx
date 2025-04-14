@@ -28,10 +28,25 @@ export function BenchmarkTooltipArea({
   measurementUnit,
   tooltipType,
 }: Readonly<BenchmarkTooltipArea>) {
+  const indicatorDataForAreaForMostRecentYear =
+    getIndicatorDataForAreasForMostRecentYearOnly([indicatorData]);
+  const polarity =
+    indicatorDataForAreaForMostRecentYear?.[0].healthData[0].benchmarkComparison
+      ?.indicatorPolarity ?? IndicatorPolarity.Unknown;
+  const benchmarkArea =
+    indicatorDataForAreaForMostRecentYear?.[0].healthData[0].benchmarkComparison
+      ?.benchmarkAreaName ?? 'England';
+  const benchmarkOutcome =
+    indicatorDataForAreaForMostRecentYear?.[0].healthData[0].benchmarkComparison
+      ?.outcome ?? BenchmarkOutcome.NotCompared;
+
   const areaMarkerSymbol = () => {
     switch (true) {
       case tooltipType === 'benchmark':
         return SymbolsEnum.Circle;
+      case !indicatorDataForAreaForMostRecentYear?.[0].healthData[0]
+        ?.benchmarkComparison?.outcome:
+        return SymbolsEnum.MultiplicationX;
       case benchmarkComparisonMethod === BenchmarkComparisonMethod.Unknown:
       case benchmarkOutcome === BenchmarkOutcome.NotCompared:
         return SymbolsEnum.WhiteCircle;
@@ -40,24 +55,16 @@ export function BenchmarkTooltipArea({
     }
   };
 
-  const indicatorDataForAreaForMostRecentYear =
-    getIndicatorDataForAreasForMostRecentYearOnly([indicatorData]);
-  const polarity =
-    indicatorDataForAreaForMostRecentYear[0].healthData[0].benchmarkComparison
-      ?.indicatorPolarity ?? IndicatorPolarity.Unknown;
-  const benchmarkArea =
-    indicatorDataForAreaForMostRecentYear[0].healthData[0].benchmarkComparison
-      ?.benchmarkAreaName ?? 'England';
-  const benchmarkOutcome =
-    indicatorDataForAreaForMostRecentYear[0].healthData[0].benchmarkComparison
-      ?.outcome;
-
   let benchmarkColour = getBenchmarkColour(
     benchmarkComparisonMethod,
     benchmarkOutcome ?? BenchmarkOutcome.NotCompared,
     polarity
   );
-  if (tooltipType === 'benchmark') {
+  if (
+    tooltipType === 'benchmark' ||
+    !indicatorDataForAreaForMostRecentYear?.[0].healthData[0]
+      ?.benchmarkComparison?.outcome
+  ) {
     benchmarkColour = GovukColours.Black;
   }
 
@@ -65,7 +72,9 @@ export function BenchmarkTooltipArea({
     <div data-testid={'benchmark-tooltip-area'} style={{ marginBlock: '10px' }}>
       <div style={{ textWrap: 'wrap' }}>
         <b>{getAreaTitle(indicatorData.areaName, tooltipType)}</b>
-        <p style={{ marginBlock: 0 }}>{indicatorData.healthData[0].year}</p>
+        <p style={{ marginBlock: 0 }}>
+          {indicatorData.healthData[0]?.year ?? null}
+        </p>
       </div>
       <div
         style={{
@@ -80,7 +89,7 @@ export function BenchmarkTooltipArea({
             display: 'flex',
             marginLeft: '5px',
             gap: '0.5em',
-            fontSize: '24pt',
+            fontSize: '24px',
           }}
         >
           {areaMarkerSymbol()}
@@ -88,17 +97,21 @@ export function BenchmarkTooltipArea({
 
         <div style={{ marginTop: '5px' }}>
           <span style={{ display: 'block' }}>
-            {formatNumber(
-              indicatorDataForAreaForMostRecentYear[0].healthData[0].value
-            )}{' '}
-            {measurementUnit}
+            {indicatorDataForAreaForMostRecentYear?.[0].healthData[0]?.value
+              ? formatNumber(
+                  indicatorDataForAreaForMostRecentYear[0].healthData[0].value
+                )
+              : 'No data available'}{' '}
+            {indicatorDataForAreaForMostRecentYear?.[0].healthData[0]?.value
+              ? measurementUnit
+              : null}
           </span>
           {tooltipType !== 'benchmark'
             ? getComparisionText(
                 benchmarkArea,
                 benchmarkComparisonMethod,
-                indicatorDataForAreaForMostRecentYear[0].healthData[0]
-                  .benchmarkComparison?.outcome
+                indicatorDataForAreaForMostRecentYear?.[0].healthData[0]
+                  ?.benchmarkComparison?.outcome ?? undefined
               )
             : null}
         </div>
@@ -112,13 +125,14 @@ function getComparisionText(
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
   benchmarkOutcome?: BenchmarkOutcome
 ) {
-  // TODO: DHSCFT-518 to handle no data
   const benchmarkConfidenceLimit = getConfidenceLimitNumber(
     benchmarkComparisonMethod
   );
 
   const comparisonText = () => {
     switch (true) {
+      case !benchmarkOutcome:
+        return null;
       case benchmarkComparisonMethod === BenchmarkComparisonMethod.Quintiles:
         return `${benchmarkOutcome} quintile`;
       case benchmarkComparisonMethod === BenchmarkComparisonMethod.Unknown:
@@ -126,6 +140,7 @@ function getComparisionText(
         return `Not compared`;
       case benchmarkOutcome === BenchmarkOutcome.Similar:
         return `${benchmarkOutcome} to ${benchmarkArea}`;
+
       default:
         return `${benchmarkOutcome} than ${benchmarkArea}`;
     }

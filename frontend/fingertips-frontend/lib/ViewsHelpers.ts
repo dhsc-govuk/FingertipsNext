@@ -3,8 +3,35 @@ import {
   IndicatorsApi,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
-import { API_CACHE_CONFIG } from '@/lib/apiClient/apiClientFactory';
-import { chunkArray } from './chunkArray';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
+import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+
+export const maxNumAreasThatCanBeRequestedAPI = 100;
+
+/**
+ * Returns arrayToChunk broken into multiple arrays of a size allowed to be used in API calls
+ * @param arrayToChunk
+ * @param chunkSize optional chunk size, which will be coerced within a range the API supports
+ */
+export function chunkArray(
+  arrayToChunk: string[],
+  chunkSize: number = maxNumAreasThatCanBeRequestedAPI
+): string[][] {
+  chunkSize = Math.max(
+    1,
+    Math.min(chunkSize, maxNumAreasThatCanBeRequestedAPI)
+  );
+
+  const chunkedArray = [];
+  for (let i = 0; i < arrayToChunk.length; i += chunkSize) {
+    chunkedArray.push(arrayToChunk.slice(i, i + chunkSize));
+  }
+  return chunkedArray;
+}
 
 export interface HealthDataRequestAreas {
   areaCodes: string[];
@@ -50,3 +77,78 @@ export const getHealthDataForIndicator = async (
 
   return healthIndicatorData;
 };
+
+export interface GetIndicatorDataParam {
+  areasSelected: string[];
+  indicatorSelected: string[];
+  selectedAreaType?: string;
+  selectedGroupCode?: string;
+  selectedGroupType?: string;
+}
+
+export async function getIndicatorData(
+  {
+    areasSelected,
+    indicatorSelected,
+    selectedAreaType,
+    selectedGroupCode,
+    selectedGroupType,
+  }: GetIndicatorDataParam,
+  includeEmptyAreas: boolean
+) {
+  const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
+
+  let indicatorDataAllAreas: IndicatorWithHealthDataForArea | undefined;
+
+  const indicatorRequestArray = chunkArray(areasSelected).map((requestAreas) =>
+    indicatorApi.getHealthDataForAnIndicator(
+      {
+        indicatorId: Number(indicatorSelected[0]),
+        areaCodes: [...requestAreas],
+        areaType: selectedAreaType,
+        includeEmptyAreas,
+      },
+      API_CACHE_CONFIG
+    )
+  );
+
+  if (!areasSelected.includes(areaCodeForEngland)) {
+    indicatorRequestArray.push(
+      indicatorApi.getHealthDataForAnIndicator(
+        {
+          indicatorId: Number(indicatorSelected[0]),
+          areaCodes: [areaCodeForEngland],
+          areaType: englandAreaType.key,
+          includeEmptyAreas,
+        },
+        API_CACHE_CONFIG
+      )
+    );
+  }
+
+  if (selectedGroupCode && selectedGroupCode !== areaCodeForEngland) {
+    indicatorRequestArray.push(
+      indicatorApi.getHealthDataForAnIndicator(
+        {
+          indicatorId: Number(indicatorSelected[0]),
+          areaCodes: [selectedGroupCode],
+          areaType: selectedGroupType,
+          includeEmptyAreas,
+        },
+        API_CACHE_CONFIG
+      )
+    );
+  }
+
+  try {
+    const healthIndicatorDataChunks = await Promise.all(indicatorRequestArray);
+    indicatorDataAllAreas = healthIndicatorDataChunks[0];
+    indicatorDataAllAreas.areaHealthData = healthIndicatorDataChunks.flatMap(
+      (indicatorData) => indicatorData?.areaHealthData ?? []
+    );
+  } catch (error) {
+    console.error('error getting health indicator data for areas', error);
+    throw new Error('error getting health indicator data for areas');
+  }
+  return indicatorDataAllAreas;
+}
