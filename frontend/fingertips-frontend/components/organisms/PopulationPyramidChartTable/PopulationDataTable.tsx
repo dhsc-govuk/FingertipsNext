@@ -55,26 +55,32 @@ const getSortAgeBandIndexes = (ageBands: string[] | undefined): number[] => {
 
 type ItemDataType = string | undefined | number;
 
+interface FilterItemDataType {
+  age: string | undefined;
+  male: number;
+  female: number;
+}
+
 interface PopulationDataTableProps {
   headers: string[];
   title: string;
   healthDataForArea: PopulationDataForArea | undefined;
-  filterValues?: (header: ItemDataType[]) => ItemDataType[];
+  filterValues?: (header: FilterItemDataType) => ItemDataType[];
 }
 
 const computeFooterItems = (
   maleSeries: (number | undefined)[],
   femaleSeries: (number | undefined)[]
-): ItemDataType[] => {
-  const males = maleSeries.reduce((prev, current) => {
+): FilterItemDataType => {
+  const totalMales = maleSeries.reduce((prev, current) => {
     return (prev ?? 0) + (current ?? 0);
   }, 0);
 
-  const females = femaleSeries.reduce((prev, current) => {
+  const totalFemales = femaleSeries.reduce((prev, current) => {
     return (prev ?? 0) + (current ?? 0);
   }, 0);
 
-  return ['All ages', males, females];
+  return { age: 'All ages', male: totalMales ?? 0, female: totalFemales ?? 0 };
 };
 
 export const PopulationDataTable = ({
@@ -87,11 +93,15 @@ export const PopulationDataTable = ({
 
   const indexes = getSortAgeBandIndexes(healthDataForArea?.ageCategories);
 
-  const points = healthDataForArea.ageCategories.map((value, index) => [
-    value,
-    healthDataForArea.maleSeries[index],
-    healthDataForArea.femaleSeries[index],
-  ]);
+  const points = healthDataForArea.ageCategories.map(
+    (value: string, index: number): FilterItemDataType => {
+      return {
+        age: value,
+        male: healthDataForArea.maleSeries[index],
+        female: healthDataForArea.femaleSeries[index],
+      };
+    }
+  );
 
   const footerRowItems = computeFooterItems(
     healthDataForArea.maleSeries,
@@ -99,7 +109,7 @@ export const PopulationDataTable = ({
   );
   const filterFooterRowItems = filterValues
     ? filterValues(footerRowItems)
-    : footerRowItems;
+    : [footerRowItems.age, footerRowItems.male, footerRowItems.female];
   return (
     <section>
       <StyledAreaTitleHeader>{title}</StyledAreaTitleHeader>
@@ -120,8 +130,7 @@ export const PopulationDataTable = ({
         {indexes.map((index) => {
           const columnValues = filterValues
             ? filterValues(points[index])
-            : points[index];
-
+            : [points[index].age, points[index].male, points[index].female];
           return (
             <Table.Row key={`${healthDataForArea.areaName}-${index}`}>
               {columnValues.map((value, valueIndex: number) => (
