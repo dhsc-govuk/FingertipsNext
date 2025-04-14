@@ -183,7 +183,7 @@ export function InequalitiesTrend({
       `<div style="padding-right: 10px;"><span>${formatNumber(point.y)} ${measurementUnit ? ' ' + measurementUnit : ''}</span><br/>`,
       `${label === AreaTypeLabelEnum.Benchmark || shouldHideLines ? '' : '<span>' + benchmarkLabel + '</span><br/>'}`,
       `${label === AreaTypeLabelEnum.Benchmark || shouldHideLines ? '' : '<span>' + comparisonLabelForInequality + '</span><br/>'}`,
-      `</div`,
+      `</div>`,
       `</div>`,
       `</div>`,
     ];
