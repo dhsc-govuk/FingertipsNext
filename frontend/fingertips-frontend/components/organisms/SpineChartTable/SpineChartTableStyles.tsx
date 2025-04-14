@@ -134,7 +134,7 @@ export const StyledBenchmarkSubHeader = styled(StyledGreyHeader)({
   backgroundColor: GovukColours.MidGrey,
   borderTop: GovukColours.LightGrey,
   textAlign: 'right',
-  paddingRight: '0.5em',
+  paddingRight: '0.5em !important', // overrides the :last-child declaration which removes right padding
 });
 
 export const StyledGroupCell = styled(StyledAlignRightTableCell)({
@@ -149,7 +149,7 @@ export const StyledBenchmarkCell = styled(StyledAlignRightTableCell)({
   borderTop: GovukColours.LightGrey,
   textAlign: 'right',
   paddingLeft: '0.5em',
-  paddingRight: '0.5em',
+  paddingRight: '0.5em !important', // overrides the :last-child declaration which removes right padding
 });
 
 export const StyledBenchmarkChart = styled(StyledBenchmarkCell)({
