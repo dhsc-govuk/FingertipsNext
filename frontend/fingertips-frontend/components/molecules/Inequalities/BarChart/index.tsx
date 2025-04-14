@@ -46,16 +46,16 @@ export interface InequalitiesPoint extends Highcharts.Point {
 const BenchmarkCategory = 'Persons';
 
 export const generateBenchmarkComparisonData = (
-  point: InequalitiesPoint,
-  benchmarkComparisonMethod: BenchmarkComparisonMethod
+  benchmarkComparisonMethod: BenchmarkComparisonMethod,
+  benchmarkOutcome?: BenchmarkOutcome
 ) => {
   const mappedBenchmarkComparisonMethod = getConfidenceLimitNumber(
     benchmarkComparisonMethod
   );
   const mappedOutcome = getBenchmarkLabelText(
-    point.benchmarkOutcome ?? BenchmarkOutcome.NotCompared
+    benchmarkOutcome ?? BenchmarkOutcome.NotCompared
   );
-  const notCompared = point.benchmarkOutcome === BenchmarkOutcome.NotCompared;
+  const notCompared = benchmarkOutcome === BenchmarkOutcome.NotCompared;
   let benchmarkOutcomeLabel = '';
 
   if (mappedOutcome === BenchmarkOutcome.Similar) {
@@ -110,12 +110,12 @@ export function InequalitiesBarChart({
     symbol: string
   ) => {
     const { mappedBenchmarkComparisonMethod, benchmarkOutcomeLabel } =
-      generateBenchmarkComparisonData(point, benchmarkComparisonMethod);
+      generateBenchmarkComparisonData(benchmarkComparisonMethod, point.benchmarkOutcome);
     const isBenchmarkPoint = point.category === BenchmarkCategory;
     const symbolStyles = [
       `background-color: ${point.color}`,
-      'width: 0.6em',
-      'height: 0.6em',
+      'width: 0.5em',
+      'height: 0.5em',
       'display: block',
       'border-radius: 4px',
       `border: 1px solid ${point.color === '#fff' ? '#000' : point.color}`,

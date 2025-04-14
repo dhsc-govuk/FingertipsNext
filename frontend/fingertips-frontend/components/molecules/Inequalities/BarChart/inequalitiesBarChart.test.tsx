@@ -1,9 +1,10 @@
-import { InequalitiesBarChart } from '.';
+import { generateBenchmarkComparisonData, InequalitiesBarChart } from '.';
 import { render, screen } from '@testing-library/react';
 import { getTestData } from './mocks';
 import { InequalitiesTypes } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import {
   BenchmarkComparisonMethod,
+  BenchmarkOutcome,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 
@@ -58,5 +59,53 @@ describe('Inequalities LineChart suite', () => {
       'highcharts-react-component-inequalitiesBarChart'
     );
     expect(barChart).toHaveTextContent('Inequality type: Sex');
+  });
+
+  describe('generateBenchmarkComparisonData', () => {
+    test.each([
+      [
+        BenchmarkOutcome.Better,
+        BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+        95,
+        'Better than England'
+      ],
+      [
+        BenchmarkOutcome.Similar,
+        BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+        95,
+        'Similar to England'
+      ],
+      [
+        BenchmarkOutcome.NotCompared,
+        BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+        95,
+        'Not compared'
+      ],
+      [
+        BenchmarkOutcome.Worse,
+        BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
+        99.8,
+        'Worse than England'
+      ],
+      [
+        BenchmarkOutcome.Similar,
+        BenchmarkComparisonMethod.Unknown,
+        0,
+        'Similar to England'
+      ]
+    ])('returns a syntactically outcome label string and comparison method', (
+      testOutcome,
+      testBenchmarkComparisonMethod,
+      expectedConfidenceLimitNumber,
+      expectedOutcomeString
+    ) => {
+      const { mappedBenchmarkComparisonMethod, benchmarkOutcomeLabel } = generateBenchmarkComparisonData(
+        testBenchmarkComparisonMethod,
+        testOutcome
+      );
+
+      expect(mappedBenchmarkComparisonMethod).toBe(expectedConfidenceLimitNumber);
+      expect(benchmarkOutcomeLabel).toBe(expectedOutcomeString);
+    });
   });
 });
