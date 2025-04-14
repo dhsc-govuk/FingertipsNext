@@ -11,7 +11,6 @@ const StyledDivHover = styled.div({
   backgroundColor: GovukColours.White,
   boxShadow: `0px 0px 4px 0px ${GovukColours.DarkGrey}`,
   borderRadius: '8px',
-  display: 'none',
   zIndex: 1,
   position: 'fixed',
   textAlign: 'left',
@@ -61,7 +60,8 @@ export interface HeatmapHoverProps {
   value?: number;
   unitLabel: string;
   benchmark: HeatmapBenchmarkProps;
-  hoverId?: string;
+  left?: number;
+  top?: number;
 }
 
 export const HeatmapHover: FC<HeatmapHoverProps> = ({
@@ -71,10 +71,15 @@ export const HeatmapHover: FC<HeatmapHoverProps> = ({
   value,
   unitLabel,
   benchmark,
-  hoverId,
+  left,
+  top,
 }) => {
+  const styles = {
+    left: `${left}px`,
+    top: `${top}px`,
+  };
   return (
-    <StyledDivHover id={hoverId}>
+    <StyledDivHover style={styles}>
       <StyledDivTriangle />
       <StyledDivTriangleOccluder />
       <StyledParagraphZeroMargin>{`**${areaName}**`}</StyledParagraphZeroMargin>

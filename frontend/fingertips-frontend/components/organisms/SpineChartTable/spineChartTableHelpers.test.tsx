@@ -27,17 +27,13 @@ describe('spineChartTableHelpers tests', () => {
   ];
 
   describe('getHealthDataForArea', () => {
-    test('throws an error if undefined provided as the area health data param', () => {
-      expect(() => getHealthDataForArea(undefined, 'A12345')).toThrow(
-        'Indicator contains no area health data'
-      );
+    test('returns null if undefined provided as the area health data param', () => {
+      expect(getHealthDataForArea(undefined, 'A12345')).toBeNull();
     });
 
     // Expectation is that the function is used in the context of both existing when gathering the data
-    test('throws an error if the areaHealthData does not contain an item for the requested area code', () => {
-      expect(() => getHealthDataForArea(mockAreaHealthData, 'A1234')).toThrow(
-        'No health data found for the requested area code'
-      );
+    test('returns null if the areaHealthData does not contain an item for the requested area code', () => {
+      expect(getHealthDataForArea(mockAreaHealthData, 'A1234')).toBeNull();
     });
 
     test('gets the relevant health data item based on the requested area code', () => {

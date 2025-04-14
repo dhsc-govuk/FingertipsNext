@@ -5,12 +5,11 @@ import { HierarchyNameTypes } from '@/lib/areaFilterHelpers/areaType';
 import { mockDeep } from 'jest-mock-extended';
 import { IIndicatorSearchService } from '@/lib/search/searchTypes';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
+import { Area } from '@/generated-sources/ft-api-client';
 
 const mockGetHealthDataForAnIndicator = jest.fn();
 
-const mockGetArea = jest.fn().mockResolvedValue({
-  areaType: { hierarchyName: HierarchyNameTypes.NHS },
-});
+const mockGetArea = jest.fn();
 
 jest.mock('@/lib/apiClient/apiClientFactory', () => ({
   ApiClientFactory: {
@@ -41,11 +40,11 @@ describe('PopulationPyramidWithTableDataProvider', () => {
     mockGetArea.mockClear();
     mockGetArea.mockResolvedValue({
       areaType: { hierarchyName: HierarchyNameTypes.NHS },
-      areaCode: 'E09000001',
-      areaName: 'Test Area',
+      code: 'E09000001',
+      name: 'Test Area',
       parentArea: {
-        areaCode: 'E09000001',
-        areaName: 'Test Area',
+        code: 'E09000001',
+        name: 'Test Area',
         areaType: { hierarchyName: HierarchyNameTypes.NHS },
       },
     });
@@ -83,32 +82,61 @@ describe('PopulationPyramidWithTableDataProvider', () => {
     const view = render(jsxView);
     expect(view).toBeTruthy();
     expect(view.getByText('PopulationPyramidWithTable')).toBeInTheDocument();
-    expect(mockGetArea).toHaveBeenCalledTimes(1);
+    expect(mockGetArea).toHaveBeenCalledTimes(2);
     expect(mockGetHealthDataForAnIndicator).toHaveBeenCalledTimes(1);
     expect(mockIndicatorSearchService.getIndicator).toHaveBeenCalledTimes(1);
   });
 
   it('renders PopulationPyramidWithTable with more than 100 areas data to be fetched', async () => {
-    const areaCodes = ((n: number) => {
+    const areas = ((n: number) => {
       //generate random area codes
-      const results: string[] = [];
+      const results: Area[] = [];
       for (let i = 0; i < n; i++) {
         const randomNum = Math.floor(Math.random() * 100000);
         const paddedNum = String(randomNum).padStart(5, '0');
         const randomString = `E090${paddedNum}`;
-        results.push(randomString);
+        const area = {
+          areaType: {
+            hierarchyName: HierarchyNameTypes.NHS,
+            key: '',
+            name: 'NHS something',
+            level: 0,
+          },
+          code: randomString,
+          name: 'Test Area',
+          parent: {
+            key: '',
+            level: 1,
+            name: 'Test Area',
+            areaType: { hierarchyName: HierarchyNameTypes.NHS },
+          },
+        };
+        results.push(area);
       }
       return results;
     })(130);
 
+    mockGetArea.mockImplementation(({ areaCode }: { areaCode: string }) => {
+      const area = areas.find((area) => area.code === areaCode);
+      if (!area) {
+        // make sure we return an area if the code is not found.
+        return areas[0];
+      }
+      return area;
+    });
+
+    const areaCodes = areas.map((area: Area) => {
+      return area.code;
+    });
+
     const jsxView = await PopulationPyramidWithTableDataProvider({
-      areaCodes,
+      areaCodes: areaCodes,
       searchState: searchParams,
     });
     const view = render(jsxView);
     expect(view).toBeTruthy();
     expect(view.getByText('PopulationPyramidWithTable')).toBeInTheDocument();
-    expect(mockGetArea).toHaveBeenCalledTimes(1);
+    expect(mockGetArea).toHaveBeenCalledTimes(131);
     expect(mockGetHealthDataForAnIndicator).toHaveBeenCalledTimes(2);
     expect(mockIndicatorSearchService.getIndicator).toHaveBeenCalledTimes(1);
   });
