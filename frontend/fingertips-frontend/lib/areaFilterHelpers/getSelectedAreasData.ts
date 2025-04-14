@@ -27,12 +27,12 @@ export const getSelectedAreasDataByAreaType = async (
   areasSelected?: string[],
   areaTypeSelected?: AreaTypeKeys
 ): Promise<Area[]> => {
-  const determineAreaTypeSelected = areaTypeSelected ?? englandAreaType.key;
+  const selectedAreaType = areaTypeSelected ?? englandAreaType.key;
 
   const selectedAreasData =
     areasSelected && areasSelected?.length > 0
       ? (await getAreas(areasSelected)).filter(
-          (area) => area.areaType.key === determineAreaTypeSelected
+          (area) => area.areaType.key === selectedAreaType
         )
       : [];
 
