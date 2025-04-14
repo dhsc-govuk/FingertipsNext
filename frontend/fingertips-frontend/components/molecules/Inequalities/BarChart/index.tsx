@@ -115,6 +115,10 @@ export function InequalitiesBarChart({
         point.benchmarkOutcome
       );
     const isBenchmarkPoint = point.category === BenchmarkCategory;
+    const benchmarkComparisonMethodString =
+      isBenchmarkPoint || mappedBenchmarkComparisonMethod === 0
+        ? ''
+        : `(${mappedBenchmarkComparisonMethod}%)`;
     const symbolStyles = [
       `background-color: ${point.color}`,
       'width: 0.5em',
@@ -132,7 +136,7 @@ export function InequalitiesBarChart({
       <div style="display: flex; margin-top: 10px; align-items: center;"><div style="margin-right: 10px;">
       ${isBenchmarkPoint ? `<span style="color: ${point.color}; font-weight: bold;">${symbol}</span>` : symbolItem}</div>`,
       `<div><span>${formatNumber(point.y)} ${measurementUnit ? ' ' + measurementUnit : ''}`,
-      `<div><span>${isBenchmarkPoint ? '' : benchmarkOutcomeLabel} ${isBenchmarkPoint ? '' : mappedBenchmarkComparisonMethod !== 0 ? `(${mappedBenchmarkComparisonMethod}%)` : ''}</span></div></div>`,
+      `<div><span>${isBenchmarkPoint ? '' : benchmarkOutcomeLabel} ${benchmarkComparisonMethodString}</span></div></div>`,
     ];
   };
 
