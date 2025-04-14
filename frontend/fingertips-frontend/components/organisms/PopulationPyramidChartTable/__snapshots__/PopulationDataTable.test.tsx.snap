@@ -221,12 +221,12 @@ exports[`PopulationDataTable take a snapshot 1`] = `
           <td
             class="c6 c7"
           >
-            1,000
+            900
           </td>
           <td
             class="c6 c7"
           >
-            900
+            1,000
           </td>
         </tr>
         <tr
@@ -240,12 +240,12 @@ exports[`PopulationDataTable take a snapshot 1`] = `
           <td
             class="c6 c7"
           >
-            1,200
+            1,100
           </td>
           <td
             class="c6 c7"
           >
-            1,100
+            1,200
           </td>
         </tr>
         <tr
@@ -259,12 +259,12 @@ exports[`PopulationDataTable take a snapshot 1`] = `
           <td
             class="c6 c7"
           >
-            1,100
+            1,050
           </td>
           <td
             class="c6 c7"
           >
-            1,050
+            1,100
           </td>
         </tr>
         <tr
@@ -278,12 +278,12 @@ exports[`PopulationDataTable take a snapshot 1`] = `
           <td
             class="c6 c7"
           >
-            1,300
+            1,250
           </td>
           <td
             class="c6 c7"
           >
-            1,250
+            1,300
           </td>
         </tr>
         <tr
