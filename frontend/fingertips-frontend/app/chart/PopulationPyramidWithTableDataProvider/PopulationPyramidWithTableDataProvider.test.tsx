@@ -2,9 +2,6 @@ import { PopulationPyramidWithTableDataProvider } from './index';
 import { render } from '@testing-library/react';
 import { SearchParams } from '@/lib/searchStateManager';
 import { HierarchyNameTypes } from '@/lib/areaFilterHelpers/areaType';
-import { mockDeep } from 'jest-mock-extended';
-import { IIndicatorSearchService } from '@/lib/search/searchTypes';
-import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { Area } from '@/generated-sources/ft-api-client';
 
 const mockGetHealthDataForAnIndicator = jest.fn();
@@ -25,10 +22,6 @@ jest.mock('@/lib/apiClient/apiClientFactory', () => ({
     }),
   },
 }));
-
-const mockIndicatorSearchService = mockDeep<IIndicatorSearchService>();
-SearchServiceFactory.getIndicatorSearchService = () =>
-  mockIndicatorSearchService;
 
 jest.mock('@/components/organisms/PopulationPyramidWithTable', () => ({
   PopulationPyramidWithTable: () => <div>PopulationPyramidWithTable</div>,
@@ -52,19 +45,6 @@ describe('PopulationPyramidWithTableDataProvider', () => {
     mockGetHealthDataForAnIndicator.mockResolvedValue({
       areaHealthData: [{ areaCode: 'E09000001', value: 100 }],
     });
-
-    mockIndicatorSearchService.getIndicator.mockClear();
-    mockIndicatorSearchService.getIndicator.mockResolvedValue({
-      indicatorID: '',
-      indicatorName: '',
-      indicatorDefinition: '',
-      dataSource: 'data source',
-      earliestDataPeriod: '',
-      latestDataPeriod: '',
-      lastUpdatedDate: new Date(),
-      hasInequalities: false,
-      unitLabel: '',
-    });
   });
 
   const searchParams = {
@@ -84,7 +64,6 @@ describe('PopulationPyramidWithTableDataProvider', () => {
     expect(view.getByText('PopulationPyramidWithTable')).toBeInTheDocument();
     expect(mockGetArea).toHaveBeenCalledTimes(2);
     expect(mockGetHealthDataForAnIndicator).toHaveBeenCalledTimes(1);
-    expect(mockIndicatorSearchService.getIndicator).toHaveBeenCalledTimes(1);
   });
 
   it('renders PopulationPyramidWithTable with more than 100 areas data to be fetched', async () => {
@@ -138,7 +117,6 @@ describe('PopulationPyramidWithTableDataProvider', () => {
     expect(view.getByText('PopulationPyramidWithTable')).toBeInTheDocument();
     expect(mockGetArea).toHaveBeenCalledTimes(131);
     expect(mockGetHealthDataForAnIndicator).toHaveBeenCalledTimes(2);
-    expect(mockIndicatorSearchService.getIndicator).toHaveBeenCalledTimes(1);
   });
 
   it('handles empty area codes', async () => {
@@ -151,6 +129,5 @@ describe('PopulationPyramidWithTableDataProvider', () => {
     expect(view.getByText('PopulationPyramidWithTable')).toBeInTheDocument();
     expect(mockGetArea).not.toHaveBeenCalled();
     expect(mockGetHealthDataForAnIndicator).not.toHaveBeenCalled();
-    expect(mockIndicatorSearchService.getIndicator).not.toHaveBeenCalled();
   });
 });
