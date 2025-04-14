@@ -2,61 +2,53 @@
 
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
-import { useCallback, useMemo, useState } from 'react';
+import { useState } from 'react';
 import {
-  convertHealthDataForAreaForPyramidData,
   createPyramidPopulationDataFrom,
   PopulationDataForArea,
 } from '@/lib/chartHelpers/preparePopulationData';
 import { TabContainer } from '@/components/layouts/tabContainer';
+import { H3, H5 } from 'govuk-react';
 import {
-  AreaSelectInputData,
-  AreaSelectInputField,
-} from '@/components/molecules/SelectInputField';
-import { HeaderChartTitle } from './HeaderChartTitle';
-import { H3 } from 'govuk-react';
-import { getLatestYear } from '@/lib/chartHelpers/chartHelpers';
-import {
-  SearchParams,
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
-import { usePathname, useRouter } from 'next/navigation';
+  determineHealthDataForArea,
+  seriesDataWithoutGroup,
+  sortHealthDataPointsByDescendingYear,
+} from '@/lib/chartHelpers/chartHelpers';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { ArrowExpander } from '@/components/molecules/ArrowExpander';
 import { PopulationPyramidChartTable } from '../PopulationPyramidChartTable';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
+import { ChartSelectArea } from '@/components/molecules/ChartSelectArea';
+import { AreaWithoutAreaType } from '../Inequalities/inequalitiesHelpers';
 
-const getHeaderTitle = (
-  healthData: HealthDataForArea | undefined,
-  year: number | undefined
+const determineHeaderTitle = (
+  healthDataForAreaSelected?: HealthDataForArea
 ): string => {
-  let title = undefined;
-  if (!year) {
-    title = `Resident population profile for ${healthData?.areaName}`;
-  } else {
-    title = `Resident population profile for ${healthData?.areaName} ${year}`;
+  if (healthDataForAreaSelected) {
+    const year = sortHealthDataPointsByDescendingYear(
+      healthDataForAreaSelected.healthData
+    )[0].year;
+
+    return `Resident population profile for ${healthDataForAreaSelected?.areaName} ${year}`;
   }
-  return title;
+  return '';
 };
 
-const getSelectedAreaFrom = (
-  areaCode: string | undefined,
-  convertedData: (PopulationDataForArea | undefined)[]
-) => {
-  let populationArea: PopulationDataForArea | undefined = undefined;
-  if (areaCode && convertedData.length > 0) {
-    populationArea = convertedData.find(
-      (area: PopulationDataForArea | undefined) => area?.areaCode === areaCode
+export function determinePopulationDataForArea(
+  populationDataForAllAreas: PopulationDataForArea[],
+  areaToFind?: string
+) {
+  if (areaToFind) {
+    return populationDataForAllAreas.find(
+      (data) => data.areaCode === areaToFind
     );
   }
-  if (!populationArea)
-    return convertedData.length > 0 ? convertedData[0] : undefined;
-  return populationArea;
-};
+
+  return populationDataForAllAreas[0];
+}
 
 interface PyramidPopulationChartViewProps {
   healthDataForAreas: HealthDataForArea[];
-  groupAreaSelected?: string;
   xAxisTitle: string;
   yAxisTitle: string;
   searchState: SearchStateParams;
@@ -66,82 +58,61 @@ export const PopulationPyramidWithTable = ({
   healthDataForAreas,
   xAxisTitle,
   yAxisTitle,
-  groupAreaSelected,
   searchState,
   dataSource,
 }: Readonly<PyramidPopulationChartViewProps>) => {
-  const stateManager = SearchStateManager.initialise(searchState);
-  const { [SearchParams.PopulationAreaSelected]: areaCode } =
-    stateManager.getSearchState();
+  const {
+    [SearchParams.PopulationAreaSelected]: populationAreaSelected,
+    [SearchParams.GroupSelected]: groupSelected,
+  } = searchState;
 
-  const [selectedAreaCode, setSelectedAreaCode] = useState<string | undefined>(
-    areaCode
+  const [showPopulationPyramid, setShowPopulationPyramid] =
+    useState<boolean>(false);
+
+  const toggleExpander = () => {
+    setShowPopulationPyramid(!showPopulationPyramid);
+  };
+
+  const healthdataWithoutGroup = seriesDataWithoutGroup(
+    healthDataForAreas,
+    groupSelected,
+    true
   );
 
-  const pathname = usePathname();
-  const { replace } = useRouter();
-
-  const convertedData = useMemo(() => {
-    return createPyramidPopulationDataFrom(
-      healthDataForAreas,
-      groupAreaSelected ?? ''
-    );
-  }, [healthDataForAreas, groupAreaSelected]);
-
-  const [selectedArea, setSelectedArea] = useState(
-    getSelectedAreaFrom(selectedAreaCode, convertedData.areas)
+  const healthDataForAreaSelected = determineHealthDataForArea(
+    healthdataWithoutGroup,
+    populationAreaSelected
   );
 
-  const [title, setTitle] = useState<string>(
-    (() => {
-      if (!selectedArea) return '';
-      const healthData = healthDataForAreas.find(
-        (value: HealthDataForArea, _: number) => {
-          return (
-            value.areaCode == selectedArea.areaCode &&
-            value.areaName == selectedArea.areaName
-          );
-        }
-      );
-      const year = getLatestYear(healthData?.healthData);
-      return getHeaderTitle(healthData, year);
-    })()
+  const { areas, benchmark, group } = createPyramidPopulationDataFrom(
+    healthDataForAreas,
+    groupSelected ?? ''
   );
 
-  const onAreaSelectedHandler = useCallback(
-    (area: AreaSelectInputData) => {
-      if (healthDataForAreas) {
-        const healthData = healthDataForAreas.find(
-          (healthArea: HealthDataForArea, _: number) => {
-            return (
-              healthArea.areaCode === area.areaCode &&
-              area.areaName === healthArea.areaName
-            );
-          }
-        );
-        const year = getLatestYear(healthData?.healthData);
-        stateManager.removeParamValueFromState(
-          SearchParams.PopulationAreaSelected
-        );
-        stateManager.addParamValueToState(
-          SearchParams.PopulationAreaSelected,
-          area.areaCode
-        );
-
-        setTitle(getHeaderTitle(healthData, year));
-        setSelectedArea(
-          convertHealthDataForAreaForPyramidData(healthData, year)
-        );
-        setSelectedAreaCode(area.areaCode);
-        replace(stateManager.generatePath(pathname));
+  const availableAreas: AreaWithoutAreaType[] = healthdataWithoutGroup
+    .map((area) => {
+      if (area.areaCode && area.areaName) {
+        return {
+          code: area.areaCode,
+          name: area.areaName,
+        };
       }
-    },
-    [healthDataForAreas, stateManager, replace, pathname]
+    })
+    .filter((area) => area !== undefined);
+
+  const areasForPopulationData: PopulationDataForArea[] = [];
+  areasForPopulationData.push(...areas);
+  if (benchmark) areasForPopulationData.push(benchmark);
+  if (group) areasForPopulationData.push(group);
+
+  const populationDataForSelectedArea = determinePopulationDataForArea(
+    areasForPopulationData,
+    populationAreaSelected
   );
 
-  if (!convertedData?.areas.length) {
-    return <></>;
-  }
+  if (!populationDataForSelectedArea) return null;
+
+  const title = determineHeaderTitle(healthDataForAreaSelected);
 
   return (
     <div data-testid="populationPyramidWithTable-component">
@@ -149,28 +120,16 @@ export const PopulationPyramidWithTable = ({
       <ArrowExpander
         openTitle="Show population data"
         closeTitle="Hide population data"
-        open={
-          selectedAreaCode != undefined &&
-          selectedAreaCode === selectedArea?.areaCode
-        }
+        open={showPopulationPyramid}
+        toggleClickFunction={toggleExpander}
       >
-        <div>
-          <div>
-            <AreaSelectInputField
-              title="Select an area"
-              areas={convertedData?.areas.map(
-                (healthData: PopulationDataForArea | undefined, _: number) => {
-                  return {
-                    areaCode: healthData?.areaCode,
-                    areaName: healthData?.areaName,
-                  } as AreaSelectInputData;
-                }
-              )}
-              onSelected={onAreaSelectedHandler}
-              visibility={convertedData?.areas.length !== 1}
-            />
-          </div>
-          {selectedArea != undefined ? (
+        <div key={`population-pyramid-${JSON.stringify(searchState)}`}>
+          <ChartSelectArea
+            availableAreas={availableAreas}
+            chartAreaSelectedKey={SearchParams.PopulationAreaSelected}
+            searchState={searchState}
+          />
+          {populationDataForSelectedArea != undefined ? (
             <TabContainer
               id="pyramidChartAndTableView"
               items={[
@@ -179,11 +138,11 @@ export const PopulationPyramidWithTable = ({
                   title: 'Population pyramid',
                   content: (
                     <>
-                      <HeaderChartTitle title={title ?? ''} />
+                      <H5>{title}</H5>
                       <PopulationPyramid
-                        dataForSelectedArea={selectedArea}
-                        dataForGroup={convertedData.group}
-                        dataForBenchmark={convertedData.benchmark}
+                        dataForSelectedArea={populationDataForSelectedArea}
+                        dataForGroup={group}
+                        dataForBenchmark={benchmark}
                         xAxisTitle={xAxisTitle}
                         yAxisTitle={yAxisTitle}
                       />
@@ -195,9 +154,9 @@ export const PopulationPyramidWithTable = ({
                   title: 'Table',
                   content: (
                     <PopulationPyramidChartTable
-                      healthDataForArea={selectedArea}
-                      benchmarkData={convertedData.benchmark}
-                      groupData={convertedData.group}
+                      healthDataForArea={populationDataForSelectedArea}
+                      benchmarkData={benchmark}
+                      groupData={group}
                     />
                   ),
                 },

@@ -107,7 +107,6 @@ export const PopulationPyramidWithTableDataProvider = async ({
   return (
     <PopulationPyramidWithTable
       healthDataForAreas={populationData?.areaHealthData ?? []}
-      groupAreaSelected={groupAreaSelected}
       searchState={searchState}
       xAxisTitle="Age"
       yAxisTitle="Percentage of total population"

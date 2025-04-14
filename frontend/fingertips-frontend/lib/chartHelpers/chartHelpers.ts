@@ -93,20 +93,24 @@ export function seriesDataWithoutGroup(
       ? data.filter((item) => item.areaCode !== groupAreaCode)
       : data;
 
+  const sortedAreasWithoutGroup = withoutGroup.toSorted((a, b) =>
+    a.areaName.localeCompare(b.areaName)
+  );
+
   if (moveEnglandLast) {
-    const englandArea = withoutGroup.find(
+    const englandArea = sortedAreasWithoutGroup.find(
       (area) => area.areaCode === areaCodeForEngland
     );
 
     if (englandArea) {
-      return withoutGroup
+      return sortedAreasWithoutGroup
         .filter((area) => area.areaCode !== areaCodeForEngland)
         .concat(englandArea);
     }
-    return withoutGroup;
+    return sortedAreasWithoutGroup;
   }
 
-  return withoutGroup;
+  return sortedAreasWithoutGroup;
 }
 
 export function determineHealthDataForArea(

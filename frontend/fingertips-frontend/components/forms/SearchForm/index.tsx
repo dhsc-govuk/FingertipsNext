@@ -16,7 +16,7 @@ import {
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowExpander } from '@/components/molecules/ArrowExpander';
 
 const StyledInputField = styled(InputField)(
@@ -43,6 +43,12 @@ export const SearchForm = ({
       setIsLoading(false);
     }
   });
+
+  const [showAreaFilterPane, setShowAreaFilterPane] = useState<boolean>(false);
+
+  const toggleExpander = () => {
+    setShowAreaFilterPane(!showAreaFilterPane);
+  };
 
   const selectedAreas = searchState?.[SearchParams.AreasSelected];
 
@@ -114,6 +120,8 @@ export const SearchForm = ({
       <ArrowExpander
         openTitle="Open area filter"
         closeTitle="Close area filter"
+        open={showAreaFilterPane}
+        toggleClickFunction={toggleExpander}
       >
         <SelectAreasFilterPanel
           key={`area-filter-panel-${JSON.stringify(searchState)}`}
