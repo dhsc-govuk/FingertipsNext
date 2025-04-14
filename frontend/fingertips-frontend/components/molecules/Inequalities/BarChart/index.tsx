@@ -79,6 +79,19 @@ const mapToXAxisTitle: Record<InequalitiesTypes, string> = {
 const getMaxValue = (values: (number | undefined)[]) =>
   Math.max(...values.filter((number) => number !== undefined));
 
+export const getFormattedComparisonLabel = (
+  isBenchmarkPoint: boolean,
+  benchmarkComparisonMethod: number,
+  inequalityType: InequalitiesTypes
+) => {
+  if (isBenchmarkPoint || benchmarkComparisonMethod === 0) {
+    return '';
+  }
+  return inequalityType === InequalitiesTypes.Sex
+    ? `<br/>persons (${benchmarkComparisonMethod}%)`
+    : `(${benchmarkComparisonMethod}%)`;
+};
+
 export function InequalitiesBarChart({
   barChartData,
   yAxisLabel,
@@ -118,10 +131,12 @@ export function InequalitiesBarChart({
         point.benchmarkOutcome
       );
     const isBenchmarkPoint = point.category === BenchmarkCategory;
-    const benchmarkComparisonMethodString =
-      isBenchmarkPoint || mappedBenchmarkComparisonMethod === 0
-        ? ''
-        : `(${mappedBenchmarkComparisonMethod}%)`;
+
+    const comparisonLabel = getFormattedComparisonLabel(
+      isBenchmarkPoint,
+      mappedBenchmarkComparisonMethod,
+      InequalitiesTypes.Sex
+    );
 
     const symbolStyles = [
       `background-color: ${point.color}`,
@@ -136,11 +151,6 @@ export function InequalitiesBarChart({
       ? `<span style="color: ${point.color}; font-weight: bold;">${symbol}</span>`
       : symbolItem;
 
-    const formatComparisonLabel =
-      type === InequalitiesTypes.Sex
-        ? `<br/>persons (${mappedBenchmarkComparisonMethod}%)`
-        : benchmarkComparisonMethodString;
-
     return [
       `
       <span>${barChartData.data.period}</span>
@@ -148,7 +158,7 @@ export function InequalitiesBarChart({
       <div style="display: flex; margin-top: 10px; align-items: center;"><div style="margin-right: 10px;">
       ${benchmarkComparisonSymbol}</div>`,
       `<div><span>${formatNumber(point.y)} ${measurementUnit ? ' ' + measurementUnit : ''}`,
-      `<div><span>${isBenchmarkPoint ? '' : benchmarkOutcomeLabel} ${formatComparisonLabel}</span></div></div>`,
+      `<div><span>${isBenchmarkPoint ? '' : benchmarkOutcomeLabel} ${comparisonLabel}</span></div></div>`,
     ];
   };
 
