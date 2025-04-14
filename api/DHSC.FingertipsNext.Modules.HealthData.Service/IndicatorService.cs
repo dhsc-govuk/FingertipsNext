@@ -51,6 +51,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
 
         var method = _mapper.Map<BenchmarkComparisonMethod>(indicatorData.BenchmarkComparisonMethod);
         var polarity = _mapper.Map<IndicatorPolarity>(indicatorData.Polarity);
+        if (latestOnly)
+            years = [indicatorData.LatestYear];
 
         var areaHealthData = ((await GetIndicatorAreaDataAsync(
             indicatorId,

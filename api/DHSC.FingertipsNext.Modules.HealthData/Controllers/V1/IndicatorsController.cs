@@ -27,6 +27,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     /// <param name="years">A list of years. Up to 20 distinct years can be requested.</param>
     /// <param name="inequalities">A list of desired inequalities.</param>
     /// <param name="include_empty_areas">Determines if areas with no data are returned as empty arrays, the default is false.</param>
+    /// <param name="latest_only">Set to true to get data for the latest date period only, default is false. This overrides the years parameter if set to true</param>
     /// <returns></returns>
     /// <remarks>
     /// If more than 20 years are supplied the request will fail.
@@ -67,7 +68,8 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
             areaType,
             years ?? [],
             inequalities ?? [],
-            include_empty_areas
+            include_empty_areas,
+            latest_only
         );
 
         return indicatorData?.Status switch

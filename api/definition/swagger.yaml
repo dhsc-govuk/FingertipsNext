@@ -766,6 +766,12 @@ components:
       description: Determines if areas with no data are returned as empty arrays, the default is false.
       schema:
         type: boolean
+    latest_only:
+      in: query
+      name: latest_only
+      description: Set to true to get data for the latest date period only, default is false. This overrides the years parameter if set to true.
+      schema:
+        type: boolean
     area_type_key:
       in: path
       name: area_type_key

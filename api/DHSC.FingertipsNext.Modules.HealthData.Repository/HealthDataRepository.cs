@@ -17,18 +17,23 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
 
     public async Task<IndicatorDimensionModel> GetIndicatorDimensionAsync(int indicatorId)
     {
-        var results = await _dbContext.IndicatorDimension
-            .Where(indicator => indicator.IndicatorId == indicatorId)
-            .Select(indicator => new IndicatorDimensionModel
-            {
-                IndicatorId = indicator.IndicatorId,
-                IndicatorKey = indicator.IndicatorKey,
-                Name = indicator.Name,
-                Polarity = indicator.Polarity,
-                BenchmarkComparisonMethod = indicator.BenchmarkComparisonMethod
-            })
-            .FirstOrDefaultAsync();
-        return results;
+        var model=await _dbContext.HealthMeasure
+           .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
+           .OrderByDescending(healthMeasure => healthMeasure.Year)
+           .Include(healthMeasure => healthMeasure.IndicatorDimension)
+           .Select(healthMeasure => new IndicatorDimensionModel
+           {
+               IndicatorId = healthMeasure.IndicatorDimension.IndicatorId,
+               IndicatorKey = healthMeasure.IndicatorKey,
+               Name = healthMeasure.IndicatorDimension.Name,
+               Polarity = healthMeasure.IndicatorDimension.Polarity,
+               BenchmarkComparisonMethod = healthMeasure.IndicatorDimension.BenchmarkComparisonMethod,
+               LatestYear = healthMeasure.Year
+           })
+           .Take(1)
+           .FirstOrDefaultAsync();
+       
+        return model;
     }
     
     public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataAsync(int indicatorId, string[] areaCodes, int[] years, string[] inequalities)

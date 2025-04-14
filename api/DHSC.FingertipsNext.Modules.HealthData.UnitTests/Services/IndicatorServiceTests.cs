@@ -19,13 +19,14 @@ public class IndicatorServiceTests
 
     private readonly string expectedAreaCode = "Code1";
     private readonly string expectedAreaName = "Area 1";
-    private readonly IndicatorDimensionModel testIndicator = new IndicatorDimensionModel()
+    private readonly IndicatorDimensionModel testIndicator = new()
     {
         Name = "Name",
         IndicatorKey = 123,
         IndicatorId = 123,
         BenchmarkComparisonMethod = "Confidence intervals overlapping reference value (95.0)",
         Polarity = "High is good",
+        LatestYear=2024
     };
 
     public IndicatorServiceTests()
@@ -81,6 +82,41 @@ public class IndicatorServiceTests
         result.Content.AreaHealthData.ShouldNotBeEmpty();
         result.Content.AreaHealthData.Count().ShouldBe(1);
         result.Content.AreaHealthData.ElementAt(0).ShouldBeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public async Task GetIndicatorData_ShouldReturnExpectedResult_LatestDataOnly()
+    {
+        const string expectedAreaCode2 = "Code2";
+        const string expectedAreaName2 = "Area 2";
+
+        var healthMeasure1 = new HealthMeasureModelHelper(year: 2023)
+            .WithAreaDimension(expectedAreaCode, expectedAreaName).Build();
+        var healthMeasure2 = new HealthMeasureModelHelper(year: 2024)
+            .WithAreaDimension(expectedAreaCode2, expectedAreaName2).Build();
+        var healthMeasure3 = new HealthMeasureModelHelper(year: 2020)
+            .WithAreaDimension(expectedAreaCode, expectedAreaName).Build();
+        var expected = new List<HealthDataForArea>
+        {
+            new()
+            {
+                AreaCode = expectedAreaCode2,
+                AreaName = expectedAreaName2,
+                HealthData = new List<HealthDataPoint>
+                {
+                    _mapper.Map<HealthDataPoint>(healthMeasure2)
+                }
+            }
+        };
+        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
+        _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), Arg.Any<int[]>(), []).Returns(
+            new List<HealthMeasureModel>
+                { healthMeasure2 });
+
+        var result = await _indicatorService.GetIndicatorDataAsync(1, [], string.Empty, [], [], latestOnly:true);
+        result.Content.AreaHealthData.ShouldNotBeEmpty();
+        result.Content.AreaHealthData.Count().ShouldBe(1);
+        result.Content.AreaHealthData.ShouldBeEquivalentTo(expected);
     }
 
     [Fact]
