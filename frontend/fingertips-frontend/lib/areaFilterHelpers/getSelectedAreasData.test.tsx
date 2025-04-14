@@ -114,4 +114,50 @@ describe('getSelectedAreasDataByAreaType', () => {
 
     expect(selectedAreaData).toEqual([area1]);
   });
+
+  it('should make the appropriate number of API calls when a long list of areas is requested', async () => {
+    const area1 = generateMockArea('A001', 'nhs-regions');
+    const area2 = generateMockArea('A002', 'nhs-regions');
+
+    mockAreasApi.getAreas.mockResolvedValue([area1, area2]);
+
+    const testAreas = new Array(101).fill('a');
+
+    await getSelectedAreasDataByAreaType(testAreas, 'nhs-regions');
+
+    expect(mockAreasApi.getAreas).toHaveBeenCalledTimes(2);
+    expect(mockAreasApi.getAreas).toHaveBeenNthCalledWith(
+      1,
+      {
+        areaCodes: new Array(100).fill('a'),
+      },
+      API_CACHE_CONFIG
+    );
+    expect(mockAreasApi.getAreas).toHaveBeenNthCalledWith(
+      2,
+      {
+        areaCodes: ['a'],
+      },
+      API_CACHE_CONFIG
+    );
+  });
+
+  it('should return combined data when a long list of areas is requested', async () => {
+    const area1 = generateMockArea('A001', 'nhs-regions');
+    const area2 = generateMockArea('A002', 'nhs-regions');
+    const area3 = generateMockArea('A003', 'nhs-regions');
+    const area4 = generateMockArea('A004', 'nhs-regions');
+
+    mockAreasApi.getAreas.mockResolvedValueOnce([area1, area2]);
+    mockAreasApi.getAreas.mockResolvedValueOnce([area3, area4]);
+
+    const testAreas = new Array(101).fill('a');
+
+    const selectedAreaData = await getSelectedAreasDataByAreaType(
+      testAreas,
+      'nhs-regions'
+    );
+
+    expect(selectedAreaData).toEqual([area1, area2, area3, area4]);
+  });
 });

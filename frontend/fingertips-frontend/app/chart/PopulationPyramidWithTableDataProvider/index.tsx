@@ -11,7 +11,10 @@ import {
 } from '@/lib/searchStateManager';
 import { HierarchyNameTypes } from '@/lib/areaFilterHelpers/areaType';
 
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
 import { PopulationPyramidWithTable } from '@/components/organisms/PopulationPyramidWithTable';
 import { getHealthDataForIndicator } from '@/lib/ViewsHelpers';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
@@ -24,7 +27,10 @@ const getAreaCodeMappingsToIndicatorIds = async (
 
   await Promise.all(
     areaCodesToRequest.map(async (areaCode) => {
-      const area = await areasApi.getArea({ areaCode: areaCode });
+      const area = await areasApi.getArea(
+        { areaCode: areaCode },
+        API_CACHE_CONFIG
+      );
       const indicatorTypeID =
         area.areaType.hierarchyName == HierarchyNameTypes.NHS
           ? nhsIndicatorIdForPopulation
