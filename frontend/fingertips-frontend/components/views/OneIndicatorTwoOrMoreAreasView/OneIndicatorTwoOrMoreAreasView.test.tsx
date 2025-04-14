@@ -19,7 +19,10 @@ import { mockHealthData } from '@/mock/data/healthdata';
 import regionsMap from '@/assets/maps/Regions_December_2023_Boundaries_EN_BUC_1958740832896680092.geo.json';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
-import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
+import {
+  englandAreaType,
+  regionsAreaType,
+} from '@/lib/areaFilterHelpers/areaType';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
@@ -309,6 +312,10 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
 
     const page = await OneIndicatorTwoOrMoreAreasView({
       searchState: searchState,
+      availableAreas: [
+        { code: 'E12000004', name: 'area 1', areaType: regionsAreaType },
+        { code: 'E12000006', name: 'area 2', areaType: regionsAreaType },
+      ],
     });
 
     expect(page.props.children.props.indicatorData).toEqual(mockIndicatorData);

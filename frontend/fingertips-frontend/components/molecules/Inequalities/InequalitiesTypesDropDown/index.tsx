@@ -1,23 +1,26 @@
-import { useSearchState } from '@/context/SearchStateContext';
-import { SearchParamKeys, SearchStateManager } from '@/lib/searchStateManager';
+import { StyledFilterSelect } from '@/components/styles/StyledFilterSelect';
+import {
+  SearchParamKeys,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
 import { usePathname, useRouter } from 'next/navigation';
-import { StyledFilterSelect } from '../../SelectAreasFilterPanel';
 
 interface InequalitiesTypeDropDownProps {
   inequalitiesOptions: string[];
   inequalityTypeSelectedSearchParam: SearchParamKeys;
   testRef: string;
+  searchState: SearchStateParams;
 }
 
 export function InequalitiesTypesDropDown({
   inequalitiesOptions,
   inequalityTypeSelectedSearchParam,
   testRef,
+  searchState,
 }: Readonly<InequalitiesTypeDropDownProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
-  const { getSearchState } = useSearchState();
-  const searchState = getSearchState();
 
   const searchStateManager = SearchStateManager.initialise(searchState);
 
@@ -37,13 +40,14 @@ export function InequalitiesTypesDropDown({
       <StyledFilterSelect
         label="Select an inequality type"
         data-testid={`select-inequality-type-${testRef}`}
-        aria-label={`select-inequality-type-${testRef}`}
+        aria-label="Select an inequality type"
         input={{
           value: selectedType,
           onChange: (e) => {
             setSelectedType(e.target.value);
           },
         }}
+        style={{ marginBottom: '1.5em' }}
       >
         {inequalitiesOptions.map((option) => (
           <option key={option}>{option}</option>

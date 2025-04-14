@@ -4,6 +4,7 @@ import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-clien
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { Paragraph } from 'govuk-react';
 import { hasHealthDataCheck } from './hasHealthDataCheck';
+import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 
 interface ViewsWrapperProps {
   children: React.ReactNode;
@@ -18,9 +19,11 @@ export function ViewsWrapper({
 }: Readonly<ViewsWrapperProps>) {
   const areasSelected = searchState?.[SearchParams.AreasSelected];
 
+  const areaCodes = determineAreaCodes(areasSelected);
+
   const hasHealthDataForAllSelectedAreasAndIndicators = hasHealthDataCheck(
     indicatorsDataForAreas ?? [],
-    areasSelected ?? []
+    areaCodes ?? []
   );
 
   return (

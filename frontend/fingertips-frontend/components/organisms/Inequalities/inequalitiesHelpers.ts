@@ -1,4 +1,5 @@
 import {
+  Area,
   HealthDataForArea,
   HealthDataPoint,
   HealthDataPointBenchmarkComparison,
@@ -16,7 +17,8 @@ import {
   lineChartDefaultOptions,
 } from '../LineChart/lineChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
-import { DashStyleValue } from 'highcharts';
+import Highcharts, { DashStyleValue, YAxisOptions } from 'highcharts';
+import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
 
 export const localeSort = (a: string, b: string) => a.localeCompare(b);
 export const sexCategory = 'Sex';
@@ -56,6 +58,8 @@ export interface InequalitiesTableRowData {
     [key: string]: RowDataFields | undefined;
   };
 }
+
+export type AreaWithoutAreaType = Pick<Area, 'code' | 'name'>;
 
 interface DataWithoutInequalities {
   areaDataWithoutInequalities: HealthDataForArea[];
@@ -184,8 +188,8 @@ export const getDynamicKeys = (
     return allKeys;
   }, []);
 
-  const uniqueKeys = [...new Set(existingKeys)];
-  return uniqueKeys;
+  // spreading a set ensures we have unique keys
+  return [...new Set(existingKeys)];
 };
 
 const dashStyle = (index: number): DashStyleValue => {
@@ -321,6 +325,10 @@ export function generateInequalitiesLineChartOptions(
         margin: 20,
         style: { fontSize: AXIS_TITLE_FONT_SIZE },
       },
+      labels: {
+        ...(lineChartDefaultOptions.yAxis as YAxisOptions)?.labels,
+        formatter: FormatValueAsNumber,
+      },
     },
     xAxis: {
       ...lineChartDefaultOptions.xAxis,
@@ -341,7 +349,7 @@ export function generateInequalitiesLineChartOptions(
       },
       useHTML: true,
     },
-  };
+  } satisfies Highcharts.Options;
 }
 
 export const getAllDataWithoutInequalities = (
@@ -382,6 +390,59 @@ export const getAllDataWithoutInequalities = (
     englandBenchmarkWithoutInequalities,
     groupDataWithoutInequalities,
   };
+};
+
+function hasHealthDataForInequalities(
+  healthDataForArea: HealthDataForArea,
+  inequalityType: InequalitiesTypes,
+  year?: string
+): boolean {
+  if (year) {
+    const healthDataPointsForYear = healthDataForArea.healthData.filter(
+      (healthData) => healthData.year.toString() === year
+    );
+
+    if (healthDataPointsForYear.length === 0) {
+      return false;
+    }
+
+    return (
+      healthDataPointsForYear?.filter((healthDataForYear) =>
+        inequalityType === InequalitiesTypes.Sex
+          ? !healthDataForYear.sex.isAggregate
+          : !healthDataForYear.deprivation.isAggregate
+      ).length > 0
+    );
+  }
+  const healthDataPointWithInequalities = healthDataForArea?.healthData?.filter(
+    (data) =>
+      inequalityType === InequalitiesTypes.Sex
+        ? !data.sex.isAggregate
+        : !data.deprivation.isAggregate
+  );
+
+  return healthDataPointWithInequalities.length > 0;
+}
+
+export const getAreasWithInequalitiesData = (
+  healthIndicatorData: HealthDataForArea[],
+  inequalityType: InequalitiesTypes,
+  year?: string
+) => {
+  const areasWithInequalitiesData: AreaWithoutAreaType[] = [];
+
+  healthIndicatorData.forEach((areaWithHealthData) => {
+    if (
+      hasHealthDataForInequalities(areaWithHealthData, inequalityType, year)
+    ) {
+      areasWithInequalitiesData.push({
+        code: areaWithHealthData.areaCode,
+        name: areaWithHealthData.areaName,
+      });
+    }
+  });
+
+  return areasWithInequalitiesData;
 };
 
 export const filterHealthData = (

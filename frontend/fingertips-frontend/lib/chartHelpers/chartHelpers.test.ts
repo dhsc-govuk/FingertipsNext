@@ -8,6 +8,8 @@ import {
   sortHealthDataForAreasByDate,
   sortHealthDataPointsByDescendingYear,
   getIndicatorDataForAreasForMostRecentYearOnly,
+  seriesDataWithoutGroup,
+  determineHealthDataForArea,
   AreaTypeLabelEnum,
   getTooltipContent,
 } from '@/lib/chartHelpers/chartHelpers';
@@ -28,6 +30,10 @@ import {
   noDeprivation,
   personsSex,
 } from '../mocks';
+import {
+  generateHealthDataPoint,
+  generateMockHealthDataForArea,
+} from './testHelpers';
 
 const mockData: HealthDataForArea[] = [
   {
@@ -458,6 +464,97 @@ describe('seriesDataWithoutEnglandOrParent', () => {
 
     const result = seriesDataWithoutEnglandOrGroup(data, 'E12000001');
     expect(result).toEqual(dataWithoutParent);
+  });
+});
+
+describe('seriesDataWithoutGroup', () => {
+  const mockHealthDataForArea1 = generateMockHealthDataForArea('A001', [
+    generateHealthDataPoint(2024, false, false),
+    generateHealthDataPoint(2024, false, false),
+  ]);
+
+  const mockHealthDataForArea2 = generateMockHealthDataForArea('A002', [
+    generateHealthDataPoint(2024, false, false),
+    generateHealthDataPoint(2024, false, false),
+  ]);
+
+  const mockHealthDataForEngland = generateMockHealthDataForArea(
+    areaCodeForEngland,
+    [
+      generateHealthDataPoint(2024, false, false),
+      generateHealthDataPoint(2024, false, false),
+    ]
+  );
+
+  it('should return data that does not have the group area code', () => {
+    const result = seriesDataWithoutGroup(
+      [
+        mockHealthDataForEngland,
+        mockHealthDataForArea1,
+        mockHealthDataForArea2,
+      ],
+      'A002'
+    );
+    expect(result).toEqual([mockHealthDataForEngland, mockHealthDataForArea1]);
+  });
+
+  it('should return data with england as the last area when specified', () => {
+    const MOVE_ENGLAND_LAST = true;
+
+    const result = seriesDataWithoutGroup(
+      [
+        mockHealthDataForEngland,
+        mockHealthDataForArea1,
+        mockHealthDataForArea2,
+      ],
+      'A002',
+      MOVE_ENGLAND_LAST
+    );
+    expect(result).toEqual([mockHealthDataForArea1, mockHealthDataForEngland]);
+  });
+});
+
+describe('determineHealthDataForArea', () => {
+  const mockHealthDataForArea1 = generateMockHealthDataForArea('A001', [
+    generateHealthDataPoint(2024, false, false),
+    generateHealthDataPoint(2024, false, false),
+  ]);
+
+  const mockHealthDataForArea2 = generateMockHealthDataForArea('A002', [
+    generateHealthDataPoint(2024, false, false),
+    generateHealthDataPoint(2024, false, false),
+  ]);
+
+  const mockHealthDataForEngland = generateMockHealthDataForArea(
+    areaCodeForEngland,
+    [
+      generateHealthDataPoint(2024, false, false),
+      generateHealthDataPoint(2024, false, false),
+    ]
+  );
+
+  const mockDataForAreas = [
+    mockHealthDataForArea1,
+    mockHealthDataForArea2,
+    mockHealthDataForEngland,
+  ];
+
+  it('should return the healthData for the area found with the areaToFind param', () => {
+    const result = determineHealthDataForArea(mockDataForAreas, 'A002');
+
+    expect(result).toEqual(mockHealthDataForArea2);
+  });
+
+  it('should return undefined when the areaToFind is not found', () => {
+    const result = determineHealthDataForArea(mockDataForAreas, 'A003');
+
+    expect(result).toEqual(undefined);
+  });
+
+  it('should return the first area from the healthDataForAllAreas array when an areaToFind is not provided', () => {
+    const result = determineHealthDataForArea(mockDataForAreas);
+
+    expect(result).toEqual(mockHealthDataForArea1);
   });
 });
 

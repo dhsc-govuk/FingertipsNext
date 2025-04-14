@@ -23,6 +23,7 @@ import {
   sequenceSelectorForInequality,
   healthDataFilterFunctionGeneratorForInequality,
   getYearsWithInequalityData,
+  getAreasWithInequalitiesData,
   isSexTypePresent,
   getInequalityCategories,
   sexCategory,
@@ -46,6 +47,10 @@ import {
   mockBenchmarkData,
   mockParentData,
 } from '../LineChart/mocks';
+import {
+  generateHealthDataPoint,
+  generateMockHealthDataForArea,
+} from '@/lib/chartHelpers/testHelpers';
 
 const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
   areaCode: 'A1425',
@@ -1066,6 +1071,117 @@ describe('getAllDataWithoutInequalities', () => {
         [areaCodeForEngland]
       )
     ).toEqual(expected);
+  });
+});
+
+describe('getAreasWithInequalitiesData', () => {
+  const mockHealthIndicatorData = [
+    generateMockHealthDataForArea('A001', [
+      generateHealthDataPoint(2024, false, false),
+      generateHealthDataPoint(2023, true, false),
+      generateHealthDataPoint(2022, false, false),
+      generateHealthDataPoint(2021, true, false),
+    ]),
+    generateMockHealthDataForArea(areaCodeForEngland, [
+      generateHealthDataPoint(2024, true, false),
+      generateHealthDataPoint(2023, true, false),
+      generateHealthDataPoint(2022, false, false),
+      generateHealthDataPoint(2021, true, false),
+    ]),
+    generateMockHealthDataForArea('A002', [
+      generateHealthDataPoint(2024, false, false),
+      generateHealthDataPoint(2023, false, false),
+      generateHealthDataPoint(2022, true, false),
+      generateHealthDataPoint(2021, true, false),
+    ]),
+    generateMockHealthDataForArea('A003', [
+      generateHealthDataPoint(2024, true, false),
+      generateHealthDataPoint(2023, true, false),
+      generateHealthDataPoint(2022, true, false),
+      generateHealthDataPoint(2021, true, false),
+    ]),
+    generateMockHealthDataForArea('A004', [
+      generateHealthDataPoint(2024, false, true),
+      generateHealthDataPoint(2023, false, true),
+      generateHealthDataPoint(2022, false, true),
+      generateHealthDataPoint(2021, true, true),
+    ]),
+  ];
+
+  describe('for a particular year', () => {
+    it('should return all the areas that have sex inequality data for the year provided', () => {
+      const expectedAreaCodes = ['A001', areaCodeForEngland, 'A004'];
+
+      const areasWithSexInequalityDataForYear = getAreasWithInequalitiesData(
+        mockHealthIndicatorData,
+        InequalitiesTypes.Sex,
+        '2022'
+      );
+
+      expect(areasWithSexInequalityDataForYear).toHaveLength(3);
+
+      areasWithSexInequalityDataForYear.forEach((area, i) => {
+        expect(area.code).toEqual(expectedAreaCodes[i]);
+      });
+    });
+
+    it('should return all the areas that have deprivation inequality data for the year provided', () => {
+      const expectedAreaCodes = ['A001', areaCodeForEngland, 'A002', 'A003'];
+
+      const areasWithSexInequalityDataForYear = getAreasWithInequalitiesData(
+        mockHealthIndicatorData,
+        InequalitiesTypes.Deprivation,
+        '2023'
+      );
+
+      expect(areasWithSexInequalityDataForYear).toHaveLength(4);
+
+      areasWithSexInequalityDataForYear.forEach((area, i) => {
+        expect(area.code).toEqual(expectedAreaCodes[i]);
+      });
+    });
+
+    it('should return an empty array if there are no areas that have sex inequality data for the year provided', () => {
+      const areasWithSexInequalityDataForYear = getAreasWithInequalitiesData(
+        mockHealthIndicatorData,
+        InequalitiesTypes.Sex,
+        '2021'
+      );
+
+      expect(areasWithSexInequalityDataForYear).toEqual([]);
+    });
+  });
+
+  describe('for all years', () => {
+    it('should return all the areas that have sex inequality data for at least one year', () => {
+      const expectedAreaCodes = ['A001', areaCodeForEngland, 'A002', 'A004'];
+
+      const areasWithSexInequalityDataForYear = getAreasWithInequalitiesData(
+        mockHealthIndicatorData,
+        InequalitiesTypes.Sex
+      );
+
+      expect(areasWithSexInequalityDataForYear).toHaveLength(4);
+
+      areasWithSexInequalityDataForYear.forEach((area, i) => {
+        expect(area.code).toEqual(expectedAreaCodes[i]);
+      });
+    });
+
+    it('should return all the areas that have deprivation inequality data for at least one year', () => {
+      const expectedAreaCodes = ['A001', areaCodeForEngland, 'A002', 'A003'];
+
+      const areasWithSexInequalityDataForYear = getAreasWithInequalitiesData(
+        mockHealthIndicatorData,
+        InequalitiesTypes.Deprivation
+      );
+
+      expect(areasWithSexInequalityDataForYear).toHaveLength(4);
+
+      areasWithSexInequalityDataForYear.forEach((area, i) => {
+        expect(area.code).toEqual(expectedAreaCodes[i]);
+      });
+    });
   });
 });
 

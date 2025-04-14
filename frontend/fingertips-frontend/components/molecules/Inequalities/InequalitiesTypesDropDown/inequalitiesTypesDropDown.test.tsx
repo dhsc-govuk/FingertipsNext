@@ -25,9 +25,8 @@ const mockSearchState = {
   [SearchParams.InequalityBarChartTypeSelected]: 'Sex',
 };
 
-const mockGetSearchState = jest.fn();
 const mockSearchStateContext: SearchStateContext = {
-  getSearchState: mockGetSearchState,
+  getSearchState: jest.fn(),
   setSearchState: jest.fn(),
 };
 jest.mock('@/context/SearchStateContext', () => {
@@ -38,9 +37,6 @@ jest.mock('@/context/SearchStateContext', () => {
 
 describe('InequalitiesTypesDropDown suite', () => {
   const options = ['deprivation1', 'deprivation2', 'deprivation3', 'Sex'];
-  beforeEach(() => {
-    mockGetSearchState.mockReturnValue(mockSearchState);
-  });
 
   it('should display expected elements', () => {
     render(
@@ -50,6 +46,7 @@ describe('InequalitiesTypesDropDown suite', () => {
           SearchParams.InequalityBarChartTypeSelected
         }
         testRef="bc"
+        searchState={mockSearchState}
       />
     );
     const dropDown = screen.getByRole('combobox');
@@ -77,6 +74,7 @@ describe('InequalitiesTypesDropDown suite', () => {
           SearchParams.InequalityLineChartTypeSelected
         }
         testRef="lc"
+        searchState={mockSearchState}
       />
     );
 
@@ -90,8 +88,6 @@ describe('InequalitiesTypesDropDown suite', () => {
       [SearchParams.InequalityLineChartTypeSelected]: 'deprivation3',
     };
 
-    mockGetSearchState.mockReturnValue(mockSearchState);
-
     render(
       <InequalitiesTypesDropDown
         inequalitiesOptions={options}
@@ -99,6 +95,7 @@ describe('InequalitiesTypesDropDown suite', () => {
           SearchParams.InequalityLineChartTypeSelected
         }
         testRef="bc"
+        searchState={mockSearchState}
       />
     );
 

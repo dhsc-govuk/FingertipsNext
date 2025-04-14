@@ -58,6 +58,7 @@ exports[`getBarChartOptions should return an object matching the snapshot 1`] = 
   },
   "yAxis": {
     "labels": {
+      "formatter": undefined,
       "style": {
         "fontSize": 16,
       },
@@ -152,6 +153,7 @@ exports[`getBarChartOptions should return an object matching the snapshot when o
   },
   "yAxis": {
     "labels": {
+      "formatter": undefined,
       "style": {
         "fontSize": 16,
       },

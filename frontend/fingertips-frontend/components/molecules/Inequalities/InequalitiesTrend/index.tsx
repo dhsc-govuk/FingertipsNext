@@ -25,11 +25,18 @@ import {
   filterHealthData,
   healthDataFilterFunctionGeneratorForInequality,
   getYearsWithInequalityData,
+  getAreasWithInequalitiesData,
   getInequalityCategories,
   getInequalitiesType,
   InequalitiesTypes,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
+import {
+  determineAreaCodes,
+  determineHealthDataForArea,
+  seriesDataWithoutGroup,
+} from '@/lib/chartHelpers/chartHelpers';
+import { ChartSelectArea } from '../../ChartSelectArea';
 import { InequalitiesTypesDropDown } from '../InequalitiesTypesDropDown';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
@@ -39,7 +46,7 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 
 interface InequalitiesTrendProps {
-  healthIndicatorData: HealthDataForArea;
+  healthIndicatorData: HealthDataForArea[];
   searchState: SearchStateParams;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   measurementUnit?: string;
@@ -57,8 +64,8 @@ const getBenchmarkOutcomeForYear = (
 
 export function InequalitiesTrend({
   healthIndicatorData,
-  searchState,
   measurementUnit,
+  searchState,
   benchmarkComparisonMethod,
   dataSource,
 }: Readonly<InequalitiesTrendProps>) {
@@ -66,14 +73,32 @@ export function InequalitiesTrend({
     showInequalitiesLineChartConfidenceIntervals,
     setShowInequalitiesLineChartConfidenceIntervals,
   ] = useState<boolean>(false);
+
   const stateManager = SearchStateManager.initialise(searchState);
   const {
+    [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.InequalityLineChartTypeSelected]: inequalityTypeSelected,
+    [SearchParams.InequalityLineChartAreaSelected]:
+      inequalityLineChartAreaSelected,
   } = stateManager.getSearchState();
 
-  const inequalityCategories = getInequalityCategories(healthIndicatorData);
+  const areaCodes = determineAreaCodes(areasSelected);
 
+  const healthdataWithoutGroup = seriesDataWithoutGroup(
+    healthIndicatorData,
+    selectedGroupCode,
+    true
+  );
+
+  const healthDataForArea = determineHealthDataForArea(
+    healthdataWithoutGroup,
+    inequalityLineChartAreaSelected
+  );
+
+  if (!healthDataForArea) return null;
+
+  const inequalityCategories = getInequalityCategories(healthDataForArea);
   if (!inequalityCategories.length) return null;
 
   const type = getInequalitiesType(
@@ -81,12 +106,17 @@ export function InequalitiesTrend({
     inequalityTypeSelected
   );
 
+  const availableAreasWithInequalities = getAreasWithInequalitiesData(
+    healthdataWithoutGroup,
+    type
+  );
+
   const filterFunctionGenerator =
     healthDataFilterFunctionGeneratorForInequality[type];
   const healthIndicatorDataWithoutOtherInequalities = {
     ...healthIndicatorData,
     healthData: filterHealthData(
-      healthIndicatorData.healthData,
+      healthDataForArea.healthData,
       filterFunctionGenerator(inequalityTypeSelected ?? inequalityCategories[0])
     ),
   };
@@ -117,7 +147,7 @@ export function InequalitiesTrend({
   if (!yearsDesc.length || allData.length < 2) return null;
 
   const lineChartData: InequalitiesChartData = {
-    areaName: healthIndicatorData.areaName,
+    areaName: healthDataForArea.areaName,
     rowData: allData,
   };
 
@@ -126,7 +156,7 @@ export function InequalitiesTrend({
     symbol: string
   ) => {
     const label =
-      healthIndicatorData.areaCode === areaCodeForEngland
+      healthDataForArea.areaCode === areaCodeForEngland
         ? AreaTypeLabelEnum.Benchmark
         : AreaTypeLabelEnum.Area;
     const { benchmarkLabel, category, comparisonLabel } = getTooltipContent(
@@ -167,7 +197,7 @@ export function InequalitiesTrend({
       showInequalitiesLineChartConfidenceIntervals,
       generateInequalitiesLineChartTooltipForPoint,
       {
-        areasSelected,
+        areasSelected: areaCodes,
         yAxisTitleText: 'Value',
         xAxisTitleText: 'Year',
         measurementUnit,
@@ -183,6 +213,12 @@ export function InequalitiesTrend({
           SearchParams.InequalityLineChartTypeSelected
         }
         testRef="lc"
+        searchState={searchState}
+      />
+      <ChartSelectArea
+        availableAreas={availableAreasWithInequalities}
+        chartAreaSelectedKey={SearchParams.InequalityLineChartAreaSelected}
+        searchState={searchState}
       />
       <TabContainer
         id="inequalitiesLineChartAndTable"

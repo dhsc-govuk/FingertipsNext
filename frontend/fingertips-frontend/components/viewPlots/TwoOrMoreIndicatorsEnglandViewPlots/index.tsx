@@ -1,10 +1,6 @@
 'use client';
 
-import {
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
-
+import { SearchStateParams } from '@/lib/searchStateManager';
 import {
   HealthDataPoint,
   IndicatorWithHealthDataForArea,
@@ -72,10 +68,7 @@ export const getEnglandIndicatorTableData = (
 export function TwoOrMoreIndicatorsEnglandViewPlots({
   indicatorData,
   indicatorMetadata,
-  searchState,
 }: Readonly<TwoOrMoreIndicatorsEnglandViewPlotProps>) {
-  SearchStateManager.initialise(searchState);
-
   const englandIndicatorData = getEnglandIndicatorTableData(
     indicatorData,
     indicatorMetadata
