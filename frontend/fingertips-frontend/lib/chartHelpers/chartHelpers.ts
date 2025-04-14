@@ -97,19 +97,17 @@ export function seriesDataWithoutGroup(
     a.areaName.localeCompare(b.areaName)
   );
 
-  if (moveEnglandLast) {
-    const englandArea = sortedAreasWithoutGroup.find(
-      (area) => area.areaCode === areaCodeForEngland
-    );
+  if (!moveEnglandLast) return sortedAreasWithoutGroup;
 
-    if (englandArea) {
-      return sortedAreasWithoutGroup
-        .filter((area) => area.areaCode !== areaCodeForEngland)
-        .concat(englandArea);
-    }
-    return sortedAreasWithoutGroup;
+  const englandArea = sortedAreasWithoutGroup.find(
+    (area) => area.areaCode === areaCodeForEngland
+  );
+
+  if (englandArea) {
+    return sortedAreasWithoutGroup
+      .filter((area) => area.areaCode !== areaCodeForEngland)
+      .concat(englandArea);
   }
-
   return sortedAreasWithoutGroup;
 }
 

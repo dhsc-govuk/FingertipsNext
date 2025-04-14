@@ -30,36 +30,31 @@ const determineHeaderTitle = (
   healthDataForAreaSelected?: HealthDataForArea,
   areaTypeSelected?: string
 ): string => {
-  if (healthDataForAreaSelected) {
-    const hierarchyName = allAreaTypes.find(
-      (areaType) => areaType.key === areaTypeSelected
-    );
+  if (!healthDataForAreaSelected) return '';
 
-    const titleTypeText =
-      hierarchyName?.hierarchyName === HierarchyNameTypes.NHS
-        ? 'Registered'
-        : 'Resident';
+  const hierarchyName = allAreaTypes.find(
+    (areaType) => areaType.key === areaTypeSelected
+  );
 
-    const year = sortHealthDataPointsByDescendingYear(
-      healthDataForAreaSelected.healthData
-    )[0].year;
+  const titleTypeText =
+    hierarchyName?.hierarchyName === HierarchyNameTypes.NHS
+      ? 'Registered'
+      : 'Resident';
 
-    return `${titleTypeText} population profile for ${healthDataForAreaSelected?.areaName} ${year}`;
-  }
-  return '';
+  const year = sortHealthDataPointsByDescendingYear(
+    healthDataForAreaSelected.healthData
+  )[0].year;
+
+  return `${titleTypeText} population profile for ${healthDataForAreaSelected?.areaName} ${year}`;
 };
 
 export function determinePopulationDataForArea(
   populationDataForAllAreas: PopulationDataForArea[],
   areaToFind?: string
 ) {
-  if (areaToFind) {
-    return populationDataForAllAreas.find(
-      (data) => data.areaCode === areaToFind
-    );
-  }
+  if (!areaToFind) return populationDataForAllAreas[0];
 
-  return populationDataForAllAreas[0];
+  return populationDataForAllAreas.find((data) => data.areaCode === areaToFind);
 }
 
 interface PyramidPopulationChartViewProps {
