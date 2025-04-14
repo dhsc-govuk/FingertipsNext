@@ -24,6 +24,7 @@ import {
   allAreaTypes,
   HierarchyNameTypes,
 } from '@/lib/areaFilterHelpers/areaType';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 const determineHeaderTitle = (
   healthDataForAreaSelected?: HealthDataForArea,
@@ -129,6 +130,16 @@ export const PopulationPyramidWithTable = ({
 
   if (!populationDataForSelectedArea) return null;
 
+  const benchmarkToUse =
+    populationDataForSelectedArea.areaCode !== areaCodeForEngland
+      ? benchmark
+      : undefined;
+
+  const groupToUse =
+    populationDataForSelectedArea.areaCode !== areaCodeForEngland
+      ? group
+      : undefined;
+
   const title = determineHeaderTitle(
     healthDataForAreaSelected,
     areaTypeSelected
@@ -161,8 +172,8 @@ export const PopulationPyramidWithTable = ({
                       <H5>{title}</H5>
                       <PopulationPyramid
                         dataForSelectedArea={populationDataForSelectedArea}
-                        dataForGroup={group}
-                        dataForBenchmark={benchmark}
+                        dataForGroup={groupToUse}
+                        dataForBenchmark={benchmarkToUse}
                         xAxisTitle={xAxisTitle}
                         yAxisTitle={yAxisTitle}
                       />
@@ -175,8 +186,8 @@ export const PopulationPyramidWithTable = ({
                   content: (
                     <PopulationPyramidChartTable
                       healthDataForArea={populationDataForSelectedArea}
-                      benchmarkData={benchmark}
-                      groupData={group}
+                      benchmarkData={benchmarkToUse}
+                      groupData={groupToUse}
                     />
                   ),
                 },

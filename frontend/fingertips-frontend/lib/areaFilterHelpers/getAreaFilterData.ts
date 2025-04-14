@@ -108,7 +108,7 @@ export const getAreaFilterData = async (
   return {
     availableAreaTypes: sortedByHierarchyAndLevelAreaTypes,
     availableGroupTypes: sortedByLevelGroupTypes,
-    availableGroups,
+    availableGroups, // sort alphabetical
     availableAreas: sortedAlphabeticallyAvailableAreas,
     updatedSearchState: stateManager.getSearchState(),
   };

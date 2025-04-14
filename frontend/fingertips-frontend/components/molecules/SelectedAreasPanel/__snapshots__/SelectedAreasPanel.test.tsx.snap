@@ -73,7 +73,7 @@ exports[`SelectedAreasPanel When there are areas selected snapshot test 1`] = `
 }
 
 .c0 {
-  padding-bottom: 1.5em;
+  padding-bottom: 1em;
 }
 
 .c2 {
@@ -317,7 +317,7 @@ exports[`SelectedAreasPanel When there is a group area selected snapshot test 1`
 }
 
 .c0 {
-  padding-bottom: 1.5em;
+  padding-bottom: 1em;
 }
 
 .c2 {
