@@ -60,8 +60,8 @@ export interface HeatmapHoverProps {
   value?: number;
   unitLabel: string;
   benchmark: HeatmapBenchmarkProps;
-  left: number;
-  top: number;
+  left?: number;
+  top?: number;
 }
 
 export const HeatmapHover: FC<HeatmapHoverProps> = ({
