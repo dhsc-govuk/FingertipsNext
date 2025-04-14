@@ -10,7 +10,10 @@ import {
 } from '@/lib/searchStateManager';
 import { HierarchyNameTypes } from '@/lib/areaFilterHelpers/areaType';
 
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
 import { PopulationPyramidWithTable } from '@/components/organisms/PopulationPyramidWithTable';
 import { getHealthDataForIndicator } from '@/lib/ViewsHelpers';
 const enum PopulationIndicatorIdsTypes {
@@ -20,7 +23,7 @@ const enum PopulationIndicatorIdsTypes {
 
 const fetchPopulationIndicatorID = async (areaCode: string) => {
   const areasApi = ApiClientFactory.getAreasApiClient();
-  const area = await areasApi.getArea({ areaCode: areaCode });
+  const area = await areasApi.getArea({ areaCode: areaCode }, API_CACHE_CONFIG);
   if (area.areaType.hierarchyName == HierarchyNameTypes.NHS) {
     return PopulationIndicatorIdsTypes.NHS;
   }
