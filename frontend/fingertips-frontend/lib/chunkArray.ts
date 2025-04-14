@@ -1,4 +1,4 @@
-export const maxNumAreasThatCanBeRequestedAPI = 100;
+const maxNumAreasThatCanBeRequestedAPI = 100;
 
 export function chunkArray(
   arrayToChunk: string[],
