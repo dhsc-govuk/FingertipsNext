@@ -10,6 +10,7 @@ import Highcharts, {
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import { FormatValueAsWholeNumberAbsolute } from '@/lib/chartHelpers/labelFormatters';
 
 const toggleClickSeries = (self: Series): boolean => {
   self.chart.series.forEach((series) => {
@@ -20,7 +21,7 @@ const toggleClickSeries = (self: Series): boolean => {
   return false;
 };
 
-const createChartSeriesOptions = (
+const createPopPyramidSeriesOptions = (
   xAxisTitle: string,
   yAxisTitle: string,
   dataForArea: PopulationDataForArea,
@@ -53,7 +54,7 @@ const createChartSeriesOptions = (
             // @ts-ignore - we know this item will be a legendItem and dynamic property 'group' will be created
             item.legendItem.group.on('mouseover', () => {
               this.series.forEach((series) => {
-                if (item.name === series.name) {
+                if (item.name !== series.name) {
                   series.setState('hover');
                   series.setState('inactive');
                 }
@@ -64,7 +65,7 @@ const createChartSeriesOptions = (
             // @ts-ignore - we know this item will be a legendItem and dynamic property 'group' will be created
             item.legendItem.group.on('mouseout', () => {
               this.series.forEach((series) => {
-                if (item.name === series.name) {
+                if (item.name !== series.name) {
                   series.setState('normal');
                 }
               });
@@ -164,7 +165,7 @@ const createChartSeriesOptions = (
       tickColor: GovukColours.DarkSlateGray,
       gridLineWidth: 0,
       labels: {
-        format: '{abs value}',
+        formatter: FormatValueAsWholeNumberAbsolute,
         align: 'center',
         style: {
           fontSize: '16px',
@@ -340,12 +341,13 @@ export const createChartPyramidOptions = (
   dataForBenchmark?: PopulationDataForArea,
   dataForSelectedGroup?: PopulationDataForArea
 ): Highcharts.Options => {
-  const populationPyramidOptions: Highcharts.Options = createChartSeriesOptions(
-    xAxisTitle,
-    yAxisTitle,
-    dataForSelectedArea,
-    accessibilityLabel
-  );
+  const populationPyramidOptions: Highcharts.Options =
+    createPopPyramidSeriesOptions(
+      xAxisTitle,
+      yAxisTitle,
+      dataForSelectedArea,
+      accessibilityLabel
+    );
   if (!populationPyramidOptions.series) {
     return populationPyramidOptions;
   }

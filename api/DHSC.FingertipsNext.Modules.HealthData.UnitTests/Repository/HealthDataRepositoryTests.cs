@@ -769,7 +769,7 @@ public class HealthDataRepositoryTests
             ResetKeys(aggregateDataPoint)
         });
     }
-
+    
     private void PopulateDatabase(HealthMeasureModel healthMeasure)
     {
         _dbContext.HealthMeasure.Add(healthMeasure);
@@ -805,4 +805,6 @@ public class HealthDataRepositoryTests
 
         return healthMeasure;
     }
+
+    
 }

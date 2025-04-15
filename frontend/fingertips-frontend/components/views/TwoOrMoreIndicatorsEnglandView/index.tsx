@@ -8,6 +8,7 @@ import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 
 import { getHealthDataForIndicator } from '@/lib/ViewsHelpers';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
+import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 
 export default async function TwoOrMoreIndicatorsEnglandView({
   searchState,
@@ -19,11 +20,13 @@ export default async function TwoOrMoreIndicatorsEnglandView({
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
   } = stateManager.getSearchState();
 
+  const areaCodes = determineAreaCodes(areasSelected);
+
   if (
     !indicatorsSelected ||
     indicatorsSelected?.length < 2 ||
-    areasSelected?.length !== 1 ||
-    areasSelected?.[0] !== areaCodeForEngland
+    areaCodes?.length !== 1 ||
+    areaCodes?.[0] !== areaCodeForEngland
   ) {
     throw new Error('Invalid parameters provided to view');
   }

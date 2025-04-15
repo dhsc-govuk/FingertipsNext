@@ -1,17 +1,19 @@
 import OneIndicatorOneAreaView from './OneIndicatorOneAreaView';
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { SearchStateParams } from '@/lib/searchStateManager';
 import OneIndicatorTwoOrMoreAreasView from './OneIndicatorTwoOrMoreAreasView';
 import TwoOrMoreIndicatorsAreasView from './TwoOrMoreIndicatorsAreasView';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import TwoOrMoreIndicatorsEnglandView from './TwoOrMoreIndicatorsEnglandView';
 import { JSX } from 'react';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { Area } from '@/generated-sources/ft-api-client';
 
 interface ViewsSelectorProps {
   areaCodes: string[];
   indicators: string[];
   searchState: SearchStateParams;
   selectedIndicatorsData?: IndicatorDocument[];
+  availableAreas?: Area[];
 }
 
 export const ViewsSelector = ({
@@ -19,17 +21,13 @@ export const ViewsSelector = ({
   indicators,
   searchState,
   selectedIndicatorsData,
+  availableAreas,
 }: ViewsSelectorProps): JSX.Element => {
-  const updatedSearchState = {
-    ...searchState,
-    [SearchParams.AreasSelected]: areaCodes,
-  };
-
   if (indicators.length === 1 && areaCodes.length === 1) {
     return (
       <OneIndicatorOneAreaView
         selectedIndicatorsData={selectedIndicatorsData}
-        searchState={updatedSearchState}
+        searchState={searchState}
       />
     );
   }
@@ -38,7 +36,8 @@ export const ViewsSelector = ({
     return (
       <OneIndicatorTwoOrMoreAreasView
         selectedIndicatorsData={selectedIndicatorsData}
-        searchState={updatedSearchState}
+        searchState={searchState}
+        availableAreas={availableAreas}
       />
     );
   }
@@ -50,7 +49,7 @@ export const ViewsSelector = ({
   ) {
     return (
       <TwoOrMoreIndicatorsEnglandView
-        searchState={updatedSearchState}
+        searchState={searchState}
         selectedIndicatorsData={selectedIndicatorsData}
       />
     );
@@ -59,8 +58,9 @@ export const ViewsSelector = ({
   if (indicators.length >= 2 && areaCodes.length >= 1) {
     return (
       <TwoOrMoreIndicatorsAreasView
-        searchState={updatedSearchState}
+        searchState={searchState}
         selectedIndicatorsData={selectedIndicatorsData}
+        availableAreas={availableAreas}
       />
     );
   }

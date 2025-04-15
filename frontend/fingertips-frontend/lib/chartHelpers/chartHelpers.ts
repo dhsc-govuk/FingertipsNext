@@ -1,4 +1,5 @@
 import {
+  Area,
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
   HealthDataForArea,
@@ -8,6 +9,7 @@ import {
 import { areaCodeForEngland } from './constants';
 import { getBenchmarkTagStyle } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelConfig';
 import { GovukColours } from '../styleHelpers/colours';
+import { ALL_AREAS_SELECTED } from '../areaFilterHelpers/constants';
 
 export const AXIS_TITLE_FONT_SIZE = 19;
 export const AXIS_LABEL_FONT_SIZE = 16;
@@ -16,6 +18,22 @@ export function sortHealthDataForAreasByDate(
   data: HealthDataForArea[]
 ): HealthDataForArea[] {
   return data.map((area) => sortHealthDataForAreaByDate(area));
+}
+
+export function determineAreaCodes(
+  areasSelected?: string[],
+  groupAreaSelected?: string,
+  availableAreas?: Area[]
+): string[] {
+  if (groupAreaSelected === ALL_AREAS_SELECTED) {
+    return availableAreas?.map((area) => area.code) ?? [];
+  }
+
+  if (!areasSelected || areasSelected.length === 0) {
+    return [areaCodeForEngland];
+  }
+
+  return areasSelected ?? [];
 }
 
 export function sortHealthDataForAreaByDate(
@@ -63,6 +81,43 @@ export function seriesDataWithoutEnglandOrGroup(
     (item) =>
       item.areaCode !== areaCodeForEngland && item.areaCode !== groupAreaCode
   );
+}
+
+export function seriesDataWithoutGroup(
+  data: HealthDataForArea[],
+  groupAreaCode?: string,
+  moveEnglandLast?: boolean
+) {
+  const withoutGroup =
+    groupAreaCode !== areaCodeForEngland
+      ? data.filter((item) => item.areaCode !== groupAreaCode)
+      : data;
+
+  if (moveEnglandLast) {
+    const englandArea = withoutGroup.find(
+      (area) => area.areaCode === areaCodeForEngland
+    );
+
+    if (englandArea) {
+      return withoutGroup
+        .filter((area) => area.areaCode !== areaCodeForEngland)
+        .concat(englandArea);
+    }
+    return withoutGroup;
+  }
+
+  return withoutGroup;
+}
+
+export function determineHealthDataForArea(
+  healthDataForAllAreas: HealthDataForArea[],
+  areaToFind?: string
+) {
+  if (areaToFind) {
+    return healthDataForAllAreas.find((data) => data.areaCode === areaToFind);
+  }
+
+  return healthDataForAllAreas[0];
 }
 
 export function getHealthDataWithoutInequalities(

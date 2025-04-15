@@ -4,25 +4,36 @@ import {
   API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
+import { chunkArray } from '../chunkArray';
+
+const getAreas = async (areasToRetrieve: string[]): Promise<Area[]> => {
+  const areasApi = ApiClientFactory.getAreasApiClient();
+
+  const areaDataChunks = await Promise.all(
+    chunkArray(areasToRetrieve).map((areaCodes) =>
+      areasApi.getAreas(
+        {
+          areaCodes,
+        },
+        API_CACHE_CONFIG
+      )
+    )
+  );
+
+  return areaDataChunks.flat();
+};
 
 export const getSelectedAreasDataByAreaType = async (
   areasSelected?: string[],
   areaTypeSelected?: AreaTypeKeys
 ): Promise<Area[]> => {
-  const areasApi = ApiClientFactory.getAreasApiClient();
-
-  const determineAreaTypeSelected = areaTypeSelected ?? englandAreaType.key;
+  const selectedAreaType = areaTypeSelected ?? englandAreaType.key;
 
   const selectedAreasData =
     areasSelected && areasSelected?.length > 0
-      ? (
-          await areasApi.getAreas(
-            {
-              areaCodes: areasSelected ?? [],
-            },
-            API_CACHE_CONFIG
-          )
-        ).filter((area) => area.areaType.key === determineAreaTypeSelected)
+      ? (await getAreas(areasSelected)).filter(
+          (area) => area.areaType.key === selectedAreaType
+        )
       : [];
 
   if (

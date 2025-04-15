@@ -44,7 +44,7 @@ export function ChartPageWrapper({
   const [isHideFilters, setIsHideFilters] = useState(false);
   const backLinkPath = stateManager.generatePath('/results');
 
-  const width = !isHideFilters ? 'two-thirds' : undefined;
+  const width = !isHideFilters ? 'two-thirds' : 'full';
 
   return (
     <>
