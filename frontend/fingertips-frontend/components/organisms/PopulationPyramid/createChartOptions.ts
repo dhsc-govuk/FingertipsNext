@@ -7,7 +7,10 @@ import Highcharts, {
   Series,
   SeriesOptionsType,
 } from 'highcharts';
-import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
+import {
+  SymbolsEnum,
+  SymbolNames,
+} from '@/lib/chartHelpers/pointFormatterHelper';
 
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { FormatValueAsWholeNumberAbsolute } from '@/lib/chartHelpers/labelFormatters';
@@ -226,7 +229,7 @@ const createPopPyramidSeriesOptions = (
         data: femaleSeries,
         custom: {
           tag: 'Female',
-          shape: SymbolsEnum.Square,
+          shape: SymbolsEnum.Circle,
           areaName: dataForArea.areaName,
         },
         xAxis: 0,
@@ -249,7 +252,7 @@ const createPopPyramidSeriesOptions = (
         data: maleSeries.map((datapoint) => -datapoint),
         custom: {
           tag: 'Male',
-          shape: SymbolsEnum.Square,
+          shape: SymbolsEnum.Circle,
           areaName: dataForArea.areaName,
         },
         xAxis: 1,
@@ -295,6 +298,7 @@ const createAdditionalChartSeries = (
         name: `Group: ${dataForGroup.areaName} `,
         type: 'line',
         data: femaleGroupSeries,
+        marker: { symbol: SymbolNames.Diamond },
         stack: 2,
         color: GovukColours.Turquoise,
         dashStyle: 'Dash',
@@ -304,6 +308,7 @@ const createAdditionalChartSeries = (
       {
         name: `Group: ${dataForGroup.areaName} `,
         type: 'line',
+        marker: { symbol: SymbolNames.Diamond },
         stack: 4,
         data: maleGroupSeries.map((datapoint) => -datapoint),
         color: GovukColours.Turquoise,
@@ -329,6 +334,7 @@ const createAdditionalChartSeries = (
         name: `Benchmark: ${dataForBenchmark.areaName} `,
         data: femaleBenchmarkSeries,
         type: 'line',
+        marker: { symbol: SymbolNames.Circle },
         stack: 1,
         color: GovukColours.CharcoalGray,
         dashStyle: 'Solid',
@@ -340,6 +346,7 @@ const createAdditionalChartSeries = (
         type: 'line',
         stack: 3,
         color: GovukColours.CharcoalGray,
+        marker: { symbol: SymbolNames.Circle },
         dashStyle: 'Solid',
         showInLegend: false,
         custom: { tag: 'Male', shape: SymbolsEnum.Circle },
