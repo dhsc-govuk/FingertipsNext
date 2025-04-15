@@ -10,10 +10,14 @@ import {
   getIndicatorDataForAreasForMostRecentYearOnly,
   seriesDataWithoutGroup,
   determineHealthDataForArea,
+  AreaTypeLabelEnum,
+  getTooltipContent,
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { areaCodeForEngland } from './constants';
 import {
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
   HealthDataForArea,
   HealthDataPoint,
   HealthDataPointTrendEnum,
@@ -1047,5 +1051,149 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
     ]);
 
     expect(actual).toBeUndefined();
+  });
+});
+
+describe('getTooltipContent', () => {
+  it('should return the category "Benchmark" prefix and an empty benchmark label when benchmark data is present', () => {
+    const benchmarkOutcome = BenchmarkOutcome.Similar;
+    const benchmarkComparisonMethod =
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95;
+
+    const result = getTooltipContent(
+      benchmarkOutcome,
+      AreaTypeLabelEnum.Benchmark,
+      benchmarkComparisonMethod
+    );
+
+    expect(result).toEqual({
+      benchmarkLabel: '',
+      category: 'Benchmark: ',
+      comparisonLabel: '',
+    });
+  });
+
+  it('should return the category "Group" prefix when group data is present', () => {
+    const benchmarkOutcome = BenchmarkOutcome.NotCompared;
+    const benchmarkComparisonMethod =
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95;
+
+    const result = getTooltipContent(
+      benchmarkOutcome,
+      AreaTypeLabelEnum.Group,
+      benchmarkComparisonMethod
+    );
+
+    expect(result).toEqual({
+      benchmarkLabel: '',
+      category: 'Group: ',
+      comparisonLabel: '',
+    });
+  });
+
+  it('should return "Similar to England" benchmark label when the benchmark outcome is Similar', () => {
+    const benchmarkOutcome = BenchmarkOutcome.Similar;
+    const benchmarkComparisonMethod =
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95;
+
+    const result = getTooltipContent(
+      benchmarkOutcome,
+      AreaTypeLabelEnum.Area,
+      benchmarkComparisonMethod
+    );
+
+    expect(result).toEqual({
+      benchmarkLabel: 'Similar to England',
+      category: '',
+      comparisonLabel: '(95%)',
+    });
+  });
+
+  it('should return the area name in the benchmark label if provided', () => {
+    const benchmarkOutcome = BenchmarkOutcome.Similar;
+    const benchmarkComparisonMethod =
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95;
+
+    const result = getTooltipContent(
+      benchmarkOutcome,
+      AreaTypeLabelEnum.Area,
+      benchmarkComparisonMethod,
+      'Bolton'
+    );
+
+    expect(result).toEqual({
+      benchmarkLabel: 'Similar to Bolton',
+      category: '',
+      comparisonLabel: '(95%)',
+    });
+  });
+
+  it('should return comparison label of "95%" when benchmark comparison method is CIOverlappingReferenceValue95', () => {
+    const benchmarkOutcome = BenchmarkOutcome.Similar;
+    const benchmarkComparisonMethod =
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95;
+
+    const result = getTooltipContent(
+      benchmarkOutcome,
+      AreaTypeLabelEnum.Area,
+      benchmarkComparisonMethod
+    );
+
+    expect(result).toEqual({
+      benchmarkLabel: 'Similar to England',
+      category: '',
+      comparisonLabel: '(95%)',
+    });
+  });
+
+  it('should not return a comparison label or benchmark label when the benchmark outcome method of "Not compared" is passed in', () => {
+    const benchmarkOutcome = BenchmarkOutcome.NotCompared;
+    const benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown;
+
+    const result = getTooltipContent(
+      benchmarkOutcome,
+      AreaTypeLabelEnum.Benchmark,
+      benchmarkComparisonMethod
+    );
+
+    expect(result).toEqual({
+      benchmarkLabel: '',
+      category: 'Benchmark: ',
+      comparisonLabel: '',
+    });
+  });
+
+  it('should return tooltip for quintiles with no CI% shown', () => {
+    const benchmarkOutcome = BenchmarkOutcome.Worse;
+    const benchmarkComparisonMethod = BenchmarkComparisonMethod.Quintiles;
+
+    const result = getTooltipContent(
+      benchmarkOutcome,
+      AreaTypeLabelEnum.Area,
+      benchmarkComparisonMethod
+    );
+
+    expect(result).toEqual({
+      benchmarkLabel: 'Worse quintile',
+      category: '',
+      comparisonLabel: '',
+    });
+  });
+
+  it('should return Not compared when the benchmark outcome method of "Not compared" is passed in', () => {
+    const benchmarkOutcome = BenchmarkOutcome.NotCompared;
+    const benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown;
+
+    const result = getTooltipContent(
+      benchmarkOutcome,
+      AreaTypeLabelEnum.Area,
+      benchmarkComparisonMethod
+    );
+
+    expect(result).toEqual({
+      benchmarkLabel: 'Not compared',
+      category: '',
+      comparisonLabel: '',
+    });
   });
 });

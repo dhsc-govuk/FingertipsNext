@@ -7,6 +7,7 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { Table } from 'govuk-react';
 import {
+  AreaTypeLabelEnum,
   getConfidenceLimitNumber,
   getMostRecentData,
   sortHealthDataByYearDescending,
@@ -34,12 +35,6 @@ export enum BarChartEmbeddedTableHeadingEnum {
   Value = 'Value',
   Lower = 'Lower',
   Upper = 'Upper',
-}
-
-export enum SparklineLabelEnum {
-  Benchmark = 'Benchmark',
-  Group = 'Group',
-  Area = 'Area',
 }
 
 interface BarChartEmbeddedTableProps {
@@ -218,7 +213,7 @@ export function BarChartEmbeddedTable({
                 }
                 benchmarkComparisonMethod={benchmarkComparisonMethod}
                 polarity={polarity}
-                label={SparklineLabelEnum.Benchmark}
+                label={AreaTypeLabelEnum.Benchmark}
                 area={benchmarkData?.areaName}
                 year={mostRecentBenchmarkData.year}
                 measurementUnit={measurementUnit}
@@ -275,7 +270,7 @@ export function BarChartEmbeddedTable({
                 }
                 benchmarkComparisonMethod={benchmarkComparisonMethod}
                 polarity={polarity}
-                label={SparklineLabelEnum.Group}
+                label={AreaTypeLabelEnum.Group}
                 area={groupIndicatorData?.areaName}
                 year={mostRecentGroupData.year}
                 measurementUnit={measurementUnit}
