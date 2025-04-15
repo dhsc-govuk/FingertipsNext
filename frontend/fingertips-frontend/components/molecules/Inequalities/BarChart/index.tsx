@@ -135,7 +135,7 @@ export function InequalitiesBarChart({
     const comparisonLabel = getFormattedComparisonLabel(
       isBenchmarkPoint,
       mappedBenchmarkComparisonMethod,
-      InequalitiesTypes.Sex
+      type
     );
 
     const symbolStyles = [
