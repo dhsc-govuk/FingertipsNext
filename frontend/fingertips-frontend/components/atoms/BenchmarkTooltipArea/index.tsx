@@ -70,9 +70,7 @@ export function BenchmarkTooltipArea({
     <div data-testid={'benchmark-tooltip-area'} style={{ marginBlock: '10px' }}>
       <div style={{ textWrap: 'wrap' }}>
         <b>{getAreaTitle(indicatorData.areaName, tooltipType)}</b>
-        <p style={{ marginBlock: 0 }}>
-          {indicatorData.healthData[0]?.year ?? null}
-        </p>
+        <p style={{ marginBlock: 0 }}>{mostRecentDataPoint?.year ?? null}</p>
       </div>
       <div
         style={{
@@ -101,7 +99,7 @@ export function BenchmarkTooltipArea({
             {mostRecentDataPoint?.value ? measurementUnit : null}
           </span>
           {tooltipType !== 'benchmark'
-            ? getComparisionText(
+            ? getComparisonText(
                 benchmarkArea,
                 benchmarkComparisonMethod,
                 mostRecentDataPoint?.benchmarkComparison?.outcome ?? undefined
@@ -113,7 +111,7 @@ export function BenchmarkTooltipArea({
   );
 }
 
-function getComparisionText(
+function getComparisonText(
   benchmarkArea: string,
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
   benchmarkOutcome?: BenchmarkOutcome
