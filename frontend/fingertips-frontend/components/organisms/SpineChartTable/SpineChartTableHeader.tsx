@@ -12,7 +12,7 @@ import {
   StickyValueUnitHeader,
   StickyPeriodHeader,
   StyledAlignLeftStickyLeftHeader,
-  StyledAlignRightHeaderPadLeft,
+  StyledAlignRightHeaderPad,
 } from './SpineChartTableStyles';
 import { englandAreaString } from '@/lib/chartHelpers/constants';
 
@@ -90,7 +90,7 @@ const oneAreaHeadingsList: HeaderData[] = [
   {
     title: SpineChartTableHeadingEnum.AreaCount,
     uniqueIdentifier: 'area-count-header',
-    styledComponent: StyledAlignRightHeaderPadLeft,
+    styledComponent: StyledAlignRightHeaderPad,
   },
   {
     title: SpineChartTableHeadingEnum.Value,
@@ -110,7 +110,7 @@ const twoAreasHeadingsList: HeaderData[] = [
   {
     title: SpineChartTableHeadingEnum.AreaCount,
     uniqueIdentifier: 'area-1-count-header',
-    styledComponent: StyledAlignRightHeaderPadLeft,
+    styledComponent: StyledAlignRightHeaderPad,
   },
   {
     title: SpineChartTableHeadingEnum.Value,
@@ -120,7 +120,7 @@ const twoAreasHeadingsList: HeaderData[] = [
   {
     title: SpineChartTableHeadingEnum.AreaCount,
     uniqueIdentifier: 'area-2-count-header',
-    styledComponent: StyledAlignRightHeaderPadLeft,
+    styledComponent: StyledAlignRightHeaderPad,
   },
   {
     title: SpineChartTableHeadingEnum.Value,
