@@ -34,9 +34,9 @@ export enum SpineChartTableHeadingEnum {
   AreaTrend = 'Recent trend',
   AreaCount = 'Count',
   Value = 'Value',
-  BenchmarkWorst = 'Worst',
+  BenchmarkWorst = 'Worst/ lowest',
   BenchmarkRange = 'Range',
-  BenchmarkBest = 'Best',
+  BenchmarkBest = 'Best/ highest',
 }
 
 const initialHeadersList: HeaderData[] = [
