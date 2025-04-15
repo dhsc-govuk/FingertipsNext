@@ -1,6 +1,6 @@
 import { GetHealthDataForAnIndicatorInequalitiesEnum } from '@/generated-sources/ft-api-client';
 import {
-  administratorIndicatorID,
+  adminIndicatorIdForPopulation,
   areaCodeForEngland,
   nhsIndicatorIdForPopulation,
 } from '@/lib/chartHelpers/constants';
@@ -62,7 +62,7 @@ export const PopulationPyramidWithTableDataProvider = async ({
   const populationIndicatorID =
     hierarchyName?.hierarchyName === HierarchyNameTypes.NHS
       ? nhsIndicatorIdForPopulation
-      : administratorIndicatorID;
+      : adminIndicatorIdForPopulation;
 
   const populationData = await getPopulationData(
     populationIndicatorID,
