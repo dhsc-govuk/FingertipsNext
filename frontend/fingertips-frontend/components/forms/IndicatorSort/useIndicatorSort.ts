@@ -6,8 +6,6 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
 
-export const maxResults = 20;
-
 export const useIndicatorSort = (results: IndicatorDocument[]) => {
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -46,12 +44,10 @@ export const useIndicatorSort = (results: IndicatorDocument[]) => {
     [selectedSortOrder]
   );
 
-  const sorted =
+  const sortedResults =
     selectedSortOrder === SortOrderKeys.relevance
       ? results
       : results.toSorted(sortFunction);
-
-  const sortedResults = sorted.slice(0, maxResults);
 
   return { sortedResults, handleSortOrder, selectedSortOrder };
 };
