@@ -124,7 +124,8 @@ export function SparklineChart({
     benchmarkOutcome,
     polarity
   );
-  const color = benchmarkColor ?? GovukColours.DarkGrey;
+  const defaultColour = area === 'England' ? GovukColours.DarkGrey : '#fff';
+  const color = benchmarkColor ?? defaultColour;
 
   const [options, setOptions] = useState<Highcharts.Options>();
 
