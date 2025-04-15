@@ -11,15 +11,16 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
+import { convertYearToNonCalendarYearLabel } from '@/lib/dateHelpers/dateHelpers';
+import { percentageMeasurementUnit } from '@/lib/chartHelpers/constants';
 
 export enum LineChartVariant {
   Standard = 'standard',
   Inequalities = 'inequalities',
 }
 
-// This is a hacky way to do it. Can make the label transformation common
-function tooltipFormatter(point: Highcharts.Point): string {
-  return `<b>${point.series.name}</b><br/>Year: ${`${point.x} to ${point.x + 1}`}<br/><br/><span style="color:${point.color}">${SymbolsEnum.Circle}</span> Value ${formatNumber(point.y)}`;
+function tooltipFormatter(point: Highcharts.Point, isCalendarYearTypeIndicator: boolean = true): string {
+  return `<b>${point.series.name}</b><br/>Year: ${isCalendarYearTypeIndicator ? point.x : convertYearToNonCalendarYearLabel(point.x)}<br/><br/><span style="color:${point.color}">${SymbolsEnum.Circle}</span> Value ${formatNumber(point.y)}`;
 }
 
 export const lineChartDefaultOptions: Highcharts.Options = {
@@ -177,6 +178,7 @@ export function generateSeriesData(
 export function generateStandardLineChartOptions(
   healthIndicatorData: HealthDataForArea[],
   lineChartCI: boolean,
+  isCalendarYearTypeIndicator: boolean,
   optionalParams?: {
     benchmarkData?: HealthDataForArea;
     groupIndicatorData?: HealthDataForArea;
@@ -200,6 +202,8 @@ export function generateStandardLineChartOptions(
   const sortedGroupData = optionalParams?.groupIndicatorData
     ? sortHealthDataForAreaByDate(optionalParams?.groupIndicatorData)
     : undefined;
+
+  const measurementUnit = optionalParams?.measurementUnit === percentageMeasurementUnit ? `${optionalParams?.measurementUnit}` : ` ${optionalParams?.measurementUnit}`;
 
   let seriesData = generateSeriesData(
     sortedHealthIndicatorData,
@@ -251,7 +255,7 @@ export function generateStandardLineChartOptions(
     series: seriesData,
     tooltip: {
       formatter: function (this: Highcharts.Point): string {
-        return tooltipFormatter(this) + `${optionalParams?.measurementUnit}`;
+        return tooltipFormatter(this, isCalendarYearTypeIndicator) + measurementUnit;
       },
     },
     accessibility: {

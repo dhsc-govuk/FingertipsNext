@@ -16,3 +16,15 @@ export function formatDate(date: Date | undefined): string {
 
   return `${day} ${month} ${year}`;
 }
+
+/**
+ * Converts a year to a GDS compliant string for non-calendar years such as financial years.
+ * Use this where you are working with indicator data that has an annual period type that is not
+ * calendar years.
+ *
+ * @param year - the year as a number e.g. 2024.
+ * @returns the formatted non-calendar year e.g. 2024 to 2025.
+ */
+export function convertYearToNonCalendarYearLabel(year: number): string {
+  return `${year} to ${year + 1}`;
+}

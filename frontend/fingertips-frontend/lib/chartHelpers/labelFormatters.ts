@@ -1,5 +1,6 @@
 import { AxisLabelsFormatterContextObject } from 'highcharts';
 import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
+import { convertYearToNonCalendarYearLabel } from '../dateHelpers/dateHelpers';
 
 export function FormatValueAsNumber(
   this: AxisLabelsFormatterContextObject,
@@ -22,16 +23,14 @@ export function FormatValueAsWholeNumberAbsolute(
   return formatWholeNumber(Math.abs(this.value as number));
 }
 
-// Proper docs if doing this please
-export function FormatYearAsFinancialYear(
+export function FormatYearAsNonCalendarYear(
   this: AxisLabelsFormatterContextObject,
   _ctx: AxisLabelsFormatterContextObject
 ): string {
-  if (typeof this.value !== 'number') {
-    throw new Error(
-      'Improper usage: year when provided for chart plots must be a number'
-    );
+  if (typeof this.value === 'string') {
+    return this.value;
   }
 
-  return `${this.value} to ${this.value + 1}`;
+  // e.g. 2024 to 2025 rather than simply 2024
+  return convertYearToNonCalendarYearLabel(this.value);
 }

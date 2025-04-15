@@ -5,6 +5,7 @@ import { LineChart } from '@/components/organisms/LineChart';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import {
   determineAreaCodes,
+  isYearTypeCalendar,
   seriesDataWithoutEnglandOrGroup,
 } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
@@ -26,7 +27,7 @@ import { getAllDataWithoutInequalities } from '@/components/organisms/Inequaliti
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import {
   FormatValueAsNumber,
-  FormatYearAsFinancialYear,
+  FormatYearAsNonCalendarYear,
 } from '@/lib/chartHelpers/labelFormatters';
 
 function shouldLineChartBeShown(
@@ -38,18 +39,6 @@ function shouldLineChartBeShown(
     (englandBenchmarkData && englandBenchmarkData.healthData.length > 1)
   );
 }
-
-// TODO - if we proceed with PoC this would need to be common
-// I would also prefer to do this with top-level indicator data rather than inspecting the
-// array of health data points
-const isYearTypeFinancial = (
-  indicatorHealthData: HealthDataForArea[]
-): boolean => {
-  const financialYearPeriodRegex: RegExp = /^\d{4} to \d{4}$/;
-  const firstPeriodLabel = indicatorHealthData[0].healthData[0].periodLabel;
-
-  return financialYearPeriodRegex.test(firstPeriodLabel);
-};
 
 export function OneIndicatorOneAreaViewPlots({
   indicatorData,
@@ -101,19 +90,20 @@ export function OneIndicatorOneAreaViewPlots({
   const yAxisTitle = indicatorMetadata?.unitLabel
     ? `Value: ${indicatorMetadata?.unitLabel}`
     : undefined;
-  const isFinancialYearType = isYearTypeFinancial(healthIndicatorData);
+  const isCalendarYearType = isYearTypeCalendar(healthIndicatorData);
 
   const lineChartOptions: Highcharts.Options = generateStandardLineChartOptions(
     areaDataWithoutInequalities,
     showStandardLineChartConfidenceIntervalsData,
+    isCalendarYearType,
     {
       benchmarkData: englandBenchmarkWithoutInequalities,
       groupIndicatorData: groupDataWithoutInequalities,
       yAxisTitle,
       yAxisLabelFormatter: FormatValueAsNumber,
-      xAxisLabelFormatter: isFinancialYearType
-        ? FormatYearAsFinancialYear
-        : undefined,
+      xAxisLabelFormatter: isCalendarYearType
+        ? undefined
+        : FormatYearAsNonCalendarYear,
       xAxisTitle: 'Year',
       measurementUnit: indicatorMetadata?.unitLabel,
       accessibilityLabel: 'A line chart showing healthcare data',

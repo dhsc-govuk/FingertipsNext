@@ -238,3 +238,21 @@ export const getConfidenceLimitNumber = (
       return 0;
   }
 };
+
+/**
+ * Returns flag to say whether a given indicator has data which is collected on a calendar year basis.
+ * E.g. some by contrast are collected based on financial year or between a particular point in the year
+ * such as November -> November.
+ * @param indicatorHealthData - TODO: consider changing to the actual indicator meta data.
+ * @returns boolean.
+ */
+export const isYearTypeCalendar = (
+  indicatorHealthData: HealthDataForArea[]
+): boolean => {
+  const calendarYearPeriodRegex: RegExp = /^\d{4}$/;
+  // I would prefer to do this with top-level indicator data rather than inspecting the
+  // array of health data points - this is susceptible to problems
+  const firstPeriodLabel = indicatorHealthData[0].healthData[0].periodLabel;
+
+  return calendarYearPeriodRegex.test(firstPeriodLabel);
+};
