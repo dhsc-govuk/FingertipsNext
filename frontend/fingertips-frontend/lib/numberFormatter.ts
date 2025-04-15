@@ -1,10 +1,9 @@
 const FormattingLocale = 'en-GB';
-const MinNumberOfDecimalPlaces = 0;
-const MaxNumberOfDecimalPlaces = 1;
+const NumberOfDecimalPlaces = 1;
 
 const numberFormat = new Intl.NumberFormat(FormattingLocale, {
-  minimumFractionDigits: MinNumberOfDecimalPlaces,
-  maximumFractionDigits: MaxNumberOfDecimalPlaces,
+  minimumFractionDigits: NumberOfDecimalPlaces,
+  maximumFractionDigits: NumberOfDecimalPlaces,
   roundingMode: 'halfCeil',
 });
 

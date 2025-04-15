@@ -37,7 +37,7 @@ describe('table helpers suite', () => {
   describe('getDisplayedValue', () => {
     it('should display value when available', () => {
       const value = 5;
-      expect(getDisplayValue(value)).toBe('5');
+      expect(getDisplayValue(value)).toBe('5.0');
     });
 
     it('should return X when value not available', () => {

@@ -54,8 +54,8 @@ describe('FormatNumberInTableCell', () => {
 
   it('should render value 0 and not set aria-label', () => {
     renderWithTableComponent(<FormatNumberInTableCell value={0} />);
-    expect(screen.getByText('0')).toBeInTheDocument();
-    expect(screen.getByText('0')).not.toHaveAttribute('aria-label');
+    expect(screen.getByText('0.0')).toBeInTheDocument();
+    expect(screen.getByText('0.0')).not.toHaveAttribute('aria-label');
   });
 
   it('should render X and set aria-label, when value is undefined', () => {

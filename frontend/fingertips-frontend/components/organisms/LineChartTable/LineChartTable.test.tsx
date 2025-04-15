@@ -486,15 +486,15 @@ describe('Line chart table suite', () => {
       expect(rows).toHaveLength(8);
       // england and area 1 ara missing
       expect(rows[4]).toHaveTextContent(
-        /^1999Not comparedXXXXNot compared200904.900X$/
+        /^1999Not comparedXXXXNot compared200904.90.00.0X$/
       );
       // area 2 is missing
       expect(rows[5]).toHaveTextContent(
-        /^2004Not compared200904.900Not comparedXXXX904.9$/
+        /^2004Not compared200904.90.00.0Not comparedXXXX904.9$/
       );
       // england and area 2 are missing
       expect(rows[6]).toHaveTextContent(
-        /^2005Not compared50096600Not comparedXXXXX$/
+        /^2005Not compared500966.00.00.0Not comparedXXXXX$/
       );
 
       // area 1 is missing

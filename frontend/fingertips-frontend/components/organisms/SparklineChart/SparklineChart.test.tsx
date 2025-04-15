@@ -85,7 +85,7 @@ describe('SparklineChart', () => {
       expect(result).toEqual({
         benchmarkLabel: 'Similar to England',
         category: '',
-        comparisonLabel: '(95%)',
+        comparisonLabel: '(95.0%)',
       });
     });
 
@@ -103,7 +103,7 @@ describe('SparklineChart', () => {
       expect(result).toEqual({
         benchmarkLabel: 'Similar to England',
         category: '',
-        comparisonLabel: '(95%)',
+        comparisonLabel: '(95.0%)',
       });
     });
 
