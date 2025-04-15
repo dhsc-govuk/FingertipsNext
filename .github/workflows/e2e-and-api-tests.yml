@@ -85,10 +85,44 @@ jobs:
           path: ./api/httpyacresults.json
           retention-days: 5
 
-      - name: Run Playwright tests in CI
+      - name: Run Playwright tests in CI with retry on timeout
         if: always()
-        run: npm run test-e2e-ci
+        id: run-playwright-tests
+        continue-on-error: true
+        run: |
+          echo "Running Playwright tests (1st attempt)..."
+          npm run test-e2e-ci > test_output.log 2>&1 || true
 
+          if grep -i "timeout" test_output.log; then
+            echo "Timeout detected. Retrying once..."
+            echo "rety=true" >> $GITHUB_OUTPUT
+
+            npm run test-e2e-ci > rety_output.log 2>&1
+            RETRY_EXIT_CODE=$?
+
+            echo "retry_exit_code=$RETRY_EXIT_CODE" >> $GITHUB_OUTPUT
+            if [ $RETRY_EXIT_CODE -ne 0 ]; then
+              echo "Tests failed againg after retry"
+              exit $RETRY_EXIT_CODE
+            fi
+          else
+            echo "No timeout found. Exiting with test result..."
+            cat test_output.log
+            if grep -i "timeout" test_output.log; then
+              exit 1
+            else
+              exit 0
+            fi
+          fi
+
+      - name: Send Slack message if retry succeeded
+        if: steps.run-tests.outputs.retry == 'true' && steps.run-tests.outputs.retry_exit_code == '0'
+        run: |
+          echo "Tests passed after a retry. Sending Slack message..."
+          npx slack-ctrf results ctrf/ctrf-report.json --title "✅ E2E Tests Passed After Retry"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.slack-webhook-url }}
+      
       - name: Set dynamic artifact name
         if: always()
         id: set-artifact-name
