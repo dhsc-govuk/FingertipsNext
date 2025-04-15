@@ -15,7 +15,12 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   {
-    ignores: ['.next/**', 'generated-sources/**', 'playwright-report/**', 'coverage/**'],
+    ignores: [
+      '.next/**',
+      'generated-sources/**',
+      'playwright-report/**',
+      'coverage/**',
+    ],
   },
   ...compat.extends('next/core-web-vitals', 'next/typescript', 'next'),
   {
