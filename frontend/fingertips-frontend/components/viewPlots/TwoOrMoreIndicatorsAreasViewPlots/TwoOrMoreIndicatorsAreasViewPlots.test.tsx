@@ -44,6 +44,7 @@ const mockGroupHealthData: HealthDataForArea = {
   healthData: [
     {
       year: 2008,
+      periodLabel: '2008',
       count: 222,
       value: 890.305692,
       lowerCi: 441.69151,
@@ -62,6 +63,7 @@ const mockEnglandHealthData: HealthDataForArea = {
   healthData: [
     {
       year: 2008,
+      periodLabel: '2008',
       count: 222,
       value: 890.305692,
       lowerCi: 441.69151,
@@ -81,6 +83,7 @@ const mockAreaHealthData: HealthDataForArea[] = [
     healthData: [
       {
         year: 2008,
+        periodLabel: '2008',
         count: 222,
         value: 890.305692,
         lowerCi: 441.69151,
@@ -98,6 +101,7 @@ const mockAreaHealthData: HealthDataForArea[] = [
     healthData: [
       {
         year: 2024,
+        periodLabel: '2024',
         count: 111,
         value: 690.305692,
         lowerCi: 341.69151,
@@ -115,6 +119,7 @@ const mockAreaHealthData: HealthDataForArea[] = [
     healthData: [
       {
         year: 2008,
+        periodLabel: '2008',
         count: 222,
         value: 890.305692,
         lowerCi: 441.69151,
@@ -132,6 +137,7 @@ const mockAreaHealthData: HealthDataForArea[] = [
     healthData: [
       {
         year: 2024,
+        periodLabel: '2024',
         count: 111,
         value: 690.305692,
         lowerCi: 341.69151,
@@ -297,6 +303,7 @@ describe('extractHeatmapIndicatorData', () => {
       healthData: [
         {
           year: 2012,
+          periodLabel: '2012',
           ageBand: {
             value: '',
             isAggregate: false,

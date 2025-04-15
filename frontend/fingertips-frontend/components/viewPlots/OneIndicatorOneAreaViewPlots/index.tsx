@@ -24,7 +24,10 @@ import {
 import { useState } from 'react';
 import { getAllDataWithoutInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
-import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
+import {
+  FormatValueAsNumber,
+  FormatYearAsFinancialYear,
+} from '@/lib/chartHelpers/labelFormatters';
 
 function shouldLineChartBeShown(
   dataWithoutEnglandOrGroup: HealthDataForArea[],
@@ -35,6 +38,18 @@ function shouldLineChartBeShown(
     (englandBenchmarkData && englandBenchmarkData.healthData.length > 1)
   );
 }
+
+// TODO - if we proceed with PoC this would need to be common
+// I would also prefer to do this with top-level indicator data rather than inspecting the
+// array of health data points
+const isYearTypeFinancial = (
+  indicatorHealthData: HealthDataForArea[]
+): boolean => {
+  const financialYearPeriodRegex: RegExp = /^\d{4} to \d{4}$/;
+  const firstPeriodLabel = indicatorHealthData[0].healthData[0].periodLabel;
+
+  return financialYearPeriodRegex.test(firstPeriodLabel);
+};
 
 export function OneIndicatorOneAreaViewPlots({
   indicatorData,
@@ -86,6 +101,7 @@ export function OneIndicatorOneAreaViewPlots({
   const yAxisTitle = indicatorMetadata?.unitLabel
     ? `Value: ${indicatorMetadata?.unitLabel}`
     : undefined;
+  const isFinancialYearType = isYearTypeFinancial(healthIndicatorData);
 
   const lineChartOptions: Highcharts.Options = generateStandardLineChartOptions(
     areaDataWithoutInequalities,
@@ -95,6 +111,9 @@ export function OneIndicatorOneAreaViewPlots({
       groupIndicatorData: groupDataWithoutInequalities,
       yAxisTitle,
       yAxisLabelFormatter: FormatValueAsNumber,
+      xAxisLabelFormatter: isFinancialYearType
+        ? FormatYearAsFinancialYear
+        : undefined,
       xAxisTitle: 'Year',
       measurementUnit: indicatorMetadata?.unitLabel,
       accessibilityLabel: 'A line chart showing healthcare data',

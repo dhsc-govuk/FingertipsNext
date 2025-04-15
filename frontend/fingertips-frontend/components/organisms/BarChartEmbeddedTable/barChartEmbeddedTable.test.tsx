@@ -19,6 +19,7 @@ describe('BarChartEmbeddedTable', () => {
       healthData: [
         {
           year: 2008,
+          periodLabel: '2008',
           count: 222,
           value: 890.305692,
           lowerCi: 441.69151,
@@ -30,6 +31,7 @@ describe('BarChartEmbeddedTable', () => {
         },
         {
           year: 2004,
+          periodLabel: '2004',
           count: 267,
           value: 703.420759,
           lowerCi: 441.69151,
@@ -47,6 +49,7 @@ describe('BarChartEmbeddedTable', () => {
       healthData: [
         {
           year: 2008,
+          periodLabel: '2008',
           count: 777,
           value: 1000,
           lowerCi: 500,
@@ -58,6 +61,7 @@ describe('BarChartEmbeddedTable', () => {
         },
         {
           year: 2004,
+          periodLabel: '2004',
           count: 777,
           value: 1000,
           lowerCi: 500,
@@ -75,6 +79,7 @@ describe('BarChartEmbeddedTable', () => {
       healthData: [
         {
           year: 2004,
+          periodLabel: '2004',
           count: 157,
           value: 723.090354,
           lowerCi: 441.69151,
@@ -86,6 +91,7 @@ describe('BarChartEmbeddedTable', () => {
         },
         {
           year: 2008,
+          periodLabel: '2008',
           count: 256,
           value: 905.145997,
           lowerCi: 441.69151,
@@ -105,6 +111,7 @@ describe('BarChartEmbeddedTable', () => {
     healthData: [
       {
         year: 2004,
+        periodLabel: '2004',
         count: 200,
         value: 904.874,
         lowerCi: undefined,
@@ -116,6 +123,7 @@ describe('BarChartEmbeddedTable', () => {
       },
       {
         year: 2008,
+        periodLabel: '2008',
         count: 500,
         value: 965.9843,
         lowerCi: undefined,
@@ -134,6 +142,7 @@ describe('BarChartEmbeddedTable', () => {
     healthData: [
       {
         year: 2008,
+        periodLabel: '2008',
         count: 777,
         value: 1000,
         lowerCi: 500,
@@ -145,6 +154,7 @@ describe('BarChartEmbeddedTable', () => {
       },
       {
         year: 2004,
+        periodLabel: '2004',
         count: 777,
         value: 1000,
         lowerCi: 500,

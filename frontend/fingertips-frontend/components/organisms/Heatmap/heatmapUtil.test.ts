@@ -167,6 +167,7 @@ const newHealthDataPoint = ({
 }): HealthDataPoint => {
   return {
     year: year,
+    periodLabel: year.toString(),
     value: value,
     ageBand: allAgesAge,
     sex: personsSex,

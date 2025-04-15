@@ -17,8 +17,9 @@ export enum LineChartVariant {
   Inequalities = 'inequalities',
 }
 
+// This is a hacky way to do it. Can make the label transformation common
 function tooltipFormatter(point: Highcharts.Point): string {
-  return `<b>${point.series.name}</b><br/>Year: ${point.x}<br/><br/><span style="color:${point.color}">${SymbolsEnum.Circle}</span> Value ${formatNumber(point.y)}`;
+  return `<b>${point.series.name}</b><br/>Year: ${`${point.x} to ${point.x + 1}`}<br/><br/><span style="color:${point.color}">${SymbolsEnum.Circle}</span> Value ${formatNumber(point.y)}`;
 }
 
 export const lineChartDefaultOptions: Highcharts.Options = {
@@ -44,7 +45,13 @@ export const lineChartDefaultOptions: Highcharts.Options = {
   xAxis: {
     tickLength: 0,
     allowDecimals: false,
-    labels: { style: { fontSize: AXIS_LABEL_FONT_SIZE } },
+    labels: {
+      style: {
+        fontSize: AXIS_LABEL_FONT_SIZE,
+        width: 40,
+        textOverflow: 'wrap',
+      },
+    },
   },
   legend: {
     verticalAlign: 'top',
@@ -237,7 +244,7 @@ export function generateStandardLineChartOptions(
         style: { fontSize: AXIS_TITLE_FONT_SIZE },
       },
       labels: {
-        ...(lineChartDefaultOptions.yAxis as Highcharts.XAxisOptions)?.labels,
+        ...(lineChartDefaultOptions.xAxis as Highcharts.XAxisOptions)?.labels,
         formatter: optionalParams?.xAxisLabelFormatter,
       },
     },

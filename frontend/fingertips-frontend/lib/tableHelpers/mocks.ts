@@ -17,6 +17,7 @@ export const MOCK_ENGLAND_DATA: HealthDataForArea = {
   healthData: [
     {
       year: 2004,
+      periodLabel: '2004',
       count: 200,
       value: 904.874,
       lowerCi: 0,
@@ -28,6 +29,7 @@ export const MOCK_ENGLAND_DATA: HealthDataForArea = {
     },
     {
       year: 2008,
+      periodLabel: '2008',
       count: 500,
       value: 965.9843,
       lowerCi: 0,
@@ -47,6 +49,7 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
     healthData: [
       {
         year: 2008,
+        periodLabel: '2008',
         count: 222,
         value: 890.305692,
         lowerCi: 441.69151,
@@ -59,6 +62,7 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
       },
       {
         year: 2004,
+        periodLabel: '2004',
         count: 267,
         value: 703.420759,
         lowerCi: 441.69151,
@@ -71,6 +75,7 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
       },
       {
         year: 2004,
+        periodLabel: '2004',
         count: 267,
         value: 703.420759,
         lowerCi: 441.69151,
@@ -83,6 +88,7 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
       },
       {
         year: 2004,
+        periodLabel: '2004',
         count: 267,
         value: 703.420759,
         lowerCi: 441.69151,
@@ -101,6 +107,7 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
     healthData: [
       {
         year: 2008,
+        periodLabel: '2008',
         count: 222,
         value: 135.149304,
         lowerCi: 441.69151,
@@ -113,6 +120,7 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
       },
       {
         year: 2008,
+        periodLabel: '2008',
         count: 131,
         value: 890.328253,
         lowerCi: 441.69151,
@@ -125,6 +133,7 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
       },
       {
         year: 2008,
+        periodLabel: '2008',
         count: 131,
         value: 890.328253,
         lowerCi: 441.69151,
@@ -137,6 +146,7 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
       },
       {
         year: 2004,
+        periodLabel: '2004',
         count: 131,
         value: 890.328253,
         lowerCi: 441.69151,
@@ -157,6 +167,7 @@ export const MOCK_PARENT_DATA: HealthDataForArea = {
   healthData: [
     {
       year: 2008,
+      periodLabel: '2008',
       count: 777,
       value: 1000,
       lowerCi: 500,
@@ -168,6 +179,7 @@ export const MOCK_PARENT_DATA: HealthDataForArea = {
     },
     {
       year: 2004,
+      periodLabel: '2004',
       count: 777,
       value: 1000,
       lowerCi: 500,
@@ -200,6 +212,7 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS: HealthDataForArea[] = [
     healthData: [
       {
         year: 2019,
+        periodLabel: '2019',
         count: 1400,
         value: 222.305692,
         lowerCi: 220.69151,
@@ -211,6 +224,7 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS: HealthDataForArea[] = [
       },
       {
         year: 2022,
+        periodLabel: '2022',
         count: 1400,
         value: 222.305692,
         lowerCi: 220.69151,
@@ -222,6 +236,7 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS: HealthDataForArea[] = [
       },
       {
         year: 2023,
+        periodLabel: '2023',
         count: 1400,
         value: 222.305692,
         lowerCi: 220.69151,
@@ -233,6 +248,7 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS: HealthDataForArea[] = [
       },
       {
         year: 2024,
+        periodLabel: '2024',
         count: 1400,
         value: 222.305692,
         lowerCi: 220.69151,
@@ -250,6 +266,7 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS: HealthDataForArea[] = [
     healthData: [
       {
         year: 2019,
+        periodLabel: '2019',
         count: 1400,
         value: 222.305692,
         lowerCi: 220.69151,
@@ -261,6 +278,7 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS: HealthDataForArea[] = [
       },
       {
         year: 2022,
+        periodLabel: '2022',
         count: 1400,
         value: 222.305692,
         lowerCi: 220.69151,
@@ -272,6 +290,7 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS: HealthDataForArea[] = [
       },
       {
         year: 2023,
+        periodLabel: '2023',
         count: 1566,
         value: 240.305692,
         lowerCi: 237.69151,
@@ -283,6 +302,7 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS: HealthDataForArea[] = [
       },
       {
         year: 2024,
+        periodLabel: '2024',
         count: 1700,
         value: 260.305692,
         lowerCi: 258.69151,

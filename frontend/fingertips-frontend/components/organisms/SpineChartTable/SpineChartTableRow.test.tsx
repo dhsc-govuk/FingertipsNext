@@ -26,6 +26,7 @@ describe('Spine chart table row', () => {
         healthData: [
           {
             year: 2025,
+            periodLabel: '2025',
             count: 222,
             value: 690.305692,
             lowerCi: 341.69151,
@@ -48,6 +49,7 @@ describe('Spine chart table row', () => {
       healthData: [
         {
           year: 2025,
+          periodLabel: '2025',
           count: 3333,
           value: 890.305692,
           lowerCi: 341.69151,
@@ -150,6 +152,7 @@ describe('Spine chart table row', () => {
           healthData: [
             {
               year: 2025,
+              periodLabel: '2025',
               count: 333,
               value: 800.305692,
               lowerCi: 341.69151,
@@ -189,6 +192,7 @@ describe('Spine chart table row', () => {
         healthData: [
           {
             year: 2025,
+            periodLabel: '2025',
             count: 3333,
             value: 890.305692,
             lowerCi: 341.69151,

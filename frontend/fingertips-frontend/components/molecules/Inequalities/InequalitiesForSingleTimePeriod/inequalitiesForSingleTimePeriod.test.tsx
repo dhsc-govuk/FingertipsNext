@@ -61,6 +61,7 @@ describe('InequalitiesForSingleTimePeriod suite', () => {
         ...MOCK_HEALTH_DATA[0].healthData,
         {
           year: 2008,
+          periodLabel: '2008',
           count: 267,
           value: 703.420759,
           lowerCi: 441.69151,
@@ -73,6 +74,7 @@ describe('InequalitiesForSingleTimePeriod suite', () => {
         },
         {
           year: 2008,
+          periodLabel: '2008',
           count: 267,
           value: 703.420759,
           lowerCi: 441.69151,

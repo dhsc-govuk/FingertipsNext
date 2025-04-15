@@ -60,6 +60,7 @@ describe('InequalitiesTrend suite', () => {
           ...MOCK_HEALTH_DATA[1].healthData,
           {
             year: 2008,
+            periodLabel: '2008',
             count: 267,
             value: 703.420759,
             lowerCi: 441.69151,

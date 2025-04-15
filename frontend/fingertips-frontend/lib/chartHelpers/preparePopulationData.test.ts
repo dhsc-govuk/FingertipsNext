@@ -13,6 +13,7 @@ import { disaggregatedAge, femaleSex, maleSex, noDeprivation } from '../mocks';
 const mockData: HealthDataPoint[] = [
   {
     year: 2023,
+    periodLabel: '2023',
     count: 1496012,
     value: 0,
     lowerCi: 0,
@@ -24,6 +25,7 @@ const mockData: HealthDataPoint[] = [
   },
   {
     year: 2023,
+    periodLabel: '2023',
     count: 1635842,
     value: 0,
     lowerCi: 0,
@@ -35,6 +37,7 @@ const mockData: HealthDataPoint[] = [
   },
   {
     year: 2023,
+    periodLabel: '2023',
     count: 1721746,
     value: 0,
     lowerCi: 0,
@@ -46,6 +49,7 @@ const mockData: HealthDataPoint[] = [
   },
   {
     year: 2023,
+    periodLabel: '2023',
     count: 1652231,
     value: 0,
     lowerCi: 0,
@@ -57,6 +61,7 @@ const mockData: HealthDataPoint[] = [
   },
   {
     year: 2023,
+    periodLabel: '2023',
     count: 1692751,
     value: 0,
     lowerCi: 0,
@@ -68,6 +73,7 @@ const mockData: HealthDataPoint[] = [
   },
   {
     year: 2023,
+    periodLabel: '2023',
     count: 1936763,
     value: 0,
     lowerCi: 0,
@@ -79,6 +85,7 @@ const mockData: HealthDataPoint[] = [
   },
   {
     year: 2023,
+    periodLabel: '2023',
     count: 547342,
     value: 0,
     lowerCi: 0,
@@ -90,6 +97,7 @@ const mockData: HealthDataPoint[] = [
   },
   {
     year: 2023,
+    periodLabel: '2023',
     count: 347835,
     value: 0,
     lowerCi: 0,
@@ -101,6 +109,7 @@ const mockData: HealthDataPoint[] = [
   },
   {
     year: 2023,
+    periodLabel: '2023',
     count: 1568625,
     value: 0,
     lowerCi: 0,
@@ -112,6 +121,7 @@ const mockData: HealthDataPoint[] = [
   },
   {
     year: 2023,
+    periodLabel: '2023',
     count: 1712925,
     value: 0,
     lowerCi: 0,
@@ -123,6 +133,7 @@ const mockData: HealthDataPoint[] = [
   },
   {
     year: 2023,
+    periodLabel: '2023',
     count: 1807194,
     value: 0,
     lowerCi: 0,
@@ -134,6 +145,7 @@ const mockData: HealthDataPoint[] = [
   },
   {
     year: 2023,
+    periodLabel: '2023',
     count: 1752832,
     value: 0,
     lowerCi: 0,
@@ -145,6 +157,7 @@ const mockData: HealthDataPoint[] = [
   },
   {
     year: 2023,
+    periodLabel: '2023',
     count: 1763621,
     value: 0,
     lowerCi: 0,
@@ -156,6 +169,7 @@ const mockData: HealthDataPoint[] = [
   },
   {
     year: 2023,
+    periodLabel: '2023',
     count: 1872253,
     value: 0,
     lowerCi: 0,
@@ -168,6 +182,7 @@ const mockData: HealthDataPoint[] = [
 
   {
     year: 2023,
+    periodLabel: '2023',
     count: 173456,
     value: 0,
     lowerCi: 0,
@@ -179,6 +194,7 @@ const mockData: HealthDataPoint[] = [
   },
   {
     year: 2023,
+    periodLabel: '2023',
     count: 377979,
     value: 0,
     lowerCi: 0,
@@ -268,6 +284,7 @@ describe('convertHealthDataForAreaForPyramidData', () => {
     const mockDataPoint: HealthDataPoint[] = [
       {
         year: 2023,
+        periodLabel: '2023',
         count: 1496012,
         value: 0,
         lowerCi: 0,
@@ -279,6 +296,7 @@ describe('convertHealthDataForAreaForPyramidData', () => {
       },
       {
         year: 2023,
+        periodLabel: '2023',
         count: 1635842,
         value: 0,
         lowerCi: 0,
@@ -290,6 +308,7 @@ describe('convertHealthDataForAreaForPyramidData', () => {
       },
       {
         year: 2023,
+        periodLabel: '2023',
         count: 1721746,
         value: 0,
         lowerCi: 0,

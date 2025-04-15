@@ -363,13 +363,13 @@ export function LineChartTable({
       >
         {rowData.map(({ year, areas, benchmarkValue, groupValue }) => (
           <Table.Row key={`lineChartTableRow-${year}`}>
-            <StyledAlignLeftStickyTableCell numeric>
-              {year}
-            </StyledAlignLeftStickyTableCell>
             {areas.map((area, areaIndex) => (
               <React.Fragment
                 key={`lineChartTableRow-${year}-area-${areaIndex}`}
               >
+                <StyledAlignLeftStickyTableCell numeric>
+                  {area?.periodLabel}
+                </StyledAlignLeftStickyTableCell>
                 <BenchmarkCell
                   benchmarkComparison={area?.benchmarkComparison}
                   benchmarkComparisonMethod={benchmarkComparisonMethod}

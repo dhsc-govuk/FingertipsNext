@@ -42,6 +42,7 @@ const mockData: HealthDataForArea[] = [
         upperCi: 578.32766,
         value: 278.29134,
         year: 2006,
+        periodLabel: '2006',
         sex: personsSex,
         ageBand: allAgesAge,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -54,6 +55,7 @@ const mockData: HealthDataForArea[] = [
         upperCi: 578.32766,
         value: 703.420759,
         year: 2004,
+        periodLabel: '2004',
         sex: personsSex,
         ageBand: allAgesAge,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -66,6 +68,7 @@ const mockData: HealthDataForArea[] = [
         upperCi: 578.32766,
         value: 703.420759,
         year: 2004,
+        periodLabel: '2004',
         sex: maleSex,
         ageBand: allAgesAge,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -89,6 +92,7 @@ describe('sortHealthDataByDate', () => {
             upperCi: 578.32766,
             value: 703.420759,
             year: 2004,
+            periodLabel: '2004',
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -101,6 +105,7 @@ describe('sortHealthDataByDate', () => {
             upperCi: 578.32766,
             value: 703.420759,
             year: 2004,
+            periodLabel: '2004',
             sex: maleSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -113,6 +118,7 @@ describe('sortHealthDataByDate', () => {
             upperCi: 578.32766,
             value: 278.29134,
             year: 2006,
+            periodLabel: '2006',
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -141,6 +147,7 @@ describe('sortHealthDataByYearDescending', () => {
             upperCi: 578.32766,
             value: 703.420759,
             year: 2004,
+            periodLabel: '2004',
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -152,6 +159,7 @@ describe('sortHealthDataByYearDescending', () => {
             upperCi: 578.32766,
             value: 278.29134,
             year: 2006,
+            periodLabel: '2006',
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -171,6 +179,7 @@ describe('sortHealthDataByYearDescending', () => {
             upperCi: 578.32766,
             value: 278.29134,
             year: 2006,
+            periodLabel: '2006',
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -182,6 +191,7 @@ describe('sortHealthDataByYearDescending', () => {
             upperCi: 578.32766,
             value: 703.420759,
             year: 2004,
+            periodLabel: '2004',
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -205,6 +215,7 @@ describe('sortHealthDataPointsByDescendingYear', () => {
         upperCi: 578.32766,
         value: 703.420759,
         year: 2004,
+        periodLabel: '2004',
         sex: personsSex,
         ageBand: allAgesAge,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -216,6 +227,7 @@ describe('sortHealthDataPointsByDescendingYear', () => {
         upperCi: 578.32766,
         value: 278.29134,
         year: 2006,
+        periodLabel: '2006',
         sex: personsSex,
         ageBand: allAgesAge,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -230,6 +242,7 @@ describe('sortHealthDataPointsByDescendingYear', () => {
         upperCi: 578.32766,
         value: 278.29134,
         year: 2006,
+        periodLabel: '2006',
         sex: personsSex,
         ageBand: allAgesAge,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -241,6 +254,7 @@ describe('sortHealthDataPointsByDescendingYear', () => {
         upperCi: 578.32766,
         value: 703.420759,
         year: 2004,
+        periodLabel: '2004',
         sex: personsSex,
         ageBand: allAgesAge,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -284,6 +298,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             upperCi: 578.32766,
             value: 278.29134,
             year: 2006,
+            periodLabel: '2006',
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -295,6 +310,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             upperCi: 578.32766,
             value: 703.420759,
             year: 2004,
+            periodLabel: '2004',
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -312,6 +328,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             upperCi: 578.32766,
             value: 278.29134,
             year: 2006,
+            periodLabel: '2006',
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -323,6 +340,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             upperCi: 578.32766,
             value: 703.420759,
             year: 2004,
+            periodLabel: '2004',
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -343,6 +361,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             upperCi: 578.32766,
             value: 278.29134,
             year: 2006,
+            periodLabel: '2006',
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -354,6 +373,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             upperCi: 578.32766,
             value: 703.420759,
             year: 2004,
+            periodLabel: '2004',
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -379,6 +399,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             upperCi: 578.32766,
             value: 278.29134,
             year: 2006,
+            periodLabel: '2006',
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -390,6 +411,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             upperCi: 578.32766,
             value: 703.420759,
             year: 2004,
+            periodLabel: '2004',
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -407,6 +429,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             upperCi: 578.32766,
             value: 278.29134,
             year: 2006,
+            periodLabel: '2006',
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -418,6 +441,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             upperCi: 578.32766,
             value: 703.420759,
             year: 2004,
+            periodLabel: '2004',
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -438,6 +462,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             upperCi: 578.32766,
             value: 278.29134,
             year: 2006,
+            periodLabel: '2006',
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -449,6 +474,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             upperCi: 578.32766,
             value: 703.420759,
             year: 2004,
+            periodLabel: '2004',
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -582,6 +608,7 @@ describe('getMostRecentDataFromSorted', () => {
       lowerCi: 441.69151,
       upperCi: 578.32766,
       year: 2006,
+      periodLabel: '2006',
     };
 
     expect(result).toEqual(expected);
@@ -611,6 +638,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
         healthData: [
           {
             year: 2008,
+            periodLabel: '2008',
             count: 222,
             value: 890.305692,
             lowerCi: 821.987617,
@@ -622,6 +650,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
           },
           {
             year: 2004,
+            periodLabel: '2004',
             count: 267,
             value: 703.420759,
             lowerCi: 635.102684,
@@ -633,6 +662,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
           },
           {
             year: 2004,
+            periodLabel: '2004',
             count: 267,
             value: 703.420759,
             lowerCi: 441.69151,
@@ -644,6 +674,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
           },
           {
             year: 2012,
+            periodLabel: '2012',
             count: 300,
             value: 602.820845,
             lowerCi: 534.50277,
@@ -655,6 +686,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
           },
           {
             year: 2006,
+            periodLabel: '2006',
             count: 389,
             value: 278.29134,
             lowerCi: 209.973265,
@@ -666,6 +698,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
           },
           {
             year: 2020,
+            periodLabel: '2020',
             count: 200,
             value: 971.435418,
             lowerCi: 903.117343,
@@ -683,6 +716,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
         healthData: [
           {
             year: 2004,
+            periodLabel: '2004',
             count: 200,
             value: 904.874,
             lowerCi: 0,
@@ -694,6 +728,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
           },
           {
             year: 2006,
+            periodLabel: '2006',
             count: 179,
             value: 709.7645,
             lowerCi: 0,
@@ -705,6 +740,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
           },
           {
             year: 2008,
+            periodLabel: '2008',
             count: 500,
             value: 965.9843,
             lowerCi: 0,
@@ -716,6 +752,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
           },
           {
             year: 2012,
+            periodLabel: '2012',
             count: 400,
             value: 908.8475,
             lowerCi: 0,
@@ -733,6 +770,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
         healthData: [
           {
             year: 2006,
+            periodLabel: '2006',
             count: 157,
             value: 723.090354,
             lowerCi: 612.272279,
@@ -744,6 +782,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
           },
           {
             year: 2020,
+            periodLabel: '2020',
             count: 256,
             value: 905.145997,
             lowerCi: 833.327922,
@@ -755,6 +794,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
           },
           {
             year: 2004,
+            periodLabel: '2004',
             count: 222,
             value: 135.149304,
             lowerCi: 85.331229,
@@ -766,6 +806,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
           },
           {
             year: 2008,
+            periodLabel: '2008',
             count: 131,
             value: 890.328253,
             lowerCi: 829.010178,
@@ -777,6 +818,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
           },
           {
             year: 2012,
+            periodLabel: '2012',
             count: 452,
             value: 478.996862,
             lowerCi: 404.178787,
@@ -794,6 +836,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
         healthData: [
           {
             year: 2020,
+            periodLabel: '2020',
             count: 411,
             value: 579.848756,
             lowerCi: 515.030681,
@@ -805,6 +848,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
           },
           {
             year: 2008,
+            periodLabel: '2008',
             count: 367,
             value: 383.964067,
             lowerCi: 334.145992,
@@ -816,6 +860,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
           },
           {
             year: 2012,
+            periodLabel: '2012',
             count: 289,
             value: 851.163104,
             lowerCi: 777.34503,
@@ -827,6 +872,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
           },
           {
             year: 2004,
+            periodLabel: '2004',
             count: 356,
             value: 775.129883,
             lowerCi: 725.311808,
@@ -838,6 +884,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
           },
           {
             year: 2006,
+            periodLabel: '2006',
             count: 489,
             value: 290.465304,
             lowerCi: 190.647229,
@@ -855,6 +902,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
         healthData: [
           {
             year: 2020,
+            periodLabel: '2020',
             count: 311,
             value: 400.848756,
             lowerCi: 312.030681,
@@ -866,6 +914,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
           },
           {
             year: 2004,
+            periodLabel: '2004',
             count: 469,
             value: 320.964067,
             lowerCi: 271.145992,
@@ -877,6 +926,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
           },
           {
             year: 2006,
+            periodLabel: '2006',
             count: 120,
             value: 600.163104,
             lowerCi: 550.34503,
@@ -888,6 +938,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
           },
           {
             year: 2012,
+            periodLabel: '2012',
             count: 250,
             value: 650.129883,
             lowerCi: 561.311808,
@@ -899,6 +950,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
           },
           {
             year: 2008,
+            periodLabel: '2008',
             count: 344,
             value: 500.650389,
             lowerCi: 440.832314,
@@ -916,6 +968,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
         healthData: [
           {
             year: 2006,
+            periodLabel: '2006',
             count: 322,
             value: 472.650389,
             lowerCi: 404.332314,
@@ -927,6 +980,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
           },
           {
             year: 2012,
+            periodLabel: '2012',
             count: 234,
             value: 472.7613425,
             lowerCi: 404.443268,
@@ -938,6 +992,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
           },
           {
             year: 2008,
+            periodLabel: '2008',
             count: 299,
             value: 582.306765,
             lowerCi: 513.98869,
@@ -949,6 +1004,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
           },
           {
             year: 2020,
+            periodLabel: '2020',
             count: 435,
             value: 563.4002,
             lowerCi: 495.082125,
@@ -960,6 +1016,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
           },
           {
             year: 2004,
+            periodLabel: '2004',
             count: 277,
             value: 627.899536,
             lowerCi: 559.581462,

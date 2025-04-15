@@ -21,3 +21,17 @@ export function FormatValueAsWholeNumberAbsolute(
 ): string {
   return formatWholeNumber(Math.abs(this.value as number));
 }
+
+// Proper docs if doing this please
+export function FormatYearAsFinancialYear(
+  this: AxisLabelsFormatterContextObject,
+  _ctx: AxisLabelsFormatterContextObject
+): string {
+  if (typeof this.value !== 'number') {
+    throw new Error(
+      'Improper usage: year when provided for chart plots must be a number'
+    );
+  }
+
+  return `${this.value} to ${this.value + 1}`;
+}

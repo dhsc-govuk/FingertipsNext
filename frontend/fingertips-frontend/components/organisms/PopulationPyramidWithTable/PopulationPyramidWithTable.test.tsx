@@ -29,6 +29,7 @@ jest.mock('next/navigation', () => {
 const mockHealthDataPoint: HealthDataPoint[] = [
   {
     year: 2025,
+    periodLabel: '2025',
     count: 200,
     value: 0,
     lowerCi: 0,
@@ -40,6 +41,7 @@ const mockHealthDataPoint: HealthDataPoint[] = [
   },
   {
     year: 2023,
+    periodLabel: '2023',
     count: 200,
     value: 0,
     lowerCi: 0,

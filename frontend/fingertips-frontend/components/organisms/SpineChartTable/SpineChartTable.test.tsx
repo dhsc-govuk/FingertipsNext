@@ -27,6 +27,7 @@ describe('Spine chart table suite', () => {
         healthData: [
           {
             year: mismatchedYears ? 2022 : 2023,
+            periodLabel: mismatchedYears ? '2022' : '2023',
             count: 222,
             value: 690.305692,
             lowerCi: 341.69151,
@@ -50,6 +51,7 @@ describe('Spine chart table suite', () => {
     healthData: [
       {
         year: 2023,
+        periodLabel: '2023',
         count: 3333,
         value: 890.305692,
         lowerCi: 341.69151,

@@ -28,6 +28,7 @@ describe('Line chart table suite', () => {
       healthData: [
         {
           year: 2008,
+          periodLabel: '2008',
           count: 222,
           value: 890.305692,
           lowerCi: 441.69151,
@@ -42,6 +43,7 @@ describe('Line chart table suite', () => {
         },
         {
           year: 2004,
+          periodLabel: '2004',
           count: 267,
           value: 703.420759,
           lowerCi: 441.69151,
@@ -62,6 +64,7 @@ describe('Line chart table suite', () => {
         ...MOCK_HEALTH_DATA[1].healthData.slice(0, -1),
         {
           year: 2004,
+          periodLabel: '2004',
           count: 222,
           value: 135.149304,
           lowerCi: 441.69151,

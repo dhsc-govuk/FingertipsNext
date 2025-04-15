@@ -94,6 +94,7 @@ describe('prepareThematicMapSeriesData', () => {
       healthData: [
         {
           year: 2004,
+          periodLabel: '2004',
           value: 978.34,
           ageBand: allAgesAge,
           sex: personsSex,
@@ -103,6 +104,7 @@ describe('prepareThematicMapSeriesData', () => {
         },
         {
           year: 2008,
+          periodLabel: '2008',
           value: 800.232,
           ageBand: allAgesAge,
           sex: personsSex,
@@ -118,6 +120,7 @@ describe('prepareThematicMapSeriesData', () => {
       healthData: [
         {
           year: 2004,
+          periodLabel: '2004',
           value: 856.344,
           ageBand: allAgesAge,
           sex: personsSex,
@@ -127,6 +130,7 @@ describe('prepareThematicMapSeriesData', () => {
         },
         {
           year: 2008,
+          periodLabel: '2008',
           value: 767.343,
           ageBand: allAgesAge,
           sex: personsSex,
@@ -142,6 +146,7 @@ describe('prepareThematicMapSeriesData', () => {
       healthData: [
         {
           year: 2004,
+          periodLabel: '2004',
           value: 674.434,
           ageBand: allAgesAge,
           sex: personsSex,
@@ -151,6 +156,7 @@ describe('prepareThematicMapSeriesData', () => {
         },
         {
           year: 2008,
+          periodLabel: '2008',
           value: 643.434,
           ageBand: allAgesAge,
           sex: personsSex,

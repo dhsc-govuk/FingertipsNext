@@ -46,6 +46,7 @@ export const healthDataPoint: HealthDataPoint = {
   upperCi: 578.32766,
   value: 278.29134,
   year: 2006,
+  periodLabel: '2006',
   sex: personsSex,
   ageBand: allAgesAge,
   trend: HealthDataPointTrendEnum.NotYetCalculated,

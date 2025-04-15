@@ -18,6 +18,7 @@ describe('BenchmarkTooltipArea', () => {
     healthData: [
       {
         year: 1976,
+        periodLabel: '1976',
         ageBand: allAgesAge,
         sex: personsSex,
         trend: 'Not yet calculated',
