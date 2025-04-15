@@ -275,13 +275,14 @@ export function generateSeriesData({
   return seriesData;
 }
 export function generateChartOptions(props: Readonly<SpineChartProps>) {
-  const { quartileData } = props;
+  const { quartileData, benchmarkValue } = props;
   const { q0Value, q1Value, q3Value, q4Value } = quartileData;
   if (
     q0Value === undefined ||
     q1Value === undefined ||
     q3Value === undefined ||
-    q4Value === undefined
+    q4Value === undefined ||
+    benchmarkValue === undefined
   ) {
     return null;
   }

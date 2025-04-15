@@ -61,22 +61,19 @@ export const buildSpineChartIndicatorData = (
 ): SpineChartIndicatorData[] => {
   return allIndicatorData
     .map((indicatorData) => {
-      const relevantIndicatorMeta = allIndicatorMetadata.find(
-        (indicatorMetaData) => {
-          return (
-            indicatorMetaData.indicatorID ===
-            indicatorData.indicatorId?.toString()
-          );
-        }
-      );
-
-      if (!relevantIndicatorMeta) {
-        // No indicator AI search metadata found matching health data from API
-        console.log(
-          `No indicator AI search metadata found matching health data from API: ${indicatorData.indicatorId}`
-        );
+      if (
+        indicatorData.indicatorId === undefined ||
+        indicatorData.name === null
+      ) {
+        // the entire row will be missing
         return null;
       }
+      const indicatorId = indicatorData.indicatorId.toString();
+      const relevantIndicatorMeta = allIndicatorMetadata.find(
+        (indicatorMetaData) => {
+          return indicatorMetaData.indicatorID === indicatorId;
+        }
+      );
 
       const areasHealthData = areasSelected
         .map((areaCode) => {
@@ -84,9 +81,11 @@ export const buildSpineChartIndicatorData = (
         })
         .filter((areaData) => areaData !== null);
 
-      if (areasHealthData.length !== areasSelected.length) {
-        // there was missing data
-        console.log('an area was missing');
+      if (
+        areasHealthData.length !== areasSelected.length ||
+        !areasHealthData[0]
+      ) {
+        // there was missing data for an area
         return null;
       }
 
@@ -97,14 +96,6 @@ export const buildSpineChartIndicatorData = (
 
       if (!matchedQuartileData) {
         // No quartile data found for the requested indicator ID: ${indicatorData.indicatorId}
-        console.log('No quartile data found matching health data from API');
-        return null;
-      }
-
-      if (!areasHealthData[0]) {
-        // there is no latestDataPeriod - use the above rather than length check to satisfy typescript
-        // assertion that latestDataPeriod must be a number in the main return
-        console.log('No healthdata');
         return null;
       }
 
@@ -112,16 +103,11 @@ export const buildSpineChartIndicatorData = (
         indicatorData.areaHealthData,
         selectedGroupCode
       );
-      if (!groupData) {
-        // no group data
-        console.log('No group data');
-        // return null;
-      }
 
       return {
-        indicatorId: relevantIndicatorMeta.indicatorID,
-        indicatorName: relevantIndicatorMeta.indicatorName,
-        valueUnit: relevantIndicatorMeta.unitLabel,
+        indicatorId,
+        indicatorName: indicatorData.name as string,
+        valueUnit: relevantIndicatorMeta?.unitLabel ?? '',
         benchmarkComparisonMethod: indicatorData.benchmarkMethod,
         // The latest period for the first area's data (health data is sorted be year ASC)
         latestDataPeriod:

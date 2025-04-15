@@ -1,7 +1,7 @@
 'use client';
 
 import { Table } from 'govuk-react';
-import React from 'react';
+import React, { FC } from 'react';
 
 import {
   StyledAlignCentreTableCell,
@@ -26,9 +26,9 @@ export interface SpineChartTableRowProps {
   indicatorData: SpineChartIndicatorData;
 }
 
-export function SpineChartTableRow({
+export const SpineChartTableRow: FC<SpineChartTableRowProps> = ({
   indicatorData,
-}: Readonly<SpineChartTableRowProps>) {
+}) => {
   const {
     indicatorName,
     benchmarkComparisonMethod,
@@ -153,4 +153,4 @@ export function SpineChartTableRow({
       </StyledBenchmarkCell>
     </Table.Row>
   );
-}
+};

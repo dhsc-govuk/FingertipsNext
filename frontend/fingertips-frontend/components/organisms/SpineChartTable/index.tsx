@@ -23,7 +23,7 @@ export interface SpineChartTableProps {
 
 const sortByIndicator = (indicatorData: SpineChartIndicatorData[]) =>
   indicatorData.toSorted((a, b) =>
-    a.indicatorName.localeCompare(b.indicatorName, 'en', {
+    a.indicatorName?.localeCompare(b.indicatorName, 'en', {
       sensitivity: 'base',
     })
   );
