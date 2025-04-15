@@ -83,10 +83,14 @@ const createPopPyramidSeriesOptions = (
         crisp: false,
         animation: false,
       },
+      bar: {
+        legendSymbol: 'areaMarker',
+      },
     },
     credits: { enabled: false },
     title: { style: { display: 'none' } },
     legend: {
+      squareSymbol: true,
       verticalAlign: 'top',
       layout: 'horizontal',
       alignColumns: true,
@@ -229,7 +233,7 @@ const createPopPyramidSeriesOptions = (
         data: femaleSeries,
         custom: {
           tag: 'Female',
-          shape: SymbolsEnum.Circle,
+          shape: SymbolsEnum.Square,
           areaName: dataForArea.areaName,
         },
         xAxis: 0,
@@ -252,7 +256,7 @@ const createPopPyramidSeriesOptions = (
         data: maleSeries.map((datapoint) => -datapoint),
         custom: {
           tag: 'Male',
-          shape: SymbolsEnum.Circle,
+          shape: SymbolsEnum.Square,
           areaName: dataForArea.areaName,
         },
         xAxis: 1,
