@@ -183,11 +183,18 @@ const createPopPyramidSeriesOptions = (
       pointFormatter: function (this: Highcharts.Point) {
         const value = Math.abs(this.y ?? 0);
 
+        const title = (() => {
+          if (this.series.name === 'Male' || this.series.name === 'Female') {
+            return this.series.userOptions.custom?.areaName ?? this.series.name;
+          }
+          return this.series.name;
+        })();
+
         return `
                 <div style="min-width: 100px; font-size: 12px;">
                 <div style="">
                 <h4 style="margin:0px; padding:0px;">
-                  ${this.series.name}
+                  ${title}
                 </h4>
                 <span style="display:block;" >${this.category}</span>
                 <span style="display:block;"> ${this.series.userOptions.custom?.tag}</span>
@@ -203,7 +210,8 @@ const createPopPyramidSeriesOptions = (
                         text-align:center;
                         padding:1px;
                         ">
-                        <span style="color:${this.color}; font-size:16px;">${this.series.userOptions.custom?.shape} </span> <span>${value}% of total population</span>
+                        <span style="color:${this.color}; font-size:16px;">${this.series.userOptions.custom?.shape} </span> 
+                        <span>${value}% of total population</span>
                       </div>
                   </div>
                 </div>
@@ -216,7 +224,11 @@ const createPopPyramidSeriesOptions = (
         name: 'Female',
         type: 'bar',
         data: femaleSeries,
-        custom: { tag: 'Female', shape: SymbolsEnum.Square },
+        custom: {
+          tag: 'Female',
+          shape: SymbolsEnum.Square,
+          areaName: dataForArea.areaName,
+        },
         xAxis: 0,
         color: GovukColours.Female,
         pointWidth: 17,
@@ -235,7 +247,11 @@ const createPopPyramidSeriesOptions = (
         name: 'Male',
         type: 'bar',
         data: maleSeries.map((datapoint) => -datapoint),
-        custom: { tag: 'Male', shape: SymbolsEnum.Square },
+        custom: {
+          tag: 'Male',
+          shape: SymbolsEnum.Square,
+          areaName: dataForArea.areaName,
+        },
         xAxis: 1,
         color: GovukColours.Male,
         pointWidth: 17,
