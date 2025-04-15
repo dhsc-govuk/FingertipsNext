@@ -79,19 +79,6 @@ const mapToXAxisTitle: Record<InequalitiesTypes, string> = {
 const getMaxValue = (values: (number | undefined)[]) =>
   Math.max(...values.filter((number) => number !== undefined));
 
-export const getFormattedComparisonLabel = (
-  isBenchmarkPoint: boolean,
-  benchmarkComparisonMethod: number,
-  inequalityType: InequalitiesTypes
-) => {
-  if (isBenchmarkPoint || benchmarkComparisonMethod === 0) {
-    return '';
-  }
-  return inequalityType === InequalitiesTypes.Sex
-    ? `<br/>persons (${benchmarkComparisonMethod}%)`
-    : `(${benchmarkComparisonMethod}%)`;
-};
-
 export function InequalitiesBarChart({
   barChartData,
   yAxisLabel,
@@ -132,12 +119,6 @@ export function InequalitiesBarChart({
       );
     const isBenchmarkPoint = point.category === BenchmarkCategory;
 
-    const comparisonLabel = getFormattedComparisonLabel(
-      isBenchmarkPoint,
-      mappedBenchmarkComparisonMethod,
-      type
-    );
-
     const symbolStyles = [
       `background-color: ${point.color}`,
       'width: 0.5em',
@@ -151,6 +132,10 @@ export function InequalitiesBarChart({
       ? `<span style="color: ${point.color}; font-weight: bold;">${symbol}</span>`
       : symbolItem;
 
+    const comparisonLabel =
+      isBenchmarkPoint || mappedBenchmarkComparisonMethod === 0
+        ? ''
+        : `<br/>persons (${mappedBenchmarkComparisonMethod}%)`;
     return [
       `
       <span>${barChartData.data.period}</span>
