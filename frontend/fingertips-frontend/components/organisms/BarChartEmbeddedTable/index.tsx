@@ -85,7 +85,7 @@ export function BarChartEmbeddedTable({
   const tableRows: BarChartEmbeddedTableRow[] = mostRecentYearData.map(
     (item) => ({
       area: item.areaName,
-      period: item.healthData[0].year,
+      period: item.healthData[0].periodLabel,
       trend: item.healthData[0].trend,
       count: item.healthData[0].count,
       value: item.healthData[0].value,
@@ -189,7 +189,7 @@ export function BarChartEmbeddedTable({
               style={{ textAlign: 'left' }}
             />
             <CheckValueInTableCell
-              value={mostRecentBenchmarkData.year}
+              value={mostRecentBenchmarkData.periodLabel}
               style={{ textAlign: 'right' }}
             />
             <Table.Cell style={{ textAlign: 'center' }}>
@@ -220,7 +220,7 @@ export function BarChartEmbeddedTable({
                 polarity={polarity}
                 label={SparklineLabelEnum.Benchmark}
                 area={benchmarkData?.areaName}
-                year={mostRecentBenchmarkData.year}
+                periodLabel={mostRecentBenchmarkData.periodLabel}
                 measurementUnit={measurementUnit}
               ></SparklineChart>
             </Table.Cell>
@@ -246,7 +246,7 @@ export function BarChartEmbeddedTable({
               style={{ textAlign: 'left' }}
             />
             <CheckValueInTableCell
-              value={mostRecentGroupData.year}
+              value={mostRecentGroupData.periodLabel}
               style={{ textAlign: 'right' }}
             />
             <Table.Cell style={{ textAlign: 'center' }}>
@@ -277,7 +277,7 @@ export function BarChartEmbeddedTable({
                 polarity={polarity}
                 label={SparklineLabelEnum.Group}
                 area={groupIndicatorData?.areaName}
-                year={mostRecentGroupData.year}
+                periodLabel={mostRecentGroupData.periodLabel}
                 measurementUnit={measurementUnit}
               />
             </Table.Cell>

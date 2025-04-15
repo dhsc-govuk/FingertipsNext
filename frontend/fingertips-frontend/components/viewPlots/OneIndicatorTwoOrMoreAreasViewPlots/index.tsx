@@ -4,7 +4,7 @@ import { TabContainer } from '@/components/layouts/tabContainer';
 import { LineChart } from '@/components/organisms/LineChart';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { BarChartEmbeddedTable } from '@/components/organisms/BarChartEmbeddedTable';
-import { seriesDataWithoutEnglandOrGroup } from '@/lib/chartHelpers/chartHelpers';
+import { isYearTypeCalendar, seriesDataWithoutEnglandOrGroup } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams } from '@/lib/searchStateManager';
 import { H3 } from 'govuk-react';
@@ -21,7 +21,7 @@ import { useSearchState } from '@/context/SearchStateContext';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
 import { IndicatorPolarity } from '@/generated-sources/ft-api-client';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
-import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
+import { FormatValueAsNumber, FormatYearAsNonCalendarYear } from '@/lib/chartHelpers/labelFormatters';
 
 interface OneIndicatorTwoOrMoreAreasViewPlotsProps
   extends OneIndicatorViewPlotProps {
@@ -75,15 +75,20 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   const yAxisTitle = indicatorMetadata?.unitLabel
     ? `Value: ${indicatorMetadata?.unitLabel}`
     : undefined;
+  const isCalendarYearType = isYearTypeCalendar(healthIndicatorData);
 
   const lineChartOptions: Highcharts.Options = generateStandardLineChartOptions(
     dataWithoutEnglandOrGroup,
     showConfidenceIntervalsData,
+    isCalendarYearType,
     {
       benchmarkData: englandBenchmarkData,
       groupIndicatorData: groupData,
       yAxisTitle,
       yAxisLabelFormatter: FormatValueAsNumber,
+      xAxisLabelFormatter: isCalendarYearType
+        ? undefined
+        : FormatYearAsNonCalendarYear,
       xAxisTitle: 'Year',
       measurementUnit: indicatorMetadata?.unitLabel,
       accessibilityLabel: 'A line chart showing healthcare data',

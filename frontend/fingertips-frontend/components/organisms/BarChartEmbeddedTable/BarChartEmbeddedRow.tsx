@@ -60,7 +60,7 @@ export const BarChartEmbeddedRow: FC<BarChartEmbeddedRowProps> = ({
           polarity={polarity}
           label={SparklineLabelEnum.Area}
           area={item.area}
-          year={item.period}
+          periodLabel={item.period}
           measurementUnit={measurementUnit}
         />
       </Table.Cell>

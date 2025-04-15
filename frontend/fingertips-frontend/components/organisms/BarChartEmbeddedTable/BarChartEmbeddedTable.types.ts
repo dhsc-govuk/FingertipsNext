@@ -5,7 +5,7 @@ import {
 
 export interface BarChartEmbeddedTableRow {
   area: string;
-  period: number;
+  period: string;
   trend: HealthDataPointTrendEnum;
   count?: number;
   value?: number;

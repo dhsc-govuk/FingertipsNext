@@ -31,7 +31,7 @@ interface SparklineChartProps {
   polarity?: IndicatorPolarity;
   label: string;
   area: string | undefined;
-  year: number | undefined;
+  periodLabel: string | undefined;
   measurementUnit: string | undefined;
 }
 
@@ -116,7 +116,7 @@ export function SparklineChart({
   polarity = IndicatorPolarity.Unknown,
   label,
   area,
-  year,
+  periodLabel,
   measurementUnit,
 }: Readonly<SparklineChartProps>) {
   const benchmarkColor = getBenchmarkColour(
@@ -149,7 +149,7 @@ export function SparklineChart({
 
     return [
       `<div><b>${category}${area}</b></div>
-      <div style="padding-bottom: 1em;">${year}</div>
+      <div style="padding-bottom: 1em;">${periodLabel}</div>
       <div style="display: flex; align-items: center; gap: 0.25em;">${symbolItem} ${formatNumber(value[0])}${measurementUnit}</div>
       <div>${benchmarkLabel}</div>
       <div>${comparisonLabel}</div>`,
