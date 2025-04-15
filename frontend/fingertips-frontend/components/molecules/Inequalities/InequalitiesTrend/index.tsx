@@ -42,7 +42,6 @@ import {
 import { ChartSelectArea } from '../../ChartSelectArea';
 import { InequalitiesTypesDropDown } from '../InequalitiesTypesDropDown';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 interface InequalitiesTrendProps {
   healthIndicatorData: HealthDataForArea[];
@@ -154,21 +153,14 @@ export function InequalitiesTrend({
     point: Highcharts.Point,
     symbol: string
   ) => {
-    const label =
-      healthDataForArea.areaCode === areaCodeForEngland
-        ? AreaTypeLabelEnum.Benchmark
-        : AreaTypeLabelEnum.Area;
-    const { benchmarkLabel, category, comparisonLabel } = getTooltipContent(
+    const { benchmarkLabel, comparisonLabel } = getTooltipContent(
       getBenchmarkOutcomeForYear(point.x, point.series.name, lineChartData) ??
         BenchmarkOutcome.NotCompared,
-      label,
+      AreaTypeLabelEnum.Area,
       benchmarkComparisonMethod ?? BenchmarkComparisonMethod.Unknown,
       type === InequalitiesTypes.Sex ? lineChartData.areaName : undefined
     );
-    const comparisonLabelForInequality =
-      type === InequalitiesTypes.Deprivation
-        ? comparisonLabel
-        : `persons ${comparisonLabel}`;
+    const comparisonLabelForInequality = `persons ${comparisonLabel}`;
 
     const shouldHideLines = lineChartData.rowData.every(
       (dataPoint) => dataPoint.inequalities[point.series.name]?.isAggregate
@@ -176,13 +168,13 @@ export function InequalitiesTrend({
 
     return [
       `<div style="padding-right: 25px">`,
-      `<span style="font-weight: bold">${category}${lineChartData.areaName}</span><br/>`,
-      `<span>${point.x}</span><br/><span>${type === InequalitiesTypes.Deprivation && label === AreaTypeLabelEnum.Benchmark ? '' : point.series.name}</span><br/>`,
+      `<span style="font-weight: bold">${lineChartData.areaName}</span><br/>`,
+      `<span>${point.x}</span><br/><span>${point.series.name}</span><br/>`,
       `<div style="display: flex; margin-top: 15px; align-items: center;">`,
       `<div style="margin-right: 10px;"><span style="color: ${point.series.color}; font-weight: bold;">${symbol}</span></div>`,
       `<div style="padding-right: 10px;"><span>${formatNumber(point.y)} ${measurementUnit ? ' ' + measurementUnit : ''}</span><br/>`,
-      `${label === AreaTypeLabelEnum.Benchmark || shouldHideLines ? '' : '<span>' + benchmarkLabel + '</span><br/>'}`,
-      `${label === AreaTypeLabelEnum.Benchmark || shouldHideLines ? '' : '<span>' + comparisonLabelForInequality + '</span><br/>'}`,
+      `${shouldHideLines || !benchmarkLabel ? '' : '<span>' + benchmarkLabel + '</span><br/>'}`,
+      `${shouldHideLines || !comparisonLabel ? '' : '<span>' + comparisonLabelForInequality + '</span><br/>'}`,
       `</div>`,
       `</div>`,
       `</div>`,
