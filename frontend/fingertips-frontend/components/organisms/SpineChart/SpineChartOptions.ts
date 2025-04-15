@@ -45,20 +45,33 @@ function formatUnits(units: string): string {
   return units;
 }
 
-function formatBarHover(
-  period: number,
-  lowerName: string,
-  lowerValue: number,
-  upperName: string,
-  upperValue: number,
-  units: string,
-  colour: string
-) {
+interface formatBarHoverProps {
+  period: number;
+  lowerName: string;
+  lowerValue: number;
+  upperName: string;
+  upperValue: number;
+  units: string;
+  colour: string;
+}
+
+interface formatSymbolHoverProps {
+  title: string;
+  period: number;
+  benchmarkComparisonMethod: BenchmarkComparisonMethod;
+  value: number;
+  units: string;
+  outcome: string;
+  colour: string;
+  shape: SymbolsEnum;
+}
+
+function formatBarHover(props: formatBarHoverProps) {
   return `<div style="min-width: 100px; font-size: 16px;">
             <h4 style="margin:0px; padding:0px;">
               Benchmark: England
             </h4>
-            <span style="display: block;">${period}</span>
+            <span style="display: block;">${props.period}</span>
             <div style="padding:0px; margin:0px;">
                 <div style="display:flex; 
                   flex-direction:row;
@@ -66,31 +79,22 @@ function formatBarHover(
                   flex-wrap:nowrap;
                   justify-content: flex-start;
                   ">
-                  <span style="color:${colour}; font-size:19px;">${SymbolsEnum.Square}</span> 
+                  <span style="color:${props.colour}; font-size:19px;">${SymbolsEnum.Square}</span> 
                   <div style="flex-grow:2; padding:0.5em;">
-                    <span style="display: block;">${formatNumber(lowerValue)}${formatUnits(units)} to ${formatNumber(upperValue)}${formatUnits(units)}</span>
-                    <span style="display: block;">${lowerName} to ${upperName}</span>
+                    <span style="display: block;">${formatNumber(props.lowerValue)}${formatUnits(props.units)} to ${formatNumber(props.upperValue)}${formatUnits(props.units)}</span>
+                    <span style="display: block;">${props.lowerName} to ${props.upperName}</span>
                   </div>
               </div>
             <div>
           <div>`;
 }
 
-function formatSymbolHover(
-  title: string,
-  period: number,
-  benchmarkComparisonMethod: BenchmarkComparisonMethod,
-  value: number,
-  units: string,
-  outcome: string,
-  colour: string,
-  shape: SymbolsEnum
-) {
+function formatSymbolHover(props: formatSymbolHoverProps) {
   return `<div style="min-width: 100px; font-size: 16px;">
             <h4 style="margin:0px; padding:0px;">
-              ${title}
+              ${props.title}
             </h4>
-            <span style="display: block;">${period}</span>
+            <span style="display: block;">${props.period}</span>
             <div style="padding:0px; margin:0px;">
                 <div style="display:flex; 
                   flex-direction:row;
@@ -98,13 +102,13 @@ function formatSymbolHover(
                   flex-wrap:nowrap;
                   justify-content: flex-start;
                   ">
-                  <span style="color:${colour}; font-size:19px;">${shape}</span> 
+                  <span style="color:${props.colour}; font-size:19px;">${props.shape}</span> 
                   <div style="flex-grow:2; 
                     padding:0.5em;
                     ">
-                    <span style="display: block;">${formatNumber(value)}${formatUnits(units)}</span>
-                    <span style="display: block;">${outcome}</span>
-                    <span style="display: block;">${benchmarkComparisonMethodToString(benchmarkComparisonMethod)}</span>
+                    <span style="display: block;">${formatNumber(props.value)}${formatUnits(props.units)}</span>
+                    <span style="display: block;">${props.outcome}</span>
+                    <span style="display: block;">${benchmarkComparisonMethodToString(props.benchmarkComparisonMethod)}</span>
                   </div>
               </div>
             <div>
@@ -161,60 +165,60 @@ export function generateSeriesData({
   )[] = [
     {
       type: 'bar',
-      name: formatBarHover(
-        period,
-        'Worst',
-        worst,
-        '25th percentile',
-        lowerQuartile,
-        units,
-        GovukColours.MidGrey
-      ),
+      name: formatBarHover({
+        period: period,
+        lowerName: 'Worst',
+        lowerValue: worst,
+        upperName: '25th percentile',
+        upperValue: lowerQuartile,
+        units: units,
+        colour: GovukColours.MidGrey,
+      }),
       pointWidth: 30,
       color: GovukColours.MidGrey,
       data: [-scaledFourthQuartileBar],
     },
     {
       type: 'bar',
-      name: formatBarHover(
-        period,
-        'Best',
-        best,
-        '75th percentile',
-        upperQuartile,
-        units,
-        GovukColours.MidGrey
-      ),
+      name: formatBarHover({
+        period: period,
+        lowerName: 'Best',
+        lowerValue: best,
+        upperName: '75th percentile',
+        upperValue: upperQuartile,
+        units: units,
+        colour: GovukColours.MidGrey,
+      }),
       pointWidth: 30,
       color: GovukColours.MidGrey,
       data: [scaledFirstQuartileBar],
     },
     {
       type: 'bar',
-      name: formatBarHover(
-        period,
-        '25th percentile',
-        lowerQuartile,
-        '75th percentile',
-        upperQuartile,
-        units,
-        GovukColours.DarkGrey
-      ),
+      name: formatBarHover({
+        period: period,
+        lowerName: '25th percentile',
+        lowerValue: lowerQuartile,
+        upperName: '75th percentile',
+        upperValue: upperQuartile,
+        units: units,
+        colour: GovukColours.DarkGrey,
+      }),
       pointWidth: 30,
       color: GovukColours.DarkGrey,
       data: [-scaledThirdQuartileBar],
     },
     {
       type: 'bar',
-      name: formatBarHover(
-        period,
-        '25th percentile',
-        lowerQuartile,
-        '75th percentile',
-        upperQuartile,
-        units,
-        GovukColours.DarkGrey
-      ),
+      name: formatBarHover({
+        period: period,
+        lowerName: '25th percentile',
+        lowerValue: lowerQuartile,
+        upperName: '75th percentile',
+        upperValue: upperQuartile,
+        units: units,
+        colour: GovukColours.DarkGrey,
+      }),
       pointWidth: 30,
       color: GovukColours.DarkGrey,
       data: [scaledSecondQuartileBar],
@@ -230,16 +234,17 @@ export function generateSeriesData({
     const scaledGroup = absGroupValue / maxDiffFromBenchmark;
     seriesData.push({
       type: 'scatter',
-      name: formatSymbolHover(
-        `Group: ${groupName}`,
-        period,
-        benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
-        groupValue,
-        units,
-        groupOutcome ?? 'Not compared',
-        '#fff',
-        SymbolsEnum.Diamond
-      ),
+      name: formatSymbolHover({
+        title: `Group: ${groupName}`,
+        period: period,
+        benchmarkComparisonMethod:
+          benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
+        value: groupValue,
+        units: units,
+        outcome: groupOutcome ?? 'Not compared',
+        colour: '#fff',
+        shape: SymbolsEnum.Diamond,
+      }),
       marker: {
         symbol: 'diamond',
         radius: 8,
@@ -270,16 +275,17 @@ export function generateSeriesData({
     const scaledArea = absAreaValue / maxDiffFromBenchmark;
     seriesData.push({
       type: 'scatter',
-      name: formatSymbolHover(
-        areaName,
-        period,
-        benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
-        value,
-        units,
-        outcome ?? 'Not compared',
-        fillColor ?? '#ffffff',
-        index === 0 ? SymbolsEnum.Circle : SymbolsEnum.Square
-      ),
+      name: formatSymbolHover({
+        title: areaName,
+        period: period,
+        benchmarkComparisonMethod:
+          benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
+        value: value,
+        units: units,
+        outcome: outcome ?? 'Not compared',
+        colour: fillColor ?? '#ffffff',
+        shape: index === 0 ? SymbolsEnum.Circle : SymbolsEnum.Square,
+      }),
       marker: {
         symbol: index === 0 ? 'circle' : 'square',
         radius: 6,
