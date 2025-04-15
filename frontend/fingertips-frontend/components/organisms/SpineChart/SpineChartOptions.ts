@@ -219,7 +219,7 @@ export function generateSeriesData({
 
   areas.forEach(({ value, outcome, areaName }, index) => {
     if (value === undefined) return;
-    
+
     const fillColor = getBenchmarkColour(
       benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
       outcome ?? BenchmarkOutcome.NotCompared,
