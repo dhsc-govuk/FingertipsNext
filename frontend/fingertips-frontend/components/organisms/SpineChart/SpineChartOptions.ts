@@ -7,9 +7,9 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { orderStatistics } from './SpineChartHelpers';
 import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
-import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { SpineChartProps } from '.';
 import { formatNumber } from '@/lib/numberFormatter';
+import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 
 const markerLineWidth = 1;
 
@@ -51,18 +51,29 @@ function formatBarHover(
   lowerValue: number,
   upperName: string,
   upperValue: number,
-  units: string
+  units: string,
+  colour: string
 ) {
-  return `<div style="margin:0px; padding:0px;">
-              <span style="font-weight: bold; display: block;">
+  return `<div style="min-width: 100px; font-size: 16px;">
+            <h4 style="margin:0px; padding:0px;">
               Benchmark: England
-              </span>
-              <span style="display: block;">${period}</span>
-              <div>
-              <span style="display: block;">${formatNumber(lowerValue)}${formatUnits(units)} to ${formatNumber(upperValue)}${formatUnits(units)}</span>
-              <span style="display: block;">${lowerName} to ${upperName}</span>
+            </h4>
+            <span style="display: block;">${period}</span>
+            <div style="padding:0px; margin:0px;">
+                <div style="display:flex; 
+                  flex-direction:row;
+                  align-items: center;
+                  flex-wrap:nowrap;
+                  justify-content: flex-start;
+                  ">
+                  <span style="color:${colour}; font-size:19px;">${SymbolsEnum.Square}</span> 
+                  <div style="flex-grow:2; padding:0.5em;">
+                    <span style="display: block;">${formatNumber(lowerValue)}${formatUnits(units)} to ${formatNumber(upperValue)}${formatUnits(units)}</span>
+                    <span style="display: block;">${lowerName} to ${upperName}</span>
+                  </div>
               </div>
-              </div>`;
+            <div>
+          <div>`;
 }
 
 function formatSymbolHover(
@@ -71,19 +82,33 @@ function formatSymbolHover(
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
   value: number,
   units: string,
-  outcome: string
+  outcome: string,
+  colour: string,
+  shape: SymbolsEnum
 ) {
-  return `<div style="margin:0px; padding:0px;">
-              <span style="font-weight: bold; display: block;">
+  return `<div style="min-width: 100px; font-size: 16px;">
+            <h4 style="margin:0px; padding:0px;">
               ${title}
-              </span>
-              <span style="display: block;">${period}</span>
-              <div>
-              <span style="display: block;">${formatNumber(value)}${formatUnits(units)}</span>
-              <span style="display: block;">${outcome}</span>
-              <span style="display: block;">${benchmarkComparisonMethodToString(benchmarkComparisonMethod)}</span>
+            </h4>
+            <span style="display: block;">${period}</span>
+            <div style="padding:0px; margin:0px;">
+                <div style="display:flex; 
+                  flex-direction:row;
+                  align-items: center;
+                  flex-wrap:nowrap;
+                  justify-content: flex-start;
+                  ">
+                  <span style="color:${colour}; font-size:19px;">${shape}</span> 
+                  <div style="flex-grow:2; 
+                    padding:0.5em;
+                    ">
+                    <span style="display: block;">${formatNumber(value)}${formatUnits(units)}</span>
+                    <span style="display: block;">${outcome}</span>
+                    <span style="display: block;">${benchmarkComparisonMethodToString(benchmarkComparisonMethod)}</span>
+                  </div>
               </div>
-              <div>`;
+            <div>
+          <div>`;
 }
 
 export function generateSeriesData({
@@ -142,7 +167,8 @@ export function generateSeriesData({
         worst,
         '25th percentile',
         lowerQuartile,
-        units
+        units,
+        GovukColours.MidGrey
       ),
       pointWidth: 30,
       color: GovukColours.MidGrey,
@@ -156,7 +182,8 @@ export function generateSeriesData({
         best,
         '75th percentile',
         upperQuartile,
-        units
+        units,
+        GovukColours.MidGrey
       ),
       pointWidth: 30,
       color: GovukColours.MidGrey,
@@ -170,7 +197,8 @@ export function generateSeriesData({
         lowerQuartile,
         '75th percentile',
         upperQuartile,
-        units
+        units,
+        GovukColours.DarkGrey
       ),
       pointWidth: 30,
       color: GovukColours.DarkGrey,
@@ -184,7 +212,8 @@ export function generateSeriesData({
         lowerQuartile,
         '75th percentile',
         upperQuartile,
-        units
+        units,
+        GovukColours.DarkGrey
       ),
       pointWidth: 30,
       color: GovukColours.DarkGrey,
@@ -207,7 +236,9 @@ export function generateSeriesData({
         benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
         groupValue,
         units,
-        groupOutcome ?? 'Not compared'
+        groupOutcome ?? 'Not compared',
+        '#fff',
+        SymbolsEnum.Diamond
       ),
       marker: {
         symbol: 'diamond',
@@ -245,7 +276,9 @@ export function generateSeriesData({
         benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
         value,
         units,
-        outcome ?? 'Not compared'
+        outcome ?? 'Not compared',
+        fillColor ?? '#ffffff',
+        index === 0 ? SymbolsEnum.Circle : SymbolsEnum.Square
       ),
       marker: {
         symbol: index === 0 ? 'circle' : 'square',
@@ -363,9 +396,9 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
     tooltip: {
       outside: true,
       padding: 10,
-      headerFormat: `{series.name}`,
+      headerFormat: ``,
       pointFormatter: function (this: Highcharts.Point) {
-        return pointFormatterHelper(this, generateSpineChartTooltipForPoint);
+        return this.series.name;
       },
       useHTML: true,
       style: {
