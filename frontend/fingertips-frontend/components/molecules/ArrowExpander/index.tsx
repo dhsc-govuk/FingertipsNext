@@ -51,20 +51,26 @@ interface ExpanderProps {
 export const ArrowExpander = ({
   children,
   fill = '#1D70B8',
-  openTitle,
-  closeTitle,
+  openTitle = 'Open',
+  closeTitle = 'Close',
   open = false,
 }: ExpanderProps) => {
-  const [isOpen, setIsOpen] = useState<boolean>(open);
+  const [showContent, setShowContent] = useState<boolean>(open);
+
   return (
     <>
-      <StyleButtonExpander onClick={() => setIsOpen(!isOpen)}>
-        <ArrowToggleButton fill={fill} width={30} height={30} isOpen={isOpen} />
+      <StyleButtonExpander onClick={() => setShowContent(!showContent)}>
+        <ArrowToggleButton
+          fill={fill}
+          width={30}
+          height={30}
+          isOpen={showContent}
+        />
         <StyleLabelTextForExpander fill={fill}>
-          {isOpen ? closeTitle : openTitle}
+          {showContent ? closeTitle : openTitle}
         </StyleLabelTextForExpander>
       </StyleButtonExpander>
-      {isOpen ? children : null}
+      {showContent ? children : null}
     </>
   );
 };

@@ -1,8 +1,8 @@
-import { BenchmarkTooltipArea } from '@/components/atoms/BenchmarkTooltipArea';
 import {
   BenchmarkComparisonMethod,
   HealthDataForArea,
 } from '@/generated-sources/ft-api-client';
+import { BenchmarkTooltipArea } from '@/components/atoms/BenchmarkTooltipArea';
 
 interface BenchmarkTooltipProps {
   indicatorData: HealthDataForArea;

@@ -119,13 +119,14 @@ describe('useIndicatorSort', () => {
     ]);
   });
 
-  it('should limit the results to 20', () => {
+  it('should not limit the results to 20', () => {
+    // we have previously limited the results to 20, but don't anymore.
     mockGetSearchState.mockImplementation(() => ({
       [SearchParams.SearchedOrder]: SortOrderKeys.updated,
     }));
-    const lotsOfResults = new Array(30).map(() => mockApple);
+    const lotsOfResults = new Array(35).map(() => mockApple);
     const { result } = renderHook(() => useIndicatorSort(lotsOfResults));
-    expect(result.current.sortedResults).toHaveLength(20);
+    expect(result.current.sortedResults).toHaveLength(35);
   });
 
   it('should return a callback function to use on the select element', () => {

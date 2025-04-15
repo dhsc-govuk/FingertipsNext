@@ -19,7 +19,7 @@ export interface SpineChartIndicatorData {
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   valueUnit: string;
   areasHealthData: (HealthDataForArea | null)[];
-  groupData: HealthDataForArea;
+  groupData: HealthDataForArea | null;
   quartileData: QuartileData;
 }
 
@@ -61,19 +61,19 @@ export const buildSpineChartIndicatorData = (
 ): SpineChartIndicatorData[] => {
   return allIndicatorData
     .map((indicatorData) => {
-      const relevantIndicatorMeta = allIndicatorMetadata.find(
-        (indicatorMetaData) => {
-          return (
-            indicatorMetaData.indicatorID ===
-            indicatorData.indicatorId?.toString()
-          );
-        }
-      );
-
-      if (!relevantIndicatorMeta) {
-        // No indicator AI search metadata found matching health data from API
+      if (
+        indicatorData.indicatorId === undefined ||
+        indicatorData.name === null
+      ) {
+        // the entire row will be missing
         return null;
       }
+      const indicatorId = indicatorData.indicatorId.toString();
+      const relevantIndicatorMeta = allIndicatorMetadata.find(
+        (indicatorMetaData) => {
+          return indicatorMetaData.indicatorID === indicatorId;
+        }
+      );
 
       const areasHealthData = areasSelected
         .map((areaCode) => {
@@ -81,8 +81,11 @@ export const buildSpineChartIndicatorData = (
         })
         .filter((areaData) => areaData !== null);
 
-      if (areasHealthData.length !== areasSelected.length) {
-        // there was missing data
+      if (
+        areasHealthData.length !== areasSelected.length ||
+        !areasHealthData[0]
+      ) {
+        // there was missing data for an area
         return null;
       }
 
@@ -96,25 +99,15 @@ export const buildSpineChartIndicatorData = (
         return null;
       }
 
-      if (!areasHealthData[0]) {
-        // there is no latestDataPeriod - use the above rather than length check to satisfy typescript
-        // assertion that latestDataPeriod must be a number in the main return
-        return null;
-      }
-
       const groupData = getHealthDataForArea(
         indicatorData.areaHealthData,
         selectedGroupCode
       );
-      if (!groupData) {
-        // no group data
-        return null;
-      }
 
       return {
-        indicatorId: relevantIndicatorMeta.indicatorID,
-        indicatorName: relevantIndicatorMeta.indicatorName,
-        valueUnit: relevantIndicatorMeta.unitLabel,
+        indicatorId,
+        indicatorName: indicatorData.name as string,
+        valueUnit: relevantIndicatorMeta?.unitLabel ?? '',
         benchmarkComparisonMethod: indicatorData.benchmarkMethod,
         // The latest period for the first area's data (health data is sorted be year ASC)
         latestDataPeriod:

@@ -107,6 +107,14 @@ export function generateSeriesData({
     worstQuartile: lowerQuartile,
     worst,
   } = orderStatistics(quartileData);
+  if (
+    best === undefined ||
+    upperQuartile === undefined ||
+    lowerQuartile === undefined ||
+    worst === undefined
+  ) {
+    return null;
+  }
 
   const maxDiffFromBenchmark = Math.max(
     absDiff(best, benchmarkValue),
@@ -219,6 +227,7 @@ export function generateSeriesData({
 
   areas.forEach(({ value, outcome, areaName }, index) => {
     if (value === undefined) return;
+
     const fillColor = getBenchmarkColour(
       benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
       outcome ?? BenchmarkOutcome.NotCompared,
@@ -266,8 +275,19 @@ export function generateSeriesData({
   return seriesData;
 }
 export function generateChartOptions(props: Readonly<SpineChartProps>) {
-  const categories = [''];
+  const { quartileData, benchmarkValue } = props;
+  const { q0Value, q1Value, q3Value, q4Value } = quartileData;
+  if (
+    q0Value === undefined ||
+    q1Value === undefined ||
+    q3Value === undefined ||
+    q4Value === undefined ||
+    benchmarkValue === undefined
+  ) {
+    return null;
+  }
 
+  const categories = [''];
   return {
     chart: {
       type: 'bar',
@@ -288,9 +308,7 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
       text: '',
     },
     accessibility: {
-      point: {
-        enabled: false,
-      },
+      enabled: false,
     },
     xAxis: [
       {
@@ -350,6 +368,9 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
         return pointFormatterHelper(this, generateSpineChartTooltipForPoint);
       },
       useHTML: true,
+      style: {
+        fontSize: 16,
+      },
     },
     series: generateSeriesData(props),
   };

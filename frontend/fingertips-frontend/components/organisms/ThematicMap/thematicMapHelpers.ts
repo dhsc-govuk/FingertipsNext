@@ -297,15 +297,21 @@ function getBenchmarkColourScale(
 }
 
 export function prepareThematicMapSeriesData(data: HealthDataForArea[]) {
-  return getIndicatorDataForAreasForMostRecentYearOnly(data).map((areaData) => {
+  const recentData = getIndicatorDataForAreasForMostRecentYearOnly(data);
+  if (!recentData) {
+    return;
+  }
+
+  return recentData.map((areaData) => {
     const [mostRecentDataPoint] = areaData.healthData;
     return {
       areaName: areaData.areaName,
       areaCode: areaData.areaCode,
-      value: mostRecentDataPoint.value,
-      year: mostRecentDataPoint.year,
+      value: mostRecentDataPoint?.value ?? undefined,
+      year: mostRecentDataPoint?.year ?? undefined,
       benchmarkComparisonOutcome:
-        mostRecentDataPoint.benchmarkComparison?.outcome,
+        mostRecentDataPoint?.benchmarkComparison?.outcome ??
+        BenchmarkOutcome.NotCompared,
       benchmarkColourCode:
         mapBenchmarkToColourRef[
           mostRecentDataPoint?.benchmarkComparison?.outcome ??

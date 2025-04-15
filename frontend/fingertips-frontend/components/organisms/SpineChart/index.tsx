@@ -26,6 +26,11 @@ export interface SpineChartProps {
 
 export function SpineChart(props: Readonly<SpineChartProps>) {
   const spineChartsOptions = generateChartOptions(props);
+  if (!spineChartsOptions)
+    return (
+      <div style={{ textAlign: 'center' }}>Insufficient data available</div>
+    );
+
   const { benchmarkValue } = props;
 
   return (

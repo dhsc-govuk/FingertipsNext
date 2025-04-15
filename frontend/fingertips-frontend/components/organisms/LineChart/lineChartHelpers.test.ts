@@ -128,7 +128,7 @@ describe('generateSeriesData', () => {
         name: 'England',
         type: 'errorbar',
         visible: false,
-        whiskerLength: '20%',
+        whiskerLength: '50%',
       },
       {
         color: '#F46A25',
@@ -240,7 +240,7 @@ describe('generateSeriesData', () => {
         name: 'England',
         type: 'errorbar',
         visible: false,
-        whiskerLength: '20%',
+        whiskerLength: '50%',
       },
       {
         color: GovukColours.Turquoise,
@@ -264,7 +264,7 @@ describe('generateSeriesData', () => {
         name: 'Parent',
         type: 'errorbar',
         visible: false,
-        whiskerLength: '20%',
+        whiskerLength: '50%',
       },
       {
         color: '#F46A25',

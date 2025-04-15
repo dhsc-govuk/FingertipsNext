@@ -10,9 +10,16 @@ import { areaCodeForEngland } from './constants';
 import { getBenchmarkTagStyle } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelConfig';
 import { GovukColours } from '../styleHelpers/colours';
 import { ALL_AREAS_SELECTED } from '../areaFilterHelpers/constants';
+import { getBenchmarkLabelText } from '@/components/organisms/BenchmarkLabel';
 
 export const AXIS_TITLE_FONT_SIZE = 19;
 export const AXIS_LABEL_FONT_SIZE = 16;
+
+export enum AreaTypeLabelEnum {
+  Benchmark = 'Benchmark',
+  Group = 'Group',
+  Area = 'Area',
+}
 
 export function sortHealthDataForAreasByDate(
   data: HealthDataForArea[]
@@ -93,20 +100,22 @@ export function seriesDataWithoutGroup(
       ? data.filter((item) => item.areaCode !== groupAreaCode)
       : data;
 
-  if (moveEnglandLast) {
-    const englandArea = withoutGroup.find(
-      (area) => area.areaCode === areaCodeForEngland
-    );
+  const sortedAreasWithoutGroup = withoutGroup.toSorted((a, b) =>
+    a.areaName.localeCompare(b.areaName)
+  );
 
-    if (englandArea) {
-      return withoutGroup
-        .filter((area) => area.areaCode !== areaCodeForEngland)
-        .concat(englandArea);
-    }
-    return withoutGroup;
+  if (!moveEnglandLast) return sortedAreasWithoutGroup;
+
+  const englandArea = sortedAreasWithoutGroup.find(
+    (area) => area.areaCode === areaCodeForEngland
+  );
+
+  if (englandArea) {
+    return sortedAreasWithoutGroup
+      .filter((area) => area.areaCode !== areaCodeForEngland)
+      .concat(englandArea);
   }
-
-  return withoutGroup;
+  return sortedAreasWithoutGroup;
 }
 
 export function determineHealthDataForArea(
@@ -185,10 +194,12 @@ export function getLatestYear(
 
 function getMostRecentYearForAreas(
   healthDataForAreas: HealthDataForArea[]
-): number {
-  return healthDataForAreas.reduce((previous, area) => {
-    return Math.max(previous, getLatestYear(area?.healthData) ?? 0);
-  }, healthDataForAreas[0].healthData[0].year);
+): number | undefined {
+  const years = healthDataForAreas.map(
+    (area) => getLatestYear(area.healthData) ?? 0
+  );
+  const mostRecentYear = Math.max(...years);
+  return mostRecentYear === 0 ? undefined : mostRecentYear;
 }
 
 function getAreasIndicatorDataForYear(
@@ -218,8 +229,11 @@ export function getAreaIndicatorDataForYear(
 
 export function getIndicatorDataForAreasForMostRecentYearOnly(
   healthDataForAreas: HealthDataForArea[]
-): HealthDataForArea[] {
+): HealthDataForArea[] | undefined {
   const mostRecentYearForAreas = getMostRecentYearForAreas(healthDataForAreas);
+  if (!mostRecentYearForAreas) {
+    return undefined;
+  }
   return getAreasIndicatorDataForYear(
     healthDataForAreas,
     mostRecentYearForAreas
@@ -237,4 +251,78 @@ export const getConfidenceLimitNumber = (
     default:
       return 0;
   }
+};
+
+const getCategory = (
+  benchmarkOutcome: BenchmarkOutcome,
+  label: string
+): string => {
+  switch (true) {
+    case label === AreaTypeLabelEnum.Benchmark && !!benchmarkOutcome:
+      return 'Benchmark: ';
+    case label === AreaTypeLabelEnum.Group:
+      return 'Group: ';
+    default:
+      return '';
+  }
+};
+
+const getComparisonLabelText = (
+  benchmarkComparisonMethod: BenchmarkComparisonMethod,
+  benchmarkOutcome: BenchmarkOutcome
+) => {
+  if (
+    !benchmarkOutcome ||
+    benchmarkOutcome === BenchmarkOutcome.NotCompared ||
+    benchmarkComparisonMethod === BenchmarkComparisonMethod.Quintiles
+  )
+    return '';
+  const comparison = getConfidenceLimitNumber(benchmarkComparisonMethod);
+  return `(${comparison}%)`;
+};
+
+const getBenchmarkLabel = (
+  benchmarkComparisonMethod: BenchmarkComparisonMethod,
+  benchmarkOutcome?: BenchmarkOutcome,
+  areaName?: string
+) => {
+  if (!benchmarkOutcome || benchmarkOutcome === BenchmarkOutcome.NotCompared)
+    return 'Not compared';
+
+  if (benchmarkComparisonMethod === BenchmarkComparisonMethod.Quintiles)
+    return `${benchmarkOutcome} quintile`;
+
+  const joiningWord =
+    benchmarkOutcome === BenchmarkOutcome.Similar ? 'to' : 'than';
+  const outcome = getBenchmarkLabelText(benchmarkOutcome);
+  return `${outcome} ${joiningWord} ${areaName ?? 'England'}`;
+};
+
+export const getTooltipContent = (
+  benchmarkOutcome: BenchmarkOutcome,
+  label: string,
+  benchmarkComparisonMethod: BenchmarkComparisonMethod,
+  areaName?: string
+) => {
+  const category = getCategory(benchmarkOutcome, label);
+
+  if (
+    label === AreaTypeLabelEnum.Benchmark ||
+    label === AreaTypeLabelEnum.Group
+  ) {
+    return { category, benchmarkLabel: '', comparisonLabel: '' };
+  }
+
+  return {
+    category,
+    benchmarkLabel: getBenchmarkLabel(
+      benchmarkComparisonMethod,
+      benchmarkOutcome,
+      areaName
+    ),
+    comparisonLabel: getComparisonLabelText(
+      benchmarkComparisonMethod,
+      benchmarkOutcome
+    ),
+  };
 };

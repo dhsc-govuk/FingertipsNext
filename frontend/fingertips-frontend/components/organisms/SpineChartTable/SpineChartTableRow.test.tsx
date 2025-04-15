@@ -3,77 +3,19 @@ import { expect } from '@jest/globals';
 import { SpineChartTableRow } from './SpineChartTableRow';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
-  BenchmarkComparisonMethod,
-  BenchmarkOutcome,
+  HealthDataForArea,
   HealthDataPointTrendEnum,
-  IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { SpineChartIndicatorData } from './spineChartTableHelpers';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
+import { mockSpineIndicatorData } from '@/components/organisms/SpineChartTable/spineChartMockTestData';
 
 describe('Spine chart table row', () => {
-  const mockIndicatorData: SpineChartIndicatorData = {
-    indicatorId: '1',
-    indicatorName: 'indicator',
-    latestDataPeriod: 2025,
-    valueUnit: '%',
-    benchmarkComparisonMethod:
-      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-    areasHealthData: [
-      {
-        areaCode: 'A1425',
-        areaName: 'Greater Manchester ICB - 00T',
-        healthData: [
-          {
-            year: 2025,
-            count: 222,
-            value: 690.305692,
-            lowerCi: 341.69151,
-            upperCi: 478.32766,
-            ageBand: allAgesAge,
-            sex: personsSex,
-            trend: HealthDataPointTrendEnum.CannotBeCalculated,
-            deprivation: noDeprivation,
-            benchmarkComparison: {
-              method: BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-              outcome: BenchmarkOutcome.Similar,
-            },
-          },
-        ],
-      },
-    ],
-    groupData: {
-      areaCode: '90210',
-      areaName: 'Manchester',
-      healthData: [
-        {
-          year: 2025,
-          count: 3333,
-          value: 890.305692,
-          lowerCi: 341.69151,
-          upperCi: 478.32766,
-          ageBand: allAgesAge,
-          sex: personsSex,
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-          deprivation: noDeprivation,
-        },
-      ],
-    },
-    quartileData: {
-      polarity: IndicatorPolarity.HighIsGood,
-      q0Value: 999,
-      q1Value: 760,
-      q3Value: 500,
-      q4Value: 345,
-      areaValue: 550,
-    },
-  };
-
   it('should have dark grey cell color for benchmark column', () => {
     render(
       <table>
         <tbody>
-          <SpineChartTableRow indicatorData={mockIndicatorData} />
+          <SpineChartTableRow indicatorData={mockSpineIndicatorData} />
         </tbody>
       </table>
     );
@@ -93,7 +35,7 @@ describe('Spine chart table row', () => {
     render(
       <table>
         <tbody>
-          <SpineChartTableRow indicatorData={mockIndicatorData} />
+          <SpineChartTableRow indicatorData={mockSpineIndicatorData} />
         </tbody>
       </table>
     );
@@ -103,25 +45,24 @@ describe('Spine chart table row', () => {
     );
   });
 
-  it('should have X for missing data', () => {
+  it('should have X for missing data and insufficient data', () => {
+    const groupData: HealthDataForArea = {
+      areaCode: '90210',
+      areaName: 'Manchester',
+      healthData: [],
+    };
     const indicatorWithMissingData: SpineChartIndicatorData = {
-      ...mockIndicatorData,
-      groupData: {
-        ...mockIndicatorData.groupData,
-        healthData: [],
-      },
+      ...mockSpineIndicatorData,
+      groupData,
       areasHealthData: [
         {
-          ...mockIndicatorData.areasHealthData[0],
+          ...mockSpineIndicatorData.areasHealthData[0],
           areaCode: 'A1425',
           areaName: 'Greater Manchester ICB - 00T',
           healthData: [],
         },
       ],
-      quartileData: {
-        ...mockIndicatorData.quartileData,
-        areaValue: undefined,
-      },
+      quartileData: {},
     };
 
     render(
@@ -139,13 +80,15 @@ describe('Spine chart table row', () => {
     expect(screen.getByTestId('group-value-cell')).toHaveTextContent(`X`);
 
     expect(screen.getByTestId('benchmark-value-cell')).toHaveTextContent(`X`);
+
+    expect(screen.getByText('Insufficient data available')).toBeInTheDocument();
   });
 
   it('should have an additional count and value section when an 2 areas are requested', () => {
     const indicatorDataWithTwoAreas = {
-      ...mockIndicatorData,
+      ...mockSpineIndicatorData,
       areasHealthData: [
-        mockIndicatorData.areasHealthData[0],
+        mockSpineIndicatorData.areasHealthData[0],
         {
           areaCode: 'A1426',
           areaName: 'Greater Manchester ICB - 01T',
@@ -184,7 +127,7 @@ describe('Spine chart table row', () => {
 
   it('should not render a cell for group if the group is England', () => {
     const indicatorDataGroupEngland = {
-      ...mockIndicatorData,
+      ...mockSpineIndicatorData,
       groupData: {
         areaCode: 'E92000001',
         areaName: 'England',

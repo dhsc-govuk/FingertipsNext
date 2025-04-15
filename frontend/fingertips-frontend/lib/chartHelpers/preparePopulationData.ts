@@ -157,7 +157,7 @@ export const createPyramidPopulationDataFrom = (
   dataForAreas: HealthDataForArea[],
   groupAreaCode: string
 ): {
-  areas: (PopulationDataForArea | undefined)[];
+  areas: PopulationDataForArea[];
   benchmark: PopulationDataForArea | undefined;
   group: PopulationDataForArea | undefined;
 } => {
@@ -171,9 +171,9 @@ export const createPyramidPopulationDataFrom = (
     year = getLatestYear(areas[0].healthData);
   }
 
-  const pyramidAreas = areas.map((area) =>
-    convertHealthDataForAreaForPyramidData(area, year)
-  );
+  const pyramidAreas = areas
+    .map((area) => convertHealthDataForAreaForPyramidData(area, year))
+    .filter((data) => data !== undefined);
   const pyramidEngland = convertHealthDataForAreaForPyramidData(
     benchmark,
     year

@@ -6,12 +6,12 @@ import {
 } from '@/components/molecules/CheckValueInTableCell';
 import { TrendTag } from '@/components/molecules/TrendTag';
 import { SparklineChart } from '@/components/organisms/SparklineChart';
-import { SparklineLabelEnum } from '@/components/organisms/BarChartEmbeddedTable/index';
 import React, { FC } from 'react';
 import {
   BenchmarkComparisonMethod,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
+import { AreaTypeLabelEnum } from '@/lib/chartHelpers/chartHelpers';
 
 interface BarChartEmbeddedRowProps {
   item: BarChartEmbeddedTableRow;
@@ -58,7 +58,7 @@ export const BarChartEmbeddedRow: FC<BarChartEmbeddedRowProps> = ({
           benchmarkOutcome={item.benchmarkComparison?.outcome}
           benchmarkComparisonMethod={benchmarkComparisonMethod}
           polarity={polarity}
-          label={SparklineLabelEnum.Area}
+          label={AreaTypeLabelEnum.Area}
           area={item.area}
           year={item.period}
           measurementUnit={measurementUnit}

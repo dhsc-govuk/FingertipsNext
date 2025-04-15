@@ -79,9 +79,13 @@ export const getAreaFilterData = async (
     API_CACHE_CONFIG
   );
 
+  const sortedAlphabeticalGroups = availableGroups?.toSorted((a, b) =>
+    a.name.localeCompare(b.name)
+  );
+
   const determinedSelectedGroup = determineSelectedGroup(
     selectedGroup,
-    availableGroups
+    sortedAlphabeticalGroups
   );
   stateManager.addParamValueToState(
     SearchParams.GroupSelected,
@@ -108,7 +112,7 @@ export const getAreaFilterData = async (
   return {
     availableAreaTypes: sortedByHierarchyAndLevelAreaTypes,
     availableGroupTypes: sortedByLevelGroupTypes,
-    availableGroups,
+    availableGroups: sortedAlphabeticalGroups,
     availableAreas: sortedAlphabeticallyAvailableAreas,
     updatedSearchState: stateManager.getSearchState(),
   };
