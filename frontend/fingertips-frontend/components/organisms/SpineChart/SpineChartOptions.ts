@@ -219,6 +219,7 @@ export function generateSeriesData({
 
   areas.forEach(({ value, outcome, areaName }, index) => {
     if (value === undefined) return;
+
     const fillColor = getBenchmarkColour(
       benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
       outcome ?? BenchmarkOutcome.NotCompared,
@@ -288,9 +289,7 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
       text: '',
     },
     accessibility: {
-      point: {
-        enabled: false,
-      },
+      enabled: false,
     },
     xAxis: [
       {
@@ -350,6 +349,9 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
         return pointFormatterHelper(this, generateSpineChartTooltipForPoint);
       },
       useHTML: true,
+      style: {
+        fontSize: 16,
+      },
     },
     series: generateSeriesData(props),
   };
