@@ -126,7 +126,9 @@ exports[`ArrowExpander take a snapshot 1`] = `
     <label
       class="c2 c3"
       fill="#ff0000"
-    />
+    >
+      Open
+    </label>
   </span>
 </DocumentFragment>
 `;
