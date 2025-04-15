@@ -499,7 +499,7 @@ describe('Line chart table suite', () => {
 
       // area 1 is missing
       expect(rows[7]).toHaveTextContent(
-        /^2008Not comparedXXXXNot compared50096600966$/
+        /^2008Not comparedXXXXNot compared500966.00.00.0966.0$/
       );
     });
   });

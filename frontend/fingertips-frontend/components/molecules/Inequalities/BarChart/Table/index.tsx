@@ -4,7 +4,8 @@ import {
   InequalitiesTypes,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import {
-  getDisplayValue, getDisplayWholeNumber,
+  getDisplayValue,
+  getDisplayWholeNumber,
   StyledAlignLeftTableCell,
   StyledAlignRightTableCell,
 } from '@/lib/tableHelpers';
