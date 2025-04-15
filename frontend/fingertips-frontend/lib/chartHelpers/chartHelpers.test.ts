@@ -491,7 +491,20 @@ describe('seriesDataWithoutGroup', () => {
       ],
       'A002'
     );
-    expect(result).toEqual([mockHealthDataForEngland, mockHealthDataForArea1]);
+    expect(result).toEqual([mockHealthDataForArea1, mockHealthDataForEngland]);
+  });
+
+  it('should sort the provided healthDataForAreas alphabetically of the area names', () => {
+    const result = seriesDataWithoutGroup([
+      mockHealthDataForEngland,
+      mockHealthDataForArea1,
+      mockHealthDataForArea2,
+    ]);
+    expect(result).toEqual([
+      mockHealthDataForArea1,
+      mockHealthDataForArea2,
+      mockHealthDataForEngland,
+    ]);
   });
 
   it('should return data with england as the last area when specified', () => {

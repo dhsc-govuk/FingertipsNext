@@ -92,6 +92,13 @@ describe('InequalitiesTrend suite', () => {
       inequalitiesTypesDropDown
     ).getAllByRole('option');
 
+    const inequalitiesAreasDropDown = screen.getByRole('combobox', {
+      name: 'Select an area',
+    });
+    const inequalitiesAreasDropDownOptions = within(
+      inequalitiesAreasDropDown
+    ).getAllByRole('option');
+
     expect(
       screen.getByTestId('inequalitiesLineChartTable-component')
     ).toBeInTheDocument();
@@ -104,10 +111,17 @@ describe('InequalitiesTrend suite', () => {
     expect(
       screen.getByText(/Inequalities data over time/i)
     ).toBeInTheDocument();
+
     expect(inequalitiesTypesDropDown).toBeInTheDocument();
     expect(inequalitiesDropDownOptions).toHaveLength(2);
     inequalitiesDropDownOptions.forEach((option, index) => {
       expect(option.textContent).toBe(inequalitiesOptions[index]);
+    });
+
+    expect(inequalitiesAreasDropDown).toBeInTheDocument();
+    expect(inequalitiesAreasDropDownOptions).toHaveLength(1);
+    inequalitiesAreasDropDownOptions.forEach((option) => {
+      expect(option.textContent).toBe(MOCK_HEALTH_DATA[1].areaName);
     });
 
     expect(

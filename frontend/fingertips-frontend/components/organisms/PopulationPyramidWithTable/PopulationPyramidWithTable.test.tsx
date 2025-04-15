@@ -9,6 +9,8 @@ import { mockHealthData } from '@/mock/data/healthdata';
 import '@testing-library/jest-dom';
 import { AreaDocument } from '@/lib/search/searchTypes';
 import { disaggregatedAge, femaleSex, noDeprivation } from '@/lib/mocks';
+import { LoaderContext } from '@/context/LoaderContext';
+import { SearchStateContext } from '@/context/SearchStateContext';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -23,6 +25,28 @@ jest.mock('next/navigation', () => {
     useRouter: jest.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
+  };
+});
+
+const mockSetIsLoading = jest.fn();
+const mockLoaderContext: LoaderContext = {
+  getIsLoading: jest.fn(),
+  setIsLoading: mockSetIsLoading,
+};
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoadingState: () => mockLoaderContext,
+  };
+});
+
+const mockGetSearchState = jest.fn();
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: mockGetSearchState,
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
   };
 });
 
@@ -71,15 +95,10 @@ jest.mock('@/components/molecules/SelectInputField', () => ({
 }));
 
 describe('PopulationPyramidWithTable', () => {
-  const setupUI = (
-    dataForArea: HealthDataForArea[],
-    areaMappings: Record<string, number> = {}
-  ) => {
+  const setupUI = (dataForArea: HealthDataForArea[]) => {
     return render(
       <PopulationPyramidWithTable
         healthDataForAreas={dataForArea}
-        areaCodesMappingToIndicatorIds={areaMappings}
-        groupAreaSelected="123"
         searchState={{}}
         xAxisTitle="Age"
         yAxisTitle="Percentage of population"
@@ -89,12 +108,12 @@ describe('PopulationPyramidWithTable', () => {
   const mockHealthDataForArea: HealthDataForArea[] = [
     {
       areaCode: '123',
-      areaName: 'Test Area',
+      areaName: 'Test Area 123',
       healthData: mockHealthDataPoint,
     },
     {
       areaCode: '124',
-      areaName: 'Test Area',
+      areaName: 'Test Area 124',
       healthData: mockHealthDataPoint,
     },
   ];
@@ -124,12 +143,29 @@ describe('PopulationPyramidWithTable', () => {
     expect(screen.getByText('Hide population data')).toBeInTheDocument();
   });
 
+  it('should render the availableAreas as options in the Select an area dropdown', async () => {
+    const container = setupUI(mockHealthDataForArea);
+
+    fireEvent.click(container.getByText('Show population data'));
+
+    const populationAreasDropDown = screen.getByRole('combobox', {
+      name: 'Select an area',
+    });
+    const populationAreasDropDownOptions = within(
+      populationAreasDropDown
+    ).getAllByRole('option');
+
+    expect(populationAreasDropDown).toBeInTheDocument();
+    expect(populationAreasDropDownOptions).toHaveLength(2);
+    populationAreasDropDownOptions.forEach((option, i) => {
+      expect(option.textContent).toBe(mockHealthDataForArea[i].areaName);
+    });
+  });
+
   test('take a snapshot', () => {
     const container = render(
       <PopulationPyramidWithTable
         healthDataForAreas={mockHealthData['337']}
-        groupAreaSelected={mockHealthData['337'][2].areaCode}
-        areaCodesMappingToIndicatorIds={{ E92000001: 337 }}
         searchState={{}}
         xAxisTitle="Age"
         yAxisTitle="Percentage of population"

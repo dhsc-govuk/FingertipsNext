@@ -3,18 +3,13 @@ import { render } from '@testing-library/react';
 import { SearchParams } from '@/lib/searchStateManager';
 import { HierarchyNameTypes } from '@/lib/areaFilterHelpers/areaType';
 import { Area } from '@/generated-sources/ft-api-client';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { API_CACHE_CONFIG } from '@/lib/apiClient/apiClientFactory';
 
 const mockGetHealthDataForAnIndicator = jest.fn();
 
-const mockGetArea = jest.fn();
-
 jest.mock('@/lib/apiClient/apiClientFactory', () => ({
   ApiClientFactory: {
-    getAreasApiClient: jest.fn().mockImplementation(() => {
-      return {
-        getArea: mockGetArea,
-      };
-    }),
     getIndicatorsApiClient: jest.fn().mockImplementation(() => {
       return {
         getHealthDataForAnIndicator: mockGetHealthDataForAnIndicator,
@@ -30,17 +25,6 @@ jest.mock('@/components/organisms/PopulationPyramidWithTable', () => ({
 describe('PopulationPyramidWithTableDataProvider', () => {
   beforeEach(() => {
     mockGetHealthDataForAnIndicator.mockClear();
-    mockGetArea.mockClear();
-    mockGetArea.mockResolvedValue({
-      areaType: { hierarchyName: HierarchyNameTypes.NHS },
-      code: 'E09000001',
-      name: 'Test Area',
-      parentArea: {
-        code: 'E09000001',
-        name: 'Test Area',
-        areaType: { hierarchyName: HierarchyNameTypes.NHS },
-      },
-    });
     mockGetHealthDataForAnIndicator.mockClear();
     mockGetHealthDataForAnIndicator.mockResolvedValue({
       areaHealthData: [{ areaCode: 'E09000001', value: 100 }],
@@ -62,7 +46,6 @@ describe('PopulationPyramidWithTableDataProvider', () => {
     const view = render(jsxView);
     expect(view).toBeTruthy();
     expect(view.getByText('PopulationPyramidWithTable')).toBeInTheDocument();
-    expect(mockGetArea).toHaveBeenCalledTimes(2);
     expect(mockGetHealthDataForAnIndicator).toHaveBeenCalledTimes(1);
   });
 
@@ -95,15 +78,6 @@ describe('PopulationPyramidWithTableDataProvider', () => {
       return results;
     })(130);
 
-    mockGetArea.mockImplementation(({ areaCode }: { areaCode: string }) => {
-      const area = areas.find((area) => area.code === areaCode);
-      if (!area) {
-        // make sure we return an area if the code is not found.
-        return areas[0];
-      }
-      return area;
-    });
-
     const areaCodes = areas.map((area: Area) => {
       return area.code;
     });
@@ -115,11 +89,10 @@ describe('PopulationPyramidWithTableDataProvider', () => {
     const view = render(jsxView);
     expect(view).toBeTruthy();
     expect(view.getByText('PopulationPyramidWithTable')).toBeInTheDocument();
-    expect(mockGetArea).toHaveBeenCalledTimes(131);
     expect(mockGetHealthDataForAnIndicator).toHaveBeenCalledTimes(2);
   });
 
-  it('handles empty area codes', async () => {
+  it('Should use england as default when no areaCodes are provided', async () => {
     const jsxView = await PopulationPyramidWithTableDataProvider({
       areaCodes: [],
       searchState: searchParams,
@@ -127,7 +100,13 @@ describe('PopulationPyramidWithTableDataProvider', () => {
     const view = render(jsxView);
     expect(view).toBeTruthy();
     expect(view.getByText('PopulationPyramidWithTable')).toBeInTheDocument();
-    expect(mockGetArea).not.toHaveBeenCalled();
-    expect(mockGetHealthDataForAnIndicator).not.toHaveBeenCalled();
+    expect(mockGetHealthDataForAnIndicator).toHaveBeenCalledWith(
+      {
+        areaCodes: [areaCodeForEngland],
+        indicatorId: 92708,
+        inequalities: ['age', 'sex'],
+      },
+      API_CACHE_CONFIG
+    );
   });
 });
