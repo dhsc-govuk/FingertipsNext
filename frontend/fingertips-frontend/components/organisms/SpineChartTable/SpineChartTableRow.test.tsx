@@ -5,6 +5,7 @@ import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
+  HealthDataForArea,
   HealthDataPointTrendEnum,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
@@ -104,12 +105,14 @@ describe('Spine chart table row', () => {
   });
 
   it('should have X for missing data', () => {
+    const groupData: HealthDataForArea = {
+      areaCode: '90210',
+      areaName: 'Manchester',
+      healthData: [],
+    };
     const indicatorWithMissingData: SpineChartIndicatorData = {
       ...mockIndicatorData,
-      groupData: {
-        ...mockIndicatorData.groupData,
-        healthData: [],
-      },
+      groupData,
       areasHealthData: [
         {
           ...mockIndicatorData.areasHealthData[0],

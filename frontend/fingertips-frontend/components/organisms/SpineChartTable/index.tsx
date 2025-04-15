@@ -42,7 +42,7 @@ export function SpineChartTable({
       <SpineChartHeading>Compare indicators by areas</SpineChartHeading>
       <SpineChartLegend
         legendsToShow={methods}
-        groupName={sortedData[0].groupData.areaName}
+        groupName={sortedData[0].groupData?.areaName}
         areaNames={areaNames}
       />
       <SpineChartQuartilesInfoContainer />
@@ -50,7 +50,7 @@ export function SpineChartTable({
         <StyledTable>
           <SpineChartTableHeader
             areaNames={areaNames}
-            groupName={sortedData[0].groupData.areaName}
+            groupName={sortedData[0].groupData?.areaName ?? 'Group'}
           />
           {sortedData.map((indicatorData) => (
             <React.Fragment key={indicatorData.indicatorId}>
