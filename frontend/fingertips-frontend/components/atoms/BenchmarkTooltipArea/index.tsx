@@ -1,13 +1,13 @@
 import {
-  HealthDataForArea,
   BenchmarkComparisonMethod,
-  IndicatorPolarity,
   BenchmarkOutcome,
+  HealthDataForArea,
+  IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import {
   getBenchmarkColour,
   getConfidenceLimitNumber,
-  getIndicatorDataForAreasForMostRecentYearOnly,
+  sortHealthDataPointsByDescendingYear,
 } from '@/lib/chartHelpers/chartHelpers';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 import { formatNumber } from '@/lib/numberFormatter';
@@ -29,23 +29,22 @@ export function BenchmarkTooltipArea({
   tooltipType,
 }: Readonly<BenchmarkTooltipArea>) {
   const indicatorDataForAreaForMostRecentYear =
-    getIndicatorDataForAreasForMostRecentYearOnly([indicatorData]);
+    sortHealthDataPointsByDescendingYear(indicatorData.healthData);
+  const mostRecentDataPoint = indicatorDataForAreaForMostRecentYear[0];
   const polarity =
-    indicatorDataForAreaForMostRecentYear?.[0].healthData[0].benchmarkComparison
-      ?.indicatorPolarity ?? IndicatorPolarity.Unknown;
+    mostRecentDataPoint?.benchmarkComparison?.indicatorPolarity ??
+    IndicatorPolarity.Unknown;
   const benchmarkArea =
-    indicatorDataForAreaForMostRecentYear?.[0].healthData[0].benchmarkComparison
-      ?.benchmarkAreaName ?? 'England';
+    mostRecentDataPoint?.benchmarkComparison?.benchmarkAreaName ?? 'England';
   const benchmarkOutcome =
-    indicatorDataForAreaForMostRecentYear?.[0].healthData[0].benchmarkComparison
-      ?.outcome ?? BenchmarkOutcome.NotCompared;
+    mostRecentDataPoint?.benchmarkComparison?.outcome ??
+    BenchmarkOutcome.NotCompared;
 
   const areaMarkerSymbol = () => {
     switch (true) {
       case tooltipType === 'benchmark':
         return SymbolsEnum.Circle;
-      case !indicatorDataForAreaForMostRecentYear?.[0].healthData[0]
-        ?.benchmarkComparison?.outcome:
+      case !mostRecentDataPoint?.benchmarkComparison?.outcome:
         return SymbolsEnum.MultiplicationX;
       case benchmarkComparisonMethod === BenchmarkComparisonMethod.Unknown:
       case benchmarkOutcome === BenchmarkOutcome.NotCompared:
@@ -62,8 +61,7 @@ export function BenchmarkTooltipArea({
   );
   if (
     tooltipType === 'benchmark' ||
-    !indicatorDataForAreaForMostRecentYear?.[0].healthData[0]
-      ?.benchmarkComparison?.outcome
+    !mostRecentDataPoint?.benchmarkComparison?.outcome
   ) {
     benchmarkColour = GovukColours.Black;
   }
@@ -97,21 +95,16 @@ export function BenchmarkTooltipArea({
 
         <div style={{ marginTop: '5px' }}>
           <span style={{ display: 'block' }}>
-            {indicatorDataForAreaForMostRecentYear?.[0].healthData[0]?.value
-              ? formatNumber(
-                  indicatorDataForAreaForMostRecentYear[0].healthData[0].value
-                )
+            {mostRecentDataPoint?.value
+              ? formatNumber(mostRecentDataPoint.value)
               : 'No data available'}{' '}
-            {indicatorDataForAreaForMostRecentYear?.[0].healthData[0]?.value
-              ? measurementUnit
-              : null}
+            {mostRecentDataPoint?.value ? measurementUnit : null}
           </span>
           {tooltipType !== 'benchmark'
             ? getComparisionText(
                 benchmarkArea,
                 benchmarkComparisonMethod,
-                indicatorDataForAreaForMostRecentYear?.[0].healthData[0]
-                  ?.benchmarkComparison?.outcome ?? undefined
+                mostRecentDataPoint?.benchmarkComparison?.outcome ?? undefined
               )
             : null}
         </div>
