@@ -349,6 +349,9 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
         return pointFormatterHelper(this, generateSpineChartTooltipForPoint);
       },
       useHTML: true,
+      style: {
+        fontSize: 16,
+      },
     },
     series: generateSeriesData(props),
   };
