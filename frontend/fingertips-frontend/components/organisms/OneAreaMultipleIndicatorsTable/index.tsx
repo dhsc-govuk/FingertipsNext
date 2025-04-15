@@ -99,7 +99,6 @@ export function OneAreaMultipleIndicatorsTable({
             />
             <FormatNumberInTableCell
               value={item?.latestEnglandHealthData?.value}
-              numberStyle={'whole'}
               style={{ textAlign: 'right' }}
             />
             <Table.Cell>
