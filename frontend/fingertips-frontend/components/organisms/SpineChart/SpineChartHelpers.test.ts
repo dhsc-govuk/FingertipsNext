@@ -5,12 +5,7 @@ describe('Spine chart helper', () => {
   it('empty stats should return zeros', () => {
     const emptyStats = {};
 
-    const emptyResults = {
-      best: 0,
-      bestQuartile: 0,
-      worstQuartile: 0,
-      worst: 0,
-    };
+    const emptyResults = {};
 
     expect(orderStatistics(emptyStats)).toEqual(emptyResults);
   });

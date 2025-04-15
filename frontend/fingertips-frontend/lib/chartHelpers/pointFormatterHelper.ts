@@ -26,7 +26,7 @@ export enum SymbolsEnum {
   MultiplicationX = '\u2715',
 }
 
-const SymbolMapping: Record<string, string> = {
+export const SymbolMapping: Record<string, string> = {
   [SymbolNames.Circle]: SymbolsEnum.Circle,
   [SymbolNames.Square]: SymbolsEnum.Square,
   [SymbolNames.Diamond]: SymbolsEnum.Diamond,
