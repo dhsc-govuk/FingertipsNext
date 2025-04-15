@@ -108,7 +108,10 @@ export function generateSeriesData(
           showConfidenceIntervalsData
         );
 
-      return [lineSeries, confidenceIntervalSeries];
+      return showConfidenceIntervalsData
+        ? [lineSeries, confidenceIntervalSeries]
+        : lineSeries;
+      // return  [lineSeries, confidenceIntervalSeries] ;
     }
   );
 
@@ -140,7 +143,10 @@ export function generateSeriesData(
         }
       );
 
-    seriesData.unshift(groupSeries, groupConfidenceIntervalSeries);
+    showConfidenceIntervalsData
+      ? seriesData.unshift(groupSeries, groupConfidenceIntervalSeries)
+      : seriesData.unshift(groupSeries);
+    // seriesData.unshift(groupSeries, groupConfidenceIntervalSeries);
   }
 
   if (benchmarkData) {
@@ -167,7 +173,11 @@ export function generateSeriesData(
           whiskerLength: '50%',
         }
       );
-    seriesData.unshift(englandSeries, benchmarkConfidenceIntervalSeries);
+
+    showConfidenceIntervalsData
+      ? seriesData.unshift(englandSeries, benchmarkConfidenceIntervalSeries)
+      : seriesData.unshift(englandSeries);
+    // seriesData.unshift(englandSeries, benchmarkConfidenceIntervalSeries);
   }
 
   return seriesData;
@@ -219,6 +229,7 @@ export function generateStandardLineChartOptions(
       lineChartCI
     );
   }
+
   return {
     ...lineChartDefaultOptions,
     yAxis: {
