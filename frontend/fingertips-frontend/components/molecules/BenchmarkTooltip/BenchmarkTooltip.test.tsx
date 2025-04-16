@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import { BenchmarkTooltip } from './BenchmarkTooltip';
+import { BenchmarkTooltip } from './index';
 import { mockHealthData } from '@/mock/data/healthdata';
+import { IndicatorPolarity } from '@/generated-sources/ft-api-client';
 
 describe('BenchmarkTooltip', () => {
   const testIndicatorData = mockHealthData['337'][1];
@@ -10,6 +11,7 @@ describe('BenchmarkTooltip', () => {
         indicatorData={testIndicatorData}
         benchmarkComparisonMethod={'Unknown'}
         measurementUnit={undefined}
+        polarity={IndicatorPolarity.Unknown}
       />
     );
     expect(
@@ -26,6 +28,7 @@ describe('BenchmarkTooltip', () => {
         benchmarkComparisonMethod={'Unknown'}
         measurementUnit={undefined}
         indicatorDataForGroup={testIndicatorData}
+        polarity={IndicatorPolarity.Unknown}
       />
     );
     expect(
@@ -43,6 +46,7 @@ describe('BenchmarkTooltip', () => {
         measurementUnit={undefined}
         indicatorDataForGroup={testIndicatorData}
         indicatorDataForBenchmark={testIndicatorData}
+        polarity={IndicatorPolarity.Unknown}
       />
     );
     expect(

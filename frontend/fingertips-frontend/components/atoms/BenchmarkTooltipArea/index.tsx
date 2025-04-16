@@ -20,6 +20,7 @@ interface BenchmarkTooltipArea {
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
   measurementUnit: string | undefined;
   tooltipType: TooltipType;
+  polarity: IndicatorPolarity;
 }
 
 export function BenchmarkTooltipArea({
@@ -27,13 +28,11 @@ export function BenchmarkTooltipArea({
   benchmarkComparisonMethod,
   measurementUnit,
   tooltipType,
+  polarity,
 }: Readonly<BenchmarkTooltipArea>) {
   const indicatorDataForAreaForMostRecentYear =
     sortHealthDataPointsByDescendingYear(indicatorData.healthData);
   const mostRecentDataPoint = indicatorDataForAreaForMostRecentYear[0];
-  const polarity =
-    mostRecentDataPoint?.benchmarkComparison?.indicatorPolarity ??
-    IndicatorPolarity.Unknown;
   const benchmarkArea =
     mostRecentDataPoint?.benchmarkComparison?.benchmarkAreaName ?? 'England';
   const benchmarkOutcome =
