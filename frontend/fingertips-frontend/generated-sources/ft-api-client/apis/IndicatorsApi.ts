@@ -48,6 +48,7 @@ export interface GetHealthDataForAnIndicatorRequest {
     years?: Array<number>;
     inequalities?: Array<GetHealthDataForAnIndicatorInequalitiesEnum>;
     includeEmptyAreas?: boolean;
+    latestOnly?: boolean;
 }
 
 export interface GetIndicatorRequest {
@@ -93,6 +94,7 @@ export interface IndicatorsApiInterface {
      * @param {Array<number>} [years] A list of years, up to 20 years can be requested
      * @param {Array<'age' | 'sex' | 'deprivation'>} [inequalities] Determines the kind of inequality data that should be returned if an option is specified
      * @param {boolean} [includeEmptyAreas] Determines if areas with no data are returned as empty arrays, the default is false.
+     * @param {boolean} [latestOnly] Set to true to get data for the latest date period only, default is false. This overrides the years parameter if set to true.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof IndicatorsApiInterface
@@ -211,6 +213,10 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
 
         if (requestParameters['includeEmptyAreas'] != null) {
             queryParameters['include_empty_areas'] = requestParameters['includeEmptyAreas'];
+        }
+
+        if (requestParameters['latestOnly'] != null) {
+            queryParameters['latest_only'] = requestParameters['latestOnly'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};

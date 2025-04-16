@@ -42,7 +42,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         string areaType,
         IEnumerable<int> years,
         IEnumerable<string> inequalities,
-        bool includeEmptyAreas = false)
+        bool includeEmptyAreas = false,
+        bool latestOnly = false)
     {
         var indicatorData = await healthDataRepository.GetIndicatorDimensionAsync(indicatorId);
         if (indicatorData == null) 
@@ -50,6 +51,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
 
         var method = _mapper.Map<BenchmarkComparisonMethod>(indicatorData.BenchmarkComparisonMethod);
         var polarity = _mapper.Map<IndicatorPolarity>(indicatorData.Polarity);
+        if (latestOnly)
+            years = [indicatorData.LatestYear];
 
         var areaHealthData = ((await GetIndicatorAreaDataAsync(
             indicatorId,
@@ -117,6 +120,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
                 areaType
                 );
 
+           
             return healthMeasureData
                 .GroupBy(healthMeasure => new
                 {

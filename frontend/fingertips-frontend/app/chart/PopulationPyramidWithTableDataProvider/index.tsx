@@ -29,7 +29,8 @@ const getPopulationData = (
           GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
         ],
       },
-    ]
+    ],
+    true
   );
 };
 

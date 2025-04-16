@@ -4,7 +4,6 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 
-
 namespace DHSC.FingertipsNext.Modules.HealthData.Repository;
 
 [SuppressMessage("ReSharper", "SimplifyConditionalTernaryExpression")]
@@ -18,20 +17,23 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
 
     public async Task<IndicatorDimensionModel> GetIndicatorDimensionAsync(int indicatorId)
     {
-        var results = await _dbContext.IndicatorDimension
-            .Where(i => i.IndicatorId == indicatorId)
-            .Select(x => new IndicatorDimensionModel()
-            {
-                IndicatorId = x.IndicatorId,
-                IndicatorKey = x.IndicatorKey,
-                Name = x.Name,
-                StartDate = x.StartDate,
-                EndDate = x.EndDate,
-                Polarity = x.Polarity,
-                BenchmarkComparisonMethod = x.BenchmarkComparisonMethod,
-            })
-            .ToListAsync();
-        return results.FirstOrDefault();
+        var model = await _dbContext.HealthMeasure
+           .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
+           .OrderByDescending(healthMeasure => healthMeasure.Year)
+           .Include(healthMeasure => healthMeasure.IndicatorDimension)
+           .Select(healthMeasure => new IndicatorDimensionModel
+           {
+               IndicatorId = healthMeasure.IndicatorDimension.IndicatorId,
+               IndicatorKey = healthMeasure.IndicatorKey,
+               Name = healthMeasure.IndicatorDimension.Name,
+               Polarity = healthMeasure.IndicatorDimension.Polarity,
+               BenchmarkComparisonMethod = healthMeasure.IndicatorDimension.BenchmarkComparisonMethod,
+               LatestYear = healthMeasure.Year
+           })
+           .Take(1)
+           .FirstOrDefaultAsync();
+       
+        return model;
     }
     
     public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataAsync(int indicatorId, string[] areaCodes, int[] years, string[] inequalities)
@@ -43,7 +45,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         return await _dbContext.HealthMeasure
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
             .Where(healthMeasure => areaCodes.Length == 0 || EF.Constant(areaCodes).Contains(healthMeasure.AreaDimension.Code))
-            .Where(healthMeasure => years.Length == 0 || years.Contains(healthMeasure.Year))
+            .Where(healthMeasure => years.Length == 0 || EF.Constant(years).Contains(healthMeasure.Year))
             .Where(healthMeasure => excludeDisaggregatedSexValues ? healthMeasure.IsSexAggregatedOrSingle : true)
             .Where(healthMeasure => excludeDisaggregatedAgeValues ? healthMeasure.IsAgeAggregatedOrSingle : true)
             .Where(healthMeasure => excludeDisaggregatedDeprivationValues ? healthMeasure.IsDeprivationAggregatedOrSingle : true)
