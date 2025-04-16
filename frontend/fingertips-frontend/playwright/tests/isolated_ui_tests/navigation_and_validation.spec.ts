@@ -97,7 +97,8 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
 
       await resultsPage.clickViewChartsButton();
 
-      await chartPage.waitForURLToContain('chart');
+      // making this fail to test pipeline - do not merge
+      await chartPage.waitForURLToContain('charts');
 
       await chartPage.expectNoAccessibilityViolations(axeBuilder, [
         'color-contrast',
