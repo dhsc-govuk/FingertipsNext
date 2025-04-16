@@ -4,6 +4,19 @@ import styled from 'styled-components';
 import { CellType, heatmapIndicatorTitleColumnWidth } from './heatmapUtil';
 import { FC, MouseEventHandler } from 'react';
 
+const stickyLeft = {
+  background: 'white',
+  position: 'sticky',
+  left: 0,
+  zIndex: 1,
+  paddingRight: '0.5em'
+};
+
+const StyledIndicatorCell = styled(Table.Cell)({
+  ...stickyLeft as unknown as TemplateStringsArray,
+  borderRight: 'solid #bfc1c3 1px',
+});
+
 const StyledCellText = styled(Table.Cell)({
   minHeight: '70px',
   paddingRight: 0,
@@ -48,7 +61,8 @@ const StyledDivIndicatorTitleCellContent = styled.div({
 
 const StyledDivIndicatorInformationCellContent = styled.div({
   minWidth: '40px',
-  paddingRight: '20px',
+  paddingRight: '0.5em',
+  paddingLeft: '0.5em'
 });
 
 interface HeatmapCellProps {
@@ -69,11 +83,11 @@ export const HeatmapCell: FC<HeatmapCellProps> = ({
   switch (cellType) {
     case CellType.IndicatorTitle:
       return (
-        <Table.Cell data-testid="heatmap-cell-indicator-title">
+        <StyledIndicatorCell data-testid="heatmap-cell-indicator-title">
           <StyledDivIndicatorTitleCellContent>
             {content}
           </StyledDivIndicatorTitleCellContent>
-        </Table.Cell>
+        </StyledIndicatorCell>
       );
     case CellType.IndicatorInformation:
       return (
