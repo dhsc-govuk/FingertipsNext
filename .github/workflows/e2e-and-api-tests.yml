@@ -95,7 +95,7 @@ jobs:
 
           if grep -i "timeout" test_output.log; then
             echo "Timeout detected. Retrying once..."
-            echo "rety=true" >> $GITHUB_OUTPUT
+            echo "retry=true" >> $GITHUB_OUTPUT
 
             npm run test-e2e-ci > rety_output.log 2>&1
             RETRY_EXIT_CODE=$?
