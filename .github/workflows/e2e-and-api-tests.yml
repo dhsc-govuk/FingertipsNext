@@ -95,12 +95,15 @@ jobs:
 
           if grep -i "timeout" test_output.log; then
             echo "Timeout detected. Retrying once..."
-            echo "retry=true" >> $GITHUB_OUTPUT
+            echo "retry=true" >> "$GITHUB_OUTPUT"
+            echo "Test echo - hello!"
 
-            npm run test-e2e-ci > rety_output.log 2>&1
+            npm run test-e2e-ci > retry_output.log 2>&1
             RETRY_EXIT_CODE=$?
 
             echo "retry_exit_code=$RETRY_EXIT_CODE" >> $GITHUB_OUTPUT
+            echo "Second test echo here!"
+            echo "Test exit code was $RETRY_EXIT_CODE"
             if [ $RETRY_EXIT_CODE -ne 0 ]; then
               echo "Tests failed againg after retry"
               exit $RETRY_EXIT_CODE
@@ -116,7 +119,7 @@ jobs:
           fi
 
       - name: Send Slack message if retry succeeded
-        if: steps.run-tests.outputs.retry == 'true' && steps.run-tests.outputs.retry_exit_code == '0'
+        if: steps.run-playwright-tests.outputs.retry == 'true' && steps.run-playwright-tests.outputs.retry_exit_code == '0'
         run: |
           echo "Tests passed after a retry. Sending Slack message..."
           npx slack-ctrf results ctrf/ctrf-report.json --title "✅ E2E Tests Passed After Retry"
