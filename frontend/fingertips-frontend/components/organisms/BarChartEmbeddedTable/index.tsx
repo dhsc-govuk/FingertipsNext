@@ -219,11 +219,11 @@ export function BarChartEmbeddedTable({
                 measurementUnit={measurementUnit}
               ></SparklineChart>
             </Table.Cell>
-            <CheckValueInTableCell
+            <FormatNumberInTableCell
               value={mostRecentBenchmarkData.lowerCi}
               style={{ textAlign: 'right' }}
             />
-            <CheckValueInTableCell
+            <FormatNumberInTableCell
               value={mostRecentBenchmarkData.upperCi}
               style={{ textAlign: 'right' }}
             />
