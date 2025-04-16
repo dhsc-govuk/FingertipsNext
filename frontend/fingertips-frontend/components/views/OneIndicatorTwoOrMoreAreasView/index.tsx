@@ -1,23 +1,16 @@
 import { OneIndicatorTwoOrMoreAreasViewPlots } from '@/components/viewPlots/OneIndicatorTwoOrMoreAreasViewPlots';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
-import {
-  API_CACHE_CONFIG,
-  ApiClientFactory,
-} from '@/lib/apiClient/apiClientFactory';
-import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import {
   allowedAreaTypeMapMetaKeys,
   AreaTypeKeysForMapMeta,
   getMapGeographyData,
 } from '@/components/organisms/ThematicMap/thematicMapHelpers';
-import { chunkArray } from '@/lib/ViewsHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
-import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
+import { getIndicatorData } from '@/lib/ViewsHelpers';
 
 export default async function OneIndicatorTwoOrMoreAreasView({
   selectedIndicatorsData,
@@ -45,57 +38,26 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   }
 
   await connection();
-  const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
-  let indicatorData: IndicatorWithHealthDataForArea | undefined;
+  const indicatorsAndAreas = {
+    areasSelected: areaCodes,
+    indicatorSelected,
+    selectedAreaType,
+    selectedGroupCode,
+    selectedGroupType,
+  };
 
-  const indicatorRequestArray = chunkArray(areaCodes).map((requestAreas) =>
-    indicatorApi.getHealthDataForAnIndicator(
-      {
-        indicatorId: Number(indicatorSelected[0]),
-        areaCodes: [...requestAreas],
-        areaType: selectedAreaType,
-      },
-      API_CACHE_CONFIG
-    )
+  const indicatorDataIncludingEmptyAreas = await getIndicatorData(
+    indicatorsAndAreas,
+    true
   );
 
-  if (!areaCodes.includes(areaCodeForEngland)) {
-    indicatorRequestArray.push(
-      indicatorApi.getHealthDataForAnIndicator(
-        {
-          indicatorId: Number(indicatorSelected[0]),
-          areaCodes: [areaCodeForEngland],
-          areaType: englandAreaType.key,
-        },
-        API_CACHE_CONFIG
-      )
-    );
-  }
-
-  if (selectedGroupCode && selectedGroupCode !== areaCodeForEngland) {
-    indicatorRequestArray.push(
-      indicatorApi.getHealthDataForAnIndicator(
-        {
-          indicatorId: Number(indicatorSelected[0]),
-          areaCodes: [selectedGroupCode],
-          areaType: selectedGroupType,
-        },
-        API_CACHE_CONFIG
-      )
-    );
-  }
-
-  try {
-    const healthIndicatorDataChunks = await Promise.all(indicatorRequestArray);
-    indicatorData = healthIndicatorDataChunks[0];
-    indicatorData.areaHealthData = healthIndicatorDataChunks
-      .map((indicatorData) => indicatorData?.areaHealthData ?? [])
-      .flat();
-  } catch (error) {
-    console.error('error getting health indicator data for areas', error);
-    throw new Error('error getting health indicator data for areas');
-  }
+  const indicatorDataAvailableAreas = {
+    ...indicatorDataIncludingEmptyAreas,
+    areaHealthData: indicatorDataIncludingEmptyAreas.areaHealthData?.filter(
+      (area) => area.healthData.length
+    ),
+  };
 
   const indicatorMetadata = selectedIndicatorsData?.[0];
   const mapGeographyData =
@@ -112,13 +74,14 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   return (
     <ViewsWrapper
       searchState={searchState}
-      indicatorsDataForAreas={[indicatorData]}
+      indicatorsDataForAreas={[indicatorDataAvailableAreas]}
     >
       <OneIndicatorTwoOrMoreAreasViewPlots
-        indicatorData={indicatorData}
+        indicatorData={indicatorDataAvailableAreas}
         searchState={searchState}
         indicatorMetadata={indicatorMetadata}
         mapGeographyData={mapGeographyData}
+        indicatorDataAllAreas={indicatorDataIncludingEmptyAreas}
       />
     </ViewsWrapper>
   );

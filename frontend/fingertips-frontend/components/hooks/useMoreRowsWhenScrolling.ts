@@ -13,60 +13,38 @@ export const useMoreRowsWhenScrolling = <T>(
 ) => {
   const timerRef = useRef<NodeJS.Timeout>(undefined);
   const triggerRef = useRef<HTMLDivElement | null>(null);
-  const numberOfRowsRef = useRef(incrementRowCount);
 
-  const [rowsToShow, setRowsToShow] = useState<T[]>(
-    rows.slice(0, incrementRowCount)
-  );
+  const [nRowsToShow, setNRowsToShow] = useState<number>(incrementRowCount);
+  const isThereMore = nRowsToShow < rows.length;
 
   const addMore = useCallback(() => {
+    // if trigger is off the bottom of the screen do nothing
     const isHidden = !isAboveBottomOfWindow(triggerRef.current);
-    const isComplete = numberOfRowsRef.current >= rows.length;
+    if (isHidden) return;
 
-    // if trigger is off the bottom of the screen or all rows are now shown
-    // then cancel the timer and stop
-    if (isHidden || isComplete) {
-      clearInterval(timerRef.current);
-      timerRef.current = undefined;
-      return false;
-    }
-
-    // add more rows to show
-    numberOfRowsRef.current += incrementRowCount;
-    const isThereMore = numberOfRowsRef.current < rows.length;
-    // call the setState callback supplied
-    setRowsToShow(rows.slice(0, numberOfRowsRef.current));
-
-    return isThereMore;
-  }, [incrementRowCount, rows, setRowsToShow]);
-
-  const startChecking = useCallback(() => {
-    // timer is already in play
-    if (timerRef.current) return;
-
-    // stop it there is no more to add
-    const isThereMore = addMore();
-    if (!isThereMore) return;
-
-    // there is more - so start a timer to add more
-    // until trigger is offscreen or all rows are loaded
-    timerRef.current = setInterval(addMore, 100);
-  }, [addMore]);
+    setNRowsToShow((prev) => prev + incrementRowCount);
+  }, [incrementRowCount]);
 
   useEffect(() => {
-    // check as soon as component mounts
-    startChecking();
+    // if it's a short list then may not need any of this
+    if (!isThereMore) return;
 
-    // check on scroll
-    const controller = new AbortController();
-    const { signal } = controller;
-    window.addEventListener('scroll', startChecking, { signal });
-
+    // timer to check if the trigger is back in view
+    clearInterval(timerRef.current);
+    timerRef.current = setInterval(addMore, 250);
     return () => {
-      controller.abort();
       clearInterval(timerRef.current);
     };
-  }, [addMore, startChecking]);
+  }, [addMore, isThereMore]);
 
-  return { triggerRef, rowsToShow, hasMore: rowsToShow.length < rows.length };
+  useEffect(() => {
+    // if the source array has changed/replaced, start again
+    setNRowsToShow(incrementRowCount);
+  }, [rows, incrementRowCount]);
+
+  return {
+    triggerRef,
+    rowsToShow: rows.slice(0, nRowsToShow),
+    hasMore: nRowsToShow < rows.length,
+  };
 };

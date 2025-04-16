@@ -23,7 +23,7 @@ export interface SpineChartTableProps {
 
 const sortByIndicator = (indicatorData: SpineChartIndicatorData[]) =>
   indicatorData.toSorted((a, b) =>
-    a.indicatorName.localeCompare(b.indicatorName, 'en', {
+    a.indicatorName?.localeCompare(b.indicatorName, 'en', {
       sensitivity: 'base',
     })
   );
@@ -34,7 +34,7 @@ export function SpineChartTable({
   const sortedData = sortByIndicator(indicatorData);
   const methods = getMethodsAndOutcomes(indicatorData);
   const areaNames = sortedData[0].areasHealthData.map(
-    (areaHealthData) => areaHealthData.areaName
+    (areaHealthData) => areaHealthData?.areaName ?? ''
   );
 
   return (
@@ -42,7 +42,7 @@ export function SpineChartTable({
       <SpineChartHeading>Compare indicators by areas</SpineChartHeading>
       <SpineChartLegend
         legendsToShow={methods}
-        groupName={sortedData[0].groupData.areaName}
+        groupName={sortedData[0].groupData?.areaName}
         areaNames={areaNames}
       />
       <SpineChartQuartilesInfoContainer />
@@ -50,7 +50,7 @@ export function SpineChartTable({
         <StyledTable>
           <SpineChartTableHeader
             areaNames={areaNames}
-            groupName={sortedData[0].groupData.areaName}
+            groupName={sortedData[0].groupData?.areaName ?? 'Group'}
           />
           {sortedData.map((indicatorData) => (
             <React.Fragment key={indicatorData.indicatorId}>

@@ -2,7 +2,7 @@ import { Area } from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
-import { LabelText } from 'govuk-react';
+import { LabelText, Paragraph } from 'govuk-react';
 import { AreaSelectedPill } from '../AreaSelectedPill';
 import { GroupAreaSelectedPill } from '../GroupAreaSelectedPill';
 import { allAreaTypes } from '@/lib/areaFilterHelpers/areaType';
@@ -20,11 +20,15 @@ interface SelectedAreasPanelProps {
 }
 
 const StyledFilterSelectedAreaDiv = styled('div')({
-  paddingBottom: '1.5em',
+  paddingBottom: '1em',
 });
 
 const StyledFilterLabel = styled(LabelText)({
   fontWeight: 'bold',
+});
+
+const StyledDefaultToEngland = styled(Paragraph)({
+  marginTop: '0.5em',
 });
 
 export function SelectedAreasPanel({
@@ -96,16 +100,20 @@ export function SelectedAreasPanel({
           <StyledFilterLabel>
             {`Selected areas (${selectedAreasData?.length ?? 0})`}
           </StyledFilterLabel>
-          {selectedAreasData
-            ? rowsToShow.map((selectedArea) => (
-                <AreaSelectedPill
-                  key={selectedArea.code}
-                  area={selectedArea}
-                  onRemoveFilter={removeSelectedArea}
-                  isFullWidth={isFullWidth}
-                />
-              ))
-            : null}
+          {selectedAreasData && selectedAreasData?.length > 0 ? (
+            rowsToShow.map((selectedArea) => (
+              <AreaSelectedPill
+                key={selectedArea.code}
+                area={selectedArea}
+                onRemoveFilter={removeSelectedArea}
+                isFullWidth={isFullWidth}
+              />
+            ))
+          ) : (
+            <StyledDefaultToEngland>
+              Default area England
+            </StyledDefaultToEngland>
+          )}
           <div ref={triggerRef}>{hasMore ? 'Loading...' : null}</div>
         </div>
       )}

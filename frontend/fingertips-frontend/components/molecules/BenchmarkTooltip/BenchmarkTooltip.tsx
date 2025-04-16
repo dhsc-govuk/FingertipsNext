@@ -1,4 +1,4 @@
-import { BenchmarkTooltipArea } from '@/components/atoms/BenchmarkTooltipArea/BenchmarkTooltipArea';
+import { BenchmarkTooltipArea } from '@/components/atoms/BenchmarkTooltipArea';
 import {
   BenchmarkComparisonMethod,
   HealthDataForArea,

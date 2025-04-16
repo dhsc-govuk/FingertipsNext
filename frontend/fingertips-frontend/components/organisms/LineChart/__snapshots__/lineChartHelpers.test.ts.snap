@@ -178,7 +178,7 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
       "name": "England",
       "type": "errorbar",
       "visible": false,
-      "whiskerLength": "20%",
+      "whiskerLength": "50%",
     },
     {
       "color": "#28A197",
@@ -216,7 +216,7 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
       "name": "Parent",
       "type": "errorbar",
       "visible": false,
-      "whiskerLength": "20%",
+      "whiskerLength": "50%",
     },
     {
       "color": "#F46A25",

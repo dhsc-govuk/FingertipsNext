@@ -100,6 +100,9 @@ export function PopulationPyramidChartTable({
             headers={['Age range', 'Male', 'Female']}
             title={`${healthDataForArea?.areaName}`}
             healthDataForArea={healthDataForArea}
+            filterValues={(row) => {
+              return [row.age, row.male, row.female];
+            }}
           />
         </StyleSelectedAreaTableContextDiv>
         {groupData ? (
@@ -108,8 +111,8 @@ export function PopulationPyramidChartTable({
               headers={['Male', 'Female']}
               title={`${groupData?.areaName}`}
               healthDataForArea={groupData}
-              filterValues={(columns) => {
-                return columns.slice(1);
+              filterValues={(row) => {
+                return [row.male, row.female];
               }}
             />
           </StyleGroupTableContentDiv>
@@ -121,8 +124,8 @@ export function PopulationPyramidChartTable({
             headers={['Male', 'Female']}
             title={`Benchmark: ${benchmarkData?.areaName}`}
             healthDataForArea={benchmarkData}
-            filterValues={(columns) => {
-              return columns.slice(1);
+            filterValues={(row) => {
+              return [row.male, row.female];
             }}
           />
         </StyleBenchmarkDataDiv>

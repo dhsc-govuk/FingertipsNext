@@ -103,9 +103,18 @@ describe('InequalitiesForSingleTimePeriod suite', () => {
     });
     const yearOptions = within(timePeriodDropDown).getAllByRole('option');
 
-    const inequalitiesTypesDropDown = screen.getAllByRole('combobox')[1];
+    const inequalitiesTypesDropDown = screen.getByRole('combobox', {
+      name: 'Select an inequality type',
+    });
     const inequalitiesDropDownOptions = within(
       inequalitiesTypesDropDown
+    ).getAllByRole('option');
+
+    const inequalitiesAreasDropDown = screen.getByRole('combobox', {
+      name: 'Select an area',
+    });
+    const inequalitiesAreasDropDownOptions = within(
+      inequalitiesAreasDropDown
     ).getAllByRole('option');
 
     expect(
@@ -120,18 +129,23 @@ describe('InequalitiesForSingleTimePeriod suite', () => {
     expect(
       screen.getByText(/Inequalities data for a single time period/i)
     ).toBeInTheDocument();
-    expect(
-      screen.getByTestId('timePeriod-dropDown-component')
-    ).toBeInTheDocument();
+
     expect(timePeriodDropDown).toBeInTheDocument();
     expect(timePeriodDropDown).toHaveLength(2);
     yearOptions.forEach((option, index) => {
       expect(option.textContent).toBe(years[index]);
     });
+
     expect(inequalitiesTypesDropDown).toBeInTheDocument();
     expect(inequalitiesDropDownOptions).toHaveLength(2);
     inequalitiesDropDownOptions.forEach((option, index) => {
       expect(option.textContent).toBe(inequalitiesOptions[index]);
+    });
+
+    expect(inequalitiesAreasDropDown).toBeInTheDocument();
+    expect(inequalitiesAreasDropDownOptions).toHaveLength(1);
+    inequalitiesAreasDropDownOptions.forEach((option) => {
+      expect(option.textContent).toBe(MOCK_HEALTH_DATA[0].areaName);
     });
 
     expect(

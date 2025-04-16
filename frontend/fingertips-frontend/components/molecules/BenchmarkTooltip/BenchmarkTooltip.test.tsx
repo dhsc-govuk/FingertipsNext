@@ -18,6 +18,7 @@ describe('BenchmarkTooltip', () => {
     expect(screen.queryByText(/Group/)).not.toBeInTheDocument();
     expect(screen.queryByText(/Benchmark/)).not.toBeInTheDocument();
   });
+
   it('should return tooltip content for an area and group', () => {
     render(
       <BenchmarkTooltip
@@ -33,6 +34,7 @@ describe('BenchmarkTooltip', () => {
     expect(screen.queryByText(/Group/)).toBeInTheDocument();
     expect(screen.queryByText(/Benchmark/)).not.toBeInTheDocument();
   });
+
   it('should return tooltip content for an an area, group and benchmark', () => {
     render(
       <BenchmarkTooltip

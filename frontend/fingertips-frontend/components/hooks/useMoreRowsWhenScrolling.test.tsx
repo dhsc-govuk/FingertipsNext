@@ -1,4 +1,4 @@
-import { act, render, screen } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import { useMoreRowsWhenScrolling } from './useMoreRowsWhenScrolling';
 
 Object.defineProperty(window, 'innerHeight', {
@@ -19,7 +19,7 @@ const TestComponent = ({ incrementRowCount = 10 }) => {
     <>
       {rowsToShow.map((row, i) => (
         <div key={i} role={'row'}>
-          ROW: {row + 1}
+          ROW: {i + 1}
         </div>
       ))}
       <div data-testid="trigger" ref={triggerRef}>
@@ -60,17 +60,15 @@ describe('useMoreRowsWhenScrolling', () => {
     jest.restoreAllMocks();
   });
 
-  it('adds rows when trigger is visible in viewport on initial render', async () => {
+  it('adds timeout on initial render', async () => {
     // starts with 10
     act(() => {
       render(<TestComponent incrementRowCount={10} />);
     });
 
-    expect(intervalSpy).toHaveBeenCalledWith(expect.any(Function), 100);
-
-    // as trigger is visible immediated add another 10
-    const renderedRows = screen.getAllByRole('row');
-    expect(renderedRows).toHaveLength(20);
+    await waitFor(() => {
+      expect(intervalSpy).toHaveBeenCalledWith(expect.any(Function), 250);
+    });
   });
 
   it('adds rows when trigger is visible in viewport', async () => {
@@ -84,7 +82,7 @@ describe('useMoreRowsWhenScrolling', () => {
     });
 
     const renderedRows = screen.getAllByRole('row');
-    expect(renderedRows).toHaveLength(30);
+    expect(renderedRows).toHaveLength(20);
   });
 
   it('stops adding rows when trigger is no longer visible in viewport', async () => {
@@ -98,7 +96,7 @@ describe('useMoreRowsWhenScrolling', () => {
     });
 
     const renderedRows = screen.getAllByRole('row');
-    expect(renderedRows).toHaveLength(30);
+    expect(renderedRows).toHaveLength(20);
 
     const triggerEl = screen.getByTestId('trigger');
     triggerEl.getBoundingClientRect = getBoundingClientRectMock(1600);
@@ -108,7 +106,7 @@ describe('useMoreRowsWhenScrolling', () => {
     });
 
     const renderedRowsAfterMovingOffscreen = screen.getAllByRole('row');
-    expect(renderedRowsAfterMovingOffscreen).toHaveLength(30);
+    expect(renderedRowsAfterMovingOffscreen).toHaveLength(20);
   });
 
   it('stops when all rows are shown', () => {
@@ -118,6 +116,7 @@ describe('useMoreRowsWhenScrolling', () => {
 
     const timerFunc = intervalSpy.mock.calls[0][0];
     act(() => {
+      timerFunc(); // 40 rows
       timerFunc(); // 60 rows
       timerFunc(); // 80 rows
     });
@@ -135,34 +134,5 @@ describe('useMoreRowsWhenScrolling', () => {
 
     const renderedRows = screen.getAllByRole('row');
     expect(renderedRows).toHaveLength(100);
-  });
-
-  it('adds rows when trigger is visible and a scrollevent occurs', async () => {
-    act(() => {
-      render(<TestComponent incrementRowCount={10} />);
-    });
-
-    const triggerEl = screen.getByTestId('trigger');
-    triggerEl.getBoundingClientRect = getBoundingClientRectMock(1600);
-
-    const timerFunc = intervalSpy.mock.calls[0][0];
-    act(() => {
-      // register that the element is offscreen
-      timerFunc();
-    });
-
-    const renderedRows = screen.getAllByRole('row');
-    expect(renderedRows).toHaveLength(20);
-
-    // put the element back on screen
-    triggerEl.getBoundingClientRect = getBoundingClientRectMock(600);
-
-    // scroll and more rows should be added
-    act(() => {
-      window.dispatchEvent(new Event('scroll'));
-    });
-
-    const renderedRowsAfterScroll = screen.getAllByRole('row');
-    expect(renderedRowsAfterScroll).toHaveLength(30);
   });
 });
