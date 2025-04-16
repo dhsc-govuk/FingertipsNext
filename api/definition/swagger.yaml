@@ -277,6 +277,7 @@ paths:
         - $ref: "#/components/parameters/years"
         - $ref: "#/components/parameters/inequalities"
         - $ref: "#/components/parameters/include_empty_areas"
+        - $ref: "#/components/parameters/latest_only"
       operationId: getHealthDataForAnIndicator
   /indicators/quartiles:
     get:
