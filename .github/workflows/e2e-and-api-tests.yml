@@ -91,7 +91,7 @@ jobs:
         continue-on-error: true
         run: |
           echo "Running Playwright tests (1st attempt)..."
-          npm run test-e2e-ci > test_output.log 2>&1 || true
+          npm run test-e2e-ci 2>&1 | tee test_output.log
 
           if grep -i "timeout" test_output.log; then
             echo "Timeout detected. Retrying once..."
