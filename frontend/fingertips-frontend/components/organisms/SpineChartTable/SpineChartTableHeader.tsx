@@ -169,8 +169,7 @@ export function SpineChartTableHeader({
         <Table.CellHeader
           colSpan={2}
           data-testid="empty-header"
-        >
-        </Table.CellHeader>
+        ></Table.CellHeader>
         {areaNames.map((areaName, index) => (
           <StyledAlignCentreHeader
             colSpan={twoAreasRequested ? 2 : 3}

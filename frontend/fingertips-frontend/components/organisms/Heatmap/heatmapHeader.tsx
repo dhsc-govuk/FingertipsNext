@@ -55,7 +55,7 @@ const stickyLeft = {
   position: 'sticky',
   left: 0,
   zIndex: 1,
-  paddingRight: '0.5em'
+  paddingRight: '0.5em',
 };
 
 interface HeatmapHeaderProps {
@@ -64,7 +64,7 @@ interface HeatmapHeaderProps {
 }
 
 const StyledCellHeaderIndicatorTitle = styled(Table.CellHeader)({
-  ...stickyLeft as unknown as TemplateStringsArray,
+  ...(stickyLeft as unknown as TemplateStringsArray),
   verticalAlign: 'bottom',
   width: `${heatmapIndicatorTitleColumnWidth}px`,
 });
@@ -72,7 +72,7 @@ const StyledCellHeaderIndicatorTitle = styled(Table.CellHeader)({
 const StyledCellHeaderIndicatorInformation = styled(Table.CellHeader)({
   verticalAlign: 'bottom',
   paddingRight: '10px',
-  paddingLeft: '10px'
+  paddingLeft: '10px',
 });
 
 const StyledCellHeaderArea = styled(Table.CellHeader)({

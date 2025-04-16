@@ -9,11 +9,11 @@ const stickyLeft = {
   position: 'sticky',
   left: 0,
   zIndex: 1,
-  paddingRight: '0.5em'
+  paddingRight: '0.5em',
 };
 
 const StyledIndicatorCell = styled(Table.Cell)({
-  ...stickyLeft as unknown as TemplateStringsArray,
+  ...(stickyLeft as unknown as TemplateStringsArray),
   borderRight: 'solid #bfc1c3 1px',
 });
 
@@ -62,7 +62,7 @@ const StyledDivIndicatorTitleCellContent = styled.div({
 const StyledDivIndicatorInformationCellContent = styled.div({
   minWidth: '40px',
   paddingRight: '20px',
-  paddingLeft: '20px'
+  paddingLeft: '20px',
 });
 
 interface HeatmapCellProps {

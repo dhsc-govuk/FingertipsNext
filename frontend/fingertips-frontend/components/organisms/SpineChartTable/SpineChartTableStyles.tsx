@@ -57,10 +57,10 @@ export const StyledAlignRightBorderHeader = styled(StyledAlignRightHeader)({
   fontSize: 19,
 });
 
-export const StyledAlignLeftStickyLeftHeader = styled(StyledAlignLeftHeader)(
-  {...stickyLeft as unknown as TemplateStringsArray,
-  borderRight: 'solid #bfc1c3 1px'}
-);
+export const StyledAlignLeftStickyLeftHeader = styled(StyledAlignLeftHeader)({
+  ...(stickyLeft as unknown as TemplateStringsArray),
+  borderRight: 'solid #bfc1c3 1px',
+});
 
 export const StyledAlignCentreTableCell = styled(StyledAlignLeftTableCell)({
   textAlign: 'center',
@@ -98,7 +98,8 @@ export const StyledAlignRightCellPadLeft = styled(StyledAlignRightTableCell)({
 
 export const StyledIndicatorTitleStickyLeftCell = styled(
   StyledIndicatorTitleCell
-)({...stickyLeft as unknown as TemplateStringsArray,
+)({
+  ...(stickyLeft as unknown as TemplateStringsArray),
   borderRight: 'solid #bfc1c3 1px',
   paddingRight: '0.5em',
 });
