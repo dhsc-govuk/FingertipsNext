@@ -18,25 +18,23 @@ import {
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
-interface ComponentRenderFlags {
-  showHeatmap: boolean;
-  showSpineChart: boolean;
+function shouldShowHeatmap(
+  areaCodes: string[],
+  groupAreaSelected?: string
+): boolean {
+  return areaCodes.length > 1 || groupAreaSelected === ALL_AREAS_SELECTED;
 }
 
-function getComponentRenderFlags(
+function shouldShowSpineChart(
   areaCodes: string[],
   spineChartIndicatorData: SpineChartIndicatorData[],
   groupAreaSelected?: string
-): ComponentRenderFlags {
-  const areAllAreasSelected = groupAreaSelected === ALL_AREAS_SELECTED;
-
-  return {
-    showHeatmap: areaCodes.length > 1 || areAllAreasSelected,
-    showSpineChart:
-      areaCodes.length < 3 &&
-      spineChartIndicatorData.length > 0 &&
-      !areAllAreasSelected,
-  };
+): boolean {
+  return (
+    areaCodes.length < 3 &&
+    spineChartIndicatorData.length > 0 &&
+    groupAreaSelected !== ALL_AREAS_SELECTED
+  );
 }
 
 export function extractHeatmapIndicatorData(
@@ -108,18 +106,17 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     areaCodes,
     selectedGroupCode
   );
-  const { showHeatmap, showSpineChart } = getComponentRenderFlags(
-    areaCodes,
-    spineChartIndicatorData,
-    groupAreaSelected
-  );
 
   return (
     <section data-testid="twoOrMoreIndicatorsAreasViewPlot-component">
-      {showSpineChart ? (
+      {shouldShowSpineChart(
+        areaCodes,
+        spineChartIndicatorData,
+        groupAreaSelected
+      ) ? (
         <SpineChartTable indicatorData={spineChartIndicatorData} />
       ) : null}
-      {showHeatmap ? (
+      {shouldShowHeatmap(areaCodes, groupAreaSelected) ? (
         <Heatmap
           indicatorData={buildHeatmapIndicatorData(
             indicatorData,
