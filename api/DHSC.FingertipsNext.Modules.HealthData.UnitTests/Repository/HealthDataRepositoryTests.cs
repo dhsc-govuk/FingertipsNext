@@ -1,30 +1,29 @@
-﻿using Shouldly;
-using DHSC.FingertipsNext.Modules.HealthData.Repository;
+﻿using DHSC.FingertipsNext.Modules.HealthData.Repository;
 using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 using Microsoft.EntityFrameworkCore;
+using Shouldly;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Repository;
 
 public class HealthDataRepositoryTests
 {
     private readonly HealthDataDbContext _dbContext;
-    
+
     private readonly IndicatorDimensionModel _indicatorDimension = new()
     {
         IndicatorKey = 1,
         IndicatorId = 500,
-        Name = "Foobar"
+        Name = "Foobar",
     };
-    
+
     private HealthDataRepository _healthDataRepository;
 
     public HealthDataRepositoryTests()
     {
-        DbContextOptionsBuilder dbOptions = new DbContextOptionsBuilder()
-            .UseInMemoryDatabase(
-                Guid.NewGuid().ToString()
-            );
+        DbContextOptionsBuilder dbOptions = new DbContextOptionsBuilder().UseInMemoryDatabase(
+            Guid.NewGuid().ToString()
+        );
 
         _dbContext = new HealthDataDbContext(dbOptions.Options);
         _healthDataRepository = new HealthDataRepository(_dbContext);
@@ -61,15 +60,19 @@ public class HealthDataRepositoryTests
     {
         var act = () => _healthDataRepository = new HealthDataRepository(null!);
 
-        act.ShouldThrow<ArgumentNullException>().Message
-            .ShouldBe("Value cannot be null. (Parameter 'healthDataDbContext')");
+        act.ShouldThrow<ArgumentNullException>()
+            .Message.ShouldBe("Value cannot be null. (Parameter 'healthDataDbContext')");
     }
 
+    #region GetIndicatorDataAsync
+
     [Fact]
-    public async Task Repository_ShouldReturnEmptyList_IfIndicatorNotFound()
+    public async Task GetIndicatorDataAsync_ShouldReturnEmptyList_IfIndicatorNotFound()
     {
         // arrange
-        PopulateDatabase(new HealthMeasureModelHelper().WithIndicatorDimension(indicatorId: 1).Build());
+        PopulateDatabase(
+            new HealthMeasureModelHelper().WithIndicatorDimension(indicatorId: 1).Build()
+        );
 
         // act
         var result = await _healthDataRepository.GetIndicatorDataAsync(2, [], [], []);
@@ -79,7 +82,7 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task Repository_ShouldFindByOnlyIndicatorId_IfQueryParamsAreEmpty()
+    public async Task GetIndicatorDataAsync_ShouldFindByOnlyIndicatorId_IfQueryParamsAreEmpty()
     {
         // arrange
         const int expectedIndicatorId = 1;
@@ -89,19 +92,23 @@ public class HealthDataRepositoryTests
         PopulateDatabase(expectedHealthMeasure);
 
         // act
-        var result = await _healthDataRepository.GetIndicatorDataAsync(expectedIndicatorId, [], [], []);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(
+            expectedIndicatorId,
+            [],
+            [],
+            []
+        );
 
         // assert
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(1);
-        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
-        {
-            ResetKeys(expectedHealthMeasure)
-        });
+        result.ShouldBeEquivalentTo(
+            new List<HealthMeasureModel>() { ResetKeys(expectedHealthMeasure) }
+        );
     }
 
     [Fact]
-    public async Task Repository_ShouldFilterResultsByAreaCodes_WhenAreaCodesProvided()
+    public async Task GetIndicatorDataAsync_ShouldFilterResultsByAreaCodes_WhenAreaCodesProvided()
     {
         // arrange
         const string unexpectedAreaCode = "Code1";
@@ -127,26 +134,35 @@ public class HealthDataRepositoryTests
         PopulateDatabase(expectedHealthMeasure2);
 
         // act
-        var result = await _healthDataRepository.GetIndicatorDataAsync(1, [expectedAreaCode], [], []);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(
+            1,
+            [expectedAreaCode],
+            [],
+            []
+        );
 
         // assert
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(2);
-        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
-        {
-            ResetKeys(expectedHealthMeasure1),
-            ResetKeys(expectedHealthMeasure2),
-        });
+        result.ShouldBeEquivalentTo(
+            new List<HealthMeasureModel>()
+            {
+                ResetKeys(expectedHealthMeasure1),
+                ResetKeys(expectedHealthMeasure2),
+            }
+        );
     }
 
     [Fact]
-    public async Task Repository_ShouldReturnEmptyList_IfAreaCodeNotFound()
+    public async Task GetIndicatorDataAsync_ShouldReturnEmptyList_IfAreaCodeNotFound()
     {
         // arrange
-        PopulateDatabase(new HealthMeasureModelHelper()
-            .WithIndicatorDimension(indicatorId: 1)
-            .WithAreaDimension(code: "Code1")
-            .Build());
+        PopulateDatabase(
+            new HealthMeasureModelHelper()
+                .WithIndicatorDimension(indicatorId: 1)
+                .WithAreaDimension(code: "Code1")
+                .Build()
+        );
 
         // act
         var result = await _healthDataRepository.GetIndicatorDataAsync(1, ["Code2"], [], []);
@@ -156,17 +172,21 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task Repository_ShouldFilterResultsByYears_WhenYearsProvided()
+    public async Task GetIndicatorDataAsync_ShouldFilterResultsByYears_WhenYearsProvided()
     {
         // arrange
         var unexpectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
-            .WithIndicatorDimension().Build();
+            .WithIndicatorDimension()
+            .Build();
         var unexpectedHealthMeasure2 = new HealthMeasureModelHelper(key: 2, year: 2021)
-            .WithIndicatorDimension().Build();
+            .WithIndicatorDimension()
+            .Build();
         var expectedHealthMeasure1 = new HealthMeasureModelHelper(key: 3, year: 2022)
-            .WithIndicatorDimension().Build();
+            .WithIndicatorDimension()
+            .Build();
         var expectedHealthMeasure2 = new HealthMeasureModelHelper(key: 4, year: 2023)
-            .WithIndicatorDimension().Build();
+            .WithIndicatorDimension()
+            .Build();
 
         PopulateDatabase(unexpectedHealthMeasure1);
         PopulateDatabase(unexpectedHealthMeasure2);
@@ -179,23 +199,29 @@ public class HealthDataRepositoryTests
         // assert
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(2);
-        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
-        {
-            ResetKeys(expectedHealthMeasure1),
-            ResetKeys(expectedHealthMeasure2),
-        });
+        result.ShouldBeEquivalentTo(
+            new List<HealthMeasureModel>()
+            {
+                ResetKeys(expectedHealthMeasure1),
+                ResetKeys(expectedHealthMeasure2),
+            }
+        );
     }
 
     [Fact]
-    public async Task Repository_ShouldReturnEmptyList_IfYearsNotFound()
+    public async Task GetIndicatorDataAsync_ShouldReturnEmptyList_IfYearsNotFound()
     {
         // arrange
-        PopulateDatabase(new HealthMeasureModelHelper(key: 1, year: 2020)
-            .WithIndicatorDimension(indicatorId: 1)
-            .Build());
-        PopulateDatabase(new HealthMeasureModelHelper(key: 2, year: 2021)
-            .WithIndicatorDimension(indicatorId: 1)
-            .Build());
+        PopulateDatabase(
+            new HealthMeasureModelHelper(key: 1, year: 2020)
+                .WithIndicatorDimension(indicatorId: 1)
+                .Build()
+        );
+        PopulateDatabase(
+            new HealthMeasureModelHelper(key: 2, year: 2021)
+                .WithIndicatorDimension(indicatorId: 1)
+                .Build()
+        );
 
         // act
         var result = await _healthDataRepository.GetIndicatorDataAsync(1, [], [2019], []);
@@ -205,7 +231,7 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task Repository_ShouldFilterResultsByAllFilters_WhenProvided()
+    public async Task GetIndicatorDataAsync_ShouldFilterResultsByAllFilters_WhenProvided()
     {
         // arrange
         var unexpectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
@@ -259,17 +285,19 @@ public class HealthDataRepositoryTests
         // assert
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(4);
-        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
-        {
-            ResetKeys(expectedHealthMeasure1),
-            ResetKeys(expectedHealthMeasure2),
-            ResetKeys(expectedHealthMeasure3),
-            ResetKeys(expectedHealthMeasure4)
-        });
+        result.ShouldBeEquivalentTo(
+            new List<HealthMeasureModel>()
+            {
+                ResetKeys(expectedHealthMeasure1),
+                ResetKeys(expectedHealthMeasure2),
+                ResetKeys(expectedHealthMeasure3),
+                ResetKeys(expectedHealthMeasure4),
+            }
+        );
     }
 
     [Fact]
-    public async Task Repository_ShouldOnlyIncludeResultsWithoutASexDimensionValue()
+    public async Task GetIndicatorDataAsync_ShouldOnlyIncludeResultsWithoutASexDimensionValue()
     {
         // arrange
         var unexpectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
@@ -299,14 +327,13 @@ public class HealthDataRepositoryTests
         // assert
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(1);
-        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
-        {
-            ResetKeys(expectedHealthMeasure)
-        });
+        result.ShouldBeEquivalentTo(
+            new List<HealthMeasureModel>() { ResetKeys(expectedHealthMeasure) }
+        );
     }
 
     [Fact]
-    public async Task Repository_ShouldIncludeResultsWhenIndicatorHasASingleSexDimensionValue()
+    public async Task GetIndicatorDataAsync_ShouldIncludeResultsWhenIndicatorHasASingleSexDimensionValue()
     {
         // arrange
         var maleSexDimension = new SexDimensionModel
@@ -314,15 +341,19 @@ public class HealthDataRepositoryTests
             SexKey = 1,
             Name = "Male",
             HasValue = true,
-            IsAggregate = true
+            IsAggregate = true,
         };
 
         var expectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
-            .WithSexDimension(maleSexDimension).WithIndicatorDimension(_indicatorDimension).Build();
+            .WithSexDimension(maleSexDimension)
+            .WithIndicatorDimension(_indicatorDimension)
+            .Build();
         PopulateDatabase(expectedHealthMeasure1);
 
         var expectedHealthMeasure2 = new HealthMeasureModelHelper(key: 2, year: 2022)
-            .WithSexDimension(maleSexDimension).WithIndicatorDimension(_indicatorDimension).Build();
+            .WithSexDimension(maleSexDimension)
+            .WithIndicatorDimension(_indicatorDimension)
+            .Build();
         PopulateDatabase(expectedHealthMeasure2);
 
         // act
@@ -331,20 +362,23 @@ public class HealthDataRepositoryTests
         // assert
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(2);
-        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
-        {
-            ResetKeys(expectedHealthMeasure1),
-            ResetKeys(expectedHealthMeasure2),
-        });
+        result.ShouldBeEquivalentTo(
+            new List<HealthMeasureModel>()
+            {
+                ResetKeys(expectedHealthMeasure1),
+                ResetKeys(expectedHealthMeasure2),
+            }
+        );
     }
 
     [Fact]
-    public async Task Repository_ShouldNotReturnResultsWhenIndicatorHasMultipleSexDimensionValuesAndNoneWithoutSexDimension()
+    public async Task GetIndicatorDataAsync_ShouldNotReturnResultsWhenIndicatorHasMultipleSexDimensionValuesAndNoneWithoutSexDimension()
     {
         // arrange
         var unexpectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
             .WithSexDimension(sexKey: 1, name: "Male", hasValue: true)
-            .WithIndicatorDimension(_indicatorDimension).Build();
+            .WithIndicatorDimension(_indicatorDimension)
+            .Build();
         unexpectedHealthMeasure1.IsSexAggregatedOrSingle = false;
         PopulateDatabase(unexpectedHealthMeasure1);
 
@@ -363,21 +397,27 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task Repository_ShouldOnlyIncludeResultsWithoutAnAgeDimensionValue()
+    public async Task GetIndicatorDataAsync_ShouldOnlyIncludeResultsWithoutAnAgeDimensionValue()
     {
         // arrange
         var unexpectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
-            .WithAgeDimension(hasValue: true).WithIndicatorDimension(_indicatorDimension).Build();
+            .WithAgeDimension(hasValue: true)
+            .WithIndicatorDimension(_indicatorDimension)
+            .Build();
         unexpectedHealthMeasure1.IsAgeAggregatedOrSingle = false;
         PopulateDatabase(unexpectedHealthMeasure1);
 
         var unexpectedHealthMeasure2 = new HealthMeasureModelHelper(key: 2, year: 2022)
-            .WithAgeDimension(hasValue: true).WithIndicatorDimension(_indicatorDimension).Build();
+            .WithAgeDimension(hasValue: true)
+            .WithIndicatorDimension(_indicatorDimension)
+            .Build();
         unexpectedHealthMeasure2.IsAgeAggregatedOrSingle = false;
         PopulateDatabase(unexpectedHealthMeasure2);
 
         var expectedHealthMeasure = new HealthMeasureModelHelper(key: 3, year: 2024)
-            .WithAgeDimension(hasValue: false).WithIndicatorDimension(_indicatorDimension).Build();
+            .WithAgeDimension(hasValue: false)
+            .WithIndicatorDimension(_indicatorDimension)
+            .Build();
         PopulateDatabase(expectedHealthMeasure);
 
         // act
@@ -386,48 +426,52 @@ public class HealthDataRepositoryTests
         // assert
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(1);
-        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
-        {
-            ResetKeys(expectedHealthMeasure)
-        });
+        result.ShouldBeEquivalentTo(
+            new List<HealthMeasureModel>() { ResetKeys(expectedHealthMeasure) }
+        );
     }
 
     [Fact]
-    public async Task Repository_ShouldIncludeResultsWhenIndicatorHasASingleAgeDimensionValue()
+    public async Task GetIndicatorDataAsync_ShouldIncludeResultsWhenIndicatorHasASingleAgeDimensionValue()
     {
         // arrange
-       var fifteenToFourtyFourYearsAgeDimension = new AgeDimensionModel
+        var fifteenToFourtyFourYearsAgeDimension = new AgeDimensionModel
         {
             AgeKey = 1,
             Name = "15-44 yrs",
             HasValue = true,
-            IsAggregate = true
+            IsAggregate = true,
         };
-        
+
         var expectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
-            .WithAgeDimension(fifteenToFourtyFourYearsAgeDimension).WithIndicatorDimension(_indicatorDimension).Build();
+            .WithAgeDimension(fifteenToFourtyFourYearsAgeDimension)
+            .WithIndicatorDimension(_indicatorDimension)
+            .Build();
         PopulateDatabase(expectedHealthMeasure1);
 
         var expectedHealthMeasure2 = new HealthMeasureModelHelper(key: 2, year: 2022)
-            .WithAgeDimension(fifteenToFourtyFourYearsAgeDimension).WithIndicatorDimension(_indicatorDimension).Build();
+            .WithAgeDimension(fifteenToFourtyFourYearsAgeDimension)
+            .WithIndicatorDimension(_indicatorDimension)
+            .Build();
         PopulateDatabase(expectedHealthMeasure2);
-        
+
         // act
         var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], []);
 
         // assert
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(2);
-        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
-        {
-            ResetKeys(expectedHealthMeasure1),
-            ResetKeys(expectedHealthMeasure2),
-        });
+        result.ShouldBeEquivalentTo(
+            new List<HealthMeasureModel>()
+            {
+                ResetKeys(expectedHealthMeasure1),
+                ResetKeys(expectedHealthMeasure2),
+            }
+        );
     }
 
-
     [Fact]
-    public async Task Repository_ShouldNotReturnResultsWhenIndicatorHasMultipleAgeDimensionValuesAndNoneWithoutAgeDimension()
+    public async Task GetIndicatorDataAsync_ShouldNotReturnResultsWhenIndicatorHasMultipleAgeDimensionValuesAndNoneWithoutAgeDimension()
     {
         // arrange
         var unexpectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
@@ -452,7 +496,7 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task Repository_ShouldOnlyIncludeResultsWithoutADeprivationDimensionValue()
+    public async Task GetIndicatorDataAsync_ShouldOnlyIncludeResultsWithoutADeprivationDimensionValue()
     {
         // arrange
         var unexpectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
@@ -473,7 +517,7 @@ public class HealthDataRepositoryTests
             .WithDeprivationDimension(hasValue: false)
             .WithIndicatorDimension(indicatorId: 500)
             .Build();
-        
+
         PopulateDatabase(expectedHealthMeasure);
 
         // act
@@ -482,14 +526,13 @@ public class HealthDataRepositoryTests
         // assert
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(1);
-        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
-        {
-            ResetKeys(expectedHealthMeasure)
-        });
+        result.ShouldBeEquivalentTo(
+            new List<HealthMeasureModel>() { ResetKeys(expectedHealthMeasure) }
+        );
     }
 
     [Fact]
-    public async Task Repository_ShouldIncludeResultsWhenIndicatorHasASingleDeprivationDimensionValue()
+    public async Task GetIndicatorDataAsync_ShouldIncludeResultsWhenIndicatorHasASingleDeprivationDimensionValue()
     {
         // arrange
         var secondMostDeprivedDecile = new DeprivationDimensionModel
@@ -499,33 +542,38 @@ public class HealthDataRepositoryTests
             Type = "County & UA deprivation deciles in England",
             Sequence = 9,
             HasValue = true,
-            IsAggregate = true
+            IsAggregate = true,
         };
-        
+
         var expectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
-            .WithDeprivationDimension(secondMostDeprivedDecile).WithIndicatorDimension(_indicatorDimension).Build();
+            .WithDeprivationDimension(secondMostDeprivedDecile)
+            .WithIndicatorDimension(_indicatorDimension)
+            .Build();
         PopulateDatabase(expectedHealthMeasure1);
 
         var expectedHealthMeasure2 = new HealthMeasureModelHelper(key: 2, year: 2022)
-            .WithDeprivationDimension(secondMostDeprivedDecile).WithIndicatorDimension(_indicatorDimension).Build();
+            .WithDeprivationDimension(secondMostDeprivedDecile)
+            .WithIndicatorDimension(_indicatorDimension)
+            .Build();
         PopulateDatabase(expectedHealthMeasure2);
-        
+
         // act
         var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], []);
 
         // assert
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(2);
-        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
-        {
-            ResetKeys(expectedHealthMeasure1),
-            ResetKeys(expectedHealthMeasure2),
-        });
+        result.ShouldBeEquivalentTo(
+            new List<HealthMeasureModel>()
+            {
+                ResetKeys(expectedHealthMeasure1),
+                ResetKeys(expectedHealthMeasure2),
+            }
+        );
     }
 
-
     [Fact]
-    public async Task Repository_ShouldNotReturnResultsWhenIndicatorHasMultipleDeprivationDimensionValuesAndNoneWithoutDeprivationDimension()
+    public async Task GetIndicatorDataAsync_ShouldNotReturnResultsWhenIndicatorHasMultipleDeprivationDimensionValuesAndNoneWithoutDeprivationDimension()
     {
         // arrange
         var unexpectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
@@ -550,7 +598,7 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task Repository_ShouldIncludeResultsWithOnlySexDimensionData_IfSexInequalityIsSpecified()
+    public async Task GetIndicatorDataAsync_ShouldIncludeResultsWithOnlySexDimensionData_IfSexInequalityIsSpecified()
     {
         // arrange
         var healthMeasureWithSex = new HealthMeasureModelHelper(1, 2020, false)
@@ -581,15 +629,17 @@ public class HealthDataRepositoryTests
         // assert
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(2);
-        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>
-        {
-            ResetKeys(healthMeasureWithSex),
-            ResetKeys(healthMeasureWithNoSexAndNoAge)
-        });
+        result.ShouldBeEquivalentTo(
+            new List<HealthMeasureModel>
+            {
+                ResetKeys(healthMeasureWithSex),
+                ResetKeys(healthMeasureWithNoSexAndNoAge),
+            }
+        );
     }
 
     [Fact]
-    public async Task Repository_ShouldIncludeResultsWithOnlyAgeDimensionData_IfAgeInequalityIsSpecified()
+    public async Task GetIndicatorDataAsync_ShouldIncludeResultsWithOnlyAgeDimensionData_IfAgeInequalityIsSpecified()
     {
         // arrange
         var healthMeasureWithAgeAndNoSex = new HealthMeasureModelHelper(1, 2020, false)
@@ -630,17 +680,17 @@ public class HealthDataRepositoryTests
         // assert
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(2);
-        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>
-        {
-            ResetKeys(healthMeasureWithAgeAndNoSex),
-            ResetKeys(healthMeasureWithNoAgeAndNoSex)
-        });
+        result.ShouldBeEquivalentTo(
+            new List<HealthMeasureModel>
+            {
+                ResetKeys(healthMeasureWithAgeAndNoSex),
+                ResetKeys(healthMeasureWithNoAgeAndNoSex),
+            }
+        );
     }
 
-   
-
     [Fact]
-    public async Task Repository_ShouldIncludeResultsWithOnlyDeprivationDimensionData_IfDeprivationInequalityIsSpecified()
+    public async Task GetIndicatorDataAsync_ShouldIncludeResultsWithOnlyDeprivationDimensionData_IfDeprivationInequalityIsSpecified()
     {
         // arrange
         var healthMeasureWithAgeAndNoDeprivation = new HealthMeasureModelHelper(1, 2020, false)
@@ -676,30 +726,73 @@ public class HealthDataRepositoryTests
         PopulateDatabase(healthMeasureWithNoAgeAndNoDeprivation);
 
         // act
-        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], ["deprivation"]);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(
+            500,
+            [],
+            [],
+            ["deprivation"]
+        );
 
         // assert
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(2);
-        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>
-        {
-            ResetKeys(healthMeasureWithNoAgeAndDeprivation),
-            ResetKeys(healthMeasureWithNoAgeAndNoDeprivation),
-        });
+        result.ShouldBeEquivalentTo(
+            new List<HealthMeasureModel>
+            {
+                ResetKeys(healthMeasureWithNoAgeAndDeprivation),
+                ResetKeys(healthMeasureWithNoAgeAndNoDeprivation),
+            }
+        );
     }
 
     [Fact]
-    public async Task Repository_ShouldIncludeResultsWithAllInequalityData_IfAllAreSpecified()
+    public async Task GetIndicatorDataAsync_ShouldIncludeResultsWithAllInequalityData_IfAllAreSpecified()
     {
         // arrange
-        var personsSexDimension = new SexDimensionModel() { SexKey = 0, Name = "Persons", HasValue = false, IsAggregate = true};
-        var maleSexDimension = new SexDimensionModel() { SexKey = 1, Name = "Male", HasValue = true, IsAggregate = false };
+        var personsSexDimension = new SexDimensionModel()
+        {
+            SexKey = 0,
+            Name = "Persons",
+            HasValue = false,
+            IsAggregate = true,
+        };
+        var maleSexDimension = new SexDimensionModel()
+        {
+            SexKey = 1,
+            Name = "Male",
+            HasValue = true,
+            IsAggregate = false,
+        };
 
-        var allAgesDimension = new AgeDimensionModel() { AgeKey = 0, Name = "All ages", HasValue = false, IsAggregate = true};
-        var fourToFiveAgeDimension = new AgeDimensionModel() { AgeKey = 1, Name = "4 - 5", HasValue = true, IsAggregate = false };
+        var allAgesDimension = new AgeDimensionModel()
+        {
+            AgeKey = 0,
+            Name = "All ages",
+            HasValue = false,
+            IsAggregate = true,
+        };
+        var fourToFiveAgeDimension = new AgeDimensionModel()
+        {
+            AgeKey = 1,
+            Name = "4 - 5",
+            HasValue = true,
+            IsAggregate = false,
+        };
 
-        var allDeprivationDimension = new DeprivationDimensionModel() { DeprivationKey = 0, Name = "All", HasValue = false, IsAggregate = true};
-        var mostDeprivedDimension = new DeprivationDimensionModel() { DeprivationKey = 1, Name = "Most deprived decile", HasValue = true, IsAggregate = false };
+        var allDeprivationDimension = new DeprivationDimensionModel()
+        {
+            DeprivationKey = 0,
+            Name = "All",
+            HasValue = false,
+            IsAggregate = true,
+        };
+        var mostDeprivedDimension = new DeprivationDimensionModel()
+        {
+            DeprivationKey = 1,
+            Name = "Most deprived decile",
+            HasValue = true,
+            IsAggregate = false,
+        };
 
         var allDimensionsDataPoint = new HealthMeasureModelHelper(1, 2020, isAggregate: false)
             .WithSexDimension(maleSexDimension)
@@ -778,24 +871,69 @@ public class HealthDataRepositoryTests
         PopulateDatabase(aggregateDataPoint);
 
         // act
-        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], ["age", "sex", "deprivation"]);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(
+            500,
+            [],
+            [],
+            ["age", "sex", "deprivation"]
+        );
 
         // assert
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(8);
-        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>
-        {
-            ResetKeys(allDimensionsDataPoint),
-            ResetKeys(sexOnlyDataPoint),
-            ResetKeys(ageOnlyDataPoint),
-            ResetKeys(deprivationOnlyDataPoint),
-            ResetKeys(sexAndAgeDataPoint),
-            ResetKeys(sexAndDeprivationDataPoint),
-            ResetKeys(ageAndDeprivationDataPoint),
-            ResetKeys(aggregateDataPoint)
-        });
+        result.ShouldBeEquivalentTo(
+            new List<HealthMeasureModel>
+            {
+                ResetKeys(allDimensionsDataPoint),
+                ResetKeys(sexOnlyDataPoint),
+                ResetKeys(ageOnlyDataPoint),
+                ResetKeys(deprivationOnlyDataPoint),
+                ResetKeys(sexAndAgeDataPoint),
+                ResetKeys(sexAndDeprivationDataPoint),
+                ResetKeys(ageAndDeprivationDataPoint),
+                ResetKeys(aggregateDataPoint),
+            }
+        );
     }
-    
+
+    #endregion
+
+    #region GetAreasAsync
+
+    [Fact]
+    public async Task GetAreasAsync_ShouldReturnMatchingAreasInDatabase_WhenRequestIncludesAreasThatAreNotPresent()
+    {
+        // arrange
+        var healthMeasure0 = new HealthMeasureModelHelper(key: 100)
+            .WithAreaDimension("Code1", "Area 1")
+            .Build();
+        var healthMeasure1 = new HealthMeasureModelHelper(key: 101)
+            .WithAreaDimension("Code2", "Area 2")
+            .Build();
+        var healthMeasure2 = new HealthMeasureModelHelper(key: 102)
+            .WithAreaDimension("Code3", "Area 3")
+            .Build();
+
+        PopulateDatabase(healthMeasure0);
+        PopulateDatabase(healthMeasure1);
+        PopulateDatabase(healthMeasure2);
+
+        // act
+        var returnedAreas = await _healthDataRepository.GetAreasAsync(
+            ["Code1", "Code2", "Code3", "Code4"]
+        );
+
+        // assert
+        returnedAreas.ShouldNotBeEmpty();
+        returnedAreas.Count().ShouldBe(3);
+        returnedAreas.ShouldContain(area => area.Code == "Code1");
+        returnedAreas.ShouldContain(area => area.Code == "Code2");
+        returnedAreas.ShouldContain(area => area.Code == "Code3");
+        returnedAreas.ShouldNotContain(area => area.Code == "Code4");
+    }
+
+    #endregion
+
     private void PopulateDatabase(HealthMeasureModel healthMeasure)
     {
         _dbContext.HealthMeasure.Add(healthMeasure);
@@ -823,7 +961,7 @@ public class HealthDataRepositoryTests
 
         healthMeasure.DeprivationKey = 0;
         healthMeasure.DeprivationDimension.DeprivationKey = 0;
-        
+
         // We don't load these values when retrieving a health measure from the DB, so they default to true.
         healthMeasure.IsAgeAggregatedOrSingle = true;
         healthMeasure.IsSexAggregatedOrSingle = true;
@@ -831,6 +969,4 @@ public class HealthDataRepositoryTests
 
         return healthMeasure;
     }
-
-    
 }

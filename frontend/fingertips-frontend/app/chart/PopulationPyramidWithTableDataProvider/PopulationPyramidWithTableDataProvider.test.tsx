@@ -2,23 +2,14 @@ import { PopulationPyramidWithTableDataProvider } from './index';
 import { render } from '@testing-library/react';
 import { SearchParams } from '@/lib/searchStateManager';
 import { HierarchyNameTypes } from '@/lib/areaFilterHelpers/areaType';
-import { mockDeep } from 'jest-mock-extended';
-import { IIndicatorSearchService } from '@/lib/search/searchTypes';
-import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
+import { Area } from '@/generated-sources/ft-api-client';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { API_CACHE_CONFIG } from '@/lib/apiClient/apiClientFactory';
 
 const mockGetHealthDataForAnIndicator = jest.fn();
 
-const mockGetArea = jest.fn().mockResolvedValue({
-  areaType: { hierarchyName: HierarchyNameTypes.NHS },
-});
-
 jest.mock('@/lib/apiClient/apiClientFactory', () => ({
   ApiClientFactory: {
-    getAreasApiClient: jest.fn().mockImplementation(() => {
-      return {
-        getArea: mockGetArea,
-      };
-    }),
     getIndicatorsApiClient: jest.fn().mockImplementation(() => {
       return {
         getHealthDataForAnIndicator: mockGetHealthDataForAnIndicator,
@@ -27,10 +18,6 @@ jest.mock('@/lib/apiClient/apiClientFactory', () => ({
   },
 }));
 
-const mockIndicatorSearchService = mockDeep<IIndicatorSearchService>();
-SearchServiceFactory.getIndicatorSearchService = () =>
-  mockIndicatorSearchService;
-
 jest.mock('@/components/organisms/PopulationPyramidWithTable', () => ({
   PopulationPyramidWithTable: () => <div>PopulationPyramidWithTable</div>,
 }));
@@ -38,33 +25,9 @@ jest.mock('@/components/organisms/PopulationPyramidWithTable', () => ({
 describe('PopulationPyramidWithTableDataProvider', () => {
   beforeEach(() => {
     mockGetHealthDataForAnIndicator.mockClear();
-    mockGetArea.mockClear();
-    mockGetArea.mockResolvedValue({
-      areaType: { hierarchyName: HierarchyNameTypes.NHS },
-      areaCode: 'E09000001',
-      areaName: 'Test Area',
-      parentArea: {
-        areaCode: 'E09000001',
-        areaName: 'Test Area',
-        areaType: { hierarchyName: HierarchyNameTypes.NHS },
-      },
-    });
     mockGetHealthDataForAnIndicator.mockClear();
     mockGetHealthDataForAnIndicator.mockResolvedValue({
       areaHealthData: [{ areaCode: 'E09000001', value: 100 }],
-    });
-
-    mockIndicatorSearchService.getIndicator.mockClear();
-    mockIndicatorSearchService.getIndicator.mockResolvedValue({
-      indicatorID: '',
-      indicatorName: '',
-      indicatorDefinition: '',
-      dataSource: 'data source',
-      earliestDataPeriod: '',
-      latestDataPeriod: '',
-      lastUpdatedDate: new Date(),
-      hasInequalities: false,
-      unitLabel: '',
     });
   });
 
@@ -83,37 +46,53 @@ describe('PopulationPyramidWithTableDataProvider', () => {
     const view = render(jsxView);
     expect(view).toBeTruthy();
     expect(view.getByText('PopulationPyramidWithTable')).toBeInTheDocument();
-    expect(mockGetArea).toHaveBeenCalledTimes(1);
     expect(mockGetHealthDataForAnIndicator).toHaveBeenCalledTimes(1);
-    expect(mockIndicatorSearchService.getIndicator).toHaveBeenCalledTimes(1);
   });
 
   it('renders PopulationPyramidWithTable with more than 100 areas data to be fetched', async () => {
-    const areaCodes = ((n: number) => {
+    const areas = ((n: number) => {
       //generate random area codes
-      const results: string[] = [];
+      const results: Area[] = [];
       for (let i = 0; i < n; i++) {
         const randomNum = Math.floor(Math.random() * 100000);
         const paddedNum = String(randomNum).padStart(5, '0');
         const randomString = `E090${paddedNum}`;
-        results.push(randomString);
+        const area = {
+          areaType: {
+            hierarchyName: HierarchyNameTypes.NHS,
+            key: '',
+            name: 'NHS something',
+            level: 0,
+          },
+          code: randomString,
+          name: 'Test Area',
+          parent: {
+            key: '',
+            level: 1,
+            name: 'Test Area',
+            areaType: { hierarchyName: HierarchyNameTypes.NHS },
+          },
+        };
+        results.push(area);
       }
       return results;
     })(130);
 
+    const areaCodes = areas.map((area: Area) => {
+      return area.code;
+    });
+
     const jsxView = await PopulationPyramidWithTableDataProvider({
-      areaCodes,
+      areaCodes: areaCodes,
       searchState: searchParams,
     });
     const view = render(jsxView);
     expect(view).toBeTruthy();
     expect(view.getByText('PopulationPyramidWithTable')).toBeInTheDocument();
-    expect(mockGetArea).toHaveBeenCalledTimes(1);
     expect(mockGetHealthDataForAnIndicator).toHaveBeenCalledTimes(2);
-    expect(mockIndicatorSearchService.getIndicator).toHaveBeenCalledTimes(1);
   });
 
-  it('handles empty area codes', async () => {
+  it('Should use england as default when no areaCodes are provided', async () => {
     const jsxView = await PopulationPyramidWithTableDataProvider({
       areaCodes: [],
       searchState: searchParams,
@@ -121,8 +100,13 @@ describe('PopulationPyramidWithTableDataProvider', () => {
     const view = render(jsxView);
     expect(view).toBeTruthy();
     expect(view.getByText('PopulationPyramidWithTable')).toBeInTheDocument();
-    expect(mockGetArea).not.toHaveBeenCalled();
-    expect(mockGetHealthDataForAnIndicator).not.toHaveBeenCalled();
-    expect(mockIndicatorSearchService.getIndicator).not.toHaveBeenCalled();
+    expect(mockGetHealthDataForAnIndicator).toHaveBeenCalledWith(
+      {
+        areaCodes: [areaCodeForEngland],
+        indicatorId: 92708,
+        inequalities: ['age', 'sex'],
+      },
+      API_CACHE_CONFIG
+    );
   });
 });

@@ -202,7 +202,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
       );
 
       expect(
-        await screen.findByText('Compare indicator by areas')
+        await screen.findByText('Compare an indicator by areas')
       ).toBeInTheDocument();
     });
   });
@@ -236,9 +236,10 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         />
       );
 
+      // The compare areas table and thematic map use the same title
       expect(
-        await screen.findByText('Compare an indicator by areas')
-      ).toBeInTheDocument();
+        await screen.findAllByText('Compare an indicator by areas')
+      ).toHaveLength(2);
     });
 
     it('should render the ThematicMap when all areas in a group are selected', async () => {

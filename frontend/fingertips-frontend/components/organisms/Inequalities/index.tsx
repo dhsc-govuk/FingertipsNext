@@ -39,6 +39,7 @@ export function Inequalities({
         healthIndicatorData={healthIndicatorData}
         measurementUnit={measurementUnit}
         searchState={searchState}
+        benchmarkComparisonMethod={benchmarkComparisonMethod}
         dataSource={dataSource}
       />
     </div>

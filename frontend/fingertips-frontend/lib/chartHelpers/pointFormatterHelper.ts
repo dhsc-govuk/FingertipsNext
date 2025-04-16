@@ -1,6 +1,7 @@
 // any required to allow customisation of Highcharts tooltips
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { InequalitiesPoint } from '@/components/molecules/Inequalities/BarChart';
 import Highcharts from 'highcharts';
 
 export enum SymbolNames {
@@ -25,7 +26,7 @@ export enum SymbolsEnum {
   MultiplicationX = '\u2715',
 }
 
-const SymbolMapping: Record<string, string> = {
+export const SymbolMapping: Record<string, string> = {
   [SymbolNames.Circle]: SymbolsEnum.Circle,
   [SymbolNames.Square]: SymbolsEnum.Square,
   [SymbolNames.Diamond]: SymbolsEnum.Diamond,
@@ -36,8 +37,11 @@ const SymbolMapping: Record<string, string> = {
 };
 
 export const pointFormatterHelper = (
-  point: Highcharts.Point,
-  generateTooltipForPoint: (point: Highcharts.Point, symbol: string) => string[]
+  point: Highcharts.Point | InequalitiesPoint,
+  generateTooltipForPoint: (
+    point: Highcharts.Point | InequalitiesPoint,
+    symbol: string
+  ) => string[]
 ) => {
   const symbol =
     SymbolMapping[(point.graphic as any)?.symbolName] ?? SymbolsEnum.Circle;

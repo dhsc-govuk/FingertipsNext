@@ -36,12 +36,12 @@ export interface HeatmapIndicatorData {
   polarity: IndicatorPolarity;
 }
 
-interface Row {
+export interface HeatmapDataRow {
   key: string;
-  cells: Cell[];
+  cells: HeatmapDataCell[];
 }
 
-interface Cell {
+export interface HeatmapDataCell {
   key: string;
   type: CellType;
   content: string;
@@ -120,10 +120,10 @@ export const generateRows = (
   areas: Area[],
   indicators: Indicator[],
   dataPoints: Record<string, Record<string, DataPoint>>
-): Row[] => {
-  const rows = new Array<Row>(indicators.length);
+): HeatmapDataRow[] => {
+  const rows = new Array<HeatmapDataRow>(indicators.length);
   indicators.forEach((indicator, indicatorIndex) => {
-    const leadingCols: Cell[] = [
+    const leadingCols: HeatmapDataCell[] = [
       {
         key: `col-${indicator.id}-title`,
         type: CellType.IndicatorTitle,
@@ -143,7 +143,7 @@ export const generateRows = (
       },
     ];
 
-    const cols = new Array<Cell>(areas.length + leadingCols.length);
+    const cols = new Array<HeatmapDataCell>(areas.length + leadingCols.length);
 
     leadingCols.forEach((col, index) => {
       cols[index] = col;

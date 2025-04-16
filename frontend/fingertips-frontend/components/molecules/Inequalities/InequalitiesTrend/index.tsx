@@ -3,7 +3,11 @@ import { LineChart } from '@/components/organisms/LineChart';
 import { LineChartVariant } from '@/components/organisms/LineChart/lineChartHelpers';
 import { H3 } from 'govuk-react';
 import { InequalitiesLineChartTable } from '../LineChart/Table';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
+  HealthDataForArea,
+} from '@/generated-sources/ft-api-client';
 import {
   SearchParams,
   SearchStateManager,
@@ -25,11 +29,14 @@ import {
   getAreasWithInequalitiesData,
   getInequalityCategories,
   getInequalitiesType,
+  InequalitiesTypes,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
 import {
+  AreaTypeLabelEnum,
   determineAreaCodes,
   determineHealthDataForArea,
+  getTooltipContent,
   seriesDataWithoutGroup,
 } from '@/lib/chartHelpers/chartHelpers';
 import { ChartSelectArea } from '../../ChartSelectArea';
@@ -39,23 +46,25 @@ import { DataSource } from '@/components/atoms/DataSource/DataSource';
 interface InequalitiesTrendProps {
   healthIndicatorData: HealthDataForArea[];
   searchState: SearchStateParams;
+  benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   measurementUnit?: string;
   dataSource?: string;
 }
 
-const generateInequalitiesLineChartTooltipForPoint = (
-  point: Highcharts.Point,
-  symbol: string
-) => [
-  `<div style="display: flex; margin-top: 7px; align-items: center;"><div style="margin-right: 10px;">
-    <span style="color: ${point.series.color}; font-weight: bold;">${symbol}</span></div>`,
-  `<div><span>${point.series.name}</br>Value: ${formatNumber(point.y)}`,
-];
+const getBenchmarkOutcomeForYear = (
+  year: number,
+  inequality: string,
+  chartData: InequalitiesChartData
+) => {
+  return chartData.rowData.find((point) => point.period === Number(year))
+    ?.inequalities[inequality]?.benchmarkComparison?.outcome;
+};
 
 export function InequalitiesTrend({
   healthIndicatorData,
   measurementUnit,
   searchState,
+  benchmarkComparisonMethod,
   dataSource,
 }: Readonly<InequalitiesTrendProps>) {
   const [
@@ -140,6 +149,38 @@ export function InequalitiesTrend({
     rowData: allData,
   };
 
+  const generateInequalitiesLineChartTooltipForPoint = (
+    point: Highcharts.Point,
+    symbol: string
+  ) => {
+    const { benchmarkLabel, comparisonLabel } = getTooltipContent(
+      getBenchmarkOutcomeForYear(point.x, point.series.name, lineChartData) ??
+        BenchmarkOutcome.NotCompared,
+      AreaTypeLabelEnum.Area,
+      benchmarkComparisonMethod ?? BenchmarkComparisonMethod.Unknown,
+      type === InequalitiesTypes.Sex ? lineChartData.areaName : undefined
+    );
+    const comparisonLabelForInequality = `persons ${comparisonLabel}`;
+
+    const shouldHideLines = lineChartData.rowData.every(
+      (dataPoint) => dataPoint.inequalities[point.series.name]?.isAggregate
+    );
+
+    return [
+      `<div style="padding-right: 25px">`,
+      `<span style="font-weight: bold">${lineChartData.areaName}</span><br/>`,
+      `<span>${point.x}</span><br/><span>${point.series.name}</span><br/>`,
+      `<div style="display: flex; margin-top: 15px; align-items: center;">`,
+      `<div style="margin-right: 10px;"><span style="color: ${point.series.color}; font-weight: bold;">${symbol}</span></div>`,
+      `<div style="padding-right: 10px;"><span>${formatNumber(point.y)} ${measurementUnit ? ' ' + measurementUnit : ''}</span><br/>`,
+      `${shouldHideLines || !benchmarkLabel ? '' : '<span>' + benchmarkLabel + '</span><br/>'}`,
+      `${shouldHideLines || !comparisonLabel ? '' : '<span>' + comparisonLabelForInequality + '</span><br/>'}`,
+      `</div>`,
+      `</div>`,
+      `</div>`,
+    ];
+  };
+
   const inequalitiesLineChartOptions: Highcharts.Options =
     generateInequalitiesLineChartOptions(
       lineChartData,
@@ -152,6 +193,7 @@ export function InequalitiesTrend({
         yAxisTitleText: 'Value',
         xAxisTitleText: 'Year',
         measurementUnit,
+        inequalityLineChartAreaSelected,
       }
     );
 

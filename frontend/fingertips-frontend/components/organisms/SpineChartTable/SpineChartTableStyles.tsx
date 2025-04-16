@@ -28,8 +28,9 @@ const stickyLeft = {
   background: 'white',
   position: 'sticky',
   left: 0,
-  zIndex: 10,
+  zIndex: 2,
   paddingRight: '0.5em',
+  fontSize: 19,
 };
 
 export const StyledStickyEmptyLeftHeader = styled(Table.CellHeader)(
@@ -38,15 +39,19 @@ export const StyledStickyEmptyLeftHeader = styled(Table.CellHeader)(
 
 export const StyledAlignCentreHeader = styled(StyledAlignLeftHeader)({
   textAlign: 'center',
+  fontSize: 19,
 });
 
 export const StyledAlignRightHeaderPadLeft = styled(StyledAlignRightHeader)({
   paddingLeft: '0.5em',
+  fontSize: 19,
 });
 
 export const StyledAlignRightBorderHeader = styled(StyledAlignRightHeader)({
   borderRight: 'solid #bfc1c3 1px',
   paddingRight: '0.5em',
+  textAlign: 'center',
+  fontSize: 19,
 });
 
 export const StyledAlignLeftStickyLeftHeader = styled(StyledAlignLeftHeader)(
@@ -66,6 +71,7 @@ export const StickyPeriodHeader = styled(StyledAlignCentreHeader)({
 
 export const StyledAlignCentreTableCell = styled(StyledAlignLeftTableCell)({
   textAlign: 'center',
+  fontSize: 19,
 });
 
 export const StyledAlignRightBorderRightTableCell = styled(
@@ -73,14 +79,32 @@ export const StyledAlignRightBorderRightTableCell = styled(
 )({
   borderRight: 'solid #bfc1c3 1px',
   paddingRight: '0.5em',
+  fontSize: 19,
+});
+
+export const StyledAlignCentreBorderRightTableCell = styled(
+  StyledAlignCentreTableCell
+)({
+  borderRight: 'solid #bfc1c3 1px',
+  paddingRight: '0.5em',
+  fontSize: 19,
+});
+
+export const StyledAlignLeftBorderRightTableCell = styled(
+  StyledAlignLeftTableCell
+)({
+  borderRight: 'solid #bfc1c3 1px',
+  paddingRight: '0.5em',
+  fontSize: 19,
 });
 
 export const StyledAlignRightCellPadLeft = styled(StyledAlignRightTableCell)({
   paddingLeft: '0.5em',
+  fontSize: 19,
 });
 
 export const StyledValueUnitStickyCell = styled(
-  StyledAlignRightBorderRightTableCell
+  StyledAlignLeftBorderRightTableCell
 )({
   ...(stickyLeft as unknown as TemplateStringsArray),
   left: `${spineChartIndicatorTitleColumnMinWidth + spineChartPeriodColumnMinWidth + paddingSize * 2}px`,
@@ -100,24 +124,30 @@ export const StyledGroupHeader = styled(StyledGreyHeader)({
   backgroundColor: GovukColours.LightGrey,
   borderTop: GovukColours.MidGrey,
   textAlign: 'right',
+  fontSize: 19,
 });
 
 export const StyledGroupSubHeader = styled(StyledGreyHeader)({
   backgroundColor: GovukColours.LightGrey,
   borderTop: GovukColours.MidGrey,
   textAlign: 'right',
+  fontSize: 19,
 });
 
 export const StyledBenchmarkHeader = styled(StyledGreyHeader)({
   backgroundColor: GovukColours.MidGrey,
   borderTop: GovukColours.LightGrey,
   textAlign: 'center',
+  paddingRight: '0.5em',
+  fontSize: 19,
 });
 
 export const StyledBenchmarkSubHeader = styled(StyledGreyHeader)({
   backgroundColor: GovukColours.MidGrey,
   borderTop: GovukColours.LightGrey,
+  fontSize: 19,
   textAlign: 'right',
+  paddingRight: '0.5em !important', // overrides the :last-child declaration which removes right padding
 });
 
 export const StyledGroupCell = styled(StyledAlignRightTableCell)({
@@ -125,13 +155,16 @@ export const StyledGroupCell = styled(StyledAlignRightTableCell)({
   borderTop: GovukColours.MidGrey,
   textAlign: 'right',
   paddingLeft: '0.5em',
+  fontSize: 19,
 });
 
 export const StyledBenchmarkCell = styled(StyledAlignRightTableCell)({
   backgroundColor: GovukColours.MidGrey,
   borderTop: GovukColours.LightGrey,
   textAlign: 'right',
+  fontSize: 19,
   paddingLeft: '0.5em',
+  paddingRight: '0.5em !important', // overrides the :last-child declaration which removes right padding
 });
 
 export const StyledBenchmarkChart = styled(StyledBenchmarkCell)({

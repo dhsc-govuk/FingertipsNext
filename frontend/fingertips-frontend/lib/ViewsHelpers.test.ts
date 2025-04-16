@@ -1,4 +1,8 @@
-import { chunkArray, getHealthDataForIndicator } from './ViewsHelpers';
+import {
+  getHealthDataForIndicator,
+  getIndicatorData,
+  GetIndicatorDataParam,
+} from './ViewsHelpers';
 import {
   IndicatorsApi,
   IndicatorWithHealthDataForArea,
@@ -9,6 +13,7 @@ import {
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
 import { healthDataPoint } from './mocks';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 const mockIndicator: IndicatorWithHealthDataForArea = {
   indicatorId: 1,
@@ -20,16 +25,6 @@ const mockIndicator: IndicatorWithHealthDataForArea = {
     },
   ],
 };
-
-describe('chunkArray', () => {
-  it('should chunk an array into the correct sized sub arrays', () => {
-    const testArray1: string[] = new Array(10).fill('a', 0, 10);
-    const testArray2: string[] = new Array(5).fill('b', 0, 5);
-
-    expect(chunkArray(testArray1, 2)).toHaveLength(5);
-    expect(chunkArray(testArray2, 2)).toEqual([['b', 'b'], ['b', 'b'], ['b']]);
-  });
-});
 
 describe('getHealthDataForIndicator', () => {
   const mockIndicatorsApi = mockDeep<IndicatorsApi>();
@@ -187,6 +182,118 @@ describe('getHealthDataForIndicator', () => {
         areaType: mockAreaType2,
       },
       API_CACHE_CONFIG
+    );
+  });
+});
+
+describe('getIndicatorData', () => {
+  const mockIndicatorsApi = mockDeep<IndicatorsApi>();
+  ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
+
+  const testParams: GetIndicatorDataParam = {
+    areasSelected: ['abc', 'def'],
+    indicatorSelected: ['1'],
+    selectedAreaType: 'test_area_type',
+  };
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  it('should make appropriate calls to the healthIndicatorApi when no group is specified', async () => {
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
+      mockIndicator
+    );
+
+    await getIndicatorData(testParams, true);
+    expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
+      2
+    );
+
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(
+      1,
+      {
+        areaCodes: testParams.areasSelected,
+        indicatorId: Number(testParams.indicatorSelected[0]),
+        areaType: testParams.selectedAreaType,
+        includeEmptyAreas: true,
+      },
+      API_CACHE_CONFIG
+    );
+
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(
+      2,
+      {
+        areaCodes: [areaCodeForEngland],
+        indicatorId: Number(testParams.indicatorSelected[0]),
+        areaType: 'england',
+        includeEmptyAreas: true,
+      },
+      API_CACHE_CONFIG
+    );
+  });
+
+  const testParamsWithGroup = {
+    ...testParams,
+    selectedGroupCode: 'ggg',
+    selectedGroupType: 'test_group_type',
+  };
+
+  it('should make appropriate calls to the healthIndicatorApi when a group is specified', async () => {
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
+      mockIndicator
+    );
+
+    await getIndicatorData(testParamsWithGroup, true);
+    expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
+      3
+    );
+
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(
+      3,
+      {
+        areaCodes: [testParamsWithGroup.selectedGroupCode],
+        indicatorId: Number(testParamsWithGroup.indicatorSelected[0]),
+        areaType: testParamsWithGroup.selectedGroupType,
+        includeEmptyAreas: true,
+      },
+      API_CACHE_CONFIG
+    );
+  });
+
+  const testParamsWithManyAreas = {
+    ...testParamsWithGroup,
+    areasSelected: new Array(101).fill('a'),
+  };
+
+  it('should make appropriate calls to the healthIndicatorApi when a long list of areas is specified', async () => {
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
+      mockIndicator
+    );
+
+    await getIndicatorData(testParamsWithManyAreas, true);
+    expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
+      4
+    );
+
+    const call1arg =
+      mockIndicatorsApi.getHealthDataForAnIndicator.mock.calls[0][0];
+    expect(call1arg).toHaveProperty(
+      'areaCodes',
+      testParamsWithManyAreas.areasSelected.slice(0, 100)
+    );
+
+    const call2arg =
+      mockIndicatorsApi.getHealthDataForAnIndicator.mock.calls[1][0];
+    expect(call2arg).toHaveProperty(
+      'areaCodes',
+      testParamsWithManyAreas.areasSelected.slice(100, 101)
     );
   });
 });
