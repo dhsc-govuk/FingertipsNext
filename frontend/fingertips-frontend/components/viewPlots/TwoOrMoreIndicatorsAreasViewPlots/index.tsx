@@ -11,8 +11,31 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { SpineChartTable } from '@/components/organisms/SpineChartTable';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmapUtil';
-import { buildSpineChartIndicatorData } from '@/components/organisms/SpineChartTable/spineChartTableHelpers';
+import {
+  buildSpineChartIndicatorData,
+  SpineChartIndicatorData,
+} from '@/components/organisms/SpineChartTable/spineChartTableHelpers';
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+
+function shouldShowHeatmap(
+  areaCodes: string[],
+  groupAreaSelected?: string
+): boolean {
+  return areaCodes.length > 1 || groupAreaSelected === ALL_AREAS_SELECTED;
+}
+
+function shouldShowSpineChart(
+  areaCodes: string[],
+  spineChartIndicatorData: SpineChartIndicatorData[],
+  groupAreaSelected?: string
+): boolean {
+  return (
+    areaCodes.length < 3 &&
+    spineChartIndicatorData.length > 0 &&
+    groupAreaSelected !== ALL_AREAS_SELECTED
+  );
+}
 
 export function extractHeatmapIndicatorData(
   indicatorData: IndicatorWithHealthDataForArea,
@@ -44,6 +67,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
   const {
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
+    [SearchParams.GroupAreaSelected]: groupAreaSelected,
   } = stateManager.getSearchState();
 
   const areaCodes = determineAreaCodes(
@@ -85,10 +109,14 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
 
   return (
     <section data-testid="twoOrMoreIndicatorsAreasViewPlot-component">
-      {areaCodes.length < 3 && spineChartIndicatorData.length ? (
+      {shouldShowSpineChart(
+        areaCodes,
+        spineChartIndicatorData,
+        groupAreaSelected
+      ) ? (
         <SpineChartTable indicatorData={spineChartIndicatorData} />
       ) : null}
-      {areaCodes.length > 1 ? (
+      {shouldShowHeatmap(areaCodes, groupAreaSelected) ? (
         <Heatmap
           indicatorData={buildHeatmapIndicatorData(
             indicatorData,

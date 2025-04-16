@@ -15,6 +15,7 @@ import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmapUtil';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -29,12 +30,7 @@ const indicatorIds = ['123', '321'];
 const mockAreas = ['A001', 'A002', 'A003'];
 const mockGroupArea = 'G001';
 
-const mockSearchParams: SearchStateParams = {
-  [SearchParams.SearchedIndicator]: 'testing',
-  [SearchParams.IndicatorsSelected]: indicatorIds,
-  [SearchParams.AreasSelected]: mockAreas,
-  [SearchParams.GroupSelected]: mockGroupArea,
-};
+let mockSearchParams: SearchStateParams;
 
 const mockGroupHealthData: HealthDataForArea = {
   areaCode: mockGroupArea,
@@ -213,6 +209,17 @@ const mockBenchmarkStatistics = [
 ];
 
 describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
+  beforeEach(() => {
+    // Ensure defaults are not overwritten
+    mockSearchParams = {
+      [SearchParams.SearchedIndicator]: 'testing',
+      [SearchParams.IndicatorsSelected]: indicatorIds,
+      [SearchParams.AreasSelected]: mockAreas,
+      [SearchParams.GroupSelected]: mockGroupArea,
+      [SearchParams.GroupAreaSelected]: undefined,
+    };
+  });
+
   it('should render all components with up to 2 areas selected', () => {
     const areas = [mockAreas[0], mockAreas[1]];
     mockSearchParams[SearchParams.AreasSelected] = areas;
@@ -225,8 +232,28 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
         benchmarkStatistics={mockBenchmarkStatistics}
       />
     );
+
     expect(screen.getByTestId('heatmapChart-component')).toBeInTheDocument();
     expect(screen.getByTestId('spineChartTable-component')).toBeInTheDocument();
+  });
+
+  it('should render the heatmap but not the spine chart when all areas in a group are selected', () => {
+    mockSearchParams[SearchParams.AreasSelected] = undefined;
+    mockSearchParams[SearchParams.GroupAreaSelected] = ALL_AREAS_SELECTED;
+
+    render(
+      <TwoOrMoreIndicatorsAreasViewPlot
+        searchState={mockSearchParams}
+        indicatorData={mockIndicatorData}
+        indicatorMetadata={mockMetaData}
+        benchmarkStatistics={mockBenchmarkStatistics}
+      />
+    );
+
+    expect(screen.getByTestId('heatmapChart-component')).toBeInTheDocument();
+    expect(
+      screen.queryByTestId('spineChartTable-component')
+    ).not.toBeInTheDocument();
   });
 
   it('should not render the spine chart component with more than 2 areas selected', () => {
@@ -241,6 +268,7 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
         benchmarkStatistics={mockBenchmarkStatistics}
       />
     );
+
     expect(screen.getByTestId('heatmapChart-component')).toBeInTheDocument();
     expect(
       screen.queryByTestId('spineChartTable-component')
