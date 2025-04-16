@@ -45,7 +45,7 @@ function formatUnits(units: string): string {
   return units;
 }
 
-interface formatBarHoverProps {
+interface FormatBarHoverProps {
   period: number;
   lowerName: string;
   lowerValue: number;
@@ -55,7 +55,7 @@ interface formatBarHoverProps {
   colour: string;
 }
 
-interface formatSymbolHoverProps {
+interface FormatSymbolHoverProps {
   title: string;
   period: number;
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
@@ -78,7 +78,7 @@ function formatTitleBlock(title: string, period: number) {
         <span style="display: block;">${period}</span>`;
 }
 
-function formatBarHover(props: formatBarHoverProps) {
+function formatBarHover(props: FormatBarHoverProps) {
   return `${formatTitleBlock('Benchmark: England', props.period)}
             <div style="padding:0px; margin:0px;">
                 <div style="display:flex; 
@@ -97,7 +97,7 @@ function formatBarHover(props: formatBarHoverProps) {
           <div>`;
 }
 
-function formatSymbolHover(props: formatSymbolHoverProps) {
+function formatSymbolHover(props: FormatSymbolHoverProps) {
   return `${formatTitleBlock(props.title, props.period)}
             <div style="padding:0px; margin:0px;">
                 <div style="display:flex; 
