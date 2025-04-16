@@ -156,7 +156,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.slack-webhook-url }}
           
       - name: Testing slack message
-        if: always()
+        if: steps.run-playwright-tests.outputs.retry == 'true' && steps.run-playwright-tests.outputs.retry_exit_code == '0'
         run: |
           echo "Testing slack message - part 2"
           npx slack-ctrf results ctrf/ctrf-report.json --title "Testing slack message - 2"
