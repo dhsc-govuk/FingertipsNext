@@ -291,7 +291,7 @@ export const placeholderHeatmapIndicatorData = [
         healthData: data[0][3],
       },
     ],
-    benchmarkMethod: indicator1.benchmarkMethod,
+    benchmarkComparisonMethod: indicator1.benchmarkMethod,
     polarity: indicator1.polarity,
   },
   {
@@ -320,7 +320,7 @@ export const placeholderHeatmapIndicatorData = [
         healthData: data[1][3],
       },
     ],
-    benchmarkMethod: indicator2.benchmarkMethod,
+    benchmarkComparisonMethod: indicator2.benchmarkMethod,
     polarity: indicator2.polarity,
   },
   {
@@ -349,7 +349,7 @@ export const placeholderHeatmapIndicatorData = [
         healthData: data[2][3],
       },
     ],
-    benchmarkMethod: indicator3.benchmarkMethod,
+    benchmarkComparisonMethod: indicator3.benchmarkMethod,
     polarity: indicator3.polarity,
   },
 ];

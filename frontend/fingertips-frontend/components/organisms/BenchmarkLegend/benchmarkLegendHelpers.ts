@@ -2,54 +2,48 @@ import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
   IndicatorPolarity,
+  QuartileData,
 } from '@/generated-sources/ft-api-client';
 import { BenchmarkLegendsToShow } from '@/components/organisms/BenchmarkLegend/benchmarkLegend.types';
-import { SpineChartIndicatorData } from '../SpineChartTable/spineChartTableHelpers';
+
+export interface IndicatorBenchmarkSummary {
+  benchmarkComparisonMethod?: BenchmarkComparisonMethod;
+  polarity?: IndicatorPolarity;
+  quartileData?: QuartileData;
+}
 
 export const hasSomeMethodWithJudgement = (
-  orderedIndicatorData: SpineChartIndicatorData[],
+  indicatorData: IndicatorBenchmarkSummary[],
   method: BenchmarkComparisonMethod,
   judge: boolean
 ) => {
-  return orderedIndicatorData.some((item) => {
+  return indicatorData.some((item) => {
     if (method !== item.benchmarkComparisonMethod) return false;
 
-    const polarity = item.quartileData?.polarity;
+    const polarity = item.quartileData?.polarity ?? item.polarity;
     const hasJudgement = isJudgemental(polarity ?? IndicatorPolarity.Unknown);
     return hasJudgement === judge;
   });
 };
 
 export const getMethodsAndOutcomes = (
-  orderedIndicatorData: SpineChartIndicatorData[]
+  indicatorData: IndicatorBenchmarkSummary[]
 ) => {
   const ci95 = BenchmarkComparisonMethod.CIOverlappingReferenceValue95;
   const ci99 = BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8;
   const quin = BenchmarkComparisonMethod.Quintiles;
   const methods: BenchmarkLegendsToShow = {
     [ci95]: {
-      judgement: hasSomeMethodWithJudgement(orderedIndicatorData, ci95, true),
-      noJudgement: hasSomeMethodWithJudgement(
-        orderedIndicatorData,
-        ci95,
-        false
-      ),
+      judgement: hasSomeMethodWithJudgement(indicatorData, ci95, true),
+      noJudgement: hasSomeMethodWithJudgement(indicatorData, ci95, false),
     },
     [ci99]: {
-      judgement: hasSomeMethodWithJudgement(orderedIndicatorData, ci99, true),
-      noJudgement: hasSomeMethodWithJudgement(
-        orderedIndicatorData,
-        ci99,
-        false
-      ),
+      judgement: hasSomeMethodWithJudgement(indicatorData, ci99, true),
+      noJudgement: hasSomeMethodWithJudgement(indicatorData, ci99, false),
     },
     [quin]: {
-      judgement: hasSomeMethodWithJudgement(orderedIndicatorData, quin, true),
-      noJudgement: hasSomeMethodWithJudgement(
-        orderedIndicatorData,
-        quin,
-        false
-      ),
+      judgement: hasSomeMethodWithJudgement(indicatorData, quin, true),
+      noJudgement: hasSomeMethodWithJudgement(indicatorData, quin, false),
     },
   };
 

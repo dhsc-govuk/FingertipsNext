@@ -334,7 +334,7 @@ describe('extractHeatmapIndicatorData', () => {
       indicatorName: populatedIndicatorMetadata.indicatorName,
       healthDataForAreas: populatedAreaHealthData,
       unitLabel: populatedIndicatorMetadata.unitLabel,
-      benchmarkMethod: benchmarkMethod,
+      benchmarkComparisonMethod: benchmarkMethod,
       polarity: polarity,
     };
 

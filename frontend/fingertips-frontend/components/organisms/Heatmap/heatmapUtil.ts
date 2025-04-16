@@ -32,7 +32,7 @@ export interface HeatmapIndicatorData {
   indicatorName: string;
   healthDataForAreas: HealthDataForArea[];
   unitLabel: string;
-  benchmarkMethod: BenchmarkComparisonMethod;
+  benchmarkComparisonMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
 }
 
@@ -236,7 +236,7 @@ const extractAreasIndicatorsAndDataPoints = (
         name: indicatorData.indicatorName,
         unitLabel: indicatorData.unitLabel,
         latestDataPeriod: 0,
-        benchmarkMethod: indicatorData.benchmarkMethod,
+        benchmarkMethod: indicatorData.benchmarkComparisonMethod,
         polarity: indicatorData.polarity,
       };
 
@@ -292,7 +292,7 @@ const extractAreasIndicatorsAndDataPoints = (
         outcome: getBenchmarkOutcome(
           healthDataForYear?.benchmarkComparison?.outcome
         ),
-        benchmarkMethod: indicatorData.benchmarkMethod,
+        benchmarkMethod: indicatorData.benchmarkComparisonMethod,
         polarity: indicatorData.polarity,
       };
 
