@@ -89,36 +89,11 @@ exports[`snapshot test 1`] = `
   margin: 0.3125em;
   font-weight: 300;
   text-transform: unset;
-  background-color: #5694CA;
-}
-
-.c10 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #003078;
-  tint: SOLID;
-}
-
-.c11 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
   background-color: #85994B;
   color: #0B0C0C;
 }
 
-.c12 {
+.c10 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -131,33 +106,7 @@ exports[`snapshot test 1`] = `
   tint: SOLID;
 }
 
-.c13 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #AFCFE5;
-  color: #0B0C0C;
-}
-
-.c14 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #1D70B8;
-  tint: SOLID;
-}
-
-.c15 {
+.c11 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -170,7 +119,7 @@ exports[`snapshot test 1`] = `
   color: #0B0C0C;
 }
 
-.c16 {
+.c12 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -183,7 +132,7 @@ exports[`snapshot test 1`] = `
   color: #0B0C0C;
 }
 
-.c17 {
+.c13 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -196,7 +145,7 @@ exports[`snapshot test 1`] = `
   color: #0B0C0C;
 }
 
-.c18 {
+.c14 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -209,7 +158,7 @@ exports[`snapshot test 1`] = `
   tint: SOLID;
 }
 
-.c19 {
+.c15 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -219,71 +168,6 @@ exports[`snapshot test 1`] = `
   font-weight: 300;
   text-transform: unset;
   background-color: #6B33C3;
-  tint: SOLID;
-}
-
-.c20 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #D494C1;
-  color: #0B0C0C;
-}
-
-.c21 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #BC6AAA;
-  color: #0B0C0C;
-}
-
-.c22 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #A44596;
-  tint: SOLID;
-}
-
-.c23 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #812972;
-  tint: SOLID;
-}
-
-.c24 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #561950;
   tint: SOLID;
 }
 
@@ -398,16 +282,6 @@ exports[`snapshot test 1`] = `
       >
         Not compared
       </strong>
-      <strong
-        class="c4 c9"
-      >
-        Lower
-      </strong>
-      <strong
-        class="c4 c10"
-      >
-        Higher
-      </strong>
     </div>
     <span
       class="c2"
@@ -419,7 +293,7 @@ exports[`snapshot test 1`] = `
       role="group"
     >
       <strong
-        class="c4 c11"
+        class="c4 c9"
       >
         Better
       </strong>
@@ -429,7 +303,7 @@ exports[`snapshot test 1`] = `
         Similar
       </strong>
       <strong
-        class="c4 c12"
+        class="c4 c10"
       >
         Worse
       </strong>
@@ -437,16 +311,6 @@ exports[`snapshot test 1`] = `
         class="c4 c8"
       >
         Not compared
-      </strong>
-      <strong
-        class="c4 c13"
-      >
-        Lower
-      </strong>
-      <strong
-        class="c4 c14"
-      >
-        Higher
       </strong>
     </div>
     <span
@@ -459,59 +323,29 @@ exports[`snapshot test 1`] = `
       role="group"
     >
       <strong
-        class="c4 c15"
+        class="c4 c11"
       >
         Lowest
       </strong>
       <strong
-        class="c4 c16"
+        class="c4 c12"
       >
         Low
       </strong>
       <strong
-        class="c4 c17"
+        class="c4 c13"
       >
         Middle
       </strong>
       <strong
-        class="c4 c18"
+        class="c4 c14"
       >
         High
       </strong>
       <strong
-        class="c4 c19"
+        class="c4 c15"
       >
         Highest
-      </strong>
-    </div>
-    <div
-      class="c3"
-      role="group"
-    >
-      <strong
-        class="c4 c20"
-      >
-        Worst
-      </strong>
-      <strong
-        class="c4 c21"
-      >
-        Worse
-      </strong>
-      <strong
-        class="c4 c22"
-      >
-        Middle
-      </strong>
-      <strong
-        class="c4 c23"
-      >
-        Better
-      </strong>
-      <strong
-        class="c4 c24"
-      >
-        Best
       </strong>
     </div>
   </div>
