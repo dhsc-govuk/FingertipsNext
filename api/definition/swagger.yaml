@@ -547,13 +547,6 @@ components:
           properties:
             outcome:
               $ref: "#/components/schemas/BenchmarkOutcome"
-            method:
-              $ref: "#/components/schemas/BenchmarkComparisonMethod"
-            indicatorPolarity:
-              type: string
-              example: HighIsGood
-              description: the type of polarity applied to the outcome
-              enum: [NoJudgement, LowIsGood, HighIsGood]
             benchmarkAreaCode:
               type: string
               example: E92000001

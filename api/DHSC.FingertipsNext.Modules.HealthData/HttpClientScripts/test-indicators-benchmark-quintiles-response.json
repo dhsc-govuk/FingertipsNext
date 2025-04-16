@@ -19,9 +19,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -48,9 +48,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -59,7 +59,7 @@
           },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
-            "outcome": "Lowest",
+            "outcome": "Middle",
             "benchmarkAreaCode": "E92000001",
             "benchmarkAreaName": "England",
             "benchmarkValue": null
@@ -77,9 +77,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -88,7 +88,7 @@
           },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
-            "outcome": "Similar",
+            "outcome": "Middle",
             "benchmarkAreaCode": "E92000001",
             "benchmarkAreaName": "England",
             "benchmarkValue": null
@@ -106,9 +106,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -117,7 +117,7 @@
           },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
-            "outcome": "Similar",
+            "outcome": "Middle",
             "benchmarkAreaCode": "E92000001",
             "benchmarkAreaName": "England",
             "benchmarkValue": null
@@ -135,9 +135,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -146,7 +146,7 @@
           },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
-            "outcome": "Similar",
+            "outcome": "Middle",
             "benchmarkAreaCode": "E92000001",
             "benchmarkAreaName": "England",
             "benchmarkValue": null
@@ -164,9 +164,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -175,7 +175,7 @@
           },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
-            "outcome": "Higher",
+            "outcome": "High",
             "benchmarkAreaCode": "E92000001",
             "benchmarkAreaName": "England",
             "benchmarkValue": null
@@ -193,9 +193,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -204,7 +204,7 @@
           },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
-            "outcome": "Similar",
+            "outcome": "Middle",
             "benchmarkAreaCode": "E92000001",
             "benchmarkAreaName": "England",
             "benchmarkValue": null
@@ -222,9 +222,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -233,7 +233,7 @@
           },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
-            "outcome": "Higher",
+            "outcome": "High",
             "benchmarkAreaCode": "E92000001",
             "benchmarkAreaName": "England",
             "benchmarkValue": null
@@ -251,9 +251,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -262,7 +262,7 @@
           },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
-            "outcome": "Similar",
+            "outcome": "Middle",
             "benchmarkAreaCode": "E92000001",
             "benchmarkAreaName": "England",
             "benchmarkValue": null
@@ -280,9 +280,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -291,7 +291,7 @@
           },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
-            "outcome": "Similar",
+            "outcome": "Middle",
             "benchmarkAreaCode": "E92000001",
             "benchmarkAreaName": "England",
             "benchmarkValue": null
@@ -309,9 +309,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -338,9 +338,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -367,9 +367,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -378,7 +378,7 @@
           },
           "trend": "No significant change",
           "benchmarkComparison": {
-            "outcome": "Higher",
+            "outcome": "High",
             "benchmarkAreaCode": "E92000001",
             "benchmarkAreaName": "England",
             "benchmarkValue": null

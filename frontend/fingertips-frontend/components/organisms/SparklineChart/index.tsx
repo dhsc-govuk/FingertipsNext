@@ -31,6 +31,7 @@ interface SparklineChartProps {
   area: string | undefined;
   year: number | undefined;
   measurementUnit: string | undefined;
+  barColor?: string;
 }
 
 export function SparklineChart({
@@ -45,14 +46,15 @@ export function SparklineChart({
   area,
   year,
   measurementUnit,
+  barColor,
 }: Readonly<SparklineChartProps>) {
   const benchmarkColor = getBenchmarkColour(
     benchmarkComparisonMethod,
     benchmarkOutcome,
     polarity
   );
-  const defaultColour = area === 'England' ? GovukColours.DarkGrey : '#fff';
-  const color = benchmarkColor ?? defaultColour;
+  const defaultColour = benchmarkColor ?? '#fff';
+  const color = barColor ?? defaultColour;
 
   const [options, setOptions] = useState<Highcharts.Options>();
 

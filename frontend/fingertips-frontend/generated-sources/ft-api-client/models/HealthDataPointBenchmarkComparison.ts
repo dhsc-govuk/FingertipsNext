@@ -20,13 +20,6 @@ import {
     BenchmarkOutcomeToJSON,
     BenchmarkOutcomeToJSONTyped,
 } from './BenchmarkOutcome';
-import type { BenchmarkComparisonMethod } from './BenchmarkComparisonMethod';
-import {
-    BenchmarkComparisonMethodFromJSON,
-    BenchmarkComparisonMethodFromJSONTyped,
-    BenchmarkComparisonMethodToJSON,
-    BenchmarkComparisonMethodToJSONTyped,
-} from './BenchmarkComparisonMethod';
 
 /**
  * 
@@ -40,18 +33,6 @@ export interface HealthDataPointBenchmarkComparison {
      * @memberof HealthDataPointBenchmarkComparison
      */
     outcome?: BenchmarkOutcome;
-    /**
-     * 
-     * @type {BenchmarkComparisonMethod}
-     * @memberof HealthDataPointBenchmarkComparison
-     */
-    method?: BenchmarkComparisonMethod;
-    /**
-     * the type of polarity applied to the outcome
-     * @type {string}
-     * @memberof HealthDataPointBenchmarkComparison
-     */
-    indicatorPolarity?: HealthDataPointBenchmarkComparisonIndicatorPolarityEnum;
     /**
      * The code of the benchmark area
      * @type {string}
@@ -73,16 +54,6 @@ export interface HealthDataPointBenchmarkComparison {
 }
 
 
-/**
- * @export
- */
-export const HealthDataPointBenchmarkComparisonIndicatorPolarityEnum = {
-    NoJudgement: 'NoJudgement',
-    LowIsGood: 'LowIsGood',
-    HighIsGood: 'HighIsGood'
-} as const;
-export type HealthDataPointBenchmarkComparisonIndicatorPolarityEnum = typeof HealthDataPointBenchmarkComparisonIndicatorPolarityEnum[keyof typeof HealthDataPointBenchmarkComparisonIndicatorPolarityEnum];
-
 
 /**
  * Check if a given object implements the HealthDataPointBenchmarkComparison interface.
@@ -102,8 +73,6 @@ export function HealthDataPointBenchmarkComparisonFromJSONTyped(json: any, ignor
     return {
         
         'outcome': json['outcome'] == null ? undefined : BenchmarkOutcomeFromJSON(json['outcome']),
-        'method': json['method'] == null ? undefined : BenchmarkComparisonMethodFromJSON(json['method']),
-        'indicatorPolarity': json['indicatorPolarity'] == null ? undefined : json['indicatorPolarity'],
         'benchmarkAreaCode': json['benchmarkAreaCode'] == null ? undefined : json['benchmarkAreaCode'],
         'benchmarkAreaName': json['benchmarkAreaName'] == null ? undefined : json['benchmarkAreaName'],
         'benchmarkValue': json['benchmarkValue'] == null ? undefined : json['benchmarkValue'],
@@ -122,8 +91,6 @@ export function HealthDataPointBenchmarkComparisonToJSONTyped(value?: HealthData
     return {
         
         'outcome': BenchmarkOutcomeToJSON(value['outcome']),
-        'method': BenchmarkComparisonMethodToJSON(value['method']),
-        'indicatorPolarity': value['indicatorPolarity'],
         'benchmarkAreaCode': value['benchmarkAreaCode'],
         'benchmarkAreaName': value['benchmarkAreaName'],
         'benchmarkValue': value['benchmarkValue'],
