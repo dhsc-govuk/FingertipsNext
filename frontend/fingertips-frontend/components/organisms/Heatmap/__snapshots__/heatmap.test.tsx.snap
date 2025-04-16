@@ -802,7 +802,7 @@ exports[`snapshot test 1`] = `
             <h4
               class="c6 c7"
             >
-              Value unit
+              Period
             </h4>
           </th>
           <th
@@ -811,7 +811,7 @@ exports[`snapshot test 1`] = `
             <h4
               class="c6 c7"
             >
-              Period
+              Value unit
             </h4>
           </th>
           <th
@@ -887,7 +887,7 @@ exports[`snapshot test 1`] = `
             <div
               class="c18"
             >
-              %
+              2002
             </div>
           </td>
           <td
@@ -897,7 +897,7 @@ exports[`snapshot test 1`] = `
             <div
               class="c18"
             >
-              2002
+              %
             </div>
           </td>
           <td
@@ -961,7 +961,7 @@ exports[`snapshot test 1`] = `
             <div
               class="c18"
             >
-              per 100
+              2002
             </div>
           </td>
           <td
@@ -971,7 +971,7 @@ exports[`snapshot test 1`] = `
             <div
               class="c18"
             >
-              2002
+              per 100
             </div>
           </td>
           <td
@@ -1035,7 +1035,7 @@ exports[`snapshot test 1`] = `
             <div
               class="c18"
             >
-              per 1,000
+              2004
             </div>
           </td>
           <td
@@ -1045,7 +1045,7 @@ exports[`snapshot test 1`] = `
             <div
               class="c18"
             >
-              2004
+              per 1,000
             </div>
           </td>
           <td
