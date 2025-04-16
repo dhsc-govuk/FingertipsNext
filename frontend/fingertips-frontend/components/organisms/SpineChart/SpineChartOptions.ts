@@ -66,12 +66,20 @@ interface formatSymbolHoverProps {
   shape: SymbolsEnum;
 }
 
-function formatBarHover(props: formatBarHoverProps) {
+function formatSymbol(colour: string, shape: SymbolsEnum) {
+  return `<span style="color:${colour}; font-size:19px;">${shape}</span>`;
+}
+
+function formatTitleBlock(title: string, period: number) {
   return `<div style="min-width: 100px; font-size: 16px;">
-            <h4 style="margin:0px; padding:0px;">
-              Benchmark: England
-            </h4>
-            <span style="display: block;">${props.period}</span>
+        <h4 style="margin:0px; padding:0px;">
+          ${title}
+        </h4>
+        <span style="display: block;">${period}</span>`;
+}
+
+function formatBarHover(props: formatBarHoverProps) {
+  return `${formatTitleBlock('Benchmark: England', props.period)}
             <div style="padding:0px; margin:0px;">
                 <div style="display:flex; 
                   flex-direction:row;
@@ -90,11 +98,7 @@ function formatBarHover(props: formatBarHoverProps) {
 }
 
 function formatSymbolHover(props: formatSymbolHoverProps) {
-  return `<div style="min-width: 100px; font-size: 16px;">
-            <h4 style="margin:0px; padding:0px;">
-              ${props.title}
-            </h4>
-            <span style="display: block;">${props.period}</span>
+  return `${formatTitleBlock(props.title, props.period)}
             <div style="padding:0px; margin:0px;">
                 <div style="display:flex; 
                   flex-direction:row;
@@ -102,7 +106,7 @@ function formatSymbolHover(props: formatSymbolHoverProps) {
                   flex-wrap:nowrap;
                   justify-content: flex-start;
                   ">
-                  <span style="color:${props.colour}; font-size:19px;">${props.shape}</span> 
+                  ${formatSymbol(props.colour, props.shape)} 
                   <div style="flex-grow:2; 
                     padding:0.5em;
                     ">
