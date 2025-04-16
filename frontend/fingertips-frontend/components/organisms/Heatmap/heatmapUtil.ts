@@ -32,7 +32,7 @@ export interface HeatmapIndicatorData {
   indicatorName: string;
   healthDataForAreas: HealthDataForArea[];
   unitLabel: string;
-  benchmarkMethod: BenchmarkComparisonMethod;
+  benchmarkComparisonMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
 }
 
@@ -130,16 +130,16 @@ export const generateRows = (
         content: indicator.name,
       },
       {
-        key: `col-${indicator.id}-unitlabel`,
-        type: CellType.IndicatorInformation,
-        content: indicator.unitLabel,
-      },
-      {
         key: `col-${indicator.id}-period`,
         type: CellType.IndicatorInformation,
         content: indicator.latestDataPeriod
           ? indicator.latestDataPeriod.toString()
           : '',
+      },
+      {
+        key: `col-${indicator.id}-unitlabel`,
+        type: CellType.IndicatorInformation,
+        content: indicator.unitLabel,
       },
     ];
 
@@ -236,7 +236,7 @@ const extractAreasIndicatorsAndDataPoints = (
         name: indicatorData.indicatorName,
         unitLabel: indicatorData.unitLabel,
         latestDataPeriod: 0,
-        benchmarkMethod: indicatorData.benchmarkMethod,
+        benchmarkMethod: indicatorData.benchmarkComparisonMethod,
         polarity: indicatorData.polarity,
       };
 
@@ -292,7 +292,7 @@ const extractAreasIndicatorsAndDataPoints = (
         outcome: getBenchmarkOutcome(
           healthDataForYear?.benchmarkComparison?.outcome
         ),
-        benchmarkMethod: indicatorData.benchmarkMethod,
+        benchmarkMethod: indicatorData.benchmarkComparisonMethod,
         polarity: indicatorData.polarity,
       };
 
@@ -386,7 +386,7 @@ export const generateHeaders = (
     }
   };
 
-  const constantHeaderTitles = ['Indicators', 'Value unit', 'Period'];
+  const constantHeaderTitles = ['Indicators', 'Period', 'Value unit'];
   return constantHeaderTitles
     .map((title, index) => {
       return {

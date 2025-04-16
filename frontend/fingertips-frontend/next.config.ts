@@ -16,6 +16,9 @@ const nextConfig: NextConfig = {
     '@opentelemetry/semantic-conventions',
     '@opentelemetry/exporter-jaeger',
   ],
+  cacheHandler: require.resolve(
+    'next/dist/server/lib/incremental-cache/file-system-cache.js'
+  ),
 };
 
 const withAnalyzer = withBundleAnalyzer({

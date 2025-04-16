@@ -44,9 +44,12 @@ export default async function TwoOrMoreIndicatorsEnglandView({
 
   const combinedIndicatorData = await Promise.all(
     indicatorsSelected.map((indicator) => {
-      return getHealthDataForIndicator(indicatorApi, indicator, [
-        { areaCodes: [areaCodeForEngland], areaType: englandAreaType.key },
-      ]);
+      return getHealthDataForIndicator(
+        indicatorApi,
+        indicator,
+        [{ areaCodes: [areaCodeForEngland], areaType: englandAreaType.key }],
+        true
+      );
     })
   );
 

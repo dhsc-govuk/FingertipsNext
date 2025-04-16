@@ -98,7 +98,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
       groupIndicatorData: groupData,
       yAxisTitle,
       yAxisLabelFormatter: FormatValueAsNumber,
-      xAxisTitle: 'Year',
+      xAxisTitle: 'Period',
       measurementUnit: indicatorMetadata?.unitLabel,
       accessibilityLabel: 'A line chart showing healthcare data',
     }

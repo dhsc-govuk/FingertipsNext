@@ -79,14 +79,14 @@ describe('generate headers and rows', () => {
     expect(headers[0].content).toEqual('Indicators');
   });
 
-  it('should set the second header to value unit header', () => {
+  it('should set the second header to period header', () => {
     expect(headers[1].type).toEqual(HeaderType.IndicatorInformation);
-    expect(headers[1].content).toEqual('Value unit');
+    expect(headers[1].content).toEqual('Period');
   });
 
-  it('should set the third header to period header', () => {
+  it('should set the third header to value unit header', () => {
     expect(headers[2].type).toEqual(HeaderType.IndicatorInformation);
-    expect(headers[2].content).toEqual('Period');
+    expect(headers[2].content).toEqual('Value unit');
   });
 
   it('should set the header corresponding to the benchmark area (england) to benchmark header type', () => {
@@ -110,15 +110,15 @@ describe('generate headers and rows', () => {
   });
 
   it('should prefix each row with the correct unit label', () => {
-    expect(rows[0].cells[1].content).toEqual(sortedIndicators[0].unitLabel);
-    expect(rows[1].cells[1].content).toEqual(sortedIndicators[1].unitLabel);
+    expect(rows[0].cells[2].content).toEqual(sortedIndicators[0].unitLabel);
+    expect(rows[1].cells[2].content).toEqual(sortedIndicators[1].unitLabel);
   });
 
   it('should prefix each row with the correct data period', () => {
-    expect(rows[0].cells[2].content).toEqual(
+    expect(rows[0].cells[1].content).toEqual(
       sortedIndicators[0].latestDataPeriod.toString()
     );
-    expect(rows[1].cells[2].content).toEqual(
+    expect(rows[1].cells[1].content).toEqual(
       sortedIndicators[1].latestDataPeriod.toString()
     );
   });
@@ -291,7 +291,7 @@ export const placeholderHeatmapIndicatorData = [
         healthData: data[0][3],
       },
     ],
-    benchmarkMethod: indicator1.benchmarkMethod,
+    benchmarkComparisonMethod: indicator1.benchmarkMethod,
     polarity: indicator1.polarity,
   },
   {
@@ -320,7 +320,7 @@ export const placeholderHeatmapIndicatorData = [
         healthData: data[1][3],
       },
     ],
-    benchmarkMethod: indicator2.benchmarkMethod,
+    benchmarkComparisonMethod: indicator2.benchmarkMethod,
     polarity: indicator2.polarity,
   },
   {
@@ -349,7 +349,7 @@ export const placeholderHeatmapIndicatorData = [
         healthData: data[2][3],
       },
     ],
-    benchmarkMethod: indicator3.benchmarkMethod,
+    benchmarkComparisonMethod: indicator3.benchmarkMethod,
     polarity: indicator3.polarity,
   },
 ];

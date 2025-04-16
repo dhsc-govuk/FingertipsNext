@@ -58,14 +58,12 @@ describe('BenchmarkTooltipArea', () => {
       const testIndicatorDataForArea = mockIndicatorData;
       testIndicatorDataForArea.healthData[0].benchmarkComparison = {
         outcome: testBenchmarkOutcome,
-        method: testBenchmarkComparisonMethod,
       };
 
       const testPolarity: IndicatorPolarity = IndicatorPolarity.Unknown;
       const expectedColour =
         getBenchmarkColour(
-          testIndicatorDataForArea.healthData[0].benchmarkComparison.method ??
-            BenchmarkComparisonMethod.Unknown,
+          testBenchmarkComparisonMethod ?? BenchmarkComparisonMethod.Unknown,
           testIndicatorDataForArea.healthData[0].benchmarkComparison?.outcome ??
             BenchmarkOutcome.NotCompared,
           testPolarity
@@ -87,6 +85,7 @@ describe('BenchmarkTooltipArea', () => {
           benchmarkComparisonMethod={testBenchmarkComparisonMethod}
           measurementUnit={mockUnits}
           tooltipType={'area'}
+          polarity={testPolarity}
         />
       );
 
@@ -123,6 +122,7 @@ describe('BenchmarkTooltipArea', () => {
         benchmarkComparisonMethod={BenchmarkComparisonMethod.Unknown}
         measurementUnit={mockUnits}
         tooltipType={'area'}
+        polarity={IndicatorPolarity.Unknown}
       />
     );
 
@@ -153,14 +153,12 @@ describe('BenchmarkTooltipArea', () => {
       const testIndicatorDataForArea = mockIndicatorData;
       testIndicatorDataForArea.healthData[0].benchmarkComparison = {
         outcome: testBenchmarkOutcome,
-        method: testBenchmarkComparisonMethod,
       };
 
       const testPolarity: IndicatorPolarity = IndicatorPolarity.Unknown;
       const expectedColour =
         getBenchmarkColour(
-          testIndicatorDataForArea.healthData[0].benchmarkComparison.method ??
-            BenchmarkComparisonMethod.Unknown,
+          testBenchmarkComparisonMethod ?? BenchmarkComparisonMethod.Unknown,
           testIndicatorDataForArea.healthData[0].benchmarkComparison?.outcome ??
             BenchmarkOutcome.NotCompared,
           testPolarity
@@ -172,6 +170,7 @@ describe('BenchmarkTooltipArea', () => {
           benchmarkComparisonMethod={testBenchmarkComparisonMethod}
           measurementUnit={mockUnits}
           tooltipType={'area'}
+          polarity={testPolarity}
         />
       );
 
@@ -207,10 +206,12 @@ describe('BenchmarkTooltipArea', () => {
         }
         measurementUnit={mockUnits}
         tooltipType={'group'}
+        polarity={IndicatorPolarity.Unknown}
       />
     );
     expect(screen.queryByText(/Group/)).toBeInTheDocument();
   });
+
   it('should include Benchmark and only required elements when passed a RAG bechmark', () => {
     render(
       <BenchmarkTooltipArea
@@ -220,6 +221,7 @@ describe('BenchmarkTooltipArea', () => {
         }
         measurementUnit={mockUnits}
         tooltipType={'benchmark'}
+        polarity={IndicatorPolarity.Unknown}
       />
     );
     expect(screen.queryByText(/Benchmark/)).toBeInTheDocument();

@@ -112,21 +112,18 @@ describe('Inequalities bar chart table suite', () => {
           ...mockData.data.inequalities.Persons,
           benchmarkComparison: {
             outcome: BenchmarkOutcome.Better,
-            method: BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
           },
         };
         mockData.data.inequalities.Male = {
           ...mockData.data.inequalities.Male,
           benchmarkComparison: {
             outcome: BenchmarkOutcome.Worse,
-            method: BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
           },
         };
         mockData.data.inequalities.Female = {
           ...mockData.data.inequalities.Female,
           benchmarkComparison: {
             outcome: BenchmarkOutcome.Similar,
-            method: BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
           },
         };
         render(

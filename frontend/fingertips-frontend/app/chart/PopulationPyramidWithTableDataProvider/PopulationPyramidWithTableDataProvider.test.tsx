@@ -105,6 +105,7 @@ describe('PopulationPyramidWithTableDataProvider', () => {
         areaCodes: [areaCodeForEngland],
         indicatorId: 92708,
         inequalities: ['age', 'sex'],
+        latestOnly: true,
       },
       API_CACHE_CONFIG
     );

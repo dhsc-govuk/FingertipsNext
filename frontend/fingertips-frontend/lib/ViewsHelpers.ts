@@ -20,7 +20,8 @@ export interface HealthDataRequestAreas {
 export const getHealthDataForIndicator = async (
   indicatorApi: IndicatorsApi,
   indicatorId: string | number,
-  combinedRequestAreas: HealthDataRequestAreas[]
+  combinedRequestAreas: HealthDataRequestAreas[],
+  latestOnly?: boolean
 ) => {
   let healthIndicatorData: IndicatorWithHealthDataForArea | undefined;
 
@@ -34,6 +35,7 @@ export const getHealthDataForIndicator = async (
               areaCodes: areaCodes,
               areaType: requestAreas.areaType,
               inequalities: requestAreas.inequalities,
+              latestOnly,
             },
             API_CACHE_CONFIG
           )
@@ -72,7 +74,8 @@ export async function getIndicatorData(
     selectedGroupCode,
     selectedGroupType,
   }: GetIndicatorDataParam,
-  includeEmptyAreas: boolean
+  includeEmptyAreas: boolean,
+  latestOnly?: boolean
 ) {
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
@@ -85,6 +88,7 @@ export async function getIndicatorData(
         areaCodes: [...requestAreas],
         areaType: selectedAreaType,
         includeEmptyAreas,
+        latestOnly,
       },
       API_CACHE_CONFIG
     )
@@ -98,6 +102,7 @@ export async function getIndicatorData(
           areaCodes: [areaCodeForEngland],
           areaType: englandAreaType.key,
           includeEmptyAreas,
+          latestOnly,
         },
         API_CACHE_CONFIG
       )
@@ -112,6 +117,7 @@ export async function getIndicatorData(
           areaCodes: [selectedGroupCode],
           areaType: selectedGroupType,
           includeEmptyAreas,
+          latestOnly,
         },
         API_CACHE_CONFIG
       )

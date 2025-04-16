@@ -112,7 +112,9 @@ export function generateSeriesData(
           showConfidenceIntervalsData
         );
 
-      return [lineSeries, confidenceIntervalSeries];
+      return showConfidenceIntervalsData
+        ? [lineSeries, confidenceIntervalSeries]
+        : lineSeries;
     }
   );
 
@@ -145,7 +147,11 @@ export function generateSeriesData(
         }
       );
 
-    seriesData.unshift(groupSeries, groupConfidenceIntervalSeries);
+    if (showConfidenceIntervalsData) {
+      seriesData.unshift(groupSeries, groupConfidenceIntervalSeries);
+    } else {
+      seriesData.unshift(groupSeries);
+    }
   }
 
   if (benchmarkData) {
@@ -173,7 +179,12 @@ export function generateSeriesData(
           whiskerLength: '50%',
         }
       );
-    seriesData.unshift(englandSeries, benchmarkConfidenceIntervalSeries);
+
+    if (showConfidenceIntervalsData) {
+      seriesData.unshift(englandSeries, benchmarkConfidenceIntervalSeries);
+    } else {
+      seriesData.unshift(englandSeries);
+    }
   }
 
   return seriesData;

@@ -5,6 +5,7 @@ import {
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import {
   getDisplayValue,
+  getDisplayWholeNumber,
   StyledAlignLeftTableCell,
   StyledAlignRightTableCell,
 } from '@/lib/tableHelpers';
@@ -74,7 +75,7 @@ export function InequalitiesBarChartTable({
               ) : null}
             </StyledAlignLeftTableCellNoPadding>
             <StyledAlignRightTableCell>
-              {getDisplayValue(inequalities[key]?.count)}
+              {getDisplayWholeNumber(inequalities[key]?.count)}
             </StyledAlignRightTableCell>
             <StyledAlignRightTableCell>
               {getDisplayValue(inequalities[key]?.value)}

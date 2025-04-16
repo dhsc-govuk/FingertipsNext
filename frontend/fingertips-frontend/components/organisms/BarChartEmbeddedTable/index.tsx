@@ -217,13 +217,14 @@ export function BarChartEmbeddedTable({
                 area={benchmarkData?.areaName}
                 year={mostRecentBenchmarkData.year}
                 measurementUnit={measurementUnit}
+                barColor={GovukColours.DarkGrey}
               ></SparklineChart>
             </Table.Cell>
-            <CheckValueInTableCell
+            <FormatNumberInTableCell
               value={mostRecentBenchmarkData.lowerCi}
               style={{ textAlign: 'right' }}
             />
-            <CheckValueInTableCell
+            <FormatNumberInTableCell
               value={mostRecentBenchmarkData.upperCi}
               style={{ textAlign: 'right' }}
             />
@@ -274,6 +275,7 @@ export function BarChartEmbeddedTable({
                 area={groupIndicatorData?.areaName}
                 year={mostRecentGroupData.year}
                 measurementUnit={measurementUnit}
+                barColor={GovukColours.DarkGrey}
               />
             </Table.Cell>
             <FormatNumberInTableCell

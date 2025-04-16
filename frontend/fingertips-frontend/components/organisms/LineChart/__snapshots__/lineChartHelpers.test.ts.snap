@@ -50,26 +50,6 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
       "name": "North FooBar",
       "type": "line",
     },
-    {
-      "color": "#B1B4B6",
-      "data": [
-        [
-          2004,
-          441.69151,
-          578.32766,
-        ],
-        [
-          2006,
-          441.69151,
-          578.32766,
-        ],
-      ],
-      "lineWidth": 2,
-      "name": "North FooBar",
-      "type": "errorbar",
-      "visible": false,
-      "whiskerLength": "20%",
-    },
   ],
   "title": {
     "style": {
@@ -169,26 +149,6 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
       "type": "line",
     },
     {
-      "color": "#B1B4B6",
-      "data": [
-        [
-          2004,
-          441.69151,
-          578.32766,
-        ],
-        [
-          2006,
-          441.69151,
-          578.32766,
-        ],
-      ],
-      "lineWidth": 2,
-      "name": "England",
-      "type": "errorbar",
-      "visible": false,
-      "whiskerLength": "50%",
-    },
-    {
       "color": "#28A197",
       "custom": {
         "areaCode": "P001",
@@ -210,26 +170,6 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
       "type": "line",
     },
     {
-      "color": "#B1B4B6",
-      "data": [
-        [
-          2004,
-          201,
-          401,
-        ],
-        [
-          2006,
-          200,
-          400,
-        ],
-      ],
-      "lineWidth": 2,
-      "name": "Parent",
-      "type": "errorbar",
-      "visible": false,
-      "whiskerLength": "50%",
-    },
-    {
       "color": "#F46A25",
       "custom": {
         "areaCode": "A1425",
@@ -249,26 +189,6 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
       },
       "name": "North FooBar",
       "type": "line",
-    },
-    {
-      "color": "#B1B4B6",
-      "data": [
-        [
-          2004,
-          441.69151,
-          578.32766,
-        ],
-        [
-          2006,
-          441.69151,
-          578.32766,
-        ],
-      ],
-      "lineWidth": 2,
-      "name": "North FooBar",
-      "type": "errorbar",
-      "visible": false,
-      "whiskerLength": "20%",
     },
   ],
   "title": {

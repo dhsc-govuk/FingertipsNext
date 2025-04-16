@@ -26,7 +26,6 @@ export const mockSpineHealthDataForArea: HealthDataForArea = {
       trend: HealthDataPointTrendEnum.CannotBeCalculated,
       deprivation: noDeprivation,
       benchmarkComparison: {
-        method: BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
         outcome: BenchmarkOutcome.Similar,
       },
     },

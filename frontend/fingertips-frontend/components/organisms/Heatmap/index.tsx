@@ -1,7 +1,7 @@
 'use client';
 
 import { HeatmapIndicatorData } from './heatmapUtil';
-import { BenchmarkLegend } from '../BenchmarkLegend';
+import { BenchmarkLegends } from '../BenchmarkLegend';
 import { HeatmapHover } from './heatmapHover';
 import React, { FC } from 'react';
 import HeatmapTable from '@/components/organisms/Heatmap/HeatmapTable';
@@ -14,11 +14,14 @@ export interface HeatmapProps {
 }
 
 export const Heatmap: FC<HeatmapProps> = ({ indicatorData, groupAreaCode }) => {
-  const { headers, rows } = useHeatmapTableData(indicatorData, groupAreaCode);
+  const { headers, rows, legendsToShow } = useHeatmapTableData(
+    indicatorData,
+    groupAreaCode
+  );
   const { hover, left, top, handleMouseOverCell } = useHeatmapHover();
   return (
     <>
-      <BenchmarkLegend />
+      <BenchmarkLegends legendsToShow={legendsToShow} />
       {hover ? (
         <HeatmapHover
           areaName={hover.areaName}

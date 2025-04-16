@@ -16,7 +16,7 @@ import { useSearchState } from '@/context/SearchStateContext';
 import { SearchParams } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { ThematicMapCredits } from '../../molecules/ThematicMapCredits';
-import { BenchmarkTooltip } from '@/components/molecules/BenchmarkTooltip/BenchmarkTooltip';
+import { BenchmarkTooltip } from '@/components/molecules/BenchmarkTooltip';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 
 interface ThematicMapProps {
@@ -99,6 +99,7 @@ export function ThematicMap({
               measurementUnit={indicatorMetadata?.unitLabel}
               indicatorDataForBenchmark={benchmarkIndicatorData}
               indicatorDataForGroup={groupIndicatorData}
+              polarity={polarity}
             />
           </div>
         );

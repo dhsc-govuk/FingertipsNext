@@ -76,7 +76,12 @@ export default async function TwoOrMoreIndicatorsAreasView({
 
   const combinedIndicatorData = await Promise.all(
     indicatorsSelected.map((indicator) => {
-      return getHealthDataForIndicator(indicatorApi, indicator, areasToRequest);
+      return getHealthDataForIndicator(
+        indicatorApi,
+        indicator,
+        areasToRequest,
+        true
+      );
     })
   );
 
