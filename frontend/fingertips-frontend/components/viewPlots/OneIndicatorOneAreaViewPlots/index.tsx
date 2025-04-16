@@ -92,6 +92,7 @@ export function OneIndicatorOneAreaViewPlots({
     showStandardLineChartConfidenceIntervalsData,
     {
       benchmarkData: englandBenchmarkWithoutInequalities,
+      benchmarkComparisonMethod: benchmarkComparisonMethod,
       groupIndicatorData: groupDataWithoutInequalities,
       yAxisTitle,
       yAxisLabelFormatter: FormatValueAsNumber,

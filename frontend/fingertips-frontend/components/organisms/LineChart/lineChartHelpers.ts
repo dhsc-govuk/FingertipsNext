@@ -1,4 +1,8 @@
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
+  HealthDataForArea,
+} from '@/generated-sources/ft-api-client';
 import Highcharts, { SymbolKeyValue } from 'highcharts';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { chartColours, ChartColours } from '@/lib/chartHelpers/colours';
@@ -8,17 +12,16 @@ import {
   generateConfidenceIntervalSeries,
   AXIS_TITLE_FONT_SIZE,
   AXIS_LABEL_FONT_SIZE,
+  getTooltipContent,
+  AreaTypeLabelEnum,
 } from '@/lib/chartHelpers/chartHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
-import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
+import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 export enum LineChartVariant {
   Standard = 'standard',
   Inequalities = 'inequalities',
-}
-
-function tooltipFormatter(point: Highcharts.Point): string {
-  return `<b>${point.series.name}</b><br/>Year: ${point.x}<br/><br/><span style="color:${point.color}">${SymbolsEnum.Circle}</span> Value ${formatNumber(point.y)}`;
 }
 
 export const lineChartDefaultOptions: Highcharts.Options = {
@@ -59,7 +62,7 @@ export const lineChartDefaultOptions: Highcharts.Options = {
   },
   tooltip: {
     formatter: function (this: Highcharts.Point): string {
-      return tooltipFormatter(this);
+      return this.value?.toString() ?? '';
     },
   },
   plotOptions: {
@@ -95,6 +98,7 @@ export function generateSeriesData(
           symbol: symbols[index % symbols.length],
         },
         color: chartColours[index % chartColours.length],
+        custom: { areaCode: item.areaCode },
       };
 
       const confidenceIntervalSeries: Highcharts.SeriesOptionsType =
@@ -124,6 +128,7 @@ export function generateSeriesData(
       marker: {
         symbol: 'diamond',
       },
+      custom: { areaCode: parentIndicatorData.areaCode },
     };
 
     const groupConfidenceIntervalSeries: Highcharts.SeriesOptionsType =
@@ -152,6 +157,7 @@ export function generateSeriesData(
       marker: {
         symbol: 'circle',
       },
+      custom: { areaCode: benchmarkData.areaCode },
     };
 
     const benchmarkConfidenceIntervalSeries: Highcharts.SeriesOptionsType =
@@ -187,6 +193,7 @@ export function generateStandardLineChartOptions(
     symbols?: SymbolKeyValue[];
     yAxisLabelFormatter?: Highcharts.AxisLabelsFormatterCallbackFunction;
     xAxisLabelFormatter?: Highcharts.AxisLabelsFormatterCallbackFunction;
+    benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   }
 ): Highcharts.Options {
   const sortedHealthIndicatorData =
@@ -219,6 +226,89 @@ export function generateStandardLineChartOptions(
       lineChartCI
     );
   }
+
+  const getBenchmarkOutcomeForYear = (
+    year: number,
+    areaCode: string,
+    chartData: HealthDataForArea[]
+  ) => {
+    return chartData
+      .find((healthData) => healthData.areaCode === areaCode)
+      ?.healthData.find((point) => point.year === Number(year))
+      ?.benchmarkComparison?.outcome;
+  };
+
+  const generateTooltipData = (
+    indicatorData: HealthDataForArea[],
+    groupData?: HealthDataForArea,
+    benchmarkData?: HealthDataForArea
+  ): HealthDataForArea[] => {
+    const tooltipData = [...indicatorData];
+
+    if (groupData)
+      tooltipData.push({
+        ...groupData,
+      });
+
+    if (benchmarkData)
+      tooltipData.push({
+        ...benchmarkData,
+      });
+
+    return tooltipData;
+  };
+
+  const tooltipData = generateTooltipData(
+    sortedHealthIndicatorData,
+    sortedGroupData,
+    sortedBenchMarkData
+  );
+
+  const generateAreaLineChartTooltipForPoint = (
+    point: Highcharts.Point,
+    symbol: string
+  ) => {
+    const areaCode: string = point.series.options.custom?.areaCode ?? '';
+
+    const label =
+      areaCode === areaCodeForEngland
+        ? AreaTypeLabelEnum.Benchmark
+        : AreaTypeLabelEnum.Area;
+
+    const { benchmarkLabel, category, comparisonLabel } = getTooltipContent(
+      getBenchmarkOutcomeForYear(point.x, areaCode, tooltipData) ??
+        BenchmarkOutcome.NotCompared,
+      label,
+      optionalParams?.benchmarkComparisonMethod ??
+        BenchmarkComparisonMethod.Unknown
+    );
+
+    const formatValueUnit = (valueUnit?: string) => {
+      switch (valueUnit) {
+        case undefined:
+          return '';
+        case '%':
+          return valueUnit;
+        default:
+          return ` ${valueUnit}`;
+      }
+    };
+
+    return [
+      `<div style="padding-right: 25px">`,
+      `<span style="font-weight: bold">${category}${point.series.name}</span><br/>`,
+      `<span>${point.x}</span><br/>`,
+      `<div style="display: flex; margin-top: 15px; align-items: center;">`,
+      `<div style="margin-right: 10px;"><span style="color: ${point.series.color}; font-weight: bold;">${symbol}</span></div>`,
+      `<div style="padding-right: 10px;"><span>${formatNumber(point.y)}${formatValueUnit(optionalParams?.measurementUnit)}</span><br/>`,
+      `${!benchmarkLabel ? '' : '<span>' + benchmarkLabel + '</span><br/>'}`,
+      `${!comparisonLabel ? '' : '<span>' + comparisonLabel + '</span><br/>'}`,
+      `</div>`,
+      `</div>`,
+      `</div>`,
+    ];
+  };
+
   return {
     ...lineChartDefaultOptions,
     yAxis: {
@@ -249,9 +339,11 @@ export function generateStandardLineChartOptions(
     },
     series: seriesData,
     tooltip: {
+      headerFormat: '',
       formatter: function (this: Highcharts.Point): string {
-        return tooltipFormatter(this) + `${optionalParams?.measurementUnit}`;
+        return pointFormatterHelper(this, generateAreaLineChartTooltipForPoint);
       },
+      useHTML: true,
     },
     accessibility: {
       ...lineChartDefaultOptions.accessibility,
