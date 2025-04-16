@@ -59,6 +59,12 @@ const coreTestJourneys: TestParams[] = [
     searchMode: SearchMode.ONLY_SUBJECT,
     subjectSearchTerm: 'hospital',
   },
+  {
+    indicatorMode: IndicatorMode.THREE_PLUS_INDICATORS,
+    areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
+    searchMode: SearchMode.ONLY_SUBJECT,
+    subjectSearchTerm: 'hospital'
+  }
 ];
 
 /**
