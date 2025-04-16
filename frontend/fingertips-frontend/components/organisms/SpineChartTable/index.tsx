@@ -4,7 +4,7 @@ import React from 'react';
 import { SpineChartTableHeader } from './SpineChartTableHeader';
 
 import { SpineChartTableRow } from './SpineChartTableRow';
-import { StyledDivTableContainer, StyledTable } from './SpineChartTableStyles';
+import { StyledDivTableContainer, StyledTableMultipleAreas, StyledTableOneArea } from './SpineChartTableStyles';
 import { H2 } from 'govuk-react';
 import styled from 'styled-components';
 import { SpineChartLegend } from '@/components/organisms/SpineChartLegend/SpineChartLegend';
@@ -36,6 +36,7 @@ export function SpineChartTable({
   const areaNames = sortedData[0].areasHealthData.map(
     (areaHealthData) => areaHealthData?.areaName ?? ''
   );
+  const StyledTable = areaNames.length > 1 ? StyledTableMultipleAreas : StyledTableOneArea;
 
   return (
     <>

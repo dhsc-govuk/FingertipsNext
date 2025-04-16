@@ -61,8 +61,8 @@ const StyledDivIndicatorTitleCellContent = styled.div({
 
 const StyledDivIndicatorInformationCellContent = styled.div({
   minWidth: '40px',
-  paddingRight: '0.5em',
-  paddingLeft: '0.5em'
+  paddingRight: '20px',
+  paddingLeft: '20px'
 });
 
 interface HeatmapCellProps {

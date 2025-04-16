@@ -11,7 +11,7 @@ import {
 
 const StyledTable = styled(Table)({
   borderCollapse: 'separate',
-  width: '100%',
+  width: 'auto',
   height: 'fit-content',
 });
 

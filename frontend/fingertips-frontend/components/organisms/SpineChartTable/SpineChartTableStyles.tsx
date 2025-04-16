@@ -10,7 +10,11 @@ import {
 } from '@/lib/tableHelpers';
 import { Table } from 'govuk-react';
 
-export const StyledTable = styled(Table)({
+export const StyledTableOneArea = styled(Table)({
+  borderCollapse: 'collapse',
+});
+
+export const StyledTableMultipleAreas = styled(Table)({
   borderCollapse: 'separate',
 });
 
