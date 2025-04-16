@@ -31,18 +31,6 @@ describe('generateSeriesData', () => {
         },
       },
       {
-        color: '#B1B4B6',
-        data: [
-          [2006, 441.69151, 578.32766],
-          [2004, 441.69151, 578.32766],
-        ],
-        name: 'North FooBar',
-        type: 'errorbar',
-        visible: false,
-        lineWidth: 2,
-        whiskerLength: '20%',
-      },
-      {
         color: '#A285D1',
         data: [
           [2010, 786.27434],
@@ -55,18 +43,6 @@ describe('generateSeriesData', () => {
         },
       },
       {
-        color: '#B1B4B6',
-        data: [
-          [2010, 750.69151, 800.32766],
-          [2007, 440.69151, 420.32766],
-        ],
-        name: 'South FooBar',
-        type: 'errorbar',
-        visible: false,
-        lineWidth: 2,
-        whiskerLength: '20%',
-      },
-      {
         color: '#801650',
         data: [
           [2020, 478.27434],
@@ -77,18 +53,6 @@ describe('generateSeriesData', () => {
         marker: {
           symbol: 'diamond',
         },
-      },
-      {
-        color: '#B1B4B6',
-        data: [
-          [2020, 460.69151, 500.32766],
-          [2012, 220.69151, 250.32766],
-        ],
-        name: 'East FooBar',
-        type: 'errorbar',
-        visible: false,
-        lineWidth: 2,
-        whiskerLength: '20%',
       },
     ];
 
@@ -119,18 +83,6 @@ describe('generateSeriesData', () => {
         type: 'line',
       },
       {
-        color: '#B1B4B6',
-        data: [
-          [2006, 441.69151, 578.32766],
-          [2004, 441.69151, 578.32766],
-        ],
-        lineWidth: 2,
-        name: 'England',
-        type: 'errorbar',
-        visible: false,
-        whiskerLength: '50%',
-      },
-      {
         color: '#F46A25',
         data: [
           [2006, 278.29134],
@@ -141,18 +93,6 @@ describe('generateSeriesData', () => {
         marker: {
           symbol: 'arc',
         },
-      },
-      {
-        color: '#B1B4B6',
-        data: [
-          [2006, 441.69151, 578.32766],
-          [2004, 441.69151, 578.32766],
-        ],
-        name: 'North FooBar',
-        type: 'errorbar',
-        visible: false,
-        lineWidth: 2,
-        whiskerLength: '20%',
       },
       {
         color: '#A285D1',
@@ -167,18 +107,6 @@ describe('generateSeriesData', () => {
         },
       },
       {
-        color: '#B1B4B6',
-        data: [
-          [2010, 750.69151, 800.32766],
-          [2007, 440.69151, 420.32766],
-        ],
-        name: 'South FooBar',
-        type: 'errorbar',
-        visible: false,
-        lineWidth: 2,
-        whiskerLength: '20%',
-      },
-      {
         color: '#801650',
         data: [
           [2020, 478.27434],
@@ -189,18 +117,6 @@ describe('generateSeriesData', () => {
         marker: {
           symbol: 'diamond',
         },
-      },
-      {
-        color: '#B1B4B6',
-        data: [
-          [2020, 460.69151, 500.32766],
-          [2012, 220.69151, 250.32766],
-        ],
-        name: 'East FooBar',
-        type: 'errorbar',
-        visible: false,
-        lineWidth: 2,
-        whiskerLength: '20%',
       },
     ];
 
@@ -231,18 +147,6 @@ describe('generateSeriesData', () => {
         type: 'line',
       },
       {
-        color: '#B1B4B6',
-        data: [
-          [2006, 441.69151, 578.32766],
-          [2004, 441.69151, 578.32766],
-        ],
-        lineWidth: 2,
-        name: 'England',
-        type: 'errorbar',
-        visible: false,
-        whiskerLength: '50%',
-      },
-      {
         color: GovukColours.Turquoise,
         data: [
           [2006, 300],
@@ -253,18 +157,6 @@ describe('generateSeriesData', () => {
         },
         name: 'Group: Parent',
         type: 'line',
-      },
-      {
-        color: '#B1B4B6',
-        data: [
-          [2006, 200, 400],
-          [2004, 201, 401],
-        ],
-        lineWidth: 2,
-        name: 'Parent',
-        type: 'errorbar',
-        visible: false,
-        whiskerLength: '50%',
       },
       {
         color: '#F46A25',
@@ -279,18 +171,6 @@ describe('generateSeriesData', () => {
         },
       },
       {
-        color: '#B1B4B6',
-        data: [
-          [2006, 441.69151, 578.32766],
-          [2004, 441.69151, 578.32766],
-        ],
-        name: 'North FooBar',
-        type: 'errorbar',
-        visible: false,
-        lineWidth: 2,
-        whiskerLength: '20%',
-      },
-      {
         color: '#A285D1',
         data: [
           [2010, 786.27434],
@@ -303,18 +183,6 @@ describe('generateSeriesData', () => {
         },
       },
       {
-        color: '#B1B4B6',
-        data: [
-          [2010, 750.69151, 800.32766],
-          [2007, 440.69151, 420.32766],
-        ],
-        name: 'South FooBar',
-        type: 'errorbar',
-        visible: false,
-        lineWidth: 2,
-        whiskerLength: '20%',
-      },
-      {
         color: '#801650',
         data: [
           [2020, 478.27434],
@@ -325,18 +193,6 @@ describe('generateSeriesData', () => {
         marker: {
           symbol: 'diamond',
         },
-      },
-      {
-        color: '#B1B4B6',
-        data: [
-          [2020, 460.69151, 500.32766],
-          [2012, 220.69151, 250.32766],
-        ],
-        name: 'East FooBar',
-        type: 'errorbar',
-        visible: false,
-        lineWidth: 2,
-        whiskerLength: '20%',
       },
     ];
 
@@ -365,11 +221,8 @@ describe('generateSeriesData', () => {
     ) as SeriesLineOptions[];
 
     expect(generatedSeriesData[0].marker?.symbol).toBe('arc');
-    // The error bar series has no symbol hence undefined
-    expect(generatedSeriesData[1].marker?.symbol).toBe(undefined);
-    expect(generatedSeriesData[2].marker?.symbol).toBe('circle');
-    expect(generatedSeriesData[3].marker?.symbol).toBe(undefined);
-    expect(generatedSeriesData[4].marker?.symbol).toBe('arc');
+    expect(generatedSeriesData[1].marker?.symbol).toBe('circle');
+    expect(generatedSeriesData[2].marker?.symbol).toBe('arc');
   });
 
   it('should show confidence intervals bars', () => {
@@ -435,18 +288,6 @@ describe('generateSeriesData', () => {
           symbol: 'arc',
         },
       },
-      {
-        color: '#B1B4B6',
-        data: [
-          [2006, 441.69151, 578.32766],
-          [2004, 441.69151, 578.32766],
-        ],
-        name: 'North FooBar',
-        type: 'errorbar',
-        visible: false,
-        lineWidth: 2,
-        whiskerLength: '20%',
-      },
     ];
 
     expect(generatedSeriesData).toEqual(expectedSeriesData);
@@ -457,7 +298,6 @@ describe('generateSeriesData', () => {
       GovukColours.Orange,
       GovukColours.LightPurple,
     ];
-    const errorBarColour = '#B1B4B6';
 
     const generatedSeriesData = generateSeriesData(
       mockIndicatorData,
@@ -469,10 +309,8 @@ describe('generateSeriesData', () => {
     ) as SeriesLineOptions[];
 
     expect(generatedSeriesData[0].color).toBe(chartColours[0]);
-    expect(generatedSeriesData[1].color).toBe(errorBarColour);
-    expect(generatedSeriesData[2].color).toBe(chartColours[1]);
-    expect(generatedSeriesData[3].color).toBe(errorBarColour);
-    expect(generatedSeriesData[4].color).toBe(chartColours[0]);
+    expect(generatedSeriesData[1].color).toBe(chartColours[1]);
+    expect(generatedSeriesData[2].color).toBe(chartColours[0]);
   });
 });
 
