@@ -6,6 +6,7 @@ import {
 } from './lineChartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { mockIndicatorData, mockBenchmarkData, mockParentData } from './mocks';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 const symbols: SymbolKeyValue[] = ['arc', 'circle', 'diamond'];
 
@@ -20,6 +21,7 @@ describe('generateSeriesData', () => {
     const expectedSeriesData = [
       {
         color: '#F46A25',
+        custom: { areaCode: 'A1425' },
         data: [
           [2006, 278.29134],
           [2004, 703.420759],
@@ -44,6 +46,7 @@ describe('generateSeriesData', () => {
       },
       {
         color: '#A285D1',
+        custom: { areaCode: 'A1426' },
         data: [
           [2010, 786.27434],
           [2007, 435.420759],
@@ -68,6 +71,7 @@ describe('generateSeriesData', () => {
       },
       {
         color: '#801650',
+        custom: { areaCode: 'A1427' },
         data: [
           [2020, 478.27434],
           [2012, 234.420759],
@@ -108,6 +112,7 @@ describe('generateSeriesData', () => {
     const expectedSeriesData = [
       {
         color: GovukColours.DarkGrey,
+        custom: { areaCode: areaCodeForEngland },
         data: [
           [2006, 278.29134],
           [2004, 703.420759],
@@ -132,6 +137,7 @@ describe('generateSeriesData', () => {
       },
       {
         color: '#F46A25',
+        custom: { areaCode: 'A1425' },
         data: [
           [2006, 278.29134],
           [2004, 703.420759],
@@ -156,6 +162,7 @@ describe('generateSeriesData', () => {
       },
       {
         color: '#A285D1',
+        custom: { areaCode: 'A1426' },
         data: [
           [2010, 786.27434],
           [2007, 435.420759],
@@ -180,6 +187,7 @@ describe('generateSeriesData', () => {
       },
       {
         color: '#801650',
+        custom: { areaCode: 'A1427' },
         data: [
           [2020, 478.27434],
           [2012, 234.420759],
@@ -220,6 +228,7 @@ describe('generateSeriesData', () => {
     const expectedSeriesData = [
       {
         color: GovukColours.DarkGrey,
+        custom: { areaCode: areaCodeForEngland },
         data: [
           [2006, 278.29134],
           [2004, 703.420759],
@@ -244,6 +253,7 @@ describe('generateSeriesData', () => {
       },
       {
         color: GovukColours.Turquoise,
+        custom: { areaCode: 'P001' },
         data: [
           [2006, 300],
           [2004, 301],
@@ -268,6 +278,7 @@ describe('generateSeriesData', () => {
       },
       {
         color: '#F46A25',
+        custom: { areaCode: 'A1425' },
         data: [
           [2006, 278.29134],
           [2004, 703.420759],
@@ -292,6 +303,7 @@ describe('generateSeriesData', () => {
       },
       {
         color: '#A285D1',
+        custom: { areaCode: 'A1426' },
         data: [
           [2010, 786.27434],
           [2007, 435.420759],
@@ -316,6 +328,7 @@ describe('generateSeriesData', () => {
       },
       {
         color: '#801650',
+        custom: { areaCode: 'A1427' },
         data: [
           [2020, 478.27434],
           [2012, 234.420759],
@@ -385,6 +398,7 @@ describe('generateSeriesData', () => {
     const expectedSeriesData = [
       {
         color: '#F46A25',
+        custom: { areaCode: 'A1425' },
         data: [
           [2006, 278.29134],
           [2004, 703.420759],
@@ -425,6 +439,7 @@ describe('generateSeriesData', () => {
     const expectedSeriesData = [
       {
         color: '#F46A25',
+        custom: { areaCode: 'A1425' },
         data: [
           [2006, 278.29134],
           [2004, 703.420759],
