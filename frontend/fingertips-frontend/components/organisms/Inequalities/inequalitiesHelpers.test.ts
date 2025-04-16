@@ -498,24 +498,8 @@ describe('generateLineChartSeriesData', () => {
     dashStyle: 'Solid',
   };
 
-  const confidenceIntervalSeries = {
-    type: 'errorbar',
-    color: GovukColours.MidGrey,
-    whiskerLength: '20%',
-    lineWidth: 2,
-    visible: false,
-  };
-
   const seriesData = [
     personsLine,
-    {
-      ...confidenceIntervalSeries,
-      data: [
-        [2004, undefined, undefined],
-        [2008, 441.69151, 578.32766],
-      ],
-      name: mockChartData.areaName,
-    },
     {
       type: 'line',
       name: 'Male',
@@ -530,14 +514,6 @@ describe('generateLineChartSeriesData', () => {
       dashStyle: 'Solid',
     },
     {
-      ...confidenceIntervalSeries,
-      data: [
-        [2004, 441.69151, 578.32766],
-        [2008, 441.69151, 578.32766],
-      ],
-      name: mockChartData.areaName,
-    },
-    {
       type: 'line',
       name: 'Female',
       data: [
@@ -549,14 +525,6 @@ describe('generateLineChartSeriesData', () => {
       },
       color: GovukColours.Purple,
       dashStyle: 'Solid',
-    },
-    {
-      ...confidenceIntervalSeries,
-      data: [
-        [2004, 441.69151, 578.32766],
-        [2008, 441.69151, 578.32766],
-      ],
-      name: mockChartData.areaName,
     },
   ];
 

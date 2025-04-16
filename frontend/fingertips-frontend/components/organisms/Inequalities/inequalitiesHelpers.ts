@@ -241,7 +241,9 @@ export const generateInequalitiesLineChartSeriesData = (
           showConfidenceIntervalsData
         );
 
-      return [lineSeries, confidenceIntervalSeries];
+      return showConfidenceIntervalsData
+        ? [lineSeries, confidenceIntervalSeries]
+        : [lineSeries];
     }
   );
 

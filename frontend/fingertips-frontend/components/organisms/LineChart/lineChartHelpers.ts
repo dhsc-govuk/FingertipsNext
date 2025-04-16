@@ -111,7 +111,6 @@ export function generateSeriesData(
       return showConfidenceIntervalsData
         ? [lineSeries, confidenceIntervalSeries]
         : lineSeries;
-      // return  [lineSeries, confidenceIntervalSeries] ;
     }
   );
 
@@ -143,10 +142,11 @@ export function generateSeriesData(
         }
       );
 
-    showConfidenceIntervalsData
-      ? seriesData.unshift(groupSeries, groupConfidenceIntervalSeries)
-      : seriesData.unshift(groupSeries);
-    // seriesData.unshift(groupSeries, groupConfidenceIntervalSeries);
+    if (showConfidenceIntervalsData) {
+      seriesData.unshift(groupSeries, groupConfidenceIntervalSeries);
+    } else {
+      seriesData.unshift(groupSeries);
+    }
   }
 
   if (benchmarkData) {
@@ -174,10 +174,11 @@ export function generateSeriesData(
         }
       );
 
-    showConfidenceIntervalsData
-      ? seriesData.unshift(englandSeries, benchmarkConfidenceIntervalSeries)
-      : seriesData.unshift(englandSeries);
-    // seriesData.unshift(englandSeries, benchmarkConfidenceIntervalSeries);
+    if (showConfidenceIntervalsData) {
+      seriesData.unshift(englandSeries, benchmarkConfidenceIntervalSeries);
+    } else {
+      seriesData.unshift(englandSeries);
+    }
   }
 
   return seriesData;
