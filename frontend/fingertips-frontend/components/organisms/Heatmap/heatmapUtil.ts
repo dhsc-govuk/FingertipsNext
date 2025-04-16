@@ -130,16 +130,16 @@ export const generateRows = (
         content: indicator.name,
       },
       {
-        key: `col-${indicator.id}-unitlabel`,
-        type: CellType.IndicatorInformation,
-        content: indicator.unitLabel,
-      },
-      {
         key: `col-${indicator.id}-period`,
         type: CellType.IndicatorInformation,
         content: indicator.latestDataPeriod
           ? indicator.latestDataPeriod.toString()
           : '',
+      },
+      {
+        key: `col-${indicator.id}-unitlabel`,
+        type: CellType.IndicatorInformation,
+        content: indicator.unitLabel,
       },
     ];
 
@@ -386,7 +386,7 @@ export const generateHeaders = (
     }
   };
 
-  const constantHeaderTitles = ['Indicators', 'Value unit', 'Period'];
+  const constantHeaderTitles = ['Indicators', 'Period', 'Value unit'];
   return constantHeaderTitles
     .map((title, index) => {
       return {
