@@ -10,7 +10,10 @@ import {
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { mockDeep } from 'jest-mock-extended';
 
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
 import { mockHealthData } from '@/mock/data/healthdata';
 import regionsMap from '@/assets/maps/Regions_December_2023_Boundaries_EN_BUC_1958740832896680092.geo.json';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
@@ -100,6 +103,61 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
 
     expect(page.props.children.props.indicatorData).toEqual(mockIndicatorData);
     expect(page.props.children.props.searchState).toEqual(searchState);
+  });
+
+  it('should pass the latestYear flag as true when there are more than 2 areas selected', async () => {
+    const searchState: SearchStateParams = {
+      [SearchParams.IndicatorsSelected]: ['1'],
+      [SearchParams.AreasSelected]: ['E12000004', 'E12000006', 'E12000007'],
+    };
+
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue({});
+
+    await OneIndicatorTwoOrMoreAreasView({
+      searchState: searchState,
+      availableAreas: [
+        { code: 'E12000004', name: 'area 1', areaType: regionsAreaType },
+        { code: 'E12000006', name: 'area 2', areaType: regionsAreaType },
+        { code: 'E12000007', name: 'area 3', areaType: regionsAreaType },
+      ],
+    });
+
+    expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledWith(
+      {
+        areaCodes: ['E12000004', 'E12000006', 'E12000007'],
+        indicatorId: 1,
+        includeEmptyAreas: true,
+        latestOnly: true,
+      },
+      API_CACHE_CONFIG
+    );
+  });
+
+  it('should pass the latestYear flag as false when there are 2 areas or less selected', async () => {
+    const searchState: SearchStateParams = {
+      [SearchParams.IndicatorsSelected]: ['1'],
+      [SearchParams.AreasSelected]: ['E12000004', 'E12000006'],
+    };
+
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue({});
+
+    await OneIndicatorTwoOrMoreAreasView({
+      searchState: searchState,
+      availableAreas: [
+        { code: 'E12000004', name: 'area 1', areaType: regionsAreaType },
+        { code: 'E12000006', name: 'area 2', areaType: regionsAreaType },
+      ],
+    });
+
+    expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledWith(
+      {
+        areaCodes: ['E12000004', 'E12000006'],
+        indicatorId: 1,
+        includeEmptyAreas: true,
+        latestOnly: false,
+      },
+      API_CACHE_CONFIG
+    );
   });
 
   it('should pass the map data if all areas in the group are selected', async () => {
