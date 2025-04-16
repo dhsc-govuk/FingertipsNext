@@ -90,12 +90,9 @@ public class IndicatorServiceTests
         const string expectedAreaCode2 = "Code2";
         const string expectedAreaName2 = "Area 2";
 
-        var healthMeasure1 = new HealthMeasureModelHelper(year: 2023)
-            .WithAreaDimension(expectedAreaCode, expectedAreaName).Build();
         var healthMeasure2 = new HealthMeasureModelHelper(year: 2024)
             .WithAreaDimension(expectedAreaCode2, expectedAreaName2).Build();
-        var healthMeasure3 = new HealthMeasureModelHelper(year: 2020)
-            .WithAreaDimension(expectedAreaCode, expectedAreaName).Build();
+        
         var expected = new List<HealthDataForArea>
         {
             new()

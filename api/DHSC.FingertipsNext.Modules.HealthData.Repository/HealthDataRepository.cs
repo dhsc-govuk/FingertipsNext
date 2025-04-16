@@ -17,7 +17,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
 
     public async Task<IndicatorDimensionModel> GetIndicatorDimensionAsync(int indicatorId)
     {
-        var model=await _dbContext.HealthMeasure
+        var model = await _dbContext.HealthMeasure
            .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
            .OrderByDescending(healthMeasure => healthMeasure.Year)
            .Include(healthMeasure => healthMeasure.IndicatorDimension)
@@ -45,7 +45,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         return await _dbContext.HealthMeasure
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
             .Where(healthMeasure => areaCodes.Length == 0 || EF.Constant(areaCodes).Contains(healthMeasure.AreaDimension.Code))
-            .Where(healthMeasure => years.Length == 0 || years.Contains(healthMeasure.Year))
+            .Where(healthMeasure => years.Length == 0 || EF.Constant(years).Contains(healthMeasure.Year))
             .Where(healthMeasure => excludeDisaggregatedSexValues ? healthMeasure.IsSexAggregatedOrSingle : true)
             .Where(healthMeasure => excludeDisaggregatedAgeValues ? healthMeasure.IsAgeAggregatedOrSingle : true)
             .Where(healthMeasure => excludeDisaggregatedDeprivationValues ? healthMeasure.IsDeprivationAggregatedOrSingle : true)
