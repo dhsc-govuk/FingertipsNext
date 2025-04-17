@@ -17,9 +17,12 @@ const StylePopulationPyramidTableSection = styled('section')({
     'margin': '0px !important',
     'border': '0px',
 
-    '& td, th': {
-      padding: '5px !important',
+    '& th': {
+      padding: '10px !important',
     },
+    "& td": {
+      padding: '10px 10px 10px 0px !important',
+    }
   },
 });
 
@@ -61,6 +64,7 @@ const StyleGroupTableContentDiv = styled('div')({
       borderTopColor: GovukColours.MidGrey,
       textAlign: 'right',
     },
+
   },
   'minWidth': DefaultMinimumWidthForTablePanel,
 });
@@ -122,7 +126,7 @@ export function PopulationPyramidChartTable({
         <StyleBenchmarkDataDiv>
           <PopulationDataTable
             headers={['Male', 'Female']}
-            title={`Benchmark: ${benchmarkData?.areaName}`}
+            title={`${benchmarkData?.areaName}`}
             healthDataForArea={benchmarkData}
             filterValues={(row) => {
               return [row.male, row.female];

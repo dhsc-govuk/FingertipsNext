@@ -16,11 +16,10 @@ const StyledAreaTitleHeader = styled('h3')(typography.font({ size: 19 }), {
   lineHeight: '65px',
   letterSpacing: '0px',
   fontWeight: '700',
-  padding: '5px',
 });
 
 export const StyledTableCell = styled(Table.Cell)(
-  typography.font({ size: 19 }),
+  typography.font({ size: 16 }),
   {
     textAlign: 'center',
   }
@@ -34,11 +33,10 @@ const valueFormatter = (value: number | string | undefined) => {
 };
 
 const StyledAreaNameHeader = styled(StyledAlignLeftHeader)(
-  typography.font({ size: 19 }),
+  typography.font({ size: 16 }),
   {
     borderTop: `solid #F3F2F1 2px`,
-    textAlign: 'center',
-    fontWeight: 700,
+    textAlign: 'center'
   }
 );
 
