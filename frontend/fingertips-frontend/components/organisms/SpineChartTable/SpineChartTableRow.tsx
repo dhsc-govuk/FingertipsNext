@@ -5,14 +5,13 @@ import React, { FC } from 'react';
 
 import {
   StyledAlignCentreTableCell,
+  StyledAlignLeftBorderRightTableCell,
   StyledAlignRightBorderRightTableCell,
   StyledAlignRightCellPadLeft,
   StyledBenchmarkCell,
   StyledBenchmarkChart,
   StyledGroupCell,
   StyledIndicatorTitleStickyLeftCell,
-  StyledPeriodStickyCell,
-  StyledValueUnitStickyCell,
 } from './SpineChartTableStyles';
 import { SpineChart } from '../SpineChart';
 import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
@@ -58,12 +57,12 @@ export const SpineChartTableRow: FC<SpineChartTableRowProps> = ({
       <StyledIndicatorTitleStickyLeftCell data-testid={`indicator-cell`}>
         {indicatorName}
       </StyledIndicatorTitleStickyLeftCell>
-      <StyledPeriodStickyCell data-testid={`period-cell`}>
+      <StyledAlignCentreTableCell data-testid={`period-cell`}>
         {latestDataPeriod}
-      </StyledPeriodStickyCell>
-      <StyledValueUnitStickyCell data-testid={`unit-cell`}>
+      </StyledAlignCentreTableCell>
+      <StyledAlignLeftBorderRightTableCell data-testid={`unit-cell`}>
         {valueUnit}
-      </StyledValueUnitStickyCell>
+      </StyledAlignLeftBorderRightTableCell>
 
       {twoAreasRequested ? (
         <>

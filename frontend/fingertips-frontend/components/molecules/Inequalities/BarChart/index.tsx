@@ -197,7 +197,7 @@ export function InequalitiesBarChart({
         setShowConfidenceIntervalsData={setShowConfidenceIntervalsData}
       />
       <BenchmarkLegend
-        title={`Compared to ${comparedTo} for ${timePeriod} time period`}
+        title={`Compared to ${comparedTo} persons for ${timePeriod} time period`}
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
       />

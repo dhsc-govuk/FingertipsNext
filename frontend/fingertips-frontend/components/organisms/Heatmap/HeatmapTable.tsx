@@ -10,10 +10,8 @@ import {
 } from '@/components/organisms/Heatmap/heatmapUtil';
 
 const StyledTable = styled(Table)({
-  display: 'block',
-  width: '100%',
-  tableLayout: 'fixed',
-  overflow: 'visible',
+  borderCollapse: 'separate',
+  width: 'auto',
   height: 'fit-content',
 });
 
