@@ -29,6 +29,7 @@ const stickyLeft = {
   position: 'sticky',
   left: 0,
   zIndex: 2,
+  paddingLeft: '0.5em',
   paddingRight: '0.5em',
   fontSize: 19,
 };
@@ -40,10 +41,13 @@ export const StyledStickyEmptyLeftHeader = styled(Table.CellHeader)(
 export const StyledAlignCentreHeader = styled(StyledAlignLeftHeader)({
   textAlign: 'center',
   fontSize: 19,
+  paddingLeft: '0.5em',
+  paddingRight: '0.5em',
 });
 
-export const StyledAlignRightHeaderPadLeft = styled(StyledAlignRightHeader)({
+export const StyledAlignRightHeaderPad = styled(StyledAlignRightHeader)({
   paddingLeft: '0.5em',
+  paddingRight: '0.5em',
   fontSize: 19,
 });
 
@@ -125,6 +129,8 @@ export const StyledGroupHeader = styled(StyledGreyHeader)({
   borderTop: GovukColours.MidGrey,
   textAlign: 'right',
   fontSize: 19,
+  paddingLeft: '0.5em',
+  paddingRight: '0.5em',
 });
 
 export const StyledGroupSubHeader = styled(StyledGreyHeader)({
@@ -132,12 +138,15 @@ export const StyledGroupSubHeader = styled(StyledGreyHeader)({
   borderTop: GovukColours.MidGrey,
   textAlign: 'right',
   fontSize: 19,
+  paddingLeft: '0.5em',
+  paddingRight: '0.5em',
 });
 
 export const StyledBenchmarkHeader = styled(StyledGreyHeader)({
   backgroundColor: GovukColours.MidGrey,
   borderTop: GovukColours.LightGrey,
   textAlign: 'center',
+  paddingLeft: '0.5em',
   paddingRight: '0.5em',
   fontSize: 19,
 });
@@ -147,6 +156,7 @@ export const StyledBenchmarkSubHeader = styled(StyledGreyHeader)({
   borderTop: GovukColours.LightGrey,
   fontSize: 19,
   textAlign: 'right',
+  paddingLeft: '0.5em',
   paddingRight: '0.5em !important', // overrides the :last-child declaration which removes right padding
 });
 
