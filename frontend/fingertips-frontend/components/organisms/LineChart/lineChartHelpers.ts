@@ -306,17 +306,19 @@ export function generateStandardLineChartOptions(
     };
 
     return [
-      `<div style="padding-right: 25px">`,
-      `<span style="font-weight: bold">${category}${point.series.name}</span><br/>`,
-      `<span>${point.x}</span><br/>`,
-      `<div style="display: flex; margin-top: 15px; align-items: center;">`,
-      `<div style="margin-right: 10px;"><span style="color: ${point.series.color}; font-weight: bold;">${symbol}</span></div>`,
-      `<div style="padding-right: 10px;"><span>${formatNumber(point.y)}${formatValueUnit(optionalParams?.measurementUnit)}</span><br/>`,
-      `${!benchmarkLabel ? '' : '<span>' + benchmarkLabel + '</span><br/>'}`,
-      `${!comparisonLabel ? '' : '<span>' + comparisonLabel + '</span><br/>'}`,
-      `</div>`,
-      `</div>`,
-      `</div>`,
+      `
+      <div style="padding-right: 25px">
+        <span style="display: block; font-weight: bold">${category}${point.series.name}</span>
+        <span style="display: block;>${point.x}</span>
+        <div style="display: flex; margin-top: 15px; align-items: center;">
+          <div style="margin-right: 10px;"><span style="color: ${point.series.color}; font-weight: bold;">${symbol}</span></div>
+          <div style="padding-right: 10px;">
+            <span style="display: block;">${formatNumber(point.y)}${formatValueUnit(optionalParams?.measurementUnit)}</span>
+            ${!benchmarkLabel ? '' : '<span style="display: block;">' + benchmarkLabel + '</span>'}
+            ${!comparisonLabel ? '' : '<span style="display: block;">' + comparisonLabel + '</span>'}
+          </div>
+        </div>
+      </div>`,
     ];
   };
 
