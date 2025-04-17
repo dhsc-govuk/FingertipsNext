@@ -1,30 +1,22 @@
 'use client';
 
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { Paragraph } from 'govuk-react';
-import { hasHealthDataCheck } from './hasHealthDataCheck';
-import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
+import { hasSufficientHealthDataCheck } from './hasSufficientHealthDataCheck';
 
 interface ViewsWrapperProps {
   children: React.ReactNode;
-  searchState?: SearchStateParams;
+  areaCodes: string[];
   indicatorsDataForAreas?: IndicatorWithHealthDataForArea[];
 }
 
 export function ViewsWrapper({
   children,
-  searchState,
+  areaCodes,
   indicatorsDataForAreas,
 }: Readonly<ViewsWrapperProps>) {
-  const areasSelected = searchState?.[SearchParams.AreasSelected];
-
-  const areaCodes = determineAreaCodes(areasSelected);
-
-  const hasHealthDataForAllSelectedAreasAndIndicators = hasHealthDataCheck(
-    indicatorsDataForAreas ?? [],
-    areaCodes ?? []
-  );
+  const hasHealthDataForAllSelectedAreasAndIndicators =
+    hasSufficientHealthDataCheck(indicatorsDataForAreas ?? [], areaCodes ?? []);
 
   return (
     <>

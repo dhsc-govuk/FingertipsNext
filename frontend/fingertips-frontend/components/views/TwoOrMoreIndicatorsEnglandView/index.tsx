@@ -55,7 +55,7 @@ export default async function TwoOrMoreIndicatorsEnglandView({
 
   return (
     <ViewsWrapper
-      searchState={searchState}
+      areaCodes={areaCodes}
       indicatorsDataForAreas={combinedIndicatorData}
     >
       <TwoOrMoreIndicatorsEnglandViewPlots

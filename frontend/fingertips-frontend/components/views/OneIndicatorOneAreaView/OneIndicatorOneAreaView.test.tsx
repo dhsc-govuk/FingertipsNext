@@ -109,6 +109,31 @@ describe('OneIndicatorOneAreaView', () => {
     }
   );
 
+  it('should have made a call to getHealthIndicatorData using the defaulted to england area data when no areaTypeSelected and areaSelected was provided', async () => {
+    const searchState: SearchStateParams = {
+      [SearchParams.IndicatorsSelected]: ['1'],
+    };
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({});
+
+    await OneIndicatorOneAreaView({ searchState: searchState });
+
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(
+      1,
+      {
+        areaCodes: [areaCodeForEngland],
+        indicatorId: 1,
+        inequalities: [
+          GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
+          GetHealthDataForAnIndicatorInequalitiesEnum.Deprivation,
+        ],
+        areaType: englandAreaType.key,
+      },
+      API_CACHE_CONFIG
+    );
+  });
+
   it('should pass the first indicatorDocument from selectedIndicatorData as indicatorMetadata prop', async () => {
     const firstIndicatorDocument = generateIndicatorDocument('1');
 

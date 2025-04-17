@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import { ViewsWrapper } from '.';
-import { SearchParams } from '@/lib/searchStateManager';
 import {
   generateMockAreaHealthData,
+  generateMockHealthDataPoint,
   generateMockIndicatorWithAreaHealthData,
-} from './hasHealthDataCheck.test';
+} from './hasSufficientHealthDataCheck.test';
 
 const TestComponent = () => {
   return (
@@ -16,19 +16,18 @@ const TestComponent = () => {
 
 describe('ViewsWrapper', () => {
   it('should render the child component if there are healthData for the selected areas', () => {
-    const searchState = {
-      [SearchParams.AreasSelected]: ['A001'],
-    };
-
     const mockIndicatorsDataForAreas = [
       generateMockIndicatorWithAreaHealthData(1, [
-        generateMockAreaHealthData('A001'),
+        generateMockAreaHealthData('A001', [
+          generateMockHealthDataPoint(2022),
+          generateMockHealthDataPoint(2021),
+        ]),
       ]),
     ];
 
     render(
       <ViewsWrapper
-        searchState={searchState}
+        areaCodes={['A001']}
         indicatorsDataForAreas={mockIndicatorsDataForAreas}
       >
         <TestComponent />
@@ -42,10 +41,6 @@ describe('ViewsWrapper', () => {
   });
 
   it('should render "No data" if there are no healthData for all the selected areas', () => {
-    const searchState = {
-      [SearchParams.AreasSelected]: ['A002'],
-    };
-
     const mockIndicatorsDataForAreas = [
       generateMockIndicatorWithAreaHealthData(1, [
         generateMockAreaHealthData('A001'),
@@ -54,7 +49,7 @@ describe('ViewsWrapper', () => {
 
     render(
       <ViewsWrapper
-        searchState={searchState}
+        areaCodes={['A002']}
         indicatorsDataForAreas={mockIndicatorsDataForAreas}
       >
         <TestComponent />
