@@ -3,8 +3,9 @@ import { ViewsWrapper } from '.';
 import { SearchParams } from '@/lib/searchStateManager';
 import {
   generateMockAreaHealthData,
+  generateMockHealthDataPoint,
   generateMockIndicatorWithAreaHealthData,
-} from './hasHealthDataCheck.test';
+} from './hasSufficientHealthDataCheck.test';
 
 const TestComponent = () => {
   return (
@@ -22,7 +23,10 @@ describe('ViewsWrapper', () => {
 
     const mockIndicatorsDataForAreas = [
       generateMockIndicatorWithAreaHealthData(1, [
-        generateMockAreaHealthData('A001'),
+        generateMockAreaHealthData('A001', [
+          generateMockHealthDataPoint(2022),
+          generateMockHealthDataPoint(2021),
+        ]),
       ]),
     ];
 

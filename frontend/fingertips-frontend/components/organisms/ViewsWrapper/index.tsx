@@ -3,7 +3,7 @@
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { Paragraph } from 'govuk-react';
-import { hasHealthDataCheck } from './hasHealthDataCheck';
+import { hasSufficientHealthDataCheck } from './hasSufficientHealthDataCheck';
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 
 interface ViewsWrapperProps {
@@ -21,10 +21,8 @@ export function ViewsWrapper({
 
   const areaCodes = determineAreaCodes(areasSelected);
 
-  const hasHealthDataForAllSelectedAreasAndIndicators = hasHealthDataCheck(
-    indicatorsDataForAreas ?? [],
-    areaCodes ?? []
-  );
+  const hasHealthDataForAllSelectedAreasAndIndicators =
+    hasSufficientHealthDataCheck(indicatorsDataForAreas ?? [], areaCodes ?? []);
 
   return (
     <>

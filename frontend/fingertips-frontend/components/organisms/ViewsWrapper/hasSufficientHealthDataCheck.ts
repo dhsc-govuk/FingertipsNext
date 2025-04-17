@@ -1,20 +1,22 @@
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 
-const hasAreaHealthData = (
+const hasSufficientAreaHealthData = (
   indicatorDataForArea: IndicatorWithHealthDataForArea,
   areasSelected: string[]
 ): boolean => {
   if (indicatorDataForArea.areaHealthData) {
     return indicatorDataForArea.areaHealthData.reduce<boolean>(
-      (hasHealthData, healthData) => {
+      (hasSufficientAreaHealthData, areaHealthData) => {
         const hasAreaSelectedHealthData = areasSelected?.find(
-          (areaSelected) => areaSelected === healthData.areaCode
+          (areaSelected) =>
+            areaSelected === areaHealthData.areaCode &&
+            areaHealthData.healthData.length > 1
         );
 
         if (hasAreaSelectedHealthData) {
           return true;
         }
-        return hasHealthData;
+        return hasSufficientAreaHealthData;
       },
       false
     );
@@ -22,13 +24,13 @@ const hasAreaHealthData = (
   return false;
 };
 
-export const hasHealthDataCheck = (
+export const hasSufficientHealthDataCheck = (
   indicatorsDataForAreas: IndicatorWithHealthDataForArea[] = [],
   areasSelected: string[] = []
 ): boolean => {
   const hasHealthDataForAllSelectedAreasAndIndicators = indicatorsDataForAreas
     ?.map((indicatorData) => {
-      return hasAreaHealthData(indicatorData, areasSelected);
+      return hasSufficientAreaHealthData(indicatorData, areasSelected);
     })
     .some(
       (hasNoHealthDataForAllSelectedArea) => hasNoHealthDataForAllSelectedArea

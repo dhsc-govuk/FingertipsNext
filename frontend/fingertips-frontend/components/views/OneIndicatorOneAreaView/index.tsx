@@ -13,6 +13,7 @@ import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
 import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
+import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 
 export default async function OneIndicatorOneAreaView({
   selectedIndicatorsData,
@@ -23,7 +24,7 @@ export default async function OneIndicatorOneAreaView({
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.IndicatorsSelected]: indicatorSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
-    [SearchParams.AreaTypeSelected]: AreaTypeSelected,
+    [SearchParams.AreaTypeSelected]: areaTypeSelected,
   } = stateManager.getSearchState();
 
   const areaCodes = determineAreaCodes(areasSelected);
@@ -43,6 +44,11 @@ export default async function OneIndicatorOneAreaView({
   await connection();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
+  const areaTypeToUse =
+    areaCodes.length === 1 && areaCodes[0] === areaCodeForEngland
+      ? englandAreaType.key
+      : areaTypeSelected;
+
   let indicatorData: IndicatorWithHealthDataForArea | undefined;
   try {
     indicatorData = await indicatorApi.getHealthDataForAnIndicator(
@@ -53,7 +59,7 @@ export default async function OneIndicatorOneAreaView({
           GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
           GetHealthDataForAnIndicatorInequalitiesEnum.Deprivation,
         ],
-        areaType: AreaTypeSelected,
+        areaType: areaTypeToUse,
       },
       API_CACHE_CONFIG
     );
