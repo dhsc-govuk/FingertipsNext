@@ -59,7 +59,7 @@ describe('ThematicMap', () => {
 
   it('should render the loading message', async () => {
     testRender();
-    const msg = screen.getByText('Loading map geometry...');
+    const msg = screen.getByText('Fetching map geometry...');
     expect(msg).toBeInTheDocument();
   });
 

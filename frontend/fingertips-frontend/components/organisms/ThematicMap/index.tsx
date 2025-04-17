@@ -76,7 +76,7 @@ export function ThematicMap({
   ]);
 
   if (isLoading) {
-    return <div style={{ marginBottom: '2rem' }}>Loading map geometry...</div>;
+    return <div style={{ marginBottom: '2rem' }}>Fetching map geometry...</div>;
   }
 
   if (error) {
