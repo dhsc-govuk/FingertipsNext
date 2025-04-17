@@ -9,8 +9,6 @@ import {
   StyledBenchmarkSubHeader,
   StyledAlignRightBorderHeader,
   StyledStickyEmptyLeftHeader,
-  StickyValueUnitHeader,
-  StickyPeriodHeader,
   StyledAlignLeftStickyLeftHeader,
   StyledAlignRightHeaderPad,
 } from './SpineChartTableStyles';
@@ -48,12 +46,12 @@ const initialHeadersList: HeaderData[] = [
   {
     title: SpineChartTableHeadingEnum.IndicatorPeriod,
     uniqueIdentifier: 'indicator-period-header',
-    styledComponent: StickyPeriodHeader,
+    styledComponent: StyledAlignCentreHeader,
   },
   {
     title: SpineChartTableHeadingEnum.IndicatorUnit,
     uniqueIdentifier: 'indicator-unit-header',
-    styledComponent: StickyValueUnitHeader,
+    styledComponent: StyledAlignRightBorderHeader,
   },
 ];
 
@@ -165,9 +163,13 @@ export function SpineChartTableHeader({
     <>
       <Table.Row key={`${areaNames.concat()}`}>
         <StyledStickyEmptyLeftHeader
-          colSpan={3}
-          data-testid="empty-header"
+          colSpan={1}
+          data-testid="empty-header-sticky"
         ></StyledStickyEmptyLeftHeader>
+        <Table.CellHeader
+          colSpan={2}
+          data-testid="empty-header"
+        ></Table.CellHeader>
         {areaNames.map((areaName, index) => (
           <StyledAlignCentreHeader
             colSpan={twoAreasRequested ? 2 : 3}
