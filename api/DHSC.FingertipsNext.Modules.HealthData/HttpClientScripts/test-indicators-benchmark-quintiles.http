@@ -57,50 +57,56 @@ GET http://localhost:5144/indicators/94103/data?area_codes=E08000029&area_codes=
 
 ### check High is good TODO - POC data doesn't offer data to validate this
 
-### check No Judgement - current site doesn't 
+### check No Judgement - current site doesn't
 GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=A84022&area_type=gps&years=2023&years=2022&years=2021&years=2020
 
 > {%
-        const expectedResults = [ 
-            {areaName:"Coquet Medical Group", year:2020, outcome:"Middle"},
-            {areaName:"Coquet Medical Group", year:2021, outcome:"Low"},
-            {areaName:"Coquet Medical Group", year:2022, outcome:"Highest"},
-            {areaName:"Coquet Medical Group", year:2023, outcome:"Highest"},
-            {areaName:"The Leys Health Centre", year:2020, outcome:"Middle"},
-            {areaName:"The Leys Health Centre", year:2021, outcome:"Low"},
-            {areaName:"The Leys Health Centre", year:2022, outcome:"Middle"},
-            {areaName:"The Leys Health Centre", year:2023, outcome:"High"},
-            ];
+        client.test("received expected health data with quintile comparison", () => {
+            const expectedResults = [ 
+                {areaName:"Coquet Medical Group", year:2020, outcome:"Middle"},
+                {areaName:"Coquet Medical Group", year:2021, outcome:"Poop"},
+                {areaName:"Coquet Medical Group", year:2022, outcome:"Highest"},
+                {areaName:"Coquet Medical Group", year:2023, outcome:"Highest"},
+                {areaName:"The Leys Health Centre", year:2020, outcome:"Middle"},
+                {areaName:"The Leys Health Centre", year:2021, outcome:"Low"},
+                {areaName:"The Leys Health Centre", year:2022, outcome:"Middle"},
+                {areaName:"The Leys Health Centre", year:2023, outcome:"High"},
+                ];
 
-        expectedResults.forEach((expected) => {
-             client.assert(
-                response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                .healthData.find(dataPoint => dataPoint.year === expected.year)
-                .benchmarkComparison.outcome === expected.outcome
-            );
-        });    
+            expectedResults.forEach((expected) => {
+                client.assert(
+                    response.body.areaHealthData.find(area => area.areaName === expected.areaName)
+                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .benchmarkComparison.outcome === expected.outcome,
+                    `failed for ${expected.areaName}`
+                );
+            });
+        });
 %}
 
 
-### check Low is good 
+### check Low is good polarity
 GET http://localhost:5144/indicators/94103/data?area_codes=E10000014&area_codes=E08000029&area_codes=E06000005&area_codes=E09000023&area_type=counties-and-unitary-authorities&years=2019&years=2018&years=2017&years=2016
 
 > {%
-        const expectedResults = [ 
-            {areaName:"Darlington", year:2016, outcome:"Worse"},
-            {areaName:"Darlington", year:2019, outcome:"Worse"},
-            {areaName:"Hampshire", year:2016, outcome:"Best"},
-            {areaName:"Hampshire", year:2019, outcome:"Best"},
-            {areaName:"Lewisham", year:2016, outcome:"Better"},
-            {areaName:"Lewisham", year:2019, outcome:"Better"},
-            ];
+        client.test("received expected health data with quintile comparison", () => {
+            const expectedResults = [
+                {areaName:"Darlington", year:2016, outcome:"Worse"},
+                {areaName:"Darlington", year:2019, outcome:"Worse"},
+                {areaName:"Hampshire", year:2016, outcome:"Best"},
+                {areaName:"Hampshire", year:2019, outcome:"Best"},
+                {areaName:"Lewisham", year:2016, outcome:"Better"},
+                {areaName:"Lewisham", year:2019, outcome:"Better"},
+                ];
 
-        expectedResults.forEach((expected) => {
-             client.assert(
-                response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                .healthData.find(dataPoint => dataPoint.year === expected.year)
-                .benchmarkComparison.outcome === expected.outcome
-            );
+            expectedResults.forEach((expected) => {
+                client.assert(
+                    response.body.areaHealthData.find(area => area.areaName === expected.areaName)
+                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .benchmarkComparison.outcome === expected.outcome,
+                    `failed for ${expected.areaName}`
+                );
+            });
         });
 %}
 
