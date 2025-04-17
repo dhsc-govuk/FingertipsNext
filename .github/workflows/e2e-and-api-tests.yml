@@ -67,7 +67,7 @@ jobs:
       - name: Run .http API tests
         working-directory: ./api
         run: |
-          npx httpyac send ./**/*.http --all --json --output-failed short --output short | tee httpyacresults.json
+          npx httpyac send ./**/*.http --all --json --filter only-failed --output-failed exchange | tee httpyacresults.json
           HTTP_EXIT_CODE=${PIPESTATUS[0]}
 
           # Exit with the same code that httpyac returned

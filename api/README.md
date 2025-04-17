@@ -26,10 +26,16 @@ This project includes unit tests which must be run and extended as needed. They 
 
 The project also includes .http files which define API requests and validation which should be run as integration tests with the DB. These can be run using the VSCode "REST Client" plugin.
 
-The .http files include embedded scripts to validate the responses. To execute these tests locally, first spin up the docker environment and then, from the api directory do:
+The .http files include embedded scripts to validate the responses. To execute these tests locally, first spin up the docker environment and then, from the api directory run:
 
+`npx httpyac send ./**/*.http --all --json --filter only-failed --output-failed exchange > httpyacresults.json`
+
+This will execute the .http test files and direct the output to the `httpyacresults.json` file. The report will only include failed tests
+and will provide the full failing response body and headers etc.
+
+The same command is also executed in the push and pull_request pipelines once the docker services have been started, and before the e2e tests run.
+
+Alternatively, if you would like a high-level report of all the tests, you can run:
 `npx httpyac send ./**/*.http --all --json --output-failed short --output short > httpyacresults.json`
 
-This will execute the .http test files and build an output report file.
-
-Note that these tests are executed in the push and pull_request pipelines, once the docker services have been started, and before the e2e tests run.
+For more info on this tool, please visit: [httpyac](https://www.npmjs.com/package/httpyac)
