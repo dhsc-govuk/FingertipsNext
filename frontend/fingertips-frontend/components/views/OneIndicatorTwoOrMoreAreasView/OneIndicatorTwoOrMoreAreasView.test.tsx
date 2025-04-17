@@ -2,11 +2,7 @@
  * @jest-environment node
  */
 
-import {
-  BenchmarkComparisonMethod,
-  IndicatorPolarity,
-  IndicatorsApi,
-} from '@/generated-sources/ft-api-client';
+import { IndicatorsApi } from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { mockDeep } from 'jest-mock-extended';
 
@@ -15,16 +11,12 @@ import {
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
 import { mockHealthData } from '@/mock/data/healthdata';
-import regionsMap from '@/assets/maps/Regions_December_2023_Boundaries_EN_BUC_1958740832896680092.geo.json';
-import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 import { regionsAreaType } from '@/lib/areaFilterHelpers/areaType';
 import OneIndicatorTwoOrMoreAreasView from '@/components/views/OneIndicatorTwoOrMoreAreasView/index';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
-
-const mockMapGeographyData = { mapFile: regionsMap };
 
 describe('OneIndicatorTwoOrMoreAreasView', () => {
   afterEach(() => {
@@ -157,38 +149,6 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
         latestOnly: false,
       },
       API_CACHE_CONFIG
-    );
-  });
-
-  it('should pass the map data if all areas in the group are selected', async () => {
-    const searchState: SearchStateParams = {
-      [SearchParams.IndicatorsSelected]: ['1'],
-      [SearchParams.AreasSelected]: ['E12000004', 'E12000006'],
-      [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
-      [SearchParams.AreaTypeSelected]: 'regions',
-    };
-    const mockIndicatorData = {
-      polarity: IndicatorPolarity.LowIsGood,
-      benchmarkComparisonMethod:
-        BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-      areaHealthData: [mockHealthData['108'][1]],
-    };
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
-      mockIndicatorData
-    );
-
-    const page = await OneIndicatorTwoOrMoreAreasView({
-      searchState: searchState,
-      availableAreas: [
-        { code: 'E12000004', name: 'area 1', areaType: regionsAreaType },
-        { code: 'E12000006', name: 'area 2', areaType: regionsAreaType },
-      ],
-    });
-
-    expect(page.props.children.props.indicatorData).toEqual(mockIndicatorData);
-    expect(page.props.children.props.searchState).toEqual(searchState);
-    expect(page.props.children.props.mapGeographyData.mapFile).toEqual(
-      mockMapGeographyData.mapFile
     );
   });
 });

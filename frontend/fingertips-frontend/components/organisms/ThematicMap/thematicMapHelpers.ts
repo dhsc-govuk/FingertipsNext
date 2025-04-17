@@ -33,46 +33,16 @@ export type AreaTypeKeysForMapMeta =
 
 interface MapMetaData {
   joinKey: string;
-  mapFile: () => Promise<{ default: GeoJSON }>;
+  mapFile: string;
   mapSource: string;
   mapCopyright: string;
   mapSourceURL: string;
 }
 
-// where to find map data, the compiler needs to see import('@/...') it cannot accept a variable in import
-const regionsMap = () =>
-  import(
-    '@/assets/maps/Regions_December_2023_Boundaries_EN_BUC_1958740832896680092.geo.json'
-  );
-const countiesAndUAsMap = () =>
-  import(
-    '@/assets/maps/Counties_and_Unitary_Authorities_December_2023_Boundaries_UK_BSC_4952317392296043005.geo.json'
-  );
-const districtsAndUAsMap = () =>
-  import(
-    '@/assets/maps/Local_Authority_Districts_May_2024_Boundaries__UK_BSC_-5684348521832897108.geo.json'
-  );
-const combinedAuthoritiesMap = () =>
-  import(
-    '@/assets/maps/Combined_Authorities_December_2023_Boundaries_EN_BUC_2257483154257386964.geo.json'
-  );
-const NHSRegionsMap = () =>
-  import(
-    '@/assets/maps/NHS_England_Regions_January_2024_EN_BSC_7500404208533377417.geo.json'
-  );
-const NHSICBMap = () =>
-  import(
-    '@/assets/maps/Integrated_Care_Boards_April_2023_EN_BSC_-187828753279616787.geo.json'
-  );
-const NHSSubICBMap = () =>
-  import(
-    '@/assets/maps/NHS_SubICB_April_2023_EN_BSC_8040841744469859785.geo.json'
-  );
-
 export const mapMetaDataEncoder: Record<AreaTypeKeysForMapMeta, MapMetaData> = {
   'regions': {
     joinKey: 'RGN23CD',
-    mapFile: regionsMap,
+    mapFile: 'regions.json',
     mapSource: `Office for National Statistics: Regions 2023`,
     mapCopyright: `Office for National Statistics licensed under the Open Government Licence v.3.0
     Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`,
@@ -81,7 +51,8 @@ export const mapMetaDataEncoder: Record<AreaTypeKeysForMapMeta, MapMetaData> = {
   },
   'combined-authorities': {
     joinKey: 'CAUTH23CD',
-    mapFile: combinedAuthoritiesMap,
+    mapFile:
+      'Combined_Authorities_December_2023_Boundaries_EN_BUC_2257483154257386964.geo.json',
     mapSource: `Office for National Statistics: Combined Authorities December 2023`,
     mapCopyright: `Office for National Statistics licensed under the Open Government Licence v.3.0
     Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`,
@@ -90,7 +61,8 @@ export const mapMetaDataEncoder: Record<AreaTypeKeysForMapMeta, MapMetaData> = {
   },
   'counties-and-unitary-authorities': {
     joinKey: 'CTYUA23CD',
-    mapFile: countiesAndUAsMap,
+    mapFile:
+      'Counties_and_Unitary_Authorities_December_2023_Boundaries_UK_BSC_4952317392296043005.geo.json',
     mapSource: `Office for National Statistics: Counties and Unitary Authorities December 2023`,
     mapCopyright: `Office for National Statistics licensed under the Open Government Licence v.3.0
     Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`,
@@ -99,7 +71,8 @@ export const mapMetaDataEncoder: Record<AreaTypeKeysForMapMeta, MapMetaData> = {
   },
   'districts-and-unitary-authorities': {
     joinKey: 'LAD24CD',
-    mapFile: districtsAndUAsMap,
+    mapFile:
+      'Local_Authority_Districts_May_2024_Boundaries__UK_BSC_-5684348521832897108.geo.json',
     mapSource: `Office for National Statistics: Local Authority Districts May 2024`,
     mapCopyright: `Office for National Statistics licensed under the Open Government Licence v.3.0
         Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`,
@@ -108,7 +81,8 @@ export const mapMetaDataEncoder: Record<AreaTypeKeysForMapMeta, MapMetaData> = {
   },
   'nhs-regions': {
     joinKey: 'NHSER24CD',
-    mapFile: NHSRegionsMap,
+    mapFile:
+      'NHS_England_Regions_January_2024_EN_BSC_7500404208533377417.geo.json',
     mapSource: `Office for National Statistics: NHS Regions January 2024`,
     mapCopyright: `Office for National Statistics licensed under the Open Government Licence v.3.0
     Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`,
@@ -117,7 +91,8 @@ export const mapMetaDataEncoder: Record<AreaTypeKeysForMapMeta, MapMetaData> = {
   },
   'nhs-integrated-care-boards': {
     joinKey: 'ICB23CD',
-    mapFile: NHSICBMap,
+    mapFile:
+      'Integrated_Care_Boards_April_2023_EN_BSC_-187828753279616787.geo.json',
     mapSource: `Office for National Statistics: NHS Integrated Care Boards April 2023`,
     mapCopyright: `Office for National Statistics licensed under the Open Government Licence v.3.0
     Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`,
@@ -126,7 +101,7 @@ export const mapMetaDataEncoder: Record<AreaTypeKeysForMapMeta, MapMetaData> = {
   },
   'nhs-sub-integrated-care-boards': {
     joinKey: 'SICBL23CD',
-    mapFile: NHSSubICBMap,
+    mapFile: 'NHS_SubICB_April_2023_EN_BSC_8040841744469859785.geo.json',
     mapSource: `Office for National Statistics: Sub NHS Integrated Care Boards April 2023 `,
     mapCopyright: `Office for National Statistics licensed under the Open Government Licence v.3.0
     Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`,
@@ -135,16 +110,14 @@ export const mapMetaDataEncoder: Record<AreaTypeKeysForMapMeta, MapMetaData> = {
   },
 };
 
-export async function getMapGeographyData(
+export function getMapGeographyData(
   areaType: AreaTypeKeysForMapMeta,
-  areaCodes: string[]
-): Promise<MapGeographyData> {
-  const mapModule = await mapMetaDataEncoder[areaType].mapFile();
-  const mapFile: GeoJSON = mapModule.default;
+  areaCodes: string[],
+  mapFile: GeoJSON
+): MapGeographyData {
+  const featureKey = mapMetaDataEncoder[areaType]?.joinKey;
   const groupAreas = mapFile.features.filter((feature) =>
-    areaCodes.includes(
-      feature.properties[mapMetaDataEncoder[areaType]?.joinKey]
-    )
+    areaCodes.includes(feature.properties[featureKey])
   );
   const groupFeatureCollection = {
     type: 'FeatureCollection',

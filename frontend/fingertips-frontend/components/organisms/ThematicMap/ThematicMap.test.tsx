@@ -1,14 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { ThematicMap } from '.';
-import { getMapGeographyData } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 import { SearchStateContext } from '@/context/SearchStateContext';
-import { SearchParams } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import regionsMap from '@/components/organisms/ThematicMap/regions.json';
+import { reactQueryClient } from '@/lib/reactQueryClient';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
-const mockAreaType = 'regions';
 const mockAreaCodes = ['E12000001', 'E12000002'];
-const mockMapGeographyData = getMapGeographyData(mockAreaType, mockAreaCodes);
-
 const mockGetSearchState = jest.fn();
 const mockSearchStateContext: SearchStateContext = {
   getSearchState: mockGetSearchState,
@@ -20,40 +20,70 @@ jest.mock('@/context/SearchStateContext', () => {
   };
 });
 
+const testRender = () => {
+  (fetch as jest.Mock).mockResolvedValueOnce({
+    ok: true,
+    json: async () => regionsMap,
+  });
+
+  const searchState: SearchStateParams = {
+    [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
+    [SearchParams.AreaTypeSelected]: 'regions',
+  };
+
+  mockGetSearchState.mockReturnValue(searchState);
+  render(
+    <QueryClientProvider client={reactQueryClient}>
+      <ThematicMap
+        healthIndicatorData={mockHealthData['92420']}
+        benchmarkComparisonMethod={'Unknown'}
+        polarity={'Unknown'}
+        areaCodes={mockAreaCodes}
+        selectedAreaType={'regions'}
+      />
+    </QueryClientProvider>
+  );
+};
+
 describe('ThematicMap', () => {
   beforeEach(() => {
+    global.fetch = jest.fn();
     mockGetSearchState.mockReturnValue({
       [SearchParams.AreaTypeSelected]: 'regions',
     });
   });
 
-  it('should render the benchmark legend', async () => {
-    render(
-      <ThematicMap
-        healthIndicatorData={mockHealthData['92420']}
-        mapGeographyData={await mockMapGeographyData}
-        benchmarkComparisonMethod={'Unknown'}
-        polarity={'Unknown'}
-      />
-    );
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
 
-    expect(
-      await screen.findByTestId('benchmarkLegend-component')
-    ).toBeInTheDocument();
+  it('should render the loading message', async () => {
+    testRender();
+    const msg = screen.getByText('Loading map geometry...');
+    expect(msg).toBeInTheDocument();
+  });
+
+  it('should render the benchmark title', async () => {
+    testRender();
+    const title = await screen.findByRole('heading', { level: 3 });
+    expect(title).toHaveTextContent('Compare an indicator by areas');
+  });
+
+  it('should render the benchmark legend', async () => {
+    testRender();
+    const legend = await screen.findByTestId('benchmarkLegend-component');
+    expect(legend).toBeInTheDocument();
   });
 
   it('should render the credits', async () => {
-    render(
-      <ThematicMap
-        healthIndicatorData={mockHealthData['92420']}
-        mapGeographyData={await mockMapGeographyData}
-        benchmarkComparisonMethod={'Unknown'}
-        polarity={'Unknown'}
-      />
-    );
+    testRender();
+    const credits = await screen.findByTestId('thematic-map-credits');
+    expect(credits).toBeInTheDocument();
+  });
 
-    expect(
-      await screen.findByTestId('thematic-map-credits')
-    ).toBeInTheDocument();
+  it('should render the hovers', async () => {
+    testRender();
+    const hovers = await screen.findAllByTestId('benchmark-tooltip-area');
+    expect(hovers).toHaveLength(9);
   });
 });
