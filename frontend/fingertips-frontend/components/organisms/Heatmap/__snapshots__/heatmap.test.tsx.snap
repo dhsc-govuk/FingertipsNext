@@ -450,6 +450,12 @@ exports[`snapshot test 1`] = `
 }
 
 .c5 {
+  background: white;
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  padding-right: 0.5em;
   vertical-align: bottom;
   width: 240px;
 }
@@ -457,6 +463,7 @@ exports[`snapshot test 1`] = `
 .c9 {
   vertical-align: bottom;
   padding-right: 10px;
+  padding-left: 10px;
 }
 
 .c10 {
@@ -466,12 +473,22 @@ exports[`snapshot test 1`] = `
   padding-left: 1em;
 }
 
-.c17 {
+.c16 {
+  background: white;
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  padding-right: 0.5em;
+  border-right: solid #bfc1c3 1px;
+}
+
+.c18 {
   min-height: 70px;
   padding-right: 0;
 }
 
-.c19 {
+.c20 {
   text-align: center;
   padding: 0;
   position: relative;
@@ -479,22 +496,22 @@ exports[`snapshot test 1`] = `
   vertical-align: middle;
 }
 
-.c20 {
+.c21 {
   color: #0B0C0C;
   background-color: #B1B4B6;
 }
 
-.c22 {
+.c23 {
   color: #0B0C0C;
   background-color: #FFFFFF;
 }
 
-.c23 {
+.c24 {
   color: #FFFFFF;
   background-color: #6B33C3;
 }
 
-.c21 {
+.c22 {
   margin: 2px;
   padding: 10px;
   min-width: 40px;
@@ -515,7 +532,7 @@ exports[`snapshot test 1`] = `
   align-items: center;
 }
 
-.c16 {
+.c17 {
   text-overflow: ellipsis;
   overflow: hidden;
   width: 240px;
@@ -524,16 +541,15 @@ exports[`snapshot test 1`] = `
   -webkit-box-orient: vertical;
 }
 
-.c18 {
+.c19 {
   min-width: 40px;
   padding-right: 20px;
+  padding-left: 20px;
 }
 
 .c2 {
-  display: block;
-  width: 100%;
-  table-layout: fixed;
-  overflow: visible;
+  border-collapse: separate;
+  width: auto;
   height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
@@ -705,71 +721,71 @@ exports[`snapshot test 1`] = `
           class=" c3"
         >
           <td
-            class="c15"
+            class="c15 c16"
             data-testid="heatmap-cell-indicator-title"
           >
             <div
-              class="c16"
+              class="c17"
             >
               Donkey / Goose ratio
             </div>
           </td>
           <td
-            class="c15 c17"
+            class="c15 c18"
             data-testid="heatmap-cell-indicator-info"
           >
             <div
-              class="c18"
+              class="c19"
             >
               2002
             </div>
           </td>
           <td
-            class="c15 c17"
+            class="c15 c18"
             data-testid="heatmap-cell-indicator-info"
           >
             <div
-              class="c18"
+              class="c19"
             >
               %
             </div>
           </td>
           <td
-            class="c15 c19 c20"
+            class="c15 c20 c21"
             data-testid="heatmap-cell-data"
           >
             <div
-              class="c21"
+              class="c22"
             >
               1,112.0
             </div>
           </td>
           <td
-            class="c15 c19 c22"
+            class="c15 c20 c23"
             data-testid="heatmap-cell-data"
           >
             <div
-              class="c21"
+              class="c22"
             >
               1,132.0
             </div>
           </td>
           <td
-            class="c15 c19 c22"
+            class="c15 c20 c23"
             data-testid="heatmap-cell-data"
           >
             <div
-              class="c21"
+              class="c22"
             >
               1,142.0
             </div>
           </td>
           <td
-            class="c15 c19 c22"
+            class="c15 c20 c23"
             data-testid="heatmap-cell-data"
           >
             <div
-              class="c21"
+              class="c22"
             >
               1,122.0
             </div>
@@ -779,71 +795,71 @@ exports[`snapshot test 1`] = `
           class=" c3"
         >
           <td
-            class="c15"
+            class="c15 c16"
             data-testid="heatmap-cell-indicator-title"
           >
             <div
-              class="c16"
+              class="c17"
             >
               Rate of walkers tripping over sheep
             </div>
           </td>
           <td
-            class="c15 c17"
+            class="c15 c18"
             data-testid="heatmap-cell-indicator-info"
           >
             <div
-              class="c18"
+              class="c19"
             >
               2002
             </div>
           </td>
           <td
-            class="c15 c17"
+            class="c15 c18"
             data-testid="heatmap-cell-indicator-info"
           >
             <div
-              class="c18"
+              class="c19"
             >
               per 100
             </div>
           </td>
           <td
-            class="c15 c19 c20"
+            class="c15 c20 c21"
             data-testid="heatmap-cell-data"
           >
             <div
-              class="c21"
+              class="c22"
             >
               112.0
             </div>
           </td>
           <td
-            class="c15 c19 c22"
+            class="c15 c20 c23"
             data-testid="heatmap-cell-data"
           >
             <div
-              class="c21"
+              class="c22"
             >
               132.0
             </div>
           </td>
           <td
-            class="c15 c19 c22"
+            class="c15 c20 c23"
             data-testid="heatmap-cell-data"
           >
             <div
-              class="c21"
+              class="c22"
             >
               142.0
             </div>
           </td>
           <td
-            class="c15 c19 c22"
+            class="c15 c20 c23"
             data-testid="heatmap-cell-data"
           >
             <div
-              class="c21"
+              class="c22"
             >
               X
             </div>
@@ -853,71 +869,71 @@ exports[`snapshot test 1`] = `
           class=" c3"
         >
           <td
-            class="c15"
+            class="c15 c16"
             data-testid="heatmap-cell-indicator-title"
           >
             <div
-              class="c16"
+              class="c17"
             >
               Very Verbose Indicator Name With an Extreeeeeeeme Number of Words to Try And Trip Up The View. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus varius magna massa, commodo consectetur erat hendrerit id. In semper, nibh eu efficitur sagittis, quam lectus semper augue, quis vestibulum ipsum urna ut orci.
             </div>
           </td>
           <td
-            class="c15 c17"
+            class="c15 c18"
             data-testid="heatmap-cell-indicator-info"
           >
             <div
-              class="c18"
+              class="c19"
             >
               2004
             </div>
           </td>
           <td
-            class="c15 c17"
+            class="c15 c18"
             data-testid="heatmap-cell-indicator-info"
           >
             <div
-              class="c18"
+              class="c19"
             >
               per 1,000
             </div>
           </td>
           <td
-            class="c15 c19 c22"
+            class="c15 c20 c23"
             data-testid="heatmap-cell-data"
           >
             <div
-              class="c21"
+              class="c22"
             >
               X
             </div>
           </td>
           <td
-            class="c15 c19 c22"
+            class="c15 c20 c23"
             data-testid="heatmap-cell-data"
           >
             <div
-              class="c21"
+              class="c22"
             >
               X
             </div>
           </td>
           <td
-            class="c15 c19 c23"
+            class="c15 c20 c24"
             data-testid="heatmap-cell-data"
           >
             <div
-              class="c21"
+              class="c22"
             >
               41.0
             </div>
           </td>
           <td
-            class="c15 c19 c22"
+            class="c15 c20 c23"
             data-testid="heatmap-cell-data"
           >
             <div
-              class="c21"
+              class="c22"
             >
               X
             </div>

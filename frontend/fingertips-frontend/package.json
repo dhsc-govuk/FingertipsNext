@@ -12,7 +12,7 @@
     "build": "next build",
     "start": "cross-env NODE_OPTIONS='--max-http-header-size=32768' next start",
     "start-local-mocks": "cross-env MOCK_SERVER=true npm run start",
-    "api:start": "cross-env  COMPOSE_BAKE=true docker compose --profile api up --build",
+    "api:start": "cross-env COMPOSE_BAKE=true docker compose --profile api up --build",
     "api:stop": "docker compose --profile api down",
     "start:all": "cross-env COMPOSE_BAKE=false docker compose --profile all up --build --remove-orphans --wait -d",
     "stop:all": "docker compose --profile all down",

@@ -7,9 +7,9 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { orderStatistics } from './SpineChartHelpers';
 import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
-import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { SpineChartProps } from '.';
 import { formatNumber } from '@/lib/numberFormatter';
+import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 
 const markerLineWidth = 1;
 
@@ -45,45 +45,78 @@ function formatUnits(units: string): string {
   return units;
 }
 
-function formatBarHover(
-  period: number,
-  lowerName: string,
-  lowerValue: number,
-  upperName: string,
-  upperValue: number,
-  units: string
-) {
-  return `<div style="margin:0px; padding:0px;">
-              <span style="font-weight: bold; display: block;">
-              Benchmark: England
-              </span>
-              <span style="display: block;">${period}</span>
-              <div>
-              <span style="display: block;">${formatNumber(lowerValue)}${formatUnits(units)} to ${formatNumber(upperValue)}${formatUnits(units)}</span>
-              <span style="display: block;">${lowerName} to ${upperName}</span>
-              </div>
-              </div>`;
+interface FormatBarHoverProps {
+  period: number;
+  lowerName: string;
+  lowerValue: number;
+  upperName: string;
+  upperValue: number;
+  units: string;
+  colour: string;
 }
 
-function formatSymbolHover(
-  title: string,
-  period: number,
-  benchmarkComparisonMethod: BenchmarkComparisonMethod,
-  value: number,
-  units: string,
-  outcome: string
-) {
-  return `<div style="margin:0px; padding:0px;">
-              <span style="font-weight: bold; display: block;">
-              ${title}
-              </span>
-              <span style="display: block;">${period}</span>
-              <div>
-              <span style="display: block;">${formatNumber(value)}${formatUnits(units)}</span>
-              <span style="display: block;">${outcome}</span>
-              <span style="display: block;">${benchmarkComparisonMethodToString(benchmarkComparisonMethod)}</span>
+interface FormatSymbolHoverProps {
+  title: string;
+  period: number;
+  benchmarkComparisonMethod: BenchmarkComparisonMethod;
+  value: number;
+  units: string;
+  outcome: string;
+  colour: string;
+  shape: SymbolsEnum;
+}
+
+function formatSymbol(colour: string, shape: SymbolsEnum) {
+  return `<span style="color:${colour}; font-size:19px;">${shape}</span>`;
+}
+
+function formatTitleBlock(title: string, period: number) {
+  return `<div style="min-width: 100px; font-size: 16px;">
+        <h4 style="margin:0px; padding:0px;">
+          ${title}
+        </h4>
+        <span style="display: block;">${period}</span>`;
+}
+
+function formatBarHover(props: FormatBarHoverProps) {
+  return `${formatTitleBlock('Benchmark: England', props.period)}
+            <div style="padding:0px; margin:0px;">
+                <div style="display:flex; 
+                  flex-direction:row;
+                  align-items: center;
+                  flex-wrap:nowrap;
+                  justify-content: flex-start;
+                  ">
+                  <span style="color:${props.colour}; font-size:19px;">${SymbolsEnum.Square}</span> 
+                  <div style="flex-grow:2; padding:0.5em;">
+                    <span style="display: block;">${formatNumber(props.lowerValue)}${formatUnits(props.units)} to ${formatNumber(props.upperValue)}${formatUnits(props.units)}</span>
+                    <span style="display: block;">${props.lowerName} to ${props.upperName}</span>
+                  </div>
               </div>
-              <div>`;
+            <div>
+          <div>`;
+}
+
+function formatSymbolHover(props: FormatSymbolHoverProps) {
+  return `${formatTitleBlock(props.title, props.period)}
+            <div style="padding:0px; margin:0px;">
+                <div style="display:flex; 
+                  flex-direction:row;
+                  align-items: center;
+                  flex-wrap:nowrap;
+                  justify-content: flex-start;
+                  ">
+                  ${formatSymbol(props.colour, props.shape)} 
+                  <div style="flex-grow:2; 
+                    padding:0.5em;
+                    ">
+                    <span style="display: block;">${formatNumber(props.value)}${formatUnits(props.units)}</span>
+                    <span style="display: block;">${props.outcome}</span>
+                    <span style="display: block;">${benchmarkComparisonMethodToString(props.benchmarkComparisonMethod)}</span>
+                  </div>
+              </div>
+            <div>
+          <div>`;
 }
 
 export function generateSeriesData({
@@ -136,56 +169,60 @@ export function generateSeriesData({
   )[] = [
     {
       type: 'bar',
-      name: formatBarHover(
-        period,
-        'Worst',
-        worst,
-        '25th percentile',
-        lowerQuartile,
-        units
-      ),
+      name: formatBarHover({
+        period: period,
+        lowerName: 'Worst',
+        lowerValue: worst,
+        upperName: '25th percentile',
+        upperValue: lowerQuartile,
+        units: units,
+        colour: GovukColours.MidGrey,
+      }),
       pointWidth: 30,
       color: GovukColours.MidGrey,
       data: [-scaledFourthQuartileBar],
     },
     {
       type: 'bar',
-      name: formatBarHover(
-        period,
-        'Best',
-        best,
-        '75th percentile',
-        upperQuartile,
-        units
-      ),
+      name: formatBarHover({
+        period: period,
+        lowerName: 'Best',
+        lowerValue: best,
+        upperName: '75th percentile',
+        upperValue: upperQuartile,
+        units: units,
+        colour: GovukColours.MidGrey,
+      }),
       pointWidth: 30,
       color: GovukColours.MidGrey,
       data: [scaledFirstQuartileBar],
     },
     {
       type: 'bar',
-      name: formatBarHover(
-        period,
-        '25th percentile',
-        lowerQuartile,
-        '75th percentile',
-        upperQuartile,
-        units
-      ),
+      name: formatBarHover({
+        period: period,
+        lowerName: '25th percentile',
+        lowerValue: lowerQuartile,
+        upperName: '75th percentile',
+        upperValue: upperQuartile,
+        units: units,
+        colour: GovukColours.DarkGrey,
+      }),
       pointWidth: 30,
       color: GovukColours.DarkGrey,
       data: [-scaledThirdQuartileBar],
     },
     {
       type: 'bar',
-      name: formatBarHover(
-        period,
-        '25th percentile',
-        lowerQuartile,
-        '75th percentile',
-        upperQuartile,
-        units
-      ),
+      name: formatBarHover({
+        period: period,
+        lowerName: '25th percentile',
+        lowerValue: lowerQuartile,
+        upperName: '75th percentile',
+        upperValue: upperQuartile,
+        units: units,
+        colour: GovukColours.DarkGrey,
+      }),
       pointWidth: 30,
       color: GovukColours.DarkGrey,
       data: [scaledSecondQuartileBar],
@@ -201,14 +238,17 @@ export function generateSeriesData({
     const scaledGroup = absGroupValue / maxDiffFromBenchmark;
     seriesData.push({
       type: 'scatter',
-      name: formatSymbolHover(
-        `Group: ${groupName}`,
-        period,
-        benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
-        groupValue,
-        units,
-        groupOutcome ?? 'Not compared'
-      ),
+      name: formatSymbolHover({
+        title: `Group: ${groupName}`,
+        period: period,
+        benchmarkComparisonMethod:
+          benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
+        value: groupValue,
+        units: units,
+        outcome: groupOutcome ?? 'Not compared',
+        colour: '#fff',
+        shape: SymbolsEnum.Diamond,
+      }),
       marker: {
         symbol: 'diamond',
         radius: 8,
@@ -239,14 +279,17 @@ export function generateSeriesData({
     const scaledArea = absAreaValue / maxDiffFromBenchmark;
     seriesData.push({
       type: 'scatter',
-      name: formatSymbolHover(
-        areaName,
-        period,
-        benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
-        value,
-        units,
-        outcome ?? 'Not compared'
-      ),
+      name: formatSymbolHover({
+        title: areaName,
+        period: period,
+        benchmarkComparisonMethod:
+          benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
+        value: value,
+        units: units,
+        outcome: outcome ?? 'Not compared',
+        colour: fillColor ?? '#ffffff',
+        shape: index === 0 ? SymbolsEnum.Circle : SymbolsEnum.Square,
+      }),
       marker: {
         symbol: index === 0 ? 'circle' : 'square',
         radius: 6,
@@ -363,9 +406,9 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
     tooltip: {
       outside: true,
       padding: 10,
-      headerFormat: `{series.name}`,
+      headerFormat: ``,
       pointFormatter: function (this: Highcharts.Point) {
-        return pointFormatterHelper(this, generateSpineChartTooltipForPoint);
+        return this.series.name;
       },
       useHTML: true,
       style: {
