@@ -1,10 +1,9 @@
-import { generateBenchmarkComparisonData, InequalitiesBarChart } from '.';
+import { InequalitiesBarChart } from '.';
 import { render, screen } from '@testing-library/react';
 import { getTestData } from './mocks';
 import { InequalitiesTypes } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import {
   BenchmarkComparisonMethod,
-  BenchmarkOutcome,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 
@@ -59,67 +58,5 @@ describe('Inequalities LineChart suite', () => {
       'highcharts-react-component-inequalitiesBarChart'
     );
     expect(barChart).toHaveTextContent('Inequality type: Sex');
-  });
-
-  describe('generateBenchmarkComparisonData', () => {
-    const areaName = 'England';
-    test.each([
-      [
-        BenchmarkOutcome.Better,
-        areaName,
-        BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-        95,
-        `Better than ${areaName}`,
-      ],
-      [
-        BenchmarkOutcome.Similar,
-        areaName,
-        BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-        95,
-        `Similar to ${areaName}`,
-      ],
-      [
-        BenchmarkOutcome.NotCompared,
-        areaName,
-        BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-        95,
-        'Not compared',
-      ],
-      [
-        BenchmarkOutcome.Worse,
-        areaName,
-        BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
-        99.8,
-        `Worse than ${areaName}`,
-      ],
-      [
-        BenchmarkOutcome.Similar,
-        areaName,
-        BenchmarkComparisonMethod.Unknown,
-        0,
-        `Similar to ${areaName}`,
-      ],
-    ])(
-      'returns a syntactically outcome label string and comparison method',
-      (
-        testOutcome,
-        areaName,
-        testBenchmarkComparisonMethod,
-        expectedConfidenceLimitNumber,
-        expectedOutcomeString
-      ) => {
-        const { mappedBenchmarkComparisonMethod, benchmarkOutcomeLabel } =
-          generateBenchmarkComparisonData(
-            testBenchmarkComparisonMethod,
-            areaName,
-            testOutcome
-          );
-
-        expect(mappedBenchmarkComparisonMethod).toBe(
-          expectedConfidenceLimitNumber
-        );
-        expect(benchmarkOutcomeLabel).toBe(expectedOutcomeString);
-      }
-    );
   });
 });

@@ -11,9 +11,11 @@ import { BenchmarkLegend } from '@/components/organisms/BenchmarkLegend';
 import { ConfidenceIntervalCheckbox } from '../../ConfidenceIntervalCheckbox';
 import { useEffect, useState } from 'react';
 import {
+  AreaTypeLabelEnum,
   generateConfidenceIntervalSeries,
   getBenchmarkColour,
-  getConfidenceLimitNumber,
+  getTooltipContent,
+  getToolTipHtml,
   loadHighchartsModules,
 } from '@/lib/chartHelpers/chartHelpers';
 import {
@@ -21,8 +23,6 @@ import {
   BenchmarkOutcome,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
-import { formatNumber } from '@/lib/numberFormatter';
-import { getBenchmarkLabelText } from '@/components/organisms/BenchmarkLabel';
 import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
 
 interface InequalitiesBarChartProps {
@@ -44,32 +44,6 @@ export interface InequalitiesPoint extends Highcharts.Point {
 
 // All inequality data is benchmarked against persons.
 const BenchmarkCategory = 'Persons';
-
-export const generateBenchmarkComparisonData = (
-  benchmarkComparisonMethod: BenchmarkComparisonMethod,
-  areaName: string,
-  benchmarkOutcome?: BenchmarkOutcome
-) => {
-  const mappedBenchmarkComparisonMethod = getConfidenceLimitNumber(
-    benchmarkComparisonMethod
-  );
-  const mappedOutcome = getBenchmarkLabelText(
-    benchmarkOutcome ?? BenchmarkOutcome.NotCompared
-  );
-  const notCompared = benchmarkOutcome === BenchmarkOutcome.NotCompared;
-
-  let benchmarkOutcomeLabel = '';
-
-  if (mappedOutcome === BenchmarkOutcome.Similar) {
-    benchmarkOutcomeLabel = `${mappedOutcome} to ${areaName}`;
-  } else if (notCompared) {
-    benchmarkOutcomeLabel = mappedOutcome;
-  } else {
-    benchmarkOutcomeLabel = `${mappedOutcome} than ${areaName}`;
-  }
-
-  return { mappedBenchmarkComparisonMethod, benchmarkOutcomeLabel };
-};
 
 const mapToXAxisTitle: Record<InequalitiesTypes, string> = {
   [InequalitiesTypes.Sex]: 'Sex',
@@ -111,13 +85,13 @@ export function InequalitiesBarChart({
     point: InequalitiesPoint,
     symbol: string
   ) => {
-    const { mappedBenchmarkComparisonMethod, benchmarkOutcomeLabel } =
-      generateBenchmarkComparisonData(
-        benchmarkComparisonMethod,
-        barChartData.areaName,
-        point.benchmarkOutcome
-      );
     const isBenchmarkPoint = point.category === BenchmarkCategory;
+    const { benchmarkLabel, comparisonLabel } = getTooltipContent(
+      point.benchmarkOutcome ?? BenchmarkOutcome.NotCompared,
+      AreaTypeLabelEnum.Area,
+      benchmarkComparisonMethod ?? BenchmarkComparisonMethod.Unknown,
+      type === InequalitiesTypes.Sex ? barChartData.areaName : undefined
+    );
 
     const symbolStyles = [
       `background-color: ${point.color}`,
@@ -132,19 +106,17 @@ export function InequalitiesBarChart({
       ? `<span style="color: ${point.color}; font-weight: bold;">${symbol}</span>`
       : symbolItem;
 
-    const comparisonLabel =
-      isBenchmarkPoint || mappedBenchmarkComparisonMethod === 0
-        ? ''
-        : `<br/>persons (${mappedBenchmarkComparisonMethod}%)`;
-    return [
-      `
-      <span>${barChartData.data.period}</span>
-      <div><span>${point.category}</span></div>
-      <div style="display: flex; margin-top: 10px; align-items: center;"><div style="margin-right: 10px;">
-      ${benchmarkComparisonSymbol}</div>`,
-      `<div><span>${formatNumber(point.y)} ${measurementUnit ? ' ' + measurementUnit : ''}`,
-      `<div><span>${isBenchmarkPoint ? '' : benchmarkOutcomeLabel} ${comparisonLabel}</span></div></div>`,
-    ];
+    return getToolTipHtml(
+      barChartData.areaName,
+      barChartData.data.period,
+      point.category,
+      benchmarkComparisonSymbol,
+      isBenchmarkPoint,
+      benchmarkLabel,
+      comparisonLabel,
+      point.y,
+      measurementUnit
+    );
   };
 
   const seriesData: Highcharts.SeriesOptionsType[] = [

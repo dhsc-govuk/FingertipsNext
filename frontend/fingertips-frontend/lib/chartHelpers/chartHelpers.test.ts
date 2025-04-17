@@ -12,6 +12,7 @@ import {
   determineHealthDataForArea,
   AreaTypeLabelEnum,
   getTooltipContent,
+  getToolTipHtml,
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { areaCodeForEngland } from './constants';
@@ -1195,5 +1196,67 @@ describe('getTooltipContent', () => {
       category: '',
       comparisonLabel: '',
     });
+  });
+});
+
+describe('getTooltipHtml', () => {
+  it('should return expected html list with benchmark', () => {
+    const expected = [
+      '<div style="padding-right: 25px">',
+      '<span style="font-weight: bold">North</span><br/>',
+      '<span>2004</span><br/><span>Male</span><br/>',
+      '<div style="display: flex; margin-top: 15px; align-items: center;">',
+      '<div style="margin-right: 10px;">symbolLine</div>',
+      '<div style="padding-right: 10px;"><span>278.3 %</span><br/>',
+      '<span>Better than England</span><br/>',
+      '<span>persons (95%)</span><br/>',
+      '</div>',
+      '</div>',
+      '</div>',
+    ];
+
+    expect(
+      getToolTipHtml(
+        'North',
+        2004,
+        'Male',
+        'symbolLine',
+        false,
+        'Better than England',
+        '(95%)',
+        mockData[0].healthData[0].value,
+        '%'
+      )
+    ).toEqual(expected);
+  });
+
+  it('should return expected html list without benchmark', () => {
+    const expected = [
+      '<div style="padding-right: 25px">',
+      '<span style="font-weight: bold">North</span><br/>',
+      '<span>2004</span><br/><span>Male</span><br/>',
+      '<div style="display: flex; margin-top: 15px; align-items: center;">',
+      '<div style="margin-right: 10px;">symbolLine</div>',
+      '<div style="padding-right: 10px;"><span>278.3 %</span><br/>',
+      '',
+      '',
+      '</div>',
+      '</div>',
+      '</div>',
+    ];
+
+    expect(
+      getToolTipHtml(
+        'North',
+        2004,
+        'Male',
+        'symbolLine',
+        true,
+        'Better than England',
+        '(95%)',
+        mockData[0].healthData[0].value,
+        '%'
+      )
+    ).toEqual(expected);
   });
 });

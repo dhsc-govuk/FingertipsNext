@@ -11,6 +11,7 @@ import { getBenchmarkTagStyle } from '@/components/organisms/BenchmarkLabel/Benc
 import { GovukColours } from '../styleHelpers/colours';
 import { ALL_AREAS_SELECTED } from '../areaFilterHelpers/constants';
 import { getBenchmarkLabelText } from '@/components/organisms/BenchmarkLabel';
+import { formatNumber } from '../numberFormatter';
 
 export const AXIS_TITLE_FONT_SIZE = 19;
 export const AXIS_LABEL_FONT_SIZE = 16;
@@ -326,3 +327,27 @@ export const getTooltipContent = (
     ),
   };
 };
+
+export const getToolTipHtml = (
+  areaName: string,
+  period: number,
+  fieldName: string | number,
+  benchmarkComparisonSymbol: string,
+  hideCondition: boolean,
+  benchmarkLabel: string,
+  comparisonLabel: string,
+  fieldValue?: number,
+  measurementUnit?: string
+): string[] => [
+  `<div style="padding-right: 25px">`,
+  `<span style="font-weight: bold">${areaName}</span><br/>`,
+  `<span>${period}</span><br/><span>${fieldName}</span><br/>`,
+  `<div style="display: flex; margin-top: 15px; align-items: center;">`,
+  `<div style="margin-right: 10px;">${benchmarkComparisonSymbol}</div>`,
+  `<div style="padding-right: 10px;"><span>${formatNumber(fieldValue)}${measurementUnit ? ' ' + measurementUnit : ''}</span><br/>`,
+  `${hideCondition || !benchmarkLabel ? '' : '<span>' + benchmarkLabel + '</span><br/>'}`,
+  `${hideCondition || !comparisonLabel ? '' : '<span>persons ' + comparisonLabel + '</span><br/>'}`,
+  `</div>`,
+  `</div>`,
+  `</div>`,
+];
