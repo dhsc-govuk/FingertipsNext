@@ -245,8 +245,8 @@ export function generateStandardLineChartOptions(
   ) => {
     return chartData
       .find((healthData) => healthData.areaCode === areaCode)
-      ?.healthData.find((point) => point.year === Number(year))
-      ?.benchmarkComparison?.outcome;
+      ?.healthData.find((point) => point.year === year)?.benchmarkComparison
+      ?.outcome;
   };
 
   const generateTooltipData = (
