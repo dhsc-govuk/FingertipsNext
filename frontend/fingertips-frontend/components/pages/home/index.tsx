@@ -48,6 +48,8 @@ export const Home = ({
         currentSearchState[SearchParams.SearchedIndicator],
       [SearchParams.AreasSelected]:
         currentSearchState[SearchParams.AreasSelected],
+      [SearchParams.AreaTypeSelected]:
+        currentSearchState[SearchParams.AreaTypeSelected],
     });
   }, [searchState, setSearchState]);
 
