@@ -329,25 +329,27 @@ export const getTooltipContent = (
 };
 
 export function getToolTipHtml(
-  areaName: string,
-  period: number,
-  fieldName: string | number,
-  benchmarkComparisonSymbol: string,
-  hideCondition: boolean,
-  benchmarkLabel: string,
-  comparisonLabel: string,
+  params: {
+    areaName: string;
+    period: number;
+    fieldName: string | number;
+    benchmarkComparisonSymbol: string;
+    hideCondition: boolean;
+    benchmarkLabel: string;
+    comparisonLabel: string;
+  },
   fieldValue?: number,
   measurementUnit?: string
 ): string[] {
   return [
     `<div style="padding-right: 25px">`,
-    `<span style="font-weight: bold">${areaName}</span><br/>`,
-    `<span>${period}</span><br/><span>${fieldName}</span><br/>`,
+    `<span style="font-weight: bold">${params.areaName}</span><br/>`,
+    `<span>${params.period}</span><br/><span>${params.fieldName}</span><br/>`,
     `<div style="display: flex; margin-top: 15px; align-items: center;">`,
-    `<div style="margin-right: 10px;">${benchmarkComparisonSymbol}</div>`,
+    `<div style="margin-right: 10px;">${params.benchmarkComparisonSymbol}</div>`,
     `<div style="padding-right: 10px;"><span>${formatNumber(fieldValue)}${measurementUnit ? ' ' + measurementUnit : ''}</span><br/>`,
-    `${hideCondition || !benchmarkLabel ? '' : '<span>' + benchmarkLabel + '</span><br/>'}`,
-    `${hideCondition || !comparisonLabel ? '' : '<span>persons ' + comparisonLabel + '</span><br/>'}`,
+    `${params.hideCondition || !params.benchmarkLabel ? '' : '<span>' + params.benchmarkLabel + '</span><br/>'}`,
+    `${params.hideCondition || !params.comparisonLabel ? '' : '<span>persons ' + params.comparisonLabel + '</span><br/>'}`,
     `</div>`,
     `</div>`,
     `</div>`,

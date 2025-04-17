@@ -1217,13 +1217,15 @@ describe('getTooltipHtml', () => {
 
     expect(
       getToolTipHtml(
-        'North',
-        2004,
-        'Male',
-        'symbolLine',
-        false,
-        'Better than England',
-        '(95%)',
+        {
+          areaName: 'North',
+          period: 2004,
+          fieldName: 'Male',
+          benchmarkComparisonSymbol: 'symbolLine',
+          hideCondition: false,
+          benchmarkLabel: 'Better than England',
+          comparisonLabel: '(95%)',
+        },
         mockData[0].healthData[0].value,
         '%'
       )
@@ -1247,13 +1249,15 @@ describe('getTooltipHtml', () => {
 
     expect(
       getToolTipHtml(
-        'North',
-        2004,
-        'Male',
-        'symbolLine',
-        true,
-        'Better than England',
-        '(95%)',
+        {
+          areaName: 'North',
+          period: 2004,
+          fieldName: 'Male',
+          benchmarkComparisonSymbol: 'symbolLine',
+          hideCondition: true,
+          benchmarkLabel: 'Better than England',
+          comparisonLabel: '(95%)',
+        },
         mockData[0].healthData[0].value,
         '%'
       )

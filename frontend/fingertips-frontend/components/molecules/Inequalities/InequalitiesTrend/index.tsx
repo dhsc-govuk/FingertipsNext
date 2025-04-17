@@ -167,13 +167,15 @@ export function InequalitiesTrend({
     );
 
     return getToolTipHtml(
-      lineChartData.areaName,
-      point.x,
-      point.series.name,
-      benchmarkComparisonSymbol,
-      shouldHideLines,
-      benchmarkLabel,
-      comparisonLabel,
+      {
+        areaName: lineChartData.areaName,
+        period: point.x,
+        fieldName: point.series.name,
+        benchmarkComparisonSymbol,
+        hideCondition: shouldHideLines,
+        benchmarkLabel,
+        comparisonLabel,
+      },
       point.y,
       measurementUnit
     );

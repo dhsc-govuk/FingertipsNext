@@ -107,13 +107,15 @@ export function InequalitiesBarChart({
       : symbolItem;
 
     return getToolTipHtml(
-      barChartData.areaName,
-      barChartData.data.period,
-      point.category,
-      benchmarkComparisonSymbol,
-      isBenchmarkPoint,
-      benchmarkLabel,
-      comparisonLabel,
+      {
+        areaName: barChartData.areaName,
+        period: barChartData.data.period,
+        fieldName: point.category,
+        benchmarkComparisonSymbol,
+        hideCondition: isBenchmarkPoint,
+        benchmarkLabel,
+        comparisonLabel,
+      },
       point.y,
       measurementUnit
     );
