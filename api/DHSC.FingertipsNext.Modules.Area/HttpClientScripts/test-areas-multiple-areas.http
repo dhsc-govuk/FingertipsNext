@@ -1,7 +1,7 @@
 ### check get multiple areas returns the list of area details for the requested area codes.
 
 # North East Region and Yorkshire and the Humber Region
-GET http://localhost:5144/areas?area_codes=E12000001&area_codes=E12000003
+GET http://localhost:5144/pigeons?area_codes=E12000001&area_codes=E12000003
 
 > {%
     const expected = require ('./test-areas-multiple-areas-response.json');
