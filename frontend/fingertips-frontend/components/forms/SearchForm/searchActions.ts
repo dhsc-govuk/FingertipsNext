@@ -82,7 +82,7 @@ export async function getSearchSuggestions(
       partialAreaName
     );
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
   return [];
 }
@@ -95,7 +95,7 @@ export async function getAreaDocument(
       areaCode
     );
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
   return undefined;
 }
