@@ -15,7 +15,7 @@ import {
   generateConfidenceIntervalSeries,
   getBenchmarkColour,
   getTooltipContent,
-  getToolTipHtml,
+  createTooltipHTML,
   loadHighchartsModules,
 } from '@/lib/chartHelpers/chartHelpers';
 import {
@@ -106,13 +106,13 @@ export function InequalitiesBarChart({
       ? `<span style="color: ${point.color}; font-weight: bold;">${symbol}</span>`
       : symbolItem;
 
-    return getToolTipHtml(
+    return createTooltipHTML(
       {
         areaName: barChartData.areaName,
         period: barChartData.data.period,
         fieldName: point.category,
         benchmarkComparisonSymbol,
-        hideCondition: isBenchmarkPoint,
+        shouldHideComparison: isBenchmarkPoint,
         benchmarkLabel,
         comparisonLabel,
       },

@@ -328,30 +328,35 @@ export const getTooltipContent = (
   };
 };
 
-export function getToolTipHtml(
+export function createTooltipHTML(
   params: {
     areaName: string;
     period: number;
     fieldName: string | number;
     benchmarkComparisonSymbol: string;
-    hideCondition: boolean;
+    shouldHideComparison: boolean;
     benchmarkLabel: string;
     comparisonLabel: string;
   },
   fieldValue?: number,
   measurementUnit?: string
 ): string[] {
+  const formattedMeasurementUnit =
+    measurementUnit === '%' ? measurementUnit : ` ${measurementUnit}`;
+
   return [
-    `<div style="padding-right: 25px">`,
-    `<span style="font-weight: bold">${params.areaName}</span><br/>`,
-    `<span>${params.period}</span><br/><span>${params.fieldName}</span><br/>`,
-    `<div style="display: flex; margin-top: 15px; align-items: center;">`,
-    `<div style="margin-right: 10px;">${params.benchmarkComparisonSymbol}</div>`,
-    `<div style="padding-right: 10px;"><span>${formatNumber(fieldValue)}${measurementUnit ? ' ' + measurementUnit : ''}</span><br/>`,
-    `${params.hideCondition || !params.benchmarkLabel ? '' : '<span>' + params.benchmarkLabel + '</span><br/>'}`,
-    `${params.hideCondition || !params.comparisonLabel ? '' : '<span>persons ' + params.comparisonLabel + '</span><br/>'}`,
-    `</div>`,
-    `</div>`,
-    `</div>`,
+    `<div style="padding-right: 25px">
+        <span style="font-weight: bold; display: block">${params.areaName}</span>
+        <span style="display: block">${params.period}</span>
+        <span style="display: block">${params.fieldName}</span>
+        <div style="display: flex; margin-top: 15px; align-items: center;">
+          <div style="margin-right: 10px;">${params.benchmarkComparisonSymbol}</div>
+          <div style="padding-right: 10px;">
+            <span style="display: block">${formatNumber(fieldValue)}${measurementUnit ? formattedMeasurementUnit : ''}</span>
+            ${params.shouldHideComparison || !params.benchmarkLabel ? '' : '<span style="display: block">' + params.benchmarkLabel + '</span>'}
+            ${params.shouldHideComparison || !params.comparisonLabel ? '' : '<span style="display: block">persons ' + params.comparisonLabel + '</span>'}
+          </div>
+        </div>
+      </div>`,
   ];
 }

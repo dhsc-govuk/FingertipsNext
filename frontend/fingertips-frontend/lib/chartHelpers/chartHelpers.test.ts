@@ -12,7 +12,7 @@ import {
   determineHealthDataForArea,
   AreaTypeLabelEnum,
   getTooltipContent,
-  getToolTipHtml,
+  createTooltipHTML,
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { areaCodeForEngland } from './constants';
@@ -1202,27 +1202,29 @@ describe('getTooltipContent', () => {
 describe('getTooltipHtml', () => {
   it('should return expected html list with benchmark', () => {
     const expected = [
-      '<div style="padding-right: 25px">',
-      '<span style="font-weight: bold">North</span><br/>',
-      '<span>2004</span><br/><span>Male</span><br/>',
-      '<div style="display: flex; margin-top: 15px; align-items: center;">',
-      '<div style="margin-right: 10px;">symbolLine</div>',
-      '<div style="padding-right: 10px;"><span>278.3 %</span><br/>',
-      '<span>Better than England</span><br/>',
-      '<span>persons (95%)</span><br/>',
-      '</div>',
-      '</div>',
-      '</div>',
+      `<div style="padding-right: 25px">
+        <span style="font-weight: bold; display: block">North</span>
+        <span style="display: block">2004</span>
+        <span style="display: block">Male</span>
+        <div style="display: flex; margin-top: 15px; align-items: center;">
+          <div style="margin-right: 10px;">symbolLine</div>
+          <div style="padding-right: 10px;">
+            <span style="display: block">278.3%</span>
+            <span style="display: block">Better than England</span>
+            <span style="display: block">persons (95%)</span>
+          </div>
+        </div>
+      </div>`,
     ];
 
     expect(
-      getToolTipHtml(
+      createTooltipHTML(
         {
           areaName: 'North',
           period: 2004,
           fieldName: 'Male',
           benchmarkComparisonSymbol: 'symbolLine',
-          hideCondition: false,
+          shouldHideComparison: false,
           benchmarkLabel: 'Better than England',
           comparisonLabel: '(95%)',
         },
@@ -1234,27 +1236,29 @@ describe('getTooltipHtml', () => {
 
   it('should return expected html list without benchmark', () => {
     const expected = [
-      '<div style="padding-right: 25px">',
-      '<span style="font-weight: bold">North</span><br/>',
-      '<span>2004</span><br/><span>Male</span><br/>',
-      '<div style="display: flex; margin-top: 15px; align-items: center;">',
-      '<div style="margin-right: 10px;">symbolLine</div>',
-      '<div style="padding-right: 10px;"><span>278.3 %</span><br/>',
-      '',
-      '',
-      '</div>',
-      '</div>',
-      '</div>',
+      `<div style="padding-right: 25px">
+        <span style="font-weight: bold; display: block">North</span>
+        <span style="display: block">2004</span>
+        <span style="display: block">Male</span>
+        <div style="display: flex; margin-top: 15px; align-items: center;">
+          <div style="margin-right: 10px;">symbolLine</div>
+          <div style="padding-right: 10px;">
+            <span style="display: block">278.3%</span>
+            ${''}
+            ${''}
+          </div>
+        </div>
+      </div>`,
     ];
 
     expect(
-      getToolTipHtml(
+      createTooltipHTML(
         {
           areaName: 'North',
           period: 2004,
           fieldName: 'Male',
           benchmarkComparisonSymbol: 'symbolLine',
-          hideCondition: true,
+          shouldHideComparison: true,
           benchmarkLabel: 'Better than England',
           comparisonLabel: '(95%)',
         },

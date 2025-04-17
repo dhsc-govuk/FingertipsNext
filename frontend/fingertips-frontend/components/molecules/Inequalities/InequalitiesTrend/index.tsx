@@ -36,7 +36,7 @@ import {
   determineAreaCodes,
   determineHealthDataForArea,
   getTooltipContent,
-  getToolTipHtml,
+  createTooltipHTML,
   seriesDataWithoutGroup,
 } from '@/lib/chartHelpers/chartHelpers';
 import { ChartSelectArea } from '../../ChartSelectArea';
@@ -166,13 +166,13 @@ export function InequalitiesTrend({
       (dataPoint) => dataPoint.inequalities[point.series.name]?.isAggregate
     );
 
-    return getToolTipHtml(
+    return createTooltipHTML(
       {
         areaName: lineChartData.areaName,
         period: point.x,
         fieldName: point.series.name,
         benchmarkComparisonSymbol,
-        hideCondition: shouldHideLines,
+        shouldHideComparison: shouldHideLines,
         benchmarkLabel,
         comparisonLabel,
       },
