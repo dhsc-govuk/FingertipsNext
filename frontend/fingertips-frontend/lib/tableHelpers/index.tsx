@@ -2,7 +2,7 @@ import { Table } from 'govuk-react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import { GovukColours } from '../styleHelpers/colours';
-import { formatNumber } from '@/lib/numberFormatter';
+import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
 import { spineChartIndicatorTitleColumnMinWidth } from '@/components/organisms/SpineChartTable/spineChartTableHelpers';
 
 const stickyLeft = {
@@ -111,6 +111,10 @@ export const convertToPercentage = (value?: number) => {
 
 export const getDisplayValue = (value?: number) => {
   return value ? formatNumber(value) : getNonAvailablePlaceHolder();
+};
+
+export const getDisplayWholeNumber = (value?: number) => {
+  return value ? formatWholeNumber(value) : getNonAvailablePlaceHolder();
 };
 
 export const getNonAvailablePlaceHolder = () => {

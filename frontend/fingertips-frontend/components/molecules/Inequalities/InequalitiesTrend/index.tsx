@@ -189,7 +189,7 @@ export function InequalitiesTrend({
       {
         areasSelected: areaCodes,
         yAxisTitleText: 'Value',
-        xAxisTitleText: 'Year',
+        xAxisTitleText: 'Period',
         measurementUnit,
         inequalityLineChartAreaSelected,
       }

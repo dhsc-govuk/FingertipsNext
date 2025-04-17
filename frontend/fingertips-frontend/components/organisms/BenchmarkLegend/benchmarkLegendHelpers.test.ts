@@ -1,42 +1,50 @@
-import { getMethodsAndOutcomes } from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
+import {
+  getMethodsAndOutcomes,
+  IndicatorBenchmarkSummary,
+} from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
 import {
   BenchmarkComparisonMethod,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
-import { SpineChartIndicatorData } from '../SpineChartTable/spineChartTableHelpers';
 
-const testRow95judged = {
+const testRow95judged: IndicatorBenchmarkSummary = {
   benchmarkComparisonMethod:
     BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
   quartileData: { polarity: IndicatorPolarity.LowIsGood },
-} as SpineChartIndicatorData;
+};
 
-const testRow95nonJudged = {
+const testRow95nonJudged: IndicatorBenchmarkSummary = {
   benchmarkComparisonMethod:
     BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-} as SpineChartIndicatorData;
+};
 
-const testRow99judged = {
+const testRow99judged: IndicatorBenchmarkSummary = {
   benchmarkComparisonMethod:
     BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
   quartileData: { polarity: IndicatorPolarity.LowIsGood },
-} as SpineChartIndicatorData;
+};
 
-const testRow99nonJudged = {
+const testRow99nonJudged: IndicatorBenchmarkSummary = {
   benchmarkComparisonMethod:
     BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
   quartileData: { polarity: IndicatorPolarity.NoJudgement },
-} as SpineChartIndicatorData;
+};
 
-const testRowQuintilesJudged = {
+const testRowQuintilesJudged: IndicatorBenchmarkSummary = {
   benchmarkComparisonMethod: BenchmarkComparisonMethod.Quintiles,
   quartileData: { polarity: IndicatorPolarity.LowIsGood },
-} as SpineChartIndicatorData;
+};
 
-const testRowQuintilesNonJudged = {
+const testRowQuintilesNonJudged: IndicatorBenchmarkSummary = {
   benchmarkComparisonMethod: BenchmarkComparisonMethod.Quintiles,
   quartileData: { polarity: IndicatorPolarity.NoJudgement },
-} as SpineChartIndicatorData;
+};
+
+const testRowWithoutQuartileData: IndicatorBenchmarkSummary = {
+  benchmarkComparisonMethod:
+    BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+  polarity: IndicatorPolarity.NoJudgement,
+};
 
 const expectedResult = (areTrue: string[]) => ({
   CIOverlappingReferenceValue95: {
@@ -137,6 +145,13 @@ describe('BenchmarkLegendHelpers', () => {
         testRow99nonJudged,
       ]);
       expect(result).toEqual(expectedResult(['judgement95', 'noJudgement99']));
+    });
+  });
+
+  describe('without quartileData', () => {
+    it('should work fine without quartile data', () => {
+      const result = getMethodsAndOutcomes([testRowWithoutQuartileData]);
+      expect(result).toEqual(expectedResult(['noJudgement95']));
     });
   });
 });

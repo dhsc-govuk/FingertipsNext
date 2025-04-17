@@ -1,8 +1,9 @@
+import { BenchmarkTooltipArea } from '@/components/atoms/BenchmarkTooltipArea';
 import {
   BenchmarkComparisonMethod,
   HealthDataForArea,
+  IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
-import { BenchmarkTooltipArea } from '@/components/atoms/BenchmarkTooltipArea';
 
 interface BenchmarkTooltipProps {
   indicatorData: HealthDataForArea;
@@ -10,6 +11,7 @@ interface BenchmarkTooltipProps {
   measurementUnit: string | undefined;
   indicatorDataForBenchmark?: HealthDataForArea;
   indicatorDataForGroup?: HealthDataForArea;
+  polarity: IndicatorPolarity;
 }
 
 export function BenchmarkTooltip({
@@ -18,6 +20,7 @@ export function BenchmarkTooltip({
   measurementUnit,
   indicatorDataForBenchmark,
   indicatorDataForGroup,
+  polarity,
 }: Readonly<BenchmarkTooltipProps>) {
   return (
     <div style={{ width: 185, fontSize: '16px' }}>
@@ -27,6 +30,7 @@ export function BenchmarkTooltip({
           benchmarkComparisonMethod={benchmarkComparisonMethod}
           measurementUnit={measurementUnit}
           tooltipType={'benchmark'}
+          polarity={polarity}
         />
       ) : null}
       {indicatorDataForGroup ? (
@@ -35,6 +39,7 @@ export function BenchmarkTooltip({
           benchmarkComparisonMethod={benchmarkComparisonMethod}
           measurementUnit={measurementUnit}
           tooltipType={'group'}
+          polarity={polarity}
         />
       ) : null}
       <BenchmarkTooltipArea
@@ -42,6 +47,7 @@ export function BenchmarkTooltip({
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         measurementUnit={measurementUnit}
         tooltipType={'area'}
+        polarity={polarity}
       />
     </div>
   );

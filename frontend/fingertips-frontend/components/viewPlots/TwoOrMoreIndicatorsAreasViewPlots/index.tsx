@@ -50,7 +50,7 @@ export function extractHeatmapIndicatorData(
     indicatorName: metadata.indicatorName,
     healthDataForAreas: indicatorData.areaHealthData,
     unitLabel: metadata.unitLabel,
-    benchmarkMethod:
+    benchmarkComparisonMethod:
       indicatorData.benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
     polarity: indicatorData.polarity ?? IndicatorPolarity.Unknown,
   };

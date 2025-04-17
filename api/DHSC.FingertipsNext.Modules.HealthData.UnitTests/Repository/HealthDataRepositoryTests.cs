@@ -30,6 +30,32 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
+    public async Task Repository_ShouldReturnCorrectIndicatorAndLatestYear()
+    {
+        const int LATESTYEAR= 2099;
+        const int INDICATORID = 1;
+        // arrange
+        PopulateDatabase(new HealthMeasureModelHelper(year: LATESTYEAR)
+            .WithIndicatorDimension(indicatorId: INDICATORID)
+            .Build());
+        PopulateDatabase(new HealthMeasureModel 
+        {
+            IndicatorDimension=new IndicatorDimensionModel 
+            {
+                IndicatorId= INDICATORID 
+            },
+            Year=LATESTYEAR-1 
+        });
+
+        // act
+        var result = await _healthDataRepository.GetIndicatorDimensionAsync(1);
+
+        // assert
+        result.LatestYear.ShouldBe(LATESTYEAR);
+    }
+
+
+    [Fact]
     public void RepositoryInitialisation_ShouldThrowError_IfNullDBContextIsProvided()
     {
         var act = () => _healthDataRepository = new HealthDataRepository(null!);

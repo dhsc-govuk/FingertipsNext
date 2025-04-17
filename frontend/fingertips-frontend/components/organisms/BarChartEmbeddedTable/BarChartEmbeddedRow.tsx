@@ -33,10 +33,6 @@ export const BarChartEmbeddedRow: FC<BarChartEmbeddedRowProps> = ({
   return (
     <Table.Row key={`${item.area}`}>
       <CheckValueInTableCell value={item.area} style={{ textAlign: 'left' }} />
-      <CheckValueInTableCell
-        value={item.period}
-        style={{ textAlign: 'right' }}
-      />
       <Table.Cell style={{ textAlign: 'center' }}>
         <TrendTag trendFromResponse={item.trend} />
       </Table.Cell>
@@ -60,7 +56,7 @@ export const BarChartEmbeddedRow: FC<BarChartEmbeddedRowProps> = ({
           polarity={polarity}
           label={AreaTypeLabelEnum.Area}
           area={item.area}
-          year={item.period}
+          year={item.year}
           measurementUnit={measurementUnit}
         />
       </Table.Cell>

@@ -101,6 +101,7 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
         areaCodes: [mockAreaCode],
         indicatorId: 1,
         areaType: mockAreaType,
+        latestOnly: true,
       },
       API_CACHE_CONFIG
     );
@@ -113,6 +114,7 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
         areaCodes: [areaCodeForEngland],
         indicatorId: 1,
         areaType: englandAreaType.key,
+        latestOnly: true,
       },
       API_CACHE_CONFIG
     );
@@ -125,6 +127,7 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
         areaCodes: [mockGroupCode],
         indicatorId: 1,
         areaType: mockGroupType,
+        latestOnly: true,
       },
       API_CACHE_CONFIG
     );
@@ -137,6 +140,7 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
         areaCodes: [mockAreaCode],
         indicatorId: 2,
         areaType: mockAreaType,
+        latestOnly: true,
       },
       API_CACHE_CONFIG
     );
@@ -149,6 +153,7 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
         areaCodes: [areaCodeForEngland],
         indicatorId: 2,
         areaType: englandAreaType.key,
+        latestOnly: true,
       },
       API_CACHE_CONFIG
     );
@@ -161,6 +166,7 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
         areaCodes: [mockGroupCode],
         indicatorId: 2,
         areaType: mockGroupType,
+        latestOnly: true,
       },
       API_CACHE_CONFIG
     );
