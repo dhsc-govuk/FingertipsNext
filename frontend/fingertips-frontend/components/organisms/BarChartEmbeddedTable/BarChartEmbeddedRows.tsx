@@ -6,6 +6,7 @@ import {
 import { BarChartEmbeddedTableRow } from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedTable.types';
 import { BarChartEmbeddedRow } from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedRow';
 import { useMoreRowsWhenScrolling } from '@/components/hooks/useMoreRowsWhenScrolling';
+import { InViewTrigger } from '@/components/hooks/InViewTrigger';
 
 interface BarChartEmbeddedRowsProps {
   rows: BarChartEmbeddedTableRow[];
@@ -42,7 +43,7 @@ export const BarChartEmbeddedRows: FC<BarChartEmbeddedRowsProps> = ({
       ))}
       <tr>
         <td>
-          <div ref={triggerRef}>{hasMore ? 'Loading...' : null}</div>
+          <InViewTrigger triggerRef={triggerRef} more={hasMore} />
         </td>
       </tr>
     </>

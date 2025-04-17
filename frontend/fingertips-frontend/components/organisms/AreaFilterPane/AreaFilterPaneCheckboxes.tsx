@@ -4,6 +4,7 @@ import { Area } from '@/generated-sources/ft-api-client';
 import React, { FC } from 'react';
 import { AreaFilterPaneCheckbox } from '@/components/organisms/AreaFilterPane/AreaFilterPaneCheckbox';
 import { useMoreRowsWhenScrolling } from '@/components/hooks/useMoreRowsWhenScrolling';
+import { InViewTrigger } from '@/components/hooks/InViewTrigger';
 
 const isAreaSelected = (
   areaCode: string,
@@ -48,7 +49,7 @@ export const AreaFilterPaneCheckboxes: FC<AreaFilterPaneCheckboxesProps> = ({
           )}
         />
       ))}
-      <div ref={triggerRef}>{hasMore ? 'Loading...' : null}</div>
+      <InViewTrigger triggerRef={triggerRef} more={hasMore} />
     </>
   );
 };
