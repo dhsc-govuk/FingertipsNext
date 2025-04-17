@@ -8,13 +8,15 @@ const hasSufficientAreaHealthData = (
     return indicatorDataForArea.areaHealthData.reduce<boolean>(
       (hasSufficientAreaHealthData, areaHealthData) => {
         const hasAreaSelectedHealthData = areasSelected?.find(
-          (areaSelected) =>
-            areaSelected === areaHealthData.areaCode &&
-            areaHealthData.healthData.length > 1
+          (areaSelected) => areaSelected === areaHealthData.areaCode
         );
 
         if (hasAreaSelectedHealthData) {
-          return true;
+          const hasSufficientAreaHealthData =
+            areasSelected.length <= 2
+              ? areaHealthData.healthData.length > 1
+              : true;
+          if (hasSufficientAreaHealthData) return true;
         }
         return hasSufficientAreaHealthData;
       },

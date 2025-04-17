@@ -85,6 +85,25 @@ describe('hasSufficientHealthDataCheck', () => {
       expect(result).toBe(false);
     });
 
+    it('should return true if indicator has insufficient health data for the areas selected but more than 2 areas are selected. Only the latest data health point is provided for more than 2 areas', () => {
+      const areasSelected = ['A001', 'A002', 'A003'];
+
+      const indicatorsToCheck = [
+        generateMockIndicatorWithAreaHealthData(1, [
+          generateMockAreaHealthData('A001', insufficientMockHealthDataPoints),
+          generateMockAreaHealthData('A002', insufficientMockHealthDataPoints),
+          generateMockAreaHealthData('A003', insufficientMockHealthDataPoints),
+        ]),
+      ];
+
+      const result = hasSufficientHealthDataCheck(
+        indicatorsToCheck,
+        areasSelected
+      );
+
+      expect(result).toBe(true);
+    });
+
     it('should return false if the indicator has no health data for the single areaSelected', () => {
       const areasSelected = ['A001'];
 
