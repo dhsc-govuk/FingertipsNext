@@ -255,49 +255,5 @@ describe('hasSufficientHealthDataCheck', () => {
 
       expect(result).toBe(true);
     });
-
-    it('should return false if all the indicator has no health data for all of the areaSelected', () => {
-      const areasSelected = ['A001', 'A002'];
-
-      const indicatorsToCheck = [
-        generateMockIndicatorWithAreaHealthData(1, [
-          generateMockAreaHealthData('A001'),
-          generateMockAreaHealthData('A002'),
-        ]),
-        generateMockIndicatorWithAreaHealthData(2, [
-          generateMockAreaHealthData('A001'),
-          generateMockAreaHealthData('A002'),
-        ]),
-      ];
-
-      const result = hasSufficientHealthDataCheck(
-        indicatorsToCheck,
-        areasSelected
-      );
-
-      expect(result).toBe(false);
-    });
-
-    it('should return false if all the indicator has insufficient health data for all of the areaSelected', () => {
-      const areasSelected = ['A001', 'A002'];
-
-      const indicatorsToCheck = [
-        generateMockIndicatorWithAreaHealthData(1, [
-          generateMockAreaHealthData('A001', insufficientMockHealthDataPoints),
-          generateMockAreaHealthData('A002', insufficientMockHealthDataPoints),
-        ]),
-        generateMockIndicatorWithAreaHealthData(2, [
-          generateMockAreaHealthData('A001', insufficientMockHealthDataPoints),
-          generateMockAreaHealthData('A002', insufficientMockHealthDataPoints),
-        ]),
-      ];
-
-      const result = hasSufficientHealthDataCheck(
-        indicatorsToCheck,
-        areasSelected
-      );
-
-      expect(result).toBe(false);
-    });
   });
 });
