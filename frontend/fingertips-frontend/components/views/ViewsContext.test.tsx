@@ -75,6 +75,18 @@ jest.mock(
     }
 );
 
+jest.mock('@/app/chart/PopulationPyramidWithTableDataProvider', () => {
+  const originalModule = jest.requireActual(
+    '@/app/chart/PopulationPyramidWithTableDataProvider'
+  );
+  return {
+    ...originalModule,
+    PopulationPyramidWithTableDataProvider: jest
+      .fn()
+      .mockImplementation(() => <div />),
+  };
+});
+
 const mockAvailableAreas = [
   {
     code: 'A010',

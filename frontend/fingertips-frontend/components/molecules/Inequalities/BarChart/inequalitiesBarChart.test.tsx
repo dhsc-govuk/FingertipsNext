@@ -8,7 +8,7 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 
-describe('Inequalities LineChart suite', () => {
+describe('Inequalities BarChart suite', () => {
   it('should render the expected elements', async () => {
     const yAxisLabel = 'YAxis';
     render(
@@ -38,7 +38,7 @@ describe('Inequalities LineChart suite', () => {
     expect(barChart).toHaveTextContent(yAxisLabel);
     expect(barChart).toHaveTextContent('$');
     expect(
-      screen.getByText('Compared to South FooBar for 2008 time period')
+      screen.getByText('Compared to South FooBar persons for 2008 time period')
     ).toBeInTheDocument();
     expect(screen.getByText('Lower')).toBeInTheDocument();
     expect(screen.getByText('Higher')).toBeInTheDocument();

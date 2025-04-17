@@ -9,16 +9,13 @@ import { Table } from 'govuk-react';
 import {
   AreaTypeLabelEnum,
   getConfidenceLimitNumber,
-  getMostRecentData,
-  sortHealthDataByYearDescending,
-  sortHealthDataPointsByDescendingYear,
 } from '@/lib/chartHelpers/chartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
   CheckValueInTableCell,
   FormatNumberInTableCell,
 } from '@/components/molecules/CheckValueInTableCell';
-import React, { useState } from 'react';
+import React, { FC, Fragment, useState } from 'react';
 import { SparklineChart } from '@/components/organisms/SparklineChart';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
 import { TrendTag } from '@/components/molecules/TrendTag';
@@ -26,16 +23,27 @@ import { BenchmarkLegend } from '@/components/organisms/BenchmarkLegend';
 import { BarChartEmbeddedTableRow } from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedTable.types';
 import { BarChartEmbeddedRows } from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedRows';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
+import {
+  BarChartEmbeddedTableHeadingEnum,
+  chartName,
+  filterUndefined,
+  getFirstCompleteYear,
+  getMaxValue,
+} from '@/components/organisms/BarChartEmbeddedTable/barChartEmbeddedTableHelpers';
 
-export enum BarChartEmbeddedTableHeadingEnum {
-  AreaName = 'Area',
-  RecentTrend = 'Recent trend',
-  Period = 'Period',
-  Count = 'Count',
-  Value = 'Value',
-  Lower = 'Lower',
-  Upper = 'Upper',
-}
+const ConfidenceLimitsHeader: FC<{ confidenceLimit?: number }> = ({
+  confidenceLimit,
+}) => {
+  if (!confidenceLimit) return null;
+  return (
+    <>
+      {confidenceLimit}%<br />
+      confidence
+      <br />
+      limits
+    </>
+  );
+};
 
 interface BarChartEmbeddedTableProps {
   healthIndicatorData: HealthDataForArea[];
@@ -47,17 +55,6 @@ interface BarChartEmbeddedTableProps {
   dataSource?: string;
 }
 
-const formatHeader = (title: string) => {
-  return title.split(' ').map((word, index) => (
-    <React.Fragment key={`${word}-${index}`}>
-      {word}
-      <br />
-    </React.Fragment>
-  ));
-};
-
-const chartName = 'barChartEmbeddedTable';
-
 export function BarChartEmbeddedTable({
   healthIndicatorData,
   benchmarkData,
@@ -67,28 +64,25 @@ export function BarChartEmbeddedTable({
   polarity = IndicatorPolarity.Unknown,
   dataSource,
 }: Readonly<BarChartEmbeddedTableProps>) {
-  const mostRecentYearData =
-    sortHealthDataByYearDescending(healthIndicatorData);
+  const maxValue = getMaxValue(healthIndicatorData);
+  const fullYear = getFirstCompleteYear([
+    ...healthIndicatorData,
+    benchmarkData,
+    groupIndicatorData,
+  ]);
 
-  const extractValues = healthIndicatorData.flatMap((item) =>
-    item.healthData
-      .map((item) => item.value)
-      .filter((value) => value !== undefined)
-  );
-  const maxValue = Math.max(...extractValues);
-
-  const tableRows: BarChartEmbeddedTableRow[] = mostRecentYearData.map(
-    (item) => ({
-      area: item.areaName,
-      period: item.healthData[0].year,
-      trend: item.healthData[0].trend,
-      count: item.healthData[0].count,
-      value: item.healthData[0].value,
-      lowerCi: item.healthData[0].lowerCi,
-      upperCi: item.healthData[0].upperCi,
-      benchmarkComparison: item.healthData[0].benchmarkComparison,
+  const tableRows: BarChartEmbeddedTableRow[] = healthIndicatorData
+    .map((areaData) => {
+      const point = areaData?.healthData.find(
+        (point) => point.year === fullYear
+      );
+      if (!point) return;
+      return {
+        area: areaData.areaName,
+        ...point,
+      };
     })
-  );
+    .filter(filterUndefined) as BarChartEmbeddedTableRow[];
 
   const sortedTableRows = tableRows.toSorted((a, b) => {
     if (!a.value && !b.value) return 0;
@@ -97,19 +91,12 @@ export function BarChartEmbeddedTable({
     return b.value - a.value;
   });
 
-  const sortedHealthDataForBenchmark = sortHealthDataPointsByDescendingYear(
-    benchmarkData?.healthData
+  const benchmarkDataPoint = benchmarkData?.healthData.find(
+    (point) => point.year === fullYear
   );
-
-  const mostRecentBenchmarkData = getMostRecentData(
-    sortedHealthDataForBenchmark
+  const groupDataPoint = groupIndicatorData?.healthData.find(
+    (point) => point.year === fullYear
   );
-
-  const sortedGroupHealthData = sortHealthDataPointsByDescendingYear(
-    groupIndicatorData?.healthData
-  );
-
-  const mostRecentGroupData = getMostRecentData(sortedGroupHealthData);
 
   const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
     useState(false);
@@ -126,17 +113,16 @@ export function BarChartEmbeddedTable({
       <BenchmarkLegend
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
+        title={`Compared to England for ${fullYear} time period`}
       />
 
       <Table
         head={
           <React.Fragment>
             <Table.Row>
-              <Table.CellHeader colSpan={6}></Table.CellHeader>
+              <Table.CellHeader colSpan={5}></Table.CellHeader>
               <Table.CellHeader colSpan={2} style={{ textAlign: 'center' }}>
-                {confidenceLimit
-                  ? formatHeader(`${confidenceLimit}% confidence limits`)
-                  : null}
+                <ConfidenceLimitsHeader confidenceLimit={confidenceLimit} />
               </Table.CellHeader>
             </Table.Row>
 
@@ -144,9 +130,7 @@ export function BarChartEmbeddedTable({
               <Table.CellHeader style={{ verticalAlign: 'top' }}>
                 {BarChartEmbeddedTableHeadingEnum.AreaName}
               </Table.CellHeader>
-              <Table.CellHeader style={{ verticalAlign: 'top' }}>
-                {BarChartEmbeddedTableHeadingEnum.Period}
-              </Table.CellHeader>
+
               <Table.CellHeader
                 style={{ verticalAlign: 'top', textAlign: 'center' }}
               >
@@ -173,7 +157,7 @@ export function BarChartEmbeddedTable({
           </React.Fragment>
         }
       >
-        {mostRecentBenchmarkData ? (
+        {benchmarkDataPoint ? (
           <Table.Row
             key={`${benchmarkData?.areaName}`}
             style={{ backgroundColor: GovukColours.LightGrey }}
@@ -183,55 +167,51 @@ export function BarChartEmbeddedTable({
               value={benchmarkData?.areaName}
               style={{ textAlign: 'left' }}
             />
-            <CheckValueInTableCell
-              value={mostRecentBenchmarkData.year}
-              style={{ textAlign: 'right' }}
-            />
             <Table.Cell style={{ textAlign: 'center' }}>
-              <TrendTag trendFromResponse={mostRecentBenchmarkData.trend} />
+              <TrendTag trendFromResponse={benchmarkDataPoint.trend} />
             </Table.Cell>
             <FormatNumberInTableCell
-              value={mostRecentBenchmarkData.count}
+              value={benchmarkDataPoint.count}
               numberStyle={'whole'}
               style={{ textAlign: 'right' }}
             />
             <FormatNumberInTableCell
-              value={mostRecentBenchmarkData.value}
+              value={benchmarkDataPoint.value}
               style={{ textAlign: 'right', paddingRight: '0px' }}
             />
             <Table.Cell style={{ paddingRight: '0px' }}>
               <SparklineChart
-                value={[mostRecentBenchmarkData.value]}
+                value={[benchmarkDataPoint.value]}
                 maxValue={maxValue}
                 confidenceIntervalValues={[
-                  mostRecentBenchmarkData.lowerCi,
-                  mostRecentBenchmarkData.upperCi,
+                  benchmarkDataPoint.lowerCi,
+                  benchmarkDataPoint.upperCi,
                 ]}
                 showConfidenceIntervalsData={showConfidenceIntervalsData}
                 benchmarkOutcome={
-                  mostRecentBenchmarkData.benchmarkComparison?.outcome
+                  benchmarkDataPoint.benchmarkComparison?.outcome
                 }
                 benchmarkComparisonMethod={benchmarkComparisonMethod}
                 polarity={polarity}
                 label={AreaTypeLabelEnum.Benchmark}
                 area={benchmarkData?.areaName}
-                year={mostRecentBenchmarkData.year}
+                year={benchmarkDataPoint.year}
                 measurementUnit={measurementUnit}
                 barColor={GovukColours.DarkGrey}
               ></SparklineChart>
             </Table.Cell>
             <FormatNumberInTableCell
-              value={mostRecentBenchmarkData.lowerCi}
+              value={benchmarkDataPoint.lowerCi}
               style={{ textAlign: 'right' }}
             />
             <FormatNumberInTableCell
-              value={mostRecentBenchmarkData.upperCi}
+              value={benchmarkDataPoint.upperCi}
               style={{ textAlign: 'right' }}
             />
           </Table.Row>
         ) : null}
 
-        {mostRecentGroupData ? (
+        {groupDataPoint ? (
           <Table.Row
             key={`${groupIndicatorData?.areaName}`}
             style={{ backgroundColor: GovukColours.LightGrey }}
@@ -241,49 +221,43 @@ export function BarChartEmbeddedTable({
               value={groupIndicatorData?.areaName}
               style={{ textAlign: 'left' }}
             />
-            <CheckValueInTableCell
-              value={mostRecentGroupData.year}
-              style={{ textAlign: 'right' }}
-            />
             <Table.Cell style={{ textAlign: 'center' }}>
-              <TrendTag trendFromResponse={mostRecentGroupData.trend} />
+              <TrendTag trendFromResponse={groupDataPoint.trend} />
             </Table.Cell>
             <FormatNumberInTableCell
-              value={mostRecentGroupData.count}
+              value={groupDataPoint.count}
               numberStyle={'whole'}
               style={{ textAlign: 'right' }}
             />
             <FormatNumberInTableCell
-              value={mostRecentGroupData.value}
+              value={groupDataPoint.value}
               style={{ textAlign: 'right', paddingRight: '0px' }}
             />
             <Table.Cell style={{ paddingRight: '0px' }}>
               <SparklineChart
-                value={[mostRecentGroupData.value]}
+                value={[groupDataPoint.value]}
                 maxValue={maxValue}
                 confidenceIntervalValues={[
-                  mostRecentGroupData.lowerCi,
-                  mostRecentGroupData.upperCi,
+                  groupDataPoint.lowerCi,
+                  groupDataPoint.upperCi,
                 ]}
                 showConfidenceIntervalsData={showConfidenceIntervalsData}
-                benchmarkOutcome={
-                  mostRecentGroupData.benchmarkComparison?.outcome
-                }
+                benchmarkOutcome={groupDataPoint.benchmarkComparison?.outcome}
                 benchmarkComparisonMethod={benchmarkComparisonMethod}
                 polarity={polarity}
                 label={AreaTypeLabelEnum.Group}
                 area={groupIndicatorData?.areaName}
-                year={mostRecentGroupData.year}
+                year={groupDataPoint.year}
                 measurementUnit={measurementUnit}
                 barColor={GovukColours.DarkGrey}
               />
             </Table.Cell>
             <FormatNumberInTableCell
-              value={mostRecentGroupData.lowerCi}
+              value={groupDataPoint.lowerCi}
               style={{ textAlign: 'right' }}
             />
             <FormatNumberInTableCell
-              value={mostRecentGroupData.upperCi}
+              value={groupDataPoint.upperCi}
               style={{ textAlign: 'right' }}
             />
           </Table.Row>

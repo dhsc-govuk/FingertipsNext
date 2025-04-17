@@ -9,10 +9,8 @@ import {
   StyledBenchmarkSubHeader,
   StyledAlignRightBorderHeader,
   StyledStickyEmptyLeftHeader,
-  StickyValueUnitHeader,
-  StickyPeriodHeader,
   StyledAlignLeftStickyLeftHeader,
-  StyledAlignRightHeaderPadLeft,
+  StyledAlignRightHeaderPad,
 } from './SpineChartTableStyles';
 import { englandAreaString } from '@/lib/chartHelpers/constants';
 
@@ -34,9 +32,9 @@ export enum SpineChartTableHeadingEnum {
   AreaTrend = 'Recent trend',
   AreaCount = 'Count',
   Value = 'Value',
-  BenchmarkWorst = 'Worst',
+  BenchmarkWorst = 'Worst/ lowest',
   BenchmarkRange = 'Range',
-  BenchmarkBest = 'Best',
+  BenchmarkBest = 'Best/ highest',
 }
 
 const initialHeadersList: HeaderData[] = [
@@ -48,12 +46,12 @@ const initialHeadersList: HeaderData[] = [
   {
     title: SpineChartTableHeadingEnum.IndicatorPeriod,
     uniqueIdentifier: 'indicator-period-header',
-    styledComponent: StickyPeriodHeader,
+    styledComponent: StyledAlignCentreHeader,
   },
   {
     title: SpineChartTableHeadingEnum.IndicatorUnit,
     uniqueIdentifier: 'indicator-unit-header',
-    styledComponent: StickyValueUnitHeader,
+    styledComponent: StyledAlignRightBorderHeader,
   },
 ];
 
@@ -90,7 +88,7 @@ const oneAreaHeadingsList: HeaderData[] = [
   {
     title: SpineChartTableHeadingEnum.AreaCount,
     uniqueIdentifier: 'area-count-header',
-    styledComponent: StyledAlignRightHeaderPadLeft,
+    styledComponent: StyledAlignRightHeaderPad,
   },
   {
     title: SpineChartTableHeadingEnum.Value,
@@ -110,7 +108,7 @@ const twoAreasHeadingsList: HeaderData[] = [
   {
     title: SpineChartTableHeadingEnum.AreaCount,
     uniqueIdentifier: 'area-1-count-header',
-    styledComponent: StyledAlignRightHeaderPadLeft,
+    styledComponent: StyledAlignRightHeaderPad,
   },
   {
     title: SpineChartTableHeadingEnum.Value,
@@ -120,7 +118,7 @@ const twoAreasHeadingsList: HeaderData[] = [
   {
     title: SpineChartTableHeadingEnum.AreaCount,
     uniqueIdentifier: 'area-2-count-header',
-    styledComponent: StyledAlignRightHeaderPadLeft,
+    styledComponent: StyledAlignRightHeaderPad,
   },
   {
     title: SpineChartTableHeadingEnum.Value,
@@ -165,9 +163,13 @@ export function SpineChartTableHeader({
     <>
       <Table.Row key={`${areaNames.concat()}`}>
         <StyledStickyEmptyLeftHeader
-          colSpan={3}
-          data-testid="empty-header"
+          colSpan={1}
+          data-testid="empty-header-sticky"
         ></StyledStickyEmptyLeftHeader>
+        <Table.CellHeader
+          colSpan={2}
+          data-testid="empty-header"
+        ></Table.CellHeader>
         {areaNames.map((areaName, index) => (
           <StyledAlignCentreHeader
             colSpan={twoAreasRequested ? 2 : 3}
