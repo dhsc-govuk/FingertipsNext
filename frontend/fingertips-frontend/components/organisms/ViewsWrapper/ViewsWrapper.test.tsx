@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import { ViewsWrapper } from '.';
-import { SearchParams } from '@/lib/searchStateManager';
 import {
   generateMockAreaHealthData,
   generateMockHealthDataPoint,
