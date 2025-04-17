@@ -150,7 +150,7 @@ export const getBarChartOptions = (options: {
       enabled: false,
     },
     tooltip: {
-      headerFormat: `<span style="font-weight: bold">${options.tooltipAreaName}</span><br/>`,
+      headerFormat: '',
       useHTML: true,
       pointFormatter: options.tooltipPointFormatter,
     },

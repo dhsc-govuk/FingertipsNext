@@ -31,12 +31,12 @@ import {
   getInequalitiesType,
   InequalitiesTypes,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
-import { formatNumber } from '@/lib/numberFormatter';
 import {
   AreaTypeLabelEnum,
   determineAreaCodes,
   determineHealthDataForArea,
   getTooltipContent,
+  createTooltipHTML,
   seriesDataWithoutGroup,
 } from '@/lib/chartHelpers/chartHelpers';
 import { ChartSelectArea } from '../../ChartSelectArea';
@@ -160,25 +160,25 @@ export function InequalitiesTrend({
       benchmarkComparisonMethod ?? BenchmarkComparisonMethod.Unknown,
       type === InequalitiesTypes.Sex ? lineChartData.areaName : undefined
     );
-    const comparisonLabelForInequality = `persons ${comparisonLabel}`;
 
+    const benchmarkComparisonSymbol = `<span style="color: ${point.series.color}; font-weight: bold;">${symbol}</span>`;
     const shouldHideLines = lineChartData.rowData.every(
       (dataPoint) => dataPoint.inequalities[point.series.name]?.isAggregate
     );
 
-    return [
-      `<div style="padding-right: 25px">`,
-      `<span style="font-weight: bold">${lineChartData.areaName}</span><br/>`,
-      `<span>${point.x}</span><br/><span>${point.series.name}</span><br/>`,
-      `<div style="display: flex; margin-top: 15px; align-items: center;">`,
-      `<div style="margin-right: 10px;"><span style="color: ${point.series.color}; font-weight: bold;">${symbol}</span></div>`,
-      `<div style="padding-right: 10px;"><span>${formatNumber(point.y)} ${measurementUnit ? ' ' + measurementUnit : ''}</span><br/>`,
-      `${shouldHideLines || !benchmarkLabel ? '' : '<span>' + benchmarkLabel + '</span><br/>'}`,
-      `${shouldHideLines || !comparisonLabel ? '' : '<span>' + comparisonLabelForInequality + '</span><br/>'}`,
-      `</div>`,
-      `</div>`,
-      `</div>`,
-    ];
+    return createTooltipHTML(
+      {
+        areaName: lineChartData.areaName,
+        period: point.x,
+        fieldName: point.series.name,
+        benchmarkComparisonSymbol,
+        shouldHideComparison: shouldHideLines,
+        benchmarkLabel,
+        comparisonLabel,
+      },
+      point.y,
+      measurementUnit
+    );
   };
 
   const inequalitiesLineChartOptions: Highcharts.Options =
