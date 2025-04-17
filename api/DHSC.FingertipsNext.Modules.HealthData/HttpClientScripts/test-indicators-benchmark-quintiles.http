@@ -64,7 +64,7 @@ GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=A84
         client.test("received expected health data with quintile comparison", () => {
             const expectedResults = [ 
                 {areaName:"Coquet Medical Group", year:2020, outcome:"Middle"},
-                {areaName:"Coquet Medical Group", year:2021, outcome:"Poop"},
+                {areaName:"Coquet Medical Group", year:2021, outcome:"Low"},
                 {areaName:"Coquet Medical Group", year:2022, outcome:"Highest"},
                 {areaName:"Coquet Medical Group", year:2023, outcome:"Highest"},
                 {areaName:"The Leys Health Centre", year:2020, outcome:"Middle"},
