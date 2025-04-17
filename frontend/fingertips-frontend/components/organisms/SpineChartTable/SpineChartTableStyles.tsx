@@ -64,7 +64,7 @@ export const StyledAlignLeftStickyLeftHeader = styled(StyledAlignLeftHeader)(
 
 export const StickyValueUnitHeader = styled(StyledAlignRightBorderHeader)({
   ...(stickyLeft as unknown as TemplateStringsArray),
-  left: `${spineChartIndicatorTitleColumnMinWidth + spineChartPeriodColumnMinWidth}px`,
+  left: `${spineChartIndicatorTitleColumnMinWidth + spineChartPeriodColumnMinWidth + paddingSize * 2}px`,
 });
 
 export const StickyPeriodHeader = styled(StyledAlignCentreHeader)({
