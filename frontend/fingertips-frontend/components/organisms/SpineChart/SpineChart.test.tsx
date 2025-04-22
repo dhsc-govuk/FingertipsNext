@@ -9,6 +9,7 @@ import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { generateSeriesData } from '@/components/organisms/SpineChart/SpineChartOptions';
 import Highcharts from 'highcharts';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 describe('Spine chart', () => {
   const mockIndicator = 'mock indicator';
@@ -64,16 +65,16 @@ describe('Spine chart', () => {
     }) as Highcharts.SeriesScatterOptions[];
 
     expect(result[5].marker).toEqual({
-      fillColor: '#ffffff',
-      lineColor: '#000',
+      fillColor: GovukColours.White,
+      lineColor: GovukColours.Black,
       lineWidth: 1,
       radius: 6,
       symbol: 'circle',
     });
 
     expect(result[6].marker).toEqual({
-      fillColor: '#ffffff',
-      lineColor: '#000',
+      fillColor: GovukColours.White,
+      lineColor: GovukColours.Black,
       lineWidth: 1,
       radius: 6,
       symbol: 'square',

@@ -246,14 +246,14 @@ export function generateSeriesData({
         value: groupValue,
         units: units,
         outcome: groupOutcome ?? 'Not compared',
-        colour: '#fff',
+        colour: GovukColours.White,
         shape: SymbolsEnum.Diamond,
       }),
       marker: {
         symbol: 'diamond',
         radius: 8,
-        fillColor: '#fff',
-        lineColor: '#000',
+        fillColor: GovukColours.White,
+        lineColor: GovukColours.Black,
         lineWidth: markerLineWidth,
       },
       data: [scaledGroup],
@@ -273,7 +273,7 @@ export function generateSeriesData({
         benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
         outcome ?? BenchmarkOutcome.NotCompared,
         quartileData.polarity ?? IndicatorPolarity.NoJudgement
-      ) ?? '#ffffff';
+      ) ?? GovukColours.White;
 
     const absAreaValue =
       inverter * (Math.abs(value) - Math.abs(benchmarkValue));
@@ -295,7 +295,7 @@ export function generateSeriesData({
         symbol: index === 0 ? 'circle' : 'square',
         radius: 6,
         fillColor,
-        lineColor: '#000',
+        lineColor: GovukColours.Black,
         lineWidth: markerLineWidth,
       },
       data: [scaledArea],
@@ -310,7 +310,7 @@ export function generateSeriesData({
       marker: {
         symbol: 'circle',
         radius: 2,
-        fillColor: '#000',
+        fillColor: GovukColours.Black,
       },
       data: [0],
     });
