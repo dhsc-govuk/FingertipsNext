@@ -9,16 +9,19 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Repository;
 [SuppressMessage("ReSharper", "SimplifyConditionalTernaryExpression")]
 public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHealthDataRepository
 {
+    private const string ENGLAND_AREA_CODE = "E92000001";
     private const string SEX = "sex";
     private const string AGE = "age";
     private const string DEPRIVATION = "deprivation";
 
     private readonly HealthDataDbContext _dbContext = healthDataDbContext ?? throw new ArgumentNullException(nameof(healthDataDbContext));
 
-    public async Task<IndicatorDimensionModel> GetIndicatorDimensionAsync(int indicatorId)
+    public async Task<IndicatorDimensionModel> GetIndicatorDimensionAsync(int indicatorId, string[] areaCodes)
     {
         var model = await _dbContext.HealthMeasure
            .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
+           .Where(healthMeasure => areaCodes.Length == 0 || EF.Constant(areaCodes).Contains(healthMeasure.AreaDimension.Code))
+           .Where(healthMeasure => areaCodes.Length == 1 || healthMeasure.AreaDimension.Code != ENGLAND_AREA_CODE)
            .OrderByDescending(healthMeasure => healthMeasure.Year)
            .Include(healthMeasure => healthMeasure.IndicatorDimension)
            .Select(healthMeasure => new IndicatorDimensionModel

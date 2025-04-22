@@ -76,7 +76,7 @@ describe('PopulationPyramidWithTableDataProvider', () => {
         results.push(area);
       }
       return results;
-    })(130);
+    })(330);
 
     const areaCodes = areas.map((area: Area) => {
       return area.code;

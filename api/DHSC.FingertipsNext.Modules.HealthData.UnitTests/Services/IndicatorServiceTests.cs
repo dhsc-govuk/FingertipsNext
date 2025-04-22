@@ -75,7 +75,7 @@ public class IndicatorServiceTests
             HealthData = expectedHealthData
         };
 
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns([healthMeasure]);
 
         var result = await _indicatorService.GetIndicatorDataAsync(1, [], string.Empty, [], []);
@@ -105,7 +105,7 @@ public class IndicatorServiceTests
                 }
             }
         };
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), Arg.Any<int[]>(), []).Returns(
             new List<HealthMeasureModel>
                 { healthMeasure2 });
@@ -150,7 +150,7 @@ public class IndicatorServiceTests
                 }
             }
         };
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns(
             new List<HealthMeasureModel>
                 { healthMeasure1, healthMeasure2, healthMeasure3 });
@@ -183,7 +183,7 @@ public class IndicatorServiceTests
         mockHealthData.Add(healthMeasure2);
 
         testIndicator.Polarity = polarity;
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns(mockHealthData);
 
         var result =
@@ -219,7 +219,7 @@ public class IndicatorServiceTests
         healthMeasure2.Value = 2;
         mockHealthData.Add(healthMeasure2);
 
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns(mockHealthData);
 
         var result =
@@ -292,7 +292,7 @@ public class IndicatorServiceTests
                 englandMaleDataPoint2022, englandFemaleDataPoint2022
             };
 
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], Arg.Any<string[]>())
             .Returns(mockHealthData);
 
@@ -465,7 +465,7 @@ public class IndicatorServiceTests
         var mockHealthData = new List<HealthMeasureModel>
             { englandPoint, aggregatePoint, disAggregatePoint };
 
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], Arg.Any<string[]>())
             .Returns(mockHealthData);
 
@@ -525,7 +525,7 @@ public class IndicatorServiceTests
         var mockHealthData = new List<HealthMeasureModel>
             { englandPoint, aggregatePoint, disAggregatePoint1, disAggregatePoint2 };
 
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], Arg.Any<string[]>())
             .Returns(mockHealthData);
 
@@ -623,7 +623,7 @@ public class IndicatorServiceTests
                 }
             };
 
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(theIndicator);
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(theIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(),
                 [], Arg.Any<string[]>())
             .Returns(mockHealthData);
@@ -646,7 +646,7 @@ public class IndicatorServiceTests
         var mockHealthData = new List<HealthMeasureModel>
         { };
 
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(Task.FromResult<IndicatorDimensionModel>(null));
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(Task.FromResult<IndicatorDimensionModel>(null));
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], Arg.Any<string[]>())
             .Returns(mockHealthData);
 
@@ -659,7 +659,7 @@ public class IndicatorServiceTests
     [Fact]
     public async Task GetIndicatorDataAsync_ReturnsEmptyArray_WhenNoDataFoundButValidIndicatorSelected()
     {
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(Task.FromResult<IndicatorDimensionModel>(new IndicatorDimensionModel() { Name = "Foo" }));
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(Task.FromResult<IndicatorDimensionModel>(new IndicatorDimensionModel() { Name = "Foo" }));
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], Arg.Any<string[]>())
             .Returns([]);
 
@@ -727,7 +727,7 @@ public class IndicatorServiceTests
             }
         };
 
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns(
             [
                 healthMeasure0,
@@ -789,7 +789,7 @@ public class IndicatorServiceTests
             new(){AreaKey=3, Code = expectedAreaCodes[3], Name = expectedAreaNames[3]}
         };
 
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns([healthMeasure0, healthMeasure1, healthMeasure2]);
         _healthDataRepository.GetAreasAsync(Arg.Any<string[]>()).Returns(missingAreas);
 
@@ -841,7 +841,7 @@ public class IndicatorServiceTests
             new(){AreaKey=3, Code = expectedAreaCodes[3], Name = expectedAreaNames[3]}
         };
 
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns([healthMeasure0, healthMeasure1, healthMeasure2]);
         _healthDataRepository.GetAreasAsync(Arg.Any<string[]>()).Returns(missingAreas);
 
@@ -890,7 +890,7 @@ public class IndicatorServiceTests
             new(){AreaKey=3, Code = expectedAreaCodes[3], Name = expectedAreaNames[3]}
         };
 
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns([]);
         _healthDataRepository.GetAreasAsync(Arg.Any<string[]>()).Returns(missingAreas);
 

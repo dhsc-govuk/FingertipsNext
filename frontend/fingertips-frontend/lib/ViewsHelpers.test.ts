@@ -51,7 +51,7 @@ describe('getHealthDataForIndicator', () => {
   });
 
   it('should make the appropriate number of API calls when a long list of areas is requested', async () => {
-    const testAreas = new Array(101).fill('a', 0, 101);
+    const testAreas = new Array(301).fill('a', 0, 301);
 
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
       mockIndicator
@@ -68,7 +68,7 @@ describe('getHealthDataForIndicator', () => {
     ).toHaveBeenNthCalledWith(
       1,
       {
-        areaCodes: new Array(100).fill('a', 0, 100),
+        areaCodes: new Array(300).fill('a', 0, 300),
         indicatorId: Number(1),
       },
       API_CACHE_CONFIG
@@ -87,7 +87,7 @@ describe('getHealthDataForIndicator', () => {
   });
 
   it('should return combined data when a long list of areas is requested', async () => {
-    const testAreas = new Array(101).fill('a', 0, 101);
+    const testAreas = new Array(301).fill('a', 0, 301);
 
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
       mockIndicator
@@ -269,7 +269,7 @@ describe('getIndicatorData', () => {
 
   const testParamsWithManyAreas = {
     ...testParamsWithGroup,
-    areasSelected: new Array(101).fill('a'),
+    areasSelected: new Array(301).fill('a'),
   };
 
   it('should make appropriate calls to the healthIndicatorApi when a long list of areas is specified', async () => {
@@ -286,14 +286,14 @@ describe('getIndicatorData', () => {
       mockIndicatorsApi.getHealthDataForAnIndicator.mock.calls[0][0];
     expect(call1arg).toHaveProperty(
       'areaCodes',
-      testParamsWithManyAreas.areasSelected.slice(0, 100)
+      testParamsWithManyAreas.areasSelected.slice(0, 300)
     );
 
     const call2arg =
       mockIndicatorsApi.getHealthDataForAnIndicator.mock.calls[1][0];
     expect(call2arg).toHaveProperty(
       'areaCodes',
-      testParamsWithManyAreas.areasSelected.slice(100, 101)
+      testParamsWithManyAreas.areasSelected.slice(300, 301)
     );
   });
 });
