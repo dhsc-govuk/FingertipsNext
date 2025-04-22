@@ -35,8 +35,28 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
            })
            .Take(1)
            .FirstOrDefaultAsync();
-       
-        return model;
+        
+        if (model != null) {
+            return model;
+        }
+
+        // Default to the latest year for England if none of the requested areas have data
+        return await _dbContext.HealthMeasure
+           .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
+           .Where(healthMeasure => healthMeasure.AreaDimension.Code == ENGLAND_AREA_CODE)
+           .OrderByDescending(healthMeasure => healthMeasure.Year)
+           .Include(healthMeasure => healthMeasure.IndicatorDimension)
+           .Select(healthMeasure => new IndicatorDimensionModel
+           {
+               IndicatorId = healthMeasure.IndicatorDimension.IndicatorId,
+               IndicatorKey = healthMeasure.IndicatorKey,
+               Name = healthMeasure.IndicatorDimension.Name,
+               Polarity = healthMeasure.IndicatorDimension.Polarity,
+               BenchmarkComparisonMethod = healthMeasure.IndicatorDimension.BenchmarkComparisonMethod,
+               LatestYear = healthMeasure.Year
+           })
+           .Take(1)
+           .FirstOrDefaultAsync();;
     }
     
     public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataAsync(int indicatorId, string[] areaCodes, int[] years, string[] inequalities)
