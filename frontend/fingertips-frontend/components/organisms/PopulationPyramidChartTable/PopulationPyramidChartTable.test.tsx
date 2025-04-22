@@ -38,7 +38,7 @@ describe('PopulationPyramidChartTable', () => {
 
     expect(screen.getByText('Test Area')).toBeInTheDocument();
     expect(screen.getByText('Group Area')).toBeInTheDocument();
-    expect(screen.getByText('Benchmark: Benchmark Area')).toBeInTheDocument();
+    expect(screen.getByText('Benchmark Area')).toBeInTheDocument();
     expect(screen.getByText('0-4')).toBeInTheDocument();
     expect(screen.getByText('1,000')).toBeInTheDocument();
     expect(screen.getByText('900')).toBeInTheDocument();

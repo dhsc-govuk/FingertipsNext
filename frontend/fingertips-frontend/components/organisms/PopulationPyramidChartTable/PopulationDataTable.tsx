@@ -36,7 +36,7 @@ const StyledAreaNameHeader = styled(StyledAlignLeftHeader)(
   typography.font({ size: 16 }),
   {
     borderTop: `solid #F3F2F1 2px`,
-    textAlign: 'center'
+    textAlign: 'center',
   }
 );
 

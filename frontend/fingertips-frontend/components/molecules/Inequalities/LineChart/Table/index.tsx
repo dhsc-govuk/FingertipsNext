@@ -1,3 +1,5 @@
+'use client';
+
 import { Table } from 'govuk-react';
 import styled from 'styled-components';
 import {

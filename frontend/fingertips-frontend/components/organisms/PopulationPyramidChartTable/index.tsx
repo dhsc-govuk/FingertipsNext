@@ -20,9 +20,9 @@ const StylePopulationPyramidTableSection = styled('section')({
     '& th': {
       padding: '10px !important',
     },
-    "& td": {
+    '& td': {
       padding: '10px 10px 10px 0px !important',
-    }
+    },
   },
 });
 
@@ -64,7 +64,6 @@ const StyleGroupTableContentDiv = styled('div')({
       borderTopColor: GovukColours.MidGrey,
       textAlign: 'right',
     },
-
   },
   'minWidth': DefaultMinimumWidthForTablePanel,
 });
