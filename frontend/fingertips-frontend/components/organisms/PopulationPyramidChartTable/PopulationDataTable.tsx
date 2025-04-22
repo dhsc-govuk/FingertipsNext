@@ -6,7 +6,7 @@ import {
 } from '@/lib/chartHelpers/preparePopulationData';
 import { Table } from 'govuk-react';
 import { typography } from '@govuk-react/lib';
-import { StyledAlignLeftHeader } from '@/lib/tableHelpers';
+import { StyledAlignLeftHeader, StyledTableCell } from '@/lib/tableHelpers';
 import styled from 'styled-components';
 import { formatWholeNumber } from '@/lib/numberFormatter';
 
@@ -18,13 +18,6 @@ const StyledAreaTitleHeader = styled('h3')(typography.font({ size: 19 }), {
   fontWeight: '700',
 });
 
-export const StyledTableCell = styled(Table.Cell)(
-  typography.font({ size: 16 }),
-  {
-    textAlign: 'center',
-  }
-);
-
 const valueFormatter = (value: number | string | undefined) => {
   if (typeof value === 'number' || typeof value === 'undefined') {
     return formatWholeNumber(value);
@@ -33,10 +26,12 @@ const valueFormatter = (value: number | string | undefined) => {
 };
 
 const StyledAreaNameHeader = styled(StyledAlignLeftHeader)(
-  typography.font({ size: 16 }),
+  typography.font({ size: 19 }),
   {
     borderTop: `solid #F3F2F1 2px`,
     textAlign: 'center',
+    lineHeight: 1.31579,
+    fontWeight: 400,
   }
 );
 
