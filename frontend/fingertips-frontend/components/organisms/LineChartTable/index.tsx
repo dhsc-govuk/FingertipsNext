@@ -25,7 +25,11 @@ import {
 } from '@/lib/tableHelpers';
 import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel';
 import { TrendTag } from '@/components/molecules/TrendTag';
-import { getConfidenceLimitNumber } from '@/lib/chartHelpers/chartHelpers';
+import {
+  getConfidenceLimitNumber,
+  getFirstYearForAreas,
+  getMostRecentYearForAreas,
+} from '@/lib/chartHelpers/chartHelpers';
 import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
@@ -230,7 +234,16 @@ export function LineChartTable({
     ...(groupIndicatorData?.healthData ?? []),
     ...healthIndicatorData.flatMap((area) => area.healthData),
   ].map(({ year }) => year);
-  const allYears = [...new Set(allHealthPointYears)].sort((a, b) => a - b);
+
+  const firstYear = getFirstYearForAreas(healthIndicatorData);
+  const lastYear = getMostRecentYearForAreas(healthIndicatorData);
+  if (!firstYear || !lastYear) {
+    throw new Error('no data for any years');
+  }
+
+  const allYears = [...new Set(allHealthPointYears)]
+    .filter((year) => year >= firstYear && year <= lastYear)
+    .sort((a, b) => a - b);
 
   const rowData = allYears
     .map((year) => {

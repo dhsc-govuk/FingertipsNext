@@ -14,7 +14,6 @@ import {
   AXIS_LABEL_FONT_SIZE,
   getTooltipContent,
   AreaTypeLabelEnum,
-  getLatestYear,
   getMostRecentYearForAreas,
   getFirstYearForAreas,
 } from '@/lib/chartHelpers/chartHelpers';
