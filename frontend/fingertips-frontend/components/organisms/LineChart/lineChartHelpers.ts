@@ -14,6 +14,9 @@ import {
   AXIS_LABEL_FONT_SIZE,
   getTooltipContent,
   AreaTypeLabelEnum,
+  getLatestYear,
+  getMostRecentYearForAreas,
+  getFirstYearForAreas,
 } from '@/lib/chartHelpers/chartHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
@@ -313,6 +316,8 @@ export function generateStandardLineChartOptions(
         ...(lineChartDefaultOptions.yAxis as Highcharts.XAxisOptions)?.labels,
         formatter: optionalParams?.xAxisLabelFormatter,
       },
+      min: getFirstYearForAreas(sortedHealthIndicatorData),
+      max: getMostRecentYearForAreas(sortedHealthIndicatorData),
     },
     series: seriesData,
     tooltip: {

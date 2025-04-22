@@ -193,13 +193,34 @@ export function getLatestYear(
   return year;
 }
 
-function getMostRecentYearForAreas(
+export function getFirstYear(
+  points: HealthDataPoint[] | undefined
+): number | undefined {
+  if (!points || points.length < 1) return undefined;
+
+  const year = points.reduce((previous, point) => {
+    return Math.min(previous, point.year);
+  }, points[0].year);
+  return year;
+}
+
+export function getMostRecentYearForAreas(
   healthDataForAreas: HealthDataForArea[]
 ): number | undefined {
   const years = healthDataForAreas.map(
     (area) => getLatestYear(area.healthData) ?? 0
   );
   const mostRecentYear = Math.max(...years);
+  return mostRecentYear === 0 ? undefined : mostRecentYear;
+}
+
+export function getFirstYearForAreas(
+  healthDataForAreas: HealthDataForArea[]
+): number | undefined {
+  const years = healthDataForAreas.map(
+    (area) => getFirstYear(area.healthData) ?? 0
+  );
+  const mostRecentYear = Math.min(...years);
   return mostRecentYear === 0 ? undefined : mostRecentYear;
 }
 
