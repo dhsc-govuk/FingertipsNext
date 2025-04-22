@@ -13,10 +13,10 @@ import {
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 
 describe('getMapGeographyData', () => {
-  it('should return an object with the expected mapGroupBoundary', async () => {
+  it('should return an object with the expected mapGroupBoundary', () => {
     const areaType = 'regions';
     const areaCodes = ['E12000008', 'E12000009'];
-    const actual = await getMapGeographyData(areaType, areaCodes, regionsMap);
+    const actual = getMapGeographyData(areaType, areaCodes, regionsMap);
     expect(actual.mapGroupBoundary).toEqual(mockMapRegionBoundaries);
   });
 });
