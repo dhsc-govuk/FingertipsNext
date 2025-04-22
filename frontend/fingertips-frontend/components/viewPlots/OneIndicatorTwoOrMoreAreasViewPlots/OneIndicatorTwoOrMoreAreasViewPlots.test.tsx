@@ -215,7 +215,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
       jest.resetAllMocks();
     });
 
-    it('should render the title for ThematicMap', async () => {
+    it('should render the ThematicMap with title', async () => {
       (fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
         json: async () => regionsMap,
