@@ -6,12 +6,12 @@ namespace DataCreator
     public static class DataFileReader
     {
         private const string Persons = "Persons";
-        private static readonly string InFilePath = Path.Combine("..","..","..","data","in");
-        private static readonly string TempDirPath = Path.Combine(InFilePath, "temp");
+        private static readonly string InFilePath = Path.Join("..","..","..","data","in");
+        private static readonly string TempDirPath = Path.Join(InFilePath, "temp");
 
         public static List<SimpleIndicator> GetPocIndicators()
         {
-            var lines = File.ReadAllLines(Path.Combine(TempDirPath, "pocindicators.csv"));
+            var lines = File.ReadAllLines(Path.Join(TempDirPath, "pocindicators.csv"));
             var indicators = new List<SimpleIndicator>();
             foreach (var line in lines)
             {
@@ -39,7 +39,7 @@ namespace DataCreator
         {
 
             //this is a csv file that was downloaded from the Fingertips API
-            var filePath = Path.Combine(TempDirPath, $"{indicatorId}.csv");
+            var filePath = Path.Join(TempDirPath, $"{indicatorId}.csv");
             if (!File.Exists(filePath))
                 return Enumerable.Empty<HealthMeasureEntity>().ToList();
 
@@ -102,7 +102,7 @@ namespace DataCreator
         public static IEnumerable<IndicatorLastUpdatedEntity> GetLastUpdatedDataForIndicators()
         {
             //this is a csv file that was downloaded from the Fingertips API
-            var filePath = Path.Combine(TempDirPath, "lastupdated.csv");
+            var filePath = Path.Join(TempDirPath, "lastupdated.csv");
 
             var lines = File.ReadAllLines(filePath);
             var allData = new List<IndicatorLastUpdatedEntity>();
@@ -119,7 +119,7 @@ namespace DataCreator
             return allData;
         }
 
-        public static void UnzipSourceFiles() => ZipFile.ExtractToDirectory(Path.Combine(InFilePath, "in.zip"), TempDirPath);
+        public static void UnzipSourceFiles() => ZipFile.ExtractToDirectory(Path.Join(InFilePath, "in.zip"), TempDirPath);
 
         public static void DeleteTempFiles()
         {
