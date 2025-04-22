@@ -90,7 +90,7 @@ exports[`PopulationPyramidChartTable check  that all 3 tables are rendered and t
   border-top: solid #F3F2F1 2px;
   text-align: center;
   line-height: 1.31579;
-  font-weight: 400;
+  font-weight: 700;
 }
 
 .c0 {
