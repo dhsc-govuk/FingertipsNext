@@ -18,14 +18,11 @@ const $SearchFormSchema = z
   })
   .refine((data) => {
     const stateParsed = JSON.parse(data.searchState);
-    if (
-      data.indicator.trim().length > 0 ||
+
+    return data.indicator.trim().length > 0 ||
       stateParsed[SearchParams.AreasSelected]?.length > 0 ||
-      stateParsed[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED
-    ) {
-      return true;
-    }
-    return false;
+      stateParsed[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED;
+
   });
 
 export type State = {
@@ -70,6 +67,8 @@ export async function searchIndicator(
     SearchParams.SearchedIndicator,
     indicator
   );
+
+  searchStateManager.removeAllParamFromState(SearchParams.IndicatorsSelected);
 
   redirect(searchStateManager.generatePath('/results'), RedirectType.push);
 }

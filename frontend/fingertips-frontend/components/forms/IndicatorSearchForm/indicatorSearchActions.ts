@@ -15,13 +15,10 @@ const $IndicatorSearchFormSchema = z
   })
   .refine((data) => {
     const stateParsed = JSON.parse(data.searchState);
-    if (
-      data.indicator.trim().length > 0 ||
-      stateParsed[SearchParams.AreasSelected]?.length > 0
-    ) {
-      return true;
-    }
-    return false;
+
+    return data.indicator.trim().length > 0 ||
+      stateParsed[SearchParams.AreasSelected]?.length > 0;
+
   });
 
 export type State = {

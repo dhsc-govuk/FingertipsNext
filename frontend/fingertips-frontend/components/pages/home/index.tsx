@@ -10,7 +10,7 @@ import {
   UnorderedList,
   SectionBreak,
 } from 'govuk-react';
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { SearchStateParams } from '@/lib/searchStateManager';
 import { SearchForm } from '@/components/forms/SearchForm';
 import {
   SearchFormState,
@@ -42,15 +42,7 @@ export const Home = ({
   const { setSearchState } = useSearchState();
 
   useEffect(() => {
-    const currentSearchState = searchState ?? {};
-    setSearchState({
-      [SearchParams.SearchedIndicator]:
-        currentSearchState[SearchParams.SearchedIndicator],
-      [SearchParams.AreasSelected]:
-        currentSearchState[SearchParams.AreasSelected],
-      [SearchParams.AreaTypeSelected]:
-        currentSearchState[SearchParams.AreaTypeSelected],
-    });
+    setSearchState(searchState ?? {});
   }, [searchState, setSearchState]);
 
   useEffect(() => {
