@@ -132,11 +132,9 @@ export function InequalitiesTrend({
   const sequenceSelector = sequenceSelectorForInequality[type];
   const dynamicKeys = getDynamicKeys(
     yearlyHealthDataGroupedByInequalities,
-    sequenceSelector
+    sequenceSelector,
+    ['Persons']
   );
-
-  console.log(`Headers  =  ${dynamicKeys}`);
-
   const allData = mapToInequalitiesTableData(
     yearlyHealthDataGroupedByInequalities,
     sequenceSelector
