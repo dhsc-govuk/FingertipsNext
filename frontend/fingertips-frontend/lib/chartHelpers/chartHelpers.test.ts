@@ -1268,3 +1268,19 @@ describe('getTooltipHtml', () => {
     ).toEqual(expected);
   });
 });
+
+describe('getLatestYear', () => {
+  it.todo('should test the function');
+});
+
+describe('getFirstYear', () => {
+  it.todo('should test the function');
+});
+
+describe('getMostRecentYearForAreas', () => {
+  it.todo('should test the function');
+});
+
+describe('getFirstYearForAreas', () => {
+  it.todo('should test the function');
+});

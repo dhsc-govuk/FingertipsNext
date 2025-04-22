@@ -367,4 +367,6 @@ describe('generateStandardLineChartOptions', () => {
       })
     ).toMatchSnapshot();
   });
+  it.todo('should test for xaxis.min');
+  it.todo('should test for xaxis.max');
 });
