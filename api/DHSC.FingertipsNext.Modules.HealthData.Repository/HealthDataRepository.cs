@@ -56,7 +56,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
                LatestYear = healthMeasure.Year
            })
            .Take(1)
-           .FirstOrDefaultAsync();;
+           .FirstOrDefaultAsync();
     }
     
     public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataAsync(int indicatorId, string[] areaCodes, int[] years, string[] inequalities)
