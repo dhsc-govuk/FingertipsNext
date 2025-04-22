@@ -44,7 +44,6 @@ const areasSelectedState = JSON.stringify({
   [SearchParams.AreasSelected]: ['foo', 'bar'],
 });
 
-
 const indicatorsSelectedState = JSON.stringify({
   [SearchParams.IndicatorsSelected]: ['1', '2'],
 });
@@ -150,7 +149,6 @@ describe('Search actions', () => {
       RedirectType.push
     );
   });
-
 });
 
 describe('getSearchSuggestions', () => {

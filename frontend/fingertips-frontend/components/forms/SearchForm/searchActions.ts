@@ -19,10 +19,11 @@ const $SearchFormSchema = z
   .refine((data) => {
     const stateParsed = JSON.parse(data.searchState);
 
-    return data.indicator.trim().length > 0 ||
+    return (
+      data.indicator.trim().length > 0 ||
       stateParsed[SearchParams.AreasSelected]?.length > 0 ||
-      stateParsed[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED;
-
+      stateParsed[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED
+    );
   });
 
 export type State = {
