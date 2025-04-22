@@ -12,6 +12,7 @@ import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
 import React from 'react';
 import { useMoreRowsWhenScrolling } from '@/components/hooks/useMoreRowsWhenScrolling';
+import { InViewTrigger } from '@/components/hooks/InViewTrigger';
 
 interface SelectedAreasPanelProps {
   selectedAreasData?: Area[];
@@ -114,7 +115,7 @@ export function SelectedAreasPanel({
               Default area England
             </StyledDefaultToEngland>
           )}
-          <div ref={triggerRef}>{hasMore ? 'Loading...' : null}</div>
+          <InViewTrigger triggerRef={triggerRef} more={hasMore} />
         </div>
       )}
     </StyledFilterSelectedAreaDiv>

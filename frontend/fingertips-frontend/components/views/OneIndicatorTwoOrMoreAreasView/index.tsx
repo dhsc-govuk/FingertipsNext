@@ -2,12 +2,6 @@ import { OneIndicatorTwoOrMoreAreasViewPlots } from '@/components/viewPlots/OneI
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
-import {
-  allowedAreaTypeMapMetaKeys,
-  AreaTypeKeysForMapMeta,
-  getMapGeographyData,
-} from '@/components/organisms/ThematicMap/thematicMapHelpers';
-import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 import { getIndicatorData } from '@/lib/ViewsHelpers';
@@ -61,27 +55,16 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   };
 
   const indicatorMetadata = selectedIndicatorsData?.[0];
-  const mapGeographyData =
-    selectedGroupArea === ALL_AREAS_SELECTED &&
-    allowedAreaTypeMapMetaKeys.includes(
-      selectedAreaType as AreaTypeKeysForMapMeta
-    )
-      ? await getMapGeographyData(
-          selectedAreaType as AreaTypeKeysForMapMeta,
-          areaCodes
-        )
-      : undefined;
-
   return (
     <ViewsWrapper
       searchState={searchState}
       indicatorsDataForAreas={[indicatorDataAvailableAreas]}
     >
       <OneIndicatorTwoOrMoreAreasViewPlots
+        areaCodes={areaCodes}
         indicatorData={indicatorDataAvailableAreas}
         searchState={searchState}
         indicatorMetadata={indicatorMetadata}
-        mapGeographyData={mapGeographyData}
         indicatorDataAllAreas={indicatorDataIncludingEmptyAreas}
       />
     </ViewsWrapper>
