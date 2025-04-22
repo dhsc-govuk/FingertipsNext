@@ -33,7 +33,7 @@ exports[`getBarChartOptions should return an object matching the snapshot 1`] = 
     },
   },
   "tooltip": {
-    "headerFormat": "<span style="font-weight: bold">Tooltip Area</span><br/>",
+    "headerFormat": "",
     "pointFormatter": [MockFunction],
     "useHTML": true,
   },
@@ -131,7 +131,7 @@ exports[`getBarChartOptions should return an object matching the snapshot when o
     },
   },
   "tooltip": {
-    "headerFormat": "<span style="font-weight: bold">Tooltip Area</span><br/>",
+    "headerFormat": "",
     "pointFormatter": [MockFunction],
     "useHTML": true,
   },

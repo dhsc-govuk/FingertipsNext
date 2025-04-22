@@ -9,14 +9,13 @@ import {
   StyledIndicatorTitleCell,
 } from '@/lib/tableHelpers';
 import { Table } from 'govuk-react';
-import {
-  paddingSize,
-  spineChartIndicatorTitleColumnMinWidth,
-  spineChartPeriodColumnMinWidth,
-} from './spineChartTableHelpers';
 
-export const StyledTable = styled(Table)({
+export const StyledTableOneArea = styled(Table)({
   borderCollapse: 'collapse',
+});
+
+export const StyledTableMultipleAreas = styled(Table)({
+  borderCollapse: 'separate',
 });
 
 export const StyledDivTableContainer = styled.div({
@@ -29,6 +28,7 @@ const stickyLeft = {
   position: 'sticky',
   left: 0,
   zIndex: 2,
+  paddingLeft: '0.5em',
   paddingRight: '0.5em',
   fontSize: 19,
 };
@@ -40,10 +40,13 @@ export const StyledStickyEmptyLeftHeader = styled(Table.CellHeader)(
 export const StyledAlignCentreHeader = styled(StyledAlignLeftHeader)({
   textAlign: 'center',
   fontSize: 19,
+  paddingLeft: '0.5em',
+  paddingRight: '0.5em',
 });
 
-export const StyledAlignRightHeaderPadLeft = styled(StyledAlignRightHeader)({
+export const StyledAlignRightHeaderPad = styled(StyledAlignRightHeader)({
   paddingLeft: '0.5em',
+  paddingRight: '0.5em',
   fontSize: 19,
 });
 
@@ -54,19 +57,9 @@ export const StyledAlignRightBorderHeader = styled(StyledAlignRightHeader)({
   fontSize: 19,
 });
 
-export const StyledAlignLeftStickyLeftHeader = styled(StyledAlignLeftHeader)(
-  stickyLeft as unknown as TemplateStringsArray
-);
-
-export const StickyValueUnitHeader = styled(StyledAlignRightBorderHeader)({
+export const StyledAlignLeftStickyLeftHeader = styled(StyledAlignLeftHeader)({
   ...(stickyLeft as unknown as TemplateStringsArray),
-  left: `${spineChartIndicatorTitleColumnMinWidth + spineChartPeriodColumnMinWidth + paddingSize * 2}px`,
-});
-
-export const StickyPeriodHeader = styled(StyledAlignCentreHeader)({
-  ...(stickyLeft as unknown as TemplateStringsArray),
-  minWidth: `${spineChartPeriodColumnMinWidth}px}`,
-  left: `${spineChartIndicatorTitleColumnMinWidth + paddingSize}px`,
+  borderRight: 'solid #bfc1c3 1px',
 });
 
 export const StyledAlignCentreTableCell = styled(StyledAlignLeftTableCell)({
@@ -103,28 +96,21 @@ export const StyledAlignRightCellPadLeft = styled(StyledAlignRightTableCell)({
   fontSize: 19,
 });
 
-export const StyledValueUnitStickyCell = styled(
-  StyledAlignLeftBorderRightTableCell
-)({
-  ...(stickyLeft as unknown as TemplateStringsArray),
-  left: `${spineChartIndicatorTitleColumnMinWidth + spineChartPeriodColumnMinWidth + paddingSize * 2}px`,
-});
-
-export const StyledPeriodStickyCell = styled(StyledAlignCentreTableCell)({
-  ...(stickyLeft as unknown as TemplateStringsArray),
-  width: `${spineChartPeriodColumnMinWidth}px}`,
-  left: `${spineChartIndicatorTitleColumnMinWidth + paddingSize}px`,
-});
-
 export const StyledIndicatorTitleStickyLeftCell = styled(
   StyledIndicatorTitleCell
-)(stickyLeft as unknown as TemplateStringsArray);
+)({
+  ...(stickyLeft as unknown as TemplateStringsArray),
+  borderRight: 'solid #bfc1c3 1px',
+  paddingRight: '0.5em',
+});
 
 export const StyledGroupHeader = styled(StyledGreyHeader)({
   backgroundColor: GovukColours.LightGrey,
   borderTop: GovukColours.MidGrey,
   textAlign: 'right',
   fontSize: 19,
+  paddingLeft: '0.5em',
+  paddingRight: '0.5em',
 });
 
 export const StyledGroupSubHeader = styled(StyledGreyHeader)({
@@ -132,12 +118,15 @@ export const StyledGroupSubHeader = styled(StyledGreyHeader)({
   borderTop: GovukColours.MidGrey,
   textAlign: 'right',
   fontSize: 19,
+  paddingLeft: '0.5em',
+  paddingRight: '0.5em',
 });
 
 export const StyledBenchmarkHeader = styled(StyledGreyHeader)({
   backgroundColor: GovukColours.MidGrey,
   borderTop: GovukColours.LightGrey,
   textAlign: 'center',
+  paddingLeft: '0.5em',
   paddingRight: '0.5em',
   fontSize: 19,
 });
@@ -147,6 +136,7 @@ export const StyledBenchmarkSubHeader = styled(StyledGreyHeader)({
   borderTop: GovukColours.LightGrey,
   fontSize: 19,
   textAlign: 'right',
+  paddingLeft: '0.5em',
   paddingRight: '0.5em !important', // overrides the :last-child declaration which removes right padding
 });
 
