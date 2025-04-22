@@ -1,23 +1,15 @@
 import {
   HealthDataForArea,
   HealthDataPoint,
-  HealthDataPointTrendEnum,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { hasSufficientHealthDataCheck } from './hasSufficientHealthDataCheck';
+import { healthDataPoint } from '@/lib/mocks';
 
 export const generateMockHealthDataPoint = (year: number): HealthDataPoint => {
   return {
+    ...healthDataPoint,
     year,
-    ageBand: { value: '0-4', isAggregate: false },
-    sex: { value: 'female', isAggregate: false },
-    trend: HealthDataPointTrendEnum.IncreasingAndGettingBetter,
-    deprivation: {
-      sequence: 0,
-      value: 'dep1',
-      type: 'depType',
-      isAggregate: false,
-    },
   };
 };
 

@@ -13,10 +13,15 @@ const checkAreaHasSufficientHealthData = (
         );
 
         if (healthDataForSelectedArea) {
-          const hasSufficientHealthData =
-            indicatorsRequested === 1 && areasSelected.length <= 2
-              ? areaHealthData.healthData.length > 1
-              : true;
+          // We only return a single and the most recent health data point when more that one indicator or 2 areas have have been selected.
+          // Therefore we can only check there is sufficient data when there is one indicator and 2 or less areas selected.
+          const hasOnlyLatestHealthData =
+            indicatorsRequested > 1 || areasSelected.length > 2;
+
+          const hasSufficientHealthData = !hasOnlyLatestHealthData
+            ? areaHealthData.healthData.length > 1
+            : true;
+
           if (hasSufficientHealthData) return true;
         }
         return hasSufficientAreaHealthData;
