@@ -31,6 +31,9 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
   "series": [
     {
       "color": "#F46A25",
+      "custom": {
+        "areaCode": "A1425",
+      },
       "data": [
         [
           2004,
@@ -55,6 +58,8 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
   },
   "tooltip": {
     "formatter": [Function],
+    "headerFormat": "",
+    "useHTML": true,
   },
   "xAxis": {
     "allowDecimals": false,
@@ -124,6 +129,9 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
   "series": [
     {
       "color": "#505A5F",
+      "custom": {
+        "areaCode": "E92000001",
+      },
       "data": [
         [
           2004,
@@ -142,6 +150,9 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
     },
     {
       "color": "#28A197",
+      "custom": {
+        "areaCode": "P001",
+      },
       "data": [
         [
           2004,
@@ -160,6 +171,9 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
     },
     {
       "color": "#F46A25",
+      "custom": {
+        "areaCode": "A1425",
+      },
       "data": [
         [
           2004,
@@ -184,6 +198,8 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
   },
   "tooltip": {
     "formatter": [Function],
+    "headerFormat": "",
+    "useHTML": true,
   },
   "xAxis": {
     "allowDecimals": false,

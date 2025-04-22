@@ -94,6 +94,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     showConfidenceIntervalsData,
     {
       benchmarkData: englandBenchmarkData,
+      benchmarkComparisonMethod: indicatorData.benchmarkMethod,
       groupIndicatorData: groupData,
       yAxisTitle,
       yAxisLabelFormatter: FormatValueAsNumber,
