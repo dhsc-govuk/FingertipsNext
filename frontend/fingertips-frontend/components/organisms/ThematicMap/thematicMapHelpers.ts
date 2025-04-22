@@ -42,7 +42,8 @@ interface MapMetaData {
 export const mapMetaDataEncoder: Record<AreaTypeKeysForMapMeta, MapMetaData> = {
   'regions': {
     joinKey: 'RGN23CD',
-    mapFile: 'regions.json',
+    mapFile:
+      'Regions_December_2023_Boundaries_EN_BUC_1958740832896680092.geo.json',
     mapSource: `Office for National Statistics: Regions 2023`,
     mapCopyright: `Office for National Statistics licensed under the Open Government Licence v.3.0
     Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`,
