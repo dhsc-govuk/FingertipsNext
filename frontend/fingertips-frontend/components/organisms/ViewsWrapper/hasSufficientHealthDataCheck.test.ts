@@ -186,6 +186,28 @@ describe('hasSufficientHealthDataCheck', () => {
   });
 
   describe('When there are multiple indicators', () => {
+    it('should return false if all the indicator has no health data for all of the areaSelected', () => {
+      const areasSelected = ['A001', 'A002'];
+
+      const indicatorsToCheck = [
+        generateMockIndicatorWithAreaHealthData(1, [
+          generateMockAreaHealthData('A001'),
+          generateMockAreaHealthData('A002'),
+        ]),
+        generateMockIndicatorWithAreaHealthData(2, [
+          generateMockAreaHealthData('A001'),
+          generateMockAreaHealthData('A002'),
+        ]),
+      ];
+
+      const result = hasSufficientHealthDataCheck(
+        indicatorsToCheck,
+        areasSelected
+      );
+
+      expect(result).toBe(false);
+    });
+
     it('should return true if all the indicator has sufficient health data for at least one of the areaSelected', () => {
       const areasSelected = ['A001', 'A002'];
 
