@@ -1,10 +1,14 @@
 import {
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
   IndicatorPolarity,
   QuartileData,
 } from '@/generated-sources/ft-api-client';
 import { SpineChart } from '.';
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
+import { generateSeriesData } from '@/components/organisms/SpineChart/SpineChartOptions';
+import Highcharts from 'highcharts';
 
 describe('Spine chart', () => {
   const mockIndicator = 'mock indicator';
@@ -39,5 +43,40 @@ describe('Spine chart', () => {
       'highcharts-react-component-spineChart'
     );
     expect(highChartChartComponent).toBeInTheDocument();
+  });
+
+  it('should show white shapes when benchmarking is unavailable', () => {
+    const result = generateSeriesData({
+      name: 'foo',
+      period: mockPeriod,
+      units: '%',
+      benchmarkValue: mockValue,
+      quartileData: mockQuartileData,
+      areaOneValue: 123,
+      areaOneOutcome: BenchmarkOutcome.NotCompared,
+      areaTwoValue: 456,
+      areaTwoOutcome: undefined,
+      areaNames: ['a', 'b'],
+      groupValue: 789,
+      groupName: 'g',
+      groupOutcome: BenchmarkOutcome.Better,
+      benchmarkMethod: BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+    }) as Highcharts.SeriesScatterOptions[];
+
+    expect(result[5].marker).toEqual({
+      fillColor: '#ffffff',
+      lineColor: '#000',
+      lineWidth: 1,
+      radius: 6,
+      symbol: 'circle',
+    });
+
+    expect(result[6].marker).toEqual({
+      fillColor: '#ffffff',
+      lineColor: '#000',
+      lineWidth: 1,
+      radius: 6,
+      symbol: 'square',
+    });
   });
 });

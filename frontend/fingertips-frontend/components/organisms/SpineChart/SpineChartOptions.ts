@@ -268,11 +268,12 @@ export function generateSeriesData({
   areas.forEach(({ value, outcome, areaName }, index) => {
     if (value === undefined) return;
 
-    const fillColor = getBenchmarkColour(
-      benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
-      outcome ?? BenchmarkOutcome.NotCompared,
-      quartileData.polarity ?? IndicatorPolarity.NoJudgement
-    );
+    const fillColor =
+      getBenchmarkColour(
+        benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
+        outcome ?? BenchmarkOutcome.NotCompared,
+        quartileData.polarity ?? IndicatorPolarity.NoJudgement
+      ) ?? '#ffffff';
 
     const absAreaValue =
       inverter * (Math.abs(value) - Math.abs(benchmarkValue));
@@ -287,7 +288,7 @@ export function generateSeriesData({
         value: value,
         units: units,
         outcome: outcome ?? 'Not compared',
-        colour: fillColor ?? '#ffffff',
+        colour: fillColor,
         shape: index === 0 ? SymbolsEnum.Circle : SymbolsEnum.Square,
       }),
       marker: {
@@ -317,6 +318,7 @@ export function generateSeriesData({
 
   return seriesData;
 }
+
 export function generateChartOptions(props: Readonly<SpineChartProps>) {
   const { quartileData, benchmarkValue } = props;
   const { q0Value, q1Value, q3Value, q4Value } = quartileData;
