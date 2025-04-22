@@ -133,25 +133,26 @@ export function generateSeriesData(
       custom: { areaCode: parentIndicatorData.areaCode },
     };
 
-    const groupConfidenceIntervalSeries: Highcharts.SeriesOptionsType =
-      generateConfidenceIntervalSeries(
-        parentIndicatorData.areaName,
-        parentIndicatorData.healthData.map((point) => [
-          point.year,
-          point.lowerCi,
-          point.upperCi,
-        ]),
-        showConfidenceIntervalsData,
-        {
-          whiskerLength: '50%',
-        }
-      );
-
-    if (showConfidenceIntervalsData) {
-      seriesData.unshift(groupSeries, groupConfidenceIntervalSeries);
-    } else {
-      seriesData.unshift(groupSeries);
-    }
+    // const groupConfidenceIntervalSeries: Highcharts.SeriesOptionsType =
+    //   generateConfidenceIntervalSeries(
+    //     parentIndicatorData.areaName,
+    //     parentIndicatorData.healthData.map((point) => [
+    //       point.year,
+    //       point.lowerCi,
+    //       point.upperCi,+
+    //     ]),
+    //     showConfidenceIntervalsData,
+    //     {
+    //       whiskerLength: '50%',
+    //     }
+    //   );
+    //
+    // if (showConfidenceIntervalsData) {
+    //   seriesData.unshift(groupSeries, groupConfidenceIntervalSeries);
+    // } else {
+    //   seriesData.unshift(groupSeries);
+    // }
+    seriesData.unshift(groupSeries);
   }
 
   if (benchmarkData) {
@@ -166,25 +167,26 @@ export function generateSeriesData(
       custom: { areaCode: benchmarkData.areaCode },
     };
 
-    const benchmarkConfidenceIntervalSeries: Highcharts.SeriesOptionsType =
-      generateConfidenceIntervalSeries(
-        benchmarkData.areaName,
-        benchmarkData.healthData.map((point) => [
-          point.year,
-          point.lowerCi,
-          point.upperCi,
-        ]),
-        showConfidenceIntervalsData,
-        {
-          whiskerLength: '50%',
-        }
-      );
-
-    if (showConfidenceIntervalsData) {
-      seriesData.unshift(englandSeries, benchmarkConfidenceIntervalSeries);
-    } else {
-      seriesData.unshift(englandSeries);
-    }
+    // const benchmarkConfidenceIntervalSeries: Highcharts.SeriesOptionsType =
+    //   generateConfidenceIntervalSeries(
+    //     benchmarkData.areaName,
+    //     benchmarkData.healthData.map((point) => [
+    //       point.year,
+    //       point.lowerCi,
+    //       point.upperCi,
+    //     ]),
+    //     showConfidenceIntervalsData,
+    //     {
+    //       whiskerLength: '50%',
+    //     }
+    //   );
+    //
+    // if (showConfidenceIntervalsData) {
+    //   seriesData.unshift(englandSeries, benchmarkConfidenceIntervalSeries);
+    // } else {
+    //   seriesData.unshift(englandSeries);
+    // }
+    seriesData.unshift(englandSeries);
   }
 
   return seriesData;
