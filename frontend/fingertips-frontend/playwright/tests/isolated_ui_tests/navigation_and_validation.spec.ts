@@ -185,6 +185,11 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
         ],
         'nhs-regions'
       );
+
+      await resultsPage.checkSearchResultsTitleBasedOnSearchMode(
+        searchMode,
+        subjectSearchTerm!
+      );
     });
 
     await test.step('Check selected area pills matches those specified in url', async () => {
@@ -264,6 +269,11 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
         ],
         'nhs-regions'
       );
+
+      await resultsPage.checkSearchResultsTitleBasedOnSearchMode(
+        searchMode,
+        subjectSearchTerm!
+      );
     });
 
     await test.step('Select single indicator, and verify url is updated to include indicator', async () => {
@@ -287,6 +297,11 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
   }) => {
     await test.step('Navigate directly to the results page', async () => {
       await resultsPage.navigateToResults(subjectSearchTerm, []);
+
+      await resultsPage.checkSearchResultsTitleBasedOnSearchMode(
+        searchMode,
+        subjectSearchTerm!
+      );
     });
 
     await test.step('Tick "Select all" checkbox and verify all indicators are selected and URL is updated', async () => {
@@ -314,51 +329,62 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
     });
   });
 
-  test('check area filtering on results page', async ({ resultsPage }) => {
-    await test.step('first filter by GPs', async () => {
+  test('Results page area filtering functionality', async ({ resultsPage }) => {
+    await test.step('Navigate directly to the results page', async () => {
       await resultsPage.navigateToResults(subjectSearchTerm, []);
 
+      await resultsPage.checkSearchResultsTitleBasedOnSearchMode(
+        searchMode,
+        subjectSearchTerm!
+      );
+    });
+
+    await test.step('should filter results by gps', async () => {
       const gpAreaType = 'gps';
       const groupType = 'nhs-primary-care-networks';
       const group = 'East Basildon PCN';
       const area = 'aryan medical centre';
       const areaCode = 'F81640';
 
-      await resultsPage.selectAreaType(gpAreaType);
+      await resultsPage.selectAreaTypeAndAssertURLUpdated(gpAreaType);
 
-      await resultsPage.selectGroupType(groupType);
+      await resultsPage.selectGroupTypeAndAssertURLUpdated(groupType);
 
-      await resultsPage.selectGroup(group);
+      await resultsPage.selectGroupAndAssertURLUpdated(group);
 
-      await resultsPage.selectArea(area, areaCode);
+      await resultsPage.selectAreaAndAssertURLUpdated(area, areaCode);
 
       await resultsPage.assertFiltersDisabled();
+    });
 
-      // change group and pick another area
+    await test.step('then deselect selected gp and change group and pick a different area (gp)', async () => {
       await resultsPage.closeAreaFilterPill(0);
 
       const newGroup = 'North 2 Islington PCN';
       const newArea = 'Archway Medical Centre';
       const newAreaCode = 'F83004';
 
-      await resultsPage.selectGroup(newGroup);
+      await resultsPage.selectGroupAndAssertURLUpdated(newGroup);
 
-      await resultsPage.selectArea(newArea, newAreaCode);
+      await resultsPage.selectAreaAndAssertURLUpdated(newArea, newAreaCode);
 
       await resultsPage.assertFiltersDisabled();
     });
 
-    await test.step('then deselect gps and change to filter by England (default)', async () => {
+    await test.step('then deselect selected gp and begin filtering by England (default)', async () => {
       await resultsPage.closeAreaFilterPill(0);
 
       const englandAreaType = 'England';
 
-      await resultsPage.selectAreaType(englandAreaType);
+      await resultsPage.selectAreaTypeAndAssertURLUpdated(englandAreaType);
 
       await resultsPage.assertGroupTypeFilterContainsOnly(englandAreaType);
       await resultsPage.assertGroupFilterContainsOnly(englandAreaType);
 
-      await resultsPage.selectArea(englandAreaType, areaCodeForEngland);
+      await resultsPage.selectAreaAndAssertURLUpdated(
+        englandAreaType,
+        areaCodeForEngland
+      );
 
       await resultsPage.assertFiltersDisabled();
     });
@@ -370,12 +396,15 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       const northWestNhsRegion = 'North West NHS Region';
       const northWestNhsRegionCode = 'E40000010';
 
-      await resultsPage.selectAreaType(nhsRegionAreaType);
+      await resultsPage.selectAreaTypeAndAssertURLUpdated(nhsRegionAreaType);
 
       await resultsPage.assertGroupTypeFilterContainsOnly('England');
       await resultsPage.assertGroupFilterContainsOnly('England');
 
-      await resultsPage.selectArea(northWestNhsRegion, northWestNhsRegionCode);
+      await resultsPage.selectAreaAndAssertURLUpdated(
+        northWestNhsRegion,
+        northWestNhsRegionCode
+      );
 
       await resultsPage.assertFiltersDisabled();
     });
@@ -389,18 +418,20 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       const area = 'County Durham';
       const areaCode = 'E06000047';
 
-      await resultsPage.selectAreaType(countiesAndUnitaryAuthoritiesAreaType);
+      await resultsPage.selectAreaTypeAndAssertURLUpdated(
+        countiesAndUnitaryAuthoritiesAreaType
+      );
 
       await resultsPage.assertGroupTypeFilterContainsOnly(
         'England,Combined Authorities,Regions'
       );
       await resultsPage.assertGroupFilterContainsOnly('England');
 
-      await resultsPage.selectGroupType(groupType);
+      await resultsPage.selectGroupTypeAndAssertURLUpdated(groupType);
 
       await resultsPage.assertGroupFilterContainsOnly('');
 
-      await resultsPage.selectArea(area, areaCode);
+      await resultsPage.selectAreaAndAssertURLUpdated(area, areaCode);
 
       await resultsPage.assertFiltersDisabled();
     });
