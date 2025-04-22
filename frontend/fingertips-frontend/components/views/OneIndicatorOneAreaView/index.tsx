@@ -45,7 +45,7 @@ export default async function OneIndicatorOneAreaView({
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
   const areaTypeToUse =
-    areaCodes.length === 1 && areaCodes[0] === areaCodeForEngland
+    areaCodes[0] === areaCodeForEngland
       ? englandAreaType.key
       : areaTypeSelected;
 
