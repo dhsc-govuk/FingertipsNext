@@ -42,10 +42,20 @@ exports[`PopulationPyramidChartTable check  that all 3 tables are rendered and t
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
-  font-size: 14px;
-  line-height: 1.1428571428571428;
+  font-size: 16px;
+  line-height: 1.25;
   font-weight: bold;
   padding: 0.625em 0;
+}
+
+.c10 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  padding-right: 0;
 }
 
 .c7 {
@@ -70,25 +80,17 @@ exports[`PopulationPyramidChartTable check  that all 3 tables are rendered and t
   font-weight: 700;
 }
 
-.c10 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 1.1428571428571428;
-  text-align: center;
-}
-
 .c8 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
-  font-size: 14px;
-  line-height: 1.1428571428571428;
+  font-size: 16px;
+  line-height: 1.25;
   border-top: solid #F3F2F1 2px;
   text-align: center;
+  line-height: 1.31579;
+  font-weight: 400;
 }
 
 .c0 {
@@ -231,14 +233,28 @@ exports[`PopulationPyramidChartTable check  that all 3 tables are rendered and t
 @media print {
   .c6 {
     font-size: 14px;
-    line-height: 1.2;
+    line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
   .c6 {
-    font-size: 16px;
-    line-height: 1.25;
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c10 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c10 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
   }
 }
 
@@ -257,30 +273,16 @@ exports[`PopulationPyramidChartTable check  that all 3 tables are rendered and t
 }
 
 @media print {
-  .c10 {
-    font-size: 14px;
-    line-height: 1.2;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c10 {
-    font-size: 16px;
-    line-height: 1.25;
-  }
-}
-
-@media print {
   .c8 {
     font-size: 14px;
-    line-height: 1.2;
+    line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
   .c8 {
-    font-size: 16px;
-    line-height: 1.25;
+    font-size: 19px;
+    line-height: 1.3157894736842106;
   }
 }
 
