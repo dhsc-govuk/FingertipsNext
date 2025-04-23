@@ -318,6 +318,10 @@ export function generateInequalitiesLineChartOptions(
     optionalParams?.inequalityLineChartAreaSelected
   );
 
+  const yearsWithInequalityData = getYearsWithInequalityData(
+    inequalitiesLineChartData.rowData
+  );
+
   return {
     ...lineChartDefaultOptions,
     chart: {
@@ -347,6 +351,8 @@ export function generateInequalitiesLineChartOptions(
         margin: 20,
         style: { fontSize: AXIS_TITLE_FONT_SIZE },
       },
+      min: Math.min(...yearsWithInequalityData),
+      max: Math.max(...yearsWithInequalityData),
     },
     series: seriesData,
     tooltip: {
