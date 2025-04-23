@@ -70,7 +70,7 @@ const StyleGroupTableContentDiv = styled('div')({
 
 const StyleSelectedAreaTableContextDiv = styled('div')({
   'flexGrow': 8,
-  'minWidth': DefaultMinimumWidthForTablePanel + 30,
+  'minWidth': DefaultMinimumWidthForTablePanel + 40,
   '& table': {
     '& td:first-child, th:first-child': {
       minWidth: '90px',

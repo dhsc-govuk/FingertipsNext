@@ -172,8 +172,8 @@ export const mapToInequalitiesTableData = (
 };
 
 const reorderItemsArraysToEnd = (headers: string[], lastHeaders?: string[]) => {
-  if (!lastHeaders) return headers;
   if (!headers) return [];
+  if (!lastHeaders) return headers;
 
   const filterHeaders = headers.filter((header) => {
     return !lastHeaders.includes(header);
