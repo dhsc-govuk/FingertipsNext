@@ -111,8 +111,12 @@ function formatSymbolHover(props: FormatSymbolHoverProps) {
                     padding:0.5em;
                     ">
                     <span style="display: block;">${formatNumber(props.value)}${formatUnits(props.units)}</span>
-                    <span style="display: block;">${props.outcome}</span>
-                    <span style="display: block;">${benchmarkComparisonMethodToString(props.benchmarkComparisonMethod)}</span>
+                    ${
+                      props.outcome === 'Not compared'
+                        ? '<span style="display: block;">Not compared</span>'
+                        : `<span style="display: block;">${props.outcome} than England</span>
+                         <span style="display: block;">${benchmarkComparisonMethodToString(props.benchmarkComparisonMethod)}</span>`
+                    }
                   </div>
               </div>
             <div>

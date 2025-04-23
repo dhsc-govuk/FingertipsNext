@@ -45,7 +45,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         bool includeEmptyAreas = false,
         bool latestOnly = false)
     {
-        var indicatorData = await healthDataRepository.GetIndicatorDimensionAsync(indicatorId);
+        var indicatorData = await healthDataRepository.GetIndicatorDimensionAsync(indicatorId, [.. areaCodes]);
         if (indicatorData == null) 
             return new ServiceResponse<IndicatorWithHealthDataForAreas>(ResponseStatus.IndicatorDoesNotExist);
 

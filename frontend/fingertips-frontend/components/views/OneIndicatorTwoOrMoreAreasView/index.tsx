@@ -57,7 +57,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   const indicatorMetadata = selectedIndicatorsData?.[0];
   return (
     <ViewsWrapper
-      searchState={searchState}
+      areaCodes={areaCodes}
       indicatorsDataForAreas={[indicatorDataAvailableAreas]}
     >
       <OneIndicatorTwoOrMoreAreasViewPlots

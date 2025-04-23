@@ -174,6 +174,7 @@ export function generateConfidenceIntervalSeries(
   return {
     type: 'errorbar',
     name: areaName,
+    linkedTo: areaName,
     data: data,
     visible: showConfidenceIntervalsData,
     color: optionalParams?.color ?? GovukColours.MidGrey,
@@ -198,9 +199,10 @@ export function getFirstYear(
 ): number | undefined {
   if (!points || points.length < 1) return undefined;
 
-  const year = points.reduce((previous, point) => {
-    return Math.min(previous, point.year);
-  }, points[0].year);
+  const year = points.reduce(
+    (previous, point) => Math.min(previous, point.year),
+    points[0].year
+  );
   return year;
 }
 

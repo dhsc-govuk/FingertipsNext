@@ -13,7 +13,6 @@ import {
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
-import { useState } from 'react';
 import {
   generateInequalitiesLineChartOptions,
   getDynamicKeys,
@@ -33,10 +32,10 @@ import {
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import {
   AreaTypeLabelEnum,
+  createTooltipHTML,
   determineAreaCodes,
   determineHealthDataForArea,
   getTooltipContent,
-  createTooltipHTML,
   seriesDataWithoutGroup,
 } from '@/lib/chartHelpers/chartHelpers';
 import { ChartSelectArea } from '../../ChartSelectArea';
@@ -67,11 +66,6 @@ export function InequalitiesTrend({
   benchmarkComparisonMethod,
   dataSource,
 }: Readonly<InequalitiesTrendProps>) {
-  const [
-    showInequalitiesLineChartConfidenceIntervals,
-    setShowInequalitiesLineChartConfidenceIntervals,
-  ] = useState<boolean>(false);
-
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
@@ -186,7 +180,7 @@ export function InequalitiesTrend({
       lineChartData,
       dynamicKeys,
       type,
-      showInequalitiesLineChartConfidenceIntervals,
+      true,
       generateInequalitiesLineChartTooltipForPoint,
       {
         areasSelected: areaCodes,
@@ -222,12 +216,6 @@ export function InequalitiesTrend({
             content: (
               <LineChart
                 lineChartOptions={inequalitiesLineChartOptions}
-                showConfidenceIntervalsData={
-                  showInequalitiesLineChartConfidenceIntervals
-                }
-                setShowConfidenceIntervalsData={
-                  setShowInequalitiesLineChartConfidenceIntervals
-                }
                 variant={LineChartVariant.Inequalities}
               />
             ),

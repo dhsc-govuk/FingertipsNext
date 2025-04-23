@@ -238,7 +238,7 @@ export function LineChartTable({
   const firstYear = getFirstYearForAreas(healthIndicatorData);
   const lastYear = getLatestYearForAreas(healthIndicatorData);
   if (!firstYear || !lastYear) {
-    throw new Error('no data for any years');
+    return null;
   }
 
   const allYears = [...new Set(allHealthPointYears)]
