@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { SeriesLineOptions, SymbolKeyValue } from 'highcharts';
 import {
+  addShowHideLinkedSeries,
   generateSeriesData,
   generateStandardLineChartOptions,
 } from './lineChartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { mockIndicatorData, mockBenchmarkData, mockParentData } from './mocks';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { Dispatch, SetStateAction } from 'react';
 
 const symbols: SymbolKeyValue[] = ['arc', 'circle', 'diamond'];
 
@@ -269,6 +271,7 @@ describe('generateSeriesData', () => {
           [2004, 441.69151, 578.32766],
         ],
         name: 'North FooBar',
+        linkedTo: 'North FooBar',
         type: 'errorbar',
         visible: true,
         lineWidth: 2,
@@ -366,5 +369,43 @@ describe('generateStandardLineChartOptions', () => {
         symbols,
       })
     ).toMatchSnapshot();
+  });
+});
+
+describe('addShowHideLinkedSeries', () => {
+  it('should add showHideLinkedSeries', () => {
+    const generatedSeriesData = generateSeriesData(
+      [mockIndicatorData[0]],
+      symbols,
+      chartColours,
+      undefined,
+      undefined,
+      true
+    );
+
+    const setVisibility = jest.fn() as Dispatch<
+      SetStateAction<Record<string, boolean>>
+    >;
+    addShowHideLinkedSeries(
+      { series: generatedSeriesData },
+      false,
+      {},
+      setVisibility
+    );
+
+    const [first] = generatedSeriesData;
+    if ('events' in first) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      first.events.show({});
+    }
+    expect(setVisibility).toBeCalledTimes(1);
+
+    if ('events' in first) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      first.events.hide({});
+    }
+    expect(setVisibility).toBeCalledTimes(1);
   });
 });

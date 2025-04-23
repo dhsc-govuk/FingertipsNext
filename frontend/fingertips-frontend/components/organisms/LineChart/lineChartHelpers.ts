@@ -18,6 +18,7 @@ import {
 import { formatNumber } from '@/lib/numberFormatter';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { Dispatch, SetStateAction } from 'react';
 
 export enum LineChartVariant {
   Standard = 'standard',
@@ -328,3 +329,28 @@ export function generateStandardLineChartOptions(
     },
   };
 }
+
+export const addShowHideLinkedSeries = (
+  lineChartOptions: Highcharts.Options,
+  showConfidenceIntervalsData: boolean,
+  visibility: Record<string, boolean>,
+  setVisibility: Dispatch<SetStateAction<Record<string, boolean>>>
+) => {
+  lineChartOptions?.series?.forEach((series) => {
+    if (!series.events) series.events = {};
+    if ('linkedTo' in series && series.linkedTo) {
+      series.visible =
+        showConfidenceIntervalsData && visibility[series.linkedTo];
+    }
+    series.events.show = function () {
+      const id = series.id ?? series.name;
+      setVisibility((prev) => ({ ...prev, [id as string]: true }));
+      return false;
+    };
+    series.events.hide = function () {
+      const id = series.id ?? series.name;
+      setVisibility((prev) => ({ ...prev, [id as string]: false }));
+      return false;
+    };
+  });
+};

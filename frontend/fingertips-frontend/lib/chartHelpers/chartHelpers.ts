@@ -174,6 +174,7 @@ export function generateConfidenceIntervalSeries(
   return {
     type: 'errorbar',
     name: areaName,
+    linkedTo: areaName,
     data: data,
     visible: showConfidenceIntervalsData,
     color: optionalParams?.color ?? GovukColours.MidGrey,
