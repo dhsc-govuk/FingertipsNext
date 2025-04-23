@@ -204,7 +204,7 @@ export function getFirstYear(
   return year;
 }
 
-export function getMostRecentYearForAreas(
+export function getLatestYearForAreas(
   healthDataForAreas: HealthDataForArea[]
 ): number | undefined {
   const years = healthDataForAreas.map(
@@ -252,7 +252,7 @@ export function getAreaIndicatorDataForYear(
 export function getIndicatorDataForAreasForMostRecentYearOnly(
   healthDataForAreas: HealthDataForArea[]
 ): HealthDataForArea[] | undefined {
-  const mostRecentYearForAreas = getMostRecentYearForAreas(healthDataForAreas);
+  const mostRecentYearForAreas = getLatestYearForAreas(healthDataForAreas);
   if (!mostRecentYearForAreas) {
     return undefined;
   }

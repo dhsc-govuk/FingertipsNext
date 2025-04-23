@@ -28,7 +28,7 @@ import { TrendTag } from '@/components/molecules/TrendTag';
 import {
   getConfidenceLimitNumber,
   getFirstYearForAreas,
-  getMostRecentYearForAreas,
+  getLatestYearForAreas,
 } from '@/lib/chartHelpers/chartHelpers';
 import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
@@ -236,7 +236,7 @@ export function LineChartTable({
   ].map(({ year }) => year);
 
   const firstYear = getFirstYearForAreas(healthIndicatorData);
-  const lastYear = getMostRecentYearForAreas(healthIndicatorData);
+  const lastYear = getLatestYearForAreas(healthIndicatorData);
   if (!firstYear || !lastYear) {
     throw new Error('no data for any years');
   }
