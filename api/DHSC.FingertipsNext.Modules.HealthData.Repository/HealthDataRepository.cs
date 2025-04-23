@@ -16,6 +16,16 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
 
     private readonly HealthDataDbContext _dbContext = healthDataDbContext ?? throw new ArgumentNullException(nameof(healthDataDbContext));
 
+    /// <summary>
+    /// Will retrieve the indicator dimension data for the requested indicator ID while also
+    /// obtaining the latest year that data is available for the indicator based on the area codes provided.
+    /// 
+    /// Note: both in terms of intent and performance this is sub-optimal and should be refactored at the earliest opportunity
+    /// post-POC.
+    /// </summary>
+    /// <param name="indicatorId"></param>
+    /// <param name="areaCodes"></param>
+    /// <returns>IndicatorDimensionModel containing relevant indicator metadata</returns>
     public async Task<IndicatorDimensionModel> GetIndicatorDimensionAsync(int indicatorId, string[] areaCodes)
     {
         var model = await _dbContext.HealthMeasure
