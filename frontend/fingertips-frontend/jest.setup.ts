@@ -22,3 +22,11 @@ Object.assign(global, windowMock);
 configure({
   asyncUtilTimeout: 5000,
 });
+
+if (typeof window !== 'undefined') {
+  Object.defineProperty(window, 'CSS', {
+    value: {
+      supports: jest.fn().mockImplementation(() => true),
+    },
+  });
+}
