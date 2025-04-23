@@ -3,75 +3,88 @@ import styled from 'styled-components';
 
 const DivContainer = styled.div({
   fontFamily: 'nta, Arial, sans-serif',
-  marginBottom: '1rem',
-  display: 'flex',
-  justifyContent: 'right',
+  margin: '1rem 0',
 });
 
 export const SpineChartQuartilesInfoContainer = () => {
+  const w = 360;
+  const q1 = w / 3;
+  const q2 = q1 * 2;
+  const fontSize = 16;
   return (
     <DivContainer>
-      <svg width={400} height={70}>
+      <svg width={w} height={90}>
         <g transform={`translate(0, 25)`}>
+          <rect x={0} y={0} width={2} height={25} fill={GovukColours.MidGrey} />
           <rect
-            x={50}
+            x={q1 - 1}
             y={0}
             width={2}
             height={25}
             fill={GovukColours.MidGrey}
           />
           <rect
-            x={149}
+            x={q2 - 1}
             y={0}
             width={2}
             height={25}
             fill={GovukColours.MidGrey}
           />
           <rect
-            x={249}
-            y={0}
-            width={2}
-            height={25}
-            fill={GovukColours.MidGrey}
-          />
-          <rect
-            x={348}
+            x={w - 2}
             y={0}
             width={2}
             height={25}
             fill={GovukColours.MidGrey}
           />
 
+          <rect x={0} y={0} width={w} height={20} fill={GovukColours.MidGrey} />
           <rect
-            x={50}
+            x={q1}
             y={0}
-            width={300}
-            height={20}
-            fill={GovukColours.MidGrey}
-          />
-          <rect
-            x={150}
-            y={0}
-            width={100}
+            width={q2 - q1}
             height={20}
             fill={GovukColours.DarkGrey}
           />
           <rect
-            x={200}
+            x={w / 2 - 1}
             y={-5}
             width={2}
             height={30}
             fill={GovukColours.Black}
           />
         </g>
-        <g textAnchor={'middle'} fontSize={14}>
-          <g transform={'translate(0, 65)'}>
-            <text x={50}>Worst/lowest</text>
-            <text x={150}>25th percentile</text>
-            <text x={250}>75th percentile</text>
-            <text x={350}>Best/highest</text>
+        <g fontSize={fontSize}>
+          <g transform={'translate(0, 68)'}>
+            <text x={0} textAnchor={'start'}>
+              Worst/
+            </text>
+            <text x={0} y={fontSize} textAnchor={'start'}>
+              lowest
+            </text>
+
+            <text x={q1} textAnchor={'middle'}>
+              25th
+            </text>
+            <text x={q1} y={fontSize} textAnchor={'middle'}>
+              percentile
+            </text>
+
+            <text x={q2} textAnchor={'middle'}>
+              75th
+            </text>
+            <text x={q2} y={fontSize} textAnchor={'middle'}>
+              percentile
+            </text>
+
+            <text x={w} textAnchor={'end'}>
+              Best/
+            </text>
+            <text x={w} y={fontSize} textAnchor={'end'}>
+              highest
+            </text>
           </g>
-          <text x={200} y={15}>
+          <text x={w / 2} y={fontSize} textAnchor={'middle'}>
             Benchmark value
           </text>
         </g>
