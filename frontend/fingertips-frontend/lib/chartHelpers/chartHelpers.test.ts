@@ -13,6 +13,10 @@ import {
   AreaTypeLabelEnum,
   getTooltipContent,
   createTooltipHTML,
+  getLatestYear,
+  getFirstYear,
+  getLatestYearForAreas,
+  getFirstYearForAreas,
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { areaCodeForEngland } from './constants';
@@ -1266,5 +1270,29 @@ describe('getTooltipHtml', () => {
         '%'
       )
     ).toEqual(expected);
+  });
+});
+
+describe('getLatestYear', () => {
+  it('should return the latest year for an area', () => {
+    expect(getLatestYear(mockData[0].healthData)).toBe(2006);
+  });
+});
+
+describe('getFirstYear', () => {
+  it('should return the first year for an area', () => {
+    expect(getFirstYear(mockData[0].healthData)).toBe(2004);
+  });
+});
+
+describe('getLatestYearForAreas', () => {
+  it('should return the latest year for a group of areas', () => {
+    expect(getLatestYearForAreas(mockData)).toBe(2006);
+  });
+});
+
+describe('getFirstYearForAreas', () => {
+  it('should return the latest year for a group of areas', () => {
+    expect(getFirstYearForAreas(mockData)).toBe(2004);
   });
 });
