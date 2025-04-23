@@ -342,7 +342,7 @@ export const addShowHideLinkedSeries = (
   setVisibility: Dispatch<SetStateAction<Record<string, boolean>>>
 ) => {
   lineChartOptions?.series?.forEach((series) => {
-    if (!series.events) series.events = {};
+    series.events ??= {};
     if ('linkedTo' in series && series.linkedTo) {
       series.visible =
         showConfidenceIntervalsData && visibility[series.linkedTo];
