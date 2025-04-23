@@ -75,13 +75,16 @@ const StyleSelectedAreaTableContextDiv = styled('div')({
     '& td:first-child, th:first-child': {
       minWidth: '90px',
       textAlign: 'left',
+      paddingLeft: "10px !important"
     },
     '& td, th': {
       borderTopColor: GovukColours.MidGrey,
       borderBottomColor: GovukColours.MidGrey,
-      textAlign: 'right',
+      textAlign: 'right'
     },
   },
+
+},
 });
 
 export interface PopulationPyramidTableProps {

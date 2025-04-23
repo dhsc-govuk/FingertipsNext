@@ -28,7 +28,7 @@ const valueFormatter = (value: number | string | undefined) => {
 const StyledAreaNameHeader = styled(StyledAlignLeftHeader)(
   typography.font({ size: 19 }),
   {
-    borderTop: `solid #F3F2F1 2px`,
+    borderTop: "solid #F3F2F1 2px",
     textAlign: 'center',
     lineHeight: 1.31579,
     fontWeight: 700,
