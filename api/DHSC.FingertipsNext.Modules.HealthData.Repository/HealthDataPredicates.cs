@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Repository;
 
-public class HealthDataPredicates
+public static class HealthDataPredicates
 {
     private const string ENGLAND_AREA_CODE = "E92000001";
 
