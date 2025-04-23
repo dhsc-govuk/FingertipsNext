@@ -52,7 +52,6 @@ import {
   generateHealthDataPoint,
   generateMockHealthDataForArea,
 } from '@/lib/chartHelpers/testHelpers';
-import { Inequalities } from '.';
 
 const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
   areaCode: 'A1425',
