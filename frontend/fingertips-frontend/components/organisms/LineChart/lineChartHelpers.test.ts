@@ -349,13 +349,17 @@ describe('generateStandardLineChartOptions', () => {
     expect((generatedOptions.yAxis as any)!.title.text).toBe('yAxis');
     expect((generatedOptions.xAxis as any)!.title.text).toBe('xAxis');
     expect(generatedOptions.accessibility!.description).toBe('accessibility');
+    expect((generatedOptions.xAxis as any)!.max).toBe(2006);
+    expect((generatedOptions.xAxis as any)!.min).toBe(2004);
 
     expect(generatedOptions).toMatchSnapshot();
   });
 
   it('should generate standard line chart options with benchmark data', () => {
-    expect(
-      generateStandardLineChartOptions([mockIndicatorData[0]], false, {
+    const generatedOptions = generateStandardLineChartOptions(
+      [mockIndicatorData[0]],
+      false,
+      {
         benchmarkData: mockBenchmarkData,
         groupIndicatorData: mockParentData,
         yAxisTitle: 'yAxis',
@@ -364,9 +368,10 @@ describe('generateStandardLineChartOptions', () => {
         accessibilityLabel: 'accessibility',
         colours: chartColours,
         symbols,
-      })
-    ).toMatchSnapshot();
+      }
+    );
+    expect(generatedOptions).toMatchSnapshot();
+    expect((generatedOptions.xAxis as any)!.max).toBe(2006);
+    expect((generatedOptions.xAxis as any)!.min).toBe(2004);
   });
-  it.todo('should test for xaxis.min');
-  it.todo('should test for xaxis.max');
 });
