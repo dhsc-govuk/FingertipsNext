@@ -28,6 +28,7 @@ import {
   getInequalityCategories,
   sexCategory,
   getInequalitiesType,
+  InequalitiesChartData,
 } from './inequalitiesHelpers';
 import { GROUPED_YEAR_DATA, MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { UniqueChartColours } from '@/lib/chartHelpers/colours';
@@ -51,6 +52,7 @@ import {
   generateHealthDataPoint,
   generateMockHealthDataForArea,
 } from '@/lib/chartHelpers/testHelpers';
+import { Inequalities } from '.';
 
 const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
   areaCode: 'A1425',
@@ -821,6 +823,38 @@ describe('generateLineChartSeriesData', () => {
         },
       ])
     );
+  });
+
+  it('should not include benchmark or group years before or after the areas have data', () => {
+    const areasSelected = ['A1'];
+    const mockChartDataWithExtraYears: InequalitiesChartData = {
+      areaName: 'West BarFoo',
+      rowData: [
+        ...mockInequalitiesRowData,
+        {
+          period: 1999,
+          inequalities: {
+            Persons: { isAggregate: true },
+          },
+        },
+        {
+          period: 2036,
+          inequalities: {
+            Persons: { isAggregate: true },
+          },
+        },
+      ],
+    };
+
+    const actual = generateInequalitiesLineChartSeriesData(
+      sexKeys,
+      InequalitiesTypes.Sex,
+      mockChartDataWithExtraYears,
+      areasSelected,
+      false
+    );
+
+    expect(actual).toEqual(seriesData);
   });
 });
 

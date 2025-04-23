@@ -208,16 +208,23 @@ export const generateInequalitiesLineChartSeriesData = (
   inequalitiesAreaSelected?: string
 ): Highcharts.SeriesOptionsType[] => {
   const colorList = mapToChartColorsForInequality[type];
+  const yearsWithInequalityData = getYearsWithInequalityData(chartData.rowData);
 
   const seriesData: Highcharts.SeriesOptionsType[] = keys.flatMap(
     (key, index) => {
       const lineSeries: Highcharts.SeriesOptionsType = {
         type: 'line',
         name: key,
-        data: chartData.rowData.map((periodData) => [
-          periodData.period,
-          periodData.inequalities[key]?.value,
-        ]),
+        data: chartData.rowData
+          .filter(
+            (data) =>
+              data.period >= Math.min(...yearsWithInequalityData) &&
+              data.period <= Math.max(...yearsWithInequalityData)
+          )
+          .map((periodData) => [
+            periodData.period,
+            periodData.inequalities[key]?.value,
+          ]),
         marker: {
           symbol: chartSymbols[index % chartSymbols.length],
         },
@@ -351,8 +358,6 @@ export function generateInequalitiesLineChartOptions(
         margin: 20,
         style: { fontSize: AXIS_TITLE_FONT_SIZE },
       },
-      min: Math.min(...yearsWithInequalityData),
-      max: Math.max(...yearsWithInequalityData),
     },
     series: seriesData,
     tooltip: {
