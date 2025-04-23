@@ -44,7 +44,7 @@ export const SpineChartQuartilesInfoContainer = () => {
             y={0}
             width={q2 - q1}
             height={20}
-            fill={GovukColours.DarkGrey}
+            fill={GovukColours.LightGrey}
           />
           <rect
             x={w / 2 - 1}

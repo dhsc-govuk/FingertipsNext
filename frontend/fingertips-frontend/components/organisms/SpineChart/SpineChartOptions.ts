@@ -210,10 +210,10 @@ export function generateSeriesData({
         upperName: '75th percentile',
         upperValue: upperQuartile,
         units: units,
-        colour: GovukColours.DarkGrey,
+        colour: GovukColours.LightGrey,
       }),
       pointWidth: 30,
-      color: GovukColours.DarkGrey,
+      color: GovukColours.LightGrey,
       data: [-scaledThirdQuartileBar],
     },
     {
@@ -225,10 +225,10 @@ export function generateSeriesData({
         upperName: '75th percentile',
         upperValue: upperQuartile,
         units: units,
-        colour: GovukColours.DarkGrey,
+        colour: GovukColours.LightGrey,
       }),
       pointWidth: 30,
-      color: GovukColours.DarkGrey,
+      color: GovukColours.LightGrey,
       data: [scaledSecondQuartileBar],
     },
   ];
@@ -240,6 +240,14 @@ export function generateSeriesData({
     const absGroupValue =
       inverter * (Math.abs(groupValue) - Math.abs(benchmarkValue));
     const scaledGroup = absGroupValue / maxDiffFromBenchmark;
+
+    const fillColor =
+      getBenchmarkColour(
+        benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
+        groupOutcome ?? BenchmarkOutcome.NotCompared,
+        quartileData.polarity ?? IndicatorPolarity.NoJudgement
+      ) ?? GovukColours.White;
+
     seriesData.push({
       type: 'scatter',
       name: formatSymbolHover({
@@ -256,7 +264,7 @@ export function generateSeriesData({
       marker: {
         symbol: 'diamond',
         radius: 8,
-        fillColor: GovukColours.White,
+        fillColor: fillColor,
         lineColor: GovukColours.Black,
         lineWidth: markerLineWidth,
       },
