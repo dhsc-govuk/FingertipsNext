@@ -325,10 +325,6 @@ export function generateInequalitiesLineChartOptions(
     optionalParams?.inequalityLineChartAreaSelected
   );
 
-  const yearsWithInequalityData = getYearsWithInequalityData(
-    inequalitiesLineChartData.rowData
-  );
-
   return {
     ...lineChartDefaultOptions,
     chart: {
