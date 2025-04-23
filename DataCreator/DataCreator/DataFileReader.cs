@@ -6,11 +6,12 @@ namespace DataCreator
     public static class DataFileReader
     {
         private const string Persons = "Persons";
-        private const string InFilePath = @"..\..\..\data\in\";
+        private static readonly string InFilePath = Path.Join("..","..","..","data","in");
+        private static readonly string TempDirPath = Path.Join(InFilePath, "temp");
 
         public static List<SimpleIndicator> GetPocIndicators()
         {
-            var lines = File.ReadAllLines(@$"{InFilePath}\temp\pocindicators.csv");
+            var lines = File.ReadAllLines(Path.Join(TempDirPath, "pocindicators.csv"));
             var indicators = new List<SimpleIndicator>();
             foreach (var line in lines)
             {
@@ -38,7 +39,7 @@ namespace DataCreator
         {
 
             //this is a csv file that was downloaded from the Fingertips API
-            var filePath = @$"{InFilePath}\temp\{indicatorId}.csv";
+            var filePath = Path.Join(TempDirPath, $"{indicatorId}.csv");
             if (!File.Exists(filePath))
                 return Enumerable.Empty<HealthMeasureEntity>().ToList();
 
@@ -101,7 +102,7 @@ namespace DataCreator
         public static IEnumerable<IndicatorLastUpdatedEntity> GetLastUpdatedDataForIndicators()
         {
             //this is a csv file that was downloaded from the Fingertips API
-            var filePath = @$"{InFilePath}\temp\lastupdated.csv";
+            var filePath = Path.Join(TempDirPath, "lastupdated.csv");
 
             var lines = File.ReadAllLines(filePath);
             var allData = new List<IndicatorLastUpdatedEntity>();
@@ -118,13 +119,12 @@ namespace DataCreator
             return allData;
         }
 
-        public static void UnzipSourceFiles() => ZipFile.ExtractToDirectory(@$"{InFilePath}\in.zip", @$"{InFilePath}\temp");
+        public static void UnzipSourceFiles() => ZipFile.ExtractToDirectory(Path.Join(InFilePath, "in.zip"), TempDirPath);
 
         public static void DeleteTempFiles()
         {
-            var directoryPath = @$"{InFilePath}\temp";
-            if (Directory.Exists(directoryPath))
-                Directory.Delete(directoryPath, true);
+            if (Directory.Exists(TempDirPath))
+                Directory.Delete(TempDirPath, true);
         }
 
         private static double? GetDoubleValue(string raw) => double.TryParse(raw.Trim(), out var value) ? value : null;
