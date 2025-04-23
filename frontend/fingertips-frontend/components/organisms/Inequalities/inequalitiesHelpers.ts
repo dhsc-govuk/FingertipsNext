@@ -238,7 +238,7 @@ export const generateInequalitiesLineChartSeriesData = (
 
       const confidenceIntervalSeries: Highcharts.SeriesOptionsType =
         generateConfidenceIntervalSeries(
-          chartData.areaName,
+          key,
           chartData.rowData.map((data) => [
             data.period,
             data.inequalities[key]?.lower,

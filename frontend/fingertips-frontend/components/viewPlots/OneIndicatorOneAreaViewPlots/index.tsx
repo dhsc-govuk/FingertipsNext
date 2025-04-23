@@ -21,7 +21,6 @@ import {
   generateStandardLineChartOptions,
   LineChartVariant,
 } from '@/components/organisms/LineChart/lineChartHelpers';
-import { useState } from 'react';
 import { getAllDataWithoutInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
@@ -51,10 +50,6 @@ export function OneIndicatorOneAreaViewPlots({
   const polarity = indicatorData.polarity as IndicatorPolarity;
   const benchmarkComparisonMethod =
     indicatorData.benchmarkMethod as BenchmarkComparisonMethod;
-  const [
-    showStandardLineChartConfidenceIntervalsData,
-    setShowStandardLineChartConfidenceIntervalsData,
-  ] = useState<boolean>(false);
 
   const healthIndicatorData = indicatorData?.areaHealthData ?? [];
   const dataWithoutEnglandOrGroup = seriesDataWithoutEnglandOrGroup(
@@ -89,7 +84,7 @@ export function OneIndicatorOneAreaViewPlots({
 
   const lineChartOptions: Highcharts.Options = generateStandardLineChartOptions(
     areaDataWithoutInequalities,
-    showStandardLineChartConfidenceIntervalsData,
+    true,
     {
       benchmarkData: englandBenchmarkWithoutInequalities,
       benchmarkComparisonMethod: benchmarkComparisonMethod,
@@ -101,6 +96,7 @@ export function OneIndicatorOneAreaViewPlots({
       accessibilityLabel: 'A line chart showing healthcare data',
     }
   );
+
   return (
     <section data-testid="oneIndicatorOneAreaViewPlot-component">
       {shouldLineChartBeShown(
@@ -118,12 +114,6 @@ export function OneIndicatorOneAreaViewPlots({
                 content: (
                   <LineChart
                     lineChartOptions={lineChartOptions}
-                    showConfidenceIntervalsData={
-                      showStandardLineChartConfidenceIntervalsData
-                    }
-                    setShowConfidenceIntervalsData={
-                      setShowStandardLineChartConfidenceIntervalsData
-                    }
                     variant={LineChartVariant.Standard}
                   />
                 ),
