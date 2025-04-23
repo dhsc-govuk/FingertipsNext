@@ -56,8 +56,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     indicatorDataAllAreas?.areaHealthData ?? [];
 
   const { benchmarkMethod, polarity } = indicatorData;
-  const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
-    useState<boolean>(false);
 
   const dataWithoutEnglandOrGroup = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData,
@@ -91,7 +89,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
 
   const lineChartOptions: Highcharts.Options = generateStandardLineChartOptions(
     dataWithoutEnglandOrGroup,
-    showConfidenceIntervalsData,
+    true,
     {
       benchmarkData: englandBenchmarkData,
       benchmarkComparisonMethod: indicatorData.benchmarkMethod,
@@ -118,10 +116,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                 content: (
                   <LineChart
                     lineChartOptions={lineChartOptions}
-                    showConfidenceIntervalsData={showConfidenceIntervalsData}
-                    setShowConfidenceIntervalsData={
-                      setShowConfidenceIntervalsData
-                    }
                     variant={LineChartVariant.Standard}
                   />
                 ),
