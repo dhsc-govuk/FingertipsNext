@@ -31,7 +31,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         var model = await _dbContext.HealthMeasure
            .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
            .Where(healthMeasure => areaCodes.Length == 0 || EF.Constant(areaCodes).Contains(healthMeasure.AreaDimension.Code))
-           .Where(healthMeasure => areaCodes.Length == 1 || healthMeasure.AreaDimension.Code != ENGLAND_AREA_CODE)
+           .Where(healthMeasure => IsNotEnglandWhenMultipleRequested(healthMeasure.AreaDimension.Code, areaCodes))
            .OrderByDescending(healthMeasure => healthMeasure.Year)
            .Include(healthMeasure => healthMeasure.IndicatorDimension)
            .Select(healthMeasure => new IndicatorDimensionModel
@@ -210,4 +210,11 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         return retVal;
     }
 
+    /// <summary>
+    /// Checks that when multiple areas are requested - i.e. more than one area code or no area codes (so everything) -
+    /// that the a given area code is not the one for England.
+    /// </summary>
+    private static bool IsNotEnglandWhenMultipleRequested(string areaCode, string[] areaCodes) {
+        return areaCodes.Length == 1 || areaCode != ENGLAND_AREA_CODE;
+    }
 }
