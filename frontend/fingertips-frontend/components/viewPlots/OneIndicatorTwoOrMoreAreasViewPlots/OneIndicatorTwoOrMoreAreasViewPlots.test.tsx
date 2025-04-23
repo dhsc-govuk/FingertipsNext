@@ -243,13 +243,16 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
           />
         </QueryClientProvider>
       );
-      expect(
-        await screen.findByTestId('thematicMap-component')
-      ).toBeInTheDocument();
-      // The compare areas table and thematic map use the same title
-      expect(
-        await screen.findAllByText('Compare an indicator by areas')
-      ).toHaveLength(2);
+
+      await waitFor(async () => {
+        expect(
+          await screen.findByTestId('thematicMap-component')
+        ).toBeInTheDocument();
+        // The compare areas table and thematic map use the same title
+        expect(
+          await screen.findAllByText('Compare an indicator by areas')
+        ).toHaveLength(2);
+      });
     });
 
     it('should not render the ThematicMap when not all areas in a group are selected', async () => {

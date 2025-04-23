@@ -9,7 +9,20 @@ const createJestConfig = nextJest({
 // Add any custom config to be passed to Jest
 const config: Config = {
   preset: 'ts-jest',
+  testTimeout: 10000,
   coverageProvider: 'v8',
+  collectCoverage: true,
+  collectCoverageFrom: [
+    '<rootDir>/**/*.ts',
+    '!<rootDir>/generated-sources/**/*',
+    '!<rootDir>/*.d.ts',
+    '!<rootDir>/.next/**/*',
+    '!<rootDir>/mock/**/*',
+    '!<rootDir>/playwright/**/*',
+    '!<rootDir>/instrumentation.*',
+    '!<rootDir>/*.config.ts',
+    '!<rootDir>/**/*.types.ts',
+  ],
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   testMatch: ['**/?(*.)+(test).[jt]s?(x)'],

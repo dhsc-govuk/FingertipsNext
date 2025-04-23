@@ -10,7 +10,7 @@ import {
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams } from '@/lib/searchStateManager';
 import { H3 } from 'govuk-react';
-import { OneIndicatorViewPlotProps } from '../ViewPlotProps';
+import { OneIndicatorViewPlotProps } from '../ViewPlot.types';
 import {
   BenchmarkComparisonMethod,
   HealthDataForArea,
