@@ -1,6 +1,6 @@
 'use client';
 
-import { TwoOrMoreIndicatorsViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
+import { TwoOrMoreIndicatorsViewPlotProps } from '@/components/viewPlots/ViewPlot.types';
 import { Heatmap } from '@/components/organisms/Heatmap';
 import {
   BenchmarkComparisonMethod,
