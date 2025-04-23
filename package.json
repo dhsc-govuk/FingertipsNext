@@ -1,0 +1,23 @@
+{
+  "name": "fingertipsnext",
+  "version": "1.0.0",
+  "description": "FingerTipsNext is the next version of Fingertips, a comprehensive public health data collection platform managed by the Department of Health and Social Care (DHSC) in the UK.",
+  "scripts": {
+    "run:ai-search-setup": "npm run create-index -w @fingertips/ai-search-setup",
+    "start:fe": "npm run start -w @fingertips/frontend-app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dhsc-govuk/FingertipsNext.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dhsc-govuk/FingertipsNext/issues"
+  },
+  "homepage": "https://github.com/dhsc-govuk/FingertipsNext#readme",
+  "workspaces": [
+    "packages/util-logger",
+    "apps/frontend/frontend-app",
+    "apps/ai-search/ai-search-setup"
+  ]
+}

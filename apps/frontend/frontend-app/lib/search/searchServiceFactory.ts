@@ -12,6 +12,7 @@ import mockIndicatorData from '../../assets/mockIndicatorData.json';
 import { IndicatorSearchServiceMock } from './indicatorSearchServiceMock';
 import { readEnvVar, tryReadEnvVar } from '../envUtils';
 import { logUsingMockAiSearchService } from '@/lib/logging';
+import { Logger } from '@fingertips/util-logger';
 
 if (tryReadEnvVar('DHSC_AI_SEARCH_USE_MOCK_SERVICE') == 'true') {
   logUsingMockAiSearchService('SearchServiceFactory');
@@ -73,6 +74,8 @@ export class SearchServiceFactory {
 
   private static buildAreaSearchService(): IAreaSearchService {
     const useMockServer = tryReadEnvVar('DHSC_AI_SEARCH_USE_MOCK_SERVICE');
+    const logger = new Logger(3);
+    logger.info("Hello World")
     return useMockServer === 'true'
       ? this.buildAreaSearchServiceMock(mockAreaData)
       : new AreaSearchService(

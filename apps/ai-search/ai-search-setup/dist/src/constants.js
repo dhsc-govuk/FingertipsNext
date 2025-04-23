@@ -1,0 +1,32 @@
+export const INDICATOR_SEARCH_SCORING_PROFILE = 'basicScoringProfile';
+export const AREA_SEARCH_SUGGESTER_NAME = 'areaSuggester';
+export const INDICATOR_SEARCH_INDEX_NAME = 'indicator-search-index';
+export const AREA_SEARCH_INDEX_NAME = 'area-search-index';
+export const COUNTY_AREA_TYPE_NAME = 'Counties and Unitary Authorities';
+export const DISTRICT_AREA_TYPE_NAME = 'Districts and Unitary Authorities';
+export const ONS_AREA_TYPE_CODE_UNITARY_AUTHORITIES = 'E06';
+export const ONS_AREA_TYPE_CODE_METROPOLITAN_DISTRICTS = 'E08';
+export const ONS_AREA_TYPE_CODE_LONDON_BOROUGHS = 'E09';
+export var IndicatorSearchIndexColumnNames;
+(function (IndicatorSearchIndexColumnNames) {
+    IndicatorSearchIndexColumnNames["INDICATOR_ID"] = "indicatorID";
+    IndicatorSearchIndexColumnNames["INDICATOR_NAME"] = "indicatorName";
+    IndicatorSearchIndexColumnNames["INDICATOR_DEFINITION"] = "indicatorDefinition";
+    IndicatorSearchIndexColumnNames["INDICATOR_DATA_SOURCE"] = "dataSource";
+    IndicatorSearchIndexColumnNames["INDICATOR_EARLIEST_DATA_PERIOD"] = "earliestDataPeriod";
+    IndicatorSearchIndexColumnNames["INDICATOR_LATEST_DATA_PERIOD"] = "latestDataPeriod";
+    IndicatorSearchIndexColumnNames["INDICATOR_LAST_UPDATED"] = "lastUpdatedDate";
+    IndicatorSearchIndexColumnNames["INDICATOR_AREAS"] = "associatedAreaCodes";
+    IndicatorSearchIndexColumnNames["INDICATOR_AREAS_WITH_TRENDS"] = "trendsByArea";
+    IndicatorSearchIndexColumnNames["INDICATOR_AREAS_WITH_TRENDS_TREND"] = "trend";
+    IndicatorSearchIndexColumnNames["INDICATOR_AREAS_WITH_TRENDS_AREA_CODE"] = "areaCode";
+    IndicatorSearchIndexColumnNames["INDICATOR_HAS_INEQUALITIES"] = "hasInequalities";
+    IndicatorSearchIndexColumnNames["INDICATOR_UNIT_LABEL"] = "unitLabel";
+})(IndicatorSearchIndexColumnNames || (IndicatorSearchIndexColumnNames = {}));
+export var AreaSearchIndexColumnNames;
+(function (AreaSearchIndexColumnNames) {
+    AreaSearchIndexColumnNames["AREA_KEY"] = "areaKey";
+    AreaSearchIndexColumnNames["AREA_CODE"] = "areaCode";
+    AreaSearchIndexColumnNames["AREA_NAME"] = "areaName";
+    AreaSearchIndexColumnNames["AREA_TYPE"] = "areaType";
+})(AreaSearchIndexColumnNames || (AreaSearchIndexColumnNames = {}));

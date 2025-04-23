@@ -4,7 +4,7 @@ services:
       - all
       - frontend
 
-    build: frontend/fingertips-frontend
+    build: apps/frontend/frontend-app
     environment:
       FINGERTIPS_API_URL: "http://api:8080"
       DHSC_AI_SEARCH_USE_MOCK_SERVICE: true

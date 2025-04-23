@@ -1,4 +1,10 @@
 {
+  "name": "@fingertips/ai-search-setup",
+  "version": "1.0.0",
+  "description": "The Fingertips search setup console app automates the creation and loading of data to a specified index within an existing Azure AI Search instance.",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
   "type": "module",
   "scripts": {
     "create-index": "tsc && node ./dist/src/main.js",
