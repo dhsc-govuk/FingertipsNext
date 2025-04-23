@@ -2,15 +2,14 @@ import { act, render, screen, waitFor } from '@testing-library/react';
 import { LineChart } from '@/components/organisms/LineChart/index';
 import { expect } from '@jest/globals';
 import { lineChartDefaultOptions, LineChartVariant } from './lineChartHelpers';
-import userEvent from '@testing-library/user-event';
 
 const mockSeries = [
   {
     color: '#F46A25',
     custom: { areaCode: 'A1425' },
     data: [
-      [2006, 278.29134],
-      [2004, 703.420759],
+      [2004, 278.29134],
+      [2006, 703.420759],
     ],
     name: 'North FooBar',
     type: 'line',
@@ -21,8 +20,8 @@ const mockSeries = [
   {
     color: '#B1B4B6',
     data: [
-      [2006, 441.69151, 578.32766],
       [2004, 441.69151, 578.32766],
+      [2006, 441.69151, 578.32766],
     ],
     name: 'North FooBar',
     linkedTo: 'North FooBar',
