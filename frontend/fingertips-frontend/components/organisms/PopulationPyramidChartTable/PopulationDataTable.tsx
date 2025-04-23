@@ -9,6 +9,7 @@ import { typography } from '@govuk-react/lib';
 import { StyledAlignLeftHeader, StyledTableCell } from '@/lib/tableHelpers';
 import styled from 'styled-components';
 import { formatWholeNumber } from '@/lib/numberFormatter';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 const StyledAreaTitleHeader = styled('h3')(typography.font({ size: 19 }), {
   textAlign: 'center',
