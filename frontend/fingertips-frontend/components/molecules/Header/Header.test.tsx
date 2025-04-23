@@ -16,6 +16,6 @@ describe('Header', () => {
     });
 
     expect(returnToHomePageLink).toBeInTheDocument();
-    expect(returnToHomePageLink.getAttribute('href')).toBe('/');
+    expect(returnToHomePageLink).toHaveAttribute('href', '/');
   });
 });
