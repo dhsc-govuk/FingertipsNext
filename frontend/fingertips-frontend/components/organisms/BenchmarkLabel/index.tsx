@@ -21,6 +21,7 @@ export const BenchmarkTagStyle = styled(Tag)<{
   polarity: IndicatorPolarity;
 }>(({ outcome, group, polarity }) => {
   const theme = getBenchmarkTagStyle(group, outcome, polarity);
+
   return {
     padding: '5px 8px 4px 8px',
     alignItems: 'center',

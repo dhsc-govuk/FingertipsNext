@@ -10,13 +10,24 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 
+const similar = {
+  backgroundColor: GovukColours.Yellow,
+  color: GovukColours.Black,
+};
+
+const notCompared = {
+  backgroundColor: 'transparent',
+  color: GovukColours.Black,
+  border: '1px solid #0B0C0C',
+};
+
 export const getBenchmarkTagStyle = (
   group: BenchmarkComparisonMethod,
   type: BenchmarkOutcome,
   polarity: IndicatorPolarity
 ) => {
   const groupConfig = benchmarkLabelGroupConfig[group];
-  if (!groupConfig) return null;
+  if (!groupConfig) return notCompared;
 
   // special case Middle is used by Quintiles with and without judgement but has different colours
   if (
@@ -27,17 +38,6 @@ export const getBenchmarkTagStyle = (
   }
 
   return groupConfig[type] ?? groupConfig.default;
-};
-
-const similar = {
-  backgroundColor: GovukColours.Yellow,
-  color: GovukColours.Black,
-};
-
-const notCompared = {
-  backgroundColor: 'transparent',
-  color: GovukColours.Black,
-  border: '1px solid #0B0C0C',
 };
 
 export const benchmarkLabelGroupConfig: BenchmarkLabelGroupConfig = {
