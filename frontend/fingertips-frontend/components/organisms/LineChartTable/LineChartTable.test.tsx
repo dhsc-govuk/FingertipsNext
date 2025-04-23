@@ -502,5 +502,38 @@ describe('Line chart table suite', () => {
         /^2008Not comparedXXXXNot compared500966.00.00.0966.0$/
       );
     });
+
+    it('should not render rows for benchmark or group years before or after the areas have data', () => {
+      const mockBenchmarkAreaWithEarlyYear = JSON.parse(
+        JSON.stringify(MOCK_ENGLAND_DATA)
+      );
+      mockBenchmarkAreaWithEarlyYear.healthData[1] = {
+        ...mockBenchmarkAreaWithEarlyYear.healthData[1],
+        year: 1999,
+      };
+
+      const mockGroupAreaWithLateYear = JSON.parse(
+        JSON.stringify(MOCK_PARENT_DATA)
+      );
+      mockGroupAreaWithLateYear.healthData[1] = {
+        ...mockBenchmarkAreaWithEarlyYear.healthData[1],
+        year: 2036,
+      };
+
+      render(
+        <LineChartTable
+          healthIndicatorData={MOCK_HEALTH_DATA}
+          englandBenchmarkData={mockBenchmarkAreaWithEarlyYear}
+          groupIndicatorData={mockGroupAreaWithLateYear}
+          measurementUnit="%"
+          benchmarkComparisonMethod={
+            BenchmarkComparisonMethod.CIOverlappingReferenceValue95
+          }
+        />
+      );
+
+      expect(screen.queryByText(/1999/)).not.toBeInTheDocument();
+      expect(screen.queryByText(/2036/)).not.toBeInTheDocument();
+    });
   });
 });

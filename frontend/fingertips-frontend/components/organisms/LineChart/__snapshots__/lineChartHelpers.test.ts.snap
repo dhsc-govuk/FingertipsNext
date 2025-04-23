@@ -69,6 +69,8 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
         "fontSize": 16,
       },
     },
+    "max": 2006,
+    "min": 2004,
     "tickLength": 0,
     "title": {
       "margin": 20,
@@ -209,6 +211,8 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
         "fontSize": 16,
       },
     },
+    "max": 2006,
+    "min": 2004,
     "tickLength": 0,
     "title": {
       "margin": 20,
