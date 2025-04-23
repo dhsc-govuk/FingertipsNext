@@ -59,7 +59,7 @@ describe('PopulationPyramidChartTable', () => {
     ).not.toBeInTheDocument();
   });
 
-  test('check  that all 3 tables are rendered and then take a snapshot', () => {
+  test('check that all 3 tables are rendered and then take a snapshot', () => {
     const { asFragment } = render(
       <PopulationPyramidChartTable
         healthDataForArea={mockHealthDataForArea}
