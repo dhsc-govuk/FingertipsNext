@@ -9,7 +9,10 @@ import {
   StyledDivWithScrolling,
   StyledTableCellHeader,
 } from '@/lib/tableHelpers';
-import { InequalitiesChartData } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import {
+  getYearsWithInequalityData,
+  InequalitiesChartData,
+} from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { ReactNode } from 'react';
 
 export enum InequalitiesTableHeadingsEnum {
@@ -58,6 +61,8 @@ export function InequalitiesLineChartTable({
     ...dynamicKeys,
   ];
 
+  const yearsWithInequalityData = getYearsWithInequalityData(tableData.rowData);
+
   return (
     <StyledDivWithScrolling data-testid="inequalitiesLineChartTable-component">
       <Table
@@ -84,18 +89,24 @@ export function InequalitiesLineChartTable({
           </>
         }
       >
-        {tableData.rowData.map((data, index) => (
-          <Table.Row key={String(data.period) + index}>
-            <StyledAlignLeftStickyTableCell>
-              {String(data.period)}
-            </StyledAlignLeftStickyTableCell>
-            {dynamicKeys.map((key, index) => (
-              <StyledAlignRightTableCell key={key + index}>
-                {getDisplayValue(data.inequalities[key]?.value)}
-              </StyledAlignRightTableCell>
-            ))}
-          </Table.Row>
-        ))}
+        {tableData.rowData
+          .filter(
+            (data) =>
+              data.period >= Math.min(...yearsWithInequalityData) &&
+              data.period <= Math.max(...yearsWithInequalityData)
+          )
+          .map((data, index) => (
+            <Table.Row key={String(data.period) + index}>
+              <StyledAlignLeftStickyTableCell>
+                {String(data.period)}
+              </StyledAlignLeftStickyTableCell>
+              {dynamicKeys.map((key, index) => (
+                <StyledAlignRightTableCell key={key + index}>
+                  {getDisplayValue(data.inequalities[key]?.value)}
+                </StyledAlignRightTableCell>
+              ))}
+            </Table.Row>
+          ))}
       </Table>
     </StyledDivWithScrolling>
   );
