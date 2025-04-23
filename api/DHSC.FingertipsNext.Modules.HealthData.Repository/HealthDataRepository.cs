@@ -21,7 +21,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
     /// obtaining the latest year that data is available for the indicator based on the area codes provided.
     /// 
     /// Note: both in terms of intent and performance this is sub-optimal and should be refactored at the earliest opportunity
-    /// post-POC.
+    /// post-POC under DHSCFT-678.
     /// </summary>
     /// <param name="indicatorId"></param>
     /// <param name="areaCodes"></param>
@@ -30,8 +30,8 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
     {
         var model = await _dbContext.HealthMeasure
            .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
-           .Where(healthMeasure => areaCodes.Length == 0 || EF.Constant(areaCodes).Contains(healthMeasure.AreaDimension.Code))
-           .Where(healthMeasure => IsNotEnglandWhenMultipleRequested(healthMeasure.AreaDimension.Code, areaCodes))
+           .Where(HealthDataPredicates.IsInAreaCodes(areaCodes))
+           .Where(HealthDataPredicates.IsNotEnglandWhenMultipleRequested(areaCodes))
            .OrderByDescending(healthMeasure => healthMeasure.Year)
            .Include(healthMeasure => healthMeasure.IndicatorDimension)
            .Select(healthMeasure => new IndicatorDimensionModel
@@ -77,7 +77,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
 
         return await _dbContext.HealthMeasure
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
-            .Where(healthMeasure => areaCodes.Length == 0 || EF.Constant(areaCodes).Contains(healthMeasure.AreaDimension.Code))
+            .Where(HealthDataPredicates.IsInAreaCodes(areaCodes))
             .Where(healthMeasure => years.Length == 0 || EF.Constant(years).Contains(healthMeasure.Year))
             .Where(healthMeasure => excludeDisaggregatedSexValues ? healthMeasure.IsSexAggregatedOrSingle : true)
             .Where(healthMeasure => excludeDisaggregatedAgeValues ? healthMeasure.IsAgeAggregatedOrSingle : true)
@@ -208,13 +208,5 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             ).ToListAsync();
 
         return retVal;
-    }
-
-    /// <summary>
-    /// Checks that when multiple areas are requested - i.e. more than one area code or no area codes (so everything) -
-    /// that the a given area code is not the one for England.
-    /// </summary>
-    private static bool IsNotEnglandWhenMultipleRequested(string areaCode, string[] areaCodes) {
-        return areaCodes.Length == 1 || areaCode != ENGLAND_AREA_CODE;
     }
 }
