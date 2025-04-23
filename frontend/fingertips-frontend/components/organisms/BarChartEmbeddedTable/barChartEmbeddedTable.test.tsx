@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import { BarChartEmbeddedTable } from '@/components/organisms/BarChartEmbeddedTable/index';
 import {
   HealthDataForArea,
@@ -157,9 +157,11 @@ describe('BarChartEmbeddedTable', () => {
     ],
   };
 
-  it('should render BarChartEmbeddedTable component', () => {
-    render(
-      <BarChartEmbeddedTable healthIndicatorData={mockHealthIndicatorData} />
+  it('should render BarChartEmbeddedTable component', async () => {
+    await act(() =>
+      render(
+        <BarChartEmbeddedTable healthIndicatorData={mockHealthIndicatorData} />
+      )
     );
     expect(screen.getByRole('table')).toBeInTheDocument();
     expect(
@@ -167,24 +169,28 @@ describe('BarChartEmbeddedTable', () => {
     ).toBeInTheDocument();
   });
 
-  it('should always display benchmark data in the first table row of data', () => {
-    render(
-      <BarChartEmbeddedTable
-        healthIndicatorData={mockHealthIndicatorData}
-        benchmarkData={mockBenchmarkData}
-      />
+  it('should always display benchmark data in the first table row of data', async () => {
+    await act(() =>
+      render(
+        <BarChartEmbeddedTable
+          healthIndicatorData={mockHealthIndicatorData}
+          benchmarkData={mockBenchmarkData}
+        />
+      )
     );
     expect(screen.getAllByRole('row')[2]).toHaveTextContent('England');
     expect(screen.getByTestId('table-row-benchmark')).toBeInTheDocument();
   });
 
-  it('should display group data in the second row of table data, when the group selected is not England', () => {
-    render(
-      <BarChartEmbeddedTable
-        healthIndicatorData={mockHealthIndicatorData}
-        benchmarkData={mockBenchmarkData}
-        groupIndicatorData={mockGroupData}
-      />
+  it('should display group data in the second row of table data, when the group selected is not England', async () => {
+    await act(() =>
+      render(
+        <BarChartEmbeddedTable
+          healthIndicatorData={mockHealthIndicatorData}
+          benchmarkData={mockBenchmarkData}
+          groupIndicatorData={mockGroupData}
+        />
+      )
     );
     expect(screen.getAllByRole('row')[3]).toHaveTextContent(
       'NHS North West Region'
@@ -192,25 +198,29 @@ describe('BarChartEmbeddedTable', () => {
     expect(screen.getByTestId('table-row-group')).toBeInTheDocument();
   });
 
-  it('should not display group row or benchmark row in the table, when no data is passed', () => {
-    render(
-      <BarChartEmbeddedTable
-        healthIndicatorData={mockHealthIndicatorData}
-        benchmarkData={undefined}
-        groupIndicatorData={undefined}
-      />
+  it('should not display group row or benchmark row in the table, when no data is passed', async () => {
+    await act(() =>
+      render(
+        <BarChartEmbeddedTable
+          healthIndicatorData={mockHealthIndicatorData}
+          benchmarkData={undefined}
+          groupIndicatorData={undefined}
+        />
+      )
     );
 
     expect(screen.queryByTestId('table-row-group')).not.toBeInTheDocument();
     expect(screen.queryByTestId('table-row-benchmark')).not.toBeInTheDocument();
   });
 
-  it('should display data table row colours for benchmark and group', () => {
-    render(
-      <BarChartEmbeddedTable
-        healthIndicatorData={mockHealthIndicatorData}
-        benchmarkData={mockBenchmarkData}
-      />
+  it('should display data table row colours for benchmark and group', async () => {
+    await act(() =>
+      render(
+        <BarChartEmbeddedTable
+          healthIndicatorData={mockHealthIndicatorData}
+          benchmarkData={mockBenchmarkData}
+        />
+      )
     );
     // benchmark row
     expect(screen.getAllByRole('row')[1]).toHaveStyle(
@@ -222,9 +232,11 @@ describe('BarChartEmbeddedTable', () => {
     );
   });
 
-  it('should order the data displayed by largest value', () => {
-    render(
-      <BarChartEmbeddedTable healthIndicatorData={mockHealthIndicatorData} />
+  it('should order the data displayed by largest value', async () => {
+    await act(() =>
+      render(
+        <BarChartEmbeddedTable healthIndicatorData={mockHealthIndicatorData} />
+      )
     );
 
     const header = screen.getAllByRole('columnheader');
@@ -242,24 +254,28 @@ describe('BarChartEmbeddedTable', () => {
     expect(values).toEqual(sortedValues);
   });
 
-  it('should display an X in the table cell if there is no value', () => {
-    render(
-      <BarChartEmbeddedTable
-        healthIndicatorData={mockHealthIndicatorData}
-        benchmarkData={mockBenchmarkData}
-      />
+  it('should display an X in the table cell if there is no value', async () => {
+    await act(() =>
+      render(
+        <BarChartEmbeddedTable
+          healthIndicatorData={mockHealthIndicatorData}
+          benchmarkData={mockBenchmarkData}
+        />
+      )
     );
 
     const noValueCells = screen.getAllByText('X');
     expect(noValueCells).toHaveLength(2);
   });
 
-  it('should display correct aria label when then is no value', () => {
-    render(
-      <BarChartEmbeddedTable
-        healthIndicatorData={mockHealthIndicatorData}
-        benchmarkData={mockBenchmarkData}
-      />
+  it('should display correct aria label when then is no value', async () => {
+    await act(() =>
+      render(
+        <BarChartEmbeddedTable
+          healthIndicatorData={mockHealthIndicatorData}
+          benchmarkData={mockBenchmarkData}
+        />
+      )
     );
 
     const noValueCells = screen.getAllByLabelText('Not compared');
@@ -267,11 +283,13 @@ describe('BarChartEmbeddedTable', () => {
   });
 
   it('should render the SparklineChart bars for each area displayed in the table and benchmark legend', async () => {
-    render(
-      <BarChartEmbeddedTable
-        healthIndicatorData={mockHealthIndicatorData}
-        benchmarkData={mockBenchmarkData}
-      />
+    await act(() =>
+      render(
+        <BarChartEmbeddedTable
+          healthIndicatorData={mockHealthIndicatorData}
+          benchmarkData={mockBenchmarkData}
+        />
+      )
     );
 
     const sparkline = await screen.findAllByTestId(
@@ -283,23 +301,27 @@ describe('BarChartEmbeddedTable', () => {
   });
 
   it('should render the checkbox', async () => {
-    render(
-      <BarChartEmbeddedTable
-        healthIndicatorData={mockHealthIndicatorData}
-        benchmarkData={mockBenchmarkData}
-      />
+    await act(() =>
+      render(
+        <BarChartEmbeddedTable
+          healthIndicatorData={mockHealthIndicatorData}
+          benchmarkData={mockBenchmarkData}
+        />
+      )
     );
     const checkbox = await screen.findByRole('checkbox');
     expect(checkbox).toBeInTheDocument();
   });
 
   // DHSCFT-372 - Add trends to the compare areas bar charts
-  it('should render the correct trend for all data provided', () => {
-    render(
-      <BarChartEmbeddedTable
-        healthIndicatorData={mockHealthIndicatorData}
-        benchmarkData={mockBenchmarkData}
-      />
+  it('should render the correct trend for all data provided', async () => {
+    await act(() =>
+      render(
+        <BarChartEmbeddedTable
+          healthIndicatorData={mockHealthIndicatorData}
+          benchmarkData={mockBenchmarkData}
+        />
+      )
     );
 
     const trendTags = screen.getAllByTestId('trend-tag-component');
@@ -311,13 +333,15 @@ describe('BarChartEmbeddedTable', () => {
     expect(trendTags[3].textContent).toEqual('No trend data available'); // A1425 trend
   });
 
-  it('should render the data source if provided', () => {
-    render(
-      <BarChartEmbeddedTable
-        healthIndicatorData={mockHealthIndicatorData}
-        benchmarkData={mockBenchmarkData}
-        dataSource={'bar chart data source'}
-      />
+  it('should render the data source if provided', async () => {
+    await act(() =>
+      render(
+        <BarChartEmbeddedTable
+          healthIndicatorData={mockHealthIndicatorData}
+          benchmarkData={mockBenchmarkData}
+          dataSource={'bar chart data source'}
+        />
+      )
     );
 
     expect(
