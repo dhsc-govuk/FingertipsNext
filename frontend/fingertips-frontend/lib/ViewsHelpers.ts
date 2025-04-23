@@ -1,5 +1,6 @@
 import {
   GetHealthDataForAnIndicatorInequalitiesEnum,
+  HealthDataForArea,
   IndicatorsApi,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
@@ -66,6 +67,93 @@ export interface GetIndicatorDataParam {
   selectedGroupType?: string;
 }
 
+/**
+ * Retrieves the latest year from the area health data in the API response.
+ * Note: this MUST only be used in the context of requests that use the latest_only parameter.
+ * @param areaHealthDataList
+ * @returns - the latest data for the year or undefined
+ */
+function getLatestYearFromResponseData(
+  areaHealthDataList: HealthDataForArea[]
+): number | undefined {
+  return areaHealthDataList.find(
+    (areaHealthData) => areaHealthData.healthData.length
+  )?.healthData[0].year;
+}
+
+/**
+ * Retrieves data for England and group - where applicable - that corresponds to the latest year
+ * of the area data that has already been obtained.
+ *
+ * @param param0 - GetIndicatorDataParam
+ * @param subAreaHealthData - the area health data for the requested area codes
+ * @param includeEmptyAreas
+ * @returns - a flattened array containing both the original area health data and health data for England
+ * and the requested group, where applicable
+ */
+async function getLatestYearDataForGroupAndEngland(
+  {
+    areasSelected,
+    indicatorSelected,
+    selectedGroupCode,
+    selectedGroupType,
+  }: GetIndicatorDataParam,
+  subAreaHealthData: HealthDataForArea[],
+  includeEmptyAreas: boolean
+): Promise<HealthDataForArea[]> {
+  const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
+  const latestYear = getLatestYearFromResponseData(subAreaHealthData);
+  const indicatorRequestArray = [];
+
+  const defaultApiRequestParams = latestYear
+    ? {
+        indicatorId: Number(indicatorSelected[0]),
+        includeEmptyAreas,
+        years: [latestYear],
+      }
+    : {
+        indicatorId: Number(indicatorSelected[0]),
+        includeEmptyAreas,
+        latestOnly: true,
+      };
+
+  if (!areasSelected.includes(areaCodeForEngland)) {
+    indicatorRequestArray.push(
+      indicatorApi.getHealthDataForAnIndicator(
+        {
+          ...defaultApiRequestParams,
+          areaCodes: [areaCodeForEngland],
+          areaType: englandAreaType.key,
+        },
+        API_CACHE_CONFIG
+      )
+    );
+  }
+
+  if (selectedGroupCode && selectedGroupCode !== areaCodeForEngland) {
+    indicatorRequestArray.push(
+      indicatorApi.getHealthDataForAnIndicator(
+        {
+          ...defaultApiRequestParams,
+          areaCodes: [selectedGroupCode],
+          areaType: selectedGroupType,
+        },
+        API_CACHE_CONFIG
+      )
+    );
+  }
+
+  try {
+    const healthIndicatorResponses = await Promise.all(indicatorRequestArray);
+    return healthIndicatorResponses.flatMap(
+      (indicatorData) => indicatorData?.areaHealthData ?? []
+    );
+  } catch (error) {
+    console.error('error getting health indicator data for areas', error);
+    throw new Error('error getting health indicator data for areas');
+  }
+}
+
 export async function getIndicatorData(
   {
     areasSelected,
@@ -94,7 +182,7 @@ export async function getIndicatorData(
     )
   );
 
-  if (!areasSelected.includes(areaCodeForEngland)) {
+  if (!areasSelected.includes(areaCodeForEngland) && !latestOnly) {
     indicatorRequestArray.push(
       indicatorApi.getHealthDataForAnIndicator(
         {
@@ -109,7 +197,11 @@ export async function getIndicatorData(
     );
   }
 
-  if (selectedGroupCode && selectedGroupCode !== areaCodeForEngland) {
+  if (
+    selectedGroupCode &&
+    selectedGroupCode !== areaCodeForEngland &&
+    !latestOnly
+  ) {
     indicatorRequestArray.push(
       indicatorApi.getHealthDataForAnIndicator(
         {
@@ -134,5 +226,21 @@ export async function getIndicatorData(
     console.error('error getting health indicator data for areas', error);
     throw new Error('error getting health indicator data for areas');
   }
+
+  if (latestOnly) {
+    const latestDataForGroupAndEngland =
+      await getLatestYearDataForGroupAndEngland(
+        {
+          areasSelected,
+          indicatorSelected,
+          selectedGroupCode,
+          selectedGroupType,
+        },
+        indicatorDataAllAreas.areaHealthData,
+        includeEmptyAreas
+      );
+    indicatorDataAllAreas.areaHealthData.push(...latestDataForGroupAndEngland);
+  }
+
   return indicatorDataAllAreas;
 }

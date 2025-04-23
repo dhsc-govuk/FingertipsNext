@@ -4,30 +4,35 @@ import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
 import { useEffect, useState } from 'react';
-import { LineChartVariant } from './lineChartHelpers';
+import { addShowHideLinkedSeries, LineChartVariant } from './lineChartHelpers';
 import { loadHighchartsModules } from '@/lib/chartHelpers/chartHelpers';
 
 interface LineChartProps {
   lineChartOptions: Highcharts.Options;
-  showConfidenceIntervalsData: boolean;
-  setShowConfidenceIntervalsData: (checked: boolean) => void;
   variant: LineChartVariant;
 }
 
 export function LineChart({
   lineChartOptions,
-  showConfidenceIntervalsData,
-  setShowConfidenceIntervalsData,
   variant,
 }: Readonly<LineChartProps>) {
+  const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
+    useState(false);
+  const [visibility, setVisibility] = useState<Record<string, boolean>>({});
   const [options, setOptions] = useState<Highcharts.Options>();
+
+  addShowHideLinkedSeries(
+    lineChartOptions,
+    showConfidenceIntervalsData,
+    visibility,
+    setVisibility
+  );
 
   useEffect(() => {
     void loadHighchartsModules(() => {
       setOptions(lineChartOptions);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showConfidenceIntervalsData]);
+  }, [lineChartOptions]);
 
   if (!options) {
     return null;

@@ -101,7 +101,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
 
   return (
     <ViewsWrapper
-      searchState={searchState}
+      areaCodes={areaCodes}
       indicatorsDataForAreas={combinedIndicatorData}
     >
       <TwoOrMoreIndicatorsAreasViewPlot

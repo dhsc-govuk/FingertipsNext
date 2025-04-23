@@ -2,44 +2,44 @@
 
 exports[`Header should match snapshot 1`] = `
 <DocumentFragment>
-  .c19 {
+  .c21 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.c19:focus {
+.c21:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
   background-color: #ffdd00;
 }
 
-.c19:link {
+.c21:link {
   color: #1d70b8;
 }
 
-.c19:visited {
+.c21:visited {
   color: #4c2c92;
 }
 
-.c19:hover {
+.c21:hover {
   color: #2b8cc4;
 }
 
-.c19:active {
+.c21:active {
   color: #2b8cc4;
 }
 
-.c19:focus {
+.c21:focus {
   color: #0b0c0c;
 }
 
-.c11 {
+.c13 {
   padding-top: 30px;
   text-align: center;
 }
 
-.c13 {
+.c15 {
   max-width: 960px;
   margin-left: 15px;
   margin-right: 15px;
@@ -77,7 +77,7 @@ exports[`Header should match snapshot 1`] = `
   box-sizing: border-box;
 }
 
-.c10 {
+.c12 {
   border-bottom: 10px solid #1d70b8;
   max-width: 960px;
   margin: 0 auto;
@@ -146,6 +146,39 @@ exports[`Header should match snapshot 1`] = `
   font-weight: 700;
 }
 
+.c9 {
+  color: #ffffff;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  -webkit-text-decoration-skip-ink: none;
+  text-decoration-skip-ink: none;
+  border-bottom: 1px solid transparent;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.c9:hover {
+  border-bottom-color: #ffffff;
+}
+
+.c9:focus {
+  outline: 3px solid #ffdd00;
+}
+
+.c10 {
+  display: inline-block;
+}
+
+.c10:focus {
+  color: #0b0c0c;
+  background-color: #ffdd00;
+  outline: 3px solid #ffdd00;
+}
+
+.c10:focus:hover {
+  border-bottom-color: #0b0c0c;
+}
+
 .c8 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -156,7 +189,7 @@ exports[`Header should match snapshot 1`] = `
   width: 50%;
 }
 
-.c17 {
+.c19 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -181,13 +214,13 @@ exports[`Header should match snapshot 1`] = `
   color: #ffffff;
 }
 
-.c14 {
+.c16 {
   padding-top: 10px;
   padding-bottom: 10px;
   border-bottom: 1px solid #bfc1c3;
 }
 
-.c15 {
+.c17 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -199,33 +232,33 @@ exports[`Header should match snapshot 1`] = `
   margin: 0;
 }
 
-.c15 .c16 {
+.c17 .c18 {
   margin-right: 10px;
 }
 
-.c18 {
+.c20 {
   display: table-cell;
   vertical-align: baseline;
 }
 
-.c12 {
+.c14 {
   padding: 0px;
 }
 
-.c9 {
+.c11 {
   font-weight: 700;
 }
 
 @media print {
-  .c19 {
+  .c21 {
     font-family: sans-serif;
   }
 }
 
 @media print {
-  .c19[href^="/"]::after,
-  .c19[href^="http://"]::after,
-  .c19[href^="https://"]::after {
+  .c21[href^="/"]::after,
+  .c21[href^="http://"]::after,
+  .c21[href^="https://"]::after {
     content: " (" attr(href) ")";
     font-size: 90%;
     word-wrap: break-word;
@@ -233,14 +266,14 @@ exports[`Header should match snapshot 1`] = `
 }
 
 @media only screen and (min-width:641px) {
-  .c13 {
+  .c15 {
     margin-left: 30px;
     margin-right: 30px;
   }
 }
 
 @media only screen and (min-width:1020px) {
-  .c13 {
+  .c15 {
     margin: 0 auto;
   }
 }
@@ -263,7 +296,7 @@ exports[`Header should match snapshot 1`] = `
 }
 
 @media only screen and (min-width:641px) {
-  .c10 {
+  .c12 {
     width: calc(100% - 60px);
   }
 }
@@ -316,35 +349,35 @@ exports[`Header should match snapshot 1`] = `
 }
 
 @media print {
-  .c17 {
+  .c19 {
     font-size: 14px;
     line-height: 1;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c17 {
+  .c19 {
     font-size: 16px;
     line-height: 1;
   }
 }
 
 @media print {
-  .c15 {
+  .c17 {
     font-size: 14px;
     line-height: 1.2;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c15 {
+  .c17 {
     font-size: 16px;
     line-height: 1.25;
   }
 }
 
 @media print {
-  .c15 {
+  .c17 {
     color: #000;
   }
 }
@@ -402,41 +435,46 @@ exports[`Header should match snapshot 1`] = `
           <div
             class="c8"
           >
-            <span
-              class="c9"
+            <a
+              class="c9 c10"
+              href="/"
             >
-              Access public health data
-            </span>
+              <span
+                class="c11"
+              >
+                Access public health data
+              </span>
+            </a>
           </div>
         </div>
       </div>
     </div>
     <div
-      class="c10"
+      class="c12"
     />
     <div
-      class="c11 c12"
+      class="c13 c14"
     >
       <div
-        class="c13"
+        class="c15"
       >
         <div
-          class="c14"
+          class="c16"
         >
           <p
-            class="c15"
+            class="c17"
           >
             <strong
-              class="c16 c17"
+              class="c18 c19"
             >
               alpha
             </strong>
             <span
-              class="c18"
+              class="c20"
             >
               This is a new service - your 
               <a
-                class="c19"
+                class="c21"
                 href="mailto:profilefeedback@dhsc.gov.uk?subject=Profile%20Feedback%20[General enquiry]"
               >
                 feedback

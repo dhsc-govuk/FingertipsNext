@@ -111,8 +111,12 @@ function formatSymbolHover(props: FormatSymbolHoverProps) {
                     padding:0.5em;
                     ">
                     <span style="display: block;">${formatNumber(props.value)}${formatUnits(props.units)}</span>
-                    <span style="display: block;">${props.outcome}</span>
-                    <span style="display: block;">${benchmarkComparisonMethodToString(props.benchmarkComparisonMethod)}</span>
+                    ${
+                      props.outcome === 'Not compared'
+                        ? '<span style="display: block;">Not compared</span>'
+                        : `<span style="display: block;">${props.outcome} than England</span>
+                         <span style="display: block;">${benchmarkComparisonMethodToString(props.benchmarkComparisonMethod)}</span>`
+                    }
                   </div>
               </div>
             <div>
@@ -246,14 +250,14 @@ export function generateSeriesData({
         value: groupValue,
         units: units,
         outcome: groupOutcome ?? 'Not compared',
-        colour: '#fff',
+        colour: GovukColours.White,
         shape: SymbolsEnum.Diamond,
       }),
       marker: {
         symbol: 'diamond',
         radius: 8,
-        fillColor: '#fff',
-        lineColor: '#000',
+        fillColor: GovukColours.White,
+        lineColor: GovukColours.Black,
         lineWidth: markerLineWidth,
       },
       data: [scaledGroup],
@@ -268,11 +272,12 @@ export function generateSeriesData({
   areas.forEach(({ value, outcome, areaName }, index) => {
     if (value === undefined) return;
 
-    const fillColor = getBenchmarkColour(
-      benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
-      outcome ?? BenchmarkOutcome.NotCompared,
-      quartileData.polarity ?? IndicatorPolarity.NoJudgement
-    );
+    const fillColor =
+      getBenchmarkColour(
+        benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
+        outcome ?? BenchmarkOutcome.NotCompared,
+        quartileData.polarity ?? IndicatorPolarity.NoJudgement
+      ) ?? GovukColours.White;
 
     const absAreaValue =
       inverter * (Math.abs(value) - Math.abs(benchmarkValue));
@@ -287,14 +292,14 @@ export function generateSeriesData({
         value: value,
         units: units,
         outcome: outcome ?? 'Not compared',
-        colour: fillColor ?? '#ffffff',
+        colour: fillColor,
         shape: index === 0 ? SymbolsEnum.Circle : SymbolsEnum.Square,
       }),
       marker: {
         symbol: index === 0 ? 'circle' : 'square',
         radius: 6,
         fillColor,
-        lineColor: '#000',
+        lineColor: GovukColours.Black,
         lineWidth: markerLineWidth,
       },
       data: [scaledArea],
@@ -309,7 +314,7 @@ export function generateSeriesData({
       marker: {
         symbol: 'circle',
         radius: 2,
-        fillColor: '#000',
+        fillColor: GovukColours.Black,
       },
       data: [0],
     });
@@ -317,6 +322,7 @@ export function generateSeriesData({
 
   return seriesData;
 }
+
 export function generateChartOptions(props: Readonly<SpineChartProps>) {
   const { quartileData, benchmarkValue } = props;
   const { q0Value, q1Value, q3Value, q4Value } = quartileData;

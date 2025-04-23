@@ -8,15 +8,14 @@ import { seriesDataWithoutEnglandOrGroup } from '@/lib/chartHelpers/chartHelpers
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams } from '@/lib/searchStateManager';
 import { H3 } from 'govuk-react';
-import { OneIndicatorViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
-import { MapGeographyData } from '@/components/organisms/ThematicMap/thematicMapHelpers';
+import { OneIndicatorViewPlotProps } from '@/components/viewPlots/ViewPlot.types';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import {
   generateStandardLineChartOptions,
   LineChartVariant,
 } from '@/components/organisms/LineChart/lineChartHelpers';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSearchState } from '@/context/SearchStateContext';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
 import {
@@ -28,16 +27,16 @@ import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
 
 interface OneIndicatorTwoOrMoreAreasViewPlotsProps
   extends OneIndicatorViewPlotProps {
-  mapGeographyData?: MapGeographyData;
   indicatorDataAllAreas?: IndicatorWithHealthDataForArea;
+  areaCodes?: string[];
 }
 
 export function OneIndicatorTwoOrMoreAreasViewPlots({
   indicatorData,
   indicatorMetadata,
   searchState,
-  mapGeographyData,
   indicatorDataAllAreas,
+  areaCodes = [],
 }: Readonly<OneIndicatorTwoOrMoreAreasViewPlotsProps>) {
   const { setSearchState } = useSearchState();
 
@@ -48,6 +47,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
+    [SearchParams.AreaTypeSelected]: selectedAreaType,
     [SearchParams.AreasSelected]: areasSelected,
   } = searchState;
 
@@ -56,8 +56,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     indicatorDataAllAreas?.areaHealthData ?? [];
 
   const { benchmarkMethod, polarity } = indicatorData;
-  const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
-    useState<boolean>(false);
 
   const dataWithoutEnglandOrGroup = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData,
@@ -91,7 +89,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
 
   const lineChartOptions: Highcharts.Options = generateStandardLineChartOptions(
     dataWithoutEnglandOrGroup,
-    showConfidenceIntervalsData,
+    true,
     {
       benchmarkData: englandBenchmarkData,
       benchmarkComparisonMethod: indicatorData.benchmarkMethod,
@@ -118,10 +116,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                 content: (
                   <LineChart
                     lineChartOptions={lineChartOptions}
-                    showConfidenceIntervalsData={showConfidenceIntervalsData}
-                    setShowConfidenceIntervalsData={
-                      setShowConfidenceIntervalsData
-                    }
                     variant={LineChartVariant.Standard}
                   />
                 ),
@@ -145,21 +139,19 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
           />
         </>
       )}
-      {selectedGroupArea === ALL_AREAS_SELECTED && mapGeographyData && (
-        <>
-          <H3>Compare an indicator by areas</H3>
-          <ThematicMap
-            healthIndicatorData={dataWithoutEnglandOrGroupAllAreas}
-            mapGeographyData={mapGeographyData}
-            benchmarkComparisonMethod={
-              benchmarkMethod ?? BenchmarkComparisonMethod.Unknown
-            }
-            polarity={polarity ?? IndicatorPolarity.Unknown}
-            indicatorMetadata={indicatorMetadata}
-            benchmarkIndicatorData={englandBenchmarkData}
-            groupIndicatorData={groupData}
-          />
-        </>
+      {selectedGroupArea === ALL_AREAS_SELECTED && (
+        <ThematicMap
+          selectedAreaType={selectedAreaType}
+          healthIndicatorData={dataWithoutEnglandOrGroupAllAreas}
+          benchmarkComparisonMethod={
+            benchmarkMethod ?? BenchmarkComparisonMethod.Unknown
+          }
+          polarity={polarity ?? IndicatorPolarity.Unknown}
+          indicatorMetadata={indicatorMetadata}
+          benchmarkIndicatorData={englandBenchmarkData}
+          groupIndicatorData={groupData}
+          areaCodes={areaCodes ?? []}
+        />
       )}
       <H3>Compare an indicator by areas</H3>
       <BarChartEmbeddedTable

@@ -275,11 +275,13 @@ describe('IndicatorSearchService', () => {
     mockGetDocument.mockImplementation(async () => {
       throw new Error('some error');
     });
+    const spyLog = jest.spyOn(console, 'error').mockImplementation(() => {});
 
     const searchService = SearchServiceFactory.getIndicatorSearchService();
     const result = await searchService.getIndicator('123');
 
     expect(result).toBeUndefined();
+    expect(spyLog).toHaveBeenCalled();
   });
 });
 

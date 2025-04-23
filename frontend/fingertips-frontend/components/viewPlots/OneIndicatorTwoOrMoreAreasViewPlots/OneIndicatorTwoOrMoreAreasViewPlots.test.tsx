@@ -3,10 +3,11 @@ import { OneIndicatorTwoOrMoreAreasViewPlots } from '.';
 import { render, screen, waitFor } from '@testing-library/react';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
-import regionsMap from '@/assets/maps/Regions_December_2023_Boundaries_EN_BUC_1958740832896680092.geo.json';
+import regionsMap from '@/components/organisms/ThematicMap/regions.json';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { SearchStateContext } from '@/context/SearchStateContext';
-import { MapGeographyData } from '@/components/organisms/ThematicMap/thematicMapHelpers';
+import { reactQueryClient } from '@/lib/reactQueryClient';
+import { QueryClientProvider } from '@tanstack/react-query';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -27,11 +28,6 @@ jest.mock('@/context/SearchStateContext', () => {
     useSearchState: () => mockSearchStateContext,
   };
 });
-
-const mockMapGeographyData: MapGeographyData = {
-  mapFile: regionsMap,
-  mapGroupBoundary: regionsMap,
-};
 
 const mockMetaData = {
   indicatorID: '108',
@@ -209,40 +205,22 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
 
   describe('ThematicMap', () => {
     beforeEach(() => {
+      global.fetch = jest.fn();
       mockGetSearchState.mockReturnValue({
         [SearchParams.AreaTypeSelected]: 'regions',
       });
     });
 
-    it('should render the title for ThematicMap', async () => {
-      const searchState: SearchStateParams = {
-        [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
-        [SearchParams.AreaTypeSelected]: 'regions',
-      };
-
-      mockGetSearchState.mockReturnValue(searchState);
-
-      render(
-        <OneIndicatorTwoOrMoreAreasViewPlots
-          indicatorData={{
-            areaHealthData: [
-              mockHealthData[108][1],
-              mockHealthData[108][2],
-              mockHealthData[108][3],
-            ],
-          }}
-          searchState={searchState}
-          mapGeographyData={mockMapGeographyData}
-        />
-      );
-
-      // The compare areas table and thematic map use the same title
-      expect(
-        await screen.findAllByText('Compare an indicator by areas')
-      ).toHaveLength(2);
+    afterEach(() => {
+      jest.resetAllMocks();
     });
 
-    it('should render the ThematicMap when all areas in a group are selected', async () => {
+    it('should render the ThematicMap with title', async () => {
+      (fetch as jest.Mock).mockResolvedValueOnce({
+        ok: true,
+        json: async () => regionsMap,
+      });
+      //
       const searchState: SearchStateParams = {
         [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
         [SearchParams.AreaTypeSelected]: 'regions',
@@ -251,21 +229,30 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
       mockGetSearchState.mockReturnValue(searchState);
 
       render(
-        <OneIndicatorTwoOrMoreAreasViewPlots
-          indicatorData={{
-            areaHealthData: [
-              mockHealthData[108][1],
-              mockHealthData[108][2],
-              mockHealthData[108][3],
-            ],
-          }}
-          searchState={searchState}
-          mapGeographyData={mockMapGeographyData}
-        />
+        <QueryClientProvider client={reactQueryClient}>
+          <OneIndicatorTwoOrMoreAreasViewPlots
+            indicatorData={{
+              areaHealthData: [
+                mockHealthData[108][1],
+                mockHealthData[108][2],
+                mockHealthData[108][3],
+              ],
+            }}
+            searchState={searchState}
+            areaCodes={['E12000001', 'E12000002', 'E12000003']}
+          />
+        </QueryClientProvider>
       );
-      expect(
-        await screen.findByTestId('thematicMap-component')
-      ).toBeInTheDocument();
+
+      await waitFor(async () => {
+        expect(
+          await screen.findByTestId('thematicMap-component')
+        ).toBeInTheDocument();
+        // The compare areas table and thematic map use the same title
+        expect(
+          await screen.findAllByText('Compare an indicator by areas')
+        ).toHaveLength(2);
+      });
     });
 
     it('should not render the ThematicMap when not all areas in a group are selected', async () => {
@@ -286,7 +273,6 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
             ],
           }}
           searchState={searchState}
-          mapGeographyData={mockMapGeographyData}
         />
       );
 

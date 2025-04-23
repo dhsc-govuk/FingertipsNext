@@ -14,10 +14,13 @@ import {
   AXIS_LABEL_FONT_SIZE,
   getTooltipContent,
   AreaTypeLabelEnum,
+  getLatestYearForAreas,
+  getFirstYearForAreas,
 } from '@/lib/chartHelpers/chartHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { Dispatch, SetStateAction } from 'react';
 
 export enum LineChartVariant {
   Standard = 'standard',
@@ -133,25 +136,7 @@ export function generateSeriesData(
       custom: { areaCode: parentIndicatorData.areaCode },
     };
 
-    const groupConfidenceIntervalSeries: Highcharts.SeriesOptionsType =
-      generateConfidenceIntervalSeries(
-        parentIndicatorData.areaName,
-        parentIndicatorData.healthData.map((point) => [
-          point.year,
-          point.lowerCi,
-          point.upperCi,
-        ]),
-        showConfidenceIntervalsData,
-        {
-          whiskerLength: '50%',
-        }
-      );
-
-    if (showConfidenceIntervalsData) {
-      seriesData.unshift(groupSeries, groupConfidenceIntervalSeries);
-    } else {
-      seriesData.unshift(groupSeries);
-    }
+    seriesData.unshift(groupSeries);
   }
 
   if (benchmarkData) {
@@ -166,25 +151,7 @@ export function generateSeriesData(
       custom: { areaCode: benchmarkData.areaCode },
     };
 
-    const benchmarkConfidenceIntervalSeries: Highcharts.SeriesOptionsType =
-      generateConfidenceIntervalSeries(
-        benchmarkData.areaName,
-        benchmarkData.healthData.map((point) => [
-          point.year,
-          point.lowerCi,
-          point.upperCi,
-        ]),
-        showConfidenceIntervalsData,
-        {
-          whiskerLength: '50%',
-        }
-      );
-
-    if (showConfidenceIntervalsData) {
-      seriesData.unshift(englandSeries, benchmarkConfidenceIntervalSeries);
-    } else {
-      seriesData.unshift(englandSeries);
-    }
+    seriesData.unshift(englandSeries);
   }
 
   return seriesData;
@@ -349,6 +316,8 @@ export function generateStandardLineChartOptions(
         ...(lineChartDefaultOptions.yAxis as Highcharts.XAxisOptions)?.labels,
         formatter: optionalParams?.xAxisLabelFormatter,
       },
+      min: getFirstYearForAreas(sortedHealthIndicatorData),
+      max: getLatestYearForAreas(sortedHealthIndicatorData),
     },
     series: seriesData,
     tooltip: {
@@ -364,3 +333,31 @@ export function generateStandardLineChartOptions(
     },
   };
 }
+
+// MUTATES the lineChartOptions add functions to series events
+// that call a React state change and set the visibility of
+// linkedTo series to match that set in the state.
+// Normally we'd avoid mutation, but HighCharts seems to work well this way
+// and this is a simple way to connect React state with HighCharts events
+export const addShowHideLinkedSeries = (
+  lineChartOptions: Highcharts.Options,
+  showConfidenceIntervalsData: boolean,
+  visibility: Record<string, boolean>,
+  setVisibility: Dispatch<SetStateAction<Record<string, boolean>>>
+) => {
+  lineChartOptions?.series?.forEach((series) => {
+    series.events ??= {};
+    if ('linkedTo' in series && series.linkedTo) {
+      series.visible =
+        showConfidenceIntervalsData && visibility[series.linkedTo];
+    }
+    series.events.show = function () {
+      const id = series.id ?? series.name;
+      setVisibility({ ...visibility, [id as string]: true });
+    };
+    series.events.hide = function () {
+      const id = series.id ?? series.name;
+      setVisibility({ ...visibility, [id as string]: false });
+    };
+  });
+};

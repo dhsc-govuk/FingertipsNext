@@ -28,7 +28,7 @@ interface HeaderData {
 export enum SpineChartTableHeadingEnum {
   IndicatorName = 'Indicators',
   IndicatorPeriod = 'Period',
-  IndicatorUnit = 'Value Unit',
+  IndicatorUnit = 'Value unit',
   AreaTrend = 'Recent trend',
   AreaCount = 'Count',
   Value = 'Value',

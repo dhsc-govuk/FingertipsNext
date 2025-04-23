@@ -18,14 +18,12 @@ const $SearchFormSchema = z
   })
   .refine((data) => {
     const stateParsed = JSON.parse(data.searchState);
-    if (
+
+    return (
       data.indicator.trim().length > 0 ||
       stateParsed[SearchParams.AreasSelected]?.length > 0 ||
       stateParsed[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED
-    ) {
-      return true;
-    }
-    return false;
+    );
   });
 
 export type State = {
@@ -71,6 +69,8 @@ export async function searchIndicator(
     indicator
   );
 
+  searchStateManager.removeAllParamFromState(SearchParams.IndicatorsSelected);
+
   redirect(searchStateManager.generatePath('/results'), RedirectType.push);
 }
 
@@ -82,7 +82,7 @@ export async function getSearchSuggestions(
       partialAreaName
     );
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
   return [];
 }
@@ -95,7 +95,7 @@ export async function getAreaDocument(
       areaCode
     );
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
   return undefined;
 }

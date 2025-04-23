@@ -259,6 +259,18 @@ export function getScenarioConfig(
       ].includes(component.componentLocator)
     );
   }
+  // 2 indicators, all areas in a group
+  else if (
+    indicatorMode === IndicatorMode.TWO_INDICATORS &&
+    areaMode === AreaMode.ALL_AREAS_IN_A_GROUP
+  ) {
+    visibleComponents = allComponents.filter((component) =>
+      [
+        ChartPage.heatMapComponent,
+        ChartPage.populationPyramidComponent,
+      ].includes(component.componentLocator)
+    );
+  }
   // 3+ indicators, 2 areas (not England)
   else if (
     indicatorMode === IndicatorMode.THREE_PLUS_INDICATORS &&

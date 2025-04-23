@@ -3,31 +3,12 @@ import {
   QuintileColours,
   TagColours,
 } from '@/lib/styleHelpers/colours';
-import { BenchmarkLabelGroupConfig } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
+import { BenchmarkLabelGroupConfig } from '@/components/organisms/BenchmarkLabel/BenchmarkLabel.types';
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
-
-export const getBenchmarkTagStyle = (
-  group: BenchmarkComparisonMethod,
-  type: BenchmarkOutcome,
-  polarity: IndicatorPolarity
-) => {
-  const groupConfig = benchmarkLabelGroupConfig[group];
-  if (!groupConfig) return null;
-
-  // special case Middle is used by Quintiles with and without judgement but has different colours
-  if (
-    polarity !== IndicatorPolarity.NoJudgement &&
-    type === BenchmarkOutcome.Middle
-  ) {
-    return groupConfig['middleWithJudgement'];
-  }
-
-  return groupConfig[type] ?? groupConfig.default;
-};
 
 const similar = {
   backgroundColor: GovukColours.Yellow,
@@ -38,6 +19,25 @@ const notCompared = {
   backgroundColor: 'transparent',
   color: GovukColours.Black,
   border: '1px solid #0B0C0C',
+};
+
+export const getBenchmarkTagStyle = (
+  group: BenchmarkComparisonMethod,
+  type: BenchmarkOutcome,
+  polarity: IndicatorPolarity
+) => {
+  const groupConfig = benchmarkLabelGroupConfig[group];
+  if (!groupConfig) return notCompared;
+
+  // special case Middle is used by Quintiles with and without judgement but has different colours
+  if (
+    polarity !== IndicatorPolarity.NoJudgement &&
+    type === BenchmarkOutcome.Middle
+  ) {
+    return groupConfig['middleWithJudgement'];
+  }
+
+  return groupConfig[type] ?? groupConfig.default;
 };
 
 export const benchmarkLabelGroupConfig: BenchmarkLabelGroupConfig = {
