@@ -62,6 +62,11 @@ export function InequalitiesLineChartTable({
   ];
 
   const yearsWithInequalityData = getYearsWithInequalityData(tableData.rowData);
+  if (!yearsWithInequalityData.length) {
+    return null;
+  }
+  const firstYear = Math.min(...yearsWithInequalityData);
+  const lastYear = Math.max(...yearsWithInequalityData);
 
   return (
     <StyledDivWithScrolling data-testid="inequalitiesLineChartTable-component">
@@ -90,11 +95,7 @@ export function InequalitiesLineChartTable({
         }
       >
         {tableData.rowData
-          .filter(
-            (data) =>
-              data.period >= Math.min(...yearsWithInequalityData) &&
-              data.period <= Math.max(...yearsWithInequalityData)
-          )
+          .filter((data) => data.period >= firstYear && data.period <= lastYear)
           .map((data, index) => (
             <Table.Row key={String(data.period) + index}>
               <StyledAlignLeftStickyTableCell>

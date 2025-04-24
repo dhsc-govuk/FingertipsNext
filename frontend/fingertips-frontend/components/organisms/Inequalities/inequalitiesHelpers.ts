@@ -223,6 +223,11 @@ export const generateInequalitiesLineChartSeriesData = (
 ): Highcharts.SeriesOptionsType[] => {
   const colorList = mapToChartColorsForInequality[type];
   const yearsWithInequalityData = getYearsWithInequalityData(chartData.rowData);
+  const firstYear = Math.min(...yearsWithInequalityData);
+  const lastYear = Math.max(...yearsWithInequalityData);
+  if (firstYear === Infinity || lastYear === -Infinity) {
+    throw new Error('ERROR');
+  }
 
   const seriesData: Highcharts.SeriesOptionsType[] = keys.flatMap(
     (key, index) => {
@@ -230,11 +235,7 @@ export const generateInequalitiesLineChartSeriesData = (
         type: 'line',
         name: key,
         data: chartData.rowData
-          .filter(
-            (data) =>
-              data.period >= Math.min(...yearsWithInequalityData) &&
-              data.period <= Math.max(...yearsWithInequalityData)
-          )
+          .filter((data) => data.period >= firstYear && data.period <= lastYear)
           .map((periodData) => [
             periodData.period,
             periodData.inequalities[key]?.value,

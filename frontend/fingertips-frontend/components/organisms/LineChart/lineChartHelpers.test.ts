@@ -361,7 +361,7 @@ describe('generateStandardLineChartOptions', () => {
     expect(generatedOptions).toMatchSnapshot();
   });
 
-  it('should generate standard line chart options with benchmark data', () => {
+  it('should generate standard line chart options with benchmark and group data', () => {
     const generatedOptions = generateStandardLineChartOptions(
       [mockIndicatorData[0]],
       false,
@@ -423,6 +423,7 @@ describe('generateStandardLineChartOptions', () => {
     );
     expect((generatedOptions.series?.[0] as any).data).toHaveLength(2);
     expect((generatedOptions.series?.[1] as any).data).toHaveLength(2);
+    expect(generatedOptions).toMatchSnapshot();
   });
 });
 

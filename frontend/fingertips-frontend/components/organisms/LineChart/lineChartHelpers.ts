@@ -182,29 +182,33 @@ export function generateStandardLineChartOptions(
   const sortedBenchMarkData = optionalParams?.benchmarkData
     ? sortHealthDataForAreaByDate(optionalParams?.benchmarkData)
     : undefined;
-  const filteredSortedBenchMarkData = sortedBenchMarkData
-    ? {
-        ...sortedBenchMarkData,
-        healthData:
-          sortedBenchMarkData?.healthData.filter(
-            //shouldLineChartBeShown() in OneIndicatorOneAreaViewPlots ensures these with not be null
-            (data) => data.year >= firstYear! && data.year <= lastYear!
-          ) ?? [],
-      }
-    : undefined;
+  const filteredSortedBenchMarkData =
+    sortedBenchMarkData &&
+    sortedHealthIndicatorData.length &&
+    firstYear &&
+    lastYear
+      ? {
+          ...sortedBenchMarkData,
+          healthData:
+            sortedBenchMarkData?.healthData.filter(
+              (data) => data.year >= firstYear && data.year <= lastYear
+            ) ?? [],
+        }
+      : sortedBenchMarkData;
 
   const sortedGroupData = optionalParams?.groupIndicatorData
     ? sortHealthDataForAreaByDate(optionalParams?.groupIndicatorData)
     : undefined;
-  const filteredSortedGroupData = sortedGroupData
-    ? {
-        ...sortedGroupData,
-        healthData:
-          sortedGroupData?.healthData.filter(
-            (data) => data.year >= firstYear! && data.year <= lastYear!
-          ) ?? [],
-      }
-    : undefined;
+  const filteredSortedGroupData =
+    sortedGroupData && sortedHealthIndicatorData.length && firstYear && lastYear
+      ? {
+          ...sortedGroupData,
+          healthData:
+            sortedGroupData?.healthData.filter(
+              (data) => data.year >= firstYear && data.year <= lastYear
+            ) ?? [],
+        }
+      : sortedGroupData;
 
   let seriesData = generateSeriesData(
     sortedHealthIndicatorData,
