@@ -379,7 +379,7 @@ describe('generateStandardLineChartOptions', () => {
     expect(generatedOptions).toMatchSnapshot();
   });
 
-  it('should not indlude benchmark or group years before or after the areas have data', () => {
+  it('should not include benchmark or group years before or after the areas have data', () => {
     const mockBenchmarkAreaWithEarlyYear: HealthDataForArea = {
       ...mockBenchmarkData,
       healthData: [
