@@ -1289,10 +1289,20 @@ describe('getLatestYearForAreas', () => {
   it('should return the latest year for a group of areas', () => {
     expect(getLatestYearForAreas(mockData)).toBe(2006);
   });
+
+  it('should return undefined when the data provided is an empty list', () => {
+    expect(getLatestYearForAreas([])).toBeUndefined();
+  });
 });
 
 describe('getFirstYearForAreas', () => {
   it('should return the latest year for a group of areas', () => {
     expect(getFirstYearForAreas(mockData)).toBe(2004);
+  });
+
+  // This can occur when no area is selected. When undefined is returned, the chart min/max
+  // simply use those of the default benchmark i.e. England
+  it('should return undefined when the data provided is an empty list', () => {
+    expect(getFirstYearForAreas([])).toBeUndefined();
   });
 });
