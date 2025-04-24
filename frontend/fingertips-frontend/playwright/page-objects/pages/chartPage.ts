@@ -39,8 +39,7 @@ export default class ChartPage extends AreaFilter {
     'inequalitiesTypes-dropDown-component-bc';
   static readonly inequalitiesTypesDropDownComponentLC =
     'inequalitiesTypes-dropDown-component-lc';
-  static readonly OneAreaMultipleIndicatorsTableComponent =
-    'oneAreaMultipleIndicatorsTable-component';
+  static readonly basicTableComponent = 'basicTable-component';
 
   async checkOnChartPage() {
     await expect(
@@ -204,6 +203,21 @@ export default class ChartPage extends AreaFilter {
         ).toHaveScreenshot(
           `${testName}-${visibleComponent.componentLocator}.png`
         );
+
+        // if its one of the wide chart components then take a second right aligned screenshot
+        if (visibleComponent.componentProps.wideComponent) {
+          this.page
+            .getByTestId(visibleComponent.componentLocator)
+            .evaluate((element) => {
+              element.scrollLeft = element.scrollWidth;
+            });
+          await this.page.waitForTimeout(10);
+          await expect(
+            this.page.getByTestId(visibleComponent.componentLocator)
+          ).toHaveScreenshot(
+            `${testName}-${visibleComponent.componentLocator}-right-aligned.png`
+          );
+        }
       } catch (error) {
         const typedError = error as Error;
         console.warn(

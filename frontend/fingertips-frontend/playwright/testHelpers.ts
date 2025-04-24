@@ -28,6 +28,7 @@ type componentProps = {
   hasDetailsExpander: boolean;
   hasTimePeriodDropDown: boolean;
   hasTypeDropDown: boolean;
+  wideComponent: boolean;
 };
 
 type component = {
@@ -54,6 +55,7 @@ export function getScenarioConfig(
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
         hasTypeDropDown: false,
+        wideComponent: false,
       },
     },
     {
@@ -64,6 +66,7 @@ export function getScenarioConfig(
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
         hasTypeDropDown: false,
+        wideComponent: false,
       },
     },
     {
@@ -74,6 +77,7 @@ export function getScenarioConfig(
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
         hasTypeDropDown: false,
+        wideComponent: false,
       },
     },
     {
@@ -84,6 +88,7 @@ export function getScenarioConfig(
         hasTimePeriodDropDown: true,
         hasDetailsExpander: false,
         hasTypeDropDown: true,
+        wideComponent: false,
       },
     },
     {
@@ -94,6 +99,7 @@ export function getScenarioConfig(
         hasTimePeriodDropDown: false,
         hasDetailsExpander: false,
         hasTypeDropDown: true,
+        wideComponent: false,
       },
     },
     {
@@ -104,6 +110,7 @@ export function getScenarioConfig(
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
         hasTypeDropDown: false,
+        wideComponent: false,
       },
     },
     {
@@ -114,6 +121,7 @@ export function getScenarioConfig(
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
         hasTypeDropDown: false,
+        wideComponent: false,
       },
     },
     {
@@ -124,6 +132,7 @@ export function getScenarioConfig(
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
         hasTypeDropDown: false,
+        wideComponent: false,
       },
     },
     {
@@ -134,6 +143,7 @@ export function getScenarioConfig(
         hasDetailsExpander: true,
         hasTimePeriodDropDown: false,
         hasTypeDropDown: false,
+        wideComponent: false,
       },
     },
     {
@@ -144,6 +154,7 @@ export function getScenarioConfig(
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
         hasTypeDropDown: false,
+        wideComponent: false,
       },
     },
     {
@@ -154,26 +165,18 @@ export function getScenarioConfig(
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
         hasTypeDropDown: false,
+        wideComponent: false,
       },
     },
     {
-      componentLocator: ChartPage.spineChartTableComponent,
+      componentLocator: ChartPage.basicTableComponent,
       componentProps: {
         hasConfidenceIntervals: false,
         isTabTable: false,
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
         hasTypeDropDown: false,
-      },
-    },
-    {
-      componentLocator: ChartPage.OneAreaMultipleIndicatorsTableComponent,
-      componentProps: {
-        hasConfidenceIntervals: false,
-        isTabTable: false,
-        hasDetailsExpander: false,
-        hasTimePeriodDropDown: false,
-        hasTypeDropDown: false,
+        wideComponent: false,
       },
     },
     {
@@ -184,6 +187,18 @@ export function getScenarioConfig(
         hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
         hasTypeDropDown: false,
+        wideComponent: false,
+      },
+    },
+    {
+      componentLocator: ChartPage.spineChartTableComponent,
+      componentProps: {
+        hasConfidenceIntervals: false,
+        isTabTable: false,
+        hasDetailsExpander: false,
+        hasTimePeriodDropDown: false,
+        hasTypeDropDown: false,
+        wideComponent: true,
       },
     },
   ];
@@ -241,20 +256,7 @@ export function getScenarioConfig(
   ) {
     visibleComponents = allComponents.filter((component) =>
       [
-        ChartPage.OneAreaMultipleIndicatorsTableComponent,
-        ChartPage.populationPyramidComponent,
-      ].includes(component.componentLocator)
-    );
-  }
-  // 2 indicators, 3+ areas (not England)
-  else if (
-    indicatorMode === IndicatorMode.TWO_INDICATORS &&
-    areaMode === AreaMode.THREE_PLUS_AREAS
-  ) {
-    visibleComponents = allComponents.filter((component) =>
-      [
-        ChartPage.spineChartTableComponent,
-        ChartPage.heatMapComponent,
+        ChartPage.basicTableComponent,
         ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
     );
@@ -271,16 +273,18 @@ export function getScenarioConfig(
       ].includes(component.componentLocator)
     );
   }
-  // 3+ indicators, 2 areas (not England)
+  // 3+ indicators, 2 areas (not England) OR 2 indicators, 3+ areas (not England)
   else if (
-    indicatorMode === IndicatorMode.THREE_PLUS_INDICATORS &&
-    areaMode === AreaMode.TWO_AREAS
+    (indicatorMode === IndicatorMode.THREE_PLUS_INDICATORS &&
+      areaMode === AreaMode.TWO_AREAS) ||
+    (indicatorMode === IndicatorMode.TWO_INDICATORS &&
+      areaMode === AreaMode.THREE_PLUS_AREAS)
   ) {
     visibleComponents = allComponents.filter((component) =>
       [
-        ChartPage.spineChartTableComponent,
         ChartPage.heatMapComponent,
         ChartPage.populationPyramidComponent,
+        ChartPage.spineChartTableComponent, // spine chart needs to be last so its scroll right doesnt impact the other components screenshots
       ].includes(component.componentLocator)
     );
   } else {
