@@ -67,6 +67,9 @@ export function InequalitiesLineChartTable({
   }
   const firstYear = Math.min(...yearsWithInequalityData);
   const lastYear = Math.max(...yearsWithInequalityData);
+  const filteredRowData = tableData.rowData.filter(
+    (data) => data.period >= firstYear && data.period <= lastYear
+  );
 
   return (
     <StyledDivWithScrolling data-testid="inequalitiesLineChartTable-component">
@@ -94,20 +97,18 @@ export function InequalitiesLineChartTable({
           </>
         }
       >
-        {tableData.rowData
-          .filter((data) => data.period >= firstYear && data.period <= lastYear)
-          .map((data, index) => (
-            <Table.Row key={String(data.period) + index}>
-              <StyledAlignLeftStickyTableCell>
-                {String(data.period)}
-              </StyledAlignLeftStickyTableCell>
-              {dynamicKeys.map((key, index) => (
-                <StyledAlignRightTableCell key={key + index}>
-                  {getDisplayValue(data.inequalities[key]?.value)}
-                </StyledAlignRightTableCell>
-              ))}
-            </Table.Row>
-          ))}
+        {filteredRowData.map((data, index) => (
+          <Table.Row key={String(data.period) + index}>
+            <StyledAlignLeftStickyTableCell>
+              {String(data.period)}
+            </StyledAlignLeftStickyTableCell>
+            {dynamicKeys.map((key, index) => (
+              <StyledAlignRightTableCell key={key + index}>
+                {getDisplayValue(data.inequalities[key]?.value)}
+              </StyledAlignRightTableCell>
+            ))}
+          </Table.Row>
+        ))}
       </Table>
     </StyledDivWithScrolling>
   );
