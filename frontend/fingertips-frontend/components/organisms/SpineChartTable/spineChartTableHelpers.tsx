@@ -62,9 +62,6 @@ export const buildSpineChartIndicatorData = (
         indicatorData.name === null
       ) {
         // the entire row will be missing
-        console.warn(
-          `indicatorData.indicatorId=${indicatorData.indicatorId} indicatorData.name=${indicatorData.name}`
-        );
         return null;
       }
       const indicatorId = indicatorData.indicatorId.toString();
@@ -75,22 +72,10 @@ export const buildSpineChartIndicatorData = (
       );
 
       const areasHealthData = areasSelected
-        .map((areaCode) => {
-          const areaData = getHealthDataForArea(
-            indicatorData.areaHealthData,
-            areaCode
-          );
-          if (!areaData) {
-            console.warn(`Area data missing for ${areaCode}`);
-          }
-          return areaData;
-        })
+        .map((areaCode) =>
+          getHealthDataForArea(indicatorData.areaHealthData, areaCode)
+        )
         .filter((areaData) => areaData !== null);
-
-      if (!areasHealthData[0]) {
-        // there was missing data for an area
-        console.warn(`No area data`);
-      }
 
       const matchedQuartileData = quartileData.find(
         (quartileDataItem) =>
@@ -99,7 +84,6 @@ export const buildSpineChartIndicatorData = (
 
       if (!matchedQuartileData) {
         // No quartile data found for the requested indicator ID: ${indicatorData.indicatorId}
-        console.warn('No quartile data found');
         return null;
       }
 
