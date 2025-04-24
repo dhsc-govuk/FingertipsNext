@@ -1361,7 +1361,7 @@ describe('getInequalitiesType', () => {
 });
 
 describe('reorderItemsArraysToEnd', () => {
-  it('check that when the header to be reordered are specific the array is reordered', () => {
+  it('Check that when specific headers are provided for reordering, the array is reordered accordingly.', () => {
     const headers = reorderItemsArraysToEnd(
       ['Age', 'Name', 'Sex', 'Other'],
       ['Name', 'Age', 'Sex', 'Other']
@@ -1369,12 +1369,12 @@ describe('reorderItemsArraysToEnd', () => {
     expect(headers).toEqual(['Name', 'Age', 'Sex', 'Other']);
   });
 
-  it('If original header is empty , I expect an empty array', () => {
+  it('If the original header is empty, I expect to receive an empty array', () => {
     const headers = reorderItemsArraysToEnd([], ['Name', 'Age', 'Sex']);
     expect(headers).toEqual([]);
   });
 
-  it('when the specific reorder headers has an empty list , return the the original headers', () => {
+  it('When the list of specific reorder headers is empty, return the original headers', () => {
     const headers = reorderItemsArraysToEnd(['Name', 'Age', 'Sex']);
     expect(headers).toEqual(['Name', 'Age', 'Sex']);
   });
