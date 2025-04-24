@@ -456,6 +456,18 @@ describe('getDynamicKeys', () => {
     ).toEqual(['Persons', 'Male', 'Female']);
   });
 
+  it('Should position the headers at the end if provided', () => {
+    const sequenceSelector = () => 0;
+
+    expect(
+      getDynamicKeys(
+        yearlyHealthDataGroupedBySexWithSequences,
+        sequenceSelector,
+        ['Persons']
+      )
+    ).toEqual(['Male', 'Female', 'Persons']);
+  });
+
   it('should get unique keys for inequality sorted in descending sequence order when a sequence selector is used', () => {
     const sequenceSelector = (data?: HealthDataPoint) =>
       data?.deprivation.sequence ?? 0;
