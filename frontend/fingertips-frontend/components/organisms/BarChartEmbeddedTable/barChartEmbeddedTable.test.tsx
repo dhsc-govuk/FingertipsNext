@@ -12,7 +12,7 @@ import {
   personsSex,
 } from '@/lib/mocks';
 import { formatNumber } from '@/lib/numberFormatter';
-import cloneDeep from 'lodash/clonedeep';
+import { cloneDeep } from 'lodash';
 
 describe('BarChartEmbeddedTable', () => {
   const mockHealthIndicatorData: HealthDataForArea[] = [
