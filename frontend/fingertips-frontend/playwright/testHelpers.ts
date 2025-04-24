@@ -217,6 +217,13 @@ export function getScenarioConfig(
     visibleComponents = allComponents.filter((Component) =>
       [
         ChartPage.lineChartComponent,
+        ChartPage.lineChartTableComponent,
+        ChartPage.inequalitiesLineChartComponent,
+        ChartPage.inequalitiesBarChartComponent,
+        ChartPage.inequalitiesLineChartTableComponent,
+        ChartPage.inequalitiesBarChartTableComponent,
+        ChartPage.inequalitiesForSingleTimePeriodComponent,
+        ChartPage.inequalitiesTrendComponent,
         ChartPage.populationPyramidComponent,
       ].includes(Component.componentLocator)
     );
