@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { Inequalities } from '.';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
@@ -50,11 +50,13 @@ jest.mock('next/navigation', () => {
 
 describe('Inequalities suite', () => {
   it('should render inequalities component', async () => {
-    render(
-      <Inequalities
-        healthIndicatorData={MOCK_HEALTH_DATA}
-        searchState={state}
-      />
+    await act(() =>
+      render(
+        <Inequalities
+          healthIndicatorData={MOCK_HEALTH_DATA}
+          searchState={state}
+        />
+      )
     );
 
     await waitFor(async () => {
@@ -80,12 +82,14 @@ describe('Inequalities suite', () => {
     });
   });
 
-  it('should render expected text', () => {
-    render(
-      <Inequalities
-        healthIndicatorData={MOCK_HEALTH_DATA}
-        searchState={state}
-      />
+  it('should render expected text', async () => {
+    await act(() =>
+      render(
+        <Inequalities
+          healthIndicatorData={MOCK_HEALTH_DATA}
+          searchState={state}
+        />
+      )
     );
 
     expect(
@@ -96,13 +100,15 @@ describe('Inequalities suite', () => {
     ).toBeInTheDocument();
   });
 
-  it('check if the measurement unit value "kg" is rendered correctly', () => {
-    render(
-      <Inequalities
-        healthIndicatorData={MOCK_HEALTH_DATA}
-        searchState={state}
-        measurementUnit="kg"
-      />
+  it('check if the measurement unit value "kg" is rendered correctly', async () => {
+    await act(() =>
+      render(
+        <Inequalities
+          healthIndicatorData={MOCK_HEALTH_DATA}
+          searchState={state}
+          measurementUnit="kg"
+        />
+      )
     );
     expect(screen.getByText('kg')).toBeInTheDocument();
   });

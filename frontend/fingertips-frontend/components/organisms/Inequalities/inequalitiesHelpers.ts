@@ -171,14 +171,28 @@ export const mapToInequalitiesTableData = (
   });
 };
 
+const reorderItemsArraysToEnd = (headers: string[], lastHeaders?: string[]) => {
+  if (!headers) return [];
+  if (!lastHeaders) return headers;
+
+  const filterHeaders = headers.filter((header) => {
+    return !lastHeaders.includes(header);
+  });
+  lastHeaders.forEach((header) => {
+    if (headers.includes(header)) filterHeaders.push(header);
+  });
+  return filterHeaders;
+};
+
 export const getDynamicKeys = (
   yearlyHealthDataGroupedByInequalities: YearlyHealthDataGroupedByInequalities,
-  sequenceSelector: InequalitySequenceSelector
+  sequenceSelector: InequalitySequenceSelector,
+  lastHeaders?: string[]
 ): string[] => {
   const existingKeys = Object.values(
     yearlyHealthDataGroupedByInequalities
-  ).reduce((allKeys: string[], currentYear) => {
-    const sortedCurrentYearInequalityNames = Object.entries(currentYear)
+  ).reduce((allKeys: string[], yearDataRecord) => {
+    const sortedCurrentYearInequalityNames = Object.entries(yearDataRecord)
       .sort(([aKey], [bKey]) => localeSort(bKey, aKey))
       .sort(
         ([, aValue], [, bValue]) =>
@@ -190,7 +204,7 @@ export const getDynamicKeys = (
   }, []);
 
   // spreading a set ensures we have unique keys
-  return [...new Set(existingKeys)];
+  return reorderItemsArraysToEnd([...new Set(existingKeys)], lastHeaders);
 };
 
 const dashStyle = (index: number): DashStyleValue => {
@@ -208,16 +222,24 @@ export const generateInequalitiesLineChartSeriesData = (
   inequalitiesAreaSelected?: string
 ): Highcharts.SeriesOptionsType[] => {
   const colorList = mapToChartColorsForInequality[type];
+  const yearsWithInequalityData = getYearsWithInequalityData(chartData.rowData);
+  if (!yearsWithInequalityData.length) {
+    throw new Error('no data for any year');
+  }
+  const firstYear = Math.min(...yearsWithInequalityData);
+  const lastYear = Math.max(...yearsWithInequalityData);
 
   const seriesData: Highcharts.SeriesOptionsType[] = keys.flatMap(
     (key, index) => {
       const lineSeries: Highcharts.SeriesOptionsType = {
         type: 'line',
         name: key,
-        data: chartData.rowData.map((periodData) => [
-          periodData.period,
-          periodData.inequalities[key]?.value,
-        ]),
+        data: chartData.rowData
+          .filter((data) => data.period >= firstYear && data.period <= lastYear)
+          .map((periodData) => [
+            periodData.period,
+            periodData.inequalities[key]?.value,
+          ]),
         marker: {
           symbol: chartSymbols[index % chartSymbols.length],
         },
