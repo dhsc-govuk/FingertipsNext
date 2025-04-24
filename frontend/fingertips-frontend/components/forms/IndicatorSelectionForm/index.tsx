@@ -12,6 +12,7 @@ import {
   Button,
   Checkbox,
   ListItem,
+  Pagination,
   Paragraph,
   SectionBreak,
   UnorderedList,
@@ -20,6 +21,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import { IndicatorSort } from '@/components/forms/IndicatorSort/IndicatorSort';
 import { useIndicatorSort } from '@/components/forms/IndicatorSort/useIndicatorSort';
+import { useState } from 'react';
 
 const ResultLabelsContainer = styled.span({
   alignItems: 'center',
@@ -77,6 +79,10 @@ export function IndicatorSelectionForm({
   const searchState = getSearchState();
   const stateManager = SearchStateManager.initialise(searchState);
 
+  const RESULTS_PER_PAGE = 15;
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(searchResults.length / RESULTS_PER_PAGE);
+
   const checkAllIndicatorsSelected = (
     searchResults: IndicatorDocument[],
     selectedIndicators: string[]
@@ -101,6 +107,14 @@ export function IndicatorSelectionForm({
     selectedIndicators
   );
 
+  const { sortedResults, selectedSortOrder, handleSortOrder } =
+    useIndicatorSort(searchResults);
+
+  const pageSearchResults = sortedResults.slice(
+    (currentPage - 1) * RESULTS_PER_PAGE,
+    currentPage * RESULTS_PER_PAGE
+  );
+
   const handleClick = async (indicatorId: string, checked: boolean) => {
     setIsLoading(true);
 
@@ -123,7 +137,7 @@ export function IndicatorSelectionForm({
     setIsLoading(true);
 
     if (checked) {
-      const allIndicatorIds = searchResults.map((result) =>
+      const allIndicatorIds = pageSearchResults.map((result) =>
         result.indicatorID.toString()
       );
       stateManager.setState({
@@ -136,9 +150,6 @@ export function IndicatorSelectionForm({
 
     replace(stateManager.generatePath(pathname), { scroll: false });
   };
-
-  const { sortedResults, selectedSortOrder, handleSortOrder } =
-    useIndicatorSort(searchResults);
 
   return (
     <form
@@ -158,7 +169,7 @@ export function IndicatorSelectionForm({
         selectedSortOrder={selectedSortOrder}
         onChange={handleSortOrder}
       />
-      {sortedResults.length ? (
+      {pageSearchResults.length ? (
         <>
           <ResultLabelsContainer>
             <Checkbox
@@ -179,7 +190,7 @@ export function IndicatorSelectionForm({
             <ListItem>
               <SectionBreak visible={true} />
             </ListItem>
-            {sortedResults.map((result) => (
+            {pageSearchResults.map((result) => (
               <SearchResult
                 key={generateKey(result.indicatorID.toString(), searchState)}
                 result={result}
@@ -202,6 +213,31 @@ export function IndicatorSelectionForm({
           >
             View data
           </Button>
+
+          {sortedResults.length > RESULTS_PER_PAGE && (
+            <Pagination data-testid="search-results-pagination">
+              {currentPage > 1 && (
+                <Pagination.Anchor
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                  pageTitle={`${currentPage - 1} of ${totalPages}`}
+                  previousPage
+                  data-testid="pagination-previous-page"
+                >
+                  Previous page
+                </Pagination.Anchor>
+              )}
+              {currentPage < totalPages && (
+                <Pagination.Anchor
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                  nextPage
+                  pageTitle={`${currentPage + 1} of ${totalPages}`}
+                  data-testid="pagination-next-page"
+                >
+                  Next page
+                </Pagination.Anchor>
+              )}
+            </Pagination>
+          )}
         </>
       ) : (
         <Paragraph>**No results found**</Paragraph>

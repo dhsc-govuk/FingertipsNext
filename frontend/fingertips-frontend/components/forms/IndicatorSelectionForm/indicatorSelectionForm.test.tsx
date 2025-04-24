@@ -403,4 +403,149 @@ describe('IndicatorSelectionForm', () => {
       SortOrderKeys.relevance
     );
   });
+
+  it('should show the pagination component when the size of the search results is more than the RESULTS_PER_PAGE', async () => {
+    const mockSearchResults = Array.from({ length: 20 }, (_, index) => ({
+      indicatorID: index.toString(),
+      indicatorName: `Indicator ${index}`,
+      indicatorDefinition: `Definition ${index}`,
+      earliestDataPeriod: '2021',
+      latestDataPeriod: '2023',
+      dataSource: 'NHS website',
+      lastUpdatedDate: new Date('December 6, 2024'),
+      unitLabel: '',
+      hasInequalities: false,
+    }));
+
+    render(
+      <IndicatorSelectionForm
+        searchResults={mockSearchResults}
+        showTrends={false}
+        formAction={mockFormAction}
+      />
+    );
+
+    const pagination = screen.getByTestId('search-results-pagination');
+    expect(pagination).toBeInTheDocument();
+  });
+
+  it('should not show the pagination component when the size of the search results is less than the RESULTS_PER_PAGE', async () => {
+    const mockSearchResults = Array.from({ length: 3 }, (_, index) => ({
+      indicatorID: index.toString(),
+      indicatorName: `Indicator ${index}`,
+      indicatorDefinition: `Definition ${index}`,
+      earliestDataPeriod: '2021',
+      latestDataPeriod: '2023',
+      dataSource: 'NHS website',
+      lastUpdatedDate: new Date('December 6, 2024'),
+      unitLabel: '',
+      hasInequalities: false,
+    }));
+
+    render(
+      <IndicatorSelectionForm
+        searchResults={mockSearchResults}
+        showTrends={false}
+        formAction={mockFormAction}
+      />
+    );
+
+    const pagination = screen.queryByTestId('search-results-pagination');
+    expect(pagination).not.toBeInTheDocument();
+  });
+
+  it('should show the pagination next page anchor and not the previous page anchor when the current page is the first page', async () => {
+    const mockSearchResults = Array.from({ length: 20 }, (_, index) => ({
+      indicatorID: index.toString(),
+      indicatorName: `Indicator ${index}`,
+      indicatorDefinition: `Definition ${index}`,
+      earliestDataPeriod: '2021',
+      latestDataPeriod: '2023',
+      dataSource: 'NHS website',
+      lastUpdatedDate: new Date('December 6, 2024'),
+      unitLabel: '',
+      hasInequalities: false,
+    }));
+
+    render(
+      <IndicatorSelectionForm
+        searchResults={mockSearchResults}
+        showTrends={false}
+        formAction={mockFormAction}
+      />
+    );
+
+    const paginationPrevious = screen.queryByTestId('pagination-previous-page');
+    expect(paginationPrevious).not.toBeInTheDocument();
+    const paginationNext = screen.getByTestId('pagination-next-page');
+    expect(paginationNext).toBeInTheDocument();
+  });
+
+  it('should show the correct page titles when navigating between pages', async () => {
+    const mockSearchResults = Array.from({ length: 47 }, (_, index) => ({
+      indicatorID: index.toString(),
+      indicatorName: `Indicator ${index}`,
+      indicatorDefinition: `Definition ${index}`,
+      earliestDataPeriod: '2021',
+      latestDataPeriod: '2023',
+      dataSource: 'NHS website',
+      lastUpdatedDate: new Date('December 6, 2024'),
+      unitLabel: '',
+      hasInequalities: false,
+    }));
+
+    render(
+      <IndicatorSelectionForm
+        searchResults={mockSearchResults}
+        showTrends={false}
+        formAction={mockFormAction}
+      />
+    );
+
+    // first page
+    const paginationPrevious = screen.queryByTestId('pagination-previous-page');
+    expect(paginationPrevious).not.toBeInTheDocument();
+
+    const paginationNext = screen.getByTestId('pagination-next-page');
+    expect(paginationNext).toBeInTheDocument();
+    expect(paginationNext).toHaveTextContent('2 of 4');
+    expect(paginationNext).toHaveTextContent('Next page');
+
+    await user.click(paginationNext);
+
+    // second page
+    const paginationPrevious2 = screen.getByTestId('pagination-previous-page');
+    expect(paginationPrevious2).toBeInTheDocument();
+    expect(paginationPrevious2).toHaveTextContent('1 of 4');
+    expect(paginationPrevious2).toHaveTextContent('Previous page');
+
+    const paginationNext2 = screen.getByTestId('pagination-next-page');
+    expect(paginationNext2).toBeInTheDocument();
+    expect(paginationNext2).toHaveTextContent('3 of 4');
+    expect(paginationNext2).toHaveTextContent('Next page');
+
+    await user.click(paginationNext2);
+
+    // third page
+    const paginationPrevious3 = screen.getByTestId('pagination-previous-page');
+    expect(paginationPrevious3).toBeInTheDocument();
+    expect(paginationPrevious3).toHaveTextContent('2 of 4');
+    expect(paginationPrevious3).toHaveTextContent('Previous page');
+
+    const paginationNext3 = screen.getByTestId('pagination-next-page');
+    expect(paginationNext3).toBeInTheDocument();
+    expect(paginationNext3).toHaveTextContent('4 of 4');
+    expect(paginationNext3).toHaveTextContent('Next page');
+
+    await user.click(paginationNext3);
+
+    // fourth page
+    const paginationPrevious4 = screen.getByTestId('pagination-previous-page');
+    expect(paginationPrevious4).toBeInTheDocument();
+    expect(paginationPrevious4).toHaveTextContent('3 of 4');
+    expect(paginationPrevious4).toHaveTextContent('Previous page');
+
+    const paginationNext4 = screen.queryByTestId('pagination-next-page');
+    expect(paginationNext4).not.toBeInTheDocument();
+  });
 });
