@@ -421,7 +421,6 @@ describe('generateStandardLineChartOptions', () => {
         symbols,
       }
     );
-    console.log(generatedOptions);
     expect((generatedOptions.series?.[0] as any).data).toHaveLength(2);
     expect((generatedOptions.series?.[1] as any).data).toHaveLength(2);
   });
