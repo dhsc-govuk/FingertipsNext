@@ -12,7 +12,10 @@ import {
   personsSex,
 } from '@/lib/mocks';
 import { formatNumber } from '@/lib/numberFormatter';
-import { cloneDeep } from 'lodash';
+
+function cloneDeep<T>(input: T) {
+  return JSON.parse(JSON.stringify(input)) as T;
+}
 
 describe('BarChartEmbeddedTable', () => {
   const mockHealthIndicatorData: HealthDataForArea[] = [
@@ -271,7 +274,7 @@ describe('BarChartEmbeddedTable', () => {
   it('should order the data displayed by by are name is values match', async () => {
     const mockData = cloneDeep(mockHealthIndicatorData);
     mockData.forEach((row) => {
-      row.healthData.forEach((hdp) => hdp.value = 186.734);
+      row.healthData.forEach((hdp) => (hdp.value = 186.734));
     });
 
     const expectedValues = mockData
@@ -279,9 +282,7 @@ describe('BarChartEmbeddedTable', () => {
       .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
 
     await act(() =>
-      render(
-        <BarChartEmbeddedTable healthIndicatorData={mockData} />
-      )
+      render(<BarChartEmbeddedTable healthIndicatorData={mockData} />)
     );
 
     const header = screen.getAllByRole('columnheader');
