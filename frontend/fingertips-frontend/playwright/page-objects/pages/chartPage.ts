@@ -175,7 +175,7 @@ export default class ChartPage extends AreaFilter {
             .getByText('Show population data')
         );
       }
-      // if its one of the wide chart components then scroll to the middle
+      // if its one of the wide chart components then scroll to the middle of it
       if (visibleComponent.componentProps.wideComponent) {
         this.page
           .getByTestId(visibleComponent.componentLocator)
