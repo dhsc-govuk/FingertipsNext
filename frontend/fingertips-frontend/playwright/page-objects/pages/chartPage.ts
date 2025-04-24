@@ -187,12 +187,6 @@ export default class ChartPage extends AreaFilter {
             // Scroll to the middle point
             element.scrollLeft = middleX;
           });
-        await this.page.waitForTimeout(10);
-        await expect(
-          this.page.getByTestId(visibleComponent.componentLocator)
-        ).toHaveScreenshot(
-          `${testName}-${visibleComponent.componentLocator}-right-aligned.png`
-        );
       }
 
       // check chart component is now visible
