@@ -23,7 +23,6 @@ import {
 } from '@/components/organisms/LineChart/lineChartHelpers';
 import { getAllDataWithoutInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
-import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
 
 function shouldLineChartBeShown(
   dataWithoutEnglandOrGroup: HealthDataForArea[],
@@ -90,7 +89,6 @@ export function OneIndicatorOneAreaViewPlots({
       benchmarkComparisonMethod: benchmarkComparisonMethod,
       groupIndicatorData: groupDataWithoutInequalities,
       yAxisTitle,
-      yAxisLabelFormatter: FormatValueAsNumber,
       xAxisTitle: 'Period',
       measurementUnit: indicatorMetadata?.unitLabel,
       accessibilityLabel: 'A line chart showing healthcare data',

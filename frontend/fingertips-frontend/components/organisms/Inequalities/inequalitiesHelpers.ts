@@ -18,8 +18,8 @@ import {
 } from '../LineChart/lineChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import Highcharts, { DashStyleValue, YAxisOptions } from 'highcharts';
-import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { formatNumber } from '@/lib/numberFormatter';
 
 export const localeSort = (a: string, b: string) => a.localeCompare(b);
 export const sexCategory = 'Sex';
@@ -337,7 +337,14 @@ export function generateInequalitiesLineChartOptions(
       },
       labels: {
         ...(lineChartDefaultOptions.yAxis as YAxisOptions)?.labels,
-        formatter: FormatValueAsNumber,
+        formatter: function () {
+          const formattedNumber = formatNumber(Number(this.value));
+          return this.axis.tickPositions?.every(
+            (position) => position % 1 === 0
+          )
+            ? formattedNumber.replace('.0', '')
+            : formattedNumber;
+        },
       },
     },
     xAxis: {

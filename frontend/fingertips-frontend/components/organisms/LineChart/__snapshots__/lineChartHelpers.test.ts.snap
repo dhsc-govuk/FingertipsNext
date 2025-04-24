@@ -82,7 +82,7 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
   },
   "yAxis": {
     "labels": {
-      "formatter": undefined,
+      "formatter": [Function],
       "style": {
         "fontSize": 16,
       },
@@ -224,7 +224,7 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
   },
   "yAxis": {
     "labels": {
-      "formatter": undefined,
+      "formatter": [Function],
       "style": {
         "fontSize": 16,
       },

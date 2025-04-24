@@ -2,7 +2,9 @@ import {
   AXIS_LABEL_FONT_SIZE,
   AXIS_TITLE_FONT_SIZE,
 } from '@/lib/chartHelpers/chartHelpers';
+import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
 import { SymbolNames } from '@/lib/chartHelpers/pointFormatterHelper';
+import { formatNumber } from '@/lib/numberFormatter';
 import Highcharts from 'highcharts';
 
 const getPlotline = (
@@ -37,7 +39,6 @@ export const getBarChartOptions = (options: {
   seriesData: Highcharts.SeriesOptionsType[];
   tooltipAreaName: string;
   tooltipPointFormatter: Highcharts.FormatterCallbackFunction<Highcharts.Point>;
-  yAxisLabelFormatter?: Highcharts.AxisLabelsFormatterCallbackFunction;
 }): Highcharts.Options => {
   return {
     credits: {
@@ -80,7 +81,14 @@ export const getBarChartOptions = (options: {
         margin: 20,
       },
       labels: {
-        formatter: options.yAxisLabelFormatter,
+        formatter: function () {
+          const formattedNumber = formatNumber(Number(this.value));
+          return this.axis.tickPositions?.every(
+            (position) => position % 1 === 0
+          )
+            ? formattedNumber.replace('.0', '')
+            : formattedNumber;
+        },
         style: {
           fontSize: AXIS_LABEL_FONT_SIZE,
         },

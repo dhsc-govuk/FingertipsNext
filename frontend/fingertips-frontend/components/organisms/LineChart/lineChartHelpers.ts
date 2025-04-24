@@ -169,7 +169,6 @@ export function generateStandardLineChartOptions(
     accessibilityLabel?: string;
     colours?: ChartColours[];
     symbols?: SymbolKeyValue[];
-    yAxisLabelFormatter?: Highcharts.AxisLabelsFormatterCallbackFunction;
     xAxisLabelFormatter?: Highcharts.AxisLabelsFormatterCallbackFunction;
     benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   }
@@ -294,8 +293,15 @@ export function generateStandardLineChartOptions(
     yAxis: {
       ...lineChartDefaultOptions.yAxis,
       labels: {
+        formatter: function () {
+          const formattedNumber = formatNumber(Number(this.value));
+          return this.axis.tickPositions?.every(
+            (position) => position % 1 === 0
+          )
+            ? formattedNumber.replace('.0', '')
+            : formattedNumber;
+        },
         ...(lineChartDefaultOptions.yAxis as Highcharts.YAxisOptions)?.labels,
-        formatter: optionalParams?.yAxisLabelFormatter,
       },
       title: optionalParams?.yAxisTitle
         ? {
