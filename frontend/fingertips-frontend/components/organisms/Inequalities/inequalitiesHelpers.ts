@@ -223,11 +223,11 @@ export const generateInequalitiesLineChartSeriesData = (
 ): Highcharts.SeriesOptionsType[] => {
   const colorList = mapToChartColorsForInequality[type];
   const yearsWithInequalityData = getYearsWithInequalityData(chartData.rowData);
-  const firstYear = Math.min(...yearsWithInequalityData);
-  const lastYear = Math.max(...yearsWithInequalityData);
-  if (firstYear === Infinity || lastYear === -Infinity) {
+  if (!yearsWithInequalityData.length) {
     throw new Error('no data for any year');
   }
+  const firstYear = Math.min(...yearsWithInequalityData);
+  const lastYear = Math.max(...yearsWithInequalityData);
 
   const seriesData: Highcharts.SeriesOptionsType[] = keys.flatMap(
     (key, index) => {
