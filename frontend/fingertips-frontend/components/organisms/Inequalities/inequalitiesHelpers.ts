@@ -226,7 +226,7 @@ export const generateInequalitiesLineChartSeriesData = (
   const firstYear = Math.min(...yearsWithInequalityData);
   const lastYear = Math.max(...yearsWithInequalityData);
   if (firstYear === Infinity || lastYear === -Infinity) {
-    throw new Error('ERROR');
+    throw new Error('no data for any year');
   }
 
   const seriesData: Highcharts.SeriesOptionsType[] = keys.flatMap(
