@@ -12,6 +12,7 @@ import {
   personsSex,
 } from '@/lib/mocks';
 import { formatNumber } from '@/lib/numberFormatter';
+import cloneDeep from 'lodash/clonedeep';
 
 describe('BarChartEmbeddedTable', () => {
   const mockHealthIndicatorData: HealthDataForArea[] = [
@@ -242,6 +243,11 @@ describe('BarChartEmbeddedTable', () => {
   });
 
   it('should order the data displayed by largest value', async () => {
+    const expectedValues = mockHealthIndicatorData
+      .map((mdp) => getPointForYear(mdp)!.value)
+      .sort((a, b) => b! - a!)
+      .map((ev) => formatNumber(ev));
+
     await act(() =>
       render(
         <BarChartEmbeddedTable healthIndicatorData={mockHealthIndicatorData} />
@@ -259,10 +265,36 @@ describe('BarChartEmbeddedTable', () => {
       return cellsInRow[valueColumnIndex].textContent;
     });
 
-    const expectedValues = mockHealthIndicatorData
-      .map((mdp) => getPointForYear(mdp)!.value)
-      .sort((a, b) => b! - a!)
-      .map((ev) => formatNumber(ev));
+    expect(valueCells).toEqual(expectedValues);
+  });
+
+  it('should order the data displayed by by are name is values match', async () => {
+    const mockData = cloneDeep(mockHealthIndicatorData);
+    mockData.forEach((row) => {
+      row.healthData.forEach((hdp) => hdp.value = 186.734);
+    });
+
+    const expectedValues = mockData
+      .map((mdp) => mdp.areaName)
+      .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+
+    await act(() =>
+      render(
+        <BarChartEmbeddedTable healthIndicatorData={mockData} />
+      )
+    );
+
+    const header = screen.getAllByRole('columnheader');
+    const valueColumnIndex =
+      header.findIndex((item) => item.textContent?.includes('Area')) - 2;
+
+    const areaRows = screen.getAllByRole('row').slice(2, -1);
+
+    const valueCells = areaRows.map((areaRow) => {
+      const cellsInRow = within(areaRow).getAllByRole('cell');
+      return cellsInRow[valueColumnIndex].textContent;
+    });
+
     expect(valueCells).toEqual(expectedValues);
   });
 
