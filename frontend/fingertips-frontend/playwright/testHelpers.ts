@@ -209,6 +209,18 @@ export function getScenarioConfig(
       ].includes(component.componentLocator)
     );
   }
+  // 1 indicator, England area
+  else if (
+    indicatorMode === IndicatorMode.ONE_INDICATOR &&
+    areaMode === AreaMode.ENGLAND_AREA
+  ) {
+    visibleComponents = allComponents.filter((Component) =>
+      [
+        ChartPage.lineChartComponent,
+        ChartPage.populationPyramidComponent,
+      ].includes(Component.componentLocator)
+    );
+  }
   // 1 indicator, 3+ areas
   else if (
     indicatorMode === IndicatorMode.ONE_INDICATOR &&

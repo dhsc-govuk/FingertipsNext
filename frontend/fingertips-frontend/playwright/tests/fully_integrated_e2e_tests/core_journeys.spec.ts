@@ -26,6 +26,12 @@ interface TestParams {
 const coreTestJourneys: TestParams[] = [
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
+    areaMode: AreaMode.ENGLAND_AREA,
+    searchMode: SearchMode.ONLY_SUBJECT,
+    subjectSearchTerm: 'hospital',
+  },
+  {
+    indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ONE_AREA,
     searchMode: SearchMode.BOTH_SUBJECT_AND_AREA,
     subjectSearchTerm: 'emergency',
