@@ -168,6 +168,35 @@ describe('Testing the benchmark component', () => {
         expect(groups[0]).toHaveTextContent(/^LowestLowMiddleHighHighest$/);
         expect(groups[1]).toHaveTextContent(/^WorstWorseMiddleBetterBest$/);
       });
+
+      it('should render with bottom margin', () => {
+        const legendsToShow = {
+          [BenchmarkComparisonMethod.Quintiles]: {
+            judgement: true,
+            noJudgement: true,
+          },
+        };
+        render(<BenchmarkLegends legendsToShow={legendsToShow} />);
+        const div = screen.getByTestId('benchmarkLegend-component');
+        expect(div).toHaveStyle({ marginBottom: '2em' });
+      });
+
+      it('should render without bottom margin', () => {
+        const legendsToShow = {
+          [BenchmarkComparisonMethod.Quintiles]: {
+            judgement: true,
+            noJudgement: true,
+          },
+        };
+        render(
+          <BenchmarkLegends
+            legendsToShow={legendsToShow}
+            bottomMargin={false}
+          />
+        );
+        const div = screen.getByTestId('benchmarkLegend-component');
+        expect(div).not.toHaveStyle({ marginBottom: '2em' });
+      });
     });
   });
 });

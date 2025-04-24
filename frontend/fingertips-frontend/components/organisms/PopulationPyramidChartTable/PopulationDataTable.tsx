@@ -6,9 +6,10 @@ import {
 } from '@/lib/chartHelpers/preparePopulationData';
 import { Table } from 'govuk-react';
 import { typography } from '@govuk-react/lib';
-import { StyledAlignLeftHeader } from '@/lib/tableHelpers';
+import { StyledAlignLeftHeader, StyledTableCell } from '@/lib/tableHelpers';
 import styled from 'styled-components';
 import { formatWholeNumber } from '@/lib/numberFormatter';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 const StyledAreaTitleHeader = styled('h3')(typography.font({ size: 19 }), {
   textAlign: 'center',
@@ -16,15 +17,7 @@ const StyledAreaTitleHeader = styled('h3')(typography.font({ size: 19 }), {
   lineHeight: '65px',
   letterSpacing: '0px',
   fontWeight: '700',
-  padding: '5px',
 });
-
-export const StyledTableCell = styled(Table.Cell)(
-  typography.font({ size: 19 }),
-  {
-    textAlign: 'center',
-  }
-);
 
 const valueFormatter = (value: number | string | undefined) => {
   if (typeof value === 'number' || typeof value === 'undefined') {
@@ -36,7 +29,7 @@ const valueFormatter = (value: number | string | undefined) => {
 const StyledAreaNameHeader = styled(StyledAlignLeftHeader)(
   typography.font({ size: 19 }),
   {
-    borderTop: `solid #F3F2F1 2px`,
+    borderTop: `solid ${GovukColours.LightGrey} 2px`,
     textAlign: 'center',
     fontWeight: 700,
   }

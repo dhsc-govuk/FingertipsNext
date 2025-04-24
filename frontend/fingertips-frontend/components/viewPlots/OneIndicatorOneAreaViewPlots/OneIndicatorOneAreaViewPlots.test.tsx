@@ -72,18 +72,23 @@ describe('OneIndicatorOneAreaViewPlots', () => {
         indicatorMetadata={mockMetaData}
       />
     );
-    expect(
-      screen.getByRole('heading', {
-        name: 'Indicator data over time',
-      })
-    ).toBeInTheDocument();
-    expect(
-      screen.getByTestId('tabContainer-lineChartAndTable')
-    ).toBeInTheDocument();
-    expect(
-      await screen.findByTestId('standardLineChart-component')
-    ).toBeInTheDocument();
-    expect(screen.getByTestId('lineChartTable-component')).toBeInTheDocument();
+
+    await waitFor(async () => {
+      expect(
+        screen.getByRole('heading', {
+          name: 'Indicator data over time',
+        })
+      ).toBeInTheDocument();
+      expect(
+        screen.getByTestId('tabContainer-lineChartAndTable')
+      ).toBeInTheDocument();
+      expect(
+        await screen.findByTestId('standardLineChart-component')
+      ).toBeInTheDocument();
+      expect(
+        screen.getByTestId('lineChartTable-component')
+      ).toBeInTheDocument();
+    });
   });
 
   it('should render the LineChart components in the special case that England is the only area', async () => {
@@ -105,27 +110,28 @@ describe('OneIndicatorOneAreaViewPlots', () => {
       />
     );
 
-    const highcharts = await screen.findAllByTestId(
-      'highcharts-react-component-lineChart'
-    );
-    await waitFor(() => {
+    await waitFor(async () => {
+      const highcharts = await screen.findAllByTestId(
+        'highcharts-react-component-lineChart'
+      );
       expect(highcharts).toHaveLength(2);
+      expect(highcharts[0]).toHaveTextContent('England');
+      expect(highcharts[0]).not.toHaveTextContent('Benchmark');
+      expect(
+        screen.getByRole('heading', {
+          name: 'Indicator data over time',
+        })
+      ).toBeInTheDocument();
+      expect(
+        screen.getByTestId('tabContainer-lineChartAndTable')
+      ).toBeInTheDocument();
+      expect(
+        await screen.findByTestId('standardLineChart-component')
+      ).toBeInTheDocument();
+      expect(
+        screen.getByTestId('lineChartTable-component')
+      ).toBeInTheDocument();
     });
-
-    expect(highcharts[0]).toHaveTextContent('England');
-    expect(highcharts[0]).not.toHaveTextContent('Benchmark');
-    expect(
-      screen.getByRole('heading', {
-        name: 'Indicator data over time',
-      })
-    ).toBeInTheDocument();
-    expect(
-      screen.getByTestId('tabContainer-lineChartAndTable')
-    ).toBeInTheDocument();
-    expect(
-      await screen.findByTestId('standardLineChart-component')
-    ).toBeInTheDocument();
-    expect(screen.getByTestId('lineChartTable-component')).toBeInTheDocument();
   });
 
   it('should display data source when metadata exists', async () => {

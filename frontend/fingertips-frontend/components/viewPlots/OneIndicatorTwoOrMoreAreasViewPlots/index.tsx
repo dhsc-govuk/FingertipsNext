@@ -8,7 +8,7 @@ import { seriesDataWithoutEnglandOrGroup } from '@/lib/chartHelpers/chartHelpers
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams } from '@/lib/searchStateManager';
 import { H3 } from 'govuk-react';
-import { OneIndicatorViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
+import { OneIndicatorViewPlotProps } from '@/components/viewPlots/ViewPlot.types';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import {

@@ -209,6 +209,10 @@ export function getFirstYear(
 export function getLatestYearForAreas(
   healthDataForAreas: HealthDataForArea[]
 ): number | undefined {
+  if (!healthDataForAreas.length) {
+    return undefined;
+  }
+
   const years = healthDataForAreas.map(
     (area) => getLatestYear(area.healthData) ?? 0
   );
@@ -219,6 +223,10 @@ export function getLatestYearForAreas(
 export function getFirstYearForAreas(
   healthDataForAreas: HealthDataForArea[]
 ): number | undefined {
+  if (!healthDataForAreas.length) {
+    return undefined;
+  }
+
   const years = healthDataForAreas.map(
     (area) => getFirstYear(area.healthData) ?? 0
   );

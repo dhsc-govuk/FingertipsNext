@@ -3,7 +3,7 @@ import {
   QuintileColours,
   TagColours,
 } from '@/lib/styleHelpers/colours';
-import { BenchmarkLabelGroupConfig } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
+import { BenchmarkLabelGroupConfig } from '@/components/organisms/BenchmarkLabel/BenchmarkLabel.types';
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
