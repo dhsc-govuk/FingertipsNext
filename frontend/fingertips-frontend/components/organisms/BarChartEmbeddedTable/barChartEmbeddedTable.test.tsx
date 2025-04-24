@@ -1,7 +1,8 @@
-import { act, render, screen } from '@testing-library/react';
+import { act, render, screen, within } from '@testing-library/react';
 import { BarChartEmbeddedTable } from '@/components/organisms/BarChartEmbeddedTable/index';
 import {
   HealthDataForArea,
+  HealthDataPoint,
   HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
 import {
@@ -10,6 +11,7 @@ import {
   noDeprivation,
   personsSex,
 } from '@/lib/mocks';
+import { formatNumber } from '@/lib/numberFormatter';
 
 describe('BarChartEmbeddedTable', () => {
   const mockHealthIndicatorData: HealthDataForArea[] = [
@@ -98,6 +100,13 @@ describe('BarChartEmbeddedTable', () => {
       ],
     },
   ];
+
+  function getPointForYear(
+    healthData: HealthDataForArea,
+    year: number = 2008
+  ): HealthDataPoint | undefined {
+    return healthData.healthData.find((hdp) => hdp.year === year);
+  }
 
   const mockBenchmarkData: HealthDataForArea = {
     areaCode: 'E92000001',
@@ -240,18 +249,21 @@ describe('BarChartEmbeddedTable', () => {
     );
 
     const header = screen.getAllByRole('columnheader');
-    const valueColumnIndex = header.findIndex((item) =>
-      item.textContent?.includes('Value')
-    );
-    const areaRows = screen.getAllByRole('row').slice(2);
-    const cells = screen.getAllByRole('cell');
+    const valueColumnIndex =
+      header.findIndex((item) => item.textContent?.includes('Value')) - 2;
 
-    const values = areaRows.map(() => {
-      return parseInt(String(cells[valueColumnIndex].textContent || 0));
+    const areaRows = screen.getAllByRole('row').slice(2, -1);
+
+    const valueCells = areaRows.map((areaRow) => {
+      const cellsInRow = within(areaRow).getAllByRole('cell');
+      return cellsInRow[valueColumnIndex].textContent;
     });
 
-    const sortedValues = values.sort((a, b) => b - a);
-    expect(values).toEqual(sortedValues);
+    const expectedValues = mockHealthIndicatorData
+      .map((mdp) => getPointForYear(mdp)!.value)
+      .sort((a, b) => b! - a!)
+      .map((ev) => formatNumber(ev));
+    expect(valueCells).toEqual(expectedValues);
   });
 
   it('should display an X in the table cell if there is no value', async () => {
