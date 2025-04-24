@@ -174,6 +174,7 @@ export function generateConfidenceIntervalSeries(
   return {
     type: 'errorbar',
     name: areaName,
+    linkedTo: areaName,
     data: data,
     visible: showConfidenceIntervalsData,
     color: optionalParams?.color ?? GovukColours.MidGrey,
@@ -193,13 +194,43 @@ export function getLatestYear(
   return year;
 }
 
-function getMostRecentYearForAreas(
+export function getFirstYear(
+  points: HealthDataPoint[] | undefined
+): number | undefined {
+  if (!points || points.length < 1) return undefined;
+
+  const year = points.reduce(
+    (previous, point) => Math.min(previous, point.year),
+    points[0].year
+  );
+  return year;
+}
+
+export function getLatestYearForAreas(
   healthDataForAreas: HealthDataForArea[]
 ): number | undefined {
+  if (!healthDataForAreas.length) {
+    return undefined;
+  }
+
   const years = healthDataForAreas.map(
     (area) => getLatestYear(area.healthData) ?? 0
   );
   const mostRecentYear = Math.max(...years);
+  return mostRecentYear === 0 ? undefined : mostRecentYear;
+}
+
+export function getFirstYearForAreas(
+  healthDataForAreas: HealthDataForArea[]
+): number | undefined {
+  if (!healthDataForAreas.length) {
+    return undefined;
+  }
+
+  const years = healthDataForAreas.map(
+    (area) => getFirstYear(area.healthData) ?? 0
+  );
+  const mostRecentYear = Math.min(...years);
   return mostRecentYear === 0 ? undefined : mostRecentYear;
 }
 
@@ -231,7 +262,7 @@ export function getAreaIndicatorDataForYear(
 export function getIndicatorDataForAreasForMostRecentYearOnly(
   healthDataForAreas: HealthDataForArea[]
 ): HealthDataForArea[] | undefined {
-  const mostRecentYearForAreas = getMostRecentYearForAreas(healthDataForAreas);
+  const mostRecentYearForAreas = getLatestYearForAreas(healthDataForAreas);
   if (!mostRecentYearForAreas) {
     return undefined;
   }

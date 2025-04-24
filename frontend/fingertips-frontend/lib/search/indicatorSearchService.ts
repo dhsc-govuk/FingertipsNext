@@ -76,8 +76,8 @@ export class IndicatorSearchService implements IIndicatorSearchService {
         indicatorId
       )) as RawIndicatorDocument;
     } catch (e) {
-      console.log(
-        `Error occurred getting indicator from search. Error message: ${(<Error>e).message}`
+      console.error(
+        `error getting single indicator from ai search: ${(<Error>e).message}`
       );
       return undefined;
     }

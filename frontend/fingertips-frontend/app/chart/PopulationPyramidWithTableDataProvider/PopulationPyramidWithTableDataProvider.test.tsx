@@ -5,6 +5,7 @@ import { HierarchyNameTypes } from '@/lib/areaFilterHelpers/areaType';
 import { Area } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { API_CACHE_CONFIG } from '@/lib/apiClient/apiClientFactory';
+import { maxNumAreasThatCanBeRequestedAPI } from '@/lib/chunkArray';
 
 const mockGetHealthDataForAnIndicator = jest.fn();
 
@@ -76,7 +77,7 @@ describe('PopulationPyramidWithTableDataProvider', () => {
         results.push(area);
       }
       return results;
-    })(130);
+    })(maxNumAreasThatCanBeRequestedAPI + 30);
 
     const areaCodes = areas.map((area: Area) => {
       return area.code;

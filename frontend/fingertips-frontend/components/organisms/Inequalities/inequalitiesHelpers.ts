@@ -171,14 +171,28 @@ export const mapToInequalitiesTableData = (
   });
 };
 
+const reorderItemsArraysToEnd = (headers: string[], lastHeaders?: string[]) => {
+  if (!headers) return [];
+  if (!lastHeaders) return headers;
+
+  const filterHeaders = headers.filter((header) => {
+    return !lastHeaders.includes(header);
+  });
+  lastHeaders.forEach((header) => {
+    if (headers.includes(header)) filterHeaders.push(header);
+  });
+  return filterHeaders;
+};
+
 export const getDynamicKeys = (
   yearlyHealthDataGroupedByInequalities: YearlyHealthDataGroupedByInequalities,
-  sequenceSelector: InequalitySequenceSelector
+  sequenceSelector: InequalitySequenceSelector,
+  lastHeaders?: string[]
 ): string[] => {
   const existingKeys = Object.values(
     yearlyHealthDataGroupedByInequalities
-  ).reduce((allKeys: string[], currentYear) => {
-    const sortedCurrentYearInequalityNames = Object.entries(currentYear)
+  ).reduce((allKeys: string[], yearDataRecord) => {
+    const sortedCurrentYearInequalityNames = Object.entries(yearDataRecord)
       .sort(([aKey], [bKey]) => localeSort(bKey, aKey))
       .sort(
         ([, aValue], [, bValue]) =>
@@ -190,7 +204,7 @@ export const getDynamicKeys = (
   }, []);
 
   // spreading a set ensures we have unique keys
-  return [...new Set(existingKeys)];
+  return reorderItemsArraysToEnd([...new Set(existingKeys)], lastHeaders);
 };
 
 const dashStyle = (index: number): DashStyleValue => {
@@ -238,7 +252,7 @@ export const generateInequalitiesLineChartSeriesData = (
 
       const confidenceIntervalSeries: Highcharts.SeriesOptionsType =
         generateConfidenceIntervalSeries(
-          chartData.areaName,
+          key,
           chartData.rowData.map((data) => [
             data.period,
             data.inequalities[key]?.lower,

@@ -16,7 +16,7 @@ namespace DHSC.FingertipsNext.Modules.Area.Controllers.V1;
 public class AreaController : ControllerBase
 {
     private readonly IAreaService _areaService;
-    private const int MaxNumberAreas = 100;
+    private const int MaxNumberAreas = 300;
 
     /// <summary>
     ///

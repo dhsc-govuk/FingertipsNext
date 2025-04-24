@@ -184,16 +184,20 @@ export default class ChartPage extends AreaFilter {
         visible: true,
       });
 
-      // screenshot snapshot comparisons are skipped when running against deployed azure environments
-      console.log(
-        `checking component:${visibleComponent.componentLocator} for unexpected visual changes - see directory README.md for details.`
-      );
+      // this block of code is required to ensure we have stable screenshot comparisons - it can be removed once playwright fix their library
       await this.page.waitForLoadState();
       await expect(this.page.getByText('Loading')).toHaveCount(0);
       await this.page.waitForLoadState();
+      await this.page.evaluate(() => window.scrollTo(0, 0));
+      await this.page.waitForFunction('window.scrollY === 0');
       await this.page.waitForTimeout(1000);
 
-      // for now just warn if visual comparisons do not match
+      // note that screenshot snapshot comparisons are skipped when running against deployed azure environments
+      console.log(
+        `checking component:${visibleComponent.componentLocator} for unexpected visual changes - see directory README.md for details.`
+      );
+
+      // only warn if visual comparisons do not match - under constant review
       try {
         await expect(
           this.page.getByTestId(visibleComponent.componentLocator)

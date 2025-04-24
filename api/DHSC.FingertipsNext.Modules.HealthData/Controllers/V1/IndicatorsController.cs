@@ -10,7 +10,7 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Controllers.V1;
 [Route("indicators")]
 public class IndicatorsController(IIndicatorsService indicatorsService) : ControllerBase
 {
-    private const int MaxNumberAreas = 100;
+    private const int MaxNumberAreas = 300;
     private const int MaxNumberYears = 20;
     private const int MaxNumberIndicators = 50;
 

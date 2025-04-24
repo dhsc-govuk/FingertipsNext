@@ -111,8 +111,12 @@ function formatSymbolHover(props: FormatSymbolHoverProps) {
                     padding:0.5em;
                     ">
                     <span style="display: block;">${formatNumber(props.value)}${formatUnits(props.units)}</span>
-                    <span style="display: block;">${props.outcome}</span>
-                    <span style="display: block;">${benchmarkComparisonMethodToString(props.benchmarkComparisonMethod)}</span>
+                    ${
+                      props.outcome === 'Not compared'
+                        ? '<span style="display: block;">Not compared</span>'
+                        : `<span style="display: block;">${props.outcome} than England</span>
+                         <span style="display: block;">${benchmarkComparisonMethodToString(props.benchmarkComparisonMethod)}</span>`
+                    }
                   </div>
               </div>
             <div>
@@ -186,10 +190,10 @@ export function generateSeriesData({
       type: 'bar',
       name: formatBarHover({
         period: period,
-        lowerName: 'Best',
-        lowerValue: best,
-        upperName: '75th percentile',
-        upperValue: upperQuartile,
+        upperName: 'Best',
+        upperValue: best,
+        lowerName: '75th percentile',
+        lowerValue: upperQuartile,
         units: units,
         colour: GovukColours.MidGrey,
       }),
@@ -206,10 +210,10 @@ export function generateSeriesData({
         upperName: '75th percentile',
         upperValue: upperQuartile,
         units: units,
-        colour: GovukColours.DarkGrey,
+        colour: GovukColours.LightGrey,
       }),
       pointWidth: 30,
-      color: GovukColours.DarkGrey,
+      color: GovukColours.LightGrey,
       data: [-scaledThirdQuartileBar],
     },
     {
@@ -221,10 +225,10 @@ export function generateSeriesData({
         upperName: '75th percentile',
         upperValue: upperQuartile,
         units: units,
-        colour: GovukColours.DarkGrey,
+        colour: GovukColours.LightGrey,
       }),
       pointWidth: 30,
-      color: GovukColours.DarkGrey,
+      color: GovukColours.LightGrey,
       data: [scaledSecondQuartileBar],
     },
   ];
@@ -236,6 +240,14 @@ export function generateSeriesData({
     const absGroupValue =
       inverter * (Math.abs(groupValue) - Math.abs(benchmarkValue));
     const scaledGroup = absGroupValue / maxDiffFromBenchmark;
+
+    const fillColor =
+      getBenchmarkColour(
+        benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
+        groupOutcome ?? BenchmarkOutcome.NotCompared,
+        quartileData.polarity ?? IndicatorPolarity.NoJudgement
+      ) ?? GovukColours.White;
+
     seriesData.push({
       type: 'scatter',
       name: formatSymbolHover({
@@ -252,7 +264,7 @@ export function generateSeriesData({
       marker: {
         symbol: 'diamond',
         radius: 8,
-        fillColor: GovukColours.White,
+        fillColor: fillColor,
         lineColor: GovukColours.Black,
         lineWidth: markerLineWidth,
       },

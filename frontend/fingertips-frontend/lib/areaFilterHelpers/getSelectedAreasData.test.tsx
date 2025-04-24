@@ -6,6 +6,7 @@ import {
   API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
+import { maxNumAreasThatCanBeRequestedAPI } from '../chunkArray';
 
 const mockAreasApi = mockDeep<AreasApi>();
 ApiClientFactory.getAreasApiClient = () => mockAreasApi;
@@ -121,7 +122,7 @@ describe('getSelectedAreasDataByAreaType', () => {
 
     mockAreasApi.getAreas.mockResolvedValue([area1, area2]);
 
-    const testAreas = new Array(101).fill('a');
+    const testAreas = new Array(maxNumAreasThatCanBeRequestedAPI + 1).fill('a');
 
     await getSelectedAreasDataByAreaType(testAreas, 'nhs-regions');
 
@@ -129,7 +130,7 @@ describe('getSelectedAreasDataByAreaType', () => {
     expect(mockAreasApi.getAreas).toHaveBeenNthCalledWith(
       1,
       {
-        areaCodes: new Array(100).fill('a'),
+        areaCodes: new Array(maxNumAreasThatCanBeRequestedAPI).fill('a'),
       },
       API_CACHE_CONFIG
     );
@@ -151,7 +152,7 @@ describe('getSelectedAreasDataByAreaType', () => {
     mockAreasApi.getAreas.mockResolvedValueOnce([area1, area2]);
     mockAreasApi.getAreas.mockResolvedValueOnce([area3, area4]);
 
-    const testAreas = new Array(101).fill('a');
+    const testAreas = new Array(maxNumAreasThatCanBeRequestedAPI + 1).fill('a');
 
     const selectedAreaData = await getSelectedAreasDataByAreaType(
       testAreas,

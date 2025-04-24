@@ -147,7 +147,7 @@ export interface AreasApiInterface {
     /**
      * Get the basic details without children, parent relationships etc. for 1 or more areas. Will return duplicate of areas that are applicable to multiple areaTypes.
      * @summary Get multiple areas
-     * @param {Array<string>} [areaCodes] A list of area codes, up to 100 area codes can be requested
+     * @param {Array<string>} [areaCodes] A list of area codes, up to 300 area codes can be requested
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AreasApiInterface

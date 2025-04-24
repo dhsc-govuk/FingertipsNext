@@ -3,39 +3,37 @@ import styled from 'styled-components';
 
 const DivContainer = styled.div({
   fontFamily: 'nta, Arial, sans-serif',
-  marginBottom: '1rem',
-  display: 'flex',
-  justifyContent: 'right',
+  margin: '1rem 0',
 });
 
+const spineChartLegendWidth = 360;
+const spineChartLegendFontSize = 16;
+
 export const SpineChartQuartilesInfoContainer = () => {
+  const q1 = spineChartLegendWidth / 3;
+  const q2 = q1 * 2;
+
   return (
     <DivContainer>
-      <svg width={400} height={70}>
+      <svg width={spineChartLegendWidth} height={90}>
         <g transform={`translate(0, 25)`}>
+          <rect x={0} y={0} width={2} height={25} fill={GovukColours.MidGrey} />
           <rect
-            x={50}
+            x={q1 - 1}
             y={0}
             width={2}
             height={25}
             fill={GovukColours.MidGrey}
           />
           <rect
-            x={149}
+            x={q2 - 1}
             y={0}
             width={2}
             height={25}
             fill={GovukColours.MidGrey}
           />
           <rect
-            x={249}
-            y={0}
-            width={2}
-            height={25}
-            fill={GovukColours.MidGrey}
-          />
-          <rect
-            x={348}
+            x={spineChartLegendWidth - 2}
             y={0}
             width={2}
             height={25}
@@ -43,35 +41,66 @@ export const SpineChartQuartilesInfoContainer = () => {
           />
 
           <rect
-            x={50}
+            x={0}
             y={0}
-            width={300}
+            width={spineChartLegendWidth}
             height={20}
             fill={GovukColours.MidGrey}
           />
           <rect
-            x={150}
+            x={q1}
             y={0}
-            width={100}
+            width={q2 - q1}
             height={20}
-            fill={GovukColours.DarkGrey}
+            fill={GovukColours.LightGrey}
           />
           <rect
-            x={200}
+            x={spineChartLegendWidth / 2 - 1}
             y={-5}
             width={2}
             height={30}
             fill={GovukColours.Black}
           />
         </g>
-        <g textAnchor={'middle'} fontSize={14}>
-          <g transform={'translate(0, 65)'}>
-            <text x={50}>Worst/lowest</text>
-            <text x={150}>25th percentile</text>
-            <text x={250}>75th percentile</text>
-            <text x={350}>Best/highest</text>
+        <g fontSize={spineChartLegendFontSize}>
+          <g transform={'translate(0, 68)'}>
+            <text x={0} textAnchor={'start'}>
+              Worst/
+            </text>
+            <text x={0} y={spineChartLegendFontSize} textAnchor={'start'}>
+              lowest
+            </text>
+
+            <text x={q1} textAnchor={'middle'}>
+              25th
+            </text>
+            <text x={q1} y={spineChartLegendFontSize} textAnchor={'middle'}>
+              percentile
+            </text>
+
+            <text x={q2} textAnchor={'middle'}>
+              75th
+            </text>
+            <text x={q2} y={spineChartLegendFontSize} textAnchor={'middle'}>
+              percentile
+            </text>
+
+            <text x={spineChartLegendWidth} textAnchor={'end'}>
+              Best/
+            </text>
+            <text
+              x={spineChartLegendWidth}
+              y={spineChartLegendFontSize}
+              textAnchor={'end'}
+            >
+              highest
+            </text>
           </g>
-          <text x={200} y={15}>
+          <text
+            x={spineChartLegendWidth / 2}
+            y={spineChartLegendFontSize}
+            textAnchor={'middle'}
+          >
             Benchmark value
           </text>
         </g>

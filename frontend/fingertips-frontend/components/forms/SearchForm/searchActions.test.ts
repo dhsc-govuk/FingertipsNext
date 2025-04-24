@@ -191,7 +191,7 @@ describe('getAreaDocument', () => {
     expect(area).toMatchObject(mockAreaDocument);
   });
 
-  it('returns undefined when the getAreaDocument throws an exception', async () => {
+  it('returns undefined when getAreaDocument throws an exception', async () => {
     const getAreaDocumentMock = jest
       .fn()
       .mockImplementation((areaCode: string) => {
@@ -202,7 +202,7 @@ describe('getAreaDocument', () => {
       getAreaSuggestions: jest.fn(),
     });
 
-    const spyLog = jest.spyOn(console, 'log');
+    const spyLog = jest.spyOn(console, 'error').mockImplementation(() => {});
 
     const area = await getAreaDocument('123');
     expect(area).toBeUndefined();

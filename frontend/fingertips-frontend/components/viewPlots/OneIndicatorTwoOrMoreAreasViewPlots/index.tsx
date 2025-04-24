@@ -8,14 +8,14 @@ import { seriesDataWithoutEnglandOrGroup } from '@/lib/chartHelpers/chartHelpers
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams } from '@/lib/searchStateManager';
 import { H3 } from 'govuk-react';
-import { OneIndicatorViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
+import { OneIndicatorViewPlotProps } from '@/components/viewPlots/ViewPlot.types';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import {
   generateStandardLineChartOptions,
   LineChartVariant,
 } from '@/components/organisms/LineChart/lineChartHelpers';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSearchState } from '@/context/SearchStateContext';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
 import {
@@ -56,8 +56,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     indicatorDataAllAreas?.areaHealthData ?? [];
 
   const { benchmarkMethod, polarity } = indicatorData;
-  const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
-    useState<boolean>(false);
 
   const dataWithoutEnglandOrGroup = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData,
@@ -91,7 +89,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
 
   const lineChartOptions: Highcharts.Options = generateStandardLineChartOptions(
     dataWithoutEnglandOrGroup,
-    showConfidenceIntervalsData,
+    true,
     {
       benchmarkData: englandBenchmarkData,
       benchmarkComparisonMethod: indicatorData.benchmarkMethod,
@@ -118,10 +116,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                 content: (
                   <LineChart
                     lineChartOptions={lineChartOptions}
-                    showConfidenceIntervalsData={showConfidenceIntervalsData}
-                    setShowConfidenceIntervalsData={
-                      setShowConfidenceIntervalsData
-                    }
                     variant={LineChartVariant.Standard}
                   />
                 ),

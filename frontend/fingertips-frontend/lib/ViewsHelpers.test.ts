@@ -14,6 +14,7 @@ import {
 } from '@/lib/apiClient/apiClientFactory';
 import { healthDataPoint } from './mocks';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { maxNumAreasThatCanBeRequestedAPI } from './chunkArray';
 
 const mockIndicator: IndicatorWithHealthDataForArea = {
   indicatorId: 1,
@@ -51,7 +52,11 @@ describe('getHealthDataForIndicator', () => {
   });
 
   it('should make the appropriate number of API calls when a long list of areas is requested', async () => {
-    const testAreas = new Array(101).fill('a', 0, 101);
+    const testAreas = new Array(maxNumAreasThatCanBeRequestedAPI + 1).fill(
+      'a',
+      0,
+      maxNumAreasThatCanBeRequestedAPI + 1
+    );
 
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
       mockIndicator
@@ -68,7 +73,11 @@ describe('getHealthDataForIndicator', () => {
     ).toHaveBeenNthCalledWith(
       1,
       {
-        areaCodes: new Array(100).fill('a', 0, 100),
+        areaCodes: new Array(maxNumAreasThatCanBeRequestedAPI).fill(
+          'a',
+          0,
+          maxNumAreasThatCanBeRequestedAPI
+        ),
         indicatorId: Number(1),
       },
       API_CACHE_CONFIG
@@ -87,7 +96,11 @@ describe('getHealthDataForIndicator', () => {
   });
 
   it('should return combined data when a long list of areas is requested', async () => {
-    const testAreas = new Array(101).fill('a', 0, 101);
+    const testAreas = new Array(maxNumAreasThatCanBeRequestedAPI + 1).fill(
+      'a',
+      0,
+      maxNumAreasThatCanBeRequestedAPI + 1
+    );
 
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
       mockIndicator
@@ -269,7 +282,7 @@ describe('getIndicatorData', () => {
 
   const testParamsWithManyAreas = {
     ...testParamsWithGroup,
-    areasSelected: new Array(101).fill('a'),
+    areasSelected: new Array(maxNumAreasThatCanBeRequestedAPI + 1).fill('a'),
   };
 
   it('should make appropriate calls to the healthIndicatorApi when a long list of areas is specified', async () => {
@@ -286,14 +299,143 @@ describe('getIndicatorData', () => {
       mockIndicatorsApi.getHealthDataForAnIndicator.mock.calls[0][0];
     expect(call1arg).toHaveProperty(
       'areaCodes',
-      testParamsWithManyAreas.areasSelected.slice(0, 100)
+      testParamsWithManyAreas.areasSelected.slice(
+        0,
+        maxNumAreasThatCanBeRequestedAPI
+      )
     );
 
     const call2arg =
       mockIndicatorsApi.getHealthDataForAnIndicator.mock.calls[1][0];
     expect(call2arg).toHaveProperty(
       'areaCodes',
-      testParamsWithManyAreas.areasSelected.slice(100, 101)
+      testParamsWithManyAreas.areasSelected.slice(
+        maxNumAreasThatCanBeRequestedAPI,
+        maxNumAreasThatCanBeRequestedAPI + 1
+      )
+    );
+  });
+
+  it('should specify the year in the calls for England and group when the latest only parameter is provided', async () => {
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
+      mockIndicator
+    );
+
+    await getIndicatorData(testParamsWithGroup, true, true);
+    expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
+      3
+    );
+
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(
+      1,
+      {
+        areaCodes: ['abc', 'def'],
+        areaType: 'test_area_type',
+        includeEmptyAreas: true,
+        indicatorId: 1,
+        latestOnly: true,
+      },
+      { next: { revalidate: 600 } }
+    );
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(
+      2,
+      {
+        areaCodes: [areaCodeForEngland],
+        areaType: 'england',
+        includeEmptyAreas: true,
+        indicatorId: 1,
+        years: [2006],
+      },
+      { next: { revalidate: 600 } }
+    );
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(
+      3,
+      {
+        areaCodes: ['ggg'],
+        areaType: 'test_group_type',
+        includeEmptyAreas: true,
+        indicatorId: 1,
+        years: [2006],
+      },
+      { next: { revalidate: 600 } }
+    );
+  });
+
+  // Edge case where client has navigated to chart page where no requested areas contain data for the given indicator
+  // AI search will only return results that have data for the indicator
+  // In this case, it suffices to set the calls for England and group to get data for the latest year since no sub areas contain data anyway
+  it('should request latest data in the calls for England and group when latest only parameter is provided and sub areas contain no data', async () => {
+    const mockEmptyIndicatorData: IndicatorWithHealthDataForArea = {
+      indicatorId: 1,
+      areaHealthData: [
+        {
+          areaCode: 'abc',
+          areaName: 'North FooBar',
+          healthData: [],
+        },
+        {
+          areaCode: 'def',
+          areaName: 'South FooBar',
+          healthData: [],
+        },
+      ],
+    };
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+      mockEmptyIndicatorData
+    );
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
+      mockIndicator
+    );
+
+    await getIndicatorData(testParamsWithGroup, true, true);
+    expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
+      3
+    );
+
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(
+      1,
+      {
+        areaCodes: ['abc', 'def'],
+        areaType: 'test_area_type',
+        includeEmptyAreas: true,
+        indicatorId: 1,
+        latestOnly: true,
+      },
+      { next: { revalidate: 600 } }
+    );
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(
+      2,
+      {
+        areaCodes: [areaCodeForEngland],
+        areaType: 'england',
+        includeEmptyAreas: true,
+        indicatorId: 1,
+        latestOnly: true,
+      },
+      { next: { revalidate: 600 } }
+    );
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(
+      3,
+      {
+        areaCodes: ['ggg'],
+        areaType: 'test_group_type',
+        includeEmptyAreas: true,
+        indicatorId: 1,
+        latestOnly: true,
+      },
+      { next: { revalidate: 600 } }
     );
   });
 });
