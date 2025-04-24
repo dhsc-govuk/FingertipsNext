@@ -1359,3 +1359,23 @@ describe('getInequalitiesType', () => {
     );
   });
 });
+
+describe('reorderItemsArraysToEnd', () => {
+  it('check that when the header to be reordered are specific the array is reordered', () => {
+    const headers = reorderItemsArraysToEnd(
+      ['Age', 'Name', 'Sex', 'Other'],
+      ['Name', 'Age', 'Sex', 'Other']
+    );
+    expect(headers).toEqual(['Name', 'Age', 'Sex', 'Other']);
+  });
+
+  it('If original header is empty , I expect an empty array', () => {
+    const headers = reorderItemsArraysToEnd([], ['Name', 'Age', 'Sex']);
+    expect(headers).toEqual([]);
+  });
+
+  it('when the specific reorder headers has an empty list , return the the original headers', () => {
+    const headers = reorderItemsArraysToEnd(['Name', 'Age', 'Sex']);
+    expect(headers).toEqual(['Name', 'Age', 'Sex']);
+  });
+});
