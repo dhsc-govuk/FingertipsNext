@@ -191,5 +191,7 @@ describe('Inequalities table suite', () => {
 
     expect(screen.queryByText(/1999/)).not.toBeInTheDocument();
     expect(screen.queryByText(/2036/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/2004/)).toBeInTheDocument();
+    expect(screen.queryByText(/2008/)).toBeInTheDocument();
   });
 });

@@ -836,7 +836,7 @@ describe('generateLineChartSeriesData', () => {
     );
   });
 
-  it('should not include benchmark or group years before or after the areas have data', () => {
+  it('should only include years for which the selected areas have data', () => {
     const areasSelected = ['A1'];
     const mockChartDataWithExtraYears: InequalitiesChartData = {
       areaName: 'West BarFoo',
@@ -864,7 +864,6 @@ describe('generateLineChartSeriesData', () => {
       areasSelected,
       false
     );
-
     expect(actual).toEqual(seriesData);
   });
 });
