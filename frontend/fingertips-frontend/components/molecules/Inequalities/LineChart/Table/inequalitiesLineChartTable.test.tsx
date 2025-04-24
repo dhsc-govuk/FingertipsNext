@@ -164,7 +164,7 @@ describe('Inequalities table suite', () => {
       rowData: [
         ...tableData.rowData,
         {
-          period: 1999,
+          period: 2003,
           inequalities: {
             Persons: {
               isAggregate: true,
@@ -172,7 +172,7 @@ describe('Inequalities table suite', () => {
           },
         },
         {
-          period: 2036,
+          period: 2009,
           inequalities: {
             Persons: {
               isAggregate: true,
@@ -189,8 +189,8 @@ describe('Inequalities table suite', () => {
       />
     );
 
-    expect(screen.queryByText(/1999/)).not.toBeInTheDocument();
-    expect(screen.queryByText(/2036/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/2003/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/2009/)).not.toBeInTheDocument();
     expect(screen.queryByText(/2004/)).toBeInTheDocument();
     expect(screen.queryByText(/2008/)).toBeInTheDocument();
   });

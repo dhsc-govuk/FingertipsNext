@@ -843,13 +843,13 @@ describe('generateLineChartSeriesData', () => {
       rowData: [
         ...mockInequalitiesRowData,
         {
-          period: 1999,
+          period: 2003,
           inequalities: {
             Persons: { isAggregate: true },
           },
         },
         {
-          period: 2036,
+          period: 2009,
           inequalities: {
             Persons: { isAggregate: true },
           },
