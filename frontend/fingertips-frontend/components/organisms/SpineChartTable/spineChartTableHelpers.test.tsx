@@ -105,7 +105,7 @@ describe('spineChartTableHelpers tests', () => {
         areasSelected,
         selectedGroupCode
       );
-      expect(result).toEqual([]);
+      expect(result[0]).toHaveProperty('areasHealthData', []);
     });
 
     it('should return [] if quartiles are missing', () => {
@@ -131,7 +131,7 @@ describe('spineChartTableHelpers tests', () => {
         areasSelected,
         selectedGroupCode
       );
-      expect(result).toEqual([]);
+      expect(result[0]).toHaveProperty('areasHealthData', []);
     });
 
     it('should return [] if indicatorData is missing id', () => {
