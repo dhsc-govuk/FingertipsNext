@@ -1,7 +1,6 @@
 import { SearchResult } from '@/components/molecules/Result';
 import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
-import { localeSort } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
   SearchParams,
@@ -88,25 +87,13 @@ export function IndicatorSelectionForm({
     searchResults: IndicatorDocument[],
     selectedIndicators: string[]
   ): boolean => {
-    const sortedResultIds = searchResults
-      .map((result) => result.indicatorID.toString())
-      .toSorted(localeSort);
-
-    const sortedSelectedIndicators = selectedIndicators.toSorted(localeSort);
-
-    return (
-      JSON.stringify(sortedResultIds) ===
-      JSON.stringify(sortedSelectedIndicators)
+    return searchResults.every((result) =>
+      selectedIndicators.includes(result.indicatorID.toString())
     );
   };
 
   const selectedIndicators =
     searchState?.[SearchParams.IndicatorsSelected] || [];
-
-  const areAllIndicatorsSelected = checkAllIndicatorsSelected(
-    searchResults,
-    selectedIndicators
-  );
 
   const { sortedResults, selectedSortOrder, handleSortOrder } =
     useIndicatorSort(searchResults);
@@ -114,6 +101,11 @@ export function IndicatorSelectionForm({
   const pageSearchResults = sortedResults.slice(
     (currentPage - 1) * RESULTS_PER_PAGE,
     currentPage * RESULTS_PER_PAGE
+  );
+
+  const areAllIndicatorsSelected = checkAllIndicatorsSelected(
+    pageSearchResults,
+    selectedIndicators
   );
 
   const handleClick = async (indicatorId: string, checked: boolean) => {
@@ -137,16 +129,26 @@ export function IndicatorSelectionForm({
   const handleSelectAll = (checked: boolean) => {
     setIsLoading(true);
 
+    const allIndicatorIdsForPage = pageSearchResults.map((result) =>
+      result.indicatorID.toString()
+    );
+
     if (checked) {
-      const allIndicatorIds = pageSearchResults.map((result) =>
-        result.indicatorID.toString()
+      stateManager.setState({
+        ...searchState,
+        [SearchParams.IndicatorsSelected]: [
+          ...selectedIndicators,
+          ...allIndicatorIdsForPage,
+        ],
+      });
+    } else {
+      const newSelectedIndicators = selectedIndicators.filter(
+        (indicatorId) => !allIndicatorIdsForPage.includes(indicatorId)
       );
       stateManager.setState({
         ...searchState,
-        [SearchParams.IndicatorsSelected]: allIndicatorIds,
+        [SearchParams.IndicatorsSelected]: newSelectedIndicators,
       });
-    } else {
-      stateManager.removeAllParamFromState(SearchParams.IndicatorsSelected);
     }
 
     replace(stateManager.generatePath(pathname), { scroll: false });
