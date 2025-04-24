@@ -2,7 +2,6 @@ import {
   AXIS_LABEL_FONT_SIZE,
   AXIS_TITLE_FONT_SIZE,
 } from '@/lib/chartHelpers/chartHelpers';
-import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
 import { SymbolNames } from '@/lib/chartHelpers/pointFormatterHelper';
 import { formatNumber } from '@/lib/numberFormatter';
 import Highcharts from 'highcharts';
