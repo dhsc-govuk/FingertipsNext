@@ -90,7 +90,6 @@ export const buildSpineChartIndicatorData = (
       if (!areasHealthData[0]) {
         // there was missing data for an area
         console.warn(`No area data`);
-        // return null;
       }
 
       const matchedQuartileData = quartileData.find(
