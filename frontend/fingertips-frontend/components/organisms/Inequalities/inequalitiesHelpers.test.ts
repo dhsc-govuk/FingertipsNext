@@ -7,6 +7,7 @@ import {
   generateInequalitiesLineChartSeriesData,
   getAggregatePointInfo,
   getDynamicKeys,
+  reorderItemsArraysToEnd,
   getYearDataGroupedByInequalities,
   groupHealthDataByYear,
   InequalitiesTableRowData,
@@ -460,9 +461,11 @@ describe('getDynamicKeys', () => {
     const sequenceSelector = () => 0;
 
     expect(
-      getDynamicKeys(
-        yearlyHealthDataGroupedBySexWithSequences,
-        sequenceSelector,
+      reorderItemsArraysToEnd(
+        getDynamicKeys(
+          yearlyHealthDataGroupedBySexWithSequences,
+          sequenceSelector
+        ),
         ['Persons']
       )
     ).toEqual(['Male', 'Female', 'Persons']);
