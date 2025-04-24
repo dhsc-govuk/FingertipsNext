@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { IndicatorSelectionForm } from '.';
+import { IndicatorSelectionForm, RESULTS_PER_PAGE } from '.';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { UserEvent, userEvent } from '@testing-library/user-event';
@@ -452,6 +452,37 @@ describe('IndicatorSelectionForm', () => {
 
     const pagination = screen.queryByTestId('search-results-pagination');
     expect(pagination).not.toBeInTheDocument();
+  });
+
+  it('should show the correct number of searchResults per pages', async () => {
+    const mockSearchResults = Array.from({ length: 20 }, (_, index) => ({
+      indicatorID: index.toString(),
+      indicatorName: `Indicator ${index}`,
+      indicatorDefinition: `Definition ${index}`,
+      earliestDataPeriod: '2021',
+      latestDataPeriod: '2023',
+      dataSource: 'NHS website',
+      lastUpdatedDate: new Date('December 6, 2024'),
+      unitLabel: '',
+      hasInequalities: false,
+    }));
+
+    render(
+      <IndicatorSelectionForm
+        searchResults={mockSearchResults}
+        showTrends={false}
+        formAction={mockFormAction}
+      />
+    );
+
+    const resultsPerPage = screen.getAllByTestId('search-result');
+    expect(resultsPerPage).toHaveLength(RESULTS_PER_PAGE);
+
+    await user.click(screen.getByTestId('pagination-next-page'));
+    const resultsPerPageNext = screen.getAllByTestId('search-result');
+    expect(resultsPerPageNext).toHaveLength(
+      mockSearchResults.length - RESULTS_PER_PAGE
+    );
   });
 
   it('should show the pagination next page anchor and not the previous page anchor when the current page is the first page', async () => {

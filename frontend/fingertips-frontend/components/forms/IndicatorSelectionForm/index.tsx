@@ -23,6 +23,8 @@ import { IndicatorSort } from '@/components/forms/IndicatorSort/IndicatorSort';
 import { useIndicatorSort } from '@/components/forms/IndicatorSort/useIndicatorSort';
 import { useState } from 'react';
 
+export const RESULTS_PER_PAGE = 15;
+
 const ResultLabelsContainer = styled.span({
   alignItems: 'center',
   display: 'flex',
@@ -79,7 +81,6 @@ export function IndicatorSelectionForm({
   const searchState = getSearchState();
   const stateManager = SearchStateManager.initialise(searchState);
 
-  const RESULTS_PER_PAGE = 15;
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(searchResults.length / RESULTS_PER_PAGE);
 
