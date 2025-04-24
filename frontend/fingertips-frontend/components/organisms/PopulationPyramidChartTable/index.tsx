@@ -126,7 +126,7 @@ export function PopulationPyramidChartTable({
         <StyleBenchmarkDataDiv>
           <PopulationDataTable
             headers={['Male', 'Female']}
-            title={`${benchmarkData?.areaName}`}
+            title={benchmarkData?.areaName ?? ''}
             healthDataForArea={benchmarkData}
             filterValues={(row) => {
               return [row.male, row.female];
