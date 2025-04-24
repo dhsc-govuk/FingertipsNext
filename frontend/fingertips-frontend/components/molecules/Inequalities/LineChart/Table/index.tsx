@@ -9,7 +9,10 @@ import {
   StyledDivWithScrolling,
   StyledTableCellHeader,
 } from '@/lib/tableHelpers';
-import { InequalitiesChartData } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import {
+  getYearsWithInequalityData,
+  InequalitiesChartData,
+} from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { ReactNode } from 'react';
 
 export enum InequalitiesTableHeadingsEnum {
@@ -58,6 +61,16 @@ export function InequalitiesLineChartTable({
     ...dynamicKeys,
   ];
 
+  const yearsWithInequalityData = getYearsWithInequalityData(tableData.rowData);
+  if (!yearsWithInequalityData.length) {
+    return null;
+  }
+  const firstYear = Math.min(...yearsWithInequalityData);
+  const lastYear = Math.max(...yearsWithInequalityData);
+  const filteredRowData = tableData.rowData.filter(
+    (data) => data.period >= firstYear && data.period <= lastYear
+  );
+
   return (
     <StyledDivWithScrolling data-testid="inequalitiesLineChartTable-component">
       <Table
@@ -84,7 +97,7 @@ export function InequalitiesLineChartTable({
           </>
         }
       >
-        {tableData.rowData.map((data, index) => (
+        {filteredRowData.map((data, index) => (
           <Table.Row key={String(data.period) + index}>
             <StyledAlignLeftStickyTableCell>
               {String(data.period)}

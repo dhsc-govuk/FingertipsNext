@@ -1,7 +1,8 @@
-import { act, render, screen } from '@testing-library/react';
+import { act, render, screen, within } from '@testing-library/react';
 import { BarChartEmbeddedTable } from '@/components/organisms/BarChartEmbeddedTable/index';
 import {
   HealthDataForArea,
+  HealthDataPoint,
   HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
 import {
@@ -10,6 +11,11 @@ import {
   noDeprivation,
   personsSex,
 } from '@/lib/mocks';
+import { formatNumber } from '@/lib/numberFormatter';
+
+function cloneDeep<T>(input: T) {
+  return JSON.parse(JSON.stringify(input)) as T;
+}
 
 describe('BarChartEmbeddedTable', () => {
   const mockHealthIndicatorData: HealthDataForArea[] = [
@@ -98,6 +104,13 @@ describe('BarChartEmbeddedTable', () => {
       ],
     },
   ];
+
+  function getPointForYear(
+    healthData: HealthDataForArea,
+    year: number = 2008
+  ): HealthDataPoint | undefined {
+    return healthData.healthData.find((hdp) => hdp.year === year);
+  }
 
   const mockBenchmarkData: HealthDataForArea = {
     areaCode: 'E92000001',
@@ -233,23 +246,57 @@ describe('BarChartEmbeddedTable', () => {
   });
 
   it('should order the data displayed by largest value', async () => {
-    render(
-      <BarChartEmbeddedTable healthIndicatorData={mockHealthIndicatorData} />
+    const expectedValues = mockHealthIndicatorData
+      .map((mdp) => getPointForYear(mdp)!.value)
+      .sort((a, b) => b! - a!)
+      .map((ev) => formatNumber(ev));
+
+    await act(() =>
+      render(
+        <BarChartEmbeddedTable healthIndicatorData={mockHealthIndicatorData} />
+      )
     );
 
-    const header = await screen.findAllByRole('columnheader');
-    const valueColumnIndex = header.findIndex((item) =>
-      item.textContent?.includes('Value')
-    );
-    const areaRows = (await screen.findAllByRole('row')).slice(2);
-    const cells = await screen.findAllByRole('cell');
+    const header = screen.getAllByRole('columnheader');
+    const valueColumnIndex =
+      header.findIndex((item) => item.textContent?.includes('Value')) - 2;
 
-    const values = areaRows.map(() => {
-      return parseInt(String(cells[valueColumnIndex].textContent || 0));
+    const areaRows = screen.getAllByRole('row').slice(2, -1);
+
+    const valueCells = areaRows.map((areaRow) => {
+      const cellsInRow = within(areaRow).getAllByRole('cell');
+      return cellsInRow[valueColumnIndex].textContent;
     });
 
-    const sortedValues = values.sort((a, b) => b - a);
-    expect(values).toEqual(sortedValues);
+    expect(valueCells).toEqual(expectedValues);
+  });
+
+  it('should order the data displayed by the area name if values match', async () => {
+    const mockData = cloneDeep(mockHealthIndicatorData);
+    mockData.forEach((row) => {
+      row.healthData.forEach((hdp) => (hdp.value = 186.734));
+    });
+
+    const expectedValues = mockData
+      .map((mdp) => mdp.areaName)
+      .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+
+    await act(() =>
+      render(<BarChartEmbeddedTable healthIndicatorData={mockData} />)
+    );
+
+    const header = screen.getAllByRole('columnheader');
+    const valueColumnIndex =
+      header.findIndex((item) => item.textContent?.includes('Area')) - 2;
+
+    const areaRows = screen.getAllByRole('row').slice(2, -1);
+
+    const valueCells = areaRows.map((areaRow) => {
+      const cellsInRow = within(areaRow).getAllByRole('cell');
+      return cellsInRow[valueColumnIndex].textContent;
+    });
+
+    expect(valueCells).toEqual(expectedValues);
   });
 
   it('should display an X in the table cell if there is no value', async () => {
