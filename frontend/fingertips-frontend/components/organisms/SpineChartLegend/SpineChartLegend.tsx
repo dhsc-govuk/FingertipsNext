@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 import { SpineChartLegendItem } from '@/components/organisms/SpineChartLegend/SpineChartLegendItem';
 import { SpineChartLegendTypes } from '@/components/organisms/SpineChartLegend/SpineChartLegend.types';
-import { FC } from 'react';
+import React, { FC } from 'react';
 import { BenchmarkLegends } from '@/components/organisms/BenchmarkLegend';
 import { BenchmarkLegendsToShow } from '@/components/organisms/BenchmarkLegend/benchmarkLegend.types';
 import { englandAreaString } from '@/lib/chartHelpers/constants';
+import { SpineChartQuartilesInfoContainer } from '@/components/organisms/SpineChart/SpineChartQuartilesInfo';
 
 const DivContainer = styled.div({
   fontFamily: 'nta, Arial, sans-serif',
@@ -54,7 +55,8 @@ export const SpineChartLegend: FC<SpineChartLegendProps> = ({
         ))}
       </FlexDiv>
 
-      <BenchmarkLegends legendsToShow={legendsToShow} />
+      <BenchmarkLegends legendsToShow={legendsToShow} bottomMargin={false} />
+      <SpineChartQuartilesInfoContainer />
     </DivContainer>
   );
 };

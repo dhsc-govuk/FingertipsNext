@@ -16,7 +16,11 @@ export function FTHeader() {
   return (
     <header>
       <TopNav
-        serviceTitle={<ServiceTitle>Access public health data</ServiceTitle>}
+        serviceTitle={
+          <TopNav.NavLink href="/">
+            <ServiceTitle>Access public health data</ServiceTitle>
+          </TopNav.NavLink>
+        }
       />
       <ZeroPaddingMain>
         <PhaseBanner level="alpha">
