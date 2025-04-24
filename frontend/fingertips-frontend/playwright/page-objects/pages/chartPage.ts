@@ -175,6 +175,25 @@ export default class ChartPage extends AreaFilter {
             .getByText('Show population data')
         );
       }
+      // if its one of the wide chart components then scroll to the middle
+      if (visibleComponent.componentProps.wideComponent) {
+        this.page
+          .getByTestId(visibleComponent.componentLocator)
+          .evaluate((element) => {
+            // Calculate the middle point horizontally
+            // Scrolls to half of the total scrollable width
+            const middleX = (element.scrollWidth - element.clientWidth) / 2;
+
+            // Scroll to the middle point
+            element.scrollLeft = middleX;
+          });
+        await this.page.waitForTimeout(10);
+        await expect(
+          this.page.getByTestId(visibleComponent.componentLocator)
+        ).toHaveScreenshot(
+          `${testName}-${visibleComponent.componentLocator}-right-aligned.png`
+        );
+      }
 
       // check chart component is now visible
       await expect(
@@ -203,21 +222,6 @@ export default class ChartPage extends AreaFilter {
         ).toHaveScreenshot(
           `${testName}-${visibleComponent.componentLocator}.png`
         );
-
-        // if its one of the wide chart components then take a second right aligned screenshot
-        if (visibleComponent.componentProps.wideComponent) {
-          this.page
-            .getByTestId(visibleComponent.componentLocator)
-            .evaluate((element) => {
-              element.scrollLeft = element.scrollWidth;
-            });
-          await this.page.waitForTimeout(10);
-          await expect(
-            this.page.getByTestId(visibleComponent.componentLocator)
-          ).toHaveScreenshot(
-            `${testName}-${visibleComponent.componentLocator}-right-aligned.png`
-          );
-        }
       } catch (error) {
         const typedError = error as Error;
         console.warn(
