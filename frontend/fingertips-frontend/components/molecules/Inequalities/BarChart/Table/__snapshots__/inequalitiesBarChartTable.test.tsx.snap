@@ -42,8 +42,8 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
-  font-size: 14px;
-  line-height: 1.1428571428571428;
+  font-size: 16px;
+  line-height: 1.25;
   font-weight: bold;
   padding: 0.625em 0;
 }
@@ -59,8 +59,8 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
-  font-size: 14px;
-  line-height: 1.1428571428571428;
+  font-size: 16px;
+  line-height: 1.25;
   padding-right: 0;
 }
 
@@ -113,28 +113,28 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
 @media print {
   .c2 {
     font-size: 14px;
-    line-height: 1.2;
+    line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
   .c2 {
-    font-size: 16px;
-    line-height: 1.25;
+    font-size: 19px;
+    line-height: 1.3157894736842106;
   }
 }
 
 @media print {
   .c6 {
     font-size: 14px;
-    line-height: 1.2;
+    line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
   .c6 {
-    font-size: 16px;
-    line-height: 1.25;
+    font-size: 19px;
+    line-height: 1.3157894736842106;
   }
 }
 

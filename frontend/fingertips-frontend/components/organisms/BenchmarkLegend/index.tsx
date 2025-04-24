@@ -16,9 +16,11 @@ import {
 } from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
 import { BenchmarkLegendsToShow } from '@/components/organisms/BenchmarkLegend/benchmarkLegend.types';
 
-const LegendContainer = styled.div({
+const LegendContainerWithMargin = styled.div({
   marginBottom: '2em',
 });
+
+const LegendContainerNoMargin = styled.div({});
 
 const BenchmarkLegendHeader = styled('h4')({
   alignSelf: 'stretch',
@@ -45,14 +47,14 @@ export const BenchmarkLegend: FC<BenchmarkLegendProps> = ({
     return <BenchmarkLegendAll title={title} />;
 
   return (
-    <LegendContainer data-testid="benchmarkLegend-component">
+    <LegendContainerWithMargin data-testid="benchmarkLegend-component">
       <BenchmarkLegendHeader>{title}</BenchmarkLegendHeader>
       <BenchmarkLegendGroup
         polarity={polarity}
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         outcomes={outcomes}
       />
-    </LegendContainer>
+    </LegendContainerWithMargin>
   );
 };
 
@@ -77,11 +79,13 @@ const BenchmarkLegendAll: FC<BenchmarkLegendAllProps> = ({ title }) => {
 interface BenchmarkLegendsProps {
   title?: string;
   legendsToShow: BenchmarkLegendsToShow;
+  bottomMargin?: boolean;
 }
 
 export const BenchmarkLegends: FC<BenchmarkLegendsProps> = ({
   title = 'Compared to England',
   legendsToShow,
+  bottomMargin = true,
 }) => {
   const { judgement: judgement95 = false, noJudgement: noJudgement95 = false } =
     legendsToShow[BenchmarkComparisonMethod.CIOverlappingReferenceValue95] ??
@@ -108,6 +112,9 @@ export const BenchmarkLegends: FC<BenchmarkLegendsProps> = ({
   const show95 = outcomes95.length > 0;
   const show99 = outcomes99.length > 0;
   const hideDuplicateQuintileSubheading = showQ && showQnoJudgement;
+  const LegendContainer = bottomMargin
+    ? LegendContainerWithMargin
+    : LegendContainerNoMargin;
   return (
     <LegendContainer data-testid="benchmarkLegend-component">
       <BenchmarkLegendHeader>{title}</BenchmarkLegendHeader>

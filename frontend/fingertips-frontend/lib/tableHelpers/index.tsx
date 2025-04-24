@@ -24,7 +24,7 @@ const stickyRight = {
 };
 
 export const StyledTableCellHeader = styled(Table.CellHeader)(
-  typography.font({ size: 16 }),
+  typography.font({ size: 19 }),
   {
     fontWeight: 'bold',
     padding: '0.625em 0',
@@ -48,7 +48,7 @@ export const StyledStickyRightHeader = styled(StyledGreyHeader)(
 );
 
 export const StyledTableCell = styled(Table.Cell)(
-  typography.font({ size: 16 }),
+  typography.font({ size: 19 }),
   {
     paddingRight: '0',
   }
