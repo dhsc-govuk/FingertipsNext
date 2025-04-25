@@ -10,7 +10,7 @@ import {
   IndicatorPolarity,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
@@ -237,6 +237,25 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
     expect(
       screen.queryByTestId('spineChartTable-component')
     ).not.toBeInTheDocument();
+  });
+
+  it('should render all areas when all areas in a group are selected', () => {
+    mockSearchParams[SearchParams.AreasSelected] = undefined;
+    mockSearchParams[SearchParams.GroupAreaSelected] = ALL_AREAS_SELECTED;
+
+    render(
+      <TwoOrMoreIndicatorsAreasViewPlot
+        searchState={mockSearchParams}
+        indicatorData={mockIndicatorData}
+        indicatorMetadata={mockMetaData}
+        benchmarkStatistics={mockBenchmarkStatistics}
+      />
+    );
+
+    const heatmapTable = screen.getByTestId('heatmapChart-component');
+    expect(within(heatmapTable).getByText('Greater Manchester ICB - 00T')).toBeInTheDocument();
+    expect(within(heatmapTable).getByText('Greater Manchester ICB - 01T')).toBeInTheDocument();
+    expect(within(heatmapTable).getByText('Greater Manchester ICB - 02T')).toBeInTheDocument();
   });
 
   it('should not render the spine chart component with more than 2 areas selected', () => {
