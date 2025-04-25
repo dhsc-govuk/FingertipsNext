@@ -12,7 +12,7 @@ import {
 } from '@/components/molecules/CheckValueInTableCell';
 import { TrendTag } from '@/components/molecules/TrendTag';
 
-export enum OneAreaMultipleIndicatorsTableEnum {
+export enum BasicTableEnum {
   Indicator = 'Indicator',
   Period = 'Period',
   Count = 'Count',
@@ -21,7 +21,7 @@ export enum OneAreaMultipleIndicatorsTableEnum {
   RecentTrend = 'Recent trend',
 }
 
-export interface OneAreaMultipleIndicatorsData {
+export interface BasicTableData {
   indicatorId?: number;
   indicatorName?: string;
   period?: string;
@@ -29,17 +29,17 @@ export interface OneAreaMultipleIndicatorsData {
   unitLabel?: string;
 }
 
-interface OneAreaMultipleIndicatorsTableProps {
-  indicatorData: OneAreaMultipleIndicatorsData[];
+interface BasicTableProps {
+  indicatorData: BasicTableData[];
   areaName: string;
 }
 
-export function OneAreaMultipleIndicatorsTable({
+export function BasicTable({
   indicatorData,
   areaName,
-}: Readonly<OneAreaMultipleIndicatorsTableProps>) {
+}: Readonly<BasicTableProps>) {
   return (
-    <div data-testid={'oneAreaMultipleIndicatorsTable-component'}>
+    <div data-testid={'basicTable-component'}>
       <Table
         head={
           <React.Fragment>
@@ -49,15 +49,15 @@ export function OneAreaMultipleIndicatorsTable({
 
             <Table.Row>
               <Table.CellHeader style={{ verticalAlign: 'top' }}>
-                {OneAreaMultipleIndicatorsTableEnum.Indicator}
+                {BasicTableEnum.Indicator}
               </Table.CellHeader>
               <Table.CellHeader style={{ verticalAlign: 'top' }}>
-                {OneAreaMultipleIndicatorsTableEnum.Period}
+                {BasicTableEnum.Period}
               </Table.CellHeader>
               <Table.CellHeader
                 style={{ verticalAlign: 'top', textAlign: 'right' }}
               >
-                {OneAreaMultipleIndicatorsTableEnum.Count}
+                {BasicTableEnum.Count}
               </Table.CellHeader>
               <Table.CellHeader
                 style={{
@@ -65,17 +65,17 @@ export function OneAreaMultipleIndicatorsTable({
                   textAlign: 'right',
                 }}
               >
-                {OneAreaMultipleIndicatorsTableEnum.ValueUnit}
+                {BasicTableEnum.ValueUnit}
               </Table.CellHeader>
               <Table.CellHeader
                 style={{ verticalAlign: 'top', textAlign: 'right' }}
               >
-                {OneAreaMultipleIndicatorsTableEnum.Value}
+                {BasicTableEnum.Value}
               </Table.CellHeader>
               <Table.CellHeader
                 style={{ verticalAlign: 'top', textAlign: 'center' }}
               >
-                {OneAreaMultipleIndicatorsTableEnum.RecentTrend}
+                {BasicTableEnum.RecentTrend}
               </Table.CellHeader>
             </Table.Row>
           </React.Fragment>
