@@ -1349,10 +1349,17 @@ describe('getInequalitiesType', () => {
 describe('reorderItemsArraysToEnd', () => {
   it('Check that when specific headers are provided for reordering, the array is reordered accordingly.', () => {
     const headers = reorderItemsArraysToEnd(
-      ['Age', 'Name', 'Sex', 'Other'],
+      ['Deprivation', 'Ethnicity', 'Age', 'Name', 'Sex', 'Other'],
       ['Name', 'Age', 'Sex', 'Other']
     );
-    expect(headers).toEqual(['Name', 'Age', 'Sex', 'Other']);
+    expect(headers).toEqual([
+      'Deprivation',
+      'Ethnicity',
+      'Name',
+      'Age',
+      'Sex',
+      'Other',
+    ]);
   });
 
   it('If the original header is empty, I expect to receive an empty array', () => {
