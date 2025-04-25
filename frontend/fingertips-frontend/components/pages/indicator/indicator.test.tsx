@@ -48,6 +48,16 @@ jest.mock('@/context/SearchStateContext', () => {
   };
 });
 
+jest.mock('govuk-react', () => {
+  const originalModule = jest.requireActual('govuk-react');
+  return {
+  ...originalModule,
+    BackLink: ({onClick, href}: {onClick: React.MouseEventHandler<HTMLAnchorElement>; href: string}) => (
+      <a data-testid="mock-back-link" onClick={onClick} href={href}>BackLink</a>
+)
+  }
+});
+
 describe('contents items should link to appropriate headings', () => {
   beforeEach(() => {
     render(
@@ -100,6 +110,7 @@ describe('contents items should link to appropriate headings', () => {
 });
 
 describe('indicator description page', () => {
+  
   beforeEach(() => {
     render(
       <IndicatorDefinition
@@ -136,7 +147,7 @@ describe('indicator description page', () => {
 
   it('should call setIsLoading when the back link is clicked', async () => {
     const user = userEvent.setup();
-    await user.click(screen.getByRole('link', { name: /back/i }));
+    await user.click(screen.getByTestId('mock-back-link'));
 
     expect(mockSetIsLoading).toHaveBeenCalledWith(true);
   });

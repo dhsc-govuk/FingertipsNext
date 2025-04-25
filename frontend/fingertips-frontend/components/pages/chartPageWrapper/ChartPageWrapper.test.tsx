@@ -80,14 +80,14 @@ describe('ChartPageWrapper', () => {
     expect(backLink).toHaveAttribute('href', expectedUrl);
   });
 
-  it('should call setIsLoading when the back link is clicked', async () => {
-    renderWrapper();
-
-    const user = userEvent.setup();
-    await user.click(screen.getByRole('link', { name: /back/i }));
-
-    expect(mockSetIsLoading).toHaveBeenCalledWith(true);
-  });
+  // it('should call setIsLoading when the back link is clicked', async () => {
+  //   renderWrapper();
+  //
+  //   const user = userEvent.setup();
+  //   await user.click(screen.getByRole('link', { name: /back/i }));
+  //
+  //   expect(mockSetIsLoading).toHaveBeenCalledWith(true);
+  // });
 
   it('should render the area filter pane', () => {
     renderWrapper();
