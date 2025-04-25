@@ -52,7 +52,6 @@ import {
   generateHealthDataPoint,
   generateMockHealthDataForArea,
 } from '@/lib/chartHelpers/testHelpers';
-import { log } from 'console';
 
 const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
   areaCode: 'A1425',
@@ -924,6 +923,7 @@ describe('generateLineChartSeriesData', () => {
     const actualPersonsErrorbars = actual.filter(
       (series) => series.type === 'errorbar' && series.name === 'Persons'
     )[0];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     expect((actualPersonsErrorbars as any).data).toEqual(expected);
   });
 });
