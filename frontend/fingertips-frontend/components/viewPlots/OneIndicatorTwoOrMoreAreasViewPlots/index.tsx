@@ -23,7 +23,6 @@ import {
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
-import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
 
 interface OneIndicatorTwoOrMoreAreasViewPlotsProps
   extends OneIndicatorViewPlotProps {
@@ -95,7 +94,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
       benchmarkComparisonMethod: indicatorData.benchmarkMethod,
       groupIndicatorData: groupData,
       yAxisTitle,
-      yAxisLabelFormatter: FormatValueAsNumber,
       xAxisTitle: 'Period',
       measurementUnit: indicatorMetadata?.unitLabel,
       accessibilityLabel: 'A line chart showing healthcare data',

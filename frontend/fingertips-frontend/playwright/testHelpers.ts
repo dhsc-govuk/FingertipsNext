@@ -23,11 +23,12 @@ export enum AreaMode {
 }
 
 type componentProps = {
-  hasConfidenceIntervals: boolean;
-  isTabTable: boolean;
-  hasDetailsExpander: boolean;
-  hasTimePeriodDropDown: boolean;
-  hasTypeDropDown: boolean;
+  hasConfidenceIntervals?: boolean;
+  isTabTable?: boolean;
+  hasDetailsExpander?: boolean;
+  hasTimePeriodDropDown?: boolean;
+  hasTypeDropDown?: boolean;
+  isWideComponent?: boolean;
 };
 
 type component = {
@@ -50,49 +51,30 @@ export function getScenarioConfig(
       componentLocator: ChartPage.lineChartComponent,
       componentProps: {
         hasConfidenceIntervals: true,
-        isTabTable: false,
-        hasDetailsExpander: false,
-        hasTimePeriodDropDown: false,
-        hasTypeDropDown: false,
       },
     },
     {
       componentLocator: ChartPage.lineChartTableComponent,
       componentProps: {
-        hasConfidenceIntervals: false,
         isTabTable: true,
-        hasDetailsExpander: false,
-        hasTimePeriodDropDown: false,
-        hasTypeDropDown: false,
       },
     },
     {
       componentLocator: ChartPage.inequalitiesBarChartComponent,
       componentProps: {
         hasConfidenceIntervals: true,
-        isTabTable: false,
-        hasDetailsExpander: false,
-        hasTimePeriodDropDown: false,
-        hasTypeDropDown: false,
       },
     },
     {
       componentLocator: ChartPage.inequalitiesForSingleTimePeriodComponent,
       componentProps: {
-        hasConfidenceIntervals: false,
-        isTabTable: false,
         hasTimePeriodDropDown: true,
-        hasDetailsExpander: false,
         hasTypeDropDown: true,
       },
     },
     {
       componentLocator: ChartPage.inequalitiesTrendComponent,
       componentProps: {
-        hasConfidenceIntervals: false,
-        isTabTable: false,
-        hasTimePeriodDropDown: false,
-        hasDetailsExpander: false,
         hasTypeDropDown: true,
       },
     },
@@ -100,90 +82,48 @@ export function getScenarioConfig(
       componentLocator: ChartPage.inequalitiesLineChartComponent,
       componentProps: {
         hasConfidenceIntervals: true,
-        isTabTable: false,
-        hasDetailsExpander: false,
-        hasTimePeriodDropDown: false,
-        hasTypeDropDown: false,
       },
     },
     {
       componentLocator: ChartPage.inequalitiesBarChartTableComponent,
       componentProps: {
-        hasConfidenceIntervals: false,
         isTabTable: true,
-        hasDetailsExpander: false,
-        hasTimePeriodDropDown: false,
-        hasTypeDropDown: false,
       },
     },
     {
       componentLocator: ChartPage.inequalitiesLineChartTableComponent,
       componentProps: {
-        hasConfidenceIntervals: false,
         isTabTable: true,
-        hasDetailsExpander: false,
-        hasTimePeriodDropDown: false,
-        hasTypeDropDown: false,
       },
     },
     {
       componentLocator: ChartPage.populationPyramidComponent,
       componentProps: {
-        hasConfidenceIntervals: false,
-        isTabTable: false,
         hasDetailsExpander: true,
-        hasTimePeriodDropDown: false,
-        hasTypeDropDown: false,
       },
     },
     {
       componentLocator: ChartPage.thematicMapComponent,
-      componentProps: {
-        hasConfidenceIntervals: false,
-        isTabTable: false,
-        hasDetailsExpander: false,
-        hasTimePeriodDropDown: false,
-        hasTypeDropDown: false,
-      },
+      componentProps: {},
     },
     {
       componentLocator: ChartPage.barChartEmbeddedTableComponent,
       componentProps: {
         hasConfidenceIntervals: true,
-        isTabTable: false,
-        hasDetailsExpander: false,
-        hasTimePeriodDropDown: false,
-        hasTypeDropDown: false,
       },
+    },
+    {
+      componentLocator: ChartPage.basicTableComponent,
+      componentProps: {},
+    },
+    {
+      componentLocator: ChartPage.heatMapComponent,
+      componentProps: {},
     },
     {
       componentLocator: ChartPage.spineChartTableComponent,
       componentProps: {
-        hasConfidenceIntervals: false,
-        isTabTable: false,
-        hasDetailsExpander: false,
-        hasTimePeriodDropDown: false,
-        hasTypeDropDown: false,
-      },
-    },
-    {
-      componentLocator: ChartPage.OneAreaMultipleIndicatorsTableComponent,
-      componentProps: {
-        hasConfidenceIntervals: false,
-        isTabTable: false,
-        hasDetailsExpander: false,
-        hasTimePeriodDropDown: false,
-        hasTypeDropDown: false,
-      },
-    },
-    {
-      componentLocator: ChartPage.heatMapComponent,
-      componentProps: {
-        hasConfidenceIntervals: false,
-        isTabTable: false,
-        hasDetailsExpander: false,
-        hasTimePeriodDropDown: false,
-        hasTypeDropDown: false,
+        isWideComponent: true,
       },
     },
   ];
@@ -241,20 +181,7 @@ export function getScenarioConfig(
   ) {
     visibleComponents = allComponents.filter((component) =>
       [
-        ChartPage.OneAreaMultipleIndicatorsTableComponent,
-        ChartPage.populationPyramidComponent,
-      ].includes(component.componentLocator)
-    );
-  }
-  // 2 indicators, 3+ areas (not England)
-  else if (
-    indicatorMode === IndicatorMode.TWO_INDICATORS &&
-    areaMode === AreaMode.THREE_PLUS_AREAS
-  ) {
-    visibleComponents = allComponents.filter((component) =>
-      [
-        ChartPage.spineChartTableComponent,
-        ChartPage.heatMapComponent,
+        ChartPage.basicTableComponent,
         ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
     );
@@ -271,16 +198,18 @@ export function getScenarioConfig(
       ].includes(component.componentLocator)
     );
   }
-  // 3+ indicators, 2 areas (not England)
+  // 3+ indicators, 2 areas (not England) OR 2 indicators, 3+ areas (not England)
   else if (
-    indicatorMode === IndicatorMode.THREE_PLUS_INDICATORS &&
-    areaMode === AreaMode.TWO_AREAS
+    (indicatorMode === IndicatorMode.THREE_PLUS_INDICATORS &&
+      areaMode === AreaMode.TWO_AREAS) ||
+    (indicatorMode === IndicatorMode.TWO_INDICATORS &&
+      areaMode === AreaMode.THREE_PLUS_AREAS)
   ) {
     visibleComponents = allComponents.filter((component) =>
       [
-        ChartPage.spineChartTableComponent,
         ChartPage.heatMapComponent,
         ChartPage.populationPyramidComponent,
+        ChartPage.spineChartTableComponent, // spine chart needs to be last so its scroll right doesnt impact the other components screenshots
       ].includes(component.componentLocator)
     );
   } else {

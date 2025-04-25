@@ -17,7 +17,8 @@ export default class ChartPage extends AreaFilter {
   readonly backLink = 'chart-page-back-link';
   static readonly lineChartComponent = 'standardLineChart-component';
   static readonly lineChartTableComponent = 'lineChartTable-component';
-  static readonly populationPyramidComponent = 'populationPyramid-component';
+  static readonly populationPyramidComponent =
+    'populationPyramidWithTable-component';
   static readonly inequalitiesBarChartTableComponent =
     'inequalitiesBarChartTable-component';
   static readonly inequalitiesLineChartTableComponent =
@@ -39,8 +40,7 @@ export default class ChartPage extends AreaFilter {
     'inequalitiesTypes-dropDown-component-bc';
   static readonly inequalitiesTypesDropDownComponentLC =
     'inequalitiesTypes-dropDown-component-lc';
-  static readonly OneAreaMultipleIndicatorsTableComponent =
-    'oneAreaMultipleIndicatorsTable-component';
+  static readonly basicTableComponent = 'basicTable-component';
 
   async checkOnChartPage() {
     await expect(
@@ -172,9 +172,22 @@ export default class ChartPage extends AreaFilter {
       if (visibleComponent.componentProps.hasDetailsExpander) {
         await this.clickAndAwaitLoadingComplete(
           this.page
-            .getByTestId('populationPyramidWithTable-component')
+            .getByTestId(visibleComponent.componentLocator)
             .getByText('Show population data')
         );
+      }
+      // if its one of the wide chart components then scroll to the middle of it
+      if (visibleComponent.componentProps.isWideComponent) {
+        this.page
+          .getByTestId(visibleComponent.componentLocator)
+          .evaluate((element) => {
+            // Calculate the middle point horizontally
+            // Scrolls to half of the total scrollable width
+            const middleX = (element.scrollWidth - element.clientWidth) / 2;
+
+            // Scroll to the middle point
+            element.scrollLeft = middleX;
+          });
       }
 
       // check chart component is now visible
