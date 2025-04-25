@@ -17,7 +17,8 @@ export default class ChartPage extends AreaFilter {
   readonly backLink = 'chart-page-back-link';
   static readonly lineChartComponent = 'standardLineChart-component';
   static readonly lineChartTableComponent = 'lineChartTable-component';
-  static readonly populationPyramidComponent = 'populationPyramid-component';
+  static readonly populationPyramidComponent =
+    'populationPyramidWithTable-component';
   static readonly inequalitiesBarChartTableComponent =
     'inequalitiesBarChartTable-component';
   static readonly inequalitiesLineChartTableComponent =
@@ -171,12 +172,12 @@ export default class ChartPage extends AreaFilter {
       if (visibleComponent.componentProps.hasDetailsExpander) {
         await this.clickAndAwaitLoadingComplete(
           this.page
-            .getByTestId('populationPyramidWithTable-component')
+            .getByTestId(visibleComponent.componentLocator)
             .getByText('Show population data')
         );
       }
       // if its one of the wide chart components then scroll to the middle of it
-      if (visibleComponent.componentProps.wideComponent) {
+      if (visibleComponent.componentProps.isWideComponent) {
         this.page
           .getByTestId(visibleComponent.componentLocator)
           .evaluate((element) => {
