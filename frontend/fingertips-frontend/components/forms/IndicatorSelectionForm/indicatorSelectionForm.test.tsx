@@ -517,7 +517,7 @@ describe('IndicatorSelectionForm', () => {
       const totalPages = Math.ceil(
         mock20SearchResults.length / RESULTS_PER_PAGE
       );
-      expect(paginationItems.length - 2).toEqual(totalPages);
+      expect(paginationItems.length - 1).toEqual(totalPages);
     });
 
     it('should only select indicators on the current page when "Select all" is checked', async () => {

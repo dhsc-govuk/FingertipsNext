@@ -53,6 +53,9 @@ const StyledPagination = styled(ReactPaginate)({
       backgroundColor: '#f0f0f0',
       textDecorationThickness: '4px',
     },
+    '&.disabled': {
+      display: 'none',
+    },
     '&.selected': {
       backgroundColor: '#005ea5',
       color: '#fff',
