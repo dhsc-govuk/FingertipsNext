@@ -1,4 +1,4 @@
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { Inequalities } from '.';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
@@ -50,13 +50,11 @@ jest.mock('next/navigation', () => {
 
 describe('Inequalities suite', () => {
   it('should render inequalities component', async () => {
-    await act(() =>
-      render(
-        <Inequalities
-          healthIndicatorData={MOCK_HEALTH_DATA}
-          searchState={state}
-        />
-      )
+    render(
+      <Inequalities
+        healthIndicatorData={MOCK_HEALTH_DATA}
+        searchState={state}
+      />
     );
 
     await waitFor(async () => {
@@ -83,33 +81,29 @@ describe('Inequalities suite', () => {
   });
 
   it('should render expected text', async () => {
-    await act(() =>
-      render(
-        <Inequalities
-          healthIndicatorData={MOCK_HEALTH_DATA}
-          searchState={state}
-        />
-      )
+    render(
+      <Inequalities
+        healthIndicatorData={MOCK_HEALTH_DATA}
+        searchState={state}
+      />
     );
 
     expect(
-      screen.getByText(/Inequalities data for a single time period/i)
+      await screen.findByText(/Inequalities data for a single time period/i)
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/Inequalities data over time/i)
+      await screen.findByText(/Inequalities data over time/i)
     ).toBeInTheDocument();
   });
 
   it('check if the measurement unit value "kg" is rendered correctly', async () => {
-    await act(() =>
-      render(
-        <Inequalities
-          healthIndicatorData={MOCK_HEALTH_DATA}
-          searchState={state}
-          measurementUnit="kg"
-        />
-      )
+    render(
+      <Inequalities
+        healthIndicatorData={MOCK_HEALTH_DATA}
+        searchState={state}
+        measurementUnit="kg"
+      />
     );
-    expect(screen.getByText('kg')).toBeInTheDocument();
+    expect(await screen.findByText('kg')).toBeInTheDocument();
   });
 });
