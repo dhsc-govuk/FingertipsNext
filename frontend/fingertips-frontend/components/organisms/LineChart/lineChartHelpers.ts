@@ -16,6 +16,7 @@ import {
   AreaTypeLabelEnum,
   getLatestYearForAreas,
   getFirstYearForAreas,
+  getFormattedLabel,
 } from '@/lib/chartHelpers/chartHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
@@ -319,12 +320,7 @@ export function generateStandardLineChartOptions(
       ...lineChartDefaultOptions.yAxis,
       labels: {
         formatter: function () {
-          const formattedNumber = formatNumber(Number(this.value));
-          return this.axis.tickPositions?.every(
-            (position) => position % 1 === 0
-          )
-            ? formattedNumber.replace('.0', '')
-            : formattedNumber;
+          return getFormattedLabel(Number(this.value), this.axis.tickPositions);
         },
         ...(lineChartDefaultOptions.yAxis as Highcharts.YAxisOptions)?.labels,
       },

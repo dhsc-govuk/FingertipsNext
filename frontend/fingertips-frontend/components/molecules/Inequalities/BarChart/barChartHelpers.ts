@@ -1,9 +1,9 @@
 import {
   AXIS_LABEL_FONT_SIZE,
   AXIS_TITLE_FONT_SIZE,
+  getFormattedLabel,
 } from '@/lib/chartHelpers/chartHelpers';
 import { SymbolNames } from '@/lib/chartHelpers/pointFormatterHelper';
-import { formatNumber } from '@/lib/numberFormatter';
 import Highcharts from 'highcharts';
 
 const getPlotline = (
@@ -81,12 +81,7 @@ export const getBarChartOptions = (options: {
       },
       labels: {
         formatter: function () {
-          const formattedNumber = formatNumber(Number(this.value));
-          return this.axis.tickPositions?.every(
-            (position) => position % 1 === 0
-          )
-            ? formattedNumber.replace('.0', '')
-            : formattedNumber;
+          return getFormattedLabel(Number(this.value), this.axis.tickPositions);
         },
         style: {
           fontSize: AXIS_LABEL_FONT_SIZE,
