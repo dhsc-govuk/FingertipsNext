@@ -16,6 +16,7 @@ import {
 import {
   generateInequalitiesLineChartOptions,
   getDynamicKeys,
+  reorderItemsArraysToEnd,
   getYearDataGroupedByInequalities,
   groupHealthDataByYear,
   InequalitiesChartData,
@@ -126,9 +127,9 @@ export function InequalitiesTrend({
   const sequenceSelector = sequenceSelectorForInequality[type];
   const dynamicKeys = getDynamicKeys(
     yearlyHealthDataGroupedByInequalities,
-    sequenceSelector,
-    ['Persons']
+    sequenceSelector
   );
+  const orderedDynamicKeys = reorderItemsArraysToEnd(dynamicKeys, ['Persons']);
   const allData = mapToInequalitiesTableData(
     yearlyHealthDataGroupedByInequalities,
     sequenceSelector
@@ -227,7 +228,7 @@ export function InequalitiesTrend({
               <InequalitiesLineChartTable
                 tableData={lineChartData}
                 measurementUnit={measurementUnit}
-                dynamicKeys={dynamicKeys}
+                dynamicKeys={orderedDynamicKeys}
               />
             ),
           },
