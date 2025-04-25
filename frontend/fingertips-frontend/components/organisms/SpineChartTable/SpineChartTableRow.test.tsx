@@ -111,7 +111,10 @@ describe('Spine chart table row', () => {
     render(
       <table>
         <tbody>
-          <SpineChartTableRow indicatorData={indicatorDataWithTwoAreas} />
+          <SpineChartTableRow
+            indicatorData={indicatorDataWithTwoAreas}
+            twoAreasRequested
+          />
         </tbody>
       </table>
     );

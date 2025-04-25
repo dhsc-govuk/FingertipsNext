@@ -23,10 +23,12 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 export interface SpineChartTableRowProps {
   indicatorData: SpineChartIndicatorData;
+  twoAreasRequested?: boolean;
 }
 
 export const SpineChartTableRow: FC<SpineChartTableRowProps> = ({
   indicatorData,
+  twoAreasRequested = false,
 }) => {
   const {
     indicatorName,
@@ -39,7 +41,7 @@ export const SpineChartTableRow: FC<SpineChartTableRowProps> = ({
   } = indicatorData;
   const { best, worst } = orderStatistics(quartileData);
   const groupIsEngland = groupData?.areaCode === areaCodeForEngland;
-  const twoAreasRequested = areasHealthData.length === 2;
+
   let twoAreasLatestPeriodMatching = true;
 
   if (twoAreasRequested) {

@@ -80,7 +80,7 @@ describe('Inequalities suite', () => {
     });
   });
 
-  it('should render expected text', () => {
+  it('should render expected text', async () => {
     render(
       <Inequalities
         healthIndicatorData={MOCK_HEALTH_DATA}
@@ -89,14 +89,14 @@ describe('Inequalities suite', () => {
     );
 
     expect(
-      screen.getByText(/Inequalities data for a single time period/i)
+      await screen.findByText(/Inequalities data for a single time period/i)
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/Inequalities data over time/i)
+      await screen.findByText(/Inequalities data over time/i)
     ).toBeInTheDocument();
   });
 
-  it('check if the measurement unit value "kg" is rendered correctly', () => {
+  it('check if the measurement unit value "kg" is rendered correctly', async () => {
     render(
       <Inequalities
         healthIndicatorData={MOCK_HEALTH_DATA}
@@ -104,6 +104,6 @@ describe('Inequalities suite', () => {
         measurementUnit="kg"
       />
     );
-    expect(screen.getByText('kg')).toBeInTheDocument();
+    expect(await screen.findByText('kg')).toBeInTheDocument();
   });
 });
