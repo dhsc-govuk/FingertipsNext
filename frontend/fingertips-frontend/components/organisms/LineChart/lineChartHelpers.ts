@@ -16,6 +16,7 @@ import {
   AreaTypeLabelEnum,
   getLatestYearForAreas,
   getFirstYearForAreas,
+  getFormattedLabel,
 } from '@/lib/chartHelpers/chartHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
@@ -169,7 +170,6 @@ export function generateStandardLineChartOptions(
     accessibilityLabel?: string;
     colours?: ChartColours[];
     symbols?: SymbolKeyValue[];
-    yAxisLabelFormatter?: Highcharts.AxisLabelsFormatterCallbackFunction;
     xAxisLabelFormatter?: Highcharts.AxisLabelsFormatterCallbackFunction;
     benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   }
@@ -319,8 +319,10 @@ export function generateStandardLineChartOptions(
     yAxis: {
       ...lineChartDefaultOptions.yAxis,
       labels: {
+        formatter: function () {
+          return getFormattedLabel(Number(this.value), this.axis.tickPositions);
+        },
         ...(lineChartDefaultOptions.yAxis as Highcharts.YAxisOptions)?.labels,
-        formatter: optionalParams?.yAxisLabelFormatter,
       },
       title: optionalParams?.yAxisTitle
         ? {

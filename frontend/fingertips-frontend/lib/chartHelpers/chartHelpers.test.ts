@@ -17,6 +17,7 @@ import {
   getFirstYear,
   getLatestYearForAreas,
   getFirstYearForAreas,
+  getFormattedLabel,
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { areaCodeForEngland } from './constants';
@@ -1305,4 +1306,34 @@ describe('getFirstYearForAreas', () => {
   it('should return undefined when the data provided is an empty list', () => {
     expect(getFirstYearForAreas([])).toBeUndefined();
   });
+});
+
+describe('getFormattedLabel', () => {
+  it.each([
+    [5, '5'],
+    [10, '10'],
+    [15, '15'],
+    [20, '20'],
+  ])(
+    'should remove the decimal when all the tickpoints are whole numbers',
+    (value: number, formattedValue: string) => {
+      const tickPoints = [5, 10, 15, 20];
+
+      expect(getFormattedLabel(value, tickPoints)).toBe(formattedValue);
+    }
+  );
+
+  it.each([
+    [5, '5.0'],
+    [10, '10.0'],
+    [15, '15.0'],
+    [20, '20.0'],
+  ])(
+    'should keep the decimal when a decimal tickpoint exists',
+    (value: number, formattedValue: string) => {
+      const tickPoints = [5, 10.6, 15, 20];
+
+      expect(getFormattedLabel(value, tickPoints)).toBe(formattedValue);
+    }
+  );
 });
