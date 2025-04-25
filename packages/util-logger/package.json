@@ -1,0 +1,12 @@
+{
+  "name": "@fingertips/util-logger",
+  "version": "1.0.0",
+  "type":"module",
+  "main": "dist/index",
+  "types": "dist/index",
+  "devDependencies": {},
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
