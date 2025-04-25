@@ -1,12 +1,11 @@
 import { render, screen } from '@testing-library/react';
-
 import { healthDataPoint } from '@/lib/mocks';
 import {
-  OneAreaMultipleIndicatorsData,
-  OneAreaMultipleIndicatorsTable,
-} from '@/components/organisms/OneAreaMultipleIndicatorsTable/index';
+  BasicTableData,
+  BasicTable,
+} from '@/components/organisms/BasicTable/index';
 
-const mockIndicatorData: OneAreaMultipleIndicatorsData[] = [
+const mockIndicatorData: BasicTableData[] = [
   {
     indicatorId: 1,
     indicatorName: ' ',
@@ -25,36 +24,25 @@ const mockIndicatorData: OneAreaMultipleIndicatorsData[] = [
 
 const mockAreaName = 'mockName';
 
-describe('OneAreaMultipleIndicatorsTable', () => {
+describe('BasicTable', () => {
   it('should match snapshot', () => {
     const { asFragment } = render(
-      <OneAreaMultipleIndicatorsTable
-        areaName={mockAreaName}
-        indicatorData={mockIndicatorData}
-      />
+      <BasicTable areaName={mockAreaName} indicatorData={mockIndicatorData} />
     );
     expect(asFragment()).toMatchSnapshot();
   });
 
-  it('should render EnglandAreaTypeTable component', () => {
+  it('should render BasicTable component', () => {
     render(
-      <OneAreaMultipleIndicatorsTable
-        areaName={mockAreaName}
-        indicatorData={mockIndicatorData}
-      />
+      <BasicTable areaName={mockAreaName} indicatorData={mockIndicatorData} />
     );
     expect(screen.getByRole('table')).toBeInTheDocument();
-    expect(
-      screen.getByTestId('oneAreaMultipleIndicatorsTable-component')
-    ).toBeInTheDocument();
+    expect(screen.getByTestId('basicTable-component')).toBeInTheDocument();
   });
 
   it('should always display indicator name when no health data for the indicator is present', () => {
     render(
-      <OneAreaMultipleIndicatorsTable
-        areaName={mockAreaName}
-        indicatorData={mockIndicatorData}
-      />
+      <BasicTable areaName={mockAreaName} indicatorData={mockIndicatorData} />
     );
 
     expect(screen.getAllByRole('row')[3]).toHaveTextContent(
@@ -65,10 +53,7 @@ describe('OneAreaMultipleIndicatorsTable', () => {
 
   it('should display X in the table cell if there is no value', () => {
     render(
-      <OneAreaMultipleIndicatorsTable
-        areaName={mockAreaName}
-        indicatorData={mockIndicatorData}
-      />
+      <BasicTable areaName={mockAreaName} indicatorData={mockIndicatorData} />
     );
 
     const noValueCells = screen.getAllByText('X');
@@ -77,10 +62,7 @@ describe('OneAreaMultipleIndicatorsTable', () => {
 
   it('should display the correct aria label when then is no value', () => {
     render(
-      <OneAreaMultipleIndicatorsTable
-        areaName={mockAreaName}
-        indicatorData={mockIndicatorData}
-      />
+      <BasicTable areaName={mockAreaName} indicatorData={mockIndicatorData} />
     );
 
     const noValueCells = screen.getAllByLabelText('Not compared');
@@ -89,10 +71,7 @@ describe('OneAreaMultipleIndicatorsTable', () => {
 
   it('should render the correct trend label for the data in the table', () => {
     render(
-      <OneAreaMultipleIndicatorsTable
-        areaName={mockAreaName}
-        indicatorData={mockIndicatorData}
-      />
+      <BasicTable areaName={mockAreaName} indicatorData={mockIndicatorData} />
     );
 
     const trendTags = screen.getAllByTestId('trend-tag-component');

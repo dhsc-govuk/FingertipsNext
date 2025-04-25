@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`OneAreaMultipleIndicatorsTable should match snapshot 1`] = `
+exports[`BasicTable should match snapshot 1`] = `
 <DocumentFragment>
   .c6 {
   margin: 0;
@@ -212,7 +212,7 @@ exports[`OneAreaMultipleIndicatorsTable should match snapshot 1`] = `
 }
 
 <div
-    data-testid="oneAreaMultipleIndicatorsTable-component"
+    data-testid="basicTable-component"
   >
     <table
       class="c0"

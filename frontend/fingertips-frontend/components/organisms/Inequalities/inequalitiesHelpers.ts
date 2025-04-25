@@ -171,7 +171,10 @@ export const mapToInequalitiesTableData = (
   });
 };
 
-const reorderItemsArraysToEnd = (headers: string[], lastHeaders?: string[]) => {
+export const reorderItemsArraysToEnd = (
+  headers: string[],
+  lastHeaders?: string[]
+) => {
   if (!headers) return [];
   if (!lastHeaders) return headers;
 
@@ -186,8 +189,7 @@ const reorderItemsArraysToEnd = (headers: string[], lastHeaders?: string[]) => {
 
 export const getDynamicKeys = (
   yearlyHealthDataGroupedByInequalities: YearlyHealthDataGroupedByInequalities,
-  sequenceSelector: InequalitySequenceSelector,
-  lastHeaders?: string[]
+  sequenceSelector: InequalitySequenceSelector
 ): string[] => {
   const existingKeys = Object.values(
     yearlyHealthDataGroupedByInequalities
@@ -204,7 +206,7 @@ export const getDynamicKeys = (
   }, []);
 
   // spreading a set ensures we have unique keys
-  return reorderItemsArraysToEnd([...new Set(existingKeys)], lastHeaders);
+  return [...new Set(existingKeys)];
 };
 
 const dashStyle = (index: number): DashStyleValue => {
