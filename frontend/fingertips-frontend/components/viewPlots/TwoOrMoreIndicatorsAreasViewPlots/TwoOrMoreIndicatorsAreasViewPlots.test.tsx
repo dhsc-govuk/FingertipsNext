@@ -253,9 +253,15 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
     );
 
     const heatmapTable = screen.getByTestId('heatmapChart-component');
-    expect(within(heatmapTable).getByText('Greater Manchester ICB - 00T')).toBeInTheDocument();
-    expect(within(heatmapTable).getByText('Greater Manchester ICB - 01T')).toBeInTheDocument();
-    expect(within(heatmapTable).getByText('Greater Manchester ICB - 02T')).toBeInTheDocument();
+    expect(
+      within(heatmapTable).getByText('Greater Manchester ICB - 00T')
+    ).toBeInTheDocument();
+    expect(
+      within(heatmapTable).getByText('Greater Manchester ICB - 01T')
+    ).toBeInTheDocument();
+    expect(
+      within(heatmapTable).getByText('Greater Manchester ICB - 02T')
+    ).toBeInTheDocument();
   });
 
   it('should not render the spine chart component with more than 2 areas selected', () => {
