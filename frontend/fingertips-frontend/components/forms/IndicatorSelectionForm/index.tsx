@@ -11,7 +11,6 @@ import {
   Button,
   Checkbox,
   ListItem,
-  Pagination,
   Paragraph,
   SectionBreak,
   UnorderedList,
@@ -21,6 +20,8 @@ import styled from 'styled-components';
 import { IndicatorSort } from '@/components/forms/IndicatorSort/IndicatorSort';
 import { useIndicatorSort } from '@/components/forms/IndicatorSort/useIndicatorSort';
 import { useState } from 'react';
+import ReactPaginate from 'react-paginate';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 export const RESULTS_PER_PAGE = 15;
 
@@ -32,6 +33,38 @@ const ResultLabelsContainer = styled.span({
 
 const StyledParagraph = styled(Paragraph)({
   fontWeight: 'bold',
+});
+
+const StyledPagination = styled(ReactPaginate)({
+  display: 'flex',
+  fontSize: '19px',
+  color: '#005ea5',
+  justifyContent: 'center',
+  marginTop: '20px',
+  marginBottom: '20px',
+  li: {
+    'listStyleType': 'none',
+    'textDecoration': 'underline',
+    'textDecorationThickness': '1px',
+    'textUnderlineOffset': '4px',
+    'padding': '10px',
+    'cursor': 'pointer',
+    '&:hover': {
+      backgroundColor: '#f0f0f0',
+      textDecorationThickness: '4px',
+    },
+    '&.selected': {
+      backgroundColor: '#005ea5',
+      color: '#fff',
+    },
+    'a': {
+      '&:focus-visible': {
+        color: `${GovukColours.Black}`,
+        outline: `1px solid ${GovukColours.Yellow}`,
+        background: `${GovukColours.Yellow}`,
+      },
+    },
+  },
 });
 
 type IndicatorSelectionProps = {
@@ -217,29 +250,19 @@ export function IndicatorSelectionForm({
             View data
           </Button>
 
-          {sortedResults.length > RESULTS_PER_PAGE && (
-            <Pagination data-testid="search-results-pagination">
-              {currentPage > 1 && (
-                <Pagination.Anchor
-                  onClick={() => setCurrentPage(currentPage - 1)}
-                  pageTitle={`${currentPage - 1} of ${totalPages}`}
-                  previousPage
-                  data-testid="pagination-previous-page"
-                >
-                  Previous page
-                </Pagination.Anchor>
-              )}
-              {currentPage < totalPages && (
-                <Pagination.Anchor
-                  onClick={() => setCurrentPage(currentPage + 1)}
-                  nextPage
-                  pageTitle={`${currentPage + 1} of ${totalPages}`}
-                  data-testid="pagination-next-page"
-                >
-                  Next page
-                </Pagination.Anchor>
-              )}
-            </Pagination>
+          {totalPages > 1 && (
+            <div data-testid="search-results-pagination">
+              <StyledPagination
+                breakLabel="..."
+                nextLabel="Next >"
+                onPageChange={(event) => setCurrentPage(event.selected + 1)}
+                pageRangeDisplayed={2}
+                pageCount={totalPages}
+                previousLabel="< Previous"
+                renderOnZeroPageCount={null}
+                forcePage={currentPage - 1}
+              />
+            </div>
           )}
         </>
       ) : (

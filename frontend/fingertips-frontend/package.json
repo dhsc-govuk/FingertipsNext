@@ -54,6 +54,7 @@
     "next": "^15.3.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-paginate": "^8.3.0",
     "styled-components": "^5.3.0"
   },
   "devDependencies": {

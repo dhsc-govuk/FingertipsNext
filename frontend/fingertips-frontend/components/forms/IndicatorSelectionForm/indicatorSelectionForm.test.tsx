@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { IndicatorSelectionForm, RESULTS_PER_PAGE } from '.';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
@@ -458,7 +458,7 @@ describe('IndicatorSelectionForm', () => {
       const resultsPerPage = screen.getAllByTestId('search-result');
       expect(resultsPerPage).toHaveLength(RESULTS_PER_PAGE);
 
-      await user.click(screen.getByTestId('pagination-next-page'));
+      await user.click(screen.getByText(/Next/i));
       const resultsPerPageNext = screen.getAllByTestId('search-result');
       expect(resultsPerPageNext).toHaveLength(
         mock20SearchResults.length - RESULTS_PER_PAGE
@@ -474,76 +474,50 @@ describe('IndicatorSelectionForm', () => {
         />
       );
 
-      const paginationPrevious = screen.queryByTestId(
-        'pagination-previous-page'
-      );
-      expect(paginationPrevious).not.toBeInTheDocument();
-      const paginationNext = screen.getByTestId('pagination-next-page');
+      const paginationPrevious = screen.getByText(/Previous/i).closest('li');
+      expect(paginationPrevious?.className).toContain('disabled');
+
+      const paginationNext = screen.getByText(/Next/i);
       expect(paginationNext).toBeInTheDocument();
     });
 
-    it('should show the correct page titles when navigating between pages', async () => {
+    it('should show the pagination previous page anchor and not the next page anchor when the current page is the last page', async () => {
       render(
         <IndicatorSelectionForm
-          searchResults={generateMockSearchResults(47)}
+          searchResults={generateMockSearchResults(20)}
           showTrends={false}
           formAction={mockFormAction}
         />
       );
 
-      // first page
-      const paginationPrevious = screen.queryByTestId(
-        'pagination-previous-page'
+      await user.click(screen.getByText(/Next/i));
+
+      const paginationPrevious = screen.getByText(/Previous/i);
+      expect(paginationPrevious).toBeInTheDocument();
+
+      const paginationNext = screen.getByText(/Next/i).closest('li');
+      expect(paginationNext?.className).toContain('disabled');
+    });
+
+    it('should show the correct number of pages', async () => {
+      const mock20SearchResults = generateMockSearchResults(47);
+      render(
+        <IndicatorSelectionForm
+          searchResults={mock20SearchResults}
+          showTrends={false}
+          formAction={mockFormAction}
+        />
       );
-      expect(paginationPrevious).not.toBeInTheDocument();
 
-      const paginationNext = screen.getByTestId('pagination-next-page');
-      expect(paginationNext).toBeInTheDocument();
-      expect(paginationNext).toHaveTextContent('2 of 4');
-      expect(paginationNext).toHaveTextContent('Next page');
-
-      await user.click(paginationNext);
-
-      // second page
-      const paginationPrevious2 = screen.getByTestId(
-        'pagination-previous-page'
+      const paginationContainer = screen.getByTestId(
+        'search-results-pagination'
       );
-      expect(paginationPrevious2).toBeInTheDocument();
-      expect(paginationPrevious2).toHaveTextContent('1 of 4');
-      expect(paginationPrevious2).toHaveTextContent('Previous page');
-
-      const paginationNext2 = screen.getByTestId('pagination-next-page');
-      expect(paginationNext2).toBeInTheDocument();
-      expect(paginationNext2).toHaveTextContent('3 of 4');
-      expect(paginationNext2).toHaveTextContent('Next page');
-
-      await user.click(paginationNext2);
-
-      // third page
-      const paginationPrevious3 = screen.getByTestId(
-        'pagination-previous-page'
+      const paginationItems =
+        within(paginationContainer).queryAllByRole('listitem');
+      const totalPages = Math.ceil(
+        mock20SearchResults.length / RESULTS_PER_PAGE
       );
-      expect(paginationPrevious3).toBeInTheDocument();
-      expect(paginationPrevious3).toHaveTextContent('2 of 4');
-      expect(paginationPrevious3).toHaveTextContent('Previous page');
-
-      const paginationNext3 = screen.getByTestId('pagination-next-page');
-      expect(paginationNext3).toBeInTheDocument();
-      expect(paginationNext3).toHaveTextContent('4 of 4');
-      expect(paginationNext3).toHaveTextContent('Next page');
-
-      await user.click(paginationNext3);
-
-      // fourth page
-      const paginationPrevious4 = screen.getByTestId(
-        'pagination-previous-page'
-      );
-      expect(paginationPrevious4).toBeInTheDocument();
-      expect(paginationPrevious4).toHaveTextContent('3 of 4');
-      expect(paginationPrevious4).toHaveTextContent('Previous page');
-
-      const paginationNext4 = screen.queryByTestId('pagination-next-page');
-      expect(paginationNext4).not.toBeInTheDocument();
+      expect(paginationItems.length - 2).toEqual(totalPages);
     });
 
     it('should only select indicators on the current page when "Select all" is checked', async () => {
