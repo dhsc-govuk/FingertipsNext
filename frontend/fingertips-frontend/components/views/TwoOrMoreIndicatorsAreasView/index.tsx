@@ -32,7 +32,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
 
   const areaCodes = determineAreaCodes(
     areasSelected,
-      groupAreaSelected,
+    groupAreaSelected,
     availableAreas
   );
 
