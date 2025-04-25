@@ -182,33 +182,32 @@ describe('BarChartEmbeddedTable', () => {
   });
 
   it('should always display benchmark data in the first table row of data', async () => {
-    await act(() => {
-      render(
-        <BarChartEmbeddedTable
-          healthIndicatorData={mockHealthIndicatorData}
-          benchmarkData={mockBenchmarkData}
-        />
-      );
-    });
+    render(
+      <BarChartEmbeddedTable
+        healthIndicatorData={mockHealthIndicatorData}
+        benchmarkData={mockBenchmarkData}
+      />
+    );
 
-    expect(screen.getAllByRole('row')[2]).toHaveTextContent('England');
+    const row = await screen.findAllByRole('row');
+
+    expect(row[2]).toHaveTextContent('England');
     expect(screen.getByTestId('table-row-benchmark')).toBeInTheDocument();
   });
 
   it('should display group data in the second row of table data, when the group selected is not England', async () => {
-    await act(() => {
-      render(
-        <BarChartEmbeddedTable
-          healthIndicatorData={mockHealthIndicatorData}
-          benchmarkData={mockBenchmarkData}
-          groupIndicatorData={mockGroupData}
-        />
-      );
-    });
-    expect(screen.getAllByRole('row')[3]).toHaveTextContent(
-      'NHS North West Region'
+    render(
+      <BarChartEmbeddedTable
+        healthIndicatorData={mockHealthIndicatorData}
+        benchmarkData={mockBenchmarkData}
+        groupIndicatorData={mockGroupData}
+      />
     );
-    expect(screen.getByTestId('table-row-group')).toBeInTheDocument();
+
+    const row = await screen.findAllByRole('row');
+
+    expect(row[3]).toHaveTextContent('NHS North West Region');
+    expect(await screen.findByTestId('table-row-group')).toBeInTheDocument();
   });
 
   it('should not display group row or benchmark row in the table, when no data is passed', async () => {
