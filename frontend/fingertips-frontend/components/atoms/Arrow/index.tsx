@@ -31,6 +31,9 @@ export function Arrow({
       {direction === Direction.RIGHT && (
         <path data-testid="arrow-right" d="M5 12h13M12 5l7 7-7 7" />
       )}
+      {direction === Direction.LEFT && (
+        <path data-testid="arrow-left" d="M5 12h13M10 5l-7 7 7 7" />
+      )}
     </svg>
   );
 }

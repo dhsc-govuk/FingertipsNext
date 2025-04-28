@@ -22,6 +22,8 @@ import { useIndicatorSort } from '@/components/forms/IndicatorSort/useIndicatorS
 import { useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import { Arrow } from '@/components/atoms/Arrow';
+import { Direction } from '@/lib/common-types';
 
 export const RESULTS_PER_PAGE = 15;
 
@@ -92,6 +94,23 @@ const generateKey = (
 ): string => {
   return `${indicatorId}-${isIndicatorSelected(indicatorId, state)}`;
 };
+
+function PageLabel(direction: Readonly<Direction>): React.ReactNode {
+  if (direction === Direction.LEFT) {
+    return (
+      <>
+        <Arrow direction={Direction.LEFT} strokeColour={GovukColours.Black} />
+        <span style={{ paddingLeft: '10px' }}>Previous</span>
+      </>
+    );
+  }
+  return (
+    <>
+      <span style={{ paddingRight: '10px' }}>Next</span>
+      <Arrow direction={Direction.RIGHT} strokeColour={GovukColours.Black} />
+    </>
+  );
+}
 
 const shouldDisableViewDataButton = (state?: SearchStateParams): boolean => {
   if (
@@ -257,11 +276,11 @@ export function IndicatorSelectionForm({
             <div data-testid="search-results-pagination">
               <StyledPagination
                 breakLabel="..."
-                nextLabel="Next >"
+                nextLabel={PageLabel(Direction.RIGHT)}
                 onPageChange={(event) => setCurrentPage(event.selected + 1)}
                 pageRangeDisplayed={2}
                 pageCount={totalPages}
-                previousLabel="< Previous"
+                previousLabel={PageLabel(Direction.LEFT)}
                 renderOnZeroPageCount={null}
                 forcePage={currentPage - 1}
               />
