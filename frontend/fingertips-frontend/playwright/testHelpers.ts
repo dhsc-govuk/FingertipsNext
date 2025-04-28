@@ -203,7 +203,11 @@ export function getScenarioConfig(
   return { visibleComponents, hiddenComponents };
 }
 
-function filterIndicatorsByName(
+function filterIndicatorsByUsedInPOC(indicators: RawIndicatorDocument[]) {
+  return indicators.filter((indicator) => indicator.usedInPoc === true);
+}
+
+function filterIndicatorsByNameAndUsedInPOC(
   indicators: RawIndicatorDocument[],
   searchTerm: string
 ): RawIndicatorDocument[] {
@@ -225,7 +229,15 @@ export function getAllIndicatorIdsForSearchTerm(
   indicators: RawIndicatorDocument[],
   searchTerm: string
 ): string[] {
-  return filterIndicatorsByName(indicators, searchTerm).map(
+  return filterIndicatorsByNameAndUsedInPOC(indicators, searchTerm).map(
+    (indicator) => indicator.indicatorID
+  );
+}
+
+export function getAllIndicatorIds(
+  indicators: RawIndicatorDocument[]
+): string[] {
+  return filterIndicatorsByUsedInPOC(indicators).map(
     (indicator) => indicator.indicatorID
   );
 }
