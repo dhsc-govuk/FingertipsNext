@@ -123,7 +123,7 @@ public class HealthDataRepositoryTests
     public async Task Repository_ShouldReturnCorrectIndicatorAndLatestYearForAllDataWhenAreasContainNoData()
     {
         const int LATEST_YEAR = 2024;
-        const string AREA_CODE = "E92000001";
+        const string AREA_CODE = "E92000002";
         const int INDICATORID = 1;
         // arrange
         PopulateDatabase(new HealthMeasureModelHelper(year: LATEST_YEAR)
