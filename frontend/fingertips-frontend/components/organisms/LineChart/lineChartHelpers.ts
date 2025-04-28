@@ -92,8 +92,9 @@ export function generateSeriesData(
   parentIndicatorData?: HealthDataForArea,
   showConfidenceIntervalsData?: boolean
 ) {
-  const seriesData: Highcharts.SeriesOptionsType[] = data.flatMap(
-    (item, index) => {
+  const seriesData: Highcharts.SeriesOptionsType[] = data
+    .toSorted((a, b) => a.areaName.localeCompare(b.areaName))
+    .flatMap((item, index) => {
       const lineSeries: Highcharts.SeriesOptionsType = {
         type: 'line',
         name: item.areaName,
@@ -119,8 +120,7 @@ export function generateSeriesData(
       return showConfidenceIntervalsData
         ? [lineSeries, confidenceIntervalSeries]
         : lineSeries;
-    }
-  );
+    });
 
   if (parentIndicatorData) {
     const groupSeries: Highcharts.SeriesOptionsType = {
