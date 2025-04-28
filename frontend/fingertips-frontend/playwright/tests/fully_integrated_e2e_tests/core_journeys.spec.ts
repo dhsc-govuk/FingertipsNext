@@ -25,53 +25,53 @@ interface TestParams {
 }
 
 const coreTestJourneys: TestParams[] = [
-  // {
-  //   indicatorMode: IndicatorMode.ONE_INDICATOR,
-  //   areaMode: AreaMode.ENGLAND_AREA,
-  //   searchMode: SearchMode.ONLY_SUBJECT,
-  //   subjectSearchTerm: 'hospital',
-  // },
-  // {
-  //   indicatorMode: IndicatorMode.ONE_INDICATOR,
-  //   areaMode: AreaMode.ONE_AREA,
-  //   searchMode: SearchMode.BOTH_SUBJECT_AND_AREA,
-  //   subjectSearchTerm: 'emergency',
-  // },
-  // {
-  //   indicatorMode: IndicatorMode.ONE_INDICATOR,
-  //   areaMode: AreaMode.THREE_PLUS_AREAS,
-  //   searchMode: SearchMode.ONLY_SUBJECT,
-  //   subjectSearchTerm: 'emergency',
-  // },
-  // {
-  //   indicatorMode: IndicatorMode.ONE_INDICATOR,
-  //   areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
-  //   searchMode: SearchMode.ONLY_SUBJECT,
-  //   subjectSearchTerm: 'emergency',
-  // },
-  // {
-  //   indicatorMode: IndicatorMode.TWO_INDICATORS,
-  //   areaMode: AreaMode.ENGLAND_AREA,
-  //   searchMode: SearchMode.ONLY_SUBJECT,
-  //   subjectSearchTerm: 'emergency',
-  // },
-  // {
-  //   indicatorMode: IndicatorMode.TWO_INDICATORS,
-  //   areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
-  //   searchMode: SearchMode.ONLY_SUBJECT,
-  //   subjectSearchTerm: 'emergency',
-  // },
+  {
+    indicatorMode: IndicatorMode.ONE_INDICATOR,
+    areaMode: AreaMode.ENGLAND_AREA,
+    searchMode: SearchMode.ONLY_SUBJECT,
+    subjectSearchTerm: 'hospital',
+  },
+  {
+    indicatorMode: IndicatorMode.ONE_INDICATOR,
+    areaMode: AreaMode.ONE_AREA,
+    searchMode: SearchMode.BOTH_SUBJECT_AND_AREA,
+    subjectSearchTerm: 'emergency',
+  },
+  {
+    indicatorMode: IndicatorMode.ONE_INDICATOR,
+    areaMode: AreaMode.THREE_PLUS_AREAS,
+    searchMode: SearchMode.ONLY_SUBJECT,
+    subjectSearchTerm: 'emergency',
+  },
+  {
+    indicatorMode: IndicatorMode.ONE_INDICATOR,
+    areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
+    searchMode: SearchMode.ONLY_SUBJECT,
+    subjectSearchTerm: 'emergency',
+  },
+  {
+    indicatorMode: IndicatorMode.TWO_INDICATORS,
+    areaMode: AreaMode.ENGLAND_AREA,
+    searchMode: SearchMode.ONLY_SUBJECT,
+    subjectSearchTerm: 'emergency',
+  },
+  {
+    indicatorMode: IndicatorMode.TWO_INDICATORS,
+    areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
+    searchMode: SearchMode.ONLY_SUBJECT,
+    subjectSearchTerm: 'emergency',
+  },
   {
     indicatorMode: IndicatorMode.TWO_INDICATORS,
     areaMode: AreaMode.THREE_PLUS_AREAS,
     searchMode: SearchMode.ONLY_AREA, // therefore no subject search term required
   },
-  // {
-  //   indicatorMode: IndicatorMode.THREE_PLUS_INDICATORS,
-  //   areaMode: AreaMode.TWO_AREAS,
-  //   searchMode: SearchMode.ONLY_SUBJECT,
-  //   subjectSearchTerm: 'hospital', // different subject search term required that returns enough indicators so that three can be selected
-  // },
+  {
+    indicatorMode: IndicatorMode.THREE_PLUS_INDICATORS,
+    areaMode: AreaMode.TWO_AREAS,
+    searchMode: SearchMode.ONLY_SUBJECT,
+    subjectSearchTerm: 'hospital', // different subject search term required that returns enough indicators so that three can be selected
+  },
 ];
 
 /**
