@@ -171,7 +171,6 @@ export function getScenarioConfig(
     [`${IndicatorMode.TWO_INDICATORS}-${AreaMode.THREE_PLUS_AREAS}`]: [
       ChartPage.heatMapComponent,
       ChartPage.populationPyramidComponent,
-      ChartPage.spineChartTableComponent, // needs to be last so scroll right doesn't impact other component screenshots
     ],
     [`${IndicatorMode.TWO_INDICATORS}-${AreaMode.ALL_AREAS_IN_A_GROUP}`]: [
       ChartPage.heatMapComponent,
