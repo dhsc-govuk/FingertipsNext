@@ -11,7 +11,6 @@ const config: Config = {
   preset: 'ts-jest',
   testTimeout: 10000,
   coverageProvider: 'v8',
-  collectCoverage: true,
   collectCoverageFrom: [
     '<rootDir>/**/*.ts',
     '!<rootDir>/generated-sources/**/*',

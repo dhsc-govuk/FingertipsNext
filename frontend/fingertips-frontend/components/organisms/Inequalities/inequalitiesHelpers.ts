@@ -7,6 +7,7 @@ import {
 import { chartColours, UniqueChartColours } from '@/lib/chartHelpers/colours';
 import {
   AXIS_TITLE_FONT_SIZE,
+  getFormattedLabel,
   generateConfidenceIntervalSeries,
   getHealthDataWithoutInequalities,
   isEnglandSoleSelectedArea,
@@ -18,7 +19,6 @@ import {
 } from '../LineChart/lineChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import Highcharts, { DashStyleValue, YAxisOptions } from 'highcharts';
-import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 export const localeSort = (a: string, b: string) => a.localeCompare(b);
@@ -171,7 +171,10 @@ export const mapToInequalitiesTableData = (
   });
 };
 
-const reorderItemsArraysToEnd = (headers: string[], lastHeaders?: string[]) => {
+export const reorderItemsArraysToEnd = (
+  headers: string[],
+  lastHeaders?: string[]
+) => {
   if (!headers) return [];
   if (!lastHeaders) return headers;
 
@@ -186,8 +189,7 @@ const reorderItemsArraysToEnd = (headers: string[], lastHeaders?: string[]) => {
 
 export const getDynamicKeys = (
   yearlyHealthDataGroupedByInequalities: YearlyHealthDataGroupedByInequalities,
-  sequenceSelector: InequalitySequenceSelector,
-  lastHeaders?: string[]
+  sequenceSelector: InequalitySequenceSelector
 ): string[] => {
   const existingKeys = Object.values(
     yearlyHealthDataGroupedByInequalities
@@ -204,7 +206,7 @@ export const getDynamicKeys = (
   }, []);
 
   // spreading a set ensures we have unique keys
-  return reorderItemsArraysToEnd([...new Set(existingKeys)], lastHeaders);
+  return [...new Set(existingKeys)];
 };
 
 const dashStyle = (index: number): DashStyleValue => {
@@ -261,11 +263,15 @@ export const generateInequalitiesLineChartSeriesData = (
       const confidenceIntervalSeries: Highcharts.SeriesOptionsType =
         generateConfidenceIntervalSeries(
           key,
-          chartData.rowData.map((data) => [
-            data.period,
-            data.inequalities[key]?.lower,
-            data.inequalities[key]?.upper,
-          ]),
+          chartData.rowData
+            .filter(
+              (data) => data.period >= firstYear && data.period <= lastYear
+            )
+            .map((data) => [
+              data.period,
+              data.inequalities[key]?.lower,
+              data.inequalities[key]?.upper,
+            ]),
           showConfidenceIntervalsData
         );
 
@@ -359,7 +365,9 @@ export function generateInequalitiesLineChartOptions(
       },
       labels: {
         ...(lineChartDefaultOptions.yAxis as YAxisOptions)?.labels,
-        formatter: FormatValueAsNumber,
+        formatter: function () {
+          return getFormattedLabel(Number(this.value), this.axis.tickPositions);
+        },
       },
     },
     xAxis: {

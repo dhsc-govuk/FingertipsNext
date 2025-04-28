@@ -7,6 +7,7 @@ import {
   generateInequalitiesLineChartSeriesData,
   getAggregatePointInfo,
   getDynamicKeys,
+  reorderItemsArraysToEnd,
   getYearDataGroupedByInequalities,
   groupHealthDataByYear,
   InequalitiesTableRowData,
@@ -457,18 +458,6 @@ describe('getDynamicKeys', () => {
     ).toEqual(['Persons', 'Male', 'Female']);
   });
 
-  it('Should position the headers at the end if provided', () => {
-    const sequenceSelector = () => 0;
-
-    expect(
-      getDynamicKeys(
-        yearlyHealthDataGroupedBySexWithSequences,
-        sequenceSelector,
-        ['Persons']
-      )
-    ).toEqual(['Male', 'Female', 'Persons']);
-  });
-
   it('should get unique keys for inequality sorted in descending sequence order when a sequence selector is used', () => {
     const sequenceSelector = (data?: HealthDataPoint) =>
       data?.deprivation.sequence ?? 0;
@@ -839,19 +828,29 @@ describe('generateLineChartSeriesData', () => {
   it('should only include years for which the selected areas have data', () => {
     const areasSelected = ['A1'];
     const mockChartDataWithExtraYears: InequalitiesChartData = {
-      areaName: 'West BarFoo',
+      areaName: 'A1',
       rowData: [
         ...mockInequalitiesRowData,
         {
           period: 2003,
           inequalities: {
-            Persons: { isAggregate: true },
+            Persons: {
+              value: 333,
+              upper: 334,
+              lower: 332,
+              isAggregate: true,
+            },
           },
         },
         {
           period: 2009,
           inequalities: {
-            Persons: { isAggregate: true },
+            Persons: {
+              value: 333,
+              upper: 334,
+              lower: 332,
+              isAggregate: true,
+            },
           },
         },
       ],
@@ -865,6 +864,56 @@ describe('generateLineChartSeriesData', () => {
       false
     );
     expect(actual).toEqual(seriesData);
+  });
+
+  it('should include CIs for aggregate series only for years for which the selected areas have data', () => {
+    const areasSelected = ['A1'];
+    const mockChartDataWithExtraYears: InequalitiesChartData = {
+      areaName: 'A1',
+      rowData: [
+        ...mockInequalitiesRowData,
+        {
+          period: 2003,
+          inequalities: {
+            Persons: {
+              value: 333,
+              upper: 334,
+              lower: 332,
+              isAggregate: true,
+            },
+          },
+        },
+        {
+          period: 2009,
+          inequalities: {
+            Persons: {
+              value: 333,
+              upper: 334,
+              lower: 332,
+              isAggregate: true,
+            },
+          },
+        },
+      ],
+    };
+    const expected = [
+      [2004, undefined, undefined],
+      [2008, 441.69151, 578.32766],
+    ];
+
+    const actual = generateInequalitiesLineChartSeriesData(
+      sexKeys,
+      InequalitiesTypes.Sex,
+      mockChartDataWithExtraYears,
+      areasSelected,
+      true
+    );
+
+    const actualPersonsErrorbars = actual.filter(
+      (series) => series.type === 'errorbar' && series.name === 'Persons'
+    )[0];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    expect((actualPersonsErrorbars as any).data).toEqual(expected);
   });
 });
 
@@ -1386,5 +1435,32 @@ describe('getInequalitiesType', () => {
     expect(getInequalitiesType(categories, 'Unitary deciles')).toBe(
       InequalitiesTypes.Deprivation
     );
+  });
+});
+
+describe('reorderItemsArraysToEnd', () => {
+  it('Check that when specific headers are provided for reordering, the array is reordered accordingly.', () => {
+    const headers = reorderItemsArraysToEnd(
+      ['Deprivation', 'Ethnicity', 'Age', 'Name', 'Sex', 'Other'],
+      ['Name', 'Age', 'Sex', 'Other']
+    );
+    expect(headers).toEqual([
+      'Deprivation',
+      'Ethnicity',
+      'Name',
+      'Age',
+      'Sex',
+      'Other',
+    ]);
+  });
+
+  it('If the original header is empty, I expect to receive an empty array', () => {
+    const headers = reorderItemsArraysToEnd([], ['Name', 'Age', 'Sex']);
+    expect(headers).toEqual([]);
+  });
+
+  it('When the list of specific reorder headers is empty, return the original headers', () => {
+    const headers = reorderItemsArraysToEnd(['Name', 'Age', 'Sex']);
+    expect(headers).toEqual(['Name', 'Age', 'Sex']);
   });
 });
