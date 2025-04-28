@@ -127,7 +127,7 @@ test.describe(`Search via`, () => {
           );
 
           await resultsPage.selectAreasFiltersIfRequired(
-            searchMode, // Only selects area filters if search mode is ONLY_SUBJECT
+            searchMode, // Only selects area filters if search mode is ONLY_SUBJECT.
             areaMode,
             subjectSearchTerm!
           );
