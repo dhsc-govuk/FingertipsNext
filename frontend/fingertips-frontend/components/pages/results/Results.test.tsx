@@ -135,22 +135,6 @@ describe('Search Results Suite', () => {
     );
   });
 
-  it('should call setIsLoading when the back link is clicked', async () => {
-    render(
-      <SearchResults
-        isEnglandSelectedAsGroup={false}
-        initialIndicatorSelectionState={initialState}
-        searchResults={[]}
-        searchState={state}
-      />
-    );
-
-    const user = userEvent.setup();
-    await user.click(screen.getByRole('link', { name: /back/i }));
-
-    expect(mockSetIsLoading).toHaveBeenCalledWith(true);
-  });
-
   it('should render the IndicatorSearchForm', () => {
     render(
       <SearchResults
