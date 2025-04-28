@@ -202,13 +202,13 @@ export function getScenarioConfig(
   return { visibleComponents, hiddenComponents };
 }
 
-const isUsedInPOC = (indicator: RawIndicatorDocument) =>
+const indicatorsUsedInPOC = (indicator: RawIndicatorDocument): boolean =>
   indicator.usedInPoc === true;
 
-const matchesSearchTerm = (
+const indicatorsMatchingSearchTerm = (
   indicator: RawIndicatorDocument,
   normalizedSearchTerm: string
-) =>
+): boolean =>
   indicator.indicatorName.toLowerCase().includes(normalizedSearchTerm) ||
   indicator.indicatorDefinition.toLowerCase().includes(normalizedSearchTerm);
 
@@ -216,7 +216,7 @@ export function getAllIndicatorIds(
   indicators: RawIndicatorDocument[]
 ): string[] {
   return indicators
-    .filter((indicator) => isUsedInPOC(indicator))
+    .filter((indicator) => indicatorsUsedInPOC(indicator))
     .map((indicator) => indicator.indicatorID);
 }
 
@@ -226,12 +226,12 @@ export function getAllIndicatorIdsForSearchTerm(
 ): string[] {
   if (!searchTerm) return [];
 
-  const normalizedSearchTerm = searchTerm.toLowerCase();
+  const lowerCasedSearchTerm = searchTerm.toLowerCase();
   return indicators
     .filter(
       (indicator) =>
-        isUsedInPOC(indicator) &&
-        matchesSearchTerm(indicator, normalizedSearchTerm)
+        indicatorsUsedInPOC(indicator) &&
+        indicatorsMatchingSearchTerm(indicator, lowerCasedSearchTerm)
     )
     .map((indicator) => indicator.indicatorID);
 }

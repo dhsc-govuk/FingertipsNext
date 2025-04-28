@@ -70,7 +70,7 @@ const coreTestJourneys: TestParams[] = [
     indicatorMode: IndicatorMode.THREE_PLUS_INDICATORS,
     areaMode: AreaMode.TWO_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'hospital', // different subject search term required that returns enough indicators so that three can be selected
+    subjectSearchTerm: 'hospital', // a different subject search term is required that returns enough search results allowing for three indicators to be selected
   },
 ];
 
@@ -118,7 +118,7 @@ test.describe(`Search via`, () => {
           await homePage.clickSearchButton();
         });
 
-        await test.step(`check results page based on search Mode and select ${areaMode} then ${indicatorMode}`, async () => {
+        await test.step(`check results page based on search mode and select ${areaMode} then ${indicatorMode}`, async () => {
           await resultsPage.waitForURLToContainBasedOnSearchMode(
             searchMode,
             subjectSearchTerm!,
