@@ -23,7 +23,6 @@ import {
   BenchmarkOutcome,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
-import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
 
 interface InequalitiesBarChartProps {
   barChartData: InequalitiesBarChartData;
@@ -175,7 +174,6 @@ export function InequalitiesBarChart({
         generateInequalitiesBarChartTooltipForPoint
       );
     },
-    yAxisLabelFormatter: FormatValueAsNumber,
   });
 
   useEffect(() => {

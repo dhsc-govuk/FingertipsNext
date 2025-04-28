@@ -7,6 +7,7 @@ import {
 import { chartColours, UniqueChartColours } from '@/lib/chartHelpers/colours';
 import {
   AXIS_TITLE_FONT_SIZE,
+  getFormattedLabel,
   generateConfidenceIntervalSeries,
   getHealthDataWithoutInequalities,
   isEnglandSoleSelectedArea,
@@ -18,7 +19,6 @@ import {
 } from '../LineChart/lineChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import Highcharts, { DashStyleValue, YAxisOptions } from 'highcharts';
-import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 export const localeSort = (a: string, b: string) => a.localeCompare(b);
@@ -263,11 +263,15 @@ export const generateInequalitiesLineChartSeriesData = (
       const confidenceIntervalSeries: Highcharts.SeriesOptionsType =
         generateConfidenceIntervalSeries(
           key,
-          chartData.rowData.map((data) => [
-            data.period,
-            data.inequalities[key]?.lower,
-            data.inequalities[key]?.upper,
-          ]),
+          chartData.rowData
+            .filter(
+              (data) => data.period >= firstYear && data.period <= lastYear
+            )
+            .map((data) => [
+              data.period,
+              data.inequalities[key]?.lower,
+              data.inequalities[key]?.upper,
+            ]),
           showConfidenceIntervalsData
         );
 
@@ -361,7 +365,9 @@ export function generateInequalitiesLineChartOptions(
       },
       labels: {
         ...(lineChartDefaultOptions.yAxis as YAxisOptions)?.labels,
-        formatter: FormatValueAsNumber,
+        formatter: function () {
+          return getFormattedLabel(Number(this.value), this.axis.tickPositions);
+        },
       },
     },
     xAxis: {

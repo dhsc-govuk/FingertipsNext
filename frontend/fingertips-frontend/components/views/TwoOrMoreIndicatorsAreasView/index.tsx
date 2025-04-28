@@ -27,11 +27,12 @@ export default async function TwoOrMoreIndicatorsAreasView({
     [SearchParams.AreaTypeSelected]: selectedAreaType,
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.GroupTypeSelected]: selectedGroupType,
+    [SearchParams.GroupAreaSelected]: groupAreaSelected,
   } = stateManager.getSearchState();
 
   const areaCodes = determineAreaCodes(
     areasSelected,
-    selectedGroupCode,
+    groupAreaSelected,
     availableAreas
   );
 

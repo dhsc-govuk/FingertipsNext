@@ -181,15 +181,16 @@ export default class AreaFilter extends BasePage {
       searchMode === SearchMode.ONLY_AREA &&
       areaMode === AreaMode.THREE_PLUS_AREAS
     ) {
-      // Need to select an additional checkbox for this scenario, as one is already selected
+      // Need to select an additional 2 checkboxes for this scenario, as one is already selected
       const areaCheckboxList = this.page
         .getByTestId(this.areaFilterContainer)
         .getByRole('checkbox');
       await this.checkAndAwaitLoadingComplete(areaCheckboxList.nth(1)); // as first checkbox is 'All'
+      await this.checkAndAwaitLoadingComplete(areaCheckboxList.nth(2)); // as first checkbox is 'All'
 
       await expect(
         this.page.getByTestId(this.areaFilterContainer)
-      ).toContainText('Selected areas (2)');
+      ).toContainText('Selected areas (3)');
     }
   }
 }

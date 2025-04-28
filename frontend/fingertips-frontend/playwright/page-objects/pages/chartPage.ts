@@ -209,20 +209,11 @@ export default class ChartPage extends AreaFilter {
       console.log(
         `checking component:${visibleComponent.componentLocator} for unexpected visual changes - see directory README.md for details.`
       );
-
-      // only warn if visual comparisons do not match - under constant review
-      try {
-        await expect(
-          this.page.getByTestId(visibleComponent.componentLocator)
-        ).toHaveScreenshot(
-          `${testName}-${visibleComponent.componentLocator}.png`
-        );
-      } catch (error) {
-        const typedError = error as Error;
-        console.warn(
-          `⚠️ Screenshot comparison warning for ${visibleComponent.componentLocator}: ${typedError.message}`
-        );
-      }
+      await expect(
+        this.page.getByTestId(visibleComponent.componentLocator)
+      ).toHaveScreenshot(
+        `${testName}-${visibleComponent.componentLocator}.png`
+      );
     }
 
     // Check that components expected not to be visible are not displayed
