@@ -11,6 +11,13 @@ describe('Arrow Suite', () => {
     expect(screen.getByTestId('arrow-right')).toBeInTheDocument();
   });
 
+  it('should display left arrow', () => {
+    render(<Arrow direction={Direction.LEFT} />);
+
+    expect(screen.getByTestId('arrow-icon')).toBeInTheDocument();
+    expect(screen.getByTestId('arrow-left')).toBeInTheDocument();
+  });
+
   it('should display up arrow', () => {
     render(<Arrow direction={Direction.UP} />);
 
