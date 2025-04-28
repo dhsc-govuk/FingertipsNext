@@ -202,43 +202,35 @@ export function getScenarioConfig(
   return { visibleComponents, hiddenComponents };
 }
 
-function filterIndicatorsByUsedInPOC(indicators: RawIndicatorDocument[]) {
-  return indicators.filter((indicator) => indicator.usedInPoc === true);
-}
+const matchesSearchTerm = (
+  indicator: RawIndicatorDocument,
+  normalizedSearchTerm: string
+) =>
+  indicator.indicatorName.toLowerCase().includes(normalizedSearchTerm) ||
+  indicator.indicatorDefinition.toLowerCase().includes(normalizedSearchTerm);
 
-function filterIndicatorsByNameAndUsedInPOC(
-  indicators: RawIndicatorDocument[],
-  searchTerm: string
-): RawIndicatorDocument[] {
-  if (!searchTerm) return [];
-
-  const normalizedSearchTerm = searchTerm.toLowerCase();
-  return indicators.filter((indicator) => {
-    return (
-      indicator.usedInPoc === true &&
-      (indicator.indicatorName.toLowerCase().includes(normalizedSearchTerm) ||
-        indicator.indicatorDefinition
-          .toLowerCase()
-          .includes(normalizedSearchTerm))
-    );
-  });
+export function getAllIndicatorIds(
+  indicators: RawIndicatorDocument[]
+): string[] {
+  return indicators
+    .filter((indicator) => indicator.usedInPoc === true)
+    .map((indicator) => indicator.indicatorID);
 }
 
 export function getAllIndicatorIdsForSearchTerm(
   indicators: RawIndicatorDocument[],
   searchTerm: string
 ): string[] {
-  return filterIndicatorsByNameAndUsedInPOC(indicators, searchTerm).map(
-    (indicator) => indicator.indicatorID
-  );
-}
+  if (!searchTerm) return [];
 
-export function getAllIndicatorIds(
-  indicators: RawIndicatorDocument[]
-): string[] {
-  return filterIndicatorsByUsedInPOC(indicators).map(
-    (indicator) => indicator.indicatorID
-  );
+  const normalizedSearchTerm = searchTerm.toLowerCase();
+  return indicators
+    .filter(
+      (indicator) =>
+        indicator.usedInPoc === true &&
+        matchesSearchTerm(indicator, normalizedSearchTerm)
+    )
+    .map((indicator) => indicator.indicatorID);
 }
 
 export function getAllAreasByAreaType(

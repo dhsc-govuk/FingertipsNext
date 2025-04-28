@@ -15,7 +15,6 @@ const areaSearchTerm: AreaDocument = {
   areaType: 'Regions',
   areaName: 'north west region',
 };
-let allIndicatorIDs: string[];
 
 interface TestParams {
   indicatorMode: IndicatorMode;
@@ -92,15 +91,13 @@ test.describe(`Search via`, () => {
           };
         }
       );
-      if (searchMode !== SearchMode.ONLY_AREA) {
-        allIndicatorIDs = getAllIndicatorIdsForSearchTerm(
-          typedIndicatorData,
-          subjectSearchTerm!
-        );
-      }
-      if (searchMode === SearchMode.ONLY_AREA) {
-        allIndicatorIDs = getAllIndicatorIds(typedIndicatorData);
-      }
+      const allIndicatorIDs =
+        searchMode === SearchMode.ONLY_AREA
+          ? getAllIndicatorIds(typedIndicatorData)
+          : getAllIndicatorIdsForSearchTerm(
+              typedIndicatorData,
+              subjectSearchTerm!
+            );
 
       test(`${searchMode} then select ${indicatorMode} and ${areaMode} then check the charts page`, async ({
         homePage,
