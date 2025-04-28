@@ -120,26 +120,26 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task Repository_ShouldReturnCorrectIndicatorAndLatestYearForEnglandWhenAreasContainNoData()
+    public async Task Repository_ShouldReturnCorrectIndicatorAndLatestYearForAllDataWhenAreasContainNoData()
     {
-        const int ENGLAND_YEAR = 2024;
-        const string ENGLAND_AREA_CODE = "E92000001";
+        const int LATEST_YEAR = 2024;
+        const string AREA_CODE = "E92000001";
         const int INDICATORID = 1;
         // arrange
-        PopulateDatabase(new HealthMeasureModelHelper(year: ENGLAND_YEAR)
+        PopulateDatabase(new HealthMeasureModelHelper(year: LATEST_YEAR)
             .WithIndicatorDimension(indicatorId: INDICATORID)
-            .WithAreaDimension(code: ENGLAND_AREA_CODE)
+            .WithAreaDimension(code: AREA_CODE)
             .Build());
 
         // act
         var result = await _healthDataRepository.GetIndicatorDimensionAsync(1, [
-            ENGLAND_AREA_CODE,
+            AREA_CODE,
             "TESTAREA_ONE",
             "TESTAREA_TWO"
         ]);
 
         // assert
-        result.LatestYear.ShouldBe(ENGLAND_YEAR);
+        result.LatestYear.ShouldBe(LATEST_YEAR);
     }
 
     #endregion

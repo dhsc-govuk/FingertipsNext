@@ -50,10 +50,9 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             return model;
         }
 
-        // Default to the latest year for England if none of the requested areas have data
+        // Default to the latest year for all indicator data if none of the requested areas have data
         return await _dbContext.HealthMeasure
            .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
-           .Where(healthMeasure => healthMeasure.AreaDimension.Code == ENGLAND_AREA_CODE)
            .OrderByDescending(healthMeasure => healthMeasure.Year)
            .Include(healthMeasure => healthMeasure.IndicatorDimension)
            .Select(healthMeasure => new IndicatorDimensionModel
