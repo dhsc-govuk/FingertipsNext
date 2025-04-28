@@ -133,7 +133,6 @@ public class HealthDataRepositoryTests
 
         // act
         var result = await _healthDataRepository.GetIndicatorDimensionAsync(1, [
-            AREA_CODE,
             "TESTAREA_ONE",
             "TESTAREA_TWO"
         ]);
