@@ -15,6 +15,7 @@ const areaSearchTerm: AreaDocument = {
   areaType: 'Regions',
   areaName: 'north west region',
 };
+let allIndicatorIDs: string[];
 
 interface TestParams {
   indicatorMode: IndicatorMode;
@@ -91,7 +92,8 @@ test.describe(`Search via`, () => {
           };
         }
       );
-      const allIndicatorIDs =
+
+      allIndicatorIDs =
         searchMode === SearchMode.ONLY_AREA
           ? getAllIndicatorIds(typedIndicatorData)
           : getAllIndicatorIdsForSearchTerm(
