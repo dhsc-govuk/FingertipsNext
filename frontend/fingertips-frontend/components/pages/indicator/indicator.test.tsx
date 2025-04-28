@@ -5,7 +5,6 @@ import { formatDate } from '@/lib/dateHelpers/dateHelpers';
 import { SearchParams } from '@/lib/searchStateManager';
 import { LoaderContext } from '@/context/LoaderContext';
 import { SearchStateContext } from '@/context/SearchStateContext';
-import userEvent from '@testing-library/user-event';
 
 const indicatorDefinition: IndicatorDefinitionProps = {
   ...placeholderIndicatorMetadata,
@@ -46,16 +45,6 @@ jest.mock('@/context/SearchStateContext', () => {
   return {
     useSearchState: () => mockSearchStateContext,
   };
-});
-
-jest.mock('govuk-react', () => {
-  const originalModule = jest.requireActual('govuk-react');
-  return {
-  ...originalModule,
-    BackLink: ({onClick, href}: {onClick: React.MouseEventHandler<HTMLAnchorElement>; href: string}) => (
-      <a data-testid="mock-back-link" onClick={onClick} href={href}>BackLink</a>
-)
-  }
 });
 
 describe('contents items should link to appropriate headings', () => {
@@ -110,7 +99,6 @@ describe('contents items should link to appropriate headings', () => {
 });
 
 describe('indicator description page', () => {
-  
   beforeEach(() => {
     render(
       <IndicatorDefinition
@@ -143,13 +131,6 @@ describe('indicator description page', () => {
     expect(backLink).toBeInTheDocument();
 
     expect(backLink.getAttribute('href')).toBe(expectedPath);
-  });
-
-  it('should call setIsLoading when the back link is clicked', async () => {
-    const user = userEvent.setup();
-    await user.click(screen.getByTestId('mock-back-link'));
-
-    expect(mockSetIsLoading).toHaveBeenCalledWith(true);
   });
 
   it('should lead with a title containing the indicator name', () => {

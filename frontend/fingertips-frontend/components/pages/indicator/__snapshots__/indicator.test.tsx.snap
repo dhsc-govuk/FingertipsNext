@@ -2,7 +2,92 @@
 
 exports[`indicator description page should match snapshot 1`] = `
 <DocumentFragment>
-  @media print {
+  .c0 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: inline-block;
+  position: relative;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  padding-left: 14px;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c0:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+  background-color: #ffdd00;
+}
+
+.c0:link,
+.c0:visited,
+.c0:hover,
+.c0:active,
+.c0:focus {
+  color: #0b0c0c;
+}
+
+.c0[href] {
+  border-bottom: 1px solid #0b0c0c;
+}
+
+.c0::before {
+  display: block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-color: transparent;
+  -webkit-clip-path: polygon(0% 50%,100% 100%,100% 0%);
+  clip-path: polygon(0% 50%,100% 100%,100% 0%);
+  border-width: 5px 6px 5px 0;
+  border-right-color: inherit;
+  content: '';
+  position: absolute;
+  top: -1px;
+  bottom: 1px;
+  left: 0;
+  margin: auto;
+}
+
+@media print {
+  .c0 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+@media print {
+  .c0 {
+    font-family: sans-serif;
+  }
+}
+
+@media print {
+  .c0:link,
+  .c0:visited,
+  .c0:hover,
+  .c0:active,
+  .c0:focus {
+    color: #000;
+  }
+}
+
+@media print {
 
 }
 
@@ -159,10 +244,11 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 <a
-    data-testid="mock-back-link"
+    class="c0"
+    data-testid="indicator-info-back-link"
     href="/chart?is=1&is=2&as=A001"
   >
-    BackLink
+    Back
   </a>
   .c0 {
   font-family: "nta",Arial,sans-serif;
@@ -174,6 +260,22 @@ exports[`indicator description page should match snapshot 1`] = `
   margin-bottom: 5px;
   display: block;
   color: #6f777b;
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
 }
 
 @media print {
@@ -358,6 +460,22 @@ exports[`indicator description page should match snapshot 1`] = `
 
 .c1 {
   margin-bottom: 10px;
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
 }
 
 @media print {
@@ -592,6 +710,22 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -797,6 +931,22 @@ exports[`indicator description page should match snapshot 1`] = `
 
 .c1 {
   margin-bottom: 0;
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
 }
 
 @media print {
@@ -1030,6 +1180,22 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -1199,6 +1365,22 @@ exports[`indicator description page should match snapshot 1`] = `
 
 .c1 {
   margin: 15px;
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
 }
 
 @media print {
@@ -1406,6 +1588,22 @@ exports[`indicator description page should match snapshot 1`] = `
 
 .c1 {
   margin-bottom: 0;
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
 }
 
 @media print {
@@ -1651,6 +1849,22 @@ exports[`indicator description page should match snapshot 1`] = `
 
 .c4:focus {
   color: #0b0c0c;
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
 }
 
 @media print {
@@ -1922,6 +2136,22 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -2093,6 +2323,22 @@ exports[`indicator description page should match snapshot 1`] = `
   display: block;
   margin-top: 0;
   margin-bottom: 15px;
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
 }
 
 @media print {
@@ -2320,6 +2566,22 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -2490,6 +2752,22 @@ exports[`indicator description page should match snapshot 1`] = `
   display: block;
   margin-top: 0;
   margin-bottom: 15px;
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
 }
 
 @media print {
@@ -2717,6 +2995,22 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -2887,6 +3181,22 @@ exports[`indicator description page should match snapshot 1`] = `
   display: block;
   margin-top: 0;
   margin-bottom: 15px;
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
 }
 
 @media print {
@@ -3114,6 +3424,22 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -3285,6 +3611,22 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
   display: block;
   margin-top: 0;
   margin-bottom: 15px;
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
 }
 
 @media print {
@@ -3512,6 +3854,22 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 
 }
 
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -3679,6 +4037,22 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 
 .c1 {
   margin: 15px;
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
 }
 
 @media print {
@@ -3875,6 +4249,22 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
   border-spacing: 0;
   border-collapse: collapse;
   margin-bottom: 20px;
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
 }
 
 @media print {
@@ -4188,6 +4578,22 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 
 }
 
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -4413,6 +4819,22 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
   border-spacing: 0;
   border-collapse: collapse;
   margin-bottom: 20px;
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
 }
 
 @media print {
@@ -4730,6 +5152,22 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 
 }
 
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -4923,6 +5361,22 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
   border-spacing: 0;
   border-collapse: collapse;
   margin-bottom: 20px;
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
 }
 
 @media print {
@@ -5166,6 +5620,22 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 
 }
 
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -5379,6 +5849,22 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 
 }
 
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -5550,6 +6036,22 @@ Fusce bibendum vestibulum lacus, non bibendum tellus ullamcorper ut. Curabitur a
   display: block;
   margin-top: 0;
   margin-bottom: 15px;
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
 }
 
 @media print {
@@ -5778,6 +6280,22 @@ Fusce bibendum vestibulum lacus, non bibendum tellus ullamcorper ut. Curabitur a
 
 }
 
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -5963,6 +6481,22 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 
 }
 
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -6134,6 +6668,22 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
   display: block;
   margin-top: 0;
   margin-bottom: 15px;
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
 }
 
 @media print {
@@ -6361,6 +6911,22 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 
 }
 
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -6531,6 +7097,22 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
   display: block;
   margin-top: 0;
   margin-bottom: 15px;
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
 }
 
 @media print {
@@ -6758,6 +7340,22 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 
 }
 
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -6928,6 +7526,22 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
   display: block;
   margin-top: 0;
   margin-bottom: 15px;
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
 }
 
 @media print {
@@ -7113,6 +7727,22 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
   display: block;
   margin-top: 0;
   margin-bottom: 15px;
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
 }
 
 @media print {
@@ -7367,6 +7997,22 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 }
 
 @media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
   .c3 {
     font-size: 14px;
     line-height: 1.15;
@@ -7583,6 +8229,22 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
   display: block;
   margin-top: 0;
   margin-bottom: 15px;
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
 }
 
 @media print {
@@ -7826,6 +8488,22 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 
 .c4:focus {
   color: #0b0c0c;
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
 }
 
 @media print {

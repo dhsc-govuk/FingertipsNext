@@ -3,7 +3,6 @@ import { IndicatorSelectedPill } from './index';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 import { LoaderContext } from '@/context/LoaderContext';
-import userEvent from '@testing-library/user-event';
 import { SearchStateContext } from '@/context/SearchStateContext';
 
 const mockIndicator = generateIndicatorDocument('1');
@@ -52,15 +51,6 @@ describe('IndicatorSelectedPill', () => {
 
     expect(screen.getByRole('link')).toHaveAttribute('href', expectedPath);
   });
-
-  // it('should call setIsLoading with true when the Add or change indicators button is clicked', async () => {
-  //   const user = userEvent.setup();
-  //   render(<IndicatorSelectedPill indicator={mockIndicator} />);
-  //
-  //   await user.click(screen.getByRole('link'));
-  //
-  //   expect(mockSetIsLoading).toHaveBeenCalledWith(true);
-  // });
 
   it('should match snapshot', () => {
     const { asFragment } = render(
