@@ -19,13 +19,11 @@ import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import { IndicatorSort } from '@/components/forms/IndicatorSort/IndicatorSort';
 import { useIndicatorSort } from '@/components/forms/IndicatorSort/useIndicatorSort';
-import { useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { Arrow } from '@/components/atoms/Arrow';
 import { Direction } from '@/lib/common-types';
-
-export const RESULTS_PER_PAGE = 15;
+import { RESULTS_PER_PAGE } from '@/components/pages/results';
 
 const ResultLabelsContainer = styled.span({
   alignItems: 'center',
@@ -69,6 +67,14 @@ const StyledPagination = styled(ReactPaginate)({
         background: `${GovukColours.Yellow}`,
       },
     },
+    '&.break': {
+      'color': `${GovukColours.DarkGrey}`,
+      'textDecoration': 'none',
+      'cursor': 'default',
+      '&:hover': {
+        backgroundColor: 'transparent',
+      },
+    },
   },
 });
 
@@ -77,6 +83,9 @@ type IndicatorSelectionProps = {
   showTrends: boolean;
   formAction: (payload: FormData) => void;
   currentDate?: Date;
+  currentPage?: number;
+  setCurrentPage?: (page: number) => void;
+  totalPages?: number;
 };
 
 const isIndicatorSelected = (
@@ -127,6 +136,9 @@ export function IndicatorSelectionForm({
   showTrends,
   formAction,
   currentDate,
+  currentPage = 1,
+  setCurrentPage,
+  totalPages = 1,
 }: Readonly<IndicatorSelectionProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -134,9 +146,6 @@ export function IndicatorSelectionForm({
   const { getSearchState } = useSearchState();
   const searchState = getSearchState();
   const stateManager = SearchStateManager.initialise(searchState);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(searchResults.length / RESULTS_PER_PAGE);
 
   const checkAllIndicatorsSelected = (
     searchResults: IndicatorDocument[],
@@ -151,7 +160,7 @@ export function IndicatorSelectionForm({
     searchState?.[SearchParams.IndicatorsSelected] || [];
 
   const { sortedResults, selectedSortOrder, handleSortOrder } =
-    useIndicatorSort(searchResults);
+    useIndicatorSort(searchResults, setCurrentPage);
 
   const pageSearchResults = sortedResults.slice(
     (currentPage - 1) * RESULTS_PER_PAGE,
@@ -275,9 +284,11 @@ export function IndicatorSelectionForm({
           {totalPages > 1 && (
             <div data-testid="search-results-pagination">
               <StyledPagination
-                breakLabel="..."
                 nextLabel={PageLabel(Direction.RIGHT)}
-                onPageChange={(event) => setCurrentPage(event.selected + 1)}
+                onPageChange={(event) =>
+                  setCurrentPage && setCurrentPage(event.selected + 1)
+                }
+                marginPagesDisplayed={1}
                 pageRangeDisplayed={2}
                 pageCount={totalPages}
                 previousLabel={PageLabel(Direction.LEFT)}

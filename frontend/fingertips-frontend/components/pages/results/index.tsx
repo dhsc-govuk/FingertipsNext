@@ -1,7 +1,7 @@
 'use client';
 
 import { BackLink, ErrorSummary, GridCol, GridRow, H1 } from 'govuk-react';
-import { useActionState, useEffect } from 'react';
+import { useActionState, useEffect, useState } from 'react';
 import {
   IndicatorSelectionState,
   submitIndicatorSelection,
@@ -33,6 +33,8 @@ type SearchResultsProps = {
   searchState?: SearchStateParams;
   currentDate?: Date;
 };
+
+export const RESULTS_PER_PAGE = 15;
 
 const generateBackLinkPath = (state?: SearchStateParams) => {
   const stateManager = SearchStateManager.initialise(state);
@@ -75,6 +77,11 @@ export function SearchResults({
 
   const searchTerm = searchState?.[SearchParams.SearchedIndicator] ?? '';
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(searchResults.length / RESULTS_PER_PAGE);
+
+  const searchTitle = `Search results${searchTerm ? ` for ${searchTerm}` : ''}${totalPages > 1 ? ` (page ${currentPage} of ${totalPages})` : ''}`;
+
   return (
     <>
       <BackLink
@@ -99,7 +106,7 @@ export function SearchResults({
             }}
           />
         )}
-        <H1>Search results{searchTerm ? ` for ${searchTerm}` : null}</H1>
+        <H1>{searchTitle}</H1>
         <form action={indicatorSearchFormAction}>
           <IndicatorSearchForm
             indicatorSearchFormState={indicatorSearchState}
@@ -121,6 +128,9 @@ export function SearchResults({
               }
               formAction={indicatorSelectionFormAction}
               currentDate={currentDate}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              totalPages={totalPages}
             />
           </GridCol>
         </GridRow>

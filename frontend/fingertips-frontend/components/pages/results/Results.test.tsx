@@ -116,6 +116,33 @@ describe('Search Results Suite', () => {
     );
   });
 
+  it('should render the correct search results title based upon the search term and pagination', () => {
+    const LARGE_MOCK_DATA: IndicatorDocument[] = Array.from(
+      { length: 33 },
+      (_, index) => ({
+        ...MOCK_DATA[0],
+        indicatorID: `${index}`,
+        indicatorName: `Indicator ${index}`,
+      })
+    );
+
+    render(
+      <SearchResults
+        isEnglandSelectedAsGroup={false}
+        initialIndicatorSelectionState={initialState}
+        searchResults={LARGE_MOCK_DATA}
+        searchState={state}
+      />
+    );
+    const title = screen.getByRole('heading', {
+      name: /search results/i,
+    });
+
+    expect(title).toHaveTextContent(
+      `Search results for ${searchedIndicator} (page 1 of 3)`
+    );
+  });
+
   it('should render the backLink', () => {
     render(
       <SearchResults

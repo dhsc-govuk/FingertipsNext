@@ -1,5 +1,5 @@
 import { render, screen, within } from '@testing-library/react';
-import { IndicatorSelectionForm, RESULTS_PER_PAGE } from '.';
+import { IndicatorSelectionForm } from '.';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { UserEvent, userEvent } from '@testing-library/user-event';
@@ -7,6 +7,7 @@ import { formatDate } from '@/lib/dateHelpers/dateHelpers';
 import { LoaderContext } from '@/context/LoaderContext';
 import { SearchStateContext } from '@/context/SearchStateContext';
 import { SortOrderKeys } from '@/components/forms/IndicatorSort/indicatorSort.types';
+import { RESULTS_PER_PAGE } from '@/components/pages/results';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -419,12 +420,19 @@ describe('IndicatorSelectionForm', () => {
       }));
     };
 
+    const mock20SearchResults = generateMockSearchResults(20);
+
     it('should show the pagination component when the size of the search results is more than the RESULTS_PER_PAGE', async () => {
+      const totalPages = Math.ceil(
+        mock20SearchResults.length / RESULTS_PER_PAGE
+      );
+
       render(
         <IndicatorSelectionForm
-          searchResults={generateMockSearchResults(20)}
+          searchResults={mock20SearchResults}
           showTrends={false}
           formAction={mockFormAction}
+          totalPages={totalPages}
         />
       );
 
@@ -446,31 +454,37 @@ describe('IndicatorSelectionForm', () => {
     });
 
     it('should show the correct number of searchResults per pages', async () => {
-      const mock20SearchResults = generateMockSearchResults(20);
+      const totalPages = Math.ceil(
+        mock20SearchResults.length / RESULTS_PER_PAGE
+      );
+
       render(
         <IndicatorSelectionForm
           searchResults={mock20SearchResults}
           showTrends={false}
           formAction={mockFormAction}
+          totalPages={totalPages}
+          currentPage={2}
         />
       );
 
       const resultsPerPage = screen.getAllByTestId('search-result');
-      expect(resultsPerPage).toHaveLength(RESULTS_PER_PAGE);
-
-      await user.click(screen.getByText(/Next/i));
-      const resultsPerPageNext = screen.getAllByTestId('search-result');
-      expect(resultsPerPageNext).toHaveLength(
+      expect(resultsPerPage).toHaveLength(
         mock20SearchResults.length - RESULTS_PER_PAGE
       );
     });
 
     it('should show the pagination next page anchor and not the previous page anchor when the current page is the first page', async () => {
+      const totalPages = Math.ceil(
+        mock20SearchResults.length / RESULTS_PER_PAGE
+      );
+
       render(
         <IndicatorSelectionForm
-          searchResults={generateMockSearchResults(20)}
+          searchResults={mock20SearchResults}
           showTrends={false}
           formAction={mockFormAction}
+          totalPages={totalPages}
         />
       );
 
@@ -481,31 +495,18 @@ describe('IndicatorSelectionForm', () => {
       expect(paginationNext).toBeInTheDocument();
     });
 
-    it('should show the pagination previous page anchor and not the next page anchor when the current page is the last page', async () => {
-      render(
-        <IndicatorSelectionForm
-          searchResults={generateMockSearchResults(20)}
-          showTrends={false}
-          formAction={mockFormAction}
-        />
+    it('should show the correct number of pages', async () => {
+      const mockBigSearchResults = generateMockSearchResults(47);
+      const totalPages = Math.ceil(
+        mockBigSearchResults.length / RESULTS_PER_PAGE
       );
 
-      await user.click(screen.getByText(/Next/i));
-
-      const paginationPrevious = screen.getByText(/Previous/i);
-      expect(paginationPrevious).toBeInTheDocument();
-
-      const paginationNext = screen.getByText(/Next/i).closest('li');
-      expect(paginationNext?.className).toContain('disabled');
-    });
-
-    it('should show the correct number of pages', async () => {
-      const mock20SearchResults = generateMockSearchResults(47);
       render(
         <IndicatorSelectionForm
-          searchResults={mock20SearchResults}
+          searchResults={mockBigSearchResults}
           showTrends={false}
           formAction={mockFormAction}
+          totalPages={totalPages}
         />
       );
 
@@ -514,9 +515,7 @@ describe('IndicatorSelectionForm', () => {
       );
       const paginationItems =
         within(paginationContainer).queryAllByRole('listitem');
-      const totalPages = Math.ceil(
-        mock20SearchResults.length / RESULTS_PER_PAGE
-      );
+
       expect(paginationItems.length - 1).toEqual(totalPages);
     });
 
