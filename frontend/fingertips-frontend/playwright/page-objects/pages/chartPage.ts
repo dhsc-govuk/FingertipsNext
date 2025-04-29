@@ -61,7 +61,7 @@ export default class ChartPage extends AreaFilter {
   async waitAfterDropDownInteraction() {
     await this.page.waitForLoadState();
     await expect(this.page.getByText('Loading')).toHaveCount(0);
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(2000);
   }
 
   /**
@@ -175,6 +175,19 @@ export default class ChartPage extends AreaFilter {
             .getByTestId(visibleComponent.componentLocator)
             .getByText('Show population data')
         );
+      }
+      // if its one of the wide chart components then scroll to the middle of it
+      if (visibleComponent.componentProps.isWideComponent) {
+        this.page
+          .getByTestId(visibleComponent.componentLocator)
+          .evaluate((element) => {
+            // Calculate the middle point horizontally
+            // Scrolls to half of the total scrollable width
+            const middleX = (element.scrollWidth - element.clientWidth) / 2;
+
+            // Scroll to the middle point
+            element.scrollLeft = middleX;
+          });
       }
 
       // check chart component is now visible

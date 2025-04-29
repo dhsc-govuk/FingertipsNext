@@ -28,6 +28,7 @@ type componentProps = {
   hasDetailsExpander?: boolean;
   hasTimePeriodDropDown?: boolean;
   hasTypeDropDown?: boolean;
+  isWideComponent?: boolean;
 };
 
 type component = {
@@ -117,11 +118,15 @@ export function getScenarioConfig(
     },
     {
       componentLocator: ChartPage.heatMapComponent,
-      componentProps: {},
+      componentProps: {
+        isWideComponent: true,
+      },
     },
     {
       componentLocator: ChartPage.spineChartTableComponent,
-      componentProps: {},
+      componentProps: {
+        isWideComponent: true,
+      },
     },
   ];
 
