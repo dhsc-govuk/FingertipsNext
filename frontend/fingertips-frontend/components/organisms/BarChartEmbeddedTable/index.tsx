@@ -31,6 +31,23 @@ import {
   getMaxValue,
 } from '@/components/organisms/BarChartEmbeddedTable/barChartEmbeddedTableHelpers';
 
+function sortByValueAndAreaName(
+  a: BarChartEmbeddedTableRow,
+  b: BarChartEmbeddedTableRow
+): number {
+  if (!a.value && !b.value) return 0;
+
+  if (!a.value) return 1;
+
+  if (!b.value) return -1;
+
+  const valueResult = b.value - a.value;
+
+  if (valueResult != 0) return valueResult;
+
+  return a.area.localeCompare(b.area, undefined, { sensitivity: 'base' });
+}
+
 const ConfidenceLimitsHeader: FC<{ confidenceLimit?: number }> = ({
   confidenceLimit,
 }) => {
@@ -84,12 +101,7 @@ export function BarChartEmbeddedTable({
     })
     .filter(filterUndefined) as BarChartEmbeddedTableRow[];
 
-  const sortedTableRows = tableRows.toSorted((a, b) => {
-    if (!a.value && !b.value) return 0;
-    if (!a.value) return 1;
-    if (!b.value) return -1;
-    return b.value - a.value;
-  });
+  const sortedTableRows = tableRows.toSorted(sortByValueAndAreaName);
 
   const benchmarkDataPoint = benchmarkData?.healthData.find(
     (point) => point.year === fullYear

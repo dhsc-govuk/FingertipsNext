@@ -1,6 +1,7 @@
 import { test } from '../../page-objects/pageFactory';
 import {
   AreaMode,
+  getAllIndicatorIds,
   getAllIndicatorIdsForSearchTerm,
   IndicatorMode,
   SearchMode,
@@ -24,6 +25,12 @@ interface TestParams {
 }
 
 const coreTestJourneys: TestParams[] = [
+  {
+    indicatorMode: IndicatorMode.ONE_INDICATOR,
+    areaMode: AreaMode.ENGLAND_AREA,
+    searchMode: SearchMode.ONLY_SUBJECT,
+    subjectSearchTerm: 'hospital',
+  },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ONE_AREA,
@@ -50,20 +57,20 @@ const coreTestJourneys: TestParams[] = [
   },
   {
     indicatorMode: IndicatorMode.TWO_INDICATORS,
-    areaMode: AreaMode.THREE_PLUS_AREAS,
-    searchMode: SearchMode.ONLY_AREA, // therefore no subject search term required
-  },
-  {
-    indicatorMode: IndicatorMode.TWO_INDICATORS,
     areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
     searchMode: SearchMode.ONLY_SUBJECT,
     subjectSearchTerm: 'emergency',
   },
   {
+    indicatorMode: IndicatorMode.TWO_INDICATORS,
+    areaMode: AreaMode.THREE_PLUS_AREAS,
+    searchMode: SearchMode.ONLY_AREA, // therefore no subject search term required
+  },
+  {
     indicatorMode: IndicatorMode.THREE_PLUS_INDICATORS,
     areaMode: AreaMode.TWO_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'hospital', // different subject search term required that returns enough indicators so that three can be selected
+    subjectSearchTerm: 'hospital', // a different subject search term is required that returns enough search results allowing for three indicators to be selected
   },
 ];
 
@@ -77,21 +84,23 @@ const coreTestJourneys: TestParams[] = [
 test.describe(`Search via`, () => {
   coreTestJourneys.forEach(
     ({ searchMode, indicatorMode, areaMode, subjectSearchTerm }) => {
-      if (searchMode !== SearchMode.ONLY_AREA) {
-        const typedIndicatorData = indicatorData.map(
-          (indicator: RawIndicatorDocument) => {
-            return {
-              ...indicator,
-              lastUpdated: new Date(indicator.lastUpdatedDate),
-            };
-          }
-        );
+      const typedIndicatorData = indicatorData.map(
+        (indicator: RawIndicatorDocument) => {
+          return {
+            ...indicator,
+            lastUpdated: new Date(indicator.lastUpdatedDate),
+          };
+        }
+      );
 
-        allIndicatorIDs = getAllIndicatorIdsForSearchTerm(
-          typedIndicatorData,
-          subjectSearchTerm!
-        );
-      }
+      allIndicatorIDs =
+        searchMode === SearchMode.ONLY_AREA
+          ? getAllIndicatorIds(typedIndicatorData)
+          : getAllIndicatorIdsForSearchTerm(
+              typedIndicatorData,
+              subjectSearchTerm!
+            );
+
       test(`${searchMode} then select ${indicatorMode} and ${areaMode} then check the charts page`, async ({
         homePage,
         resultsPage,
@@ -109,7 +118,7 @@ test.describe(`Search via`, () => {
           await homePage.clickSearchButton();
         });
 
-        await test.step(`check results page based on search Mode and select ${areaMode} then ${indicatorMode}`, async () => {
+        await test.step(`check results page based on search mode and select ${areaMode} then ${indicatorMode}`, async () => {
           await resultsPage.waitForURLToContainBasedOnSearchMode(
             searchMode,
             subjectSearchTerm!,

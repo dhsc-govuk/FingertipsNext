@@ -13,6 +13,8 @@ import { GovukColours } from '@/lib/styleHelpers/colours';
 import { mockIndicatorData, mockBenchmarkData, mockParentData } from './mocks';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { Dispatch, SetStateAction } from 'react';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 
 const symbols: SymbolKeyValue[] = ['arc', 'circle', 'diamond'];
 
@@ -356,13 +358,10 @@ describe('generateStandardLineChartOptions', () => {
     expect((generatedOptions.yAxis as any)!.title.text).toBe('yAxis');
     expect((generatedOptions.xAxis as any)!.title.text).toBe('xAxis');
     expect(generatedOptions.accessibility!.description).toBe('accessibility');
-    expect((generatedOptions.xAxis as any)!.max).toBe(2006);
-    expect((generatedOptions.xAxis as any)!.min).toBe(2004);
-
     expect(generatedOptions).toMatchSnapshot();
   });
 
-  it('should generate standard line chart options with benchmark data', () => {
+  it('should generate standard line chart options with benchmark and group data', () => {
     const generatedOptions = generateStandardLineChartOptions(
       [mockIndicatorData[0]],
       false,
@@ -378,8 +377,53 @@ describe('generateStandardLineChartOptions', () => {
       }
     );
     expect(generatedOptions).toMatchSnapshot();
-    expect((generatedOptions.xAxis as any)!.max).toBe(2006);
-    expect((generatedOptions.xAxis as any)!.min).toBe(2004);
+  });
+
+  it('should not include benchmark or group years before or after the areas have data', () => {
+    const mockBenchmarkAreaWithEarlyYear: HealthDataForArea = {
+      ...mockBenchmarkData,
+      healthData: [
+        ...mockBenchmarkData.healthData,
+        {
+          year: 1999,
+          ageBand: allAgesAge,
+          sex: personsSex,
+          trend: 'Not yet calculated',
+          deprivation: noDeprivation,
+        },
+      ],
+    };
+    const mockGroupAreaWithLateYear: HealthDataForArea = {
+      ...mockParentData,
+      healthData: [
+        ...mockParentData.healthData,
+        {
+          year: 2036,
+          ageBand: allAgesAge,
+          sex: personsSex,
+          trend: 'Not yet calculated',
+          deprivation: noDeprivation,
+        },
+      ],
+    };
+
+    const generatedOptions = generateStandardLineChartOptions(
+      [mockIndicatorData[0]],
+      false,
+      {
+        benchmarkData: mockBenchmarkAreaWithEarlyYear,
+        groupIndicatorData: mockGroupAreaWithLateYear,
+        yAxisTitle: 'yAxis',
+        xAxisTitle: 'xAxis',
+        measurementUnit: '%',
+        accessibilityLabel: 'accessibility',
+        colours: chartColours,
+        symbols,
+      }
+    );
+    expect((generatedOptions.series?.[0] as any).data).toHaveLength(2);
+    expect((generatedOptions.series?.[1] as any).data).toHaveLength(2);
+    expect(generatedOptions).toMatchSnapshot();
   });
 });
 

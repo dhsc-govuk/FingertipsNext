@@ -391,3 +391,13 @@ export function createTooltipHTML(
       </div>`,
   ];
 }
+
+export const getFormattedLabel = (
+  axisValue: number,
+  tickPositions: Highcharts.AxisTickPositionsArray | undefined
+) => {
+  const formattedNumber = formatNumber(axisValue);
+  return tickPositions?.every((position) => position % 1 === 0)
+    ? formattedNumber.replace('.0', '')
+    : formattedNumber;
+};
