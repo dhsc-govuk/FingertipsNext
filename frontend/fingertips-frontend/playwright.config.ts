@@ -42,7 +42,6 @@ const config: PlaywrightTestConfig = {
       ]
     : [['list'], ['html']],
   use: {
-    viewport: { width: 1280, height: 720 },
     baseURL: url,
     trace: isCI ? 'off' : 'on-first-retry',
     screenshot: 'on-first-failure',
@@ -53,6 +52,8 @@ const config: PlaywrightTestConfig = {
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
+        viewport: { width: 1280, height: 720 },
+        deviceScaleFactor: 2,
         channel: 'chromium',
         launchOptions: {
           args: ['--disable-dev-shm-usage', '--no-sandbox'],
@@ -61,7 +62,11 @@ const config: PlaywrightTestConfig = {
     },
     {
       name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      use: {
+        ...devices['Desktop Safari'],
+        viewport: { width: 1280, height: 720 },
+        deviceScaleFactor: 2,
+      },
     },
   ],
 };
