@@ -420,16 +420,13 @@ describe('IndicatorSelectionForm', () => {
       }));
     };
 
-    const mock20SearchResults = generateMockSearchResults(20);
-
     it('should show the pagination component when the size of the search results is more than the RESULTS_PER_PAGE', async () => {
-      const totalPages = Math.ceil(
-        mock20SearchResults.length / RESULTS_PER_PAGE
-      );
+      const totalResults = RESULTS_PER_PAGE + 1;
+      const totalPages = Math.ceil(totalResults / RESULTS_PER_PAGE);
 
       render(
         <IndicatorSelectionForm
-          searchResults={mock20SearchResults}
+          searchResults={generateMockSearchResults(totalResults)}
           showTrends={false}
           formAction={mockFormAction}
           totalPages={totalPages}
@@ -441,11 +438,32 @@ describe('IndicatorSelectionForm', () => {
     });
 
     it('should not show the pagination component when the size of the search results is less than the RESULTS_PER_PAGE', async () => {
+      const totalResults = RESULTS_PER_PAGE - 1;
+      const totalPages = Math.ceil(totalResults / RESULTS_PER_PAGE);
+
       render(
         <IndicatorSelectionForm
           searchResults={generateMockSearchResults(3)}
           showTrends={false}
           formAction={mockFormAction}
+          totalPages={totalPages}
+        />
+      );
+
+      const pagination = screen.queryByTestId('search-results-pagination');
+      expect(pagination).not.toBeInTheDocument();
+    });
+
+    it('should not show the pagination component when the size of the search results is equal to RESULTS_PER_PAGE', async () => {
+      const totalResults = RESULTS_PER_PAGE;
+      const totalPages = Math.ceil(totalResults / RESULTS_PER_PAGE);
+
+      render(
+        <IndicatorSelectionForm
+          searchResults={generateMockSearchResults(totalResults)}
+          showTrends={false}
+          formAction={mockFormAction}
+          totalPages={totalPages}
         />
       );
 
@@ -454,13 +472,12 @@ describe('IndicatorSelectionForm', () => {
     });
 
     it('should show the correct number of searchResults per pages', async () => {
-      const totalPages = Math.ceil(
-        mock20SearchResults.length / RESULTS_PER_PAGE
-      );
+      const totalResults = RESULTS_PER_PAGE + 5;
+      const totalPages = Math.ceil(totalResults / RESULTS_PER_PAGE);
 
       render(
         <IndicatorSelectionForm
-          searchResults={mock20SearchResults}
+          searchResults={generateMockSearchResults(totalResults)}
           showTrends={false}
           formAction={mockFormAction}
           totalPages={totalPages}
@@ -469,19 +486,16 @@ describe('IndicatorSelectionForm', () => {
       );
 
       const resultsPerPage = screen.getAllByTestId('search-result');
-      expect(resultsPerPage).toHaveLength(
-        mock20SearchResults.length - RESULTS_PER_PAGE
-      );
+      expect(resultsPerPage).toHaveLength(totalResults - RESULTS_PER_PAGE);
     });
 
     it('should show the pagination next page anchor and not the previous page anchor when the current page is the first page', async () => {
-      const totalPages = Math.ceil(
-        mock20SearchResults.length / RESULTS_PER_PAGE
-      );
+      const totalResults = RESULTS_PER_PAGE + 5;
+      const totalPages = Math.ceil(totalResults / RESULTS_PER_PAGE);
 
       render(
         <IndicatorSelectionForm
-          searchResults={mock20SearchResults}
+          searchResults={generateMockSearchResults(totalResults)}
           showTrends={false}
           formAction={mockFormAction}
           totalPages={totalPages}
@@ -496,14 +510,12 @@ describe('IndicatorSelectionForm', () => {
     });
 
     it('should show the correct number of pages', async () => {
-      const mockBigSearchResults = generateMockSearchResults(47);
-      const totalPages = Math.ceil(
-        mockBigSearchResults.length / RESULTS_PER_PAGE
-      );
+      const totalResults = 47;
+      const totalPages = Math.ceil(totalResults / RESULTS_PER_PAGE);
 
       render(
         <IndicatorSelectionForm
-          searchResults={mockBigSearchResults}
+          searchResults={generateMockSearchResults(totalResults)}
           showTrends={false}
           formAction={mockFormAction}
           totalPages={totalPages}
@@ -541,7 +553,7 @@ describe('IndicatorSelectionForm', () => {
       );
     });
 
-    it('should only select indicators on the current page when "Select all" is unchecked', async () => {
+    it('should only de-select indicators on the current page when "Select all" is unchecked', async () => {
       render(
         <IndicatorSelectionForm
           searchResults={generateMockSearchResults(20)}
