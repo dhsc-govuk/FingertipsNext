@@ -1,58 +1,51 @@
-import { Arrow } from '.';
 import { render, screen } from '@testing-library/react';
-import { expect } from '@jest/globals';
+import { Arrow } from './index';
 import { Direction } from '@/lib/common-types';
 
-describe('Arrow Suite', () => {
-  it('should display right arrow', () => {
-    render(<Arrow direction={Direction.RIGHT} />);
+// filepath: frontend/fingertips-frontend/components/atoms/Arrow/index.test.tsx
 
-    expect(screen.getByTestId('arrow-icon')).toBeInTheDocument();
-    expect(screen.getByTestId('arrow-right')).toBeInTheDocument();
-  });
-
-  it('should display left arrow', () => {
-    render(<Arrow direction={Direction.LEFT} />);
-
-    expect(screen.getByTestId('arrow-icon')).toBeInTheDocument();
-    expect(screen.getByTestId('arrow-left')).toBeInTheDocument();
-  });
-
-  it('should display up arrow', () => {
-    render(<Arrow direction={Direction.UP} />);
-
-    expect(screen.getByTestId('arrow-icon')).toBeInTheDocument();
-    expect(screen.getByTestId('arrow-up')).toBeInTheDocument();
-  });
-
-  it('should display down arrow', () => {
-    render(<Arrow direction={Direction.DOWN} />);
-
-    expect(screen.getByTestId('arrow-icon')).toBeInTheDocument();
-    expect(screen.getByTestId('arrow-down')).toBeInTheDocument();
-  });
-
-  it('should use the default stroke colour when not provided', () => {
-    const defaultColour = '#000000';
-
-    render(<Arrow direction={Direction.DOWN} />);
-    expect(screen.getByTestId('arrow-icon').getAttribute('stroke')).toEqual(
-      defaultColour
-    );
-  });
-
-  it('should use the stroke colour provided by client when present', () => {
-    const requestedColour = '#270D0B';
-
-    render(<Arrow direction={Direction.DOWN} strokeColour={requestedColour} />);
-    expect(screen.getByTestId('arrow-icon').getAttribute('stroke')).toEqual(
-      requestedColour
-    );
-  });
-
+describe('Arrow Component', () => {
   it('snapshot test', () => {
     const container = render(<Arrow direction={Direction.UP} />);
 
     expect(container.asFragment()).toMatchSnapshot();
+  });
+
+  it('renders correctly with default props', () => {
+    render(<Arrow direction={Direction.UP} />);
+    const arrowIcon = screen.getByTestId('arrow-icon');
+    expect(arrowIcon).toBeInTheDocument();
+    expect(arrowIcon).toHaveAttribute('stroke', '#000000'); // Default stroke color
+  });
+
+  it('applies the correct rotation for Direction.UP', () => {
+    render(<Arrow direction={Direction.UP} />);
+    const arrowGroup = screen.getByTestId('arrow-up').closest('g');
+    expect(arrowGroup).toHaveAttribute('transform', 'rotate(0)');
+  });
+
+  it('applies the correct rotation for Direction.RIGHT', () => {
+    render(<Arrow direction={Direction.RIGHT} />);
+    const arrowGroup = screen.getByTestId('arrow-right').closest('g');
+    expect(arrowGroup).toHaveAttribute('transform', 'rotate(90 10 10)');
+  });
+
+  it('applies the correct rotation for Direction.DOWN', () => {
+    render(<Arrow direction={Direction.DOWN} />);
+    const arrowGroup = screen.getByTestId('arrow-down').closest('g');
+    expect(arrowGroup).toHaveAttribute('transform', 'rotate(180 10 10)');
+  });
+
+  it('applies the correct rotation for Direction.LEFT', () => {
+    render(<Arrow direction={Direction.LEFT} />);
+    const arrowGroup = screen.getByTestId('arrow-left').closest('g');
+    expect(arrowGroup).toHaveAttribute('transform', 'rotate(-90 10 10)');
+  });
+
+  it('applies the correct stroke color when strokeColour is provided', () => {
+    const customColor = '#FF5733';
+    render(<Arrow direction={Direction.UP} strokeColour={customColor} />);
+    const arrowIcon = screen.getByTestId('arrow-icon');
+    expect(arrowIcon).toHaveAttribute('stroke', customColor);
   });
 });

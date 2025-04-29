@@ -80,7 +80,10 @@ export function SearchResults({
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(searchResults.length / RESULTS_PER_PAGE);
 
-  const searchTitle = `Search results${searchTerm ? ` for ${searchTerm}` : ''}${totalPages > 1 ? ` (page ${currentPage} of ${totalPages})` : ''}`;
+  const searchTitle =
+    'Search results' +
+    (searchTerm ? ' for ' + searchTerm : '') +
+    (totalPages > 1 ? ' (page ' + currentPage + ' of ' + totalPages + ')' : '');
 
   return (
     <>

@@ -10,6 +10,21 @@ export function Arrow({
   direction,
   strokeColour = '#000000',
 }: Readonly<ArrowProps>) {
+  const getRotation = () => {
+    switch (direction) {
+      case Direction.UP:
+        return 'rotate(0)';
+      case Direction.RIGHT:
+        return 'rotate(90 10 10)';
+      case Direction.DOWN:
+        return 'rotate(180 10 10)';
+      case Direction.LEFT:
+        return 'rotate(-90 10 10)';
+      default:
+        return 'rotate(0)';
+    }
+  };
+
   return (
     <svg
       data-testid="arrow-icon"
@@ -22,18 +37,9 @@ export function Arrow({
       strokeWidth="1.5"
       strokeLinecap="square"
     >
-      {direction === Direction.UP && (
-        <path data-testid="arrow-up" d="M12 19V6M5 12l7-7 7 7" />
-      )}
-      {direction === Direction.DOWN && (
-        <path data-testid="arrow-down" d="M12 5v13M5 12l7 7 7-7" />
-      )}
-      {direction === Direction.RIGHT && (
-        <path data-testid="arrow-right" d="M5 12h13M12 5l7 7-7 7" />
-      )}
-      {direction === Direction.LEFT && (
-        <path data-testid="arrow-left" d="M5 12h13M10 5l-7 7 7 7" />
-      )}
+      <g transform={getRotation()}>
+        <path data-testid={`arrow-${direction}`} d="M12 19V6M5 12l7-7 7 7" />
+      </g>
     </svg>
   );
 }

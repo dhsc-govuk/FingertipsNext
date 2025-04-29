@@ -281,7 +281,7 @@ export function IndicatorSelectionForm({
             View data
           </Button>
 
-          {totalPages > 1 && (
+          {totalPages > 1 ? (
             <div data-testid="search-results-pagination">
               <StyledPagination
                 nextLabel={PageLabel(Direction.RIGHT)}
@@ -296,7 +296,7 @@ export function IndicatorSelectionForm({
                 forcePage={currentPage - 1}
               />
             </div>
-          )}
+          ) : null}
         </>
       ) : (
         <Paragraph>**No results found**</Paragraph>
