@@ -176,19 +176,6 @@ export default class ChartPage extends AreaFilter {
             .getByText('Show population data')
         );
       }
-      // if its one of the wide chart components then scroll to the middle of it
-      if (visibleComponent.componentProps.isWideComponent) {
-        this.page
-          .getByTestId(visibleComponent.componentLocator)
-          .evaluate((element) => {
-            // Calculate the middle point horizontally
-            // Scrolls to half of the total scrollable width
-            const middleX = (element.scrollWidth - element.clientWidth) / 2;
-
-            // Scroll to the middle point
-            element.scrollLeft = middleX;
-          });
-      }
 
       // check chart component is now visible
       await expect(
