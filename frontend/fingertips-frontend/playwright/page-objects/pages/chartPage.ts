@@ -178,7 +178,7 @@ export default class ChartPage extends AreaFilter {
       }
       // if its one of the wide chart components then scroll to the middle of it
       if (visibleComponent.componentProps.isWideComponent) {
-        this.page
+        await this.page
           .getByTestId(visibleComponent.componentLocator)
           .evaluate((element) => {
             // Calculate the middle point horizontally
