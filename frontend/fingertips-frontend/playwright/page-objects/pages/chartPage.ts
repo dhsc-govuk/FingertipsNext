@@ -204,7 +204,6 @@ export default class ChartPage extends AreaFilter {
       ).toBeVisible({
         visible: true,
       });
-
       const chartComponentBox = await this.page
         .getByTestId(visibleComponent.componentLocator)
         .boundingBox();
