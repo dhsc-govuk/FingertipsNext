@@ -190,6 +190,13 @@ export default class ChartPage extends AreaFilter {
           });
       }
 
+      // check chart component is now visible
+      await expect(
+        this.page.getByTestId(visibleComponent.componentLocator)
+      ).toBeVisible({
+        visible: true,
+      });
+
       // this block of code is required to ensure we have stable screenshot comparisons - it can be removed once playwright fix their library
       await this.page.waitForLoadState();
       await expect(this.page.getByText('Loading')).toHaveCount(0);
@@ -198,26 +205,14 @@ export default class ChartPage extends AreaFilter {
       await this.page.waitForFunction('window.scrollY === 0');
       await this.page.waitForTimeout(1000);
 
-      // check chart component is now visible and its rendered correctly
+      // note that screenshot snapshot comparisons are skipped when running against deployed azure environments
+      console.log(
+        `checking component:${visibleComponent.componentLocator} for unexpected visual changes - see directory README.md for details.`
+      );
       await expect(
         this.page.getByTestId(visibleComponent.componentLocator)
-      ).toBeVisible({
-        visible: true,
-      });
-      const chartComponentBox = await this.page
-        .getByTestId(visibleComponent.componentLocator)
-        .boundingBox();
-      await expect(this.page).toHaveScreenshot(
-        `${testName}-${visibleComponent.componentLocator}.png`,
-        {
-          // https://github.com/microsoft/playwright/issues/20097#issuecomment-1382672908
-          // https://github.com/microsoft/playwright/issues/13873#issuecomment-1769316019
-          // https://github.com/microsoft/playwright/blob/main/packages/playwright-core/src/utils/comparators.ts#L68-L73
-          // @ts-expect-error experimental feature
-          _comparator: 'ssim-cie94',
-          clip: chartComponentBox!,
-          fullPage: true,
-        }
+      ).toHaveScreenshot(
+        `${testName}-${visibleComponent.componentLocator}.png`
       );
     }
 
