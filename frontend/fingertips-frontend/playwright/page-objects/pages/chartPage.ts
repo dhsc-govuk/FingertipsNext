@@ -61,7 +61,7 @@ export default class ChartPage extends AreaFilter {
   async waitAfterDropDownInteraction() {
     await this.page.waitForLoadState();
     await expect(this.page.getByText('Loading')).toHaveCount(0);
-    await this.page.waitForTimeout(2000);
+    await this.page.waitForTimeout(1000);
   }
 
   /**
