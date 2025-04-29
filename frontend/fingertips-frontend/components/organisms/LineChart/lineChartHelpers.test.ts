@@ -137,9 +137,7 @@ describe('generateSeriesData', () => {
     ];
 
     const generatedSeriesData = generateSeriesData(
-      mockIndicatorData.toSorted((a, b) =>
-        a.areaName.localeCompare(b.areaName)
-      ),
+      mockIndicatorData,
       symbols,
       chartColours,
       mockBenchmarkData,
@@ -220,9 +218,7 @@ describe('generateSeriesData', () => {
     ];
 
     const generatedSeriesData = generateSeriesData(
-      mockIndicatorData.toSorted((a, b) =>
-        a.areaName.localeCompare(b.areaName)
-      ),
+      mockIndicatorData,
       symbols,
       chartColours,
       mockBenchmarkData,
