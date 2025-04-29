@@ -6,7 +6,7 @@ The Fingertips search setup console app automates the creation and loading of da
 
 To run the application, ensure you have the following:
 
-1. The correct version of Node.js installed. See [frontend/fingertips-frontend/README.md](../frontend/fingertips-frontend/README.md)
+1. The correct version of Node.js installed. See [apps/frontend/frontend-app/README.md](../../../apps/frontend/frontend-app/README.md)
 2. An already-existing Azure AI Search instance running. See [terraform/environment](../terraform/environment/) to create one, if not.
 
 ## Running the app

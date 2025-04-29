@@ -61,7 +61,7 @@ To enable the system to connect to the Azure AI Search the following environment
 
 There are several components to the application:
 
-- The [frontend](frontend/fingertips-frontend/), a Next.js application which provides the UI
+- The [frontend](apps/frontend/frontend-app/), a Next.js application which provides the UI
 - The [api](api/DHSC.FingertipsNext.Api/), a .NET application which provides the API layer
 - The [database](database/fingertips-db/) project, a SQL Server Database Project that defines the database structure
 - The [terraform](terraform/), which provides the Infrastructure as Code used to deploy the application to Azure

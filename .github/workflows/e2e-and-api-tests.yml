@@ -1,7 +1,7 @@
 name: Execute e2e tests
 
 env:
-  frontend-directory: ./frontend/fingertips-frontend
+  frontend-directory: ./apps/frontend/frontend-app
   NEXT_TELEMETRY_DISABLED: true
   NODE_VERSION: 22.x
   BRANCH_NAME: ${{ github.event_name == 'pull_request' && format('refs/pull/{0}/merge', github.event.pull_request.number) || (github.head_ref || github.ref_name) }}

@@ -72,7 +72,7 @@ export class IndicatorSearchService implements IIndicatorSearchService {
   ): Promise<IndicatorDocument | undefined> {
     let rawIndicatorDocument: RawIndicatorDocument;
     try {
-      console.log('Hello World');
+      console.log('Hello World Again');
       rawIndicatorDocument = (await this.searchClient.getDocument(
         indicatorId
       )) as RawIndicatorDocument;

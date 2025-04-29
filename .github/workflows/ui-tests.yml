@@ -1,7 +1,7 @@
 name: Execute UI tests
 
 env:
-  frontend-directory: ./frontend/fingertips-frontend
+  frontend-directory: ./apps/frontend/frontend-app
   NEXT_TELEMETRY_DISABLED: true
   NODE_VERSION: 22.x
 
