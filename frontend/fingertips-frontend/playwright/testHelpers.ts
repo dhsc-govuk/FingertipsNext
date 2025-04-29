@@ -171,7 +171,6 @@ export function getScenarioConfig(
     [`${IndicatorMode.TWO_INDICATORS}-${AreaMode.THREE_PLUS_AREAS}`]: [
       ChartPage.heatMapComponent,
       ChartPage.populationPyramidComponent,
-      ChartPage.spineChartTableComponent, // needs to be last so scroll right doesn't impact other component screenshots
     ],
     [`${IndicatorMode.TWO_INDICATORS}-${AreaMode.ALL_AREAS_IN_A_GROUP}`]: [
       ChartPage.heatMapComponent,
@@ -203,31 +202,38 @@ export function getScenarioConfig(
   return { visibleComponents, hiddenComponents };
 }
 
-function filterIndicatorsByName(
-  indicators: RawIndicatorDocument[],
-  searchTerm: string
-): RawIndicatorDocument[] {
-  if (!searchTerm) return [];
+const indicatorsUsedInPOC = (indicator: RawIndicatorDocument): boolean =>
+  indicator.usedInPoc === true;
 
-  const normalizedSearchTerm = searchTerm.toLowerCase();
-  return indicators.filter((indicator) => {
-    return (
-      indicator.usedInPoc === true &&
-      (indicator.indicatorName.toLowerCase().includes(normalizedSearchTerm) ||
-        indicator.indicatorDefinition
-          .toLowerCase()
-          .includes(normalizedSearchTerm))
-    );
-  });
+const indicatorsMatchingSearchTerm = (
+  indicator: RawIndicatorDocument,
+  normalizedSearchTerm: string
+): boolean =>
+  indicator.indicatorName.toLowerCase().includes(normalizedSearchTerm) ||
+  indicator.indicatorDefinition.toLowerCase().includes(normalizedSearchTerm);
+
+export function getAllIndicatorIds(
+  indicators: RawIndicatorDocument[]
+): string[] {
+  return indicators
+    .filter((indicator) => indicatorsUsedInPOC(indicator))
+    .map((indicator) => indicator.indicatorID);
 }
 
 export function getAllIndicatorIdsForSearchTerm(
   indicators: RawIndicatorDocument[],
   searchTerm: string
 ): string[] {
-  return filterIndicatorsByName(indicators, searchTerm).map(
-    (indicator) => indicator.indicatorID
-  );
+  if (!searchTerm) return [];
+
+  const lowerCasedSearchTerm = searchTerm.toLowerCase();
+  return indicators
+    .filter(
+      (indicator) =>
+        indicatorsUsedInPOC(indicator) &&
+        indicatorsMatchingSearchTerm(indicator, lowerCasedSearchTerm)
+    )
+    .map((indicator) => indicator.indicatorID);
 }
 
 export function getAllAreasByAreaType(
