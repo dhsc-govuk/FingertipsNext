@@ -5,6 +5,7 @@ import ResultsPage from './pages/resultsPage';
 import ChartPage from './pages/chartPage';
 import { test as baseTest } from '@playwright/test';
 import IndicatorPage from '@/playwright/page-objects/pages/indicatorPage';
+import { addLooksSameMatcher } from '../looksSameMatcher';
 
 type pages = {
   homePage: HomePage;
@@ -90,3 +91,29 @@ export const test = testBase.extend<pages>({
 });
 
 export const expect = test.expect;
+
+// Add the custom matcher to our expect instance
+addLooksSameMatcher(expect);
+
+// Add type definition for TypeScript
+
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace PlaywrightTest {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    interface Matchers<R, T> {
+      toMatchScreenshotWithLooksSame(
+        screenshotName: string,
+        options?: {
+          tolerance?: number;
+          ignoreCaret?: boolean;
+          ignoreAntialiasing?: boolean;
+          createDiffImage?: boolean;
+          diffDir?: string;
+          baselineDir?: string;
+          screenshotsDir?: string;
+        }
+      ): Promise<R>;
+    }
+  }
+}

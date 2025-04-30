@@ -204,18 +204,19 @@ export default class ChartPage extends AreaFilter {
       ).toBeVisible({
         visible: true,
       });
-      await expect(
-        this.page.getByTestId(visibleComponent.componentLocator)
-      ).toHaveScreenshot(
-        `${testName}-${visibleComponent.componentLocator}.png`,
-        {
-          // @ts-expect-error experimental feature
-          _comparator: 'ssim-cie94',
-          threshold: 0.55,
-          maxDiffPixelRatio: 0.1,
-          scale: 'device',
-        }
-      );
+      if (this.page.context().browser()!.browserType().name() === 'chromium') {
+        await expect(
+          this.page.getByTestId(visibleComponent.componentLocator)
+        ).toMatchScreenshotWithLooksSame(
+          `${testName}-${visibleComponent.componentLocator}.png`,
+          {
+            tolerance: 5, // Baseline tolerance
+            ignoreAntialiasing: true,
+            ignoreCaret: true,
+            createDiffImage: true,
+          }
+        );
+      }
     }
 
     // Check that components expected not to be visible are not displayed

@@ -19,9 +19,9 @@ const config: PlaywrightTestConfig = {
   timeout: 90_000,
   expect: {
     timeout: 10_000,
-    toHaveScreenshot: {
-      pathTemplate: '.test/spec/snaps/{projectName}/{testFilePath}/{arg}{ext}',
-    },
+    // toHaveScreenshot: {
+    //   pathTemplate: '.test/spec/snaps/{projectName}/{testFilePath}/{arg}{ext}',
+    // },
   },
 
   reporter: isCI
