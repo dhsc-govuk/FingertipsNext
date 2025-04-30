@@ -162,9 +162,23 @@ export default class ChartPage extends AreaFilter {
       }
       // if its one of the chart components that has a confidence interval checkbox then click it
       if (visibleComponent.componentProps.hasConfidenceIntervals) {
+        let confidenceIntervalComponent;
+        switch (visibleComponent.componentLocator) {
+          case ChartPage.inequalitiesForSingleTimePeriodComponent:
+          case ChartPage.inequalitiesBarChartComponent:
+            confidenceIntervalComponent =
+              ChartPage.inequalitiesBarChartComponent;
+            break;
+          case ChartPage.barChartEmbeddedTableComponent:
+            confidenceIntervalComponent =
+              ChartPage.barChartEmbeddedTableComponent;
+            break;
+          default:
+            confidenceIntervalComponent = ChartPage.lineChartComponent;
+        }
         await this.checkAndAwaitLoadingComplete(
           this.page.getByTestId(
-            `confidence-interval-checkbox-${visibleComponent.componentLocator.replace('-component', '')}`
+            `confidence-interval-checkbox-${confidenceIntervalComponent.replace('-component', '')}`
           )
         );
       }

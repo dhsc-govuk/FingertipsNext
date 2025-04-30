@@ -68,6 +68,7 @@ export function getScenarioConfig(
     {
       componentLocator: ChartPage.inequalitiesForSingleTimePeriodComponent,
       componentProps: {
+        hasConfidenceIntervals: true,
         hasTimePeriodDropDown: true,
         hasTypeDropDown: true,
       },
@@ -75,6 +76,7 @@ export function getScenarioConfig(
     {
       componentLocator: ChartPage.inequalitiesTrendComponent,
       componentProps: {
+        hasConfidenceIntervals: true,
         hasTypeDropDown: true,
       },
     },
