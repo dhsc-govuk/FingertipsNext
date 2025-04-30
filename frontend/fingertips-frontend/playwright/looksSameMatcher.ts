@@ -17,7 +17,7 @@ async function compareWithLooksSame(
     diffDir?: string;
     baselineDir?: string;
     screenshotsDir?: string;
-    antialiasingTolerance?: number;
+    stopOnFirstFail?: boolean;
   } = {}
 ) {
   // Set defaults
@@ -29,7 +29,7 @@ async function compareWithLooksSame(
     diffDir = './test-results/screenshot-diffs/',
     baselineDir = './test-results/screenshot-baseline/',
     screenshotsDir = './test-results/screenshots/',
-    antialiasingTolerance = 40,
+    stopOnFirstFail = false,
   } = options;
 
   // Create directories if they don't exist
@@ -69,7 +69,7 @@ async function compareWithLooksSame(
       tolerance,
       ignoreCaret,
       ignoreAntialiasing,
-      antialiasingTolerance,
+      stopOnFirstFail,
     });
 
     if (!result.equal && createDiffImage) {
