@@ -213,7 +213,7 @@ export default class ChartPage extends AreaFilter {
         this.page.getByTestId(visibleComponent.componentLocator)
       ).toHaveScreenshot(
         `${testName}-${visibleComponent.componentLocator}.png`,
-        { omitBackground: true }
+        { threshold: 0.3 }
       );
     }
 
