@@ -8,38 +8,37 @@ import {
   heatmapIndicatorTitleColumnWidth,
 } from './heatmapUtil';
 
+// replacing the previous solution that used
+// writingMode: 'vertical-lr' which was much better
+// for browser rendering, but doesn't work for
+// html2canvas creating images for downloads
 const StyledDivRotate = styled.div({
-  transform: 'translate(-15px) rotate(30deg)',
-  transformOrigin: 'bottom right',
+  transform: 'translate(15px) rotate(-60deg)',
+  transformOrigin: 'top left',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
 });
 
 const StyledH4AreaScaled = styled(H4)({
-  transform: 'scale(-1)',
   transformOrigin: 'center',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
   overflow: 'hidden',
-  maxWidth: '40px',
-  writingMode: 'vertical-lr',
-  maxHeight: '300px',
+  maxWidth: '300px',
+  maxHeight: '40px',
   display: 'block',
   margin: '0px',
 });
 
 const StyledH4BenchmarkHeader = styled(StyledH4AreaScaled)({
   backgroundColor: GovukColours.MidGrey,
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  paddingLeft: '4px',
-  paddingRight: '4px',
+  padding: '4px 8px',
 });
 
 const StyledH4GroupAreaCodeHeader = styled(StyledH4AreaScaled)({
   backgroundColor: GovukColours.LightGrey,
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  paddingLeft: '4px',
-  paddingRight: '4px',
+  padding: '4px 8px',
 });
 
 const StyledH4Header = styled(H4)({
@@ -76,8 +75,11 @@ const StyledCellHeaderIndicatorInformation = styled(Table.CellHeader)({
 });
 
 const StyledCellHeaderArea = styled(Table.CellHeader)({
+  position: 'relative',
   verticalAlign: 'bottom',
   width: `${heatmapDataColumnWidth}px`,
+  maxWidth: `${heatmapDataColumnWidth}px`,
+  overflow: 'visible',
   paddingRight: '0px',
   paddingLeft: '1em',
 });
@@ -107,7 +109,7 @@ export const HeatmapHeader: FC<HeatmapHeaderProps> = ({
         <StyledCellHeaderArea>
           <StyledDivRotate>
             <StyledH4BenchmarkHeader>
-              Benchmark: {content}
+              <span className={'rotatedHeading'}>Benchmark: {content}</span>
             </StyledH4BenchmarkHeader>
           </StyledDivRotate>
         </StyledCellHeaderArea>
@@ -118,7 +120,9 @@ export const HeatmapHeader: FC<HeatmapHeaderProps> = ({
       return (
         <StyledCellHeaderArea>
           <StyledDivRotate>
-            <StyledH4GroupAreaCodeHeader>{content}</StyledH4GroupAreaCodeHeader>
+            <StyledH4GroupAreaCodeHeader>
+              <span className={'rotatedHeading'}>{content}</span>
+            </StyledH4GroupAreaCodeHeader>
           </StyledDivRotate>
         </StyledCellHeaderArea>
       );
@@ -128,7 +132,9 @@ export const HeatmapHeader: FC<HeatmapHeaderProps> = ({
       return (
         <StyledCellHeaderArea>
           <StyledDivRotate>
-            <StyledH4AreaScaled>{content}</StyledH4AreaScaled>
+            <StyledH4AreaScaled>
+              <span className={'rotatedHeading'}>{content}</span>
+            </StyledH4AreaScaled>
           </StyledDivRotate>
         </StyledCellHeaderArea>
       );

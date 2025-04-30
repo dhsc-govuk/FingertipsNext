@@ -14,6 +14,7 @@ import styled from 'styled-components';
 import { SpineChartLegend } from '@/components/organisms/SpineChartLegend/SpineChartLegend';
 import { getMethodsAndOutcomes } from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
 import { SpineChartIndicatorData } from './spineChartTableHelpers';
+import { DownloadImage } from '@/components/molecules/DownloadImage/DownloadImage';
 
 const SpineChartHeading = styled(H2)({
   fontSize: '1.5rem',
@@ -52,7 +53,7 @@ export function SpineChartTable({
       />
 
       <StyledDivTableContainer data-testid="spineChartTable-component">
-        <StyledTable>
+        <StyledTable id={'spinechart'}>
           <SpineChartTableHeader
             areaNames={areaNames}
             groupName={sortedData[0].groupData?.areaName ?? 'Group'}
@@ -67,6 +68,7 @@ export function SpineChartTable({
           ))}
         </StyledTable>
       </StyledDivTableContainer>
+      <DownloadImage target={'spinechart'} />
     </>
   );
 }

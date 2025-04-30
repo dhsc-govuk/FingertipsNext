@@ -24,6 +24,7 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
+import { DownloadImage } from '@/components/molecules/DownloadImage/DownloadImage';
 
 interface InequalitiesBarChartProps {
   barChartData: InequalitiesBarChartData;
@@ -201,13 +202,16 @@ export function InequalitiesBarChart({
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
       />
-      <HighchartsReact
-        containerProps={{
-          'data-testid': 'highcharts-react-component-inequalitiesBarChart',
-        }}
-        highcharts={Highcharts}
-        options={options}
-      />
+      <div id={'inequalitiesBarChart'}>
+        <HighchartsReact
+          containerProps={{
+            'data-testid': 'highcharts-react-component-inequalitiesBarChart',
+          }}
+          highcharts={Highcharts}
+          options={options}
+        />
+      </div>
+      <DownloadImage target={'inequalitiesBarChart'} />
     </div>
   );
 }

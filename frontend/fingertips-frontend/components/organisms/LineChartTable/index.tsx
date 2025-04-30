@@ -32,6 +32,7 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { DownloadImage } from '@/components/molecules/DownloadImage/DownloadImage';
 
 export enum LineChartTableHeadingEnum {
   AreaPeriod = 'Period',
@@ -276,146 +277,152 @@ export function LineChartTable({
     .toSorted((a, b) => a.year - b.year);
 
   return (
-    <StyledDivWithScrolling data-testid="lineChartTable-component">
-      <StyledTable
-        head={
-          <>
-            <Table.Row>
-              <StyledTitleCell />
-              {healthIndicatorData.map((area, index) => (
-                <StyledTitleCell colSpan={5} key={area.areaName + index}>
-                  <StyledTrendContainer>
-                    Recent trend:
-                    <TrendTag
-                      trendFromResponse={
-                        area.healthData[area.healthData.length - 1].trend
-                      }
-                    />
-                  </StyledTrendContainer>
-                </StyledTitleCell>
-              ))}
-              {groupIndicatorData ? <StyledTitleCell /> : null}
-              {showBenchmarkColumn ? <StyledStickyRightHeader /> : null}
-            </Table.Row>
-            <Table.Row>
-              <Table.CellHeader />
-              {healthIndicatorData.map((area) => (
-                <StyledAreaNameHeader colSpan={5} key={area.areaName}>
-                  {area.areaName}
-                </StyledAreaNameHeader>
-              ))}
-              {groupIndicatorData ? (
-                <StyledGroupNameHeader data-testid="group-header">
-                  Group: {groupIndicatorData.areaName}
-                </StyledGroupNameHeader>
-              ) : null}
-              {showBenchmarkColumn ? (
-                <StyledStickyRightHeader data-testid="england-header">
-                  Benchmark: <br /> England
-                </StyledStickyRightHeader>
-              ) : null}
-            </Table.Row>
-            {confidenceLimit ? (
+    <>
+      <StyledDivWithScrolling data-testid="lineChartTable-component">
+        <StyledTable
+          id={'lineChartTable'}
+          head={
+            <>
               <Table.Row>
+                <StyledTitleCell />
                 {healthIndicatorData.map((area, index) => (
-                  <React.Fragment key={area.areaName}>
-                    <Table.CellHeader
-                      colSpan={getConfidenceLimitCellSpan(index)}
-                    />
-                    <StyledConfidenceLimitsHeader colSpan={2}>
-                      {confidenceLimit}%<br />
-                      confidence
-                      <br />
-                      limits
-                    </StyledConfidenceLimitsHeader>
-                  </React.Fragment>
+                  <StyledTitleCell colSpan={5} key={area.areaName + index}>
+                    <StyledTrendContainer>
+                      Recent trend:
+                      <TrendTag
+                        trendFromResponse={
+                          area.healthData[area.healthData.length - 1].trend
+                        }
+                      />
+                    </StyledTrendContainer>
+                  </StyledTitleCell>
                 ))}
-                {groupIndicatorData ? <StyledLightGreyHeader /> : null}
+                {groupIndicatorData ? <StyledTitleCell /> : null}
                 {showBenchmarkColumn ? <StyledStickyRightHeader /> : null}
               </Table.Row>
-            ) : null}
+              <Table.Row>
+                <Table.CellHeader />
+                {healthIndicatorData.map((area) => (
+                  <StyledAreaNameHeader colSpan={5} key={area.areaName}>
+                    {area.areaName}
+                  </StyledAreaNameHeader>
+                ))}
+                {groupIndicatorData ? (
+                  <StyledGroupNameHeader data-testid="group-header">
+                    Group: {groupIndicatorData.areaName}
+                  </StyledGroupNameHeader>
+                ) : null}
+                {showBenchmarkColumn ? (
+                  <StyledStickyRightHeader data-testid="england-header">
+                    Benchmark: <br /> England
+                  </StyledStickyRightHeader>
+                ) : null}
+              </Table.Row>
+              {confidenceLimit ? (
+                <Table.Row>
+                  {healthIndicatorData.map((area, index) => (
+                    <React.Fragment key={area.areaName}>
+                      <Table.CellHeader
+                        colSpan={getConfidenceLimitCellSpan(index)}
+                      />
+                      <StyledConfidenceLimitsHeader colSpan={2}>
+                        {confidenceLimit}%<br />
+                        confidence
+                        <br />
+                        limits
+                      </StyledConfidenceLimitsHeader>
+                    </React.Fragment>
+                  ))}
+                  {groupIndicatorData ? <StyledLightGreyHeader /> : null}
+                  {showBenchmarkColumn ? <StyledStickyRightHeader /> : null}
+                </Table.Row>
+              ) : null}
 
-            {/* The header rendering is here */}
-            <Table.Row>
-              <StyledAlignStickyLeftHeader
-                data-testid={`header-${LineChartTableHeadingEnum.AreaPeriod}-${0}`}
-                key={`header-${LineChartTableHeadingEnum.AreaPeriod}`}
-              >
-                {LineChartTableHeadingEnum.AreaPeriod}
-              </StyledAlignStickyLeftHeader>
-              {healthIndicatorData.map((_, areaIndex) =>
-                Object.values(LineChartTableHeadingEnum)
-                  .filter(
-                    (value) =>
-                      value !== LineChartTableHeadingEnum.AreaPeriod &&
-                      value !== LineChartTableHeadingEnum.BenchmarkValue
-                  )
-                  .map((heading) => (
-                    <CellHeader
-                      key={`header-${heading}`}
-                      heading={heading}
-                      areaIndex={areaIndex}
-                      units={measurementUnit}
-                    />
-                  ))
-              )}
+              {/* The header rendering is here */}
+              <Table.Row>
+                <StyledAlignStickyLeftHeader
+                  data-testid={`header-${LineChartTableHeadingEnum.AreaPeriod}-${0}`}
+                  key={`header-${LineChartTableHeadingEnum.AreaPeriod}`}
+                >
+                  {LineChartTableHeadingEnum.AreaPeriod}
+                </StyledAlignStickyLeftHeader>
+                {healthIndicatorData.map((_, areaIndex) =>
+                  Object.values(LineChartTableHeadingEnum)
+                    .filter(
+                      (value) =>
+                        value !== LineChartTableHeadingEnum.AreaPeriod &&
+                        value !== LineChartTableHeadingEnum.BenchmarkValue
+                    )
+                    .map((heading) => (
+                      <CellHeader
+                        key={`header-${heading}`}
+                        heading={heading}
+                        areaIndex={areaIndex}
+                        units={measurementUnit}
+                      />
+                    ))
+                )}
+                {groupIndicatorData ? (
+                  <StyledLightGreySubHeader>
+                    Value {measurementUnit}
+                  </StyledLightGreySubHeader>
+                ) : null}
+                {showBenchmarkColumn ? (
+                  <StyledStickyRightHeader
+                    data-testid={`header-benchmark-value`}
+                  >
+                    {LineChartTableHeadingEnum.BenchmarkValue}{' '}
+                    <StyledSpan>{measurementUnit}</StyledSpan>
+                  </StyledStickyRightHeader>
+                ) : null}
+              </Table.Row>
+            </>
+          }
+        >
+          {rowData.map(({ year, areas, benchmarkValue, groupValue }) => (
+            <Table.Row key={`lineChartTableRow-${year}`}>
+              <StyledAlignLeftStickyTableCell numeric>
+                {year}
+              </StyledAlignLeftStickyTableCell>
+              {areas.map((area, areaIndex) => (
+                <React.Fragment
+                  key={`lineChartTableRow-${year}-area-${areaIndex}`}
+                >
+                  <BenchmarkCell
+                    benchmarkComparison={area?.benchmarkComparison}
+                    benchmarkComparisonMethod={benchmarkComparisonMethod}
+                    polarity={polarity}
+                    border={areaIndex > 0}
+                  />
+                  <StyledAlignRightTableCell numeric>
+                    {formatWholeNumber(area?.count)}
+                  </StyledAlignRightTableCell>
+                  <StyledAlignRightTableCell numeric>
+                    {formatNumber(area?.value)}
+                  </StyledAlignRightTableCell>
+                  <StyledAlignRightTableCell numeric>
+                    {formatNumber(area?.lowerCi)}
+                  </StyledAlignRightTableCell>
+                  <StyledAlignRightTableCell numeric>
+                    {formatNumber(area?.upperCi)}
+                  </StyledAlignRightTableCell>
+                </React.Fragment>
+              ))}
               {groupIndicatorData ? (
-                <StyledLightGreySubHeader>
-                  Value {measurementUnit}
-                </StyledLightGreySubHeader>
+                <StyledGroupValueTableCell>
+                  {formatNumber(groupValue)}
+                </StyledGroupValueTableCell>
               ) : null}
               {showBenchmarkColumn ? (
-                <StyledStickyRightHeader data-testid={`header-benchmark-value`}>
-                  {LineChartTableHeadingEnum.BenchmarkValue}{' '}
-                  <StyledSpan>{measurementUnit}</StyledSpan>
-                </StyledStickyRightHeader>
+                <StyledStickyRight data-testid="grey-table-cell">
+                  {formatNumber(benchmarkValue)}
+                </StyledStickyRight>
               ) : null}
             </Table.Row>
-          </>
-        }
-      >
-        {rowData.map(({ year, areas, benchmarkValue, groupValue }) => (
-          <Table.Row key={`lineChartTableRow-${year}`}>
-            <StyledAlignLeftStickyTableCell numeric>
-              {year}
-            </StyledAlignLeftStickyTableCell>
-            {areas.map((area, areaIndex) => (
-              <React.Fragment
-                key={`lineChartTableRow-${year}-area-${areaIndex}`}
-              >
-                <BenchmarkCell
-                  benchmarkComparison={area?.benchmarkComparison}
-                  benchmarkComparisonMethod={benchmarkComparisonMethod}
-                  polarity={polarity}
-                  border={areaIndex > 0}
-                />
-                <StyledAlignRightTableCell numeric>
-                  {formatWholeNumber(area?.count)}
-                </StyledAlignRightTableCell>
-                <StyledAlignRightTableCell numeric>
-                  {formatNumber(area?.value)}
-                </StyledAlignRightTableCell>
-                <StyledAlignRightTableCell numeric>
-                  {formatNumber(area?.lowerCi)}
-                </StyledAlignRightTableCell>
-                <StyledAlignRightTableCell numeric>
-                  {formatNumber(area?.upperCi)}
-                </StyledAlignRightTableCell>
-              </React.Fragment>
-            ))}
-            {groupIndicatorData ? (
-              <StyledGroupValueTableCell>
-                {formatNumber(groupValue)}
-              </StyledGroupValueTableCell>
-            ) : null}
-            {showBenchmarkColumn ? (
-              <StyledStickyRight data-testid="grey-table-cell">
-                {formatNumber(benchmarkValue)}
-              </StyledStickyRight>
-            ) : null}
-          </Table.Row>
-        ))}
-      </StyledTable>
-    </StyledDivWithScrolling>
+          ))}
+        </StyledTable>
+      </StyledDivWithScrolling>
+      <DownloadImage target={'lineChartTable'} />
+    </>
   );
 }

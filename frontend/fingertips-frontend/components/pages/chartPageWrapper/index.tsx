@@ -13,6 +13,7 @@ import {
 import { BackLink, GridCol, GridRow, H2 } from 'govuk-react';
 import { useEffect, useState } from 'react';
 import { FilterSummaryPanel } from '@/components/molecules/FilterSummaryPanel';
+import { DownloadImagePreview } from '@/components/molecules/DownloadImage/DownloadImagePreview';
 
 interface ChartPageWrapperProps {
   children: React.ReactNode;
@@ -77,6 +78,7 @@ export function ChartPageWrapper({
           {children}
         </GridCol>
       </GridRow>
+      <DownloadImagePreview />
     </>
   );
 }
