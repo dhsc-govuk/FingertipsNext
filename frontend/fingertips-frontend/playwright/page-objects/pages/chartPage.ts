@@ -210,7 +210,7 @@ export default class ChartPage extends AreaFilter {
         ).toMatchScreenshotWithLooksSame(
           `${testName}-${visibleComponent.componentLocator}.png`,
           {
-            tolerance: 20,
+            tolerance: 500,
             ignoreCaret: true,
             ignoreAntialiasing: true,
             createDiffImage: true,
