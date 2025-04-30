@@ -341,7 +341,7 @@ export function generateInequalitiesLineChartOptions(
     lineChartCI,
     optionalParams?.inequalityLineChartAreaSelected
   );
-  const  lineChartDefaultOptions = createLineChartOptions([]);
+  const lineChartDefaultOptions = createLineChartOptions([]);
 
   return {
     ...lineChartDefaultOptions,

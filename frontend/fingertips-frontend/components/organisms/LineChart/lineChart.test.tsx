@@ -3,8 +3,7 @@ import { LineChart } from '@/components/organisms/LineChart/index';
 import { expect } from '@jest/globals';
 import { createLineChartOptions, LineChartVariant } from './lineChartHelpers';
 
-
-const  lineChartDefaultOptions = createLineChartOptions([]);
+const lineChartDefaultOptions = createLineChartOptions([]);
 const mockSeries = [
   {
     color: '#F46A25',

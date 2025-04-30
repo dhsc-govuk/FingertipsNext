@@ -180,7 +180,7 @@ const mockChartData = {
 };
 
 const sexKeys = ['Persons', 'Male', 'Female'];
-const lineChartDefaultOptions = createLineChartOptions([])
+const lineChartDefaultOptions = createLineChartOptions([]);
 
 describe('valueSelectorForInequality', () => {
   it('should select the sex value for the Sex inequality type', () => {

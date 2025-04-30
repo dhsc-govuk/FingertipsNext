@@ -28,8 +28,10 @@ export enum LineChartVariant {
   Inequalities = 'inequalities',
 }
 
-export const createLineChartOptions = (xValues: string[]): Highcharts.Options => {
-  return ({
+export const createLineChartOptions = (
+  xValues: string[]
+): Highcharts.Options => {
+  return {
     credits: {
       enabled: false,
     },
@@ -51,6 +53,7 @@ export const createLineChartOptions = (xValues: string[]): Highcharts.Options =>
     },
     xAxis: {
       categories: xValues,
+      max: xValues.length - 1,
       tickLength: 0,
       allowDecimals: false,
       labels: { style: { fontSize: AXIS_LABEL_FONT_SIZE } },
@@ -74,34 +77,32 @@ export const createLineChartOptions = (xValues: string[]): Highcharts.Options =>
     plotOptions: {
       series: {
         animation: false,
-      }
-    }
-  })
-}
+      },
+    },
+  };
+};
 
 const generateTimePeriodsFrom = (timePeriodHealthData: HealthDataPoint[]) => {
   const seenPeriods: string[] = [];
   const timePeriodLabels: string[] = [];
-
   timePeriodHealthData.forEach((h) => {
-      const year = h.year.toString();
+    const year = h.year.toString();
 
-      const index = seenPeriods.indexOf(year);
-      if (index === -1) {
-          // First time we see this year
-          seenPeriods.push(year);
-          timePeriodLabels.push(h.timePeriod ?? year);
-      } else if (h.timePeriod) {
-          // We've seen the year, check if we need to update label
-          if (timePeriodLabels[index] !== h.timePeriod) {
-              timePeriodLabels[index] = h.timePeriod;
-          }
+    const index = seenPeriods.indexOf(year);
+    if (index === -1) {
+      // First time we see this year
+      seenPeriods.push(year);
+      timePeriodLabels.push(h.timePeriod ?? year);
+    } else if (h.timePeriod) {
+      // We've seen the year, check if we need to update label
+      if (timePeriodLabels[index] !== h.timePeriod) {
+        timePeriodLabels[index] = h.timePeriod;
       }
+    }
   });
 
   return timePeriodLabels;
 };
-
 
 export const chartSymbols: SymbolKeyValue[] = [
   'square',
@@ -153,9 +154,7 @@ export function generateSeriesData(
     const groupSeries: Highcharts.SeriesOptionsType = {
       type: 'line',
       name: `Group: ${parentIndicatorData.areaName}`,
-      data: parentIndicatorData.healthData.map((point) => [
-        point.value,
-      ]),
+      data: parentIndicatorData.healthData.map((point) => [point.value]),
       color: GovukColours.Turquoise,
       marker: {
         symbol: 'diamond',
@@ -211,16 +210,16 @@ export function generateStandardLineChartOptions(
     : undefined;
   const filteredSortedBenchMarkData =
     sortedBenchMarkData &&
-      sortedHealthIndicatorData.length &&
-      firstYear &&
-      lastYear
+    sortedHealthIndicatorData.length &&
+    firstYear &&
+    lastYear
       ? {
-        ...sortedBenchMarkData,
-        healthData:
-          sortedBenchMarkData?.healthData.filter(
-            (data) => data.year >= firstYear && data.year <= lastYear
-          ) ?? [],
-      }
+          ...sortedBenchMarkData,
+          healthData:
+            sortedBenchMarkData?.healthData.filter(
+              (data) => data.year >= firstYear && data.year <= lastYear
+            ) ?? [],
+        }
       : sortedBenchMarkData;
 
   const sortedGroupData = optionalParams?.groupIndicatorData
@@ -229,12 +228,12 @@ export function generateStandardLineChartOptions(
   const filteredSortedGroupData =
     sortedGroupData && sortedHealthIndicatorData.length && firstYear && lastYear
       ? {
-        ...sortedGroupData,
-        healthData:
-          sortedGroupData?.healthData.filter(
-            (data) => data.year >= firstYear && data.year <= lastYear
-          ) ?? [],
-      }
+          ...sortedGroupData,
+          healthData:
+            sortedGroupData?.healthData.filter(
+              (data) => data.year >= firstYear && data.year <= lastYear
+            ) ?? [],
+        }
       : sortedGroupData;
 
   let seriesData = generateSeriesData(
@@ -295,21 +294,20 @@ export function generateStandardLineChartOptions(
   );
 
   // compile the all the time Periods and then sort them again and remove the duplicates.
-  const flatHealthDataPoints  =  [...sortedHealthIndicatorData.map((x)=>x.healthData).flat(),
-    ...(sortedGroupData?  sortedGroupData.healthData : []),
-    ...(sortedBenchMarkData?  sortedBenchMarkData.healthData : [])].toSorted((a, b) => {
-     return(a.year - b.year)
-   })
-  const timePeriodLabels: string[] = generateTimePeriodsFrom(flatHealthDataPoints); 
-  const lineChartDefaultOptions =  createLineChartOptions(timePeriodLabels)
-  console.log(timePeriodLabels)
+  const flatHealthDataPoints = sortedBenchMarkData
+    ? sortedBenchMarkData.healthData
+    : [];
+
+  const timePeriodLabels: string[] =
+    generateTimePeriodsFrom(flatHealthDataPoints);
+
+  const lineChartDefaultOptions = createLineChartOptions(timePeriodLabels);
 
   const generateAreaLineChartTooltipForPoint = (
     point: Highcharts.Point,
     symbol: string
   ) => {
     const areaCode: string = point.series.options.custom?.areaCode ?? '';
-
     const label =
       areaCode === areaCodeForEngland
         ? AreaTypeLabelEnum.Benchmark
@@ -317,10 +315,10 @@ export function generateStandardLineChartOptions(
 
     const { benchmarkLabel, category, comparisonLabel } = getTooltipContent(
       getBenchmarkOutcomeForYear(point.x, areaCode, tooltipData) ??
-      BenchmarkOutcome.NotCompared,
+        BenchmarkOutcome.NotCompared,
       label,
       optionalParams?.benchmarkComparisonMethod ??
-      BenchmarkComparisonMethod.Unknown
+        BenchmarkComparisonMethod.Unknown
     );
 
     const formatValueUnit = (valueUnit?: string) => {
@@ -361,10 +359,10 @@ export function generateStandardLineChartOptions(
       },
       title: optionalParams?.yAxisTitle
         ? {
-          text: optionalParams?.yAxisTitle,
-          margin: 20,
-          style: { fontSize: AXIS_TITLE_FONT_SIZE },
-        }
+            text: optionalParams?.yAxisTitle,
+            margin: 20,
+            style: { fontSize: AXIS_TITLE_FONT_SIZE },
+          }
         : undefined,
     },
     xAxis: {
