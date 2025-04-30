@@ -62,10 +62,14 @@ const mockDamson = {
   lastUpdatedDate: new Date('2015/12/25'),
 } as IndicatorDocument;
 
+const mockSetCurrentPage = jest.fn();
+
 describe('useIndicatorSort', () => {
   const mockResults = [mockBanana, mockApple, mockDamson, mockCherry];
   it('should not change the sort order when relevance is selected', () => {
-    const { result } = renderHook(() => useIndicatorSort(mockResults));
+    const { result } = renderHook(() =>
+      useIndicatorSort(mockResults, mockSetCurrentPage)
+    );
 
     expect(result.current.sortedResults).toEqual([
       mockBanana,
@@ -79,7 +83,9 @@ describe('useIndicatorSort', () => {
     mockGetSearchState.mockImplementation(() => ({
       [SearchParams.SearchedOrder]: SortOrderKeys.alphabetical,
     }));
-    const { result } = renderHook(() => useIndicatorSort(mockResults));
+    const { result } = renderHook(() =>
+      useIndicatorSort(mockResults, mockSetCurrentPage)
+    );
     expect(result.current.selectedSortOrder).toEqual(
       SortOrderKeys.alphabetical
     );
@@ -148,5 +154,21 @@ describe('useIndicatorSort', () => {
       `${mockPath}?${SearchParams.SearchedOrder}=alphabetical`,
       { scroll: false }
     );
+  });
+
+  it('should call the provided setCurrentPage function when handleSortOrder is called', () => {
+    mockGetSearchState.mockImplementation(() => ({
+      [SearchParams.SearchedOrder]: SortOrderKeys.updated,
+    }));
+
+    const { result } = renderHook(() =>
+      useIndicatorSort(mockResults, mockSetCurrentPage)
+    );
+    const { handleSortOrder } = result.current;
+
+    handleSortOrder({
+      target: { value: SortOrderKeys.alphabetical },
+    } as ChangeEvent<HTMLSelectElement>);
+    expect(mockSetCurrentPage).toHaveBeenCalled();
   });
 });

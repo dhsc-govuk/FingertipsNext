@@ -4,13 +4,15 @@ import { z } from 'zod';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { redirect, RedirectType } from 'next/navigation';
 
-const $IndicatorSelectionFormSchema = z.object({
-  searchState: z.string(),
-  indicatorsSelected: z
-    .string()
-    .array()
-    .min(1, { message: 'Please select at least one indicator' }),
-});
+const $IndicatorSelectionFormSchema = z
+  .object({
+    searchState: z.string(),
+    indicatorsSelected: z.array(z.string()).optional(),
+  })
+  .refine((data) => {
+    const stateParsed = JSON.parse(data.searchState);
+    return stateParsed[SearchParams.IndicatorsSelected]?.length > 0;
+  });
 
 export type State = {
   errors?: {
@@ -43,13 +45,10 @@ export async function submitIndicatorSelection(
     };
   }
 
-  const { searchState, indicatorsSelected } = validatedFields.data;
+  const { searchState } = validatedFields.data;
   const state = JSON.parse(searchState);
 
-  const searchStateManager = SearchStateManager.initialise({
-    ...state,
-    [SearchParams.IndicatorsSelected]: indicatorsSelected,
-  });
+  const searchStateManager = SearchStateManager.initialise(state);
 
   redirect(searchStateManager.generatePath('/chart'), RedirectType.push);
 }
