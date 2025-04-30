@@ -212,7 +212,8 @@ export default class ChartPage extends AreaFilter {
       await expect(
         this.page.getByTestId(visibleComponent.componentLocator)
       ).toHaveScreenshot(
-        `${testName}-${visibleComponent.componentLocator}.png`
+        `${testName}-${visibleComponent.componentLocator}.png`,
+        { omitBackground: true }
       );
     }
 
