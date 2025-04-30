@@ -26,7 +26,7 @@ async function compareWithLooksSame(
     ignoreAntialiasing = true,
     createDiffImage = true,
     diffDir = './test-results/screenshot-diffs',
-    baselineDir = './test-results/screenshot-baseline',
+    baselineDir = './test-results/screenshot-baseline/',
     screenshotsDir = './test-results/screenshots',
   } = options;
 
