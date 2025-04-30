@@ -209,6 +209,8 @@ export default class ChartPage extends AreaFilter {
       ).toHaveScreenshot(
         `${testName}-${visibleComponent.componentLocator}.png`,
         {
+          // @ts-expect-error experimental feature
+          _comparator: 'ssim-cie94',
           threshold: 0.55,
           maxDiffPixelRatio: 0.1,
           scale: 'device',
