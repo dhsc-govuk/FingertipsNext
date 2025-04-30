@@ -112,6 +112,7 @@ declare global {
           diffDir?: string;
           baselineDir?: string;
           screenshotsDir?: string;
+          antialiasingTolerance?: number;
         }
       ): Promise<R>;
     }

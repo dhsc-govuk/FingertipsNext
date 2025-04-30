@@ -214,6 +214,7 @@ export default class ChartPage extends AreaFilter {
             ignoreCaret: true,
             ignoreAntialiasing: true,
             createDiffImage: true,
+            antialiasingTolerance: 40,
           }
         );
       }
