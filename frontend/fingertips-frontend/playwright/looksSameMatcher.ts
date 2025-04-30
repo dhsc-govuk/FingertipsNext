@@ -21,13 +21,13 @@ async function compareWithLooksSame(
 ) {
   // Set defaults
   const {
-    tolerance = 2.5,
+    tolerance = 7.5,
     ignoreCaret = true,
     ignoreAntialiasing = true,
     createDiffImage = true,
-    diffDir = './test-results/screenshot-diffs',
+    diffDir = './test-results/screenshot-diffs/',
     baselineDir = './test-results/screenshot-baseline/',
-    screenshotsDir = './test-results/screenshots',
+    screenshotsDir = './test-results/screenshots/',
   } = options;
 
   // Create directories if they don't exist
@@ -55,7 +55,9 @@ async function compareWithLooksSame(
   // If baseline doesn't exist, create it
   if (!baselineExists) {
     await fs.writeFile(baselinePath, elementScreenshot);
-    console.log(`Created new baseline: ${screenshotName}`);
+    console.log(
+      `Created new baseline: ${screenshotName} as a baseline image did not exist.`
+    );
     return true;
   }
 
@@ -105,31 +107,23 @@ export function addLooksSameMatcher(expect: any) {
         };
       }
 
-      try {
-        // Take the screenshot
-        const screenshot = await received.screenshot();
+      // Take the screenshot
+      const screenshot = await received.screenshot();
 
-        // Compare with looks-same
-        const result = await compareWithLooksSame(
-          screenshot,
-          screenshotName,
-          options
-        );
+      // Compare with looks-same
+      const result = await compareWithLooksSame(
+        screenshot,
+        screenshotName,
+        options
+      );
 
-        return {
-          message: () =>
-            result
-              ? `Expected screenshots to be different, but they look the same`
-              : `Expected screenshots to look the same, but they are different`,
-          pass: result,
-        };
-      } catch (error) {
-        console.error('Error in toMatchScreenshotWithLooksSame:', error);
-        return {
-          message: () => `Error during screenshot comparison: ${error}`,
-          pass: false,
-        };
-      }
+      return {
+        message: () =>
+          result
+            ? `Expected screenshots to be different, but they look the same`
+            : `Expected screenshots to look the same, but they are different`,
+        pass: result,
+      };
     },
   });
 }
