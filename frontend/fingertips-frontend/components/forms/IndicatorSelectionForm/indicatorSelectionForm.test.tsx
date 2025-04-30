@@ -531,6 +531,30 @@ describe('IndicatorSelectionForm', () => {
       expect(paginationItems.length - 1).toEqual(totalPages);
     });
 
+    it('should update the URL when the page is changed', async () => {
+      const totalResults = RESULTS_PER_PAGE + 5;
+      const totalPages = Math.ceil(totalResults / RESULTS_PER_PAGE);
+      const currentPage = 1;
+      const expectedPage = 2;
+      const expectedPath = `${mockPath}?${SearchParams.SearchedIndicator}=test&${SearchParams.PageNumber}=${expectedPage}`;
+
+      render(
+        <IndicatorSelectionForm
+          searchResults={generateMockSearchResults(totalResults)}
+          showTrends={false}
+          formAction={mockFormAction}
+          totalPages={totalPages}
+          currentPage={currentPage}
+        />
+      );
+      const paginationNext = screen.getByText(/Next/i);
+      await user.click(paginationNext);
+
+      expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
+        scroll: false,
+      });
+    });
+
     it('should only select indicators on the current page when "Select all" is checked', async () => {
       render(
         <IndicatorSelectionForm

@@ -15,6 +15,7 @@ export enum SearchParams {
   InequalityBarChartTypeSelected = 'ibts',
   PopulationAreaSelected = 'pas',
   SearchedOrder = 'so',
+  PageNumber = 'pn',
 }
 
 export type SearchParamKeys = `${SearchParams}`;
@@ -48,6 +49,7 @@ export type SearchStateParams = {
   [SearchParams.InequalityBarChartTypeSelected]?: string;
   [SearchParams.PopulationAreaSelected]?: string;
   [SearchParams.SearchedOrder]?: string;
+  [SearchParams.PageNumber]?: string;
 };
 
 const isMultiValueTypeParam = (searchParamKey: SearchParamKeys) =>

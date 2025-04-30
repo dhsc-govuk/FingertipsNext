@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import { SearchResults } from '.';
+import { RESULTS_PER_PAGE, SearchResults } from '.';
 import { IndicatorSelectionState } from '../../forms/IndicatorSelectionForm/indicatorSelectionActions';
 import userEvent from '@testing-library/user-event';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
@@ -140,6 +140,38 @@ describe('Search Results Suite', () => {
 
     expect(title).toHaveTextContent(
       `Search results for ${searchedIndicator} (page 1 of 3)`
+    );
+  });
+
+  it('should default to page 1 if the current page is greater than the total pages', () => {
+    const LARGE_MOCK_DATA: IndicatorDocument[] = Array.from(
+      { length: 33 },
+      (_, index) => ({
+        ...MOCK_DATA[0],
+        indicatorID: `${index}`,
+        indicatorName: `Indicator ${index}`,
+      })
+    );
+    const stateWithInvalidPage: SearchStateParams = {
+      [SearchParams.SearchedIndicator]: searchedIndicator,
+      [SearchParams.PageNumber]: '5',
+    };
+    const totalPages = Math.ceil(LARGE_MOCK_DATA.length / RESULTS_PER_PAGE);
+
+    render(
+      <SearchResults
+        isEnglandSelectedAsGroup={false}
+        initialIndicatorSelectionState={initialState}
+        searchResults={LARGE_MOCK_DATA}
+        searchState={stateWithInvalidPage}
+      />
+    );
+    const title = screen.getByRole('heading', {
+      name: /search results/i,
+    });
+
+    expect(title).toHaveTextContent(
+      `Search results for ${searchedIndicator} (page 1 of ${totalPages})`
     );
   });
 

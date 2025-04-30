@@ -1,7 +1,7 @@
 'use client';
 
 import { BackLink, ErrorSummary, GridCol, GridRow, H1 } from 'govuk-react';
-import { useActionState, useEffect, useState } from 'react';
+import { useActionState, useEffect } from 'react';
 import {
   IndicatorSelectionState,
   submitIndicatorSelection,
@@ -77,13 +77,18 @@ export function SearchResults({
 
   const searchTerm = searchState?.[SearchParams.SearchedIndicator] ?? '';
 
-  const [currentPage, setCurrentPage] = useState(1);
+  const currentPageFromState =
+    Number(searchState?.[SearchParams.PageNumber]) || 1;
   const totalPages = Math.ceil(searchResults.length / RESULTS_PER_PAGE);
+  const currentPageToUse =
+    currentPageFromState <= totalPages ? currentPageFromState : 1;
 
   const searchTitle =
     'Search results' +
     (searchTerm ? ' for ' + searchTerm : '') +
-    (totalPages > 1 ? ' (page ' + currentPage + ' of ' + totalPages + ')' : '');
+    (totalPages > 1
+      ? ' (page ' + currentPageToUse + ' of ' + totalPages + ')'
+      : '');
 
   return (
     <>
@@ -131,8 +136,7 @@ export function SearchResults({
               }
               formAction={indicatorSelectionFormAction}
               currentDate={currentDate}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
+              currentPage={currentPageToUse}
               totalPages={totalPages}
             />
           </GridCol>

@@ -84,7 +84,6 @@ type IndicatorSelectionProps = {
   formAction: (payload: FormData) => void;
   currentDate?: Date;
   currentPage?: number;
-  setCurrentPage?: (page: number) => void;
   totalPages?: number;
 };
 
@@ -137,7 +136,6 @@ export function IndicatorSelectionForm({
   formAction,
   currentDate,
   currentPage = 1,
-  setCurrentPage,
   totalPages = 1,
 }: Readonly<IndicatorSelectionProps>) {
   const pathname = usePathname();
@@ -158,6 +156,15 @@ export function IndicatorSelectionForm({
 
   const selectedIndicators =
     searchState?.[SearchParams.IndicatorsSelected] || [];
+
+  const setCurrentPage = (page: number) => {
+    setIsLoading(true);
+    stateManager.setState({
+      ...searchState,
+      [SearchParams.PageNumber]: page.toString(),
+    });
+    replace(stateManager.generatePath(pathname), { scroll: false });
+  };
 
   const { sortedResults, selectedSortOrder, handleSortOrder } =
     useIndicatorSort(searchResults, setCurrentPage);
