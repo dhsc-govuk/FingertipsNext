@@ -198,7 +198,7 @@ export default class ChartPage extends AreaFilter {
       await this.page.waitForFunction('window.scrollY === 0');
       await this.page.waitForTimeout(1000);
 
-      // check chart component is now visible and matches the baseline screenshots
+      // check chart component is now visible and if the test is executing in chrome that it matches the baseline screenshots
       await expect(
         this.page.getByTestId(visibleComponent.componentLocator)
       ).toBeVisible({
