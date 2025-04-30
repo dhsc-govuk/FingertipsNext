@@ -2,8 +2,6 @@ import { render, screen } from '@testing-library/react';
 import { Arrow } from './index';
 import { Direction } from '@/lib/common-types';
 
-// filepath: frontend/fingertips-frontend/components/atoms/Arrow/index.test.tsx
-
 describe('Arrow Component', () => {
   it('snapshot test', () => {
     const container = render(<Arrow direction={Direction.UP} />);
