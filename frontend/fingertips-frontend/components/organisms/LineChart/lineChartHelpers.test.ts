@@ -29,6 +29,19 @@ describe('generateSeriesData', () => {
     const expectedSeriesData = [
       {
         color: '#F46A25',
+        custom: { areaCode: 'A1427' },
+        data: [
+          [2020, 478.27434],
+          [2012, 234.420759],
+        ],
+        name: 'East FooBar',
+        type: 'line',
+        marker: {
+          symbol: 'arc',
+        },
+      },
+      {
+        color: '#A285D1',
         custom: { areaCode: 'A1425' },
         data: [
           [2006, 278.29134],
@@ -37,30 +50,17 @@ describe('generateSeriesData', () => {
         name: 'North FooBar',
         type: 'line',
         marker: {
-          symbol: 'arc',
+          symbol: 'circle',
         },
       },
       {
-        color: '#A285D1',
+        color: '#801650',
         custom: { areaCode: 'A1426' },
         data: [
           [2010, 786.27434],
           [2007, 435.420759],
         ],
         name: 'South FooBar',
-        type: 'line',
-        marker: {
-          symbol: 'circle',
-        },
-      },
-      {
-        color: '#801650',
-        custom: { areaCode: 'A1427' },
-        data: [
-          [2020, 478.27434],
-          [2012, 234.420759],
-        ],
-        name: 'East FooBar',
         type: 'line',
         marker: {
           symbol: 'diamond',
@@ -97,6 +97,19 @@ describe('generateSeriesData', () => {
       },
       {
         color: '#F46A25',
+        custom: { areaCode: 'A1427' },
+        data: [
+          [2020, 478.27434],
+          [2012, 234.420759],
+        ],
+        name: 'East FooBar',
+        type: 'line',
+        marker: {
+          symbol: 'arc',
+        },
+      },
+      {
+        color: '#A285D1',
         custom: { areaCode: 'A1425' },
         data: [
           [2006, 278.29134],
@@ -105,30 +118,17 @@ describe('generateSeriesData', () => {
         name: 'North FooBar',
         type: 'line',
         marker: {
-          symbol: 'arc',
+          symbol: 'circle',
         },
       },
       {
-        color: '#A285D1',
+        color: '#801650',
         custom: { areaCode: 'A1426' },
         data: [
           [2010, 786.27434],
           [2007, 435.420759],
         ],
         name: 'South FooBar',
-        type: 'line',
-        marker: {
-          symbol: 'circle',
-        },
-      },
-      {
-        color: '#801650',
-        custom: { areaCode: 'A1427' },
-        data: [
-          [2020, 478.27434],
-          [2012, 234.420759],
-        ],
-        name: 'East FooBar',
         type: 'line',
         marker: {
           symbol: 'diamond',
@@ -178,6 +178,19 @@ describe('generateSeriesData', () => {
       },
       {
         color: '#F46A25',
+        custom: { areaCode: 'A1427' },
+        data: [
+          [2020, 478.27434],
+          [2012, 234.420759],
+        ],
+        name: 'East FooBar',
+        type: 'line',
+        marker: {
+          symbol: 'arc',
+        },
+      },
+      {
+        color: '#A285D1',
         custom: { areaCode: 'A1425' },
         data: [
           [2006, 278.29134],
@@ -186,30 +199,17 @@ describe('generateSeriesData', () => {
         name: 'North FooBar',
         type: 'line',
         marker: {
-          symbol: 'arc',
+          symbol: 'circle',
         },
       },
       {
-        color: '#A285D1',
+        color: '#801650',
         custom: { areaCode: 'A1426' },
         data: [
           [2010, 786.27434],
           [2007, 435.420759],
         ],
         name: 'South FooBar',
-        type: 'line',
-        marker: {
-          symbol: 'circle',
-        },
-      },
-      {
-        color: '#801650',
-        custom: { areaCode: 'A1427' },
-        data: [
-          [2020, 478.27434],
-          [2012, 234.420759],
-        ],
-        name: 'East FooBar',
         type: 'line',
         marker: {
           symbol: 'diamond',
