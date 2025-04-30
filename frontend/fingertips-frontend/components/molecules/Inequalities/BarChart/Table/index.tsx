@@ -19,6 +19,7 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { getConfidenceLimitNumber } from '@/lib/chartHelpers/chartHelpers';
+import { DownloadImage } from '@/components/molecules/DownloadImage/DownloadImage';
 
 const StyledAlignLeftTableCellNoPadding = styled(StyledAlignLeftTableCell)({
   padding: 0,
@@ -52,6 +53,7 @@ export function InequalitiesBarChartTable({
   return (
     <div data-testid="inequalitiesBarChartTable-component">
       <Table
+        id={'inequalitiesBarChartTable-component'}
         head={
           <InequalitiesBarChartTableHead
             areaName={areaName}
@@ -89,6 +91,7 @@ export function InequalitiesBarChartTable({
           </Table.Row>
         ))}
       </Table>
+      <DownloadImage target={'inequalitiesBarChartTable-component'} />
     </div>
   );
 }

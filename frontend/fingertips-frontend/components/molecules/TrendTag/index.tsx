@@ -4,7 +4,6 @@ import React from 'react';
 import { Direction, Trend, TrendCondition } from '@/lib/common-types';
 import styled from 'styled-components';
 import { Paragraph, Tag } from 'govuk-react';
-import { typography } from '@govuk-react/lib';
 import { Arrow } from '@/components/atoms/Arrow';
 import { TagColours } from '@/lib/styleHelpers/colours';
 import {
@@ -25,30 +24,40 @@ const StyledDivContainer = styled('div')({
 });
 
 const StyledDefaultTag = styled(Tag)<{
-  trend: Trend;
-  trendCondition?: TrendCondition;
-}>(({ trend, trendCondition }) => {
+  color: string;
+  backgroundColor?: string;
+}>(({ color, backgroundColor }) => {
+  return {
+    display: 'block',
+    textTransform: 'unset',
+    margin: '0.3125em',
+    ...{ color, backgroundColor },
+  };
+});
+
+const StyledParagraph = styled(Paragraph)<{
+  color: string;
+}>(({ color }) => {
+  return {
+    marginBottom: '0',
+    marginLeft: '0.3125em',
+    fontSize: '1rem',
+    ...{ color },
+  };
+});
+
+const getTrendTagColours = (trend: Trend, trendCondition?: TrendCondition) => {
   const trendConditionColours =
     trend !== Trend.NO_SIGNIFICANT_CHANGE && trend !== Trend.NOT_AVAILABLE
       ? getTrendConditionColours(trendCondition)
       : null;
 
   return {
-    textTransform: 'unset',
-    margin: '0.3125em',
     color: TagColours.GreyText,
     ...getTrendColour(trend),
     ...trendConditionColours,
   };
-});
-
-const StyledParagraph = styled(Paragraph)(
-  {
-    marginBottom: '0',
-    marginLeft: '0.3125em',
-  },
-  typography.font({ size: 16 })
-);
+};
 
 const displayTrendCondition = (trendCondition?: TrendCondition) => {
   return trendCondition ? `and ${trendCondition}` : '';
@@ -108,21 +117,19 @@ export const TrendTag = ({ trendFromResponse }: Readonly<TagProps>) => {
       ? trend
       : trend + ' ' + displayTrendCondition(trendCondition);
 
+  const { color, backgroundColor } = getTrendTagColours(trend, trendCondition);
+
   return (
     <div data-testid="trendTag-container">
-      <StyledDefaultTag trend={trend} trendCondition={trendCondition}>
+      <StyledDefaultTag color={color} backgroundColor={backgroundColor}>
         <StyledDivContainer data-testid="trend-tag-component">
           {arrowDirection ? (
-            <div>
-              <Arrow
-                direction={arrowDirection}
-                strokeColour={trendTextAndArrowColour}
-              />
-            </div>
+            <Arrow
+              direction={arrowDirection}
+              strokeColour={trendTextAndArrowColour}
+            />
           ) : null}
-          <div>
-            <StyledParagraph>{trendMessage}</StyledParagraph>
-          </div>
+          <StyledParagraph color={color}>{trendMessage}</StyledParagraph>
         </StyledDivContainer>
       </StyledDefaultTag>
     </div>

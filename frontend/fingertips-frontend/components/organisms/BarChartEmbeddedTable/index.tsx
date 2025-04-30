@@ -30,6 +30,7 @@ import {
   getFirstCompleteYear,
   getMaxValue,
 } from '@/components/organisms/BarChartEmbeddedTable/barChartEmbeddedTableHelpers';
+import { DownloadImage } from '@/components/molecules/DownloadImage/DownloadImage';
 
 function sortByValueAndAreaName(
   a: BarChartEmbeddedTableRow,
@@ -129,6 +130,7 @@ export function BarChartEmbeddedTable({
       />
 
       <Table
+        id={'barChartEmbeddedTable'}
         head={
           <React.Fragment>
             <Table.Row>
@@ -284,6 +286,7 @@ export function BarChartEmbeddedTable({
         />
       </Table>
       <DataSource dataSource={dataSource} />
+      <DownloadImage target={'barChartEmbeddedTable'} />
     </div>
   );
 }

@@ -8,6 +8,8 @@ import {
   generateRows,
   HeatmapDataCell,
 } from '@/components/organisms/Heatmap/heatmapUtil';
+import { DownloadImage } from '@/components/molecules/DownloadImage/DownloadImage';
+import { useHeatmapRotatedHeadingLayout } from '@/components/organisms/Heatmap/useHeatmapRotatedHeadingLayout';
 
 const StyledTable = styled(Table)({
   borderCollapse: 'separate',
@@ -35,36 +37,43 @@ const HeatmapTable: FC<HeatmapTableProps> = ({
   rows,
   handleMouseOverCell,
 }) => {
+  useHeatmapRotatedHeadingLayout('heatmap');
+
   return (
-    <StyledDivTableContainer>
-      <StyledTable data-testid="heatmapChart-component">
-        <StyledRow>
-          {headers.map((header) => (
-            <HeatmapHeader
-              key={header.key}
-              headerType={header.type}
-              content={header.content}
-            />
-          ))}
-        </StyledRow>
-        {rows.map((row) => {
-          return (
-            <StyledRow key={row.key}>
-              {row.cells.map((cell) => (
-                <HeatmapCell
-                  key={cell.key}
-                  cellType={cell.type}
-                  content={cell.content}
-                  backgroundColour={cell.backgroundColour}
-                  mouseEnterHandler={handleMouseOverCell(cell)}
-                  mouseLeaveHandler={handleMouseOverCell()}
+    <>
+      <StyledDivTableContainer>
+        <div id={'heatmap'}>
+          <StyledTable data-testid="heatmapChart-component">
+            <StyledRow>
+              {headers.map((header) => (
+                <HeatmapHeader
+                  key={header.key}
+                  headerType={header.type}
+                  content={header.content}
                 />
               ))}
             </StyledRow>
-          );
-        })}
-      </StyledTable>
-    </StyledDivTableContainer>
+            {rows.map((row) => {
+              return (
+                <StyledRow key={row.key}>
+                  {row.cells.map((cell) => (
+                    <HeatmapCell
+                      key={cell.key}
+                      cellType={cell.type}
+                      content={cell.content}
+                      backgroundColour={cell.backgroundColour}
+                      mouseEnterHandler={handleMouseOverCell(cell)}
+                      mouseLeaveHandler={handleMouseOverCell()}
+                    />
+                  ))}
+                </StyledRow>
+              );
+            })}
+          </StyledTable>
+        </div>
+      </StyledDivTableContainer>
+      <DownloadImage target={'heatmap'} />
+    </>
   );
 };
 export default React.memo(HeatmapTable);

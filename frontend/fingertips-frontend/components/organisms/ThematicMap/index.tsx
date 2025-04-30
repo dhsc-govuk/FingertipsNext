@@ -17,6 +17,7 @@ import { BenchmarkTooltip } from '@/components/molecules/BenchmarkTooltip';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { useMapGeographyData } from '@/components/organisms/ThematicMap/useMapGeographyData';
 import { H3 } from 'govuk-react';
+import { DownloadImage } from '@/components/molecules/DownloadImage/DownloadImage';
 
 interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];
@@ -121,18 +122,21 @@ export function ThematicMap({
           benchmarkComparisonMethod={benchmarkComparisonMethod}
           polarity={polarity}
         />
-        <HighchartsReact
-          containerProps={{
-            'data-testid': 'highcharts-react-thematicMap-component',
-          }}
-          highcharts={Highcharts}
-          constructorType={'mapChart'}
-          options={options}
-        />
+        <div id={'thematicMap'}>
+          <HighchartsReact
+            containerProps={{
+              'data-testid': 'highcharts-react-thematicMap-component',
+            }}
+            highcharts={Highcharts}
+            constructorType={'mapChart'}
+            options={options}
+          />
+        </div>
         <ThematicMapCredits
           areaType={selectedAreaType as AreaTypeKeysForMapMeta}
           dataSource={indicatorMetadata?.dataSource}
         />
+        <DownloadImage target={'thematicMap'} />
       </div>
     </>
   );
