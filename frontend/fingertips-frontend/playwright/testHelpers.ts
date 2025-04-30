@@ -118,9 +118,7 @@ export function getScenarioConfig(
     },
     {
       componentLocator: ChartPage.heatMapComponent,
-      componentProps: {
-        isWideComponent: true,
-      },
+      componentProps: {},
     },
     {
       componentLocator: ChartPage.spineChartTableComponent,
