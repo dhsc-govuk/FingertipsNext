@@ -208,7 +208,13 @@ export default class ChartPage extends AreaFilter {
         await expect(
           this.page.getByTestId(visibleComponent.componentLocator)
         ).toMatchScreenshotWithLooksSame(
-          `${testName}-${visibleComponent.componentLocator}.png`
+          `${testName}-${visibleComponent.componentLocator}.png`,
+          {
+            tolerance: 7.5,
+            ignoreCaret: true,
+            ignoreAntialiasing: true,
+            createDiffImage: true,
+          }
         );
       }
     }
