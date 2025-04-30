@@ -2,6 +2,7 @@ import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
   HealthDataForArea,
+  HealthDataPoint,
 } from '@/generated-sources/ft-api-client';
 import Highcharts, { SymbolKeyValue } from 'highcharts';
 import { GovukColours } from '@/lib/styleHelpers/colours';
@@ -27,53 +28,80 @@ export enum LineChartVariant {
   Inequalities = 'inequalities',
 }
 
-export const lineChartDefaultOptions: Highcharts.Options = {
-  credits: {
-    enabled: false,
-  },
-  chart: {
-    type: 'line',
-    spacingBottom: 50,
-    spacingTop: 20,
-    animation: false,
-  },
-  title: {
-    style: {
-      display: 'none',
+export const createLineChartOptions = (xValues: string[]): Highcharts.Options => {
+  return ({
+    credits: {
+      enabled: false,
     },
-  },
-  yAxis: {
-    minorTickInterval: 'auto',
-    minorTicksPerMajor: 2,
-    labels: { style: { fontSize: AXIS_LABEL_FONT_SIZE } },
-  },
-  xAxis: {
-    tickLength: 0,
-    allowDecimals: false,
-    labels: { style: { fontSize: AXIS_LABEL_FONT_SIZE } },
-  },
-  legend: {
-    verticalAlign: 'top',
-    align: 'left',
-    itemStyle: {
-      fontSize: '16px',
-    },
-    margin: 20,
-  },
-  accessibility: {
-    enabled: false,
-  },
-  tooltip: {
-    formatter: function (this: Highcharts.Point): string {
-      return this.value?.toString() ?? '';
-    },
-  },
-  plotOptions: {
-    series: {
+    chart: {
+      type: 'line',
+      spacingBottom: 50,
+      spacingTop: 20,
       animation: false,
     },
-  },
+    title: {
+      style: {
+        display: 'none',
+      },
+    },
+    yAxis: {
+      minorTickInterval: 'auto',
+      minorTicksPerMajor: 2,
+      labels: { style: { fontSize: AXIS_LABEL_FONT_SIZE } },
+    },
+    xAxis: {
+      categories: xValues,
+      tickLength: 0,
+      allowDecimals: false,
+      labels: { style: { fontSize: AXIS_LABEL_FONT_SIZE } },
+    },
+    legend: {
+      verticalAlign: 'top',
+      align: 'left',
+      itemStyle: {
+        fontSize: '16px',
+      },
+      margin: 20,
+    },
+    accessibility: {
+      enabled: false,
+    },
+    tooltip: {
+      formatter: function (this: Highcharts.Point): string {
+        return this.value?.toString() ?? '';
+      },
+    },
+    plotOptions: {
+      series: {
+        animation: false,
+      }
+    }
+  })
+}
+
+const generateTimePeriodsFrom = (timePeriodHealthData: HealthDataPoint[]) => {
+  const seenPeriods: string[] = [];
+  const timePeriodLabels: string[] = [];
+
+  timePeriodHealthData.forEach((h) => {
+      const year = h.year.toString();
+
+      const index = seenPeriods.indexOf(year);
+      if (index === -1) {
+          // First time we see this year
+          seenPeriods.push(year);
+          timePeriodLabels.push(h.timePeriod ?? year);
+      } else if (h.timePeriod) {
+          // We've seen the year, check if we need to update label
+          if (timePeriodLabels[index] !== h.timePeriod) {
+              timePeriodLabels[index] = h.timePeriod;
+          }
+      }
+  });
+
+  return timePeriodLabels;
 };
+
 
 export const chartSymbols: SymbolKeyValue[] = [
   'square',
@@ -96,7 +124,7 @@ export function generateSeriesData(
       const lineSeries: Highcharts.SeriesOptionsType = {
         type: 'line',
         name: item.areaName,
-        data: item.healthData.map((point) => [point.year, point.value]),
+        data: item.healthData.map((point) => [point.value]),
         marker: {
           symbol: symbols[index % symbols.length],
         },
@@ -126,7 +154,6 @@ export function generateSeriesData(
       type: 'line',
       name: `Group: ${parentIndicatorData.areaName}`,
       data: parentIndicatorData.healthData.map((point) => [
-        point.year,
         point.value,
       ]),
       color: GovukColours.Turquoise,
@@ -143,7 +170,7 @@ export function generateSeriesData(
     const englandSeries: Highcharts.SeriesOptionsType = {
       type: 'line',
       name: `Benchmark: ${benchmarkData.areaName}`,
-      data: benchmarkData.healthData.map((point) => [point.year, point.value]),
+      data: benchmarkData.healthData.map((point) => [point.value]),
       color: GovukColours.DarkGrey,
       marker: {
         symbol: 'circle',
@@ -184,16 +211,16 @@ export function generateStandardLineChartOptions(
     : undefined;
   const filteredSortedBenchMarkData =
     sortedBenchMarkData &&
-    sortedHealthIndicatorData.length &&
-    firstYear &&
-    lastYear
+      sortedHealthIndicatorData.length &&
+      firstYear &&
+      lastYear
       ? {
-          ...sortedBenchMarkData,
-          healthData:
-            sortedBenchMarkData?.healthData.filter(
-              (data) => data.year >= firstYear && data.year <= lastYear
-            ) ?? [],
-        }
+        ...sortedBenchMarkData,
+        healthData:
+          sortedBenchMarkData?.healthData.filter(
+            (data) => data.year >= firstYear && data.year <= lastYear
+          ) ?? [],
+      }
       : sortedBenchMarkData;
 
   const sortedGroupData = optionalParams?.groupIndicatorData
@@ -202,12 +229,12 @@ export function generateStandardLineChartOptions(
   const filteredSortedGroupData =
     sortedGroupData && sortedHealthIndicatorData.length && firstYear && lastYear
       ? {
-          ...sortedGroupData,
-          healthData:
-            sortedGroupData?.healthData.filter(
-              (data) => data.year >= firstYear && data.year <= lastYear
-            ) ?? [],
-        }
+        ...sortedGroupData,
+        healthData:
+          sortedGroupData?.healthData.filter(
+            (data) => data.year >= firstYear && data.year <= lastYear
+          ) ?? [],
+      }
       : sortedGroupData;
 
   let seriesData = generateSeriesData(
@@ -267,6 +294,16 @@ export function generateStandardLineChartOptions(
     sortedBenchMarkData
   );
 
+  // compile the all the time Periods and then sort them again and remove the duplicates.
+  const flatHealthDataPoints  =  [...sortedHealthIndicatorData.map((x)=>x.healthData).flat(),
+    ...(sortedGroupData?  sortedGroupData.healthData : []),
+    ...(sortedBenchMarkData?  sortedBenchMarkData.healthData : [])].toSorted((a, b) => {
+     return(a.year - b.year)
+   })
+  const timePeriodLabels: string[] = generateTimePeriodsFrom(flatHealthDataPoints); 
+  const lineChartDefaultOptions =  createLineChartOptions(timePeriodLabels)
+  console.log(timePeriodLabels)
+
   const generateAreaLineChartTooltipForPoint = (
     point: Highcharts.Point,
     symbol: string
@@ -280,10 +317,10 @@ export function generateStandardLineChartOptions(
 
     const { benchmarkLabel, category, comparisonLabel } = getTooltipContent(
       getBenchmarkOutcomeForYear(point.x, areaCode, tooltipData) ??
-        BenchmarkOutcome.NotCompared,
+      BenchmarkOutcome.NotCompared,
       label,
       optionalParams?.benchmarkComparisonMethod ??
-        BenchmarkComparisonMethod.Unknown
+      BenchmarkComparisonMethod.Unknown
     );
 
     const formatValueUnit = (valueUnit?: string) => {
@@ -324,10 +361,10 @@ export function generateStandardLineChartOptions(
       },
       title: optionalParams?.yAxisTitle
         ? {
-            text: optionalParams?.yAxisTitle,
-            margin: 20,
-            style: { fontSize: AXIS_TITLE_FONT_SIZE },
-          }
+          text: optionalParams?.yAxisTitle,
+          margin: 20,
+          style: { fontSize: AXIS_TITLE_FONT_SIZE },
+        }
         : undefined,
     },
     xAxis: {

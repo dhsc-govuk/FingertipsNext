@@ -43,7 +43,7 @@ import {
   noDeprivation,
   personsSex,
 } from '@/lib/mocks';
-import { lineChartDefaultOptions } from '../LineChart/lineChartHelpers';
+import { createLineChartOptions } from '../LineChart/lineChartHelpers';
 import {
   mockIndicatorData,
   mockBenchmarkData,
@@ -180,6 +180,7 @@ const mockChartData = {
 };
 
 const sexKeys = ['Persons', 'Male', 'Female'];
+const lineChartDefaultOptions = createLineChartOptions([])
 
 describe('valueSelectorForInequality', () => {
   it('should select the sex value for the Sex inequality type', () => {

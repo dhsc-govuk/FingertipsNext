@@ -14,7 +14,7 @@ import {
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
   chartSymbols,
-  lineChartDefaultOptions,
+  createLineChartOptions,
 } from '../LineChart/lineChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import Highcharts, { DashStyleValue, YAxisOptions } from 'highcharts';
@@ -341,6 +341,7 @@ export function generateInequalitiesLineChartOptions(
     lineChartCI,
     optionalParams?.inequalityLineChartAreaSelected
   );
+  const  lineChartDefaultOptions = createLineChartOptions([]);
 
   return {
     ...lineChartDefaultOptions,
