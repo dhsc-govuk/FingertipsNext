@@ -36,8 +36,6 @@ export async function submitIndicatorSelection(
     indicatorsSelected: formData.getAll('indicator'),
   });
 
-  console.log('validatedFields', validatedFields);
-
   if (!validatedFields.success) {
     return {
       searchState: formData.get('searchState')?.toString() ?? '',
