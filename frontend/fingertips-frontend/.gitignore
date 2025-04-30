@@ -38,8 +38,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-/test-results/
 /playwright-report/
+test-results/screenshots/
+test-results/screenshot-diffs/
 /ctrf/
 /blob-report/
 /playwright/.cache/
