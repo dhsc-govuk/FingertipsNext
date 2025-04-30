@@ -48,16 +48,9 @@ const config: PlaywrightTestConfig = {
       use: {
         ...devices['Desktop Chrome'],
         viewport: { width: 1280, height: 720 },
-        deviceScaleFactor: 1,
         channel: 'chromium',
         launchOptions: {
-          args: [
-            '--disable-dev-shm-usage',
-            '--no-sandbox',
-            '--disable-skia-runtime-opts',
-            '--disable-font-subpixel-positioning',
-            '--disable-lcd-text',
-          ],
+          args: ['--disable-dev-shm-usage', '--no-sandbox'],
         },
       },
     },
@@ -66,7 +59,6 @@ const config: PlaywrightTestConfig = {
       use: {
         ...devices['Desktop Safari'],
         viewport: { width: 1280, height: 720 },
-        deviceScaleFactor: 1,
       },
     },
   ],
