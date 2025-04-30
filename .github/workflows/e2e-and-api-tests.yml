@@ -13,6 +13,11 @@ on:
         description: 'Mode from which tests are run - either run inside docker or against the azure stack'
         required: true
         type: string
+      update_screenshots:
+        description: 'Whether to update baseline screenshots'
+        required: false
+        default: false
+        type: boolean
     secrets:
       slack-webhook-url:
         description: 'URL of the slack webhook'
@@ -88,6 +93,35 @@ jobs:
       - name: Run Playwright tests in CI
         if: always()
         run: npm run test-e2e-ci
+
+      - name: Run Playwright tests with screenshot updates
+        if: ${{ inputs.update_screenshots }}
+        run: npm run test-e2e-ci -- --update-snapshots
+
+      - name: Commit updated screenshots
+        if: ${{ inputs.update_screenshots }}
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
+
+          # Get the test-results directory where Playwright stores screenshots
+          cd ${{ env.frontend-directory }}
+
+          # Add any new or modified screenshot files
+          it add .test/spec/snaps/**/*.png
+
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "No screenshot changes to commit"
+          else
+            # Commit the changes with a descriptive message
+            git commit -m "Update visual test baseline screenshots [skip ci]"
+            
+            # Push the changes
+            git push origin ${{ github.head_ref || github.ref_name }}
+            
+            echo "Updated screenshots committed and pushed"
+          fi
 
       - name: Set dynamic artifact name
         if: always()

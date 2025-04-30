@@ -2,6 +2,12 @@ name: Fingertips Workflow
 
 on:
   workflow_dispatch:
+    inputs:
+      update_screenshots:
+        description: 'Update baseline screenshots'
+        required: false
+        default: false
+        type: boolean
   push:
     branches:
       - '**'
@@ -272,6 +278,7 @@ jobs:
     uses: ./.github/workflows/e2e-and-api-tests.yml
     with:
       playwright-mode: docker
+      update_screenshots: ${{ inputs.update_screenshots || false }}
     secrets:
       fingertips_e2e_db_password: ${{ secrets.FINGERTIPS_E2E_DB_PASSWORD }}
 
