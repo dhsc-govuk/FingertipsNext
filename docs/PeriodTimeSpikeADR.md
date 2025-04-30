@@ -1,162 +1,217 @@
-# Investigation into the complex Time Period Reporting.
+
+# Investigation into the Complex Time Period Reporting
+
 One of the key requirements is to enable the ability to display various complex date periods on the line chart and data tables. Currently, we are only displaying data for calendar years, and some of it is being displayed incorrectly.
 
-###Table of Content
-[Problem Overview](#ProblemOverview)
--   [Proposal Solution](#ProposalSolution)
--   [Definition](#ProblemDefination)
--   [Health Data](#HealthData)
--   - [Fields Types and Descriptions](#FieldsTypeAndDescriptions)
--   [Different Day Types](#DifferentDayTypes)
+---
 
-[Proposal Solutions](#ProposalSolutions)
--   [Option A](#OptionalA)
-    -   [Database changes required](#DatabaseChangesRequired)
-    -   [Database changes required](#DatabaseChangesRequired)
-    -   [Frontend changes required](#DatabaseChangesRequired)
--   [Option B](#OptionalB)
--   [Option C](#OptionalC)
+## Table of Contents
 
-[References](#LineChart)
+- [Problem Overview](#problem-overview)  
+  - [Proposed Solution](#proposed-solution)  
+  - [Definitions](#definitions)  
+  - [Health Data](#health-data)  
+    - [Field Types and Descriptions](#field-types-and-descriptions)  
+  - [Different Day Types](#different-day-types)  
+- [Proposed Solutions](#proposed-solutions)  
+  - [Option A](#option-a)  
+    - [Database Changes Required](#database-changes-required)  
+    - [Frontend Changes Required](#frontend-changes-required)  
+  - [Option B](#option-b)  
+  - [Option C](#option-c)  
+- [References](#references)
 
-
+---
 
 ## Problem Overview
-   
 
-   ### Current Chart
-   ![Chart Image](./images/current_fingertips_linechart.png)
+### Current Chart
 
-   ### Goals
-   The goals is to proposal how I will handle the following 
+![Chart Image](./images/current_fingertips_linechart.png)
 
-     -  Database changes required
-     -  If we need the Time period as its own dimension?
-     -  Will there be an API changes required
-     -  Frontend changes required ?
-        -  Including how we’d handle the different time periods in the high charts line chart (the x axis is currently treating years as integers)
-        - Ensuring sorting still works in the various areas
-        - How do we need to display the period type?
-     -  Agree which types of data period would need to be supported for FingertipsNext
-     - Document the proposed options (and ideally a recommendation) in Confluence
+### Goals
 
+The goal is to propose how to handle the following:
 
+- Required database changes  
+- Whether the Time Period should be treated as its own dimension  
+- Whether API changes are required  
+- Frontend changes required, including:  
+  - Handling different time periods in the Highcharts line chart (currently, years are treated as integers on the x-axis)  
+  - Ensuring sorting still works in various areas  
+  - How to display the period type  
+- Agreement on which types of date periods should be supported for **FingertipsNext**  
+- Documentation of proposed options (and ideally a recommendation) in Confluence
 
- 
- At the moment the  health data points is coming from the download CSV which have the following columns or features.
+---
 
- ### Health Data 
-   The health mode of collections are in different periods which I will list below
-   1)
+## Health Data
 
- #### Fields Types and Descriptions
+Currently, the health data points come from downloadable CSV files, which contain the following columns or features:
 
+### Health Data Collection Periods
 
- | Field | Type  | Description | required |
- | --- | --- | --- | --- | 
- Indicator ID | string | use to identify the indicator | Yes |
- Indicator Name | string | the indicator name  |  No |
- Time period | string | the data point period label or period of collections | No |
- | **HealthData** | struct | | Optional |
- **HealthData.TimePeriodSortable** | int | contains the year its reported | Yes |
-| **HealthData.TimePeriodRange** | string | contain the reporting period range , for calender year we have 1yr, while we have some financial to be yr , and 3 months this field is not as usable compare to the year type of the indicator metadata. | Optional |
+The data is collected across different time periods, listed below.
 
+### Field Types and Descriptions
 
-## Optional A
-   In this option , I am proposal will precompute the "Time-Period" fields during data ingestion into our current fingertip database. This approach make the fingertip database more as like presentation databases that requires no additional pre-calculations.
-   This will also encourages we moving most of the pre-computations that we are currently doing to be more to the pre-ingestion stages.
+| Field                         | Type   | Description                                                                                       | Required |
+|------------------------------|--------|---------------------------------------------------------------------------------------------------|----------|
+| Indicator ID                 | string | Used to identify the indicator                                                                    | Yes      |
+| Indicator Name               | string | The name of the indicator                                                                         | No       |
+| Time Period                  | string | The data point period label or period of collection                                               | No       |
+| **HealthData**               | struct |                                                                                                   | Optional |
+| HealthData.TimePeriodSortable | int    | Contains the year it was reported                                                                 | Yes      |
+| HealthData.TimePeriodRange  | string | Reporting period range. For calendar years we have `1yr`; for financial, quarterly, etc.         | Optional |
 
-   If we are to do that that means we don't really need to create heavy changes on the database, just the Time-Period field since we are not going to pre-comp
+---
 
-    This approach make it easier it more scalable and can be move easier to the data ingestions tools where plan to create information.
-    
-    Fields required for recomputing the "Period Labels"
-     - YearType:  from the indicator meta 
-     - time Period Sortable: from the data points (CSV files)
-     - time Range 
+## Option A
 
+In this option, I propose precomputing the "Time Period" fields during data ingestion into the current Fingertips database. This makes the database more like a presentation layer that doesn’t require additional calculations at query time.
 
+![](./images/Time%20Period%20Fingertips.png)
 
+This approach encourages moving most of the current computations to the pre-ingestion stage, making the system more scalable and future-proof. It would not require major database changes beyond the addition of the Time Period fields.
 
+### Required Fields for Precomputation
+
+- `YearType`: from the indicator metadata  
+- `TimePeriodSortable`: from the data points (CSV files)  
+- `TimeRange`: custom duration (e.g., "April–March", "Financial Year", etc.)
+
+---
 
 ## Database Changes
-  The changes on the database side there should be additional field added to the is bring two additional fields to the database table for the **HealthData**
 
-  **Required Fields**
-     - Time Period
-     - Time Period Range
-     - Time Period Sorted
+Two additional fields should be added to the database table for **HealthData**:
 
-    Changes
-      The changes on the database side would be additional fields to the indicator table and the data point table.
-      - Changes in the data creation tools to allow this fields to be brings this fields to the database. 
-       - One of my suggestion approach is to pre-calculate this time-period format so we can use just it at the endpoint.
+**Required Fields:**
 
-  We need to include import the Time Period Field after pre-computations
+- `Time Period`
+- `Time Period Range`
+- `Time Period Sorted`
 
-  ```python
-              #File DataCreator/DataCreator/DataFileReader.cs
-                var indicatorData = new HealthMeasureEntity
-                {
-                    IndicatorId = indicatorId,
-                    TimePeriod = timePeriod,
-                    ...
-                    
-                };
-                allData.Add(indicatorData);
-            }
-  ```
-    
+### Example Changes
 
-  We also need to alter the HealthMeasure table that contains the dataset.
+In the data creation tool:
 
-  ```SQL
-    CREATE TABLE [dbo].[HealthMeasure](
-        [HealthMeasureKey] [int] IDENTITY(1,1) NOT NULL, 	--The surrogate key
-        [TimePeriod] [nvarchar](20)
-	...
-    )
-  ```
+```csharp
+// File: DataCreator/DataCreator/DataFileReader.cs
+var indicatorData = new HealthMeasureEntity
+{
+    IndicatorId = indicatorId,
+    TimePeriod = timePeriod,
+    ...
+};
+allData.Add(indicatorData);
+```
 
- Each time period will follow different string formats based on the indicator it belongs to. This makes it easier, as we only need the ability to display the time period alongside the corresponding data.
+In the database schema:
 
+```sql
+CREATE TABLE [dbo].[HealthMeasure](
+    [HealthMeasureKey] [int] IDENTITY(1,1) NOT NULL, -- Surrogate key
+     ,
+    ...
+)
+```
 
-###  Reporting Year Types
- - Calendar
- - Financial
- - Academic 
- - Financial Rolling year - quarterly
- - Calendar  Rolling  quarterly
- - Calendar rolling year - monthly
- - Financial single year cumulative quarters
- - August-July
- - March February
- - Financial multi year cumulative quarters
- - October-September
- - Financial rolling year -monthly
- - July-june
- - November-November
- - Financial year end point
+Each time period follows a specific string format depending on the indicator. This allows for easy display and sorting.
 
- The year type only is not enough to know how the Time period can be re-calculated incase its invalid during validation and transformation of the dataset.
+---
 
+## Reporting Year Types
 
-| Field | Type  | 
- | --- | --- | 
- Indicator ID | string |
- **Time Period Sortable** | int |
-| **Time Period Range** | string |
+These are the different time period formats currently in use:
 
+- Calendar  
+- Financial  
+- Academic  
+- Financial Rolling Year – Quarterly  
+- Calendar Rolling – Quarterly  
+- Calendar Rolling Year – Monthly  
+- Financial Single Year – Cumulative Quarters  
+- August–July  
+- March–February  
+- Financial Multi-Year – Cumulative Quarters  
+- October–September  
+- Financial Rolling Year – Monthly  
+- July–June  
+- November–November  
+- Financial Year Endpoint  
 
- To be able to compute correctly the "Time Period" the following additional fields or feature are needed.
+> Note: The year type alone is not enough to reconstruct the time period, especially if it’s invalid or missing.
 
+To recompute the **Time Period**, the following are essential:
 
+| Field                 | Type   |
+|----------------------|--------|
+| Indicator ID          | string |
+| Time Period Sortable | int    |
+| Time Period Range     | string |
 
-  These are the different period types we currently support, and because of this we need to get additional data feature to allow us to be able to compute this Period labels when Period fields is missing.
-  
-  along with how to compute them if they're missing from the CSV files we receive. Based on the current state, we can approach this in two ways:
+---
 
-Use the existing data and handle any missing period labels on the frontend.
+## Frontend Changes Required
 
-Pre-validate all CSV files and automatically compute the period values when the format is incorrect or missing.
-  
+Currently, the frontend only displays years without labels. Instead, we should display the full time period string. Use the `xAxis.categories` in Highcharts instead of `xValues`.
+
+Example:
+
+```javascript
+xAxis: {
+  categories: xValues,
+  max: xValues.length - 1,
+  tickLength: 0,
+  allowDecimals: false,
+  labels: { style: { fontSize: AXIS_LABEL_FONT_SIZE } },
+}
+```
+
+### Example TypeScript Function
+
+```typescript
+const generateTimePeriodsFrom = (timePeriodHealthData: HealthDataPoint[]) => {
+  const seenPeriods: string[] = [];
+  const timePeriodLabels: string[] = [];
+
+  timePeriodHealthData.forEach((h) => {
+    const year = h.year.toString();
+    const index = seenPeriods.indexOf(year);
+
+    if (index === -1) {
+      seenPeriods.push(year);
+      timePeriodLabels.push(h.timePeriod ?? year);
+    } else if (h.timePeriod) {
+      if (timePeriodLabels[index] !== h.timePeriod) {
+        timePeriodLabels[index] = h.timePeriod;
+      }
+    }
+  });
+
+  return timePeriodLabels;
+};
+```
+
+This ensures that duplicates are avoided and that correct labels are shown.
+
+---
+
+## Option B
+
+Instead of computing values during ingestion, we can compute them at the API level or directly in the frontend. In this approach:
+
+- The code remains similar
+- Less upfront processing, but could be slower at runtime
+- Depends heavily on the frontend to correct and display the proper labels
+
+---
+
+## References
+
+Coming soon: [Line Chart](#)
+
+---
+
+Would you like me to help refactor this into a Confluence-ready version or into a project proposal format?
