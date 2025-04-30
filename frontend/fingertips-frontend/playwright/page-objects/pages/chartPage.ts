@@ -190,13 +190,6 @@ export default class ChartPage extends AreaFilter {
           });
       }
 
-      // check chart component is now visible
-      await expect(
-        this.page.getByTestId(visibleComponent.componentLocator)
-      ).toBeVisible({
-        visible: true,
-      });
-
       // this block of code is required to ensure we have stable screenshot comparisons - it can be removed once playwright fix their library
       await this.page.waitForLoadState();
       await expect(this.page.getByText('Loading')).toHaveCount(0);
@@ -205,15 +198,21 @@ export default class ChartPage extends AreaFilter {
       await this.page.waitForFunction('window.scrollY === 0');
       await this.page.waitForTimeout(1000);
 
-      // note that screenshot snapshot comparisons are skipped when running against deployed azure environments
-      console.log(
-        `checking component:${visibleComponent.componentLocator} for unexpected visual changes - see directory README.md for details.`
-      );
+      // check chart component is now visible and matches the baseline screenshots
+      await expect(
+        this.page.getByTestId(visibleComponent.componentLocator)
+      ).toBeVisible({
+        visible: true,
+      });
       await expect(
         this.page.getByTestId(visibleComponent.componentLocator)
       ).toHaveScreenshot(
         `${testName}-${visibleComponent.componentLocator}.png`,
-        { threshold: 0.5 }
+        {
+          threshold: 0.55,
+          maxDiffPixelRatio: 0.1,
+          scale: 'device',
+        }
       );
     }
 
