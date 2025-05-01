@@ -1,7 +1,10 @@
 name: Update Baseline Screenshots
-
+#test
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - 'feature/DHSCFT-715_screenshots_plan_A_B'
 
 jobs:
   update-screenshots:
