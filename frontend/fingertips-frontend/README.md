@@ -151,7 +151,7 @@ If you have made changes in your branch that have correctly resulted in the scre
 1. You will see the e2e tests fail in the e2e CI job with the failure message 'Screenshot comparison failed for :${visibleComponent.componentLocator} - you may need to run the update screenshot manual CI job - see directory README.md for details.'.
 2. Download `playwright-artefacts` from the github workflow summary page, and open the `index.html` file in the `playwright-report` folder, then in the Playwright report open the failed test and you will be presented with a 'Diff' page that shows the before and after.
 3. Review and compare the expected base screenshots and actual current screenshots in the playwright report with a BA to confirm the new screenshots are correct.
-4. Once the changes have been confirmed as correct go to `https://github.com/dhsc-govuk/FingertipsNext/actions/workflows/update-screenshots.yml` and click run workflow in the top right of the window, select your branch, tick the `Update baseline screenshots` checkbox and click `Run workflow`. 
+4. Once the changes have been confirmed as correct go to `https://github.com/dhsc-govuk/FingertipsNext/actions/workflows/update-screenshots.yml` and click run workflow in the top right of the window and click `Run workflow`.
 5. Once this workflow has finished it will have automatically committed the changes to your branch and/or PR. Please review them again at this point in time.
 6. Ensure that you kick off a fresh workflow on your PR as this wont automatically happen with the automatically committed screenshots.
 7. When you put your PR up for review, make sure you explicitly state that your changes caused the base screenshots to need to be updated.
