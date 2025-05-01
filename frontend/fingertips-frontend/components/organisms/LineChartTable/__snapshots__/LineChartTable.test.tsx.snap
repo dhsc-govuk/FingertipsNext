@@ -456,7 +456,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
                         class="c11 c12"
                       >
                         <p>
-                          No trend data available
+                          No recent trend data available
                         </p>
                       </div>
                     </div>
@@ -1129,7 +1129,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
                         class="c11 c12"
                       >
                         <p>
-                          No trend data available
+                          No recent trend data available
                         </p>
                       </div>
                     </div>
@@ -1161,7 +1161,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
                         class="c11 c12"
                       >
                         <p>
-                          No trend data available
+                          No recent trend data available
                         </p>
                       </div>
                     </div>

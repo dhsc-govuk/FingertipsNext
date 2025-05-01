@@ -2,7 +2,7 @@ export enum Trend {
   INCREASING = 'Increasing',
   DECREASING = 'Decreasing',
   NO_SIGNIFICANT_CHANGE = 'No significant change',
-  NOT_AVAILABLE = 'No trend data available',
+  NOT_AVAILABLE = 'No recent trend data available',
 }
 
 export enum TrendCondition {
