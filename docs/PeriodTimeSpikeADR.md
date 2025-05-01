@@ -1,7 +1,7 @@
 
 # Investigation into the Complex Time Period Reporting
 
-One of the key requirements is to enable the ability to display various complex date periods on the line chart and data tables. Currently, in next generation fingertip , we are only displaying data only calendar years, and some of it is being displayed incorrectly, ignoring the indicators "year type".
+One of the key requirements is to enable the ability to display various complex date periods on the line chart and data tables. Currently, in next generation fingertip POC , we are only displaying the data for calendar years only, and some of it is being displayed incorrectly, ignoring the indicators "year type".
 
 The fingertips current website, uses this various year types to compute and display the period label.
 
@@ -30,7 +30,21 @@ These are the different time period formats currently in use:
 
 This spike is to find the approaches appropriate we have to take to be able to support this complex year reporting types, that can be discussed with the team.
 
+### Goals
 
+The goal is to propose how to handle the following:
+
+- Required database changes  
+- Whether the Time Period should be treated as its own dimension  
+- Whether API changes are required  
+- Frontend changes required, including:  
+  - Handling different time periods in the Highcharts line chart (currently, years are treated as integers on the x-axis)  
+  - Ensuring sorting still works in various areas  
+  - How to display the period type  
+- Agreement on which types of date periods should be supported for **FingertipsNext**  
+- Documentation of proposed options (and ideally a recommendation) in Confluence
+
+---
 ---
 
 ## Table of Contents
@@ -46,12 +60,11 @@ This spike is to find the approaches appropriate we have to take to be able to s
     - [Field Types and Descriptions](#field-types-and-descriptions)  
   
   - [Solution B](#SolutionB)  
-  - [Option A](#option-a)  
-    - [Database Changes Required](#database-changes-required)  
-    - [Frontend Changes Required](#frontend-changes-required)  
-  - [Option B](#option-b)  
+    - [Database Changes Required](#database-changes-required) 
+    - [Data Fields Mapping](#field-types-and-descriptions)  
   - [Option C](#option-c)  
-- [High Chart Changes](#HighChanges)
+- [Period Label On HighChart](#PeriodLabelOnHighchart)
+- []()
 - [References](#references)
 
 ---
@@ -71,21 +84,7 @@ An example will be:
 
 ![](./images/Current_Q1_reporting.png)
 
-### Goals
 
-The goal is to propose how to handle the following:
-
-- Required database changes  
-- Whether the Time Period should be treated as its own dimension  
-- Whether API changes are required  
-- Frontend changes required, including:  
-  - Handling different time periods in the Highcharts line chart (currently, years are treated as integers on the x-axis)  
-  - Ensuring sorting still works in various areas  
-  - How to display the period type  
-- Agreement on which types of date periods should be supported for **FingertipsNext**  
-- Documentation of proposed options (and ideally a recommendation) in Confluence
-
----
 
 ## Proposed Solutions
 Below is a list of the proposed solutions and the modules that would be affected if any of them is accepted.
@@ -100,7 +99,7 @@ Below is a list of the proposed solutions and the modules that would be affected
 | HighChart | Advance configuration on Highchart to allow tick labels on the charts to avoid stacking | Yes |
 
 
-### Solution A
+### Solution A (Recommended)
 In this option A, I propose precomputing the "Time Period" fields during data ingestion into the current Fingertips database. 
 
 ![](./images/Time%20Period%20Fingertips.png)
@@ -173,7 +172,7 @@ We need to track the new fields at the database level to enable recalculation in
 
 | Field                  | Type   | Source | Destination |
 |----------------------  |--------| ---  | --- |
-| **Indicator**.yearType | string | Philo Database | fingertips.IndicationDimension |
+| **Indicator**.yearType | string | Pholio Database | fingertips.IndicationDimension |
 | Time Period Sortable   | string    | CSV Database | fingertips.HealthMeasure|
 | PeriodLabel  | string   | Calculated Field | fingertips.HealthMeasure |
 | Time Period Range      | string | CSV Database | fingertips.IndicationDimension|
@@ -187,67 +186,95 @@ After porting this fields to the next generation database the same calculations 
   Do nothing at all 
 
 
-## Frontend : High chart changes
 
-Currently, the frontend only displays years without labels. Instead, what we want to do is the ability to display a label along side a tick bars that will allow us to display different range values within the x-Axis of the high chart.
+## Investigation of the Frontend: Highcharts Changes
 
+Currently, the frontend only displays years on the x-axis without labels. Instead, what we want is the ability to display **custom labels** (e.g., "Q1 2010", "Q2 2015") alongside the tick marks. This will allow us to represent different time ranges on the x-axis of the Highcharts chart.
 
+### Challenges
 
-Example:
+- How do we display **custom labels** instead of relying solely on year values?
+- Since the chart is a **multi-series line chart**, we want the actual **x-values to correspond to years**, not the label index. That means the value-to-year mapping should still be done based on the tick index, even though the label may show something different.
 
-```javascript
-xAxis: {
-  categories: xValues,
-  max: xValues.length - 1,
-  tickLength: 0,
-  allowDecimals: false,
-  labels: { style: { fontSize: AXIS_LABEL_FONT_SIZE } },
+## Using Highcharts `categories`
+
+Our current line chart contains multiple series. If we rely solely on `categories` for the x-axis, the chart will plot data points based on the **position in the category array**, which can lead to incorrect plotting when series have data for different years.
+
+### Example:
+
+```text
+Series A = [2010, 8.35], [2015, 9.0]  
+Series B = [2010, 7.35], [2017, 4.0]  
+```
+
+We might compute the categories as:
+
+```text
+Categories C = [2010, 2015, 2017]
+```
+
+However, Highcharts will plot the data like this:
+
+- Series A:
+  - Point 1 = C[0], A[0] → 2010, 8.35  
+  - Point 2 = C[1], A[1] → 2015, 9.0
+
+- Series B:
+  - Point 1 = C[0], B[0] → 2010, 7.35  
+  - Point 2 = C[1], B[1] → 2017, 4.0 ❌ (wrong mapping!)
+
+This results in an incorrect chart because Highcharts aligns points **by index**, not by year.
+
+### Solution A: Use `connectNulls`
+
+We can precompute all the time points across all series and generate aligned arrays. For time points where a series has no data, we insert `null`.
+
+This approach breaks the lines by default, producing a broken chart like this:
+
+![Broken Chart](./images/BreakPoint.png)
+
+#### Fix:
+We can enable Highcharts to **connect the data points even if `null` values exist** using the `connectNulls` setting:
+
+```ts
+plotOptions: {
+  series: {
+    animation: false,
+    connectNulls: true
+  },
 }
 ```
 
-### Example TypeScript Function
 
-```typescript
-const generateTimePeriodsFrom = (timePeriodHealthData: HealthDataPoint[]) => {
-  const seenPeriods: string[] = [];
-  const timePeriodLabels: string[] = [];
+![](./images/NullConnector.png)
 
-  timePeriodHealthData.forEach((h) => {
-    const year = h.year.toString();
-    const index = seenPeriods.indexOf(year);
+With this, the chart will connect data points seamlessly, preserving the line even with missing data. Now, we can use **label-based periods** on the x-axis without breaking the line.
 
-    if (index === -1) {
-      seenPeriods.push(year);
-      timePeriodLabels.push(h.timePeriod ?? year);
-    } else if (h.timePeriod) {
-      if (timePeriodLabels[index] !== h.timePeriod) {
-        timePeriodLabels[index] = h.timePeriod;
-      }
-    }
-  });
+### Final Steps
 
-  return timePeriodLabels;
-};
-```
+1. Extract and sort **all unique label periods** from all series.
+2. If a label period does not exist in a particular series, insert `null` at that index.
+3. Configure Highcharts to use `categories` (i.e., the label periods) instead of direct `x,y` data.
 
-This ensures that duplicates are avoided and that correct labels are shown.
 
----
+## Label Period Computations
+  Still coming...
 
-## Option B
 
-Instead of computing values during ingestion, we can compute them at the API level or directly in the frontend. In this approach:
+## Suggested Technical Tickets
 
-- The code remains similar
-- Less upfront processing, but could be slower at runtime
-- Depends heavily on the frontend to correct and display the proper labels
+This can be broken down into three tasks:
 
----
+- **Ingestion Task**: Precompute the period labels during data ingestion & creating the database schema needed.  
+- **Backend Task**: Update the endpoint and database sql query to include period labels in the returned health points.  
+- **Frontend Task**: Apply advanced Highcharts configuration and refactor existing components to support the new period label instead of year.
 
-## References
+   
 
-Coming soon: [Line Chart](#)
+## Conclusion
+All data periods should be supported, and the recommended scalable approach is Option A, which allows these data periods to be precomputed before being ingested into the database.
 
----
 
-Would you like me to help refactor this into a Confluence-ready version or into a project proposal format?
+
+
+

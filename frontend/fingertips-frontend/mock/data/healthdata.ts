@@ -2021,8 +2021,8 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'Walsall',
       healthData: [
         {
-          year: 2023,
-          count: 2000,
+          year: 2009,
+          count: 2007,
           value: 2,
           lowerCi: 0,
           upperCi: 0,
@@ -2117,12 +2117,12 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: allAgesAge,
           sex: femaleSex,
           trend: HealthDataPointTrendEnum.NotYetCalculated,
-          isAggregate: false,
+          isAggregate: true,
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
-          timePeriod: '2008/09 Q1',
+          year: 2005,
+          timePeriod: '2005/06 Q1',
           count: 179,
           value: 709.7645,
           lowerCi: 0,
@@ -2130,7 +2130,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: allAgesAge,
           sex: femaleSex,
           trend: HealthDataPointTrendEnum.NotYetCalculated,
-          isAggregate: false,
+          isAggregate: true,
           deprivation: noDeprivation,
         },
         {
@@ -2143,7 +2143,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: allAgesAge,
           sex: maleSex,
           trend: HealthDataPointTrendEnum.NotYetCalculated,
-          isAggregate: false,
+          isAggregate: true,
           deprivation: noDeprivation,
         },
         {
@@ -2156,7 +2156,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: allAgesAge,
           sex: maleSex,
           trend: HealthDataPointTrendEnum.NotYetCalculated,
-          isAggregate: false,
+          isAggregate: true,
           deprivation: noDeprivation,
         },
         {
