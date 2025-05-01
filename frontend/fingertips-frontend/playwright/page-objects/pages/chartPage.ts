@@ -163,18 +163,25 @@ export default class ChartPage extends AreaFilter {
       // if its one of the chart components that has a confidence interval checkbox then click it
       if (visibleComponent.componentProps.hasConfidenceIntervals) {
         const componentMapping: Record<string, string> = {
-          [ChartPage.inequalitiesForSingleTimePeriodComponent]: ChartPage.inequalitiesBarChartComponent,
-          [ChartPage.inequalitiesBarChartComponent]: ChartPage.inequalitiesBarChartComponent,
-          [ChartPage.barChartEmbeddedTableComponent]: ChartPage.barChartEmbeddedTableComponent,
-          [ChartPage.inequalitiesLineChartComponent]: ChartPage.inequalitiesLineChartComponent,
-          [ChartPage.inequalitiesTrendComponent]: ChartPage.inequalitiesLineChartComponent,
+          [ChartPage.inequalitiesForSingleTimePeriodComponent]:
+            ChartPage.inequalitiesBarChartComponent,
+          [ChartPage.inequalitiesBarChartComponent]:
+            ChartPage.inequalitiesBarChartComponent,
+          [ChartPage.barChartEmbeddedTableComponent]:
+            ChartPage.barChartEmbeddedTableComponent,
+          [ChartPage.inequalitiesLineChartComponent]:
+            ChartPage.inequalitiesLineChartComponent,
+          [ChartPage.inequalitiesTrendComponent]:
+            ChartPage.inequalitiesLineChartComponent,
         };
-      
+
         const defaultComponent = ChartPage.lineChartComponent;
-        const confidenceIntervalComponent = componentMapping[visibleComponent.componentLocator] || defaultComponent;
-      
+        const confidenceIntervalComponent =
+          componentMapping[visibleComponent.componentLocator] ||
+          defaultComponent;
+
         const testId = `confidence-interval-checkbox-${confidenceIntervalComponent.replace('-component', '')}`;
-      
+
         await this.checkAndAwaitLoadingComplete(this.page.getByTestId(testId));
       }
       // if its one of the chart components that has a details expander then click it
