@@ -19,7 +19,6 @@ import {
   HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 describe('Line chart table suite', () => {
   const mockHealthData: HealthDataForArea[] = [
