@@ -25,7 +25,7 @@ These are the different time period formats currently in use:
 | Financial Rolling Year – Monthly   |  |  | |
 | July–June   |  |  | |
 | November–November   |  |  | |
-| Financial Year Endpoint   |  |  | |
+| Financial Year Endpoint   | 93468 |  e.g 1998, 1999,... | Annual |
 
 
 This spike is to find the approaches appropriate we have to take to be able to support this complex year reporting types, that can be discussed with the team.
@@ -36,17 +36,22 @@ This spike is to find the approaches appropriate we have to take to be able to s
 ## Table of Contents
 
 - [Problem Overview](#problem-overview)  
-  - [Proposed Solution](#proposed-solution)  
+  - [The Current Charts](#CurrentChart)
+  - [The Goals](#TheGoals)
+- [Proposed Solutions](#proposed-solution)  
   - [Definitions](#definitions)  
-  - [Health Data](#health-data)  
+  - [Solution A](#SolutionA)
+    - [Database Creator](#DatabaseCreatorChangesOnSolutionA)
+    - [Health Data](#health-data)  
     - [Field Types and Descriptions](#field-types-and-descriptions)  
-  - [Different Day Types](#different-day-types)  
-- [Proposed Solutions](#proposed-solutions)  
+  
+  - [Solution B](#SolutionB)  
   - [Option A](#option-a)  
     - [Database Changes Required](#database-changes-required)  
     - [Frontend Changes Required](#frontend-changes-required)  
   - [Option B](#option-b)  
   - [Option C](#option-c)  
+- [High Chart Changes](#HighChanges)
 - [References](#references)
 
 ---
@@ -60,9 +65,9 @@ At the moment , we are plotting  the y-values to the x-values (year as the perio
 
 ![Chart Image](./images/current_fingertips_linechart.png)
 
-However want we want is to make the chart period more dynamic, in this way we can accommodate different year types and the appropriate ticks on chart labels.
+However, want we want is to make the chart period more dynamic, in this way we can accommodate different year types and the appropriate ticks on chart labels.
 
-An example of will be something like: 
+An example will be: 
 
 ![](./images/Current_Q1_reporting.png)
 
@@ -82,56 +87,43 @@ The goal is to propose how to handle the following:
 
 ---
 
-## Health Data
+## Proposed Solutions
+Below is a list of the proposed solutions and the modules that would be affected if any of them is accepted.
 
-Currently, the health data points come from downloadable CSV files, which contain the following columns or features:
+#### Require Module Changes
+| Component Name | Descriptions | Change Required |
+| -- | -- | -- |
+| DataCreator | Ingestion Module , we need to add new fields e.g TimePeriod , YearType | Yes |
+| Database | The HealthMeasure point table will have to change to accommodate new types | Yes |
+| Frontend | Any frontend component that is using year on a chart has to change to use the PeriodLabel instead | Yes |
+| Backend API | Allow for new fields to be returned |  Yes |
+| HighChart | Advance configuration on Highchart to allow tick labels on the charts to avoid stacking | Yes |
 
-### Health Data Collection Periods
 
-The data is collected across different time periods, listed below.
-
-### Field Types and Descriptions
-
-| Field                         | Type   | Description                                                                                       | Required |
-|------------------------------|--------|---------------------------------------------------------------------------------------------------|----------|
-| Indicator ID                 | string | Used to identify the indicator                                                                    | Yes      |
-| Indicator Name               | string | The name of the indicator                                                                         | No       |
-| Time Period                  | string | The data point period label or period of collection                                               | No       |
-| **HealthData**               | struct |                                                                                                   | Optional |
-| HealthData.TimePeriodSortable | int    | Contains the year it was reported                                                                 | Yes      |
-| HealthData.TimePeriodRange  | string | Reporting period range. For calendar years we have `1yr`; for financial, quarterly, etc.         | Optional |
-
----
-
-## Option A
-
-In this option, I propose precomputing the "Time Period" fields during data ingestion into the current Fingertips database. This makes the database more like a presentation layer that doesn’t require additional calculations at query time.
+### Solution A
+In this option A, I propose precomputing the "Time Period" fields during data ingestion into the current Fingertips database. 
 
 ![](./images/Time%20Period%20Fingertips.png)
 
-This approach encourages moving most of the current computations to the pre-ingestion stage, making the system more scalable and future-proof. It would not require major database changes beyond the addition of the Time Period fields.
+#### Database Creator
+  Currently, the database creator serves as a temporary data ingestion module for the next-generation database.
+  The proposed solution suggests performing all period label computations within this module—if they are missing—prior to ingesting the timePeriod label into the Fingertips database, along with the year, as is currently being done.
 
-### Required Fields for Precomputation
 
-- `YearType`: from the indicator metadata  
-- `TimePeriodSortable`: from the data points (CSV files)  
-- `TimeRange`: custom duration (e.g., "April–March", "Financial Year", etc.)
+##### Require fields need to compute the labels are shown below
+
+
+| Field                         | Type   | Description                                                                                      | Required |
+|------------------------------|--------|---------------------------------------------------------------------------------------------------|----------|
+| **Indicator**.yearType       | string | Used to identify the indicator                                                                    | Yes      |
+| **Indicator**.Frequency    | string | The name of the indicator                                                                         | Yes      |
+| Time Period                  | string | The data point period label or period of collection                                               | Optional |
+| **HealthData**               | struct |                                                                                                   |          |
+| **HealthData**.TimePeriodSortable | int    | Contains the year, and the quarterly report it was reported  e.g 20100000                        | Yes      |
+| **HealthData**.TimePeriodRange  | string | Reporting period range. For calendar years we have `1yr`; for financial, quarterly, etc , optional if we have the frequency     | Optional |
 
 ---
-
-## Database Changes
-
-Two additional fields should be added to the database table for **HealthData**:
-
-**Required Fields:**
-
-- `Time Period`
-- `Time Period Range`
-- `Time Period Sorted`
-
-### Example Changes
-
-In the data creation tool:
+ If we are doing the pre-calculation in the Data Creator , we don't really need to export all the fields to our database. We create a new fields called PeriodLabel which the out of the pre-computation can be exported. 
 
 ```csharp
 // File: DataCreator/DataCreator/DataFileReader.cs
@@ -144,55 +136,62 @@ var indicatorData = new HealthMeasureEntity
 allData.Add(indicatorData);
 ```
 
-In the database schema:
+##### The Expected Output
+- `PeriodLabel`: the displayable labels for the data points
 
-```sql
+#### Database Schema  Changes
+ The only important changes here is adding a new field on the HealthMeasure Table.
+
+ ```sql
 CREATE TABLE [dbo].[HealthMeasure](
-    [HealthMeasureKey] [int] IDENTITY(1,1) NOT NULL, -- Surrogate key
-     ,
+    [HealthMeasureKey] [int] IDENTITY(1,1) NOT NULL, 
+    [PeriodLabel] NVARCHAR(30)  NOT NULL, 
     ...
 )
 ```
 
-Each time period follows a specific string format depending on the indicator. This allows for easy display and sorting.
+#### API Endpoint Changes
+Adding a new PeriodLabel to the HealthDataPoint 
+
+```TypeScript
+export interface HealthDataPoint {
+    periodLabel: string, 
+    ...
+}
+```
+---
+
+
+### Solution B
+
+Solution B is similar to Solution A; however, instead of performing the period label pre-calculation in the DataCreator module before ingestion, we can ingest the required fields and recalculate the period labels either at the API level or on the frontend before displaying them.
+
+
+### Database Changes
+We need to track the new fields at the database level to enable recalculation in case they are missing or stored in an incorrect format.
+
+
+| Field                  | Type   | Source | Destination |
+|----------------------  |--------| ---  | --- |
+| **Indicator**.yearType | string | Philo Database | fingertips.IndicationDimension |
+| Time Period Sortable   | string    | CSV Database | fingertips.HealthMeasure|
+| PeriodLabel  | string   | Calculated Field | fingertips.HealthMeasure |
+| Time Period Range      | string | CSV Database | fingertips.IndicationDimension|
 
 ---
 
-## Reporting Year Types
+After porting this fields to the next generation database the same calculations for the period label has to be carryout and the period label has to be updated.
 
-These are the different time period formats currently in use:
 
-- Calendar  
-- Financial  
-- Academic  
-- Financial Rolling Year – Quarterly  
-- Calendar Rolling – Quarterly  
-- Calendar Rolling Year – Monthly  
-- Financial Single Year – Cumulative Quarters  
-- August–July  
-- March–February  
-- Financial Multi-Year – Cumulative Quarters  
-- October–September  
-- Financial Rolling Year – Monthly  
-- July–June  
-- November–November  
-- Financial Year Endpoint  
+### Optional C
+  Do nothing at all 
 
-> Note: The year type alone is not enough to reconstruct the time period, especially if it’s invalid or missing.
 
-To recompute the **Time Period**, the following are essential:
+## Frontend : High chart changes
 
-| Field                 | Type   |
-|----------------------|--------|
-| Indicator ID          | string |
-| Time Period Sortable | int    |
-| Time Period Range     | string |
+Currently, the frontend only displays years without labels. Instead, what we want to do is the ability to display a label along side a tick bars that will allow us to display different range values within the x-Axis of the high chart.
 
----
 
-## Frontend Changes Required
-
-Currently, the frontend only displays years without labels. Instead, we should display the full time period string. Use the `xAxis.categories` in Highcharts instead of `xValues`.
 
 Example:
 
