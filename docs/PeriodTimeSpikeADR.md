@@ -1,7 +1,35 @@
 
 # Investigation into the Complex Time Period Reporting
 
-One of the key requirements is to enable the ability to display various complex date periods on the line chart and data tables. Currently, we are only displaying data for calendar years, and some of it is being displayed incorrectly.
+One of the key requirements is to enable the ability to display various complex date periods on the line chart and data tables. Currently, in next generation fingertip , we are only displaying data only calendar years, and some of it is being displayed incorrectly, ignoring the indicators "year type".
+
+The fingertips current website, uses this various year types to compute and display the period label.
+
+
+## Reporting Year Types
+
+These are the different time period formats currently in use:
+| Year Type | Indicator ID | Period Format | Frequency |
+|  ---      |---        |---     | ---         | 
+| Calendar  |  |  |  |
+| Financial | 20401 | e.g 1998, 1999, 2000,... |  1yr |
+| Academic    | 92033 | e.g 2009/10 - 13/14,... | 5yrs |
+| Financial Rolling Year – Quarterly   | 91041 | 2023/24 Q3 | Quarterly |
+| Calendar Rolling – Quarterly   |  |  | |
+| Calendar Rolling Year – Monthly   |  |  | |
+| Financial Single Year – Cumulative Quarters   |  |  | |
+| August–July   |  |  | |
+| March–February   |  |  | |
+| Financial Multi-Year – Cumulative Quarters   | 91112 | 2020/21 Q1 - 2020/21 Q2  | Quarterly |
+| October–September   |  |  |  |
+| Financial Rolling Year – Monthly   |  |  | |
+| July–June   |  |  | |
+| November–November   |  |  | |
+| Financial Year Endpoint   |  |  | |
+
+
+This spike is to find the approaches appropriate we have to take to be able to support this complex year reporting types, that can be discussed with the team.
+
 
 ---
 
@@ -24,10 +52,19 @@ One of the key requirements is to enable the ability to display various complex 
 ---
 
 ## Problem Overview
+  -  As a user I want to be able to see different period labels base on the indicator on the charts and on data tables. 
+
+At the moment , we are plotting  the y-values to the x-values (year as the period label ) as shown below.
 
 ### Current Chart
 
 ![Chart Image](./images/current_fingertips_linechart.png)
+
+However want we want is to make the chart period more dynamic, in this way we can accommodate different year types and the appropriate ticks on chart labels.
+
+An example of will be something like: 
+
+![](./images/Current_Q1_reporting.png)
 
 ### Goals
 

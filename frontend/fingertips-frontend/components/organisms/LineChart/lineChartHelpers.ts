@@ -52,9 +52,9 @@ export const createLineChartOptions = (
       labels: { style: { fontSize: AXIS_LABEL_FONT_SIZE } },
     },
     xAxis: {
-      categories: xValues,
-      max: xValues.length - 1,
+      // categories: xValues,
       tickLength: 0,
+      tickInterval:5,
       allowDecimals: false,
       labels: { style: { fontSize: AXIS_LABEL_FONT_SIZE } },
     },
@@ -125,7 +125,7 @@ export function generateSeriesData(
       const lineSeries: Highcharts.SeriesOptionsType = {
         type: 'line',
         name: item.areaName,
-        data: item.healthData.map((point) => [point.value]),
+        data: item.healthData.map((point) => [point.year, point.value]),
         marker: {
           symbol: symbols[index % symbols.length],
         },
@@ -154,7 +154,7 @@ export function generateSeriesData(
     const groupSeries: Highcharts.SeriesOptionsType = {
       type: 'line',
       name: `Group: ${parentIndicatorData.areaName}`,
-      data: parentIndicatorData.healthData.map((point) => [point.value]),
+      data: parentIndicatorData.healthData.map((point) => [point.year,point.value]),
       color: GovukColours.Turquoise,
       marker: {
         symbol: 'diamond',
@@ -169,7 +169,7 @@ export function generateSeriesData(
     const englandSeries: Highcharts.SeriesOptionsType = {
       type: 'line',
       name: `Benchmark: ${benchmarkData.areaName}`,
-      data: benchmarkData.healthData.map((point) => [point.value]),
+      data: benchmarkData.healthData.map((point) => [point.year,point.value]),
       color: GovukColours.DarkGrey,
       marker: {
         symbol: 'circle',
