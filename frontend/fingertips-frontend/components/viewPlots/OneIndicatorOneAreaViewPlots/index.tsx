@@ -78,7 +78,7 @@ export function OneIndicatorOneAreaViewPlots({
   );
 
   const yAxisTitle = indicatorMetadata?.unitLabel
-    ? `Value: ${indicatorMetadata?.unitLabel}`
+    ? `Fawad: ${indicatorMetadata?.unitLabel}`
     : undefined;
 
   const lineChartOptions: Highcharts.Options = generateStandardLineChartOptions(
