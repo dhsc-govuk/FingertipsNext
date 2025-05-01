@@ -179,7 +179,9 @@ describe('content', () => {
           showTrends={true}
         />
       );
-      expect(screen.queryByText('No trend data available')).toBeInTheDocument();
+      expect(
+        screen.queryByText('No recent trend data available')
+      ).toBeInTheDocument();
     });
   });
 

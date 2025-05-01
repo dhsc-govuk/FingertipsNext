@@ -76,7 +76,7 @@ describe('BasicTable', () => {
 
     const trendTags = screen.getAllByTestId('trend-tag-component');
     expect(trendTags).toHaveLength(2);
-    expect(trendTags[0].textContent).toEqual('No trend data available');
-    expect(trendTags[1].textContent).toEqual('No trend data available');
+    expect(trendTags[0].textContent).toEqual('No recent trend data available');
+    expect(trendTags[1].textContent).toEqual('No recent trend data available');
   });
 });

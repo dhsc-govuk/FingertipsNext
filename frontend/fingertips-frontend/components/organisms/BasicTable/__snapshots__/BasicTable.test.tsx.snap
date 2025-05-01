@@ -325,7 +325,7 @@ exports[`BasicTable should match snapshot 1`] = `
                       class="c6 c7"
                     >
                       <p>
-                        No trend data available
+                        No recent trend data available
                       </p>
                     </div>
                   </div>
@@ -388,7 +388,7 @@ exports[`BasicTable should match snapshot 1`] = `
                       class="c6 c7"
                     >
                       <p>
-                        No trend data available
+                        No recent trend data available
                       </p>
                     </div>
                   </div>

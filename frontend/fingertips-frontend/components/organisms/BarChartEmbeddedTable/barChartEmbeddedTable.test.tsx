@@ -364,9 +364,9 @@ describe('BarChartEmbeddedTable', () => {
 
     expect(trendTags).toHaveLength(4);
     expect(trendTags[0].textContent).toEqual('Decreasing and getting better'); // England benchmark trend
-    expect(trendTags[1].textContent).toEqual('No trend data available'); // E40000014 trend
+    expect(trendTags[1].textContent).toEqual('No recent trend data available'); // E40000014 trend
     expect(trendTags[2].textContent).toEqual('Decreasing and getting better'); // A1426 trend
-    expect(trendTags[3].textContent).toEqual('No trend data available'); // A1425 trend
+    expect(trendTags[3].textContent).toEqual('No recent trend data available'); // A1425 trend
   });
 
   it('should render the data source if provided', async () => {

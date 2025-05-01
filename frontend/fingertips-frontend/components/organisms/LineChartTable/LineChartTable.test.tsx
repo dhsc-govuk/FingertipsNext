@@ -120,7 +120,7 @@ describe('Line chart table suite', () => {
       const rows = screen.getAllByRole('row');
       expect(rows).toHaveLength(6);
       expect(
-        within(rows[0]).getByText('No trend data available')
+        within(rows[0]).getByText('No recent trend data available')
       ).toBeInTheDocument();
 
       expect(
@@ -262,7 +262,7 @@ describe('Line chart table suite', () => {
       const rows = screen.getAllByRole('row');
       expect(screen.getByRole('table')).toBeInTheDocument();
       expect(
-        within(rows[0]).getAllByText('No trend data available')
+        within(rows[0]).getAllByText('No recent trend data available')
       ).toHaveLength(2);
       expect(
         within(rows[1]).getByText(mockHealthData[0].areaName)
