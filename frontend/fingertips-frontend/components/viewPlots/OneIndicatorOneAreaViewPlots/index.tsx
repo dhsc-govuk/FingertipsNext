@@ -50,7 +50,6 @@ export function OneIndicatorOneAreaViewPlots({
   const polarity = indicatorData.polarity as IndicatorPolarity;
   const benchmarkComparisonMethod =
     indicatorData.benchmarkMethod as BenchmarkComparisonMethod;
-    
 
   const healthIndicatorData = indicatorData?.areaHealthData ?? [];
   const dataWithoutEnglandOrGroup = seriesDataWithoutEnglandOrGroup(
@@ -79,8 +78,10 @@ export function OneIndicatorOneAreaViewPlots({
     areaCodes
   );
 
-
-  console.log('Areas number of size  = ' + areaDataWithoutInequalities[0].healthData.length);
+  console.log(
+    'Areas number of size  = ' +
+      areaDataWithoutInequalities[0].healthData.length
+  );
 
   const yAxisTitle = indicatorMetadata?.unitLabel
     ? `Value: ${indicatorMetadata?.unitLabel}`

@@ -56,7 +56,6 @@ const testHealthData: IndicatorWithHealthDataForArea = {
   areaHealthData: [mockHealthData['108'][0], mockHealthData['108'][1]],
 };
 
-
 export default function RootLayout({
   children,
 }: Readonly<{

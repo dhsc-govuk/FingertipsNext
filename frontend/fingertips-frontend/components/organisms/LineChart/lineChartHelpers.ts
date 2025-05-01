@@ -52,16 +52,21 @@ export const createLineChartOptions = (
       labels: { style: { fontSize: AXIS_LABEL_FONT_SIZE } },
     },
     xAxis: {
-     categories: ["2004 Q1", "2005 Q2", "20006 Q3", "2007 G1", "20008 G2", "20009 Q4"],
-     startOnTick: true, 
-     showFirstLabel: true,
-     allowDecimals: false,
-      tickLength: 0,
-      labels: { 
-        style: { 
-          step:5,
-          fontSize: AXIS_LABEL_FONT_SIZE 
-        }
+      categories: xValues,
+      startOnTick: true,
+      showFirstLabel: true,
+      showLastLabel: true,
+      allowDecimals: false,
+      tickInterval:1, 
+      tickLength: 10,
+      tickWidth:2,
+      
+      labels: {
+        enabled: true,
+        style: {
+          step: 5,
+          fontSize: AXIS_LABEL_FONT_SIZE,
+        },
       },
     },
     legend: {
@@ -83,7 +88,7 @@ export const createLineChartOptions = (
     plotOptions: {
       series: {
         animation: false,
-        connectNulls: true
+        connectNulls: true,
       },
     },
   };
@@ -99,7 +104,6 @@ const generateTimePeriodsFrom = (timePeriodHealthData: HealthDataPoint[]) => {
       seenPeriods.push(year);
       timePeriodLabels.push(h.timePeriod ?? year);
     } else if (h.timePeriod) {
-      //We've seen the year, check if we need to update label
       if (timePeriodLabels[index] !== h.timePeriod) {
         timePeriodLabels[index] = h.timePeriod;
       }
@@ -159,7 +163,9 @@ export function generateSeriesData(
     const groupSeries: Highcharts.SeriesOptionsType = {
       type: 'line',
       name: `Group: ${parentIndicatorData.areaName}`,
-      data: parentIndicatorData.healthData.map((point) => [point.value]),
+      data: parentIndicatorData.healthData.map((point) => [
+        point.value,
+      ]),
       color: GovukColours.Turquoise,
       marker: {
         symbol: 'diamond',
@@ -171,10 +177,10 @@ export function generateSeriesData(
   }
 
   if (benchmarkData) {
-    const data =   benchmarkData.healthData.map((point) => [ point.value])
-    const l = data[3]
-    data[3] = null
-    data.push(l)
+    const data = benchmarkData.healthData.map((point) => [
+      point.value,
+    ]);
+
     const englandSeries: Highcharts.SeriesOptionsType = {
       type: 'line',
       name: `Benchmark: ${benchmarkData.areaName}`,
