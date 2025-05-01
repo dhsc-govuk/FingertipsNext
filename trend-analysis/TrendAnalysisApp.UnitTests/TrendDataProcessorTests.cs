@@ -81,56 +81,35 @@ public class TrendDataProcessorTests
         );
     }
     
-    // DHSCFT-559: Test 1 - trends are not calculated for population indicators (ones to skip)
     [Fact]
     public async Task TestTrendDataProcessor_DoesNotReturnTrendsForIndicatorsToSkip()
     {
         // arrange
-        // TODO: populate inMemoryDb with mock data for testing
-        // TODO: PopulateDatabase helper?
-
         var healthMeasureModel0 = new HealthMeasureModelHelper(key: 100)
             .WithIndicatorDimension(indicatorId: Constants.Indicator.GpRegisteredPopulationId)
             .Build();
         var healthMeasureModel1 = new HealthMeasureModelHelper(key: 110)
             .WithIndicatorDimension(indicatorId: Constants.Indicator.ResidentPopulationId)
             .Build();
-        // var healthMeasureModelX = new HealthMeasureModelHelper(key: 120, IndicatorTestData.DiabetesPrevelanceHealthMeasurePoints[0])
-        //     .WithIndicatorDimension(IndicatorTestData.DiabetesPrevalence)
-        //     .Build();
-
-        
         
         _dbContext.HealthMeasure.Add(healthMeasureModel0);
         _dbContext.HealthMeasure.Add(healthMeasureModel1);
         _dbContext.SaveChanges();
-        
-        
-        const string expectedFilePath = "SearchData/assets/indicators.json";
        
         // act
         await _trendDataProcessor.Process(_serviceProvider);
-        var actual0 = _dbContext.HealthMeasure.Find(100)?.TrendDimension;
-        var actual1 = _dbContext.HealthMeasure.Find(110)?.TrendDimension;
-        
-        // actual = DB query for mock indicators
+        var actual0 = _dbContext.HealthMeasure.Find(100);
+        var actual1 = _dbContext.HealthMeasure.Find(110);
         
         // assert
-        // indicators should have default trends?
-        actual0?.Name.ShouldBe(Constants.Trend.NotYetCalculated);
-        actual1?.Name.ShouldBe(Constants.Trend.NotYetCalculated);
-        
-          
-        
-        // mockJSONwritter is (not?)called with expected (or it's the same)
-        // _mockFileHelper.ReceivedCalls().ShouldBeEmpty();
-        _mockFileHelper.Received().Write(
-            expectedFilePath,null);
+        actual0?.TrendDimension.Name.ShouldBe(Constants.Trend.NotYetCalculated);
+        actual1?.TrendDimension.Name.ShouldBe(Constants.Trend.NotYetCalculated);
     }
     
     // DHSCFT-559: Test 2 - healthdata (for one indicator) is correctly grouped 
     // mockRepos is called with correctly grouped data (with correct trends ~[from mock calculator?]~)
     // mockJSONwritter is called with expected
+    // mock file reader?
     
     // DHSCFT-559: Test 3 - if no healthdata for a group
     // mockRepos is (not?)called with expected default
@@ -146,4 +125,5 @@ public class TrendDataProcessorTests
 
 
 // TODO: do we need to reset the Model?
+// TODO: method to add/create mock data to be added to the inMemoryDb
 

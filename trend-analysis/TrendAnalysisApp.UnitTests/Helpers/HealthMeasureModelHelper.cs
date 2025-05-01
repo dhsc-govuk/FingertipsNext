@@ -35,16 +35,6 @@ public class HealthMeasureModelHelper(
         });
     }
     
-    // private IndicatorDimensionModel DefaultIndicatorDimension()
-    // {
-    //     return new IndicatorDimensionModel
-    //     {
-    //         IndicatorKey = (short)key,
-    //         Name = "indicator name",
-    //         IndicatorId = 1
-    //     };
-    // }
-    
     private TrendDimensionModel DefaultTrendDimension()
     {
         return new TrendDimensionModel
@@ -56,7 +46,7 @@ public class HealthMeasureModelHelper(
     
     public HealthMeasureModel Build()
     {
-        var indicatorDimension = _indicatorDimension;//?? DefaultIndicatorDimension();
+        var indicatorDimension = _indicatorDimension;
         var trendDimension = DefaultTrendDimension();
 
         return new HealthMeasureModel
@@ -68,19 +58,10 @@ public class HealthMeasureModelHelper(
             LowerCI = lowerCi,
             UpperCI = upperCi,
             Year = year,
-            // AreaKey = areaDimension.AreaKey,
-            // AgeKey = ageDimension.AgeKey,
             IndicatorKey = indicatorDimension.IndicatorKey,
-            // SexKey = sexDimension.SexKey,
             TrendKey = trendDimension.TrendKey,
-            // DeprivationKey = deprivationDimension.DeprivationKey,
-            // AreaDimension = areaDimension,
-            // AgeDimension = ageDimension,
             IndicatorDimension = indicatorDimension,
-            // SexDimension = sexDimension,
             TrendDimension = trendDimension,
-            // DeprivationDimension = deprivationDimension,
-            // IsAggregate = isAggregate
         };
     }
     
