@@ -53,6 +53,7 @@ interface FormatBarHoverProps {
   upperValue: number;
   units: string;
   colour: string;
+  indicatorName: string;
 }
 
 interface FormatSymbolHoverProps {
@@ -64,22 +65,28 @@ interface FormatSymbolHoverProps {
   outcome: string;
   colour: string;
   shape: SymbolsEnum;
+  indicatorName: string;
 }
 
 function formatSymbol(colour: string, shape: SymbolsEnum) {
   return `<span style="color:${colour}; font-size:19px;">${shape}</span>`;
 }
 
-function formatTitleBlock(title: string, period: number) {
+function formatTitleBlock(
+  title: string,
+  period: number,
+  indicatorName: string
+) {
   return `<div style="min-width: 100px; font-size: 16px;">
         <h4 style="margin:0px; padding:0px;">
           ${title}
         </h4>
-        <span style="display: block;">${period}</span>`;
+        <span style="display: block;">${period}</span>
+        <span style="display: block;">${indicatorName}</span>`;
 }
 
 function formatBarHover(props: FormatBarHoverProps) {
-  return `${formatTitleBlock('Benchmark: England', props.period)}
+  return `${formatTitleBlock('Benchmark: England', props.period, props.indicatorName)}
             <div style="padding:0px; margin:0px;">
                 <div style="display:flex; 
                   flex-direction:row;
@@ -98,7 +105,7 @@ function formatBarHover(props: FormatBarHoverProps) {
 }
 
 function formatSymbolHover(props: FormatSymbolHoverProps) {
-  return `${formatTitleBlock(props.title, props.period)}
+  return `${formatTitleBlock(props.title, props.period, props.indicatorName)}
             <div style="padding:0px; margin:0px;">
                 <div style="display:flex; 
                   flex-direction:row;
@@ -124,6 +131,7 @@ function formatSymbolHover(props: FormatSymbolHoverProps) {
 }
 
 export function generateSeriesData({
+  name,
   period,
   units,
   benchmarkValue,
@@ -181,6 +189,7 @@ export function generateSeriesData({
         upperValue: lowerQuartile,
         units: units,
         colour: GovukColours.MidGrey,
+        indicatorName: name,
       }),
       pointWidth: 30,
       color: GovukColours.MidGrey,
@@ -196,6 +205,7 @@ export function generateSeriesData({
         lowerValue: upperQuartile,
         units: units,
         colour: GovukColours.MidGrey,
+        indicatorName: name,
       }),
       pointWidth: 30,
       color: GovukColours.MidGrey,
@@ -211,6 +221,7 @@ export function generateSeriesData({
         upperValue: upperQuartile,
         units: units,
         colour: GovukColours.LightGrey,
+        indicatorName: name,
       }),
       pointWidth: 30,
       color: GovukColours.LightGrey,
@@ -226,6 +237,7 @@ export function generateSeriesData({
         upperValue: upperQuartile,
         units: units,
         colour: GovukColours.LightGrey,
+        indicatorName: name,
       }),
       pointWidth: 30,
       color: GovukColours.LightGrey,
@@ -258,8 +270,9 @@ export function generateSeriesData({
         value: groupValue,
         units: units,
         outcome: groupOutcome ?? 'Not compared',
-        colour: GovukColours.White,
+        colour: fillColor,
         shape: SymbolsEnum.Diamond,
+        indicatorName: name,
       }),
       marker: {
         symbol: 'diamond',
@@ -302,6 +315,7 @@ export function generateSeriesData({
         outcome: outcome ?? 'Not compared',
         colour: fillColor,
         shape: index === 0 ? SymbolsEnum.Circle : SymbolsEnum.Square,
+        indicatorName: name,
       }),
       marker: {
         symbol: index === 0 ? 'circle' : 'square',
