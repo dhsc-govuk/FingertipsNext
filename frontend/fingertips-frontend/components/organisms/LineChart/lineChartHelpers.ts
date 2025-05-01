@@ -2,6 +2,7 @@ import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
   HealthDataForArea,
+  HealthDataPoint,
 } from '@/generated-sources/ft-api-client';
 import Highcharts, { SymbolKeyValue } from 'highcharts';
 import { GovukColours } from '@/lib/styleHelpers/colours';
@@ -28,52 +29,89 @@ export enum LineChartVariant {
   Inequalities = 'inequalities',
 }
 
-export const lineChartDefaultOptions: Highcharts.Options = {
-  credits: {
-    enabled: false,
-  },
-  chart: {
-    type: 'line',
-    spacingBottom: 50,
-    spacingTop: 20,
-    animation: false,
-  },
-  title: {
-    style: {
-      display: 'none',
+export const createLineChartOptions = (
+  xValues: string[]
+): Highcharts.Options => {
+  return {
+    credits: {
+      enabled: false,
     },
-  },
-  yAxis: {
-    minorTickInterval: 'auto',
-    minorTicksPerMajor: 2,
-    labels: { style: { fontSize: AXIS_LABEL_FONT_SIZE } },
-  },
-  xAxis: {
-    tickLength: 0,
-    allowDecimals: false,
-    labels: { style: { fontSize: AXIS_LABEL_FONT_SIZE } },
-  },
-  legend: {
-    verticalAlign: 'top',
-    align: 'left',
-    itemStyle: {
-      fontSize: '16px',
-    },
-    margin: 20,
-  },
-  accessibility: {
-    enabled: false,
-  },
-  tooltip: {
-    formatter: function (this: Highcharts.Point): string {
-      return this.value?.toString() ?? '';
-    },
-  },
-  plotOptions: {
-    series: {
+    chart: {
+      type: 'line',
+      spacingBottom: 50,
+      spacingTop: 20,
       animation: false,
     },
-  },
+    title: {
+      style: {
+        display: 'none',
+      },
+    },
+    yAxis: {
+      minorTickInterval: 'auto',
+      minorTicksPerMajor: 2,
+      labels: { style: { fontSize: AXIS_LABEL_FONT_SIZE } },
+    },
+    xAxis: {
+      categories: xValues,
+      startOnTick: true,
+      showFirstLabel: true,
+      showLastLabel: true,
+      allowDecimals: false,
+      tickInterval:1, 
+      tickLength: 10,
+      tickWidth:2,
+      
+      labels: {
+        enabled: true,
+        style: {
+          step: 5,
+          fontSize: AXIS_LABEL_FONT_SIZE,
+        },
+      },
+    },
+    legend: {
+      verticalAlign: 'top',
+      align: 'left',
+      itemStyle: {
+        fontSize: '16px',
+      },
+      margin: 20,
+    },
+    accessibility: {
+      enabled: false,
+    },
+    tooltip: {
+      formatter: function (this: Highcharts.Point): string {
+        return this.value?.toString() ?? '';
+      },
+    },
+    plotOptions: {
+      series: {
+        animation: false,
+        connectNulls: true,
+      },
+    },
+  };
+};
+
+const generateTimePeriodsFrom = (timePeriodHealthData: HealthDataPoint[]) => {
+  const seenPeriods: string[] = [];
+  const timePeriodLabels: string[] = [];
+  timePeriodHealthData.forEach((h) => {
+    const year = h.year.toString();
+    const index = seenPeriods.indexOf(year);
+    if (index === -1) {
+      seenPeriods.push(year);
+      timePeriodLabels.push(h.timePeriod ?? year);
+    } else if (h.timePeriod) {
+      if (timePeriodLabels[index] !== h.timePeriod) {
+        timePeriodLabels[index] = h.timePeriod;
+      }
+    }
+  });
+
+  return timePeriodLabels;
 };
 
 export const chartSymbols: SymbolKeyValue[] = [
@@ -98,7 +136,7 @@ export function generateSeriesData(
       const lineSeries: Highcharts.SeriesOptionsType = {
         type: 'line',
         name: item.areaName,
-        data: item.healthData.map((point) => [point.year, point.value]),
+        data: item.healthData.map((point) => [point.value]),
         marker: {
           symbol: symbols[index % symbols.length],
         },
@@ -127,7 +165,6 @@ export function generateSeriesData(
       type: 'line',
       name: `Group: ${parentIndicatorData.areaName}`,
       data: parentIndicatorData.healthData.map((point) => [
-        point.year,
         point.value,
       ]),
       color: GovukColours.Turquoise,
@@ -141,10 +178,14 @@ export function generateSeriesData(
   }
 
   if (benchmarkData) {
+    const data = benchmarkData.healthData.map((point) => [
+      point.value,
+    ]);
+
     const englandSeries: Highcharts.SeriesOptionsType = {
       type: 'line',
       name: `Benchmark: ${benchmarkData.areaName}`,
-      data: benchmarkData.healthData.map((point) => [point.year, point.value]),
+      data: data,
       color: GovukColours.DarkGrey,
       marker: {
         symbol: 'circle',
@@ -267,12 +308,21 @@ export function generateStandardLineChartOptions(
     sortedBenchMarkData
   );
 
+  // compile the all the time Periods and then sort them again and remove the duplicates.
+  const flatHealthDataPoints = sortedBenchMarkData
+    ? sortedBenchMarkData.healthData
+    : [];
+
+  const timePeriodLabels: string[] =
+    generateTimePeriodsFrom(flatHealthDataPoints);
+
+  const lineChartDefaultOptions = createLineChartOptions(timePeriodLabels);
+
   const generateAreaLineChartTooltipForPoint = (
     point: Highcharts.Point,
     symbol: string
   ) => {
     const areaCode: string = point.series.options.custom?.areaCode ?? '';
-
     const label =
       areaCode === areaCodeForEngland
         ? AreaTypeLabelEnum.Benchmark

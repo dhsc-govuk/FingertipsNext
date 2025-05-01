@@ -41,6 +41,7 @@ import {
     AgeDataToJSON,
     AgeDataToJSONTyped,
 } from './AgeData';
+import { string } from 'zod';
 
 /**
  * Represents a health data point for a public health indicator with a count, value, upper confidence interval, lower confidence interval, year, age band and sex.
@@ -48,6 +49,8 @@ import {
  * @interface HealthDataPoint
  */
 export interface HealthDataPoint {
+
+    timePeriod?: string, // Ignore this I know this will be generated :) if accepted
     /**
      * The year that the data point is for
      * @type {number}

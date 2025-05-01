@@ -133,7 +133,10 @@ export function determineHealthDataForArea(
 export function getHealthDataWithoutInequalities(
   data: HealthDataForArea
 ): HealthDataPoint[] {
-  return data?.healthData?.filter((data) => data.isAggregate);
+  return data?.healthData?.filter((point) => {
+    console.log('isAgregate = ' + point.isAggregate);
+    return point.isAggregate;
+  });
 }
 
 export function isEnglandSoleSelectedArea(areasSelected?: string[]) {

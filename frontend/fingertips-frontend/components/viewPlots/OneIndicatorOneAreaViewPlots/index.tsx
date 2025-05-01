@@ -77,6 +77,11 @@ export function OneIndicatorOneAreaViewPlots({
     areaCodes
   );
 
+  console.log(
+    'Areas number of size  = ' +
+      areaDataWithoutInequalities[0].healthData.length
+  );
+
   const yAxisTitle = indicatorMetadata?.unitLabel
     ? `Value: ${indicatorMetadata?.unitLabel}`
     : undefined;
