@@ -113,7 +113,7 @@ jobs:
             echo "No screenshot changes to commit"
           else
             # Commit the changes with a descriptive message
-            git commit -m "Update visual test baseline screenshots [skip ci]"
+            git commit -m "Update visual test baseline screenshots"
             
             # Push the changes
             git push origin ${{ github.head_ref || github.ref_name }}

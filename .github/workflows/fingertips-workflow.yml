@@ -92,6 +92,9 @@ jobs:
 
   determine-version:
     uses: ./.github/workflows/determine-semver.yml
+    if: >
+      github.event_name == 'workflow_dispatch' &&
+      inputs.update_screenshots == false
     with:
       fetch-depth: 0
       gitversion-version: '6.0.x'
@@ -99,7 +102,8 @@ jobs:
   database-build:
     needs: check-changes
     if: >
-      github.event_name == 'workflow_dispatch' || 
+      (github.event_name == 'workflow_dispatch' &&
+      inputs.update_screenshots == false) || 
       needs.check-changes.outputs.db_changed == 'true' ||
       needs.check-changes.outputs.trend_analysis_changed == 'true' ||
       needs.check-changes.outputs.search_changed == 'true'
@@ -135,7 +139,8 @@ jobs:
   api-build-and-test:
     needs: [check-changes, determine-version]
     if: >
-      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'workflow_dispatch' &&
+      inputs.update_screenshots == false) ||
       needs.check-changes.outputs.api_changed == 'true'
     name: Build API
     runs-on: ubuntu-latest
@@ -166,7 +171,8 @@ jobs:
   trend-analysis-app-test:
     needs: [check-changes, determine-version]
     if: >
-      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'workflow_dispatch' &&
+      inputs.update_screenshots == false) ||
       needs.check-changes.outputs.db_changed == 'true' ||
       needs.check-changes.outputs.trend_analysis_changed == 'true' ||
       needs.check-changes.outputs.search_changed == 'true'
@@ -193,7 +199,8 @@ jobs:
   frontend-build-and-test:
     needs: [check-changes, determine-version]
     if: >
-      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'workflow_dispatch' &&
+      inputs.update_screenshots == false) ||
       needs.check-changes.outputs.frontend_changed == 'true'
     name: Build Frontend
     runs-on: ubuntu-latest
@@ -249,7 +256,8 @@ jobs:
       !contains(needs.*.result, 'failure') &&
       !contains(needs.*.result, 'cancelled') &&
       (
-        (github.event_name == 'workflow_dispatch' && inputs.update_screenshots != true) ||
+        (github.event_name == 'workflow_dispatch' &&
+        inputs.update_screenshots == false) ||
         (
           needs.check-changes.outputs.db_changed == 'true' ||
           needs.check-changes.outputs.api_changed == 'true' || 
@@ -291,7 +299,8 @@ jobs:
       !contains(needs.*.result, 'failure') &&
       !contains(needs.*.result, 'cancelled') &&
       (
-        (github.event_name == 'workflow_dispatch' && inputs.update_screenshots != true) ||
+        (github.event_name == 'workflow_dispatch' &&
+        inputs.update_screenshots == false) ||
         needs.check-changes.outputs.api_changed == 'true'
       )
     with:
@@ -311,7 +320,8 @@ jobs:
       !contains(needs.*.result, 'failure') &&
       !contains(needs.*.result, 'cancelled') &&
       (
-        (github.event_name == 'workflow_dispatch' && inputs.update_screenshots != true) ||
+        (github.event_name == 'workflow_dispatch' &&
+        inputs.update_screenshots == false) ||
         needs.check-changes.outputs.frontend_changed == 'true'
       )
     with:
@@ -350,7 +360,8 @@ jobs:
             needs.check-changes.outputs.search_changed == 'true'
           )
         ) ||
-        (github.event_name == 'workflow_dispatch' && inputs.update_screenshots != true)
+        (github.event_name == 'workflow_dispatch' &&
+        inputs.update_screenshots == false)
       )
     steps:
       - name: Checkout code
@@ -410,7 +421,8 @@ jobs:
             needs.check-changes.outputs.search_changed == 'true'
           )
         ) ||
-        (github.event_name == 'workflow_dispatch' && inputs.update_screenshots != true)
+        (github.event_name == 'workflow_dispatch' &&
+        inputs.update_screenshots == false)
       )
     environment: development
     name: Run Trend Analysis App
@@ -464,7 +476,8 @@ jobs:
             needs.check-changes.outputs.trend_analysis_changed == 'true'
           )
         ) ||
-        (github.event_name == 'workflow_dispatch' && inputs.update_screenshots != true)
+        (github.event_name == 'workflow_dispatch' &&
+        inputs.update_screenshots == false)
       )
     runs-on: self-hosted
     defaults:
@@ -546,7 +559,8 @@ jobs:
           github.ref_name == 'main' &&
           needs.check-changes.outputs.api_changed == 'true'
         ) ||
-        (github.event_name == 'workflow_dispatch' && inputs.update_screenshots != true)
+        (github.event_name == 'workflow_dispatch' &&
+        inputs.update_screenshots == false)
       )
     uses: ./.github/workflows/deploy-container.yml
     with:
@@ -622,7 +636,8 @@ jobs:
           github.ref_name == 'main' &&
           needs.check-changes.outputs.frontend_changed == 'true'
         ) ||
-        (github.event_name == 'workflow_dispatch' && inputs.update_screenshots != true)
+        (github.event_name == 'workflow_dispatch' &&
+        inputs.update_screenshots == false)
       )
     uses: ./.github/workflows/deploy-container.yml
     with:
@@ -703,7 +718,8 @@ jobs:
             needs.check-changes.outputs.trend_analysis_changed == 'true'
           )
         ) ||
-        (github.event_name == 'workflow_dispatch' && inputs.update_screenshots != true)
+        (github.event_name == 'workflow_dispatch' &&
+        inputs.update_screenshots == false)
       )
     with:
       playwright-mode: azure
