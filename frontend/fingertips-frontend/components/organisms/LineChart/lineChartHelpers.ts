@@ -127,11 +127,15 @@ export const createChartValues = (
   points: HealthDataPoint[]
 ): (number | null)[] => {
   const results: (number | null)[] = [];
-
+  console.log("Categories = ")
+  console.log(categoriesMap)
+  console.log(points)
   categoriesMap.forEach((data, index) => {
     results.push(null);
-    if (index < points.length && points[index].year.toString() === data.year) {
+    if ((index < points.length) && points[index].year.toString() === data.year) {
       results[index] = points[index].value ?? 0;
+    }else{
+      console.log("Lost value " + data.year)
     }
   });
 
@@ -277,7 +281,7 @@ export function generateStandardLineChartOptions(
     ...sortedHealthIndicatorData.map((x) => x.healthData).flat(),
     ...(filteredSortedGroupData ? filteredSortedGroupData.healthData : []),
   ].toSorted((a, b) => {
-    return a.year - b.year;
+    return   a.year - b.year;
   });
 
   const categoriesMapping: { year: string; label: string }[] =
