@@ -1,7 +1,7 @@
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { OneIndicatorOneAreaViewPlots } from '.';
 import { mockHealthData } from '@/mock/data/healthdata';
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchStateContext } from '@/context/SearchStateContext';
@@ -65,12 +65,14 @@ const testHealthData: IndicatorWithHealthDataForArea = {
 
 describe('OneIndicatorOneAreaViewPlots', () => {
   it('should render the LineChart components', async () => {
-    render(
-      <OneIndicatorOneAreaViewPlots
-        indicatorData={testHealthData}
-        searchState={searchState}
-        indicatorMetadata={mockMetaData}
-      />
+    await act(() =>
+      render(
+        <OneIndicatorOneAreaViewPlots
+          indicatorData={testHealthData}
+          searchState={searchState}
+          indicatorMetadata={mockMetaData}
+        />
+      )
     );
 
     await waitFor(async () => {
@@ -102,12 +104,14 @@ describe('OneIndicatorOneAreaViewPlots', () => {
       [SearchParams.AreasSelected]: mockAreas,
     };
 
-    render(
-      <OneIndicatorOneAreaViewPlots
-        indicatorData={{ areaHealthData: [mockHealthData['108'][0]] }}
-        searchState={searchState}
-        indicatorMetadata={mockMetaData}
-      />
+    await act(() =>
+      render(
+        <OneIndicatorOneAreaViewPlots
+          indicatorData={{ areaHealthData: [mockHealthData['108'][0]] }}
+          searchState={searchState}
+          indicatorMetadata={mockMetaData}
+        />
+      )
     );
 
     await waitFor(async () => {
@@ -135,12 +139,14 @@ describe('OneIndicatorOneAreaViewPlots', () => {
   });
 
   it('should display data source when metadata exists', async () => {
-    render(
-      <OneIndicatorOneAreaViewPlots
-        indicatorData={testHealthData}
-        searchState={searchState}
-        indicatorMetadata={mockMetaData}
-      />
+    await act(() =>
+      render(
+        <OneIndicatorOneAreaViewPlots
+          indicatorData={testHealthData}
+          searchState={searchState}
+          indicatorMetadata={mockMetaData}
+        />
+      )
     );
 
     const actual = await screen.findAllByText('Data source:', { exact: false });
@@ -159,12 +165,14 @@ describe('OneIndicatorOneAreaViewPlots', () => {
       ],
     };
 
-    render(
-      <OneIndicatorOneAreaViewPlots
-        indicatorData={MOCK_DATA}
-        searchState={searchState}
-        indicatorMetadata={mockMetaData}
-      />
+    await act(() =>
+      render(
+        <OneIndicatorOneAreaViewPlots
+          indicatorData={MOCK_DATA}
+          searchState={searchState}
+          indicatorMetadata={mockMetaData}
+        />
+      )
     );
 
     expect(
@@ -186,12 +194,14 @@ describe('OneIndicatorOneAreaViewPlots', () => {
   });
 
   it('should render the inequalities component', async () => {
-    render(
-      <OneIndicatorOneAreaViewPlots
-        indicatorData={testHealthData}
-        searchState={searchState}
-        indicatorMetadata={mockMetaData}
-      />
+    await act(() =>
+      render(
+        <OneIndicatorOneAreaViewPlots
+          indicatorData={testHealthData}
+          searchState={searchState}
+          indicatorMetadata={mockMetaData}
+        />
+      )
     );
 
     expect(

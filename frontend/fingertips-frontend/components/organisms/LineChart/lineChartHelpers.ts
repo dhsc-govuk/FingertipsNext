@@ -16,6 +16,7 @@ import {
   AreaTypeLabelEnum,
   getLatestYearForAreas,
   getFirstYearForAreas,
+  getFormattedLabel,
 } from '@/lib/chartHelpers/chartHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
@@ -91,8 +92,9 @@ export function generateSeriesData(
   parentIndicatorData?: HealthDataForArea,
   showConfidenceIntervalsData?: boolean
 ) {
-  const seriesData: Highcharts.SeriesOptionsType[] = data.flatMap(
-    (item, index) => {
+  const seriesData: Highcharts.SeriesOptionsType[] = data
+    .toSorted((a, b) => a.areaName.localeCompare(b.areaName))
+    .flatMap((item, index) => {
       const lineSeries: Highcharts.SeriesOptionsType = {
         type: 'line',
         name: item.areaName,
@@ -118,8 +120,7 @@ export function generateSeriesData(
       return showConfidenceIntervalsData
         ? [lineSeries, confidenceIntervalSeries]
         : lineSeries;
-    }
-  );
+    });
 
   if (parentIndicatorData) {
     const groupSeries: Highcharts.SeriesOptionsType = {
@@ -169,28 +170,52 @@ export function generateStandardLineChartOptions(
     accessibilityLabel?: string;
     colours?: ChartColours[];
     symbols?: SymbolKeyValue[];
-    yAxisLabelFormatter?: Highcharts.AxisLabelsFormatterCallbackFunction;
     xAxisLabelFormatter?: Highcharts.AxisLabelsFormatterCallbackFunction;
     benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   }
 ): Highcharts.Options {
   const sortedHealthIndicatorData =
     sortHealthDataForAreasByDate(healthIndicatorData);
+  const firstYear = getFirstYearForAreas(sortedHealthIndicatorData);
+  const lastYear = getLatestYearForAreas(sortedHealthIndicatorData);
 
   const sortedBenchMarkData = optionalParams?.benchmarkData
     ? sortHealthDataForAreaByDate(optionalParams?.benchmarkData)
     : undefined;
+  const filteredSortedBenchMarkData =
+    sortedBenchMarkData &&
+    sortedHealthIndicatorData.length &&
+    firstYear &&
+    lastYear
+      ? {
+          ...sortedBenchMarkData,
+          healthData:
+            sortedBenchMarkData?.healthData.filter(
+              (data) => data.year >= firstYear && data.year <= lastYear
+            ) ?? [],
+        }
+      : sortedBenchMarkData;
 
   const sortedGroupData = optionalParams?.groupIndicatorData
     ? sortHealthDataForAreaByDate(optionalParams?.groupIndicatorData)
     : undefined;
+  const filteredSortedGroupData =
+    sortedGroupData && sortedHealthIndicatorData.length && firstYear && lastYear
+      ? {
+          ...sortedGroupData,
+          healthData:
+            sortedGroupData?.healthData.filter(
+              (data) => data.year >= firstYear && data.year <= lastYear
+            ) ?? [],
+        }
+      : sortedGroupData;
 
   let seriesData = generateSeriesData(
     sortedHealthIndicatorData,
     optionalParams?.symbols ?? chartSymbols,
     optionalParams?.colours ?? chartColours,
-    sortedBenchMarkData,
-    sortedGroupData,
+    filteredSortedBenchMarkData,
+    filteredSortedGroupData,
     lineChartCI
   );
 
@@ -294,8 +319,10 @@ export function generateStandardLineChartOptions(
     yAxis: {
       ...lineChartDefaultOptions.yAxis,
       labels: {
+        formatter: function () {
+          return getFormattedLabel(Number(this.value), this.axis.tickPositions);
+        },
         ...(lineChartDefaultOptions.yAxis as Highcharts.YAxisOptions)?.labels,
-        formatter: optionalParams?.yAxisLabelFormatter,
       },
       title: optionalParams?.yAxisTitle
         ? {
@@ -316,8 +343,6 @@ export function generateStandardLineChartOptions(
         ...(lineChartDefaultOptions.yAxis as Highcharts.XAxisOptions)?.labels,
         formatter: optionalParams?.xAxisLabelFormatter,
       },
-      min: getFirstYearForAreas(sortedHealthIndicatorData),
-      max: getLatestYearForAreas(sortedHealthIndicatorData),
     },
     series: seriesData,
     tooltip: {

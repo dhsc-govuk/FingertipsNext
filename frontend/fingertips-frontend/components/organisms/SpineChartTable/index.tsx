@@ -59,7 +59,10 @@ export function SpineChartTable({
           />
           {sortedData.map((indicatorData) => (
             <React.Fragment key={indicatorData.indicatorId}>
-              <SpineChartTableRow indicatorData={indicatorData} />
+              <SpineChartTableRow
+                indicatorData={indicatorData}
+                twoAreasRequested={areaNames.length > 1}
+              />
             </React.Fragment>
           ))}
         </StyledTable>

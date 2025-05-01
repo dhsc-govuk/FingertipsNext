@@ -34,6 +34,8 @@ type SearchResultsProps = {
   currentDate?: Date;
 };
 
+export const RESULTS_PER_PAGE = 15;
+
 const generateBackLinkPath = (state?: SearchStateParams) => {
   const stateManager = SearchStateManager.initialise(state);
   return stateManager.generatePath('/');
@@ -75,6 +77,19 @@ export function SearchResults({
 
   const searchTerm = searchState?.[SearchParams.SearchedIndicator] ?? '';
 
+  const currentPageFromState =
+    Number(searchState?.[SearchParams.PageNumber]) || 1;
+  const totalPages = Math.ceil(searchResults.length / RESULTS_PER_PAGE);
+  const currentPageToUse =
+    currentPageFromState <= totalPages ? currentPageFromState : 1;
+
+  const searchTitle =
+    'Search results' +
+    (searchTerm ? ' for ' + searchTerm : '') +
+    (totalPages > 1
+      ? ' (page ' + currentPageToUse + ' of ' + totalPages + ')'
+      : '');
+
   return (
     <>
       <BackLink
@@ -99,7 +114,7 @@ export function SearchResults({
             }}
           />
         )}
-        <H1>Search results{searchTerm ? ` for ${searchTerm}` : null}</H1>
+        <H1>{searchTitle}</H1>
         <form action={indicatorSearchFormAction}>
           <IndicatorSearchForm
             indicatorSearchFormState={indicatorSearchState}
@@ -121,6 +136,8 @@ export function SearchResults({
               }
               formAction={indicatorSelectionFormAction}
               currentDate={currentDate}
+              currentPage={currentPageToUse}
+              totalPages={totalPages}
             />
           </GridCol>
         </GridRow>

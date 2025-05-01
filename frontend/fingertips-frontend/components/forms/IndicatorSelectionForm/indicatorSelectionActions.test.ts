@@ -33,9 +33,13 @@ describe('Indicator Selection Actions', () => {
       ].join('');
 
       formData = new FormData();
-      formData.append('searchState', JSON.stringify(state));
-      formData.append('indicator', '1');
-      formData.append('indicator', '2');
+      formData.append(
+        'searchState',
+        JSON.stringify({
+          ...state,
+          [SearchParams.IndicatorsSelected]: ['1', '2'],
+        })
+      );
 
       await submitIndicatorSelection(initialState, formData);
 

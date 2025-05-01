@@ -6,7 +6,10 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
 
-export const useIndicatorSort = (results: IndicatorDocument[]) => {
+export const useIndicatorSort = (
+  results: IndicatorDocument[],
+  setCurrentPage?: (pageNumber: number) => void
+) => {
   const pathname = usePathname();
   const { replace } = useRouter();
   const { setIsLoading } = useLoadingState();
@@ -24,6 +27,8 @@ export const useIndicatorSort = (results: IndicatorDocument[]) => {
 
   const handleSortOrder = (e: ChangeEvent<HTMLSelectElement>) => {
     setIsLoading(true);
+    if (setCurrentPage) setCurrentPage(1);
+
     const newSortOrder = e.target.value;
     stateManager.addParamValueToState(SearchParams.SearchedOrder, newSortOrder);
     stateManager.removeAllParamFromState(SearchParams.IndicatorsSelected);

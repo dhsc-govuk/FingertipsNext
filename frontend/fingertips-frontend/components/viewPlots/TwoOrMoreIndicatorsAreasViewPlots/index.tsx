@@ -72,7 +72,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
 
   const areaCodes = determineAreaCodes(
     areasSelected,
-    selectedGroupCode,
+    groupAreaSelected,
     availableAreas
   );
 

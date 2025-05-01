@@ -10,8 +10,16 @@ const createJestConfig = nextJest({
 const config: Config = {
   preset: 'ts-jest',
   testTimeout: 10000,
-  coverageProvider: 'v8',
   collectCoverage: true,
+  coverageReporters: ['lcov', 'text', 'text-summary'],
+  coverageThreshold: {
+    global: {
+      statements: 92.6,
+      branches: 85.1,
+      functions: 91.6,
+      lines: 93.2,
+    },
+  },
   collectCoverageFrom: [
     '<rootDir>/**/*.ts',
     '!<rootDir>/generated-sources/**/*',

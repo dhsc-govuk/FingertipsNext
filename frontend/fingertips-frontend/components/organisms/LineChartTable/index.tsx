@@ -224,6 +224,10 @@ export function LineChartTable({
     healthIndicatorData = [englandBenchmarkData];
   }
 
+  healthIndicatorData = healthIndicatorData.toSorted((a, b) =>
+    a.areaName.localeCompare(b.areaName)
+  );
+
   const confidenceLimit = getConfidenceLimitNumber(benchmarkComparisonMethod);
   const showBenchmarkColumn =
     healthIndicatorData[0]?.areaCode !== areaCodeForEngland &&
