@@ -117,16 +117,20 @@ To debug ui test failures its best to run them using UI Mode:
 npx playwright test --ui
 ```
 
-To run the e2e tests locally, which uses a local dockerised container fingertips instance headlessly:
+To run the e2e tests locally, headlessly, which uses a local dockerised container fingertips instance:
 
 ```bash
 npm run test-e2e-local-docker
 ```
 You will need to have all the docker services running first before executing this command.
 
-If you wish to use ui mode when running against a dockerised container fingertips instance you will need to add the --ui parameter to the `playwright test` part of the command in the `test-e2e-local-docker` script.
+To run the e2e tests locally, headed allowing debug:
 
-Each test will be executed in parallel using Chromium and Webkit as defined in playwright.config.ts. 
+```bash
+npm run test-e2e-ui-mode
+```
+
+Except for in ui mode, each test will be executed in parallel using Chromium and Webkit as defined in playwright.config.ts. 
 
 To make our isolated ui testing and fully integrated e2e testing as close to real world as possible, we use the full chromium headless mode offered by recent playwright versions see https://playwright.dev/docs/release-notes#try-new-chromium-headless.
 
@@ -140,15 +144,17 @@ To check there are 0 accessibility violations on the page the test is currently 
 
 ### Visual Screenshot Snapshot Testing
 
-Performed in the e2e tests when they are run locally and when they run in CI. They are not performed in CD when we merge into main. All base screenshot snapshots are stored directly in the repository.
+Performed in the e2e tests when they are run in CI. They are not performed locally or in CD when we merge into main, this is to keep the environment where we execute the screenshot tests consistent and therefore the tests deterministic and stable. All base screenshot snapshots are stored directly in the repository.
 
-If you have made changes in your branch that have correctly resulted in the screenshots generated not matching the base screenshots, within the tolerance ratio (see `maxDiffPixelRatio` in the playwright config file), then the e2e tests will fail and you will need to update the base screenshots, to do this:
+If you have made changes in your branch that have correctly resulted in the screenshots generated not matching the base screenshots, within the tolerance ratio (see `maxDiffPixelRatio` in the playwright config file), then the e2e tests will fail in CI and you will need to update the base screenshots, to do this:
 
-1. Download `playwright-artefacts` from the github workflow summary page, and open the `index.html` file in the `playwright-report` folder, then in the Playwright report open the failed test and you will be presented with a 'Diff' page that shows the before and after.
-2. Review and compare the expected base screenshots and actual current screenshots in the playwright report with a BA to confirm the new screenshots are correct.
-3. Once the changes have been confirmed as correct run the npm script `test-e2e-local-update-snapshots` in which the base screenshots will be created locally. Check these screenshots match what has been confirmed as correct with the BA.
-4. Push up these screenshots to your branch.
-5. Ensure that when you put your PR up for review you explicitly mention that your changes caused the base screenshots to need to be updated.
+1. You will see the e2e tests fail in the e2e CI job with the failure message 'Screenshot comparison failed for :${visibleComponent.componentLocator} - you may need to run the update screenshot manual CI job - see directory README.md for details.'.
+2. Download `playwright-artefacts` from the github workflow summary page, and open the `index.html` file in the `playwright-report` folder, then in the Playwright report open the failed test and you will be presented with a 'Diff' page that shows the before and after.
+3. Review and compare the expected base screenshots and actual current screenshots in the playwright report with a BA to confirm the new screenshots are correct.
+4. Once the changes have been confirmed as correct go to `https://github.com/dhsc-govuk/FingertipsNext/actions/workflows/update-screenshots.yml` and click run workflow in the top right of the window and click `Run workflow`.
+5. Once this workflow has finished it will have automatically committed the changes to your branch and/or PR. Please review them again at this point in time.
+6. Ensure that you kick off a fresh workflow on your PR as this wont automatically happen with the automatically committed screenshots.
+7. When you put your PR up for review, make sure you explicitly state that your changes caused the base screenshots to need to be updated.
 
 ## Code structure
 
