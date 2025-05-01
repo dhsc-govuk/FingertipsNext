@@ -1,10 +1,11 @@
-name: Update Baseline Screenshots for E2E Tests
+name: Update Baseline Screenshots
 
 on:
   workflow_dispatch:
 
 jobs:
-  e2e-and-api-tests:
+  update-screenshots:
+    name: Update Baseline Screenshots for E2E Tests
     uses: ./.github/workflows/e2e-and-api-tests.yml
     with:
       playwright-mode: docker
