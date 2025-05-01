@@ -57,10 +57,10 @@ export const createLineChartOptions = (
       showFirstLabel: true,
       showLastLabel: true,
       allowDecimals: false,
-      tickInterval:1, 
+      tickInterval: 1,
       tickLength: 10,
-      tickWidth:2,
-      
+      tickWidth: 2,
+
       labels: {
         enabled: true,
         style: {
@@ -94,22 +94,23 @@ export const createLineChartOptions = (
   };
 };
 
-const generateTimePeriodsFrom = (timePeriodHealthData: HealthDataPoint[]) => {
+const createChartCategoriesMapping = (
+  timePeriodHealthData: HealthDataPoint[]
+) => {
   const seenPeriods: string[] = [];
-  const timePeriodLabels: string[] = [];
+  const timePeriodLabels: { year: string; label: string }[] = [];
   timePeriodHealthData.forEach((h) => {
     const year = h.year.toString();
     const index = seenPeriods.indexOf(year);
     if (index === -1) {
       seenPeriods.push(year);
-      timePeriodLabels.push(h.timePeriod ?? year);
+      timePeriodLabels.push({ year: year, label: h.timePeriod ?? year });
     } else if (h.timePeriod) {
-      if (timePeriodLabels[index] !== h.timePeriod) {
-        timePeriodLabels[index] = h.timePeriod;
+      if (timePeriodLabels[index].label !== h.timePeriod) {
+        timePeriodLabels[index].label = h.timePeriod;
       }
     }
   });
-
   return timePeriodLabels;
 };
 
@@ -121,20 +122,38 @@ export const chartSymbols: SymbolKeyValue[] = [
   'diamond',
 ];
 
+export const createChartValues = (
+  categoriesMap: { year: string; label: string }[],
+  points: HealthDataPoint[]
+): (number | null)[] => {
+  const results: (number | null)[] = [];
+
+  categoriesMap.forEach((data, index) => {
+    results.push(null);
+    if (index < points.length && points[index].year.toString() === data.year) {
+      results[index] = points[index].value ?? 0;
+    }
+  });
+
+  return results;
+};
+
 export function generateSeriesData(
   data: HealthDataForArea[],
   symbols: SymbolKeyValue[],
   chartColours: ChartColours[],
+  categoriesMap: { year: string; label: string }[],
   benchmarkData?: HealthDataForArea,
   parentIndicatorData?: HealthDataForArea,
   showConfidenceIntervalsData?: boolean
 ) {
   const seriesData: Highcharts.SeriesOptionsType[] = data.flatMap(
     (item, index) => {
+      const values = createChartValues(categoriesMap, item.healthData);
       const lineSeries: Highcharts.SeriesOptionsType = {
         type: 'line',
         name: item.areaName,
-        data: item.healthData.map((point) => [point.value]),
+        data: values,
         marker: {
           symbol: symbols[index % symbols.length],
         },
@@ -160,12 +179,14 @@ export function generateSeriesData(
   );
 
   if (parentIndicatorData) {
+    const values = createChartValues(
+      categoriesMap,
+      parentIndicatorData.healthData
+    );
     const groupSeries: Highcharts.SeriesOptionsType = {
       type: 'line',
       name: `Group: ${parentIndicatorData.areaName}`,
-      data: parentIndicatorData.healthData.map((point) => [
-        point.value,
-      ]),
+      data: values,
       color: GovukColours.Turquoise,
       marker: {
         symbol: 'diamond',
@@ -177,14 +198,11 @@ export function generateSeriesData(
   }
 
   if (benchmarkData) {
-    const data = benchmarkData.healthData.map((point) => [
-      point.value,
-    ]);
-
+    const values = createChartValues(categoriesMap, benchmarkData.healthData);
     const englandSeries: Highcharts.SeriesOptionsType = {
       type: 'line',
       name: `Benchmark: ${benchmarkData.areaName}`,
-      data: data,
+      data: values,
       color: GovukColours.DarkGrey,
       marker: {
         symbol: 'circle',
@@ -251,10 +269,25 @@ export function generateStandardLineChartOptions(
         }
       : sortedGroupData;
 
+  // compile the all the time Periods and then sort them again and remove the duplicates.
+  const flatHealthDataPoints = [
+    ...(filteredSortedBenchMarkData
+      ? filteredSortedBenchMarkData.healthData
+      : []),
+    ...sortedHealthIndicatorData.map((x) => x.healthData).flat(),
+    ...(filteredSortedGroupData ? filteredSortedGroupData.healthData : []),
+  ].toSorted((a, b) => {
+    return a.year - b.year;
+  });
+
+  const categoriesMapping: { year: string; label: string }[] =
+    createChartCategoriesMapping(flatHealthDataPoints);
+
   let seriesData = generateSeriesData(
     sortedHealthIndicatorData,
     optionalParams?.symbols ?? chartSymbols,
     optionalParams?.colours ?? chartColours,
+    categoriesMapping,
     filteredSortedBenchMarkData,
     filteredSortedGroupData,
     lineChartCI
@@ -265,6 +298,7 @@ export function generateStandardLineChartOptions(
       [sortedBenchMarkData],
       ['circle'],
       [GovukColours.DarkGrey],
+      categoriesMapping,
       undefined,
       undefined,
       lineChartCI
@@ -308,15 +342,9 @@ export function generateStandardLineChartOptions(
     sortedBenchMarkData
   );
 
-  // compile the all the time Periods and then sort them again and remove the duplicates.
-  const flatHealthDataPoints = sortedBenchMarkData
-    ? sortedBenchMarkData.healthData
-    : [];
-
-  const timePeriodLabels: string[] =
-    generateTimePeriodsFrom(flatHealthDataPoints);
-
-  const lineChartDefaultOptions = createLineChartOptions(timePeriodLabels);
+  const lineChartDefaultOptions = createLineChartOptions(
+    categoriesMapping.map((x) => x.label)
+  );
 
   const generateAreaLineChartTooltipForPoint = (
     point: Highcharts.Point,
