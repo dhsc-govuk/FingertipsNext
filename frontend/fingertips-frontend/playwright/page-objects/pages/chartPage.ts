@@ -162,25 +162,20 @@ export default class ChartPage extends AreaFilter {
       }
       // if its one of the chart components that has a confidence interval checkbox then click it
       if (visibleComponent.componentProps.hasConfidenceIntervals) {
-        let confidenceIntervalComponent;
-        switch (visibleComponent.componentLocator) {
-          case ChartPage.inequalitiesForSingleTimePeriodComponent:
-          case ChartPage.inequalitiesBarChartComponent:
-            confidenceIntervalComponent =
-              ChartPage.inequalitiesBarChartComponent;
-            break;
-          case ChartPage.barChartEmbeddedTableComponent:
-            confidenceIntervalComponent =
-              ChartPage.barChartEmbeddedTableComponent;
-            break;
-          default:
-            confidenceIntervalComponent = ChartPage.lineChartComponent;
-        }
-        await this.checkAndAwaitLoadingComplete(
-          this.page.getByTestId(
-            `confidence-interval-checkbox-${confidenceIntervalComponent.replace('-component', '')}`
-          )
-        );
+        const componentMapping: Record<string, string> = {
+          [ChartPage.inequalitiesForSingleTimePeriodComponent]: ChartPage.inequalitiesBarChartComponent,
+          [ChartPage.inequalitiesBarChartComponent]: ChartPage.inequalitiesBarChartComponent,
+          [ChartPage.barChartEmbeddedTableComponent]: ChartPage.barChartEmbeddedTableComponent,
+          [ChartPage.inequalitiesLineChartComponent]: ChartPage.inequalitiesLineChartComponent,
+          [ChartPage.inequalitiesTrendComponent]: ChartPage.inequalitiesLineChartComponent,
+        };
+      
+        const defaultComponent = ChartPage.lineChartComponent;
+        const confidenceIntervalComponent = componentMapping[visibleComponent.componentLocator] || defaultComponent;
+      
+        const testId = `confidence-interval-checkbox-${confidenceIntervalComponent.replace('-component', '')}`;
+      
+        await this.checkAndAwaitLoadingComplete(this.page.getByTestId(testId));
       }
       // if its one of the chart components that has a details expander then click it
       if (visibleComponent.componentProps.hasDetailsExpander) {
