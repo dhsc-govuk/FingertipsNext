@@ -19,6 +19,7 @@ import {
   HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 describe('Line chart table suite', () => {
   const mockHealthData: HealthDataForArea[] = [
@@ -352,7 +353,12 @@ describe('Line chart table suite', () => {
       expect(screen.getAllByRole('columnheader')[8]).toHaveTextContent(
         MOCK_PARENT_DATA.areaName
       );
+
+      expect(
+        screen.queryByText(`Group: ${MOCK_PARENT_DATA.areaName}`)
+      ).toBeInTheDocument();
     });
+
     it('should not render the parent area heading when not passed parentData', () => {
       render(
         <LineChartTable
@@ -378,6 +384,21 @@ describe('Line chart table suite', () => {
       expect(screen.getAllByRole('cell')).toHaveLength(
         mockHealthData[0].healthData.length * 13
       );
+    });
+
+    it('should not render the group column when the area selected is England', () => {
+      render(
+        <LineChartTable
+          healthIndicatorData={[]}
+          englandBenchmarkData={MOCK_ENGLAND_DATA}
+          groupIndicatorData={MOCK_PARENT_DATA}
+          measurementUnit="%"
+        />
+      );
+
+      expect(
+        screen.queryByText(`Group: ${MOCK_PARENT_DATA.areaName}`)
+      ).not.toBeInTheDocument();
     });
   });
 
