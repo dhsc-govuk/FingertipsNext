@@ -205,7 +205,7 @@ export default class ChartPage extends AreaFilter {
       await this.page.waitForFunction('window.scrollY === 0');
       await this.page.waitForTimeout(1000);
 
-      // note that screenshot snapshot comparisons are skipped when running against deployed azure environments
+      // note that screenshot snapshot comparisons are ignored when running against deployed azure environments
       console.log(
         `checking component:${visibleComponent.componentLocator} for unexpected visual changes - see directory README.md for details.`
       );
