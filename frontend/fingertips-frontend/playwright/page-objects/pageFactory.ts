@@ -28,9 +28,9 @@ const testBase = baseTest.extend<{
 
     // Uncaught exceptions
     page.on('pageerror', (error) => {
-        throw new Error(
-          `Page error: ${error.message}. Stack trace: ${error.stack}`
-        );
+      throw new Error(
+        `Page error: ${error.message}. Stack trace: ${error.stack}`
+      );
     });
 
     await use(page);
