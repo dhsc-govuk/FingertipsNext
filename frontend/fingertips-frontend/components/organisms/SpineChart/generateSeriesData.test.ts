@@ -98,7 +98,7 @@ describe('generateSeriesData', () => {
     ).toBeUndefined();
   });
 
-  it('should handle missing area values gracefully', () => {
+  it('should not render series data for areas if not provided', () => {
     const propsWithoutAreas = {
       ...mockProps,
       areaOneValue: undefined,

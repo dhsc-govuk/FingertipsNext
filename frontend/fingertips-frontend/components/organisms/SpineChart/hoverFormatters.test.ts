@@ -77,7 +77,7 @@ describe('hoverFormatters', () => {
       expect(result).toContain('color:#0000ff; font-size:19px;');
     });
 
-    it('should handle missing outcome gracefully', () => {
+    it('should not render the outcome if not provided', () => {
       const props = {
         title: 'Test Title',
         period: 2025,
