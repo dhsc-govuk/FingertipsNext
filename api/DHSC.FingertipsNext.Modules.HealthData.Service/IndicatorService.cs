@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using DHSC.FingertipsNext.Modules.HealthData.Repository;
+﻿using DHSC.FingertipsNext.Modules.HealthData.Repository;
 using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
@@ -49,8 +48,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         if (indicatorData == null) 
             return new ServiceResponse<IndicatorWithHealthDataForAreas>(ResponseStatus.IndicatorDoesNotExist);
 
-        var method = _mapper.Map<BenchmarkComparisonMethod>(indicatorData.BenchmarkComparisonMethod);
-        var polarity = _mapper.Map<IndicatorPolarity>(indicatorData.Polarity);
+        var method = _mapper.MapBenchmarkComparisonMethod(indicatorData.BenchmarkComparisonMethod);
+        var polarity = _mapper.MapIndicatorPolarity(indicatorData.Polarity);
         if (latestOnly)
             years = [indicatorData.LatestYear];
 
@@ -131,7 +130,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
                 {
                     AreaCode = group.Key.code,
                     AreaName = group.Key.name,
-                    HealthData = _mapper.Map<IEnumerable<HealthDataPoint>>(group.ToList())
+                    HealthData = _mapper.Map(group.ToList())
                 })
                 .ToList();
         }
@@ -165,7 +164,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
             {
                 AreaCode = group.Key.code,
                 AreaName = group.Key.name,
-                HealthData = _mapper.Map<IEnumerable<HealthDataPoint>>(group.ToList())
+                HealthData = _mapper.Map(group.ToList())
             })
             .ToList();
 
@@ -215,7 +214,6 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         )
     {
         var quartileData = await healthDataRepository.GetQuartileDataAsync(indicatorIds, areaCode, areaType, ancestorCode);
-        if (quartileData == null) return null;
-        return _mapper.Map<IEnumerable<IndicatorQuartileData>>(quartileData.ToList());
+        return quartileData == null ? null : _mapper.Map(quartileData.ToList());
     }
 }

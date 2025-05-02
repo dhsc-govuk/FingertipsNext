@@ -1,22 +1,13 @@
-﻿using AutoMapper;
-using DHSC.FingertipsNext.Modules.HealthData.Mappings;
-using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
+﻿using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 using DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 using Shouldly;
 
-namespace DHSC.FingertipsNext.Modules.HealthData.Tests.AutoMapper;
+namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Mapper;
 
-public class AutoMapperTests
+public class MapperTests
 {
-    private readonly Mapper _mapper;
-
-    public AutoMapperTests()
-    {
-        var profiles = new AutoMapperProfiles();
-        var configuration = new MapperConfiguration(cfg => cfg.AddProfile(profiles));
-        _mapper = new Mapper(configuration);
-    }
+    private readonly Mappings.Mapper _mapper = new();
 
     private static HealthDataPoint BuildHealthDataPoint(
         int year,
@@ -93,7 +84,7 @@ public class AutoMapperTests
             2007, expectedAgeBand, expectedSex, expectedTrend, expectedDeprivation);
 
         // act
-        var actual = _mapper.Map<HealthDataPoint>(healthMeasure);
+        var actual = _mapper.Map(healthMeasure);
 
         // assert
         actual.ShouldBeEquivalentTo(expectedHealthData);
@@ -117,7 +108,7 @@ public class AutoMapperTests
         };
 
         // Act
-        var actual = _mapper.Map<Age>(ageDimension);
+        var actual = _mapper.Map(ageDimension);
 
         // Assert
         actual.ShouldBeEquivalentTo(expectedAge);
@@ -141,7 +132,7 @@ public class AutoMapperTests
         };
 
         // Act
-        var actual = _mapper.Map<Sex>(sexDimension);
+        var actual = _mapper.Map(sexDimension);
 
         // Assert
         actual.ShouldBeEquivalentTo(expectedSex);
@@ -170,7 +161,7 @@ public class AutoMapperTests
         };
 
         // Act
-        var actual = _mapper.Map<Deprivation>(deprivationDimension);
+        var actual = _mapper.Map(deprivationDimension);
 
         // Assert
         actual.ShouldBeEquivalentTo(expectedDeprivation);
