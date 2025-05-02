@@ -1,27 +1,19 @@
-﻿using AutoMapper;
-using DHSC.FingertipsNext.Modules.Area.Repository.Models;
-using DHSC.FingertipsNext.Modules.Area.Schemas;
+﻿using DHSC.FingertipsNext.Modules.Area.Repository.Models;
 using DHSC.FingertipsNext.Modules.Area.Service;
 using DHSC.FingertipsNext.Modules.Area.UnitTests.Fakers;
 using Shouldly;
 
 namespace DHSC.FingertipsNext.Modules.Area.UnitTests.Service;
 
-public class AutoMapperProfilesTests
+public class MapperTests
 {
-    private readonly IMapper _mapper;
-
-    public AutoMapperProfilesTests() =>
-        _mapper = new Mapper(new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile(new AutoMapperProfiles());
-        }));
+    private readonly IMapper _mapper = new Mapper();
 
     [Fact]
     public void Mapping_AreaModel_To_SchemaRootArea()
     {
         var areaModel = Fake.AreaModel;
-        var mappedArea = _mapper.Map<RootArea>(areaModel);
+        var mappedArea = _mapper.MapToRootArea(areaModel);
 
         mappedArea.Code.ShouldBe(areaModel.AreaCode);
         mappedArea.Name.ShouldBe(areaModel.AreaName);
@@ -31,7 +23,7 @@ public class AutoMapperProfilesTests
     public void Mapping_AreaModel_To_SchemaArea()
     {
         var areaModel = Fake.AreaModel;
-        var mappedArea = _mapper.Map<Schemas.Area>(areaModel);
+        var mappedArea = _mapper.Map(areaModel);
 
         AssertAreaPropertiesMatch(mappedArea, areaModel);
     }
@@ -42,7 +34,7 @@ public class AutoMapperProfilesTests
     public void Mapping_AreaWithRelationsModel_To_SchemaAreaWithRelations_WhenModelFullyPopulated()
     {
         var awr = Fake.AreaWithRelationsModel;
-        var mappedAwr = _mapper.Map<AreaWithRelations>(awr);
+        var mappedAwr = _mapper.Map(awr);
 
         AssertAreaPropertiesMatch(mappedAwr, awr.Area);
 
@@ -63,7 +55,7 @@ public class AutoMapperProfilesTests
     public void Mapping_AreaWithRelationsModel_To_SchemaAreaWithRelations_WhenModelFullyPopulatedExceptForParent()
     {
         var awr = Fake.AreaWithRelationsModel;
-        var mappedAwr = _mapper.Map<AreaWithRelations>(awr);
+        var mappedAwr = _mapper.Map(awr);
 
         AssertAreaPropertiesMatch(mappedAwr, awr.Area);
 
@@ -77,7 +69,7 @@ public class AutoMapperProfilesTests
     {
         var awr = Fake.AreaWithRelationsModel;
         awr.Children = [];
-        var mappedAwr = _mapper.Map<AreaWithRelations>(awr);
+        var mappedAwr = _mapper.Map(awr);
 
         AssertAreaPropertiesMatch(mappedAwr, awr.Area);
 
@@ -92,7 +84,7 @@ public class AutoMapperProfilesTests
     {
         var awr = Fake.AreaWithRelationsModel;
         awr.Siblings = [];
-        var mappedAwr = _mapper.Map<AreaWithRelations>(awr);
+        var mappedAwr = _mapper.Map(awr);
 
         AssertAreaPropertiesMatch(mappedAwr, awr.Area);
 
@@ -109,7 +101,7 @@ public class AutoMapperProfilesTests
     public void Mapping_AreaTypeModel_To_SchemaAreaType()
     {
         var areaTypeModel = Fake.AreaTypeModel;
-        var mappedAreaType = _mapper.Map<AreaType>(areaTypeModel);
+        var mappedAreaType = _mapper.Map(areaTypeModel);
 
         mappedAreaType.Key.ShouldBe(areaTypeModel.AreaTypeKey);
         mappedAreaType.Name.ShouldBe(areaTypeModel.AreaTypeName);
