@@ -105,6 +105,17 @@ function formatBarHover(props: FormatBarHoverProps) {
 }
 
 function formatSymbolHover(props: FormatSymbolHoverProps) {
+  let outcomeContent = '';
+
+  if (props.outcome) {
+    if (props.outcome === 'Not compared') {
+      outcomeContent = '<span style="display: block;">Not compared</span>';
+    } else {
+      outcomeContent = `<span style="display: block;">${props.outcome} than England</span>
+                        <span style="display: block;">${benchmarkComparisonMethodToString(props.benchmarkComparisonMethod)}</span>`;
+    }
+  }
+
   return `${formatTitleBlock(props.title, props.period, props.indicatorName)}
             <div style="padding:0px; margin:0px;">
                 <div style="display:flex; 
@@ -118,14 +129,7 @@ function formatSymbolHover(props: FormatSymbolHoverProps) {
                     padding:0.5em;
                     ">
                     <span style="display: block;">${formatNumber(props.value)}${formatUnits(props.units)}</span>
-                    ${
-                      props.outcome
-                        ? props.outcome === 'Not compared'
-                          ? '<span style="display: block;">Not compared</span>'
-                          : `<span style="display: block;">${props.outcome} than England</span>
-                         <span style="display: block;">${benchmarkComparisonMethodToString(props.benchmarkComparisonMethod)}</span>`
-                        : ''
-                    }
+                    ${outcomeContent}
                   </div>
               </div>
             <div>
