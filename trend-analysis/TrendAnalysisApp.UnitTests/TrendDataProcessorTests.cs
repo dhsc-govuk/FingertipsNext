@@ -10,6 +10,7 @@ using TrendAnalysisApp.Calculator.Legacy;
 using TrendAnalysisApp.Mapper;
 using TrendAnalysisApp.Repository.Models;
 using static TrendAnalysisApp.Constants;
+using Trend = TrendAnalysisApp.Calculator.Trend;
 
 namespace TrendAnalysisApp.UnitTests;
 
@@ -95,6 +96,12 @@ public class TrendDataProcessorTests
     public async Task TestTrendDataProcessor_DoesNotReturnTrendsForIndicatorsToSkip()
     {
         // arrange
+        JArray mockFileContents = new()
+        {
+            { new JObject { ["indicatorID"] = 1 } }, { new JObject { ["indicatorID"] = 2 } } 
+        };
+        _mockFileHelper.Read(ExpectedFilePath).Returns(mockFileContents);
+        
         const short gpRegIndicatorKey = 1;
         const short residentPopulationIndicatorKey = 6;
         var gpRegIndicator = _dbContext.IndicatorDimension.Add(new IndicatorDimensionModel
@@ -122,21 +129,49 @@ public class TrendDataProcessorTests
         // assert
         actualGpReg.TrendDimension.Name.ShouldBe(Constants.Trend.NotYetCalculated);
         actualResPop.TrendDimension.Name.ShouldBe(Constants.Trend.NotYetCalculated);
+        _mockFileHelper.Received().Read(ExpectedFilePath);
+        _mockFileHelper.Received().Write(
+            ExpectedFilePath,
+            Arg.Is<JArray>(ja => JToken.DeepEquals(ja, mockFileContents))
+        );
+
     }
 
     [Fact]
     public async Task TestTrendDataProcessor_CalculatesTrendsForRelevantGroupedData()
     {
         // arrange
-        _mockFileHelper.Read(ExpectedFilePath).Returns(
-            new JArray { { new JObject { ["indicatorID"] = 1 } } }
-        );
-
         const short mockIndicatorKey = 1;
+
+        _mockFileHelper.Read(ExpectedFilePath).Returns(
+            new JArray { { new JObject { ["indicatorID"] = mockIndicatorKey } } }
+        );
+        JArray expectedUpdatedFileContents = new()
+        {
+            {
+                new JObject
+                {
+                    ["indicatorID"] = mockIndicatorKey, ["trendsByArea"] = new JArray
+                    {
+                        new JObject
+                        {
+                            ["areaCode"] = "AC1",
+                            ["trend"] = Constants.Trend.NoSignificantChange
+                        },
+                        new JObject
+                        {
+                            ["areaCode"] = "AC2",
+                            ["trend"] = Constants.Trend.CannotBeCalculated
+                        }
+                    }
+                }
+            }
+        };
 
         var mockIndicator = _dbContext.IndicatorDimension.Add(new IndicatorDimensionModel
         {
             IndicatorKey = mockIndicatorKey,
+            IndicatorId = 1,
             Polarity = Polarity.NoJudgement,
             ValueType = "Directly standardised rate"
         });
@@ -156,14 +191,17 @@ public class TrendDataProcessorTests
                 );
         var secondAreaResult = _dbContext.HealthMeasure.AsNoTracking()
             .Include(hm => hm.TrendDimension)
-            .First(
+            .Last(
                 hm => hm.HealthMeasureKey > 200);
        
         // assert
         firstAreaResult?.TrendDimension.Name.ShouldBe(Constants.Trend.NoSignificantChange);
         secondAreaResult?.TrendDimension.Name.ShouldBe(Constants.Trend.CannotBeCalculated);
-       
-       // TODO: assert that the JSON is as expected
+       _mockFileHelper.Received().Read(ExpectedFilePath);
+       _mockFileHelper.Received().Write(
+           ExpectedFilePath,
+           Arg.Is<JArray>(ja => JToken.DeepEquals(ja, expectedUpdatedFileContents))
+       );
     }
 
     private void PopulateMockHealthMeasureData(
@@ -237,11 +275,13 @@ public class TrendDataProcessorTests
          _dbContext.AreaDimension.Add(new AreaDimensionModel
          {
              AreaKey = DefaultAreaEntityKey,
+             Code = "AC1"
          });
          
          _dbContext.AreaDimension.Add(new AreaDimensionModel
          {
              AreaKey = DefaultAreaEntityKey+1,
+             Code = "AC2"
          });
      }
 }
