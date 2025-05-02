@@ -88,7 +88,7 @@ describe('generateSeriesData', () => {
     expect(result).toBeNull();
   });
 
-  it('should handle missing groupValue gracefully', () => {
+  it('should not return series data for group if not provided', () => {
     const propsWithoutGroup = { ...mockProps, groupValue: undefined };
     const result = generateSeriesData(propsWithoutGroup);
 
@@ -98,7 +98,7 @@ describe('generateSeriesData', () => {
     ).toBeUndefined();
   });
 
-  it('should not render series data for areas if not provided', () => {
+  it('should not return series data for areas if not provided', () => {
     const propsWithoutAreas = {
       ...mockProps,
       areaOneValue: undefined,
