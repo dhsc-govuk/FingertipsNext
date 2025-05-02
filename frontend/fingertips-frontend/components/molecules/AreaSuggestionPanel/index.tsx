@@ -12,6 +12,8 @@ import {
   allAreaTypes,
   englandAreaType,
 } from '@/lib/areaFilterHelpers/areaType';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 const StyleSearchSuggestionPanel = styled(UnorderedList)`
   display: flex;
@@ -90,7 +92,23 @@ export const AreaAutoCompleteSuggestionPanel = ({
         SearchParams.AreaTypeSelected,
         selectedAreaTypeKey
       );
+
+      if (selectedAreaCode === areaCodeForEngland) {
+        stateManager.addParamValueToState(
+          SearchParams.GroupTypeSelected,
+          englandAreaType.key
+        );
+        stateManager.addParamValueToState(
+          SearchParams.GroupSelected,
+          areaCodeForEngland
+        );
+        stateManager.addParamValueToState(
+          SearchParams.GroupAreaSelected,
+          ALL_AREAS_SELECTED
+        );
+      }
     }
+
     router.replace(stateManager.generatePath(pathname), { scroll: false });
   };
 
