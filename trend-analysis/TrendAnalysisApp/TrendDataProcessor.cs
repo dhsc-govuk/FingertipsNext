@@ -56,8 +56,6 @@ public class TrendDataProcessor(
                 .OrderByDescending(hm => hm.Year)
                 .Take(TrendCalculator.RequiredNumberOfDataPoints);
 
-            if (!mostRecentDataPoints.Any()) { continue; }
-
             var trend = trendCalculator.CalculateTrend(indicator, mostRecentDataPoints);
             healthMeasureRepository.UpdateTrendKey(mostRecentDataPoints.First(), (byte) trend);
 
