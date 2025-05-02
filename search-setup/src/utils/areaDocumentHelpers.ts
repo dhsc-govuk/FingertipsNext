@@ -10,12 +10,13 @@ import {
 export function parseAreaData(rawAreaData: object): AreaDocument[] {
   const unparsedAreaData = rawAreaData as AreaDocument[];
   const parseAreaData = unparsedAreaData.map(
-    ({ areaCode, areaName, areaType }): AreaDocument => {
+    ({ areaCode, areaName, areaType, postcode }): AreaDocument => {
       return {
         areaKey: `${createUniqueKey(areaCode, areaType)}`,
         areaCode,
         areaName,
         areaType,
+        postcode
       };
     }
   );

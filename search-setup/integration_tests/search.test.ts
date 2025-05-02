@@ -196,8 +196,8 @@ describe('AI search index creation and data loading', () => {
         },
         body: JSON.stringify({
           search: partialText,
-          searchFields: 'areaName,areaCode',
-          select: 'areaCode,areaType,areaName',
+          searchFields: 'areaName,areaCode,postcode',
+          select: 'areaCode,areaType,areaName,postcode',
           suggesterName: AREA_SEARCH_SUGGESTER_NAME,
         }),
         method: 'POST',
@@ -220,12 +220,55 @@ describe('AI search index creation and data loading', () => {
             'areaCode': 'E08000003',
             'areaType': 'Counties and Unitary Authorities',
             'areaName': 'Manchester',
+            'postcode': null
           },
           {
             '@search.text': 'E08000003',
             'areaCode': 'E08000003',
             'areaType': 'Districts and Unitary Authorities',
             'areaName': 'Manchester',
+            'postcode': null
+          },
+        ],
+      });
+    });
+
+    const testGpPracPostcode = 'LE12 8PY';
+
+    it('should return data for a partial postcode', async () => {
+      const response = await makeSuggestionsRequest(testGpPracPostcode.substring(0, 6));
+      const results: SuggestionResult = await response.json();
+      expect(results).toMatchObject({
+        value: [
+          {
+            '@search.text': 'LE12 8PY',
+            'areaCode': 'C82062',
+            'areaType': 'GPs',
+            'areaName': 'Barrow Health Centre',
+            'postcode': testGpPracPostcode
+          },
+          {
+            '@search.text': 'LE12 8BP',
+            'areaCode': 'C82034',
+            'areaType': 'GPs',
+            'areaName': 'Quorn Medical Centre',
+            'postcode': 'LE12 8BP'
+          },
+        ],
+      });
+    });
+
+    it('should return data for a full postcode', async () => {
+      const response = await makeSuggestionsRequest(testGpPracPostcode);
+      const results: SuggestionResult = await response.json();
+      expect(results).toMatchObject({
+        value: [
+          {
+            '@search.text': 'LE12 8PY',
+            'areaCode': 'C82062',
+            'areaType': 'GPs',
+            'areaName': 'Barrow Health Centre',
+            'postcode': testGpPracPostcode
           },
         ],
       });
