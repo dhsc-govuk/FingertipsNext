@@ -11,6 +11,7 @@ import { englandArea } from '@/mock/data/areas/englandAreas';
 import { LoaderContext } from '@/context/LoaderContext';
 import { SearchStateContext } from '@/context/SearchStateContext';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 const mockAreas: AreaDocument[] = [
   { areaCode: 'GP01', areaName: 'Greenwich', areaType: 'GPs' },
@@ -181,7 +182,7 @@ describe('AreaSuggestionPanel', () => {
       `&${SearchParams.AreaTypeSelected}=${englandAreaType.key}`,
       `&${SearchParams.GroupTypeSelected}=${englandAreaType.key}`,
       `&${SearchParams.GroupSelected}=${areaCodeForEngland}`,
-      `&${SearchParams.GroupAreaSelected}=ALL`,
+      `&${SearchParams.GroupAreaSelected}=${ALL_AREAS_SELECTED}`,
     ].join('');
 
     const user = userEvent.setup();
