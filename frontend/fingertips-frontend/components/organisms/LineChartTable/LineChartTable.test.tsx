@@ -388,8 +388,7 @@ describe('Line chart table suite', () => {
     it('should not render the group column when the area selected is England', () => {
       render(
         <LineChartTable
-          healthIndicatorData={[]}
-          englandBenchmarkData={MOCK_ENGLAND_DATA}
+          healthIndicatorData={[MOCK_ENGLAND_DATA]}
           groupIndicatorData={MOCK_PARENT_DATA}
           measurementUnit="%"
         />
