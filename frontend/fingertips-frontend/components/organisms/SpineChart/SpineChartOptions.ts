@@ -77,12 +77,12 @@ function formatTitleBlock(
   period: number,
   indicatorName: string
 ) {
-  return `<div style="width: 200px; font-size: 16px;">
+  return `<div style="width: 250px; font-size: 16px; text-wrap: wrap;">
         <h4 style="margin:0px; padding:0px;">
           ${title}
         </h4>
         <span style="display: block;">${period}</span>
-        <span style="display: block; width: 200px; overflow-wrap: break-word;">${indicatorName}</span>`;
+        <span>${indicatorName}</span>`;
 }
 
 function formatBarHover(props: FormatBarHoverProps) {
