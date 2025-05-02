@@ -62,7 +62,7 @@ interface FormatSymbolHoverProps {
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
   value: number;
   units: string;
-  outcome: string;
+  outcome?: string;
   colour: string;
   shape: SymbolsEnum;
   indicatorName: string;
@@ -77,12 +77,12 @@ function formatTitleBlock(
   period: number,
   indicatorName: string
 ) {
-  return `<div style="min-width: 100px; font-size: 16px;">
+  return `<div style="width: 200px; font-size: 16px;">
         <h4 style="margin:0px; padding:0px;">
           ${title}
         </h4>
         <span style="display: block;">${period}</span>
-        <span style="display: block;">${indicatorName}</span>`;
+        <span style="display: block; width: 200px; overflow-wrap: break-word;">${indicatorName}</span>`;
 }
 
 function formatBarHover(props: FormatBarHoverProps) {
@@ -119,10 +119,12 @@ function formatSymbolHover(props: FormatSymbolHoverProps) {
                     ">
                     <span style="display: block;">${formatNumber(props.value)}${formatUnits(props.units)}</span>
                     ${
-                      props.outcome === 'Not compared'
-                        ? '<span style="display: block;">Not compared</span>'
-                        : `<span style="display: block;">${props.outcome} than England</span>
+                      props.outcome
+                        ? props.outcome === 'Not compared'
+                          ? '<span style="display: block;">Not compared</span>'
+                          : `<span style="display: block;">${props.outcome} than England</span>
                          <span style="display: block;">${benchmarkComparisonMethodToString(props.benchmarkComparisonMethod)}</span>`
+                        : ''
                     }
                   </div>
               </div>
@@ -331,12 +333,21 @@ export function generateSeriesData({
   if (benchmarkValue !== undefined) {
     seriesData.push({
       type: 'scatter',
-      name: 'Benchmark',
-      visible: false,
+      name: formatSymbolHover({
+        title: 'Benchmark: England',
+        period: period,
+        benchmarkComparisonMethod:
+          benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
+        value: benchmarkValue,
+        units: units,
+        colour: GovukColours.Black,
+        shape: SymbolsEnum.PlotLine,
+        indicatorName: name,
+      }),
       marker: {
-        symbol: 'circle',
-        radius: 2,
         fillColor: GovukColours.Black,
+        enabled: false,
+        radius: 1,
       },
       data: [0],
     });
