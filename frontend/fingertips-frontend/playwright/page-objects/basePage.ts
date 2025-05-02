@@ -1,4 +1,4 @@
-import type { Locator, Page as PlaywrightPage } from 'playwright-core';
+import type { Locator, Page as PlaywrightPage } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { expect } from './pageFactory';
 import { SearchMode } from '../testHelpers';
@@ -9,7 +9,9 @@ export default class BasePage {
   constructor(public readonly page: PlaywrightPage) {}
 
   async waitForURLToContain(containsURL: string) {
-    await this.page.waitForURL(new RegExp(containsURL, 'i'));
+    await this.page.waitForURL((url) => {
+      return url.toString().toLowerCase().includes(containsURL.toLowerCase());
+    });
   }
 
   async waitForURLToContainBasedOnSearchMode(

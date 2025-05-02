@@ -107,7 +107,7 @@ export default class ChartPage extends AreaFilter {
       console.log(
         `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart component: ${visibleComponent.componentLocator} is displayed.`
       );
-      // if its one of the chart components that you need to click on the tab first to see it then click it
+      // if its one of the chart table components that you need to click on the tab first to see it then click it
       if (visibleComponent.componentProps.isTabTable) {
         await this.clickAndAwaitLoadingComplete(
           this.page.getByTestId(
@@ -129,11 +129,22 @@ export default class ChartPage extends AreaFilter {
             }));
           }
         );
-
+        // get the last option in the dropdown then select it
+        const lastTimePeriodDropdownOption =
+          dropdownOptions[dropdownOptions.length - 1].value;
         await combobox.selectOption({
-          value: dropdownOptions[dropdownOptions.length - 1].value,
+          value: lastTimePeriodDropdownOption,
         });
         await this.waitAfterDropDownInteraction();
+
+        // ensure the page has been rerendered with the new time period
+        await this.waitForURLToContain(lastTimePeriodDropdownOption);
+        await expect(
+          this.page.getByText(
+            `persons for ${lastTimePeriodDropdownOption} time period`
+          )
+        ).toBeVisible();
+        expect(await combobox.inputValue()).toBe(lastTimePeriodDropdownOption);
       }
       // if its one of the chart components that has a type dropdown for inequalities then select the last in the list
       if (visibleComponent.componentProps.hasTypeDropDown) {
@@ -154,11 +165,22 @@ export default class ChartPage extends AreaFilter {
             }));
           }
         );
-
+        // get the last option in the dropdown then select it
+        const lastTypeDropdownOption =
+          dropdownOptions[dropdownOptions.length - 1].value;
         await combobox.selectOption({
-          value: dropdownOptions[dropdownOptions.length - 1].value,
+          value: lastTypeDropdownOption,
         });
         await this.waitAfterDropDownInteraction();
+
+        // ensure the page has been rerendered with the new type
+        const dropDownConvertedToURL = lastTypeDropdownOption
+          .replaceAll(' ', '+')
+          .replaceAll(':', '%3A')
+          .replaceAll('(', '%28')
+          .replaceAll(')', '%29');
+        await this.waitForURLToContain(dropDownConvertedToURL);
+        expect(await combobox.inputValue()).toBe(lastTypeDropdownOption);
       }
       // if its one of the chart components that has a confidence interval checkbox then click it
       if (visibleComponent.componentProps.hasConfidenceIntervals) {
