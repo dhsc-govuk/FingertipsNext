@@ -7,7 +7,7 @@ import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client/mode
 
 export const INDICATOR_SEARCH_SCORING_PROFILE = 'basicScoringProfile';
 export const INDICATOR_SEARCH_INDEX_NAME = 'indicator-search-index';
-export const AREA_SEARCH_INDEX_NAME = 'test-area-search-index';
+export const AREA_SEARCH_INDEX_NAME = 'area-search-index';
 export const AREA_SEARCH_SUGGESTER_NAME = 'areaSuggester';
 export const AREA_TYPE_GP = 'GPs';
 
