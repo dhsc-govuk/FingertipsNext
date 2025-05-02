@@ -10,6 +10,8 @@ import {
 import { englandArea } from '@/mock/data/areas/englandAreas';
 import { LoaderContext } from '@/context/LoaderContext';
 import { SearchStateContext } from '@/context/SearchStateContext';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 const mockAreas: AreaDocument[] = [
   { areaCode: 'GP01', areaName: 'Greenwich', areaType: 'GPs' },
@@ -57,6 +59,7 @@ jest.mock('@/context/SearchStateContext', () => {
 
 describe('AreaSuggestionPanel', () => {
   beforeEach(() => {
+    mockReplace.mockClear();
     mockGetSearchState.mockReturnValue({});
   });
 
@@ -167,6 +170,37 @@ describe('AreaSuggestionPanel', () => {
 
     await user.click(
       screen.getByTestId(`area-suggestion-item-${mockAreas[0].areaCode}`)
+    );
+
+    expect(mockReplace).toHaveBeenCalledWith(expectedPath, { scroll: false });
+  });
+
+  it('should set group areas selected to all when england selected', async () => {
+    const expectedPath = [
+      `${mockPath}`,
+      `?${SearchParams.AreasSelected}=${areaCodeForEngland}`,
+      `&${SearchParams.AreaTypeSelected}=${englandAreaType.key}`,
+      `&${SearchParams.GroupTypeSelected}=${englandAreaType.key}`,
+      `&${SearchParams.GroupSelected}=${areaCodeForEngland}`,
+      `&${SearchParams.GroupAreaSelected}=${ALL_AREAS_SELECTED}`,
+    ].join('');
+
+    const user = userEvent.setup();
+    render(
+      <AreaAutoCompleteSuggestionPanel
+        suggestedAreas={[
+          {
+            areaCode: areaCodeForEngland,
+            areaName: 'England',
+            areaType: englandAreaType.key,
+          },
+        ]}
+        searchHint=""
+      />
+    );
+
+    await user.click(
+      screen.getByTestId(`area-suggestion-item-${areaCodeForEngland}`)
     );
 
     expect(mockReplace).toHaveBeenCalledWith(expectedPath, { scroll: false });
