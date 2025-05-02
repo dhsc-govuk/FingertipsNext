@@ -59,5 +59,5 @@ export enum AreaSearchIndexColumnNames {
   AREA_CODE = 'areaCode',
   AREA_NAME = 'areaName',
   AREA_TYPE = 'areaType',
-  POSTCODE = 'postcode'
+  POSTCODE = 'postcode',
 }

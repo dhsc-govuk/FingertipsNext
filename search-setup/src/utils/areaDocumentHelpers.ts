@@ -16,7 +16,7 @@ export function parseAreaData(rawAreaData: object): AreaDocument[] {
         areaCode,
         areaName,
         areaType,
-        postcode
+        postcode,
       };
     }
   );

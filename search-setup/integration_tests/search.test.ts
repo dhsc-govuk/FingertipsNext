@@ -220,14 +220,14 @@ describe('AI search index creation and data loading', () => {
             'areaCode': 'E08000003',
             'areaType': 'Counties and Unitary Authorities',
             'areaName': 'Manchester',
-            'postcode': null
+            'postcode': null,
           },
           {
             '@search.text': 'E08000003',
             'areaCode': 'E08000003',
             'areaType': 'Districts and Unitary Authorities',
             'areaName': 'Manchester',
-            'postcode': null
+            'postcode': null,
           },
         ],
       });
@@ -236,7 +236,9 @@ describe('AI search index creation and data loading', () => {
     const testGpPracPostcode = 'LE12 8PY';
 
     it('should return data for a partial postcode', async () => {
-      const response = await makeSuggestionsRequest(testGpPracPostcode.substring(0, 6));
+      const response = await makeSuggestionsRequest(
+        testGpPracPostcode.substring(0, 6)
+      );
       const results: SuggestionResult = await response.json();
       expect(results).toMatchObject({
         value: [
@@ -245,14 +247,14 @@ describe('AI search index creation and data loading', () => {
             'areaCode': 'C82062',
             'areaType': 'GPs',
             'areaName': 'Barrow Health Centre',
-            'postcode': testGpPracPostcode
+            'postcode': testGpPracPostcode,
           },
           {
             '@search.text': 'LE12 8BP',
             'areaCode': 'C82034',
             'areaType': 'GPs',
             'areaName': 'Quorn Medical Centre',
-            'postcode': 'LE12 8BP'
+            'postcode': 'LE12 8BP',
           },
         ],
       });
@@ -268,7 +270,7 @@ describe('AI search index creation and data loading', () => {
             'areaCode': 'C82062',
             'areaType': 'GPs',
             'areaName': 'Barrow Health Centre',
-            'postcode': testGpPracPostcode
+            'postcode': testGpPracPostcode,
           },
         ],
       });
