@@ -203,11 +203,74 @@ public class TrendDataProcessorTests
            Arg.Is<JArray>(ja => JToken.DeepEquals(ja, expectedUpdatedFileContents))
        );
     }
+    
+    [Fact]
+       public async Task TestTrendDataProcessor_AddsTrendOnlyToDbIfHealthDataIsNotAggregate()
+    {
+        // arrange
+        const short mockIndicatorKey = 1;
 
+        _mockFileHelper.Read(ExpectedFilePath).Returns(
+            new JArray { { new JObject { ["indicatorID"] = mockIndicatorKey } } }
+        );
+        JArray expectedUpdatedFileContents = new()
+        {
+            {
+                new JObject
+                {
+                    ["indicatorID"] = mockIndicatorKey, ["trendsByArea"] = new JArray
+                    {
+                        new JObject
+                        {
+                            ["areaCode"] = "AC1",
+                            ["trend"] = Constants.Trend.NoSignificantChange
+                        },
+                    }
+                }
+            }
+        };
+
+        var mockIndicator = _dbContext.IndicatorDimension.Add(new IndicatorDimensionModel
+        {
+            IndicatorKey = mockIndicatorKey,
+            IndicatorId = 1,
+            Polarity = Polarity.NoJudgement,
+            ValueType = "Directly standardised rate"
+        });
+        _dbContext.SaveChanges();
+
+        PopulateMockHealthMeasureData(mockIndicator.Entity.IndicatorKey);
+        PopulateMockHealthMeasureData(mockIndicator.Entity.IndicatorKey, DefaultAreaEntityKey+1, mockIndicatorKey, false);
+
+        // act
+        await _trendDataProcessor.Process(_serviceProvider);
+
+        // extract
+        var firstAreaResult = _dbContext.HealthMeasure.AsNoTracking()
+            .Include(hm => hm.TrendDimension)
+            .First(
+                hm => hm.HealthMeasureKey == DefaultAreaEntityKey
+                );
+        var secondAreaResult = _dbContext.HealthMeasure.AsNoTracking()
+            .Include(hm => hm.TrendDimension)
+            .Last(
+                hm => hm.HealthMeasureKey > 200);
+       
+        // assert
+        firstAreaResult?.TrendDimension.Name.ShouldBe(Constants.Trend.NoSignificantChange);
+        secondAreaResult?.TrendDimension.Name.ShouldBe(Constants.Trend.CannotBeCalculated);
+       _mockFileHelper.Received().Read(ExpectedFilePath);
+       _mockFileHelper.Received().Write(
+           ExpectedFilePath,
+           Arg.Is<JArray>(ja => JToken.DeepEquals(ja, expectedUpdatedFileContents))
+       );
+    }
+       
     private void PopulateMockHealthMeasureData(
         short entityIndicatorKey,
         int areaEntityKey = DefaultAreaEntityKey,
         int startKey = MockHealthMeasureStartKey,
+        bool isAggregate = true,
         int startYear = 2024)
     {
         double? count = 4000000;
@@ -225,9 +288,9 @@ public class TrendDataProcessorTests
                 AreaKey = areaEntityKey,
                 IndicatorKey = entityIndicatorKey,
                 TrendKey = DefaultTrendEntityKey,
-                IsSexAggregatedOrSingle = true,
-                IsAgeAggregatedOrSingle = true,
-                IsDeprivationAggregatedOrSingle = true,
+                IsSexAggregatedOrSingle = isAggregate,
+                IsAgeAggregatedOrSingle = isAggregate,
+                IsDeprivationAggregatedOrSingle = isAggregate,
                 Count = count,
                 Denominator = 50000000,
                 Value = 7,
@@ -239,19 +302,6 @@ public class TrendDataProcessorTests
 
         _dbContext.SaveChanges();
     }
-
-    // DHSCFT-559: Test 3 - if no healthdata for a group
-    // mockRepos is (not?)called with expected default
-    // expected JSON is written 
-
-    // DHSCFT-559: Test 4 - if one of two groups is aggregate
-    // mockRepos is called with expected default
-    // expected JSON is written with only the aggregate
-
-    // IF time - test repository behaviours 
-
-    // TODO: method to add/create mock data to be added to the inMemoryDb
-    // returns the HealthMeasureModel[] in order that it can be asserted against 
 
    private void SetupDimensions()
      {
