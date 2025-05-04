@@ -13,9 +13,9 @@ export class ApiClientFactory {
   private static indicatorsApiInstance: IndicatorsApi | null;
   private static systemApiInstance: SystemApi | null;
 
-  public static getAreasApiClient(): AreasApi {
+  public static getAreasApiClient(api?: string): AreasApi {
     if (!this.areasApiInstance) {
-      const apiUrl = readEnvVar('FINGERTIPS_API_URL');
+      const apiUrl = api ?? readEnvVar('FINGERTIPS_API_URL');
       const config: Configuration = new Configuration({
         basePath: apiUrl,
         fetchApi: fetch,
