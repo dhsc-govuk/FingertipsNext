@@ -30,7 +30,7 @@ export const LoaderProvider: React.FC<LoaderContextProvider> = ({
   const { getSearchState } = useSearchState();
   const searchState = getSearchState();
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const contextValue: LoaderContext = useMemo(
     () => ({
