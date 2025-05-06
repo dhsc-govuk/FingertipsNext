@@ -12,6 +12,7 @@ export const useShallowSearchParams = () => {
   const selectedAreaType = search.get('ats') ?? 'england';
   const selectedGroupType = search.get('gts') ?? undefined;
   const selectedGroup = search.get('gs') ?? undefined;
+  if (!selectedAreas.length) selectedAreas.push('E92000001');
 
   return {
     shallowUpdate,
