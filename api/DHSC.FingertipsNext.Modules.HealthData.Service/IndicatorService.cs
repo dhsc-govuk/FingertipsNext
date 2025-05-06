@@ -149,7 +149,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         }
 
         //if RAG is the benchmark method use England as the comparison area and add England to the areas we want data for
-        var benchmarkAreaCode = AreaCodeEngland; //for PoC all benchmarking is against England, post PoC this will be passed in as a variable
+        var benchmarkAreaCode = benchmarkRefType == "AreaGroup"? areaGroup: AreaCodeEngland; //for PoC all benchmarking is against England, post PoC this will be passed in as a variable
         var wasBenchmarkAreaCodeRequested = areaCodesForSearch.Contains(benchmarkAreaCode);
 
         var hasBenchmarkDataBeenRequested = comparisonMethod is

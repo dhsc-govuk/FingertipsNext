@@ -38,3 +38,46 @@ GET http://localhost:5144/indicators/41101/data?area_codes=E12000007&inequalitie
     });
 %}
 
+
+
+### check GET health data with rag comparison benchmarked against areaGroup
+ 
+GET http://localhost:5144/indicators/94063/data?area_codes=N85008&area_group=U79121&benchmark_ref_type=AreaGroup
+
+> {%
+    client.test("Check Get Health Data response when benchmarking against areaGroup", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+            const expectedResults = [ 
+                {areaName:"West Wirral Group Practice", year:2022, outcome:"Similar", benchmarkArea:"U79121", benchmarkAreaName:"Healthier West Wirral PCN", benchmarkValue:74.43451},  
+                {areaName:"West Wirral Group Practice", year:2023, outcome:"Similar", benchmarkArea:"U79121", benchmarkAreaName:"Healthier West Wirral PCN", benchmarkValue:76.455025}  
+                ];
+
+            expectedResults.forEach((expected) => {
+                client.assert(
+                    response.body.areaHealthData.find(area => area.areaName === expected.areaName)
+                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .benchmarkComparison.outcome === expected.outcome,
+                    `failed for ${expected.areaName}`
+                );
+                client.assert(
+                    response.body.areaHealthData.find(area => area.areaName === expected.areaName)
+                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .benchmarkComparison.benchmarkAreaCode === expected.benchmarkArea,
+                    `failed for ${expected.areaName}`
+                );
+                client.assert(
+                    response.body.areaHealthData.find(area => area.areaName === expected.areaName)
+                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .benchmarkComparison.benchmarkAreaName === expected.benchmarkAreaName,
+                    `failed for ${expected.areaName}`
+                );
+                client.assert(
+                    response.body.areaHealthData.find(area => area.areaName === expected.areaName)
+                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .benchmarkComparison.benchmarkValue === expected.benchmarkValue,
+                    `failed for ${expected.areaName}`
+                );           
+            });
+
+    });
+%}

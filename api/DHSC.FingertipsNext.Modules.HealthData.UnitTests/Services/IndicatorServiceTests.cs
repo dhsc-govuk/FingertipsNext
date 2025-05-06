@@ -793,7 +793,7 @@ public class IndicatorServiceTests
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns([healthMeasure0, healthMeasure1, healthMeasure2]);
         _healthDataRepository.GetAreasAsync(Arg.Any<string[]>()).Returns(missingAreas);
 
-        var result = await _indicatorService.GetIndicatorDataAsync(1, expectedAreaCodes, string.Empty, string.Empty, string.Empty, [], []);
+        var result = await _indicatorService.GetIndicatorDataAsync(1, expectedAreaCodes, string.Empty, string.Empty, string.Empty, [], [], true);
         string[] missingAreasCodes = [missingAreas[0].Code];
 
         result.Content.AreaHealthData.ShouldNotBeEmpty();
@@ -894,7 +894,7 @@ public class IndicatorServiceTests
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns([]);
         _healthDataRepository.GetAreasAsync(Arg.Any<string[]>()).Returns(missingAreas);
 
-        var result = await _indicatorService.GetIndicatorDataAsync(1, expectedAreaCodes, string.Empty, string.Empty, string.Empty, [], []);
+        var result = await _indicatorService.GetIndicatorDataAsync(1, expectedAreaCodes, string.Empty, string.Empty, string.Empty, [], [], true);
         string[] missingAreasCodes = [missingAreas[0].Code, missingAreas[1].Code, missingAreas[2].Code, missingAreas[3].Code,];
 
         result.Content.AreaHealthData.ShouldNotBeEmpty();
