@@ -52,6 +52,7 @@ export const createLineChartOptions = (
       labels: { style: { fontSize: AXIS_LABEL_FONT_SIZE } },
     },
     xAxis: {
+      type: "datetime",
       categories: xValues,
       startOnTick: true,
       showFirstLabel: true,

@@ -9,22 +9,23 @@ The fingertips current website, uses this various year types to compute and disp
 ## Reporting Year Types
 
 These are the different time period formats currently in use:
-| Year Type | Indicator ID | Period Format | Frequency |
-|  ---      |---        |---     | ---         | 
+| Year Type | Indicator ID | Period Format | Frequency | TBC |
+|  ---      |---        |---     | ---         |  --- |
 | Calendar  |  |  |  |
 | Financial | 20401 | e.g 1998, 1999, 2000,... |  1yr |
-| Academic    | 92033 | e.g 2009/10 - 13/14,... | 5yrs |
+| Academic   | 91871 | e.g 2022/23, 2024/2025 | 1yr |
+| Academic   | 92033 | e.g 2009/10 - 13/14,... | 5yrs |
 | Financial Rolling Year – Quarterly   | 91041 | 2023/24 Q3 | Quarterly |
 | Calendar Rolling – Quarterly   |  |  | |
 | Calendar Rolling Year – Monthly   |  |  | |
 | Financial Single Year – Cumulative Quarters   |  |  | |
-| August–July   |  |  | |
+| August–July   | 92860 | 2015, 2016 ... e.t.c | 1yr | yes |
 | March–February   |  |  | |
 | Financial Multi-Year – Cumulative Quarters   | 91112 | 2020/21 Q1 - 2020/21 Q2  | Quarterly |
 | October–September   |  |  |  |
 | Financial Rolling Year – Monthly   |  |  | |
-| July–June   |  |  | |
-| November–November   |  |  | |
+| July–June   |  | e.g Jul 2009 - Jun 2010, Jul 2010 - Jun 2011 | 1yr |
+| November–November   | 93015 |  2015/16, 2017/18 .... | 1yr |
 | Financial Year Endpoint   | 93468 |  e.g 1998, 1999,... | Annual |
 
 
@@ -115,21 +116,23 @@ In this option A, I propose precomputing the "Time Period" fields during data in
 | Field                         | Type   | Description                                                                                      | Required |
 |------------------------------|--------|---------------------------------------------------------------------------------------------------|----------|
 | **Indicator**.yearType       | string | Used to identify the indicator                                                                    | Yes      |
-| **Indicator**.Frequency    | string | The name of the indicator                                                                         | Yes      |
+| **Indicator**.Frequency    | string | The name of the indicator                                                                           | Yes      |
 | Time Period                  | string | The data point period label or period of collection                                               | Optional |
 | **HealthData**               | struct |                                                                                                   |          |
-| **HealthData**.TimePeriodSortable | int    | Contains the year, and the quarterly report it was reported  e.g 20100000                        | Yes      |
+| **HealthData**.TimePeriodSortable | int    | Contains the year, and the quarterly report it was reported  e.g 20100000                    | Yes      |
 | **HealthData**.TimePeriodRange  | string | Reporting period range. For calendar years we have `1yr`; for financial, quarterly, etc , optional if we have the frequency     | Optional |
 
 ---
- If we are doing the pre-calculation in the Data Creator , we don't really need to export all the fields to our database. We create a new fields called PeriodLabel which the out of the pre-computation can be exported. 
+ If we are doing the pre-calculation in the Data Creator/Data Ingestion module , we don't really need to export all the fields to our database.
+  We just 've to create a new fields called PeriodLabel that will be pre-computed and export to our database to be use as the `Period Label`. 
 
 ```csharp
 // File: DataCreator/DataCreator/DataFileReader.cs
+// This field need a good refactor to make it easy to be use in the future.
 var indicatorData = new HealthMeasureEntity
 {
     IndicatorId = indicatorId,
-    TimePeriod = timePeriod,
+    PeriodLabel = periodLabel, // After pre-computed 
     ...
 };
 allData.Add(indicatorData);
@@ -167,15 +170,17 @@ Solution B is similar to Solution A; however, instead of performing the period l
 
 
 ### Database Changes
-We need to track the new fields at the database level to enable recalculation in case they are missing or stored in an incorrect format.
-
+We need to track the new fields at the database level to enable calculation or recalculation. 
+Furthermore, these are the field needed for the re-calculation, shown below:
 
 | Field                  | Type   | Source | Destination |
 |----------------------  |--------| ---  | --- |
 | **Indicator**.yearType | string | Pholio Database | fingertips.IndicationDimension |
 | Time Period Sortable   | string    | CSV Database | fingertips.HealthMeasure|
-| PeriodLabel  | string   | Calculated Field | fingertips.HealthMeasure |
+| PeriodLabel  | string  | Calculated Field | fingertips.HealthMeasure |
 | Time Period Range      | string | CSV Database | fingertips.IndicationDimension|
+
+**Note** : *Depending of how we want to calculate the pre-computations this can be done by SQL functions  or C# or Typescript at the frontend level.*
 
 ---
 
@@ -183,11 +188,10 @@ After porting this fields to the next generation database the same calculations 
 
 
 ### Optional C
-  Do nothing at all 
+ This is not an option at all , but we can decided to do nothing at all :) 
 
 
-
-## Investigation of the Frontend: Highcharts Changes
+## Frontend Investigation:  Highcharts Changes
 
 Currently, the frontend only displays years on the x-axis without labels. Instead, what we want is the ability to display **custom labels** (e.g., "Q1 2010", "Q2 2015") alongside the tick marks. This will allow us to represent different time ranges on the x-axis of the Highcharts chart.
 
@@ -196,11 +200,17 @@ Currently, the frontend only displays years on the x-axis without labels. Instea
 - How do we display **custom labels** instead of relying solely on year values?
 - Since the chart is a **multi-series line chart**, we want the actual **x-values to correspond to years**, not the label index. That means the value-to-year mapping should still be done based on the tick index, even though the label may show something different.
 
-## Using Highcharts `categories`
 
-Our current line chart contains multiple series. If we rely solely on `categories` for the x-axis, the chart will plot data points based on the **position in the category array**, which can lead to incorrect plotting when series have data for different years.
+# Options 
 
-### Example:
+## Option 1: Using Highcharts `categories` x-axis Type
+
+This option is proposal the use for categories type for the x-axis.
+
+The current line chart contains multiple series and for this reason Highchart recommends using a category types in the x-axis.  But if we rely solely on `category` type for the x-axis, the chart will plot data points based on the **position in the category array**, which can lead to incorrect plotting when series have data for different years.
+
+
+### For Example:
 
 ```text
 Series A = [2010, 8.35], [2015, 9.0]  
@@ -223,18 +233,20 @@ However, Highcharts will plot the data like this:
   - Point 1 = C[0], B[0] → 2010, 7.35  
   - Point 2 = C[1], B[1] → 2017, 4.0 ❌ (wrong mapping!)
 
-This results in an incorrect chart because Highcharts aligns points **by index**, not by year.
+This results in an incorrect chart because HighCharts aligns points **by index**, not by year.
 
-### Solution A: Use `connectNulls`
+To be able to rectify this problem the use of `"Null Connection"` concept should be used.
+Luckily HighChart provide a way to configured Null connection points"
 
-We can precompute all the time points across all series and generate aligned arrays. For time points where a series has no data, we insert `null`.
+### HighChart connectNulls Configuration`
+But, before we can do that , we have to pre re-compute all the time points across all series 
+and generate an array that aligns with the labels . For year points where a series has no data, we insert `null`.
 
 This approach breaks the lines by default, producing a broken chart like this:
-
+**Note**: Ignore the label at this point—I'm just demonstrating that we can use a string as label. 
 ![Broken Chart](./images/BreakPoint.png)
 
-#### Fix:
-We can enable Highcharts to **connect the data points even if `null` values exist** using the `connectNulls` setting:
+To rectify this we can configured high chart to connect the null points as shown below:
 
 ```ts
 plotOptions: {
@@ -244,11 +256,60 @@ plotOptions: {
   },
 }
 ```
+However, in the current website for fingertips. The charts have the same problem where points are broken when there are not data points at the label locations. 
 
-
+**Note**: Ignore the label at this point—I'm just demonstrating that we can use a string as label. 
 ![](./images/NullConnector.png)
 
+
+
 With this, the chart will connect data points seamlessly, preserving the line even with missing data. Now, we can use **label-based periods** on the x-axis without breaking the line.
+
+### Option 2 : using 'DateTime' x-axis  
+
+This option proposes using the date-time x-axis type. This enables the x-axis to treated as dates, allowing us to override the labels with periods based on the mappings.
+
+However, we need an additional label.formatter function to override the tick labels and replace them with the custom labels.
+
+####  HighChart Configuration
+
+ 
+ The formatter function
+ ```typescript
+    xAxis: {
+        type: 'datetime',
+        tickInterval: 10 * 365 * 24 * 3600 * 1000,
+        labels:{
+         formatter: function () {
+            const customLabels = {
+                1960: 'A',
+                1970: 'B',
+                1980: 'C',
+                1990: 'D',
+                2000: 'E'
+            };
+            const year = new Date(this.value).getFullYear();
+            return customLabels[year] || "N/A"
+          }
+        },
+ ```
+
+Highcharts only supports certain types of date formats—specifically UTC formats such as YYYY, MM, and DD. For this reason, based on the data we currently have, the best approach when providing the series data is to convert it to the correct format, as shown below:
+
+
+```typescript
+series: [
+        {
+            name: 'Series A',
+            data: [
+                [Date.UTC(1960,0,1), 0.035],
+                [Date.UTC(1970,0,1), 0.1],
+                [Date.UTC(1980,0,1), 0.15],
+                [Date.UTC(1990,0,1), 0.76]
+            ]
+        },
+```
+The current Fingertips new generation represents time as an integer. To use it in the data series x-axis, we need to perform a conversion, as shown above."
 
 ### Final Steps
 
