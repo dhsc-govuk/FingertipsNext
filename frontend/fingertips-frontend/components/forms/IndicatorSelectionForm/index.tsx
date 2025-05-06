@@ -158,12 +158,11 @@ export function IndicatorSelectionForm({
     searchState?.[SearchParams.IndicatorsSelected] || [];
 
   const setCurrentPage = (page: number) => {
-    setIsLoading(true);
     stateManager.setState({
       ...searchState,
       [SearchParams.PageNumber]: page.toString(),
     });
-    replace(stateManager.generatePath(pathname), { scroll: false });
+    history.replaceState({}, '', stateManager.generatePath(pathname));
   };
 
   const { sortedResults, selectedSortOrder, handleSortOrder } =

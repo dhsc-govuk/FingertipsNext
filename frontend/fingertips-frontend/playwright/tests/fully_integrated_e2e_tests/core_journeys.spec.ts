@@ -29,7 +29,7 @@ const coreTestJourneys: TestParams[] = [
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ENGLAND_AREA,
     searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'hospital',
+    subjectSearchTerm: '22401',
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
