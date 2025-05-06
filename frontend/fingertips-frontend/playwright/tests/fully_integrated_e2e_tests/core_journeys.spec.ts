@@ -23,6 +23,7 @@ export type SimpleIndicatorDocument = {
   dataSource: string;
 };
 let allIndicators: SimpleIndicatorDocument[] = [];
+let selectedIndicatorsData: SimpleIndicatorDocument[] = [];
 
 interface TestParams {
   indicatorMode: IndicatorMode;
@@ -147,7 +148,6 @@ test.describe(`Search via`, () => {
           await resultsPage
             .selectIndicatorCheckboxes(allIndicators, indicatorMode)
             .then(async (selectedIndicators: string[]) => {
-              let selectedIndicatorsData: SimpleIndicatorDocument[] = [];
               for (const selectedIndicator of selectedIndicators) {
                 selectedIndicatorsData = getIndicatorDataByIndicatorID(
                   typedIndicatorData,
