@@ -36,14 +36,9 @@ test.describe('Azure AI Search', () => {
     });
 
     await test.step('Fill in full postcode and check results', async () => {
-<<<<<<< HEAD
       await homePage.checkAreaSuggestionPanelContainsItems(testPostcode, [
         fullMatchingGp,
       ]);
-=======
-      await homePage.searchForArea(testPostcode);
-      await homePage.checkAreaSuggestionsExist([fullMatchingGp]);
->>>>>>> 9f0a56d1 (Ran prettier)
     });
   });
 });
