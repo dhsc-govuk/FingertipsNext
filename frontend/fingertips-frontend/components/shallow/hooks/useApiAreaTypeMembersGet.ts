@@ -1,12 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 import { Area } from '@/generated-sources/ft-api-client';
-import { getAreaTypeMembersUrl } from '@/components/shallow/queryKeys';
+import { getAreaTypeMembersUrl } from '@/components/shallow/apiUrls';
 
 export const useApiAreaTypeMembersGet = (areaType?: string) => {
   const url = getAreaTypeMembersUrl(areaType ?? '');
   const query = useQuery<Area[]>({
     queryKey: [url],
-    queryFn: () => fetch(url).then((res) => res.json()),
+    queryFn: async () => {
+      const res = await fetch(url);
+      return await res.json();
+    },
     gcTime: 60 * 1000,
     enabled: !!areaType,
   });

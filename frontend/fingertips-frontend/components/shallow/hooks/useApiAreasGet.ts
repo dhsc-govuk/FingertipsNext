@@ -1,19 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
-import { getAreaUrl } from '@/components/shallow/queryKeys';
+import { getAreaUrl } from '@/components/shallow/apiUrls';
 
 export const useApiAreasGet = (areaCode: string, areaType: string) => {
   const url = getAreaUrl(areaCode, true, areaType);
   const query = useQuery<AreaWithRelations>({
     queryKey: [url],
     queryFn: async () => {
-      const result = await fetch(url).then((res) => res.json());
-
-      return result;
+      const res = await fetch(url);
+      return await res.json();
     },
     gcTime: 60 * 1000,
   });
-  console.log(query.data);
+  // console.log('useApiAreasGet', { url, data: query.data });
   const areas = (query.data?.children ?? []).toSorted((a, b) =>
     a.name.localeCompare(b.name)
   );

@@ -1,8 +1,8 @@
 import { ChangeEvent, FC } from 'react';
 import { determineApplicableGroupTypes } from '@/lib/areaFilterHelpers/determineApplicableGroupTypes';
 import { AreaTypeKeys } from '@/lib/areaFilterHelpers/areaType';
-import { useApiAreaTypesGet } from '@/components/shallow/useApiAreaTypesGet';
-import { useShallowSearchParams } from '@/components/shallow/useShallowSearchParams';
+import { useApiAreaTypesGet } from '@/components/shallow/hooks/useApiAreaTypesGet';
+import { useShallowSearchParams } from '@/components/shallow/hooks/useShallowSearchParams';
 import { Select } from 'govuk-react';
 
 export const GroupTypeSelect: FC = () => {

@@ -1,6 +1,6 @@
 import { ChangeEvent, FC } from 'react';
-import { useShallowSearchParams } from '@/components/shallow/useShallowSearchParams';
-import { useApiAreaTypesGet } from '@/components/shallow/useApiAreaTypesGet';
+import { useShallowSearchParams } from '@/components/shallow/hooks/useShallowSearchParams';
+import { useApiAreaTypesGet } from '@/components/shallow/hooks/useApiAreaTypesGet';
 import { Select } from 'govuk-react';
 
 export const AreaTypeSelect: FC = () => {
