@@ -17,35 +17,37 @@ test.describe(
       areaName: 'North West Region',
     };
 
+    test.beforeEach(async ({ homePage }) => {
+      await test.step('Navigate to home page', async () => {
+        await homePage.navigateToHomePage();
+        await homePage.checkOnHomePage();
+      });
+    });
+
     test(
       'suggestion panel should return only expected area when there is a full match for area code',
       {
         tag: TestTag.CI,
       },
       async ({ homePage }) => {
-        await homePage.navigateToHomePage();
-        await homePage.checkOnHomePage();
-
-        await homePage.checkAreaSuggestionPanelContainsItems(
-          testAreaSearchTerm.areaCode,
-          [testAreaSearchTerm.areaName]
-        );
+        await test.step('Fill in full area code and check results', async () => {
+          await homePage.searchForArea(testAreaSearchTerm.areaCode);
+          await homePage.checkAreaSuggestionPanelContainsAreas([
+            testAreaSearchTerm.areaName,
+          ]);
+        });
       }
     );
 
     test('returns multiple relevant results for a partial postcode', async ({
       homePage,
     }) => {
-      await test.step('Navigate to home page', async () => {
-        await homePage.navigateToHomePage();
-        await homePage.checkOnHomePage();
-      });
-
       await test.step('Fill in partial postcode and check results', async () => {
-        await homePage.checkAreaSuggestionPanelContainsItems(
-          testPostcode.substring(0, 6),
-          [fullMatchingGp, partialMatchingGp]
-        );
+        await homePage.searchForArea(testPostcode.substring(0, 6));
+        await homePage.checkAreaSuggestionPanelContainsAreas([
+          fullMatchingGp,
+          partialMatchingGp,
+        ]);
       });
     });
 
@@ -58,9 +60,8 @@ test.describe(
       });
 
       await test.step('Fill in full postcode and check results', async () => {
-        await homePage.checkAreaSuggestionPanelContainsItems(testPostcode, [
-          fullMatchingGp,
-        ]);
+        await homePage.searchForArea(testPostcode);
+        await homePage.checkAreaSuggestionPanelContainsAreas([fullMatchingGp]);
       });
     });
   }
