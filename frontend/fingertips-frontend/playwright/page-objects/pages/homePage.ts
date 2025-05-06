@@ -6,7 +6,6 @@ export default class HomePage extends AreaFilter {
   readonly subjectSearchField = 'indicator-search-form-input';
   readonly searchButton = 'search-form-button-submit';
   readonly validationSummary = 'search-form-error-summary';
-  readonly searchSuggestionPanel = 'area-suggestion-panel';
 
   async searchForIndicators(
     searchMode: SearchMode,
@@ -112,23 +111,26 @@ export default class HomePage extends AreaFilter {
     );
   }
 
-  async checkAreaSuggestionPanelContainsSingleItem(
+  async checkAreaSuggestionPanelContainsItems(
     areaSearchTerm: string,
-    areaName: string
+    resultCount: number,
+    results: string[]
   ) {
     await this.fillAndAwaitLoadingComplete(
       this.page.getByTestId(this.areaSearchField).getByRole('textbox'),
-      areaSearchTerm!
+      areaSearchTerm
     );
 
     await expect(
-      this.page.getByTestId(this.searchSuggestionPanel).getByRole('listitem')
-    ).toHaveCount(1);
-    await expect(
-      this.page
-        .getByTestId(this.searchSuggestionPanel)
-        .getByRole('listitem')
-        .nth(0)
-    ).toContainText(areaName);
+      this.page.getByTestId(this.suggestedAreasPanel).getByRole('listitem')
+    ).toHaveCount(resultCount);
+    results.forEach(async (result, index) => {
+      await expect(
+        this.page
+          .getByTestId(this.suggestedAreasPanel)
+          .getByRole('listitem')
+          .nth(index)
+      ).toContainText(result);
+    });
   }
 }

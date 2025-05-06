@@ -174,7 +174,6 @@ jobs:
         run: npm run test-e2e-ci -- --ignore-snapshots
         env:
           FINGERTIPS_FRONTEND_URL: ${{ vars.FINGERTIPS_FRONTEND_URL }}
-          USING_AI_SEARCH: true
 
       - name: Set dynamic artifact name
         if: always()
