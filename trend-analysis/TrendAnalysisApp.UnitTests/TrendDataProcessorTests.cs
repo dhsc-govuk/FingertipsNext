@@ -146,7 +146,7 @@ public class TrendDataProcessorTests
     {
         // arrange
         const short mockIndicatorKey = 1;
-        const int secondAreaStartKey = 201;
+        const int secondGroupsStartKey = 201;
 
         _mockFileHelper.Read(ExpectedFilePath).Returns(
             new JArray { { new JObject { ["indicatorID"] = mockIndicatorKey } } }
@@ -183,7 +183,7 @@ public class TrendDataProcessorTests
         _dbContext.SaveChanges();
 
         PopulateMockHealthMeasureData(mockIndicator.Entity.IndicatorKey);
-        PopulateMockHealthMeasureData(mockIndicator.Entity.IndicatorKey, SecondAreaEntityKey, startKey:secondAreaStartKey, setTrendCannotBeCalculated: true);
+        PopulateMockHealthMeasureData(mockIndicator.Entity.IndicatorKey, SecondAreaEntityKey, startKey:secondGroupsStartKey, setTrendCannotBeCalculated: true);
 
         // act
         await _trendDataProcessor.Process(_serviceProvider);
@@ -197,7 +197,7 @@ public class TrendDataProcessorTests
         var secondAreaResult = _dbContext.HealthMeasure.AsNoTracking()
             .Include(hm => hm.TrendDimension)
             .First(
-                hm => hm.HealthMeasureKey == secondAreaStartKey
+                hm => hm.HealthMeasureKey == secondGroupsStartKey
                 );
        
         // assert
