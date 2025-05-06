@@ -15,6 +15,8 @@ public interface IIndicatorsService
     /// <param name="indicatorId">The unique identifier of the indicator.</param>
     /// <param name="areaCodes">A list of area codes.</param>
     /// <param name="areaType">The area type which the codes are taken from.</param>
+    /// <param name="areaGroup">The area group which the code should be benchmarked against.</param>
+    /// <param name="benchmarkRefType">The benchmark reference type to be used.</param>
     /// <param name="years">A list of years.</param>
     /// <param name="inequalities">A list of desired inequalities.</param>
     /// <returns>
@@ -24,6 +26,8 @@ public interface IIndicatorsService
         int indicatorId,
         IEnumerable<string> areaCodes,
         string areaType,
+        string areaGroup,
+        string benchmarkRefType,
         IEnumerable<int> years,
         IEnumerable<string> inequalities,
         bool includeEmptyAreas = false,
