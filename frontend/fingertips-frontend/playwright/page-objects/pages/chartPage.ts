@@ -15,6 +15,8 @@ import AreaFilter from '../components/areaFilter';
 
 export default class ChartPage extends AreaFilter {
   readonly backLink = 'chart-page-back-link';
+
+  // chart components
   static readonly lineChartComponent = 'standardLineChart-component';
   static readonly lineChartTableComponent = 'lineChartTable-component';
   static readonly populationPyramidComponent =
