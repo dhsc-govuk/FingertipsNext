@@ -113,7 +113,6 @@ export default class HomePage extends AreaFilter {
 
   async checkAreaSuggestionPanelContainsItems(
     areaSearchTerm: string,
-    resultCount: number,
     results: string[]
   ) {
     await this.fillAndAwaitLoadingComplete(
@@ -123,7 +122,7 @@ export default class HomePage extends AreaFilter {
 
     await expect(
       this.page.getByTestId(this.suggestedAreasPanel).getByRole('listitem')
-    ).toHaveCount(resultCount);
+    ).toHaveCount(results.length);
     results.forEach(async (result, index) => {
       await expect(
         this.page

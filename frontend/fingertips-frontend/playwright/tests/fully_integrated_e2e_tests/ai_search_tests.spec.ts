@@ -16,7 +16,6 @@ test.describe('Area search suggestions', () => {
 
     await homePage.checkAreaSuggestionPanelContainsItems(
       areaSearchTerm.areaCode,
-      1,
       [areaSearchTerm.areaName]
     );
   });
