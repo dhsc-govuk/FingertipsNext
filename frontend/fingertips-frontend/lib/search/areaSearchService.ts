@@ -29,7 +29,7 @@ export class AreaSearchService implements IAreaSearchService {
       {
         searchFields: ['areaCode', 'areaName'],
         select: ['areaCode', 'areaType', 'areaName'],
-        useFuzzyMatching: true,
+        useFuzzyMatching: false,
         top: 20,
       }
     );

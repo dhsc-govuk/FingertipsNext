@@ -47,7 +47,7 @@ describe('AreaSearchService', () => {
           searchFields: ['areaCode', 'areaName'],
           select: ['areaCode', 'areaType', 'areaName'],
           top: 20,
-          useFuzzyMatching: true,
+          useFuzzyMatching: false,
         }
       );
     });
