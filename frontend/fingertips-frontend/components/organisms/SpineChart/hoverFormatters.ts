@@ -92,11 +92,11 @@ export function formatBarHover(props: FormatBarHoverProps) {
                       </div>
                       <div>${props.lowerName} to ${props.upperName}</div>`;
 
-  return `${hoverTemplate(
+  return hoverTemplate(
     formatTitleBlock('Benchmark: England', props.period, props.indicatorName),
     formatSymbol(props.colour, SymbolsEnum.Square),
     mainContent
-  )}`;
+  );
 }
 
 export function formatSymbolHover(props: FormatSymbolHoverProps) {
@@ -114,9 +114,9 @@ export function formatSymbolHover(props: FormatSymbolHoverProps) {
   const mainContent = `<div>${formatNumber(props.value)}${formatUnits(props.units)}</div>
                       ${outcomeContent}`;
 
-  return `${hoverTemplate(
+  return hoverTemplate(
     formatTitleBlock(props.title, props.period, props.indicatorName),
     formatSymbol(props.colour, props.shape),
     mainContent
-  )}`;
+  );
 }
