@@ -54,11 +54,6 @@ test.describe(
     test('returns matching result by postcode for a full postcode search', async ({
       homePage,
     }) => {
-      await test.step('Navigate to home page', async () => {
-        await homePage.navigateToHomePage();
-        await homePage.checkOnHomePage();
-      });
-
       await test.step('Fill in full postcode and check results', async () => {
         await homePage.searchForArea(testPostcode);
         await homePage.checkAreaSuggestionPanelContainsAreas([fullMatchingGp]);
