@@ -106,7 +106,7 @@ export default class ResultsPage extends AreaFilter {
    * @param indicatorMode - indicator mode from the Enum IndicatorMode - used to decide how many indicators to select
    */
   async selectIndicatorCheckboxes(
-    allIndicators: SimpleIndicatorDocument[],
+    allIndicators: SimpleIndicatorDocument[] | string[],
     indicatorMode: IndicatorMode
   ): Promise<string[]> {
     const filteredByDisplayIndicatorIds: string[] = [];

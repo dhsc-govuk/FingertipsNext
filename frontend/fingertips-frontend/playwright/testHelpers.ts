@@ -53,21 +53,18 @@ export function getScenarioConfig(
       componentLocator: ChartPage.lineChartComponent,
       componentProps: {
         hasConfidenceIntervals: true,
-        hasDataSource: true,
       },
     },
     {
       componentLocator: ChartPage.lineChartTableComponent,
       componentProps: {
         isTabTable: true,
-        hasDataSource: true,
       },
     },
     {
       componentLocator: ChartPage.inequalitiesBarChartComponent,
       componentProps: {
         hasConfidenceIntervals: true,
-        hasDataSource: true,
       },
     },
     {
@@ -76,7 +73,6 @@ export function getScenarioConfig(
         hasConfidenceIntervals: true,
         hasTimePeriodDropDown: true,
         hasTypeDropDown: false, // even though it has a type dropdown, we want to test the default view
-        hasDataSource: true,
       },
     },
     {
@@ -84,7 +80,6 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: true,
         hasTypeDropDown: true, // and in this case we want to test the type dropdown
-        hasDataSource: true,
       },
     },
     {
@@ -97,14 +92,12 @@ export function getScenarioConfig(
       componentLocator: ChartPage.inequalitiesBarChartTableComponent,
       componentProps: {
         isTabTable: true,
-        hasDataSource: true,
       },
     },
     {
       componentLocator: ChartPage.inequalitiesLineChartTableComponent,
       componentProps: {
         isTabTable: true,
-        hasDataSource: true,
       },
     },
     {
@@ -115,31 +108,28 @@ export function getScenarioConfig(
     },
     {
       componentLocator: ChartPage.thematicMapComponent,
-      componentProps: { hasDataSource: true },
+      componentProps: {},
     },
     {
       componentLocator: ChartPage.barChartEmbeddedTableComponent,
       componentProps: {
         hasConfidenceIntervals: true,
-        hasDataSource: true,
       },
     },
     {
       componentLocator: ChartPage.basicTableComponent,
-      componentProps: { hasDataSource: true },
+      componentProps: {},
     },
     {
       componentLocator: ChartPage.heatMapComponent,
       componentProps: {
         isWideComponent: true,
-        hasDataSource: true,
       },
     },
     {
       componentLocator: ChartPage.spineChartTableComponent,
       componentProps: {
         isWideComponent: true,
-        hasDataSource: true,
       },
     },
   ];
@@ -226,7 +216,17 @@ const indicatorsMatchingSearchTerm = (
   indicator.indicatorName.toLowerCase().includes(normalizedSearchTerm) ||
   indicator.indicatorDefinition.toLowerCase().includes(normalizedSearchTerm);
 
-export function getAllIndicatorIds(
+const indicatorMatchingIndicatorID = (
+  indicator: RawIndicatorDocument,
+  indicatorID: string
+): boolean => {
+  // First convert to string
+  const indicatorIDString = String(indicator.indicatorID);
+
+  return indicatorIDString.toLowerCase() === indicatorID.toLowerCase();
+};
+
+export function getAllIndicators(
   indicators: RawIndicatorDocument[]
 ): SimpleIndicatorDocument[] {
   return indicators
@@ -239,7 +239,23 @@ export function getAllIndicatorIds(
     }));
 }
 
-export function getAllIndicatorIdsForSearchTerm(
+export function getAllIndicatorIDsForSearchTerm(
+  indicators: RawIndicatorDocument[],
+  searchTerm: string
+): string[] {
+  if (!searchTerm) return [];
+
+  const lowerCasedSearchTerm = searchTerm.toLowerCase();
+  return indicators
+    .filter(
+      (indicator) =>
+        indicatorsUsedInPOC(indicator) &&
+        indicatorsMatchingSearchTerm(indicator, lowerCasedSearchTerm)
+    )
+    .map((indicator) => indicator.indicatorID);
+}
+
+export function getAllIndicatorsForSearchTerm(
   indicators: RawIndicatorDocument[],
   searchTerm: string
 ): SimpleIndicatorDocument[] {
@@ -252,6 +268,24 @@ export function getAllIndicatorIdsForSearchTerm(
         indicatorsUsedInPOC(indicator) &&
         indicatorsMatchingSearchTerm(indicator, lowerCasedSearchTerm)
     )
+    .map((indicator) => ({
+      indicatorName: indicator.indicatorName,
+      indicatorID: indicator.indicatorID,
+      associatedAreaCodes: indicator.associatedAreaCodes,
+      dataSource: indicator.dataSource,
+    }));
+}
+
+export function getIndicatorDataByIndicatorID(
+  indicators: RawIndicatorDocument[],
+  indicatorID: string
+): SimpleIndicatorDocument[] {
+  if (!indicatorID) return [];
+
+  console.log(indicatorID);
+
+  return indicators
+    .filter((indicator) => indicatorMatchingIndicatorID(indicator, indicatorID))
     .map((indicator) => ({
       indicatorName: indicator.indicatorName,
       indicatorID: indicator.indicatorID,

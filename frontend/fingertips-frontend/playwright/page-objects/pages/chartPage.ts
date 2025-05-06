@@ -12,6 +12,7 @@ import {
   TestType,
 } from '@playwright/test';
 import AreaFilter from '../components/areaFilter';
+import { SimpleIndicatorDocument } from '@/playwright/tests/fully_integrated_e2e_tests/core_journeys.spec';
 
 export default class ChartPage extends AreaFilter {
   readonly backLink = 'chart-page-back-link';
@@ -78,7 +79,8 @@ export default class ChartPage extends AreaFilter {
     test: TestType<
       PlaywrightTestArgs & PlaywrightTestOptions,
       PlaywrightWorkerArgs & PlaywrightWorkerOptions
-    >
+    >,
+    selectedIndicators: SimpleIndicatorDocument[]
   ) {
     const testInfo = test.info();
     const testName = testInfo.title;
@@ -86,6 +88,7 @@ export default class ChartPage extends AreaFilter {
       indicatorMode,
       areaMode
     );
+
     console.log(
       `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart components: ${visibleComponents
         .map(
@@ -104,6 +107,23 @@ export default class ChartPage extends AreaFilter {
       'Show filter'
     );
 
+    // check that the data source is displayed for the selected indicator in one indicator mode
+    if (indicatorMode === IndicatorMode.ONE_INDICATOR) {
+      const allDataSources = await this.page
+        .getByTestId(`data-source`)
+        .allTextContents();
+
+      allDataSources.forEach((dataSource) => {
+        expect(dataSource).toBe(
+          `Data source: ${selectedIndicators[0].dataSource}`
+        );
+      });
+    }
+    // and check that the data source is not displayed for the other indicator modes
+    if (indicatorMode != IndicatorMode.ONE_INDICATOR) {
+      expect(this.page.getByTestId(`data-source`)).not.toBeAttached();
+    }
+
     // Check that components expected to be visible are displayed
     for (const visibleComponent of visibleComponents) {
       console.log(
@@ -117,12 +137,7 @@ export default class ChartPage extends AreaFilter {
           )
         );
       }
-      // if its one of the chart components that has a data source attributed then check it
-      if (visibleComponent.componentProps.hasDataSource) {
-        await expect(
-          this.page.getByTestId(visibleComponent.componentLocator)
-        ).toHaveText(`Data source: ${visibleComponent.componentLocator}`);
-      }
+
       // if its one of the chart components that has a single time period dropdown then select the last in the list
       if (visibleComponent.componentProps.hasTimePeriodDropDown) {
         const combobox = this.page

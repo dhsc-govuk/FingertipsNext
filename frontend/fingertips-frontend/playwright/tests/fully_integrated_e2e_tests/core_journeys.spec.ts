@@ -1,8 +1,9 @@
 import { test } from '../../page-objects/pageFactory';
 import {
   AreaMode,
-  getAllIndicatorIds,
-  getAllIndicatorIdsForSearchTerm,
+  getAllIndicators,
+  getAllIndicatorsForSearchTerm,
+  getIndicatorDataByIndicatorID,
   IndicatorMode,
   SearchMode,
 } from '../../testHelpers';
@@ -101,8 +102,8 @@ test.describe(`Search via`, () => {
 
       allIndicators =
         searchMode === SearchMode.ONLY_AREA
-          ? getAllIndicatorIds(typedIndicatorData)
-          : getAllIndicatorIdsForSearchTerm(
+          ? getAllIndicators(typedIndicatorData)
+          : getAllIndicatorsForSearchTerm(
               typedIndicatorData,
               subjectSearchTerm!
             );
@@ -124,7 +125,7 @@ test.describe(`Search via`, () => {
           await homePage.clickSearchButton();
         });
 
-        await test.step(`check results page based on search mode and select ${areaMode} then ${indicatorMode}`, async () => {
+        await test.step(`check results page based on search mode and select ${areaMode}`, async ({}) => {
           await resultsPage.waitForURLToContainBasedOnSearchMode(
             searchMode,
             subjectSearchTerm!,
@@ -140,19 +141,34 @@ test.describe(`Search via`, () => {
             areaMode,
             subjectSearchTerm!
           );
-          await resultsPage.selectIndicatorCheckboxes(
-            allIndicators,
-            indicatorMode
-          );
-          await resultsPage.checkRecentTrends(areaMode);
-
-          await resultsPage.clickViewChartsButton();
         });
 
-        await test.step(`check chart page and assert that the displayed charts are correct`, async () => {
-          await chartPage.checkOnChartPage();
+        await test.step(`select ${indicatorMode} then check chart page and assert that the displayed charts are correct`, async () => {
+          await resultsPage
+            .selectIndicatorCheckboxes(allIndicators, indicatorMode)
+            .then(async (selectedIndicators: string[]) => {
+              let selectedIndicatorsData: SimpleIndicatorDocument[] = [];
+              for (const selectedIndicator of selectedIndicators) {
+                console.log(selectedIndicators);
 
-          await chartPage.checkChartVisibility(indicatorMode, areaMode, test);
+                selectedIndicatorsData = getIndicatorDataByIndicatorID(
+                  typedIndicatorData,
+                  selectedIndicator
+                );
+              }
+              await resultsPage.checkRecentTrends(areaMode);
+
+              await resultsPage.clickViewChartsButton();
+
+              await chartPage.checkOnChartPage();
+
+              await chartPage.checkChartVisibility(
+                indicatorMode,
+                areaMode,
+                test,
+                selectedIndicatorsData
+              );
+            });
         });
       });
     }

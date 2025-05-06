@@ -1,6 +1,6 @@
 import { test } from '../../page-objects/pageFactory';
 import {
-  getAllIndicatorIdsForSearchTerm,
+  getAllIndicatorIDsForSearchTerm,
   returnIndicatorIDsByIndicatorMode,
   sortAlphabetically,
   getAllAreasByAreaType,
@@ -40,7 +40,7 @@ test.beforeAll(
       }
     );
 
-    allIndicatorIDs = getAllIndicatorIdsForSearchTerm(
+    allIndicatorIDs = getAllIndicatorIDsForSearchTerm(
       typedIndicatorData,
       subjectSearchTerm
     );
