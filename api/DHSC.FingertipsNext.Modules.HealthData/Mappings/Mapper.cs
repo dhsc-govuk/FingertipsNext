@@ -6,7 +6,7 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Mappings;
 
 public class Mapper : IMapper
 {
-    public IndicatorPolarity MapIndicatorPolarity(string? source)
+    public IndicatorPolarity MapIndicatorPolarity(string source)
     {
         return source switch
         {
@@ -113,7 +113,7 @@ public class Mapper : IMapper
         return new IndicatorQuartileData
         {
             IndicatorId = source.IndicatorId,
-            Polarity = MapIndicatorPolarity(source.Polarity),
+            Polarity = source.Polarity == null ? null : MapIndicatorPolarity(source.Polarity),
             Year = source.Year,
             Q0Value = (float?)source.Q0Value,
             Q1Value = (float?)source.Q1Value,

@@ -5,7 +5,7 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Service;
 
 public interface IMapper
 {
-    IndicatorPolarity MapIndicatorPolarity(string? source);
+    IndicatorPolarity MapIndicatorPolarity(string source);
     BenchmarkComparisonMethod MapBenchmarkComparisonMethod(string source);
     BenchmarkComparison? Map(BenchmarkComparisonModel? source);
     Deprivation? Map(DeprivationDimensionModel? source);
