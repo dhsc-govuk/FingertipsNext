@@ -266,7 +266,7 @@ export default class ChartPage extends AreaFilter {
 
       // note that screenshot snapshot comparisons are ignored when running locally and against the deployed azure environments
       await expect(this.page.getByTestId(visibleComponent.componentLocator), {
-        message: `Screenshot match failed:${visibleComponent.componentLocator} - you may need to run the update screenshot manual CI job - see Visual Screenshot Snapshot Testing in frontend/fingertips-frontend/README.md for details.`,
+        message: `Screenshot match failed: ${visibleComponent.componentLocator} - you may need to run the update screenshot manual CI job - see Visual Screenshot Snapshot Testing in frontend/fingertips-frontend/README.md for details.`,
       }).toHaveScreenshot(
         `${testName}-${visibleComponent.componentLocator}.png`
       );
