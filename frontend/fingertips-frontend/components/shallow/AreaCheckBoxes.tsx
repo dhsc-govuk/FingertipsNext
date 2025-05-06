@@ -1,10 +1,10 @@
 import { Checkbox } from 'govuk-react';
-import { useApiAreaTypeMembersGet } from '@/components/shallow/useApiAreaTypeMembersGet';
+import { useApiAreaTypeMembersGet } from '@/components/shallow/hooks/useApiAreaTypeMembersGet';
 import { determineSelectedGroup } from '@/lib/areaFilterHelpers/determineSelectedGroup';
-import { useApiAreasGet } from '@/components/shallow/useApiAreasGet';
-import { useShallowSearchParams } from '@/components/shallow/useShallowSearchParams';
+import { useApiAreasGet } from '@/components/shallow/hooks/useApiAreasGet';
+import { useShallowSearchParams } from '@/components/shallow/hooks/useShallowSearchParams';
 import { Area } from '@/generated-sources/ft-api-client';
-import { SyntheticEvent } from 'react';
+import { ChangeEvent, SyntheticEvent } from 'react';
 
 export const AreaCheckBoxes = () => {
   const {
@@ -19,11 +19,9 @@ export const AreaCheckBoxes = () => {
   const determinedSelectedGroup = determineSelectedGroup(selectedGroup, groups);
   const { areas } = useApiAreasGet(determinedSelectedGroup, selectedAreaType);
 
-  const onSelectArea = (area: Area) => (e: SyntheticEvent) => {
-    e.preventDefault();
-    const newSearchParams = new URLSearchParams(search.toString());
-
-    if (newSearchParams.has('as', area.code)) {
+  const onSelectArea = (area: Area) => (e: ChangeEvent<HTMLInputElement>) => {
+    const newSearchParams = new URLSearchParams(search);
+    if (!e.target.checked) {
       newSearchParams.delete('as', area.code);
     } else {
       newSearchParams.append('as', area.code);
@@ -32,12 +30,11 @@ export const AreaCheckBoxes = () => {
     shallowUpdate(newSearchParams);
   };
 
-  console.log({ groups, determinedSelectedGroup, selectedAreaType, areas });
-
   return (
     <div>
       {areas.map((area) => (
         <Checkbox
+          id={area.code}
           key={area.code}
           value={area.code}
           checked={selectedAreas.includes(area.code)}

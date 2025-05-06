@@ -2,23 +2,24 @@
 
 import { FC } from 'react';
 import { Button } from 'govuk-react';
-import { useShallowSearchParams } from '@/components/shallow/useShallowSearchParams';
+import { useShallowSearchParams } from '@/components/shallow/hooks/useShallowSearchParams';
 import { AreaTypeSelect } from '@/components/shallow/AreaTypeSelect';
 import { GroupTypeSelect } from '@/components/shallow/GroupTypeSelect';
 import { GroupSelect } from '@/components/shallow/GroupSelect';
 import { AreaCheckBoxes } from '@/components/shallow/AreaCheckBoxes';
-import styled from 'styled-components';
-
-const Div = styled.div({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '1rem',
-});
+import { ShallowViews } from '@/components/shallow/ShallowViews';
+import {
+  DivFlexColumn,
+  DivFlexRow,
+  DivSelects,
+} from '@/components/shallow/ShallowNavigationStyles';
 
 // CLIENT SIDE RENDERED - AND - SERVER SIDE RENDERED
 export const ShallowNavigation: FC = ({}) => {
   const { selectedAreaType, selectedGroupType, selectedGroup } =
     useShallowSearchParams();
+
+  const showViews = true;
 
   return (
     <form>
@@ -29,13 +30,20 @@ export const ShallowNavigation: FC = ({}) => {
           '  '
         )}
       </pre>
-      <Div>
-        <AreaTypeSelect />
-        <GroupTypeSelect />
-        <GroupSelect />
-        <AreaCheckBoxes />
-        <Button>Submit</Button>
-      </Div>
+      <DivFlexRow>
+        <DivFlexColumn>
+          <DivSelects>
+            <AreaTypeSelect />
+            <GroupTypeSelect />
+            <GroupSelect />
+          </DivSelects>
+          <AreaCheckBoxes />
+        </DivFlexColumn>
+        <div>
+          <Button>Submit</Button>
+          {showViews ? <ShallowViews /> : null}
+        </div>
+      </DivFlexRow>
     </form>
   );
 };

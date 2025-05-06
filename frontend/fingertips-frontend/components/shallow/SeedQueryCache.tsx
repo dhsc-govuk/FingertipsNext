@@ -6,12 +6,15 @@ import {
   Area,
   AreaType,
   AreaWithRelations,
+  GetHealthDataForAnIndicatorInequalitiesEnum,
+  IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import {
   getAreaTypeMembersUrl,
   getAreaTypesUrl,
   getAreaUrl,
-} from '@/components/shallow/queryKeys';
+  getHealthDataForAnIndicatorUrl,
+} from '@/components/shallow/apiUrls';
 import { determineSelectedGroup } from '@/lib/areaFilterHelpers/determineSelectedGroup';
 
 interface SeedQueryCacheProps {
@@ -22,6 +25,8 @@ interface SeedQueryCacheProps {
   selectedGroupType?: string;
   selectedGroup?: string;
   groups: Area[];
+  indicatorData?: IndicatorWithHealthDataForArea;
+  selectedAreas: string[];
 }
 export const SeedQueryCache: FC<SeedQueryCacheProps> = ({
   children,
@@ -31,6 +36,8 @@ export const SeedQueryCache: FC<SeedQueryCacheProps> = ({
   selectedGroup,
   availableArea,
   groups,
+  selectedAreas,
+  indicatorData,
 }) => {
   const queryClient = useQueryClient();
 
@@ -44,7 +51,6 @@ export const SeedQueryCache: FC<SeedQueryCacheProps> = ({
       [getAreaTypeMembersUrl(selectedGroupType)],
       groups
     );
-    console.log('seed', getAreaTypeMembersUrl(selectedGroupType), groups);
   }
 
   // areas available for checkbox selection
@@ -55,6 +61,19 @@ export const SeedQueryCache: FC<SeedQueryCacheProps> = ({
     selectedAreaType
   );
   queryClient.setQueryData([areasSeedUrl], availableArea);
+
+  // health data
+  if (indicatorData && selectedAreas?.length) {
+    const indicatorDataSeedUrl = getHealthDataForAnIndicatorUrl(41101, {
+      areaCodes: selectedAreas,
+      areaType: selectedAreaType,
+      inequalities: [
+        GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
+        GetHealthDataForAnIndicatorInequalitiesEnum.Deprivation,
+      ],
+    });
+    queryClient.setQueryData([indicatorDataSeedUrl], indicatorData);
+  }
 
   return (
     <div>
