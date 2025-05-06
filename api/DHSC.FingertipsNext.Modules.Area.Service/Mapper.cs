@@ -6,10 +6,10 @@ namespace DHSC.FingertipsNext.Modules.Area.Service;
 public interface IMapper
 {
     AreaType Map(AreaTypeModel source);
-    List<AreaType> Map(IList<AreaTypeModel> source);
+    List<AreaType>? Map(IList<AreaTypeModel>? source);
     AreaWithRelations Map(AreaWithRelationsModel source);
     Schemas.Area Map(AreaModel source);
-    List<Schemas.Area> Map(IList<AreaModel> source);
+    List<Schemas.Area>? Map(IList<AreaModel>? source);
     RootArea MapToRootArea(AreaModel source);
 }
 
@@ -26,9 +26,9 @@ public class Mapper : IMapper
         };
     }
 
-    public List<AreaType> Map(IList<AreaTypeModel> source)
+    public List<AreaType>? Map(IList<AreaTypeModel>? source)
     {
-        return source.Select(Map).ToList();
+        return source?.Select(Map).ToList();
     }
 
     public AreaWithRelations Map(AreaWithRelationsModel source)
@@ -56,9 +56,9 @@ public class Mapper : IMapper
         };
     }
 
-    public List<Schemas.Area> Map(IList<AreaModel> source)
+    public List<Schemas.Area>? Map(IList<AreaModel>? source)
     {
-        return source.Select(Map).ToList();
+        return source?.Select(Map).ToList();
     }
 
     public RootArea MapToRootArea(AreaModel source)
