@@ -183,7 +183,7 @@ public class TrendDataProcessorTests
         _dbContext.SaveChanges();
 
         PopulateMockHealthMeasureData(mockIndicator.Entity.IndicatorKey);
-        PopulateMockHealthMeasureData(mockIndicator.Entity.IndicatorKey, SecondAreaEntityKey, startKey:secondAreaStartKey, setTrendCannotBeCalculated:true);
+        PopulateMockHealthMeasureData(mockIndicator.Entity.IndicatorKey, SecondAreaEntityKey, startKey:secondAreaStartKey, setTrendCannotBeCalculated: true);
 
         // act
         await _trendDataProcessor.Process(_serviceProvider);
