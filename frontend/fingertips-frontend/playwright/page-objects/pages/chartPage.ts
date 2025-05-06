@@ -176,11 +176,9 @@ export default class ChartPage extends AreaFilter {
         await this.waitAfterDropDownInteraction();
 
         // ensure the page has been rerendered with the new type
-        const dropDownConvertedToURL = lastTypeDropdownOption
-          .replaceAll(' ', '+')
-          .replaceAll(':', '%3A')
-          .replaceAll('(', '%28')
-          .replaceAll(')', '%29');
+        const dropDownConvertedToURL = encodeURIComponent(
+          lastTypeDropdownOption
+        );
         await this.waitForURLToContain(dropDownConvertedToURL);
         expect(await combobox.inputValue()).toBe(lastTypeDropdownOption);
       }
