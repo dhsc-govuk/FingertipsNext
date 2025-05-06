@@ -58,7 +58,7 @@ flowchart TD
     
     subgraph clientside["clientside"]
         component["3. Component"]:::green
-        useQuery{"4.\nuseQuery\nin cache?"}:::green
+        useQuery{"4.<br />useQuery<br />in cache?"}:::green
     end
 
     %% Edges
