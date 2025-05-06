@@ -190,7 +190,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453
 %}
 
 ### check Quartile comparison where indicator_ids is missing
-GET http://localhost:5144/indicators/quartiles?
+GET http://localhost:5144/indicators/quartiles
 
 > {%
     client.test("check Quartile comparison where indicator_ids is missing", function (callbackfn, thisArg) {

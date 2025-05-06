@@ -12,7 +12,7 @@ public interface IMapper
     Age? Map(AgeDimensionModel? source);
     Sex? Map(SexDimensionModel? source);
     HealthDataPoint? Map(HealthMeasureModel? source);
-    List<HealthDataPoint> Map(IList<HealthMeasureModel> source);
-    IndicatorQuartileData Map(QuartileDataModel source);
-    List<IndicatorQuartileData> Map(IList<QuartileDataModel> source);
+    List<HealthDataPoint>? Map(IList<HealthMeasureModel>? source);
+    IndicatorQuartileData? Map(QuartileDataModel? source);
+    List<IndicatorQuartileData>? Map(IList<QuartileDataModel>? source);
 };

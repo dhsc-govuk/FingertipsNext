@@ -93,14 +93,14 @@ public class Mapper : IMapper
             };
     }
 
-    public List<HealthDataPoint> Map(IList<HealthMeasureModel> source)
+    public List<HealthDataPoint>? Map(IList<HealthMeasureModel>? source)
     {
-        return source.Select(Map).ToList();
+        return source?.Select(Map).ToList();
     }
 
-    public IndicatorQuartileData Map(QuartileDataModel source)
+    public IndicatorQuartileData? Map(QuartileDataModel? source)
     {
-        return new IndicatorQuartileData
+        return source == null ? null : new IndicatorQuartileData
         {
             IndicatorId = source.IndicatorId,
             Polarity = MapIndicatorPolarity(source.Polarity),
@@ -116,8 +116,8 @@ public class Mapper : IMapper
         };
     }
 
-    public List<IndicatorQuartileData> Map(IList<QuartileDataModel> source)
+    public List<IndicatorQuartileData>? Map(IList<QuartileDataModel>? source)
     {
-        return source.Select(Map).ToList();
+        return source?.Select(Map).ToList();
     }
 }
