@@ -268,3 +268,7 @@ export function returnIndicatorIDsByIndicatorMode(
 export function sortAlphabetically(array: (string | null)[]) {
   array.sort((a, b) => a!.localeCompare(b!));
 }
+
+export function isUsingAISearch() {
+  return process.env.USING_AI_SEARCH === 'true';
+}
