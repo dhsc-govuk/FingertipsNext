@@ -77,7 +77,12 @@ public class Mapper : IMapper
     {
         return source == null
             ? null
-            : new HealthDataPoint
+            : MapNotNull(source);
+    }
+    
+    private HealthDataPoint MapNotNull(HealthMeasureModel source)
+    {
+        return new HealthDataPoint
             {
                 Count = (float?)source.Count,
                 Value = (float?)source.Value,
@@ -93,14 +98,19 @@ public class Mapper : IMapper
             };
     }
 
-    public List<HealthDataPoint>? Map(IList<HealthMeasureModel>? source)
+    public List<HealthDataPoint> Map(IList<HealthMeasureModel>? source)
     {
-        return source?.Select(Map).ToList();
+        return source == null ? [] : source.Select(MapNotNull).ToList();
     }
 
     public IndicatorQuartileData? Map(QuartileDataModel? source)
     {
-        return source == null ? null : new IndicatorQuartileData
+        return source == null ? null : MapNotNull(source);
+    }
+
+    private IndicatorQuartileData MapNotNull(QuartileDataModel source)
+    {
+        return new IndicatorQuartileData
         {
             IndicatorId = source.IndicatorId,
             Polarity = MapIndicatorPolarity(source.Polarity),
@@ -115,9 +125,9 @@ public class Mapper : IMapper
             EnglandValue = (float?)source.EnglandValue,
         };
     }
-
-    public List<IndicatorQuartileData>? Map(IList<QuartileDataModel>? source)
+    
+    public List<IndicatorQuartileData> Map(IList<QuartileDataModel>? source)
     {
-        return source?.Select(Map).ToList();
+        return source == null ? [] : source.Select(MapNotNull).ToList();
     }
 }
