@@ -7,7 +7,9 @@ export const DivFlexColumn = styled.div({
   gap: '1rem',
   padding: '1.5rem 1rem',
   backgroundColor: TagColours.GreyBackground,
-  maxWidth: '300px',
+  width: '300px',
+  boxSizing: 'border-box',
+  flex: 'none',
 });
 
 export const DivSelects = styled.div({
@@ -25,4 +27,8 @@ export const DivSelects = styled.div({
 export const DivFlexRow = styled.div({
   display: 'flex',
   gap: '1rem',
+});
+
+export const DivContent = styled.div({
+  flexGrow: '1',
 });

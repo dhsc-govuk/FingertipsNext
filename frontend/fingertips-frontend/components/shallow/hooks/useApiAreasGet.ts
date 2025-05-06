@@ -3,7 +3,11 @@ import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { getAreaUrl } from '@/components/shallow/apiUrls';
 
 export const useApiAreasGet = (areaCode: string, areaType: string) => {
-  const url = getAreaUrl(areaCode, true, areaType);
+  const url = getAreaUrl({
+    areaCode,
+    includeChildren: true,
+    childAreaType: areaType,
+  });
   const query = useQuery<AreaWithRelations>({
     queryKey: [url],
     queryFn: async () => {
@@ -12,7 +16,7 @@ export const useApiAreasGet = (areaCode: string, areaType: string) => {
     },
     gcTime: 60 * 1000,
   });
-  // console.log('useApiAreasGet', { url, data: query.data });
+
   const areas = (query.data?.children ?? []).toSorted((a, b) =>
     a.name.localeCompare(b.name)
   );

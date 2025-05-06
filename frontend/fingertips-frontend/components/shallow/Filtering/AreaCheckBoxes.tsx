@@ -4,7 +4,7 @@ import { determineSelectedGroup } from '@/lib/areaFilterHelpers/determineSelecte
 import { useApiAreasGet } from '@/components/shallow/hooks/useApiAreasGet';
 import { useShallowSearchParams } from '@/components/shallow/hooks/useShallowSearchParams';
 import { Area } from '@/generated-sources/ft-api-client';
-import { ChangeEvent, SyntheticEvent } from 'react';
+import { ChangeEvent } from 'react';
 
 export const AreaCheckBoxes = () => {
   const {
