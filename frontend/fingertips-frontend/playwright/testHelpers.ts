@@ -70,14 +70,14 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: true,
         hasTimePeriodDropDown: true,
-        hasTypeDropDown: true,
+        hasTypeDropDown: false, // even though it has a type dropdown, we want to test the default view
       },
     },
     {
       componentLocator: ChartPage.inequalitiesTrendComponent,
       componentProps: {
         hasConfidenceIntervals: true,
-        hasTypeDropDown: true,
+        hasTypeDropDown: true, // and in this case we want to test the type dropdown
       },
     },
     {

@@ -233,6 +233,11 @@ export function LineChartTable({
     healthIndicatorData[0]?.areaCode !== areaCodeForEngland &&
     benchmarkComparisonMethod !== BenchmarkComparisonMethod.Quintiles;
 
+  const showGroupColumn =
+    healthIndicatorData[0]?.areaCode !== areaCodeForEngland &&
+    groupIndicatorData &&
+    groupIndicatorData?.healthData?.length > 0;
+
   const allHealthPointYears = [
     ...(englandBenchmarkData?.healthData ?? []),
     ...(groupIndicatorData?.healthData ?? []),
@@ -298,7 +303,7 @@ export function LineChartTable({
                   </StyledTrendContainer>
                 </StyledTitleCell>
               ))}
-              {groupIndicatorData ? <StyledTitleCell /> : null}
+              {showGroupColumn ? <StyledTitleCell /> : null}
               {showBenchmarkColumn ? <StyledStickyRightHeader /> : null}
             </Table.Row>
             <Table.Row>
@@ -308,9 +313,9 @@ export function LineChartTable({
                   {area.areaName}
                 </StyledAreaNameHeader>
               ))}
-              {groupIndicatorData ? (
+              {showGroupColumn ? (
                 <StyledGroupNameHeader data-testid="group-header">
-                  Group: {groupIndicatorData.areaName}
+                  Group: {groupIndicatorData?.areaName}
                 </StyledGroupNameHeader>
               ) : null}
               {showBenchmarkColumn ? (
@@ -334,7 +339,7 @@ export function LineChartTable({
                     </StyledConfidenceLimitsHeader>
                   </React.Fragment>
                 ))}
-                {groupIndicatorData ? <StyledLightGreyHeader /> : null}
+                {showGroupColumn ? <StyledLightGreyHeader /> : null}
                 {showBenchmarkColumn ? <StyledStickyRightHeader /> : null}
               </Table.Row>
             ) : null}
@@ -363,7 +368,7 @@ export function LineChartTable({
                     />
                   ))
               )}
-              {groupIndicatorData ? (
+              {showGroupColumn ? (
                 <StyledLightGreySubHeader>
                   Value {measurementUnit}
                 </StyledLightGreySubHeader>
@@ -407,7 +412,7 @@ export function LineChartTable({
                 </StyledAlignRightTableCell>
               </React.Fragment>
             ))}
-            {groupIndicatorData ? (
+            {showGroupColumn ? (
               <StyledGroupValueTableCell>
                 {formatNumber(groupValue)}
               </StyledGroupValueTableCell>
