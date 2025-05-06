@@ -149,8 +149,6 @@ test.describe(`Search via`, () => {
             .then(async (selectedIndicators: string[]) => {
               let selectedIndicatorsData: SimpleIndicatorDocument[] = [];
               for (const selectedIndicator of selectedIndicators) {
-                console.log(selectedIndicators);
-
                 selectedIndicatorsData = getIndicatorDataByIndicatorID(
                   typedIndicatorData,
                   selectedIndicator

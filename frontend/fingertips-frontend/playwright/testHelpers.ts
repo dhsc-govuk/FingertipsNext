@@ -282,8 +282,6 @@ export function getIndicatorDataByIndicatorID(
 ): SimpleIndicatorDocument[] {
   if (!indicatorID) return [];
 
-  console.log(indicatorID);
-
   return indicators
     .filter((indicator) => indicatorMatchingIndicatorID(indicator, indicatorID))
     .map((indicator) => ({
@@ -299,7 +297,7 @@ export function getAllAreasByAreaType(
   areaType: AreaTypeKeys
 ): AreaDocument[] {
   const sanitisedAreaType = areaType.toLowerCase().replaceAll('-', ' ');
-  console.log(sanitisedAreaType);
+
   return areas.filter((area) =>
     area.areaType.toLowerCase().includes(sanitisedAreaType)
   );
