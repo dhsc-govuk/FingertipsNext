@@ -1,15 +1,27 @@
+import { AreaDocument } from '@/lib/search/searchTypes';
 import { test } from '../../page-objects/pageFactory';
 
-test.describe('Azure AI Search', () => {
-  // Skip if not testing against a deployed site with connection to Azure AI search
-  test.skip(
-    !process.env.USING_AI_SEARCH,
-    'Skipping AI Search tests as environment is deployed with mock search'
-  );
-
+test.describe('Azure AI Search: Area search suggestions', () => {
   const testPostcode = 'LE12 8PY';
   const fullMatchingGp = 'Barrow Health Centre';
   const partialMatchingGp = 'Quorn Medical Centre';
+  const testAreaSearchTerm: AreaDocument = {
+    areaCode: 'E12000002',
+    areaType: 'Regions',
+    areaName: 'North West Region',
+  };
+
+  test('suggestion panel should return only expected area when there is a full match for area code', async ({
+    homePage,
+  }) => {
+    await homePage.navigateToHomePage();
+    await homePage.checkOnHomePage();
+
+    await homePage.checkAreaSuggestionPanelContainsItems(
+      testAreaSearchTerm.areaCode,
+      [testAreaSearchTerm.areaName]
+    );
+  });
 
   test('returns multiple relevant results for a partial postcode', async ({
     homePage,
