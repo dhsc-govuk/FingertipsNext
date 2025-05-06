@@ -44,7 +44,7 @@ test.describe(
       await test.step('Fill in partial postcode and check results', async () => {
         await homePage.checkAreaSuggestionPanelContainsItems(
           testPostcode.substring(0, 6),
-          [partialMatchingGp, fullMatchingGp]
+          [fullMatchingGp, partialMatchingGp]
         );
       });
     });
