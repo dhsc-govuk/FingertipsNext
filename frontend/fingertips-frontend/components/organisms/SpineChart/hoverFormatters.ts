@@ -49,7 +49,31 @@ interface FormatSymbolHoverProps {
 }
 
 function formatSymbol(colour: string, shape: SymbolsEnum) {
-  return `<span style="color:${colour}; font-size:19px;">${shape}</span>`;
+  return `<div style="color:${colour}; font-size:19px;">${shape}</div>`;
+}
+
+function hoverTemplate(
+  title: string,
+  period: number,
+  indicatorName: string,
+  symbolContent: string,
+  mainContent: string
+) {
+  return `<div style="width: 250px; font-size: 16px; text-wrap: wrap;"> 
+            ${formatTitleBlock(title, period, indicatorName)}
+            <div style="padding:0px; margin:0px;">
+              <div style="display:flex; 
+                flex-direction:row;
+                align-items: center;
+                flex-wrap:nowrap;
+                justify-content: flex-start;">
+                ${symbolContent} 
+                <div style="flex-grow:2; padding:0.5em;"> 
+                  ${mainContent}
+                </div>
+              </div>
+            </div>
+          </div>`;
 }
 
 function formatTitleBlock(
@@ -57,31 +81,26 @@ function formatTitleBlock(
   period: number,
   indicatorName: string
 ) {
-  return `<div style="width: 250px; font-size: 16px; text-wrap: wrap;">
-        <h4 style="margin:0px; padding:0px;">
-          ${title}
-        </h4>
-        <span style="display: block;">${period}</span>
-        <span>${indicatorName}</span>`;
+  return `<div>
+            <h4 style="margin:0px; padding:0px;">${title}</h4>
+            <div>${period}</div>
+            <div>${indicatorName}</div>
+          </div>`;
 }
 
 export function formatBarHover(props: FormatBarHoverProps) {
-  return `${formatTitleBlock('Benchmark: England', props.period, props.indicatorName)}
-            <div style="padding:0px; margin:0px;">
-                <div style="display:flex; 
-                  flex-direction:row;
-                  align-items: center;
-                  flex-wrap:nowrap;
-                  justify-content: flex-start;
-                  ">
-                  <span style="color:${props.colour}; font-size:19px;">${SymbolsEnum.Square}</span> 
-                  <div style="flex-grow:2; padding:0.5em;">
-                    <span style="display: block;">${formatNumber(props.lowerValue)}${formatUnits(props.units)} to ${formatNumber(props.upperValue)}${formatUnits(props.units)}</span>
-                    <span style="display: block;">${props.lowerName} to ${props.upperName}</span>
-                  </div>
-              </div>
-            <div>
-          <div>`;
+  const mainContent = `<div>
+                        ${formatNumber(props.lowerValue)}${formatUnits(props.units)} to ${formatNumber(props.upperValue)}${formatUnits(props.units)}
+                      </div>
+                      <div>${props.lowerName} to ${props.upperName}</div>`;
+
+  return `${hoverTemplate(
+    'Benchmark: England',
+    props.period,
+    props.indicatorName,
+    formatSymbol(props.colour, SymbolsEnum.Square),
+    mainContent
+  )}`;
 }
 
 export function formatSymbolHover(props: FormatSymbolHoverProps) {
@@ -89,29 +108,21 @@ export function formatSymbolHover(props: FormatSymbolHoverProps) {
 
   if (props.outcome) {
     if (props.outcome === 'Not compared') {
-      outcomeContent = '<span style="display: block;">Not compared</span>';
+      outcomeContent = '<div>Not compared</div>';
     } else {
-      outcomeContent = `<span style="display: block;">${props.outcome} than England</span>
-                        <span style="display: block;">${benchmarkComparisonMethodToString(props.benchmarkComparisonMethod)}</span>`;
+      outcomeContent = `<div>${props.outcome} than England</div>
+                        <div>${benchmarkComparisonMethodToString(props.benchmarkComparisonMethod)}</div>`;
     }
   }
 
-  return `${formatTitleBlock(props.title, props.period, props.indicatorName)}
-            <div style="padding:0px; margin:0px;">
-                <div style="display:flex; 
-                  flex-direction:row;
-                  align-items: center;
-                  flex-wrap:nowrap;
-                  justify-content: flex-start;
-                  ">
-                  ${formatSymbol(props.colour, props.shape)} 
-                  <div style="flex-grow:2; 
-                    padding:0.5em;
-                    ">
-                    <span style="display: block;">${formatNumber(props.value)}${formatUnits(props.units)}</span>
-                    ${outcomeContent}
-                  </div>
-              </div>
-            <div>
-          <div>`;
+  const mainContent = `<div>${formatNumber(props.value)}${formatUnits(props.units)}</div>
+                      ${outcomeContent}`;
+
+  return `${hoverTemplate(
+    props.title,
+    props.period,
+    props.indicatorName,
+    formatSymbol(props.colour, props.shape),
+    mainContent
+  )}`;
 }
