@@ -110,4 +110,26 @@ export default class HomePage extends AreaFilter {
       expectedValidationMessage
     );
   }
+
+  async checkAreaSuggestionPanelContainsItems(
+    areaSearchTerm: string,
+    results: string[]
+  ) {
+    await this.fillAndAwaitLoadingComplete(
+      this.page.getByTestId(this.areaSearchField).getByRole('textbox'),
+      areaSearchTerm
+    );
+
+    await expect(
+      this.page.getByTestId(this.suggestedAreasPanel).getByRole('listitem')
+    ).toHaveCount(results.length);
+    results.forEach(async (result, index) => {
+      await expect(
+        this.page
+          .getByTestId(this.suggestedAreasPanel)
+          .getByRole('listitem')
+          .nth(index)
+      ).toContainText(result);
+    });
+  }
 }
