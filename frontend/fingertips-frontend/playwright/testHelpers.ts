@@ -105,6 +105,12 @@ export function getScenarioConfig(
       },
     },
     {
+      componentLocator: ChartPage.populationPyramidTableComponent,
+      componentProps: {
+        isTabTable: true,
+      },
+    },
+    {
       componentLocator: ChartPage.thematicMapComponent,
       componentProps: {},
     },
@@ -145,6 +151,7 @@ export function getScenarioConfig(
       ChartPage.inequalitiesForSingleTimePeriodComponent,
       ChartPage.inequalitiesTrendComponent,
       ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
     ],
     [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.ENGLAND_AREA}`]: [
       ChartPage.lineChartComponent,
@@ -156,31 +163,38 @@ export function getScenarioConfig(
       ChartPage.inequalitiesForSingleTimePeriodComponent,
       ChartPage.inequalitiesTrendComponent,
       ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
     ],
     [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.THREE_PLUS_AREAS}`]: [
       ChartPage.barChartEmbeddedTableComponent,
       ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
     ],
     [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.ALL_AREAS_IN_A_GROUP}`]: [
       ChartPage.thematicMapComponent,
       ChartPage.barChartEmbeddedTableComponent,
       ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
     ],
     [`${IndicatorMode.TWO_INDICATORS}-${AreaMode.ENGLAND_AREA}`]: [
       ChartPage.basicTableComponent,
       ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
     ],
     [`${IndicatorMode.TWO_INDICATORS}-${AreaMode.THREE_PLUS_AREAS}`]: [
       ChartPage.heatMapComponent,
       ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
     ],
     [`${IndicatorMode.TWO_INDICATORS}-${AreaMode.ALL_AREAS_IN_A_GROUP}`]: [
       ChartPage.heatMapComponent,
       ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
     ],
     [`${IndicatorMode.THREE_PLUS_INDICATORS}-${AreaMode.TWO_AREAS}`]: [
       ChartPage.heatMapComponent,
       ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
       ChartPage.spineChartTableComponent, // needs to be last so scroll right doesn't impact other component screenshots
     ],
   };

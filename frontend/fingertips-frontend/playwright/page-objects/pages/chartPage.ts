@@ -21,6 +21,8 @@ export default class ChartPage extends AreaFilter {
   static readonly lineChartTableComponent = 'lineChartTable-component';
   static readonly populationPyramidComponent =
     'populationPyramidWithTable-component';
+  static readonly populationPyramidTableComponent =
+    'populationPyramidTable-component';
   static readonly inequalitiesBarChartTableComponent =
     'inequalitiesBarChartTable-component';
   static readonly inequalitiesLineChartTableComponent =
