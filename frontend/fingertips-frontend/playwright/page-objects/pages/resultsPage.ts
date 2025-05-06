@@ -12,6 +12,7 @@ import {
   AreaTypeKeys,
   englandAreaType,
 } from '@/lib/areaFilterHelpers/areaType';
+import { SimpleIndicatorDocument } from '@/playwright/tests/fully_integrated_e2e_tests/core_journeys.spec';
 
 export default class ResultsPage extends AreaFilter {
   readonly resultsText = 'Search results';
@@ -101,13 +102,13 @@ export default class ResultsPage extends AreaFilter {
    * Note that we trust, and therefore test, the fingertips UI to only show us valid indicators based on the areas selected by the
    * test function selectAreasFilters. If the UI allows us to select invalid area + indicator combinations, then the chart page will error.
    *
-   * @param allIndicatorIDs - a list of all possible indicator IDs which the function can filter down to the correct number of indicators to select
+   * @param allIndicators - a list of all possible indicators which the function can filter down to the correct number of indicators to select
    * @param indicatorMode - indicator mode from the Enum IndicatorMode - used to decide how many indicators to select
    */
   async selectIndicatorCheckboxes(
-    allIndicatorIDs: string[],
+    allIndicators: SimpleIndicatorDocument[],
     indicatorMode: IndicatorMode
-  ) {
+  ): Promise<string[]> {
     const filteredByDisplayIndicatorIds: string[] = [];
 
     expect(
@@ -125,10 +126,9 @@ export default class ResultsPage extends AreaFilter {
 
     for (const checkbox of displayedIndicatorCheckboxList) {
       const indicatorDataTestID = await checkbox.getAttribute('value');
-
       if (
         indicatorDataTestID &&
-        JSON.stringify(allIndicatorIDs).includes(indicatorDataTestID)
+        JSON.stringify(allIndicators).includes(indicatorDataTestID)
       ) {
         filteredByDisplayIndicatorIds.push(indicatorDataTestID);
       }
@@ -156,6 +156,7 @@ export default class ResultsPage extends AreaFilter {
       await expect(checkbox).toBeChecked();
       await this.waitForURLToContain(indicatorID);
     }
+    return filteredByIndicatorModeIndicatorIds;
   }
 
   async checkIndicatorCheckboxChecked(indicatorId: string) {

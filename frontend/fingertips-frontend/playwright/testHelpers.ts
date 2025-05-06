@@ -1,6 +1,7 @@
 import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
 import ChartPage from './page-objects/pages/chartPage';
 import { AreaTypeKeys } from '@/lib/areaFilterHelpers/areaType';
+import { SimpleIndicatorDocument } from './tests/fully_integrated_e2e_tests/core_journeys.spec';
 
 export enum SearchMode {
   ONLY_SUBJECT = 'ONLY_SUBJECT',
@@ -29,6 +30,7 @@ type componentProps = {
   hasTimePeriodDropDown?: boolean;
   hasTypeDropDown?: boolean;
   isWideComponent?: boolean;
+  hasDataSource?: boolean;
 };
 
 type component = {
@@ -51,18 +53,21 @@ export function getScenarioConfig(
       componentLocator: ChartPage.lineChartComponent,
       componentProps: {
         hasConfidenceIntervals: true,
+        hasDataSource: true,
       },
     },
     {
       componentLocator: ChartPage.lineChartTableComponent,
       componentProps: {
         isTabTable: true,
+        hasDataSource: true,
       },
     },
     {
       componentLocator: ChartPage.inequalitiesBarChartComponent,
       componentProps: {
         hasConfidenceIntervals: true,
+        hasDataSource: true,
       },
     },
     {
@@ -71,6 +76,7 @@ export function getScenarioConfig(
         hasConfidenceIntervals: true,
         hasTimePeriodDropDown: true,
         hasTypeDropDown: false, // even though it has a type dropdown, we want to test the default view
+        hasDataSource: true,
       },
     },
     {
@@ -78,6 +84,7 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: true,
         hasTypeDropDown: true, // and in this case we want to test the type dropdown
+        hasDataSource: true,
       },
     },
     {
@@ -90,12 +97,14 @@ export function getScenarioConfig(
       componentLocator: ChartPage.inequalitiesBarChartTableComponent,
       componentProps: {
         isTabTable: true,
+        hasDataSource: true,
       },
     },
     {
       componentLocator: ChartPage.inequalitiesLineChartTableComponent,
       componentProps: {
         isTabTable: true,
+        hasDataSource: true,
       },
     },
     {
@@ -106,28 +115,31 @@ export function getScenarioConfig(
     },
     {
       componentLocator: ChartPage.thematicMapComponent,
-      componentProps: {},
+      componentProps: { hasDataSource: true },
     },
     {
       componentLocator: ChartPage.barChartEmbeddedTableComponent,
       componentProps: {
         hasConfidenceIntervals: true,
+        hasDataSource: true,
       },
     },
     {
       componentLocator: ChartPage.basicTableComponent,
-      componentProps: {},
+      componentProps: { hasDataSource: true },
     },
     {
       componentLocator: ChartPage.heatMapComponent,
       componentProps: {
         isWideComponent: true,
+        hasDataSource: true,
       },
     },
     {
       componentLocator: ChartPage.spineChartTableComponent,
       componentProps: {
         isWideComponent: true,
+        hasDataSource: true,
       },
     },
   ];
@@ -216,16 +228,21 @@ const indicatorsMatchingSearchTerm = (
 
 export function getAllIndicatorIds(
   indicators: RawIndicatorDocument[]
-): string[] {
+): SimpleIndicatorDocument[] {
   return indicators
     .filter((indicator) => indicatorsUsedInPOC(indicator))
-    .map((indicator) => indicator.indicatorID);
+    .map((indicator) => ({
+      indicatorName: indicator.indicatorName,
+      indicatorID: indicator.indicatorID,
+      associatedAreaCodes: indicator.associatedAreaCodes,
+      dataSource: indicator.dataSource,
+    }));
 }
 
 export function getAllIndicatorIdsForSearchTerm(
   indicators: RawIndicatorDocument[],
   searchTerm: string
-): string[] {
+): SimpleIndicatorDocument[] {
   if (!searchTerm) return [];
 
   const lowerCasedSearchTerm = searchTerm.toLowerCase();
@@ -235,7 +252,12 @@ export function getAllIndicatorIdsForSearchTerm(
         indicatorsUsedInPOC(indicator) &&
         indicatorsMatchingSearchTerm(indicator, lowerCasedSearchTerm)
     )
-    .map((indicator) => indicator.indicatorID);
+    .map((indicator) => ({
+      indicatorName: indicator.indicatorName,
+      indicatorID: indicator.indicatorID,
+      associatedAreaCodes: indicator.associatedAreaCodes,
+      dataSource: indicator.dataSource,
+    }));
 }
 
 export function getAllAreasByAreaType(

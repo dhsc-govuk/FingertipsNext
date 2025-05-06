@@ -15,7 +15,13 @@ const areaSearchTerm: AreaDocument = {
   areaType: 'Regions',
   areaName: 'north west region',
 };
-let allIndicatorIDs: string[];
+export type SimpleIndicatorDocument = {
+  indicatorID: string;
+  indicatorName: string;
+  associatedAreaCodes: string[];
+  dataSource: string;
+};
+let allIndicators: SimpleIndicatorDocument[] = [];
 
 interface TestParams {
   indicatorMode: IndicatorMode;
@@ -93,7 +99,7 @@ test.describe(`Search via`, () => {
         }
       );
 
-      allIndicatorIDs =
+      allIndicators =
         searchMode === SearchMode.ONLY_AREA
           ? getAllIndicatorIds(typedIndicatorData)
           : getAllIndicatorIdsForSearchTerm(
@@ -135,7 +141,7 @@ test.describe(`Search via`, () => {
             subjectSearchTerm!
           );
           await resultsPage.selectIndicatorCheckboxes(
-            allIndicatorIDs,
+            allIndicators,
             indicatorMode
           );
           await resultsPage.checkRecentTrends(areaMode);

@@ -117,6 +117,12 @@ export default class ChartPage extends AreaFilter {
           )
         );
       }
+      // if its one of the chart components that has a data source attributed then check it
+      if (visibleComponent.componentProps.hasDataSource) {
+        await expect(
+          this.page.getByTestId(visibleComponent.componentLocator)
+        ).toHaveText(`Data source: ${visibleComponent.componentLocator}`);
+      }
       // if its one of the chart components that has a single time period dropdown then select the last in the list
       if (visibleComponent.componentProps.hasTimePeriodDropDown) {
         const combobox = this.page
