@@ -53,14 +53,12 @@ function formatSymbol(colour: string, shape: SymbolsEnum) {
 }
 
 function hoverTemplate(
-  title: string,
-  period: number,
-  indicatorName: string,
+  titleContent: string,
   symbolContent: string,
   mainContent: string
 ) {
   return `<div style="width: 250px; font-size: 16px; text-wrap: wrap;"> 
-            ${formatTitleBlock(title, period, indicatorName)}
+            ${titleContent}
             <div style="padding:0px; margin:0px;">
               <div style="display:flex; 
                 flex-direction:row;
@@ -95,9 +93,7 @@ export function formatBarHover(props: FormatBarHoverProps) {
                       <div>${props.lowerName} to ${props.upperName}</div>`;
 
   return `${hoverTemplate(
-    'Benchmark: England',
-    props.period,
-    props.indicatorName,
+    formatTitleBlock('Benchmark: England', props.period, props.indicatorName),
     formatSymbol(props.colour, SymbolsEnum.Square),
     mainContent
   )}`;
@@ -119,9 +115,7 @@ export function formatSymbolHover(props: FormatSymbolHoverProps) {
                       ${outcomeContent}`;
 
   return `${hoverTemplate(
-    props.title,
-    props.period,
-    props.indicatorName,
+    formatTitleBlock(props.title, props.period, props.indicatorName),
     formatSymbol(props.colour, props.shape),
     mainContent
   )}`;
