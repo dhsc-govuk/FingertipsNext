@@ -169,7 +169,7 @@ exports[`AreaSearchInputField should render correctly and match snapshot 1`] = `
         <div
           style="color: rgb(80, 90, 95);"
         >
-          For example district, county, region, NHS organisation or GP practice or code
+          For example, postcode, district, county, region, NHS organisation or GP practice or code
         </div>
       </span>
       <input
