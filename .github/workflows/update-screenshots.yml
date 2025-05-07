@@ -7,6 +7,7 @@ jobs:
   update-screenshots:
     name: Update Baseline Screenshots for E2E Tests
     uses: ./.github/workflows/e2e-and-api-tests.yml
+    if: github.ref_name != 'main'
     with:
       playwright-mode: docker
       update_screenshots: true
