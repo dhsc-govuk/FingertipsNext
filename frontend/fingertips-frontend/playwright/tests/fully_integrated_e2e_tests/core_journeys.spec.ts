@@ -129,7 +129,7 @@ test.describe(`Search via`, () => {
           await homePage.clickSearchButton();
         });
 
-        await test.step(`check results page based on search mode and select ${areaMode} and ${indicatorMode}`, async ({}) => {
+        await test.step(`check results page based on search mode and then select ${areaMode} and ${indicatorMode}`, async ({}) => {
           await resultsPage.waitForURLToContainBasedOnSearchMode(
             searchMode,
             subjectSearchTerm!,
@@ -156,16 +156,21 @@ test.describe(`Search via`, () => {
           );
         });
 
-        await test.step(`then check on the chart page that the displayed charts are correct`, async () => {
+        await test.step(`check the results page and then view the chart page, checking that the displayed charts are correct`, async () => {
           for (const selectedIndicator of expectedIndicatorIDsToSelect) {
             selectedIndicatorsData = getIndicatorDataByIndicatorID(
               typedIndicatorData,
               selectedIndicator
             );
           }
+
           await resultsPage.checkRecentTrends(areaMode);
 
           await resultsPage.clickViewChartsButton();
+
+          await chartPage.checkSelectedIndicatorPillsText(
+            selectedIndicatorsData
+          );
 
           await chartPage.checkOnChartPage();
 

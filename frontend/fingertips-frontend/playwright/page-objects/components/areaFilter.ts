@@ -1,7 +1,11 @@
 import { SearchParams } from '@/lib/searchStateManager';
 import BasePage from '../basePage';
 import { expect } from '../pageFactory';
-import { AreaMode, SearchMode } from '@/playwright/testHelpers';
+import {
+  AreaMode,
+  SearchMode,
+  SimpleIndicatorDocument,
+} from '@/playwright/testHelpers';
 
 export default class AreaFilter extends BasePage {
   readonly areaFilterContainer = 'area-filter-container';
@@ -11,6 +15,7 @@ export default class AreaFilter extends BasePage {
   readonly groupTypeSelector = 'group-type-selector-container';
   readonly groupSelector = 'group-selector-container';
   readonly selectedAreasContainer = 'selected-areas-panel';
+  readonly selectedIndicatorContainer = 'selected-indicators-panel';
   readonly selectAreasContainer = 'select-areas-filter-panel';
   readonly pillContainer = 'pill-container';
   readonly filterName = 'filter-name';
@@ -28,6 +33,28 @@ export default class AreaFilter extends BasePage {
       .all();
 
     return Promise.all(pillFilterNames.map(async (l) => await l.textContent()));
+  }
+
+  async checkSelectedIndicatorPillsText(
+    expectedPillText: SimpleIndicatorDocument[]
+  ) {
+    const pillElements = await this.page
+      .getByTestId(this.selectedIndicatorContainer)
+      .getByTestId(this.pillContainer)
+      .getByTestId(this.filterName)
+      .all();
+
+    const pillTexts = await Promise.all(
+      pillElements.map((pill) => pill.textContent())
+    );
+
+    const cleanedPillTexts = pillTexts.map((text) =>
+      text!.replace(/View background information$/, '').trim()
+    );
+
+    for (const pillText of expectedPillText) {
+      expect(cleanedPillTexts).toContain(pillText.indicatorName);
+    }
   }
 
   async closeAreaFilterPill(index: number) {
