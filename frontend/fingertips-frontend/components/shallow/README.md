@@ -45,20 +45,20 @@ everything everytime the user makes a selection.
 flowchart TD
     %% Nodes
     apiGet["api"]:::red
-    apiGet2["6. api"]:::red
+    apiGet2["6 api"]:::red
     
     subgraph serverside["serverside"]
-        apiData["1. Load data from the api"]:::yellow
+        apiData["1 Load data from the api"]:::yellow
     end
     
     subgraph reactQueryCache["React Query cache"]
-      seedQueryCache["2. Seed the cache"]:::green
-      cache["5. cache"]:::green
+      seedQueryCache["2 Seed the cache"]:::green
+      cache["5 cache"]:::green
     end
     
     subgraph clientside["clientside"]
-        component["3. Component"]:::green
-        useQuery{"4.<br />useQuery<br />in cache?"}:::green
+        component["3 Component"]:::green
+        useQuery{"4<br />useQuery<br />in cache?"}:::green
     end
 
     %% Edges

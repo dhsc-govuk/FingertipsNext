@@ -15,8 +15,8 @@ export const ShallowPage: FC = () => {
   return (
     <form>
       <DivFlexRow>
+        <ShallowFiltering />
         <DivContent>
-          <ShallowFiltering />
           <ServerSideOnly>
             <Button>Submit</Button>
           </ServerSideOnly>
