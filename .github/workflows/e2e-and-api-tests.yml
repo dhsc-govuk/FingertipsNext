@@ -171,7 +171,7 @@ jobs:
           echo "JOB_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_ENV
 
       - name: Run Playwright tests in CD - skip screenshots
-        run: npm run test-e2e-ci -- --ignore-snapshots
+        run: npm run test-e2e-cd -- --ignore-snapshots
         env:
           FINGERTIPS_FRONTEND_URL: ${{ vars.FINGERTIPS_FRONTEND_URL }}
 
