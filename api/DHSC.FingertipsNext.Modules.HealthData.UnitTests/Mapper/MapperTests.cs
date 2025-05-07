@@ -166,4 +166,28 @@ public class MapperTests
         // Assert
         actual.ShouldBeEquivalentTo(expectedDeprivation);
     }
+
+    [Theory]
+    [ InlineData("High is good", IndicatorPolarity.HighIsGood)]
+    [ InlineData("Low is good", IndicatorPolarity.LowIsGood)]
+    [ InlineData("No judgement", IndicatorPolarity.NoJudgement)]
+    [ InlineData(null, IndicatorPolarity.Unknown)]
+    
+    public void Mapper_ShouldMapAnIndicatorDimensionModelPolarity_ToAnIndicatorPolarity(string modelPolarity, IndicatorPolarity expectedPolarity)
+    {
+        // Arrange
+        var indicator = new IndicatorDimensionModel
+            {
+                Polarity = modelPolarity
+            };
+
+        // Act
+        var actual = _mapper.MapIndicatorPolarity(indicator.Polarity);
+
+        // Assert
+        actual.ShouldBeEquivalentTo(expectedPolarity);
+    }
+    
+    // TODO: Test Quartiles Mapper
+    // TODO: Test Benchmark Mapper
 }
