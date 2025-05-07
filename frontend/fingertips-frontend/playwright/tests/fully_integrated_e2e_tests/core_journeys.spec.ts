@@ -6,6 +6,8 @@ import {
   getIndicatorDataByIndicatorID,
   IndicatorMode,
   SearchMode,
+  SimpleIndicatorDocument,
+  TestParams,
 } from '../../testHelpers';
 import indicators from '../../../../../search-setup/assets/indicators.json';
 import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
@@ -16,21 +18,8 @@ const areaSearchTerm: AreaDocument = {
   areaType: 'Regions',
   areaName: 'north west region',
 };
-export type SimpleIndicatorDocument = {
-  indicatorID: string;
-  indicatorName: string;
-  associatedAreaCodes: string[];
-  dataSource: string;
-};
 let allIndicators: SimpleIndicatorDocument[] = [];
 let selectedIndicatorsData: SimpleIndicatorDocument[] = [];
-
-interface TestParams {
-  indicatorMode: IndicatorMode;
-  areaMode: AreaMode;
-  searchMode: SearchMode;
-  subjectSearchTerm?: string;
-}
 
 const coreTestJourneys: TestParams[] = [
   {

@@ -2,6 +2,7 @@ import {
   AreaMode,
   getScenarioConfig,
   IndicatorMode,
+  SimpleIndicatorDocument,
 } from '@/playwright/testHelpers';
 import { expect } from '../pageFactory';
 import {
@@ -12,7 +13,6 @@ import {
   TestType,
 } from '@playwright/test';
 import AreaFilter from '../components/areaFilter';
-import { SimpleIndicatorDocument } from '@/playwright/tests/fully_integrated_e2e_tests/core_journeys.spec';
 
 export default class ChartPage extends AreaFilter {
   readonly backLink = 'chart-page-back-link';

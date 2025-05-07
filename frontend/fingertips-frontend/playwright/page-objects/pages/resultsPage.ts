@@ -5,6 +5,7 @@ import {
   IndicatorMode,
   returnIndicatorIDsByIndicatorMode,
   SearchMode,
+  SimpleIndicatorDocument,
 } from '@/playwright/testHelpers';
 import AreaFilter from '../components/areaFilter';
 import { RawIndicatorDocument } from '@/lib/search/searchTypes';
@@ -12,7 +13,6 @@ import {
   AreaTypeKeys,
   englandAreaType,
 } from '@/lib/areaFilterHelpers/areaType';
-import { SimpleIndicatorDocument } from '@/playwright/tests/fully_integrated_e2e_tests/core_journeys.spec';
 
 export default class ResultsPage extends AreaFilter {
   readonly resultsText = 'Search results';

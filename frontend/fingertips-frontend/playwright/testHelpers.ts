@@ -1,7 +1,20 @@
 import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
 import ChartPage from './page-objects/pages/chartPage';
 import { AreaTypeKeys } from '@/lib/areaFilterHelpers/areaType';
-import { SimpleIndicatorDocument } from './tests/fully_integrated_e2e_tests/core_journeys.spec';
+
+export type SimpleIndicatorDocument = {
+  indicatorID: string;
+  indicatorName: string;
+  associatedAreaCodes: string[];
+  dataSource: string;
+};
+
+export interface TestParams {
+  indicatorMode: IndicatorMode;
+  areaMode: AreaMode;
+  searchMode: SearchMode;
+  subjectSearchTerm?: string;
+}
 
 export enum SearchMode {
   ONLY_SUBJECT = 'ONLY_SUBJECT',
