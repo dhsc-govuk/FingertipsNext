@@ -75,7 +75,7 @@ const coreTestJourneys: TestParams[] = [
     areaMode: AreaMode.TWO_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
     subjectSearchTerm: 'hospital', // a different subject search term is required that returns enough search results allowing for three indicators to be selected
-    expectedIndicatorIDsToSelect: ['93474', '41101', '91894'],
+    expectedIndicatorIDsToSelect: ['41101', '22401', '91894'],
   },
 ];
 

@@ -23,8 +23,8 @@ const indicatorData = mockIndicators as RawIndicatorDocument[];
 const subjectSearchTerm = 'hospital';
 const indicatorMode = IndicatorMode.ONE_INDICATOR;
 const searchMode = SearchMode.ONLY_SUBJECT;
-let allIndicatorIDs: string[];
-let filteredIndicatorIds: string[];
+let allValidIndicatorIDs: string[];
+let validIndicatorIDs: string[];
 let allNHSRegionAreas: AreaDocument[];
 let typedIndicatorData: RawIndicatorDocument[];
 
@@ -40,13 +40,13 @@ test.beforeAll(
       }
     );
 
-    allIndicatorIDs = getAllIndicatorIDsForSearchTerm(
+    allValidIndicatorIDs = getAllIndicatorIDsForSearchTerm(
       typedIndicatorData,
       subjectSearchTerm
     );
 
-    filteredIndicatorIds = returnIndicatorIDsByIndicatorMode(
-      allIndicatorIDs,
+    validIndicatorIDs = returnIndicatorIDsByIndicatorMode(
+      allValidIndicatorIDs,
       indicatorMode
     );
 
@@ -90,7 +90,7 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
     });
 
     await test.step('Select single indicator and let default to England, and check on charts page', async () => {
-      await resultsPage.selectIndicatorCheckboxes(filteredIndicatorIds);
+      await resultsPage.selectIndicatorCheckboxes(validIndicatorIDs);
 
       await resultsPage.clickViewChartsButton();
 
@@ -103,13 +103,11 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
 
     await test.step('Select "View background information" link, verify indicator page title and Return to charts page', async () => {
       const indicator = typedIndicatorData.find(
-        (ind) => ind.indicatorID === filteredIndicatorIds[0]
+        (ind) => ind.indicatorID === validIndicatorIDs[0]
       );
 
       if (!indicator) {
-        throw new Error(
-          `Indicator with ID ${filteredIndicatorIds[0]} not found`
-        );
+        throw new Error(`Indicator with ID ${validIndicatorIDs[0]} not found`);
       }
 
       await resultsPage.clickViewBackgroundInformationLinkForIndicator(
@@ -146,7 +144,7 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       await chartPage.clickBackLink();
 
       await resultsPage.checkSearchResultsTitle(subjectSearchTerm);
-      await resultsPage.checkIndicatorCheckboxChecked(filteredIndicatorIds[0]);
+      await resultsPage.checkIndicatorCheckboxChecked(validIndicatorIDs[0]);
     });
 
     await test.step('Return to search page and verify fields are correctly prepopulated', async () => {
@@ -264,7 +262,7 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
     });
 
     await test.step('Select single indicator, and verify url is updated to include indicator', async () => {
-      await resultsPage.selectIndicatorCheckboxes(filteredIndicatorIds);
+      await resultsPage.selectIndicatorCheckboxes(validIndicatorIDs);
 
       await test.expect(resultsPage.page).toHaveURL(/&is=/);
     });
@@ -286,7 +284,7 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
     await test.step('Tick "Select all" checkbox and verify all indicators are selected and URL is updated', async () => {
       await resultsPage.selectIndicatorSelectAllCheckbox();
       await resultsPage.verifyAllIndicatorsSelected();
-      await resultsPage.verifyUrlContainsAllIndicators(allIndicatorIDs);
+      await resultsPage.verifyUrlContainsAllIndicators(allValidIndicatorIDs);
     });
 
     await test.step('Untick "Select all" checkbox and verify no indicators are selected and URL is updated', async () => {
@@ -296,15 +294,17 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
     });
 
     await test.step('Select indicators one by one and verify "Select all" checkbox becomes ticked and URL updates', async () => {
-      await resultsPage.selectEveryIndicator(allIndicatorIDs);
+      await resultsPage.selectEveryIndicator(allValidIndicatorIDs);
       await resultsPage.verifySelectAllCheckboxTicked();
-      await resultsPage.verifyUrlContainsAllIndicators(allIndicatorIDs);
+      await resultsPage.verifyUrlContainsAllIndicators(allValidIndicatorIDs);
     });
 
     await test.step('Deselect one indicator and verify "Select all" checkbox becomes unticked and URL updates', async () => {
-      await resultsPage.deselectIndicator(allIndicatorIDs[0]);
+      await resultsPage.deselectIndicator(allValidIndicatorIDs[0]);
       await resultsPage.verifySelectAllCheckboxUnticked();
-      await resultsPage.verifyUrlUpdatedAfterDeselection(allIndicatorIDs[0]);
+      await resultsPage.verifyUrlUpdatedAfterDeselection(
+        allValidIndicatorIDs[0]
+      );
     });
   });
 
