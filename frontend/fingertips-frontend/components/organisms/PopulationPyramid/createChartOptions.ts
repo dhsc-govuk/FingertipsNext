@@ -15,6 +15,8 @@ import {
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { FormatValueAsWholeNumberAbsolute } from '@/lib/chartHelpers/labelFormatters';
 
+const titleLabelWeight: string = '600';
+
 const toggleClickSeries = (self: Series): boolean => {
   self.chart.series.forEach((series) => {
     if (series.name === self.name) {
@@ -25,7 +27,7 @@ const toggleClickSeries = (self: Series): boolean => {
 };
 
 const createPopPyramidSeriesOptions = (
-  xAxisTitle: {male:string, female:string},
+  xAxisTitle: { male: string; female: string },
   yAxisTitle: string,
   dataForArea: PopulationDataForArea,
   accessibilityLabel: string
@@ -105,12 +107,23 @@ const createPopPyramidSeriesOptions = (
       {
         categories: dataForArea.ageCategories,
         title: {
-          text: xAxisTitle?.male,
+          text: ` <div> 
+                    <span style='display:block;'>
+                        ${xAxisTitle?.male}
+                    <span>
+                    <span style="display:block; font-weight:'bold';">Male</span>
+                  </div>
+                `,
           align: 'high',
+          textAlign: 'left',
+          useHTML: true,
+          y: -30,
+          x: -30,
           offset: 2,
           rotation: 0,
           style: {
             fontSize: '19px',
+            fontWeight: titleLabelWeight,
           },
         },
         lineColor: GovukColours.DarkSlateGray,
@@ -130,12 +143,21 @@ const createPopPyramidSeriesOptions = (
         categories: dataForArea.ageCategories,
         linkedTo: 0,
         title: {
-          text: xAxisTitle?.female,
+          text: ` <div> 
+                    <span style='display:block;'>
+                        ${xAxisTitle?.female}
+                    <span>
+                     <span style='display:block; font-weight:'bold''>Female</span>
+                  </div>`,
           align: 'high',
+          x: -15,
+          y: -30,
           offset: 4,
+          useHTML: true,
           rotation: 0,
           style: {
             fontSize: '19px',
+            fontWeight: titleLabelWeight,
           },
         },
         lineColor: GovukColours.DarkSlateGray,
@@ -149,6 +171,7 @@ const createPopPyramidSeriesOptions = (
         labels: {
           style: {
             fontSize: '16px',
+            width: 300,
           },
         },
       },
@@ -358,7 +381,7 @@ const createAdditionalChartSeries = (
 };
 
 export const createChartPyramidOptions = (
-  xAxisTitle: {male:string , female:string},
+  xAxisTitle: { male: string; female: string },
   yAxisTitle: string,
   accessibilityLabel: string,
   dataForSelectedArea: PopulationDataForArea,

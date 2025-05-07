@@ -10,7 +10,7 @@ interface PyramidChartProps {
   dataForSelectedArea: PopulationDataForArea;
   dataForBenchmark?: PopulationDataForArea;
   dataForGroup?: PopulationDataForArea;
-  xAxisTitle: {male:string , female:string};
+  xAxisTitle: { male: string; female: string };
   yAxisTitle: string;
   accessibilityLabel?: string;
 }
