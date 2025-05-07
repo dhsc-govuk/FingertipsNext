@@ -15,4 +15,4 @@ public interface IMapper
     List<HealthDataPoint> Map(IList<HealthMeasureModel>? source);
     IndicatorQuartileData? Map(QuartileDataModel? source);
     List<IndicatorQuartileData> Map(IList<QuartileDataModel>? source);
-};
+}
