@@ -273,6 +273,8 @@ paths:
         - $ref: "#/components/parameters/indicator_id"
         - $ref: "#/components/parameters/area_codes"
         - $ref: "#/components/parameters/area_type"
+        - $ref: "#/components/parameters/area_group"
+        - $ref: "#/components/parameters/benchmark_ref_type"
         - $ref: "#/components/parameters/years"
         - $ref: "#/components/parameters/inequalities"
         - $ref: "#/components/parameters/include_empty_areas"
@@ -804,12 +806,28 @@ components:
           type: string
           example: G82109
         maxItems: 300
+    area_group:
+      in: query
+      name: area_group
+      description: An area group which the area_codes belong to
+      schema:
+        type: string
+        example: E38000205
     area_type:
       in: query
       name: area_type
       description: The area type which the areas belong to
       schema:
         type: string
+    benchmark_ref_type:
+      in: query
+      name: benchmark_ref_type
+      description: Controls whether benchmarking is performed against England or an Ancestor
+      schema:
+        type: string
+        enum:
+            - England
+            - AreaGroup
     indicator_id:
       in: path
       name: indicator_id
