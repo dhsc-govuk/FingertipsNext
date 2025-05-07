@@ -29,7 +29,7 @@ jobs:
   execute-e2e-tests-docker:
     name: Execute e2e tests - Docker
     runs-on: ubuntu-latest
-    if: inputs.playwright-mode == 'docker' && (!inputs.update_screenshots || inputs.update_screenshots && github.ref_name != 'main')
+    if: inputs.playwright-mode == 'docker'
 
     defaults:
       run:
