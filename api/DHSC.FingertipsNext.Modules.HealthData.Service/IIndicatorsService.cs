@@ -27,7 +27,7 @@ public interface IIndicatorsService
         IEnumerable<string> areaCodes,
         string areaType,
         string areaGroup,
-        string benchmarkRefType,
+        BenchmarkReferenceType benchmarkRefType,
         IEnumerable<int> years,
         IEnumerable<string> inequalities,
         bool includeEmptyAreas = false,

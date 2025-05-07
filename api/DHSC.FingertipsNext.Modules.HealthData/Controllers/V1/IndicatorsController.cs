@@ -45,7 +45,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
         [FromQuery(Name = "area_codes")] string[]? areaCodes = null,
         [FromQuery(Name = "area_type")] string areaType = "",
         [FromQuery(Name = "area_group")] string? areaGroup = "",
-        [FromQuery(Name = "benchmark_ref_type")] string? benchmarkRefType = "",
+        [FromQuery(Name = "benchmark_ref_type")] BenchmarkReferenceType? benchmarkRefType = BenchmarkReferenceType.Unknown,
         [FromQuery] int[]? years = null,
         [FromQuery] string[]? inequalities = null,
         [FromQuery] bool include_empty_areas =false,
@@ -65,13 +65,20 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
                     $"Too many values supplied for parameter years. The maximum is {MaxNumberYears} but {years.Length} supplied."
             });
 
+        if ( (benchmarkRefType == BenchmarkReferenceType.AreaGroup ) && (areaGroup == "") )
+            return new BadRequestObjectResult(new SimpleError
+            {
+                Message =
+                    $"Missing parameter 'area_group'. When benchmark_ref_type is set to AreaGroup then the area_group parameter must be set"
+            });
+
         var indicatorData = await _indicatorsService.GetIndicatorDataAsync
         (
             indicatorId,
             areaCodes ?? [],
             areaType,
             areaGroup, 
-            benchmarkRefType,
+            benchmarkRefType ?? BenchmarkReferenceType.Unknown,
             years ?? [],
             inequalities ?? [],
             include_empty_areas,
