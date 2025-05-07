@@ -28,6 +28,7 @@ describe('createChartPyramidOptions', () => {
   it('should return a valid Highcharts.Options object', () => {
     const options = createChartPyramidOptions(
       'Age',
+      'Age',
       'Population (%)',
       'Accessibility Label',
       mockPopulationData

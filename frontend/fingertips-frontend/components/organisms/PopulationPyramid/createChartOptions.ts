@@ -27,7 +27,7 @@ const toggleClickSeries = (self: Series): boolean => {
 };
 
 const createPopPyramidSeriesOptions = (
-  xAxisTitle: { male: string; female: string },
+  xAxisTitle: string,
   yAxisTitle: string,
   dataForArea: PopulationDataForArea,
   accessibilityLabel: string
@@ -109,7 +109,7 @@ const createPopPyramidSeriesOptions = (
         title: {
           text: ` <div> 
                     <span style='display:block;'>
-                        ${xAxisTitle?.male}
+                        ${xAxisTitle}
                     <span>
                     <span style="display:block; font-weight:'bold';">Male</span>
                   </div>
@@ -145,7 +145,7 @@ const createPopPyramidSeriesOptions = (
         title: {
           text: ` <div> 
                     <span style='display:block;'>
-                        ${xAxisTitle?.female}
+                        ${xAxisTitle}
                     <span>
                      <span style='display:block; font-weight:'bold''>Female</span>
                   </div>`,
@@ -381,7 +381,7 @@ const createAdditionalChartSeries = (
 };
 
 export const createChartPyramidOptions = (
-  xAxisTitle: { male: string; female: string },
+  xAxisTitle: string,
   yAxisTitle: string,
   accessibilityLabel: string,
   dataForSelectedArea: PopulationDataForArea,

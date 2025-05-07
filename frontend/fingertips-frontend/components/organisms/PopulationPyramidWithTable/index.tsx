@@ -57,7 +57,7 @@ export function determinePopulationDataForArea(
 
 interface PyramidPopulationChartViewProps {
   healthDataForAreas: HealthDataForArea[];
-  xAxisTitle: { male: string; female: string };
+  xAxisTitle: string;
   yAxisTitle: string;
   searchState: SearchStateParams;
 }
