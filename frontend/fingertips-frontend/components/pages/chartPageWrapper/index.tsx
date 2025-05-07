@@ -13,6 +13,7 @@ import {
 import { BackLink, GridCol, GridRow, H2 } from 'govuk-react';
 import { useEffect, useState } from 'react';
 import { FilterSummaryPanel } from '@/components/molecules/FilterSummaryPanel';
+import styled from 'styled-components';
 
 interface ChartPageWrapperProps {
   children: React.ReactNode;
@@ -21,6 +22,10 @@ interface ChartPageWrapperProps {
   selectedAreasData?: Area[];
   selectedIndicatorsData?: IndicatorDocument[];
 }
+
+const Row = styled.div({
+  display: 'flex',
+});
 
 export function ChartPageWrapper({
   children,
@@ -44,7 +49,7 @@ export function ChartPageWrapper({
   const [isHideFilters, setIsHideFilters] = useState(false);
   const backLinkPath = stateManager.generatePath('/results');
 
-  const width = !isHideFilters ? 'two-thirds' : 'full';
+  const width = !isHideFilters ? 'calc(100% - 330px)' : 'full';
 
   return (
     <>
@@ -54,9 +59,9 @@ export function ChartPageWrapper({
         href={backLinkPath}
         aria-label="Go back to the previous page"
       />
-      <GridRow>
+      <Row>
         {isHideFilters ? null : (
-          <GridCol setWidth="one-third">
+          <GridCol setWidth="330px">
             <AreaFilterPane
               areaFilterData={areaFilterData}
               selectedAreasData={selectedAreasData}
@@ -76,7 +81,7 @@ export function ChartPageWrapper({
           ) : null}
           {children}
         </GridCol>
-      </GridRow>
+      </Row>
     </>
   );
 }
