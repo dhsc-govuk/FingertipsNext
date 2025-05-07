@@ -25,7 +25,7 @@ const toggleClickSeries = (self: Series): boolean => {
 };
 
 const createPopPyramidSeriesOptions = (
-  xAxisTitle: string,
+  xAxisTitle: {male:string, female:string},
   yAxisTitle: string,
   dataForArea: PopulationDataForArea,
   accessibilityLabel: string
@@ -105,7 +105,7 @@ const createPopPyramidSeriesOptions = (
       {
         categories: dataForArea.ageCategories,
         title: {
-          text: xAxisTitle,
+          text: xAxisTitle?.male,
           align: 'high',
           offset: 2,
           rotation: 0,
@@ -130,7 +130,7 @@ const createPopPyramidSeriesOptions = (
         categories: dataForArea.ageCategories,
         linkedTo: 0,
         title: {
-          text: xAxisTitle,
+          text: xAxisTitle?.female,
           align: 'high',
           offset: 4,
           rotation: 0,
@@ -144,7 +144,7 @@ const createPopPyramidSeriesOptions = (
         tickmarkPlacement: 'on',
         tickColor: GovukColours.DarkSlateGray,
         accessibility: {
-          description: '{xAxisTitle} degrees {series.name}',
+          description: '{xAxisMaleTitle} degrees {series.name}',
         },
         labels: {
           style: {
@@ -358,7 +358,7 @@ const createAdditionalChartSeries = (
 };
 
 export const createChartPyramidOptions = (
-  xAxisTitle: string,
+  xAxisTitle: {male:string , female:string},
   yAxisTitle: string,
   accessibilityLabel: string,
   dataForSelectedArea: PopulationDataForArea,
