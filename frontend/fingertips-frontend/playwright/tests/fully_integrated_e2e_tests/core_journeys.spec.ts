@@ -8,6 +8,7 @@ import {
   SearchMode,
   SimpleIndicatorDocument,
   TestParams,
+  TestTag,
 } from '../../testHelpers';
 import indicators from '../../../../../search-setup/assets/indicators.json';
 import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
@@ -86,105 +87,111 @@ const coreTestJourneys: TestParams[] = [
  * they were chosen as they are happy paths covering lots of chart components, they also cover the three different search mode scenarios.
  * All 15 journeys are covered in lower level unit testing.
  */
-test.describe(`Search via`, () => {
-  coreTestJourneys.forEach(
-    ({
-      searchMode,
-      indicatorMode,
-      areaMode,
-      subjectSearchTerm,
-      expectedIndicatorIDsToSelect,
-    }) => {
-      const typedIndicatorData = indicatorData.map(
-        (indicator: RawIndicatorDocument) => {
-          return {
-            ...indicator,
-            lastUpdated: new Date(indicator.lastUpdatedDate),
-          };
-        }
-      );
+test.describe(
+  `Search via`,
+  {
+    tag: [TestTag.CI, TestTag.CD],
+  },
+  () => {
+    coreTestJourneys.forEach(
+      ({
+        searchMode,
+        indicatorMode,
+        areaMode,
+        subjectSearchTerm,
+        expectedIndicatorIDsToSelect,
+      }) => {
+        const typedIndicatorData = indicatorData.map(
+          (indicator: RawIndicatorDocument) => {
+            return {
+              ...indicator,
+              lastUpdated: new Date(indicator.lastUpdatedDate),
+            };
+          }
+        );
 
-      allValidIndicators =
-        searchMode === SearchMode.ONLY_AREA
-          ? getAllIndicators(typedIndicatorData)
-          : getAllIndicatorsForSearchTerm(
-              typedIndicatorData,
+        allValidIndicators =
+          searchMode === SearchMode.ONLY_AREA
+            ? getAllIndicators(typedIndicatorData)
+            : getAllIndicatorsForSearchTerm(
+                typedIndicatorData,
+                subjectSearchTerm!
+              );
+
+        test(`${searchMode} then select ${indicatorMode} and ${areaMode} then check the charts page`, async ({
+          homePage,
+          resultsPage,
+          chartPage,
+        }) => {
+          await test.step('Navigate to home page and search for indicators', async () => {
+            await homePage.navigateToHomePage();
+            await homePage.checkOnHomePage();
+
+            await homePage.searchForIndicators(
+              searchMode,
+              subjectSearchTerm,
+              areaSearchTerm.areaName
+            );
+            await homePage.clickSearchButton();
+          });
+
+          await test.step(`check results page based on search mode and then select ${areaMode} and ${indicatorMode}`, async ({}) => {
+            await resultsPage.waitForURLToContainBasedOnSearchMode(
+              searchMode,
+              subjectSearchTerm!,
+              areaSearchTerm.areaCode
+            );
+            await resultsPage.checkSearchResultsTitleBasedOnSearchMode(
+              searchMode,
               subjectSearchTerm!
             );
 
-      test(`${searchMode} then select ${indicatorMode} and ${areaMode} then check the charts page`, async ({
-        homePage,
-        resultsPage,
-        chartPage,
-      }) => {
-        await test.step('Navigate to home page and search for indicators', async () => {
-          await homePage.navigateToHomePage();
-          await homePage.checkOnHomePage();
-
-          await homePage.searchForIndicators(
-            searchMode,
-            subjectSearchTerm,
-            areaSearchTerm.areaName
-          );
-          await homePage.clickSearchButton();
-        });
-
-        await test.step(`check results page based on search mode and then select ${areaMode} and ${indicatorMode}`, async ({}) => {
-          await resultsPage.waitForURLToContainBasedOnSearchMode(
-            searchMode,
-            subjectSearchTerm!,
-            areaSearchTerm.areaCode
-          );
-          await resultsPage.checkSearchResultsTitleBasedOnSearchMode(
-            searchMode,
-            subjectSearchTerm!
-          );
-
-          await resultsPage.selectAreasFiltersIfRequired(
-            searchMode, // Only selects area filters if search mode is ONLY_SUBJECT
-            areaMode,
-            subjectSearchTerm!
-          );
-
-          await resultsPage.checkDisplayedIndicators(
-            allValidIndicators,
-            searchMode
-          );
-
-          await resultsPage.selectIndicatorCheckboxes(
-            expectedIndicatorIDsToSelect
-          );
-        });
-
-        await test.step(`check the results page and then view the chart page, checking that the displayed charts are correct`, async () => {
-          for (const selectedIndicator of expectedIndicatorIDsToSelect) {
-            selectedIndicatorsData = getIndicatorDataByIndicatorID(
-              typedIndicatorData,
-              selectedIndicator
+            await resultsPage.selectAreasFiltersIfRequired(
+              searchMode, // Only selects area filters if search mode is ONLY_SUBJECT
+              areaMode,
+              subjectSearchTerm!
             );
-          }
 
-          await resultsPage.checkRecentTrends(areaMode);
+            await resultsPage.checkDisplayedIndicators(
+              allValidIndicators,
+              searchMode
+            );
 
-          await resultsPage.clickViewChartsButton();
+            await resultsPage.selectIndicatorCheckboxes(
+              expectedIndicatorIDsToSelect
+            );
+          });
 
-          await chartPage.checkSelectedIndicatorPillsText(
-            selectedIndicatorsData
-          );
+          await test.step(`check the results page and then view the chart page, checking that the displayed charts are correct`, async () => {
+            for (const selectedIndicator of expectedIndicatorIDsToSelect) {
+              selectedIndicatorsData = getIndicatorDataByIndicatorID(
+                typedIndicatorData,
+                selectedIndicator
+              );
+            }
 
-          await chartPage.checkOnChartPage();
+            await resultsPage.checkRecentTrends(areaMode);
 
-          await chartPage.checkChartVisibility(
-            indicatorMode,
-            areaMode,
-            test,
-            selectedIndicatorsData
-          );
+            await resultsPage.clickViewChartsButton();
+
+            await chartPage.checkSelectedIndicatorPillsText(
+              selectedIndicatorsData
+            );
+
+            await chartPage.checkOnChartPage();
+
+            await chartPage.checkChartVisibility(
+              indicatorMode,
+              areaMode,
+              test,
+              selectedIndicatorsData
+            );
+          });
         });
-      });
-    }
-  );
-});
+      }
+    );
+  }
+);
 
 // log out current url when a test fails
 test.afterEach(async ({ page }, testInfo) => {

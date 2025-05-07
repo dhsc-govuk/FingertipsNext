@@ -37,6 +37,12 @@ export enum AreaMode {
   ENGLAND_AREA = 'ENGLAND_AREA',
 }
 
+// Tags to mark when certain tests should be run
+export enum TestTag {
+  CI = '@ci',
+  CD = '@cd',
+}
+
 type componentProps = {
   hasConfidenceIntervals?: boolean;
   isTabTable?: boolean;

@@ -74,6 +74,24 @@ exports[`AI search index creation and data loading Search by area should have co
     "vectorEncoding": null,
     "vectorSearchProfile": null,
   },
+  {
+    "analyzer": null,
+    "dimensions": null,
+    "facetable": false,
+    "filterable": true,
+    "indexAnalyzer": null,
+    "key": false,
+    "name": "postcode",
+    "retrievable": true,
+    "searchAnalyzer": null,
+    "searchable": true,
+    "sortable": true,
+    "stored": true,
+    "synonymMaps": [],
+    "type": "Edm.String",
+    "vectorEncoding": null,
+    "vectorSearchProfile": null,
+  },
 ]
 `;
 
