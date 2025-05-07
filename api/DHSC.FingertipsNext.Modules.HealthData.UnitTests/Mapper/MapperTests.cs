@@ -1,4 +1,5 @@
-﻿using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
+﻿using System.Collections;
+using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 using DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 using Shouldly;
@@ -188,7 +189,6 @@ public class MapperTests
         actual.ShouldBeEquivalentTo(expectedPolarity);
     }
     
-    // TODO: Test Benchmark Mapper
     [Theory]
     [InlineData("Confidence intervals overlapping reference value (95.0)",BenchmarkComparisonMethod.CIOverlappingReferenceValue95)]
     [InlineData("Confidence intervals overlapping reference value (99.8)",BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8)]
@@ -208,5 +208,45 @@ public class MapperTests
         // Assert
         actual.ShouldBeEquivalentTo(expectedBenchmarkComparisonMethod);
     }
-    // TODO: Test Quartiles Mapper
+    
+    [Fact]
+    public void Mapper_ShouldMapQuartileDataModel_ToIndicatorQuartileData()
+    {
+        // Arrange
+        var quartileData = new QuartileDataModel
+        {
+            IndicatorId = 0,
+            Polarity = "High is good",
+            Year = 2024,
+            Q0Value = 10,
+            Q1Value = 20,
+            Q2Value = 30,
+            Q3Value = 40,
+            Q4Value = 50,
+            AreaValue = 100,
+            AncestorValue = 200,
+            EnglandValue = 300
+        };
+
+        var expectedquartileData = new IndicatorQuartileData
+        {
+            IndicatorId = 0,
+            Polarity = IndicatorPolarity.HighIsGood,
+            Year = 2024,
+            Q0Value = 10,
+            Q1Value = 20,
+            Q2Value = 30,
+            Q3Value = 40,
+            Q4Value = 50,
+            AreaValue = 100,
+            AncestorValue = 200,
+            EnglandValue = 300
+        };
+
+        // Act
+        var actual = _mapper.Map(quartileData);
+        
+        // Assert
+        actual.ShouldBeEquivalentTo(expectedquartileData);
+    }
 }
