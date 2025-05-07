@@ -27,7 +27,7 @@ export class AreaSearchService implements IAreaSearchService {
       partialAreaName,
       AREA_SEARCH_SUGGESTER_NAME,
       {
-        searchFields: ['areaCode', 'areaName'],
+        searchFields: ['areaCode', 'areaName', 'postcode'],
         select: ['areaCode', 'areaType', 'areaName'],
         useFuzzyMatching: false,
         top: 20,
