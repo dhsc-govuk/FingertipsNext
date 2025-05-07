@@ -90,10 +90,7 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
     });
 
     await test.step('Select single indicator and let default to England, and check on charts page', async () => {
-      await resultsPage.selectIndicatorCheckboxes(
-        filteredIndicatorIds,
-        indicatorMode
-      );
+      await resultsPage.selectIndicatorCheckboxes(filteredIndicatorIds);
 
       await resultsPage.clickViewChartsButton();
 
@@ -267,10 +264,7 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
     });
 
     await test.step('Select single indicator, and verify url is updated to include indicator', async () => {
-      await resultsPage.selectIndicatorCheckboxes(
-        filteredIndicatorIds,
-        indicatorMode
-      );
+      await resultsPage.selectIndicatorCheckboxes(filteredIndicatorIds);
 
       await test.expect(resultsPage.page).toHaveURL(/&is=/);
     });

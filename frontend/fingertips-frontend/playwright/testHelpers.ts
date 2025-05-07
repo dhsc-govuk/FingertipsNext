@@ -13,6 +13,7 @@ export interface TestParams {
   indicatorMode: IndicatorMode;
   areaMode: AreaMode;
   searchMode: SearchMode;
+  expectedIndicatorIDsToSelect: string[];
   subjectSearchTerm?: string;
 }
 

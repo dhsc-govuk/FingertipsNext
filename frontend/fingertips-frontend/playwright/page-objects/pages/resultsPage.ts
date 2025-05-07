@@ -2,8 +2,6 @@ import { SearchParams } from '@/lib/searchStateManager';
 import { expect } from '../pageFactory';
 import {
   AreaMode,
-  IndicatorMode,
-  returnIndicatorIDsByIndicatorMode,
   SearchMode,
   SimpleIndicatorDocument,
 } from '@/playwright/testHelpers';
@@ -98,19 +96,14 @@ export default class ResultsPage extends AreaFilter {
   }
 
   /**
-   * Selects the required number of indicators based on the indicator mode and checks the URL has been updated after each selection.
-   * Note that we trust, and therefore test, the fingertips UI to only show us valid indicators based on the areas selected by the
-   * test function selectAreasFilters. If the UI allows us to select invalid area + indicator combinations, then the chart page will error.
-   *
-   * @param allIndicators - a list of all possible indicators which the function can filter down to the correct number of indicators to select
-   * @param indicatorMode - indicator mode from the Enum IndicatorMode - used to decide how many indicators to select
+   * Checks that the displayed indicators are correct based on what was searched for
+   * @param allValidIndicators - a list of all valid indicators for the searched for criteria
    */
-  async selectIndicatorCheckboxes(
-    allIndicators: SimpleIndicatorDocument[] | string[],
-    indicatorMode: IndicatorMode
-  ): Promise<string[]> {
-    const filteredByDisplayIndicatorIds: string[] = [];
-
+  async checkDisplayedIndicators(
+    allValidIndicators: SimpleIndicatorDocument[],
+    searchMode: SearchMode
+  ) {
+    // wait for indicator checkboxes to be visible
     expect(
       await this.page
         .getByTestId(this.indicatorCheckboxContainer)
@@ -118,29 +111,38 @@ export default class ResultsPage extends AreaFilter {
         .count()
     ).toBeGreaterThan(1);
 
-    // filter down the full list of indicators passed to this method to just the ones displayed on the page
-    const displayedIndicatorCheckboxList = await this.page
-      .getByTestId(this.indicatorCheckboxContainer)
-      .getByRole('checkbox')
-      .all();
+    if (searchMode != SearchMode.ONLY_AREA) {
+      // get a list of all the displayed indicator checkboxes
+      const displayedIndicatorCheckboxList = await this.page
+        .getByTestId(this.indicatorCheckboxContainer)
+        .getByRole('checkbox')
+        .all();
 
-    for (const checkbox of displayedIndicatorCheckboxList) {
-      const indicatorDataTestID = await checkbox.getAttribute('value');
-      if (
-        indicatorDataTestID &&
-        JSON.stringify(allIndicators).includes(indicatorDataTestID)
-      ) {
-        filteredByDisplayIndicatorIds.push(indicatorDataTestID);
+      // check that the displayed indicator IDs are valid for the searched for criteria
+      for (const checkbox of displayedIndicatorCheckboxList) {
+        const indicatorDataTestID = await checkbox.getAttribute('value');
+        if (
+          indicatorDataTestID &&
+          !JSON.stringify(allValidIndicators).includes(indicatorDataTestID)
+        ) {
+          throw new Error(
+            'The indicator ID displayed is not valid for the searched for criteria'
+          );
+        }
       }
     }
-    // then filter down the list of displayed indicators to the correct number for the passed indicator mode
-    const filteredByIndicatorModeIndicatorIds: string[] =
-      returnIndicatorIDsByIndicatorMode(
-        filteredByDisplayIndicatorIds,
-        indicatorMode
-      );
+  }
 
-    for (const indicatorID of filteredByIndicatorModeIndicatorIds) {
+  /**
+   * Selects the required number of indicators based on the indicator mode and checks the URL has been updated after each selection.
+   * Note that we trust, and therefore test, the fingertips UI to only show us valid indicators based on the areas selected by the
+   * test function selectAreasFilters. If the UI allows us to select invalid area + indicator combinations, then the chart page will error.
+   *
+   * @param allIndicators - a list of all possible indicators which the function can filter down to the correct number of indicators to select
+   * @param indicatorMode - indicator mode from the Enum IndicatorMode - used to decide how many indicators to select
+   */
+  async selectIndicatorCheckboxes(expectedIndicatorIDsToSelect: string[]) {
+    for (const indicatorID of expectedIndicatorIDsToSelect) {
       const checkbox = this.page.getByTestId(
         `${this.indicatorCheckboxPrefix}-${indicatorID}`
       );
@@ -156,7 +158,6 @@ export default class ResultsPage extends AreaFilter {
       await expect(checkbox).toBeChecked();
       await this.waitForURLToContain(indicatorID);
     }
-    return filteredByIndicatorModeIndicatorIds;
   }
 
   async checkIndicatorCheckboxChecked(indicatorId: string) {
