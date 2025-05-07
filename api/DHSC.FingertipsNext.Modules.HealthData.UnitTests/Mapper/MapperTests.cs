@@ -188,6 +188,25 @@ public class MapperTests
         actual.ShouldBeEquivalentTo(expectedPolarity);
     }
     
-    // TODO: Test Quartiles Mapper
     // TODO: Test Benchmark Mapper
+    [Theory]
+    [InlineData("Confidence intervals overlapping reference value (95.0)",BenchmarkComparisonMethod.CIOverlappingReferenceValue95)]
+    [InlineData("Confidence intervals overlapping reference value (99.8)",BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8)]
+    [InlineData("Quintiles",BenchmarkComparisonMethod.Quintiles)]
+    [InlineData(null,BenchmarkComparisonMethod.Unknown)]
+    public void Mapper_ShouldMapAnIndicatorDimensionModelBenchmarkComparisonMethod_ToABenchmarkComparisonMethod(string modelBenchmarkComparisonMethod, BenchmarkComparisonMethod expectedBenchmarkComparisonMethod)
+    {
+        // Arrange
+        var indicator = new IndicatorDimensionModel
+        {
+            BenchmarkComparisonMethod = modelBenchmarkComparisonMethod
+        };
+
+        // Act
+        var actual = _mapper.MapBenchmarkComparisonMethod(indicator.BenchmarkComparisonMethod);
+
+        // Assert
+        actual.ShouldBeEquivalentTo(expectedBenchmarkComparisonMethod);
+    }
+    // TODO: Test Quartiles Mapper
 }
