@@ -2,6 +2,95 @@
 
 exports[`snapshot test 1`] = `
 <DocumentFragment>
+  .c0 {
+  color: #0b0c0c;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.0416666666666667;
+  display: block;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.c1 {
+  font-size: 1.5rem;
+  margin-top: 1rem;
+}
+
+@media print {
+  .c0 {
+    color: #000;
+  }
+}
+
+@media print {
+  .c0 {
+    font-size: 24px;
+    line-height: 1.05;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    font-size: 36px;
+    line-height: 1.1111111111111112;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    margin-bottom: 30px;
+  }
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+<h2
+    class="c0 c1"
+  >
+    Compare indicators by areas
+  </h2>
   .c4 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -196,6 +285,22 @@ exports[`snapshot test 1`] = `
   font-family: nta,Arial,sans-serif;
   font-weight: 300;
   font-size: 19px;
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
 }
 
 @media print {
@@ -562,6 +667,22 @@ exports[`snapshot test 1`] = `
 .c0 {
   overflow-y: visible;
   overflow-x: scroll;
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
 }
 
 @media print {
