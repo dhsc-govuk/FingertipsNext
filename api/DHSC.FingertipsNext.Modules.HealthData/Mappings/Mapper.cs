@@ -35,26 +35,26 @@ public class Mapper : IMapper
         if (source == null)
             return null;
 
-        var outcomeDict = new Dictionary<string, BenchmarkOutcome>
-        {
-            {"NOT COMPARED", BenchmarkOutcome.NotCompared},
-            {"LOWEST", BenchmarkOutcome.Lowest},
-            {"LOWER", BenchmarkOutcome.Lower},
-            {"LOW", BenchmarkOutcome.Low},
-            {"MIDDLE", BenchmarkOutcome.Middle},
-            {"HIGH", BenchmarkOutcome.High},
-            {"HIGHER", BenchmarkOutcome.Higher},
-            {"HIGHEST", BenchmarkOutcome.Highest},
-            {"BETTER", BenchmarkOutcome.Better},
-            {"BEST", BenchmarkOutcome.Best},
-            {"WORSE", BenchmarkOutcome.Worse},
-            {"WORST", BenchmarkOutcome.Worst},
-            {"SIMILAR", BenchmarkOutcome.Similar}
-        };
-
         return new BenchmarkComparison
         {
-            Outcome = outcomeDict[source.Outcome],
+            Outcome = source.Outcome switch 
+            {
+                "NOT COMPARED" => BenchmarkOutcome.NotCompared,
+                "LOWEST" => BenchmarkOutcome.Lowest,
+                "LOWER" => BenchmarkOutcome.Lower,
+                "LOW" => BenchmarkOutcome.Low,
+                "MIDDLE" => BenchmarkOutcome.Middle,
+                "HIGH" => BenchmarkOutcome.High,
+                "HIGHER" => BenchmarkOutcome.Higher,
+                "HIGHEST" => BenchmarkOutcome.Highest,
+                "BETTER" => BenchmarkOutcome.Better,
+                "BEST" => BenchmarkOutcome.Best,
+                "WORSE" => BenchmarkOutcome.Worse,
+                "WORST" => BenchmarkOutcome.Worst,
+                "SIMILAR" => BenchmarkOutcome.Similar,
+                _ => BenchmarkOutcome.NotCompared,
+
+            },
             BenchmarkAreaCode = source.BenchmarkAreaCode,
             BenchmarkAreaName = source.BenchmarkAreaName,
         };
