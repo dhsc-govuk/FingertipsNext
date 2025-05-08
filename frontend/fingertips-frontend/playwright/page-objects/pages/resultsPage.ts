@@ -308,4 +308,24 @@ export default class ResultsPage extends AreaFilter {
         .getByRole('link', { name: 'View background information' })
     );
   }
+
+  async verifyNumberOfResults(expectedResultCount: number) {
+    expect(this.page.getByTestId(this.searchResult)).toHaveCount(
+      expectedResultCount
+    );
+  }
+
+  async verifyFirstResultHasName(expectedResultName: string) {
+    expect(this.page.getByTestId(this.searchResult).count()).toBeGreaterThan(1);
+    expect(this.page.getByTestId(this.searchResult).first()).toHaveText(
+      expectedResultName
+    );
+  }
+
+  async verifyResultsContainText(expectedResultName: string) {
+    expect(this.page.getByTestId(this.searchResult).count()).toBeGreaterThan(1);
+    expect(this.page.getByTestId(this.searchResult)).toHaveText(
+      expectedResultName
+    );
+  }
 }
