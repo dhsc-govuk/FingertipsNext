@@ -111,25 +111,24 @@ export default class HomePage extends AreaFilter {
     );
   }
 
-  async checkAreaSuggestionPanelContainsItems(
-    areaSearchTerm: string,
-    results: string[]
-  ) {
+  async searchForArea(areaSearchTerm: string) {
     await this.fillAndAwaitLoadingComplete(
       this.page.getByTestId(this.areaSearchField).getByRole('textbox'),
       areaSearchTerm
     );
+  }
 
+  async checkAreaSuggestionPanelContainsAreas(expectedAreas: string[]) {
     await expect(
       this.page.getByTestId(this.suggestedAreasPanel).getByRole('listitem')
-    ).toHaveCount(results.length);
-    results.forEach(async (result, index) => {
+    ).toHaveCount(expectedAreas.length);
+    expectedAreas.forEach(async (area, index) => {
       await expect(
         this.page
           .getByTestId(this.suggestedAreasPanel)
           .getByRole('listitem')
           .nth(index)
-      ).toContainText(result);
+      ).toContainText(area);
     });
   }
 }
