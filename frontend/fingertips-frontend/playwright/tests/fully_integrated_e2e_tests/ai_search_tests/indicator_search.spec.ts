@@ -17,7 +17,7 @@ test.describe(
       homePage,
       resultsPage,
     }) => {
-      test.step('do the thing', async () => {
+      test.step('search for an indicator by ID and check results', async () => {
         await homePage.searchForIndicators(SearchMode.ONLY_SUBJECT, '93763');
         await homePage.clickSearchButton();
 
@@ -33,7 +33,7 @@ test.describe(
       const indicatorName =
         'Emergency hospital admissions due to falls aged 65 years and over';
 
-      test.step('do the thing', async () => {
+      test.step('search for an indicator by exact name and check results', async () => {
         await homePage.searchForIndicators(
           SearchMode.ONLY_SUBJECT,
           indicatorName
@@ -44,8 +44,11 @@ test.describe(
       });
     });
 
-    test('searching by ', async ({ homePage, resultsPage }) => {
-      test.step('do the thing', async () => {
+    test('searches with a minor spelling or punctuation error should return relevant results', async ({
+      homePage,
+      resultsPage,
+    }) => {
+      test.step('search for an indicator with missing apostrophe and check results', async () => {
         await homePage.searchForIndicators(
           SearchMode.ONLY_SUBJECT,
           'Alzheimers'
