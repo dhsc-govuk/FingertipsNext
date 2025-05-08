@@ -29,6 +29,21 @@ public class Mapper : IMapper
             _ => BenchmarkComparisonMethod.Unknown,
         };
     }
+    
+    public HealthDataPoint Map(HealthMeasureModel source)
+    {
+        return MapNotNull(source);
+    }
+       
+    public List<HealthDataPoint> Map(IList<HealthMeasureModel> source)
+    {
+        return source.Select(MapNotNull).ToList();
+    }
+    
+    public List<IndicatorQuartileData> Map(IList<QuartileDataModel> source)
+    {
+        return source.Select(MapNotNull).ToList();
+    }
 
     private static BenchmarkComparison? Map(BenchmarkComparisonModel? source)
     {
@@ -84,28 +99,8 @@ public class Mapper : IMapper
     {
         return new Sex { Value = source.Name, IsAggregate = source.IsAggregate };
     }
-
-    public HealthDataPoint Map(HealthMeasureModel source)
-    {
-        return MapNotNull(source);
-    }
-   
-    public List<HealthDataPoint> Map(IList<HealthMeasureModel> source)
-    {
-        return source.Select(MapNotNull).ToList();
-    }
-
-    // public IndicatorQuartileData? Map(QuartileDataModel? source)
-    // {
-    //     return source == null ? null : MapNotNull(source);
-    // }
     
-    public List<IndicatorQuartileData> Map(IList<QuartileDataModel> source)
-         {
-             return source.Select(MapNotNull).ToList();
-         }
-    
-    private HealthDataPoint MapNotNull(HealthMeasureModel source)
+    private static HealthDataPoint MapNotNull(HealthMeasureModel source)
     {
         return new HealthDataPoint
             {

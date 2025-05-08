@@ -616,7 +616,8 @@ public class IndicatorServiceTests
                         Name = "Name",
                         Code = "SomeCode",
                         AreaKey = 4,
-                    }
+                    },
+                    SexDimension = new SexDimensionModel()
                 }
             };
 
