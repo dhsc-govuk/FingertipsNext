@@ -74,6 +74,12 @@ it('should render the SearchForm component', () => {
   expect(searchForm).toBeInTheDocument();
 });
 
+it('should render the project version', () => {
+  setupUI();
+  const version = screen.getByTestId('project-version');
+  expect(version).toBeInTheDocument();
+});
+
 it('should display the error summary component when there is a validation error', () => {
   const errorState: SearchFormState = {
     indicator: '',
