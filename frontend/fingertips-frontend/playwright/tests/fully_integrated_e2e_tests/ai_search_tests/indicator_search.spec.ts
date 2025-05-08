@@ -17,8 +17,12 @@ test.describe(
       homePage,
       resultsPage,
     }) => {
-      test.step('search for an indicator by ID and check results', async () => {
-        await homePage.searchForIndicators(SearchMode.ONLY_SUBJECT, '93763');
+      await test.step('search for an indicator by ID and check results', async () => {
+        const subjectSearchTerm = '93763';
+        await homePage.searchForIndicators(
+          SearchMode.ONLY_SUBJECT,
+          subjectSearchTerm
+        );
         await homePage.clickSearchButton();
 
         await resultsPage.checkNumberOfResults(1);
@@ -30,17 +34,17 @@ test.describe(
       homePage,
       resultsPage,
     }) => {
-      const indicatorName =
+      const subjectSearchTerm =
         'Emergency hospital admissions due to falls aged 65 years and over';
 
-      test.step('search for an indicator by exact name and check results', async () => {
+      await test.step('search for an indicator by exact name and check results', async () => {
         await homePage.searchForIndicators(
           SearchMode.ONLY_SUBJECT,
-          indicatorName
+          subjectSearchTerm
         );
         await homePage.clickSearchButton();
 
-        await resultsPage.checkFirstResultHasName(indicatorName);
+        await resultsPage.checkFirstResultHasName(subjectSearchTerm);
       });
     });
 
@@ -48,14 +52,16 @@ test.describe(
       homePage,
       resultsPage,
     }) => {
-      test.step('search for an indicator with missing apostrophe and check results', async () => {
+      await test.step('search for an indicator with missing apostrophe and check results', async () => {
+        const subjectSearchTerm = 'Alzheimers';
+
         await homePage.searchForIndicators(
           SearchMode.ONLY_SUBJECT,
-          'Alzheimers'
+          subjectSearchTerm
         );
         await homePage.clickSearchButton();
 
-        await resultsPage.checkResultsContainText("Alzheimer's");
+        await resultsPage.checkAnyResultNameContainsText("Alzheimer's");
       });
     });
   }

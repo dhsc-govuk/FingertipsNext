@@ -316,16 +316,23 @@ export default class ResultsPage extends AreaFilter {
   }
 
   async checkFirstResultHasName(expectedResultName: string) {
-    expect(this.page.getByTestId(this.searchResult).count()).toBeGreaterThan(1);
-    expect(this.page.getByTestId(this.searchResult).first()).toHaveText(
-      expectedResultName
-    );
+    expect(
+      await this.page.getByTestId(this.searchResult).count()
+    ).toBeGreaterThan(0);
+    expect(
+      this.page.getByTestId(this.searchResult).first().getByRole('heading')
+    ).toHaveText(expectedResultName);
   }
 
-  async checkResultsContainText(expectedResultName: string) {
-    expect(this.page.getByTestId(this.searchResult).count()).toBeGreaterThan(1);
-    expect(this.page.getByTestId(this.searchResult)).toHaveText(
-      expectedResultName
-    );
+  async checkAnyResultNameContainsText(expectedResultName: string) {
+    expect(
+      await this.page.getByTestId(this.searchResult).count()
+    ).toBeGreaterThan(0);
+    expect(
+      this.page
+        .getByTestId(this.searchResult)
+        .getByRole('heading')
+        .getByText(expectedResultName)
+    ).toBeVisible();
   }
 }
