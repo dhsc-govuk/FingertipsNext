@@ -115,6 +115,7 @@ export default class ResultsPage extends AreaFilter {
       // get a list of all the displayed indicator checkboxes
       const displayedIndicatorCheckboxList = await this.page
         .getByTestId(this.indicatorCheckboxContainer)
+        .getByRole('list')
         .getByRole('checkbox')
         .all();
 
@@ -122,11 +123,12 @@ export default class ResultsPage extends AreaFilter {
       for (const checkbox of displayedIndicatorCheckboxList) {
         const indicatorDataTestID = await checkbox.getAttribute('value');
         if (
-          indicatorDataTestID &&
-          !JSON.stringify(allValidIndicators).includes(indicatorDataTestID)
+          !JSON.stringify(allValidIndicators).includes(
+            `"indicatorID":${indicatorDataTestID}`
+          )
         ) {
           throw new Error(
-            'The indicator ID displayed is not valid for the searched for criteria'
+            `The indicator ID: ${indicatorDataTestID} displayed is not valid for the searched for criteria.`
           );
         }
       }

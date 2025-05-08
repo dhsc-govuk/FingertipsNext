@@ -50,7 +50,6 @@ type componentProps = {
   hasTimePeriodDropDown?: boolean;
   hasTypeDropDown?: boolean;
   isWideComponent?: boolean;
-  hasDataSource?: boolean;
 };
 
 type component = {
