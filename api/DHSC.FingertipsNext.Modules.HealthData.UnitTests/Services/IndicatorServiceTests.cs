@@ -19,6 +19,8 @@ public class IndicatorServiceTests
 
     private readonly string expectedAreaCode = "Code1";
     private readonly string expectedAreaName = "Area 1";
+    private const string expectedAreaGroupCode = "AreaGroupCode";
+    private const string expectedAreaGroupName = "AreaGroupName";
     private readonly IndicatorDimensionModel testIndicator = new()
     {
         Name = "Name",
@@ -902,4 +904,42 @@ public class IndicatorServiceTests
         result.Content.AreaHealthData.ShouldBeEquivalentTo(expected);
         await _healthDataRepository.Received().GetAreasAsync(Arg.Is<string[]>(x => x.SequenceEqual(missingAreasCodes)));
     }
+
+    [Fact]
+    public async Task GetIndicatorData_ShouldReturnExpectedResult_BenchmarkRefIsAreaGroup_ForSingleAreaCode()
+    {
+        var healthMeasure1 =
+            new HealthMeasureModelHelper(year: 2023, lowerCi: 1, upperCi: 10, isAggregate: true)
+                .WithAreaDimension(expectedAreaCode, expectedAreaName).Build();
+
+        var mockHealthData = new List<HealthMeasureModel> { healthMeasure1 };
+
+        const string benchmarkAreaCode = expectedAreaGroupCode;
+        const string benchmarkAreaName = expectedAreaGroupName;
+        var healthMeasure2 = new HealthMeasureModelHelper(year: 2023, isAggregate: true, value: 5)
+            .WithAreaDimension(benchmarkAreaCode, benchmarkAreaName).Build();
+        mockHealthData.Add(healthMeasure2);
+
+        testIndicator.Polarity = IndicatorPolarity.HighIsGood.ToString();
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(testIndicator);
+        _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns(mockHealthData);
+
+        var result =
+            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], string.Empty, expectedAreaGroupCode, BenchmarkReferenceType.AreaGroup, [], []);
+        var areaDataResult = result.Content.AreaHealthData.ToList();
+        result.Content.AreaHealthData.ShouldNotBeEmpty();
+        result.Content.AreaHealthData.Count().ShouldBe(1);
+        areaDataResult[0].AreaCode.ShouldBeEquivalentTo(expectedAreaCode);
+        areaDataResult[0].AreaName.ShouldBeEquivalentTo(expectedAreaName);
+
+        areaDataResult[0].HealthData.First().BenchmarkComparison.ShouldBeEquivalentTo(
+            new BenchmarkComparison
+            {
+                Outcome = BenchmarkOutcome.Similar,
+                BenchmarkAreaCode = expectedAreaGroupCode,
+                BenchmarkAreaName = expectedAreaGroupName,
+                BenchmarkValue = 5
+            });
+    }
+
 }
