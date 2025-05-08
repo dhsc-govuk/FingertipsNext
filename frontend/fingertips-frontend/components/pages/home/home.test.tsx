@@ -74,6 +74,14 @@ it('should render the SearchForm component', () => {
   expect(searchForm).toBeInTheDocument();
 });
 
+it('should render the project version', () => {
+  process.env.FINGERTIPS_GIT_TAG = 'vXYZ';
+  process.env.FINGERTIPS_GIT_HASH = 'ABCD';
+  setupUI();
+  const version = screen.getByTestId('project-version');
+  expect(version).toBeInTheDocument();
+});
+
 it('should display the error summary component when there is a validation error', () => {
   const errorState: SearchFormState = {
     indicator: '',
