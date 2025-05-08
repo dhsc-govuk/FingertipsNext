@@ -84,7 +84,7 @@ describe('IndicatorSearchService', () => {
     });
 
     it('should call search client with fuzziness applied to words greater than 5', async () => {
-      const searchTerm = 'test-search with multiple words';
+      const searchTerm = 'test search with multiple words';
 
       const searchService = SearchServiceFactory.getIndicatorSearchService();
       await searchService.searchWith(searchTerm, false);
@@ -96,7 +96,7 @@ describe('IndicatorSearchService', () => {
       );
 
       expect(mockSearch).toHaveBeenLastCalledWith(
-        'indicatorName:"test-search with multiple words"^2 test-search~ with multiple~ words',
+        'indicatorName:"test search with multiple words"^2 test search~ with multiple~ words',
         expect.objectContaining({
           queryType: 'full',
           includeTotalCount: true,
@@ -104,7 +104,7 @@ describe('IndicatorSearchService', () => {
       );
     });
 
-    it('should call search client with correct paramters for a numeric search term', async () => {
+    it('should call search client with correct parameters for a numeric search term', async () => {
       const searchTerm = '1234';
 
       const searchService = SearchServiceFactory.getIndicatorSearchService();
