@@ -1,5 +1,6 @@
 export const INDICATOR_SEARCH_SCORING_PROFILE = 'basicScoringProfile';
 export const AREA_SEARCH_SUGGESTER_NAME = 'areaSuggester';
+export const INDICATOR_SEARCH_SYNONYM_MAP_NAME = 'indicator-search-synonym-map'
 
 export const INDICATOR_SEARCH_INDEX_NAME = 'indicator-search-index';
 export const AREA_SEARCH_INDEX_NAME = 'area-search-index';
