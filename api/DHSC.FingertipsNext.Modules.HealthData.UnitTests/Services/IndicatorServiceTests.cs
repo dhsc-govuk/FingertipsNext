@@ -608,7 +608,7 @@ public class IndicatorServiceTests
             BenchmarkComparisonMethod = testMethod
         };
         var mockHealthData = new List<HealthMeasureModel>
-            { new HealthMeasureModel
+            { new()
                 {
                     AreaKey = 4,
                     AreaDimension = new AreaDimensionModel()
@@ -617,7 +617,10 @@ public class IndicatorServiceTests
                         Code = "SomeCode",
                         AreaKey = 4,
                     },
-                    SexDimension = new SexDimensionModel()
+                    SexDimension = new SexDimensionModel(),
+                    DeprivationDimension = new DeprivationDimensionModel(),
+                    AgeDimension = new AgeDimensionModel()
+                    
                 }
             };
 

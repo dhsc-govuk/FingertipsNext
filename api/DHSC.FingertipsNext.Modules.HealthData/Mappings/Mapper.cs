@@ -17,7 +17,7 @@ public class Mapper : IMapper
         };
     }
 
-    public BenchmarkComparisonMethod MapBenchmarkComparisonMethod(string? source)
+    public BenchmarkComparisonMethod MapBenchmarkComparisonMethod(string source)
     {
         return source switch
         {
@@ -32,21 +32,35 @@ public class Mapper : IMapper
     
     public HealthDataPoint Map(HealthMeasureModel source)
     {
-        return MapNotNull(source);
+        return new HealthDataPoint
+        {
+            Count = (float?)source.Count,
+            Value = (float?)source.Value,
+            Year = source.Year,
+            BenchmarkComparison = Map(source.BenchmarkComparison),
+            IsAggregate = source.IsAggregate,
+            LowerConfidenceInterval = (float?)source.LowerCi,
+            UpperConfidenceInterval = (float?)source.UpperCi,
+            AgeBand = Map(source.AgeDimension),
+            Sex = Map(source.SexDimension),
+            Trend = source.TrendDimension?.Name,
+            Deprivation = Map(source.DeprivationDimension),
+        };
     }
        
     public List<HealthDataPoint> Map(IList<HealthMeasureModel> source)
     {
-        return source.Select(MapNotNull).ToList();
+        return source.Select(Map).ToList();
     }
     
     public List<IndicatorQuartileData> Map(IList<QuartileDataModel> source)
     {
-        return source.Select(MapNotNull).ToList();
+        return source.Select(Map).ToList();
     }
 
     private static BenchmarkComparison? Map(BenchmarkComparisonModel? source)
     {
+        // HealthMeasureModel allows nullable
         if (source == null)
             return null;
 
@@ -75,11 +89,9 @@ public class Mapper : IMapper
         };
     }
 
-    private static Deprivation? Map(DeprivationDimensionModel? source)
+    private static Deprivation Map(DeprivationDimensionModel source)
     {
-        return source == null
-            ? null
-            : new Deprivation
+        return new Deprivation
         {
             Value = source.Name,
             Sequence = source.Sequence,
@@ -88,37 +100,17 @@ public class Mapper : IMapper
         };
     }
 
-    private static Age? Map(AgeDimensionModel? source)
+    private static Age Map(AgeDimensionModel source)
     {
-        return source == null
-            ? null
-            : new Age { Value = source.Name, IsAggregate = source.IsAggregate };
+        return new Age { Value = source.Name, IsAggregate = source.IsAggregate };
     }
 
     private static Sex Map(SexDimensionModel source)
     {
         return new Sex { Value = source.Name, IsAggregate = source.IsAggregate };
     }
-    
-    private static HealthDataPoint MapNotNull(HealthMeasureModel source)
-    {
-        return new HealthDataPoint
-            {
-                Count = (float?)source.Count,
-                Value = (float?)source.Value,
-                Year = source.Year,
-                BenchmarkComparison = Map(source.BenchmarkComparison),
-                IsAggregate = source.IsAggregate,
-                LowerConfidenceInterval = (float?)source.LowerCi,
-                UpperConfidenceInterval = (float?)source.UpperCi,
-                AgeBand = Map(source.AgeDimension),
-                Sex = Map(source.SexDimension),
-                Trend = source.TrendDimension?.Name,
-                Deprivation = Map(source.DeprivationDimension),
-            };
-    }
 
-    private IndicatorQuartileData MapNotNull(QuartileDataModel source)
+    private IndicatorQuartileData Map(QuartileDataModel source)
     {
         return new IndicatorQuartileData
         {
