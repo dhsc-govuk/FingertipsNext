@@ -75,6 +75,8 @@ it('should render the SearchForm component', () => {
 });
 
 it('should render the project version', () => {
+  process.env.FINGERTIPS_GIT_TAG = 'vXYZ';
+  process.env.FINGERTIPS_GIT_HASH = 'ABCD';
   setupUI();
   const version = screen.getByTestId('project-version');
   expect(version).toBeInTheDocument();
