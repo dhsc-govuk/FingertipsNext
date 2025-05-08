@@ -35,14 +35,18 @@ export default class AreaFilter extends BasePage {
     return Promise.all(pillFilterNames.map(async (l) => await l.textContent()));
   }
 
-  async checkSelectedIndicatorPillsText(
-    expectedPillText: SimpleIndicatorDocument[]
-  ) {
-    const pillElements = await this.page
+  indicatorPills() {
+    return this.page
       .getByTestId(this.selectedIndicatorContainer)
       .getByTestId(this.pillContainer)
       .getByTestId(this.filterName)
       .all();
+  }
+
+  async checkSelectedIndicatorPillsText(
+    expectedPillText: SimpleIndicatorDocument[]
+  ) {
+    const pillElements = await this.indicatorPills();
 
     const pillTexts = await Promise.all(
       pillElements.map((pill) => pill.textContent())

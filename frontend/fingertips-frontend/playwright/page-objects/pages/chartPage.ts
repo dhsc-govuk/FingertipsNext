@@ -120,7 +120,7 @@ export default class ChartPage extends AreaFilter {
       });
     }
     // and check that the data source is not displayed for the other indicator modes
-    if (indicatorMode != IndicatorMode.ONE_INDICATOR) {
+    if (indicatorMode !== IndicatorMode.ONE_INDICATOR) {
       expect(this.page.getByTestId(`data-source`)).not.toBeAttached();
     }
 

@@ -122,8 +122,10 @@ export default class ResultsPage extends AreaFilter {
       // check that the displayed indicator IDs are valid for the searched for criteria
       for (const checkbox of displayedIndicatorCheckboxList) {
         const indicatorDataTestID = await checkbox.getAttribute('value');
+        const stringifiedAllValidIndicators =
+          JSON.stringify(allValidIndicators);
         if (
-          !JSON.stringify(allValidIndicators).includes(
+          !stringifiedAllValidIndicators.includes(
             `"indicatorID":${indicatorDataTestID}`
           )
         ) {

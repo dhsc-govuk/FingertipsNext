@@ -164,10 +164,12 @@ test.describe(
 
           await test.step(`check the results page and then view the chart page, checking that the displayed charts are correct`, async () => {
             for (const selectedIndicator of expectedIndicatorIDsToSelect) {
-              selectedIndicatorsData = getIndicatorDataByIndicatorID(
+              const indicatorDataArray = getIndicatorDataByIndicatorID(
                 typedIndicatorData,
                 selectedIndicator
               );
+
+              selectedIndicatorsData = [...indicatorDataArray];
             }
 
             await resultsPage.checkRecentTrends(areaMode);
