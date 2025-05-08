@@ -2,6 +2,7 @@ import {
   AREA_SEARCH_INDEX_NAME,
   AREA_SEARCH_SUGGESTER_NAME,
   INDICATOR_SEARCH_INDEX_NAME,
+  INDICATOR_SEARCH_SYNONYM_MAP_NAME,
 } from '../src/constants';
 import {
   AutoCompleteResult,
@@ -134,6 +135,42 @@ describe('AI search index creation and data loading', () => {
       const response = await searchIndicatorsRequest('65', ['E07000117']);
       const result = await response.json();
       expect(result.value).toHaveLength(1);
+    });
+
+    describe('synonym map', () => {
+      it('should create synonym map', async () => {
+        const url = `${searchEndpoint}/synonymmaps/${INDICATOR_SEARCH_SYNONYM_MAP_NAME}${URL_SUFFIX}`;
+        const response = await fetch(url, {
+          headers: {
+            'api-key': apiKey,
+          },
+        });
+        const result = await response.json();
+        expect(result.name).toBe(INDICATOR_SEARCH_SYNONYM_MAP_NAME);
+        expect(result.synonyms).toMatchSnapshot();
+      });
+
+      it('should search by synonyms', async () => {
+        const wordResponse = await searchIndicatorsRequest('chd');
+        const wordResult = await wordResponse.json();
+        const synonymResponse = await searchIndicatorsRequest('disease');
+        const synonymResult = await synonymResponse.json();
+
+        const expectedIndicatorNames: string[] = wordResult.value.map(
+          (indicatorResult: { indicatorName: string }) =>
+            indicatorResult.indicatorName
+        );
+        const synonymIndicatorNames = synonymResult.value.map(
+          (indicatorResults: { indicatorName: string }) =>
+            indicatorResults.indicatorName
+        );
+
+        expect(
+          expectedIndicatorNames.some((indicatorName) =>
+            synonymIndicatorNames.includes(indicatorName)
+          )
+        ).toBe(true);
+      });
     });
   });
 
