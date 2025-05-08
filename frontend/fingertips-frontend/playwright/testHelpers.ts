@@ -9,11 +9,16 @@ export type SimpleIndicatorDocument = {
   dataSource: string;
 };
 
+export interface IndicatorInfo {
+  indicatorID: string;
+  knownTrend?: string; // we only display trends for areaMode === AreaMode.ONE_AREA || AreaMode.ALL_AREAS_IN_A_GROUP || AreaMode.ENGLAND_AREA;
+}
+
 export interface TestParams {
   indicatorMode: IndicatorMode;
   areaMode: AreaMode;
   searchMode: SearchMode;
-  expectedIndicatorIDsToSelect: string[];
+  indicatorsToSelect: IndicatorInfo[];
   subjectSearchTerm?: string;
 }
 

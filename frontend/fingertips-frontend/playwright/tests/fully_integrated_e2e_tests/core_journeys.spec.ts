@@ -21,6 +21,7 @@ const areaSearchTerm: AreaDocument = {
 };
 let allValidIndicators: SimpleIndicatorDocument[] = [];
 let selectedIndicatorsData: SimpleIndicatorDocument[] = [];
+const tags = [TestTag.CI, TestTag.CD];
 
 const coreTestJourneys: TestParams[] = [
   {
@@ -28,55 +29,108 @@ const coreTestJourneys: TestParams[] = [
     areaMode: AreaMode.ENGLAND_AREA,
     searchMode: SearchMode.ONLY_SUBJECT,
     subjectSearchTerm: '22401', // test searching for a specific indicatorID
-    expectedIndicatorIDsToSelect: ['22401'],
+    indicatorsToSelect: [
+      {
+        indicatorID: '22401',
+        knownTrend: 'Decreasing and getting better',
+      },
+    ],
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ONE_AREA,
     searchMode: SearchMode.BOTH_SUBJECT_AND_AREA,
     subjectSearchTerm: 'emergency',
-    expectedIndicatorIDsToSelect: ['41101'],
+    indicatorsToSelect: [
+      {
+        indicatorID: '41101',
+        knownTrend: 'No recent trend data available',
+      },
+    ],
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.THREE_PLUS_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'emergency',
-    expectedIndicatorIDsToSelect: ['41101'],
+    indicatorsToSelect: [
+      {
+        indicatorID: '41101',
+      },
+    ],
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
     searchMode: SearchMode.ONLY_SUBJECT,
     subjectSearchTerm: 'emergency',
-    expectedIndicatorIDsToSelect: ['41101'],
+    indicatorsToSelect: [
+      {
+        indicatorID: '41101',
+        knownTrend: 'No recent trend data available',
+      },
+    ],
   },
   {
     indicatorMode: IndicatorMode.TWO_INDICATORS,
     areaMode: AreaMode.ENGLAND_AREA,
     searchMode: SearchMode.ONLY_SUBJECT,
     subjectSearchTerm: 'emergency',
-    expectedIndicatorIDsToSelect: ['41101', '22401'],
+    indicatorsToSelect: [
+      {
+        indicatorID: '41101',
+        knownTrend: 'No recent trend data available',
+      },
+      {
+        indicatorID: '22401',
+        knownTrend: 'Decreasing and getting better',
+      },
+    ],
   },
   {
     indicatorMode: IndicatorMode.TWO_INDICATORS,
     areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
     searchMode: SearchMode.ONLY_SUBJECT,
     subjectSearchTerm: 'emergency',
-    expectedIndicatorIDsToSelect: ['41101', '22401'],
+    indicatorsToSelect: [
+      {
+        indicatorID: '41101',
+        knownTrend: 'No recent trend data available',
+      },
+      {
+        indicatorID: '22401',
+        knownTrend: 'Decreasing and getting better',
+      },
+    ],
   },
   {
     indicatorMode: IndicatorMode.TWO_INDICATORS,
     areaMode: AreaMode.THREE_PLUS_AREAS,
     searchMode: SearchMode.ONLY_AREA, // therefore no subject search term required
-    expectedIndicatorIDsToSelect: ['41101', '22401'],
+    indicatorsToSelect: [
+      {
+        indicatorID: '41101',
+      },
+      {
+        indicatorID: '22401',
+      },
+    ],
   },
   {
     indicatorMode: IndicatorMode.THREE_PLUS_INDICATORS,
     areaMode: AreaMode.TWO_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
     subjectSearchTerm: 'hospital', // a different subject search term is required that returns enough search results allowing for three indicators to be selected
-    expectedIndicatorIDsToSelect: ['41101', '22401', '91894'],
+    indicatorsToSelect: [
+      {
+        indicatorID: '41101',
+      },
+      {
+        indicatorID: '22401',
+      },
+      {
+        indicatorID: '91894',
+      },
+    ],
   },
 ];
 
@@ -90,7 +144,7 @@ const coreTestJourneys: TestParams[] = [
 test.describe(
   `Search via`,
   {
-    tag: [TestTag.CI, TestTag.CD],
+    tag: tags,
   },
   () => {
     coreTestJourneys.forEach(
@@ -99,7 +153,7 @@ test.describe(
         indicatorMode,
         areaMode,
         subjectSearchTerm,
-        expectedIndicatorIDsToSelect,
+        indicatorsToSelect,
       }) => {
         const typedIndicatorData = indicatorData.map(
           (indicator: RawIndicatorDocument) => {
@@ -157,16 +211,22 @@ test.describe(
               searchMode
             );
 
-            await resultsPage.selectIndicatorCheckboxes(
-              expectedIndicatorIDsToSelect
+            await resultsPage.selectIndicatorCheckboxes(indicatorsToSelect);
+
+            await resultsPage.checkRecentTrends(
+              areaMode,
+              indicatorsToSelect,
+              tags
             );
+
+            await resultsPage.clickViewChartsButton();
           });
 
           await test.step(`check the results page and then view the chart page, checking that the displayed charts are correct`, async () => {
-            for (const selectedIndicator of expectedIndicatorIDsToSelect) {
+            for (const selectedIndicator of indicatorsToSelect) {
               const indicatorDataArray = getIndicatorDataByIndicatorID(
                 typedIndicatorData,
-                selectedIndicator
+                selectedIndicator.indicatorID
               );
 
               selectedIndicatorsData = [
@@ -174,10 +234,6 @@ test.describe(
                 ...indicatorDataArray,
               ];
             }
-
-            await resultsPage.checkRecentTrends(areaMode);
-
-            await resultsPage.clickViewChartsButton();
 
             await chartPage.checkSelectedIndicatorPillsText(
               selectedIndicatorsData
