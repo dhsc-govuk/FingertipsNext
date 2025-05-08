@@ -7,6 +7,13 @@ import React, { FC } from 'react';
 import HeatmapTable from '@/components/organisms/Heatmap/HeatmapTable';
 import { useHeatmapTableData } from '@/components/organisms/Heatmap/useHeatmapTableData';
 import { useHeatmapHover } from '@/components/organisms/Heatmap/useHeatmapHover';
+import styled from 'styled-components';
+import { H2 } from 'govuk-react';
+
+const HeatmapHeading = styled(H2)({
+  fontSize: '1.5rem',
+  marginTop: '1rem',
+});
 
 export interface HeatmapProps {
   indicatorData: HeatmapIndicatorData[];
@@ -21,6 +28,7 @@ export const Heatmap: FC<HeatmapProps> = ({ indicatorData, groupAreaCode }) => {
   const { hover, left, top, handleMouseOverCell } = useHeatmapHover();
   return (
     <>
+      <HeatmapHeading>Compare indicators by areas</HeatmapHeading>
       <BenchmarkLegends legendsToShow={legendsToShow} />
       {hover ? (
         <HeatmapHover

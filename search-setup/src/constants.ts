@@ -36,6 +36,7 @@ export interface AreaDocument {
   areaCode: string;
   areaType: string;
   areaName: string;
+  postcode?: string;
 }
 
 export enum IndicatorSearchIndexColumnNames {
@@ -59,4 +60,5 @@ export enum AreaSearchIndexColumnNames {
   AREA_CODE = 'areaCode',
   AREA_NAME = 'areaName',
   AREA_TYPE = 'areaType',
+  POSTCODE = 'postcode',
 }

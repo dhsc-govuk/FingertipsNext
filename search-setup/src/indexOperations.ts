@@ -180,6 +180,13 @@ export function buildGeographySearchIndex(name: string): SearchIndex {
         sortable: true,
         filterable: true,
       },
+      {
+        name: AreaSearchIndexColumnNames.POSTCODE,
+        type: 'Edm.String',
+        searchable: true,
+        sortable: true,
+        filterable: true,
+      },
     ],
     suggesters: [
       {
@@ -188,6 +195,7 @@ export function buildGeographySearchIndex(name: string): SearchIndex {
         sourceFields: [
           AreaSearchIndexColumnNames.AREA_NAME,
           AreaSearchIndexColumnNames.AREA_CODE,
+          AreaSearchIndexColumnNames.POSTCODE,
         ],
       },
     ],
