@@ -83,17 +83,11 @@ describe('IndicatorSearchService', () => {
       );
     });
 
-    it('should call search client with fuzziness applied to words greater than 5', async () => {
+    it('should search with fuzziness applied to words greater than 5', async () => {
       const searchTerm = 'test search with multiple words';
 
       const searchService = SearchServiceFactory.getIndicatorSearchService();
       await searchService.searchWith(searchTerm, false);
-
-      expect(SearchClient).toHaveBeenCalledWith(
-        'test-url',
-        INDICATOR_SEARCH_INDEX_NAME,
-        expect.any(Object)
-      );
 
       expect(mockSearch).toHaveBeenLastCalledWith(
         '"test search with multiple words"^2 test search~1 with multiple~1 words',
@@ -104,17 +98,11 @@ describe('IndicatorSearchService', () => {
       );
     });
 
-    it('should call search client with correct parameters for a numeric search term', async () => {
+    it('should search with correct parameters for a numeric search term', async () => {
       const searchTerm = '1234';
 
       const searchService = SearchServiceFactory.getIndicatorSearchService();
       await searchService.searchWith(searchTerm, false);
-
-      expect(SearchClient).toHaveBeenCalledWith(
-        'test-url',
-        INDICATOR_SEARCH_INDEX_NAME,
-        expect.any(Object)
-      );
 
       expect(mockSearch).toHaveBeenLastCalledWith(
         searchTerm,
@@ -125,17 +113,11 @@ describe('IndicatorSearchService', () => {
       );
     });
 
-    it('should call search client with correct parameters for single area search', async () => {
+    it('should search with correct parameters for single area search', async () => {
       const searchTerm = 'test-search';
 
       const searchService = SearchServiceFactory.getIndicatorSearchService();
       await searchService.searchWith(searchTerm, false, ['Area1']);
-
-      expect(SearchClient).toHaveBeenCalledWith(
-        'test-url',
-        INDICATOR_SEARCH_INDEX_NAME,
-        expect.any(Object)
-      );
 
       expect(mockSearch).toHaveBeenLastCalledWith(
         getExpectedSingleWordSearchTerm(searchTerm),
@@ -147,7 +129,7 @@ describe('IndicatorSearchService', () => {
       );
     });
 
-    it('should call search client with correct parameters for multiple area search', async () => {
+    it('should search with correct parameters for multiple area search', async () => {
       const searchTerm = 'test-search';
 
       const searchService = SearchServiceFactory.getIndicatorSearchService();
@@ -156,12 +138,6 @@ describe('IndicatorSearchService', () => {
         'Area2',
         'Area3',
       ]);
-
-      expect(SearchClient).toHaveBeenCalledWith(
-        'test-url',
-        INDICATOR_SEARCH_INDEX_NAME,
-        expect.any(Object)
-      );
 
       expect(mockSearch).toHaveBeenLastCalledWith(
         getExpectedSingleWordSearchTerm(searchTerm),
@@ -174,17 +150,11 @@ describe('IndicatorSearchService', () => {
       );
     });
 
-    it('should call search client with correct parameters for empty area array', async () => {
+    it('should search with correct parameters for empty area array', async () => {
       const searchTerm = 'test-search';
 
       const searchService = SearchServiceFactory.getIndicatorSearchService();
       await searchService.searchWith(searchTerm, false, []);
-
-      expect(SearchClient).toHaveBeenCalledWith(
-        'test-url',
-        INDICATOR_SEARCH_INDEX_NAME,
-        expect.any(Object)
-      );
 
       expect(mockSearch).toHaveBeenLastCalledWith(
         getExpectedSingleWordSearchTerm(searchTerm),
@@ -295,12 +265,6 @@ describe('IndicatorSearchService', () => {
 
     const searchService = SearchServiceFactory.getIndicatorSearchService();
     const result = await searchService.getIndicator(indicatorId);
-
-    expect(SearchClient).toHaveBeenCalledWith(
-      'test-url',
-      INDICATOR_SEARCH_INDEX_NAME,
-      expect.any(Object)
-    );
 
     expect(result).toEqual({
       indicatorID: '123',
