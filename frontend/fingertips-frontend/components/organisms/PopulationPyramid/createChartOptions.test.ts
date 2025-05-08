@@ -28,12 +28,10 @@ describe('createChartPyramidOptions', () => {
   it('should return a valid Highcharts.Options object', () => {
     const options = createChartPyramidOptions(
       'Age',
-      'Age',
       'Population (%)',
       'Accessibility Label',
       mockPopulationData
     );
-
     expect(options).toBeDefined();
     expect(options.chart?.type).toBe('bar');
     expect(options.xAxis).toHaveLength(2);
@@ -63,7 +61,6 @@ describe('createChartPyramidOptions', () => {
       undefined,
       groupData
     );
-
     expect(options.series).toHaveLength(4);
     expect(options?.series ? options?.series[2].name : undefined).toContain(
       'Group: Group Name'
