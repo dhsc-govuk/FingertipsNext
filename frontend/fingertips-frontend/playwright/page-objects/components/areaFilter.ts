@@ -47,6 +47,7 @@ export default class AreaFilter extends BasePage {
     expectedPillText: SimpleIndicatorDocument[]
   ) {
     const pillElements = await this.indicatorPills();
+    expect(pillElements.length).toBe(expectedPillText.length);
 
     const pillTexts = await Promise.all(
       pillElements.map((pill) => pill.textContent())

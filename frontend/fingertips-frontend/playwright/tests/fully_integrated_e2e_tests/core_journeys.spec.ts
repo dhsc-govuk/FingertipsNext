@@ -169,7 +169,10 @@ test.describe(
                 selectedIndicator
               );
 
-              selectedIndicatorsData = [...indicatorDataArray];
+              selectedIndicatorsData = [
+                ...selectedIndicatorsData,
+                ...indicatorDataArray,
+              ];
             }
 
             await resultsPage.checkRecentTrends(areaMode);
