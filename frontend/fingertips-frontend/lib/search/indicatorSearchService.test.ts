@@ -96,7 +96,7 @@ describe('IndicatorSearchService', () => {
       );
 
       expect(mockSearch).toHaveBeenLastCalledWith(
-        'indicatorName:"test search with multiple words"^2 test search~ with multiple~ words',
+        '"test search with multiple words"^2 test search~1 with multiple~1 words',
         expect.objectContaining({
           queryType: 'full',
           includeTotalCount: true,
@@ -117,7 +117,7 @@ describe('IndicatorSearchService', () => {
       );
 
       expect(mockSearch).toHaveBeenLastCalledWith(
-        `indicatorID:${searchTerm}^2 ${searchTerm}`,
+        searchTerm,
         expect.objectContaining({
           queryType: 'full',
           includeTotalCount: true,
@@ -331,5 +331,5 @@ describe('IndicatorSearchService', () => {
 });
 
 function getExpectedSingleWordSearchTerm(searchTerm: string): string {
-  return `indicatorName:"${searchTerm}"^2 ${searchTerm}~`;
+  return `"${searchTerm}"^2 ${searchTerm}~1`;
 }
