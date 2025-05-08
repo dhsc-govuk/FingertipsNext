@@ -309,20 +309,20 @@ export default class ResultsPage extends AreaFilter {
     );
   }
 
-  async verifyNumberOfResults(expectedResultCount: number) {
+  async checkNumberOfResults(expectedResultCount: number) {
     expect(this.page.getByTestId(this.searchResult)).toHaveCount(
       expectedResultCount
     );
   }
 
-  async verifyFirstResultHasName(expectedResultName: string) {
+  async checkFirstResultHasName(expectedResultName: string) {
     expect(this.page.getByTestId(this.searchResult).count()).toBeGreaterThan(1);
     expect(this.page.getByTestId(this.searchResult).first()).toHaveText(
       expectedResultName
     );
   }
 
-  async verifyResultsContainText(expectedResultName: string) {
+  async checkResultsContainText(expectedResultName: string) {
     expect(this.page.getByTestId(this.searchResult).count()).toBeGreaterThan(1);
     expect(this.page.getByTestId(this.searchResult)).toHaveText(
       expectedResultName
