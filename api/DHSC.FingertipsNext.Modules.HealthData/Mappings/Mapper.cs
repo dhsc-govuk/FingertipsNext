@@ -30,7 +30,7 @@ public class Mapper : IMapper
         };
     }
 
-    public BenchmarkComparison? Map(BenchmarkComparisonModel? source)
+    private static BenchmarkComparison? Map(BenchmarkComparisonModel? source)
     {
         if (source == null)
             return null;
@@ -60,7 +60,7 @@ public class Mapper : IMapper
         };
     }
 
-    public Deprivation? Map(DeprivationDimensionModel? source)
+    private static Deprivation? Map(DeprivationDimensionModel? source)
     {
         return source == null
             ? null
@@ -73,18 +73,16 @@ public class Mapper : IMapper
         };
     }
 
-    public Age? Map(AgeDimensionModel? source)
+    private static Age? Map(AgeDimensionModel? source)
     {
         return source == null
             ? null
             : new Age { Value = source.Name, IsAggregate = source.IsAggregate };
     }
 
-    public Sex? Map(SexDimensionModel? source)
+    private static Sex Map(SexDimensionModel source)
     {
-        return source == null
-            ? null
-            : new Sex { Value = source.Name, IsAggregate = source.IsAggregate };
+        return new Sex { Value = source.Name, IsAggregate = source.IsAggregate };
     }
 
     public HealthDataPoint Map(HealthMeasureModel source)
@@ -97,14 +95,14 @@ public class Mapper : IMapper
         return source.Select(MapNotNull).ToList();
     }
 
-    public IndicatorQuartileData? Map(QuartileDataModel? source)
-    {
-        return source == null ? null : MapNotNull(source);
-    }
+    // public IndicatorQuartileData? Map(QuartileDataModel? source)
+    // {
+    //     return source == null ? null : MapNotNull(source);
+    // }
     
-    public List<IndicatorQuartileData> Map(IList<QuartileDataModel>? source)
+    public List<IndicatorQuartileData> Map(IList<QuartileDataModel> source)
          {
-             return source == null ? [] : source.Select(MapNotNull).ToList();
+             return source.Select(MapNotNull).ToList();
          }
     
     private HealthDataPoint MapNotNull(HealthMeasureModel source)
