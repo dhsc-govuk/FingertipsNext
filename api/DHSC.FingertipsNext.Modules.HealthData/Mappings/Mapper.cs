@@ -34,13 +34,13 @@ public class Mapper : IMapper
     {
         return new HealthDataPoint
         {
-            Count = (float?)source.Count,
-            Value = (float?)source.Value,
+            Count = source.Count,
+            Value = source.Value,
             Year = source.Year,
             BenchmarkComparison = Map(source.BenchmarkComparison),
             IsAggregate = source.IsAggregate,
-            LowerConfidenceInterval = (float?)source.LowerCi,
-            UpperConfidenceInterval = (float?)source.UpperCi,
+            LowerConfidenceInterval = source.LowerCi,
+            UpperConfidenceInterval = source.UpperCi,
             AgeBand = Map(source.AgeDimension),
             Sex = Map(source.SexDimension),
             Trend = source.TrendDimension?.Name,
@@ -117,14 +117,14 @@ public class Mapper : IMapper
             IndicatorId = source.IndicatorId,
             Polarity = source.Polarity == null ? null : MapIndicatorPolarity(source.Polarity),
             Year = source.Year,
-            Q0Value = (float?)source.Q0Value,
-            Q1Value = (float?)source.Q1Value,
-            Q2Value = (float?)source.Q2Value,
-            Q3Value = (float?)source.Q3Value,
-            Q4Value = (float?)source.Q4Value,
-            AreaValue = (float?)source.AreaValue,
-            AncestorValue = (float?)source.AncestorValue,
-            EnglandValue = (float?)source.EnglandValue,
+            Q0Value = source.Q0Value,
+            Q1Value = source.Q1Value,
+            Q2Value = source.Q2Value,
+            Q3Value = source.Q3Value,
+            Q4Value = source.Q4Value,
+            AreaValue = source.AreaValue,
+            AncestorValue = source.AncestorValue,
+            EnglandValue = source.EnglandValue,
         };
     }
 }
