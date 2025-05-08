@@ -94,6 +94,7 @@ const createPopPyramidSeriesOptions = (
       layout: 'horizontal',
       alignColumns: true,
       reversed: true,
+      useHTML:true, 
       itemStyle: {
         fontSize: '16px',
       },
