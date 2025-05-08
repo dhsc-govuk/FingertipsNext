@@ -115,10 +115,10 @@ const createPopPyramidSeriesOptions = (
                   </div>
                 `,
           align: 'high',
-          textAlign: 'left',
+          textAlign: 'right',
           useHTML: true,
           y: -30,
-          x: -30,
+          x: 10,
           offset: 2,
           rotation: 0,
           style: {
