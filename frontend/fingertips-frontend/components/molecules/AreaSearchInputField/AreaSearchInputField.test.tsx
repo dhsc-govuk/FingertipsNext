@@ -18,7 +18,7 @@ describe('AreaSearchInputField', () => {
 
     expect(
       getByText(
-        'For example district, county, region, NHS organisation or GP practice or code'
+        'For example, postcode, district, county, region, NHS organisation or GP practice or code'
       )
     ).toBeInTheDocument();
   });

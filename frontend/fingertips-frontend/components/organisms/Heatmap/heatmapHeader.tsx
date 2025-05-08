@@ -118,7 +118,9 @@ export const HeatmapHeader: FC<HeatmapHeaderProps> = ({
       return (
         <StyledCellHeaderArea>
           <StyledDivRotate>
-            <StyledH4GroupAreaCodeHeader>{content}</StyledH4GroupAreaCodeHeader>
+            <StyledH4GroupAreaCodeHeader>
+              Group: {content}
+            </StyledH4GroupAreaCodeHeader>
           </StyledDivRotate>
         </StyledCellHeaderArea>
       );
