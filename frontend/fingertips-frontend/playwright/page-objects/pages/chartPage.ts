@@ -2,6 +2,7 @@ import {
   AreaMode,
   getScenarioConfig,
   IndicatorMode,
+  SimpleIndicatorDocument,
 } from '@/playwright/testHelpers';
 import { expect } from '../pageFactory';
 import {
@@ -80,7 +81,8 @@ export default class ChartPage extends AreaFilter {
     test: TestType<
       PlaywrightTestArgs & PlaywrightTestOptions,
       PlaywrightWorkerArgs & PlaywrightWorkerOptions
-    >
+    >,
+    selectedIndicators: SimpleIndicatorDocument[]
   ) {
     const testInfo = test.info();
     const testName = testInfo.title;
@@ -88,6 +90,7 @@ export default class ChartPage extends AreaFilter {
       indicatorMode,
       areaMode
     );
+
     console.log(
       `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart components: ${visibleComponents
         .map(
@@ -105,6 +108,23 @@ export default class ChartPage extends AreaFilter {
     await expect(this.page.getByTestId('show-filter-cta')).toHaveText(
       'Show filter'
     );
+
+    // check that the data source is displayed for the selected indicator in one indicator mode
+    if (indicatorMode === IndicatorMode.ONE_INDICATOR) {
+      const allDataSources = await this.page
+        .getByTestId(`data-source`)
+        .allTextContents();
+
+      allDataSources.forEach((dataSource) => {
+        expect(dataSource).toBe(
+          `Data source: ${selectedIndicators[0].dataSource}`
+        );
+      });
+    }
+    // and check that the data source is not displayed for the other indicator modes
+    if (indicatorMode !== IndicatorMode.ONE_INDICATOR) {
+      expect(this.page.getByTestId(`data-source`)).not.toBeAttached();
+    }
 
     // Check that components expected to be visible are displayed
     for (const visibleComponent of visibleComponents) {
@@ -247,7 +267,7 @@ export default class ChartPage extends AreaFilter {
 
       // note that screenshot snapshot comparisons are ignored when running locally and against the deployed azure environments
       await expect(this.page.getByTestId(visibleComponent.componentLocator), {
-        message: `Screenshot match failed:${visibleComponent.componentLocator} - you may need to run the update screenshot manual CI job - see Visual Screenshot Snapshot Testing in frontend/fingertips-frontend/README.md for details.`,
+        message: `Screenshot match failed: ${visibleComponent.componentLocator} - you may need to run the update screenshot manual CI job - see Visual Screenshot Snapshot Testing in frontend/fingertips-frontend/README.md for details.`,
       }).toHaveScreenshot(
         `${testName}-${visibleComponent.componentLocator}.png`
       );
