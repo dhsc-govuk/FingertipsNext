@@ -52,6 +52,9 @@ describe('IndicatorSearchService', () => {
       (AzureKeyCredential as jest.Mock).mockImplementation(() => ({
         key: 'test-api-key',
       }));
+
+      mockSearch.mockClear();
+      mockGetDocument.mockClear();
     });
 
     it('should successfully create a search service instance', () => {
@@ -72,7 +75,49 @@ describe('IndicatorSearchService', () => {
       );
 
       expect(mockSearch).toHaveBeenLastCalledWith(
-        getExpectedSearchTerm(searchTerm),
+        getExpectedSingleWordSearchTerm(searchTerm),
+        expect.objectContaining({
+          queryType: 'full',
+          includeTotalCount: true,
+        })
+      );
+    });
+
+    it('should call search client with fuzziness applied to words greater than 5', async () => {
+      const searchTerm = 'test-search with multiple words';
+
+      const searchService = SearchServiceFactory.getIndicatorSearchService();
+      await searchService.searchWith(searchTerm, false);
+
+      expect(SearchClient).toHaveBeenCalledWith(
+        'test-url',
+        INDICATOR_SEARCH_INDEX_NAME,
+        expect.any(Object)
+      );
+
+      expect(mockSearch).toHaveBeenLastCalledWith(
+        'indicatorName:"test-search with multiple words"^2 test-search~ with multiple~ words',
+        expect.objectContaining({
+          queryType: 'full',
+          includeTotalCount: true,
+        })
+      );
+    });
+
+    it('should call search client with correct paramters for a numeric search term', async () => {
+      const searchTerm = '1234';
+
+      const searchService = SearchServiceFactory.getIndicatorSearchService();
+      await searchService.searchWith(searchTerm, false);
+
+      expect(SearchClient).toHaveBeenCalledWith(
+        'test-url',
+        INDICATOR_SEARCH_INDEX_NAME,
+        expect.any(Object)
+      );
+
+      expect(mockSearch).toHaveBeenLastCalledWith(
+        `indicatorID:${searchTerm}^2 ${searchTerm}`,
         expect.objectContaining({
           queryType: 'full',
           includeTotalCount: true,
@@ -93,7 +138,7 @@ describe('IndicatorSearchService', () => {
       );
 
       expect(mockSearch).toHaveBeenLastCalledWith(
-        getExpectedSearchTerm(searchTerm),
+        getExpectedSingleWordSearchTerm(searchTerm),
         expect.objectContaining({
           queryType: 'full',
           includeTotalCount: true,
@@ -119,7 +164,7 @@ describe('IndicatorSearchService', () => {
       );
 
       expect(mockSearch).toHaveBeenLastCalledWith(
-        getExpectedSearchTerm(searchTerm),
+        getExpectedSingleWordSearchTerm(searchTerm),
         expect.objectContaining({
           queryType: 'full',
           includeTotalCount: true,
@@ -142,7 +187,7 @@ describe('IndicatorSearchService', () => {
       );
 
       expect(mockSearch).toHaveBeenLastCalledWith(
-        getExpectedSearchTerm(searchTerm),
+        getExpectedSingleWordSearchTerm(searchTerm),
         expect.objectContaining({
           queryType: 'full',
           includeTotalCount: true,
@@ -285,6 +330,6 @@ describe('IndicatorSearchService', () => {
   });
 });
 
-function getExpectedSearchTerm(searchTerm: string): string {
-  return `${searchTerm} /.*${searchTerm}.*/`;
+function getExpectedSingleWordSearchTerm(searchTerm: string): string {
+  return `indicatorName:"${searchTerm}"^2 ${searchTerm}~`;
 }
