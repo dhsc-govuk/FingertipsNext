@@ -11,8 +11,8 @@ public interface IMapper
     Deprivation? Map(DeprivationDimensionModel? source);
     Age? Map(AgeDimensionModel? source);
     Sex? Map(SexDimensionModel? source);
-    HealthDataPoint? Map(HealthMeasureModel? source);
-    List<HealthDataPoint> Map(IList<HealthMeasureModel>? source);
+    HealthDataPoint Map(HealthMeasureModel source);
+    List<HealthDataPoint> Map(IList<HealthMeasureModel> source);
     IndicatorQuartileData? Map(QuartileDataModel? source);
     List<IndicatorQuartileData> Map(IList<QuartileDataModel>? source);
 }

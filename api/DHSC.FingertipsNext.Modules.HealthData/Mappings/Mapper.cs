@@ -87,16 +87,14 @@ public class Mapper : IMapper
             : new Sex { Value = source.Name, IsAggregate = source.IsAggregate };
     }
 
-    public HealthDataPoint? Map(HealthMeasureModel? source)
+    public HealthDataPoint Map(HealthMeasureModel source)
     {
-        return source == null
-            ? null
-            : MapNotNull(source);
+        return MapNotNull(source);
     }
    
-    public List<HealthDataPoint> Map(IList<HealthMeasureModel>? source)
+    public List<HealthDataPoint> Map(IList<HealthMeasureModel> source)
     {
-        return source == null ? [] : source.Select(MapNotNull).ToList();
+        return source.Select(MapNotNull).ToList();
     }
 
     public IndicatorQuartileData? Map(QuartileDataModel? source)
