@@ -44,11 +44,12 @@ export class IndicatorSearchService implements IIndicatorSearchService {
 
     const buildTextSearchString = (searchTerm: string): string => {
       const fuzzySearchTerms = searchTerm
-        .split(/(\s+)/)
+        .split(/\s+/)
         .map((subString) => {
           return subString.length > 5 ? `${subString}~` : subString;
         })
-        .join('');
+        .join(' ')
+        .trim();
       return `indicatorName:"${searchTerm}"^2 ${fuzzySearchTerms}`;
     };
 
