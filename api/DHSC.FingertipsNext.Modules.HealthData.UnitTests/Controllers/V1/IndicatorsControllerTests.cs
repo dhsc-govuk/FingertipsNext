@@ -151,4 +151,19 @@ public class IndicatorControllerTests
         response?.StatusCode.ShouldBe(400);
         (response?.Value as SimpleError)?.Message.Contains("Too many values supplied for parameter area_codes").ShouldBeTrue();
     }
+
+    [Fact]
+    public async Task GetIndicatorData_ReturnsBadResponse_WhenAreaGroupMissing()
+    {
+        var response = await _controller.GetIndicatorDataAsync(
+            indicatorId:3,
+            areaCodes:["areaCode1"], 
+            areaType:"",
+            areaGroup:"",
+            benchmarkRefType:BenchmarkReferenceType.AreaGroup,
+            years: [1]) as BadRequestObjectResult;
+
+        response?.StatusCode.ShouldBe(400);
+        (response?.Value as SimpleError)?.Message.Contains("Missing parameter 'area_group'. When benchmark_ref_type is set to AreaGroup then the area_group parameter must be set").ShouldBeTrue();
+    }
 }
