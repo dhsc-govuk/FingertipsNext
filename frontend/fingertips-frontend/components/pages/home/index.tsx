@@ -22,6 +22,7 @@ import { spacing } from '@govuk-react/lib';
 import { Area } from '@/generated-sources/ft-api-client';
 import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
 import { useSearchState } from '@/context/SearchStateContext';
+import { ProjectVersion } from '@/components/atoms/ProjectVersion';
 
 const ZeroMarginParagraph = styled(Paragraph)(
   spacing.withWhiteSpace({ marginBottom: 0 })
@@ -143,6 +144,7 @@ export const Home = ({
         public health in England.
       </Paragraph>
       <br />
+      <ProjectVersion />
     </form>
   );
 };
