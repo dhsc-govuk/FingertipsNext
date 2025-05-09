@@ -14,6 +14,7 @@ export interface IndicatorInfo {
   indicatorID: string;
   knownTrend?: string;
 }
+
 export interface TestParams {
   indicatorMode: IndicatorMode;
   areaMode: AreaMode;
@@ -358,12 +359,6 @@ export function returnIndicatorIDsByIndicatorMode(
 export function sortAlphabetically(array: (string | null)[]) {
   array.sort((a, b) => a!.localeCompare(b!));
 }
-
-export const checkTrendsOnResultsPage = (): boolean => {
-  const checkTrends =
-    process.env.CHECK_RESULTS_TRENDS !== 'false' ? false : true;
-  return checkTrends;
-};
 
 // This function gets the selected indicators indicator data and merges its knownTrend into one object
 export function mergeIndicatorData(

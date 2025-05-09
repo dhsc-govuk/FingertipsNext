@@ -1,6 +1,5 @@
 import { test } from '../../page-objects/pageFactory';
 import {
-  checkTrendsOnResultsPage,
   getAllIndicators,
   getAllIndicatorsForSearchTerm,
   mergeIndicatorData,
@@ -20,7 +19,7 @@ const areaSearchTerm: AreaDocument = {
 };
 let allValidIndicators: SimpleIndicatorDocument[] = [];
 let selectedIndicatorsData: SimpleIndicatorDocument[] = [];
-const checkTrends = checkTrendsOnResultsPage();
+const checkTrends = process.env.CHECK_RESULTS_TRENDS === 'true';
 
 /**
  * This tests, in parallel, the indicator + area scenario combinations from
