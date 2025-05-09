@@ -25,6 +25,12 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
     ///     The areaType which these codes should be compared against. This is important to specify to discriminate between
     ///     counties and districts which introduce amiguity to the areaType by duplicating areas.
     /// </param>
+    /// <param name="areaGroup">
+    ///     The areaGroup which these codes should be compared against. Dependent on what benchmarkRefType is set to.
+    /// </param>    
+    /// <param name="becnhmarkRefType">
+    ///     The benchmark reference type to be used when benchmarking. England, AreaGroup or IndicatorGoal.
+    /// </param>
     /// <param name="years">
     ///     An array of years. If the array is empty all years are retrieved.
     /// </param>
@@ -39,6 +45,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         int indicatorId,
         IEnumerable<string> areaCodes,
         string areaType,
+        string areaGroup,
+        BenchmarkReferenceType benchmarkRefType,
         IEnumerable<int> years,
         IEnumerable<string> inequalities,
         bool includeEmptyAreas = false,
@@ -57,6 +65,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
             indicatorId,
             areaCodes,
             areaType,
+            areaGroup,
+            benchmarkRefType,
             years,
             inequalities,
             method,
@@ -100,6 +110,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         int indicatorId,
         IEnumerable<string> areaCodes,
         string areaType,
+        string areaGroup,
+        BenchmarkReferenceType benchmarkRefType,
         IEnumerable<int> years,
         IEnumerable<string> inequalities,
         BenchmarkComparisonMethod comparisonMethod,
@@ -135,8 +147,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
                 .ToList();
         }
 
-        //if RAG is the benchmark method use England as the comparison area and add England to the areas we want data for
-        var benchmarkAreaCode = AreaCodeEngland; //for PoC all benchmarking is against England, post PoC this will be passed in as a variable
+        // The benchmark reference can be either England or a passed in AreaGroup
+        var benchmarkAreaCode = benchmarkRefType == BenchmarkReferenceType.AreaGroup ? areaGroup: AreaCodeEngland;
         var wasBenchmarkAreaCodeRequested = areaCodesForSearch.Contains(benchmarkAreaCode);
 
         var hasBenchmarkDataBeenRequested = comparisonMethod is
