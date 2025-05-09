@@ -139,7 +139,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .AsNoTracking()
             .ToListAsync();
 
-    public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync(int indicatorId, string[] areaCodes, int[] years, string areaTypeKey)
+    public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync(int indicatorId, string[] areaCodes, int[] years, string areaTypeKey, string benchmarkAreaCode)
     {
         // Convert the array parameters into DataTables for presentation to the Stored Procedure.
         var AreaCodesTable = new DataTable();
@@ -168,10 +168,11 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
 
         var areaTypeOfInterest = new SqlParameter("@RequestedAreaType", areaTypeKey);
         var requestedIndicatorId = new SqlParameter("@RequestedIndicatorId", indicatorId);
+        var requestedBenchmarkAreaCode = new SqlParameter("@RequestedBenchmarkAreaCode", benchmarkAreaCode);
 
         var denormalisedHealthData = await _dbContext.DenormalisedHealthMeasure.FromSql
             (@$"
-              EXEC dbo.GetIndicatorDetailsWithQuintileBenchmarkComparison @RequestedAreas={areasOfInterest}, @RequestedAreaType={areaTypeOfInterest}, @RequestedYears={yearsOfInterest}, @RequestedIndicatorId={requestedIndicatorId}
+              EXEC dbo.GetIndicatorDetailsWithQuintileBenchmarkComparison @RequestedAreas={areasOfInterest}, @RequestedAreaType={areaTypeOfInterest}, @RequestedYears={yearsOfInterest}, @RequestedIndicatorId={requestedIndicatorId}, @RequestedBenchmarkAreaCode={requestedBenchmarkAreaCode}
               "
             ).ToListAsync();
 

@@ -632,7 +632,7 @@ public class IndicatorServiceTests
 
         _healthDataRepository.GetIndicatorDataWithQuintileBenchmarkComparisonAsync(
             1, Arg.Any<string[]>(),
-            [], Arg.Any<string>()).Returns(mockHealthData); ;
+            [], Arg.Any<string>(), "E92000001").Returns(mockHealthData); ;
 
         var result =
             await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], string.Empty, string.Empty, BenchmarkReferenceType.Unknown, [], []);

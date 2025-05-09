@@ -6,10 +6,28 @@ CREATE PROCEDURE [dbo].[GetIndicatorDetailsWithQuintileBenchmarkComparison]
 --- The AreaType we are comparing against - this needs to be passed in because the AreaCodes can be ambiguous for districts and counties
 @RequestedYears YearList READONLY,
 --- The Years we are interested in - can be empty
-@RequestedIndicatorId int
+@RequestedIndicatorId int,
 --- The specific indicatorId we are interested in
+@RequestedBenchmarkAreaCode varchar(20)
+--- The area used for benchmarking
 AS
 BEGIN
+	-- Temporary table to hold areas from GetDescendantAreas
+    CREATE TABLE #BenchmarkAreas (
+        AreaKey int,
+        AreaCode nvarchar(50),
+        AreaName nvarchar(255),
+        AreaTypeKey nvarchar(50),
+        LEVEL int,
+        HierarchyType nvarchar(50),
+        AreaTypeName nvarchar(50)
+    );
+
+    -- Populate the temporary table using the GetDescendantAreas stored procedure
+    INSERT INTO 
+    	#BenchmarkAreas 
+    EXEC 
+    	Areas.GetDescendantAreas @RequestedAreaType=@RequestedAreaType, @RequestedAncestorAreaCode=@RequestedBenchmarkAreaCode;
 	WITH
 	--- Finds the indicator of interest from the passed in IndicatorId.
 	RequestedIndicator AS (
@@ -27,8 +45,8 @@ BEGIN
 	SELECT
 		    hm.HealthMeasureKey,
 		    NTILE(5) OVER(PARTITION BY hm.Year ORDER BY	Value) AS Quintile,
-		    areaDim.Code AS AreaDimensionCode,
-		    areaDim.Name AS AreaDimensionName,
+		    benchmarkAreas.AreaCode AS AreaDimensionCode,
+		    benchmarkAreas.AreaName AS AreaDimensionName,
 		    sex.Name AS SexDimensionName,
 		    sex.HasValue AS SexDimensionHasValue,
 				hm.IsSexAggregatedOrSingle AS SexDimensionIsAggregate,
@@ -49,13 +67,13 @@ BEGIN
 	FROM
 		    dbo.HealthMeasure AS hm
 	JOIN
-        RequestedIndicator AS ind
+            RequestedIndicator AS ind
         ON
 		    hm.IndicatorKey = ind.IndicatorKey
 	JOIN
-            dbo.AreaDimension AS areaDim
-        ON
-		    hm.AreaKey = areaDim.AreaKey
+	        #BenchmarkAreas as benchmarkAreas
+	    ON
+	        hm.AreaKey = benchmarkAreas.AreaKey
 	JOIN
             dbo.SexDimension AS sex
         ON
@@ -77,17 +95,6 @@ BEGIN
 		--- This ensures we are only dealing with Aggregate data
 	        hm.IsSexAggregatedOrSingle=1 AND hm.IsAgeAggregatedOrSingle=1 AND hm.IsDeprivationAggregatedOrSingle=1
 	    )
-        AND
-        (
-            areaDim.AreaType = @RequestedAreaType
-        --- This is special case handling for data which has a dual identity as both district and county.
-            OR
-			(
-               @RequestedAreaType = 'districts-and-unitary-authorities'
-               AND
-			   IsDistrictAndCounty = 1
-            )
-        )
 		AND
         (
             hm.Year IN (
@@ -128,7 +135,7 @@ BEGIN
 		hd.LowerCi,
 		hd.UpperCi,
 		hd.Year,
-		'E92000001' AS BenchmarkComparisonAreaCode,
+		@RequestedBenchmarkAreaCode AS BenchmarkComparisonAreaCode,
 		'England' AS BenchmarkComparisonAreaName,
 		ind.Polarity AS BenchmarkComparisonIndicatorPolarity,
 		ind.Name AS IndicatorDimensionName,
