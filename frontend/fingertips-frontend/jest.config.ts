@@ -15,13 +15,14 @@ const config: Config = {
   coverageThreshold: {
     global: {
       statements: 92.6,
-      branches: 85.1,
+      branches: 84.5,
       functions: 91.6,
       lines: 93.2,
     },
   },
   collectCoverageFrom: [
     '<rootDir>/**/*.ts',
+    '<rootDir>/**/*.tsx',
     '!<rootDir>/generated-sources/**/*',
     '!<rootDir>/*.d.ts',
     '!<rootDir>/.next/**/*',

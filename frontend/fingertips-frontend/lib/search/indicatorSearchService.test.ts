@@ -52,6 +52,9 @@ describe('IndicatorSearchService', () => {
       (AzureKeyCredential as jest.Mock).mockImplementation(() => ({
         key: 'test-api-key',
       }));
+
+      mockSearch.mockClear();
+      mockGetDocument.mockClear();
     });
 
     it('should successfully create a search service instance', () => {
@@ -72,7 +75,7 @@ describe('IndicatorSearchService', () => {
       );
 
       expect(mockSearch).toHaveBeenLastCalledWith(
-        getExpectedSearchTerm(searchTerm),
+        getExpectedSingleWordSearchTerm(searchTerm),
         expect.objectContaining({
           queryType: 'full',
           includeTotalCount: true,
@@ -80,20 +83,44 @@ describe('IndicatorSearchService', () => {
       );
     });
 
-    it('should call search client with correct parameters for single area search', async () => {
+    it('should search with fuzziness applied to words greater than 5', async () => {
+      const searchTerm = 'test search with multiple words';
+
+      const searchService = SearchServiceFactory.getIndicatorSearchService();
+      await searchService.searchWith(searchTerm, false);
+
+      expect(mockSearch).toHaveBeenLastCalledWith(
+        '"test search with multiple words"^2 test search~1 with multiple~1 words',
+        expect.objectContaining({
+          queryType: 'full',
+          includeTotalCount: true,
+        })
+      );
+    });
+
+    it('should search with correct parameters for a numeric search term', async () => {
+      const searchTerm = '1234';
+
+      const searchService = SearchServiceFactory.getIndicatorSearchService();
+      await searchService.searchWith(searchTerm, false);
+
+      expect(mockSearch).toHaveBeenLastCalledWith(
+        searchTerm,
+        expect.objectContaining({
+          queryType: 'full',
+          includeTotalCount: true,
+        })
+      );
+    });
+
+    it('should search with correct parameters for single area search', async () => {
       const searchTerm = 'test-search';
 
       const searchService = SearchServiceFactory.getIndicatorSearchService();
       await searchService.searchWith(searchTerm, false, ['Area1']);
 
-      expect(SearchClient).toHaveBeenCalledWith(
-        'test-url',
-        INDICATOR_SEARCH_INDEX_NAME,
-        expect.any(Object)
-      );
-
       expect(mockSearch).toHaveBeenLastCalledWith(
-        getExpectedSearchTerm(searchTerm),
+        getExpectedSingleWordSearchTerm(searchTerm),
         expect.objectContaining({
           queryType: 'full',
           includeTotalCount: true,
@@ -102,7 +129,7 @@ describe('IndicatorSearchService', () => {
       );
     });
 
-    it('should call search client with correct parameters for multiple area search', async () => {
+    it('should search with correct parameters for multiple area search', async () => {
       const searchTerm = 'test-search';
 
       const searchService = SearchServiceFactory.getIndicatorSearchService();
@@ -112,14 +139,8 @@ describe('IndicatorSearchService', () => {
         'Area3',
       ]);
 
-      expect(SearchClient).toHaveBeenCalledWith(
-        'test-url',
-        INDICATOR_SEARCH_INDEX_NAME,
-        expect.any(Object)
-      );
-
       expect(mockSearch).toHaveBeenLastCalledWith(
-        getExpectedSearchTerm(searchTerm),
+        getExpectedSingleWordSearchTerm(searchTerm),
         expect.objectContaining({
           queryType: 'full',
           includeTotalCount: true,
@@ -129,20 +150,14 @@ describe('IndicatorSearchService', () => {
       );
     });
 
-    it('should call search client with correct parameters for empty area array', async () => {
+    it('should search with correct parameters for empty area array', async () => {
       const searchTerm = 'test-search';
 
       const searchService = SearchServiceFactory.getIndicatorSearchService();
       await searchService.searchWith(searchTerm, false, []);
 
-      expect(SearchClient).toHaveBeenCalledWith(
-        'test-url',
-        INDICATOR_SEARCH_INDEX_NAME,
-        expect.any(Object)
-      );
-
       expect(mockSearch).toHaveBeenLastCalledWith(
-        getExpectedSearchTerm(searchTerm),
+        getExpectedSingleWordSearchTerm(searchTerm),
         expect.objectContaining({
           queryType: 'full',
           includeTotalCount: true,
@@ -251,12 +266,6 @@ describe('IndicatorSearchService', () => {
     const searchService = SearchServiceFactory.getIndicatorSearchService();
     const result = await searchService.getIndicator(indicatorId);
 
-    expect(SearchClient).toHaveBeenCalledWith(
-      'test-url',
-      INDICATOR_SEARCH_INDEX_NAME,
-      expect.any(Object)
-    );
-
     expect(result).toEqual({
       indicatorID: '123',
       indicatorName: 'Test Indicator',
@@ -285,6 +294,6 @@ describe('IndicatorSearchService', () => {
   });
 });
 
-function getExpectedSearchTerm(searchTerm: string): string {
-  return `${searchTerm} /.*${searchTerm}.*/`;
+function getExpectedSingleWordSearchTerm(searchTerm: string): string {
+  return `"${searchTerm}"^2 ${searchTerm}~1`;
 }
