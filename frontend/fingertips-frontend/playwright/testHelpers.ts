@@ -12,9 +12,8 @@ export type SimpleIndicatorDocument = {
 
 export interface IndicatorInfo {
   indicatorID: string;
-  knownTrend?: string; // we only display trends for areaMode === AreaMode.ONE_AREA || AreaMode.ALL_AREAS_IN_A_GROUP || AreaMode.ENGLAND_AREA;
+  knownTrend?: string;
 }
-
 export interface TestParams {
   indicatorMode: IndicatorMode;
   areaMode: AreaMode;
@@ -354,4 +353,37 @@ export function returnIndicatorIDsByIndicatorMode(
 
 export function sortAlphabetically(array: (string | null)[]) {
   array.sort((a, b) => a!.localeCompare(b!));
+}
+
+export const checkTrendsOnResultsPage = (): boolean => {
+  const checkTrends =
+    process.env.CHECK_RESULTS_TRENDS !== 'false' ? false : true;
+  return checkTrends;
+};
+
+export function mergeIndicatorData(
+  selectedIndicators: IndicatorInfo[],
+  typedIndicatorData: RawIndicatorDocument[]
+): SimpleIndicatorDocument[] {
+  let selectedIndicatorsData: SimpleIndicatorDocument[] = [];
+
+  for (const selectedIndicator of selectedIndicators) {
+    const indicatorDataArray = getIndicatorDataByIndicatorID(
+      typedIndicatorData,
+      selectedIndicator.indicatorID
+    );
+
+    // Add the knownTrend to all returned selected indicators
+    const enhancedIndicatorData = indicatorDataArray.map((indicator) => ({
+      ...indicator,
+      knownTrend: selectedIndicator.knownTrend,
+    }));
+
+    selectedIndicatorsData = [
+      ...selectedIndicatorsData,
+      ...enhancedIndicatorData,
+    ];
+  }
+
+  return selectedIndicatorsData;
 }

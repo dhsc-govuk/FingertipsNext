@@ -94,7 +94,7 @@ export default class ResultsPage extends AreaFilter {
       this.page.getByText('Recent trend for selected area')
     ).toBeVisible({ visible: trendsShouldBeVisible });
 
-    // currently, the trend text is only visible on the results page in the deployed CD environment so checkTrends will be false in local and CI environments
+    // currently, the trend text on each indicator is only visible on the results page in the deployed CD environment so checkTrends will be false in local and CI environments
     if (trendsShouldBeVisible && checkTrends) {
       for (const expectedIndicatorToSelect of expectedIndicatorsToSelect) {
         const searchResultItem = this.page.getByTestId('search-result').filter({

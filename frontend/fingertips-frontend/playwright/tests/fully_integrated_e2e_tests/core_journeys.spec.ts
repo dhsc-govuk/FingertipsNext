@@ -1,17 +1,16 @@
 import { test } from '../../page-objects/pageFactory';
 import {
-  AreaMode,
+  checkTrendsOnResultsPage,
   getAllIndicators,
   getAllIndicatorsForSearchTerm,
-  getIndicatorDataByIndicatorID,
-  IndicatorMode,
+  mergeIndicatorData,
   SearchMode,
   SimpleIndicatorDocument,
-  TestParams,
   TestTag,
 } from '../../testHelpers';
 import indicators from '../../../../../search-setup/assets/indicators.json';
 import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
+import { coreTestJourneys } from './core_journey_config';
 //@ts-expect-error don't care about type checking this json file
 const indicatorData = indicators as RawIndicatorDocument[];
 const areaSearchTerm: AreaDocument = {
@@ -21,125 +20,7 @@ const areaSearchTerm: AreaDocument = {
 };
 let allValidIndicators: SimpleIndicatorDocument[] = [];
 let selectedIndicatorsData: SimpleIndicatorDocument[] = [];
-const checkTrendsOnResultsPage = (): boolean => {
-  const checkTrends =
-    process.env.CHECK_RESULTS_TRENDS !== 'false' ? false : true;
-  return checkTrends;
-};
 const checkTrends = checkTrendsOnResultsPage();
-console.log(checkTrends);
-
-const coreTestJourneys: TestParams[] = [
-  {
-    indicatorMode: IndicatorMode.ONE_INDICATOR,
-    areaMode: AreaMode.ENGLAND_AREA,
-    searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: '22401', // test searching for a specific indicatorID
-    indicatorsToSelect: [
-      {
-        indicatorID: '22401',
-        knownTrend: 'Decreasing and getting better',
-      },
-    ],
-  },
-  {
-    indicatorMode: IndicatorMode.ONE_INDICATOR,
-    areaMode: AreaMode.ONE_AREA,
-    searchMode: SearchMode.BOTH_SUBJECT_AND_AREA,
-    subjectSearchTerm: 'emergency',
-    indicatorsToSelect: [
-      {
-        indicatorID: '41101',
-        knownTrend: 'No recent trend data available',
-      },
-    ],
-  },
-  {
-    indicatorMode: IndicatorMode.ONE_INDICATOR,
-    areaMode: AreaMode.THREE_PLUS_AREAS,
-    searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'emergency',
-    indicatorsToSelect: [
-      {
-        indicatorID: '41101',
-      },
-    ],
-  },
-  {
-    indicatorMode: IndicatorMode.ONE_INDICATOR,
-    areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
-    searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'emergency',
-    indicatorsToSelect: [
-      {
-        indicatorID: '41101',
-        knownTrend: 'No recent trend data available',
-      },
-    ],
-  },
-  {
-    indicatorMode: IndicatorMode.TWO_INDICATORS,
-    areaMode: AreaMode.ENGLAND_AREA,
-    searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'emergency',
-    indicatorsToSelect: [
-      {
-        indicatorID: '41101',
-        knownTrend: 'No recent trend data available',
-      },
-      {
-        indicatorID: '22401',
-        knownTrend: 'Decreasing and getting better',
-      },
-    ],
-  },
-  {
-    indicatorMode: IndicatorMode.TWO_INDICATORS,
-    areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
-    searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'emergency',
-    indicatorsToSelect: [
-      {
-        indicatorID: '41101',
-        knownTrend: 'No recent trend data available',
-      },
-      {
-        indicatorID: '22401',
-        knownTrend: 'Decreasing and getting better',
-      },
-    ],
-  },
-  {
-    indicatorMode: IndicatorMode.TWO_INDICATORS,
-    areaMode: AreaMode.THREE_PLUS_AREAS,
-    searchMode: SearchMode.ONLY_AREA, // therefore no subject search term required
-    indicatorsToSelect: [
-      {
-        indicatorID: '41101',
-      },
-      {
-        indicatorID: '22401',
-      },
-    ],
-  },
-  {
-    indicatorMode: IndicatorMode.THREE_PLUS_INDICATORS,
-    areaMode: AreaMode.TWO_AREAS,
-    searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'hospital', // a different subject search term is required that returns enough search results allowing for three indicators to be selected
-    indicatorsToSelect: [
-      {
-        indicatorID: '41101',
-      },
-      {
-        indicatorID: '22401',
-      },
-      {
-        indicatorID: '91894',
-      },
-    ],
-  },
-];
 
 /**
  * This tests, in parallel, the indicator + area scenario combinations from
@@ -230,25 +111,10 @@ test.describe(
           });
 
           await test.step(`check the results page and then view the chart page, checking that the displayed charts are correct`, async () => {
-            for (const selectedIndicator of indicatorsToSelect) {
-              const indicatorDataArray = getIndicatorDataByIndicatorID(
-                typedIndicatorData,
-                selectedIndicator.indicatorID
-              );
-
-              // Add the knownTrend to all returned selected indicators
-              const enhancedIndicatorData = indicatorDataArray.map(
-                (indicator) => ({
-                  ...indicator,
-                  knownTrend: selectedIndicator.knownTrend,
-                })
-              );
-
-              selectedIndicatorsData = [
-                ...selectedIndicatorsData,
-                ...enhancedIndicatorData,
-              ];
-            }
+            selectedIndicatorsData = mergeIndicatorData(
+              indicatorsToSelect,
+              typedIndicatorData
+            );
 
             await chartPage.checkSelectedIndicatorPillsText(
               selectedIndicatorsData
