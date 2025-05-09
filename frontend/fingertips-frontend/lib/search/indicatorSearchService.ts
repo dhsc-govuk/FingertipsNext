@@ -11,10 +11,7 @@ import {
   RawIndicatorDocument,
 } from './searchTypes';
 import { IndicatorMapper } from './indicatorMapper';
-
-const escapeString = (text: string): string => {
-  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-};
+import { escapeString } from '../escapeString';
 
 export class IndicatorSearchService implements IIndicatorSearchService {
   private readonly searchClient: SearchClient<RawIndicatorDocument>;
