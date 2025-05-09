@@ -1,9 +1,12 @@
 import React, { FC, RefObject, useLayoutEffect } from 'react';
 import { Table } from 'govuk-react';
 import { InViewTrigger } from '@/components/hooks/InViewTrigger';
+import { barChartEmbeddedRowClassName } from '@/components/organisms/BarChartEmbeddedTable/barChartEmbeddedTableHelpers';
 
 const getAverageHeight = () => {
-  const elements = document.getElementsByClassName('BarChartEmbeddedRow');
+  const elements = document.getElementsByClassName(
+    barChartEmbeddedRowClassName
+  );
   if (!elements || elements.length === 0) return 0;
   const first = elements[0];
   const last = elements[elements.length - 1];
