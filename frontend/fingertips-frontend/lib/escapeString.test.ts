@@ -1,0 +1,50 @@
+import { escapeString } from './escapeString';
+
+describe('escapeString', () => {
+  it('should escape special characters correctly', () => {
+    const input = '+-&|!(){}[]^"~*?:\\/';
+    const expected =
+      '\\+\\-\\&\\|\\!\\(\\)\\{\\}\\[\\]\\^\\\"\\~\\*\\?\\:\\\\\\/';
+    expect(escapeString(input)).toBe(expected);
+  });
+
+  it('should return an empty string if input is empty', () => {
+    expect(escapeString('')).toBe('');
+  });
+
+  it('should return the same string if no special characters are present', () => {
+    expect(escapeString('Hello world')).toBe('Hello world');
+  });
+
+  it('should escape some special characters correctly', () => {
+    const input = 'When + there is faith!, (there) is hope';
+    const expected = 'When \\+ there is faith\\!, \\(there\\) is hope';
+    expect(escapeString(input)).toBe(expected);
+  });
+
+  it('should escape a single special character correctly', () => {
+    expect(escapeString('+')).toBe('\\+');
+    expect(escapeString('-')).toBe('\\-');
+    expect(escapeString('&')).toBe('\\&');
+  });
+
+  it('should escape multiple occurrences of the same special character', () => {
+    const input = '+&+&+';
+    const expected = '\\+\\&\\+\\&\\+';
+    expect(escapeString(input)).toBe(expected);
+  });
+
+  it('should escape all special characters in the input string', () => {
+    const input = 'This is a test: +-&|!(){}[]^"~*?:\\/';
+    const expected =
+      'This is a test\\: \\+\\-\\&\\|\\!\\(\\)\\{\\}\\[\\]\\^\\"\\~\\*\\?\\:\\\\\\/';
+    const actual = escapeString(input);
+    expect(actual).toBe(expected);
+  });
+
+  it('should escape only the special characters in the string', () => {
+    const input = 'Test string with special chars: +, -, *, &';
+    const expected = 'Test string with special chars\\: \\+, \\-, \\*, \\&';
+    expect(escapeString(input)).toBe(expected);
+  });
+});
