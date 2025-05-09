@@ -370,6 +370,20 @@ components:
           Worst,
           Similar,
         ]
+    BenchmarkReferenceType:
+      type: string
+      example: England
+      description: benchmark reference type
+      enum: 
+        [
+          England,
+          AreaGroup
+        ]
+      x-enum-varnames:
+        [
+          England,
+          AreaGroup
+        ]
     AreaType:
       type: object
       description: An area type e.g. PCN or GP
@@ -822,12 +836,9 @@ components:
     benchmark_ref_type:
       in: query
       name: benchmark_ref_type
-      description: Controls whether benchmarking is performed against England or an Ancestor
+      description: The benchmark reference type
       schema:
-        type: string
-        enum:
-            - England
-            - AreaGroup
+        $ref: "#/components/schemas/BenchmarkReferenceType"
     indicator_id:
       in: path
       name: indicator_id

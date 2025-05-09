@@ -16,6 +16,7 @@
 import * as runtime from '../runtime';
 import type {
   BadRequest,
+  BenchmarkReferenceType,
   GetAreaHierarchies500Response,
   Indicator,
   IndicatorSummary,
@@ -25,6 +26,8 @@ import type {
 import {
     BadRequestFromJSON,
     BadRequestToJSON,
+    BenchmarkReferenceTypeFromJSON,
+    BenchmarkReferenceTypeToJSON,
     GetAreaHierarchies500ResponseFromJSON,
     GetAreaHierarchies500ResponseToJSON,
     IndicatorFromJSON,
@@ -46,7 +49,7 @@ export interface GetHealthDataForAnIndicatorRequest {
     areaCodes?: Array<string>;
     areaType?: string;
     areaGroup?: string;
-    benchmarkRefType?: GetHealthDataForAnIndicatorBenchmarkRefTypeEnum;
+    benchmarkRefType?: BenchmarkReferenceType;
     years?: Array<number>;
     inequalities?: Array<GetHealthDataForAnIndicatorInequalitiesEnum>;
     includeEmptyAreas?: boolean;
@@ -94,7 +97,7 @@ export interface IndicatorsApiInterface {
      * @param {Array<string>} [areaCodes] A list of area codes, up to 300 area codes can be requested
      * @param {string} [areaType] The area type which the areas belong to
      * @param {string} [areaGroup] An area group which the area_codes belong to
-     * @param {'England' | 'AreaGroup'} [benchmarkRefType] Controls whether benchmarking is performed against England or an Ancestor
+     * @param {BenchmarkReferenceType} [benchmarkRefType] The benchmark reference type
      * @param {Array<number>} [years] A list of years, up to 20 years can be requested
      * @param {Array<'age' | 'sex' | 'deprivation'>} [inequalities] Determines the kind of inequality data that should be returned if an option is specified
      * @param {boolean} [includeEmptyAreas] Determines if areas with no data are returned as empty arrays, the default is false.
@@ -339,14 +342,6 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
 
 }
 
-/**
- * @export
- */
-export const GetHealthDataForAnIndicatorBenchmarkRefTypeEnum = {
-    England: 'England',
-    AreaGroup: 'AreaGroup'
-} as const;
-export type GetHealthDataForAnIndicatorBenchmarkRefTypeEnum = typeof GetHealthDataForAnIndicatorBenchmarkRefTypeEnum[keyof typeof GetHealthDataForAnIndicatorBenchmarkRefTypeEnum];
 /**
  * @export
  */
