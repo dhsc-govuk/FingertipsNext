@@ -41,3 +41,11 @@ export interface AutoCompleteResult {
 export interface SuggestionResult {
   value: { '@search.text': string }[];
 }
+
+export type SynonymData = Record<
+  string,
+  {
+    terms: string[];
+    isAcronym: boolean;
+  }
+>;

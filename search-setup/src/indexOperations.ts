@@ -52,7 +52,7 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
         searchable: true,
         sortable: true,
         filterable: true,
-        synonymMapNames: [INDICATOR_SEARCH_SYNONYM_MAP_NAME]
+        synonymMapNames: [INDICATOR_SEARCH_SYNONYM_MAP_NAME],
       },
       {
         name: IndicatorSearchIndexColumnNames.INDICATOR_DEFINITION,
@@ -60,6 +60,7 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
         searchable: true,
         sortable: true,
         filterable: true,
+        synonymMapNames: [INDICATOR_SEARCH_SYNONYM_MAP_NAME],
       },
       {
         name: IndicatorSearchIndexColumnNames.INDICATOR_EARLIEST_DATA_PERIOD,

@@ -166,7 +166,7 @@ describe('AI search index creation and data loading', () => {
         );
 
         expect(
-          expectedIndicatorNames.some((indicatorName) =>
+          expectedIndicatorNames.every((indicatorName) =>
             synonymIndicatorNames.includes(indicatorName)
           )
         ).toBe(true);

@@ -1,90 +1,278 @@
 {
-    "a&e": ["accident", "emergency"],
-    "emergency": ["a", "e"],
-    "depr": ["deprivation"],
-    "poverty": ["deprivation"],
-    "deprivation": ["poverty"],
-    "copd": ["chronic", "obstructive", "pulmonary", "disorder"],
-    "hib": ["haemophilus", "influenza"],
-    "flu": ["influenza"],
-    "influenza": ["flu"],
-    "menc": ["meningitis"],
-    "menb": ["meningitis"],
-    "dtap": ["diphtheria", "tetanus", "whooping", "cough", "pertussis"],
-    "mmr": ["measles", "mumps", "rubella"],
-    "ppv": ["pneumococcal"],
-    "cardiovascular": ["ncvd"],
-    "obesity": ["overweight", "obese", "excess", "weight"],
-    "obese": ["obesity", "overweight", "excess", "weight"],
-    "antidepressant": ["depression"],
-    "depressive": ["depression"],
-    "mh": ["mental", "health"],
-    "bp": ["blood", "pressure", "hypertension"],
-    "asthma": ["respiratory"],
-    "tb": ["tuberculosis"],
-    "cigarettes": ["tobacco"],
-    "tobacco": ["cigarettes"],
-    "smoker": ["smokers", "smoke", "smoking"],
-    "smoking": ["smoker", "smokers", "smoke"],
-    "smoke": ["smoker", "smokers", "smoking"],
-    "drink": ["alcohol"],
-    "drinking": ["alcohol", "drink"],
-    "drunk": ["alcohol", "drink"],
-    "drinker": ["drink", "alcohol"],
-    "autism": ["autistic"],
-    "autistic": ["autism"],
-    "msk": ["musculoskeletal"],
-    "offspring": ["baby", "infant", "child"],
-    "baby": ["infant", "child", "offspring"],
-    "infant": ["baby", "child", "offspring"],
-    "child": ["children"],
-    "children": ["child"],
-    "childhood": ["child"],
-    "families": ["family"],
-    "diabetes": ["diabetic"],
-    "diabetic": ["diabetes"],
-    "cvd": ["cardiovascular disease"],
-    "af": ["atrial fibrillation"],
-    "pci": ["percutaneous", "coronary", "intervention"],
-    "chd": ["coronary", "heart", "disease"],
-    "immunisations": ["vaccination", "vaccine"],
-    "immunisation": ["vaccination", "vaccine"],
-    "vaccination": ["immunisation", "vaccine"],
-    "vaccinations": ["immunisation", "vaccine"],
-    "vaccine": ["vaccination", "immunisation"],
-    "eyfsp": ["early", "years", "foundation", "stage", "profile"],
-    "sdq": ["strengths", "difficulties", "questionnaire"],
-    "la": ["local authority"],
-    "hba1c": ["haemoglobin"],
-    "iapt": ["psychological", "therapies", "mental", "health"],
-    "ckd": ["chronic", "kidney", "disease"],
-    "rrt": ["renal", "replacement", "therapy", "kidney"],
-    "renal": ["kidney"],
-    "kidney": ["renal"],
-    "dialysis": ["kidney"],
-    "larc": ["long", "acting", "reversible", "contraception"],
-    "cyclist": ["cycling"],
-    "bme": ["black", "minority", "ethnic"],
-    "dental": ["teeth", "oral"],
-    "teeth": ["dental", "oral"],
-    "dmft": ["dental", "teeth", "oral"],
-    "unemployed": ["unemployment"],
-    "unemployment": ["unemployed"],
-    "injury": ["injuries"],
-    "injuries": ["injury"],
-    "coli": ["ecoli"],
-    "sti": ["sexually", "transmitted", "infection"],
-    "antibiotics": ["antibiotic"],
-    "pollution": ["quality"],
-    "disabilities": ["disability", "disabled"],
-    "disability": ["disabled"],
-    "disabled": ["disability"],
-    "violence": ["abuse", "violent"],
-    "violent": ["violence"],
-    "breastfeeding": ["breast", "feeding", "breastfed", "breastmilk"],
-    "breastmilk": ["breastfeeding", "breastfed"],
-    "meal": ["meals"],
-    "suicide": ["self", "harm", "deliberate", "injury"],
-    "hiv": ["aids"]
+  "a&e": {
+    "terms": ["accident", "emergency"],
+    "isAcronym": true
+  },
+  "emergency": {
+    "terms": ["a", "e"],
+    "isAcronym": false
+  },
+  "depr": {
+    "terms": ["deprivation"],
+    "isAcronym": true
+  },
+  "poverty": {
+    "terms": ["deprivation"],
+    "isAcronym": false
+  },
+  "copd": {
+    "terms": ["chronic", "obstructive", "pulmonary", "disorder"],
+    "isAcronym": true
+  },
+  "hib": {
+    "terms": ["haemophilus", "influenza"],
+    "isAcronym": true
+  },
+  "flu": {
+    "terms": ["influenza"],
+    "isAcronym": false
+  },
+  "menc": {
+    "terms": ["meningitis"],
+    "isAcronym": true
+  },
+  "menb": {
+    "terms": ["meningitis"],
+    "isAcronym": true
+  },
+  "dtap": {
+    "terms": ["diphtheria", "tetanus", "whooping", "cough", "pertussis"],
+    "isAcronym": true
+  },
+  "mmr": {
+    "terms": ["measles", "mumps", "rubella"],
+    "isAcronym": true
+  },
+  "ppv": {
+    "terms": ["pneumococcal"],
+    "isAcronym": true
+  },
+  "cardiovascular": {
+    "terms": ["ncvd"],
+    "isAcronym": false
+  },
+  "obesity": {
+    "terms": ["overweight", "obese", "excess", "weight"],
+    "isAcronym": false
+  },
+  "antidepressant": {
+    "terms": ["depression"],
+    "isAcronym": false
+  },
+  "depressive": {
+    "terms": ["depression"],
+    "isAcronym": false
+  },
+  "mh": {
+    "terms": ["mental", "health"],
+    "isAcronym": true
+  },
+  "bp": {
+    "terms": ["blood", "pressure", "hypertension"],
+    "isAcronym": true
+  },
+  "asthma": {
+    "terms": ["respiratory"],
+    "isAcronym": false
+  },
+  "tb": {
+    "terms": ["tuberculosis"],
+    "isAcronym": true
+  },
+  "cigarettes": {
+    "terms": ["tobacco"],
+    "isAcronym": false
+  },
+  "smoker": {
+    "terms": ["smokers", "smoke", "smoking"],
+    "isAcronym": false
+  },
+  "drink": {
+    "terms": ["alcohol"],
+    "isAcronym": false
+  },
+  "drinking": {
+    "terms": ["alcohol", "drink"],
+    "isAcronym": false
+  },
+  "drunk": {
+    "terms": ["alcohol", "drink"],
+    "isAcronym": false
+  },
+  "drinker": {
+    "terms": ["drink", "alcohol"],
+    "isAcronym": false
+  },
+  "autism": {
+    "terms": ["autistic"],
+    "isAcronym": false
+  },
+  "msk": {
+    "terms": ["musculoskeletal"],
+    "isAcronym": true
+  },
+  "offspring": {
+    "terms": ["baby", "infant", "child"],
+    "isAcronym": false
+  },
+  "child": {
+    "terms": ["children"],
+    "isAcronym": false
+  },
+  "childhood": {
+    "terms": ["child"],
+    "isAcronym": false
+  },
+  "families": {
+    "terms": ["family"],
+    "isAcronym": false
+  },
+  "diabetes": {
+    "terms": ["diabetic"],
+    "isAcronym": false
+  },
+  "cvd": {
+    "terms": ["cardiovascular disease"],
+    "isAcronym": true
+  },
+  "af": {
+    "terms": ["atrial fibrillation"],
+    "isAcronym": true
+  },
+  "pci": {
+    "terms": ["percutaneous", "coronary", "intervention"],
+    "isAcronym": true
+  },
+  "chd": {
+    "terms": ["coronary", "heart", "disease"],
+    "isAcronym": true
+  },
+  "immunisations": {
+    "terms": ["vaccination", "vaccine"],
+    "isAcronym": false
+  },
+  "immunisation": {
+    "terms": ["vaccination", "vaccine"],
+    "isAcronym": false
+  },
+  "vaccinations": {
+    "terms": ["immunisation", "vaccine"],
+    "isAcronym": false
+  },
+  "eyfsp": {
+    "terms": ["early", "years", "foundation", "stage", "profile"],
+    "isAcronym": true
+  },
+  "sdq": {
+    "terms": ["strengths", "difficulties", "questionnaire"],
+    "isAcronym": true
+  },
+  "la": {
+    "terms": ["local authority"],
+    "isAcronym": true
+  },
+  "hba1c": {
+    "terms": ["haemoglobin"],
+    "isAcronym": true
+  },
+  "iapt": {
+    "terms": ["psychological", "therapies", "mental", "health"],
+    "isAcronym": true
+  },
+  "ckd": {
+    "terms": ["chronic", "kidney", "disease"],
+    "isAcronym": true
+  },
+  "rrt": {
+    "terms": ["renal", "replacement", "therapy", "kidney"],
+    "isAcronym": true
+  },
+  "renal": {
+    "terms": ["kidney"],
+    "isAcronym": false
+  },
+  "dialysis": {
+    "terms": ["kidney"],
+    "isAcronym": false
+  },
+  "larc": {
+    "terms": ["long", "acting", "reversible", "contraception"],
+    "isAcronym": true
+  },
+  "cyclist": {
+    "terms": ["cycling"],
+    "isAcronym": false
+  },
+  "bme": {
+    "terms": ["black", "minority", "ethnic"],
+    "isAcronym": true
+  },
+  "dental": {
+    "terms": ["teeth", "oral"],
+    "isAcronym": false
+  },
+  "dmft": {
+    "terms": ["dental", "teeth", "oral"],
+    "isAcronym": true
+  },
+  "unemployed": {
+    "terms": ["unemployment"],
+    "isAcronym": false
+  },
+  "injury": {
+    "terms": ["injuries"],
+    "isAcronym": false
+  },
+  "coli": {
+    "terms": ["ecoli"],
+    "isAcronym": false
+  },
+  "sti": {
+    "terms": ["sexually", "transmitted", "infection"],
+    "isAcronym": true
+  },
+  "antibiotics": {
+    "terms": ["antibiotic"],
+    "isAcronym": false
+  },
+  "pollution": {
+    "terms": ["quality"],
+    "isAcronym": false
+  },
+  "disabilities": {
+    "terms": ["disability", "disabled"],
+    "isAcronym": false
+  },
+  "disability": {
+    "terms": ["disabled"],
+    "isAcronym": false
+  },
+  "violence": {
+    "terms": ["abuse", "violent"],
+    "isAcronym": false
+  },
+  "violent": {
+    "terms": ["violence"],
+    "isAcronym": false
+  },
+  "breastfeeding": {
+    "terms": ["breast", "feeding", "breastfed", "breastmilk"],
+    "isAcronym": false
+  },
+  "breastmilk": {
+    "terms": ["breastfeeding", "breastfed"],
+    "isAcronym": false
+  },
+  "meal": {
+    "terms": ["meals"],
+    "isAcronym": false
+  },
+  "suicide": {
+    "terms": ["self", "harm", "deliberate", "injury"],
+    "isAcronym": false
+  },
+  "hiv": {
+    "terms": ["aids"],
+    "isAcronym": true
+  }
 }
-  
