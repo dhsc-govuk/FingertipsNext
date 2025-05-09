@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Area.Service\DHSC.FingertipsNext.Modules.Area.Service.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.HealthData.Repository\DHSC.FingertipsNext.Modules.HealthData.Repository.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.HealthData.Schemas\DHSC.FingertipsNext.Modules.HealthData.Schemas.csproj" />
     </ItemGroup>
