@@ -248,12 +248,37 @@ export default class ChartPage extends AreaFilter {
           });
       }
       // if its one of the components with a recent trend then check its correct
-      if (visibleComponent.componentProps.hasRecentTrend) {
-        expect(
-          this.page
+      if (
+        visibleComponent.componentProps.hasRecentTrend &&
+        visibleComponent.componentLocator !== 'spineChartTable-component'
+      ) {
+        const trendContainers = this.page
+          .getByTestId(visibleComponent.componentLocator)
+          .getByTestId('trendTag-container');
+
+        // Get all the text content from these containers
+        const trendTexts = await trendContainers.allTextContents();
+
+        for (const selectedIndicator of selectedIndicators) {
+          expect(trendTexts).toContain(selectedIndicator.knownTrend!);
+        }
+      } else if (
+        visibleComponent.componentProps.hasRecentTrend &&
+        visibleComponent.componentLocator === 'spineChartTable-component'
+      ) {
+        // for spine chart we only show trend if its One Area
+        if (areaMode === AreaMode.ONE_AREA) {
+          const trendContainers = this.page
             .getByTestId(visibleComponent.componentLocator)
-            .getByTestId('trendTag-container')
-        ).toContainText(selectedIndicators[0].knownTrend!);
+            .getByTestId('trendTag-container');
+
+          // Get all the text content from the spine chart containers
+          const trendTexts = await trendContainers.allTextContents();
+
+          for (const selectedIndicator of selectedIndicators) {
+            expect(trendTexts).toContain(selectedIndicator.knownTrend!);
+          }
+        }
       }
 
       // check chart component is now visible

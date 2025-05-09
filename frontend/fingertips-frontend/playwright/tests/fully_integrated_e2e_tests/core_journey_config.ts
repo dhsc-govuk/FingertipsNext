@@ -38,6 +38,7 @@ export const coreTestJourneys: TestParams[] = [
     indicatorsToSelect: [
       {
         indicatorID: '41101',
+        knownTrend: 'No recent trend data available',
       },
     ],
   },
@@ -92,9 +93,11 @@ export const coreTestJourneys: TestParams[] = [
     indicatorsToSelect: [
       {
         indicatorID: '41101',
+        knownTrend: 'No recent trend data available',
       },
       {
         indicatorID: '22401',
+        knownTrend: 'Decreasing and getting better',
       },
     ],
   },
@@ -106,12 +109,35 @@ export const coreTestJourneys: TestParams[] = [
     indicatorsToSelect: [
       {
         indicatorID: '41101',
+        knownTrend: 'No recent trend data available',
       },
       {
         indicatorID: '22401',
+        knownTrend: 'Decreasing and getting better',
       },
       {
         indicatorID: '91894',
+        knownTrend: 'No significant change',
+      },
+    ],
+  },
+  {
+    indicatorMode: IndicatorMode.THREE_PLUS_INDICATORS,
+    areaMode: AreaMode.ONE_AREA,
+    searchMode: SearchMode.ONLY_SUBJECT,
+    subjectSearchTerm: 'hospital', // a different subject search term is required that returns enough search results allowing for three indicators to be selected
+    indicatorsToSelect: [
+      {
+        indicatorID: '41101',
+        knownTrend: 'No recent trend data available',
+      },
+      {
+        indicatorID: '22401',
+        knownTrend: 'Decreasing and getting better',
+      },
+      {
+        indicatorID: '91894',
+        knownTrend: 'Decreasing and getting better',
       },
     ],
   },

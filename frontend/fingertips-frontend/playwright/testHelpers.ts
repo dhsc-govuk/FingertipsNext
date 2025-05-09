@@ -208,10 +208,14 @@ export function getScenarioConfig(
       ChartPage.heatMapComponent,
       ChartPage.populationPyramidComponent,
     ],
+    [`${IndicatorMode.THREE_PLUS_INDICATORS}-${AreaMode.ONE_AREA}`]: [
+      ChartPage.populationPyramidComponent,
+      ChartPage.spineChartTableComponent,
+    ],
     [`${IndicatorMode.THREE_PLUS_INDICATORS}-${AreaMode.TWO_AREAS}`]: [
       ChartPage.heatMapComponent,
       ChartPage.populationPyramidComponent,
-      ChartPage.spineChartTableComponent, // needs to be last so scroll right doesn't impact other component screenshots
+      ChartPage.spineChartTableComponent,
     ],
   };
 
@@ -361,6 +365,7 @@ export const checkTrendsOnResultsPage = (): boolean => {
   return checkTrends;
 };
 
+// This function gets the selected indicators indicator data and merges its knownTrend into one object
 export function mergeIndicatorData(
   selectedIndicators: IndicatorInfo[],
   typedIndicatorData: RawIndicatorDocument[]
