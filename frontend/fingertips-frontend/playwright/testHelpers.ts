@@ -15,6 +15,7 @@ export interface IndicatorInfo {
   knownTrend?: string;
 }
 
+
 export interface TestParams {
   indicatorMode: IndicatorMode;
   areaMode: AreaMode;
