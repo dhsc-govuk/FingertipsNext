@@ -1,6 +1,7 @@
 import { BarChartEmbeddedPlaceholderRows } from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedPlaceholderRows';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import { useEffect, useRef } from 'react';
+import { barChartEmbeddedRowClassName } from '@/components/organisms/BarChartEmbeddedTable/barChartEmbeddedTableHelpers';
 
 const TestBarChartEmbeddedPlaceholderRows = ({
   nRowsToHide = 10,
@@ -12,7 +13,7 @@ const TestBarChartEmbeddedPlaceholderRows = ({
     .map((_, i) => `content-${i}`);
 
   useEffect(() => {
-    const rows = document.getElementsByClassName('BarChartEmbeddedRow');
+    const rows = document.getElementsByClassName(barChartEmbeddedRowClassName);
     if (!rows.length) return;
     rows[0].getBoundingClientRect = jest.fn(() => ({ top: 50 }) as DOMRect);
     rows[nRowsToShow - 1].getBoundingClientRect = jest.fn(
@@ -27,7 +28,7 @@ const TestBarChartEmbeddedPlaceholderRows = ({
           <tr
             key={key}
             style={{ height: '123px' }}
-            className={'BarChartEmbeddedRow'}
+            className={barChartEmbeddedRowClassName}
           >
             <td>{key}</td>
           </tr>
