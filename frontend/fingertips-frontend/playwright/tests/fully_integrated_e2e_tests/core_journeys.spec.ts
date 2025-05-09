@@ -162,12 +162,15 @@ test.describe(
           });
 
           await test.step(`check the results page and then view the chart page, checking that the displayed charts are correct`, async () => {
-            const selectedIndicatorsData: SimpleIndicatorDocument[] = expectedIndicatorIDsToSelect.map((selectedIndicator) => {
-              return getIndicatorDataByIndicatorID(
-                typedIndicatorData,
-                selectedIndicator
-              )
-            }).flat();
+            const selectedIndicatorsData: SimpleIndicatorDocument[] =
+              expectedIndicatorIDsToSelect
+                .map((selectedIndicator) => {
+                  return getIndicatorDataByIndicatorID(
+                    typedIndicatorData,
+                    selectedIndicator
+                  );
+                })
+                .flat();
 
             await resultsPage.checkRecentTrends(areaMode);
 
