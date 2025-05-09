@@ -269,6 +269,6 @@
   },
   "hiv": {
     "terms": ["aids"],
-    "isAcronym": true
+    "isAcronym": false
   }
 }
