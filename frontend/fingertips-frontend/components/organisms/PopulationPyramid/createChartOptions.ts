@@ -15,6 +15,8 @@ import {
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { FormatValueAsWholeNumberAbsolute } from '@/lib/chartHelpers/labelFormatters';
 
+const titleLabelWeight: string = '600';
+
 const toggleClickSeries = (self: Series): boolean => {
   self.chart.series.forEach((series) => {
     if (series.name === self.name) {
@@ -92,9 +94,11 @@ const createPopPyramidSeriesOptions = (
       layout: 'horizontal',
       alignColumns: true,
       reversed: true,
+      useHTML: true,
       itemStyle: {
         fontSize: '16px',
       },
+      margin: 30,
       events: {
         itemClick: function (event: LegendItemClickEventObject) {
           return toggleClickSeries(event.legendItem as Series);
@@ -105,12 +109,23 @@ const createPopPyramidSeriesOptions = (
       {
         categories: dataForArea.ageCategories,
         title: {
-          text: xAxisTitle,
+          text: ` <div> 
+                    <span style='display:block;'>
+                        ${xAxisTitle}
+                    <span>
+                    <span style="display:block; font-weight:'bold';">Male</span>
+                  </div>
+                `,
           align: 'high',
+          textAlign: 'right',
+          useHTML: true,
+          y: -30,
+          x: 10,
           offset: 2,
           rotation: 0,
           style: {
             fontSize: '19px',
+            fontWeight: titleLabelWeight,
           },
         },
         lineColor: GovukColours.DarkSlateGray,
@@ -130,12 +145,21 @@ const createPopPyramidSeriesOptions = (
         categories: dataForArea.ageCategories,
         linkedTo: 0,
         title: {
-          text: xAxisTitle,
+          text: ` <div> 
+                    <span style='display:block;'>
+                        ${xAxisTitle}
+                    <span>
+                     <span style='display:block; font-weight:'bold''>Female</span>
+                  </div>`,
           align: 'high',
+          x: -15,
+          y: -30,
           offset: 4,
+          useHTML: true,
           rotation: 0,
           style: {
             fontSize: '19px',
+            fontWeight: titleLabelWeight,
           },
         },
         lineColor: GovukColours.DarkSlateGray,
@@ -144,11 +168,12 @@ const createPopPyramidSeriesOptions = (
         tickmarkPlacement: 'on',
         tickColor: GovukColours.DarkSlateGray,
         accessibility: {
-          description: '{xAxisTitle} degrees {series.name}',
+          description: '{xAxisMaleTitle} degrees {series.name}',
         },
         labels: {
           style: {
             fontSize: '16px',
+            width: 300,
           },
         },
       },

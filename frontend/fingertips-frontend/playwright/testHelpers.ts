@@ -2,6 +2,21 @@ import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
 import ChartPage from './page-objects/pages/chartPage';
 import { AreaTypeKeys } from '@/lib/areaFilterHelpers/areaType';
 
+export type SimpleIndicatorDocument = {
+  indicatorID: string;
+  indicatorName: string;
+  associatedAreaCodes: string[];
+  dataSource: string;
+};
+
+export interface TestParams {
+  indicatorMode: IndicatorMode;
+  areaMode: AreaMode;
+  searchMode: SearchMode;
+  expectedIndicatorIDsToSelect: string[];
+  subjectSearchTerm?: string;
+}
+
 export enum SearchMode {
   ONLY_SUBJECT = 'ONLY_SUBJECT',
   ONLY_AREA = 'ONLY_AREA',
@@ -111,6 +126,12 @@ export function getScenarioConfig(
       },
     },
     {
+      componentLocator: ChartPage.populationPyramidTableComponent,
+      componentProps: {
+        isTabTable: true,
+      },
+    },
+    {
       componentLocator: ChartPage.thematicMapComponent,
       componentProps: {},
     },
@@ -151,6 +172,7 @@ export function getScenarioConfig(
       ChartPage.inequalitiesForSingleTimePeriodComponent,
       ChartPage.inequalitiesTrendComponent,
       ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
     ],
     [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.ENGLAND_AREA}`]: [
       ChartPage.lineChartComponent,
@@ -162,31 +184,38 @@ export function getScenarioConfig(
       ChartPage.inequalitiesForSingleTimePeriodComponent,
       ChartPage.inequalitiesTrendComponent,
       ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
     ],
     [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.THREE_PLUS_AREAS}`]: [
       ChartPage.barChartEmbeddedTableComponent,
       ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
     ],
     [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.ALL_AREAS_IN_A_GROUP}`]: [
       ChartPage.thematicMapComponent,
       ChartPage.barChartEmbeddedTableComponent,
       ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
     ],
     [`${IndicatorMode.TWO_INDICATORS}-${AreaMode.ENGLAND_AREA}`]: [
       ChartPage.basicTableComponent,
       ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
     ],
     [`${IndicatorMode.TWO_INDICATORS}-${AreaMode.THREE_PLUS_AREAS}`]: [
       ChartPage.heatMapComponent,
       ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
     ],
     [`${IndicatorMode.TWO_INDICATORS}-${AreaMode.ALL_AREAS_IN_A_GROUP}`]: [
       ChartPage.heatMapComponent,
       ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
     ],
     [`${IndicatorMode.THREE_PLUS_INDICATORS}-${AreaMode.TWO_AREAS}`]: [
       ChartPage.heatMapComponent,
       ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
       ChartPage.spineChartTableComponent, // needs to be last so scroll right doesn't impact other component screenshots
     ],
   };
@@ -220,15 +249,30 @@ const indicatorsMatchingSearchTerm = (
   indicator.indicatorName.toLowerCase().includes(normalizedSearchTerm) ||
   indicator.indicatorDefinition.toLowerCase().includes(normalizedSearchTerm);
 
-export function getAllIndicatorIds(
+const indicatorMatchingIndicatorID = (
+  indicator: RawIndicatorDocument,
+  indicatorID: string
+): boolean => {
+  // First convert to string
+  const indicatorIDString = String(indicator.indicatorID);
+
+  return indicatorIDString.toLowerCase() === indicatorID.toLowerCase();
+};
+
+export function getAllIndicators(
   indicators: RawIndicatorDocument[]
-): string[] {
+): SimpleIndicatorDocument[] {
   return indicators
     .filter((indicator) => indicatorsUsedInPOC(indicator))
-    .map((indicator) => indicator.indicatorID);
+    .map((indicator) => ({
+      indicatorName: indicator.indicatorName,
+      indicatorID: indicator.indicatorID,
+      associatedAreaCodes: indicator.associatedAreaCodes,
+      dataSource: indicator.dataSource,
+    }));
 }
 
-export function getAllIndicatorIdsForSearchTerm(
+export function getAllIndicatorIDsForSearchTerm(
   indicators: RawIndicatorDocument[],
   searchTerm: string
 ): string[] {
@@ -244,12 +288,49 @@ export function getAllIndicatorIdsForSearchTerm(
     .map((indicator) => indicator.indicatorID);
 }
 
+export function getAllIndicatorsForSearchTerm(
+  indicators: RawIndicatorDocument[],
+  searchTerm: string
+): SimpleIndicatorDocument[] {
+  if (!searchTerm) return [];
+
+  const lowerCasedSearchTerm = searchTerm.toLowerCase();
+  return indicators
+    .filter(
+      (indicator) =>
+        indicatorsUsedInPOC(indicator) &&
+        indicatorsMatchingSearchTerm(indicator, lowerCasedSearchTerm)
+    )
+    .map((indicator) => ({
+      indicatorName: indicator.indicatorName,
+      indicatorID: indicator.indicatorID,
+      associatedAreaCodes: indicator.associatedAreaCodes,
+      dataSource: indicator.dataSource,
+    }));
+}
+
+export function getIndicatorDataByIndicatorID(
+  indicators: RawIndicatorDocument[],
+  indicatorID: string
+): SimpleIndicatorDocument[] {
+  if (!indicatorID) return [];
+
+  return indicators
+    .filter((indicator) => indicatorMatchingIndicatorID(indicator, indicatorID))
+    .map((indicator) => ({
+      indicatorName: indicator.indicatorName,
+      indicatorID: indicator.indicatorID,
+      associatedAreaCodes: indicator.associatedAreaCodes,
+      dataSource: indicator.dataSource,
+    }));
+}
+
 export function getAllAreasByAreaType(
   areas: AreaDocument[],
   areaType: AreaTypeKeys
 ): AreaDocument[] {
   const sanitisedAreaType = areaType.toLowerCase().replaceAll('-', ' ');
-  console.log(sanitisedAreaType);
+
   return areas.filter((area) =>
     area.areaType.toLowerCase().includes(sanitisedAreaType)
   );

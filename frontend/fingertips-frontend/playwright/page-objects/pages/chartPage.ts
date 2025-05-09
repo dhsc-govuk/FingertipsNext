@@ -2,6 +2,7 @@ import {
   AreaMode,
   getScenarioConfig,
   IndicatorMode,
+  SimpleIndicatorDocument,
 } from '@/playwright/testHelpers';
 import { expect } from '../pageFactory';
 import {
@@ -80,7 +81,8 @@ export default class ChartPage extends AreaFilter {
     test: TestType<
       PlaywrightTestArgs & PlaywrightTestOptions,
       PlaywrightWorkerArgs & PlaywrightWorkerOptions
-    >
+    >,
+    selectedIndicators: SimpleIndicatorDocument[]
   ) {
     const testInfo = test.info();
     const testName = testInfo.title;
