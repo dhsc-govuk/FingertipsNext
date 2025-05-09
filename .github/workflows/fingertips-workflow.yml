@@ -591,6 +591,20 @@ jobs:
       arm-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       arm-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
 
+  extract-git-info:
+    runs-on: ubuntu-latest
+    outputs:
+      git_hash: ${{ steps.setvars.outputs.git_hash }}
+      git_tag: ${{ steps.setvars.outputs.git_tag }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: setvars
+        run: |
+          echo "git_hash=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+          echo "git_tag=$(git describe --tags --abbrev=0 --always)" >> $GITHUB_OUTPUT
+
   deploy-frontend-dev:
     needs:
       [
@@ -598,6 +612,7 @@ jobs:
         check-changes,
         push-container-frontend,
         deploy-api-dev,
+        extract-git-info
       ]
     if: >
       always() &&
@@ -653,6 +668,16 @@ jobs:
             name        = "APPLICATIONINSIGHTS_CONNECTION_STRING"
             secret_name = "fingertips-frontend-application-insights"
             value       = null
+          },
+          {
+            name        = "FINGERTIPS_GIT_HASH"
+            secret_name = null
+            value       = "${{ needs.extract-git-info.outputs.git_hash }}"
+          },
+          {
+            name        = "FINGERTIPS_GIT_TAG"
+            secret_name = null
+            value       = "${{ needs.extract-git-info.outputs.git_tag }}"
           }
         ]
       container_liveness_probe: |

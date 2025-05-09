@@ -59,7 +59,7 @@ export const lineChartDefaultOptions: Highcharts.Options = {
     itemStyle: {
       fontSize: '16px',
     },
-    margin: 20,
+    margin: 30,
   },
   accessibility: {
     enabled: false,

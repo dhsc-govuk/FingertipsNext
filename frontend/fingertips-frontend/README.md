@@ -148,7 +148,7 @@ Performed in the e2e tests when they are run in CI. They are not performed local
 
 If you have made changes in your branch that have correctly resulted in the screenshots generated not matching the base screenshots, within the tolerance ratio (see `maxDiffPixelRatio` in the playwright config file), then the e2e tests will fail in CI and you will need to update the base screenshots, to do this:
 
-1. You will see the e2e tests fail in the e2e CI job with the failure message 'Screenshot comparison failed for :${visibleComponent.componentLocator} - you may need to run the update screenshot manual CI job - see directory README.md for details.'.
+1. You will see the e2e tests fail in the e2e CI job with the failure message 'Screenshot match failed: ${visibleComponent.componentLocator} - you may need to run the update screenshot manual CI job - see Visual Screenshot Snapshot Testing in frontend/fingertips-frontend/README.md for details.'.
 2. Download `playwright-artefacts` from the github workflow summary page, and open the `index.html` file in the `playwright-report` folder, then in the Playwright report open the failed test and you will be presented with a 'Diff' page that shows the before and after.
 3. Review and compare the expected base screenshots and actual current screenshots in the playwright report with a BA to confirm the new screenshots are correct.
 4. Once the changes have been confirmed as correct go to `https://github.com/dhsc-govuk/FingertipsNext/actions/workflows/update-screenshots.yml` and click run workflow in the top right of the window and click `Run workflow`.

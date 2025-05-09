@@ -14,6 +14,14 @@ Once Docker is installed and the `.env` file is in place, you can start the whol
 docker compose --profile all up --build --remove-orphans -d
 ```
 
+```bash
+FINGERTIPS_GIT_HASH=$(git rev-parse --short HEAD) \
+FINGERTIPS_GIT_TAG=$(git describe --tags --abbrev=0 --always) \
+docker compose --profile all up --build --remove-orphans -d
+```
+
+
+
 This will build and then start the containers in the background. You can view the frontend application at [http://localhost:3000/](http://localhost:3000/) and the API at [http://localhost:5144/](http://localhost:5144/).
 
 It is also possible to start a subset of the application's containers using Docker's support for profiles. The following profiles have been defined:

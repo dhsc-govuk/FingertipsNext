@@ -1,10 +1,13 @@
 import { test } from '../../page-objects/pageFactory';
 import {
   AreaMode,
-  getAllIndicatorIds,
-  getAllIndicatorIdsForSearchTerm,
+  getAllIndicators,
+  getAllIndicatorsForSearchTerm,
+  getIndicatorDataByIndicatorID,
   IndicatorMode,
   SearchMode,
+  SimpleIndicatorDocument,
+  TestParams,
   TestTag,
 } from '../../testHelpers';
 import indicators from '../../../../../search-setup/assets/indicators.json';
@@ -16,62 +19,64 @@ const areaSearchTerm: AreaDocument = {
   areaType: 'Regions',
   areaName: 'north west region',
 };
-let allIndicatorIDs: string[];
-
-interface TestParams {
-  indicatorMode: IndicatorMode;
-  areaMode: AreaMode;
-  searchMode: SearchMode;
-  subjectSearchTerm?: string;
-}
+let allValidIndicators: SimpleIndicatorDocument[] = [];
+let selectedIndicatorsData: SimpleIndicatorDocument[] = [];
 
 const coreTestJourneys: TestParams[] = [
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ENGLAND_AREA,
     searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: '22401',
+    subjectSearchTerm: '22401', // test searching for a specific indicatorID
+    expectedIndicatorIDsToSelect: ['22401'],
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ONE_AREA,
     searchMode: SearchMode.BOTH_SUBJECT_AND_AREA,
     subjectSearchTerm: 'emergency',
+    expectedIndicatorIDsToSelect: ['41101'],
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.THREE_PLUS_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
     subjectSearchTerm: 'emergency',
+    expectedIndicatorIDsToSelect: ['41101'],
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
     searchMode: SearchMode.ONLY_SUBJECT,
     subjectSearchTerm: 'emergency',
+    expectedIndicatorIDsToSelect: ['41101'],
   },
   {
     indicatorMode: IndicatorMode.TWO_INDICATORS,
     areaMode: AreaMode.ENGLAND_AREA,
     searchMode: SearchMode.ONLY_SUBJECT,
     subjectSearchTerm: 'emergency',
+    expectedIndicatorIDsToSelect: ['41101', '22401'],
   },
   {
     indicatorMode: IndicatorMode.TWO_INDICATORS,
     areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
     searchMode: SearchMode.ONLY_SUBJECT,
     subjectSearchTerm: 'emergency',
+    expectedIndicatorIDsToSelect: ['41101', '22401'],
   },
   {
     indicatorMode: IndicatorMode.TWO_INDICATORS,
     areaMode: AreaMode.THREE_PLUS_AREAS,
     searchMode: SearchMode.ONLY_AREA, // therefore no subject search term required
+    expectedIndicatorIDsToSelect: ['41101', '22401'],
   },
   {
     indicatorMode: IndicatorMode.THREE_PLUS_INDICATORS,
     areaMode: AreaMode.TWO_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
     subjectSearchTerm: 'hospital', // a different subject search term is required that returns enough search results allowing for three indicators to be selected
+    expectedIndicatorIDsToSelect: ['41101', '22401', '91894'],
   },
 ];
 
@@ -89,7 +94,13 @@ test.describe(
   },
   () => {
     coreTestJourneys.forEach(
-      ({ searchMode, indicatorMode, areaMode, subjectSearchTerm }) => {
+      ({
+        searchMode,
+        indicatorMode,
+        areaMode,
+        subjectSearchTerm,
+        expectedIndicatorIDsToSelect,
+      }) => {
         const typedIndicatorData = indicatorData.map(
           (indicator: RawIndicatorDocument) => {
             return {
@@ -99,10 +110,10 @@ test.describe(
           }
         );
 
-        allIndicatorIDs =
+        allValidIndicators =
           searchMode === SearchMode.ONLY_AREA
-            ? getAllIndicatorIds(typedIndicatorData)
-            : getAllIndicatorIdsForSearchTerm(
+            ? getAllIndicators(typedIndicatorData)
+            : getAllIndicatorsForSearchTerm(
                 typedIndicatorData,
                 subjectSearchTerm!
               );
@@ -124,7 +135,7 @@ test.describe(
             await homePage.clickSearchButton();
           });
 
-          await test.step(`check results page based on search mode and select ${areaMode} then ${indicatorMode}`, async () => {
+          await test.step(`check results page based on search mode and then select ${areaMode} and ${indicatorMode}`, async ({}) => {
             await resultsPage.waitForURLToContainBasedOnSearchMode(
               searchMode,
               subjectSearchTerm!,
@@ -140,19 +151,46 @@ test.describe(
               areaMode,
               subjectSearchTerm!
             );
-            await resultsPage.selectIndicatorCheckboxes(
-              allIndicatorIDs,
-              indicatorMode
+
+            await resultsPage.checkDisplayedIndicators(
+              allValidIndicators,
+              searchMode
             );
+
+            await resultsPage.selectIndicatorCheckboxes(
+              expectedIndicatorIDsToSelect
+            );
+          });
+
+          await test.step(`check the results page and then view the chart page, checking that the displayed charts are correct`, async () => {
+            for (const selectedIndicator of expectedIndicatorIDsToSelect) {
+              const indicatorDataArray = getIndicatorDataByIndicatorID(
+                typedIndicatorData,
+                selectedIndicator
+              );
+
+              selectedIndicatorsData = [
+                ...selectedIndicatorsData,
+                ...indicatorDataArray,
+              ];
+            }
+
             await resultsPage.checkRecentTrends(areaMode);
 
             await resultsPage.clickViewChartsButton();
-          });
 
-          await test.step(`check chart page and assert that the displayed charts are correct`, async () => {
+            await chartPage.checkSelectedIndicatorPillsText(
+              selectedIndicatorsData
+            );
+
             await chartPage.checkOnChartPage();
 
-            await chartPage.checkChartVisibility(indicatorMode, areaMode, test);
+            await chartPage.checkChartVisibility(
+              indicatorMode,
+              areaMode,
+              test,
+              selectedIndicatorsData
+            );
           });
         });
       }

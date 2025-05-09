@@ -176,7 +176,7 @@ export function BarChartEmbeddedTable({
             data-testid="table-row-benchmark"
           >
             <CheckValueInTableCell
-              value={benchmarkData?.areaName}
+              value={`Benchmark: ${benchmarkData?.areaName}`}
               style={{ textAlign: 'left' }}
             />
             <Table.Cell style={{ textAlign: 'center' }}>
@@ -230,7 +230,7 @@ export function BarChartEmbeddedTable({
             data-testid="table-row-group"
           >
             <CheckValueInTableCell
-              value={groupIndicatorData?.areaName}
+              value={`Group: ${groupIndicatorData?.areaName}`}
               style={{ textAlign: 'left' }}
             />
             <Table.Cell style={{ textAlign: 'center' }}>
