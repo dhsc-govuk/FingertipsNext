@@ -17,6 +17,7 @@ import {
 } from '@/components/organisms/SpineChartTable/spineChartTableHelpers';
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
 
 function shouldShowHeatmap(
   areaCodes: string[],
@@ -114,16 +115,20 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
         spineChartIndicatorData,
         groupAreaSelected
       ) ? (
-        <SpineChartTable indicatorData={spineChartIndicatorData} />
+        <StyleChartWrapper>
+          <SpineChartTable indicatorData={spineChartIndicatorData} />
+        </StyleChartWrapper>
       ) : null}
       {shouldShowHeatmap(areaCodes, groupAreaSelected) ? (
-        <Heatmap
-          indicatorData={buildHeatmapIndicatorData(
-            indicatorData,
-            indicatorMetadata
-          )}
-          groupAreaCode={selectedGroupCode}
-        />
+        <StyleChartWrapper>
+          <Heatmap
+            indicatorData={buildHeatmapIndicatorData(
+              indicatorData,
+              indicatorMetadata
+            )}
+            groupAreaCode={selectedGroupCode}
+          />
+        </StyleChartWrapper>
       ) : null}
     </section>
   );

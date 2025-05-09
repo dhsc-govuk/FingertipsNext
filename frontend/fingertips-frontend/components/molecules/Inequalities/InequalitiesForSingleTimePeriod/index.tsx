@@ -30,6 +30,7 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 import { InequalitiesTypesDropDown } from '../InequalitiesTypesDropDown';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
+import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
 
 interface InequalitiesForSingleTimePeriodProps {
   healthIndicatorData: HealthDataForArea[];
@@ -128,7 +129,7 @@ export function InequalitiesForSingleTimePeriod({
     data: periodData,
   };
   return (
-    <div data-testid="inequalitiesForSingleTimePeriod-component">
+    <StyleChartWrapper data-testid="inequalitiesForSingleTimePeriod-component">
       <H3>Inequalities data for a single time period</H3>
       <TimePeriodDropDown years={yearsDesc} searchState={searchState} />
       <InequalitiesTypesDropDown
@@ -177,6 +178,6 @@ export function InequalitiesForSingleTimePeriod({
         ]}
         footer={<DataSource dataSource={dataSource} />}
       />
-    </div>
+    </StyleChartWrapper>
   );
 }

@@ -42,6 +42,7 @@ import {
 import { ChartSelectArea } from '../../ChartSelectArea';
 import { InequalitiesTypesDropDown } from '../InequalitiesTypesDropDown';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
+import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
 
 interface InequalitiesTrendProps {
   healthIndicatorData: HealthDataForArea[];
@@ -193,7 +194,7 @@ export function InequalitiesTrend({
     );
 
   return (
-    <div data-testid="inequalitiesTrend-component">
+    <StyleChartWrapper data-testid="inequalitiesTrend-component">
       <H3>Inequalities data over time</H3>
       <InequalitiesTypesDropDown
         inequalitiesOptions={inequalityCategories}
@@ -235,6 +236,6 @@ export function InequalitiesTrend({
         ]}
         footer={<DataSource dataSource={dataSource} />}
       />
-    </div>
+    </StyleChartWrapper>
   );
 }

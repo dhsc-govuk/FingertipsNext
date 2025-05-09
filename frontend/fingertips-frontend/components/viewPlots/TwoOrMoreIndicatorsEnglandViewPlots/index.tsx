@@ -8,6 +8,7 @@ import {
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { H3 } from 'govuk-react';
 import { BasicTableData, BasicTable } from '@/components/organisms/BasicTable';
+import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
 
 type TwoOrMoreIndicatorsEnglandViewPlotProps = {
   indicatorData: IndicatorWithHealthDataForArea[];
@@ -77,8 +78,10 @@ export function TwoOrMoreIndicatorsEnglandViewPlots({
 
   return (
     <section data-testid="twoOrMoreIndicatorsEnglandViewPlot-component">
-      <H3>Compare indicators for an area</H3>
-      <BasicTable indicatorData={englandIndicatorData} areaName={areaName} />
+      <StyleChartWrapper>
+        <H3>Compare indicators for an area</H3>
+        <BasicTable indicatorData={englandIndicatorData} areaName={areaName} />
+      </StyleChartWrapper>
     </section>
   );
 }
