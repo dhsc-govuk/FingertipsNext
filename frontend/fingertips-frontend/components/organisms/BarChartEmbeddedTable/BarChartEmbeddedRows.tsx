@@ -1,4 +1,4 @@
-import React, { FC, useLayoutEffect } from 'react';
+import React, { FC } from 'react';
 import {
   BenchmarkComparisonMethod,
   IndicatorPolarity,
@@ -6,8 +6,7 @@ import {
 import { BarChartEmbeddedTableRow } from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedTable.types';
 import { BarChartEmbeddedRow } from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedRow';
 import { useMoreRowsWhenScrolling } from '@/components/hooks/useMoreRowsWhenScrolling';
-import { InViewTrigger } from '@/components/hooks/InViewTrigger';
-import { Table } from 'govuk-react';
+import { BarChartEmbeddedPlaceholderRows } from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedPlaceholderRows';
 
 interface BarChartEmbeddedRowsProps {
   rows: BarChartEmbeddedTableRow[];
@@ -18,17 +17,6 @@ interface BarChartEmbeddedRowsProps {
   measurementUnit?: string;
 }
 
-const getAverageHeight = () => {
-  const elements = document.getElementsByClassName('BarChartEmbeddedRow');
-  if (!elements || elements.length === 0) return 0;
-  const first = elements[0];
-  const last = elements[elements.length - 1];
-  if (!first || !last) return 0;
-  const { top } = first.getBoundingClientRect();
-  const { bottom } = last.getBoundingClientRect();
-  return (bottom - top) / elements.length;
-};
-
 export const BarChartEmbeddedRows: FC<BarChartEmbeddedRowsProps> = ({
   rows,
   maxValue,
@@ -37,17 +25,8 @@ export const BarChartEmbeddedRows: FC<BarChartEmbeddedRowsProps> = ({
   polarity,
   measurementUnit = '',
 }) => {
-  const { triggerRef, rowsToShow, hasMore, nRowsToHide } =
+  const { triggerRef, rowsToShow, nRowsToHide } =
     useMoreRowsWhenScrolling<BarChartEmbeddedTableRow>(rows, 50);
-  const [averageHeight, setAverageHeight] = React.useState(150);
-
-  useLayoutEffect(() => {
-    setAverageHeight(getAverageHeight());
-  }, [nRowsToHide]);
-
-  const hiddenRows = Array(nRowsToHide)
-    .fill(null)
-    .map((_, i) => `hidden-row-${i}`);
 
   return (
     <>
@@ -62,17 +41,10 @@ export const BarChartEmbeddedRows: FC<BarChartEmbeddedRowsProps> = ({
           measurementUnit={measurementUnit}
         />
       ))}
-      {hiddenRows.map((key, index) => (
-        <Table.Row key={key}>
-          <Table.Cell colSpan={7} style={{ height: `${averageHeight}px` }}>
-            {index === 0 ? (
-              <InViewTrigger triggerRef={triggerRef} more={hasMore} />
-            ) : (
-              '...'
-            )}
-          </Table.Cell>
-        </Table.Row>
-      ))}
+      <BarChartEmbeddedPlaceholderRows
+        nRowsToHide={nRowsToHide}
+        triggerRef={triggerRef}
+      />
     </>
   );
 };
