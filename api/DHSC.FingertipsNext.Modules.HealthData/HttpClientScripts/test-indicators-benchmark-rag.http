@@ -47,8 +47,8 @@ GET http://localhost:5144/indicators/94063/data?area_codes=N85008&area_group=U79
     client.test("Check Get Health Data response when benchmarking against areaGroup", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
             const expectedResults = [ 
-                {areaName:"West Wirral Group Practice", year:2022, outcome:"Similar", benchmarkArea:"U79121", benchmarkAreaName:"Healthier West Wirral PCN", benchmarkValue:74.43451},  
-                {areaName:"West Wirral Group Practice", year:2023, outcome:"Similar", benchmarkArea:"U79121", benchmarkAreaName:"Healthier West Wirral PCN", benchmarkValue:76.455025}                 ];
+                {areaName:"West Wirral Group Practice", year:2022, outcome:"Similar", benchmarkArea:"U79121", benchmarkAreaName:"Healthier West Wirral PCN", benchmarkValue:74.4345081536034},  
+                {areaName:"West Wirral Group Practice", year:2023, outcome:"Similar", benchmarkArea:"U79121", benchmarkAreaName:"Healthier West Wirral PCN", benchmarkValue:76.4550264550265}                 ];
 
             expectedResults.forEach((expected) => {
                 client.assert(
@@ -89,16 +89,16 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
     client.test("Check Get Health Data response when benchmarking against areaGroup", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
             const expectedResults = [ 
-                {areaName:"Trinity & Bowthorpe Medical Practice", year:2022, outcome:"Lower", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.01075},  
-                {areaName:"Trinity & Bowthorpe Medical Practice", year:2023, outcome:"Lower", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.904594},  
-                {areaName:"Roundwell Medical Centre", year:2022, outcome:"Higher", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.01075},  
-                {areaName:"Roundwell Medical Centre", year:2023, outcome:"Higher", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.904594},  
-                {areaName:"Taverham Surgery", year:2022, outcome:"Higher", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.01075},  
-                {areaName:"Taverham Surgery", year:2023, outcome:"Higher", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.904594},  
-                {areaName:"Wensum Valley Medical Practice", year:2022, outcome:"Lower", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.01075},  
-                {areaName:"Wensum Valley Medical Practice", year:2023, outcome:"Lower", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.904594},  
-                {areaName:"Bacon Road Medical Centre", year:2022, outcome:"Lower", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.01075},  
-                {areaName:"Bacon Road Medical Centre", year:2023, outcome:"Similar", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.904594},  
+                {areaName:"Trinity & Bowthorpe Medical Practice", year:2022, outcome:"Lower", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.010752688172},  
+                {areaName:"Trinity & Bowthorpe Medical Practice", year:2023, outcome:"Lower", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.904593639576},  
+                {areaName:"Roundwell Medical Centre", year:2022, outcome:"Higher", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.010752688172},  
+                {areaName:"Roundwell Medical Centre", year:2023, outcome:"Higher", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.904593639576},  
+                {areaName:"Taverham Surgery", year:2022, outcome:"Higher", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.010752688172},  
+                {areaName:"Taverham Surgery", year:2023, outcome:"Higher", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.904593639576},  
+                {areaName:"Wensum Valley Medical Practice", year:2022, outcome:"Lower", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.010752688172},  
+                {areaName:"Wensum Valley Medical Practice", year:2023, outcome:"Lower", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.904593639576},  
+                {areaName:"Bacon Road Medical Centre", year:2022, outcome:"Lower", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.010752688172},  
+                {areaName:"Bacon Road Medical Centre", year:2023, outcome:"Similar", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.904593639576},  
                 ];
 
             expectedResults.forEach((expected) => {
@@ -106,25 +106,26 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
                     .healthData.find(dataPoint => dataPoint.year === expected.year)
                     .benchmarkComparison.outcome === expected.outcome,
-                    `failed for ${expected.areaName}`
+                    `failed for ${expected.areaName} outcome`
                 );
                 client.assert(
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
                     .healthData.find(dataPoint => dataPoint.year === expected.year)
                     .benchmarkComparison.benchmarkAreaCode === expected.benchmarkArea,
-                    `failed for ${expected.areaName}`
+                    `failed for ${expected.areaName} benchmarkArea`
                 );
                 client.assert(
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
                     .healthData.find(dataPoint => dataPoint.year === expected.year)
                     .benchmarkComparison.benchmarkAreaName === expected.benchmarkAreaName,
-                    `failed for ${expected.areaName}`
+                    `failed for ${expected.areaName} benchmarkAreaName`
                 );
+                // TODO: DHSCFT-725 fix this
                 client.assert(
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
                     .healthData.find(dataPoint => dataPoint.year === expected.year)
                     .benchmarkComparison.benchmarkValue === expected.benchmarkValue,
-                    `failed for ${expected.areaName}`
+                    `failed for ${expected.areaName} benchmarkValue`
                 );           
             });
     });
@@ -138,8 +139,8 @@ GET http://localhost:5144/indicators/94063/data?area_codes=N85008&area_group=E38
     client.test("Check Get Health Data response when benchmarking against areaGroup", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
             const expectedResults = [ 
-                {areaName:"West Wirral Group Practice", year:2022, outcome:"Higher", benchmarkArea:"E38000208", benchmarkAreaName:"Cheshire and Merseyside ICB - 12F", benchmarkValue:67.51529},  
-                {areaName:"West Wirral Group Practice", year:2023, outcome:"Higher", benchmarkArea:"E38000208", benchmarkAreaName:"Cheshire and Merseyside ICB - 12F", benchmarkValue:72.57136}                 ];
+                {areaName:"West Wirral Group Practice", year:2022, outcome:"Higher", benchmarkArea:"E38000208", benchmarkAreaName:"Cheshire and Merseyside ICB - 12F", benchmarkValue:67.5152876575565},  
+                {areaName:"West Wirral Group Practice", year:2023, outcome:"Higher", benchmarkArea:"E38000208", benchmarkAreaName:"Cheshire and Merseyside ICB - 12F", benchmarkValue:72.5647792706334}                 ];
 
             expectedResults.forEach((expected) => {
                 client.assert(
