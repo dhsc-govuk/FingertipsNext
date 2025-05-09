@@ -20,7 +20,6 @@ const areaSearchTerm: AreaDocument = {
   areaName: 'north west region',
 };
 let allValidIndicators: SimpleIndicatorDocument[] = [];
-let selectedIndicatorsData: SimpleIndicatorDocument[] = [];
 
 const coreTestJourneys: TestParams[] = [
   {
@@ -163,17 +162,12 @@ test.describe(
           });
 
           await test.step(`check the results page and then view the chart page, checking that the displayed charts are correct`, async () => {
-            for (const selectedIndicator of expectedIndicatorIDsToSelect) {
-              const indicatorDataArray = getIndicatorDataByIndicatorID(
+            const selectedIndicatorsData: SimpleIndicatorDocument[] = expectedIndicatorIDsToSelect.map((selectedIndicator) => {
+              return getIndicatorDataByIndicatorID(
                 typedIndicatorData,
                 selectedIndicator
-              );
-
-              selectedIndicatorsData = [
-                ...selectedIndicatorsData,
-                ...indicatorDataArray,
-              ];
-            }
+              )
+            }).flat();
 
             await resultsPage.checkRecentTrends(areaMode);
 
