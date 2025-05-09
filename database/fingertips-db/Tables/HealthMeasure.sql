@@ -15,7 +15,10 @@ CREATE TABLE [dbo].[HealthMeasure](
 	[Year] [smallint] NOT NULL,                       --A junk dimension of the year that this row is for e.g. 2022
 	[IsSexAggregatedOrSingle] bit NULL,
 	[IsAgeAggregatedOrSingle] bit NULL,
-	[IsDeprivationAggregatedOrSingle] bit NULL
+	[IsDeprivationAggregatedOrSingle] bit NULL,
+	[FromDateKey] [int] NULL,
+	[ToDateKey] [int] NULL,
+	[PeriodKey] [tinyint] NULL
  CONSTRAINT [PK_HealthMeasure] PRIMARY KEY CLUSTERED
 (
 	[HealthMeasureKey] ASC
@@ -60,6 +63,27 @@ GO
 ALTER TABLE [dbo].[HealthMeasure] CHECK CONSTRAINT [FK_HealthMeasure_DeprivationDimension]
 GO
 
+ALTER TABLE [dbo].[HealthMeasure]  WITH CHECK ADD  CONSTRAINT [FK_HealthMeasure_FromDateDimension] FOREIGN KEY([FromDateKey])
+REFERENCES [dbo].[DateDimension] ([DateKey])
+GO
+
+ALTER TABLE [dbo].[HealthMeasure] CHECK CONSTRAINT [FK_HealthMeasure_FromDateDimension]
+GO
+
+ALTER TABLE [dbo].[HealthMeasure]  WITH CHECK ADD  CONSTRAINT [FK_HealthMeasure_ToDateDimension] FOREIGN KEY([ToDateKey])
+REFERENCES [dbo].[DateDimension] ([DateKey])
+GO
+
+ALTER TABLE [dbo].[HealthMeasure] CHECK CONSTRAINT [FK_HealthMeasure_ToDateDimension]
+GO
+
+ALTER TABLE [dbo].[HealthMeasure]  WITH CHECK ADD  CONSTRAINT [FK_HealthMeasure_PeriodDimension] FOREIGN KEY([PeriodKey])
+REFERENCES [dbo].[PeriodDimension] ([PeriodKey])
+GO
+
+ALTER TABLE [dbo].[HealthMeasure] CHECK CONSTRAINT [FK_HealthMeasure_PeriodDimension]
+GO
+
 CREATE NONCLUSTERED INDEX [AgeIndex] ON [dbo].[HealthMeasure]
 (
 	[AgeKey] ASC
@@ -99,6 +123,24 @@ GO
 CREATE NONCLUSTERED INDEX [YearIndex] ON [dbo].[HealthMeasure]
 (
 	[Year] ASC
+)
+GO
+
+CREATE NONCLUSTERED INDEX [FromDateIndex] ON [dbo].[HealthMeasure]
+(
+	[FromDateKey] ASC
+)
+GO
+
+CREATE NONCLUSTERED INDEX [ToDateIndex] ON [dbo].[HealthMeasure]
+(
+	[ToDateKey] ASC
+)
+GO
+
+CREATE NONCLUSTERED INDEX [PeriodIndex] ON [dbo].[HealthMeasure]
+(
+	[PeriodKey] ASC
 )
 GO
 

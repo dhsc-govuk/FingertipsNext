@@ -49,6 +49,20 @@ END CATCH;
 GO
 
 BEGIN TRY 
+    DELETE FROM [dbo].[DateDimension];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [dbo].[PeriodDimension];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
     DELETE FROM [Areas].[AreaRelationships];
 END TRY
 BEGIN CATCH
@@ -70,6 +84,8 @@ END CATCH;
 GO
 
 
+
+
 --reseed the tables, starting from 0. Currently identity insert is turned off for this seeding data
 DBCC CHECKIDENT ('[HealthMeasure]', RESEED, 0);
 DBCC CHECKIDENT ('[AgeDimension]', RESEED, 0);
@@ -78,7 +94,10 @@ DBCC CHECKIDENT ('[DeprivationDimension]', RESEED, 0);
 DBCC CHECKIDENT ('[IndicatorDimension]', RESEED, 0);
 DBCC CHECKIDENT ('[SexDimension]', RESEED, 0);
 DBCC CHECKIDENT ('[TrendDimension]', RESEED, 0);
+DBCC CHECKIDENT ('[DateDimension]', RESEED, 0);
+DBCC CHECKIDENT ('[PeriodDimension]', RESEED, 0);
 DBCC CHECKIDENT ('[Areas].[Areas]', RESEED, 0);
+
 --create some sex dimension data
 INSERT INTO [dbo].[SexDimension] 
 	(
@@ -91,6 +110,20 @@ INSERT INTO [dbo].[SexDimension]
 	('Female',1,2),
 	('Persons',0,4)
 
+--create some period data
+INSERT INTO [dbo].[PeriodDimension]
+(Period)
+VALUES
+('Year'),
+('Quarter'),
+('Month'),
+('Week'),
+('Day'),
+('Financial Year'),
+('Academic Year'),
+('2 Year'),
+('3 Year'),
+('5 Year')
 
 --create the trend dimension data
 SET IDENTITY_INSERT [dbo].[TrendDimension] ON
@@ -105,6 +138,75 @@ INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (8, N'Decr
 INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (9, N'Decreasing and getting worse', 1)
 SET IDENTITY_INSERT [dbo].[TrendDimension] OFF
 GO
+
+--populate the DateDimension table
+DECLARE @CurrentDate DATE = '2000-01-01'
+DECLARE @EndDate DATE = '2035-12-31'
+
+WHILE @CurrentDate < @EndDate
+BEGIN
+   INSERT INTO [dbo].[DateDimension] (
+      [Date],
+      [Day],
+      [DaySuffix],
+      [Weekday],
+      [WeekDayName],
+      [DayOfYear],
+      [WeekOfMonth],
+      [WeekOfYear],
+      [Month],
+      [MonthName],
+      [MonthNameShort],
+      [Quarter],
+      [QuarterName],
+      [Year],
+      [IsWeekend]
+      )
+   SELECT 
+      DATE = @CurrentDate,
+      Day = DAY(@CurrentDate),
+      [DaySuffix] = CASE 
+         WHEN DAY(@CurrentDate) = 1
+            OR DAY(@CurrentDate) = 21
+            OR DAY(@CurrentDate) = 31
+            THEN 'st'
+         WHEN DAY(@CurrentDate) = 2
+            OR DAY(@CurrentDate) = 22
+            THEN 'nd'
+         WHEN DAY(@CurrentDate) = 3
+            OR DAY(@CurrentDate) = 23
+            THEN 'rd'
+         ELSE 'th'
+         END,
+      WEEKDAY = DATEPART(dw, @CurrentDate),
+      WeekDayName = DATENAME(dw, @CurrentDate),
+      [DayOfYear] = DATENAME(dy, @CurrentDate),
+      [WeekOfMonth] = DATEPART(WEEK, @CurrentDate) - DATEPART(WEEK, DATEADD(MM, DATEDIFF(MM, 0, @CurrentDate), 0)) + 1,
+      [WeekOfYear] = DATEPART(wk, @CurrentDate),
+      [Month] = MONTH(@CurrentDate),
+      [MonthName] = DATENAME(mm, @CurrentDate),
+      [MonthNameShort] = UPPER(LEFT(DATENAME(mm, @CurrentDate), 3)),
+      [Quarter] = DATEPART(q, @CurrentDate),
+      [QuarterName] = CASE 
+         WHEN DATENAME(qq, @CurrentDate) = 1
+            THEN 'First'
+         WHEN DATENAME(qq, @CurrentDate) = 2
+            THEN 'second'
+         WHEN DATENAME(qq, @CurrentDate) = 3
+            THEN 'third'
+         WHEN DATENAME(qq, @CurrentDate) = 4
+            THEN 'fourth'
+         END,
+      [Year] = YEAR(@CurrentDate),
+      [IsWeekend] = CASE 
+         WHEN DATENAME(dw, @CurrentDate) = 'Sunday'
+            OR DATENAME(dw, @CurrentDate) = 'Saturday'
+            THEN 1
+         ELSE 0
+         END
+
+   SET @CurrentDate = DATEADD(DD, 1, @CurrentDate)
+END
 
 BEGIN TRY DROP TABLE #TempDeprivationData; END TRY BEGIN CATCH END CATCH;
 GO
