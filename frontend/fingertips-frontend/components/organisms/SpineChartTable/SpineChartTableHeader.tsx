@@ -181,7 +181,7 @@ export function SpineChartTableHeader({
         ))}
         {showGroupData ? (
           <StyledGroupHeader data-testid="group-header">
-            {groupName}
+            Group: {groupName}
           </StyledGroupHeader>
         ) : null}
         <StyledBenchmarkHeader colSpan={4} data-testid="england-header">

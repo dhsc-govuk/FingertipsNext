@@ -48,6 +48,7 @@ export type AreaDocument = {
   areaCode: string;
   areaType: string;
   areaName: string;
+  postcode?: string;
 };
 
 export interface IIndicatorSearchService {
