@@ -11,7 +11,7 @@ import {
 import indicators from '../../../../../search-setup/assets/indicators.json';
 import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
 import { coreTestJourneys } from './core_journey_config';
-//@ts-expect-error don't care about type checking this json file
+//@ts-expect-error don't type check this json file
 const indicatorData = indicators as RawIndicatorDocument[];
 const areaSearchTerm: AreaDocument = {
   areaCode: 'E12000002',
@@ -25,7 +25,7 @@ const checkTrends = checkTrendsOnResultsPage();
 /**
  * This tests, in parallel, the indicator + area scenario combinations from
  * https://ukhsa.atlassian.net/wiki/spaces/FTN/pages/171448170/Frontend+Application+-+Displaying+Charts
- * These scenario combinations are know as core journeys and are defined above in coreTestJourneys,
+ * These scenario combinations are know as core journeys and are defined in coreTestJourneys,
  * they were chosen as they are happy paths covering lots of chart components, they also cover the three different search mode scenarios.
  * All 15 journeys are covered in lower level unit testing.
  */
