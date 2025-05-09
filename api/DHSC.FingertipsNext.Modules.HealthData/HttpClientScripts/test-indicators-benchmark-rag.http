@@ -133,14 +133,13 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
 
 
 ### check GET health data with rag comparison benchmarked against areaGroup which is not immediate ancestor of the area
-GET http://localhost:5144/indicators/94063/data?area_codes=N85008&area_group=E38000208&benchmark_ref_type=AreaGroup
-
+GET http://localhost:5144/indicators/93085/data?area_codes=E54000008&area_codes=E54000057
 > {%
     client.test("Check Get Health Data response when benchmarking against areaGroup", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
             const expectedResults = [ 
-                {areaName:"West Wirral Group Practice", year:2022, outcome:"Higher", benchmarkArea:"E38000208", benchmarkAreaName:"Cheshire and Merseyside ICB - 12F", benchmarkValue:67.5152876575565},  
-                {areaName:"West Wirral Group Practice", year:2023, outcome:"Higher", benchmarkArea:"E38000208", benchmarkAreaName:"Cheshire and Merseyside ICB - 12F", benchmarkValue:72.5647792706334}                 ];
+                {areaName:"NHS Cheshire and Merseyside Integrated Care Board - QYG", year:2022, outcome:"Worse", benchmarkArea:"E92000001", benchmarkAreaName:"England", benchmarkValue:8.8},  
+                {areaName:"NHS Greater Manchester Integrated Care Board - QOP", year:2023, outcome:"Similar", benchmarkArea:"E92000001", benchmarkAreaName:"England", benchmarkValue:7.4}                 ];
 
             expectedResults.forEach((expected) => {
                 client.assert(
@@ -171,7 +170,6 @@ GET http://localhost:5144/indicators/94063/data?area_codes=N85008&area_group=E38
 
     });
 %}
-
 
 ### Check GET health data with bad benchmark_ref_type
 GET http://localhost:5144/indicators/94063/data?area_codes=N85008&area_group=U79121&benchmark_ref_type=UnknownType
