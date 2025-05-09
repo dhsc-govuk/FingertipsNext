@@ -1,3 +1,4 @@
+'use client';
 import {
   BenchmarkComparisonMethod,
   HealthDataForArea,
@@ -6,6 +7,7 @@ import {
 import { InequalitiesForSingleTimePeriod } from '@/components/molecules/Inequalities/InequalitiesForSingleTimePeriod';
 import { InequalitiesTrend } from '@/components/molecules/Inequalities/InequalitiesTrend';
 import { SearchStateParams } from '@/lib/searchStateManager';
+import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
 
 interface InequalitiesProps {
   healthIndicatorData: HealthDataForArea[];
@@ -34,7 +36,7 @@ export function Inequalities({
         polarity={polarity}
         dataSource={dataSource}
       />
-      <br />
+      <StyleChartWrapper />
       <InequalitiesTrend
         healthIndicatorData={healthIndicatorData}
         measurementUnit={measurementUnit}

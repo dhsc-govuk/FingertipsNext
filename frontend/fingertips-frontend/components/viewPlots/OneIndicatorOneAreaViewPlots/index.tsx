@@ -23,6 +23,7 @@ import {
 } from '@/components/organisms/LineChart/lineChartHelpers';
 import { getAllDataWithoutInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
+import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
 
 function shouldLineChartBeShown(
   dataWithoutEnglandOrGroup: HealthDataForArea[],
@@ -101,7 +102,7 @@ export function OneIndicatorOneAreaViewPlots({
         areaDataWithoutInequalities,
         englandBenchmarkWithoutInequalities
       ) && (
-        <>
+        <StyleChartWrapper>
           <H3>Indicator data over time</H3>
           <TabContainer
             id="lineChartAndTable"
@@ -133,16 +134,18 @@ export function OneIndicatorOneAreaViewPlots({
             ]}
             footer={<DataSource dataSource={indicatorMetadata?.dataSource} />}
           />
-        </>
+        </StyleChartWrapper>
       )}
-      <Inequalities
-        healthIndicatorData={healthIndicatorData}
-        searchState={searchState}
-        measurementUnit={indicatorMetadata?.unitLabel}
-        benchmarkComparisonMethod={benchmarkComparisonMethod}
-        polarity={polarity}
-        dataSource={indicatorMetadata?.dataSource}
-      />
+      <StyleChartWrapper>
+        <Inequalities
+          healthIndicatorData={healthIndicatorData}
+          searchState={searchState}
+          measurementUnit={indicatorMetadata?.unitLabel}
+          benchmarkComparisonMethod={benchmarkComparisonMethod}
+          polarity={polarity}
+          dataSource={indicatorMetadata?.dataSource}
+        />
+      </StyleChartWrapper>
     </section>
   );
 }

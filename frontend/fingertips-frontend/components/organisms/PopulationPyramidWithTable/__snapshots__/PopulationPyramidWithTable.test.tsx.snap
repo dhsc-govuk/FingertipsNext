@@ -2,7 +2,7 @@
 
 exports[`PopulationPyramidWithTable take a snapshot 1`] = `
 <DocumentFragment>
-  .c3 {
+  .c4 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -14,13 +14,13 @@ exports[`PopulationPyramidWithTable take a snapshot 1`] = `
   margin-bottom: 0;
 }
 
-.c3:after {
+.c4:after {
   content: '';
   display: table;
   clear: both;
 }
 
-.c0 {
+.c1 {
   color: #0b0c0c;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -33,7 +33,7 @@ exports[`PopulationPyramidWithTable take a snapshot 1`] = `
   margin-bottom: 15px;
 }
 
-.c2 {
+.c3 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -52,12 +52,12 @@ exports[`PopulationPyramidWithTable take a snapshot 1`] = `
   cursor: pointer;
 }
 
-.c2 circle {
+.c3 circle {
   outline: none;
   fill: none;
 }
 
-.c1 {
+.c2 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -85,16 +85,16 @@ exports[`PopulationPyramidWithTable take a snapshot 1`] = `
   align-items: center;
 }
 
-.c1:hover svg circle {
+.c2:hover svg circle {
   fill: #0B0C0C;
   stroke: #0B0C0C;
 }
 
-.c1:hover svg path {
+.c2:hover svg path {
   stroke: #FFFFFF;
 }
 
-.c4 {
+.c5 {
   font-weight: 300;
   color: #1D70B8;
   padding: 2px 1px 1px 1px;
@@ -103,34 +103,38 @@ exports[`PopulationPyramidWithTable take a snapshot 1`] = `
   font-size: 19px;
 }
 
+.c0 {
+  padding-bottom: 50px;
+}
+
 @media only screen and (min-width:641px) {
-  .c3 {
+  .c4 {
     margin-bottom: 0;
   }
 }
 
 @media print {
-  .c0 {
+  .c1 {
     color: #000;
   }
 }
 
 @media print {
-  .c0 {
+  .c1 {
     font-size: 18px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c0 {
+  .c1 {
     font-size: 24px;
     line-height: 1.25;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c0 {
+  .c1 {
     margin-bottom: 20px;
   }
 }
@@ -138,46 +142,50 @@ exports[`PopulationPyramidWithTable take a snapshot 1`] = `
 <div
     data-testid="populationPyramidWithTable-component"
   >
-    <h3
+    <div
       class="c0"
-      style="font-size: 24px;"
     >
-      Related population data
-    </h3>
-    <span
-      class="c1"
-    >
-      <svg
+      <h3
+        class="c1"
+        style="font-size: 24px;"
+      >
+        Related population data
+      </h3>
+      <span
         class="c2"
-        data-testid="arrow-toggle-button"
-        height="30"
-        viewBox="0 0 25 25"
-        width="30"
-        xmlns="http://www.w3.org/2000/svg"
       >
-        <circle
-          cx="12"
-          cy="12"
-          r="10"
-          stroke="#1D70B8"
-          stroke-width="0.5"
-        />
-        <path
-          d="M8 10l4 4 4-4"
-          fill="none"
-          stroke="#1D70B8"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-        />
-      </svg>
-      <label
-        class="c3 c4"
-        fill="#1D70B8"
-      >
-        Show population data
-      </label>
-    </span>
+        <svg
+          class="c3"
+          data-testid="arrow-toggle-button"
+          height="30"
+          viewBox="0 0 25 25"
+          width="30"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="#1D70B8"
+            stroke-width="0.5"
+          />
+          <path
+            d="M8 10l4 4 4-4"
+            fill="none"
+            stroke="#1D70B8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+          />
+        </svg>
+        <label
+          class="c4 c5"
+          fill="#1D70B8"
+        >
+          Show population data
+        </label>
+      </span>
+    </div>
   </div>
 </DocumentFragment>
 `;
