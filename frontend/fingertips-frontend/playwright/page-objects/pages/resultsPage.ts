@@ -167,12 +167,13 @@ export default class ResultsPage extends AreaFilter {
 
   /**
    * Selecting the passed in indicators checkboxes
-   * @param expectedIndicatorsToSelect - a list of all indicatorIds to select during test execution
+   * @param expectedIndicatorsToSelect - a list of all indicatorIds to be selected
    */
   async selectIndicatorCheckboxes(expectedIndicatorsToSelect: IndicatorInfo[]) {
     for (const indicatorID of expectedIndicatorsToSelect) {
+      const indicatorIDString = String(JSON.stringify(indicatorID.indicatorID));
       const checkbox = this.page.getByTestId(
-        `${this.indicatorCheckboxPrefix}-${indicatorID}`
+        `${this.indicatorCheckboxPrefix}-${indicatorIDString}`
       );
 
       await expect(checkbox).toBeAttached();
@@ -184,7 +185,7 @@ export default class ResultsPage extends AreaFilter {
       await this.checkAndAwaitLoadingComplete(checkbox);
 
       await expect(checkbox).toBeChecked();
-      await this.waitForURLToContain(String(indicatorID.indicatorID));
+      await this.waitForURLToContain(indicatorIDString);
     }
   }
 

@@ -55,6 +55,7 @@ type componentProps = {
   hasTimePeriodDropDown?: boolean;
   hasTypeDropDown?: boolean;
   isWideComponent?: boolean;
+  hasRecentTrend?: boolean;
 };
 
 type component = {
@@ -83,6 +84,7 @@ export function getScenarioConfig(
       componentLocator: ChartPage.lineChartTableComponent,
       componentProps: {
         isTabTable: true,
+        hasRecentTrend: true,
       },
     },
     {
@@ -138,11 +140,12 @@ export function getScenarioConfig(
       componentLocator: ChartPage.barChartEmbeddedTableComponent,
       componentProps: {
         hasConfidenceIntervals: true,
+        hasRecentTrend: true,
       },
     },
     {
       componentLocator: ChartPage.basicTableComponent,
-      componentProps: {},
+      componentProps: { hasRecentTrend: true },
     },
     {
       componentLocator: ChartPage.heatMapComponent,
@@ -154,6 +157,7 @@ export function getScenarioConfig(
       componentLocator: ChartPage.spineChartTableComponent,
       componentProps: {
         isWideComponent: true,
+        hasRecentTrend: true,
       },
     },
   ];
@@ -330,14 +334,18 @@ export function getAllAreasByAreaType(
 export function returnIndicatorIDsByIndicatorMode(
   indicators: string[],
   indicatorMode: IndicatorMode
-): string[] {
+): IndicatorInfo[] {
   switch (indicatorMode) {
     case IndicatorMode.ONE_INDICATOR:
-      return [indicators[0]];
+      return [{ indicatorID: indicators[0] }];
     case IndicatorMode.TWO_INDICATORS:
-      return [indicators[0], indicators[1]];
+      return [{ indicatorID: indicators[0] }, { indicatorID: indicators[1] }];
     case IndicatorMode.THREE_PLUS_INDICATORS:
-      return [indicators[0], indicators[1], indicators[2]];
+      return [
+        { indicatorID: indicators[0] },
+        { indicatorID: indicators[1] },
+        { indicatorID: indicators[2] },
+      ];
     default:
       throw new Error('Invalid indicator mode');
   }
