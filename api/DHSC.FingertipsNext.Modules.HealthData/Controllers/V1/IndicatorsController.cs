@@ -24,6 +24,8 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     /// <param name="indicatorId">The unique identifier of the indicator.</param>
     /// <param name="areaCodes">A list of area codes. Up to 100 distinct area codes can be requested.</param>
     /// <param name="areaType">The area type the area codes belong to.</param>
+    /// <param name="areaGroup">Optional Area Group used for benchmarking.</param>
+    /// <param name="benchmarkRefType">Optional benchmark reference type.</param>
     /// <param name="years">A list of years. Up to 20 distinct years can be requested.</param>
     /// <param name="inequalities">A list of desired inequalities.</param>
     /// <param name="include_empty_areas">Determines if areas with no data are returned as empty arrays, the default is false.</param>
@@ -42,6 +44,8 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
         [FromRoute] int indicatorId,
         [FromQuery(Name = "area_codes")] string[]? areaCodes = null,
         [FromQuery(Name = "area_type")] string areaType = "",
+        [FromQuery(Name = "area_group")] string? areaGroup = "",
+        [FromQuery(Name = "benchmark_ref_type")] BenchmarkReferenceType benchmarkRefType = BenchmarkReferenceType.Unknown,
         [FromQuery] int[]? years = null,
         [FromQuery] string[]? inequalities = null,
         [FromQuery] bool include_empty_areas =false,
@@ -61,11 +65,20 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
                     $"Too many values supplied for parameter years. The maximum is {MaxNumberYears} but {years.Length} supplied."
             });
 
+        if ( (benchmarkRefType == BenchmarkReferenceType.AreaGroup ) && (areaGroup == "") )
+            return new BadRequestObjectResult(new SimpleError
+            {
+                Message =
+                    $"Missing parameter 'area_group'. When benchmark_ref_type is set to AreaGroup then the area_group parameter must be set"
+            });
+
         var indicatorData = await _indicatorsService.GetIndicatorDataAsync
         (
             indicatorId,
             areaCodes ?? [],
             areaType,
+            areaGroup, 
+            benchmarkRefType,
             years ?? [],
             inequalities ?? [],
             include_empty_areas,

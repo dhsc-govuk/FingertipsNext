@@ -63,7 +63,7 @@ public class IndicatorControllerTests
     [Fact]
     public async Task GetIndicatorData_DelegatesToService_WhenAllParametersSpecified()
     {
-        await _controller.GetIndicatorDataAsync(1, ["ac1", "ac2"], "someAreaType", [1999, 2024], ["age", "sex"]);
+        await _controller.GetIndicatorDataAsync(1, ["ac1", "ac2"], "someAreaType", years:[1999, 2024], inequalities:["age", "sex"]);
 
         // expect
         await _indicatorService
@@ -72,8 +72,10 @@ public class IndicatorControllerTests
                 1,
                 ArgEx.IsEquivalentTo<string[]>(["ac1", "ac2"]),
                 "someAreaType",
-                ArgEx.IsEquivalentTo<int[]>([1999, 2024]),
-                ArgEx.IsEquivalentTo<string[]>(["age", "sex"])
+                "",
+                BenchmarkReferenceType.Unknown,
+                years:ArgEx.IsEquivalentTo<int[]>([1999, 2024]),
+                inequalities:ArgEx.IsEquivalentTo<string[]>(["age", "sex"])
             );
     }
 
@@ -83,14 +85,14 @@ public class IndicatorControllerTests
         await _controller.GetIndicatorDataAsync(2);
 
         // expect
-        await _indicatorService.Received().GetIndicatorDataAsync(2, [], "", [], []);
+        await _indicatorService.Received().GetIndicatorDataAsync(2, [], "", "", BenchmarkReferenceType.Unknown, [], []);
     }
 
     [Fact]
     public async Task GetIndicatorData_ReturnsOkResponse_IfServiceReturnsData()
     {
         _indicatorService
-            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<string>(), Arg.Any<int[]>(), Arg.Any<string[]>())
+            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<BenchmarkReferenceType>(), Arg.Any<int[]>(), Arg.Any<string[]>())
             .Returns(new ServiceResponse<IndicatorWithHealthDataForAreas>(ResponseStatus.Success)
             {
                 Content = SampleHealthData
@@ -107,7 +109,7 @@ public class IndicatorControllerTests
     public async Task GetIndicatorData_ReturnsSuccessResponse_IfServiceReturnsEmptyArray()
     {
         _indicatorService
-            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<string>(), Arg.Any<int[]>(), Arg.Any<string[]>())
+            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<BenchmarkReferenceType>(), Arg.Any<int[]>(), Arg.Any<string[]>())
             .Returns(new ServiceResponse<IndicatorWithHealthDataForAreas>(ResponseStatus.NoDataForIndicator));
 
         var response = await _controller.GetIndicatorDataAsync(3) as ObjectResult;
@@ -120,7 +122,7 @@ public class IndicatorControllerTests
     public async Task GetIndicatorData_ReturnsNotFoundResponse_IfIndicatorDoesNotExist()
     {
         _indicatorService
-            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<string>(), Arg.Any<int[]>(), Arg.Any<string[]>())
+            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<BenchmarkReferenceType>(), Arg.Any<int[]>(), Arg.Any<string[]>())
             .Returns(new ServiceResponse<IndicatorWithHealthDataForAreas>(ResponseStatus.IndicatorDoesNotExist));
 
         var response = await _controller.GetIndicatorDataAsync(3) as ObjectResult;
@@ -133,7 +135,7 @@ public class IndicatorControllerTests
     public async Task GetIndicatorData_ReturnsBadResponse_WhenMoreThan10YearsSupplied()
     {
         var response = await _controller.GetIndicatorDataAsync(3, ["areaCode1"], "",
-            [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]) as BadRequestObjectResult;
+            years:[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]) as BadRequestObjectResult;
 
         response?.StatusCode.ShouldBe(400);
         (response?.Value as SimpleError)?.Message.Contains("Too many values supplied for parameter years").ShouldBeTrue();
@@ -144,9 +146,24 @@ public class IndicatorControllerTests
     {
         var response = await _controller.GetIndicatorDataAsync(3,
             ["areaCode1", "ac2", "ac3", "ac4", "ac5", "ac6", "ac7", "ac8", "ac9", "ac10", "ac11"], "",
-            [1]) as BadRequestObjectResult;
+            years:[1]) as BadRequestObjectResult;
 
         response?.StatusCode.ShouldBe(400);
         (response?.Value as SimpleError)?.Message.Contains("Too many values supplied for parameter area_codes").ShouldBeTrue();
+    }
+
+    [Fact]
+    public async Task GetIndicatorData_ReturnsBadResponse_WhenAreaGroupMissing()
+    {
+        var response = await _controller.GetIndicatorDataAsync(
+            indicatorId:3,
+            areaCodes:["areaCode1"], 
+            areaType:"",
+            areaGroup:"",
+            benchmarkRefType:BenchmarkReferenceType.AreaGroup,
+            years: [1]) as BadRequestObjectResult;
+
+        response?.StatusCode.ShouldBe(400);
+        (response?.Value as SimpleError)?.Message.Contains("Missing parameter 'area_group'. When benchmark_ref_type is set to AreaGroup then the area_group parameter must be set").ShouldBeTrue();
     }
 }

@@ -16,6 +16,7 @@
 import * as runtime from '../runtime';
 import type {
   BadRequest,
+  BenchmarkReferenceType,
   GetAreaHierarchies500Response,
   Indicator,
   IndicatorSummary,
@@ -25,6 +26,8 @@ import type {
 import {
     BadRequestFromJSON,
     BadRequestToJSON,
+    BenchmarkReferenceTypeFromJSON,
+    BenchmarkReferenceTypeToJSON,
     GetAreaHierarchies500ResponseFromJSON,
     GetAreaHierarchies500ResponseToJSON,
     IndicatorFromJSON,
@@ -45,6 +48,8 @@ export interface GetHealthDataForAnIndicatorRequest {
     indicatorId: number;
     areaCodes?: Array<string>;
     areaType?: string;
+    areaGroup?: string;
+    benchmarkRefType?: BenchmarkReferenceType;
     years?: Array<number>;
     inequalities?: Array<GetHealthDataForAnIndicatorInequalitiesEnum>;
     includeEmptyAreas?: boolean;
@@ -91,6 +96,8 @@ export interface IndicatorsApiInterface {
      * @param {number} indicatorId The unique identifier of the indicator
      * @param {Array<string>} [areaCodes] A list of area codes, up to 300 area codes can be requested
      * @param {string} [areaType] The area type which the areas belong to
+     * @param {string} [areaGroup] An area group which the area_codes belong to
+     * @param {BenchmarkReferenceType} [benchmarkRefType] The benchmark reference type
      * @param {Array<number>} [years] A list of years, up to 20 years can be requested
      * @param {Array<'age' | 'sex' | 'deprivation'>} [inequalities] Determines the kind of inequality data that should be returned if an option is specified
      * @param {boolean} [includeEmptyAreas] Determines if areas with no data are returned as empty arrays, the default is false.
@@ -201,6 +208,14 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
 
         if (requestParameters['areaType'] != null) {
             queryParameters['area_type'] = requestParameters['areaType'];
+        }
+
+        if (requestParameters['areaGroup'] != null) {
+            queryParameters['area_group'] = requestParameters['areaGroup'];
+        }
+
+        if (requestParameters['benchmarkRefType'] != null) {
+            queryParameters['benchmark_ref_type'] = requestParameters['benchmarkRefType'];
         }
 
         if (requestParameters['years'] != null) {
