@@ -64,5 +64,68 @@ test.describe(
         await resultsPage.checkAnyResultNameContainsText("Alzheimer's");
       });
     });
+
+    test('searching for equivalent synonyms should return the same results', async ({
+      homePage,
+      resultsPage,
+    }) => {
+      await test.step('search for a synonym-mapped indicator and check results', async () => {
+        const subjectSearchTerm = 'offspring';
+
+        await homePage.searchForIndicators(
+          SearchMode.ONLY_SUBJECT,
+          subjectSearchTerm
+        );
+        await homePage.clickSearchButton();
+
+        await resultsPage.checkNumberOfResults(1);
+        await resultsPage.checkFirstResultHasName(
+          'Smokers at time of childbirth delivery'
+        );
+      });
+
+      await test.step('search for synonym of indicator and check results match', async () => {
+        const subjectSearchTerm = 'baby';
+
+        await resultsPage.clearIndicatorSearchBox();
+        await resultsPage.fillIndicatorSearch(subjectSearchTerm);
+        await resultsPage.clickIndicatorSearchButton();
+
+        await resultsPage.checkNumberOfResults(1);
+        await resultsPage.checkFirstResultHasName(
+          'Smokers at time of childbirth delivery'
+        );
+      });
+    });
+
+    test('searching for the synonym of an explicitly mapped term should not return results of the mapped term', async ({
+      homePage,
+      resultsPage,
+    }) => {
+      await test.step('search for explicitly mapped acronym', async () => {
+        const subjectSearchTerm = 'chd';
+
+        await homePage.searchForIndicators(
+          SearchMode.ONLY_SUBJECT,
+          subjectSearchTerm
+        );
+        await homePage.clickSearchButton();
+
+        await resultsPage.checkNumberOfResults(3);
+        await resultsPage.checkFirstResultHasName(
+          'Preventable sight loss from diabetic eye disease'
+        );
+      });
+
+      await test.step('search for synonym of indicator and check results do not match', async () => {
+        const subjectSearchTerm = 'chronic';
+
+        await resultsPage.clearIndicatorSearchBox();
+        await resultsPage.fillIndicatorSearch(subjectSearchTerm);
+        await resultsPage.clickIndicatorSearchButton();
+
+        await resultsPage.checkNumberOfResults(0);
+      });
+    });
   }
 );

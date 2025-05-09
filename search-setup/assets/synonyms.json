@@ -1,10 +1,6 @@
 {
   "a&e": {
     "terms": ["accident", "emergency"],
-    "isAcronym": true
-  },
-  "emergency": {
-    "terms": ["a", "e"],
     "isAcronym": false
   },
   "depr": {

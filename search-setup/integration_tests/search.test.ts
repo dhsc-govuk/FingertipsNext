@@ -171,6 +171,24 @@ describe('AI search index creation and data loading', () => {
           )
         ).toBe(true);
       });
+
+      it('should return the same results for equivalent synonyms', async () => {
+        const wordResponse = await searchIndicatorsRequest('offspring');
+        const wordResult = await wordResponse.json();
+        const synonymResponse = await searchIndicatorsRequest('baby');
+        const synonymResult = await synonymResponse.json();
+
+        expect(wordResult.value).toEqual(synonymResult.value);
+      });
+
+      it('should map explicit synonyms one way', async () => {
+        const wordResponse = await searchIndicatorsRequest('chd');
+        const wordResult = await wordResponse.json();
+        const synonymResponse = await searchIndicatorsRequest('chronic');
+        const synonymResult = await synonymResponse.json();
+
+        expect(wordResult.value).not.toEqual(synonymResult.value);
+      });
     });
   });
 
