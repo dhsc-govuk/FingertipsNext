@@ -21,7 +21,7 @@ const areaSearchTerm: AreaDocument = {
 };
 let allValidIndicators: SimpleIndicatorDocument[] = [];
 let selectedIndicatorsData: SimpleIndicatorDocument[] = [];
-const tags = [TestTag.CI, TestTag.CD];
+const checkTrendsOnResultsPage = process.env.CHECK_RESULTS_TRENDS !== 'false';
 
 const coreTestJourneys: TestParams[] = [
   {
@@ -144,7 +144,7 @@ const coreTestJourneys: TestParams[] = [
 test.describe(
   `Search via`,
   {
-    tag: tags,
+    tag: [TestTag.CI, TestTag.CD],
   },
   () => {
     coreTestJourneys.forEach(
@@ -216,7 +216,7 @@ test.describe(
             await resultsPage.checkRecentTrends(
               areaMode,
               indicatorsToSelect,
-              tags
+              checkTrendsOnResultsPage
             );
 
             await resultsPage.clickViewChartsButton();
@@ -229,8 +229,16 @@ test.describe(
                 selectedIndicator.indicatorID
               );
 
+              // Add the knownTrend to all returned selected indicators
+              const enhancedIndicatorData = indicatorDataArray.map(
+                (indicator) => ({
+                  ...indicator,
+                  knownTrend: selectedIndicator.knownTrend,
+                })
+              );
+
               selectedIndicatorsData = [
-                ...selectedIndicatorsData,
+                ...enhancedIndicatorData,
                 ...indicatorDataArray,
               ];
             }

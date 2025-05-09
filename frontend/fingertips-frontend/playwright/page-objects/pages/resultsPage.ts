@@ -5,7 +5,6 @@ import {
   IndicatorInfo,
   SearchMode,
   SimpleIndicatorDocument,
-  TestTag,
 } from '@/playwright/testHelpers';
 import AreaFilter from '../components/areaFilter';
 import { RawIndicatorDocument } from '@/lib/search/searchTypes';
@@ -84,7 +83,7 @@ export default class ResultsPage extends AreaFilter {
   async checkRecentTrends(
     areaMode: AreaMode,
     expectedIndicatorsToSelect: IndicatorInfo[],
-    tag: TestTag[]
+    checkTrends: boolean
   ) {
     const trendsShouldBeVisible =
       areaMode === AreaMode.ONE_AREA ||
@@ -95,8 +94,8 @@ export default class ResultsPage extends AreaFilter {
       this.page.getByText('Recent trend for selected area')
     ).toBeVisible({ visible: trendsShouldBeVisible });
 
-    // currently, the trend text is only visible on results in deployed CD environment
-    if (trendsShouldBeVisible && tag.includes(TestTag.CD)) {
+    // currently, the trend text is only visible on the results page in the deployed CD environment so checkTrends will be false in local and CI environments
+    if (trendsShouldBeVisible && checkTrends) {
       for (const expectedIndicatorToSelect of expectedIndicatorsToSelect) {
         const searchResultItem = this.page.getByTestId('search-result').filter({
           has: this.page.getByTestId(
@@ -171,7 +170,7 @@ export default class ResultsPage extends AreaFilter {
    */
   async selectIndicatorCheckboxes(expectedIndicatorsToSelect: IndicatorInfo[]) {
     for (const indicatorID of expectedIndicatorsToSelect) {
-      const indicatorIDString = String(JSON.stringify(indicatorID.indicatorID));
+      const indicatorIDString = String(indicatorID.indicatorID);
       const checkbox = this.page.getByTestId(
         `${this.indicatorCheckboxPrefix}-${indicatorIDString}`
       );

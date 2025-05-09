@@ -7,6 +7,7 @@ export type SimpleIndicatorDocument = {
   indicatorName: string;
   associatedAreaCodes: string[];
   dataSource: string;
+  knownTrend?: string;
 };
 
 export interface IndicatorInfo {

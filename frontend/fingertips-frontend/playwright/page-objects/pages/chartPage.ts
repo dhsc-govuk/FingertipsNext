@@ -247,6 +247,14 @@ export default class ChartPage extends AreaFilter {
             element.scrollLeft = middleX;
           });
       }
+      // if its one of the components with a recent trend then check its correct
+      if (visibleComponent.componentProps.hasRecentTrend) {
+        expect(
+          this.page
+            .getByTestId(visibleComponent.componentLocator)
+            .getByTestId('trendTag-container')
+        ).toContainText(selectedIndicators[0].knownTrend!);
+      }
 
       // check chart component is now visible
       await expect(
