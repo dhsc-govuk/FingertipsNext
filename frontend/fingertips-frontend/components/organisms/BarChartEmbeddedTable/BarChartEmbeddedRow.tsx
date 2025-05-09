@@ -12,6 +12,7 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { AreaTypeLabelEnum } from '@/lib/chartHelpers/chartHelpers';
+import { barChartEmbeddedRowClassName } from '@/components/organisms/BarChartEmbeddedTable/barChartEmbeddedTableHelpers';
 
 interface BarChartEmbeddedRowProps {
   item: BarChartEmbeddedTableRow;
@@ -31,7 +32,7 @@ export const BarChartEmbeddedRow: FC<BarChartEmbeddedRowProps> = ({
   measurementUnit = '',
 }) => {
   return (
-    <Table.Row key={`${item.area}`}>
+    <Table.Row key={`${item.area}`} className={barChartEmbeddedRowClassName}>
       <CheckValueInTableCell value={item.area} style={{ textAlign: 'left' }} />
       <Table.Cell style={{ textAlign: 'center' }}>
         <TrendTag trendFromResponse={item.trend} />
