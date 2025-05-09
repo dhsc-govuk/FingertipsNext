@@ -12,6 +12,10 @@ import {
 } from './searchTypes';
 import { IndicatorMapper } from './indicatorMapper';
 
+const escapeString = (text: string): string => {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+};
+
 export class IndicatorSearchService implements IIndicatorSearchService {
   private readonly searchClient: SearchClient<RawIndicatorDocument>;
   private readonly mapper: IndicatorMapper;
@@ -36,13 +40,16 @@ export class IndicatorSearchService implements IIndicatorSearchService {
     // Search with both full search term and wildcard for now to allow for
     // observed behaviour where wildcard match of full term did not always return
     // the matching document.
-    const query = `${searchTerm} /.*${searchTerm}.*/`;
+    const searchCriteria = escapeString(searchTerm);
+    const query = `${searchCriteria} /.*${searchCriteria}.*/`;
 
     // This creates an AI Search filter string which should look like
     //  associatedAreaCodes/any(a: a eq 'E09000023' or a eq 'E09000013' or a eq 'E09000025')
     const formatFilterString = (areaCodes: string[]) => {
       if (areaCodes.length == 0) return undefined;
-      const areaCodeEqualityStrings = areaCodes.map((a) => `a eq '${a}'`);
+      const areaCodeEqualityStrings = areaCodes.map(
+        (a) => `a eq '${escapeString(a)}'`
+      );
       return `associatedAreaCodes/any(a: ${areaCodeEqualityStrings.join(' or ')})`;
     };
 
