@@ -71,9 +71,13 @@ BEGIN
         ON
 		    hm.IndicatorKey = ind.IndicatorKey
 	JOIN
+            dbo.AreaDimension AS areaDim
+        ON
+		    hm.AreaKey = areaDim.AreaKey 
+	JOIN
 	        #BenchmarkAreas as benchmarkAreas
 	    ON
-	        hm.AreaKey = benchmarkAreas.AreaKey
+	        areaDim.Code = benchmarkAreas.AreaCode
 	JOIN
             dbo.SexDimension AS sex
         ON
