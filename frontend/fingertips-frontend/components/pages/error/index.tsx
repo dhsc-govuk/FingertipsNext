@@ -4,12 +4,7 @@ import { H1, Paragraph } from 'govuk-react';
 import { useEffect } from 'react';
 import { useSearchState } from '@/context/SearchStateContext';
 
-interface ErrorPageProps{
-    error?: string
-}
-
-
-export function ErrorPage({error}:ErrorPageProps) {
+export function ErrorPage() {
   const { setSearchState } = useSearchState();
 
   useEffect(() => {
@@ -29,7 +24,6 @@ export function ErrorPage({error}:ErrorPageProps) {
       <Paragraph>
         You can [go back to the homepage](/) and start your search again.
       </Paragraph>
-       <span style={{color:"red"}}>{error ?? ""}</span>
     </>
   );
 }

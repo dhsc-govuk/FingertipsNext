@@ -70,7 +70,7 @@ export default async function Page(
       />
     );
   } catch (error) {
-    console.error(`Error response received from call: ${error}`);
-    return <ErrorPage error={ ""+ error} />;
+    console.log(`Error response received from call: ${error}`);
+    return <ErrorPage />;
   }
 }
