@@ -95,6 +95,7 @@ const createPopPyramidSeriesOptions = (
       itemStyle: {
         fontSize: '16px',
       },
+      margin: 30,
       events: {
         itemClick: function (event: LegendItemClickEventObject) {
           return toggleClickSeries(event.legendItem as Series);
