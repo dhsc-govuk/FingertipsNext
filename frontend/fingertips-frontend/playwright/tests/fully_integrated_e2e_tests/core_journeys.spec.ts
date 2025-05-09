@@ -21,7 +21,13 @@ const areaSearchTerm: AreaDocument = {
 };
 let allValidIndicators: SimpleIndicatorDocument[] = [];
 let selectedIndicatorsData: SimpleIndicatorDocument[] = [];
-const checkTrendsOnResultsPage = process.env.CHECK_RESULTS_TRENDS !== 'false';
+const checkTrendsOnResultsPage = (): boolean => {
+  const checkTrends =
+    process.env.CHECK_RESULTS_TRENDS !== 'false' ? false : true;
+  return checkTrends;
+};
+const checkTrends = checkTrendsOnResultsPage();
+console.log(checkTrends);
 
 const coreTestJourneys: TestParams[] = [
   {
@@ -52,6 +58,7 @@ const coreTestJourneys: TestParams[] = [
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.THREE_PLUS_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
+    subjectSearchTerm: 'emergency',
     indicatorsToSelect: [
       {
         indicatorID: '41101',
@@ -216,7 +223,7 @@ test.describe(
             await resultsPage.checkRecentTrends(
               areaMode,
               indicatorsToSelect,
-              checkTrendsOnResultsPage
+              checkTrends
             );
 
             await resultsPage.clickViewChartsButton();
@@ -238,8 +245,8 @@ test.describe(
               );
 
               selectedIndicatorsData = [
+                ...selectedIndicatorsData,
                 ...enhancedIndicatorData,
-                ...indicatorDataArray,
               ];
             }
 
