@@ -153,7 +153,7 @@ In your failed job you will see the following message:
 ```bash 
 Screenshot match failed: ${visibleComponent.componentLocator} - you may need to run the update screenshot manual CI job - see Visual Screenshot Snapshot Testing in frontend/fingertips-frontend/README.md for details.
 ```
-Follow this steps to update the screenshots (or add new ones where needed):
+Follow these steps to update the screenshots (or add new ones where needed):
 
 1. Download `playwright-artefacts` from the github workflow summary page, and open the `index.html` file in the `playwright-report` folder, then in the Playwright report open the failed test and you will be presented with a 'Diff' page that shows the before and after.
 2. Review and compare the expected base screenshots and actual current screenshots in the playwright report with a BA to confirm the new screenshots are correct.
