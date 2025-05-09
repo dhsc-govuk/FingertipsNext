@@ -8,6 +8,7 @@ describe('styleChartWrapper', () => {
         <div data-testid="mock component"></div>
       </StyleChartWrapper>
     );
+
     expect(container.asFragment()).toMatchSnapshot();
   });
 });
