@@ -7,7 +7,6 @@ import { InequalitiesForSingleTimePeriod } from '@/components/molecules/Inequali
 import { InequalitiesTrend } from '@/components/molecules/Inequalities/InequalitiesTrend';
 import { SearchStateParams } from '@/lib/searchStateManager';
 
-
 interface InequalitiesProps {
   healthIndicatorData: HealthDataForArea[];
   measurementUnit?: string;
@@ -27,21 +26,21 @@ export function Inequalities({
 }: Readonly<InequalitiesProps>) {
   return (
     <div data-testid="inequalities-component">
-        <InequalitiesForSingleTimePeriod
-          healthIndicatorData={healthIndicatorData}
-          searchState={searchState}
-          measurementUnit={measurementUnit}
-          benchmarkComparisonMethod={benchmarkComparisonMethod}
-          polarity={polarity}
-          dataSource={dataSource}
-        />
-        <InequalitiesTrend
-          healthIndicatorData={healthIndicatorData}
-          measurementUnit={measurementUnit}
-          searchState={searchState}
-          benchmarkComparisonMethod={benchmarkComparisonMethod}
-          dataSource={dataSource}
-        />
+      <InequalitiesForSingleTimePeriod
+        healthIndicatorData={healthIndicatorData}
+        searchState={searchState}
+        measurementUnit={measurementUnit}
+        benchmarkComparisonMethod={benchmarkComparisonMethod}
+        polarity={polarity}
+        dataSource={dataSource}
+      />
+      <InequalitiesTrend
+        healthIndicatorData={healthIndicatorData}
+        measurementUnit={measurementUnit}
+        searchState={searchState}
+        benchmarkComparisonMethod={benchmarkComparisonMethod}
+        dataSource={dataSource}
+      />
     </div>
   );
 }
