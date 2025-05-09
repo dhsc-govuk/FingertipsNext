@@ -17,7 +17,7 @@ public class Module : AbstractMonolithModule, IMonolithModule
     {
         services.AddTransient<IIndicatorsService, IndicatorService>();
         services.AddTransient<IHealthDataRepository, HealthDataRepository>();
-        services.AddAutoMapper(typeof(AutoMapperProfiles));
+        services.AddSingleton<IMapper, Mapper>();
         RegisterDbContext(services, configuration);
     }
 

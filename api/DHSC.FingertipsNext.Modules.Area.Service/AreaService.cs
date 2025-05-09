@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using DHSC.FingertipsNext.Modules.Area.Repository;
+﻿using DHSC.FingertipsNext.Modules.Area.Repository;
 using DHSC.FingertipsNext.Modules.Area.Schemas;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -38,7 +37,7 @@ public class AreaService : IAreaService
     /// <returns>List of areas requested</returns>
     public async Task<List<Schemas.Area>> GetMultipleAreaDetails(string[] areaCodes)
     {
-        return _mapper.Map<List<Schemas.Area>>(await _areaRepository.GetMultipleAreaDetailsAsync(areaCodes));
+        return _mapper.Map(await _areaRepository.GetMultipleAreaDetailsAsync(areaCodes));
     }
 
     /// <summary>
@@ -47,7 +46,7 @@ public class AreaService : IAreaService
     /// <param name="hierarchyType"></param>
     /// <returns></returns>
     public async Task<List<AreaType>> GetAreaTypes(string? hierarchyType = null) =>
-        _mapper.Map<List<AreaType>>(await _areaRepository.GetAreaTypesAsync(hierarchyType));
+        _mapper.Map(await _areaRepository.GetAreaTypesAsync(hierarchyType));
 
     /// <summary>
     ///
@@ -71,7 +70,7 @@ public class AreaService : IAreaService
             childAreaType
         );
 
-        return area == null ? null : _mapper.Map<AreaWithRelations>(area);
+        return area == null ? null : _mapper.Map(area);
     }
 
     /// <summary>
@@ -83,7 +82,7 @@ public class AreaService : IAreaService
     {
         var areas = await _areaRepository.GetAreasForAreaTypeAsync(areaTypeKey);
 
-        return _mapper.Map<List<Schemas.Area>>(areas);
+        return _mapper.Map(areas);
     }
 
     /// <summary>
@@ -98,5 +97,5 @@ public class AreaService : IAreaService
     /// </summary>
     /// <param name="services"></param>
     public static void RegisterMappings(IServiceCollection services) => 
-        services.AddAutoMapper(typeof(AutoMapperProfiles));
+        services.AddScoped<IMapper, Mapper>();
 }

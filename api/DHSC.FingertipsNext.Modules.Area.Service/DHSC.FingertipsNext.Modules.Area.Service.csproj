@@ -11,8 +11,4 @@
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Area.Schemas\DHSC.FingertipsNext.Modules.Area.Schemas.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <PackageReference Include="AutoMapper" Version="13.0.1" />
-    </ItemGroup>
-
 </Project>

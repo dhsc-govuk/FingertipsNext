@@ -7,14 +7,14 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85
             "indicatorId": 94063,
             "polarity": "NoJudgement",
             "year": 2023,
-            "q0Value": 15.789474,
-            "q1Value": 64.92538,
-            "q2Value": 71.830986,
-            "q3Value": 76.90058,
-            "q4Value": 88.64353,
-            "areaValue": 76.190475,
-            "ancestorValue": 76.455025,
-            "englandValue": 69.89724
+            "q0Value": 15.7894736842105,
+            "q1Value": 64.9253731343284,
+            "q2Value": 71.830985915493,
+            "q3Value": 76.9005847953216,
+            "q4Value": 88.6435331230284,
+            "areaValue": 76.1904761904762,
+            "ancestorValue": 76.4550264550265,
+            "englandValue": 69.8972433785404
         }]
         client.assert(response.status === 200, "Response status is not 200");
         client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
@@ -31,14 +31,14 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids
             "indicatorId": 94063,
             "polarity": "NoJudgement",
             "year": 2023,
-            "q0Value": 15.789474,
-            "q1Value": 64.92538,
-            "q2Value": 71.830986,
-            "q3Value": 76.90058,
-            "q4Value": 88.64353,
-            "areaValue": 76.190475,
-            "ancestorValue": 76.455025,
-            "englandValue": 69.89724
+            "q0Value": 15.7894736842105,
+            "q1Value": 64.9253731343284,
+            "q2Value": 71.830985915493,
+            "q3Value": 76.9005847953216,
+            "q4Value": 88.6435331230284,
+            "areaValue": 76.1904761904762,
+            "ancestorValue": 76.4550264550265,
+            "englandValue": 69.8972433785404
         },
         {
             "indicatorId": 90453,
@@ -50,7 +50,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids
             "q3Value": 33.38074,
             "q4Value": 50.264,
             "areaValue": 28.93029,
-            "ancestorValue": 29.827448,
+            "ancestorValue": 29.8274473053626,
             "englandValue": 27.15399
         }
         ];
@@ -75,8 +75,8 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=241&area_code=N8500
             "q4Value": 17.51457,
             "areaValue": 7.27034,
             "ancestorValue": null,
-            "englandValue": 7.6553946
-        }]
+            "englandValue": 7.65539435016159
+  }]
         client.assert(response.status === 200, "Response status is not 200");
         client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
     });
@@ -190,7 +190,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453
 %}
 
 ### check Quartile comparison where indicator_ids is missing
-GET http://localhost:5144/indicators/quartiles?
+GET http://localhost:5144/indicators/quartiles
 
 > {%
     client.test("check Quartile comparison where indicator_ids is missing", function (callbackfn, thisArg) {
@@ -260,7 +260,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=91894&area_code=E54
             "q3Value": 29.69,
             "q4Value": 39.48,
             "areaValue": 34.98,
-            "ancestorValue": 36.66473,
+            "ancestorValue": 36.664729808251,
             "englandValue": 26.26
         }]
         client.assert(response.status === 200, "Response status is not 200");
@@ -304,9 +304,9 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=247&area_code=E9200
             "q2Value": null,
             "q3Value": null,
             "q4Value": null,
-            "areaValue": 0.7625772,
+            "areaValue": 0.762577202179734,
             "ancestorValue": null,
-            "englandValue": 0.7625772
+            "englandValue": 0.762577202179734
         }]
         client.assert(response.status === 200, "Response status is not 200");
         client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");

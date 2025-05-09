@@ -20,5 +20,5 @@ public class BenchmarkComparison
     [JsonPropertyName("benchmarkAreaName")]
     public string BenchmarkAreaName { get; init; } = string.Empty;
 
-    [JsonPropertyName("benchmarkValue")] public float? BenchmarkValue { get; init; }
+    [JsonPropertyName("benchmarkValue")] public double? BenchmarkValue { get; init; }
 }
