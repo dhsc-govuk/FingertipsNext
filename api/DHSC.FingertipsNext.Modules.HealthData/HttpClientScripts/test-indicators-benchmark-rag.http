@@ -38,3 +38,162 @@ GET http://localhost:5144/indicators/41101/data?area_codes=E12000007&inequalitie
     });
 %}
 
+
+
+### check GET health data with rag comparison benchmarked against areaGroup
+GET http://localhost:5144/indicators/94063/data?area_codes=N85008&area_group=U79121&benchmark_ref_type=AreaGroup
+
+> {%
+    client.test("Check Get Health Data response when benchmarking against areaGroup", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+            const expectedResults = [ 
+                {areaName:"West Wirral Group Practice", year:2022, outcome:"Similar", benchmarkArea:"U79121", benchmarkAreaName:"Healthier West Wirral PCN", benchmarkValue:74.43451},  
+                {areaName:"West Wirral Group Practice", year:2023, outcome:"Similar", benchmarkArea:"U79121", benchmarkAreaName:"Healthier West Wirral PCN", benchmarkValue:76.455025}                 ];
+
+            expectedResults.forEach((expected) => {
+                client.assert(
+                    response.body.areaHealthData.find(area => area.areaName === expected.areaName)
+                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .benchmarkComparison.outcome === expected.outcome,
+                    `failed for ${expected.areaName}`
+                );
+                client.assert(
+                    response.body.areaHealthData.find(area => area.areaName === expected.areaName)
+                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .benchmarkComparison.benchmarkAreaCode === expected.benchmarkArea,
+                    `failed for ${expected.areaName}`
+                );
+                client.assert(
+                    response.body.areaHealthData.find(area => area.areaName === expected.areaName)
+                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .benchmarkComparison.benchmarkAreaName === expected.benchmarkAreaName,
+                    `failed for ${expected.areaName}`
+                );
+                client.assert(
+                    response.body.areaHealthData.find(area => area.areaName === expected.areaName)
+                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .benchmarkComparison.benchmarkValue === expected.benchmarkValue,
+                    `failed for ${expected.areaName}`
+                );           
+            });
+
+    });
+%}
+
+
+
+
+### check GET health data with rag comparison benchmarked against two areaGroups
+GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82023&area_codes=D82024&area_codes=D82040&area_codes=D82060&area_group=U00000&benchmark_ref_type=AreaGroup
+> {%
+    client.test("Check Get Health Data response when benchmarking against areaGroup", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+            const expectedResults = [ 
+                {areaName:"Trinity & Bowthorpe Medical Practice", year:2022, outcome:"Lower", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.01075},  
+                {areaName:"Trinity & Bowthorpe Medical Practice", year:2023, outcome:"Lower", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.904594},  
+                {areaName:"Roundwell Medical Centre", year:2022, outcome:"Higher", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.01075},  
+                {areaName:"Roundwell Medical Centre", year:2023, outcome:"Higher", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.904594},  
+                {areaName:"Taverham Surgery", year:2022, outcome:"Higher", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.01075},  
+                {areaName:"Taverham Surgery", year:2023, outcome:"Higher", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.904594},  
+                {areaName:"Wensum Valley Medical Practice", year:2022, outcome:"Lower", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.01075},  
+                {areaName:"Wensum Valley Medical Practice", year:2023, outcome:"Lower", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.904594},  
+                {areaName:"Bacon Road Medical Centre", year:2022, outcome:"Lower", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.01075},  
+                {areaName:"Bacon Road Medical Centre", year:2023, outcome:"Similar", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.904594},  
+                ];
+
+            expectedResults.forEach((expected) => {
+                client.assert(
+                    response.body.areaHealthData.find(area => area.areaName === expected.areaName)
+                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .benchmarkComparison.outcome === expected.outcome,
+                    `failed for ${expected.areaName}`
+                );
+                client.assert(
+                    response.body.areaHealthData.find(area => area.areaName === expected.areaName)
+                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .benchmarkComparison.benchmarkAreaCode === expected.benchmarkArea,
+                    `failed for ${expected.areaName}`
+                );
+                client.assert(
+                    response.body.areaHealthData.find(area => area.areaName === expected.areaName)
+                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .benchmarkComparison.benchmarkAreaName === expected.benchmarkAreaName,
+                    `failed for ${expected.areaName}`
+                );
+                client.assert(
+                    response.body.areaHealthData.find(area => area.areaName === expected.areaName)
+                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .benchmarkComparison.benchmarkValue === expected.benchmarkValue,
+                    `failed for ${expected.areaName}`
+                );           
+            });
+    });
+%}
+
+
+### check GET health data with rag comparison benchmarked against areaGroup which is not immediate ancestor of the area
+GET http://localhost:5144/indicators/94063/data?area_codes=N85008&area_group=E38000208&benchmark_ref_type=AreaGroup
+
+> {%
+    client.test("Check Get Health Data response when benchmarking against areaGroup", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+            const expectedResults = [ 
+                {areaName:"West Wirral Group Practice", year:2022, outcome:"Higher", benchmarkArea:"E38000208", benchmarkAreaName:"Cheshire and Merseyside ICB - 12F", benchmarkValue:67.51529},  
+                {areaName:"West Wirral Group Practice", year:2023, outcome:"Higher", benchmarkArea:"E38000208", benchmarkAreaName:"Cheshire and Merseyside ICB - 12F", benchmarkValue:72.57136}                 ];
+
+            expectedResults.forEach((expected) => {
+                client.assert(
+                    response.body.areaHealthData.find(area => area.areaName === expected.areaName)
+                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .benchmarkComparison.outcome === expected.outcome,
+                    `failed for ${expected.areaName}`
+                );
+                client.assert(
+                    response.body.areaHealthData.find(area => area.areaName === expected.areaName)
+                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .benchmarkComparison.benchmarkAreaCode === expected.benchmarkArea,
+                    `failed for ${expected.areaName}`
+                );
+                client.assert(
+                    response.body.areaHealthData.find(area => area.areaName === expected.areaName)
+                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .benchmarkComparison.benchmarkAreaName === expected.benchmarkAreaName,
+                    `failed for ${expected.areaName}`
+                );
+                client.assert(
+                    response.body.areaHealthData.find(area => area.areaName === expected.areaName)
+                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .benchmarkComparison.benchmarkValue === expected.benchmarkValue,
+                    `failed for ${expected.areaName}`
+                );           
+            });
+
+    });
+%}
+
+
+### Check GET health data with bad benchmark_ref_type
+GET http://localhost:5144/indicators/94063/data?area_codes=N85008&area_group=U79121&benchmark_ref_type=UnknownType
+> {%
+    client.test("Check error response for invalid benchmark_ref_type", function (callbackfn, thisArg) {
+        client.assert(response.status === 400, "Response status is not 400");
+
+    });
+%}
+
+### Check GET health data with missing area_group
+GET http://localhost:5144/indicators/94063/data?area_codes=N85008&benchmark_ref_type=AreaGroup
+> {%
+    client.test("Check error response for missing area_group", function (callbackfn, thisArg) {
+        client.assert(response.status === 400, "Response status is not 400");
+    });
+%}
+
+### Check GET health data with area_group which is not an ancestor of the area - this is not a requirement but for this implementation will work.
+GET http://localhost:5144/indicators/94063/data?area_codes=N85008&area_group=E38000205&benchmark_ref_type=AreaGroup
+> {%
+    client.test("Check error response for area_group NOT an ancestor of the areas", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
