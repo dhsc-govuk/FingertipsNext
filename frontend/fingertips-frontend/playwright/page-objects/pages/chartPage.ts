@@ -2,6 +2,7 @@ import {
   AreaMode,
   getScenarioConfig,
   IndicatorMode,
+  SimpleIndicatorDocument,
 } from '@/playwright/testHelpers';
 import { expect } from '../pageFactory';
 import {
@@ -15,6 +16,8 @@ import AreaFilter from '../components/areaFilter';
 
 export default class ChartPage extends AreaFilter {
   readonly backLink = 'chart-page-back-link';
+
+  // chart components
   static readonly lineChartComponent = 'standardLineChart-component';
   static readonly lineChartTableComponent = 'lineChartTable-component';
   static readonly populationPyramidComponent =
@@ -76,7 +79,8 @@ export default class ChartPage extends AreaFilter {
     test: TestType<
       PlaywrightTestArgs & PlaywrightTestOptions,
       PlaywrightWorkerArgs & PlaywrightWorkerOptions
-    >
+    >,
+    selectedIndicators: SimpleIndicatorDocument[]
   ) {
     const testInfo = test.info();
     const testName = testInfo.title;
@@ -84,6 +88,7 @@ export default class ChartPage extends AreaFilter {
       indicatorMode,
       areaMode
     );
+
     console.log(
       `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart components: ${visibleComponents
         .map(
@@ -102,12 +107,29 @@ export default class ChartPage extends AreaFilter {
       'Show filter'
     );
 
+    // check that the data source is displayed for the selected indicator in one indicator mode
+    if (indicatorMode === IndicatorMode.ONE_INDICATOR) {
+      const allDataSources = await this.page
+        .getByTestId(`data-source`)
+        .allTextContents();
+
+      allDataSources.forEach((dataSource) => {
+        expect(dataSource).toBe(
+          `Data source: ${selectedIndicators[0].dataSource}`
+        );
+      });
+    }
+    // and check that the data source is not displayed for the other indicator modes
+    if (indicatorMode !== IndicatorMode.ONE_INDICATOR) {
+      expect(this.page.getByTestId(`data-source`)).not.toBeAttached();
+    }
+
     // Check that components expected to be visible are displayed
     for (const visibleComponent of visibleComponents) {
       console.log(
         `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart component: ${visibleComponent.componentLocator} is displayed.`
       );
-      // if its one of the chart components that you need to click on the tab first to see it then click it
+      // if its one of the chart table components that you need to click on the tab first to see it then click it
       if (visibleComponent.componentProps.isTabTable) {
         await this.clickAndAwaitLoadingComplete(
           this.page.getByTestId(
@@ -129,11 +151,22 @@ export default class ChartPage extends AreaFilter {
             }));
           }
         );
-
+        // get the last option in the dropdown then select it
+        const lastTimePeriodDropdownOption =
+          dropdownOptions[dropdownOptions.length - 1].value;
         await combobox.selectOption({
-          value: dropdownOptions[dropdownOptions.length - 1].value,
+          value: lastTimePeriodDropdownOption,
         });
         await this.waitAfterDropDownInteraction();
+
+        // ensure the page has been rerendered with the new time period
+        await this.waitForURLToContain(lastTimePeriodDropdownOption);
+        await expect(
+          this.page.getByText(
+            `persons for ${lastTimePeriodDropdownOption} time period`
+          )
+        ).toBeVisible();
+        expect(await combobox.inputValue()).toBe(lastTimePeriodDropdownOption);
       }
       // if its one of the chart components that has a type dropdown for inequalities then select the last in the list
       if (visibleComponent.componentProps.hasTypeDropDown) {
@@ -154,11 +187,20 @@ export default class ChartPage extends AreaFilter {
             }));
           }
         );
-
+        // get the last option in the dropdown then select it
+        const lastTypeDropdownOption =
+          dropdownOptions[dropdownOptions.length - 1].value;
         await combobox.selectOption({
-          value: dropdownOptions[dropdownOptions.length - 1].value,
+          value: lastTypeDropdownOption,
         });
         await this.waitAfterDropDownInteraction();
+
+        // ensure the page has been rerendered with the new type
+        const dropDownConvertedToURL = encodeURIComponent(
+          lastTypeDropdownOption
+        );
+        await this.waitForURLToContain(dropDownConvertedToURL);
+        expect(await combobox.inputValue()).toBe(lastTypeDropdownOption);
       }
       // if its one of the chart components that has a confidence interval checkbox then click it
       if (visibleComponent.componentProps.hasConfidenceIntervals) {
@@ -223,7 +265,7 @@ export default class ChartPage extends AreaFilter {
 
       // note that screenshot snapshot comparisons are ignored when running locally and against the deployed azure environments
       await expect(this.page.getByTestId(visibleComponent.componentLocator), {
-        message: `Screenshot match failed:${visibleComponent.componentLocator} - you may need to run the update screenshot manual CI job - see Visual Screenshot Snapshot Testing in frontend/fingertips-frontend/README.md for details.`,
+        message: `Screenshot match failed: ${visibleComponent.componentLocator} - you may need to run the update screenshot manual CI job - see Visual Screenshot Snapshot Testing in frontend/fingertips-frontend/README.md for details.`,
       }).toHaveScreenshot(
         `${testName}-${visibleComponent.componentLocator}.png`
       );

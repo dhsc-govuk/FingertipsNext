@@ -406,6 +406,10 @@ describe('IndicatorSelectionForm', () => {
   });
 
   describe('Pagination', () => {
+    beforeEach(() => {
+      window.history.replaceState = jest.fn();
+    });
+
     const generateMockSearchResults = (resultsToGenerate: number) => {
       return Array.from({ length: resultsToGenerate }, (_, index) => ({
         indicatorID: index.toString(),
@@ -550,9 +554,11 @@ describe('IndicatorSelectionForm', () => {
       const paginationNext = screen.getByText(/Next/i);
       await user.click(paginationNext);
 
-      expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
-        scroll: false,
-      });
+      expect(window.history.replaceState).toHaveBeenCalledWith(
+        {},
+        '',
+        expectedPath
+      );
     });
 
     it('should only select indicators on the current page when "Select all" is checked', async () => {

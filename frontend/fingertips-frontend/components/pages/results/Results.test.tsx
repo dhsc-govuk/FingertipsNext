@@ -14,7 +14,14 @@ jest.mock('next/navigation', () => {
   return {
     ...originalModule,
     usePathname: jest.fn(),
-    useSearchParams: () => {},
+    useSearchParams: () => {
+      return {
+        get: (key: string) => {
+          if (key === 'pn') return '1';
+          return null;
+        },
+      };
+    },
     useRouter: jest.fn().mockImplementation(() => ({
       replace: jest.fn(),
     })),

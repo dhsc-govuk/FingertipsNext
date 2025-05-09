@@ -2,6 +2,21 @@ import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
 import ChartPage from './page-objects/pages/chartPage';
 import { AreaTypeKeys } from '@/lib/areaFilterHelpers/areaType';
 
+export type SimpleIndicatorDocument = {
+  indicatorID: string;
+  indicatorName: string;
+  associatedAreaCodes: string[];
+  dataSource: string;
+};
+
+export interface TestParams {
+  indicatorMode: IndicatorMode;
+  areaMode: AreaMode;
+  searchMode: SearchMode;
+  expectedIndicatorIDsToSelect: string[];
+  subjectSearchTerm?: string;
+}
+
 export enum SearchMode {
   ONLY_SUBJECT = 'ONLY_SUBJECT',
   ONLY_AREA = 'ONLY_AREA',
@@ -20,6 +35,12 @@ export enum AreaMode {
   THREE_PLUS_AREAS = 'THREE_PLUS_AREAS',
   ALL_AREAS_IN_A_GROUP = 'ALL_AREAS_IN_A_GROUP',
   ENGLAND_AREA = 'ENGLAND_AREA',
+}
+
+// Tags to mark when certain tests should be run
+export enum TestTag {
+  CI = '@ci',
+  CD = '@cd',
 }
 
 type componentProps = {
@@ -70,14 +91,14 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: true,
         hasTimePeriodDropDown: true,
-        hasTypeDropDown: true,
+        hasTypeDropDown: false, // even though it has a type dropdown, we want to test the default view
       },
     },
     {
       componentLocator: ChartPage.inequalitiesTrendComponent,
       componentProps: {
         hasConfidenceIntervals: true,
-        hasTypeDropDown: true,
+        hasTypeDropDown: true, // and in this case we want to test the type dropdown
       },
     },
     {
@@ -214,15 +235,30 @@ const indicatorsMatchingSearchTerm = (
   indicator.indicatorName.toLowerCase().includes(normalizedSearchTerm) ||
   indicator.indicatorDefinition.toLowerCase().includes(normalizedSearchTerm);
 
-export function getAllIndicatorIds(
+const indicatorMatchingIndicatorID = (
+  indicator: RawIndicatorDocument,
+  indicatorID: string
+): boolean => {
+  // First convert to string
+  const indicatorIDString = String(indicator.indicatorID);
+
+  return indicatorIDString.toLowerCase() === indicatorID.toLowerCase();
+};
+
+export function getAllIndicators(
   indicators: RawIndicatorDocument[]
-): string[] {
+): SimpleIndicatorDocument[] {
   return indicators
     .filter((indicator) => indicatorsUsedInPOC(indicator))
-    .map((indicator) => indicator.indicatorID);
+    .map((indicator) => ({
+      indicatorName: indicator.indicatorName,
+      indicatorID: indicator.indicatorID,
+      associatedAreaCodes: indicator.associatedAreaCodes,
+      dataSource: indicator.dataSource,
+    }));
 }
 
-export function getAllIndicatorIdsForSearchTerm(
+export function getAllIndicatorIDsForSearchTerm(
   indicators: RawIndicatorDocument[],
   searchTerm: string
 ): string[] {
@@ -238,12 +274,49 @@ export function getAllIndicatorIdsForSearchTerm(
     .map((indicator) => indicator.indicatorID);
 }
 
+export function getAllIndicatorsForSearchTerm(
+  indicators: RawIndicatorDocument[],
+  searchTerm: string
+): SimpleIndicatorDocument[] {
+  if (!searchTerm) return [];
+
+  const lowerCasedSearchTerm = searchTerm.toLowerCase();
+  return indicators
+    .filter(
+      (indicator) =>
+        indicatorsUsedInPOC(indicator) &&
+        indicatorsMatchingSearchTerm(indicator, lowerCasedSearchTerm)
+    )
+    .map((indicator) => ({
+      indicatorName: indicator.indicatorName,
+      indicatorID: indicator.indicatorID,
+      associatedAreaCodes: indicator.associatedAreaCodes,
+      dataSource: indicator.dataSource,
+    }));
+}
+
+export function getIndicatorDataByIndicatorID(
+  indicators: RawIndicatorDocument[],
+  indicatorID: string
+): SimpleIndicatorDocument[] {
+  if (!indicatorID) return [];
+
+  return indicators
+    .filter((indicator) => indicatorMatchingIndicatorID(indicator, indicatorID))
+    .map((indicator) => ({
+      indicatorName: indicator.indicatorName,
+      indicatorID: indicator.indicatorID,
+      associatedAreaCodes: indicator.associatedAreaCodes,
+      dataSource: indicator.dataSource,
+    }));
+}
+
 export function getAllAreasByAreaType(
   areas: AreaDocument[],
   areaType: AreaTypeKeys
 ): AreaDocument[] {
   const sanitisedAreaType = areaType.toLowerCase().replaceAll('-', ' ');
-  console.log(sanitisedAreaType);
+
   return areas.filter((area) =>
     area.areaType.toLowerCase().includes(sanitisedAreaType)
   );
