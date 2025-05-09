@@ -136,16 +136,14 @@ export function OneIndicatorOneAreaViewPlots({
           />
         </StyleChartWrapper>
       )}
-      <StyleChartWrapper>
-        <Inequalities
-          healthIndicatorData={healthIndicatorData}
-          searchState={searchState}
-          measurementUnit={indicatorMetadata?.unitLabel}
-          benchmarkComparisonMethod={benchmarkComparisonMethod}
-          polarity={polarity}
-          dataSource={indicatorMetadata?.dataSource}
-        />
-      </StyleChartWrapper>
+      <Inequalities
+        healthIndicatorData={healthIndicatorData}
+        searchState={searchState}
+        measurementUnit={indicatorMetadata?.unitLabel}
+        benchmarkComparisonMethod={benchmarkComparisonMethod}
+        polarity={polarity}
+        dataSource={indicatorMetadata?.dataSource}
+      />
     </section>
   );
 }
