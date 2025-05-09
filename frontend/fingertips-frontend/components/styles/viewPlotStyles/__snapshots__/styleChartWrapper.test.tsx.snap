@@ -3,7 +3,7 @@
 exports[`styleChartWrapper should style the ChartWrapper component as expected 1`] = `
 <DocumentFragment>
   .c0 {
-  padding-bottom: 50px;
+  margin-bottom: 50px;
 }
 
 <div

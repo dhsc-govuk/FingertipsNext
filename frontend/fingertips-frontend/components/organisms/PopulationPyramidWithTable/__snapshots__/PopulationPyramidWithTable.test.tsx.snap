@@ -104,7 +104,7 @@ exports[`PopulationPyramidWithTable take a snapshot 1`] = `
 }
 
 .c0 {
-  padding-bottom: 50px;
+  margin-bottom: 50px;
 }
 
 @media only screen and (min-width:641px) {
