@@ -20,7 +20,7 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
     "itemStyle": {
       "fontSize": "16px",
     },
-    "margin": 20,
+    "margin": 30,
     "verticalAlign": "top",
   },
   "plotOptions": {
@@ -118,7 +118,7 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
     "itemStyle": {
       "fontSize": "16px",
     },
-    "margin": 20,
+    "margin": 30,
     "verticalAlign": "top",
   },
   "plotOptions": {
@@ -258,7 +258,7 @@ exports[`generateStandardLineChartOptions should not include benchmark or group 
     "itemStyle": {
       "fontSize": "16px",
     },
-    "margin": 20,
+    "margin": 30,
     "verticalAlign": "top",
   },
   "plotOptions": {
