@@ -2,6 +2,7 @@ import { SearchParams } from '@/lib/searchStateManager';
 import { expect } from '../pageFactory';
 import {
   AreaMode,
+  IndicatorInfo,
   SearchMode,
   SimpleIndicatorDocument,
 } from '@/playwright/testHelpers';
@@ -79,14 +80,40 @@ export default class ResultsPage extends AreaFilter {
     }
   }
 
-  async checkRecentTrends(areaMode: AreaMode) {
+  async checkRecentTrends(
+    areaMode: AreaMode,
+    expectedIndicatorsToSelect: IndicatorInfo[],
+    checkTrends: boolean
+  ) {
     const trendsShouldBeVisible =
       areaMode === AreaMode.ONE_AREA ||
       areaMode === AreaMode.ALL_AREAS_IN_A_GROUP ||
       areaMode === AreaMode.ENGLAND_AREA;
+
     await expect(
       this.page.getByText('Recent trend for selected area')
     ).toBeVisible({ visible: trendsShouldBeVisible });
+
+    // currently, the trend text on each indicator is only visible on the results page in the deployed CD environment so checkTrends will be false in local and CI environments
+    if (trendsShouldBeVisible && checkTrends) {
+      for (const expectedIndicatorToSelect of expectedIndicatorsToSelect) {
+        const searchResultItem = this.page.getByTestId('search-result').filter({
+          has: this.page.getByTestId(
+            `${this.indicatorCheckboxPrefix}-${expectedIndicatorToSelect.indicatorID}`
+          ),
+        });
+
+        // Within that item, find the trend text
+        const trendText = searchResultItem
+          .getByTestId('trend-tag-component')
+          .allInnerTexts();
+
+        // Assert the trend matches expected
+        expect(await trendText).toContain(
+          expectedIndicatorToSelect.knownTrend!
+        );
+      }
+    }
   }
 
   async clickBackLink() {
@@ -139,12 +166,13 @@ export default class ResultsPage extends AreaFilter {
 
   /**
    * Selecting the passed in indicators checkboxes
-   * @param expectedIndicatorIDsToSelect - a list of all indicatorIds to select during test execution
+   * @param expectedIndicatorsToSelect - a list of all indicatorIds to be selected
    */
-  async selectIndicatorCheckboxes(expectedIndicatorIDsToSelect: string[]) {
-    for (const indicatorID of expectedIndicatorIDsToSelect) {
+  async selectIndicatorCheckboxes(expectedIndicatorsToSelect: IndicatorInfo[]) {
+    for (const indicatorID of expectedIndicatorsToSelect) {
+      const indicatorIDString = String(indicatorID.indicatorID);
       const checkbox = this.page.getByTestId(
-        `${this.indicatorCheckboxPrefix}-${indicatorID}`
+        `${this.indicatorCheckboxPrefix}-${indicatorIDString}`
       );
 
       await expect(checkbox).toBeAttached();
@@ -156,7 +184,7 @@ export default class ResultsPage extends AreaFilter {
       await this.checkAndAwaitLoadingComplete(checkbox);
 
       await expect(checkbox).toBeChecked();
-      await this.waitForURLToContain(String(indicatorID));
+      await this.waitForURLToContain(indicatorIDString);
     }
   }
 
