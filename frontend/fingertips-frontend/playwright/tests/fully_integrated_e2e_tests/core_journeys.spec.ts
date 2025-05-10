@@ -19,7 +19,7 @@ const areaSearchTerm: AreaDocument = {
 };
 let allValidIndicators: SimpleIndicatorDocument[] = [];
 let selectedIndicatorsData: SimpleIndicatorDocument[] = [];
-const checkTrends = process.env.CHECK_RESULTS_TRENDS === 'true';
+const checkTrends = process.env.CHECK_TRENDS_ON_RESULTS_PAGE === 'true';
 
 /**
  * This tests, in parallel, the indicator + area scenario combinations from
