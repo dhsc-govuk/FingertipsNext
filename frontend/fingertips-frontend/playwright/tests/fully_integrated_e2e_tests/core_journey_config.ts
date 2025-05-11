@@ -117,7 +117,7 @@ export const coreTestJourneys: TestParams[] = [
       },
       {
         indicatorID: '91894',
-        knownTrend: 'No significant change',
+        knownTrend: 'Decreasing',
       },
     ],
   },
@@ -137,7 +137,7 @@ export const coreTestJourneys: TestParams[] = [
       },
       {
         indicatorID: '91894',
-        knownTrend: 'No significant change',
+        knownTrend: 'Decreasing',
       },
     ],
   },
