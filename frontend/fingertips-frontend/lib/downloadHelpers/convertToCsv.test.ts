@@ -76,12 +76,12 @@ Female,Similar,1390,17.6,16.7,18.5`;
         ['Persons', null, '17.4', 16.7, 18.1],
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
-        [1, 'Similar', [1075], new Date('2000-12-25'), { a: 'b' }, 18.2],
+        [1, 'Similar', [1075], new Set([1, 2, 3]), { a: 'b' }, 18.2],
         ['Female', 'comma,comma', undefined, 17.6, 16.7],
       ];
       const expected = `"Inequality ""type""","Compared, to, persons",Count,Value%,Lower,Upper\r
 Persons,,17.4,16.7,18.1\r
-1,Similar,1075,Mon Dec 25 2000 00:00:00 GMT+0000 (Greenwich Mean Time),[object Object],18.2\r
+1,Similar,1075,[object Set],[object Object],18.2\r
 Female,"comma,comma",,17.6,16.7`;
       expect(convertToCsv(input)).toEqual(expected);
     });
