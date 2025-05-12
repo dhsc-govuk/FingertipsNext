@@ -49,16 +49,16 @@ BEGIN
 		    benchmarkAreas.AreaName AS AreaDimensionName,
 		    sex.Name AS SexDimensionName,
 		    sex.HasValue AS SexDimensionHasValue,
-				hm.IsSexAggregatedOrSingle AS SexDimensionIsAggregate,
+			hm.IsSexAggregatedOrSingle AS SexDimensionIsAggregate,
 		    trendDim.Name AS TrendDimensionName,
 		    ageDim.Name AS AgeDimensionName,
 		    ageDim.HasValue AS AgeDimensionHasValue,
-				hm.IsAgeAggregatedOrSingle AS AgeDimensionIsAggregate,
+			hm.IsAgeAggregatedOrSingle AS AgeDimensionIsAggregate,
 		    imd.Name AS DeprivationDimensionName,
 		    imd.[Type] AS DeprivationDimensionType,
 		    imd.[Sequence] AS DeprivationDimensionSequence,
 		    imd.HasValue AS DeprivationDimensionHasValue,
-				hm.IsDeprivationAggregatedOrSingle AS DeprivationDimensionIsAggregate,
+			hm.IsDeprivationAggregatedOrSingle AS DeprivationDimensionIsAggregate,
 		    Count,
 		    Value,
 		    LowerCi,
@@ -115,7 +115,16 @@ BEGIN
 			       @RequestedYears
 			)
         )
-    )
+    ),
+    HealthDataNTileGroupCount AS (
+        SELECT
+            Year,
+            count(*) AS Count
+        FROM
+            HealthData As hd
+        GROUP BY
+	        Year            
+    )	
     --- The final select now filters based on the requested areas and calculates the Benchmark outcome
     SELECT
 		hd.HealthMeasureKey,
@@ -139,12 +148,13 @@ BEGIN
 		hd.LowerCi,
 		hd.UpperCi,
 		hd.Year,
-		@RequestedBenchmarkAreaCode AS BenchmarkComparisonAreaCode,
-		'England' AS BenchmarkComparisonAreaName,
 		ind.Polarity AS BenchmarkComparisonIndicatorPolarity,
 		ind.Name AS IndicatorDimensionName,
-
+		bag.Code AS BenchmarkComparisonAreaCode,
+		bag.Name AS BenchmarkComparisonAreaName
 	CASE
+		WHEN nc.Count < 5 THEN NULL
+
 		WHEN ind.Polarity = 'High is good'
 		AND hd.Quintile = 1 THEN 'WORST'
 		WHEN ind.Polarity = 'High is good'
@@ -179,14 +189,20 @@ BEGIN
 		AND hd.Quintile = 5 THEN 'HIGHEST'
 	END AS BenchmarkComparisonOutcome
 FROM
-		HealthData AS hd
+	HealthData AS hd
 JOIN
-    	@RequestedAreas AS areas
-	ON
-		hd.AreaDimensionCode = areas.AreaCode
+    @RequestedAreas AS areas
+ON
+	hd.AreaDimensionCode = areas.AreaCode
+JOIN
+    HealthDataNTileGroupCount AS nc
+ON
+    hd.Year = nc.Year
 CROSS JOIN
-	    RequestedIndicator ind
+	RequestedIndicator ind
+CROSS JOIN
+	BenchmarkAreaGroup bag
 ORDER BY
-		AreaDimensionName,
-		hd.Year DESC
+	AreaDimensionName,
+	hd.Year DESC
 END

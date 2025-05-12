@@ -193,19 +193,19 @@ GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=
 
 
 ### Check Quintile Benchmarking against AreaGroup - No Judgement - current site doesn't
-GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=A84022&area_type=gps&years=2023&years=2022&years=2021&years=2020&area_group=E38000136&benchmark_ref_type=AreaGroup
+GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=K84017&area_type=gps&years=2023&years=2022&years=2021&years=2020&area_group=E38000136&benchmark_ref_type=AreaGroup
 
 > {%
         client.test("Quintile with Benchmark against AreaGroup", () => {
             const expectedResults = [ 
-                {areaName:"Coquet Medical Group", year:2020, outcome:"Middle"},
-                {areaName:"Coquet Medical Group", year:2021, outcome:"Low"},
-                {areaName:"Coquet Medical Group", year:2022, outcome:"Highest"},
-                {areaName:"Coquet Medical Group", year:2023, outcome:"Highest"},
                 {areaName:"The Leys Health Centre", year:2020, outcome:"Middle"},
                 {areaName:"The Leys Health Centre", year:2021, outcome:"Low"},
-                {areaName:"The Leys Health Centre", year:2022, outcome:"Middle"},
+                {areaName:"The Leys Health Centre", year:2022, outcome:"High"},
                 {areaName:"The Leys Health Centre", year:2023, outcome:"High"},
+                {areaName:"Windrush Medical Practice", year:2020, outcome:"Low"},
+                {areaName:"Windrush Medical Practice", year:2021, outcome:"High"},
+                {areaName:"Windrush Medical Practice", year:2022, outcome:"Highest"},
+                {areaName:"Windrush Medical Practice", year:2023, outcome:"High"},
                 ];
 
             expectedResults.forEach((expected) => {
@@ -213,8 +213,37 @@ GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=A84
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
                     .healthData.find(dataPoint => dataPoint.year === expected.year)
                     .benchmarkComparison.outcome === expected.outcome,
-                    `failed for ${expected.areaName}`
+                    `failed for ${expected.areaName} ${expected.year} ${expected.outcome}`
                 );
             });
         });
 %}
+
+
+### Check Quintile Benchmarking for small group size
+GET http://localhost:5144/indicators/90453/data?area_codes=D83060&area_codes=D83075&area_type=gps&years=2023&years=2022&years=2021&years=2020&area_group=U10430&benchmark_ref_type=AreaGroup
+
+> {%
+        client.test("Quintile with Benchmark against small group size", () => {
+            const expectedResults = [ 
+                {areaName:"Hardwicke House Group Practice", year:2020, outcome:"NotCompared"},
+                {areaName:"Hardwicke House Group Practice", year:2021, outcome:"NotCompared"},
+                {areaName:"Hardwicke House Group Practice", year:2022, outcome:"NotCompared"},
+                {areaName:"Hardwicke House Group Practice", year:2023, outcome:"NotCompared"},
+                {areaName:"Siam Surgery", year:2020, outcome:"NotCompared"},
+                {areaName:"Siam Surgery", year:2021, outcome:"NotCompared"},
+                {areaName:"Siam Surgery", year:2022, outcome:"NotCompared"},
+                {areaName:"Siam Surgery", year:2023, outcome:"NotCompared"},
+                ];
+
+            expectedResults.forEach((expected) => {
+                client.assert(
+                    response.body.areaHealthData.find(area => area.areaName === expected.areaName)
+                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .benchmarkComparison.outcome === expected.outcome,
+                    `failed for ${expected.areaName} ${expected.year} ${expected.outcome}`
+                );
+            });
+        });
+%}
+Sudbury PCN
