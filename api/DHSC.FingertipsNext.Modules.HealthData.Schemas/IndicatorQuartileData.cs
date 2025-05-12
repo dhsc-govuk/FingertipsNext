@@ -15,26 +15,26 @@ public class IndicatorQuartileData
     public short? Year { get; init; }
 
     [JsonPropertyName("q0Value")]
-    public float? Q0Value { get; init; }
+    public double? Q0Value { get; init; }
 
     [JsonPropertyName("q1Value")]
-    public float? Q1Value { get; init; }
+    public double? Q1Value { get; init; }
 
     [JsonPropertyName("q2Value")]
-    public float? Q2Value { get; init; }
+    public double? Q2Value { get; init; }
 
     [JsonPropertyName("q3Value")]
-    public float? Q3Value { get; init; }
+    public double? Q3Value { get; init; }
 
     [JsonPropertyName("q4Value")]
-    public float? Q4Value { get; init; }
+    public double? Q4Value { get; init; }
 
     [JsonPropertyName("areaValue")]
-    public float? AreaValue { get; init; }
+    public double? AreaValue { get; init; }
 
     [JsonPropertyName("ancestorValue")]
-    public float? AncestorValue { get; init; }
+    public double? AncestorValue { get; init; }
 
     [JsonPropertyName("englandValue")]
-    public float? EnglandValue { get; init; }
+    public double? EnglandValue { get; init; }
 }
