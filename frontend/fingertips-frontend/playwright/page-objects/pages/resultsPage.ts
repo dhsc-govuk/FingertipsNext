@@ -112,7 +112,12 @@ export default class ResultsPage extends AreaFilter {
           .getByTestId('trend-tag-component')
           .allInnerTexts();
 
-        expect(await trendText).toContain(expectedIndicatorToSelect.knownTrend);
+        // Trim each text value before comparison
+        const trimmedTrendText = (await trendText).map((text) => text.trim());
+
+        expect(trimmedTrendText).toContain(
+          expectedIndicatorToSelect.knownTrend
+        );
       }
     }
   }

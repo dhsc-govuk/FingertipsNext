@@ -82,7 +82,7 @@ export const coreTestJourneys: TestParams[] = [
       },
       {
         indicatorID: '22401',
-        knownTrend: 'Decreasing and getting better',
+        knownTrend: 'No recent trend data available', // for all areas in a group, this indicators trend is not available at that geography level
       },
     ],
   },
