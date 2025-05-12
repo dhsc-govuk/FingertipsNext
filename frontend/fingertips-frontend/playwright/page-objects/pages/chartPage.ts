@@ -258,11 +258,10 @@ export default class ChartPage extends AreaFilter {
           .getByTestId(visibleComponent.componentLocator)
           .getByTestId('trendTag-container');
 
-        // Get all the text content from these containers
-        const trendTexts = await trendContainers.allTextContents();
+        const trendsText = await trendContainers.allTextContents();
 
         for (const selectedIndicator of selectedIndicators) {
-          expect(trendTexts).toContain(selectedIndicator.knownTrend!);
+          expect(trendsText).toContain(selectedIndicator.knownTrend!);
         }
       } else if (
         visibleComponent.componentProps.hasRecentTrend &&
@@ -274,12 +273,17 @@ export default class ChartPage extends AreaFilter {
             .getByTestId(visibleComponent.componentLocator)
             .getByTestId('trendTag-container');
 
-          // Get all the text content from the spine chart containers
-          const trendTexts = await trendContainers.allTextContents();
+          const trendsText = await trendContainers.allTextContents();
 
           for (const selectedIndicator of selectedIndicators) {
-            expect(trendTexts).toContain(selectedIndicator.knownTrend!);
+            expect(trendsText).toContain(selectedIndicator.knownTrend!);
           }
+        } else {
+          expect(
+            this.page
+              .getByTestId(visibleComponent.componentLocator)
+              .getByTestId('trendTag-container')
+          ).not.toBeAttached();
         }
       }
 

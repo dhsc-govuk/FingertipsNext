@@ -103,7 +103,7 @@ export const coreTestJourneys: TestParams[] = [
   },
   {
     indicatorMode: IndicatorMode.THREE_PLUS_INDICATORS,
-    areaMode: AreaMode.TWO_AREAS,
+    areaMode: AreaMode.ONE_AREA,
     searchMode: SearchMode.ONLY_SUBJECT,
     subjectSearchTerm: 'hospital', // a different subject search term is required that returns enough search results allowing for three indicators to be selected
     indicatorsToSelect: [
@@ -123,7 +123,7 @@ export const coreTestJourneys: TestParams[] = [
   },
   {
     indicatorMode: IndicatorMode.THREE_PLUS_INDICATORS,
-    areaMode: AreaMode.ONE_AREA,
+    areaMode: AreaMode.TWO_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
     subjectSearchTerm: 'hospital', // a different subject search term is required that returns enough search results allowing for three indicators to be selected
     indicatorsToSelect: [
