@@ -1,18 +1,16 @@
 import { test } from '../../page-objects/pageFactory';
 import {
-  AreaMode,
   getAllIndicators,
   getAllIndicatorsForSearchTerm,
-  getIndicatorDataByIndicatorID,
-  IndicatorMode,
+  mergeIndicatorData,
   SearchMode,
   SimpleIndicatorDocument,
-  TestParams,
   TestTag,
 } from '../../testHelpers';
 import indicators from '../../../../../search-setup/assets/indicators.json';
 import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
-//@ts-expect-error don't care about type checking this json file
+import { coreTestJourneys } from './core_journey_config';
+//@ts-expect-error don't type check this json file
 const indicatorData = indicators as RawIndicatorDocument[];
 const areaSearchTerm: AreaDocument = {
   areaCode: 'E12000002',
@@ -21,69 +19,12 @@ const areaSearchTerm: AreaDocument = {
 };
 let allValidIndicators: SimpleIndicatorDocument[] = [];
 let selectedIndicatorsData: SimpleIndicatorDocument[] = [];
-
-const coreTestJourneys: TestParams[] = [
-  {
-    indicatorMode: IndicatorMode.ONE_INDICATOR,
-    areaMode: AreaMode.ENGLAND_AREA,
-    searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: '22401', // test searching for a specific indicatorID
-    expectedIndicatorIDsToSelect: ['22401'],
-  },
-  {
-    indicatorMode: IndicatorMode.ONE_INDICATOR,
-    areaMode: AreaMode.ONE_AREA,
-    searchMode: SearchMode.BOTH_SUBJECT_AND_AREA,
-    subjectSearchTerm: 'emergency',
-    expectedIndicatorIDsToSelect: ['41101'],
-  },
-  {
-    indicatorMode: IndicatorMode.ONE_INDICATOR,
-    areaMode: AreaMode.THREE_PLUS_AREAS,
-    searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'emergency',
-    expectedIndicatorIDsToSelect: ['41101'],
-  },
-  {
-    indicatorMode: IndicatorMode.ONE_INDICATOR,
-    areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
-    searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'emergency',
-    expectedIndicatorIDsToSelect: ['41101'],
-  },
-  {
-    indicatorMode: IndicatorMode.TWO_INDICATORS,
-    areaMode: AreaMode.ENGLAND_AREA,
-    searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'emergency',
-    expectedIndicatorIDsToSelect: ['41101', '22401'],
-  },
-  {
-    indicatorMode: IndicatorMode.TWO_INDICATORS,
-    areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
-    searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'emergency',
-    expectedIndicatorIDsToSelect: ['41101', '22401'],
-  },
-  {
-    indicatorMode: IndicatorMode.TWO_INDICATORS,
-    areaMode: AreaMode.THREE_PLUS_AREAS,
-    searchMode: SearchMode.ONLY_AREA, // therefore no subject search term required
-    expectedIndicatorIDsToSelect: ['41101', '22401'],
-  },
-  {
-    indicatorMode: IndicatorMode.THREE_PLUS_INDICATORS,
-    areaMode: AreaMode.TWO_AREAS,
-    searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'hospital', // a different subject search term is required that returns enough search results allowing for three indicators to be selected
-    expectedIndicatorIDsToSelect: ['41101', '22401', '91894'],
-  },
-];
+const checkTrends = process.env.CHECK_TRENDS_ON_RESULTS_PAGE === 'true';
 
 /**
  * This tests, in parallel, the indicator + area scenario combinations from
  * https://ukhsa.atlassian.net/wiki/spaces/FTN/pages/171448170/Frontend+Application+-+Displaying+Charts
- * These scenario combinations are know as core journeys and are defined above in coreTestJourneys,
+ * These scenario combinations are know as core journeys and are defined in coreTestJourneys,
  * they were chosen as they are happy paths covering lots of chart components, they also cover the three different search mode scenarios.
  * All 15 journeys are covered in lower level unit testing.
  */
@@ -99,7 +40,7 @@ test.describe(
         indicatorMode,
         areaMode,
         subjectSearchTerm,
-        expectedIndicatorIDsToSelect,
+        indicatorsToSelect,
       }) => {
         const typedIndicatorData = indicatorData.map(
           (indicator: RawIndicatorDocument) => {
@@ -157,27 +98,22 @@ test.describe(
               searchMode
             );
 
-            await resultsPage.selectIndicatorCheckboxes(
-              expectedIndicatorIDsToSelect
+            await resultsPage.selectIndicatorCheckboxes(indicatorsToSelect);
+
+            await resultsPage.checkRecentTrends(
+              areaMode,
+              indicatorsToSelect,
+              checkTrends
             );
+
+            await resultsPage.clickViewChartsButton();
           });
 
           await test.step(`check the results page and then view the chart page, checking that the displayed charts are correct`, async () => {
-            for (const selectedIndicator of expectedIndicatorIDsToSelect) {
-              const indicatorDataArray = getIndicatorDataByIndicatorID(
-                typedIndicatorData,
-                selectedIndicator
-              );
-
-              selectedIndicatorsData = [
-                ...selectedIndicatorsData,
-                ...indicatorDataArray,
-              ];
-            }
-
-            await resultsPage.checkRecentTrends(areaMode);
-
-            await resultsPage.clickViewChartsButton();
+            selectedIndicatorsData = mergeIndicatorData(
+              indicatorsToSelect,
+              typedIndicatorData
+            );
 
             await chartPage.checkSelectedIndicatorPillsText(
               selectedIndicatorsData

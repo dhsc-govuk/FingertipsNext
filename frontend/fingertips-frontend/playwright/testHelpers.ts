@@ -7,13 +7,19 @@ export type SimpleIndicatorDocument = {
   indicatorName: string;
   associatedAreaCodes: string[];
   dataSource: string;
+  knownTrend?: string;
 };
+
+export interface IndicatorInfo {
+  indicatorID: string;
+  knownTrend?: string;
+}
 
 export interface TestParams {
   indicatorMode: IndicatorMode;
   areaMode: AreaMode;
   searchMode: SearchMode;
-  expectedIndicatorIDsToSelect: string[];
+  indicatorsToSelect: IndicatorInfo[];
   subjectSearchTerm?: string;
 }
 
@@ -50,6 +56,7 @@ type componentProps = {
   hasTimePeriodDropDown?: boolean;
   hasTypeDropDown?: boolean;
   isWideComponent?: boolean;
+  hasRecentTrend?: boolean;
 };
 
 type component = {
@@ -78,6 +85,7 @@ export function getScenarioConfig(
       componentLocator: ChartPage.lineChartTableComponent,
       componentProps: {
         isTabTable: true,
+        hasRecentTrend: true,
       },
     },
     {
@@ -139,11 +147,12 @@ export function getScenarioConfig(
       componentLocator: ChartPage.barChartEmbeddedTableComponent,
       componentProps: {
         hasConfidenceIntervals: true,
+        hasRecentTrend: true,
       },
     },
     {
       componentLocator: ChartPage.basicTableComponent,
-      componentProps: {},
+      componentProps: { hasRecentTrend: true },
     },
     {
       componentLocator: ChartPage.heatMapComponent,
@@ -155,6 +164,7 @@ export function getScenarioConfig(
       componentLocator: ChartPage.spineChartTableComponent,
       componentProps: {
         isWideComponent: true,
+        hasRecentTrend: true,
       },
     },
   ];
@@ -212,11 +222,16 @@ export function getScenarioConfig(
       ChartPage.populationPyramidComponent,
       ChartPage.populationPyramidTableComponent,
     ],
-    [`${IndicatorMode.THREE_PLUS_INDICATORS}-${AreaMode.TWO_AREAS}`]: [
-      ChartPage.heatMapComponent,
+    [`${IndicatorMode.THREE_PLUS_INDICATORS}-${AreaMode.ONE_AREA}`]: [
+      ChartPage.spineChartTableComponent,
       ChartPage.populationPyramidComponent,
       ChartPage.populationPyramidTableComponent,
-      ChartPage.spineChartTableComponent, // needs to be last so scroll right doesn't impact other component screenshots
+    ],
+    [`${IndicatorMode.THREE_PLUS_INDICATORS}-${AreaMode.TWO_AREAS}`]: [
+      ChartPage.heatMapComponent,
+      ChartPage.spineChartTableComponent,
+      ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
     ],
   };
 
@@ -339,14 +354,18 @@ export function getAllAreasByAreaType(
 export function returnIndicatorIDsByIndicatorMode(
   indicators: string[],
   indicatorMode: IndicatorMode
-): string[] {
+): IndicatorInfo[] {
   switch (indicatorMode) {
     case IndicatorMode.ONE_INDICATOR:
-      return [indicators[0]];
+      return [{ indicatorID: indicators[0] }];
     case IndicatorMode.TWO_INDICATORS:
-      return [indicators[0], indicators[1]];
+      return [{ indicatorID: indicators[0] }, { indicatorID: indicators[1] }];
     case IndicatorMode.THREE_PLUS_INDICATORS:
-      return [indicators[0], indicators[1], indicators[2]];
+      return [
+        { indicatorID: indicators[0] },
+        { indicatorID: indicators[1] },
+        { indicatorID: indicators[2] },
+      ];
     default:
       throw new Error('Invalid indicator mode');
   }
@@ -354,4 +373,32 @@ export function returnIndicatorIDsByIndicatorMode(
 
 export function sortAlphabetically(array: (string | null)[]) {
   array.sort((a, b) => a!.localeCompare(b!));
+}
+
+// This function gets the selected indicators indicator data and merges its knownTrend into one object
+export function mergeIndicatorData(
+  selectedIndicators: IndicatorInfo[],
+  typedIndicatorData: RawIndicatorDocument[]
+): SimpleIndicatorDocument[] {
+  let selectedIndicatorsData: SimpleIndicatorDocument[] = [];
+
+  for (const selectedIndicator of selectedIndicators) {
+    const indicatorDataArray = getIndicatorDataByIndicatorID(
+      typedIndicatorData,
+      selectedIndicator.indicatorID
+    );
+
+    // Add the knownTrend to all returned selected indicators
+    const enhancedIndicatorData = indicatorDataArray.map((indicator) => ({
+      ...indicator,
+      knownTrend: selectedIndicator.knownTrend,
+    }));
+
+    selectedIndicatorsData = [
+      ...selectedIndicatorsData,
+      ...enhancedIndicatorData,
+    ];
+  }
+
+  return selectedIndicatorsData;
 }
