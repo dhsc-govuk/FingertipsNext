@@ -11,6 +11,7 @@ import {
   PlaywrightWorkerArgs,
   PlaywrightWorkerOptions,
   TestType,
+  Locator,
 } from '@playwright/test';
 import AreaFilter from '../components/areaFilter';
 
@@ -98,6 +99,7 @@ export default class ChartPage extends AreaFilter {
       hiddenComponents
     );
     await this.hideFiltersPane();
+    await this.verifyDataSourceDisplay(indicatorMode, selectedIndicators);
 
     for (const component of visibleComponents) {
       await this.handleComponentInteractions(component);
@@ -180,11 +182,13 @@ export default class ChartPage extends AreaFilter {
     }
   }
 
+  // clicks on the tab if the component is a table
   private async selectTabForComponent(componentLocator: string) {
     const tabTestId = `tabTitle-${componentLocator.replace('-component', '')}`;
     await this.clickAndAwaitLoadingComplete(this.page.getByTestId(tabTestId));
   }
 
+  // selects last time period option in the dropdown
   private async selectLastTimePeriodOption() {
     const combobox = this.page
       .getByTestId(ChartPage.timePeriodDropDownComponent)
@@ -204,6 +208,7 @@ export default class ChartPage extends AreaFilter {
     expect(await combobox.inputValue()).toBe(lastOption);
   }
 
+  // selects last type option in the dropdown
   private async selectLastTypeDropdownOption(componentLocator: string) {
     const dropdownComponent =
       componentLocator === ChartPage.inequalitiesForSingleTimePeriodComponent
@@ -224,6 +229,7 @@ export default class ChartPage extends AreaFilter {
     expect(await combobox.inputValue()).toBe(lastOption);
   }
 
+  // checks the confident interval checkbox
   private async toggleConfidenceInterval(componentLocator: string) {
     const mapping: Record<string, string> = {
       [ChartPage.inequalitiesForSingleTimePeriodComponent]:
@@ -245,18 +251,40 @@ export default class ChartPage extends AreaFilter {
     await this.checkAndAwaitLoadingComplete(this.page.getByTestId(testId));
   }
 
+  // clicks on 'Show population data' to show population pyramid component
   private async expandDetailsSection(componentLocator: string) {
     await this.clickAndAwaitLoadingComplete(
       this.page.getByTestId(componentLocator).getByText('Show population data')
     );
   }
 
+  // scrolls to the middle of the component for better screenshot
   private async scrollToMiddle(componentLocator: string) {
     await this.page.getByTestId(componentLocator).evaluate((element) => {
       element.scrollLeft = (element.scrollWidth - element.clientWidth) / 2;
     });
   }
 
+  // verifies data source is displayed for one indicator
+  private async verifyDataSourceDisplay(
+    indicatorMode: IndicatorMode,
+    selectedIndicators: SimpleIndicatorDocument[]
+  ) {
+    const dataSourceLocator = this.page.getByTestId('data-source');
+
+    if (indicatorMode === IndicatorMode.ONE_INDICATOR) {
+      const allDataSources = await dataSourceLocator.allTextContents();
+      allDataSources.forEach((dataSource) => {
+        expect(dataSource).toBe(
+          `Data source: ${selectedIndicators[0].dataSource}`
+        );
+      });
+    } else {
+      await expect(dataSourceLocator).not.toBeAttached();
+    }
+  }
+
+  // verifies component is visible
   private async verifyComponentVisible(
     component: { componentLocator: string },
     testName: string
@@ -278,6 +306,7 @@ export default class ChartPage extends AreaFilter {
     }).toHaveScreenshot(`${testName}-${componentLocator}.png`);
   }
 
+  // verifies component is NOT visible
   private async verifyComponentNotVisible(component: {
     componentLocator: string;
   }) {
@@ -286,7 +315,7 @@ export default class ChartPage extends AreaFilter {
     );
   }
 
-  private async getSelectOptions(combobox: any) {
+  private async getSelectOptions(combobox: Locator) {
     return await combobox.evaluate((select: HTMLSelectElement) =>
       Array.from(select.options).map((option) => ({
         value: option.value,
