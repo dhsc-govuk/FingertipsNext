@@ -57,7 +57,7 @@ GET http://localhost:5144/indicators/94103/data?area_codes=E08000029&area_codes=
 
 ### check High is good TODO - POC data doesn't offer data to validate this
 
-### check No Judgement - current site doesn't
+### check No Judgement 
 GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=A84022&area_type=gps&years=2023&years=2022&years=2021&years=2020
 
 > {%
@@ -246,4 +246,14 @@ GET http://localhost:5144/indicators/90453/data?area_codes=D83060&area_codes=D83
             });
         });
 %}
-Sudbury PCN
+
+### check quintile comparison when areaGroup is a descendant of the areaType
+
+GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=E10000032&area_codes=E10000018&area_codes=E06000062&area_codes=E06000030&area_codes=E06000050&area_type=counties-and-unitary-authorities&years=2019&years=2016&area_group=E07000228&benchmark_ref_type=AreaGroup
+
+> {%
+    client.test("Expected empty array if area_codes not in area_group", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body.areaHealthData.length == 0, "Have not received data for all areas");
+    });
+%}
