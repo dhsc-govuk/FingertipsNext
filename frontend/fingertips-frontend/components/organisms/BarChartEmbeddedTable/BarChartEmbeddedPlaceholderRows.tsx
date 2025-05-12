@@ -3,7 +3,7 @@ import { Table } from 'govuk-react';
 import { InViewTrigger } from '@/components/hooks/InViewTrigger';
 import { barChartEmbeddedRowClassName } from '@/components/organisms/BarChartEmbeddedTable/barChartEmbeddedTableHelpers';
 
-const getAverageHeight = () => {
+const calculateAverageVerticalSpacing = () => {
   const elements = document.getElementsByClassName(
     barChartEmbeddedRowClassName
   );
@@ -27,7 +27,7 @@ export const BarChartEmbeddedPlaceholderRows: FC<
   const [averageHeight, setAverageHeight] = React.useState(150);
 
   useLayoutEffect(() => {
-    setAverageHeight(getAverageHeight());
+    setAverageHeight(calculateAverageVerticalSpacing());
   }, [nRowsToHide]);
 
   const hiddenRows = Array(nRowsToHide)
