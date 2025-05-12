@@ -249,26 +249,20 @@ export default class ChartPage extends AreaFilter {
             element.scrollLeft = middleX;
           });
       }
-      // if its one of the components with a recent trend then check its correct
-      if (
-        visibleComponent.componentProps.hasRecentTrend &&
-        visibleComponent.componentLocator !== 'spineChartTable-component'
-      ) {
-        const trendContainers = this.page
-          .getByTestId(visibleComponent.componentLocator)
-          .getByTestId('trendTag-container');
-
-        const trendsText = await trendContainers.allTextContents();
-
-        for (const selectedIndicator of selectedIndicators) {
-          expect(trendsText).toContain(selectedIndicator.knownTrend!);
-        }
-      } else if (
-        visibleComponent.componentProps.hasRecentTrend &&
-        visibleComponent.componentLocator === 'spineChartTable-component'
-      ) {
-        // for spine chart we only show trend if its One Area
-        if (areaMode === AreaMode.ONE_AREA) {
+      // if it's one of the components with a recent trend then check it's correct
+      if (visibleComponent.componentProps.hasRecentTrend) {
+        if (
+          visibleComponent.componentLocator === 'spineChartTable-component' &&
+          areaMode !== AreaMode.ONE_AREA
+        ) {
+          // Verify no trend container is present for spine chart in non-ONE_AREA modes
+          await expect(
+            this.page
+              .getByTestId(visibleComponent.componentLocator)
+              .getByTestId('trendTag-container')
+          ).not.toBeAttached();
+        } else {
+          // For all other chart components, or spine chart in ONE_AREA mode - check the trend
           const trendContainers = this.page
             .getByTestId(visibleComponent.componentLocator)
             .getByTestId('trendTag-container');
@@ -276,14 +270,14 @@ export default class ChartPage extends AreaFilter {
           const trendsText = await trendContainers.allTextContents();
 
           for (const selectedIndicator of selectedIndicators) {
-            expect(trendsText).toContain(selectedIndicator.knownTrend!);
+            if (!selectedIndicator.knownTrend) {
+              throw new Error(
+                `Selected indicator ${selectedIndicator.indicatorID} should have a known trend stored in core_journey_config.ts.`
+              );
+            }
+
+            expect(trendsText).toContain(selectedIndicator.knownTrend);
           }
-        } else {
-          expect(
-            this.page
-              .getByTestId(visibleComponent.componentLocator)
-              .getByTestId('trendTag-container')
-          ).not.toBeAttached();
         }
       }
 

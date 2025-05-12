@@ -223,13 +223,15 @@ export function getScenarioConfig(
       ChartPage.populationPyramidTableComponent,
     ],
     [`${IndicatorMode.THREE_PLUS_INDICATORS}-${AreaMode.ONE_AREA}`]: [
-      ChartPage.populationPyramidComponent,
       ChartPage.spineChartTableComponent,
+      ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
     ],
     [`${IndicatorMode.THREE_PLUS_INDICATORS}-${AreaMode.TWO_AREAS}`]: [
       ChartPage.heatMapComponent,
-      ChartPage.populationPyramidComponent,
       ChartPage.spineChartTableComponent,
+      ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
     ],
   };
 

@@ -97,6 +97,11 @@ export default class ResultsPage extends AreaFilter {
     // currently, the trend text on each indicator is only visible on the results page in the deployed CD environment so checkTrends will be set to false in local and CI environments via the npm script
     if (trendsShouldBeVisible && checkTrends) {
       for (const expectedIndicatorToSelect of expectedIndicatorsToSelect) {
+        if (!expectedIndicatorToSelect.knownTrend) {
+          throw new Error(
+            `Selected indicator ${expectedIndicatorToSelect.indicatorID} should have a known trend stored in core_journey_config.ts.`
+          );
+        }
         const searchResultItem = this.page.getByTestId('search-result').filter({
           has: this.page.getByTestId(
             `${this.indicatorCheckboxPrefix}-${expectedIndicatorToSelect.indicatorID}`
@@ -107,9 +112,7 @@ export default class ResultsPage extends AreaFilter {
           .getByTestId('trend-tag-component')
           .allInnerTexts();
 
-        expect(await trendText).toContain(
-          expectedIndicatorToSelect.knownTrend!
-        );
+        expect(await trendText).toContain(expectedIndicatorToSelect.knownTrend);
       }
     }
   }
