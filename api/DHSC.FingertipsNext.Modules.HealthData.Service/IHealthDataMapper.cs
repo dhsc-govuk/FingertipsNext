@@ -3,7 +3,7 @@ using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Service;
 
-public interface IMapper
+public interface IHealthDataMapper
 {
     IndicatorPolarity MapIndicatorPolarity(string source);
     BenchmarkComparisonMethod MapBenchmarkComparisonMethod(string source);

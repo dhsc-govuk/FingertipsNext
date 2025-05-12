@@ -10,7 +10,7 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Service;
 /// <remarks>
 ///     Does not include anything specific to the hosting technology being used.
 /// </remarks>
-public class IndicatorService(IHealthDataRepository healthDataRepository, IMapper _mapper) : IIndicatorsService
+public class IndicatorService(IHealthDataRepository healthDataRepository, IHealthDataMapper healthDataMapper) : IIndicatorsService
 {
     public const string AreaCodeEngland = "E92000001";
 
@@ -56,8 +56,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         if (indicatorData == null) 
             return new ServiceResponse<IndicatorWithHealthDataForAreas>(ResponseStatus.IndicatorDoesNotExist);
 
-        var method = _mapper.MapBenchmarkComparisonMethod(indicatorData.BenchmarkComparisonMethod);
-        var polarity = _mapper.MapIndicatorPolarity(indicatorData.Polarity);
+        var method = healthDataMapper.MapBenchmarkComparisonMethod(indicatorData.BenchmarkComparisonMethod);
+        var polarity = healthDataMapper.MapIndicatorPolarity(indicatorData.Polarity);
         if (latestOnly)
             years = [indicatorData.LatestYear];
 
@@ -142,7 +142,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
                 {
                     AreaCode = group.Key.code,
                     AreaName = group.Key.name,
-                    HealthData = _mapper.Map(group.ToList())
+                    HealthData = healthDataMapper.Map(group.ToList())
                 })
                 .ToList();
         }
@@ -176,7 +176,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
             {
                 AreaCode = group.Key.code,
                 AreaName = group.Key.name,
-                HealthData = _mapper.Map(group.ToList())
+                HealthData = healthDataMapper.Map(group.ToList())
             })
             .ToList();
 
@@ -226,6 +226,6 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         )
     {
         var quartileData = await healthDataRepository.GetQuartileDataAsync(indicatorIds, areaCode, areaType, ancestorCode);
-        return quartileData == null ? null : _mapper.Map(quartileData.ToList());
+        return quartileData == null ? null : healthDataMapper.Map(quartileData.ToList());
     }
 }

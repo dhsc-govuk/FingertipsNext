@@ -14,7 +14,7 @@ public class IndicatorServiceTests
 {
     private readonly IHealthDataRepository _healthDataRepository;
     private readonly IndicatorService _indicatorService;
-    private readonly Mappings.Mapper _mapper;
+    private readonly Mappings.HealthDataMapper _healthDataMapper;
 
     private readonly string expectedAreaCode = "Code1";
     private readonly string expectedAreaName = "Area 1";
@@ -32,9 +32,9 @@ public class IndicatorServiceTests
 
     public IndicatorServiceTests()
     {
-        _mapper = new Mappings.Mapper();
+        _healthDataMapper = new Mappings.HealthDataMapper();
         _healthDataRepository = Substitute.For<IHealthDataRepository>();
-        _indicatorService = new IndicatorService(_healthDataRepository, _mapper);
+        _indicatorService = new IndicatorService(_healthDataRepository, _healthDataMapper);
     }
 
     public static IEnumerable<object[]> BenchmarkTestData =>
@@ -66,7 +66,7 @@ public class IndicatorServiceTests
             .WithAreaDimension(expectedAreaCode, expectedAreaName)
             .Build();
 
-        var expectedHealthData = new List<HealthDataPoint> { _mapper.Map(healthMeasure) };
+        var expectedHealthData = new List<HealthDataPoint> { _healthDataMapper.Map(healthMeasure) };
         var expected = new HealthDataForArea
         {
             AreaCode = expectedAreaCode,
@@ -100,7 +100,7 @@ public class IndicatorServiceTests
                 AreaName = expectedAreaName2,
                 HealthData = new List<HealthDataPoint>
                 {
-                    _mapper.Map(healthMeasure2)
+                    _healthDataMapper.Map(healthMeasure2)
                 }
             }
         };
@@ -135,8 +135,8 @@ public class IndicatorServiceTests
                 AreaName = expectedAreaName,
                 HealthData = new List<HealthDataPoint>
                 {
-                    _mapper.Map(healthMeasure1),
-                    _mapper.Map(healthMeasure3)
+                    _healthDataMapper.Map(healthMeasure1),
+                    _healthDataMapper.Map(healthMeasure3)
                 }
             },
             new()
@@ -145,7 +145,7 @@ public class IndicatorServiceTests
                 AreaName = expectedAreaName2,
                 HealthData = new List<HealthDataPoint>
                 {
-                    _mapper.Map(healthMeasure2)
+                    _healthDataMapper.Map(healthMeasure2)
                 }
             }
         };
@@ -695,7 +695,7 @@ public class IndicatorServiceTests
                 AreaName = expectedAreaNames[0],
                 HealthData = new List<HealthDataPoint>
                 {
-                    _mapper.Map(healthMeasure0),
+                    _healthDataMapper.Map(healthMeasure0),
                 }
             },
             new()
@@ -704,7 +704,7 @@ public class IndicatorServiceTests
                 AreaName = expectedAreaNames[1],
                 HealthData = new List<HealthDataPoint>
                 {
-                    _mapper.Map(healthMeasure1)
+                    _healthDataMapper.Map(healthMeasure1)
                 }
             },
             new()
@@ -713,7 +713,7 @@ public class IndicatorServiceTests
                 AreaName = expectedAreaNames[2],
                 HealthData = new List<HealthDataPoint>
                 {
-                    _mapper.Map(healthMeasure2)
+                    _healthDataMapper.Map(healthMeasure2)
                 }
             },
             new()
@@ -722,7 +722,7 @@ public class IndicatorServiceTests
                 AreaName = expectedAreaNames[3],
                 HealthData = new List<HealthDataPoint>
                 {
-                    _mapper.Map(healthMeasure3)
+                    _healthDataMapper.Map(healthMeasure3)
                 }
             }
         };
@@ -756,7 +756,7 @@ public class IndicatorServiceTests
                 AreaName = expectedAreaNames[0],
                 HealthData = new List<HealthDataPoint>
                 {
-                    _mapper.Map(healthMeasure0),
+                    _healthDataMapper.Map(healthMeasure0),
                 }
             },
             new()
@@ -765,7 +765,7 @@ public class IndicatorServiceTests
                 AreaName = expectedAreaNames[1],
                 HealthData = new List<HealthDataPoint>
                 {
-                    _mapper.Map(healthMeasure1),
+                    _healthDataMapper.Map(healthMeasure1),
                 }
             },
             new()
@@ -774,7 +774,7 @@ public class IndicatorServiceTests
                 AreaName = expectedAreaNames[2],
                 HealthData = new List<HealthDataPoint>
                 {
-                    _mapper.Map(healthMeasure2),
+                    _healthDataMapper.Map(healthMeasure2),
                 }
             },
             new()
@@ -813,7 +813,7 @@ public class IndicatorServiceTests
                 AreaName = expectedAreaNames[0],
                 HealthData = new List<HealthDataPoint>
                 {
-                    _mapper.Map(healthMeasure0),
+                    _healthDataMapper.Map(healthMeasure0),
                 }
             },
             new()
@@ -822,7 +822,7 @@ public class IndicatorServiceTests
                 AreaName = expectedAreaNames[1],
                 HealthData = new List<HealthDataPoint>
                 {
-                    _mapper.Map(healthMeasure1),
+                    _healthDataMapper.Map(healthMeasure1),
                 }
             },
             new()
@@ -831,7 +831,7 @@ public class IndicatorServiceTests
                 AreaName = expectedAreaNames[2],
                 HealthData = new List<HealthDataPoint>
                 {
-                    _mapper.Map(healthMeasure2),
+                    _healthDataMapper.Map(healthMeasure2),
                 }
             }
         };

@@ -3,7 +3,7 @@ using DHSC.FingertipsNext.Modules.Area.Schemas;
 
 namespace DHSC.FingertipsNext.Modules.Area.Service;
 
-public interface IMapper
+public interface IAreaMapper
 {
     AreaType Map(AreaTypeModel source);
     List<AreaType> Map(IList<AreaTypeModel> source);
@@ -13,7 +13,7 @@ public interface IMapper
     RootArea MapToRootArea(AreaModel source);
 }
 
-public class Mapper : IMapper
+public class AreaMapper : IAreaMapper
 {
     public AreaType Map(AreaTypeModel source)
     {

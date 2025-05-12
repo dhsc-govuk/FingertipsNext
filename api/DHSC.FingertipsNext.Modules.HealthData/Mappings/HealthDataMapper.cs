@@ -4,7 +4,7 @@ using DHSC.FingertipsNext.Modules.HealthData.Service;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Mappings;
 
-public class Mapper : IMapper
+public class HealthDataMapper : IHealthDataMapper
 {
     public IndicatorPolarity MapIndicatorPolarity(string source)
     {

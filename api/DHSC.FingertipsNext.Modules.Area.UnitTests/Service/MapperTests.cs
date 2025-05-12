@@ -5,15 +5,15 @@ using Shouldly;
 
 namespace DHSC.FingertipsNext.Modules.Area.UnitTests.Service;
 
-public class MapperTests
+public class AreaMapperTests
 {
-    private readonly IMapper _mapper = new Mapper();
+    private readonly IAreaMapper _areaMapper = new AreaMapper();
 
     [Fact]
     public void Mapping_AreaModel_To_SchemaRootArea()
     {
         var areaModel = Fake.AreaModel;
-        var mappedArea = _mapper.MapToRootArea(areaModel);
+        var mappedArea = _areaMapper.MapToRootArea(areaModel);
 
         mappedArea.Code.ShouldBe(areaModel.AreaCode);
         mappedArea.Name.ShouldBe(areaModel.AreaName);
@@ -23,7 +23,7 @@ public class MapperTests
     public void Mapping_AreaModel_To_SchemaArea()
     {
         var areaModel = Fake.AreaModel;
-        var mappedArea = _mapper.Map(areaModel);
+        var mappedArea = _areaMapper.Map(areaModel);
 
         AssertAreaPropertiesMatch(mappedArea, areaModel);
     }
@@ -34,7 +34,7 @@ public class MapperTests
     public void Mapping_AreaWithRelationsModel_To_SchemaAreaWithRelations_WhenModelFullyPopulated()
     {
         var awr = Fake.AreaWithRelationsModel;
-        var mappedAwr = _mapper.Map(awr);
+        var mappedAwr = _areaMapper.Map(awr);
 
         AssertAreaPropertiesMatch(mappedAwr, awr.Area);
 
@@ -55,7 +55,7 @@ public class MapperTests
     public void Mapping_AreaWithRelationsModel_To_SchemaAreaWithRelations_WhenModelFullyPopulatedExceptForParent()
     {
         var awr = Fake.AreaWithRelationsModel;
-        var mappedAwr = _mapper.Map(awr);
+        var mappedAwr = _areaMapper.Map(awr);
 
         AssertAreaPropertiesMatch(mappedAwr, awr.Area);
 
@@ -69,7 +69,7 @@ public class MapperTests
     {
         var awr = Fake.AreaWithRelationsModel;
         awr.Children = [];
-        var mappedAwr = _mapper.Map(awr);
+        var mappedAwr = _areaMapper.Map(awr);
 
         AssertAreaPropertiesMatch(mappedAwr, awr.Area);
 
@@ -84,7 +84,7 @@ public class MapperTests
     {
         var awr = Fake.AreaWithRelationsModel;
         awr.Siblings = [];
-        var mappedAwr = _mapper.Map(awr);
+        var mappedAwr = _areaMapper.Map(awr);
 
         AssertAreaPropertiesMatch(mappedAwr, awr.Area);
 
@@ -101,7 +101,7 @@ public class MapperTests
     public void Mapping_AreaTypeModel_To_SchemaAreaType()
     {
         var areaTypeModel = Fake.AreaTypeModel;
-        var mappedAreaType = _mapper.Map(areaTypeModel);
+        var mappedAreaType = _areaMapper.Map(areaTypeModel);
 
         mappedAreaType.Key.ShouldBe(areaTypeModel.AreaTypeKey);
         mappedAreaType.Name.ShouldBe(areaTypeModel.AreaTypeName);

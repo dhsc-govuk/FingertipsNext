@@ -14,15 +14,15 @@ namespace DHSC.FingertipsNext.Modules.Area.UnitTests.Service;
 public class AreaServiceTests
 {
     private readonly IAreaRepository _mockRepository;
-    private readonly Mapper _mapper;
+    private readonly AreaMapper _areaMapper;
     private readonly AreaService _service;
 
     public AreaServiceTests()
     {
-        _mapper = new Mapper();
+        _areaMapper = new AreaMapper();
         _mockRepository = Substitute.For<IAreaRepository>();
 
-        _service = new AreaService(_mockRepository, _mapper);
+        _service = new AreaService(_mockRepository, _areaMapper);
     }
 
     [Fact]
@@ -45,7 +45,7 @@ public class AreaServiceTests
 
         var result = await _service.GetAreaTypes("hierarchyType");
 
-        result.ShouldBeEquivalentTo(_mapper.Map(SampleAreaTypes));
+        result.ShouldBeEquivalentTo(_areaMapper.Map(SampleAreaTypes));
         await _mockRepository.Received().GetAreaTypesAsync("hierarchyType");
     }
 
@@ -56,7 +56,7 @@ public class AreaServiceTests
 
         var result = await _service.GetAreaTypes();
 
-        result.ShouldBeEquivalentTo(_mapper.Map(SampleAreaTypes));
+        result.ShouldBeEquivalentTo(_areaMapper.Map(SampleAreaTypes));
         await _mockRepository.Received().GetAreaTypesAsync(null);
     }
 
@@ -115,7 +115,7 @@ public class AreaServiceTests
 
         var result = await _service.GetAreaDetails("area1", null, null, null);
 
-        var expectedResult = _mapper.Map(fakeAreaWithRelationsModel);
+        var expectedResult = _areaMapper.Map(fakeAreaWithRelationsModel);
         result.ShouldBeEquivalentTo(expectedResult);
     }
 
@@ -174,10 +174,10 @@ public class AreaServiceTests
         );
         result.Count.ShouldBe(2);
         result[0].ShouldBeEquivalentTo(
-            _mapper.Map(fakeAreaWithNoRelationsModel[0])
+            _areaMapper.Map(fakeAreaWithNoRelationsModel[0])
         );
         result[1].ShouldBeEquivalentTo(
-            _mapper.Map(fakeAreaWithNoRelationsModel[1])
+            _areaMapper.Map(fakeAreaWithNoRelationsModel[1])
         );
     }
 

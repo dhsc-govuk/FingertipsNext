@@ -6,9 +6,9 @@ using Shouldly;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Mapper;
 
-public class MapperTests
+public class HealthDataMapperTests
 {
-    private readonly Mappings.Mapper _mapper = new();
+    private readonly Mappings.HealthDataMapper _healthDataMapper = new();
 
     private static HealthDataPoint BuildHealthDataPoint(
         int year,
@@ -85,7 +85,7 @@ public class MapperTests
             2007, expectedAgeBand, expectedSex, expectedTrend, expectedDeprivation);
 
         // act
-        var actual = _mapper.Map(healthMeasure);
+        var actual = _healthDataMapper.Map(healthMeasure);
 
         // assert
         actual.ShouldBeEquivalentTo(expectedHealthData);
@@ -106,7 +106,7 @@ public class MapperTests
             };
 
         // Act
-        var actual = _mapper.MapIndicatorPolarity(indicator.Polarity);
+        var actual = _healthDataMapper.MapIndicatorPolarity(indicator.Polarity);
 
         // Assert
         actual.ShouldBeEquivalentTo(expectedPolarity);
@@ -126,7 +126,7 @@ public class MapperTests
         };
 
         // Act
-        var actual = _mapper.MapBenchmarkComparisonMethod(indicator.BenchmarkComparisonMethod);
+        var actual = _healthDataMapper.MapBenchmarkComparisonMethod(indicator.BenchmarkComparisonMethod);
 
         // Assert
         actual.ShouldBeEquivalentTo(expectedBenchmarkComparisonMethod);
@@ -172,7 +172,7 @@ public class MapperTests
         };
     
         // Act
-        var actual = _mapper.Map(mockQuartileData);
+        var actual = _healthDataMapper.Map(mockQuartileData);
         
         // Assert
         actual.ShouldBeEquivalentTo(expectedQuartileData);
