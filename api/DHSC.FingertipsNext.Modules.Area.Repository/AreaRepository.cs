@@ -129,7 +129,7 @@ public class AreaRepository : IAreaRepository
         {
             Area = area,
             ParentAreas = area.Parents.ToList(),
-            Siblings = includeSiblings ? area.Parents.SelectMany(p => p.Children).ToList() : null
+            Siblings = includeSiblings ? area.Parents.SelectMany(p => p.Children).ToList() : []
         };
 
         if (includeChildren)

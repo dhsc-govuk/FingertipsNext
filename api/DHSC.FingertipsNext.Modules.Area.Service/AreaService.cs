@@ -97,5 +97,5 @@ public class AreaService : IAreaService
     /// </summary>
     /// <param name="services"></param>
     public static void RegisterMappings(IServiceCollection services) => 
-        services.AddScoped<IMapper, Mapper>();
+        services.AddSingleton<IMapper, Mapper>();
 }
