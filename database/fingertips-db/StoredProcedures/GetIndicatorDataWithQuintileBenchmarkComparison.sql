@@ -29,6 +29,15 @@ BEGIN
     EXEC 
     	Areas.GetDescendantAreas @RequestedAreaType=@RequestedAreaType, @RequestedAncestorAreaCode=@RequestedBenchmarkAreaCode;
 	WITH
+	--- Get the Benchmark Area
+	BenchmarkAreaGroup AS (
+	SELECT
+		*
+	FROM
+	    dbo.AreaDimension AS areaDim
+	WHERE
+	    areaDim.Code = @RequestedBenchmarkAreaCode
+	),
 	--- Finds the indicator of interest from the passed in IndicatorId.
 	RequestedIndicator AS (
 	SELECT
@@ -151,7 +160,7 @@ BEGIN
 		ind.Polarity AS BenchmarkComparisonIndicatorPolarity,
 		ind.Name AS IndicatorDimensionName,
 		bag.Code AS BenchmarkComparisonAreaCode,
-		bag.Name AS BenchmarkComparisonAreaName
+		bag.Name AS BenchmarkComparisonAreaName,
 	CASE
 		WHEN nc.Count < 5 THEN NULL
 
