@@ -143,8 +143,6 @@ export const Home = ({
         health trends, identify inequalities, and make informed decisions about
         public health in England.
       </Paragraph>
-      <br />
-      <ProjectVersion />
     </form>
   );
 };

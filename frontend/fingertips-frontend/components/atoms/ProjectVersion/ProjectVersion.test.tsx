@@ -4,8 +4,8 @@ import { expect } from '@jest/globals';
 
 describe('ProjectVersion', () => {
   it('should render versions', () => {
-    process.env.FINGERTIPS_GIT_HASH = 'ABCD1234';
-    process.env.FINGERTIPS_GIT_TAG = 'vX.Y.Z';
+    process.env.NEXT_PUBLIC_FINGERTIPS_GIT_HASH = 'ABCD1234';
+    process.env.NEXT_PUBLIC_FINGERTIPS_GIT_TAG = 'vX.Y.Z';
 
     render(<ProjectVersion />);
 
@@ -22,8 +22,8 @@ describe('ProjectVersion', () => {
     'ABCD1234',
     'fatal: No names found, cannot describe anything.',
   ])('should render only the hash if tag is invalid: %s', (tag?: string) => {
-    process.env.FINGERTIPS_GIT_HASH = 'ABCD1234';
-    process.env.FINGERTIPS_GIT_TAG = tag as string;
+    process.env.NEXT_PUBLIC_FINGERTIPS_GIT_HASH = 'ABCD1234';
+    process.env.NEXT_PUBLIC_FINGERTIPS_GIT_TAG = tag as string;
     render(<ProjectVersion />);
 
     const version = screen.getByTestId('project-version');
