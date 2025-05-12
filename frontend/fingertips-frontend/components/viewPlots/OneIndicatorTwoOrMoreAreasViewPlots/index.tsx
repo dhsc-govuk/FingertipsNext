@@ -23,6 +23,7 @@ import {
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
+import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
 
 interface OneIndicatorTwoOrMoreAreasViewPlotsProps
   extends OneIndicatorViewPlotProps {
@@ -103,7 +104,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   return (
     <section data-testid="oneIndicatorTwoOrMoreAreasViewPlots-component">
       {shouldLineChartbeShown && (
-        <>
+        <StyleChartWrapper>
           <H3>Indicator data over time</H3>
           <TabContainer
             id="lineChartAndTable"
@@ -135,33 +136,37 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
             ]}
             footer={<DataSource dataSource={indicatorMetadata?.dataSource} />}
           />
-        </>
+        </StyleChartWrapper>
       )}
       {selectedGroupArea === ALL_AREAS_SELECTED && (
-        <ThematicMap
-          selectedAreaType={selectedAreaType}
-          healthIndicatorData={dataWithoutEnglandOrGroupAllAreas}
-          benchmarkComparisonMethod={
-            benchmarkMethod ?? BenchmarkComparisonMethod.Unknown
-          }
-          polarity={polarity ?? IndicatorPolarity.Unknown}
-          indicatorMetadata={indicatorMetadata}
-          benchmarkIndicatorData={englandBenchmarkData}
-          groupIndicatorData={groupData}
-          areaCodes={areaCodes ?? []}
-        />
+        <StyleChartWrapper>
+          <ThematicMap
+            selectedAreaType={selectedAreaType}
+            healthIndicatorData={dataWithoutEnglandOrGroupAllAreas}
+            benchmarkComparisonMethod={
+              benchmarkMethod ?? BenchmarkComparisonMethod.Unknown
+            }
+            polarity={polarity ?? IndicatorPolarity.Unknown}
+            indicatorMetadata={indicatorMetadata}
+            benchmarkIndicatorData={englandBenchmarkData}
+            groupIndicatorData={groupData}
+            areaCodes={areaCodes ?? []}
+          />
+        </StyleChartWrapper>
       )}
-      <H3>Compare an indicator by areas</H3>
-      <BarChartEmbeddedTable
-        data-testid="barChartEmbeddedTable-component"
-        healthIndicatorData={dataWithoutEnglandOrGroup}
-        benchmarkData={englandBenchmarkData}
-        groupIndicatorData={groupData}
-        measurementUnit={indicatorMetadata?.unitLabel}
-        benchmarkComparisonMethod={benchmarkMethod}
-        polarity={polarity}
-        dataSource={indicatorMetadata?.dataSource}
-      />
+      <StyleChartWrapper>
+        <H3>Compare an indicator by areas</H3>
+        <BarChartEmbeddedTable
+          data-testid="barChartEmbeddedTable-component"
+          healthIndicatorData={dataWithoutEnglandOrGroup}
+          benchmarkData={englandBenchmarkData}
+          groupIndicatorData={groupData}
+          measurementUnit={indicatorMetadata?.unitLabel}
+          benchmarkComparisonMethod={benchmarkMethod}
+          polarity={polarity}
+          dataSource={indicatorMetadata?.dataSource}
+        />
+      </StyleChartWrapper>
     </section>
   );
 }
