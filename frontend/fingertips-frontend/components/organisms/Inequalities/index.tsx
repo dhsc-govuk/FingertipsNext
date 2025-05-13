@@ -34,7 +34,6 @@ export function Inequalities({
         polarity={polarity}
         dataSource={dataSource}
       />
-      <br />
       <InequalitiesTrend
         healthIndicatorData={healthIndicatorData}
         measurementUnit={measurementUnit}

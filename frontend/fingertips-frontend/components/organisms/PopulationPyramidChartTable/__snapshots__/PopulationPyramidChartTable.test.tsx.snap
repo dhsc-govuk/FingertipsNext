@@ -294,6 +294,7 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
 
 <section
     class="c0"
+    data-testid="populationPyramidTable-component"
   >
     <div
       class="c1"
