@@ -15,6 +15,11 @@ import {
 } from '@playwright/test';
 import AreaFilter from '../components/areaFilter';
 
+interface VisibleComponent {
+  componentLocator: string;
+  componentProps: Record<string, boolean>;
+}
+
 export default class ChartPage extends AreaFilter {
   readonly backLink = 'chart-page-back-link';
 
@@ -99,13 +104,13 @@ export default class ChartPage extends AreaFilter {
       hiddenComponents
     );
     await this.hideFiltersPane();
-    await this.verifyDataSourceIsDisplay(indicatorMode, selectedIndicators);
+    await this.verifyDataSourceIsDisplayed(indicatorMode, selectedIndicators);
 
     for (const visibleComponent of visibleComponents) {
       await this.handleComponentInteractions(
         visibleComponent,
-        indicatorMode,
-        selectedIndicators
+        selectedIndicators,
+        areaMode
       );
       await this.verifyComponentVisibleAndScreenshotMatch(
         visibleComponent,
@@ -154,8 +159,8 @@ export default class ChartPage extends AreaFilter {
       componentLocator: string;
       componentProps: Record<string, boolean>;
     },
-    indicatorMode: IndicatorMode,
-    selectedIndicators: SimpleIndicatorDocument[]
+    selectedIndicators: SimpleIndicatorDocument[],
+    areaMode: AreaMode
   ) {
     const { componentLocator, componentProps } = component;
 
@@ -187,7 +192,11 @@ export default class ChartPage extends AreaFilter {
       {
         condition: componentProps.hasRecentTrend,
         action: () =>
-          this.verifyDataSourceIsDisplay(indicatorMode, selectedIndicators),
+          this.verifyTrendTagForComponent(
+            component,
+            areaMode,
+            selectedIndicators
+          ),
       },
     ];
 
@@ -282,7 +291,7 @@ export default class ChartPage extends AreaFilter {
   }
 
   // verifies data source is displayed for one indicator
-  private async verifyDataSourceIsDisplay(
+  private async verifyDataSourceIsDisplayed(
     indicatorMode: IndicatorMode,
     selectedIndicators: SimpleIndicatorDocument[]
   ) {
@@ -297,6 +306,42 @@ export default class ChartPage extends AreaFilter {
       });
     } else {
       await expect(dataSourceLocator).not.toBeAttached();
+    }
+  }
+
+  private async verifyTrendTagForComponent(
+    visibleComponent: VisibleComponent,
+    areaMode: AreaMode,
+    selectedIndicators: SimpleIndicatorDocument[]
+  ): Promise<void> {
+    if (!visibleComponent.componentProps.hasRecentTrend) {
+      return;
+    }
+
+    const componentLocator = visibleComponent.componentLocator;
+    const trendTagLocator = this.page
+      .getByTestId(componentLocator)
+      .getByTestId('trendTag-container');
+
+    if (
+      componentLocator === 'spineChartTable-component' &&
+      areaMode !== AreaMode.ONE_AREA
+    ) {
+      // Verify no trend container is present for spine chart in non-ONE_AREA modes
+      await expect(trendTagLocator).not.toBeAttached();
+    } else {
+      // For all other chart components, or spine chart in ONE_AREA mode - check the trend
+      const trendsText = await trendTagLocator.allTextContents();
+
+      for (const selectedIndicator of selectedIndicators) {
+        if (!selectedIndicator.knownTrend) {
+          throw new Error(
+            `Selected indicator ${selectedIndicator.indicatorID} should have a known trend stored in core_journey_config.ts.`
+          );
+        }
+
+        expect(trendsText).toContain(selectedIndicator.knownTrend);
+      }
     }
   }
 
