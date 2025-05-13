@@ -189,7 +189,7 @@ BEGIN
       [Quarter] = DATEPART(q, @CurrentDate),
       [QuarterName] = CASE 
          WHEN DATENAME(qq, @CurrentDate) = 1
-            THEN 'First'
+            THEN 'first'
          WHEN DATENAME(qq, @CurrentDate) = 2
             THEN 'second'
          WHEN DATENAME(qq, @CurrentDate) = 3
