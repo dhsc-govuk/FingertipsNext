@@ -105,7 +105,7 @@ test.describe(
       /**
        * There are scenarios where this won't be the case
        * eg when all the results are derived from a single synonym term
-       * however this shows that the synonyms that return no results are not equivalently mapped
+       * however this shows that the synonyms that return no/fewer results are not equivalently mapped
        */
       await test.step('search for explicitly mapped acronym', async () => {
         const subjectSearchTerm = 'chd';
