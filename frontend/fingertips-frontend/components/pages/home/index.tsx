@@ -7,8 +7,8 @@ import {
   Link,
   ListItem,
   Paragraph,
-  UnorderedList,
   SectionBreak,
+  UnorderedList,
 } from 'govuk-react';
 import { SearchStateParams } from '@/lib/searchStateManager';
 import { SearchForm } from '@/components/forms/SearchForm';
@@ -22,7 +22,6 @@ import { spacing } from '@govuk-react/lib';
 import { Area } from '@/generated-sources/ft-api-client';
 import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
 import { useSearchState } from '@/context/SearchStateContext';
-import { ProjectVersion } from '@/components/atoms/ProjectVersion';
 
 const ZeroMarginParagraph = styled(Paragraph)(
   spacing.withWhiteSpace({ marginBottom: 0 })
