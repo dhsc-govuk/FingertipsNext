@@ -405,6 +405,29 @@ describe('IndicatorSelectionForm', () => {
     );
   });
 
+  it('should remove indicators selected that are not available in the results', () => {
+    const selectedIndicators = [MOCK_DATA[0].indicatorID, '99999', '12345'];
+    mockGetSearchState.mockReturnValue({
+      ...state,
+      [SearchParams.IndicatorsSelected]: selectedIndicators,
+    });
+
+    render(
+      <IndicatorSelectionForm
+        searchResults={MOCK_DATA}
+        showTrends={false}
+        formAction={mockFormAction}
+      />
+    );
+
+    const hidden: HTMLInputElement = screen.getByTestId(
+      'indicators-selection-form-state'
+    );
+    const formState = JSON.parse(hidden.value);
+
+    expect(formState).toHaveProperty('is', ['1']);
+  });
+
   describe('Pagination', () => {
     beforeEach(() => {
       window.history.replaceState = jest.fn();

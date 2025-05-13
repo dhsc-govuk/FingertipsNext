@@ -260,7 +260,7 @@ describe('BarChartEmbeddedTable', () => {
     const valueColumnIndex =
       header.findIndex((item) => item.textContent?.includes('Value')) - 2;
 
-    const areaRows = screen.getAllByRole('row').slice(2, -1);
+    const areaRows = screen.getAllByRole('row').slice(2);
 
     const valueCells = areaRows.map((areaRow) => {
       const cellsInRow = within(areaRow).getAllByRole('cell');
@@ -288,7 +288,7 @@ describe('BarChartEmbeddedTable', () => {
     const valueColumnIndex =
       header.findIndex((item) => item.textContent?.includes('Area')) - 2;
 
-    const areaRows = screen.getAllByRole('row').slice(2, -1);
+    const areaRows = screen.getAllByRole('row').slice(2);
 
     const valueCells = areaRows.map((areaRow) => {
       const cellsInRow = within(areaRow).getAllByRole('cell');
