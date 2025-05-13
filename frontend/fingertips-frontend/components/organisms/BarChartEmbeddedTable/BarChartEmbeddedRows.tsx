@@ -6,7 +6,7 @@ import {
 import { BarChartEmbeddedTableRow } from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedTable.types';
 import { BarChartEmbeddedRow } from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedRow';
 import { useMoreRowsWhenScrolling } from '@/components/hooks/useMoreRowsWhenScrolling';
-import { InViewTrigger } from '@/components/hooks/InViewTrigger';
+import { BarChartEmbeddedPlaceholderRows } from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedPlaceholderRows';
 
 interface BarChartEmbeddedRowsProps {
   rows: BarChartEmbeddedTableRow[];
@@ -25,8 +25,8 @@ export const BarChartEmbeddedRows: FC<BarChartEmbeddedRowsProps> = ({
   polarity,
   measurementUnit = '',
 }) => {
-  const { triggerRef, rowsToShow, hasMore } =
-    useMoreRowsWhenScrolling<BarChartEmbeddedTableRow>(rows, 10);
+  const { triggerRef, rowsToShow, nRowsToHide } =
+    useMoreRowsWhenScrolling<BarChartEmbeddedTableRow>(rows, 50);
 
   return (
     <>
@@ -41,11 +41,10 @@ export const BarChartEmbeddedRows: FC<BarChartEmbeddedRowsProps> = ({
           measurementUnit={measurementUnit}
         />
       ))}
-      <tr>
-        <td>
-          <InViewTrigger triggerRef={triggerRef} more={hasMore} />
-        </td>
-      </tr>
+      <BarChartEmbeddedPlaceholderRows
+        nRowsToHide={nRowsToHide}
+        triggerRef={triggerRef}
+      />
     </>
   );
 };
