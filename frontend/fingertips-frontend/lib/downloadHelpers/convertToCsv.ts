@@ -16,4 +16,4 @@ export const convertRowToCsv = (row: CsvField[]): string =>
   row.map(convertFieldToCsv).join(delimiter);
 
 export const convertToCsv = (data: CsvField[][]): string =>
-  data.map(convertRowToCsv).join(lineBreak);
+  data.map(convertRowToCsv).join(lineBreak).trim();

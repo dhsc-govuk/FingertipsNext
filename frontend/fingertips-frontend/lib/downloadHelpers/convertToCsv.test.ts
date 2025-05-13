@@ -85,5 +85,11 @@ Persons,,17.4,16.7,18.1\r
 Female,"comma,comma",,17.6,16.7`;
       expect(convertToCsv(input)).toEqual(expected);
     });
+
+    it('should handle empty arrays', () => {
+      expect(convertToCsv([])).toEqual('');
+      expect(convertToCsv([[]])).toEqual('');
+      expect(convertToCsv([[], []])).toEqual('');
+    });
   });
 });
