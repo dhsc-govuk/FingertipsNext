@@ -18,6 +18,7 @@ import { GovukColours } from '@/lib/styleHelpers/colours';
 import { useMapGeographyData } from '@/components/organisms/ThematicMap/useMapGeographyData';
 import { H3 } from 'govuk-react';
 
+import proj4 from 'proj4';
 interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];
   selectedAreaType?: string;
@@ -89,8 +90,36 @@ export function ThematicMap({
     return null;
   }
 
+  class OSGB36ProjectionDefinition {
+    constructor() {
+      this.proj = window.proj4(
+        // "+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +nadgrids=uk_os_OSTN15_NTv2_OSGBtoETRS.tif +units=m +no_defs +type=crs"
+        '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +units=m +no_defs +type=crs'
+      );
+    }
+
+    forward(lonLat) {
+      return this.proj.forward(lonLat);
+    }
+
+    inverse(point) {
+      return this.proj.inverse(point);
+    }
+  }
+  Highcharts.Projection.add('OSGB36', OSGB36ProjectionDefinition);
+
+  const spikeOptions: Highcharts.Options = { ...options };
+  spikeOptions.title = { text: 'custom projection' };
+  spikeOptions.mapView = {
+    ...options.mapView,
+    projection: {
+      name: 'OSGB36',
+    },
+  };
+
   return (
     <>
+      {/* <Chart1 /> */}
       <H3>Compare an indicator by areas</H3>
       <div
         data-testid="thematicMap-component"
@@ -120,6 +149,15 @@ export function ThematicMap({
         <BenchmarkLegend
           benchmarkComparisonMethod={benchmarkComparisonMethod}
           polarity={polarity}
+        />
+        <p>Projections Spike</p>
+        <HighchartsReact
+          containerProps={{
+            'data-testid': 'highcharts-react-thematicMap-component',
+          }}
+          highcharts={Highcharts}
+          constructorType={'mapChart'}
+          options={spikeOptions}
         />
         <HighchartsReact
           containerProps={{
