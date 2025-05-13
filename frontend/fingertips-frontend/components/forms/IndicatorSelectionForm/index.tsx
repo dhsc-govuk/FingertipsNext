@@ -142,7 +142,16 @@ export function IndicatorSelectionForm({
   const { replace } = useRouter();
   const { setIsLoading } = useLoadingState();
   const { getSearchState } = useSearchState();
-  const searchState = getSearchState();
+  const searchStateFromQueryString = getSearchState();
+  const searchState = { ...searchStateFromQueryString };
+  const availableIndicatorIds = searchResults.map(
+    ({ indicatorID }) => indicatorID
+  );
+  searchState[SearchParams.IndicatorsSelected] =
+    searchState[SearchParams.IndicatorsSelected]?.filter((indicatorId) =>
+      availableIndicatorIds.includes(indicatorId)
+    ) ?? [];
+
   const stateManager = SearchStateManager.initialise(searchState);
 
   const checkAllIndicatorsSelected = (
@@ -233,6 +242,7 @@ export function IndicatorSelectionForm({
       }}
     >
       <input
+        data-testid="indicators-selection-form-state"
         key={`indicators-selection-form-state-${JSON.stringify(searchState)}`}
         name="searchState"
         defaultValue={JSON.stringify(searchState)}
