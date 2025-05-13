@@ -124,6 +124,13 @@ npm run test-e2e-local-docker
 ```
 You will need to have all the docker services running first before executing this command.
 
+To run the e2e tests locally but pointing at the deployed CD environment, rather than using the local docker stack, headlessly do:
+
+```bash
+npm run test-e2e-cd
+```
+You will need need to add FINGERTIPS_FRONTEND_URL={enter url here} after MOCK_SERVER=false. Also add the --ignore-snapshots parameter. Do not commit/push this as the url is a github secret.
+
 To run the e2e tests locally, headed allowing debug:
 
 ```bash
@@ -150,9 +157,8 @@ If you have made changes in your branch that have correctly resulted in the scre
 
 In your failed job you will see the following message:
 
-```bash 
-Screenshot match failed: ${visibleComponent.componentLocator} - you may need to run the update screenshot manual CI job - see Visual Screenshot Snapshot Testing in frontend/fingertips-frontend/README.md for details.
-```
+`Screenshot match failed: ${visibleComponent.componentLocator} - you may need to run the update screenshot manual CI job - see Visual Screenshot Snapshot Testing in frontend/fingertips-frontend/README.md for details.`
+
 Follow these steps to update the screenshots (or add new ones where needed):
 
 1. Download `playwright-artefacts` from the github workflow summary page, and open the `index.html` file in the `playwright-report` folder, then in the Playwright report open the failed test and you will be presented with a 'Diff' page that shows the before and after.

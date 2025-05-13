@@ -23,6 +23,7 @@ import {
   HierarchyNameTypes,
 } from '@/lib/areaFilterHelpers/areaType';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
 
 const determineHeaderTitle = (
   healthDataForAreaSelected?: HealthDataForArea,
@@ -129,53 +130,55 @@ export const PopulationPyramidWithTable = ({
 
   return (
     <div data-testid="populationPyramidWithTable-component">
-      <H3 style={{ fontSize: '24px' }}>Related population data</H3>
-      <ArrowExpander
-        openTitle="Show population data"
-        closeTitle="Hide population data"
-      >
-        <div key={`population-pyramid-${JSON.stringify(searchState)}`}>
-          <ChartSelectArea
-            availableAreas={availableAreas}
-            chartAreaSelectedKey={SearchParams.PopulationAreaSelected}
-            searchState={searchState}
-          />
-          {populationDataForSelectedArea != undefined ? (
-            <TabContainer
-              id="pyramidChartAndTableView"
-              items={[
-                {
-                  id: 'populationPyramidChart',
-                  title: 'Population pyramid',
-                  content: (
-                    <>
-                      <H5>{title}</H5>
-                      <PopulationPyramid
-                        dataForSelectedArea={populationDataForSelectedArea}
-                        dataForGroup={groupToUse}
-                        dataForBenchmark={benchmarkToUse}
-                        xAxisTitle={xAxisTitle}
-                        yAxisTitle={yAxisTitle}
-                      />
-                    </>
-                  ),
-                },
-                {
-                  id: 'populationPyramidTable',
-                  title: 'Table',
-                  content: (
-                    <PopulationPyramidChartTable
-                      healthDataForArea={populationDataForSelectedArea}
-                      benchmarkData={benchmarkToUse}
-                      groupData={groupToUse}
-                    />
-                  ),
-                },
-              ]}
+      <StyleChartWrapper>
+        <H3 style={{ fontSize: '24px' }}>Related population data</H3>
+        <ArrowExpander
+          openTitle="Show population data"
+          closeTitle="Hide population data"
+        >
+          <div key={`population-pyramid-${JSON.stringify(searchState)}`}>
+            <ChartSelectArea
+              availableAreas={availableAreas}
+              chartAreaSelectedKey={SearchParams.PopulationAreaSelected}
+              searchState={searchState}
             />
-          ) : null}
-        </div>
-      </ArrowExpander>
+            {populationDataForSelectedArea != undefined ? (
+              <TabContainer
+                id="pyramidChartAndTableView"
+                items={[
+                  {
+                    id: 'populationPyramidChart',
+                    title: 'Population pyramid',
+                    content: (
+                      <>
+                        <H5>{title}</H5>
+                        <PopulationPyramid
+                          dataForSelectedArea={populationDataForSelectedArea}
+                          dataForGroup={groupToUse}
+                          dataForBenchmark={benchmarkToUse}
+                          xAxisTitle={xAxisTitle}
+                          yAxisTitle={yAxisTitle}
+                        />
+                      </>
+                    ),
+                  },
+                  {
+                    id: 'populationPyramidTable',
+                    title: 'Table',
+                    content: (
+                      <PopulationPyramidChartTable
+                        healthDataForArea={populationDataForSelectedArea}
+                        benchmarkData={benchmarkToUse}
+                        groupData={groupToUse}
+                      />
+                    ),
+                  },
+                ]}
+              />
+            ) : null}
+          </div>
+        </ArrowExpander>
+      </StyleChartWrapper>
     </div>
   );
 };
