@@ -1,4 +1,4 @@
-﻿﻿--This holds the core health data. e.g. 800 Females under the age of 75 people per 100000 People with type 1 diabetes received a blood pressure check in Leeds in 2022
+﻿--This holds the core health data. e.g. 800 Females under the age of 75 people per 100000 People with type 1 diabetes received a blood pressure check in Leeds in 2022
 CREATE TABLE [dbo].[HealthMeasure](
 	[HealthMeasureKey] [int] IDENTITY(1,1) NOT NULL, 	--The surrogate key
 	[AgeKey] [smallint] NOT NULL,                     --Foreign key to the age - what age is this row for
