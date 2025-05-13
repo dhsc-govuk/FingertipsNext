@@ -1,4 +1,4 @@
-﻿--This holds the core health data. e.g. 800 Females under the age of 75 people per 100000 People with type 1 diabetes received a blood pressure check in Leeds in 2022
+﻿﻿--This holds the core health data. e.g. 800 Females under the age of 75 people per 100000 People with type 1 diabetes received a blood pressure check in Leeds in 2022
 CREATE TABLE [dbo].[HealthMeasure](
 	[HealthMeasureKey] [int] IDENTITY(1,1) NOT NULL, 	--The surrogate key
 	[AgeKey] [smallint] NOT NULL,                     --Foreign key to the age - what age is this row for
@@ -15,10 +15,7 @@ CREATE TABLE [dbo].[HealthMeasure](
 	[Year] [smallint] NOT NULL,                       --A junk dimension of the year that this row is for e.g. 2022
 	[IsSexAggregatedOrSingle] bit NULL,
 	[IsAgeAggregatedOrSingle] bit NULL,
-	[IsDeprivationAggregatedOrSingle] bit NULL,
-	[FromDateKey] [int] NULL,
-	[ToDateKey] [int] NULL,
-	[PeriodKey] [tinyint] NULL
+	[IsDeprivationAggregatedOrSingle] bit NULL
  CONSTRAINT [PK_HealthMeasure] PRIMARY KEY CLUSTERED
 (
 	[HealthMeasureKey] ASC
@@ -63,27 +60,6 @@ GO
 ALTER TABLE [dbo].[HealthMeasure] CHECK CONSTRAINT [FK_HealthMeasure_DeprivationDimension]
 GO
 
-ALTER TABLE [dbo].[HealthMeasure]  WITH CHECK ADD  CONSTRAINT [FK_HealthMeasure_FromDateDimension] FOREIGN KEY([FromDateKey])
-REFERENCES [dbo].[DateDimension] ([DateKey])
-GO
-
-ALTER TABLE [dbo].[HealthMeasure] CHECK CONSTRAINT [FK_HealthMeasure_FromDateDimension]
-GO
-
-ALTER TABLE [dbo].[HealthMeasure]  WITH CHECK ADD  CONSTRAINT [FK_HealthMeasure_ToDateDimension] FOREIGN KEY([ToDateKey])
-REFERENCES [dbo].[DateDimension] ([DateKey])
-GO
-
-ALTER TABLE [dbo].[HealthMeasure] CHECK CONSTRAINT [FK_HealthMeasure_ToDateDimension]
-GO
-
-ALTER TABLE [dbo].[HealthMeasure]  WITH CHECK ADD  CONSTRAINT [FK_HealthMeasure_PeriodDimension] FOREIGN KEY([PeriodKey])
-REFERENCES [dbo].[PeriodDimension] ([PeriodKey])
-GO
-
-ALTER TABLE [dbo].[HealthMeasure] CHECK CONSTRAINT [FK_HealthMeasure_PeriodDimension]
-GO
-
 CREATE NONCLUSTERED INDEX [AgeIndex] ON [dbo].[HealthMeasure]
 (
 	[AgeKey] ASC
@@ -123,24 +99,6 @@ GO
 CREATE NONCLUSTERED INDEX [YearIndex] ON [dbo].[HealthMeasure]
 (
 	[Year] ASC
-)
-GO
-
-CREATE NONCLUSTERED INDEX [FromDateIndex] ON [dbo].[HealthMeasure]
-(
-	[FromDateKey] ASC
-)
-GO
-
-CREATE NONCLUSTERED INDEX [ToDateIndex] ON [dbo].[HealthMeasure]
-(
-	[ToDateKey] ASC
-)
-GO
-
-CREATE NONCLUSTERED INDEX [PeriodIndex] ON [dbo].[HealthMeasure]
-(
-	[PeriodKey] ASC
 )
 GO
 
