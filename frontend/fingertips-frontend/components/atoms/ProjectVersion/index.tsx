@@ -1,9 +1,10 @@
+'use client';
+
 import { FC } from 'react';
-import { tryReadEnvVar } from '@/lib/envUtils';
 
 export const ProjectVersion: FC = () => {
-  const tag = tryReadEnvVar('FINGERTIPS_GIT_TAG');
-  const hash = tryReadEnvVar('FINGERTIPS_GIT_HASH');
+  const tag = process.env.NEXT_PUBLIC_FINGERTIPS_GIT_TAG;
+  const hash = process.env.NEXT_PUBLIC_FINGERTIPS_GIT_HASH;
 
   if (!hash) return null;
 
