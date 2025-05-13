@@ -148,11 +148,11 @@ describe('AI search index creation and data loading', () => {
         const result = await response.json();
         expect(result.name).toBe(INDICATOR_SEARCH_SYNONYM_MAP_NAME);
         expect(
-          (result.synonyms as string).includes('a\\&e, accident, emergency \n')
-        );
+          (result.synonyms as string).includes('a\\&e, accident, emergency')
+        ).toBe(true);
         expect(
-          (result.synonyms as string).includes('depr => depr, deprivation \n')
-        );
+          (result.synonyms as string).includes('depr => depr, deprivation')
+        ).toBe(true);
       });
 
       it('should do one way synonym mapping for keywords that have the explicit flag set', async () => {
