@@ -99,15 +99,22 @@ export default class ChartPage extends AreaFilter {
       hiddenComponents
     );
     await this.hideFiltersPane();
-    await this.verifyDataSourceDisplay(indicatorMode, selectedIndicators);
+    await this.verifyDataSourceIdDisplay(indicatorMode, selectedIndicators);
 
-    for (const component of visibleComponents) {
-      await this.handleComponentInteractions(component);
-      await this.verifyComponentVisible(component, testName);
+    for (const visibleComponent of visibleComponents) {
+      await this.handleComponentInteractions(
+        visibleComponent,
+        indicatorMode,
+        selectedIndicators
+      );
+      await this.verifyComponentVisibleAndScreenshotMatch(
+        visibleComponent,
+        testName
+      );
     }
 
-    for (const component of hiddenComponents) {
-      await this.verifyComponentNotVisible(component);
+    for (const hiddenComponent of hiddenComponents) {
+      await this.verifyComponentNotVisible(hiddenComponent);
     }
   }
 
@@ -142,10 +149,14 @@ export default class ChartPage extends AreaFilter {
     );
   }
 
-  private async handleComponentInteractions(component: {
-    componentLocator: string;
-    componentProps: Record<string, boolean>;
-  }) {
+  private async handleComponentInteractions(
+    component: {
+      componentLocator: string;
+      componentProps: Record<string, boolean>;
+    },
+    indicatorMode: IndicatorMode,
+    selectedIndicators: SimpleIndicatorDocument[]
+  ) {
     const { componentLocator, componentProps } = component;
 
     const interactions = [
@@ -172,6 +183,11 @@ export default class ChartPage extends AreaFilter {
       {
         condition: componentProps.isWideComponent,
         action: () => this.scrollToMiddle(componentLocator),
+      },
+      {
+        condition: componentProps.hasRecentTrend,
+        action: () =>
+          this.verifyDataSourceIsDisplay(indicatorMode, selectedIndicators),
       },
     ];
 
@@ -229,7 +245,7 @@ export default class ChartPage extends AreaFilter {
     expect(await combobox.inputValue()).toBe(lastOption);
   }
 
-  // checks the confident interval checkbox
+  // checks the confidence interval checkbox
   private async toggleConfidenceInterval(componentLocator: string) {
     const mapping: Record<string, string> = {
       [ChartPage.inequalitiesForSingleTimePeriodComponent]:
@@ -266,7 +282,7 @@ export default class ChartPage extends AreaFilter {
   }
 
   // verifies data source is displayed for one indicator
-  private async verifyDataSourceDisplay(
+  private async verifyDataSourceIsDisplay(
     indicatorMode: IndicatorMode,
     selectedIndicators: SimpleIndicatorDocument[]
   ) {
@@ -284,8 +300,8 @@ export default class ChartPage extends AreaFilter {
     }
   }
 
-  // verifies component is visible
-  private async verifyComponentVisible(
+  // verifies component is visible and baseline screenshot matches
+  private async verifyComponentVisibleAndScreenshotMatch(
     component: { componentLocator: string },
     testName: string
   ) {
