@@ -37,6 +37,7 @@ export const lineChartDefaultOptions: Highcharts.Options = {
     spacingBottom: 50,
     spacingTop: 20,
     animation: false,
+    height: 500,
   },
   title: {
     style: {

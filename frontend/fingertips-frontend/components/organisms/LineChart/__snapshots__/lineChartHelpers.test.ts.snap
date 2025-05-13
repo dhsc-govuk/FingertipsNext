@@ -8,6 +8,7 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
   },
   "chart": {
     "animation": false,
+    "height": 500,
     "spacingBottom": 50,
     "spacingTop": 20,
     "type": "line",
@@ -106,6 +107,7 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
   },
   "chart": {
     "animation": false,
+    "height": 500,
     "spacingBottom": 50,
     "spacingTop": 20,
     "type": "line",
@@ -246,6 +248,7 @@ exports[`generateStandardLineChartOptions should not include benchmark or group 
   },
   "chart": {
     "animation": false,
+    "height": 500,
     "spacingBottom": 50,
     "spacingTop": 20,
     "type": "line",
