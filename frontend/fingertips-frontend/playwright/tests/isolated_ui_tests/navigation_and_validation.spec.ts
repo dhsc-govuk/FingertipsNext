@@ -15,13 +15,18 @@ import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
 import ChartPage from '@/playwright/page-objects/pages/chartPage';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
-// tests in this file use mock service worker to mock the API response
-// so that the tests can be run without the need for a backend
-// see frontend/fingertips-frontend/assets/mockIndicatorData.json
-// and frontend/fingertips-frontend/assets/mockAreaData.json
-//@ts-expect-error don't care about type checking this json file
+/**
+ * Note that this test suite uses mock service worker to mock API responses, therefore these are isolated from the backend UI tests
+ * See:
+ * - frontend/fingertips-frontend/assets/mockIndicatorData.json
+ * - frontend/fingertips-frontend/assets/mockAreaData.json
+ */
+
+// Test data setup
+// @ts-expect-error mock data type casting
 const indicatorData = mockIndicators as RawIndicatorDocument[];
 const subjectSearchTerm = 'hospital';
+const secondSubjectSearchTerm = 'diabetes';
 const indicatorMode = IndicatorMode.ONE_INDICATOR;
 const searchMode = SearchMode.ONLY_SUBJECT;
 let allValidIndicatorIDs: string[];
@@ -29,314 +34,234 @@ let validIndicatorIDs: IndicatorInfo[];
 let allNHSRegionAreas: AreaDocument[];
 let typedIndicatorData: RawIndicatorDocument[];
 
-test.beforeAll(
-  `get indicatorIDs from the mock data source for searchTerm: ${subjectSearchTerm} and get mock area data`,
-  () => {
-    typedIndicatorData = indicatorData.map(
-      (indicator: RawIndicatorDocument) => {
-        return {
-          ...indicator,
-          lastUpdated: new Date(indicator.lastUpdatedDate),
-        };
-      }
-    );
+test.beforeAll('Initialize test data from mock sources', () => {
+  typedIndicatorData = indicatorData.map((indicator: RawIndicatorDocument) => ({
+    ...indicator,
+    lastUpdated: new Date(indicator.lastUpdatedDate),
+  }));
 
-    allValidIndicatorIDs = getAllIndicatorIDsForSearchTerm(
-      typedIndicatorData,
+  // Get all valid indicators based on subjectSearchTerm search term
+  allValidIndicatorIDs = getAllIndicatorIDsForSearchTerm(
+    typedIndicatorData,
+    subjectSearchTerm
+  );
+
+  // Filter down valid indicators based on mode
+  validIndicatorIDs = returnIndicatorIDsByIndicatorMode(
+    allValidIndicatorIDs,
+    indicatorMode
+  );
+
+  // Get all NHS region areas
+  allNHSRegionAreas = getAllAreasByAreaType(mockAreas, 'nhs-regions');
+});
+
+test.describe('Search Page Tests', () => {
+  test('should navigate to search page and validate accessibility', async ({
+    homePage,
+    axeBuilder,
+  }) => {
+    await homePage.navigateToHomePage();
+    await homePage.checkOnHomePage();
+    await homePage.expectNoAccessibilityViolations(axeBuilder);
+  });
+
+  test('should validate search field form validations', async ({
+    homePage,
+  }) => {
+    await homePage.navigateToHomePage();
+    await homePage.checkOnHomePage();
+    await homePage.clearSearchIndicatorField();
+
+    // Try to search with empty field
+    await homePage.clickSearchButton();
+
+    // Verify validation messages
+    await homePage.checkSummaryValidation(
+      `There is a problemEnter a subject you want to search forEnter an area you want to search for`
+    );
+  });
+});
+
+test.describe('Results Page Tests', () => {
+  test('should search for indicators and display results', async ({
+    homePage,
+    resultsPage,
+    axeBuilder,
+  }) => {
+    // Navigate to home page
+    await homePage.navigateToHomePage();
+    await homePage.checkOnHomePage();
+
+    // Search by subject for indicators
+    await homePage.searchForIndicators(searchMode, subjectSearchTerm);
+    await homePage.clickSearchButton();
+
+    // Verify results page
+    await resultsPage.waitForURLToContain(subjectSearchTerm);
+    await resultsPage.checkSearchResultsTitle(subjectSearchTerm);
+    await resultsPage.expectNoAccessibilityViolations(axeBuilder);
+  });
+
+  test('should validate indicator search on results page', async ({
+    resultsPage,
+    axeBuilder,
+  }) => {
+    // Navigate directly to results page
+    await resultsPage.navigateToResults(subjectSearchTerm, []);
+
+    // Clear search and verify validation
+    await resultsPage.clearIndicatorSearchBox();
+    await resultsPage.clickIndicatorSearchButton();
+    await resultsPage.checkForIndicatorSearchError();
+    await resultsPage.expectNoAccessibilityViolations(axeBuilder);
+
+    // Enter a different valid search and verify results page
+    await resultsPage.fillIndicatorSearch(secondSubjectSearchTerm);
+    await resultsPage.clickIndicatorSearchButton();
+    await resultsPage.checkSearchResultsTitle(secondSubjectSearchTerm);
+  });
+
+  test('should handle "select all" indicators functionality correctly', async ({
+    resultsPage,
+  }) => {
+    // Navigate directly to results page
+    await resultsPage.navigateToResults(subjectSearchTerm, []);
+    await resultsPage.checkSearchResultsTitleBasedOnSearchMode(
+      searchMode,
       subjectSearchTerm
     );
 
-    validIndicatorIDs = returnIndicatorIDsByIndicatorMode(
-      allValidIndicatorIDs,
-      indicatorMode
+    // Verify select all checkbox
+    await resultsPage.selectIndicatorSelectAllCheckbox();
+    await resultsPage.verifyAllIndicatorsSelected();
+    await resultsPage.verifyUrlContainsAllIndicators(allValidIndicatorIDs);
+
+    // Verify deselect all checkbox
+    await resultsPage.deselectIndicatorSelectAllCheckbox();
+    await resultsPage.verifyNoIndicatorsSelected();
+    await resultsPage.verifyUrlExcludesAllIndicators();
+
+    // Verify individual selections to select all
+    await resultsPage.selectEveryIndicator(allValidIndicatorIDs);
+    await resultsPage.verifySelectAllCheckboxTicked();
+    await resultsPage.verifyUrlContainsAllIndicators(allValidIndicatorIDs);
+
+    // Verify deselecting one indicator
+    await resultsPage.deselectIndicator(allValidIndicatorIDs[0]);
+    await resultsPage.verifySelectAllCheckboxUnticked();
+    await resultsPage.verifyUrlUpdatedAfterDeselection(allValidIndicatorIDs[0]);
+  });
+
+  test('should clear indicators from URL when search changes', async ({
+    resultsPage,
+  }) => {
+    // Navigate to results page with areas
+    await resultsPage.navigateToResults(
+      subjectSearchTerm,
+      [
+        allNHSRegionAreas[0].areaCode,
+        allNHSRegionAreas[1].areaCode,
+        allNHSRegionAreas[2].areaCode,
+      ],
+      'nhs-regions'
     );
 
-    allNHSRegionAreas = getAllAreasByAreaType(mockAreas, 'nhs-regions');
-  }
-);
-test.describe(`Navigation, accessibility and validation tests`, () => {
-  test('client validation testing and navigation behaviour', async ({
-    homePage,
-    resultsPage,
-    chartPage,
-    indicatorPage,
-    axeBuilder,
-  }) => {
-    test.setTimeout(90000); // TODO - split this test up and remove this extension
+    // Select indicator and verify URL update
+    await resultsPage.selectIndicatorCheckboxes(validIndicatorIDs);
+    await test.expect(resultsPage.page).toHaveURL(/&is=/);
 
-    await test.step('Navigate to search page', async () => {
-      await homePage.navigateToHomePage();
-      await homePage.checkOnHomePage();
-      await chartPage.expectNoAccessibilityViolations(axeBuilder);
-    });
+    // Clear search and verify indicators removed from URL
+    await resultsPage.clearIndicatorSearchBox();
+    await resultsPage.clickIndicatorSearchButton();
+    await test.expect(resultsPage.page).not.toHaveURL(/&is=/);
+  });
+});
 
-    await test.step(`Search for indicators using search term ${subjectSearchTerm} and check results title contains the search term`, async () => {
-      await homePage.searchForIndicators(searchMode, subjectSearchTerm);
-      await homePage.clickSearchButton();
+test.describe('Area Filter Tests', () => {
+  test('should manage area pills on results page', async ({ resultsPage }) => {
+    // Navigate directly to results with preselected areas
+    await resultsPage.navigateToResults(
+      subjectSearchTerm,
+      [
+        allNHSRegionAreas[0].areaCode,
+        allNHSRegionAreas[1].areaCode,
+        allNHSRegionAreas[2].areaCode,
+      ],
+      'nhs-regions'
+    );
 
-      await resultsPage.waitForURLToContain(subjectSearchTerm);
-      await resultsPage.checkSearchResultsTitle(subjectSearchTerm);
-      await chartPage.expectNoAccessibilityViolations(axeBuilder);
-    });
+    await resultsPage.checkSearchResultsTitleBasedOnSearchMode(
+      searchMode,
+      subjectSearchTerm
+    );
 
-    await test.step('Validate indicator search validation on results page', async () => {
-      await resultsPage.clearIndicatorSearchBox();
-      await resultsPage.clickIndicatorSearchButton();
-      await resultsPage.checkForIndicatorSearchError();
-      await chartPage.expectNoAccessibilityViolations(axeBuilder);
+    // Verify area pills display correctly
+    const expectedPillTexts = [
+      `${allNHSRegionAreas[0].areaName} ${allNHSRegionAreas[0].areaType}`,
+      `${allNHSRegionAreas[1].areaName} ${allNHSRegionAreas[1].areaType}`,
+      `${allNHSRegionAreas[2].areaName} ${allNHSRegionAreas[2].areaType}`,
+    ];
 
-      await resultsPage.fillIndicatorSearch(subjectSearchTerm);
-      await resultsPage.clickIndicatorSearchButton();
-      await resultsPage.checkSearchResultsTitle(subjectSearchTerm);
-    });
+    await test
+      .expect(resultsPage.areaFilterPills())
+      .toHaveCount(expectedPillTexts.length);
 
-    await test.step('Select single indicator and let default to England, and check on charts page', async () => {
-      await resultsPage.selectIndicatorCheckboxes(validIndicatorIDs);
+    const filterPillNames = await resultsPage.areaFilterPillsText();
+    sortAlphabetically(filterPillNames);
+    sortAlphabetically(expectedPillTexts);
+    test.expect(filterPillNames).toEqual(expectedPillTexts);
 
-      await resultsPage.clickViewChartsButton();
+    // Verify area filter combobox is disabled when areas are selected
+    await test.expect(resultsPage.areaFilterCombobox()).toBeDisabled();
 
-      await chartPage.waitForURLToContain('chart');
+    // Remove one pill and verify remaining pills
+    await resultsPage.closeAreaFilterPill(1);
 
-      await chartPage.expectNoAccessibilityViolations(axeBuilder, [
-        'color-contrast',
-      ]);
-    });
+    const expectedRemainingPills = [
+      `${allNHSRegionAreas[0].areaName} ${allNHSRegionAreas[0].areaType}`,
+      `${allNHSRegionAreas[2].areaName} ${allNHSRegionAreas[2].areaType}`,
+    ];
 
-    await test.step('Select "View background information" link, verify indicator page title and Return to charts page', async () => {
-      const indicator = typedIndicatorData.find(
-        (ind) => ind.indicatorID === validIndicatorIDs[0].indicatorID
-      );
+    await test
+      .expect(resultsPage.areaFilterPills())
+      .toHaveCount(expectedRemainingPills.length);
 
-      if (!indicator) {
-        throw new Error(`Indicator with ID ${validIndicatorIDs[0]} not found`);
-      }
+    const remainingPillNames = await resultsPage.areaFilterPillsText();
+    sortAlphabetically(remainingPillNames);
+    sortAlphabetically(expectedRemainingPills);
+    test.expect(remainingPillNames).toEqual(expectedRemainingPills);
 
-      await resultsPage.clickViewBackgroundInformationLinkForIndicator(
-        indicator
-      );
+    // Verify URL updated after removing area pill
+    await resultsPage.waitForURLToContain(allNHSRegionAreas[0].areaCode);
+    await test
+      .expect(resultsPage.page)
+      .not.toHaveURL(allNHSRegionAreas[1].areaCode);
+    await resultsPage.waitForURLToContain(allNHSRegionAreas[2].areaCode);
 
-      await indicatorPage.waitForURLToContain('indicator');
+    // Remove all pills and verify filter state
+    await resultsPage.closeAreaFilterPill(1);
+    await test
+      .expect(resultsPage.page)
+      .not.toHaveURL(allNHSRegionAreas[2].areaCode);
 
-      await indicatorPage.checkIndicatorNameTitle(indicator);
+    await resultsPage.closeAreaFilterPill(0);
+    await test
+      .expect(resultsPage.page)
+      .not.toHaveURL(allNHSRegionAreas[0].areaCode);
+    await test.expect(resultsPage.page).not.toHaveURL(/&as=/);
 
-      await indicatorPage.expectNoAccessibilityViolations(axeBuilder);
-
-      await indicatorPage.clickBackLink();
-    });
-
-    await test.step('Select area filters on charts page', async () => {
-      await chartPage.selectAreasFiltersIfRequired(
-        searchMode,
-        AreaMode.THREE_PLUS_AREAS, // change to 3 areas to see different view with barChartEmbeddedTable-component
-        subjectSearchTerm,
-        'gps'
-      );
-
-      await chartPage.checkSpecificChartComponent(
-        ChartPage.barChartEmbeddedTableComponent
-      );
-
-      await chartPage.expectNoAccessibilityViolations(axeBuilder, [
-        'color-contrast',
-      ]);
-    });
-
-    await test.step('Return to results page and verify selections are preselected', async () => {
-      await chartPage.clickBackLink();
-
-      await resultsPage.checkSearchResultsTitle(subjectSearchTerm);
-      await resultsPage.checkIndicatorCheckboxChecked(
-        validIndicatorIDs[0].indicatorID
-      );
-    });
-
-    await test.step('Return to search page and verify fields are correctly prepopulated', async () => {
-      await resultsPage.clickBackLink();
-
-      await homePage.checkSearchFieldIsPrePopulatedWith(subjectSearchTerm);
-    });
-
-    await test.step('Verify after clearing search field that search page validation prevents forward navigation', async () => {
-      await homePage.clearSearchIndicatorField();
-      await homePage.closeAreaFilterPill(0);
-      await homePage.closeAreaFilterPill(0);
-      await homePage.closeAreaFilterPill(0);
-
-      await homePage.clickSearchButton();
-      await homePage.checkSearchFieldIsPrePopulatedWith(); // nothing should be prepopulated after clearing search field
-      await homePage.checkSummaryValidation(
-        `There is a problemEnter a subject you want to search forEnter an area you want to search for`
-      );
-    });
+    // Verify area filter combobox is enabled when no areas are selected
+    await test.expect(resultsPage.areaFilterCombobox()).toBeEnabled();
   });
 
-  test('check area type pills on results page when areas specified in url', async ({
+  test('should support filtering results by different area types', async ({
     resultsPage,
   }) => {
-    await test.step('Navigate directly to the results page', async () => {
-      await resultsPage.navigateToResults(
-        subjectSearchTerm,
-        [
-          allNHSRegionAreas[0].areaCode,
-          allNHSRegionAreas[1].areaCode,
-          allNHSRegionAreas[2].areaCode,
-        ],
-        'nhs-regions'
-      );
+    await resultsPage.navigateToResults(subjectSearchTerm, []);
 
-      await resultsPage.checkSearchResultsTitleBasedOnSearchMode(
-        searchMode,
-        subjectSearchTerm!
-      );
-    });
-
-    await test.step('Check selected area pills matches those specified in url', async () => {
-      const expectedPillTexts = [
-        `${allNHSRegionAreas[0].areaName} ${allNHSRegionAreas[0].areaType}`,
-        `${allNHSRegionAreas[1].areaName} ${allNHSRegionAreas[1].areaType}`,
-        `${allNHSRegionAreas[2].areaName} ${allNHSRegionAreas[2].areaType}`,
-      ];
-
-      await test
-        .expect(resultsPage.areaFilterPills())
-        .toHaveCount(expectedPillTexts.length);
-
-      const filterPillNames = await resultsPage.areaFilterPillsText();
-
-      sortAlphabetically(filterPillNames);
-      sortAlphabetically(expectedPillTexts);
-      test.expect(filterPillNames).toEqual(expectedPillTexts);
-
-      await test.expect(resultsPage.areaFilterCombobox()).toBeDisabled();
-    });
-
-    await test.step('Click remove one area pill and re-check area pills', async () => {
-      await resultsPage.closeAreaFilterPill(1);
-
-      const expectedPillTexts = [
-        `${allNHSRegionAreas[0].areaName} ${allNHSRegionAreas[0].areaType}`,
-        `${allNHSRegionAreas[2].areaName} ${allNHSRegionAreas[2].areaType}`,
-      ];
-      await test
-        .expect(resultsPage.areaFilterPills())
-        .toHaveCount(expectedPillTexts.length);
-
-      const filterPillNames = await resultsPage.areaFilterPillsText();
-
-      sortAlphabetically(filterPillNames);
-      sortAlphabetically(expectedPillTexts);
-      test.expect(filterPillNames).toEqual(expectedPillTexts);
-
-      await test.expect(resultsPage.areaFilterCombobox()).toBeDisabled();
-    });
-
-    await test.step('Check url has been updated after area pill removal', async () => {
-      await resultsPage.waitForURLToContain(allNHSRegionAreas[0].areaCode);
-      await test
-        .expect(resultsPage.page)
-        .not.toHaveURL(allNHSRegionAreas[1].areaCode);
-      await resultsPage.waitForURLToContain(allNHSRegionAreas[2].areaCode);
-    });
-
-    await test.step('Remove all pills and check url and area type combobox', async () => {
-      await resultsPage.closeAreaFilterPill(1);
-      await test
-        .expect(resultsPage.page)
-        .not.toHaveURL(allNHSRegionAreas[2].areaCode);
-
-      await resultsPage.closeAreaFilterPill(0);
-      await test
-        .expect(resultsPage.page)
-        .not.toHaveURL(allNHSRegionAreas[0].areaCode);
-      await test.expect(resultsPage.page).not.toHaveURL(/&as=/);
-
-      await test.expect(resultsPage.areaFilterCombobox()).toBeEnabled();
-    });
-  });
-
-  test('check indicators are removed from url when search changes', async ({
-    resultsPage,
-  }) => {
-    await test.step('Navigate directly to the results page', async () => {
-      await resultsPage.navigateToResults(
-        subjectSearchTerm,
-        [
-          allNHSRegionAreas[0].areaCode,
-          allNHSRegionAreas[1].areaCode,
-          allNHSRegionAreas[2].areaCode,
-        ],
-        'nhs-regions'
-      );
-
-      await resultsPage.checkSearchResultsTitleBasedOnSearchMode(
-        searchMode,
-        subjectSearchTerm!
-      );
-    });
-
-    await test.step('Select single indicator, and verify url is updated to include indicator', async () => {
-      await resultsPage.selectIndicatorCheckboxes(validIndicatorIDs);
-
-      await test.expect(resultsPage.page).toHaveURL(/&is=/);
-    });
-
-    await test.step('Clear search bar and search, verify url is updated to remove indicator', async () => {
-      await resultsPage.clearIndicatorSearchBox();
-      await resultsPage.clickIndicatorSearchButton();
-      await test.expect(resultsPage.page).not.toHaveURL(/&is=/);
-    });
-  });
-
-  test('check "select all" checkbox updates selected indicators and URL', async ({
-    resultsPage,
-  }) => {
-    await test.step('Navigate directly to the results page', async () => {
-      await resultsPage.navigateToResults(subjectSearchTerm, []);
-
-      await resultsPage.checkSearchResultsTitleBasedOnSearchMode(
-        searchMode,
-        subjectSearchTerm!
-      );
-    });
-
-    await test.step('Tick "Select all" checkbox and verify all indicators are selected and URL is updated', async () => {
-      await resultsPage.selectIndicatorSelectAllCheckbox();
-      await resultsPage.verifyAllIndicatorsSelected();
-      await resultsPage.verifyUrlContainsAllIndicators(allValidIndicatorIDs);
-    });
-
-    await test.step('Untick "Select all" checkbox and verify no indicators are selected and URL is updated', async () => {
-      await resultsPage.deselectIndicatorSelectAllCheckbox();
-      await resultsPage.verifyNoIndicatorsSelected();
-      await resultsPage.verifyUrlExcludesAllIndicators();
-    });
-
-    await test.step('Select indicators one by one and verify "Select all" checkbox becomes ticked and URL updates', async () => {
-      await resultsPage.selectEveryIndicator(allValidIndicatorIDs);
-      await resultsPage.verifySelectAllCheckboxTicked();
-      await resultsPage.verifyUrlContainsAllIndicators(allValidIndicatorIDs);
-    });
-
-    await test.step('Deselect one indicator and verify "Select all" checkbox becomes unticked and URL updates', async () => {
-      await resultsPage.deselectIndicator(allValidIndicatorIDs[0]);
-      await resultsPage.verifySelectAllCheckboxUnticked();
-      await resultsPage.verifyUrlUpdatedAfterDeselection(
-        allValidIndicatorIDs[0]
-      );
-    });
-  });
-
-  test('Results page area filtering functionality', async ({ resultsPage }) => {
-    await test.step('Navigate directly to the results page', async () => {
-      await resultsPage.navigateToResults(subjectSearchTerm, []);
-
-      await resultsPage.checkSearchResultsTitleBasedOnSearchMode(
-        searchMode,
-        subjectSearchTerm!
-      );
-    });
-
-    await test.step('should filter results by gps', async () => {
+    // Test filtering by GP area type
+    await test.step('filter by GP area', async () => {
       const gpAreaType = 'gps';
       const groupType = 'nhs-primary-care-networks';
       const group = 'East Basildon PCN';
@@ -344,17 +269,14 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       const areaCode = 'F81640';
 
       await resultsPage.selectAreaTypeAndAssertURLUpdated(gpAreaType);
-
       await resultsPage.selectGroupTypeAndAssertURLUpdated(groupType);
-
       await resultsPage.selectGroupAndAssertURLUpdated(group);
-
       await resultsPage.selectAreaAndAssertURLUpdated(area, areaCode);
-
       await resultsPage.assertFiltersDisabled();
     });
 
-    await test.step('then deselect selected gp and change group and pick a different area (gp)', async () => {
+    // Test changing to different GP area
+    await test.step('change to different GP area', async () => {
       await resultsPage.closeAreaFilterPill(0);
 
       const newGroup = 'North 2 Islington PCN';
@@ -362,31 +284,28 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       const newAreaCode = 'F83004';
 
       await resultsPage.selectGroupAndAssertURLUpdated(newGroup);
-
       await resultsPage.selectAreaAndAssertURLUpdated(newArea, newAreaCode);
-
       await resultsPage.assertFiltersDisabled();
     });
 
-    await test.step('then deselect selected gp and begin filtering by England (default)', async () => {
+    // Test filtering by England
+    await test.step('filter by England', async () => {
       await resultsPage.closeAreaFilterPill(0);
 
       const englandAreaType = 'England';
 
       await resultsPage.selectAreaTypeAndAssertURLUpdated(englandAreaType);
-
       await resultsPage.assertGroupTypeFilterContainsOnly(englandAreaType);
       await resultsPage.assertGroupFilterContainsOnly(englandAreaType);
-
       await resultsPage.selectAreaAndAssertURLUpdated(
         englandAreaType,
         areaCodeForEngland
       );
-
       await resultsPage.assertFiltersDisabled();
     });
 
-    await test.step('then deselect England and begin filtering by NHS Regions', async () => {
+    // Test filtering by NHS regions
+    await test.step('filter by NHS regions', async () => {
       await resultsPage.closeAreaFilterPill(0);
 
       const nhsRegionAreaType = 'nhs-regions';
@@ -394,19 +313,17 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       const northWestNhsRegionCode = 'E40000010';
 
       await resultsPage.selectAreaTypeAndAssertURLUpdated(nhsRegionAreaType);
-
       await resultsPage.assertGroupTypeFilterContainsOnly('England');
       await resultsPage.assertGroupFilterContainsOnly('England');
-
       await resultsPage.selectAreaAndAssertURLUpdated(
         northWestNhsRegion,
         northWestNhsRegionCode
       );
-
       await resultsPage.assertFiltersDisabled();
     });
 
-    await test.step('then deselect north west region and begin filtering by counties and unitary authorities', async () => {
+    // Test filtering by counties and unitary authorities
+    await test.step('filter by counties and unitary authorities', async () => {
       await resultsPage.closeAreaFilterPill(0);
 
       const countiesAndUnitaryAuthoritiesAreaType =
@@ -418,31 +335,104 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       await resultsPage.selectAreaTypeAndAssertURLUpdated(
         countiesAndUnitaryAuthoritiesAreaType
       );
-
       await resultsPage.assertGroupTypeFilterContainsOnly(
         'England,Combined Authorities,Regions'
       );
       await resultsPage.assertGroupFilterContainsOnly('England');
-
       await resultsPage.selectGroupTypeAndAssertURLUpdated(groupType);
-
       await resultsPage.assertGroupFilterContainsOnly('');
-
       await resultsPage.selectAreaAndAssertURLUpdated(area, areaCode);
-
       await resultsPage.assertFiltersDisabled();
     });
   });
 });
 
-// log out current url when a test fails
+test.describe('Navigation Tests', () => {
+  test('should handle navigation flow between pages', async ({
+    homePage,
+    resultsPage,
+    chartPage,
+    indicatorPage,
+    axeBuilder,
+  }) => {
+    // Navigate to home page and search
+    await homePage.navigateToHomePage();
+    await homePage.searchForIndicators(searchMode, subjectSearchTerm);
+    await homePage.clickSearchButton();
+
+    // Select indicator and view charts
+    await resultsPage.selectIndicatorCheckboxes(validIndicatorIDs);
+    await resultsPage.clickViewChartsButton();
+    await chartPage.waitForURLToContain('chart');
+
+    // Check accessibility (with color-contrast exception for charts)
+    await chartPage.expectNoAccessibilityViolations(axeBuilder, [
+      'color-contrast',
+    ]);
+
+    // Navigate to indicator information page and back
+    const indicator = typedIndicatorData.find(
+      (ind) => ind.indicatorID === validIndicatorIDs[0].indicatorID
+    );
+
+    if (!indicator) {
+      throw new Error(`Indicator with ID ${validIndicatorIDs[0]} not found`);
+    }
+
+    await resultsPage.clickViewBackgroundInformationLinkForIndicator(indicator);
+    await indicatorPage.waitForURLToContain('indicator');
+    await indicatorPage.checkIndicatorNameTitle(indicator);
+    await indicatorPage.expectNoAccessibilityViolations(axeBuilder);
+    await indicatorPage.clickBackLink();
+
+    // Apply area filters on chart page
+    await chartPage.selectAreasFiltersIfRequired(
+      searchMode,
+      AreaMode.THREE_PLUS_AREAS,
+      subjectSearchTerm,
+      'gps'
+    );
+
+    // Verify chart component and accessibility (with color-contrast exception for charts)
+    await chartPage.checkSpecificChartComponent(
+      ChartPage.barChartEmbeddedTableComponent
+    );
+    await chartPage.expectNoAccessibilityViolations(axeBuilder, [
+      'color-contrast',
+    ]);
+
+    // Navigate back to results page and verify state
+    await chartPage.clickBackLink();
+    await resultsPage.checkSearchResultsTitle(subjectSearchTerm);
+    await resultsPage.checkIndicatorCheckboxChecked(
+      validIndicatorIDs[0].indicatorID
+    );
+
+    // Navigate back to home page and verify state
+    await resultsPage.clickBackLink();
+    await homePage.checkSearchFieldIsPrePopulatedWith(subjectSearchTerm);
+
+    // Clear search field and close area pills
+    await homePage.clearSearchIndicatorField();
+    await homePage.closeAreaFilterPill(0);
+    await homePage.closeAreaFilterPill(0);
+    await homePage.closeAreaFilterPill(0);
+
+    // verify validation prevents forward navigation
+    await homePage.clickSearchButton();
+    await homePage.checkSearchFieldIsPrePopulatedWith(); // nothing should be prepopulated after clearing search field
+    await homePage.checkSummaryValidation(
+      `There is a problemEnter a subject you want to search forEnter an area you want to search for`
+    );
+  });
+});
+
+// Capture URL on test failure for easier debugging
 test.afterEach(async ({ page }, testInfo) => {
   if (testInfo.status !== testInfo.expectedStatus) {
-    // Test failed - capture the URL
     const url = page.url();
     console.log(`Test failed! Current URL: ${url}`);
 
-    // You can also attach it to the test report
     await testInfo.attach('failed-url', {
       body: url,
       contentType: 'text/plain',
