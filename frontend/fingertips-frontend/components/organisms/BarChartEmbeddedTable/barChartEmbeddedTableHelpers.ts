@@ -11,6 +11,7 @@ export enum BarChartEmbeddedTableHeadingEnum {
 }
 
 export const chartName = 'barChartEmbeddedTable';
+export const barChartEmbeddedRowClassName = 'barChartEmbeddedTableRow';
 
 export const filterUndefined = (value: unknown) => value !== undefined;
 
