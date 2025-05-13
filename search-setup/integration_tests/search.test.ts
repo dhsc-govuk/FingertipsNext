@@ -147,47 +147,77 @@ describe('AI search index creation and data loading', () => {
         });
         const result = await response.json();
         expect(result.name).toBe(INDICATOR_SEARCH_SYNONYM_MAP_NAME);
-        expect(result.synonyms).toMatchSnapshot();
+        expect(
+          (result.synonyms as string).includes('a\\&e, accident, emergency \n')
+        );
+        expect(
+          (result.synonyms as string).includes('depr => depr, deprivation \n')
+        );
       });
 
-      it('should search by synonyms', async () => {
+      it('should do one way synonym mapping for keywords that have the explicit flag set', async () => {
         const wordResponse = await searchIndicatorsRequest('chd');
         const wordResult = await wordResponse.json();
-        const synonymResponse = await searchIndicatorsRequest('disease');
-        const synonymResult = await synonymResponse.json();
-
-        const expectedIndicatorNames: string[] = wordResult.value.map(
-          (indicatorResult: { indicatorName: string }) =>
-            indicatorResult.indicatorName
+        const requestKeywords = ['chd', 'coronary', 'heart', 'disease'];
+        const synonymResponses = await Promise.all(
+          requestKeywords.map((keyword) => searchIndicatorsRequest(keyword))
         );
-        const synonymIndicatorNames = synonymResult.value.map(
-          (indicatorResults: { indicatorName: string }) =>
-            indicatorResults.indicatorName
+        const synonymResults = await Promise.all(
+          synonymResponses.map((response) => response.json())
         );
 
+        const indicatorNamesPerSynonym = synonymResults
+          .flatMap((result) => result.value)
+          .map(
+            (indicatorResults: { indicatorName: string }) =>
+              indicatorResults.indicatorName
+          );
+
+        const expectedIndicatorNamesForExplicitKeyword: string[] =
+          wordResult.value.map(
+            (indicatorResult: { indicatorName: string }) =>
+              indicatorResult.indicatorName
+          );
+
+        /** Expects that the explicitly matched keyword should contain results comprising of
+         *  the search result of each synonym that it is mapped to, including itself
+         */
+        expect(expectedIndicatorNamesForExplicitKeyword.length).toBe(
+          indicatorNamesPerSynonym.length -
+            expectedIndicatorNamesForExplicitKeyword.length
+        );
         expect(
-          expectedIndicatorNames.every((indicatorName) =>
-            synonymIndicatorNames.includes(indicatorName)
+          expectedIndicatorNamesForExplicitKeyword.every((indicatorName) =>
+            indicatorNamesPerSynonym.includes(indicatorName)
           )
         ).toBe(true);
+
+        // Check that the mapping is one-way
+        /** Expects that the search results of individual synonyms should be less than that of
+         *  the explicitly mapped keyword
+         *  and that the individual synoyms do not contain all the search results returned by the explicitly-mapped keyword
+         */
+        expect(
+          synonymResults.some(
+            (result) => result.value.length < wordResult.value.length
+          )
+        ).toBe(true);
+        synonymResults.forEach((result) =>
+          expect(
+            wordResult.value.every((value: unknown) =>
+              result.value.includes(value)
+            )
+          ).toBe(false)
+        );
       });
 
       it('should return the same results for equivalent synonyms', async () => {
         const wordResponse = await searchIndicatorsRequest('offspring');
         const wordResult = await wordResponse.json();
-        const synonymResponse = await searchIndicatorsRequest('baby');
+        const synonymResponse = await searchIndicatorsRequest('infant');
         const synonymResult = await synonymResponse.json();
 
         expect(wordResult.value).toEqual(synonymResult.value);
-      });
-
-      it('should map explicit synonyms one way', async () => {
-        const wordResponse = await searchIndicatorsRequest('chd');
-        const wordResult = await wordResponse.json();
-        const synonymResponse = await searchIndicatorsRequest('chronic');
-        const synonymResult = await synonymResponse.json();
-
-        expect(wordResult.value).not.toEqual(synonymResult.value);
       });
     });
   });

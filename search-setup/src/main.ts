@@ -18,8 +18,11 @@ import {
   INDICATOR_SEARCH_SYNONYM_MAP_NAME,
 } from './constants.js';
 import rawAreasData from '../assets/areas.json' with { type: 'json' };
-import { createAndPopulateIndex, createSynonymMap } from './utils/indexHelper.js';
-import synonymData from '../assets/synonyms.json' with { type: 'json'}
+import {
+  createAndPopulateIndex,
+  createSynonymMap,
+} from './utils/indexHelper.js';
+import synonymData from '../assets/indicator-synonyms.json' with { type: 'json' };
 
 async function main(): Promise<void> {
   const endpoint = getEnvironmentVariable('AI_SEARCH_SERVICE_ENDPOINT');
@@ -41,7 +44,11 @@ async function main(): Promise<void> {
 
   const indicatorData = parseIndicatorData(rawIndicatorData);
 
-  await createSynonymMap(INDICATOR_SEARCH_SYNONYM_MAP_NAME, indexClient, synonymData)
+  await createSynonymMap(
+    INDICATOR_SEARCH_SYNONYM_MAP_NAME,
+    indexClient,
+    synonymData
+  );
   await createAndPopulateIndex(
     indexClient,
     buildIndicatorSearchIndex,

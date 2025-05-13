@@ -42,10 +42,8 @@ export interface SuggestionResult {
   value: { '@search.text': string }[];
 }
 
-export type SynonymData = Record<
-  string,
-  {
-    terms: string[];
-    isAcronym: boolean;
-  }
->;
+export type SynonymData = Array<{
+  keyword: string;
+  synonyms: string[];
+  isExplicit: boolean;
+}>;

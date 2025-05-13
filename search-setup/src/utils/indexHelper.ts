@@ -1,4 +1,8 @@
-import { AreaDocument, IndicatorDocument } from '../constants.js';
+import {
+  AreaDocument,
+  IndicatorDocument,
+  SPECIAL_CHARS,
+} from '../constants.js';
 import {
   SearchIndex,
   SearchIndexClient,
@@ -31,7 +35,9 @@ export async function createSynonymMap(
       `Trying to delete an existing synonym map named: ${synonymMapName}`
     );
     await indexClient.deleteSynonymMap(synonymMapName);
-  } catch {}
+  } catch (error) {
+    console.log('error deleting synonmy map', error);
+  }
   console.log(`Creating synonym map ${synonymMapName}`);
   const synonymMap: SynonymMap = {
     name: synonymMapName,
@@ -42,11 +48,24 @@ export async function createSynonymMap(
 }
 
 function generateSynonyms(synonymData: SynonymData): string[] {
-  return Object.entries(synonymData).map((wordMapping) => {
-    const keyword = wordMapping[0];
-    const synonymObject = wordMapping[1];
-    return synonymObject.isAcronym
-      ? `${keyword} => ${synonymObject.terms.join(', ')}`
-      : `${[keyword, ...synonymObject.terms].join(', ')}`;
+  return synonymData.map((keywordObject) =>
+    keywordObject.isExplicit
+      ? `${keywordObject.keyword} => ${generateMappingString(keywordObject.keyword, keywordObject.synonyms)}`
+      : generateMappingString(keywordObject.keyword, keywordObject.synonyms)
+  );
+}
+
+function generateMappingString(keyword: string, synonyms: string[]) {
+  const mappingString = [keyword, ...synonyms].join(', ');
+  return escapeSpecialCharacters(mappingString);
+}
+
+function escapeSpecialCharacters(mappingString: string) {
+  let resultString = mappingString;
+  SPECIAL_CHARS.forEach((char) => {
+    if (mappingString.includes(char)) {
+      resultString = resultString.replaceAll(char, `\\${char}`);
+    }
   });
+  return resultString;
 }

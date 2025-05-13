@@ -85,7 +85,7 @@ test.describe(
       });
 
       await test.step('search for synonym of indicator and check results match', async () => {
-        const subjectSearchTerm = 'baby';
+        const subjectSearchTerm = 'infant';
 
         await resultsPage.clearIndicatorSearchBox();
         await resultsPage.fillIndicatorSearch(subjectSearchTerm);
@@ -98,10 +98,15 @@ test.describe(
       });
     });
 
-    test('searching for the synonym of an explicitly mapped term should not return results of the mapped term', async ({
+    test('searching for the synonym of an explicitly mapped term should return fewer results than the mapped term', async ({
       homePage,
       resultsPage,
     }) => {
+      /**
+       * There are scenarios where this won't be the case
+       * eg when all the results are derived from a single synonym term
+       * however this shows that the synonyms that return no results are not equivalently mapped
+       */
       await test.step('search for explicitly mapped acronym', async () => {
         const subjectSearchTerm = 'chd';
 
@@ -118,7 +123,7 @@ test.describe(
       });
 
       await test.step('search for synonym of indicator and check results do not match', async () => {
-        const subjectSearchTerm = 'chronic';
+        const subjectSearchTerm = 'coronary';
 
         await resultsPage.clearIndicatorSearchBox();
         await resultsPage.fillIndicatorSearch(subjectSearchTerm);

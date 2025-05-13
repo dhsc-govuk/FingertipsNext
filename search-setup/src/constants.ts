@@ -12,6 +12,28 @@ export const ONS_AREA_TYPE_CODE_UNITARY_AUTHORITIES = 'E06';
 export const ONS_AREA_TYPE_CODE_METROPOLITAN_DISTRICTS = 'E08';
 export const ONS_AREA_TYPE_CODE_LONDON_BOROUGHS = 'E09';
 
+export const SPECIAL_CHARS = [
+  '+',
+  '-',
+  '&',
+  '|',
+  '!',
+  '(',
+  ')',
+  '{',
+  '}',
+  '[',
+  ']',
+  '^',
+  '"',
+  '~',
+  '*',
+  '?',
+  ':',
+  '\\',
+  '/',
+];
+
 interface AreaCodeWithTrend {
   areaCode: string;
   trend: string;
