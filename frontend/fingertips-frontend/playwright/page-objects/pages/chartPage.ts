@@ -99,7 +99,7 @@ export default class ChartPage extends AreaFilter {
       hiddenComponents
     );
     await this.hideFiltersPane();
-    await this.verifyDataSourceIdDisplay(indicatorMode, selectedIndicators);
+    await this.verifyDataSourceIsDisplay(indicatorMode, selectedIndicators);
 
     for (const visibleComponent of visibleComponents) {
       await this.handleComponentInteractions(
