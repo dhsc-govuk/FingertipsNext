@@ -353,7 +353,7 @@ export function generateInequalitiesLineChartOptions(
       height:
         // The deprivation chart needs a bit more height
         type === InequalitiesTypes.Deprivation
-          ? '150%'
+          ? '120%'
           : lineChartDefaultOptions.chart?.height,
     },
     yAxis: {
