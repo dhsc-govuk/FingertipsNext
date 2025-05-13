@@ -13,10 +13,10 @@ import {
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
-import { useState } from 'react';
 import {
   generateInequalitiesLineChartOptions,
   getDynamicKeys,
+  reorderItemsArraysToEnd,
   getYearDataGroupedByInequalities,
   groupHealthDataByYear,
   InequalitiesChartData,
@@ -33,15 +33,16 @@ import {
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import {
   AreaTypeLabelEnum,
+  createTooltipHTML,
   determineAreaCodes,
   determineHealthDataForArea,
   getTooltipContent,
-  createTooltipHTML,
   seriesDataWithoutGroup,
 } from '@/lib/chartHelpers/chartHelpers';
 import { ChartSelectArea } from '../../ChartSelectArea';
 import { InequalitiesTypesDropDown } from '../InequalitiesTypesDropDown';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
+import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
 
 interface InequalitiesTrendProps {
   healthIndicatorData: HealthDataForArea[];
@@ -67,11 +68,6 @@ export function InequalitiesTrend({
   benchmarkComparisonMethod,
   dataSource,
 }: Readonly<InequalitiesTrendProps>) {
-  const [
-    showInequalitiesLineChartConfidenceIntervals,
-    setShowInequalitiesLineChartConfidenceIntervals,
-  ] = useState<boolean>(false);
-
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
@@ -134,7 +130,7 @@ export function InequalitiesTrend({
     yearlyHealthDataGroupedByInequalities,
     sequenceSelector
   );
-
+  const orderedDynamicKeys = reorderItemsArraysToEnd(dynamicKeys, ['Persons']);
   const allData = mapToInequalitiesTableData(
     yearlyHealthDataGroupedByInequalities,
     sequenceSelector
@@ -186,7 +182,7 @@ export function InequalitiesTrend({
       lineChartData,
       dynamicKeys,
       type,
-      showInequalitiesLineChartConfidenceIntervals,
+      true,
       generateInequalitiesLineChartTooltipForPoint,
       {
         areasSelected: areaCodes,
@@ -198,7 +194,7 @@ export function InequalitiesTrend({
     );
 
   return (
-    <div data-testid="inequalitiesTrend-component">
+    <StyleChartWrapper data-testid="inequalitiesTrend-component">
       <H3>Inequalities data over time</H3>
       <InequalitiesTypesDropDown
         inequalitiesOptions={inequalityCategories}
@@ -222,12 +218,6 @@ export function InequalitiesTrend({
             content: (
               <LineChart
                 lineChartOptions={inequalitiesLineChartOptions}
-                showConfidenceIntervalsData={
-                  showInequalitiesLineChartConfidenceIntervals
-                }
-                setShowConfidenceIntervalsData={
-                  setShowInequalitiesLineChartConfidenceIntervals
-                }
                 variant={LineChartVariant.Inequalities}
               />
             ),
@@ -239,13 +229,13 @@ export function InequalitiesTrend({
               <InequalitiesLineChartTable
                 tableData={lineChartData}
                 measurementUnit={measurementUnit}
-                dynamicKeys={dynamicKeys}
+                dynamicKeys={orderedDynamicKeys}
               />
             ),
           },
         ]}
         footer={<DataSource dataSource={dataSource} />}
       />
-    </div>
+    </StyleChartWrapper>
   );
 }

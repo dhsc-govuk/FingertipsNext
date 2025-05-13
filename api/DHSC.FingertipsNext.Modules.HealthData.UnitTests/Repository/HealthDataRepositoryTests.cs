@@ -30,9 +30,20 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task Repository_ShouldReturnCorrectIndicatorAndLatestYear()
+    public void RepositoryInitialisation_ShouldThrowError_IfNullDBContextIsProvided()
     {
-        const int LATESTYEAR= 2099;
+        var act = () => _healthDataRepository = new HealthDataRepository(null!);
+
+        act.ShouldThrow<ArgumentNullException>()
+            .Message.ShouldBe("Value cannot be null. (Parameter 'healthDataDbContext')");
+    }
+
+    #region GetIndicatorDimensionAsync
+
+    [Fact]
+    public async Task Repository_ShouldReturnCorrectIndicatorAndLatestYearWhenNoAreaCodesProvided()
+    {
+        const int LATESTYEAR = 2099;
         const int INDICATORID = 1;
         // arrange
         PopulateDatabase(new HealthMeasureModelHelper(year: LATESTYEAR)
@@ -48,21 +59,89 @@ public class HealthDataRepositoryTests
         });
 
         // act
-        var result = await _healthDataRepository.GetIndicatorDimensionAsync(1);
+        var result = await _healthDataRepository.GetIndicatorDimensionAsync(1, []);
 
         // assert
         result.LatestYear.ShouldBe(LATESTYEAR);
     }
 
+    [Fact]
+    public async Task Repository_ShouldReturnCorrectIndicatorAndLatestYearWhenAreaCodesProvided()
+    {
+        // Replicates scenario where England data may be published ahead of sub-areas
+        const int ENGLAND_YEAR = 2024;
+        const int DISTRICT_YEAR = 2023;
+        const string ENGLAND_AREA_CODE = "E92000001";
+        const string DISTRICT_ONE_AREA_CODE = "ABC123";
+        const string DISTRICT_TWO_AREA_CODE = "123ABC";
+        const int INDICATORID = 1;
+        // arrange
+        PopulateDatabase(new HealthMeasureModelHelper(year: ENGLAND_YEAR)
+            .WithIndicatorDimension(indicatorId: INDICATORID)
+            .WithAreaDimension(code: ENGLAND_AREA_CODE)
+            .Build());
+        PopulateDatabase(new HealthMeasureModelHelper(year: DISTRICT_YEAR, key: 2)
+            .WithIndicatorDimension(indicatorId: INDICATORID)
+            .WithAreaDimension(code: DISTRICT_ONE_AREA_CODE)
+            .Build());
+        PopulateDatabase(new HealthMeasureModelHelper(year: DISTRICT_YEAR, key: 3)
+            .WithIndicatorDimension(indicatorId: INDICATORID)
+            .WithAreaDimension(code: DISTRICT_TWO_AREA_CODE)
+            .Build());
+
+        // act
+        var result = await _healthDataRepository.GetIndicatorDimensionAsync(1, [
+            ENGLAND_AREA_CODE,
+            DISTRICT_ONE_AREA_CODE,
+            DISTRICT_TWO_AREA_CODE
+        ]);
+
+        // assert
+        result.LatestYear.ShouldBe(DISTRICT_YEAR);
+    }
 
     [Fact]
-    public void RepositoryInitialisation_ShouldThrowError_IfNullDBContextIsProvided()
+    public async Task Repository_ShouldReturnCorrectIndicatorAndLatestYearWhenEnglandRequested()
     {
-        var act = () => _healthDataRepository = new HealthDataRepository(null!);
+        const int ENGLAND_YEAR = 2024;
+        const string ENGLAND_AREA_CODE = "E92000001";
+        const int INDICATORID = 1;
+        // arrange
+        PopulateDatabase(new HealthMeasureModelHelper(year: ENGLAND_YEAR)
+            .WithIndicatorDimension(indicatorId: INDICATORID)
+            .WithAreaDimension(code: ENGLAND_AREA_CODE)
+            .Build());
 
-        act.ShouldThrow<ArgumentNullException>()
-            .Message.ShouldBe("Value cannot be null. (Parameter 'healthDataDbContext')");
+        // act
+        var result = await _healthDataRepository.GetIndicatorDimensionAsync(1, [ENGLAND_AREA_CODE]);
+
+        // assert
+        result.LatestYear.ShouldBe(ENGLAND_YEAR);
     }
+
+    [Fact]
+    public async Task Repository_ShouldReturnCorrectIndicatorAndLatestYearForAllDataWhenAreasContainNoData()
+    {
+        const int LATEST_YEAR = 2024;
+        const string AREA_CODE = "E92000002";
+        const int INDICATORID = 1;
+        // arrange
+        PopulateDatabase(new HealthMeasureModelHelper(year: LATEST_YEAR)
+            .WithIndicatorDimension(indicatorId: INDICATORID)
+            .WithAreaDimension(code: AREA_CODE)
+            .Build());
+
+        // act
+        var result = await _healthDataRepository.GetIndicatorDimensionAsync(1, [
+            "TESTAREA_ONE",
+            "TESTAREA_TWO"
+        ]);
+
+        // assert
+        result.LatestYear.ShouldBe(LATEST_YEAR);
+    }
+
+    #endregion
 
     #region GetIndicatorDataAsync
 

@@ -33,10 +33,27 @@ export class IndicatorSearchService implements IIndicatorSearchService {
     isEnglandSelectedAsGroup: boolean,
     areaCodes?: string[]
   ): Promise<IndicatorDocument[]> {
-    // Search with both full search term and wildcard for now to allow for
-    // observed behaviour where wildcard match of full term did not always return
-    // the matching document.
-    const query = `${searchTerm} /.*${searchTerm}.*/`;
+    // If the search is not numeric, we prioritise matching the full term
+    // and allow fuzzy matching against each word in the search term
+    //
+    // If the search is entirely numeric, it is most likely for a specific indicator ID
+    // so any fuzzy matching is likely to be unhelpful by including or prioritising unwanted indicators
+    const buildSearchQuery = (searchTerm: string): string => {
+      if (!isNaN(Number(searchTerm))) {
+        return searchTerm;
+      }
+
+      const fuzzySearchTerms = searchTerm
+        .split(/\s+/)
+        .map((subString) => {
+          return subString.length > 5 ? `${subString}~1` : subString;
+        })
+        .join(' ')
+        .trim();
+      return `"${searchTerm}"^2 ${fuzzySearchTerms}`;
+    };
+
+    const query = buildSearchQuery(searchTerm);
 
     // This creates an AI Search filter string which should look like
     //  associatedAreaCodes/any(a: a eq 'E09000023' or a eq 'E09000013' or a eq 'E09000025')
@@ -76,8 +93,8 @@ export class IndicatorSearchService implements IIndicatorSearchService {
         indicatorId
       )) as RawIndicatorDocument;
     } catch (e) {
-      console.log(
-        `Error occurred getting indicator from search. Error message: ${(<Error>e).message}`
+      console.error(
+        `error getting single indicator from ai search: ${(<Error>e).message}`
       );
       return undefined;
     }

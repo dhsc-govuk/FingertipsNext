@@ -38,7 +38,7 @@ GET http://localhost:5144/areas/U15488?include_children=true&include_siblings=tr
     });
 %}
 
-### CHECK GET area details, including children of type 'GP'
+### CHECK GET area details, including children of type 'GP'. This test also covers no parent or sibiling areas.
 
 # England
 GET http://localhost:5144/areas/E92000001?include_children=true&child_area_type=gps
@@ -50,7 +50,7 @@ GET http://localhost:5144/areas/E92000001?include_children=true&child_area_type=
         let area = response.body;
 
         // England is a root, so has no parent
-        client.assert(!area.parent);
+        client.assert(area.parents.length === 0);
 
         client.assert(area.code === "E92000001");
         client.assert(area.name === "England");
@@ -60,6 +60,26 @@ GET http://localhost:5144/areas/E92000001?include_children=true&child_area_type=
         client.assert(area.children.filter(x => x.areaType.key === "gps").length === area.children.length)
     });
 %}
+
+### CHECK GET area details, for area with no children.
+
+# Queens Park Medical Centre
+GET http://localhost:5144/areas/A81002?include_children=true
+
+> {%
+    client.test("Expected area returned", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+
+        let area = response.body;
+
+        client.assert(area.code === "A81002");
+        client.assert(area.name === "Queens Park Medical Centre");
+
+        // check we have children and they are all GP
+        client.assert(area.children.length === 0);
+    });
+%}
+
 
 ### check endpoint returns a not found error for an area code which does not exist.
 GET http://localhost:5144/areas/narnia

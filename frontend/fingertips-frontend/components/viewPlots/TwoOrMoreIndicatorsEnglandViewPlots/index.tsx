@@ -7,10 +7,8 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { H3 } from 'govuk-react';
-import {
-  OneAreaMultipleIndicatorsData,
-  OneAreaMultipleIndicatorsTable,
-} from '@/components/organisms/OneAreaMultipleIndicatorsTable';
+import { BasicTableData, BasicTable } from '@/components/organisms/BasicTable';
+import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
 
 type TwoOrMoreIndicatorsEnglandViewPlotProps = {
   indicatorData: IndicatorWithHealthDataForArea[];
@@ -33,7 +31,7 @@ export const getLatestPeriodHealthDataPoint = (
 export const getEnglandIndicatorTableData = (
   indicatorData: IndicatorWithHealthDataForArea[],
   indicatorMetadata: IndicatorDocument[]
-): OneAreaMultipleIndicatorsData[] => {
+): BasicTableData[] => {
   return indicatorData.map((indicator) => {
     const hasHealthDataForEngland =
       indicator.areaHealthData?.[0]?.healthData !== undefined;
@@ -80,11 +78,10 @@ export function TwoOrMoreIndicatorsEnglandViewPlots({
 
   return (
     <section data-testid="twoOrMoreIndicatorsEnglandViewPlot-component">
-      <H3>Compare indicators for an area</H3>
-      <OneAreaMultipleIndicatorsTable
-        indicatorData={englandIndicatorData}
-        areaName={areaName}
-      />
+      <StyleChartWrapper>
+        <H3>Compare indicators for an area</H3>
+        <BasicTable indicatorData={englandIndicatorData} areaName={areaName} />
+      </StyleChartWrapper>
     </section>
   );
 }

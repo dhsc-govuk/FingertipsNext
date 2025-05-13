@@ -1,12 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { SeriesLineOptions, SymbolKeyValue } from 'highcharts';
 import {
+  SeriesLineOptions,
+  SeriesOptionsType,
+  SymbolKeyValue,
+} from 'highcharts';
+import {
+  addShowHideLinkedSeries,
   generateSeriesData,
   generateStandardLineChartOptions,
 } from './lineChartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { mockIndicatorData, mockBenchmarkData, mockParentData } from './mocks';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { Dispatch, SetStateAction } from 'react';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 
 const symbols: SymbolKeyValue[] = ['arc', 'circle', 'diamond'];
 
@@ -21,6 +29,19 @@ describe('generateSeriesData', () => {
     const expectedSeriesData = [
       {
         color: '#F46A25',
+        custom: { areaCode: 'A1427' },
+        data: [
+          [2020, 478.27434],
+          [2012, 234.420759],
+        ],
+        name: 'East FooBar',
+        type: 'line',
+        marker: {
+          symbol: 'arc',
+        },
+      },
+      {
+        color: '#A285D1',
         custom: { areaCode: 'A1425' },
         data: [
           [2006, 278.29134],
@@ -29,30 +50,17 @@ describe('generateSeriesData', () => {
         name: 'North FooBar',
         type: 'line',
         marker: {
-          symbol: 'arc',
+          symbol: 'circle',
         },
       },
       {
-        color: '#A285D1',
+        color: '#801650',
         custom: { areaCode: 'A1426' },
         data: [
           [2010, 786.27434],
           [2007, 435.420759],
         ],
         name: 'South FooBar',
-        type: 'line',
-        marker: {
-          symbol: 'circle',
-        },
-      },
-      {
-        color: '#801650',
-        custom: { areaCode: 'A1427' },
-        data: [
-          [2020, 478.27434],
-          [2012, 234.420759],
-        ],
-        name: 'East FooBar',
         type: 'line',
         marker: {
           symbol: 'diamond',
@@ -89,6 +97,19 @@ describe('generateSeriesData', () => {
       },
       {
         color: '#F46A25',
+        custom: { areaCode: 'A1427' },
+        data: [
+          [2020, 478.27434],
+          [2012, 234.420759],
+        ],
+        name: 'East FooBar',
+        type: 'line',
+        marker: {
+          symbol: 'arc',
+        },
+      },
+      {
+        color: '#A285D1',
         custom: { areaCode: 'A1425' },
         data: [
           [2006, 278.29134],
@@ -97,30 +118,17 @@ describe('generateSeriesData', () => {
         name: 'North FooBar',
         type: 'line',
         marker: {
-          symbol: 'arc',
+          symbol: 'circle',
         },
       },
       {
-        color: '#A285D1',
+        color: '#801650',
         custom: { areaCode: 'A1426' },
         data: [
           [2010, 786.27434],
           [2007, 435.420759],
         ],
         name: 'South FooBar',
-        type: 'line',
-        marker: {
-          symbol: 'circle',
-        },
-      },
-      {
-        color: '#801650',
-        custom: { areaCode: 'A1427' },
-        data: [
-          [2020, 478.27434],
-          [2012, 234.420759],
-        ],
-        name: 'East FooBar',
         type: 'line',
         marker: {
           symbol: 'diamond',
@@ -170,6 +178,19 @@ describe('generateSeriesData', () => {
       },
       {
         color: '#F46A25',
+        custom: { areaCode: 'A1427' },
+        data: [
+          [2020, 478.27434],
+          [2012, 234.420759],
+        ],
+        name: 'East FooBar',
+        type: 'line',
+        marker: {
+          symbol: 'arc',
+        },
+      },
+      {
+        color: '#A285D1',
         custom: { areaCode: 'A1425' },
         data: [
           [2006, 278.29134],
@@ -178,30 +199,17 @@ describe('generateSeriesData', () => {
         name: 'North FooBar',
         type: 'line',
         marker: {
-          symbol: 'arc',
+          symbol: 'circle',
         },
       },
       {
-        color: '#A285D1',
+        color: '#801650',
         custom: { areaCode: 'A1426' },
         data: [
           [2010, 786.27434],
           [2007, 435.420759],
         ],
         name: 'South FooBar',
-        type: 'line',
-        marker: {
-          symbol: 'circle',
-        },
-      },
-      {
-        color: '#801650',
-        custom: { areaCode: 'A1427' },
-        data: [
-          [2020, 478.27434],
-          [2012, 234.420759],
-        ],
-        name: 'East FooBar',
         type: 'line',
         marker: {
           symbol: 'diamond',
@@ -269,6 +277,7 @@ describe('generateSeriesData', () => {
           [2004, 441.69151, 578.32766],
         ],
         name: 'North FooBar',
+        linkedTo: 'North FooBar',
         type: 'errorbar',
         visible: true,
         lineWidth: 2,
@@ -349,13 +358,14 @@ describe('generateStandardLineChartOptions', () => {
     expect((generatedOptions.yAxis as any)!.title.text).toBe('yAxis');
     expect((generatedOptions.xAxis as any)!.title.text).toBe('xAxis');
     expect(generatedOptions.accessibility!.description).toBe('accessibility');
-
     expect(generatedOptions).toMatchSnapshot();
   });
 
-  it('should generate standard line chart options with benchmark data', () => {
-    expect(
-      generateStandardLineChartOptions([mockIndicatorData[0]], false, {
+  it('should generate standard line chart options with benchmark and group data', () => {
+    const generatedOptions = generateStandardLineChartOptions(
+      [mockIndicatorData[0]],
+      false,
+      {
         benchmarkData: mockBenchmarkData,
         groupIndicatorData: mockParentData,
         yAxisTitle: 'yAxis',
@@ -364,7 +374,137 @@ describe('generateStandardLineChartOptions', () => {
         accessibilityLabel: 'accessibility',
         colours: chartColours,
         symbols,
-      })
-    ).toMatchSnapshot();
+      }
+    );
+    expect(generatedOptions).toMatchSnapshot();
+  });
+
+  it('should not include benchmark or group years before or after the areas have data', () => {
+    const mockBenchmarkAreaWithEarlyYear: HealthDataForArea = {
+      ...mockBenchmarkData,
+      healthData: [
+        ...mockBenchmarkData.healthData,
+        {
+          year: 1999,
+          ageBand: allAgesAge,
+          sex: personsSex,
+          trend: 'Not yet calculated',
+          deprivation: noDeprivation,
+        },
+      ],
+    };
+    const mockGroupAreaWithLateYear: HealthDataForArea = {
+      ...mockParentData,
+      healthData: [
+        ...mockParentData.healthData,
+        {
+          year: 2036,
+          ageBand: allAgesAge,
+          sex: personsSex,
+          trend: 'Not yet calculated',
+          deprivation: noDeprivation,
+        },
+      ],
+    };
+
+    const generatedOptions = generateStandardLineChartOptions(
+      [mockIndicatorData[0]],
+      false,
+      {
+        benchmarkData: mockBenchmarkAreaWithEarlyYear,
+        groupIndicatorData: mockGroupAreaWithLateYear,
+        yAxisTitle: 'yAxis',
+        xAxisTitle: 'xAxis',
+        measurementUnit: '%',
+        accessibilityLabel: 'accessibility',
+        colours: chartColours,
+        symbols,
+      }
+    );
+    expect((generatedOptions.series?.[0] as any).data).toHaveLength(2);
+    expect((generatedOptions.series?.[1] as any).data).toHaveLength(2);
+    expect(generatedOptions).toMatchSnapshot();
+  });
+});
+
+describe('addShowHideLinkedSeries', () => {
+  let generatedSeriesData: SeriesOptionsType[];
+  let setVisibility: Dispatch<SetStateAction<Record<string, boolean>>>;
+
+  beforeEach(() => {
+    generatedSeriesData = generateSeriesData(
+      [mockIndicatorData[0]],
+      symbols,
+      chartColours,
+      undefined,
+      undefined,
+      true
+    );
+
+    setVisibility = jest.fn() as Dispatch<
+      SetStateAction<Record<string, boolean>>
+    >;
+  });
+
+  it('should add add show and hide functions which call setVisibility (state)', () => {
+    addShowHideLinkedSeries(
+      { series: generatedSeriesData },
+      false,
+      {},
+      setVisibility
+    );
+
+    const [first] = generatedSeriesData;
+    if ('events' in first) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      first.events.show({});
+    }
+    expect(setVisibility).toBeCalledTimes(1);
+    expect(setVisibility).toBeCalledWith({ 'North FooBar': true });
+
+    if ('events' in first) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      first.events.hide({});
+    }
+    expect(setVisibility).toBeCalledTimes(2);
+    expect(setVisibility).toBeCalledWith({ 'North FooBar': false });
+  });
+
+  it('should set the initial visibility of linkedTo series to false', () => {
+    addShowHideLinkedSeries(
+      { series: generatedSeriesData },
+      false,
+      {},
+      setVisibility
+    );
+
+    expect(generatedSeriesData[0]).not.toHaveProperty('visible');
+    expect(generatedSeriesData[1]).toHaveProperty('visible', false);
+  });
+
+  it('should set the visibility of linkedTo series to false if true in state but showConfidenceIntervalsData is false', () => {
+    addShowHideLinkedSeries(
+      { series: generatedSeriesData },
+      false,
+      { 'North FooBar': true },
+      setVisibility
+    );
+
+    expect(generatedSeriesData[0]).not.toHaveProperty('visible');
+    expect(generatedSeriesData[1]).toHaveProperty('visible', false);
+  });
+
+  it('should set the visibility of linkedTo series to true if set in state and showConfidenceIntervalsData is true', () => {
+    addShowHideLinkedSeries(
+      { series: generatedSeriesData },
+      true,
+      { 'North FooBar': true },
+      setVisibility
+    );
+
+    expect(generatedSeriesData[0]).not.toHaveProperty('visible');
+    expect(generatedSeriesData[1]).toHaveProperty('visible', true);
   });
 });

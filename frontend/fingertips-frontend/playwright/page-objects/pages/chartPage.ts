@@ -2,6 +2,7 @@ import {
   AreaMode,
   getScenarioConfig,
   IndicatorMode,
+  SimpleIndicatorDocument,
 } from '@/playwright/testHelpers';
 import { expect } from '../pageFactory';
 import {
@@ -15,9 +16,14 @@ import AreaFilter from '../components/areaFilter';
 
 export default class ChartPage extends AreaFilter {
   readonly backLink = 'chart-page-back-link';
+
+  // chart components
   static readonly lineChartComponent = 'standardLineChart-component';
   static readonly lineChartTableComponent = 'lineChartTable-component';
-  static readonly populationPyramidComponent = 'populationPyramid-component';
+  static readonly populationPyramidComponent =
+    'populationPyramidWithTable-component';
+  static readonly populationPyramidTableComponent =
+    'populationPyramidTable-component';
   static readonly inequalitiesBarChartTableComponent =
     'inequalitiesBarChartTable-component';
   static readonly inequalitiesLineChartTableComponent =
@@ -39,8 +45,7 @@ export default class ChartPage extends AreaFilter {
     'inequalitiesTypes-dropDown-component-bc';
   static readonly inequalitiesTypesDropDownComponentLC =
     'inequalitiesTypes-dropDown-component-lc';
-  static readonly OneAreaMultipleIndicatorsTableComponent =
-    'oneAreaMultipleIndicatorsTable-component';
+  static readonly basicTableComponent = 'basicTable-component';
 
   async checkOnChartPage() {
     await expect(
@@ -76,7 +81,8 @@ export default class ChartPage extends AreaFilter {
     test: TestType<
       PlaywrightTestArgs & PlaywrightTestOptions,
       PlaywrightWorkerArgs & PlaywrightWorkerOptions
-    >
+    >,
+    selectedIndicators: SimpleIndicatorDocument[]
   ) {
     const testInfo = test.info();
     const testName = testInfo.title;
@@ -84,6 +90,7 @@ export default class ChartPage extends AreaFilter {
       indicatorMode,
       areaMode
     );
+
     console.log(
       `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart components: ${visibleComponents
         .map(
@@ -102,12 +109,29 @@ export default class ChartPage extends AreaFilter {
       'Show filter'
     );
 
+    // check that the data source is displayed for the selected indicator in one indicator mode
+    if (indicatorMode === IndicatorMode.ONE_INDICATOR) {
+      const allDataSources = await this.page
+        .getByTestId(`data-source`)
+        .allTextContents();
+
+      allDataSources.forEach((dataSource) => {
+        expect(dataSource).toBe(
+          `Data source: ${selectedIndicators[0].dataSource}`
+        );
+      });
+    }
+    // and check that the data source is not displayed for the other indicator modes
+    if (indicatorMode !== IndicatorMode.ONE_INDICATOR) {
+      expect(this.page.getByTestId(`data-source`)).not.toBeAttached();
+    }
+
     // Check that components expected to be visible are displayed
     for (const visibleComponent of visibleComponents) {
       console.log(
         `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart component: ${visibleComponent.componentLocator} is displayed.`
       );
-      // if its one of the chart components that you need to click on the tab first to see it then click it
+      // if its one of the chart table components that you need to click on the tab first to see it then click it
       if (visibleComponent.componentProps.isTabTable) {
         await this.clickAndAwaitLoadingComplete(
           this.page.getByTestId(
@@ -129,11 +153,22 @@ export default class ChartPage extends AreaFilter {
             }));
           }
         );
-
+        // get the last option in the dropdown then select it
+        const lastTimePeriodDropdownOption =
+          dropdownOptions[dropdownOptions.length - 1].value;
         await combobox.selectOption({
-          value: dropdownOptions[dropdownOptions.length - 1].value,
+          value: lastTimePeriodDropdownOption,
         });
         await this.waitAfterDropDownInteraction();
+
+        // ensure the page has been rerendered with the new time period
+        await this.waitForURLToContain(lastTimePeriodDropdownOption);
+        await expect(
+          this.page.getByText(
+            `persons for ${lastTimePeriodDropdownOption} time period`
+          )
+        ).toBeVisible();
+        expect(await combobox.inputValue()).toBe(lastTimePeriodDropdownOption);
       }
       // if its one of the chart components that has a type dropdown for inequalities then select the last in the list
       if (visibleComponent.componentProps.hasTypeDropDown) {
@@ -154,27 +189,96 @@ export default class ChartPage extends AreaFilter {
             }));
           }
         );
-
+        // get the last option in the dropdown then select it
+        const lastTypeDropdownOption =
+          dropdownOptions[dropdownOptions.length - 1].value;
         await combobox.selectOption({
-          value: dropdownOptions[dropdownOptions.length - 1].value,
+          value: lastTypeDropdownOption,
         });
         await this.waitAfterDropDownInteraction();
+
+        // ensure the page has been rerendered with the new type
+        const dropDownConvertedToURL = encodeURIComponent(
+          lastTypeDropdownOption
+        );
+        await this.waitForURLToContain(dropDownConvertedToURL);
+        expect(await combobox.inputValue()).toBe(lastTypeDropdownOption);
       }
       // if its one of the chart components that has a confidence interval checkbox then click it
       if (visibleComponent.componentProps.hasConfidenceIntervals) {
-        await this.checkAndAwaitLoadingComplete(
-          this.page.getByTestId(
-            `confidence-interval-checkbox-${visibleComponent.componentLocator.replace('-component', '')}`
-          )
-        );
+        const componentMapping: Record<string, string> = {
+          [ChartPage.inequalitiesForSingleTimePeriodComponent]:
+            ChartPage.inequalitiesBarChartComponent,
+          [ChartPage.inequalitiesBarChartComponent]:
+            ChartPage.inequalitiesBarChartComponent,
+          [ChartPage.barChartEmbeddedTableComponent]:
+            ChartPage.barChartEmbeddedTableComponent,
+          [ChartPage.inequalitiesLineChartComponent]:
+            ChartPage.inequalitiesLineChartComponent,
+          [ChartPage.inequalitiesTrendComponent]:
+            ChartPage.inequalitiesLineChartComponent,
+        };
+
+        const defaultComponent = ChartPage.lineChartComponent;
+        const confidenceIntervalComponent =
+          componentMapping[visibleComponent.componentLocator] ||
+          defaultComponent;
+
+        const testId = `confidence-interval-checkbox-${confidenceIntervalComponent.replace('-component', '')}`;
+
+        await this.checkAndAwaitLoadingComplete(this.page.getByTestId(testId));
       }
       // if its one of the chart components that has a details expander then click it
       if (visibleComponent.componentProps.hasDetailsExpander) {
         await this.clickAndAwaitLoadingComplete(
           this.page
-            .getByTestId('populationPyramidWithTable-component')
+            .getByTestId(visibleComponent.componentLocator)
             .getByText('Show population data')
         );
+      }
+      // if its one of the wide chart components then scroll to the middle of it
+      if (visibleComponent.componentProps.isWideComponent) {
+        await this.page
+          .getByTestId(visibleComponent.componentLocator)
+          .evaluate((element) => {
+            // Calculate the middle point horizontally
+            // Scrolls to half of the total scrollable width
+            const middleX = (element.scrollWidth - element.clientWidth) / 2;
+
+            // Scroll to the middle point
+            element.scrollLeft = middleX;
+          });
+      }
+      // if it's one of the components with a recent trend then check it's correct
+      if (visibleComponent.componentProps.hasRecentTrend) {
+        if (
+          visibleComponent.componentLocator === 'spineChartTable-component' &&
+          areaMode !== AreaMode.ONE_AREA
+        ) {
+          // Verify no trend container is present for spine chart in non-ONE_AREA modes
+          await expect(
+            this.page
+              .getByTestId(visibleComponent.componentLocator)
+              .getByTestId('trendTag-container')
+          ).not.toBeAttached();
+        } else {
+          // For all other chart components, or spine chart in ONE_AREA mode - check the trend
+          const trendContainers = this.page
+            .getByTestId(visibleComponent.componentLocator)
+            .getByTestId('trendTag-container');
+
+          const trendsText = await trendContainers.allTextContents();
+
+          for (const selectedIndicator of selectedIndicators) {
+            if (!selectedIndicator.knownTrend) {
+              throw new Error(
+                `Selected indicator ${selectedIndicator.indicatorID} should have a known trend stored in core_journey_config.ts.`
+              );
+            }
+
+            expect(trendsText).toContain(selectedIndicator.knownTrend);
+          }
+        }
       }
 
       // check chart component is now visible
@@ -184,28 +288,20 @@ export default class ChartPage extends AreaFilter {
         visible: true,
       });
 
-      // screenshot snapshot comparisons are skipped when running against deployed azure environments
-      console.log(
-        `checking component:${visibleComponent.componentLocator} for unexpected visual changes - see directory README.md for details.`
-      );
+      // this block of code is required to ensure we have stable screenshot comparisons - it can be removed once playwright fix their library
       await this.page.waitForLoadState();
       await expect(this.page.getByText('Loading')).toHaveCount(0);
       await this.page.waitForLoadState();
+      await this.page.evaluate(() => window.scrollTo(0, 0));
+      await this.page.waitForFunction('window.scrollY === 0');
       await this.page.waitForTimeout(1000);
 
-      // for now just warn if visual comparisons do not match
-      try {
-        await expect(
-          this.page.getByTestId(visibleComponent.componentLocator)
-        ).toHaveScreenshot(
-          `${testName}-${visibleComponent.componentLocator}.png`
-        );
-      } catch (error) {
-        const typedError = error as Error;
-        console.warn(
-          `⚠️ Screenshot comparison warning for ${visibleComponent.componentLocator}: ${typedError.message}`
-        );
-      }
+      // note that screenshot snapshot comparisons are ignored when running locally and against the deployed azure environments
+      await expect(this.page.getByTestId(visibleComponent.componentLocator), {
+        message: `Screenshot match failed: ${visibleComponent.componentLocator} - you may need to run the update screenshot manual CI job - see Visual Screenshot Snapshot Testing in frontend/fingertips-frontend/README.md for details.`,
+      }).toHaveScreenshot(
+        `${testName}-${visibleComponent.componentLocator}.png`
+      );
     }
 
     // Check that components expected not to be visible are not displayed

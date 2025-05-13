@@ -13,6 +13,11 @@ on:
         description: 'Mode from which tests are run - either run inside docker or against the azure stack'
         required: true
         type: string
+      update_screenshots:
+        description: 'Whether to update baseline screenshots'
+        required: false
+        default: false
+        type: boolean
     secrets:
       slack-webhook-url:
         description: 'URL of the slack webhook'
@@ -65,6 +70,7 @@ jobs:
         run: MOCK_SERVER=false npm run start:all
 
       - name: Run .http API tests
+        if: ${{ !inputs.update_screenshots && always() }}
         working-directory: ./api
         run: |
           npx httpyac send ./**/*.http --all --json --filter only-failed --output-failed exchange | tee httpyacresults.json
@@ -74,11 +80,11 @@ jobs:
           exit $HTTP_EXIT_CODE
 
       - name: Set dynamic HTTP results artifact name
-        if: always()
+        if: ${{ !inputs.update_screenshots && always() }}
         run: echo "HTTP_ARTIFACT_NAME=httpyac-results-$(date +%s)" >> $GITHUB_ENV
 
       - name: Upload .http test results
-        if: always()
+        if: ${{ !inputs.update_screenshots && always() }}
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.HTTP_ARTIFACT_NAME }}
@@ -86,8 +92,34 @@ jobs:
           retention-days: 5
 
       - name: Run Playwright tests in CI
-        if: always()
+        if: ${{ !inputs.update_screenshots && always() }}
         run: npm run test-e2e-ci
+
+      - name: Run Playwright tests and update baseline screenshot
+        if: ${{ inputs.update_screenshots }}
+        run: npm run test-e2e-ci -- --update-snapshots
+
+      - name: Commit updated baseline screenshots to branch for review
+        if: ${{ inputs.update_screenshots }}
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
+
+          # Add any new or modified screenshot files
+          git add .test/spec/snaps/**/*.png
+
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "No screenshot changes to commit"
+          else
+            # Commit the changes with a descriptive message
+            git commit -m "Update visual test baseline screenshots"
+            
+            # Push the changes
+            git push origin ${{ github.head_ref || github.ref_name }}
+            
+            echo "Updated screenshots committed and pushed"
+          fi
 
       - name: Set dynamic artifact name
         if: always()
@@ -104,13 +136,6 @@ jobs:
             ${{ env.frontend-directory }}/playwright-report/
             ${{ env.frontend-directory }}/test-results/*/*.png
           retention-days: 5
-
-      - name: Send slack message if e2e tests fail - for CD test execution
-        if: failure()
-        run: |
-          npx slack-ctrf results ctrf/ctrf-report.json --title "E2E Test Failure Against Deployed Fingertips Instance"
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.slack-webhook-url }}
 
   execute-e2e-tests-azure:
     name: Execute e2e tests - Azure
@@ -146,7 +171,7 @@ jobs:
           echo "JOB_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_ENV
 
       - name: Run Playwright tests in CD - skip screenshots
-        run: npm run test-e2e-ci-azure
+        run: npm run test-e2e-cd -- --ignore-snapshots
         env:
           FINGERTIPS_FRONTEND_URL: ${{ vars.FINGERTIPS_FRONTEND_URL }}
 

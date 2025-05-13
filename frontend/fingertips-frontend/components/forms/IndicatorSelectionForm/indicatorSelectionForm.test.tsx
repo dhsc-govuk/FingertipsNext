@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { IndicatorSelectionForm } from '.';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
@@ -7,6 +7,7 @@ import { formatDate } from '@/lib/dateHelpers/dateHelpers';
 import { LoaderContext } from '@/context/LoaderContext';
 import { SearchStateContext } from '@/context/SearchStateContext';
 import { SortOrderKeys } from '@/components/forms/IndicatorSort/indicatorSort.types';
+import { RESULTS_PER_PAGE } from '@/components/pages/results';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -402,5 +403,202 @@ describe('IndicatorSelectionForm', () => {
     expect(screen.getByRole('combobox', { name: /Sort by/i })).toHaveValue(
       SortOrderKeys.relevance
     );
+  });
+
+  describe('Pagination', () => {
+    beforeEach(() => {
+      window.history.replaceState = jest.fn();
+    });
+
+    const generateMockSearchResults = (resultsToGenerate: number) => {
+      return Array.from({ length: resultsToGenerate }, (_, index) => ({
+        indicatorID: index.toString(),
+        indicatorName: `Indicator ${index}`,
+        indicatorDefinition: `Definition ${index}`,
+        earliestDataPeriod: '2021',
+        latestDataPeriod: '2023',
+        dataSource: 'NHS website',
+        lastUpdatedDate: new Date('December 6, 2024'),
+        unitLabel: '',
+        hasInequalities: false,
+      }));
+    };
+
+    it('should show the pagination component when the size of the search results is more than the RESULTS_PER_PAGE', async () => {
+      const totalResults = RESULTS_PER_PAGE + 1;
+      const totalPages = Math.ceil(totalResults / RESULTS_PER_PAGE);
+
+      render(
+        <IndicatorSelectionForm
+          searchResults={generateMockSearchResults(totalResults)}
+          showTrends={false}
+          formAction={mockFormAction}
+          totalPages={totalPages}
+        />
+      );
+
+      const pagination = screen.getByTestId('search-results-pagination');
+      expect(pagination).toBeInTheDocument();
+    });
+
+    it('should not show the pagination component when the size of the search results is less than the RESULTS_PER_PAGE', async () => {
+      const totalResults = RESULTS_PER_PAGE - 1;
+      const totalPages = Math.ceil(totalResults / RESULTS_PER_PAGE);
+
+      render(
+        <IndicatorSelectionForm
+          searchResults={generateMockSearchResults(3)}
+          showTrends={false}
+          formAction={mockFormAction}
+          totalPages={totalPages}
+        />
+      );
+
+      const pagination = screen.queryByTestId('search-results-pagination');
+      expect(pagination).not.toBeInTheDocument();
+    });
+
+    it('should not show the pagination component when the size of the search results is equal to RESULTS_PER_PAGE', async () => {
+      const totalResults = RESULTS_PER_PAGE;
+      const totalPages = Math.ceil(totalResults / RESULTS_PER_PAGE);
+
+      render(
+        <IndicatorSelectionForm
+          searchResults={generateMockSearchResults(totalResults)}
+          showTrends={false}
+          formAction={mockFormAction}
+          totalPages={totalPages}
+        />
+      );
+
+      const pagination = screen.queryByTestId('search-results-pagination');
+      expect(pagination).not.toBeInTheDocument();
+    });
+
+    it('should show the correct number of searchResults per pages', async () => {
+      const totalResults = RESULTS_PER_PAGE + 5;
+      const totalPages = Math.ceil(totalResults / RESULTS_PER_PAGE);
+
+      render(
+        <IndicatorSelectionForm
+          searchResults={generateMockSearchResults(totalResults)}
+          showTrends={false}
+          formAction={mockFormAction}
+          totalPages={totalPages}
+          currentPage={2}
+        />
+      );
+
+      const resultsPerPage = screen.getAllByTestId('search-result');
+      expect(resultsPerPage).toHaveLength(totalResults - RESULTS_PER_PAGE);
+    });
+
+    it('should show the pagination next page anchor and not the previous page anchor when the current page is the first page', async () => {
+      const totalResults = RESULTS_PER_PAGE + 5;
+      const totalPages = Math.ceil(totalResults / RESULTS_PER_PAGE);
+
+      render(
+        <IndicatorSelectionForm
+          searchResults={generateMockSearchResults(totalResults)}
+          showTrends={false}
+          formAction={mockFormAction}
+          totalPages={totalPages}
+        />
+      );
+
+      const paginationPrevious = screen.getByText(/Previous/i).closest('li');
+      expect(paginationPrevious?.className).toContain('disabled');
+
+      const paginationNext = screen.getByText(/Next/i);
+      expect(paginationNext).toBeInTheDocument();
+    });
+
+    it('should show the correct number of pages', async () => {
+      const totalResults = 47;
+      const totalPages = Math.ceil(totalResults / RESULTS_PER_PAGE);
+
+      render(
+        <IndicatorSelectionForm
+          searchResults={generateMockSearchResults(totalResults)}
+          showTrends={false}
+          formAction={mockFormAction}
+          totalPages={totalPages}
+        />
+      );
+
+      const paginationContainer = screen.getByTestId(
+        'search-results-pagination'
+      );
+      const paginationItems =
+        within(paginationContainer).queryAllByRole('listitem');
+
+      expect(paginationItems.length - 1).toEqual(totalPages);
+    });
+
+    it('should update the URL when the page is changed', async () => {
+      const totalResults = RESULTS_PER_PAGE + 5;
+      const totalPages = Math.ceil(totalResults / RESULTS_PER_PAGE);
+      const currentPage = 1;
+      const expectedPage = 2;
+      const expectedPath = `${mockPath}?${SearchParams.SearchedIndicator}=test&${SearchParams.PageNumber}=${expectedPage}`;
+
+      render(
+        <IndicatorSelectionForm
+          searchResults={generateMockSearchResults(totalResults)}
+          showTrends={false}
+          formAction={mockFormAction}
+          totalPages={totalPages}
+          currentPage={currentPage}
+        />
+      );
+      const paginationNext = screen.getByText(/Next/i);
+      await user.click(paginationNext);
+
+      expect(window.history.replaceState).toHaveBeenCalledWith(
+        {},
+        '',
+        expectedPath
+      );
+    });
+
+    it('should only select indicators on the current page when "Select all" is checked', async () => {
+      render(
+        <IndicatorSelectionForm
+          searchResults={generateMockSearchResults(20)}
+          showTrends={false}
+          formAction={mockFormAction}
+        />
+      );
+
+      await user.click(screen.getByRole('checkbox', { name: /Select all/i }));
+
+      const expectedSelectedIndicatorsParam = Array.from(
+        { length: RESULTS_PER_PAGE },
+        (_, index) => index
+      ).map((index) => `${SearchParams.IndicatorsSelected}=${index}`);
+
+      expect(mockReplace).toHaveBeenCalledWith(
+        `${mockPath}?${SearchParams.SearchedIndicator}=test&${expectedSelectedIndicatorsParam.join('&')}`,
+        { scroll: false }
+      );
+    });
+
+    it('should only de-select indicators on the current page when "Select all" is unchecked', async () => {
+      render(
+        <IndicatorSelectionForm
+          searchResults={generateMockSearchResults(20)}
+          showTrends={false}
+          formAction={mockFormAction}
+        />
+      );
+
+      await user.click(screen.getByRole('checkbox', { name: /Select all/i }));
+      await user.click(screen.getByRole('checkbox', { name: /Select all/i }));
+
+      expect(mockReplace).toHaveBeenCalledWith(
+        `${mockPath}?${SearchParams.SearchedIndicator}=test`,
+        { scroll: false }
+      );
+    });
   });
 });

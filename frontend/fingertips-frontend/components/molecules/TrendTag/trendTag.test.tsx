@@ -130,7 +130,7 @@ describe('Trend Tag Suite', () => {
         screen.queryByTestId('arrow', { exact: false })
       ).not.toBeInTheDocument();
       expect(screen.getByRole('paragraph')).toHaveTextContent(
-        'No trend data available'
+        'No recent trend data available'
       );
     });
   });

@@ -2,6 +2,27 @@ import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
 import ChartPage from './page-objects/pages/chartPage';
 import { AreaTypeKeys } from '@/lib/areaFilterHelpers/areaType';
 
+export type SimpleIndicatorDocument = {
+  indicatorID: string;
+  indicatorName: string;
+  associatedAreaCodes: string[];
+  dataSource: string;
+  knownTrend?: string;
+};
+
+export interface IndicatorInfo {
+  indicatorID: string;
+  knownTrend?: string;
+}
+
+export interface TestParams {
+  indicatorMode: IndicatorMode;
+  areaMode: AreaMode;
+  searchMode: SearchMode;
+  indicatorsToSelect: IndicatorInfo[];
+  subjectSearchTerm?: string;
+}
+
 export enum SearchMode {
   ONLY_SUBJECT = 'ONLY_SUBJECT',
   ONLY_AREA = 'ONLY_AREA',
@@ -22,12 +43,20 @@ export enum AreaMode {
   ENGLAND_AREA = 'ENGLAND_AREA',
 }
 
+// Tags to mark when certain tests should be run
+export enum TestTag {
+  CI = '@ci',
+  CD = '@cd',
+}
+
 type componentProps = {
-  hasConfidenceIntervals: boolean;
-  isTabTable: boolean;
-  hasDetailsExpander: boolean;
-  hasTimePeriodDropDown: boolean;
-  hasTypeDropDown: boolean;
+  hasConfidenceIntervals?: boolean;
+  isTabTable?: boolean;
+  hasDetailsExpander?: boolean;
+  hasTimePeriodDropDown?: boolean;
+  hasTypeDropDown?: boolean;
+  isWideComponent?: boolean;
+  hasRecentTrend?: boolean;
 };
 
 type component = {
@@ -50,283 +79,265 @@ export function getScenarioConfig(
       componentLocator: ChartPage.lineChartComponent,
       componentProps: {
         hasConfidenceIntervals: true,
-        isTabTable: false,
-        hasDetailsExpander: false,
-        hasTimePeriodDropDown: false,
-        hasTypeDropDown: false,
       },
     },
     {
       componentLocator: ChartPage.lineChartTableComponent,
       componentProps: {
-        hasConfidenceIntervals: false,
         isTabTable: true,
-        hasDetailsExpander: false,
-        hasTimePeriodDropDown: false,
-        hasTypeDropDown: false,
+        hasRecentTrend: true,
       },
     },
     {
       componentLocator: ChartPage.inequalitiesBarChartComponent,
       componentProps: {
         hasConfidenceIntervals: true,
-        isTabTable: false,
-        hasDetailsExpander: false,
-        hasTimePeriodDropDown: false,
-        hasTypeDropDown: false,
       },
     },
     {
       componentLocator: ChartPage.inequalitiesForSingleTimePeriodComponent,
       componentProps: {
-        hasConfidenceIntervals: false,
-        isTabTable: false,
+        hasConfidenceIntervals: true,
         hasTimePeriodDropDown: true,
-        hasDetailsExpander: false,
-        hasTypeDropDown: true,
+        hasTypeDropDown: false, // even though it has a type dropdown, we want to test the default view
       },
     },
     {
       componentLocator: ChartPage.inequalitiesTrendComponent,
       componentProps: {
-        hasConfidenceIntervals: false,
-        isTabTable: false,
-        hasTimePeriodDropDown: false,
-        hasDetailsExpander: false,
-        hasTypeDropDown: true,
+        hasConfidenceIntervals: true,
+        hasTypeDropDown: true, // and in this case we want to test the type dropdown
       },
     },
     {
       componentLocator: ChartPage.inequalitiesLineChartComponent,
       componentProps: {
         hasConfidenceIntervals: true,
-        isTabTable: false,
-        hasDetailsExpander: false,
-        hasTimePeriodDropDown: false,
-        hasTypeDropDown: false,
       },
     },
     {
       componentLocator: ChartPage.inequalitiesBarChartTableComponent,
       componentProps: {
-        hasConfidenceIntervals: false,
         isTabTable: true,
-        hasDetailsExpander: false,
-        hasTimePeriodDropDown: false,
-        hasTypeDropDown: false,
       },
     },
     {
       componentLocator: ChartPage.inequalitiesLineChartTableComponent,
       componentProps: {
-        hasConfidenceIntervals: false,
         isTabTable: true,
-        hasDetailsExpander: false,
-        hasTimePeriodDropDown: false,
-        hasTypeDropDown: false,
       },
     },
     {
       componentLocator: ChartPage.populationPyramidComponent,
       componentProps: {
-        hasConfidenceIntervals: false,
-        isTabTable: false,
         hasDetailsExpander: true,
-        hasTimePeriodDropDown: false,
-        hasTypeDropDown: false,
+      },
+    },
+    {
+      componentLocator: ChartPage.populationPyramidTableComponent,
+      componentProps: {
+        isTabTable: true,
       },
     },
     {
       componentLocator: ChartPage.thematicMapComponent,
-      componentProps: {
-        hasConfidenceIntervals: false,
-        isTabTable: false,
-        hasDetailsExpander: false,
-        hasTimePeriodDropDown: false,
-        hasTypeDropDown: false,
-      },
+      componentProps: {},
     },
     {
       componentLocator: ChartPage.barChartEmbeddedTableComponent,
       componentProps: {
         hasConfidenceIntervals: true,
-        isTabTable: false,
-        hasDetailsExpander: false,
-        hasTimePeriodDropDown: false,
-        hasTypeDropDown: false,
+        hasRecentTrend: true,
+      },
+    },
+    {
+      componentLocator: ChartPage.basicTableComponent,
+      componentProps: { hasRecentTrend: true },
+    },
+    {
+      componentLocator: ChartPage.heatMapComponent,
+      componentProps: {
+        isWideComponent: true,
       },
     },
     {
       componentLocator: ChartPage.spineChartTableComponent,
       componentProps: {
-        hasConfidenceIntervals: false,
-        isTabTable: false,
-        hasDetailsExpander: false,
-        hasTimePeriodDropDown: false,
-        hasTypeDropDown: false,
-      },
-    },
-    {
-      componentLocator: ChartPage.OneAreaMultipleIndicatorsTableComponent,
-      componentProps: {
-        hasConfidenceIntervals: false,
-        isTabTable: false,
-        hasDetailsExpander: false,
-        hasTimePeriodDropDown: false,
-        hasTypeDropDown: false,
-      },
-    },
-    {
-      componentLocator: ChartPage.heatMapComponent,
-      componentProps: {
-        hasConfidenceIntervals: false,
-        isTabTable: false,
-        hasDetailsExpander: false,
-        hasTimePeriodDropDown: false,
-        hasTypeDropDown: false,
+        isWideComponent: true,
+        hasRecentTrend: true,
       },
     },
   ];
 
-  let visibleComponents: component[] = [];
+  const scenarioKey = `${indicatorMode}-${areaMode}`;
 
-  // 1 indicator, 1 area
-  if (
-    indicatorMode === IndicatorMode.ONE_INDICATOR &&
-    areaMode === AreaMode.ONE_AREA
-  ) {
-    visibleComponents = allComponents.filter((component) =>
-      [
-        ChartPage.lineChartComponent,
-        ChartPage.lineChartTableComponent,
-        ChartPage.inequalitiesBarChartComponent,
-        ChartPage.inequalitiesLineChartComponent,
-        ChartPage.inequalitiesBarChartTableComponent,
-        ChartPage.inequalitiesLineChartTableComponent,
-        ChartPage.inequalitiesForSingleTimePeriodComponent,
-        ChartPage.inequalitiesTrendComponent,
-        ChartPage.populationPyramidComponent,
-      ].includes(component.componentLocator)
-    );
-  }
-  // 1 indicator, 3+ areas
-  else if (
-    indicatorMode === IndicatorMode.ONE_INDICATOR &&
-    areaMode === AreaMode.THREE_PLUS_AREAS
-  ) {
-    visibleComponents = allComponents.filter((component) =>
-      [
-        ChartPage.barChartEmbeddedTableComponent,
-        ChartPage.populationPyramidComponent,
-      ].includes(component.componentLocator)
-    );
-  }
-  // 1 indicator, all areas in a group
-  else if (
-    indicatorMode === IndicatorMode.ONE_INDICATOR &&
-    areaMode === AreaMode.ALL_AREAS_IN_A_GROUP
-  ) {
-    visibleComponents = allComponents.filter((component) =>
-      [
-        ChartPage.thematicMapComponent,
-        ChartPage.barChartEmbeddedTableComponent,
-        ChartPage.populationPyramidComponent,
-      ].includes(component.componentLocator)
-    );
-  }
-  // 2 indicators, England area
-  else if (
-    indicatorMode === IndicatorMode.TWO_INDICATORS &&
-    areaMode === AreaMode.ENGLAND_AREA
-  ) {
-    visibleComponents = allComponents.filter((component) =>
-      [
-        ChartPage.OneAreaMultipleIndicatorsTableComponent,
-        ChartPage.populationPyramidComponent,
-      ].includes(component.componentLocator)
-    );
-  }
-  // 2 indicators, 3+ areas (not England)
-  else if (
-    indicatorMode === IndicatorMode.TWO_INDICATORS &&
-    areaMode === AreaMode.THREE_PLUS_AREAS
-  ) {
-    visibleComponents = allComponents.filter((component) =>
-      [
-        ChartPage.spineChartTableComponent,
-        ChartPage.heatMapComponent,
-        ChartPage.populationPyramidComponent,
-      ].includes(component.componentLocator)
-    );
-  }
-  // 2 indicators, all areas in a group
-  else if (
-    indicatorMode === IndicatorMode.TWO_INDICATORS &&
-    areaMode === AreaMode.ALL_AREAS_IN_A_GROUP
-  ) {
-    visibleComponents = allComponents.filter((component) =>
-      [
-        ChartPage.heatMapComponent,
-        ChartPage.populationPyramidComponent,
-      ].includes(component.componentLocator)
-    );
-  }
-  // 3+ indicators, 2 areas (not England)
-  else if (
-    indicatorMode === IndicatorMode.THREE_PLUS_INDICATORS &&
-    areaMode === AreaMode.TWO_AREAS
-  ) {
-    visibleComponents = allComponents.filter((component) =>
-      [
-        ChartPage.spineChartTableComponent,
-        ChartPage.heatMapComponent,
-        ChartPage.populationPyramidComponent,
-      ].includes(component.componentLocator)
-    );
-  } else {
+  const visibleComponentMap: Record<string, string[]> = {
+    [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.ONE_AREA}`]: [
+      ChartPage.lineChartComponent,
+      ChartPage.lineChartTableComponent,
+      ChartPage.inequalitiesBarChartComponent,
+      ChartPage.inequalitiesLineChartComponent,
+      ChartPage.inequalitiesBarChartTableComponent,
+      ChartPage.inequalitiesLineChartTableComponent,
+      ChartPage.inequalitiesForSingleTimePeriodComponent,
+      ChartPage.inequalitiesTrendComponent,
+      ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
+    ],
+    [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.ENGLAND_AREA}`]: [
+      ChartPage.lineChartComponent,
+      ChartPage.lineChartTableComponent,
+      ChartPage.inequalitiesLineChartComponent,
+      ChartPage.inequalitiesBarChartComponent,
+      ChartPage.inequalitiesLineChartTableComponent,
+      ChartPage.inequalitiesBarChartTableComponent,
+      ChartPage.inequalitiesForSingleTimePeriodComponent,
+      ChartPage.inequalitiesTrendComponent,
+      ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
+    ],
+    [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.THREE_PLUS_AREAS}`]: [
+      ChartPage.barChartEmbeddedTableComponent,
+      ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
+    ],
+    [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.ALL_AREAS_IN_A_GROUP}`]: [
+      ChartPage.thematicMapComponent,
+      ChartPage.barChartEmbeddedTableComponent,
+      ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
+    ],
+    [`${IndicatorMode.TWO_INDICATORS}-${AreaMode.ENGLAND_AREA}`]: [
+      ChartPage.basicTableComponent,
+      ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
+    ],
+    [`${IndicatorMode.TWO_INDICATORS}-${AreaMode.THREE_PLUS_AREAS}`]: [
+      ChartPage.heatMapComponent,
+      ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
+    ],
+    [`${IndicatorMode.TWO_INDICATORS}-${AreaMode.ALL_AREAS_IN_A_GROUP}`]: [
+      ChartPage.heatMapComponent,
+      ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
+    ],
+    [`${IndicatorMode.THREE_PLUS_INDICATORS}-${AreaMode.ONE_AREA}`]: [
+      ChartPage.spineChartTableComponent,
+      ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
+    ],
+    [`${IndicatorMode.THREE_PLUS_INDICATORS}-${AreaMode.TWO_AREAS}`]: [
+      ChartPage.heatMapComponent,
+      ChartPage.spineChartTableComponent,
+      ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
+    ],
+  };
+
+  const visibleLocators = visibleComponentMap[scenarioKey];
+
+  if (!visibleLocators) {
     throw new Error(
       `Combination of indicator mode: ${indicatorMode} + area mode: ${areaMode} is not supported.`
     );
   }
 
-  // Work out which components should be hidden
-  const hiddenComponents = allComponents.filter(
-    (component) => !visibleComponents.includes(component)
+  const visibleComponents = allComponents.filter((component) =>
+    visibleLocators.includes(component.componentLocator)
   );
 
-  const config: ScenarioConfig = {
-    visibleComponents,
-    hiddenComponents,
-  };
+  const hiddenComponents = allComponents.filter(
+    (component) => !visibleLocators.includes(component.componentLocator)
+  );
 
-  return config;
+  return { visibleComponents, hiddenComponents };
 }
 
-function filterIndicatorsByName(
-  indicators: RawIndicatorDocument[],
-  searchTerm: string
-): RawIndicatorDocument[] {
-  if (!searchTerm) return [];
+const indicatorsUsedInPOC = (indicator: RawIndicatorDocument): boolean =>
+  indicator.usedInPoc === true;
 
-  const normalizedSearchTerm = searchTerm.toLowerCase();
-  return indicators.filter((indicator) => {
-    return (
-      indicator.usedInPoc === true &&
-      (indicator.indicatorName.toLowerCase().includes(normalizedSearchTerm) ||
-        indicator.indicatorDefinition
-          .toLowerCase()
-          .includes(normalizedSearchTerm))
-    );
-  });
+const indicatorsMatchingSearchTerm = (
+  indicator: RawIndicatorDocument,
+  normalizedSearchTerm: string
+): boolean =>
+  indicator.indicatorName.toLowerCase().includes(normalizedSearchTerm) ||
+  indicator.indicatorDefinition.toLowerCase().includes(normalizedSearchTerm);
+
+const indicatorMatchingIndicatorID = (
+  indicator: RawIndicatorDocument,
+  indicatorID: string
+): boolean => {
+  // First convert to string
+  const indicatorIDString = String(indicator.indicatorID);
+
+  return indicatorIDString.toLowerCase() === indicatorID.toLowerCase();
+};
+
+export function getAllIndicators(
+  indicators: RawIndicatorDocument[]
+): SimpleIndicatorDocument[] {
+  return indicators
+    .filter((indicator) => indicatorsUsedInPOC(indicator))
+    .map((indicator) => ({
+      indicatorName: indicator.indicatorName,
+      indicatorID: indicator.indicatorID,
+      associatedAreaCodes: indicator.associatedAreaCodes,
+      dataSource: indicator.dataSource,
+    }));
 }
 
-export function getAllIndicatorIdsForSearchTerm(
+export function getAllIndicatorIDsForSearchTerm(
   indicators: RawIndicatorDocument[],
   searchTerm: string
 ): string[] {
-  return filterIndicatorsByName(indicators, searchTerm).map(
-    (indicator) => indicator.indicatorID
-  );
+  if (!searchTerm) return [];
+
+  const lowerCasedSearchTerm = searchTerm.toLowerCase();
+  return indicators
+    .filter(
+      (indicator) =>
+        indicatorsUsedInPOC(indicator) &&
+        indicatorsMatchingSearchTerm(indicator, lowerCasedSearchTerm)
+    )
+    .map((indicator) => indicator.indicatorID);
+}
+
+export function getAllIndicatorsForSearchTerm(
+  indicators: RawIndicatorDocument[],
+  searchTerm: string
+): SimpleIndicatorDocument[] {
+  if (!searchTerm) return [];
+
+  const lowerCasedSearchTerm = searchTerm.toLowerCase();
+  return indicators
+    .filter(
+      (indicator) =>
+        indicatorsUsedInPOC(indicator) &&
+        indicatorsMatchingSearchTerm(indicator, lowerCasedSearchTerm)
+    )
+    .map((indicator) => ({
+      indicatorName: indicator.indicatorName,
+      indicatorID: indicator.indicatorID,
+      associatedAreaCodes: indicator.associatedAreaCodes,
+      dataSource: indicator.dataSource,
+    }));
+}
+
+export function getIndicatorDataByIndicatorID(
+  indicators: RawIndicatorDocument[],
+  indicatorID: string
+): SimpleIndicatorDocument[] {
+  if (!indicatorID) return [];
+
+  return indicators
+    .filter((indicator) => indicatorMatchingIndicatorID(indicator, indicatorID))
+    .map((indicator) => ({
+      indicatorName: indicator.indicatorName,
+      indicatorID: indicator.indicatorID,
+      associatedAreaCodes: indicator.associatedAreaCodes,
+      dataSource: indicator.dataSource,
+    }));
 }
 
 export function getAllAreasByAreaType(
@@ -334,7 +345,7 @@ export function getAllAreasByAreaType(
   areaType: AreaTypeKeys
 ): AreaDocument[] {
   const sanitisedAreaType = areaType.toLowerCase().replaceAll('-', ' ');
-  console.log(sanitisedAreaType);
+
   return areas.filter((area) =>
     area.areaType.toLowerCase().includes(sanitisedAreaType)
   );
@@ -343,14 +354,18 @@ export function getAllAreasByAreaType(
 export function returnIndicatorIDsByIndicatorMode(
   indicators: string[],
   indicatorMode: IndicatorMode
-): string[] {
+): IndicatorInfo[] {
   switch (indicatorMode) {
     case IndicatorMode.ONE_INDICATOR:
-      return [indicators[0]];
+      return [{ indicatorID: indicators[0] }];
     case IndicatorMode.TWO_INDICATORS:
-      return [indicators[0], indicators[1]];
+      return [{ indicatorID: indicators[0] }, { indicatorID: indicators[1] }];
     case IndicatorMode.THREE_PLUS_INDICATORS:
-      return [indicators[0], indicators[1], indicators[2]];
+      return [
+        { indicatorID: indicators[0] },
+        { indicatorID: indicators[1] },
+        { indicatorID: indicators[2] },
+      ];
     default:
       throw new Error('Invalid indicator mode');
   }
@@ -358,4 +373,32 @@ export function returnIndicatorIDsByIndicatorMode(
 
 export function sortAlphabetically(array: (string | null)[]) {
   array.sort((a, b) => a!.localeCompare(b!));
+}
+
+// This function gets the selected indicators indicator data and merges its knownTrend into one object
+export function mergeIndicatorData(
+  selectedIndicators: IndicatorInfo[],
+  typedIndicatorData: RawIndicatorDocument[]
+): SimpleIndicatorDocument[] {
+  let selectedIndicatorsData: SimpleIndicatorDocument[] = [];
+
+  for (const selectedIndicator of selectedIndicators) {
+    const indicatorDataArray = getIndicatorDataByIndicatorID(
+      typedIndicatorData,
+      selectedIndicator.indicatorID
+    );
+
+    // Add the knownTrend to all returned selected indicators
+    const enhancedIndicatorData = indicatorDataArray.map((indicator) => ({
+      ...indicator,
+      knownTrend: selectedIndicator.knownTrend,
+    }));
+
+    selectedIndicatorsData = [
+      ...selectedIndicatorsData,
+      ...enhancedIndicatorData,
+    ];
+  }
+
+  return selectedIndicatorsData;
 }

@@ -2,9 +2,9 @@ import { SearchParams } from '@/lib/searchStateManager';
 import { expect } from '../pageFactory';
 import {
   AreaMode,
-  IndicatorMode,
-  returnIndicatorIDsByIndicatorMode,
+  IndicatorInfo,
   SearchMode,
+  SimpleIndicatorDocument,
 } from '@/playwright/testHelpers';
 import AreaFilter from '../components/areaFilter';
 import { RawIndicatorDocument } from '@/lib/search/searchTypes';
@@ -80,14 +80,46 @@ export default class ResultsPage extends AreaFilter {
     }
   }
 
-  async checkRecentTrends(areaMode: AreaMode) {
+  async checkRecentTrends(
+    areaMode: AreaMode,
+    expectedIndicatorsToSelect: IndicatorInfo[],
+    checkTrends: boolean
+  ) {
     const trendsShouldBeVisible =
       areaMode === AreaMode.ONE_AREA ||
       areaMode === AreaMode.ALL_AREAS_IN_A_GROUP ||
       areaMode === AreaMode.ENGLAND_AREA;
+
     await expect(
       this.page.getByText('Recent trend for selected area')
     ).toBeVisible({ visible: trendsShouldBeVisible });
+
+    // currently, the trend text on each indicator is only visible on the results page in the deployed CD environment so checkTrends will be set to false in local and CI environments via the npm script
+    if (trendsShouldBeVisible && checkTrends) {
+      for (const expectedIndicatorToSelect of expectedIndicatorsToSelect) {
+        if (!expectedIndicatorToSelect.knownTrend) {
+          throw new Error(
+            `Selected indicator ${expectedIndicatorToSelect.indicatorID} should have a known trend stored in core_journey_config.ts.`
+          );
+        }
+        const searchResultItem = this.page.getByTestId('search-result').filter({
+          has: this.page.getByTestId(
+            `${this.indicatorCheckboxPrefix}-${expectedIndicatorToSelect.indicatorID}`
+          ),
+        });
+
+        const trendText = searchResultItem
+          .getByTestId('trend-tag-component')
+          .allInnerTexts();
+
+        // Trim each text value before comparison
+        const trimmedTrendText = (await trendText).map((text) => text.trim());
+
+        expect(trimmedTrendText).toContain(
+          expectedIndicatorToSelect.knownTrend
+        );
+      }
+    }
   }
 
   async clickBackLink() {
@@ -97,19 +129,14 @@ export default class ResultsPage extends AreaFilter {
   }
 
   /**
-   * Selects the required number of indicators based on the indicator mode and checks the URL has been updated after each selection.
-   * Note that we trust, and therefore test, the fingertips UI to only show us valid indicators based on the areas selected by the
-   * test function selectAreasFilters. If the UI allows us to select invalid area + indicator combinations, then the chart page will error.
-   *
-   * @param allIndicatorIDs - a list of all possible indicator IDs which the function can filter down to the correct number of indicators to select
-   * @param indicatorMode - indicator mode from the Enum IndicatorMode - used to decide how many indicators to select
+   * Checks that the displayed indicators are correct based on what was searched for
+   * @param allValidIndicators - a list of all valid indicators for the searched for criteria
    */
-  async selectIndicatorCheckboxes(
-    allIndicatorIDs: string[],
-    indicatorMode: IndicatorMode
+  async checkDisplayedIndicators(
+    allValidIndicators: SimpleIndicatorDocument[],
+    searchMode: SearchMode
   ) {
-    const filteredByDisplayIndicatorIds: string[] = [];
-
+    // wait for indicator checkboxes to be visible
     expect(
       await this.page
         .getByTestId(this.indicatorCheckboxContainer)
@@ -117,32 +144,41 @@ export default class ResultsPage extends AreaFilter {
         .count()
     ).toBeGreaterThan(1);
 
-    // filter down the full list of indicators passed to this method to just the ones displayed on the page
-    const displayedIndicatorCheckboxList = await this.page
-      .getByTestId(this.indicatorCheckboxContainer)
-      .getByRole('checkbox')
-      .all();
+    if (searchMode != SearchMode.ONLY_AREA) {
+      // get a list of all the displayed indicator checkboxes
+      const displayedIndicatorCheckboxList = await this.page
+        .getByTestId(this.indicatorCheckboxContainer)
+        .getByRole('list')
+        .getByRole('checkbox')
+        .all();
 
-    for (const checkbox of displayedIndicatorCheckboxList) {
-      const indicatorDataTestID = await checkbox.getAttribute('value');
-
-      if (
-        indicatorDataTestID &&
-        JSON.stringify(allIndicatorIDs).includes(indicatorDataTestID)
-      ) {
-        filteredByDisplayIndicatorIds.push(indicatorDataTestID);
+      // check that the displayed indicator IDs are valid for the searched for criteria
+      for (const checkbox of displayedIndicatorCheckboxList) {
+        const indicatorDataTestID = await checkbox.getAttribute('value');
+        const stringifiedAllValidIndicators =
+          JSON.stringify(allValidIndicators);
+        if (
+          !stringifiedAllValidIndicators.includes(
+            `"indicatorID":${indicatorDataTestID}`
+          )
+        ) {
+          throw new Error(
+            `The indicator ID: ${indicatorDataTestID} displayed is not valid for the searched for criteria.`
+          );
+        }
       }
     }
-    // then filter down the list of displayed indicators to the correct number for the passed indicator mode
-    const filteredByIndicatorModeIndicatorIds: string[] =
-      returnIndicatorIDsByIndicatorMode(
-        filteredByDisplayIndicatorIds,
-        indicatorMode
-      );
+  }
 
-    for (const indicatorID of filteredByIndicatorModeIndicatorIds) {
+  /**
+   * Selecting the passed in indicators checkboxes
+   * @param expectedIndicatorsToSelect - a list of all indicators to be selected
+   */
+  async selectIndicatorCheckboxes(expectedIndicatorsToSelect: IndicatorInfo[]) {
+    for (const indicatorID of expectedIndicatorsToSelect) {
+      const indicatorIDString = String(indicatorID.indicatorID);
       const checkbox = this.page.getByTestId(
-        `${this.indicatorCheckboxPrefix}-${indicatorID}`
+        `${this.indicatorCheckboxPrefix}-${indicatorIDString}`
       );
 
       await expect(checkbox).toBeAttached();
@@ -154,7 +190,7 @@ export default class ResultsPage extends AreaFilter {
       await this.checkAndAwaitLoadingComplete(checkbox);
 
       await expect(checkbox).toBeChecked();
-      await this.waitForURLToContain(indicatorID);
+      await this.waitForURLToContain(indicatorIDString);
     }
   }
 
@@ -307,5 +343,32 @@ export default class ResultsPage extends AreaFilter {
         .getByText(indicator.indicatorName)
         .getByRole('link', { name: 'View background information' })
     );
+  }
+
+  async checkNumberOfResults(expectedResultCount: number) {
+    expect(this.page.getByTestId(this.searchResult)).toHaveCount(
+      expectedResultCount
+    );
+  }
+
+  async checkFirstResultHasName(expectedResultName: string) {
+    expect(
+      await this.page.getByTestId(this.searchResult).count()
+    ).toBeGreaterThan(0);
+    expect(
+      this.page.getByTestId(this.searchResult).first().getByRole('heading')
+    ).toHaveText(expectedResultName);
+  }
+
+  async checkAnyResultNameContainsText(expectedResultName: string) {
+    expect(
+      await this.page.getByTestId(this.searchResult).count()
+    ).toBeGreaterThan(0);
+    expect(
+      this.page
+        .getByTestId(this.searchResult)
+        .getByRole('heading')
+        .getByText(expectedResultName)
+    ).toBeVisible();
   }
 }

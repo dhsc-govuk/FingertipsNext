@@ -171,7 +171,7 @@ describe('content', () => {
       ).toBeInTheDocument();
     });
 
-    it('should display No trend data available when trend is undefined for a given indicator', () => {
+    it('should display No recent trend data available when trend is undefined for a given indicator', () => {
       render(
         <SearchResult
           result={MOCK_DATA[1]}
@@ -179,7 +179,9 @@ describe('content', () => {
           showTrends={true}
         />
       );
-      expect(screen.queryByText('No trend data available')).toBeInTheDocument();
+      expect(
+        screen.queryByText('No recent trend data available')
+      ).toBeInTheDocument();
     });
   });
 

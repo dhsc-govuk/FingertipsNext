@@ -13,6 +13,11 @@ import {
   AreaTypeLabelEnum,
   getTooltipContent,
   createTooltipHTML,
+  getLatestYear,
+  getFirstYear,
+  getLatestYearForAreas,
+  getFirstYearForAreas,
+  getFormattedLabel,
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { areaCodeForEngland } from './constants';
@@ -1267,4 +1272,68 @@ describe('getTooltipHtml', () => {
       )
     ).toEqual(expected);
   });
+});
+
+describe('getLatestYear', () => {
+  it('should return the latest year for an area', () => {
+    expect(getLatestYear(mockData[0].healthData)).toBe(2006);
+  });
+});
+
+describe('getFirstYear', () => {
+  it('should return the first year for an area', () => {
+    expect(getFirstYear(mockData[0].healthData)).toBe(2004);
+  });
+});
+
+describe('getLatestYearForAreas', () => {
+  it('should return the latest year for a group of areas', () => {
+    expect(getLatestYearForAreas(mockData)).toBe(2006);
+  });
+
+  it('should return undefined when the data provided is an empty list', () => {
+    expect(getLatestYearForAreas([])).toBeUndefined();
+  });
+});
+
+describe('getFirstYearForAreas', () => {
+  it('should return the latest year for a group of areas', () => {
+    expect(getFirstYearForAreas(mockData)).toBe(2004);
+  });
+
+  // This can occur when no area is selected. When undefined is returned, the chart min/max
+  // simply use those of the default benchmark i.e. England
+  it('should return undefined when the data provided is an empty list', () => {
+    expect(getFirstYearForAreas([])).toBeUndefined();
+  });
+});
+
+describe('getFormattedLabel', () => {
+  it.each([
+    [5, '5'],
+    [10, '10'],
+    [15, '15'],
+    [20, '20'],
+  ])(
+    'should remove the decimal when all the tickpoints are whole numbers',
+    (value: number, formattedValue: string) => {
+      const tickPoints = [5, 10, 15, 20];
+
+      expect(getFormattedLabel(value, tickPoints)).toBe(formattedValue);
+    }
+  );
+
+  it.each([
+    [5, '5.0'],
+    [10, '10.0'],
+    [15, '15.0'],
+    [20, '20.0'],
+  ])(
+    'should keep the decimal when a decimal tickpoint exists',
+    (value: number, formattedValue: string) => {
+      const tickPoints = [5, 10.6, 15, 20];
+
+      expect(getFormattedLabel(value, tickPoints)).toBe(formattedValue);
+    }
+  );
 });

@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using DHSC.FingertipsNext.Modules.HealthData.Repository;
+﻿using DHSC.FingertipsNext.Modules.HealthData.Repository;
 using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
@@ -11,7 +10,7 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Service;
 /// <remarks>
 ///     Does not include anything specific to the hosting technology being used.
 /// </remarks>
-public class IndicatorService(IHealthDataRepository healthDataRepository, IMapper _mapper) : IIndicatorsService
+public class IndicatorService(IHealthDataRepository healthDataRepository, IHealthDataMapper healthDataMapper) : IIndicatorsService
 {
     public const string AreaCodeEngland = "E92000001";
 
@@ -25,6 +24,12 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
     /// <param name="areaType">
     ///     The areaType which these codes should be compared against. This is important to specify to discriminate between
     ///     counties and districts which introduce amiguity to the areaType by duplicating areas.
+    /// </param>
+    /// <param name="areaGroup">
+    ///     The areaGroup which these codes should be compared against. Dependent on what benchmarkRefType is set to.
+    /// </param>    
+    /// <param name="becnhmarkRefType">
+    ///     The benchmark reference type to be used when benchmarking. England, AreaGroup or IndicatorGoal.
     /// </param>
     /// <param name="years">
     ///     An array of years. If the array is empty all years are retrieved.
@@ -40,17 +45,19 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         int indicatorId,
         IEnumerable<string> areaCodes,
         string areaType,
+        string areaGroup,
+        BenchmarkReferenceType benchmarkRefType,
         IEnumerable<int> years,
         IEnumerable<string> inequalities,
         bool includeEmptyAreas = false,
         bool latestOnly = false)
     {
-        var indicatorData = await healthDataRepository.GetIndicatorDimensionAsync(indicatorId);
+        var indicatorData = await healthDataRepository.GetIndicatorDimensionAsync(indicatorId, [.. areaCodes]);
         if (indicatorData == null) 
             return new ServiceResponse<IndicatorWithHealthDataForAreas>(ResponseStatus.IndicatorDoesNotExist);
 
-        var method = _mapper.Map<BenchmarkComparisonMethod>(indicatorData.BenchmarkComparisonMethod);
-        var polarity = _mapper.Map<IndicatorPolarity>(indicatorData.Polarity);
+        var method = healthDataMapper.MapBenchmarkComparisonMethod(indicatorData.BenchmarkComparisonMethod);
+        var polarity = healthDataMapper.MapIndicatorPolarity(indicatorData.Polarity);
         if (latestOnly)
             years = [indicatorData.LatestYear];
 
@@ -58,6 +65,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
             indicatorId,
             areaCodes,
             areaType,
+            areaGroup,
+            benchmarkRefType,
             years,
             inequalities,
             method,
@@ -101,6 +110,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         int indicatorId,
         IEnumerable<string> areaCodes,
         string areaType,
+        string areaGroup,
+        BenchmarkReferenceType benchmarkRefType,
         IEnumerable<int> years,
         IEnumerable<string> inequalities,
         BenchmarkComparisonMethod comparisonMethod,
@@ -131,13 +142,13 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
                 {
                     AreaCode = group.Key.code,
                     AreaName = group.Key.name,
-                    HealthData = _mapper.Map<IEnumerable<HealthDataPoint>>(group.ToList())
+                    HealthData = healthDataMapper.Map(group.ToList())
                 })
                 .ToList();
         }
 
-        //if RAG is the benchmark method use England as the comparison area and add England to the areas we want data for
-        var benchmarkAreaCode = AreaCodeEngland; //for PoC all benchmarking is against England, post PoC this will be passed in as a variable
+        // The benchmark reference can be either England or a passed in AreaGroup
+        var benchmarkAreaCode = benchmarkRefType == BenchmarkReferenceType.AreaGroup ? areaGroup: AreaCodeEngland;
         var wasBenchmarkAreaCodeRequested = areaCodesForSearch.Contains(benchmarkAreaCode);
 
         var hasBenchmarkDataBeenRequested = comparisonMethod is
@@ -165,7 +176,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
             {
                 AreaCode = group.Key.code,
                 AreaName = group.Key.name,
-                HealthData = _mapper.Map<IEnumerable<HealthDataPoint>>(group.ToList())
+                HealthData = healthDataMapper.Map(group.ToList())
             })
             .ToList();
 
@@ -215,7 +226,6 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         )
     {
         var quartileData = await healthDataRepository.GetQuartileDataAsync(indicatorIds, areaCode, areaType, ancestorCode);
-        if (quartileData == null) return null;
-        return _mapper.Map<IEnumerable<IndicatorQuartileData>>(quartileData.ToList());
+        return quartileData == null ? null : healthDataMapper.Map(quartileData.ToList());
     }
 }

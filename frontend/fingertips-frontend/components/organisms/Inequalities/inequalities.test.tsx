@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { Inequalities } from '.';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
@@ -57,28 +57,30 @@ describe('Inequalities suite', () => {
       />
     );
 
-    expect(screen.getByTestId('inequalities-component')).toBeInTheDocument();
-    expect(
-      screen.getByTestId('inequalitiesLineChartTable-component')
-    ).toBeInTheDocument();
-    expect(
-      await screen.findByTestId('inequalitiesLineChart-component')
-    ).toBeInTheDocument();
-    expect(
-      screen.getByTestId('inequalitiesBarChartTable-component')
-    ).toBeInTheDocument();
-    expect(
-      await screen.findByTestId('inequalitiesBarChart-component')
-    ).toBeInTheDocument();
-    expect(
-      screen.getByTestId('tabContainer-inequalitiesLineChartAndTable')
-    ).toBeInTheDocument();
-    expect(
-      screen.getByTestId('tabContainer-inequalitiesBarChartAndTable')
-    ).toBeInTheDocument();
+    await waitFor(async () => {
+      expect(screen.getByTestId('inequalities-component')).toBeInTheDocument();
+      expect(
+        screen.getByTestId('inequalitiesLineChartTable-component')
+      ).toBeInTheDocument();
+      expect(
+        await screen.findByTestId('inequalitiesLineChart-component')
+      ).toBeInTheDocument();
+      expect(
+        screen.getByTestId('inequalitiesBarChartTable-component')
+      ).toBeInTheDocument();
+      expect(
+        await screen.findByTestId('inequalitiesBarChart-component')
+      ).toBeInTheDocument();
+      expect(
+        screen.getByTestId('tabContainer-inequalitiesLineChartAndTable')
+      ).toBeInTheDocument();
+      expect(
+        screen.getByTestId('tabContainer-inequalitiesBarChartAndTable')
+      ).toBeInTheDocument();
+    });
   });
 
-  it('should render expected text', () => {
+  it('should render expected text', async () => {
     render(
       <Inequalities
         healthIndicatorData={MOCK_HEALTH_DATA}
@@ -87,14 +89,14 @@ describe('Inequalities suite', () => {
     );
 
     expect(
-      screen.getByText(/Inequalities data for a single time period/i)
+      await screen.findByText(/Inequalities data for a single time period/i)
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/Inequalities data over time/i)
+      await screen.findByText(/Inequalities data over time/i)
     ).toBeInTheDocument();
   });
 
-  it('check if the measurement unit value "kg" is rendered correctly', () => {
+  it('check if the measurement unit value "kg" is rendered correctly', async () => {
     render(
       <Inequalities
         healthIndicatorData={MOCK_HEALTH_DATA}
@@ -102,6 +104,6 @@ describe('Inequalities suite', () => {
         measurementUnit="kg"
       />
     );
-    expect(screen.getByText('kg')).toBeInTheDocument();
+    expect(await screen.findByText('kg')).toBeInTheDocument();
   });
 });

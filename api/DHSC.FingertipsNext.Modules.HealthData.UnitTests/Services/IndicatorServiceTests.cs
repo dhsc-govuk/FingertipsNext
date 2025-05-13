@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using DHSC.FingertipsNext.Modules.HealthData.Mappings;
+﻿using DHSC.FingertipsNext.Modules.HealthData.Mappings;
 using DHSC.FingertipsNext.Modules.HealthData.Repository;
 using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using DHSC.FingertipsNext.Modules.HealthData.Schemas;
@@ -15,10 +14,12 @@ public class IndicatorServiceTests
 {
     private readonly IHealthDataRepository _healthDataRepository;
     private readonly IndicatorService _indicatorService;
-    private readonly Mapper _mapper;
+    private readonly Mappings.HealthDataMapper _healthDataMapper;
 
     private readonly string expectedAreaCode = "Code1";
     private readonly string expectedAreaName = "Area 1";
+    private const string expectedAreaGroupCode = "AreaGroupCode";
+    private const string expectedAreaGroupName = "AreaGroupName";
     private readonly IndicatorDimensionModel testIndicator = new()
     {
         Name = "Name",
@@ -31,11 +32,9 @@ public class IndicatorServiceTests
 
     public IndicatorServiceTests()
     {
-        var profiles = new AutoMapperProfiles();
-        var configuration = new MapperConfiguration(cfg => cfg.AddProfile(profiles));
-        _mapper = new Mapper(configuration);
+        _healthDataMapper = new Mappings.HealthDataMapper();
         _healthDataRepository = Substitute.For<IHealthDataRepository>();
-        _indicatorService = new IndicatorService(_healthDataRepository, _mapper);
+        _indicatorService = new IndicatorService(_healthDataRepository, _healthDataMapper);
     }
 
     public static IEnumerable<object[]> BenchmarkTestData =>
@@ -67,7 +66,7 @@ public class IndicatorServiceTests
             .WithAreaDimension(expectedAreaCode, expectedAreaName)
             .Build();
 
-        var expectedHealthData = new List<HealthDataPoint> { _mapper.Map<HealthDataPoint>(healthMeasure) };
+        var expectedHealthData = new List<HealthDataPoint> { _healthDataMapper.Map(healthMeasure) };
         var expected = new HealthDataForArea
         {
             AreaCode = expectedAreaCode,
@@ -75,10 +74,10 @@ public class IndicatorServiceTests
             HealthData = expectedHealthData
         };
 
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns([healthMeasure]);
 
-        var result = await _indicatorService.GetIndicatorDataAsync(1, [], string.Empty, [], []);
+        var result = await _indicatorService.GetIndicatorDataAsync(1, [], string.Empty, string.Empty, BenchmarkReferenceType.Unknown, [], []);
         result.Content.AreaHealthData.ShouldNotBeEmpty();
         result.Content.AreaHealthData.Count().ShouldBe(1);
         result.Content.AreaHealthData.ElementAt(0).ShouldBeEquivalentTo(expected);
@@ -101,16 +100,16 @@ public class IndicatorServiceTests
                 AreaName = expectedAreaName2,
                 HealthData = new List<HealthDataPoint>
                 {
-                    _mapper.Map<HealthDataPoint>(healthMeasure2)
+                    _healthDataMapper.Map(healthMeasure2)
                 }
             }
         };
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), Arg.Any<int[]>(), []).Returns(
             new List<HealthMeasureModel>
                 { healthMeasure2 });
 
-        var result = await _indicatorService.GetIndicatorDataAsync(1, [], string.Empty, [], [], latestOnly:true);
+        var result = await _indicatorService.GetIndicatorDataAsync(1, [], string.Empty, string.Empty, BenchmarkReferenceType.Unknown, [], [], latestOnly:true);
         result.Content.AreaHealthData.ShouldNotBeEmpty();
         result.Content.AreaHealthData.Count().ShouldBe(1);
         result.Content.AreaHealthData.ShouldBeEquivalentTo(expected);
@@ -136,8 +135,8 @@ public class IndicatorServiceTests
                 AreaName = expectedAreaName,
                 HealthData = new List<HealthDataPoint>
                 {
-                    _mapper.Map<HealthDataPoint>(healthMeasure1),
-                    _mapper.Map<HealthDataPoint>(healthMeasure3)
+                    _healthDataMapper.Map(healthMeasure1),
+                    _healthDataMapper.Map(healthMeasure3)
                 }
             },
             new()
@@ -146,16 +145,16 @@ public class IndicatorServiceTests
                 AreaName = expectedAreaName2,
                 HealthData = new List<HealthDataPoint>
                 {
-                    _mapper.Map<HealthDataPoint>(healthMeasure2)
+                    _healthDataMapper.Map(healthMeasure2)
                 }
             }
         };
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns(
             new List<HealthMeasureModel>
                 { healthMeasure1, healthMeasure2, healthMeasure3 });
 
-        var result = await _indicatorService.GetIndicatorDataAsync(1, [], string.Empty, [], []);
+        var result = await _indicatorService.GetIndicatorDataAsync(1, [], string.Empty, string.Empty, BenchmarkReferenceType.Unknown, [], []);
         result.Content.AreaHealthData.ShouldNotBeEmpty();
         result.Content.AreaHealthData.Count().ShouldBe(2);
         result.Content.AreaHealthData.ShouldBeEquivalentTo(expected);
@@ -183,11 +182,11 @@ public class IndicatorServiceTests
         mockHealthData.Add(healthMeasure2);
 
         testIndicator.Polarity = polarity;
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns(mockHealthData);
 
         var result =
-            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], string.Empty, [], []);
+            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], string.Empty, string.Empty, BenchmarkReferenceType.Unknown, [], []);
         var areaDataResult = result.Content.AreaHealthData.ToList();
         result.Content.AreaHealthData.ShouldNotBeEmpty();
         result.Content.AreaHealthData.Count().ShouldBe(1);
@@ -219,11 +218,11 @@ public class IndicatorServiceTests
         healthMeasure2.Value = 2;
         mockHealthData.Add(healthMeasure2);
 
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns(mockHealthData);
 
         var result =
-            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], string.Empty, [], []);
+            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], string.Empty, string.Empty, BenchmarkReferenceType.Unknown, [], []);
         var areaDataResult = result.Content.AreaHealthData.ToList();
         areaDataResult.ShouldNotBeEmpty();
         areaDataResult.Count().ShouldBe(1);
@@ -292,12 +291,12 @@ public class IndicatorServiceTests
                 englandMaleDataPoint2022, englandFemaleDataPoint2022
             };
 
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], Arg.Any<string[]>())
             .Returns(mockHealthData);
 
         var result =
-            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode, benchmarkAreaCode], string.Empty, [], ["Sex"]);
+            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode, benchmarkAreaCode], string.Empty, string.Empty, BenchmarkReferenceType.Unknown, [], []);
         var dataResults = result.Content.AreaHealthData.ToList();
         dataResults.ShouldNotBeEmpty();
         dataResults.Count().ShouldBe(2);
@@ -465,12 +464,12 @@ public class IndicatorServiceTests
         var mockHealthData = new List<HealthMeasureModel>
             { englandPoint, aggregatePoint, disAggregatePoint };
 
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], Arg.Any<string[]>())
             .Returns(mockHealthData);
 
         var result =
-            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], string.Empty, [], ["Sex"]);
+            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], string.Empty, string.Empty, BenchmarkReferenceType.Unknown, [], []);
         var areaDataResult = result.Content.AreaHealthData.ToList();
         areaDataResult.ShouldNotBeEmpty();
         areaDataResult.Count().ShouldBe(1);
@@ -525,12 +524,12 @@ public class IndicatorServiceTests
         var mockHealthData = new List<HealthMeasureModel>
             { englandPoint, aggregatePoint, disAggregatePoint1, disAggregatePoint2 };
 
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], Arg.Any<string[]>())
             .Returns(mockHealthData);
 
         var result =
-            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], "", [], ["Deprivation"]);
+            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], "", "", BenchmarkReferenceType.Unknown, [], ["Deprivation"]);
         var areaDataResult = result.Content.AreaHealthData.ToList();
         areaDataResult.ShouldNotBeEmpty();
         areaDataResult.Count().ShouldBe(1);
@@ -611,7 +610,7 @@ public class IndicatorServiceTests
             BenchmarkComparisonMethod = testMethod
         };
         var mockHealthData = new List<HealthMeasureModel>
-            { new HealthMeasureModel()
+            { new()
                 {
                     AreaKey = 4,
                     AreaDimension = new AreaDimensionModel()
@@ -619,11 +618,15 @@ public class IndicatorServiceTests
                         Name = "Name",
                         Code = "SomeCode",
                         AreaKey = 4,
-                    }
+                    },
+                    SexDimension = new SexDimensionModel(),
+                    DeprivationDimension = new DeprivationDimensionModel(),
+                    AgeDimension = new AgeDimensionModel()
+                    
                 }
             };
 
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(theIndicator);
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(theIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(),
                 [], Arg.Any<string[]>())
             .Returns(mockHealthData);
@@ -633,7 +636,7 @@ public class IndicatorServiceTests
             [], Arg.Any<string>()).Returns(mockHealthData); ;
 
         var result =
-            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], string.Empty, [], []);
+            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], string.Empty, string.Empty, BenchmarkReferenceType.Unknown, [], []);
         result.Content.Name.ShouldBe(name);
         result.Content.Polarity.ShouldBeEquivalentTo(expectedPolarity);
         result.Content.BenchmarkMethod.ShouldBeEquivalentTo(expectedMethod);
@@ -643,15 +646,12 @@ public class IndicatorServiceTests
     [Fact]
     public async Task GetIndicatorDataAsync_ReturnsIndicatorDoesNotExist_WhenNoDataFound()
     {
-        var mockHealthData = new List<HealthMeasureModel>
-        { };
-
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(Task.FromResult<IndicatorDimensionModel>(null));
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(Task.FromResult<IndicatorDimensionModel>(null));
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], Arg.Any<string[]>())
-            .Returns(mockHealthData);
+            .Returns([]);
 
         var result =
-            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], string.Empty, [], []);
+            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], string.Empty, string.Empty, BenchmarkReferenceType.Unknown, [], []);
 
         result.Status.ShouldBe(ResponseStatus.IndicatorDoesNotExist);
     }
@@ -659,12 +659,12 @@ public class IndicatorServiceTests
     [Fact]
     public async Task GetIndicatorDataAsync_ReturnsEmptyArray_WhenNoDataFoundButValidIndicatorSelected()
     {
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(Task.FromResult<IndicatorDimensionModel>(new IndicatorDimensionModel() { Name = "Foo" }));
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(Task.FromResult<IndicatorDimensionModel>(new IndicatorDimensionModel() { Name = "Foo" }));
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], Arg.Any<string[]>())
             .Returns([]);
 
         var result =
-            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], string.Empty, [], []);
+            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], string.Empty, string.Empty, BenchmarkReferenceType.Unknown, [], []);
 
         result.Status.ShouldBe(ResponseStatus.NoDataForIndicator);
     }
@@ -695,7 +695,7 @@ public class IndicatorServiceTests
                 AreaName = expectedAreaNames[0],
                 HealthData = new List<HealthDataPoint>
                 {
-                    _mapper.Map<HealthDataPoint>(healthMeasure0),
+                    _healthDataMapper.Map(healthMeasure0),
                 }
             },
             new()
@@ -704,7 +704,7 @@ public class IndicatorServiceTests
                 AreaName = expectedAreaNames[1],
                 HealthData = new List<HealthDataPoint>
                 {
-                    _mapper.Map<HealthDataPoint>(healthMeasure1)
+                    _healthDataMapper.Map(healthMeasure1)
                 }
             },
             new()
@@ -713,7 +713,7 @@ public class IndicatorServiceTests
                 AreaName = expectedAreaNames[2],
                 HealthData = new List<HealthDataPoint>
                 {
-                    _mapper.Map<HealthDataPoint>(healthMeasure2)
+                    _healthDataMapper.Map(healthMeasure2)
                 }
             },
             new()
@@ -722,12 +722,12 @@ public class IndicatorServiceTests
                 AreaName = expectedAreaNames[3],
                 HealthData = new List<HealthDataPoint>
                 {
-                    _mapper.Map<HealthDataPoint>(healthMeasure3)
+                    _healthDataMapper.Map(healthMeasure3)
                 }
             }
         };
 
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns(
             [
                 healthMeasure0,
@@ -737,7 +737,7 @@ public class IndicatorServiceTests
             ]);
         _healthDataRepository.GetAreasAsync(Arg.Any<string[]>()).Returns([]);
 
-        var result = await _indicatorService.GetIndicatorDataAsync(1, expectedAreaCodes, string.Empty, [], []);
+        var result = await _indicatorService.GetIndicatorDataAsync(1, expectedAreaCodes, string.Empty, string.Empty, BenchmarkReferenceType.Unknown, [], []);
 
         result.Content.AreaHealthData.ShouldNotBeEmpty();
         result.Content.AreaHealthData.Count().ShouldBe(4);
@@ -756,7 +756,7 @@ public class IndicatorServiceTests
                 AreaName = expectedAreaNames[0],
                 HealthData = new List<HealthDataPoint>
                 {
-                    _mapper.Map<HealthDataPoint>(healthMeasure0),
+                    _healthDataMapper.Map(healthMeasure0),
                 }
             },
             new()
@@ -765,7 +765,7 @@ public class IndicatorServiceTests
                 AreaName = expectedAreaNames[1],
                 HealthData = new List<HealthDataPoint>
                 {
-                    _mapper.Map<HealthDataPoint>(healthMeasure1),
+                    _healthDataMapper.Map(healthMeasure1),
                 }
             },
             new()
@@ -774,7 +774,7 @@ public class IndicatorServiceTests
                 AreaName = expectedAreaNames[2],
                 HealthData = new List<HealthDataPoint>
                 {
-                    _mapper.Map<HealthDataPoint>(healthMeasure2),
+                    _healthDataMapper.Map(healthMeasure2),
                 }
             },
             new()
@@ -789,11 +789,11 @@ public class IndicatorServiceTests
             new(){AreaKey=3, Code = expectedAreaCodes[3], Name = expectedAreaNames[3]}
         };
 
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns([healthMeasure0, healthMeasure1, healthMeasure2]);
         _healthDataRepository.GetAreasAsync(Arg.Any<string[]>()).Returns(missingAreas);
 
-        var result = await _indicatorService.GetIndicatorDataAsync(1, expectedAreaCodes, string.Empty, [], [], true);
+        var result = await _indicatorService.GetIndicatorDataAsync(1, expectedAreaCodes, string.Empty, string.Empty, BenchmarkReferenceType.Unknown, [], [], true);
         string[] missingAreasCodes = [missingAreas[0].Code];
 
         result.Content.AreaHealthData.ShouldNotBeEmpty();
@@ -813,7 +813,7 @@ public class IndicatorServiceTests
                 AreaName = expectedAreaNames[0],
                 HealthData = new List<HealthDataPoint>
                 {
-                    _mapper.Map<HealthDataPoint>(healthMeasure0),
+                    _healthDataMapper.Map(healthMeasure0),
                 }
             },
             new()
@@ -822,7 +822,7 @@ public class IndicatorServiceTests
                 AreaName = expectedAreaNames[1],
                 HealthData = new List<HealthDataPoint>
                 {
-                    _mapper.Map<HealthDataPoint>(healthMeasure1),
+                    _healthDataMapper.Map(healthMeasure1),
                 }
             },
             new()
@@ -831,7 +831,7 @@ public class IndicatorServiceTests
                 AreaName = expectedAreaNames[2],
                 HealthData = new List<HealthDataPoint>
                 {
-                    _mapper.Map<HealthDataPoint>(healthMeasure2),
+                    _healthDataMapper.Map(healthMeasure2),
                 }
             }
         };
@@ -841,11 +841,11 @@ public class IndicatorServiceTests
             new(){AreaKey=3, Code = expectedAreaCodes[3], Name = expectedAreaNames[3]}
         };
 
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns([healthMeasure0, healthMeasure1, healthMeasure2]);
         _healthDataRepository.GetAreasAsync(Arg.Any<string[]>()).Returns(missingAreas);
 
-        var result = await _indicatorService.GetIndicatorDataAsync(1, expectedAreaCodes, string.Empty, [], [], false);
+        var result = await _indicatorService.GetIndicatorDataAsync(1, expectedAreaCodes, string.Empty, string.Empty, BenchmarkReferenceType.Unknown, [], []);
         string[] missingAreasCodes = [missingAreas[0].Code];
 
         result.Content.AreaHealthData.ShouldNotBeEmpty();
@@ -890,11 +890,11 @@ public class IndicatorServiceTests
             new(){AreaKey=3, Code = expectedAreaCodes[3], Name = expectedAreaNames[3]}
         };
 
-        _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns([]);
         _healthDataRepository.GetAreasAsync(Arg.Any<string[]>()).Returns(missingAreas);
 
-        var result = await _indicatorService.GetIndicatorDataAsync(1, expectedAreaCodes, string.Empty, [], [], true);
+        var result = await _indicatorService.GetIndicatorDataAsync(1, expectedAreaCodes, string.Empty, string.Empty, BenchmarkReferenceType.Unknown , [], [], true);
         string[] missingAreasCodes = [missingAreas[0].Code, missingAreas[1].Code, missingAreas[2].Code, missingAreas[3].Code,];
 
         result.Content.AreaHealthData.ShouldNotBeEmpty();
@@ -902,4 +902,42 @@ public class IndicatorServiceTests
         result.Content.AreaHealthData.ShouldBeEquivalentTo(expected);
         await _healthDataRepository.Received().GetAreasAsync(Arg.Is<string[]>(x => x.SequenceEqual(missingAreasCodes)));
     }
+
+    [Fact]
+    public async Task GetIndicatorData_ShouldReturnExpectedResult_BenchmarkRefIsAreaGroup_ForSingleAreaCode()
+    {
+        var healthMeasure1 =
+            new HealthMeasureModelHelper(year: 2023, lowerCi: 1, upperCi: 10, isAggregate: true)
+                .WithAreaDimension(expectedAreaCode, expectedAreaName).Build();
+
+        var mockHealthData = new List<HealthMeasureModel> { healthMeasure1 };
+
+        const string benchmarkAreaCode = expectedAreaGroupCode;
+        const string benchmarkAreaName = expectedAreaGroupName;
+        var healthMeasure2 = new HealthMeasureModelHelper(year: 2023, isAggregate: true, value: 5)
+            .WithAreaDimension(benchmarkAreaCode, benchmarkAreaName).Build();
+        mockHealthData.Add(healthMeasure2);
+
+        testIndicator.Polarity = IndicatorPolarity.HighIsGood.ToString();
+        _healthDataRepository.GetIndicatorDimensionAsync(1, Arg.Any<string[]>()).Returns(testIndicator);
+        _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns(mockHealthData);
+
+        var result =
+            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], string.Empty, expectedAreaGroupCode, BenchmarkReferenceType.AreaGroup, [], []);
+        var areaDataResult = result.Content.AreaHealthData.ToList();
+        result.Content.AreaHealthData.ShouldNotBeEmpty();
+        result.Content.AreaHealthData.Count().ShouldBe(1);
+        areaDataResult[0].AreaCode.ShouldBeEquivalentTo(expectedAreaCode);
+        areaDataResult[0].AreaName.ShouldBeEquivalentTo(expectedAreaName);
+
+        areaDataResult[0].HealthData.First().BenchmarkComparison.ShouldBeEquivalentTo(
+            new BenchmarkComparison
+            {
+                Outcome = BenchmarkOutcome.Similar,
+                BenchmarkAreaCode = expectedAreaGroupCode,
+                BenchmarkAreaName = expectedAreaGroupName,
+                BenchmarkValue = 5
+            });
+    }
+
 }

@@ -1,0 +1,15 @@
+name: Update Baseline Screenshots
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-screenshots:
+    name: Update Baseline Screenshots for E2E Tests
+    uses: ./.github/workflows/e2e-and-api-tests.yml
+    if: github.ref_name != 'main'
+    with:
+      playwright-mode: docker
+      update_screenshots: true
+    secrets:
+      fingertips_e2e_db_password: ${{ secrets.FINGERTIPS_E2E_DB_PASSWORD }}

@@ -14,10 +14,14 @@ import {
   AXIS_LABEL_FONT_SIZE,
   getTooltipContent,
   AreaTypeLabelEnum,
+  getLatestYearForAreas,
+  getFirstYearForAreas,
+  getFormattedLabel,
 } from '@/lib/chartHelpers/chartHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { Dispatch, SetStateAction } from 'react';
 
 export enum LineChartVariant {
   Standard = 'standard',
@@ -55,7 +59,7 @@ export const lineChartDefaultOptions: Highcharts.Options = {
     itemStyle: {
       fontSize: '16px',
     },
-    margin: 20,
+    margin: 30,
   },
   accessibility: {
     enabled: false,
@@ -88,8 +92,9 @@ export function generateSeriesData(
   parentIndicatorData?: HealthDataForArea,
   showConfidenceIntervalsData?: boolean
 ) {
-  const seriesData: Highcharts.SeriesOptionsType[] = data.flatMap(
-    (item, index) => {
+  const seriesData: Highcharts.SeriesOptionsType[] = data
+    .toSorted((a, b) => a.areaName.localeCompare(b.areaName))
+    .flatMap((item, index) => {
       const lineSeries: Highcharts.SeriesOptionsType = {
         type: 'line',
         name: item.areaName,
@@ -115,8 +120,7 @@ export function generateSeriesData(
       return showConfidenceIntervalsData
         ? [lineSeries, confidenceIntervalSeries]
         : lineSeries;
-    }
-  );
+    });
 
   if (parentIndicatorData) {
     const groupSeries: Highcharts.SeriesOptionsType = {
@@ -166,28 +170,52 @@ export function generateStandardLineChartOptions(
     accessibilityLabel?: string;
     colours?: ChartColours[];
     symbols?: SymbolKeyValue[];
-    yAxisLabelFormatter?: Highcharts.AxisLabelsFormatterCallbackFunction;
     xAxisLabelFormatter?: Highcharts.AxisLabelsFormatterCallbackFunction;
     benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   }
 ): Highcharts.Options {
   const sortedHealthIndicatorData =
     sortHealthDataForAreasByDate(healthIndicatorData);
+  const firstYear = getFirstYearForAreas(sortedHealthIndicatorData);
+  const lastYear = getLatestYearForAreas(sortedHealthIndicatorData);
 
   const sortedBenchMarkData = optionalParams?.benchmarkData
     ? sortHealthDataForAreaByDate(optionalParams?.benchmarkData)
     : undefined;
+  const filteredSortedBenchMarkData =
+    sortedBenchMarkData &&
+    sortedHealthIndicatorData.length &&
+    firstYear &&
+    lastYear
+      ? {
+          ...sortedBenchMarkData,
+          healthData:
+            sortedBenchMarkData?.healthData.filter(
+              (data) => data.year >= firstYear && data.year <= lastYear
+            ) ?? [],
+        }
+      : sortedBenchMarkData;
 
   const sortedGroupData = optionalParams?.groupIndicatorData
     ? sortHealthDataForAreaByDate(optionalParams?.groupIndicatorData)
     : undefined;
+  const filteredSortedGroupData =
+    sortedGroupData && sortedHealthIndicatorData.length && firstYear && lastYear
+      ? {
+          ...sortedGroupData,
+          healthData:
+            sortedGroupData?.healthData.filter(
+              (data) => data.year >= firstYear && data.year <= lastYear
+            ) ?? [],
+        }
+      : sortedGroupData;
 
   let seriesData = generateSeriesData(
     sortedHealthIndicatorData,
     optionalParams?.symbols ?? chartSymbols,
     optionalParams?.colours ?? chartColours,
-    sortedBenchMarkData,
-    sortedGroupData,
+    filteredSortedBenchMarkData,
+    filteredSortedGroupData,
     lineChartCI
   );
 
@@ -291,8 +319,10 @@ export function generateStandardLineChartOptions(
     yAxis: {
       ...lineChartDefaultOptions.yAxis,
       labels: {
+        formatter: function () {
+          return getFormattedLabel(Number(this.value), this.axis.tickPositions);
+        },
         ...(lineChartDefaultOptions.yAxis as Highcharts.YAxisOptions)?.labels,
-        formatter: optionalParams?.yAxisLabelFormatter,
       },
       title: optionalParams?.yAxisTitle
         ? {
@@ -328,3 +358,31 @@ export function generateStandardLineChartOptions(
     },
   };
 }
+
+// MUTATES the lineChartOptions add functions to series events
+// that call a React state change and set the visibility of
+// linkedTo series to match that set in the state.
+// Normally we'd avoid mutation, but HighCharts seems to work well this way
+// and this is a simple way to connect React state with HighCharts events
+export const addShowHideLinkedSeries = (
+  lineChartOptions: Highcharts.Options,
+  showConfidenceIntervalsData: boolean,
+  visibility: Record<string, boolean>,
+  setVisibility: Dispatch<SetStateAction<Record<string, boolean>>>
+) => {
+  lineChartOptions?.series?.forEach((series) => {
+    series.events ??= {};
+    if ('linkedTo' in series && series.linkedTo) {
+      series.visible =
+        showConfidenceIntervalsData && visibility[series.linkedTo];
+    }
+    series.events.show = function () {
+      const id = series.id ?? series.name;
+      setVisibility({ ...visibility, [id as string]: true });
+    };
+    series.events.hide = function () {
+      const id = series.id ?? series.name;
+      setVisibility({ ...visibility, [id as string]: false });
+    };
+  });
+};

@@ -120,7 +120,7 @@ describe('Line chart table suite', () => {
       const rows = screen.getAllByRole('row');
       expect(rows).toHaveLength(6);
       expect(
-        within(rows[0]).getByText('No trend data available')
+        within(rows[0]).getByText('No recent trend data available')
       ).toBeInTheDocument();
 
       expect(
@@ -262,7 +262,7 @@ describe('Line chart table suite', () => {
       const rows = screen.getAllByRole('row');
       expect(screen.getByRole('table')).toBeInTheDocument();
       expect(
-        within(rows[0]).getAllByText('No trend data available')
+        within(rows[0]).getAllByText('No recent trend data available')
       ).toHaveLength(2);
       expect(
         within(rows[1]).getByText(mockHealthData[0].areaName)
@@ -352,7 +352,12 @@ describe('Line chart table suite', () => {
       expect(screen.getAllByRole('columnheader')[8]).toHaveTextContent(
         MOCK_PARENT_DATA.areaName
       );
+
+      expect(
+        screen.queryByText(`Group: ${MOCK_PARENT_DATA.areaName}`)
+      ).toBeInTheDocument();
     });
+
     it('should not render the parent area heading when not passed parentData', () => {
       render(
         <LineChartTable
@@ -378,6 +383,20 @@ describe('Line chart table suite', () => {
       expect(screen.getAllByRole('cell')).toHaveLength(
         mockHealthData[0].healthData.length * 13
       );
+    });
+
+    it('should not render the group column when the area selected is England', () => {
+      render(
+        <LineChartTable
+          healthIndicatorData={[MOCK_ENGLAND_DATA]}
+          groupIndicatorData={MOCK_PARENT_DATA}
+          measurementUnit="%"
+        />
+      );
+
+      expect(
+        screen.queryByText(`Group: ${MOCK_PARENT_DATA.areaName}`)
+      ).not.toBeInTheDocument();
     });
   });
 
@@ -486,21 +505,54 @@ describe('Line chart table suite', () => {
       expect(rows).toHaveLength(8);
       // england and area 1 ara missing
       expect(rows[4]).toHaveTextContent(
-        /^1999Not comparedXXXXNot compared200904.90.00.0X$/
+        /^1999Not compared200904.90.00.0Not comparedXXXXX$/
       );
       // area 2 is missing
       expect(rows[5]).toHaveTextContent(
-        /^2004Not compared200904.90.00.0Not comparedXXXX904.9$/
+        /^2004Not comparedXXXXNot compared200904.90.00.0904.9$/
       );
       // england and area 2 are missing
       expect(rows[6]).toHaveTextContent(
-        /^2005Not compared500966.00.00.0Not comparedXXXXX$/
+        /^2005Not comparedXXXXNot compared500966.00.00.0X$/
       );
 
       // area 1 is missing
       expect(rows[7]).toHaveTextContent(
-        /^2008Not comparedXXXXNot compared500966.00.00.0966.0$/
+        /^2008Not compared500966.00.00.0Not comparedXXXX966.0$/
       );
+    });
+
+    it('should not render rows for benchmark or group years before or after the areas have data', () => {
+      const mockBenchmarkAreaWithEarlyYear = JSON.parse(
+        JSON.stringify(MOCK_ENGLAND_DATA)
+      );
+      mockBenchmarkAreaWithEarlyYear.healthData[1] = {
+        ...mockBenchmarkAreaWithEarlyYear.healthData[1],
+        year: 1999,
+      };
+
+      const mockGroupAreaWithLateYear = JSON.parse(
+        JSON.stringify(MOCK_PARENT_DATA)
+      );
+      mockGroupAreaWithLateYear.healthData[1] = {
+        ...mockBenchmarkAreaWithEarlyYear.healthData[1],
+        year: 2036,
+      };
+
+      render(
+        <LineChartTable
+          healthIndicatorData={MOCK_HEALTH_DATA}
+          englandBenchmarkData={mockBenchmarkAreaWithEarlyYear}
+          groupIndicatorData={mockGroupAreaWithLateYear}
+          measurementUnit="%"
+          benchmarkComparisonMethod={
+            BenchmarkComparisonMethod.CIOverlappingReferenceValue95
+          }
+        />
+      );
+
+      expect(screen.queryByText(/1999/)).not.toBeInTheDocument();
+      expect(screen.queryByText(/2036/)).not.toBeInTheDocument();
     });
   });
 });

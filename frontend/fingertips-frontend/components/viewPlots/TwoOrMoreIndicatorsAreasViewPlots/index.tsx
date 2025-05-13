@@ -1,6 +1,6 @@
 'use client';
 
-import { TwoOrMoreIndicatorsViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
+import { TwoOrMoreIndicatorsViewPlotProps } from '@/components/viewPlots/ViewPlot.types';
 import { Heatmap } from '@/components/organisms/Heatmap';
 import {
   BenchmarkComparisonMethod,
@@ -17,6 +17,7 @@ import {
 } from '@/components/organisms/SpineChartTable/spineChartTableHelpers';
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
 
 function shouldShowHeatmap(
   areaCodes: string[],
@@ -72,7 +73,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
 
   const areaCodes = determineAreaCodes(
     areasSelected,
-    selectedGroupCode,
+    groupAreaSelected,
     availableAreas
   );
 
@@ -114,16 +115,20 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
         spineChartIndicatorData,
         groupAreaSelected
       ) ? (
-        <SpineChartTable indicatorData={spineChartIndicatorData} />
+        <StyleChartWrapper>
+          <SpineChartTable indicatorData={spineChartIndicatorData} />
+        </StyleChartWrapper>
       ) : null}
       {shouldShowHeatmap(areaCodes, groupAreaSelected) ? (
-        <Heatmap
-          indicatorData={buildHeatmapIndicatorData(
-            indicatorData,
-            indicatorMetadata
-          )}
-          groupAreaCode={selectedGroupCode}
-        />
+        <StyleChartWrapper>
+          <Heatmap
+            indicatorData={buildHeatmapIndicatorData(
+              indicatorData,
+              indicatorMetadata
+            )}
+            groupAreaCode={selectedGroupCode}
+          />
+        </StyleChartWrapper>
       ) : null}
     </section>
   );

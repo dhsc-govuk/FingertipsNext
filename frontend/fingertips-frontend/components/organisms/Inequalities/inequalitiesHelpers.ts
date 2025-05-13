@@ -7,6 +7,7 @@ import {
 import { chartColours, UniqueChartColours } from '@/lib/chartHelpers/colours';
 import {
   AXIS_TITLE_FONT_SIZE,
+  getFormattedLabel,
   generateConfidenceIntervalSeries,
   getHealthDataWithoutInequalities,
   isEnglandSoleSelectedArea,
@@ -18,7 +19,6 @@ import {
 } from '../LineChart/lineChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import Highcharts, { DashStyleValue, YAxisOptions } from 'highcharts';
-import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 export const localeSort = (a: string, b: string) => a.localeCompare(b);
@@ -171,14 +171,30 @@ export const mapToInequalitiesTableData = (
   });
 };
 
+export const reorderItemsArraysToEnd = (
+  headers: string[],
+  lastHeaders?: string[]
+) => {
+  if (!headers) return [];
+  if (!lastHeaders) return headers;
+
+  const filterHeaders = headers.filter((header) => {
+    return !lastHeaders.includes(header);
+  });
+  lastHeaders.forEach((header) => {
+    if (headers.includes(header)) filterHeaders.push(header);
+  });
+  return filterHeaders;
+};
+
 export const getDynamicKeys = (
   yearlyHealthDataGroupedByInequalities: YearlyHealthDataGroupedByInequalities,
   sequenceSelector: InequalitySequenceSelector
 ): string[] => {
   const existingKeys = Object.values(
     yearlyHealthDataGroupedByInequalities
-  ).reduce((allKeys: string[], currentYear) => {
-    const sortedCurrentYearInequalityNames = Object.entries(currentYear)
+  ).reduce((allKeys: string[], yearDataRecord) => {
+    const sortedCurrentYearInequalityNames = Object.entries(yearDataRecord)
       .sort(([aKey], [bKey]) => localeSort(bKey, aKey))
       .sort(
         ([, aValue], [, bValue]) =>
@@ -208,16 +224,24 @@ export const generateInequalitiesLineChartSeriesData = (
   inequalitiesAreaSelected?: string
 ): Highcharts.SeriesOptionsType[] => {
   const colorList = mapToChartColorsForInequality[type];
+  const yearsWithInequalityData = getYearsWithInequalityData(chartData.rowData);
+  if (!yearsWithInequalityData.length) {
+    throw new Error('no data for any year');
+  }
+  const firstYear = Math.min(...yearsWithInequalityData);
+  const lastYear = Math.max(...yearsWithInequalityData);
 
   const seriesData: Highcharts.SeriesOptionsType[] = keys.flatMap(
     (key, index) => {
       const lineSeries: Highcharts.SeriesOptionsType = {
         type: 'line',
         name: key,
-        data: chartData.rowData.map((periodData) => [
-          periodData.period,
-          periodData.inequalities[key]?.value,
-        ]),
+        data: chartData.rowData
+          .filter((data) => data.period >= firstYear && data.period <= lastYear)
+          .map((periodData) => [
+            periodData.period,
+            periodData.inequalities[key]?.value,
+          ]),
         marker: {
           symbol: chartSymbols[index % chartSymbols.length],
         },
@@ -238,12 +262,16 @@ export const generateInequalitiesLineChartSeriesData = (
 
       const confidenceIntervalSeries: Highcharts.SeriesOptionsType =
         generateConfidenceIntervalSeries(
-          chartData.areaName,
-          chartData.rowData.map((data) => [
-            data.period,
-            data.inequalities[key]?.lower,
-            data.inequalities[key]?.upper,
-          ]),
+          key,
+          chartData.rowData
+            .filter(
+              (data) => data.period >= firstYear && data.period <= lastYear
+            )
+            .map((data) => [
+              data.period,
+              data.inequalities[key]?.lower,
+              data.inequalities[key]?.upper,
+            ]),
           showConfidenceIntervalsData
         );
 
@@ -337,7 +365,9 @@ export function generateInequalitiesLineChartOptions(
       },
       labels: {
         ...(lineChartDefaultOptions.yAxis as YAxisOptions)?.labels,
-        formatter: FormatValueAsNumber,
+        formatter: function () {
+          return getFormattedLabel(Number(this.value), this.axis.tickPositions);
+        },
       },
     },
     xAxis: {

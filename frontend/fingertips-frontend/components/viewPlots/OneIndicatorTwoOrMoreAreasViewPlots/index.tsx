@@ -8,14 +8,14 @@ import { seriesDataWithoutEnglandOrGroup } from '@/lib/chartHelpers/chartHelpers
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams } from '@/lib/searchStateManager';
 import { H3 } from 'govuk-react';
-import { OneIndicatorViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
+import { OneIndicatorViewPlotProps } from '@/components/viewPlots/ViewPlot.types';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import {
   generateStandardLineChartOptions,
   LineChartVariant,
 } from '@/components/organisms/LineChart/lineChartHelpers';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSearchState } from '@/context/SearchStateContext';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
 import {
@@ -23,7 +23,7 @@ import {
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
-import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
+import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
 
 interface OneIndicatorTwoOrMoreAreasViewPlotsProps
   extends OneIndicatorViewPlotProps {
@@ -56,8 +56,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     indicatorDataAllAreas?.areaHealthData ?? [];
 
   const { benchmarkMethod, polarity } = indicatorData;
-  const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
-    useState<boolean>(false);
 
   const dataWithoutEnglandOrGroup = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData,
@@ -91,13 +89,12 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
 
   const lineChartOptions: Highcharts.Options = generateStandardLineChartOptions(
     dataWithoutEnglandOrGroup,
-    showConfidenceIntervalsData,
+    true,
     {
       benchmarkData: englandBenchmarkData,
       benchmarkComparisonMethod: indicatorData.benchmarkMethod,
       groupIndicatorData: groupData,
       yAxisTitle,
-      yAxisLabelFormatter: FormatValueAsNumber,
       xAxisTitle: 'Period',
       measurementUnit: indicatorMetadata?.unitLabel,
       accessibilityLabel: 'A line chart showing healthcare data',
@@ -107,7 +104,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   return (
     <section data-testid="oneIndicatorTwoOrMoreAreasViewPlots-component">
       {shouldLineChartbeShown && (
-        <>
+        <StyleChartWrapper>
           <H3>Indicator data over time</H3>
           <TabContainer
             id="lineChartAndTable"
@@ -118,10 +115,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                 content: (
                   <LineChart
                     lineChartOptions={lineChartOptions}
-                    showConfidenceIntervalsData={showConfidenceIntervalsData}
-                    setShowConfidenceIntervalsData={
-                      setShowConfidenceIntervalsData
-                    }
                     variant={LineChartVariant.Standard}
                   />
                 ),
@@ -143,33 +136,37 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
             ]}
             footer={<DataSource dataSource={indicatorMetadata?.dataSource} />}
           />
-        </>
+        </StyleChartWrapper>
       )}
       {selectedGroupArea === ALL_AREAS_SELECTED && (
-        <ThematicMap
-          selectedAreaType={selectedAreaType}
-          healthIndicatorData={dataWithoutEnglandOrGroupAllAreas}
-          benchmarkComparisonMethod={
-            benchmarkMethod ?? BenchmarkComparisonMethod.Unknown
-          }
-          polarity={polarity ?? IndicatorPolarity.Unknown}
-          indicatorMetadata={indicatorMetadata}
-          benchmarkIndicatorData={englandBenchmarkData}
-          groupIndicatorData={groupData}
-          areaCodes={areaCodes ?? []}
-        />
+        <StyleChartWrapper>
+          <ThematicMap
+            selectedAreaType={selectedAreaType}
+            healthIndicatorData={dataWithoutEnglandOrGroupAllAreas}
+            benchmarkComparisonMethod={
+              benchmarkMethod ?? BenchmarkComparisonMethod.Unknown
+            }
+            polarity={polarity ?? IndicatorPolarity.Unknown}
+            indicatorMetadata={indicatorMetadata}
+            benchmarkIndicatorData={englandBenchmarkData}
+            groupIndicatorData={groupData}
+            areaCodes={areaCodes ?? []}
+          />
+        </StyleChartWrapper>
       )}
-      <H3>Compare an indicator by areas</H3>
-      <BarChartEmbeddedTable
-        data-testid="barChartEmbeddedTable-component"
-        healthIndicatorData={dataWithoutEnglandOrGroup}
-        benchmarkData={englandBenchmarkData}
-        groupIndicatorData={groupData}
-        measurementUnit={indicatorMetadata?.unitLabel}
-        benchmarkComparisonMethod={benchmarkMethod}
-        polarity={polarity}
-        dataSource={indicatorMetadata?.dataSource}
-      />
+      <StyleChartWrapper>
+        <H3>Compare an indicator by areas</H3>
+        <BarChartEmbeddedTable
+          data-testid="barChartEmbeddedTable-component"
+          healthIndicatorData={dataWithoutEnglandOrGroup}
+          benchmarkData={englandBenchmarkData}
+          groupIndicatorData={groupData}
+          measurementUnit={indicatorMetadata?.unitLabel}
+          benchmarkComparisonMethod={benchmarkMethod}
+          polarity={polarity}
+          dataSource={indicatorMetadata?.dataSource}
+        />
+      </StyleChartWrapper>
     </section>
   );
 }

@@ -25,7 +25,11 @@ import {
 } from '@/lib/tableHelpers';
 import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel';
 import { TrendTag } from '@/components/molecules/TrendTag';
-import { getConfidenceLimitNumber } from '@/lib/chartHelpers/chartHelpers';
+import {
+  getConfidenceLimitNumber,
+  getFirstYearForAreas,
+  getLatestYearForAreas,
+} from '@/lib/chartHelpers/chartHelpers';
 import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
@@ -220,17 +224,35 @@ export function LineChartTable({
     healthIndicatorData = [englandBenchmarkData];
   }
 
+  healthIndicatorData = healthIndicatorData.toSorted((a, b) =>
+    a.areaName.localeCompare(b.areaName)
+  );
+
   const confidenceLimit = getConfidenceLimitNumber(benchmarkComparisonMethod);
   const showBenchmarkColumn =
     healthIndicatorData[0]?.areaCode !== areaCodeForEngland &&
     benchmarkComparisonMethod !== BenchmarkComparisonMethod.Quintiles;
+
+  const showGroupColumn =
+    healthIndicatorData[0]?.areaCode !== areaCodeForEngland &&
+    groupIndicatorData &&
+    groupIndicatorData?.healthData?.length > 0;
 
   const allHealthPointYears = [
     ...(englandBenchmarkData?.healthData ?? []),
     ...(groupIndicatorData?.healthData ?? []),
     ...healthIndicatorData.flatMap((area) => area.healthData),
   ].map(({ year }) => year);
-  const allYears = [...new Set(allHealthPointYears)].sort((a, b) => a - b);
+
+  const firstYear = getFirstYearForAreas(healthIndicatorData);
+  const lastYear = getLatestYearForAreas(healthIndicatorData);
+  if (!firstYear || !lastYear) {
+    return null;
+  }
+
+  const allYears = [...new Set(allHealthPointYears)]
+    .filter((year) => year >= firstYear && year <= lastYear)
+    .sort((a, b) => a - b);
 
   const rowData = allYears
     .map((year) => {
@@ -281,7 +303,7 @@ export function LineChartTable({
                   </StyledTrendContainer>
                 </StyledTitleCell>
               ))}
-              {groupIndicatorData ? <StyledTitleCell /> : null}
+              {showGroupColumn ? <StyledTitleCell /> : null}
               {showBenchmarkColumn ? <StyledStickyRightHeader /> : null}
             </Table.Row>
             <Table.Row>
@@ -291,9 +313,9 @@ export function LineChartTable({
                   {area.areaName}
                 </StyledAreaNameHeader>
               ))}
-              {groupIndicatorData ? (
+              {showGroupColumn ? (
                 <StyledGroupNameHeader data-testid="group-header">
-                  Group: {groupIndicatorData.areaName}
+                  Group: {groupIndicatorData?.areaName}
                 </StyledGroupNameHeader>
               ) : null}
               {showBenchmarkColumn ? (
@@ -317,7 +339,7 @@ export function LineChartTable({
                     </StyledConfidenceLimitsHeader>
                   </React.Fragment>
                 ))}
-                {groupIndicatorData ? <StyledLightGreyHeader /> : null}
+                {showGroupColumn ? <StyledLightGreyHeader /> : null}
                 {showBenchmarkColumn ? <StyledStickyRightHeader /> : null}
               </Table.Row>
             ) : null}
@@ -346,7 +368,7 @@ export function LineChartTable({
                     />
                   ))
               )}
-              {groupIndicatorData ? (
+              {showGroupColumn ? (
                 <StyledLightGreySubHeader>
                   Value {measurementUnit}
                 </StyledLightGreySubHeader>
@@ -390,7 +412,7 @@ export function LineChartTable({
                 </StyledAlignRightTableCell>
               </React.Fragment>
             ))}
-            {groupIndicatorData ? (
+            {showGroupColumn ? (
               <StyledGroupValueTableCell>
                 {formatNumber(groupValue)}
               </StyledGroupValueTableCell>

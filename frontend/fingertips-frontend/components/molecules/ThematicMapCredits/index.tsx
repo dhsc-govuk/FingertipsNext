@@ -3,11 +3,16 @@ import {
   mapMetaDataEncoder,
 } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 import { Paragraph } from 'govuk-react';
+import styled from 'styled-components';
 
 interface ThematicMapCreditsProps {
   areaType: AreaTypeKeysForMapMeta;
   dataSource?: string;
 }
+
+const StyledCredits = styled(Paragraph)`
+  font-size: 16px;
+`;
 
 export function ThematicMapCredits({
   areaType,
@@ -18,10 +23,10 @@ export function ThematicMapCredits({
       data-testid="thematic-map-credits"
       style={{ whiteSpace: 'preserve-breaks' }}
     >
-      <Paragraph>{`Map source: [${mapMetaDataEncoder[areaType].mapSource}](${mapMetaDataEncoder[areaType].mapSourceURL})<br />
-        ${mapMetaDataEncoder[areaType].mapCopyright}`}</Paragraph>
+      <StyledCredits>{`Map source: [${mapMetaDataEncoder[areaType].mapSource}](${mapMetaDataEncoder[areaType].mapSourceURL})<br />
+        ${mapMetaDataEncoder[areaType].mapCopyright}`}</StyledCredits>
       {dataSource ? (
-        <Paragraph>{`Data source: ${dataSource}`}</Paragraph>
+        <StyledCredits>{`Data source: ${dataSource}`}</StyledCredits>
       ) : null}
     </div>
   );

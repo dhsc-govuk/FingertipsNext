@@ -10,7 +10,7 @@ import {
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams } from '@/lib/searchStateManager';
 import { H3 } from 'govuk-react';
-import { OneIndicatorViewPlotProps } from '../ViewPlotProps';
+import { OneIndicatorViewPlotProps } from '../ViewPlot.types';
 import {
   BenchmarkComparisonMethod,
   HealthDataForArea,
@@ -21,10 +21,9 @@ import {
   generateStandardLineChartOptions,
   LineChartVariant,
 } from '@/components/organisms/LineChart/lineChartHelpers';
-import { useState } from 'react';
 import { getAllDataWithoutInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
-import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
+import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
 
 function shouldLineChartBeShown(
   dataWithoutEnglandOrGroup: HealthDataForArea[],
@@ -51,10 +50,6 @@ export function OneIndicatorOneAreaViewPlots({
   const polarity = indicatorData.polarity as IndicatorPolarity;
   const benchmarkComparisonMethod =
     indicatorData.benchmarkMethod as BenchmarkComparisonMethod;
-  const [
-    showStandardLineChartConfidenceIntervalsData,
-    setShowStandardLineChartConfidenceIntervalsData,
-  ] = useState<boolean>(false);
 
   const healthIndicatorData = indicatorData?.areaHealthData ?? [];
   const dataWithoutEnglandOrGroup = seriesDataWithoutEnglandOrGroup(
@@ -89,25 +84,25 @@ export function OneIndicatorOneAreaViewPlots({
 
   const lineChartOptions: Highcharts.Options = generateStandardLineChartOptions(
     areaDataWithoutInequalities,
-    showStandardLineChartConfidenceIntervalsData,
+    true,
     {
       benchmarkData: englandBenchmarkWithoutInequalities,
       benchmarkComparisonMethod: benchmarkComparisonMethod,
       groupIndicatorData: groupDataWithoutInequalities,
       yAxisTitle,
-      yAxisLabelFormatter: FormatValueAsNumber,
       xAxisTitle: 'Period',
       measurementUnit: indicatorMetadata?.unitLabel,
       accessibilityLabel: 'A line chart showing healthcare data',
     }
   );
+
   return (
     <section data-testid="oneIndicatorOneAreaViewPlot-component">
       {shouldLineChartBeShown(
         areaDataWithoutInequalities,
         englandBenchmarkWithoutInequalities
       ) && (
-        <>
+        <StyleChartWrapper>
           <H3>Indicator data over time</H3>
           <TabContainer
             id="lineChartAndTable"
@@ -118,12 +113,6 @@ export function OneIndicatorOneAreaViewPlots({
                 content: (
                   <LineChart
                     lineChartOptions={lineChartOptions}
-                    showConfidenceIntervalsData={
-                      showStandardLineChartConfidenceIntervalsData
-                    }
-                    setShowConfidenceIntervalsData={
-                      setShowStandardLineChartConfidenceIntervalsData
-                    }
                     variant={LineChartVariant.Standard}
                   />
                 ),
@@ -145,7 +134,7 @@ export function OneIndicatorOneAreaViewPlots({
             ]}
             footer={<DataSource dataSource={indicatorMetadata?.dataSource} />}
           />
-        </>
+        </StyleChartWrapper>
       )}
       <Inequalities
         healthIndicatorData={healthIndicatorData}

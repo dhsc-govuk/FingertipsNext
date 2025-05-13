@@ -134,7 +134,7 @@ paths:
             application/json:
               schema:
                 type: array
-                maxItems: 100
+                maxItems: 300
                 items:
                   $ref: "#/components/schemas/Area"
         "400":
@@ -149,7 +149,7 @@ paths:
                     message: Please provide at least value for the parameter area_codes.
                 Too many area_codes:
                   value:
-                    message: Too many values supplied for parameter area_codes. The maximum is 100 but 101 supplied.
+                    message: Too many values supplied for parameter area_codes. The maximum is 300 but 301 supplied.
         "404":
           $ref: "#/components/responses/NotFound"
         "500":
@@ -254,7 +254,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/IndicatorWithHealthDataForArea"
-
         "400":
           description: Bad request. The server could not process the request.
           content:
@@ -264,7 +263,7 @@ paths:
               examples:
                 Too many area_codes:
                   value:
-                    message: Too many values supplied for parameter area_codes. The maximum is 100 but 101 supplied.
+                    message: Too many values supplied for parameter area_codes. The maximum is 300 but 301 supplied.
                 Too many years:
                   value:
                     message: Too many values supplied for parameter years. The maximum is 20 but 21 supplied.
@@ -274,6 +273,8 @@ paths:
         - $ref: "#/components/parameters/indicator_id"
         - $ref: "#/components/parameters/area_codes"
         - $ref: "#/components/parameters/area_type"
+        - $ref: "#/components/parameters/area_group"
+        - $ref: "#/components/parameters/benchmark_ref_type"
         - $ref: "#/components/parameters/years"
         - $ref: "#/components/parameters/inequalities"
         - $ref: "#/components/parameters/include_empty_areas"
@@ -368,6 +369,20 @@ components:
           Worse,
           Worst,
           Similar,
+        ]
+    BenchmarkReferenceType:
+      type: string
+      example: England
+      description: benchmark reference type
+      enum: 
+        [
+          England,
+          AreaGroup
+        ]
+      x-enum-varnames:
+        [
+          England,
+          AreaGroup
         ]
     AreaType:
       type: object
@@ -797,20 +812,33 @@ components:
     area_codes:
       in: query
       name: area_codes
-      description: A list of area codes, up to 100 area codes can be requested
+      description: A list of area codes, up to 300 area codes can be requested
       style: form
       schema:
         type: array
         items:
           type: string
           example: G82109
-        maxItems: 100
+        maxItems: 300
+    area_group:
+      in: query
+      name: area_group
+      description: An area group which the area_codes belong to
+      schema:
+        type: string
+        example: E38000205
     area_type:
       in: query
       name: area_type
       description: The area type which the areas belong to
       schema:
         type: string
+    benchmark_ref_type:
+      in: query
+      name: benchmark_ref_type
+      description: The benchmark reference type
+      schema:
+        $ref: "#/components/schemas/BenchmarkReferenceType"
     indicator_id:
       in: path
       name: indicator_id

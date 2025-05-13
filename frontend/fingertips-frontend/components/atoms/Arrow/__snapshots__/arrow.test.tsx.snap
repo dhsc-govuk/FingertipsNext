@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Arrow Suite snapshot test 1`] = `
+exports[`Arrow Component snapshot test 1`] = `
 <DocumentFragment>
   <svg
     data-testid="arrow-icon"
@@ -13,10 +13,14 @@ exports[`Arrow Suite snapshot test 1`] = `
     width="15"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <path
-      d="M12 19V6M5 12l7-7 7 7"
-      data-testid="arrow-up"
-    />
+    <g
+      transform="rotate(0)"
+    >
+      <path
+        d="M12 19V6M5 12l7-7 7 7"
+        data-testid="arrow-up"
+      />
+    </g>
   </svg>
 </DocumentFragment>
 `;

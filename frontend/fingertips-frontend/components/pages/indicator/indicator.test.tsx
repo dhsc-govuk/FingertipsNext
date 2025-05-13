@@ -5,7 +5,6 @@ import { formatDate } from '@/lib/dateHelpers/dateHelpers';
 import { SearchParams } from '@/lib/searchStateManager';
 import { LoaderContext } from '@/context/LoaderContext';
 import { SearchStateContext } from '@/context/SearchStateContext';
-import userEvent from '@testing-library/user-event';
 
 const indicatorDefinition: IndicatorDefinitionProps = {
   ...placeholderIndicatorMetadata,
@@ -132,13 +131,6 @@ describe('indicator description page', () => {
     expect(backLink).toBeInTheDocument();
 
     expect(backLink.getAttribute('href')).toBe(expectedPath);
-  });
-
-  it('should call setIsLoading when the back link is clicked', async () => {
-    const user = userEvent.setup();
-    await user.click(screen.getByRole('link', { name: /back/i }));
-
-    expect(mockSetIsLoading).toHaveBeenCalledWith(true);
   });
 
   it('should lead with a title containing the indicator name', () => {

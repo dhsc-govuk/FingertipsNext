@@ -157,4 +157,41 @@ describe('Inequalities table suite', () => {
     );
     expect(container.asFragment()).toMatchSnapshot();
   });
+
+  it('should not render rows for aggregate (benchmark or group) years before or after the areas have data', () => {
+    const tableDataWithExtraYears: InequalitiesChartData = {
+      ...tableData,
+      rowData: [
+        ...tableData.rowData,
+        {
+          period: 2003,
+          inequalities: {
+            Persons: {
+              isAggregate: true,
+            },
+          },
+        },
+        {
+          period: 2009,
+          inequalities: {
+            Persons: {
+              isAggregate: true,
+            },
+          },
+        },
+      ],
+    };
+
+    render(
+      <InequalitiesLineChartTable
+        tableData={tableDataWithExtraYears}
+        dynamicKeys={['Persons', 'Male', 'Female']}
+      />
+    );
+
+    expect(screen.queryByText(/2003/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/2009/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/2004/)).toBeInTheDocument();
+    expect(screen.queryByText(/2008/)).toBeInTheDocument();
+  });
 });

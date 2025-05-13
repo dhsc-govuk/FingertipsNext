@@ -1,7 +1,8 @@
-import { render, screen } from '@testing-library/react';
+import { act, render, screen, within } from '@testing-library/react';
 import { BarChartEmbeddedTable } from '@/components/organisms/BarChartEmbeddedTable/index';
 import {
   HealthDataForArea,
+  HealthDataPoint,
   HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
 import {
@@ -10,6 +11,11 @@ import {
   noDeprivation,
   personsSex,
 } from '@/lib/mocks';
+import { formatNumber } from '@/lib/numberFormatter';
+
+function cloneDeep<T>(input: T) {
+  return JSON.parse(JSON.stringify(input)) as T;
+}
 
 describe('BarChartEmbeddedTable', () => {
   const mockHealthIndicatorData: HealthDataForArea[] = [
@@ -99,6 +105,13 @@ describe('BarChartEmbeddedTable', () => {
     },
   ];
 
+  function getPointForYear(
+    healthData: HealthDataForArea,
+    year: number = 2008
+  ): HealthDataPoint | undefined {
+    return healthData.healthData.find((hdp) => hdp.year === year);
+  }
+
   const mockBenchmarkData: HealthDataForArea = {
     areaCode: 'E92000001',
     areaName: 'England',
@@ -157,28 +170,32 @@ describe('BarChartEmbeddedTable', () => {
     ],
   };
 
-  it('should render BarChartEmbeddedTable component', () => {
+  it('should render BarChartEmbeddedTable component', async () => {
     render(
       <BarChartEmbeddedTable healthIndicatorData={mockHealthIndicatorData} />
     );
-    expect(screen.getByRole('table')).toBeInTheDocument();
+
+    expect(await screen.findByRole('table')).toBeInTheDocument();
     expect(
-      screen.getByTestId('barChartEmbeddedTable-component')
+      await screen.findByTestId('barChartEmbeddedTable-component')
     ).toBeInTheDocument();
   });
 
-  it('should always display benchmark data in the first table row of data', () => {
+  it('should always display benchmark data in the first table row of data', async () => {
     render(
       <BarChartEmbeddedTable
         healthIndicatorData={mockHealthIndicatorData}
         benchmarkData={mockBenchmarkData}
       />
     );
-    expect(screen.getAllByRole('row')[2]).toHaveTextContent('England');
+
+    const row = await screen.findAllByRole('row');
+
+    expect(row[2]).toHaveTextContent('England');
     expect(screen.getByTestId('table-row-benchmark')).toBeInTheDocument();
   });
 
-  it('should display group data in the second row of table data, when the group selected is not England', () => {
+  it('should display group data in the second row of table data, when the group selected is not England', async () => {
     render(
       <BarChartEmbeddedTable
         healthIndicatorData={mockHealthIndicatorData}
@@ -186,32 +203,37 @@ describe('BarChartEmbeddedTable', () => {
         groupIndicatorData={mockGroupData}
       />
     );
-    expect(screen.getAllByRole('row')[3]).toHaveTextContent(
-      'NHS North West Region'
-    );
-    expect(screen.getByTestId('table-row-group')).toBeInTheDocument();
+
+    const row = await screen.findAllByRole('row');
+
+    expect(row[3]).toHaveTextContent('NHS North West Region');
+    expect(await screen.findByTestId('table-row-group')).toBeInTheDocument();
   });
 
-  it('should not display group row or benchmark row in the table, when no data is passed', () => {
-    render(
-      <BarChartEmbeddedTable
-        healthIndicatorData={mockHealthIndicatorData}
-        benchmarkData={undefined}
-        groupIndicatorData={undefined}
-      />
-    );
+  it('should not display group row or benchmark row in the table, when no data is passed', async () => {
+    await act(() => {
+      render(
+        <BarChartEmbeddedTable
+          healthIndicatorData={mockHealthIndicatorData}
+          benchmarkData={undefined}
+          groupIndicatorData={undefined}
+        />
+      );
+    });
 
     expect(screen.queryByTestId('table-row-group')).not.toBeInTheDocument();
     expect(screen.queryByTestId('table-row-benchmark')).not.toBeInTheDocument();
   });
 
-  it('should display data table row colours for benchmark and group', () => {
-    render(
-      <BarChartEmbeddedTable
-        healthIndicatorData={mockHealthIndicatorData}
-        benchmarkData={mockBenchmarkData}
-      />
-    );
+  it('should display data table row colours for benchmark and group', async () => {
+    await act(() => {
+      render(
+        <BarChartEmbeddedTable
+          healthIndicatorData={mockHealthIndicatorData}
+          benchmarkData={mockBenchmarkData}
+        />
+      );
+    });
     // benchmark row
     expect(screen.getAllByRole('row')[1]).toHaveStyle(
       'backgroundColor: GovukColours.MidGrey'
@@ -222,27 +244,61 @@ describe('BarChartEmbeddedTable', () => {
     );
   });
 
-  it('should order the data displayed by largest value', () => {
-    render(
-      <BarChartEmbeddedTable healthIndicatorData={mockHealthIndicatorData} />
+  it('should order the data displayed by largest value', async () => {
+    const expectedValues = mockHealthIndicatorData
+      .map((mdp) => getPointForYear(mdp)!.value)
+      .sort((a, b) => b! - a!)
+      .map((ev) => formatNumber(ev));
+
+    await act(() =>
+      render(
+        <BarChartEmbeddedTable healthIndicatorData={mockHealthIndicatorData} />
+      )
     );
 
     const header = screen.getAllByRole('columnheader');
-    const valueColumnIndex = header.findIndex((item) =>
-      item.textContent?.includes('Value')
-    );
-    const areaRows = screen.getAllByRole('row').slice(2);
-    const cells = screen.getAllByRole('cell');
+    const valueColumnIndex =
+      header.findIndex((item) => item.textContent?.includes('Value')) - 2;
 
-    const values = areaRows.map(() => {
-      return parseInt(String(cells[valueColumnIndex].textContent || 0));
+    const areaRows = screen.getAllByRole('row').slice(2, -1);
+
+    const valueCells = areaRows.map((areaRow) => {
+      const cellsInRow = within(areaRow).getAllByRole('cell');
+      return cellsInRow[valueColumnIndex].textContent;
     });
 
-    const sortedValues = values.sort((a, b) => b - a);
-    expect(values).toEqual(sortedValues);
+    expect(valueCells).toEqual(expectedValues);
   });
 
-  it('should display an X in the table cell if there is no value', () => {
+  it('should order the data displayed by the area name if values match', async () => {
+    const mockData = cloneDeep(mockHealthIndicatorData);
+    mockData.forEach((row) => {
+      row.healthData.forEach((hdp) => (hdp.value = 186.734));
+    });
+
+    const expectedValues = mockData
+      .map((mdp) => mdp.areaName)
+      .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+
+    await act(() =>
+      render(<BarChartEmbeddedTable healthIndicatorData={mockData} />)
+    );
+
+    const header = screen.getAllByRole('columnheader');
+    const valueColumnIndex =
+      header.findIndex((item) => item.textContent?.includes('Area')) - 2;
+
+    const areaRows = screen.getAllByRole('row').slice(2, -1);
+
+    const valueCells = areaRows.map((areaRow) => {
+      const cellsInRow = within(areaRow).getAllByRole('cell');
+      return cellsInRow[valueColumnIndex].textContent;
+    });
+
+    expect(valueCells).toEqual(expectedValues);
+  });
+
+  it('should display an X in the table cell if there is no value', async () => {
     render(
       <BarChartEmbeddedTable
         healthIndicatorData={mockHealthIndicatorData}
@@ -250,11 +306,11 @@ describe('BarChartEmbeddedTable', () => {
       />
     );
 
-    const noValueCells = screen.getAllByText('X');
+    const noValueCells = await screen.findAllByText('X');
     expect(noValueCells).toHaveLength(2);
   });
 
-  it('should display correct aria label when then is no value', () => {
+  it('should display correct aria label when then is no value', async () => {
     render(
       <BarChartEmbeddedTable
         healthIndicatorData={mockHealthIndicatorData}
@@ -262,7 +318,7 @@ describe('BarChartEmbeddedTable', () => {
       />
     );
 
-    const noValueCells = screen.getAllByLabelText('Not compared');
+    const noValueCells = await screen.findAllByLabelText('Not compared');
     expect(noValueCells).toHaveLength(2);
   });
 
@@ -294,24 +350,26 @@ describe('BarChartEmbeddedTable', () => {
   });
 
   // DHSCFT-372 - Add trends to the compare areas bar charts
-  it('should render the correct trend for all data provided', () => {
-    render(
-      <BarChartEmbeddedTable
-        healthIndicatorData={mockHealthIndicatorData}
-        benchmarkData={mockBenchmarkData}
-      />
-    );
+  it('should render the correct trend for all data provided', async () => {
+    await act(() => {
+      render(
+        <BarChartEmbeddedTable
+          healthIndicatorData={mockHealthIndicatorData}
+          benchmarkData={mockBenchmarkData}
+        />
+      );
+    });
 
     const trendTags = screen.getAllByTestId('trend-tag-component');
 
     expect(trendTags).toHaveLength(4);
     expect(trendTags[0].textContent).toEqual('Decreasing and getting better'); // England benchmark trend
-    expect(trendTags[1].textContent).toEqual('No trend data available'); // E40000014 trend
+    expect(trendTags[1].textContent).toEqual('No recent trend data available'); // E40000014 trend
     expect(trendTags[2].textContent).toEqual('Decreasing and getting better'); // A1426 trend
-    expect(trendTags[3].textContent).toEqual('No trend data available'); // A1425 trend
+    expect(trendTags[3].textContent).toEqual('No recent trend data available'); // A1425 trend
   });
 
-  it('should render the data source if provided', () => {
+  it('should render the data source if provided', async () => {
     render(
       <BarChartEmbeddedTable
         healthIndicatorData={mockHealthIndicatorData}
@@ -321,7 +379,7 @@ describe('BarChartEmbeddedTable', () => {
     );
 
     expect(
-      screen.getByText('Data source: bar chart data source')
+      await screen.findByText('Data source: bar chart data source')
     ).toBeInTheDocument();
   });
 });

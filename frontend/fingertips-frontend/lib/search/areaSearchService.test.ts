@@ -44,10 +44,10 @@ describe('AreaSearchService', () => {
         SEARCH_TERM,
         AREA_SEARCH_SUGGESTER_NAME,
         {
-          searchFields: ['areaCode', 'areaName'],
+          searchFields: ['areaCode', 'areaName', 'postcode'],
           select: ['areaCode', 'areaType', 'areaName'],
           top: 20,
-          useFuzzyMatching: true,
+          useFuzzyMatching: false,
         }
       );
     });

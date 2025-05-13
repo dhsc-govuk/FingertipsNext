@@ -9,15 +9,49 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Repository;
 [SuppressMessage("ReSharper", "SimplifyConditionalTernaryExpression")]
 public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHealthDataRepository
 {
+    private const string ENGLAND_AREA_CODE = "E92000001";
     private const string SEX = "sex";
     private const string AGE = "age";
     private const string DEPRIVATION = "deprivation";
 
     private readonly HealthDataDbContext _dbContext = healthDataDbContext ?? throw new ArgumentNullException(nameof(healthDataDbContext));
 
-    public async Task<IndicatorDimensionModel> GetIndicatorDimensionAsync(int indicatorId)
+    /// <summary>
+    /// Will retrieve the indicator dimension data for the requested indicator ID while also
+    /// obtaining the latest year that data is available for the indicator based on the area codes provided.
+    /// 
+    /// Note: both in terms of intent and performance this is sub-optimal and should be refactored at the earliest opportunity
+    /// post-POC under DHSCFT-678.
+    /// </summary>
+    /// <param name="indicatorId"></param>
+    /// <param name="areaCodes"></param>
+    /// <returns>IndicatorDimensionModel containing relevant indicator metadata</returns>
+    public async Task<IndicatorDimensionModel> GetIndicatorDimensionAsync(int indicatorId, string[] areaCodes)
     {
         var model = await _dbContext.HealthMeasure
+           .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
+           .Where(HealthDataPredicates.IsInAreaCodes(areaCodes))
+           .Where(HealthDataPredicates.IsNotEnglandWhenMultipleRequested(areaCodes))
+           .OrderByDescending(healthMeasure => healthMeasure.Year)
+           .Include(healthMeasure => healthMeasure.IndicatorDimension)
+           .Select(healthMeasure => new IndicatorDimensionModel
+           {
+               IndicatorId = healthMeasure.IndicatorDimension.IndicatorId,
+               IndicatorKey = healthMeasure.IndicatorKey,
+               Name = healthMeasure.IndicatorDimension.Name,
+               Polarity = healthMeasure.IndicatorDimension.Polarity,
+               BenchmarkComparisonMethod = healthMeasure.IndicatorDimension.BenchmarkComparisonMethod,
+               LatestYear = healthMeasure.Year
+           })
+           .Take(1)
+           .FirstOrDefaultAsync();
+        
+        if (model != null) {
+            return model;
+        }
+
+        // Default to the latest year for all indicator data if none of the requested areas have data
+        return await _dbContext.HealthMeasure
            .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
            .OrderByDescending(healthMeasure => healthMeasure.Year)
            .Include(healthMeasure => healthMeasure.IndicatorDimension)
@@ -32,8 +66,6 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
            })
            .Take(1)
            .FirstOrDefaultAsync();
-       
-        return model;
     }
     
     public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataAsync(int indicatorId, string[] areaCodes, int[] years, string[] inequalities)
@@ -44,7 +76,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
 
         return await _dbContext.HealthMeasure
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
-            .Where(healthMeasure => areaCodes.Length == 0 || EF.Constant(areaCodes).Contains(healthMeasure.AreaDimension.Code))
+            .Where(HealthDataPredicates.IsInAreaCodes(areaCodes))
             .Where(healthMeasure => years.Length == 0 || EF.Constant(years).Contains(healthMeasure.Year))
             .Where(healthMeasure => excludeDisaggregatedSexValues ? healthMeasure.IsSexAggregatedOrSingle : true)
             .Where(healthMeasure => excludeDisaggregatedAgeValues ? healthMeasure.IsAgeAggregatedOrSingle : true)
@@ -176,5 +208,4 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
 
         return retVal;
     }
-
 }

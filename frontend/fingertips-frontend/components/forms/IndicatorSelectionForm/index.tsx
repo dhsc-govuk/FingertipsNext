@@ -1,7 +1,6 @@
 import { SearchResult } from '@/components/molecules/Result';
 import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
-import { localeSort } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
   SearchParams,
@@ -20,6 +19,11 @@ import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import { IndicatorSort } from '@/components/forms/IndicatorSort/IndicatorSort';
 import { useIndicatorSort } from '@/components/forms/IndicatorSort/useIndicatorSort';
+import ReactPaginate from 'react-paginate';
+import { GovukColours } from '@/lib/styleHelpers/colours';
+import { Arrow } from '@/components/atoms/Arrow';
+import { Direction } from '@/lib/common-types';
+import { RESULTS_PER_PAGE } from '@/components/pages/results';
 
 const ResultLabelsContainer = styled.span({
   alignItems: 'center',
@@ -31,11 +35,56 @@ const StyledParagraph = styled(Paragraph)({
   fontWeight: 'bold',
 });
 
+const StyledPagination = styled(ReactPaginate)({
+  display: 'flex',
+  fontSize: '19px',
+  color: '#005ea5',
+  justifyContent: 'center',
+  marginTop: '20px',
+  marginBottom: '20px',
+  li: {
+    'listStyleType': 'none',
+    'textDecoration': 'underline',
+    'textDecorationThickness': '1px',
+    'textUnderlineOffset': '4px',
+    'padding': '10px',
+    'cursor': 'pointer',
+    '&:hover': {
+      backgroundColor: '#f0f0f0',
+      textDecorationThickness: '4px',
+    },
+    '&.disabled': {
+      display: 'none',
+    },
+    '&.selected': {
+      backgroundColor: '#005ea5',
+      color: '#fff',
+    },
+    'a': {
+      '&:focus-visible': {
+        color: `${GovukColours.Black}`,
+        outline: `1px solid ${GovukColours.Yellow}`,
+        background: `${GovukColours.Yellow}`,
+      },
+    },
+    '&.break': {
+      'color': `${GovukColours.DarkGrey}`,
+      'textDecoration': 'none',
+      'cursor': 'default',
+      '&:hover': {
+        backgroundColor: 'transparent',
+      },
+    },
+  },
+});
+
 type IndicatorSelectionProps = {
   searchResults: IndicatorDocument[];
   showTrends: boolean;
   formAction: (payload: FormData) => void;
   currentDate?: Date;
+  currentPage?: number;
+  totalPages?: number;
 };
 
 const isIndicatorSelected = (
@@ -54,6 +103,23 @@ const generateKey = (
   return `${indicatorId}-${isIndicatorSelected(indicatorId, state)}`;
 };
 
+function PageLabel(direction: Readonly<Direction>): React.ReactNode {
+  if (direction === Direction.LEFT) {
+    return (
+      <>
+        <Arrow direction={Direction.LEFT} strokeColour={GovukColours.Black} />
+        <span style={{ paddingLeft: '10px' }}>Previous</span>
+      </>
+    );
+  }
+  return (
+    <>
+      <span style={{ paddingRight: '10px' }}>Next</span>
+      <Arrow direction={Direction.RIGHT} strokeColour={GovukColours.Black} />
+    </>
+  );
+}
+
 const shouldDisableViewDataButton = (state?: SearchStateParams): boolean => {
   if (
     state?.[SearchParams.IndicatorsSelected] &&
@@ -69,6 +135,8 @@ export function IndicatorSelectionForm({
   showTrends,
   formAction,
   currentDate,
+  currentPage = 1,
+  totalPages = 1,
 }: Readonly<IndicatorSelectionProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -81,23 +149,32 @@ export function IndicatorSelectionForm({
     searchResults: IndicatorDocument[],
     selectedIndicators: string[]
   ): boolean => {
-    const sortedResultIds = searchResults
-      .map((result) => result.indicatorID.toString())
-      .toSorted(localeSort);
-
-    const sortedSelectedIndicators = selectedIndicators.toSorted(localeSort);
-
-    return (
-      JSON.stringify(sortedResultIds) ===
-      JSON.stringify(sortedSelectedIndicators)
+    return searchResults.every((result) =>
+      selectedIndicators.includes(result.indicatorID.toString())
     );
   };
 
   const selectedIndicators =
     searchState?.[SearchParams.IndicatorsSelected] || [];
 
+  const setCurrentPage = (page: number) => {
+    stateManager.setState({
+      ...searchState,
+      [SearchParams.PageNumber]: page.toString(),
+    });
+    history.replaceState({}, '', stateManager.generatePath(pathname));
+  };
+
+  const { sortedResults, selectedSortOrder, handleSortOrder } =
+    useIndicatorSort(searchResults, setCurrentPage);
+
+  const pageSearchResults = sortedResults.slice(
+    (currentPage - 1) * RESULTS_PER_PAGE,
+    currentPage * RESULTS_PER_PAGE
+  );
+
   const areAllIndicatorsSelected = checkAllIndicatorsSelected(
-    searchResults,
+    pageSearchResults,
     selectedIndicators
   );
 
@@ -122,23 +199,30 @@ export function IndicatorSelectionForm({
   const handleSelectAll = (checked: boolean) => {
     setIsLoading(true);
 
+    const allIndicatorIdsForPage = pageSearchResults.map((result) =>
+      result.indicatorID.toString()
+    );
+
     if (checked) {
-      const allIndicatorIds = searchResults.map((result) =>
-        result.indicatorID.toString()
+      stateManager.setState({
+        ...searchState,
+        [SearchParams.IndicatorsSelected]: [
+          ...selectedIndicators,
+          ...allIndicatorIdsForPage,
+        ],
+      });
+    } else {
+      const newSelectedIndicators = selectedIndicators.filter(
+        (indicatorId) => !allIndicatorIdsForPage.includes(indicatorId)
       );
       stateManager.setState({
         ...searchState,
-        [SearchParams.IndicatorsSelected]: allIndicatorIds,
+        [SearchParams.IndicatorsSelected]: newSelectedIndicators,
       });
-    } else {
-      stateManager.removeAllParamFromState(SearchParams.IndicatorsSelected);
     }
 
     replace(stateManager.generatePath(pathname), { scroll: false });
   };
-
-  const { sortedResults, selectedSortOrder, handleSortOrder } =
-    useIndicatorSort(searchResults);
 
   return (
     <form
@@ -158,7 +242,7 @@ export function IndicatorSelectionForm({
         selectedSortOrder={selectedSortOrder}
         onChange={handleSortOrder}
       />
-      {sortedResults.length ? (
+      {pageSearchResults.length ? (
         <>
           <ResultLabelsContainer>
             <Checkbox
@@ -179,7 +263,7 @@ export function IndicatorSelectionForm({
             <ListItem>
               <SectionBreak visible={true} />
             </ListItem>
-            {sortedResults.map((result) => (
+            {pageSearchResults.map((result) => (
               <SearchResult
                 key={generateKey(result.indicatorID.toString(), searchState)}
                 result={result}
@@ -202,6 +286,23 @@ export function IndicatorSelectionForm({
           >
             View data
           </Button>
+
+          {totalPages > 1 ? (
+            <div data-testid="search-results-pagination">
+              <StyledPagination
+                nextLabel={PageLabel(Direction.RIGHT)}
+                onPageChange={(event) =>
+                  setCurrentPage && setCurrentPage(event.selected + 1)
+                }
+                marginPagesDisplayed={1}
+                pageRangeDisplayed={2}
+                pageCount={totalPages}
+                previousLabel={PageLabel(Direction.LEFT)}
+                renderOnZeroPageCount={null}
+                forcePage={currentPage - 1}
+              />
+            </div>
+          ) : null}
         </>
       ) : (
         <Paragraph>**No results found**</Paragraph>

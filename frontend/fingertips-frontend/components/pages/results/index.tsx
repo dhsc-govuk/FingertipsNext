@@ -23,6 +23,7 @@ import { IndicatorSelectionForm } from '@/components/forms/IndicatorSelectionFor
 import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
 import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
+import { useSearchParams } from 'next/navigation';
 
 type SearchResultsProps = {
   initialIndicatorSelectionState: IndicatorSelectionState;
@@ -33,6 +34,8 @@ type SearchResultsProps = {
   searchState?: SearchStateParams;
   currentDate?: Date;
 };
+
+export const RESULTS_PER_PAGE = 15;
 
 const generateBackLinkPath = (state?: SearchStateParams) => {
   const stateManager = SearchStateManager.initialise(state);
@@ -50,6 +53,7 @@ export function SearchResults({
 }: Readonly<SearchResultsProps>) {
   const { setIsLoading } = useLoadingState();
   const { setSearchState } = useSearchState();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     setSearchState(searchState ?? {});
@@ -75,6 +79,19 @@ export function SearchResults({
 
   const searchTerm = searchState?.[SearchParams.SearchedIndicator] ?? '';
 
+  const currentPageFromState =
+    Number(searchParams.get(SearchParams.PageNumber)) || 1;
+  const totalPages = Math.ceil(searchResults.length / RESULTS_PER_PAGE);
+  const currentPageToUse =
+    currentPageFromState <= totalPages ? currentPageFromState : 1;
+
+  const searchTitle =
+    'Search results' +
+    (searchTerm ? ' for ' + searchTerm : '') +
+    (totalPages > 1
+      ? ' (page ' + currentPageToUse + ' of ' + totalPages + ')'
+      : '');
+
   return (
     <>
       <BackLink
@@ -99,7 +116,7 @@ export function SearchResults({
             }}
           />
         )}
-        <H1>Search results{searchTerm ? ` for ${searchTerm}` : null}</H1>
+        <H1>{searchTitle}</H1>
         <form action={indicatorSearchFormAction}>
           <IndicatorSearchForm
             indicatorSearchFormState={indicatorSearchState}
@@ -121,6 +138,8 @@ export function SearchResults({
               }
               formAction={indicatorSelectionFormAction}
               currentDate={currentDate}
+              currentPage={currentPageToUse}
+              totalPages={totalPages}
             />
           </GridCol>
         </GridRow>

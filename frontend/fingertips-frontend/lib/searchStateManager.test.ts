@@ -23,6 +23,7 @@ describe('SearchStateManager', () => {
         [SearchParams.InequalityYearSelected]: '2021',
         [SearchParams.InequalityBarChartAreaSelected]: 'A001',
         [SearchParams.InequalityLineChartAreaSelected]: areaCodeForEngland,
+        [SearchParams.PageNumber]: '1',
       };
 
       const stateManager = SearchStateManager.initialise(params);
@@ -42,6 +43,7 @@ describe('SearchStateManager', () => {
         [SearchParams.InequalityYearSelected]: '2021',
         [SearchParams.InequalityBarChartAreaSelected]: 'A001',
         [SearchParams.InequalityLineChartAreaSelected]: areaCodeForEngland,
+        [SearchParams.PageNumber]: '1',
       });
     });
 
@@ -266,6 +268,7 @@ describe('SearchStateManager', () => {
         [SearchParams.InequalityYearSelected]: '2021',
         [SearchParams.InequalityBarChartAreaSelected]: 'A001',
         [SearchParams.InequalityLineChartAreaSelected]: areaCodeForEngland,
+        [SearchParams.PageNumber]: '1',
       };
 
       const stateManager = SearchStateManager.initialise(state);
@@ -296,6 +299,7 @@ describe('SearchStateManager', () => {
         `&${SearchParams.InequalityLineChartAreaSelected}=${areaCodeForEngland}`,
         `&${SearchParams.InequalityLineChartTypeSelected}=Some+inequality+type`,
         `&${SearchParams.InequalityBarChartTypeSelected}=Some+other+inequality+type`,
+        `&${SearchParams.PageNumber}=1`,
       ].join('');
 
       const stateManager = SearchStateManager.initialise({
@@ -312,6 +316,7 @@ describe('SearchStateManager', () => {
         [SearchParams.InequalityYearSelected]: '2021',
         [SearchParams.InequalityBarChartAreaSelected]: 'A001',
         [SearchParams.InequalityLineChartAreaSelected]: areaCodeForEngland,
+        [SearchParams.PageNumber]: '1',
       });
 
       const generatedPath = stateManager.generatePath('/some-path');

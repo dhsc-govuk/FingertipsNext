@@ -93,7 +93,7 @@ jobs:
   database-build:
     needs: check-changes
     if: >
-      github.event_name == 'workflow_dispatch' || 
+      github.event_name == 'workflow_dispatch' ||
       needs.check-changes.outputs.db_changed == 'true' ||
       needs.check-changes.outputs.trend_analysis_changed == 'true' ||
       needs.check-changes.outputs.search_changed == 'true'
@@ -225,6 +225,15 @@ jobs:
 
       - name: Execute jest unit tests
         run: npm run test-ci
+
+      - name: Upload code coverage report if tests or thresholds fail - always on failure
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: code-coverage-artefacts
+          path: |
+            ${{ env.frontend-directory }}/coverage/
+          retention-days: 5
 
   ui-tests-local-mocks:
     needs: [check-changes]
@@ -582,6 +591,20 @@ jobs:
       arm-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       arm-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
 
+  extract-git-info:
+    runs-on: ubuntu-latest
+    outputs:
+      git_hash: ${{ steps.setvars.outputs.git_hash }}
+      git_tag: ${{ steps.setvars.outputs.git_tag }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: setvars
+        run: |
+          echo "git_hash=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+          echo "git_tag=$(git describe --tags --abbrev=0 --always)" >> $GITHUB_OUTPUT
+
   deploy-frontend-dev:
     needs:
       [
@@ -589,6 +612,7 @@ jobs:
         check-changes,
         push-container-frontend,
         deploy-api-dev,
+        extract-git-info
       ]
     if: >
       always() &&
@@ -644,6 +668,16 @@ jobs:
             name        = "APPLICATIONINSIGHTS_CONNECTION_STRING"
             secret_name = "fingertips-frontend-application-insights"
             value       = null
+          },
+          {
+            name        = "FINGERTIPS_GIT_HASH"
+            secret_name = null
+            value       = "${{ needs.extract-git-info.outputs.git_hash }}"
+          },
+          {
+            name        = "FINGERTIPS_GIT_TAG"
+            secret_name = null
+            value       = "${{ needs.extract-git-info.outputs.git_tag }}"
           }
         ]
       container_liveness_probe: |

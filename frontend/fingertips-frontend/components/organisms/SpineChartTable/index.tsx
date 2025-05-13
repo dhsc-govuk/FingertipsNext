@@ -12,7 +12,6 @@ import {
 import { H2 } from 'govuk-react';
 import styled from 'styled-components';
 import { SpineChartLegend } from '@/components/organisms/SpineChartLegend/SpineChartLegend';
-import { SpineChartQuartilesInfoContainer } from '@/components/organisms/SpineChart/SpineChartQuartilesInfo';
 import { getMethodsAndOutcomes } from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
 import { SpineChartIndicatorData } from './spineChartTableHelpers';
 
@@ -51,7 +50,7 @@ export function SpineChartTable({
         groupName={sortedData[0].groupData?.areaName}
         areaNames={areaNames}
       />
-      <SpineChartQuartilesInfoContainer />
+
       <StyledDivTableContainer data-testid="spineChartTable-component">
         <StyledTable>
           <SpineChartTableHeader
@@ -60,7 +59,10 @@ export function SpineChartTable({
           />
           {sortedData.map((indicatorData) => (
             <React.Fragment key={indicatorData.indicatorId}>
-              <SpineChartTableRow indicatorData={indicatorData} />
+              <SpineChartTableRow
+                indicatorData={indicatorData}
+                twoAreasRequested={areaNames.length > 1}
+              />
             </React.Fragment>
           ))}
         </StyledTable>
