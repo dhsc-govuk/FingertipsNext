@@ -22,6 +22,8 @@ export default class ChartPage extends AreaFilter {
   static readonly lineChartTableComponent = 'lineChartTable-component';
   static readonly populationPyramidComponent =
     'populationPyramidWithTable-component';
+  static readonly populationPyramidTableComponent =
+    'populationPyramidTable-component';
   static readonly inequalitiesBarChartTableComponent =
     'inequalitiesBarChartTable-component';
   static readonly inequalitiesLineChartTableComponent =
@@ -246,6 +248,37 @@ export default class ChartPage extends AreaFilter {
             // Scroll to the middle point
             element.scrollLeft = middleX;
           });
+      }
+      // if it's one of the components with a recent trend then check it's correct
+      if (visibleComponent.componentProps.hasRecentTrend) {
+        if (
+          visibleComponent.componentLocator === 'spineChartTable-component' &&
+          areaMode !== AreaMode.ONE_AREA
+        ) {
+          // Verify no trend container is present for spine chart in non-ONE_AREA modes
+          await expect(
+            this.page
+              .getByTestId(visibleComponent.componentLocator)
+              .getByTestId('trendTag-container')
+          ).not.toBeAttached();
+        } else {
+          // For all other chart components, or spine chart in ONE_AREA mode - check the trend
+          const trendContainers = this.page
+            .getByTestId(visibleComponent.componentLocator)
+            .getByTestId('trendTag-container');
+
+          const trendsText = await trendContainers.allTextContents();
+
+          for (const selectedIndicator of selectedIndicators) {
+            if (!selectedIndicator.knownTrend) {
+              throw new Error(
+                `Selected indicator ${selectedIndicator.indicatorID} should have a known trend stored in core_journey_config.ts.`
+              );
+            }
+
+            expect(trendsText).toContain(selectedIndicator.knownTrend);
+          }
+        }
       }
 
       // check chart component is now visible

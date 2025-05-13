@@ -7,6 +7,7 @@ import {
   IndicatorMode,
   SearchMode,
   AreaMode,
+  IndicatorInfo,
 } from '../../testHelpers';
 import mockIndicators from '../../../assets/mockIndicatorData.json';
 import mockAreas from '../../../assets/mockAreaData.json';
@@ -24,7 +25,7 @@ const subjectSearchTerm = 'hospital';
 const indicatorMode = IndicatorMode.ONE_INDICATOR;
 const searchMode = SearchMode.ONLY_SUBJECT;
 let allValidIndicatorIDs: string[];
-let validIndicatorIDs: string[];
+let validIndicatorIDs: IndicatorInfo[];
 let allNHSRegionAreas: AreaDocument[];
 let typedIndicatorData: RawIndicatorDocument[];
 
@@ -103,7 +104,7 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
 
     await test.step('Select "View background information" link, verify indicator page title and Return to charts page', async () => {
       const indicator = typedIndicatorData.find(
-        (ind) => ind.indicatorID === validIndicatorIDs[0]
+        (ind) => ind.indicatorID === validIndicatorIDs[0].indicatorID
       );
 
       if (!indicator) {
@@ -144,7 +145,9 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       await chartPage.clickBackLink();
 
       await resultsPage.checkSearchResultsTitle(subjectSearchTerm);
-      await resultsPage.checkIndicatorCheckboxChecked(validIndicatorIDs[0]);
+      await resultsPage.checkIndicatorCheckboxChecked(
+        validIndicatorIDs[0].indicatorID
+      );
     });
 
     await test.step('Return to search page and verify fields are correctly prepopulated', async () => {

@@ -97,7 +97,7 @@ export function PopulationPyramidChartTable({
   groupData,
 }: Readonly<PopulationPyramidTableProps>) {
   return (
-    <StylePopulationPyramidTableSection>
+    <StylePopulationPyramidTableSection data-testid="populationPyramidTable-component">
       <StyleScrollableContentDiv>
         <StyleSelectedAreaTableContextDiv>
           <PopulationDataTable
