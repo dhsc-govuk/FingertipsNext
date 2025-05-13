@@ -24,6 +24,7 @@ import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
 import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
 import { useSearchParams } from 'next/navigation';
+import styled from 'styled-components';
 
 type SearchResultsProps = {
   initialIndicatorSelectionState: IndicatorSelectionState;
@@ -41,6 +42,10 @@ const generateBackLinkPath = (state?: SearchStateParams) => {
   const stateManager = SearchStateManager.initialise(state);
   return stateManager.generatePath('/');
 };
+
+const StyledSearchTitle = styled(H1)({
+  wordWrap: 'break-word',
+});
 
 export function SearchResults({
   initialIndicatorSelectionState,
@@ -116,7 +121,7 @@ export function SearchResults({
             }}
           />
         )}
-        <H1>{searchTitle}</H1>
+        <StyledSearchTitle>{searchTitle}</StyledSearchTitle>
         <form action={indicatorSearchFormAction}>
           <IndicatorSearchForm
             indicatorSearchFormState={indicatorSearchState}
