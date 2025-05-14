@@ -47,4 +47,11 @@ describe('escapeString', () => {
     const expected = 'Test string with special chars\\: \\+, \\-, \\*, \\&';
     expect(escapeString(input)).toBe(expected);
   });
+
+  it('should escape html domain schema address', () => {
+    const expected = 'https\\:\\/\\/\\*';
+    const text = 'https://*';
+    const actual = escapeString(text);
+    expect(actual).toBe(expected);
+  });
 });

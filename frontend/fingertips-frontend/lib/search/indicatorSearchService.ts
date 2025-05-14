@@ -56,6 +56,8 @@ export class IndicatorSearchService implements IIndicatorSearchService {
     };
 
     const query = buildSearchQuery(escapeString(searchTerm));
+    console.log('CALLING SEARCH AI');
+    console.log(query);
 
     // This creates an AI Search filter string which should look like
     //  associatedAreaCodes/any(a: a eq 'E09000023' or a eq 'E09000013' or a eq 'E09000025')
