@@ -74,6 +74,22 @@ describe('InequalitiesTrend suite', () => {
             },
             isAggregate: false,
           },
+          {
+            year: 2009,
+            count: 300,
+            value: 710.123456,
+            lowerCi: 450.12345,
+            upperCi: 580.12345,
+            ageBand: allAgesAge,
+            sex: maleSex,
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: {
+              ...noDeprivation,
+              isAggregate: false,
+              type: 'Unitary deciles',
+            },
+            isAggregate: false,
+          },
         ],
       },
     ];
