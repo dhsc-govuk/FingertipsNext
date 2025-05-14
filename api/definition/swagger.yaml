@@ -277,7 +277,6 @@ paths:
         - $ref: "#/components/parameters/benchmark_ref_type"
         - $ref: "#/components/parameters/years"
         - $ref: "#/components/parameters/inequalities"
-        - $ref: "#/components/parameters/include_empty_areas"
         - $ref: "#/components/parameters/latest_only"
       operationId: getHealthDataForAnIndicator
   /indicators/quartiles:
@@ -769,12 +768,6 @@ components:
             - sex
             - deprivation
       description: Determines the kind of inequality data that should be returned if an option is specified
-    include_empty_areas:
-      in: query
-      name: include_empty_areas
-      description: Determines if areas with no data are returned as empty arrays, the default is false.
-      schema:
-        type: boolean
     latest_only:
       in: query
       name: latest_only
