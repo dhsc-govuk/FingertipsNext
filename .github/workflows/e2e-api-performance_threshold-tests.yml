@@ -1,4 +1,4 @@
-name: Execute e2e tests
+name: Execute e2e, api and performance threshold tests
 
 env:
   frontend-directory: ./frontend/fingertips-frontend
@@ -72,10 +72,11 @@ jobs:
       - name: Setup k6
         uses: grafana/setup-k6-action@v1
 
-      - name: Run local k6 test
+      - name: Run k6 performance threshold tests against local docker environment
         uses: grafana/run-k6-action@v1
         with:
-          path: ${{ env.frontend-directory }}/k6_performance_tests/script.ts
+          path: ${{ env.frontend-directory }}/k6_performance_tests/threshold_script.ts
+          flags: -e BASE_URL=http://localhost:3000
 
       - name: Run .http API tests
         if: ${{ !inputs.update_screenshots && always() }}
@@ -182,6 +183,15 @@ jobs:
         run: npm run test-e2e-cd -- --ignore-snapshots
         env:
           FINGERTIPS_FRONTEND_URL: ${{ vars.FINGERTIPS_FRONTEND_URL }}
+
+      - name: Setup k6
+        uses: grafana/setup-k6-action@v1
+
+      - name: Run k6 performance threshold tests against deployed environment
+        uses: grafana/run-k6-action@v1
+        with:
+          path: ${{ env.frontend-directory }}/k6_performance_tests/threshold_script.ts
+          flags: -e BASE_URL=${{ vars.FINGERTIPS_FRONTEND_URL }}
 
       - name: Set dynamic artifact name
         if: always()

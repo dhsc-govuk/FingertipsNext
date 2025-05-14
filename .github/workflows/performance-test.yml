@@ -38,7 +38,7 @@ jobs:
       - name: Setup k6
         uses: grafana/setup-k6-action@v1
 
-      - name: Run k6 test
+      - name: Run extensive k6 performance tests against deployed environment
         uses: grafana/run-k6-action@v1
         with:
-          path: ${{ env.frontend-directory }}/k6_performance_tests/script.ts
+          path: ${{ env.frontend-directory }}/k6_performance_tests/full_script.ts
