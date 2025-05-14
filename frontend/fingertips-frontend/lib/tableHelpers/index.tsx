@@ -95,11 +95,20 @@ export const StyledCenterStickyTableCell = styled(StyledAlignLeftStickyTableCell
   paddingLeft: '10px',
 })
 
+export const StyledFirstColumnTableCell = styled(Table.Cell)({
+  width: '10%',
+  paddingLeft: '10px',
+})
+
 export const StyledAlignLeftHeader = styled(StyledTableCellHeader)({
   textAlign: 'left',
   verticalAlign: 'top',
   paddingLeft: '10px',
 });
+
+export const StyledCenterTrendColumn = styled(Table.Cell)({
+  textAlign: 'center'
+})
 
 export const StyledAlignStickyLeftHeader = styled(StyledAlignLeftHeader)(
   stickyLeft as unknown as TemplateStringsArray

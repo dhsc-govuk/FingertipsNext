@@ -393,7 +393,6 @@ export function LineChartTable({
               <React.Fragment
                 key={`lineChartTableRow-${year}-area-${areaIndex}`}
               >
-                <></>
                 <BenchmarkCell
                   benchmarkComparison={area?.benchmarkComparison}
                   benchmarkComparisonMethod={benchmarkComparisonMethod}
