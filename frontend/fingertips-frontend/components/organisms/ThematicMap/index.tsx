@@ -1,6 +1,7 @@
 'use client';
 
 import Highcharts from 'highcharts';
+// import Highcharts from 'highcharts/highmaps';
 import HighchartsReact from 'highcharts-react-official';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client/models/HealthDataForArea';
 import { useEffect, useState } from 'react';
@@ -19,6 +20,7 @@ import { useMapGeographyData } from '@/components/organisms/ThematicMap/useMapGe
 import { H3 } from 'govuk-react';
 
 import proj4 from 'proj4';
+
 interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];
   selectedAreaType?: string;
@@ -32,6 +34,12 @@ interface ThematicMapProps {
 
 const loadHighchartsModules = async (callback: () => void) => {
   import('highcharts/modules/map').then(callback);
+  // .then(() => {
+  //   Highcharts.Projection.add('OSGB36', {
+  //     forward: (lonLat: any) => proj4('EPSG:27700').forward(lonLat),
+  //     inverse: (xy: any) => proj4('EPSG:27700').inverse(xy),
+  //   });
+  // });
 };
 
 export function ThematicMap({
@@ -90,23 +98,33 @@ export function ThematicMap({
     return null;
   }
 
-  class OSGB36ProjectionDefinition {
-    constructor() {
-      this.proj = window.proj4(
-        // "+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +nadgrids=uk_os_OSTN15_NTv2_OSGBtoETRS.tif +units=m +no_defs +type=crs"
-        '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +units=m +no_defs +type=crs'
-      );
-    }
+  // class OSGB36ProjectionDefinition {
+  //   constructor() {
+  //     this.proj = window.proj4(
+  //       // "+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +nadgrids=uk_os_OSTN15_NTv2_OSGBtoETRS.tif +units=m +no_defs +type=crs"
+  //       '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +units=m +no_defs +type=crs'
+  //     );
+  //   }
 
-    forward(lonLat) {
-      return this.proj.forward(lonLat);
-    }
+  //   forward(lonLat: any) {
+  //     return this.proj.forward(lonLat);
+  //   }
 
-    inverse(point) {
-      return this.proj.inverse(point);
-    }
-  }
-  Highcharts.Projection.add('OSGB36', OSGB36ProjectionDefinition);
+  //   inverse(point: any) {
+  //     return this.proj.inverse(point);
+  //   }
+  // }
+
+  proj4.defs(
+    'EPSG:27700',
+    '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +datum=OSGB36 +units=m +no_defs'
+  );
+
+  // Highcharts.Projection.add('OSGB36', OSGB36ProjectionDefinition);
+  // Highcharts.Projection.add('OSGB36', {
+  //   forward: (lonLat: any) => proj4('EPSG:27700').forward(lonLat),
+  //   inverse: (xy: any) => proj4('EPSG:27700').inverse(xy),
+  // });
 
   const spikeOptions: Highcharts.Options = { ...options };
   spikeOptions.title = { text: 'custom projection' };
@@ -114,6 +132,8 @@ export function ThematicMap({
     ...options.mapView,
     projection: {
       name: 'OSGB36',
+      forward: (lonLat: any) => proj4('EPSG:27700').forward(lonLat),
+      inverse: (xy: any) => proj4('EPSG:27700').inverse(xy),
     },
   };
 
@@ -153,7 +173,7 @@ export function ThematicMap({
         <p>Projections Spike</p>
         <HighchartsReact
           containerProps={{
-            'data-testid': 'highcharts-react-thematicMap-component',
+            'data-testid': 'highcharts-react-thematicMap-component-spike',
           }}
           highcharts={Highcharts}
           constructorType={'mapChart'}
