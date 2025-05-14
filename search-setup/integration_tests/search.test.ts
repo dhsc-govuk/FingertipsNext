@@ -156,11 +156,11 @@ describe('AI search index creation and data loading', () => {
       });
 
       it('should do one way synonym mapping for keywords that have the explicit flag set', async () => {
-        const wordResponse = await searchIndicatorsRequest('chd');
-        const wordResult = await wordResponse.json();
-        const requestKeywords = ['chd', 'coronary', 'heart', 'disease'];
+        const keywordResponse = await searchIndicatorsRequest('chd');
+        const keywordResult = await keywordResponse.json();
+        const synonyms = ['coronary', 'heart', 'disease'];
         const synonymResponses = await Promise.all(
-          requestKeywords.map((keyword) => searchIndicatorsRequest(keyword))
+          synonyms.map((keyword) => searchIndicatorsRequest(keyword))
         );
         const synonymResults = await Promise.all(
           synonymResponses.map((response) => response.json())
@@ -174,7 +174,7 @@ describe('AI search index creation and data loading', () => {
           );
 
         const expectedIndicatorNamesForExplicitKeyword: string[] =
-          wordResult.value.map(
+          keywordResult.value.map(
             (indicatorResult: { indicatorName: string }) =>
               indicatorResult.indicatorName
           );
@@ -183,8 +183,7 @@ describe('AI search index creation and data loading', () => {
          *  the search result of each synonym that it is mapped to, including itself
          */
         expect(expectedIndicatorNamesForExplicitKeyword.length).toBe(
-          indicatorNamesPerSynonym.length -
-            expectedIndicatorNamesForExplicitKeyword.length
+          indicatorNamesPerSynonym.length
         );
         expect(
           expectedIndicatorNamesForExplicitKeyword.every((indicatorName) =>
@@ -199,12 +198,12 @@ describe('AI search index creation and data loading', () => {
          */
         expect(
           synonymResults.some(
-            (result) => result.value.length < wordResult.value.length
+            (result) => result.value.length < keywordResult.value.length
           )
         ).toBe(true);
         synonymResults.forEach((result) =>
           expect(
-            wordResult.value.every((value: unknown) =>
+            keywordResult.value.every((value: unknown) =>
               result.value.includes(value)
             )
           ).toBe(false)
@@ -212,12 +211,12 @@ describe('AI search index creation and data loading', () => {
       });
 
       it('should return the same results for equivalent synonyms', async () => {
-        const wordResponse = await searchIndicatorsRequest('offspring');
-        const wordResult = await wordResponse.json();
+        const keywordResponse = await searchIndicatorsRequest('offspring');
+        const keywordResult = await keywordResponse.json();
         const synonymResponse = await searchIndicatorsRequest('infant');
         const synonymResult = await synonymResponse.json();
 
-        expect(wordResult.value).toEqual(synonymResult.value);
+        expect(keywordResult.value).toEqual(synonymResult.value);
       });
     });
   });

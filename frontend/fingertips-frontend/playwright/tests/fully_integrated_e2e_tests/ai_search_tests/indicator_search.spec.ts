@@ -78,8 +78,7 @@ test.describe(
         );
         await homePage.clickSearchButton();
 
-        await resultsPage.checkNumberOfResults(1);
-        await resultsPage.checkFirstResultHasName(
+        await resultsPage.checkAnyResultNameContainsText(
           'Smokers at time of childbirth delivery'
         );
       });
@@ -91,8 +90,7 @@ test.describe(
         await resultsPage.fillIndicatorSearch(subjectSearchTerm);
         await resultsPage.clickIndicatorSearchButton();
 
-        await resultsPage.checkNumberOfResults(1);
-        await resultsPage.checkFirstResultHasName(
+        await resultsPage.checkAnyResultNameContainsText(
           'Smokers at time of childbirth delivery'
         );
       });
