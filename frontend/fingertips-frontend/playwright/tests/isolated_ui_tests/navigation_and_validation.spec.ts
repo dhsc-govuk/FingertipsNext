@@ -56,8 +56,8 @@ test.beforeAll('Initialize test data from mock sources', () => {
   allNHSRegionAreas = getAllAreasByAreaType(mockAreas, 'nhs-regions');
 });
 
-test.describe('Search Page Tests', () => {
-  test('should navigate to search page and validate accessibility', async ({
+test.describe('Home Page Tests', () => {
+  test('should navigate to home page and validate accessibility', async ({
     homePage,
     axeBuilder,
   }) => {
@@ -72,7 +72,7 @@ test.describe('Search Page Tests', () => {
     await test.step('Navigate to home page', async () => {
       await homePage.navigateToHomePage();
       await homePage.checkOnHomePage();
-      await homePage.clearSearchIndicatorField();
+      await homePage.checkSearchFieldIsPrePopulatedWith(); // nothing - as nothing should be prepopulated when first navigating to the home page
     });
 
     await test.step('Try to search with empty field', async () => {
@@ -234,7 +234,7 @@ test.describe('Area Filter Tests', () => {
       sortAlphabetically(expectedPillTexts);
       test.expect(filterPillNames).toEqual(expectedPillTexts);
 
-      // Verify area filter combobox is disabled when areas are selected
+      // Verify all area filter comboboxes are disabled when an area/areas are selected
       await test.expect(resultsPage.areaFilterCombobox()).toBeDisabled();
     });
 
