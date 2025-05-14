@@ -4,7 +4,7 @@ describe('escapeString', () => {
   it('should escape special characters correctly', () => {
     const input = '+-&|!(){}[]^"~*?:\\/';
     const expected =
-      '\\+\\-\\&\\|\\!\\(\\)\\{\\}\\[\\]\\^\\\"\\~\\*\\?\\:\\\\\\/';
+      '\\+\\-\\&\\|\\!\\(\\)\\{\\}\\[\\]\\^\\"\\~\\*\\?\\:\\\\\\/';
     expect(escapeString(input)).toBe(expected);
   });
 
