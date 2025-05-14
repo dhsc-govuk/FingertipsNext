@@ -36,7 +36,7 @@ export async function createSynonymMap(
     );
     await indexClient.deleteSynonymMap(synonymMapName);
   } catch (error) {
-    console.log('error deleting synonmy map', error);
+    console.log('error deleting synonym map', error);
   }
   console.log(`Creating synonym map ${synonymMapName}`);
   const synonymMap: SynonymMap = {

@@ -195,7 +195,7 @@ describe('AI search index creation and data loading', () => {
         // Check that the mapping is one-way
         /** Expects that the search results of individual synonyms should be less than that of
          *  the explicitly mapped keyword
-         *  and that the individual synoyms do not contain all the search results returned by the explicitly-mapped keyword
+         *  and that the individual synonyms do not contain all the search results returned by the explicitly-mapped keyword
          */
         expect(
           synonymResults.some(
