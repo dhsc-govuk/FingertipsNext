@@ -8,12 +8,8 @@ describe('escapeString', () => {
     expect(escapeString(input)).toBe(expected);
   });
 
-  it('should return an empty string if input is empty', () => {
-    expect(escapeString('')).toBe('');
-  });
-
   it('should return the same string if no special characters are present', () => {
-    expect(escapeString('Hello world')).toBe('Hello world');
+    expect(escapeString('Alcohol ')).toBe('Alcohol ');
   });
 
   it('should escape special character any where within the string correctly', () => {
@@ -23,6 +19,9 @@ describe('escapeString', () => {
   });
 
   it('should escape a single special character correctly', () => {
+    // Test empty string
+    expect(escapeString('')).toBe('');
+    //Test special characters
     expect(escapeString('+')).toBe('\\+');
     expect(escapeString('-')).toBe('\\-');
     expect(escapeString('hospital*')).toBe('hospital\\*');
