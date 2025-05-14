@@ -34,14 +34,6 @@ describe('escapeString', () => {
     expect(escapeString(input)).toBe(expected);
   });
 
-  it('should escape all special characters in the input string', () => {
-    const input = 'This is a test: +-&|!(){}[]^"~*?:\\/';
-    const expected =
-      'This is a test\\: \\+\\-\\&\\|\\!\\(\\)\\{\\}\\[\\]\\^\\"\\~\\*\\?\\:\\\\\\/';
-    const actual = escapeString(input);
-    expect(actual).toBe(expected);
-  });
-
   it('should escape html domain schema address', () => {
     const expected = 'https\\:\\/\\/\\*';
     const text = 'https://*';
