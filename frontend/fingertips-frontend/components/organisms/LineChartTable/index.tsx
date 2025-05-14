@@ -13,11 +13,10 @@ import React, { FC } from 'react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
   StyledAlignLeftHeader,
-  StyledAlignLeftStickyTableCell,
   StyledAlignLeftTableCell,
   StyledAlignRightHeader,
   StyledAlignRightTableCell,
-  StyledAlignStickyLeftHeader,
+  StyledAlignStickyLeftHeader, StyledBenchmarkTableCell, StyledCenterStickyTableCell,
   StyledDivWithScrolling,
   StyledGreyHeader,
   StyledStickyRight,
@@ -174,7 +173,7 @@ const BenchmarkCell: FC<BenchmarkCellProps> = ({
 }) => {
   const CellWrapper = border
     ? StyledBenchmarkCellMultipleAreas
-    : StyledAlignLeftTableCell;
+    : StyledBenchmarkTableCell;
 
   return (
     <CellWrapper>
@@ -387,13 +386,14 @@ export function LineChartTable({
       >
         {rowData.map(({ year, areas, benchmarkValue, groupValue }) => (
           <Table.Row key={`lineChartTableRow-${year}`}>
-            <StyledAlignLeftStickyTableCell numeric>
+            <StyledCenterStickyTableCell numeric>
               {year}
-            </StyledAlignLeftStickyTableCell>
+            </StyledCenterStickyTableCell>
             {areas.map((area, areaIndex) => (
               <React.Fragment
                 key={`lineChartTableRow-${year}-area-${areaIndex}`}
               >
+                <></>
                 <BenchmarkCell
                   benchmarkComparison={area?.benchmarkComparison}
                   benchmarkComparisonMethod={benchmarkComparisonMethod}

@@ -69,9 +69,8 @@ export const StyledStickyRight = styled(StyledGreyTableCellValue)(
 );
 
 export const StyledAlignLeftTableCell = styled(StyledTableCell)({
-  textAlign: 'center',
+  textAlign: 'left',
   width: '10%',
-  paddingLeft: '10px',
 });
 
 export const StyledIndicatorTitleCell = styled(StyledAlignLeftTableCell)({
@@ -82,6 +81,19 @@ export const StyledIndicatorTitleCell = styled(StyledAlignLeftTableCell)({
 export const StyledAlignLeftStickyTableCell = styled(StyledAlignLeftTableCell)(
 stickyLeft as unknown as TemplateStringsArray
 );
+
+export const StyledBenchmarkTableCell = styled(Table.Cell)({
+  textAlign: 'center',
+  width: '10%',
+  paddingLeft: '10px',
+  paddingRight: '10px',
+})
+
+export const StyledCenterStickyTableCell = styled(StyledAlignLeftStickyTableCell)({
+  textAlign: 'center',
+  width: '10%',
+  paddingLeft: '10px',
+})
 
 export const StyledAlignLeftHeader = styled(StyledTableCellHeader)({
   textAlign: 'left',
