@@ -1415,6 +1415,43 @@ describe('getInequalityCategories', () => {
 
     expect(getInequalityCategories(mockHealthData, 2006)).toEqual(['Sex']);
   });
+
+  it('should exclude categories with health data for only one year when chartType is trend', () => {
+    const mockHealthData: HealthDataForArea = {
+      areaCode: 'area1',
+      areaName: 'Area 1',
+      healthData: [
+        {
+          ...mockDeprivationData,
+          year: 2020,
+          deprivation: {
+            ...mockDeprivationData.deprivation,
+            type: 'Category 1',
+          },
+        },
+        {
+          ...mockDeprivationData,
+          year: 2020,
+          deprivation: {
+            ...mockDeprivationData.deprivation,
+            type: 'Category 2',
+          },
+        },
+        {
+          ...mockDeprivationData,
+          year: 2021,
+          deprivation: {
+            ...mockDeprivationData.deprivation,
+            type: 'Category 2',
+          },
+        },
+      ],
+    };
+
+    const result = getInequalityCategories(mockHealthData, undefined, 'trend');
+
+    expect(result).toEqual(['Category 2']);
+  });
 });
 
 describe('getInequalitiesType', () => {

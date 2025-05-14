@@ -92,7 +92,11 @@ export function InequalitiesTrend({
 
   if (!healthDataForArea) return null;
 
-  const inequalityCategories = getInequalityCategories(healthDataForArea);
+  const inequalityCategories = getInequalityCategories(
+    healthDataForArea,
+    undefined,
+    'trend'
+  );
   if (!inequalityCategories.length) return null;
 
   const type = getInequalitiesType(
