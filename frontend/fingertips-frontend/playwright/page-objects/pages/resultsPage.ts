@@ -174,7 +174,9 @@ export default class ResultsPage extends AreaFilter {
    * Selecting the passed in indicators checkboxes
    * @param expectedIndicatorsToSelect - a list of all indicators to be selected
    */
-  async selectIndicatorCheckboxes(expectedIndicatorsToSelect: IndicatorInfo[]) {
+  async selectIndicatorCheckboxesAndVerifyURLUpdated(
+    expectedIndicatorsToSelect: IndicatorInfo[]
+  ) {
     for (const indicatorID of expectedIndicatorsToSelect) {
       const indicatorIDString = String(indicatorID.indicatorID);
       const checkbox = this.page.getByTestId(
