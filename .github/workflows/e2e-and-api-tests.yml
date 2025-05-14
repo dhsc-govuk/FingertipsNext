@@ -69,6 +69,14 @@ jobs:
       - name: Start Docker services
         run: MOCK_SERVER=false npm run start:all
 
+      - name: Setup K6
+        uses: grafana/setup-k6-action@v1
+
+      - name: Run local k6 test
+        uses: grafana/run-k6-action@v1
+        with:
+          path: ${{ env.frontend-directory }}/k6_performance_tests/script.ts
+
       - name: Run .http API tests
         if: ${{ !inputs.update_screenshots && always() }}
         working-directory: ./api
