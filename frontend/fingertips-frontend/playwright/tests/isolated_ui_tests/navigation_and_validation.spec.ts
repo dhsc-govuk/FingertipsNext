@@ -185,7 +185,7 @@ test.describe('Results Page Tests', () => {
       );
     });
 
-    await test.step('Select indicator and verify URL update', async () => {
+    await test.step('Select indicator and verify URL updated', async () => {
       await resultsPage.selectIndicatorCheckboxesAndVerifyURLUpdated(
         validIndicatorIDs
       );
@@ -384,20 +384,20 @@ test.describe('Navigation Tests', () => {
       await homePage.clickSearchButton();
     });
 
-    await test.step('Select indicator and view charts', async () => {
+    await test.step('Select indicator and check charts accessibility', async () => {
       await resultsPage.selectIndicatorCheckboxesAndVerifyURLUpdated(
         validIndicatorIDs
       );
       await resultsPage.clickViewChartsButton();
-      await chartPage.waitForURLToContain('chart');
 
-      // Check accessibility (with color-contrast exception for charts)
+      await chartPage.waitForURLToContain('chart');
       await chartPage.expectNoAccessibilityViolations(axeBuilder, [
         'color-contrast',
       ]);
     });
 
     await test.step('Navigate to indicator information page and back', async () => {
+      // get the indicator data for the selected indicatorID
       const indicator = typedIndicatorData.find(
         (ind) => ind.indicatorID === validIndicatorIDs[0].indicatorID
       );
@@ -422,8 +422,9 @@ test.describe('Navigation Tests', () => {
         subjectSearchTerm,
         'gps'
       );
+    });
 
-      // Verify chart component and accessibility (with color-contrast exception for charts)
+    await test.step('Verify chart component and accessibility', async () => {
       await chartPage.checkSpecificChartComponent(
         ChartPage.barChartEmbeddedTableComponent
       );
@@ -454,7 +455,7 @@ test.describe('Navigation Tests', () => {
 
     await test.step('Verify validation prevents forward navigation', async () => {
       await homePage.clickSearchButton();
-      await homePage.checkSearchFieldIsPrePopulatedWith(); // nothing should be prepopulated after clearing search field
+      await homePage.checkSearchFieldIsPrePopulatedWith(); // nothing - as nothing should be prepopulated after clearing search field above
       await homePage.checkSummaryValidation(
         `There is a problemEnter a subject you want to search forEnter an area you want to search for`
       );
@@ -462,7 +463,7 @@ test.describe('Navigation Tests', () => {
   });
 });
 
-// Capture URL on test failure for easier debugging
+// Capture and log out URL on test failure
 test.afterEach(async ({ page }, testInfo) => {
   if (testInfo.status !== testInfo.expectedStatus) {
     const url = page.url();
