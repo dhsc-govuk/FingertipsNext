@@ -4,7 +4,7 @@ describe('escapeString', () => {
   it('should escape special characters correctly', () => {
     const input = '+-&|!(){}[]^"~*?:\\/';
     const expected =
-      '\\+\\-\\&\\|\\!\\(\\)\\{\\}\\[\\]\\^\\"\\~\\*\\?\\:\\\\\\/';
+      '\\+\\-\\&\\|\\!\\(\\)\\{\\}\\[\\]\\^\\\"\\~\\*\\?\\:\\\\\\/';
     expect(escapeString(input)).toBe(expected);
   });
 
@@ -25,7 +25,12 @@ describe('escapeString', () => {
   it('should escape a single special character correctly', () => {
     expect(escapeString('+')).toBe('\\+');
     expect(escapeString('-')).toBe('\\-');
-    expect(escapeString('&')).toBe('\\&');
+    expect(escapeString('hospital*')).toBe('hospital\\*');
+    expect(escapeString('hospital(')).toBe('hospital\\(');
+    expect(escapeString('hospital[')).toBe('hospital\\[');
+    expect(escapeString('hospital{')).toBe('hospital\\{');
+    expect(escapeString('hospital}')).toBe('hospital\\}');
+    expect(escapeString('hospital:')).toBe('hospital\\:');
   });
 
   it('should escape multiple occurrences of the same special character', () => {
