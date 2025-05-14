@@ -1,0 +1,57 @@
+import {
+  SearchParamKeys,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
+import { useLoadingState } from '@/context/LoaderContext';
+import { usePathname, useRouter } from 'next/navigation';
+import { AreaWithoutAreaType } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { StyledFilterSelect } from '@/components/styles/StyledFilterSelect';
+
+interface BenchmarkSelectAreaProps {
+  availableAreas: AreaWithoutAreaType[];
+  benchmarkAreaSelectedKey: SearchParamKeys;
+  searchState: SearchStateParams;
+}
+
+export function BenchmarkSelectArea({
+  availableAreas,
+  benchmarkAreaSelectedKey,
+  searchState,
+}: Readonly<BenchmarkSelectAreaProps>) {
+  const pathname = usePathname();
+  const { replace } = useRouter();
+  const { setIsLoading } = useLoadingState();
+
+  const searchStateManager = SearchStateManager.initialise(searchState);
+
+  const benchmarkAreaSelected = (valueSelected: string) => {
+    setIsLoading(true);
+
+    searchStateManager.addParamValueToState(
+      benchmarkAreaSelectedKey,
+      valueSelected
+    );
+
+    replace(searchStateManager.generatePath(pathname), { scroll: false });
+  };
+
+  const selectedArea = searchState?.[benchmarkAreaSelectedKey];
+
+  return (
+    <StyledFilterSelect
+      label="Select a benchmark"
+      data-testid="benchmark-area-select"
+      input={{
+        value: selectedArea,
+        onChange: (e) => benchmarkAreaSelected(e.target.value),
+      }}
+    >
+      {availableAreas?.map((area) => (
+        <option key={area.code} value={area.code}>
+          {area.name}
+        </option>
+      ))}
+    </StyledFilterSelect>
+  );
+}

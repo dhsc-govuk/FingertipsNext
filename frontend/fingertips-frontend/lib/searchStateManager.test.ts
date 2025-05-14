@@ -24,6 +24,7 @@ describe('SearchStateManager', () => {
         [SearchParams.InequalityBarChartAreaSelected]: 'A001',
         [SearchParams.InequalityLineChartAreaSelected]: areaCodeForEngland,
         [SearchParams.PageNumber]: '1',
+        [SearchParams.LineChartAreaSelected]: areaCodeForEngland
       };
 
       const stateManager = SearchStateManager.initialise(params);
@@ -44,6 +45,7 @@ describe('SearchStateManager', () => {
         [SearchParams.InequalityBarChartAreaSelected]: 'A001',
         [SearchParams.InequalityLineChartAreaSelected]: areaCodeForEngland,
         [SearchParams.PageNumber]: '1',
+        [SearchParams.LineChartAreaSelected]: areaCodeForEngland
       });
     });
 
@@ -269,6 +271,7 @@ describe('SearchStateManager', () => {
         [SearchParams.InequalityBarChartAreaSelected]: 'A001',
         [SearchParams.InequalityLineChartAreaSelected]: areaCodeForEngland,
         [SearchParams.PageNumber]: '1',
+        [SearchParams.LineChartAreaSelected]: areaCodeForEngland,
       };
 
       const stateManager = SearchStateManager.initialise(state);
@@ -300,6 +303,7 @@ describe('SearchStateManager', () => {
         `&${SearchParams.InequalityLineChartTypeSelected}=Some+inequality+type`,
         `&${SearchParams.InequalityBarChartTypeSelected}=Some+other+inequality+type`,
         `&${SearchParams.PageNumber}=1`,
+        `&${SearchParams.LineChartAreaSelected}=${areaCodeForEngland}`,
       ].join('');
 
       const stateManager = SearchStateManager.initialise({
@@ -317,6 +321,7 @@ describe('SearchStateManager', () => {
         [SearchParams.InequalityBarChartAreaSelected]: 'A001',
         [SearchParams.InequalityLineChartAreaSelected]: areaCodeForEngland,
         [SearchParams.PageNumber]: '1',
+        [SearchParams.LineChartAreaSelected]: areaCodeForEngland,
       });
 
       const generatedPath = stateManager.generatePath('/some-path');
