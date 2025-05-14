@@ -24,6 +24,11 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 export const localeSort = (a: string, b: string) => a.localeCompare(b);
 export const sexCategory = 'Sex';
 
+export enum ChartType {
+  SingleTimePeriod = 'single-time-period',
+  Trend = 'trend',
+}
+
 export type YearlyHealthDataGroupedByInequalities = Record<
   string,
   Record<string, HealthDataPoint[] | undefined>
@@ -496,7 +501,7 @@ export const filterHealthData = (
 const getInequalityDeprivationCategories = (
   healthIndicatorData: HealthDataForArea,
   selectedYear?: number,
-  chartType?: 'single-time-period' | 'trend'
+  chartType?: ChartType
 ): string[] => {
   const disaggregatedDeprivationData = filterHealthData(
     healthIndicatorData.healthData,
@@ -511,7 +516,7 @@ const getInequalityDeprivationCategories = (
     (data) => data.deprivation.type
   );
 
-  if (chartType === 'trend') {
+  if (chartType === ChartType.Trend) {
     const validCategories = Object.entries(groupedByDeprivationType)
       .filter(([, dataPoints]) => {
         const uniqueYears = new Set(dataPoints?.map((data) => data.year));
@@ -555,7 +560,7 @@ export const isSexTypePresent = (
 export const getInequalityCategories = (
   healthIndicatorData: HealthDataForArea,
   selectedYear?: number,
-  chartType?: 'single-time-period' | 'trend'
+  chartType?: ChartType
 ) =>
   isSexTypePresent(healthIndicatorData.healthData, selectedYear)
     ? [

@@ -30,6 +30,7 @@ import {
   sexCategory,
   getInequalitiesType,
   InequalitiesChartData,
+  ChartType,
 } from './inequalitiesHelpers';
 import { GROUPED_YEAR_DATA, MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { UniqueChartColours } from '@/lib/chartHelpers/colours';
@@ -1448,7 +1449,11 @@ describe('getInequalityCategories', () => {
       ],
     };
 
-    const result = getInequalityCategories(mockHealthData, undefined, 'trend');
+    const result = getInequalityCategories(
+      mockHealthData,
+      undefined,
+      ChartType.Trend
+    );
 
     expect(result).toEqual(['Category 2']);
   });
