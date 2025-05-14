@@ -1,0 +1,44 @@
+name: Execute performance tests
+
+env:
+  frontend-directory: ./frontend/fingertips-frontend/
+  NEXT_TELEMETRY_DISABLED: true
+  NODE_VERSION: 22.x
+
+on:
+  workflow_dispatch: # Manual trigger
+  schedule:
+    - cron: '0 2 * * 1-5' # Run at 2 AM Monday-Friday
+jobs:
+  execute-performance-tests-docker:
+    name: Execute performance tests - Docker
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ${{ env.frontend-directory }}
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Start Docker services
+        run: MOCK_SERVER=false npm run start:all
+
+      - name: Setup k6
+        uses: grafana/setup-k6-action@v1
+
+      - name: Run k6 test
+        uses: grafana/run-k6-action@v1
+        with:
+          path: ${{ env.frontend-directory }}/k6_performance_tests/script.ts
