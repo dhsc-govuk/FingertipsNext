@@ -670,12 +670,12 @@ jobs:
             value       = null
           },
           {
-            name        = "FINGERTIPS_GIT_HASH"
+            name        = "NEXT_PUBLIC_FINGERTIPS_GIT_HASH"
             secret_name = null
             value       = "${{ needs.extract-git-info.outputs.git_hash }}"
           },
           {
-            name        = "FINGERTIPS_GIT_TAG"
+            name        = "NEXT_PUBLIC_FINGERTIPS_GIT_TAG"
             secret_name = null
             value       = "${{ needs.extract-git-info.outputs.git_tag }}"
           }

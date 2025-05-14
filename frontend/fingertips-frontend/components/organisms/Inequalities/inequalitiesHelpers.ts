@@ -346,15 +346,16 @@ export function generateInequalitiesLineChartOptions(
     optionalParams?.inequalityLineChartAreaSelected
   );
 
+  const chartHeight =
+    type === InequalitiesTypes.Deprivation
+      ? Number(lineChartDefaultOptions.chart?.height) * 1.5
+      : lineChartDefaultOptions.chart?.height;
+
   return {
     ...lineChartDefaultOptions,
     chart: {
       ...lineChartDefaultOptions.chart,
-      height:
-        // The deprivation chart needs a bit more height
-        type === InequalitiesTypes.Deprivation
-          ? '75%'
-          : lineChartDefaultOptions.chart?.height,
+      height: chartHeight,
     },
     yAxis: {
       ...lineChartDefaultOptions.yAxis,

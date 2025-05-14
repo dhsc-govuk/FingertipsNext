@@ -42,9 +42,13 @@ export const useMoreRowsWhenScrolling = <T>(
     setNRowsToShow(incrementRowCount);
   }, [rows, incrementRowCount]);
 
+  const nRowsToHide = Math.max(0, rows.length - nRowsToShow);
+
   return {
     triggerRef,
     rowsToShow: rows.slice(0, nRowsToShow),
     hasMore: nRowsToShow < rows.length,
+    nRowsToHide,
+    nRowsToShow,
   };
 };
