@@ -16,7 +16,7 @@ describe('escapeString', () => {
     expect(escapeString('Hello world')).toBe('Hello world');
   });
 
-  it('should escape some special characters correctly', () => {
+  it('should escape special character any where within the string correctly', () => {
     const input = 'When + there is faith!, (there) is hope';
     const expected = 'When \\+ there is faith\\!, \\(there\\) is hope';
     expect(escapeString(input)).toBe(expected);
@@ -40,12 +40,6 @@ describe('escapeString', () => {
       'This is a test\\: \\+\\-\\&\\|\\!\\(\\)\\{\\}\\[\\]\\^\\"\\~\\*\\?\\:\\\\\\/';
     const actual = escapeString(input);
     expect(actual).toBe(expected);
-  });
-
-  it('should escape only the special characters in the string', () => {
-    const input = 'Test string with special chars: +, -, *, &';
-    const expected = 'Test string with special chars\\: \\+, \\-, \\*, \\&';
-    expect(escapeString(input)).toBe(expected);
   });
 
   it('should escape html domain schema address', () => {
