@@ -30,6 +30,7 @@ import {
   sexCategory,
   getInequalitiesType,
   InequalitiesChartData,
+  ChartType,
 } from './inequalitiesHelpers';
 import { GROUPED_YEAR_DATA, MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { UniqueChartColours } from '@/lib/chartHelpers/colours';
@@ -1414,6 +1415,47 @@ describe('getInequalityCategories', () => {
     };
 
     expect(getInequalityCategories(mockHealthData, 2006)).toEqual(['Sex']);
+  });
+
+  it('should exclude categories with health data for only one year when chartType is trend', () => {
+    const mockHealthData: HealthDataForArea = {
+      areaCode: 'area1',
+      areaName: 'Area 1',
+      healthData: [
+        {
+          ...mockDeprivationData,
+          year: 2020,
+          deprivation: {
+            ...mockDeprivationData.deprivation,
+            type: 'Category 1',
+          },
+        },
+        {
+          ...mockDeprivationData,
+          year: 2020,
+          deprivation: {
+            ...mockDeprivationData.deprivation,
+            type: 'Category 2',
+          },
+        },
+        {
+          ...mockDeprivationData,
+          year: 2021,
+          deprivation: {
+            ...mockDeprivationData.deprivation,
+            type: 'Category 2',
+          },
+        },
+      ],
+    };
+
+    const result = getInequalityCategories(
+      mockHealthData,
+      undefined,
+      ChartType.Trend
+    );
+
+    expect(result).toEqual(['Category 2']);
   });
 });
 
