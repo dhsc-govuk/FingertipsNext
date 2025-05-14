@@ -98,7 +98,9 @@ test.describe(
               searchMode
             );
 
-            await resultsPage.selectIndicatorCheckboxes(indicatorsToSelect);
+            await resultsPage.selectIndicatorCheckboxesAndVerifyURLUpdated(
+              indicatorsToSelect
+            );
 
             await resultsPage.checkRecentTrends(
               areaMode,
