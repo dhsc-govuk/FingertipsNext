@@ -30,6 +30,7 @@ import {
   getInequalityCategories,
   getInequalitiesType,
   InequalitiesTypes,
+  ChartType,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import {
   AreaTypeLabelEnum,
@@ -92,7 +93,11 @@ export function InequalitiesTrend({
 
   if (!healthDataForArea) return null;
 
-  const inequalityCategories = getInequalityCategories(healthDataForArea);
+  const inequalityCategories = getInequalityCategories(
+    healthDataForArea,
+    undefined,
+    ChartType.Trend
+  );
   if (!inequalityCategories.length) return null;
 
   const type = getInequalitiesType(
