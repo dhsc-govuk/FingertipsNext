@@ -77,7 +77,8 @@ const StyledGroupNameHeader = styled(StyledAreaNameHeader)({
 });
 
 const StyledBenchmarkTrendHeader = styled(StyledAlignLeftHeader)({
-  paddingLeft: '0.5em',
+  padding: '0.6em',
+  textAlign: 'center',
 });
 
 const StyledBenchmarkTrendHeaderMultipleAreas = styled(
@@ -109,7 +110,7 @@ const StyledLightGreyHeader = styled(StyledGreyHeader)({
 
 const StyledLightGreySubHeader = styled(StyledLightGreyHeader)({
   borderLeft: 'solid black 1px',
-  paddingLeft: '0.5em',
+  paddingLeft: '0.5em'
 });
 
 const StyledBenchmarkCellMultipleAreas = styled(StyledAlignLeftTableCell)({
@@ -370,7 +371,8 @@ export function LineChartTable({
               )}
               {showGroupColumn ? (
                 <StyledLightGreySubHeader>
-                  Value {measurementUnit}
+                  Value
+                  <StyledSpan>{measurementUnit}</StyledSpan>
                 </StyledLightGreySubHeader>
               ) : null}
               {showBenchmarkColumn ? (
