@@ -89,7 +89,6 @@ export const HeatmapCell: FC<HeatmapCellProps> = ({
   mouseEnterHandler,
   mouseLeaveHandler,
 }) => {
-  console.log('content', content);
   switch (cellType) {
     case CellType.IndicatorTitle:
       return (
