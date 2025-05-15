@@ -43,7 +43,6 @@ export default async function OneIndicatorTwoOrMoreAreasView({
 
   const indicatorDataIncludingEmptyAreas = await getIndicatorData(
     indicatorsAndAreas,
-    true,
     areaCodes.length > 2
   );
 
