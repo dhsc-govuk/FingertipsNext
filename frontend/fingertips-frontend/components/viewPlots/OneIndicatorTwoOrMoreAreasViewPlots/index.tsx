@@ -91,7 +91,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     dataWithoutEnglandOrGroup,
     true,
     {
-      benchmarkData: englandBenchmarkData,
+      englandData: englandBenchmarkData,
       benchmarkComparisonMethod: indicatorData.benchmarkMethod,
       groupIndicatorData: groupData,
       yAxisTitle,

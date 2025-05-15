@@ -163,7 +163,7 @@ export function generateStandardLineChartOptions(
   healthIndicatorData: HealthDataForArea[],
   lineChartCI: boolean,
   optionalParams?: {
-    benchmarkData?: HealthDataForArea;
+    englandData?: HealthDataForArea;
     groupIndicatorData?: HealthDataForArea;
     yAxisTitle?: string;
     xAxisTitle?: string;
@@ -180,8 +180,8 @@ export function generateStandardLineChartOptions(
   const firstYear = getFirstYearForAreas(sortedHealthIndicatorData);
   const lastYear = getLatestYearForAreas(sortedHealthIndicatorData);
 
-  const sortedBenchMarkData = optionalParams?.benchmarkData
-    ? sortHealthDataForAreaByDate(optionalParams?.benchmarkData)
+  const sortedBenchMarkData = optionalParams?.englandData
+    ? sortHealthDataForAreaByDate(optionalParams?.englandData)
     : undefined;
   const filteredSortedBenchMarkData =
     sortedBenchMarkData &&

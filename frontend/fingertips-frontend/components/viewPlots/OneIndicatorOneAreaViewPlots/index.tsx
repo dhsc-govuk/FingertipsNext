@@ -59,7 +59,7 @@ export function OneIndicatorOneAreaViewPlots({
     selectedGroupCode
   );
 
-  const englandBenchmarkData = healthIndicatorData.find(
+  const englandIndicatorData = healthIndicatorData.find(
     (areaData) => areaData.areaCode === areaCodeForEngland
   );
 
@@ -72,11 +72,11 @@ export function OneIndicatorOneAreaViewPlots({
 
   const {
     areaDataWithoutInequalities,
-    englandBenchmarkWithoutInequalities,
+    englandDataWithoutInequalities,
     groupDataWithoutInequalities,
   } = getAllDataWithoutInequalities(
     dataWithoutEnglandOrGroup,
-    { englandBenchmarkData, groupData },
+    { englandIndicatorData: englandIndicatorData, groupData },
     areaCodes
   );
 
@@ -93,7 +93,7 @@ export function OneIndicatorOneAreaViewPlots({
     areaDataWithoutInequalities,
     true,
     {
-      benchmarkData: englandBenchmarkWithoutInequalities,
+      englandData: englandDataWithoutInequalities,
       benchmarkComparisonMethod: benchmarkComparisonMethod,
       groupIndicatorData: groupDataWithoutInequalities,
       yAxisTitle,
@@ -107,7 +107,7 @@ export function OneIndicatorOneAreaViewPlots({
     <section data-testid="oneIndicatorOneAreaViewPlot-component">
       {shouldLineChartBeShown(
         areaDataWithoutInequalities,
-        englandBenchmarkWithoutInequalities
+        englandDataWithoutInequalities
       ) && (
         <StyleChartWrapper>
           <H3>Indicator data over time</H3>
@@ -135,7 +135,7 @@ export function OneIndicatorOneAreaViewPlots({
                 content: (
                   <LineChartTable
                     healthIndicatorData={areaDataWithoutInequalities}
-                    englandBenchmarkData={englandBenchmarkWithoutInequalities}
+                    englandBenchmarkData={englandDataWithoutInequalities}
                     groupIndicatorData={groupDataWithoutInequalities}
                     measurementUnit={indicatorMetadata?.unitLabel}
                     benchmarkComparisonMethod={benchmarkComparisonMethod}

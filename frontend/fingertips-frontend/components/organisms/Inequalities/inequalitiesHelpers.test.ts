@@ -1124,7 +1124,7 @@ describe('getAllDataWithoutInequalities', () => {
     expect(
       getAllDataWithoutInequalities(
         mockHealthIndicatorData,
-        { englandBenchmarkData: benchmarkData, groupData },
+        { englandIndicatorData: benchmarkData, groupData },
         ['A1425']
       )
     ).toEqual(expected);
@@ -1140,7 +1140,7 @@ describe('getAllDataWithoutInequalities', () => {
     expect(
       getAllDataWithoutInequalities(
         mockHealthIndicatorData,
-        { englandBenchmarkData: undefined, groupData: undefined },
+        { englandIndicatorData: undefined, groupData: undefined },
         []
       )
     ).toEqual(expected);
@@ -1156,7 +1156,7 @@ describe('getAllDataWithoutInequalities', () => {
     expect(
       getAllDataWithoutInequalities(
         mockHealthIndicatorData,
-        { englandBenchmarkData: benchmarkData },
+        { englandIndicatorData: benchmarkData },
         [areaCodeForEngland]
       )
     ).toEqual(expected);

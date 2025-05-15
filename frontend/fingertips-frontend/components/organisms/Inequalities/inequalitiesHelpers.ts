@@ -67,7 +67,7 @@ export interface InequalitiesTableRowData {
 
 interface DataWithoutInequalities {
   areaDataWithoutInequalities: HealthDataForArea[];
-  englandBenchmarkWithoutInequalities: HealthDataForArea | undefined;
+  englandDataWithoutInequalities: HealthDataForArea | undefined;
   groupDataWithoutInequalities: HealthDataForArea | undefined;
 }
 
@@ -399,7 +399,7 @@ export function generateInequalitiesLineChartOptions(
 export const getAllDataWithoutInequalities = (
   dataWithoutEnglandOrGroup: HealthDataForArea[],
   benchmark: {
-    englandBenchmarkData?: HealthDataForArea;
+    englandIndicatorData?: HealthDataForArea;
     groupData?: HealthDataForArea;
   },
   areasSelected?: string[]
@@ -412,11 +412,11 @@ export const getAllDataWithoutInequalities = (
     : [];
 
   const englandBenchmarkWithoutInequalities: HealthDataForArea | undefined =
-    benchmark.englandBenchmarkData
+    benchmark.englandIndicatorData
       ? {
-          ...benchmark.englandBenchmarkData,
+          ...benchmark.englandIndicatorData,
           healthData: getHealthDataWithoutInequalities(
-            benchmark.englandBenchmarkData
+            benchmark.englandIndicatorData
           ),
         }
       : undefined;
@@ -431,7 +431,7 @@ export const getAllDataWithoutInequalities = (
 
   return {
     areaDataWithoutInequalities,
-    englandBenchmarkWithoutInequalities,
+    englandDataWithoutInequalities: englandBenchmarkWithoutInequalities,
     groupDataWithoutInequalities,
   };
 };

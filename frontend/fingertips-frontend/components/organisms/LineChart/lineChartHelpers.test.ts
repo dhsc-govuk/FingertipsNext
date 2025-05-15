@@ -344,7 +344,7 @@ describe('generateStandardLineChartOptions', () => {
       [mockIndicatorData[0]],
       false,
       {
-        benchmarkData: undefined,
+        englandData: undefined,
         groupIndicatorData: undefined,
         yAxisTitle: 'yAxis',
         xAxisTitle: 'xAxis',
@@ -366,7 +366,7 @@ describe('generateStandardLineChartOptions', () => {
       [mockIndicatorData[0]],
       false,
       {
-        benchmarkData: mockBenchmarkData,
+        englandData: mockBenchmarkData,
         groupIndicatorData: mockParentData,
         yAxisTitle: 'yAxis',
         xAxisTitle: 'xAxis',
@@ -411,7 +411,7 @@ describe('generateStandardLineChartOptions', () => {
       [mockIndicatorData[0]],
       false,
       {
-        benchmarkData: mockBenchmarkAreaWithEarlyYear,
+        englandData: mockBenchmarkAreaWithEarlyYear,
         groupIndicatorData: mockGroupAreaWithLateYear,
         yAxisTitle: 'yAxis',
         xAxisTitle: 'xAxis',
