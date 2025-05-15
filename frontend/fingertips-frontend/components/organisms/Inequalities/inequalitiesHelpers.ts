@@ -1,5 +1,4 @@
 import {
-  Area,
   HealthDataForArea,
   HealthDataPoint,
   HealthDataPointBenchmarkComparison,
@@ -20,6 +19,7 @@ import {
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import Highcharts, { DashStyleValue, YAxisOptions } from 'highcharts';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { AreaWithoutAreaType } from '@/lib/common-types';
 
 export const localeSort = (a: string, b: string) => a.localeCompare(b);
 export const sexCategory = 'Sex';
@@ -64,8 +64,6 @@ export interface InequalitiesTableRowData {
     [key: string]: RowDataFields | undefined;
   };
 }
-
-export type AreaWithoutAreaType = Pick<Area, 'code' | 'name'>;
 
 interface DataWithoutInequalities {
   areaDataWithoutInequalities: HealthDataForArea[];

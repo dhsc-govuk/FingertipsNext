@@ -6,6 +6,7 @@ import { LineChartTable } from '@/components/organisms/LineChartTable';
 import {
   determineAreaCodes,
   seriesDataWithoutEnglandOrGroup,
+  determineAreasForBenchmarking,
 } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams } from '@/lib/searchStateManager';
@@ -24,6 +25,7 @@ import {
 import { getAllDataWithoutInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
+import { BenchmarkSelectArea } from '@/components/molecules/BenchmarkSelectArea';
 
 function shouldLineChartBeShown(
   dataWithoutEnglandOrGroup: HealthDataForArea[],
@@ -78,6 +80,13 @@ export function OneIndicatorOneAreaViewPlots({
     areaCodes
   );
 
+  const availableAreasForBenchmarking = determineAreasForBenchmarking(
+    healthIndicatorData,
+    selectedGroupCode
+  );
+
+  console.log('availableAreasForBenchmarking', availableAreasForBenchmarking);
+
   const yAxisTitle = indicatorMetadata?.unitLabel
     ? `Value: ${indicatorMetadata?.unitLabel}`
     : undefined;
@@ -104,6 +113,11 @@ export function OneIndicatorOneAreaViewPlots({
       ) && (
         <StyleChartWrapper>
           <H3>Indicator data over time</H3>
+          <BenchmarkSelectArea
+            availableAreas={availableAreasForBenchmarking}
+            benchmarkAreaSelectedKey={SearchParams.LineChartAreaSelected}
+            searchState={searchState}
+          />
           <TabContainer
             id="lineChartAndTable"
             items={[

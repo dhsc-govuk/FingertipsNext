@@ -4,7 +4,7 @@ import { LoaderContext } from '@/context/LoaderContext';
 import { SearchStateContext } from '@/context/SearchStateContext';
 import { SearchParams } from '@/lib/searchStateManager';
 import userEvent from '@testing-library/user-event';
-import { AreaWithoutAreaType } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { AreaWithoutAreaType } from '@/lib/common-types';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();

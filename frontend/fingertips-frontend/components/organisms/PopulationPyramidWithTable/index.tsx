@@ -17,13 +17,13 @@ import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { ArrowExpander } from '@/components/molecules/ArrowExpander';
 import { PopulationPyramidChartTable } from '../PopulationPyramidChartTable';
 import { ChartSelectArea } from '@/components/molecules/ChartSelectArea';
-import { AreaWithoutAreaType } from '../Inequalities/inequalitiesHelpers';
 import {
   allAreaTypes,
   HierarchyNameTypes,
 } from '@/lib/areaFilterHelpers/areaType';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
+import { AreaWithoutAreaType } from '@/lib/common-types';
 
 const determineHeaderTitle = (
   healthDataForAreaSelected?: HealthDataForArea,

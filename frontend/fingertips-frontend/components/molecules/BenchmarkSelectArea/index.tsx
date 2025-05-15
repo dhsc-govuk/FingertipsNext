@@ -5,8 +5,8 @@ import {
 } from '@/lib/searchStateManager';
 import { useLoadingState } from '@/context/LoaderContext';
 import { usePathname, useRouter } from 'next/navigation';
-import { AreaWithoutAreaType } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { StyledFilterSelect } from '@/components/styles/StyledFilterSelect';
+import { AreaWithoutAreaType } from '@/lib/common-types';
 
 interface BenchmarkSelectAreaProps {
   availableAreas: AreaWithoutAreaType[];

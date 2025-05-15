@@ -12,6 +12,7 @@ import { GovukColours } from '../styleHelpers/colours';
 import { ALL_AREAS_SELECTED } from '../areaFilterHelpers/constants';
 import { getBenchmarkLabelText } from '@/components/organisms/BenchmarkLabel';
 import { formatNumber } from '../numberFormatter';
+import { AreaWithoutAreaType } from '../common-types';
 
 export const AXIS_TITLE_FONT_SIZE = 19;
 export const AXIS_LABEL_FONT_SIZE = 16;
@@ -400,4 +401,25 @@ export const getFormattedLabel = (
   return tickPositions?.every((position) => position % 1 === 0)
     ? formattedNumber.replace('.0', '')
     : formattedNumber;
+};
+
+export const determineAreasForBenchmarking = (
+  healthDataForAreas: HealthDataForArea[],
+  selectedGroupCode?: string
+): AreaWithoutAreaType[] => {
+  const areasForBenchmarking = healthDataForAreas
+    .filter((area) => {
+      if (
+        area.areaCode === areaCodeForEngland &&
+        area.areaCode === selectedGroupCode
+      ) {
+        return true;
+      }
+    })
+    .map((area) => ({
+      code: area.areaCode,
+      name: area.areaName,
+    }));
+
+  return areasForBenchmarking;
 };
