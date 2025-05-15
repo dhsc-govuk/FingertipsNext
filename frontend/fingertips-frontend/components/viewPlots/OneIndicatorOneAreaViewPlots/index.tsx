@@ -85,8 +85,6 @@ export function OneIndicatorOneAreaViewPlots({
     selectedGroupCode
   );
 
-  console.log('availableAreasForBenchmarking', availableAreasForBenchmarking);
-
   const yAxisTitle = indicatorMetadata?.unitLabel
     ? `Value: ${indicatorMetadata?.unitLabel}`
     : undefined;

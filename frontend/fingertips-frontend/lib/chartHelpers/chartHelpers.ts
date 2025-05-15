@@ -410,7 +410,7 @@ export const determineAreasForBenchmarking = (
   const areasForBenchmarking = healthDataForAreas
     .filter((area) => {
       if (
-        area.areaCode === areaCodeForEngland &&
+        area.areaCode === areaCodeForEngland ||
         area.areaCode === selectedGroupCode
       ) {
         return true;

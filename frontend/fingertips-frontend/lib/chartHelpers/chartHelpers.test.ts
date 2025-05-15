@@ -18,6 +18,7 @@ import {
   getLatestYearForAreas,
   getFirstYearForAreas,
   getFormattedLabel,
+  determineAreasForBenchmarking,
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { areaCodeForEngland } from './constants';
@@ -1336,4 +1337,45 @@ describe('getFormattedLabel', () => {
       expect(getFormattedLabel(value, tickPoints)).toBe(formattedValue);
     }
   );
+});
+
+describe('determineAreasForBenchmarking', () => {
+  const mockAreas: HealthDataForArea[] = [
+    { areaCode: 'A1', areaName: 'Area 1', healthData: [] },
+    { areaCode: areaCodeForEngland, areaName: 'England', healthData: [] },
+    { areaCode: 'G1', areaName: 'Group 1', healthData: [] },
+    { areaCode: 'A2', areaName: 'Area 2', healthData: [] },
+  ];
+
+  it('returns only England if present and no group selected', () => {
+    const result = determineAreasForBenchmarking(mockAreas);
+    expect(result).toEqual([{ code: areaCodeForEngland, name: 'England' }]);
+  });
+
+  it('returns England and selected group if both present', () => {
+    const result = determineAreasForBenchmarking(mockAreas, 'G1');
+    expect(result).toEqual([
+      { code: areaCodeForEngland, name: 'England' },
+      { code: 'G1', name: 'Group 1' },
+    ]);
+  });
+
+  it('returns only selected group if England is not present', () => {
+    const areas = mockAreas.filter((a) => a.areaCode !== areaCodeForEngland);
+    const result = determineAreasForBenchmarking(areas, 'G1');
+    expect(result).toEqual([{ code: 'G1', name: 'Group 1' }]);
+  });
+
+  it('returns empty array if neither England nor group is present', () => {
+    const areas = mockAreas.filter(
+      (a) => a.areaCode !== areaCodeForEngland && a.areaCode !== 'G1'
+    );
+    const result = determineAreasForBenchmarking(areas, 'G1');
+    expect(result).toEqual([]);
+  });
+
+  it('returns empty array if input is empty', () => {
+    const result = determineAreasForBenchmarking([], 'G1');
+    expect(result).toEqual([]);
+  });
 });
