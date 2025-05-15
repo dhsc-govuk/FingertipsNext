@@ -57,12 +57,21 @@ const StyledDivIndicatorTitleCellContent = styled.div({
   display: '-webkit-box',
   WebkitLineClamp: 4,
   WebkitBoxOrient: 'vertical',
+  paddingLeft: '10px',
 });
 
 const StyledDivIndicatorInformationCellContent = styled.div({
   minWidth: '40px',
-  paddingRight: '20px',
-  paddingLeft: '20px',
+  paddingRight: '10px',
+  paddingLeft: '10px',
+});
+
+const StyledDivIndicatorInformationValueUnitCellContent = styled(StyledDivIndicatorInformationCellContent)({
+  textAlign: 'left',
+});
+
+const StyledDivIndicatorInformationPeriodCellContent = styled(StyledDivIndicatorInformationCellContent)({
+  textAlign: 'right',
 });
 
 interface HeatmapCellProps {
@@ -80,6 +89,7 @@ export const HeatmapCell: FC<HeatmapCellProps> = ({
   mouseEnterHandler,
   mouseLeaveHandler,
 }) => {
+  console.log('content', content);
   switch (cellType) {
     case CellType.IndicatorTitle:
       return (
@@ -89,14 +99,21 @@ export const HeatmapCell: FC<HeatmapCellProps> = ({
           </StyledDivIndicatorTitleCellContent>
         </StyledIndicatorCell>
       );
-    case CellType.IndicatorInformation:
+    case CellType.IndicatorInformationPeriod:
       return (
-        <StyledCellText data-testid="heatmap-cell-indicator-info">
-          <StyledDivIndicatorInformationCellContent>
+        <StyledCellText data-testid="heatmap-cell-indicator-info-period">
+          <StyledDivIndicatorInformationPeriodCellContent>
             {content}
-          </StyledDivIndicatorInformationCellContent>
+          </StyledDivIndicatorInformationPeriodCellContent>
         </StyledCellText>
       );
+    case CellType.IndicatorInformationValueUnit: return (
+      <StyledCellText data-testid="heatmap-cell-indicator-info-value-unit">
+        <StyledDivIndicatorInformationValueUnitCellContent>
+          {content}
+        </StyledDivIndicatorInformationValueUnitCellContent>
+      </StyledCellText>
+    );
     case CellType.Data: {
       return (
         <StyledCellData

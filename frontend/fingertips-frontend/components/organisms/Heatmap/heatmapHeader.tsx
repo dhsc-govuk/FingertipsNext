@@ -67,12 +67,14 @@ const StyledCellHeaderIndicatorTitle = styled(Table.CellHeader)({
   ...(stickyLeft as unknown as TemplateStringsArray),
   verticalAlign: 'bottom',
   width: `${heatmapIndicatorTitleColumnWidth}px`,
+  paddingLeft: '10px',
 });
 
 const StyledCellHeaderIndicatorInformation = styled(Table.CellHeader)({
   verticalAlign: 'bottom',
   paddingRight: '10px',
   paddingLeft: '10px',
+  textAlign: 'right',
 });
 
 const StyledCellHeaderArea = styled(Table.CellHeader)({
@@ -82,10 +84,46 @@ const StyledCellHeaderArea = styled(Table.CellHeader)({
   paddingLeft: '1em',
 });
 
+const StyledCellHeaderIndicatorInformationValueUnit = styled(Table.CellHeader)({
+  verticalAlign: 'bottom',
+  paddingRight: '10px',
+  paddingLeft: '10px',
+  textAlign: 'left',
+});
+
+const StyledCellHeaderIndicatorInformationPeriod = styled(Table.CellHeader)({
+  verticalAlign: 'bottom',
+  paddingRight: '10px',
+  paddingLeft: '10px',
+  textAlign: 'right',
+});
+
 export const HeatmapHeader: FC<HeatmapHeaderProps> = ({
   headerType,
   content,
 }) => {
+  // function styleIndicatorInformationTitles(content: string) {
+  //   if (content === 'Value unit') {
+  //     return (
+  //       <StyledCellHeaderIndicatorInformationValueUnit>
+  //         <StyledH4Header>{content}</StyledH4Header>
+  //       </StyledCellHeaderIndicatorInformationValueUnit>
+  //     );
+  //   }
+  //   if (content === 'Period') {
+  //     return (
+  //       <StyledCellHeaderIndicatorInformationPeriod>
+  //         <StyledH4Header>{content}</StyledH4Header>
+  //       </StyledCellHeaderIndicatorInformationPeriod>
+  //     );
+  //   }
+  //   return (
+  //     <StyledCellHeaderIndicatorInformation>
+  //       <StyledH4Header>{content}</StyledH4Header>
+  //     </StyledCellHeaderIndicatorInformation>
+  //   );
+  // }
+
   switch (headerType) {
     case HeaderType.IndicatorTitle:
       return (
@@ -94,13 +132,20 @@ export const HeatmapHeader: FC<HeatmapHeaderProps> = ({
         </StyledCellHeaderIndicatorTitle>
       );
 
-    case HeaderType.IndicatorInformation: {
+    case HeaderType.IndicatorInformationPeriod:
+      // return styleIndicatorInformationTitles(content)
       return (
-        <StyledCellHeaderIndicatorInformation>
+        <StyledCellHeaderIndicatorInformationPeriod>
           <StyledH4Header>{content}</StyledH4Header>
-        </StyledCellHeaderIndicatorInformation>
+        </StyledCellHeaderIndicatorInformationPeriod>
       );
-    }
+      
+    case HeaderType.IndicatorInformationValueUnit:
+      return (
+        <StyledCellHeaderIndicatorInformationValueUnit>
+          <StyledH4Header>{content}</StyledH4Header>
+        </StyledCellHeaderIndicatorInformationValueUnit>
+      );
 
     case HeaderType.BenchmarkArea: {
       return (
