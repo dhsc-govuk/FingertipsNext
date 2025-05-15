@@ -49,9 +49,14 @@ const determineHeaderTitle = (
 
 export function determinePopulationDataForArea(
   populationDataForAllAreas: PopulationDataForArea[],
+  availableAreas: AreaWithoutAreaType[],
   areaToFind?: string
 ) {
-  if (!areaToFind) return populationDataForAllAreas[0];
+  if (!areaToFind) {
+    return populationDataForAllAreas.find(
+      (data) => data.areaCode === availableAreas[0].code
+    );
+  }
 
   return populationDataForAllAreas.find((data) => data.areaCode === areaToFind);
 }
@@ -108,6 +113,7 @@ export const PopulationPyramidWithTable = ({
 
   const populationDataForSelectedArea = determinePopulationDataForArea(
     areasForPopulationData,
+    availableAreas,
     populationAreaSelected
   );
 
