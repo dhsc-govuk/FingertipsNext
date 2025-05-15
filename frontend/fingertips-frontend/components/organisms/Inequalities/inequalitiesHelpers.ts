@@ -411,7 +411,7 @@ export const getAllDataWithoutInequalities = (
       }))
     : [];
 
-  const englandBenchmarkWithoutInequalities: HealthDataForArea | undefined =
+  const englandDataWithoutInequalities: HealthDataForArea | undefined =
     benchmark.englandIndicatorData
       ? {
           ...benchmark.englandIndicatorData,
@@ -431,7 +431,7 @@ export const getAllDataWithoutInequalities = (
 
   return {
     areaDataWithoutInequalities,
-    englandDataWithoutInequalities: englandBenchmarkWithoutInequalities,
+    englandDataWithoutInequalities: englandDataWithoutInequalities,
     groupDataWithoutInequalities,
   };
 };

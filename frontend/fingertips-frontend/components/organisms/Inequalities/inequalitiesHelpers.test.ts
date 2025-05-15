@@ -1116,8 +1116,7 @@ describe('getAllDataWithoutInequalities', () => {
 
     const expected = {
       areaDataWithoutInequalities: expectedHealthDataWithoutInequalities,
-      englandBenchmarkWithoutInequalities:
-        expectedBenchmarkDataWithoutInequalities,
+      englandDataWithoutInequalities: expectedBenchmarkDataWithoutInequalities,
       groupDataWithoutInequalities: expectedGroupDataWithoutInequalities,
     };
 
@@ -1133,7 +1132,7 @@ describe('getAllDataWithoutInequalities', () => {
   it('should return undefined benchmark data and group data when both are not provided', () => {
     const expected = {
       areaDataWithoutInequalities: [{ ...mockIndicatorData[0] }],
-      englandBenchmarkWithoutInequalities: undefined,
+      englandDataWithoutInequalities: undefined,
       groupDataWithoutInequalities: undefined,
     };
 
@@ -1149,7 +1148,7 @@ describe('getAllDataWithoutInequalities', () => {
   it('should return empty areaDataWithoutInequalities if England is the selected area', () => {
     const expected = {
       areaDataWithoutInequalities: [],
-      englandBenchmarkWithoutInequalities: mockBenchmarkData,
+      englandDataWithoutInequalities: mockBenchmarkData,
       groupDataWithoutInequalities: undefined,
     };
 
