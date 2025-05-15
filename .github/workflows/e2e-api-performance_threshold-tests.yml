@@ -192,7 +192,7 @@ jobs:
       - name: Run k6 performance threshold tests against deployed environment
         uses: grafana/run-k6-action@v1
         with:
-          path: ${{ env.frontend-directory }}/k6_performance_tests/threshold_script.ts
+          path: ${{ env.frontend-directory }}/k6_performance_tests/full_script.ts
           flags: -e BASE_URL=${{ vars.FINGERTIPS_FRONTEND_URL }}
 
       - name: Set dynamic artifact name

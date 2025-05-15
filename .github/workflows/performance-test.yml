@@ -22,19 +22,6 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Start Docker services
-        run: MOCK_SERVER=false npm run start:all
-
       - name: Setup k6
         uses: grafana/setup-k6-action@v1
 
@@ -42,3 +29,4 @@ jobs:
         uses: grafana/run-k6-action@v1
         with:
           path: ${{ env.frontend-directory }}/k6_performance_tests/full_script.ts
+          flags: -e BASE_URL=${{ vars.FINGERTIPS_FRONTEND_URL }}
