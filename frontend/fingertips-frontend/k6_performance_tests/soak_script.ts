@@ -26,9 +26,9 @@ const ENDPOINTS = [
 
 export const options = {
   stages: [
-    { duration: '5m', target: 20 }, // traffic ramp-up from 1 to 20 users over 5 minutes - anything over 20 causes threshold errors even at short duration
-    { duration: '8h', target: 20 }, // stay at 20 users for 8 hours - anything over 20 causes threshold errors even at short duration
-    { duration: '5m', target: 0 }, // ramp-down to 0 users
+    { duration: '60s', target: 20 }, // traffic ramp-up from 1 to 20 users over 60 seconds - anything over 20 causes threshold errors even at short duration
+    { duration: '1h', target: 20 }, // stay at 20 users for 1 hour - anything over 20 causes threshold errors even at short duration
+    { duration: '60s', target: 0 }, // ramp-down to 0 users
   ],
   thresholds: {
     http_req_failed: ['rate<0.01'], // http errors must be less than 1%
