@@ -11,55 +11,18 @@ import { H3, H5 } from 'govuk-react';
 import {
   determineHealthDataForArea,
   seriesDataWithoutGroup,
-  sortHealthDataPointsByDescendingYear,
 } from '@/lib/chartHelpers/chartHelpers';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { ArrowExpander } from '@/components/molecules/ArrowExpander';
 import { PopulationPyramidChartTable } from '../PopulationPyramidChartTable';
 import { ChartSelectArea } from '@/components/molecules/ChartSelectArea';
 import { AreaWithoutAreaType } from '../Inequalities/inequalitiesHelpers';
-import {
-  allAreaTypes,
-  HierarchyNameTypes,
-} from '@/lib/areaFilterHelpers/areaType';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
-
-const determineHeaderTitle = (
-  healthDataForAreaSelected?: HealthDataForArea,
-  areaTypeSelected?: string
-): string => {
-  if (!healthDataForAreaSelected) return '';
-
-  const hierarchyName = allAreaTypes.find(
-    (areaType) => areaType.key === areaTypeSelected
-  );
-
-  const titleTypeText =
-    hierarchyName?.hierarchyName === HierarchyNameTypes.NHS
-      ? 'Registered'
-      : 'Resident';
-
-  const year = sortHealthDataPointsByDescendingYear(
-    healthDataForAreaSelected.healthData
-  )[0].year;
-
-  return `${titleTypeText} population profile for ${healthDataForAreaSelected?.areaName} ${year}`;
-};
-
-export function determinePopulationDataForArea(
-  populationDataForAllAreas: PopulationDataForArea[],
-  availableAreas: AreaWithoutAreaType[],
-  areaToFind?: string
-) {
-  if (!areaToFind) {
-    return populationDataForAllAreas.find(
-      (data) => data.areaCode === availableAreas[0].code
-    );
-  }
-
-  return populationDataForAllAreas.find((data) => data.areaCode === areaToFind);
-}
+import {
+  determineHeaderTitle,
+  determinePopulationDataForArea,
+} from './populationPyramidHelpers';
 
 interface PyramidPopulationChartViewProps {
   healthDataForAreas: HealthDataForArea[];
