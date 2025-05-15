@@ -31,6 +31,7 @@ const config: Config = {
     '!<rootDir>/instrumentation.*',
     '!<rootDir>/*.config.ts',
     '!<rootDir>/**/*.types.ts',
+    '!<rootDir>/k6_performance_tests/**/*',
   ],
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
