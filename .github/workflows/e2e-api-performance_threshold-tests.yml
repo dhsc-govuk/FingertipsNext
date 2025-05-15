@@ -27,7 +27,7 @@ on:
         required: false
 jobs:
   execute-e2e-tests-docker:
-    name: Execute e2e tests - Docker
+    name: Execute all high level integrated tests - Docker
     runs-on: ubuntu-latest
     if: inputs.playwright-mode == 'docker'
 
@@ -149,7 +149,7 @@ jobs:
           retention-days: 5
 
   execute-e2e-tests-azure:
-    name: Execute e2e tests - Azure
+    name: Execute e2e and performance threshold tests - Azure
     runs-on: self-hosted
     if: inputs.playwright-mode == 'azure'
 
