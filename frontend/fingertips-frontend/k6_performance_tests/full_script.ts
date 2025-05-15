@@ -9,7 +9,7 @@ const url = `${BASE_URL}${ENDPOINT}`;
 
 export const options = {
   vus: 2500, // NFT requirement of 2500 concurrent users
-  duration: '60s',
+  duration: '120s',
   thresholds: {
     http_req_failed: ['rate<0.01'], // http errors should be less than 1%
     http_req_duration: ['p(95)<500', 'p(100)<5000'], // 95% of requests should be below 500ms and 100% below 5s

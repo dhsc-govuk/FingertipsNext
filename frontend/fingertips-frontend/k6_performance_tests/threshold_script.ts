@@ -25,7 +25,8 @@ const ENDPOINTS = [
 ];
 
 export const options = {
-  vus: 10,
+  // vus: 175, // 2500 is the target but anything over 175 concurrent users causes - Request Failed error="Get \"http://localhost:3000/results?si=hospital&ats=england&gts=england&gs=E92000001\": read tcp 127.0.0.1:52362->127.0.0.1:3000: read: connection reset by peer"
+  vus: 25, // anything over 25 concurrent users causes thresholds on metrics 'http_req_duration' have been crossed
   duration: '30s',
   thresholds: {
     http_req_failed: ['rate<0.01'], // http errors must be less than 1%
