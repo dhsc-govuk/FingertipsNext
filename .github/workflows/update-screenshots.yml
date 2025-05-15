@@ -6,7 +6,7 @@ on:
 jobs:
   update-screenshots:
     name: Update Baseline Screenshots for E2E Tests
-    uses: ./.github/workflows/e2e-and-api-tests.yml
+    uses: ./.github/workflows/e2e-api-performance_threshold-tests.yml
     if: github.ref_name != 'main'
     with:
       playwright-mode: docker

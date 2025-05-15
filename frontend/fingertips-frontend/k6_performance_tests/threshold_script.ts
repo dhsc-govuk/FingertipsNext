@@ -3,7 +3,7 @@ import http from 'k6/http';
 import { sleep, check } from 'k6';
 
 // Get base URL from environment variable or default to localhost
-const BASE_URL = __ENV.BASE_URL || 'http://localhost:3000';
+const BASE_URL = __ENV.BASE_URL ?? 'http://localhost:3000';
 const ENDPOINT = '/results?si=hospital&ats=england&gts=england&gs=E92000001';
 const url = `${BASE_URL}${ENDPOINT}`;
 

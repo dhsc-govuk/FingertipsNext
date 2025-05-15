@@ -70,9 +70,11 @@ jobs:
         run: MOCK_SERVER=false npm run start:all
 
       - name: Setup k6
+        if: ${{ !inputs.update_screenshots && always() }}
         uses: grafana/setup-k6-action@v1
 
       - name: Run k6 performance threshold tests against local docker environment
+        if: ${{ !inputs.update_screenshots && always() }}
         uses: grafana/run-k6-action@v1
         with:
           path: ${{ env.frontend-directory }}/k6_performance_tests/threshold_script.ts

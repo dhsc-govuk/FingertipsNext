@@ -28,7 +28,7 @@ This workflow is triggered by:
 
 ### **Stage 4: Local End-to-End Testing**
 
-8. **`e2e-and-api-tests`** → Runs local API and E2E tests **after** building the database project, or pushing the API and frontend containers.
+1. **`e2e-api-performance_threshold-tests`** → Runs local API, E2E and performance threshold tests **after** building the database project, or pushing the API and frontend containers.
 
 ### **Stage 5: Deployment (Sequential Execution)**
 

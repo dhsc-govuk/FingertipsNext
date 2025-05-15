@@ -253,7 +253,7 @@ jobs:
       )
     uses: ./.github/workflows/ui-tests.yml
 
-  e2e-and-api-tests:
+  e2e-and-api-and-performance_threshold-tests:
     needs: [check-changes]
     if: >
       always() &&
@@ -269,7 +269,7 @@ jobs:
           needs.check-changes.outputs.search_changed == 'true'
         )
       )
-    uses: ./.github/workflows/e2e-and-api-tests.yml
+    uses: ./.github/workflows/e2e-api-performance_threshold-tests.yml
     with:
       playwright-mode: docker
     secrets:
@@ -321,7 +321,7 @@ jobs:
         determine-version,
         check-changes,
         database-build,
-        e2e-and-api-tests,
+        e2e-and-api-and-performance_threshold-tests,
         push-container-api,
         push-container-frontend,
       ]
@@ -612,7 +612,7 @@ jobs:
         check-changes,
         push-container-frontend,
         deploy-api-dev,
-        extract-git-info
+        extract-git-info,
       ]
     if: >
       always() &&
@@ -702,7 +702,7 @@ jobs:
         deploy-api-dev,
         deploy-frontend-dev,
       ]
-    uses: ./.github/workflows/e2e-and-api-tests.yml
+    uses: ./.github/workflows/e2e-api-performance_threshold-tests.yml
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
