@@ -1,7 +1,7 @@
 import { Table } from 'govuk-react';
 import {
   StyledAlignLeftHeader,
-  StyledAlignRightHeader,
+  StyledAlignRightHeader, StyledCenterTableHeader,
 } from '@/lib/tableHelpers';
 import React, { FC } from 'react';
 
@@ -20,8 +20,9 @@ interface CellHeaderProps {
 }
 
 const CellHeader: FC<CellHeaderProps> = ({ header, measurementUnit = '' }) =>
-  header === InequalitiesBarChartTableHeaders.INEQUALITY_TYPE ||
-  header === InequalitiesBarChartTableHeaders.COMPARED_TO ? (
+  
+  header === InequalitiesBarChartTableHeaders.INEQUALITY_TYPE
+  ? (
     <StyledAlignLeftHeader
       key={`heading-${header}`}
       style={{ width: '16%' }}
@@ -29,7 +30,16 @@ const CellHeader: FC<CellHeaderProps> = ({ header, measurementUnit = '' }) =>
     >
       {header}
     </StyledAlignLeftHeader>
-  ) : (
+  ) : header === InequalitiesBarChartTableHeaders.COMPARED_TO ? (
+    <StyledCenterTableHeader
+      key={`heading-${header}`}
+      style={{ width: '16%' }}
+      data-testid={`heading-${header}`}
+    >
+      {header}
+    </StyledCenterTableHeader>
+      )
+    : (
     <StyledAlignRightHeader
       key={`heading-${header}`}
       style={{ width: '16%' }}

@@ -8,6 +8,8 @@ import {
   getDisplayWholeNumber,
   StyledAlignLeftTableCell,
   StyledAlignRightTableCell,
+  StyledBenchmarkTableCell,
+  StyledFirstColumnTableCell,
 } from '@/lib/tableHelpers';
 import { Table } from 'govuk-react';
 import React from 'react';
@@ -64,16 +66,16 @@ export function InequalitiesBarChartTable({
       >
         {sortedKeys.map((key) => (
           <Table.Row key={key}>
-            <StyledAlignLeftTableCell>{key}</StyledAlignLeftTableCell>
-            <StyledAlignLeftTableCellNoPadding>
+            <StyledFirstColumnTableCell>{key}</StyledFirstColumnTableCell>
+            <StyledBenchmarkTableCell>
               {inequalityDimensions.includes(key) ? (
-                <InequalitiesBenchmarkLabel
-                  benchmarkComparisonMethod={benchmarkComparisonMethod}
-                  comparison={inequalities[key]?.benchmarkComparison}
-                  polarity={polarity}
-                />
+                  <InequalitiesBenchmarkLabel
+                    benchmarkComparisonMethod={benchmarkComparisonMethod}
+                    comparison={inequalities[key]?.benchmarkComparison}
+                    polarity={polarity}
+                  />
               ) : null}
-            </StyledAlignLeftTableCellNoPadding>
+            </StyledBenchmarkTableCell>
             <StyledAlignRightTableCell>
               {getDisplayWholeNumber(inequalities[key]?.count)}
             </StyledAlignRightTableCell>
