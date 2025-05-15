@@ -4,16 +4,12 @@ import { expect } from '@jest/globals';
 
 describe('FTFooter', () => {
   it('should match snapshot', () => {
-    process.env.NEXT_PUBLIC_FINGERTIPS_GIT_TAG = '0.0.0';
-    process.env.NEXT_PUBLIC_FINGERTIPS_GIT_HASH = '12345678';
-    const container = render(<FTFooter />);
+    const container = render(<FTFooter tag={'0.0.0'} hash={'12345678'} />);
     expect(container.asFragment()).toMatchSnapshot();
   });
 
   it('should render the project version', () => {
-    process.env.NEXT_PUBLIC_FINGERTIPS_GIT_TAG = 'vXYZ';
-    process.env.NEXT_PUBLIC_FINGERTIPS_GIT_HASH = 'ABCD';
-    render(<FTFooter />);
+    render(<FTFooter tag={'vXYZ'} hash={'ABCD'} />);
     const version = screen.getByTestId('project-version');
     expect(version).toBeInTheDocument();
   });

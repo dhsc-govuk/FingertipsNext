@@ -1,11 +1,11 @@
-'use client';
-
 import { FC } from 'react';
 
-export const ProjectVersion: FC = () => {
-  const tag = process.env.NEXT_PUBLIC_FINGERTIPS_GIT_TAG;
-  const hash = process.env.NEXT_PUBLIC_FINGERTIPS_GIT_HASH;
+interface ProjectVersionProps {
+  tag?: string;
+  hash?: string;
+}
 
+export const ProjectVersion: FC<ProjectVersionProps> = ({ tag, hash }) => {
   if (!hash) return null;
 
   const isValidTag =
