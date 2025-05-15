@@ -49,6 +49,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
     [SearchParams.AreaTypeSelected]: selectedAreaType,
     [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.LineChartAreaSelected]: lineChartAreaSelected,
   } = searchState;
 
   const healthIndicatorData = indicatorData?.areaHealthData ?? [];
@@ -83,6 +84,12 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     areasSelected &&
     areasSelected?.length <= 2;
 
+  const benchmarkToUse = lineChartAreaSelected
+    ? lineChartAreaSelected === areaCodeForEngland
+      ? areaCodeForEngland
+      : lineChartAreaSelected
+    : areaCodeForEngland;
+
   const yAxisTitle = indicatorMetadata?.unitLabel
     ? `Value: ${indicatorMetadata?.unitLabel}`
     : undefined;
@@ -90,6 +97,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   const lineChartOptions: Highcharts.Options = generateStandardLineChartOptions(
     dataWithoutEnglandOrGroup,
     true,
+    benchmarkToUse,
     {
       englandData: englandBenchmarkData,
       benchmarkComparisonMethod: indicatorData.benchmarkMethod,

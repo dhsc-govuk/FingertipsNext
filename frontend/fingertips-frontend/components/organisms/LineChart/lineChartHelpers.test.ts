@@ -343,6 +343,7 @@ describe('generateStandardLineChartOptions', () => {
     const generatedOptions = generateStandardLineChartOptions(
       [mockIndicatorData[0]],
       false,
+      areaCodeForEngland,
       {
         englandData: undefined,
         groupIndicatorData: undefined,
@@ -365,6 +366,7 @@ describe('generateStandardLineChartOptions', () => {
     const generatedOptions = generateStandardLineChartOptions(
       [mockIndicatorData[0]],
       false,
+      areaCodeForEngland,
       {
         englandData: mockBenchmarkData,
         groupIndicatorData: mockParentData,
@@ -410,6 +412,7 @@ describe('generateStandardLineChartOptions', () => {
     const generatedOptions = generateStandardLineChartOptions(
       [mockIndicatorData[0]],
       false,
+      areaCodeForEngland,
       {
         englandData: mockBenchmarkAreaWithEarlyYear,
         groupIndicatorData: mockGroupAreaWithLateYear,

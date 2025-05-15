@@ -162,6 +162,7 @@ export function generateSeriesData(
 export function generateStandardLineChartOptions(
   healthIndicatorData: HealthDataForArea[],
   lineChartCI: boolean,
+  benchmarkToUse: string,
   optionalParams?: {
     englandData?: HealthDataForArea;
     groupIndicatorData?: HealthDataForArea;
@@ -173,42 +174,44 @@ export function generateStandardLineChartOptions(
     symbols?: SymbolKeyValue[];
     xAxisLabelFormatter?: Highcharts.AxisLabelsFormatterCallbackFunction;
     benchmarkComparisonMethod?: BenchmarkComparisonMethod;
-  }
+  },
 ): Highcharts.Options {
   const sortedHealthIndicatorData =
     sortHealthDataForAreasByDate(healthIndicatorData);
   const firstYear = getFirstYearForAreas(sortedHealthIndicatorData);
   const lastYear = getLatestYearForAreas(sortedHealthIndicatorData);
 
-  const sortedBenchMarkData = optionalParams?.englandData
-    ? sortHealthDataForAreaByDate(optionalParams?.englandData)
-    : undefined;
+  const sortedBenchMarkData =
+    benchmarkToUse === areaCodeForEngland
+      ? optionalParams?.englandData ? sortHealthDataForAreaByDate(optionalParams.englandData) : undefined
+      : optionalParams?.groupIndicatorData ? sortHealthDataForAreaByDate(optionalParams.groupIndicatorData) : undefined;
   const filteredSortedBenchMarkData =
     sortedBenchMarkData &&
-    sortedHealthIndicatorData.length &&
-    firstYear &&
-    lastYear
+      sortedHealthIndicatorData.length &&
+      firstYear &&
+      lastYear
       ? {
-          ...sortedBenchMarkData,
-          healthData:
-            sortedBenchMarkData?.healthData.filter(
-              (data) => data.year >= firstYear && data.year <= lastYear
-            ) ?? [],
-        }
+        ...sortedBenchMarkData,
+        healthData:
+          sortedBenchMarkData?.healthData.filter(
+            (data) => data.year >= firstYear && data.year <= lastYear
+          ) ?? [],
+      }
       : sortedBenchMarkData;
 
-  const sortedGroupData = optionalParams?.groupIndicatorData
-    ? sortHealthDataForAreaByDate(optionalParams?.groupIndicatorData)
-    : undefined;
+  const sortedGroupData =
+    benchmarkToUse === areaCodeForEngland
+      ? optionalParams?.groupIndicatorData ? sortHealthDataForAreaByDate(optionalParams.groupIndicatorData) : undefined
+      : optionalParams?.englandData ? sortHealthDataForAreaByDate(optionalParams.englandData) : undefined
   const filteredSortedGroupData =
     sortedGroupData && sortedHealthIndicatorData.length && firstYear && lastYear
       ? {
-          ...sortedGroupData,
-          healthData:
-            sortedGroupData?.healthData.filter(
-              (data) => data.year >= firstYear && data.year <= lastYear
-            ) ?? [],
-        }
+        ...sortedGroupData,
+        healthData:
+          sortedGroupData?.healthData.filter(
+            (data) => data.year >= firstYear && data.year <= lastYear
+          ) ?? [],
+      }
       : sortedGroupData;
 
   let seriesData = generateSeriesData(
@@ -281,10 +284,10 @@ export function generateStandardLineChartOptions(
 
     const { benchmarkLabel, category, comparisonLabel } = getTooltipContent(
       getBenchmarkOutcomeForYear(point.x, areaCode, tooltipData) ??
-        BenchmarkOutcome.NotCompared,
+      BenchmarkOutcome.NotCompared,
       label,
       optionalParams?.benchmarkComparisonMethod ??
-        BenchmarkComparisonMethod.Unknown
+      BenchmarkComparisonMethod.Unknown
     );
 
     const formatValueUnit = (valueUnit?: string) => {
@@ -327,10 +330,10 @@ export function generateStandardLineChartOptions(
       },
       title: optionalParams?.yAxisTitle
         ? {
-            text: optionalParams?.yAxisTitle,
-            margin: 20,
-            style: { fontSize: AXIS_TITLE_FONT_SIZE },
-          }
+          text: optionalParams?.yAxisTitle,
+          margin: 20,
+          style: { fontSize: AXIS_TITLE_FONT_SIZE },
+        }
         : undefined,
     },
     xAxis: {

@@ -45,6 +45,7 @@ export function OneIndicatorOneAreaViewPlots({
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.LineChartAreaSelected]: lineChartAreaSelected,
   } = searchState;
 
   const areaCodes = determineAreaCodes(areasSelected);
@@ -85,6 +86,12 @@ export function OneIndicatorOneAreaViewPlots({
     selectedGroupCode
   );
 
+  const benchmarkToUse = lineChartAreaSelected
+    ? lineChartAreaSelected === areaCodeForEngland
+      ? areaCodeForEngland
+      : lineChartAreaSelected
+    : areaCodeForEngland;
+
   const yAxisTitle = indicatorMetadata?.unitLabel
     ? `Value: ${indicatorMetadata?.unitLabel}`
     : undefined;
@@ -92,6 +99,7 @@ export function OneIndicatorOneAreaViewPlots({
   const lineChartOptions: Highcharts.Options = generateStandardLineChartOptions(
     areaDataWithoutInequalities,
     true,
+    benchmarkToUse,
     {
       englandData: englandDataWithoutInequalities,
       benchmarkComparisonMethod: benchmarkComparisonMethod,
