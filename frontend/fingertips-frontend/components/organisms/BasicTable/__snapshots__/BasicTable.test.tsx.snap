@@ -2,7 +2,7 @@
 
 exports[`BasicTable should match snapshot 1`] = `
 <DocumentFragment>
-  .c6 {
+  .c7 {
   margin: 0;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -13,11 +13,11 @@ exports[`BasicTable should match snapshot 1`] = `
   margin-bottom: 15px;
 }
 
-.c6 > p {
+.c7 > p {
   margin: 0;
 }
 
-.c6 > p > code {
+.c7 > p > code {
   padding: 0.2em 0.4em;
   margin: 0;
   font-size: 85%;
@@ -25,7 +25,7 @@ exports[`BasicTable should match snapshot 1`] = `
   border-radius: 3px;
 }
 
-.c6 > pre {
+.c7 > pre {
   padding: 16px;
   overflow: auto;
   font-size: 85%;
@@ -34,7 +34,7 @@ exports[`BasicTable should match snapshot 1`] = `
   border-radius: 3px;
 }
 
-.c6 > pre > code {
+.c7 > pre > code {
   display: inline;
   padding: 0;
   margin: 0;
@@ -44,7 +44,7 @@ exports[`BasicTable should match snapshot 1`] = `
   word-wrap: normal;
 }
 
-.c3 {
+.c4 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -104,7 +104,7 @@ exports[`BasicTable should match snapshot 1`] = `
   margin-bottom: 20px;
 }
 
-.c5 {
+.c6 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -119,14 +119,14 @@ exports[`BasicTable should match snapshot 1`] = `
   align-items: center;
 }
 
-.c4 {
+.c5 {
   text-transform: unset;
   margin: 0.3125em;
   color: #303436;
   background-color: #E1E2E3;
 }
 
-.c7 {
+.c8 {
   margin-bottom: 0;
   margin-left: 0.3125em;
   font-family: "nta",Arial,sans-serif;
@@ -137,35 +137,39 @@ exports[`BasicTable should match snapshot 1`] = `
   line-height: 1.1428571428571428;
 }
 
+.c3 {
+  text-align: center;
+}
+
 @media print {
-  .c6 {
+  .c7 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c6 {
+  .c7 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c6 {
+  .c7 {
     margin-bottom: 20px;
   }
 }
 
 @media print {
-  .c3 {
+  .c4 {
     font-size: 14px;
     line-height: 1;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c3 {
+  .c4 {
     font-size: 16px;
     line-height: 1;
   }
@@ -198,14 +202,14 @@ exports[`BasicTable should match snapshot 1`] = `
 }
 
 @media print {
-  .c7 {
+  .c8 {
     font-size: 14px;
     line-height: 1.2;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c7 {
+  .c8 {
     font-size: 16px;
     line-height: 1.25;
   }
@@ -226,6 +230,7 @@ exports[`BasicTable should match snapshot 1`] = `
           <th
             class="c1"
             colspan="6"
+            style="padding-left: 10px;"
           >
             mockName
           </th>
@@ -235,7 +240,7 @@ exports[`BasicTable should match snapshot 1`] = `
         >
           <th
             class="c1"
-            style="vertical-align: top;"
+            style="vertical-align: top; padding-left: 10px;"
           >
             Indicator
           </th>
@@ -253,7 +258,7 @@ exports[`BasicTable should match snapshot 1`] = `
           </th>
           <th
             class="c1"
-            style="vertical-align: top; text-align: right;"
+            style="vertical-align: top; text-align: left;"
           >
             Value unit
           </th>
@@ -279,6 +284,7 @@ exports[`BasicTable should match snapshot 1`] = `
         >
           <td
             class="c2"
+            style="padding-left: 10px;"
           >
              
           </td>
@@ -297,7 +303,7 @@ exports[`BasicTable should match snapshot 1`] = `
           <td
             aria-label="Not compared"
             class="c2"
-            style="text-align: right;"
+            style="text-align: left;"
           >
             X
           </td>
@@ -308,21 +314,21 @@ exports[`BasicTable should match snapshot 1`] = `
             278.3
           </td>
           <td
-            class="c2"
+            class="c2 c3"
           >
             <div
               data-testid="trendTag-container"
             >
               <strong
-                class="c3 c4"
+                class="c4 c5"
               >
                 <div
-                  class="c5"
+                  class="c6"
                   data-testid="trend-tag-component"
                 >
                   <div>
                     <div
-                      class="c6 c7"
+                      class="c7 c8"
                     >
                       <p>
                         No recent trend data available
@@ -339,6 +345,7 @@ exports[`BasicTable should match snapshot 1`] = `
         >
           <td
             class="c2"
+            style="padding-left: 10px;"
           >
             no data indicator
           </td>
@@ -359,7 +366,7 @@ exports[`BasicTable should match snapshot 1`] = `
           <td
             aria-label="Not compared"
             class="c2"
-            style="text-align: right;"
+            style="text-align: left;"
           >
             X
           </td>
@@ -371,21 +378,21 @@ exports[`BasicTable should match snapshot 1`] = `
             X
           </td>
           <td
-            class="c2"
+            class="c2 c3"
           >
             <div
               data-testid="trendTag-container"
             >
               <strong
-                class="c3 c4"
+                class="c4 c5"
               >
                 <div
-                  class="c5"
+                  class="c6"
                   data-testid="trend-tag-component"
                 >
                   <div>
                     <div
-                      class="c6 c7"
+                      class="c7 c8"
                     >
                       <p>
                         No recent trend data available

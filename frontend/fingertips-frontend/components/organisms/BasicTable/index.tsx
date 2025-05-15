@@ -45,11 +45,15 @@ export function BasicTable({
         head={
           <React.Fragment>
             <Table.Row>
-              <Table.CellHeader colSpan={6} style={{paddingLeft: '10px'}}>{areaName}</Table.CellHeader>
+              <Table.CellHeader colSpan={6} style={{ paddingLeft: '10px' }}>
+                {areaName}
+              </Table.CellHeader>
             </Table.Row>
 
             <Table.Row>
-              <Table.CellHeader style={{ verticalAlign: 'top', paddingLeft: '10px' }}>
+              <Table.CellHeader
+                style={{ verticalAlign: 'top', paddingLeft: '10px' }}
+              >
                 {BasicTableEnum.Indicator}
               </Table.CellHeader>
               <Table.CellHeader style={{ verticalAlign: 'top' }}>
@@ -63,7 +67,7 @@ export function BasicTable({
               <Table.CellHeader
                 style={{
                   verticalAlign: 'top',
-                  textAlign: 'right',
+                  textAlign: 'left',
                 }}
               >
                 {BasicTableEnum.ValueUnit}
@@ -84,7 +88,10 @@ export function BasicTable({
       >
         {indicatorData.map((item) => (
           <Table.Row key={item.indicatorId}>
-            <CheckValueInTableCell value={item?.indicatorName} style={{ paddingLeft: '10px' }} />
+            <CheckValueInTableCell
+              value={item?.indicatorName}
+              style={{ paddingLeft: '10px' }}
+            />
             <CheckValueInTableCell
               value={item?.period}
               style={{ textAlign: 'right' }}
@@ -96,7 +103,7 @@ export function BasicTable({
             />
             <CheckValueInTableCell
               value={item?.unitLabel}
-              style={{ textAlign: 'right' }}
+              style={{ textAlign: 'left' }}
             />
             <FormatNumberInTableCell
               value={item?.latestEnglandHealthData?.value}
