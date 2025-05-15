@@ -27,7 +27,12 @@ const FooterLink = styled(Link)({
   },
 });
 
-export function FTFooter() {
+interface FTFooterProps {
+  tag?: string;
+  hash?: string;
+}
+
+export function FTFooter({ tag, hash }: FTFooterProps) {
   return (
     <Footer
       meta={
@@ -56,7 +61,7 @@ export function FTFooter() {
           <FooterListItem>
             <FooterLink href={GDSLink}>Government Digital Service</FooterLink>
           </FooterListItem>
-          <ProjectVersion />
+          <ProjectVersion tag={tag} hash={hash} />
         </FooterContainer>
       }
       copyright={{
