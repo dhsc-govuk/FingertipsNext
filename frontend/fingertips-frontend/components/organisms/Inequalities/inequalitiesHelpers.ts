@@ -24,6 +24,11 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 export const localeSort = (a: string, b: string) => a.localeCompare(b);
 export const sexCategory = 'Sex';
 
+export enum ChartType {
+  SingleTimePeriod = 'single-time-period',
+  Trend = 'trend',
+}
+
 export type YearlyHealthDataGroupedByInequalities = Record<
   string,
   Record<string, HealthDataPoint[] | undefined>
@@ -346,15 +351,16 @@ export function generateInequalitiesLineChartOptions(
     optionalParams?.inequalityLineChartAreaSelected
   );
 
+  const chartHeight =
+    type === InequalitiesTypes.Deprivation
+      ? Number(lineChartDefaultOptions.chart?.height) * 1.5
+      : lineChartDefaultOptions.chart?.height;
+
   return {
     ...lineChartDefaultOptions,
     chart: {
       ...lineChartDefaultOptions.chart,
-      height:
-        // The deprivation chart needs a bit more height
-        type === InequalitiesTypes.Deprivation
-          ? '75%'
-          : lineChartDefaultOptions.chart?.height,
+      height: chartHeight,
     },
     yAxis: {
       ...lineChartDefaultOptions.yAxis,
@@ -494,8 +500,9 @@ export const filterHealthData = (
 
 const getInequalityDeprivationCategories = (
   healthIndicatorData: HealthDataForArea,
-  selectedYear?: number
-) => {
+  selectedYear?: number,
+  chartType?: ChartType
+): string[] => {
   const disaggregatedDeprivationData = filterHealthData(
     healthIndicatorData.healthData,
     (data) =>
@@ -503,12 +510,24 @@ const getInequalityDeprivationCategories = (
         ? data.year === selectedYear && !data.deprivation.isAggregate
         : !data.deprivation.isAggregate
   );
-  return Object.keys(
-    Object.groupBy(
-      disaggregatedDeprivationData,
-      (data) => data.deprivation.type
-    )
+
+  const groupedByDeprivationType = Object.groupBy(
+    disaggregatedDeprivationData,
+    (data) => data.deprivation.type
   );
+
+  if (chartType === ChartType.Trend) {
+    const validCategories = Object.entries(groupedByDeprivationType)
+      .filter(([, dataPoints]) => {
+        const uniqueYears = new Set(dataPoints?.map((data) => data.year));
+        return uniqueYears.size > 1;
+      })
+      .map(([type]) => type);
+
+    return validCategories;
+  }
+
+  return Object.keys(groupedByDeprivationType);
 };
 
 export const getYearsWithInequalityData = (
@@ -540,17 +559,23 @@ export const isSexTypePresent = (
 
 export const getInequalityCategories = (
   healthIndicatorData: HealthDataForArea,
-  selectedYear?: number
+  selectedYear?: number,
+  chartType?: ChartType
 ) =>
   isSexTypePresent(healthIndicatorData.healthData, selectedYear)
     ? [
         ...getInequalityDeprivationCategories(
           healthIndicatorData,
-          selectedYear
+          selectedYear,
+          chartType
         ),
         sexCategory,
       ].toSorted(localeSort)
-    : getInequalityDeprivationCategories(healthIndicatorData, selectedYear);
+    : getInequalityDeprivationCategories(
+        healthIndicatorData,
+        selectedYear,
+        chartType
+      );
 
 export const getInequalitiesType = (
   inequalityCategories: string[],

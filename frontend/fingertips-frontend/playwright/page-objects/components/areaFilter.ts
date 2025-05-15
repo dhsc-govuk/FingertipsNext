@@ -120,7 +120,7 @@ export default class AreaFilter extends BasePage {
     expect(String(groupOptions)).toContain(contain);
   }
 
-  async selectAreaType(areaType: string) {
+  async selectAreaTypeAndAssertURLUpdated(areaType: string) {
     await this.selectOptionAndAwaitLoadingComplete(
       this.page.getByTestId(this.areaTypeSelector),
       areaType
@@ -129,7 +129,7 @@ export default class AreaFilter extends BasePage {
     await this.waitForURLToContain(areaType);
   }
 
-  async selectGroupType(groupType: string) {
+  async selectGroupTypeAndAssertURLUpdated(groupType: string) {
     await this.selectOptionAndAwaitLoadingComplete(
       this.page.getByTestId(this.groupTypeSelector),
       groupType
@@ -138,7 +138,7 @@ export default class AreaFilter extends BasePage {
     await this.waitForURLToContain(groupType);
   }
 
-  async selectGroup(group: string) {
+  async selectGroupAndAssertURLUpdated(group: string) {
     await this.selectOptionAndAwaitLoadingComplete(
       this.page.getByTestId(this.groupSelector),
       group
@@ -147,7 +147,7 @@ export default class AreaFilter extends BasePage {
     await this.waitForURLToContain(SearchParams.GroupSelected);
   }
 
-  async selectArea(areaName: string, areaCode: string) {
+  async selectAreaAndAssertURLUpdated(areaName: string, areaCode: string) {
     await this.checkAndAwaitLoadingComplete(
       this.page.getByRole('checkbox', { name: areaName })
     );
@@ -171,7 +171,7 @@ export default class AreaFilter extends BasePage {
     if (searchMode === SearchMode.ONLY_SUBJECT) {
       await this.waitForURLToContain(searchTerm);
 
-      await this.selectAreaType(areaTypeFilter);
+      await this.selectAreaTypeAndAssertURLUpdated(areaTypeFilter);
 
       // Select appropriate number of checkboxes based on area mode
       const areaCheckboxList = this.page
@@ -198,13 +198,13 @@ export default class AreaFilter extends BasePage {
 
       // England area mode
       if (AreaMode.ENGLAND_AREA === areaMode) {
-        await this.selectAreaType('england');
+        await this.selectAreaTypeAndAssertURLUpdated('england');
         await this.waitForURLToContain(SearchParams.AreaTypeSelected);
 
-        await this.selectGroupType('england');
+        await this.selectGroupTypeAndAssertURLUpdated('england');
         await this.waitForURLToContain(SearchParams.GroupTypeSelected);
 
-        await this.selectArea('england', 'england');
+        await this.selectAreaAndAssertURLUpdated('england', 'england');
         await this.waitForURLToContain(SearchParams.AreasSelected);
 
         await this.waitForURLToContain('england');
