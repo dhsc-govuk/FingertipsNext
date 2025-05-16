@@ -31,6 +31,12 @@ interface OneIndicatorTwoOrMoreAreasViewPlotsProps
   areaCodes?: string[];
 }
 
+function determineBenchmarkToUse(lineChartAreaSelected?: string) {
+  if (lineChartAreaSelected && lineChartAreaSelected !== areaCodeForEngland)
+    return lineChartAreaSelected;
+  return areaCodeForEngland;
+}
+
 export function OneIndicatorTwoOrMoreAreasViewPlots({
   indicatorData,
   indicatorMetadata,
@@ -84,11 +90,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     areasSelected &&
     areasSelected?.length <= 2;
 
-  const benchmarkToUse = lineChartAreaSelected
-    ? lineChartAreaSelected === areaCodeForEngland
-      ? areaCodeForEngland
-      : lineChartAreaSelected
-    : areaCodeForEngland;
+  const benchmarkToUse = determineBenchmarkToUse(lineChartAreaSelected);
 
   const yAxisTitle = indicatorMetadata?.unitLabel
     ? `Value: ${indicatorMetadata?.unitLabel}`
