@@ -1,6 +1,5 @@
 import { OneIndicatorOneAreaViewPlots } from '@/components/viewPlots/OneIndicatorOneAreaViewPlots';
 import {
-  BenchmarkReferenceType,
   GetHealthDataForAnIndicatorInequalitiesEnum,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
@@ -15,6 +14,12 @@ import { ViewProps } from '../ViewsContext';
 import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
+
+function determineBenchmarkRefType(lineChartAreaSelected?: string) {
+  if (lineChartAreaSelected && lineChartAreaSelected !== areaCodeForEngland)
+    return 'AreaGroup';
+  return 'England';
+}
 
 export default async function OneIndicatorOneAreaView({
   selectedIndicatorsData,
@@ -51,11 +56,7 @@ export default async function OneIndicatorOneAreaView({
       ? englandAreaType.key
       : areaTypeSelected;
 
-  const benchmarkRefType: BenchmarkReferenceType = lineChartAreaSelected
-    ? lineChartAreaSelected === areaCodeForEngland
-      ? 'England'
-      : 'AreaGroup'
-    : 'England';
+  const benchmarkRefType = determineBenchmarkRefType(lineChartAreaSelected);
 
   let indicatorData: IndicatorWithHealthDataForArea | undefined;
   try {

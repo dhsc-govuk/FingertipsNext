@@ -37,6 +37,12 @@ function shouldLineChartBeShown(
   );
 }
 
+function determineBenchmarkToUse(lineChartAreaSelected?: string) {
+  if (lineChartAreaSelected && lineChartAreaSelected !== areaCodeForEngland)
+    return lineChartAreaSelected;
+  return areaCodeForEngland;
+}
+
 export function OneIndicatorOneAreaViewPlots({
   indicatorData,
   searchState,
@@ -86,11 +92,7 @@ export function OneIndicatorOneAreaViewPlots({
     selectedGroupCode
   );
 
-  const benchmarkToUse = lineChartAreaSelected
-    ? lineChartAreaSelected === areaCodeForEngland
-      ? areaCodeForEngland
-      : lineChartAreaSelected
-    : areaCodeForEngland;
+  const benchmarkToUse = determineBenchmarkToUse(lineChartAreaSelected);
 
   const yAxisTitle = indicatorMetadata?.unitLabel
     ? `Value: ${indicatorMetadata?.unitLabel}`

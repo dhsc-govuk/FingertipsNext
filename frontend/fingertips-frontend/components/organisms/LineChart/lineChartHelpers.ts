@@ -164,14 +164,10 @@ const determineBenchmarkData = (
   englandData?: HealthDataForArea,
   groupIndicatorData?: HealthDataForArea
 ): HealthDataForArea | undefined => {
-  if (benchmarkToUse === areaCodeForEngland) {
-    if (englandData) {
-      return sortHealthDataForAreaByDate(englandData);
-    }
-  } else {
-    if (groupIndicatorData) {
-      return sortHealthDataForAreaByDate(groupIndicatorData);
-    }
+  if (benchmarkToUse === areaCodeForEngland && englandData) {
+    return sortHealthDataForAreaByDate(englandData);
+  } else if (benchmarkToUse !== areaCodeForEngland && groupIndicatorData) {
+    return sortHealthDataForAreaByDate(groupIndicatorData);
   }
   return undefined;
 };
@@ -181,14 +177,10 @@ const determineGroupData = (
   englandData?: HealthDataForArea,
   groupIndicatorData?: HealthDataForArea
 ): HealthDataForArea | undefined => {
-  if (benchmarkToUse === areaCodeForEngland) {
-    if (groupIndicatorData) {
-      return sortHealthDataForAreaByDate(groupIndicatorData);
-    }
-  } else {
-    if (englandData) {
-      return sortHealthDataForAreaByDate(englandData);
-    }
+  if (benchmarkToUse === areaCodeForEngland && groupIndicatorData) {
+    return sortHealthDataForAreaByDate(groupIndicatorData);
+  } else if (benchmarkToUse !== areaCodeForEngland && englandData) {
+    return sortHealthDataForAreaByDate(englandData);
   }
   return undefined;
 };
