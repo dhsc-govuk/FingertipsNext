@@ -94,13 +94,13 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   padding-right: 0;
 }
 
-.c25 {
+.c26 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: left;
 }
 
-.c25:last-child {
+.c26:last-child {
   padding-right: 0;
 }
 
@@ -161,17 +161,17 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   padding-right: 0;
 }
 
-.c27 {
+.c29 {
   text-align: right;
   padding-right: 10px;
 }
 
-.c28 {
+.c30 {
   background-color: #B1B4B6;
   border-top: solid #F3F2F1 2px;
 }
 
-.c29 {
+.c31 {
   position: -webkit-sticky;
   position: sticky;
   right: 0;
@@ -196,9 +196,23 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   padding-right: 0.5em;
 }
 
+.c27 {
+  text-align: center;
+  width: 10%;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.c25 {
+  text-align: center;
+  width: 10%;
+  padding-left: 10px;
+}
+
 .c5 {
   text-align: left;
   vertical-align: top;
+  padding-left: 10px;
 }
 
 .c18 {
@@ -216,7 +230,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   width: 100%;
 }
 
-.c26 {
+.c28 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -273,7 +287,8 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
 }
 
 .c19 {
-  padding-left: 0.5em;
+  padding: 0.6em;
+  text-align: center;
 }
 
 .c17 {
@@ -515,7 +530,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           class=""
         >
           <th
-            class="c3 2 c4 c5 c18"
+            class="c3 8 c4 c5 c18"
             data-testid="header-Period-0"
           >
             Period
@@ -575,41 +590,41 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           class=""
         >
           <td
-            class="0 c21 c22 c23 c24"
+            class="0 c21 c22 c23 c24 c25"
           >
             2004
           </td>
           <td
-            class="c25 c22 c23"
+            class="1 c26 c27"
           >
             <strong
-              class="c8 c26"
+              class="c8 c28"
             >
               Not compared
             </strong>
           </td>
           <td
-            class="c21 c22 c27"
+            class="c21 c22 c29"
           >
             267
           </td>
           <td
-            class="c21 c22 c27"
+            class="c21 c22 c29"
           >
             703.4
           </td>
           <td
-            class="c21 c22 c27"
+            class="c21 c22 c29"
           >
             441.7
           </td>
           <td
-            class="c21 c22 c27"
+            class="c21 c22 c29"
           >
             578.3
           </td>
           <td
-            class="c25 c22 c27 c28 c29"
+            class="c26 c22 c29 c30 c31"
             data-testid="grey-table-cell"
           >
             904.9
@@ -619,41 +634,41 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           class=""
         >
           <td
-            class="0 c21 c22 c23 c24"
+            class="0 c21 c22 c23 c24 c25"
           >
             2008
           </td>
           <td
-            class="c25 c22 c23"
+            class="1 c26 c27"
           >
             <strong
-              class="c8 c26"
+              class="c8 c28"
             >
               Not compared
             </strong>
           </td>
           <td
-            class="c21 c22 c27"
+            class="c21 c22 c29"
           >
             222
           </td>
           <td
-            class="c21 c22 c27"
+            class="c21 c22 c29"
           >
             890.3
           </td>
           <td
-            class="c21 c22 c27"
+            class="c21 c22 c29"
           >
             441.7
           </td>
           <td
-            class="c21 c22 c27"
+            class="c21 c22 c29"
           >
             578.3
           </td>
           <td
-            class="c25 c22 c27 c28 c29"
+            class="c26 c22 c29 c30 c31"
             data-testid="grey-table-cell"
           >
             966.0
@@ -759,13 +774,13 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   padding-right: 0;
 }
 
-.c26 {
+.c27 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: left;
 }
 
-.c26:last-child {
+.c27:last-child {
   padding-right: 0;
 }
 
@@ -826,17 +841,17 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   padding-right: 0;
 }
 
-.c28 {
+.c30 {
   text-align: right;
   padding-right: 10px;
 }
 
-.c30 {
+.c32 {
   background-color: #B1B4B6;
   border-top: solid #F3F2F1 2px;
 }
 
-.c31 {
+.c33 {
   position: -webkit-sticky;
   position: sticky;
   right: 0;
@@ -861,9 +876,23 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   padding-right: 0.5em;
 }
 
+.c28 {
+  text-align: center;
+  width: 10%;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.c26 {
+  text-align: center;
+  width: 10%;
+  padding-left: 10px;
+}
+
 .c5 {
   text-align: left;
   vertical-align: top;
+  padding-left: 10px;
 }
 
 .c18 {
@@ -881,7 +910,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   width: 100%;
 }
 
-.c27 {
+.c29 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -938,7 +967,8 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
 }
 
 .c19 {
-  padding-left: 0.5em;
+  padding: 0.6em;
+  text-align: center;
 }
 
 .c21 {
@@ -970,8 +1000,9 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   white-space: nowrap;
 }
 
-.c29 {
+.c31 {
   border-left: solid black 1px;
+  text-align: center;
 }
 
 .c20 {
@@ -1240,7 +1271,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           class=""
         >
           <th
-            class="c3 2 c4 c5 c18"
+            class="c3 8 c4 c5 c18"
             data-testid="header-Period-0"
           >
             Period
@@ -1335,70 +1366,70 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           class=""
         >
           <td
-            class="0 c22 c23 c24 c25"
+            class="0 c22 c23 c24 c25 c26"
           >
             2004
           </td>
           <td
-            class="c26 c23 c24"
+            class="1 c27 c28"
           >
             <strong
-              class="c8 c27"
+              class="c8 c29"
             >
               Not compared
             </strong>
           </td>
           <td
-            class="c22 c23 c28"
+            class="c22 c23 c30"
           >
             267
           </td>
           <td
-            class="c22 c23 c28"
+            class="c22 c23 c30"
           >
             703.4
           </td>
           <td
-            class="c22 c23 c28"
+            class="c22 c23 c30"
           >
             441.7
           </td>
           <td
-            class="c22 c23 c28"
+            class="c22 c23 c30"
           >
             578.3
           </td>
           <td
-            class="c26 c23 c24 c29"
+            class="c27 c23 c24 c31"
           >
             <strong
-              class="c8 c27"
+              class="c8 c29"
             >
               Not compared
             </strong>
           </td>
           <td
-            class="c22 c23 c28"
+            class="c22 c23 c30"
           >
             222
           </td>
           <td
-            class="c22 c23 c28"
+            class="c22 c23 c30"
           >
             135.1
           </td>
           <td
-            class="c22 c23 c28"
+            class="c22 c23 c30"
           >
             441.7
           </td>
           <td
-            class="c22 c23 c28"
+            class="c22 c23 c30"
           >
             578.3
           </td>
           <td
-            class="c26 c23 c28 c30 c31"
+            class="c27 c23 c30 c32 c33"
             data-testid="grey-table-cell"
           >
             904.9
@@ -1408,70 +1439,70 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           class=""
         >
           <td
-            class="0 c22 c23 c24 c25"
+            class="0 c22 c23 c24 c25 c26"
           >
             2008
           </td>
           <td
-            class="c26 c23 c24"
+            class="1 c27 c28"
           >
             <strong
-              class="c8 c27"
+              class="c8 c29"
             >
               Not compared
             </strong>
           </td>
           <td
-            class="c22 c23 c28"
+            class="c22 c23 c30"
           >
             222
           </td>
           <td
-            class="c22 c23 c28"
+            class="c22 c23 c30"
           >
             890.3
           </td>
           <td
-            class="c22 c23 c28"
+            class="c22 c23 c30"
           >
             441.7
           </td>
           <td
-            class="c22 c23 c28"
+            class="c22 c23 c30"
           >
             578.3
           </td>
           <td
-            class="c26 c23 c24 c29"
+            class="c27 c23 c24 c31"
           >
             <strong
-              class="c8 c27"
+              class="c8 c29"
             >
               Not compared
             </strong>
           </td>
           <td
-            class="c22 c23 c28"
+            class="c22 c23 c30"
           >
             222
           </td>
           <td
-            class="c22 c23 c28"
+            class="c22 c23 c30"
           >
             135.1
           </td>
           <td
-            class="c22 c23 c28"
+            class="c22 c23 c30"
           >
             441.7
           </td>
           <td
-            class="c22 c23 c28"
+            class="c22 c23 c30"
           >
             578.3
           </td>
           <td
-            class="c26 c23 c28 c30 c31"
+            class="c27 c23 c30 c32 c33"
             data-testid="grey-table-cell"
           >
             966.0

@@ -16,7 +16,9 @@ import {
   StyledAlignLeftTableCell,
   StyledAlignRightHeader,
   StyledAlignRightTableCell,
-  StyledAlignStickyLeftHeader, StyledBenchmarkTableCell, StyledCenterStickyTableCell,
+  StyledAlignStickyLeftHeader,
+  StyledBenchmarkTableCell,
+  StyledCenterStickyTableCell,
   StyledDivWithScrolling,
   StyledGreyHeader,
   StyledStickyRight,
@@ -86,7 +88,7 @@ const StyledBenchmarkTrendHeaderMultipleAreas = styled(
   borderLeft: 'solid black 1px',
 });
 
-const StyledConfidenceLimitsHeader = styled(StyledAlignLeftHeader)({
+export const StyledConfidenceLimitsHeader = styled(StyledAlignLeftHeader)({
   padding: '0.5em',
   textAlign: 'center',
   verticalAlign: 'top',
@@ -109,11 +111,12 @@ const StyledLightGreyHeader = styled(StyledGreyHeader)({
 
 const StyledLightGreySubHeader = styled(StyledLightGreyHeader)({
   borderLeft: 'solid black 1px',
-  paddingLeft: '0.5em'
+  paddingLeft: '0.5em',
 });
 
 const StyledBenchmarkCellMultipleAreas = styled(StyledAlignLeftTableCell)({
   borderLeft: 'solid black 1px',
+  textAlign: 'center',
 });
 
 const StyledGroupValueTableCell = styled(StyledAlignRightTableCell)({
