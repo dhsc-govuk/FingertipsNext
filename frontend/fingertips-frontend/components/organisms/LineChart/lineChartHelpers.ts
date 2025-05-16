@@ -159,6 +159,40 @@ export function generateSeriesData(
   return seriesData;
 }
 
+const determineBenchmarkData = (
+  benchmarkToUse: string,
+  englandData?: HealthDataForArea,
+  groupIndicatorData?: HealthDataForArea
+): HealthDataForArea | undefined => {
+  if (benchmarkToUse === areaCodeForEngland) {
+    if (englandData) {
+      return sortHealthDataForAreaByDate(englandData);
+    }
+  } else {
+    if (groupIndicatorData) {
+      return sortHealthDataForAreaByDate(groupIndicatorData);
+    }
+  }
+  return undefined;
+};
+
+const determineGroupData = (
+  benchmarkToUse: string,
+  englandData?: HealthDataForArea,
+  groupIndicatorData?: HealthDataForArea
+): HealthDataForArea | undefined => {
+  if (benchmarkToUse === areaCodeForEngland) {
+    if (groupIndicatorData) {
+      return sortHealthDataForAreaByDate(groupIndicatorData);
+    }
+  } else {
+    if (englandData) {
+      return sortHealthDataForAreaByDate(englandData);
+    }
+  }
+  return undefined;
+};
+
 export function generateStandardLineChartOptions(
   healthIndicatorData: HealthDataForArea[],
   lineChartCI: boolean,
@@ -181,14 +215,12 @@ export function generateStandardLineChartOptions(
   const firstYear = getFirstYearForAreas(sortedHealthIndicatorData);
   const lastYear = getLatestYearForAreas(sortedHealthIndicatorData);
 
-  const sortedBenchMarkData =
-    benchmarkToUse === areaCodeForEngland
-      ? optionalParams?.englandData
-        ? sortHealthDataForAreaByDate(optionalParams.englandData)
-        : undefined
-      : optionalParams?.groupIndicatorData
-        ? sortHealthDataForAreaByDate(optionalParams.groupIndicatorData)
-        : undefined;
+  const sortedBenchMarkData = determineBenchmarkData(
+    benchmarkToUse,
+    optionalParams?.englandData,
+    optionalParams?.groupIndicatorData
+  );
+
   const filteredSortedBenchMarkData =
     sortedBenchMarkData &&
     sortedHealthIndicatorData.length &&
@@ -203,14 +235,12 @@ export function generateStandardLineChartOptions(
         }
       : sortedBenchMarkData;
 
-  const sortedGroupData =
-    benchmarkToUse === areaCodeForEngland
-      ? optionalParams?.groupIndicatorData
-        ? sortHealthDataForAreaByDate(optionalParams.groupIndicatorData)
-        : undefined
-      : optionalParams?.englandData
-        ? sortHealthDataForAreaByDate(optionalParams.englandData)
-        : undefined;
+  const sortedGroupData = determineGroupData(
+    benchmarkToUse,
+    optionalParams?.englandData,
+    optionalParams?.groupIndicatorData
+  );
+
   const filteredSortedGroupData =
     sortedGroupData && sortedHealthIndicatorData.length && firstYear && lastYear
       ? {
