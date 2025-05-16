@@ -1,5 +1,5 @@
 import { render, screen, within } from '@testing-library/react';
-import { ChartSelectArea } from '.';
+import { BenchmarkSelectArea } from '.';
 import { LoaderContext } from '@/context/LoaderContext';
 import { SearchStateContext } from '@/context/SearchStateContext';
 import { SearchParams } from '@/lib/searchStateManager';
@@ -55,14 +55,14 @@ const mockAvailableAreas = [
   generateArea('A003'),
 ];
 
-describe('ChartSelectArea', () => {
-  const areaDropDownLabel = 'Select an area';
+describe('BenchmarkSelectArea', () => {
+  const areaDropDownLabel = 'Select a benchmark';
 
   it('should render all the available areas', () => {
     render(
-      <ChartSelectArea
+      <BenchmarkSelectArea
         availableAreas={mockAvailableAreas}
-        chartAreaSelectedKey={SearchParams.InequalityBarChartAreaSelected}
+        benchmarkAreaSelectedKey={SearchParams.LineChartAreaSelected}
         searchState={{}}
       />
     );
@@ -81,9 +81,9 @@ describe('ChartSelectArea', () => {
 
   it('should have the chart areaSelected as the pre-selected value', () => {
     render(
-      <ChartSelectArea
+      <BenchmarkSelectArea
         availableAreas={mockAvailableAreas}
-        chartAreaSelectedKey={SearchParams.InequalityBarChartAreaSelected}
+        benchmarkAreaSelectedKey={SearchParams.LineChartAreaSelected}
         searchState={{ [SearchParams.InequalityBarChartAreaSelected]: 'A002' }}
       />
     );
@@ -98,14 +98,14 @@ describe('ChartSelectArea', () => {
   it('should add the selected area for the chart to the url for the provided search param', async () => {
     const expectedPath = [
       `${mockPath}`,
-      `?${SearchParams.InequalityLineChartAreaSelected}=${mockAvailableAreas[2].code}`,
+      `?${SearchParams.LineChartAreaSelected}=${mockAvailableAreas[2].code}`,
     ].join('');
 
     const user = userEvent.setup();
     render(
-      <ChartSelectArea
+      <BenchmarkSelectArea
         availableAreas={mockAvailableAreas}
-        chartAreaSelectedKey={SearchParams.InequalityLineChartAreaSelected}
+        benchmarkAreaSelectedKey={SearchParams.LineChartAreaSelected}
         searchState={{}}
       />
     );

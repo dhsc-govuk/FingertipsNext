@@ -4,7 +4,10 @@ import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
 import { useEffect, useState } from 'react';
-import { addShowHideLinkedSeries, LineChartVariant } from './lineChartHelpers';
+import {
+  addShowHideLinkedSeries,
+  LineChartVariant,
+} from './helpers/lineChartHelpers';
 import { loadHighchartsModules } from '@/lib/chartHelpers/chartHelpers';
 
 interface LineChartProps {

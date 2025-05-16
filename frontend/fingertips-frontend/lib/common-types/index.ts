@@ -1,3 +1,5 @@
+import { Area } from '@/generated-sources/ft-api-client';
+
 export enum Trend {
   INCREASING = 'Increasing',
   DECREASING = 'Decreasing',
@@ -16,3 +18,5 @@ export enum Direction {
   RIGHT = 'right',
   LEFT = 'left',
 }
+
+export type AreaWithoutAreaType = Pick<Area, 'code' | 'name'>;

@@ -15,6 +15,12 @@ import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 
+function determineBenchmarkRefType(lineChartAreaSelected?: string) {
+  if (lineChartAreaSelected && lineChartAreaSelected !== areaCodeForEngland)
+    return 'AreaGroup';
+  return 'England';
+}
+
 export default async function OneIndicatorOneAreaView({
   selectedIndicatorsData,
   searchState,
@@ -25,6 +31,7 @@ export default async function OneIndicatorOneAreaView({
     [SearchParams.IndicatorsSelected]: indicatorSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreaTypeSelected]: areaTypeSelected,
+    [SearchParams.LineChartAreaSelected]: lineChartAreaSelected,
   } = stateManager.getSearchState();
 
   const areaCodes = determineAreaCodes(areasSelected);
@@ -49,6 +56,8 @@ export default async function OneIndicatorOneAreaView({
       ? englandAreaType.key
       : areaTypeSelected;
 
+  const benchmarkRefType = determineBenchmarkRefType(lineChartAreaSelected);
+
   let indicatorData: IndicatorWithHealthDataForArea | undefined;
   try {
     indicatorData = await indicatorApi.getHealthDataForAnIndicator(
@@ -60,6 +69,9 @@ export default async function OneIndicatorOneAreaView({
           GetHealthDataForAnIndicatorInequalitiesEnum.Deprivation,
         ],
         areaType: areaTypeToUse,
+        benchmarkRefType,
+        areaGroup:
+          benchmarkRefType === 'AreaGroup' ? selectedGroupCode : undefined,
       },
       API_CACHE_CONFIG
     );

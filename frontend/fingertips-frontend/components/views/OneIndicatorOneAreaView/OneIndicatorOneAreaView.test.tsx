@@ -103,6 +103,7 @@ describe('OneIndicatorOneAreaView', () => {
             GetHealthDataForAnIndicatorInequalitiesEnum.Deprivation,
           ],
           areaType: testAreaType,
+          benchmarkRefType: 'England',
         },
         API_CACHE_CONFIG
       );
@@ -129,6 +130,7 @@ describe('OneIndicatorOneAreaView', () => {
           GetHealthDataForAnIndicatorInequalitiesEnum.Deprivation,
         ],
         areaType: englandAreaType.key,
+        benchmarkRefType: 'England',
       },
       API_CACHE_CONFIG
     );

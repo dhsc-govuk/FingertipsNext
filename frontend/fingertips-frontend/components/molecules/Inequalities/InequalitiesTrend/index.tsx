@@ -1,6 +1,6 @@
 import { TabContainer } from '@/components/layouts/tabContainer';
 import { LineChart } from '@/components/organisms/LineChart';
-import { LineChartVariant } from '@/components/organisms/LineChart/lineChartHelpers';
+import { LineChartVariant } from '@/components/organisms/LineChart/helpers/lineChartHelpers';
 import { H3 } from 'govuk-react';
 import { InequalitiesLineChartTable } from '../LineChart/Table';
 import {

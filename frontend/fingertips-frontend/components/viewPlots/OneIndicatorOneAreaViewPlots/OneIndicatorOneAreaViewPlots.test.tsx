@@ -1,7 +1,7 @@
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { OneIndicatorOneAreaViewPlots } from '.';
 import { mockHealthData } from '@/mock/data/healthdata';
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor, within } from '@testing-library/react';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchStateContext } from '@/context/SearchStateContext';
@@ -81,12 +81,28 @@ describe('OneIndicatorOneAreaViewPlots', () => {
           name: 'Indicator data over time',
         })
       ).toBeInTheDocument();
+
+      const benchmarkAreaDropDown = screen.getByRole('combobox', {
+        name: 'Select a benchmark',
+      });
+      const benchmarkAreaDropDownOptions = within(
+        benchmarkAreaDropDown
+      ).getAllByRole('option');
+
+      expect(benchmarkAreaDropDown).toBeInTheDocument();
+      expect(benchmarkAreaDropDownOptions).toHaveLength(1);
+      benchmarkAreaDropDownOptions.forEach((option) => {
+        expect(option.textContent).toBe('England');
+      });
+
       expect(
         screen.getByTestId('tabContainer-lineChartAndTable')
       ).toBeInTheDocument();
+
       expect(
         await screen.findByTestId('standardLineChart-component')
       ).toBeInTheDocument();
+
       expect(
         screen.getByTestId('lineChartTable-component')
       ).toBeInTheDocument();

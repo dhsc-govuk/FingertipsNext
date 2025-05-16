@@ -16,13 +16,13 @@ import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { ArrowExpander } from '@/components/molecules/ArrowExpander';
 import { PopulationPyramidChartTable } from '../PopulationPyramidChartTable';
 import { ChartSelectArea } from '@/components/molecules/ChartSelectArea';
-import { AreaWithoutAreaType } from '../Inequalities/inequalitiesHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
 import {
   determineHeaderTitle,
   determinePopulationDataForArea,
 } from './populationPyramidHelpers';
+import { AreaWithoutAreaType } from '@/lib/common-types';
 
 interface PyramidPopulationChartViewProps {
   healthDataForAreas: HealthDataForArea[];

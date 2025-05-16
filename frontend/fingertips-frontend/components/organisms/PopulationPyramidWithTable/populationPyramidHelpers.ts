@@ -5,7 +5,7 @@ import {
 } from '@/lib/areaFilterHelpers/areaType';
 import { sortHealthDataPointsByDescendingYear } from '@/lib/chartHelpers/chartHelpers';
 import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
-import { AreaWithoutAreaType } from '../Inequalities/inequalitiesHelpers';
+import { AreaWithoutAreaType } from '@/lib/common-types';
 
 export const determineHeaderTitle = (
   healthDataForAreaSelected?: HealthDataForArea,
