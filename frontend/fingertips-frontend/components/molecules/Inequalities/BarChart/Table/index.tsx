@@ -19,7 +19,7 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { getConfidenceLimitNumber } from '@/lib/chartHelpers/chartHelpers';
-import { DownloadImage } from '@/components/molecules/DownloadImage/DownloadImage';
+import { DownloadImage } from '@/components/molecules/Export/DownloadImage';
 
 const StyledAlignLeftTableCellNoPadding = styled(StyledAlignLeftTableCell)({
   padding: 0,

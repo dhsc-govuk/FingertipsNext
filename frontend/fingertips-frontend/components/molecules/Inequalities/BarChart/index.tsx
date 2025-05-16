@@ -23,7 +23,7 @@ import {
   BenchmarkOutcome,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
-import { DownloadImage } from '@/components/molecules/DownloadImage/DownloadImage';
+import { DownloadImage } from '@/components/molecules/Export/DownloadImage';
 
 interface InequalitiesBarChartProps {
   barChartData: InequalitiesBarChartData;

@@ -32,7 +32,7 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { DownloadImage } from '@/components/molecules/DownloadImage/DownloadImage';
+import { DownloadImage } from '@/components/molecules/Export/DownloadImage';
 
 export enum LineChartTableHeadingEnum {
   AreaPeriod = 'Period',

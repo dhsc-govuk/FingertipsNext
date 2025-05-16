@@ -7,6 +7,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { reactQueryClient } from '@/lib/reactQueryClient';
+import { ModalProvider } from '@/context/ModalContext';
 
 const StyledMain = styled(Main)({
   minHeight: '80vh',
@@ -17,13 +18,15 @@ export function FTContainer({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <QueryClientProvider client={reactQueryClient}>
-      <SearchStateProvider>
-        <LoaderProvider>
-          <main>
-            <StyledMain>{children}</StyledMain>
-          </main>
-        </LoaderProvider>
-      </SearchStateProvider>
+      <ModalProvider>
+        <SearchStateProvider>
+          <LoaderProvider>
+            <main>
+              <StyledMain>{children}</StyledMain>
+            </main>
+          </LoaderProvider>
+        </SearchStateProvider>
+      </ModalProvider>
     </QueryClientProvider>
   );
 }

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { SyntheticEvent, useRef } from 'react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import { useModal } from '@/context/ModalContext';
 
 const Preview = styled.div({
   display: 'none',

@@ -14,7 +14,7 @@ import styled from 'styled-components';
 import { SpineChartLegend } from '@/components/organisms/SpineChartLegend/SpineChartLegend';
 import { getMethodsAndOutcomes } from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
 import { SpineChartIndicatorData } from './spineChartTableHelpers';
-import { DownloadImage } from '@/components/molecules/DownloadImage/DownloadImage';
+import { DownloadImage } from '@/components/molecules/Export/DownloadImage';
 
 const SpineChartHeading = styled(H2)({
   fontSize: '1.5rem',

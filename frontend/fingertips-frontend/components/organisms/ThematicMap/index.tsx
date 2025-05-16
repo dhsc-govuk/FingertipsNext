@@ -17,7 +17,7 @@ import { BenchmarkTooltip } from '@/components/molecules/BenchmarkTooltip';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { useMapGeographyData } from '@/components/organisms/ThematicMap/useMapGeographyData';
 import { H3 } from 'govuk-react';
-import { DownloadImage } from '@/components/molecules/DownloadImage/DownloadImage';
+import { DownloadImage } from '@/components/molecules/Export/DownloadImage';
 
 interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];

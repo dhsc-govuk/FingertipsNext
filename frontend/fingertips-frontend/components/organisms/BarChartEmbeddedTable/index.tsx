@@ -30,7 +30,7 @@ import {
   getFirstCompleteYear,
   getMaxValue,
 } from '@/components/organisms/BarChartEmbeddedTable/barChartEmbeddedTableHelpers';
-import { DownloadImage } from '@/components/molecules/DownloadImage/DownloadImage';
+import { DownloadImage } from '@/components/molecules/Export/DownloadImage';
 
 function sortByValueAndAreaName(
   a: BarChartEmbeddedTableRow,

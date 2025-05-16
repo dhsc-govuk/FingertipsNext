@@ -8,7 +8,7 @@ import {
   generateRows,
   HeatmapDataCell,
 } from '@/components/organisms/Heatmap/heatmapUtil';
-import { DownloadImage } from '@/components/molecules/DownloadImage/DownloadImage';
+import { DownloadImage } from '@/components/molecules/Export/DownloadImage';
 import { useHeatmapRotatedHeadingLayout } from '@/components/organisms/Heatmap/useHeatmapRotatedHeadingLayout';
 
 const StyledTable = styled(Table)({

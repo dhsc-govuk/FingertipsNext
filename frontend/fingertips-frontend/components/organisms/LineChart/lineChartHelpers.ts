@@ -357,6 +357,32 @@ export function generateStandardLineChartOptions(
       ...lineChartDefaultOptions.accessibility,
       description: optionalParams?.accessibilityLabel,
     },
+    exporting: {
+      fallbackToExportServer: false,
+      // pdfFont: {
+      //   normal:
+      //     'https://www.highcharts.com/samples/data/fonts/NotoSans-Regular.ttf',
+      //   bold: 'https://www.highcharts.com/samples/data/fonts/NotoSans-Bold.ttf',
+      //   bolditalic:
+      //     'https://www.highcharts.com/samples/data/fonts/NotoSans-BoldItalic.ttf',
+      //   italic:
+      //     'https://www.highcharts.com/samples/data/fonts/NotoSans-Italic.ttf',
+      // },
+      buttons: {
+        contextButton: {
+          menuItems: [
+            'viewFullscreen',
+            // 'printChart',
+            'separator',
+            'downloadPNG',
+            'downloadJPEG',
+            'downloadSVG',
+            // 'downloadPDF',
+            'downloadCSV',
+          ],
+        },
+      },
+    },
   };
 }
 

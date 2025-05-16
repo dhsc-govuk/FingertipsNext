@@ -4,6 +4,7 @@ import { FTHeader } from '@/components/molecules/Header';
 import StyledComponentsRegistry from '@/lib/registry';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
+import Head from 'next/head';
 
 const gdsTransportFont = localFont({
   src: [
