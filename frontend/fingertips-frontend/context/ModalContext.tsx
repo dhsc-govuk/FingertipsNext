@@ -1,4 +1,11 @@
-import { createContext, FC, ReactNode, useContext, useState } from 'react';
+import {
+  createContext,
+  FC,
+  ReactNode,
+  useContext,
+  useMemo,
+  useState,
+} from 'react';
 import { ModalPane } from '@/components/molecules/ModalPane/ModalPane';
 
 export interface Modal {
@@ -23,8 +30,16 @@ interface ModalProviderProps {
 
 export const ModalProvider: FC<ModalProviderProps> = ({ children }) => {
   const [modal, setModal] = useState<Modal>({});
+  const providerValue = useMemo(
+    () => ({
+      modal,
+      setModal,
+    }),
+    [modal]
+  );
+
   return (
-    <ModalContext.Provider value={{ modal, setModal }}>
+    <ModalContext.Provider value={providerValue}>
       {children}
       <ModalPane />
     </ModalContext.Provider>
