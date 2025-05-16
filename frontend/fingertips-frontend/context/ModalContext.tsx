@@ -22,9 +22,9 @@ interface ModalProviderProps {
 }
 
 export const ModalProvider: FC<ModalProviderProps> = ({ children }) => {
-  const [content, setPreview] = useState<Modal>({});
+  const [modal, setModal] = useState<Modal>({});
   return (
-    <ModalContext.Provider value={{ modal: content, setModal: setPreview }}>
+    <ModalContext.Provider value={{ modal, setModal }}>
       {children}
       <ModalPane />
     </ModalContext.Provider>
