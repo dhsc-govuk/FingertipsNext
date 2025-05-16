@@ -3,9 +3,28 @@ CREATE PROCEDURE [dbo].[GetIndicatorQuartileDataForLatestYear]
 @RequestedAreaType varchar(50),
 @RequestedIndicatorIds IndicatorList READONLY,
 @RequestedArea varchar(50),
-@RequestedAncestor varchar(50)
+@RequestedAncestorCode varchar(20),
+@RequestedBenchmarkCode varchar(20)
+--- The area used for benchmarking
 AS
 BEGIN
+	-- Temporary table to hold areas from GetDescendantAreas
+    CREATE TABLE #BenchmarkAreas (
+        AreaKey int,
+        AreaCode nvarchar(50),
+        AreaName nvarchar(255),
+        AreaTypeKey nvarchar(50),
+        LEVEL int,
+        HierarchyType nvarchar(50),
+        AreaTypeName nvarchar(50)
+    );
+
+    -- Populate the temporary table using the GetDescendantAreas stored procedure
+    INSERT INTO 
+    	#BenchmarkAreas 
+    EXEC 
+    	Areas.GetDescendantAreas @RequestedAreaType=@RequestedAreaType, @RequestedAncestorAreaCode=@RequestedBenchmarkCode;
+    
 	WITH
 	--- Finds the requested indicators 
 	RequestedIndicators AS (
@@ -74,7 +93,7 @@ BEGIN
     ON
         latestYear.IndicatorKey = hm.IndicatorKey
     WHERE
-        areaDim.Code = @RequestedAncestor
+        areaDim.Code = @RequestedAncestorCode
     AND
         latestYear.LatestYear = hm.Year
     AND
@@ -112,36 +131,25 @@ BEGIN
 	SELECT
 	        hm.IndicatorKey,
 		    hm.Year,
-		    NTILE(4) OVER(PARTITION BY hm.Year, hm.indicatorKey ORDER BY Value) AS Quartile,
-		    Value
+		    NTILE(4) OVER(PARTITION BY hm.Year, hm.indicatorKey ORDER BY hm.Value) AS Quartile,
+		    hm.Value
 	FROM
 		    dbo.HealthMeasure AS hm
 	JOIN
             LatestYearPerIndicator AS ind
-        ON
+    ON
 		    hm.IndicatorKey = ind.IndicatorKey
-		AND
+	AND
 		    hm.Year = ind.LatestYear
 	JOIN
-            dbo.AreaDimension AS areaDim
-        ON
-		    hm.AreaKey = areaDim.AreaKey
+	        #BenchmarkAreas as ba
+	ON
+	        hm.AreaKey = ba.AreaKey
 	WHERE
 		(
 		--- This ensures we are only dealing with Aggregate data
 	        hm.IsSexAggregatedOrSingle=1 AND hm.IsAgeAggregatedOrSingle=1 AND hm.IsDeprivationAggregatedOrSingle=1
 	    )
-        AND
-        (
-            areaDim.AreaType = @RequestedAreaType
-        --- This is special case handling for data which has a dual identity as both district and county.
-            OR 
-			(
-               @RequestedAreaType = 'districts-and-unitary-authorities'
-               AND 
-			   IsDistrictAndCounty = 1
-            )
-        )
     ),
     --- Calculate Quartiles
     QuartileData AS ( 
@@ -171,7 +179,8 @@ BEGIN
 	    CASE WHEN qd.count >= 4 THEN qd.Maximum END AS Q4Value,
 	    ca.Value AS AreaValue,
 	    ancestor.Value AS AncestorValue,
-	    england.Value AS EnglandValue
+	    england.Value AS EnglandValue,
+	    qd.count AS count
 	FROM
         @RequestedIndicatorIds As rii
     LEFT JOIN

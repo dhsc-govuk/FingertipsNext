@@ -103,6 +103,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     /// <param name="areaCode">A list of area codes.</param>
     /// <param name="areaType">The area type the area codes belong to.</param>
     /// <param name="ancestorCode">A list of desired inequalities.</param>
+    /// <param name="benchmarkRefType">Whether to benchmark against England or AreaGroup.</param>
     /// <returns></returns>
     /// <remarks>
     /// If more than 50 indicators are supplied the request will fail.
@@ -116,7 +117,9 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
         [FromQuery(Name = "indicator_ids")] int[]? indicatorIds = null,
         [FromQuery(Name = "area_code")] string areaCode = "",
         [FromQuery(Name = "area_type")] string areaType = null,
-        [FromQuery(Name = "ancestor_code")] string ancestorCode = "")
+        [FromQuery(Name = "ancestor_code")] string ancestorCode = "",
+        [FromQuery(Name = "benchmark_ref_type")] BenchmarkReferenceType benchmarkRefType = BenchmarkReferenceType.England.ToString(),
+        )
     {
         if (indicatorIds is null)
             return new BadRequestObjectResult(new SimpleError { Message = $"Parameter indicator_ids must be supplied." });
@@ -132,7 +135,9 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
             indicatorIds,
             areaCode,
             areaType,
-            ancestorCode
+            ancestorCode,
+            benchmarkAreaCode,
+            benchmarkRefType == BenchmarkReferenceType.AreaGroup ? areaGroup : "E92000001"
         );
 
         return quartileData == null ? NotFound() : Ok(quartileData);

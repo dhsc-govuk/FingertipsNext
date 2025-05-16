@@ -42,6 +42,7 @@ public interface IIndicatorsService
     /// <param name="areaCode">The area code for comparison.</param>
     /// <param name="areaType">The area type which the codes are taken from.</param>
     /// <param name="ancestorCode">The ancestor for comparison.</param>
+    /// <param name="benchmarkAreaCode">The code to use for the benchmark area - should be England or ancestorCode.</param>
     /// <returns>
     ///     <c>IndicatorWithHealthDataForArea</c> matching the criteria
     /// </returns>
@@ -49,5 +50,7 @@ public interface IIndicatorsService
         IEnumerable<int> indicatorIds,
         string areaCode,
         string areaType,
-        string ancestorCode);
+        string ancestorCode,
+        string benchmarkAreaCode
+        );
 }
