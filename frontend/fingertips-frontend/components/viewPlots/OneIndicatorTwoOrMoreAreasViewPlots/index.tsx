@@ -4,17 +4,17 @@ import { TabContainer } from '@/components/layouts/tabContainer';
 import { LineChart } from '@/components/organisms/LineChart';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { BarChartEmbeddedTable } from '@/components/organisms/BarChartEmbeddedTable';
-import { seriesDataWithoutEnglandOrGroup } from '@/lib/chartHelpers/chartHelpers';
+import {
+  determineBenchmarkToUse,
+  seriesDataWithoutEnglandOrGroup,
+} from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams } from '@/lib/searchStateManager';
 import { H3 } from 'govuk-react';
 import { OneIndicatorViewPlotProps } from '@/components/viewPlots/ViewPlot.types';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
-import {
-  generateStandardLineChartOptions,
-  LineChartVariant,
-} from '@/components/organisms/LineChart/lineChartHelpers';
+import { LineChartVariant } from '@/components/organisms/LineChart/helpers/lineChartHelpers';
 import { useEffect } from 'react';
 import { useSearchState } from '@/context/SearchStateContext';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
@@ -24,17 +24,12 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
+import { generateStandardLineChartOptions } from '@/components/organisms/LineChart/helpers/generateStandardLineChartOptions';
 
 interface OneIndicatorTwoOrMoreAreasViewPlotsProps
   extends OneIndicatorViewPlotProps {
   indicatorDataAllAreas?: IndicatorWithHealthDataForArea;
   areaCodes?: string[];
-}
-
-function determineBenchmarkToUse(lineChartAreaSelected?: string) {
-  if (lineChartAreaSelected && lineChartAreaSelected !== areaCodeForEngland)
-    return lineChartAreaSelected;
-  return areaCodeForEngland;
 }
 
 export function OneIndicatorTwoOrMoreAreasViewPlots({

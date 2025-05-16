@@ -19,6 +19,7 @@ import {
   getFirstYearForAreas,
   getFormattedLabel,
   determineAreasForBenchmarking,
+  determineBenchmarkToUse,
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { areaCodeForEngland } from './constants';
@@ -1377,5 +1378,19 @@ describe('determineAreasForBenchmarking', () => {
   it('returns empty array if input is empty', () => {
     const result = determineAreasForBenchmarking([], 'G1');
     expect(result).toEqual([]);
+  });
+});
+
+describe('determineBenchmarkToUse', () => {
+  it('should return the lineChartAreaSelected if provided', () => {
+    const benchmarkToUse = determineBenchmarkToUse('some-area-selected');
+
+    expect(benchmarkToUse).toEqual('some-area-selected');
+  });
+
+  it('should return the areaCodeForEngland when no lineChartAreaSelected param is provided', () => {
+    const benchmarkToUse = determineBenchmarkToUse();
+
+    expect(benchmarkToUse).toEqual(areaCodeForEngland);
   });
 });

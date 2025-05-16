@@ -423,3 +423,10 @@ export const determineAreasForBenchmarking = (
 
   return areasForBenchmarking;
 };
+
+export const determineBenchmarkToUse = (
+  lineChartAreaSelected?: string
+): string => {
+  if (lineChartAreaSelected) return lineChartAreaSelected;
+  return areaCodeForEngland;
+};

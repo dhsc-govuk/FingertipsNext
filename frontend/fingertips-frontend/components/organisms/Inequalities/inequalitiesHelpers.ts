@@ -12,14 +12,14 @@ import {
   isEnglandSoleSelectedArea,
 } from '@/lib/chartHelpers/chartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import {
-  chartSymbols,
-  lineChartDefaultOptions,
-} from '../LineChart/lineChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import Highcharts, { DashStyleValue, YAxisOptions } from 'highcharts';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { AreaWithoutAreaType } from '@/lib/common-types';
+import {
+  chartSymbols,
+  lineChartDefaultOptions,
+} from '../LineChart/helpers/generateStandardLineChartOptions';
 
 export const localeSort = (a: string, b: string) => a.localeCompare(b);
 export const sexCategory = 'Sex';

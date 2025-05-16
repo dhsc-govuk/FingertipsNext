@@ -7,6 +7,7 @@ import {
   determineAreaCodes,
   seriesDataWithoutEnglandOrGroup,
   determineAreasForBenchmarking,
+  determineBenchmarkToUse,
 } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams } from '@/lib/searchStateManager';
@@ -18,14 +19,12 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { Inequalities } from '@/components/organisms/Inequalities';
-import {
-  generateStandardLineChartOptions,
-  LineChartVariant,
-} from '@/components/organisms/LineChart/lineChartHelpers';
+import { LineChartVariant } from '@/components/organisms/LineChart/helpers/lineChartHelpers';
 import { getAllDataWithoutInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
 import { BenchmarkSelectArea } from '@/components/molecules/BenchmarkSelectArea';
+import { generateStandardLineChartOptions } from '@/components/organisms/LineChart/helpers/generateStandardLineChartOptions';
 
 function shouldLineChartBeShown(
   dataWithoutEnglandOrGroup: HealthDataForArea[],
@@ -35,12 +34,6 @@ function shouldLineChartBeShown(
     dataWithoutEnglandOrGroup[0]?.healthData.length > 1 ||
     (englandBenchmarkData && englandBenchmarkData.healthData.length > 1)
   );
-}
-
-function determineBenchmarkToUse(lineChartAreaSelected?: string) {
-  if (lineChartAreaSelected && lineChartAreaSelected !== areaCodeForEngland)
-    return lineChartAreaSelected;
-  return areaCodeForEngland;
 }
 
 export function OneIndicatorOneAreaViewPlots({

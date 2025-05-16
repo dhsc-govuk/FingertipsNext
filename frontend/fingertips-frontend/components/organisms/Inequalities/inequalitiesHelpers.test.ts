@@ -44,7 +44,6 @@ import {
   noDeprivation,
   personsSex,
 } from '@/lib/mocks';
-import { lineChartDefaultOptions } from '../LineChart/lineChartHelpers';
 import {
   mockIndicatorData,
   mockBenchmarkData,
@@ -54,6 +53,7 @@ import {
   generateHealthDataPoint,
   generateMockHealthDataForArea,
 } from '@/lib/chartHelpers/testHelpers';
+import { lineChartDefaultOptions } from '../LineChart/helpers/generateStandardLineChartOptions';
 
 const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
   areaCode: 'A1425',
