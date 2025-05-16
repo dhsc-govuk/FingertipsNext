@@ -66,11 +66,15 @@ const StyledDivIndicatorInformationCellContent = styled.div({
   paddingLeft: '10px',
 });
 
-const StyledDivIndicatorInformationValueUnitCellContent = styled(StyledDivIndicatorInformationCellContent)({
+const StyledDivIndicatorInformationValueUnitCellContent = styled(
+  StyledDivIndicatorInformationCellContent
+)({
   textAlign: 'left',
 });
 
-const StyledDivIndicatorInformationPeriodCellContent = styled(StyledDivIndicatorInformationCellContent)({
+const StyledDivIndicatorInformationPeriodCellContent = styled(
+  StyledDivIndicatorInformationCellContent
+)({
   textAlign: 'right',
 });
 
@@ -106,13 +110,14 @@ export const HeatmapCell: FC<HeatmapCellProps> = ({
           </StyledDivIndicatorInformationPeriodCellContent>
         </StyledCellText>
       );
-    case CellType.IndicatorInformationValueUnit: return (
-      <StyledCellText data-testid="heatmap-cell-indicator-info-value-unit">
-        <StyledDivIndicatorInformationValueUnitCellContent>
-          {content}
-        </StyledDivIndicatorInformationValueUnitCellContent>
-      </StyledCellText>
-    );
+    case CellType.IndicatorInformationValueUnit:
+      return (
+        <StyledCellText data-testid="heatmap-cell-indicator-info-value-unit">
+          <StyledDivIndicatorInformationValueUnitCellContent>
+            {content}
+          </StyledDivIndicatorInformationValueUnitCellContent>
+        </StyledCellText>
+      );
     case CellType.Data: {
       return (
         <StyledCellData

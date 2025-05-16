@@ -16,7 +16,7 @@ import {
 import { ReactNode } from 'react';
 
 export enum InequalitiesTableHeadingsEnum {
-  PERIOD = 'Period'
+  PERIOD = 'Period',
 }
 
 interface InequalitiesLineChartTableProps {
@@ -35,35 +35,37 @@ const StyledAlignRightHeaderWithPadding = styled(StyledAlignRightHeader)({
 
 const getCellHeader = (heading: string, index: number): ReactNode => {
   if (heading === InequalitiesTableHeadingsEnum.PERIOD) {
-    return (<StyledAlignStickyLeftHeader
+    return (
+      <StyledAlignStickyLeftHeader
         data-testid={`header-${heading}-${index}`}
         key={heading + index}
         style={{ paddingLeft: '10px' }}
       >
         {heading}
       </StyledAlignStickyLeftHeader>
-    )
-  } 
-  
-  if (heading === 'Persons') {
-    return (<StyledAlignRightHeader
-      data-testid={`header-${heading}-${index}`}
-      key={heading + index}
-      style={{paddingRight: '10px'}}
-    >
-      {heading}
-    </StyledAlignRightHeader>)
+    );
   }
 
+  if (heading === 'Persons') {
     return (
-      <StyledAlignRightHeaderWithPadding
+      <StyledAlignRightHeader
         data-testid={`header-${heading}-${index}`}
         key={heading + index}
+        style={{ paddingRight: '10px' }}
       >
         {heading}
-      </StyledAlignRightHeaderWithPadding>
-    )
- 
+      </StyledAlignRightHeader>
+    );
+  }
+
+  return (
+    <StyledAlignRightHeaderWithPadding
+      data-testid={`header-${heading}-${index}`}
+      key={heading + index}
+    >
+      {heading}
+    </StyledAlignRightHeaderWithPadding>
+  );
 };
 
 export function InequalitiesLineChartTable({
@@ -114,11 +116,14 @@ export function InequalitiesLineChartTable({
       >
         {filteredRowData.map((data, index) => (
           <Table.Row key={String(data.period) + index}>
-            <StyledAlignLeftStickyTableCell style={{paddingLeft: '10px'}}>
+            <StyledAlignLeftStickyTableCell style={{ paddingLeft: '10px' }}>
               {String(data.period)}
             </StyledAlignLeftStickyTableCell>
             {dynamicKeys.map((key, index) => (
-              <StyledAlignRightTableCell key={key + index} style={{paddingRight: '10px'}}>
+              <StyledAlignRightTableCell
+                key={key + index}
+                style={{ paddingRight: '10px' }}
+              >
                 {getDisplayValue(data.inequalities[key]?.value)}
               </StyledAlignRightTableCell>
             ))}

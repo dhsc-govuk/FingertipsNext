@@ -70,13 +70,6 @@ const StyledCellHeaderIndicatorTitle = styled(Table.CellHeader)({
   paddingLeft: '10px',
 });
 
-const StyledCellHeaderIndicatorInformation = styled(Table.CellHeader)({
-  verticalAlign: 'bottom',
-  paddingRight: '10px',
-  paddingLeft: '10px',
-  textAlign: 'right',
-});
-
 const StyledCellHeaderArea = styled(Table.CellHeader)({
   verticalAlign: 'bottom',
   width: `${heatmapDataColumnWidth}px`,
@@ -102,28 +95,6 @@ export const HeatmapHeader: FC<HeatmapHeaderProps> = ({
   headerType,
   content,
 }) => {
-  // function styleIndicatorInformationTitles(content: string) {
-  //   if (content === 'Value unit') {
-  //     return (
-  //       <StyledCellHeaderIndicatorInformationValueUnit>
-  //         <StyledH4Header>{content}</StyledH4Header>
-  //       </StyledCellHeaderIndicatorInformationValueUnit>
-  //     );
-  //   }
-  //   if (content === 'Period') {
-  //     return (
-  //       <StyledCellHeaderIndicatorInformationPeriod>
-  //         <StyledH4Header>{content}</StyledH4Header>
-  //       </StyledCellHeaderIndicatorInformationPeriod>
-  //     );
-  //   }
-  //   return (
-  //     <StyledCellHeaderIndicatorInformation>
-  //       <StyledH4Header>{content}</StyledH4Header>
-  //     </StyledCellHeaderIndicatorInformation>
-  //   );
-  // }
-
   switch (headerType) {
     case HeaderType.IndicatorTitle:
       return (
@@ -133,13 +104,12 @@ export const HeatmapHeader: FC<HeatmapHeaderProps> = ({
       );
 
     case HeaderType.IndicatorInformationPeriod:
-      // return styleIndicatorInformationTitles(content)
       return (
         <StyledCellHeaderIndicatorInformationPeriod>
           <StyledH4Header>{content}</StyledH4Header>
         </StyledCellHeaderIndicatorInformationPeriod>
       );
-      
+
     case HeaderType.IndicatorInformationValueUnit:
       return (
         <StyledCellHeaderIndicatorInformationValueUnit>

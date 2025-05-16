@@ -9,7 +9,8 @@ import {
   StyledAlignLeftTableCell,
   StyledAlignRightTableCell,
   StyledBenchmarkTableCell,
-  StyledFirstColumnTableCell, StyledLastColumnTableCellWithPaddingRight,
+  StyledFirstColumnTableCell,
+  StyledLastColumnTableCellWithPaddingRight,
 } from '@/lib/tableHelpers';
 import { Table } from 'govuk-react';
 import React from 'react';
@@ -21,11 +22,6 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { getConfidenceLimitNumber } from '@/lib/chartHelpers/chartHelpers';
-
-const StyledAlignLeftTableCellNoPadding = styled(StyledAlignLeftTableCell)({
-  padding: 0,
-  height: '2.8125em', //45px
-});
 
 interface InequalitiesBarChartTableProps {
   tableData: InequalitiesBarChartData;
@@ -69,11 +65,11 @@ export function InequalitiesBarChartTable({
             <StyledFirstColumnTableCell>{key}</StyledFirstColumnTableCell>
             <StyledBenchmarkTableCell>
               {inequalityDimensions.includes(key) ? (
-                  <InequalitiesBenchmarkLabel
-                    benchmarkComparisonMethod={benchmarkComparisonMethod}
-                    comparison={inequalities[key]?.benchmarkComparison}
-                    polarity={polarity}
-                  />
+                <InequalitiesBenchmarkLabel
+                  benchmarkComparisonMethod={benchmarkComparisonMethod}
+                  comparison={inequalities[key]?.benchmarkComparison}
+                  polarity={polarity}
+                />
               ) : null}
             </StyledBenchmarkTableCell>
             <StyledAlignRightTableCell>

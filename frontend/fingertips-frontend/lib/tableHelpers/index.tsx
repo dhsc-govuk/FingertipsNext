@@ -79,7 +79,7 @@ export const StyledIndicatorTitleCell = styled(StyledAlignLeftTableCell)({
 });
 
 export const StyledAlignLeftStickyTableCell = styled(StyledAlignLeftTableCell)(
-stickyLeft as unknown as TemplateStringsArray
+  stickyLeft as unknown as TemplateStringsArray
 );
 
 export const StyledBenchmarkTableCell = styled(Table.Cell)({
@@ -87,18 +87,33 @@ export const StyledBenchmarkTableCell = styled(Table.Cell)({
   width: '10%',
   paddingLeft: '10px',
   paddingRight: '10px',
-})
+});
 
-export const StyledCenterStickyTableCell = styled(StyledAlignLeftStickyTableCell)({
+export const StyledCenterTableHeader = styled(Table.CellHeader)({
+  textAlign: 'center',
+  width: '10%',
+  paddingLeft: '20px',
+});
+
+export const StyledCenterStickyTableCell = styled(
+  StyledAlignLeftStickyTableCell
+)({
   textAlign: 'center',
   width: '10%',
   paddingLeft: '10px',
-})
+});
 
 export const StyledFirstColumnTableCell = styled(Table.Cell)({
   width: '10%',
   paddingLeft: '10px',
-})
+});
+
+export const StyledLastColumnTableCellWithPaddingRight = styled(
+  StyledTableCell
+)({
+  textAlign: 'right',
+  paddingRight: '10px !important',
+});
 
 export const StyledAlignLeftHeader = styled(StyledTableCellHeader)({
   textAlign: 'left',
@@ -107,8 +122,8 @@ export const StyledAlignLeftHeader = styled(StyledTableCellHeader)({
 });
 
 export const StyledCenterTrendColumn = styled(Table.Cell)({
-  textAlign: 'center'
-})
+  textAlign: 'center',
+});
 
 export const StyledAlignStickyLeftHeader = styled(StyledAlignLeftHeader)(
   stickyLeft as unknown as TemplateStringsArray
