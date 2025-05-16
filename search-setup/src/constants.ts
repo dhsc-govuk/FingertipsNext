@@ -1,5 +1,6 @@
 export const INDICATOR_SEARCH_SCORING_PROFILE = 'basicScoringProfile';
 export const AREA_SEARCH_SUGGESTER_NAME = 'areaSuggester';
+export const INDICATOR_SEARCH_SYNONYM_MAP_NAME = 'indicator-search-synonym-map';
 
 export const INDICATOR_SEARCH_INDEX_NAME = 'indicator-search-index';
 export const AREA_SEARCH_INDEX_NAME = 'area-search-index';
@@ -10,6 +11,28 @@ export const DISTRICT_AREA_TYPE_NAME = 'Districts and Unitary Authorities';
 export const ONS_AREA_TYPE_CODE_UNITARY_AUTHORITIES = 'E06';
 export const ONS_AREA_TYPE_CODE_METROPOLITAN_DISTRICTS = 'E08';
 export const ONS_AREA_TYPE_CODE_LONDON_BOROUGHS = 'E09';
+
+export const SPECIAL_CHARS = [
+  '+',
+  '-',
+  '&',
+  '|',
+  '!',
+  '(',
+  ')',
+  '{',
+  '}',
+  '[',
+  ']',
+  '^',
+  '"',
+  '~',
+  '*',
+  '?',
+  ':',
+  '\\',
+  '/',
+];
 
 interface AreaCodeWithTrend {
   areaCode: string;
