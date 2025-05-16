@@ -260,6 +260,7 @@ const extractAreasIndicatorsAndDataPoints = (
       if (
         healthData.areaCode !== areaCodeForEngland &&
         healthData.areaCode !== groupAreaCode &&
+        healthData.healthData.length > 0 &&
         healthData.healthData[0].year > latestDataPeriod
       ) {
         latestDataPeriod = healthData.healthData[0].year;
