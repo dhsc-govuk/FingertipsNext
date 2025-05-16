@@ -20,9 +20,6 @@
     ----------  ------------  -------------------------------------------------------------------
     [2025-05-16]    [Obaro I. Johnson]   changed from procedure to function
 *********************************************************************************************/
--- IF OBJECT_ID(N'dbo.FindAreaDescendants_Fn', N'IF') IS NOT NULL
---     DROP FUNCTION [dbo].[FindAreaDescendants_Fn];
--- GO
 
 
 CREATE FUNCTION [dbo].[FindAreaDescendants_Fn]( 

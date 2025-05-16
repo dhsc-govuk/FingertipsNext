@@ -122,7 +122,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         var areaCodesForSearch = areaCodes.ToList();
 
         // The benchmark reference can be either England or a passed in AreaGroup
-        var benchmarkAreaCode = benchmarkRefType == BenchmarkReferenceType.AreaGroup ? areaGroup : AreaCodeEngland;
+        var benchmarkAreaCode = (benchmarkRefType == BenchmarkReferenceType.AreaGroup) ? areaGroup : AreaCodeEngland;
 
         if (comparisonMethod == BenchmarkComparisonMethod.Quintiles)
         {
