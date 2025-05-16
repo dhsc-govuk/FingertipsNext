@@ -170,7 +170,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         var requestedIndicatorId = new SqlParameter("@RequestedIndicatorId", indicatorId);
         var requestedBenchmarkAreaCode = new SqlParameter("@RequestedBenchmarkAreaCode", benchmarkAreaCode);
 
-        var denormalisedHealthData = await _dbContext.DenormalisedHealthMeasure.FromSql
+        var denormalisedHealthData = await _dbContext.DenormalisedHealthMeasure.FromSqlInterpolated
             (@$"
               EXEC dbo.GetIndicatorDetailsWithQuintileBenchmarkComparison @RequestedAreas={areasOfInterest}, @RequestedAreaType={areaTypeOfInterest}, @RequestedYears={yearsOfInterest}, @RequestedIndicatorId={requestedIndicatorId}, @RequestedBenchmarkAreaCode={requestedBenchmarkAreaCode}
               "
