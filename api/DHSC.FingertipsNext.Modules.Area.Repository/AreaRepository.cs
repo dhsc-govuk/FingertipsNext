@@ -153,15 +153,13 @@ public class AreaRepository : IAreaRepository
     // by other stored procedures.
     private async Task<ICollection<AreaModel>> GetDescendantAreas(AreaModel startingArea, string childAreaTypeKey)
     {
-        var requestedChildAreaType = new SqlParameter("@RequestedChildAreaType", childAreaTypeKey);
-        var requestedAncestorAreaCode = new SqlParameter("@RequestedAncestorAreaCode", startingArea.AreaCode);
-
-        var areaWithAreaTypeList = await _dbContext.DenormalisedAreaWithAreaType.FromSql
-            (@$"
-              EXEC Areas.GetDescendantAreas @RequestedAreaType={requestedChildAreaType}, @RequestedAncestorAreaCode={requestedAncestorAreaCode}
-              "
-            ).ToListAsync();
-
+        var areaWithAreaTypeList = await _dbContext.DenormalisedAreaWithAreaType
+        .FromSqlRaw(
+            "SELECT * FROM dbo.FindAreaDescendants_Fn(@RequestedAreaType, @RequestedAncestorAreaCode, NULL)",
+            new SqlParameter("@RequestedAreaType", childAreaTypeKey),
+            new SqlParameter("@RequestedAncestorAreaCode", startingArea.AreaCode)
+        )
+        .ToListAsync();
         return [.. areaWithAreaTypeList
             .Select(area => area.Normalise())
             .OrderBy(area => area.AreaType.Level)];
