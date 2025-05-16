@@ -28,7 +28,6 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     /// <param name="benchmarkRefType">Optional benchmark reference type.</param>
     /// <param name="years">A list of years. Up to 20 distinct years can be requested.</param>
     /// <param name="inequalities">A list of desired inequalities.</param>
-    /// <param name="include_empty_areas">Determines if areas with no data are returned as empty arrays, the default is false.</param>
     /// <param name="latest_only">Set to true to get data for the latest date period only, default is false. This overrides the years parameter if set to true</param>
     /// <returns></returns>
     /// <remarks>
@@ -48,7 +47,6 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
         [FromQuery(Name = "benchmark_ref_type")] BenchmarkReferenceType benchmarkRefType = BenchmarkReferenceType.Unknown,
         [FromQuery] int[]? years = null,
         [FromQuery] string[]? inequalities = null,
-        [FromQuery] bool include_empty_areas =false,
         [FromQuery] bool latest_only = false)
     {
         if (areaCodes is {Length: > MaxNumberAreas})
@@ -81,7 +79,6 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
             benchmarkRefType,
             years ?? [],
             inequalities ?? [],
-            include_empty_areas,
             latest_only
         );
 
@@ -115,7 +112,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     public async Task<IActionResult> GetQuartileDataAsync(
         [FromQuery(Name = "indicator_ids")] int[]? indicatorIds = null,
         [FromQuery(Name = "area_code")] string areaCode = "",
-        [FromQuery(Name = "area_type")] string areaType = null,
+        [FromQuery(Name = "area_type")] string? areaType = null,
         [FromQuery(Name = "ancestor_code")] string ancestorCode = "")
     {
         if (indicatorIds is null)

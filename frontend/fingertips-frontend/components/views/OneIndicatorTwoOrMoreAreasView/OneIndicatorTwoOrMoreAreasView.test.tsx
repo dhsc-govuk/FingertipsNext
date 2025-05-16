@@ -118,7 +118,6 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       {
         areaCodes: ['E12000004', 'E12000006', 'E12000007'],
         indicatorId: 1,
-        includeEmptyAreas: true,
         latestOnly: true,
       },
       API_CACHE_CONFIG
@@ -145,7 +144,6 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       {
         areaCodes: ['E12000004', 'E12000006'],
         indicatorId: 1,
-        includeEmptyAreas: true,
         latestOnly: false,
       },
       API_CACHE_CONFIG

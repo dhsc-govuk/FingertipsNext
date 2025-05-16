@@ -43,15 +43,12 @@ export default async function OneIndicatorTwoOrMoreAreasView({
 
   const indicatorDataIncludingEmptyAreas = await getIndicatorData(
     indicatorsAndAreas,
-    true,
     areaCodes.length > 2
   );
 
   const indicatorDataAvailableAreas = {
     ...indicatorDataIncludingEmptyAreas,
-    areaHealthData: indicatorDataIncludingEmptyAreas.areaHealthData?.filter(
-      (area) => area.healthData.length
-    ),
+    areaHealthData: indicatorDataIncludingEmptyAreas.areaHealthData,
   };
 
   const indicatorMetadata = selectedIndicatorsData?.[0];
