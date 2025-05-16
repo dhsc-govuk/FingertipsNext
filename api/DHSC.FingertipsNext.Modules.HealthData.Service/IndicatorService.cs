@@ -121,6 +121,9 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         IEnumerable<HealthMeasureModel> healthMeasureData;
         var areaCodesForSearch = areaCodes.ToList();
 
+        // The benchmark reference can be either England or a passed in AreaGroup
+        var benchmarkAreaCode = (benchmarkRefType == BenchmarkReferenceType.AreaGroup) ? areaGroup : AreaCodeEngland;
+
         if (comparisonMethod == BenchmarkComparisonMethod.Quintiles)
         {
             // get the data from the database
@@ -128,7 +131,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
                 indicatorId,
                 areaCodesForSearch.ToArray(),
                 years.Distinct().ToArray(),
-                areaType
+                areaType,
+                benchmarkAreaCode
                 );
 
            
@@ -147,8 +151,6 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
                 .ToList();
         }
 
-        // The benchmark reference can be either England or a passed in AreaGroup
-        var benchmarkAreaCode = benchmarkRefType == BenchmarkReferenceType.AreaGroup ? areaGroup: AreaCodeEngland;
         var wasBenchmarkAreaCodeRequested = areaCodesForSearch.Contains(benchmarkAreaCode);
 
         var hasBenchmarkDataBeenRequested = comparisonMethod is

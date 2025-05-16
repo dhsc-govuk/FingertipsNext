@@ -15,6 +15,7 @@
     <Folder Include="Scripts\" />
     <Folder Include="Security\" />
     <Folder Include="StoredProcedures" />
+    <Folder Include="StoredFunctions"/>
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="PostDeployment\PopulateFingertips.sql" />
