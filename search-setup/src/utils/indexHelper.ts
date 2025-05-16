@@ -1,8 +1,4 @@
-import {
-  AreaDocument,
-  IndicatorDocument,
-  SPECIAL_CHARS,
-} from '../constants.js';
+import { AreaDocument, IndicatorDocument } from '../constants.js';
 import {
   SearchIndex,
   SearchIndexClient,
@@ -61,9 +57,5 @@ function generateMappingString(keyword: string, synonyms: string[]) {
 }
 
 function escapeSpecialCharacters(mappingString: string) {
-  let resultString = mappingString;
-  SPECIAL_CHARS.forEach((char) => {
-    resultString = resultString.replaceAll(char, `\\${char}`);
-  });
-  return resultString;
+  return mappingString.replace(/[+\-&|!(){}[\]^"~*?:\\/]/g, '\\$&');
 }
