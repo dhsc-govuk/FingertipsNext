@@ -9,7 +9,7 @@ import {
   StyledAlignLeftTableCell,
   StyledAlignRightTableCell,
   StyledBenchmarkTableCell,
-  StyledFirstColumnTableCell,
+  StyledFirstColumnTableCell, StyledLastColumnTableCellWithPaddingRight,
 } from '@/lib/tableHelpers';
 import { Table } from 'govuk-react';
 import React from 'react';
@@ -85,9 +85,9 @@ export function InequalitiesBarChartTable({
             <StyledAlignRightTableCell>
               {getDisplayValue(inequalities[key]?.lower)}
             </StyledAlignRightTableCell>
-            <StyledAlignRightTableCell>
+            <StyledLastColumnTableCellWithPaddingRight>
               {getDisplayValue(inequalities[key]?.upper)}
-            </StyledAlignRightTableCell>
+            </StyledLastColumnTableCellWithPaddingRight>
           </Table.Row>
         ))}
       </Table>

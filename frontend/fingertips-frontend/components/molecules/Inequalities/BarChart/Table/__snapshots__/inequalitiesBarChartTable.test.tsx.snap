@@ -13,13 +13,13 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
   padding-right: 0;
 }
 
-.c5 {
+.c7 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: left;
 }
 
-.c5:last-child {
+.c7:last-child {
   padding-right: 0;
 }
 
@@ -48,13 +48,13 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
   padding: 0.625em 0;
 }
 
-.c4 {
+.c6 {
   text-align: right;
   padding-right: 10px;
   vertical-align: top;
 }
 
-.c6 {
+.c10 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -64,24 +64,45 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
   padding-right: 0;
 }
 
-.c9 {
+.c11 {
   text-align: right;
   padding-right: 10px;
 }
 
-.c7 {
-  text-align: left;
+.c9 {
+  text-align: center;
   width: 10%;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.c5 {
+  text-align: center;
+  width: 10%;
+  padding-left: 20px;
+}
+
+.c8 {
+  width: 10%;
+  padding-left: 10px;
+}
+
+.c12 {
+  text-align: right;
+  padding-right: 10px !important;
 }
 
 .c3 {
   text-align: left;
   vertical-align: top;
+  padding-left: 10px;
 }
 
-.c8 {
-  padding: 0;
-  height: 2.8125em;
+.c4 {
+  padding: 0.5em;
+  text-align: center;
+  vertical-align: top;
+  white-space: nowrap;
 }
 
 @media print {
@@ -125,14 +146,14 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
 }
 
 @media print {
-  .c6 {
+  .c10 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c6 {
+  .c10 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
@@ -157,11 +178,15 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
             South FooBar
           </th>
           <th
-            class="c1 c2 c4"
+            class="c1 c2 c3 c4"
             colspan="2"
-            style="padding-right: 20px;"
+            style="padding-right: 10px; text-align: center;"
           >
-            95% confidence limits
+            95%
+            <br />
+            confidence
+            <br />
+            limits
           </th>
         </tr>
         <tr
@@ -175,21 +200,21 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
             Inequality type
           </th>
           <th
-            class="c1 c2 c3"
+            class="c1 c5"
             data-testid="heading-Compared to persons"
             style="width: 16%;"
           >
             Compared to persons
           </th>
           <th
-            class="c1 c2 c4"
+            class="c1 c2 c6"
             data-testid="heading-Count"
             style="width: 16%;"
           >
             Count
           </th>
           <th
-            class="c1 c2 c4"
+            class="c1 c2 c6"
             data-testid="heading-Value"
             style="width: 16%;"
           >
@@ -202,16 +227,16 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
             </span>
           </th>
           <th
-            class="c1 c2 c4"
+            class="c1 c2 c6"
             data-testid="heading-Lower"
             style="width: 16%;"
           >
             Lower
           </th>
           <th
-            class="c1 c2 c4"
+            class="c1 c2 c6"
             data-testid="heading-Upper"
-            style="width: 16%;"
+            style="width: 16%; padding-right: 10px;"
           >
             Upper
           </th>
@@ -224,30 +249,30 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
           class=""
         >
           <td
-            class="c5 c6 c7"
+            class="4 c7 c8"
           >
             Persons
           </td>
           <td
-            class="c5 c6 c7 c8"
+            class="1 c7 c9"
           />
           <td
-            class="c5 c6 c9"
+            class="c7 c10 c11"
           >
             222
           </td>
           <td
-            class="c5 c6 c9"
+            class="c7 c10 c11"
           >
             135.1
           </td>
           <td
-            class="c5 c6 c9"
+            class="c7 c10 c11"
           >
             441.7
           </td>
           <td
-            class="c5 c6 c9"
+            class="5 c7 c10 c12"
           >
             578.3
           </td>
@@ -256,30 +281,30 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
           class=""
         >
           <td
-            class="c5 c6 c7"
+            class="4 c7 c8"
           >
             Male
           </td>
           <td
-            class="c5 c6 c7 c8"
+            class="1 c7 c9"
           />
           <td
-            class="c5 c6 c9"
+            class="c7 c10 c11"
           >
             131
           </td>
           <td
-            class="c5 c6 c9"
+            class="c7 c10 c11"
           >
             890.3
           </td>
           <td
-            class="c5 c6 c9"
+            class="c7 c10 c11"
           >
             441.7
           </td>
           <td
-            class="c5 c6 c9"
+            class="5 c7 c10 c12"
           >
             578.3
           </td>
@@ -288,30 +313,30 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
           class=""
         >
           <td
-            class="c5 c6 c7"
+            class="4 c7 c8"
           >
             Female
           </td>
           <td
-            class="c5 c6 c7 c8"
+            class="1 c7 c9"
           />
           <td
-            class="c5 c6 c9"
+            class="c7 c10 c11"
           >
             131
           </td>
           <td
-            class="c5 c6 c9"
+            class="c7 c10 c11"
           >
             890.3
           </td>
           <td
-            class="c5 c6 c9"
+            class="c7 c10 c11"
           >
             441.7
           </td>
           <td
-            class="c5 c6 c9"
+            class="5 c7 c10 c12"
           >
             578.3
           </td>
