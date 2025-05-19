@@ -4,6 +4,7 @@ import { contactEmailLink, GDSLink } from '@/lib/links';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { Footer, Link } from 'govuk-react';
 import styled from 'styled-components';
+import { ProjectVersion } from '@/components/atoms/ProjectVersion';
 
 const FooterContainer = styled('ul')({
   padding: 0,
@@ -26,7 +27,12 @@ const FooterLink = styled(Link)({
   },
 });
 
-export function FTFooter() {
+interface FTFooterProps {
+  tag?: string;
+  hash?: string;
+}
+
+export function FTFooter({ tag, hash }: FTFooterProps) {
   return (
     <Footer
       meta={
@@ -55,6 +61,7 @@ export function FTFooter() {
           <FooterListItem>
             <FooterLink href={GDSLink}>Government Digital Service</FooterLink>
           </FooterListItem>
+          <ProjectVersion tag={tag} hash={hash} />
         </FooterContainer>
       }
       copyright={{

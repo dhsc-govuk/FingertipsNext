@@ -1,0 +1,335 @@
+[
+  {
+    "keyword": "a&e",
+    "synonyms": ["accident", "emergency"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "depr",
+    "synonyms": ["deprivation"],
+    "isExplicit": true
+  },
+  {
+    "keyword": "poverty",
+    "synonyms": ["deprivation"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "copd",
+    "synonyms": ["chronic", "obstructive", "pulmonary", "disorder"],
+    "isExplicit": true
+  },
+  {
+    "keyword": "hib",
+    "synonyms": ["haemophilus", "influenza"],
+    "isExplicit": true
+  },
+  {
+    "keyword": "imd",
+    "synonyms": ["indices", "multiple", "deprivation"],
+    "isExplicit": true
+  },
+  {
+    "keyword": "flu",
+    "synonyms": ["influenza"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "menc",
+    "synonyms": ["meningitis"],
+    "isExplicit": true
+  },
+  {
+    "keyword": "menb",
+    "synonyms": ["meningitis"],
+    "isExplicit": true
+  },
+  {
+    "keyword": "dtap",
+    "synonyms": ["diphtheria", "tetanus", "whooping", "cough", "pertussis"],
+    "isExplicit": true
+  },
+  {
+    "keyword": "mmr",
+    "synonyms": ["measles", "mumps", "rubella"],
+    "isExplicit": true
+  },
+  {
+    "keyword": "ppv",
+    "synonyms": ["pneumococcal"],
+    "isExplicit": true
+  },
+  {
+    "keyword": "cardiovascular",
+    "synonyms": ["ncvd"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "obesity",
+    "synonyms": ["overweight", "obese", "excess", "weight"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "antidepressant",
+    "synonyms": ["depression"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "depressive",
+    "synonyms": ["depression"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "mh",
+    "synonyms": ["mental", "health"],
+    "isExplicit": true
+  },
+  {
+    "keyword": "bp",
+    "synonyms": ["blood", "pressure", "hypertension"],
+    "isExplicit": true
+  },
+  {
+    "keyword": "asthma",
+    "synonyms": ["respiratory"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "tb",
+    "synonyms": ["tuberculosis"],
+    "isExplicit": true
+  },
+  {
+    "keyword": "cigarettes",
+    "synonyms": ["tobacco"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "smoker",
+    "synonyms": ["smokers", "smoke", "smoking"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "drink",
+    "synonyms": ["alcohol"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "drinking",
+    "synonyms": ["alcohol", "drink"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "drunk",
+    "synonyms": ["alcohol", "drink"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "drinker",
+    "synonyms": ["drink", "alcohol"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "autism",
+    "synonyms": ["autistic"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "msk",
+    "synonyms": ["musculoskeletal"],
+    "isExplicit": true
+  },
+  {
+    "keyword": "offspring",
+    "synonyms": ["baby", "infant", "child"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "child",
+    "synonyms": ["children"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "childhood",
+    "synonyms": ["child"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "families",
+    "synonyms": ["family"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "diabetes",
+    "synonyms": ["diabetic"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "cvd",
+    "synonyms": ["cardiovascular disease"],
+    "isExplicit": true
+  },
+  {
+    "keyword": "af",
+    "synonyms": ["atrial fibrillation"],
+    "isExplicit": true
+  },
+  {
+    "keyword": "pci",
+    "synonyms": ["percutaneous", "coronary", "intervention"],
+    "isExplicit": true
+  },
+  {
+    "keyword": "chd",
+    "synonyms": ["coronary", "heart", "disease"],
+    "isExplicit": true
+  },
+  {
+    "keyword": "immunisations",
+    "synonyms": ["vaccination", "vaccine"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "immunisation",
+    "synonyms": ["vaccination", "vaccine"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "vaccinations",
+    "synonyms": ["immunisation", "vaccine"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "eyfsp",
+    "synonyms": ["early", "years", "foundation", "stage", "profile"],
+    "isExplicit": true
+  },
+  {
+    "keyword": "sdq",
+    "synonyms": ["strengths", "difficulties", "questionnaire"],
+    "isExplicit": true
+  },
+  {
+    "keyword": "la",
+    "synonyms": ["local authority"],
+    "isExplicit": true
+  },
+  {
+    "keyword": "hba1c",
+    "synonyms": ["haemoglobin"],
+    "isExplicit": true
+  },
+  {
+    "keyword": "iapt",
+    "synonyms": ["psychological", "therapies", "mental", "health"],
+    "isExplicit": true
+  },
+  {
+    "keyword": "ckd",
+    "synonyms": ["chronic", "kidney", "disease"],
+    "isExplicit": true
+  },
+  {
+    "keyword": "rrt",
+    "synonyms": ["renal", "replacement", "therapy", "kidney"],
+    "isExplicit": true
+  },
+  {
+    "keyword": "renal",
+    "synonyms": ["kidney"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "dialysis",
+    "synonyms": ["kidney"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "larc",
+    "synonyms": ["long", "acting", "reversible", "contraception"],
+    "isExplicit": true
+  },
+  {
+    "keyword": "cyclist",
+    "synonyms": ["cycling"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "bme",
+    "synonyms": ["black", "minority", "ethnic"],
+    "isExplicit": true
+  },
+  {
+    "keyword": "dental",
+    "synonyms": ["teeth", "oral"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "dmft",
+    "synonyms": ["dental", "teeth", "oral"],
+    "isExplicit": true
+  },
+  {
+    "keyword": "unemployed",
+    "synonyms": ["unemployment"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "injury",
+    "synonyms": ["injuries"],
+    "isExplicit": false
+  },
+  { "keyword": "coli", "synonyms": ["ecoli"], "isExplicit": false },
+  {
+    "keyword": "sti",
+    "synonyms": ["sexually", "transmitted", "infection"],
+    "isExplicit": true
+  },
+  {
+    "keyword": "antibiotics",
+    "synonyms": ["antibiotic"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "pollution",
+    "synonyms": ["quality"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "disabilities",
+    "synonyms": ["disability", "disabled"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "disability",
+    "synonyms": ["disabled"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "violence",
+    "synonyms": ["abuse", "violent"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "violent",
+    "synonyms": ["violence"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "breastfeeding",
+    "synonyms": ["breast", "feeding", "breastfed", "breastmilk"],
+    "isExplicit": false
+  },
+  {
+    "keyword": "breastmilk",
+    "synonyms": ["breastfeeding", "breastfed"],
+    "isExplicit": false
+  },
+  { "keyword": "meal", "synonyms": ["meals"], "isExplicit": false },
+  {
+    "keyword": "suicide",
+    "synonyms": ["self", "harm", "deliberate", "injury"],
+    "isExplicit": false
+  },
+  { "keyword": "hiv", "synonyms": ["aids"], "isExplicit": false }
+]

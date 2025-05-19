@@ -8,6 +8,7 @@ import {
   AreaDocument,
   AreaSearchIndexColumnNames,
   INDICATOR_SEARCH_SCORING_PROFILE,
+  INDICATOR_SEARCH_SYNONYM_MAP_NAME,
   IndicatorDocument,
   IndicatorSearchIndexColumnNames,
 } from './constants.js';
@@ -51,6 +52,7 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
         searchable: true,
         sortable: true,
         filterable: true,
+        synonymMapNames: [INDICATOR_SEARCH_SYNONYM_MAP_NAME],
       },
       {
         name: IndicatorSearchIndexColumnNames.INDICATOR_DEFINITION,
@@ -58,6 +60,7 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
         searchable: true,
         sortable: true,
         filterable: true,
+        synonymMapNames: [INDICATOR_SEARCH_SYNONYM_MAP_NAME],
       },
       {
         name: IndicatorSearchIndexColumnNames.INDICATOR_EARLIEST_DATA_PERIOD,

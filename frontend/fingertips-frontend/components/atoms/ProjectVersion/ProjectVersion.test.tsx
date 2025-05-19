@@ -4,10 +4,7 @@ import { expect } from '@jest/globals';
 
 describe('ProjectVersion', () => {
   it('should render versions', () => {
-    process.env.FINGERTIPS_GIT_HASH = 'ABCD1234';
-    process.env.FINGERTIPS_GIT_TAG = 'vX.Y.Z';
-
-    render(<ProjectVersion />);
+    render(<ProjectVersion tag={'vX.Y.Z'} hash={'ABCD1234'} />);
 
     const version = screen.getByTestId('project-version');
     expect(version).toBeInTheDocument();
@@ -22,9 +19,7 @@ describe('ProjectVersion', () => {
     'ABCD1234',
     'fatal: No names found, cannot describe anything.',
   ])('should render only the hash if tag is invalid: %s', (tag?: string) => {
-    process.env.FINGERTIPS_GIT_HASH = 'ABCD1234';
-    process.env.FINGERTIPS_GIT_TAG = tag as string;
-    render(<ProjectVersion />);
+    render(<ProjectVersion tag={tag} hash={'ABCD1234'} />);
 
     const version = screen.getByTestId('project-version');
     expect(version).toBeInTheDocument();

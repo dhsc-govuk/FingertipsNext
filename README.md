@@ -15,8 +15,8 @@ docker compose --profile all up --build --remove-orphans -d
 ```
 
 ```bash
-FINGERTIPS_GIT_HASH=$(git rev-parse --short HEAD) \
-FINGERTIPS_GIT_TAG=$(git describe --tags --abbrev=0 --always) \
+NEXT_PUBLIC_FINGERTIPS_GIT_HASH=$(git rev-parse --short HEAD) \
+NEXT_PUBLIC_FINGERTIPS_GIT_TAG=$(git describe --tags --abbrev=0 --always) \
 docker compose --profile all up --build --remove-orphans -d
 ```
 

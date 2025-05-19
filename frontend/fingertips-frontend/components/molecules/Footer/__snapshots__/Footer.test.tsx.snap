@@ -330,6 +330,11 @@ exports[`FTFooter should match snapshot 1`] = `
                 Government Digital Service
               </a>
             </li>
+            <pre
+              data-testid="project-version"
+            >
+              Version: 0.0.0 (#12345678)
+            </pre>
           </ul>
           <div>
             <svg
