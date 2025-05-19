@@ -1353,31 +1353,17 @@ describe('determineAreasForBenchmarking', () => {
     expect(result).toEqual([{ code: areaCodeForEngland, name: 'England' }]);
   });
 
-  it('returns England and selected group if both present', () => {
-    const result = determineAreasForBenchmarking(mockAreas, 'G1');
+  it('returns England and selected group when a selectedGroupCode and an areaSelected is provided', () => {
+    const result = determineAreasForBenchmarking(mockAreas, 'G1', ['A0001']);
     expect(result).toEqual([
       { code: areaCodeForEngland, name: 'England' },
       { code: 'G1', name: 'Group 1' },
     ]);
   });
 
-  it('returns only selected group if England is not present', () => {
-    const areas = mockAreas.filter((a) => a.areaCode !== areaCodeForEngland);
-    const result = determineAreasForBenchmarking(areas, 'G1');
-    expect(result).toEqual([{ code: 'G1', name: 'Group 1' }]);
-  });
-
-  it('returns empty array if neither England nor group is present', () => {
-    const areas = mockAreas.filter(
-      (a) => a.areaCode !== areaCodeForEngland && a.areaCode !== 'G1'
-    );
-    const result = determineAreasForBenchmarking(areas, 'G1');
-    expect(result).toEqual([]);
-  });
-
-  it('returns empty array if input is empty', () => {
-    const result = determineAreasForBenchmarking([], 'G1');
-    expect(result).toEqual([]);
+  it('returns England and not the selected group when an areaSelected is not provided', () => {
+    const result = determineAreasForBenchmarking(mockAreas, 'G1');
+    expect(result).toEqual([{ code: areaCodeForEngland, name: 'England' }]);
   });
 });
 
