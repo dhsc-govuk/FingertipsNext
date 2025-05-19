@@ -26,7 +26,6 @@ import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import {
   BarChartEmbeddedTableHeadingEnum,
   chartName,
-  filterUndefined,
   getFirstCompleteYear,
   getMaxValue,
 } from '@/components/organisms/BarChartEmbeddedTable/barChartEmbeddedTableHelpers';
@@ -88,18 +87,26 @@ export function BarChartEmbeddedTable({
     groupIndicatorData
   );
 
-  const tableRows: BarChartEmbeddedTableRow[] = healthIndicatorData
-    .map((areaData) => {
+  const tableRows: BarChartEmbeddedTableRow[] = healthIndicatorData.map(
+    (areaData) => {
       const point = areaData?.healthData.find(
         (point) => point.year === fullYear
       );
-      if (!point) return;
+
+      if (!point) {
+        return {
+          area: areaData.areaName,
+          year: fullYear,
+        };
+      }
+
       return {
         area: areaData.areaName,
         ...point,
       };
-    })
-    .filter(filterUndefined) as BarChartEmbeddedTableRow[];
+    }
+  ) as BarChartEmbeddedTableRow[];
+  //.filter(filterUndefined) as BarChartEmbeddedTableRow[];
 
   const sortedTableRows = tableRows.toSorted(sortByValueAndAreaName);
 

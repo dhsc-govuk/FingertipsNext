@@ -35,7 +35,7 @@ export const BarChartEmbeddedRow: FC<BarChartEmbeddedRowProps> = ({
     <Table.Row key={`${item.area}`} className={barChartEmbeddedRowClassName}>
       <CheckValueInTableCell value={item.area} style={{ textAlign: 'left' }} />
       <Table.Cell style={{ textAlign: 'center' }}>
-        <TrendTag trendFromResponse={item.trend} />
+        {item.trend ? <TrendTag trendFromResponse={item.trend} /> : null}
       </Table.Cell>
       <FormatNumberInTableCell
         value={item.count}
