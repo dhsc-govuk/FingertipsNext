@@ -62,7 +62,7 @@ export const StyledAlignLeftHeaderRightBorder = styled(StyledAlignLeftHeader)({
   paddingRight: '0.5em',
   textAlign: 'left',
   fontSize: 19,
-})
+});
 
 export const StyledAlignLeftStickyLeftHeader = styled(StyledAlignLeftHeader)({
   ...(stickyLeft as unknown as TemplateStringsArray),
@@ -74,15 +74,19 @@ export const StyledAlignCentreTableCell = styled(StyledAlignLeftTableCell)({
   fontSize: 19,
 });
 
-export const StyledAlignRightTableCellWPaddingRight = styled(StyledAlignLeftTableCell)({
+export const StyledAlignRightTableCellWPaddingRight = styled(
+  StyledAlignLeftTableCell
+)({
   textAlign: 'right',
-  paddingRight: '0.5em',  
-})
+  paddingRight: '0.5em',
+});
 
-export const StyledAlignLeftTableCellPaddingLeft = styled(StyledAlignLeftTableCell)({
+export const StyledAlignLeftTableCellPaddingLeft = styled(
+  StyledAlignLeftTableCell
+)({
   borderRight: 'solid #bfc1c3 1px',
-  paddingLeft: '0.5em', 
-})
+  paddingLeft: '0.5em',
+});
 
 export const StyledAlignRightBorderRightTableCell = styled(
   StyledAlignRightTableCell

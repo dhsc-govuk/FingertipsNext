@@ -6,7 +6,6 @@ import {
 import {
   getDisplayValue,
   getDisplayWholeNumber,
-  StyledAlignLeftTableCell,
   StyledAlignRightTableCell,
   StyledBenchmarkTableCell,
   StyledFirstColumnTableCell,
@@ -16,7 +15,6 @@ import { Table } from 'govuk-react';
 import React from 'react';
 import { InequalitiesBarChartTableHead } from '@/components/molecules/Inequalities/BarChart/Table/InequalitiesBarChartTableHead';
 import { InequalitiesBenchmarkLabel } from '@/components/molecules/Inequalities/BarChart/Table/InequalitiesBenchmarkLabel';
-import styled from 'styled-components';
 import {
   BenchmarkComparisonMethod,
   IndicatorPolarity,

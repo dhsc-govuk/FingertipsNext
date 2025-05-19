@@ -10,7 +10,8 @@ import {
   StyledAlignRightBorderHeader,
   StyledStickyEmptyLeftHeader,
   StyledAlignLeftStickyLeftHeader,
-  StyledAlignRightHeaderPad, StyledAlignLeftHeaderRightBorder,
+  StyledAlignRightHeaderPad,
+  StyledAlignLeftHeaderRightBorder,
 } from './SpineChartTableStyles';
 import { englandAreaString } from '@/lib/chartHelpers/constants';
 
