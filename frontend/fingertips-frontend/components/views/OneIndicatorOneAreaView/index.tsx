@@ -14,12 +14,7 @@ import { ViewProps } from '../ViewsContext';
 import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
-
-function determineBenchmarkRefType(lineChartAreaSelected?: string) {
-  if (lineChartAreaSelected && lineChartAreaSelected !== areaCodeForEngland)
-    return 'AreaGroup';
-  return 'England';
-}
+import { determineBenchmarkRefType } from '@/lib/ViewsHelpers';
 
 export default async function OneIndicatorOneAreaView({
   selectedIndicatorsData,

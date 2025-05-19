@@ -255,3 +255,9 @@ export async function getIndicatorData(
 
   return indicatorDataAllAreas;
 }
+
+export function determineBenchmarkRefType(lineChartAreaSelected?: string) {
+  if (lineChartAreaSelected && lineChartAreaSelected !== areaCodeForEngland)
+    return 'AreaGroup';
+  return 'England';
+}

@@ -4,14 +4,10 @@ import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
 import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
-import { getIndicatorData } from '@/lib/ViewsHelpers';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-
-function determineBenchmarkRefType(lineChartAreaSelected?: string) {
-  if (lineChartAreaSelected && lineChartAreaSelected !== areaCodeForEngland)
-    return 'AreaGroup';
-  return 'England';
-}
+import {
+  determineBenchmarkRefType,
+  getIndicatorData,
+} from '@/lib/ViewsHelpers';
 
 export default async function OneIndicatorTwoOrMoreAreasView({
   selectedIndicatorsData,

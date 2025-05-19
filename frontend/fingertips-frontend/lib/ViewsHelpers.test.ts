@@ -1,4 +1,5 @@
 import {
+  determineBenchmarkRefType,
   getHealthDataForIndicator,
   getIndicatorData,
   GetIndicatorDataParam,
@@ -491,5 +492,20 @@ describe('getIndicatorData', () => {
       },
       { next: { revalidate: 600 } }
     );
+  });
+});
+
+describe('determineBenchmarkRefType', () => {
+  it('should return "England" if no area is selected', () => {
+    expect(determineBenchmarkRefType()).toBe('England');
+  });
+
+  it('should return "England" if England is selected', () => {
+    expect(determineBenchmarkRefType(areaCodeForEngland)).toBe('England');
+  });
+
+  it('should return "AreaGroup" if a non-England area is selected', () => {
+    expect(determineBenchmarkRefType('SOME_OTHER_CODE')).toBe('AreaGroup');
+    expect(determineBenchmarkRefType('123')).toBe('AreaGroup');
   });
 });

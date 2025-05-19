@@ -18,7 +18,7 @@ describe('generateTooltip', () => {
       BenchmarkComparisonMethod.Unknown,
       '%'
     );
-    // Mock a Highcharts.Point-like object
+
     const mockPoint = {
       x: 2006,
       y: 278.29134,
@@ -29,11 +29,10 @@ describe('generateTooltip', () => {
       },
     };
 
-    // @ts-expect-error something
-    const tooltipHtml = tooltipOptions.formatter.call(mockPoint);
-    expect(typeof tooltipHtml).toBe('string');
+    // @ts-expect-error not fully formed mockPoint
+    const tooltipHtml = tooltipOptions?.formatter?.call(mockPoint);
     expect(tooltipHtml).toContain('North FooBar');
-    expect(tooltipHtml).toContain('278.3'); // formatted value
+    expect(tooltipHtml).toContain('278.3');
     expect(tooltipHtml).toContain('%');
   });
 
@@ -49,9 +48,8 @@ describe('generateTooltip', () => {
       },
     };
 
-    // @ts-expect-error something
+    // @ts-expect-error not fully formed mockPoint
     const tooltipHtml = tooltipOptions.formatter.call(mockPoint);
-    expect(typeof tooltipHtml).toBe('string');
     expect(tooltipHtml).toContain('North FooBar');
   });
 
@@ -71,7 +69,7 @@ describe('generateTooltip', () => {
       },
     };
 
-    // @ts-expect-error something
+    // @ts-expect-error not fully formed mockPoint
     const tooltipHtml = tooltipOptions.formatter.call(mockPoint);
     expect(tooltipHtml).toContain('cases');
   });
