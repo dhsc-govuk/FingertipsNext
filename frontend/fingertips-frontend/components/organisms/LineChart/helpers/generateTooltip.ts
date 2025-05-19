@@ -10,15 +10,14 @@ import {
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { formatNumber } from '@/lib/numberFormatter';
 
-const getBenchmarkOutcomeForYear = (
+const getBenchmarkForYear = (
   year: number,
   areaCode: string,
   chartData: HealthDataForArea[]
 ) => {
   return chartData
     .find((healthData) => healthData.areaCode === areaCode)
-    ?.healthData.find((point) => point.year === year)?.benchmarkComparison
-    ?.outcome;
+    ?.healthData.find((point) => point.year === year)?.benchmarkComparison;
 };
 
 const formatValueUnit = (valueUnit?: string) => {
@@ -43,11 +42,19 @@ function generateBenchmarkComparison(
   );
 
   if (isSelectedArea) {
+    const benchmarkForYear = getBenchmarkForYear(
+      point.x,
+      areaCode,
+      areasHealthIndicatorData
+    );
+
     const { benchmarkLabel, comparisonLabel } = getTooltipContent(
-      getBenchmarkOutcomeForYear(point.x, areaCode, areasHealthIndicatorData) ??
-        BenchmarkOutcome.NotCompared,
+      benchmarkForYear?.outcome
+        ? benchmarkForYear.outcome
+        : BenchmarkOutcome.NotCompared,
       AreaTypeLabelEnum.Area,
-      benchmarkComparisonMethod ?? BenchmarkComparisonMethod.Unknown
+      benchmarkComparisonMethod ?? BenchmarkComparisonMethod.Unknown,
+      benchmarkForYear?.benchmarkAreaName
     );
 
     return `
