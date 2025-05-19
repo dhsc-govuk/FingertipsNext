@@ -82,11 +82,11 @@ export function BarChartEmbeddedTable({
   dataSource,
 }: Readonly<BarChartEmbeddedTableProps>) {
   const maxValue = getMaxValue(healthIndicatorData);
-  const fullYear = getFirstCompleteYear([
-    ...healthIndicatorData,
+  const fullYear = getFirstCompleteYear(
+    healthIndicatorData,
     benchmarkData,
     groupIndicatorData,
-  ]);
+  );
 
   const tableRows: BarChartEmbeddedTableRow[] = healthIndicatorData
     .map((areaData) => {
