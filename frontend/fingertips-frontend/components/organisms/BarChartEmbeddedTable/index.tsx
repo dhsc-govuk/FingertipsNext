@@ -85,7 +85,7 @@ export function BarChartEmbeddedTable({
   const fullYear = getFirstCompleteYear(
     healthIndicatorData,
     benchmarkData,
-    groupIndicatorData,
+    groupIndicatorData
   );
 
   const tableRows: BarChartEmbeddedTableRow[] = healthIndicatorData

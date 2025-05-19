@@ -28,7 +28,7 @@ export const getMaxValue = (healthDataForAreas: HealthDataForArea[]) => {
 export const getFirstCompleteYear = (
   healthDataForAreas: HealthDataForArea[],
   benchmarkData: HealthDataForArea | undefined,
-  groupData: HealthDataForArea | undefined,
+  groupData: HealthDataForArea | undefined
 ) => {
   const healthData = [...healthDataForAreas];
   if (benchmarkData) healthData.push(benchmarkData);
@@ -43,7 +43,8 @@ export const getFirstCompleteYear = (
   return descendingYears.find((year) => {
     return healthData.every((areaData) => {
       return (
-        (areaData.healthData.length === 0 && areaData.areaCode !== benchmarkData?.areaCode) ||
+        (areaData.healthData.length === 0 &&
+          areaData.areaCode !== benchmarkData?.areaCode) ||
         areaData.healthData.some((point) => point.year === year)
       );
     });

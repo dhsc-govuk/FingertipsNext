@@ -228,7 +228,7 @@ export async function getIndicatorData(
           selectedGroupCode,
           selectedGroupType,
         },
-        indicatorDataAllAreas.areaHealthData,
+        indicatorDataAllAreas.areaHealthData
       );
     indicatorDataAllAreas.areaHealthData.push(...latestDataForGroupAndEngland);
   }

@@ -37,7 +37,11 @@ describe('BarChartEmbeddedTableHelpers', () => {
       const testArea2 = getTestArea([2022, 2023, 2024]);
       const testArea3 = getTestArea([2019, 2022, 2023, 2024, 2025]);
       expect(
-        getFirstCompleteYear([testArea1, testArea2, testArea3], undefined, undefined)
+        getFirstCompleteYear(
+          [testArea1, testArea2, testArea3],
+          undefined,
+          undefined
+        )
       ).toEqual(2023);
     });
   });
