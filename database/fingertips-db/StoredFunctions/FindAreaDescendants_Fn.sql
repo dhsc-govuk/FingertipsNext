@@ -18,33 +18,29 @@
 
 CREATE FUNCTION [dbo].[FindAreaDescendants_Fn]( 
     @RequestedAreaType VARCHAR(50),
-    @RequestedAncestorAreaCode VARCHAR(20),
+    @RequestedAncestorAreaCode VARCHAR(20)
 )
 RETURNS TABLE
 AS
 RETURN (
-    WITH 
-    ParentAreaByCodeWithDifferentAreaType AS (
+    WITH StartingArea AS (
         SELECT *
-        FROM Areas.Areas area
+        FROM [Areas].Areas AS area
         WHERE area.AreaCode = @RequestedAncestorAreaCode
           AND area.AreaTypeKey <> @RequestedAreaType
     ),
-
     TargetAreaType AS (
         SELECT *
         FROM Areas.AreaTypes AT
         WHERE AT.AreaTypeKey = @RequestedAreaType
     ),
-
-    AreaRelationshipsHierarchy_CTE (
+    recursivelyFindDescendants(
         AreaKey,
         AreaCode,
         AreaName,
         AreaTypeKey,
         AreaLevel,
-        ParentAreaKey,
-        Depth
+        ParentAreaKey
     ) AS (
         -- Anchor part of the recursive CTE
         SELECT 
@@ -53,10 +49,10 @@ RETURN (
             a.AreaName,
             a.AreaTypeKey,
             at2.[Level] AS AreaLevel,
-            ar.ParentAreaKey,
+            ar.ParentAreaKey
         FROM Areas.AreaRelationships ar
         JOIN Areas.Areas a ON a.AreaKey = ar.ChildAreaKey
-        JOIN ParentAreaByCodeWithDifferentAreaType sa ON ar.ParentAreaKey = sa.AreaKey
+        JOIN StartingArea sa ON ar.ParentAreaKey = sa.AreaKey
         JOIN Areas.AreaTypes at2 ON at2.AreaTypeKey = a.AreaTypeKey
 
         UNION ALL
@@ -72,7 +68,7 @@ RETURN (
         FROM Areas.AreaRelationships ar
         JOIN Areas.Areas a ON a.AreaKey = ar.ChildAreaKey
         JOIN Areas.AreaTypes at2 ON at2.AreaTypeKey = a.AreaTypeKey
-        INNER JOIN AreaRelationshipsHierarchy_CTE recursive_cte ON recursive_cte.AreaKey = ar.ParentAreaKey
+        INNER JOIN recursivelyFindDescendants  recursive_cte ON recursive_cte.AreaKey = ar.ParentAreaKey
         CROSS JOIN TargetAreaType tat
         WHERE at2.[Level] <= tat.[Level]
           AND at2.HierarchyType = tat.HierarchyType
@@ -87,6 +83,6 @@ RETURN (
         tat.[Level] AS Level,
         tat.HierarchyType,
         tat.AreaTypeName
-    FROM AreaRelationshipsHierarchy_CTE rc
+    FROM recursivelyFindDescendants rc
     JOIN TargetAreaType tat ON rc.AreaTypeKey = tat.AreaTypeKey
 );

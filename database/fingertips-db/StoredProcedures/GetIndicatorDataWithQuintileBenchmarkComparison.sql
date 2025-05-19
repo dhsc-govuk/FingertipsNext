@@ -8,11 +8,10 @@ CREATE PROCEDURE [dbo].[GetIndicatorDetailsWithQuintileBenchmarkComparison]
 --- The Years we are interested in - can be empty
 @RequestedIndicatorId int,
 --- The specific indicatorId we are interested in
-@RequestedBenchmarkAreaCode varchar(20),
+@RequestedBenchmarkAreaCode varchar(20)
 --- The area used for benchmarking
 AS
 BEGIN
-
    
 	WITH
 	--- Get the Benchmark Area
