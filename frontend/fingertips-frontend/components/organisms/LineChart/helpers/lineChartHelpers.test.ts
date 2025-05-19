@@ -1,17 +1,8 @@
-import { SeriesOptionsType, SymbolKeyValue } from 'highcharts';
+import { SeriesOptionsType } from 'highcharts';
 import { addShowHideLinkedSeries } from './lineChartHelpers';
-import { GovukColours } from '@/lib/styleHelpers/colours';
 import { mockIndicatorData } from '../mocks';
 import { Dispatch, SetStateAction } from 'react';
 import { generateSeriesData } from './generateSeriesData';
-
-const symbols: SymbolKeyValue[] = ['arc', 'circle', 'diamond'];
-
-const chartColours: GovukColours[] = [
-  GovukColours.Orange,
-  GovukColours.LightPurple,
-  GovukColours.DarkPink,
-];
 
 describe('addShowHideLinkedSeries', () => {
   let generatedSeriesData: SeriesOptionsType[];
@@ -20,8 +11,6 @@ describe('addShowHideLinkedSeries', () => {
   beforeEach(() => {
     generatedSeriesData = generateSeriesData(
       [mockIndicatorData[0]],
-      symbols,
-      chartColours,
       undefined,
       undefined,
       true

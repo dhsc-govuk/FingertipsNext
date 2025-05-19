@@ -3,17 +3,7 @@ import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { allAgesAge, personsSex, noDeprivation } from '@/lib/mocks';
 import { generateStandardLineChartOptions } from './generateStandardLineChartOptions';
-import { mockIndicatorData, mockBenchmarkData, mockParentData } from '../mocks';
-import { GovukColours } from '@/lib/styleHelpers/colours';
-import { SymbolKeyValue } from 'highcharts';
-
-const symbols: SymbolKeyValue[] = ['arc', 'circle', 'diamond'];
-
-const chartColours: GovukColours[] = [
-  GovukColours.Orange,
-  GovukColours.LightPurple,
-  GovukColours.DarkPink,
-];
+import { mockIndicatorData, mockEnglandData, mockParentData } from '../mocks';
 
 describe('generateStandardLineChartOptions', () => {
   it('should generate standard line chart options', () => {
@@ -28,8 +18,6 @@ describe('generateStandardLineChartOptions', () => {
         xAxisTitle: 'xAxis',
         measurementUnit: '%',
         accessibilityLabel: 'accessibility',
-        colours: chartColours,
-        symbols,
       }
     );
 
@@ -45,14 +33,12 @@ describe('generateStandardLineChartOptions', () => {
       false,
       areaCodeForEngland,
       {
-        englandData: mockBenchmarkData,
+        englandData: mockEnglandData,
         groupIndicatorData: mockParentData,
         yAxisTitle: 'yAxis',
         xAxisTitle: 'xAxis',
         measurementUnit: '%',
         accessibilityLabel: 'accessibility',
-        colours: chartColours,
-        symbols,
       }
     );
     expect(generatedOptions).toMatchSnapshot();
@@ -60,9 +46,9 @@ describe('generateStandardLineChartOptions', () => {
 
   it('should not include benchmark or group years before or after the areas have data', () => {
     const mockBenchmarkAreaWithEarlyYear: HealthDataForArea = {
-      ...mockBenchmarkData,
+      ...mockEnglandData,
       healthData: [
-        ...mockBenchmarkData.healthData,
+        ...mockEnglandData.healthData,
         {
           year: 1999,
           ageBand: allAgesAge,
@@ -97,8 +83,6 @@ describe('generateStandardLineChartOptions', () => {
         xAxisTitle: 'xAxis',
         measurementUnit: '%',
         accessibilityLabel: 'accessibility',
-        colours: chartColours,
-        symbols,
       }
     );
     expect((generatedOptions.series?.[0] as any).data).toHaveLength(2);

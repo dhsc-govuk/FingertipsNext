@@ -16,10 +16,8 @@ import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import Highcharts, { DashStyleValue, YAxisOptions } from 'highcharts';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { AreaWithoutAreaType } from '@/lib/common-types';
-import {
-  chartSymbols,
-  lineChartDefaultOptions,
-} from '../LineChart/helpers/generateStandardLineChartOptions';
+import { lineChartDefaultOptions } from '../LineChart/helpers/generateStandardLineChartOptions';
+import { chartSymbols } from '../LineChart/helpers/generateSeriesData';
 
 export const localeSort = (a: string, b: string) => a.localeCompare(b);
 export const sexCategory = 'Sex';

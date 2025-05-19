@@ -1,322 +1,95 @@
-import { chartColours } from '@/lib/chartHelpers/colours';
+import { chartSymbols, generateSeriesData } from './generateSeriesData';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { SymbolKeyValue, SeriesLineOptions } from 'highcharts';
-import { mockIndicatorData, mockBenchmarkData, mockParentData } from '../mocks';
-import { generateSeriesData } from './generateSeriesData';
+import { mockEnglandData, mockIndicatorData, mockParentData } from '../mocks';
+import { chartColours } from '@/lib/chartHelpers/colours';
 
-const symbols: SymbolKeyValue[] = ['arc', 'circle', 'diamond'];
+const area1WithIndicatorData = mockIndicatorData[0];
+const area2WithIndicatorData = mockIndicatorData[1];
+const twoAreasWithIndicatorData = [
+  area1WithIndicatorData,
+  area2WithIndicatorData,
+];
 
 describe('generateSeriesData', () => {
-  it('should generate series data without benchmark data', () => {
-    const expectedSeriesData = [
-      {
-        color: '#F46A25',
-        custom: { areaCode: 'A1427' },
-        data: [
-          [2020, 478.27434],
-          [2012, 234.420759],
-        ],
-        name: 'East FooBar',
-        type: 'line',
-        marker: {
-          symbol: 'arc',
-        },
-      },
-      {
-        color: '#A285D1',
-        custom: { areaCode: 'A1425' },
-        data: [
-          [2006, 278.29134],
-          [2004, 703.420759],
-        ],
-        name: 'North FooBar',
-        type: 'line',
-        marker: {
-          symbol: 'circle',
-        },
-      },
-      {
-        color: '#801650',
-        custom: { areaCode: 'A1426' },
-        data: [
-          [2010, 786.27434],
-          [2007, 435.420759],
-        ],
-        name: 'South FooBar',
-        type: 'line',
-        marker: {
-          symbol: 'diamond',
-        },
-      },
-    ];
+  it('should generate series for areas only', () => {
+    const result = generateSeriesData(twoAreasWithIndicatorData);
+    expect(result).toHaveLength(2);
 
-    const generatedSeriesData = generateSeriesData(
-      mockIndicatorData,
-      symbols,
-      chartColours,
-      undefined,
-      undefined,
-      false
-    );
-
-    expect(generatedSeriesData).toEqual(expectedSeriesData);
+    result.forEach((areaSeriesData, i) => {
+      expect(areaSeriesData).toMatchObject({
+        name: twoAreasWithIndicatorData[i].areaName,
+        type: 'line',
+        color: chartColours[i],
+        marker: { symbol: chartSymbols[i] },
+      });
+    });
   });
 
-  it('should generate series data with benchmark data', () => {
-    const expectedSeriesData = [
-      {
-        color: GovukColours.DarkGrey,
-        custom: { areaCode: areaCodeForEngland },
-        data: [
-          [2006, 278.29134],
-          [2004, 703.420759],
-        ],
-        marker: {
-          symbol: 'circle',
-        },
-        name: 'Benchmark: England',
-        type: 'line',
-      },
-      {
-        color: '#F46A25',
-        custom: { areaCode: 'A1427' },
-        data: [
-          [2020, 478.27434],
-          [2012, 234.420759],
-        ],
-        name: 'East FooBar',
-        type: 'line',
-        marker: {
-          symbol: 'arc',
-        },
-      },
-      {
-        color: '#A285D1',
-        custom: { areaCode: 'A1425' },
-        data: [
-          [2006, 278.29134],
-          [2004, 703.420759],
-        ],
-        name: 'North FooBar',
-        type: 'line',
-        marker: {
-          symbol: 'circle',
-        },
-      },
-      {
-        color: '#801650',
-        custom: { areaCode: 'A1426' },
-        data: [
-          [2010, 786.27434],
-          [2007, 435.420759],
-        ],
-        name: 'South FooBar',
-        type: 'line',
-        marker: {
-          symbol: 'diamond',
-        },
-      },
-    ];
-
-    const generatedSeriesData = generateSeriesData(
-      mockIndicatorData,
-      symbols,
-      chartColours,
-      mockBenchmarkData,
-      undefined,
-      false
-    );
-
-    expect(generatedSeriesData).toEqual(expectedSeriesData);
-  });
-
-  it('should generate series data with parent data', () => {
-    const expectedSeriesData = [
-      {
-        color: GovukColours.DarkGrey,
-        custom: { areaCode: areaCodeForEngland },
-        data: [
-          [2006, 278.29134],
-          [2004, 703.420759],
-        ],
-        marker: {
-          symbol: 'circle',
-        },
-        name: 'Benchmark: England',
-        type: 'line',
-      },
-      {
-        color: GovukColours.Turquoise,
-        custom: { areaCode: 'P001' },
-        data: [
-          [2006, 300],
-          [2004, 301],
-        ],
-        marker: {
-          symbol: 'diamond',
-        },
-        name: 'Group: Parent',
-        type: 'line',
-      },
-      {
-        color: '#F46A25',
-        custom: { areaCode: 'A1427' },
-        data: [
-          [2020, 478.27434],
-          [2012, 234.420759],
-        ],
-        name: 'East FooBar',
-        type: 'line',
-        marker: {
-          symbol: 'arc',
-        },
-      },
-      {
-        color: '#A285D1',
-        custom: { areaCode: 'A1425' },
-        data: [
-          [2006, 278.29134],
-          [2004, 703.420759],
-        ],
-        name: 'North FooBar',
-        type: 'line',
-        marker: {
-          symbol: 'circle',
-        },
-      },
-      {
-        color: '#801650',
-        custom: { areaCode: 'A1426' },
-        data: [
-          [2010, 786.27434],
-          [2007, 435.420759],
-        ],
-        name: 'South FooBar',
-        type: 'line',
-        marker: {
-          symbol: 'diamond',
-        },
-      },
-    ];
-
-    const generatedSeriesData = generateSeriesData(
-      mockIndicatorData,
-      symbols,
-      chartColours,
-      mockBenchmarkData,
-      mockParentData,
-      false
-    );
-
-    expect(generatedSeriesData).toEqual(expectedSeriesData);
-  });
-
-  it('should repeat symbols when there are more series than symbols', () => {
-    const symbols: SymbolKeyValue[] = ['arc', 'circle'];
-
-    const generatedSeriesData = generateSeriesData(
-      mockIndicatorData,
-      symbols,
-      chartColours,
-      undefined,
-      undefined,
-      false
-    ) as SeriesLineOptions[];
-
-    expect(generatedSeriesData[0].marker?.symbol).toBe('arc');
-    expect(generatedSeriesData[1].marker?.symbol).toBe('circle');
-    expect(generatedSeriesData[2].marker?.symbol).toBe('arc');
-  });
-
-  it('should show confidence intervals bars', () => {
-    const generatedSeriesData = generateSeriesData(
-      [mockIndicatorData[0]],
-      symbols,
-      chartColours,
+  it('should generate series with confidence intervals', () => {
+    const result = generateSeriesData(
+      twoAreasWithIndicatorData,
       undefined,
       undefined,
       true
     );
 
-    const expectedSeriesData = [
-      {
-        color: '#F46A25',
-        custom: { areaCode: 'A1425' },
-        data: [
-          [2006, 278.29134],
-          [2004, 703.420759],
-        ],
-        name: 'North FooBar',
-        type: 'line',
-        marker: {
-          symbol: 'arc',
-        },
-      },
-      {
-        color: '#B1B4B6',
-        data: [
-          [2006, 441.69151, 578.32766],
-          [2004, 441.69151, 578.32766],
-        ],
-        name: 'North FooBar',
-        linkedTo: 'North FooBar',
-        type: 'errorbar',
-        visible: true,
-        lineWidth: 2,
-        whiskerLength: '20%',
-      },
-    ];
-
-    expect(generatedSeriesData).toEqual(expectedSeriesData);
+    expect(result).toHaveLength(4); // 2 lines + 2 errorbars
+    expect(result[1].type).toBe('errorbar');
+    expect(result[3].type).toBe('errorbar');
   });
 
-  it('should not show confidence intervals bars', () => {
-    const generatedSeriesData = generateSeriesData(
-      [mockIndicatorData[0]],
-      symbols,
-      chartColours,
-      undefined,
-      undefined,
-      false
+  it('should generate series with England as primary benchmark and group as additional benchmark', () => {
+    const result = generateSeriesData(
+      [area1WithIndicatorData],
+      mockEnglandData,
+      mockParentData,
+      false,
+      areaCodeForEngland
     );
 
-    const expectedSeriesData = [
-      {
-        color: '#F46A25',
-        custom: { areaCode: 'A1425' },
-        data: [
-          [2006, 278.29134],
-          [2004, 703.420759],
-        ],
-        name: 'North FooBar',
-        type: 'line',
-        marker: {
-          symbol: 'arc',
-        },
-      },
-    ];
+    expect(result[0]).toMatchObject({
+      name: 'Benchmark: England',
+      color: GovukColours.DarkGrey,
+      marker: { symbol: 'circle' },
+    });
 
-    expect(generatedSeriesData).toEqual(expectedSeriesData);
+    expect(result[1]).toMatchObject({
+      name: `Group: ${mockParentData.areaName}`,
+      color: GovukColours.Turquoise,
+      marker: { symbol: 'diamond' },
+    });
   });
 
-  it('should repeat colours when there are more series than colours', () => {
-    const chartColours: GovukColours[] = [
-      GovukColours.Orange,
-      GovukColours.LightPurple,
-    ];
+  it('should generate series with group as primary benchmark and England as additional', () => {
+    const result = generateSeriesData(
+      [area1WithIndicatorData],
+      mockEnglandData,
+      mockParentData,
+      false,
+      mockParentData.areaCode
+    );
 
-    const generatedSeriesData = generateSeriesData(
-      mockIndicatorData,
-      symbols,
-      chartColours,
-      undefined,
-      undefined,
-      false
-    ) as SeriesLineOptions[];
+    expect(result[0]).toMatchObject({
+      name: `Benchmark: ${mockParentData.areaName}`,
+      color: GovukColours.DarkGrey,
+      marker: { symbol: 'circle' },
+    });
 
-    expect(generatedSeriesData[0].color).toBe(chartColours[0]);
-    expect(generatedSeriesData[1].color).toBe(chartColours[1]);
-    expect(generatedSeriesData[2].color).toBe(chartColours[0]);
+    expect(result[1]).toMatchObject({
+      name: mockEnglandData.areaName,
+      color: GovukColours.DarkPink,
+      marker: { symbol: 'diamond' },
+    });
+  });
+
+  it('should generate only England series if areasData is empty and englandData is provided', () => {
+    const result = generateSeriesData([], mockEnglandData);
+    expect(result).toHaveLength(1);
+    expect(result[0]).toMatchObject({
+      name: 'England',
+      color: GovukColours.DarkGrey,
+      marker: { symbol: 'circle' },
+    });
   });
 });

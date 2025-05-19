@@ -46,7 +46,7 @@ import {
 } from '@/lib/mocks';
 import {
   mockIndicatorData,
-  mockBenchmarkData,
+  mockEnglandData,
   mockParentData,
 } from '../LineChart/mocks';
 import {
@@ -1048,9 +1048,9 @@ describe('getAllDataWithoutInequalities', () => {
   ];
 
   const benchmarkData: HealthDataForArea = {
-    ...mockBenchmarkData,
+    ...mockEnglandData,
     healthData: [
-      ...mockBenchmarkData.healthData,
+      ...mockEnglandData.healthData,
       {
         count: 389,
         lowerCi: 441.69151,
@@ -1111,7 +1111,7 @@ describe('getAllDataWithoutInequalities', () => {
 
   it('should get required data without inequalities', () => {
     const expectedHealthDataWithoutInequalities = [{ ...mockIndicatorData[0] }];
-    const expectedBenchmarkDataWithoutInequalities = { ...mockBenchmarkData };
+    const expectedBenchmarkDataWithoutInequalities = { ...mockEnglandData };
     const expectedGroupDataWithoutInequalities = { ...mockParentData };
 
     const expected = {
@@ -1148,7 +1148,7 @@ describe('getAllDataWithoutInequalities', () => {
   it('should return empty areaDataWithoutInequalities if England is the selected area', () => {
     const expected = {
       areaDataWithoutInequalities: [],
-      englandDataWithoutInequalities: mockBenchmarkData,
+      englandDataWithoutInequalities: mockEnglandData,
       groupDataWithoutInequalities: undefined,
     };
 

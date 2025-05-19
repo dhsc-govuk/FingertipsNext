@@ -9,9 +9,6 @@ import {
   sortHealthDataForAreaByDate,
   AXIS_LABEL_FONT_SIZE,
 } from '@/lib/chartHelpers/chartHelpers';
-import { ChartColours, chartColours } from '@/lib/chartHelpers/colours';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { SymbolKeyValue } from 'highcharts';
 import { generateYAxis } from './generateYAxis';
 import { generateXAxis } from './generateXAxis';
 import { generateTooltip } from './generateTooltip';
@@ -67,40 +64,6 @@ export const lineChartDefaultOptions: Highcharts.Options = {
   },
 };
 
-export const chartSymbols: SymbolKeyValue[] = [
-  'square',
-  'triangle',
-  'triangle-down',
-  'circle',
-  'diamond',
-];
-
-const determineBenchmarkData = (
-  benchmarkToUse: string,
-  englandData?: HealthDataForArea,
-  groupIndicatorData?: HealthDataForArea
-): HealthDataForArea | undefined => {
-  if (benchmarkToUse === areaCodeForEngland && englandData) {
-    return sortHealthDataForAreaByDate(englandData);
-  } else if (benchmarkToUse !== areaCodeForEngland && groupIndicatorData) {
-    return sortHealthDataForAreaByDate(groupIndicatorData);
-  }
-  return undefined;
-};
-
-const determineGroupData = (
-  benchmarkToUse: string,
-  englandData?: HealthDataForArea,
-  groupIndicatorData?: HealthDataForArea
-): HealthDataForArea | undefined => {
-  if (benchmarkToUse === areaCodeForEngland && groupIndicatorData) {
-    return sortHealthDataForAreaByDate(groupIndicatorData);
-  } else if (benchmarkToUse !== areaCodeForEngland && englandData) {
-    return sortHealthDataForAreaByDate(englandData);
-  }
-  return undefined;
-};
-
 export function generateStandardLineChartOptions(
   healthIndicatorData: HealthDataForArea[],
   lineChartCI: boolean,
@@ -112,8 +75,6 @@ export function generateStandardLineChartOptions(
     xAxisTitle?: string;
     measurementUnit?: string;
     accessibilityLabel?: string;
-    colours?: ChartColours[];
-    symbols?: SymbolKeyValue[];
     xAxisLabelFormatter?: Highcharts.AxisLabelsFormatterCallbackFunction;
     benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   }
@@ -123,31 +84,27 @@ export function generateStandardLineChartOptions(
   const firstYear = getFirstYearForAreas(sortedHealthIndicatorData);
   const lastYear = getLatestYearForAreas(sortedHealthIndicatorData);
 
-  const sortedBenchMarkData = determineBenchmarkData(
-    benchmarkToUse,
-    optionalParams?.englandData,
-    optionalParams?.groupIndicatorData
-  );
+  const sortedEnglandData = optionalParams?.englandData
+    ? sortHealthDataForAreaByDate(optionalParams?.englandData)
+    : undefined;
 
-  const filteredSortedBenchMarkData =
-    sortedBenchMarkData &&
+  const filteredSortedEnglandData =
+    sortedEnglandData &&
     sortedHealthIndicatorData.length &&
     firstYear &&
     lastYear
       ? {
-          ...sortedBenchMarkData,
+          ...sortedEnglandData,
           healthData:
-            sortedBenchMarkData?.healthData.filter(
+            sortedEnglandData?.healthData.filter(
               (data) => data.year >= firstYear && data.year <= lastYear
             ) ?? [],
         }
-      : sortedBenchMarkData;
+      : sortedEnglandData;
 
-  const sortedGroupData = determineGroupData(
-    benchmarkToUse,
-    optionalParams?.englandData,
-    optionalParams?.groupIndicatorData
-  );
+  const sortedGroupData = optionalParams?.groupIndicatorData
+    ? sortHealthDataForAreaByDate(optionalParams?.groupIndicatorData)
+    : undefined;
 
   const filteredSortedGroupData =
     sortedGroupData && sortedHealthIndicatorData.length && firstYear && lastYear
@@ -169,15 +126,14 @@ export function generateStandardLineChartOptions(
     ),
     series: generateSeriesData(
       sortedHealthIndicatorData,
-      optionalParams?.symbols ?? chartSymbols,
-      optionalParams?.colours ?? chartColours,
-      filteredSortedBenchMarkData,
+      filteredSortedEnglandData,
       filteredSortedGroupData,
-      lineChartCI
+      lineChartCI,
+      benchmarkToUse
     ),
     tooltip: generateTooltip(
       sortedHealthIndicatorData,
-      sortedBenchMarkData,
+      sortedEnglandData,
       sortedGroupData,
       optionalParams?.benchmarkComparisonMethod,
       optionalParams?.measurementUnit
