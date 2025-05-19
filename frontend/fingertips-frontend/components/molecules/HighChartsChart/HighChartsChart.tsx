@@ -1,4 +1,4 @@
-import Highcharts, { Chart } from 'highcharts';
+import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import { FC, useEffect, useState } from 'react';
 import { loadHighchartsModules } from '@/lib/chartHelpers/chartHelpers';

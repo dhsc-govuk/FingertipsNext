@@ -61,9 +61,9 @@ export const ExportPreviewOptions: FC<ExportPreviewProps> = ({
 
       <ExportDownloadButton
         enabled={Boolean(!isLoading && (text || element))}
-        baseName={targetId || 'download'}
+        baseName={targetId ?? 'download'}
         format={format}
-        download={text || (element as HTMLCanvasElement)}
+        download={text ?? (element as HTMLCanvasElement)}
       />
     </div>
   );
