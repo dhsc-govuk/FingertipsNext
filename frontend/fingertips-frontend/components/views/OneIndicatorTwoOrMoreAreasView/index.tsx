@@ -5,6 +5,13 @@ import { ViewProps } from '../ViewsContext';
 import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 import { getIndicatorData } from '@/lib/ViewsHelpers';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+
+function determineBenchmarkRefType(lineChartAreaSelected?: string) {
+  if (lineChartAreaSelected && lineChartAreaSelected !== areaCodeForEngland)
+    return 'AreaGroup';
+  return 'England';
+}
 
 export default async function OneIndicatorTwoOrMoreAreasView({
   selectedIndicatorsData,
@@ -19,6 +26,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     [SearchParams.GroupTypeSelected]: selectedGroupType,
     [SearchParams.AreaTypeSelected]: selectedAreaType,
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
+    [SearchParams.LineChartAreaSelected]: lineChartAreaSelected,
   } = stateManager.getSearchState();
 
   const areaCodes = determineAreaCodes(
@@ -41,9 +49,12 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     selectedGroupType,
   };
 
+  const benchmarkRefType = determineBenchmarkRefType(lineChartAreaSelected);
+
   const indicatorDataIncludingEmptyAreas = await getIndicatorData(
     indicatorsAndAreas,
     true,
+    benchmarkRefType,
     areaCodes.length > 2
   );
 

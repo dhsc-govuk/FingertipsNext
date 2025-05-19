@@ -4,6 +4,7 @@ import {
   GetIndicatorDataParam,
 } from './ViewsHelpers';
 import {
+  BenchmarkReferenceType,
   IndicatorsApi,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
@@ -218,7 +219,7 @@ describe('getIndicatorData', () => {
       mockIndicator
     );
 
-    await getIndicatorData(testParams, true);
+    await getIndicatorData(testParams, true, BenchmarkReferenceType.England);
     expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
       2
     );
@@ -232,6 +233,7 @@ describe('getIndicatorData', () => {
         indicatorId: Number(testParams.indicatorSelected[0]),
         areaType: testParams.selectedAreaType,
         includeEmptyAreas: true,
+        benchmarkRefType: BenchmarkReferenceType.England,
       },
       API_CACHE_CONFIG
     );
@@ -245,6 +247,7 @@ describe('getIndicatorData', () => {
         indicatorId: Number(testParams.indicatorSelected[0]),
         areaType: 'england',
         includeEmptyAreas: true,
+        benchmarkRefType: BenchmarkReferenceType.England,
       },
       API_CACHE_CONFIG
     );
@@ -261,7 +264,11 @@ describe('getIndicatorData', () => {
       mockIndicator
     );
 
-    await getIndicatorData(testParamsWithGroup, true);
+    await getIndicatorData(
+      testParamsWithGroup,
+      true,
+      BenchmarkReferenceType.England
+    );
     expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
       3
     );
@@ -275,6 +282,37 @@ describe('getIndicatorData', () => {
         indicatorId: Number(testParamsWithGroup.indicatorSelected[0]),
         areaType: testParamsWithGroup.selectedGroupType,
         includeEmptyAreas: true,
+        benchmarkRefType: BenchmarkReferenceType.England,
+      },
+      API_CACHE_CONFIG
+    );
+  });
+
+  it('should make appropriate calls to the healthIndicatorApi when benchmarkRefType is AreaGroup', async () => {
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
+      mockIndicator
+    );
+
+    await getIndicatorData(
+      testParamsWithGroup,
+      true,
+      BenchmarkReferenceType.AreaGroup
+    );
+    expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
+      3
+    );
+
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(
+      3,
+      {
+        areaCodes: [testParamsWithGroup.selectedGroupCode],
+        indicatorId: Number(testParamsWithGroup.indicatorSelected[0]),
+        areaType: testParamsWithGroup.selectedGroupType,
+        includeEmptyAreas: true,
+        benchmarkRefType: BenchmarkReferenceType.AreaGroup,
+        areaGroup: testParamsWithGroup.selectedGroupCode,
       },
       API_CACHE_CONFIG
     );
@@ -290,7 +328,11 @@ describe('getIndicatorData', () => {
       mockIndicator
     );
 
-    await getIndicatorData(testParamsWithManyAreas, true);
+    await getIndicatorData(
+      testParamsWithManyAreas,
+      true,
+      BenchmarkReferenceType.England
+    );
     expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
       4
     );
@@ -321,7 +363,12 @@ describe('getIndicatorData', () => {
       mockIndicator
     );
 
-    await getIndicatorData(testParamsWithGroup, true, true);
+    await getIndicatorData(
+      testParamsWithGroup,
+      true,
+      BenchmarkReferenceType.England,
+      true
+    );
     expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
       3
     );
@@ -336,6 +383,7 @@ describe('getIndicatorData', () => {
         includeEmptyAreas: true,
         indicatorId: 1,
         latestOnly: true,
+        benchmarkRefType: BenchmarkReferenceType.England,
       },
       { next: { revalidate: 600 } }
     );
@@ -393,7 +441,12 @@ describe('getIndicatorData', () => {
       mockIndicator
     );
 
-    await getIndicatorData(testParamsWithGroup, true, true);
+    await getIndicatorData(
+      testParamsWithGroup,
+      true,
+      BenchmarkReferenceType.England,
+      true
+    );
     expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
       3
     );
@@ -408,6 +461,7 @@ describe('getIndicatorData', () => {
         includeEmptyAreas: true,
         indicatorId: 1,
         latestOnly: true,
+        benchmarkRefType: BenchmarkReferenceType.England,
       },
       { next: { revalidate: 600 } }
     );
