@@ -49,9 +49,7 @@ function generateBenchmarkComparison(
     );
 
     const { benchmarkLabel, comparisonLabel } = getTooltipContent(
-      benchmarkForYear?.outcome
-        ? benchmarkForYear.outcome
-        : BenchmarkOutcome.NotCompared,
+      benchmarkForYear?.outcome ?? BenchmarkOutcome.NotCompared,
       AreaTypeLabelEnum.Area,
       benchmarkComparisonMethod ?? BenchmarkComparisonMethod.Unknown,
       benchmarkForYear?.benchmarkAreaName
