@@ -6,6 +6,8 @@ import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceInt
 import { useEffect, useState } from 'react';
 import { addShowHideLinkedSeries, LineChartVariant } from './lineChartHelpers';
 import { loadHighchartsModules } from '@/lib/chartHelpers/chartHelpers';
+import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
+import { ExportPreview } from '@/components/molecules/Export/ExportPreview';
 
 interface LineChartProps {
   lineChartOptions: Highcharts.Options;
@@ -37,21 +39,25 @@ export function LineChart({
   if (!options) {
     return null;
   }
-
+  const id = `${variant}LineChart-component`;
   return (
-    <div data-testid={`${variant}LineChart-component`}>
+    <div data-testid={id}>
       <ConfidenceIntervalCheckbox
         chartName={`${variant}LineChart`}
         showConfidenceIntervalsData={showConfidenceIntervalsData}
         setShowConfidenceIntervalsData={setShowConfidenceIntervalsData}
       ></ConfidenceIntervalCheckbox>
-      <HighchartsReact
-        containerProps={{
-          'data-testid': 'highcharts-react-component-lineChart',
-        }}
-        highcharts={Highcharts}
-        options={options}
-      />
+      <div id={id}>
+        <h2>A title for this thing</h2>
+        <HighchartsReact
+          containerProps={{
+            'data-testid': 'highcharts-react-component-lineChart',
+          }}
+          highcharts={Highcharts}
+          options={options}
+        />
+      </div>
+      <ExportOptionsButton targetId={id} />
     </div>
   );
 }
