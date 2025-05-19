@@ -34,9 +34,9 @@ export const getFirstCompleteYear = (
   if (benchmarkData) healthData.push(benchmarkData);
   if (groupData) healthData.push(groupData);
 
-  const allYears = healthData
-    .flatMap((areaData) => areaData?.healthData.map((point) => point.year))
-    .filter(filterUndefined) as number[];
+  const allYears = healthData.flatMap((areaData) =>
+    areaData.healthData.map((point) => point.year)
+  );
   const uniqueYears = new Set(allYears);
   const descendingYears = [...uniqueYears].sort((a, b) => b - a);
 
