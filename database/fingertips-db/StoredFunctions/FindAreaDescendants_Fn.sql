@@ -7,25 +7,18 @@
 -- Parameters:
     @RequestedAreaType          : The AreaTypeKey of the descendant areas to find.
     @RequestedAncestorAreaCode  : The AreaCode of the ancestor area to start the search from.
-    @MaxDepth                   : Optional max recursion depth (default = 10 if NULL).
 
 -- Returns:
     A table of areas that are descendants of the specified ancestor and match the specified AreaType.
 
 -- Usage:
     SELECT * FROM dbo.FindAreaDescendants('LocalAuthority', 'E09000001', 5);
-
--- Change Log:
-    Date        Author        Description
-    ----------  ------------  -------------------------------------------------------------------
-    [2025-05-16]    [Obaro I. Johnson]   changed from procedure to function
 *********************************************************************************************/
 
 
 CREATE FUNCTION [dbo].[FindAreaDescendants_Fn]( 
     @RequestedAreaType VARCHAR(50),
     @RequestedAncestorAreaCode VARCHAR(20),
-    @MaxDepth INT -- The depth to which the recursion should go
 )
 RETURNS TABLE
 AS
@@ -61,7 +54,6 @@ RETURN (
             a.AreaTypeKey,
             at2.[Level] AS AreaLevel,
             ar.ParentAreaKey,
-            0 AS Depth
         FROM Areas.AreaRelationships ar
         JOIN Areas.Areas a ON a.AreaKey = ar.ChildAreaKey
         JOIN ParentAreaByCodeWithDifferentAreaType sa ON ar.ParentAreaKey = sa.AreaKey
@@ -76,8 +68,7 @@ RETURN (
             a.AreaName,
             a.AreaTypeKey,
             at2.[Level] AS AreaLevel,
-            ar.ParentAreaKey,
-            recursive_cte.Depth + 1 AS Depth
+            ar.ParentAreaKey
         FROM Areas.AreaRelationships ar
         JOIN Areas.Areas a ON a.AreaKey = ar.ChildAreaKey
         JOIN Areas.AreaTypes at2 ON at2.AreaTypeKey = a.AreaTypeKey
@@ -85,7 +76,6 @@ RETURN (
         CROSS JOIN TargetAreaType tat
         WHERE at2.[Level] <= tat.[Level]
           AND at2.HierarchyType = tat.HierarchyType
-          AND recursive_cte.Depth <= ISNULL(@MaxDepth, 10)
     )
 
     -- Final result selection

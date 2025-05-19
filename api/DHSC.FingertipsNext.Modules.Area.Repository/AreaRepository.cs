@@ -148,7 +148,7 @@ public class AreaRepository : IAreaRepository
     {
         var areaWithAreaTypeList = await _dbContext.DenormalisedAreaWithAreaType
         .FromSqlRaw(
-            "SELECT * FROM dbo.FindAreaDescendants_Fn(@RequestedAreaType, @RequestedAncestorAreaCode, NULL)",
+            "SELECT * FROM dbo.FindAreaDescendants_Fn(@RequestedAreaType, @RequestedAncestorAreaCode)",
             new SqlParameter("@RequestedAreaType", childAreaTypeKey),
             new SqlParameter("@RequestedAncestorAreaCode", startingArea.AreaCode)
         )

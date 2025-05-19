@@ -10,7 +10,6 @@ CREATE PROCEDURE [dbo].[GetIndicatorDetailsWithQuintileBenchmarkComparison]
 --- The specific indicatorId we are interested in
 @RequestedBenchmarkAreaCode varchar(20),
 --- The area used for benchmarking
- @MaxDepth INT = 10 --  Max depth that the   FindAreaDescendants will go to find descendants 
 AS
 BEGIN
 
@@ -71,7 +70,7 @@ BEGIN
         ON
 		    hm.AreaKey = areaDim.AreaKey 
 	JOIN
-	        dbo.FindAreaDescendants_Fn(@RequestedAreaType, @RequestedBenchmarkAreaCode, @MaxDepth) AS benchmarkAreas
+	        dbo.FindAreaDescendants_Fn(@RequestedAreaType, @RequestedBenchmarkAreaCode) AS benchmarkAreas
 	    ON
 	        areaDim.Code = benchmarkAreas.AreaCode
 	JOIN
