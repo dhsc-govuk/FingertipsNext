@@ -11,6 +11,7 @@ import {
   RawIndicatorDocument,
 } from './searchTypes';
 import { IndicatorMapper } from './indicatorMapper';
+import { escapeString } from '../escapeString';
 
 export class IndicatorSearchService implements IIndicatorSearchService {
   private readonly searchClient: SearchClient<RawIndicatorDocument>;
@@ -38,6 +39,7 @@ export class IndicatorSearchService implements IIndicatorSearchService {
     //
     // If the search is entirely numeric, it is most likely for a specific indicator ID
     // so any fuzzy matching is likely to be unhelpful by including or prioritising unwanted indicators
+
     const buildSearchQuery = (searchTerm: string): string => {
       if (!isNaN(Number(searchTerm))) {
         return searchTerm;
@@ -53,13 +55,15 @@ export class IndicatorSearchService implements IIndicatorSearchService {
       return `"${searchTerm}"^2 ${fuzzySearchTerms}`;
     };
 
-    const query = buildSearchQuery(searchTerm);
+    const query = buildSearchQuery(escapeString(searchTerm));
 
     // This creates an AI Search filter string which should look like
     //  associatedAreaCodes/any(a: a eq 'E09000023' or a eq 'E09000013' or a eq 'E09000025')
     const formatFilterString = (areaCodes: string[]) => {
       if (areaCodes.length == 0) return undefined;
-      const areaCodeEqualityStrings = areaCodes.map((a) => `a eq '${a}'`);
+      const areaCodeEqualityStrings = areaCodes.map(
+        (a) => `a eq '${escapeString(a)}'`
+      );
       return `associatedAreaCodes/any(a: ${areaCodeEqualityStrings.join(' or ')})`;
     };
 
