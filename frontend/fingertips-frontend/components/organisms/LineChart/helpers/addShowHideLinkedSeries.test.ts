@@ -1,8 +1,8 @@
 import { SeriesOptionsType } from 'highcharts';
-import { addShowHideLinkedSeries } from './lineChartHelpers';
 import { mockIndicatorData } from '../mocks';
 import { Dispatch, SetStateAction } from 'react';
 import { generateSeriesData } from './generateSeriesData';
+import { addShowHideLinkedSeries } from './addShowHideLinkedSeries';
 
 describe('addShowHideLinkedSeries', () => {
   let generatedSeriesData: SeriesOptionsType[];

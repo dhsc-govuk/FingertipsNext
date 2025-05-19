@@ -15,6 +15,11 @@ import { generateTooltip } from './generateTooltip';
 import { generateAccessibility } from './generateAccessibility';
 import { generateSeriesData } from './generateSeriesData';
 
+export enum LineChartVariant {
+  Standard = 'standard',
+  Inequalities = 'inequalities',
+}
+
 export const lineChartDefaultOptions: Highcharts.Options = {
   credits: {
     enabled: false,

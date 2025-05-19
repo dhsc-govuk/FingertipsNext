@@ -19,12 +19,12 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { Inequalities } from '@/components/organisms/Inequalities';
-import { LineChartVariant } from '@/components/organisms/LineChart/helpers/lineChartHelpers';
 import { getAllDataWithoutInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
 import { BenchmarkSelectArea } from '@/components/molecules/BenchmarkSelectArea';
 import { generateStandardLineChartOptions } from '@/components/organisms/LineChart/helpers/generateStandardLineChartOptions';
+import { LineChartVariant } from '@/components/organisms/LineChart/helpers/generateStandardLineChartOptions';
 
 function shouldLineChartBeShown(
   dataWithoutEnglandOrGroup: HealthDataForArea[],

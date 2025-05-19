@@ -1,11 +1,6 @@
 import Highcharts from 'highcharts';
 import { Dispatch, SetStateAction } from 'react';
 
-export enum LineChartVariant {
-  Standard = 'standard',
-  Inequalities = 'inequalities',
-}
-
 // MUTATES the lineChartOptions add functions to series events
 // that call a React state change and set the visibility of
 // linkedTo series to match that set in the state.
