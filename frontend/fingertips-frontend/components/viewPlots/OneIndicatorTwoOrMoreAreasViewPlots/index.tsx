@@ -24,9 +24,11 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
-import { generateStandardLineChartOptions } from '@/components/organisms/LineChart/helpers/generateStandardLineChartOptions';
+import {
+  generateStandardLineChartOptions,
+  LineChartVariant,
+} from '@/components/organisms/LineChart/helpers/generateStandardLineChartOptions';
 import { BenchmarkSelectArea } from '@/components/molecules/BenchmarkSelectArea';
-import { LineChartVariant } from '@/components/organisms/LineChart/helpers/generateStandardLineChartOptions';
 
 interface OneIndicatorTwoOrMoreAreasViewPlotsProps
   extends OneIndicatorViewPlotProps {
