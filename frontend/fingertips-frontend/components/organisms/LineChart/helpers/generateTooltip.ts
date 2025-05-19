@@ -45,7 +45,7 @@ function generateBenchmarkComparison(
   if (isSelectedArea) {
     const { benchmarkLabel, comparisonLabel } = getTooltipContent(
       getBenchmarkOutcomeForYear(point.x, areaCode, areasHealthIndicatorData) ??
-      BenchmarkOutcome.NotCompared,
+        BenchmarkOutcome.NotCompared,
       AreaTypeLabelEnum.Area,
       benchmarkComparisonMethod ?? BenchmarkComparisonMethod.Unknown
     );
