@@ -57,6 +57,13 @@ export const StyledAlignRightBorderHeader = styled(StyledAlignRightHeader)({
   fontSize: 19,
 });
 
+export const StyledAlignLeftHeaderRightBorder = styled(StyledAlignLeftHeader)({
+  borderRight: 'solid #bfc1c3 1px',
+  paddingRight: '0.5em',
+  textAlign: 'left',
+  fontSize: 19,
+})
+
 export const StyledAlignLeftStickyLeftHeader = styled(StyledAlignLeftHeader)({
   ...(stickyLeft as unknown as TemplateStringsArray),
   borderRight: 'solid #bfc1c3 1px',
@@ -66,6 +73,16 @@ export const StyledAlignCentreTableCell = styled(StyledAlignLeftTableCell)({
   textAlign: 'center',
   fontSize: 19,
 });
+
+export const StyledAlignRightTableCellWPaddingRight = styled(StyledAlignLeftTableCell)({
+  textAlign: 'right',
+  paddingRight: '0.5em',  
+})
+
+export const StyledAlignLeftTableCellPaddingLeft = styled(StyledAlignLeftTableCell)({
+  borderRight: 'solid #bfc1c3 1px',
+  paddingLeft: '0.5em', 
+})
 
 export const StyledAlignRightBorderRightTableCell = styled(
   StyledAlignRightTableCell

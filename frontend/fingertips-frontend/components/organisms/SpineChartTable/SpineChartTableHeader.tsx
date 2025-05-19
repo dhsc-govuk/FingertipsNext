@@ -10,7 +10,7 @@ import {
   StyledAlignRightBorderHeader,
   StyledStickyEmptyLeftHeader,
   StyledAlignLeftStickyLeftHeader,
-  StyledAlignRightHeaderPad,
+  StyledAlignRightHeaderPad, StyledAlignLeftHeaderRightBorder,
 } from './SpineChartTableStyles';
 import { englandAreaString } from '@/lib/chartHelpers/constants';
 
@@ -51,7 +51,7 @@ const initialHeadersList: HeaderData[] = [
   {
     title: SpineChartTableHeadingEnum.IndicatorUnit,
     uniqueIdentifier: 'indicator-unit-header',
-    styledComponent: StyledAlignRightBorderHeader,
+    styledComponent: StyledAlignLeftHeaderRightBorder,
   },
 ];
 

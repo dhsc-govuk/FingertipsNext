@@ -5,9 +5,9 @@ import React, { FC } from 'react';
 
 import {
   StyledAlignCentreTableCell,
-  StyledAlignLeftBorderRightTableCell,
+  StyledAlignLeftTableCellPaddingLeft,
   StyledAlignRightBorderRightTableCell,
-  StyledAlignRightCellPadLeft,
+  StyledAlignRightCellPadLeft, StyledAlignRightTableCellWPaddingRight,
   StyledBenchmarkCell,
   StyledBenchmarkChart,
   StyledGroupCell,
@@ -59,12 +59,12 @@ export const SpineChartTableRow: FC<SpineChartTableRowProps> = ({
       <StyledIndicatorTitleStickyLeftCell data-testid={`indicator-cell`}>
         {indicatorName}
       </StyledIndicatorTitleStickyLeftCell>
-      <StyledAlignCentreTableCell data-testid={`period-cell`}>
+      <StyledAlignRightTableCellWPaddingRight data-testid={`period-cell`}>
         {latestDataPeriod}
-      </StyledAlignCentreTableCell>
-      <StyledAlignLeftBorderRightTableCell data-testid={`unit-cell`}>
+      </StyledAlignRightTableCellWPaddingRight>
+      <StyledAlignLeftTableCellPaddingLeft data-testid={`unit-cell`}>
         {valueUnit}
-      </StyledAlignLeftBorderRightTableCell>
+      </StyledAlignLeftTableCellPaddingLeft>
 
       {twoAreasRequested ? (
         <>
