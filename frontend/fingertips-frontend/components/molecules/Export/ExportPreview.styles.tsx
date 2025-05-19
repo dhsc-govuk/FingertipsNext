@@ -6,6 +6,8 @@ export const ExportPreviewCanvasDiv = styled.div({
   borderStyle: 'solid',
   borderColor: GovukColours.MidGrey,
   margin: '1rem 0',
+  maxHeight: '50vh',
+  overflow: 'hidden',
 });
 
 export const FlexDiv = styled.div({
