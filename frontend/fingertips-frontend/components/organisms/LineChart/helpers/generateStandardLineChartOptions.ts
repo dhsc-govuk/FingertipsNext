@@ -133,8 +133,6 @@ export function generateStandardLineChartOptions(
     ),
     tooltip: generateTooltip(
       sortedHealthIndicatorData,
-      sortedEnglandData,
-      sortedGroupData,
       optionalParams?.benchmarkComparisonMethod,
       optionalParams?.measurementUnit
     ),

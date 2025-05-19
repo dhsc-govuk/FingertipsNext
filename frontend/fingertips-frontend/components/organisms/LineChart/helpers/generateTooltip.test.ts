@@ -1,5 +1,5 @@
 import { generateTooltip } from './generateTooltip';
-import { mockIndicatorData, mockEnglandData, mockParentData } from '../mocks';
+import { mockIndicatorData } from '../mocks';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client';
 
 describe('generateTooltip', () => {
@@ -15,8 +15,6 @@ describe('generateTooltip', () => {
   it('should generate tooltip content for a point', () => {
     const tooltipOptions = generateTooltip(
       mockIndicatorData,
-      mockEnglandData,
-      mockParentData,
       BenchmarkComparisonMethod.Unknown,
       '%'
     );
@@ -60,8 +58,6 @@ describe('generateTooltip', () => {
   it('should include the measurement unit if provided', () => {
     const tooltipOptions = generateTooltip(
       mockIndicatorData,
-      undefined,
-      undefined,
       undefined,
       'cases'
     );
