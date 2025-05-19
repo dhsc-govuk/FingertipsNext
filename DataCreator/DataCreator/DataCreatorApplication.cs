@@ -20,13 +20,22 @@
             //create the area chosen for PoC
             var areasWeWant=await _dataManager.CreateAreaDataAsync();
             Console.WriteLine($"Created areas, we are using {areasWeWant.Count} areas");
-            //create the health data
-           
-            var areasAndIndicators=  DataManager.CreateHealthDataAndAgeData(areasWeWant, pocIndicators, ageData);
+            //create the health data and write AgeData to file
+            var (areasAndIndicators, healthMeasures)=  DataManager.CreateHealthDataAndAgeData(areasWeWant, pocIndicators, ageData);
             Console.WriteLine($"Created all health data");
-            //create the indicator data
+            //create the indicator data and write to csv
             await _dataManager.CreateIndicatorDataAsync(areasAndIndicators, pocIndicators, addAreasToIndicator: true);
-            Console.WriteLine($"Created all health data");
+            Console.WriteLine($"Created all indicator data");
+            //add period data to health data
+            DataManager.CreateHealthMeasurePeriodDates(pocIndicators, healthMeasures);
+            Console.WriteLine($"Created period data for all health measures");
+            // write the healthdata to file
+            DataFileWriter.WriteHealthCsvData("healthdata", healthMeasures);
+            Console.WriteLine($"health data written to healthdata.csv");
+            
+            // TODO: zip the file
+            // TODO: unzip the file in pipeline
+            
             //clean up the unzipped files
             DataFileReader.DeleteTempFiles();
             Console.WriteLine($"Deleted temp files");
