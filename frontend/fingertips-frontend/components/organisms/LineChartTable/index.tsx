@@ -12,12 +12,12 @@ import styled from 'styled-components';
 import React, { FC } from 'react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
+  StyledAlignCenterTableCellWidth,
   StyledAlignLeftHeader,
   StyledAlignLeftTableCell,
   StyledAlignRightHeader,
   StyledAlignRightTableCell,
   StyledAlignStickyLeftHeader,
-  StyledBenchmarkTableCell,
   StyledCenterStickyTableCell,
   StyledDivWithScrolling,
   StyledGreyHeader,
@@ -176,7 +176,7 @@ const BenchmarkCell: FC<BenchmarkCellProps> = ({
 }) => {
   const CellWrapper = border
     ? StyledBenchmarkCellMultipleAreas
-    : StyledBenchmarkTableCell;
+    : StyledAlignCenterTableCellWidth;
 
   return (
     <CellWrapper>

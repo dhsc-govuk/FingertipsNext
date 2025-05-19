@@ -74,7 +74,7 @@ export const StyledAlignCentreTableCell = styled(StyledAlignLeftTableCell)({
   fontSize: 19,
 });
 
-export const StyledAlignRightTableCellWPaddingRight = styled(
+export const StyledAlignRightTableCellPaddingRight = styled(
   StyledAlignLeftTableCell
 )({
   textAlign: 'right',

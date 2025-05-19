@@ -82,14 +82,17 @@ export const StyledAlignLeftStickyTableCell = styled(StyledAlignLeftTableCell)(
   stickyLeft as unknown as TemplateStringsArray
 );
 
-export const StyledBenchmarkTableCell = styled(Table.Cell)({
+export const StyledCenterTableCell = styled(Table.Cell)({
   textAlign: 'center',
-  width: '10%',
   paddingLeft: '10px',
   paddingRight: '10px',
 });
 
-export const StyledCenterTableHeader = styled(Table.CellHeader)({
+export const StyledAlignCenterTableCellWidth = styled(StyledCenterTableCell)({
+  width: '10%',
+});
+
+export const StyledAlignCenterTableHeader = styled(Table.CellHeader)({
   textAlign: 'center',
   width: '10%',
   paddingLeft: '20px',
@@ -103,14 +106,12 @@ export const StyledCenterStickyTableCell = styled(
   paddingLeft: '10px',
 });
 
-export const StyledFirstColumnTableCell = styled(Table.Cell)({
+export const StyledAlignLeftTableCellPaddingLeft = styled(Table.Cell)({
   width: '10%',
   paddingLeft: '10px',
 });
 
-export const StyledLastColumnTableCellWithPaddingRight = styled(
-  StyledTableCell
-)({
+export const StyledAlignRightTableCellPaddingRight = styled(StyledTableCell)({
   textAlign: 'right',
   paddingRight: '10px !important',
 });
@@ -121,19 +122,9 @@ export const StyledAlignLeftHeader = styled(StyledTableCellHeader)({
   paddingLeft: '10px',
 });
 
-export const StyledCenterTrendColumn = styled(Table.Cell)({
-  textAlign: 'center',
-});
-
 export const StyledAlignStickyLeftHeader = styled(StyledAlignLeftHeader)(
   stickyLeft as unknown as TemplateStringsArray
 );
-
-export const StyledDiv = styled('div')({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-});
 
 export const StyledDivWithScrolling = styled('div')({
   overflowX: 'auto',

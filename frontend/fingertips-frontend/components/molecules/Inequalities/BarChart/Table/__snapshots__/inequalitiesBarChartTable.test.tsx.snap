@@ -71,7 +71,6 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
 
 .c9 {
   text-align: center;
-  width: 10%;
   padding-left: 10px;
   padding-right: 10px;
 }
@@ -249,7 +248,7 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
           class=""
         >
           <td
-            class="4 c7 c8"
+            class="5 c7 c8"
           >
             Persons
           </td>
@@ -272,7 +271,7 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
             441.7
           </td>
           <td
-            class="5 c7 c10 c12"
+            class="6 c7 c10 c12"
           >
             578.3
           </td>
@@ -281,7 +280,7 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
           class=""
         >
           <td
-            class="4 c7 c8"
+            class="5 c7 c8"
           >
             Male
           </td>
@@ -304,7 +303,7 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
             441.7
           </td>
           <td
-            class="5 c7 c10 c12"
+            class="6 c7 c10 c12"
           >
             578.3
           </td>
@@ -313,7 +312,7 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
           class=""
         >
           <td
-            class="4 c7 c8"
+            class="5 c7 c8"
           >
             Female
           </td>
@@ -336,7 +335,7 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
             441.7
           </td>
           <td
-            class="5 c7 c10 c12"
+            class="6 c7 c10 c12"
           >
             578.3
           </td>

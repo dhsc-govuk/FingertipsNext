@@ -11,7 +11,7 @@ import {
   FormatNumberInTableCell,
 } from '@/components/molecules/CheckValueInTableCell';
 import { TrendTag } from '@/components/molecules/TrendTag';
-import { StyledCenterTrendColumn } from '@/lib/tableHelpers';
+import { StyledCenterTableCell } from '@/lib/tableHelpers';
 
 export enum BasicTableEnum {
   Indicator = 'Indicator',
@@ -109,14 +109,14 @@ export function BasicTable({
               value={item?.latestEnglandHealthData?.value}
               style={{ textAlign: 'right' }}
             />
-            <StyledCenterTrendColumn>
+            <StyledCenterTableCell>
               <TrendTag
                 trendFromResponse={
                   item?.latestEnglandHealthData?.trend ??
                   HealthDataPointTrendEnum.CannotBeCalculated
                 }
               />
-            </StyledCenterTrendColumn>
+            </StyledCenterTableCell>
           </Table.Row>
         ))}
       </Table>

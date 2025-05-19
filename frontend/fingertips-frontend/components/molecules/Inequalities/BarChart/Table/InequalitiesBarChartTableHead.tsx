@@ -1,8 +1,8 @@
 import { Table } from 'govuk-react';
 import {
+  StyledAlignCenterTableHeader,
   StyledAlignLeftHeader,
   StyledAlignRightHeader,
-  StyledCenterTableHeader,
 } from '@/lib/tableHelpers';
 import React, { FC } from 'react';
 import { StyledConfidenceLimitsHeader } from '@/components/organisms/LineChartTable';
@@ -44,13 +44,13 @@ const CellHeader: FC<CellHeaderProps> = ({ header, measurementUnit = '' }) => {
     );
   } else if (header === InequalitiesBarChartTableHeaders.COMPARED_TO) {
     return (
-      <StyledCenterTableHeader
+      <StyledAlignCenterTableHeader
         key={`heading-${header}`}
         style={{ width: '16%' }}
         data-testid={`heading-${header}`}
       >
         {header}
-      </StyledCenterTableHeader>
+      </StyledAlignCenterTableHeader>
     );
   } else {
     return (

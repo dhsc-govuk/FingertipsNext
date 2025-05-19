@@ -8,7 +8,6 @@ import {
   StyledAlignLeftTableCellPaddingLeft,
   StyledAlignRightBorderRightTableCell,
   StyledAlignRightCellPadLeft,
-  StyledAlignRightTableCellWPaddingRight,
   StyledBenchmarkCell,
   StyledBenchmarkChart,
   StyledGroupCell,
@@ -21,6 +20,7 @@ import { TrendTag } from '@/components/molecules/TrendTag';
 import { orderStatistics } from '../SpineChart/SpineChartHelpers';
 import { SpineChartIndicatorData } from './spineChartTableHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { StyledAlignRightTableCellPaddingRight } from '@/lib/tableHelpers';
 
 export interface SpineChartTableRowProps {
   indicatorData: SpineChartIndicatorData;
@@ -60,9 +60,9 @@ export const SpineChartTableRow: FC<SpineChartTableRowProps> = ({
       <StyledIndicatorTitleStickyLeftCell data-testid={`indicator-cell`}>
         {indicatorName}
       </StyledIndicatorTitleStickyLeftCell>
-      <StyledAlignRightTableCellWPaddingRight data-testid={`period-cell`}>
+      <StyledAlignRightTableCellPaddingRight data-testid={`period-cell`}>
         {latestDataPeriod}
-      </StyledAlignRightTableCellWPaddingRight>
+      </StyledAlignRightTableCellPaddingRight>
       <StyledAlignLeftTableCellPaddingLeft data-testid={`unit-cell`}>
         {valueUnit}
       </StyledAlignLeftTableCellPaddingLeft>
