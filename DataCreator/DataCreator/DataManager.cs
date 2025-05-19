@@ -101,7 +101,7 @@ namespace DataCreator
                         indicator.IndicatorName = indicatorUsedInPoc.IndicatorName;
                         // YearType is needed to CreateHealthMeasurePeriodDates()
                         pocIndicators.First(i => i.IndicatorID == indicator.IndicatorID).YearType = indicator.YearType;
-                    };
+                    }
 
                     indicator.BenchmarkComparisonMethod = indicatorUsedInPoc.BenchmarkComparisonMethod;
                     indicator.Polarity = indicatorUsedInPoc.Polarity;

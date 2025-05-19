@@ -1,13 +1,15 @@
-﻿using System.Text.Json;
+﻿using System.IO.Compression;
+using System.Text.Json;
 using LINQtoCSV;
 
 namespace DataCreator
 {
     public static class DataFileWriter
     {
-        private static readonly string OutFilePath = Path.Join("..","..","..", "data", "out");
+        private static readonly string OutFolderPath = Path.Join("..","..","..", "data", "out");
         private static readonly string RepositoryRoot = Path.Join("..", "..", "..", "..", "..");
         private static readonly string SearchSetupAssetsPath = Path.Join(RepositoryRoot, "search-setup", "assets");
+        private static readonly string OutFilePath = Path.Join("..","..","..", "data");
 
         private static readonly CsvFileDescription CsvFileDescription = new() {EnforceCsvColumnAttribute=true};
         private static readonly JsonSerializerOptions JsonSerializerOptions = new()
@@ -29,18 +31,40 @@ namespace DataCreator
         }
 
         public static void WriteHealthCsvData(string fileName, IEnumerable<HealthMeasureEntity> data) => 
-            new CsvContext().Write(data, Path.Join(OutFilePath, $"{fileName}.csv"), CsvFileDescription);
+            new CsvContext().Write(data, Path.Join(OutFolderPath, $"{fileName}.csv"), CsvFileDescription);
 
         public static void WriteSimpleIndicatorCsvData(string fileName, IEnumerable<SimpleIndicator> data) =>
-             new CsvContext().Write(data, Path.Join(OutFilePath, $"{fileName}.csv"), CsvFileDescription);
+             new CsvContext().Write(data, Path.Join(OutFolderPath, $"{fileName}.csv"), CsvFileDescription);
 
         public static void WriteSimpleAreaCsvData(string fileName, IEnumerable<SimpleAreaWithChildren> data) =>
-             new CsvContext().Write(data, Path.Join(OutFilePath, $"{fileName}.csv"), CsvFileDescription);
+             new CsvContext().Write(data, Path.Join(OutFolderPath, $"{fileName}.csv"), CsvFileDescription);
 
         public static void WriteAgeCsvData(string fileName, IEnumerable<AgeEntity> data) =>
-            new CsvContext().Write(data, Path.Join(OutFilePath, $"{fileName}.csv"), CsvFileDescription);
+            new CsvContext().Write(data, Path.Join(OutFolderPath, $"{fileName}.csv"), CsvFileDescription);
 
         public static void WriteCategoryCsvData(string fileName, IEnumerable<CategoryEntity> data) =>
-            new CsvContext().Write(data, Path.Join(OutFilePath, $"{fileName}.csv"), CsvFileDescription);
+            new CsvContext().Write(data, Path.Join(OutFolderPath, $"{fileName}.csv"), CsvFileDescription);
+        
+        public static void ZipOutput()
+        {
+            if (File.Exists(Path.Join(OutFilePath, "out.zip")))
+            {
+                File.Delete(Path.Join(OutFilePath, "out.zip"));
+            }
+            ZipFile.CreateFromDirectory(OutFolderPath, Path.Join(OutFilePath, "out.zip"));
+        }
+
+        public static void DeleteTempOutputFiles()
+        {
+            if(Directory.Exists(OutFolderPath))
+                Directory.Delete(OutFolderPath, true);
+        }
+
+        public static void CreateTempOutputFolder()
+        {
+            if(Directory.Exists(OutFolderPath))
+                DeleteTempOutputFiles();
+            Directory.CreateDirectory(OutFolderPath);
+        }
     }
 }

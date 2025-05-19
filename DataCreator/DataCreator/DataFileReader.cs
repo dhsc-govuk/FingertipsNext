@@ -122,7 +122,7 @@ namespace DataCreator
 
         public static void UnzipSourceFiles() => ZipFile.ExtractToDirectory(Path.Join(InFilePath, "in.zip"), TempDirPath);
 
-        public static void DeleteTempFiles()
+        public static void DeleteTempInputFiles()
         {
             if (Directory.Exists(TempDirPath))
                 Directory.Delete(TempDirPath, true);

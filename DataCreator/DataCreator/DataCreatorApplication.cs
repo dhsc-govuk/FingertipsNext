@@ -7,7 +7,8 @@
         public async Task CreateDataAsync()
         {
             //we have zipped up the source data to save space to unzip to get them ready
-            DataFileReader.DeleteTempFiles();
+            DataFileReader.DeleteTempInputFiles();
+            DataFileWriter.CreateTempOutputFolder();
 
             DataFileReader.UnzipSourceFiles();
             Console.WriteLine("Unzipped source CSV files");
@@ -31,13 +32,14 @@
             Console.WriteLine($"Created period data for all health measures");
             // write the healthdata to file
             DataFileWriter.WriteHealthCsvData("healthdata", healthMeasures);
-            Console.WriteLine($"health data written to healthdata.csv");
             
             // TODO: zip the file
+            DataFileWriter.ZipOutput();
             // TODO: unzip the file in pipeline
             
             //clean up the unzipped files
-            DataFileReader.DeleteTempFiles();
+            DataFileReader.DeleteTempInputFiles();
+            DataFileWriter.DeleteTempOutputFiles();
             Console.WriteLine($"Deleted temp files");
         }
     }
