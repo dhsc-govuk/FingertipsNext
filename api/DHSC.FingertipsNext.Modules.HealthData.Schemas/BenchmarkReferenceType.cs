@@ -4,5 +4,5 @@ public enum BenchmarkReferenceType
 {
     Unknown,
     England,
-    AreaGroup,
+    AreaGroup
 }

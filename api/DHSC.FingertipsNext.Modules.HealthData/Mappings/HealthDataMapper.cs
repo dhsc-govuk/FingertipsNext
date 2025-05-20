@@ -123,7 +123,7 @@ public class HealthDataMapper : IHealthDataMapper
             Q3Value = source.Q3Value,
             Q4Value = source.Q4Value,
             AreaValue = source.AreaValue,
-            AncestorValue = source.AncestorValue,
+            GroupValue = source.AncestorValue,
             EnglandValue = source.EnglandValue,
         };
     }

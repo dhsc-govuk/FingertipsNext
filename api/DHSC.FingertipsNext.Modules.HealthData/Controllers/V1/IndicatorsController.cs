@@ -117,8 +117,8 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
         [FromQuery(Name = "indicator_ids")] int[]? indicatorIds = null,
         [FromQuery(Name = "area_code")] string areaCode = "",
         [FromQuery(Name = "area_type")] string areaType = null,
-        [FromQuery(Name = "ancestor_code")] string ancestorCode = "",
-        [FromQuery(Name = "benchmark_ref_type")] BenchmarkReferenceType benchmarkRefType = BenchmarkReferenceType.England.ToString(),
+        [FromQuery(Name = "area_group")] string areaGroup = "",
+        [FromQuery(Name = "benchmark_ref_type")] BenchmarkReferenceType benchmarkRefType = BenchmarkReferenceType.England
         )
     {
         if (indicatorIds is null)
@@ -135,8 +135,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
             indicatorIds,
             areaCode,
             areaType,
-            ancestorCode,
-            benchmarkAreaCode,
+            areaGroup,
             benchmarkRefType == BenchmarkReferenceType.AreaGroup ? areaGroup : "E92000001"
         );
 

@@ -224,11 +224,11 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         IEnumerable<int> indicatorIds,
         string areaCode,
         string areaType,
-        string ancestorCode,
+        string areaGroup,
         string benchmarkAreaCode
         )
     {
-        var quartileData = await healthDataRepository.GetQuartileDataAsync(indicatorIds, areaCode, areaType, ancestorCode, benchmarkAreaCode);
+        var quartileData = await healthDataRepository.GetQuartileDataAsync(indicatorIds, areaCode, areaType, areaGroup, benchmarkAreaCode);
         return quartileData == null ? null : healthDataMapper.Map(quartileData.ToList());
     }
 }

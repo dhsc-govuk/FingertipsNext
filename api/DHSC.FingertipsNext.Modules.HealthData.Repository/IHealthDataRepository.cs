@@ -17,7 +17,7 @@ public interface IHealthDataRepository
                                                                  string benchmarkAreaCode);
 
     Task<IndicatorDimensionModel> GetIndicatorDimensionAsync(int indicatorId, string[] areaCodes);
-    Task<IEnumerable<QuartileDataModel>> GetQuartileDataAsync(IEnumerable<int> indicatorIds, string areaCode, string areaTypeKey, string ancestorCode, string benchmarkAreaCode);
+    Task<IEnumerable<QuartileDataModel>> GetQuartileDataAsync(IEnumerable<int> indicatorIds, string areaCode, string areaTypeKey, string areaGroup, string benchmarkAreaCode);
 
     Task<IEnumerable<AreaDimensionModel>> GetAreasAsync(string[] areaCodes);
 }
