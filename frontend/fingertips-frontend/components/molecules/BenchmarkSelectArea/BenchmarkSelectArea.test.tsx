@@ -45,6 +45,10 @@ const mockAvailableAreas = [
 ];
 
 describe('BenchmarkSelectArea', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   const areaDropDownLabel = 'Select a benchmark';
 
   it('should render all the available areas', () => {
@@ -62,7 +66,7 @@ describe('BenchmarkSelectArea', () => {
 
     const allOptions = within(areaSelectDropdown).getAllByRole('option');
 
-    expect(areaSelectDropdown).toHaveLength(mockAvailableAreas.length);
+    expect(allOptions).toHaveLength(mockAvailableAreas.length);
     allOptions.forEach((option, i) => {
       expect(option.textContent).toEqual(mockAvailableAreas[i].name);
     });
