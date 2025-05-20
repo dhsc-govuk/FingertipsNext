@@ -62,9 +62,9 @@ export interface GetIndicatorRequest {
 
 export interface IndicatorsQuartilesGetRequest {
     areaCode: string;
-    ancestorCode: string;
     indicatorIds?: Array<number>;
     areaType?: string;
+    areaGroup?: string;
 }
 
 /**
@@ -134,9 +134,9 @@ export interface IndicatorsApiInterface {
      * Get quartile information for indicators including 
      * @summary Get quartile values for indicators
      * @param {string} areaCode The area code of the area/ geography
-     * @param {string} ancestorCode The area code of an ancestor area
      * @param {Array<number>} [indicatorIds] A list of indicator_ids, up to 10 can be requested
      * @param {string} [areaType] The area type which the areas belong to
+     * @param {string} [areaGroup] An area group which the area_codes belong to
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof IndicatorsApiInterface
@@ -302,13 +302,6 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
             );
         }
 
-        if (requestParameters['ancestorCode'] == null) {
-            throw new runtime.RequiredError(
-                'ancestorCode',
-                'Required parameter "ancestorCode" was null or undefined when calling indicatorsQuartilesGet().'
-            );
-        }
-
         const queryParameters: any = {};
 
         if (requestParameters['indicatorIds'] != null) {
@@ -319,10 +312,14 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
             queryParameters['area_type'] = requestParameters['areaType'];
         }
 
+        if (requestParameters['areaGroup'] != null) {
+            queryParameters['area_group'] = requestParameters['areaGroup'];
+        }
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/indicators/quartiles`.replace(`{${"area_code"}}`, encodeURIComponent(String(requestParameters['areaCode']))).replace(`{${"ancestor_code"}}`, encodeURIComponent(String(requestParameters['ancestorCode']))),
+            path: `/indicators/quartiles`.replace(`{${"area_code"}}`, encodeURIComponent(String(requestParameters['areaCode']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,

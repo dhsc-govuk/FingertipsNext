@@ -291,7 +291,7 @@ paths:
         - $ref: "#/components/parameters/indicator_ids"
         - $ref: "#/components/parameters/area_code"
         - $ref: "#/components/parameters/area_type"
-        - $ref: "#/components/parameters/ancestor_code"
+        - $ref: "#/components/parameters/area_group"
       responses:
         "200":
           description: search results matching criteria
@@ -736,16 +736,6 @@ components:
           type: integer
           example: 2023
         maxItems: 20
-    ancestor_code:
-      in: path
-      name: ancestor_code
-      style: simple
-      schema:
-        type: string
-        example: E12000001
-      explode: false
-      required: true
-      description: The area code of an ancestor area
     area_code:
       in: path
       name: area_code
