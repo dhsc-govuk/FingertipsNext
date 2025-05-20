@@ -7,6 +7,7 @@ import {
   AreaTypeLabelEnum,
   getTooltipContent,
 } from '@/lib/chartHelpers/chartHelpers';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { formatNumber } from '@/lib/numberFormatter';
 
@@ -34,6 +35,7 @@ const formatValueUnit = (valueUnit?: string) => {
 function generateBenchmarkComparison(
   point: Highcharts.Point,
   areasHealthIndicatorData: HealthDataForArea[],
+  benchmarkToUse: string,
   benchmarkComparisonMethod?: BenchmarkComparisonMethod
 ) {
   const areaCode: string = point.series.options.custom?.areaCode ?? '';
@@ -41,7 +43,13 @@ function generateBenchmarkComparison(
     (area) => area.areaCode === areaCode
   );
 
-  if (isSelectedArea) {
+  const isEnglandBenchmarkAndNotEnglandArea =
+    benchmarkToUse === areaCodeForEngland && areaCode !== areaCodeForEngland;
+
+  const isGroupBenchmarkAndSelectedArea =
+    benchmarkToUse !== areaCodeForEngland && isSelectedArea;
+
+  if (isEnglandBenchmarkAndNotEnglandArea || isGroupBenchmarkAndSelectedArea) {
     const benchmarkForYear = getBenchmarkForYear(
       point.x,
       areaCode,
@@ -65,6 +73,7 @@ function generateBenchmarkComparison(
 
 function generateTooltipPointForSelectedAreas(
   areasHealthIndicatorData: HealthDataForArea[],
+  benchmarkToUse: string,
   benchmarkComparisonMethod?: BenchmarkComparisonMethod,
   measurementUnit?: string
 ) {
@@ -78,7 +87,7 @@ function generateTooltipPointForSelectedAreas(
           <div style="margin-right: 10px;"><span style="color: ${point.series.color}; font-weight: bold;">${symbol}</span></div>
           <div style="padding-right: 10px;">
             <span style="display: block;">${formatNumber(point.y)}${formatValueUnit(measurementUnit)}</span>
-            ${generateBenchmarkComparison(point, areasHealthIndicatorData, benchmarkComparisonMethod)}
+            ${generateBenchmarkComparison(point, areasHealthIndicatorData, benchmarkToUse, benchmarkComparisonMethod)}
           </div>
         </div>
       </div>`,
@@ -88,6 +97,7 @@ function generateTooltipPointForSelectedAreas(
 
 export function generateTooltip(
   areasHealthIndicatorData: HealthDataForArea[],
+  benchmarkToUse: string,
   benchmarkComparisonMethod?: BenchmarkComparisonMethod,
   measurementUnit?: string
 ): Highcharts.TooltipOptions {
@@ -98,6 +108,7 @@ export function generateTooltip(
         this,
         generateTooltipPointForSelectedAreas(
           areasHealthIndicatorData,
+          benchmarkToUse,
           benchmarkComparisonMethod,
           measurementUnit
         )
