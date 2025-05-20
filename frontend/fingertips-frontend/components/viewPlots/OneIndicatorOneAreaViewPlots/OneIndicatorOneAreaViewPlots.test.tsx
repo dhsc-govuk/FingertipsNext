@@ -64,6 +64,10 @@ const testHealthData: IndicatorWithHealthDataForArea = {
 };
 
 describe('OneIndicatorOneAreaViewPlots', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should render the LineChart components', async () => {
     await act(() =>
       render(

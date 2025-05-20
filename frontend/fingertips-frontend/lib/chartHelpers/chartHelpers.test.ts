@@ -1365,6 +1365,11 @@ describe('determineAreasForBenchmarking', () => {
     const result = determineAreasForBenchmarking(mockAreas, 'G1');
     expect(result).toEqual([{ code: areaCodeForEngland, name: 'England' }]);
   });
+
+  it('returns England when selected group is England even if areasSelected are provided', () => {
+    const result = determineAreasForBenchmarking(mockAreas, areaCodeForEngland);
+    expect(result).toEqual([{ code: areaCodeForEngland, name: 'England' }]);
+  });
 });
 
 describe('determineBenchmarkToUse', () => {

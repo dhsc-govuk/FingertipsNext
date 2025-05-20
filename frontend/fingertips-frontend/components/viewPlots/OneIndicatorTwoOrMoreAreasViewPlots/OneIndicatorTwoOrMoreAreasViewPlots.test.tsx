@@ -97,6 +97,10 @@ const assertLineChartAndTableNotInDocument = async () => {
 };
 
 describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('LineChart components', () => {
     it('should render the LineChart components when there are 2 areas', async () => {
       render(
