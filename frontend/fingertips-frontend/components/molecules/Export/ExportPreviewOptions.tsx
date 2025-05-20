@@ -29,8 +29,6 @@ export const ExportPreviewOptions: FC<ExportPreviewProps> = ({
     csvData
   );
 
-  console.log({ element, text, isLoading });
-
   const onChangeFormat = (format: ExportType) => {
     setFormat(format);
   };
@@ -61,9 +59,8 @@ export const ExportPreviewOptions: FC<ExportPreviewProps> = ({
 
       <ExportDownloadButton
         enabled={Boolean(!isLoading && (text || element))}
-        baseName={targetId ?? 'download'}
-        format={format}
-        download={text ?? (element as HTMLCanvasElement)}
+        fileName={`${targetId ?? 'download'}.${format}`}
+        download={text || (element as HTMLCanvasElement)}
       />
     </div>
   );

@@ -15,6 +15,7 @@ export const HighChartsChart: FC<HighChartsChartProps> = ({
   testId,
 }) => {
   const [options, setOptions] = useState<Highcharts.Options>();
+  chartOptions.exporting = { enabled: false };
 
   useEffect(() => {
     void loadHighchartsModules(() => {

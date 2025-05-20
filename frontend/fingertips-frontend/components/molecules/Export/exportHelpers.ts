@@ -1,5 +1,5 @@
 import html2canvas from 'html2canvas';
-import { Dispatch, RefObject, SetStateAction } from 'react';
+import { RefObject } from 'react';
 import { Chart } from 'highcharts';
 
 export const getHtmlToImageCanvas = async (targetId: string) => {
@@ -38,20 +38,6 @@ export const getHtmlToImageCanvas = async (targetId: string) => {
   return canvas;
 };
 
-export const updatePreviewWithHtmlAsImage = async (
-  targetId: string,
-  setPreview: Dispatch<SetStateAction<string | HTMLCanvasElement | null>>
-) => {
-  if (!targetId) return;
-
-  const canvas = await getHtmlToImageCanvas(targetId);
-  setPreview(canvas ?? null);
-  // if (!canvas) return;
-  //
-  // previewElement.replaceChildren(canvas);
-  // linkElement.href = canvas.toDataURL('image/png');
-};
-
 export const chartToSvg = (chartRef: RefObject<Chart>) => {
   const backupOfChart = chartRef.current;
   const svgString = chartRef?.current.getSVG();
@@ -71,4 +57,18 @@ export const canvasToBlob = (canvas: HTMLCanvasElement) => {
       resolve(blob);
     });
   });
+};
+
+export const triggerBlobDownload = (fileName: string, blob: Blob) => {
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = fileName;
+
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  URL.revokeObjectURL(url);
 };

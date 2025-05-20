@@ -28,8 +28,7 @@ export const usePreviewPrep = (
       };
       switch (format) {
         case ExportType.PNG: {
-          const canvas = await getHtmlToImageCanvas(targetId);
-          result.element = canvas;
+          result.element = await getHtmlToImageCanvas(targetId);
           return result;
         }
         case ExportType.SVG: {

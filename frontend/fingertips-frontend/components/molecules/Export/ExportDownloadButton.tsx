@@ -1,55 +1,36 @@
 import { Button } from 'govuk-react';
 import { FC, SyntheticEvent } from 'react';
-import { ExportType } from '@/components/molecules/Export/export.types';
-import { canvasToBlob } from '@/components/molecules/Export/exportHelpers';
+import {
+  canvasToBlob,
+  triggerBlobDownload,
+} from '@/components/molecules/Export/exportHelpers';
 
 interface ExportDownloadButtonProps {
-  baseName: string;
-  format: ExportType;
+  fileName: string;
   download: HTMLCanvasElement | string;
   enabled: boolean;
 }
 
 export const ExportDownloadButton: FC<ExportDownloadButtonProps> = ({
-  baseName,
-  format,
+  fileName,
   download,
   enabled = false,
 }) => {
   const onClick = async (e: SyntheticEvent) => {
     e.preventDefault();
-    const filename = `${baseName}.${format}`;
-    let blob: Blob | null = null;
+    const isString = typeof download === 'string';
+    const isSvg = isString && download.startsWith('<svg');
+    const blob = isString
+      ? new Blob([download], {
+          type: `${isSvg ? 'image/svg+xml' : 'text/csv'};charset=utf-8`,
+        })
+      : await canvasToBlob(download as HTMLCanvasElement);
 
-    switch (format) {
-      case ExportType.SVG:
-        blob = new Blob([download as string], {
-          type: 'image/svg+xml;charset=utf-8',
-        });
-        break;
-      case ExportType.PNG:
-        blob = await canvasToBlob(download as HTMLCanvasElement);
-        break;
-      case ExportType.CSV:
-        blob = new Blob([download as string], {
-          type: 'text/csv;charset=utf-8',
-        });
-        break;
+    if (!blob || blob.size === 0) {
+      console.log('Invalid blob', { isSvg, isString, blob });
+      return;
     }
-
-    if (!blob) return;
-
-    const url = URL.createObjectURL(blob);
-
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = filename;
-
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-
-    URL.revokeObjectURL(url);
+    triggerBlobDownload(fileName, blob);
   };
 
   return (

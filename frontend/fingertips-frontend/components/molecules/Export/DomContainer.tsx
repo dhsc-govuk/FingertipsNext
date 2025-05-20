@@ -16,5 +16,5 @@ export const DomContainer: FC<DomContainerProps> = ({ data }) => {
     }
   }, [data]);
 
-  return <div ref={containerRef}></div>;
+  return <div data-testid="domContainer" ref={containerRef}></div>;
 };
