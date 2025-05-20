@@ -6,11 +6,23 @@ CREATE PROCEDURE [dbo].[GetIndicatorDetailsWithQuintileBenchmarkComparison]
 --- The AreaType we are comparing against - this needs to be passed in because the AreaCodes can be ambiguous for districts and counties
 @RequestedYears YearList READONLY,
 --- The Years we are interested in - can be empty
-@RequestedIndicatorId int
+@RequestedIndicatorId int,
 --- The specific indicatorId we are interested in
+@RequestedBenchmarkAreaCode varchar(20)
+--- The area used for benchmarking
 AS
 BEGIN
+   
 	WITH
+	--- Get the Benchmark Area
+	BenchmarkAreaGroup AS (
+	SELECT
+		*
+	FROM
+	    dbo.AreaDimension AS areaDim
+	WHERE
+	    areaDim.Code = @RequestedBenchmarkAreaCode
+	),
 	--- Finds the indicator of interest from the passed in IndicatorId.
 	RequestedIndicator AS (
 	SELECT
@@ -27,20 +39,20 @@ BEGIN
 	SELECT
 		    hm.HealthMeasureKey,
 		    NTILE(5) OVER(PARTITION BY hm.Year ORDER BY	Value) AS Quintile,
-		    areaDim.Code AS AreaDimensionCode,
-		    areaDim.Name AS AreaDimensionName,
+		    benchmarkAreas.AreaCode AS AreaDimensionCode,
+		    benchmarkAreas.AreaName AS AreaDimensionName,
 		    sex.Name AS SexDimensionName,
 		    sex.HasValue AS SexDimensionHasValue,
-				hm.IsSexAggregatedOrSingle AS SexDimensionIsAggregate,
+			hm.IsSexAggregatedOrSingle AS SexDimensionIsAggregate,
 		    trendDim.Name AS TrendDimensionName,
 		    ageDim.Name AS AgeDimensionName,
 		    ageDim.HasValue AS AgeDimensionHasValue,
-				hm.IsAgeAggregatedOrSingle AS AgeDimensionIsAggregate,
+			hm.IsAgeAggregatedOrSingle AS AgeDimensionIsAggregate,
 		    imd.Name AS DeprivationDimensionName,
 		    imd.[Type] AS DeprivationDimensionType,
 		    imd.[Sequence] AS DeprivationDimensionSequence,
 		    imd.HasValue AS DeprivationDimensionHasValue,
-				hm.IsDeprivationAggregatedOrSingle AS DeprivationDimensionIsAggregate,
+			hm.IsDeprivationAggregatedOrSingle AS DeprivationDimensionIsAggregate,
 		    Count,
 		    Value,
 		    LowerCi,
@@ -49,13 +61,17 @@ BEGIN
 	FROM
 		    dbo.HealthMeasure AS hm
 	JOIN
-        RequestedIndicator AS ind
+            RequestedIndicator AS ind
         ON
 		    hm.IndicatorKey = ind.IndicatorKey
 	JOIN
             dbo.AreaDimension AS areaDim
         ON
-		    hm.AreaKey = areaDim.AreaKey
+		    hm.AreaKey = areaDim.AreaKey 
+	JOIN
+	        dbo.FindAreaDescendants_Fn(@RequestedAreaType, @RequestedBenchmarkAreaCode) AS benchmarkAreas
+	    ON
+	        areaDim.Code = benchmarkAreas.AreaCode
 	JOIN
             dbo.SexDimension AS sex
         ON
@@ -77,17 +93,6 @@ BEGIN
 		--- This ensures we are only dealing with Aggregate data
 	        hm.IsSexAggregatedOrSingle=1 AND hm.IsAgeAggregatedOrSingle=1 AND hm.IsDeprivationAggregatedOrSingle=1
 	    )
-        AND
-        (
-            areaDim.AreaType = @RequestedAreaType
-        --- This is special case handling for data which has a dual identity as both district and county.
-            OR
-			(
-               @RequestedAreaType = 'districts-and-unitary-authorities'
-               AND
-			   IsDistrictAndCounty = 1
-            )
-        )
 		AND
         (
             hm.Year IN (
@@ -104,7 +109,16 @@ BEGIN
 			       @RequestedYears
 			)
         )
-    )
+    ),
+    HealthDataNTileGroupCount AS (
+        SELECT
+            Year,
+            count(*) AS Count
+        FROM
+            HealthData As hd
+        GROUP BY
+	        Year            
+    )	
     --- The final select now filters based on the requested areas and calculates the Benchmark outcome
     SELECT
 		hd.HealthMeasureKey,
@@ -128,12 +142,13 @@ BEGIN
 		hd.LowerCi,
 		hd.UpperCi,
 		hd.Year,
-		'E92000001' AS BenchmarkComparisonAreaCode,
-		'England' AS BenchmarkComparisonAreaName,
 		ind.Polarity AS BenchmarkComparisonIndicatorPolarity,
 		ind.Name AS IndicatorDimensionName,
-
+		bag.Code AS BenchmarkComparisonAreaCode,
+		bag.Name AS BenchmarkComparisonAreaName,
 	CASE
+		WHEN nc.Count < 5 THEN NULL
+
 		WHEN ind.Polarity = 'High is good'
 		AND hd.Quintile = 1 THEN 'WORST'
 		WHEN ind.Polarity = 'High is good'
@@ -168,14 +183,20 @@ BEGIN
 		AND hd.Quintile = 5 THEN 'HIGHEST'
 	END AS BenchmarkComparisonOutcome
 FROM
-		HealthData AS hd
+	HealthData AS hd
 JOIN
-    	@RequestedAreas AS areas
-	ON
-		hd.AreaDimensionCode = areas.AreaCode
+    @RequestedAreas AS areas
+ON
+	hd.AreaDimensionCode = areas.AreaCode
+JOIN
+    HealthDataNTileGroupCount AS nc
+ON
+    hd.Year = nc.Year
 CROSS JOIN
-	    RequestedIndicator ind
+	RequestedIndicator ind
+CROSS JOIN
+	BenchmarkAreaGroup bag
 ORDER BY
-		AreaDimensionName,
-		hd.Year DESC
+	AreaDimensionName,
+	hd.Year DESC
 END

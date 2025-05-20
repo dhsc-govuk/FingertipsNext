@@ -1,4 +1,5 @@
 ﻿using DHSC.FingertipsNext.Modules.Area.Repository.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace DHSC.FingertipsNext.Modules.Area.Repository;
@@ -141,99 +142,17 @@ public class AreaRepository : IAreaRepository
         return areasWithRelations;
     }
 
-    // This uses recursive cte term to find all the descendants in the hierarchy - yes it is complex
-    // and this represents a maintenance issue. But there is inherent complexity in what is being
-    // implemented here.
-    //
-    // This function needs to traverse a graph (not just a tree) until it has found all descendants of
-    // the parent of the specific type. It should also make sure what is returned is unique.
+    // Retrieves all descendant areas of a specified area, filtered by a requested area type.
+    // in a sorted ordered by hierarchy level.
     private async Task<ICollection<AreaModel>> GetDescendantAreas(AreaModel startingArea, string childAreaTypeKey)
     {
-        var areaWithAreaTypeList = await _dbContext
-            .DenormalisedAreaWithAreaType
-            .FromSql(
-                @$"
-                WITH 
-                StartingArea as (
-                SELECT
-                	*
-                FROM
-                    Areas.Areas area
-                WHERE
-                    area.AreaKey = {startingArea.AreaKey}
-                ),
-                TargetAreaType as (
-                Select
-                    *
-                FROM 
-                    Areas.AreaTypes at
-                WHERE
-                --- this is the taget areaType
-                   at.AreaTypeKey = {childAreaTypeKey}
-                ),
-                recursive_cte(
-                    AreaKey,
-                    AreaCode,
-                    AreaName,
-                    AreaTypeKey,
-                    AreaLevel,
-                    ParentAreaKey) AS (
-                SELECT
-                   	ar.ChildAreaKey as AreaKey,
-                    a.AreaCode,
-                    a.AreaName,
-                   	a.AreaTypeKey,
-                   	at2.[Level] as AreaLevel,
-                   	ar.ParentAreaKey
-                FROM
-                   	Areas.AreaRelationships ar
-                JOIN
-                    Areas.Areas a ON a.AreaKey = ar.ChildAreaKey
-                JOIN
-                    StartingArea sa ON ar.ParentAreaKey = sa.AreaKey
-                JOIN
-                   	Areas.AreaTypes at2 ON at2.AreaTypeKey = a.AreaTypeKey
-                UNION ALL
-                SELECT
-                   	ar.ChildAreaKey as AreaKey,
-                    a.AreaCode,
-                    a.AreaName,
-                   	a.AreaTypeKey,
-                   	at2.[Level] as AreaLevel,
-                   	ar.ParentAreaKey
-                FROM
-                   	Areas.AreaRelationships ar
-                JOIN
-                    Areas.Areas a ON a.AreaKey = ar.ChildAreaKey
-                JOIN
-                   	Areas.AreaTypes at2 ON at2.AreaTypeKey = a.AreaTypeKey
-                INNER JOIN
-                    recursive_cte ON recursive_cte.AreaKey = ar.ParentAreaKey
-                CROSS JOIN 
-                    TargetAreaType tat
-                WHERE
-                    at2.[Level] <= tat.[Level]
-                AND
-                    at2.HierarchyType = tat.HierarchyType
-                )
-                SELECT DISTINCT
-                    AreaKey,
-                    AreaCode,
-                    AreaName,
-                    tat.AreaTypeKey as AreaTypeKey,
-                    tat.Level as Level,
-                    tat.HierarchyType as HierarchyType,
-                    tat.AreaTypeName as AreaTypeName
-                FROM
-                    recursive_cte rc
-                JOIN
-                    TargetAreaType tat
-                ON
-                    rc.AreaTypeKey = tat.AreaTypeKey
-                "
-            )
-            .ToListAsync();
-
+        var areaWithAreaTypeList = await _dbContext.DenormalisedAreaWithAreaType
+        .FromSqlRaw(
+            "SELECT * FROM dbo.FindAreaDescendants_Fn(@RequestedAreaType, @RequestedAncestorAreaCode)",
+            new SqlParameter("@RequestedAreaType", childAreaTypeKey),
+            new SqlParameter("@RequestedAncestorAreaCode", startingArea.AreaCode)
+        )
+        .ToListAsync();
         return [.. areaWithAreaTypeList
             .Select(area => area.Normalise())
             .OrderBy(area => area.AreaType.Level)];
