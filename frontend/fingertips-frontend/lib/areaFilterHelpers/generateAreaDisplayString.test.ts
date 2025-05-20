@@ -2,7 +2,7 @@ import { AreaTypeKeys, gpsAreaType, nhsRegionsAreaType } from './areaType';
 import { generateAreaDisplayString } from './generateAreaDisplayString';
 
 describe('generateAreaDisplayString', () => {
-  it('should return the areaCode and areaName provided when the areaTypeKey is gps', () => {
+  it('should return the areaCode, areaName, and postcode provided when the areaTypeKey is gps', () => {
     const formattedAreaName = generateAreaDisplayString(
       'A001',
       'Some name',
@@ -13,7 +13,7 @@ describe('generateAreaDisplayString', () => {
     expect(formattedAreaName).toEqual('A001 - Some name Some postcode');
   });
 
-  it('should just return the areaName provided when the areaTypeKey is not gps', () => {
+  it('should return the areaName and postcode provided when the areaTypeKey is not gps', () => {
     const formattedAreaName = generateAreaDisplayString(
       'A001',
       'Some name',
@@ -24,7 +24,7 @@ describe('generateAreaDisplayString', () => {
     expect(formattedAreaName).toEqual('Some name Some postcode');
   });
 
-  it('should return nothing when postcode is not provided', () => {
+  it('should return nothing in place of postcode when postcode is not provided', () => {
     const formattedAreaName = generateAreaDisplayString(
       'A001',
       'Some name',
