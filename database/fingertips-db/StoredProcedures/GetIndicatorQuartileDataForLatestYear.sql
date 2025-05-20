@@ -142,9 +142,13 @@ BEGIN
 	AND
 		    hm.Year = ind.LatestYear
 	JOIN
+            dbo.AreaDimension AS areaDim
+    ON
+		    hm.AreaKey = areaDim.AreaKey 
+	JOIN
 	        #BenchmarkAreas as ba
 	ON
-	        hm.AreaKey = ba.AreaKey
+	        areaDim.Code = ba.AreaCode
 	WHERE
 		(
 		--- This ensures we are only dealing with Aggregate data
