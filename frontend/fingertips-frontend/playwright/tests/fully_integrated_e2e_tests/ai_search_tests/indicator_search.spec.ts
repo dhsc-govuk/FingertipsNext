@@ -64,5 +64,71 @@ test.describe(
         await resultsPage.checkAnyResultNameContainsText("Alzheimer's");
       });
     });
+
+    test('searching for equivalent synonyms should return the same results', async ({
+      homePage,
+      resultsPage,
+    }) => {
+      await test.step('search for a synonym-mapped indicator and check results', async () => {
+        const subjectSearchTerm = 'offspring';
+
+        await homePage.searchForIndicators(
+          SearchMode.ONLY_SUBJECT,
+          subjectSearchTerm
+        );
+        await homePage.clickSearchButton();
+
+        await resultsPage.checkAnyResultNameContainsText(
+          'Smokers at time of childbirth delivery'
+        );
+      });
+
+      await test.step('search for synonym of indicator and check results match', async () => {
+        const subjectSearchTerm = 'infant';
+
+        await resultsPage.clearIndicatorSearchBox();
+        await resultsPage.fillIndicatorSearch(subjectSearchTerm);
+        await resultsPage.clickIndicatorSearchButton();
+
+        await resultsPage.checkAnyResultNameContainsText(
+          'Smokers at time of childbirth delivery'
+        );
+      });
+    });
+
+    test('searching for the synonym of an explicitly mapped term should return fewer results than the mapped term', async ({
+      homePage,
+      resultsPage,
+    }) => {
+      /**
+       * There are scenarios where this won't be the case
+       * eg when all the results are derived from a single synonym term
+       * however this shows that the synonyms that return no/fewer results are not equivalently mapped
+       */
+      await test.step('search for explicitly mapped acronym', async () => {
+        const subjectSearchTerm = 'chd';
+
+        await homePage.searchForIndicators(
+          SearchMode.ONLY_SUBJECT,
+          subjectSearchTerm
+        );
+        await homePage.clickSearchButton();
+
+        await resultsPage.checkNumberOfResults(3);
+        await resultsPage.checkFirstResultHasName(
+          'Preventable sight loss from diabetic eye disease'
+        );
+      });
+
+      await test.step('search for synonym of indicator and check results do not match', async () => {
+        const subjectSearchTerm = 'coronary';
+
+        await resultsPage.clearIndicatorSearchBox();
+        await resultsPage.fillIndicatorSearch(subjectSearchTerm);
+        await resultsPage.clickIndicatorSearchButton();
+
+        await resultsPage.checkNumberOfResults(0);
+      });
+    });
   }
 );

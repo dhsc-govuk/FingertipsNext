@@ -2,6 +2,7 @@ import {
   AREA_SEARCH_INDEX_NAME,
   AREA_SEARCH_SUGGESTER_NAME,
   INDICATOR_SEARCH_INDEX_NAME,
+  INDICATOR_SEARCH_SYNONYM_MAP_NAME,
 } from '../src/constants';
 import {
   AutoCompleteResult,
@@ -134,6 +135,89 @@ describe('AI search index creation and data loading', () => {
       const response = await searchIndicatorsRequest('65', ['E07000117']);
       const result = await response.json();
       expect(result.value).toHaveLength(1);
+    });
+
+    describe('synonym map', () => {
+      it('should create synonym map', async () => {
+        const url = `${searchEndpoint}/synonymmaps/${INDICATOR_SEARCH_SYNONYM_MAP_NAME}${URL_SUFFIX}`;
+        const response = await fetch(url, {
+          headers: {
+            'api-key': apiKey,
+          },
+        });
+        const result = await response.json();
+        expect(result.name).toBe(INDICATOR_SEARCH_SYNONYM_MAP_NAME);
+        expect(
+          (result.synonyms as string).includes('a\\&e, accident, emergency')
+        ).toBe(true);
+        expect(
+          (result.synonyms as string).includes('depr => depr, deprivation')
+        ).toBe(true);
+      });
+
+      it('should do one way synonym mapping for keywords that have the explicit flag set', async () => {
+        const keywordResponse = await searchIndicatorsRequest('chd');
+        const keywordResult = await keywordResponse.json();
+        const synonyms = ['coronary', 'heart', 'disease'];
+        const synonymResponses = await Promise.all(
+          synonyms.map((keyword) => searchIndicatorsRequest(keyword))
+        );
+        const synonymResults = await Promise.all(
+          synonymResponses.map((response) => response.json())
+        );
+
+        const indicatorNamesPerSynonym = synonymResults
+          .flatMap((result) => result.value)
+          .map(
+            (indicatorResults: { indicatorName: string }) =>
+              indicatorResults.indicatorName
+          );
+
+        const expectedIndicatorNamesForExplicitKeyword: string[] =
+          keywordResult.value.map(
+            (indicatorResult: { indicatorName: string }) =>
+              indicatorResult.indicatorName
+          );
+
+        /** Expects that the explicitly matched keyword should contain results comprising of
+         *  the search result of each synonym that it is mapped to, including itself
+         */
+        expect(expectedIndicatorNamesForExplicitKeyword.length).toBe(
+          indicatorNamesPerSynonym.length
+        );
+        expect(
+          expectedIndicatorNamesForExplicitKeyword.every((indicatorName) =>
+            indicatorNamesPerSynonym.includes(indicatorName)
+          )
+        ).toBe(true);
+
+        // Check that the mapping is one-way
+        /** Expects that the search results of individual synonyms should be less than that of
+         *  the explicitly mapped keyword
+         *  and that the individual synonyms do not contain all the search results returned by the explicitly-mapped keyword
+         */
+        expect(
+          synonymResults.some(
+            (result) => result.value.length < keywordResult.value.length
+          )
+        ).toBe(true);
+        synonymResults.forEach((result) =>
+          expect(
+            keywordResult.value.every((value: unknown) =>
+              result.value.includes(value)
+            )
+          ).toBe(false)
+        );
+      });
+
+      it('should return the same results for equivalent synonyms', async () => {
+        const keywordResponse = await searchIndicatorsRequest('offspring');
+        const keywordResult = await keywordResponse.json();
+        const synonymResponse = await searchIndicatorsRequest('infant');
+        const synonymResult = await synonymResponse.json();
+
+        expect(keywordResult.value).toEqual(synonymResult.value);
+      });
     });
   });
 

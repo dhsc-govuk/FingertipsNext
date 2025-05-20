@@ -3,6 +3,7 @@ import { AzureKeyCredential, SearchClient } from '@azure/search-documents';
 import { SearchServiceFactory } from './searchServiceFactory';
 import { INDICATOR_SEARCH_INDEX_NAME } from './searchTypes';
 import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client/models/HealthDataPoint';
+import { escapeString } from '../escapeString';
 
 jest.mock('@azure/search-documents', () => ({
   SearchClient: jest.fn(),
@@ -295,5 +296,6 @@ describe('IndicatorSearchService', () => {
 });
 
 function getExpectedSingleWordSearchTerm(searchTerm: string): string {
-  return `"${searchTerm}"^2 ${searchTerm}~1`;
+  const term = escapeString(searchTerm);
+  return `"${term}"^2 ${term}~1`;
 }
