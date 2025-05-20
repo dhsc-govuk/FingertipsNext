@@ -2,7 +2,7 @@
 
 import { Pill } from '../Pill';
 import styled from 'styled-components';
-import { formatAreaName } from '@/lib/areaFilterHelpers/formatAreaName';
+import { generateAreaDisplayString } from '@/lib/areaFilterHelpers/generateAreaDisplayString';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 
@@ -35,7 +35,7 @@ export const AreaSelectedPill = ({
     >
       <p style={{ margin: 0 }}>
         <StyleAreaName>
-          {formatAreaName(area.code, area.name, area.areaType.key)}
+          {generateAreaDisplayString(area.code, area.name, area.areaType.key)}
         </StyleAreaName>{' '}
         <StyleAreaType>{area.areaType.name}</StyleAreaType>
       </p>

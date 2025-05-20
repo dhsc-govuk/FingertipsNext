@@ -1,7 +1,7 @@
 import { ListItem, UnorderedList, SearchIcon } from 'govuk-react';
 import styled from 'styled-components';
 import { AreaDocument } from '@/lib/search/searchTypes';
-import { formatAreaName } from '@/lib/areaFilterHelpers/formatAreaName';
+import { generateAreaDisplayString } from '@/lib/areaFilterHelpers/generateAreaDisplayString';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { usePathname, useRouter } from 'next/navigation';
 import { HighlightText } from '@/components/atoms/HighlightText';
@@ -139,10 +139,11 @@ export const AreaAutoCompleteSuggestionPanel = ({
             />
             <div style={{ flexGrow: 3, padding: '5px', textAlign: 'left' }}>
               <HighlightText
-                text={formatAreaName(
+                text={generateAreaDisplayString(
                   area.areaCode,
                   area.areaName,
-                  area.areaType
+                  area.areaType,
+                  area.postcode
                 )}
                 searchHint={searchHint}
               />
