@@ -45,7 +45,7 @@ describe('AreaSearchService', () => {
         AREA_SEARCH_SUGGESTER_NAME,
         {
           searchFields: ['areaCode', 'areaName', 'postcode'],
-          select: ['areaCode', 'areaType', 'areaName'],
+          select: ['areaCode', 'areaType', 'areaName', 'postcode'],
           top: 20,
           useFuzzyMatching: false,
         }
