@@ -13,6 +13,8 @@ import {
 import { IndicatorMapper } from './indicatorMapper';
 import { escapeString } from '../escapeString';
 
+export const INDICATOR_SEARCH_MAX_CHARACTERS = 200;
+
 export class IndicatorSearchService implements IIndicatorSearchService {
   private readonly searchClient: SearchClient<RawIndicatorDocument>;
   private readonly mapper: IndicatorMapper;
