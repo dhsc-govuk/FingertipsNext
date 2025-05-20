@@ -8,24 +8,14 @@ CREATE PROCEDURE [dbo].[GetIndicatorQuartileDataForLatestYear]
 --- The area used for benchmarking
 AS
 BEGIN
-	-- Temporary table to hold areas from GetDescendantAreas
-    CREATE TABLE #BenchmarkAreas (
-        AreaKey int,
-        AreaCode nvarchar(50),
-        AreaName nvarchar(255),
-        AreaTypeKey nvarchar(50),
-        LEVEL int,
-        HierarchyType nvarchar(50),
-        AreaTypeName nvarchar(50)
-    );
-
-    -- Populate the temporary table using the GetDescendantAreas stored procedure
-    INSERT INTO 
-    	#BenchmarkAreas 
-    EXEC 
-    	Areas.GetDescendantAreas @RequestedAreaType=@RequestedAreaType, @RequestedAncestorAreaCode=@RequestedBenchmarkCode;
-    
-	WITH
+    WITH
+    --- Get the Benchmark Areas - these are areas of a specific type which are descendants of the benchmark areaGroup
+    BenchmarkAreas AS (
+    SELECT
+        AreaCode
+    FROM
+	    dbo.FindAreaDescendants_Fn(@RequestedAreaType, @RequestedBenchmarkCode)
+    ),
 	--- Finds the requested indicators 
 	RequestedIndicators AS (
 	SELECT
@@ -146,7 +136,7 @@ BEGIN
     ON
 		    hm.AreaKey = areaDim.AreaKey 
 	JOIN
-	        #BenchmarkAreas as ba
+	        BenchmarkAreas as ba
 	ON
 	        areaDim.Code = ba.AreaCode
 	WHERE
