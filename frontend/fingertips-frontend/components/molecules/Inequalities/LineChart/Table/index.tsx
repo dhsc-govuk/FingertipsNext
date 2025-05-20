@@ -116,7 +116,7 @@ export function InequalitiesLineChartTable({
       >
         {filteredRowData.map((data, index) => (
           <Table.Row key={String(data.period) + index}>
-            <StyledAlignLeftStickyTableCell style={{ paddingLeft: '10px' }}>
+            <StyledAlignLeftStickyTableCell>
               {String(data.period)}
             </StyledAlignLeftStickyTableCell>
             {dynamicKeys.map((key, index) => (

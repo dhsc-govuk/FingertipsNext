@@ -14,11 +14,11 @@ import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
   StyledAlignCenterTableCellWidth,
   StyledAlignLeftHeader,
+  StyledAlignLeftStickyTableCell,
   StyledAlignLeftTableCell,
   StyledAlignRightHeader,
   StyledAlignRightTableCell,
   StyledAlignStickyLeftHeader,
-  StyledCenterStickyTableCell,
   StyledDivWithScrolling,
   StyledGreyHeader,
   StyledStickyRight,
@@ -394,9 +394,9 @@ export function LineChartTable({
       >
         {rowData.map(({ year, areas, benchmarkValue, groupValue }) => (
           <Table.Row key={`lineChartTableRow-${year}`}>
-            <StyledCenterStickyTableCell numeric>
+            <StyledAlignLeftStickyTableCell numeric>
               {year}
-            </StyledCenterStickyTableCell>
+            </StyledAlignLeftStickyTableCell>
             {areas.map((area, areaIndex) => (
               <React.Fragment
                 key={`lineChartTableRow-${year}-area-${areaIndex}`}

@@ -94,13 +94,13 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   padding-right: 0;
 }
 
-.c27 {
+.c26 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: left;
 }
 
-.c27:last-child {
+.c26:last-child {
   padding-right: 0;
 }
 
@@ -161,17 +161,17 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   padding-right: 0;
 }
 
-.c31 {
+.c30 {
   text-align: right;
   padding-right: 10px;
 }
 
-.c32 {
+.c31 {
   background-color: #B1B4B6;
   border-top: solid #F3F2F1 2px;
 }
 
-.c33 {
+.c32 {
   position: -webkit-sticky;
   position: sticky;
   right: 0;
@@ -194,22 +194,17 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   z-index: 10;
   border-right: solid black 1px;
   padding-right: 0.5em;
+  padding-left: 10px;
 }
 
-.c28 {
+.c27 {
   text-align: center;
   padding-left: 10px;
   padding-right: 10px;
 }
 
-.c29 {
+.c28 {
   width: 10%;
-}
-
-.c26 {
-  text-align: center;
-  width: 10%;
-  padding-left: 10px;
 }
 
 .c5 {
@@ -233,7 +228,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   width: 100%;
 }
 
-.c30 {
+.c29 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -597,41 +592,41 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           class=""
         >
           <td
-            class="0 c22 c23 c24 c25 c26"
+            class="0 c22 c23 c24 c25"
           >
             2004
           </td>
           <td
-            class="1 c27 c28 c29"
+            class="1 c26 c27 c28"
           >
             <strong
-              class="c9 c30"
+              class="c9 c29"
             >
               Not compared
             </strong>
           </td>
           <td
-            class="c22 c23 c31"
+            class="c22 c23 c30"
           >
             267
           </td>
           <td
-            class="c22 c23 c31"
+            class="c22 c23 c30"
           >
             703.4
           </td>
           <td
-            class="c22 c23 c31"
+            class="c22 c23 c30"
           >
             441.7
           </td>
           <td
-            class="c22 c23 c31"
+            class="c22 c23 c30"
           >
             578.3
           </td>
           <td
-            class="c27 c23 c31 c32 c33"
+            class="c26 c23 c30 c31 c32"
             data-testid="grey-table-cell"
           >
             904.9
@@ -641,41 +636,41 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           class=""
         >
           <td
-            class="0 c22 c23 c24 c25 c26"
+            class="0 c22 c23 c24 c25"
           >
             2008
           </td>
           <td
-            class="1 c27 c28 c29"
+            class="1 c26 c27 c28"
           >
             <strong
-              class="c9 c30"
+              class="c9 c29"
             >
               Not compared
             </strong>
           </td>
           <td
-            class="c22 c23 c31"
+            class="c22 c23 c30"
           >
             222
           </td>
           <td
-            class="c22 c23 c31"
+            class="c22 c23 c30"
           >
             890.3
           </td>
           <td
-            class="c22 c23 c31"
+            class="c22 c23 c30"
           >
             441.7
           </td>
           <td
-            class="c22 c23 c31"
+            class="c22 c23 c30"
           >
             578.3
           </td>
           <td
-            class="c27 c23 c31 c32 c33"
+            class="c26 c23 c30 c31 c32"
             data-testid="grey-table-cell"
           >
             966.0
@@ -781,13 +776,13 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   padding-right: 0;
 }
 
-.c28 {
+.c27 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: left;
 }
 
-.c28:last-child {
+.c27:last-child {
   padding-right: 0;
 }
 
@@ -848,17 +843,17 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   padding-right: 0;
 }
 
-.c32 {
+.c31 {
   text-align: right;
   padding-right: 10px;
 }
 
-.c34 {
+.c33 {
   background-color: #B1B4B6;
   border-top: solid #F3F2F1 2px;
 }
 
-.c35 {
+.c34 {
   position: -webkit-sticky;
   position: sticky;
   right: 0;
@@ -881,22 +876,17 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   z-index: 10;
   border-right: solid black 1px;
   padding-right: 0.5em;
+  padding-left: 10px;
 }
 
-.c29 {
+.c28 {
   text-align: center;
   padding-left: 10px;
   padding-right: 10px;
 }
 
-.c30 {
+.c29 {
   width: 10%;
-}
-
-.c27 {
-  text-align: center;
-  width: 10%;
-  padding-left: 10px;
 }
 
 .c5 {
@@ -920,7 +910,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   width: 100%;
 }
 
-.c31 {
+.c30 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -1010,7 +1000,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   white-space: nowrap;
 }
 
-.c33 {
+.c32 {
   border-left: solid black 1px;
   text-align: center;
 }
@@ -1380,70 +1370,70 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           class=""
         >
           <td
-            class="0 c23 c24 c25 c26 c27"
+            class="0 c23 c24 c25 c26"
           >
             2004
           </td>
           <td
-            class="1 c28 c29 c30"
+            class="1 c27 c28 c29"
           >
             <strong
-              class="c9 c31"
+              class="c9 c30"
             >
               Not compared
             </strong>
           </td>
           <td
-            class="c23 c24 c32"
+            class="c23 c24 c31"
           >
             267
           </td>
           <td
-            class="c23 c24 c32"
+            class="c23 c24 c31"
           >
             703.4
           </td>
           <td
-            class="c23 c24 c32"
+            class="c23 c24 c31"
           >
             441.7
           </td>
           <td
-            class="c23 c24 c32"
+            class="c23 c24 c31"
           >
             578.3
           </td>
           <td
-            class="c28 c24 c25 c33"
+            class="c27 c24 c25 c32"
           >
             <strong
-              class="c9 c31"
+              class="c9 c30"
             >
               Not compared
             </strong>
           </td>
           <td
-            class="c23 c24 c32"
+            class="c23 c24 c31"
           >
             222
           </td>
           <td
-            class="c23 c24 c32"
+            class="c23 c24 c31"
           >
             135.1
           </td>
           <td
-            class="c23 c24 c32"
+            class="c23 c24 c31"
           >
             441.7
           </td>
           <td
-            class="c23 c24 c32"
+            class="c23 c24 c31"
           >
             578.3
           </td>
           <td
-            class="c28 c24 c32 c34 c35"
+            class="c27 c24 c31 c33 c34"
             data-testid="grey-table-cell"
           >
             904.9
@@ -1453,70 +1443,70 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           class=""
         >
           <td
-            class="0 c23 c24 c25 c26 c27"
+            class="0 c23 c24 c25 c26"
           >
             2008
           </td>
           <td
-            class="1 c28 c29 c30"
+            class="1 c27 c28 c29"
           >
             <strong
-              class="c9 c31"
+              class="c9 c30"
             >
               Not compared
             </strong>
           </td>
           <td
-            class="c23 c24 c32"
+            class="c23 c24 c31"
           >
             222
           </td>
           <td
-            class="c23 c24 c32"
+            class="c23 c24 c31"
           >
             890.3
           </td>
           <td
-            class="c23 c24 c32"
+            class="c23 c24 c31"
           >
             441.7
           </td>
           <td
-            class="c23 c24 c32"
+            class="c23 c24 c31"
           >
             578.3
           </td>
           <td
-            class="c28 c24 c25 c33"
+            class="c27 c24 c25 c32"
           >
             <strong
-              class="c9 c31"
+              class="c9 c30"
             >
               Not compared
             </strong>
           </td>
           <td
-            class="c23 c24 c32"
+            class="c23 c24 c31"
           >
             222
           </td>
           <td
-            class="c23 c24 c32"
+            class="c23 c24 c31"
           >
             135.1
           </td>
           <td
-            class="c23 c24 c32"
+            class="c23 c24 c31"
           >
             441.7
           </td>
           <td
-            class="c23 c24 c32"
+            class="c23 c24 c31"
           >
             578.3
           </td>
           <td
-            class="c28 c24 c32 c34 c35"
+            class="c27 c24 c31 c33 c34"
             data-testid="grey-table-cell"
           >
             966.0

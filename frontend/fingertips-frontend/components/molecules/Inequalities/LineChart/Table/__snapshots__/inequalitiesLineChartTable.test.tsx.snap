@@ -82,6 +82,7 @@ exports[`Inequalities table suite snapshot test - should match snapshot 1`] = `
   z-index: 10;
   border-right: solid black 1px;
   padding-right: 0.5em;
+  padding-left: 10px;
 }
 
 .c5 {
@@ -232,7 +233,6 @@ exports[`Inequalities table suite snapshot test - should match snapshot 1`] = `
         >
           <td
             class="0 c9 c10 c11 c12"
-            style="padding-left: 10px;"
           >
             2004
           </td>
@@ -260,7 +260,6 @@ exports[`Inequalities table suite snapshot test - should match snapshot 1`] = `
         >
           <td
             class="0 c9 c10 c11 c12"
-            style="padding-left: 10px;"
           >
             2008
           </td>

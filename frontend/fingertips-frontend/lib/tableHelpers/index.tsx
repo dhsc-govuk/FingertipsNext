@@ -79,7 +79,8 @@ export const StyledIndicatorTitleCell = styled(StyledAlignLeftTableCell)({
 });
 
 export const StyledAlignLeftStickyTableCell = styled(StyledAlignLeftTableCell)(
-  stickyLeft as unknown as TemplateStringsArray
+  stickyLeft as unknown as TemplateStringsArray,
+  { paddingLeft: '10px' }
 );
 
 export const StyledCenterTableCell = styled(Table.Cell)({
