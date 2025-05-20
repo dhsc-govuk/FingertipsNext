@@ -30,17 +30,19 @@ export const BarChartEmbeddedRows: FC<BarChartEmbeddedRowsProps> = ({
 
   return (
     <>
-      {rowsToShow.map((item) => (
-        <BarChartEmbeddedRow
-          key={item.area}
-          item={item}
-          maxValue={maxValue}
-          showConfidenceIntervalsData={showConfidenceIntervalsData}
-          benchmarkComparisonMethod={benchmarkComparisonMethod}
-          polarity={polarity}
-          measurementUnit={measurementUnit}
-        />
-      ))}
+      {rowsToShow.map((item) => {
+        return (
+          <BarChartEmbeddedRow
+            key={item.area}
+            item={item}
+            maxValue={maxValue}
+            showConfidenceIntervalsData={showConfidenceIntervalsData}
+            benchmarkComparisonMethod={benchmarkComparisonMethod}
+            polarity={polarity}
+            measurementUnit={measurementUnit}
+          />
+        );
+      })}
       <BarChartEmbeddedPlaceholderRows
         nRowsToHide={nRowsToHide}
         triggerRef={triggerRef}

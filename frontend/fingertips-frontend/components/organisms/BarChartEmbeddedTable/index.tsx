@@ -15,7 +15,7 @@ import {
   CheckValueInTableCell,
   FormatNumberInTableCell,
 } from '@/components/molecules/CheckValueInTableCell';
-import React, { FC, Fragment, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { SparklineChart } from '@/components/organisms/SparklineChart';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
 import { TrendTag } from '@/components/molecules/TrendTag';
@@ -97,7 +97,7 @@ export function BarChartEmbeddedTable({
         return {
           area: areaData.areaName,
           year: fullYear,
-        };
+        } as BarChartEmbeddedTableRow;
       }
 
       return {
@@ -105,8 +105,7 @@ export function BarChartEmbeddedTable({
         ...point,
       };
     }
-  ) as BarChartEmbeddedTableRow[];
-  //.filter(filterUndefined) as BarChartEmbeddedTableRow[];
+  );
 
   const sortedTableRows = tableRows.toSorted(sortByValueAndAreaName);
 
