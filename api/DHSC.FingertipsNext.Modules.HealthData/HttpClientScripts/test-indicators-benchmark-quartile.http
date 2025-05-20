@@ -21,6 +21,29 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85
     });
 %}
 
+### Basic Quartile generation benchmark against AreaGroup
+GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85008&area_type=gps&area_group=U79121&benchmark_ref_type=AreaGroup
+
+> {%
+    client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
+        const expected = [{
+            "indicatorId": 94063,
+            "polarity": "NoJudgement",
+            "year": 2023,
+            "q0Value": 70.0729927007299,
+            "q1Value": 73.8372093023256,
+            "q2Value": 76.1904761904762,
+            "q3Value": 79.0476190476191,
+            "q4Value": 80.1242236024845,
+            "areaValue": 76.1904761904762,
+            "groupValue": 76.4550264550265,
+            "englandValue": 69.8972433785404
+        }]
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+
 ### check quartile calculation for two indicators
 GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids=90453&area_code=N85008&area_type=gps&area_group=U79121
 
@@ -58,8 +81,43 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids
         client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
     });
 %}
-
-### check Quartile comparison where ancestor has no data and returns null
+### check quartile calculation for two indicators Benchamrk against AreaGroup
+GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids=90453&area_code=N85008&area_type=gps&area_group=U79121&benchmark_ref_type=AreaGroup
+> {%
+    client.test("Calculate Quartile for two indicators", function (callbackfn, thisArg) {
+        const expected = [
+            {
+            "indicatorId": 94063,
+            "polarity": "NoJudgement",
+            "year": 2023,
+            "q0Value": 70.0729927007299,
+            "q1Value": 73.8372093023256,
+            "q2Value": 76.1904761904762,
+            "q3Value": 79.0476190476191,
+            "q4Value": 80.1242236024845,
+            "areaValue": 76.1904761904762,
+            "groupValue": 76.4550264550265,
+            "englandValue": 69.8972433785404
+        },
+        {
+            "indicatorId": 90453,
+            "polarity": "NoJudgement",
+            "year": 2024,
+            "q0Value": 26.36997,
+            "q1Value": 26.53913,
+            "q2Value": 27.07651,
+            "q3Value": 28.93029,
+            "q4Value": 35.47526,
+            "areaValue": 28.93029,
+            "groupValue": 29.8274473053626,
+            "englandValue": 27.15399
+        }
+        ];
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+### check Quartile comparison where area group has no data and returns null
 GET http://localhost:5144/indicators/quartiles?indicator_ids=241&area_code=N85008&area_type=gps&area_group=U79121
 
 > {%
@@ -106,11 +164,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=999999&area_code=N8
     });
 %}
 
-### check Quartile comparison where ancestor_code is unknown
+### check Quartile comparison where area group is undefined
 GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_code=N85008&area_type=gps
 
 > {%
-    client.test("check Quartile comparison where ancestor_code is unknown", function (callbackfn, thisArg) {
+    client.test("check Quartile comparison where area group is undefined", function (callbackfn, thisArg) {
         const expected = [{
             "indicatorId": 90453,
             "polarity": "NoJudgement",
@@ -130,11 +188,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_code=N85
     });
 %}
 
-### check Quartile comparison where area_code is unknown
+### check Quartile comparison where area_code is undefined
 GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_type=gps
 
 > {%
-    client.test("check Quartile comparison where area_code is unknown", function (callbackfn, thisArg) {
+    client.test("check Quartile comparison where area_code is undefined", function (callbackfn, thisArg) {
         const expected = [{
             "indicatorId": 90453,
             "polarity": "NoJudgement",
@@ -246,10 +304,22 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94103&area_code=E09
     });
 %}
 
+### check Quartile comparison when benmchmrk_ref_type is AreaGroup and AreaGroup is not supplied
+GET http://localhost:5144/indicators/quartiles?indicator_ids=94103&area_code=E09000027&area_type=districts-and-unitary-authorities&benchmark_ref_type=AreaGroup
+> {%
+    client.test("check Quartile comparison for district", function (callbackfn, thisArg) {
+        const expected = {
+            "message": "Parameter area_group must be supplied if benchmark_ref_type is set to AreaGroup."
+        }
+        client.assert(response.status === 400, "Response status is not 400");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+
 ### check Quartile comparison against Fingertips - https://fingertips.phe.org.uk/profile/dementia/data#page/1
 GET http://localhost:5144/indicators/quartiles?indicator_ids=91894&area_code=E54000028&area_type=nhs-integrated-care-boards&area_group=E40000003
 > {%
-    client.test("check Quartile comparison for district", function (callbackfn, thisArg) {
+    client.test("check Quartile comparison for NHS Integrated Care Boards Place of death: Dementia", function (callbackfn, thisArg) {
         const expected = [{
             "indicatorId": 91894,
             "polarity": "NoJudgement",
@@ -313,5 +383,3 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_code=D83
     });
 %}
 
-
-GET http://localhost:5144/indicators/94103/data?area_codes=E09000011&area_codes=E09000012&area_codes=E09000013&area_codes=E09000014&area_codes=E09000015&area_codes=E09000016&area_codes=E09000017&area_codes=E09000018&area_codes=E09000019&area_codes=E09000020&area_type=counties-and-unitary-authorities&years=2019&area_group=E12000007&benchmark_ref_type=AreaGroup

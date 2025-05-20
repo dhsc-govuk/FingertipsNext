@@ -129,6 +129,9 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
 
         if (areaType is null)
             return new BadRequestObjectResult(new SimpleError { Message = $"Parameter area_type must be supplied." });
+        
+        if ((benchmarkRefType == BenchmarkReferenceType.AreaGroup) && areaGroup == "")
+            return new BadRequestObjectResult(new SimpleError { Message = $"Parameter area_group must be supplied if benchmark_ref_type is set to AreaGroup." });
 
         var quartileData = await _indicatorsService.GetQuartileDataAsync
         (
