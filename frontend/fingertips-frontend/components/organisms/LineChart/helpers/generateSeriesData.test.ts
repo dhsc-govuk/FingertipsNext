@@ -83,13 +83,15 @@ describe('generateSeriesData', () => {
     });
   });
 
-  it('should generate only England series if areasData is empty and englandData is provided', () => {
+  it('should generate only England series with its confidenceIntervalSeries if areasData is empty and englandData is provided', () => {
     const result = generateSeriesData([], mockEnglandData);
-    expect(result).toHaveLength(1);
+
+    expect(result).toHaveLength(2);
     expect(result[0]).toMatchObject({
       name: 'England',
       color: GovukColours.DarkGrey,
       marker: { symbol: 'circle' },
     });
+    expect(result[1].type).toBe('errorbar');
   });
 });

@@ -39,7 +39,18 @@ export function generateSeriesData(
   benchmarkToUse?: string
 ): Highcharts.SeriesOptionsType[] {
   if (englandData && areasData.length === 0) {
-    return [generateSeries(englandData, 'circle', GovukColours.DarkGrey)];
+    return [
+      generateSeries(englandData, 'circle', GovukColours.DarkGrey),
+      generateConfidenceIntervalSeries(
+        englandData.areaName,
+        englandData.healthData.map((point) => [
+          point.year,
+          point.lowerCi,
+          point.upperCi,
+        ]),
+        showConfidenceIntervalsData
+      ),
+    ];
   }
 
   const seriesData: Highcharts.SeriesOptionsType[] = areasData
