@@ -7,6 +7,8 @@ export function generateAreaDisplayString(
   postcode?: string
 ): string {
   return areaTypeKey.toLowerCase() === gpsAreaType.key
-    ? `${areaCode} - ${areaName}${postcode ? ' ' + postcode : ''}`
-    : areaName + `${postcode ? ' ' + postcode : ''}`;
+    ? `${areaCode} - ${areaName}${formatPostcode(postcode)}`
+    : areaName + formatPostcode(postcode);
 }
+
+const formatPostcode = (postcode?: string) => (postcode ? ' ' + postcode : '');
