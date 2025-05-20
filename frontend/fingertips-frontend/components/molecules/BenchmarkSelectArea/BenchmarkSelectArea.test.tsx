@@ -1,7 +1,6 @@
 import { render, screen, within } from '@testing-library/react';
 import { BenchmarkSelectArea } from '.';
 import { LoaderContext } from '@/context/LoaderContext';
-import { SearchStateContext } from '@/context/SearchStateContext';
 import { SearchParams } from '@/lib/searchStateManager';
 import userEvent from '@testing-library/user-event';
 import { AreaWithoutAreaType } from '@/lib/common-types';
@@ -29,16 +28,6 @@ const mockLoaderContext: LoaderContext = {
 jest.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
-  };
-});
-
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: jest.fn(),
-  setSearchState: jest.fn(),
-};
-jest.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
   };
 });
 
