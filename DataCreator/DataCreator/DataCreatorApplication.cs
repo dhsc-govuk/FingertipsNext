@@ -8,7 +8,6 @@
         {
             //we have zipped up the source data to save space to unzip to get them ready
             DataFileReader.DeleteTempInputFiles();
-            DataFileWriter.CreateTempOutputFolder();
 
             DataFileReader.UnzipSourceFiles();
             Console.WriteLine("Unzipped source CSV files");
@@ -33,13 +32,8 @@
             // write the healthdata to file
             DataFileWriter.WriteHealthCsvData("healthdata", healthMeasures);
             
-            // TODO: zip the file
-            DataFileWriter.ZipOutput();
-            // TODO: unzip the file in pipeline
-            
             //clean up the unzipped files
             DataFileReader.DeleteTempInputFiles();
-            DataFileWriter.DeleteTempOutputFiles();
             Console.WriteLine($"Deleted temp files");
         }
     }
