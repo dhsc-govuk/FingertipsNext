@@ -54,7 +54,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
     [SearchParams.AreaTypeSelected]: selectedAreaType,
     [SearchParams.AreasSelected]: areasSelected,
-    [SearchParams.LineChartAreaSelected]: lineChartAreaSelected,
+    [SearchParams.LineChartBenchmarkAreaSelected]: lineChartAreaSelected,
   } = searchState;
 
   const healthIndicatorData = indicatorData?.areaHealthData ?? [];
@@ -123,7 +123,9 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
           <H3>Indicator data over time</H3>
           <BenchmarkSelectArea
             availableAreas={availableAreasForBenchmarking}
-            benchmarkAreaSelectedKey={SearchParams.LineChartAreaSelected}
+            benchmarkAreaSelectedKey={
+              SearchParams.LineChartBenchmarkAreaSelected
+            }
             searchState={searchState}
           />
           <TabContainer

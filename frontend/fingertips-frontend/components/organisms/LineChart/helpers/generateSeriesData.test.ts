@@ -78,7 +78,7 @@ describe('generateSeriesData', () => {
 
     expect(result[1]).toMatchObject({
       name: mockEnglandData.areaName,
-      color: GovukColours.DarkPink,
+      color: GovukColours.Pink,
       marker: { symbol: 'diamond' },
     });
   });

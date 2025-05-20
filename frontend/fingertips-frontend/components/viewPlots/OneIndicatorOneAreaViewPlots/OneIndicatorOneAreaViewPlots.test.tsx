@@ -91,9 +91,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
 
       expect(benchmarkAreaDropDown).toBeInTheDocument();
       expect(benchmarkAreaDropDownOptions).toHaveLength(1);
-      benchmarkAreaDropDownOptions.forEach((option) => {
-        expect(option.textContent).toBe('England');
-      });
+      expect(benchmarkAreaDropDownOptions[0].textContent).toBe('England');
 
       expect(
         screen.getByTestId('tabContainer-lineChartAndTable')

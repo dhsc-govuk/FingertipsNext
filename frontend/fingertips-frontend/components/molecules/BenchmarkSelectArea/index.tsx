@@ -25,7 +25,7 @@ export function BenchmarkSelectArea({
 
   const searchStateManager = SearchStateManager.initialise(searchState);
 
-  const benchmarkAreaSelected = (valueSelected: string) => {
+  const onBenchmarkAreaSelected = (valueSelected: string) => {
     setIsLoading(true);
 
     searchStateManager.addParamValueToState(
@@ -44,7 +44,7 @@ export function BenchmarkSelectArea({
       data-testid="benchmark-area-select"
       input={{
         value: selectedArea,
-        onChange: (e) => benchmarkAreaSelected(e.target.value),
+        onChange: (e) => onBenchmarkAreaSelected(e.target.value),
       }}
     >
       {availableAreas?.map((area) => (

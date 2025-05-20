@@ -171,6 +171,9 @@ export async function getIndicatorData(
 
   let indicatorDataAllAreas: IndicatorWithHealthDataForArea | undefined;
 
+  const areaGroup =
+    benchmarkRefType === 'AreaGroup' ? selectedGroupCode : undefined;
+
   const indicatorRequestArray = chunkArray(areasSelected).map((requestAreas) =>
     indicatorApi.getHealthDataForAnIndicator(
       {
@@ -180,8 +183,7 @@ export async function getIndicatorData(
         includeEmptyAreas,
         latestOnly,
         benchmarkRefType,
-        areaGroup:
-          benchmarkRefType === 'AreaGroup' ? selectedGroupCode : undefined,
+        areaGroup,
       },
       API_CACHE_CONFIG
     )
@@ -197,8 +199,7 @@ export async function getIndicatorData(
           includeEmptyAreas,
           latestOnly,
           benchmarkRefType,
-          areaGroup:
-            benchmarkRefType === 'AreaGroup' ? selectedGroupCode : undefined,
+          areaGroup,
         },
         API_CACHE_CONFIG
       )
@@ -219,8 +220,7 @@ export async function getIndicatorData(
           includeEmptyAreas,
           latestOnly,
           benchmarkRefType,
-          areaGroup:
-            benchmarkRefType === 'AreaGroup' ? selectedGroupCode : undefined,
+          areaGroup,
         },
         API_CACHE_CONFIG
       )
@@ -256,8 +256,11 @@ export async function getIndicatorData(
   return indicatorDataAllAreas;
 }
 
-export function determineBenchmarkRefType(lineChartAreaSelected?: string) {
-  if (lineChartAreaSelected && lineChartAreaSelected !== areaCodeForEngland)
+export function determineBenchmarkRefType(
+  lineChartAreaSelected?: string
+): BenchmarkReferenceType {
+  if (lineChartAreaSelected && lineChartAreaSelected !== areaCodeForEngland) {
     return 'AreaGroup';
+  }
   return 'England';
 }

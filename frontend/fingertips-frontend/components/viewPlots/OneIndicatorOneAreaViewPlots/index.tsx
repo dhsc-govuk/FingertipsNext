@@ -46,7 +46,7 @@ export function OneIndicatorOneAreaViewPlots({
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreasSelected]: areasSelected,
-    [SearchParams.LineChartAreaSelected]: lineChartAreaSelected,
+    [SearchParams.LineChartBenchmarkAreaSelected]: lineChartAreaSelected,
   } = searchState;
 
   const areaCodes = determineAreaCodes(areasSelected);
@@ -119,7 +119,9 @@ export function OneIndicatorOneAreaViewPlots({
           <H3>Indicator data over time</H3>
           <BenchmarkSelectArea
             availableAreas={availableAreasForBenchmarking}
-            benchmarkAreaSelectedKey={SearchParams.LineChartAreaSelected}
+            benchmarkAreaSelectedKey={
+              SearchParams.LineChartBenchmarkAreaSelected
+            }
             searchState={searchState}
           />
           <TabContainer

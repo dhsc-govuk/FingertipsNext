@@ -72,7 +72,7 @@ export function generateSeriesData(
     : undefined;
 
   const alternateBenchmarkSeries = englandData
-    ? generateSeries(englandData, 'diamond', GovukColours.DarkPink)
+    ? generateSeries(englandData, 'diamond', GovukColours.Pink)
     : undefined;
 
   if (benchmarkToUse === areaCodeForEngland) {

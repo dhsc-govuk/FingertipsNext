@@ -62,7 +62,7 @@ describe('BenchmarkSelectArea', () => {
     render(
       <BenchmarkSelectArea
         availableAreas={mockAvailableAreas}
-        benchmarkAreaSelectedKey={SearchParams.LineChartAreaSelected}
+        benchmarkAreaSelectedKey={SearchParams.LineChartBenchmarkAreaSelected}
         searchState={{}}
       />
     );
@@ -83,7 +83,7 @@ describe('BenchmarkSelectArea', () => {
     render(
       <BenchmarkSelectArea
         availableAreas={mockAvailableAreas}
-        benchmarkAreaSelectedKey={SearchParams.LineChartAreaSelected}
+        benchmarkAreaSelectedKey={SearchParams.LineChartBenchmarkAreaSelected}
         searchState={{ [SearchParams.InequalityBarChartAreaSelected]: 'A002' }}
       />
     );
@@ -98,14 +98,14 @@ describe('BenchmarkSelectArea', () => {
   it('should add the selected area for the chart to the url for the provided search param', async () => {
     const expectedPath = [
       `${mockPath}`,
-      `?${SearchParams.LineChartAreaSelected}=${mockAvailableAreas[2].code}`,
+      `?${SearchParams.LineChartBenchmarkAreaSelected}=${mockAvailableAreas[2].code}`,
     ].join('');
 
     const user = userEvent.setup();
     render(
       <BenchmarkSelectArea
         availableAreas={mockAvailableAreas}
-        benchmarkAreaSelectedKey={SearchParams.LineChartAreaSelected}
+        benchmarkAreaSelectedKey={SearchParams.LineChartBenchmarkAreaSelected}
         searchState={{}}
       />
     );
