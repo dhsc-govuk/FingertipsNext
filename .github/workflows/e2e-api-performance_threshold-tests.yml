@@ -1,4 +1,4 @@
-name: Execute e2e tests
+name: Execute e2e, api and performance threshold tests
 
 env:
   frontend-directory: ./frontend/fingertips-frontend
@@ -27,7 +27,7 @@ on:
         required: false
 jobs:
   execute-e2e-tests-docker:
-    name: Execute e2e tests - Docker
+    name: Execute all high level integrated tests - Docker
     runs-on: ubuntu-latest
     if: inputs.playwright-mode == 'docker'
 
@@ -68,6 +68,17 @@ jobs:
 
       - name: Start Docker services
         run: MOCK_SERVER=false npm run start:all
+
+      - name: Setup k6
+        if: ${{ !inputs.update_screenshots && always() }}
+        uses: grafana/setup-k6-action@v1
+
+      - name: Run k6 performance threshold tests against local docker environment
+        if: ${{ !inputs.update_screenshots && always() }}
+        uses: grafana/run-k6-action@v1
+        with:
+          path: ${{ env.frontend-directory }}/k6_performance_tests/smoketest_script.ts
+          flags: -e BASE_URL=http://localhost:3000
 
       - name: Run .http API tests
         if: ${{ !inputs.update_screenshots && always() }}
@@ -138,7 +149,7 @@ jobs:
           retention-days: 5
 
   execute-e2e-tests-azure:
-    name: Execute e2e tests - Azure
+    name: Execute e2e and performance threshold tests - Azure
     runs-on: self-hosted
     if: inputs.playwright-mode == 'azure'
 
@@ -174,6 +185,15 @@ jobs:
         run: npm run test-e2e-cd -- --ignore-snapshots
         env:
           FINGERTIPS_FRONTEND_URL: ${{ vars.FINGERTIPS_FRONTEND_URL }}
+
+      - name: Setup k6
+        uses: grafana/setup-k6-action@v1
+
+      - name: Run k6 full performance tests against deployed environment
+        uses: grafana/run-k6-action@v1
+        with:
+          path: ${{ env.frontend-directory }}/k6_performance_tests/load_script.ts
+          flags: -e BASE_URL=${{ vars.FINGERTIPS_FRONTEND_URL }}
 
       - name: Set dynamic artifact name
         if: always()
