@@ -22,57 +22,61 @@ interface CellHeaderProps {
 }
 
 const CellHeader: FC<CellHeaderProps> = ({ header, measurementUnit = '' }) => {
-  if (header === InequalitiesBarChartTableHeaders.INEQUALITY_TYPE) {
-    return (
-      <StyledAlignLeftHeader
-        key={`heading-${header}`}
-        style={{ width: '16%' }}
-        data-testid={`heading-${header}`}
-      >
-        {header}
-      </StyledAlignLeftHeader>
-    );
-  } else if (header === InequalitiesBarChartTableHeaders.UPPER) {
-    return (
-      <StyledAlignRightHeader
-        key={`heading-${header}`}
-        style={{ width: '16%', paddingRight: '10px' }}
-        data-testid={`heading-${header}`}
-      >
-        {header}
-      </StyledAlignRightHeader>
-    );
-  } else if (header === InequalitiesBarChartTableHeaders.COMPARED_TO) {
-    return (
-      <StyledAlignCenterTableHeader
-        key={`heading-${header}`}
-        style={{ width: '16%' }}
-        data-testid={`heading-${header}`}
-      >
-        {header}
-      </StyledAlignCenterTableHeader>
-    );
-  } else {
-    return (
-      <StyledAlignRightHeader
-        key={`heading-${header}`}
-        style={{ width: '16%' }}
-        data-testid={`heading-${header}`}
-      >
-        {header === InequalitiesBarChartTableHeaders.VALUE &&
-        measurementUnit ? (
-          <>
-            {header}
-            <span
-              data-testid="inequalitiesBarChart-measurementUnit"
-              style={{ display: 'block', margin: 'auto' }}
-            >{` ${measurementUnit}`}</span>
-          </>
-        ) : (
-          header
-        )}
-      </StyledAlignRightHeader>
-    );
+  switch (true) {
+    case header === InequalitiesBarChartTableHeaders.INEQUALITY_TYPE:
+      return (
+        <StyledAlignLeftHeader
+          key={`heading-${header}`}
+          style={{ width: '16%' }}
+          data-testid={`heading-${header}`}
+        >
+          {header}
+        </StyledAlignLeftHeader>
+      );
+    case header === InequalitiesBarChartTableHeaders.UPPER:
+      return (
+        <StyledAlignRightHeader
+          key={`heading-${header}`}
+          style={{ width: '16%', paddingRight: '10px' }}
+          data-testid={`heading-${header}`}
+        >
+          {header}
+        </StyledAlignRightHeader>
+      );
+    case header === InequalitiesBarChartTableHeaders.COMPARED_TO:
+      return (
+        <StyledAlignCenterTableHeader
+          key={`heading-${header}`}
+          style={{ width: '16%' }}
+          data-testid={`heading-${header}`}
+        >
+          {header}
+        </StyledAlignCenterTableHeader>
+      );
+    case header === InequalitiesBarChartTableHeaders.VALUE && !!measurementUnit:
+      return (
+        <StyledAlignRightHeader
+          key={`heading-${header}`}
+          style={{ width: '16%' }}
+          data-testid={`heading-${header}`}
+        >
+          {header}
+          <span
+            data-testid="inequalitiesBarChart-measurementUnit"
+            style={{ display: 'block', margin: 'auto' }}
+          >{` ${measurementUnit}`}</span>
+        </StyledAlignRightHeader>
+      );
+    default:
+      return (
+        <StyledAlignRightHeader
+          key={`heading-${header}`}
+          style={{ width: '16%' }}
+          data-testid={`heading-${header}`}
+        >
+          {header}
+        </StyledAlignRightHeader>
+      );
   }
 };
 
@@ -93,7 +97,7 @@ export const InequalitiesBarChartTableHead = ({
         <StyledAlignLeftHeader colSpan={4}>{areaName}</StyledAlignLeftHeader>
         <StyledConfidenceLimitsHeader
           colSpan={2}
-          style={{ paddingRight: '10px', textAlign: 'center' }}
+          style={{ textAlign: 'center' }}
         >
           {confidenceLimit ? (
             <>

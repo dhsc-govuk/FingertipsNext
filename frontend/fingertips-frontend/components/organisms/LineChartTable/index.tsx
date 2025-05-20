@@ -100,7 +100,7 @@ const StyledTrendContainer = styled('div')({
   justifyContent: 'left',
   alignItems: 'center',
   gap: 8,
-  paddingLeft: 8,
+  paddingLeft: 0,
   whiteSpace: 'nowrap',
 });
 
@@ -112,6 +112,7 @@ const StyledLightGreyHeader = styled(StyledGreyHeader)({
 const StyledLightGreySubHeader = styled(StyledLightGreyHeader)({
   borderLeft: 'solid black 1px',
   paddingLeft: '0.5em',
+  width: '16%',
 });
 
 const StyledBenchmarkCellMultipleAreas = styled(StyledAlignLeftTableCell)({
@@ -205,6 +206,10 @@ const StyledTitleCell = styled(StyledAlignLeftHeader)({
   border: 'none',
 });
 
+const StyledAlignTrendHeader = styled(StyledAlignLeftHeader)({
+  paddingLeft: '0px',
+});
+
 const getConfidenceLimitCellSpan = (index: number): number =>
   index === 0 ? 4 : 3;
 
@@ -295,7 +300,7 @@ export function LineChartTable({
             <Table.Row>
               <StyledTitleCell />
               {healthIndicatorData.map((area, index) => (
-                <StyledTitleCell colSpan={5} key={area.areaName + index}>
+                <StyledAlignTrendHeader colSpan={5} key={area.areaName + index}>
                   <StyledTrendContainer>
                     Recent trend:
                     <TrendTag
@@ -304,7 +309,7 @@ export function LineChartTable({
                       }
                     />
                   </StyledTrendContainer>
-                </StyledTitleCell>
+                </StyledAlignTrendHeader>
               ))}
               {showGroupColumn ? <StyledTitleCell /> : null}
               {showBenchmarkColumn ? <StyledStickyRightHeader /> : null}

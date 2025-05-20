@@ -179,7 +179,7 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
           <th
             class="c1 c2 c3 c4"
             colspan="2"
-            style="padding-right: 10px; text-align: center;"
+            style="text-align: center;"
           >
             95%
             <br />
