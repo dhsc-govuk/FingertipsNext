@@ -142,26 +142,17 @@ public class AreaRepository : IAreaRepository
         return areasWithRelations;
     }
 
-    // This uses recursive cte term to find all the descendants in the hierarchy - yes it is complex
-    // and this represents a maintenance issue. But there is inherent complexity in what is being
-    // implemented here.
-    //
-    // This function needs to traverse a graph (not just a tree) until it has found all descendants of
-    // the parent of the specific type. It should also make sure what is returned is unique.
-    //
-    // This implementation has now been moved into a stored procedure. This is to allow it to be used
-    // by other stored procedures.
+    // Retrieves all descendant areas of a specified area, filtered by a requested area type.
+    // in a sorted ordered by hierarchy level.
     private async Task<ICollection<AreaModel>> GetDescendantAreas(AreaModel startingArea, string childAreaTypeKey)
     {
-        var requestedChildAreaType = new SqlParameter("@RequestedChildAreaType", childAreaTypeKey);
-        var requestedAncestorAreaCode = new SqlParameter("@RequestedAncestorAreaCode", startingArea.AreaCode);
-
-        var areaWithAreaTypeList = await _dbContext.DenormalisedAreaWithAreaType.FromSql
-            (@$"
-              EXEC Areas.GetDescendantAreas @RequestedAreaType={requestedChildAreaType}, @RequestedAncestorAreaCode={requestedAncestorAreaCode}
-              "
-            ).ToListAsync();
-
+        var areaWithAreaTypeList = await _dbContext.DenormalisedAreaWithAreaType
+        .FromSqlRaw(
+            "SELECT * FROM dbo.FindAreaDescendants_Fn(@RequestedAreaType, @RequestedAncestorAreaCode)",
+            new SqlParameter("@RequestedAreaType", childAreaTypeKey),
+            new SqlParameter("@RequestedAncestorAreaCode", startingArea.AreaCode)
+        )
+        .ToListAsync();
         return [.. areaWithAreaTypeList
             .Select(area => area.Normalise())
             .OrderBy(area => area.AreaType.Level)];

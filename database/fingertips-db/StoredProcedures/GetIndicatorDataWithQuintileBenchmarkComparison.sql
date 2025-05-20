@@ -12,22 +12,7 @@ CREATE PROCEDURE [dbo].[GetIndicatorDetailsWithQuintileBenchmarkComparison]
 --- The area used for benchmarking
 AS
 BEGIN
-	-- Temporary table to hold areas from GetDescendantAreas
-    CREATE TABLE #BenchmarkAreas (
-        AreaKey int,
-        AreaCode nvarchar(50),
-        AreaName nvarchar(255),
-        AreaTypeKey nvarchar(50),
-        LEVEL int,
-        HierarchyType nvarchar(50),
-        AreaTypeName nvarchar(50)
-    );
-
-    -- Populate the temporary table using the GetDescendantAreas stored procedure
-    INSERT INTO 
-    	#BenchmarkAreas 
-    EXEC 
-    	Areas.GetDescendantAreas @RequestedAreaType=@RequestedAreaType, @RequestedAncestorAreaCode=@RequestedBenchmarkAreaCode;
+   
 	WITH
 	--- Get the Benchmark Area
 	BenchmarkAreaGroup AS (
@@ -84,7 +69,7 @@ BEGIN
         ON
 		    hm.AreaKey = areaDim.AreaKey 
 	JOIN
-	        #BenchmarkAreas as benchmarkAreas
+	        dbo.FindAreaDescendants_Fn(@RequestedAreaType, @RequestedBenchmarkAreaCode) AS benchmarkAreas
 	    ON
 	        areaDim.Code = benchmarkAreas.AreaCode
 	JOIN
