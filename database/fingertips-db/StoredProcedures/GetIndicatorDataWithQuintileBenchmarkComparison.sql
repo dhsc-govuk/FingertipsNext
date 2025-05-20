@@ -20,7 +20,7 @@ BEGIN
 		*
 	FROM
 	    dbo.AreaDimension AS areaDim
-	WHERE 
+	WHERE
 	    areaDim.Code = @RequestedBenchmarkAreaCode
 	),
 	--- Finds the indicator of interest from the passed in IndicatorId.
