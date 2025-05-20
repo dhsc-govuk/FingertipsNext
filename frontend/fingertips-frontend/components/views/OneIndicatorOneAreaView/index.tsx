@@ -1,5 +1,6 @@
 import { OneIndicatorOneAreaViewPlots } from '@/components/viewPlots/OneIndicatorOneAreaViewPlots';
 import {
+  BenchmarkReferenceType,
   GetHealthDataForAnIndicatorInequalitiesEnum,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
@@ -66,7 +67,9 @@ export default async function OneIndicatorOneAreaView({
         areaType: areaTypeToUse,
         benchmarkRefType,
         areaGroup:
-          benchmarkRefType === 'AreaGroup' ? selectedGroupCode : undefined,
+          benchmarkRefType === BenchmarkReferenceType.AreaGroup
+            ? selectedGroupCode
+            : undefined,
       },
       API_CACHE_CONFIG
     );

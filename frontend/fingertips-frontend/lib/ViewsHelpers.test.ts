@@ -497,15 +497,18 @@ describe('getIndicatorData', () => {
 
 describe('determineBenchmarkRefType', () => {
   it('should return "England" if no area is selected', () => {
-    expect(determineBenchmarkRefType()).toBe('England');
+    expect(determineBenchmarkRefType()).toBe(BenchmarkReferenceType.England);
   });
 
   it('should return "England" if England is selected', () => {
-    expect(determineBenchmarkRefType(areaCodeForEngland)).toBe('England');
+    expect(determineBenchmarkRefType(areaCodeForEngland)).toBe(
+      BenchmarkReferenceType.England
+    );
   });
 
   it('should return "AreaGroup" if a non-England area is selected', () => {
-    expect(determineBenchmarkRefType('SOME_OTHER_CODE')).toBe('AreaGroup');
-    expect(determineBenchmarkRefType('123')).toBe('AreaGroup');
+    expect(determineBenchmarkRefType('SOME_OTHER_CODE')).toBe(
+      BenchmarkReferenceType.AreaGroup
+    );
   });
 });

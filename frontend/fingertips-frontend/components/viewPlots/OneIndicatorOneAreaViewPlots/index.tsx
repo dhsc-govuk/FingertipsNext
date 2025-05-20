@@ -78,7 +78,7 @@ export function OneIndicatorOneAreaViewPlots({
     groupDataWithoutInequalities,
   } = getAllDataWithoutInequalities(
     dataWithoutEnglandOrGroup,
-    { englandIndicatorData: englandIndicatorData, groupData },
+    { englandIndicatorData, groupData },
     areaCodes
   );
 

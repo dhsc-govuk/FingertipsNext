@@ -260,7 +260,7 @@ export function determineBenchmarkRefType(
   lineChartAreaSelected?: string
 ): BenchmarkReferenceType {
   if (lineChartAreaSelected && lineChartAreaSelected !== areaCodeForEngland) {
-    return 'AreaGroup';
+    return BenchmarkReferenceType.AreaGroup;
   }
-  return 'England';
+  return BenchmarkReferenceType.England;
 }

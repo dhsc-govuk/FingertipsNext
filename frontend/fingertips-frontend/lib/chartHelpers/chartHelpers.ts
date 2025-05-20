@@ -434,6 +434,5 @@ export const determineAreasForBenchmarking = (
 export const determineBenchmarkToUse = (
   lineChartAreaSelected?: string
 ): string => {
-  if (lineChartAreaSelected) return lineChartAreaSelected;
-  return areaCodeForEngland;
+  return lineChartAreaSelected ?? areaCodeForEngland;
 };
