@@ -4,7 +4,10 @@ import { expect } from '@jest/globals';
 import { InequalitiesTypes } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { getTestData } from '../mocks';
 import { InequalitiesBarChartTableHeaders } from '@/components/molecules/Inequalities/BarChart/Table/InequalitiesBarChartTableHead';
-import { BenchmarkComparisonMethod, BenchmarkOutcome } from '@/generated-sources/ft-api-client';
+import {
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
+} from '@/generated-sources/ft-api-client';
 
 describe('Inequalities bar chart table suite', () => {
   describe('Sex inequality', () => {
