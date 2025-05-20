@@ -142,7 +142,8 @@ export const AreaAutoCompleteSuggestionPanel = ({
                 text={formatAreaName(
                   area.areaCode,
                   area.areaName,
-                  area.areaType
+                  area.areaType,
+                  area.postcode
                 )}
                 searchHint={searchHint}
               />

@@ -206,6 +206,9 @@ exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
           <span>
             h
           </span>
+          <span>
+             
+          </span>
         </div>
         <div
           class="c8"
@@ -287,6 +290,9 @@ exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
           </span>
           <span>
             e
+          </span>
+          <span>
+             
           </span>
         </div>
         <div
