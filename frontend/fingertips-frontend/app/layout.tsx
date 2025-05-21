@@ -31,13 +31,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // vars read SSR and passed down to the footer component
+  const tag = process.env.NEXT_PUBLIC_FINGERTIPS_GIT_TAG;
+  const hash = process.env.NEXT_PUBLIC_FINGERTIPS_GIT_HASH;
   return (
     <html lang="en">
       <body className={gdsTransportFont.className} style={{ margin: 0 }}>
         <StyledComponentsRegistry>
           <FTHeader />
           <FTContainer>{children}</FTContainer>
-          <FTFooter />
+          <FTFooter tag={tag} hash={hash} />
         </StyledComponentsRegistry>
       </body>
     </html>

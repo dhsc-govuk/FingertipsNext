@@ -888,15 +888,9 @@ public class IndicatorServiceTests
             .GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], Arg.Any<string[]>())
             .Returns(mockHealthData);
 
-        _healthDataRepository
-            .GetIndicatorDataWithQuintileBenchmarkComparisonAsync(
-                1,
-                Arg.Any<string[]>(),
-                [],
-                Arg.Any<string>()
-            )
-            .Returns(mockHealthData);
-        ;
+        _healthDataRepository.GetIndicatorDataWithQuintileBenchmarkComparisonAsync(
+            1, Arg.Any<string[]>(),
+            [], Arg.Any<string>(), "E92000001").Returns(mockHealthData); ;
 
         var result = await _indicatorService.GetIndicatorDataAsync(
             1,
