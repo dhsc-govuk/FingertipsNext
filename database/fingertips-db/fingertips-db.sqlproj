@@ -15,6 +15,7 @@
     <Folder Include="Scripts\" />
     <Folder Include="Security\" />
     <Folder Include="StoredProcedures" />
+    <Folder Include="StoredFunctions"/>
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="PostDeployment\PopulateFingertips.sql" />
@@ -26,6 +27,8 @@
     <Build Include="Tables\IndicatorDimension.sql" />
     <Build Include="Tables\SexDimension.sql" />
     <Build Include="Tables\TrendDimension.sql" />
+    <Build Include="Tables\DateDimension.sql" />
+    <Build Include="Tables\PeriodDimension.sql" />
     <Build Include="Security\Areas.sql" />
     <Build Include="Tables\Areas.sql" />
     <Build Include="Tables\AreaRelationships.sql" />

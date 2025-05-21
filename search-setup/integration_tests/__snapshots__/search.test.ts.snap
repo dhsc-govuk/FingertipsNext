@@ -128,7 +128,9 @@ exports[`AI search index creation and data loading Search by indicator should ha
     "searchable": true,
     "sortable": true,
     "stored": true,
-    "synonymMaps": [],
+    "synonymMaps": [
+      "indicator-search-synonym-map",
+    ],
     "type": "Edm.String",
     "vectorEncoding": null,
     "vectorSearchProfile": null,
@@ -146,7 +148,9 @@ exports[`AI search index creation and data loading Search by indicator should ha
     "searchable": true,
     "sortable": true,
     "stored": true,
-    "synonymMaps": [],
+    "synonymMaps": [
+      "indicator-search-synonym-map",
+    ],
     "type": "Edm.String",
     "vectorEncoding": null,
     "vectorSearchProfile": null,
