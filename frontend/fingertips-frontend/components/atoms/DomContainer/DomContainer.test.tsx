@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { DomContainer } from '@/components/molecules/Export/DomContainer';
+import { DomContainer } from '@/components/atoms/DomContainer/DomContainer';
 
 describe('DomContainer', () => {
   it('renders an empty div when no data is provided', () => {

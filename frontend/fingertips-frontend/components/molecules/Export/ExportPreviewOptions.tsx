@@ -7,7 +7,7 @@ import { ExportFormatRadioButtons } from '@/components/molecules/Export/ExportFo
 import { ExportDownloadButton } from '@/components/molecules/Export/ExportDownloadButton';
 import { CsvData } from '@/lib/downloadHelpers/convertToCsv';
 import { usePreviewPrep } from '@/components/molecules/Export/usePreviewPrep';
-import { DomContainer } from '@/components/molecules/Export/DomContainer';
+import { DomContainer } from '@/components/atoms/DomContainer/DomContainer';
 
 interface ExportPreviewProps {
   targetId: string;
