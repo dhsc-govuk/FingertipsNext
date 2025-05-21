@@ -742,6 +742,7 @@ jobs:
         github.event_name == 'workflow_dispatch'
       )
     with:
+      environment: dev
       playwright-mode: azure
     secrets:
       slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
