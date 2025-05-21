@@ -9,6 +9,10 @@ env:
 on:
   workflow_call:
     inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        type: string
       playwright-mode:
         description: 'Mode from which tests are run - either run inside docker or against the azure stack'
         required: true
@@ -139,7 +143,7 @@ jobs:
 
   execute-e2e-tests-azure:
     name: Execute e2e tests - Azure
-    runs-on: self-hosted
+    runs-on: ${{ inputs.environment }}
     if: inputs.playwright-mode == 'azure'
 
     defaults:
