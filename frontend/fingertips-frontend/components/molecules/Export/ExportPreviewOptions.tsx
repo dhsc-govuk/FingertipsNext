@@ -1,7 +1,7 @@
 import { Fieldset, HintText } from 'govuk-react';
-import { FC, RefObject, useState } from 'react';
+import { FC, useState } from 'react';
 import { ExportPreviewCanvasDiv } from '@/components/molecules/Export/ExportPreview.styles';
-import { Chart } from 'highcharts';
+import { Options } from 'highcharts';
 import { ExportType } from '@/components/molecules/Export/export.types';
 import { ExportFormatRadioButtons } from '@/components/molecules/Export/ExportFormatRadioButtons';
 import { ExportDownloadButton } from '@/components/molecules/Export/ExportDownloadButton';
@@ -11,22 +11,22 @@ import { DomContainer } from '@/components/atoms/DomContainer/DomContainer';
 
 interface ExportPreviewProps {
   targetId: string;
-  chartRef?: RefObject<Chart | undefined>;
   csvData?: CsvData;
+  chartOptions?: Options;
 }
 
 export const ExportPreviewOptions: FC<ExportPreviewProps> = ({
   targetId,
-  chartRef,
   csvData,
+  chartOptions,
 }) => {
   const [format, setFormat] = useState(ExportType.PNG);
 
   const { element, text, isLoading } = usePreviewPrep(
     targetId,
     format,
-    chartRef,
-    csvData
+    csvData,
+    chartOptions
   );
 
   const onChangeFormat = (format: ExportType) => {
@@ -34,7 +34,7 @@ export const ExportPreviewOptions: FC<ExportPreviewProps> = ({
   };
 
   const availableOptions = [ExportType.PNG];
-  if (chartRef?.current) availableOptions.push(ExportType.SVG);
+  if (chartOptions) availableOptions.push(ExportType.SVG);
   if (csvData) availableOptions.push(ExportType.CSV);
 
   return (

@@ -1,20 +1,20 @@
-import { FC, RefObject, SyntheticEvent } from 'react';
+import { FC, SyntheticEvent } from 'react';
 import { Button } from 'govuk-react';
-import { Chart } from 'highcharts';
+import { Options } from 'highcharts';
 import { ExportPreviewOptions } from '@/components/molecules/Export/ExportPreviewOptions';
 import { useModal } from '@/context/ModalContext';
 import { CsvData } from '@/lib/downloadHelpers/convertToCsv';
 
 interface ExportOptionsButtonProps {
   targetId: string;
-  chartRef?: RefObject<Chart | undefined>;
   csvData?: CsvData;
+  chartOptions?: Options;
 }
 
 export const ExportOptionsButton: FC<ExportOptionsButtonProps> = ({
   targetId,
-  chartRef,
   csvData,
+  chartOptions,
 }) => {
   const { setModal } = useModal();
   const onClick = (e: SyntheticEvent) => {
@@ -24,8 +24,8 @@ export const ExportOptionsButton: FC<ExportOptionsButtonProps> = ({
       content: (
         <ExportPreviewOptions
           targetId={targetId}
-          chartRef={chartRef}
           csvData={csvData}
+          chartOptions={chartOptions}
         />
       ),
     });

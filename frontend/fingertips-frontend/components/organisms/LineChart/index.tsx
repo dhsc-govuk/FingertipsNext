@@ -7,7 +7,6 @@ import { LineChartVariant } from './helpers/generateStandardLineChartOptions';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
 import { HighChartsWrapper } from '@/components/molecules/HighChartsWrapper/HighChartsWrapper';
 import { useState } from 'react';
-import { useHighChartsCallback } from '@/components/molecules/HighChartsWrapper/useHighChartsCallback';
 
 interface LineChartProps {
   lineChartOptions: Highcharts.Options;
@@ -18,7 +17,6 @@ export function LineChart({
   lineChartOptions,
   variant,
 }: Readonly<LineChartProps>) {
-  const { chartRef, callback } = useHighChartsCallback();
   const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
     useState(false);
   const [visibility, setVisibility] = useState<Record<string, boolean>>({});
@@ -41,11 +39,10 @@ export function LineChart({
       <div id={id}>
         <HighChartsWrapper
           chartOptions={lineChartOptions}
-          callback={callback}
           testId={'highcharts-react-component-lineChart'}
         />
       </div>
-      <ExportOptionsButton targetId={id} chartRef={chartRef} />
+      <ExportOptionsButton targetId={id} chartOptions={lineChartOptions} />
     </div>
   );
 }

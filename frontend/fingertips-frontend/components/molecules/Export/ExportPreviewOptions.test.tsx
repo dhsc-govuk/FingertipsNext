@@ -2,24 +2,29 @@ import { ExportPreviewOptions } from '@/components/molecules/Export/ExportPrevie
 import { render, screen, waitFor } from '@testing-library/react';
 import { reactQueryClient } from '@/lib/reactQueryClient';
 import { QueryClientProvider } from '@tanstack/react-query';
-import { Chart } from 'highcharts';
+import { Options } from 'highcharts';
 import userEvent from '@testing-library/user-event';
 import { CsvData } from '@/lib/downloadHelpers/convertToCsv';
+import { getSvgFromOptions } from '@/components/molecules/Export/exportHelpers';
 
 jest.mock('html2canvas', () => ({
   __esModule: true,
   default: () => Promise.resolve(document.createElement('canvas')),
 }));
 
-const testRender = (chart?: Chart, csvData?: CsvData) => {
-  const chartRef = { current: chart };
+jest.mock('@/components/molecules/Export/exportHelpers', () => ({
+  getSvgFromOptions: jest.fn(() => '<svg></svg>'),
+  getHtmlToImageCanvas: () => Promise.resolve(document.createElement('canvas')),
+}));
+
+const testRender = (chartOptions?: Options, csvData?: CsvData) => {
   render(
     <QueryClientProvider client={reactQueryClient}>
       <div id={'container'}></div>
       <div id={'testId'}>Hello</div>
       <ExportPreviewOptions
         targetId="testId"
-        chartRef={chartRef}
+        chartOptions={chartOptions}
         csvData={csvData}
       />
     </QueryClientProvider>
@@ -53,10 +58,16 @@ describe('ExportPreviewOptions', () => {
   });
 
   it('should show svg if the chart object is supplied', async () => {
-    const getSVG = jest.fn().mockReturnValue('<svg></svg>');
-    const chart = { getSVG } as unknown as Chart;
+    const mockChartOptions: Options = {
+      series: [
+        {
+          type: 'line',
+          data: [1, 2, 3],
+        },
+      ],
+    };
 
-    testRender(chart);
+    testRender(mockChartOptions);
 
     const radio = screen.getAllByRole('radio');
     expect(radio).toHaveLength(2);
@@ -67,7 +78,7 @@ describe('ExportPreviewOptions', () => {
     await userEvent.click(svg);
 
     await waitFor(() => {
-      expect(getSVG).toHaveBeenCalled();
+      expect(getSvgFromOptions).toHaveBeenCalled();
     });
   });
 

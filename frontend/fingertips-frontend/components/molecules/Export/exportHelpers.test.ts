@@ -5,9 +5,6 @@ import {
   triggerBlobDownload,
 } from '@/components/molecules/Export/exportHelpers';
 import html2canvas from 'html2canvas';
-import { chartToSvg } from '@/components/molecules/Export/exportHelpers';
-import type { Chart } from 'highcharts';
-import { RefObject } from 'react';
 
 jest.mock('html2canvas', () => jest.fn());
 
@@ -47,31 +44,6 @@ describe('exportHelpers', () => {
       expect(result?.style.width).toBe('100%');
       expect(result?.style.height).toBe('auto');
       expect(mockParent.style.overflowX).toBe('');
-    });
-  });
-
-  describe('chartToSvg', () => {
-    it('returns SVG string from chartRef', () => {
-      const mockGetSVG = jest.fn().mockReturnValue('<svg>mock-chart</svg>');
-      const chart = { getSVG: mockGetSVG } as unknown as Chart;
-
-      const chartRef: RefObject<Chart> = {
-        current: chart,
-      };
-
-      const result = chartToSvg(chartRef);
-
-      expect(mockGetSVG).toHaveBeenCalled();
-      expect(result).toBe('<svg>mock-chart</svg>');
-    });
-
-    it('returns undefined if chartRef.current is undefined', () => {
-      const chartRef: RefObject<Chart> = {
-        current: undefined as unknown as Chart,
-      };
-
-      const result = chartToSvg(chartRef);
-      expect(result).toBeUndefined();
     });
   });
 

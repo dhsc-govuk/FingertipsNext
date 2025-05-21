@@ -1,6 +1,5 @@
 import html2canvas from 'html2canvas';
-import { RefObject } from 'react';
-import { Chart } from 'highcharts';
+import Highcharts from 'highcharts';
 
 export const getHtmlToImageCanvas = async (targetId: string) => {
   const element = document.getElementById(targetId);
@@ -18,17 +17,6 @@ export const getHtmlToImageCanvas = async (targetId: string) => {
   parent.style.removeProperty('overflow-x');
 
   return canvas;
-};
-
-export const chartToSvg = (chartRef: RefObject<Chart>) => {
-  // When getSVG is called on a chart, it cannot be called again
-  // this is why the chart object is captured first, run getSVG and then reset after
-  // even though this should be the same thing it works
-  // [TODO] investigate reliable cloning of the chart object
-  const backupOfChart = chartRef.current;
-  const svgString = chartRef.current?.getSVG();
-  chartRef.current = backupOfChart;
-  return svgString;
 };
 
 export const svgStringToDomElement = (svgString: string) => {
@@ -58,4 +46,18 @@ export const triggerBlobDownload = (fileName: string, blob: Blob) => {
   document.body.removeChild(link);
 
   URL.revokeObjectURL(url);
+};
+
+export const getSvgFromOptions = (options: Highcharts.Options): string => {
+  const container = document.createElement('div');
+  container.style.display = 'none';
+  document.body.appendChild(container);
+
+  const chart = Highcharts.chart(container, options);
+  const svg = chart.getSVG();
+
+  chart.destroy();
+  document.body.removeChild(container);
+
+  return svg;
 };

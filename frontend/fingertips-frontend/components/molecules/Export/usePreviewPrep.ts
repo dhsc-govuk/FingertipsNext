@@ -1,13 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import { ExportType } from '@/components/molecules/Export/export.types';
 import {
-  chartToSvg,
   getHtmlToImageCanvas,
+  getSvgFromOptions,
   svgStringToDomElement,
 } from '@/components/molecules/Export/exportHelpers';
-import { Chart } from 'highcharts';
+import { Options } from 'highcharts';
 import { convertToCsv, CsvData } from '@/lib/downloadHelpers/convertToCsv';
-import { RefObject } from 'react';
 
 export interface PreviewPrep {
   element?: HTMLElement | HTMLCanvasElement;
@@ -17,8 +16,8 @@ export interface PreviewPrep {
 export const usePreviewPrep = (
   targetId: string,
   format: ExportType,
-  chartRef?: RefObject<Chart | undefined>,
-  csvData?: CsvData
+  csvData?: CsvData,
+  chartOptions?: Options
 ) => {
   const query = useQuery<PreviewPrep>({
     queryKey: [targetId, format],
@@ -32,10 +31,10 @@ export const usePreviewPrep = (
           return result;
         }
         case ExportType.SVG: {
-          if (!chartRef?.current) {
+          if (!chartOptions) {
             throw new Error('invalid chartRef');
           }
-          const svgString = chartToSvg(chartRef as RefObject<Chart>);
+          const svgString = getSvgFromOptions(chartOptions);
           const svgElement = svgStringToDomElement(svgString);
           return { text: svgString, element: svgElement };
         }

@@ -5,13 +5,11 @@ import { loadHighchartsModules } from '@/lib/chartHelpers/chartHelpers';
 
 interface HighChartsWrapperProps {
   chartOptions: Highcharts.Options;
-  callback?: (chart: Highcharts.Chart) => void;
   testId?: string;
 }
 
 export const HighChartsWrapper: FC<HighChartsWrapperProps> = ({
   chartOptions,
-  callback,
   testId,
 }) => {
   const [options, setOptions] = useState<Highcharts.Options>();
@@ -34,7 +32,6 @@ export const HighChartsWrapper: FC<HighChartsWrapperProps> = ({
       }}
       highcharts={Highcharts}
       options={options}
-      callback={callback}
     />
   );
 };

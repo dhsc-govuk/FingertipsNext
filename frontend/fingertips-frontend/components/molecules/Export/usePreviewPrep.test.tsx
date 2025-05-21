@@ -2,7 +2,7 @@ import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { usePreviewPrep } from '@/components/molecules/Export/usePreviewPrep';
 import { ExportType } from '@/components/molecules/Export/export.types';
-import { Chart } from 'highcharts';
+import { Options } from 'highcharts';
 import { ReactNode } from 'react';
 import { QueryClient } from '@tanstack/query-core';
 
@@ -10,7 +10,7 @@ jest.mock('@/components/molecules/Export/exportHelpers', () => ({
   getHtmlToImageCanvas: jest.fn(() => {
     return Promise.resolve({ nodeName: 'CANVAS' });
   }),
-  chartToSvg: jest.fn(() => '<svg></svg>'),
+  getSvgFromOptions: jest.fn(() => '<svg></svg>'),
   svgStringToDomElement: jest.fn(() => document.createElement('svg')),
 }));
 
@@ -42,11 +42,23 @@ describe('usePreviewPrep', () => {
   });
 
   it('returns svg element and string for SVG export', async () => {
-    const mockChart = {} as unknown as Chart;
-    const chartRef = { current: mockChart };
+    const mockChartOptions: Options = {
+      series: [
+        {
+          type: 'line',
+          data: [1, 2, 3],
+        },
+      ],
+    };
 
     const { result } = renderHook(
-      () => usePreviewPrep('target-id', ExportType.SVG, chartRef),
+      () =>
+        usePreviewPrep(
+          'target-id',
+          ExportType.SVG,
+          undefined,
+          mockChartOptions
+        ),
       { wrapper: createWrapper() }
     );
 
@@ -74,7 +86,7 @@ describe('usePreviewPrep', () => {
     ];
 
     const { result } = renderHook(
-      () => usePreviewPrep('target-id', ExportType.CSV, undefined, csvData),
+      () => usePreviewPrep('target-id', ExportType.CSV, csvData),
       { wrapper: createWrapper() }
     );
 
