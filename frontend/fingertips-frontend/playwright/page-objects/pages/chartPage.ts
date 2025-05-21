@@ -52,6 +52,8 @@ export default class ChartPage extends AreaFilter {
   static readonly inequalitiesTypesDropDownComponentLC =
     'inequalitiesTypes-dropDown-component-lc';
   static readonly basicTableComponent = 'basicTable-component';
+  static readonly benchmarkDropDownComponent =
+    'lcbas-dropDown-benchmark-component';
 
   async checkOnChartPage() {
     await expect(
@@ -198,6 +200,10 @@ export default class ChartPage extends AreaFilter {
             selectedIndicators
           ),
       },
+      {
+        condition: componentProps.hasBenchmark,
+        action: () => this.selectLastBenchmarkDropdownOption(componentLocator),
+      },
     ];
 
     for (const { condition, action } of interactions) {
@@ -343,6 +349,33 @@ export default class ChartPage extends AreaFilter {
         expect(trendsText).toContain(selectedIndicator.knownTrend);
       }
     }
+  }
+
+  // selects last option in the benchmark dropdown// pass in called from api the benchmarks
+  private async selectLastBenchmarkDropdownOption(componentLocator: string) {
+    //check benchmark and on hover is England before changing dropdown
+
+    // assert benchmark list in dropdown matches the api + England
+
+    const dropdownComponent = componentLocator;
+
+    const combobox = this.page
+      .getByTestId(dropdownComponent)
+      .getByRole('combobox');
+    const options = await this.getSelectOptions(combobox);
+    const lastOption = options.at(-1)?.value;
+    if (!lastOption) return;
+
+    await combobox.selectOption({ value: lastOption });
+    await this.waitAfterDropDownInteraction();
+    await this.waitForURLToContain(encodeURIComponent(lastOption));
+
+    //check benchmark and on hover is the group one after changing dropdown
+    await expect(
+      this.page.getByText(`persons for ${lastOption} time period`)
+    ).toBeVisible();
+
+    expect(await combobox.inputValue()).toBe(lastOption);
   }
 
   // verifies component is visible and baseline screenshot matches
