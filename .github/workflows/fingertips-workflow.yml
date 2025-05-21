@@ -288,6 +288,7 @@ jobs:
         needs.check-changes.outputs.api_changed == 'true'
       )
     with:
+      environment: dev
       context-location: api
       container-tag: dhsc.fingertipsnext.api
       git-semver: ${{ needs.determine-version.outputs.sem-ver }}
@@ -308,6 +309,7 @@ jobs:
         needs.check-changes.outputs.frontend_changed == 'true'
       )
     with:
+      environment: dev
       context-location: frontend/fingertips-frontend
       container-tag: dhsc.fingertipsnext.frontend
       git-semver: ${{ needs.determine-version.outputs.sem-ver }}
@@ -326,7 +328,12 @@ jobs:
         push-container-frontend,
       ]
     environment: development
-    runs-on: self-hosted
+    runs-on: [
+      self-hosted,
+      fingertips,
+      dev,
+      public
+    ]
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
@@ -407,7 +414,12 @@ jobs:
       )
     environment: development
     name: Run Trend Analysis App
-    runs-on: self-hosted
+    runs-on: [
+      self-hosted,
+      fingertips,
+      dev,
+      public
+    ]
     env:
       ACTIONS_RUNNER_DEBUG: true
     strategy:
@@ -459,7 +471,12 @@ jobs:
         ) ||
         github.event_name == 'workflow_dispatch'
       )
-    runs-on: self-hosted
+    runs-on: [
+      self-hosted,
+      fingertips,
+      dev,
+      public
+    ]
     defaults:
       run:
         working-directory: ./search-setup
