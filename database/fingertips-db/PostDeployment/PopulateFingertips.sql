@@ -451,13 +451,6 @@ WHILE (@INDEX <= 2)
         SET @INDEX = @INDEX + 1;
     END
 
--- START
-DECLARE @RAWHELATHDATACOUNT INT
-    SET @RAWHELATHDATACOUNT = (SELECT COUNT(*) FROM #RawHealthData)
-
-PRINT(CONCAT('RawHealthDataCount: ',@RAWHELATHDATACOUNT))
--- END
-
 CREATE TABLE #TempHealthData
 (
     IndicatorId INT,
@@ -525,14 +518,6 @@ SELECT
     ToDate
 FROM #RawHealthData;
 
--- START
-DECLARE @TempHealthDataCount INT
-SET @TempHealthDataCount = (SELECT COUNT(*) FROM #RawHealthData)
-
-PRINT(CONCAT('TempHealthDataCount: ',@TempHealthDataCount))
--- END
-
-
 DROP TABLE #RawHealthData;
 
 CREATE INDEX IX_TempHealthData_AreaCode ON #TempHealthData(AreaCode);
@@ -540,13 +525,6 @@ CREATE INDEX IX_TempHealthData_IndicatorId ON #TempHealthData(IndicatorId);
 CREATE INDEX IX_TempHealthData_Sex ON #TempHealthData(Sex);
 CREATE INDEX IX_TempHealthData_AgeID ON #TempHealthData(AgeID);
 
-
--- START
-DECLARE @HealthDataCount INT
-SET @HealthDataCount = (SELECT COUNT(*) FROM dbo.HealthMeasure)
-
-PRINT(CONCAT('HealthDataCount before: ',@HealthDataCount))
--- END
 
 ALTER TABLE [dbo].[HealthMeasure] NOCHECK CONSTRAINT ALL
 INSERT INTO [dbo].[HealthMeasure]
@@ -603,20 +581,7 @@ JOIN
     [dbo].[DateDimension] datedim_to ON datedim_to.[Date] = (CONVERT(DATETIME, temp.ToDate, 103))
 WHERE temp.Value IS NOT NULL;
 
--- TODO: remove this, and similar debugging PRINT statement
--- START
-SET @HealthDataCount = (SELECT COUNT(*) FROM dbo.HealthMeasure)
-
-PRINT(CONCAT('HealthDataCount between: ',@HealthDataCount))
--- END
-
 ALTER TABLE [dbo].[HealthMeasure] CHECK CONSTRAINT ALL
-
--- START
-SET @HealthDataCount = (SELECT COUNT(*) FROM dbo.HealthMeasure)
-
-PRINT(CONCAT('HealthDataCount after: ',@HealthDataCount))
--- END
 
 DROP TABLE #TempHealthData;
 
