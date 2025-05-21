@@ -1,4 +1,4 @@
-import { getBarChartOptions } from './BarChart/barChartHelpers';
+import { getBarChartOptions } from './barChartHelpers';
 
 describe('getBarChartOptions', () => {
   it('should return an object matching the snapshot', () => {
