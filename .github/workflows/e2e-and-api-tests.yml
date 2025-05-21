@@ -32,7 +32,7 @@ on:
 jobs:
   execute-e2e-tests-docker:
     name: Execute e2e tests - Docker
-    runs-on: ${{ inputs.environment }}
+    runs-on: ubuntu-latest
     if: inputs.playwright-mode == 'docker'
 
     defaults:
