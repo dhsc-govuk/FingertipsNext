@@ -41,7 +41,7 @@ export function BenchmarkSelectArea({
   return (
     <StyledFilterSelect
       label="Select a benchmark"
-      data-testid="benchmark-area-select"
+      data-testid={`${benchmarkAreaSelectedKey}-dropDown-benchmark-component`}
       input={{
         value: selectedArea,
         onChange: (e) => onBenchmarkAreaSelected(e.target.value),
