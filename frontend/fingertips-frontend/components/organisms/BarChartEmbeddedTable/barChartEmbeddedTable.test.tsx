@@ -311,17 +311,15 @@ describe('BarChartEmbeddedTable', () => {
   });
 
   it('should display an empty area row with x-s and no spark line chart', async () => {
-    const emptyRowData = [{
-      areaCode: mockHealthIndicatorData[0].areaCode,
-      areaName: mockHealthIndicatorData[0].areaName,
-      healthData: [],
-    }];
+    const emptyRowData = [
+      {
+        areaCode: mockHealthIndicatorData[0].areaCode,
+        areaName: mockHealthIndicatorData[0].areaName,
+        healthData: [],
+      },
+    ];
 
-    render(
-      <BarChartEmbeddedTable
-        healthIndicatorData={emptyRowData}
-      />
-    );
+    render(<BarChartEmbeddedTable healthIndicatorData={emptyRowData} />);
 
     const noValueCells = await screen.findAllByText('X');
     expect(noValueCells).toHaveLength(4);
