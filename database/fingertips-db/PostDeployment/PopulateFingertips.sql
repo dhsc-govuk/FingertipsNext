@@ -111,19 +111,14 @@ INSERT INTO [dbo].[SexDimension]
 	('Persons',0,4)
 
 --create some period data
+-- TODO: Is this dimension needed in the db, since we calculate the healthmeasure fromDate, toDate in the dataCreator. 
+-- TODO: Should the indicator reference this dimension?
 INSERT INTO [dbo].[PeriodDimension]
 (Period)
 VALUES
-('Year'),
-('Quarter'),
-('Month'),
-('Week'),
-('Day'),
-('Financial Year'),
-('Academic Year'),
-('2 Year'),
-('3 Year'),
-('5 Year')
+    ('Calendar'),
+    ('Financial'),
+    ('November-November')
 
 --create the trend dimension data
 SET IDENTITY_INSERT [dbo].[TrendDimension] ON
@@ -325,7 +320,8 @@ CREATE TABLE #TempIndicatorData
     Polarity NVARCHAR(255),
     BenchmarkComparisonMethod [nvarchar](255),
     ValueType NVARCHAR(255),
-    IndicatorName NVARCHAR(255)
+    IndicatorName NVARCHAR(255),
+    YearType NVARCHAR(255)
 );
 DECLARE @sqlInd NVARCHAR(4000), @filePathInd NVARCHAR(500);
 IF @UseAzureBlob = '1'
@@ -347,7 +343,8 @@ INSERT INTO [dbo].[IndicatorDimension]
 	ValueType,                       
 	BenchmarkComparisonMethod,
     StartDate,
-    EndDate
+    EndDate,
+    YearType
 )
 SELECT 
     REPLACE(REPLACE(IndicatorName, '"', ''), char(13),''),
@@ -356,7 +353,8 @@ SELECT
     ValueType,
     BenchmarkComparisonMethod,
     DATEADD(YEAR, -10, GETDATE()),
-    DATEADD(YEAR, 10, GETDATE())
+    DATEADD(YEAR, 10, GETDATE()),
+    #TempIndicatorData.YearType
 FROM 
     #TempIndicatorData;
 
@@ -469,9 +467,9 @@ CREATE TABLE #TempHealthData
     AgeID INT,
     IsSexAggregatedOrSingle bit,
     IsAgeAggregatedOrSingle bit,
+    IsDeprivationAggregatedOrSingle bit,
     FromDate NVARCHAR(MAX),
-    ToDate NVARCHAR(Max),
-    IsDeprivationAggregatedOrSingle bit
+    ToDate NVARCHAR(Max)
 );
 
 INSERT INTO #TempHealthData
