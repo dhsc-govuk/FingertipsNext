@@ -111,8 +111,6 @@ INSERT INTO [dbo].[SexDimension]
 	('Persons',0,4)
 
 --create some period data
--- TODO: Is this dimension needed in the db, since we calculate the healthmeasure fromDate, toDate in the dataCreator. 
--- TODO: Should the indicator reference this dimension?
 INSERT INTO [dbo].[PeriodDimension]
 (Period)
 VALUES

@@ -314,7 +314,6 @@ namespace DataCreator
                 int year;
                 switch (indicatorYearType)
                 {
-                    // TODO: confirm year logic - does TimePeriodSortable give the 'from' Year or the 'to' year?
                     case "Calendar":
                         year = int.Parse(healthMeasure.TimePeriodSortable.Trim()[..4]);
                         healthMeasure.FromDate = new DateOnly(year, 1, 1).ToShortDateString();
