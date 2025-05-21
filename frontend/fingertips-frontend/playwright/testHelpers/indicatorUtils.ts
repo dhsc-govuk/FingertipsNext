@@ -1,5 +1,4 @@
-import { RawIndicatorDocument } from '@/lib/search/searchTypes';
-import { AreaDocument } from '@/lib/search/searchTypes';
+import { RawIndicatorDocument, AreaDocument } from '@/lib/search/searchTypes';
 import { AreaTypeKeys } from '@/lib/areaFilterHelpers/areaType';
 import {
   IndicatorMode,

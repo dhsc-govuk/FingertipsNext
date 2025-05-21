@@ -77,7 +77,7 @@ export function getScenarioConfig(
   indicatorMode: IndicatorMode,
   areaMode: AreaMode
 ): ScenarioConfig {
-  const scenarioKey = `${indicatorMode}-${areaMode}` as ScenarioKey;
+  const scenarioKey = `${indicatorMode}-${areaMode}`;
 
   const visibleLocators = visibleComponentMap[scenarioKey];
   if (!visibleLocators) {
