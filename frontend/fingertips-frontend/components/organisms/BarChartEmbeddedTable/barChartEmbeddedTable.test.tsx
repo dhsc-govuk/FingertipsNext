@@ -329,7 +329,7 @@ describe('BarChartEmbeddedTable', () => {
     const sparkline = screen.queryAllByTestId(
       'highcharts-react-component-barChartEmbeddedTable'
     );
-    expect(sparkline.length).toEqual(0);
+    expect(sparkline).toHaveLength(0);
   });
 
   it('should display correct aria label when then is no value', async () => {
