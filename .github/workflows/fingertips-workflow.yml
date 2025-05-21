@@ -329,12 +329,7 @@ jobs:
         push-container-frontend,
       ]
     environment: development
-    runs-on: [
-      self-hosted,
-      fingertips,
-      dev,
-      public
-    ]
+    runs-on: dev
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
@@ -415,12 +410,7 @@ jobs:
       )
     environment: development
     name: Run Trend Analysis App
-    runs-on: [
-      self-hosted,
-      fingertips,
-      dev,
-      public
-    ]
+    runs-on: dev
     env:
       ACTIONS_RUNNER_DEBUG: true
     strategy:
@@ -472,12 +462,7 @@ jobs:
         ) ||
         github.event_name == 'workflow_dispatch'
       )
-    runs-on: [
-      self-hosted,
-      fingertips,
-      dev,
-      public
-    ]
+    runs-on: dev
     defaults:
       run:
         working-directory: ./search-setup

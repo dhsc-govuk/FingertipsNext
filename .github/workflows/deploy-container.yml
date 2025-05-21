@@ -59,12 +59,7 @@ on:
 
 jobs:
   terraform-pr-validation:
-    runs-on: [
-      self-hosted,
-      fingertips,
-      "${{ inputs.tf_environment }}",
-      public
-    ]
+    runs-on: ${{ inputs.tf_environment }}
     if: ${{ inputs.source_trigger == 'pull_request' }}
     name: Validate Container Deployment - ${{ inputs.container_name }}
     environment: ${{ inputs.environment }}

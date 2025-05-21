@@ -31,12 +31,7 @@ on:
 jobs:
   build-and-push:
     name: Build and Push Container
-    runs-on: [
-      self-hosted,
-      fingertips,
-      "${{ inputs.environment }}",
-      public
-    ]
+    runs-on: ${{ inputs.environment }}
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
