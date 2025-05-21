@@ -5,22 +5,6 @@ import StyledComponentsRegistry from '@/lib/registry';
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
 import '../global.css';
-// import localFont from 'next/font/local';
-//
-// const gdsTransportFont = localFont({
-//   src: [
-//     {
-//       path: './fonts/GDSTransportBold.ttf',
-//       weight: '700',
-//       style: 'normal',
-//     },
-//     {
-//       path: './fonts/GDSTransportLight.ttf',
-//       weight: '400',
-//       style: 'normal',
-//     },
-//   ],
-// });
 
 export const metadata: Metadata = {
   title: 'FingertipsNext',
