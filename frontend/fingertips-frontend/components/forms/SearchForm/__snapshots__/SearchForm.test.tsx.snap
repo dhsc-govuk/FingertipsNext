@@ -2,7 +2,7 @@
 
 exports[`SearchForm snapshot test - renders the form 1`] = `
 <DocumentFragment>
-  .c9 {
+  .c10 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -27,36 +27,36 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   margin-bottom: 22px;
 }
 
-.c9:focus {
+.c10:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c9:link,
-.c9:visited,
-.c9:active,
-.c9:hover {
+.c10:link,
+.c10:visited,
+.c10:active,
+.c10:hover {
   color: #ffffff;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c9::-moz-focus-inner {
+.c10::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
 
-.c9:hover,
-.c9:focus {
+.c10:hover,
+.c10:focus {
   background-color: #00572e;
 }
 
-.c9:active {
+.c10:active {
   top: 2px;
   box-shadow: none;
 }
 
-.c9::before {
+.c10::before {
   content: "";
   display: block;
   position: absolute;
@@ -67,30 +67,30 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   background: transparent;
 }
 
-.c9:active::before {
+.c10:active::before {
   top: -4px;
 }
 
-.c9:disabled {
+.c10:disabled {
   opacity: 0.5;
   background: #00703c;
 }
 
-.c9:disabled:hover {
+.c10:disabled:hover {
   background-color: #00703c;
   cursor: default;
 }
 
-.c9:disabled:focus {
+.c10:disabled:focus {
   outline: none;
 }
 
-.c9:disabled:active {
+.c10:disabled:active {
   top: 0;
   box-shadow: 0 2px 0 #002413;
 }
 
-.c9 svg {
+.c10 svg {
   max-width: 15px;
 }
 
@@ -186,15 +186,15 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   margin-bottom: 15px;
 }
 
-.c8 {
+.c9 {
   margin-bottom: 5px;
 }
 
-.c7 {
+.c8 {
   margin-bottom: 1em;
 }
 
-.c11 {
+.c12 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -213,12 +213,12 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   cursor: pointer;
 }
 
-.c11 circle {
+.c12 circle {
   outline: none;
   fill: none;
 }
 
-.c10 {
+.c11 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -246,16 +246,16 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   align-items: center;
 }
 
-.c10:hover svg circle {
+.c11:hover svg circle {
   fill: #0B0C0C;
   stroke: #0B0C0C;
 }
 
-.c10:hover svg path {
+.c11:hover svg path {
   stroke: #FFFFFF;
 }
 
-.c12 {
+.c13 {
   font-weight: 300;
   color: #1D70B8;
   padding: 2px 1px 1px 1px;
@@ -268,38 +268,42 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   margin-bottom: 5px;
 }
 
+.c7 {
+  position: absolute;
+}
+
 .c1 {
   padding-bottom: 30px;
 }
 
 @media print {
-  .c9 {
+  .c10 {
     font-size: 14px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c9 {
+  .c10 {
     font-size: 19px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c9 {
+  .c10 {
     width: auto;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c9 svg {
+  .c10 svg {
     margin-left: 10px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c9 {
+  .c10 {
     margin-bottom: 32px;
   }
 }
@@ -444,12 +448,15 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
           value="indicator"
         />
       </label>
+      <div
+        class="c7"
+      />
     </div>
     <div
-      class="c7"
+      class="c8"
     >
       <div
-        class="c8"
+        class="c9"
         data-testid="area-search-input-field"
       >
         <label
@@ -479,7 +486,7 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
       </div>
     </div>
     <button
-      class="c9"
+      class="c10"
       data-testid="search-form-button-submit"
       style="margin-top: 10px;"
       type="submit"
@@ -487,10 +494,10 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
       Search
     </button>
     <span
-      class="c10"
+      class="c11"
     >
       <svg
-        class="c11"
+        class="c12"
         data-testid="arrow-toggle-button"
         height="30"
         viewBox="0 0 25 25"
@@ -514,7 +521,7 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
         />
       </svg>
       <label
-        class="c2 c12"
+        class="c2 c13"
         fill="#1D70B8"
       >
         Open area filter

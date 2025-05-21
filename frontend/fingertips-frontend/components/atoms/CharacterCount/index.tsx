@@ -1,15 +1,10 @@
 import { HintText } from 'govuk-react';
-import styled from 'styled-components';
 
 export interface CharacterCountProps {
   textLength: number;
   characterLimit?: number;
   thresholdPercentage?: number;
 }
-
-const StyledHintText = styled(HintText)({
-  position: 'absolute',
-});
 
 export function CharacterCount({
   textLength,
@@ -32,10 +27,10 @@ export function CharacterCount({
   }
 
   return (
-    <StyledHintText>
+    <HintText>
       {characterLimit >= textLength
         ? `You have ${characterLimit - textLength} characters remaining.`
         : `You have ${textLength - characterLimit} characters too many`}
-    </StyledHintText>
+    </HintText>
   );
 }

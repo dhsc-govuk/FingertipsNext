@@ -14,7 +14,11 @@ const StyledInputField = styled(GovukInputField)(
   spacing.withWhiteSpace({ marginBottom: 1 })
 );
 
-const StyledDiv = styled.div({ paddingBottom: '30px' });
+const StyledPositionDiv = styled.div({
+  position: 'absolute',
+});
+
+const StyledPaddingDiv = styled.div({ paddingBottom: '30px' });
 
 export function InputField(props: Readonly<InputFieldProps>) {
   const [inputTextLength, setInputTextLength] = useState(
@@ -30,7 +34,7 @@ export function InputField(props: Readonly<InputFieldProps>) {
   };
 
   return (
-    <StyledDiv>
+    <StyledPaddingDiv>
       <StyledInputField
         {...props}
         input={{
@@ -43,11 +47,13 @@ export function InputField(props: Readonly<InputFieldProps>) {
       >
         {props.children}
       </StyledInputField>
-      <CharacterCount
-        textLength={inputTextLength}
-        characterLimit={props.characterLimit}
-        thresholdPercentage={props.thresholdPercentage}
-      />
-    </StyledDiv>
+      <StyledPositionDiv>
+        <CharacterCount
+          textLength={inputTextLength}
+          characterLimit={props.characterLimit}
+          thresholdPercentage={props.thresholdPercentage}
+        />
+      </StyledPositionDiv>
+    </StyledPaddingDiv>
   );
 }
