@@ -5,9 +5,9 @@ import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceInt
 import { addShowHideLinkedSeries } from './helpers/addShowHideLinkedSeries';
 import { LineChartVariant } from './helpers/generateStandardLineChartOptions';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
-import { HighChartsChart } from '@/components/molecules/HighChartsChart/HighChartsChart';
+import { HighChartsWrapper } from '@/components/molecules/HighChartsWrapper/HighChartsWrapper';
 import { useState } from 'react';
-import { useHighChartsCallback } from '@/components/molecules/HighChartsChart/useHighChartsCallback';
+import { useHighChartsCallback } from '@/components/molecules/HighChartsWrapper/useHighChartsCallback';
 
 interface LineChartProps {
   lineChartOptions: Highcharts.Options;
@@ -39,7 +39,7 @@ export function LineChart({
         setShowConfidenceIntervalsData={setShowConfidenceIntervalsData}
       />
       <div id={id}>
-        <HighChartsChart
+        <HighChartsWrapper
           chartOptions={lineChartOptions}
           callback={callback}
           testId={'highcharts-react-component-lineChart'}

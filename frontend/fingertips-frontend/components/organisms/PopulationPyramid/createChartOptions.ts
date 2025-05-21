@@ -42,6 +42,7 @@ const createPopPyramidSeriesOptions = (
   );
   const maxTick = Math.abs(Math.max(...femaleSeries, ...maleSeries));
   return {
+    exporting: { enabled: false },
     chart: {
       type: 'bar',
       height: 800,

@@ -3,13 +3,13 @@ import { HighchartsReact } from 'highcharts-react-official';
 import { FC, useEffect, useState } from 'react';
 import { loadHighchartsModules } from '@/lib/chartHelpers/chartHelpers';
 
-interface HighChartsChartProps {
+interface HighChartsWrapperProps {
   chartOptions: Highcharts.Options;
   callback?: (chart: Highcharts.Chart) => void;
   testId?: string;
 }
 
-export const HighChartsChart: FC<HighChartsChartProps> = ({
+export const HighChartsWrapper: FC<HighChartsWrapperProps> = ({
   chartOptions,
   callback,
   testId,
