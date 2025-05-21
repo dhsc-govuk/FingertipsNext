@@ -3,7 +3,6 @@ import ChartPage from '../pages/chartPage';
 import { allComponents } from './componentRegistry';
 import { ComponentDefinition } from './componentTypes';
 
-type ScenarioKey = `${IndicatorMode}-${AreaMode}`;
 type ScenarioConfig = {
   visibleComponents: ComponentDefinition[];
   hiddenComponents: ComponentDefinition[];
