@@ -10,7 +10,7 @@ export function CharacterCount({
   textLength,
   characterLimit,
   thresholdPercentage,
-}: CharacterCountProps) {
+}: Readonly<CharacterCountProps>) {
   if (!characterLimit || characterLimit < 1) {
     return null;
   }
