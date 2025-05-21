@@ -32,19 +32,25 @@ export const usePreviewPrep = (
           return result;
         }
         case ExportType.SVG: {
-          if (!chartRef?.current) return result;
+          if (!chartRef?.current) {
+            throw new Error('invalid chartRef');
+          }
           const svgString = chartToSvg(chartRef as RefObject<Chart>);
           const svgElement = svgStringToDomElement(svgString);
           return { text: svgString, element: svgElement };
         }
         case ExportType.CSV: {
-          result.text = convertToCsv(csvData ?? []);
+          if (!csvData) {
+            throw new Error('invalid csvData');
+          }
+          result.text = convertToCsv(csvData);
           return result;
         }
       }
     },
+    staleTime: 1000,
   });
 
-  const { element, text = '' } = query.data ?? {};
+  const { element = undefined, text = '' } = query.data ?? {};
   return { element, text, ...query };
 };

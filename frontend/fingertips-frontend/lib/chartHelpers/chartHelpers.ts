@@ -150,8 +150,6 @@ export function getMostRecentData(
 
 export async function loadHighchartsModules(callback: () => void) {
   await import('highcharts/modules/exporting');
-  await import('highcharts/modules/export-data');
-  await import('highcharts/modules/offline-exporting');
   await import('highcharts/highcharts-more').then(callback);
 }
 

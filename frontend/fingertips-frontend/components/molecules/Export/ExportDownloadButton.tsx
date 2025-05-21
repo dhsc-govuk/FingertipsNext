@@ -27,7 +27,6 @@ export const ExportDownloadButton: FC<ExportDownloadButtonProps> = ({
       : await canvasToBlob(download as HTMLCanvasElement);
 
     if (!blob || blob.size === 0) {
-      console.log('Invalid blob', { isSvg, isString, blob });
       return;
     }
     triggerBlobDownload(fileName, blob);

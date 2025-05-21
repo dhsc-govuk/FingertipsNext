@@ -14,9 +14,14 @@ jest.mock('./exportHelpers.ts', () => ({
 
 const mockTriggerBlobDownload = triggerBlobDownload as jest.Mock;
 const mockCanvasToBlob = canvasToBlob as jest.Mock;
-mockCanvasToBlob.mockResolvedValue(new Blob(['fake'], { type: 'image/png' }));
 
 describe('ExportDownloadButton', () => {
+  beforeEach(() => {
+    mockCanvasToBlob.mockResolvedValue(
+      new Blob(['fake'], { type: 'image/png' })
+    );
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -98,5 +103,53 @@ describe('ExportDownloadButton', () => {
     const blob = mockTriggerBlobDownload.mock.calls[0][1];
     expect(blob.size).toBe(4);
     expect(blob.type).toBe('image/png');
+  });
+
+  it('should not do anything if blob is undefined', async () => {
+    const canvas = document.createElement('canvas');
+    mockCanvasToBlob.mockResolvedValue(undefined);
+    render(
+      <ExportDownloadButton
+        fileName="canvasToImage.png"
+        download={canvas}
+        enabled={true}
+      />
+    );
+
+    const btn = screen.getByRole('button');
+    await userEvent.click(btn);
+
+    expect(mockCanvasToBlob).toHaveBeenCalledWith(canvas);
+    expect(mockTriggerBlobDownload).not.toHaveBeenCalled();
+  });
+
+  it('should not do anything if blob is empty', async () => {
+    const canvas = document.createElement('canvas');
+    mockCanvasToBlob.mockResolvedValue(new Blob([''], { type: 'image/png' }));
+    render(
+      <ExportDownloadButton
+        fileName="canvasToImage.png"
+        download={canvas}
+        enabled={true}
+      />
+    );
+
+    const btn = screen.getByRole('button');
+    await userEvent.click(btn);
+
+    expect(mockCanvasToBlob).toHaveBeenCalledWith(canvas);
+    expect(mockTriggerBlobDownload).not.toHaveBeenCalled();
+  });
+
+  it('should disable the Export button if requested', () => {
+    render(
+      <ExportDownloadButton
+        fileName="canvasToImage.svg"
+        download={'something'}
+        enabled={false}
+      />
+    );
+    const btn = screen.getByRole('button');
+    expect(btn).toBeDisabled();
   });
 });
