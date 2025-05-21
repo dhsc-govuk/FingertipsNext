@@ -9,6 +9,7 @@ jobs:
     uses: ./.github/workflows/e2e-and-api-tests.yml
     if: github.ref_name != 'main'
     with:
+      environment: dev
       playwright-mode: docker
       update_screenshots: true
     secrets:

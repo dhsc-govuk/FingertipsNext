@@ -271,6 +271,7 @@ jobs:
       )
     uses: ./.github/workflows/e2e-and-api-tests.yml
     with:
+      environment: dev
       playwright-mode: docker
     secrets:
       fingertips_e2e_db_password: ${{ secrets.FINGERTIPS_E2E_DB_PASSWORD }}
