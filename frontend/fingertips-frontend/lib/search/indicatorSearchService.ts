@@ -36,10 +36,6 @@ export class IndicatorSearchService implements IIndicatorSearchService {
     isEnglandSelectedAsGroup: boolean,
     areaCodes?: string[]
   ): Promise<IndicatorDocument[]> {
-    if (searchTerm.length > INDICATOR_SEARCH_MAX_CHARACTERS) {
-      console.error(`search term exceeds expected length`);
-    }
-
     const trimmedSearchTerm = searchTerm.slice(
       0,
       INDICATOR_SEARCH_MAX_CHARACTERS
