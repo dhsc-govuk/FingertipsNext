@@ -8,15 +8,15 @@ import {
   TestTag,
 } from '../../testHelpers';
 import indicators from '../../../../../search-setup/assets/indicators.json';
-import { RawIndicatorDocument } from '@/lib/search/searchTypes';
+import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
 import { coreTestJourneys } from './core_journey_config';
 //@ts-expect-error don't type check this json file
 const indicatorData = indicators as RawIndicatorDocument[];
-// const areaSearchTerm: AreaDocument = {
-//   areaCode: 'E12000002',
-//   areaType: 'Regions',
-//   areaName: 'north west region',
-// };
+const areaSearchTerm: AreaDocument = {
+  areaCode: 'E12000002',
+  areaType: 'Regions',
+  areaName: 'north west region',
+};
 let allValidIndicators: SimpleIndicatorDocument[] = [];
 let selectedIndicatorsData: SimpleIndicatorDocument[] = [];
 const checkTrends = process.env.CHECK_TRENDS_ON_RESULTS_PAGE === 'true';
@@ -42,7 +42,6 @@ test.describe(
         subjectSearchTerm,
         indicatorsToSelect,
         areaFiltersToSelect,
-        areasCodesToSelect,
       }) => {
         const typedIndicatorData = indicatorData.map(
           (indicator: RawIndicatorDocument) => {
@@ -73,7 +72,7 @@ test.describe(
             await homePage.searchForIndicators(
               searchMode,
               subjectSearchTerm,
-              areasCodesToSelect![0].areaName
+              areaSearchTerm.areaName
             );
             await homePage.clickSearchButton();
           });
@@ -82,7 +81,7 @@ test.describe(
             await resultsPage.waitForURLToContainBasedOnSearchMode(
               searchMode,
               subjectSearchTerm!,
-              areasCodesToSelect![0].areaCode
+              areaSearchTerm.areaCode
             );
             await resultsPage.checkSearchResultsTitleBasedOnSearchMode(
               searchMode,
@@ -93,7 +92,7 @@ test.describe(
               searchMode, // Only selects area filters if search mode is ONLY_SUBJECT
               areaMode,
               subjectSearchTerm!,
-              areaFiltersToSelect!.areaType
+              areaFiltersToSelect!
             );
 
             await resultsPage.checkDisplayedIndicators(

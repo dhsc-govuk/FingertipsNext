@@ -1,4 +1,5 @@
 import {
+  AreaFilters,
   AreaMode,
   getScenarioConfig,
   IndicatorMode,
@@ -90,7 +91,8 @@ export default class ChartPage extends AreaFilter {
       PlaywrightTestArgs & PlaywrightTestOptions,
       PlaywrightWorkerArgs & PlaywrightWorkerOptions
     >,
-    selectedIndicators: SimpleIndicatorDocument[]
+    selectedIndicators: SimpleIndicatorDocument[],
+    selectedAreaFilters: AreaFilters
   ) {
     const testInfo = test.info();
     const testName = testInfo.title;
@@ -112,7 +114,8 @@ export default class ChartPage extends AreaFilter {
       await this.handleComponentInteractions(
         visibleComponent,
         selectedIndicators,
-        areaMode
+        areaMode,
+        selectedAreaFilters
       );
       await this.verifyComponentVisibleAndScreenshotMatch(
         visibleComponent,
@@ -162,7 +165,8 @@ export default class ChartPage extends AreaFilter {
       componentProps: Record<string, boolean>;
     },
     selectedIndicators: SimpleIndicatorDocument[],
-    areaMode: AreaMode
+    areaMode: AreaMode,
+    selectedAreaFilters: AreaFilters
   ) {
     const { componentLocator, componentProps } = component;
 
@@ -202,7 +206,11 @@ export default class ChartPage extends AreaFilter {
       },
       {
         condition: componentProps.hasBenchmark,
-        action: () => this.selectLastBenchmarkDropdownOption(componentLocator),
+        action: () =>
+          this.selectBenchmarkDropdownOption(
+            componentLocator,
+            selectedAreaFilters
+          ),
       },
     ];
 
@@ -351,8 +359,11 @@ export default class ChartPage extends AreaFilter {
     }
   }
 
-  // selects last option in the benchmark dropdown// pass in called from api the benchmarks
-  private async selectLastBenchmarkDropdownOption(componentLocator: string) {
+  // selects config defined group if passed in
+  private async selectBenchmarkDropdownOption(
+    componentLocator: string,
+    selectedAreaFilters: AreaFilters
+  ) {
     //check benchmark and on hover is England before changing dropdown
 
     // assert benchmark list in dropdown matches the api + England
@@ -363,19 +374,27 @@ export default class ChartPage extends AreaFilter {
       .getByTestId(dropdownComponent)
       .getByRole('combobox');
     const options = await this.getSelectOptions(combobox);
-    const lastOption = options.at(-1)?.value;
-    if (!lastOption) return;
 
-    await combobox.selectOption({ value: lastOption });
+    // should have England and the group
+    expect(options.length).toBe(2);
+
+    // const lastOption = options.at(-1)?.value;
+    // if (!lastOption) return;
+
+    await combobox.selectOption({ value: selectedAreaFilters.group });
     await this.waitAfterDropDownInteraction();
-    await this.waitForURLToContain(encodeURIComponent(lastOption));
+    await this.waitForURLToContain(
+      encodeURIComponent(selectedAreaFilters.group)
+    );
 
     //check benchmark and on hover is the group one after changing dropdown
     await expect(
-      this.page.getByText(`persons for ${lastOption} time period`)
+      this.page.getByText(
+        `persons for ${selectedAreaFilters.group} time period`
+      )
     ).toBeVisible();
 
-    expect(await combobox.inputValue()).toBe(lastOption);
+    expect(await combobox.inputValue()).toBe(selectedAreaFilters.group);
   }
 
   // verifies component is visible and baseline screenshot matches

@@ -18,17 +18,10 @@ export const coreTestJourneys: TestParams[] = [
       },
     ],
     areaFiltersToSelect: {
-      areaType: 'regions',
+      areaType: 'england',
       groupType: 'england',
       group: 'england',
     },
-    areasCodesToSelect: [
-      {
-        areaCode: 'E12000002',
-        areaType: 'Regions',
-        areaName: 'north west region',
-      },
-    ],
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
@@ -97,7 +90,7 @@ export const coreTestJourneys: TestParams[] = [
       },
     ],
     areaFiltersToSelect: {
-      areaType: 'regions',
+      areaType: 'england',
       groupType: 'england',
       group: 'england',
     },
