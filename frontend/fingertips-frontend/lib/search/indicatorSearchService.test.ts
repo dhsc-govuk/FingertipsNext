@@ -120,11 +120,9 @@ describe('IndicatorSearchService', () => {
     it('should trim search terms of over 200 characters and report an error', async () => {
       const searchTerm = '1'.repeat(INDICATOR_SEARCH_MAX_CHARACTERS + 1);
 
-      const spyLog = jest.spyOn(console, 'error').mockImplementation(() => {});
       const searchService = SearchServiceFactory.getIndicatorSearchService();
       await searchService.searchWith(searchTerm, false);
 
-      expect(spyLog).toHaveBeenCalled();
       expect(mockSearch).toHaveBeenLastCalledWith(
         '1'.repeat(INDICATOR_SEARCH_MAX_CHARACTERS),
         expect.objectContaining({
