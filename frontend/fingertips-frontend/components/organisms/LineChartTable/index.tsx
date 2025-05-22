@@ -12,6 +12,7 @@ import styled from 'styled-components';
 import React, { FC } from 'react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
+  StyledAlignCenterTableCellWidth,
   StyledAlignLeftHeader,
   StyledAlignLeftStickyTableCell,
   StyledAlignLeftTableCell,
@@ -77,7 +78,8 @@ const StyledGroupNameHeader = styled(StyledAreaNameHeader)({
 });
 
 const StyledBenchmarkTrendHeader = styled(StyledAlignLeftHeader)({
-  paddingLeft: '0.5em',
+  padding: '0.6em',
+  textAlign: 'center',
 });
 
 const StyledBenchmarkTrendHeaderMultipleAreas = styled(
@@ -86,7 +88,7 @@ const StyledBenchmarkTrendHeaderMultipleAreas = styled(
   borderLeft: 'solid black 1px',
 });
 
-const StyledConfidenceLimitsHeader = styled(StyledAlignLeftHeader)({
+export const StyledConfidenceLimitsHeader = styled(StyledAlignLeftHeader)({
   padding: '0.5em',
   textAlign: 'center',
   verticalAlign: 'top',
@@ -98,7 +100,7 @@ const StyledTrendContainer = styled('div')({
   justifyContent: 'left',
   alignItems: 'center',
   gap: 8,
-  paddingLeft: 8,
+  paddingLeft: 0,
   whiteSpace: 'nowrap',
 });
 
@@ -110,10 +112,12 @@ const StyledLightGreyHeader = styled(StyledGreyHeader)({
 const StyledLightGreySubHeader = styled(StyledLightGreyHeader)({
   borderLeft: 'solid black 1px',
   paddingLeft: '0.5em',
+  width: '16%',
 });
 
 const StyledBenchmarkCellMultipleAreas = styled(StyledAlignLeftTableCell)({
   borderLeft: 'solid black 1px',
+  textAlign: 'center',
 });
 
 const StyledGroupValueTableCell = styled(StyledAlignRightTableCell)({
@@ -173,7 +177,7 @@ const BenchmarkCell: FC<BenchmarkCellProps> = ({
 }) => {
   const CellWrapper = border
     ? StyledBenchmarkCellMultipleAreas
-    : StyledAlignLeftTableCell;
+    : StyledAlignCenterTableCellWidth;
 
   return (
     <CellWrapper>
@@ -200,6 +204,10 @@ export const mapToLineChartTableData = (
 
 const StyledTitleCell = styled(StyledAlignLeftHeader)({
   border: 'none',
+});
+
+const StyledAlignTrendHeader = styled(StyledAlignLeftHeader)({
+  paddingLeft: '0px',
 });
 
 const getConfidenceLimitCellSpan = (index: number): number =>
@@ -292,7 +300,7 @@ export function LineChartTable({
             <Table.Row>
               <StyledTitleCell />
               {healthIndicatorData.map((area, index) => (
-                <StyledTitleCell colSpan={5} key={area.areaName + index}>
+                <StyledAlignTrendHeader colSpan={5} key={area.areaName + index}>
                   <StyledTrendContainer>
                     Recent trend:
                     <TrendTag
@@ -301,7 +309,7 @@ export function LineChartTable({
                       }
                     />
                   </StyledTrendContainer>
-                </StyledTitleCell>
+                </StyledAlignTrendHeader>
               ))}
               {showGroupColumn ? <StyledTitleCell /> : null}
               {showBenchmarkColumn ? <StyledStickyRightHeader /> : null}
@@ -370,7 +378,8 @@ export function LineChartTable({
               )}
               {showGroupColumn ? (
                 <StyledLightGreySubHeader>
-                  Value {measurementUnit}
+                  Value
+                  <StyledSpan>{measurementUnit}</StyledSpan>
                 </StyledLightGreySubHeader>
               ) : null}
               {showBenchmarkColumn ? (

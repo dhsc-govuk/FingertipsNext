@@ -3,6 +3,10 @@ name: Build and Push Container
 on:
   workflow_call:
     inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        type: string
       context-location:
         description: 'The location of the Docker build context'
         required: true
@@ -27,7 +31,7 @@ on:
 jobs:
   build-and-push:
     name: Build and Push Container
-    runs-on: self-hosted
+    runs-on: ${{ inputs.environment }}
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
