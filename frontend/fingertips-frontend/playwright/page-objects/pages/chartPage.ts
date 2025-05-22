@@ -363,11 +363,6 @@ export default class ChartPage extends AreaFilter {
     const dropdownComponent = ChartPage.benchmarkDropDownComponent;
 
     //check benchmark and on hover is defaulted to England before changing dropdown
-    await expect(
-      this.page
-        .getByTestId(component.componentLocator)
-        .getByText('Benchmark: England')
-    ).toBeVisible();
 
     const combobox = this.page
       .getByTestId(dropdownComponent)
@@ -375,7 +370,16 @@ export default class ChartPage extends AreaFilter {
     const options = await this.getSelectOptions(combobox);
 
     // should have 2 options in dropdown: England and the group selected
-    expect(options.length).toBe(2);
+    if (selectedAreaFilters.groupType === 'england') {
+      expect(options.length).toBe(1);
+    } else {
+      expect(options.length).toBe(2);
+      await expect(
+        this.page
+          .getByTestId(component.componentLocator)
+          .getByText('Benchmark: England')
+      ).toBeVisible();
+    }
     await combobox.selectOption({ label: selectedAreaFilters.group });
     await this.waitAfterDropDownInteraction();
     expect(await combobox.locator('option:checked').textContent()).toBe(

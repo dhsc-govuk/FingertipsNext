@@ -140,11 +140,15 @@ export default class AreaFilter extends BasePage {
   }
 
   async selectGroupAndAssertURLUpdated(group: string) {
-    await this.selectOptionAndAwaitLoadingComplete(
-      this.page.getByTestId(this.groupSelector),
-      group
-    );
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
 
+    await this.page
+      .getByTestId(this.groupSelector)
+      .selectOption({ label: group.charAt(0).toUpperCase() + group.slice(1) });
+
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
     await this.waitForURLToContain(SearchParams.GroupSelected);
   }
 
