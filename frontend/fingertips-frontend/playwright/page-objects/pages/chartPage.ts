@@ -3,6 +3,7 @@ import {
   getScenarioConfig,
   IndicatorMode,
   SimpleIndicatorDocument,
+  customEncodeURIComponent,
 } from '@/playwright/testHelpers';
 import { ComponentDefinition } from '../components/componentTypes';
 import { expect } from '../pageFactory';
@@ -269,9 +270,9 @@ export default class ChartPage extends AreaFilter {
 
     await combobox.selectOption({ value: valueToSelect });
     await this.waitAfterDropDownInteraction();
-    await this.waitForURLToContain(encodeURIComponent(valueToSelect));
-
     expect(await combobox.inputValue()).toBe(valueToSelect);
+
+    await this.waitForURLToContain(customEncodeURIComponent(valueToSelect));
   }
 
   // checks the confidence interval checkbox
