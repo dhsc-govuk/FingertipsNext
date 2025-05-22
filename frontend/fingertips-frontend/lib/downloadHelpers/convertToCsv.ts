@@ -1,3 +1,6 @@
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { PopulationDataForArea } from '../chartHelpers/preparePopulationData';
+
 const lineBreak = '\r\n';
 const delimiter = ',';
 
@@ -19,3 +22,27 @@ export const convertRowToCsv = (row: CsvRow): string =>
 
 export const convertToCsv = (data: CsvData): string =>
   data.map(convertRowToCsv).join(lineBreak).trim();
+
+export function PopulationPyramidTableToCsv(
+  populationDataForArea: PopulationDataForArea
+): CsvField[][] {
+  const header: CsvField[] = [
+    'Area code',
+    'Area name',
+    'Age range',
+    'Male',
+    'Female',
+  ];
+
+  const rows: CsvField[][] = populationDataForArea.ageCategories.map(
+    (ageCategory, i) => [
+      populationDataForArea.areaCode,
+      populationDataForArea.areaName,
+      ageCategory,
+      populationDataForArea.maleSeries[i],
+      populationDataForArea.femaleSeries[i],
+    ]
+  );
+
+  return [header, ...rows];
+}

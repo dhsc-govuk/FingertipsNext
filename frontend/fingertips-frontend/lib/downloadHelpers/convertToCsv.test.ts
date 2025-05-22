@@ -1,9 +1,12 @@
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import {
   convertFieldToCsv,
   convertRowToCsv,
   convertToCsv,
   CsvField,
+  PopulationPyramidTableToCsv,
 } from '@/lib/downloadHelpers/convertToCsv';
+import { PopulationDataForArea } from '../chartHelpers/preparePopulationData';
 
 describe('convertToCsv', () => {
   describe('convertFieldToCsv', () => {
@@ -91,5 +94,50 @@ Female,"comma,comma",,17.6,16.7`;
       expect(convertToCsv([[]])).toEqual('');
       expect(convertToCsv([[], []])).toEqual('');
     });
+  });
+});
+
+describe('PopulationPyramidTableToCsv', () => {
+  const stubPopulationDataForSelectedArea: PopulationDataForArea = {
+    areaCode: 'A001',
+    areaName: 'area one',
+    total: 0,
+    ageCategories: [
+      'oldest',
+      'upper middle',
+      'middle',
+      'lower middle',
+      'youngest',
+    ],
+    femaleSeries: [1, 2, 3, 4, 5],
+    maleSeries: [5, 4, 3, 2, 1],
+  };
+
+  const expectedHeaderCsvRow: CsvField[] = [
+    'Area code',
+    'Area name',
+    'Age range',
+    'Male',
+    'Female',
+  ];
+
+  const expectedAreaCsvRows: CsvField[][] = [
+    ['A001', 'area one', 'oldest', 5, 1],
+    ['A001', 'area one', 'upper middle', 4, 2],
+    ['A001', 'area one', 'middle', 3, 3],
+    ['A001', 'area one', 'lower middle', 2, 4],
+    ['A001', 'area one', 'youngest', 1, 5],
+  ];
+
+  it('should return the correct header and data when passed only healthDataForArea', () => {
+    // arrange
+    const expectedCsvRowsForArea: CsvField[][] = [[]];
+    // act
+    const actual: CsvField[][] = PopulationPyramidTableToCsv(
+      stubPopulationDataForSelectedArea
+    );
+    // assert
+    expect(actual[0]).toEqual(expectedHeaderCsvRow);
+    expect(actual.slice(1)).toEqual(expectedAreaCsvRows);
   });
 });
