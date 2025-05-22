@@ -12,6 +12,7 @@ import { GovukColours } from '../styleHelpers/colours';
 import { ALL_AREAS_SELECTED } from '../areaFilterHelpers/constants';
 import { getBenchmarkLabelText } from '@/components/organisms/BenchmarkLabel';
 import { formatNumber } from '../numberFormatter';
+import { AreaWithoutAreaType } from '../common-types';
 
 export const AXIS_TITLE_FONT_SIZE = 19;
 export const AXIS_LABEL_FONT_SIZE = 16;
@@ -400,4 +401,49 @@ export const getFormattedLabel = (
   return tickPositions?.every((position) => position % 1 === 0)
     ? formattedNumber.replace('.0', '')
     : formattedNumber;
+};
+
+const shouldAddGroupAreaForBenchmarking = (
+  areasSelected?: string[],
+  selectedGroupCode?: string
+): boolean => {
+  return (
+    selectedGroupCode !== areaCodeForEngland &&
+    Array.isArray(areasSelected) &&
+    areasSelected.length > 0
+  );
+};
+
+export const determineAreasForBenchmarking = (
+  healthDataForAreas: HealthDataForArea[],
+  selectedGroupCode?: string,
+  areasSelected?: string[]
+): AreaWithoutAreaType[] => {
+  const areasForBenchmarking: AreaWithoutAreaType[] = [
+    {
+      code: areaCodeForEngland,
+      name: 'England',
+    },
+  ];
+
+  if (shouldAddGroupAreaForBenchmarking(areasSelected, selectedGroupCode)) {
+    const groupArea = healthDataForAreas.find(
+      (area) => area.areaCode === selectedGroupCode
+    );
+
+    if (groupArea) {
+      areasForBenchmarking.push({
+        code: groupArea.areaCode,
+        name: groupArea.areaName,
+      });
+    }
+  }
+
+  return areasForBenchmarking;
+};
+
+export const determineBenchmarkToUse = (
+  lineChartAreaSelected?: string
+): string => {
+  return lineChartAreaSelected ?? areaCodeForEngland;
 };

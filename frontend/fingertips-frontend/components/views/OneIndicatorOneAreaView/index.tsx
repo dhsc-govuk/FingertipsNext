@@ -1,5 +1,6 @@
 import { OneIndicatorOneAreaViewPlots } from '@/components/viewPlots/OneIndicatorOneAreaViewPlots';
 import {
+  BenchmarkReferenceType,
   GetHealthDataForAnIndicatorInequalitiesEnum,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
@@ -14,6 +15,7 @@ import { ViewProps } from '../ViewsContext';
 import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
+import { determineBenchmarkRefType } from '@/lib/ViewsHelpers';
 
 export default async function OneIndicatorOneAreaView({
   selectedIndicatorsData,
@@ -25,6 +27,7 @@ export default async function OneIndicatorOneAreaView({
     [SearchParams.IndicatorsSelected]: indicatorSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreaTypeSelected]: areaTypeSelected,
+    [SearchParams.LineChartBenchmarkAreaSelected]: lineChartAreaSelected,
   } = stateManager.getSearchState();
 
   const areaCodes = determineAreaCodes(areasSelected);
@@ -49,6 +52,8 @@ export default async function OneIndicatorOneAreaView({
       ? englandAreaType.key
       : areaTypeSelected;
 
+  const benchmarkRefType = determineBenchmarkRefType(lineChartAreaSelected);
+
   let indicatorData: IndicatorWithHealthDataForArea | undefined;
   try {
     indicatorData = await indicatorApi.getHealthDataForAnIndicator(
@@ -60,6 +65,11 @@ export default async function OneIndicatorOneAreaView({
           GetHealthDataForAnIndicatorInequalitiesEnum.Deprivation,
         ],
         areaType: areaTypeToUse,
+        benchmarkRefType,
+        areaGroup:
+          benchmarkRefType === BenchmarkReferenceType.AreaGroup
+            ? selectedGroupCode
+            : undefined,
       },
       API_CACHE_CONFIG
     );
