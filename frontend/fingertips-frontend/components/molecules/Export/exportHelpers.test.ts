@@ -1,12 +1,19 @@
 import {
   canvasToBlob,
   getHtmlToImageCanvas,
+  getSvgFromOptions,
   svgStringToDomElement,
   triggerBlobDownload,
 } from '@/components/molecules/Export/exportHelpers';
+import Highcharts, { Chart } from 'highcharts';
 import html2canvas from 'html2canvas';
 
 jest.mock('html2canvas', () => jest.fn());
+jest.mock('highcharts', () => {
+  return {
+    chart: jest.fn(),
+  };
+});
 
 describe('exportHelpers', () => {
   describe('getHtmlToImageCanvas', () => {
@@ -141,6 +148,39 @@ describe('exportHelpers', () => {
       expect(mockLink).toHaveProperty('href', 'blob:http://fake-url');
       expect(mockLink).toHaveProperty('download', fileName);
       expect(mockLink.click).toHaveBeenCalled();
+    });
+  });
+
+  describe('getSvgFromOptions', () => {
+    let mockChart: Chart;
+
+    beforeEach(() => {
+      mockChart = {
+        getSVG: jest.fn().mockReturnValue('<svg>mocked</svg>'),
+        destroy: jest.fn(),
+      } as unknown as Chart;
+      (Highcharts.chart as jest.Mock).mockReturnValue(mockChart);
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it('should create a chart, get its SVG, destroy the chart, and remove the container', () => {
+      const options = { title: { text: 'Test Chart' } };
+
+      const svg = getSvgFromOptions(options);
+
+      expect(Highcharts.chart).toHaveBeenCalled();
+      expect(mockChart.getSVG).toHaveBeenCalled();
+      expect(mockChart.destroy).toHaveBeenCalled();
+      expect(svg).toBe('<svg>mocked</svg>');
+
+      // Ensure the container is removed from the DOM
+      const containerInDom = Array.from(document.body.children).find(
+        (child) => child.tagName === 'DIV'
+      );
+      expect(containerInDom).toBeUndefined();
     });
   });
 });
