@@ -1,6 +1,5 @@
 import { TabContainer } from '@/components/layouts/tabContainer';
 import { LineChart } from '@/components/organisms/LineChart';
-import { LineChartVariant } from '@/components/organisms/LineChart/lineChartHelpers';
 import { H3 } from 'govuk-react';
 import { InequalitiesLineChartTable } from '../LineChart/Table';
 import {
@@ -44,6 +43,7 @@ import { ChartSelectArea } from '../../ChartSelectArea';
 import { InequalitiesTypesDropDown } from '../InequalitiesTypesDropDown';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
+import { LineChartVariant } from '@/components/organisms/LineChart/helpers/generateStandardLineChartOptions';
 
 interface InequalitiesTrendProps {
   healthIndicatorData: HealthDataForArea[];

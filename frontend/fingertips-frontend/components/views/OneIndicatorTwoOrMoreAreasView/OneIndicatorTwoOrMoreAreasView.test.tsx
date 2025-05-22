@@ -2,7 +2,10 @@
  * @jest-environment node
  */
 
-import { IndicatorsApi } from '@/generated-sources/ft-api-client';
+import {
+  BenchmarkReferenceType,
+  IndicatorsApi,
+} from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { mockDeep } from 'jest-mock-extended';
 
@@ -120,6 +123,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
         indicatorId: 1,
         includeEmptyAreas: true,
         latestOnly: true,
+        benchmarkRefType: BenchmarkReferenceType.England,
       },
       API_CACHE_CONFIG
     );
@@ -147,6 +151,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
         indicatorId: 1,
         includeEmptyAreas: true,
         latestOnly: false,
+        benchmarkRefType: BenchmarkReferenceType.England,
       },
       API_CACHE_CONFIG
     );

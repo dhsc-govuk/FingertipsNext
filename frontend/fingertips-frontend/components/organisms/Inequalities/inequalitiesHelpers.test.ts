@@ -44,16 +44,16 @@ import {
   noDeprivation,
   personsSex,
 } from '@/lib/mocks';
-import { lineChartDefaultOptions } from '../LineChart/lineChartHelpers';
 import {
   mockIndicatorData,
-  mockBenchmarkData,
+  mockEnglandData,
   mockParentData,
 } from '../LineChart/mocks';
 import {
   generateHealthDataPoint,
   generateMockHealthDataForArea,
 } from '@/lib/chartHelpers/testHelpers';
+import { lineChartDefaultOptions } from '../LineChart/helpers/generateStandardLineChartOptions';
 
 const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
   areaCode: 'A1425',
@@ -1048,9 +1048,9 @@ describe('getAllDataWithoutInequalities', () => {
   ];
 
   const benchmarkData: HealthDataForArea = {
-    ...mockBenchmarkData,
+    ...mockEnglandData,
     healthData: [
-      ...mockBenchmarkData.healthData,
+      ...mockEnglandData.healthData,
       {
         count: 389,
         lowerCi: 441.69151,
@@ -1111,20 +1111,19 @@ describe('getAllDataWithoutInequalities', () => {
 
   it('should get required data without inequalities', () => {
     const expectedHealthDataWithoutInequalities = [{ ...mockIndicatorData[0] }];
-    const expectedBenchmarkDataWithoutInequalities = { ...mockBenchmarkData };
+    const expectedBenchmarkDataWithoutInequalities = { ...mockEnglandData };
     const expectedGroupDataWithoutInequalities = { ...mockParentData };
 
     const expected = {
       areaDataWithoutInequalities: expectedHealthDataWithoutInequalities,
-      englandBenchmarkWithoutInequalities:
-        expectedBenchmarkDataWithoutInequalities,
+      englandDataWithoutInequalities: expectedBenchmarkDataWithoutInequalities,
       groupDataWithoutInequalities: expectedGroupDataWithoutInequalities,
     };
 
     expect(
       getAllDataWithoutInequalities(
         mockHealthIndicatorData,
-        { englandBenchmarkData: benchmarkData, groupData },
+        { englandIndicatorData: benchmarkData, groupData },
         ['A1425']
       )
     ).toEqual(expected);
@@ -1133,14 +1132,14 @@ describe('getAllDataWithoutInequalities', () => {
   it('should return undefined benchmark data and group data when both are not provided', () => {
     const expected = {
       areaDataWithoutInequalities: [{ ...mockIndicatorData[0] }],
-      englandBenchmarkWithoutInequalities: undefined,
+      englandDataWithoutInequalities: undefined,
       groupDataWithoutInequalities: undefined,
     };
 
     expect(
       getAllDataWithoutInequalities(
         mockHealthIndicatorData,
-        { englandBenchmarkData: undefined, groupData: undefined },
+        { englandIndicatorData: undefined, groupData: undefined },
         []
       )
     ).toEqual(expected);
@@ -1149,14 +1148,14 @@ describe('getAllDataWithoutInequalities', () => {
   it('should return empty areaDataWithoutInequalities if England is the selected area', () => {
     const expected = {
       areaDataWithoutInequalities: [],
-      englandBenchmarkWithoutInequalities: mockBenchmarkData,
+      englandDataWithoutInequalities: mockEnglandData,
       groupDataWithoutInequalities: undefined,
     };
 
     expect(
       getAllDataWithoutInequalities(
         mockHealthIndicatorData,
-        { englandBenchmarkData: benchmarkData },
+        { englandIndicatorData: benchmarkData },
         [areaCodeForEngland]
       )
     ).toEqual(expected);

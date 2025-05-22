@@ -11,7 +11,7 @@ on:
 jobs:
   execute-ui-tests:
     name: Execute ui tests
-    runs-on: self-hosted
+    runs-on: dev
 
     defaults:
       run:
