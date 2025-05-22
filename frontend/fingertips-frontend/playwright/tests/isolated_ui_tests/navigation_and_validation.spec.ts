@@ -8,6 +8,7 @@ import {
   SearchMode,
   AreaMode,
   IndicatorInfo,
+  AreaFilters,
 } from '../../testHelpers';
 import mockIndicators from '../../../assets/mockIndicatorData.json';
 import mockAreas from '../../../assets/mockAreaData.json';
@@ -15,6 +16,11 @@ import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
 import ChartPage from '@/playwright/page-objects/pages/chartPage';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
+const areaFiltersToSelect: AreaFilters = {
+  areaType: 'gps',
+  groupType: 'nhs-sub-integrated-care-boards',
+  group: 'E38000231',
+};
 /**
  * Note that this test suite uses mock service worker to mock API responses, therefore these playwright tests are isolated from the backend
  * See:
@@ -420,7 +426,7 @@ test.describe('Navigation Tests', () => {
         searchMode,
         AreaMode.THREE_PLUS_AREAS,
         subjectSearchTerm,
-        'gps'
+        areaFiltersToSelect
       );
     });
 

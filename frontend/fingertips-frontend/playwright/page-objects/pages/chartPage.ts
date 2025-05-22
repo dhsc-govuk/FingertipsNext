@@ -361,37 +361,70 @@ export default class ChartPage extends AreaFilter {
     selectedAreaFilters: AreaFilters
   ) {
     const dropdownComponent = ChartPage.benchmarkDropDownComponent;
-
-    //check benchmark and on hover is defaulted to England before changing dropdown
-
     const combobox = this.page
       .getByTestId(dropdownComponent)
       .getByRole('combobox');
     const options = await this.getSelectOptions(combobox);
+    const upperCaseFirstCharSelectedGroup =
+      selectedAreaFilters.group.charAt(0).toUpperCase() +
+      selectedAreaFilters.group.slice(1);
 
-    // should have 2 options in dropdown: England and the group selected
-    if (selectedAreaFilters.groupType === 'england') {
-      expect(options.length).toBe(1);
-    } else {
-      expect(options.length).toBe(2);
+    // check benchmark is defaulted to England before changing dropdown
+    // if (selectedAreaFilters.group != 'england') {
+    //   expect(options.length).toBe(2);
+    //   await expect(
+    //     this.page
+    //       .getByTestId(component.componentLocator)
+    //       .getByText(`Benchmark: ${upperCaseFirstCharSelectedGroup}`)
+    //   ).toBeVisible();
+    // } else
+    if (selectedAreaFilters.areaType != 'england') {
       await expect(
         this.page
           .getByTestId(component.componentLocator)
           .getByText('Benchmark: England')
       ).toBeVisible();
+    } else {
+      expect(options.length).toBe(1);
+      await expect(
+        this.page
+          .getByTestId(component.componentLocator)
+          .getByText('Benchmark:')
+      ).not.toBeVisible();
     }
-    await combobox.selectOption({ label: selectedAreaFilters.group });
+
+    // set dropdown to the group selected in the area filter (may be england)
+    await combobox.selectOption({
+      label: upperCaseFirstCharSelectedGroup,
+    });
     await this.waitAfterDropDownInteraction();
     expect(await combobox.locator('option:checked').textContent()).toBe(
-      selectedAreaFilters.group
+      upperCaseFirstCharSelectedGroup
     );
 
     //check benchmark and on hover is the group one after changing dropdown
-    await expect(
-      this.page
-        .getByTestId(component.componentLocator)
-        .getByText(`Benchmark: ${selectedAreaFilters.group}`)
-    ).toBeVisible();
+    if (selectedAreaFilters.group != 'england') {
+      expect(options.length).toBe(2);
+      await expect(
+        this.page
+          .getByTestId(component.componentLocator)
+          .getByText(`Benchmark: ${upperCaseFirstCharSelectedGroup}`)
+      ).toBeVisible();
+    } else if (selectedAreaFilters.areaType != 'england') {
+      expect(options.length).toBe(1);
+      await expect(
+        this.page
+          .getByTestId(component.componentLocator)
+          .getByText('Benchmark: England')
+      ).toBeVisible();
+    } else {
+      expect(options.length).toBe(1);
+      await expect(
+        this.page
+          .getByTestId(component.componentLocator)
+          .getByText('Benchmark:')
+      ).not.toBeVisible();
+    }
   }
 
   // verifies component is visible and baseline screenshot matches
