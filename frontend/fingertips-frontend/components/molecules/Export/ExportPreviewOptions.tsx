@@ -37,6 +37,9 @@ export const ExportPreviewOptions: FC<ExportPreviewProps> = ({
   if (chartOptions) availableOptions.push(ExportType.SVG);
   if (csvData) availableOptions.push(ExportType.CSV);
 
+  const download =
+    text && text.length > 0 ? text : (element as HTMLCanvasElement);
+
   return (
     <div>
       <Fieldset>
@@ -60,7 +63,7 @@ export const ExportPreviewOptions: FC<ExportPreviewProps> = ({
       <ExportDownloadButton
         enabled={Boolean(!isLoading && (text || element))}
         fileName={`${targetId ?? 'download'}.${format}`}
-        download={text || (element as HTMLCanvasElement)}
+        download={download}
       />
     </div>
   );
