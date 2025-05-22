@@ -8,6 +8,7 @@ import {
   determineBenchmarkRefType,
   getIndicatorData,
 } from '@/lib/ViewsHelpers';
+import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 
 export default async function OneIndicatorTwoOrMoreAreasView({
   selectedIndicatorsData,
@@ -47,16 +48,16 @@ export default async function OneIndicatorTwoOrMoreAreasView({
 
   const benchmarkRefType = determineBenchmarkRefType(lineChartAreaSelected);
 
-  const indicatorDataIncludingEmptyAreas = await getIndicatorData(
+  const indicatorDataAllAreas = await getIndicatorData(
     indicatorsAndAreas,
     benchmarkRefType,
     areaCodes.length > 2
   );
 
   const indicatorDataAvailableAreas = {
-    ...indicatorDataIncludingEmptyAreas,
-    areaHealthData: indicatorDataIncludingEmptyAreas.areaHealthData,
-  };
+    ...indicatorDataAllAreas,
+    areaHealthData: indicatorDataAllAreas.areaHealthData,
+  } satisfies IndicatorWithHealthDataForArea;
 
   const indicatorMetadata = selectedIndicatorsData?.[0];
   return (
@@ -69,7 +70,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
         indicatorData={indicatorDataAvailableAreas}
         searchState={searchState}
         indicatorMetadata={indicatorMetadata}
-        indicatorDataAllAreas={indicatorDataIncludingEmptyAreas}
+        indicatorDataAllAreas={indicatorDataAllAreas}
       />
     </ViewsWrapper>
   );
