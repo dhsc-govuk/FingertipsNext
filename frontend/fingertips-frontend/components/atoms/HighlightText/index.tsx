@@ -25,10 +25,10 @@ const highlightChars = (text: string, searchHint: string) => {
         index < highlightStartPos + textToBeHighlighted.length
       ) {
         accumulator.push(
-          <StyleHighLightedText key={index}>{char}</StyleHighLightedText>
+          <StyleHighLightedText key={char + index}>{char}</StyleHighLightedText>
         );
       } else {
-        accumulator.push(<span key={index}>{char}</span>);
+        accumulator.push(<span key={char + index}>{char}</span>);
       }
       return accumulator;
     }, []);
