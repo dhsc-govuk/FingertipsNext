@@ -30,19 +30,19 @@ describe('AreaSearchServiceMock', () => {
 
   it('should perform a search operation on areaName', async () => {
     expect(await areaSearchMock.getAreaSuggestions('Birm')).toEqual([
-      mockData[1],
+      { text: '*Birm*', document: mockData[1] },
     ]);
   });
 
   it('should perform a search operation on areaCode', async () => {
     expect(await areaSearchMock.getAreaSuggestions('1234')).toEqual([
-      mockData[0],
+      { text: '*1234*', document: mockData[0] },
     ]);
   });
 
   it('should be case agnostic', async () => {
     expect(await areaSearchMock.getAreaSuggestions('leeds')).toEqual([
-      mockData[2],
+      { text: '*leeds*', document: { ...mockData[2], postcode: undefined } },
     ]);
   });
 });
