@@ -1,16 +1,15 @@
 import { CsvData, CsvRow } from '@/lib/downloadHelpers/convertToCsv';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { CsvHeader } from '@/components/molecules/Export/export.types';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 export const convertLineChartTableToCsvData = (
+  indicatorMetadata: IndicatorDocument,
   healthIndicatorData: HealthDataForArea[],
   groupAreaData?: HealthDataForArea,
   benchmarkAreaData?: HealthDataForArea,
-  measurementUnit = '',
   confidenceLimit = 0
 ): CsvData => {
-  const indicatorId = '1';
-  const indicatorName = 'Indicator';
   const csvHeaders: CsvRow = [
     CsvHeader.IndicatorId,
     CsvHeader.IndicatorName,
@@ -51,8 +50,8 @@ export const convertLineChartTableToCsvData = (
       } = healthPoint;
       const { outcome, benchmarkAreaCode } = benchmarkComparison ?? {};
       csvData.push([
-        indicatorId,
-        indicatorName,
+        indicatorMetadata.indicatorID,
+        indicatorMetadata.indicatorName,
         year,
         `${benchmarkPrefix}${areaName}`,
         areaCode,
@@ -60,7 +59,7 @@ export const convertLineChartTableToCsvData = (
         outcome,
         trend,
         count,
-        measurementUnit,
+        indicatorMetadata?.unitLabel,
         value,
         lowerCi,
         upperCi,

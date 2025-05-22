@@ -34,6 +34,7 @@ import {
 import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { convertLineChartTableToCsvData } from '@/components/organisms/LineChartTable/convertLineChartTableToCsvData';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
 
 export enum LineChartTableHeadingEnum {
@@ -50,7 +51,7 @@ export interface LineChartTableProps {
   healthIndicatorData: HealthDataForArea[];
   englandBenchmarkData?: HealthDataForArea;
   groupIndicatorData?: HealthDataForArea;
-  measurementUnit?: string;
+  indicatorMetadata?: IndicatorDocument;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
 }
@@ -226,7 +227,7 @@ export function LineChartTable({
   healthIndicatorData,
   englandBenchmarkData,
   groupIndicatorData,
-  measurementUnit,
+  indicatorMetadata,
   benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
   polarity = IndicatorPolarity.Unknown,
 }: Readonly<LineChartTableProps>) {
@@ -294,13 +295,15 @@ export function LineChartTable({
     })
     .toSorted((a, b) => a.year - b.year);
 
-  const csvData = convertLineChartTableToCsvData(
-    healthIndicatorData,
-    groupIndicatorData,
-    englandBenchmarkData,
-    measurementUnit,
-    confidenceLimit
-  );
+  const csvData = indicatorMetadata
+    ? convertLineChartTableToCsvData(
+        indicatorMetadata,
+        healthIndicatorData,
+        groupIndicatorData,
+        englandBenchmarkData,
+        confidenceLimit
+      )
+    : undefined;
 
   return (
     <>
@@ -387,14 +390,14 @@ export function LineChartTable({
                         key={`header-${heading}`}
                         heading={heading}
                         areaIndex={areaIndex}
-                        units={measurementUnit}
+                        units={indicatorMetadata?.unitLabel}
                       />
                     ))
                 )}
                 {showGroupColumn ? (
                   <StyledLightGreySubHeader>
                     Value
-                    <StyledSpan>{measurementUnit}</StyledSpan>
+                    <StyledSpan>{indicatorMetadata?.unitLabel}</StyledSpan>
                   </StyledLightGreySubHeader>
                 ) : null}
                 {showBenchmarkColumn ? (
@@ -402,7 +405,7 @@ export function LineChartTable({
                     data-testid={`header-benchmark-value`}
                   >
                     {LineChartTableHeadingEnum.BenchmarkValue}{' '}
-                    <StyledSpan>{measurementUnit}</StyledSpan>
+                    <StyledSpan>{indicatorMetadata?.unitLabel}</StyledSpan>
                   </StyledStickyRightHeader>
                 ) : null}
               </Table.Row>
@@ -452,10 +455,6 @@ export function LineChartTable({
           ))}
         </StyledTable>
       </StyledDivWithScrolling>
-      <ExportOptionsButton
-        targetId={'lineChartTable'}
-        csvData={csvData}
-      />
     </>
   );
 }

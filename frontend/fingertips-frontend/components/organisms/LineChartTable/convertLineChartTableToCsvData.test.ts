@@ -1,6 +1,7 @@
 import { convertLineChartTableToCsvData } from './convertLineChartTableToCsvData';
 import { CsvHeader } from '@/components/molecules/Export/export.types';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 describe('convertLineChartTableToCsvData', () => {
   const baseHealthData = [
@@ -61,10 +62,14 @@ describe('convertLineChartTableToCsvData', () => {
 
   it('should generate correct CSV headers and rows', () => {
     const result = convertLineChartTableToCsvData(
+      {
+        indicatorID: '1',
+        indicatorName: 'Indicator',
+        unitLabel: '%',
+      } as IndicatorDocument,
       baseHealthData,
       groupAreaData,
       benchmarkAreaData,
-      '%',
       95
     );
 
