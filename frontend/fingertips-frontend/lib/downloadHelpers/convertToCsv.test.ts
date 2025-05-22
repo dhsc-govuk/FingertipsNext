@@ -97,6 +97,10 @@ Female,"comma,comma",,17.6,16.7`;
 });
 
 describe('PopulationPyramidTableToCsv', () => {
+  const stubIndicatorId = 'indicatorId';
+  const stubIndicatorName = 'indicatorName';
+  const stubPeriod = '2023';
+
   const stubPopulationDataForSelectedArea: PopulationDataForArea = {
     areaCode: 'A001',
     areaName: 'area one',
@@ -137,6 +141,9 @@ describe('PopulationPyramidTableToCsv', () => {
   };
 
   const expectedHeaderCsvRow: CsvField[] = [
+    'Indicator ID',
+    'Indicator name',
+    'Period',
     'Area code',
     'Area name',
     'Age range',
@@ -145,32 +152,170 @@ describe('PopulationPyramidTableToCsv', () => {
   ];
 
   const expectedAreaCsvRows: CsvField[][] = [
-    ['A001', 'area one', 'oldest', 5, 1],
-    ['A001', 'area one', 'upper middle', 4, 2],
-    ['A001', 'area one', 'middle', 3, 3],
-    ['A001', 'area one', 'lower middle', 2, 4],
-    ['A001', 'area one', 'youngest', 1, 5],
+    [
+      stubIndicatorId,
+      stubIndicatorName,
+      stubPeriod,
+      'A001',
+      'area one',
+      'oldest',
+      5,
+      1,
+    ],
+    [
+      stubIndicatorId,
+      stubIndicatorName,
+      stubPeriod,
+      'A001',
+      'area one',
+      'upper middle',
+      4,
+      2,
+    ],
+    [
+      stubIndicatorId,
+      stubIndicatorName,
+      stubPeriod,
+      'A001',
+      'area one',
+      'middle',
+      3,
+      3,
+    ],
+    [
+      stubIndicatorId,
+      stubIndicatorName,
+      stubPeriod,
+      'A001',
+      'area one',
+      'lower middle',
+      2,
+      4,
+    ],
+    [
+      stubIndicatorId,
+      stubIndicatorName,
+      stubPeriod,
+      'A001',
+      'area one',
+      'youngest',
+      1,
+      5,
+    ],
   ];
 
   const expectedBenchmarkCsvRows: CsvField[][] = [
-    ['A002', 'benchmark area', 'oldest', 500, 100],
-    ['A002', 'benchmark area', 'upper middle', 400, 200],
-    ['A002', 'benchmark area', 'middle', 300, 300],
-    ['A002', 'benchmark area', 'lower middle', 200, 400],
-    ['A002', 'benchmark area', 'youngest', 100, 500],
+    [
+      stubIndicatorId,
+      stubIndicatorName,
+      stubPeriod,
+      'A002',
+      'benchmark area',
+      'oldest',
+      500,
+      100,
+    ],
+    [
+      stubIndicatorId,
+      stubIndicatorName,
+      stubPeriod,
+      'A002',
+      'benchmark area',
+      'upper middle',
+      400,
+      200,
+    ],
+    [
+      stubIndicatorId,
+      stubIndicatorName,
+      stubPeriod,
+      'A002',
+      'benchmark area',
+      'middle',
+      300,
+      300,
+    ],
+    [
+      stubIndicatorId,
+      stubIndicatorName,
+      stubPeriod,
+      'A002',
+      'benchmark area',
+      'lower middle',
+      200,
+      400,
+    ],
+    [
+      stubIndicatorId,
+      stubIndicatorName,
+      stubPeriod,
+      'A002',
+      'benchmark area',
+      'youngest',
+      100,
+      500,
+    ],
   ];
 
   const expectedGroupCsvRows: CsvField[][] = [
-    ['A003', 'group area', 'oldest', 50, 10],
-    ['A003', 'group area', 'upper middle', 40, 20],
-    ['A003', 'group area', 'middle', 30, 30],
-    ['A003', 'group area', 'lower middle', 20, 40],
-    ['A003', 'group area', 'youngest', 10, 50],
+    [
+      stubIndicatorId,
+      stubIndicatorName,
+      stubPeriod,
+      'A003',
+      'group area',
+      'oldest',
+      50,
+      10,
+    ],
+    [
+      stubIndicatorId,
+      stubIndicatorName,
+      stubPeriod,
+      'A003',
+      'group area',
+      'upper middle',
+      40,
+      20,
+    ],
+    [
+      stubIndicatorId,
+      stubIndicatorName,
+      stubPeriod,
+      'A003',
+      'group area',
+      'middle',
+      30,
+      30,
+    ],
+    [
+      stubIndicatorId,
+      stubIndicatorName,
+      stubPeriod,
+      'A003',
+      'group area',
+      'lower middle',
+      20,
+      40,
+    ],
+    [
+      stubIndicatorId,
+      stubIndicatorName,
+      stubPeriod,
+      'A003',
+      'group area',
+      'youngest',
+      10,
+      50,
+    ],
   ];
 
   it('should return the correct header and data when passed only healthDataForArea', () => {
     // act
     const actual: CsvField[][] = populationPyramidTableToCsvArray({
+      indicatorId: stubIndicatorId,
+      indicatorName: stubIndicatorName,
+      period: stubPeriod,
       populationDataForArea: stubPopulationDataForSelectedArea,
     });
     // assert
@@ -181,6 +326,9 @@ describe('PopulationPyramidTableToCsv', () => {
     // arrange
     // act
     const actual: CsvField[][] = populationPyramidTableToCsvArray({
+      indicatorId: stubIndicatorId,
+      indicatorName: stubIndicatorName,
+      period: stubPeriod,
       populationDataForArea: stubPopulationDataForSelectedArea,
       populationDataForBenchmark: stubBenchmarkToUse,
     });
@@ -196,6 +344,9 @@ describe('PopulationPyramidTableToCsv', () => {
     // arrange
     // act
     const actual: CsvField[][] = populationPyramidTableToCsvArray({
+      indicatorId: stubIndicatorId,
+      indicatorName: stubIndicatorName,
+      period: stubPeriod,
       populationDataForArea: stubPopulationDataForSelectedArea,
       populationDataForBenchmark: stubBenchmarkToUse,
       populationDataForGroup: stubGroupToUse,
