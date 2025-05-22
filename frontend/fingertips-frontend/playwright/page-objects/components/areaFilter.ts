@@ -165,7 +165,7 @@ export default class AreaFilter extends BasePage {
     searchMode: SearchMode,
     areaMode: AreaMode,
     searchTerm: string,
-    areaTypeFilter: string = 'regions'
+    areaTypeFilter: string
   ) {
     // only do the following for SearchMode.ONLY_SUBJECT as SearchMode.ONLY_AREA/BOTH_SUBJECT_AND_AREA already have area filters selected
     if (searchMode === SearchMode.ONLY_SUBJECT) {

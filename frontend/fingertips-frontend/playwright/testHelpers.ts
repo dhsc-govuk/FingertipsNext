@@ -15,12 +15,20 @@ export interface IndicatorInfo {
   knownTrend?: string;
 }
 
+interface AreaFilter {
+  areaType: string;
+  groupType: string;
+  group: string;
+}
+
 export interface TestParams {
   indicatorMode: IndicatorMode;
   areaMode: AreaMode;
   searchMode: SearchMode;
   indicatorsToSelect: IndicatorInfo[];
   subjectSearchTerm?: string;
+  areaFiltersToSelect?: AreaFilter;
+  areasCodesToSelect?: AreaDocument[];
 }
 
 export enum SearchMode {
@@ -80,7 +88,7 @@ export function getScenarioConfig(
       componentLocator: ChartPage.lineChartComponent,
       componentProps: {
         hasConfidenceIntervals: true,
-        hasBenchmark: true,
+        // hasBenchmark: true,
       },
     },
     {
