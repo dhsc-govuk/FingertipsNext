@@ -6,6 +6,8 @@ import { LineChartTable } from '@/components/organisms/LineChartTable';
 import {
   determineAreaCodes,
   seriesDataWithoutEnglandOrGroup,
+  determineAreasForBenchmarking,
+  determineBenchmarkToUse,
 } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams } from '@/lib/searchStateManager';
@@ -17,13 +19,14 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { Inequalities } from '@/components/organisms/Inequalities';
-import {
-  generateStandardLineChartOptions,
-  LineChartVariant,
-} from '@/components/organisms/LineChart/lineChartHelpers';
 import { getAllDataWithoutInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
+import { BenchmarkSelectArea } from '@/components/molecules/BenchmarkSelectArea';
+import {
+  generateStandardLineChartOptions,
+  LineChartVariant,
+} from '@/components/organisms/LineChart/helpers/generateStandardLineChartOptions';
 
 function shouldLineChartBeShown(
   dataWithoutEnglandOrGroup: HealthDataForArea[],
@@ -43,6 +46,7 @@ export function OneIndicatorOneAreaViewPlots({
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.LineChartBenchmarkAreaSelected]: lineChartAreaSelected,
   } = searchState;
 
   const areaCodes = determineAreaCodes(areasSelected);
@@ -57,7 +61,7 @@ export function OneIndicatorOneAreaViewPlots({
     selectedGroupCode
   );
 
-  const englandBenchmarkData = healthIndicatorData.find(
+  const englandIndicatorData = healthIndicatorData.find(
     (areaData) => areaData.areaCode === areaCodeForEngland
   );
 
@@ -70,13 +74,21 @@ export function OneIndicatorOneAreaViewPlots({
 
   const {
     areaDataWithoutInequalities,
-    englandBenchmarkWithoutInequalities,
+    englandDataWithoutInequalities,
     groupDataWithoutInequalities,
   } = getAllDataWithoutInequalities(
     dataWithoutEnglandOrGroup,
-    { englandBenchmarkData, groupData },
+    { englandIndicatorData, groupData },
     areaCodes
   );
+
+  const availableAreasForBenchmarking = determineAreasForBenchmarking(
+    healthIndicatorData,
+    selectedGroupCode,
+    areasSelected
+  );
+
+  const benchmarkToUse = determineBenchmarkToUse(lineChartAreaSelected);
 
   const yAxisTitle = indicatorMetadata?.unitLabel
     ? `Value: ${indicatorMetadata?.unitLabel}`
@@ -85,8 +97,9 @@ export function OneIndicatorOneAreaViewPlots({
   const lineChartOptions: Highcharts.Options = generateStandardLineChartOptions(
     areaDataWithoutInequalities,
     true,
+    benchmarkToUse,
     {
-      benchmarkData: englandBenchmarkWithoutInequalities,
+      englandData: englandDataWithoutInequalities,
       benchmarkComparisonMethod: benchmarkComparisonMethod,
       groupIndicatorData: groupDataWithoutInequalities,
       yAxisTitle,
@@ -100,10 +113,17 @@ export function OneIndicatorOneAreaViewPlots({
     <section data-testid="oneIndicatorOneAreaViewPlot-component">
       {shouldLineChartBeShown(
         areaDataWithoutInequalities,
-        englandBenchmarkWithoutInequalities
+        englandDataWithoutInequalities
       ) && (
         <StyleChartWrapper>
           <H3>Indicator data over time</H3>
+          <BenchmarkSelectArea
+            availableAreas={availableAreasForBenchmarking}
+            benchmarkAreaSelectedKey={
+              SearchParams.LineChartBenchmarkAreaSelected
+            }
+            searchState={searchState}
+          />
           <TabContainer
             id="lineChartAndTable"
             items={[
@@ -123,7 +143,7 @@ export function OneIndicatorOneAreaViewPlots({
                 content: (
                   <LineChartTable
                     healthIndicatorData={areaDataWithoutInequalities}
-                    englandBenchmarkData={englandBenchmarkWithoutInequalities}
+                    englandBenchmarkData={englandDataWithoutInequalities}
                     groupIndicatorData={groupDataWithoutInequalities}
                     measurementUnit={indicatorMetadata?.unitLabel}
                     benchmarkComparisonMethod={benchmarkComparisonMethod}

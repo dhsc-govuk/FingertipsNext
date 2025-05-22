@@ -8,43 +8,43 @@ import { usePathname, useRouter } from 'next/navigation';
 import { StyledFilterSelect } from '@/components/styles/StyledFilterSelect';
 import { AreaWithoutAreaType } from '@/lib/common-types';
 
-interface ChartSelectAreaProps {
+interface BenchmarkSelectAreaProps {
   availableAreas: AreaWithoutAreaType[];
-  chartAreaSelectedKey: SearchParamKeys;
+  benchmarkAreaSelectedKey: SearchParamKeys;
   searchState: SearchStateParams;
 }
 
-export function ChartSelectArea({
+export function BenchmarkSelectArea({
   availableAreas,
-  chartAreaSelectedKey,
+  benchmarkAreaSelectedKey,
   searchState,
-}: Readonly<ChartSelectAreaProps>) {
+}: Readonly<BenchmarkSelectAreaProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
   const { setIsLoading } = useLoadingState();
 
   const searchStateManager = SearchStateManager.initialise(searchState);
 
-  const chartAreaTypeSelected = (valueSelected: string) => {
+  const onBenchmarkAreaSelected = (valueSelected: string) => {
     setIsLoading(true);
 
     searchStateManager.addParamValueToState(
-      chartAreaSelectedKey,
+      benchmarkAreaSelectedKey,
       valueSelected
     );
 
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
 
-  const selectedArea = searchState?.[chartAreaSelectedKey];
+  const selectedArea = searchState?.[benchmarkAreaSelectedKey];
 
   return (
     <StyledFilterSelect
-      label="Select an area"
-      data-testid="chart-area-select"
+      label="Select a benchmark"
+      data-testid={`${benchmarkAreaSelectedKey}-dropDown-benchmark-component`}
       input={{
         value: selectedArea,
-        onChange: (e) => chartAreaTypeSelected(e.target.value),
+        onChange: (e) => onBenchmarkAreaSelected(e.target.value),
       }}
     >
       {availableAreas?.map((area) => (

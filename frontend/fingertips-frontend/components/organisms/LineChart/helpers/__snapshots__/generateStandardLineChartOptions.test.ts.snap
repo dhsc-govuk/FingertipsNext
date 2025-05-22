@@ -46,7 +46,7 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
         ],
       ],
       "marker": {
-        "symbol": "arc",
+        "symbol": "square",
       },
       "name": "North FooBar",
       "type": "line",
@@ -187,7 +187,7 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
         ],
       ],
       "marker": {
-        "symbol": "arc",
+        "symbol": "square",
       },
       "name": "North FooBar",
       "type": "line",
@@ -328,7 +328,7 @@ exports[`generateStandardLineChartOptions should not include benchmark or group 
         ],
       ],
       "marker": {
-        "symbol": "arc",
+        "symbol": "square",
       },
       "name": "North FooBar",
       "type": "line",
