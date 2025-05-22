@@ -294,7 +294,6 @@ paths:
             type: string
             example: E12000001
           explode: false
-          required: true
           description: The area code of an ancestor area
         - name: area_code
           in: query

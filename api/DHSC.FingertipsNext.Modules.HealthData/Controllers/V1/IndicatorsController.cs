@@ -103,7 +103,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     /// areas and all years for the indicators. Optionally filter the results by
     /// supplying one or more area codes and one or more years in the query string.
     /// </summary>
-    /// <param name="ancestorCode">A list of desired inequalities.</param>
+    /// <param name="ancestorCode">The ancestor for comparison.</param>
     /// <param name="areaCode">A list of area codes.</param>
     /// <param name="areaType">The area type the area codes belong to.</param>
     /// <param name="indicatorIds">The unique identifier of the indicator.</param>
@@ -117,7 +117,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     [ProducesResponseType(typeof(SimpleError), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetQuartileDataAsync(
-        [FromQuery(Name = "ancestor_code")] string ancestorCode,
+        [FromQuery(Name = "ancestor_code")] string? ancestorCode,
         [FromQuery(Name = "area_code")] string areaCode,
         [FromQuery(Name = "area_type")] string areaType,
         [FromQuery(Name = "indicator_ids")] int[] indicatorIds
