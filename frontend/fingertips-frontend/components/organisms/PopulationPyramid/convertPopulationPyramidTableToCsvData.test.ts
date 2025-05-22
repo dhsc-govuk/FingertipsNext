@@ -1,5 +1,5 @@
 import { PopulationDataForArea } from '../../../lib/chartHelpers/preparePopulationData';
-import { convertPopulationPyramidTableToCsvDate } from './convertPopulationPyramidTableToCsvDate';
+import { convertPopulationPyramidTableToCsvData } from './convertPopulationPyramidTableToCsvData';
 import { CsvField } from '../../../lib/downloadHelpers/convertToCsv';
 
 describe('PopulationPyramidTableToCsv', () => {
@@ -218,7 +218,7 @@ describe('PopulationPyramidTableToCsv', () => {
 
   it('should return the correct header and data when passed only healthDataForArea', () => {
     // act
-    const actual: CsvField[][] = convertPopulationPyramidTableToCsvDate({
+    const actual: CsvField[][] = convertPopulationPyramidTableToCsvData({
       indicatorId: stubIndicatorId,
       indicatorName: stubIndicatorName,
       period: stubPeriod,
@@ -231,7 +231,7 @@ describe('PopulationPyramidTableToCsv', () => {
   it('should return the correct header and data when passed healthDataForArea and benchmarkData', () => {
     // arrange
     // act
-    const actual: CsvField[][] = convertPopulationPyramidTableToCsvDate({
+    const actual: CsvField[][] = convertPopulationPyramidTableToCsvData({
       indicatorId: stubIndicatorId,
       indicatorName: stubIndicatorName,
       period: stubPeriod,
@@ -249,7 +249,7 @@ describe('PopulationPyramidTableToCsv', () => {
   it('should return the correct header and data when passed healthDataForArea, benchmarkData and groupData', () => {
     // arrange
     // act
-    const actual: CsvField[][] = convertPopulationPyramidTableToCsvDate({
+    const actual: CsvField[][] = convertPopulationPyramidTableToCsvData({
       indicatorId: stubIndicatorId,
       indicatorName: stubIndicatorName,
       period: stubPeriod,

@@ -1,7 +1,7 @@
 import { PopulationDataForArea } from '../../../lib/chartHelpers/preparePopulationData';
 import { CsvField } from '../../../lib/downloadHelpers/convertToCsv';
 
-export function convertPopulationPyramidTableToCsvDate({
+export function convertPopulationPyramidTableToCsvData({
   indicatorId,
   indicatorName,
   period,
