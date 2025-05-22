@@ -303,7 +303,10 @@ export function LineChartTable({
               <Table.Row>
                 <StyledTitleCell />
                 {healthIndicatorData.map((area, index) => (
-                  <StyledAlignTrendHeader colSpan={5} key={area.areaName + index}>
+                  <StyledAlignTrendHeader
+                    colSpan={5}
+                    key={area.areaName + index}
+                  >
                     <StyledTrendContainer>
                       Recent trend:
                       <TrendTag
@@ -382,7 +385,7 @@ export function LineChartTable({
                 {showGroupColumn ? (
                   <StyledLightGreySubHeader>
                     Value
-                  <StyledSpan>{measurementUnit}</StyledSpan>
+                    <StyledSpan>{measurementUnit}</StyledSpan>
                   </StyledLightGreySubHeader>
                 ) : null}
                 {showBenchmarkColumn ? (
