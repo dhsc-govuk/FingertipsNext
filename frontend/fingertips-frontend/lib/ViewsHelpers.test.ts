@@ -263,10 +263,7 @@ describe('getIndicatorData', () => {
       mockIndicator
     );
 
-    await getIndicatorData(
-      testParamsWithGroup,
-      BenchmarkReferenceType.England
-    );
+    await getIndicatorData(testParamsWithGroup, BenchmarkReferenceType.England);
     expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
       3
     );
