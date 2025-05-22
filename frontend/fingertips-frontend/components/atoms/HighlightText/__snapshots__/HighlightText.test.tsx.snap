@@ -11,13 +11,7 @@ exports[`HighlightText should highlight the searchHint part of the text provided
   <span>
     i
   </span>
-  .c0 {
-  font-weight: 600;
-}
-
-<span
-    class="c0"
-  >
+  <span>
     s
   </span>
   <span>
@@ -32,7 +26,13 @@ exports[`HighlightText should highlight the searchHint part of the text provided
   <span>
      
   </span>
-  <span>
+  .c0 {
+  font-weight: 600;
+}
+
+<span
+    class="c0"
+  >
     s
   </span>
   .c0 {
@@ -207,7 +207,13 @@ exports[`HighlightText should highlight the searchHint part of the text provided
   >
     s
   </span>
-  <span>
+  .c0 {
+  font-weight: 600;
+}
+
+<span
+    class="c0"
+  >
      
   </span>
   <span>

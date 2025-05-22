@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { AreaAutoCompleteSuggestionPanel } from './index';
-import { AreaDocument } from '@/lib/search/searchTypes';
+import { SuggestionResult } from '@/lib/search/searchTypes';
 import { SearchParams } from '@/lib/searchStateManager';
 import userEvent from '@testing-library/user-event';
 import {
@@ -13,10 +13,19 @@ import { SearchStateContext } from '@/context/SearchStateContext';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
-const mockAreas: AreaDocument[] = [
-  { areaCode: 'GP01', areaName: 'Greenwich', areaType: 'GPs' },
-  { areaCode: 'GP02', areaName: 'Cambridge', areaType: 'GPs' },
-  { areaCode: 'CT01', areaName: 'Central London', areaType: 'CT' },
+const mockAreas: SuggestionResult[] = [
+  {
+    text: '',
+    document: { areaCode: 'GP01', areaName: 'Greenwich', areaType: 'GPs' },
+  },
+  {
+    text: '',
+    document: { areaCode: 'GP02', areaName: 'Cambridge', areaType: 'GPs' },
+  },
+  {
+    text: '',
+    document: { areaCode: 'CT01', areaName: 'Central London', areaType: 'CT' },
+  },
 ];
 
 const mockPath = 'some-mock-path';
@@ -65,10 +74,7 @@ describe('AreaSuggestionPanel', () => {
 
   it('should render correctly and match snapshot', () => {
     const { asFragment } = render(
-      <AreaAutoCompleteSuggestionPanel
-        suggestedAreas={mockAreas}
-        searchHint=""
-      />
+      <AreaAutoCompleteSuggestionPanel suggestedAreas={mockAreas} />
     );
     expect(asFragment()).toMatchSnapshot();
   });
@@ -78,9 +84,7 @@ describe('AreaSuggestionPanel', () => {
       [SearchParams.AreasSelected]: ['A001'],
     });
 
-    render(
-      <AreaAutoCompleteSuggestionPanel suggestedAreas={[]} searchHint="" />
-    );
+    render(<AreaAutoCompleteSuggestionPanel suggestedAreas={[]} />);
 
     expect(
       screen.queryByTestId('area-suggestion-panel')
@@ -88,23 +92,18 @@ describe('AreaSuggestionPanel', () => {
   });
 
   it('should render the suggestedAreas provided', () => {
-    render(
-      <AreaAutoCompleteSuggestionPanel
-        suggestedAreas={mockAreas}
-        searchHint=""
-      />
-    );
+    render(<AreaAutoCompleteSuggestionPanel suggestedAreas={mockAreas} />);
 
     mockAreas.forEach((mockArea) => {
       expect(
-        screen.getByTestId(`area-suggestion-item-${mockArea.areaCode}`)
+        screen.getByTestId(`area-suggestion-item-${mockArea.document.areaCode}`)
       ).toBeInTheDocument();
     });
   });
 
   it('should render nothing if suggestedAreas are empty', () => {
     const { container } = render(
-      <AreaAutoCompleteSuggestionPanel suggestedAreas={[]} searchHint="Lo" />
+      <AreaAutoCompleteSuggestionPanel suggestedAreas={[]} />
     );
     expect(container.firstChild).toBeNull();
   });
@@ -117,31 +116,25 @@ describe('AreaSuggestionPanel', () => {
     ].join('');
 
     const user = userEvent.setup();
-    render(
-      <AreaAutoCompleteSuggestionPanel
-        suggestedAreas={mockAreas}
-        searchHint=""
-      />
-    );
+    render(<AreaAutoCompleteSuggestionPanel suggestedAreas={mockAreas} />);
 
     await user.click(
-      screen.getByTestId(`area-suggestion-item-${mockAreas[0].areaCode}`)
+      screen.getByTestId(
+        `area-suggestion-item-${mockAreas[0].document.areaCode}`
+      )
     );
 
     expect(mockReplace).toHaveBeenCalledWith(expectedPath, { scroll: false });
   });
 
   it('should call setIsLoading with true when a suggested area is clicked', async () => {
-    render(
-      <AreaAutoCompleteSuggestionPanel
-        suggestedAreas={mockAreas}
-        searchHint=""
-      />
-    );
+    render(<AreaAutoCompleteSuggestionPanel suggestedAreas={mockAreas} />);
 
     const user = userEvent.setup();
     await user.click(
-      screen.getByTestId(`area-suggestion-item-${mockAreas[0].areaCode}`)
+      screen.getByTestId(
+        `area-suggestion-item-${mockAreas[0].document.areaCode}`
+      )
     );
 
     expect(mockSetIsLoading).toHaveBeenCalledWith(true);
@@ -161,15 +154,12 @@ describe('AreaSuggestionPanel', () => {
     ].join('');
 
     const user = userEvent.setup();
-    render(
-      <AreaAutoCompleteSuggestionPanel
-        suggestedAreas={mockAreas}
-        searchHint=""
-      />
-    );
+    render(<AreaAutoCompleteSuggestionPanel suggestedAreas={mockAreas} />);
 
     await user.click(
-      screen.getByTestId(`area-suggestion-item-${mockAreas[0].areaCode}`)
+      screen.getByTestId(
+        `area-suggestion-item-${mockAreas[0].document.areaCode}`
+      )
     );
 
     expect(mockReplace).toHaveBeenCalledWith(expectedPath, { scroll: false });
@@ -190,12 +180,14 @@ describe('AreaSuggestionPanel', () => {
       <AreaAutoCompleteSuggestionPanel
         suggestedAreas={[
           {
-            areaCode: areaCodeForEngland,
-            areaName: 'England',
-            areaType: englandAreaType.key,
+            text: '',
+            document: {
+              areaCode: areaCodeForEngland,
+              areaName: 'England',
+              areaType: englandAreaType.key,
+            },
           },
         ]}
-        searchHint=""
       />
     );
 

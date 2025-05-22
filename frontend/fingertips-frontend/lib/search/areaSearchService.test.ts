@@ -2,6 +2,7 @@ import { SearchClient } from '@azure/search-documents';
 import {
   AREA_SEARCH_INDEX_NAME,
   AREA_SEARCH_SUGGESTER_NAME,
+  highlightTag,
 } from './searchTypes';
 import { AreaSearchService } from './areaSearchService';
 
@@ -48,6 +49,8 @@ describe('AreaSearchService', () => {
           select: ['areaCode', 'areaType', 'areaName', 'postcode'],
           top: 20,
           useFuzzyMatching: false,
+          highlightPreTag: highlightTag,
+          highlightPostTag: highlightTag,
         }
       );
     });
@@ -56,6 +59,7 @@ describe('AreaSearchService', () => {
       const mockSearchResults = {
         results: [
           {
+            text: '',
             document: {
               areaCode: '123',
               areaType: 'Town',
@@ -63,6 +67,7 @@ describe('AreaSearchService', () => {
             },
           },
           {
+            text: '',
             document: {
               areaCode: '234',
               areaType: 'City',
@@ -70,6 +75,7 @@ describe('AreaSearchService', () => {
             },
           },
           {
+            text: '',
             document: {
               areaCode: '345',
               areaType: 'Mega City',
@@ -87,19 +93,28 @@ describe('AreaSearchService', () => {
 
       expect(results).toEqual([
         {
-          areaCode: '123',
-          areaType: 'Town',
-          areaName: 'Solihull',
+          text: '',
+          document: {
+            areaCode: '123',
+            areaType: 'Town',
+            areaName: 'Solihull',
+          },
         },
         {
-          areaCode: '234',
-          areaType: 'City',
-          areaName: 'Leeds',
+          text: '',
+          document: {
+            areaCode: '234',
+            areaType: 'City',
+            areaName: 'Leeds',
+          },
         },
         {
-          areaCode: '345',
-          areaType: 'Mega City',
-          areaName: 'London',
+          text: '',
+          document: {
+            areaCode: '345',
+            areaType: 'Mega City',
+            areaName: 'London',
+          },
         },
       ]);
     });
