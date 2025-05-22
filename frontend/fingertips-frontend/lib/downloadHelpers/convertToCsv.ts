@@ -22,9 +22,15 @@ export const convertRowToCsv = (row: CsvRow): string =>
 export const convertToCsv = (data: CsvData): string =>
   data.map(convertRowToCsv).join(lineBreak).trim();
 
-export function PopulationPyramidTableToCsv(
-  populationDataForArea: PopulationDataForArea
-): CsvField[][] {
+export function populationPyramidTableToCsvArray({
+  populationDataForArea,
+  populationDataForBenchmark,
+  populationDataForGroup,
+}: {
+  populationDataForArea: PopulationDataForArea;
+  populationDataForBenchmark?: PopulationDataForArea;
+  populationDataForGroup?: PopulationDataForArea;
+}): CsvField[][] {
   const header: CsvField[] = [
     'Area code',
     'Area name',
@@ -33,15 +39,27 @@ export function PopulationPyramidTableToCsv(
     'Female',
   ];
 
-  const rows: CsvField[][] = populationDataForArea.ageCategories.map(
-    (ageCategory, i) => [
-      populationDataForArea.areaCode,
-      populationDataForArea.areaName,
-      ageCategory,
-      populationDataForArea.maleSeries[i],
-      populationDataForArea.femaleSeries[i],
-    ]
+  const rows: CsvField[][] = populationPyramidTableAreaToCsvArray(
+    populationDataForArea
   );
+  if (populationDataForBenchmark)
+    rows.push(
+      ...populationPyramidTableAreaToCsvArray(populationDataForBenchmark)
+    );
+  if (populationDataForGroup)
+    rows.push(...populationPyramidTableAreaToCsvArray(populationDataForGroup));
 
   return [header, ...rows];
+}
+
+function populationPyramidTableAreaToCsvArray(
+  populationDataForArea: PopulationDataForArea
+): CsvField[][] {
+  return populationDataForArea.ageCategories.map((ageCategory, i) => [
+    populationDataForArea.areaCode,
+    populationDataForArea.areaName,
+    ageCategory,
+    populationDataForArea.maleSeries[i],
+    populationDataForArea.femaleSeries[i],
+  ]);
 }

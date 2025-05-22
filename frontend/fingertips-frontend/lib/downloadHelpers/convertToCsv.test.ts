@@ -3,7 +3,7 @@ import {
   convertRowToCsv,
   convertToCsv,
   CsvField,
-  PopulationPyramidTableToCsv,
+  populationPyramidTableToCsvArray,
 } from '@/lib/downloadHelpers/convertToCsv';
 import { PopulationDataForArea } from '../chartHelpers/preparePopulationData';
 
@@ -112,6 +112,30 @@ describe('PopulationPyramidTableToCsv', () => {
     maleSeries: [5, 4, 3, 2, 1],
   };
 
+  const stubBenchmarkToUse: PopulationDataForArea = {
+    areaCode: 'A002',
+    areaName: 'benchmark area',
+    total: 0,
+    ageCategories: stubPopulationDataForSelectedArea.ageCategories,
+    femaleSeries: stubPopulationDataForSelectedArea.femaleSeries.map(
+      (x) => x * 100
+    ),
+    maleSeries: stubPopulationDataForSelectedArea.maleSeries.map(
+      (x) => x * 100
+    ),
+  };
+
+  const stubGroupToUse: PopulationDataForArea = {
+    areaCode: 'A003',
+    areaName: 'group area',
+    total: 0,
+    ageCategories: stubPopulationDataForSelectedArea.ageCategories,
+    femaleSeries: stubPopulationDataForSelectedArea.femaleSeries.map(
+      (x) => x * 10
+    ),
+    maleSeries: stubPopulationDataForSelectedArea.maleSeries.map((x) => x * 10),
+  };
+
   const expectedHeaderCsvRow: CsvField[] = [
     'Area code',
     'Area name',
@@ -128,14 +152,60 @@ describe('PopulationPyramidTableToCsv', () => {
     ['A001', 'area one', 'youngest', 1, 5],
   ];
 
+  const expectedBenchmarkCsvRows: CsvField[][] = [
+    ['A002', 'benchmark area', 'oldest', 500, 100],
+    ['A002', 'benchmark area', 'upper middle', 400, 200],
+    ['A002', 'benchmark area', 'middle', 300, 300],
+    ['A002', 'benchmark area', 'lower middle', 200, 400],
+    ['A002', 'benchmark area', 'youngest', 100, 500],
+  ];
+
+  const expectedGroupCsvRows: CsvField[][] = [
+    ['A003', 'group area', 'oldest', 50, 10],
+    ['A003', 'group area', 'upper middle', 40, 20],
+    ['A003', 'group area', 'middle', 30, 30],
+    ['A003', 'group area', 'lower middle', 20, 40],
+    ['A003', 'group area', 'youngest', 10, 50],
+  ];
+
   it('should return the correct header and data when passed only healthDataForArea', () => {
+    // act
+    const actual: CsvField[][] = populationPyramidTableToCsvArray({
+      populationDataForArea: stubPopulationDataForSelectedArea,
+    });
+    // assert
+    expect(actual).toEqual([expectedHeaderCsvRow, ...expectedAreaCsvRows]);
+  });
+
+  it('should return the correct header and data when passed healthDataForArea and benchmarkData', () => {
     // arrange
     // act
-    const actual: CsvField[][] = PopulationPyramidTableToCsv(
-      stubPopulationDataForSelectedArea
-    );
+    const actual: CsvField[][] = populationPyramidTableToCsvArray({
+      populationDataForArea: stubPopulationDataForSelectedArea,
+      populationDataForBenchmark: stubBenchmarkToUse,
+    });
     // assert
-    expect(actual[0]).toEqual(expectedHeaderCsvRow);
-    expect(actual.slice(1)).toEqual(expectedAreaCsvRows);
+    expect(actual).toEqual([
+      expectedHeaderCsvRow,
+      ...expectedAreaCsvRows,
+      ...expectedBenchmarkCsvRows,
+    ]);
+  });
+
+  it('should return the correct header and data when passed healthDataForArea, benchmarkData and groupData', () => {
+    // arrange
+    // act
+    const actual: CsvField[][] = populationPyramidTableToCsvArray({
+      populationDataForArea: stubPopulationDataForSelectedArea,
+      populationDataForBenchmark: stubBenchmarkToUse,
+      populationDataForGroup: stubGroupToUse,
+    });
+    // assert
+    expect(actual).toEqual([
+      expectedHeaderCsvRow,
+      ...expectedAreaCsvRows,
+      ...expectedBenchmarkCsvRows,
+      ...expectedGroupCsvRows,
+    ]);
   });
 });
