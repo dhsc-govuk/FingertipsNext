@@ -21,10 +21,12 @@ const StyledPositionDiv = styled.div({
 const StyledPaddingDiv = styled.div({ paddingBottom: '30px' });
 
 export function InputField(props: Readonly<InputFieldProps>) {
+  const { characterLimit, thresholdPercentage, input } = props;
+
   const [inputTextLength, setInputTextLength] = useState(
-    props.input?.defaultValue?.toString().length ?? 0
+    input?.defaultValue?.toString().length ?? 0
   );
-  const existingOnChangeHandler = props.input?.onChange;
+  const existingOnChangeHandler = input?.onChange;
   const onChangeHandler: ChangeEventHandler<HTMLInputElement> = (e) => {
     if (existingOnChangeHandler !== undefined) {
       existingOnChangeHandler(e);
@@ -38,11 +40,9 @@ export function InputField(props: Readonly<InputFieldProps>) {
       <StyledInputField
         {...props}
         input={{
-          ...props.input,
-          maxLength: props.characterLimit ?? props.input?.maxLength,
-          onChange: props.characterLimit
-            ? onChangeHandler
-            : existingOnChangeHandler,
+          ...input,
+          maxLength: characterLimit ?? input?.maxLength,
+          onChange: characterLimit ? onChangeHandler : existingOnChangeHandler,
         }}
       >
         {props.children}
@@ -50,8 +50,8 @@ export function InputField(props: Readonly<InputFieldProps>) {
       <StyledPositionDiv>
         <CharacterCount
           textLength={inputTextLength}
-          characterLimit={props.characterLimit}
-          thresholdPercentage={props.thresholdPercentage}
+          characterLimit={characterLimit}
+          thresholdPercentage={thresholdPercentage}
         />
       </StyledPositionDiv>
     </StyledPaddingDiv>
