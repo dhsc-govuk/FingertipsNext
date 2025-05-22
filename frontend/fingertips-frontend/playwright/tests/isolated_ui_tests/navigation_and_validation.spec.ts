@@ -19,7 +19,7 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 const areaFiltersToSelect: AreaFilters = {
   areaType: 'gps',
   groupType: 'nhs-sub-integrated-care-boards',
-  group: 'E38000231',
+  group: '',
 };
 /**
  * Note that this test suite uses mock service worker to mock API responses, therefore these playwright tests are isolated from the backend

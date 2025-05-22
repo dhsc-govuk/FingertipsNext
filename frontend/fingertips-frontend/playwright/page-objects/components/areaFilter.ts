@@ -186,8 +186,11 @@ export default class AreaFilter extends BasePage {
       );
       await this.waitForURLToContain(SearchParams.GroupTypeSelected);
 
-      await this.selectGroupAndAssertURLUpdated(areaFiltersToSelect.group);
-      await this.waitForURLToContain(SearchParams.GroupSelected);
+      // handles gps
+      if (areaFiltersToSelect.group != '') {
+        await this.selectGroupAndAssertURLUpdated(areaFiltersToSelect.group);
+        await this.waitForURLToContain(SearchParams.GroupSelected);
+      }
 
       // Select appropriate number of checkboxes based on area mode
       const areaCheckboxList = this.page
