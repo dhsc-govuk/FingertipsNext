@@ -1,4 +1,3 @@
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import {
   convertFieldToCsv,
   convertRowToCsv,
@@ -131,7 +130,6 @@ describe('PopulationPyramidTableToCsv', () => {
 
   it('should return the correct header and data when passed only healthDataForArea', () => {
     // arrange
-    const expectedCsvRowsForArea: CsvField[][] = [[]];
     // act
     const actual: CsvField[][] = PopulationPyramidTableToCsv(
       stubPopulationDataForSelectedArea

@@ -1,4 +1,3 @@
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { PopulationDataForArea } from '../chartHelpers/preparePopulationData';
 
 const lineBreak = '\r\n';
