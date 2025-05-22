@@ -51,6 +51,7 @@ export interface LineChartTableProps {
   measurementUnit?: string;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
+  benchmarkOptions?: string
 }
 
 export interface LineChartTableRowData {
@@ -227,6 +228,7 @@ export function LineChartTable({
   measurementUnit,
   benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
   polarity = IndicatorPolarity.Unknown,
+  benchmarkOptions
 }: Readonly<LineChartTableProps>) {
   if (englandBenchmarkData && healthIndicatorData.length === 0) {
     healthIndicatorData = [englandBenchmarkData];
