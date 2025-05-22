@@ -1,21 +1,49 @@
+import { CsvColumnHeader } from '@/components/molecules/Export/export.types';
 import { InequalitiesTableRowData } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { CsvData } from '@/lib/downloadHelpers/convertToCsv';
 
+const headers: CsvColumnHeader[] = [
+  CsvColumnHeader.IndicatorId,
+  CsvColumnHeader.IndicatorName,
+  CsvColumnHeader.Period,
+  CsvColumnHeader.Area,
+  CsvColumnHeader.AreaCode,
+  CsvColumnHeader.InequalityCategory,
+  CsvColumnHeader.InequalityType,
+  CsvColumnHeader.ValueUnit,
+  CsvColumnHeader.Value,
+];
+
 export const convertInequalitiesTrendTableToCsvData = (
-  tableHeaders: string[],
-  tableRows: InequalitiesTableRowData[]
+  areaCode: string,
+  areaName: string,
+  inequalityCategory: string,
+  tableRows: InequalitiesTableRowData[],
+  indicatorId?: number,
+  indicatorName?: string,
+  valueUnit?: string
 ): CsvData => {
-  if (tableHeaders.length < 1 || tableRows.length < 1) {
+  if (tableRows.length < 1) {
     throw new Error('Invalid data provided.');
   }
 
-  const convertedRows = tableRows.map((tableRow) => {
-    const inequalityValues = Object.values(tableRow.inequalities).map(
-      (rowData) => rowData?.value
+  const convertedRows = tableRows.flatMap((tableRow) => {
+    return Object.entries(tableRow.inequalities).map(
+      ([inequalityType, rowData]) => {
+        return [
+          indicatorId,
+          indicatorName,
+          tableRow.period,
+          areaName,
+          areaCode,
+          inequalityCategory,
+          inequalityType,
+          valueUnit,
+          rowData?.value,
+        ];
+      }
     );
-
-    return [tableRow.period, ...inequalityValues];
   });
 
-  return [tableHeaders, ...convertedRows];
+  return [headers, ...convertedRows];
 };
