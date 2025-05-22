@@ -61,6 +61,7 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
 .c7 {
   text-align: left;
   vertical-align: top;
+  padding-left: 10px;
 }
 
 .c3 {
@@ -144,7 +145,7 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
 }
 
 .c12 h3 {
-  text-align: right;
+  text-align: center;
 }
 
 .c1 {

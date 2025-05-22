@@ -139,7 +139,9 @@ export function BarChartEmbeddedTable({
             </Table.Row>
 
             <Table.Row>
-              <Table.CellHeader style={{ verticalAlign: 'top' }}>
+              <Table.CellHeader
+                style={{ verticalAlign: 'top', paddingLeft: '10px' }}
+              >
                 {BarChartEmbeddedTableHeadingEnum.AreaName}
               </Table.CellHeader>
 
@@ -159,10 +161,18 @@ export function BarChartEmbeddedTable({
               >
                 {BarChartEmbeddedTableHeadingEnum.Value} {measurementUnit}
               </Table.CellHeader>
-              <Table.CellHeader style={{ verticalAlign: 'top' }}>
+              <Table.CellHeader
+                style={{ verticalAlign: 'top', textAlign: 'right' }}
+              >
                 {BarChartEmbeddedTableHeadingEnum.Lower}
               </Table.CellHeader>
-              <Table.CellHeader style={{ verticalAlign: 'top' }}>
+              <Table.CellHeader
+                style={{
+                  verticalAlign: 'top',
+                  textAlign: 'right',
+                  paddingRight: '10px',
+                }}
+              >
                 {BarChartEmbeddedTableHeadingEnum.Upper}
               </Table.CellHeader>
             </Table.Row>
@@ -177,7 +187,7 @@ export function BarChartEmbeddedTable({
           >
             <CheckValueInTableCell
               value={`Benchmark: ${benchmarkData?.areaName}`}
-              style={{ textAlign: 'left' }}
+              style={{ textAlign: 'left', paddingLeft: '10px' }}
             />
             <Table.Cell style={{ textAlign: 'center' }}>
               <TrendTag trendFromResponse={benchmarkDataPoint.trend} />
@@ -189,7 +199,11 @@ export function BarChartEmbeddedTable({
             />
             <FormatNumberInTableCell
               value={benchmarkDataPoint.value}
-              style={{ textAlign: 'right', paddingRight: '0px' }}
+              style={{
+                textAlign: 'right',
+                paddingRight: '0px',
+                paddingLeft: '20px',
+              }}
             />
             <Table.Cell style={{ paddingRight: '0px' }}>
               <SparklineChart
@@ -218,7 +232,7 @@ export function BarChartEmbeddedTable({
             />
             <FormatNumberInTableCell
               value={benchmarkDataPoint.upperCi}
-              style={{ textAlign: 'right' }}
+              style={{ textAlign: 'right', paddingRight: '10px' }}
             />
           </Table.Row>
         ) : null}
@@ -231,7 +245,7 @@ export function BarChartEmbeddedTable({
           >
             <CheckValueInTableCell
               value={`Group: ${groupIndicatorData?.areaName}`}
-              style={{ textAlign: 'left' }}
+              style={{ textAlign: 'left', paddingLeft: '10px' }}
             />
             <Table.Cell style={{ textAlign: 'center' }}>
               <TrendTag trendFromResponse={groupDataPoint.trend} />
@@ -243,7 +257,11 @@ export function BarChartEmbeddedTable({
             />
             <FormatNumberInTableCell
               value={groupDataPoint.value}
-              style={{ textAlign: 'right', paddingRight: '0px' }}
+              style={{
+                textAlign: 'right',
+                paddingRight: '0px',
+                paddingLeft: '20px',
+              }}
             />
             <Table.Cell style={{ paddingRight: '0px' }}>
               <SparklineChart
@@ -270,7 +288,7 @@ export function BarChartEmbeddedTable({
             />
             <FormatNumberInTableCell
               value={groupDataPoint.upperCi}
-              style={{ textAlign: 'right' }}
+              style={{ textAlign: 'right', paddingRight: '10px' }}
             />
           </Table.Row>
         ) : null}

@@ -82,11 +82,13 @@ exports[`Inequalities table suite snapshot test - should match snapshot 1`] = `
   z-index: 10;
   border-right: solid black 1px;
   padding-right: 0.5em;
+  padding-left: 10px;
 }
 
 .c5 {
   text-align: left;
   vertical-align: top;
+  padding-left: 10px;
 }
 
 .c6 {
@@ -198,12 +200,14 @@ exports[`Inequalities table suite snapshot test - should match snapshot 1`] = `
           <th
             class="c2 c3 c5 c6"
             data-testid="header-Period-0"
+            style="padding-left: 10px;"
           >
             Period
           </th>
           <th
-            class="c2 c3 c7 c8"
+            class="c2 c3 c7"
             data-testid="header-Persons-1"
+            style="padding-right: 10px;"
           >
             Persons
           </th>
@@ -234,16 +238,19 @@ exports[`Inequalities table suite snapshot test - should match snapshot 1`] = `
           </td>
           <td
             class="c9 c10 c13"
+            style="padding-right: 10px;"
           >
             890.3
           </td>
           <td
             class="c9 c10 c13"
+            style="padding-right: 10px;"
           >
             703.4
           </td>
           <td
             class="c9 c10 c13"
+            style="padding-right: 10px;"
           >
             703.4
           </td>
@@ -258,16 +265,19 @@ exports[`Inequalities table suite snapshot test - should match snapshot 1`] = `
           </td>
           <td
             class="c9 c10 c13"
+            style="padding-right: 10px;"
           >
             135.1
           </td>
           <td
             class="c9 c10 c13"
+            style="padding-right: 10px;"
           >
             890.3
           </td>
           <td
             class="c9 c10 c13"
+            style="padding-right: 10px;"
           >
             890.3
           </td>
