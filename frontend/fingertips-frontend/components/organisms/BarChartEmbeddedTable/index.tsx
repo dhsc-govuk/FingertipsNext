@@ -26,7 +26,7 @@ import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import {
   BarChartEmbeddedTableHeadingEnum,
   chartName,
-  getFirstCompleteYear,
+  getLatestYearWithBenchmarks,
   getMaxValue,
 } from '@/components/organisms/BarChartEmbeddedTable/barChartEmbeddedTableHelpers';
 
@@ -81,7 +81,7 @@ export function BarChartEmbeddedTable({
   dataSource,
 }: Readonly<BarChartEmbeddedTableProps>) {
   const maxValue = getMaxValue(healthIndicatorData);
-  const fullYear = getFirstCompleteYear(
+  const fullYear = getLatestYearWithBenchmarks(
     healthIndicatorData,
     benchmarkData,
     groupIndicatorData
