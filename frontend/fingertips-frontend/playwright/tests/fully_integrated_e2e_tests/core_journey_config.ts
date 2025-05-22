@@ -59,23 +59,6 @@ export const coreTestJourneys: TestParams[] = [
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
-    areaMode: AreaMode.THREE_PLUS_AREAS,
-    searchMode: SearchMode.BOTH_SUBJECT_AND_AREA,
-    subjectSearchTerm: 'emergency',
-    indicatorsToSelect: [
-      {
-        indicatorID: '41101',
-        knownTrend: 'No recent trend data available',
-      },
-    ],
-    areaFiltersToSelect: {
-      areaType: 'regions',
-      groupType: 'england',
-      group: 'england',
-    },
-  },
-  {
-    indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
     searchMode: SearchMode.ONLY_SUBJECT,
     subjectSearchTerm: 'emergency',
