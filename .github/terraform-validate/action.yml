@@ -1,6 +1,11 @@
 name: 'Reusable Terraform Unit Tests'
 
 inputs:
+  environment:
+    description: 'Deployment environment (dev, beta, prod)'
+    required: true
+    type: string
+    default: 'default'
   terraform_directory:
     description: 'The directory containing Terraform configuration files'
     required: true
@@ -45,6 +50,27 @@ runs:
           -backend-config="storage_account_name=${{ inputs.terraform_state_storage_account }}" \
           -backend-config="container_name=${{ inputs.terraform_state_storage_container }}" \
           -backend-config="key=${{ inputs.terraform_state_key }}"
+
+    - name: Select Terraform Workspace
+      shell: bash
+      working-directory: ${{ inputs.terraform_directory }}
+      run: |
+        ENVIRONMENT="${{ inputs.environment }}"
+
+        if [[ "$ENVIRONMENT" == "dev" ]]; then
+          WORKSPACE="default"
+        else
+          WORKSPACE="$ENVIRONMENT"
+        fi
+
+        echo "Using Terraform workspace: $WORKSPACE"
+
+        # Check if workspace exists; create it if it doesn't
+        if terraform workspace list | grep -q "$WORKSPACE"; then
+          terraform workspace select "$WORKSPACE"
+        else
+          terraform workspace new "$WORKSPACE"
+        fi
 
     - name: Terraform Validate
       working-directory: ${{ inputs.terraform_directory }}
