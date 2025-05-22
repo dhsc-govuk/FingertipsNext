@@ -284,13 +284,44 @@ paths:
       tags:
         - indicators
       summary: Get quartile values for indicators
-      description: |
+      description:
         Get quartile information for indicators including
       parameters:
-        - $ref: "#/components/parameters/indicator_ids"
-        - $ref: "#/components/parameters/area_code"
-        - $ref: "#/components/parameters/area_type"
-        - $ref: "#/components/parameters/ancestor_code"
+        - name: ancestor_code
+          in: query
+          style: simple
+          schema:
+            type: string
+            example: E12000001
+          explode: false
+          required: true
+          description: The area code of an ancestor area
+        - name: area_code
+          in: query
+          style: simple
+          schema:
+            type: string
+            example: G82109
+          explode: false
+          required: true
+          description: The area code of the area/ geography
+        - name: area_type
+          in: query
+          required: true
+          description: The area type which the areas belong to
+          schema:
+            type: string
+        - name: indicator_ids
+          in: query
+          required: true
+          description: A list of indicator_ids, up to 10 can be requested
+          style: form
+          schema:
+            type: array
+            items:
+              type: integer
+              example: 1234
+            maxItems: 10
       responses:
         "200":
           description: search results matching criteria
