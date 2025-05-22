@@ -80,12 +80,12 @@ describe('generate headers and rows', () => {
   });
 
   it('should set the second header to period header', () => {
-    expect(headers[1].type).toEqual(HeaderType.IndicatorInformation);
+    expect(headers[1].type).toEqual(HeaderType.IndicatorInformationPeriod);
     expect(headers[1].content).toEqual('Period');
   });
 
   it('should set the third header to value unit header', () => {
-    expect(headers[2].type).toEqual(HeaderType.IndicatorInformation);
+    expect(headers[2].type).toEqual(HeaderType.IndicatorInformationValueUnit);
     expect(headers[2].content).toEqual('Value unit');
   });
 

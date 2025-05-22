@@ -33,7 +33,10 @@ export const BarChartEmbeddedRow: FC<BarChartEmbeddedRowProps> = ({
 }) => {
   return (
     <Table.Row key={`${item.area}`} className={barChartEmbeddedRowClassName}>
-      <CheckValueInTableCell value={item.area} style={{ textAlign: 'left' }} />
+      <CheckValueInTableCell
+        value={item.area}
+        style={{ textAlign: 'left', paddingLeft: '10px' }}
+      />
       <Table.Cell style={{ textAlign: 'center' }}>
         <TrendTag trendFromResponse={item.trend} />
       </Table.Cell>
@@ -44,7 +47,7 @@ export const BarChartEmbeddedRow: FC<BarChartEmbeddedRowProps> = ({
       />
       <FormatNumberInTableCell
         value={item.value}
-        style={{ textAlign: 'right', paddingRight: '0px' }}
+        style={{ textAlign: 'right', paddingRight: '0px', paddingLeft: '20px' }}
       />
       <Table.Cell style={{ paddingRight: '0px' }}>
         <SparklineChart
@@ -67,7 +70,7 @@ export const BarChartEmbeddedRow: FC<BarChartEmbeddedRowProps> = ({
       />
       <FormatNumberInTableCell
         value={item.upperCi}
-        style={{ textAlign: 'right' }}
+        style={{ textAlign: 'right', paddingRight: '10px' }}
       />
     </Table.Row>
   );

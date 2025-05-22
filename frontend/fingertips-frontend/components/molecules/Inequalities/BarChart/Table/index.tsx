@@ -6,24 +6,20 @@ import {
 import {
   getDisplayValue,
   getDisplayWholeNumber,
-  StyledAlignLeftTableCell,
+  StyledAlignLeftTableCellPaddingLeft,
   StyledAlignRightTableCell,
+  StyledAlignRightTableCellPaddingRight,
+  StyledCenterTableCell,
 } from '@/lib/tableHelpers';
 import { Table } from 'govuk-react';
 import React from 'react';
 import { InequalitiesBarChartTableHead } from '@/components/molecules/Inequalities/BarChart/Table/InequalitiesBarChartTableHead';
 import { InequalitiesBenchmarkLabel } from '@/components/molecules/Inequalities/BarChart/Table/InequalitiesBenchmarkLabel';
-import styled from 'styled-components';
 import {
   BenchmarkComparisonMethod,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { getConfidenceLimitNumber } from '@/lib/chartHelpers/chartHelpers';
-
-const StyledAlignLeftTableCellNoPadding = styled(StyledAlignLeftTableCell)({
-  padding: 0,
-  height: '2.8125em', //45px
-});
 
 interface InequalitiesBarChartTableProps {
   tableData: InequalitiesBarChartData;
@@ -64,8 +60,10 @@ export function InequalitiesBarChartTable({
       >
         {sortedKeys.map((key) => (
           <Table.Row key={key}>
-            <StyledAlignLeftTableCell>{key}</StyledAlignLeftTableCell>
-            <StyledAlignLeftTableCellNoPadding>
+            <StyledAlignLeftTableCellPaddingLeft>
+              {key}
+            </StyledAlignLeftTableCellPaddingLeft>
+            <StyledCenterTableCell>
               {inequalityDimensions.includes(key) ? (
                 <InequalitiesBenchmarkLabel
                   benchmarkComparisonMethod={benchmarkComparisonMethod}
@@ -73,7 +71,7 @@ export function InequalitiesBarChartTable({
                   polarity={polarity}
                 />
               ) : null}
-            </StyledAlignLeftTableCellNoPadding>
+            </StyledCenterTableCell>
             <StyledAlignRightTableCell>
               {getDisplayWholeNumber(inequalities[key]?.count)}
             </StyledAlignRightTableCell>
@@ -83,9 +81,9 @@ export function InequalitiesBarChartTable({
             <StyledAlignRightTableCell>
               {getDisplayValue(inequalities[key]?.lower)}
             </StyledAlignRightTableCell>
-            <StyledAlignRightTableCell>
+            <StyledAlignRightTableCellPaddingRight>
               {getDisplayValue(inequalities[key]?.upper)}
-            </StyledAlignRightTableCell>
+            </StyledAlignRightTableCellPaddingRight>
           </Table.Row>
         ))}
       </Table>

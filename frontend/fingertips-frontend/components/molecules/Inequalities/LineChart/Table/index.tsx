@@ -34,14 +34,31 @@ const StyledAlignRightHeaderWithPadding = styled(StyledAlignRightHeader)({
 });
 
 const getCellHeader = (heading: string, index: number): ReactNode => {
-  return heading === InequalitiesTableHeadingsEnum.PERIOD ? (
-    <StyledAlignStickyLeftHeader
-      data-testid={`header-${heading}-${index}`}
-      key={heading + index}
-    >
-      {heading}
-    </StyledAlignStickyLeftHeader>
-  ) : (
+  if (heading === InequalitiesTableHeadingsEnum.PERIOD) {
+    return (
+      <StyledAlignStickyLeftHeader
+        data-testid={`header-${heading}-${index}`}
+        key={heading + index}
+        style={{ paddingLeft: '10px' }}
+      >
+        {heading}
+      </StyledAlignStickyLeftHeader>
+    );
+  }
+
+  if (heading === 'Persons') {
+    return (
+      <StyledAlignRightHeader
+        data-testid={`header-${heading}-${index}`}
+        key={heading + index}
+        style={{ paddingRight: '10px' }}
+      >
+        {heading}
+      </StyledAlignRightHeader>
+    );
+  }
+
+  return (
     <StyledAlignRightHeaderWithPadding
       data-testid={`header-${heading}-${index}`}
       key={heading + index}
@@ -103,7 +120,10 @@ export function InequalitiesLineChartTable({
               {String(data.period)}
             </StyledAlignLeftStickyTableCell>
             {dynamicKeys.map((key, index) => (
-              <StyledAlignRightTableCell key={key + index}>
+              <StyledAlignRightTableCell
+                key={key + index}
+                style={{ paddingRight: '10px' }}
+              >
                 {getDisplayValue(data.inequalities[key]?.value)}
               </StyledAlignRightTableCell>
             ))}

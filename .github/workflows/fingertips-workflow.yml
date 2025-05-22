@@ -271,6 +271,7 @@ jobs:
       )
     uses: ./.github/workflows/e2e-and-api-tests.yml
     with:
+      environment: dev
       playwright-mode: docker
     secrets:
       fingertips_e2e_db_password: ${{ secrets.FINGERTIPS_E2E_DB_PASSWORD }}
@@ -288,6 +289,7 @@ jobs:
         needs.check-changes.outputs.api_changed == 'true'
       )
     with:
+      environment: dev
       context-location: api
       container-tag: dhsc.fingertipsnext.api
       git-semver: ${{ needs.determine-version.outputs.sem-ver }}
@@ -308,6 +310,7 @@ jobs:
         needs.check-changes.outputs.frontend_changed == 'true'
       )
     with:
+      environment: dev
       context-location: frontend/fingertips-frontend
       container-tag: dhsc.fingertipsnext.frontend
       git-semver: ${{ needs.determine-version.outputs.sem-ver }}
@@ -326,7 +329,7 @@ jobs:
         push-container-frontend,
       ]
     environment: development
-    runs-on: self-hosted
+    runs-on: dev
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
@@ -407,7 +410,7 @@ jobs:
       )
     environment: development
     name: Run Trend Analysis App
-    runs-on: self-hosted
+    runs-on: dev
     env:
       ACTIONS_RUNNER_DEBUG: true
     strategy:
@@ -459,7 +462,7 @@ jobs:
         ) ||
         github.event_name == 'workflow_dispatch'
       )
-    runs-on: self-hosted
+    runs-on: dev
     defaults:
       run:
         working-directory: ./search-setup
@@ -724,6 +727,7 @@ jobs:
         github.event_name == 'workflow_dispatch'
       )
     with:
+      environment: dev
       playwright-mode: azure
     secrets:
       slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
