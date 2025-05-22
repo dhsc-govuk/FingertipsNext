@@ -335,8 +335,8 @@ describe('PopulationPyramidTableToCsv', () => {
     // assert
     expect(actual).toEqual([
       expectedHeaderCsvRow,
-      ...expectedAreaCsvRows,
       ...expectedBenchmarkCsvRows,
+      ...expectedAreaCsvRows,
     ]);
   });
 
@@ -354,9 +354,9 @@ describe('PopulationPyramidTableToCsv', () => {
     // assert
     expect(actual).toEqual([
       expectedHeaderCsvRow,
-      ...expectedAreaCsvRows,
       ...expectedBenchmarkCsvRows,
       ...expectedGroupCsvRows,
+      ...expectedAreaCsvRows,
     ]);
   });
 });

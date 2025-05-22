@@ -48,12 +48,7 @@ export function populationPyramidTableToCsvArray({
     'Female',
   ];
 
-  const rows: CsvField[][] = populationPyramidTableAreaToCsvArray(
-    indicatorId,
-    indicatorName,
-    period,
-    populationDataForArea
-  );
+  const rows: CsvField[][] = [];
   if (populationDataForBenchmark)
     rows.push(
       ...populationPyramidTableAreaToCsvArray(
@@ -72,6 +67,14 @@ export function populationPyramidTableToCsvArray({
         populationDataForGroup
       )
     );
+  rows.push(
+    ...populationPyramidTableAreaToCsvArray(
+      indicatorId,
+      indicatorName,
+      period,
+      populationDataForArea
+    )
+  );
 
   return [header, ...rows];
 }
