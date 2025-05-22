@@ -129,7 +129,8 @@ test.describe(
               indicatorMode,
               areaMode,
               test,
-              selectedIndicatorsData
+              selectedIndicatorsData,
+              areaFiltersToSelect!
             );
           });
         });

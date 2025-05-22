@@ -207,10 +207,7 @@ export default class ChartPage extends AreaFilter {
       {
         condition: componentProps.hasBenchmark,
         action: () =>
-          this.selectBenchmarkDropdownOption(
-            componentLocator,
-            selectedAreaFilters
-          ),
+          this.selectBenchmarkDropdownOption(component, selectedAreaFilters),
       },
     ];
 
@@ -359,42 +356,38 @@ export default class ChartPage extends AreaFilter {
     }
   }
 
-  // selects config defined group if passed in
   private async selectBenchmarkDropdownOption(
-    componentLocator: string,
+    component: VisibleComponent,
     selectedAreaFilters: AreaFilters
   ) {
-    //check benchmark and on hover is England before changing dropdown
+    const dropdownComponent = ChartPage.benchmarkDropDownComponent;
 
-    // assert benchmark list in dropdown matches the api + England
-
-    const dropdownComponent = componentLocator;
+    //check benchmark and on hover is defaulted to England before changing dropdown
+    await expect(
+      this.page
+        .getByTestId(component.componentLocator)
+        .getByText('Benchmark: England')
+    ).toBeVisible();
 
     const combobox = this.page
       .getByTestId(dropdownComponent)
       .getByRole('combobox');
     const options = await this.getSelectOptions(combobox);
 
-    // should have England and the group
+    // should have 2 options in dropdown: England and the group selected
     expect(options.length).toBe(2);
-
-    // const lastOption = options.at(-1)?.value;
-    // if (!lastOption) return;
-
-    await combobox.selectOption({ value: selectedAreaFilters.group });
+    await combobox.selectOption({ label: selectedAreaFilters.group });
     await this.waitAfterDropDownInteraction();
-    await this.waitForURLToContain(
-      encodeURIComponent(selectedAreaFilters.group)
+    expect(await combobox.locator('option:checked').textContent()).toBe(
+      selectedAreaFilters.group
     );
 
     //check benchmark and on hover is the group one after changing dropdown
     await expect(
-      this.page.getByText(
-        `persons for ${selectedAreaFilters.group} time period`
-      )
+      this.page
+        .getByTestId(component.componentLocator)
+        .getByText(`Benchmark: ${selectedAreaFilters.group}`)
     ).toBeVisible();
-
-    expect(await combobox.inputValue()).toBe(selectedAreaFilters.group);
   }
 
   // verifies component is visible and baseline screenshot matches

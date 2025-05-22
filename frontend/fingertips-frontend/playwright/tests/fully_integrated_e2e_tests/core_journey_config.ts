@@ -42,8 +42,25 @@ export const coreTestJourneys: TestParams[] = [
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
-    areaMode: AreaMode.THREE_PLUS_AREAS,
+    areaMode: AreaMode.TWO_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
+    subjectSearchTerm: 'emergency',
+    indicatorsToSelect: [
+      {
+        indicatorID: '41101',
+        knownTrend: 'No recent trend data available',
+      },
+    ],
+    areaFiltersToSelect: {
+      areaType: 'counties-and-unitary-authorities',
+      groupType: 'regions',
+      group: 'North West Region',
+    },
+  },
+  {
+    indicatorMode: IndicatorMode.ONE_INDICATOR,
+    areaMode: AreaMode.THREE_PLUS_AREAS,
+    searchMode: SearchMode.BOTH_SUBJECT_AND_AREA,
     subjectSearchTerm: 'emergency',
     indicatorsToSelect: [
       {
