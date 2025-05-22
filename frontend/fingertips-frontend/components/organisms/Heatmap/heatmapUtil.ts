@@ -15,7 +15,8 @@ export const heatmapDataColumnWidth = 60;
 
 export enum HeaderType {
   IndicatorTitle,
-  IndicatorInformation,
+  IndicatorInformationPeriod,
+  IndicatorInformationValueUnit,
   BenchmarkArea,
   GroupArea,
   Area,
@@ -23,7 +24,8 @@ export enum HeaderType {
 
 export enum CellType {
   IndicatorTitle,
-  IndicatorInformation,
+  IndicatorInformationPeriod,
+  IndicatorInformationValueUnit,
   Data,
 }
 
@@ -131,14 +133,14 @@ export const generateRows = (
       },
       {
         key: `col-${indicator.id}-period`,
-        type: CellType.IndicatorInformation,
+        type: CellType.IndicatorInformationPeriod,
         content: indicator.latestDataPeriod
           ? indicator.latestDataPeriod.toString()
           : '',
       },
       {
         key: `col-${indicator.id}-unitlabel`,
-        type: CellType.IndicatorInformation,
+        type: CellType.IndicatorInformationValueUnit,
         content: indicator.unitLabel,
       },
     ];
@@ -354,8 +356,12 @@ export const generateHeaders = (
       return HeaderType.IndicatorTitle;
     }
 
-    if (pos === 1 || pos === 2) {
-      return HeaderType.IndicatorInformation;
+    if (pos === 1) {
+      return HeaderType.IndicatorInformationPeriod;
+    }
+
+    if (pos === 2) {
+      return HeaderType.IndicatorInformationValueUnit;
     }
 
     if (areaCode === areaCodeForEngland) {
@@ -376,10 +382,10 @@ export const generateHeaders = (
         return `${prefix}-indicator`;
       }
       case 1: {
-        return `${prefix}-unitlabel`;
+        return `${prefix}-period`;
       }
       case 2: {
-        return `${prefix}-period`;
+        return `${prefix}-unitlabel`;
       }
       default: {
         return `${prefix}-${areaCode}`;
