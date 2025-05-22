@@ -33,6 +33,7 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { convertLineChartTableToCsvData } from '@/components/organisms/LineChartTable/convertLineChartTableToCsvData';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
 
 export enum LineChartTableHeadingEnum {
@@ -293,6 +294,14 @@ export function LineChartTable({
     })
     .toSorted((a, b) => a.year - b.year);
 
+  const csvData = convertLineChartTableToCsvData(
+    healthIndicatorData,
+    groupIndicatorData,
+    englandBenchmarkData,
+    measurementUnit,
+    confidenceLimit
+  );
+
   return (
     <>
       <StyledDivWithScrolling data-testid="lineChartTable-component">
@@ -445,10 +454,7 @@ export function LineChartTable({
       </StyledDivWithScrolling>
       <ExportOptionsButton
         targetId={'lineChartTable'}
-        csvData={[
-          ['a', 'b', 'c'],
-          [1, 2, 3],
-        ]}
+        csvData={csvData}
       />
     </>
   );
