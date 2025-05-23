@@ -46,7 +46,10 @@ describe('exportHelpers', () => {
     it('calls html2canvas and returns canvas with modified styles', async () => {
       const result = await getHtmlToImageCanvas('test-id');
 
-      expect(html2canvas).toHaveBeenCalledWith(mockElement, { scale: 2.5 });
+      expect(html2canvas).toHaveBeenCalledWith(mockElement, {
+        scale: 2.5,
+        onclone: expect.any(Function),
+      });
       expect(result).toBe(mockCanvas);
       expect(result?.style.width).toBe('100%');
       expect(result?.style.height).toBe('auto');
