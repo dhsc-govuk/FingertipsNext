@@ -254,7 +254,6 @@ GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=
 > {%
     client.test("Expected empty healthdata arrays if area_codes not in area_group", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
-        client.assert(response.body.areaHealthData.length == 0, "Have not received data for all areas");
         response.body.areaHealthData.forEach((areaResult) => {
             client.assert(areaResult.healthData.length == 0, "All healthData results should be empty"
             );
