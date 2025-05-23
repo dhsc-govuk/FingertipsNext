@@ -12,6 +12,7 @@ import {
   personsSex,
 } from '@/lib/mocks';
 import { formatNumber } from '@/lib/numberFormatter';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 function cloneDeep<T>(input: T) {
   return JSON.parse(JSON.stringify(input)) as T;
@@ -172,7 +173,10 @@ describe('BarChartEmbeddedTable', () => {
 
   it('should render BarChartEmbeddedTable component', async () => {
     render(
-      <BarChartEmbeddedTable healthIndicatorData={mockHealthIndicatorData} />
+      <BarChartEmbeddedTable
+        benchmarkToUse={areaCodeForEngland}
+        healthIndicatorData={mockHealthIndicatorData}
+      />
     );
 
     expect(await screen.findByRole('table')).toBeInTheDocument();
@@ -185,7 +189,8 @@ describe('BarChartEmbeddedTable', () => {
     render(
       <BarChartEmbeddedTable
         healthIndicatorData={mockHealthIndicatorData}
-        benchmarkData={mockBenchmarkData}
+        benchmarkToUse={areaCodeForEngland}
+        englandData={mockBenchmarkData}
       />
     );
 
@@ -199,7 +204,8 @@ describe('BarChartEmbeddedTable', () => {
     render(
       <BarChartEmbeddedTable
         healthIndicatorData={mockHealthIndicatorData}
-        benchmarkData={mockBenchmarkData}
+        benchmarkToUse={areaCodeForEngland}
+        englandData={mockBenchmarkData}
         groupIndicatorData={mockGroupData}
       />
     );
@@ -215,7 +221,8 @@ describe('BarChartEmbeddedTable', () => {
       render(
         <BarChartEmbeddedTable
           healthIndicatorData={mockHealthIndicatorData}
-          benchmarkData={undefined}
+          benchmarkToUse={areaCodeForEngland}
+          englandData={undefined}
           groupIndicatorData={undefined}
         />
       );
@@ -230,7 +237,8 @@ describe('BarChartEmbeddedTable', () => {
       render(
         <BarChartEmbeddedTable
           healthIndicatorData={mockHealthIndicatorData}
-          benchmarkData={mockBenchmarkData}
+          benchmarkToUse={areaCodeForEngland}
+          englandData={mockBenchmarkData}
         />
       );
     });
@@ -252,7 +260,10 @@ describe('BarChartEmbeddedTable', () => {
 
     await act(() =>
       render(
-        <BarChartEmbeddedTable healthIndicatorData={mockHealthIndicatorData} />
+        <BarChartEmbeddedTable
+          benchmarkToUse={areaCodeForEngland}
+          healthIndicatorData={mockHealthIndicatorData}
+        />
       )
     );
 
@@ -281,7 +292,12 @@ describe('BarChartEmbeddedTable', () => {
       .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
 
     await act(() =>
-      render(<BarChartEmbeddedTable healthIndicatorData={mockData} />)
+      render(
+        <BarChartEmbeddedTable
+          benchmarkToUse={areaCodeForEngland}
+          healthIndicatorData={mockData}
+        />
+      )
     );
 
     const header = screen.getAllByRole('columnheader');
@@ -302,7 +318,8 @@ describe('BarChartEmbeddedTable', () => {
     render(
       <BarChartEmbeddedTable
         healthIndicatorData={mockHealthIndicatorData}
-        benchmarkData={mockBenchmarkData}
+        benchmarkToUse={areaCodeForEngland}
+        englandData={mockBenchmarkData}
       />
     );
 
@@ -314,7 +331,8 @@ describe('BarChartEmbeddedTable', () => {
     render(
       <BarChartEmbeddedTable
         healthIndicatorData={mockHealthIndicatorData}
-        benchmarkData={mockBenchmarkData}
+        benchmarkToUse={areaCodeForEngland}
+        englandData={mockBenchmarkData}
       />
     );
 
@@ -326,7 +344,8 @@ describe('BarChartEmbeddedTable', () => {
     render(
       <BarChartEmbeddedTable
         healthIndicatorData={mockHealthIndicatorData}
-        benchmarkData={mockBenchmarkData}
+        benchmarkToUse={areaCodeForEngland}
+        englandData={mockBenchmarkData}
       />
     );
 
@@ -342,7 +361,8 @@ describe('BarChartEmbeddedTable', () => {
     render(
       <BarChartEmbeddedTable
         healthIndicatorData={mockHealthIndicatorData}
-        benchmarkData={mockBenchmarkData}
+        benchmarkToUse={areaCodeForEngland}
+        englandData={mockBenchmarkData}
       />
     );
     const checkbox = await screen.findByRole('checkbox');
@@ -355,7 +375,8 @@ describe('BarChartEmbeddedTable', () => {
       render(
         <BarChartEmbeddedTable
           healthIndicatorData={mockHealthIndicatorData}
-          benchmarkData={mockBenchmarkData}
+          benchmarkToUse={areaCodeForEngland}
+          englandData={mockBenchmarkData}
         />
       );
     });
@@ -373,7 +394,8 @@ describe('BarChartEmbeddedTable', () => {
     render(
       <BarChartEmbeddedTable
         healthIndicatorData={mockHealthIndicatorData}
-        benchmarkData={mockBenchmarkData}
+        benchmarkToUse={areaCodeForEngland}
+        englandData={mockBenchmarkData}
         dataSource={'bar chart data source'}
       />
     );
