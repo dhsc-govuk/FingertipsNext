@@ -100,7 +100,7 @@ runs:
       id: tf-plan
       run: |
         export exitcode=0
-        terraform plan -detailed-exitcode -no-color -out tfplan-${{ env.TF_VAR_container_name }} || export exitcode=$?
+        terraform plan -detailed-exitcode -no-color -out tfplan-${{ env.TF_VAR_container_name }}-${{ inputs.environment }} || export exitcode=$?
 
         echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
 
@@ -114,15 +114,15 @@ runs:
     - name: Publish Terraform Plan
       uses: actions/upload-artifact@v4
       with:
-        name: tfplan-${{ env.TF_VAR_container_name }}
-        path: ${{ inputs.terraform_directory }}/tfplan-${{ env.TF_VAR_container_name }}
+        name: tfplan-${{ env.TF_VAR_container_name }}-${{ inputs.environment }}
+        path: ${{ inputs.terraform_directory }}/tfplan-${{ env.TF_VAR_container_name }}-${{ inputs.environment }}
 
     - name: Create String Output
       shell: bash
       working-directory: ${{ inputs.terraform_directory }}
       id: tf-plan-string
       run: |
-        TERRAFORM_PLAN=$(terraform show -no-color tfplan-${{ env.TF_VAR_container_name }})
+        TERRAFORM_PLAN=$(terraform show -no-color tfplan-${{ env.TF_VAR_container_name }}-${{ inputs.environment }})
 
         delimiter="$(openssl rand -hex 8)"
         echo "summary<<${delimiter}" >> $GITHUB_OUTPUT
