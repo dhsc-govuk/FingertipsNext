@@ -3,22 +3,8 @@ import { FTFooter } from '@/components/molecules/Footer';
 import { FTHeader } from '@/components/molecules/Header';
 import StyledComponentsRegistry from '@/lib/registry';
 import type { Metadata } from 'next';
-import localFont from 'next/font/local';
-
-const gdsTransportFont = localFont({
-  src: [
-    {
-      path: './fonts/GDSTransportBold.ttf',
-      weight: '700',
-      style: 'normal',
-    },
-    {
-      path: './fonts/GDSTransportLight.ttf',
-      weight: '400',
-      style: 'normal',
-    },
-  ],
-});
+import { ReactNode } from 'react';
+import '../global.css';
 
 export const metadata: Metadata = {
   title: 'FingertipsNext',
@@ -29,14 +15,14 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   // vars read SSR and passed down to the footer component
   const tag = process.env.NEXT_PUBLIC_FINGERTIPS_GIT_TAG;
   const hash = process.env.NEXT_PUBLIC_FINGERTIPS_GIT_HASH;
   return (
     <html lang="en">
-      <body className={gdsTransportFont.className} style={{ margin: 0 }}>
+      <body style={{ margin: 0 }}>
         <StyledComponentsRegistry>
           <FTHeader />
           <FTContainer>{children}</FTContainer>
