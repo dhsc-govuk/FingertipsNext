@@ -303,14 +303,16 @@ namespace DataCreator
         public async Task<IEnumerable<AgeEntity>> GetAgeDataAsync() =>
             await _pholioDataFetcher.FetchAgeDataAsync();
         
-        // DHSCFT-750
         public static void CreateHealthMeasurePeriodDates(List<SimpleIndicator> indicators,
             List<HealthMeasureEntity> healthMeasures)
         {
+            var indicatorsYearMap = indicators.ToDictionary(
+                i => i.IndicatorID,
+                i => i.YearType);
             foreach (var healthMeasure in healthMeasures)
             {
-                var indicatorYearType = indicators.First(i => 
-                    i.IndicatorID == healthMeasure.IndicatorId).YearType;
+                var indicatorYearType = indicatorsYearMap[healthMeasure.IndicatorId];
+                
                 int year;
                 switch (indicatorYearType)
                 {

@@ -31,8 +31,9 @@ namespace DataCreator
 
         public static void WriteHealthCsvData(string fileName, IEnumerable<HealthMeasureEntity> data)
         {
-            var firstHalf = data.Take(data.Count() / 2);
-            var secondHalf = data.Skip(data.Count() / 2);
+            var firstHalfCount = data.Count()/2;
+            var firstHalf = data.Take(firstHalfCount);
+            var secondHalf = data.Skip(firstHalfCount);
             
             new CsvContext().Write(firstHalf, Path.Join(OutFolderPath, $"{fileName}1.csv"), CsvFileDescription);
             new CsvContext().Write(secondHalf, Path.Join(OutFolderPath, $"{fileName}2.csv"), CsvFileDescription);
