@@ -121,7 +121,6 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       {
         areaCodes: ['E12000004', 'E12000006', 'E12000007'],
         indicatorId: 1,
-        includeEmptyAreas: true,
         latestOnly: true,
         benchmarkRefType: BenchmarkReferenceType.England,
       },
@@ -149,7 +148,6 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       {
         areaCodes: ['E12000004', 'E12000006'],
         indicatorId: 1,
-        includeEmptyAreas: true,
         latestOnly: false,
         benchmarkRefType: BenchmarkReferenceType.England,
       },

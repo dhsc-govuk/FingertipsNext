@@ -38,7 +38,7 @@ export const BarChartEmbeddedRow: FC<BarChartEmbeddedRowProps> = ({
         style={{ textAlign: 'left', paddingLeft: '10px' }}
       />
       <Table.Cell style={{ textAlign: 'center' }}>
-        <TrendTag trendFromResponse={item.trend} />
+        {!!item.trend ? <TrendTag trendFromResponse={item.trend} /> : null}
       </Table.Cell>
       <FormatNumberInTableCell
         value={item.count}
@@ -50,19 +50,21 @@ export const BarChartEmbeddedRow: FC<BarChartEmbeddedRowProps> = ({
         style={{ textAlign: 'right', paddingRight: '0px', paddingLeft: '20px' }}
       />
       <Table.Cell style={{ paddingRight: '0px' }}>
-        <SparklineChart
-          value={[item.value]}
-          maxValue={maxValue}
-          confidenceIntervalValues={[item.lowerCi, item.upperCi]}
-          showConfidenceIntervalsData={showConfidenceIntervalsData}
-          benchmarkOutcome={item.benchmarkComparison?.outcome}
-          benchmarkComparisonMethod={benchmarkComparisonMethod}
-          polarity={polarity}
-          label={AreaTypeLabelEnum.Area}
-          area={item.area}
-          year={item.year}
-          measurementUnit={measurementUnit}
-        />
+        {!!item.value ? (
+          <SparklineChart
+            value={[item.value]}
+            maxValue={maxValue}
+            confidenceIntervalValues={[item.lowerCi, item.upperCi]}
+            showConfidenceIntervalsData={showConfidenceIntervalsData}
+            benchmarkOutcome={item.benchmarkComparison?.outcome}
+            benchmarkComparisonMethod={benchmarkComparisonMethod}
+            polarity={polarity}
+            label={AreaTypeLabelEnum.Area}
+            area={item.area}
+            year={item.year}
+            measurementUnit={measurementUnit}
+          />
+        ) : null}
       </Table.Cell>
       <FormatNumberInTableCell
         value={item.lowerCi}
