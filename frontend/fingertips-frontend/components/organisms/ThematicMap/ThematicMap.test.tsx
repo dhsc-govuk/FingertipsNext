@@ -86,4 +86,10 @@ describe('ThematicMap', () => {
     const hovers = await screen.findAllByTestId('benchmark-tooltip-area');
     expect(hovers).toHaveLength(9);
   });
+
+  it('should render the export button', async () => {
+    testRender();
+    const btn = await screen.findByRole('button', { name: 'Export options' });
+    expect(btn).toBeInTheDocument();
+  });
 });
