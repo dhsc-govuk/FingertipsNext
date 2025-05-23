@@ -1,5 +1,4 @@
-﻿using System.Data;
-using DataCreator.PholioDatabase;
+﻿using DataCreator.PholioDatabase;
 
 namespace DataCreator
 {
@@ -98,7 +97,11 @@ namespace DataCreator
                 {
                     var indicatorUsedInPoc = pocIndicators.First(i => i.IndicatorID == indicator.IndicatorID);
                     if (!string.IsNullOrEmpty(indicatorUsedInPoc.IndicatorName))
+                    {
                         indicator.IndicatorName = indicatorUsedInPoc.IndicatorName;
+                        // YearType is needed to CreateHealthMeasurePeriodDates()
+                        pocIndicators.First(i => i.IndicatorID == indicator.IndicatorID).YearType = indicator.YearType;
+                    }
 
                     indicator.BenchmarkComparisonMethod = indicatorUsedInPoc.BenchmarkComparisonMethod;
                     indicator.Polarity = indicatorUsedInPoc.Polarity;
@@ -121,7 +124,7 @@ namespace DataCreator
             }
         }
 
-        public static List<IndicatorWithAreasAndLatestUpdate> CreateHealthDataAndAgeData(List<string> areasWeWant, List<SimpleIndicator> pocIndicators, IEnumerable<AgeEntity> allAges)
+        public static (List<IndicatorWithAreasAndLatestUpdate>, List<HealthMeasureEntity>) CreateHealthDataAndAgeData(List<string> areasWeWant, List<SimpleIndicator> pocIndicators, IEnumerable<AgeEntity> allAges)
         {
             var healthMeasures = new List<HealthMeasureEntity>(1000000);
             var areasDictionary = areasWeWant.ToDictionary(areaCode => areaCode);
@@ -152,9 +155,8 @@ namespace DataCreator
                 .ToList();
             SetAggregateFlags(indicatorWithAreasAndLatestUpdates, healthMeasures);
             DataFileWriter.WriteAgeCsvData("agedata", usedAges);
-            DataFileWriter.WriteHealthCsvData("healthdata", healthMeasures);
 
-            return indicatorWithAreasAndLatestUpdates;
+            return (indicatorWithAreasAndLatestUpdates, healthMeasures);
         }
 
         private static void SetAggregateFlags(List<IndicatorWithAreasAndLatestUpdate> indicatorWithAreasAndLatestUpdates, List<HealthMeasureEntity> healthMeasures)
@@ -300,6 +302,40 @@ namespace DataCreator
 
         public async Task<IEnumerable<AgeEntity>> GetAgeDataAsync() =>
             await _pholioDataFetcher.FetchAgeDataAsync();
-
+        
+        public static void CreateHealthMeasurePeriodDates(List<SimpleIndicator> indicators,
+            List<HealthMeasureEntity> healthMeasures)
+        {
+            var indicatorsYearMap = indicators.ToDictionary(
+                i => i.IndicatorID,
+                i => i.YearType);
+            foreach (var healthMeasure in healthMeasures)
+            {
+                var indicatorYearType = indicatorsYearMap[healthMeasure.IndicatorId];
+                
+                int year;
+                switch (indicatorYearType)
+                {
+                    case "Calendar":
+                        year = int.Parse(healthMeasure.TimePeriodSortable.Trim()[..4]);
+                        healthMeasure.FromDate = new DateOnly(year, 1, 1).ToShortDateString();
+                        healthMeasure.ToDate = new DateOnly(year, 12, 31).ToShortDateString();
+                        break;
+                    case "Financial":
+                        year = int.Parse(healthMeasure.TimePeriodSortable.Trim()[..4]);
+                        healthMeasure.FromDate = new DateOnly(year, 4, 6).ToShortDateString();
+                        healthMeasure.ToDate = new DateOnly(year+1, 4, 5).ToShortDateString();
+                        break;
+                    case "November-November":
+                        year = int.Parse(healthMeasure.TimePeriodSortable.Trim()[..4]);
+                        healthMeasure.FromDate = new DateOnly(year, 11, 1).ToShortDateString();
+                        healthMeasure.ToDate = new DateOnly(year+1, 10, 31).ToShortDateString();
+                        break;
+                }
+                
+            }
+            
+        }
+        
     }
 }
