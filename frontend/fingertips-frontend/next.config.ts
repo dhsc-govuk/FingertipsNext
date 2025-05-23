@@ -7,9 +7,9 @@ const nextConfig: NextConfig = {
     styledComponents: true,
   },
   publicRuntimeConfig: {
-    basePath: "/beta",
+    basePath: '/beta',
   },
-  basePath: "/beta",
+  basePath: '/beta',
   serverExternalPackages: [
     '@azure/monitor-opentelemetry',
     '@opentelemetry/api',
