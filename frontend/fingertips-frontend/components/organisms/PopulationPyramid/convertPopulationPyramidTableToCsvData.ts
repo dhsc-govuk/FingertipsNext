@@ -1,4 +1,4 @@
-import { CsvColumnHeader } from '@/components/molecules/Export/export.types';
+import { CsvHeader } from '@/components/molecules/Export/export.types';
 import { PopulationDataForArea } from '../../../lib/chartHelpers/preparePopulationData';
 import { CsvData, CsvRow } from '../../../lib/downloadHelpers/convertToCsv';
 
@@ -14,14 +14,14 @@ export function convertPopulationPyramidTableToCsvData(
     throw new Error('IndicatorID and IndicatorName are required');
   }
   const header: CsvRow = [
-    CsvColumnHeader.IndicatorId,
-    CsvColumnHeader.IndicatorName,
-    CsvColumnHeader.Period,
-    CsvColumnHeader.Area,
-    CsvColumnHeader.AreaCode,
-    CsvColumnHeader.AgeRange,
-    CsvColumnHeader.Male,
-    CsvColumnHeader.Female,
+    CsvHeader.IndicatorId,
+    CsvHeader.IndicatorName,
+    CsvHeader.Period,
+    CsvHeader.Area,
+    CsvHeader.AreaCode,
+    CsvHeader.AgeRange,
+    CsvHeader.Male,
+    CsvHeader.Female,
   ];
 
   const rows: CsvData = [];

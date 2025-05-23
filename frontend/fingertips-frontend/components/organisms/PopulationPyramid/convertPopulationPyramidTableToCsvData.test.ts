@@ -1,7 +1,7 @@
-import { PopulationDataForArea } from '../../../lib/chartHelpers/preparePopulationData';
+import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
 import { convertPopulationPyramidTableToCsvData } from './convertPopulationPyramidTableToCsvData';
-import { CsvField, CsvRow } from '../../../lib/downloadHelpers/convertToCsv';
-import { CsvColumnHeader } from '@/components/molecules/Export/export.types';
+import { CsvField, CsvRow } from '@/lib/downloadHelpers/convertToCsv';
+import { CsvHeader } from '@/components/molecules/Export/export.types';
 
 describe('PopulationPyramidTableToCsv', () => {
   const stubIndicatorId = 'indicatorId';
@@ -48,14 +48,14 @@ describe('PopulationPyramidTableToCsv', () => {
   };
 
   const expectedHeaderCsvRow: CsvRow = [
-    CsvColumnHeader.IndicatorId,
-    CsvColumnHeader.IndicatorName,
-    CsvColumnHeader.Period,
-    CsvColumnHeader.Area,
-    CsvColumnHeader.AreaCode,
-    CsvColumnHeader.AgeRange,
-    CsvColumnHeader.Male,
-    CsvColumnHeader.Female,
+    CsvHeader.IndicatorId,
+    CsvHeader.IndicatorName,
+    CsvHeader.Period,
+    CsvHeader.Area,
+    CsvHeader.AreaCode,
+    CsvHeader.AgeRange,
+    CsvHeader.Male,
+    CsvHeader.Female,
   ];
 
   const expectedAreaCsvRows: CsvField[][] = [
