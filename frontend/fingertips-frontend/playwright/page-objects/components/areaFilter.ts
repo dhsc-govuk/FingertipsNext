@@ -186,8 +186,7 @@ export default class AreaFilter extends BasePage {
       );
       await this.waitForURLToContain(SearchParams.GroupTypeSelected);
 
-      // handles gps
-      if (areaFiltersToSelect.group != '') {
+      if (areaFiltersToSelect.group) {
         await this.selectGroupAndAssertURLUpdated(areaFiltersToSelect.group);
         await this.waitForURLToContain(SearchParams.GroupSelected);
       }
