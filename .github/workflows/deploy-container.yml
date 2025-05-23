@@ -75,6 +75,7 @@ jobs:
       - name: PR Validation
         uses: ./.github/terraform-validate
         with:
+          environment: ${{ inputs.environment }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           terraform_directory: "terraform"
           terraform_state_rg: ${{ vars.RESOURCE_GROUP }}
@@ -115,6 +116,7 @@ jobs:
       - name: Plan and Apply
         uses: ./.github/terraform-apply
         with:
+          environment: ${{ inputs.environment }}
           terraform_directory: "terraform"
           terraform_state_rg: ${{ vars.RESOURCE_GROUP }}
           terraform_state_storage_account: ${{ vars.STORAGE_ACCOUNT_NAME }}
