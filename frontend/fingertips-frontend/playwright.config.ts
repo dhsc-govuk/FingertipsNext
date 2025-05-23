@@ -1,7 +1,7 @@
 import { defineConfig, devices, PlaywrightTestConfig } from '@playwright/test';
 
 const isCI = !!process.env.CI;
-const url = process.env.FINGERTIPS_FRONTEND_URL || 'http://localhost:3000';
+const url = process.env.FINGERTIPS_FRONTEND_URL || 'http://localhost:3000/beta';
 console.log(`The target URL for this test execution is ${url}`); // allows to see where tests are executed
 const jobUrl = process.env.JOB_URL;
 const runCommand =

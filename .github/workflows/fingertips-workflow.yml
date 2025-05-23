@@ -90,191 +90,191 @@ jobs:
       fetch-depth: 0
       gitversion-version: '6.0.x'
 
-  database-build:
-    needs: check-changes
-    if: >
-      github.event_name == 'workflow_dispatch' ||
-      needs.check-changes.outputs.db_changed == 'true' ||
-      needs.check-changes.outputs.trend_analysis_changed == 'true' ||
-      needs.check-changes.outputs.search_changed == 'true'
-    name: Build Database
-    runs-on: ubuntu-latest
-    env:
-      dotnet-version: 9.0.x
-      dotnet-configuration: 'Release'
-      database-directory: ./database/fingertips-db
-    defaults:
-      run:
-        working-directory: ${{ env.database-directory }}
-    steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
+  # database-build:
+  #   needs: check-changes
+  #   if: >
+  #     github.event_name == 'workflow_dispatch' ||
+  #     needs.check-changes.outputs.db_changed == 'true' ||
+  #     needs.check-changes.outputs.trend_analysis_changed == 'true' ||
+  #     needs.check-changes.outputs.search_changed == 'true'
+  #   name: Build Database
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     dotnet-version: 9.0.x
+  #     dotnet-configuration: 'Release'
+  #     database-directory: ./database/fingertips-db
+  #   defaults:
+  #     run:
+  #       working-directory: ${{ env.database-directory }}
+  #   steps:
+  #     - name: Checkout source
+  #       uses: actions/checkout@v4
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ env.dotnet-version }}
+  #     - name: Setup .NET
+  #       uses: actions/setup-dotnet@v4
+  #       with:
+  #         dotnet-version: ${{ env.dotnet-version }}
 
-      - name: Build database project
-        run: dotnet build fingertips-db.sqlproj --configuration ${{ env.dotnet-configuration }}
+  #     - name: Build database project
+  #       run: dotnet build fingertips-db.sqlproj --configuration ${{ env.dotnet-configuration }}
 
-      - name: Upload .dacpac file artifact
-        uses: actions/upload-artifact@v4
-        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-        with:
-          name: dacpac
-          path: ${{ env.database-directory }}/bin/${{ env.dotnet-configuration }}/fingertips-db.dacpac
-          if-no-files-found: error
+  #     - name: Upload .dacpac file artifact
+  #       uses: actions/upload-artifact@v4
+  #       if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+  #       with:
+  #         name: dacpac
+  #         path: ${{ env.database-directory }}/bin/${{ env.dotnet-configuration }}/fingertips-db.dacpac
+  #         if-no-files-found: error
 
-  api-build-and-test:
-    needs: [check-changes, determine-version]
-    if: >
-      github.event_name == 'workflow_dispatch' ||
-      needs.check-changes.outputs.api_changed == 'true'
-    name: Build API
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dotnet-version: ['9.0.x']
-    defaults:
-      run:
-        working-directory: ./api
-    steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
+  # api-build-and-test:
+  #   needs: [check-changes, determine-version]
+  #   if: >
+  #     github.event_name == 'workflow_dispatch' ||
+  #     needs.check-changes.outputs.api_changed == 'true'
+  #   name: Build API
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       dotnet-version: ['9.0.x']
+  #   defaults:
+  #     run:
+  #       working-directory: ./api
+  #   steps:
+  #     - name: Checkout source
+  #       uses: actions/checkout@v4
 
-      - name: Setup dotnet ${{ matrix.dotnet-version }}
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+  #     - name: Setup dotnet ${{ matrix.dotnet-version }}
+  #       uses: actions/setup-dotnet@v4
+  #       with:
+  #         dotnet-version: ${{ matrix.dotnet-version }}
 
-      - name: Restore Packages
-        run: dotnet restore
+  #     - name: Restore Packages
+  #       run: dotnet restore
 
-      - name: Build API
-        run: dotnet build
+  #     - name: Build API
+  #       run: dotnet build
 
-      - name: Run Unit Tests
-        run: dotnet test
+  #     - name: Run Unit Tests
+  #       run: dotnet test
 
-  trend-analysis-app-test:
-    needs: [check-changes, determine-version]
-    if: >
-      github.event_name == 'workflow_dispatch' ||
-      needs.check-changes.outputs.db_changed == 'true' ||
-      needs.check-changes.outputs.trend_analysis_changed == 'true' ||
-      needs.check-changes.outputs.search_changed == 'true'
-    name: Test Trend Analysis App
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dotnet-version: ['9.0.x']
-    defaults:
-      run:
-        working-directory: ./trend-analysis
-    steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
+  # trend-analysis-app-test:
+  #   needs: [check-changes, determine-version]
+  #   if: >
+  #     github.event_name == 'workflow_dispatch' ||
+  #     needs.check-changes.outputs.db_changed == 'true' ||
+  #     needs.check-changes.outputs.trend_analysis_changed == 'true' ||
+  #     needs.check-changes.outputs.search_changed == 'true'
+  #   name: Test Trend Analysis App
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       dotnet-version: ['9.0.x']
+  #   defaults:
+  #     run:
+  #       working-directory: ./trend-analysis
+  #   steps:
+  #     - name: Checkout source
+  #       uses: actions/checkout@v4
 
-      - name: Setup dotnet ${{ matrix.dotnet-version }}
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+  #     - name: Setup dotnet ${{ matrix.dotnet-version }}
+  #       uses: actions/setup-dotnet@v4
+  #       with:
+  #         dotnet-version: ${{ matrix.dotnet-version }}
 
-      - name: Run Unit Tests
-        run: dotnet test
+  #     - name: Run Unit Tests
+  #       run: dotnet test
 
-  frontend-build-and-test:
-    needs: [check-changes, determine-version]
-    if: >
-      github.event_name == 'workflow_dispatch' ||
-      needs.check-changes.outputs.frontend_changed == 'true'
-    name: Build Frontend
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: ['22.x']
-    env:
-      NEXT_TELEMETRY_DISABLED: 'true'
-      frontend-directory: ./frontend/fingertips-frontend
-    defaults:
-      run:
-        working-directory: ${{ env.frontend-directory }}
-    steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
+  # frontend-build-and-test:
+  #   needs: [check-changes, determine-version]
+  #   if: >
+  #     github.event_name == 'workflow_dispatch' ||
+  #     needs.check-changes.outputs.frontend_changed == 'true'
+  #   name: Build Frontend
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       node-version: ['22.x']
+  #   env:
+  #     NEXT_TELEMETRY_DISABLED: 'true'
+  #     frontend-directory: ./frontend/fingertips-frontend
+  #   defaults:
+  #     run:
+  #       working-directory: ${{ env.frontend-directory }}
+  #   steps:
+  #     - name: Checkout source
+  #       uses: actions/checkout@v4
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: npm
-          cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
+  #     - name: Use Node.js ${{ matrix.node-version }}
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
+  #         cache: npm
+  #         cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
-      - name: Install dependencies
-        run: npm ci
+  #     - name: Install dependencies
+  #       run: npm ci
 
-      - name: Perform type checking
-        run: npm run typecheck
+  #     - name: Perform type checking
+  #       run: npm run typecheck
 
-      - name: Lint code
-        run: npm run lint
+  #     - name: Lint code
+  #       run: npm run lint
 
-      - name: Check code formatting
-        run: npm run prettier-ci
+  #     - name: Check code formatting
+  #       run: npm run prettier-ci
 
-      - name: Execute jest unit tests
-        run: npm run test-ci
+  #     - name: Execute jest unit tests
+  #       run: npm run test-ci
 
-      - name: Upload code coverage report if tests or thresholds fail - always on failure
-        uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: code-coverage-artefacts
-          path: |
-            ${{ env.frontend-directory }}/coverage/
-          retention-days: 5
+  #     - name: Upload code coverage report if tests or thresholds fail - always on failure
+  #       uses: actions/upload-artifact@v4
+  #       if: failure()
+  #       with:
+  #         name: code-coverage-artefacts
+  #         path: |
+  #           ${{ env.frontend-directory }}/coverage/
+  #         retention-days: 5
 
-  ui-tests-local-mocks:
-    needs: [check-changes]
-    if: >
-      always() &&
-      contains(needs.*.result, 'success') &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled') &&
-      (
-        github.event_name == 'workflow_dispatch' ||
-        (
-          needs.check-changes.outputs.db_changed == 'true' ||
-          needs.check-changes.outputs.api_changed == 'true' || 
-          needs.check-changes.outputs.frontend_changed == 'true' ||
-          needs.check-changes.outputs.search_changed == 'true'
-        )
-      )
-    uses: ./.github/workflows/ui-tests.yml
+  # ui-tests-local-mocks:
+  #   needs: [check-changes]
+  #   if: >
+  #     always() &&
+  #     contains(needs.*.result, 'success') &&
+  #     !contains(needs.*.result, 'failure') &&
+  #     !contains(needs.*.result, 'cancelled') &&
+  #     (
+  #       github.event_name == 'workflow_dispatch' ||
+  #       (
+  #         needs.check-changes.outputs.db_changed == 'true' ||
+  #         needs.check-changes.outputs.api_changed == 'true' || 
+  #         needs.check-changes.outputs.frontend_changed == 'true' ||
+  #         needs.check-changes.outputs.search_changed == 'true'
+  #       )
+  #     )
+  #   uses: ./.github/workflows/ui-tests.yml
 
-  e2e-and-api-tests:
-    needs: [check-changes]
-    if: >
-      always() &&
-      contains(needs.*.result, 'success') &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled') &&
-      (
-        github.event_name == 'workflow_dispatch' ||
-        (
-          needs.check-changes.outputs.db_changed == 'true' ||
-          needs.check-changes.outputs.api_changed == 'true' || 
-          needs.check-changes.outputs.frontend_changed == 'true' ||
-          needs.check-changes.outputs.search_changed == 'true'
-        )
-      )
-    uses: ./.github/workflows/e2e-and-api-tests.yml
-    with:
-      environment: dev
-      playwright-mode: docker
-    secrets:
-      fingertips_e2e_db_password: ${{ secrets.FINGERTIPS_E2E_DB_PASSWORD }}
+  # e2e-and-api-tests:
+  #   needs: [check-changes]
+  #   if: >
+  #     always() &&
+  #     contains(needs.*.result, 'success') &&
+  #     !contains(needs.*.result, 'failure') &&
+  #     !contains(needs.*.result, 'cancelled') &&
+  #     (
+  #       github.event_name == 'workflow_dispatch' ||
+  #       (
+  #         needs.check-changes.outputs.db_changed == 'true' ||
+  #         needs.check-changes.outputs.api_changed == 'true' || 
+  #         needs.check-changes.outputs.frontend_changed == 'true' ||
+  #         needs.check-changes.outputs.search_changed == 'true'
+  #       )
+  #     )
+  #   uses: ./.github/workflows/e2e-and-api-tests.yml
+  #   with:
+  #     environment: dev
+  #     playwright-mode: docker
+  #   secrets:
+  #     fingertips_e2e_db_password: ${{ secrets.FINGERTIPS_E2E_DB_PASSWORD }}
 
   push-container-api:
     uses: ./.github/workflows/build-container.yml
@@ -733,215 +733,220 @@ jobs:
     #   slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
 
 
-  deploy-db-beta:
+  # deploy-db-beta:
+  #   needs:
+  #     [
+  #       determine-version,
+  #       check-changes,
+  #       database-build,
+  #       e2e-and-api-tests,
+  #       push-container-api,
+  #       push-container-frontend,
+  #       # e2e-tests-development
+  #     ]
+  #   environment: beta
+  #   runs-on: beta
+  #   if: >
+  #     always() &&
+  #     contains(needs.*.result, 'success') &&
+  #     !contains(needs.*.result, 'failure') &&
+  #     !contains(needs.*.result, 'cancelled') &&
+  #     github.event_name != 'pull_request' &&
+  #     (
+  #       (
+  #         github.event_name == 'push' &&
+  #         github.ref_name == 'main' &&
+  #         (
+  #           needs.check-changes.outputs.db_changed == 'true' ||
+  #           needs.check-changes.outputs.trend_analysis_changed == 'true' ||
+  #           needs.check-changes.outputs.search_changed == 'true'
+  #         )
+  #       ) ||
+  #       github.event_name == 'workflow_dispatch'
+  #     )
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+
+  #     - name: Download DACPAC
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: dacpac
+
+  #     - uses: Azure/login@v1
+  #       with:
+  #         creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+  #     - name: Upload files to Azure Blob Storage
+  #       shell: bash
+  #       working-directory: ${{ github.workspace }}
+  #       run: |
+  #         az storage blob upload-batch \
+  #           --destination "${{ vars.SQL_DATA_BLOB_CONTAINER }}" \
+  #           --source "DataCreator/DataCreator/data/out" \
+  #           --account-name "${{ secrets.SQL_DATA_STORAGE_ACCOUNT }}" \
+  #           --auth-mode "login" \
+  #           --overwrite true
+
+  #     - name: Deploy Database
+  #       run: |
+  #         sqlpackage \
+  #           /Action:Publish \
+  #           /SourceFile:"${{ github.workspace }}/fingertips-db.dacpac" \
+  #           /TargetServerName:"${{ secrets.AZURE_SQL_SERVER }}" \
+  #           /TargetDatabaseName:"${{ secrets.AZURE_SQL_DATABASE }}" \
+  #           /TargetUser:"${{ secrets.AZURE_SQL_USER }}" \
+  #           /TargetPassword:"${{ secrets.AZURE_SQL_PASSWORD }}" \
+  #           /p:DropObjectsNotInSource=true \
+  #           /p:BlockOnPossibleDataLoss=false \
+  #           /p:GenerateSmartDefaults=true \
+  #           /v:UseAzureBlob=1 \
+  #           /v:BlobStorageLocation="${{ vars.BLOB_STORAGE_LOCATION }}" \
+  #           /v:MasterKeyPassword="${{ secrets.SQL_MASTER_KEY_PASSWORD }}"
+
+  # run-trend-analysis-beta:
+  #   needs: [check-changes, deploy-db-beta]
+  #   if: >
+  #     always() &&
+  #     contains(needs.*.result, 'success') &&
+  #     !contains(needs.*.result, 'failure') &&
+  #     !contains(needs.*.result, 'cancelled') &&
+  #     github.event_name != 'pull_request' &&
+  #     (
+  #       (
+  #         github.event_name == 'push' &&
+  #         github.ref_name == 'main' &&
+  #         (
+  #           needs.check-changes.outputs.db_changed == 'true' ||
+  #           needs.check-changes.outputs.trend_analysis_changed == 'true' ||
+  #           needs.check-changes.outputs.search_changed == 'true'
+  #         )
+  #       ) ||
+  #       github.event_name == 'workflow_dispatch'
+  #     )
+  #   environment: beta
+  #   name: Run Trend Analysis App - beta
+  #   runs-on: beta
+  #   env:
+  #     ACTIONS_RUNNER_DEBUG: true
+  #   strategy:
+  #     matrix:
+  #       dotnet-version: ['9.0.x']
+  #   defaults:
+  #     run:
+  #       working-directory: ./trend-analysis/TrendAnalysisApp
+  #   steps:
+  #     - name: Checkout source
+  #       uses: actions/checkout@v4
+
+  #     - name: Cache NuGet packages
+  #       uses: actions/cache@v3
+  #       with:
+  #         path: ~/.nuget/packages
+  #         key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+  #         restore-keys: |
+  #           ${{ runner.os }}-nuget-
+
+  #     - name: Process trends
+  #       env:
+  #         SQLCONNSTR_FINGERTIPS_DB: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+  #       run: dotnet run
+
+  #     - name: Upload updated indicators file
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: indicators-for-search-beta
+  #         path: ./trend-analysis/TrendAnalysisApp/SearchData/assets/indicators.json
+
+  # search-setup-beta:
+  #   needs: [check-changes, deploy-db-beta, run-trend-analysis-beta]
+  #   if: >
+  #     always() &&
+  #     contains(needs.*.result, 'success') &&
+  #     !contains(needs.*.result, 'failure') &&
+  #     !contains(needs.*.result, 'cancelled') &&
+  #     github.event_name != 'pull_request' &&
+  #     (
+  #       (
+  #         github.event_name == 'push' &&
+  #         github.ref_name == 'main' &&
+  #         (
+  #           needs.check-changes.outputs.search_changed == 'true' ||
+  #           needs.check-changes.outputs.db_changed == 'true' ||
+  #           needs.check-changes.outputs.trend_analysis_changed == 'true'
+  #         )
+  #       ) ||
+  #       github.event_name == 'workflow_dispatch'
+  #     )
+  #   runs-on: beta
+  #   defaults:
+  #     run:
+  #       working-directory: ./search-setup
+  #   environment: beta
+  #   env:
+  #     NODE_VERSION: 22.x
+
+  #   steps:
+  #     # Checkout the repository
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+
+  #     - uses: Azure/login@v1
+  #       with:
+  #         creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+  #     - name: 'Get secrets'
+  #       id: azure-keyvault-secrets
+  #       run: |
+  #         secrets_get=(fingertips-ai-search-url fingertips-ai-search-api-key)
+  #         for secret_get in ${secrets_get[@]}
+  #         do
+  #           value=$(az keyvault secret show --name $secret_get --vault-name ${{ vars.AZURE_KEY_VAULT }} --query value --output tsv)
+  #           echo "::add-mask::$value"
+  #           echo "$secret_get=$value" >> $GITHUB_OUTPUT
+  #         done
+
+  #       # Set up Node.js
+  #     - name: Use Node.js ${{ env.NODE_VERSION }}
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: ${{ env.NODE_VERSION }}
+  #         cache: 'npm'
+  #         cache-dependency-path: ./search-setup/package-lock.json
+
+  #     # Install dependencies
+  #     - name: Install dependencies
+  #       run: npm ci
+
+  #     # Download updated indicators.json file
+  #     - name: Download updated indicators data
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: indicators-for-search-beta
+  #         path: /tmp/workflow/assets
+
+  #     # Create index
+  #     - name: Create index
+  #       run: npm run create-index
+  #       env:
+  #         AI_SEARCH_SERVICE_ENDPOINT: ${{ steps.azure-keyvault-secrets.outputs.fingertips-ai-search-url }}
+  #         AI_SEARCH_API_KEY: ${{ steps.azure-keyvault-secrets.outputs.fingertips-ai-search-api-key }}
+
+  #     # Run tests
+  #     - name: Run tests
+  #       run: npm run test
+  #       env:
+  #         AI_SEARCH_SERVICE_ENDPOINT: ${{ steps.azure-keyvault-secrets.outputs.fingertips-ai-search-url }}
+  #         AI_SEARCH_API_KEY: ${{ steps.azure-keyvault-secrets.outputs.fingertips-ai-search-api-key }}
+
+  deploy-api-beta:
     needs:
       [
         determine-version,
         check-changes,
-        database-build,
-        e2e-and-api-tests,
         push-container-api,
-        push-container-frontend,
-        # e2e-tests-development
+        # search-setup-beta
       ]
-    environment: beta
-    runs-on: beta
-    if: >
-      always() &&
-      contains(needs.*.result, 'success') &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled') &&
-      github.event_name != 'pull_request' &&
-      (
-        (
-          github.event_name == 'push' &&
-          github.ref_name == 'main' &&
-          (
-            needs.check-changes.outputs.db_changed == 'true' ||
-            needs.check-changes.outputs.trend_analysis_changed == 'true' ||
-            needs.check-changes.outputs.search_changed == 'true'
-          )
-        ) ||
-        github.event_name == 'workflow_dispatch'
-      )
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Download DACPAC
-        uses: actions/download-artifact@v4
-        with:
-          name: dacpac
-
-      - uses: Azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Upload files to Azure Blob Storage
-        shell: bash
-        working-directory: ${{ github.workspace }}
-        run: |
-          az storage blob upload-batch \
-            --destination "${{ vars.SQL_DATA_BLOB_CONTAINER }}" \
-            --source "DataCreator/DataCreator/data/out" \
-            --account-name "${{ secrets.SQL_DATA_STORAGE_ACCOUNT }}" \
-            --auth-mode "login" \
-            --overwrite true
-
-      - name: Deploy Database
-        run: |
-          sqlpackage \
-            /Action:Publish \
-            /SourceFile:"${{ github.workspace }}/fingertips-db.dacpac" \
-            /TargetServerName:"${{ secrets.AZURE_SQL_SERVER }}" \
-            /TargetDatabaseName:"${{ secrets.AZURE_SQL_DATABASE }}" \
-            /TargetUser:"${{ secrets.AZURE_SQL_USER }}" \
-            /TargetPassword:"${{ secrets.AZURE_SQL_PASSWORD }}" \
-            /p:DropObjectsNotInSource=true \
-            /p:BlockOnPossibleDataLoss=false \
-            /p:GenerateSmartDefaults=true \
-            /v:UseAzureBlob=1 \
-            /v:BlobStorageLocation="${{ vars.BLOB_STORAGE_LOCATION }}" \
-            /v:MasterKeyPassword="${{ secrets.SQL_MASTER_KEY_PASSWORD }}"
-
-  run-trend-analysis-beta:
-    needs: [check-changes, deploy-db-beta]
-    if: >
-      always() &&
-      contains(needs.*.result, 'success') &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled') &&
-      github.event_name != 'pull_request' &&
-      (
-        (
-          github.event_name == 'push' &&
-          github.ref_name == 'main' &&
-          (
-            needs.check-changes.outputs.db_changed == 'true' ||
-            needs.check-changes.outputs.trend_analysis_changed == 'true' ||
-            needs.check-changes.outputs.search_changed == 'true'
-          )
-        ) ||
-        github.event_name == 'workflow_dispatch'
-      )
-    environment: beta
-    name: Run Trend Analysis App - beta
-    runs-on: beta
-    env:
-      ACTIONS_RUNNER_DEBUG: true
-    strategy:
-      matrix:
-        dotnet-version: ['9.0.x']
-    defaults:
-      run:
-        working-directory: ./trend-analysis/TrendAnalysisApp
-    steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
-
-      - name: Cache NuGet packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-
-
-      - name: Process trends
-        env:
-          SQLCONNSTR_FINGERTIPS_DB: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
-        run: dotnet run
-
-      - name: Upload updated indicators file
-        uses: actions/upload-artifact@v4
-        with:
-          name: indicators-for-search-beta
-          path: ./trend-analysis/TrendAnalysisApp/SearchData/assets/indicators.json
-
-  search-setup-beta:
-    needs: [check-changes, deploy-db-beta, run-trend-analysis-beta]
-    if: >
-      always() &&
-      contains(needs.*.result, 'success') &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled') &&
-      github.event_name != 'pull_request' &&
-      (
-        (
-          github.event_name == 'push' &&
-          github.ref_name == 'main' &&
-          (
-            needs.check-changes.outputs.search_changed == 'true' ||
-            needs.check-changes.outputs.db_changed == 'true' ||
-            needs.check-changes.outputs.trend_analysis_changed == 'true'
-          )
-        ) ||
-        github.event_name == 'workflow_dispatch'
-      )
-    runs-on: beta
-    defaults:
-      run:
-        working-directory: ./search-setup
-    environment: beta
-    env:
-      NODE_VERSION: 22.x
-
-    steps:
-      # Checkout the repository
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - uses: Azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: 'Get secrets'
-        id: azure-keyvault-secrets
-        run: |
-          secrets_get=(fingertips-ai-search-url fingertips-ai-search-api-key)
-          for secret_get in ${secrets_get[@]}
-          do
-            value=$(az keyvault secret show --name $secret_get --vault-name ${{ vars.AZURE_KEY_VAULT }} --query value --output tsv)
-            echo "::add-mask::$value"
-            echo "$secret_get=$value" >> $GITHUB_OUTPUT
-          done
-
-        # Set up Node.js
-      - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: ./search-setup/package-lock.json
-
-      # Install dependencies
-      - name: Install dependencies
-        run: npm ci
-
-      # Download updated indicators.json file
-      - name: Download updated indicators data
-        uses: actions/download-artifact@v4
-        with:
-          name: indicators-for-search-beta
-          path: /tmp/workflow/assets
-
-      # Create index
-      - name: Create index
-        run: npm run create-index
-        env:
-          AI_SEARCH_SERVICE_ENDPOINT: ${{ steps.azure-keyvault-secrets.outputs.fingertips-ai-search-url }}
-          AI_SEARCH_API_KEY: ${{ steps.azure-keyvault-secrets.outputs.fingertips-ai-search-api-key }}
-
-      # Run tests
-      - name: Run tests
-        run: npm run test
-        env:
-          AI_SEARCH_SERVICE_ENDPOINT: ${{ steps.azure-keyvault-secrets.outputs.fingertips-ai-search-url }}
-          AI_SEARCH_API_KEY: ${{ steps.azure-keyvault-secrets.outputs.fingertips-ai-search-api-key }}
-
-  deploy-api-beta:
-    needs:
-      [determine-version, check-changes, push-container-api, search-setup-beta]
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
@@ -1097,39 +1102,39 @@ jobs:
       arm-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       arm-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
 
-  e2e-tests-beta:
-    needs:
-      [
-        check-changes,
-        deploy-db-beta,
-        run-trend-analysis-beta,
-        search-setup-beta,
-        deploy-api-beta,
-        deploy-frontend-beta,
-      ]
-    uses: ./.github/workflows/e2e-and-api-tests.yml
-    if: >
-      always() &&
-      contains(needs.*.result, 'success') &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled') &&
-      github.event_name != 'pull_request' &&
-      (
-        (
-          github.event_name == 'push' &&
-          github.ref_name == 'main' &&
-          (
-            needs.check-changes.outputs.db_changed == 'true' ||
-            needs.check-changes.outputs.api_changed == 'true' ||
-            needs.check-changes.outputs.frontend_changed == 'true' ||
-            needs.check-changes.outputs.search_changed == 'true' ||
-            needs.check-changes.outputs.trend_analysis_changed == 'true'
-          )
-        ) ||
-        github.event_name == 'workflow_dispatch'
-      )
-    with:
-      environment: beta
-      playwright-mode: azure
-    secrets:
-      slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+  # e2e-tests-beta:
+  #   needs:
+  #     [
+  #       check-changes,
+  #       deploy-db-beta,
+  #       run-trend-analysis-beta,
+  #       search-setup-beta,
+  #       deploy-api-beta,
+  #       deploy-frontend-beta,
+  #     ]
+  #   uses: ./.github/workflows/e2e-and-api-tests.yml
+  #   if: >
+  #     always() &&
+  #     contains(needs.*.result, 'success') &&
+  #     !contains(needs.*.result, 'failure') &&
+  #     !contains(needs.*.result, 'cancelled') &&
+  #     github.event_name != 'pull_request' &&
+  #     (
+  #       (
+  #         github.event_name == 'push' &&
+  #         github.ref_name == 'main' &&
+  #         (
+  #           needs.check-changes.outputs.db_changed == 'true' ||
+  #           needs.check-changes.outputs.api_changed == 'true' ||
+  #           needs.check-changes.outputs.frontend_changed == 'true' ||
+  #           needs.check-changes.outputs.search_changed == 'true' ||
+  #           needs.check-changes.outputs.trend_analysis_changed == 'true'
+  #         )
+  #       ) ||
+  #       github.event_name == 'workflow_dispatch'
+  #     )
+  #   with:
+  #     environment: beta
+  #     playwright-mode: azure
+  #   secrets:
+  #     slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
