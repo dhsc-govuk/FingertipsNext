@@ -1,4 +1,9 @@
-import { IAreaSearchService, AreaDocument } from './searchTypes';
+import {
+  IAreaSearchService,
+  AreaDocument,
+  SuggestionResult,
+  highlightTag,
+} from './searchTypes';
 import { ErrorIdPrefix } from '@/mock/ErrorTriggeringIds';
 
 export class AreaSearchServiceMock implements IAreaSearchService {
@@ -19,7 +24,7 @@ export class AreaSearchServiceMock implements IAreaSearchService {
 
   public async getAreaSuggestions(
     partialAreaName: string
-  ): Promise<AreaDocument[]> {
+  ): Promise<SuggestionResult[]> {
     if (partialAreaName.startsWith(ErrorIdPrefix)) {
       throw new Error(`Mock AI Search Service Error - ${partialAreaName}`);
     }
@@ -35,6 +40,10 @@ export class AreaSearchServiceMock implements IAreaSearchService {
             .includes(partialAreaName.toLocaleLowerCase())
         );
       })
+      .map((mockArea) => ({
+        text: `${highlightTag}${partialAreaName}${highlightTag}`,
+        document: mockArea,
+      }))
       .slice(0, 20);
   }
 }

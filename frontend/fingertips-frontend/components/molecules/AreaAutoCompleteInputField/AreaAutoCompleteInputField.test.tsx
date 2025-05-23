@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { AreaAutoCompleteInputField } from './index';
-import { AreaDocument } from '@/lib/search/searchTypes';
+import { SuggestionResult } from '@/lib/search/searchTypes';
 import { getSearchSuggestions } from '@/components/forms/SearchForm/searchActions';
 import userEvent from '@testing-library/user-event';
 import { mockAreaDataForNHSRegion } from '@/mock/data/areaData';
@@ -52,9 +52,19 @@ jest.mock('@/context/SearchStateContext', () => {
 });
 
 describe('AreaAutoCompleteInputField', () => {
-  const mockAreas: AreaDocument[] = [
-    { areaCode: '001', areaName: 'London', areaType: 'GPs' },
-    { areaCode: '002', areaName: 'Manchester', areaType: 'GPs' },
+  const mockAreas: SuggestionResult[] = [
+    {
+      text: '*York*',
+      document: { areaCode: '001', areaName: 'York', areaType: 'GPs' },
+    },
+    {
+      text: 'North *York*shire',
+      document: {
+        areaCode: '002',
+        areaName: 'North Yorkshire',
+        areaType: 'GPs',
+      },
+    },
   ];
 
   beforeEach(() => {

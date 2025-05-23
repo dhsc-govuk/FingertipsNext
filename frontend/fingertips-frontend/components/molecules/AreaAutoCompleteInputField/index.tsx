@@ -1,5 +1,5 @@
 import { getSearchSuggestions } from '@/components/forms/SearchForm/searchActions';
-import { AreaDocument } from '@/lib/search/searchTypes';
+import { SuggestionResult } from '@/lib/search/searchTypes';
 import React, { useEffect, useState, useRef } from 'react';
 import { AreaSearchInputField } from '@/components/molecules/AreaSearchInputField';
 import { AreaAutoCompleteSuggestionPanel } from '@/components/molecules/AreaSuggestionPanel';
@@ -31,7 +31,7 @@ export function AreaAutoCompleteInputField({
   const selectedAreasParams = searchState?.[SearchParams.AreasSelected];
 
   const [criteria, setCriteria] = useState<string>();
-  const [searchAreas, setSearchAreas] = useState<AreaDocument[]>([]);
+  const [searchAreas, setSearchAreas] = useState<SuggestionResult[]>([]);
 
   const timeoutRef = useRef<number | null>(null);
 
@@ -85,10 +85,7 @@ export function AreaAutoCompleteInputField({
         }
         hasError={inputFieldErrorStatus}
       />
-      <AreaAutoCompleteSuggestionPanel
-        suggestedAreas={searchAreas}
-        searchHint={criteria ?? ''}
-      />
+      <AreaAutoCompleteSuggestionPanel suggestedAreas={searchAreas} />
     </StyleAreaAutoCompleteInputField>
   );
 }

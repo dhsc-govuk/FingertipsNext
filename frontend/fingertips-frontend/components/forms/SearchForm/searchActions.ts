@@ -8,7 +8,7 @@ import {
   SearchStateParams,
 } from '@/lib/searchStateManager';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
-import { AreaDocument } from '@/lib/search/searchTypes';
+import { AreaDocument, SuggestionResult } from '@/lib/search/searchTypes';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 const $SearchFormSchema = z
@@ -76,7 +76,7 @@ export async function searchIndicator(
 
 export async function getSearchSuggestions(
   partialAreaName: string
-): Promise<AreaDocument[]> {
+): Promise<SuggestionResult[]> {
   try {
     return SearchServiceFactory.getAreaSearchService().getAreaSuggestions(
       partialAreaName
