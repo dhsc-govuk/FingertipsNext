@@ -370,14 +370,6 @@ export default class ChartPage extends AreaFilter {
       selectedAreaFilters.group.slice(1);
 
     // check benchmark is defaulted to England before changing dropdown
-    // if (selectedAreaFilters.group != 'england') {
-    //   expect(options.length).toBe(2);
-    //   await expect(
-    //     this.page
-    //       .getByTestId(component.componentLocator)
-    //       .getByText(`Benchmark: ${upperCaseFirstCharSelectedGroup}`)
-    //   ).toBeVisible();
-    // } else
     if (selectedAreaFilters.areaType != 'england') {
       await expect(
         this.page
@@ -402,7 +394,7 @@ export default class ChartPage extends AreaFilter {
       upperCaseFirstCharSelectedGroup
     );
 
-    //check benchmark and on hover is the group one after changing dropdown
+    // check benchmark is the group one after changing dropdown
     if (selectedAreaFilters.group != 'england') {
       expect(options.length).toBe(2);
       await expect(
