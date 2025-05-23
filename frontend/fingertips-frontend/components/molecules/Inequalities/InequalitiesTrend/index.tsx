@@ -44,12 +44,13 @@ import { InequalitiesTypesDropDown } from '../InequalitiesTypesDropDown';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
 import { LineChartVariant } from '@/components/organisms/LineChart/helpers/generateStandardLineChartOptions';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 interface InequalitiesTrendProps {
   healthIndicatorData: HealthDataForArea[];
   searchState: SearchStateParams;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
-  measurementUnit?: string;
+  indicatorMetadata?: IndicatorDocument;
   dataSource?: string;
 }
 
@@ -64,7 +65,7 @@ const getBenchmarkOutcomeForYear = (
 
 export function InequalitiesTrend({
   healthIndicatorData,
-  measurementUnit,
+  indicatorMetadata,
   searchState,
   benchmarkComparisonMethod,
   dataSource,
@@ -110,13 +111,17 @@ export function InequalitiesTrend({
     type
   );
 
+  // If the user has made no selection of inequality type to display yet, use
+  // the default inequality category
+  const inequalityType = inequalityTypeSelected ?? inequalityCategories[0];
+
   const filterFunctionGenerator =
     healthDataFilterFunctionGeneratorForInequality[type];
   const healthIndicatorDataWithoutOtherInequalities = {
     ...healthIndicatorData,
     healthData: filterHealthData(
       healthDataForArea.healthData,
-      filterFunctionGenerator(inequalityTypeSelected ?? inequalityCategories[0])
+      filterFunctionGenerator(inequalityType)
     ),
   };
 
@@ -146,6 +151,7 @@ export function InequalitiesTrend({
   if (!yearsDesc.length || allData.length < 2) return null;
 
   const lineChartData: InequalitiesChartData = {
+    areaCode: healthDataForArea.areaCode,
     areaName: healthDataForArea.areaName,
     rowData: allData,
   };
@@ -178,7 +184,7 @@ export function InequalitiesTrend({
         comparisonLabel,
       },
       point.y,
-      measurementUnit
+      indicatorMetadata?.unitLabel
     );
   };
 
@@ -193,7 +199,7 @@ export function InequalitiesTrend({
         areasSelected: areaCodes,
         yAxisTitleText: 'Value',
         xAxisTitleText: 'Period',
-        measurementUnit,
+        measurementUnit: indicatorMetadata?.unitLabel,
         inequalityLineChartAreaSelected,
       }
     );
@@ -233,8 +239,9 @@ export function InequalitiesTrend({
             content: (
               <InequalitiesLineChartTable
                 tableData={lineChartData}
-                measurementUnit={measurementUnit}
+                indicatorMetadata={indicatorMetadata}
                 dynamicKeys={orderedDynamicKeys}
+                inequalityTypeSelected={inequalityType}
               />
             ),
           },

@@ -5,6 +5,7 @@ import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { SearchStateContext } from '@/context/SearchStateContext';
 import { LoaderContext } from '@/context/LoaderContext';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 const state: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'testing',
@@ -101,7 +102,7 @@ describe('Inequalities suite', () => {
       <Inequalities
         healthIndicatorData={MOCK_HEALTH_DATA}
         searchState={state}
-        measurementUnit="kg"
+        indicatorMetadata={{ unitLabel: 'kg' } as IndicatorDocument}
       />
     );
     expect(await screen.findByText('kg')).toBeInTheDocument();
