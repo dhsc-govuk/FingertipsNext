@@ -696,41 +696,41 @@ jobs:
   #     arm-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
 
   # e2e-tests-development:
-    needs:
-      [
-        check-changes,
-        deploy-db-dev,
-        run-trend-analysis-dev,
-        search-setup-dev,
-        deploy-api-dev,
-        deploy-frontend-dev,
-      ]
-    uses: ./.github/workflows/e2e-and-api-tests.yml
-    if: >
-      always() &&
-      contains(needs.*.result, 'success') &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled') &&
-      github.event_name != 'pull_request' &&
-      (
-        (
-          github.event_name == 'push' &&
-          github.ref_name == 'main' &&
-          (
-            needs.check-changes.outputs.db_changed == 'true' ||
-            needs.check-changes.outputs.api_changed == 'true' ||
-            needs.check-changes.outputs.frontend_changed == 'true' ||
-            needs.check-changes.outputs.search_changed == 'true' ||
-            needs.check-changes.outputs.trend_analysis_changed == 'true'
-          )
-        ) ||
-        github.event_name == 'workflow_dispatch'
-      )
-    with:
-      environment: dev
-      playwright-mode: azure
-    secrets:
-      slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+    # needs:
+    #   [
+    #     check-changes,
+    #     deploy-db-dev,
+    #     run-trend-analysis-dev,
+    #     search-setup-dev,
+    #     deploy-api-dev,
+    #     deploy-frontend-dev,
+    #   ]
+    # uses: ./.github/workflows/e2e-and-api-tests.yml
+    # if: >
+    #   always() &&
+    #   contains(needs.*.result, 'success') &&
+    #   !contains(needs.*.result, 'failure') &&
+    #   !contains(needs.*.result, 'cancelled') &&
+    #   github.event_name != 'pull_request' &&
+    #   (
+    #     (
+    #       github.event_name == 'push' &&
+    #       github.ref_name == 'main' &&
+    #       (
+    #         needs.check-changes.outputs.db_changed == 'true' ||
+    #         needs.check-changes.outputs.api_changed == 'true' ||
+    #         needs.check-changes.outputs.frontend_changed == 'true' ||
+    #         needs.check-changes.outputs.search_changed == 'true' ||
+    #         needs.check-changes.outputs.trend_analysis_changed == 'true'
+    #       )
+    #     ) ||
+    #     github.event_name == 'workflow_dispatch'
+    #   )
+    # with:
+    #   environment: dev
+    #   playwright-mode: azure
+    # secrets:
+    #   slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
 
 
   deploy-db-beta:
