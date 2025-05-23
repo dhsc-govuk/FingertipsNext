@@ -227,7 +227,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_type=err
             "q4Value": null,
             "areaValue": null,
             "groupValue": null,
-            "englandValue": null
+            "englandValue": 27.15399
         }]
         client.assert(response.status === 200, "Response status is not 200");
         client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
@@ -383,3 +383,163 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_code=D83
     });
 %}
 
+### Basic Quartile GP benchmarked against ICB-Sub 
+GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85008&area_type=gps&area_group=E38000208&benchmark_ref_type=AreaGroup
+
+> {%
+    client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
+        const expected = [  {
+            "indicatorId": 94063,
+            "polarity": "NoJudgement",
+            "year": 2023,
+            "q0Value": 62.0320855614973,
+            "q1Value": 70.4697986577181,
+            "q2Value": 74.9244712990937,
+            "q3Value": 79.0476190476191,
+            "q4Value": 84.5161290322581,
+            "areaValue": 76.1904761904762,
+            "groupValue": 72.5713600383785,
+            "englandValue": 69.8972433785404
+        }]
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+
+### Basic Quartile Sub-ICB benchmarked against ICB 
+GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38000208&area_type=nhs-sub-integrated-care-boards&area_group=E54000008&benchmark_ref_type=AreaGroup
+
+> {%
+    client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
+        const expected = [   {
+            "indicatorId": 94063,
+            "polarity": "NoJudgement",
+            "year": 2023,
+            "q0Value": 66.2418790604698,
+            "q1Value": 69.4552026852569,
+            "q2Value": 73.1362196409715,
+            "q3Value": 74.0236686390533,
+            "q4Value": 76.360153256705,
+            "areaValue": 72.5713600383785,
+            "groupValue": 72.0120548814339,
+            "englandValue": 69.8972433785404
+        }]
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+
+### Basic Quartile Sub-ICB benchmarked against NHS Region 
+GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38000208&area_type=nhs-sub-integrated-care-boards&area_group=E40000010&benchmark_ref_type=AreaGroup
+
+> {%
+    client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
+        const expected = [   {
+            "indicatorId": 94063,
+            "polarity": "NoJudgement",
+            "year": 2023,
+            "q0Value": 59.2343247588424,
+            "q1Value": 68.9508793208005,
+            "q2Value": 72.5664968873797,
+            "q3Value": 73.97989355411,
+            "q4Value": 76.360153256705,
+            "areaValue": 72.5713600383785,
+            "groupValue": 70.7067909967071,
+            "englandValue": 69.8972433785404
+        }]
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+
+### Basic Quartile Sub-ICB benchmarked against England 
+GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38000208&area_type=nhs-sub-integrated-care-boards&area_group=E40000010
+
+> {%
+    client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
+        const expected = [     {
+            "indicatorId": 94063,
+            "polarity": "NoJudgement",
+            "year": 2023,
+            "q0Value": 54.5377677564825,
+            "q1Value": 68.1444014678171,
+            "q2Value": 71.9129438717068,
+            "q3Value": 74.0390187367201,
+            "q4Value": 80.8172397550636,
+            "areaValue": 72.5713600383785,
+            "groupValue": 70.7067909967071,
+            "englandValue": 69.8972433785404
+        }]
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+
+### Basic Quartile District benchmarked against County 
+GET http://localhost:5144/indicators/quartiles?indicator_ids=93861&area_code=E07000223&area_type=districts-and-unitary-authorities&area_group=E10000032&benchmark_ref_type=AreaGroup
+
+
+> {%
+    client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
+        const expected = [{
+            "indicatorId": 93861,
+            "polarity": "NoJudgement",
+            "year": 2023,
+            "q0Value": 4.48617,
+            "q1Value": 4.53989,
+            "q2Value": 4.83127,
+            "q3Value": 4.91231,
+            "q4Value": 5.13148,
+            "areaValue": 4.91231,
+            "groupValue": 4.75958,
+            "englandValue": 5.2205
+        }]
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+
+### Basic Quartile District benchmarked against Region
+GET http://localhost:5144/indicators/quartiles?indicator_ids=93861&area_code=E07000223&area_type=districts-and-unitary-authorities&area_group=E12000008&benchmark_ref_type=AreaGroup
+
+
+> {%
+    client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
+        const expected = [{
+            "indicatorId": 93861,
+            "polarity": "NoJudgement",
+            "year": 2023,
+            "q0Value": 4.25991,
+            "q1Value": 4.76673,
+            "q2Value": 4.92386,
+            "q3Value": 5.29198,
+            "q4Value": 5.83444,
+            "areaValue": 4.91231,
+            "groupValue": 5.05386,
+            "englandValue": 5.2205
+        }]
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+
+### Basic Quartile District benchmarked against England
+GET http://localhost:5144/indicators/quartiles?indicator_ids=93861&area_code=E07000223&area_type=districts-and-unitary-authorities&area_group=E12000008
+> {%
+    client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
+        const expected = [  {
+            "indicatorId": 93861,
+            "polarity": "NoJudgement",
+            "year": 2023,
+            "q0Value": 3.26941,
+            "q1Value": 4.75739,
+            "q2Value": 5.21437,
+            "q3Value": 5.56829,
+            "q4Value": 7.36706,
+            "areaValue": 4.91231,
+            "groupValue": 5.05386,
+            "englandValue": 5.2205
+        }]
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
