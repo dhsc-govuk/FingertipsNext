@@ -1,6 +1,7 @@
 import { CsvHeader } from '@/components/molecules/Export/export.types';
 import { InequalitiesTableRowData } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { CsvData } from '@/lib/downloadHelpers/convertToCsv';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 const headers: CsvHeader[] = [
   CsvHeader.IndicatorId,
@@ -19,9 +20,7 @@ export const convertInequalitiesTrendTableToCsvData = (
   areaName: string,
   inequalityCategory: string,
   tableRows: InequalitiesTableRowData[],
-  indicatorId?: number,
-  indicatorName?: string,
-  valueUnit?: string
+  indicatorMetadata?: IndicatorDocument
 ): CsvData => {
   if (tableRows.length < 1) {
     throw new Error('Invalid data provided.');
@@ -31,14 +30,14 @@ export const convertInequalitiesTrendTableToCsvData = (
     return Object.entries(tableRow.inequalities).map(
       ([inequalityType, rowData]) => {
         return [
-          indicatorId,
-          indicatorName,
+          indicatorMetadata?.indicatorID,
+          indicatorMetadata?.indicatorName,
           tableRow.period,
           areaName,
           areaCode,
           inequalityCategory,
           inequalityType,
-          valueUnit,
+          indicatorMetadata?.unitLabel,
           rowData?.value,
         ];
       }

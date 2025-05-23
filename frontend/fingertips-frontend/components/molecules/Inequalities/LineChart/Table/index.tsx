@@ -14,15 +14,18 @@ import {
   InequalitiesChartData,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { ReactNode } from 'react';
+import { convertInequalitiesTrendTableToCsvData } from './convertInequalitiesTrendTableToCsvData';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 export enum InequalitiesTableHeadingsEnum {
   PERIOD = 'Period',
 }
 
 interface InequalitiesLineChartTableProps {
+  inequalityTypeSelected: string;
+  indicatorMetadata?: IndicatorDocument;
   tableData: InequalitiesChartData;
   dynamicKeys: string[];
-  measurementUnit?: string;
 }
 
 const StyledAlignCenterHeader = styled(StyledTableCellHeader)({
@@ -69,9 +72,10 @@ const getCellHeader = (heading: string, index: number): ReactNode => {
 };
 
 export function InequalitiesLineChartTable({
+  inequalityTypeSelected,
+  indicatorMetadata,
   tableData,
   dynamicKeys,
-  measurementUnit,
 }: Readonly<InequalitiesLineChartTableProps>) {
   const tableHeaders = [
     ...Object.values(InequalitiesTableHeadingsEnum),
@@ -88,6 +92,17 @@ export function InequalitiesLineChartTable({
     (data) => data.period >= firstYear && data.period <= lastYear
   );
 
+  const csvData = convertInequalitiesTrendTableToCsvData(
+    tableData.areaCode,
+    tableData.areaName,
+    inequalityTypeSelected,
+    filteredRowData,
+    indicatorMetadata
+  );
+
+  // TODO: Remove this and add the download button
+  console.table(csvData);
+
   return (
     <StyledDivWithScrolling data-testid="inequalitiesLineChartTable-component">
       <Table
@@ -96,12 +111,12 @@ export function InequalitiesLineChartTable({
             <Table.Row>
               <StyledAlignCenterHeader colSpan={tableHeaders.length}>
                 {tableData.areaName}
-                {measurementUnit ? (
+                {indicatorMetadata?.unitLabel ? (
                   <span
                     style={{ display: 'block', marginTop: '10px' }}
                     data-testid="inequalitiesLineChartTable-measurementUnit"
                   >
-                    Value: {measurementUnit}
+                    Value: {indicatorMetadata.unitLabel}
                   </span>
                 ) : null}
               </StyledAlignCenterHeader>

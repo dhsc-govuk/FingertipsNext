@@ -1,11 +1,17 @@
 import { CsvHeader } from '@/components/molecules/Export/export.types';
 import { convertInequalitiesTrendTableToCsvData } from './convertInequalitiesTrendTableToCsvData';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 describe('convertInequalitiesTrendTableToCsvData', () => {
   const indicatorId = 41101;
   const indicatorName =
     'Emergency readmissions within 30 days of discharge from hospital';
   const valueUnit = '%';
+  const indicatorMetadata = {
+    indicatorID: indicatorId,
+    indicatorName,
+    unitLabel: valueUnit,
+  } as unknown as IndicatorDocument;
   const areaCode = 'E12000003';
   const areaName = 'Yorkshire and the Humber Region';
   const inequalityCategory = 'Sex';
@@ -34,9 +40,7 @@ describe('convertInequalitiesTrendTableToCsvData', () => {
       areaName,
       inequalityCategory,
       tableRows,
-      indicatorId,
-      indicatorName,
-      valueUnit
+      indicatorMetadata
     );
 
     expect(csvData[0]).toEqual([
@@ -58,9 +62,7 @@ describe('convertInequalitiesTrendTableToCsvData', () => {
       areaName,
       inequalityCategory,
       tableRows,
-      indicatorId,
-      indicatorName,
-      valueUnit
+      indicatorMetadata
     );
 
     expect(csvData).toHaveLength(7);
@@ -192,9 +194,7 @@ describe('convertInequalitiesTrendTableToCsvData', () => {
         areaName,
         inequalityCategory,
         [],
-        indicatorId,
-        indicatorName,
-        valueUnit
+        indicatorMetadata
       );
     }).toThrow();
   });
