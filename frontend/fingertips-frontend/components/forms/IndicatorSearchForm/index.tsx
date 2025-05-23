@@ -5,11 +5,13 @@ import { IndicatorSearchFormState } from './indicatorSearchActions';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
-import { useEffect } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { INDICATOR_SEARCH_MAX_CHARACTERS } from '@/lib/search/indicatorSearchService';
+import { CharacterCount } from '@/components/atoms/CharacterCount';
 
 const govukErrorBorderWidth = '2px';
 
-const StyledSearchBox = styled(SearchBox)(
+const StyledFormGroup = styled(FormGroup)(
   spacing.withWhiteSpace({ marginBottom: 6 })
 );
 
@@ -29,6 +31,10 @@ export const IndicatorSearchForm = ({
   const { setIsLoading } = useLoadingState();
   const { getSearchState } = useSearchState();
   const searchState = getSearchState();
+  const indicatorSearchTerm = indicatorSearchFormState.indicator;
+  const [inputTextLength, setInputTextLength] = useState(
+    indicatorSearchTerm.length
+  );
 
   useEffect(() => {
     if (indicatorSearchFormState.message) {
@@ -37,7 +43,7 @@ export const IndicatorSearchForm = ({
   });
 
   return (
-    <FormGroup
+    <StyledFormGroup
       error={indicatorSearchFormState.message !== undefined}
       data-testid="indicator-search-form"
     >
@@ -58,14 +64,18 @@ export const IndicatorSearchForm = ({
       ) : (
         ''
       )}
-      <StyledSearchBox>
+      <SearchBox>
         {SearchBox.Input && (
           <SearchBox.Input
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              setInputTextLength(e.target.value.length);
+            }}
             title="indicator"
             id="indicator"
             name="indicator"
             data-testid="indicator-search-form-input"
-            defaultValue={indicatorSearchFormState.indicator}
+            defaultValue={indicatorSearchTerm}
+            maxLength={INDICATOR_SEARCH_MAX_CHARACTERS}
             style={
               indicatorSearchFormState.errors
                 ? {
@@ -84,7 +94,12 @@ export const IndicatorSearchForm = ({
             data-testid="indicator-search-form-submit"
           />
         )}
-      </StyledSearchBox>
-    </FormGroup>
+      </SearchBox>
+      <CharacterCount
+        textLength={inputTextLength}
+        characterLimit={INDICATOR_SEARCH_MAX_CHARACTERS}
+        thresholdPercentage={75}
+      />
+    </StyledFormGroup>
   );
 };

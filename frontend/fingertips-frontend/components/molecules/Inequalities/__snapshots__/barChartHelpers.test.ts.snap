@@ -15,6 +15,9 @@ exports[`getBarChartOptions should return an object matching the snapshot 1`] = 
   "credits": {
     "enabled": false,
   },
+  "exporting": {
+    "enabled": false,
+  },
   "legend": {
     "enabled": false,
   },
@@ -111,6 +114,9 @@ exports[`getBarChartOptions should return an object matching the snapshot when o
     "type": "bar",
   },
   "credits": {
+    "enabled": false,
+  },
+  "exporting": {
     "enabled": false,
   },
   "legend": {

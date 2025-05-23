@@ -304,6 +304,7 @@ export function createThematicMapChartOptions(
 ): Highcharts.Options {
   const data = prepareThematicMapSeriesData(healthIndicatorData);
   const options: Highcharts.Options = {
+    exporting: { enabled: false },
     chart: {
       height: 800,
       animation: false,
