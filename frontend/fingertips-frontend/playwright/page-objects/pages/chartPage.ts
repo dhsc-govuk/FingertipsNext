@@ -15,6 +15,7 @@ import {
   Locator,
 } from '@playwright/test';
 import AreaFilter from '../components/areaFilter';
+import { SearchParams } from '@/lib/searchStateManager';
 
 interface VisibleComponent {
   componentLocator: string;
@@ -54,7 +55,7 @@ export default class ChartPage extends AreaFilter {
     'inequalitiesTypes-dropDown-component-lc';
   static readonly basicTableComponent = 'basicTable-component';
   static readonly benchmarkDropDownComponent =
-    'lcbas-dropDown-benchmark-component';
+    `${SearchParams.OneIndOneAreaViewBenchmarkSelected}-dropDown-benchmark-component`;
 
   async checkOnChartPage() {
     await expect(
