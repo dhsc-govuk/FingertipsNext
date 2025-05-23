@@ -1,4 +1,4 @@
-export enum CsvColumnHeader {
+export enum CsvHeader {
   IndicatorId = 'Indicator ID',
   IndicatorName = 'Indicator name',
   Period = 'Period',

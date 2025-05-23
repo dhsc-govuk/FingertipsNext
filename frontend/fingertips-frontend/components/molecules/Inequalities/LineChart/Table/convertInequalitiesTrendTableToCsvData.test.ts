@@ -1,4 +1,4 @@
-import { CsvColumnHeader } from '@/components/molecules/Export/export.types';
+import { CsvHeader } from '@/components/molecules/Export/export.types';
 import { convertInequalitiesTrendTableToCsvData } from './convertInequalitiesTrendTableToCsvData';
 
 describe('convertInequalitiesTrendTableToCsvData', () => {
@@ -40,15 +40,15 @@ describe('convertInequalitiesTrendTableToCsvData', () => {
     );
 
     expect(csvData[0]).toEqual([
-      CsvColumnHeader.IndicatorId,
-      CsvColumnHeader.IndicatorName,
-      CsvColumnHeader.Period,
-      CsvColumnHeader.Area,
-      CsvColumnHeader.AreaCode,
-      CsvColumnHeader.InequalityCategory,
-      CsvColumnHeader.InequalityType,
-      CsvColumnHeader.ValueUnit,
-      CsvColumnHeader.Value,
+      CsvHeader.IndicatorId,
+      CsvHeader.IndicatorName,
+      CsvHeader.Period,
+      CsvHeader.Area,
+      CsvHeader.AreaCode,
+      CsvHeader.InequalityCategory,
+      CsvHeader.InequalityType,
+      CsvHeader.ValueUnit,
+      CsvHeader.Value,
     ]);
   });
 

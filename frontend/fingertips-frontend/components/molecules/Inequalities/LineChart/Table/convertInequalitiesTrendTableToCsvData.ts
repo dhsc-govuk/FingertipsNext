@@ -1,17 +1,17 @@
-import { CsvColumnHeader } from '@/components/molecules/Export/export.types';
+import { CsvHeader } from '@/components/molecules/Export/export.types';
 import { InequalitiesTableRowData } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { CsvData } from '@/lib/downloadHelpers/convertToCsv';
 
-const headers: CsvColumnHeader[] = [
-  CsvColumnHeader.IndicatorId,
-  CsvColumnHeader.IndicatorName,
-  CsvColumnHeader.Period,
-  CsvColumnHeader.Area,
-  CsvColumnHeader.AreaCode,
-  CsvColumnHeader.InequalityCategory,
-  CsvColumnHeader.InequalityType,
-  CsvColumnHeader.ValueUnit,
-  CsvColumnHeader.Value,
+const headers: CsvHeader[] = [
+  CsvHeader.IndicatorId,
+  CsvHeader.IndicatorName,
+  CsvHeader.Period,
+  CsvHeader.Area,
+  CsvHeader.AreaCode,
+  CsvHeader.InequalityCategory,
+  CsvHeader.InequalityType,
+  CsvHeader.ValueUnit,
+  CsvHeader.Value,
 ];
 
 export const convertInequalitiesTrendTableToCsvData = (
