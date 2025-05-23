@@ -19,19 +19,28 @@ const highlightChars = (text: string, searchHint: string) => {
     .indexOf(textToBeHighlighted.toLowerCase());
   return text
     .split('')
-    .reduce((accumulator: React.JSX.Element[], char: string, index: number) => {
-      if (
-        highlightStartPos <= index &&
-        index < highlightStartPos + textToBeHighlighted.length
-      ) {
-        accumulator.push(
-          <StyleHighLightedText key={char + index}>{char}</StyleHighLightedText>
-        );
-      } else {
-        accumulator.push(<span key={char + index}>{char}</span>);
-      }
-      return accumulator;
-    }, []);
+    .reduce(
+      (
+        accumulator: React.JSX.Element[] & string[],
+        char: string,
+        index: number
+      ) => {
+        if (
+          highlightStartPos <= index &&
+          index < highlightStartPos + textToBeHighlighted.length
+        ) {
+          accumulator.push(
+            <StyleHighLightedText key={char + index}>
+              {char}
+            </StyleHighLightedText>
+          );
+        } else {
+          accumulator.push(char);
+        }
+        return accumulator;
+      },
+      []
+    );
 };
 
 export const HighlightText = ({

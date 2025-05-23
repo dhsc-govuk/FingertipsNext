@@ -54,12 +54,16 @@ jest.mock('@/context/SearchStateContext', () => {
 describe('AreaAutoCompleteInputField', () => {
   const mockAreas: SuggestionResult[] = [
     {
-      text: '',
-      document: { areaCode: '001', areaName: 'London', areaType: 'GPs' },
+      text: '*York*',
+      document: { areaCode: '001', areaName: 'York', areaType: 'GPs' },
     },
     {
-      text: '',
-      document: { areaCode: '002', areaName: 'Manchester', areaType: 'GPs' },
+      text: 'North *York*shire',
+      document: {
+        areaCode: '002',
+        areaName: 'North Yorkshire',
+        areaType: 'GPs',
+      },
     },
   ];
 

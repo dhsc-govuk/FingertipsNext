@@ -42,12 +42,7 @@ export class AreaSearchServiceMock implements IAreaSearchService {
       })
       .map((mockArea) => ({
         text: `${highlightTag}${partialAreaName}${highlightTag}`,
-        document: {
-          areaCode: mockArea.areaCode,
-          areaName: mockArea.areaName,
-          areaType: mockArea.areaType,
-          postcode: mockArea.postcode,
-        },
+        document: mockArea,
       }))
       .slice(0, 20);
   }

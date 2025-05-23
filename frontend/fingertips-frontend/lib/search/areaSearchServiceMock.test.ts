@@ -42,7 +42,7 @@ describe('AreaSearchServiceMock', () => {
 
   it('should be case agnostic', async () => {
     expect(await areaSearchMock.getAreaSuggestions('leeds')).toEqual([
-      { text: '*leeds*', document: { ...mockData[2], postcode: undefined } },
+      { text: '*leeds*', document: mockData[2] },
     ]);
   });
 });

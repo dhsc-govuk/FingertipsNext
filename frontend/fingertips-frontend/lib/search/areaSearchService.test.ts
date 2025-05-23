@@ -59,27 +59,27 @@ describe('AreaSearchService', () => {
       const mockSearchResults = {
         results: [
           {
-            text: '',
+            text: '*York*',
             document: {
               areaCode: '123',
-              areaType: 'Town',
-              areaName: 'Solihull',
+              areaType: 'City',
+              areaName: 'York',
             },
           },
           {
-            text: '',
+            text: 'North *York*shire',
             document: {
               areaCode: '234',
-              areaType: 'City',
-              areaName: 'Leeds',
+              areaType: 'Town',
+              areaName: 'North Yorkshire',
             },
           },
           {
-            text: '',
+            text: 'South *York*shire',
             document: {
               areaCode: '345',
-              areaType: 'Mega City',
-              areaName: 'London',
+              areaType: 'Town',
+              areaName: 'South Yorkshire',
             },
           },
         ],
@@ -88,32 +88,31 @@ describe('AreaSearchService', () => {
       mockSearch.mockResolvedValue(mockSearchResults);
 
       const searchService = new AreaSearchService('someUrl', 'someKey');
-      const results =
-        await searchService.getAreaSuggestions('random search text');
+      const results = await searchService.getAreaSuggestions('york');
 
       expect(results).toEqual([
         {
-          text: '',
+          text: '*York*',
           document: {
             areaCode: '123',
-            areaType: 'Town',
-            areaName: 'Solihull',
+            areaType: 'City',
+            areaName: 'York',
           },
         },
         {
-          text: '',
+          text: 'North *York*shire',
           document: {
             areaCode: '234',
-            areaType: 'City',
-            areaName: 'Leeds',
+            areaType: 'Town',
+            areaName: 'North Yorkshire',
           },
         },
         {
-          text: '',
+          text: 'South *York*shire',
           document: {
             areaCode: '345',
-            areaType: 'Mega City',
-            areaName: 'London',
+            areaType: 'Town',
+            areaName: 'South Yorkshire',
           },
         },
       ]);

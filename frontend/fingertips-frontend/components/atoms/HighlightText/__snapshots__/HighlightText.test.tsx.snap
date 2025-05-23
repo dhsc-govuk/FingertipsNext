@@ -2,30 +2,7 @@
 
 exports[`HighlightText should highlight the searchHint part of the text provided 1`] = `
 <DocumentFragment>
-  <span>
-    T
-  </span>
-  <span>
-    h
-  </span>
-  <span>
-    i
-  </span>
-  <span>
-    s
-  </span>
-  <span>
-     
-  </span>
-  <span>
-    i
-  </span>
-  <span>
-    s
-  </span>
-  <span>
-     
-  </span>
+  This is 
   .c0 {
   font-weight: 600;
 }
@@ -62,21 +39,7 @@ exports[`HighlightText should highlight the searchHint part of the text provided
   >
     e
   </span>
-  <span>
-     
-  </span>
-  <span>
-    t
-  </span>
-  <span>
-    e
-  </span>
-  <span>
-    x
-  </span>
-  <span>
-    t
-  </span>
+   text
 </DocumentFragment>
 `;
 
@@ -118,45 +81,50 @@ exports[`HighlightText should highlight the searchHint part of the text provided
   >
     s
   </span>
-  <span>
-     
-  </span>
-  <span>
-    i
-  </span>
-  <span>
+   is some text
+</DocumentFragment>
+`;
+
+exports[`HighlightText should highlight the searchHint part of the text provided when the highlight occurs in the middle of the searchHint text 1`] = `
+<DocumentFragment>
+  This is a 
+  .c0 {
+  font-weight: 600;
+}
+
+<span
+    class="c0"
+  >
     s
   </span>
-  <span>
-     
-  </span>
-  <span>
-    s
-  </span>
-  <span>
+  .c0 {
+  font-weight: 600;
+}
+
+<span
+    class="c0"
+  >
     o
   </span>
-  <span>
+  .c0 {
+  font-weight: 600;
+}
+
+<span
+    class="c0"
+  >
     m
   </span>
-  <span>
+  .c0 {
+  font-weight: 600;
+}
+
+<span
+    class="c0"
+  >
     e
   </span>
-  <span>
-     
-  </span>
-  <span>
-    t
-  </span>
-  <span>
-    e
-  </span>
-  <span>
-    x
-  </span>
-  <span>
-    t
-  </span>
+  what short text
 </DocumentFragment>
 `;
 
@@ -216,44 +184,6 @@ exports[`HighlightText should highlight the searchHint part of the text provided
   >
      
   </span>
-  <span>
-    i
-  </span>
-  <span>
-    s
-  </span>
-  <span>
-    )
-  </span>
-  <span>
-     
-  </span>
-  <span>
-    s
-  </span>
-  <span>
-    o
-  </span>
-  <span>
-    m
-  </span>
-  <span>
-    e
-  </span>
-  <span>
-     
-  </span>
-  <span>
-    t
-  </span>
-  <span>
-    e
-  </span>
-  <span>
-    x
-  </span>
-  <span>
-    t
-  </span>
+  is) some text
 </DocumentFragment>
 `;

@@ -35,4 +35,15 @@ describe('HighlightText', () => {
 
     expect(container.asFragment()).toMatchSnapshot();
   });
+
+  it('should highlight the searchHint part of the text provided when the highlight occurs in the middle of the searchHint text', () => {
+    const container = render(
+      <HighlightText
+        text="This is a somewhat short text"
+        searchHint={`${highlightTag}some${highlightTag}what short text`}
+      />
+    );
+
+    expect(container.asFragment()).toMatchSnapshot();
+  });
 });

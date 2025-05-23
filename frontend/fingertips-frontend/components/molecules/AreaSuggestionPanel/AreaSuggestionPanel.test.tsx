@@ -15,16 +15,20 @@ import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 const mockAreas: SuggestionResult[] = [
   {
-    text: '',
-    document: { areaCode: 'GP01', areaName: 'Greenwich', areaType: 'GPs' },
+    text: '*York*',
+    document: { areaCode: 'GP01', areaName: 'York', areaType: 'GPs' },
   },
   {
-    text: '',
-    document: { areaCode: 'GP02', areaName: 'Cambridge', areaType: 'GPs' },
+    text: 'North *York*shire',
+    document: {
+      areaCode: 'GP02',
+      areaName: 'North Yorkshire',
+      areaType: 'GPs',
+    },
   },
   {
-    text: '',
-    document: { areaCode: 'CT01', areaName: 'Central London', areaType: 'CT' },
+    text: 'South *York*shire',
+    document: { areaCode: 'CT01', areaName: 'South Yorkshire', areaType: 'CT' },
   },
 ];
 
