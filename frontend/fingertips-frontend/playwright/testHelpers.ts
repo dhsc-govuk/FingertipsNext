@@ -86,8 +86,8 @@ export function getScenarioConfig(
     {
       componentLocator: ChartPage.lineChartComponent,
       componentProps: {
-        hasBenchmark: true,
         hasConfidenceIntervals: true,
+        hasBenchmark: true,
       },
     },
     {
@@ -106,16 +106,16 @@ export function getScenarioConfig(
     {
       componentLocator: ChartPage.inequalitiesForSingleTimePeriodComponent,
       componentProps: {
+        hasConfidenceIntervals: true,
         hasTimePeriodDropDown: true,
         hasTypeDropDown: false, // even though it has a type dropdown, we want to test the default view
-        hasConfidenceIntervals: true,
       },
     },
     {
       componentLocator: ChartPage.inequalitiesTrendComponent,
       componentProps: {
-        hasTypeDropDown: true, // and in this case we want to test the type dropdown
         hasConfidenceIntervals: true,
+        hasTypeDropDown: true, // and in this case we want to test the type dropdown
       },
     },
     {
@@ -155,8 +155,8 @@ export function getScenarioConfig(
     {
       componentLocator: ChartPage.barChartEmbeddedTableComponent,
       componentProps: {
-        hasRecentTrend: true,
         hasConfidenceIntervals: true,
+        hasRecentTrend: true,
       },
     },
     {

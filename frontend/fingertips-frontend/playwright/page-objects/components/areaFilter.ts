@@ -229,10 +229,11 @@ export default class AreaFilter extends BasePage {
         await this.waitForURLToContain('england');
       }
     } else if (
-      searchMode === SearchMode.ONLY_AREA &&
+      (searchMode === SearchMode.ONLY_AREA ||
+        searchMode === SearchMode.BOTH_SUBJECT_AND_AREA) &&
       areaMode === AreaMode.THREE_PLUS_AREAS
     ) {
-      // Need to select an additional 2 checkboxes for this scenario, as one is already selected
+      // Need to select an additional 2 checkboxes for these scenarios, as one is already selected
       const areaCheckboxList = this.page
         .getByTestId(this.areaFilterContainer)
         .getByRole('checkbox');
