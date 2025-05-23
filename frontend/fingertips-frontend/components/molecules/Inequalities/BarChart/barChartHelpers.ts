@@ -40,6 +40,7 @@ export const getBarChartOptions = (options: {
   tooltipPointFormatter: Highcharts.FormatterCallbackFunction<Highcharts.Point>;
 }): Highcharts.Options => {
   return {
+    exporting: { enabled: false },
     credits: {
       enabled: false,
     },

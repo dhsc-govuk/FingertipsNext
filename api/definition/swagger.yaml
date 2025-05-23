@@ -277,7 +277,6 @@ paths:
         - $ref: "#/components/parameters/benchmark_ref_type"
         - $ref: "#/components/parameters/years"
         - $ref: "#/components/parameters/inequalities"
-        - $ref: "#/components/parameters/include_empty_areas"
         - $ref: "#/components/parameters/latest_only"
       operationId: getHealthDataForAnIndicator
   /indicators/quartiles:
@@ -285,13 +284,40 @@ paths:
       tags:
         - indicators
       summary: Get quartile values for indicators
-      description: |
+      description:
         Get quartile information for indicators including
       parameters:
-        - $ref: "#/components/parameters/indicator_ids"
-        - $ref: "#/components/parameters/area_code"
-        - $ref: "#/components/parameters/area_type"
-        - $ref: "#/components/parameters/area_group"
+        - name: area_group
+          in: query
+          style: simple
+          schema:
+            type: string
+            example: E12000001
+          explode: false
+          description: The area code of an ancestor area
+        - name: area_code
+          in: query
+          style: simple
+          schema:
+            type: string
+            example: G82109
+          explode: false
+          description: The area code of the area/ geography
+        - name: area_type
+          in: query
+          description: The area type which the areas belong to
+          schema:
+            type: string
+        - name: indicator_ids
+          in: query
+          description: A list of indicator_ids, up to 10 can be requested
+          style: form
+          schema:
+            type: array
+            items:
+              type: integer
+              example: 1234
+            maxItems: 10
       responses:
         "200":
           description: search results matching criteria
@@ -759,12 +785,6 @@ components:
             - sex
             - deprivation
       description: Determines the kind of inequality data that should be returned if an option is specified
-    include_empty_areas:
-      in: query
-      name: include_empty_areas
-      description: Determines if areas with no data are returned as empty arrays, the default is false.
-      schema:
-        type: boolean
     latest_only:
       in: query
       name: latest_only

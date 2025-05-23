@@ -30,6 +30,7 @@ import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
 import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 import { getSelectedAreasDataByAreaType } from '@/lib/areaFilterHelpers/getSelectedAreasData';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import { INDICATOR_SEARCH_MAX_CHARACTERS } from '@/lib/search/indicatorSearchService';
 
 jest.mock('@/lib/areaFilterHelpers/getAreaFilterData');
 jest.mock('@/lib/areaFilterHelpers/getSelectedAreasData');
@@ -131,6 +132,30 @@ describe('Results Page', () => {
         undefined
       );
       expect(page.props.searchResults).toEqual(mockIndicatorSearchResults);
+    });
+
+    it('should restrict search length', async () => {
+      mockIndicatorSearchService.searchWith.mockResolvedValue(
+        mockIndicatorSearchResults
+      );
+
+      const searchState: SearchStateParams = {
+        ...searchParams,
+        [SearchParams.SearchedIndicator]: 'A'.repeat(
+          INDICATOR_SEARCH_MAX_CHARACTERS + 1
+        ),
+        [SearchParams.IndicatorsSelected]: ['1', '2'],
+      };
+
+      const _ = await ResultsPage({
+        searchParams: generateSearchParams(searchState),
+      });
+
+      expect(mockIndicatorSearchService.searchWith).toHaveBeenCalledWith(
+        'A'.repeat(INDICATOR_SEARCH_MAX_CHARACTERS),
+        false,
+        undefined
+      );
     });
 
     it('should pass the searchResults prop with the results of the searchWith filtered by areas selected', async () => {

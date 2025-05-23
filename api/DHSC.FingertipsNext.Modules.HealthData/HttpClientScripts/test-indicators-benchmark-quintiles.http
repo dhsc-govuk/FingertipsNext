@@ -252,8 +252,11 @@ GET http://localhost:5144/indicators/90453/data?area_codes=D83060&area_codes=D83
 GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=E10000032&area_codes=E10000018&area_codes=E06000062&area_codes=E06000030&area_codes=E06000050&area_type=counties-and-unitary-authorities&years=2019&years=2016&area_group=E07000228&benchmark_ref_type=AreaGroup
 
 > {%
-    client.test("Expected empty array if area_codes not in area_group", function (callbackfn, thisArg) {
+    client.test("Expected empty healthdata arrays if area_codes not in area_group", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
-        client.assert(response.body.areaHealthData.length == 0, "Have not received data for all areas");
+        response.body.areaHealthData.forEach((areaResult) => {
+            client.assert(areaResult.healthData.length == 0, "All healthData results should be empty"
+            );
+        });
     });
 %}

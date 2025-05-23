@@ -93,6 +93,7 @@ export function SparklineChart({
   );
 
   const sparklineOptions: Highcharts.Options = {
+    exporting: { enabled: false },
     credits: {
       enabled: false,
     },

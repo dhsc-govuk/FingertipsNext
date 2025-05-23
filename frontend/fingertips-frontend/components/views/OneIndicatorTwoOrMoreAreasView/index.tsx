@@ -4,7 +4,10 @@ import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
 import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
-import { getIndicatorData } from '@/lib/ViewsHelpers';
+import {
+  determineBenchmarkRefType,
+  getIndicatorData,
+} from '@/lib/ViewsHelpers';
 
 export default async function OneIndicatorTwoOrMoreAreasView({
   selectedIndicatorsData,
@@ -19,6 +22,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     [SearchParams.GroupTypeSelected]: selectedGroupType,
     [SearchParams.AreaTypeSelected]: selectedAreaType,
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
+    [SearchParams.LineChartBenchmarkAreaSelected]: lineChartAreaSelected,
   } = stateManager.getSearchState();
 
   const areaCodes = determineAreaCodes(
@@ -41,31 +45,25 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     selectedGroupType,
   };
 
-  const indicatorDataIncludingEmptyAreas = await getIndicatorData(
+  const benchmarkRefType = determineBenchmarkRefType(lineChartAreaSelected);
+
+  const indicatorData = await getIndicatorData(
     indicatorsAndAreas,
-    true,
+    benchmarkRefType,
     areaCodes.length > 2
   );
-
-  const indicatorDataAvailableAreas = {
-    ...indicatorDataIncludingEmptyAreas,
-    areaHealthData: indicatorDataIncludingEmptyAreas.areaHealthData?.filter(
-      (area) => area.healthData.length
-    ),
-  };
 
   const indicatorMetadata = selectedIndicatorsData?.[0];
   return (
     <ViewsWrapper
       areaCodes={areaCodes}
-      indicatorsDataForAreas={[indicatorDataAvailableAreas]}
+      indicatorsDataForAreas={[indicatorData]}
     >
       <OneIndicatorTwoOrMoreAreasViewPlots
         areaCodes={areaCodes}
-        indicatorData={indicatorDataAvailableAreas}
+        indicatorData={indicatorData}
         searchState={searchState}
         indicatorMetadata={indicatorMetadata}
-        indicatorDataAllAreas={indicatorDataIncludingEmptyAreas}
       />
     </ViewsWrapper>
   );

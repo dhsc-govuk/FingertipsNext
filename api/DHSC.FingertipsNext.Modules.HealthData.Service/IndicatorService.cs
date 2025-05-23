@@ -49,7 +49,6 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         BenchmarkReferenceType benchmarkRefType,
         IEnumerable<int> years,
         IEnumerable<string> inequalities,
-        bool includeEmptyAreas = false,
         bool latestOnly = false)
     {
         var indicatorData = await healthDataRepository.GetIndicatorDimensionAsync(indicatorId, [.. areaCodes]);
@@ -74,8 +73,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         )) ?? [])
         .ToList();
 
-        if(includeEmptyAreas)
-            await AddAreasWithNoData(areaHealthData, areaCodes);
+        await AddAreasWithNoData(areaHealthData, areaCodes);
 
         return new ServiceResponse<IndicatorWithHealthDataForAreas>()
         {

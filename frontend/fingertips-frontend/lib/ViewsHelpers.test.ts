@@ -1,9 +1,11 @@
 import {
+  determineBenchmarkRefType,
   getHealthDataForIndicator,
   getIndicatorData,
   GetIndicatorDataParam,
 } from './ViewsHelpers';
 import {
+  BenchmarkReferenceType,
   IndicatorsApi,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
@@ -218,7 +220,7 @@ describe('getIndicatorData', () => {
       mockIndicator
     );
 
-    await getIndicatorData(testParams, true);
+    await getIndicatorData(testParams, BenchmarkReferenceType.England);
     expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
       2
     );
@@ -231,7 +233,7 @@ describe('getIndicatorData', () => {
         areaCodes: testParams.areasSelected,
         indicatorId: Number(testParams.indicatorSelected[0]),
         areaType: testParams.selectedAreaType,
-        includeEmptyAreas: true,
+        benchmarkRefType: BenchmarkReferenceType.England,
       },
       API_CACHE_CONFIG
     );
@@ -244,7 +246,7 @@ describe('getIndicatorData', () => {
         areaCodes: [areaCodeForEngland],
         indicatorId: Number(testParams.indicatorSelected[0]),
         areaType: 'england',
-        includeEmptyAreas: true,
+        benchmarkRefType: BenchmarkReferenceType.England,
       },
       API_CACHE_CONFIG
     );
@@ -261,7 +263,7 @@ describe('getIndicatorData', () => {
       mockIndicator
     );
 
-    await getIndicatorData(testParamsWithGroup, true);
+    await getIndicatorData(testParamsWithGroup, BenchmarkReferenceType.England);
     expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
       3
     );
@@ -274,7 +276,35 @@ describe('getIndicatorData', () => {
         areaCodes: [testParamsWithGroup.selectedGroupCode],
         indicatorId: Number(testParamsWithGroup.indicatorSelected[0]),
         areaType: testParamsWithGroup.selectedGroupType,
-        includeEmptyAreas: true,
+        benchmarkRefType: BenchmarkReferenceType.England,
+      },
+      API_CACHE_CONFIG
+    );
+  });
+
+  it('should make appropriate calls to the healthIndicatorApi when benchmarkRefType is AreaGroup', async () => {
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
+      mockIndicator
+    );
+
+    await getIndicatorData(
+      testParamsWithGroup,
+      BenchmarkReferenceType.AreaGroup
+    );
+    expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
+      3
+    );
+
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(
+      3,
+      {
+        areaCodes: [testParamsWithGroup.selectedGroupCode],
+        indicatorId: Number(testParamsWithGroup.indicatorSelected[0]),
+        areaType: testParamsWithGroup.selectedGroupType,
+        benchmarkRefType: BenchmarkReferenceType.AreaGroup,
+        areaGroup: testParamsWithGroup.selectedGroupCode,
       },
       API_CACHE_CONFIG
     );
@@ -290,7 +320,10 @@ describe('getIndicatorData', () => {
       mockIndicator
     );
 
-    await getIndicatorData(testParamsWithManyAreas, true);
+    await getIndicatorData(
+      testParamsWithManyAreas,
+      BenchmarkReferenceType.England
+    );
     expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
       4
     );
@@ -321,7 +354,11 @@ describe('getIndicatorData', () => {
       mockIndicator
     );
 
-    await getIndicatorData(testParamsWithGroup, true, true);
+    await getIndicatorData(
+      testParamsWithGroup,
+      BenchmarkReferenceType.England,
+      true
+    );
     expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
       3
     );
@@ -333,9 +370,9 @@ describe('getIndicatorData', () => {
       {
         areaCodes: ['abc', 'def'],
         areaType: 'test_area_type',
-        includeEmptyAreas: true,
         indicatorId: 1,
         latestOnly: true,
+        benchmarkRefType: BenchmarkReferenceType.England,
       },
       { next: { revalidate: 600 } }
     );
@@ -346,7 +383,6 @@ describe('getIndicatorData', () => {
       {
         areaCodes: [areaCodeForEngland],
         areaType: 'england',
-        includeEmptyAreas: true,
         indicatorId: 1,
         years: [2006],
       },
@@ -359,7 +395,6 @@ describe('getIndicatorData', () => {
       {
         areaCodes: ['ggg'],
         areaType: 'test_group_type',
-        includeEmptyAreas: true,
         indicatorId: 1,
         years: [2006],
       },
@@ -393,7 +428,11 @@ describe('getIndicatorData', () => {
       mockIndicator
     );
 
-    await getIndicatorData(testParamsWithGroup, true, true);
+    await getIndicatorData(
+      testParamsWithGroup,
+      BenchmarkReferenceType.England,
+      true
+    );
     expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
       3
     );
@@ -405,9 +444,9 @@ describe('getIndicatorData', () => {
       {
         areaCodes: ['abc', 'def'],
         areaType: 'test_area_type',
-        includeEmptyAreas: true,
         indicatorId: 1,
         latestOnly: true,
+        benchmarkRefType: BenchmarkReferenceType.England,
       },
       { next: { revalidate: 600 } }
     );
@@ -418,7 +457,6 @@ describe('getIndicatorData', () => {
       {
         areaCodes: [areaCodeForEngland],
         areaType: 'england',
-        includeEmptyAreas: true,
         indicatorId: 1,
         latestOnly: true,
       },
@@ -431,11 +469,28 @@ describe('getIndicatorData', () => {
       {
         areaCodes: ['ggg'],
         areaType: 'test_group_type',
-        includeEmptyAreas: true,
         indicatorId: 1,
         latestOnly: true,
       },
       { next: { revalidate: 600 } }
+    );
+  });
+});
+
+describe('determineBenchmarkRefType', () => {
+  it('should return "England" if no area is selected', () => {
+    expect(determineBenchmarkRefType()).toBe(BenchmarkReferenceType.England);
+  });
+
+  it('should return "England" if England is selected', () => {
+    expect(determineBenchmarkRefType(areaCodeForEngland)).toBe(
+      BenchmarkReferenceType.England
+    );
+  });
+
+  it('should return "AreaGroup" if a non-England area is selected', () => {
+    expect(determineBenchmarkRefType('SOME_OTHER_CODE')).toBe(
+      BenchmarkReferenceType.AreaGroup
     );
   });
 });

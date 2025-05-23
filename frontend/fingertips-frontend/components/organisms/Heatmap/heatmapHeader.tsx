@@ -67,11 +67,6 @@ const StyledCellHeaderIndicatorTitle = styled(Table.CellHeader)({
   ...(stickyLeft as unknown as TemplateStringsArray),
   verticalAlign: 'bottom',
   width: `${heatmapIndicatorTitleColumnWidth}px`,
-});
-
-const StyledCellHeaderIndicatorInformation = styled(Table.CellHeader)({
-  verticalAlign: 'bottom',
-  paddingRight: '10px',
   paddingLeft: '10px',
 });
 
@@ -80,6 +75,20 @@ const StyledCellHeaderArea = styled(Table.CellHeader)({
   width: `${heatmapDataColumnWidth}px`,
   paddingRight: '0px',
   paddingLeft: '1em',
+});
+
+const StyledCellHeaderIndicatorInformationValueUnit = styled(Table.CellHeader)({
+  verticalAlign: 'bottom',
+  paddingRight: '10px',
+  paddingLeft: '10px',
+  textAlign: 'left',
+});
+
+const StyledCellHeaderIndicatorInformationPeriod = styled(Table.CellHeader)({
+  verticalAlign: 'bottom',
+  paddingRight: '10px',
+  paddingLeft: '10px',
+  textAlign: 'right',
 });
 
 export const HeatmapHeader: FC<HeatmapHeaderProps> = ({
@@ -94,13 +103,19 @@ export const HeatmapHeader: FC<HeatmapHeaderProps> = ({
         </StyledCellHeaderIndicatorTitle>
       );
 
-    case HeaderType.IndicatorInformation: {
+    case HeaderType.IndicatorInformationPeriod:
       return (
-        <StyledCellHeaderIndicatorInformation>
+        <StyledCellHeaderIndicatorInformationPeriod>
           <StyledH4Header>{content}</StyledH4Header>
-        </StyledCellHeaderIndicatorInformation>
+        </StyledCellHeaderIndicatorInformationPeriod>
       );
-    }
+
+    case HeaderType.IndicatorInformationValueUnit:
+      return (
+        <StyledCellHeaderIndicatorInformationValueUnit>
+          <StyledH4Header>{content}</StyledH4Header>
+        </StyledCellHeaderIndicatorInformationValueUnit>
+      );
 
     case HeaderType.BenchmarkArea: {
       return (
