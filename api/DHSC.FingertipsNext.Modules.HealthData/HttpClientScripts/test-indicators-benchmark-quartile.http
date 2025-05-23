@@ -398,7 +398,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85
             "q3Value": 79.0476190476191,
             "q4Value": 84.5161290322581,
             "areaValue": 76.1904761904762,
-            "groupValue": 72.5713600383785,
+            "groupValue": 72.5647792706334,
             "englandValue": 69.8972433785404
         }]
         client.assert(response.status === 200, "Response status is not 200");
@@ -420,7 +420,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38
             "q2Value": 73.1362196409715,
             "q3Value": 74.0236686390533,
             "q4Value": 76.360153256705,
-            "areaValue": 72.5713600383785,
+            "areaValue": 72.5647792706334,
             "groupValue": 72.0120548814339,
             "englandValue": 69.8972433785404
         }]
@@ -438,12 +438,12 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38
             "indicatorId": 94063,
             "polarity": "NoJudgement",
             "year": 2023,
-            "q0Value": 59.2343247588424,
-            "q1Value": 68.9508793208005,
-            "q2Value": 72.5664968873797,
-            "q3Value": 73.97989355411,
+            "q0Value": 59.2823399336617,
+            "q1Value": 66.546633057256,
+            "q2Value": 72.5647792706334,
+            "q3Value": 74.0236686390533,
             "q4Value": 76.360153256705,
-            "areaValue": 72.5713600383785,
+            "areaValue": 72.5647792706334,
             "groupValue": 70.7067909967071,
             "englandValue": 69.8972433785404
         }]
@@ -462,11 +462,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38
             "polarity": "NoJudgement",
             "year": 2023,
             "q0Value": 54.5377677564825,
-            "q1Value": 68.1444014678171,
-            "q2Value": 71.9129438717068,
+            "q1Value": 67.9388408201968,
+            "q2Value": 71.7729933525151,
             "q3Value": 74.0390187367201,
             "q4Value": 80.8172397550636,
-            "areaValue": 72.5713600383785,
+            "areaValue": 72.5647792706334,
             "groupValue": 70.7067909967071,
             "englandValue": 69.8972433785404
         }]

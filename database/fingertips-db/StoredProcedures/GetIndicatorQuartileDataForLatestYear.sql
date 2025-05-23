@@ -1,4 +1,4 @@
---- This stored procedure Gets HealthData and performs Quintile calculations
+--- This stored procedure Gets HealthData and performs Quartile calculations
 CREATE PROCEDURE [dbo].[GetIndicatorQuartileDataForLatestYear]
 @RequestedAreaType varchar(50),
 @RequestedIndicatorIds IndicatorList READONLY,
@@ -188,15 +188,15 @@ BEGIN
 	LEFT JOIN
 	    ComparisonArea AS ca
 	ON
-	    qd.IndicatorKey = ca.IndicatorKey
+	    ca.IndicatorKey = ri.IndicatorKey
 	LEFT JOIN
 	    ComparisonAncestor AS ancestor
 	ON
-	    qd.IndicatorKey = ancestor.IndicatorKey	
+	    ancestor.IndicatorKey = ri.IndicatorKey
 	LEFT JOIN
 	    EnglandValue AS england
 	ON
-	    qd.IndicatorKey = england.IndicatorKey
+	    england.IndicatorKey = ri.IndicatorKey
 END
 
 

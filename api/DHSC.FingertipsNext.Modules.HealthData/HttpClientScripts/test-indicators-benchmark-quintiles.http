@@ -25,7 +25,7 @@ GET http://localhost:5144/indicators/383/data?area_codes=A84022&area_type=gps&ye
 %}
 
 ### check quintile comparison for multiple areas
-GET http://localhost:5144/indicators/383/data?area_codes=A84022&area_codes=K84031&area_type=gps&years=2023
+GET http://localhost:5144/indicators/383/data?area_codes=A84022&area_codes=K84031&area_codes=E92000001&area_codes=XXXXXXXX&area_type=gps&years=2023
 
 > {%
     client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
