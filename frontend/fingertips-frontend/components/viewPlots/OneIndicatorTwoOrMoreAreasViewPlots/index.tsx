@@ -149,7 +149,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                     healthIndicatorData={dataWithoutEnglandOrGroup}
                     englandBenchmarkData={englandData}
                     groupIndicatorData={groupData}
-                    measurementUnit={indicatorMetadata?.unitLabel}
+                    indicatorMetadata={indicatorMetadata}
                     benchmarkComparisonMethod={benchmarkMethod}
                     polarity={polarity}
                   />

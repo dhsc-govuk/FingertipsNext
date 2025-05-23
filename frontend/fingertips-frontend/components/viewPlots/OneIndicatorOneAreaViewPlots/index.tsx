@@ -145,7 +145,7 @@ export function OneIndicatorOneAreaViewPlots({
                     healthIndicatorData={areaDataWithoutInequalities}
                     englandBenchmarkData={englandDataWithoutInequalities}
                     groupIndicatorData={groupDataWithoutInequalities}
-                    measurementUnit={indicatorMetadata?.unitLabel}
+                    indicatorMetadata={indicatorMetadata}
                     benchmarkComparisonMethod={benchmarkComparisonMethod}
                     polarity={polarity}
                   />
