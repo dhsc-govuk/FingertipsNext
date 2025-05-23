@@ -101,7 +101,7 @@ export const buildSpineChartIndicatorData = (
         latestDataPeriod:
           areasHealthData[0]?.healthData[
             areasHealthData[0]?.healthData.length - 1
-          ].year,
+          ]?.year,
         areasHealthData,
         groupData,
         quartileData: matchedQuartileData,

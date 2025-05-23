@@ -30,7 +30,6 @@ public interface IIndicatorsService
         BenchmarkReferenceType benchmarkRefType,
         IEnumerable<int> years,
         IEnumerable<string> inequalities,
-        bool includeEmptyAreas = false,
         bool latestOnly = false);
 
     /// <summary>
