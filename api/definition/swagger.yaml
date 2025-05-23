@@ -302,17 +302,14 @@ paths:
             type: string
             example: G82109
           explode: false
-          required: true
           description: The area code of the area/ geography
         - name: area_type
           in: query
-          required: true
           description: The area type which the areas belong to
           schema:
             type: string
         - name: indicator_ids
           in: query
-          required: true
           description: A list of indicator_ids, up to 10 can be requested
           style: form
           schema:

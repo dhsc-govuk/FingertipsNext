@@ -60,10 +60,10 @@ export interface GetIndicatorRequest {
 }
 
 export interface IndicatorsQuartilesGetRequest {
-    areaCode: string;
-    areaType: string;
-    indicatorIds: Array<number>;
     ancestorCode?: string;
+    areaCode?: string;
+    areaType?: string;
+    indicatorIds?: Array<number>;
 }
 
 /**
@@ -131,10 +131,10 @@ export interface IndicatorsApiInterface {
     /**
      * Get quartile information for indicators including
      * @summary Get quartile values for indicators
-     * @param {string} areaCode The area code of the area/ geography
-     * @param {string} areaType The area type which the areas belong to
-     * @param {Array<number>} indicatorIds A list of indicator_ids, up to 10 can be requested
      * @param {string} [ancestorCode] The area code of an ancestor area
+     * @param {string} [areaCode] The area code of the area/ geography
+     * @param {string} [areaType] The area type which the areas belong to
+     * @param {Array<number>} [indicatorIds] A list of indicator_ids, up to 10 can be requested
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof IndicatorsApiInterface
@@ -289,27 +289,6 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
      * Get quartile values for indicators
      */
     async indicatorsQuartilesGetRaw(requestParameters: IndicatorsQuartilesGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<QuartileData>>> {
-        if (requestParameters['areaCode'] == null) {
-            throw new runtime.RequiredError(
-                'areaCode',
-                'Required parameter "areaCode" was null or undefined when calling indicatorsQuartilesGet().'
-            );
-        }
-
-        if (requestParameters['areaType'] == null) {
-            throw new runtime.RequiredError(
-                'areaType',
-                'Required parameter "areaType" was null or undefined when calling indicatorsQuartilesGet().'
-            );
-        }
-
-        if (requestParameters['indicatorIds'] == null) {
-            throw new runtime.RequiredError(
-                'indicatorIds',
-                'Required parameter "indicatorIds" was null or undefined when calling indicatorsQuartilesGet().'
-            );
-        }
-
         const queryParameters: any = {};
 
         if (requestParameters['ancestorCode'] != null) {
@@ -344,7 +323,7 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
      * Get quartile information for indicators including
      * Get quartile values for indicators
      */
-    async indicatorsQuartilesGet(requestParameters: IndicatorsQuartilesGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<QuartileData>> {
+    async indicatorsQuartilesGet(requestParameters: IndicatorsQuartilesGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<QuartileData>> {
         const response = await this.indicatorsQuartilesGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
