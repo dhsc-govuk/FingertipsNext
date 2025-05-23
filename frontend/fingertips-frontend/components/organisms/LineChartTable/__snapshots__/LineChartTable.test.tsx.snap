@@ -792,6 +792,10 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   max-width: 15px;
 }
 
+.c1 {
+  margin-top: 2px;
+}
+
 @media print {
   .c0 {
     font-size: 14px;
@@ -889,7 +893,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
 }
 
 <button
-    class="c0"
+    class="c0 c1"
   >
     Export options
   </button>
@@ -1842,6 +1846,10 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   max-width: 15px;
 }
 
+.c1 {
+  margin-top: 2px;
+}
+
 @media print {
   .c0 {
     font-size: 14px;
@@ -1939,7 +1947,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
 }
 
 <button
-    class="c0"
+    class="c0 c1"
   >
     Export options
   </button>

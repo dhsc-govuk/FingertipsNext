@@ -32,6 +32,7 @@ export const HighChartsWrapper: FC<HighChartsWrapperProps> = ({
       }}
       highcharts={Highcharts}
       options={options}
+      constructorType={options.mapView ? 'mapChart' : undefined}
     />
   );
 };
