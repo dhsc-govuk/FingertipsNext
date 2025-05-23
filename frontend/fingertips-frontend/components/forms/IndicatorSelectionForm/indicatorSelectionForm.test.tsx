@@ -668,7 +668,6 @@ describe('IndicatorSelectionForm', () => {
         [SearchParams.SearchedIndicator]: 'patient',
       };
 
-      mockGetSearchState.mockReset();
       mockGetSearchState.mockReturnValue(searchState);
       render(
         <IndicatorSelectionForm
@@ -678,7 +677,7 @@ describe('IndicatorSelectionForm', () => {
         />
       );
 
-      // Step 1: Manually check the first indicator
+      // manually check the first indicator
       const firstCheckbox = screen.getAllByRole('checkbox')[1]; // Skip 'Select all'
       fireEvent.click(firstCheckbox);
       expect(firstCheckbox).toBeChecked();
@@ -687,7 +686,7 @@ describe('IndicatorSelectionForm', () => {
         { scroll: false }
       );
       mockReplace.mockReset();
-      // Step 2: select all checkbox to see what happen
+      //  select all checkbox to see what happen and check it against the uri
       await user.click(screen.getByRole('checkbox', { name: /Select all/i }));
       expect(mockReplace).toHaveBeenCalledWith(
         'some-mock-path?si=patient&is=93474&is=94035&is=41101',
