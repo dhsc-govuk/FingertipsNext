@@ -1,5 +1,4 @@
 import {
-  Area,
   HealthDataForArea,
   HealthDataPoint,
   HealthDataPointBenchmarkComparison,
@@ -13,13 +12,12 @@ import {
   isEnglandSoleSelectedArea,
 } from '@/lib/chartHelpers/chartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import {
-  chartSymbols,
-  lineChartDefaultOptions,
-} from '../LineChart/lineChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import Highcharts, { DashStyleValue, YAxisOptions } from 'highcharts';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { AreaWithoutAreaType } from '@/lib/common-types';
+import { lineChartDefaultOptions } from '../LineChart/helpers/generateStandardLineChartOptions';
+import { chartSymbols } from '../LineChart/helpers/generateSeriesData';
 
 export const localeSort = (a: string, b: string) => a.localeCompare(b);
 export const sexCategory = 'Sex';
@@ -65,11 +63,9 @@ export interface InequalitiesTableRowData {
   };
 }
 
-export type AreaWithoutAreaType = Pick<Area, 'code' | 'name'>;
-
 interface DataWithoutInequalities {
   areaDataWithoutInequalities: HealthDataForArea[];
-  englandBenchmarkWithoutInequalities: HealthDataForArea | undefined;
+  englandDataWithoutInequalities: HealthDataForArea | undefined;
   groupDataWithoutInequalities: HealthDataForArea | undefined;
 }
 
@@ -401,7 +397,7 @@ export function generateInequalitiesLineChartOptions(
 export const getAllDataWithoutInequalities = (
   dataWithoutEnglandOrGroup: HealthDataForArea[],
   benchmark: {
-    englandBenchmarkData?: HealthDataForArea;
+    englandIndicatorData?: HealthDataForArea;
     groupData?: HealthDataForArea;
   },
   areasSelected?: string[]
@@ -413,12 +409,12 @@ export const getAllDataWithoutInequalities = (
       }))
     : [];
 
-  const englandBenchmarkWithoutInequalities: HealthDataForArea | undefined =
-    benchmark.englandBenchmarkData
+  const englandDataWithoutInequalities: HealthDataForArea | undefined =
+    benchmark.englandIndicatorData
       ? {
-          ...benchmark.englandBenchmarkData,
+          ...benchmark.englandIndicatorData,
           healthData: getHealthDataWithoutInequalities(
-            benchmark.englandBenchmarkData
+            benchmark.englandIndicatorData
           ),
         }
       : undefined;
@@ -433,7 +429,7 @@ export const getAllDataWithoutInequalities = (
 
   return {
     areaDataWithoutInequalities,
-    englandBenchmarkWithoutInequalities,
+    englandDataWithoutInequalities: englandDataWithoutInequalities,
     groupDataWithoutInequalities,
   };
 };

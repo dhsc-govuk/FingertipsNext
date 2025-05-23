@@ -18,6 +18,8 @@ import {
   getLatestYearForAreas,
   getFirstYearForAreas,
   getFormattedLabel,
+  determineAreasForBenchmarking,
+  determineBenchmarkToUse,
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { areaCodeForEngland } from './constants';
@@ -1336,4 +1338,50 @@ describe('getFormattedLabel', () => {
       expect(getFormattedLabel(value, tickPoints)).toBe(formattedValue);
     }
   );
+});
+
+describe('determineAreasForBenchmarking', () => {
+  const mockAreas: HealthDataForArea[] = [
+    { areaCode: 'A1', areaName: 'Area 1', healthData: [] },
+    { areaCode: areaCodeForEngland, areaName: 'England', healthData: [] },
+    { areaCode: 'G1', areaName: 'Group 1', healthData: [] },
+    { areaCode: 'A2', areaName: 'Area 2', healthData: [] },
+  ];
+
+  it('returns only England if present and no group selected', () => {
+    const result = determineAreasForBenchmarking(mockAreas);
+    expect(result).toEqual([{ code: areaCodeForEngland, name: 'England' }]);
+  });
+
+  it('returns England and selected group when a selectedGroupCode and an areaSelected is provided', () => {
+    const result = determineAreasForBenchmarking(mockAreas, 'G1', ['A0001']);
+    expect(result).toEqual([
+      { code: areaCodeForEngland, name: 'England' },
+      { code: 'G1', name: 'Group 1' },
+    ]);
+  });
+
+  it('returns England and not the selected group when an areaSelected is not provided', () => {
+    const result = determineAreasForBenchmarking(mockAreas, 'G1');
+    expect(result).toEqual([{ code: areaCodeForEngland, name: 'England' }]);
+  });
+
+  it('returns England when selected group is England even if areasSelected are provided', () => {
+    const result = determineAreasForBenchmarking(mockAreas, areaCodeForEngland);
+    expect(result).toEqual([{ code: areaCodeForEngland, name: 'England' }]);
+  });
+});
+
+describe('determineBenchmarkToUse', () => {
+  it('should return the lineChartAreaSelected if provided', () => {
+    const benchmarkToUse = determineBenchmarkToUse('some-area-selected');
+
+    expect(benchmarkToUse).toEqual('some-area-selected');
+  });
+
+  it('should return the areaCodeForEngland when no lineChartAreaSelected param is provided', () => {
+    const benchmarkToUse = determineBenchmarkToUse();
+
+    expect(benchmarkToUse).toEqual(areaCodeForEngland);
+  });
 });

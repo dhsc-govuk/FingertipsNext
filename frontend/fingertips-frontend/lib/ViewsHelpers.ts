@@ -1,4 +1,5 @@
 import {
+  BenchmarkReferenceType,
   GetHealthDataForAnIndicatorInequalitiesEnum,
   HealthDataForArea,
   IndicatorsApi,
@@ -163,11 +164,15 @@ export async function getIndicatorData(
     selectedGroupType,
   }: GetIndicatorDataParam,
   includeEmptyAreas: boolean,
+  benchmarkRefType: BenchmarkReferenceType,
   latestOnly?: boolean
 ) {
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
   let indicatorDataAllAreas: IndicatorWithHealthDataForArea | undefined;
+
+  const areaGroup =
+    benchmarkRefType === 'AreaGroup' ? selectedGroupCode : undefined;
 
   const indicatorRequestArray = chunkArray(areasSelected).map((requestAreas) =>
     indicatorApi.getHealthDataForAnIndicator(
@@ -177,6 +182,8 @@ export async function getIndicatorData(
         areaType: selectedAreaType,
         includeEmptyAreas,
         latestOnly,
+        benchmarkRefType,
+        areaGroup,
       },
       API_CACHE_CONFIG
     )
@@ -191,6 +198,8 @@ export async function getIndicatorData(
           areaType: englandAreaType.key,
           includeEmptyAreas,
           latestOnly,
+          benchmarkRefType,
+          areaGroup,
         },
         API_CACHE_CONFIG
       )
@@ -210,6 +219,8 @@ export async function getIndicatorData(
           areaType: selectedGroupType,
           includeEmptyAreas,
           latestOnly,
+          benchmarkRefType,
+          areaGroup,
         },
         API_CACHE_CONFIG
       )
@@ -243,4 +254,13 @@ export async function getIndicatorData(
   }
 
   return indicatorDataAllAreas;
+}
+
+export function determineBenchmarkRefType(
+  lineChartAreaSelected?: string
+): BenchmarkReferenceType {
+  if (lineChartAreaSelected && lineChartAreaSelected !== areaCodeForEngland) {
+    return BenchmarkReferenceType.AreaGroup;
+  }
+  return BenchmarkReferenceType.England;
 }

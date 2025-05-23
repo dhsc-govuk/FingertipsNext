@@ -1,10 +1,9 @@
 import { render, screen, within } from '@testing-library/react';
 import { ChartSelectArea } from '.';
 import { LoaderContext } from '@/context/LoaderContext';
-import { SearchStateContext } from '@/context/SearchStateContext';
 import { SearchParams } from '@/lib/searchStateManager';
 import userEvent from '@testing-library/user-event';
-import { AreaWithoutAreaType } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { AreaWithoutAreaType } from '@/lib/common-types';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -32,16 +31,6 @@ jest.mock('@/context/LoaderContext', () => {
   };
 });
 
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: jest.fn(),
-  setSearchState: jest.fn(),
-};
-jest.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
-
 const generateArea = (id: string): AreaWithoutAreaType => {
   return {
     code: id,
@@ -56,6 +45,10 @@ const mockAvailableAreas = [
 ];
 
 describe('ChartSelectArea', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   const areaDropDownLabel = 'Select an area';
 
   it('should render all the available areas', () => {
@@ -73,7 +66,7 @@ describe('ChartSelectArea', () => {
 
     const allOptions = within(areaSelectDropdown).getAllByRole('option');
 
-    expect(areaSelectDropdown).toHaveLength(mockAvailableAreas.length);
+    expect(allOptions).toHaveLength(mockAvailableAreas.length);
     allOptions.forEach((option, i) => {
       expect(option.textContent).toEqual(mockAvailableAreas[i].name);
     });

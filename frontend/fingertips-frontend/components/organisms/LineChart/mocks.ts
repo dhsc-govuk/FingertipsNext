@@ -97,7 +97,7 @@ export const mockIndicatorData: HealthDataForArea[] = [
   },
 ];
 
-export const mockBenchmarkData: HealthDataForArea = {
+export const mockEnglandData: HealthDataForArea = {
   areaCode: 'E92000001',
   areaName: 'England',
   healthData: [

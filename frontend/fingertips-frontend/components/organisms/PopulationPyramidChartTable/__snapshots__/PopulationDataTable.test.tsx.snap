@@ -61,6 +61,7 @@ exports[`PopulationDataTable take a snapshot 1`] = `
 .c4 {
   text-align: left;
   vertical-align: top;
+  padding-left: 10px;
 }
 
 .c0 {
