@@ -28,7 +28,6 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     /// <param name="benchmarkRefType">Optional benchmark reference type.</param>
     /// <param name="years">A list of years. Up to 20 distinct years can be requested.</param>
     /// <param name="inequalities">A list of desired inequalities.</param>
-    /// <param name="include_empty_areas">Determines if areas with no data are returned as empty arrays, the default is false.</param>
     /// <param name="latest_only">Set to true to get data for the latest date period only, default is false. This overrides the years parameter if set to true</param>
     /// <returns></returns>
     /// <remarks>
@@ -45,43 +44,48 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
         [FromQuery(Name = "area_codes")] string[]? areaCodes = null,
         [FromQuery(Name = "area_type")] string areaType = "",
         [FromQuery(Name = "area_group")] string? areaGroup = "",
-        [FromQuery(Name = "benchmark_ref_type")] BenchmarkReferenceType benchmarkRefType = BenchmarkReferenceType.Unknown,
+        [FromQuery(Name = "benchmark_ref_type")]
+            BenchmarkReferenceType benchmarkRefType = BenchmarkReferenceType.Unknown,
         [FromQuery] int[]? years = null,
         [FromQuery] string[]? inequalities = null,
-        [FromQuery] bool include_empty_areas =false,
-        [FromQuery] bool latest_only = false)
+        [FromQuery] bool latest_only = false
+    )
     {
-        if (areaCodes is {Length: > MaxNumberAreas})
-            return new BadRequestObjectResult(new SimpleError
-            {
-                Message =
-                    $"Too many values supplied for parameter area_codes. The maximum is {MaxNumberAreas} but {areaCodes.Length} supplied."
-            });
+        if (areaCodes is { Length: > MaxNumberAreas })
+            return new BadRequestObjectResult(
+                new SimpleError
+                {
+                    Message =
+                        $"Too many values supplied for parameter area_codes. The maximum is {MaxNumberAreas} but {areaCodes.Length} supplied.",
+                }
+            );
 
-        if (years is {Length: > MaxNumberYears})
-            return new BadRequestObjectResult(new SimpleError
-            {
-                Message =
-                    $"Too many values supplied for parameter years. The maximum is {MaxNumberYears} but {years.Length} supplied."
-            });
+        if (years is { Length: > MaxNumberYears })
+            return new BadRequestObjectResult(
+                new SimpleError
+                {
+                    Message =
+                        $"Too many values supplied for parameter years. The maximum is {MaxNumberYears} but {years.Length} supplied.",
+                }
+            );
 
-        if ( (benchmarkRefType == BenchmarkReferenceType.AreaGroup ) && (areaGroup == "") )
-            return new BadRequestObjectResult(new SimpleError
-            {
-                Message =
-                    $"Missing parameter 'area_group'. When benchmark_ref_type is set to AreaGroup then the area_group parameter must be set"
-            });
+        if ((benchmarkRefType == BenchmarkReferenceType.AreaGroup) && (areaGroup == ""))
+            return new BadRequestObjectResult(
+                new SimpleError
+                {
+                    Message =
+                        $"Missing parameter 'area_group'. When benchmark_ref_type is set to AreaGroup then the area_group parameter must be set",
+                }
+            );
 
-        var indicatorData = await _indicatorsService.GetIndicatorDataAsync
-        (
+        var indicatorData = await _indicatorsService.GetIndicatorDataAsync(
             indicatorId,
             areaCodes ?? [],
             areaType,
-            areaGroup, 
+            areaGroup,
             benchmarkRefType,
             years ?? [],
             inequalities ?? [],
-            include_empty_areas,
             latest_only
         );
 
@@ -90,7 +94,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
             ResponseStatus.Success => Ok(indicatorData?.Content),
             ResponseStatus.NoDataForIndicator => Ok(indicatorData?.Content),
             ResponseStatus.IndicatorDoesNotExist => NotFound(),
-            _ => StatusCode(500)
+            _ => StatusCode(500),
         };
     }
 
@@ -99,10 +103,10 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     /// areas and all years for the indicators. Optionally filter the results by
     /// supplying one or more area codes and one or more years in the query string.
     /// </summary>
-    /// <param name="indicatorIds">The unique identifier of the indicator.</param>
+    /// <param name="ancestorCode">The ancestor for comparison.</param>
     /// <param name="areaCode">A list of area codes.</param>
     /// <param name="areaType">The area type the area codes belong to.</param>
-    /// <param name="ancestorCode">A list of desired inequalities.</param>
+    /// <param name="indicatorIds">The unique identifier of the indicator.</param>
     /// <returns></returns>
     /// <remarks>
     /// If more than 50 indicators are supplied the request will fail.
@@ -114,9 +118,9 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetQuartileDataAsync(
         [FromQuery(Name = "indicator_ids")] int[]? indicatorIds = null,
-        [FromQuery(Name = "area_code")] string areaCode = "",
-        [FromQuery(Name = "area_type")] string areaType = null,
-        [FromQuery(Name = "ancestor_code")] string ancestorCode = "")
+        [FromQuery(Name = "area_code")] string? areaCode = "",
+        [FromQuery(Name = "area_type")] string? areaType = null,
+        [FromQuery(Name = "ancestor_code")] string? ancestorCode = "")
     {
         if (indicatorIds is null)
             return new BadRequestObjectResult(new SimpleError { Message = $"Parameter indicator_ids must be supplied." });
@@ -126,9 +130,8 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
 
         if (areaType is null)
             return new BadRequestObjectResult(new SimpleError { Message = $"Parameter area_type must be supplied." });
-
-        var quartileData = await _indicatorsService.GetQuartileDataAsync
-        (
+        
+        var quartileData = await _indicatorsService.GetQuartileDataAsync(
             indicatorIds,
             areaCode,
             areaType,

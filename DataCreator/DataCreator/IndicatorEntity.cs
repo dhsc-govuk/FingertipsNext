@@ -80,6 +80,9 @@ namespace DataCreator
         [CsvColumn(FieldIndex = 5)]
         public string IndicatorName { get; set; }
         
+        [CsvColumn(FieldIndex = 6)]
+        public string YearType { get; set; }
+        
         public bool HasMultipleSexes { get; set; }
 
         public bool HasMultipleAges { get; set; }

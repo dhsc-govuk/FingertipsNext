@@ -4,30 +4,31 @@ import { TabContainer } from '@/components/layouts/tabContainer';
 import { LineChart } from '@/components/organisms/LineChart';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { BarChartEmbeddedTable } from '@/components/organisms/BarChartEmbeddedTable';
-import { seriesDataWithoutEnglandOrGroup } from '@/lib/chartHelpers/chartHelpers';
+import {
+  determineAreasForBenchmarking,
+  determineBenchmarkToUse,
+  seriesDataWithoutEnglandOrGroup,
+} from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams } from '@/lib/searchStateManager';
 import { H3 } from 'govuk-react';
 import { OneIndicatorViewPlotProps } from '@/components/viewPlots/ViewPlot.types';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
-import {
-  generateStandardLineChartOptions,
-  LineChartVariant,
-} from '@/components/organisms/LineChart/lineChartHelpers';
 import { useEffect } from 'react';
 import { useSearchState } from '@/context/SearchStateContext';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
-import {
-  IndicatorPolarity,
-  IndicatorWithHealthDataForArea,
-} from '@/generated-sources/ft-api-client';
+import { IndicatorPolarity } from '@/generated-sources/ft-api-client';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
+import {
+  generateStandardLineChartOptions,
+  LineChartVariant,
+} from '@/components/organisms/LineChart/helpers/generateStandardLineChartOptions';
+import { BenchmarkSelectArea } from '@/components/molecules/BenchmarkSelectArea';
 
 interface OneIndicatorTwoOrMoreAreasViewPlotsProps
   extends OneIndicatorViewPlotProps {
-  indicatorDataAllAreas?: IndicatorWithHealthDataForArea;
   areaCodes?: string[];
 }
 
@@ -35,7 +36,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   indicatorData,
   indicatorMetadata,
   searchState,
-  indicatorDataAllAreas,
   areaCodes = [],
 }: Readonly<OneIndicatorTwoOrMoreAreasViewPlotsProps>) {
   const { setSearchState } = useSearchState();
@@ -49,11 +49,10 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
     [SearchParams.AreaTypeSelected]: selectedAreaType,
     [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.LineChartBenchmarkAreaSelected]: lineChartAreaSelected,
   } = searchState;
 
   const healthIndicatorData = indicatorData?.areaHealthData ?? [];
-  const healthIndicatorDataAllAreas =
-    indicatorDataAllAreas?.areaHealthData ?? [];
 
   const { benchmarkMethod, polarity } = indicatorData;
 
@@ -61,12 +60,8 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     healthIndicatorData,
     selectedGroupCode
   );
-  const dataWithoutEnglandOrGroupAllAreas = seriesDataWithoutEnglandOrGroup(
-    healthIndicatorDataAllAreas,
-    selectedGroupCode
-  );
 
-  const englandBenchmarkData = healthIndicatorData.find(
+  const englandData = healthIndicatorData.find(
     (areaData) => areaData.areaCode === areaCodeForEngland
   );
 
@@ -83,6 +78,14 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     areasSelected &&
     areasSelected?.length <= 2;
 
+  const availableAreasForBenchmarking = determineAreasForBenchmarking(
+    healthIndicatorData,
+    selectedGroupCode,
+    areasSelected
+  );
+
+  const benchmarkToUse = determineBenchmarkToUse(lineChartAreaSelected);
+
   const yAxisTitle = indicatorMetadata?.unitLabel
     ? `Value: ${indicatorMetadata?.unitLabel}`
     : undefined;
@@ -90,8 +93,9 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   const lineChartOptions: Highcharts.Options = generateStandardLineChartOptions(
     dataWithoutEnglandOrGroup,
     true,
+    benchmarkToUse,
     {
-      benchmarkData: englandBenchmarkData,
+      englandData,
       benchmarkComparisonMethod: indicatorData.benchmarkMethod,
       groupIndicatorData: groupData,
       yAxisTitle,
@@ -106,6 +110,13 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
       {shouldLineChartbeShown && (
         <StyleChartWrapper>
           <H3>Indicator data over time</H3>
+          <BenchmarkSelectArea
+            availableAreas={availableAreasForBenchmarking}
+            benchmarkAreaSelectedKey={
+              SearchParams.LineChartBenchmarkAreaSelected
+            }
+            searchState={searchState}
+          />
           <TabContainer
             id="lineChartAndTable"
             items={[
@@ -125,9 +136,9 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                 content: (
                   <LineChartTable
                     healthIndicatorData={dataWithoutEnglandOrGroup}
-                    englandBenchmarkData={englandBenchmarkData}
+                    englandBenchmarkData={englandData}
                     groupIndicatorData={groupData}
-                    measurementUnit={indicatorMetadata?.unitLabel}
+                    indicatorMetadata={indicatorMetadata}
                     benchmarkComparisonMethod={benchmarkMethod}
                     polarity={polarity}
                   />
@@ -142,13 +153,13 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
         <StyleChartWrapper>
           <ThematicMap
             selectedAreaType={selectedAreaType}
-            healthIndicatorData={dataWithoutEnglandOrGroupAllAreas}
+            healthIndicatorData={dataWithoutEnglandOrGroup}
             benchmarkComparisonMethod={
               benchmarkMethod ?? BenchmarkComparisonMethod.Unknown
             }
             polarity={polarity ?? IndicatorPolarity.Unknown}
             indicatorMetadata={indicatorMetadata}
-            benchmarkIndicatorData={englandBenchmarkData}
+            benchmarkIndicatorData={englandData}
             groupIndicatorData={groupData}
             areaCodes={areaCodes ?? []}
           />
@@ -159,7 +170,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
         <BarChartEmbeddedTable
           data-testid="barChartEmbeddedTable-component"
           healthIndicatorData={dataWithoutEnglandOrGroup}
-          benchmarkData={englandBenchmarkData}
+          benchmarkData={englandData}
           groupIndicatorData={groupData}
           measurementUnit={indicatorMetadata?.unitLabel}
           benchmarkComparisonMethod={benchmarkMethod}

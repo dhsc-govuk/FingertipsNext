@@ -327,6 +327,26 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
 }
 
 @media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
   .c12 {
     font-size: 14px;
     line-height: 1.15;
@@ -440,6 +460,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   >
     <table
       class="c1 c2"
+      id="lineChartTable"
     >
       <thead
         class=""
@@ -679,6 +700,199 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
       </tbody>
     </table>
   </div>
+  .c0 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  box-sizing: border-box;
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  margin-top: 0;
+  padding: 7px 10px;
+  border: 2px solid transparent;
+  border-radius: 0;
+  color: #ffffff;
+  background-color: #00703c;
+  box-shadow: 0 2px 0 #002413;
+  text-align: center;
+  vertical-align: top;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-bottom: 22px;
+}
+
+.c0:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+}
+
+.c0:link,
+.c0:visited,
+.c0:active,
+.c0:hover {
+  color: #ffffff;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c0::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+.c0:hover,
+.c0:focus {
+  background-color: #00572e;
+}
+
+.c0:active {
+  top: 2px;
+  box-shadow: none;
+}
+
+.c0::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  bottom: -4px;
+  left: -2px;
+  background: transparent;
+}
+
+.c0:active::before {
+  top: -4px;
+}
+
+.c0:disabled {
+  opacity: 0.5;
+  background: #00703c;
+}
+
+.c0:disabled:hover {
+  background-color: #00703c;
+  cursor: default;
+}
+
+.c0:disabled:focus {
+  outline: none;
+}
+
+.c0:disabled:active {
+  top: 0;
+  box-shadow: 0 2px 0 #002413;
+}
+
+.c0 svg {
+  max-width: 15px;
+}
+
+@media print {
+  .c0 {
+    font-size: 14px;
+    line-height: 19px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    font-size: 19px;
+    line-height: 19px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    width: auto;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 svg {
+    margin-left: 10px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    margin-bottom: 32px;
+  }
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+<button
+    class="c0"
+  >
+    Export options
+  </button>
 </DocumentFragment>
 `;
 
@@ -1018,6 +1232,26 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
 }
 
 @media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
   .c12 {
     font-size: 14px;
     line-height: 1.15;
@@ -1131,6 +1365,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   >
     <table
       class="c1 c2"
+      id="lineChartTable"
     >
       <thead
         class=""
@@ -1515,5 +1750,198 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
       </tbody>
     </table>
   </div>
+  .c0 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  box-sizing: border-box;
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  margin-top: 0;
+  padding: 7px 10px;
+  border: 2px solid transparent;
+  border-radius: 0;
+  color: #ffffff;
+  background-color: #00703c;
+  box-shadow: 0 2px 0 #002413;
+  text-align: center;
+  vertical-align: top;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-bottom: 22px;
+}
+
+.c0:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+}
+
+.c0:link,
+.c0:visited,
+.c0:active,
+.c0:hover {
+  color: #ffffff;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c0::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+.c0:hover,
+.c0:focus {
+  background-color: #00572e;
+}
+
+.c0:active {
+  top: 2px;
+  box-shadow: none;
+}
+
+.c0::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  bottom: -4px;
+  left: -2px;
+  background: transparent;
+}
+
+.c0:active::before {
+  top: -4px;
+}
+
+.c0:disabled {
+  opacity: 0.5;
+  background: #00703c;
+}
+
+.c0:disabled:hover {
+  background-color: #00703c;
+  cursor: default;
+}
+
+.c0:disabled:focus {
+  outline: none;
+}
+
+.c0:disabled:active {
+  top: 0;
+  box-shadow: 0 2px 0 #002413;
+}
+
+.c0 svg {
+  max-width: 15px;
+}
+
+@media print {
+  .c0 {
+    font-size: 14px;
+    line-height: 19px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    font-size: 19px;
+    line-height: 19px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    width: auto;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 svg {
+    margin-left: 10px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    margin-bottom: 32px;
+  }
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+<button
+    class="c0"
+  >
+    Export options
+  </button>
 </DocumentFragment>
 `;

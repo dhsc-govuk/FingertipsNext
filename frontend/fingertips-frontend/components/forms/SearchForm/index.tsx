@@ -1,8 +1,6 @@
 'use client';
 
-import { Button, InputField, H3 } from 'govuk-react';
-import { spacing } from '@govuk-react/lib';
-import styled from 'styled-components';
+import { Button, H3 } from 'govuk-react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { AreaAutoCompleteInputField } from '@/components/molecules/AreaAutoCompleteInputField';
 import { SearchParams } from '@/lib/searchStateManager';
@@ -18,10 +16,8 @@ import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
 import React, { useEffect } from 'react';
 import { ArrowExpander } from '@/components/molecules/ArrowExpander';
-
-const StyledInputField = styled(InputField)(
-  spacing.withWhiteSpace({ marginBottom: 6 })
-);
+import { InputField } from '@/components/atoms/InputField';
+import { INDICATOR_SEARCH_MAX_CHARACTERS } from '@/lib/search/indicatorSearchService';
 
 interface SearchFormProps {
   formState: SearchFormState;
@@ -61,7 +57,9 @@ export const SearchForm = ({
         defaultValue={JSON.stringify(searchState)}
         hidden
       />
-      <StyledInputField
+      <InputField
+        characterLimit={INDICATOR_SEARCH_MAX_CHARACTERS}
+        thresholdPercentage={75}
         onKeyDown={(e) => {
           if (e.code === 'Enter') {
             e.preventDefault();
@@ -85,7 +83,7 @@ export const SearchForm = ({
         data-testid="indicator-search-form-input"
       >
         Search by subject
-      </StyledInputField>
+      </InputField>
       <AreaAutoCompleteInputField
         key={`area-auto-complete-${JSON.stringify(searchState)}`}
         inputFieldErrorStatus={!!formState.message}
