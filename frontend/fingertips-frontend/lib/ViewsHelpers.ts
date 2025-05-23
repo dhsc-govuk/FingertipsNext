@@ -88,7 +88,6 @@ function getLatestYearFromResponseData(
  *
  * @param param0 - GetIndicatorDataParam
  * @param subAreaHealthData - the area health data for the requested area codes
- * @param includeEmptyAreas
  * @returns - a flattened array containing both the original area health data and health data for England
  * and the requested group, where applicable
  */
@@ -99,8 +98,7 @@ async function getLatestYearDataForGroupAndEngland(
     selectedGroupCode,
     selectedGroupType,
   }: GetIndicatorDataParam,
-  subAreaHealthData: HealthDataForArea[],
-  includeEmptyAreas: boolean
+  subAreaHealthData: HealthDataForArea[]
 ): Promise<HealthDataForArea[]> {
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
   const latestYear = getLatestYearFromResponseData(subAreaHealthData);
@@ -109,12 +107,10 @@ async function getLatestYearDataForGroupAndEngland(
   const defaultApiRequestParams = latestYear
     ? {
         indicatorId: Number(indicatorSelected[0]),
-        includeEmptyAreas,
         years: [latestYear],
       }
     : {
         indicatorId: Number(indicatorSelected[0]),
-        includeEmptyAreas,
         latestOnly: true,
       };
 
@@ -163,7 +159,6 @@ export async function getIndicatorData(
     selectedGroupCode,
     selectedGroupType,
   }: GetIndicatorDataParam,
-  includeEmptyAreas: boolean,
   benchmarkRefType: BenchmarkReferenceType,
   latestOnly?: boolean
 ) {
@@ -180,7 +175,6 @@ export async function getIndicatorData(
         indicatorId: Number(indicatorSelected[0]),
         areaCodes: [...requestAreas],
         areaType: selectedAreaType,
-        includeEmptyAreas,
         latestOnly,
         benchmarkRefType,
         areaGroup,
@@ -196,7 +190,6 @@ export async function getIndicatorData(
           indicatorId: Number(indicatorSelected[0]),
           areaCodes: [areaCodeForEngland],
           areaType: englandAreaType.key,
-          includeEmptyAreas,
           latestOnly,
           benchmarkRefType,
           areaGroup,
@@ -217,7 +210,6 @@ export async function getIndicatorData(
           indicatorId: Number(indicatorSelected[0]),
           areaCodes: [selectedGroupCode],
           areaType: selectedGroupType,
-          includeEmptyAreas,
           latestOnly,
           benchmarkRefType,
           areaGroup,
@@ -247,8 +239,7 @@ export async function getIndicatorData(
           selectedGroupCode,
           selectedGroupType,
         },
-        indicatorDataAllAreas.areaHealthData,
-        includeEmptyAreas
+        indicatorDataAllAreas.areaHealthData
       );
     indicatorDataAllAreas.areaHealthData.push(...latestDataForGroupAndEngland);
   }
