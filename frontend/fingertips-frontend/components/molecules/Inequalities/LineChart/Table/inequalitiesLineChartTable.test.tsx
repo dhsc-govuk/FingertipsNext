@@ -72,6 +72,7 @@ describe('Inequalities table suite', () => {
         screen.getByTestId(`header-${heading}-${index}`)
       ).toBeInTheDocument()
     );
+    expect(screen.getByRole('button')).toHaveTextContent('Export options');
   });
 
   it('should display x if data point is not available', () => {
