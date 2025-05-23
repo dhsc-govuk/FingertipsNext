@@ -11,7 +11,7 @@ export interface ExportDownload {
 
 export enum CsvHeader {
   IndicatorId = 'Indicator Id',
-  IndicatorName = 'Indicator Name',
+  IndicatorName = 'Indicator name',
   Period = 'Period',
   Area = 'Area',
   AreaCode = 'Area code',
