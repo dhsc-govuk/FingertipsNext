@@ -28,7 +28,6 @@ export const allComponents: ComponentDefinition[] = [
       hasConfidenceIntervals: true,
       hasTimePeriodDropDown: true,
       hasTypeDropDown: false, // even though it has a type dropdown, we want to test the default view
-
     },
   },
   {
