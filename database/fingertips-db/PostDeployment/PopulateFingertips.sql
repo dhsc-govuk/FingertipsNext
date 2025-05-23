@@ -114,16 +114,9 @@ INSERT INTO [dbo].[SexDimension]
 INSERT INTO [dbo].[PeriodDimension]
 (Period)
 VALUES
-('Year'),
-('Quarter'),
-('Month'),
-('Week'),
-('Day'),
-('Financial Year'),
-('Academic Year'),
-('2 Year'),
-('3 Year'),
-('5 Year')
+    ('Calendar'),
+    ('Financial'),
+    ('November-November')
 
 --create the trend dimension data
 SET IDENTITY_INSERT [dbo].[TrendDimension] ON
@@ -325,7 +318,8 @@ CREATE TABLE #TempIndicatorData
     Polarity NVARCHAR(255),
     BenchmarkComparisonMethod [nvarchar](255),
     ValueType NVARCHAR(255),
-    IndicatorName NVARCHAR(255)
+    IndicatorName NVARCHAR(255),
+    YearType NVARCHAR(255)
 );
 DECLARE @sqlInd NVARCHAR(4000), @filePathInd NVARCHAR(500);
 IF @UseAzureBlob = '1'
@@ -347,7 +341,8 @@ INSERT INTO [dbo].[IndicatorDimension]
 	ValueType,                       
 	BenchmarkComparisonMethod,
     StartDate,
-    EndDate
+    EndDate,
+    YearType
 )
 SELECT 
     REPLACE(REPLACE(IndicatorName, '"', ''), char(13),''),
@@ -356,7 +351,8 @@ SELECT
     ValueType,
     BenchmarkComparisonMethod,
     DATEADD(YEAR, -10, GETDATE()),
-    DATEADD(YEAR, 10, GETDATE())
+    DATEADD(YEAR, 10, GETDATE()),
+    #TempIndicatorData.YearType
 FROM 
     #TempIndicatorData;
 
@@ -424,24 +420,32 @@ CREATE TABLE #RawHealthData
     IsSexAggregatedOrSingle bit,
     IsAgeAggregatedOrSingle bit,
     IsDeprivationAggregatedOrSingle bit,
+    FromDate NVARCHAR(MAX),
+    ToDate NVARCHAR(MAX),
     Avoid INT
 );
 
 DECLARE @sqlHealth NVARCHAR(4000),
-        @filePathHealth NVARCHAR(500);
+        @filePathHealth NVARCHAR(500),
+        @INDEX INT = 1;
 
-IF @UseAzureBlob = '1'
-    SET @filePathHealth = 'healthdata.csv';
-ELSE
-    SET @filePathHealth = '$(LocalFilePath)healthdata.csv';
+WHILE (@INDEX <= 2)
+    BEGIN
+        IF @UseAzureBlob = '1'
+            SET @filePathHealth = CONCAT('healthdata',@INDEX,'.csv');
+        ELSE
+            SET @filePathHealth = CONCAT('$(LocalFilePath)healthdata',@INDEX,'.csv');
+        
+        SET @sqlHealth = 'BULK INSERT #RawHealthData FROM ''' + @filePathHealth + ''' WITH (' +
+                         CASE WHEN @UseAzureBlob = '1'
+                                  THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FORMAT = ''CSV'', FIRSTROW = 2, ROWTERMINATOR = ''0x0A'''
+                              ELSE 'FORMAT = ''CSV'', FIRSTROW = 2'
+                             END + ')';
 
-SET @sqlHealth = 'BULK INSERT #RawHealthData FROM ''' + @filePathHealth + ''' WITH (' +
-                 CASE WHEN @UseAzureBlob = '1'
-                      THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FORMAT = ''CSV'', FIRSTROW = 2, ROWTERMINATOR = ''0x0A'''
-                      ELSE 'FORMAT = ''CSV'', FIRSTROW = 2'
-                 END + ')';
-
-EXEC sp_executesql @sqlHealth;
+        EXEC sp_executesql @sqlHealth;
+        
+        SET @INDEX = @INDEX + 1;
+    END
 
 CREATE TABLE #TempHealthData
 (
@@ -461,7 +465,9 @@ CREATE TABLE #TempHealthData
     AgeID INT,
     IsSexAggregatedOrSingle bit,
     IsAgeAggregatedOrSingle bit,
-    IsDeprivationAggregatedOrSingle bit
+    IsDeprivationAggregatedOrSingle bit,
+    FromDate NVARCHAR(MAX),
+    ToDate NVARCHAR(Max)
 );
 
 INSERT INTO #TempHealthData
@@ -482,7 +488,9 @@ INSERT INTO #TempHealthData
     AgeID,
     IsSexAggregatedOrSingle,
     IsAgeAggregatedOrSingle,
-    IsDeprivationAggregatedOrSingle
+    IsDeprivationAggregatedOrSingle,
+    FromDate,
+    ToDate
 )
 SELECT 
     IndicatorId,
@@ -501,9 +509,10 @@ SELECT
     AgeID,
     IsSexAggregatedOrSingle,
     IsAgeAggregatedOrSingle,
-    IsDeprivationAggregatedOrSingle
+    IsDeprivationAggregatedOrSingle,
+    FromDate,
+    ToDate
 FROM #RawHealthData;
-
 
 DROP TABLE #RawHealthData;
 
@@ -511,6 +520,7 @@ CREATE INDEX IX_TempHealthData_AreaCode ON #TempHealthData(AreaCode);
 CREATE INDEX IX_TempHealthData_IndicatorId ON #TempHealthData(IndicatorId);
 CREATE INDEX IX_TempHealthData_Sex ON #TempHealthData(Sex);
 CREATE INDEX IX_TempHealthData_AgeID ON #TempHealthData(AgeID);
+
 
 ALTER TABLE [dbo].[HealthMeasure] NOCHECK CONSTRAINT ALL
 INSERT INTO [dbo].[HealthMeasure]
@@ -528,7 +538,9 @@ INSERT INTO [dbo].[HealthMeasure]
     Year,
     IsSexAggregatedOrSingle,
     IsAgeAggregatedOrSingle,
-    IsDeprivationAggregatedOrSingle
+    IsDeprivationAggregatedOrSingle,
+    FromDateKey,
+    ToDateKey
 )
 SELECT
     areadim.AreaKey,
@@ -541,10 +553,12 @@ SELECT
     Value,
     Lower95CI,
     Upper95CI,
-    Year,
+    temp.Year,
     IsSexAggregatedOrSingle,
     IsAgeAggregatedOrSingle,
-    IsDeprivationAggregatedOrSingle
+    IsDeprivationAggregatedOrSingle,
+    datedim_from.DateKey,
+    datedim_to.DateKey
 FROM 
 	#TempHealthData temp
 JOIN
@@ -557,6 +571,10 @@ JOIN
 	[dbo].[AgeDimension] agedim ON agedim.[AgeID] = temp.AgeID
 JOIN
 	[dbo].[DeprivationDimension] depdim  ON depdim.[Name] = LTRIM(RTRIM(temp.Category)) AND depdim.[Type]=LTRIM(RTRIM(temp.CategoryType))
+JOIN
+	[dbo].[DateDimension] datedim_from ON datedim_from.[Date] = (CONVERT(DATETIME, temp.FromDate, 103)) 
+JOIN
+    [dbo].[DateDimension] datedim_to ON datedim_to.[Date] = (CONVERT(DATETIME, temp.ToDate, 103))
 WHERE temp.Value IS NOT NULL;
 
 ALTER TABLE [dbo].[HealthMeasure] CHECK CONSTRAINT ALL

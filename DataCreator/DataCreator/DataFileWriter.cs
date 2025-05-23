@@ -1,11 +1,12 @@
-﻿using System.Text.Json;
+﻿using System.IO.Compression;
+using System.Text.Json;
 using LINQtoCSV;
 
 namespace DataCreator
 {
     public static class DataFileWriter
     {
-        private static readonly string OutFilePath = Path.Join("..","..","..", "data", "out");
+        private static readonly string OutFolderPath = Path.Join("..","..","..", "data", "out");
         private static readonly string RepositoryRoot = Path.Join("..", "..", "..", "..", "..");
         private static readonly string SearchSetupAssetsPath = Path.Join(RepositoryRoot, "search-setup", "assets");
 
@@ -28,19 +29,27 @@ namespace DataCreator
             File.WriteAllText(Path.Join(SearchSetupAssetsPath, "areas.json"), contents);
         }
 
-        public static void WriteHealthCsvData(string fileName, IEnumerable<HealthMeasureEntity> data) => 
-            new CsvContext().Write(data, Path.Join(OutFilePath, $"{fileName}.csv"), CsvFileDescription);
+        public static void WriteHealthCsvData(string fileName, IEnumerable<HealthMeasureEntity> data)
+        {
+            var firstHalfCount = data.Count()/2;
+            var firstHalf = data.Take(firstHalfCount);
+            var secondHalf = data.Skip(firstHalfCount);
+            
+            new CsvContext().Write(firstHalf, Path.Join(OutFolderPath, $"{fileName}1.csv"), CsvFileDescription);
+            new CsvContext().Write(secondHalf, Path.Join(OutFolderPath, $"{fileName}2.csv"), CsvFileDescription);
+        } 
 
         public static void WriteSimpleIndicatorCsvData(string fileName, IEnumerable<SimpleIndicator> data) =>
-             new CsvContext().Write(data, Path.Join(OutFilePath, $"{fileName}.csv"), CsvFileDescription);
+             new CsvContext().Write(data, Path.Join(OutFolderPath, $"{fileName}.csv"), CsvFileDescription);
 
         public static void WriteSimpleAreaCsvData(string fileName, IEnumerable<SimpleAreaWithChildren> data) =>
-             new CsvContext().Write(data, Path.Join(OutFilePath, $"{fileName}.csv"), CsvFileDescription);
+             new CsvContext().Write(data, Path.Join(OutFolderPath, $"{fileName}.csv"), CsvFileDescription);
 
         public static void WriteAgeCsvData(string fileName, IEnumerable<AgeEntity> data) =>
-            new CsvContext().Write(data, Path.Join(OutFilePath, $"{fileName}.csv"), CsvFileDescription);
+            new CsvContext().Write(data, Path.Join(OutFolderPath, $"{fileName}.csv"), CsvFileDescription);
 
-        public static void WriteCategoryCsvData(string fileName, IEnumerable<CategoryEntity> data) =>
-            new CsvContext().Write(data, Path.Join(OutFilePath, $"{fileName}.csv"), CsvFileDescription);
+        public static void WriteCategoryCsvData(string fileName, IEnumerable<CategoryEntity> data) => 
+            new CsvContext().Write(data, Path.Join(OutFolderPath, $"{fileName}.csv"), CsvFileDescription);
+        
     }
 }
