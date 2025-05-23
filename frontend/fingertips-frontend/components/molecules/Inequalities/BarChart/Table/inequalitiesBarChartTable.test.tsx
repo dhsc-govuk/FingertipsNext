@@ -148,7 +148,9 @@ describe('Inequalities bar chart table suite', () => {
             }
           />
         );
-        expect(screen.getByText('99.8% confidence limits')).toBeInTheDocument();
+        expect(
+          screen.getByText(/99.8\s*%\s*confidence\s*limits/i)
+        ).toBeInTheDocument();
       });
 
       it('should not render confidence limits if missing', () => {

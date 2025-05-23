@@ -1,6 +1,6 @@
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { OneIndicatorTwoOrMoreAreasViewPlots } from '.';
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor, within } from '@testing-library/react';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import regionsMap from '@/components/organisms/ThematicMap/regions.json';
@@ -8,6 +8,7 @@ import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { SearchStateContext } from '@/context/SearchStateContext';
 import { reactQueryClient } from '@/lib/reactQueryClient';
 import { QueryClientProvider } from '@tanstack/react-query';
+import { LoaderContext } from '@/context/LoaderContext';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -15,6 +16,16 @@ jest.mock('next/navigation', () => {
   return {
     ...originalModule,
     useRouter: jest.fn().mockImplementation(() => ({})),
+  };
+});
+
+const mockLoaderContext: LoaderContext = {
+  getIsLoading: jest.fn(),
+  setIsLoading: jest.fn(),
+};
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoadingState: () => mockLoaderContext,
   };
 });
 
@@ -86,6 +97,10 @@ const assertLineChartAndTableNotInDocument = async () => {
 };
 
 describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('LineChart components', () => {
     it('should render the LineChart components when there are 2 areas', async () => {
       render(
@@ -99,6 +114,36 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         />
       );
       await assertLineChartAndTableInDocument();
+    });
+
+    it('should render the benchmark select area drop down for the line chart', async () => {
+      await act(() =>
+        render(
+          <OneIndicatorTwoOrMoreAreasViewPlots
+            indicatorData={testHealthData}
+            searchState={{
+              ...searchState,
+              [SearchParams.AreasSelected]: mockAreas,
+            }}
+            indicatorMetadata={mockMetaData}
+          />
+        )
+      );
+
+      await waitFor(async () => {
+        const benchmarkAreaDropDown = screen.getByRole('combobox', {
+          name: 'Select a benchmark',
+        });
+        const benchmarkAreaDropDownOptions = within(
+          benchmarkAreaDropDown
+        ).getAllByRole('option');
+
+        expect(benchmarkAreaDropDown).toBeInTheDocument();
+        expect(benchmarkAreaDropDownOptions).toHaveLength(1);
+        benchmarkAreaDropDownOptions.forEach((option) => {
+          expect(option.textContent).toBe('England');
+        });
+      });
     });
 
     it('should display data source in the LineChart when metadata exists', async () => {
