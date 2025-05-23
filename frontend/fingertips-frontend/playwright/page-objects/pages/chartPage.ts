@@ -236,7 +236,7 @@ export default class ChartPage extends AreaFilter {
     expect(await combobox.inputValue()).toBe(lastOption);
   }
 
-  // selects last type option in the dropdown
+  // selects either first or last option in the dropdown
   private async selectTypeDropdownOption({
     componentLocator,
     componentProps,

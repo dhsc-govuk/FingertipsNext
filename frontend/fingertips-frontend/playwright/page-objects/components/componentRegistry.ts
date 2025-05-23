@@ -41,6 +41,7 @@ export const allComponents: ComponentDefinition[] = [
     componentProps: {
       hasConfidenceIntervals: true,
       hasTypeDropDown: true,
+      isWideComponent: true,
       typeDropDownOptionToSelect: true,
     },
   },
