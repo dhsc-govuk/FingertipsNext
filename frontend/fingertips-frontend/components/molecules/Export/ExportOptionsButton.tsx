@@ -6,7 +6,7 @@ import { useModal } from '@/context/ModalContext';
 import { CsvData } from '@/lib/downloadHelpers/convertToCsv';
 import styled from 'styled-components';
 
-const ButtonWithMargin = styled(Button)({ marginTop: '2px' });
+const ButtonWithMargin = styled(Button)({ marginTop: '1rem' });
 
 interface ExportOptionsButtonProps {
   targetId: string;
