@@ -54,7 +54,9 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
     [SearchParams.AreaTypeSelected]: selectedAreaType,
     [SearchParams.AreasSelected]: areasSelected,
-    [SearchParams.LineChartBenchmarkAreaSelected]: lineChartAreaSelected,
+    [SearchParams.LineChartBenchmarkAreaSelected]:
+      lineChartBenchmarkAreaSelected,
+    [SearchParams.BarChartBenchmarkAreaSelected]: barChartBenchmarkAreaSelected,
   } = searchState;
 
   const healthIndicatorData = indicatorData?.areaHealthData ?? [];
@@ -95,7 +97,12 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     areasSelected
   );
 
-  const benchmarkToUse = determineBenchmarkToUse(lineChartAreaSelected);
+  const benchmarkToUseForLineChart = determineBenchmarkToUse(
+    lineChartBenchmarkAreaSelected
+  );
+  const benchmarkToUseForBarChart = determineBenchmarkToUse(
+    barChartBenchmarkAreaSelected
+  );
 
   const yAxisTitle = indicatorMetadata?.unitLabel
     ? `Value: ${indicatorMetadata?.unitLabel}`
@@ -104,7 +111,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   const lineChartOptions: Highcharts.Options = generateStandardLineChartOptions(
     dataWithoutEnglandOrGroup,
     true,
-    benchmarkToUse,
+    benchmarkToUseForLineChart,
     {
       englandData,
       benchmarkComparisonMethod: indicatorData.benchmarkMethod,
@@ -178,15 +185,21 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
       )}
       <StyleChartWrapper>
         <H3>Compare an indicator by areas</H3>
+        <BenchmarkSelectArea
+          availableAreas={availableAreasForBenchmarking}
+          benchmarkAreaSelectedKey={SearchParams.BarChartBenchmarkAreaSelected}
+          searchState={searchState}
+        />
         <BarChartEmbeddedTable
           data-testid="barChartEmbeddedTable-component"
           healthIndicatorData={dataWithoutEnglandOrGroup}
-          benchmarkData={englandData}
+          englandData={englandData}
           groupIndicatorData={groupData}
           measurementUnit={indicatorMetadata?.unitLabel}
           benchmarkComparisonMethod={benchmarkMethod}
           polarity={polarity}
           dataSource={indicatorMetadata?.dataSource}
+          benchmarkToUse={benchmarkToUseForBarChart}
         />
       </StyleChartWrapper>
     </section>

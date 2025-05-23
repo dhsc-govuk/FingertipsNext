@@ -30,6 +30,7 @@ import {
   getFirstCompleteYear,
   getMaxValue,
 } from '@/components/organisms/BarChartEmbeddedTable/barChartEmbeddedTableHelpers';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 function sortByValueAndAreaName(
   a: BarChartEmbeddedTableRow,
@@ -64,7 +65,8 @@ const ConfidenceLimitsHeader: FC<{ confidenceLimit?: number }> = ({
 
 interface BarChartEmbeddedTableProps {
   healthIndicatorData: HealthDataForArea[];
-  benchmarkData?: HealthDataForArea;
+  benchmarkToUse: string;
+  englandData?: HealthDataForArea;
   groupIndicatorData?: HealthDataForArea;
   measurementUnit?: string;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
@@ -74,7 +76,8 @@ interface BarChartEmbeddedTableProps {
 
 export function BarChartEmbeddedTable({
   healthIndicatorData,
-  benchmarkData,
+  benchmarkToUse,
+  englandData,
   groupIndicatorData,
   measurementUnit,
   benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
@@ -84,7 +87,7 @@ export function BarChartEmbeddedTable({
   const maxValue = getMaxValue(healthIndicatorData);
   const fullYear = getFirstCompleteYear([
     ...healthIndicatorData,
-    benchmarkData,
+    englandData,
     groupIndicatorData,
   ]);
 
@@ -103,7 +106,7 @@ export function BarChartEmbeddedTable({
 
   const sortedTableRows = tableRows.toSorted(sortByValueAndAreaName);
 
-  const benchmarkDataPoint = benchmarkData?.healthData.find(
+  const englandDataPoint = englandData?.healthData.find(
     (point) => point.year === fullYear
   );
   const groupDataPoint = groupIndicatorData?.healthData.find(
@@ -114,6 +117,11 @@ export function BarChartEmbeddedTable({
     useState(false);
 
   const confidenceLimit = getConfidenceLimitNumber(benchmarkComparisonMethod);
+
+  const englandDataPointNamePrefix =
+    benchmarkToUse === areaCodeForEngland ? 'Benchmark: ' : '';
+  const groupDataPointNamePrefix =
+    benchmarkToUse === areaCodeForEngland ? 'Group: ' : 'Benchmark: ';
 
   return (
     <div data-testid={'barChartEmbeddedTable-component'}>
@@ -179,26 +187,26 @@ export function BarChartEmbeddedTable({
           </React.Fragment>
         }
       >
-        {benchmarkDataPoint ? (
+        {englandDataPoint ? (
           <Table.Row
-            key={`${benchmarkData?.areaName}`}
+            key={`${englandData?.areaName}`}
             style={{ backgroundColor: GovukColours.LightGrey }}
             data-testid="table-row-benchmark"
           >
             <CheckValueInTableCell
-              value={`Benchmark: ${benchmarkData?.areaName}`}
+              value={`${englandDataPointNamePrefix}${englandData?.areaName}`}
               style={{ textAlign: 'left', paddingLeft: '10px' }}
             />
             <Table.Cell style={{ textAlign: 'center' }}>
-              <TrendTag trendFromResponse={benchmarkDataPoint.trend} />
+              <TrendTag trendFromResponse={englandDataPoint.trend} />
             </Table.Cell>
             <FormatNumberInTableCell
-              value={benchmarkDataPoint.count}
+              value={englandDataPoint.count}
               numberStyle={'whole'}
               style={{ textAlign: 'right' }}
             />
             <FormatNumberInTableCell
-              value={benchmarkDataPoint.value}
+              value={englandDataPoint.value}
               style={{
                 textAlign: 'right',
                 paddingRight: '0px',
@@ -207,31 +215,29 @@ export function BarChartEmbeddedTable({
             />
             <Table.Cell style={{ paddingRight: '0px' }}>
               <SparklineChart
-                value={[benchmarkDataPoint.value]}
+                value={[englandDataPoint.value]}
                 maxValue={maxValue}
                 confidenceIntervalValues={[
-                  benchmarkDataPoint.lowerCi,
-                  benchmarkDataPoint.upperCi,
+                  englandDataPoint.lowerCi,
+                  englandDataPoint.upperCi,
                 ]}
                 showConfidenceIntervalsData={showConfidenceIntervalsData}
-                benchmarkOutcome={
-                  benchmarkDataPoint.benchmarkComparison?.outcome
-                }
+                benchmarkOutcome={englandDataPoint.benchmarkComparison?.outcome}
                 benchmarkComparisonMethod={benchmarkComparisonMethod}
                 polarity={polarity}
                 label={AreaTypeLabelEnum.Benchmark}
-                area={benchmarkData?.areaName}
-                year={benchmarkDataPoint.year}
+                area={englandData?.areaName}
+                year={englandDataPoint.year}
                 measurementUnit={measurementUnit}
                 barColor={GovukColours.DarkGrey}
               ></SparklineChart>
             </Table.Cell>
             <FormatNumberInTableCell
-              value={benchmarkDataPoint.lowerCi}
+              value={englandDataPoint.lowerCi}
               style={{ textAlign: 'right' }}
             />
             <FormatNumberInTableCell
-              value={benchmarkDataPoint.upperCi}
+              value={englandDataPoint.upperCi}
               style={{ textAlign: 'right', paddingRight: '10px' }}
             />
           </Table.Row>
@@ -244,7 +250,7 @@ export function BarChartEmbeddedTable({
             data-testid="table-row-group"
           >
             <CheckValueInTableCell
-              value={`Group: ${groupIndicatorData?.areaName}`}
+              value={`${groupDataPointNamePrefix}${groupIndicatorData?.areaName}`}
               style={{ textAlign: 'left', paddingLeft: '10px' }}
             />
             <Table.Cell style={{ textAlign: 'center' }}>
