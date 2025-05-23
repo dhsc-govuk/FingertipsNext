@@ -54,8 +54,7 @@ export default class ChartPage extends AreaFilter {
   static readonly inequalitiesTypesDropDownComponentLC =
     'inequalitiesTypes-dropDown-component-lc';
   static readonly basicTableComponent = 'basicTable-component';
-  static readonly benchmarkDropDownComponent =
-    `${SearchParams.OneIndOneAreaViewBenchmarkSelected}-dropDown-benchmark-component`;
+  static readonly benchmarkDropDownComponent = `${SearchParams.OneIndOneAreaViewBenchmarkSelected}-dropDown-benchmark-component`;
 
   async checkOnChartPage() {
     await expect(
