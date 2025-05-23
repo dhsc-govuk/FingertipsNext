@@ -117,20 +117,14 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     [ProducesResponseType(typeof(SimpleError), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetQuartileDataAsync(
-        [FromQuery(Name = "ancestor_code")] string? ancestorCode,
         [FromQuery(Name = "area_code")] string areaCode,
         [FromQuery(Name = "area_type")] string areaType,
-        [FromQuery(Name = "indicator_ids")] int[] indicatorIds
+        [FromQuery(Name = "indicator_ids")] int[] indicatorIds,
+        [FromQuery(Name = "ancestor_code")] string? ancestorCode = ""
     )
     {
         if (indicatorIds is { Length: > MaxNumberIndicators })
-            return new BadRequestObjectResult(
-                new SimpleError
-                {
-                    Message =
-                        $"Too many values supplied for parameter indicator_ids. The maximum is {MaxNumberIndicators} but {indicatorIds.Length} supplied.",
-                }
-            );
+            return new BadRequestObjectResult(new SimpleError { Message = $"Too many values supplied for parameter indicator_ids. The maximum is {MaxNumberIndicators} but {indicatorIds.Length} supplied." });
 
         var quartileData = await _indicatorsService.GetQuartileDataAsync(
             indicatorIds,
