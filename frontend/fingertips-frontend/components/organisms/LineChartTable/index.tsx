@@ -51,7 +51,7 @@ export interface LineChartTableProps {
   measurementUnit?: string;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
-  benchmarkOptions?: string
+  benchmarkOptions?: string;
 }
 
 export interface LineChartTableRowData {
@@ -128,6 +128,14 @@ const StyledGroupValueTableCell = styled(StyledAlignRightTableCell)({
 
 const StyledSpan = styled('span')({
   display: 'block',
+});
+
+const StyledAlternateEnglandColumn = styled(StyledStickyRightHeader)({
+  backgroundColor: GovukColours.LightGrey,
+});
+
+const StyledAlternateGroupColumn = styled(StyledGroupNameHeader)({
+  backgroundColor: GovukColours.MidGrey,
 });
 
 const getCellHeaderComponent = (
@@ -228,8 +236,44 @@ export function LineChartTable({
   measurementUnit,
   benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
   polarity = IndicatorPolarity.Unknown,
-  benchmarkOptions
+  benchmarkOptions,
 }: Readonly<LineChartTableProps>) {
+  // let groupColumnPrefix = 'Group: '
+  // let englandColumnPrefix = 'Benchmark: '
+  let styleComponentForEnglandColumn = StyledStickyRightHeader;
+  let styleComponentForGroupColumn = StyledGroupNameHeader;
+
+  if (benchmarkOptions !== areaCodeForEngland) {
+    // groupColumnPrefix = 'Benchmark: '
+    // englandColumnPrefix = ''
+    styleComponentForGroupColumn = StyledAlternateGroupColumn;
+    styleComponentForEnglandColumn = StyledAlternateEnglandColumn;
+  }
+
+  const englandColumnPrefix =
+    benchmarkOptions !== areaCodeForEngland ? '' : 'Benchmark: ';
+  const groupColumnPrefix =
+    benchmarkOptions !== areaCodeForEngland ? 'Benchmark: ' : 'Group: ';
+
+  const AlternateBenchmarkCellContainer = styled(Table.Cell)<{
+    isMidGrey: boolean;
+  }>(({ isMidGrey }) => ({
+    backgroundColor: isMidGrey ? GovukColours.MidGrey : GovukColours.LightGrey,
+  }));
+
+  const AlternateBenchmarkColumnWrapper: React.FC<{
+    children: React.ReactNode;
+    benchmarkOptions: string | undefined;
+  }> = ({ children, benchmarkOptions }) => {
+    const isMidGrey = benchmarkOptions !== areaCodeForEngland;
+
+    return (
+      <AlternateBenchmarkCellContainer isMidGrey={isMidGrey}>
+        {children}
+      </AlternateBenchmarkCellContainer>
+    );
+  };
+
   if (englandBenchmarkData && healthIndicatorData.length === 0) {
     healthIndicatorData = [englandBenchmarkData];
   }
@@ -324,15 +368,22 @@ export function LineChartTable({
                 </StyledAreaNameHeader>
               ))}
               {showGroupColumn ? (
-                <StyledGroupNameHeader data-testid="group-header">
-                  Group: {groupIndicatorData?.areaName}
-                </StyledGroupNameHeader>
+                <AlternateBenchmarkColumnWrapper
+                  benchmarkOptions={benchmarkOptions}
+                >
+                  {groupColumnPrefix} {groupIndicatorData?.areaName}
+                </AlternateBenchmarkColumnWrapper>
               ) : null}
-              {showBenchmarkColumn ? (
-                <StyledStickyRightHeader data-testid="england-header">
-                  Benchmark: <br /> England
-                </StyledStickyRightHeader>
-              ) : null}
+              {showBenchmarkColumn
+                ? React.createElement(
+                    styleComponentForEnglandColumn,
+                    { 'data-testid': 'england-header' },
+                    <>
+                      {englandColumnPrefix}
+                      <br /> England
+                    </>
+                  )
+                : null}
             </Table.Row>
             {confidenceLimit ? (
               <Table.Row>
