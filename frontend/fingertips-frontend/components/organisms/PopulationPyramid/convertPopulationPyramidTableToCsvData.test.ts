@@ -1,6 +1,7 @@
 import { PopulationDataForArea } from '../../../lib/chartHelpers/preparePopulationData';
 import { convertPopulationPyramidTableToCsvData } from './convertPopulationPyramidTableToCsvData';
-import { CsvField } from '../../../lib/downloadHelpers/convertToCsv';
+import { CsvField, CsvRow } from '../../../lib/downloadHelpers/convertToCsv';
+import { CsvColumnHeader } from '@/components/molecules/Export/export.types';
 
 describe('PopulationPyramidTableToCsv', () => {
   const stubIndicatorId = 'indicatorId';
@@ -46,15 +47,15 @@ describe('PopulationPyramidTableToCsv', () => {
     maleSeries: stubPopulationDataForSelectedArea.maleSeries.map((x) => x * 10),
   };
 
-  const expectedHeaderCsvRow: CsvField[] = [
-    'Indicator ID',
-    'Indicator name',
-    'Period',
-    'Area code',
-    'Area name',
-    'Age range',
-    'Male',
-    'Female',
+  const expectedHeaderCsvRow: CsvRow = [
+    CsvColumnHeader.IndicatorId,
+    CsvColumnHeader.IndicatorName,
+    CsvColumnHeader.Period,
+    CsvColumnHeader.Area,
+    CsvColumnHeader.AreaCode,
+    CsvColumnHeader.AgeRange,
+    CsvColumnHeader.Male,
+    CsvColumnHeader.Female,
   ];
 
   const expectedAreaCsvRows: CsvField[][] = [
@@ -216,14 +217,36 @@ describe('PopulationPyramidTableToCsv', () => {
     ],
   ];
 
+  it('should throw an error if IndicatorId is undefined', () => {
+    expect(() => {
+      convertPopulationPyramidTableToCsvData(
+        stubPeriod,
+        stubPopulationDataForSelectedArea,
+        undefined,
+        stubIndicatorName
+      );
+    }).toThrowError(new Error('IndicatorID and IndicatorName are required'));
+  });
+
+  it('should throw an error if IndicatorName is undefiend', () => {
+    expect(() => {
+      convertPopulationPyramidTableToCsvData(
+        stubPeriod,
+        stubPopulationDataForSelectedArea,
+        stubIndicatorId,
+        undefined
+      );
+    }).toThrowError(new Error('IndicatorID and IndicatorName are required'));
+  });
+
   it('should return the correct header and data when passed only healthDataForArea', () => {
     // act
-    const actual: CsvField[][] = convertPopulationPyramidTableToCsvData({
-      indicatorId: stubIndicatorId,
-      indicatorName: stubIndicatorName,
-      period: stubPeriod,
-      populationDataForArea: stubPopulationDataForSelectedArea,
-    });
+    const actual = convertPopulationPyramidTableToCsvData(
+      stubPeriod,
+      stubPopulationDataForSelectedArea,
+      stubIndicatorId,
+      stubIndicatorName
+    );
     // assert
     expect(actual).toEqual([expectedHeaderCsvRow, ...expectedAreaCsvRows]);
   });
@@ -231,13 +254,13 @@ describe('PopulationPyramidTableToCsv', () => {
   it('should return the correct header and data when passed healthDataForArea and benchmarkData', () => {
     // arrange
     // act
-    const actual: CsvField[][] = convertPopulationPyramidTableToCsvData({
-      indicatorId: stubIndicatorId,
-      indicatorName: stubIndicatorName,
-      period: stubPeriod,
-      populationDataForArea: stubPopulationDataForSelectedArea,
-      populationDataForBenchmark: stubBenchmarkToUse,
-    });
+    const actual = convertPopulationPyramidTableToCsvData(
+      stubPeriod,
+      stubPopulationDataForSelectedArea,
+      stubIndicatorId,
+      stubIndicatorName,
+      stubBenchmarkToUse
+    );
     // assert
     expect(actual).toEqual([
       expectedHeaderCsvRow,
@@ -249,14 +272,14 @@ describe('PopulationPyramidTableToCsv', () => {
   it('should return the correct header and data when passed healthDataForArea, benchmarkData and groupData', () => {
     // arrange
     // act
-    const actual: CsvField[][] = convertPopulationPyramidTableToCsvData({
-      indicatorId: stubIndicatorId,
-      indicatorName: stubIndicatorName,
-      period: stubPeriod,
-      populationDataForArea: stubPopulationDataForSelectedArea,
-      populationDataForBenchmark: stubBenchmarkToUse,
-      populationDataForGroup: stubGroupToUse,
-    });
+    const actual = convertPopulationPyramidTableToCsvData(
+      stubPeriod,
+      stubPopulationDataForSelectedArea,
+      stubIndicatorId,
+      stubIndicatorName,
+      stubBenchmarkToUse,
+      stubGroupToUse
+    );
     // assert
     expect(actual).toEqual([
       expectedHeaderCsvRow,

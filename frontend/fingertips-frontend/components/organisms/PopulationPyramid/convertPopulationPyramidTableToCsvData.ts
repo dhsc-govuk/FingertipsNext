@@ -1,33 +1,30 @@
+import { CsvColumnHeader } from '@/components/molecules/Export/export.types';
 import { PopulationDataForArea } from '../../../lib/chartHelpers/preparePopulationData';
-import { CsvField } from '../../../lib/downloadHelpers/convertToCsv';
+import { CsvData, CsvRow } from '../../../lib/downloadHelpers/convertToCsv';
 
-export function convertPopulationPyramidTableToCsvData({
-  indicatorId,
-  indicatorName,
-  period,
-  populationDataForArea,
-  populationDataForBenchmark,
-  populationDataForGroup,
-}: {
-  indicatorId: string;
-  indicatorName: string;
-  period: string;
-  populationDataForArea: PopulationDataForArea;
-  populationDataForBenchmark?: PopulationDataForArea;
-  populationDataForGroup?: PopulationDataForArea;
-}): CsvField[][] {
-  const header: CsvField[] = [
-    'Indicator ID',
-    'Indicator name',
-    'Period',
-    'Area code',
-    'Area name',
-    'Age range',
-    'Male',
-    'Female',
+export function convertPopulationPyramidTableToCsvData(
+  period: string,
+  populationDataForArea: PopulationDataForArea,
+  indicatorId?: string,
+  indicatorName?: string,
+  populationDataForBenchmark?: PopulationDataForArea,
+  populationDataForGroup?: PopulationDataForArea
+): CsvData {
+  if (!indicatorId || !indicatorName) {
+    throw new Error('IndicatorID and IndicatorName are required');
+  }
+  const header: CsvRow = [
+    CsvColumnHeader.IndicatorId,
+    CsvColumnHeader.IndicatorName,
+    CsvColumnHeader.Period,
+    CsvColumnHeader.Area,
+    CsvColumnHeader.AreaCode,
+    CsvColumnHeader.AgeRange,
+    CsvColumnHeader.Male,
+    CsvColumnHeader.Female,
   ];
 
-  const rows: CsvField[][] = [];
+  const rows: CsvData = [];
   if (populationDataForBenchmark)
     rows.push(
       ...convertPopulationPyramidTableAreaToCsvRow(
@@ -62,7 +59,7 @@ function convertPopulationPyramidTableAreaToCsvRow(
   indicatorName: string,
   period: string,
   populationDataForArea: PopulationDataForArea
-): CsvField[][] {
+): CsvData {
   return populationDataForArea.ageCategories.map((ageCategory, i) => [
     indicatorId,
     indicatorName,
