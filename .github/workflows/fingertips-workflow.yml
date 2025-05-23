@@ -1052,7 +1052,7 @@ jobs:
           {
             name        = "FINGERTIPS_API_URL"
             secret_name = null
-            value       = "${{ vars.DEVELOPMENT_FINGERTIPS_API_URL }}"
+            value       = "${{ vars.BETA_FINGERTIPS_API_URL }}"
           },
           {
             name        = "DHSC_AI_SEARCH_USE_MOCK_SERVICE"
