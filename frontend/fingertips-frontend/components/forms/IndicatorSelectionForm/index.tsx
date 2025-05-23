@@ -213,12 +213,9 @@ export function IndicatorSelectionForm({
     );
 
     if (checked) {
-      const uniqueIndicatorList = [
-        ...new Set([...selectedIndicators, ...allIndicatorIdsForPage]),
-      ];
       stateManager.setState({
         ...searchState,
-        [SearchParams.IndicatorsSelected]: uniqueIndicatorList,
+        [SearchParams.IndicatorsSelected]: allIndicatorIdsForPage,
       });
     } else {
       const newSelectedIndicators = selectedIndicators.filter(
