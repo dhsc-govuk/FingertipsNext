@@ -16,7 +16,6 @@ import { ThematicMapCredits } from '../../molecules/ThematicMapCredits';
 import { BenchmarkTooltip } from '@/components/molecules/BenchmarkTooltip';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { useMapGeographyData } from '@/components/organisms/ThematicMap/useMapGeographyData';
-import { H3 } from 'govuk-react';
 
 interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];
@@ -27,6 +26,7 @@ interface ThematicMapProps {
   benchmarkIndicatorData?: HealthDataForArea;
   groupIndicatorData?: HealthDataForArea;
   indicatorMetadata?: IndicatorDocument;
+  benchmarkArea: string;
 }
 
 const loadHighchartsModules = async (callback: () => void) => {
@@ -42,6 +42,7 @@ export function ThematicMap({
   benchmarkIndicatorData,
   groupIndicatorData,
   indicatorMetadata,
+  benchmarkArea,
 }: Readonly<ThematicMapProps>) {
   const { isLoading, error, mapGeographyData } = useMapGeographyData(
     areaCodes,
@@ -60,7 +61,8 @@ export function ThematicMap({
           mapGeographyData,
           selectedAreaType as AreaTypeKeysForMapMeta,
           benchmarkComparisonMethod,
-          polarity
+          polarity,
+          benchmarkArea
         )
       );
     });
@@ -73,6 +75,7 @@ export function ThematicMap({
     indicatorMetadata,
     benchmarkIndicatorData,
     groupIndicatorData,
+    benchmarkArea,
   ]);
 
   if (isLoading) {
@@ -91,7 +94,6 @@ export function ThematicMap({
 
   return (
     <>
-      <H3>Compare an indicator by areas</H3>
       <div
         data-testid="thematicMap-component"
         style={{

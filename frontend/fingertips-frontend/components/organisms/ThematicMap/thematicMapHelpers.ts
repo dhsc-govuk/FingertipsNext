@@ -270,7 +270,10 @@ function getBenchmarkColourScale(
   ];
 }
 
-export function prepareThematicMapSeriesData(data: HealthDataForArea[]) {
+export function prepareThematicMapSeriesData(
+  data: HealthDataForArea[],
+  benchmarkArea: string
+) {
   const recentData = getIndicatorDataForAreasForMostRecentYearOnly(data);
   if (!recentData) {
     return;
@@ -300,9 +303,10 @@ export function createThematicMapChartOptions(
   mapGeographyData: MapGeographyData,
   areaType: AreaTypeKeysForMapMeta,
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
-  polarity: IndicatorPolarity
+  polarity: IndicatorPolarity,
+  benchmarkArea: string
 ): Highcharts.Options {
-  const data = prepareThematicMapSeriesData(healthIndicatorData);
+  const data = prepareThematicMapSeriesData(healthIndicatorData, benchmarkArea);
   const options: Highcharts.Options = {
     exporting: { enabled: false },
     chart: {

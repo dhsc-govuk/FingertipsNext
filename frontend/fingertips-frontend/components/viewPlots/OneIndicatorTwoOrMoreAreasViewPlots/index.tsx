@@ -55,6 +55,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     [SearchParams.AreaTypeSelected]: selectedAreaType,
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.LineChartBenchmarkAreaSelected]: lineChartAreaSelected,
+    [SearchParams.ThematicMapBenchmarkAreaSelected]: thematicMapAreaSelected,
   } = searchState;
 
   const healthIndicatorData = indicatorData?.areaHealthData ?? [];
@@ -95,7 +96,12 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     areasSelected
   );
 
-  const benchmarkToUse = determineBenchmarkToUse(lineChartAreaSelected);
+  const benchmarkToUseForLineChart = determineBenchmarkToUse(
+    lineChartAreaSelected
+  );
+  const benchmarkToUseForThematicMap = determineBenchmarkToUse(
+    thematicMapAreaSelected
+  );
 
   const yAxisTitle = indicatorMetadata?.unitLabel
     ? `Value: ${indicatorMetadata?.unitLabel}`
@@ -104,7 +110,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   const lineChartOptions: Highcharts.Options = generateStandardLineChartOptions(
     dataWithoutEnglandOrGroup,
     true,
-    benchmarkToUse,
+    benchmarkToUseForLineChart,
     {
       englandData,
       benchmarkComparisonMethod: indicatorData.benchmarkMethod,
@@ -162,6 +168,14 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
       )}
       {selectedGroupArea === ALL_AREAS_SELECTED && (
         <StyleChartWrapper>
+          <H3>Compare an indicator by areas</H3>
+          <BenchmarkSelectArea
+            availableAreas={availableAreasForBenchmarking}
+            benchmarkAreaSelectedKey={
+              SearchParams.ThematicMapBenchmarkAreaSelected
+            }
+            searchState={searchState}
+          />
           <ThematicMap
             selectedAreaType={selectedAreaType}
             healthIndicatorData={dataWithoutEnglandOrGroupAllAreas}
@@ -173,6 +187,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
             benchmarkIndicatorData={englandData}
             groupIndicatorData={groupData}
             areaCodes={areaCodes ?? []}
+            benchmarkArea={benchmarkToUseForThematicMap}
           />
         </StyleChartWrapper>
       )}

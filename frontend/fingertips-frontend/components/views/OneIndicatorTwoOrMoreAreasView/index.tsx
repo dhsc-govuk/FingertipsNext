@@ -45,6 +45,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     selectedGroupType,
   };
 
+  // TODO - single benchmark area per page or multiple?
   const benchmarkRefType = determineBenchmarkRefType(lineChartAreaSelected);
 
   const indicatorDataIncludingEmptyAreas = await getIndicatorData(

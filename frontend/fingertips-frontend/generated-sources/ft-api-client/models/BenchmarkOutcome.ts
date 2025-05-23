@@ -12,53 +12,57 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * benchmark outcome
  * @export
  */
 export const BenchmarkOutcome = {
-    NotCompared: 'NotCompared',
-    Lowest: 'Lowest',
-    Lower: 'Lower',
-    Low: 'Low',
-    Middle: 'Middle',
-    High: 'High',
-    Higher: 'Higher',
-    Highest: 'Highest',
-    Better: 'Better',
-    Best: 'Best',
-    Worse: 'Worse',
-    Worst: 'Worst',
-    Similar: 'Similar'
+  NotCompared: 'NotCompared',
+  Lowest: 'Lowest',
+  Lower: 'Lower',
+  Low: 'Low',
+  Middle: 'Middle',
+  High: 'High',
+  Higher: 'Higher',
+  Highest: 'Highest',
+  Better: 'Better',
+  Best: 'Best',
+  Worse: 'Worse',
+  Worst: 'Worst',
+  Similar: 'Similar',
 } as const;
-export type BenchmarkOutcome = typeof BenchmarkOutcome[keyof typeof BenchmarkOutcome];
-
+export type BenchmarkOutcome =
+  (typeof BenchmarkOutcome)[keyof typeof BenchmarkOutcome];
 
 export function instanceOfBenchmarkOutcome(value: any): boolean {
-    for (const key in BenchmarkOutcome) {
-        if (Object.prototype.hasOwnProperty.call(BenchmarkOutcome, key)) {
-            if (BenchmarkOutcome[key as keyof typeof BenchmarkOutcome] === value) {
-                return true;
-            }
-        }
+  for (const key in BenchmarkOutcome) {
+    if (Object.prototype.hasOwnProperty.call(BenchmarkOutcome, key)) {
+      if (BenchmarkOutcome[key as keyof typeof BenchmarkOutcome] === value) {
+        return true;
+      }
     }
-    return false;
+  }
+  return false;
 }
 
 export function BenchmarkOutcomeFromJSON(json: any): BenchmarkOutcome {
-    return BenchmarkOutcomeFromJSONTyped(json, false);
+  return BenchmarkOutcomeFromJSONTyped(json, false);
 }
 
-export function BenchmarkOutcomeFromJSONTyped(json: any, ignoreDiscriminator: boolean): BenchmarkOutcome {
-    return json as BenchmarkOutcome;
+export function BenchmarkOutcomeFromJSONTyped(
+  json: any,
+  ignoreDiscriminator: boolean
+): BenchmarkOutcome {
+  return json as BenchmarkOutcome;
 }
 
 export function BenchmarkOutcomeToJSON(value?: BenchmarkOutcome | null): any {
-    return value as any;
+  return value as any;
 }
 
-export function BenchmarkOutcomeToJSONTyped(value: any, ignoreDiscriminator: boolean): BenchmarkOutcome {
-    return value as BenchmarkOutcome;
+export function BenchmarkOutcomeToJSONTyped(
+  value: any,
+  ignoreDiscriminator: boolean
+): BenchmarkOutcome {
+  return value as BenchmarkOutcome;
 }
-
