@@ -4,7 +4,9 @@ import {
   getScenarioConfig,
   IndicatorMode,
   SimpleIndicatorDocument,
+  customEncodeURIComponent,
 } from '@/playwright/testHelpers';
+import { ComponentDefinition } from '../components/componentTypes';
 import { expect } from '../pageFactory';
 import {
   PlaywrightTestArgs,
@@ -181,7 +183,8 @@ export default class ChartPage extends AreaFilter {
       },
       {
         condition: componentProps.hasTypeDropDown,
-        action: () => this.selectLastTypeDropdownOption(componentLocator),
+        action: () =>
+          this.selectTypeDropdownOption({ componentLocator, componentProps }),
       },
       {
         condition: componentProps.hasConfidenceIntervals,
@@ -244,8 +247,11 @@ export default class ChartPage extends AreaFilter {
     expect(await combobox.inputValue()).toBe(lastOption);
   }
 
-  // selects last type option in the dropdown
-  private async selectLastTypeDropdownOption(componentLocator: string) {
+  // selects either first or last option in the dropdown
+  private async selectTypeDropdownOption({
+    componentLocator,
+    componentProps,
+  }: ComponentDefinition) {
     const dropdownComponent =
       componentLocator === ChartPage.inequalitiesForSingleTimePeriodComponent
         ? ChartPage.inequalitiesTypesDropDownComponentBC
@@ -254,15 +260,30 @@ export default class ChartPage extends AreaFilter {
     const combobox = this.page
       .getByTestId(dropdownComponent)
       .getByRole('combobox');
+
     const options = await this.getSelectOptions(combobox);
-    const lastOption = options.at(-1)?.value;
-    if (!lastOption) return;
 
-    await combobox.selectOption({ value: lastOption });
+    if (!options.length) {
+      throw new Error(
+        `No options found in dropdown at [${dropdownComponent}].`
+      );
+    }
+
+    const valueToSelect = componentProps.typeDropDownOptionToSelect
+      ? options[0].value
+      : options.at(-1)?.value;
+
+    if (!valueToSelect) {
+      throw new Error(
+        `Unable to determine option to select from dropdown at [${dropdownComponent}].`
+      );
+    }
+
+    await combobox.selectOption({ value: valueToSelect });
     await this.waitAfterDropDownInteraction();
-    await this.waitForURLToContain(encodeURIComponent(lastOption));
+    expect(await combobox.inputValue()).toBe(valueToSelect);
 
-    expect(await combobox.inputValue()).toBe(lastOption);
+    await this.waitForURLToContain(customEncodeURIComponent(valueToSelect));
   }
 
   // checks the confidence interval checkbox
