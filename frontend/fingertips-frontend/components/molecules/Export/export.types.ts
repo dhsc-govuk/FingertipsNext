@@ -25,4 +25,7 @@ export enum CsvHeader {
   UpperCI = 'Upper confidence limit X%',
   InequalityCategory = 'Inequality category',
   InequalityType = 'Inequality type',
+  AgeRange = 'Age range',
+  Male = 'Male',
+  Female = 'Female',
 }

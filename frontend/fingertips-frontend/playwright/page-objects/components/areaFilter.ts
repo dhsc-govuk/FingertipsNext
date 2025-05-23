@@ -2,6 +2,7 @@ import { SearchParams } from '@/lib/searchStateManager';
 import BasePage from '../basePage';
 import { expect } from '../pageFactory';
 import {
+  AreaFilters,
   AreaMode,
   SearchMode,
   SimpleIndicatorDocument,
@@ -139,11 +140,15 @@ export default class AreaFilter extends BasePage {
   }
 
   async selectGroupAndAssertURLUpdated(group: string) {
-    await this.selectOptionAndAwaitLoadingComplete(
-      this.page.getByTestId(this.groupSelector),
-      group
-    );
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
 
+    await this.page
+      .getByTestId(this.groupSelector)
+      .selectOption({ label: group.charAt(0).toUpperCase() + group.slice(1) });
+
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
     await this.waitForURLToContain(SearchParams.GroupSelected);
   }
 
@@ -165,13 +170,26 @@ export default class AreaFilter extends BasePage {
     searchMode: SearchMode,
     areaMode: AreaMode,
     searchTerm: string,
-    areaTypeFilter: string = 'regions'
+    areaFiltersToSelect: AreaFilters
   ) {
     // only do the following for SearchMode.ONLY_SUBJECT as SearchMode.ONLY_AREA/BOTH_SUBJECT_AND_AREA already have area filters selected
     if (searchMode === SearchMode.ONLY_SUBJECT) {
       await this.waitForURLToContain(searchTerm);
 
-      await this.selectAreaTypeAndAssertURLUpdated(areaTypeFilter);
+      await this.selectAreaTypeAndAssertURLUpdated(
+        areaFiltersToSelect.areaType
+      );
+      await this.waitForURLToContain(SearchParams.AreaTypeSelected);
+
+      await this.selectGroupTypeAndAssertURLUpdated(
+        areaFiltersToSelect.groupType
+      );
+      await this.waitForURLToContain(SearchParams.GroupTypeSelected);
+
+      if (areaFiltersToSelect.group) {
+        await this.selectGroupAndAssertURLUpdated(areaFiltersToSelect.group);
+        await this.waitForURLToContain(SearchParams.GroupSelected);
+      }
 
       // Select appropriate number of checkboxes based on area mode
       const areaCheckboxList = this.page
@@ -189,7 +207,7 @@ export default class AreaFilter extends BasePage {
         await this.checkAndAwaitLoadingComplete(areaCheckboxList.nth(i + 1)); // as first checkbox is 'All'
         await this.page.waitForLoadState();
         if (i === 0 && areaMode !== AreaMode.ENGLAND_AREA) {
-          await this.waitForURLToContain(areaTypeFilter);
+          await this.waitForURLToContain(areaFiltersToSelect.areaType);
         }
       }
       await expect(
@@ -210,10 +228,11 @@ export default class AreaFilter extends BasePage {
         await this.waitForURLToContain('england');
       }
     } else if (
-      searchMode === SearchMode.ONLY_AREA &&
+      (searchMode === SearchMode.ONLY_AREA ||
+        searchMode === SearchMode.BOTH_SUBJECT_AND_AREA) &&
       areaMode === AreaMode.THREE_PLUS_AREAS
     ) {
-      // Need to select an additional 2 checkboxes for this scenario, as one is already selected
+      // Need to select an additional 2 checkboxes for these scenarios, as one is already selected
       const areaCheckboxList = this.page
         .getByTestId(this.areaFilterContainer)
         .getByRole('checkbox');
