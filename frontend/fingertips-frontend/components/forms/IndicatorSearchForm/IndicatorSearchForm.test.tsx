@@ -6,6 +6,7 @@ import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { LoaderContext } from '@/context/LoaderContext';
 import { SearchStateContext } from '@/context/SearchStateContext';
 import userEvent from '@testing-library/user-event';
+import { INDICATOR_SEARCH_MAX_CHARACTERS } from '@/lib/search/indicatorSearchService';
 
 jest.mock('react', () => {
   const originalModule = jest.requireActual('react');
@@ -112,5 +113,45 @@ it('should display an error message when there is an error', () => {
 
   expect(
     screen.queryByTestId('indicator-search-form-error')
+  ).toBeInTheDocument();
+});
+
+it('should not display character if indicator is under the 75% threshold', () => {
+  const searchFormState: IndicatorSearchFormState = {
+    ...initialState,
+    indicator: 'A'.repeat(INDICATOR_SEARCH_MAX_CHARACTERS * 0.75),
+  };
+  render(<IndicatorSearchForm indicatorSearchFormState={searchFormState} />);
+
+  expect(
+    screen.queryByText('You have 50 characters remaining.', { exact: false })
+  ).not.toBeInTheDocument();
+});
+
+it('should display character count if indicator is over the 75% threshold', () => {
+  const searchFormState: IndicatorSearchFormState = {
+    ...initialState,
+    indicator: 'A'.repeat(INDICATOR_SEARCH_MAX_CHARACTERS * 0.75 + 1),
+  };
+  render(<IndicatorSearchForm indicatorSearchFormState={searchFormState} />);
+
+  expect(
+    screen.getByText('You have 49 characters remaining.')
+  ).toBeInTheDocument();
+});
+
+it('should update character count on change', async () => {
+  const searchFormState: IndicatorSearchFormState = {
+    ...initialState,
+    indicator: 'A'.repeat(INDICATOR_SEARCH_MAX_CHARACTERS * 0.75),
+  };
+  render(<IndicatorSearchForm indicatorSearchFormState={searchFormState} />);
+
+  const user = userEvent.setup();
+
+  await user.type(screen.getByRole('searchbox'), 'A');
+
+  expect(
+    screen.getByText('You have 49 characters remaining.')
   ).toBeInTheDocument();
 });
