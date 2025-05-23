@@ -13,6 +13,7 @@ export const allComponents: ComponentDefinition[] = [
     componentProps: {
       isTabTable: true,
       hasRecentTrend: true,
+      hasBenchmark: true,
     },
   },
   {
@@ -26,14 +27,15 @@ export const allComponents: ComponentDefinition[] = [
     componentProps: {
       hasConfidenceIntervals: true,
       hasTimePeriodDropDown: true,
-      hasTypeDropDown: false,
+      hasTypeDropDown: false, // even though it has a type dropdown, we want to test the default view
+
     },
   },
   {
     componentLocator: ChartPage.inequalitiesTrendComponent,
     componentProps: {
       hasConfidenceIntervals: true,
-      hasTypeDropDown: true,
+      hasTypeDropDown: true, // and in this case we want to test the type dropdown
     },
   },
   {

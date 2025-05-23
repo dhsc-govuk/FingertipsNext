@@ -21,6 +21,13 @@ const visibleComponentMap: Record<string, string[]> = {
     ChartPage.populationPyramidComponent,
     ChartPage.populationPyramidTableComponent,
   ],
+  [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.TWO_AREAS}`]: [
+     ChartPage.lineChartComponent,
+     ChartPage.lineChartTableComponent,
+     ChartPage.barChartEmbeddedTableComponent,
+     ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
+  ],  
   [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.ENGLAND_AREA}`]: [
     ChartPage.lineChartComponent,
     ChartPage.lineChartTableComponent,

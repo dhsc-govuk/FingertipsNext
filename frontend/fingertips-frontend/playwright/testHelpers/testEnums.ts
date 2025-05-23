@@ -37,10 +37,17 @@ export interface SimpleIndicatorDocument {
   knownTrend?: string;
 }
 
+export interface AreaFilters {
+  areaType: string;
+  groupType: string;
+  group: string;
+}
+
 export interface TestParams {
   indicatorMode: IndicatorMode;
   areaMode: AreaMode;
   searchMode: SearchMode;
   indicatorsToSelect: IndicatorInfo[];
   subjectSearchTerm?: string;
+  areaFiltersToSelect?: AreaFilters;
 }
