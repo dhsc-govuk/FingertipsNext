@@ -27,7 +27,7 @@ export default async function OneIndicatorOneAreaView({
     [SearchParams.IndicatorsSelected]: indicatorSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreaTypeSelected]: areaTypeSelected,
-    [SearchParams.LineChartBenchmarkAreaSelected]: lineChartAreaSelected,
+    [SearchParams.OneIndOneAreaViewBenchmarkSelected]: lineChartAreaSelected,
   } = stateManager.getSearchState();
 
   const areaCodes = determineAreaCodes(areasSelected);
