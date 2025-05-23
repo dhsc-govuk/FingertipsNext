@@ -21,6 +21,7 @@ import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChart
 import {
   determineHeaderTitle,
   determinePopulationDataForArea,
+  determineYear,
 } from './populationPyramidHelpers';
 import { AreaWithoutAreaType } from '@/lib/common-types';
 
@@ -29,12 +30,16 @@ interface PyramidPopulationChartViewProps {
   xAxisTitle: string;
   yAxisTitle: string;
   searchState: SearchStateParams;
+  indicatorId: string;
+  indicatorName: string;
 }
 export const PopulationPyramidWithTable = ({
   healthDataForAreas,
   xAxisTitle,
   yAxisTitle,
   searchState,
+  indicatorId,
+  indicatorName,
 }: Readonly<PyramidPopulationChartViewProps>) => {
   const {
     [SearchParams.PopulationAreaSelected]: populationAreaSelected,
@@ -92,9 +97,12 @@ export const PopulationPyramidWithTable = ({
       ? group
       : undefined;
 
+  const period = determineYear(healthDataForAreaSelected?.healthData ?? []);
+
   const title = determineHeaderTitle(
     healthDataForAreaSelected,
-    areaTypeSelected
+    areaTypeSelected,
+    period
   );
 
   return (
@@ -111,40 +119,41 @@ export const PopulationPyramidWithTable = ({
               chartAreaSelectedKey={SearchParams.PopulationAreaSelected}
               searchState={searchState}
             />
-            {populationDataForSelectedArea != undefined ? (
-              <TabContainer
-                id="pyramidChartAndTableView"
-                items={[
-                  {
-                    id: 'populationPyramidChart',
-                    title: 'Population pyramid',
-                    content: (
-                      <>
-                        <H5>{title}</H5>
-                        <PopulationPyramid
-                          dataForSelectedArea={populationDataForSelectedArea}
-                          dataForGroup={groupToUse}
-                          dataForBenchmark={benchmarkToUse}
-                          xAxisTitle={xAxisTitle}
-                          yAxisTitle={yAxisTitle}
-                        />
-                      </>
-                    ),
-                  },
-                  {
-                    id: 'populationPyramidTable',
-                    title: 'Table',
-                    content: (
-                      <PopulationPyramidChartTable
-                        healthDataForArea={populationDataForSelectedArea}
-                        benchmarkData={benchmarkToUse}
-                        groupData={groupToUse}
+            <TabContainer
+              id="pyramidChartAndTableView"
+              items={[
+                {
+                  id: 'populationPyramidChart',
+                  title: 'Population pyramid',
+                  content: (
+                    <>
+                      <H5>{title}</H5>
+                      <PopulationPyramid
+                        dataForSelectedArea={populationDataForSelectedArea}
+                        dataForGroup={groupToUse}
+                        dataForBenchmark={benchmarkToUse}
+                        xAxisTitle={xAxisTitle}
+                        yAxisTitle={yAxisTitle}
                       />
-                    ),
-                  },
-                ]}
-              />
-            ) : null}
+                    </>
+                  ),
+                },
+                {
+                  id: 'populationPyramidTable',
+                  title: 'Table',
+                  content: (
+                    <PopulationPyramidChartTable
+                      healthDataForArea={populationDataForSelectedArea}
+                      benchmarkData={benchmarkToUse}
+                      groupData={groupToUse}
+                      indicatorId={indicatorId}
+                      indicatorName={indicatorName}
+                      period={period}
+                    />
+                  ),
+                },
+              ]}
+            />
           </div>
         </ArrowExpander>
       </StyleChartWrapper>

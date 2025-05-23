@@ -6,7 +6,7 @@ import { CsvHeader } from '@/components/molecules/Export/export.types';
 describe('PopulationPyramidTableToCsv', () => {
   const stubIndicatorId = 'indicatorId';
   const stubIndicatorName = 'indicatorName';
-  const stubPeriod = '2023';
+  const stubPeriod = 2023;
 
   const stubPopulationDataForSelectedArea: PopulationDataForArea = {
     areaCode: 'A001',

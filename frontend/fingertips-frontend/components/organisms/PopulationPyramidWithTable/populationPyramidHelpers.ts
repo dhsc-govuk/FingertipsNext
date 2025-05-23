@@ -1,4 +1,7 @@
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  HealthDataPoint,
+} from '@/generated-sources/ft-api-client';
 import {
   allAreaTypes,
   HierarchyNameTypes,
@@ -9,7 +12,8 @@ import { AreaWithoutAreaType } from '@/lib/common-types';
 
 export const determineHeaderTitle = (
   healthDataForAreaSelected?: HealthDataForArea,
-  areaTypeSelected?: string
+  areaTypeSelected?: string,
+  year?: number
 ): string => {
   if (!healthDataForAreaSelected) return '';
 
@@ -21,10 +25,6 @@ export const determineHeaderTitle = (
     hierarchyName?.hierarchyName === HierarchyNameTypes.NHS
       ? 'Registered'
       : 'Resident';
-
-  const year = sortHealthDataPointsByDescendingYear(
-    healthDataForAreaSelected.healthData
-  )[0].year;
 
   return `${titleTypeText} population profile for ${healthDataForAreaSelected?.areaName} ${year}`;
 };
@@ -41,4 +41,8 @@ export const determinePopulationDataForArea = (
   }
 
   return populationDataForAllAreas.find((data) => data.areaCode === areaToFind);
+};
+
+export const determineYear = (healthData: HealthDataPoint[]) => {
+  return sortHealthDataPointsByDescendingYear(healthData)[0].year;
 };

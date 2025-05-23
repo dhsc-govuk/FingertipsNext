@@ -102,6 +102,8 @@ describe('PopulationPyramidWithTable', () => {
         searchState={{}}
         xAxisTitle="Age"
         yAxisTitle="Percentage of population"
+        indicatorId={'1'}
+        indicatorName={'Indicator'}
       />
     );
   };
@@ -169,6 +171,8 @@ describe('PopulationPyramidWithTable', () => {
         searchState={{}}
         xAxisTitle="Age"
         yAxisTitle="Percentage of population"
+        indicatorId={'1'}
+        indicatorName={'Indicator'}
       />
     );
     expect(container.asFragment()).toMatchSnapshot();

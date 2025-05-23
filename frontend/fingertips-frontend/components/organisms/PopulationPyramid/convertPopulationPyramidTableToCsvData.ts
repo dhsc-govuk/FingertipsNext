@@ -1,9 +1,9 @@
 import { CsvHeader } from '@/components/molecules/Export/export.types';
-import { PopulationDataForArea } from '../../../lib/chartHelpers/preparePopulationData';
-import { CsvData, CsvRow } from '../../../lib/downloadHelpers/convertToCsv';
+import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
+import { CsvData, CsvRow } from '@/lib/downloadHelpers/convertToCsv';
 
 export function convertPopulationPyramidTableToCsvData(
-  period: string,
+  period: number,
   populationDataForArea: PopulationDataForArea,
   indicatorId?: string,
   indicatorName?: string,
@@ -57,7 +57,7 @@ export function convertPopulationPyramidTableToCsvData(
 function convertPopulationPyramidTableAreaToCsvRow(
   indicatorId: string,
   indicatorName: string,
-  period: string,
+  period: number,
   populationDataForArea: PopulationDataForArea
 ): CsvData {
   return populationDataForArea.ageCategories.map((ageCategory, i) => [
