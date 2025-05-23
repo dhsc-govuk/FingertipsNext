@@ -35,6 +35,7 @@ import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { convertLineChartTableToCsvData } from '@/components/organisms/LineChartTable/convertLineChartTableToCsvData';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { convertToCsv } from '@/lib/downloadHelpers/convertToCsv';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
 
 export enum LineChartTableHeadingEnum {
@@ -295,15 +296,16 @@ export function LineChartTable({
     })
     .toSorted((a, b) => a.year - b.year);
 
-  const csvData = indicatorMetadata
-    ? convertLineChartTableToCsvData(
-        indicatorMetadata,
-        healthIndicatorData,
-        groupIndicatorData,
-        englandBenchmarkData,
-        confidenceLimit
-      )
-    : undefined;
+  if (indicatorMetadata) {
+    const csvData = convertLineChartTableToCsvData(
+      indicatorMetadata,
+      healthIndicatorData,
+      showGroupColumn ? groupIndicatorData : undefined,
+      showBenchmarkColumn ? englandBenchmarkData : undefined,
+      confidenceLimit
+    );
+    console.log(convertToCsv(csvData));
+  }
 
   return (
     <>
