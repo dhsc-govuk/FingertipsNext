@@ -41,6 +41,7 @@ test.describe(
         areaMode,
         subjectSearchTerm,
         indicatorsToSelect,
+        areaFiltersToSelect,
       }) => {
         const typedIndicatorData = indicatorData.map(
           (indicator: RawIndicatorDocument) => {
@@ -90,7 +91,8 @@ test.describe(
             await resultsPage.selectAreasFiltersIfRequired(
               searchMode, // Only selects area filters if search mode is ONLY_SUBJECT
               areaMode,
-              subjectSearchTerm!
+              subjectSearchTerm!,
+              areaFiltersToSelect!
             );
 
             await resultsPage.checkDisplayedIndicators(
@@ -127,7 +129,8 @@ test.describe(
               indicatorMode,
               areaMode,
               test,
-              selectedIndicatorsData
+              selectedIndicatorsData,
+              areaFiltersToSelect!
             );
           });
         });

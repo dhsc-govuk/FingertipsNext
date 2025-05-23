@@ -1,4 +1,5 @@
 import {
+  AreaFilters,
   AreaMode,
   getScenarioConfig,
   IndicatorMode,
@@ -54,6 +55,8 @@ export default class ChartPage extends AreaFilter {
   static readonly inequalitiesTypesDropDownComponentLC =
     'inequalitiesTypes-dropDown-component-lc';
   static readonly basicTableComponent = 'basicTable-component';
+  static readonly benchmarkDropDownComponent =
+    'lcbas-dropDown-benchmark-component';
 
   async checkOnChartPage() {
     await expect(
@@ -90,7 +93,8 @@ export default class ChartPage extends AreaFilter {
       PlaywrightTestArgs & PlaywrightTestOptions,
       PlaywrightWorkerArgs & PlaywrightWorkerOptions
     >,
-    selectedIndicators: SimpleIndicatorDocument[]
+    selectedIndicators: SimpleIndicatorDocument[],
+    selectedAreaFilters: AreaFilters
   ) {
     const testInfo = test.info();
     const testName = testInfo.title;
@@ -112,7 +116,8 @@ export default class ChartPage extends AreaFilter {
       await this.handleComponentInteractions(
         visibleComponent,
         selectedIndicators,
-        areaMode
+        areaMode,
+        selectedAreaFilters
       );
       await this.verifyComponentVisibleAndScreenshotMatch(
         visibleComponent,
@@ -162,7 +167,8 @@ export default class ChartPage extends AreaFilter {
       componentProps: Record<string, boolean>;
     },
     selectedIndicators: SimpleIndicatorDocument[],
-    areaMode: AreaMode
+    areaMode: AreaMode,
+    selectedAreaFilters: AreaFilters
   ) {
     const { componentLocator, componentProps } = component;
 
@@ -200,6 +206,11 @@ export default class ChartPage extends AreaFilter {
             areaMode,
             selectedIndicators
           ),
+      },
+      {
+        condition: componentProps.hasBenchmark,
+        action: () =>
+          this.selectBenchmarkDropdownOption(component, selectedAreaFilters),
       },
     ];
 
@@ -363,6 +374,69 @@ export default class ChartPage extends AreaFilter {
 
         expect(trendsText).toContain(selectedIndicator.knownTrend);
       }
+    }
+  }
+
+  private async selectBenchmarkDropdownOption(
+    component: VisibleComponent,
+    selectedAreaFilters: AreaFilters
+  ) {
+    const dropdownComponent = ChartPage.benchmarkDropDownComponent;
+    const combobox = this.page
+      .getByTestId(dropdownComponent)
+      .getByRole('combobox');
+    const options = await this.getSelectOptions(combobox);
+    const upperCaseFirstCharSelectedGroup =
+      selectedAreaFilters.group.charAt(0).toUpperCase() +
+      selectedAreaFilters.group.slice(1);
+
+    // check benchmark is defaulted to England before changing dropdown
+    if (selectedAreaFilters.areaType != 'england') {
+      await expect(
+        this.page
+          .getByTestId(component.componentLocator)
+          .getByText('Benchmark: England')
+      ).toBeVisible();
+    } else {
+      expect(options.length).toBe(1);
+      await expect(
+        this.page
+          .getByTestId(component.componentLocator)
+          .getByText('Benchmark:')
+      ).not.toBeVisible();
+    }
+
+    // set dropdown to the group selected in the area filter (may be england)
+    await combobox.selectOption({
+      label: upperCaseFirstCharSelectedGroup,
+    });
+    await this.waitAfterDropDownInteraction();
+    expect(await combobox.locator('option:checked').textContent()).toBe(
+      upperCaseFirstCharSelectedGroup
+    );
+
+    // check benchmark is the group one after changing dropdown
+    if (selectedAreaFilters.group != 'england') {
+      expect(options.length).toBe(2);
+      await expect(
+        this.page
+          .getByTestId(component.componentLocator)
+          .getByText(`Benchmark: ${upperCaseFirstCharSelectedGroup}`)
+      ).toBeVisible();
+    } else if (selectedAreaFilters.areaType != 'england') {
+      expect(options.length).toBe(1);
+      await expect(
+        this.page
+          .getByTestId(component.componentLocator)
+          .getByText('Benchmark: England')
+      ).toBeVisible();
+    } else {
+      expect(options.length).toBe(1);
+      await expect(
+        this.page
+          .getByTestId(component.componentLocator)
+          .getByText('Benchmark:')
+      ).not.toBeVisible();
     }
   }
 
