@@ -103,7 +103,6 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     /// areas and all years for the indicators. Optionally filter the results by
     /// supplying one or more area codes and one or more years in the query string.
     /// </summary>
-    /// <param name="ancestorCode">The ancestor for comparison.</param>
     /// <param name="areaCode">A list of area codes.</param>
     /// <param name="areaType">The area type the area codes belong to.</param>
     /// <param name="areaGroup">the area group for calculating quartiles within.</param>
