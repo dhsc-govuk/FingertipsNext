@@ -287,7 +287,7 @@ paths:
       description:
         Get quartile information for indicators including
       parameters:
-        - name: ancestor_code
+        - name: area_group
           in: query
           style: simple
           schema:
@@ -762,16 +762,6 @@ components:
           type: integer
           example: 2023
         maxItems: 20
-    ancestor_code:
-      in: path
-      name: ancestor_code
-      style: simple
-      schema:
-        type: string
-        example: E12000001
-      explode: false
-      required: true
-      description: The area code of an ancestor area
     area_code:
       in: path
       name: area_code

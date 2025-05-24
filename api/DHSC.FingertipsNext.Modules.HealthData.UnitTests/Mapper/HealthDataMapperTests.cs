@@ -152,7 +152,7 @@ public class HealthDataMapperTests
                 EnglandValue = 300
             }
         };
-    
+
         var expectedQuartileData = new List<IndicatorQuartileData>
         {
             new IndicatorQuartileData()
@@ -166,7 +166,7 @@ public class HealthDataMapperTests
                 Q3Value = 40,
                 Q4Value = 50,
                 AreaValue = 100,
-                AncestorValue = 200,
+                GroupValue = 200,
                 EnglandValue = 300
             }
         };

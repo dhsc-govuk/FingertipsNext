@@ -60,7 +60,7 @@ export interface GetIndicatorRequest {
 }
 
 export interface IndicatorsQuartilesGetRequest {
-    ancestorCode?: string;
+    areaGroup?: string;
     areaCode?: string;
     areaType?: string;
     indicatorIds?: Array<number>;
@@ -131,7 +131,7 @@ export interface IndicatorsApiInterface {
     /**
      * Get quartile information for indicators including
      * @summary Get quartile values for indicators
-     * @param {string} [ancestorCode] The area code of an ancestor area
+     * @param {string} [areaGroup] The area code of an ancestor area
      * @param {string} [areaCode] The area code of the area/ geography
      * @param {string} [areaType] The area type which the areas belong to
      * @param {Array<number>} [indicatorIds] A list of indicator_ids, up to 10 can be requested
@@ -291,8 +291,8 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
     async indicatorsQuartilesGetRaw(requestParameters: IndicatorsQuartilesGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<QuartileData>>> {
         const queryParameters: any = {};
 
-        if (requestParameters['ancestorCode'] != null) {
-            queryParameters['ancestor_code'] = requestParameters['ancestorCode'];
+        if (requestParameters['areaGroup'] != null) {
+            queryParameters['area_group'] = requestParameters['areaGroup'];
         }
 
         if (requestParameters['areaCode'] != null) {
