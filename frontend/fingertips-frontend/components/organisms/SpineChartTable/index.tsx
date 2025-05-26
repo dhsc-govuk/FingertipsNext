@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { SpineChartTableHeader } from './SpineChartTableHeader';
 
@@ -15,6 +15,7 @@ import { SpineChartLegend } from '@/components/organisms/SpineChartLegend/SpineC
 import { getMethodsAndOutcomes } from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
 import { SpineChartIndicatorData } from './spineChartTableHelpers';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
+import { convertSpineChartTableToCsv } from '@/components/organisms/SpineChartTable/convertSpineChartTableToCsv';
 
 const SpineChartHeading = styled(H2)({
   fontSize: '1.5rem',
@@ -43,6 +44,12 @@ export function SpineChartTable({
   const StyledTable =
     areaNames.length > 1 ? StyledTableMultipleAreas : StyledTableOneArea;
 
+  const csvData = useMemo(() => {
+    return convertSpineChartTableToCsv(sortedData);
+  }, [sortedData]);
+
+  console.log(sortedData);
+
   return (
     <>
       <div id={'spineChartTable'}>
@@ -70,7 +77,7 @@ export function SpineChartTable({
           </StyledTable>
         </StyledDivTableContainer>
       </div>
-      <ExportOptionsButton targetId={'spineChartTable'} />
+      <ExportOptionsButton targetId={'spineChartTable'} csvData={csvData} />
     </>
   );
 }
