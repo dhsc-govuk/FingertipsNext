@@ -111,6 +111,7 @@ export function ThematicMap({
         <HighChartsWrapper
           chartOptions={chartOptions}
           testId={'highcharts-react-thematicMap-component'}
+          constructorType={'mapChart'}
         />
         <ThematicMapCredits
           areaType={selectedAreaType as AreaTypeKeysForMapMeta}
