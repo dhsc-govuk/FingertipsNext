@@ -14,6 +14,7 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 import { formatNumber } from '@/lib/numberFormatter';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import { de } from '@faker-js/faker';
 
 type TooltipType = 'area' | 'benchmark' | 'group';
 
@@ -48,16 +49,22 @@ export function BenchmarkTooltipArea({
     indicatorData.areaCode === areaCodeForEngland
   );
 
-  let benchmarkColour = getBenchmarkColour(
-    benchmarkComparisonMethod,
-    benchmarkOutcome ?? BenchmarkOutcome.NotCompared,
-    polarity
-  );
+  let benchmarkColour: string | undefined = GovukColours.Black;
   if (
-    tooltipType === 'benchmark' ||
-    !mostRecentDataPoint?.benchmarkComparison?.outcome
+    tooltipType !== 'benchmark' &&
+    mostRecentDataPoint?.benchmarkComparison?.outcome
   ) {
-    benchmarkColour = GovukColours.Black;
+    benchmarkColour = getBenchmarkColour(
+      benchmarkComparisonMethod,
+      benchmarkOutcome ?? BenchmarkOutcome.NotCompared,
+      polarity
+    );
+  }
+  if (
+    tooltipType === 'group' &&
+    indicatorData.areaCode === areaCodeForEngland
+  ) {
+    benchmarkColour = GovukColours.Pink;
   }
 
   return (
