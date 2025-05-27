@@ -98,7 +98,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
     {
       indicatorIds: indicatorList,
       areaCode: areaCodes[0],
-      areaGroup: selectedGroupCode ?? areaCodeForEngland,
+      ancestorCode: selectedGroupCode ?? areaCodeForEngland,
       areaType: selectedAreaType,
     },
     API_CACHE_CONFIG
