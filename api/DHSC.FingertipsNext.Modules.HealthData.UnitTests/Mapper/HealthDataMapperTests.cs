@@ -166,7 +166,7 @@ public class HealthDataMapperTests
                 Q3Value = 40,
                 Q4Value = 50,
                 AreaValue = 100,
-                GroupValue = 200,
+                AncestorValue = 200,
                 EnglandValue = 300
             }
         };

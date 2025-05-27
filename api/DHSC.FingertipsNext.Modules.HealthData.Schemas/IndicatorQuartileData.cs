@@ -32,8 +32,8 @@ public class IndicatorQuartileData
     [JsonPropertyName("areaValue")]
     public double? AreaValue { get; init; }
 
-    [JsonPropertyName("groupValue")]
-    public double? GroupValue { get; init; }
+    [JsonPropertyName("ancestorValue")]
+    public double? AncestorValue { get; init; }
 
     [JsonPropertyName("englandValue")]
     public double? EnglandValue { get; init; }
