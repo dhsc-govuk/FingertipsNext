@@ -42,7 +42,8 @@ describe('determineHeaderTitle', () => {
       generateHealthDataForArea('A001', 'Area 1', [
         generateMockHealthDataPoint(2022),
       ]),
-      areaTypeSelected
+      areaTypeSelected,
+      2022
     );
     expect(result).toEqual('Registered population profile for Area 1 2022');
   });
