@@ -48,8 +48,6 @@ export function SpineChartTable({
     return convertSpineChartTableToCsv(sortedData);
   }, [sortedData]);
 
-  console.log(sortedData);
-
   return (
     <>
       <div id={'spineChartTable'}>

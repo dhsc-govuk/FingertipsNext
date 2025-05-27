@@ -63,7 +63,7 @@ export const convertSpineChartTableToCsv = (
       csvData.push(newRow);
     });
 
-    if (groupData) {
+    if (groupData && groupData?.areaCode !== benchmarkAreaCode) {
       const { areaCode, areaName, healthData } = groupData;
       const { benchmarkComparison, trend, count, value } = healthData[0];
       const groupRow: CsvRow = [
@@ -85,24 +85,22 @@ export const convertSpineChartTableToCsv = (
       csvData.push(groupRow);
     }
 
-    if (groupData?.areaCode !== benchmarkAreaCode) {
-      const benchmarkRow: CsvRow = [
-        indicatorId,
-        indicatorName,
-        latestDataPeriod,
-        benchmarkAreaName,
-        benchmarkAreaCode,
-        undefined, // benchmark area code
-        undefined, // benchmark outcome
-        undefined, // trend
-        undefined, // count
-        valueUnit,
-        benchmarkValue,
-        worst,
-        best,
-      ];
-      csvData.push(benchmarkRow);
-    }
+    const benchmarkRow: CsvRow = [
+      indicatorId,
+      indicatorName,
+      latestDataPeriod,
+      benchmarkAreaName,
+      benchmarkAreaCode,
+      undefined, // benchmark area code
+      undefined, // benchmark outcome
+      undefined, // trend
+      undefined, // count
+      valueUnit,
+      benchmarkValue,
+      worst,
+      best,
+    ];
+    csvData.push(benchmarkRow);
   });
 
   return csvData;
