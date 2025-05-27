@@ -14,14 +14,18 @@ const highlightChars = (text: string, searchHint: string) => {
     hightlightEnd
   );
 
+  if (!text.toLowerCase().includes(textToBeHighlighted.toLowerCase()))
+    return [text];
+
   const highlightStartPos = text
     .toLowerCase()
     .indexOf(textToBeHighlighted.toLowerCase());
   const hightlightEndPos = highlightStartPos + textToBeHighlighted.length;
+
   return [
     text.slice(0, highlightStartPos),
     <StyleHighLightedText key="searchMatch">
-      {textToBeHighlighted}
+      {text.slice(highlightStartPos, hightlightEndPos)}
     </StyleHighLightedText>,
     text.slice(hightlightEndPos),
   ];

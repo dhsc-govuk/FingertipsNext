@@ -46,4 +46,12 @@ describe('HighlightText', () => {
 
     expect(container.asFragment()).toMatchSnapshot();
   });
+
+  it('should not hightlight text if the searched term is not found within it', () => {
+    const container = render(
+      <HighlightText text="This is some text" searchHint={'random'} />
+    );
+
+    expect(container.asFragment()).toMatchSnapshot();
+  });
 });
