@@ -241,41 +241,54 @@ export function LineChartTable({
   polarity = IndicatorPolarity.Unknown,
   benchmarkOptions,
 }: Readonly<LineChartTableProps>) {
-  // let groupColumnPrefix = 'Group: '
-  // let englandColumnPrefix = 'Benchmark: '
-  let styleComponentForEnglandColumn = StyledStickyRightHeader;
-  let styleComponentForGroupColumn = StyledGroupNameHeader;
+  
 
-  if (benchmarkOptions !== areaCodeForEngland) {
-    // groupColumnPrefix = 'Benchmark: '
-    // englandColumnPrefix = ''
-    styleComponentForGroupColumn = StyledAlternateGroupColumn;
-    styleComponentForEnglandColumn = StyledAlternateEnglandColumn;
-  }
+  // const AlternateBenchmarkCellContainer = styled(Table.Cell)<{
+  //   isMidGrey: boolean;
+  // }>(({ isMidGrey }) => ({
+  //   backgroundColor: isMidGrey ? GovukColours.MidGrey : GovukColours.LightGrey,
+  // }));
+  //
+  // const AlternateBenchmarkColumnWrapper: React.FC<{
+  //   children?: React.ReactNode;
+  //   benchmarkOptions: string | undefined;
+  // }> = ({ children, benchmarkOptions = areaCodeForEngland }) => {
+  //  
+  //   const isMidGrey = benchmarkOptions !== areaCodeForEngland;
+  //
+  //   return (
+  //     <AlternateBenchmarkCellContainer isMidGrey={isMidGrey}>
+  //       {children}
+  //     </AlternateBenchmarkCellContainer>
+  //   );
+  // };
 
   const englandColumnPrefix =
     benchmarkOptions !== areaCodeForEngland ? '' : 'Benchmark: ';
   const groupColumnPrefix =
     benchmarkOptions !== areaCodeForEngland ? 'Benchmark: ' : 'Group: ';
 
-  const AlternateBenchmarkCellContainer = styled(Table.Cell)<{
-    isMidGrey: boolean;
-  }>(({ isMidGrey }) => ({
-    backgroundColor: isMidGrey ? GovukColours.MidGrey : GovukColours.LightGrey,
-  }));
+  const BenchmarkHeaderCellWrapper = benchmarkOptions !== areaCodeForEngland
+    ? StyledAlternateEnglandColumn
+    : StyledStickyRightHeader;
 
-  const AlternateBenchmarkColumnWrapper: React.FC<{
-    children: React.ReactNode;
-    benchmarkOptions: string | undefined;
-  }> = ({ children, benchmarkOptions }) => {
-    const isMidGrey = benchmarkOptions !== areaCodeForEngland;
+  const GroupHeaderCellWrapper = benchmarkOptions !== areaCodeForEngland
+    ? StyledAlternateGroupColumn
+    : StyledGroupNameHeader;
 
-    return (
-      <AlternateBenchmarkCellContainer isMidGrey={isMidGrey}>
-        {children}
-      </AlternateBenchmarkCellContainer>
-    );
-  };
+const getAlternateBenchmarkCellBackgroundColour = (label: 'group' | 'benchmark' ) => {
+  if(label === 'group') {
+    return benchmarkOptions !== areaCodeForEngland
+      ? GovukColours.MidGrey
+      : GovukColours.LightGrey;
+  }
+  if(label === 'benchmark') {
+    return benchmarkOptions !== areaCodeForEngland
+      ? GovukColours.LightGrey
+      : GovukColours.MidGrey;
+  }
+}
+  
 
   if (englandBenchmarkData && healthIndicatorData.length === 0) {
     healthIndicatorData = [englandBenchmarkData];
@@ -375,8 +388,8 @@ export function LineChartTable({
                     </StyledTrendContainer>
                   </StyledAlignTrendHeader>
                 ))}
-                {showGroupColumn ? <StyledTitleCell /> : null}
-                {showBenchmarkColumn ? <StyledStickyRightHeader /> : null}
+                {showGroupColumn ? <StyledTitleCell/> : null}
+                {showBenchmarkColumn ? <StyledStickyRightHeader style={{ backgroundColor: getAlternateBenchmarkCellBackgroundColour('benchmark') }} /> : null}
               </Table.Row>
               <Table.Row>
                 <Table.CellHeader />
@@ -386,14 +399,14 @@ export function LineChartTable({
                   </StyledAreaNameHeader>
                 ))}
                 {showGroupColumn ? (
-                  <StyledGroupNameHeader data-testid="group-header">
-                    Group: {groupIndicatorData?.areaName}
-                  </StyledGroupNameHeader>
+                  <GroupHeaderCellWrapper data-testid="group-header">
+                    {groupColumnPrefix} {groupIndicatorData?.areaName}
+                  </GroupHeaderCellWrapper>
                 ) : null}
                 {showBenchmarkColumn ? (
-                  <StyledStickyRightHeader data-testid="england-header">
-                    Benchmark: <br /> England
-                  </StyledStickyRightHeader>
+                  <BenchmarkHeaderCellWrapper data-testid="england-header">
+                    {englandColumnPrefix} <br /> England
+                  </BenchmarkHeaderCellWrapper>
                 ) : null}
               </Table.Row>
               {confidenceLimit ? (
@@ -411,8 +424,8 @@ export function LineChartTable({
                       </StyledConfidenceLimitsHeader>
                     </React.Fragment>
                   ))}
-                  {showGroupColumn ? <StyledLightGreyHeader /> : null}
-                  {showBenchmarkColumn ? <StyledStickyRightHeader /> : null}
+                  {showGroupColumn ? <StyledLightGreyHeader style={{ backgroundColor: getAlternateBenchmarkCellBackgroundColour('group') }} /> : null}
+                  {showBenchmarkColumn ? <StyledStickyRightHeader style={{ backgroundColor: getAlternateBenchmarkCellBackgroundColour('benchmark') }} /> : null}
                 </Table.Row>
               ) : null}
 
@@ -441,7 +454,7 @@ export function LineChartTable({
                     ))
                 )}
                 {showGroupColumn ? (
-                  <StyledLightGreySubHeader>
+                  <StyledLightGreySubHeader style={{ backgroundColor: getAlternateBenchmarkCellBackgroundColour('group') }}>
                     Value
                     <StyledSpan>{indicatorMetadata?.unitLabel}</StyledSpan>
                   </StyledLightGreySubHeader>
@@ -449,6 +462,7 @@ export function LineChartTable({
                 {showBenchmarkColumn ? (
                   <StyledStickyRightHeader
                     data-testid={`header-benchmark-value`}
+                    style={{ backgroundColor: getAlternateBenchmarkCellBackgroundColour('benchmark') }}
                   >
                     {LineChartTableHeadingEnum.BenchmarkValue}{' '}
                     <StyledSpan>{indicatorMetadata?.unitLabel}</StyledSpan>
@@ -488,12 +502,12 @@ export function LineChartTable({
                 </React.Fragment>
               ))}
               {showGroupColumn ? (
-                <StyledGroupValueTableCell>
+                <StyledGroupValueTableCell style={{ backgroundColor: getAlternateBenchmarkCellBackgroundColour('group') }}>
                   {formatNumber(groupValue)}
                 </StyledGroupValueTableCell>
               ) : null}
               {showBenchmarkColumn ? (
-                <StyledStickyRight data-testid="grey-table-cell">
+                <StyledStickyRight data-testid="grey-table-cell" style={{ backgroundColor: getAlternateBenchmarkCellBackgroundColour('benchmark') }}>
                   {formatNumber(benchmarkValue)}
                 </StyledStickyRight>
               ) : null}
