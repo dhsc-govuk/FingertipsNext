@@ -1,0 +1,17 @@
+@font-face {
+    font-family: 'gdsTransportFont';
+    src: url('/fonts/GDSTransportLight.ttf') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'gdsTransportFont';
+    src: url('/fonts/GDSTransportBold.ttf') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+body {
+    font-family: 'gdsTransportFont', sans-serif;
+}

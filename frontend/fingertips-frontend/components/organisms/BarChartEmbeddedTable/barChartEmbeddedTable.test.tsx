@@ -217,7 +217,7 @@ describe('BarChartEmbeddedTable', () => {
   });
 
   it('should not display group row or benchmark row in the table, when no data is passed', async () => {
-    await act(() => {
+    act(() => {
       render(
         <BarChartEmbeddedTable
           healthIndicatorData={mockHealthIndicatorData}
@@ -233,7 +233,7 @@ describe('BarChartEmbeddedTable', () => {
   });
 
   it('should display data table row colours for benchmark and group', async () => {
-    await act(() => {
+    act(() => {
       render(
         <BarChartEmbeddedTable
           healthIndicatorData={mockHealthIndicatorData}
@@ -327,6 +327,26 @@ describe('BarChartEmbeddedTable', () => {
     expect(noValueCells).toHaveLength(2);
   });
 
+  it('should display an empty area row with x-s and no spark line chart', async () => {
+    const emptyRowData = [
+      {
+        areaCode: mockHealthIndicatorData[0].areaCode,
+        areaName: mockHealthIndicatorData[0].areaName,
+        healthData: [],
+      },
+    ];
+
+    render(<BarChartEmbeddedTable healthIndicatorData={emptyRowData} />);
+
+    const noValueCells = await screen.findAllByText('X');
+    expect(noValueCells).toHaveLength(4);
+
+    const sparkline = screen.queryAllByTestId(
+      'highcharts-react-component-barChartEmbeddedTable'
+    );
+    expect(sparkline).toHaveLength(0);
+  });
+
   it('should display correct aria label when then is no value', async () => {
     render(
       <BarChartEmbeddedTable
@@ -371,7 +391,7 @@ describe('BarChartEmbeddedTable', () => {
 
   // DHSCFT-372 - Add trends to the compare areas bar charts
   it('should render the correct trend for all data provided', async () => {
-    await act(() => {
+    act(() => {
       render(
         <BarChartEmbeddedTable
           healthIndicatorData={mockHealthIndicatorData}

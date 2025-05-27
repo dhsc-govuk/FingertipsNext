@@ -17,6 +17,11 @@ export const coreTestJourneys: TestParams[] = [
         knownTrend: 'Decreasing and getting better',
       },
     ],
+    areaFiltersToSelect: {
+      areaType: 'england',
+      groupType: 'england',
+      group: 'england',
+    },
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
@@ -29,10 +34,15 @@ export const coreTestJourneys: TestParams[] = [
         knownTrend: 'No recent trend data available',
       },
     ],
+    areaFiltersToSelect: {
+      areaType: 'regions',
+      groupType: 'england',
+      group: 'england',
+    },
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
-    areaMode: AreaMode.THREE_PLUS_AREAS,
+    areaMode: AreaMode.TWO_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
     subjectSearchTerm: 'emergency',
     indicatorsToSelect: [
@@ -41,6 +51,28 @@ export const coreTestJourneys: TestParams[] = [
         knownTrend: 'No recent trend data available',
       },
     ],
+    areaFiltersToSelect: {
+      areaType: 'counties-and-unitary-authorities',
+      groupType: 'regions',
+      group: 'North West Region',
+    },
+  },
+  {
+    indicatorMode: IndicatorMode.ONE_INDICATOR,
+    areaMode: AreaMode.THREE_PLUS_AREAS,
+    searchMode: SearchMode.BOTH_SUBJECT_AND_AREA,
+    subjectSearchTerm: 'emergency',
+    indicatorsToSelect: [
+      {
+        indicatorID: '41101',
+        knownTrend: 'No recent trend data available',
+      },
+    ],
+    areaFiltersToSelect: {
+      areaType: 'regions',
+      groupType: 'england',
+      group: 'england',
+    },
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
@@ -53,6 +85,11 @@ export const coreTestJourneys: TestParams[] = [
         knownTrend: 'No recent trend data available',
       },
     ],
+    areaFiltersToSelect: {
+      areaType: 'regions',
+      groupType: 'england',
+      group: 'england',
+    },
   },
   {
     indicatorMode: IndicatorMode.TWO_INDICATORS,
@@ -69,6 +106,11 @@ export const coreTestJourneys: TestParams[] = [
         knownTrend: 'Decreasing and getting better',
       },
     ],
+    areaFiltersToSelect: {
+      areaType: 'england',
+      groupType: 'england',
+      group: 'england',
+    },
   },
   {
     indicatorMode: IndicatorMode.TWO_INDICATORS,
@@ -85,6 +127,11 @@ export const coreTestJourneys: TestParams[] = [
         knownTrend: 'No recent trend data available', // for all areas in a group, this indicators trend is not available at that geography level
       },
     ],
+    areaFiltersToSelect: {
+      areaType: 'regions',
+      groupType: 'england',
+      group: 'england',
+    },
   },
   {
     indicatorMode: IndicatorMode.TWO_INDICATORS,
@@ -100,6 +147,11 @@ export const coreTestJourneys: TestParams[] = [
         knownTrend: 'Decreasing and getting better',
       },
     ],
+    areaFiltersToSelect: {
+      areaType: 'regions',
+      groupType: 'england',
+      group: 'england',
+    },
   },
   {
     indicatorMode: IndicatorMode.THREE_PLUS_INDICATORS,
@@ -120,6 +172,11 @@ export const coreTestJourneys: TestParams[] = [
         knownTrend: 'Decreasing',
       },
     ],
+    areaFiltersToSelect: {
+      areaType: 'regions',
+      groupType: 'england',
+      group: 'england',
+    },
   },
   {
     indicatorMode: IndicatorMode.THREE_PLUS_INDICATORS,
@@ -140,5 +197,10 @@ export const coreTestJourneys: TestParams[] = [
         knownTrend: 'Decreasing',
       },
     ],
+    areaFiltersToSelect: {
+      areaType: 'regions',
+      groupType: 'england',
+      group: 'england',
+    },
   },
 ];

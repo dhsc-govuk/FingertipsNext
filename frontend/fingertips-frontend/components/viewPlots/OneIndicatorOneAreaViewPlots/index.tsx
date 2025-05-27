@@ -46,7 +46,7 @@ export function OneIndicatorOneAreaViewPlots({
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreasSelected]: areasSelected,
-    [SearchParams.LineChartBenchmarkAreaSelected]: lineChartAreaSelected,
+    [SearchParams.BenchmarkAreaSelected]: benchmarkAreaSelected,
   } = searchState;
 
   const areaCodes = determineAreaCodes(areasSelected);
@@ -88,7 +88,7 @@ export function OneIndicatorOneAreaViewPlots({
     areasSelected
   );
 
-  const benchmarkToUse = determineBenchmarkToUse(lineChartAreaSelected);
+  const benchmarkToUse = determineBenchmarkToUse(benchmarkAreaSelected);
 
   const yAxisTitle = indicatorMetadata?.unitLabel
     ? `Value: ${indicatorMetadata?.unitLabel}`
@@ -111,19 +111,17 @@ export function OneIndicatorOneAreaViewPlots({
 
   return (
     <section data-testid="oneIndicatorOneAreaViewPlot-component">
+      <BenchmarkSelectArea
+        availableAreas={availableAreasForBenchmarking}
+        benchmarkAreaSelectedKey={SearchParams.BenchmarkAreaSelected}
+        searchState={searchState}
+      />
       {shouldLineChartBeShown(
         areaDataWithoutInequalities,
         englandDataWithoutInequalities
       ) && (
         <StyleChartWrapper>
           <H3>Indicator data over time</H3>
-          <BenchmarkSelectArea
-            availableAreas={availableAreasForBenchmarking}
-            benchmarkAreaSelectedKey={
-              SearchParams.LineChartBenchmarkAreaSelected
-            }
-            searchState={searchState}
-          />
           <TabContainer
             id="lineChartAndTable"
             items={[
@@ -145,7 +143,7 @@ export function OneIndicatorOneAreaViewPlots({
                     healthIndicatorData={areaDataWithoutInequalities}
                     englandBenchmarkData={englandDataWithoutInequalities}
                     groupIndicatorData={groupDataWithoutInequalities}
-                    measurementUnit={indicatorMetadata?.unitLabel}
+                    indicatorMetadata={indicatorMetadata}
                     benchmarkComparisonMethod={benchmarkComparisonMethod}
                     polarity={polarity}
                   />

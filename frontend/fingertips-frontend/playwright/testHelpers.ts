@@ -15,12 +15,19 @@ export interface IndicatorInfo {
   knownTrend?: string;
 }
 
+export interface AreaFilters {
+  areaType: string;
+  groupType: string;
+  group: string;
+}
+
 export interface TestParams {
   indicatorMode: IndicatorMode;
   areaMode: AreaMode;
   searchMode: SearchMode;
   indicatorsToSelect: IndicatorInfo[];
   subjectSearchTerm?: string;
+  areaFiltersToSelect?: AreaFilters;
 }
 
 export enum SearchMode {
@@ -57,6 +64,7 @@ type componentProps = {
   hasTypeDropDown?: boolean;
   isWideComponent?: boolean;
   hasRecentTrend?: boolean;
+  hasBenchmark?: boolean;
 };
 
 type component = {
@@ -79,6 +87,7 @@ export function getScenarioConfig(
       componentLocator: ChartPage.lineChartComponent,
       componentProps: {
         hasConfidenceIntervals: true,
+        // hasBenchmark: true,
       },
     },
     {
@@ -181,6 +190,13 @@ export function getScenarioConfig(
       ChartPage.inequalitiesLineChartTableComponent,
       ChartPage.inequalitiesForSingleTimePeriodComponent,
       ChartPage.inequalitiesTrendComponent,
+      ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
+    ],
+    [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.TWO_AREAS}`]: [
+      ChartPage.lineChartComponent,
+      ChartPage.lineChartTableComponent,
+      ChartPage.barChartEmbeddedTableComponent,
       ChartPage.populationPyramidComponent,
       ChartPage.populationPyramidTableComponent,
     ],

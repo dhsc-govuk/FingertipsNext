@@ -15,7 +15,7 @@ import {
   CheckValueInTableCell,
   FormatNumberInTableCell,
 } from '@/components/molecules/CheckValueInTableCell';
-import React, { FC, Fragment, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { SparklineChart } from '@/components/organisms/SparklineChart';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
 import { TrendTag } from '@/components/molecules/TrendTag';
@@ -26,8 +26,7 @@ import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import {
   BarChartEmbeddedTableHeadingEnum,
   chartName,
-  filterUndefined,
-  getFirstCompleteYear,
+  getLatestYearWithBenchmarks,
   getMaxValue,
 } from '@/components/organisms/BarChartEmbeddedTable/barChartEmbeddedTableHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
@@ -85,24 +84,31 @@ export function BarChartEmbeddedTable({
   dataSource,
 }: Readonly<BarChartEmbeddedTableProps>) {
   const maxValue = getMaxValue(healthIndicatorData);
-  const fullYear = getFirstCompleteYear([
-    ...healthIndicatorData,
+  const fullYear = getLatestYearWithBenchmarks(
+    healthIndicatorData,
     englandData,
-    groupIndicatorData,
-  ]);
+    groupIndicatorData
+  );
 
-  const tableRows: BarChartEmbeddedTableRow[] = healthIndicatorData
-    .map((areaData) => {
+  const tableRows: BarChartEmbeddedTableRow[] = healthIndicatorData.map(
+    (areaData) => {
       const point = areaData?.healthData.find(
         (point) => point.year === fullYear
       );
-      if (!point) return;
+
+      if (!point) {
+        return {
+          area: areaData.areaName,
+          year: fullYear,
+        } as BarChartEmbeddedTableRow;
+      }
+
       return {
         area: areaData.areaName,
         ...point,
       };
-    })
-    .filter(filterUndefined) as BarChartEmbeddedTableRow[];
+    }
+  );
 
   const sortedTableRows = tableRows.toSorted(sortByValueAndAreaName);
 
