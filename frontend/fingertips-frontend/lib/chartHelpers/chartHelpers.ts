@@ -406,19 +406,21 @@ export const getFormattedLabel = (
 
 const shouldAddGroupAreaForBenchmarking = (
   areasSelected?: string[],
-  selectedGroupCode?: string
+  selectedGroupCode?: string,
+  selectedGroupArea?: string | undefined
 ): boolean => {
   return (
-    selectedGroupCode !== areaCodeForEngland &&
-    Array.isArray(areasSelected) &&
-    areasSelected.length > 0
+    (selectedGroupCode !== areaCodeForEngland &&
+      selectedGroupCode !== ALL_AREAS_SELECTED) ||
+    (Array.isArray(areasSelected) && areasSelected.length > 0)
   );
 };
 
 export const determineAreasForBenchmarking = (
   healthDataForAreas: HealthDataForArea[],
   selectedGroupCode?: string,
-  areasSelected?: string[]
+  areasSelected?: string[],
+  selectedGroupArea?: string
 ): AreaWithoutAreaType[] => {
   const areasForBenchmarking: AreaWithoutAreaType[] = [
     {
@@ -427,7 +429,13 @@ export const determineAreasForBenchmarking = (
     },
   ];
 
-  if (shouldAddGroupAreaForBenchmarking(areasSelected, selectedGroupCode)) {
+  if (
+    shouldAddGroupAreaForBenchmarking(
+      areasSelected,
+      selectedGroupCode,
+      selectedGroupArea
+    )
+  ) {
     const groupArea = healthDataForAreas.find(
       (area) => area.areaCode === selectedGroupCode
     );

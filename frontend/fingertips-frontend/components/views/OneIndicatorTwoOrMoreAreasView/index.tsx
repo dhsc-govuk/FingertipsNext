@@ -52,6 +52,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     benchmarkRefType,
     areaCodes.length > 2
   );
+  console.log(indicatorData);
 
   const indicatorMetadata = selectedIndicatorsData?.[0];
   return (

@@ -81,7 +81,8 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   const availableAreasForBenchmarking = determineAreasForBenchmarking(
     healthIndicatorData,
     selectedGroupCode,
-    areasSelected
+    areasSelected,
+    selectedGroupArea
   );
 
   const benchmarkToUse = determineBenchmarkToUse(benchmarkAreaSelected);
