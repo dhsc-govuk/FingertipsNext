@@ -273,7 +273,7 @@ paths:
         - $ref: "#/components/parameters/indicator_id"
         - $ref: "#/components/parameters/area_codes"
         - $ref: "#/components/parameters/area_type"
-        - $ref: "#/components/parameters/area_group"
+        - $ref: "#/components/parameters/ancestor_code"
         - $ref: "#/components/parameters/benchmark_ref_type"
         - $ref: "#/components/parameters/years"
         - $ref: "#/components/parameters/inequalities"
@@ -287,7 +287,7 @@ paths:
       description:
         Get quartile information for indicators including
       parameters:
-        - name: area_group
+        - name: ancestor_code
           in: query
           style: simple
           schema:
@@ -403,12 +403,12 @@ components:
       enum: 
         [
           England,
-          AreaGroup
+          SubNational
         ]
       x-enum-varnames:
         [
           England,
-          AreaGroup
+          SubNational
         ]
     AreaType:
       type: object
@@ -830,10 +830,10 @@ components:
           type: string
           example: G82109
         maxItems: 300
-    area_group:
+    ancestor_code:
       in: query
-      name: area_group
-      description: An area group which the area_codes belong to
+      name: ancestor_code
+      description: An ancestor area which the area_codes belong to
       schema:
         type: string
         example: E38000205

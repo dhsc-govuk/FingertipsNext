@@ -48,7 +48,7 @@ export interface GetHealthDataForAnIndicatorRequest {
     indicatorId: number;
     areaCodes?: Array<string>;
     areaType?: string;
-    areaGroup?: string;
+    ancestorCode?: string;
     benchmarkRefType?: BenchmarkReferenceType;
     years?: Array<number>;
     inequalities?: Array<GetHealthDataForAnIndicatorInequalitiesEnum>;
@@ -60,7 +60,7 @@ export interface GetIndicatorRequest {
 }
 
 export interface IndicatorsQuartilesGetRequest {
-    areaGroup?: string;
+    ancestorCode?: string;
     areaCode?: string;
     areaType?: string;
     indicatorIds?: Array<number>;
@@ -95,7 +95,7 @@ export interface IndicatorsApiInterface {
      * @param {number} indicatorId The unique identifier of the indicator
      * @param {Array<string>} [areaCodes] A list of area codes, up to 300 area codes can be requested
      * @param {string} [areaType] The area type which the areas belong to
-     * @param {string} [areaGroup] An area group which the area_codes belong to
+     * @param {string} [ancestorCode] An ancestor area which the area_codes belong to
      * @param {BenchmarkReferenceType} [benchmarkRefType] The benchmark reference type
      * @param {Array<number>} [years] A list of years, up to 20 years can be requested
      * @param {Array<'age' | 'sex' | 'deprivation'>} [inequalities] Determines the kind of inequality data that should be returned if an option is specified
@@ -131,7 +131,7 @@ export interface IndicatorsApiInterface {
     /**
      * Get quartile information for indicators including
      * @summary Get quartile values for indicators
-     * @param {string} [areaGroup] The area code of an ancestor area
+     * @param {string} [ancestorCode] The area code of an ancestor area
      * @param {string} [areaCode] The area code of the area/ geography
      * @param {string} [areaType] The area type which the areas belong to
      * @param {Array<number>} [indicatorIds] A list of indicator_ids, up to 10 can be requested
@@ -208,8 +208,8 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
             queryParameters['area_type'] = requestParameters['areaType'];
         }
 
-        if (requestParameters['areaGroup'] != null) {
-            queryParameters['area_group'] = requestParameters['areaGroup'];
+        if (requestParameters['ancestorCode'] != null) {
+            queryParameters['ancestor_code'] = requestParameters['ancestorCode'];
         }
 
         if (requestParameters['benchmarkRefType'] != null) {
@@ -291,8 +291,8 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
     async indicatorsQuartilesGetRaw(requestParameters: IndicatorsQuartilesGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<QuartileData>>> {
         const queryParameters: any = {};
 
-        if (requestParameters['areaGroup'] != null) {
-            queryParameters['area_group'] = requestParameters['areaGroup'];
+        if (requestParameters['ancestorCode'] != null) {
+            queryParameters['ancestor_code'] = requestParameters['ancestorCode'];
         }
 
         if (requestParameters['areaCode'] != null) {

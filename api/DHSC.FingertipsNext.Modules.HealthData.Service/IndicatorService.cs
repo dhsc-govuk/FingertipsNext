@@ -25,11 +25,11 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
     ///     The areaType which these codes should be compared against. This is important to specify to discriminate between
     ///     counties and districts which introduce amiguity to the areaType by duplicating areas.
     /// </param>
-    /// <param name="areaGroup">
-    ///     The areaGroup which these codes should be compared against. Dependent on what benchmarkRefType is set to.
+    /// <param name="ancestorCode">
+    ///     The ancestorCode which these codes should be compared against. Dependent on what benchmarkRefType is set to.
     /// </param>    
     /// <param name="becnhmarkRefType">
-    ///     The benchmark reference type to be used when benchmarking. England, AreaGroup or IndicatorGoal.
+    ///     The benchmark reference type to be used when benchmarking. England, SubNational or IndicatorGoal.
     /// </param>
     /// <param name="years">
     ///     An array of years. If the array is empty all years are retrieved.
@@ -45,7 +45,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         int indicatorId,
         IEnumerable<string> areaCodes,
         string areaType,
-        string areaGroup,
+        string ancestorCode,
         BenchmarkReferenceType benchmarkRefType,
         IEnumerable<int> years,
         IEnumerable<string> inequalities,
@@ -64,7 +64,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
             indicatorId,
             areaCodes,
             areaType,
-            areaGroup,
+            ancestorCode,
             benchmarkRefType,
             years,
             inequalities,
@@ -108,7 +108,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         int indicatorId,
         IEnumerable<string> areaCodes,
         string areaType,
-        string areaGroup,
+        string ancestorCode,
         BenchmarkReferenceType benchmarkRefType,
         IEnumerable<int> years,
         IEnumerable<string> inequalities,
@@ -119,8 +119,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         IEnumerable<HealthMeasureModel> healthMeasureData;
         var areaCodesForSearch = areaCodes.ToList();
 
-        // The benchmark reference can be either England or a passed in AreaGroup
-        var benchmarkAreaCode = (benchmarkRefType == BenchmarkReferenceType.AreaGroup) ? areaGroup : AreaCodeEngland;
+        // The benchmark reference can be either England or a passed in ancestorCode
+        var benchmarkAreaCode = (benchmarkRefType == BenchmarkReferenceType.SubNational) ? ancestorCode : AreaCodeEngland;
 
         if (comparisonMethod == BenchmarkComparisonMethod.Quintiles)
         {
@@ -222,11 +222,11 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         IEnumerable<int> indicatorIds,
         string areaCode,
         string areaType,
-        string areaGroup,
+        string ancestorCode,
         string benchmarkAreaCode
         )
     {
-        var quartileData = await healthDataRepository.GetQuartileDataAsync(indicatorIds, areaCode, areaType, areaGroup, benchmarkAreaCode);
+        var quartileData = await healthDataRepository.GetQuartileDataAsync(indicatorIds, areaCode, areaType, ancestorCode, benchmarkAreaCode);
         return quartileData == null ? null : healthDataMapper.Map(quartileData.ToList());
     }
 }

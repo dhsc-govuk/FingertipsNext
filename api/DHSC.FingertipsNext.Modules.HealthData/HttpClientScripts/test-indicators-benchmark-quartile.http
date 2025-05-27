@@ -1,5 +1,5 @@
 ### Basic Quartile generation
-GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85008&area_type=gps&area_group=U79121
+GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85008&area_type=gps&ancestor_code=U79121
 
 > {%
     client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
@@ -13,7 +13,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85
             "q3Value": 76.9005847953216,
             "q4Value": 88.6435331230284,
             "areaValue": 76.1904761904762,
-            "groupValue": 76.4550264550265,
+            "ancestorValue": 76.4550264550265,
             "englandValue": 69.8972433785404
         }]
         client.assert(response.status === 200, "Response status is not 200");
@@ -22,7 +22,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85
 %}
 
 ### Basic Quartile generation benchmark against AreaGroup
-GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85008&area_type=gps&area_group=U79121&benchmark_ref_type=AreaGroup
+GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85008&area_type=gps&ancestor_code=U79121&benchmark_ref_type=SubNational
 
 > {%
     client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
@@ -36,7 +36,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85
             "q3Value": 79.0476190476191,
             "q4Value": 80.1242236024845,
             "areaValue": 76.1904761904762,
-            "groupValue": 76.4550264550265,
+            "ancestorValue": 76.4550264550265,
             "englandValue": 69.8972433785404
         }]
         client.assert(response.status === 200, "Response status is not 200");
@@ -45,7 +45,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85
 %}
 
 ### check quartile calculation for two indicators
-GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids=90453&area_code=N85008&area_type=gps&area_group=U79121
+GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids=90453&area_code=N85008&area_type=gps&ancestor_code=U79121
 
 > {%
     client.test("Calculate Quartile for two indicators", function (callbackfn, thisArg) {
@@ -60,7 +60,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids
             "q3Value": 76.9005847953216,
             "q4Value": 88.6435331230284,
             "areaValue": 76.1904761904762,
-            "groupValue": 76.4550264550265,
+            "ancestorValue": 76.4550264550265,
             "englandValue": 69.8972433785404
         },
         {
@@ -73,7 +73,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids
             "q3Value": 33.38074,
             "q4Value": 50.264,
             "areaValue": 28.93029,
-            "groupValue": 29.8274473053626,
+            "ancestorValue": 29.8274473053626,
             "englandValue": 27.15399
         }
         ];
@@ -82,7 +82,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids
     });
 %}
 ### check quartile calculation for two indicators Benchamrk against AreaGroup
-GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids=90453&area_code=N85008&area_type=gps&area_group=U79121&benchmark_ref_type=AreaGroup
+GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids=90453&area_code=N85008&area_type=gps&ancestor_code=U79121&benchmark_ref_type=SubNational
 > {%
     client.test("Calculate Quartile for two indicators", function (callbackfn, thisArg) {
         const expected = [
@@ -96,7 +96,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids
             "q3Value": 79.0476190476191,
             "q4Value": 80.1242236024845,
             "areaValue": 76.1904761904762,
-            "groupValue": 76.4550264550265,
+            "ancestorValue": 76.4550264550265,
             "englandValue": 69.8972433785404
         },
         {
@@ -109,7 +109,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids
             "q3Value": 28.93029,
             "q4Value": 35.47526,
             "areaValue": 28.93029,
-            "groupValue": 29.8274473053626,
+            "ancestorValue": 29.8274473053626,
             "englandValue": 27.15399
         }
         ];
@@ -118,7 +118,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids
     });
 %}
 ### check Quartile comparison where area group has no data and returns null
-GET http://localhost:5144/indicators/quartiles?indicator_ids=241&area_code=N85008&area_type=gps&area_group=U79121
+GET http://localhost:5144/indicators/quartiles?indicator_ids=241&area_code=N85008&area_type=gps&ancestor_code=U79121
 
 > {%
     client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
@@ -132,7 +132,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=241&area_code=N8500
             "q3Value": 9.1663,
             "q4Value": 17.51457,
             "areaValue": 7.27034,
-            "groupValue": null,
+            "ancestorValue": null,
             "englandValue": 7.65539435016159
   }]
         client.assert(response.status === 200, "Response status is not 200");
@@ -142,7 +142,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=241&area_code=N8500
 
 
 ### check Quartile comparison where indicator is unknown
-GET http://localhost:5144/indicators/quartiles?indicator_ids=999999&area_code=N85008&area_type=gps&area_group=U79121
+GET http://localhost:5144/indicators/quartiles?indicator_ids=999999&area_code=N85008&area_type=gps&ancestor_code=U79121
 
 > {%
     client.test("check Quartile comparison where indicator is unknown", function (callbackfn, thisArg) {
@@ -156,7 +156,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=999999&area_code=N8
             "q3Value": null,
             "q4Value": null,
             "areaValue": null,
-            "groupValue": null,
+            "ancestorValue": null,
             "englandValue": null
         }]
         client.assert(response.status === 200, "Response status is not 200");
@@ -179,7 +179,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_code=N85
             "q3Value": 33.38074,
             "q4Value": 50.264,
             "areaValue": 28.93029,
-            "groupValue": null,
+            "ancestorValue": null,
             "englandValue": 27.15399
 
         }]
@@ -203,7 +203,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_type=gps
             "q3Value": 33.38074,
             "q4Value": 50.264,
             "areaValue": null,
-            "groupValue": null,
+            "ancestorValue": null,
             "englandValue": 27.15399
         }]
         client.assert(response.status === 200, "Response status is not 200");
@@ -226,7 +226,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_type=err
             "q3Value": null,
             "q4Value": null,
             "areaValue": null,
-            "groupValue": null,
+            "ancestorValue": null,
             "englandValue": 27.15399
         }]
         client.assert(response.status === 200, "Response status is not 200");
@@ -274,7 +274,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94103&area_code=E09
             "q3Value": 27.44265,
             "q4Value": 29.42533,
             "areaValue": 20.76935,
-            "groupValue": null,
+            "ancestorValue": null,
             "englandValue": 25.80061
         }]
         client.assert(response.status === 200, "Response status is not 200");
@@ -296,7 +296,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94103&area_code=E09
             "q3Value": 27.5906,
             "q4Value": 29.42533,
             "areaValue": 20.76935,
-            "groupValue": null,
+            "ancestorValue": null,
             "englandValue": 25.80061
         }]
         client.assert(response.status === 200, "Response status is not 200");
@@ -305,11 +305,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94103&area_code=E09
 %}
 
 ### check Quartile comparison when benmchmrk_ref_type is AreaGroup and AreaGroup is not supplied
-GET http://localhost:5144/indicators/quartiles?indicator_ids=94103&area_code=E09000027&area_type=districts-and-unitary-authorities&benchmark_ref_type=AreaGroup
+GET http://localhost:5144/indicators/quartiles?indicator_ids=94103&area_code=E09000027&area_type=districts-and-unitary-authorities&benchmark_ref_type=SubNational
 > {%
     client.test("check Quartile comparison for district", function (callbackfn, thisArg) {
         const expected = {
-            "message": "Parameter area_group must be supplied if benchmark_ref_type is set to AreaGroup."
+            "message": "Parameter ancestor_code must be supplied if benchmark_ref_type is set to SubNational."
         }
         client.assert(response.status === 400, "Response status is not 400");
         client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
@@ -317,7 +317,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94103&area_code=E09
 %}
 
 ### check Quartile comparison against Fingertips - https://fingertips.phe.org.uk/profile/dementia/data#page/1
-GET http://localhost:5144/indicators/quartiles?indicator_ids=91894&area_code=E54000028&area_type=nhs-integrated-care-boards&area_group=E40000003
+GET http://localhost:5144/indicators/quartiles?indicator_ids=91894&area_code=E54000028&area_type=nhs-integrated-care-boards&ancestor_code=E40000003
 > {%
     client.test("check Quartile comparison for NHS Integrated Care Boards Place of death: Dementia", function (callbackfn, thisArg) {
         const expected = [{
@@ -330,7 +330,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=91894&area_code=E54
             "q3Value": 29.69,
             "q4Value": 39.48,
             "areaValue": 34.98,
-            "groupValue": 36.664729808251,
+            "ancestorValue": 36.664729808251,
             "englandValue": 26.26
         }]
         client.assert(response.status === 200, "Response status is not 200");
@@ -352,7 +352,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93085&area_code=E09
             "q3Value": 9.1,
             "q4Value": 17.5,
             "areaValue": 3.7,
-            "groupValue": null,
+            "ancestorValue": null,
             "englandValue": 7.4
 
         }]
@@ -362,7 +362,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93085&area_code=E09
 %}
 
 ### check Quartile comparison when there is insufficient data
-GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_code=D83060&area_type=gps&area_group=U10430&benchmark_ref_type=AreaGroup
+GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_code=D83060&area_type=gps&ancestor_code=U10430&benchmark_ref_type=SubNational
 > {%
     client.test("check Quartile comparison when there is in sufficient data", function (callbackfn, thisArg) {
         const expected = [{
@@ -375,7 +375,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_code=D83
             "q3Value": null,
             "q4Value": null,
             "areaValue": 28.32882,
-            "groupValue": 26.7614436271931,
+            "ancestorValue": 26.7614436271931,
             "englandValue": 27.15399
         }]
         client.assert(response.status === 200, "Response status is not 200");
@@ -384,7 +384,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_code=D83
 %}
 
 ### Basic Quartile GP benchmarked against ICB-Sub 
-GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85008&area_type=gps&area_group=E38000208&benchmark_ref_type=AreaGroup
+GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85008&area_type=gps&ancestor_code=E38000208&benchmark_ref_type=SubNational
 
 > {%
     client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
@@ -398,7 +398,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85
             "q3Value": 79.0476190476191,
             "q4Value": 84.5161290322581,
             "areaValue": 76.1904761904762,
-            "groupValue": 72.5647792706334,
+            "ancestorValue": 72.5647792706334,
             "englandValue": 69.8972433785404
         }]
         client.assert(response.status === 200, "Response status is not 200");
@@ -407,7 +407,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85
 %}
 
 ### Basic Quartile Sub-ICB benchmarked against ICB 
-GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38000208&area_type=nhs-sub-integrated-care-boards&area_group=E54000008&benchmark_ref_type=AreaGroup
+GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38000208&area_type=nhs-sub-integrated-care-boards&ancestor_code=E54000008&benchmark_ref_type=SubNational
 
 > {%
     client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
@@ -421,7 +421,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38
             "q3Value": 74.0236686390533,
             "q4Value": 76.360153256705,
             "areaValue": 72.5647792706334,
-            "groupValue": 72.0120548814339,
+            "ancestorValue": 72.0120548814339,
             "englandValue": 69.8972433785404
         }]
         client.assert(response.status === 200, "Response status is not 200");
@@ -430,7 +430,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38
 %}
 
 ### Basic Quartile Sub-ICB benchmarked against NHS Region 
-GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38000208&area_type=nhs-sub-integrated-care-boards&area_group=E40000010&benchmark_ref_type=AreaGroup
+GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38000208&area_type=nhs-sub-integrated-care-boards&ancestor_code=E40000010&benchmark_ref_type=SubNational
 
 > {%
     client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
@@ -444,7 +444,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38
             "q3Value": 74.0236686390533,
             "q4Value": 76.360153256705,
             "areaValue": 72.5647792706334,
-            "groupValue": 70.7067909967071,
+            "ancestorValue": 70.7067909967071,
             "englandValue": 69.8972433785404
         }]
         client.assert(response.status === 200, "Response status is not 200");
@@ -453,7 +453,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38
 %}
 
 ### Basic Quartile Sub-ICB benchmarked against England 
-GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38000208&area_type=nhs-sub-integrated-care-boards&area_group=E40000010
+GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38000208&area_type=nhs-sub-integrated-care-boards&ancestor_code=E40000010
 
 > {%
     client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
@@ -467,7 +467,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38
             "q3Value": 74.0390187367201,
             "q4Value": 80.8172397550636,
             "areaValue": 72.5647792706334,
-            "groupValue": 70.7067909967071,
+            "ancestorValue": 70.7067909967071,
             "englandValue": 69.8972433785404
         }]
         client.assert(response.status === 200, "Response status is not 200");
@@ -476,7 +476,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38
 %}
 
 ### Basic Quartile District benchmarked against County 
-GET http://localhost:5144/indicators/quartiles?indicator_ids=93861&area_code=E07000223&area_type=districts-and-unitary-authorities&area_group=E10000032&benchmark_ref_type=AreaGroup
+GET http://localhost:5144/indicators/quartiles?indicator_ids=93861&area_code=E07000223&area_type=districts-and-unitary-authorities&ancestor_code=E10000032&benchmark_ref_type=SubNational
 
 
 > {%
@@ -491,7 +491,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93861&area_code=E07
             "q3Value": 4.91231,
             "q4Value": 5.13148,
             "areaValue": 4.91231,
-            "groupValue": 4.75958,
+            "ancestorValue": 4.75958,
             "englandValue": 5.2205
         }]
         client.assert(response.status === 200, "Response status is not 200");
@@ -499,7 +499,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93861&area_code=E07
     });
 
 ### Basic Quartile District benchmarked against Region
-GET http://localhost:5144/indicators/quartiles?indicator_ids=93861&area_code=E07000223&area_type=districts-and-unitary-authorities&area_group=E12000008&benchmark_ref_type=AreaGroup
+GET http://localhost:5144/indicators/quartiles?indicator_ids=93861&area_code=E07000223&area_type=districts-and-unitary-authorities&ancestor_code=E12000008&benchmark_ref_type=SubNational
 
 
 > {%
@@ -514,7 +514,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93861&area_code=E07
             "q3Value": 5.29198,
             "q4Value": 5.83444,
             "areaValue": 4.91231,
-            "groupValue": 5.05386,
+            "ancestorValue": 5.05386,
             "englandValue": 5.2205
         }]
         client.assert(response.status === 200, "Response status is not 200");
@@ -523,7 +523,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93861&area_code=E07
 %}
 
 ### Basic Quartile District benchmarked against England
-GET http://localhost:5144/indicators/quartiles?indicator_ids=93861&area_code=E07000223&area_type=districts-and-unitary-authorities&area_group=E12000008
+GET http://localhost:5144/indicators/quartiles?indicator_ids=93861&area_code=E07000223&area_type=districts-and-unitary-authorities&ancestor_code=E12000008
 > {%
     client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
         const expected = [  {
@@ -536,7 +536,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93861&area_code=E07
             "q3Value": 5.56829,
             "q4Value": 7.36706,
             "areaValue": 4.91231,
-            "groupValue": 5.05386,
+            "ancestorValue": 5.05386,
             "englandValue": 5.2205
         }]
         client.assert(response.status === 200, "Response status is not 200");
