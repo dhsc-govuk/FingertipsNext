@@ -79,6 +79,8 @@ const StyledGroupNameHeader = styled(StyledAreaNameHeader)({
   background: GovukColours.LightGrey,
   paddingRight: '0.5em',
   paddingLeft: '0.5em',
+  textAlign: 'right',
+  verticalAlign: 'top',
 });
 
 const StyledBenchmarkTrendHeader = styled(StyledAlignLeftHeader)({
@@ -133,13 +135,34 @@ const StyledSpan = styled('span')({
   display: 'block',
 });
 
-const StyledAlternateEnglandColumn = styled(StyledStickyRightHeader)({
+const StyledAlternateEnglandHeaderBackgroundColour = styled(StyledStickyRightHeader)({
   backgroundColor: GovukColours.LightGrey,
+  verticalAlign: 'top',
 });
 
-const StyledAlternateGroupColumn = styled(StyledGroupNameHeader)({
+const StyledAlternateGroupHeaderBackgroundColour = styled(StyledGroupNameHeader)({
   backgroundColor: GovukColours.MidGrey,
 });
+
+const StyledAlternateGroupSubHeader = styled(StyledLightGreySubHeader)({
+  borderTop: `solid #F3F2F1 2px`,
+  backgroundColor: GovukColours.MidGrey,
+})
+
+const StyledAlternateEnglandSubHeader = styled(StyledLightGreySubHeader)({
+  backgroundColor: GovukColours.LightGrey,
+})
+
+const StyledAlternateGroupBenchmarkCell = styled(StyledGroupValueTableCell)(
+  {
+    borderTop: `solid #F3F2F1 2px`,
+    backgroundColor: GovukColours.MidGrey,
+  }
+);
+
+const StyledAlternateEnglandBenchmarkCell = styled(StyledStickyRight)({
+  backgroundColor: GovukColours.LightGrey,
+})
 
 const getCellHeaderComponent = (
   heading: LineChartTableHeadingEnum,
@@ -241,8 +264,6 @@ export function LineChartTable({
   polarity = IndicatorPolarity.Unknown,
   benchmarkOptions,
 }: Readonly<LineChartTableProps>) {
-  
-
   // const AlternateBenchmarkCellContainer = styled(Table.Cell)<{
   //   isMidGrey: boolean;
   // }>(({ isMidGrey }) => ({
@@ -253,7 +274,7 @@ export function LineChartTable({
   //   children?: React.ReactNode;
   //   benchmarkOptions: string | undefined;
   // }> = ({ children, benchmarkOptions = areaCodeForEngland }) => {
-  //  
+  //
   //   const isMidGrey = benchmarkOptions !== areaCodeForEngland;
   //
   //   return (
@@ -263,32 +284,95 @@ export function LineChartTable({
   //   );
   // };
 
+  type AlternateBenchmarkCellProps = {
+    children?: React.ReactNode;
+    benchmarkOptions: string | undefined;
+    label: 'group' | 'benchmark';
+  };
+
+  const AlternateBenchmarkHeaderCell: React.FC<AlternateBenchmarkCellProps> = ({
+    children,
+    benchmarkOptions = areaCodeForEngland,
+    label,
+  }) => {
+    let CellWrapper: React.ComponentType<any>;
+    if (label === 'group') {
+      CellWrapper =
+        benchmarkOptions !== areaCodeForEngland
+          ? StyledAlternateGroupHeaderBackgroundColour
+          : StyledGroupNameHeader;
+    } else {
+      CellWrapper =
+        benchmarkOptions !== areaCodeForEngland
+          ? StyledAlternateEnglandHeaderBackgroundColour
+          : StyledStickyRightHeader;
+    }
+    return <CellWrapper>{children}</CellWrapper>;
+  };
+
+  const AlternateBenchmarkSubHeaderCellWrapper: React.FC<
+    AlternateBenchmarkCellProps
+  > = ({ children, benchmarkOptions = areaCodeForEngland, label }) => {
+    let CellWrapper: React.ComponentType<any>;
+    if (label === 'group') {
+      CellWrapper =
+        benchmarkOptions !== areaCodeForEngland
+          ? StyledAlternateGroupSubHeader
+          : StyledLightGreySubHeader;
+    } else {
+      CellWrapper =
+        benchmarkOptions !== areaCodeForEngland
+          ? StyledAlternateEnglandHeaderBackgroundColour
+          : StyledStickyRightHeader;
+    }
+    return <CellWrapper>{children}</CellWrapper>;
+  };
+
+  const AlternateBenchmarkCell: React.FC<AlternateBenchmarkCellProps> = ({
+    children,
+    benchmarkOptions = areaCodeForEngland,
+    label,
+  }) => {
+    let CellWrapper: React.ComponentType<any>;
+    if (label === 'group') {
+      CellWrapper =
+        benchmarkOptions !== areaCodeForEngland
+          ? StyledAlternateGroupBenchmarkCell
+          : StyledGroupValueTableCell;
+    } else {
+      CellWrapper =
+        benchmarkOptions !== areaCodeForEngland
+          ? StyledAlternateEnglandBenchmarkCell
+          : StyledStickyRight;
+    }
+    return <CellWrapper>{children}</CellWrapper>;
+  };
+
   const englandColumnPrefix =
     benchmarkOptions !== areaCodeForEngland ? '' : 'Benchmark: ';
   const groupColumnPrefix =
     benchmarkOptions !== areaCodeForEngland ? 'Benchmark: ' : 'Group: ';
 
-  const BenchmarkHeaderCellWrapper = benchmarkOptions !== areaCodeForEngland
-    ? StyledAlternateEnglandColumn
-    : StyledStickyRightHeader;
+    // const BenchmarkHeaderCellWrapper = benchmarkOptions !== areaCodeForEngland
+    //   ? StyledAlternateEnglandColumn
+    //   : StyledStickyRightHeader;
+    //
+    // const GroupHeaderCellWrapper = benchmarkOptions !== areaCodeForEngland
+    //   ? StyledAlternateGroupColumn
+    //   : StyledGroupNameHeader;
 
-  const GroupHeaderCellWrapper = benchmarkOptions !== areaCodeForEngland
-    ? StyledAlternateGroupColumn
-    : StyledGroupNameHeader;
-
-const getAlternateBenchmarkCellBackgroundColour = (label: 'group' | 'benchmark' ) => {
-  if(label === 'group') {
-    return benchmarkOptions !== areaCodeForEngland
-      ? GovukColours.MidGrey
-      : GovukColours.LightGrey;
+  const getAlternateBenchmarkCellBackgroundColour = (label: 'group' | 'benchmark' ) => {
+    if(label === 'group') {
+      return benchmarkOptions !== areaCodeForEngland
+        ? GovukColours.MidGrey
+        : GovukColours.LightGrey;
+    }
+    if(label === 'benchmark') {
+      return benchmarkOptions !== areaCodeForEngland
+        ? GovukColours.LightGrey
+        : GovukColours.MidGrey;
+    }
   }
-  if(label === 'benchmark') {
-    return benchmarkOptions !== areaCodeForEngland
-      ? GovukColours.LightGrey
-      : GovukColours.MidGrey;
-  }
-}
-  
 
   if (englandBenchmarkData && healthIndicatorData.length === 0) {
     healthIndicatorData = [englandBenchmarkData];
@@ -388,8 +472,6 @@ const getAlternateBenchmarkCellBackgroundColour = (label: 'group' | 'benchmark' 
                     </StyledTrendContainer>
                   </StyledAlignTrendHeader>
                 ))}
-                {showGroupColumn ? <StyledTitleCell/> : null}
-                {showBenchmarkColumn ? <StyledStickyRightHeader style={{ backgroundColor: getAlternateBenchmarkCellBackgroundColour('benchmark') }} /> : null}
               </Table.Row>
               <Table.Row>
                 <Table.CellHeader />
@@ -399,14 +481,22 @@ const getAlternateBenchmarkCellBackgroundColour = (label: 'group' | 'benchmark' 
                   </StyledAreaNameHeader>
                 ))}
                 {showGroupColumn ? (
-                  <GroupHeaderCellWrapper data-testid="group-header">
+                  <AlternateBenchmarkHeaderCell
+                    data-testid="group-header"
+                    label="group"
+                    benchmarkOptions={benchmarkOptions}
+                  >
                     {groupColumnPrefix} {groupIndicatorData?.areaName}
-                  </GroupHeaderCellWrapper>
+                  </AlternateBenchmarkHeaderCell>
                 ) : null}
                 {showBenchmarkColumn ? (
-                  <BenchmarkHeaderCellWrapper data-testid="england-header">
+                  <AlternateBenchmarkHeaderCell
+                    data-testid="england-header"
+                    label="benchmark"
+                    benchmarkOptions={benchmarkOptions}
+                  >
                     {englandColumnPrefix} <br /> England
-                  </BenchmarkHeaderCellWrapper>
+                  </AlternateBenchmarkHeaderCell>
                 ) : null}
               </Table.Row>
               {confidenceLimit ? (
@@ -424,8 +514,18 @@ const getAlternateBenchmarkCellBackgroundColour = (label: 'group' | 'benchmark' 
                       </StyledConfidenceLimitsHeader>
                     </React.Fragment>
                   ))}
-                  {showGroupColumn ? <StyledLightGreyHeader style={{ backgroundColor: getAlternateBenchmarkCellBackgroundColour('group') }} /> : null}
-                  {showBenchmarkColumn ? <StyledStickyRightHeader style={{ backgroundColor: getAlternateBenchmarkCellBackgroundColour('benchmark') }} /> : null}
+                  {showGroupColumn ? (
+                    <AlternateBenchmarkCell
+                      label="group"
+                      benchmarkOptions={benchmarkOptions}
+                    />
+                  ) : null}
+                  {showBenchmarkColumn ? (
+                    <AlternateBenchmarkCell
+                      label="benchmark"
+                      benchmarkOptions={benchmarkOptions}
+                    />
+                  ) : null}
                 </Table.Row>
               ) : null}
 
@@ -454,19 +554,19 @@ const getAlternateBenchmarkCellBackgroundColour = (label: 'group' | 'benchmark' 
                     ))
                 )}
                 {showGroupColumn ? (
-                  <StyledLightGreySubHeader style={{ backgroundColor: getAlternateBenchmarkCellBackgroundColour('group') }}>
+                  <AlternateBenchmarkSubHeaderCellWrapper benchmarkOptions={benchmarkOptions} label="group">
                     Value
                     <StyledSpan>{indicatorMetadata?.unitLabel}</StyledSpan>
-                  </StyledLightGreySubHeader>
+                  </AlternateBenchmarkSubHeaderCellWrapper>
                 ) : null}
                 {showBenchmarkColumn ? (
-                  <StyledStickyRightHeader
+                  <AlternateBenchmarkSubHeaderCellWrapper
                     data-testid={`header-benchmark-value`}
-                    style={{ backgroundColor: getAlternateBenchmarkCellBackgroundColour('benchmark') }}
+                    benchmarkOptions={benchmarkOptions} label="benchmark"
                   >
                     {LineChartTableHeadingEnum.BenchmarkValue}{' '}
                     <StyledSpan>{indicatorMetadata?.unitLabel}</StyledSpan>
-                  </StyledStickyRightHeader>
+                  </AlternateBenchmarkSubHeaderCellWrapper>
                 ) : null}
               </Table.Row>
             </>
@@ -502,14 +602,14 @@ const getAlternateBenchmarkCellBackgroundColour = (label: 'group' | 'benchmark' 
                 </React.Fragment>
               ))}
               {showGroupColumn ? (
-                <StyledGroupValueTableCell style={{ backgroundColor: getAlternateBenchmarkCellBackgroundColour('group') }}>
+                <AlternateBenchmarkCell label='group' benchmarkOptions={benchmarkOptions} >
                   {formatNumber(groupValue)}
-                </StyledGroupValueTableCell>
+                </AlternateBenchmarkCell>
               ) : null}
               {showBenchmarkColumn ? (
-                <StyledStickyRight data-testid="grey-table-cell" style={{ backgroundColor: getAlternateBenchmarkCellBackgroundColour('benchmark') }}>
+                <AlternateBenchmarkCell data-testid="grey-table-cell" label='benchmark' benchmarkOptions={benchmarkOptions}>
                   {formatNumber(benchmarkValue)}
-                </StyledStickyRight>
+                </AlternateBenchmarkCell>
               ) : null}
             </Table.Row>
           ))}
