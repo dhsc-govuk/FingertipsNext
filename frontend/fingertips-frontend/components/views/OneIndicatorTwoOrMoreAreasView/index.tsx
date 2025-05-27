@@ -22,7 +22,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     [SearchParams.GroupTypeSelected]: selectedGroupType,
     [SearchParams.AreaTypeSelected]: selectedAreaType,
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
-    [SearchParams.OneIndTwoAreaViewBenchmarkSelected]: benchmarkAreaSelected,
+    [SearchParams.BenchmarkAreaSelected]: benchmarkAreaSelected,
   } = stateManager.getSearchState();
 
   const areaCodes = determineAreaCodes(

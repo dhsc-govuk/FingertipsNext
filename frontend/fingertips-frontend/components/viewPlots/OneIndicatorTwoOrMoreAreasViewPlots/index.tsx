@@ -49,7 +49,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
     [SearchParams.AreaTypeSelected]: selectedAreaType,
     [SearchParams.AreasSelected]: areasSelected,
-    [SearchParams.OneIndTwoAreaViewBenchmarkSelected]: benchmarkAreaSelected,
+    [SearchParams.BenchmarkAreaSelected]: benchmarkAreaSelected,
   } = searchState;
 
   const healthIndicatorData = indicatorData?.areaHealthData ?? [];
@@ -109,9 +109,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     <section data-testid="oneIndicatorTwoOrMoreAreasViewPlots-component">
       <BenchmarkSelectArea
         availableAreas={availableAreasForBenchmarking}
-        benchmarkAreaSelectedKey={
-          SearchParams.OneIndTwoAreaViewBenchmarkSelected
-        }
+        benchmarkAreaSelectedKey={SearchParams.BenchmarkAreaSelected}
         searchState={searchState}
       />
       {shouldLineChartbeShown && (

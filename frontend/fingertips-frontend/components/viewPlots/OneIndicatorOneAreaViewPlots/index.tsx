@@ -46,7 +46,7 @@ export function OneIndicatorOneAreaViewPlots({
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreasSelected]: areasSelected,
-    [SearchParams.OneIndOneAreaViewBenchmarkSelected]: benchmarkAreaSelected,
+    [SearchParams.BenchmarkAreaSelected]: benchmarkAreaSelected,
   } = searchState;
 
   const areaCodes = determineAreaCodes(areasSelected);
@@ -113,9 +113,7 @@ export function OneIndicatorOneAreaViewPlots({
     <section data-testid="oneIndicatorOneAreaViewPlot-component">
       <BenchmarkSelectArea
         availableAreas={availableAreasForBenchmarking}
-        benchmarkAreaSelectedKey={
-          SearchParams.OneIndOneAreaViewBenchmarkSelected
-        }
+        benchmarkAreaSelectedKey={SearchParams.BenchmarkAreaSelected}
         searchState={searchState}
       />
       {shouldLineChartBeShown(
