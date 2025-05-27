@@ -282,14 +282,14 @@ describe('getIndicatorData', () => {
     );
   });
 
-  it('should make appropriate calls to the healthIndicatorApi when benchmarkRefType is AreaGroup', async () => {
+  it('should make appropriate calls to the healthIndicatorApi when benchmarkRefType is SubNational', async () => {
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
       mockIndicator
     );
 
     await getIndicatorData(
       testParamsWithGroup,
-      BenchmarkReferenceType.AreaGroup
+      BenchmarkReferenceType.SubNational
     );
     expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
       3
@@ -303,8 +303,8 @@ describe('getIndicatorData', () => {
         areaCodes: [testParamsWithGroup.selectedGroupCode],
         indicatorId: Number(testParamsWithGroup.indicatorSelected[0]),
         areaType: testParamsWithGroup.selectedGroupType,
-        benchmarkRefType: BenchmarkReferenceType.AreaGroup,
-        areaGroup: testParamsWithGroup.selectedGroupCode,
+        benchmarkRefType: BenchmarkReferenceType.SubNational,
+        ancestorCode: testParamsWithGroup.selectedGroupCode,
       },
       API_CACHE_CONFIG
     );
@@ -488,9 +488,9 @@ describe('determineBenchmarkRefType', () => {
     );
   });
 
-  it('should return "AreaGroup" if a non-England area is selected', () => {
+  it('should return "SubNational" if a non-England area is selected', () => {
     expect(determineBenchmarkRefType('SOME_OTHER_CODE')).toBe(
-      BenchmarkReferenceType.AreaGroup
+      BenchmarkReferenceType.SubNational
     );
   });
 });

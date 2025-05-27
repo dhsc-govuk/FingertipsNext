@@ -68,6 +68,33 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     jest.clearAllMocks();
   });
 
+  it('should render the benchmark select area drop down for the view', async () => {
+    await act(() =>
+      render(
+        <OneIndicatorOneAreaViewPlots
+          indicatorData={testHealthData}
+          searchState={searchState}
+          indicatorMetadata={mockMetaData}
+        />
+      )
+    );
+
+    await waitFor(async () => {
+      const benchmarkAreaDropDown = screen.getByRole('combobox', {
+        name: 'Select a benchmark',
+      });
+      const benchmarkAreaDropDownOptions = within(
+        benchmarkAreaDropDown
+      ).getAllByRole('option');
+
+      expect(benchmarkAreaDropDown).toBeInTheDocument();
+      expect(benchmarkAreaDropDownOptions).toHaveLength(1);
+      benchmarkAreaDropDownOptions.forEach((option) => {
+        expect(option.textContent).toBe('England');
+      });
+    });
+  });
+
   it('should render the LineChart components', async () => {
     await act(() =>
       render(
@@ -85,17 +112,6 @@ describe('OneIndicatorOneAreaViewPlots', () => {
           name: 'Indicator data over time',
         })
       ).toBeInTheDocument();
-
-      const benchmarkAreaDropDown = screen.getByRole('combobox', {
-        name: 'Select a benchmark',
-      });
-      const benchmarkAreaDropDownOptions = within(
-        benchmarkAreaDropDown
-      ).getAllByRole('option');
-
-      expect(benchmarkAreaDropDown).toBeInTheDocument();
-      expect(benchmarkAreaDropDownOptions).toHaveLength(1);
-      expect(benchmarkAreaDropDownOptions[0].textContent).toBe('England');
 
       expect(
         screen.getByTestId('tabContainer-lineChartAndTable')

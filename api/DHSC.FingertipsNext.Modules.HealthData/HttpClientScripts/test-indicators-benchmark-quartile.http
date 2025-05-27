@@ -21,6 +21,29 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85
     });
 %}
 
+### Basic Quartile generation benchmark against AreaGroup
+GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85008&area_type=gps&ancestor_code=U79121&benchmark_ref_type=SubNational
+
+> {%
+    client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
+        const expected = [{
+            "indicatorId": 94063,
+            "polarity": "NoJudgement",
+            "year": 2023,
+            "q0Value": 70.0729927007299,
+            "q1Value": 73.8372093023256,
+            "q2Value": 76.1904761904762,
+            "q3Value": 79.0476190476191,
+            "q4Value": 80.1242236024845,
+            "areaValue": 76.1904761904762,
+            "ancestorValue": 76.4550264550265,
+            "englandValue": 69.8972433785404
+        }]
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+
 ### check quartile calculation for two indicators
 GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids=90453&area_code=N85008&area_type=gps&ancestor_code=U79121
 
@@ -58,8 +81,43 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids
         client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
     });
 %}
-
-### check Quartile comparison where ancestor has no data and returns null
+### check quartile calculation for two indicators Benchamrk against AreaGroup
+GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids=90453&area_code=N85008&area_type=gps&ancestor_code=U79121&benchmark_ref_type=SubNational
+> {%
+    client.test("Calculate Quartile for two indicators", function (callbackfn, thisArg) {
+        const expected = [
+            {
+            "indicatorId": 94063,
+            "polarity": "NoJudgement",
+            "year": 2023,
+            "q0Value": 70.0729927007299,
+            "q1Value": 73.8372093023256,
+            "q2Value": 76.1904761904762,
+            "q3Value": 79.0476190476191,
+            "q4Value": 80.1242236024845,
+            "areaValue": 76.1904761904762,
+            "ancestorValue": 76.4550264550265,
+            "englandValue": 69.8972433785404
+        },
+        {
+            "indicatorId": 90453,
+            "polarity": "NoJudgement",
+            "year": 2024,
+            "q0Value": 26.36997,
+            "q1Value": 26.53913,
+            "q2Value": 27.07651,
+            "q3Value": 28.93029,
+            "q4Value": 35.47526,
+            "areaValue": 28.93029,
+            "ancestorValue": 29.8274473053626,
+            "englandValue": 27.15399
+        }
+        ];
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+### check Quartile comparison where area group has no data and returns null
 GET http://localhost:5144/indicators/quartiles?indicator_ids=241&area_code=N85008&area_type=gps&ancestor_code=U79121
 
 > {%
@@ -106,11 +164,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=999999&area_code=N8
     });
 %}
 
-### check Quartile comparison where ancestor_code is unknown
+### check Quartile comparison where area group is undefined
 GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_code=N85008&area_type=gps
 
 > {%
-    client.test("check Quartile comparison where ancestor_code is unknown", function (callbackfn, thisArg) {
+    client.test("check Quartile comparison where area group is undefined", function (callbackfn, thisArg) {
         const expected = [{
             "indicatorId": 90453,
             "polarity": "NoJudgement",
@@ -130,11 +188,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_code=N85
     });
 %}
 
-### check Quartile comparison where area_code is unknown
+### check Quartile comparison where area_code is undefined
 GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_type=gps
 
 > {%
-    client.test("check Quartile comparison where area_code is unknown", function (callbackfn, thisArg) {
+    client.test("check Quartile comparison where area_code is undefined", function (callbackfn, thisArg) {
         const expected = [{
             "indicatorId": 90453,
             "polarity": "NoJudgement",
@@ -169,7 +227,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_type=err
             "q4Value": null,
             "areaValue": null,
             "ancestorValue": null,
-            "englandValue": null
+            "englandValue": 27.15399
         }]
         client.assert(response.status === 200, "Response status is not 200");
         client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
@@ -246,10 +304,22 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94103&area_code=E09
     });
 %}
 
+### check Quartile comparison when benmchmrk_ref_type is AreaGroup and AreaGroup is not supplied
+GET http://localhost:5144/indicators/quartiles?indicator_ids=94103&area_code=E09000027&area_type=districts-and-unitary-authorities&benchmark_ref_type=SubNational
+> {%
+    client.test("check Quartile comparison for district", function (callbackfn, thisArg) {
+        const expected = {
+            "message": "Parameter ancestor_code must be supplied if benchmark_ref_type is set to SubNational."
+        }
+        client.assert(response.status === 400, "Response status is not 400");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+
 ### check Quartile comparison against Fingertips - https://fingertips.phe.org.uk/profile/dementia/data#page/1
 GET http://localhost:5144/indicators/quartiles?indicator_ids=91894&area_code=E54000028&area_type=nhs-integrated-care-boards&ancestor_code=E40000003
 > {%
-    client.test("check Quartile comparison for district", function (callbackfn, thisArg) {
+    client.test("check Quartile comparison for NHS Integrated Care Boards Place of death: Dementia", function (callbackfn, thisArg) {
         const expected = [{
             "indicatorId": 91894,
             "polarity": "NoJudgement",
@@ -292,21 +362,182 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93085&area_code=E09
 %}
 
 ### check Quartile comparison when there is insufficient data
-GET http://localhost:5144/indicators/quartiles?indicator_ids=247&area_code=E92000001&area_type=england
+GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_code=D83060&area_type=gps&ancestor_code=U10430&benchmark_ref_type=SubNational
 > {%
     client.test("check Quartile comparison when there is in sufficient data", function (callbackfn, thisArg) {
         const expected = [{
-            "indicatorId": 247,
+            "indicatorId": 90453,
             "polarity": "NoJudgement",
-            "year": 2023,
+            "year": 2024,
             "q0Value": null,
             "q1Value": null,
             "q2Value": null,
             "q3Value": null,
             "q4Value": null,
-            "areaValue": 0.762577202179734,
-            "ancestorValue": null,
-            "englandValue": 0.762577202179734
+            "areaValue": 28.32882,
+            "ancestorValue": 26.7614436271931,
+            "englandValue": 27.15399
+        }]
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+
+### Basic Quartile GP benchmarked against ICB-Sub 
+GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85008&area_type=gps&ancestor_code=E38000208&benchmark_ref_type=SubNational
+
+> {%
+    client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
+        const expected = [  {
+            "indicatorId": 94063,
+            "polarity": "NoJudgement",
+            "year": 2023,
+            "q0Value": 62.0320855614973,
+            "q1Value": 70.4697986577181,
+            "q2Value": 74.9244712990937,
+            "q3Value": 79.0476190476191,
+            "q4Value": 84.5161290322581,
+            "areaValue": 76.1904761904762,
+            "ancestorValue": 72.5647792706334,
+            "englandValue": 69.8972433785404
+        }]
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+
+### Basic Quartile Sub-ICB benchmarked against ICB 
+GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38000208&area_type=nhs-sub-integrated-care-boards&ancestor_code=E54000008&benchmark_ref_type=SubNational
+
+> {%
+    client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
+        const expected = [   {
+            "indicatorId": 94063,
+            "polarity": "NoJudgement",
+            "year": 2023,
+            "q0Value": 66.2418790604698,
+            "q1Value": 69.4552026852569,
+            "q2Value": 73.1362196409715,
+            "q3Value": 74.0236686390533,
+            "q4Value": 76.360153256705,
+            "areaValue": 72.5647792706334,
+            "ancestorValue": 72.0120548814339,
+            "englandValue": 69.8972433785404
+        }]
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+
+### Basic Quartile Sub-ICB benchmarked against NHS Region 
+GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38000208&area_type=nhs-sub-integrated-care-boards&ancestor_code=E40000010&benchmark_ref_type=SubNational
+
+> {%
+    client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
+        const expected = [   {
+            "indicatorId": 94063,
+            "polarity": "NoJudgement",
+            "year": 2023,
+            "q0Value": 59.2823399336617,
+            "q1Value": 66.546633057256,
+            "q2Value": 72.5647792706334,
+            "q3Value": 74.0236686390533,
+            "q4Value": 76.360153256705,
+            "areaValue": 72.5647792706334,
+            "ancestorValue": 70.7067909967071,
+            "englandValue": 69.8972433785404
+        }]
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+
+### Basic Quartile Sub-ICB benchmarked against England 
+GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38000208&area_type=nhs-sub-integrated-care-boards&ancestor_code=E40000010
+
+> {%
+    client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
+        const expected = [     {
+            "indicatorId": 94063,
+            "polarity": "NoJudgement",
+            "year": 2023,
+            "q0Value": 54.5377677564825,
+            "q1Value": 67.9388408201968,
+            "q2Value": 71.7729933525151,
+            "q3Value": 74.0390187367201,
+            "q4Value": 80.8172397550636,
+            "areaValue": 72.5647792706334,
+            "ancestorValue": 70.7067909967071,
+            "englandValue": 69.8972433785404
+        }]
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+
+### Basic Quartile District benchmarked against County 
+GET http://localhost:5144/indicators/quartiles?indicator_ids=93861&area_code=E07000223&area_type=districts-and-unitary-authorities&ancestor_code=E10000032&benchmark_ref_type=SubNational
+
+
+> {%
+    client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
+        const expected = [{
+            "indicatorId": 93861,
+            "polarity": "NoJudgement",
+            "year": 2023,
+            "q0Value": 4.48617,
+            "q1Value": 4.53989,
+            "q2Value": 4.83127,
+            "q3Value": 4.91231,
+            "q4Value": 5.13148,
+            "areaValue": 4.91231,
+            "ancestorValue": 4.75958,
+            "englandValue": 5.2205
+        }]
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+
+### Basic Quartile District benchmarked against Region
+GET http://localhost:5144/indicators/quartiles?indicator_ids=93861&area_code=E07000223&area_type=districts-and-unitary-authorities&ancestor_code=E12000008&benchmark_ref_type=SubNational
+
+
+> {%
+    client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
+        const expected = [{
+            "indicatorId": 93861,
+            "polarity": "NoJudgement",
+            "year": 2023,
+            "q0Value": 4.25991,
+            "q1Value": 4.76673,
+            "q2Value": 4.92386,
+            "q3Value": 5.29198,
+            "q4Value": 5.83444,
+            "areaValue": 4.91231,
+            "ancestorValue": 5.05386,
+            "englandValue": 5.2205
+        }]
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+
+### Basic Quartile District benchmarked against England
+GET http://localhost:5144/indicators/quartiles?indicator_ids=93861&area_code=E07000223&area_type=districts-and-unitary-authorities&ancestor_code=E12000008
+> {%
+    client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
+        const expected = [  {
+            "indicatorId": 93861,
+            "polarity": "NoJudgement",
+            "year": 2023,
+            "q0Value": 3.26941,
+            "q1Value": 4.75739,
+            "q2Value": 5.21437,
+            "q3Value": 5.56829,
+            "q4Value": 7.36706,
+            "areaValue": 4.91231,
+            "ancestorValue": 5.05386,
+            "englandValue": 5.2205
         }]
         client.assert(response.status === 200, "Response status is not 200");
         client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");

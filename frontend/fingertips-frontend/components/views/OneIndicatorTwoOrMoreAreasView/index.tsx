@@ -22,7 +22,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     [SearchParams.GroupTypeSelected]: selectedGroupType,
     [SearchParams.AreaTypeSelected]: selectedAreaType,
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
-    [SearchParams.LineChartBenchmarkAreaSelected]: lineChartAreaSelected,
+    [SearchParams.BenchmarkAreaSelected]: benchmarkAreaSelected,
   } = stateManager.getSearchState();
 
   const areaCodes = determineAreaCodes(
@@ -45,7 +45,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     selectedGroupType,
   };
 
-  const benchmarkRefType = determineBenchmarkRefType(lineChartAreaSelected);
+  const benchmarkRefType = determineBenchmarkRefType(benchmarkAreaSelected);
 
   const indicatorData = await getIndicatorData(
     indicatorsAndAreas,

@@ -1199,7 +1199,7 @@ public class IndicatorServiceTests
             [expectedAreaCode],
             string.Empty,
             expectedAreaGroupCode,
-            BenchmarkReferenceType.AreaGroup,
+            BenchmarkReferenceType.SubNational,
             [],
             []
         );
