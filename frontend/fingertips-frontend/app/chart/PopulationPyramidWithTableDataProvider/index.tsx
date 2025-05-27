@@ -1,4 +1,7 @@
-import { GetHealthDataForAnIndicatorInequalitiesEnum } from '@/generated-sources/ft-api-client';
+import {
+  BenchmarkReferenceType,
+  GetHealthDataForAnIndicatorInequalitiesEnum,
+} from '@/generated-sources/ft-api-client';
 import {
   adminIndicatorIdForPopulation,
   areaCodeForEngland,
@@ -30,6 +33,7 @@ const getPopulationData = (
         ],
       },
     ],
+    BenchmarkReferenceType.England,
     true
   );
 };

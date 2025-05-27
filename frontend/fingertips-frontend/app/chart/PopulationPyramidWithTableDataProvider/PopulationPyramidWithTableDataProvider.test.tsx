@@ -2,7 +2,10 @@ import { PopulationPyramidWithTableDataProvider } from './index';
 import { render } from '@testing-library/react';
 import { SearchParams } from '@/lib/searchStateManager';
 import { HierarchyNameTypes } from '@/lib/areaFilterHelpers/areaType';
-import { Area } from '@/generated-sources/ft-api-client';
+import {
+  Area,
+  BenchmarkReferenceType,
+} from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { API_CACHE_CONFIG } from '@/lib/apiClient/apiClientFactory';
 import { maxNumAreasThatCanBeRequestedAPI } from '@/lib/chunkArray';
@@ -106,6 +109,7 @@ describe('PopulationPyramidWithTableDataProvider', () => {
         areaCodes: [areaCodeForEngland],
         indicatorId: 92708,
         inequalities: ['age', 'sex'],
+        benchmarkRefType: BenchmarkReferenceType.England,
         latestOnly: true,
       },
       API_CACHE_CONFIG

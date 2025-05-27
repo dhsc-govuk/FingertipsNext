@@ -16,6 +16,7 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmapUtil';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import { LoaderContext } from '@/context/LoaderContext';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -23,6 +24,16 @@ jest.mock('next/navigation', () => {
   return {
     ...originalModule,
     useRouter: jest.fn().mockImplementation(() => ({})),
+  };
+});
+
+const mockLoaderContext: LoaderContext = {
+  getIsLoading: jest.fn(),
+  setIsLoading: jest.fn(),
+};
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoadingState: () => mockLoaderContext,
   };
 });
 

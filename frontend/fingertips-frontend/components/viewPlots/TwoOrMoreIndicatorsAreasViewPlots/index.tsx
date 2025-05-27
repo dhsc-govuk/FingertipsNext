@@ -15,9 +15,13 @@ import {
   buildSpineChartIndicatorData,
   SpineChartIndicatorData,
 } from '@/components/organisms/SpineChartTable/spineChartTableHelpers';
-import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
+import {
+  determineAreaCodes,
+  determineAreasForBenchmarking,
+} from '@/lib/chartHelpers/chartHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
+import { BenchmarkSelectArea } from '@/components/molecules/BenchmarkSelectArea';
 
 function shouldShowHeatmap(
   areaCodes: string[],
@@ -108,8 +112,19 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     selectedGroupCode
   );
 
+  const availableAreasForBenchmarking = determineAreasForBenchmarking(
+    indicatorData[0].areaHealthData!,
+    selectedGroupCode,
+    areasSelected
+  );
+
   return (
     <section data-testid="twoOrMoreIndicatorsAreasViewPlot-component">
+      <BenchmarkSelectArea
+        availableAreas={availableAreasForBenchmarking}
+        benchmarkAreaSelectedKey={SearchParams.BenchmarkAreaSelected}
+        searchState={searchState}
+      />
       {shouldShowSpineChart(
         areaCodes,
         spineChartIndicatorData,
