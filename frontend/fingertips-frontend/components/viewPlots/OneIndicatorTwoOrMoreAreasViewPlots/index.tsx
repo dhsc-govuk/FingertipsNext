@@ -18,7 +18,10 @@ import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { useEffect } from 'react';
 import { useSearchState } from '@/context/SearchStateContext';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
-import { IndicatorPolarity } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
 import {
@@ -86,6 +89,15 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   );
 
   const benchmarkToUse = determineBenchmarkToUse(benchmarkAreaSelected);
+
+  let benchmarkDataForThematicMapHovers,
+    groupDataForThematicMapHovers: HealthDataForArea | undefined;
+
+  benchmarkToUse === areaCodeForEngland
+    ? ((benchmarkDataForThematicMapHovers = englandData),
+      (groupDataForThematicMapHovers = groupData))
+    : ((benchmarkDataForThematicMapHovers = groupData),
+      (groupDataForThematicMapHovers = englandData));
 
   const yAxisTitle = indicatorMetadata?.unitLabel
     ? `Value: ${indicatorMetadata?.unitLabel}`
@@ -158,8 +170,8 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
             }
             polarity={polarity ?? IndicatorPolarity.Unknown}
             indicatorMetadata={indicatorMetadata}
-            benchmarkIndicatorData={englandData}
-            groupIndicatorData={groupData}
+            benchmarkIndicatorData={benchmarkDataForThematicMapHovers}
+            groupIndicatorData={groupDataForThematicMapHovers}
             areaCodes={areaCodes ?? []}
           />
         </StyleChartWrapper>

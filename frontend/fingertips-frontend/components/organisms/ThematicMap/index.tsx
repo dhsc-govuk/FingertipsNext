@@ -118,6 +118,7 @@ export function ThematicMap({
           );
         })}
         <BenchmarkLegend
+          title={`Compared to ${benchmarkIndicatorData?.areaName ?? 'England'}`}
           benchmarkComparisonMethod={benchmarkComparisonMethod}
           polarity={polarity}
         />
