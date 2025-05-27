@@ -165,11 +165,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
       )}
       <StyleChartWrapper>
         <H3>Compare an indicator by areas</H3>
-        <BenchmarkSelectArea
-          availableAreas={availableAreasForBenchmarking}
-          benchmarkAreaSelectedKey={SearchParams.BenchmarkAreaSelected}
-          searchState={searchState}
-        />
         <BarChartEmbeddedTable
           data-testid="barChartEmbeddedTable-component"
           healthIndicatorData={dataWithoutEnglandOrGroup}
