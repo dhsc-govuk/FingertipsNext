@@ -66,8 +66,8 @@ export default async function OneIndicatorOneAreaView({
         ],
         areaType: areaTypeToUse,
         benchmarkRefType,
-        areaGroup:
-          benchmarkRefType === BenchmarkReferenceType.AreaGroup
+        ancestorCode:
+          benchmarkRefType === BenchmarkReferenceType.SubNational
             ? selectedGroupCode
             : undefined,
       },

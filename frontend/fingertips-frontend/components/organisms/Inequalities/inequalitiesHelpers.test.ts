@@ -175,7 +175,8 @@ const mockInequalitiesRowData: InequalitiesTableRowData[] = [
   },
 ];
 
-const mockChartData = {
+const mockChartData: InequalitiesChartData = {
+  areaCode: 'A1425',
   areaName: 'North FooBar',
   rowData: [...mockInequalitiesRowData],
 };
@@ -625,6 +626,7 @@ describe('generateLineChartSeriesData', () => {
 
   it('should use the expected styling for deprivation data', () => {
     const mockChartData = {
+      areaCode: 'A1425',
       areaName: 'North FooBar',
       rowData: [
         {
@@ -829,6 +831,7 @@ describe('generateLineChartSeriesData', () => {
   it('should only include years for which the selected areas have data', () => {
     const areasSelected = ['A1'];
     const mockChartDataWithExtraYears: InequalitiesChartData = {
+      areaCode: 'A1425',
       areaName: 'A1',
       rowData: [
         ...mockInequalitiesRowData,
@@ -870,6 +873,7 @@ describe('generateLineChartSeriesData', () => {
   it('should include CIs for aggregate series only for years for which the selected areas have data', () => {
     const areasSelected = ['A1'];
     const mockChartDataWithExtraYears: InequalitiesChartData = {
+      areaCode: 'A1425',
       areaName: 'A1',
       rowData: [
         ...mockInequalitiesRowData,
