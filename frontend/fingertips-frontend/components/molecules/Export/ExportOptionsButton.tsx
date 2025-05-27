@@ -4,6 +4,9 @@ import { Options } from 'highcharts';
 import { ExportPreviewOptions } from '@/components/molecules/Export/ExportPreviewOptions';
 import { useModal } from '@/context/ModalContext';
 import { CsvData } from '@/lib/downloadHelpers/convertToCsv';
+import styled from 'styled-components';
+
+const ButtonWithMargin = styled(Button)({ marginTop: '1rem' });
 
 interface ExportOptionsButtonProps {
   targetId: string;
@@ -30,5 +33,5 @@ export const ExportOptionsButton: FC<ExportOptionsButtonProps> = ({
       ),
     });
   };
-  return <Button onClick={onClick}>Export options</Button>;
+  return <ButtonWithMargin onClick={onClick}>Export options</ButtonWithMargin>;
 };

@@ -766,6 +766,10 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
   max-width: 15px;
 }
 
+.c1 {
+  margin-top: 1rem;
+}
+
 @media print {
   .c0 {
     font-size: 14px;
@@ -851,7 +855,7 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
 }
 
 <button
-    class="c0"
+    class="c0 c1"
   >
     Export options
   </button>
