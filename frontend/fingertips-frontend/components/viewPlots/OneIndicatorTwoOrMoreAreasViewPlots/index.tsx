@@ -90,14 +90,13 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
 
   const benchmarkToUse = determineBenchmarkToUse(benchmarkAreaSelected);
 
-  let benchmarkDataForThematicMapHovers,
-    groupDataForThematicMapHovers: HealthDataForArea | undefined;
+  let benchmarkDataForThematicMapHovers = englandData;
+  let groupDataForThematicMapHovers = groupData;
 
-  benchmarkToUse === areaCodeForEngland
-    ? ((benchmarkDataForThematicMapHovers = englandData),
-      (groupDataForThematicMapHovers = groupData))
-    : ((benchmarkDataForThematicMapHovers = groupData),
-      (groupDataForThematicMapHovers = englandData));
+  if (benchmarkToUse !== areaCodeForEngland) {
+    benchmarkDataForThematicMapHovers = groupData;
+    groupDataForThematicMapHovers = englandData;
+  }
 
   const yAxisTitle = indicatorMetadata?.unitLabel
     ? `Value: ${indicatorMetadata?.unitLabel}`
@@ -117,6 +116,9 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
       accessibilityLabel: 'A line chart showing healthcare data',
     }
   );
+
+  console.log('benchmarkToUse', benchmarkToUse);
+  console.log('availableAreasForBenchmarking', availableAreasForBenchmarking);
 
   return (
     <section data-testid="oneIndicatorTwoOrMoreAreasViewPlots-component">
