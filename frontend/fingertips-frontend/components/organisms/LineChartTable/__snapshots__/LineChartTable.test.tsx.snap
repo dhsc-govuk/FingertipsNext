@@ -793,7 +793,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
 }
 
 .c1 {
-  margin-top: 2px;
+  margin-top: 1rem;
 }
 
 @media print {
@@ -1847,7 +1847,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
 }
 
 .c1 {
-  margin-top: 2px;
+  margin-top: 1rem;
 }
 
 @media print {
