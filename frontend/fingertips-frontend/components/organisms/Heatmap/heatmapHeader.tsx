@@ -1,6 +1,6 @@
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { H4, Table } from 'govuk-react';
-import { FC } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import {
   HeaderType,
@@ -9,45 +9,39 @@ import {
 } from './heatmapUtil';
 
 const StyledDivRotate = styled.div({
-  transform: 'translate(-15px) rotate(30deg)',
-  transformOrigin: 'bottom right',
+  position: 'relative',
+  height: '50px',
+  h4: {
+    top: 0,
+    left: 0,
+    padding: '4px 8px',
+    transformOrigin: 'top left',
+  },
+});
+
+const StyledH4Header = styled(H4)({
+  height: '50px',
+  margin: 0,
+});
+
+const StyledH4IndicatorHeader = styled(StyledH4Header)({
+  width: `${heatmapIndicatorTitleColumnWidth}px`,
 });
 
 const StyledH4AreaScaled = styled(H4)({
-  transform: 'scale(-1)',
-  transformOrigin: 'center',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
-  overflow: 'hidden',
-  maxWidth: '40px',
-  writingMode: 'vertical-lr',
-  maxHeight: '300px',
+  overflowX: 'hidden',
   display: 'block',
   margin: '0px',
 });
 
 const StyledH4BenchmarkHeader = styled(StyledH4AreaScaled)({
   backgroundColor: GovukColours.MidGrey,
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  paddingLeft: '4px',
-  paddingRight: '4px',
 });
 
 const StyledH4GroupAreaCodeHeader = styled(StyledH4AreaScaled)({
   backgroundColor: GovukColours.LightGrey,
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  paddingLeft: '4px',
-  paddingRight: '4px',
-});
-
-const StyledH4Header = styled(H4)({
-  height: '30px',
-});
-
-const StyledH4IndicatorHeader = styled(StyledH4Header)({
-  width: `${heatmapIndicatorTitleColumnWidth}px`,
 });
 
 const stickyLeft = {
@@ -55,7 +49,7 @@ const stickyLeft = {
   position: 'sticky',
   left: 0,
   zIndex: 1,
-  paddingRight: '0.5em',
+  paddingRight: '10px',
 };
 
 interface HeatmapHeaderProps {
@@ -74,7 +68,7 @@ const StyledCellHeaderArea = styled(Table.CellHeader)({
   verticalAlign: 'bottom',
   width: `${heatmapDataColumnWidth}px`,
   paddingRight: '0px',
-  paddingLeft: '1em',
+  paddingLeft: '10px',
 });
 
 const StyledCellHeaderIndicatorInformationValueUnit = styled(Table.CellHeader)({
@@ -91,10 +85,46 @@ const StyledCellHeaderIndicatorInformationPeriod = styled(Table.CellHeader)({
   textAlign: 'right',
 });
 
+const rotatingHeaders = [
+  HeaderType.BenchmarkArea,
+  HeaderType.GroupArea,
+  HeaderType.Area,
+];
+
 export const HeatmapHeader: FC<HeatmapHeaderProps> = ({
   headerType,
   content,
 }) => {
+  const elementRef = useRef<HTMLElement>(null);
+  const widthRef = useRef(0);
+
+  useEffect(() => {
+    if (widthRef.current) return; // do all this only once
+    if (!elementRef.current) return;
+    const element = elementRef.current;
+    const heading = element.querySelector('h4');
+    if (!heading) return;
+    const width = heading.clientWidth;
+    if (!widthRef.current) widthRef.current = width;
+    if (!rotatingHeaders.includes(headerType)) return;
+
+    heading.style.position = 'absolute';
+    heading.style.transform = 'translate(-10px, 15px) rotate(-60deg)';
+    const minHeight = Math.cos(Math.PI / 6) * width;
+    element.style.height = `${minHeight + 40}px`;
+
+    const tr = element.closest('tr');
+    const isLastInRow = element === tr?.lastElementChild;
+    console.log({ content, isLastInRow });
+    if (!isLastInRow) return;
+
+    const table = tr.closest('table') as HTMLTableElement;
+
+    const horizontalOverlap = Math.sin(Math.PI / 6) * width;
+    console.log({ horizontalOverlap });
+    table.style.marginRight = '100px';
+  }, [headerType, content]);
+
   switch (headerType) {
     case HeaderType.IndicatorTitle:
       return (
@@ -119,7 +149,7 @@ export const HeatmapHeader: FC<HeatmapHeaderProps> = ({
 
     case HeaderType.BenchmarkArea: {
       return (
-        <StyledCellHeaderArea>
+        <StyledCellHeaderArea ref={elementRef}>
           <StyledDivRotate>
             <StyledH4BenchmarkHeader>
               Benchmark: {content}
@@ -131,7 +161,7 @@ export const HeatmapHeader: FC<HeatmapHeaderProps> = ({
 
     case HeaderType.GroupArea: {
       return (
-        <StyledCellHeaderArea>
+        <StyledCellHeaderArea ref={elementRef}>
           <StyledDivRotate>
             <StyledH4GroupAreaCodeHeader>
               Group: {content}
@@ -143,7 +173,7 @@ export const HeatmapHeader: FC<HeatmapHeaderProps> = ({
 
     case HeaderType.Area:
       return (
-        <StyledCellHeaderArea>
+        <StyledCellHeaderArea ref={elementRef}>
           <StyledDivRotate>
             <StyledH4AreaScaled>{content}</StyledH4AreaScaled>
           </StyledDivRotate>
