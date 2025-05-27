@@ -17,30 +17,14 @@ const highlightChars = (text: string, searchHint: string) => {
   const highlightStartPos = text
     .toLowerCase()
     .indexOf(textToBeHighlighted.toLowerCase());
-  return text
-    .split('')
-    .reduce(
-      (
-        accumulator: React.JSX.Element[] & string[],
-        char: string,
-        index: number
-      ) => {
-        if (
-          highlightStartPos <= index &&
-          index < highlightStartPos + textToBeHighlighted.length
-        ) {
-          accumulator.push(
-            <StyleHighLightedText key={char + index}>
-              {char}
-            </StyleHighLightedText>
-          );
-        } else {
-          accumulator.push(char);
-        }
-        return accumulator;
-      },
-      []
-    );
+  const hightlightEndPos = highlightStartPos + textToBeHighlighted.length;
+  return [
+    text.slice(0, highlightStartPos),
+    <StyleHighLightedText key="searchMatch">
+      {textToBeHighlighted}
+    </StyleHighLightedText>,
+    text.slice(hightlightEndPos),
+  ];
 };
 
 export const HighlightText = ({
