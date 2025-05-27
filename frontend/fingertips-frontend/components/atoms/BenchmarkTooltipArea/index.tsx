@@ -2,6 +2,7 @@ import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
   HealthDataForArea,
+  HealthDataPoint,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import {
@@ -9,6 +10,7 @@ import {
   getConfidenceLimitNumber,
   sortHealthDataPointsByDescendingYear,
 } from '@/lib/chartHelpers/chartHelpers';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 import { formatNumber } from '@/lib/numberFormatter';
 import { GovukColours } from '@/lib/styleHelpers/colours';
@@ -39,19 +41,12 @@ export function BenchmarkTooltipArea({
     mostRecentDataPoint?.benchmarkComparison?.outcome ??
     BenchmarkOutcome.NotCompared;
 
-  const areaMarkerSymbol = () => {
-    switch (true) {
-      case tooltipType === 'benchmark':
-        return SymbolsEnum.Circle;
-      case !mostRecentDataPoint?.benchmarkComparison?.outcome:
-        return SymbolsEnum.MultiplicationX;
-      case benchmarkComparisonMethod === BenchmarkComparisonMethod.Unknown:
-      case benchmarkOutcome === BenchmarkOutcome.NotCompared:
-        return SymbolsEnum.WhiteCircle;
-      default:
-        return SymbolsEnum.Circle;
-    }
-  };
+  const areaMarkerSymbol = getAreaMarkerSymbol(
+    tooltipType,
+    mostRecentDataPoint,
+    benchmarkComparisonMethod,
+    indicatorData.areaCode === areaCodeForEngland
+  );
 
   let benchmarkColour = getBenchmarkColour(
     benchmarkComparisonMethod,
@@ -66,8 +61,11 @@ export function BenchmarkTooltipArea({
   }
 
   return (
-    <div data-testid={'benchmark-tooltip-area'} style={{ marginBlock: '10px' }}>
-      <div style={{ textWrap: 'wrap' }}>
+    <div
+      data-testid={'benchmark-tooltip-area'}
+      style={{ marginBlock: '10px', textWrap: 'wrap' }}
+    >
+      <div>
         <b>{getAreaTitle(indicatorData.areaName, tooltipType)}</b>
         <p style={{ marginBlock: 0 }}>{mostRecentDataPoint?.year ?? null}</p>
       </div>
@@ -110,6 +108,29 @@ export function BenchmarkTooltipArea({
   );
 }
 
+function getAreaMarkerSymbol(
+  tooltipType: string,
+  mostRecentDataPoint: HealthDataPoint,
+  benchmarkComparisonMethod: string,
+  EnglandIsGroup: boolean
+) {
+  return () => {
+    switch (true) {
+      case tooltipType === 'benchmark':
+        return SymbolsEnum.Circle;
+      case !mostRecentDataPoint?.benchmarkComparison?.outcome &&
+        !EnglandIsGroup:
+        return SymbolsEnum.MultiplicationX;
+      case benchmarkComparisonMethod === BenchmarkComparisonMethod.Unknown:
+      case mostRecentDataPoint.benchmarkComparison?.outcome ===
+        BenchmarkOutcome.NotCompared:
+        return SymbolsEnum.WhiteCircle;
+      default:
+        return SymbolsEnum.Circle;
+    }
+  };
+}
+
 function getComparisonText(
   benchmarkArea: string,
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
@@ -139,7 +160,7 @@ function getComparisonText(
   return (
     <>
       <span style={{ display: 'block' }}>{comparisonText()}</span>
-      {benchmarkConfidenceLimit ? (
+      {benchmarkConfidenceLimit && benchmarkArea !== 'England' ? (
         <span style={{ display: 'block' }}>({benchmarkConfidenceLimit}%)</span>
       ) : null}
     </>
@@ -151,8 +172,7 @@ function getAreaTitle(areaName: string, tooltipType: TooltipType) {
     case 'benchmark':
       return `Benchmark: ${areaName}`;
     case 'group':
-      return `Group: ${areaName}`;
-
+      return areaName !== 'England' ? `Group: ${areaName}` : areaName;
     default:
       return areaName;
   }
