@@ -336,7 +336,7 @@ describe('BarChartEmbeddedTable', () => {
       },
     ];
 
-    render(<BarChartEmbeddedTable healthIndicatorData={emptyRowData} />);
+    render(<BarChartEmbeddedTable healthIndicatorData={emptyRowData} benchmarkToUse={areaCodeForEngland} />);
 
     const noValueCells = await screen.findAllByText('X');
     expect(noValueCells).toHaveLength(4);
