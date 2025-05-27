@@ -111,6 +111,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
       areaCode: areaCodes[0],
       ancestorCode: selectedGroupCode ?? areaCodeForEngland,
       areaType: selectedAreaType,
+      benchmarkRefType,
     },
     API_CACHE_CONFIG
   );
