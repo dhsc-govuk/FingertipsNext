@@ -4,17 +4,18 @@ import Highcharts from 'highcharts';
 export const getHtmlToImageCanvas = async (targetId: string) => {
   const element = document.getElementById(targetId);
   if (!element) return;
-  const parent = element.parentElement;
-
-  if (!parent) return;
-  parent.style.overflowX = 'visible';
 
   const canvas = await html2canvas(element, {
     scale: 2.5,
+    onclone: (clonedDocument) => {
+      const chartPageContent =
+        clonedDocument.getElementById('chartPageContent');
+      if (!chartPageContent) return;
+      chartPageContent.style.width = 'min-content';
+    },
   });
   canvas.style.width = '100%';
   canvas.style.height = 'auto';
-  parent.style.removeProperty('overflow-x');
 
   return canvas;
 };

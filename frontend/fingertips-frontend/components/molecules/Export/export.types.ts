@@ -28,4 +28,6 @@ export enum CsvHeader {
   AgeRange = 'Age range',
   Male = 'Male',
   Female = 'Female',
+  WorstLowest = 'Worst/Lowest',
+  BestHighest = 'Best/Highest',
 }
