@@ -44,6 +44,10 @@ export default async function TwoOrMoreIndicatorsAreasView({
     throw new Error('invalid areas selected passed to view');
   }
 
+  if (!selectedAreaType) {
+    throw new Error('selected area type required for view');
+  }
+
   if (
     !selectedIndicatorsData ||
     selectedIndicatorsData.length !== indicatorsSelected.length

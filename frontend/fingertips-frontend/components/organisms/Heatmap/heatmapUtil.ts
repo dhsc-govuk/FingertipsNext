@@ -271,6 +271,7 @@ const extractAreasIndicatorsAndDataPoints = (
       if (
         healthData.areaCode !== areaCodeForEngland &&
         healthData.areaCode !== groupAreaCode && // TODO JH [1] Do we need this line? Why is it here?
+        healthData.healthData.length > 0 &&
         healthData.healthData[0].year > latestDataPeriod
       ) {
         latestDataPeriod = healthData.healthData[0].year;

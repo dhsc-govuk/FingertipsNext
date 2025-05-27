@@ -18,10 +18,7 @@ import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { useEffect } from 'react';
 import { useSearchState } from '@/context/SearchStateContext';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
-import {
-  IndicatorPolarity,
-  IndicatorWithHealthDataForArea,
-} from '@/generated-sources/ft-api-client';
+import { IndicatorPolarity } from '@/generated-sources/ft-api-client';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
 import {
@@ -32,7 +29,6 @@ import { BenchmarkSelectArea } from '@/components/molecules/BenchmarkSelectArea'
 
 interface OneIndicatorTwoOrMoreAreasViewPlotsProps
   extends OneIndicatorViewPlotProps {
-  indicatorDataAllAreas?: IndicatorWithHealthDataForArea;
   areaCodes?: string[];
 }
 
@@ -40,7 +36,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   indicatorData,
   indicatorMetadata,
   searchState,
-  indicatorDataAllAreas,
   areaCodes = [],
 }: Readonly<OneIndicatorTwoOrMoreAreasViewPlotsProps>) {
   const { setSearchState } = useSearchState();
@@ -54,21 +49,15 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
     [SearchParams.AreaTypeSelected]: selectedAreaType,
     [SearchParams.AreasSelected]: areasSelected,
-    [SearchParams.LineChartBenchmarkAreaSelected]: lineChartAreaSelected,
+    [SearchParams.BenchmarkAreaSelected]: benchmarkAreaSelected,
   } = searchState;
 
   const healthIndicatorData = indicatorData?.areaHealthData ?? [];
-  const healthIndicatorDataAllAreas =
-    indicatorDataAllAreas?.areaHealthData ?? [];
 
   const { benchmarkMethod, polarity } = indicatorData;
 
   const dataWithoutEnglandOrGroup = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData,
-    selectedGroupCode
-  );
-  const dataWithoutEnglandOrGroupAllAreas = seriesDataWithoutEnglandOrGroup(
-    healthIndicatorDataAllAreas,
     selectedGroupCode
   );
 
@@ -95,7 +84,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     areasSelected
   );
 
-  const benchmarkToUse = determineBenchmarkToUse(lineChartAreaSelected);
+  const benchmarkToUse = determineBenchmarkToUse(benchmarkAreaSelected);
 
   const yAxisTitle = indicatorMetadata?.unitLabel
     ? `Value: ${indicatorMetadata?.unitLabel}`
@@ -118,16 +107,14 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
 
   return (
     <section data-testid="oneIndicatorTwoOrMoreAreasViewPlots-component">
+      <BenchmarkSelectArea
+        availableAreas={availableAreasForBenchmarking}
+        benchmarkAreaSelectedKey={SearchParams.BenchmarkAreaSelected}
+        searchState={searchState}
+      />
       {shouldLineChartbeShown && (
         <StyleChartWrapper>
           <H3>Indicator data over time</H3>
-          <BenchmarkSelectArea
-            availableAreas={availableAreasForBenchmarking}
-            benchmarkAreaSelectedKey={
-              SearchParams.LineChartBenchmarkAreaSelected
-            }
-            searchState={searchState}
-          />
           <TabContainer
             id="lineChartAndTable"
             items={[
@@ -164,7 +151,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
         <StyleChartWrapper>
           <ThematicMap
             selectedAreaType={selectedAreaType}
-            healthIndicatorData={dataWithoutEnglandOrGroupAllAreas}
+            healthIndicatorData={dataWithoutEnglandOrGroup}
             benchmarkComparisonMethod={
               benchmarkMethod ?? BenchmarkComparisonMethod.Unknown
             }
