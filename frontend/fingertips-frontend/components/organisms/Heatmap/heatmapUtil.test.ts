@@ -361,6 +361,7 @@ describe('extract sorted areas, indicators, and data points', () => {
   const { areas, indicators, dataPoints } =
     extractSortedAreasIndicatorsAndDataPoints(
       placeholderHeatmapIndicatorData,
+      areaCodeForEngland,
       placeholderGroupAreaCode
     );
 

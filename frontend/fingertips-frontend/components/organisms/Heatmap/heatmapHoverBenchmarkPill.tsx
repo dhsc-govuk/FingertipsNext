@@ -15,6 +15,7 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
+import { englandAreaString } from '@/lib/chartHelpers/constants';
 
 const StyledDivSquare = styled.div({
   width: '10px',
@@ -49,6 +50,7 @@ export interface HeatmapHoverBenchmarkPillProps {
   unitLabel: string;
   outcome: HeatmapBenchmarkOutcome;
   benchmarkMethod: BenchmarkComparisonMethod;
+  benchmarkAreaName: string;
   polarity: IndicatorPolarity;
 }
 
@@ -57,6 +59,7 @@ export const HeatmapHoverBenchmarkPill: FC<HeatmapHoverBenchmarkPillProps> = ({
   unitLabel,
   outcome,
   benchmarkMethod,
+  benchmarkAreaName,
   polarity,
 }) => {
   return (
@@ -67,6 +70,7 @@ export const HeatmapHoverBenchmarkPill: FC<HeatmapHoverBenchmarkPillProps> = ({
             value={value}
             outcome={outcome}
             benchmarkMethod={benchmarkMethod}
+            benchmarkAreaName={benchmarkAreaName}
             polarity={polarity}
             data-testid="heatmap-hover-benchmark-icon"
           />
@@ -78,6 +82,7 @@ export const HeatmapHoverBenchmarkPill: FC<HeatmapHoverBenchmarkPillProps> = ({
           unitLabel={unitLabel}
           outcome={outcome}
           benchmarkMethod={benchmarkMethod}
+          benchmarkAreaName={benchmarkAreaName}
         />
       </GridCol>
     </GridRow>
@@ -87,6 +92,7 @@ export const HeatmapHoverBenchmarkPill: FC<HeatmapHoverBenchmarkPillProps> = ({
 interface BenchmarkPillIconProps {
   value?: number;
   outcome: HeatmapBenchmarkOutcome;
+  benchmarkAreaName: string;
   benchmarkMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
 }
@@ -94,6 +100,7 @@ interface BenchmarkPillIconProps {
 const BenchmarkPillIcon: FC<BenchmarkPillIconProps> = ({
   value,
   outcome,
+  benchmarkAreaName,
   benchmarkMethod,
   polarity,
 }) => {
@@ -105,8 +112,12 @@ const BenchmarkPillIcon: FC<BenchmarkPillIconProps> = ({
     return <StyledDivSquareBenchmarkNotCompared />;
   }
 
-  if (outcome === 'Baseline') {
+  if (outcome === 'Baseline' && benchmarkAreaName == englandAreaString) {
     return <StyledDivSquareBenchmarkColour $colour={GovukColours.Black} />;
+  }
+
+  if (outcome === 'Baseline') {
+    return <StyledDivSquareBenchmarkColour $colour={GovukColours.Pink} />;
   }
 
   return (
@@ -124,6 +135,7 @@ interface BenchmarkPillTextProps {
   unitLabel: string;
   outcome: HeatmapBenchmarkOutcome;
   benchmarkMethod: BenchmarkComparisonMethod;
+  benchmarkAreaName: string;
 }
 
 const BenchmarkPillText: FC<BenchmarkPillTextProps> = ({
@@ -131,6 +143,7 @@ const BenchmarkPillText: FC<BenchmarkPillTextProps> = ({
   unitLabel,
   outcome,
   benchmarkMethod,
+  benchmarkAreaName,
 }) => {
   if (value === undefined) {
     return <StyledText>No data available</StyledText>;
@@ -150,9 +163,9 @@ const BenchmarkPillText: FC<BenchmarkPillTextProps> = ({
       case outcome === BenchmarkOutcome.NotCompared:
         return `Not compared`;
       case outcome === BenchmarkOutcome.Similar:
-        return `${outcome} to England`;
+        return `${outcome} to ${benchmarkAreaName}`;
       default:
-        return `${outcome} than England`;
+        return `${outcome} than ${benchmarkAreaName}`;
     }
   };
 

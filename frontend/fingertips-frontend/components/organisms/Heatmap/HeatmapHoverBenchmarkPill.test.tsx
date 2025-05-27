@@ -8,6 +8,7 @@ import {
   BenchmarkOutcome,
 } from '@/generated-sources/ft-api-client';
 import { formatNumber } from '@/lib/numberFormatter';
+import { englandAreaString } from '@/lib/chartHelpers/constants';
 
 describe('heatmap hover benchmark pill', () => {
   const defaultValue = 123;
@@ -17,6 +18,7 @@ describe('heatmap hover benchmark pill', () => {
     value: defaultValue,
     outcome: 'NotCompared',
     benchmarkMethod: 'Unknown',
+    benchmarkAreaName: englandAreaString,
     polarity: 'Unknown',
   };
 
@@ -26,6 +28,7 @@ describe('heatmap hover benchmark pill', () => {
         unitLabel={defaultProps.unitLabel}
         outcome={defaultProps.outcome}
         benchmarkMethod={defaultProps.benchmarkMethod}
+        benchmarkAreaName={defaultProps.benchmarkAreaName}
         polarity={defaultProps.polarity}
       />
     );
@@ -40,6 +43,7 @@ describe('heatmap hover benchmark pill', () => {
         value={defaultValue}
         outcome={'Baseline'}
         benchmarkMethod={defaultProps.benchmarkMethod}
+        benchmarkAreaName={defaultProps.benchmarkAreaName}
         polarity={defaultProps.polarity}
       />
     );
@@ -59,6 +63,7 @@ describe('heatmap hover benchmark pill', () => {
         value={defaultValue}
         outcome={BenchmarkOutcome.NotCompared}
         benchmarkMethod={defaultProps.benchmarkMethod}
+        benchmarkAreaName={defaultProps.benchmarkAreaName}
         polarity={defaultProps.polarity}
       />
     );
@@ -81,6 +86,7 @@ describe('heatmap hover benchmark pill', () => {
         benchmarkMethod={
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95
         }
+        benchmarkAreaName={defaultProps.benchmarkAreaName}
         polarity={defaultProps.polarity}
       />
     );

@@ -9,6 +9,7 @@ import { useHeatmapTableData } from '@/components/organisms/Heatmap/useHeatmapTa
 import { useHeatmapHover } from '@/components/organisms/Heatmap/useHeatmapHover';
 import styled from 'styled-components';
 import { H2 } from 'govuk-react';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 const HeatmapHeading = styled(H2)({
   fontSize: '1.5rem',
@@ -18,13 +19,20 @@ const HeatmapHeading = styled(H2)({
 export interface HeatmapProps {
   indicatorData: HeatmapIndicatorData[];
   groupAreaCode?: string;
+  benchmarkAreaCode?: string;
 }
 
-export const Heatmap: FC<HeatmapProps> = ({ indicatorData, groupAreaCode }) => {
-  const { headers, rows, legendsToShow } = useHeatmapTableData(
-    indicatorData,
-    groupAreaCode
-  );
+export const Heatmap: FC<HeatmapProps> = ({
+  indicatorData,
+  groupAreaCode,
+  benchmarkAreaCode,
+}) => {
+  const { headers, rows, legendsToShow, benchmarkAreaName } =
+    useHeatmapTableData(
+      indicatorData,
+      benchmarkAreaCode ?? areaCodeForEngland,
+      groupAreaCode
+    );
   const { hover, left, top, handleMouseOverCell } = useHeatmapHover();
   return (
     <>
@@ -37,6 +45,7 @@ export const Heatmap: FC<HeatmapProps> = ({ indicatorData, groupAreaCode }) => {
           indicatorName={hover.indicatorName}
           value={hover.value}
           unitLabel={hover.unitLabel}
+          benchmarkAreaName={benchmarkAreaName}
           benchmark={hover.benchmark}
           left={left}
           top={top}

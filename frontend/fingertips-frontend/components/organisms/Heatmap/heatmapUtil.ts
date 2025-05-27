@@ -90,14 +90,16 @@ export interface HeatmapBenchmarkProps {
 
 export const extractSortedAreasIndicatorsAndDataPoints = (
   indicatorData: HeatmapIndicatorData[],
+  benchmarkAreaCode: string,
   groupAreaCode?: string
 ): {
   areas: Area[];
   indicators: Indicator[];
   dataPoints: Record<string, Record<string, DataPoint>>;
+  benchmarkAreaName: string;
 } => {
-  const { areas, indicators, dataPoints } =
-    extractAreasIndicatorsAndDataPoints(indicatorData);
+  const { areas, indicators, dataPoints, benchmarkAreaName } =
+    extractAreasIndicatorsAndDataPoints(indicatorData, benchmarkAreaCode);
 
   const precedingAreas = [areaCodeForEngland];
 
@@ -115,7 +117,12 @@ export const extractSortedAreasIndicatorsAndDataPoints = (
     return indicators[indicatorId];
   });
 
-  return { areas: sortedAreas, indicators: sortedIndicators, dataPoints };
+  return {
+    areas: sortedAreas,
+    indicators: sortedIndicators,
+    dataPoints,
+    benchmarkAreaName,
+  };
 };
 
 export const generateRows = (
@@ -221,11 +228,13 @@ const getHoverAreaName = (area: Area, groupAreaCode?: string): string => {
 
 const extractAreasIndicatorsAndDataPoints = (
   indicatorDataForAllAreas: HeatmapIndicatorData[],
-  groupAreaCode?: string
+  benchmarkAreaCode: string,
+  groupAreaCode?: string // TODO JH [1] - we never call this function with this parameter?
 ): {
   areas: Record<string, Area>;
   indicators: Record<string, Indicator>;
   dataPoints: Record<string, Record<string, DataPoint>>;
+  benchmarkAreaName: string;
 } => {
   const areas: Record<string, Area> = {};
   const indicators: Record<string, Indicator> = {};
@@ -261,7 +270,7 @@ const extractAreasIndicatorsAndDataPoints = (
       });
       if (
         healthData.areaCode !== areaCodeForEngland &&
-        healthData.areaCode !== groupAreaCode &&
+        healthData.areaCode !== groupAreaCode && // TODO JH [1] Do we need this line? Why is it here?
         healthData.healthData[0].year > latestDataPeriod
       ) {
         latestDataPeriod = healthData.healthData[0].year;
@@ -309,7 +318,14 @@ const extractAreasIndicatorsAndDataPoints = (
     indicators[indicatorData.indicatorId].latestDataPeriod = latestDataPeriod;
   });
 
-  return { areas: areas, indicators: indicators, dataPoints: dataPoints };
+  const benchmarkAreaName = areas[benchmarkAreaCode].name;
+
+  return {
+    areas: areas,
+    indicators: indicators,
+    dataPoints: dataPoints,
+    benchmarkAreaName: benchmarkAreaName,
+  };
 };
 
 const orderIndicatorsByName = (
