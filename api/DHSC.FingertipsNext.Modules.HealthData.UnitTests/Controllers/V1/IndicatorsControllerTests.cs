@@ -153,17 +153,17 @@ public class IndicatorControllerTests
     }
 
     [Fact]
-    public async Task GetIndicatorData_ReturnsBadResponse_WhenAreaGroupMissing()
+    public async Task GetIndicatorData_ReturnsBadResponse_WhenAncestorCodeMissing()
     {
         var response = await _controller.GetIndicatorDataAsync(
             indicatorId:3,
             areaCodes:["areaCode1"], 
             areaType:"",
-            areaGroup:"",
-            benchmarkRefType:BenchmarkReferenceType.AreaGroup,
+            ancestorCode:"",
+            benchmarkRefType:BenchmarkReferenceType.SubNational,
             years: [1]) as BadRequestObjectResult;
 
         response?.StatusCode.ShouldBe(400);
-        (response?.Value as SimpleError)?.Message.Contains("Missing parameter 'area_group'. When benchmark_ref_type is set to AreaGroup then the area_group parameter must be set").ShouldBeTrue();
+        (response?.Value as SimpleError)?.Message.Contains("Missing parameter 'ancestor_code'. When benchmark_ref_type is set to SubNational then the ancestor_code parameter must be set").ShouldBeTrue();
     }
 }

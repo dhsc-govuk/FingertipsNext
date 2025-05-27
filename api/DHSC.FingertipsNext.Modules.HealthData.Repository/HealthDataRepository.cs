@@ -181,7 +181,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .OrderBy(a => a.Year)];
     }
 
-    public async Task<IEnumerable<QuartileDataModel>> GetQuartileDataAsync(IEnumerable<int> indicatorIds, string areaCode, string areaTypeKey, string ancestorCode)
+    public async Task<IEnumerable<QuartileDataModel>> GetQuartileDataAsync(IEnumerable<int> indicatorIds, string areaCode, string areaTypeKey, string ancestorCode, string benchmarkAreaCode)
     {
         // Convert the array parameters into DataTables for presentation to the Stored Procedure.
         var IndicatorIdTable = new DataTable();
@@ -200,10 +200,11 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         var AreaType = new SqlParameter("@RequestedAreaType", areaTypeKey);
         var AreaCode = new SqlParameter("@RequestedArea", areaCode);
         var AncestorCode = new SqlParameter("@RequestedAncestorCode", ancestorCode);
+        var BenchmarkAreaCode = new SqlParameter("@RequestedBenchmarkCode", benchmarkAreaCode);
 
         var retVal = await _dbContext.QuartileData.FromSql
             (@$"
-              EXEC dbo.GetIndicatorQuartileDataForLatestYear @RequestedAreaType={AreaType}, @RequestedIndicatorIds={RequestedIndicators}, @RequestedArea={AreaCode}, @RequestedAncestor={AncestorCode}
+              EXEC dbo.GetIndicatorQuartileDataForLatestYear @RequestedAreaType={AreaType}, @RequestedIndicatorIds={RequestedIndicators}, @RequestedArea={AreaCode}, @RequestedAncestorCode={AncestorCode}, @RequestedBenchmarkCode={BenchmarkAreaCode}
               "
             ).ToListAsync();
 
