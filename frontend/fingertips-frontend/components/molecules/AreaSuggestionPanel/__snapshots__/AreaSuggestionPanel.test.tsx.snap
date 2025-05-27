@@ -37,6 +37,10 @@ exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
   display: block;
 }
 
+.c8 {
+  font-weight: 600;
+}
+
 .c2 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -51,7 +55,7 @@ exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
   list-style-type: none;
 }
 
-.c8 {
+.c9 {
   background-color: #E1E2E3;
   margin: auto;
   padding: 5px 8px 4px 8px;
@@ -158,57 +162,15 @@ exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
         <div
           style="flex-grow: 3; padding: 5px; text-align: left;"
         >
-          <span>
-            G
-          </span>
-          <span>
-            P
-          </span>
-          <span>
-            0
-          </span>
-          <span>
-            1
-          </span>
-          <span>
-             
-          </span>
-          <span>
-            -
-          </span>
-          <span>
-             
-          </span>
-          <span>
-            G
-          </span>
-          <span>
-            r
-          </span>
-          <span>
-            e
-          </span>
-          <span>
-            e
-          </span>
-          <span>
-            n
-          </span>
-          <span>
-            w
-          </span>
-          <span>
-            i
-          </span>
-          <span>
-            c
-          </span>
-          <span>
-            h
+          GP01 - 
+          <span
+            class="c8"
+          >
+            York
           </span>
         </div>
         <div
-          class="c8"
+          class="c9"
         >
           GPs
         </div>
@@ -240,57 +202,16 @@ exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
         <div
           style="flex-grow: 3; padding: 5px; text-align: left;"
         >
-          <span>
-            G
+          GP02 - North 
+          <span
+            class="c8"
+          >
+            York
           </span>
-          <span>
-            P
-          </span>
-          <span>
-            0
-          </span>
-          <span>
-            2
-          </span>
-          <span>
-             
-          </span>
-          <span>
-            -
-          </span>
-          <span>
-             
-          </span>
-          <span>
-            C
-          </span>
-          <span>
-            a
-          </span>
-          <span>
-            m
-          </span>
-          <span>
-            b
-          </span>
-          <span>
-            r
-          </span>
-          <span>
-            i
-          </span>
-          <span>
-            d
-          </span>
-          <span>
-            g
-          </span>
-          <span>
-            e
-          </span>
+          shire
         </div>
         <div
-          class="c8"
+          class="c9"
         >
           GPs
         </div>
@@ -322,51 +243,16 @@ exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
         <div
           style="flex-grow: 3; padding: 5px; text-align: left;"
         >
-          <span>
-            C
+          South 
+          <span
+            class="c8"
+          >
+            York
           </span>
-          <span>
-            e
-          </span>
-          <span>
-            n
-          </span>
-          <span>
-            t
-          </span>
-          <span>
-            r
-          </span>
-          <span>
-            a
-          </span>
-          <span>
-            l
-          </span>
-          <span>
-             
-          </span>
-          <span>
-            L
-          </span>
-          <span>
-            o
-          </span>
-          <span>
-            n
-          </span>
-          <span>
-            d
-          </span>
-          <span>
-            o
-          </span>
-          <span>
-            n
-          </span>
+          shire
         </div>
         <div
-          class="c8"
+          class="c9"
         >
           CT
         </div>
