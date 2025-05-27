@@ -42,6 +42,7 @@ const createPopPyramidSeriesOptions = (
   );
   const maxTick = Math.abs(Math.max(...femaleSeries, ...maleSeries));
   return {
+    exporting: { enabled: false },
     chart: {
       type: 'bar',
       height: 800,
@@ -113,7 +114,7 @@ const createPopPyramidSeriesOptions = (
                     <span style='display:block;'>
                         ${xAxisTitle}
                     <span>
-                    <span style="display:block; font-weight:'bold';">Male</span>
+                    <span style="display:block; font-weight:bold;">Male</span>
                   </div>
                 `,
           align: 'high',
@@ -149,7 +150,7 @@ const createPopPyramidSeriesOptions = (
                     <span style='display:block;'>
                         ${xAxisTitle}
                     <span>
-                     <span style='display:block; font-weight:'bold''>Female</span>
+                     <span style="display:block; font-weight:bold">Female</span>
                   </div>`,
           align: 'high',
           x: -15,

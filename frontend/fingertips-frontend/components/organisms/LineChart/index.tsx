@@ -1,12 +1,12 @@
 'use client';
 
 import Highcharts from 'highcharts';
-import { HighchartsReact } from 'highcharts-react-official';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
-import { useEffect, useState } from 'react';
-import { loadHighchartsModules } from '@/lib/chartHelpers/chartHelpers';
 import { addShowHideLinkedSeries } from './helpers/addShowHideLinkedSeries';
 import { LineChartVariant } from './helpers/generateStandardLineChartOptions';
+import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
+import { HighChartsWrapper } from '@/components/molecules/HighChartsWrapper/HighChartsWrapper';
+import { useState } from 'react';
 
 interface LineChartProps {
   lineChartOptions: Highcharts.Options;
@@ -20,7 +20,6 @@ export function LineChart({
   const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
     useState(false);
   const [visibility, setVisibility] = useState<Record<string, boolean>>({});
-  const [options, setOptions] = useState<Highcharts.Options>();
 
   addShowHideLinkedSeries(
     lineChartOptions,
@@ -29,30 +28,21 @@ export function LineChart({
     setVisibility
   );
 
-  useEffect(() => {
-    void loadHighchartsModules(() => {
-      setOptions(lineChartOptions);
-    });
-  }, [lineChartOptions]);
-
-  if (!options) {
-    return null;
-  }
-
+  const id = `${variant}LineChart-component`;
   return (
-    <div data-testid={`${variant}LineChart-component`}>
+    <div data-testid={id}>
       <ConfidenceIntervalCheckbox
         chartName={`${variant}LineChart`}
         showConfidenceIntervalsData={showConfidenceIntervalsData}
         setShowConfidenceIntervalsData={setShowConfidenceIntervalsData}
-      ></ConfidenceIntervalCheckbox>
-      <HighchartsReact
-        containerProps={{
-          'data-testid': 'highcharts-react-component-lineChart',
-        }}
-        highcharts={Highcharts}
-        options={options}
       />
+      <div id={id}>
+        <HighChartsWrapper
+          chartOptions={lineChartOptions}
+          testId={'highcharts-react-component-lineChart'}
+        />
+      </div>
+      <ExportOptionsButton targetId={id} chartOptions={lineChartOptions} />
     </div>
   );
 }

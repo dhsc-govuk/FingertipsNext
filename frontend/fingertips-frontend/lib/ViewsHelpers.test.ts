@@ -220,7 +220,7 @@ describe('getIndicatorData', () => {
       mockIndicator
     );
 
-    await getIndicatorData(testParams, true, BenchmarkReferenceType.England);
+    await getIndicatorData(testParams, BenchmarkReferenceType.England);
     expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
       2
     );
@@ -233,7 +233,6 @@ describe('getIndicatorData', () => {
         areaCodes: testParams.areasSelected,
         indicatorId: Number(testParams.indicatorSelected[0]),
         areaType: testParams.selectedAreaType,
-        includeEmptyAreas: true,
         benchmarkRefType: BenchmarkReferenceType.England,
       },
       API_CACHE_CONFIG
@@ -247,7 +246,6 @@ describe('getIndicatorData', () => {
         areaCodes: [areaCodeForEngland],
         indicatorId: Number(testParams.indicatorSelected[0]),
         areaType: 'england',
-        includeEmptyAreas: true,
         benchmarkRefType: BenchmarkReferenceType.England,
       },
       API_CACHE_CONFIG
@@ -265,11 +263,7 @@ describe('getIndicatorData', () => {
       mockIndicator
     );
 
-    await getIndicatorData(
-      testParamsWithGroup,
-      true,
-      BenchmarkReferenceType.England
-    );
+    await getIndicatorData(testParamsWithGroup, BenchmarkReferenceType.England);
     expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
       3
     );
@@ -282,7 +276,6 @@ describe('getIndicatorData', () => {
         areaCodes: [testParamsWithGroup.selectedGroupCode],
         indicatorId: Number(testParamsWithGroup.indicatorSelected[0]),
         areaType: testParamsWithGroup.selectedGroupType,
-        includeEmptyAreas: true,
         benchmarkRefType: BenchmarkReferenceType.England,
       },
       API_CACHE_CONFIG
@@ -296,7 +289,6 @@ describe('getIndicatorData', () => {
 
     await getIndicatorData(
       testParamsWithGroup,
-      true,
       BenchmarkReferenceType.AreaGroup
     );
     expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
@@ -311,7 +303,6 @@ describe('getIndicatorData', () => {
         areaCodes: [testParamsWithGroup.selectedGroupCode],
         indicatorId: Number(testParamsWithGroup.indicatorSelected[0]),
         areaType: testParamsWithGroup.selectedGroupType,
-        includeEmptyAreas: true,
         benchmarkRefType: BenchmarkReferenceType.AreaGroup,
         areaGroup: testParamsWithGroup.selectedGroupCode,
       },
@@ -331,7 +322,6 @@ describe('getIndicatorData', () => {
 
     await getIndicatorData(
       testParamsWithManyAreas,
-      true,
       BenchmarkReferenceType.England
     );
     expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
@@ -366,7 +356,6 @@ describe('getIndicatorData', () => {
 
     await getIndicatorData(
       testParamsWithGroup,
-      true,
       BenchmarkReferenceType.England,
       true
     );
@@ -381,7 +370,6 @@ describe('getIndicatorData', () => {
       {
         areaCodes: ['abc', 'def'],
         areaType: 'test_area_type',
-        includeEmptyAreas: true,
         indicatorId: 1,
         latestOnly: true,
         benchmarkRefType: BenchmarkReferenceType.England,
@@ -395,7 +383,6 @@ describe('getIndicatorData', () => {
       {
         areaCodes: [areaCodeForEngland],
         areaType: 'england',
-        includeEmptyAreas: true,
         indicatorId: 1,
         years: [2006],
       },
@@ -408,7 +395,6 @@ describe('getIndicatorData', () => {
       {
         areaCodes: ['ggg'],
         areaType: 'test_group_type',
-        includeEmptyAreas: true,
         indicatorId: 1,
         years: [2006],
       },
@@ -444,7 +430,6 @@ describe('getIndicatorData', () => {
 
     await getIndicatorData(
       testParamsWithGroup,
-      true,
       BenchmarkReferenceType.England,
       true
     );
@@ -459,7 +444,6 @@ describe('getIndicatorData', () => {
       {
         areaCodes: ['abc', 'def'],
         areaType: 'test_area_type',
-        includeEmptyAreas: true,
         indicatorId: 1,
         latestOnly: true,
         benchmarkRefType: BenchmarkReferenceType.England,
@@ -473,7 +457,6 @@ describe('getIndicatorData', () => {
       {
         areaCodes: [areaCodeForEngland],
         areaType: 'england',
-        includeEmptyAreas: true,
         indicatorId: 1,
         latestOnly: true,
       },
@@ -486,7 +469,6 @@ describe('getIndicatorData', () => {
       {
         areaCodes: ['ggg'],
         areaType: 'test_group_type',
-        includeEmptyAreas: true,
         indicatorId: 1,
         latestOnly: true,
       },

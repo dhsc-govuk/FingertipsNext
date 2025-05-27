@@ -17,6 +17,7 @@ export function generateChartOptions(props: Readonly<SpineChartProps>) {
 
   const categories = [''];
   return {
+    exporting: { enabled: false },
     chart: {
       type: 'bar',
       backgroundColor: 'transparent',

@@ -13,6 +13,8 @@ import {
 import { IndicatorMapper } from './indicatorMapper';
 import { escapeString } from '../escapeString';
 
+export const INDICATOR_SEARCH_MAX_CHARACTERS = 200;
+
 export class IndicatorSearchService implements IIndicatorSearchService {
   private readonly searchClient: SearchClient<RawIndicatorDocument>;
   private readonly mapper: IndicatorMapper;
@@ -34,6 +36,11 @@ export class IndicatorSearchService implements IIndicatorSearchService {
     isEnglandSelectedAsGroup: boolean,
     areaCodes?: string[]
   ): Promise<IndicatorDocument[]> {
+    const trimmedSearchTerm = searchTerm.slice(
+      0,
+      INDICATOR_SEARCH_MAX_CHARACTERS
+    );
+
     // If the search is not numeric, we prioritise matching the full term
     // and allow fuzzy matching against each word in the search term
     //
@@ -55,7 +62,7 @@ export class IndicatorSearchService implements IIndicatorSearchService {
       return `"${searchTerm}"^2 ${fuzzySearchTerms}`;
     };
 
-    const query = buildSearchQuery(escapeString(searchTerm));
+    const query = buildSearchQuery(escapeString(trimmedSearchTerm));
 
     // This creates an AI Search filter string which should look like
     //  associatedAreaCodes/any(a: a eq 'E09000023' or a eq 'E09000013' or a eq 'E09000025')

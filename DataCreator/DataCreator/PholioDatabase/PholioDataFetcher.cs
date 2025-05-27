@@ -65,6 +65,7 @@ SELECT
         private readonly string IndicatorSql = @"
 SELECT 
 	indicator.IndicatorID,
+	yeartypes.YearType,
 	valuetypes.ValueType,
 	denomtypes.DenominatorType,
 	cimethods.[Name] CIMethod,
@@ -99,7 +100,9 @@ JOIN
 JOIN
 	[dbo].[L_Units] units ON indicator.UnitID=units.UnitID
 JOIN 
-	[dbo].[IndicatorMetadataTextValues] metadata ON indicator.IndicatorID=metadata.IndicatorID AND metadata.[1_Name] IS NOT NULL
+	[dbo].[IndicatorMetadataTextValues] metadata ON indicator.IndicatorID=metadata.IndicatorID AND metadata.[1_Name] IS NOT NULL                            
+JOIN
+	[dbo].[L_YearTypes] yeartypes ON indicator.YearTypeID=yeartypes.YearTypeID
 WHERE
     indicator.IndicatorID IN @IndicatorIds
 ";
