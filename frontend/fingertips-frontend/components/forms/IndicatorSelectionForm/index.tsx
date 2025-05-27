@@ -215,10 +215,7 @@ export function IndicatorSelectionForm({
     if (checked) {
       stateManager.setState({
         ...searchState,
-        [SearchParams.IndicatorsSelected]: [
-          ...selectedIndicators,
-          ...allIndicatorIdsForPage,
-        ],
+        [SearchParams.IndicatorsSelected]: allIndicatorIdsForPage,
       });
     } else {
       const newSelectedIndicators = selectedIndicators.filter(
