@@ -81,7 +81,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
 
   const benchmarkRefType = determineBenchmarkRefType(benchmarkAreaSelected);
   const areaGroup =
-    benchmarkRefType === BenchmarkReferenceType.AreaGroup
+    benchmarkRefType === BenchmarkReferenceType.SubNational
       ? selectedGroupCode
       : undefined;
 

@@ -41,7 +41,7 @@ export const getHealthDataForIndicator = async (
               inequalities: requestAreas.inequalities,
               latestOnly,
               benchmarkRefType,
-              areaGroup,
+              ancestorCode: areaGroup,
             },
             API_CACHE_CONFIG
           )
