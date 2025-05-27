@@ -49,7 +49,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
     [SearchParams.AreaTypeSelected]: selectedAreaType,
     [SearchParams.AreasSelected]: areasSelected,
-    [SearchParams.LineChartBenchmarkAreaSelected]: lineChartAreaSelected,
+    [SearchParams.BenchmarkAreaSelected]: benchmarkAreaSelected,
   } = searchState;
 
   const healthIndicatorData = indicatorData?.areaHealthData ?? [];
@@ -84,7 +84,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     areasSelected
   );
 
-  const benchmarkToUse = determineBenchmarkToUse(lineChartAreaSelected);
+  const benchmarkToUse = determineBenchmarkToUse(benchmarkAreaSelected);
 
   const yAxisTitle = indicatorMetadata?.unitLabel
     ? `Value: ${indicatorMetadata?.unitLabel}`
@@ -107,16 +107,14 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
 
   return (
     <section data-testid="oneIndicatorTwoOrMoreAreasViewPlots-component">
+      <BenchmarkSelectArea
+        availableAreas={availableAreasForBenchmarking}
+        benchmarkAreaSelectedKey={SearchParams.BenchmarkAreaSelected}
+        searchState={searchState}
+      />
       {shouldLineChartbeShown && (
         <StyleChartWrapper>
           <H3>Indicator data over time</H3>
-          <BenchmarkSelectArea
-            availableAreas={availableAreasForBenchmarking}
-            benchmarkAreaSelectedKey={
-              SearchParams.LineChartBenchmarkAreaSelected
-            }
-            searchState={searchState}
-          />
           <TabContainer
             id="lineChartAndTable"
             items={[

@@ -87,7 +87,7 @@ export function getScenarioConfig(
       componentLocator: ChartPage.lineChartComponent,
       componentProps: {
         hasConfidenceIntervals: true,
-        hasBenchmark: true,
+        // hasBenchmark: true,
       },
     },
     {
