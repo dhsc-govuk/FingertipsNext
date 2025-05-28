@@ -9,7 +9,10 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import {
+  areaCodeForEngland,
+  englandAreaString,
+} from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 
 describe('Spine chart table suite', () => {
@@ -64,6 +67,12 @@ describe('Spine chart table suite', () => {
     ],
   };
 
+  const mockEngland: HealthDataForArea = {
+    ...mockGroup,
+    areaCode: areaCodeForEngland,
+    areaName: englandAreaString,
+  };
+
   const mockBenchmarkStatistics = [
     {
       indicatorId: 1,
@@ -95,6 +104,7 @@ describe('Spine chart table suite', () => {
       valueUnit: '%',
       areasHealthData: getMockHealthData(),
       groupData: mockGroup,
+      englandData: mockEngland,
       quartileData: mockBenchmarkStatistics[0],
       benchmarkComparisonMethod:
         BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
@@ -106,6 +116,7 @@ describe('Spine chart table suite', () => {
       valueUnit: 'per 100,000',
       areasHealthData: getMockHealthData(),
       groupData: mockGroup,
+      englandData: mockEngland,
       quartileData: mockBenchmarkStatistics[1],
       benchmarkComparisonMethod:
         BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
@@ -155,6 +166,7 @@ describe('Spine chart table suite', () => {
           getMockHealthData(selectedAreaTwo)
         ),
         groupData: mockGroup,
+        englandData: mockEngland,
         quartileData: mockBenchmarkStatistics[0],
         benchmarkComparisonMethod:
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
@@ -168,6 +180,7 @@ describe('Spine chart table suite', () => {
           getMockHealthData(selectedAreaTwo)
         ),
         groupData: mockGroup,
+        englandData: mockEngland,
         quartileData: mockBenchmarkStatistics[1],
         benchmarkComparisonMethod:
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95,

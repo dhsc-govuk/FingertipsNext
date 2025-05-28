@@ -8,6 +8,10 @@ import {
   IndicatorWithHealthDataForArea,
   QuartileData,
 } from '@/generated-sources/ft-api-client';
+import {
+  areaCodeForEngland,
+  englandAreaString,
+} from '@/lib/chartHelpers/constants';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
@@ -59,6 +63,12 @@ export const mockSpineGroupData = {
   ],
 };
 
+export const mockSpineEnglandData = {
+  ...mockSpineGroupData,
+  areaCode: areaCodeForEngland,
+  areaName: englandAreaString,
+};
+
 export const mockSpineQuartileData: QuartileData = {
   indicatorId: 1,
   polarity: IndicatorPolarity.HighIsGood,
@@ -78,6 +88,7 @@ export const mockSpineIndicatorData: SpineChartIndicatorData = {
     BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
   areasHealthData: [mockSpineHealthDataForArea],
   groupData: mockSpineGroupData,
+  englandData: mockSpineEnglandData,
   quartileData: mockSpineQuartileData,
 };
 
@@ -87,13 +98,17 @@ export const mockSpineIndicatorWithHealthData: IndicatorWithHealthDataForArea =
     name: 'indicator',
     polarity: IndicatorPolarity.HighIsGood,
     benchmarkMethod: BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-    areaHealthData: [mockSpineHealthDataForArea],
+    areaHealthData: [mockSpineHealthDataForArea, mockSpineEnglandData],
   };
 
 export const mockSpineIndicatorWithHealthDataWithGroup: IndicatorWithHealthDataForArea =
   {
     ...mockSpineIndicatorWithHealthData,
-    areaHealthData: [mockSpineHealthDataForArea, mockSpineGroupData],
+    areaHealthData: [
+      mockSpineHealthDataForArea,
+      mockSpineGroupData,
+      mockSpineEnglandData,
+    ],
   };
 
 export const mockSpineIndicatorWithNoHealthData: IndicatorWithHealthDataForArea =

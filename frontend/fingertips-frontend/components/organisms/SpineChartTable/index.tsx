@@ -80,6 +80,8 @@ export function SpineChartTable({
                 <SpineChartTableRow
                   indicatorData={indicatorData}
                   twoAreasRequested={areaNames.length > 1}
+                  benchmarkToUse={benchmarkToUse}
+                  searchState={searchState}
                 />
               </React.Fragment>
             ))}

@@ -21,16 +21,23 @@ import { orderStatistics } from '../SpineChart/SpineChartHelpers';
 import { SpineChartIndicatorData } from './spineChartTableHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { StyledAlignRightTableCellPaddingRight } from '@/lib/tableHelpers';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 
 export interface SpineChartTableRowProps {
   indicatorData: SpineChartIndicatorData;
+  benchmarkToUse: string;
+  searchState: SearchStateParams;
   twoAreasRequested?: boolean;
 }
 
 export const SpineChartTableRow: FC<SpineChartTableRowProps> = ({
   indicatorData,
   twoAreasRequested = false,
+  benchmarkToUse,
+  searchState,
 }) => {
+  const { [SearchParams.GroupSelected]: selectedGroupCode } = searchState;
+
   const {
     indicatorName,
     benchmarkComparisonMethod,
@@ -38,10 +45,11 @@ export const SpineChartTableRow: FC<SpineChartTableRowProps> = ({
     valueUnit,
     areasHealthData,
     groupData,
+    englandData,
     quartileData,
   } = indicatorData;
   const { best, worst } = orderStatistics(quartileData);
-  const groupIsEngland = groupData?.areaCode === areaCodeForEngland;
+  // const groupIsEngland = groupData?.areaCode === areaCodeForEngland;
 
   let twoAreasLatestPeriodMatching = true;
 
@@ -54,6 +62,17 @@ export const SpineChartTableRow: FC<SpineChartTableRowProps> = ({
   const areaNames = areasHealthData.map(
     (areaHealthData) => areaHealthData?.areaName ?? ''
   );
+
+  const alternativeBenchmarkData =
+    benchmarkToUse === areaCodeForEngland ? groupData : englandData;
+
+  const benchmarkQuartileValue =
+    benchmarkToUse === areaCodeForEngland
+      ? quartileData.englandValue
+      : quartileData.ancestorValue;
+
+  const shouldShowAlternativeBenchmark =
+    selectedGroupCode !== areaCodeForEngland;
 
   return (
     <Table.Row>
@@ -113,13 +132,13 @@ export const SpineChartTableRow: FC<SpineChartTableRowProps> = ({
         </>
       )}
 
-      {!groupIsEngland ? (
+      {shouldShowAlternativeBenchmark ? (
         <StyledGroupCell data-testid={`group-value-cell`}>
-          {formatNumber(groupData?.healthData.at(-1)?.value)}
+          {formatNumber(alternativeBenchmarkData?.healthData.at(-1)?.value)}
         </StyledGroupCell>
       ) : null}
       <StyledBenchmarkCell data-testid={`benchmark-value-cell`}>
-        {formatNumber(quartileData.englandValue)}
+        {formatNumber(benchmarkQuartileValue)}
       </StyledBenchmarkCell>
       <StyledBenchmarkCell data-testid={`benchmark-worst-cell`}>
         {formatNumber(worst)}
@@ -129,7 +148,7 @@ export const SpineChartTableRow: FC<SpineChartTableRowProps> = ({
           name={indicatorName}
           units={valueUnit}
           period={latestDataPeriod}
-          benchmarkValue={quartileData.englandValue ?? 0}
+          benchmarkValue={benchmarkQuartileValue ?? 0}
           quartileData={quartileData}
           areaOneValue={areasHealthData[0]?.healthData.at(-1)?.value}
           areaTwoValue={areasHealthData[1]?.healthData.at(-1)?.value}
@@ -141,11 +160,18 @@ export const SpineChartTableRow: FC<SpineChartTableRowProps> = ({
             areasHealthData[1]?.healthData.at(-1)?.benchmarkComparison?.outcome
           }
           groupValue={
-            !groupIsEngland ? groupData?.healthData.at(-1)?.value : undefined
+            shouldShowAlternativeBenchmark
+              ? alternativeBenchmarkData?.healthData.at(-1)?.value
+              : undefined
           }
-          groupName={!groupIsEngland ? (groupData?.areaName ?? '') : ''}
+          groupName={
+            shouldShowAlternativeBenchmark
+              ? (alternativeBenchmarkData?.areaName ?? '')
+              : ''
+          }
           groupOutcome={
-            groupData?.healthData.at(-1)?.benchmarkComparison?.outcome
+            alternativeBenchmarkData?.healthData.at(-1)?.benchmarkComparison
+              ?.outcome
           }
           benchmarkMethod={benchmarkComparisonMethod}
         />
