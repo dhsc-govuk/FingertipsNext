@@ -398,6 +398,10 @@ exports[`Inequalities table suite snapshot test - should match snapshot 1`] = `
   max-width: 15px;
 }
 
+.c1 {
+  margin-top: 1rem;
+}
+
 @media print {
   .c0 {
     font-size: 14px;
@@ -463,7 +467,7 @@ exports[`Inequalities table suite snapshot test - should match snapshot 1`] = `
 }
 
 <button
-    class="c0"
+    class="c0 c1"
   >
     Export options
   </button>

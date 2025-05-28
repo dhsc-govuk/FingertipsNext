@@ -158,9 +158,13 @@ describe('getSearchSuggestions', () => {
     const suggestions = await getSearchSuggestions('Springwood');
     expect(suggestions).toHaveLength(1);
     expect(suggestions[0]).toMatchObject({
-      areaCode: 'A81005',
-      areaName: 'Springwood Surgery',
-      areaType: 'GPs',
+      text: '*Springwood*',
+      document: {
+        areaCode: 'A81005',
+        areaName: 'Springwood Surgery',
+        areaType: 'GPs',
+        postcode: 'TS14 7DJ',
+      },
     });
   });
 

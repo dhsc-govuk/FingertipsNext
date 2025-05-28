@@ -74,12 +74,16 @@ export const PopulationPyramidWithTableDataProvider = async ({
     areaCodesToRequest
   );
 
+  const { indicatorId, name: indicatorName } = populationData;
+
   return (
     <PopulationPyramidWithTable
       healthDataForAreas={populationData?.areaHealthData ?? []}
       searchState={searchState}
       xAxisTitle="Age"
       yAxisTitle="Percentage of total population"
+      indicatorId={String(indicatorId ?? 0)}
+      indicatorName={indicatorName ?? ''}
     />
   );
 };

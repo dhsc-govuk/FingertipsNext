@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { SpineChartTableHeader } from './SpineChartTableHeader';
 
@@ -18,6 +18,8 @@ import {
   areaCodeForEngland,
   englandAreaString,
 } from '@/lib/chartHelpers/constants';
+import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
+import { convertSpineChartTableToCsv } from '@/components/organisms/SpineChartTable/convertSpineChartTableToCsv';
 
 const SpineChartHeading = styled(H2)({
   fontSize: '1.5rem',
@@ -48,6 +50,10 @@ export function SpineChartTable({
   const StyledTable =
     areaNames.length > 1 ? StyledTableMultipleAreas : StyledTableOneArea;
 
+  const csvData = useMemo(() => {
+    return convertSpineChartTableToCsv(sortedData);
+  }, [sortedData]);
+
   const groupName = sortedData[0].groupData?.areaName;
 
   const benchmarkName =
@@ -62,30 +68,33 @@ export function SpineChartTable({
 
   return (
     <>
-      <SpineChartHeading>Compare indicators by areas</SpineChartHeading>
-      <SpineChartLegend
-        benchmarkName={benchmarkName}
-        legendsToShow={methods}
-        groupName={alternativeBenchmarkName}
-        areaNames={areaNames}
-      />
+      <div id={'spineChartTable'}>
+        <SpineChartHeading>Compare indicators by areas</SpineChartHeading>
+        <SpineChartLegend
+          benchmarkName={benchmarkName}
+          legendsToShow={methods}
+          groupName={alternativeBenchmarkName}
+          areaNames={areaNames}
+        />
 
-      <StyledDivTableContainer data-testid="spineChartTable-component">
-        <StyledTable>
-          <SpineChartTableHeader
-            areaNames={areaNames}
-            groupName={sortedData[0].groupData?.areaName ?? 'Group'}
-          />
-          {sortedData.map((indicatorData) => (
-            <React.Fragment key={indicatorData.indicatorId}>
-              <SpineChartTableRow
-                indicatorData={indicatorData}
-                twoAreasRequested={areaNames.length > 1}
-              />
-            </React.Fragment>
-          ))}
-        </StyledTable>
-      </StyledDivTableContainer>
+        <StyledDivTableContainer data-testid="spineChartTable-component">
+          <StyledTable>
+            <SpineChartTableHeader
+              areaNames={areaNames}
+              groupName={sortedData[0].groupData?.areaName ?? 'Group'}
+            />
+            {sortedData.map((indicatorData) => (
+              <React.Fragment key={indicatorData.indicatorId}>
+                <SpineChartTableRow
+                  indicatorData={indicatorData}
+                  twoAreasRequested={areaNames.length > 1}
+                />
+              </React.Fragment>
+            ))}
+          </StyledTable>
+        </StyledDivTableContainer>
+      </div>
+      <ExportOptionsButton targetId={'spineChartTable'} csvData={csvData} />
     </>
   );
 }
