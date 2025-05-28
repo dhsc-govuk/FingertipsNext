@@ -14,7 +14,6 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 import { formatNumber } from '@/lib/numberFormatter';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { de } from '@faker-js/faker';
 
 type TooltipType = 'area' | 'benchmark' | 'group';
 

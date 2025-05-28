@@ -18,10 +18,7 @@ import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { useEffect } from 'react';
 import { useSearchState } from '@/context/SearchStateContext';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
-import {
-  HealthDataForArea,
-  IndicatorPolarity,
-} from '@/generated-sources/ft-api-client';
+import { IndicatorPolarity } from '@/generated-sources/ft-api-client';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
 import {
@@ -116,9 +113,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
       accessibilityLabel: 'A line chart showing healthcare data',
     }
   );
-
-  console.log('benchmarkToUse', benchmarkToUse);
-  console.log('availableAreasForBenchmarking', availableAreasForBenchmarking);
 
   return (
     <section data-testid="oneIndicatorTwoOrMoreAreasViewPlots-component">
