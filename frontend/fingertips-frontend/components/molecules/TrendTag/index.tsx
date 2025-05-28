@@ -46,6 +46,7 @@ const StyledParagraph = styled(Paragraph)(
   {
     marginBottom: '0',
     marginLeft: '0.3125em',
+    position: 'relative',
   },
   typography.font({ size: 16 })
 );

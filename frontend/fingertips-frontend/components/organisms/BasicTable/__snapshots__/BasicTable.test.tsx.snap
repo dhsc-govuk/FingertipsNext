@@ -221,6 +221,7 @@ exports[`BasicTable should match snapshot 1`] = `
 .c8 {
   margin-bottom: 0;
   margin-left: 0.3125em;
+  position: relative;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

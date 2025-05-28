@@ -94,6 +94,7 @@ exports[`Trend Tag Suite snapshot test 1`] = `
 .c4 {
   margin-bottom: 0;
   margin-left: 0.3125em;
+  position: relative;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
