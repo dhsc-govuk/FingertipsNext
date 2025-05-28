@@ -42,10 +42,8 @@ export function BenchmarkTooltipArea({
     BenchmarkOutcome.NotCompared;
 
   const areaMarkerSymbol = getAreaMarkerSymbol(
-    tooltipType,
     mostRecentDataPoint,
-    benchmarkComparisonMethod,
-    indicatorData.areaCode === areaCodeForEngland
+    benchmarkComparisonMethod
   );
 
   let benchmarkColour: string | undefined = GovukColours.Black;
@@ -115,17 +113,12 @@ export function BenchmarkTooltipArea({
 }
 
 function getAreaMarkerSymbol(
-  tooltipType: string,
   mostRecentDataPoint: HealthDataPoint,
-  benchmarkComparisonMethod: string,
-  EnglandIsGroup: boolean
+  benchmarkComparisonMethod: string
 ) {
   return () => {
     switch (true) {
-      case tooltipType === 'benchmark':
-        return SymbolsEnum.Circle;
-      case !mostRecentDataPoint?.benchmarkComparison?.outcome &&
-        !EnglandIsGroup:
+      case !mostRecentDataPoint?.benchmarkComparison?.outcome:
         return SymbolsEnum.MultiplicationX;
       case benchmarkComparisonMethod === BenchmarkComparisonMethod.Unknown:
       case mostRecentDataPoint.benchmarkComparison?.outcome ===

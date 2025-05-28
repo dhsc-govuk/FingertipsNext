@@ -407,11 +407,11 @@ export const getFormattedLabel = (
 const shouldAddGroupAreaForBenchmarking = (
   areasSelected?: string[],
   selectedGroupCode?: string,
-  selectedGroupArea?: string | undefined
+  selectedGroupArea?: string
 ): boolean => {
   return (
     (selectedGroupCode !== areaCodeForEngland &&
-      selectedGroupCode !== ALL_AREAS_SELECTED) ||
+      selectedGroupArea === ALL_AREAS_SELECTED) ||
     (Array.isArray(areasSelected) && areasSelected.length > 0)
   );
 };
