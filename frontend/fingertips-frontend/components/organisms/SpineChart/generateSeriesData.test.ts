@@ -6,12 +6,17 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { SpineChartProps } from '.';
+import {
+  areaCodeForEngland,
+  englandAreaString,
+} from '@/lib/chartHelpers/constants';
 
 describe('generateSeriesData', () => {
   const mockProps: SpineChartProps = {
     name: 'Test Indicator',
     period: 2025,
     units: '%',
+    benchmarkName: englandAreaString,
     benchmarkValue: 50,
     quartileData: {
       indicatorId: 1,
@@ -29,6 +34,7 @@ describe('generateSeriesData', () => {
     groupName: 'Test Group',
     groupOutcome: BenchmarkOutcome.Similar,
     benchmarkMethod: BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+    benchmarkToUse: areaCodeForEngland,
   };
 
   it('should generate series data correctly for valid props', () => {

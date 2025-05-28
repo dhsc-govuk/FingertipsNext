@@ -19,7 +19,10 @@ import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 import { TrendTag } from '@/components/molecules/TrendTag';
 import { orderStatistics } from '../SpineChart/SpineChartHelpers';
 import { SpineChartIndicatorData } from './spineChartTableHelpers';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import {
+  areaCodeForEngland,
+  englandAreaString,
+} from '@/lib/chartHelpers/constants';
 import { StyledAlignRightTableCellPaddingRight } from '@/lib/tableHelpers';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 
@@ -61,6 +64,9 @@ export const SpineChartTableRow: FC<SpineChartTableRowProps> = ({
   const areaNames = areasHealthData.map(
     (areaHealthData) => areaHealthData?.areaName ?? ''
   );
+
+  const benchmarkData =
+    benchmarkToUse === areaCodeForEngland ? englandData : groupData;
 
   const alternativeBenchmarkData =
     benchmarkToUse === areaCodeForEngland ? groupData : englandData;
@@ -147,6 +153,7 @@ export const SpineChartTableRow: FC<SpineChartTableRowProps> = ({
           name={indicatorName}
           units={valueUnit}
           period={latestDataPeriod}
+          benchmarkName={benchmarkData?.areaName ?? englandAreaString}
           benchmarkValue={benchmarkQuartileValue ?? 0}
           quartileData={quartileData}
           areaOneValue={areasHealthData[0]?.healthData.at(-1)?.value}
@@ -173,6 +180,7 @@ export const SpineChartTableRow: FC<SpineChartTableRowProps> = ({
               ?.outcome
           }
           benchmarkMethod={benchmarkComparisonMethod}
+          benchmarkToUse={benchmarkToUse}
         />
       </StyledBenchmarkChart>
       <StyledBenchmarkCell data-testid={`benchmark-best-cell`}>

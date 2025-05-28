@@ -9,6 +9,7 @@ import { GovukColours } from '@/lib/styleHelpers/colours';
 import { SpineChartProps } from '.';
 import { orderStatistics } from './SpineChartHelpers';
 import { formatBarHover, formatSymbolHover } from './hoverFormatters';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 const markerLineWidth = 1;
 
@@ -20,6 +21,7 @@ export function generateSeriesData({
   name,
   period,
   units,
+  benchmarkName,
   benchmarkValue,
   quartileData,
   areaOneValue,
@@ -31,6 +33,7 @@ export function generateSeriesData({
   groupName,
   groupOutcome,
   benchmarkMethod,
+  benchmarkToUse,
 }: Readonly<SpineChartProps>) {
   const {
     best,
@@ -76,6 +79,7 @@ export function generateSeriesData({
         units: units,
         colour: GovukColours.MidGrey,
         indicatorName: name,
+        benchmarkName,
       }),
       pointWidth: 30,
       color: GovukColours.MidGrey,
@@ -92,6 +96,7 @@ export function generateSeriesData({
         units: units,
         colour: GovukColours.MidGrey,
         indicatorName: name,
+        benchmarkName,
       }),
       pointWidth: 30,
       color: GovukColours.MidGrey,
@@ -108,6 +113,7 @@ export function generateSeriesData({
         units: units,
         colour: GovukColours.LightGrey,
         indicatorName: name,
+        benchmarkName,
       }),
       pointWidth: 30,
       color: GovukColours.LightGrey,
@@ -124,6 +130,7 @@ export function generateSeriesData({
         units: units,
         colour: GovukColours.LightGrey,
         indicatorName: name,
+        benchmarkName,
       }),
       pointWidth: 30,
       color: GovukColours.LightGrey,
@@ -149,7 +156,10 @@ export function generateSeriesData({
     seriesData.push({
       type: 'scatter',
       name: formatSymbolHover({
-        title: `Group: ${groupName}`,
+        title:
+          benchmarkToUse === areaCodeForEngland
+            ? `Group: ${groupName}`
+            : groupName,
         period: period,
         benchmarkComparisonMethod:
           benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
@@ -159,6 +169,7 @@ export function generateSeriesData({
         colour: fillColor,
         shape: SymbolsEnum.Diamond,
         indicatorName: name,
+        benchmarkName,
       }),
       marker: {
         symbol: 'diamond',
@@ -202,6 +213,7 @@ export function generateSeriesData({
         colour: fillColor,
         shape: index === 0 ? SymbolsEnum.Circle : SymbolsEnum.Square,
         indicatorName: name,
+        benchmarkName,
       }),
       marker: {
         symbol: index === 0 ? 'circle' : 'square',
@@ -217,7 +229,7 @@ export function generateSeriesData({
   seriesData.push({
     type: 'scatter',
     name: formatSymbolHover({
-      title: 'Benchmark: England',
+      title: `Benchmark: ${benchmarkName}`,
       period: period,
       benchmarkComparisonMethod:
         benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
@@ -226,6 +238,7 @@ export function generateSeriesData({
       colour: GovukColours.Black,
       shape: SymbolsEnum.PlotLine,
       indicatorName: name,
+      benchmarkName,
     }),
     marker: {
       fillColor: GovukColours.Black,

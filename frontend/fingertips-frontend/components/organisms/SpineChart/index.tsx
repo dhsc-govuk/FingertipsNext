@@ -11,6 +11,7 @@ export interface SpineChartProps {
   name: string;
   units: string;
   period: number;
+  benchmarkName: string;
   benchmarkValue: number;
   quartileData: QuartileData;
   areaOneValue?: number;
@@ -22,6 +23,7 @@ export interface SpineChartProps {
   groupValue?: number;
   groupName: string;
   groupOutcome?: BenchmarkOutcome;
+  benchmarkToUse: string;
 }
 
 export function SpineChart(props: Readonly<SpineChartProps>) {
