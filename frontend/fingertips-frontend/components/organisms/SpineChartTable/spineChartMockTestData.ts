@@ -26,6 +26,9 @@ export const mockSpineHealthDataForArea: HealthDataForArea = {
       trend: HealthDataPointTrendEnum.CannotBeCalculated,
       deprivation: noDeprivation,
       benchmarkComparison: {
+        benchmarkAreaCode: 'E0000001',
+        benchmarkAreaName: 'England',
+        benchmarkValue: 13.8,
         outcome: BenchmarkOutcome.Similar,
       },
     },
@@ -46,6 +49,12 @@ export const mockSpineGroupData = {
       sex: personsSex,
       trend: HealthDataPointTrendEnum.NotYetCalculated,
       deprivation: noDeprivation,
+      benchmarkComparison: {
+        benchmarkAreaCode: 'E0000002',
+        benchmarkAreaName: 'Eng',
+        benchmarkValue: 13.9,
+        outcome: BenchmarkOutcome.Worse,
+      },
     },
   ],
 };

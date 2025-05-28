@@ -42,6 +42,7 @@ describe('Inequalities BarChart suite', () => {
     expect(screen.getByText('Lower')).toBeInTheDocument();
     expect(screen.getByText('Higher')).toBeInTheDocument();
     expect(screen.getByText('Similar')).toBeInTheDocument();
+    expect(screen.getByRole('button')).toHaveTextContent('Export options');
   });
 
   it('should render the sex inequality variant with the expected changes', async () => {

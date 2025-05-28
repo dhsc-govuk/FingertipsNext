@@ -19,7 +19,7 @@
  */
 export const BenchmarkReferenceType = {
     England: 'England',
-    AreaGroup: 'AreaGroup'
+    SubNational: 'SubNational'
 } as const;
 export type BenchmarkReferenceType = typeof BenchmarkReferenceType[keyof typeof BenchmarkReferenceType];
 

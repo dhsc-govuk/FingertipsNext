@@ -2,6 +2,7 @@ import { SearchClient } from '@azure/search-documents';
 import {
   AREA_SEARCH_INDEX_NAME,
   AREA_SEARCH_SUGGESTER_NAME,
+  highlightTag,
 } from './searchTypes';
 import { AreaSearchService } from './areaSearchService';
 
@@ -48,6 +49,8 @@ describe('AreaSearchService', () => {
           select: ['areaCode', 'areaType', 'areaName', 'postcode'],
           top: 20,
           useFuzzyMatching: false,
+          highlightPreTag: highlightTag,
+          highlightPostTag: highlightTag,
         }
       );
     });
@@ -56,24 +59,27 @@ describe('AreaSearchService', () => {
       const mockSearchResults = {
         results: [
           {
+            text: '*York*',
             document: {
               areaCode: '123',
-              areaType: 'Town',
-              areaName: 'Solihull',
+              areaType: 'City',
+              areaName: 'York',
             },
           },
           {
+            text: 'North *York*shire',
             document: {
               areaCode: '234',
-              areaType: 'City',
-              areaName: 'Leeds',
+              areaType: 'Town',
+              areaName: 'North Yorkshire',
             },
           },
           {
+            text: 'South *York*shire',
             document: {
               areaCode: '345',
-              areaType: 'Mega City',
-              areaName: 'London',
+              areaType: 'Town',
+              areaName: 'South Yorkshire',
             },
           },
         ],
@@ -82,24 +88,32 @@ describe('AreaSearchService', () => {
       mockSearch.mockResolvedValue(mockSearchResults);
 
       const searchService = new AreaSearchService('someUrl', 'someKey');
-      const results =
-        await searchService.getAreaSuggestions('random search text');
+      const results = await searchService.getAreaSuggestions('york');
 
       expect(results).toEqual([
         {
-          areaCode: '123',
-          areaType: 'Town',
-          areaName: 'Solihull',
+          text: '*York*',
+          document: {
+            areaCode: '123',
+            areaType: 'City',
+            areaName: 'York',
+          },
         },
         {
-          areaCode: '234',
-          areaType: 'City',
-          areaName: 'Leeds',
+          text: 'North *York*shire',
+          document: {
+            areaCode: '234',
+            areaType: 'Town',
+            areaName: 'North Yorkshire',
+          },
         },
         {
-          areaCode: '345',
-          areaType: 'Mega City',
-          areaName: 'London',
+          text: 'South *York*shire',
+          document: {
+            areaCode: '345',
+            areaType: 'Town',
+            areaName: 'South Yorkshire',
+          },
         },
       ]);
     });

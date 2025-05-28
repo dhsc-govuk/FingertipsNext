@@ -1,6 +1,6 @@
 import { ListItem, UnorderedList, SearchIcon } from 'govuk-react';
 import styled from 'styled-components';
-import { AreaDocument } from '@/lib/search/searchTypes';
+import { SuggestionResult } from '@/lib/search/searchTypes';
 import { generateAreaDisplayString } from '@/lib/areaFilterHelpers/generateAreaDisplayString';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { usePathname, useRouter } from 'next/navigation';
@@ -53,13 +53,11 @@ const SuggestionButton = styled('button')({
 });
 
 interface AreaAutoCompleteSuggestionPanelProps {
-  suggestedAreas: AreaDocument[];
-  searchHint: string;
+  suggestedAreas: SuggestionResult[];
 }
 
 export const AreaAutoCompleteSuggestionPanel = ({
   suggestedAreas,
-  searchHint,
 }: AreaAutoCompleteSuggestionPanelProps) => {
   const { setIsLoading } = useLoadingState();
   const { getSearchState } = useSearchState();
@@ -123,12 +121,17 @@ export const AreaAutoCompleteSuggestionPanel = ({
   return (
     <StyleSearchSuggestionPanel data-testid="area-suggestion-panel">
       {suggestedAreas.map((area) => (
-        <AreaSuggestionPanelItem key={`${area.areaCode}-${area.areaType}`}>
+        <AreaSuggestionPanelItem
+          key={`${area.document.areaCode}-${area.document.areaType}`}
+        >
           <SuggestionButton
-            data-testid={`area-suggestion-item-${area.areaCode}`}
+            data-testid={`area-suggestion-item-${area.document.areaCode}`}
             onClick={(e) => {
               e.preventDefault();
-              updateUrlWithSelectedArea(area.areaCode, area.areaType);
+              updateUrlWithSelectedArea(
+                area.document.areaCode,
+                area.document.areaType
+              );
             }}
           >
             <SearchIcon
@@ -140,15 +143,15 @@ export const AreaAutoCompleteSuggestionPanel = ({
             <div style={{ flexGrow: 3, padding: '5px', textAlign: 'left' }}>
               <HighlightText
                 text={generateAreaDisplayString(
-                  area.areaCode,
-                  area.areaName,
-                  area.areaType,
-                  area.postcode
+                  area.document.areaCode,
+                  area.document.areaName,
+                  area.document.areaType,
+                  area.document.postcode
                 )}
-                searchHint={searchHint}
+                searchHint={area.text}
               />
             </div>
-            <AreaTypeTag>{area.areaType}</AreaTypeTag>
+            <AreaTypeTag>{area.document.areaType}</AreaTypeTag>
           </SuggestionButton>
         </AreaSuggestionPanelItem>
       ))}

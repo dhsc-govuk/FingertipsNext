@@ -152,7 +152,7 @@ public class HealthDataMapperTests
                 EnglandValue = 300
             }
         };
-    
+
         var expectedQuartileData = new List<IndicatorQuartileData>
         {
             new IndicatorQuartileData()

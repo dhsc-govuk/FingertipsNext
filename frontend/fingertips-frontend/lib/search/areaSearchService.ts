@@ -3,7 +3,9 @@ import {
   AREA_SEARCH_INDEX_NAME,
   AREA_SEARCH_SUGGESTER_NAME,
   AreaDocument,
+  highlightTag,
   IAreaSearchService,
+  SuggestionResult,
 } from './searchTypes';
 
 export class AreaSearchService implements IAreaSearchService {
@@ -22,7 +24,7 @@ export class AreaSearchService implements IAreaSearchService {
 
   public async getAreaSuggestions(
     partialAreaName: string
-  ): Promise<AreaDocument[]> {
+  ): Promise<SuggestionResult[]> {
     const suggestions = await this.searchClient.suggest(
       partialAreaName,
       AREA_SEARCH_SUGGESTER_NAME,
@@ -31,10 +33,15 @@ export class AreaSearchService implements IAreaSearchService {
         select: ['areaCode', 'areaType', 'areaName', 'postcode'],
         useFuzzyMatching: false,
         top: 20,
+        highlightPreTag: highlightTag,
+        highlightPostTag: highlightTag,
       }
     );
     const areaDocs = suggestions.results.map((suggestion) => {
-      return suggestion.document as AreaDocument;
+      return {
+        text: suggestion.text,
+        document: suggestion.document as AreaDocument,
+      };
     });
 
     return areaDocs;

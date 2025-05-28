@@ -11,4 +11,5 @@ export function generateAreaDisplayString(
     : areaName + formatPostcode(postcode);
 }
 
-const formatPostcode = (postcode?: string) => (postcode ? ' ' + postcode : '');
+const formatPostcode = (postcode?: string) =>
+  postcode ? '\u00A0 ' + postcode : '';
