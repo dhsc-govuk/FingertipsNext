@@ -72,6 +72,8 @@ export function SpineChartTable({
             <SpineChartTableHeader
               areaNames={areaNames}
               groupName={sortedData[0].groupData?.areaName ?? 'Group'}
+              benchmarkToUse={benchmarkToUse}
+              searchState={searchState}
             />
             {sortedData.map((indicatorData) => (
               <React.Fragment key={indicatorData.indicatorId}>
