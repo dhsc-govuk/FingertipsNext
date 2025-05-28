@@ -49,7 +49,6 @@ export const SpineChartTableRow: FC<SpineChartTableRowProps> = ({
     quartileData,
   } = indicatorData;
   const { best, worst } = orderStatistics(quartileData);
-  // const groupIsEngland = groupData?.areaCode === areaCodeForEngland;
 
   let twoAreasLatestPeriodMatching = true;
 
