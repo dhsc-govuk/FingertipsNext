@@ -8,7 +8,7 @@ import {
   heatmapIndicatorTitleColumnWidth,
 } from './heatmapUtil';
 
-const StyledDivRotate = styled.div({
+const StyledDiv = styled.div({
   position: 'relative',
   height: '50px',
 });
@@ -115,11 +115,11 @@ export const HeatmapHeader: FC<HeatmapHeaderProps> = ({
     case HeaderType.BenchmarkArea: {
       return (
         <StyledCellHeaderArea>
-          <StyledDivRotate>
+          <StyledDiv>
             <StyledH4BenchmarkHeader>
               Benchmark: {content}
             </StyledH4BenchmarkHeader>
-          </StyledDivRotate>
+          </StyledDiv>
         </StyledCellHeaderArea>
       );
     }
@@ -127,11 +127,11 @@ export const HeatmapHeader: FC<HeatmapHeaderProps> = ({
     case HeaderType.GroupArea: {
       return (
         <StyledCellHeaderArea>
-          <StyledDivRotate>
+          <StyledDiv>
             <StyledH4GroupAreaCodeHeader>
               Group: {content}
             </StyledH4GroupAreaCodeHeader>
-          </StyledDivRotate>
+          </StyledDiv>
         </StyledCellHeaderArea>
       );
     }
@@ -139,9 +139,9 @@ export const HeatmapHeader: FC<HeatmapHeaderProps> = ({
     case HeaderType.Area:
       return (
         <StyledCellHeaderArea>
-          <StyledDivRotate>
+          <StyledDiv>
             <StyledH4AreaScaled>{content}</StyledH4AreaScaled>
-          </StyledDivRotate>
+          </StyledDiv>
         </StyledCellHeaderArea>
       );
   }
