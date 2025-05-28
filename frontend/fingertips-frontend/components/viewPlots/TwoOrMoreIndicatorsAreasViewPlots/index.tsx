@@ -18,6 +18,7 @@ import {
 import {
   determineAreaCodes,
   determineAreasForBenchmarking,
+  determineBenchmarkToUse,
 } from '@/lib/chartHelpers/chartHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
@@ -73,6 +74,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.GroupAreaSelected]: groupAreaSelected,
+    [SearchParams.BenchmarkAreaSelected]: benchmarkAreaSelected,
   } = stateManager.getSearchState();
 
   const areaCodes = determineAreaCodes(
@@ -118,6 +120,8 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     areasSelected
   );
 
+  const benchmarkToUse = determineBenchmarkToUse(benchmarkAreaSelected);
+
   return (
     <section data-testid="twoOrMoreIndicatorsAreasViewPlot-component">
       <BenchmarkSelectArea
@@ -131,7 +135,10 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
         groupAreaSelected
       ) ? (
         <StyleChartWrapper>
-          <SpineChartTable indicatorData={spineChartIndicatorData} />
+          <SpineChartTable
+            indicatorData={spineChartIndicatorData}
+            benchmarkToUse={benchmarkToUse}
+          />
         </StyleChartWrapper>
       ) : null}
       {shouldShowHeatmap(areaCodes, groupAreaSelected) ? (

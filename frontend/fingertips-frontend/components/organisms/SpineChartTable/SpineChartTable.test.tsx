@@ -9,6 +9,7 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 describe('Spine chart table suite', () => {
   // Greater Manchester ICB - 00T
@@ -112,13 +113,23 @@ describe('Spine chart table suite', () => {
 
   describe('Spine chart table', () => {
     it('should render the SpineChartTable component', () => {
-      render(<SpineChartTable indicatorData={mockIndicatorData} />);
+      render(
+        <SpineChartTable
+          indicatorData={mockIndicatorData}
+          benchmarkToUse={areaCodeForEngland}
+        />
+      );
       const spineChart = screen.getByTestId('spineChartTable-component');
       expect(spineChart).toBeInTheDocument();
     });
 
     it('should render the SpineChartTable in ascending indicator order', () => {
-      render(<SpineChartTable indicatorData={mockIndicatorData} />);
+      render(
+        <SpineChartTable
+          indicatorData={mockIndicatorData}
+          benchmarkToUse={areaCodeForEngland}
+        />
+      );
 
       const indicators = screen.getAllByTestId(`indicator-cell`);
       expect(indicators[0]).toHaveTextContent('testIndicator1');
@@ -157,7 +168,12 @@ describe('Spine chart table suite', () => {
     ];
 
     it('should display data correctly for both areas', () => {
-      render(<SpineChartTable indicatorData={mockTwoAreasIndicatorData} />);
+      render(
+        <SpineChartTable
+          indicatorData={mockTwoAreasIndicatorData}
+          benchmarkToUse={areaCodeForEngland}
+        />
+      );
 
       expect(screen.getByTestId('area-header-1')).toHaveTextContent(
         'Greater Manchester ICB - 00T'
@@ -188,7 +204,12 @@ describe('Spine chart table suite', () => {
         getMockHealthData(selectedAreaTwo, true)
       );
 
-      render(<SpineChartTable indicatorData={mockDataPeriodMismatch} />);
+      render(
+        <SpineChartTable
+          indicatorData={mockDataPeriodMismatch}
+          benchmarkToUse={areaCodeForEngland}
+        />
+      );
 
       expect(screen.getByTestId('area-header-1')).toHaveTextContent(
         'Greater Manchester ICB - 00T'
