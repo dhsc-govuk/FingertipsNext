@@ -65,7 +65,7 @@ export function ChartPageWrapper({
             />
           </GridCol>
         )}
-        <GridCol setWidth={width}>
+        <GridCol setWidth={width} id={'chartPageContent'}>
           <H2>View data for selected indicators and areas</H2>
 
           {isHideFilters ? (

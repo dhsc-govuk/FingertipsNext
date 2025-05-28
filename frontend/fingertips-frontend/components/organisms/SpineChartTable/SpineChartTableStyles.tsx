@@ -20,7 +20,6 @@ export const StyledTableMultipleAreas = styled(Table)({
 
 export const StyledDivTableContainer = styled.div({
   overflowX: 'scroll',
-  maxWidth: '960px',
 });
 
 const stickyLeft = {

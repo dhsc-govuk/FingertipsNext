@@ -1,51 +1,40 @@
+import { highlightTag } from '@/lib/search/searchTypes';
 import styled from 'styled-components';
 
 const StyleHighLightedText = styled('span')({
   fontWeight: '600',
 });
 
-const highlightChar = (
-  accumulated: React.JSX.Element[],
-  textArray: string[],
-  searchHintArray: string[]
-) => {
-  if (textArray.length === 0) {
-    return accumulated;
-  }
+const highlightChars = (text: string, searchHint: string) => {
+  const highlightStart = searchHint.indexOf(highlightTag);
+  const hightlightEnd = searchHint.lastIndexOf(highlightTag);
 
-  if (
-    searchHintArray.length > 0 &&
-    textArray?.[0].toLowerCase() === searchHintArray[0].toLowerCase()
-  ) {
-    accumulated.push(
-      <StyleHighLightedText key={accumulated.length}>
-        {textArray[0]}
-      </StyleHighLightedText>
-    );
-    return highlightChar(
-      accumulated,
-      textArray.slice(1, textArray.length),
-      searchHintArray.slice(1, searchHintArray.length)
-    );
-  }
-
-  accumulated.push(<span key={accumulated.length}>{textArray[0]}</span>);
-  return highlightChar(
-    accumulated,
-    textArray.slice(1, textArray.length),
-    searchHintArray.slice(0, searchHintArray.length)
+  const textToBeHighlighted = searchHint.slice(
+    highlightStart + highlightTag.length,
+    hightlightEnd
   );
+
+  if (!text.toLowerCase().includes(textToBeHighlighted.toLowerCase()))
+    return [text];
+
+  const highlightStartPos = text
+    .toLowerCase()
+    .indexOf(textToBeHighlighted.toLowerCase());
+  const hightlightEndPos = highlightStartPos + textToBeHighlighted.length;
+
+  return [
+    text.slice(0, highlightStartPos),
+    <StyleHighLightedText key="searchMatch">
+      {text.slice(highlightStartPos, hightlightEndPos)}
+    </StyleHighLightedText>,
+    text.slice(hightlightEndPos),
+  ];
 };
 
 export const HighlightText = ({
   text,
   searchHint,
 }: Readonly<{ text: string; searchHint: string }>) => {
-  const highlightedChars = highlightChar(
-    [],
-    text.split(''),
-    searchHint.trim().split('')
-  );
-
+  const highlightedChars = highlightChars(text, searchHint);
   return <>{highlightedChars}</>;
 };
