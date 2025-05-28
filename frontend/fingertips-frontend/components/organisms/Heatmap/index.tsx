@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import { H2 } from 'govuk-react';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
 import { CsvData } from '@/lib/downloadHelpers/convertToCsv';
+import { convertHeatmapToCsv } from '@/components/organisms/Heatmap/convertHeatmapToCsv';
 
 const HeatmapHeading = styled(H2)({
   fontSize: '1.5rem',
@@ -23,12 +24,12 @@ export interface HeatmapProps {
 }
 
 export const Heatmap: FC<HeatmapProps> = ({ indicatorData, groupAreaCode }) => {
-  const { headers, rows, legendsToShow } = useHeatmapTableData(
+  const { headers, rows, legendsToShow, csvData } = useHeatmapTableData(
     indicatorData,
     groupAreaCode
   );
   const { hover, left, top, handleMouseOverCell } = useHeatmapHover();
-  const csvData: CsvData = [];
+
   return (
     <>
       <div id={'heatmap'}>

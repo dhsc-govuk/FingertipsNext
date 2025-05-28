@@ -9,6 +9,7 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { formatNumber } from '@/lib/numberFormatter';
 import { HeatmapHoverProps } from './heatmapHover';
+import { HealthDataPointBenchmark } from '@/generated-sources/ft-api-client/models/HealthDataPointBenchmark';
 
 export const heatmapIndicatorTitleColumnWidth = 240;
 export const heatmapDataColumnWidth = 60;
@@ -86,6 +87,7 @@ export interface HeatmapBenchmarkProps {
   outcome: HeatmapBenchmarkOutcome;
   benchmarkMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
+  benchmarkAreaCode?: string;
 }
 
 export const extractSortedAreasIndicatorsAndDataPoints = (
@@ -291,12 +293,15 @@ const extractAreasIndicatorsAndDataPoints = (
         return outcome ?? BenchmarkOutcome.NotCompared;
       };
 
+      const { benchmarkAreaCode } =
+        healthDataForYear?.benchmarkComparison ?? {};
       const benchmark: HeatmapBenchmarkProps = {
         outcome: getBenchmarkOutcome(
           healthDataForYear?.benchmarkComparison?.outcome
         ),
         benchmarkMethod: indicatorData.benchmarkComparisonMethod,
         polarity: indicatorData.polarity,
+        benchmarkAreaCode,
       };
 
       dataPoints[indicatorData.indicatorId][healthData.areaCode] = {
