@@ -1,6 +1,6 @@
 import { HeatmapHeader } from '@/components/organisms/Heatmap/heatmapHeader';
 import { HeatmapCell } from '@/components/organisms/Heatmap/heatmapCell';
-import React, { FC, MouseEvent, useEffect, useRef } from 'react';
+import React, { FC, MouseEvent } from 'react';
 import styled from 'styled-components';
 import { Table } from 'govuk-react';
 import {

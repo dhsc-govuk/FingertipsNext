@@ -9,7 +9,6 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { formatNumber } from '@/lib/numberFormatter';
 import { HeatmapHoverProps } from './heatmapHover';
-import { HealthDataPointBenchmark } from '@/generated-sources/ft-api-client/models/HealthDataPointBenchmark';
 
 export const heatmapIndicatorTitleColumnWidth = 240;
 export const heatmapDataColumnWidth = 60;

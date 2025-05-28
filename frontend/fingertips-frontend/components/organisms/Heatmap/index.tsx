@@ -10,8 +10,6 @@ import { useHeatmapHover } from '@/components/organisms/Heatmap/useHeatmapHover'
 import styled from 'styled-components';
 import { H2 } from 'govuk-react';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
-import { CsvData } from '@/lib/downloadHelpers/convertToCsv';
-import { convertHeatmapToCsv } from '@/components/organisms/Heatmap/convertHeatmapToCsv';
 
 const HeatmapHeading = styled(H2)({
   fontSize: '1.5rem',
