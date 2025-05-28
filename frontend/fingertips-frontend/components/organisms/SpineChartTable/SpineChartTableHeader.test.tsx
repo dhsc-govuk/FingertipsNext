@@ -11,7 +11,7 @@ describe('Spine chart table header', () => {
     group: 'testGroup',
   };
 
-  const mockSearchState = { [SearchParams.GroupSelected]: 'A001' }
+  const mockSearchState = { [SearchParams.GroupSelected]: 'A001' };
 
   it('should contain the expected elements', () => {
     render(
@@ -140,7 +140,7 @@ describe('Spine chart table header', () => {
             groupName={'England'}
             benchmarkToUse={areaCodeForEngland}
             searchState={{
-              [SearchParams.GroupSelected]: areaCodeForEngland
+              [SearchParams.GroupSelected]: areaCodeForEngland,
             }}
           />
         </thead>
