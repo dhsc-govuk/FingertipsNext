@@ -14,12 +14,9 @@ import styled from 'styled-components';
 import { SpineChartLegend } from '@/components/organisms/SpineChartLegend/SpineChartLegend';
 import { getMethodsAndOutcomes } from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
 import { SpineChartIndicatorData } from './spineChartTableHelpers';
-import {
-  areaCodeForEngland,
-  englandAreaString,
-} from '@/lib/chartHelpers/constants';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
 import { convertSpineChartTableToCsv } from '@/components/organisms/SpineChartTable/convertSpineChartTableToCsv';
+import { SearchStateParams } from '@/lib/searchStateManager';
 
 const SpineChartHeading = styled(H2)({
   fontSize: '1.5rem',
@@ -29,6 +26,7 @@ const SpineChartHeading = styled(H2)({
 export interface SpineChartTableProps {
   indicatorData: SpineChartIndicatorData[];
   benchmarkToUse: string;
+  searchState: SearchStateParams;
 }
 
 const sortByIndicator = (indicatorData: SpineChartIndicatorData[]) =>
@@ -41,6 +39,7 @@ const sortByIndicator = (indicatorData: SpineChartIndicatorData[]) =>
 export function SpineChartTable({
   indicatorData,
   benchmarkToUse,
+  searchState,
 }: Readonly<SpineChartTableProps>) {
   const sortedData = sortByIndicator(indicatorData);
   const methods = getMethodsAndOutcomes(indicatorData);
@@ -56,25 +55,16 @@ export function SpineChartTable({
 
   const groupName = sortedData[0].groupData?.areaName;
 
-  const benchmarkName =
-    benchmarkToUse === areaCodeForEngland
-      ? `Benchmark: ${englandAreaString}`
-      : `Benchmark: ${groupName}`;
-
-  const alternativeBenchmarkName =
-    benchmarkToUse === areaCodeForEngland
-      ? `Group: ${groupName}`
-      : englandAreaString;
-
   return (
     <>
       <div id={'spineChartTable'}>
         <SpineChartHeading>Compare indicators by areas</SpineChartHeading>
         <SpineChartLegend
-          benchmarkName={benchmarkName}
           legendsToShow={methods}
-          groupName={alternativeBenchmarkName}
+          benchmarkToUse={benchmarkToUse}
+          groupName={groupName}
           areaNames={areaNames}
+          searchState={searchState}
         />
 
         <StyledDivTableContainer data-testid="spineChartTable-component">

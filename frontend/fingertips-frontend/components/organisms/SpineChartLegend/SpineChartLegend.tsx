@@ -5,6 +5,11 @@ import React, { FC } from 'react';
 import { BenchmarkLegends } from '@/components/organisms/BenchmarkLegend';
 import { BenchmarkLegendsToShow } from '@/components/organisms/BenchmarkLegend/benchmarkLegend.types';
 import { SpineChartQuartilesInfoContainer } from '@/components/organisms/SpineChart/SpineChartQuartilesInfo';
+import {
+  areaCodeForEngland,
+  englandAreaString,
+} from '@/lib/chartHelpers/constants';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 
 const DivContainer = styled.div({
   fontFamily: 'nta, Arial, sans-serif',
@@ -18,26 +23,43 @@ const FlexDiv = styled.div({
 
 interface SpineChartLegendProps {
   legendsToShow: BenchmarkLegendsToShow;
-  benchmarkName?: string;
+  benchmarkToUse: string;
+  searchState: SearchStateParams;
   groupName?: string;
   areaNames?: string[];
 }
 
 export const SpineChartLegend: FC<SpineChartLegendProps> = ({
   legendsToShow,
-  benchmarkName = 'England',
+  benchmarkToUse,
+  searchState,
   groupName = '',
   areaNames = ['Area'],
 }) => {
+  const { [SearchParams.GroupSelected]: selectedGroupCode } = searchState;
+
+  const benchmarkName =
+    benchmarkToUse === areaCodeForEngland
+      ? `Benchmark: ${englandAreaString}`
+      : `Benchmark: ${groupName}`;
+
+  const alternativeBenchmarkName =
+    benchmarkToUse === areaCodeForEngland
+      ? `Group: ${groupName}`
+      : englandAreaString;
+
+  const shouldShowAlternativeBenchmark =
+    selectedGroupCode !== areaCodeForEngland;
+
   return (
     <DivContainer>
       <FlexDiv>
         <SpineChartLegendItem itemType={SpineChartLegendTypes.Benchmark}>
           {benchmarkName}
         </SpineChartLegendItem>
-        {groupName ? (
+        {shouldShowAlternativeBenchmark ? (
           <SpineChartLegendItem itemType={SpineChartLegendTypes.Group}>
-            {groupName}
+            {alternativeBenchmarkName}
           </SpineChartLegendItem>
         ) : null}
         {areaNames.map((name, index) => (

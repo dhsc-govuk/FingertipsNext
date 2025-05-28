@@ -10,6 +10,7 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 
 describe('Spine chart table suite', () => {
   // Greater Manchester ICB - 00T
@@ -111,12 +112,17 @@ describe('Spine chart table suite', () => {
     },
   ];
 
+  const mockSearchState: SearchStateParams = {
+    [SearchParams.SearchedIndicator]: 'some search',
+  };
+
   describe('Spine chart table', () => {
     it('should render the SpineChartTable component', () => {
       render(
         <SpineChartTable
           indicatorData={mockIndicatorData}
           benchmarkToUse={areaCodeForEngland}
+          searchState={mockSearchState}
         />
       );
       const spineChart = screen.getByTestId('spineChartTable-component');
@@ -128,6 +134,7 @@ describe('Spine chart table suite', () => {
         <SpineChartTable
           indicatorData={mockIndicatorData}
           benchmarkToUse={areaCodeForEngland}
+          searchState={mockSearchState}
         />
       );
 
@@ -172,6 +179,7 @@ describe('Spine chart table suite', () => {
         <SpineChartTable
           indicatorData={mockTwoAreasIndicatorData}
           benchmarkToUse={areaCodeForEngland}
+          searchState={mockSearchState}
         />
       );
 
@@ -208,6 +216,7 @@ describe('Spine chart table suite', () => {
         <SpineChartTable
           indicatorData={mockDataPeriodMismatch}
           benchmarkToUse={areaCodeForEngland}
+          searchState={mockSearchState}
         />
       );
 

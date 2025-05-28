@@ -138,6 +138,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
           <SpineChartTable
             indicatorData={spineChartIndicatorData}
             benchmarkToUse={benchmarkToUse}
+            searchState={searchState}
           />
         </StyleChartWrapper>
       ) : null}
