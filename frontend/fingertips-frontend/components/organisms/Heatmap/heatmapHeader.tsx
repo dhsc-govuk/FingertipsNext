@@ -11,7 +11,6 @@ import {
 const StyledDivRotate = styled.div({
   position: 'relative',
   height: '50px',
-  h4: {},
 });
 
 const StyledH4Header = styled(H4)({
