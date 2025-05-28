@@ -39,9 +39,7 @@ export const SpineChartLegend: FC<SpineChartLegendProps> = ({
   const { [SearchParams.GroupSelected]: selectedGroupCode } = searchState;
 
   const benchmarkName =
-    benchmarkToUse === areaCodeForEngland
-      ? `Benchmark: ${englandAreaString}`
-      : `Benchmark: ${groupName}`;
+    benchmarkToUse === areaCodeForEngland ? englandAreaString : groupName;
 
   const alternativeBenchmarkName =
     benchmarkToUse === areaCodeForEngland
@@ -55,7 +53,7 @@ export const SpineChartLegend: FC<SpineChartLegendProps> = ({
     <DivContainer>
       <FlexDiv>
         <SpineChartLegendItem itemType={SpineChartLegendTypes.Benchmark}>
-          {benchmarkName}
+          Benchmark: {benchmarkName}
         </SpineChartLegendItem>
         {shouldShowAlternativeBenchmark ? (
           <SpineChartLegendItem itemType={SpineChartLegendTypes.Group}>
@@ -76,7 +74,11 @@ export const SpineChartLegend: FC<SpineChartLegendProps> = ({
         ))}
       </FlexDiv>
 
-      <BenchmarkLegends legendsToShow={legendsToShow} bottomMargin={false} />
+      <BenchmarkLegends
+        legendsToShow={legendsToShow}
+        bottomMargin={false}
+        title={`Compared to ${benchmarkName}`}
+      />
       <SpineChartQuartilesInfoContainer />
     </DivContainer>
   );
