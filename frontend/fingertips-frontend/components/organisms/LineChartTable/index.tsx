@@ -8,7 +8,7 @@ import {
   HealthDataPointBenchmarkComparison,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
-import styled from 'styled-components';
+import styled, { StyledComponent } from 'styled-components';
 import React, { FC } from 'react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
@@ -223,12 +223,14 @@ interface AlternateBenchmarkCellProps {
   children?: React.ReactNode;
   benchmarkOptions: string | undefined;
   label: 'group' | 'benchmark';
+  cellType?: 'group' | 'england';
 }
 
 const AlternateBenchmarkHeaderCellWrapper: FC<AlternateBenchmarkCellProps> = ({
   children,
   benchmarkOptions = areaCodeForEngland,
   label,
+  cellType,
 }) => {
   let CellWrapper: React.ComponentType<any>;
   if (label === 'group') {
@@ -242,12 +244,14 @@ const AlternateBenchmarkHeaderCellWrapper: FC<AlternateBenchmarkCellProps> = ({
         ? StyledAlternateEnglandHeader
         : StyledStickyRightHeader;
   }
-  return <CellWrapper>{children}</CellWrapper>;
+  return (
+    <CellWrapper data-testid={`${cellType}-header`}>{children}</CellWrapper>
+  );
 };
 
 const AlternateBenchmarkSubHeaderCellWrapper: FC<
   AlternateBenchmarkCellProps
-> = ({ children, benchmarkOptions = areaCodeForEngland, label }) => {
+> = ({ children, benchmarkOptions = areaCodeForEngland, label, cellType }) => {
   let CellWrapper: React.ComponentType<any>;
   if (label === 'group') {
     CellWrapper =
@@ -260,13 +264,16 @@ const AlternateBenchmarkSubHeaderCellWrapper: FC<
         ? StyledAlternateEnglandHeader
         : StyledStickyRightHeader;
   }
-  return <CellWrapper>{children}</CellWrapper>;
+  return (
+    <CellWrapper data-testid={`${cellType}-subheader`}>{children}</CellWrapper>
+  );
 };
 
 const AlternateBenchmarkCellWrapper: FC<AlternateBenchmarkCellProps> = ({
   children,
   benchmarkOptions = areaCodeForEngland,
   label,
+  cellType,
 }) => {
   let CellWrapper: React.ComponentType<any>;
   if (label === 'group') {
@@ -280,7 +287,7 @@ const AlternateBenchmarkCellWrapper: FC<AlternateBenchmarkCellProps> = ({
         ? StyledAlternateEnglandBenchmarkCell
         : StyledStickyRight;
   }
-  return <CellWrapper>{children}</CellWrapper>;
+  return <CellWrapper data-testid={`${cellType}-cell`}>{children}</CellWrapper>;
 };
 
 export const mapToLineChartTableData = (
@@ -435,18 +442,18 @@ export function LineChartTable({
                 ))}
                 {showGroupColumn ? (
                   <AlternateBenchmarkHeaderCellWrapper
-                    data-testid="group-header"
                     label="group"
                     benchmarkOptions={benchmarkOptions}
+                    cellType={'group'}
                   >
                     {groupColumnPrefix} {groupIndicatorData?.areaName}
                   </AlternateBenchmarkHeaderCellWrapper>
                 ) : null}
                 {showBenchmarkColumn ? (
                   <AlternateBenchmarkHeaderCellWrapper
-                    data-testid="england-header"
                     label="benchmark"
                     benchmarkOptions={benchmarkOptions}
+                    cellType={'england'}
                   >
                     {englandColumnPrefix} <br /> England
                   </AlternateBenchmarkHeaderCellWrapper>
@@ -517,9 +524,9 @@ export function LineChartTable({
                 ) : null}
                 {showBenchmarkColumn ? (
                   <AlternateBenchmarkSubHeaderCellWrapper
-                    data-testid={`header-benchmark-value`}
                     benchmarkOptions={benchmarkOptions}
                     label="benchmark"
+                    cellType={'england'}
                   >
                     {LineChartTableHeadingEnum.BenchmarkValue}{' '}
                     <StyledSpan>{indicatorMetadata?.unitLabel}</StyledSpan>

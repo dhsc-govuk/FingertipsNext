@@ -90,8 +90,6 @@ export function OneIndicatorOneAreaViewPlots({
 
   const benchmarkToUse = determineBenchmarkToUse(benchmarkAreaSelected);
 
-  console.log('view plots', benchmarkToUse);
-
   const yAxisTitle = indicatorMetadata?.unitLabel
     ? `Value: ${indicatorMetadata?.unitLabel}`
     : undefined;
