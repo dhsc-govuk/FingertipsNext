@@ -1,6 +1,6 @@
 import { HeatmapHeader } from '@/components/organisms/Heatmap/heatmapHeader';
 import { HeatmapCell } from '@/components/organisms/Heatmap/heatmapCell';
-import React, { FC, MouseEvent } from 'react';
+import React, { FC, MouseEvent, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Table } from 'govuk-react';
 import {
@@ -8,6 +8,7 @@ import {
   generateRows,
   HeatmapDataCell,
 } from '@/components/organisms/Heatmap/heatmapUtil';
+import { useRotatedHeaders } from '@/components/organisms/Heatmap/useRotatedHeaders';
 
 const StyledTable = styled(Table)({
   borderCollapse: 'separate',
@@ -35,8 +36,10 @@ const HeatmapTable: FC<HeatmapTableProps> = ({
   rows,
   handleMouseOverCell,
 }) => {
+  const { containerRef } = useRotatedHeaders();
+
   return (
-    <StyledDivTableContainer>
+    <StyledDivTableContainer ref={containerRef}>
       <StyledTable data-testid="heatmapChart-component">
         <StyledRow>
           {headers.map((header) => (
