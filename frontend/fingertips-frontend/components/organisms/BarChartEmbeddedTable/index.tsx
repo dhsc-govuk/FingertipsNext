@@ -135,7 +135,8 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
         sortedTableRows,
         indicatorMetadata,
         benchmarkData,
-        groupIndicatorData
+        groupIndicatorData,
+        confidenceLimit
       ),
     [
       fullYear,
@@ -143,6 +144,7 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
       indicatorMetadata,
       benchmarkData,
       groupIndicatorData,
+      confidenceLimit,
     ]
   );
 

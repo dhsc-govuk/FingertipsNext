@@ -9,7 +9,8 @@ export const convertBarChartEmbeddedTableToCsv = (
   tableRows: BarChartEmbeddedTableRow[],
   indicatorMetaData?: IndicatorDocument,
   benchmarkData?: HealthDataForArea,
-  groupData?: HealthDataForArea
+  groupData?: HealthDataForArea,
+  confidenceLimit?: number
 ): CsvData => {
   const { indicatorID, indicatorName, unitLabel } = indicatorMetaData ?? {};
 
@@ -24,7 +25,7 @@ export const convertBarChartEmbeddedTableToCsv = (
 
   if (groupData && groupDataPoint) {
     const { areaName, areaCode } = groupData;
-    extendedTableRows.unshift({
+    extendedTableRows.push({
       area: `Group: ${areaName}`,
       areaCode,
       ...groupDataPoint,
@@ -33,7 +34,7 @@ export const convertBarChartEmbeddedTableToCsv = (
 
   if (benchmarkData && benchmarkDataPoint) {
     const { areaName, areaCode } = benchmarkData;
-    extendedTableRows.unshift({
+    extendedTableRows.push({
       area: areaName,
       areaCode,
       ...benchmarkDataPoint,
@@ -52,8 +53,8 @@ export const convertBarChartEmbeddedTableToCsv = (
     CsvHeader.Count,
     CsvHeader.ValueUnit,
     CsvHeader.Value,
-    CsvHeader.LowerCI,
-    CsvHeader.UpperCI,
+    CsvHeader.LowerCI.replace('X', String(confidenceLimit)),
+    CsvHeader.UpperCI.replace('X', String(confidenceLimit)),
   ];
 
   const csvData: CsvData = [headers];

@@ -8,6 +8,7 @@ import {
   HealthDataPoint,
   HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
+import { CsvData } from '@/lib/downloadHelpers/convertToCsv';
 
 describe('convertBarChartEmbeddedTableToCsv', () => {
   const indicatorMetaData = {
@@ -73,13 +74,18 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
   };
 
   describe('correct CSV data with benchmark and group rows', () => {
-    const csv = convertBarChartEmbeddedTableToCsv(
-      mockYear,
-      tableRows,
-      indicatorMetaData,
-      benchmarkData,
-      groupData
-    );
+    let csv: CsvData;
+    beforeEach(() => {
+      csv = convertBarChartEmbeddedTableToCsv(
+        mockYear,
+        tableRows,
+        indicatorMetaData,
+        benchmarkData,
+        groupData,
+        95
+      );
+    });
+
     it('returns correct headers', () => {
       expect(csv[0]).toEqual([
         CsvHeader.IndicatorId,
@@ -93,26 +99,26 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
         CsvHeader.Count,
         CsvHeader.ValueUnit,
         CsvHeader.Value,
-        CsvHeader.LowerCI,
-        CsvHeader.UpperCI,
+        CsvHeader.LowerCI.replace('X', '95'),
+        CsvHeader.UpperCI.replace('X', '95'),
       ]);
     });
 
-    it('returns correct benchmark row', () => {
+    it('returns correct area row', () => {
       expect(csv[1]).toEqual([
         indicatorMetaData.indicatorID,
         indicatorMetaData.indicatorName,
         mockYear,
-        benchmarkData.areaName,
-        benchmarkData.areaCode,
-        benchmarkData.healthData[0]?.benchmarkComparison?.benchmarkAreaCode,
-        benchmarkData.healthData[0]?.benchmarkComparison?.outcome,
-        benchmarkData.healthData[0]?.trend,
-        benchmarkData.healthData[0]?.count,
+        tableRows[0].area,
+        tableRows[0].areaCode,
+        tableRows[0]?.benchmarkComparison?.benchmarkAreaCode,
+        tableRows[0]?.benchmarkComparison?.outcome,
+        tableRows[0]?.trend,
+        tableRows[0]?.count,
         indicatorMetaData.unitLabel,
-        benchmarkData.healthData[0]?.value,
-        benchmarkData.healthData[0]?.lowerCi,
-        benchmarkData.healthData[0]?.upperCi,
+        tableRows[0]?.value,
+        tableRows[0]?.lowerCi,
+        tableRows[0]?.upperCi,
       ]);
     });
 
@@ -134,21 +140,21 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
       ]);
     });
 
-    it('returns correct area row', () => {
+    it('returns correct benchmark row', () => {
       expect(csv[3]).toEqual([
         indicatorMetaData.indicatorID,
         indicatorMetaData.indicatorName,
         mockYear,
-        tableRows[0].area,
-        tableRows[0].areaCode,
-        tableRows[0]?.benchmarkComparison?.benchmarkAreaCode,
-        tableRows[0]?.benchmarkComparison?.outcome,
-        tableRows[0]?.trend,
-        tableRows[0]?.count,
+        benchmarkData.areaName,
+        benchmarkData.areaCode,
+        benchmarkData.healthData[0]?.benchmarkComparison?.benchmarkAreaCode,
+        benchmarkData.healthData[0]?.benchmarkComparison?.outcome,
+        benchmarkData.healthData[0]?.trend,
+        benchmarkData.healthData[0]?.count,
         indicatorMetaData.unitLabel,
-        tableRows[0]?.value,
-        tableRows[0]?.lowerCi,
-        tableRows[0]?.upperCi,
+        benchmarkData.healthData[0]?.value,
+        benchmarkData.healthData[0]?.lowerCi,
+        benchmarkData.healthData[0]?.upperCi,
       ]);
     });
   });
@@ -198,8 +204,8 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
     );
 
     expect(csv).toHaveLength(3);
-    expect(csv[1][3]).toBe(`Group: ${groupData.areaName}`);
-    expect(csv[2][3]).toBe(tableRows[0].area);
+    expect(csv[1][3]).toBe(tableRows[0].area);
+    expect(csv[2][3]).toBe(`Group: ${groupData.areaName}`);
   });
 
   it('returns only header row when tableRows is empty and no benchmark/group match', () => {
