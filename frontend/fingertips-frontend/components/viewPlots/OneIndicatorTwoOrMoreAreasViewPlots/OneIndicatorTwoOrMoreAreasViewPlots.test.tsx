@@ -308,6 +308,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
 
     // TODO: fix complains about useRouter within BenchmarkSelectArea being undefined and there can't destructure
     // not sure why only affecting this test
+    // see DHSCFT-856
     it.skip('should not render the ThematicMap when not all areas in a group are selected', async () => {
       const searchState: SearchStateParams = {
         [SearchParams.GroupAreaSelected]: 'not ALL',
