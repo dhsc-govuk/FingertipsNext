@@ -91,15 +91,23 @@ export interface HeatmapBenchmarkProps {
 
 export const extractSortedAreasIndicatorsAndDataPoints = (
   indicatorData: HeatmapIndicatorData[],
-  groupAreaCode: string
+  groupAreaCode: string,
+  benchmarkRefType: BenchmarkReferenceType
 ): {
   areas: Area[];
   indicators: Indicator[];
   dataPoints: Record<string, Record<string, DataPoint>>;
   benchmarkAreaName: string;
 } => {
-  const { areas, indicators, dataPoints, benchmarkAreaName } =
-    extractAreasIndicatorsAndDataPoints(indicatorData, benchmarkAreaCode);
+  const { areas, indicators, dataPoints } =
+    extractAreasIndicatorsAndDataPoints(indicatorData);
+
+  const benchmarkAreaName =
+    areas[
+      benchmarkRefType === BenchmarkReferenceType.England
+        ? areaCodeForEngland
+        : groupAreaCode
+    ].name;
 
   const precedingAreas = [areaCodeForEngland];
 
@@ -232,7 +240,6 @@ const extractAreasIndicatorsAndDataPoints = (
   areas: Record<string, Area>;
   indicators: Record<string, Indicator>;
   dataPoints: Record<string, Record<string, DataPoint>>;
-  benchmarkAreaName: string;
 } => {
   const areas: Record<string, Area> = {};
   const indicators: Record<string, Indicator> = {};
@@ -316,13 +323,10 @@ const extractAreasIndicatorsAndDataPoints = (
     indicators[indicatorData.indicatorId].latestDataPeriod = latestDataPeriod;
   });
 
-  const benchmarkAreaName = areas[benchmarkAreaCode].name;
-
   return {
     areas: areas,
     indicators: indicators,
     dataPoints: dataPoints,
-    benchmarkAreaName: benchmarkAreaName,
   };
 };
 
@@ -427,7 +431,7 @@ export const generateHeaders = (
         : areaName;
     }
 
-    return benchmarkRefType === BenchmarkReferenceType.SubNational
+    return benchmarkRefType === BenchmarkReferenceType.AreaGroup
       ? `Benchmark: ${areaName}`
       : `Group: ${areaName}`;
   };

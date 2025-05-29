@@ -27,11 +27,8 @@ export const Heatmap: FC<HeatmapProps> = ({
   benchmarkRefType,
   groupAreaCode,
 }) => {
-  const { headers, rows, legendsToShow } = useHeatmapTableData(
-    indicatorData,
-    benchmarkRefType,
-    groupAreaCode
-  );
+  const { headers, rows, legendsToShow, benchmarkAreaName } =
+    useHeatmapTableData(indicatorData, benchmarkRefType, groupAreaCode);
   const { hover, left, top, handleMouseOverCell } = useHeatmapHover();
   return (
     <>

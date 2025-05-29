@@ -96,12 +96,12 @@ describe('generate headers and rows - benchmark reference is England', () => {
 
   it('should set the header corresponding to the benchmark area (england) to benchmark header type', () => {
     expect(headers[3].type).toEqual(HeaderType.PrimaryBenchmarkArea);
-    expect(headers[3].content).toEqual('England');
+    expect(headers[3].content).toEqual('Benchmark: England');
   });
 
   it('should set the header corresponding to the group area to group area header type', () => {
     expect(headers[4].type).toEqual(HeaderType.SecondaryBenchmarkArea);
-    expect(headers[4].content).toEqual('Group Area');
+    expect(headers[4].content).toEqual('Group: Group Area');
   });
 
   it('should set the header corresponding to an area) to area header type', () => {
@@ -366,8 +366,8 @@ describe('extract sorted areas, indicators, and data points - benchmark referenc
   const { areas, indicators, dataPoints } =
     extractSortedAreasIndicatorsAndDataPoints(
       placeholderHeatmapIndicatorData,
-      areaCodeForEngland,
-      placeholderGroupAreaCode
+      placeholderGroupAreaCode,
+      BenchmarkReferenceType.England
     );
 
   it('should order areas correctly', () => {
