@@ -131,8 +131,8 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
   const csvData = useMemo(
     () =>
       convertBarChartEmbeddedTableToCsv(
-        fullYear ?? 0,
         sortedTableRows,
+        fullYear,
         indicatorMetadata,
         benchmarkData,
         groupIndicatorData,

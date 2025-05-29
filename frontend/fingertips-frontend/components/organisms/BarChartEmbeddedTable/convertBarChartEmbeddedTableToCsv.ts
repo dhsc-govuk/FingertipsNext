@@ -5,8 +5,8 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
 export const convertBarChartEmbeddedTableToCsv = (
-  period: number,
   tableRows: BarChartEmbeddedTableRow[],
+  period?: number,
   indicatorMetaData?: IndicatorDocument,
   benchmarkData?: HealthDataForArea,
   groupData?: HealthDataForArea,

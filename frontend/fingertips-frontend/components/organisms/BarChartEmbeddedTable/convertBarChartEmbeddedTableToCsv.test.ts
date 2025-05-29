@@ -77,8 +77,8 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
     let csv: CsvData;
     beforeEach(() => {
       csv = convertBarChartEmbeddedTableToCsv(
-        mockYear,
         tableRows,
+        mockYear,
         indicatorMetaData,
         benchmarkData,
         groupData,
@@ -161,8 +161,8 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
 
   it('returns CSV with only main table rows when no benchmark or group data is provided', () => {
     const csv = convertBarChartEmbeddedTableToCsv(
-      2023,
       tableRows,
+      2023,
       indicatorMetaData
     );
 
@@ -196,8 +196,8 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
     };
 
     const csv = convertBarChartEmbeddedTableToCsv(
-      2023,
       tableRows,
+      2023,
       indicatorMetaData,
       modifiedBenchmarkData,
       groupData
@@ -208,8 +208,45 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
     expect(csv[2][3]).toBe(`Group: ${groupData.areaName}`);
   });
 
+  it('excludes group row if year does not match', () => {
+    const modifiedGroupData = {
+      ...groupData,
+      healthData: [
+        {
+          ...groupData.healthData[0],
+          year: 2020, // no match for 2023
+        },
+      ],
+    };
+
+    const csv = convertBarChartEmbeddedTableToCsv(
+      tableRows,
+      2023,
+      indicatorMetaData,
+      benchmarkData,
+      modifiedGroupData
+    );
+
+    expect(csv).toHaveLength(3);
+    expect(csv[1][3]).toBe(tableRows[0].area);
+    expect(csv[2][3]).toBe(benchmarkData.areaName);
+  });
+
   it('returns only header row when tableRows is empty and no benchmark/group match', () => {
-    const csv = convertBarChartEmbeddedTableToCsv(2023, [], indicatorMetaData);
+    const csv = convertBarChartEmbeddedTableToCsv([], 2023, indicatorMetaData);
     expect(csv).toHaveLength(1);
+  });
+
+  it('omits period if not supplied', () => {
+    const csv = convertBarChartEmbeddedTableToCsv(
+      tableRows,
+      undefined,
+      indicatorMetaData,
+      benchmarkData,
+      groupData,
+      95
+    );
+    expect(csv).toHaveLength(2);
+    expect(csv[1][2]).toBeUndefined();
   });
 });
