@@ -49,7 +49,7 @@ describe('SpineChartLegend', () => {
     expect(screen.getByText('Group: Test Group')).toBeInTheDocument();
   });
 
-  it('renders the alternative benchmark legend as England when group is benchmark', () => {
+  it('should not render alternative benchmark legend as England when group is benchmark', () => {
     render(
       <SpineChartLegend
         {...defaultProps}
@@ -58,7 +58,7 @@ describe('SpineChartLegend', () => {
       />
     );
     expect(screen.getByText(`Benchmark: Test Group`)).toBeInTheDocument();
-    expect(screen.getByText(englandAreaString)).toBeInTheDocument();
+    expect(screen.queryByText(englandAreaString)).not.toBeInTheDocument();
   });
 
   it('renders all area names as legend items', () => {

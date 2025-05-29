@@ -42,12 +42,10 @@ export const SpineChartLegend: FC<SpineChartLegendProps> = ({
     benchmarkToUse === areaCodeForEngland ? englandAreaString : groupName;
 
   const alternativeBenchmarkName =
-    benchmarkToUse === areaCodeForEngland
-      ? `Group: ${groupName}`
-      : englandAreaString;
+    benchmarkToUse === areaCodeForEngland ? `Group: ${groupName}` : undefined;
 
   const shouldShowAlternativeBenchmark =
-    selectedGroupCode !== areaCodeForEngland;
+    alternativeBenchmarkName && selectedGroupCode !== areaCodeForEngland;
 
   return (
     <DivContainer>
