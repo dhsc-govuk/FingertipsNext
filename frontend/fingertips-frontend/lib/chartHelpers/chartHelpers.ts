@@ -411,9 +411,9 @@ const shouldAddGroupAreaForBenchmarking = (
   selectedGroupArea?: string
 ): boolean => {
   return (
-    (selectedGroupCode !== areaCodeForEngland &&
-      selectedGroupArea === ALL_AREAS_SELECTED) ||
-    (Array.isArray(areasSelected) && areasSelected.length > 0)
+    selectedGroupCode !== areaCodeForEngland &&
+    (selectedGroupArea === ALL_AREAS_SELECTED ||
+      (Array.isArray(areasSelected) && areasSelected.length > 0))
   );
 };
 

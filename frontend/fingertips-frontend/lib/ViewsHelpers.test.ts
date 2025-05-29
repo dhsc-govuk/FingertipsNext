@@ -42,12 +42,19 @@ describe('getHealthDataForIndicator', () => {
       mockIndicator
     );
 
-    const result = await getHealthDataForIndicator(mockIndicatorsApi, '5555', [
-      { areaCodes: ['A001'] },
-    ]);
+    const result = await getHealthDataForIndicator(
+      mockIndicatorsApi,
+      '5555',
+      [{ areaCodes: ['A001'] }],
+      BenchmarkReferenceType.England
+    );
 
     expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledWith(
-      { indicatorId: 5555, areaCodes: ['A001'] },
+      {
+        indicatorId: 5555,
+        areaCodes: ['A001'],
+        benchmarkRefType: BenchmarkReferenceType.England,
+      },
       API_CACHE_CONFIG
     );
     expect(result).toEqual(mockIndicator);
@@ -64,11 +71,16 @@ describe('getHealthDataForIndicator', () => {
       mockIndicator
     );
 
-    await getHealthDataForIndicator(mockIndicatorsApi, '1', [
-      {
-        areaCodes: testAreas,
-      },
-    ]);
+    await getHealthDataForIndicator(
+      mockIndicatorsApi,
+      '1',
+      [
+        {
+          areaCodes: testAreas,
+        },
+      ],
+      BenchmarkReferenceType.England
+    );
 
     expect(
       mockIndicatorsApi.getHealthDataForAnIndicator
@@ -81,6 +93,7 @@ describe('getHealthDataForIndicator', () => {
           maxNumAreasThatCanBeRequestedAPI
         ),
         indicatorId: Number(1),
+        benchmarkRefType: BenchmarkReferenceType.England,
       },
       API_CACHE_CONFIG
     );
@@ -92,6 +105,7 @@ describe('getHealthDataForIndicator', () => {
       {
         areaCodes: ['a'],
         indicatorId: Number(1),
+        benchmarkRefType: BenchmarkReferenceType.England,
       },
       API_CACHE_CONFIG
     );
@@ -118,9 +132,12 @@ describe('getHealthDataForIndicator', () => {
       ],
     });
 
-    const result = await getHealthDataForIndicator(mockIndicatorsApi, '1', [
-      { areaCodes: testAreas },
-    ]);
+    const result = await getHealthDataForIndicator(
+      mockIndicatorsApi,
+      '1',
+      [{ areaCodes: testAreas }],
+      BenchmarkReferenceType.England
+    );
 
     expect(result).toEqual({
       ...mockIndicator,
@@ -151,7 +168,12 @@ describe('getHealthDataForIndicator', () => {
 
     await expect(
       async () =>
-        await getHealthDataForIndicator(mockIndicatorsApi, '1', testAreas)
+        await getHealthDataForIndicator(
+          mockIndicatorsApi,
+          '1',
+          testAreas,
+          BenchmarkReferenceType.England
+        )
     ).rejects.toThrow();
   });
 
@@ -164,16 +186,21 @@ describe('getHealthDataForIndicator', () => {
     const mockAreaCode2 = 'A002';
     const mockAreaType2 = 'AT002';
 
-    await getHealthDataForIndicator(mockIndicatorsApi, '1', [
-      {
-        areaCodes: [mockAreaCode1],
-        areaType: mockAreaType1,
-      },
-      {
-        areaCodes: [mockAreaCode2],
-        areaType: mockAreaType2,
-      },
-    ]);
+    await getHealthDataForIndicator(
+      mockIndicatorsApi,
+      '1',
+      [
+        {
+          areaCodes: [mockAreaCode1],
+          areaType: mockAreaType1,
+        },
+        {
+          areaCodes: [mockAreaCode2],
+          areaType: mockAreaType2,
+        },
+      ],
+      BenchmarkReferenceType.England
+    );
 
     expect(
       mockIndicatorsApi.getHealthDataForAnIndicator
@@ -183,6 +210,7 @@ describe('getHealthDataForIndicator', () => {
         areaCodes: [mockAreaCode1],
         indicatorId: 1,
         areaType: mockAreaType1,
+        benchmarkRefType: BenchmarkReferenceType.England,
       },
       API_CACHE_CONFIG
     );
@@ -195,6 +223,7 @@ describe('getHealthDataForIndicator', () => {
         areaCodes: [mockAreaCode2],
         indicatorId: 1,
         areaType: mockAreaType2,
+        benchmarkRefType: BenchmarkReferenceType.England,
       },
       API_CACHE_CONFIG
     );
