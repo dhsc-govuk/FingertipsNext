@@ -1,6 +1,7 @@
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
+  BenchmarkReferenceType,
   HealthDataPoint,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
@@ -13,7 +14,7 @@ import {
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 
-describe('generate headers and rows', () => {
+describe('generate headers and rows - benchmark reference is England', () => {
   const groupAreaCode = 'groupAreaCode';
   const sortedAreas = [
     { code: areaCodeForEngland, name: 'England' },
@@ -71,7 +72,11 @@ describe('generate headers and rows', () => {
     });
   });
 
-  const headers = generateHeaders(sortedAreas, groupAreaCode);
+  const headers = generateHeaders(
+    sortedAreas,
+    BenchmarkReferenceType.England,
+    groupAreaCode
+  );
   const rows = generateRows(sortedAreas, sortedIndicators, dataPoints);
 
   it('should set the first header to indicator title header', () => {
@@ -90,12 +95,12 @@ describe('generate headers and rows', () => {
   });
 
   it('should set the header corresponding to the benchmark area (england) to benchmark header type', () => {
-    expect(headers[3].type).toEqual(HeaderType.BenchmarkArea);
+    expect(headers[3].type).toEqual(HeaderType.PrimaryBenchmarkArea);
     expect(headers[3].content).toEqual('England');
   });
 
   it('should set the header corresponding to the group area to group area header type', () => {
-    expect(headers[4].type).toEqual(HeaderType.GroupArea);
+    expect(headers[4].type).toEqual(HeaderType.SecondaryBenchmarkArea);
     expect(headers[4].content).toEqual('Group Area');
   });
 
@@ -357,7 +362,7 @@ export const placeholderHeatmapIndicatorData = [
 const expectedSortedIndicators = [indicator3, indicator2, indicator1];
 const expectedSortedAreas = [areaEngland, area3, area4, area2];
 
-describe('extract sorted areas, indicators, and data points', () => {
+describe('extract sorted areas, indicators, and data points - benchmark reference is england', () => {
   const { areas, indicators, dataPoints } =
     extractSortedAreasIndicatorsAndDataPoints(
       placeholderHeatmapIndicatorData,

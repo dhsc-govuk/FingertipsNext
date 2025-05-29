@@ -6,6 +6,7 @@ import {
   HeatmapIndicatorData,
 } from '@/components/organisms/Heatmap/heatmapUtil';
 import { getMethodsAndOutcomes } from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
+import { BenchmarkReferenceType } from '@/generated-sources/ft-api-client';
 
 interface MemoDataPrep {
   headers: ReturnType<typeof generateHeaders>;
@@ -16,8 +17,8 @@ interface MemoDataPrep {
 
 export const useHeatmapTableData = (
   indicatorData: HeatmapIndicatorData[],
-  benchmarkAreaCode: string,
-  groupAreaCode?: string
+  benchmarkRefType: BenchmarkReferenceType,
+  groupAreaCode: string
 ) => {
   return useMemo((): MemoDataPrep => {
     const { areas, indicators, dataPoints, benchmarkAreaName } =
@@ -28,10 +29,10 @@ export const useHeatmapTableData = (
       );
     const legendsToShow = getMethodsAndOutcomes(indicatorData);
     return {
-      headers: generateHeaders(areas, groupAreaCode),
+      headers: generateHeaders(areas, benchmarkRefType, groupAreaCode),
       rows: generateRows(areas, indicators, dataPoints),
       legendsToShow,
       benchmarkAreaName,
     };
-  }, [groupAreaCode, indicatorData, benchmarkAreaCode]);
+  }, [indicatorData, benchmarkRefType, groupAreaCode]);
 };

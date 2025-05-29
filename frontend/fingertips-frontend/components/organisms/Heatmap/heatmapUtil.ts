@@ -1,6 +1,7 @@
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
+  BenchmarkReferenceType,
   HealthDataForArea,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
@@ -17,8 +18,8 @@ export enum HeaderType {
   IndicatorTitle,
   IndicatorInformationPeriod,
   IndicatorInformationValueUnit,
-  BenchmarkArea,
-  GroupArea,
+  PrimaryBenchmarkArea,
+  SecondaryBenchmarkArea,
   Area,
 }
 
@@ -90,8 +91,7 @@ export interface HeatmapBenchmarkProps {
 
 export const extractSortedAreasIndicatorsAndDataPoints = (
   indicatorData: HeatmapIndicatorData[],
-  benchmarkAreaCode: string,
-  groupAreaCode?: string
+  groupAreaCode: string
 ): {
   areas: Area[];
   indicators: Indicator[];
@@ -103,7 +103,7 @@ export const extractSortedAreasIndicatorsAndDataPoints = (
 
   const precedingAreas = [areaCodeForEngland];
 
-  if (groupAreaCode && groupAreaCode !== areaCodeForEngland) {
+  if (groupAreaCode !== areaCodeForEngland) {
     precedingAreas.push(groupAreaCode);
   }
 
@@ -227,9 +227,7 @@ const getHoverAreaName = (area: Area, groupAreaCode?: string): string => {
 };
 
 const extractAreasIndicatorsAndDataPoints = (
-  indicatorDataForAllAreas: HeatmapIndicatorData[],
-  benchmarkAreaCode: string,
-  groupAreaCode?: string // TODO JH [1] - we never call this function with this parameter?
+  indicatorDataForAllAreas: HeatmapIndicatorData[]
 ): {
   areas: Record<string, Area>;
   indicators: Record<string, Indicator>;
@@ -270,7 +268,6 @@ const extractAreasIndicatorsAndDataPoints = (
       });
       if (
         healthData.areaCode !== areaCodeForEngland &&
-        healthData.areaCode !== groupAreaCode && // TODO JH [1] Do we need this line? Why is it here?
         healthData.healthData.length > 0 &&
         healthData.healthData[0].year > latestDataPeriod
       ) {
@@ -365,7 +362,8 @@ const orderAreaByPrecedingThenByName = (
 
 export const generateHeaders = (
   areas: Area[],
-  groupAreaCode?: string
+  benchmarkRefType: BenchmarkReferenceType,
+  groupAreaCode: string
 ): Header[] => {
   const getHeaderType = (pos: number, areaCode?: string): HeaderType => {
     if (pos === 0) {
@@ -381,11 +379,15 @@ export const generateHeaders = (
     }
 
     if (areaCode === areaCodeForEngland) {
-      return HeaderType.BenchmarkArea;
+      return benchmarkRefType === BenchmarkReferenceType.England
+        ? HeaderType.PrimaryBenchmarkArea
+        : HeaderType.SecondaryBenchmarkArea;
     }
 
     if (groupAreaCode && areaCode === groupAreaCode) {
-      return HeaderType.GroupArea;
+      return benchmarkRefType === BenchmarkReferenceType.England
+        ? HeaderType.SecondaryBenchmarkArea
+        : HeaderType.PrimaryBenchmarkArea;
     }
 
     return HeaderType.Area;
@@ -409,6 +411,27 @@ export const generateHeaders = (
     }
   };
 
+  const generateHeaderTitle = (
+    areaCode: string,
+    areaName: string,
+    benchmarkRefType: BenchmarkReferenceType,
+    groupAreaCode: string
+  ) => {
+    if (areaCode !== areaCodeForEngland && areaCode !== groupAreaCode) {
+      return areaName;
+    }
+
+    if (areaCode === areaCodeForEngland) {
+      return benchmarkRefType === BenchmarkReferenceType.England
+        ? `Benchmark: ${areaName}`
+        : areaName;
+    }
+
+    return benchmarkRefType === BenchmarkReferenceType.SubNational
+      ? `Benchmark: ${areaName}`
+      : `Group: ${areaName}`;
+  };
+
   const constantHeaderTitles = ['Indicators', 'Period', 'Value unit'];
   return constantHeaderTitles
     .map((title, index) => {
@@ -425,7 +448,12 @@ export const generateHeaders = (
             index + constantHeaderTitles.length,
             area.code
           ),
-          content: area.name,
+          content: generateHeaderTitle(
+            area.code,
+            area.name,
+            benchmarkRefType,
+            groupAreaCode
+          ),
           type: getHeaderType(index + constantHeaderTitles.length, area.code),
         };
       })

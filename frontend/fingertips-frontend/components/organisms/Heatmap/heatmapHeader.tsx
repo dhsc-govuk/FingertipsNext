@@ -26,7 +26,7 @@ const StyledH4AreaScaled = styled(H4)({
   margin: '0px',
 });
 
-const StyledH4BenchmarkHeader = styled(StyledH4AreaScaled)({
+const StyledH4PrimaryBenchmarkHeader = styled(StyledH4AreaScaled)({
   backgroundColor: GovukColours.MidGrey,
   paddingTop: '8px',
   paddingBottom: '8px',
@@ -34,7 +34,7 @@ const StyledH4BenchmarkHeader = styled(StyledH4AreaScaled)({
   paddingRight: '4px',
 });
 
-const StyledH4GroupAreaCodeHeader = styled(StyledH4AreaScaled)({
+const StyledH4SecondaryBenchmarkHeader = styled(StyledH4AreaScaled)({
   backgroundColor: GovukColours.LightGrey,
   paddingTop: '8px',
   paddingBottom: '8px',
@@ -117,25 +117,25 @@ export const HeatmapHeader: FC<HeatmapHeaderProps> = ({
         </StyledCellHeaderIndicatorInformationValueUnit>
       );
 
-    case HeaderType.BenchmarkArea: {
+    case HeaderType.PrimaryBenchmarkArea: {
       return (
         <StyledCellHeaderArea>
           <StyledDivRotate>
-            <StyledH4BenchmarkHeader>
-              Benchmark: {content}
-            </StyledH4BenchmarkHeader>
+            <StyledH4PrimaryBenchmarkHeader>
+              {content}
+            </StyledH4PrimaryBenchmarkHeader>
           </StyledDivRotate>
         </StyledCellHeaderArea>
       );
     }
 
-    case HeaderType.GroupArea: {
+    case HeaderType.SecondaryBenchmarkArea: {
       return (
         <StyledCellHeaderArea>
           <StyledDivRotate>
-            <StyledH4GroupAreaCodeHeader>
-              Group: {content}
-            </StyledH4GroupAreaCodeHeader>
+            <StyledH4SecondaryBenchmarkHeader>
+              {content}
+            </StyledH4SecondaryBenchmarkHeader>
           </StyledDivRotate>
         </StyledCellHeaderArea>
       );
