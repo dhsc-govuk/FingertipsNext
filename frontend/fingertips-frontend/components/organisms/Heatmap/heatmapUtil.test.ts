@@ -11,7 +11,10 @@ import {
   generateRows,
   HeaderType,
 } from './heatmapUtil';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import {
+  areaCodeForEngland,
+  englandAreaString,
+} from '@/lib/chartHelpers/constants';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 
 describe('generate headers and rows - benchmark reference is England', () => {
@@ -74,10 +77,17 @@ describe('generate headers and rows - benchmark reference is England', () => {
 
   const headers = generateHeaders(
     sortedAreas,
-    BenchmarkReferenceType.England,
-    groupAreaCode
+    groupAreaCode,
+    BenchmarkReferenceType.England
   );
-  const rows = generateRows(sortedAreas, sortedIndicators, dataPoints);
+
+  const rows = generateRows(
+    sortedAreas,
+    sortedIndicators,
+    dataPoints,
+    BenchmarkReferenceType.England,
+    englandAreaString
+  );
 
   it('should set the first header to indicator title header', () => {
     expect(headers[0].type).toEqual(HeaderType.IndicatorTitle);

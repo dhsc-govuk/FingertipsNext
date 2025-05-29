@@ -6,6 +6,7 @@ import {
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
+  BenchmarkReferenceType,
 } from '@/generated-sources/ft-api-client';
 import { formatNumber } from '@/lib/numberFormatter';
 import { englandAreaString } from '@/lib/chartHelpers/constants';
@@ -18,8 +19,9 @@ describe('heatmap hover benchmark pill', () => {
     value: defaultValue,
     outcome: 'NotCompared',
     benchmarkMethod: 'Unknown',
-    benchmarkAreaName: englandAreaString,
     polarity: 'Unknown',
+    benchmarkRefType: BenchmarkReferenceType.England,
+    benchmarkAreaName: englandAreaString,
   };
 
   it('should display text if value is missing', () => {
@@ -28,8 +30,9 @@ describe('heatmap hover benchmark pill', () => {
         unitLabel={defaultProps.unitLabel}
         outcome={defaultProps.outcome}
         benchmarkMethod={defaultProps.benchmarkMethod}
-        benchmarkAreaName={defaultProps.benchmarkAreaName}
         polarity={defaultProps.polarity}
+        benchmarkAreaName={defaultProps.benchmarkAreaName}
+        benchmarkRefType={defaultProps.benchmarkRefType}
       />
     );
 
@@ -43,8 +46,9 @@ describe('heatmap hover benchmark pill', () => {
         value={defaultValue}
         outcome={'Baseline'}
         benchmarkMethod={defaultProps.benchmarkMethod}
-        benchmarkAreaName={defaultProps.benchmarkAreaName}
         polarity={defaultProps.polarity}
+        benchmarkAreaName={defaultProps.benchmarkAreaName}
+        benchmarkRefType={defaultProps.benchmarkRefType}
       />
     );
 
@@ -63,8 +67,9 @@ describe('heatmap hover benchmark pill', () => {
         value={defaultValue}
         outcome={BenchmarkOutcome.NotCompared}
         benchmarkMethod={defaultProps.benchmarkMethod}
-        benchmarkAreaName={defaultProps.benchmarkAreaName}
         polarity={defaultProps.polarity}
+        benchmarkAreaName={defaultProps.benchmarkAreaName}
+        benchmarkRefType={defaultProps.benchmarkRefType}
       />
     );
 
@@ -86,8 +91,9 @@ describe('heatmap hover benchmark pill', () => {
         benchmarkMethod={
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95
         }
-        benchmarkAreaName={defaultProps.benchmarkAreaName}
         polarity={defaultProps.polarity}
+        benchmarkRefType={defaultProps.benchmarkRefType}
+        benchmarkAreaName={defaultProps.benchmarkAreaName}
       />
     );
 
@@ -98,5 +104,27 @@ describe('heatmap hover benchmark pill', () => {
       screen.getByText(defaultProps.unitLabel, { exact: false })
     ).toBeInTheDocument();
     expect(screen.getByText('Similar to England (95%)')).toBeInTheDocument();
+  });
+
+  it('should use the given area name in outcome text', () => {
+    const testBenchmarkAreaName = 'West Foobar';
+
+    const screen = render(
+      <HeatmapHoverBenchmarkPill
+        unitLabel={defaultProps.unitLabel}
+        value={defaultValue}
+        outcome={BenchmarkOutcome.Similar}
+        benchmarkMethod={
+          BenchmarkComparisonMethod.CIOverlappingReferenceValue95
+        }
+        polarity={defaultProps.polarity}
+        benchmarkRefType={defaultProps.benchmarkRefType}
+        benchmarkAreaName={'West Foobar'}
+      />
+    );
+
+    expect(
+      screen.getByText(`Similar to ${testBenchmarkAreaName} (95%)`)
+    ).toBeInTheDocument();
   });
 });

@@ -78,15 +78,20 @@ interface DataPoint {
   value?: number;
   areaCode: string;
   indicatorId: string;
-  benchmark?: HeatmapBenchmarkProps;
+  benchmark?: DataPointBenchmark;
+}
+
+interface DataPointBenchmark {
+  outcome: HeatmapBenchmarkOutcome;
+  benchmarkMethod: BenchmarkComparisonMethod;
+  polarity: IndicatorPolarity;
 }
 
 export type HeatmapBenchmarkOutcome = BenchmarkOutcome | 'Baseline';
 
-export interface HeatmapBenchmarkProps {
-  outcome: HeatmapBenchmarkOutcome;
-  benchmarkMethod: BenchmarkComparisonMethod;
-  polarity: IndicatorPolarity;
+export interface HeatmapBenchmarkProps extends DataPointBenchmark {
+  benchmarkRefType: BenchmarkReferenceType;
+  benchmarkAreaName: string;
 }
 
 export const extractSortedAreasIndicatorsAndDataPoints = (
@@ -136,7 +141,9 @@ export const extractSortedAreasIndicatorsAndDataPoints = (
 export const generateRows = (
   areas: Area[],
   indicators: Indicator[],
-  dataPoints: Record<string, Record<string, DataPoint>>
+  dataPoints: Record<string, Record<string, DataPoint>>,
+  benchmarkRefType: BenchmarkReferenceType,
+  benchmarkAreaName: string
 ): HeatmapDataRow[] => {
   const rows = new Array<HeatmapDataRow>(indicators.length);
   indicators.forEach((indicator, indicatorIndex) => {
@@ -190,6 +197,8 @@ export const generateRows = (
             polarity:
               dataPoints[indicator.id][area.code]?.benchmark?.polarity ??
               IndicatorPolarity.Unknown,
+            benchmarkRefType: benchmarkRefType,
+            benchmarkAreaName: benchmarkAreaName,
           },
         },
       };
@@ -304,7 +313,7 @@ const extractAreasIndicatorsAndDataPoints = (
         return outcome ?? BenchmarkOutcome.NotCompared;
       };
 
-      const benchmark: HeatmapBenchmarkProps = {
+      const benchmark: DataPointBenchmark = {
         outcome: getBenchmarkOutcome(
           healthDataForYear?.benchmarkComparison?.outcome
         ),
@@ -366,8 +375,8 @@ const orderAreaByPrecedingThenByName = (
 
 export const generateHeaders = (
   areas: Area[],
-  benchmarkRefType: BenchmarkReferenceType,
-  groupAreaCode: string
+  groupAreaCode: string,
+  benchmarkRefType: BenchmarkReferenceType
 ): Header[] => {
   const getHeaderType = (pos: number, areaCode?: string): HeaderType => {
     if (pos === 0) {

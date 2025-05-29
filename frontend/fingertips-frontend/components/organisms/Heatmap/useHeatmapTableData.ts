@@ -12,7 +12,6 @@ interface MemoDataPrep {
   headers: ReturnType<typeof generateHeaders>;
   rows: ReturnType<typeof generateRows>;
   legendsToShow: ReturnType<typeof getMethodsAndOutcomes>;
-  benchmarkAreaName?: string;
 }
 
 export const useHeatmapTableData = (
@@ -29,10 +28,15 @@ export const useHeatmapTableData = (
       );
     const legendsToShow = getMethodsAndOutcomes(indicatorData);
     return {
-      headers: generateHeaders(areas, benchmarkRefType, groupAreaCode),
-      rows: generateRows(areas, indicators, dataPoints),
+      headers: generateHeaders(areas, groupAreaCode, benchmarkRefType),
+      rows: generateRows(
+        areas,
+        indicators,
+        dataPoints,
+        benchmarkRefType,
+        benchmarkAreaName
+      ),
       legendsToShow,
-      benchmarkAreaName,
     };
   }, [indicatorData, benchmarkRefType, groupAreaCode]);
 };

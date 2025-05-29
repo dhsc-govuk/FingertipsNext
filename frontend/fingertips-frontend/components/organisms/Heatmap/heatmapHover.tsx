@@ -61,7 +61,6 @@ export interface HeatmapHoverProps {
   value?: number;
   unitLabel: string;
   benchmark: HeatmapBenchmarkProps;
-  benchmarkAreaName?: string;
   left?: number;
   top?: number;
 }
@@ -72,7 +71,6 @@ export const HeatmapHover: FC<HeatmapHoverProps> = ({
   indicatorName,
   value,
   unitLabel,
-  benchmarkAreaName,
   benchmark,
   left,
   top,
@@ -96,9 +94,10 @@ export const HeatmapHover: FC<HeatmapHoverProps> = ({
         value={value}
         unitLabel={unitLabel}
         outcome={benchmark.outcome}
-        benchmarkAreaName={benchmarkAreaName ?? englandAreaString}
         benchmarkMethod={benchmark.benchmarkMethod}
         polarity={benchmark.polarity}
+        benchmarkRefType={benchmark.benchmarkRefType}
+        benchmarkAreaName={benchmark.benchmarkAreaName ?? englandAreaString}
       />
     </StyledDivHover>
   );

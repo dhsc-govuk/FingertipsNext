@@ -2,6 +2,7 @@ import { FC } from 'react';
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
+  BenchmarkReferenceType,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import styled from 'styled-components';
@@ -15,7 +16,6 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
-import { englandAreaString } from '@/lib/chartHelpers/constants';
 
 const StyledDivSquare = styled.div({
   width: '10px',
@@ -50,8 +50,9 @@ export interface HeatmapHoverBenchmarkPillProps {
   unitLabel: string;
   outcome: HeatmapBenchmarkOutcome;
   benchmarkMethod: BenchmarkComparisonMethod;
-  benchmarkAreaName: string;
   polarity: IndicatorPolarity;
+  benchmarkRefType: BenchmarkReferenceType;
+  benchmarkAreaName: string;
 }
 
 export const HeatmapHoverBenchmarkPill: FC<HeatmapHoverBenchmarkPillProps> = ({
@@ -59,8 +60,9 @@ export const HeatmapHoverBenchmarkPill: FC<HeatmapHoverBenchmarkPillProps> = ({
   unitLabel,
   outcome,
   benchmarkMethod,
-  benchmarkAreaName,
   polarity,
+  benchmarkRefType,
+  benchmarkAreaName,
 }) => {
   return (
     <GridRow>
@@ -70,8 +72,8 @@ export const HeatmapHoverBenchmarkPill: FC<HeatmapHoverBenchmarkPillProps> = ({
             value={value}
             outcome={outcome}
             benchmarkMethod={benchmarkMethod}
-            benchmarkAreaName={benchmarkAreaName}
             polarity={polarity}
+            benchmarkRefType={benchmarkRefType}
             data-testid="heatmap-hover-benchmark-icon"
           />
         }
@@ -92,17 +94,28 @@ export const HeatmapHoverBenchmarkPill: FC<HeatmapHoverBenchmarkPillProps> = ({
 interface BenchmarkPillIconProps {
   value?: number;
   outcome: HeatmapBenchmarkOutcome;
-  benchmarkAreaName: string;
   benchmarkMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
+  benchmarkRefType: BenchmarkReferenceType;
 }
+
+const getBaselineIconColour = (benchmarkRefType: BenchmarkReferenceType) => {
+  switch (benchmarkRefType) {
+    case BenchmarkReferenceType.AreaGroup:
+      return GovukColours.Pink;
+    case BenchmarkReferenceType.England:
+      return GovukColours.Black;
+    default:
+      return GovukColours.Black;
+  }
+};
 
 const BenchmarkPillIcon: FC<BenchmarkPillIconProps> = ({
   value,
   outcome,
-  benchmarkAreaName,
   benchmarkMethod,
   polarity,
+  benchmarkRefType,
 }) => {
   if (value === undefined) {
     return <StyledText>{SymbolsEnum.MultiplicationX}</StyledText>;
@@ -112,12 +125,12 @@ const BenchmarkPillIcon: FC<BenchmarkPillIconProps> = ({
     return <StyledDivSquareBenchmarkNotCompared />;
   }
 
-  if (outcome === 'Baseline' && benchmarkAreaName == englandAreaString) {
-    return <StyledDivSquareBenchmarkColour $colour={GovukColours.Black} />;
-  }
-
   if (outcome === 'Baseline') {
-    return <StyledDivSquareBenchmarkColour $colour={GovukColours.Pink} />;
+    return (
+      <StyledDivSquareBenchmarkColour
+        $colour={getBaselineIconColour(benchmarkRefType)}
+      />
+    );
   }
 
   return (
