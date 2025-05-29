@@ -125,6 +125,7 @@ export function InequalitiesForSingleTimePeriod({
   if (!periodData) throw new Error('data does not exist for selected year');
 
   const barChartData: InequalitiesBarChartData = {
+    areaCode: healthDataForArea.areaCode,
     areaName: healthDataForArea.areaName,
     data: periodData,
   };
