@@ -115,7 +115,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
   );
 
   const availableAreasForBenchmarking = determineAreasForBenchmarking(
-    indicatorData[0].areaHealthData!,
+    indicatorData[0].areaHealthData ?? [],
     selectedGroupCode,
     areasSelected
   );
