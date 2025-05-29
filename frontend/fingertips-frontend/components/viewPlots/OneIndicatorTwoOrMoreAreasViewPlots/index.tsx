@@ -139,7 +139,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                     indicatorMetadata={indicatorMetadata}
                     benchmarkComparisonMethod={benchmarkMethod}
                     polarity={polarity}
-                    benchmarkOptions={benchmarkToUse}
+                    benchmarkToUse={benchmarkToUse}
                   />
                 ),
               },

@@ -54,7 +54,7 @@ export interface LineChartTableProps {
   indicatorMetadata?: IndicatorDocument;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
-  benchmarkOptions?: string;
+  benchmarkToUse?: string;
 }
 
 export interface LineChartTableRowData {
@@ -221,26 +221,26 @@ const BenchmarkCell: FC<BenchmarkCellProps> = ({
 
 interface AlternateBenchmarkCellProps {
   children?: React.ReactNode;
-  benchmarkOptions: string | undefined;
+  benchmarkToUse: string | undefined;
   label: 'group' | 'benchmark';
   cellType?: 'group' | 'england';
 }
 
 const AlternateBenchmarkHeaderCellWrapper: FC<AlternateBenchmarkCellProps> = ({
   children,
-  benchmarkOptions = areaCodeForEngland,
+  benchmarkToUse = areaCodeForEngland,
   label,
   cellType,
 }) => {
   let CellWrapper: React.ComponentType<{ children?: React.ReactNode }>;
   if (label === 'group') {
     CellWrapper =
-      benchmarkOptions !== areaCodeForEngland
+      benchmarkToUse !== areaCodeForEngland
         ? StyledAlternateGroupHeader
         : StyledGroupNameHeader;
   } else {
     CellWrapper =
-      benchmarkOptions !== areaCodeForEngland
+      benchmarkToUse !== areaCodeForEngland
         ? StyledAlternateEnglandHeader
         : StyledStickyRightHeader;
   }
@@ -251,16 +251,16 @@ const AlternateBenchmarkHeaderCellWrapper: FC<AlternateBenchmarkCellProps> = ({
 
 const AlternateBenchmarkSubHeaderCellWrapper: FC<
   AlternateBenchmarkCellProps
-> = ({ children, benchmarkOptions = areaCodeForEngland, label, cellType }) => {
+> = ({ children, benchmarkToUse = areaCodeForEngland, label, cellType }) => {
   let CellWrapper: React.ComponentType<{ children?: React.ReactNode }>;
   if (label === 'group') {
     CellWrapper =
-      benchmarkOptions !== areaCodeForEngland
+      benchmarkToUse !== areaCodeForEngland
         ? StyledAlternateGroupSubHeader
         : StyledLightGreySubHeader;
   } else {
     CellWrapper =
-      benchmarkOptions !== areaCodeForEngland
+      benchmarkToUse !== areaCodeForEngland
         ? StyledAlternateEnglandHeader
         : StyledStickyRightHeader;
   }
@@ -271,19 +271,19 @@ const AlternateBenchmarkSubHeaderCellWrapper: FC<
 
 const AlternateBenchmarkCellWrapper: FC<AlternateBenchmarkCellProps> = ({
   children,
-  benchmarkOptions = areaCodeForEngland,
+  benchmarkToUse = areaCodeForEngland,
   label,
   cellType,
 }) => {
   let CellWrapper: React.ComponentType<{ children?: React.ReactNode }>;
   if (label === 'group') {
     CellWrapper =
-      benchmarkOptions !== areaCodeForEngland
+      benchmarkToUse !== areaCodeForEngland
         ? StyledAlternateGroupBenchmarkCell
         : StyledGroupValueTableCell;
   } else {
     CellWrapper =
-      benchmarkOptions !== areaCodeForEngland
+      benchmarkToUse !== areaCodeForEngland
         ? StyledAlternateEnglandBenchmarkCell
         : StyledStickyRight;
   }
@@ -327,12 +327,12 @@ export function LineChartTable({
   indicatorMetadata,
   benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
   polarity = IndicatorPolarity.Unknown,
-  benchmarkOptions,
+  benchmarkToUse,
 }: Readonly<LineChartTableProps>) {
   const englandColumnPrefix =
-    benchmarkOptions !== areaCodeForEngland ? '' : 'Benchmark: ';
+    benchmarkToUse !== areaCodeForEngland ? '' : 'Benchmark: ';
   const groupColumnPrefix =
-    benchmarkOptions !== areaCodeForEngland ? 'Benchmark: ' : 'Group: ';
+    benchmarkToUse !== areaCodeForEngland ? 'Benchmark: ' : 'Group: ';
 
   if (englandIndicatorData && healthIndicatorData.length === 0) {
     healthIndicatorData = [englandIndicatorData];
@@ -443,7 +443,7 @@ export function LineChartTable({
                 {showGroupColumn ? (
                   <AlternateBenchmarkHeaderCellWrapper
                     label="group"
-                    benchmarkOptions={benchmarkOptions}
+                    benchmarkToUse={benchmarkToUse}
                     cellType={'group'}
                   >
                     {groupColumnPrefix} {groupIndicatorData?.areaName}
@@ -452,7 +452,7 @@ export function LineChartTable({
                 {showBenchmarkColumn ? (
                   <AlternateBenchmarkHeaderCellWrapper
                     label="benchmark"
-                    benchmarkOptions={benchmarkOptions}
+                    benchmarkToUse={benchmarkToUse}
                     cellType={'england'}
                   >
                     {englandColumnPrefix} <br /> England
@@ -477,13 +477,13 @@ export function LineChartTable({
                   {showGroupColumn ? (
                     <AlternateBenchmarkCellWrapper
                       label="group"
-                      benchmarkOptions={benchmarkOptions}
+                      benchmarkToUse={benchmarkToUse}
                     />
                   ) : null}
                   {showBenchmarkColumn ? (
                     <AlternateBenchmarkCellWrapper
                       label="benchmark"
-                      benchmarkOptions={benchmarkOptions}
+                      benchmarkToUse={benchmarkToUse}
                     />
                   ) : null}
                 </Table.Row>
@@ -515,7 +515,7 @@ export function LineChartTable({
                 )}
                 {showGroupColumn ? (
                   <AlternateBenchmarkSubHeaderCellWrapper
-                    benchmarkOptions={benchmarkOptions}
+                    benchmarkToUse={benchmarkToUse}
                     label="group"
                   >
                     Value
@@ -524,7 +524,7 @@ export function LineChartTable({
                 ) : null}
                 {showBenchmarkColumn ? (
                   <AlternateBenchmarkSubHeaderCellWrapper
-                    benchmarkOptions={benchmarkOptions}
+                    benchmarkToUse={benchmarkToUse}
                     label="benchmark"
                     cellType={'england'}
                   >
@@ -568,7 +568,7 @@ export function LineChartTable({
               {showGroupColumn ? (
                 <AlternateBenchmarkCellWrapper
                   label="group"
-                  benchmarkOptions={benchmarkOptions}
+                  benchmarkToUse={benchmarkToUse}
                 >
                   {formatNumber(groupValue)}
                 </AlternateBenchmarkCellWrapper>
@@ -576,7 +576,7 @@ export function LineChartTable({
               {showBenchmarkColumn ? (
                 <AlternateBenchmarkCellWrapper
                   label="benchmark"
-                  benchmarkOptions={benchmarkOptions}
+                  benchmarkToUse={benchmarkToUse}
                   cellType={'england'}
                 >
                   {formatNumber(benchmarkValue)}

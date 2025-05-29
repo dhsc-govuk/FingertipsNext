@@ -169,7 +169,7 @@ describe('Line chart table suite', () => {
           englandIndicatorData={MOCK_ENGLAND_DATA}
           groupIndicatorData={MOCK_PARENT_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
-          benchmarkOptions={MOCK_HEALTH_DATA[0].areaCode}
+          benchmarkToUse={MOCK_HEALTH_DATA[0].areaCode}
         />
       );
 
@@ -185,7 +185,7 @@ describe('Line chart table suite', () => {
           englandIndicatorData={MOCK_ENGLAND_DATA}
           groupIndicatorData={MOCK_PARENT_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
-          benchmarkOptions={MOCK_ENGLAND_DATA.areaCode}
+          benchmarkToUse={MOCK_ENGLAND_DATA.areaCode}
         />
       );
 
@@ -356,7 +356,7 @@ describe('Line chart table suite', () => {
           englandIndicatorData={MOCK_ENGLAND_DATA}
           groupIndicatorData={MOCK_PARENT_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
-          benchmarkOptions={MOCK_ENGLAND_DATA.areaCode}
+          benchmarkToUse={MOCK_ENGLAND_DATA.areaCode}
         />
       );
 

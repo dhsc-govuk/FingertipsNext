@@ -146,7 +146,7 @@ export function OneIndicatorOneAreaViewPlots({
                     indicatorMetadata={indicatorMetadata}
                     benchmarkComparisonMethod={benchmarkComparisonMethod}
                     polarity={polarity}
-                    benchmarkOptions={benchmarkToUse}
+                    benchmarkToUse={benchmarkToUse}
                   />
                 ),
               },
