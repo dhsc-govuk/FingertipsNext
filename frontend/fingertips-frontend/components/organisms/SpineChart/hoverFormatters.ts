@@ -34,6 +34,7 @@ interface FormatBarHoverProps {
   units: string;
   colour: string;
   indicatorName: string;
+  benchmarkName: string;
 }
 
 interface FormatSymbolHoverProps {
@@ -46,6 +47,7 @@ interface FormatSymbolHoverProps {
   colour: string;
   shape: SymbolsEnum;
   indicatorName: string;
+  benchmarkName: string;
 }
 
 function formatSymbol(colour: string, shape: SymbolsEnum) {
@@ -93,7 +95,11 @@ export function formatBarHover(props: FormatBarHoverProps) {
                       <div>${props.lowerName} to ${props.upperName}</div>`;
 
   return hoverTemplate(
-    formatTitleBlock('Benchmark: England', props.period, props.indicatorName),
+    formatTitleBlock(
+      `Benchmark: ${props.benchmarkName}`,
+      props.period,
+      props.indicatorName
+    ),
     formatSymbol(props.colour, SymbolsEnum.Square),
     mainContent
   );
@@ -106,7 +112,7 @@ export function formatSymbolHover(props: FormatSymbolHoverProps) {
     if (props.outcome === 'Not compared') {
       outcomeContent = '<div>Not compared</div>';
     } else {
-      outcomeContent = `<div>${props.outcome} than England</div>
+      outcomeContent = `<div>${props.outcome} than ${props.benchmarkName}</div>
                         <div>${benchmarkComparisonMethodToString(props.benchmarkComparisonMethod)}</div>`;
     }
   }

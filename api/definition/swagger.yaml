@@ -318,6 +318,11 @@ paths:
               type: integer
               example: 1234
             maxItems: 10
+        - name: benchmark_ref_type
+          in: query
+          description: The benchmark reference type
+          schema:
+            $ref: "#/components/schemas/BenchmarkReferenceType"
       responses:
         "200":
           description: search results matching criteria

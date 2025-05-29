@@ -6,12 +6,17 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { SpineChartProps } from '.';
+import {
+  areaCodeForEngland,
+  englandAreaString,
+} from '@/lib/chartHelpers/constants';
 
 describe('generateSeriesData', () => {
   const mockProps: SpineChartProps = {
     name: 'Test Indicator',
     period: 2025,
     units: '%',
+    benchmarkName: englandAreaString,
     benchmarkValue: 50,
     quartileData: {
       indicatorId: 1,
@@ -25,10 +30,11 @@ describe('generateSeriesData', () => {
     areaTwoValue: 40,
     areaTwoOutcome: BenchmarkOutcome.Worse,
     areaNames: ['Area One', 'Area Two'],
-    groupValue: 55,
-    groupName: 'Test Group',
-    groupOutcome: BenchmarkOutcome.Similar,
+    alternativeBenchmarkValue: 55,
+    alternativeBenchmarkName: 'Test Group',
+    alternativeBenchmarkOutcome: BenchmarkOutcome.Similar,
     benchmarkMethod: BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+    benchmarkToUse: areaCodeForEngland,
   };
 
   it('should generate series data correctly for valid props', () => {
@@ -89,7 +95,10 @@ describe('generateSeriesData', () => {
   });
 
   it('should not return series data for group if not provided', () => {
-    const propsWithoutGroup = { ...mockProps, groupValue: undefined };
+    const propsWithoutGroup = {
+      ...mockProps,
+      alternativeBenchmarkValue: undefined,
+    };
     const result = generateSeriesData(propsWithoutGroup);
 
     expect(result).toHaveLength(7); // 4 bars + 3 scatter points (areaOne, areaTwo, benchmark)
@@ -113,5 +122,28 @@ describe('generateSeriesData', () => {
     expect(
       result?.find((series) => series?.name?.includes('Area Two'))
     ).toBeUndefined();
+  });
+
+  it('should generate correct series data when the benchmark is not England', () => {
+    const propsWithGroupBenchmark = {
+      ...mockProps,
+      benchmarkToUse: 'GROUP_CODE',
+      benchmarkName: 'Test Group',
+      alternativeBenchmarkName: 'England',
+      alternativeBenchmarkValue: 55,
+    };
+    const result = generateSeriesData(propsWithGroupBenchmark);
+
+    expect(result).toHaveLength(8);
+
+    const englandScatter = result?.[4] as Highcharts.SeriesScatterOptions;
+    expect(englandScatter?.type).toBe('scatter');
+    expect(englandScatter?.name).toContain('England');
+    expect(englandScatter?.marker?.enabled).toBe(false);
+
+    const benchmarkScatter = result?.[7] as Highcharts.SeriesScatterOptions;
+    expect(benchmarkScatter?.type).toBe('scatter');
+    expect(benchmarkScatter?.name).toContain('Benchmark: Test Group');
+    expect(benchmarkScatter?.marker?.fillColor).toBe(GovukColours.Black);
   });
 });

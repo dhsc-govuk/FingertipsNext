@@ -9,11 +9,13 @@ import {
 } from '@/lib/apiClient/apiClientFactory';
 import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 import {
+  determineBenchmarkRefType,
   getHealthDataForIndicator,
   HealthDataRequestAreas,
 } from '@/lib/ViewsHelpers';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
+import { BenchmarkReferenceType } from '@/generated-sources/ft-api-client';
 
 export default async function TwoOrMoreIndicatorsAreasView({
   searchState,
@@ -28,6 +30,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.GroupTypeSelected]: selectedGroupType,
     [SearchParams.GroupAreaSelected]: groupAreaSelected,
+    [SearchParams.BenchmarkAreaSelected]: benchmarkAreaSelected,
   } = stateManager.getSearchState();
 
   const areaCodes = determineAreaCodes(
@@ -76,6 +79,12 @@ export default async function TwoOrMoreIndicatorsAreasView({
     });
   }
 
+  const benchmarkRefType = determineBenchmarkRefType(benchmarkAreaSelected);
+  const areaGroup =
+    benchmarkRefType === BenchmarkReferenceType.SubNational
+      ? selectedGroupCode
+      : undefined;
+
   await connection();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
@@ -85,7 +94,9 @@ export default async function TwoOrMoreIndicatorsAreasView({
         indicatorApi,
         indicator,
         areasToRequest,
-        true
+        benchmarkRefType,
+        true,
+        areaGroup
       );
     })
   );
@@ -100,6 +111,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
       areaCode: areaCodes[0],
       ancestorCode: selectedGroupCode ?? areaCodeForEngland,
       areaType: selectedAreaType,
+      benchmarkRefType,
     },
     API_CACHE_CONFIG
   );

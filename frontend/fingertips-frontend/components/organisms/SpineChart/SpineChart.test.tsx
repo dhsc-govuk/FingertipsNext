@@ -5,6 +5,10 @@ import {
 import { SpineChart } from '.';
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
+import {
+  areaCodeForEngland,
+  englandAreaString,
+} from '@/lib/chartHelpers/constants';
 
 describe('Spine chart', () => {
   const mockIndicator = 'mock indicator';
@@ -25,10 +29,12 @@ describe('Spine chart', () => {
         name={mockIndicator}
         units={mockUnits}
         period={mockPeriod}
+        benchmarkName={englandAreaString}
         benchmarkValue={mockValue}
         quartileData={mockQuartileData}
         areaNames={['Area Name']}
-        groupName={'Group Name'}
+        alternativeBenchmarkName={'Group Name'}
+        benchmarkToUse={areaCodeForEngland}
       />
     );
 
