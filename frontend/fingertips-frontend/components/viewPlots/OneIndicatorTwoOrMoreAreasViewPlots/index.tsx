@@ -181,10 +181,9 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
           healthIndicatorData={dataWithoutEnglandOrGroup}
           benchmarkData={englandData}
           groupIndicatorData={groupData}
-          measurementUnit={indicatorMetadata?.unitLabel}
+          indicatorMetadata={indicatorMetadata}
           benchmarkComparisonMethod={benchmarkMethod}
           polarity={polarity}
-          dataSource={indicatorMetadata?.dataSource}
         />
       </StyleChartWrapper>
     </section>
