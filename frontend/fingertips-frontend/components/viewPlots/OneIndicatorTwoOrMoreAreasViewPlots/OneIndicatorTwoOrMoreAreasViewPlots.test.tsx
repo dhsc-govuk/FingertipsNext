@@ -107,6 +107,10 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     jest.clearAllMocks();
   });
 
+  afterAll(() => {
+    jest.resetAllMocks();
+  });
+
   it('should render the benchmark select area drop down for the view', async () => {
     await act(() =>
       render(
@@ -262,10 +266,6 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
       });
     });
 
-    afterEach(() => {
-      jest.resetAllMocks();
-    });
-
     it('should render the ThematicMap with title', async () => {
       (fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
@@ -306,10 +306,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
       });
     });
 
-    // TODO: fix complains about useRouter within BenchmarkSelectArea being undefined and there can't destructure
-    // not sure why only affecting this test
-    // see DHSCFT-856
-    it.skip('should not render the ThematicMap when not all areas in a group are selected', async () => {
+    it('should not render the ThematicMap when not all areas in a group are selected', async () => {
       const searchState: SearchStateParams = {
         [SearchParams.GroupAreaSelected]: 'not ALL',
         [SearchParams.AreaTypeSelected]: 'regions',
