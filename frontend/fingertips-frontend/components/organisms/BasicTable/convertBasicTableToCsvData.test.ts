@@ -5,6 +5,7 @@ import {
 import { BasicTableData } from '.';
 import { convertBasicTableToCsvData } from './convertBasicTableToCsvData';
 import { CsvHeader } from '@/components/molecules/Export/export.types';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 describe('convertBasicTableToCsvData', () => {
   const basicTableData: BasicTableData[] = [
@@ -49,40 +50,48 @@ describe('convertBasicTableToCsvData', () => {
       CsvHeader.IndicatorId,
       CsvHeader.IndicatorName,
       CsvHeader.Period,
+      CsvHeader.Area,
+      CsvHeader.AreaCode,
+      CsvHeader.RecentTrend,
       CsvHeader.Count,
       CsvHeader.ValueUnit,
       CsvHeader.Value,
-      CsvHeader.RecentTrend,
     ]);
 
     expect(result[1]).toEqual([
       1,
       'testIndicator1',
       '2020',
+      'England',
+      areaCodeForEngland,
+      HealthDataPointTrendEnum.Increasing,
       200,
       '%',
       350,
-      HealthDataPointTrendEnum.Increasing,
     ]);
 
     expect(result[2]).toEqual([
       2,
       'testIndicator2',
       '2022',
+      'England',
+      areaCodeForEngland,
+      HealthDataPointTrendEnum.Decreasing,
       100,
       'per 100,000',
       500,
-      HealthDataPointTrendEnum.Decreasing,
     ]);
 
     expect(result[3]).toEqual([
       3,
       'testIndicator3',
       '2025',
+      'England',
+      areaCodeForEngland,
+      HealthDataPointTrendEnum.CannotBeCalculated,
       100,
       '%',
       500,
-      HealthDataPointTrendEnum.CannotBeCalculated,
     ]);
   });
 });
