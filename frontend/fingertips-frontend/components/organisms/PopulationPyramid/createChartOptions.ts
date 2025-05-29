@@ -358,7 +358,7 @@ const createAdditionalChartSeries = (
     );
     series.push(
       {
-        name: `Benchmark: ${dataForBenchmark.areaName} `,
+        name: `${dataForBenchmark.areaName} `,
         data: femaleBenchmarkSeries,
         type: 'line',
         marker: { symbol: SymbolNames.Circle },
@@ -368,7 +368,7 @@ const createAdditionalChartSeries = (
         custom: { tag: 'Female', shape: SymbolsEnum.Circle },
       },
       {
-        name: `Benchmark: ${dataForBenchmark.areaName} `,
+        name: `${dataForBenchmark.areaName} `,
         data: maleBenchmarkSeries.map((datapoint) => -datapoint),
         type: 'line',
         stack: 3,
