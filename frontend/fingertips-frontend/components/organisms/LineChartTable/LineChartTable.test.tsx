@@ -162,28 +162,6 @@ describe('Line chart table suite', () => {
       ).toBeInTheDocument();
     });
 
-    // it('should have grey cell color for benchmark column', () => {
-    //   render(
-    //     <LineChartTable
-    //       healthIndicatorData={[mockHealthData[0]]}
-    //       englandBenchmarkData={MOCK_ENGLAND_DATA}
-    //       indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
-    //     />
-    //   );
-    //
-    //   screen.getAllByTestId('grey-table-cell').forEach((greyCell) => {
-    //     expect(greyCell).toHaveStyle(
-    //       `background-color: ${GovukColours.MidGrey}`
-    //     );
-    //   });
-    //   expect(screen.getByTestId(`header-benchmark-value`)).toHaveStyle(
-    //     `background-color: ${GovukColours.MidGrey}`
-    //   );
-    //   expect(screen.getByTestId('england-header')).toHaveStyle(
-    //     `background-color: ${GovukColours.MidGrey}`
-    //   );
-    // });
-
     it('should render the group column with benchmark column styling, when the subnational benchmark is not england ', () => {
       render(
         <LineChartTable

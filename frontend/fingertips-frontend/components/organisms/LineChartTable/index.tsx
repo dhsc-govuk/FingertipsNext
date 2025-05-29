@@ -575,9 +575,9 @@ export function LineChartTable({
               ) : null}
               {showBenchmarkColumn ? (
                 <AlternateBenchmarkCellWrapper
-                  data-testid="grey-table-cell"
                   label="benchmark"
                   benchmarkOptions={benchmarkOptions}
+                  cellType={'england'}
                 >
                   {formatNumber(benchmarkValue)}
                 </AlternateBenchmarkCellWrapper>
