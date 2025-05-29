@@ -129,15 +129,19 @@ describe('generateSeriesData', () => {
       ...mockProps,
       benchmarkToUse: 'GROUP_CODE',
       benchmarkName: 'Test Group',
-      groupName: 'England',
-      groupValue: 55,
+      alternativeBenchmarkName: 'England',
+      alternativeBenchmarkValue: 55,
     };
     const result = generateSeriesData(propsWithGroupBenchmark);
 
-    // 4 bars + 4 scatter points (areaOne, areaTwo, benchmark), Group scatter for England not added
-    expect(result).toHaveLength(7);
+    expect(result).toHaveLength(8);
 
-    const benchmarkScatter = result?.[6] as Highcharts.SeriesScatterOptions;
+    const englandScatter = result?.[4] as Highcharts.SeriesScatterOptions;
+    expect(englandScatter?.type).toBe('scatter');
+    expect(englandScatter?.name).toContain('England');
+    expect(englandScatter?.marker?.enabled).toBe(false);
+
+    const benchmarkScatter = result?.[7] as Highcharts.SeriesScatterOptions;
     expect(benchmarkScatter?.type).toBe('scatter');
     expect(benchmarkScatter?.name).toContain('Benchmark: Test Group');
     expect(benchmarkScatter?.marker?.fillColor).toBe(GovukColours.Black);
