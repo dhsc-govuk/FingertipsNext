@@ -62,18 +62,22 @@ const StyledAlternateEnglandBenchmarkCell = styled(StyledStickyRight)({
   backgroundColor: GovukColours.LightGrey,
 });
 
-interface AlternateBenchmarkCellProps {
-  children?: React.ReactNode;
-  benchmarkToUse: string | undefined;
-  label: 'group' | 'benchmark';
-  cellType?: 'group' | 'england';
+export enum CellTypeEnum {
+  Header = 'header',
+  SubHeader = 'subheader',
+  Cell = 'cell',
 }
 
-export const BenchmarkingHeaderCellWrapper: FC<AlternateBenchmarkCellProps> = ({
+interface BenchmarkCellProps {
+  children?: React.ReactNode;
+  benchmarkToUse: string | undefined;
+  label: 'group' | 'england';
+}
+
+const BenchmarkingHeaderCellWrapper: FC<BenchmarkCellProps> = ({
   children,
   benchmarkToUse = areaCodeForEngland,
   label,
-  cellType,
 }) => {
   let CellWrapper: React.ComponentType<{ children?: React.ReactNode }>;
   if (label === 'group') {
@@ -87,14 +91,14 @@ export const BenchmarkingHeaderCellWrapper: FC<AlternateBenchmarkCellProps> = ({
         ? StyledAlternateEnglandHeader
         : StyledStickyRightHeader;
   }
-  return (
-    <CellWrapper data-testid={`${cellType}-header`}>{children}</CellWrapper>
-  );
+  return <CellWrapper data-testid={`${label}-header`}>{children}</CellWrapper>;
 };
 
-export const BenchmarkingSubHeaderCellWrapper: FC<
-  AlternateBenchmarkCellProps
-> = ({ children, benchmarkToUse = areaCodeForEngland, label, cellType }) => {
+const BenchmarkingSubHeaderCellWrapper: FC<BenchmarkCellProps> = ({
+  children,
+  benchmarkToUse = areaCodeForEngland,
+  label,
+}) => {
   let CellWrapper: React.ComponentType<{ children?: React.ReactNode }>;
   if (label === 'group') {
     CellWrapper =
@@ -108,15 +112,14 @@ export const BenchmarkingSubHeaderCellWrapper: FC<
         : StyledStickyRightHeader;
   }
   return (
-    <CellWrapper data-testid={`${cellType}-subheader`}>{children}</CellWrapper>
+    <CellWrapper data-testid={`${label}-subheader`}>{children}</CellWrapper>
   );
 };
 
-export const BenchmarkingCellWrapper: FC<AlternateBenchmarkCellProps> = ({
+const BenchmarkingCellWrapper: FC<BenchmarkCellProps> = ({
   children,
   benchmarkToUse = areaCodeForEngland,
   label,
-  cellType,
 }) => {
   let CellWrapper: React.ComponentType<{ children?: React.ReactNode }>;
   if (label === 'group') {
@@ -130,5 +133,53 @@ export const BenchmarkingCellWrapper: FC<AlternateBenchmarkCellProps> = ({
         ? StyledAlternateEnglandBenchmarkCell
         : StyledStickyRight;
   }
-  return <CellWrapper data-testid={`${cellType}-cell`}>{children}</CellWrapper>;
+  return <CellWrapper data-testid={`${label}-cell`}>{children}</CellWrapper>;
+};
+
+interface BenchmarkCellProps {
+  children?: React.ReactNode;
+  benchmarkToUse: string | undefined;
+  label: 'group' | 'england';
+  cellType: CellTypeEnum;
+}
+
+export const BenchmarkWrapper: FC<BenchmarkCellProps> = ({
+  children,
+  benchmarkToUse = areaCodeForEngland,
+  label,
+  cellType,
+}) => {
+  switch (cellType) {
+    case CellTypeEnum.Header:
+      return (
+        <BenchmarkingHeaderCellWrapper
+          benchmarkToUse={benchmarkToUse}
+          label={label}
+          cellType={CellTypeEnum.Header}
+        >
+          {children}
+        </BenchmarkingHeaderCellWrapper>
+      );
+    case CellTypeEnum.SubHeader:
+      return (
+        <BenchmarkingSubHeaderCellWrapper
+          benchmarkToUse={benchmarkToUse}
+          label={label}
+          cellType={CellTypeEnum.SubHeader}
+        >
+          {children}
+        </BenchmarkingSubHeaderCellWrapper>
+      );
+    default:
+    case CellTypeEnum.Cell:
+      return (
+        <BenchmarkingCellWrapper
+          benchmarkToUse={benchmarkToUse}
+          label={label}
+          cellType={CellTypeEnum.Cell}
+        >
+          {children}
+        </BenchmarkingCellWrapper>
+      );
+  }
 };

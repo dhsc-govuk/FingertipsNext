@@ -34,9 +34,8 @@ import { convertLineChartTableToCsvData } from '@/components/organisms/LineChart
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
 import {
-  BenchmarkingCellWrapper,
-  BenchmarkingHeaderCellWrapper,
-  BenchmarkingSubHeaderCellWrapper,
+  BenchmarkWrapper,
+  CellTypeEnum,
   StyledAreaNameHeader,
 } from './BenchmarkingCellWrapper';
 
@@ -223,7 +222,7 @@ export function LineChartTable({
   );
 
   const confidenceLimit = getConfidenceLimitNumber(benchmarkComparisonMethod);
-  const showBenchmarkColumn =
+  const showEnglandColumn =
     healthIndicatorData[0]?.areaCode !== areaCodeForEngland &&
     benchmarkComparisonMethod !== BenchmarkComparisonMethod.Quintiles;
 
@@ -283,7 +282,7 @@ export function LineChartTable({
         indicatorMetadata,
         healthIndicatorData,
         showGroupColumn ? groupIndicatorData : undefined,
-        showBenchmarkColumn ? englandIndicatorData : undefined,
+        showEnglandColumn ? englandIndicatorData : undefined,
         confidenceLimit
       )
     : undefined;
@@ -321,22 +320,22 @@ export function LineChartTable({
                   </StyledAreaNameHeader>
                 ))}
                 {showGroupColumn ? (
-                  <BenchmarkingHeaderCellWrapper
+                  <BenchmarkWrapper
                     label="group"
                     benchmarkToUse={benchmarkToUse}
-                    cellType={'group'}
+                    cellType={CellTypeEnum.Header}
                   >
                     {groupColumnPrefix} {groupIndicatorData?.areaName}
-                  </BenchmarkingHeaderCellWrapper>
+                  </BenchmarkWrapper>
                 ) : null}
-                {showBenchmarkColumn ? (
-                  <BenchmarkingHeaderCellWrapper
-                    label="benchmark"
+                {showEnglandColumn ? (
+                  <BenchmarkWrapper
+                    label="england"
                     benchmarkToUse={benchmarkToUse}
-                    cellType={'england'}
+                    cellType={CellTypeEnum.Header}
                   >
                     {englandColumnPrefix} <br /> England
-                  </BenchmarkingHeaderCellWrapper>
+                  </BenchmarkWrapper>
                 ) : null}
               </Table.Row>
               {confidenceLimit ? (
@@ -355,15 +354,17 @@ export function LineChartTable({
                     </React.Fragment>
                   ))}
                   {showGroupColumn ? (
-                    <BenchmarkingCellWrapper
+                    <BenchmarkWrapper
                       label="group"
                       benchmarkToUse={benchmarkToUse}
+                      cellType={CellTypeEnum.Cell}
                     />
                   ) : null}
-                  {showBenchmarkColumn ? (
-                    <BenchmarkingCellWrapper
-                      label="benchmark"
+                  {showEnglandColumn ? (
+                    <BenchmarkWrapper
+                      label="england"
                       benchmarkToUse={benchmarkToUse}
+                      cellType={CellTypeEnum.Cell}
                     />
                   ) : null}
                 </Table.Row>
@@ -394,23 +395,24 @@ export function LineChartTable({
                     ))
                 )}
                 {showGroupColumn ? (
-                  <BenchmarkingSubHeaderCellWrapper
+                  <BenchmarkWrapper
                     benchmarkToUse={benchmarkToUse}
                     label="group"
+                    cellType={CellTypeEnum.SubHeader}
                   >
                     Value
                     <StyledSpan>{indicatorMetadata?.unitLabel}</StyledSpan>
-                  </BenchmarkingSubHeaderCellWrapper>
+                  </BenchmarkWrapper>
                 ) : null}
-                {showBenchmarkColumn ? (
-                  <BenchmarkingSubHeaderCellWrapper
+                {showEnglandColumn ? (
+                  <BenchmarkWrapper
                     benchmarkToUse={benchmarkToUse}
-                    label="benchmark"
-                    cellType={'england'}
+                    label="england"
+                    cellType={CellTypeEnum.SubHeader}
                   >
                     {LineChartTableHeadingEnum.BenchmarkValue}{' '}
                     <StyledSpan>{indicatorMetadata?.unitLabel}</StyledSpan>
-                  </BenchmarkingSubHeaderCellWrapper>
+                  </BenchmarkWrapper>
                 ) : null}
               </Table.Row>
             </>
@@ -446,21 +448,22 @@ export function LineChartTable({
                 </React.Fragment>
               ))}
               {showGroupColumn ? (
-                <BenchmarkingCellWrapper
+                <BenchmarkWrapper
                   label="group"
                   benchmarkToUse={benchmarkToUse}
+                  cellType={CellTypeEnum.Cell}
                 >
                   {formatNumber(groupValue)}
-                </BenchmarkingCellWrapper>
+                </BenchmarkWrapper>
               ) : null}
-              {showBenchmarkColumn ? (
-                <BenchmarkingCellWrapper
-                  label="benchmark"
+              {showEnglandColumn ? (
+                <BenchmarkWrapper
+                  label="england"
                   benchmarkToUse={benchmarkToUse}
-                  cellType={'england'}
+                  cellType={CellTypeEnum.Cell}
                 >
                   {formatNumber(benchmarkValue)}
-                </BenchmarkingCellWrapper>
+                </BenchmarkWrapper>
               ) : null}
             </Table.Row>
           ))}

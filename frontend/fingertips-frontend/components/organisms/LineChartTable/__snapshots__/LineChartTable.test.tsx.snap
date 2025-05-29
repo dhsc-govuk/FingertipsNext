@@ -544,7 +544,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           </th>
           <td
             class="c19 c20 c21 c22 c23"
-            data-testid="undefined-cell"
+            data-testid="england-cell"
           />
         </tr>
         <tr
@@ -1503,7 +1503,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           </th>
           <td
             class="c19 c20 c21 c22 c23"
-            data-testid="undefined-cell"
+            data-testid="england-cell"
           />
         </tr>
         <tr
