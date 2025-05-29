@@ -10,7 +10,7 @@ import {
 } from '@/generated-sources/ft-api-client';
 import styled from 'styled-components';
 import React, { FC } from 'react';
-import { GovukColours } from '@/lib/styleHelpers/colours';
+
 import {
   StyledAlignCenterTableCellWidth,
   StyledAlignLeftHeader,
@@ -20,9 +20,6 @@ import {
   StyledAlignRightTableCell,
   StyledAlignStickyLeftHeader,
   StyledDivWithScrolling,
-  StyledGreyHeader,
-  StyledStickyRight,
-  StyledStickyRightHeader,
 } from '@/lib/tableHelpers';
 import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel';
 import { TrendTag } from '@/components/molecules/TrendTag';
@@ -36,6 +33,12 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { convertLineChartTableToCsvData } from '@/components/organisms/LineChartTable/convertLineChartTableToCsvData';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
+import {
+  BenchmarkingCellWrapper,
+  BenchmarkingHeaderCellWrapper,
+  BenchmarkingSubHeaderCellWrapper,
+  StyledAreaNameHeader,
+} from './BenchmarkingCellWrapper';
 
 export enum LineChartTableHeadingEnum {
   AreaPeriod = 'Period',
@@ -70,19 +73,6 @@ const StyledTable = styled(Table)({
   borderCollapse: 'separate',
 });
 
-const StyledAreaNameHeader = styled(StyledAlignLeftHeader)({
-  borderTop: `solid #F3F2F1 2px`, // aligns top to match grey heading cells
-  textAlign: 'center',
-});
-
-const StyledGroupNameHeader = styled(StyledAreaNameHeader)({
-  background: GovukColours.LightGrey,
-  paddingRight: '0.5em',
-  paddingLeft: '0.5em',
-  textAlign: 'right',
-  verticalAlign: 'top',
-});
-
 const StyledBenchmarkTrendHeader = styled(StyledAlignLeftHeader)({
   padding: '0.6em',
   textAlign: 'center',
@@ -110,52 +100,13 @@ const StyledTrendContainer = styled('div')({
   whiteSpace: 'nowrap',
 });
 
-const StyledLightGreyHeader = styled(StyledGreyHeader)({
-  backgroundColor: GovukColours.LightGrey,
-  borderTop: GovukColours.MidGrey,
-});
-
-const StyledLightGreySubHeader = styled(StyledLightGreyHeader)({
-  borderLeft: 'solid black 1px',
-  paddingLeft: '0.5em',
-  width: '16%',
-});
-
 const StyledBenchmarkCellMultipleAreas = styled(StyledAlignLeftTableCell)({
   borderLeft: 'solid black 1px',
   textAlign: 'center',
 });
 
-const StyledGroupValueTableCell = styled(StyledAlignRightTableCell)({
-  backgroundColor: GovukColours.LightGrey,
-  borderLeft: `solid black 1px`,
-});
-
 const StyledSpan = styled('span')({
   display: 'block',
-});
-
-const StyledAlternateEnglandHeader = styled(StyledStickyRightHeader)({
-  backgroundColor: GovukColours.LightGrey,
-  verticalAlign: 'top',
-});
-
-const StyledAlternateGroupHeader = styled(StyledGroupNameHeader)({
-  backgroundColor: GovukColours.MidGrey,
-});
-
-const StyledAlternateGroupSubHeader = styled(StyledLightGreySubHeader)({
-  borderTop: `solid #F3F2F1 2px`,
-  backgroundColor: GovukColours.MidGrey,
-});
-
-const StyledAlternateGroupBenchmarkCell = styled(StyledGroupValueTableCell)({
-  borderTop: `solid #F3F2F1 2px`,
-  backgroundColor: GovukColours.MidGrey,
-});
-
-const StyledAlternateEnglandBenchmarkCell = styled(StyledStickyRight)({
-  backgroundColor: GovukColours.LightGrey,
 });
 
 const getCellHeaderComponent = (
@@ -217,77 +168,6 @@ const BenchmarkCell: FC<BenchmarkCellProps> = ({
       />
     </CellWrapper>
   );
-};
-
-interface AlternateBenchmarkCellProps {
-  children?: React.ReactNode;
-  benchmarkToUse: string | undefined;
-  label: 'group' | 'benchmark';
-  cellType?: 'group' | 'england';
-}
-
-const AlternateBenchmarkHeaderCellWrapper: FC<AlternateBenchmarkCellProps> = ({
-  children,
-  benchmarkToUse = areaCodeForEngland,
-  label,
-  cellType,
-}) => {
-  let CellWrapper: React.ComponentType<{ children?: React.ReactNode }>;
-  if (label === 'group') {
-    CellWrapper =
-      benchmarkToUse !== areaCodeForEngland
-        ? StyledAlternateGroupHeader
-        : StyledGroupNameHeader;
-  } else {
-    CellWrapper =
-      benchmarkToUse !== areaCodeForEngland
-        ? StyledAlternateEnglandHeader
-        : StyledStickyRightHeader;
-  }
-  return (
-    <CellWrapper data-testid={`${cellType}-header`}>{children}</CellWrapper>
-  );
-};
-
-const AlternateBenchmarkSubHeaderCellWrapper: FC<
-  AlternateBenchmarkCellProps
-> = ({ children, benchmarkToUse = areaCodeForEngland, label, cellType }) => {
-  let CellWrapper: React.ComponentType<{ children?: React.ReactNode }>;
-  if (label === 'group') {
-    CellWrapper =
-      benchmarkToUse !== areaCodeForEngland
-        ? StyledAlternateGroupSubHeader
-        : StyledLightGreySubHeader;
-  } else {
-    CellWrapper =
-      benchmarkToUse !== areaCodeForEngland
-        ? StyledAlternateEnglandHeader
-        : StyledStickyRightHeader;
-  }
-  return (
-    <CellWrapper data-testid={`${cellType}-subheader`}>{children}</CellWrapper>
-  );
-};
-
-const AlternateBenchmarkCellWrapper: FC<AlternateBenchmarkCellProps> = ({
-  children,
-  benchmarkToUse = areaCodeForEngland,
-  label,
-  cellType,
-}) => {
-  let CellWrapper: React.ComponentType<{ children?: React.ReactNode }>;
-  if (label === 'group') {
-    CellWrapper =
-      benchmarkToUse !== areaCodeForEngland
-        ? StyledAlternateGroupBenchmarkCell
-        : StyledGroupValueTableCell;
-  } else {
-    CellWrapper =
-      benchmarkToUse !== areaCodeForEngland
-        ? StyledAlternateEnglandBenchmarkCell
-        : StyledStickyRight;
-  }
-  return <CellWrapper data-testid={`${cellType}-cell`}>{children}</CellWrapper>;
 };
 
 export const mapToLineChartTableData = (
@@ -441,22 +321,22 @@ export function LineChartTable({
                   </StyledAreaNameHeader>
                 ))}
                 {showGroupColumn ? (
-                  <AlternateBenchmarkHeaderCellWrapper
+                  <BenchmarkingHeaderCellWrapper
                     label="group"
                     benchmarkToUse={benchmarkToUse}
                     cellType={'group'}
                   >
                     {groupColumnPrefix} {groupIndicatorData?.areaName}
-                  </AlternateBenchmarkHeaderCellWrapper>
+                  </BenchmarkingHeaderCellWrapper>
                 ) : null}
                 {showBenchmarkColumn ? (
-                  <AlternateBenchmarkHeaderCellWrapper
+                  <BenchmarkingHeaderCellWrapper
                     label="benchmark"
                     benchmarkToUse={benchmarkToUse}
                     cellType={'england'}
                   >
                     {englandColumnPrefix} <br /> England
-                  </AlternateBenchmarkHeaderCellWrapper>
+                  </BenchmarkingHeaderCellWrapper>
                 ) : null}
               </Table.Row>
               {confidenceLimit ? (
@@ -475,13 +355,13 @@ export function LineChartTable({
                     </React.Fragment>
                   ))}
                   {showGroupColumn ? (
-                    <AlternateBenchmarkCellWrapper
+                    <BenchmarkingCellWrapper
                       label="group"
                       benchmarkToUse={benchmarkToUse}
                     />
                   ) : null}
                   {showBenchmarkColumn ? (
-                    <AlternateBenchmarkCellWrapper
+                    <BenchmarkingCellWrapper
                       label="benchmark"
                       benchmarkToUse={benchmarkToUse}
                     />
@@ -514,23 +394,23 @@ export function LineChartTable({
                     ))
                 )}
                 {showGroupColumn ? (
-                  <AlternateBenchmarkSubHeaderCellWrapper
+                  <BenchmarkingSubHeaderCellWrapper
                     benchmarkToUse={benchmarkToUse}
                     label="group"
                   >
                     Value
                     <StyledSpan>{indicatorMetadata?.unitLabel}</StyledSpan>
-                  </AlternateBenchmarkSubHeaderCellWrapper>
+                  </BenchmarkingSubHeaderCellWrapper>
                 ) : null}
                 {showBenchmarkColumn ? (
-                  <AlternateBenchmarkSubHeaderCellWrapper
+                  <BenchmarkingSubHeaderCellWrapper
                     benchmarkToUse={benchmarkToUse}
                     label="benchmark"
                     cellType={'england'}
                   >
                     {LineChartTableHeadingEnum.BenchmarkValue}{' '}
                     <StyledSpan>{indicatorMetadata?.unitLabel}</StyledSpan>
-                  </AlternateBenchmarkSubHeaderCellWrapper>
+                  </BenchmarkingSubHeaderCellWrapper>
                 ) : null}
               </Table.Row>
             </>
@@ -566,21 +446,21 @@ export function LineChartTable({
                 </React.Fragment>
               ))}
               {showGroupColumn ? (
-                <AlternateBenchmarkCellWrapper
+                <BenchmarkingCellWrapper
                   label="group"
                   benchmarkToUse={benchmarkToUse}
                 >
                   {formatNumber(groupValue)}
-                </AlternateBenchmarkCellWrapper>
+                </BenchmarkingCellWrapper>
               ) : null}
               {showBenchmarkColumn ? (
-                <AlternateBenchmarkCellWrapper
+                <BenchmarkingCellWrapper
                   label="benchmark"
                   benchmarkToUse={benchmarkToUse}
                   cellType={'england'}
                 >
                   {formatNumber(benchmarkValue)}
-                </AlternateBenchmarkCellWrapper>
+                </BenchmarkingCellWrapper>
               ) : null}
             </Table.Row>
           ))}
