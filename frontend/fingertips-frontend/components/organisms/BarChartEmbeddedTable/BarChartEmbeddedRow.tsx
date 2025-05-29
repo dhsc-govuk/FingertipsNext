@@ -63,7 +63,7 @@ export const BarChartEmbeddedRow: FC<BarChartEmbeddedRowProps> = ({
             area={item.area}
             year={item.year}
             measurementUnit={measurementUnit}
-            benchmarkArea={item.benchmarkComparison?.benchmarkAreaName} 
+            benchmarkArea={item.benchmarkComparison?.benchmarkAreaName}
           />
         ) : null}
       </Table.Cell>

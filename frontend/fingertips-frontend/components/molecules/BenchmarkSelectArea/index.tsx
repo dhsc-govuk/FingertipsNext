@@ -37,7 +37,8 @@ export function BenchmarkSelectArea({
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
 
-  const selectedArea = searchState?.[benchmarkAreaSelectedKey] ?? areaCodeForEngland;
+  const selectedArea =
+    searchState?.[benchmarkAreaSelectedKey] ?? areaCodeForEngland;
 
   return (
     <StyledFilterSelect

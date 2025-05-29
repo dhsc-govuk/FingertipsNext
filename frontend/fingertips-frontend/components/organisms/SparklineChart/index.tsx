@@ -48,7 +48,7 @@ export function SparklineChart({
   year,
   measurementUnit,
   barColor,
-  benchmarkArea
+  benchmarkArea,
 }: Readonly<SparklineChartProps>) {
   const benchmarkColor = getBenchmarkColour(
     benchmarkComparisonMethod,
