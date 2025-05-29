@@ -32,6 +32,8 @@ import {
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
 import { convertBarChartEmbeddedTableToCsv } from '@/components/organisms/BarChartEmbeddedTable/convertBarChartEmbeddedTableToCsv';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
+import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 function sortByValueAndAreaName(
@@ -345,7 +347,12 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
             polarity={polarity}
           />
         </Table>
+
         <DataSource dataSource={dataSource} />
+
+        <ExportOnlyWrapper>
+          <ExportCopyright />
+        </ExportOnlyWrapper>
       </div>
       <ExportOptionsButton targetId={id} csvData={csvData} />
     </>

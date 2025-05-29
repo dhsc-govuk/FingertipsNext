@@ -10,6 +10,8 @@ import { useHeatmapHover } from '@/components/organisms/Heatmap/useHeatmapHover'
 import styled from 'styled-components';
 import { H2 } from 'govuk-react';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
+import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
+import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
 
 const HeatmapHeading = styled(H2)({
   fontSize: '1.5rem',
@@ -62,6 +64,9 @@ export const Heatmap: FC<HeatmapProps> = ({
           rows={rows}
           handleMouseOverCell={handleMouseOverCell}
         />
+        <ExportOnlyWrapper>
+          <ExportCopyright />
+        </ExportOnlyWrapper>
       </div>
       <ExportOptionsButton targetId={'heatmap'} csvData={csvData} />
     </>

@@ -1,7 +1,10 @@
 import {
   canvasToBlob,
+  ExcludeFromExport,
+  ExportOnly,
   getHtmlToImageCanvas,
   getSvgFromOptions,
+  preCanvasConversion,
   svgStringToDomElement,
   triggerBlobDownload,
 } from '@/components/molecules/Export/exportHelpers';
@@ -48,12 +51,67 @@ describe('exportHelpers', () => {
 
       expect(html2canvas).toHaveBeenCalledWith(mockElement, {
         scale: 2.5,
-        onclone: expect.any(Function),
+        onclone: preCanvasConversion,
       });
       expect(result).toBe(mockCanvas);
       expect(result?.style.width).toBe('100%');
       expect(result?.style.height).toBe('auto');
       expect(mockParent.style.overflowX).toBe('');
+    });
+
+    describe('preCanvasConversion', () => {
+      let clonedDocument: Document;
+
+      beforeEach(() => {
+        clonedDocument =
+          document.implementation.createHTMLDocument('Test Document');
+
+        const chartPageContent = clonedDocument.createElement('div');
+        chartPageContent.id = 'chartPageContent';
+        clonedDocument.body.appendChild(chartPageContent);
+
+        const elementToBeExcluded = clonedDocument.createElement('div');
+        elementToBeExcluded.className = ExcludeFromExport;
+        const mapNavigation = clonedDocument.createElement('div');
+        mapNavigation.className = 'highcharts-map-navigation';
+        const highChartsTooltip = clonedDocument.createElement('div');
+        highChartsTooltip.className = 'highcharts-tooltip';
+        clonedDocument.body.appendChild(elementToBeExcluded);
+        clonedDocument.body.appendChild(mapNavigation);
+        clonedDocument.body.appendChild(highChartsTooltip);
+
+        const exportOnlyElement = clonedDocument.createElement('div');
+        exportOnlyElement.className = ExportOnly;
+        exportOnlyElement.style.display = 'none';
+        clonedDocument.body.appendChild(exportOnlyElement);
+      });
+
+      it('removes elements with specific class names', () => {
+        preCanvasConversion(clonedDocument);
+        expect(
+          clonedDocument.querySelector(`.${ExcludeFromExport}`)
+        ).toBeNull();
+        expect(
+          clonedDocument.querySelector('.highcharts-map-navigation')
+        ).toBeNull();
+        expect(clonedDocument.querySelector('.highcharts-tooltip')).toBeNull();
+      });
+
+      it('makes elements with ExportOnly class visible', () => {
+        const exportOnly = clonedDocument.querySelector(
+          `.${ExportOnly}`
+        ) as HTMLElement;
+        expect(exportOnly.style.display).toBe('none');
+
+        preCanvasConversion(clonedDocument);
+        expect(exportOnly.style.display).toBe('block');
+      });
+
+      it('does nothing if #chartPageContent is missing', () => {
+        const doc =
+          document.implementation.createHTMLDocument('No chart content');
+        expect(() => preCanvasConversion(doc)).not.toThrow();
+      });
     });
   });
 

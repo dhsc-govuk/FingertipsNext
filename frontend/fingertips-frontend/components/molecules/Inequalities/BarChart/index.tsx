@@ -23,6 +23,8 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { HighChartsWrapper } from '../../HighChartsWrapper/HighChartsWrapper';
 import { ExportOptionsButton } from '../../Export/ExportOptionsButton';
+import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
+import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
 
 interface InequalitiesBarChartProps {
   barChartData: InequalitiesBarChartData;
@@ -193,6 +195,9 @@ export function InequalitiesBarChart({
           chartOptions={barChartOptions}
           testId={'highcharts-react-component-inequalitiesBarChart'}
         />
+        <ExportOnlyWrapper>
+          <ExportCopyright />
+        </ExportOnlyWrapper>
       </div>
       <ExportOptionsButton targetId={id} chartOptions={barChartOptions} />
     </div>
