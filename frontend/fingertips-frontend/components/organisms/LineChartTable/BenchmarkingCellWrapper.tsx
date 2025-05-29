@@ -136,14 +136,14 @@ const BenchmarkingCellWrapper: FC<BenchmarkCellProps> = ({
   return <CellWrapper data-testid={`${label}-cell`}>{children}</CellWrapper>;
 };
 
-interface BenchmarkCellProps {
+interface BenchmarkWrapperProps {
   children?: React.ReactNode;
   benchmarkToUse: string | undefined;
   label: 'group' | 'england';
   cellType: CellTypeEnum;
 }
 
-export const BenchmarkWrapper: FC<BenchmarkCellProps> = ({
+export const BenchmarkWrapper: FC<BenchmarkWrapperProps> = ({
   children,
   benchmarkToUse = areaCodeForEngland,
   label,
@@ -155,7 +155,6 @@ export const BenchmarkWrapper: FC<BenchmarkCellProps> = ({
         <BenchmarkingHeaderCellWrapper
           benchmarkToUse={benchmarkToUse}
           label={label}
-          cellType={CellTypeEnum.Header}
         >
           {children}
         </BenchmarkingHeaderCellWrapper>
@@ -165,19 +164,13 @@ export const BenchmarkWrapper: FC<BenchmarkCellProps> = ({
         <BenchmarkingSubHeaderCellWrapper
           benchmarkToUse={benchmarkToUse}
           label={label}
-          cellType={CellTypeEnum.SubHeader}
         >
           {children}
         </BenchmarkingSubHeaderCellWrapper>
       );
     default:
-    case CellTypeEnum.Cell:
       return (
-        <BenchmarkingCellWrapper
-          benchmarkToUse={benchmarkToUse}
-          label={label}
-          cellType={CellTypeEnum.Cell}
-        >
+        <BenchmarkingCellWrapper benchmarkToUse={benchmarkToUse} label={label}>
           {children}
         </BenchmarkingCellWrapper>
       );
