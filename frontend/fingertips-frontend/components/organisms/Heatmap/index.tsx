@@ -10,6 +10,7 @@ import { useHeatmapHover } from '@/components/organisms/Heatmap/useHeatmapHover'
 import styled from 'styled-components';
 import { H2 } from 'govuk-react';
 import { BenchmarkReferenceType } from '@/generated-sources/ft-api-client';
+import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
 
 const HeatmapHeading = styled(H2)({
   fontSize: '1.5rem',
@@ -27,33 +28,37 @@ export const Heatmap: FC<HeatmapProps> = ({
   benchmarkRefType,
   groupAreaCode,
 }) => {
-  const { headers, rows, legendsToShow } = useHeatmapTableData(
+  const { headers, rows, legendsToShow, csvData } = useHeatmapTableData(
     indicatorData,
     benchmarkRefType,
     groupAreaCode
   );
   const { hover, left, top, handleMouseOverCell } = useHeatmapHover();
+
   return (
     <>
-      <HeatmapHeading>Compare indicators by areas</HeatmapHeading>
-      <BenchmarkLegends legendsToShow={legendsToShow} />
-      {hover ? (
-        <HeatmapHover
-          areaName={hover.areaName}
-          period={hover.period}
-          indicatorName={hover.indicatorName}
-          value={hover.value}
-          unitLabel={hover.unitLabel}
-          benchmark={hover.benchmark}
-          left={left}
-          top={top}
+      <div id={'heatmap'}>
+        <HeatmapHeading>Compare indicators by areas</HeatmapHeading>
+        <BenchmarkLegends legendsToShow={legendsToShow} />
+        {hover ? (
+          <HeatmapHover
+            areaName={hover.areaName}
+            period={hover.period}
+            indicatorName={hover.indicatorName}
+            value={hover.value}
+            unitLabel={hover.unitLabel}
+            benchmark={hover.benchmark}
+            left={left}
+            top={top}
+          />
+        ) : null}
+        <HeatmapTable
+          headers={headers}
+          rows={rows}
+          handleMouseOverCell={handleMouseOverCell}
         />
-      ) : null}
-      <HeatmapTable
-        headers={headers}
-        rows={rows}
-        handleMouseOverCell={handleMouseOverCell}
-      />
+      </div>
+      <ExportOptionsButton targetId={'heatmap'} csvData={csvData} />
     </>
   );
 };

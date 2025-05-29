@@ -24,7 +24,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     /// <param name="indicatorId">The unique identifier of the indicator.</param>
     /// <param name="areaCodes">A list of area codes. Up to 100 distinct area codes can be requested.</param>
     /// <param name="areaType">The area type the area codes belong to.</param>
-    /// <param name="areaGroup">Optional Area Group used for benchmarking.</param>
+    /// <param name="ancestorCode">Optional Ancestor Code used for benchmarking.</param>
     /// <param name="benchmarkRefType">Optional benchmark reference type.</param>
     /// <param name="years">A list of years. Up to 20 distinct years can be requested.</param>
     /// <param name="inequalities">A list of desired inequalities.</param>
@@ -43,7 +43,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
         [FromRoute] int indicatorId,
         [FromQuery(Name = "area_codes")] string[]? areaCodes = null,
         [FromQuery(Name = "area_type")] string areaType = "",
-        [FromQuery(Name = "area_group")] string? areaGroup = "",
+        [FromQuery(Name = "ancestor_code")] string? ancestorCode = "",
         [FromQuery(Name = "benchmark_ref_type")]
             BenchmarkReferenceType benchmarkRefType = BenchmarkReferenceType.Unknown,
         [FromQuery] int[]? years = null,
@@ -69,12 +69,12 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
                 }
             );
 
-        if ((benchmarkRefType == BenchmarkReferenceType.AreaGroup) && (areaGroup == ""))
+        if ((benchmarkRefType == BenchmarkReferenceType.SubNational) && (ancestorCode == ""))
             return new BadRequestObjectResult(
                 new SimpleError
                 {
                     Message =
-                        $"Missing parameter 'area_group'. When benchmark_ref_type is set to AreaGroup then the area_group parameter must be set",
+                        $"Missing parameter 'ancestor_code'. When benchmark_ref_type is set to SubNational then the ancestor_code parameter must be set",
                 }
             );
 
@@ -82,7 +82,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
             indicatorId,
             areaCodes ?? [],
             areaType,
-            areaGroup,
+            ancestorCode,
             benchmarkRefType,
             years ?? [],
             inequalities ?? [],
@@ -103,9 +103,10 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     /// areas and all years for the indicators. Optionally filter the results by
     /// supplying one or more area codes and one or more years in the query string.
     /// </summary>
-    /// <param name="ancestorCode">The ancestor for comparison.</param>
     /// <param name="areaCode">A list of area codes.</param>
     /// <param name="areaType">The area type the area codes belong to.</param>
+    /// <param name="acncestorCode">the area group for calculating quartiles within.</param>
+    /// <param name="benchmarkRefType">Whether to benchmark against England or SubNational.</param>
     /// <param name="indicatorIds">The unique identifier of the indicator.</param>
     /// <returns></returns>
     /// <remarks>
@@ -118,9 +119,11 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetQuartileDataAsync(
         [FromQuery(Name = "indicator_ids")] int[]? indicatorIds = null,
-        [FromQuery(Name = "area_code")] string? areaCode = "",
-        [FromQuery(Name = "area_type")] string? areaType = null,
-        [FromQuery(Name = "ancestor_code")] string? ancestorCode = "")
+        [FromQuery(Name = "area_code")] string areaCode = "",
+        [FromQuery(Name = "area_type")] string areaType = null,
+        [FromQuery(Name = "ancestor_code")] string ancestorCode = "",
+        [FromQuery(Name = "benchmark_ref_type")] BenchmarkReferenceType benchmarkRefType = BenchmarkReferenceType.England
+        )
     {
         if (indicatorIds is null)
             return new BadRequestObjectResult(new SimpleError { Message = $"Parameter indicator_ids must be supplied." });
@@ -130,12 +133,16 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
 
         if (areaType is null)
             return new BadRequestObjectResult(new SimpleError { Message = $"Parameter area_type must be supplied." });
-        
+
+        if ((benchmarkRefType == BenchmarkReferenceType.SubNational) && ancestorCode == "")
+            return new BadRequestObjectResult(new SimpleError { Message = $"Parameter ancestor_code must be supplied if benchmark_ref_type is set to SubNational." });
+
         var quartileData = await _indicatorsService.GetQuartileDataAsync(
             indicatorIds,
             areaCode,
             areaType,
-            ancestorCode
+            ancestorCode,
+            benchmarkRefType == BenchmarkReferenceType.SubNational ? ancestorCode : "E92000001"
         );
 
         return quartileData == null ? NotFound() : Ok(quartileData);

@@ -67,8 +67,11 @@ namespace DataCreator
         [CsvColumn(FieldIndex = 19)]
         public string ToDate { get; set; }
 
-        //avoid line ending nonsense in csv
         [CsvColumn(FieldIndex = 20)]
+        public string Period { get; set; }
+
+        //avoid line ending nonsense in csv
+        [CsvColumn(FieldIndex = 21)]
         public int Avoid { get; set; }
     }
 }

@@ -1,10 +1,10 @@
 'use client';
 
 import Highcharts from 'highcharts';
-import { HighchartsReact } from 'highcharts-react-official';
 import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
 import { createChartPyramidOptions } from './createChartOptions';
-import { formatNumber } from '@/lib/numberFormatter';
+import { HighChartsWrapper } from '@/components/molecules/HighChartsWrapper/HighChartsWrapper';
+import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
 
 interface PyramidChartProps {
   dataForSelectedArea: PopulationDataForArea;
@@ -14,14 +14,6 @@ interface PyramidChartProps {
   yAxisTitle: string;
   accessibilityLabel?: string;
 }
-
-export const generatePopPyramidTooltipForPoint = (
-  point: Highcharts.Point,
-  symbol: string
-) => [
-  `<span style="color:${point.series.color}">${symbol}</span>`,
-  `<span> Value ${formatNumber(Math.abs(Number(point.y)))}%<br/>${point.series.name}</span>`,
-];
 
 export function PopulationPyramid({
   dataForSelectedArea,
@@ -43,14 +35,17 @@ export function PopulationPyramid({
       dataForGroup
     );
   return (
-    <div data-testid="populationPyramid-component">
-      <HighchartsReact
-        containerProps={{
-          'data-testid': 'highcharts-react-component-populationPyramid',
-        }}
-        highcharts={Highcharts}
-        options={populationPyramidOptions}
+    <>
+      <div id="populationPyramid" data-testid="populationPyramid-component">
+        <HighChartsWrapper
+          testId={'highcharts-react-component-populationPyramid'}
+          chartOptions={populationPyramidOptions}
+        />
+      </div>
+      <ExportOptionsButton
+        targetId={'populationPyramid'}
+        chartOptions={populationPyramidOptions}
       />
-    </div>
+    </>
   );
 }

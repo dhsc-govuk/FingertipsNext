@@ -85,6 +85,7 @@ interface DataPointBenchmark {
   outcome: HeatmapBenchmarkOutcome;
   benchmarkMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
+  benchmarkAreaCode?: string;
 }
 
 export type HeatmapBenchmarkOutcome = BenchmarkOutcome | 'Baseline';
@@ -332,12 +333,15 @@ const extractAreasIndicatorsAndDataPoints = (
         return outcome ?? BenchmarkOutcome.NotCompared;
       };
 
+      const { benchmarkAreaCode } =
+        healthDataForYear?.benchmarkComparison ?? {};
       const benchmark: DataPointBenchmark = {
         outcome: getBenchmarkOutcome(
           healthDataForYear?.benchmarkComparison?.outcome
         ),
         benchmarkMethod: indicatorData.benchmarkComparisonMethod,
         polarity: indicatorData.polarity,
+        benchmarkAreaCode,
       };
 
       dataPoints[indicatorData.indicatorId][healthData.areaCode] = {

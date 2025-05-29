@@ -6,12 +6,15 @@ import {
   HeatmapIndicatorData,
 } from '@/components/organisms/Heatmap/heatmapUtil';
 import { getMethodsAndOutcomes } from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
+import { CsvData } from '@/lib/downloadHelpers/convertToCsv';
+import { convertHeatmapToCsv } from '@/components/organisms/Heatmap/convertHeatmapToCsv';
 import { BenchmarkReferenceType } from '@/generated-sources/ft-api-client';
 
 interface MemoDataPrep {
   headers: ReturnType<typeof generateHeaders>;
   rows: ReturnType<typeof generateRows>;
   legendsToShow: ReturnType<typeof getMethodsAndOutcomes>;
+  csvData: CsvData;
 }
 
 export const useHeatmapTableData = (
@@ -20,12 +23,12 @@ export const useHeatmapTableData = (
   groupAreaCode: string
 ) => {
   return useMemo((): MemoDataPrep => {
-    const { areas, indicators, dataPoints, benchmarkAreaName } =
-      extractSortedAreasIndicatorsAndDataPoints(
-        indicatorData,
-        groupAreaCode,
-        benchmarkRefType
-      );
+    const sortedData = extractSortedAreasIndicatorsAndDataPoints(
+      indicatorData,
+      groupAreaCode,
+      benchmarkRefType
+    );
+    const { areas, indicators, dataPoints, benchmarkAreaName } = sortedData;
     const legendsToShow = getMethodsAndOutcomes(indicatorData);
     return {
       headers: generateHeaders(areas, groupAreaCode, benchmarkRefType),
@@ -37,6 +40,7 @@ export const useHeatmapTableData = (
         benchmarkAreaName
       ),
       legendsToShow,
+      csvData: convertHeatmapToCsv(sortedData, groupAreaCode),
     };
   }, [indicatorData, benchmarkRefType, groupAreaCode]);
 };
