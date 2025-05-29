@@ -10,6 +10,7 @@ export const INDICATOR_SEARCH_INDEX_NAME = 'indicator-search-index';
 export const AREA_SEARCH_INDEX_NAME = 'area-search-index';
 export const AREA_SEARCH_SUGGESTER_NAME = 'areaSuggester';
 export const AREA_TYPE_GP = 'GPs';
+export const highlightTag = '*';
 
 export interface AreaCodeWithTrend {
   areaCode: string;
@@ -51,6 +52,11 @@ export type AreaDocument = {
   postcode?: string;
 };
 
+export type SuggestionResult = {
+  text: string;
+  document: AreaDocument;
+};
+
 export interface IIndicatorSearchService {
   searchWith(
     searchTerm: string,
@@ -62,5 +68,5 @@ export interface IIndicatorSearchService {
 
 export interface IAreaSearchService {
   getAreaDocument(areaCode: string): Promise<AreaDocument | undefined>;
-  getAreaSuggestions(partialAreaName: string): Promise<AreaDocument[]>;
+  getAreaSuggestions(partialAreaName: string): Promise<SuggestionResult[]>;
 }

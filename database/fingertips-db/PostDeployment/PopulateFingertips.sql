@@ -84,8 +84,6 @@ END CATCH;
 GO
 
 
-
-
 --reseed the tables, starting from 0. Currently identity insert is turned off for this seeding data
 DBCC CHECKIDENT ('[HealthMeasure]', RESEED, 0);
 DBCC CHECKIDENT ('[AgeDimension]', RESEED, 0);
@@ -414,14 +412,15 @@ CREATE TABLE #RawHealthData
     Upper98CI FLOAT,
     Denominator FLOAT,
     Sex NVARCHAR(255),
-    CategoryType NVARCHAR(MAX),
-    Category NVARCHAR(MAX),
+    CategoryType NVARCHAR(255),
+    Category NVARCHAR(255),
     AgeID INT,
     IsSexAggregatedOrSingle bit,
     IsAgeAggregatedOrSingle bit,
     IsDeprivationAggregatedOrSingle bit,
-    FromDate NVARCHAR(MAX),
-    ToDate NVARCHAR(MAX),
+    FromDate NVARCHAR(255),
+    ToDate NVARCHAR(255),
+    Period NVARCHAR(255),
     Avoid INT
 );
 
@@ -460,14 +459,15 @@ CREATE TABLE #TempHealthData
     Upper98CI FLOAT,
     Denominator FLOAT,
     Sex NVARCHAR(255),
-    CategoryType NVARCHAR(MAX),
+    CategoryType NVARCHAR(255),
     Category NVARCHAR(255),
     AgeID INT,
     IsSexAggregatedOrSingle bit,
     IsAgeAggregatedOrSingle bit,
     IsDeprivationAggregatedOrSingle bit,
-    FromDate NVARCHAR(MAX),
-    ToDate NVARCHAR(Max)
+    FromDate NVARCHAR(255),
+    ToDate NVARCHAR(255),
+    Period NVARCHAR(255),
 );
 
 INSERT INTO #TempHealthData
@@ -490,7 +490,8 @@ INSERT INTO #TempHealthData
     IsAgeAggregatedOrSingle,
     IsDeprivationAggregatedOrSingle,
     FromDate,
-    ToDate
+    ToDate,
+    Period
 )
 SELECT 
     IndicatorId,
@@ -511,7 +512,8 @@ SELECT
     IsAgeAggregatedOrSingle,
     IsDeprivationAggregatedOrSingle,
     FromDate,
-    ToDate
+    ToDate,
+    Period
 FROM #RawHealthData;
 
 DROP TABLE #RawHealthData;
@@ -540,7 +542,8 @@ INSERT INTO [dbo].[HealthMeasure]
     IsAgeAggregatedOrSingle,
     IsDeprivationAggregatedOrSingle,
     FromDateKey,
-    ToDateKey
+    ToDateKey,
+    PeriodKey
 )
 SELECT
     areadim.AreaKey,
@@ -558,7 +561,8 @@ SELECT
     IsAgeAggregatedOrSingle,
     IsDeprivationAggregatedOrSingle,
     datedim_from.DateKey,
-    datedim_to.DateKey
+    datedim_to.DateKey,
+    perioddim.PeriodKey
 FROM 
 	#TempHealthData temp
 JOIN
@@ -575,7 +579,10 @@ JOIN
 	[dbo].[DateDimension] datedim_from ON datedim_from.[Date] = (CONVERT(DATETIME, temp.FromDate, 103)) 
 JOIN
     [dbo].[DateDimension] datedim_to ON datedim_to.[Date] = (CONVERT(DATETIME, temp.ToDate, 103))
-WHERE temp.Value IS NOT NULL;
+JOIN   
+    [dbo].[PeriodDimension] perioddim ON perioddim.[Period] = temp.Period
+WHERE 
+    temp.Value IS NOT NULL;
 
 ALTER TABLE [dbo].[HealthMeasure] CHECK CONSTRAINT ALL
 

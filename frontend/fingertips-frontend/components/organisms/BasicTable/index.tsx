@@ -12,6 +12,8 @@ import {
 } from '@/components/molecules/CheckValueInTableCell';
 import { TrendTag } from '@/components/molecules/TrendTag';
 import { StyledCenterTableCell } from '@/lib/tableHelpers';
+import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
+import { convertBasicTableToCsvData } from './convertBasicTableToCsvData';
 
 export enum BasicTableEnum {
   Indicator = 'Indicator',
@@ -39,9 +41,11 @@ export function BasicTable({
   indicatorData,
   areaName,
 }: Readonly<BasicTableProps>) {
+  const csvData = convertBasicTableToCsvData(indicatorData);
   return (
     <div data-testid={'basicTable-component'}>
       <Table
+        id="basicTable"
         head={
           <React.Fragment>
             <Table.Row>
@@ -120,6 +124,7 @@ export function BasicTable({
           </Table.Row>
         ))}
       </Table>
+      <ExportOptionsButton targetId="basicTable" csvData={csvData} />
     </div>
   );
 }

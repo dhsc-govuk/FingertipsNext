@@ -4,17 +4,18 @@ import Highcharts from 'highcharts';
 export const getHtmlToImageCanvas = async (targetId: string) => {
   const element = document.getElementById(targetId);
   if (!element) return;
-  const parent = element.parentElement;
-
-  if (!parent) return;
-  parent.style.overflowX = 'visible';
 
   const canvas = await html2canvas(element, {
     scale: 2.5,
+    onclone: (clonedDocument) => {
+      const chartPageContent =
+        clonedDocument.getElementById('chartPageContent');
+      if (!chartPageContent) return;
+      chartPageContent.style.width = 'min-content';
+    },
   });
   canvas.style.width = '100%';
   canvas.style.height = 'auto';
-  parent.style.removeProperty('overflow-x');
 
   return canvas;
 };
@@ -53,7 +54,13 @@ export const getSvgFromOptions = (options: Highcharts.Options): string => {
   container.style.display = 'none';
   document.body.appendChild(container);
 
-  const chart = Highcharts.chart(container, options);
+  // type issue with mapChart existing (or not) on the Highcharts object - it does
+  // maybe because the loading of highcharts modules is done before this code is executed
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  const constructor = options.mapView ? Highcharts.mapChart : Highcharts.chart;
+
+  const chart = constructor(container, options);
   const svg = chart.getSVG();
 
   chart.destroy();
