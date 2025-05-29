@@ -6,10 +6,12 @@ import {
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
-  BenchmarkReferenceType,
 } from '@/generated-sources/ft-api-client';
 import { formatNumber } from '@/lib/numberFormatter';
-import { englandAreaString } from '@/lib/chartHelpers/constants';
+import {
+  areaCodeForEngland,
+  englandAreaString,
+} from '@/lib/chartHelpers/constants';
 
 describe('heatmap hover benchmark pill', () => {
   const defaultValue = 123;
@@ -20,7 +22,7 @@ describe('heatmap hover benchmark pill', () => {
     outcome: 'NotCompared',
     benchmarkMethod: 'Unknown',
     polarity: 'Unknown',
-    benchmarkRefType: BenchmarkReferenceType.England,
+    benchmarkAreaCode: areaCodeForEngland,
     benchmarkAreaName: englandAreaString,
   };
 
@@ -31,8 +33,8 @@ describe('heatmap hover benchmark pill', () => {
         outcome={defaultProps.outcome}
         benchmarkMethod={defaultProps.benchmarkMethod}
         polarity={defaultProps.polarity}
+        benchmarkAreaCode={areaCodeForEngland}
         benchmarkAreaName={defaultProps.benchmarkAreaName}
-        benchmarkRefType={defaultProps.benchmarkRefType}
       />
     );
 
@@ -47,8 +49,8 @@ describe('heatmap hover benchmark pill', () => {
         outcome={'Baseline'}
         benchmarkMethod={defaultProps.benchmarkMethod}
         polarity={defaultProps.polarity}
+        benchmarkAreaCode={areaCodeForEngland}
         benchmarkAreaName={defaultProps.benchmarkAreaName}
-        benchmarkRefType={defaultProps.benchmarkRefType}
       />
     );
 
@@ -68,8 +70,8 @@ describe('heatmap hover benchmark pill', () => {
         outcome={BenchmarkOutcome.NotCompared}
         benchmarkMethod={defaultProps.benchmarkMethod}
         polarity={defaultProps.polarity}
+        benchmarkAreaCode={areaCodeForEngland}
         benchmarkAreaName={defaultProps.benchmarkAreaName}
-        benchmarkRefType={defaultProps.benchmarkRefType}
       />
     );
 
@@ -92,7 +94,7 @@ describe('heatmap hover benchmark pill', () => {
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95
         }
         polarity={defaultProps.polarity}
-        benchmarkRefType={defaultProps.benchmarkRefType}
+        benchmarkAreaCode={areaCodeForEngland}
         benchmarkAreaName={defaultProps.benchmarkAreaName}
       />
     );
@@ -118,8 +120,8 @@ describe('heatmap hover benchmark pill', () => {
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95
         }
         polarity={defaultProps.polarity}
-        benchmarkRefType={defaultProps.benchmarkRefType}
-        benchmarkAreaName={'West Foobar'}
+        benchmarkAreaCode={areaCodeForEngland}
+        benchmarkAreaName={testBenchmarkAreaName}
       />
     );
 

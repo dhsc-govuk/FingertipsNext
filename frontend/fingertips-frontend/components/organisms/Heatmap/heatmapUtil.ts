@@ -1,7 +1,6 @@
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
-  BenchmarkReferenceType,
   HealthDataForArea,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
@@ -91,36 +90,23 @@ interface DataPointBenchmark {
 export type HeatmapBenchmarkOutcome = BenchmarkOutcome | 'Baseline';
 
 export interface HeatmapBenchmarkProps extends DataPointBenchmark {
-  benchmarkRefType: BenchmarkReferenceType;
   benchmarkAreaName: string;
 }
 
 export const extractSortedAreasIndicatorsAndDataPoints = (
   indicatorData: HeatmapIndicatorData[],
   groupAreaCode: string,
-  benchmarkRefType: BenchmarkReferenceType
+  benchmarkAreaCode: string
 ): {
   areas: Area[];
   indicators: Indicator[];
   dataPoints: Record<string, Record<string, DataPoint>>;
   benchmarkAreaName: string;
 } => {
-  const benchmarkAreaCode =
-    benchmarkRefType === BenchmarkReferenceType.England
-      ? areaCodeForEngland
-      : groupAreaCode;
-
   const { areas, indicators, dataPoints } = extractAreasIndicatorsAndDataPoints(
     indicatorData,
     benchmarkAreaCode
   );
-
-  const benchmarkAreaName =
-    areas[
-      benchmarkRefType === BenchmarkReferenceType.England
-        ? areaCodeForEngland
-        : groupAreaCode
-    ].name;
 
   const precedingAreas = [areaCodeForEngland];
 
@@ -141,8 +127,8 @@ export const extractSortedAreasIndicatorsAndDataPoints = (
   return {
     areas: sortedAreas,
     indicators: sortedIndicators,
-    dataPoints,
-    benchmarkAreaName,
+    dataPoints: dataPoints,
+    benchmarkAreaName: areas[benchmarkAreaCode]?.name ?? '',
   };
 };
 
@@ -150,7 +136,7 @@ export const generateRows = (
   areas: Area[],
   indicators: Indicator[],
   dataPoints: Record<string, Record<string, DataPoint>>,
-  benchmarkRefType: BenchmarkReferenceType,
+  benchmarkAreaCode: string,
   benchmarkAreaName: string
 ): HeatmapDataRow[] => {
   const rows = new Array<HeatmapDataRow>(indicators.length);
@@ -188,7 +174,7 @@ export const generateRows = (
         content: formatNumber(dataPoints[indicator.id][area.code]?.value),
         backgroundColour: generateDataBackgroundColour(
           dataPoints[indicator.id][area.code],
-          benchmarkRefType
+          benchmarkAreaCode
         ),
         hoverProps: {
           areaName: getHoverAreaName(area),
@@ -206,7 +192,8 @@ export const generateRows = (
             polarity:
               dataPoints[indicator.id][area.code]?.benchmark?.polarity ??
               IndicatorPolarity.Unknown,
-            benchmarkRefType: benchmarkRefType,
+            benchmarkAreaCode:
+              dataPoints[indicator.id][area.code]?.benchmark?.benchmarkAreaCode,
             benchmarkAreaName: benchmarkAreaName,
           },
         },
@@ -220,7 +207,7 @@ export const generateRows = (
 
 const generateDataBackgroundColour = (
   dataPoint: DataPoint,
-  benchmarkRefType: BenchmarkReferenceType
+  benchmarkAreaCode: string
 ): string => {
   if (
     !dataPoint?.value ||
@@ -236,7 +223,7 @@ const generateDataBackgroundColour = (
 
   if (
     dataPoint.areaCode === areaCodeForEngland &&
-    benchmarkRefType !== BenchmarkReferenceType.England
+    benchmarkAreaCode !== areaCodeForEngland
   ) {
     return GovukColours.LightGrey;
   }
@@ -397,7 +384,7 @@ const orderAreaByPrecedingThenByName = (
 export const generateHeaders = (
   areas: Area[],
   groupAreaCode: string,
-  benchmarkRefType: BenchmarkReferenceType
+  benchmarkAreaCode: string
 ): Header[] => {
   const getHeaderType = (pos: number, areaCode?: string): HeaderType => {
     if (pos === 0) {
@@ -413,13 +400,13 @@ export const generateHeaders = (
     }
 
     if (areaCode === areaCodeForEngland) {
-      return benchmarkRefType === BenchmarkReferenceType.England
+      return benchmarkAreaCode === areaCodeForEngland
         ? HeaderType.PrimaryBenchmarkArea
         : HeaderType.SecondaryBenchmarkArea;
     }
 
     if (groupAreaCode && areaCode === groupAreaCode) {
-      return benchmarkRefType === BenchmarkReferenceType.England
+      return benchmarkAreaCode === areaCodeForEngland
         ? HeaderType.SecondaryBenchmarkArea
         : HeaderType.PrimaryBenchmarkArea;
     }
@@ -448,20 +435,20 @@ export const generateHeaders = (
   const generateHeaderTitle = (
     areaCode: string,
     areaName: string,
-    benchmarkRefType: BenchmarkReferenceType,
-    groupAreaCode: string
+    groupAreaCode: string,
+    benchmarkAreaCode: string
   ) => {
     if (areaCode !== areaCodeForEngland && areaCode !== groupAreaCode) {
       return areaName;
     }
 
     if (areaCode === areaCodeForEngland) {
-      return benchmarkRefType === BenchmarkReferenceType.England
+      return benchmarkAreaCode === areaCodeForEngland
         ? `Benchmark: ${areaName}`
         : areaName;
     }
 
-    return benchmarkRefType === BenchmarkReferenceType.SubNational
+    return benchmarkAreaCode === groupAreaCode
       ? `Benchmark: ${areaName}`
       : `Group: ${areaName}`;
   };
@@ -485,8 +472,8 @@ export const generateHeaders = (
           content: generateHeaderTitle(
             area.code,
             area.name,
-            benchmarkRefType,
-            groupAreaCode
+            groupAreaCode,
+            benchmarkAreaCode
           ),
           type: getHeaderType(index + constantHeaderTitles.length, area.code),
         };

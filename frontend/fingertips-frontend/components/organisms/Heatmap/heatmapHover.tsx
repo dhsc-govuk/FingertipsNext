@@ -5,7 +5,10 @@ import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import { HeatmapBenchmarkProps } from './heatmapUtil';
 import { HeatmapHoverBenchmarkPill } from './heatmapHoverBenchmarkPill';
-import { englandAreaString } from '@/lib/chartHelpers/constants';
+import {
+  areaCodeForEngland,
+  englandAreaString,
+} from '@/lib/chartHelpers/constants';
 
 const StyledDivHover = styled.div({
   color: GovukColours.Black,
@@ -96,7 +99,7 @@ export const HeatmapHover: FC<HeatmapHoverProps> = ({
         outcome={benchmark.outcome}
         benchmarkMethod={benchmark.benchmarkMethod}
         polarity={benchmark.polarity}
-        benchmarkRefType={benchmark.benchmarkRefType}
+        benchmarkAreaCode={benchmark.benchmarkAreaCode ?? areaCodeForEngland}
         benchmarkAreaName={benchmark.benchmarkAreaName ?? englandAreaString}
       />
     </StyledDivHover>

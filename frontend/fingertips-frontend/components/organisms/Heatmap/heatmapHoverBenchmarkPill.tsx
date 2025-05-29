@@ -2,7 +2,6 @@ import { FC } from 'react';
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
-  BenchmarkReferenceType,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import styled from 'styled-components';
@@ -16,6 +15,7 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 const StyledDivSquare = styled.div({
   width: '10px',
@@ -51,7 +51,7 @@ export interface HeatmapHoverBenchmarkPillProps {
   outcome: HeatmapBenchmarkOutcome;
   benchmarkMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
-  benchmarkRefType: BenchmarkReferenceType;
+  benchmarkAreaCode: string;
   benchmarkAreaName: string;
 }
 
@@ -61,7 +61,7 @@ export const HeatmapHoverBenchmarkPill: FC<HeatmapHoverBenchmarkPillProps> = ({
   outcome,
   benchmarkMethod,
   polarity,
-  benchmarkRefType,
+  benchmarkAreaCode,
   benchmarkAreaName,
 }) => {
   return (
@@ -73,7 +73,7 @@ export const HeatmapHoverBenchmarkPill: FC<HeatmapHoverBenchmarkPillProps> = ({
             outcome={outcome}
             benchmarkMethod={benchmarkMethod}
             polarity={polarity}
-            benchmarkRefType={benchmarkRefType}
+            benchmarkAreaCode={benchmarkAreaCode}
             data-testid="heatmap-hover-benchmark-icon"
           />
         }
@@ -96,26 +96,15 @@ interface BenchmarkPillIconProps {
   outcome: HeatmapBenchmarkOutcome;
   benchmarkMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
-  benchmarkRefType: BenchmarkReferenceType;
+  benchmarkAreaCode: string;
 }
-
-const getBaselineIconColour = (benchmarkRefType: BenchmarkReferenceType) => {
-  switch (benchmarkRefType) {
-    case BenchmarkReferenceType.AreaGroup:
-      return GovukColours.Pink;
-    case BenchmarkReferenceType.England:
-      return GovukColours.Black;
-    default:
-      return GovukColours.Black;
-  }
-};
 
 const BenchmarkPillIcon: FC<BenchmarkPillIconProps> = ({
   value,
   outcome,
   benchmarkMethod,
   polarity,
-  benchmarkRefType,
+  benchmarkAreaCode,
 }) => {
   if (value === undefined) {
     return <StyledText>{SymbolsEnum.MultiplicationX}</StyledText>;
@@ -128,7 +117,11 @@ const BenchmarkPillIcon: FC<BenchmarkPillIconProps> = ({
   if (outcome === 'Baseline') {
     return (
       <StyledDivSquareBenchmarkColour
-        $colour={getBaselineIconColour(benchmarkRefType)}
+        $colour={
+          benchmarkAreaCode === areaCodeForEngland
+            ? GovukColours.Black
+            : GovukColours.Pink
+        }
       />
     );
   }

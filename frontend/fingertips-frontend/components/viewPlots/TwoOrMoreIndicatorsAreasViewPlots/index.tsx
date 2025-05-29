@@ -4,7 +4,6 @@ import { TwoOrMoreIndicatorsViewPlotProps } from '@/components/viewPlots/ViewPlo
 import { Heatmap } from '@/components/organisms/Heatmap';
 import {
   BenchmarkComparisonMethod,
-  BenchmarkReferenceType,
   IndicatorPolarity,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
@@ -151,7 +150,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
               indicatorMetadata
             )}
             groupAreaCode={selectedGroupCode}
-            benchmarkRefType={BenchmarkReferenceType.England}
+            benchmarkAreaCode={benchmarkToUse}
           />
         </StyleChartWrapper>
       ) : null}

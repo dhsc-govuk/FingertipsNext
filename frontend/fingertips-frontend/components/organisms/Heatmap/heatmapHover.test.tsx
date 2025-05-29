@@ -3,10 +3,12 @@ import { HeatmapHover, HeatmapHoverProps } from './heatmapHover';
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
-  BenchmarkReferenceType,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
-import { englandAreaString } from '@/lib/chartHelpers/constants';
+import {
+  areaCodeForEngland,
+  englandAreaString,
+} from '@/lib/chartHelpers/constants';
 
 const testValue = 67;
 
@@ -21,7 +23,7 @@ const testHoverProps: HeatmapHoverProps = {
     outcome: BenchmarkOutcome.Better,
     benchmarkMethod: BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
     polarity: IndicatorPolarity.HighIsGood,
-    benchmarkRefType: BenchmarkReferenceType.England,
+    benchmarkAreaCode: areaCodeForEngland,
     benchmarkAreaName: englandAreaString,
   },
 };

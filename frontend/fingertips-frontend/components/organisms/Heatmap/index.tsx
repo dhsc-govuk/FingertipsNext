@@ -9,7 +9,6 @@ import { useHeatmapTableData } from '@/components/organisms/Heatmap/useHeatmapTa
 import { useHeatmapHover } from '@/components/organisms/Heatmap/useHeatmapHover';
 import styled from 'styled-components';
 import { H2 } from 'govuk-react';
-import { BenchmarkReferenceType } from '@/generated-sources/ft-api-client';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
 
 const HeatmapHeading = styled(H2)({
@@ -19,19 +18,19 @@ const HeatmapHeading = styled(H2)({
 
 export interface HeatmapProps {
   indicatorData: HeatmapIndicatorData[];
-  benchmarkRefType: BenchmarkReferenceType;
   groupAreaCode: string;
+  benchmarkAreaCode: string;
 }
 
 export const Heatmap: FC<HeatmapProps> = ({
   indicatorData,
-  benchmarkRefType,
   groupAreaCode,
+  benchmarkAreaCode,
 }) => {
   const { headers, rows, legendsToShow, csvData } = useHeatmapTableData(
     indicatorData,
-    benchmarkRefType,
-    groupAreaCode
+    groupAreaCode,
+    benchmarkAreaCode
   );
   const { hover, left, top, handleMouseOverCell } = useHeatmapHover();
 

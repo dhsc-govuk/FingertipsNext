@@ -1,7 +1,6 @@
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
-  BenchmarkReferenceType,
   HealthDataPoint,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
@@ -17,7 +16,7 @@ import {
 } from '@/lib/chartHelpers/constants';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 
-describe('generate headers and rows - benchmark reference is England', () => {
+describe('generate headers and rows - benchmark area is England', () => {
   const groupAreaCode = 'groupAreaCode';
   const sortedAreas = [
     { code: areaCodeForEngland, name: 'England' },
@@ -78,14 +77,14 @@ describe('generate headers and rows - benchmark reference is England', () => {
   const headers = generateHeaders(
     sortedAreas,
     groupAreaCode,
-    BenchmarkReferenceType.England
+    areaCodeForEngland
   );
 
   const rows = generateRows(
     sortedAreas,
     sortedIndicators,
     dataPoints,
-    BenchmarkReferenceType.England,
+    areaCodeForEngland,
     englandAreaString
   );
 
@@ -373,12 +372,12 @@ export const placeholderHeatmapIndicatorData = [
 const expectedSortedIndicators = [indicator3, indicator2, indicator1];
 const expectedSortedAreas = [areaEngland, area3, area4, area2];
 
-describe('extract sorted areas, indicators, and data points - benchmark reference is england', () => {
+describe('extract sorted areas, indicators, and data points - benchmark area is england', () => {
   const { areas, indicators, dataPoints } =
     extractSortedAreasIndicatorsAndDataPoints(
       placeholderHeatmapIndicatorData,
       placeholderGroupAreaCode,
-      BenchmarkReferenceType.England
+      areaCodeForEngland
     );
 
   it('should order areas correctly', () => {

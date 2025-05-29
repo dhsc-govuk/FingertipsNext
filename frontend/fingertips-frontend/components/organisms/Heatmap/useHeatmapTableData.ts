@@ -8,7 +8,6 @@ import {
 import { getMethodsAndOutcomes } from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
 import { CsvData } from '@/lib/downloadHelpers/convertToCsv';
 import { convertHeatmapToCsv } from '@/components/organisms/Heatmap/convertHeatmapToCsv';
-import { BenchmarkReferenceType } from '@/generated-sources/ft-api-client';
 
 interface MemoDataPrep {
   headers: ReturnType<typeof generateHeaders>;
@@ -19,28 +18,28 @@ interface MemoDataPrep {
 
 export const useHeatmapTableData = (
   indicatorData: HeatmapIndicatorData[],
-  benchmarkRefType: BenchmarkReferenceType,
-  groupAreaCode: string
+  groupAreaCode: string,
+  benchmarkAreaCode: string
 ) => {
   return useMemo((): MemoDataPrep => {
     const sortedData = extractSortedAreasIndicatorsAndDataPoints(
       indicatorData,
       groupAreaCode,
-      benchmarkRefType
+      benchmarkAreaCode
     );
     const { areas, indicators, dataPoints, benchmarkAreaName } = sortedData;
     const legendsToShow = getMethodsAndOutcomes(indicatorData);
     return {
-      headers: generateHeaders(areas, groupAreaCode, benchmarkRefType),
+      headers: generateHeaders(areas, groupAreaCode, benchmarkAreaCode),
       rows: generateRows(
         areas,
         indicators,
         dataPoints,
-        benchmarkRefType,
+        benchmarkAreaCode,
         benchmarkAreaName
       ),
       legendsToShow,
       csvData: convertHeatmapToCsv(sortedData, groupAreaCode),
     };
-  }, [indicatorData, benchmarkRefType, groupAreaCode]);
+  }, [indicatorData, groupAreaCode, benchmarkAreaCode]);
 };
