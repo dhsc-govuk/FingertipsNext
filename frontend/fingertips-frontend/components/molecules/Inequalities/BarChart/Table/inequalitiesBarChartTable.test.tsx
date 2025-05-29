@@ -41,6 +41,7 @@ describe('Inequalities bar chart table suite', () => {
       expectedGroupings.forEach((grouping) => {
         expect(screen.getByText(grouping)).toBeInTheDocument();
       });
+      expect(screen.getByRole('button')).toHaveTextContent('Export options');
     });
 
     it('should display x if data point is not available', () => {
