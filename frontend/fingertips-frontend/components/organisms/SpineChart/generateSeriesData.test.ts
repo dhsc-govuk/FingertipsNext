@@ -30,9 +30,9 @@ describe('generateSeriesData', () => {
     areaTwoValue: 40,
     areaTwoOutcome: BenchmarkOutcome.Worse,
     areaNames: ['Area One', 'Area Two'],
-    groupValue: 55,
-    groupName: 'Test Group',
-    groupOutcome: BenchmarkOutcome.Similar,
+    alternativeBenchmarkValue: 55,
+    alternativeBenchmarkName: 'Test Group',
+    alternativeBenchmarkOutcome: BenchmarkOutcome.Similar,
     benchmarkMethod: BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
     benchmarkToUse: areaCodeForEngland,
   };
@@ -95,7 +95,10 @@ describe('generateSeriesData', () => {
   });
 
   it('should not return series data for group if not provided', () => {
-    const propsWithoutGroup = { ...mockProps, groupValue: undefined };
+    const propsWithoutGroup = {
+      ...mockProps,
+      alternativeBenchmarkValue: undefined,
+    };
     const result = generateSeriesData(propsWithoutGroup);
 
     expect(result).toHaveLength(7); // 4 bars + 3 scatter points (areaOne, areaTwo, benchmark)

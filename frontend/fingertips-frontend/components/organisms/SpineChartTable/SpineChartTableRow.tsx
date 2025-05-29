@@ -165,17 +165,17 @@ export const SpineChartTableRow: FC<SpineChartTableRowProps> = ({
           areaTwoOutcome={
             areasHealthData[1]?.healthData.at(-1)?.benchmarkComparison?.outcome
           }
-          groupValue={
+          alternativeBenchmarkValue={
             shouldShowAlternativeBenchmark
               ? alternativeBenchmarkData?.healthData.at(-1)?.value
               : undefined
           }
-          groupName={
+          alternativeBenchmarkName={
             shouldShowAlternativeBenchmark
               ? (alternativeBenchmarkData?.areaName ?? '')
               : ''
           }
-          groupOutcome={
+          alternativeBenchmarkOutcome={
             alternativeBenchmarkData?.healthData.at(-1)?.benchmarkComparison
               ?.outcome
           }

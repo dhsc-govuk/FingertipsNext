@@ -33,7 +33,7 @@ describe('Spine chart', () => {
         benchmarkValue={mockValue}
         quartileData={mockQuartileData}
         areaNames={['Area Name']}
-        groupName={'Group Name'}
+        alternativeBenchmarkName={'Group Name'}
         benchmarkToUse={areaCodeForEngland}
       />
     );

@@ -29,9 +29,9 @@ export function generateSeriesData({
   areaTwoValue,
   areaTwoOutcome,
   areaNames,
-  groupValue,
-  groupName,
-  groupOutcome,
+  alternativeBenchmarkValue,
+  alternativeBenchmarkName,
+  alternativeBenchmarkOutcome,
   benchmarkMethod,
   benchmarkToUse,
 }: Readonly<SpineChartProps>) {
@@ -141,15 +141,16 @@ export function generateSeriesData({
   const inverter =
     quartileData.polarity === IndicatorPolarity.LowIsGood ? -1 : 1;
 
-  if (groupValue !== undefined) {
-    const absGroupValue =
-      inverter * (Math.abs(groupValue) - Math.abs(benchmarkValue));
-    const scaledGroup = absGroupValue / maxDiffFromBenchmark;
+  if (alternativeBenchmarkValue !== undefined) {
+    const absBenchmarkValue =
+      inverter *
+      (Math.abs(alternativeBenchmarkValue) - Math.abs(benchmarkValue));
+    const scaledGroup = absBenchmarkValue / maxDiffFromBenchmark;
 
     const fillColor =
       getBenchmarkColour(
         benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
-        groupOutcome ?? BenchmarkOutcome.NotCompared,
+        alternativeBenchmarkOutcome ?? BenchmarkOutcome.NotCompared,
         quartileData.polarity ?? IndicatorPolarity.NoJudgement
       ) ?? GovukColours.White;
 
@@ -157,13 +158,13 @@ export function generateSeriesData({
       seriesData.push({
         type: 'scatter',
         name: formatSymbolHover({
-          title: `Group: ${groupName}`,
+          title: `Group: ${alternativeBenchmarkName}`,
           period: period,
           benchmarkComparisonMethod:
             benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
-          value: groupValue,
+          value: alternativeBenchmarkValue,
           units: units,
-          outcome: groupOutcome ?? 'Not compared',
+          outcome: alternativeBenchmarkOutcome ?? 'Not compared',
           colour: fillColor,
           shape: SymbolsEnum.Diamond,
           indicatorName: name,

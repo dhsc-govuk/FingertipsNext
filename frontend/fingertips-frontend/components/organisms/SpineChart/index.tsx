@@ -20,9 +20,9 @@ export interface SpineChartProps {
   areaTwoOutcome?: BenchmarkOutcome;
   areaNames: string[];
   benchmarkMethod?: BenchmarkComparisonMethod;
-  groupValue?: number;
-  groupName: string;
-  groupOutcome?: BenchmarkOutcome;
+  alternativeBenchmarkValue?: number;
+  alternativeBenchmarkName: string;
+  alternativeBenchmarkOutcome?: BenchmarkOutcome;
   benchmarkToUse: string;
 }
 
