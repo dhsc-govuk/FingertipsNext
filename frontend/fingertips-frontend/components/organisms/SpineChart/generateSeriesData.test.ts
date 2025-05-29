@@ -120,4 +120,27 @@ describe('generateSeriesData', () => {
       result?.find((series) => series?.name?.includes('Area Two'))
     ).toBeUndefined();
   });
+
+  it('should generate correct series data when the benchmark is not England', () => {
+    const propsWithGroupBenchmark = {
+      ...mockProps,
+      benchmarkToUse: 'GROUP_CODE',
+      benchmarkName: 'Test Group',
+      groupName: 'England',
+      groupValue: 55,
+    };
+    const result = generateSeriesData(propsWithGroupBenchmark);
+
+    expect(result).toHaveLength(8);
+
+    const benchmarkScatter = result?.[7] as Highcharts.SeriesScatterOptions;
+    expect(benchmarkScatter?.type).toBe('scatter');
+    expect(benchmarkScatter?.name).toContain('Benchmark: Test Group');
+    expect(benchmarkScatter?.marker?.fillColor).toBe(GovukColours.Black);
+
+    const englandScatter = result?.[4] as Highcharts.SeriesScatterOptions;
+    expect(englandScatter?.type).toBe('scatter');
+    expect(englandScatter?.name).toContain('England');
+    expect(englandScatter?.marker?.fillColor).toBe(GovukColours.Yellow);
+  });
 });
