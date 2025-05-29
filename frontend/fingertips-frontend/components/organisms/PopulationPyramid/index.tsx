@@ -5,6 +5,8 @@ import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData'
 import { createChartPyramidOptions } from './createChartOptions';
 import { HighChartsWrapper } from '@/components/molecules/HighChartsWrapper/HighChartsWrapper';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
+import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
+import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
 
 interface PyramidChartProps {
   dataForSelectedArea: PopulationDataForArea;
@@ -41,6 +43,9 @@ export function PopulationPyramid({
           testId={'highcharts-react-component-populationPyramid'}
           chartOptions={populationPyramidOptions}
         />
+        <ExportOnlyWrapper>
+          <ExportCopyright />
+        </ExportOnlyWrapper>
       </div>
       <ExportOptionsButton
         targetId={'populationPyramid'}

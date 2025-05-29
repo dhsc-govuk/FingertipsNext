@@ -433,6 +433,11 @@ exports[`snapshot test - england benchmark 1`] = `
   overflow-x: scroll;
 }
 
+.c46 {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
 .c1 {
   font-size: 1.5rem;
   margin-top: 1rem;
@@ -988,6 +993,18 @@ exports[`snapshot test - england benchmark 1`] = `
           </tr>
         </tbody>
       </table>
+    </div>
+    <div
+      class="exportOnly"
+      style="display: none;"
+    >
+      <div
+        class="c46"
+      >
+        ©Crown copyright 2024. Office for Health Improvement & Disparities.
+        <br />
+        Public Health Profiles accessed on 25/Dec/2024 www.fingertips.phe.org.uk
+      </div>
     </div>
   </div>
   .c0 {

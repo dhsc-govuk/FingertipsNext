@@ -16,6 +16,8 @@ import { getMethodsAndOutcomes } from '@/components/organisms/BenchmarkLegend/be
 import { SpineChartIndicatorData } from './spineChartTableHelpers';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
 import { convertSpineChartTableToCsv } from '@/components/organisms/SpineChartTable/convertSpineChartTableToCsv';
+import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
+import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
 import { SearchStateParams } from '@/lib/searchStateManager';
 
 const SpineChartHeading = styled(H2)({
@@ -87,6 +89,9 @@ export function SpineChartTable({
             ))}
           </StyledTable>
         </StyledDivTableContainer>
+        <ExportOnlyWrapper>
+          <ExportCopyright />
+        </ExportOnlyWrapper>
       </div>
       <ExportOptionsButton targetId={'spineChartTable'} csvData={csvData} />
     </>

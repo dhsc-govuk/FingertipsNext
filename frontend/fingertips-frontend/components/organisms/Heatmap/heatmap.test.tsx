@@ -9,32 +9,44 @@ import {
   englandAreaString,
 } from '@/lib/chartHelpers/constants';
 
-it('snapshot test - england benchmark', () => {
-  const container = render(
-    <Heatmap
-      indicatorData={placeholderIndicatorData}
-      groupAreaCode={placeholderGroupAreaCode}
-      benchmarkAreaCode={areaCodeForEngland}
-      benchmarkAreaName={englandAreaString}
-    />
-  );
+describe('heatmap', () => {
+  beforeAll(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2024-12-25T12:00:00Z'));
+  });
 
-  expect(container.asFragment()).toMatchSnapshot();
-});
+  afterAll(() => {
+    jest.useRealTimers();
+  });
 
-it('snapshot test - group area benchmark', () => {
-  const container = render(
-    <Heatmap
-      indicatorData={placeholderIndicatorData}
-      groupAreaCode={placeholderGroupAreaCode}
-      benchmarkAreaCode={placeholderGroupAreaCode}
-      benchmarkAreaName={
-        placeholderIndicatorData[0].healthDataForAreas.find((healthData) => {
-          return healthData.areaCode === placeholderGroupAreaCode;
-        })?.areaName ?? 'no group area in data?'
-      }
-    />
-  );
 
-  expect(container.asFragment()).toMatchSnapshot();
+  it('snapshot test - england benchmark', () => {
+    const container = render(
+      <Heatmap
+        indicatorData={placeholderIndicatorData}
+        groupAreaCode={placeholderGroupAreaCode}
+        benchmarkAreaCode={areaCodeForEngland}
+        benchmarkAreaName={englandAreaString}
+      />
+    );
+
+    expect(container.asFragment()).toMatchSnapshot();
+  });
+
+  it('snapshot test - group area benchmark', () => {
+    const container = render(
+      <Heatmap
+        indicatorData={placeholderIndicatorData}
+        groupAreaCode={placeholderGroupAreaCode}
+        benchmarkAreaCode={placeholderGroupAreaCode}
+        benchmarkAreaName={
+          placeholderIndicatorData[0].healthDataForAreas.find((healthData) => {
+            return healthData.areaCode === placeholderGroupAreaCode;
+          })?.areaName ?? 'no group area in data?'
+        }
+      />
+    );
+
+    expect(container.asFragment()).toMatchSnapshot();
+  });
 });
