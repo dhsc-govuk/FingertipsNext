@@ -86,6 +86,7 @@ export interface HeatmapBenchmarkProps {
   outcome: HeatmapBenchmarkOutcome;
   benchmarkMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
+  benchmarkAreaCode?: string;
 }
 
 export const extractSortedAreasIndicatorsAndDataPoints = (
@@ -291,12 +292,15 @@ const extractAreasIndicatorsAndDataPoints = (
         return outcome ?? BenchmarkOutcome.NotCompared;
       };
 
+      const { benchmarkAreaCode } =
+        healthDataForYear?.benchmarkComparison ?? {};
       const benchmark: HeatmapBenchmarkProps = {
         outcome: getBenchmarkOutcome(
           healthDataForYear?.benchmarkComparison?.outcome
         ),
         benchmarkMethod: indicatorData.benchmarkComparisonMethod,
         polarity: indicatorData.polarity,
+        benchmarkAreaCode,
       };
 
       dataPoints[indicatorData.indicatorId][healthData.areaCode] = {

@@ -2,7 +2,99 @@
 
 exports[`BasicTable should match snapshot 1`] = `
 <DocumentFragment>
-  .c7 {
+  .c9 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  box-sizing: border-box;
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  margin-top: 0;
+  padding: 7px 10px;
+  border: 2px solid transparent;
+  border-radius: 0;
+  color: #ffffff;
+  background-color: #00703c;
+  box-shadow: 0 2px 0 #002413;
+  text-align: center;
+  vertical-align: top;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-bottom: 22px;
+}
+
+.c9:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+}
+
+.c9:link,
+.c9:visited,
+.c9:active,
+.c9:hover {
+  color: #ffffff;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c9::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+.c9:hover,
+.c9:focus {
+  background-color: #00572e;
+}
+
+.c9:active {
+  top: 2px;
+  box-shadow: none;
+}
+
+.c9::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  bottom: -4px;
+  left: -2px;
+  background: transparent;
+}
+
+.c9:active::before {
+  top: -4px;
+}
+
+.c9:disabled {
+  opacity: 0.5;
+  background: #00703c;
+}
+
+.c9:disabled:hover {
+  background-color: #00703c;
+  cursor: default;
+}
+
+.c9:disabled:focus {
+  outline: none;
+}
+
+.c9:disabled:active {
+  top: 0;
+  box-shadow: 0 2px 0 #002413;
+}
+
+.c9 svg {
+  max-width: 15px;
+}
+
+.c7 {
   margin: 0;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -143,6 +235,42 @@ exports[`BasicTable should match snapshot 1`] = `
   padding-right: 10px;
 }
 
+.c10 {
+  margin-top: 1rem;
+}
+
+@media print {
+  .c9 {
+    font-size: 14px;
+    line-height: 19px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c9 {
+    font-size: 19px;
+    line-height: 19px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c9 {
+    width: auto;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c9 svg {
+    margin-left: 10px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c9 {
+    margin-bottom: 32px;
+  }
+}
+
 @media print {
   .c7 {
     font-size: 14px;
@@ -222,6 +350,7 @@ exports[`BasicTable should match snapshot 1`] = `
   >
     <table
       class="c0"
+      id="basicTable"
     >
       <thead
         class=""
@@ -408,6 +537,11 @@ exports[`BasicTable should match snapshot 1`] = `
         </tr>
       </tbody>
     </table>
+    <button
+      class="c9 c10"
+    >
+      Export options
+    </button>
   </div>
 </DocumentFragment>
 `;
