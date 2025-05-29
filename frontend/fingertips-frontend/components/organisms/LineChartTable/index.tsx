@@ -49,7 +49,7 @@ export enum LineChartTableHeadingEnum {
 
 export interface LineChartTableProps {
   healthIndicatorData: HealthDataForArea[];
-  englandBenchmarkData?: HealthDataForArea;
+  englandIndicatorData?: HealthDataForArea;
   groupIndicatorData?: HealthDataForArea;
   indicatorMetadata?: IndicatorDocument;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
@@ -322,7 +322,7 @@ interface AreaDataMatchedByYear {
 
 export function LineChartTable({
   healthIndicatorData,
-  englandBenchmarkData,
+  englandIndicatorData,
   groupIndicatorData,
   indicatorMetadata,
   benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
@@ -334,8 +334,8 @@ export function LineChartTable({
   const groupColumnPrefix =
     benchmarkOptions !== areaCodeForEngland ? 'Benchmark: ' : 'Group: ';
 
-  if (englandBenchmarkData && healthIndicatorData.length === 0) {
-    healthIndicatorData = [englandBenchmarkData];
+  if (englandIndicatorData && healthIndicatorData.length === 0) {
+    healthIndicatorData = [englandIndicatorData];
   }
 
   healthIndicatorData = healthIndicatorData.toSorted((a, b) =>
@@ -353,7 +353,7 @@ export function LineChartTable({
     groupIndicatorData?.healthData?.length > 0;
 
   const allHealthPointYears = [
-    ...(englandBenchmarkData?.healthData ?? []),
+    ...(englandIndicatorData?.healthData ?? []),
     ...(groupIndicatorData?.healthData ?? []),
     ...healthIndicatorData.flatMap((area) => area.healthData),
   ].map(({ year }) => year);
@@ -370,7 +370,7 @@ export function LineChartTable({
 
   const rowData = allYears
     .map((year) => {
-      const englandHealthPoint = englandBenchmarkData?.healthData.find(
+      const englandHealthPoint = englandIndicatorData?.healthData.find(
         (healthPoint) => healthPoint.year === year
       );
 
@@ -403,7 +403,7 @@ export function LineChartTable({
         indicatorMetadata,
         healthIndicatorData,
         showGroupColumn ? groupIndicatorData : undefined,
-        showBenchmarkColumn ? englandBenchmarkData : undefined,
+        showBenchmarkColumn ? englandIndicatorData : undefined,
         confidenceLimit
       )
     : undefined;

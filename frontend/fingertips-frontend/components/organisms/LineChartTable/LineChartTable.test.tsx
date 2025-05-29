@@ -83,7 +83,7 @@ describe('Line chart table suite', () => {
       const container = render(
         <LineChartTable
           healthIndicatorData={[mockHealthData[0]]}
-          englandBenchmarkData={MOCK_ENGLAND_DATA}
+          englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           benchmarkComparisonMethod={
             BenchmarkComparisonMethod.CIOverlappingReferenceValue95
@@ -97,7 +97,7 @@ describe('Line chart table suite', () => {
       render(
         <LineChartTable
           healthIndicatorData={[mockHealthData[0]]}
-          englandBenchmarkData={MOCK_ENGLAND_DATA}
+          englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
         />
       );
@@ -109,7 +109,7 @@ describe('Line chart table suite', () => {
       render(
         <LineChartTable
           healthIndicatorData={[mockHealthData[0]]}
-          englandBenchmarkData={MOCK_ENGLAND_DATA}
+          englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           benchmarkComparisonMethod={
             BenchmarkComparisonMethod.CIOverlappingReferenceValue95
@@ -146,7 +146,7 @@ describe('Line chart table suite', () => {
       render(
         <LineChartTable
           healthIndicatorData={[]}
-          englandBenchmarkData={MOCK_ENGLAND_DATA}
+          englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           benchmarkComparisonMethod={
             BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8
@@ -166,7 +166,7 @@ describe('Line chart table suite', () => {
       render(
         <LineChartTable
           healthIndicatorData={[mockHealthData[0]]}
-          englandBenchmarkData={MOCK_ENGLAND_DATA}
+          englandIndicatorData={MOCK_ENGLAND_DATA}
           groupIndicatorData={MOCK_PARENT_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           benchmarkOptions={MOCK_HEALTH_DATA[0].areaCode}
@@ -182,7 +182,7 @@ describe('Line chart table suite', () => {
       render(
         <LineChartTable
           healthIndicatorData={[mockHealthData[0]]}
-          englandBenchmarkData={MOCK_ENGLAND_DATA}
+          englandIndicatorData={MOCK_ENGLAND_DATA}
           groupIndicatorData={MOCK_PARENT_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           benchmarkOptions={MOCK_ENGLAND_DATA.areaCode}
@@ -198,7 +198,7 @@ describe('Line chart table suite', () => {
       render(
         <LineChartTable
           healthIndicatorData={[mockHealthData[0]]}
-          englandBenchmarkData={MOCK_ENGLAND_DATA}
+          englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
         />
       );
@@ -210,7 +210,7 @@ describe('Line chart table suite', () => {
       render(
         <LineChartTable
           healthIndicatorData={[mockHealthData[0]]}
-          englandBenchmarkData={undefined}
+          englandIndicatorData={undefined}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
         />
       );
@@ -230,7 +230,7 @@ describe('Line chart table suite', () => {
       render(
         <LineChartTable
           healthIndicatorData={[MOCK_HEALTH_DATA_WITH_TRENDS[0]]}
-          englandBenchmarkData={undefined}
+          englandIndicatorData={undefined}
           indicatorMetadata={{ unitLabel: 'per 100,000' } as IndicatorDocument}
         />
       );
@@ -248,7 +248,7 @@ describe('Line chart table suite', () => {
       const container = render(
         <LineChartTable
           healthIndicatorData={mockHealthData}
-          englandBenchmarkData={MOCK_ENGLAND_DATA}
+          englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           benchmarkComparisonMethod={
             BenchmarkComparisonMethod.CIOverlappingReferenceValue95
@@ -262,7 +262,7 @@ describe('Line chart table suite', () => {
       render(
         <LineChartTable
           healthIndicatorData={mockHealthData}
-          englandBenchmarkData={MOCK_ENGLAND_DATA}
+          englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           benchmarkComparisonMethod={
             BenchmarkComparisonMethod.CIOverlappingReferenceValue95
@@ -300,7 +300,7 @@ describe('Line chart table suite', () => {
       render(
         <LineChartTable
           healthIndicatorData={mockHealthData}
-          englandBenchmarkData={MOCK_ENGLAND_DATA}
+          englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
         />
       );
@@ -316,7 +316,7 @@ describe('Line chart table suite', () => {
       render(
         <LineChartTable
           healthIndicatorData={mockHealthData}
-          englandBenchmarkData={MOCK_ENGLAND_DATA}
+          englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
         />
       );
@@ -328,7 +328,7 @@ describe('Line chart table suite', () => {
       render(
         <LineChartTable
           healthIndicatorData={MOCK_HEALTH_DATA_WITH_TRENDS}
-          englandBenchmarkData={undefined}
+          englandIndicatorData={undefined}
           indicatorMetadata={{ unitLabel: 'per 100,000' } as IndicatorDocument}
         />
       );
@@ -353,7 +353,7 @@ describe('Line chart table suite', () => {
       render(
         <LineChartTable
           healthIndicatorData={mockHealthData}
-          englandBenchmarkData={MOCK_ENGLAND_DATA}
+          englandIndicatorData={MOCK_ENGLAND_DATA}
           groupIndicatorData={MOCK_PARENT_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           benchmarkOptions={MOCK_ENGLAND_DATA.areaCode}
@@ -373,7 +373,7 @@ describe('Line chart table suite', () => {
       render(
         <LineChartTable
           healthIndicatorData={mockHealthData}
-          englandBenchmarkData={MOCK_ENGLAND_DATA}
+          englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
         />
       );
@@ -386,7 +386,7 @@ describe('Line chart table suite', () => {
       render(
         <LineChartTable
           healthIndicatorData={mockHealthData}
-          englandBenchmarkData={MOCK_ENGLAND_DATA}
+          englandIndicatorData={MOCK_ENGLAND_DATA}
           groupIndicatorData={MOCK_PARENT_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
         />
@@ -470,7 +470,7 @@ describe('Line chart table suite', () => {
       render(
         <LineChartTable
           healthIndicatorData={[mockHealthData[0]]}
-          englandBenchmarkData={MOCK_ENGLAND_DATA}
+          englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           benchmarkComparisonMethod={BenchmarkComparisonMethod.Quintiles}
         />
@@ -502,7 +502,7 @@ describe('Line chart table suite', () => {
       render(
         <LineChartTable
           healthIndicatorData={[mockHealthArea1, mockHealthArea2]}
-          englandBenchmarkData={MOCK_ENGLAND_DATA}
+          englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           benchmarkComparisonMethod={
             BenchmarkComparisonMethod.CIOverlappingReferenceValue95
@@ -551,7 +551,7 @@ describe('Line chart table suite', () => {
       render(
         <LineChartTable
           healthIndicatorData={MOCK_HEALTH_DATA}
-          englandBenchmarkData={mockBenchmarkAreaWithEarlyYear}
+          englandIndicatorData={mockBenchmarkAreaWithEarlyYear}
           groupIndicatorData={mockGroupAreaWithLateYear}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           benchmarkComparisonMethod={
