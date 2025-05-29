@@ -136,6 +136,7 @@ export const generateRows = (
   areas: Area[],
   indicators: Indicator[],
   dataPoints: Record<string, Record<string, DataPoint>>,
+  groupAreaCode: string,
   benchmarkAreaCode: string,
   benchmarkAreaName: string
 ): HeatmapDataRow[] => {
@@ -177,7 +178,7 @@ export const generateRows = (
           benchmarkAreaCode
         ),
         hoverProps: {
-          areaName: getHoverAreaName(area),
+          areaName: getHoverAreaName(area, groupAreaCode, benchmarkAreaCode),
           period: indicator.latestDataPeriod,
           indicatorName: indicator.name,
           value: dataPoints[indicator.id][area.code]?.value,
@@ -218,14 +219,9 @@ const generateDataBackgroundColour = (
   }
 
   if (dataPoint.benchmark.outcome === 'Baseline') {
-    return GovukColours.MidGrey;
-  }
-
-  if (
-    dataPoint.areaCode === areaCodeForEngland &&
-    benchmarkAreaCode !== areaCodeForEngland
-  ) {
-    return GovukColours.LightGrey;
+    return dataPoint.areaCode === benchmarkAreaCode
+      ? GovukColours.MidGrey
+      : GovukColours.LightGrey;
   }
 
   const colour = getBenchmarkColour(
@@ -237,8 +233,12 @@ const generateDataBackgroundColour = (
   return colour ?? GovukColours.White;
 };
 
-const getHoverAreaName = (area: Area, groupAreaCode?: string): string => {
-  if (area.code === areaCodeForEngland) {
+const getHoverAreaName = (
+  area: Area,
+  groupAreaCode: string,
+  benchmarkAreaCode: string
+): string => {
+  if (area.code === benchmarkAreaCode) {
     return `Benchmark: ${area.name}`;
   }
 
@@ -313,7 +313,10 @@ const extractAreasIndicatorsAndDataPoints = (
       const getBenchmarkOutcome = (
         outcome?: BenchmarkOutcome
       ): HeatmapBenchmarkOutcome => {
-        if (healthData.areaCode === benchmarkAreaCode) {
+        if (
+          healthData.areaCode === benchmarkAreaCode ||
+          healthData.areaCode === areaCodeForEngland
+        ) {
           return 'Baseline';
         }
 

@@ -15,7 +15,6 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 const StyledDivSquare = styled.div({
   width: '10px',
@@ -51,7 +50,6 @@ export interface HeatmapHoverBenchmarkPillProps {
   outcome: HeatmapBenchmarkOutcome;
   benchmarkMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
-  benchmarkAreaCode: string;
   benchmarkAreaName: string;
 }
 
@@ -61,7 +59,6 @@ export const HeatmapHoverBenchmarkPill: FC<HeatmapHoverBenchmarkPillProps> = ({
   outcome,
   benchmarkMethod,
   polarity,
-  benchmarkAreaCode,
   benchmarkAreaName,
 }) => {
   return (
@@ -73,7 +70,6 @@ export const HeatmapHoverBenchmarkPill: FC<HeatmapHoverBenchmarkPillProps> = ({
             outcome={outcome}
             benchmarkMethod={benchmarkMethod}
             polarity={polarity}
-            benchmarkAreaCode={benchmarkAreaCode}
             data-testid="heatmap-hover-benchmark-icon"
           />
         }
@@ -96,7 +92,6 @@ interface BenchmarkPillIconProps {
   outcome: HeatmapBenchmarkOutcome;
   benchmarkMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
-  benchmarkAreaCode: string;
 }
 
 const BenchmarkPillIcon: FC<BenchmarkPillIconProps> = ({
@@ -104,7 +99,6 @@ const BenchmarkPillIcon: FC<BenchmarkPillIconProps> = ({
   outcome,
   benchmarkMethod,
   polarity,
-  benchmarkAreaCode,
 }) => {
   if (value === undefined) {
     return <StyledText>{SymbolsEnum.MultiplicationX}</StyledText>;
@@ -115,15 +109,7 @@ const BenchmarkPillIcon: FC<BenchmarkPillIconProps> = ({
   }
 
   if (outcome === 'Baseline') {
-    return (
-      <StyledDivSquareBenchmarkColour
-        $colour={
-          benchmarkAreaCode === areaCodeForEngland
-            ? GovukColours.Black
-            : GovukColours.Pink
-        }
-      />
-    );
+    return <StyledDivSquareBenchmarkColour $colour={GovukColours.DarkGrey} />;
   }
 
   return (

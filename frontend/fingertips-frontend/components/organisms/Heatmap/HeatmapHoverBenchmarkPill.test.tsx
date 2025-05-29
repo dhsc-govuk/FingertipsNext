@@ -8,10 +8,7 @@ import {
   BenchmarkOutcome,
 } from '@/generated-sources/ft-api-client';
 import { formatNumber } from '@/lib/numberFormatter';
-import {
-  areaCodeForEngland,
-  englandAreaString,
-} from '@/lib/chartHelpers/constants';
+import { englandAreaString } from '@/lib/chartHelpers/constants';
 
 describe('heatmap hover benchmark pill', () => {
   const defaultValue = 123;
@@ -22,7 +19,6 @@ describe('heatmap hover benchmark pill', () => {
     outcome: 'NotCompared',
     benchmarkMethod: 'Unknown',
     polarity: 'Unknown',
-    benchmarkAreaCode: areaCodeForEngland,
     benchmarkAreaName: englandAreaString,
   };
 
@@ -33,7 +29,6 @@ describe('heatmap hover benchmark pill', () => {
         outcome={defaultProps.outcome}
         benchmarkMethod={defaultProps.benchmarkMethod}
         polarity={defaultProps.polarity}
-        benchmarkAreaCode={areaCodeForEngland}
         benchmarkAreaName={defaultProps.benchmarkAreaName}
       />
     );
@@ -49,7 +44,6 @@ describe('heatmap hover benchmark pill', () => {
         outcome={'Baseline'}
         benchmarkMethod={defaultProps.benchmarkMethod}
         polarity={defaultProps.polarity}
-        benchmarkAreaCode={areaCodeForEngland}
         benchmarkAreaName={defaultProps.benchmarkAreaName}
       />
     );
@@ -70,7 +64,6 @@ describe('heatmap hover benchmark pill', () => {
         outcome={BenchmarkOutcome.NotCompared}
         benchmarkMethod={defaultProps.benchmarkMethod}
         polarity={defaultProps.polarity}
-        benchmarkAreaCode={areaCodeForEngland}
         benchmarkAreaName={defaultProps.benchmarkAreaName}
       />
     );
@@ -94,7 +87,6 @@ describe('heatmap hover benchmark pill', () => {
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95
         }
         polarity={defaultProps.polarity}
-        benchmarkAreaCode={areaCodeForEngland}
         benchmarkAreaName={defaultProps.benchmarkAreaName}
       />
     );
@@ -120,7 +112,6 @@ describe('heatmap hover benchmark pill', () => {
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95
         }
         polarity={defaultProps.polarity}
-        benchmarkAreaCode={areaCodeForEngland}
         benchmarkAreaName={testBenchmarkAreaName}
       />
     );

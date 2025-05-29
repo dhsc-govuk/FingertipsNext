@@ -84,6 +84,7 @@ describe('generate headers and rows - benchmark area is England', () => {
     sortedAreas,
     sortedIndicators,
     dataPoints,
+    groupAreaCode,
     areaCodeForEngland,
     englandAreaString
   );

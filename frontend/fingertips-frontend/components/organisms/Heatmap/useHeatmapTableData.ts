@@ -35,6 +35,7 @@ export const useHeatmapTableData = (
         areas,
         indicators,
         dataPoints,
+        groupAreaCode,
         benchmarkAreaCode,
         benchmarkAreaName
       ),
