@@ -333,15 +333,13 @@ const extractAreasIndicatorsAndDataPoints = (
         return outcome ?? BenchmarkOutcome.NotCompared;
       };
 
-      const { benchmarkAreaCode } =
-        healthDataForYear?.benchmarkComparison ?? {};
       const benchmark: DataPointBenchmark = {
         outcome: getBenchmarkOutcome(
           healthDataForYear?.benchmarkComparison?.outcome
         ),
         benchmarkMethod: indicatorData.benchmarkComparisonMethod,
         polarity: indicatorData.polarity,
-        benchmarkAreaCode,
+        benchmarkAreaCode: benchmarkAreaCode,
       };
 
       dataPoints[indicatorData.indicatorId][healthData.areaCode] = {
@@ -463,7 +461,7 @@ export const generateHeaders = (
         : areaName;
     }
 
-    return benchmarkRefType === BenchmarkReferenceType.AreaGroup
+    return benchmarkRefType === BenchmarkReferenceType.SubNational
       ? `Benchmark: ${areaName}`
       : `Group: ${areaName}`;
   };

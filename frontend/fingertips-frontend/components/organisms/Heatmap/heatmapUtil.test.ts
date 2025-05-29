@@ -289,6 +289,7 @@ export const placeholderHeatmapIndicatorData = [
         areaCode: areaEngland.code,
         areaName: areaEngland.name,
         healthData: data[0][0],
+        benchmarkComparison: { benchmarkAreaCode: areaCodeForEngland },
       },
       {
         areaCode: area2.code,
@@ -412,6 +413,7 @@ describe('extract sorted areas, indicators, and data points - benchmark referenc
         outcome: BenchmarkOutcome.NotCompared,
         benchmarkMethod: indicator.benchmarkMethod,
         polarity: indicator.polarity,
+        benchmarkAreaCode: areaCodeForEngland,
       });
     });
   });
@@ -423,6 +425,7 @@ describe('extract sorted areas, indicators, and data points - benchmark referenc
         outcome: 'Baseline',
         benchmarkMethod: indicator.benchmarkMethod,
         polarity: indicator.polarity,
+        benchmarkAreaCode: areaCodeForEngland,
       });
     });
   });
