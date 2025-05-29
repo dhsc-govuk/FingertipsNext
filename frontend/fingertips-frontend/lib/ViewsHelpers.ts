@@ -23,7 +23,7 @@ export const getHealthDataForIndicator = async (
   indicatorApi: IndicatorsApi,
   indicatorId: string | number,
   combinedRequestAreas: HealthDataRequestAreas[],
-  benchmarkRefType: BenchmarkReferenceType,
+  benchmarkRefType?: BenchmarkReferenceType,
   latestOnly?: boolean,
   areaGroup?: string
 ) => {
