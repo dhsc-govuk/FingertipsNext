@@ -104,8 +104,15 @@ export const extractSortedAreasIndicatorsAndDataPoints = (
   dataPoints: Record<string, Record<string, DataPoint>>;
   benchmarkAreaName: string;
 } => {
-  const { areas, indicators, dataPoints } =
-    extractAreasIndicatorsAndDataPoints(indicatorData);
+  const benchmarkAreaCode =
+    benchmarkRefType === BenchmarkReferenceType.England
+      ? areaCodeForEngland
+      : groupAreaCode;
+
+  const { areas, indicators, dataPoints } = extractAreasIndicatorsAndDataPoints(
+    indicatorData,
+    benchmarkAreaCode
+  );
 
   const benchmarkAreaName =
     areas[
@@ -179,7 +186,8 @@ export const generateRows = (
         type: CellType.Data,
         content: formatNumber(dataPoints[indicator.id][area.code]?.value),
         backgroundColour: generateDataBackgroundColour(
-          dataPoints[indicator.id][area.code]
+          dataPoints[indicator.id][area.code],
+          benchmarkRefType
         ),
         hoverProps: {
           areaName: getHoverAreaName(area),
@@ -209,7 +217,10 @@ export const generateRows = (
   return rows;
 };
 
-const generateDataBackgroundColour = (dataPoint?: DataPoint): string => {
+const generateDataBackgroundColour = (
+  dataPoint: DataPoint,
+  benchmarkRefType: BenchmarkReferenceType
+): string => {
   if (
     !dataPoint?.value ||
     !dataPoint.benchmark?.benchmarkMethod ||
@@ -220,6 +231,13 @@ const generateDataBackgroundColour = (dataPoint?: DataPoint): string => {
 
   if (dataPoint.benchmark.outcome === 'Baseline') {
     return GovukColours.MidGrey;
+  }
+
+  if (
+    dataPoint.areaCode === areaCodeForEngland &&
+    benchmarkRefType !== BenchmarkReferenceType.England
+  ) {
+    return GovukColours.LightGrey;
   }
 
   const colour = getBenchmarkColour(
@@ -244,7 +262,8 @@ const getHoverAreaName = (area: Area, groupAreaCode?: string): string => {
 };
 
 const extractAreasIndicatorsAndDataPoints = (
-  indicatorDataForAllAreas: HeatmapIndicatorData[]
+  indicatorDataForAllAreas: HeatmapIndicatorData[],
+  benchmarkAreaCode: string
 ): {
   areas: Record<string, Area>;
   indicators: Record<string, Indicator>;
@@ -306,7 +325,7 @@ const extractAreasIndicatorsAndDataPoints = (
       const getBenchmarkOutcome = (
         outcome?: BenchmarkOutcome
       ): HeatmapBenchmarkOutcome => {
-        if (healthData.areaCode === areaCodeForEngland) {
+        if (healthData.areaCode === benchmarkAreaCode) {
           return 'Baseline';
         }
 
