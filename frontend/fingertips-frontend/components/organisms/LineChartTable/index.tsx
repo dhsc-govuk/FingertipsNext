@@ -8,7 +8,7 @@ import {
   HealthDataPointBenchmarkComparison,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
-import styled, { StyledComponent } from 'styled-components';
+import styled from 'styled-components';
 import React, { FC } from 'react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
@@ -232,7 +232,7 @@ const AlternateBenchmarkHeaderCellWrapper: FC<AlternateBenchmarkCellProps> = ({
   label,
   cellType,
 }) => {
-  let CellWrapper: React.ComponentType<any>;
+  let CellWrapper: React.ComponentType<{ children?: React.ReactNode }>;
   if (label === 'group') {
     CellWrapper =
       benchmarkOptions !== areaCodeForEngland
@@ -252,7 +252,7 @@ const AlternateBenchmarkHeaderCellWrapper: FC<AlternateBenchmarkCellProps> = ({
 const AlternateBenchmarkSubHeaderCellWrapper: FC<
   AlternateBenchmarkCellProps
 > = ({ children, benchmarkOptions = areaCodeForEngland, label, cellType }) => {
-  let CellWrapper: React.ComponentType<any>;
+  let CellWrapper: React.ComponentType<{ children?: React.ReactNode }>;
   if (label === 'group') {
     CellWrapper =
       benchmarkOptions !== areaCodeForEngland
@@ -275,7 +275,7 @@ const AlternateBenchmarkCellWrapper: FC<AlternateBenchmarkCellProps> = ({
   label,
   cellType,
 }) => {
-  let CellWrapper: React.ComponentType<any>;
+  let CellWrapper: React.ComponentType<{ children?: React.ReactNode }>;
   if (label === 'group') {
     CellWrapper =
       benchmarkOptions !== areaCodeForEngland
