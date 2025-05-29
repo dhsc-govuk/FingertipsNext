@@ -21,22 +21,25 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { getConfidenceLimitNumber } from '@/lib/chartHelpers/chartHelpers';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
-import { CsvData } from '@/lib/downloadHelpers/convertToCsv';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { convertInequalitiesOverTimeTableToCsvData } from './convertInequalitiesOverTimeTableToCsvData';
 
 interface InequalitiesBarChartTableProps {
   tableData: InequalitiesBarChartData;
   type?: InequalitiesTypes;
-  measurementUnit?: string;
+  indicatorMetadata?: IndicatorDocument;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
+  inequalityTypeSelected: string;
 }
 
 export function InequalitiesBarChartTable({
   tableData,
   type = InequalitiesTypes.Sex,
-  measurementUnit,
+  indicatorMetadata,
   benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
   polarity = IndicatorPolarity.Unknown,
+  inequalityTypeSelected,
 }: Readonly<InequalitiesBarChartTableProps>) {
   const { areaName, data } = tableData;
   const inequalities = { ...data.inequalities };
@@ -47,11 +50,15 @@ export function InequalitiesBarChartTable({
   // pending a better solution where an order key is supplied by API
   if (type === InequalitiesTypes.Sex) sortedKeys.reverse();
 
-  // TODO: Call the function to convert CSV data
-  const csvData: CsvData = [
-    ['Column One', 'Column Two'],
-    [1, 'A'],
-  ];
+  const confidenceLimit = getConfidenceLimitNumber(benchmarkComparisonMethod);
+
+  // TODO: replicate the sorting of inequalities above?
+  const csvData = convertInequalitiesOverTimeTableToCsvData(
+    tableData,
+    inequalityTypeSelected,
+    confidenceLimit,
+    indicatorMetadata
+  );
 
   const id = 'inequalitiesBarChartTable';
   return (
@@ -62,10 +69,8 @@ export function InequalitiesBarChartTable({
           head={
             <InequalitiesBarChartTableHead
               areaName={areaName}
-              measurementUnit={measurementUnit}
-              confidenceLimit={getConfidenceLimitNumber(
-                benchmarkComparisonMethod
-              )}
+              measurementUnit={indicatorMetadata?.unitLabel}
+              confidenceLimit={confidenceLimit}
             />
           }
         >

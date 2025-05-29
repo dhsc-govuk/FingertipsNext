@@ -8,6 +8,7 @@ import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
 } from '@/generated-sources/ft-api-client';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 describe('Inequalities bar chart table suite', () => {
   describe('Sex inequality', () => {
@@ -16,6 +17,7 @@ describe('Inequalities bar chart table suite', () => {
         <InequalitiesBarChartTable
           tableData={getTestData()}
           type={InequalitiesTypes.Sex}
+          inequalityTypeSelected="Sex"
         />
       );
 
@@ -31,6 +33,7 @@ describe('Inequalities bar chart table suite', () => {
         <InequalitiesBarChartTable
           tableData={getTestData()}
           type={InequalitiesTypes.Sex}
+          inequalityTypeSelected="Sex"
         />
       );
 
@@ -57,6 +60,7 @@ describe('Inequalities bar chart table suite', () => {
         <InequalitiesBarChartTable
           tableData={mockData}
           type={InequalitiesTypes.Sex}
+          inequalityTypeSelected="Sex"
         />
       );
       expect(screen.getAllByRole('cell')).toHaveLength(
@@ -73,7 +77,8 @@ describe('Inequalities bar chart table suite', () => {
         <InequalitiesBarChartTable
           tableData={getTestData()}
           type={InequalitiesTypes.Sex}
-          measurementUnit="kg"
+          inequalityTypeSelected="Sex"
+          indicatorMetadata={{ unitLabel: 'kg' } as IndicatorDocument}
         />
       );
       expect(screen.getByText('kg')).toBeInTheDocument();
@@ -84,6 +89,7 @@ describe('Inequalities bar chart table suite', () => {
         <InequalitiesBarChartTable
           tableData={getTestData()}
           type={InequalitiesTypes.Sex}
+          inequalityTypeSelected="Sex"
         />
       );
       expect(
@@ -96,7 +102,8 @@ describe('Inequalities bar chart table suite', () => {
         <InequalitiesBarChartTable
           tableData={getTestData()}
           type={InequalitiesTypes.Sex}
-          measurementUnit="kg"
+          inequalityTypeSelected="Sex"
+          indicatorMetadata={{ unitLabel: 'kg' } as IndicatorDocument}
           benchmarkComparisonMethod={
             BenchmarkComparisonMethod.CIOverlappingReferenceValue95
           }
@@ -131,6 +138,7 @@ describe('Inequalities bar chart table suite', () => {
           <InequalitiesBarChartTable
             tableData={mockData}
             type={InequalitiesTypes.Sex}
+            inequalityTypeSelected="Sex"
           />
         );
 
@@ -144,6 +152,7 @@ describe('Inequalities bar chart table suite', () => {
           <InequalitiesBarChartTable
             tableData={getTestData()}
             type={InequalitiesTypes.Sex}
+            inequalityTypeSelected="Sex"
             benchmarkComparisonMethod={
               BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8
             }
@@ -159,6 +168,7 @@ describe('Inequalities bar chart table suite', () => {
           <InequalitiesBarChartTable
             tableData={getTestData()}
             type={InequalitiesTypes.Sex}
+            inequalityTypeSelected="Sex"
             benchmarkComparisonMethod={BenchmarkComparisonMethod.Unknown}
           />
         );
