@@ -45,7 +45,7 @@ let mockSearchParams: SearchStateParams;
 
 const mockGroupHealthData: HealthDataForArea = {
   areaCode: mockGroupArea,
-  areaName: 'Group',
+  areaName: 'Some group',
   healthData: [
     {
       year: 2008,
@@ -212,6 +212,29 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
       [SearchParams.GroupSelected]: mockGroupArea,
       [SearchParams.GroupAreaSelected]: undefined,
     };
+  });
+
+  it('should render the benchmark select area drop down for the view', async () => {
+    render(
+      <TwoOrMoreIndicatorsAreasViewPlot
+        searchState={mockSearchParams}
+        indicatorData={mockIndicatorData}
+        indicatorMetadata={mockMetaData}
+        benchmarkStatistics={mockBenchmarkStatistics}
+      />
+    );
+
+    const benchmarkAreaDropDown = screen.getByRole('combobox', {
+      name: 'Select a benchmark',
+    });
+    const benchmarkAreaDropDownOptions = within(
+      benchmarkAreaDropDown
+    ).getAllByRole('option');
+
+    expect(benchmarkAreaDropDown).toBeInTheDocument();
+    expect(benchmarkAreaDropDownOptions).toHaveLength(2);
+    expect(benchmarkAreaDropDownOptions[0]).toHaveTextContent('England');
+    expect(benchmarkAreaDropDownOptions[1]).toHaveTextContent('Some group');
   });
 
   it('should render all components with up to 2 areas selected', () => {
