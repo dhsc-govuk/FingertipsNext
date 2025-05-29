@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 // start with the table having a header row with a fixed generous height
 // when rendered, measure the height of the rotated heading and
 // adjust the th height accordingly
-// in addition add right margin to account for any items handing over the
+// in addition add right margin to account for any items hanging over the
 // far right edge of the table
 export const useRotatedHeaders = () => {
   const containerRef = useRef<HTMLDivElement>(null);
