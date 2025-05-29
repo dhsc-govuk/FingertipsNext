@@ -32,6 +32,7 @@ interface SparklineChartProps {
   year: number | undefined;
   measurementUnit: string | undefined;
   barColor?: string;
+  benchmarkArea?: string;
 }
 
 export function SparklineChart({
@@ -47,6 +48,7 @@ export function SparklineChart({
   year,
   measurementUnit,
   barColor,
+  benchmarkArea
 }: Readonly<SparklineChartProps>) {
   const benchmarkColor = getBenchmarkColour(
     benchmarkComparisonMethod,
@@ -62,7 +64,8 @@ export function SparklineChart({
     const { benchmarkLabel, category, comparisonLabel } = getTooltipContent(
       benchmarkOutcome,
       label,
-      benchmarkComparisonMethod
+      benchmarkComparisonMethod,
+      benchmarkArea
     );
 
     const symbolStyles = [

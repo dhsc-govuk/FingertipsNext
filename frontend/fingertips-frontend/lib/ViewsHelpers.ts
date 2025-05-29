@@ -167,7 +167,7 @@ export async function getIndicatorData(
   let indicatorDataAllAreas: IndicatorWithHealthDataForArea | undefined;
 
   const ancestorCode =
-    benchmarkRefType === 'SubNational' ? selectedGroupCode : undefined;
+    benchmarkRefType === BenchmarkReferenceType.SubNational ? selectedGroupCode : undefined;
 
   const indicatorRequestArray = chunkArray(areasSelected).map((requestAreas) =>
     indicatorApi.getHealthDataForAnIndicator(

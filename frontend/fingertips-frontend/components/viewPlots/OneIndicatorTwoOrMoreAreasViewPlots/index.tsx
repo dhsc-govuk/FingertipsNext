@@ -166,6 +166,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
       <StyleChartWrapper>
         <H3>Compare an indicator by areas</H3>
         <BarChartEmbeddedTable
+          key={`barchart-${benchmarkToUse}`}
           data-testid="barChartEmbeddedTable-component"
           healthIndicatorData={dataWithoutEnglandOrGroup}
           englandData={englandData}
