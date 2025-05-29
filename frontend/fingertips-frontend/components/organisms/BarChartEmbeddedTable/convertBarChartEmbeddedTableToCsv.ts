@@ -21,7 +21,11 @@ export const convertBarChartEmbeddedTableToCsv = (
     ({ year }) => year === period
   );
 
-  const extendedTableRows = [...tableRows];
+  const sortedTableRows = tableRows.toSorted((a, b) => {
+    return a.area.localeCompare(b.area);
+  });
+
+  const extendedTableRows = [...sortedTableRows];
 
   if (groupData && groupDataPoint) {
     const { areaName, areaCode } = groupData;

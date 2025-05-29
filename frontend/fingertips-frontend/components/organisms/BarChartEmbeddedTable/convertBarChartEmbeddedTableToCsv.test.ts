@@ -20,6 +20,21 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
 
   const tableRows: BarChartEmbeddedTableRow[] = [
     {
+      area: 'London',
+      areaCode: 'L1',
+      year: mockYear,
+      benchmarkComparison: {
+        benchmarkAreaCode: 'B1',
+        outcome: BenchmarkOutcome.Better,
+      },
+      trend: HealthDataPointTrendEnum.IncreasingAndGettingBetter,
+      count: 123,
+      value: 75.3,
+      lowerCi: 74.0,
+      upperCi: 76.5,
+    } as BarChartEmbeddedTableRow,
+
+    {
       area: 'Area 1',
       areaCode: 'A1',
       year: mockYear,
@@ -109,21 +124,21 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
         indicatorMetaData.indicatorID,
         indicatorMetaData.indicatorName,
         mockYear,
-        tableRows[0].area,
-        tableRows[0].areaCode,
-        tableRows[0]?.benchmarkComparison?.benchmarkAreaCode,
-        tableRows[0]?.benchmarkComparison?.outcome,
-        tableRows[0]?.trend,
-        tableRows[0]?.count,
+        tableRows[1].area,
+        tableRows[1].areaCode,
+        tableRows[1]?.benchmarkComparison?.benchmarkAreaCode,
+        tableRows[1]?.benchmarkComparison?.outcome,
+        tableRows[1]?.trend,
+        tableRows[1]?.count,
         indicatorMetaData.unitLabel,
-        tableRows[0]?.value,
-        tableRows[0]?.lowerCi,
-        tableRows[0]?.upperCi,
+        tableRows[1]?.value,
+        tableRows[1]?.lowerCi,
+        tableRows[1]?.upperCi,
       ]);
     });
 
     it('returns correct group row', () => {
-      expect(csv[2]).toEqual([
+      expect(csv[3]).toEqual([
         indicatorMetaData.indicatorID,
         indicatorMetaData.indicatorName,
         mockYear,
@@ -141,7 +156,7 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
     });
 
     it('returns correct benchmark row', () => {
-      expect(csv[3]).toEqual([
+      expect(csv[4]).toEqual([
         indicatorMetaData.indicatorID,
         indicatorMetaData.indicatorName,
         mockYear,
@@ -159,15 +174,31 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
     });
   });
 
-  it('returns CSV with only main table rows when no benchmark or group data is provided', () => {
+  it('returns CSV with only main table rows alphabetically when no benchmark or group data is provided', () => {
     const csv = convertBarChartEmbeddedTableToCsv(
       tableRows,
       2023,
       indicatorMetaData
     );
 
-    expect(csv).toHaveLength(2); // header + 1 row
+    expect(csv).toHaveLength(3); // header + 1 row
     expect(csv[1]).toEqual([
+      indicatorMetaData.indicatorID,
+      indicatorMetaData.indicatorName,
+      mockYear,
+      tableRows[1].area,
+      tableRows[1].areaCode,
+      tableRows[1]?.benchmarkComparison?.benchmarkAreaCode,
+      tableRows[1]?.benchmarkComparison?.outcome,
+      tableRows[1]?.trend,
+      tableRows[1]?.count,
+      indicatorMetaData.unitLabel,
+      tableRows[1]?.value,
+      tableRows[1]?.lowerCi,
+      tableRows[1]?.upperCi,
+    ]);
+
+    expect(csv[2]).toEqual([
       indicatorMetaData.indicatorID,
       indicatorMetaData.indicatorName,
       mockYear,
@@ -203,9 +234,9 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
       groupData
     );
 
-    expect(csv).toHaveLength(3);
-    expect(csv[1][3]).toBe(tableRows[0].area);
-    expect(csv[2][3]).toBe(`Group: ${groupData.areaName}`);
+    expect(csv).toHaveLength(4);
+    expect(csv[2][3]).toBe(tableRows[0].area);
+    expect(csv[3][3]).toBe(`Group: ${groupData.areaName}`);
   });
 
   it('excludes group row if year does not match', () => {
@@ -227,9 +258,9 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
       modifiedGroupData
     );
 
-    expect(csv).toHaveLength(3);
-    expect(csv[1][3]).toBe(tableRows[0].area);
-    expect(csv[2][3]).toBe(benchmarkData.areaName);
+    expect(csv).toHaveLength(4);
+    expect(csv[2][3]).toBe(tableRows[0].area);
+    expect(csv[3][3]).toBe(benchmarkData.areaName);
   });
 
   it('returns only header row when tableRows is empty and no benchmark/group match', () => {
@@ -246,7 +277,7 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
       groupData,
       95
     );
-    expect(csv).toHaveLength(2);
-    expect(csv[1][2]).toBeUndefined();
+    expect(csv).toHaveLength(3);
+    expect(csv[2][2]).toBeUndefined();
   });
 });
