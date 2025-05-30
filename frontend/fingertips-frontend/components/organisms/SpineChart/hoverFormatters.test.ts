@@ -1,4 +1,4 @@
-import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client';
+import { BenchmarkComparisonMethod, BenchmarkOutcome } from '@/generated-sources/ft-api-client';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 import { formatBarHover, formatSymbolHover } from './hoverFormatters';
 import { englandAreaString } from '@/lib/chartHelpers/constants';
@@ -81,7 +81,7 @@ describe('hoverFormatters', () => {
       expect(result).toContain('color:#0000ff; font-size:19px;');
     });
 
-    it('should not render the outcome if not provided', () => {
+    it('should render the outcome if provided', () => {
       const props = {
         title: 'Test Title',
         period: 2025,
@@ -93,6 +93,7 @@ describe('hoverFormatters', () => {
         shape: SymbolsEnum.Triangle,
         indicatorName: 'Test Indicator',
         benchmarkName: englandAreaString,
+        outcome: BenchmarkOutcome.Similar
       };
 
       const result = formatSymbolHover(props);
@@ -101,8 +102,7 @@ describe('hoverFormatters', () => {
       expect(result).toContain('2025');
       expect(result).toContain('Test Indicator');
       expect(result).toContain('15.0%');
-      expect(result).not.toContain('Better than England');
-      expect(result).not.toContain('Not compared');
+      expect(result).toContain('Similar to England');
     });
   });
 });

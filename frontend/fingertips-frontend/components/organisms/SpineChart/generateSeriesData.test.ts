@@ -134,14 +134,10 @@ describe('generateSeriesData', () => {
     };
     const result = generateSeriesData(propsWithGroupBenchmark);
 
-    expect(result).toHaveLength(8);
+    // 4 bars + 4 scatter points (areaOne, areaTwo, benchmark), Group scatter for England not added
+    expect(result).toHaveLength(7);
 
-    const englandScatter = result?.[4] as Highcharts.SeriesScatterOptions;
-    expect(englandScatter?.type).toBe('scatter');
-    expect(englandScatter?.name).toContain('England');
-    expect(englandScatter?.marker?.enabled).toBe(false);
-
-    const benchmarkScatter = result?.[7] as Highcharts.SeriesScatterOptions;
+    const benchmarkScatter = result?.[6] as Highcharts.SeriesScatterOptions;
     expect(benchmarkScatter?.type).toBe('scatter');
     expect(benchmarkScatter?.name).toContain('Benchmark: Test Group');
     expect(benchmarkScatter?.marker?.fillColor).toBe(GovukColours.Black);
