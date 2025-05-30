@@ -10,10 +10,7 @@ import {
   generateRows,
   HeaderType,
 } from './heatmapUtil';
-import {
-  areaCodeForEngland,
-  englandAreaString,
-} from '@/lib/chartHelpers/constants';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 
 describe('generate headers and rows - benchmark area is England', () => {
@@ -85,8 +82,7 @@ describe('generate headers and rows - benchmark area is England', () => {
     sortedIndicators,
     dataPoints,
     groupAreaCode,
-    areaCodeForEngland,
-    englandAreaString
+    areaCodeForEngland
   );
 
   it('should set the first header to indicator title header', () => {

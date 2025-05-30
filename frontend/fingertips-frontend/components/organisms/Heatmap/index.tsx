@@ -54,6 +54,7 @@ export const Heatmap: FC<HeatmapProps> = ({
             benchmark={hover.benchmark}
             left={left}
             top={top}
+            benchmarkAreaName={benchmarkAreaName}
           />
         ) : null}
         <HeatmapTable

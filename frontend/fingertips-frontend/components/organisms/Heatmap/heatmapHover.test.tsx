@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import { HeatmapHover, HeatmapHoverProps } from './heatmapHover';
+import { HeatmapHover } from './heatmapHover';
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
@@ -9,7 +9,7 @@ import { englandAreaString } from '@/lib/chartHelpers/constants';
 
 const testValue = 67;
 
-const testHoverProps: HeatmapHoverProps = {
+const testHoverProps = {
   areaName: 'Sesame Street',
   period: 1966,
   indicatorName:
@@ -20,8 +20,8 @@ const testHoverProps: HeatmapHoverProps = {
     outcome: BenchmarkOutcome.Better,
     benchmarkMethod: BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
     polarity: IndicatorPolarity.HighIsGood,
-    benchmarkAreaName: englandAreaString,
   },
+  benchmarkAreaName: englandAreaString,
 };
 
 describe('heatmap hover', () => {
@@ -33,6 +33,7 @@ describe('heatmap hover', () => {
         indicatorName={testHoverProps.indicatorName}
         unitLabel={testHoverProps.unitLabel}
         benchmark={testHoverProps.benchmark}
+        benchmarkAreaName={testHoverProps.benchmarkAreaName}
       />
     );
 
@@ -49,6 +50,7 @@ describe('heatmap hover', () => {
         indicatorName={testHoverProps.indicatorName}
         unitLabel={testHoverProps.unitLabel}
         benchmark={testHoverProps.benchmark}
+        benchmarkAreaName={testHoverProps.benchmarkAreaName}
       />
     );
     expect(container.asFragment()).toMatchSnapshot();

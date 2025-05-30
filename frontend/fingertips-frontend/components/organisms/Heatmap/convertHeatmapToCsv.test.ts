@@ -70,7 +70,6 @@ const mockSortedData = {
   areas: mockAreas,
   indicators: mockIndicators,
   dataPoints: mockDataPoints,
-  benchmarkAreaName: 'England',
 } as ReturnType<typeof extractSortedAreasIndicatorsAndDataPoints>;
 
 describe('convertHeatmapToCsv', () => {

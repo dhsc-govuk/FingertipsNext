@@ -8,7 +8,6 @@ import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { formatNumber } from '@/lib/numberFormatter';
-import { HeatmapHoverProps } from './heatmapHover';
 
 export const heatmapIndicatorTitleColumnWidth = 240;
 export const heatmapDataColumnWidth = 60;
@@ -43,12 +42,21 @@ export interface HeatmapDataRow {
   cells: HeatmapDataCell[];
 }
 
+export interface DataCellHoverProps {
+  areaName: string;
+  period: number;
+  indicatorName: string;
+  value?: number;
+  unitLabel: string;
+  benchmark: DataPointBenchmark;
+}
+
 export interface HeatmapDataCell {
   key: string;
   type: CellType;
   content: string;
   backgroundColour?: string;
-  hoverProps?: HeatmapHoverProps;
+  hoverProps?: DataCellHoverProps;
 }
 
 interface Header {
@@ -80,7 +88,7 @@ interface DataPoint {
   benchmark?: DataPointBenchmark;
 }
 
-interface DataPointBenchmark {
+export interface DataPointBenchmark {
   outcome: HeatmapBenchmarkOutcome;
   benchmarkMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
@@ -88,10 +96,6 @@ interface DataPointBenchmark {
 }
 
 export type HeatmapBenchmarkOutcome = BenchmarkOutcome | 'Baseline';
-
-export interface HeatmapBenchmarkProps extends DataPointBenchmark {
-  benchmarkAreaName: string;
-}
 
 export const extractSortedAreasIndicatorsAndDataPoints = (
   indicatorData: HeatmapIndicatorData[],
@@ -101,7 +105,6 @@ export const extractSortedAreasIndicatorsAndDataPoints = (
   areas: Area[];
   indicators: Indicator[];
   dataPoints: Record<string, Record<string, DataPoint>>;
-  benchmarkAreaName: string;
 } => {
   const { areas, indicators, dataPoints } = extractAreasIndicatorsAndDataPoints(
     indicatorData,
@@ -128,7 +131,6 @@ export const extractSortedAreasIndicatorsAndDataPoints = (
     areas: sortedAreas,
     indicators: sortedIndicators,
     dataPoints: dataPoints,
-    benchmarkAreaName: areas[benchmarkAreaCode]?.name ?? '',
   };
 };
 
@@ -137,8 +139,7 @@ export const generateRows = (
   indicators: Indicator[],
   dataPoints: Record<string, Record<string, DataPoint>>,
   groupAreaCode: string,
-  benchmarkAreaCode: string,
-  benchmarkAreaName: string
+  benchmarkAreaCode: string
 ): HeatmapDataRow[] => {
   const rows = new Array<HeatmapDataRow>(indicators.length);
   indicators.forEach((indicator, indicatorIndex) => {
@@ -196,7 +197,6 @@ export const generateRows = (
             benchmarkAreaCode:
               dataPoints[indicator.id][area.code]?.benchmark
                 ?.benchmarkAreaCode ?? '',
-            benchmarkAreaName: benchmarkAreaName,
           },
         },
       };

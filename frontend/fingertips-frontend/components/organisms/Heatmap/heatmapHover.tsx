@@ -3,9 +3,8 @@ import { Paragraph } from 'govuk-react';
 import { FC } from 'react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
-import { HeatmapBenchmarkProps } from './heatmapUtil';
+import { DataCellHoverProps } from './heatmapUtil';
 import { HeatmapHoverBenchmarkPill } from './heatmapHoverBenchmarkPill';
-import { englandAreaString } from '@/lib/chartHelpers/constants';
 
 const StyledDivHover = styled.div({
   color: GovukColours.Black,
@@ -54,15 +53,14 @@ const StyledParagraphZeroMargin = styled(StyledParagraph)({
   marginBottom: '0',
 });
 
-export interface HeatmapHoverProps {
+export interface TransientHeatmapHoverProps extends DataCellHoverProps {
   areaName: string;
-  period: number;
-  indicatorName: string;
-  value?: number;
-  unitLabel: string;
-  benchmark: HeatmapBenchmarkProps;
   left?: number;
   top?: number;
+}
+
+interface HeatmapHoverProps extends TransientHeatmapHoverProps {
+  benchmarkAreaName: string;
 }
 
 export const HeatmapHover: FC<HeatmapHoverProps> = ({
@@ -72,6 +70,7 @@ export const HeatmapHover: FC<HeatmapHoverProps> = ({
   value,
   unitLabel,
   benchmark,
+  benchmarkAreaName,
   left,
   top,
 }) => {
@@ -96,7 +95,7 @@ export const HeatmapHover: FC<HeatmapHoverProps> = ({
         outcome={benchmark.outcome}
         benchmarkMethod={benchmark.benchmarkMethod}
         polarity={benchmark.polarity}
-        benchmarkAreaName={benchmark.benchmarkAreaName ?? englandAreaString}
+        benchmarkAreaName={benchmarkAreaName}
       />
     </StyledDivHover>
   );

@@ -27,7 +27,7 @@ export const useHeatmapTableData = (
       groupAreaCode,
       benchmarkAreaCode
     );
-    const { areas, indicators, dataPoints, benchmarkAreaName } = sortedData;
+    const { areas, indicators, dataPoints } = sortedData;
     const legendsToShow = getMethodsAndOutcomes(indicatorData);
     return {
       headers: generateHeaders(areas, groupAreaCode, benchmarkAreaCode),
@@ -36,8 +36,7 @@ export const useHeatmapTableData = (
         indicators,
         dataPoints,
         groupAreaCode,
-        benchmarkAreaCode,
-        benchmarkAreaName
+        benchmarkAreaCode
       ),
       legendsToShow,
       csvData: convertHeatmapToCsv(sortedData, groupAreaCode),
