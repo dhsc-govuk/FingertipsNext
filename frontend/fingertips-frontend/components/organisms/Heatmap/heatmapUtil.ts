@@ -194,7 +194,8 @@ export const generateRows = (
               dataPoints[indicator.id][area.code]?.benchmark?.polarity ??
               IndicatorPolarity.Unknown,
             benchmarkAreaCode:
-              dataPoints[indicator.id][area.code]?.benchmark?.benchmarkAreaCode,
+              dataPoints[indicator.id][area.code]?.benchmark
+                ?.benchmarkAreaCode ?? '',
             benchmarkAreaName: benchmarkAreaName,
           },
         },
