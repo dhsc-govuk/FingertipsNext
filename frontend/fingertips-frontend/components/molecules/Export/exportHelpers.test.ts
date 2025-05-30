@@ -1,4 +1,5 @@
 import {
+  addCopyrightFooterToChartOptions,
   canvasToBlob,
   ExcludeFromExport,
   ExportOnly,
@@ -10,6 +11,16 @@ import {
 } from '@/components/molecules/Export/exportHelpers';
 import Highcharts, { Chart } from 'highcharts';
 import html2canvas from 'html2canvas';
+import {
+  exportAccessedDate,
+  exportCopyrightText,
+} from '@/components/molecules/Export/ExportCopyright';
+import {
+  mapCopyright,
+  mapLicense,
+  mapSourceForType,
+} from '@/components/organisms/ThematicMap/thematicMapHelpers';
+import { CustomOptions } from '@/components/molecules/Export/export.types';
 
 jest.mock('html2canvas', () => jest.fn());
 jest.mock('highcharts', () => {
@@ -242,6 +253,70 @@ describe('exportHelpers', () => {
         (child) => child.tagName === 'DIV'
       );
       expect(containerInDom).toBeUndefined();
+    });
+  });
+
+  describe('addCopyrightFooterToChartOptions', () => {
+    const mockText = jest.fn().mockReturnValue({
+      css: jest.fn().mockReturnValue({
+        add: jest.fn(),
+      }),
+    });
+
+    const mockChartInstance = {
+      chartHeight: 500,
+      renderer: {
+        text: mockText,
+      },
+    } as unknown as Chart;
+
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it('modifies chart options and attaches a load event', () => {
+      const inputOptions = {
+        chart: {
+          events: {},
+        },
+      };
+
+      const modified = addCopyrightFooterToChartOptions(inputOptions);
+
+      expect(modified.chart.spacingBottom).toBe(75);
+      expect(typeof modified.chart.events.load).toBe('function');
+
+      // simulate Highcharts calling `load` with `this = chartInstance`
+      modified.chart.events.load?.call(mockChartInstance, {} as Event);
+
+      // Ensure text is added for copyright and accessed date
+      expect(mockText).toHaveBeenCalledWith(exportCopyrightText(), 4, 472);
+      expect(mockText).toHaveBeenCalledWith(exportAccessedDate(), 4, 472 + 18);
+    });
+
+    it('includes map metadata when custom.mapAreaType is set', () => {
+      // mock map source/metadata utils
+      const inputOptions = {
+        chart: {
+          events: {},
+        },
+        custom: {
+          mapAreaType: 'regions',
+        },
+      } as CustomOptions;
+
+      const modified = addCopyrightFooterToChartOptions(inputOptions);
+
+      modified.chart.events.load?.call(mockChartInstance, {} as Event);
+
+      // Should call with map metadata text as well
+      expect(mockText).toHaveBeenCalledWith(
+        mapSourceForType('regions'),
+        4,
+        400
+      );
+      expect(mockText).toHaveBeenCalledWith(mapLicense, 4, 418);
+      expect(mockText).toHaveBeenCalledWith(mapCopyright, 4, 418 + 18);
     });
   });
 });

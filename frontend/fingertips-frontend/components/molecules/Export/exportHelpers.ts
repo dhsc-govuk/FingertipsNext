@@ -4,6 +4,14 @@ import {
   exportAccessedDate,
   exportCopyrightText,
 } from '@/components/molecules/Export/ExportCopyright';
+import { CustomOptions } from '@/components/molecules/Export/export.types';
+import {
+  mapCopyright,
+  mapLicense,
+  mapMetaDataEncoder,
+  mapSource,
+  mapSourceForType,
+} from '@/components/organisms/ThematicMap/thematicMapHelpers';
 
 export const ExcludeFromExport = 'excludeFromExport';
 
@@ -97,30 +105,42 @@ export const getSvgFromOptions = (options: Highcharts.Options): string => {
   return svg;
 };
 
-export const addCopyrightFooterToChartOptions = (
-  options: Highcharts.Options
-) => {
+export const addCopyrightFooterToChartOptions = (options: CustomOptions) => {
   const modifiedEvents = { ...options.chart?.events };
   const modifiedChart = { ...options.chart, events: modifiedEvents };
   const modifiedOptions = { ...options, chart: modifiedChart };
 
   modifiedOptions.chart.spacingBottom = 75;
   modifiedEvents.load = function () {
-    this.renderer
-      .text(exportCopyrightText(), 4, this.chartHeight - 28)
-      .css({
-        color: '#000',
-        fontSize: '14px',
-      })
-      .add();
+    const ySpacing = 18;
+    const additionalText = [
+      {
+        x: 4,
+        y: this.chartHeight - 28,
+        lines: [exportCopyrightText(), exportAccessedDate()],
+      },
+    ];
 
-    this.renderer
-      .text(exportAccessedDate(), 4, this.chartHeight - 10)
-      .css({
-        color: '#000',
-        fontSize: '14px',
-      })
-      .add();
+    if (modifiedOptions.custom?.mapAreaType) {
+      const mapSource = mapSourceForType(modifiedOptions.custom?.mapAreaType);
+      additionalText.push({
+        x: 4,
+        y: this.chartHeight - 100,
+        lines: [mapSource, mapLicense, mapCopyright],
+      });
+    }
+
+    additionalText.forEach(({ x, y, lines }) => {
+      lines.forEach((line, i) => {
+        this.renderer
+          .text(line, x, y + i * ySpacing)
+          .css({
+            color: '#000',
+            fontSize: '14px',
+          })
+          .add();
+      });
+    });
   };
   return modifiedOptions;
 };

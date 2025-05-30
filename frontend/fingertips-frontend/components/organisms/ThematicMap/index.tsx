@@ -17,6 +17,8 @@ import { useMapGeographyData } from '@/components/organisms/ThematicMap/useMapGe
 import { H3 } from 'govuk-react';
 import { HighChartsWrapper } from '@/components/molecules/HighChartsWrapper/HighChartsWrapper';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
+import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
+import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
 
 interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];
@@ -86,24 +88,22 @@ export function ThematicMap({
           paddingInline: '5px',
         }}
       >
-        {healthIndicatorData.map((indicatorDataForArea) => {
-          return (
-            <div
-              key={`thematicMap-chart-hover-${indicatorDataForArea.areaCode}`}
-              id={`thematicMap-chart-hover-${indicatorDataForArea.areaCode}`}
-              style={{ display: 'none' }}
-            >
-              <BenchmarkTooltip
-                indicatorData={indicatorDataForArea}
-                benchmarkComparisonMethod={benchmarkComparisonMethod}
-                measurementUnit={indicatorMetadata?.unitLabel}
-                indicatorDataForBenchmark={benchmarkIndicatorData}
-                indicatorDataForGroup={groupIndicatorData}
-                polarity={polarity}
-              />
-            </div>
-          );
-        })}
+        {healthIndicatorData.map((indicatorDataForArea) => (
+          <div
+            key={`thematicMap-chart-hover-${indicatorDataForArea.areaCode}`}
+            id={`thematicMap-chart-hover-${indicatorDataForArea.areaCode}`}
+            style={{ display: 'none' }}
+          >
+            <BenchmarkTooltip
+              indicatorData={indicatorDataForArea}
+              benchmarkComparisonMethod={benchmarkComparisonMethod}
+              measurementUnit={indicatorMetadata?.unitLabel}
+              indicatorDataForBenchmark={benchmarkIndicatorData}
+              indicatorDataForGroup={groupIndicatorData}
+              polarity={polarity}
+            />
+          </div>
+        ))}
         <BenchmarkLegend
           title={`Compared to ${benchmarkIndicatorData?.areaName ?? 'England'}`}
           benchmarkComparisonMethod={benchmarkComparisonMethod}
@@ -118,10 +118,16 @@ export function ThematicMap({
           areaType={selectedAreaType as AreaTypeKeysForMapMeta}
           dataSource={indicatorMetadata?.dataSource}
         />
+        <ExportOnlyWrapper>
+          <ExportCopyright />
+        </ExportOnlyWrapper>
       </div>
       <ExportOptionsButton
         targetId={'thematicMap'}
-        chartOptions={chartOptions}
+        chartOptions={{
+          ...chartOptions,
+          custom: { mapAreaType: selectedAreaType as AreaTypeKeysForMapMeta },
+        }}
       />
     </>
   );

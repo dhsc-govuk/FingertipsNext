@@ -14,6 +14,10 @@ const StyledCredits = styled(Paragraph)`
   font-size: 16px;
 `;
 
+export const mapCreditSource = (areaType: AreaTypeKeysForMapMeta) => {
+  return `Map source: ${mapMetaDataEncoder[areaType].mapSource}`;
+};
+
 export function ThematicMapCredits({
   areaType,
   dataSource,
