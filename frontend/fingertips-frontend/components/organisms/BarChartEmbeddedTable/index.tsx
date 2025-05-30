@@ -133,7 +133,6 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
     benchmarkToUse === areaCodeForEngland ? 'Benchmark: ' : '';
   const groupDataPointNamePrefix =
     benchmarkToUse === areaCodeForEngland ? 'Group: ' : 'Benchmark: ';
-  
 
   const id = 'barChartEmbeddedTable';
 

@@ -421,7 +421,7 @@ describe('BarChartEmbeddedTable', () => {
       <BarChartEmbeddedTable
         healthIndicatorData={mockHealthIndicatorData}
         benchmarkToUse={areaCodeForEngland}
-        benchmarkData={mockBenchmarkData}
+        englandData={mockBenchmarkData}
         indicatorMetadata={
           {
             indicatorID: '1',
@@ -441,7 +441,8 @@ describe('BarChartEmbeddedTable', () => {
     render(
       <BarChartEmbeddedTable
         healthIndicatorData={mockHealthIndicatorData}
-        benchmarkData={mockBenchmarkData}
+        benchmarkToUse={areaCodeForEngland}
+        englandData={mockBenchmarkData}
       />
     );
 
