@@ -30,23 +30,22 @@ export const convertInequalitiesOverTimeTableToCsvData = (
     CsvHeader.UpperCI.replace('X', String(confidenceLimit)),
   ];
 
-  const convertedRows = sortedKeys.map((inequalityType) => {
-    if (!Object.hasOwn(tableData.data.inequalities, inequalityType)) {
-      throw new Error(
-        `Cannot find inequality type ${inequalityType} in provided data`
-      );
+  const convertedRows: CsvData = [headers];
+
+  sortedKeys.forEach((inequalityKey) => {
+    if (!Object.hasOwn(tableData.data.inequalities, inequalityKey)) {
+      return;
     }
 
-    const inequalityData = tableData.data.inequalities[inequalityType];
-
-    return [
+    const inequalityData = tableData.data.inequalities[inequalityKey];
+    convertedRows.push([
       indicatorMetadata?.indicatorID,
       indicatorMetadata?.indicatorName,
       tableData.data.period,
       tableData.areaName,
       tableData.areaCode,
       inequalityCategory,
-      inequalityType,
+      inequalityKey,
       // Aggregate data points are the Persons data, so shouldn't include a benchmark comparison.
       inequalityData?.isAggregate
         ? undefined
@@ -56,8 +55,8 @@ export const convertInequalitiesOverTimeTableToCsvData = (
       inequalityData?.value,
       inequalityData?.lower,
       inequalityData?.upper,
-    ];
+    ]);
   });
 
-  return [headers, ...convertedRows];
+  return convertedRows;
 };

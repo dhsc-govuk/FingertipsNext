@@ -245,15 +245,17 @@ describe('convertInequalitiesOverTimeTableToCsvData', () => {
     expect(csvData[3][6]).toEqual('Female');
   });
 
-  it('should throw an error if inequality keys that do not match the inequality data are provided', () => {
-    expect(() => {
-      convertInequalitiesOverTimeTableToCsvData(
-        ['Not', 'Real', 'Keys'],
-        { areaCode, areaName, data: tableData },
-        inequalityCategory,
-        95,
-        indicatorMetadata
-      );
-    }).toThrow();
+  it('should omit rows for inequality keys that do not match the inequality data provided', () => {
+    const csvData = convertInequalitiesOverTimeTableToCsvData(
+      ['Persons', 'Not Real', 'Male'],
+      { areaCode, areaName, data: tableData },
+      inequalityCategory,
+      95,
+      indicatorMetadata
+    );
+
+    expect(csvData).toHaveLength(3); // Header + 2 rows
+    expect(csvData[1][6]).toEqual('Persons');
+    expect(csvData[2][6]).toEqual('Male');
   });
 });
