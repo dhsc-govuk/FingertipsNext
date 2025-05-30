@@ -116,6 +116,8 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
   );
 
   const sortedTableRows = tableRows.toSorted(sortByValueAndAreaName);
+  const benchmarkAreaName =
+    sortedTableRows[0].benchmarkComparison?.benchmarkAreaName;
 
   const englandDataPoint = englandData?.healthData.find(
     (point) => point.year === fullYear
@@ -167,7 +169,7 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
         <BenchmarkLegend
           benchmarkComparisonMethod={benchmarkComparisonMethod}
           polarity={polarity}
-          title={`Compared to England for ${fullYear} time period`}
+          title={`Compared to ${benchmarkAreaName} for ${fullYear} time period`}
         />
 
         <Table
