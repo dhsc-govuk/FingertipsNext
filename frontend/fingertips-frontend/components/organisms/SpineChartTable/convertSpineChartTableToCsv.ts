@@ -33,11 +33,10 @@ export const convertSpineChartTableToCsv = (
       valueUnit,
       quartileData,
       groupData,
+      englandData,
     } = indicator;
 
     const { best, worst } = orderStatistics(quartileData);
-    const { benchmarkAreaCode, benchmarkAreaName, benchmarkValue } =
-      areasHealthData[0]?.healthData[0]?.benchmarkComparison ?? {};
 
     areasHealthData.forEach((areasHealth) => {
       if (!areasHealth) return;
@@ -51,7 +50,7 @@ export const convertSpineChartTableToCsv = (
         latestDataPeriod,
         areaName,
         areaCode,
-        benchmarkAreaCode,
+        benchmarkComparison?.benchmarkAreaCode,
         benchmarkComparison?.outcome,
         trend,
         count,
@@ -63,7 +62,7 @@ export const convertSpineChartTableToCsv = (
       csvData.push(newRow);
     });
 
-    if (groupData && groupData?.areaCode !== benchmarkAreaCode) {
+    if (groupData) {
       const { areaCode, areaName, healthData } = groupData;
       const { benchmarkComparison, trend, count, value } = healthData[0];
       const groupRow: CsvRow = [
@@ -85,22 +84,26 @@ export const convertSpineChartTableToCsv = (
       csvData.push(groupRow);
     }
 
-    const benchmarkRow: CsvRow = [
-      indicatorId,
-      indicatorName,
-      latestDataPeriod,
-      benchmarkAreaName,
-      benchmarkAreaCode,
-      undefined, // benchmark area code
-      undefined, // benchmark outcome
-      undefined, // trend
-      undefined, // count
-      valueUnit,
-      benchmarkValue,
-      worst,
-      best,
-    ];
-    csvData.push(benchmarkRow);
+    if (englandData && englandData.areaCode !== groupData?.areaCode) {
+      const { areaCode, areaName, healthData } = englandData;
+      const { benchmarkComparison, trend, count, value } = healthData[0];
+      const newRow: CsvRow = [
+        indicatorId,
+        indicatorName,
+        latestDataPeriod,
+        areaName,
+        areaCode,
+        benchmarkComparison?.benchmarkAreaCode,
+        benchmarkComparison?.outcome,
+        trend,
+        count,
+        valueUnit,
+        value,
+        worst,
+        best,
+      ];
+      csvData.push(newRow);
+    }
   });
 
   return csvData;

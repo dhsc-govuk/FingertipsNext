@@ -1,4 +1,5 @@
 import {
+  mockSpineEnglandData,
   mockSpineGroupData,
   mockSpineHealthDataForArea,
   mockSpineIndicatorData,
@@ -74,25 +75,27 @@ describe('convertSpineChartTableToCsv', () => {
     expect(row[12]).toEqual(mockSpineQuartileData.q4Value);
   });
 
-  it('should convert spine benchmark data to csv', () => {
+  it('should convert spine england data to csv', () => {
     const result = convertSpineChartTableToCsv([mockSpineIndicatorData]);
     expect(result).toHaveLength(4);
 
     const row = result[3];
-    const healthPoint = mockSpineHealthDataForArea.healthData[0];
-    const areaBenchmark = healthPoint.benchmarkComparison;
 
     expect(row[0]).toEqual(mockSpineIndicatorData.indicatorId);
     expect(row[1]).toEqual(mockSpineIndicatorData.indicatorName);
     expect(row[2]).toEqual(mockSpineIndicatorData.latestDataPeriod);
-    expect(row[3]).toEqual(areaBenchmark?.benchmarkAreaName);
-    expect(row[4]).toEqual(areaBenchmark?.benchmarkAreaCode);
-    expect(row[5]).toEqual(undefined);
-    expect(row[6]).toEqual(undefined);
-    expect(row[7]).toEqual(undefined);
-    expect(row[8]).toEqual(undefined);
+    expect(row[3]).toEqual(mockSpineEnglandData.areaName);
+    expect(row[4]).toEqual(mockSpineEnglandData.areaCode);
+    expect(row[5]).toEqual(
+      mockSpineEnglandData.healthData[0].benchmarkComparison.benchmarkAreaCode
+    );
+    expect(row[6]).toEqual(
+      mockSpineEnglandData.healthData[0].benchmarkComparison.outcome
+    );
+    expect(row[7]).toEqual(mockSpineEnglandData.healthData[0].trend);
+    expect(row[8]).toEqual(mockSpineEnglandData.healthData[0].count);
     expect(row[9]).toEqual(mockSpineIndicatorData.valueUnit);
-    expect(row[10]).toEqual(areaBenchmark?.benchmarkValue);
+    expect(row[10]).toEqual(mockSpineEnglandData.healthData[0].value);
     expect(row[11]).toEqual(mockSpineQuartileData.q0Value);
     expect(row[12]).toEqual(mockSpineQuartileData.q4Value);
   });
@@ -104,62 +107,46 @@ describe('convertSpineChartTableToCsv', () => {
     expect(result).toHaveLength(3);
 
     expect(result[1][4]).toEqual(mockSpineHealthDataForArea.areaCode);
-
-    const row = result[2];
-    const healthPoint = mockSpineHealthDataForArea.healthData[0];
-    const areaBenchmark = healthPoint.benchmarkComparison;
-
-    expect(row[0]).toEqual(mockSpineIndicatorData.indicatorId);
-    expect(row[1]).toEqual(mockSpineIndicatorData.indicatorName);
-    expect(row[2]).toEqual(mockSpineIndicatorData.latestDataPeriod);
-    expect(row[3]).toEqual(areaBenchmark?.benchmarkAreaName);
-    expect(row[4]).toEqual(areaBenchmark?.benchmarkAreaCode);
-    expect(row[5]).toEqual(undefined);
-    expect(row[6]).toEqual(undefined);
-    expect(row[7]).toEqual(undefined);
-    expect(row[8]).toEqual(undefined);
-    expect(row[9]).toEqual(mockSpineIndicatorData.valueUnit);
-    expect(row[10]).toEqual(areaBenchmark?.benchmarkValue);
-    expect(row[11]).toEqual(mockSpineQuartileData.q0Value);
-    expect(row[12]).toEqual(mockSpineQuartileData.q4Value);
+    expect(result[2][4]).toEqual(mockSpineEnglandData.areaCode);
   });
 
-  it('should convert correctly when group data is benchmark group', () => {
-    const cloneMockSpineGroupData = JSON.parse(
-      JSON.stringify(mockSpineGroupData)
-    );
-    cloneMockSpineGroupData.areaCode =
-      mockSpineHealthDataForArea.healthData[0]?.benchmarkComparison?.benchmarkAreaCode;
-    cloneMockSpineGroupData.areaName =
-      mockSpineHealthDataForArea.healthData[0]?.benchmarkComparison?.benchmarkAreaName;
-
-    cloneMockSpineGroupData.healthData[0].benchmarkComparison = null;
-
+  it('should convert correctly when group data is missing', () => {
     const testData = {
       ...mockSpineIndicatorData,
-      groupData: cloneMockSpineGroupData,
+      groupData: null,
     };
 
     const result = convertSpineChartTableToCsv([testData]);
     expect(result).toHaveLength(3);
 
     expect(result[1][4]).toEqual(mockSpineHealthDataForArea.areaCode);
-    const row = result[2];
-    const healthPoint = mockSpineHealthDataForArea.healthData[0];
-    const areaBenchmark = healthPoint.benchmarkComparison;
+    expect(result[2][4]).toEqual(mockSpineEnglandData.areaCode);
+  });
 
-    expect(row[0]).toEqual(mockSpineIndicatorData.indicatorId);
-    expect(row[1]).toEqual(mockSpineIndicatorData.indicatorName);
-    expect(row[2]).toEqual(mockSpineIndicatorData.latestDataPeriod);
-    expect(row[3]).toEqual(areaBenchmark?.benchmarkAreaName);
-    expect(row[4]).toEqual(areaBenchmark?.benchmarkAreaCode);
-    expect(row[5]).toEqual(undefined);
-    expect(row[6]).toEqual(undefined);
-    expect(row[7]).toEqual(undefined);
-    expect(row[8]).toEqual(undefined);
-    expect(row[9]).toEqual(mockSpineIndicatorData.valueUnit);
-    expect(row[10]).toEqual(areaBenchmark?.benchmarkValue);
-    expect(row[11]).toEqual(mockSpineQuartileData.q0Value);
-    expect(row[12]).toEqual(mockSpineQuartileData.q4Value);
+  it('should convert correctly when england data is missing', () => {
+    const testData = {
+      ...mockSpineIndicatorData,
+      englandData: null,
+    };
+
+    const result = convertSpineChartTableToCsv([testData]);
+    expect(result).toHaveLength(3);
+
+    expect(result[1][4]).toEqual(mockSpineHealthDataForArea.areaCode);
+    expect(result[2][4]).toEqual(mockSpineGroupData.areaCode);
+  });
+
+  it('should not include england if england is also the group', () => {
+    const testData = {
+      ...mockSpineIndicatorData,
+      englandData: mockSpineGroupData,
+    };
+
+    const result = convertSpineChartTableToCsv([testData]);
+    expect(result).toHaveLength(3);
+
+    expect(result[1][4]).toEqual(mockSpineHealthDataForArea.areaCode);
+    expect(result[2][4]).toEqual(mockSpineGroupData.areaCode);
+    expect(result[2][3]).toEqual(`Group: ${mockSpineGroupData.areaName}`);
   });
 });
