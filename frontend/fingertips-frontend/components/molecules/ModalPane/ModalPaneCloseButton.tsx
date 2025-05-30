@@ -12,7 +12,11 @@ export const ModalPaneCloseButton: FC<ModalPaneCloseButtonProps> = ({
 }) => {
   return (
     <ModalPaneBlankButton onClick={onClick} aria-label={'Close modal'}>
-      <RemoveIcon width={'20px'} height={'20px'} color={GovukColours.Black} />
+      <RemoveIcon
+        width={'41.7px'}
+        height={'41.7px'}
+        color={GovukColours.Black}
+      />
     </ModalPaneBlankButton>
   );
 };
