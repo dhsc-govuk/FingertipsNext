@@ -1,12 +1,26 @@
 import {
+  addCopyrightFooterToChartOptions,
   canvasToBlob,
+  ExcludeFromExport,
+  ExportOnly,
   getHtmlToImageCanvas,
   getSvgFromOptions,
+  preCanvasConversion,
   svgStringToDomElement,
   triggerBlobDownload,
 } from '@/components/molecules/Export/exportHelpers';
 import Highcharts, { Chart } from 'highcharts';
 import html2canvas from 'html2canvas';
+import {
+  exportAccessedDate,
+  exportCopyrightText,
+} from '@/components/molecules/Export/ExportCopyright';
+import {
+  mapCopyright,
+  mapLicense,
+  mapSourceForType,
+} from '@/components/organisms/ThematicMap/thematicMapHelpers';
+import { CustomOptions } from '@/components/molecules/Export/export.types';
 
 jest.mock('html2canvas', () => jest.fn());
 jest.mock('highcharts', () => {
@@ -48,12 +62,67 @@ describe('exportHelpers', () => {
 
       expect(html2canvas).toHaveBeenCalledWith(mockElement, {
         scale: 2.5,
-        onclone: expect.any(Function),
+        onclone: preCanvasConversion,
       });
       expect(result).toBe(mockCanvas);
       expect(result?.style.width).toBe('100%');
       expect(result?.style.height).toBe('auto');
       expect(mockParent.style.overflowX).toBe('');
+    });
+
+    describe('preCanvasConversion', () => {
+      let clonedDocument: Document;
+
+      beforeEach(() => {
+        clonedDocument =
+          document.implementation.createHTMLDocument('Test Document');
+
+        const chartPageContent = clonedDocument.createElement('div');
+        chartPageContent.id = 'chartPageContent';
+        clonedDocument.body.appendChild(chartPageContent);
+
+        const elementToBeExcluded = clonedDocument.createElement('div');
+        elementToBeExcluded.className = ExcludeFromExport;
+        const mapNavigation = clonedDocument.createElement('div');
+        mapNavigation.className = 'highcharts-map-navigation';
+        const highChartsTooltip = clonedDocument.createElement('div');
+        highChartsTooltip.className = 'highcharts-tooltip';
+        clonedDocument.body.appendChild(elementToBeExcluded);
+        clonedDocument.body.appendChild(mapNavigation);
+        clonedDocument.body.appendChild(highChartsTooltip);
+
+        const exportOnlyElement = clonedDocument.createElement('div');
+        exportOnlyElement.className = ExportOnly;
+        exportOnlyElement.style.display = 'none';
+        clonedDocument.body.appendChild(exportOnlyElement);
+      });
+
+      it('removes elements with specific class names', () => {
+        preCanvasConversion(clonedDocument);
+        expect(
+          clonedDocument.querySelector(`.${ExcludeFromExport}`)
+        ).toBeNull();
+        expect(
+          clonedDocument.querySelector('.highcharts-map-navigation')
+        ).toBeNull();
+        expect(clonedDocument.querySelector('.highcharts-tooltip')).toBeNull();
+      });
+
+      it('makes elements with ExportOnly class visible', () => {
+        const exportOnly = clonedDocument.querySelector(
+          `.${ExportOnly}`
+        ) as HTMLElement;
+        expect(exportOnly.style.display).toBe('none');
+
+        preCanvasConversion(clonedDocument);
+        expect(exportOnly.style.display).toBe('block');
+      });
+
+      it('does nothing if #chartPageContent is missing', () => {
+        const doc =
+          document.implementation.createHTMLDocument('No chart content');
+        expect(() => preCanvasConversion(doc)).not.toThrow();
+      });
     });
   });
 
@@ -72,7 +141,7 @@ describe('exportHelpers', () => {
     });
 
     it('returns a undefined for invalid SVG', () => {
-      const badSvg = `<svg><g><circle></svg>`; // malformed
+      const badSvg = `<svg><g><circle r="1"></svg>`; // malformed
       const element = svgStringToDomElement(badSvg);
       expect(element).toBeUndefined();
     });
@@ -184,6 +253,70 @@ describe('exportHelpers', () => {
         (child) => child.tagName === 'DIV'
       );
       expect(containerInDom).toBeUndefined();
+    });
+  });
+
+  describe('addCopyrightFooterToChartOptions', () => {
+    const mockText = jest.fn().mockReturnValue({
+      css: jest.fn().mockReturnValue({
+        add: jest.fn(),
+      }),
+    });
+
+    const mockChartInstance = {
+      chartHeight: 500,
+      renderer: {
+        text: mockText,
+      },
+    } as unknown as Chart;
+
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it('modifies chart options and attaches a load event', () => {
+      const inputOptions = {
+        chart: {
+          events: {},
+        },
+      };
+
+      const modified = addCopyrightFooterToChartOptions(inputOptions);
+
+      expect(modified.chart.spacingBottom).toBe(75);
+      expect(typeof modified.chart.events.load).toBe('function');
+
+      // simulate Highcharts calling `load` with `this = chartInstance`
+      modified.chart.events.load?.call(mockChartInstance, {} as Event);
+
+      // Ensure text is added for copyright and accessed date
+      expect(mockText).toHaveBeenCalledWith(exportCopyrightText(), 4, 472);
+      expect(mockText).toHaveBeenCalledWith(exportAccessedDate(), 4, 472 + 18);
+    });
+
+    it('includes map metadata when custom.mapAreaType is set', () => {
+      // mock map source/metadata utils
+      const inputOptions = {
+        chart: {
+          events: {},
+        },
+        custom: {
+          mapAreaType: 'regions',
+        },
+      } as CustomOptions;
+
+      const modified = addCopyrightFooterToChartOptions(inputOptions);
+
+      modified.chart.events.load?.call(mockChartInstance, {} as Event);
+
+      // Should call with map metadata text as well
+      expect(mockText).toHaveBeenCalledWith(
+        mapSourceForType('regions'),
+        4,
+        400
+      );
+      expect(mockText).toHaveBeenCalledWith(mapLicense, 4, 418);
+      expect(mockText).toHaveBeenCalledWith(mapCopyright, 4, 418 + 18);
     });
   });
 });

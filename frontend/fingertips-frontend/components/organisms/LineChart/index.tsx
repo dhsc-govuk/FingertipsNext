@@ -7,6 +7,8 @@ import { LineChartVariant } from './helpers/generateStandardLineChartOptions';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
 import { HighChartsWrapper } from '@/components/molecules/HighChartsWrapper/HighChartsWrapper';
 import { useState } from 'react';
+import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
+import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
 
 interface LineChartProps {
   lineChartOptions: Highcharts.Options;
@@ -41,7 +43,11 @@ export function LineChart({
           chartOptions={lineChartOptions}
           testId={'highcharts-react-component-lineChart'}
         />
+        <ExportOnlyWrapper>
+          <ExportCopyright />
+        </ExportOnlyWrapper>
       </div>
+
       <ExportOptionsButton targetId={id} chartOptions={lineChartOptions} />
     </div>
   );
