@@ -1,5 +1,5 @@
 import { MouseEvent, useCallback, useRef, useState } from 'react';
-import { TransientHeatmapHoverProps } from '@/components/organisms/Heatmap/heatmapHover';
+import { TransientHeatmapHoverProps } from '@/components/organisms/Heatmap/components/heatmapHover';
 import { HeatmapDataCell } from '@/components/organisms/Heatmap/heatmapUtil';
 
 export const useHeatmapHover = () => {

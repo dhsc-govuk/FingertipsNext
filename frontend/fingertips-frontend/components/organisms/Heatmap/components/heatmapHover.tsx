@@ -3,7 +3,7 @@ import { Paragraph } from 'govuk-react';
 import { FC } from 'react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
-import { DataCellHoverProps } from './heatmapUtil';
+import { DataCellHoverProps } from '../heatmapUtil';
 import { HeatmapHoverBenchmarkPill } from './heatmapHoverBenchmarkPill';
 
 const StyledDivHover = styled.div({

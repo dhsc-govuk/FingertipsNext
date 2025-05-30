@@ -6,7 +6,7 @@ import {
   HeaderType,
   heatmapDataColumnWidth,
   heatmapIndicatorTitleColumnWidth,
-} from './heatmapUtil';
+} from '../heatmapUtil';
 
 const StyledDiv = styled.div({
   position: 'relative',

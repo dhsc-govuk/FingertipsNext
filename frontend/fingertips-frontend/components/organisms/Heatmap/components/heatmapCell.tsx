@@ -1,7 +1,7 @@
 import { getTextColour, GovukColours } from '@/lib/styleHelpers/colours';
 import { Table } from 'govuk-react';
 import styled from 'styled-components';
-import { CellType, heatmapIndicatorTitleColumnWidth } from './heatmapUtil';
+import { CellType, heatmapIndicatorTitleColumnWidth } from '../heatmapUtil';
 import { FC, MouseEventHandler } from 'react';
 
 const stickyLeft = {
