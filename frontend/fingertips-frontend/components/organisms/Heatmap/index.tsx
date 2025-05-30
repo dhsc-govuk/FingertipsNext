@@ -20,12 +20,14 @@ export interface HeatmapProps {
   indicatorData: HeatmapIndicatorData[];
   groupAreaCode: string;
   benchmarkAreaCode: string;
+  benchmarkAreaName: string;
 }
 
 export const Heatmap: FC<HeatmapProps> = ({
   indicatorData,
   groupAreaCode,
   benchmarkAreaCode,
+  benchmarkAreaName,
 }) => {
   const { headers, rows, legendsToShow, csvData } = useHeatmapTableData(
     indicatorData,
@@ -38,7 +40,10 @@ export const Heatmap: FC<HeatmapProps> = ({
     <>
       <div id={'heatmap'}>
         <HeatmapHeading>Compare indicators by areas</HeatmapHeading>
-        <BenchmarkLegends legendsToShow={legendsToShow} />
+        <BenchmarkLegends
+          title={`Compared to ${benchmarkAreaName}`}
+          legendsToShow={legendsToShow}
+        />
         {hover ? (
           <HeatmapHover
             areaName={hover.areaName}

@@ -4,7 +4,10 @@ import {
   placeholderGroupAreaCode,
   placeholderHeatmapIndicatorData as placeholderIndicatorData,
 } from './heatmapUtil.test';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import {
+  areaCodeForEngland,
+  englandAreaString,
+} from '@/lib/chartHelpers/constants';
 
 it('snapshot test - england benchmark', () => {
   const container = render(
@@ -12,6 +15,7 @@ it('snapshot test - england benchmark', () => {
       indicatorData={placeholderIndicatorData}
       groupAreaCode={placeholderGroupAreaCode}
       benchmarkAreaCode={areaCodeForEngland}
+      benchmarkAreaName={englandAreaString}
     />
   );
 
@@ -24,6 +28,11 @@ it('snapshot test - group area benchmark', () => {
       indicatorData={placeholderIndicatorData}
       groupAreaCode={placeholderGroupAreaCode}
       benchmarkAreaCode={placeholderGroupAreaCode}
+      benchmarkAreaName={
+        placeholderIndicatorData[0].healthDataForAreas.find((healthData) => {
+          return healthData.areaCode === placeholderGroupAreaCode;
+        })?.areaName ?? 'no group area in data?'
+      }
     />
   );
 
