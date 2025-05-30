@@ -52,8 +52,8 @@ export function InequalitiesBarChartTable({
 
   const confidenceLimit = getConfidenceLimitNumber(benchmarkComparisonMethod);
 
-  // TODO: replicate the sorting of inequalities above?
   const csvData = convertInequalitiesOverTimeTableToCsvData(
+    sortedKeys,
     tableData,
     inequalityTypeSelected,
     confidenceLimit,

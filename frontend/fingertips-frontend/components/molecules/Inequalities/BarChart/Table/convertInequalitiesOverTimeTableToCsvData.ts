@@ -4,6 +4,7 @@ import { CsvData, CsvRow } from '@/lib/downloadHelpers/convertToCsv';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 export const convertInequalitiesOverTimeTableToCsvData = (
+  sortedKeys: string[],
   tableData: InequalitiesBarChartData,
   inequalityCategory: string,
   confidenceLimit: number,
@@ -29,28 +30,34 @@ export const convertInequalitiesOverTimeTableToCsvData = (
     CsvHeader.UpperCI.replace('X', String(confidenceLimit)),
   ];
 
-  const convertedRows = Object.entries(tableData.data.inequalities).map(
-    ([inequalityType, inequalityData]) => {
-      return [
-        indicatorMetadata?.indicatorID,
-        indicatorMetadata?.indicatorName,
-        tableData.data.period,
-        tableData.areaName,
-        tableData.areaCode,
-        inequalityCategory,
-        inequalityType,
-        // Aggregate data points are the Persons data, so shouldn't include a benchmark comparison.
-        inequalityData?.isAggregate
-          ? undefined
-          : inequalityData?.benchmarkComparison?.outcome,
-        inequalityData?.count,
-        indicatorMetadata?.unitLabel,
-        inequalityData?.value,
-        inequalityData?.lower,
-        inequalityData?.upper,
-      ];
+  const convertedRows = sortedKeys.map((inequalityType) => {
+    if (!Object.hasOwn(tableData.data.inequalities, inequalityType)) {
+      throw new Error(
+        `Cannot find inequality type ${inequalityType} in provided data`
+      );
     }
-  );
+
+    const inequalityData = tableData.data.inequalities[inequalityType];
+
+    return [
+      indicatorMetadata?.indicatorID,
+      indicatorMetadata?.indicatorName,
+      tableData.data.period,
+      tableData.areaName,
+      tableData.areaCode,
+      inequalityCategory,
+      inequalityType,
+      // Aggregate data points are the Persons data, so shouldn't include a benchmark comparison.
+      inequalityData?.isAggregate
+        ? undefined
+        : inequalityData?.benchmarkComparison?.outcome,
+      inequalityData?.count,
+      indicatorMetadata?.unitLabel,
+      inequalityData?.value,
+      inequalityData?.lower,
+      inequalityData?.upper,
+    ];
+  });
 
   return [headers, ...convertedRows];
 };

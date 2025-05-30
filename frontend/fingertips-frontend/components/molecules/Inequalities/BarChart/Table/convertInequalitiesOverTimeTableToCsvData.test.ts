@@ -17,6 +17,7 @@ describe('convertInequalitiesOverTimeTableToCsvData', () => {
   const areaCode = 'E12000003';
   const areaName = 'Yorkshire and the Humber Region';
   const inequalityCategory = 'Sex';
+  const sortedKeys = ['Persons', 'Male', 'Female'];
   const tableData: InequalitiesTableRowData = {
     period: 2026,
     inequalities: {
@@ -50,6 +51,7 @@ describe('convertInequalitiesOverTimeTableToCsvData', () => {
 
   it('should contain the expected headers in the first row', () => {
     const csvData = convertInequalitiesOverTimeTableToCsvData(
+      sortedKeys,
       { areaCode, areaName, data: tableData },
       inequalityCategory,
       95,
@@ -75,6 +77,7 @@ describe('convertInequalitiesOverTimeTableToCsvData', () => {
 
   it('should include a row for each inequality value', () => {
     const csvData = convertInequalitiesOverTimeTableToCsvData(
+      sortedKeys,
       { areaCode, areaName, data: tableData },
       inequalityCategory,
       95,
@@ -137,6 +140,7 @@ describe('convertInequalitiesOverTimeTableToCsvData', () => {
 
   it('should use an empty field for missing data', () => {
     const csvData = convertInequalitiesOverTimeTableToCsvData(
+      sortedKeys,
       {
         areaCode,
         areaName,
@@ -211,6 +215,7 @@ describe('convertInequalitiesOverTimeTableToCsvData', () => {
   it('should throw an error if no inequaliities are provided', () => {
     expect(() => {
       convertInequalitiesOverTimeTableToCsvData(
+        sortedKeys,
         {
           areaCode,
           areaName,
@@ -219,6 +224,32 @@ describe('convertInequalitiesOverTimeTableToCsvData', () => {
             inequalities: {},
           },
         },
+        inequalityCategory,
+        95,
+        indicatorMetadata
+      );
+    }).toThrow();
+  });
+
+  it('should order the inequality rows as specified', () => {
+    const csvData = convertInequalitiesOverTimeTableToCsvData(
+      ['Male', 'Persons', 'Female'],
+      { areaCode, areaName, data: tableData },
+      inequalityCategory,
+      95,
+      indicatorMetadata
+    );
+
+    expect(csvData[1][6]).toEqual('Male');
+    expect(csvData[2][6]).toEqual('Persons');
+    expect(csvData[3][6]).toEqual('Female');
+  });
+
+  it('should throw an error if inequality keys that do not match the inequality data are provided', () => {
+    expect(() => {
+      convertInequalitiesOverTimeTableToCsvData(
+        ['Not', 'Real', 'Keys'],
+        { areaCode, areaName, data: tableData },
         inequalityCategory,
         95,
         indicatorMetadata
