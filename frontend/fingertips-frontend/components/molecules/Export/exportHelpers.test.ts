@@ -130,7 +130,7 @@ describe('exportHelpers', () => {
     });
 
     it('returns a undefined for invalid SVG', () => {
-      const badSvg = `<svg><g><circle></svg>`; // malformed
+      const badSvg = `<svg><g><circle r="1"></svg>`; // malformed
       const element = svgStringToDomElement(badSvg);
       expect(element).toBeUndefined();
     });
