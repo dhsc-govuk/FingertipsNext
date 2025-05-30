@@ -100,7 +100,7 @@ describe('heatmap hover benchmark pill', () => {
     expect(screen.getByText('Similar to England (95%)')).toBeInTheDocument();
   });
 
-  it('should use different language for nonsimilar outcomes', () => {
+  it('should use different grammar for nonsimilar outcomes', () => {
     const screen = render(
       <HeatmapHoverBenchmarkPill
         unitLabel={defaultProps.unitLabel}
