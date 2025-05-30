@@ -7,11 +7,7 @@ import { LineChartVariant } from './helpers/generateStandardLineChartOptions';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
 import { HighChartsWrapper } from '@/components/molecules/HighChartsWrapper/HighChartsWrapper';
 import { useState } from 'react';
-import {
-  exportAccessedDate,
-  ExportCopyright,
-  exportCopyrightText,
-} from '@/components/molecules/Export/ExportCopyright';
+import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
 import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
 
 interface LineChartProps {
