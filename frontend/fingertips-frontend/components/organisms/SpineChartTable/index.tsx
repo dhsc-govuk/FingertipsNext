@@ -50,7 +50,7 @@ export function SpineChartTable({
     areaNames.length > 1 ? StyledTableMultipleAreas : StyledTableOneArea;
 
   const csvData = useMemo(() => {
-    return convertSpineChartTableToCsv(sortedData, benchmarkToUse);
+    return convertSpineChartTableToCsv(sortedData);
   }, [sortedData]);
 
   const groupName = sortedData[0].groupData?.areaName;
