@@ -15,6 +15,10 @@ const StyledFormGroup = styled(FormGroup)(
   spacing.withWhiteSpace({ marginBottom: 6 })
 );
 
+const StyledSearchBox = styled(SearchBox)({
+  paddingBottom: '5px',
+});
+
 const StyledTitleParagraph = styled(styled(Paragraph)`
   padding-bottom: 2px;
 `)(spacing.withWhiteSpace({ marginBottom: 0 }));
@@ -64,7 +68,7 @@ export const IndicatorSearchForm = ({
       ) : (
         ''
       )}
-      <SearchBox>
+      <StyledSearchBox>
         {SearchBox.Input && (
           <SearchBox.Input
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
@@ -94,7 +98,7 @@ export const IndicatorSearchForm = ({
             data-testid="indicator-search-form-submit"
           />
         )}
-      </SearchBox>
+      </StyledSearchBox>
       <CharacterCount
         textLength={inputTextLength}
         characterLimit={INDICATOR_SEARCH_MAX_CHARACTERS}
