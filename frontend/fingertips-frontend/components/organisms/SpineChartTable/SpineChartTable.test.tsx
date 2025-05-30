@@ -9,6 +9,11 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
+import {
+  areaCodeForEngland,
+  englandAreaString,
+} from '@/lib/chartHelpers/constants';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 
 describe('Spine chart table suite', () => {
   // Greater Manchester ICB - 00T
@@ -62,6 +67,12 @@ describe('Spine chart table suite', () => {
     ],
   };
 
+  const mockEngland: HealthDataForArea = {
+    ...mockGroup,
+    areaCode: areaCodeForEngland,
+    areaName: englandAreaString,
+  };
+
   const mockBenchmarkStatistics = [
     {
       indicatorId: 1,
@@ -93,6 +104,7 @@ describe('Spine chart table suite', () => {
       valueUnit: '%',
       areasHealthData: getMockHealthData(),
       groupData: mockGroup,
+      englandData: mockEngland,
       quartileData: mockBenchmarkStatistics[0],
       benchmarkComparisonMethod:
         BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
@@ -104,21 +116,38 @@ describe('Spine chart table suite', () => {
       valueUnit: 'per 100,000',
       areasHealthData: getMockHealthData(),
       groupData: mockGroup,
+      englandData: mockEngland,
       quartileData: mockBenchmarkStatistics[1],
       benchmarkComparisonMethod:
         BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
     },
   ];
 
+  const mockSearchState: SearchStateParams = {
+    [SearchParams.SearchedIndicator]: 'some search',
+  };
+
   describe('Spine chart table', () => {
     it('should render the SpineChartTable component', () => {
-      render(<SpineChartTable indicatorData={mockIndicatorData} />);
+      render(
+        <SpineChartTable
+          indicatorData={mockIndicatorData}
+          benchmarkToUse={areaCodeForEngland}
+          searchState={mockSearchState}
+        />
+      );
       const spineChart = screen.getByTestId('spineChartTable-component');
       expect(spineChart).toBeInTheDocument();
     });
 
     it('should render the SpineChartTable in ascending indicator order', () => {
-      render(<SpineChartTable indicatorData={mockIndicatorData} />);
+      render(
+        <SpineChartTable
+          indicatorData={mockIndicatorData}
+          benchmarkToUse={areaCodeForEngland}
+          searchState={mockSearchState}
+        />
+      );
 
       const indicators = screen.getAllByTestId(`indicator-cell`);
       expect(indicators[0]).toHaveTextContent('testIndicator1');
@@ -137,6 +166,7 @@ describe('Spine chart table suite', () => {
           getMockHealthData(selectedAreaTwo)
         ),
         groupData: mockGroup,
+        englandData: mockEngland,
         quartileData: mockBenchmarkStatistics[0],
         benchmarkComparisonMethod:
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
@@ -150,6 +180,7 @@ describe('Spine chart table suite', () => {
           getMockHealthData(selectedAreaTwo)
         ),
         groupData: mockGroup,
+        englandData: mockEngland,
         quartileData: mockBenchmarkStatistics[1],
         benchmarkComparisonMethod:
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
@@ -157,7 +188,13 @@ describe('Spine chart table suite', () => {
     ];
 
     it('should display data correctly for both areas', () => {
-      render(<SpineChartTable indicatorData={mockTwoAreasIndicatorData} />);
+      render(
+        <SpineChartTable
+          indicatorData={mockTwoAreasIndicatorData}
+          benchmarkToUse={areaCodeForEngland}
+          searchState={mockSearchState}
+        />
+      );
 
       expect(screen.getByTestId('area-header-1')).toHaveTextContent(
         'Greater Manchester ICB - 00T'
@@ -188,7 +225,13 @@ describe('Spine chart table suite', () => {
         getMockHealthData(selectedAreaTwo, true)
       );
 
-      render(<SpineChartTable indicatorData={mockDataPeriodMismatch} />);
+      render(
+        <SpineChartTable
+          indicatorData={mockDataPeriodMismatch}
+          benchmarkToUse={areaCodeForEngland}
+          searchState={mockSearchState}
+        />
+      );
 
       expect(screen.getByTestId('area-header-1')).toHaveTextContent(
         'Greater Manchester ICB - 00T'

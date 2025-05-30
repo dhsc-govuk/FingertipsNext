@@ -13,11 +13,17 @@ import {
   StyledAlignRightHeaderPad,
   StyledAlignLeftHeaderRightBorder,
 } from './SpineChartTableStyles';
-import { englandAreaString } from '@/lib/chartHelpers/constants';
+import {
+  areaCodeForEngland,
+  englandAreaString,
+} from '@/lib/chartHelpers/constants';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 
 export interface TableHeaderProps {
   areaNames: string[];
   groupName: string;
+  benchmarkToUse: string;
+  searchState: SearchStateParams;
 }
 
 interface HeaderData {
@@ -152,6 +158,8 @@ const getBenchmarkSubHeaderData = (
 export function SpineChartTableHeader({
   areaNames,
   groupName,
+  benchmarkToUse,
+  searchState,
 }: Readonly<TableHeaderProps>) {
   const twoAreasRequested = areaNames.length === 2;
   const showGroupData = groupName !== englandAreaString;
@@ -159,6 +167,21 @@ export function SpineChartTableHeader({
     twoAreasRequested,
     showGroupData
   );
+
+  const { [SearchParams.GroupSelected]: selectedGroupCode } = searchState;
+
+  const benchmarkName =
+    benchmarkToUse === areaCodeForEngland
+      ? `Benchmark: ${englandAreaString}`
+      : `Benchmark: ${groupName}`;
+
+  const alternativeBenchmarkName =
+    benchmarkToUse === areaCodeForEngland
+      ? `Group: ${groupName}`
+      : englandAreaString;
+
+  const shouldShowAlternativeBenchmark =
+    selectedGroupCode !== areaCodeForEngland;
 
   return (
     <>
@@ -180,13 +203,13 @@ export function SpineChartTableHeader({
             {areaName}
           </StyledAlignCentreHeader>
         ))}
-        {showGroupData ? (
+        {shouldShowAlternativeBenchmark ? (
           <StyledGroupHeader data-testid="group-header">
-            Group: {groupName}
+            {alternativeBenchmarkName}
           </StyledGroupHeader>
         ) : null}
         <StyledBenchmarkHeader colSpan={4} data-testid="england-header">
-          Benchmark: England
+          {benchmarkName}
         </StyledBenchmarkHeader>
       </Table.Row>
       <Table.Row>

@@ -9,13 +9,23 @@ import {
 import { SpineChartIndicatorData } from './spineChartTableHelpers';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 import { mockSpineIndicatorData } from '@/components/organisms/SpineChartTable/spineChartMockTestData';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+
+const mockSearchState: SearchStateParams = {
+  [SearchParams.SearchedIndicator]: 'some search',
+};
 
 describe('Spine chart table row', () => {
   it('should have dark grey cell color for benchmark column', () => {
     render(
       <table>
         <tbody>
-          <SpineChartTableRow indicatorData={mockSpineIndicatorData} />
+          <SpineChartTableRow
+            indicatorData={mockSpineIndicatorData}
+            benchmarkToUse={areaCodeForEngland}
+            searchState={mockSearchState}
+          />
         </tbody>
       </table>
     );
@@ -35,7 +45,11 @@ describe('Spine chart table row', () => {
     render(
       <table>
         <tbody>
-          <SpineChartTableRow indicatorData={mockSpineIndicatorData} />
+          <SpineChartTableRow
+            indicatorData={mockSpineIndicatorData}
+            benchmarkToUse={areaCodeForEngland}
+            searchState={mockSearchState}
+          />
         </tbody>
       </table>
     );
@@ -68,7 +82,11 @@ describe('Spine chart table row', () => {
     render(
       <table>
         <tbody>
-          <SpineChartTableRow indicatorData={indicatorWithMissingData} />
+          <SpineChartTableRow
+            indicatorData={indicatorWithMissingData}
+            benchmarkToUse={areaCodeForEngland}
+            searchState={mockSearchState}
+          />
         </tbody>
       </table>
     );
@@ -114,6 +132,8 @@ describe('Spine chart table row', () => {
           <SpineChartTableRow
             indicatorData={indicatorDataWithTwoAreas}
             twoAreasRequested
+            benchmarkToUse={areaCodeForEngland}
+            searchState={mockSearchState}
           />
         </tbody>
       </table>
@@ -153,7 +173,11 @@ describe('Spine chart table row', () => {
     render(
       <table>
         <tbody>
-          <SpineChartTableRow indicatorData={indicatorDataGroupEngland} />
+          <SpineChartTableRow
+            indicatorData={indicatorDataGroupEngland}
+            benchmarkToUse={areaCodeForEngland}
+            searchState={{ [SearchParams.GroupSelected]: areaCodeForEngland }}
+          />
         </tbody>
       </table>
     );

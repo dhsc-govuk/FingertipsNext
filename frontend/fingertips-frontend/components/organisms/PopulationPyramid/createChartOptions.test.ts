@@ -48,7 +48,7 @@ describe('createChartPyramidOptions', () => {
     );
     expect(options?.series).toHaveLength(4);
     expect(options?.series ? options?.series[2].name : undefined).toContain(
-      'Benchmark: Benchmark Area'
+      'Benchmark Area'
     );
   });
 

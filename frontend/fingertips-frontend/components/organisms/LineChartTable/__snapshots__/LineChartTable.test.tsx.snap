@@ -267,6 +267,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
 .c13 {
   margin-bottom: 0;
   margin-left: 0.3125em;
+  position: relative;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -1167,6 +1168,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
 .c13 {
   margin-bottom: 0;
   margin-left: 0.3125em;
+  position: relative;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

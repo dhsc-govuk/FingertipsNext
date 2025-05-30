@@ -332,7 +332,7 @@ namespace DataCreator
                         healthMeasure.ToDate = new DateOnly(year+1, 10, 31).ToShortDateString();
                         break;
                 }
-                
+                healthMeasure.Period=indicatorYearType;
             }
             
         }

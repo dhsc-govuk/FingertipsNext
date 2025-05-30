@@ -4,6 +4,7 @@ import {
   IndicatorWithHealthDataForArea,
   QuartileData,
 } from '@/generated-sources/ft-api-client';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 export const spineChartIndicatorTitleColumnMinWidth = 240;
@@ -16,6 +17,7 @@ export interface SpineChartIndicatorData {
   valueUnit: string;
   areasHealthData: (HealthDataForArea | null)[];
   groupData: HealthDataForArea | null;
+  englandData: HealthDataForArea | null;
   quartileData: QuartileData;
 }
 
@@ -92,6 +94,11 @@ export const buildSpineChartIndicatorData = (
         selectedGroupCode
       );
 
+      const englandData = getHealthDataForArea(
+        indicatorData.areaHealthData,
+        areaCodeForEngland
+      );
+
       return {
         indicatorId,
         indicatorName: indicatorData.name as string,
@@ -104,6 +111,7 @@ export const buildSpineChartIndicatorData = (
           ]?.year,
         areasHealthData,
         groupData,
+        englandData,
         quartileData: matchedQuartileData,
       };
     })

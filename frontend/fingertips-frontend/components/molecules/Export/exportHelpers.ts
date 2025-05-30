@@ -1,6 +1,8 @@
 import html2canvas from 'html2canvas';
 import Highcharts from 'highcharts';
 
+export const ExcludeFromExport = 'excludeFromExport';
+
 export const getHtmlToImageCanvas = async (targetId: string) => {
   const element = document.getElementById(targetId);
   if (!element) return;
@@ -12,6 +14,13 @@ export const getHtmlToImageCanvas = async (targetId: string) => {
         clonedDocument.getElementById('chartPageContent');
       if (!chartPageContent) return;
       chartPageContent.style.width = 'min-content';
+
+      const elementsToRemove = clonedDocument.querySelectorAll(
+        `.${ExcludeFromExport}`
+      );
+      elementsToRemove.forEach((element) => {
+        element.remove();
+      });
     },
   });
   canvas.style.width = '100%';

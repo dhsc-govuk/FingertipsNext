@@ -1,6 +1,7 @@
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 import { formatBarHover, formatSymbolHover } from './hoverFormatters';
+import { englandAreaString } from '@/lib/chartHelpers/constants';
 
 describe('hoverFormatters', () => {
   describe('formatBarHover', () => {
@@ -14,6 +15,7 @@ describe('hoverFormatters', () => {
         units: '%',
         colour: '#ff0000',
         indicatorName: 'Test Indicator',
+        benchmarkName: englandAreaString,
       };
 
       const result = formatBarHover(props);
@@ -40,6 +42,7 @@ describe('hoverFormatters', () => {
         colour: '#00ff00',
         shape: SymbolsEnum.Circle,
         indicatorName: 'Test Indicator',
+        benchmarkName: englandAreaString,
       };
 
       const result = formatSymbolHover(props);
@@ -64,6 +67,7 @@ describe('hoverFormatters', () => {
         colour: '#0000ff',
         shape: SymbolsEnum.Triangle,
         indicatorName: 'Test Indicator',
+        benchmarkName: englandAreaString,
       };
 
       const result = formatSymbolHover(props);
@@ -88,6 +92,7 @@ describe('hoverFormatters', () => {
         colour: '#0000ff',
         shape: SymbolsEnum.Triangle,
         indicatorName: 'Test Indicator',
+        benchmarkName: englandAreaString,
       };
 
       const result = formatSymbolHover(props);

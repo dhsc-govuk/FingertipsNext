@@ -13,6 +13,7 @@ import {
 } from '@/lib/mocks';
 import { formatNumber } from '@/lib/numberFormatter';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 function cloneDeep<T>(input: T) {
   return JSON.parse(JSON.stringify(input)) as T;
@@ -217,7 +218,7 @@ describe('BarChartEmbeddedTable', () => {
   });
 
   it('should not display group row or benchmark row in the table, when no data is passed', async () => {
-    act(() => {
+    await act(async () => {
       render(
         <BarChartEmbeddedTable
           healthIndicatorData={mockHealthIndicatorData}
@@ -233,7 +234,7 @@ describe('BarChartEmbeddedTable', () => {
   });
 
   it('should display data table row colours for benchmark and group', async () => {
-    act(() => {
+    await act(async () => {
       render(
         <BarChartEmbeddedTable
           healthIndicatorData={mockHealthIndicatorData}
@@ -396,15 +397,15 @@ describe('BarChartEmbeddedTable', () => {
 
   // DHSCFT-372 - Add trends to the compare areas bar charts
   it('should render the correct trend for all data provided', async () => {
-    act(() => {
+    await act(() =>
       render(
         <BarChartEmbeddedTable
           healthIndicatorData={mockHealthIndicatorData}
           benchmarkToUse={areaCodeForEngland}
           englandData={mockBenchmarkData}
         />
-      );
-    });
+      )
+    );
 
     const trendTags = screen.getAllByTestId('trend-tag-component');
 
@@ -420,13 +421,32 @@ describe('BarChartEmbeddedTable', () => {
       <BarChartEmbeddedTable
         healthIndicatorData={mockHealthIndicatorData}
         benchmarkToUse={areaCodeForEngland}
-        englandData={mockBenchmarkData}
-        dataSource={'bar chart data source'}
+        benchmarkData={mockBenchmarkData}
+        indicatorMetadata={
+          {
+            indicatorID: '1',
+            indicatorName: 'Indicator',
+            dataSource: 'bar chart data source',
+          } as IndicatorDocument
+        }
       />
     );
 
     expect(
       await screen.findByText('Data source: bar chart data source')
+    ).toBeInTheDocument();
+  });
+
+  it('should render the export button', async () => {
+    render(
+      <BarChartEmbeddedTable
+        healthIndicatorData={mockHealthIndicatorData}
+        benchmarkData={mockBenchmarkData}
+      />
+    );
+
+    expect(
+      await screen.findByRole('button', { name: `Export options` })
     ).toBeInTheDocument();
   });
 });
