@@ -1,6 +1,7 @@
 import { Checkbox, Paragraph } from 'govuk-react';
 import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
+import { ExcludeFromExport } from '@/components/molecules/Export/exportHelpers';
 
 const StyledParagraph = styled(Paragraph)(
   spacing.withWhiteSpace({
@@ -29,6 +30,7 @@ export function ConfidenceIntervalCheckbox({
       }}
       defaultChecked={showConfidenceIntervalsData}
       sizeVariant="SMALL"
+      className={ExcludeFromExport}
     >
       <StyledParagraph>Show confidence intervals</StyledParagraph>
     </Checkbox>

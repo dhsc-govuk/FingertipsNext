@@ -3,6 +3,7 @@
  */
 
 import {
+  BenchmarkReferenceType,
   HealthDataForArea,
   IndicatorsApi,
 } from '@/generated-sources/ft-api-client';
@@ -101,6 +102,7 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
         areaCodes: [mockAreaCode],
         indicatorId: 1,
         areaType: mockAreaType,
+        benchmarkRefType: BenchmarkReferenceType.England,
         latestOnly: true,
       },
       API_CACHE_CONFIG
@@ -114,6 +116,7 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
         areaCodes: [areaCodeForEngland],
         indicatorId: 1,
         areaType: englandAreaType.key,
+        benchmarkRefType: BenchmarkReferenceType.England,
         latestOnly: true,
       },
       API_CACHE_CONFIG
@@ -127,6 +130,7 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
         areaCodes: [mockGroupCode],
         indicatorId: 1,
         areaType: mockGroupType,
+        benchmarkRefType: BenchmarkReferenceType.England,
         latestOnly: true,
       },
       API_CACHE_CONFIG
@@ -140,6 +144,7 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
         areaCodes: [mockAreaCode],
         indicatorId: 2,
         areaType: mockAreaType,
+        benchmarkRefType: BenchmarkReferenceType.England,
         latestOnly: true,
       },
       API_CACHE_CONFIG
@@ -153,6 +158,7 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
         areaCodes: [areaCodeForEngland],
         indicatorId: 2,
         areaType: englandAreaType.key,
+        benchmarkRefType: BenchmarkReferenceType.England,
         latestOnly: true,
       },
       API_CACHE_CONFIG
@@ -166,6 +172,7 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
         areaCodes: [mockGroupCode],
         indicatorId: 2,
         areaType: mockGroupType,
+        benchmarkRefType: BenchmarkReferenceType.England,
         latestOnly: true,
       },
       API_CACHE_CONFIG
