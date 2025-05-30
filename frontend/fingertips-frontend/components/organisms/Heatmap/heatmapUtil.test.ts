@@ -13,7 +13,7 @@ import {
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 
-describe('generate headers and rows', () => {
+describe('generate headers and rows - benchmark area is England', () => {
   const groupAreaCode = 'groupAreaCode';
   const sortedAreas = [
     { code: areaCodeForEngland, name: 'England' },
@@ -71,8 +71,19 @@ describe('generate headers and rows', () => {
     });
   });
 
-  const headers = generateHeaders(sortedAreas, groupAreaCode);
-  const rows = generateRows(sortedAreas, sortedIndicators, dataPoints);
+  const headers = generateHeaders(
+    sortedAreas,
+    groupAreaCode,
+    areaCodeForEngland
+  );
+
+  const rows = generateRows(
+    sortedAreas,
+    sortedIndicators,
+    dataPoints,
+    groupAreaCode,
+    areaCodeForEngland
+  );
 
   it('should set the first header to indicator title header', () => {
     expect(headers[0].type).toEqual(HeaderType.IndicatorTitle);
@@ -90,13 +101,13 @@ describe('generate headers and rows', () => {
   });
 
   it('should set the header corresponding to the benchmark area (england) to benchmark header type', () => {
-    expect(headers[3].type).toEqual(HeaderType.BenchmarkArea);
-    expect(headers[3].content).toEqual('England');
+    expect(headers[3].type).toEqual(HeaderType.PrimaryBenchmarkArea);
+    expect(headers[3].content).toEqual('Benchmark: England');
   });
 
   it('should set the header corresponding to the group area to group area header type', () => {
-    expect(headers[4].type).toEqual(HeaderType.GroupArea);
-    expect(headers[4].content).toEqual('Group Area');
+    expect(headers[4].type).toEqual(HeaderType.SecondaryBenchmarkArea);
+    expect(headers[4].content).toEqual('Group: Group Area');
   });
 
   it('should set the header corresponding to an area) to area header type', () => {
@@ -274,6 +285,7 @@ export const placeholderHeatmapIndicatorData = [
         areaCode: areaEngland.code,
         areaName: areaEngland.name,
         healthData: data[0][0],
+        benchmarkComparison: { benchmarkAreaCode: areaCodeForEngland },
       },
       {
         areaCode: area2.code,
@@ -357,11 +369,12 @@ export const placeholderHeatmapIndicatorData = [
 const expectedSortedIndicators = [indicator3, indicator2, indicator1];
 const expectedSortedAreas = [areaEngland, area3, area4, area2];
 
-describe('extract sorted areas, indicators, and data points', () => {
+describe('extract sorted areas, indicators, and data points - benchmark area is england', () => {
   const { areas, indicators, dataPoints } =
     extractSortedAreasIndicatorsAndDataPoints(
       placeholderHeatmapIndicatorData,
-      placeholderGroupAreaCode
+      placeholderGroupAreaCode,
+      areaCodeForEngland
     );
 
   it('should order areas correctly', () => {
@@ -396,6 +409,7 @@ describe('extract sorted areas, indicators, and data points', () => {
         outcome: BenchmarkOutcome.NotCompared,
         benchmarkMethod: indicator.benchmarkMethod,
         polarity: indicator.polarity,
+        benchmarkAreaCode: areaCodeForEngland,
       });
     });
   });
@@ -407,6 +421,7 @@ describe('extract sorted areas, indicators, and data points', () => {
         outcome: 'Baseline',
         benchmarkMethod: indicator.benchmarkMethod,
         polarity: indicator.polarity,
+        benchmarkAreaCode: areaCodeForEngland,
       });
     });
   });

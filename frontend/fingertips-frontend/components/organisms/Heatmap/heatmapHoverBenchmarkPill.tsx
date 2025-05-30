@@ -50,6 +50,7 @@ export interface HeatmapHoverBenchmarkPillProps {
   outcome: HeatmapBenchmarkOutcome;
   benchmarkMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
+  benchmarkAreaName: string;
 }
 
 export const HeatmapHoverBenchmarkPill: FC<HeatmapHoverBenchmarkPillProps> = ({
@@ -58,6 +59,7 @@ export const HeatmapHoverBenchmarkPill: FC<HeatmapHoverBenchmarkPillProps> = ({
   outcome,
   benchmarkMethod,
   polarity,
+  benchmarkAreaName,
 }) => {
   return (
     <GridRow>
@@ -78,6 +80,7 @@ export const HeatmapHoverBenchmarkPill: FC<HeatmapHoverBenchmarkPillProps> = ({
           unitLabel={unitLabel}
           outcome={outcome}
           benchmarkMethod={benchmarkMethod}
+          benchmarkAreaName={benchmarkAreaName}
         />
       </GridCol>
     </GridRow>
@@ -106,7 +109,7 @@ const BenchmarkPillIcon: FC<BenchmarkPillIconProps> = ({
   }
 
   if (outcome === 'Baseline') {
-    return <StyledDivSquareBenchmarkColour $colour={GovukColours.Black} />;
+    return <StyledDivSquareBenchmarkColour $colour={GovukColours.DarkGrey} />;
   }
 
   return (
@@ -124,6 +127,7 @@ interface BenchmarkPillTextProps {
   unitLabel: string;
   outcome: HeatmapBenchmarkOutcome;
   benchmarkMethod: BenchmarkComparisonMethod;
+  benchmarkAreaName: string;
 }
 
 const BenchmarkPillText: FC<BenchmarkPillTextProps> = ({
@@ -131,6 +135,7 @@ const BenchmarkPillText: FC<BenchmarkPillTextProps> = ({
   unitLabel,
   outcome,
   benchmarkMethod,
+  benchmarkAreaName,
 }) => {
   if (value === undefined) {
     return <StyledText>No data available</StyledText>;
@@ -150,9 +155,9 @@ const BenchmarkPillText: FC<BenchmarkPillTextProps> = ({
       case outcome === BenchmarkOutcome.NotCompared:
         return `Not compared`;
       case outcome === BenchmarkOutcome.Similar:
-        return `${outcome} to England`;
+        return `${outcome} to ${benchmarkAreaName}`;
       default:
-        return `${outcome} than England`;
+        return `${outcome} than ${benchmarkAreaName}`;
     }
   };
 

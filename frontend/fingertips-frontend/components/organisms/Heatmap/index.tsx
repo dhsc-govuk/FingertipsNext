@@ -18,13 +18,21 @@ const HeatmapHeading = styled(H2)({
 
 export interface HeatmapProps {
   indicatorData: HeatmapIndicatorData[];
-  groupAreaCode?: string;
+  groupAreaCode: string;
+  benchmarkAreaCode: string;
+  benchmarkAreaName: string;
 }
 
-export const Heatmap: FC<HeatmapProps> = ({ indicatorData, groupAreaCode }) => {
+export const Heatmap: FC<HeatmapProps> = ({
+  indicatorData,
+  groupAreaCode,
+  benchmarkAreaCode,
+  benchmarkAreaName,
+}) => {
   const { headers, rows, legendsToShow, csvData } = useHeatmapTableData(
     indicatorData,
-    groupAreaCode
+    groupAreaCode,
+    benchmarkAreaCode
   );
   const { hover, left, top, handleMouseOverCell } = useHeatmapHover();
 
@@ -32,7 +40,10 @@ export const Heatmap: FC<HeatmapProps> = ({ indicatorData, groupAreaCode }) => {
     <>
       <div id={'heatmap'}>
         <HeatmapHeading>Compare indicators by areas</HeatmapHeading>
-        <BenchmarkLegends legendsToShow={legendsToShow} />
+        <BenchmarkLegends
+          title={`Compared to ${benchmarkAreaName}`}
+          legendsToShow={legendsToShow}
+        />
         {hover ? (
           <HeatmapHover
             areaName={hover.areaName}
@@ -43,6 +54,7 @@ export const Heatmap: FC<HeatmapProps> = ({ indicatorData, groupAreaCode }) => {
             benchmark={hover.benchmark}
             left={left}
             top={top}
+            benchmarkAreaName={benchmarkAreaName}
           />
         ) : null}
         <HeatmapTable
