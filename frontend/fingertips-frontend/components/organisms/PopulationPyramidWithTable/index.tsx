@@ -103,8 +103,7 @@ export const PopulationPyramidWithTable = ({
       ? group
       : undefined;
 
-  const period = determineYear(healthDataForAreaSelected?.healthData);
-  if (!period) return null;
+  const period = determineYear(healthDataForAreaSelected.healthData);
 
   const title = determineHeaderTitle(
     healthDataForAreaSelected,

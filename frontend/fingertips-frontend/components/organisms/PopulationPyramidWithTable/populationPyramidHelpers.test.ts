@@ -2,7 +2,6 @@ import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData'
 import {
   determineHeaderTitle,
   determinePopulationDataForArea,
-  determineYear,
 } from './populationPyramidHelpers';
 import {
   HealthDataForArea,
@@ -105,13 +104,5 @@ describe('determinePopulationDataForArea', () => {
     );
 
     expect(result).toBeUndefined();
-  });
-});
-
-describe('determine year', () => {
-  it('should return undefined when given empty health data set', () => {
-    const got = determineYear([]);
-
-    expect(got).toBeUndefined();
   });
 });
