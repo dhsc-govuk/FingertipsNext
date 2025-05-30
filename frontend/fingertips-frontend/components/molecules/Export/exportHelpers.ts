@@ -8,8 +8,6 @@ import { CustomOptions } from '@/components/molecules/Export/export.types';
 import {
   mapCopyright,
   mapLicense,
-  mapMetaDataEncoder,
-  mapSource,
   mapSourceForType,
 } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 
