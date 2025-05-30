@@ -126,6 +126,10 @@ exports[`snapshot test - renders the form 1`] = `
   margin-bottom: 20px;
 }
 
+.c12 {
+  margin-top: 5px;
+}
+
 .c4 {
   padding-bottom: 2px;
 }
@@ -252,6 +256,9 @@ exports[`snapshot test - renders the form 1`] = `
         </svg>
       </button>
     </div>
+    <div
+      class="c12"
+    />
   </div>
 </DocumentFragment>
 `;
