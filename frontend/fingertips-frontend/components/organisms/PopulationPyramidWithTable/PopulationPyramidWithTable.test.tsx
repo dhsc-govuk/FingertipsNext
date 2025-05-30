@@ -164,6 +164,14 @@ describe('PopulationPyramidWithTable', () => {
     });
   });
 
+  it('should not render population pyramid if given empty health data', () => {
+    setupUI([]).asFragment();
+
+    expect(
+      screen.queryByTestId('populationPyramidWithTable-component')
+    ).not.toBeInTheDocument();
+  });
+
   test('take a snapshot', () => {
     const container = render(
       <PopulationPyramidWithTable
