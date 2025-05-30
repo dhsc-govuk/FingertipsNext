@@ -39,14 +39,18 @@ interface MapMetaData {
   mapSourceURL: string;
 }
 
+export const mapLicense = `Office for National Statistics licensed under the Open Government Licence v.3.0`;
+export const mapCopyright = `Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`;
+export const mapSourceForType = (mapAreaType: AreaTypeKeysForMapMeta) =>
+  `Map source: ${mapMetaDataEncoder[mapAreaType].mapSource}`;
+
 export const mapMetaDataEncoder: Record<AreaTypeKeysForMapMeta, MapMetaData> = {
   'regions': {
     joinKey: 'RGN23CD',
     mapFile:
       'Regions_December_2023_Boundaries_EN_BUC_1958740832896680092.geo.json',
     mapSource: `Office for National Statistics: Regions 2023`,
-    mapCopyright: `Office for National Statistics licensed under the Open Government Licence v.3.0
-    Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`,
+    mapCopyright: `${mapLicense}\n${mapCopyright}`,
     mapSourceURL:
       'https://geoportal.statistics.gov.uk/maps/cc7bb689f5cc4bce9d03af8f519119a9',
   },
@@ -55,8 +59,7 @@ export const mapMetaDataEncoder: Record<AreaTypeKeysForMapMeta, MapMetaData> = {
     mapFile:
       'Combined_Authorities_December_2023_Boundaries_EN_BUC_2257483154257386964.geo.json',
     mapSource: `Office for National Statistics: Combined Authorities December 2023`,
-    mapCopyright: `Office for National Statistics licensed under the Open Government Licence v.3.0
-    Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`,
+    mapCopyright: `${mapLicense}\n${mapCopyright}`,
     mapSourceURL:
       'https://geoportal.statistics.gov.uk/maps/269d91ffb2de4c618c4cb6960444a08a',
   },
@@ -65,8 +68,7 @@ export const mapMetaDataEncoder: Record<AreaTypeKeysForMapMeta, MapMetaData> = {
     mapFile:
       'Counties_and_Unitary_Authorities_December_2023_Boundaries_UK_BSC_4952317392296043005.geo.json',
     mapSource: `Office for National Statistics: Counties and Unitary Authorities December 2023`,
-    mapCopyright: `Office for National Statistics licensed under the Open Government Licence v.3.0
-    Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`,
+    mapCopyright: `${mapLicense}\n${mapCopyright}`,
     mapSourceURL:
       'https://geoportal.statistics.gov.uk/maps/1d8e75f9179b4048ab1d7cbf712edc4e',
   },
@@ -75,8 +77,7 @@ export const mapMetaDataEncoder: Record<AreaTypeKeysForMapMeta, MapMetaData> = {
     mapFile:
       'Local_Authority_Districts_May_2024_Boundaries__UK_BSC_-5684348521832897108.geo.json',
     mapSource: `Office for National Statistics: Local Authority Districts May 2024`,
-    mapCopyright: `Office for National Statistics licensed under the Open Government Licence v.3.0
-        Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`,
+    mapCopyright: `${mapLicense}\n${mapCopyright}`,
     mapSourceURL:
       'https://geoportal.statistics.gov.uk/maps/1d4189a8b5db4c28afea8832ab73f93c',
   },
@@ -85,8 +86,7 @@ export const mapMetaDataEncoder: Record<AreaTypeKeysForMapMeta, MapMetaData> = {
     mapFile:
       'NHS_England_Regions_January_2024_EN_BSC_7500404208533377417.geo.json',
     mapSource: `Office for National Statistics: NHS Regions January 2024`,
-    mapCopyright: `Office for National Statistics licensed under the Open Government Licence v.3.0
-    Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`,
+    mapCopyright: `${mapLicense}\n${mapCopyright}`,
     mapSourceURL:
       'https://geoportal.statistics.gov.uk/maps/e9c506682a204bf6952a140af8e99bca',
   },
@@ -95,8 +95,7 @@ export const mapMetaDataEncoder: Record<AreaTypeKeysForMapMeta, MapMetaData> = {
     mapFile:
       'Integrated_Care_Boards_April_2023_EN_BSC_-187828753279616787.geo.json',
     mapSource: `Office for National Statistics: NHS Integrated Care Boards April 2023`,
-    mapCopyright: `Office for National Statistics licensed under the Open Government Licence v.3.0
-    Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`,
+    mapCopyright: `${mapLicense}\n${mapCopyright}`,
     mapSourceURL:
       'https://geoportal.statistics.gov.uk/maps/76dad7f9577147b2b636d4f95345d28d',
   },
@@ -104,8 +103,7 @@ export const mapMetaDataEncoder: Record<AreaTypeKeysForMapMeta, MapMetaData> = {
     joinKey: 'SICBL23CD',
     mapFile: 'NHS_SubICB_April_2023_EN_BSC_8040841744469859785.geo.json',
     mapSource: `Office for National Statistics: Sub NHS Integrated Care Boards April 2023 `,
-    mapCopyright: `Office for National Statistics licensed under the Open Government Licence v.3.0
-    Contains OS data © Crown copyright and database right ${new Date().getFullYear()}`,
+    mapCopyright: `${mapLicense}\n${mapCopyright}`,
     mapSourceURL:
       'https://geoportal.statistics.gov.uk/maps/fe17bb9ca66446b6b8faf992b5d24274',
   },
