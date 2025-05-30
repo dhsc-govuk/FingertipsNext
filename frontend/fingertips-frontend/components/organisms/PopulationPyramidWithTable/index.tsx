@@ -58,6 +58,12 @@ export const PopulationPyramidWithTable = ({
     populationAreaSelected
   );
 
+  if (
+    !healthDataForAreaSelected ||
+    healthDataForAreaSelected.healthData.length === 0
+  )
+    return null;
+
   const { areas, benchmark, group } = createPyramidPopulationDataFrom(
     healthDataForAreas,
     groupSelected ?? ''
@@ -97,7 +103,8 @@ export const PopulationPyramidWithTable = ({
       ? group
       : undefined;
 
-  const period = determineYear(healthDataForAreaSelected?.healthData ?? []);
+  const period = determineYear(healthDataForAreaSelected?.healthData);
+  if (!period) return null;
 
   const title = determineHeaderTitle(
     healthDataForAreaSelected,
