@@ -23,6 +23,7 @@ import {
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
 import { BenchmarkSelectArea } from '@/components/molecules/BenchmarkSelectArea';
+import { englandAreaString } from '@/lib/chartHelpers/constants';
 
 function shouldShowHeatmap(
   areaCodes: string[],
@@ -151,6 +152,12 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
               indicatorMetadata
             )}
             groupAreaCode={selectedGroupCode}
+            benchmarkAreaCode={benchmarkToUse}
+            benchmarkAreaName={
+              availableAreasForBenchmarking?.find((area) => {
+                return area.code === benchmarkToUse;
+              })?.name ?? englandAreaString
+            }
           />
         </StyleChartWrapper>
       ) : null}

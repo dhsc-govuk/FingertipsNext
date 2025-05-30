@@ -18,20 +18,28 @@ interface MemoDataPrep {
 
 export const useHeatmapTableData = (
   indicatorData: HeatmapIndicatorData[],
-  groupAreaCode?: string
+  groupAreaCode: string,
+  benchmarkAreaCode: string
 ) => {
   return useMemo((): MemoDataPrep => {
     const sortedData = extractSortedAreasIndicatorsAndDataPoints(
       indicatorData,
-      groupAreaCode
+      groupAreaCode,
+      benchmarkAreaCode
     );
     const { areas, indicators, dataPoints } = sortedData;
     const legendsToShow = getMethodsAndOutcomes(indicatorData);
     return {
-      headers: generateHeaders(areas, groupAreaCode),
-      rows: generateRows(areas, indicators, dataPoints),
+      headers: generateHeaders(areas, groupAreaCode, benchmarkAreaCode),
+      rows: generateRows(
+        areas,
+        indicators,
+        dataPoints,
+        groupAreaCode,
+        benchmarkAreaCode
+      ),
       legendsToShow,
       csvData: convertHeatmapToCsv(sortedData, groupAreaCode),
     };
-  }, [groupAreaCode, indicatorData]);
+  }, [indicatorData, groupAreaCode, benchmarkAreaCode]);
 };
