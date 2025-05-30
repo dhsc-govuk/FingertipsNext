@@ -141,11 +141,12 @@ export function OneIndicatorOneAreaViewPlots({
                 content: (
                   <LineChartTable
                     healthIndicatorData={areaDataWithoutInequalities}
-                    englandBenchmarkData={englandDataWithoutInequalities}
+                    englandIndicatorData={englandDataWithoutInequalities}
                     groupIndicatorData={groupDataWithoutInequalities}
                     indicatorMetadata={indicatorMetadata}
                     benchmarkComparisonMethod={benchmarkComparisonMethod}
                     polarity={polarity}
+                    benchmarkToUse={benchmarkToUse}
                   />
                 ),
               },

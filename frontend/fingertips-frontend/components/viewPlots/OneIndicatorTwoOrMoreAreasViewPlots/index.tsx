@@ -145,11 +145,12 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                 content: (
                   <LineChartTable
                     healthIndicatorData={dataWithoutEnglandOrGroup}
-                    englandBenchmarkData={englandData}
+                    englandIndicatorData={englandData}
                     groupIndicatorData={groupData}
                     indicatorMetadata={indicatorMetadata}
                     benchmarkComparisonMethod={benchmarkMethod}
                     polarity={polarity}
+                    benchmarkToUse={benchmarkToUse}
                   />
                 ),
               },
