@@ -100,7 +100,24 @@ describe('heatmap hover benchmark pill', () => {
     expect(screen.getByText('Similar to England (95%)')).toBeInTheDocument();
   });
 
-  it('should use the given area name in outcome text', () => {
+  it('should use different language for nonsimilar outcomes', () => {
+    const screen = render(
+      <HeatmapHoverBenchmarkPill
+        unitLabel={defaultProps.unitLabel}
+        value={defaultValue}
+        outcome={BenchmarkOutcome.Worse}
+        benchmarkMethod={
+          BenchmarkComparisonMethod.CIOverlappingReferenceValue95
+        }
+        polarity={defaultProps.polarity}
+        benchmarkAreaName={defaultProps.benchmarkAreaName}
+      />
+    );
+
+    expect(screen.getByText('Worse than England (95%)')).toBeInTheDocument();
+  });
+
+  it('should use the benchmark area name in outcome text', () => {
     const testBenchmarkAreaName = 'West Foobar';
 
     const screen = render(
@@ -119,5 +136,20 @@ describe('heatmap hover benchmark pill', () => {
     expect(
       screen.getByText(`Similar to ${testBenchmarkAreaName} (95%)`)
     ).toBeInTheDocument();
+  });
+
+  it('should not use the benchmark area name in quintiles outcome text', () => {
+    const screen = render(
+      <HeatmapHoverBenchmarkPill
+        unitLabel={defaultProps.unitLabel}
+        value={defaultValue}
+        outcome={BenchmarkOutcome.Lower}
+        benchmarkMethod={BenchmarkComparisonMethod.Quintiles}
+        polarity={defaultProps.polarity}
+        benchmarkAreaName={defaultProps.benchmarkAreaName}
+      />
+    );
+
+    expect(screen.getByText('Lower quintile')).toBeInTheDocument();
   });
 });
