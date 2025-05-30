@@ -30,4 +30,5 @@ export enum CsvHeader {
   Female = 'Female',
   WorstLowest = 'Worst/Lowest',
   BestHighest = 'Best/Highest',
+  PersonsComparison = 'Compared to persons',
 }
