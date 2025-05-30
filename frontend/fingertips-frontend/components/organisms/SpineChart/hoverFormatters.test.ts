@@ -1,4 +1,7 @@
-import { BenchmarkComparisonMethod, BenchmarkOutcome } from '@/generated-sources/ft-api-client';
+import {
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
+} from '@/generated-sources/ft-api-client';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 import { formatBarHover, formatSymbolHover } from './hoverFormatters';
 import { englandAreaString } from '@/lib/chartHelpers/constants';
@@ -93,7 +96,7 @@ describe('hoverFormatters', () => {
         shape: SymbolsEnum.Triangle,
         indicatorName: 'Test Indicator',
         benchmarkName: englandAreaString,
-        outcome: BenchmarkOutcome.Similar
+        outcome: BenchmarkOutcome.Similar,
       };
 
       const result = formatSymbolHover(props);

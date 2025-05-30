@@ -134,7 +134,7 @@ describe('generateSeriesData', () => {
     };
     const result = generateSeriesData(propsWithGroupBenchmark);
 
-    // 4 bars + 4 scatter points (areaOne, areaTwo, benchmark), Group scatter for England not added
+    // 4 bars + 3 scatter points (areaOne, areaTwo, benchmark), Group scatter for England not added
     expect(result).toHaveLength(7);
 
     const benchmarkScatter = result?.[6] as Highcharts.SeriesScatterOptions;
