@@ -19,7 +19,6 @@ describe('heatmap', () => {
     jest.useRealTimers();
   });
 
-
   it('snapshot test - england benchmark', () => {
     const container = render(
       <Heatmap
