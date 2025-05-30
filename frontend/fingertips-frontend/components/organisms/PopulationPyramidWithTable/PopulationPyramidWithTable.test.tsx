@@ -107,6 +107,7 @@ describe('PopulationPyramidWithTable', () => {
       />
     );
   };
+
   const mockHealthDataForArea: HealthDataForArea[] = [
     {
       areaCode: '123',
@@ -165,7 +166,7 @@ describe('PopulationPyramidWithTable', () => {
   });
 
   it('should not render population pyramid if given empty health data', () => {
-    setupUI([]).asFragment();
+    setupUI([]);
 
     expect(
       screen.queryByTestId('populationPyramidWithTable-component')
