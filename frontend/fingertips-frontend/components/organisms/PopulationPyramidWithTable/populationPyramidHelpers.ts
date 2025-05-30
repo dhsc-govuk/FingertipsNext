@@ -43,6 +43,6 @@ export const determinePopulationDataForArea = (
   return populationDataForAllAreas.find((data) => data.areaCode === areaToFind);
 };
 
-export const determineYear = (healthData: HealthDataPoint[]): number => {
+export const determineYear = (healthData: HealthDataPoint[]) => {
   return sortHealthDataPointsByDescendingYear(healthData)[0].year;
 };
