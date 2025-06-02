@@ -5,7 +5,11 @@ import {
   exportCopyrightText,
 } from '@/components/molecules/Export/ExportCopyright';
 import { CustomOptions } from '@/components/molecules/Export/export.types';
-import { mapSourceForType } from '@/components/organisms/ThematicMap/thematicMapHelpers';
+import {
+  mapCopyright,
+  mapLicense,
+  mapSourceForType,
+} from '@/components/organisms/ThematicMap/thematicMapHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 
 export const ExcludeFromExport = 'excludeFromExport';
@@ -115,6 +119,8 @@ export const addCopyrightFooterToChartOptions = (options: CustomOptions) => {
     const mapSource = mapSourceForType(modifiedOptions.custom?.mapAreaType);
     captionLines.push('');
     captionLines.push(mapSource);
+    captionLines.push(mapLicense);
+    captionLines.push(mapCopyright);
   }
 
   modifiedOptions.caption = {

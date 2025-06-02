@@ -23,12 +23,13 @@ export function ThematicMapCredits({
     <div
       data-testid="thematic-map-credits"
       style={{ whiteSpace: 'preserve-breaks' }}
-      className={ExcludeFromExport}
     >
       <StyledCredits>{`Map source: [${mapMetaDataEncoder[areaType].mapSource}](${mapMetaDataEncoder[areaType].mapSourceURL})<br />
         ${mapMetaDataEncoder[areaType].mapCopyright}`}</StyledCredits>
       {dataSource ? (
-        <StyledCredits>{`Data source: ${dataSource}`}</StyledCredits>
+        <StyledCredits
+          className={ExcludeFromExport}
+        >{`Data source: ${dataSource}`}</StyledCredits>
       ) : null}
     </div>
   );

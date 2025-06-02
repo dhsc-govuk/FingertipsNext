@@ -5,7 +5,6 @@ import { useMemo } from 'react';
 import {
   AreaTypeKeysForMapMeta,
   createThematicMapChartOptions,
-  mapSourceForType,
 } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 import { BenchmarkLegend } from '../BenchmarkLegend';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
@@ -115,16 +114,13 @@ export function ThematicMap({
           testId={'highcharts-react-thematicMap-component'}
           constructorType={'mapChart'}
         />
+        <ExportOnlyWrapper>
+          <ExportCopyright />
+        </ExportOnlyWrapper>
         <ThematicMapCredits
           areaType={selectedAreaType as AreaTypeKeysForMapMeta}
           dataSource={indicatorMetadata?.dataSource}
         />
-        <ExportOnlyWrapper>
-          <ExportCopyright />
-          <p style={{ fontSize: '14px' }}>
-            {mapSourceForType(selectedAreaType as AreaTypeKeysForMapMeta)}
-          </p>
-        </ExportOnlyWrapper>
       </div>
       <ExportOptionsButton
         targetId={'thematicMap'}
