@@ -2,6 +2,7 @@
 
 import {
   BenchmarkComparisonMethod,
+  BenchmarkOutcome,
   HealthDataForArea,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
@@ -131,10 +132,24 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
 
   const confidenceLimit = getConfidenceLimitNumber(benchmarkComparisonMethod);
 
-  const englandDataPointNamePrefix =
-    benchmarkToUse === areaCodeForEngland ? 'Benchmark: ' : '';
-  const groupDataPointNamePrefix =
-    benchmarkToUse === areaCodeForEngland ? 'Group: ' : 'Benchmark: ';
+  let englandDataPointNamePrefix,
+    groupDataPointNamePrefix,
+    englandLabel,
+    groupLabel,
+    englandOutcomeLabel;
+  if (benchmarkToUse === areaCodeForEngland) {
+    englandDataPointNamePrefix = 'Benchmark: ';
+    groupDataPointNamePrefix = 'Group: ';
+    englandLabel = AreaTypeLabelEnum.Benchmark;
+    groupLabel = AreaTypeLabelEnum.Group;
+    englandOutcomeLabel = englandDataPoint?.benchmarkComparison?.outcome;
+  } else {
+    englandDataPointNamePrefix = '';
+    groupDataPointNamePrefix = 'Benchmark: ';
+    englandLabel = AreaTypeLabelEnum.Area;
+    groupLabel = AreaTypeLabelEnum.Benchmark;
+    englandOutcomeLabel = BenchmarkOutcome.NotCompared;
+  }
 
   const id = 'barChartEmbeddedTable';
 
@@ -258,12 +273,10 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
                     englandDataPoint.upperCi,
                   ]}
                   showConfidenceIntervalsData={showConfidenceIntervalsData}
-                  benchmarkOutcome={
-                    englandDataPoint.benchmarkComparison?.outcome
-                  }
+                  benchmarkOutcome={englandOutcomeLabel}
                   benchmarkComparisonMethod={benchmarkComparisonMethod}
                   polarity={polarity}
-                  label={AreaTypeLabelEnum.Benchmark}
+                  label={englandLabel}
                   area={englandData?.areaName}
                   year={englandDataPoint.year}
                   measurementUnit={measurementUnit}
@@ -319,7 +332,7 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
                   benchmarkOutcome={groupDataPoint.benchmarkComparison?.outcome}
                   benchmarkComparisonMethod={benchmarkComparisonMethod}
                   polarity={polarity}
-                  label={AreaTypeLabelEnum.Group}
+                  label={groupLabel}
                   area={groupIndicatorData?.areaName}
                   year={groupDataPoint.year}
                   measurementUnit={measurementUnit}
