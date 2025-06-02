@@ -5,6 +5,7 @@ import { useMemo } from 'react';
 import {
   AreaTypeKeysForMapMeta,
   createThematicMapChartOptions,
+  mapSourceForType,
 } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 import { BenchmarkLegend } from '../BenchmarkLegend';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
@@ -120,6 +121,9 @@ export function ThematicMap({
         />
         <ExportOnlyWrapper>
           <ExportCopyright />
+          <p style={{ fontSize: '14px' }}>
+            {mapSourceForType(selectedAreaType as AreaTypeKeysForMapMeta)}
+          </p>
         </ExportOnlyWrapper>
       </div>
       <ExportOptionsButton

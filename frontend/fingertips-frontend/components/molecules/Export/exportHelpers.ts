@@ -5,11 +5,8 @@ import {
   exportCopyrightText,
 } from '@/components/molecules/Export/ExportCopyright';
 import { CustomOptions } from '@/components/molecules/Export/export.types';
-import {
-  mapCopyright,
-  mapLicense,
-  mapSourceForType,
-} from '@/components/organisms/ThematicMap/thematicMapHelpers';
+import { mapSourceForType } from '@/components/organisms/ThematicMap/thematicMapHelpers';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 export const ExcludeFromExport = 'excludeFromExport';
 
@@ -29,11 +26,15 @@ export const getHtmlToImageCanvas = async (targetId: string) => {
   return canvas;
 };
 
-export const preCanvasConversion = (clonedDocument: Document) => {
+export const preCanvasConversion = (
+  clonedDocument: Document,
+  element: HTMLElement
+) => {
   const chartPageContent = clonedDocument.getElementById('chartPageContent');
   if (!chartPageContent) return;
 
   chartPageContent.style.width = 'min-content';
+  element.style.width = 'min-content';
 
   // remove elements with these classnames before rendering
   const elementsToRemove = clonedDocument.querySelectorAll(
@@ -108,37 +109,22 @@ export const addCopyrightFooterToChartOptions = (options: CustomOptions) => {
   const modifiedChart = { ...options.chart, events: modifiedEvents };
   const modifiedOptions = { ...options, chart: modifiedChart };
 
-  modifiedOptions.chart.spacingBottom = 75;
-  modifiedEvents.load = function () {
-    const ySpacing = 18;
-    const additionalText = [
-      {
-        x: 4,
-        y: this.chartHeight - 28,
-        lines: [exportCopyrightText(), exportAccessedDate()],
-      },
-    ];
+  const captionLines = [exportCopyrightText(), exportAccessedDate()];
 
-    if (modifiedOptions.custom?.mapAreaType) {
-      const mapSource = mapSourceForType(modifiedOptions.custom?.mapAreaType);
-      additionalText.push({
-        x: 4,
-        y: this.chartHeight - 100,
-        lines: [mapSource, mapLicense, mapCopyright],
-      });
-    }
+  if (modifiedOptions.custom?.mapAreaType) {
+    const mapSource = mapSourceForType(modifiedOptions.custom?.mapAreaType);
+    captionLines.push('');
+    captionLines.push(mapSource);
+  }
 
-    additionalText.forEach(({ x, y, lines }) => {
-      lines.forEach((line, i) => {
-        this.renderer
-          .text(line, x, y + i * ySpacing)
-          .css({
-            color: '#000',
-            fontSize: '14px',
-          })
-          .add();
-      });
-    });
+  modifiedOptions.caption = {
+    margin: 20,
+    text: captionLines.join('<br />'),
+    style: {
+      color: GovukColours.Black,
+      fontSize: '14px',
+    },
   };
+  modifiedOptions.chart.spacingBottom = 25;
   return modifiedOptions;
 };

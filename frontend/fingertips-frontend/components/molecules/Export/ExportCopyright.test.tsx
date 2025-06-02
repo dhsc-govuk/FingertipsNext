@@ -20,7 +20,7 @@ describe('ExportCopyright', () => {
 
   describe('exportAccessedDate', () => {
     it('returns the correct accessed date in the expected format', () => {
-      const formattedDate = format(new Date(), 'dd/MMM/yyyy');
+      const formattedDate = format(new Date(), 'd MMMM yyyy');
       expect(exportAccessedDate()).toBe(
         `Public Health Profiles accessed on ${formattedDate} www.fingertips.phe.org.uk`
       );
@@ -37,7 +37,7 @@ describe('ExportCopyright', () => {
       );
       expect(screen.getByText(regCopyright)).toBeInTheDocument();
 
-      const formattedDate = format(new Date(), 'dd/MMM/yyyy');
+      const formattedDate = format(new Date(), 'd MMMM yyyy');
       const regAccessed = RegExp(
         `Public Health Profiles accessed on ${formattedDate} www.fingertips.phe.org.uk`
       );

@@ -11,6 +11,15 @@ import {
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 describe('Inequalities bar chart table suite', () => {
+  beforeAll(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2024-12-25T12:00:00Z'));
+  });
+
+  afterAll(() => {
+    jest.useRealTimers();
+  });
+
   describe('Sex inequality', () => {
     it('should render the inequalitiesBarChartTable component', () => {
       render(

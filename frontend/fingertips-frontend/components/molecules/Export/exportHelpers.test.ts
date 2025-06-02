@@ -15,12 +15,9 @@ import {
   exportAccessedDate,
   exportCopyrightText,
 } from '@/components/molecules/Export/ExportCopyright';
-import {
-  mapCopyright,
-  mapLicense,
-  mapSourceForType,
-} from '@/components/organisms/ThematicMap/thematicMapHelpers';
+import { mapSourceForType } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 import { CustomOptions } from '@/components/molecules/Export/export.types';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 jest.mock('html2canvas', () => jest.fn());
 jest.mock('highcharts', () => {
@@ -72,10 +69,12 @@ describe('exportHelpers', () => {
 
     describe('preCanvasConversion', () => {
       let clonedDocument: Document;
+      let clonedElement: HTMLElement;
 
       beforeEach(() => {
         clonedDocument =
           document.implementation.createHTMLDocument('Test Document');
+        clonedElement = clonedDocument.createElement('div');
 
         const chartPageContent = clonedDocument.createElement('div');
         chartPageContent.id = 'chartPageContent';
@@ -98,7 +97,7 @@ describe('exportHelpers', () => {
       });
 
       it('removes elements with specific class names', () => {
-        preCanvasConversion(clonedDocument);
+        preCanvasConversion(clonedDocument, clonedElement);
         expect(
           clonedDocument.querySelector(`.${ExcludeFromExport}`)
         ).toBeNull();
@@ -114,14 +113,14 @@ describe('exportHelpers', () => {
         ) as HTMLElement;
         expect(exportOnly.style.display).toBe('none');
 
-        preCanvasConversion(clonedDocument);
+        preCanvasConversion(clonedDocument, clonedElement);
         expect(exportOnly.style.display).toBe('block');
       });
 
       it('does nothing if #chartPageContent is missing', () => {
         const doc =
           document.implementation.createHTMLDocument('No chart content');
-        expect(() => preCanvasConversion(doc)).not.toThrow();
+        expect(() => preCanvasConversion(doc, clonedElement)).not.toThrow();
       });
     });
   });
@@ -257,23 +256,6 @@ describe('exportHelpers', () => {
   });
 
   describe('addCopyrightFooterToChartOptions', () => {
-    const mockText = jest.fn().mockReturnValue({
-      css: jest.fn().mockReturnValue({
-        add: jest.fn(),
-      }),
-    });
-
-    const mockChartInstance = {
-      chartHeight: 500,
-      renderer: {
-        text: mockText,
-      },
-    } as unknown as Chart;
-
-    beforeEach(() => {
-      jest.clearAllMocks();
-    });
-
     it('modifies chart options and attaches a load event', () => {
       const inputOptions = {
         chart: {
@@ -283,19 +265,18 @@ describe('exportHelpers', () => {
 
       const modified = addCopyrightFooterToChartOptions(inputOptions);
 
-      expect(modified.chart.spacingBottom).toBe(75);
-      expect(typeof modified.chart.events.load).toBe('function');
-
-      // simulate Highcharts calling `load` with `this = chartInstance`
-      modified.chart.events.load?.call(mockChartInstance, {} as Event);
-
-      // Ensure text is added for copyright and accessed date
-      expect(mockText).toHaveBeenCalledWith(exportCopyrightText(), 4, 472);
-      expect(mockText).toHaveBeenCalledWith(exportAccessedDate(), 4, 472 + 18);
+      expect(modified.chart.spacingBottom).toBe(25);
+      expect(modified.caption).toEqual({
+        margin: 20,
+        style: {
+          color: GovukColours.Black,
+          fontSize: '14px',
+        },
+        text: `${exportCopyrightText()}<br />${exportAccessedDate()}`,
+      });
     });
 
     it('includes map metadata when custom.mapAreaType is set', () => {
-      // mock map source/metadata utils
       const inputOptions = {
         chart: {
           events: {},
@@ -306,17 +287,7 @@ describe('exportHelpers', () => {
       } as CustomOptions;
 
       const modified = addCopyrightFooterToChartOptions(inputOptions);
-
-      modified.chart.events.load?.call(mockChartInstance, {} as Event);
-
-      // Should call with map metadata text as well
-      expect(mockText).toHaveBeenCalledWith(
-        mapSourceForType('regions'),
-        4,
-        400
-      );
-      expect(mockText).toHaveBeenCalledWith(mapLicense, 4, 418);
-      expect(mockText).toHaveBeenCalledWith(mapCopyright, 4, 418 + 18);
+      expect(modified.caption?.text).toContain(mapSourceForType('regions'));
     });
   });
 });
