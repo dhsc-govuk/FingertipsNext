@@ -1,9 +1,14 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { useRotatedHeaders } from './useRotatedHeaders';
+import { HeaderType } from './heatmapUtil';
+
+const headers = [
+  { key: 'key', type: HeaderType.PrimaryBenchmarkArea, content: 'content' },
+];
 
 const TestComponent = () => {
-  const { containerRef } = useRotatedHeaders();
+  const { containerRef } = useRotatedHeaders(headers);
 
   return (
     <div ref={containerRef}>
@@ -49,7 +54,7 @@ describe('useRotatedHeaders', () => {
     render(<TestComponent />);
 
     const th = screen.getByRole('columnheader');
-    expect(th).toHaveStyle('height: 75px'); // 50 + 25
+    expect(th).toHaveStyle('height: 80px'); // 50 + 30
 
     const table = screen.getByRole('table');
     expect(table.style.marginRight).toBe('50px'); // 300 (h4) - 250 (table)
