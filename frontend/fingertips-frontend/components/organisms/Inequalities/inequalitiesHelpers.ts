@@ -43,6 +43,7 @@ export interface InequalitiesChartData {
 }
 
 export interface InequalitiesBarChartData {
+  areaCode: string;
   areaName: string;
   data: InequalitiesTableRowData;
 }

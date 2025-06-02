@@ -1,6 +1,7 @@
 import { InequalitiesBarChartData } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 export const getTestData = (): InequalitiesBarChartData => ({
+  areaCode: 'A1425',
   areaName: 'South FooBar',
   data: {
     period: 2008,

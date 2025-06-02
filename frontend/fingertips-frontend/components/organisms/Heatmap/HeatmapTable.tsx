@@ -36,7 +36,7 @@ const HeatmapTable: FC<HeatmapTableProps> = ({
   rows,
   handleMouseOverCell,
 }) => {
-  const { containerRef } = useRotatedHeaders();
+  const { containerRef } = useRotatedHeaders(headers);
 
   return (
     <StyledDivTableContainer ref={containerRef}>

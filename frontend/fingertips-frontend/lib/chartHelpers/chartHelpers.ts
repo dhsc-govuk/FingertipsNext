@@ -316,7 +316,7 @@ const getComparisonLabelText = (
   return `(${comparison}%)`;
 };
 
-const getBenchmarkLabel = (
+export const getBenchmarkLabel = (
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
   benchmarkOutcome?: BenchmarkOutcome,
   areaName?: string

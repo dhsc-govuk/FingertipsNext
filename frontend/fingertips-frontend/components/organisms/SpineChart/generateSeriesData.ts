@@ -154,31 +154,32 @@ export function generateSeriesData({
         quartileData.polarity ?? IndicatorPolarity.NoJudgement
       ) ?? GovukColours.White;
 
-    seriesData.push({
-      type: 'scatter',
-      name: formatSymbolHover({
-        title: `Group: ${alternativeBenchmarkName}`,
-        period: period,
-        benchmarkComparisonMethod:
-          benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
-        value: alternativeBenchmarkValue,
-        units: units,
-        outcome: alternativeBenchmarkOutcome ?? 'Not compared',
-        colour: fillColor,
-        shape: SymbolsEnum.Diamond,
-        indicatorName: name,
-        benchmarkName,
-      }),
-      marker: {
-        symbol: 'diamond',
-        radius: 8,
-        fillColor: fillColor,
-        lineColor: GovukColours.Black,
-        lineWidth: markerLineWidth,
-        enabled: benchmarkToUse === areaCodeForEngland,
-      },
-      data: [scaledGroup],
-    });
+    if (benchmarkToUse === areaCodeForEngland) {
+      seriesData.push({
+        type: 'scatter',
+        name: formatSymbolHover({
+          title: `Group: ${alternativeBenchmarkName}`,
+          period: period,
+          benchmarkComparisonMethod:
+            benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
+          value: alternativeBenchmarkValue,
+          units: units,
+          outcome: alternativeBenchmarkOutcome ?? 'Not compared',
+          colour: fillColor,
+          shape: SymbolsEnum.Diamond,
+          indicatorName: name,
+          benchmarkName,
+        }),
+        marker: {
+          symbol: 'diamond',
+          radius: 8,
+          fillColor: fillColor,
+          lineColor: GovukColours.Black,
+          lineWidth: markerLineWidth,
+        },
+        data: [scaledGroup],
+      });
+    }
   }
 
   const areas = [

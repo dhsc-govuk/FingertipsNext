@@ -20,21 +20,26 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { getConfidenceLimitNumber } from '@/lib/chartHelpers/chartHelpers';
+import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { convertInequalitiesOverTimeTableToCsvData } from './convertInequalitiesOverTimeTableToCsvData';
 
 interface InequalitiesBarChartTableProps {
   tableData: InequalitiesBarChartData;
   type?: InequalitiesTypes;
-  measurementUnit?: string;
+  indicatorMetadata?: IndicatorDocument;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
+  inequalityTypeSelected: string;
 }
 
 export function InequalitiesBarChartTable({
   tableData,
   type = InequalitiesTypes.Sex,
-  measurementUnit,
+  indicatorMetadata,
   benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
   polarity = IndicatorPolarity.Unknown,
+  inequalityTypeSelected,
 }: Readonly<InequalitiesBarChartTableProps>) {
   const { areaName, data } = tableData;
   const inequalities = { ...data.inequalities };
@@ -45,48 +50,61 @@ export function InequalitiesBarChartTable({
   // pending a better solution where an order key is supplied by API
   if (type === InequalitiesTypes.Sex) sortedKeys.reverse();
 
+  const confidenceLimit = getConfidenceLimitNumber(benchmarkComparisonMethod);
+
+  const csvData = convertInequalitiesOverTimeTableToCsvData(
+    sortedKeys,
+    tableData,
+    inequalityTypeSelected,
+    confidenceLimit,
+    indicatorMetadata
+  );
+
+  const id = 'inequalitiesBarChartTable';
   return (
-    <div data-testid="inequalitiesBarChartTable-component">
-      <Table
-        head={
-          <InequalitiesBarChartTableHead
-            areaName={areaName}
-            measurementUnit={measurementUnit}
-            confidenceLimit={getConfidenceLimitNumber(
-              benchmarkComparisonMethod
-            )}
-          />
-        }
-      >
-        {sortedKeys.map((key) => (
-          <Table.Row key={key}>
-            <StyledAlignLeftTableCellPaddingLeft>
-              {key}
-            </StyledAlignLeftTableCellPaddingLeft>
-            <StyledCenterTableCell>
-              {inequalityDimensions.includes(key) ? (
-                <InequalitiesBenchmarkLabel
-                  benchmarkComparisonMethod={benchmarkComparisonMethod}
-                  comparison={inequalities[key]?.benchmarkComparison}
-                  polarity={polarity}
-                />
-              ) : null}
-            </StyledCenterTableCell>
-            <StyledAlignRightTableCell>
-              {getDisplayWholeNumber(inequalities[key]?.count)}
-            </StyledAlignRightTableCell>
-            <StyledAlignRightTableCell>
-              {getDisplayValue(inequalities[key]?.value)}
-            </StyledAlignRightTableCell>
-            <StyledAlignRightTableCell>
-              {getDisplayValue(inequalities[key]?.lower)}
-            </StyledAlignRightTableCell>
-            <StyledAlignRightTableCellPaddingRight>
-              {getDisplayValue(inequalities[key]?.upper)}
-            </StyledAlignRightTableCellPaddingRight>
-          </Table.Row>
-        ))}
-      </Table>
-    </div>
+    <>
+      <div data-testid={`${id}-component`}>
+        <Table
+          id={id}
+          head={
+            <InequalitiesBarChartTableHead
+              areaName={areaName}
+              measurementUnit={indicatorMetadata?.unitLabel}
+              confidenceLimit={confidenceLimit}
+            />
+          }
+        >
+          {sortedKeys.map((key) => (
+            <Table.Row key={key}>
+              <StyledAlignLeftTableCellPaddingLeft>
+                {key}
+              </StyledAlignLeftTableCellPaddingLeft>
+              <StyledCenterTableCell>
+                {inequalityDimensions.includes(key) ? (
+                  <InequalitiesBenchmarkLabel
+                    benchmarkComparisonMethod={benchmarkComparisonMethod}
+                    comparison={inequalities[key]?.benchmarkComparison}
+                    polarity={polarity}
+                  />
+                ) : null}
+              </StyledCenterTableCell>
+              <StyledAlignRightTableCell>
+                {getDisplayWholeNumber(inequalities[key]?.count)}
+              </StyledAlignRightTableCell>
+              <StyledAlignRightTableCell>
+                {getDisplayValue(inequalities[key]?.value)}
+              </StyledAlignRightTableCell>
+              <StyledAlignRightTableCell>
+                {getDisplayValue(inequalities[key]?.lower)}
+              </StyledAlignRightTableCell>
+              <StyledAlignRightTableCellPaddingRight>
+                {getDisplayValue(inequalities[key]?.upper)}
+              </StyledAlignRightTableCellPaddingRight>
+            </Table.Row>
+          ))}
+        </Table>
+      </div>
+      <ExportOptionsButton targetId={id} csvData={csvData} />
+    </>
   );
 }
