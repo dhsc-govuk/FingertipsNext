@@ -74,7 +74,11 @@ const mockSortedData = {
 
 describe('convertHeatmapToCsv', () => {
   it('should have the correct headers', () => {
-    const result = convertHeatmapToCsv(mockSortedData, mockAreas[1].code);
+    const result = convertHeatmapToCsv(
+      mockSortedData,
+      mockAreas[1].code,
+      mockAreas[0].code
+    );
     expect(result[0]).toEqual([
       CsvHeader.IndicatorId,
       CsvHeader.IndicatorName,
@@ -89,12 +93,16 @@ describe('convertHeatmapToCsv', () => {
   });
 
   it('should have the benchmark row', () => {
-    const result = convertHeatmapToCsv(mockSortedData, mockAreas[1].code);
+    const result = convertHeatmapToCsv(
+      mockSortedData,
+      mockAreas[1].code,
+      mockAreas[0].code
+    );
     const indicatorPoints =
       mockDataPoints[mockIndicators[0].id as keyof typeof mockDataPoints];
     const indicatorAreaPoint =
       indicatorPoints[mockAreas[0].code as keyof typeof indicatorPoints];
-    expect(result[1]).toEqual([
+    expect(result[3]).toEqual([
       mockIndicators[0].id,
       mockIndicators[0].name,
       mockIndicators[0].latestDataPeriod,
@@ -107,8 +115,12 @@ describe('convertHeatmapToCsv', () => {
     ]);
   });
 
-  it('should have the group row', () => {
-    const result = convertHeatmapToCsv(mockSortedData, mockAreas[1].code);
+  it('should have the group row second to last', () => {
+    const result = convertHeatmapToCsv(
+      mockSortedData,
+      mockAreas[1].code,
+      mockAreas[0].code
+    );
     const indicatorPoints =
       mockDataPoints[mockIndicators[0].id as keyof typeof mockDataPoints];
     const indicatorAreaPoint =
@@ -128,13 +140,17 @@ describe('convertHeatmapToCsv', () => {
   });
 
   it('should have the area row', () => {
-    const result = convertHeatmapToCsv(mockSortedData, mockAreas[1].code);
+    const result = convertHeatmapToCsv(
+      mockSortedData,
+      mockAreas[1].code,
+      mockAreas[0].code
+    );
     const indicatorPoints =
       mockDataPoints[mockIndicators[0].id as keyof typeof mockDataPoints];
     const indicatorAreaPoint =
       indicatorPoints[mockAreas[2].code as keyof typeof indicatorPoints];
     const { value, benchmark } = indicatorAreaPoint;
-    expect(result[3]).toEqual([
+    expect(result[1]).toEqual([
       mockIndicators[0].id,
       mockIndicators[0].name,
       mockIndicators[0].latestDataPeriod,

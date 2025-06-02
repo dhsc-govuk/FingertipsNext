@@ -39,7 +39,11 @@ export const useHeatmapTableData = (
         benchmarkAreaCode
       ),
       legendsToShow,
-      csvData: convertHeatmapToCsv(sortedData, groupAreaCode),
+      csvData: convertHeatmapToCsv(
+        sortedData,
+        groupAreaCode,
+        benchmarkAreaCode
+      ),
     };
   }, [indicatorData, groupAreaCode, benchmarkAreaCode]);
 };

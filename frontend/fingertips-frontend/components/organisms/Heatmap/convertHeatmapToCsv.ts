@@ -8,7 +8,8 @@ export const convertHeatmapToCsv = (
     indicators,
     dataPoints,
   }: ReturnType<typeof extractSortedAreasIndicatorsAndDataPoints>,
-  groupAreaCode?: string
+  groupAreaCode?: string,
+  benchmarkAreaCode?: string
 ): CsvData => {
   const headers = [
     CsvHeader.IndicatorId,
@@ -24,9 +25,21 @@ export const convertHeatmapToCsv = (
 
   const csvData: CsvData = [headers];
 
+  const benchmarkArea = areas.find(({ code }) => code === benchmarkAreaCode);
+  const groupArea = areas.find(({ code }) => code === groupAreaCode);
+  const areasWithoutGroupOrBenchmark = areas.filter(
+    ({ code }) => code !== benchmarkAreaCode && code !== groupAreaCode
+  );
+  const areasInExportOrder = [
+    ...areasWithoutGroupOrBenchmark,
+    groupArea,
+    benchmarkArea,
+  ];
+
   indicators.forEach((indicator) => {
     const { id, name: indicatorName, latestDataPeriod, unitLabel } = indicator;
-    areas.forEach((area) => {
+    areasInExportOrder.forEach((area) => {
+      if (!area) return;
       const { name: areaName, code: areaCode } = area;
       const dataPointsForArea = dataPoints[id] ?? {};
       const { benchmark, value } = dataPointsForArea[areaCode] ?? {};
