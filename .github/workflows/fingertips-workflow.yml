@@ -90,41 +90,41 @@ jobs:
       fetch-depth: 0
       gitversion-version: '6.0.x'
 
-  # database-build:
-  #   needs: check-changes
-  #   if: >
-  #     github.event_name == 'workflow_dispatch' ||
-  #     needs.check-changes.outputs.db_changed == 'true' ||
-  #     needs.check-changes.outputs.trend_analysis_changed == 'true' ||
-  #     needs.check-changes.outputs.search_changed == 'true'
-  #   name: Build Database
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     dotnet-version: 9.0.x
-  #     dotnet-configuration: 'Release'
-  #     database-directory: ./database/fingertips-db
-  #   defaults:
-  #     run:
-  #       working-directory: ${{ env.database-directory }}
-  #   steps:
-  #     - name: Checkout source
-  #       uses: actions/checkout@v4
+  database-build:
+    needs: check-changes
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      needs.check-changes.outputs.db_changed == 'true' ||
+      needs.check-changes.outputs.trend_analysis_changed == 'true' ||
+      needs.check-changes.outputs.search_changed == 'true'
+    name: Build Database
+    runs-on: ubuntu-latest
+    env:
+      dotnet-version: 9.0.x
+      dotnet-configuration: 'Release'
+      database-directory: ./database/fingertips-db
+    defaults:
+      run:
+        working-directory: ${{ env.database-directory }}
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
 
-  #     - name: Setup .NET
-  #       uses: actions/setup-dotnet@v4
-  #       with:
-  #         dotnet-version: ${{ env.dotnet-version }}
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.dotnet-version }}
 
-  #     - name: Build database project
-  #       run: dotnet build fingertips-db.sqlproj --configuration ${{ env.dotnet-configuration }}
+      - name: Build database project
+        run: dotnet build fingertips-db.sqlproj --configuration ${{ env.dotnet-configuration }}
 
-  #     - name: Upload .dacpac file artifact
-  #       uses: actions/upload-artifact@v4
-  #       if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-  #       with:
-  #         name: dacpac
-  #         path: ${{ env.database-directory }}/bin/${{ env.dotnet-configuration }}/fingertips-db.dacpac
-  #         if-no-files-found: error
+      - name: Upload .dacpac file artifact
+        uses: actions/upload-artifact@v4
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        with:
+          name: dacpac
+          path: ${{ env.database-directory }}/bin/${{ env.dotnet-configuration }}/fingertips-db.dacpac
+          if-no-files-found: error
 
   # api-build-and-test:
   #   needs: [check-changes, determine-version]
