@@ -49,13 +49,13 @@ public class HealthDataRepositoryTests
         PopulateDatabase(new HealthMeasureModelHelper(year: LATESTYEAR)
             .WithIndicatorDimension(indicatorId: INDICATORID)
             .Build());
-        PopulateDatabase(new HealthMeasureModel 
+        PopulateDatabase(new HealthMeasureModel
         {
-            IndicatorDimension=new IndicatorDimensionModel 
+            IndicatorDimension = new IndicatorDimensionModel
             {
-                IndicatorId= INDICATORID 
+                IndicatorId = INDICATORID
             },
-            Year=LATESTYEAR-1 
+            Year = LATESTYEAR - 1
         });
 
         // act

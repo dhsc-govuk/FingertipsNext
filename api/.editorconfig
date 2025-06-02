@@ -1,0 +1,3 @@
+dotnet_analyzer_diagnostic.category-Style.severity = error
+dotnet_analyzer_diagnostic.category-Naming.severity = error
+dotnet_analyzer_diagnostic.category-Maintainability.severity = error

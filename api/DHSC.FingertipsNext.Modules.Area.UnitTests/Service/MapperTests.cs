@@ -120,7 +120,7 @@ public class AreaMapperTests
         {
             area.Code.ShouldBe(areaModel.AreaCode);
             area.Name.ShouldBe(areaModel.AreaName);
-            
+
             area.AreaType.HierarchyName.ShouldBe(areaModel.AreaType.HierarchyType);
             area.AreaType.Name.ShouldBe(areaModel.AreaType.AreaTypeName);
             area.AreaType.Key.ShouldBe(areaModel.AreaType.AreaTypeKey);

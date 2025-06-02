@@ -46,14 +46,14 @@ public class AreaController : ControllerBase
                 Message = "Please provide at least one value for the parameter area_codes"
             });
 
-        if (areaCodes is {Length: > MaxNumberAreas})
+        if (areaCodes is { Length: > MaxNumberAreas })
             return new BadRequestObjectResult(new SimpleError
             {
                 Message =
                     $"Too many values supplied for parameter area_codes. The maximum is {MaxNumberAreas} but {areaCodes.Length} supplied."
             });
 
-        var areasData = await _areaService.GetMultipleAreaDetails(areaCodes);
+        var areasData = await _areaService.GetMultipleAreaDetails(areaCodes).ConfigureAwait(false);
 
         if (areasData.IsNullOrEmpty()) return NotFound();
 
@@ -68,7 +68,7 @@ public class AreaController : ControllerBase
     [ProducesResponseType(typeof(List<string>), StatusCodes.Status200OK)]
     [Route("hierarchies")]
     public async Task<IActionResult> GetHierarchiesAsync() =>
-        Ok(await _areaService.GetHierarchies());
+        Ok(await _areaService.GetHierarchies().ConfigureAwait(false));
 
     /// <summary>
     /// Get area types, optionally filtering by hierarchy type
@@ -79,7 +79,7 @@ public class AreaController : ControllerBase
     [ProducesResponseType(typeof(List<AreaType>), StatusCodes.Status200OK)]
     [Route("areatypes")]
     public async Task<IActionResult> GetAreatypesAsync([FromQuery] string? hierarchy_type = null) =>
-        Ok(await _areaService.GetAreaTypes(hierarchy_type));
+        Ok(await _areaService.GetAreaTypes(hierarchy_type).ConfigureAwait(false));
 
     /// <summary>
     /// Get the full details of a given area, including its parent, optionally including its children.
@@ -109,7 +109,7 @@ public class AreaController : ControllerBase
             include_children,
             include_siblings,
             child_area_type
-        );
+        ).ConfigureAwait(false);
 
         return areaDetails == null ? NotFound() : Ok(areaDetails);
     }
@@ -126,7 +126,7 @@ public class AreaController : ControllerBase
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public async Task<IActionResult> GetAreaDetailsForAreaTypeAsync([FromRoute] string area_type_key)
     {
-        var areaDetails = await _areaService.GetAreaDetailsForAreaType(area_type_key);
+        var areaDetails = await _areaService.GetAreaDetailsForAreaType(area_type_key).ConfigureAwait(false);
 
         return areaDetails.Count == 0 ? NotFound() : Ok(areaDetails);
     }

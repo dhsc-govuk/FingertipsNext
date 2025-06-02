@@ -63,7 +63,7 @@ public class IndicatorControllerTests
     [Fact]
     public async Task GetIndicatorData_DelegatesToService_WhenAllParametersSpecified()
     {
-        await _controller.GetIndicatorDataAsync(1, ["ac1", "ac2"], "someAreaType", years:[1999, 2024], inequalities:["age", "sex"]);
+        await _controller.GetIndicatorDataAsync(1, ["ac1", "ac2"], "someAreaType", years: [1999, 2024], inequalities: ["age", "sex"]);
 
         // expect
         await _indicatorService
@@ -74,8 +74,8 @@ public class IndicatorControllerTests
                 "someAreaType",
                 "",
                 BenchmarkReferenceType.Unknown,
-                years:ArgEx.IsEquivalentTo<int[]>([1999, 2024]),
-                inequalities:ArgEx.IsEquivalentTo<string[]>(["age", "sex"])
+                years: ArgEx.IsEquivalentTo<int[]>([1999, 2024]),
+                inequalities: ArgEx.IsEquivalentTo<string[]>(["age", "sex"])
             );
     }
 
@@ -135,10 +135,10 @@ public class IndicatorControllerTests
     public async Task GetIndicatorData_ReturnsBadResponse_WhenMoreThan10YearsSupplied()
     {
         var response = await _controller.GetIndicatorDataAsync(3, ["areaCode1"], "",
-            years:[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]) as BadRequestObjectResult;
+            years: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]) as BadRequestObjectResult;
 
         response?.StatusCode.ShouldBe(400);
-        (response?.Value as SimpleError)?.Message.Contains("Too many values supplied for parameter years").ShouldBeTrue();
+        (response?.Value as SimpleError)?.Message.Contains("Too many values supplied for parameter years", StringComparison.Ordinal).ShouldBeTrue();
     }
 
     [Fact]
@@ -146,24 +146,24 @@ public class IndicatorControllerTests
     {
         var response = await _controller.GetIndicatorDataAsync(3,
             ["areaCode1", "ac2", "ac3", "ac4", "ac5", "ac6", "ac7", "ac8", "ac9", "ac10", "ac11"], "",
-            years:[1]) as BadRequestObjectResult;
+            years: [1]) as BadRequestObjectResult;
 
         response?.StatusCode.ShouldBe(400);
-        (response?.Value as SimpleError)?.Message.Contains("Too many values supplied for parameter area_codes").ShouldBeTrue();
+        (response?.Value as SimpleError)?.Message.Contains("Too many values supplied for parameter area_codes", StringComparison.Ordinal).ShouldBeTrue();
     }
 
     [Fact]
     public async Task GetIndicatorData_ReturnsBadResponse_WhenAncestorCodeMissing()
     {
         var response = await _controller.GetIndicatorDataAsync(
-            indicatorId:3,
-            areaCodes:["areaCode1"], 
-            areaType:"",
-            ancestorCode:"",
-            benchmarkRefType:BenchmarkReferenceType.SubNational,
+            indicatorId: 3,
+            areaCodes: ["areaCode1"],
+            areaType: "",
+            ancestorCode: "",
+            benchmarkRefType: BenchmarkReferenceType.SubNational,
             years: [1]) as BadRequestObjectResult;
 
         response?.StatusCode.ShouldBe(400);
-        (response?.Value as SimpleError)?.Message.Contains("Missing parameter 'ancestor_code'. When benchmark_ref_type is set to SubNational then the ancestor_code parameter must be set").ShouldBeTrue();
+        (response?.Value as SimpleError)?.Message.Contains("Missing parameter 'ancestor_code'. When benchmark_ref_type is set to SubNational then the ancestor_code parameter must be set", StringComparison.Ordinal).ShouldBeTrue();
     }
 }

@@ -36,14 +36,14 @@ public class AreaModel
     /// </summary>
     [ForeignKey("AreaTypeKey")]
     public required AreaTypeModel AreaType { get; set; }
-    
+
     /// <summary>
     /// 
     /// </summary>
     [MaxLength(50)]
     public string AreaTypeKey { get; set; }
-    
+
     public virtual ICollection<AreaModel> Children { get; set; }
-    
+
     public virtual ICollection<AreaModel> Parents { get; set; }
 }

@@ -34,7 +34,7 @@ public class AreaMapper : IAreaMapper
     public AreaWithRelations Map(AreaWithRelationsModel source)
     {
         var area = Map(source.Area);
-        
+
         return new AreaWithRelations
         {
             Code = area.Code,

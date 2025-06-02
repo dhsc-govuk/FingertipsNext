@@ -23,6 +23,6 @@ public class AreaRelationshipModel
     /// </summary>
     [ForeignKey("ChildAreaKey")]
     public int ChildAreaKey { get; set; }
-    
+
     public AreaModel Child { get; set; }
 }

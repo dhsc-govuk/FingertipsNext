@@ -25,7 +25,7 @@ public class AreaRepository : IAreaRepository
             .Select(areaType => areaType.HierarchyType)
             .Where(areaType => areaType != InternalHierarchyTypes.Both)
             .Distinct()
-            .ToListAsync();
+            .ToListAsync().ConfigureAwait(false);
 
     /// <summary>
     /// Retrieves a list of area models based on the requested area codes.
@@ -50,7 +50,7 @@ public class AreaRepository : IAreaRepository
                 }
             })
             .AsNoTracking()
-            .ToListAsync();
+            .ToListAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -67,7 +67,7 @@ public class AreaRepository : IAreaRepository
         else
             areaTypes = _dbContext.AreaType;
 
-        return await areaTypes.ToListAsync();
+        return await areaTypes.ToListAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -79,7 +79,7 @@ public class AreaRepository : IAreaRepository
         await _dbContext.Area
         .Include(area => area.AreaType)
         .Where(area => area.AreaTypeKey == areaTypeKey)
-        .ToListAsync();
+        .ToListAsync().ConfigureAwait(false);
 
     /// <summary>
     ///
@@ -98,31 +98,32 @@ public class AreaRepository : IAreaRepository
     )
     {
 
-       var area = await _dbContext
-            .Area
-            .Include(area => area.AreaType)
-            .Include(a => a.Children)
-                .ThenInclude(area => area.Children)
+        var area = await _dbContext
+             .Area
+             .Include(area => area.AreaType)
+             .Include(a => a.Children)
+                 .ThenInclude(area => area.Children)
 
-                .Include(area => area.Children)
-                .ThenInclude(area => area.Parents)
+                 .Include(area => area.Children)
+                 .ThenInclude(area => area.Parents)
 
-                .Include(area => area.Children)
-                .ThenInclude(area => area.AreaType)
-                
-            .Include(area => area.Parents)
-                .ThenInclude(area => area.Parents)
+                 .Include(area => area.Children)
+                 .ThenInclude(area => area.AreaType)
 
-                .Include(area => area.Parents)
-                .ThenInclude(area => area.Children)
+             .Include(area => area.Parents)
+                 .ThenInclude(area => area.Parents)
 
-                .Include(area => area.Parents)
-                .ThenInclude(area => area.AreaType)
-            .Where(area => area.AreaCode == areaCode)
-            .AsSplitQuery()
-            .FirstOrDefaultAsync();
+                 .Include(area => area.Parents)
+                 .ThenInclude(area => area.Children)
 
-        if (area == null) {
+                 .Include(area => area.Parents)
+                 .ThenInclude(area => area.AreaType)
+             .Where(area => area.AreaCode == areaCode)
+             .AsSplitQuery()
+             .FirstOrDefaultAsync().ConfigureAwait(false);
+
+        if (area == null)
+        {
             return null;
         }
 
@@ -135,9 +136,9 @@ public class AreaRepository : IAreaRepository
 
         if (includeChildren)
         {
-            areasWithRelations.Children = string.IsNullOrWhiteSpace(childAreaType) ? 
+            areasWithRelations.Children = string.IsNullOrWhiteSpace(childAreaType) ?
                 area.Children.ToList() :
-                (await GetDescendantAreas(area, childAreaType)).ToList();
+                (await GetDescendantAreas(area, childAreaType).ConfigureAwait(false)).ToList();
         }
         return areasWithRelations;
     }
@@ -152,7 +153,7 @@ public class AreaRepository : IAreaRepository
             new SqlParameter("@RequestedAreaType", childAreaTypeKey),
             new SqlParameter("@RequestedAncestorAreaCode", startingArea.AreaCode)
         )
-        .ToListAsync();
+        .ToListAsync().ConfigureAwait(false);
         return [.. areaWithAreaTypeList
             .Select(area => area.Normalise())
             .OrderBy(area => area.AreaType.Level)];

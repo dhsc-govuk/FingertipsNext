@@ -17,20 +17,20 @@ public class AreaRepositoryDbContext : DbContext
     #region Required
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-         modelBuilder.Entity<AreaRelationshipModel>()
-             .HasKey(arm => new {arm.ParentAreaKey, arm.ChildAreaKey});
+        modelBuilder.Entity<AreaRelationshipModel>()
+            .HasKey(arm => new { arm.ParentAreaKey, arm.ChildAreaKey });
 
-         modelBuilder.Entity<AreaModel>()
-             .HasMany(area => area.Children)
-             .WithMany(area => area.Parents)
-             .UsingEntity<AreaRelationshipModel>
-             (
-                areaRelationship => areaRelationship.HasOne(x=>x.Parent).WithMany().HasForeignKey(x => x.ChildAreaKey),
-                areaRelationship => areaRelationship.HasOne(x=>x.Child).WithMany().HasForeignKey(x => x.ParentAreaKey)
-             );
+        modelBuilder.Entity<AreaModel>()
+            .HasMany(area => area.Children)
+            .WithMany(area => area.Parents)
+            .UsingEntity<AreaRelationshipModel>
+            (
+               areaRelationship => areaRelationship.HasOne(x => x.Parent).WithMany().HasForeignKey(x => x.ChildAreaKey),
+               areaRelationship => areaRelationship.HasOne(x => x.Child).WithMany().HasForeignKey(x => x.ParentAreaKey)
+            );
     }
     #endregion
-    
+
     public DbSet<AreaModel> Area { get; set; }
     public DbSet<AreaTypeModel> AreaType { get; set; }
     public DbSet<AreaRelationshipModel> AreaRelationship { get; set; }

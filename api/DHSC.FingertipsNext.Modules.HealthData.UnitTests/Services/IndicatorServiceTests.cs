@@ -297,7 +297,7 @@ public class IndicatorServiceTests
         );
         var areaDataResult = result.Content.AreaHealthData.ToList();
         areaDataResult.ShouldNotBeEmpty();
-        areaDataResult.Count().ShouldBe(1);
+        areaDataResult.Count.ShouldBe(1);
         areaDataResult[0].AreaCode.ShouldBeEquivalentTo(expectedAreaCode);
         areaDataResult[0].AreaName.ShouldBeEquivalentTo(expectedAreaName);
         areaDataResult[0].HealthData.First().BenchmarkComparison.ShouldBeEquivalentTo(null);
@@ -441,7 +441,7 @@ public class IndicatorServiceTests
         );
         var dataResults = result.Content.AreaHealthData.ToList();
         dataResults.ShouldNotBeEmpty();
-        dataResults.Count().ShouldBe(2);
+        dataResults.Count.ShouldBe(2);
 
         var areaResults = dataResults.ElementAt(1);
         areaResults.AreaCode.ShouldBeEquivalentTo(expectedAreaCode);
@@ -640,7 +640,7 @@ public class IndicatorServiceTests
         );
         var areaDataResult = result.Content.AreaHealthData.ToList();
         areaDataResult.ShouldNotBeEmpty();
-        areaDataResult.Count().ShouldBe(1);
+        areaDataResult.Count.ShouldBe(1);
         if (shouldBenchmark)
         {
             areaDataResult
@@ -739,7 +739,7 @@ public class IndicatorServiceTests
         );
         var areaDataResult = result.Content.AreaHealthData.ToList();
         areaDataResult.ShouldNotBeEmpty();
-        areaDataResult.Count().ShouldBe(1);
+        areaDataResult.Count.ShouldBe(1);
 
         var areasResults = areaDataResult.First().HealthData;
         var aggregatePointResult = areasResults.ElementAt(0);

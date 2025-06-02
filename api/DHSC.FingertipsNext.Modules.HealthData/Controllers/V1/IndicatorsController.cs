@@ -69,7 +69,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
                 }
             );
 
-        if ((benchmarkRefType == BenchmarkReferenceType.SubNational) && (ancestorCode == ""))
+        if ((benchmarkRefType == BenchmarkReferenceType.SubNational) && (string.IsNullOrEmpty(ancestorCode)))
             return new BadRequestObjectResult(
                 new SimpleError
                 {
@@ -87,7 +87,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
             years ?? [],
             inequalities ?? [],
             latest_only
-        );
+        ).ConfigureAwait(false);
 
         return indicatorData?.Status switch
         {
@@ -105,7 +105,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     /// </summary>
     /// <param name="areaCode">A list of area codes.</param>
     /// <param name="areaType">The area type the area codes belong to.</param>
-    /// <param name="acncestorCode">the area group for calculating quartiles within.</param>
+    /// <param name="ancestorCode"></param>
     /// <param name="benchmarkRefType">Whether to benchmark against England or SubNational.</param>
     /// <param name="indicatorIds">The unique identifier of the indicator.</param>
     /// <returns></returns>
@@ -120,7 +120,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     public async Task<IActionResult> GetQuartileDataAsync(
         [FromQuery(Name = "indicator_ids")] int[]? indicatorIds = null,
         [FromQuery(Name = "area_code")] string areaCode = "",
-        [FromQuery(Name = "area_type")] string areaType = null,
+        [FromQuery(Name = "area_type")] string? areaType = null,
         [FromQuery(Name = "ancestor_code")] string ancestorCode = "",
         [FromQuery(Name = "benchmark_ref_type")] BenchmarkReferenceType benchmarkRefType = BenchmarkReferenceType.England
         )
@@ -134,7 +134,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
         if (areaType is null)
             return new BadRequestObjectResult(new SimpleError { Message = $"Parameter area_type must be supplied." });
 
-        if ((benchmarkRefType == BenchmarkReferenceType.SubNational) && ancestorCode == "")
+        if ((benchmarkRefType == BenchmarkReferenceType.SubNational) && string.IsNullOrEmpty(ancestorCode))
             return new BadRequestObjectResult(new SimpleError { Message = $"Parameter ancestor_code must be supplied if benchmark_ref_type is set to SubNational." });
 
         var quartileData = await _indicatorsService.GetQuartileDataAsync(
@@ -143,7 +143,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
             areaType,
             ancestorCode,
             benchmarkRefType == BenchmarkReferenceType.SubNational ? ancestorCode : "E92000001"
-        );
+        ).ConfigureAwait(false);
 
         return quartileData == null ? NotFound() : Ok(quartileData);
     }

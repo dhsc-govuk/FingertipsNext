@@ -5,7 +5,7 @@ namespace DHSC.FingertipsNext.Modules.Area.Schemas;
 /// <summary>
 /// An area or geography that has associated public health data
 /// </summary>
-public class AreaWithRelations: Area
+public class AreaWithRelations : Area
 {
     /// <summary>
     ///

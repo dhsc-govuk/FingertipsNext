@@ -37,7 +37,7 @@ public class AreaService : IAreaService
     /// <returns>List of areas requested</returns>
     public async Task<List<Schemas.Area>> GetMultipleAreaDetails(string[] areaCodes)
     {
-        return _areaMapper.Map(await _areaRepository.GetMultipleAreaDetailsAsync(areaCodes));
+        return _areaMapper.Map(await _areaRepository.GetMultipleAreaDetailsAsync(areaCodes).ConfigureAwait(false));
     }
 
     /// <summary>
@@ -46,7 +46,7 @@ public class AreaService : IAreaService
     /// <param name="hierarchyType"></param>
     /// <returns></returns>
     public async Task<List<AreaType>> GetAreaTypes(string? hierarchyType = null) =>
-        _areaMapper.Map(await _areaRepository.GetAreaTypesAsync(hierarchyType));
+        _areaMapper.Map(await _areaRepository.GetAreaTypesAsync(hierarchyType).ConfigureAwait(false));
 
     /// <summary>
     ///
@@ -68,7 +68,7 @@ public class AreaService : IAreaService
             includeChildren ?? false,
             includeSiblings ?? false,
             childAreaType
-        );
+        ).ConfigureAwait(false);
 
         return area == null ? null : _areaMapper.Map(area);
     }
@@ -80,7 +80,7 @@ public class AreaService : IAreaService
     /// <returns></returns>
     public async Task<List<Schemas.Area>> GetAreaDetailsForAreaType(string areaTypeKey)
     {
-        var areas = await _areaRepository.GetAreasForAreaTypeAsync(areaTypeKey);
+        var areas = await _areaRepository.GetAreasForAreaTypeAsync(areaTypeKey).ConfigureAwait(false);
 
         return _areaMapper.Map(areas);
     }
@@ -96,6 +96,6 @@ public class AreaService : IAreaService
     ///
     /// </summary>
     /// <param name="services"></param>
-    public static void RegisterMappings(IServiceCollection services) => 
+    public static void RegisterMappings(IServiceCollection services) =>
         services.AddSingleton<IAreaMapper, AreaMapper>();
 }
