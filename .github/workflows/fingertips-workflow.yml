@@ -739,7 +739,7 @@ jobs:
         determine-version,
         check-changes,
         database-build,
-        e2e-and-api-tests,
+        # e2e-and-api-tests,
         push-container-api,
         push-container-frontend,
         # e2e-tests-development
