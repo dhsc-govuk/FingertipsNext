@@ -2,31 +2,30 @@ import { convertHeatmapToCsv } from '@/components/organisms/Heatmap/convertHeatm
 import { extractSortedAreasIndicatorsAndDataPoints } from '@/components/organisms/Heatmap/heatmapUtil';
 import { CsvHeader } from '@/components/molecules/Export/export.types';
 
-const mockAreas = [
-  {
-    code: 'E92000001',
-    name: 'England',
-  },
-  {
-    code: 'E12000002',
-    name: 'North West Region',
-  },
-  {
-    code: 'E06000008',
-    name: 'Blackburn with Darwen',
-  },
-];
+const mockEngland = {
+  code: 'E92000001',
+  name: 'England',
+};
 
-const mockIndicators = [
-  {
-    id: '41101',
-    name: 'Emergency readmissions within 30 days of discharge from hospital',
-    unitLabel: '%',
-    latestDataPeriod: 2023,
-    benchmarkMethod: 'CIOverlappingReferenceValue95',
-    polarity: 'LowIsGood',
-  },
-];
+const mockNorthWest = {
+  code: 'E12000002',
+  name: 'North West Region',
+};
+
+const mockBlackburnAndDarwen = {
+  code: 'E06000008',
+  name: 'Blackburn with Darwen',
+};
+const mockAreas = [mockEngland, mockNorthWest, mockBlackburnAndDarwen];
+
+const mockIndicator = {
+  id: '41101',
+  name: 'Emergency readmissions within 30 days of discharge from hospital',
+  unitLabel: '%',
+  latestDataPeriod: 2023,
+  benchmarkMethod: 'CIOverlappingReferenceValue95',
+  polarity: 'LowIsGood',
+};
 
 const mockDataPoints = {
   '41101': {
@@ -68,7 +67,7 @@ const mockDataPoints = {
 
 const mockSortedData = {
   areas: mockAreas,
-  indicators: mockIndicators,
+  indicators: [mockIndicator],
   dataPoints: mockDataPoints,
 } as ReturnType<typeof extractSortedAreasIndicatorsAndDataPoints>;
 
@@ -76,8 +75,8 @@ describe('convertHeatmapToCsv', () => {
   it('should have the correct headers', () => {
     const result = convertHeatmapToCsv(
       mockSortedData,
-      mockAreas[1].code,
-      mockAreas[0].code
+      mockNorthWest.code,
+      mockEngland.code
     );
     expect(result[0]).toEqual([
       CsvHeader.IndicatorId,
@@ -95,22 +94,22 @@ describe('convertHeatmapToCsv', () => {
   it('should have the benchmark row', () => {
     const result = convertHeatmapToCsv(
       mockSortedData,
-      mockAreas[1].code,
-      mockAreas[0].code
+      mockNorthWest.code,
+      mockEngland.code
     );
     const indicatorPoints =
-      mockDataPoints[mockIndicators[0].id as keyof typeof mockDataPoints];
+      mockDataPoints[mockIndicator.id as keyof typeof mockDataPoints];
     const indicatorAreaPoint =
-      indicatorPoints[mockAreas[0].code as keyof typeof indicatorPoints];
+      indicatorPoints[mockEngland.code as keyof typeof indicatorPoints];
     expect(result[3]).toEqual([
-      mockIndicators[0].id,
-      mockIndicators[0].name,
-      mockIndicators[0].latestDataPeriod,
-      mockAreas[0].name,
-      mockAreas[0].code,
+      mockIndicator.id,
+      mockIndicator.name,
+      mockIndicator.latestDataPeriod,
+      mockEngland.name,
+      mockEngland.code,
       undefined,
       undefined,
-      mockIndicators[0].unitLabel,
+      mockIndicator.unitLabel,
       indicatorAreaPoint.value,
     ]);
   });
@@ -118,23 +117,23 @@ describe('convertHeatmapToCsv', () => {
   it('should have the group row second to last', () => {
     const result = convertHeatmapToCsv(
       mockSortedData,
-      mockAreas[1].code,
-      mockAreas[0].code
+      mockNorthWest.code,
+      mockEngland.code
     );
     const indicatorPoints =
-      mockDataPoints[mockIndicators[0].id as keyof typeof mockDataPoints];
+      mockDataPoints[mockIndicator.id as keyof typeof mockDataPoints];
     const indicatorAreaPoint =
-      indicatorPoints[mockAreas[1].code as keyof typeof indicatorPoints];
+      indicatorPoints[mockNorthWest.code as keyof typeof indicatorPoints];
     const { value, benchmark } = indicatorAreaPoint;
     expect(result[2]).toEqual([
-      mockIndicators[0].id,
-      mockIndicators[0].name,
-      mockIndicators[0].latestDataPeriod,
-      `Group: ${mockAreas[1].name}`,
-      mockAreas[1].code,
+      mockIndicator.id,
+      mockIndicator.name,
+      mockIndicator.latestDataPeriod,
+      `Group: ${mockNorthWest.name}`,
+      mockNorthWest.code,
       benchmark.benchmarkAreaCode,
       benchmark.outcome,
-      mockIndicators[0].unitLabel,
+      mockIndicator.unitLabel,
       value,
     ]);
   });
@@ -142,24 +141,37 @@ describe('convertHeatmapToCsv', () => {
   it('should have the area row', () => {
     const result = convertHeatmapToCsv(
       mockSortedData,
-      mockAreas[1].code,
-      mockAreas[0].code
+      mockNorthWest.code,
+      mockEngland.code
     );
     const indicatorPoints =
-      mockDataPoints[mockIndicators[0].id as keyof typeof mockDataPoints];
+      mockDataPoints[mockIndicator.id as keyof typeof mockDataPoints];
     const indicatorAreaPoint =
-      indicatorPoints[mockAreas[2].code as keyof typeof indicatorPoints];
+      indicatorPoints[
+        mockBlackburnAndDarwen.code as keyof typeof indicatorPoints
+      ];
     const { value, benchmark } = indicatorAreaPoint;
     expect(result[1]).toEqual([
-      mockIndicators[0].id,
-      mockIndicators[0].name,
-      mockIndicators[0].latestDataPeriod,
-      mockAreas[2].name,
-      mockAreas[2].code,
+      mockIndicator.id,
+      mockIndicator.name,
+      mockIndicator.latestDataPeriod,
+      mockBlackburnAndDarwen.name,
+      mockBlackburnAndDarwen.code,
       benchmark.benchmarkAreaCode,
       benchmark.outcome,
-      mockIndicators[0].unitLabel,
+      mockIndicator.unitLabel,
       value,
     ]);
+  });
+
+  it('should put england at the end if the benchmark is also the group', () => {
+    const result = convertHeatmapToCsv(
+      mockSortedData,
+      mockNorthWest.code,
+      mockNorthWest.code
+    );
+    expect(result[1][3]).toEqual(mockBlackburnAndDarwen.name);
+    expect(result[2][3]).toEqual(`Group: ${mockNorthWest.name}`);
+    expect(result[3][3]).toEqual(mockEngland.name);
   });
 });
