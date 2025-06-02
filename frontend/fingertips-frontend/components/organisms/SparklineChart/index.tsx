@@ -33,7 +33,7 @@ interface SparklineChartProps {
   measurementUnit: string | undefined;
   barColor?: string;
   benchmarkArea?: string;
-  showLabel?: boolean;
+  showComparisonLabels?: boolean;
 }
 
 export function SparklineChart({
@@ -50,7 +50,7 @@ export function SparklineChart({
   measurementUnit,
   barColor,
   benchmarkArea,
-  showLabel = true,
+  showComparisonLabels = true,
 }: Readonly<SparklineChartProps>) {
   const benchmarkColor = getBenchmarkColour(
     benchmarkComparisonMethod,
@@ -68,7 +68,7 @@ export function SparklineChart({
       label,
       benchmarkComparisonMethod,
       benchmarkArea,
-      showLabel
+      showComparisonLabels
     );
 
     const symbolStyles = [

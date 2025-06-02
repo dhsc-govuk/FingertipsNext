@@ -282,7 +282,7 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
                   year={englandDataPoint.year}
                   measurementUnit={measurementUnit}
                   barColor={GovukColours.DarkGrey}
-                  showLabel={showComparisonLabels}
+                  showComparisonLabels={showComparisonLabels}
                 ></SparklineChart>
               </Table.Cell>
               <FormatNumberInTableCell
