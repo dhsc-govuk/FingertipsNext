@@ -37,7 +37,7 @@ export const convertHeatmapToCsv = (
   );
   const areasInExportOrder = [...areasWithoutGroupOrBenchmark];
   const areasToAppend = [groupArea, benchmarkArea, englandArea];
-  areasToAppend.filter((appendixArea) => {
+  areasToAppend.forEach((appendixArea) => {
     const alreadyIncluded = areasInExportOrder.some(
       (area) => area.code === appendixArea?.code
     );
