@@ -48,6 +48,9 @@ export const TabContainer = ({
           selected={tabIndex === index}
           key={id}
           data-testid={`tabContent-${id}`}
+          style={{
+            paddingBottom: '5px',
+          }}
         >
           {content}
           <div data-testid={`tabFooter-${id}`}>{footer}</div>
