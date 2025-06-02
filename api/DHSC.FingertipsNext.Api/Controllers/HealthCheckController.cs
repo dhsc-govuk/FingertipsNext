@@ -4,7 +4,7 @@ namespace DHSC.FingertipsNext.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-internal class HealthCheckController : ControllerBase
+public class HealthCheckController : ControllerBase
 {
     [HttpGet(Name = "GetHealthCheck")]
     public IActionResult Get() => Ok(new { status = "Healthy" });
