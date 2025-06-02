@@ -8,46 +8,40 @@ import {
   heatmapIndicatorTitleColumnWidth,
 } from './heatmapUtil';
 
-const StyledDivRotate = styled.div({
-  transform: 'translate(-15px) rotate(30deg)',
-  transformOrigin: 'bottom right',
-});
-
-const StyledH4AreaScaled = styled(H4)({
-  transform: 'scale(-1)',
-  transformOrigin: 'center',
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
-  overflow: 'hidden',
-  maxWidth: '40px',
-  writingMode: 'vertical-lr',
-  maxHeight: '300px',
-  display: 'block',
-  margin: '0px',
-});
-
-const StyledH4BenchmarkHeader = styled(StyledH4AreaScaled)({
-  backgroundColor: GovukColours.MidGrey,
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  paddingLeft: '4px',
-  paddingRight: '4px',
-});
-
-const StyledH4GroupAreaCodeHeader = styled(StyledH4AreaScaled)({
-  backgroundColor: GovukColours.LightGrey,
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  paddingLeft: '4px',
-  paddingRight: '4px',
+const StyledDiv = styled.div({
+  position: 'relative',
+  height: '50px',
 });
 
 const StyledH4Header = styled(H4)({
-  height: '30px',
+  height: '50px',
+  margin: 0,
 });
 
 const StyledH4IndicatorHeader = styled(StyledH4Header)({
   width: `${heatmapIndicatorTitleColumnWidth}px`,
+});
+
+const StyledH4AreaScaled = styled(H4)({
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  overflowX: 'hidden',
+  display: 'block',
+  margin: '0px',
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  padding: '4px 8px',
+  transformOrigin: 'top left',
+  transform: 'translate(0, 15px) rotate(-60deg)',
+});
+
+const StyledH4PrimaryBenchmarkHeader = styled(StyledH4AreaScaled)({
+  backgroundColor: GovukColours.MidGrey,
+});
+
+const StyledH4SecondaryBenchmarkHeader = styled(StyledH4AreaScaled)({
+  backgroundColor: GovukColours.LightGrey,
 });
 
 const stickyLeft = {
@@ -55,7 +49,7 @@ const stickyLeft = {
   position: 'sticky',
   left: 0,
   zIndex: 1,
-  paddingRight: '0.5em',
+  paddingRight: '10px',
 };
 
 interface HeatmapHeaderProps {
@@ -74,7 +68,8 @@ const StyledCellHeaderArea = styled(Table.CellHeader)({
   verticalAlign: 'bottom',
   width: `${heatmapDataColumnWidth}px`,
   paddingRight: '0px',
-  paddingLeft: '1em',
+  paddingLeft: '10px',
+  height: '300px',
 });
 
 const StyledCellHeaderIndicatorInformationValueUnit = styled(Table.CellHeader)({
@@ -117,26 +112,26 @@ export const HeatmapHeader: FC<HeatmapHeaderProps> = ({
         </StyledCellHeaderIndicatorInformationValueUnit>
       );
 
-    case HeaderType.BenchmarkArea: {
+    case HeaderType.PrimaryBenchmarkArea: {
       return (
         <StyledCellHeaderArea>
-          <StyledDivRotate>
-            <StyledH4BenchmarkHeader>
-              Benchmark: {content}
-            </StyledH4BenchmarkHeader>
-          </StyledDivRotate>
+          <StyledDiv>
+            <StyledH4PrimaryBenchmarkHeader>
+              {content}
+            </StyledH4PrimaryBenchmarkHeader>
+          </StyledDiv>
         </StyledCellHeaderArea>
       );
     }
 
-    case HeaderType.GroupArea: {
+    case HeaderType.SecondaryBenchmarkArea: {
       return (
         <StyledCellHeaderArea>
-          <StyledDivRotate>
-            <StyledH4GroupAreaCodeHeader>
-              Group: {content}
-            </StyledH4GroupAreaCodeHeader>
-          </StyledDivRotate>
+          <StyledDiv>
+            <StyledH4SecondaryBenchmarkHeader>
+              {content}
+            </StyledH4SecondaryBenchmarkHeader>
+          </StyledDiv>
         </StyledCellHeaderArea>
       );
     }
@@ -144,9 +139,9 @@ export const HeatmapHeader: FC<HeatmapHeaderProps> = ({
     case HeaderType.Area:
       return (
         <StyledCellHeaderArea>
-          <StyledDivRotate>
+          <StyledDiv>
             <StyledH4AreaScaled>{content}</StyledH4AreaScaled>
-          </StyledDivRotate>
+          </StyledDiv>
         </StyledCellHeaderArea>
       );
   }

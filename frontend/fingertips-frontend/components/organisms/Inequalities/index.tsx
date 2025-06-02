@@ -6,10 +6,11 @@ import {
 import { InequalitiesForSingleTimePeriod } from '@/components/molecules/Inequalities/InequalitiesForSingleTimePeriod';
 import { InequalitiesTrend } from '@/components/molecules/Inequalities/InequalitiesTrend';
 import { SearchStateParams } from '@/lib/searchStateManager';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 interface InequalitiesProps {
   healthIndicatorData: HealthDataForArea[];
-  measurementUnit?: string;
+  indicatorMetadata?: IndicatorDocument;
   searchState: SearchStateParams;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
@@ -18,7 +19,7 @@ interface InequalitiesProps {
 
 export function Inequalities({
   healthIndicatorData,
-  measurementUnit,
+  indicatorMetadata,
   searchState,
   benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
   polarity = IndicatorPolarity.Unknown,
@@ -29,14 +30,14 @@ export function Inequalities({
       <InequalitiesForSingleTimePeriod
         healthIndicatorData={healthIndicatorData}
         searchState={searchState}
-        measurementUnit={measurementUnit}
+        indicatorMetadata={indicatorMetadata}
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
         dataSource={dataSource}
       />
       <InequalitiesTrend
         healthIndicatorData={healthIndicatorData}
-        measurementUnit={measurementUnit}
+        indicatorMetadata={indicatorMetadata}
         searchState={searchState}
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         dataSource={dataSource}

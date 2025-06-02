@@ -57,9 +57,21 @@ namespace DataCreator
 
         [CsvColumn(FieldIndex = 17)]
         public int IsDeprivationAggregatedOrSingle { get; set; }
+        
+        public string TimePeriodSortable { get; set; }
+
+        // DHSCFT-750
+        [CsvColumn(FieldIndex = 18)]
+        public string FromDate { get; set; }
+        
+        [CsvColumn(FieldIndex = 19)]
+        public string ToDate { get; set; }
+
+        [CsvColumn(FieldIndex = 20)]
+        public string Period { get; set; }
 
         //avoid line ending nonsense in csv
-        [CsvColumn(FieldIndex = 18)]
+        [CsvColumn(FieldIndex = 21)]
         public int Avoid { get; set; }
     }
 }

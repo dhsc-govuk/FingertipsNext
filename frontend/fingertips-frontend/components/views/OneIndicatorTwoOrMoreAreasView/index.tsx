@@ -22,7 +22,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     [SearchParams.GroupTypeSelected]: selectedGroupType,
     [SearchParams.AreaTypeSelected]: selectedAreaType,
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
-    [SearchParams.LineChartBenchmarkAreaSelected]: lineChartAreaSelected,
+    [SearchParams.BenchmarkAreaSelected]: benchmarkAreaSelected,
   } = stateManager.getSearchState();
 
   const areaCodes = determineAreaCodes(
@@ -45,34 +45,25 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     selectedGroupType,
   };
 
-  const benchmarkRefType = determineBenchmarkRefType(lineChartAreaSelected);
+  const benchmarkRefType = determineBenchmarkRefType(benchmarkAreaSelected);
 
-  const indicatorDataIncludingEmptyAreas = await getIndicatorData(
+  const indicatorData = await getIndicatorData(
     indicatorsAndAreas,
-    true,
     benchmarkRefType,
     areaCodes.length > 2
   );
-
-  const indicatorDataAvailableAreas = {
-    ...indicatorDataIncludingEmptyAreas,
-    areaHealthData: indicatorDataIncludingEmptyAreas.areaHealthData?.filter(
-      (area) => area.healthData.length
-    ),
-  };
 
   const indicatorMetadata = selectedIndicatorsData?.[0];
   return (
     <ViewsWrapper
       areaCodes={areaCodes}
-      indicatorsDataForAreas={[indicatorDataAvailableAreas]}
+      indicatorsDataForAreas={[indicatorData]}
     >
       <OneIndicatorTwoOrMoreAreasViewPlots
         areaCodes={areaCodes}
-        indicatorData={indicatorDataAvailableAreas}
+        indicatorData={indicatorData}
         searchState={searchState}
         indicatorMetadata={indicatorMetadata}
-        indicatorDataAllAreas={indicatorDataIncludingEmptyAreas}
       />
     </ViewsWrapper>
   );

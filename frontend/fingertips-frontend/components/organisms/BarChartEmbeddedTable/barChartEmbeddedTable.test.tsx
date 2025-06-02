@@ -12,6 +12,8 @@ import {
   personsSex,
 } from '@/lib/mocks';
 import { formatNumber } from '@/lib/numberFormatter';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 function cloneDeep<T>(input: T) {
   return JSON.parse(JSON.stringify(input)) as T;
@@ -172,7 +174,10 @@ describe('BarChartEmbeddedTable', () => {
 
   it('should render BarChartEmbeddedTable component', async () => {
     render(
-      <BarChartEmbeddedTable healthIndicatorData={mockHealthIndicatorData} />
+      <BarChartEmbeddedTable
+        benchmarkToUse={areaCodeForEngland}
+        healthIndicatorData={mockHealthIndicatorData}
+      />
     );
 
     expect(await screen.findByRole('table')).toBeInTheDocument();
@@ -185,7 +190,8 @@ describe('BarChartEmbeddedTable', () => {
     render(
       <BarChartEmbeddedTable
         healthIndicatorData={mockHealthIndicatorData}
-        benchmarkData={mockBenchmarkData}
+        benchmarkToUse={areaCodeForEngland}
+        englandData={mockBenchmarkData}
       />
     );
 
@@ -199,7 +205,8 @@ describe('BarChartEmbeddedTable', () => {
     render(
       <BarChartEmbeddedTable
         healthIndicatorData={mockHealthIndicatorData}
-        benchmarkData={mockBenchmarkData}
+        benchmarkToUse={areaCodeForEngland}
+        englandData={mockBenchmarkData}
         groupIndicatorData={mockGroupData}
       />
     );
@@ -211,11 +218,12 @@ describe('BarChartEmbeddedTable', () => {
   });
 
   it('should not display group row or benchmark row in the table, when no data is passed', async () => {
-    await act(() => {
+    await act(async () => {
       render(
         <BarChartEmbeddedTable
           healthIndicatorData={mockHealthIndicatorData}
-          benchmarkData={undefined}
+          benchmarkToUse={areaCodeForEngland}
+          englandData={undefined}
           groupIndicatorData={undefined}
         />
       );
@@ -226,11 +234,12 @@ describe('BarChartEmbeddedTable', () => {
   });
 
   it('should display data table row colours for benchmark and group', async () => {
-    await act(() => {
+    await act(async () => {
       render(
         <BarChartEmbeddedTable
           healthIndicatorData={mockHealthIndicatorData}
-          benchmarkData={mockBenchmarkData}
+          benchmarkToUse={areaCodeForEngland}
+          englandData={mockBenchmarkData}
         />
       );
     });
@@ -252,7 +261,10 @@ describe('BarChartEmbeddedTable', () => {
 
     await act(() =>
       render(
-        <BarChartEmbeddedTable healthIndicatorData={mockHealthIndicatorData} />
+        <BarChartEmbeddedTable
+          benchmarkToUse={areaCodeForEngland}
+          healthIndicatorData={mockHealthIndicatorData}
+        />
       )
     );
 
@@ -281,7 +293,12 @@ describe('BarChartEmbeddedTable', () => {
       .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
 
     await act(() =>
-      render(<BarChartEmbeddedTable healthIndicatorData={mockData} />)
+      render(
+        <BarChartEmbeddedTable
+          benchmarkToUse={areaCodeForEngland}
+          healthIndicatorData={mockData}
+        />
+      )
     );
 
     const header = screen.getAllByRole('columnheader');
@@ -302,7 +319,8 @@ describe('BarChartEmbeddedTable', () => {
     render(
       <BarChartEmbeddedTable
         healthIndicatorData={mockHealthIndicatorData}
-        benchmarkData={mockBenchmarkData}
+        benchmarkToUse={areaCodeForEngland}
+        englandData={mockBenchmarkData}
       />
     );
 
@@ -310,11 +328,37 @@ describe('BarChartEmbeddedTable', () => {
     expect(noValueCells).toHaveLength(2);
   });
 
+  it('should display an empty area row with x-s and no spark line chart', async () => {
+    const emptyRowData = [
+      {
+        areaCode: mockHealthIndicatorData[0].areaCode,
+        areaName: mockHealthIndicatorData[0].areaName,
+        healthData: [],
+      },
+    ];
+
+    render(
+      <BarChartEmbeddedTable
+        healthIndicatorData={emptyRowData}
+        benchmarkToUse={areaCodeForEngland}
+      />
+    );
+
+    const noValueCells = await screen.findAllByText('X');
+    expect(noValueCells).toHaveLength(4);
+
+    const sparkline = screen.queryAllByTestId(
+      'highcharts-react-component-barChartEmbeddedTable'
+    );
+    expect(sparkline).toHaveLength(0);
+  });
+
   it('should display correct aria label when then is no value', async () => {
     render(
       <BarChartEmbeddedTable
         healthIndicatorData={mockHealthIndicatorData}
-        benchmarkData={mockBenchmarkData}
+        benchmarkToUse={areaCodeForEngland}
+        englandData={mockBenchmarkData}
       />
     );
 
@@ -326,7 +370,8 @@ describe('BarChartEmbeddedTable', () => {
     render(
       <BarChartEmbeddedTable
         healthIndicatorData={mockHealthIndicatorData}
-        benchmarkData={mockBenchmarkData}
+        benchmarkToUse={areaCodeForEngland}
+        englandData={mockBenchmarkData}
       />
     );
 
@@ -342,7 +387,8 @@ describe('BarChartEmbeddedTable', () => {
     render(
       <BarChartEmbeddedTable
         healthIndicatorData={mockHealthIndicatorData}
-        benchmarkData={mockBenchmarkData}
+        benchmarkToUse={areaCodeForEngland}
+        englandData={mockBenchmarkData}
       />
     );
     const checkbox = await screen.findByRole('checkbox');
@@ -351,14 +397,15 @@ describe('BarChartEmbeddedTable', () => {
 
   // DHSCFT-372 - Add trends to the compare areas bar charts
   it('should render the correct trend for all data provided', async () => {
-    await act(() => {
+    await act(() =>
       render(
         <BarChartEmbeddedTable
           healthIndicatorData={mockHealthIndicatorData}
-          benchmarkData={mockBenchmarkData}
+          benchmarkToUse={areaCodeForEngland}
+          englandData={mockBenchmarkData}
         />
-      );
-    });
+      )
+    );
 
     const trendTags = screen.getAllByTestId('trend-tag-component');
 
@@ -373,13 +420,34 @@ describe('BarChartEmbeddedTable', () => {
     render(
       <BarChartEmbeddedTable
         healthIndicatorData={mockHealthIndicatorData}
-        benchmarkData={mockBenchmarkData}
-        dataSource={'bar chart data source'}
+        benchmarkToUse={areaCodeForEngland}
+        englandData={mockBenchmarkData}
+        indicatorMetadata={
+          {
+            indicatorID: '1',
+            indicatorName: 'Indicator',
+            dataSource: 'bar chart data source',
+          } as IndicatorDocument
+        }
       />
     );
 
     expect(
       await screen.findByText('Data source: bar chart data source')
+    ).toBeInTheDocument();
+  });
+
+  it('should render the export button', async () => {
+    render(
+      <BarChartEmbeddedTable
+        healthIndicatorData={mockHealthIndicatorData}
+        benchmarkToUse={areaCodeForEngland}
+        englandData={mockBenchmarkData}
+      />
+    );
+
+    expect(
+      await screen.findByRole('button', { name: `Export options` })
     ).toBeInTheDocument();
   });
 });

@@ -9,6 +9,7 @@ import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { getHealthDataForIndicator } from '@/lib/ViewsHelpers';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
+import { BenchmarkReferenceType } from '@/generated-sources/ft-api-client';
 
 export default async function TwoOrMoreIndicatorsEnglandView({
   searchState,
@@ -48,6 +49,7 @@ export default async function TwoOrMoreIndicatorsEnglandView({
         indicatorApi,
         indicator,
         [{ areaCodes: [areaCodeForEngland], areaType: englandAreaType.key }],
+        BenchmarkReferenceType.England,
         true
       );
     })

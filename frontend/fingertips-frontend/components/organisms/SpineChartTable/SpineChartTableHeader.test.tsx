@@ -2,12 +2,16 @@ import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { SpineChartTableHeader } from './SpineChartTableHeader';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { SearchParams } from '@/lib/searchStateManager';
 
 describe('Spine chart table header', () => {
   const mockHeaderData = {
     area: 'testArea',
     group: 'testGroup',
   };
+
+  const mockSearchState = { [SearchParams.GroupSelected]: 'A001' };
 
   it('should contain the expected elements', () => {
     render(
@@ -16,6 +20,8 @@ describe('Spine chart table header', () => {
           <SpineChartTableHeader
             areaNames={[mockHeaderData.area]}
             groupName={mockHeaderData.group}
+            benchmarkToUse={areaCodeForEngland}
+            searchState={mockSearchState}
           />
         </thead>
       </table>
@@ -45,6 +51,8 @@ describe('Spine chart table header', () => {
           <SpineChartTableHeader
             areaNames={[mockHeaderData.area]}
             groupName={mockHeaderData.group}
+            benchmarkToUse={areaCodeForEngland}
+            searchState={mockSearchState}
           />
         </thead>
       </table>
@@ -65,13 +73,15 @@ describe('Spine chart table header', () => {
     );
   });
 
-  it('should have light grey cell color for the group column', () => {
+  it('should have light grey cell color for the alternative benchmark column', () => {
     render(
       <table>
         <thead>
           <SpineChartTableHeader
             areaNames={[mockHeaderData.area]}
             groupName={mockHeaderData.group}
+            benchmarkToUse={areaCodeForEngland}
+            searchState={mockSearchState}
           />
         </thead>
       </table>
@@ -93,6 +103,8 @@ describe('Spine chart table header', () => {
           <SpineChartTableHeader
             areaNames={['East of England Region', 'East Midlands Region']}
             groupName={mockHeaderData.group}
+            benchmarkToUse={areaCodeForEngland}
+            searchState={mockSearchState}
           />
         </thead>
       </table>
@@ -126,6 +138,10 @@ describe('Spine chart table header', () => {
           <SpineChartTableHeader
             areaNames={['East of England Region']}
             groupName={'England'}
+            benchmarkToUse={areaCodeForEngland}
+            searchState={{
+              [SearchParams.GroupSelected]: areaCodeForEngland,
+            }}
           />
         </thead>
       </table>

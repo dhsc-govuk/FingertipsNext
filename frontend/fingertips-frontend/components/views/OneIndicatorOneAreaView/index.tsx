@@ -27,7 +27,7 @@ export default async function OneIndicatorOneAreaView({
     [SearchParams.IndicatorsSelected]: indicatorSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreaTypeSelected]: areaTypeSelected,
-    [SearchParams.LineChartBenchmarkAreaSelected]: lineChartAreaSelected,
+    [SearchParams.BenchmarkAreaSelected]: benchmarkAreaSelected,
   } = stateManager.getSearchState();
 
   const areaCodes = determineAreaCodes(areasSelected);
@@ -52,7 +52,7 @@ export default async function OneIndicatorOneAreaView({
       ? englandAreaType.key
       : areaTypeSelected;
 
-  const benchmarkRefType = determineBenchmarkRefType(lineChartAreaSelected);
+  const benchmarkRefType = determineBenchmarkRefType(benchmarkAreaSelected);
 
   let indicatorData: IndicatorWithHealthDataForArea | undefined;
   try {
@@ -66,8 +66,8 @@ export default async function OneIndicatorOneAreaView({
         ],
         areaType: areaTypeToUse,
         benchmarkRefType,
-        areaGroup:
-          benchmarkRefType === BenchmarkReferenceType.AreaGroup
+        ancestorCode:
+          benchmarkRefType === BenchmarkReferenceType.SubNational
             ? selectedGroupCode
             : undefined,
       },

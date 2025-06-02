@@ -273,11 +273,10 @@ paths:
         - $ref: "#/components/parameters/indicator_id"
         - $ref: "#/components/parameters/area_codes"
         - $ref: "#/components/parameters/area_type"
-        - $ref: "#/components/parameters/area_group"
+        - $ref: "#/components/parameters/ancestor_code"
         - $ref: "#/components/parameters/benchmark_ref_type"
         - $ref: "#/components/parameters/years"
         - $ref: "#/components/parameters/inequalities"
-        - $ref: "#/components/parameters/include_empty_areas"
         - $ref: "#/components/parameters/latest_only"
       operationId: getHealthDataForAnIndicator
   /indicators/quartiles:
@@ -285,13 +284,45 @@ paths:
       tags:
         - indicators
       summary: Get quartile values for indicators
-      description: |
+      description:
         Get quartile information for indicators including
       parameters:
-        - $ref: "#/components/parameters/indicator_ids"
-        - $ref: "#/components/parameters/area_code"
-        - $ref: "#/components/parameters/area_type"
-        - $ref: "#/components/parameters/ancestor_code"
+        - name: ancestor_code
+          in: query
+          style: simple
+          schema:
+            type: string
+            example: E12000001
+          explode: false
+          description: The area code of an ancestor area
+        - name: area_code
+          in: query
+          style: simple
+          schema:
+            type: string
+            example: G82109
+          explode: false
+          description: The area code of the area/ geography
+        - name: area_type
+          in: query
+          description: The area type which the areas belong to
+          schema:
+            type: string
+        - name: indicator_ids
+          in: query
+          description: A list of indicator_ids, up to 10 can be requested
+          style: form
+          schema:
+            type: array
+            items:
+              type: integer
+              example: 1234
+            maxItems: 10
+        - name: benchmark_ref_type
+          in: query
+          description: The benchmark reference type
+          schema:
+            $ref: "#/components/schemas/BenchmarkReferenceType"
       responses:
         "200":
           description: search results matching criteria
@@ -377,12 +408,12 @@ components:
       enum: 
         [
           England,
-          AreaGroup
+          SubNational
         ]
       x-enum-varnames:
         [
           England,
-          AreaGroup
+          SubNational
         ]
     AreaType:
       type: object
@@ -736,16 +767,6 @@ components:
           type: integer
           example: 2023
         maxItems: 20
-    ancestor_code:
-      in: path
-      name: ancestor_code
-      style: simple
-      schema:
-        type: string
-        example: E12000001
-      explode: false
-      required: true
-      description: The area code of an ancestor area
     area_code:
       in: path
       name: area_code
@@ -769,12 +790,6 @@ components:
             - sex
             - deprivation
       description: Determines the kind of inequality data that should be returned if an option is specified
-    include_empty_areas:
-      in: query
-      name: include_empty_areas
-      description: Determines if areas with no data are returned as empty arrays, the default is false.
-      schema:
-        type: boolean
     latest_only:
       in: query
       name: latest_only
@@ -820,10 +835,10 @@ components:
           type: string
           example: G82109
         maxItems: 300
-    area_group:
+    ancestor_code:
       in: query
-      name: area_group
-      description: An area group which the area_codes belong to
+      name: ancestor_code
+      description: An ancestor area which the area_codes belong to
       schema:
         type: string
         example: E38000205

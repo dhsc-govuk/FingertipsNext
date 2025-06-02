@@ -1,4 +1,7 @@
-import { IndicatorSearchService } from './indicatorSearchService';
+import {
+  INDICATOR_SEARCH_MAX_CHARACTERS,
+  IndicatorSearchService,
+} from './indicatorSearchService';
 import { AzureKeyCredential, SearchClient } from '@azure/search-documents';
 import { SearchServiceFactory } from './searchServiceFactory';
 import { INDICATOR_SEARCH_INDEX_NAME } from './searchTypes';
@@ -107,6 +110,21 @@ describe('IndicatorSearchService', () => {
 
       expect(mockSearch).toHaveBeenLastCalledWith(
         searchTerm,
+        expect.objectContaining({
+          queryType: 'full',
+          includeTotalCount: true,
+        })
+      );
+    });
+
+    it('should trim search terms of over 200 characters and report an error', async () => {
+      const searchTerm = '1'.repeat(INDICATOR_SEARCH_MAX_CHARACTERS + 1);
+
+      const searchService = SearchServiceFactory.getIndicatorSearchService();
+      await searchService.searchWith(searchTerm, false);
+
+      expect(mockSearch).toHaveBeenLastCalledWith(
+        '1'.repeat(INDICATOR_SEARCH_MAX_CHARACTERS),
         expect.objectContaining({
           queryType: 'full',
           includeTotalCount: true,

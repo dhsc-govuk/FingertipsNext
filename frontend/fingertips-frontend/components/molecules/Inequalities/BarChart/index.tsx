@@ -1,4 +1,3 @@
-import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts';
 import {
   getAggregatePointInfo,
@@ -9,20 +8,21 @@ import { getBarChartOptions } from '@/components/molecules/Inequalities/BarChart
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { BenchmarkLegend } from '@/components/organisms/BenchmarkLegend';
 import { ConfidenceIntervalCheckbox } from '../../ConfidenceIntervalCheckbox';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   AreaTypeLabelEnum,
   generateConfidenceIntervalSeries,
   getBenchmarkColour,
   getTooltipContent,
   createTooltipHTML,
-  loadHighchartsModules,
 } from '@/lib/chartHelpers/chartHelpers';
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
+import { HighChartsWrapper } from '../../HighChartsWrapper/HighChartsWrapper';
+import { ExportOptionsButton } from '../../Export/ExportOptionsButton';
 
 interface InequalitiesBarChartProps {
   barChartData: InequalitiesBarChartData;
@@ -66,7 +66,6 @@ export function InequalitiesBarChart({
     getAggregatePointInfo(inequalities);
   const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
     useState<boolean>(false);
-  const [options, setOptions] = useState<Highcharts.Options>();
 
   // For sex inequality we always want Male, Female which is reverse alphabetical order
   // pending a better solution where an order key is supplied by API
@@ -176,36 +175,26 @@ export function InequalitiesBarChart({
     },
   });
 
-  useEffect(() => {
-    void loadHighchartsModules(() => {
-      setOptions(barChartOptions);
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showConfidenceIntervalsData]);
-
-  if (!options) {
-    return null;
-  }
-
+  const id = 'inequalitiesBarChart-component';
   return (
-    <div data-testid="inequalitiesBarChart-component">
+    <div data-testid={id}>
       <ConfidenceIntervalCheckbox
         chartName="inequalitiesBarChart"
         showConfidenceIntervalsData={showConfidenceIntervalsData}
         setShowConfidenceIntervalsData={setShowConfidenceIntervalsData}
       />
-      <BenchmarkLegend
-        title={`Compared to ${comparedTo} persons for ${timePeriod} time period`}
-        benchmarkComparisonMethod={benchmarkComparisonMethod}
-        polarity={polarity}
-      />
-      <HighchartsReact
-        containerProps={{
-          'data-testid': 'highcharts-react-component-inequalitiesBarChart',
-        }}
-        highcharts={Highcharts}
-        options={options}
-      />
+      <div id={id}>
+        <BenchmarkLegend
+          title={`Compared to ${comparedTo} persons for ${timePeriod} time period`}
+          benchmarkComparisonMethod={benchmarkComparisonMethod}
+          polarity={polarity}
+        />
+        <HighChartsWrapper
+          chartOptions={barChartOptions}
+          testId={'highcharts-react-component-inequalitiesBarChart'}
+        />
+      </div>
+      <ExportOptionsButton targetId={id} chartOptions={barChartOptions} />
     </div>
   );
 }

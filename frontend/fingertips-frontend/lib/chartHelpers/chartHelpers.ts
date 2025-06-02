@@ -149,6 +149,8 @@ export function getMostRecentData(
 }
 
 export async function loadHighchartsModules(callback: () => void) {
+  await import('highcharts/modules/exporting');
+  await import('highcharts/modules/map');
   await import('highcharts/highcharts-more').then(callback);
 }
 
@@ -314,7 +316,7 @@ const getComparisonLabelText = (
   return `(${comparison}%)`;
 };
 
-const getBenchmarkLabel = (
+export const getBenchmarkLabel = (
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
   benchmarkOutcome?: BenchmarkOutcome,
   areaName?: string
@@ -405,19 +407,21 @@ export const getFormattedLabel = (
 
 const shouldAddGroupAreaForBenchmarking = (
   areasSelected?: string[],
-  selectedGroupCode?: string
+  selectedGroupCode?: string,
+  selectedGroupArea?: string
 ): boolean => {
   return (
     selectedGroupCode !== areaCodeForEngland &&
-    Array.isArray(areasSelected) &&
-    areasSelected.length > 0
+    (selectedGroupArea === ALL_AREAS_SELECTED ||
+      (Array.isArray(areasSelected) && areasSelected.length > 0))
   );
 };
 
 export const determineAreasForBenchmarking = (
   healthDataForAreas: HealthDataForArea[],
   selectedGroupCode?: string,
-  areasSelected?: string[]
+  areasSelected?: string[],
+  selectedGroupArea?: string
 ): AreaWithoutAreaType[] => {
   const areasForBenchmarking: AreaWithoutAreaType[] = [
     {
@@ -426,7 +430,13 @@ export const determineAreasForBenchmarking = (
     },
   ];
 
-  if (shouldAddGroupAreaForBenchmarking(areasSelected, selectedGroupCode)) {
+  if (
+    shouldAddGroupAreaForBenchmarking(
+      areasSelected,
+      selectedGroupCode,
+      selectedGroupArea
+    )
+  ) {
     const groupArea = healthDataForAreas.find(
       (area) => area.areaCode === selectedGroupCode
     );
