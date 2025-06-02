@@ -135,19 +135,19 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
     groupDataPointNamePrefix,
     englandLabel,
     groupLabel,
-    showLabel;
+    showComparisonLabels;
   if (benchmarkToUse === areaCodeForEngland) {
     englandDataPointNamePrefix = 'Benchmark: ';
     groupDataPointNamePrefix = 'Group: ';
     englandLabel = AreaTypeLabelEnum.Benchmark;
     groupLabel = AreaTypeLabelEnum.Group;
-    showLabel = true;
+    showComparisonLabels = true;
   } else {
     englandDataPointNamePrefix = '';
     groupDataPointNamePrefix = 'Benchmark: ';
     englandLabel = AreaTypeLabelEnum.Area;
     groupLabel = AreaTypeLabelEnum.Benchmark;
-    showLabel = false;
+    showComparisonLabels = false;
   }
 
   const id = 'barChartEmbeddedTable';
@@ -282,7 +282,7 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
                   year={englandDataPoint.year}
                   measurementUnit={measurementUnit}
                   barColor={GovukColours.DarkGrey}
-                  showLabel={showLabel}
+                  showLabel={showComparisonLabels}
                 ></SparklineChart>
               </Table.Cell>
               <FormatNumberInTableCell

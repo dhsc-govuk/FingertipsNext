@@ -1191,7 +1191,7 @@ describe('getTooltipContent', () => {
     });
   });
 
-  it('should not return a comparison, category or benchmark label when showLabel = false is passed in', () => {
+  it('should return an empty string for benchmarkLabel, category and comparisonLabel when showComparisonLabels = false is passed in', () => {
     const benchmarkOutcome = BenchmarkOutcome.Similar;
     const benchmarkComparisonMethod =
       BenchmarkComparisonMethod.CIOverlappingReferenceValue95;
