@@ -679,7 +679,7 @@ exports[`snapshot test - england benchmark 1`] = `
           >
             <th
               class="c22 c23"
-              style="height: 25px;"
+              style="height: 30px;"
             >
               <h4
                 class="c24 c25 c26"
@@ -689,7 +689,7 @@ exports[`snapshot test - england benchmark 1`] = `
             </th>
             <th
               class="c22 c27"
-              style="height: 25px;"
+              style="height: 30px;"
             >
               <h4
                 class="c24 c25"
@@ -699,7 +699,7 @@ exports[`snapshot test - england benchmark 1`] = `
             </th>
             <th
               class="c22 c28"
-              style="height: 25px;"
+              style="height: 30px;"
             >
               <h4
                 class="c24 c25"
@@ -709,7 +709,7 @@ exports[`snapshot test - england benchmark 1`] = `
             </th>
             <th
               class="c22 c29"
-              style="height: 25px;"
+              style="height: 30px;"
             >
               <div
                 class="c30"
@@ -723,7 +723,7 @@ exports[`snapshot test - england benchmark 1`] = `
             </th>
             <th
               class="c22 c29"
-              style="height: 25px;"
+              style="height: 30px;"
             >
               <div
                 class="c30"
@@ -737,7 +737,7 @@ exports[`snapshot test - england benchmark 1`] = `
             </th>
             <th
               class="c22 c29"
-              style="height: 25px;"
+              style="height: 30px;"
             >
               <div
                 class="c30"
@@ -751,7 +751,7 @@ exports[`snapshot test - england benchmark 1`] = `
             </th>
             <th
               class="c22 c29"
-              style="height: 25px;"
+              style="height: 30px;"
             >
               <div
                 class="c30"
@@ -1866,7 +1866,7 @@ exports[`snapshot test - group area benchmark 1`] = `
           >
             <th
               class="c22 c23"
-              style="height: 25px;"
+              style="height: 30px;"
             >
               <h4
                 class="c24 c25 c26"
@@ -1876,7 +1876,7 @@ exports[`snapshot test - group area benchmark 1`] = `
             </th>
             <th
               class="c22 c27"
-              style="height: 25px;"
+              style="height: 30px;"
             >
               <h4
                 class="c24 c25"
@@ -1886,7 +1886,7 @@ exports[`snapshot test - group area benchmark 1`] = `
             </th>
             <th
               class="c22 c28"
-              style="height: 25px;"
+              style="height: 30px;"
             >
               <h4
                 class="c24 c25"
@@ -1896,7 +1896,7 @@ exports[`snapshot test - group area benchmark 1`] = `
             </th>
             <th
               class="c22 c29"
-              style="height: 25px;"
+              style="height: 30px;"
             >
               <div
                 class="c30"
@@ -1910,7 +1910,7 @@ exports[`snapshot test - group area benchmark 1`] = `
             </th>
             <th
               class="c22 c29"
-              style="height: 25px;"
+              style="height: 30px;"
             >
               <div
                 class="c30"
@@ -1924,7 +1924,7 @@ exports[`snapshot test - group area benchmark 1`] = `
             </th>
             <th
               class="c22 c29"
-              style="height: 25px;"
+              style="height: 30px;"
             >
               <div
                 class="c30"
@@ -1938,7 +1938,7 @@ exports[`snapshot test - group area benchmark 1`] = `
             </th>
             <th
               class="c22 c29"
-              style="height: 25px;"
+              style="height: 30px;"
             >
               <div
                 class="c30"
