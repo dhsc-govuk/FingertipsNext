@@ -733,76 +733,76 @@ jobs:
     #   slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
 
 
-  # deploy-db-beta:
-  #   needs:
-  #     [
-  #       determine-version,
-  #       check-changes,
-  #       database-build,
-  #       e2e-and-api-tests,
-  #       push-container-api,
-  #       push-container-frontend,
-  #       # e2e-tests-development
-  #     ]
-  #   environment: beta
-  #   runs-on: beta
-  #   if: >
-  #     always() &&
-  #     contains(needs.*.result, 'success') &&
-  #     !contains(needs.*.result, 'failure') &&
-  #     !contains(needs.*.result, 'cancelled') &&
-  #     github.event_name != 'pull_request' &&
-  #     (
-  #       (
-  #         github.event_name == 'push' &&
-  #         github.ref_name == 'main' &&
-  #         (
-  #           needs.check-changes.outputs.db_changed == 'true' ||
-  #           needs.check-changes.outputs.trend_analysis_changed == 'true' ||
-  #           needs.check-changes.outputs.search_changed == 'true'
-  #         )
-  #       ) ||
-  #       github.event_name == 'workflow_dispatch'
-  #     )
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
+  deploy-db-beta:
+    needs:
+      [
+        determine-version,
+        check-changes,
+        database-build,
+        e2e-and-api-tests,
+        push-container-api,
+        push-container-frontend,
+        # e2e-tests-development
+      ]
+    environment: beta
+    runs-on: beta
+    if: >
+      always() &&
+      contains(needs.*.result, 'success') &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
+      github.event_name != 'pull_request' &&
+      (
+        (
+          github.event_name == 'push' &&
+          github.ref_name == 'main' &&
+          (
+            needs.check-changes.outputs.db_changed == 'true' ||
+            needs.check-changes.outputs.trend_analysis_changed == 'true' ||
+            needs.check-changes.outputs.search_changed == 'true'
+          )
+        ) ||
+        github.event_name == 'workflow_dispatch'
+      )
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-  #     - name: Download DACPAC
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: dacpac
+      - name: Download DACPAC
+        uses: actions/download-artifact@v4
+        with:
+          name: dacpac
 
-  #     - uses: Azure/login@v1
-  #       with:
-  #         creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-  #     - name: Upload files to Azure Blob Storage
-  #       shell: bash
-  #       working-directory: ${{ github.workspace }}
-  #       run: |
-  #         az storage blob upload-batch \
-  #           --destination "${{ vars.SQL_DATA_BLOB_CONTAINER }}" \
-  #           --source "DataCreator/DataCreator/data/out" \
-  #           --account-name "${{ secrets.SQL_DATA_STORAGE_ACCOUNT }}" \
-  #           --auth-mode "login" \
-  #           --overwrite true
+      - name: Upload files to Azure Blob Storage
+        shell: bash
+        working-directory: ${{ github.workspace }}
+        run: |
+          az storage blob upload-batch \
+            --destination "${{ vars.SQL_DATA_BLOB_CONTAINER }}" \
+            --source "DataCreator/DataCreator/data/out" \
+            --account-name "${{ secrets.SQL_DATA_STORAGE_ACCOUNT }}" \
+            --auth-mode "login" \
+            --overwrite true
 
-  #     - name: Deploy Database
-  #       run: |
-  #         sqlpackage \
-  #           /Action:Publish \
-  #           /SourceFile:"${{ github.workspace }}/fingertips-db.dacpac" \
-  #           /TargetServerName:"${{ secrets.AZURE_SQL_SERVER }}" \
-  #           /TargetDatabaseName:"${{ secrets.AZURE_SQL_DATABASE }}" \
-  #           /TargetUser:"${{ secrets.AZURE_SQL_USER }}" \
-  #           /TargetPassword:"${{ secrets.AZURE_SQL_PASSWORD }}" \
-  #           /p:DropObjectsNotInSource=true \
-  #           /p:BlockOnPossibleDataLoss=false \
-  #           /p:GenerateSmartDefaults=true \
-  #           /v:UseAzureBlob=1 \
-  #           /v:BlobStorageLocation="${{ vars.BLOB_STORAGE_LOCATION }}" \
-  #           /v:MasterKeyPassword="${{ secrets.SQL_MASTER_KEY_PASSWORD }}"
+      - name: Deploy Database
+        run: |
+          sqlpackage \
+            /Action:Publish \
+            /SourceFile:"${{ github.workspace }}/fingertips-db.dacpac" \
+            /TargetServerName:"${{ secrets.AZURE_SQL_SERVER }}" \
+            /TargetDatabaseName:"${{ secrets.AZURE_SQL_DATABASE }}" \
+            /TargetUser:"${{ secrets.AZURE_SQL_USER }}" \
+            /TargetPassword:"${{ secrets.AZURE_SQL_PASSWORD }}" \
+            /p:DropObjectsNotInSource=true \
+            /p:BlockOnPossibleDataLoss=false \
+            /p:GenerateSmartDefaults=true \
+            /v:UseAzureBlob=1 \
+            /v:BlobStorageLocation="${{ vars.BLOB_STORAGE_LOCATION }}" \
+            /v:MasterKeyPassword="${{ secrets.SQL_MASTER_KEY_PASSWORD }}"
 
   # run-trend-analysis-beta:
   #   needs: [check-changes, deploy-db-beta]
