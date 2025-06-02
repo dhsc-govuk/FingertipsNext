@@ -337,14 +337,15 @@ export const getTooltipContent = (
   benchmarkOutcome: BenchmarkOutcome,
   label: string,
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
-  areaName?: string
+  areaName?: string,
+  showLabel = true
 ) => {
   const category = getCategory(benchmarkOutcome, label);
 
   if (
     label === AreaTypeLabelEnum.Benchmark ||
     label === AreaTypeLabelEnum.Group ||
-    (label === AreaTypeLabelEnum.Area && areaName === undefined)
+    !showLabel
   ) {
     return { category, benchmarkLabel: '', comparisonLabel: '' };
   }

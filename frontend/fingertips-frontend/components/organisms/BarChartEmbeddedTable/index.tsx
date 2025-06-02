@@ -2,7 +2,6 @@
 
 import {
   BenchmarkComparisonMethod,
-  BenchmarkOutcome,
   HealthDataForArea,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
@@ -136,19 +135,19 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
     groupDataPointNamePrefix,
     englandLabel,
     groupLabel,
-    englandOutcomeLabel;
+    showLabel;
   if (benchmarkToUse === areaCodeForEngland) {
     englandDataPointNamePrefix = 'Benchmark: ';
     groupDataPointNamePrefix = 'Group: ';
     englandLabel = AreaTypeLabelEnum.Benchmark;
     groupLabel = AreaTypeLabelEnum.Group;
-    englandOutcomeLabel = englandDataPoint?.benchmarkComparison?.outcome;
+    showLabel = true;
   } else {
     englandDataPointNamePrefix = '';
     groupDataPointNamePrefix = 'Benchmark: ';
     englandLabel = AreaTypeLabelEnum.Area;
     groupLabel = AreaTypeLabelEnum.Benchmark;
-    englandOutcomeLabel = BenchmarkOutcome.NotCompared;
+    showLabel = false;
   }
 
   const id = 'barChartEmbeddedTable';
@@ -273,7 +272,9 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
                     englandDataPoint.upperCi,
                   ]}
                   showConfidenceIntervalsData={showConfidenceIntervalsData}
-                  benchmarkOutcome={englandOutcomeLabel}
+                  benchmarkOutcome={
+                    englandDataPoint?.benchmarkComparison?.outcome
+                  }
                   benchmarkComparisonMethod={benchmarkComparisonMethod}
                   polarity={polarity}
                   label={englandLabel}
@@ -281,6 +282,7 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
                   year={englandDataPoint.year}
                   measurementUnit={measurementUnit}
                   barColor={GovukColours.DarkGrey}
+                  showLabel={showLabel}
                 ></SparklineChart>
               </Table.Cell>
               <FormatNumberInTableCell
