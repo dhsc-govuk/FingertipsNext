@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`snapshot test - england benchmark 1`] = `
+exports[`heatmap snapshot test - england benchmark 1`] = `
 <DocumentFragment>
   .c0 {
   color: #0b0c0c;
@@ -431,6 +431,11 @@ exports[`snapshot test - england benchmark 1`] = `
 .c18 {
   overflow-y: visible;
   overflow-x: scroll;
+}
+
+.c46 {
+  font-size: 14px;
+  margin-bottom: 8px;
 }
 
 .c1 {
@@ -989,6 +994,18 @@ exports[`snapshot test - england benchmark 1`] = `
         </tbody>
       </table>
     </div>
+    <div
+      class="exportOnly"
+      style="display: none;"
+    >
+      <div
+        class="c46"
+      >
+        ©Crown copyright 2024. Office for Health Improvement & Disparities.
+        <br />
+        Public Health Profiles accessed on 25 December 2024 www.fingertips.phe.org.uk
+      </div>
+    </div>
   </div>
   .c0 {
   font-family: "nta",Arial,sans-serif;
@@ -1182,7 +1199,7 @@ exports[`snapshot test - england benchmark 1`] = `
 </DocumentFragment>
 `;
 
-exports[`snapshot test - group area benchmark 1`] = `
+exports[`heatmap snapshot test - group area benchmark 1`] = `
 <DocumentFragment>
   .c0 {
   color: #0b0c0c;
@@ -1618,6 +1635,11 @@ exports[`snapshot test - group area benchmark 1`] = `
 .c18 {
   overflow-y: visible;
   overflow-x: scroll;
+}
+
+.c47 {
+  font-size: 14px;
+  margin-bottom: 8px;
 }
 
 .c1 {
@@ -2175,6 +2197,18 @@ exports[`snapshot test - group area benchmark 1`] = `
           </tr>
         </tbody>
       </table>
+    </div>
+    <div
+      class="exportOnly"
+      style="display: none;"
+    >
+      <div
+        class="c47"
+      >
+        ©Crown copyright 2024. Office for Health Improvement & Disparities.
+        <br />
+        Public Health Profiles accessed on 25 December 2024 www.fingertips.phe.org.uk
+      </div>
     </div>
   </div>
   .c0 {

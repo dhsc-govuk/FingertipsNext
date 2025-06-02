@@ -97,6 +97,11 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
   padding-left: 10px;
 }
 
+.c13 {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
 .c4 {
   padding: 0.5em;
   text-align: center;
@@ -180,10 +185,10 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
 
 <div
     data-testid="inequalitiesBarChartTable-component"
+    id="inequalitiesBarChartTable"
   >
     <table
       class="c0"
-      id="inequalitiesBarChartTable"
     >
       <thead
         class=""
@@ -363,6 +368,18 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
         </tr>
       </tbody>
     </table>
+    <div
+      class="exportOnly"
+      style="display: none;"
+    >
+      <div
+        class="c13"
+      >
+        ©Crown copyright 2024. Office for Health Improvement & Disparities.
+        <br />
+        Public Health Profiles accessed on 25 December 2024 www.fingertips.phe.org.uk
+      </div>
+    </div>
   </div>
   .c0 {
   font-family: "nta",Arial,sans-serif;
