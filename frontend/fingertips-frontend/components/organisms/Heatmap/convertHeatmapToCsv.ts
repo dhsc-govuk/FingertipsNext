@@ -1,6 +1,7 @@
 import { CsvData } from '@/lib/downloadHelpers/convertToCsv';
 import { extractSortedAreasIndicatorsAndDataPoints } from '@/components/organisms/Heatmap/heatmapUtil';
 import { CsvHeader } from '@/components/molecules/Export/export.types';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 export const convertHeatmapToCsv = (
   {
@@ -8,7 +9,8 @@ export const convertHeatmapToCsv = (
     indicators,
     dataPoints,
   }: ReturnType<typeof extractSortedAreasIndicatorsAndDataPoints>,
-  groupAreaCode?: string
+  groupAreaCode?: string,
+  benchmarkAreaCode?: string
 ): CsvData => {
   const headers = [
     CsvHeader.IndicatorId,
@@ -24,9 +26,28 @@ export const convertHeatmapToCsv = (
 
   const csvData: CsvData = [headers];
 
+  const benchmarkArea = areas.find(({ code }) => code === benchmarkAreaCode);
+  const groupArea = areas.find(({ code }) => code === groupAreaCode);
+  const englandArea = areas.find(({ code }) => code === areaCodeForEngland);
+  const areasWithoutGroupOrBenchmark = areas.filter(
+    ({ code }) =>
+      code !== benchmarkAreaCode &&
+      code !== groupAreaCode &&
+      code !== areaCodeForEngland
+  );
+  const areasInExportOrder = [...areasWithoutGroupOrBenchmark];
+  const areasToAppend = [groupArea, benchmarkArea, englandArea];
+  areasToAppend.forEach((appendixArea) => {
+    const alreadyIncluded = areasInExportOrder.some(
+      (area) => area.code === appendixArea?.code
+    );
+    if (alreadyIncluded || !appendixArea) return;
+    areasInExportOrder.push(appendixArea);
+  });
+
   indicators.forEach((indicator) => {
     const { id, name: indicatorName, latestDataPeriod, unitLabel } = indicator;
-    areas.forEach((area) => {
+    areasInExportOrder.forEach((area) => {
       const { name: areaName, code: areaCode } = area;
       const dataPointsForArea = dataPoints[id] ?? {};
       const { benchmark, value } = dataPointsForArea[areaCode] ?? {};
