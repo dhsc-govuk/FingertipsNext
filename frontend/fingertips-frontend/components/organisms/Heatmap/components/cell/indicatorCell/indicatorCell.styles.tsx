@@ -2,16 +2,12 @@ import { Table } from 'govuk-react';
 import styled from 'styled-components';
 import { heatmapIndicatorTitleColumnWidth } from '../../../heatmapUtil';
 
-const stickyLeft = {
+export const IndicatorCell = styled(Table.Cell)({
   background: 'white',
   position: 'sticky',
   left: 0,
   zIndex: 1,
   paddingRight: '0.5em',
-};
-
-export const IndicatorCell = styled(Table.Cell)({
-  ...(stickyLeft as unknown as TemplateStringsArray),
   borderRight: 'solid #bfc1c3 1px',
 });
 
