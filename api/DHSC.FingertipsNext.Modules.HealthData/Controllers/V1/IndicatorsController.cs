@@ -28,7 +28,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     /// <param name="benchmarkRefType">Optional benchmark reference type.</param>
     /// <param name="years">A list of years. Up to 20 distinct years can be requested.</param>
     /// <param name="inequalities">A list of desired inequalities.</param>
-    /// <param name="latest_only">Set to true to get data for the latest date period only, default is false. This overrides the years parameter if set to true</param>
+    /// <param name="latestOnly">Set to true to get data for the latest date period only, default is false. This overrides the years parameter if set to true</param>
     /// <returns></returns>
     /// <remarks>
     /// If more than 20 years are supplied the request will fail.
@@ -48,7 +48,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
             BenchmarkReferenceType benchmarkRefType = BenchmarkReferenceType.Unknown,
         [FromQuery] int[]? years = null,
         [FromQuery] string[]? inequalities = null,
-        [FromQuery] bool latest_only = false
+        [FromQuery(Name = "latest_only")] bool latestOnly = false
     )
     {
         if (areaCodes is { Length: > MaxNumberAreas })
@@ -86,7 +86,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
             benchmarkRefType,
             years ?? [],
             inequalities ?? [],
-            latest_only
+            latestOnly
         ).ConfigureAwait(false);
 
         return indicatorData?.Status switch
@@ -105,7 +105,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     /// </summary>
     /// <param name="areaCode">A list of area codes.</param>
     /// <param name="areaType">The area type the area codes belong to.</param>
-    /// <param name="ancestorCode"></param>
+    /// <param name="ancestorCode">The area group for calculating quartiles within.</param>
     /// <param name="benchmarkRefType">Whether to benchmark against England or SubNational.</param>
     /// <param name="indicatorIds">The unique identifier of the indicator.</param>
     /// <returns></returns>

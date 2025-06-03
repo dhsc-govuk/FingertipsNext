@@ -6,10 +6,10 @@ namespace DHSC.FingertipsNext.Modules.Area.Service;
 public interface IAreaMapper
 {
     AreaType Map(AreaTypeModel source);
-    List<AreaType> Map(IList<AreaTypeModel> source);
+    IList<AreaType> Map(IList<AreaTypeModel> source);
     AreaWithRelations Map(AreaWithRelationsModel source);
     Schemas.Area Map(AreaModel source);
-    List<Schemas.Area> Map(IList<AreaModel> source);
+    IList<Schemas.Area> Map(IList<AreaModel> source);
     RootArea MapToRootArea(AreaModel source);
 }
 
@@ -17,6 +17,7 @@ public class AreaMapper : IAreaMapper
 {
     public AreaType Map(AreaTypeModel source)
     {
+        ArgumentNullException.ThrowIfNull(source);
         return new AreaType
         {
             Key = source.AreaTypeKey,
@@ -26,13 +27,14 @@ public class AreaMapper : IAreaMapper
         };
     }
 
-    public List<AreaType> Map(IList<AreaTypeModel> source)
+    public IList<AreaType> Map(IList<AreaTypeModel> source)
     {
         return source.Select(Map).ToList();
     }
 
     public AreaWithRelations Map(AreaWithRelationsModel source)
     {
+        ArgumentNullException.ThrowIfNull(source);
         var area = Map(source.Area);
 
         return new AreaWithRelations
@@ -48,6 +50,7 @@ public class AreaMapper : IAreaMapper
 
     public Schemas.Area Map(AreaModel source)
     {
+        ArgumentNullException.ThrowIfNull(source);
         return new Schemas.Area
         {
             Code = source.AreaCode,
@@ -56,13 +59,14 @@ public class AreaMapper : IAreaMapper
         };
     }
 
-    public List<Schemas.Area> Map(IList<AreaModel> source)
+    public IList<Schemas.Area> Map(IList<AreaModel> source)
     {
         return source.Select(Map).ToList();
     }
 
     public RootArea MapToRootArea(AreaModel source)
     {
+        ArgumentNullException.ThrowIfNull(source);
         return new RootArea
         {
             Code = source.AreaCode,

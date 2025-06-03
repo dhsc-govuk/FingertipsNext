@@ -154,7 +154,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
 
         var hasBenchmarkDataBeenRequested = comparisonMethod is
              BenchmarkComparisonMethod.CIOverlappingReferenceValue95 or
-             BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8;
+             BenchmarkComparisonMethod.CIOverlappingReferenceValue998;
 
         //if benchmark data has been requested and the benchmark area wasn't already in the requested area collection add it now
         if (hasBenchmarkDataBeenRequested && !wasBenchmarkAreaCodeRequested)

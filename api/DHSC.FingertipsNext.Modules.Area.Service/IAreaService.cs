@@ -11,21 +11,21 @@ public interface IAreaService
     /// Get all available hierarchy types
     /// </summary>
     /// <returns></returns>
-    public Task<List<string>> GetHierarchies();
+    public Task<IList<string>> GetHierarchies();
 
     /// <summary>
     /// Gets a list of areas for the list of requested area codes.
     /// </summary>
     /// <param name="areaCodes"></param>
     /// <returns>List of areas requested</returns>
-    public Task<List<Schemas.Area>> GetMultipleAreaDetails(string[] areaCodes);
+    public Task<IList<Schemas.Area>> GetMultipleAreaDetails(string[] areaCodes);
 
     /// <summary>
     /// Get area types, optionally filtering by hierarchy type
     /// </summary>
     /// <param name="hierarchyType"></param>
     /// <returns></returns>
-    public Task<List<AreaType>> GetAreaTypes(string? hierarchyType = null);
+    public Task<IList<AreaType>> GetAreaTypes(string? hierarchyType = null);
 
     /// <summary>
     /// Get the full details of a given area, including its parent, optionally including its children.
@@ -50,7 +50,7 @@ public interface IAreaService
     /// </summary>
     /// <param name="areaTypeKey"></param>
     /// <returns></returns>
-    public Task<List<Schemas.Area>> GetAreaDetailsForAreaType(string areaTypeKey);
+    public Task<IList<Schemas.Area>> GetAreaDetailsForAreaType(string areaTypeKey);
 
     /// <summary>
     /// Get the root node of the area hierarchy

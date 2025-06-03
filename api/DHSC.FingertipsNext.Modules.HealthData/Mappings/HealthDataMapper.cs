@@ -24,7 +24,7 @@ public class HealthDataMapper : IHealthDataMapper
             "Confidence intervals overlapping reference value (95.0)" =>
                 BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
             "Confidence intervals overlapping reference value (99.8)" =>
-                BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
+                BenchmarkComparisonMethod.CIOverlappingReferenceValue998,
             "Quintiles" => BenchmarkComparisonMethod.Quintiles,
             _ => BenchmarkComparisonMethod.Unknown,
         };

@@ -159,6 +159,8 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
 
         var YearsTable = new DataTable();
         YearsTable.Columns.Add("YearNum", typeof(int));
+
+        ArgumentNullException.ThrowIfNull(years);
         foreach (var item in years) YearsTable.Rows.Add(item);
         var yearsOfInterest = new SqlParameter("@RequestedYears", YearsTable)
         {

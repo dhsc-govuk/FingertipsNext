@@ -61,7 +61,7 @@ public class IndicatorControllerTests
     }
 
     [Fact]
-    public async Task GetIndicatorData_DelegatesToService_WhenAllParametersSpecified()
+    public async Task GetIndicatorDataDelegatesToServiceWhenAllParametersSpecified()
     {
         await _controller.GetIndicatorDataAsync(1, ["ac1", "ac2"], "someAreaType", years: [1999, 2024], inequalities: ["age", "sex"]);
 
@@ -80,7 +80,7 @@ public class IndicatorControllerTests
     }
 
     [Fact]
-    public async Task GetIndicatorData_DelegatesToServiceWithDefaults_WhenOptionalParametersNotSpecified()
+    public async Task GetIndicatorDataDelegatesToServiceWithDefaultsWhenOptionalParametersNotSpecified()
     {
         await _controller.GetIndicatorDataAsync(2);
 
@@ -89,7 +89,7 @@ public class IndicatorControllerTests
     }
 
     [Fact]
-    public async Task GetIndicatorData_ReturnsOkResponse_IfServiceReturnsData()
+    public async Task GetIndicatorDataReturnsOkResponseIfServiceReturnsData()
     {
         _indicatorService
             .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<BenchmarkReferenceType>(), Arg.Any<int[]>(), Arg.Any<string[]>())
@@ -106,7 +106,7 @@ public class IndicatorControllerTests
     }
 
     [Fact]
-    public async Task GetIndicatorData_ReturnsSuccessResponse_IfServiceReturnsEmptyArray()
+    public async Task GetIndicatorDataReturnsSuccessResponseIfServiceReturnsEmptyArray()
     {
         _indicatorService
             .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<BenchmarkReferenceType>(), Arg.Any<int[]>(), Arg.Any<string[]>())
@@ -119,7 +119,7 @@ public class IndicatorControllerTests
     }
 
     [Fact]
-    public async Task GetIndicatorData_ReturnsNotFoundResponse_IfIndicatorDoesNotExist()
+    public async Task GetIndicatorDataReturnsNotFoundResponseIfIndicatorDoesNotExist()
     {
         _indicatorService
             .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<BenchmarkReferenceType>(), Arg.Any<int[]>(), Arg.Any<string[]>())
@@ -132,7 +132,7 @@ public class IndicatorControllerTests
     }
 
     [Fact]
-    public async Task GetIndicatorData_ReturnsBadResponse_WhenMoreThan10YearsSupplied()
+    public async Task GetIndicatorDataReturnsBadResponseWhenMoreThan10YearsSupplied()
     {
         var response = await _controller.GetIndicatorDataAsync(3, ["areaCode1"], "",
             years: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]) as BadRequestObjectResult;
@@ -142,7 +142,7 @@ public class IndicatorControllerTests
     }
 
     [Fact]
-    public async Task GetIndicatorData_ReturnsBadResponse_WhenMoreThan10CodesSupplied()
+    public async Task GetIndicatorDataReturnsBadResponseWhenMoreThan10CodesSupplied()
     {
         var response = await _controller.GetIndicatorDataAsync(3,
             ["areaCode1", "ac2", "ac3", "ac4", "ac5", "ac6", "ac7", "ac8", "ac9", "ac10", "ac11"], "",
@@ -153,7 +153,7 @@ public class IndicatorControllerTests
     }
 
     [Fact]
-    public async Task GetIndicatorData_ReturnsBadResponse_WhenAncestorCodeMissing()
+    public async Task GetIndicatorDataReturnsBadResponseWhenAncestorCodeMissing()
     {
         var response = await _controller.GetIndicatorDataAsync(
             indicatorId: 3,

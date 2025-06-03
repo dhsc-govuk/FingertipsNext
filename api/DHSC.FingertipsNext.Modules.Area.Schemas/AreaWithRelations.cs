@@ -11,17 +11,17 @@ public class AreaWithRelations : Area
     ///
     /// </summary>
     [JsonPropertyName("parents")]
-    public List<Area> Parents { get; init; } = [];
+    public IList<Area> Parents { get; init; } = [];
 
     /// <summary>
     ///
     /// </summary>
     [JsonPropertyName("children")]
-    public List<Area> Children { get; init; } = [];
+    public IList<Area> Children { get; init; } = [];
 
     /// <summary>
     ///
     /// </summary>
     [JsonPropertyName("siblings")]
-    public List<Area> Siblings { get; init; } = [];
+    public IList<Area> Siblings { get; init; } = [];
 }

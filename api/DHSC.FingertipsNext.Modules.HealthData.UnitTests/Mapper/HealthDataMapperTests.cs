@@ -38,7 +38,7 @@ public class HealthDataMapperTests
 
     [Fact]
     public void
-        Mapper_ShouldMapAHealthMeasure_ToAHealthDataPoint()
+        MapperShouldMapAHealthMeasureToAHealthDataPoint()
     {
         // arrange
         var expectedAgeBand = new Age
@@ -97,7 +97,7 @@ public class HealthDataMapperTests
     [InlineData("No judgement", IndicatorPolarity.NoJudgement)]
     [InlineData(null, IndicatorPolarity.Unknown)]
 
-    public void Mapper_ShouldMapAnIndicatorDimensionModelPolarity_ToAnIndicatorPolarity(string modelPolarity, IndicatorPolarity expectedPolarity)
+    public void MapperShouldMapAnIndicatorDimensionModelPolarityToAnIndicatorPolarity(string modelPolarity, IndicatorPolarity expectedPolarity)
     {
         // Arrange
         var indicator = new IndicatorDimensionModel
@@ -114,10 +114,10 @@ public class HealthDataMapperTests
 
     [Theory]
     [InlineData("Confidence intervals overlapping reference value (95.0)", BenchmarkComparisonMethod.CIOverlappingReferenceValue95)]
-    [InlineData("Confidence intervals overlapping reference value (99.8)", BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8)]
+    [InlineData("Confidence intervals overlapping reference value (99.8)", BenchmarkComparisonMethod.CIOverlappingReferenceValue998)]
     [InlineData("Quintiles", BenchmarkComparisonMethod.Quintiles)]
     [InlineData(null, BenchmarkComparisonMethod.Unknown)]
-    public void Mapper_ShouldMapAnIndicatorDimensionModelBenchmarkComparisonMethod_ToABenchmarkComparisonMethod(string modelBenchmarkComparisonMethod, BenchmarkComparisonMethod expectedBenchmarkComparisonMethod)
+    public void MapperShouldMapAnIndicatorDimensionModelBenchmarkComparisonMethodToABenchmarkComparisonMethod(string modelBenchmarkComparisonMethod, BenchmarkComparisonMethod expectedBenchmarkComparisonMethod)
     {
         // Arrange
         var indicator = new IndicatorDimensionModel
@@ -133,7 +133,7 @@ public class HealthDataMapperTests
     }
 
     [Fact]
-    public void Mapper_ShouldMapQuartileDataModel_ToIndicatorQuartileData()
+    public void MapperShouldMapQuartileDataModelToIndicatorQuartileData()
     {
         // Arrange
         var mockQuartileData = new List<QuartileDataModel>

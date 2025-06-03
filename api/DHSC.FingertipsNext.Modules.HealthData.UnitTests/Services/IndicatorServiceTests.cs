@@ -61,7 +61,7 @@ public class IndicatorServiceTests
         };
 
     [Fact]
-    public async Task GetIndicatorData_ShouldReturnExpectedResult()
+    public async Task GetIndicatorDataShouldReturnExpectedResult()
     {
         var healthMeasure = new HealthMeasureModelHelper()
             .WithAreaDimension(expectedAreaCode, expectedAreaName)
@@ -97,7 +97,7 @@ public class IndicatorServiceTests
     }
 
     [Fact]
-    public async Task GetIndicatorData_ShouldReturnExpectedResult_LatestDataOnly()
+    public async Task GetIndicatorDataShouldReturnExpectedResultLatestDataOnly()
     {
         const string expectedAreaCode2 = "Code2";
         const string expectedAreaName2 = "Area 2";
@@ -138,7 +138,7 @@ public class IndicatorServiceTests
     }
 
     [Fact]
-    public async Task GetIndicatorData_ShouldReturnExpectedResult_ForSingleAreaCode_WithMultipleData()
+    public async Task GetIndicatorDataShouldReturnExpectedResultForSingleAreaCodeWithMultipleData()
     {
         const string expectedAreaCode2 = "Code2";
         const string expectedAreaName2 = "Area 2";
@@ -196,7 +196,7 @@ public class IndicatorServiceTests
 
     [Theory]
     [MemberData(nameof(BenchmarkTestData))]
-    public async Task GetIndicatorData_ShouldReturnExpectedResult_ForSingleAreaCode_WithBenchmark(
+    public async Task GetIndicatorDataShouldReturnExpectedResultForSingleAreaCodeWithBenchmark(
         int lowerCi,
         int upperCi,
         int benchmarkValue,
@@ -263,7 +263,7 @@ public class IndicatorServiceTests
     }
 
     [Fact]
-    public async Task GetIndicatorData_ShouldReturnExpectedResult_ForSingleAreaCode_WhenBenchmarkDataMissing()
+    public async Task GetIndicatorDataShouldReturnExpectedResultForSingleAreaCodeWhenBenchmarkDataMissing()
     {
         var healthMeasure1 = new HealthMeasureModelHelper(year: 2023, lowerCi: 1, upperCi: 3)
             .WithAreaDimension(expectedAreaCode, expectedAreaName)
@@ -304,7 +304,7 @@ public class IndicatorServiceTests
     }
 
     [Fact]
-    public async Task GetIndicatorData_ShouldReturnExpectedResult_BenchmarkingInequality()
+    public async Task GetIndicatorDataShouldReturnExpectedResultBenchmarkingInequality()
     {
         const string benchmarkAreaCode = IndicatorService.AreaCodeEngland;
         const string benchmarkAreaName = "Eng";
@@ -576,7 +576,7 @@ public class IndicatorServiceTests
 
     [Theory]
     [MemberData(nameof(BenchmarkMissingValues))]
-    public async Task GetIndicatorData_ShouldNotBenchmarkWhenValuesAreMissing(
+    public async Task GetIndicatorDataShouldNotBenchmarkWhenValuesAreMissing(
         int? lowerCi,
         int? benchmarkValue,
         int? upperCi,
@@ -667,7 +667,7 @@ public class IndicatorServiceTests
     }
 
     [Fact]
-    public async Task GetIndicatorData_ShouldBenchmarkDeprivations()
+    public async Task GetIndicatorDataShouldBenchmarkDeprivations()
     {
         var englandPoint = new HealthMeasureModelHelper(
             year: 2023,
@@ -820,7 +820,7 @@ public class IndicatorServiceTests
                 "Low is good",
                 IndicatorPolarity.LowIsGood,
                 "Confidence intervals overlapping reference value (99.8)",
-                BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
+                BenchmarkComparisonMethod.CIOverlappingReferenceValue998,
             },
             new object[]
             {
@@ -828,7 +828,7 @@ public class IndicatorServiceTests
                 "No judgement",
                 IndicatorPolarity.NoJudgement,
                 "Confidence intervals overlapping reference value (99.8)",
-                BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
+                BenchmarkComparisonMethod.CIOverlappingReferenceValue998,
             },
             new object[]
             {
@@ -850,7 +850,7 @@ public class IndicatorServiceTests
 
     [Theory]
     [MemberData(nameof(IndicatorTestData))]
-    public async Task GetIndicatorDataAsync_ShouldIncludeIndicatorInfo(
+    public async Task GetIndicatorDataAsyncShouldIncludeIndicatorInfo(
         string name,
         string testPolarity,
         IndicatorPolarity expectedPolarity,
@@ -908,7 +908,7 @@ public class IndicatorServiceTests
     }
 
     [Fact]
-    public async Task GetIndicatorDataAsync_ReturnsIndicatorDoesNotExist_WhenNoDataFound()
+    public async Task GetIndicatorDataAsyncReturnsIndicatorDoesNotExistWhenNoDataFound()
     {
         _healthDataRepository
             .GetIndicatorDimensionAsync(1, Arg.Any<string[]>())
@@ -931,7 +931,7 @@ public class IndicatorServiceTests
     }
 
     [Fact]
-    public async Task GetIndicatorDataAsync_ReturnsEmptyArray_WhenNoDataFoundButValidIndicatorSelected()
+    public async Task GetIndicatorDataAsyncReturnsEmptyArrayWhenNoDataFoundButValidIndicatorSelected()
     {
         _healthDataRepository
             .GetIndicatorDimensionAsync(1, Arg.Any<string[]>())
@@ -977,7 +977,7 @@ public class IndicatorServiceTests
         .Build();
 
     [Fact]
-    public async Task GetIndicatorDataAsync_ReturnsExpectedData_ForMultipleAreas()
+    public async Task GetIndicatorDataAsyncReturnsExpectedDataForMultipleAreas()
     {
         var expected = new List<HealthDataForArea>
         {
@@ -1032,7 +1032,7 @@ public class IndicatorServiceTests
     }
 
     [Fact]
-    public async Task GetIndicatorDataAsync_ReturnsExpectedData_ForMultipleAreas_WhenSomeHaveNoData_AndWhenWeWantEmptyAreaData()
+    public async Task GetIndicatorDataAsyncReturnsExpectedDataForMultipleAreasWhenSomeHaveNoDataAndWhenWeWantEmptyAreaData()
     {
         var expected = new List<HealthDataForArea>
         {
@@ -1095,7 +1095,7 @@ public class IndicatorServiceTests
     }
 
     [Fact]
-    public async Task GetIndicatorDataAsync_ReturnsDataForAllRequestedAreas_WhenNoneHaveData()
+    public async Task GetIndicatorDataAsyncReturnsDataForAllRequestedAreasWhenNoneHaveData()
     {
         var expected = new List<HealthDataForArea>
         {
@@ -1166,7 +1166,7 @@ public class IndicatorServiceTests
     }
 
     [Fact]
-    public async Task GetIndicatorData_ShouldReturnExpectedResult_BenchmarkRefIsAreaGroup_ForSingleAreaCode()
+    public async Task GetIndicatorDataShouldReturnExpectedResultBenchmarkRefIsAreaGroupForSingleAreaCode()
     {
         var healthMeasure1 = new HealthMeasureModelHelper(
             year: 2023,

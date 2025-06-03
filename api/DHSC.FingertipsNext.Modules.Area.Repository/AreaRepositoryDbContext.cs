@@ -17,6 +17,7 @@ public class AreaRepositoryDbContext : DbContext
     #region Required
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        ArgumentNullException.ThrowIfNull(modelBuilder);
         modelBuilder.Entity<AreaRelationshipModel>()
             .HasKey(arm => new { arm.ParentAreaKey, arm.ChildAreaKey });
 

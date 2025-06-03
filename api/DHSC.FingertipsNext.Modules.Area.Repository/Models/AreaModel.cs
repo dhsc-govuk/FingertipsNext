@@ -43,7 +43,7 @@ public class AreaModel
     [MaxLength(50)]
     public string AreaTypeKey { get; set; }
 
-    public virtual ICollection<AreaModel> Children { get; set; }
+    public virtual ICollection<AreaModel> Children { get; init; }
 
-    public virtual ICollection<AreaModel> Parents { get; set; }
+    public virtual ICollection<AreaModel> Parents { get; init; }
 }
