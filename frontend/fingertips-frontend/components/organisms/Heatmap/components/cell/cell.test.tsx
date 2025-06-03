@@ -11,12 +11,12 @@ describe('cell types', () => {
     ],
     [
       'indicator information period',
-      CellType.IndicatorInformationPeriod,
+      CellType.IndicatorPeriod,
       'heatmap-cell-indicator-info-period',
     ],
     [
       'indicator information value unit',
-      CellType.IndicatorInformationValueUnit,
+      CellType.IndicatorValueUnit,
       'heatmap-cell-indicator-info-value-unit',
     ],
     ['data', CellType.Data, 'heatmap-cell-data'],

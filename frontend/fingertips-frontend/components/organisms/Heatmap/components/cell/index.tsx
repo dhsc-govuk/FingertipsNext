@@ -1,8 +1,8 @@
 import { CellType } from '../../heatmapUtil';
 import { FC, MouseEventHandler } from 'react';
 import { IndicatorTitleCell } from './indicatorCell/indicatorTitleCell';
-import { IndicatorInfoValueUnitCell } from './indicatorCell/indicatorInfoValueUnitCell';
-import { IndicatorInfoPeriodCell } from './indicatorCell/indicatorInfoPeriodCell';
+import { IndicatorValueUnitCell } from './indicatorCell/indicatorValueUnitCell';
+import { IndicatorPeriodCell } from './indicatorCell/indicatorPeriodCell';
 import { DataCell } from './dataCell/dataCell';
 
 interface HeatmapCellProps {
@@ -23,10 +23,10 @@ export const HeatmapCell: FC<HeatmapCellProps> = ({
   switch (cellType) {
     case CellType.IndicatorTitle:
       return <IndicatorTitleCell content={content} />;
-    case CellType.IndicatorInformationPeriod:
-      return <IndicatorInfoPeriodCell content={content} />;
-    case CellType.IndicatorInformationValueUnit:
-      return <IndicatorInfoValueUnitCell content={content} />;
+    case CellType.IndicatorPeriod:
+      return <IndicatorPeriodCell content={content} />;
+    case CellType.IndicatorValueUnit:
+      return <IndicatorValueUnitCell content={content} />;
     case CellType.Data:
       return (
         <DataCell
