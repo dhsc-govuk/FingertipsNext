@@ -1,77 +1,76 @@
-import {
-  BenchmarkComparisonMethod,
-  BenchmarkOutcome,
-  HealthDataForArea,
-  HealthDataPoint,
-  IndicatorPolarity,
-} from '@/generated-sources/ft-api-client';
-import {
-  getBenchmarkColour,
-  getConfidenceLimitNumber,
-  sortHealthDataPointsByDescendingYear,
-} from '@/lib/chartHelpers/chartHelpers';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
+import { getAreaTitle } from '@/components/molecules/ThematicMapTooltip/ThematicMapTooltipHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
-import { GovukColours } from '@/lib/styleHelpers/colours';
 
-type TooltipType = 'area' | 'benchmark' | 'group';
+export type TooltipType = 'area' | 'benchmark' | 'group';
 
 interface BenchmarkTooltipArea {
-  indicatorData: HealthDataForArea;
-  benchmarkComparisonMethod: BenchmarkComparisonMethod;
+  areaName: string;
+  year: number | undefined;
+  value: number | undefined;
   measurementUnit: string | undefined;
   tooltipType: TooltipType;
-  polarity: IndicatorPolarity;
+  comparisonText?: string;
+
+  // mostRecentDataPoint: HealthDataPoint;
+  // // indicatorData: HealthDataForArea;
+  // benchmarkComparisonMethod: BenchmarkComparisonMethod;
+  // measurementUnit: string | undefined;
+  // polarity: IndicatorPolarity;
 }
 
 export function BenchmarkTooltipArea({
-  indicatorData,
-  benchmarkComparisonMethod,
+  areaName,
+  year,
+  value,
   measurementUnit,
+  comparisonText,
+  // mostRecentDataPoint,
+  // benchmarkComparisonMethod,
+  // measurementUnit,
   tooltipType,
-  polarity,
+  // polarity,
 }: Readonly<BenchmarkTooltipArea>) {
-  const indicatorDataForAreaForMostRecentYear =
-    sortHealthDataPointsByDescendingYear(indicatorData.healthData);
-  const mostRecentDataPoint = indicatorDataForAreaForMostRecentYear[0];
-  const benchmarkArea =
-    mostRecentDataPoint?.benchmarkComparison?.benchmarkAreaName ?? 'England';
-  const benchmarkOutcome =
-    mostRecentDataPoint?.benchmarkComparison?.outcome ??
-    BenchmarkOutcome.NotCompared;
+  // const benchmarkArea =
+  //   mostRecentDataPoint?.benchmarkComparison?.benchmarkAreaName ?? 'England'; // DHSCFT-858 remove this fallback?
+  // const benchmarkOutcome =
+  //   mostRecentDataPoint?.benchmarkComparison?.outcome ??
+  //   BenchmarkOutcome.NotCompared;
 
-  const areaMarkerSymbol = getAreaMarkerSymbol(
-    mostRecentDataPoint,
-    benchmarkComparisonMethod
-  );
+  // const areaMarkerSymbol = getAreaMarkerSymbol(
+  //   mostRecentDataPoint,
+  //   benchmarkComparisonMethod
+  // );
 
-  let benchmarkColour: string | undefined = GovukColours.Black;
-  if (
-    tooltipType !== 'benchmark' &&
-    mostRecentDataPoint?.benchmarkComparison?.outcome
-  ) {
-    benchmarkColour = getBenchmarkColour(
-      benchmarkComparisonMethod,
-      benchmarkOutcome ?? BenchmarkOutcome.NotCompared,
-      polarity
-    );
-  }
-  if (
-    tooltipType === 'group' &&
-    indicatorData.areaCode === areaCodeForEngland
-  ) {
-    benchmarkColour = GovukColours.Pink;
-  }
+  // let benchmarkColour: string | undefined = GovukColours.Black;
+  // if (
+  //   tooltipType !== 'benchmark' &&
+  //   mostRecentDataPoint?.benchmarkComparison?.outcome
+  // ) {
+  //   benchmarkColour = getBenchmarkColour(
+  //     benchmarkComparisonMethod,
+  //     benchmarkOutcome ?? BenchmarkOutcome.NotCompared,
+  //     polarity
+  //   );
+  // }
+
+  // TODO: DHSCFT-858: reinstate this logic
+  // if (
+  //   tooltipType === 'group' &&
+  //   indicatorData.areaCode === areaCodeForEngland
+  // ) {
+  //   benchmarkColour = GovukColours.Pink;
+  // }
+
+  // TODO: refactor to use styled components
 
   return (
     <div
-      data-testid={'benchmark-tooltip-area'}
+      data-testid={'benchmark-tooltip-area'} // TODO: change this name?
       style={{ marginBlock: '10px', textWrap: 'wrap' }}
     >
       <div>
-        <b>{getAreaTitle(indicatorData.areaName, tooltipType)}</b>
-        <p style={{ marginBlock: 0 }}>{mostRecentDataPoint?.year ?? null}</p>
+        <b>{getAreaTitle(areaName, tooltipType)}</b>
+        <p style={{ marginBlock: 0 }}>{year}</p>
       </div>
       <div
         style={{
@@ -82,97 +81,31 @@ export function BenchmarkTooltipArea({
       >
         <div
           style={{
-            color: benchmarkColour,
+            // color: benchmarkColour,
             display: 'flex',
             marginLeft: '5px',
             gap: '0.5em',
             fontSize: '24px',
           }}
         >
-          {areaMarkerSymbol()}
+          {/* {areaMarkerSymbol()} */}
         </div>
 
         <div style={{ marginTop: '5px' }}>
           <span style={{ display: 'block' }}>
-            {mostRecentDataPoint?.value
-              ? formatNumber(mostRecentDataPoint.value)
-              : 'No data available'}{' '}
-            {mostRecentDataPoint?.value ? measurementUnit : null}
+            {value ? formatNumber(value) : 'No data available'}{' '}
+            {value ? measurementUnit : null}
           </span>
           {tooltipType !== 'benchmark'
-            ? getComparisonText(
-                benchmarkArea,
-                benchmarkComparisonMethod,
-                mostRecentDataPoint?.benchmarkComparison?.outcome ?? undefined
-              )
-            : null}
+            ? comparisonText
+            : // getComparisonText(
+              //     benchmarkArea,
+              //     benchmarkComparisonMethod,
+              //     mostRecentDataPoint?.benchmarkComparison?.outcome ?? undefined
+              //   )
+              null}
         </div>
       </div>
     </div>
   );
-}
-
-function getAreaMarkerSymbol(
-  mostRecentDataPoint: HealthDataPoint,
-  benchmarkComparisonMethod: string
-) {
-  return () => {
-    switch (true) {
-      case !mostRecentDataPoint?.benchmarkComparison?.outcome:
-        return SymbolsEnum.MultiplicationX;
-      case benchmarkComparisonMethod === BenchmarkComparisonMethod.Unknown:
-      case mostRecentDataPoint.benchmarkComparison?.outcome ===
-        BenchmarkOutcome.NotCompared:
-        return SymbolsEnum.WhiteCircle;
-      default:
-        return SymbolsEnum.Circle;
-    }
-  };
-}
-
-function getComparisonText(
-  benchmarkArea: string,
-  benchmarkComparisonMethod: BenchmarkComparisonMethod,
-  benchmarkOutcome?: BenchmarkOutcome
-) {
-  const benchmarkConfidenceLimit = getConfidenceLimitNumber(
-    benchmarkComparisonMethod
-  );
-
-  const comparisonText = () => {
-    switch (true) {
-      case !benchmarkOutcome:
-        return null;
-      case benchmarkComparisonMethod === BenchmarkComparisonMethod.Quintiles:
-        return `${benchmarkOutcome} quintile`;
-      case benchmarkComparisonMethod === BenchmarkComparisonMethod.Unknown:
-      case benchmarkOutcome === BenchmarkOutcome.NotCompared:
-        return `Not compared`;
-      case benchmarkOutcome === BenchmarkOutcome.Similar:
-        return `${benchmarkOutcome} to ${benchmarkArea}`;
-
-      default:
-        return `${benchmarkOutcome} than ${benchmarkArea}`;
-    }
-  };
-
-  return (
-    <>
-      <span style={{ display: 'block' }}>{comparisonText()}</span>
-      {benchmarkConfidenceLimit && benchmarkArea !== 'England' ? (
-        <span style={{ display: 'block' }}>({benchmarkConfidenceLimit}%)</span>
-      ) : null}
-    </>
-  );
-}
-
-function getAreaTitle(areaName: string, tooltipType: TooltipType) {
-  switch (tooltipType) {
-    case 'benchmark':
-      return `Benchmark: ${areaName}`;
-    case 'group':
-      return areaName !== 'England' ? `Group: ${areaName}` : areaName;
-    default:
-      return areaName;
-  }
 }

@@ -11,7 +11,7 @@ import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/mod
 import { IndicatorPolarity } from '@/generated-sources/ft-api-client/models/IndicatorPolarity';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { ThematicMapCredits } from '../../molecules/ThematicMapCredits';
-import { BenchmarkTooltip } from '@/components/molecules/BenchmarkTooltip';
+import { ThematicMapTooltip } from '@/components/molecules/ThematicMapTooltip';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { useMapGeographyData } from '@/components/organisms/ThematicMap/useMapGeographyData';
 import { H3 } from 'govuk-react';
@@ -91,13 +91,13 @@ export function ThematicMap({
             <div
               key={`thematicMap-chart-hover-${indicatorDataForArea.areaCode}`}
               id={`thematicMap-chart-hover-${indicatorDataForArea.areaCode}`}
-              style={{ display: 'none' }}
+              // style={{ display: 'none' }}
             >
-              <BenchmarkTooltip
+              <ThematicMapTooltip
                 indicatorData={indicatorDataForArea}
                 benchmarkComparisonMethod={benchmarkComparisonMethod}
                 measurementUnit={indicatorMetadata?.unitLabel}
-                indicatorDataForBenchmark={benchmarkIndicatorData}
+                indicatorDataForBenchmark={benchmarkIndicatorData} // DHSCFT-858 remove this
                 indicatorDataForGroup={groupIndicatorData}
                 polarity={polarity}
               />

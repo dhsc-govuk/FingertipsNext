@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { BenchmarkTooltip } from './index';
+import { ThematicMapTooltip } from './index';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { IndicatorPolarity } from '@/generated-sources/ft-api-client';
 
@@ -7,7 +7,7 @@ describe('BenchmarkTooltip', () => {
   const testIndicatorData = mockHealthData['337'][1];
   it('should return tooltip content for an area', () => {
     render(
-      <BenchmarkTooltip
+      <ThematicMapTooltip
         indicatorData={testIndicatorData}
         benchmarkComparisonMethod={'Unknown'}
         measurementUnit={undefined}
@@ -23,7 +23,7 @@ describe('BenchmarkTooltip', () => {
 
   it('should return tooltip content for an area and group', () => {
     render(
-      <BenchmarkTooltip
+      <ThematicMapTooltip
         indicatorData={testIndicatorData}
         benchmarkComparisonMethod={'Unknown'}
         measurementUnit={undefined}
@@ -40,7 +40,7 @@ describe('BenchmarkTooltip', () => {
 
   it('should return tooltip content for an an area, group and benchmark', () => {
     render(
-      <BenchmarkTooltip
+      <ThematicMapTooltip
         indicatorData={testIndicatorData}
         benchmarkComparisonMethod={'Unknown'}
         measurementUnit={undefined}
