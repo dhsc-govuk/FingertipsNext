@@ -25,6 +25,30 @@ export function convertPopulationPyramidTableToCsvData(
   ];
 
   const rows: CsvData = [];
+
+  rows.push(
+    ...convertPopulationPyramidTableAreaToCsvRow(
+      indicatorId,
+      indicatorName,
+      period,
+      populationDataForArea
+    )
+  );
+  if (populationDataForGroup) {
+    const groupRows = convertPopulationPyramidTableAreaToCsvRow(
+      indicatorId,
+      indicatorName,
+      period,
+      populationDataForGroup
+    ).map((row) => {
+      const groupRow = [...row];
+      groupRow[3] = `Group: ${groupRow[3]}`;
+      return groupRow;
+    });
+
+    rows.push(...groupRows);
+  }
+
   if (populationDataForBenchmark)
     rows.push(
       ...convertPopulationPyramidTableAreaToCsvRow(
@@ -34,23 +58,6 @@ export function convertPopulationPyramidTableToCsvData(
         populationDataForBenchmark
       )
     );
-  if (populationDataForGroup)
-    rows.push(
-      ...convertPopulationPyramidTableAreaToCsvRow(
-        indicatorId,
-        indicatorName,
-        period,
-        populationDataForGroup
-      )
-    );
-  rows.push(
-    ...convertPopulationPyramidTableAreaToCsvRow(
-      indicatorId,
-      indicatorName,
-      period,
-      populationDataForArea
-    )
-  );
 
   return [header, ...rows];
 }
