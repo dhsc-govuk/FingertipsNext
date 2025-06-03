@@ -31,11 +31,12 @@ import {
 import { InequalitiesTypesDropDown } from '../InequalitiesTypesDropDown';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 interface InequalitiesForSingleTimePeriodProps {
   healthIndicatorData: HealthDataForArea[];
   searchState: SearchStateParams;
-  measurementUnit?: string;
+  indicatorMetadata?: IndicatorDocument;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
   dataSource?: string;
@@ -44,7 +45,7 @@ interface InequalitiesForSingleTimePeriodProps {
 export function InequalitiesForSingleTimePeriod({
   healthIndicatorData,
   searchState,
-  measurementUnit,
+  indicatorMetadata,
   benchmarkComparisonMethod,
   polarity,
   dataSource,
@@ -87,13 +88,17 @@ export function InequalitiesForSingleTimePeriod({
     selectedYear
   );
 
+  // If the user has made no selection of inequality type to display yet, use
+  // the default inequality category
+  const inequalityType = inequalityTypeSelected ?? inequalityCategories[0];
+
   const filterFunctionGenerator =
     healthDataFilterFunctionGeneratorForInequality[type];
   const healthIndicatorDataWithoutOtherInequalities = {
     ...healthDataForArea,
     healthData: filterHealthData(
       healthDataForArea.healthData,
-      filterFunctionGenerator(inequalityTypeSelected ?? inequalityCategories[0])
+      filterFunctionGenerator(inequalityType)
     ),
   };
 
@@ -125,6 +130,7 @@ export function InequalitiesForSingleTimePeriod({
   if (!periodData) throw new Error('data does not exist for selected year');
 
   const barChartData: InequalitiesBarChartData = {
+    areaCode: healthDataForArea.areaCode,
     areaName: healthDataForArea.areaName,
     data: periodData,
   };
@@ -154,7 +160,7 @@ export function InequalitiesForSingleTimePeriod({
             content: (
               <InequalitiesBarChart
                 barChartData={barChartData}
-                measurementUnit={measurementUnit}
+                measurementUnit={indicatorMetadata?.unitLabel}
                 type={type}
                 yAxisLabel="Value"
                 benchmarkComparisonMethod={benchmarkComparisonMethod}
@@ -168,10 +174,11 @@ export function InequalitiesForSingleTimePeriod({
             content: (
               <InequalitiesBarChartTable
                 tableData={barChartData}
-                measurementUnit={measurementUnit}
+                indicatorMetadata={indicatorMetadata}
                 type={type}
                 benchmarkComparisonMethod={benchmarkComparisonMethod}
                 polarity={polarity}
+                inequalityTypeSelected={inequalityType}
               />
             ),
           },

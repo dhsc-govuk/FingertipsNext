@@ -23,7 +23,9 @@ export const getHealthDataForIndicator = async (
   indicatorApi: IndicatorsApi,
   indicatorId: string | number,
   combinedRequestAreas: HealthDataRequestAreas[],
-  latestOnly?: boolean
+  benchmarkRefType?: BenchmarkReferenceType,
+  latestOnly?: boolean,
+  areaGroup?: string
 ) => {
   let healthIndicatorData: IndicatorWithHealthDataForArea | undefined;
 
@@ -38,6 +40,8 @@ export const getHealthDataForIndicator = async (
               areaType: requestAreas.areaType,
               inequalities: requestAreas.inequalities,
               latestOnly,
+              benchmarkRefType,
+              ancestorCode: areaGroup,
             },
             API_CACHE_CONFIG
           )
@@ -167,7 +171,9 @@ export async function getIndicatorData(
   let indicatorDataAllAreas: IndicatorWithHealthDataForArea | undefined;
 
   const ancestorCode =
-    benchmarkRefType === 'SubNational' ? selectedGroupCode : undefined;
+    benchmarkRefType === BenchmarkReferenceType.SubNational
+      ? selectedGroupCode
+      : undefined;
 
   const indicatorRequestArray = chunkArray(areasSelected).map((requestAreas) =>
     indicatorApi.getHealthDataForAnIndicator(

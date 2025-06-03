@@ -6,11 +6,13 @@ import { loadHighchartsModules } from '@/lib/chartHelpers/chartHelpers';
 interface HighChartsWrapperProps {
   chartOptions: Highcharts.Options;
   testId?: string;
+  constructorType?: string;
 }
 
 export const HighChartsWrapper: FC<HighChartsWrapperProps> = ({
   chartOptions,
   testId,
+  constructorType,
 }) => {
   const [options, setOptions] = useState<Highcharts.Options>();
   chartOptions.exporting = { enabled: false };
@@ -32,6 +34,7 @@ export const HighChartsWrapper: FC<HighChartsWrapperProps> = ({
       }}
       highcharts={Highcharts}
       options={options}
+      constructorType={constructorType}
     />
   );
 };

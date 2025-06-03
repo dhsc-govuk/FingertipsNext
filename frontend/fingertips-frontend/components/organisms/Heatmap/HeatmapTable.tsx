@@ -8,6 +8,7 @@ import {
   generateRows,
   HeatmapDataCell,
 } from '@/components/organisms/Heatmap/heatmapUtil';
+import { useRotatedHeaders } from '@/components/organisms/Heatmap/useRotatedHeaders';
 
 const StyledTable = styled(Table)({
   borderCollapse: 'separate',
@@ -35,8 +36,10 @@ const HeatmapTable: FC<HeatmapTableProps> = ({
   rows,
   handleMouseOverCell,
 }) => {
+  const { containerRef } = useRotatedHeaders(headers);
+
   return (
-    <StyledDivTableContainer>
+    <StyledDivTableContainer ref={containerRef}>
       <StyledTable data-testid="heatmapChart-component">
         <StyledRow>
           {headers.map((header) => (

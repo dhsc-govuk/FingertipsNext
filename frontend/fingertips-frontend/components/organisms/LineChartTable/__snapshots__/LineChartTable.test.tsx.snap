@@ -80,7 +80,17 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   padding-right: 0;
 }
 
-.c22 {
+.c19 {
+  padding: 10px 20px 10px 0;
+  border-bottom: 1px solid #bfc1c3;
+  text-align: left;
+}
+
+.c19:last-child {
+  padding-right: 0;
+}
+
+.c27 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: right;
@@ -90,17 +100,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   font-weight: 400;
 }
 
-.c22:last-child {
-  padding-right: 0;
-}
-
-.c26 {
-  padding: 10px 20px 10px 0;
-  border-bottom: 1px solid #bfc1c3;
-  text-align: left;
-}
-
-.c26:last-child {
+.c27:last-child {
   padding-right: 0;
 }
 
@@ -129,19 +129,19 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   padding: 0.625em 0;
 }
 
-.c14 {
+.c15 {
   text-align: right;
   padding-right: 10px;
   vertical-align: top;
 }
 
-.c15 {
+.c16 {
   background-color: #B1B4B6;
   border-top: solid #F3F2F1 2px;
   vertical-align: top;
 }
 
-.c16 {
+.c17 {
   position: -webkit-sticky;
   position: sticky;
   right: 0;
@@ -151,7 +151,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   padding-right: 0.5em !important;
 }
 
-.c23 {
+.c20 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -161,17 +161,17 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   padding-right: 0;
 }
 
-.c30 {
+.c21 {
   text-align: right;
   padding-right: 10px;
 }
 
-.c31 {
+.c22 {
   background-color: #B1B4B6;
   border-top: solid #F3F2F1 2px;
 }
 
-.c32 {
+.c23 {
   position: -webkit-sticky;
   position: sticky;
   right: 0;
@@ -181,12 +181,12 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   padding-right: 0.5em !important;
 }
 
-.c24 {
+.c28 {
   text-align: left;
   width: 10%;
 }
 
-.c25 {
+.c29 {
   position: -webkit-sticky;
   position: sticky;
   left: 0;
@@ -197,13 +197,13 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   padding-left: 10px;
 }
 
-.c27 {
+.c30 {
   text-align: center;
   padding-left: 10px;
   padding-right: 10px;
 }
 
-.c28 {
+.c31 {
   width: 10%;
 }
 
@@ -213,7 +213,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   padding-left: 10px;
 }
 
-.c19 {
+.c24 {
   position: -webkit-sticky;
   position: sticky;
   left: 0;
@@ -228,7 +228,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   width: 100%;
 }
 
-.c29 {
+.c32 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -267,6 +267,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
 .c13 {
   margin-bottom: 0;
   margin-left: 0.3125em;
+  position: relative;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -275,16 +276,22 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   line-height: 1.1428571428571428;
 }
 
-.c2 {
-  border-collapse: separate;
+.c33 {
+  font-size: 14px;
+  margin-bottom: 8px;
 }
 
-.c17 {
+.c14 {
   border-top: solid #F3F2F1 2px;
   text-align: center;
 }
 
-.c20 {
+.c2 {
+  border-collapse: separate;
+  margin-bottom: 1rem;
+}
+
+.c25 {
   padding: 0.6em;
   text-align: center;
 }
@@ -314,7 +321,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   white-space: nowrap;
 }
 
-.c21 {
+.c26 {
   display: block;
 }
 
@@ -381,7 +388,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
 }
 
 @media print {
-  .c22 {
+  .c27 {
     font-family: sans-serif;
   }
 }
@@ -427,14 +434,14 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
 }
 
 @media print {
-  .c23 {
+  .c20 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c23 {
+  .c20 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
@@ -458,247 +465,260 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
     class="c0"
     data-testid="lineChartTable-component"
   >
-    <table
-      class="c1 c2"
+    <div
       id="lineChartTable"
     >
-      <thead
-        class=""
+      <table
+        class="c1 c2"
       >
-        <tr
+        <thead
           class=""
         >
-          <th
-            class="c3 c4 c5 c6"
-          />
-          <th
-            class="c3 c4 c5 c7"
-            colspan="5"
+          <tr
+            class=""
           >
-            <div
-              class="c8"
+            <th
+              class="c3 c4 c5 c6"
+            />
+            <th
+              class="c3 c4 c5 c7"
+              colspan="5"
             >
-              Recent trend:
               <div
-                data-testid="trendTag-container"
+                class="c8"
               >
-                <strong
-                  class="c9 c10"
+                Recent trend:
+                <div
+                  data-testid="trendTag-container"
                 >
-                  <div
-                    class="c11"
-                    data-testid="trend-tag-component"
+                  <strong
+                    class="c9 c10"
                   >
-                    <div>
-                      <div
-                        class="c12 c13"
-                      >
-                        <p>
-                          No recent trend data available
-                        </p>
+                    <div
+                      class="c11"
+                      data-testid="trend-tag-component"
+                    >
+                      <div>
+                        <div
+                          class="c12 c13"
+                        >
+                          <p>
+                            No recent trend data available
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </strong>
+                  </strong>
+                </div>
               </div>
-            </div>
-          </th>
-          <th
-            class="c3 c4 c14 c15 c16"
-          />
-        </tr>
-        <tr
-          class=""
-        >
-          <th
-            class="c3"
-          />
-          <th
-            class="c3 c4 c5 c17"
-            colspan="5"
+            </th>
+          </tr>
+          <tr
+            class=""
           >
-            Greater Manchester ICB - 00T
-          </th>
-          <th
-            class="c3 c4 c14 c15 c16"
-            data-testid="england-header"
-          >
-            Benchmark: 
-            <br />
-             England
-          </th>
-        </tr>
-        <tr
-          class=""
-        >
-          <th
-            class="c3"
-            colspan="4"
-          />
-          <th
-            class="c3 c4 c5 c18"
-            colspan="2"
-          >
-            95%
-            <br />
-            confidence
-            <br />
-            limits
-          </th>
-          <th
-            class="c3 c4 c14 c15 c16"
-          />
-        </tr>
-        <tr
-          class=""
-        >
-          <th
-            class="c3 8 c4 c5 c19"
-            data-testid="header-Period-0"
-          >
-            Period
-          </th>
-          <th
-            class="c3 c4 c5 c20"
-            data-testid="header-Compared to benchmark-0"
-          >
-            Compared to benchmark
-          </th>
-          <th
-            class="c3 c4 c14"
-            data-testid="header-Count-0"
-          >
-            Count
-          </th>
-          <th
-            class="c3 c4 c14"
-            data-testid="header-Value-0"
-          >
-            Value
-            <span
-              class="1 c21"
+            <th
+              class="c3"
+            />
+            <th
+              class="c3 c4 c5 c14"
+              colspan="5"
             >
-               %
-            </span>
-          </th>
-          <th
-            class="c3 c4 c14"
-            data-testid="header-Lower-0"
-          >
-            Lower
-          </th>
-          <th
-            class="c3 c4 c14"
-            data-testid="header-Upper-0"
-          >
-            Upper
-          </th>
-          <th
-            class="c3 c4 c14 c15 c16"
-            data-testid="header-benchmark-value"
-          >
-            Value  
-            <span
-              class="1 c21"
+              Greater Manchester ICB - 00T
+            </th>
+            <th
+              class="c3 c4 c15 c16 c17"
+              data-testid="england-header"
             >
-              %
-            </span>
-          </th>
-        </tr>
-      </thead>
-      <tbody
-        class=""
+               
+              <br />
+               England
+            </th>
+          </tr>
+          <tr
+            class=""
+          >
+            <th
+              class="c3"
+              colspan="4"
+            />
+            <th
+              class="c3 c4 c5 c18"
+              colspan="2"
+            >
+              95%
+              <br />
+              confidence
+              <br />
+              limits
+            </th>
+            <td
+              class="c19 c20 c21 c22 c23"
+              data-testid="england-cell"
+            />
+          </tr>
+          <tr
+            class=""
+          >
+            <th
+              class="c3 8 c4 c5 c24"
+              data-testid="header-Period-0"
+            >
+              Period
+            </th>
+            <th
+              class="c3 c4 c5 c25"
+              data-testid="header-Compared to benchmark-0"
+            >
+              Compared to benchmark
+            </th>
+            <th
+              class="c3 c4 c15"
+              data-testid="header-Count-0"
+            >
+              Count
+            </th>
+            <th
+              class="c3 c4 c15"
+              data-testid="header-Value-0"
+            >
+              Value
+              <span
+                class="c26"
+              >
+                 %
+              </span>
+            </th>
+            <th
+              class="c3 c4 c15"
+              data-testid="header-Lower-0"
+            >
+              Lower
+            </th>
+            <th
+              class="c3 c4 c15"
+              data-testid="header-Upper-0"
+            >
+              Upper
+            </th>
+            <th
+              class="c3 c4 c15 c16 c17"
+              data-testid="england-subheader"
+            >
+              Value  
+              <span
+                class="c26"
+              >
+                %
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          class=""
+        >
+          <tr
+            class=""
+          >
+            <td
+              class="0 c27 c20 c28 c29"
+            >
+              2004
+            </td>
+            <td
+              class="1 c19 c30 c31"
+            >
+              <strong
+                class="c9 c32"
+              >
+                Not compared
+              </strong>
+            </td>
+            <td
+              class="c27 c20 c21"
+            >
+              267
+            </td>
+            <td
+              class="c27 c20 c21"
+            >
+              703.4
+            </td>
+            <td
+              class="c27 c20 c21"
+            >
+              441.7
+            </td>
+            <td
+              class="c27 c20 c21"
+            >
+              578.3
+            </td>
+            <td
+              class="c19 c20 c21 c22 c23"
+              data-testid="england-cell"
+            >
+              904.9
+            </td>
+          </tr>
+          <tr
+            class=""
+          >
+            <td
+              class="0 c27 c20 c28 c29"
+            >
+              2008
+            </td>
+            <td
+              class="1 c19 c30 c31"
+            >
+              <strong
+                class="c9 c32"
+              >
+                Not compared
+              </strong>
+            </td>
+            <td
+              class="c27 c20 c21"
+            >
+              222
+            </td>
+            <td
+              class="c27 c20 c21"
+            >
+              890.3
+            </td>
+            <td
+              class="c27 c20 c21"
+            >
+              441.7
+            </td>
+            <td
+              class="c27 c20 c21"
+            >
+              578.3
+            </td>
+            <td
+              class="c19 c20 c21 c22 c23"
+              data-testid="england-cell"
+            >
+              966.0
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div
+        class="exportOnly"
+        style="display: none;"
       >
-        <tr
-          class=""
+        <div
+          class="c33"
         >
-          <td
-            class="0 c22 c23 c24 c25"
-          >
-            2004
-          </td>
-          <td
-            class="1 c26 c27 c28"
-          >
-            <strong
-              class="c9 c29"
-            >
-              Not compared
-            </strong>
-          </td>
-          <td
-            class="c22 c23 c30"
-          >
-            267
-          </td>
-          <td
-            class="c22 c23 c30"
-          >
-            703.4
-          </td>
-          <td
-            class="c22 c23 c30"
-          >
-            441.7
-          </td>
-          <td
-            class="c22 c23 c30"
-          >
-            578.3
-          </td>
-          <td
-            class="c26 c23 c30 c31 c32"
-            data-testid="grey-table-cell"
-          >
-            904.9
-          </td>
-        </tr>
-        <tr
-          class=""
-        >
-          <td
-            class="0 c22 c23 c24 c25"
-          >
-            2008
-          </td>
-          <td
-            class="1 c26 c27 c28"
-          >
-            <strong
-              class="c9 c29"
-            >
-              Not compared
-            </strong>
-          </td>
-          <td
-            class="c22 c23 c30"
-          >
-            222
-          </td>
-          <td
-            class="c22 c23 c30"
-          >
-            890.3
-          </td>
-          <td
-            class="c22 c23 c30"
-          >
-            441.7
-          </td>
-          <td
-            class="c22 c23 c30"
-          >
-            578.3
-          </td>
-          <td
-            class="c26 c23 c30 c31 c32"
-            data-testid="grey-table-cell"
-          >
-            966.0
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          ©Crown copyright 2024. Office for Health Improvement & Disparities.
+          <br />
+          Public Health Profiles accessed on 25 December 2024 www.fingertips.phe.org.uk
+        </div>
+      </div>
+    </div>
   </div>
   .c0 {
   font-family: "nta",Arial,sans-serif;
@@ -790,6 +810,10 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
 
 .c0 svg {
   max-width: 15px;
+}
+
+.c1 {
+  margin-top: 1rem;
 }
 
 @media print {
@@ -889,7 +913,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
 }
 
 <button
-    class="c0"
+    class="c0 c1"
   >
     Export options
   </button>
@@ -976,7 +1000,17 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   padding-right: 0;
 }
 
-.c23 {
+.c19 {
+  padding: 10px 20px 10px 0;
+  border-bottom: 1px solid #bfc1c3;
+  text-align: left;
+}
+
+.c19:last-child {
+  padding-right: 0;
+}
+
+.c28 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: right;
@@ -986,17 +1020,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   font-weight: 400;
 }
 
-.c23:last-child {
-  padding-right: 0;
-}
-
-.c27 {
-  padding: 10px 20px 10px 0;
-  border-bottom: 1px solid #bfc1c3;
-  text-align: left;
-}
-
-.c27:last-child {
+.c28:last-child {
   padding-right: 0;
 }
 
@@ -1025,19 +1049,19 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   padding: 0.625em 0;
 }
 
-.c14 {
+.c15 {
   text-align: right;
   padding-right: 10px;
   vertical-align: top;
 }
 
-.c15 {
+.c16 {
   background-color: #B1B4B6;
   border-top: solid #F3F2F1 2px;
   vertical-align: top;
 }
 
-.c16 {
+.c17 {
   position: -webkit-sticky;
   position: sticky;
   right: 0;
@@ -1047,7 +1071,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   padding-right: 0.5em !important;
 }
 
-.c24 {
+.c20 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -1057,17 +1081,17 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   padding-right: 0;
 }
 
-.c31 {
+.c21 {
   text-align: right;
   padding-right: 10px;
 }
 
-.c33 {
+.c22 {
   background-color: #B1B4B6;
   border-top: solid #F3F2F1 2px;
 }
 
-.c34 {
+.c23 {
   position: -webkit-sticky;
   position: sticky;
   right: 0;
@@ -1077,12 +1101,12 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   padding-right: 0.5em !important;
 }
 
-.c25 {
+.c29 {
   text-align: left;
   width: 10%;
 }
 
-.c26 {
+.c30 {
   position: -webkit-sticky;
   position: sticky;
   left: 0;
@@ -1093,13 +1117,13 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   padding-left: 10px;
 }
 
-.c28 {
+.c31 {
   text-align: center;
   padding-left: 10px;
   padding-right: 10px;
 }
 
-.c29 {
+.c32 {
   width: 10%;
 }
 
@@ -1109,7 +1133,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   padding-left: 10px;
 }
 
-.c19 {
+.c24 {
   position: -webkit-sticky;
   position: sticky;
   left: 0;
@@ -1124,7 +1148,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   width: 100%;
 }
 
-.c30 {
+.c33 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -1163,6 +1187,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
 .c13 {
   margin-bottom: 0;
   margin-left: 0.3125em;
+  position: relative;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -1171,21 +1196,27 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   line-height: 1.1428571428571428;
 }
 
-.c2 {
-  border-collapse: separate;
+.c35 {
+  font-size: 14px;
+  margin-bottom: 8px;
 }
 
-.c17 {
+.c14 {
   border-top: solid #F3F2F1 2px;
   text-align: center;
 }
 
-.c20 {
+.c2 {
+  border-collapse: separate;
+  margin-bottom: 1rem;
+}
+
+.c25 {
   padding: 0.6em;
   text-align: center;
 }
 
-.c22 {
+.c27 {
   border-left: solid black 1px;
 }
 
@@ -1214,12 +1245,12 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   white-space: nowrap;
 }
 
-.c32 {
+.c34 {
   border-left: solid black 1px;
   text-align: center;
 }
 
-.c21 {
+.c26 {
   display: block;
 }
 
@@ -1286,7 +1317,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
 }
 
 @media print {
-  .c23 {
+  .c28 {
     font-family: sans-serif;
   }
 }
@@ -1332,14 +1363,14 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
 }
 
 @media print {
-  .c24 {
+  .c20 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c24 {
+  .c20 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
@@ -1363,392 +1394,405 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
     class="c0"
     data-testid="lineChartTable-component"
   >
-    <table
-      class="c1 c2"
+    <div
       id="lineChartTable"
     >
-      <thead
-        class=""
+      <table
+        class="c1 c2"
       >
-        <tr
+        <thead
           class=""
         >
-          <th
-            class="c3 c4 c5 c6"
-          />
-          <th
-            class="c3 c4 c5 c7"
-            colspan="5"
+          <tr
+            class=""
           >
-            <div
-              class="c8"
+            <th
+              class="c3 c4 c5 c6"
+            />
+            <th
+              class="c3 c4 c5 c7"
+              colspan="5"
             >
-              Recent trend:
               <div
-                data-testid="trendTag-container"
+                class="c8"
               >
-                <strong
-                  class="c9 c10"
+                Recent trend:
+                <div
+                  data-testid="trendTag-container"
                 >
-                  <div
-                    class="c11"
-                    data-testid="trend-tag-component"
+                  <strong
+                    class="c9 c10"
                   >
-                    <div>
-                      <div
-                        class="c12 c13"
-                      >
-                        <p>
-                          No recent trend data available
-                        </p>
+                    <div
+                      class="c11"
+                      data-testid="trend-tag-component"
+                    >
+                      <div>
+                        <div
+                          class="c12 c13"
+                        >
+                          <p>
+                            No recent trend data available
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </strong>
+                  </strong>
+                </div>
               </div>
-            </div>
-          </th>
-          <th
-            class="c3 c4 c5 c7"
-            colspan="5"
-          >
-            <div
-              class="c8"
+            </th>
+            <th
+              class="c3 c4 c5 c7"
+              colspan="5"
             >
-              Recent trend:
               <div
-                data-testid="trendTag-container"
+                class="c8"
               >
-                <strong
-                  class="c9 c10"
+                Recent trend:
+                <div
+                  data-testid="trendTag-container"
                 >
-                  <div
-                    class="c11"
-                    data-testid="trend-tag-component"
+                  <strong
+                    class="c9 c10"
                   >
-                    <div>
-                      <div
-                        class="c12 c13"
-                      >
-                        <p>
-                          No recent trend data available
-                        </p>
+                    <div
+                      class="c11"
+                      data-testid="trend-tag-component"
+                    >
+                      <div>
+                        <div
+                          class="c12 c13"
+                        >
+                          <p>
+                            No recent trend data available
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </strong>
+                  </strong>
+                </div>
               </div>
-            </div>
-          </th>
-          <th
-            class="c3 c4 c14 c15 c16"
-          />
-        </tr>
-        <tr
+            </th>
+          </tr>
+          <tr
+            class=""
+          >
+            <th
+              class="c3"
+            />
+            <th
+              class="c3 c4 c5 c14"
+              colspan="5"
+            >
+              Greater Manchester ICB - 00T
+            </th>
+            <th
+              class="c3 c4 c5 c14"
+              colspan="5"
+            >
+              South FooBar
+            </th>
+            <th
+              class="c3 c4 c15 c16 c17"
+              data-testid="england-header"
+            >
+               
+              <br />
+               England
+            </th>
+          </tr>
+          <tr
+            class=""
+          >
+            <th
+              class="c3"
+              colspan="4"
+            />
+            <th
+              class="c3 c4 c5 c18"
+              colspan="2"
+            >
+              95%
+              <br />
+              confidence
+              <br />
+              limits
+            </th>
+            <th
+              class="c3"
+              colspan="3"
+            />
+            <th
+              class="c3 c4 c5 c18"
+              colspan="2"
+            >
+              95%
+              <br />
+              confidence
+              <br />
+              limits
+            </th>
+            <td
+              class="c19 c20 c21 c22 c23"
+              data-testid="england-cell"
+            />
+          </tr>
+          <tr
+            class=""
+          >
+            <th
+              class="c3 8 c4 c5 c24"
+              data-testid="header-Period-0"
+            >
+              Period
+            </th>
+            <th
+              class="c3 c4 c5 c25"
+              data-testid="header-Compared to benchmark-0"
+            >
+              Compared to benchmark
+            </th>
+            <th
+              class="c3 c4 c15"
+              data-testid="header-Count-0"
+            >
+              Count
+            </th>
+            <th
+              class="c3 c4 c15"
+              data-testid="header-Value-0"
+            >
+              Value
+              <span
+                class="c26"
+              >
+                 %
+              </span>
+            </th>
+            <th
+              class="c3 c4 c15"
+              data-testid="header-Lower-0"
+            >
+              Lower
+            </th>
+            <th
+              class="c3 c4 c15"
+              data-testid="header-Upper-0"
+            >
+              Upper
+            </th>
+            <th
+              class="c3 c4 c5 c25 c27"
+              data-testid="header-Compared to benchmark-1"
+            >
+              Compared to benchmark
+            </th>
+            <th
+              class="c3 c4 c15"
+              data-testid="header-Count-1"
+            >
+              Count
+            </th>
+            <th
+              class="c3 c4 c15"
+              data-testid="header-Value-1"
+            >
+              Value
+              <span
+                class="c26"
+              >
+                 %
+              </span>
+            </th>
+            <th
+              class="c3 c4 c15"
+              data-testid="header-Lower-1"
+            >
+              Lower
+            </th>
+            <th
+              class="c3 c4 c15"
+              data-testid="header-Upper-1"
+            >
+              Upper
+            </th>
+            <th
+              class="c3 c4 c15 c16 c17"
+              data-testid="england-subheader"
+            >
+              Value  
+              <span
+                class="c26"
+              >
+                %
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody
           class=""
         >
-          <th
-            class="c3"
-          />
-          <th
-            class="c3 c4 c5 c17"
-            colspan="5"
+          <tr
+            class=""
           >
-            Greater Manchester ICB - 00T
-          </th>
-          <th
-            class="c3 c4 c5 c17"
-            colspan="5"
-          >
-            South FooBar
-          </th>
-          <th
-            class="c3 c4 c14 c15 c16"
-            data-testid="england-header"
-          >
-            Benchmark: 
-            <br />
-             England
-          </th>
-        </tr>
-        <tr
-          class=""
-        >
-          <th
-            class="c3"
-            colspan="4"
-          />
-          <th
-            class="c3 c4 c5 c18"
-            colspan="2"
-          >
-            95%
-            <br />
-            confidence
-            <br />
-            limits
-          </th>
-          <th
-            class="c3"
-            colspan="3"
-          />
-          <th
-            class="c3 c4 c5 c18"
-            colspan="2"
-          >
-            95%
-            <br />
-            confidence
-            <br />
-            limits
-          </th>
-          <th
-            class="c3 c4 c14 c15 c16"
-          />
-        </tr>
-        <tr
-          class=""
-        >
-          <th
-            class="c3 8 c4 c5 c19"
-            data-testid="header-Period-0"
-          >
-            Period
-          </th>
-          <th
-            class="c3 c4 c5 c20"
-            data-testid="header-Compared to benchmark-0"
-          >
-            Compared to benchmark
-          </th>
-          <th
-            class="c3 c4 c14"
-            data-testid="header-Count-0"
-          >
-            Count
-          </th>
-          <th
-            class="c3 c4 c14"
-            data-testid="header-Value-0"
-          >
-            Value
-            <span
-              class="1 c21"
+            <td
+              class="0 c28 c20 c29 c30"
             >
-               %
-            </span>
-          </th>
-          <th
-            class="c3 c4 c14"
-            data-testid="header-Lower-0"
-          >
-            Lower
-          </th>
-          <th
-            class="c3 c4 c14"
-            data-testid="header-Upper-0"
-          >
-            Upper
-          </th>
-          <th
-            class="c3 c4 c5 c20 c22"
-            data-testid="header-Compared to benchmark-1"
-          >
-            Compared to benchmark
-          </th>
-          <th
-            class="c3 c4 c14"
-            data-testid="header-Count-1"
-          >
-            Count
-          </th>
-          <th
-            class="c3 c4 c14"
-            data-testid="header-Value-1"
-          >
-            Value
-            <span
-              class="1 c21"
+              2004
+            </td>
+            <td
+              class="1 c19 c31 c32"
             >
-               %
-            </span>
-          </th>
-          <th
-            class="c3 c4 c14"
-            data-testid="header-Lower-1"
-          >
-            Lower
-          </th>
-          <th
-            class="c3 c4 c14"
-            data-testid="header-Upper-1"
-          >
-            Upper
-          </th>
-          <th
-            class="c3 c4 c14 c15 c16"
-            data-testid="header-benchmark-value"
-          >
-            Value  
-            <span
-              class="1 c21"
+              <strong
+                class="c9 c33"
+              >
+                Not compared
+              </strong>
+            </td>
+            <td
+              class="c28 c20 c21"
             >
-              %
-            </span>
-          </th>
-        </tr>
-      </thead>
-      <tbody
-        class=""
+              267
+            </td>
+            <td
+              class="c28 c20 c21"
+            >
+              703.4
+            </td>
+            <td
+              class="c28 c20 c21"
+            >
+              441.7
+            </td>
+            <td
+              class="c28 c20 c21"
+            >
+              578.3
+            </td>
+            <td
+              class="c19 c20 c29 c34"
+            >
+              <strong
+                class="c9 c33"
+              >
+                Not compared
+              </strong>
+            </td>
+            <td
+              class="c28 c20 c21"
+            >
+              222
+            </td>
+            <td
+              class="c28 c20 c21"
+            >
+              135.1
+            </td>
+            <td
+              class="c28 c20 c21"
+            >
+              441.7
+            </td>
+            <td
+              class="c28 c20 c21"
+            >
+              578.3
+            </td>
+            <td
+              class="c19 c20 c21 c22 c23"
+              data-testid="england-cell"
+            >
+              904.9
+            </td>
+          </tr>
+          <tr
+            class=""
+          >
+            <td
+              class="0 c28 c20 c29 c30"
+            >
+              2008
+            </td>
+            <td
+              class="1 c19 c31 c32"
+            >
+              <strong
+                class="c9 c33"
+              >
+                Not compared
+              </strong>
+            </td>
+            <td
+              class="c28 c20 c21"
+            >
+              222
+            </td>
+            <td
+              class="c28 c20 c21"
+            >
+              890.3
+            </td>
+            <td
+              class="c28 c20 c21"
+            >
+              441.7
+            </td>
+            <td
+              class="c28 c20 c21"
+            >
+              578.3
+            </td>
+            <td
+              class="c19 c20 c29 c34"
+            >
+              <strong
+                class="c9 c33"
+              >
+                Not compared
+              </strong>
+            </td>
+            <td
+              class="c28 c20 c21"
+            >
+              222
+            </td>
+            <td
+              class="c28 c20 c21"
+            >
+              135.1
+            </td>
+            <td
+              class="c28 c20 c21"
+            >
+              441.7
+            </td>
+            <td
+              class="c28 c20 c21"
+            >
+              578.3
+            </td>
+            <td
+              class="c19 c20 c21 c22 c23"
+              data-testid="england-cell"
+            >
+              966.0
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div
+        class="exportOnly"
+        style="display: none;"
       >
-        <tr
-          class=""
+        <div
+          class="c35"
         >
-          <td
-            class="0 c23 c24 c25 c26"
-          >
-            2004
-          </td>
-          <td
-            class="1 c27 c28 c29"
-          >
-            <strong
-              class="c9 c30"
-            >
-              Not compared
-            </strong>
-          </td>
-          <td
-            class="c23 c24 c31"
-          >
-            267
-          </td>
-          <td
-            class="c23 c24 c31"
-          >
-            703.4
-          </td>
-          <td
-            class="c23 c24 c31"
-          >
-            441.7
-          </td>
-          <td
-            class="c23 c24 c31"
-          >
-            578.3
-          </td>
-          <td
-            class="c27 c24 c25 c32"
-          >
-            <strong
-              class="c9 c30"
-            >
-              Not compared
-            </strong>
-          </td>
-          <td
-            class="c23 c24 c31"
-          >
-            222
-          </td>
-          <td
-            class="c23 c24 c31"
-          >
-            135.1
-          </td>
-          <td
-            class="c23 c24 c31"
-          >
-            441.7
-          </td>
-          <td
-            class="c23 c24 c31"
-          >
-            578.3
-          </td>
-          <td
-            class="c27 c24 c31 c33 c34"
-            data-testid="grey-table-cell"
-          >
-            904.9
-          </td>
-        </tr>
-        <tr
-          class=""
-        >
-          <td
-            class="0 c23 c24 c25 c26"
-          >
-            2008
-          </td>
-          <td
-            class="1 c27 c28 c29"
-          >
-            <strong
-              class="c9 c30"
-            >
-              Not compared
-            </strong>
-          </td>
-          <td
-            class="c23 c24 c31"
-          >
-            222
-          </td>
-          <td
-            class="c23 c24 c31"
-          >
-            890.3
-          </td>
-          <td
-            class="c23 c24 c31"
-          >
-            441.7
-          </td>
-          <td
-            class="c23 c24 c31"
-          >
-            578.3
-          </td>
-          <td
-            class="c27 c24 c25 c32"
-          >
-            <strong
-              class="c9 c30"
-            >
-              Not compared
-            </strong>
-          </td>
-          <td
-            class="c23 c24 c31"
-          >
-            222
-          </td>
-          <td
-            class="c23 c24 c31"
-          >
-            135.1
-          </td>
-          <td
-            class="c23 c24 c31"
-          >
-            441.7
-          </td>
-          <td
-            class="c23 c24 c31"
-          >
-            578.3
-          </td>
-          <td
-            class="c27 c24 c31 c33 c34"
-            data-testid="grey-table-cell"
-          >
-            966.0
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          ©Crown copyright 2024. Office for Health Improvement & Disparities.
+          <br />
+          Public Health Profiles accessed on 25 December 2024 www.fingertips.phe.org.uk
+        </div>
+      </div>
+    </div>
   </div>
   .c0 {
   font-family: "nta",Arial,sans-serif;
@@ -1840,6 +1884,10 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
 
 .c0 svg {
   max-width: 15px;
+}
+
+.c1 {
+  margin-top: 1rem;
 }
 
 @media print {
@@ -1939,7 +1987,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
 }
 
 <button
-    class="c0"
+    class="c0 c1"
   >
     Export options
   </button>

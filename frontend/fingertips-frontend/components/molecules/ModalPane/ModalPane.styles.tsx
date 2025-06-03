@@ -22,7 +22,7 @@ export const ModalPaneOverlay = styled.div({
 
 export const ModalPaneInner = styled.div({
   position: 'absolute',
-  top: '200px',
+  top: '5vh',
   left: 'calc(50vw - 370px)',
   width: '740px',
   backgroundColor: GovukColours.White,

@@ -27,12 +27,24 @@ const mockGroupData = {
 };
 
 describe('PopulationPyramidChartTable', () => {
+  beforeAll(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2024-12-25T12:00:00Z'));
+  });
+
+  afterAll(() => {
+    jest.useRealTimers();
+  });
+
   test('renders tables with health and benchmark data', () => {
     render(
       <PopulationPyramidChartTable
         healthDataForArea={mockHealthDataForArea}
         groupData={mockGroupData}
         benchmarkData={mockBenchmarkData}
+        indicatorId={'1'}
+        indicatorName={'Indicator'}
+        period={2003}
       />
     );
 
@@ -50,6 +62,9 @@ describe('PopulationPyramidChartTable', () => {
         healthDataForArea={mockHealthDataForArea}
         benchmarkData={undefined}
         groupData={mockGroupData}
+        indicatorId={'1'}
+        indicatorName={'Indicator'}
+        period={2003}
       />
     );
 
@@ -65,11 +80,30 @@ describe('PopulationPyramidChartTable', () => {
         healthDataForArea={mockHealthDataForArea}
         benchmarkData={mockBenchmarkData}
         groupData={mockGroupData}
+        indicatorId={'1'}
+        indicatorName={'Indicator'}
+        period={2003}
       />
     );
 
     const tables = screen.getAllByRole('table');
     expect(tables).toHaveLength(3);
     expect(asFragment()).toMatchSnapshot();
+  });
+
+  test('check it contains the export button', () => {
+    render(
+      <PopulationPyramidChartTable
+        healthDataForArea={mockHealthDataForArea}
+        benchmarkData={mockBenchmarkData}
+        groupData={mockGroupData}
+        indicatorId={'1'}
+        indicatorName={'Indicator'}
+        period={2003}
+      />
+    );
+
+    const btn = screen.getByRole('button', { name: 'Export options' });
+    expect(btn).toBeInTheDocument();
   });
 });

@@ -64,6 +64,7 @@ export interface IndicatorsQuartilesGetRequest {
     areaCode?: string;
     areaType?: string;
     indicatorIds?: Array<number>;
+    benchmarkRefType?: BenchmarkReferenceType;
 }
 
 /**
@@ -135,6 +136,7 @@ export interface IndicatorsApiInterface {
      * @param {string} [areaCode] The area code of the area/ geography
      * @param {string} [areaType] The area type which the areas belong to
      * @param {Array<number>} [indicatorIds] A list of indicator_ids, up to 10 can be requested
+     * @param {BenchmarkReferenceType} [benchmarkRefType] The benchmark reference type
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof IndicatorsApiInterface
@@ -305,6 +307,10 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
 
         if (requestParameters['indicatorIds'] != null) {
             queryParameters['indicator_ids'] = requestParameters['indicatorIds'];
+        }
+
+        if (requestParameters['benchmarkRefType'] != null) {
+            queryParameters['benchmark_ref_type'] = requestParameters['benchmarkRefType'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
