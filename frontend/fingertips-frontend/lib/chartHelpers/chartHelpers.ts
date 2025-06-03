@@ -327,9 +327,15 @@ export const getBenchmarkLabel = (
   if (benchmarkComparisonMethod === BenchmarkComparisonMethod.Quintiles)
     return `${benchmarkOutcome} quintile`;
 
+  const outcome = getBenchmarkLabelText(benchmarkOutcome);
+
+  if (outcome === 'Not compared') {
+    return outcome;
+  }
+
   const joiningWord =
     benchmarkOutcome === BenchmarkOutcome.Similar ? 'to' : 'than';
-  const outcome = getBenchmarkLabelText(benchmarkOutcome);
+
   return `${outcome} ${joiningWord} ${areaName ?? 'England'}`;
 };
 
