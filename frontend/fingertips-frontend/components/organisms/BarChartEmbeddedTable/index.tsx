@@ -133,10 +133,24 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
 
   const confidenceLimit = getConfidenceLimitNumber(benchmarkComparisonMethod);
 
-  const englandDataPointNamePrefix =
-    benchmarkToUse === areaCodeForEngland ? 'Benchmark: ' : '';
-  const groupDataPointNamePrefix =
-    benchmarkToUse === areaCodeForEngland ? 'Group: ' : 'Benchmark: ';
+  let englandDataPointNamePrefix,
+    groupDataPointNamePrefix,
+    englandLabel,
+    groupLabel,
+    showComparisonLabels;
+  if (benchmarkToUse === areaCodeForEngland) {
+    englandDataPointNamePrefix = 'Benchmark: ';
+    groupDataPointNamePrefix = 'Group: ';
+    englandLabel = AreaTypeLabelEnum.Benchmark;
+    groupLabel = AreaTypeLabelEnum.Group;
+    showComparisonLabels = true;
+  } else {
+    englandDataPointNamePrefix = '';
+    groupDataPointNamePrefix = 'Benchmark: ';
+    englandLabel = AreaTypeLabelEnum.Area;
+    groupLabel = AreaTypeLabelEnum.Benchmark;
+    showComparisonLabels = false;
+  }
 
   const id = 'barChartEmbeddedTable';
 
@@ -261,15 +275,16 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
                   ]}
                   showConfidenceIntervalsData={showConfidenceIntervalsData}
                   benchmarkOutcome={
-                    englandDataPoint.benchmarkComparison?.outcome
+                    englandDataPoint?.benchmarkComparison?.outcome
                   }
                   benchmarkComparisonMethod={benchmarkComparisonMethod}
                   polarity={polarity}
-                  label={AreaTypeLabelEnum.Benchmark}
+                  label={englandLabel}
                   area={englandData?.areaName}
                   year={englandDataPoint.year}
                   measurementUnit={measurementUnit}
                   barColor={GovukColours.DarkGrey}
+                  showComparisonLabels={showComparisonLabels}
                 ></SparklineChart>
               </Table.Cell>
               <FormatNumberInTableCell
@@ -321,7 +336,7 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
                   benchmarkOutcome={groupDataPoint.benchmarkComparison?.outcome}
                   benchmarkComparisonMethod={benchmarkComparisonMethod}
                   polarity={polarity}
-                  label={AreaTypeLabelEnum.Group}
+                  label={groupLabel}
                   area={groupIndicatorData?.areaName}
                   year={groupDataPoint.year}
                   measurementUnit={measurementUnit}
