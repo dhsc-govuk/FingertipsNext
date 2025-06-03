@@ -54,7 +54,7 @@ export const coreTestJourneys: TestParams[] = [
     areaFiltersToSelect: {
       areaType: 'counties-and-unitary-authorities',
       groupType: 'regions',
-      group: 'North West Region',
+      group: 'North West Region', // if not england then this group is also selected in the benchmarking drop down on the relevant views
     },
   },
   {
@@ -69,9 +69,9 @@ export const coreTestJourneys: TestParams[] = [
       },
     ],
     areaFiltersToSelect: {
-      areaType: 'regions',
-      groupType: 'england',
-      group: 'england',
+      areaType: 'counties-and-unitary-authorities',
+      groupType: 'combined-authorities',
+      group: 'Greater Manchester Combined Authority', // if not england then this group is also selected in the benchmarking drop down on the relevant views
     },
   },
   {
