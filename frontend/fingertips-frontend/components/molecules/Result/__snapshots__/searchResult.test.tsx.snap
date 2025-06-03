@@ -103,38 +103,6 @@ exports[`Indicator Checkbox snapshot test 1`] = `
   margin-bottom: 15px;
 }
 
-.c8 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.c8:focus {
-  outline: 3px solid #ffdd00;
-  outline-offset: 0;
-  background-color: #ffdd00;
-}
-
-.c8:link {
-  color: #1d70b8;
-}
-
-.c8:visited {
-  color: #4c2c92;
-}
-
-.c8:hover {
-  color: #2b8cc4;
-}
-
-.c8:active {
-  color: #2b8cc4;
-}
-
-.c8:focus {
-  color: #0b0c0c;
-}
-
 .c9 {
   margin: 0;
   font-family: "nta",Arial,sans-serif;
@@ -198,6 +166,38 @@ exports[`Indicator Checkbox snapshot test 1`] = `
   margin: 0;
   border: 0;
   border-bottom: 1px solid #bfc1c3;
+}
+
+.c8 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.c8:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+  background-color: #ffdd00;
+}
+
+.c8:link {
+  color: #1d70b8;
+}
+
+.c8:visited {
+  color: #4c2c92;
+}
+
+.c8:hover {
+  color: #2b8cc4;
+}
+
+.c8:active {
+  color: #2b8cc4;
+}
+
+.c8:focus {
+  color: #0b0c0c;
 }
 
 .c10 {
@@ -285,22 +285,6 @@ exports[`Indicator Checkbox snapshot test 1`] = `
 }
 
 @media print {
-  .c8 {
-    font-family: sans-serif;
-  }
-}
-
-@media print {
-  .c8[href^="/"]::after,
-  .c8[href^="http://"]::after,
-  .c8[href^="https://"]::after {
-    content: " (" attr(href) ")";
-    font-size: 90%;
-    word-wrap: break-word;
-  }
-}
-
-@media print {
   .c9 {
     font-size: 14px;
     line-height: 1.15;
@@ -337,6 +321,16 @@ exports[`Indicator Checkbox snapshot test 1`] = `
     -webkit-flex-direction: row;
     -ms-flex-direction: row;
     flex-direction: row;
+  }
+}
+
+@media print {
+  .c8[href^="/"]::after,
+  .c8[href^="http://"]::after,
+  .c8[href^="https://"]::after {
+    content: " (" attr(href) ")";
+    font-size: 90%;
+    word-wrap: break-word;
   }
 }
 

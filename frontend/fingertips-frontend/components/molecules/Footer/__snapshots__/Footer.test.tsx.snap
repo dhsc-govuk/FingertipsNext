@@ -2,35 +2,35 @@
 
 exports[`FTFooter should match snapshot 1`] = `
 <DocumentFragment>
-  .c6 {
+  .c10 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.c6:focus {
+.c10:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
   background-color: #ffdd00;
 }
 
-.c6:link {
+.c10:link {
   color: #1d70b8;
 }
 
-.c6:visited {
+.c10:visited {
   color: #4c2c92;
 }
 
-.c6:hover {
+.c10:hover {
   color: #2b8cc4;
 }
 
-.c6:active {
+.c10:active {
   color: #2b8cc4;
 }
 
-.c6:focus {
+.c10:focus {
   color: #0b0c0c;
 }
 
@@ -39,12 +39,12 @@ exports[`FTFooter should match snapshot 1`] = `
   margin: 0 15px;
 }
 
-.c10:link,
-.c10:visited {
+.c11:link,
+.c11:visited {
   color: #454a4c;
 }
 
-.c10:hover {
+.c11:hover {
   color: #171819;
 }
 
@@ -94,13 +94,13 @@ exports[`FTFooter should match snapshot 1`] = `
   flex-basis: 320px;
 }
 
-.c11 {
+.c12 {
   margin-right: 15px;
   margin-bottom: 25px;
   margin-left: 15px;
 }
 
-.c12 {
+.c13 {
   display: inline-block;
   text-align: center;
   -webkit-text-decoration: none;
@@ -114,12 +114,12 @@ exports[`FTFooter should match snapshot 1`] = `
   background-size: 125px 102px;
 }
 
-.c12:link,
-.c12:visited {
+.c13:link,
+.c13:visited {
   color: #454a4c;
 }
 
-.c12:hover {
+.c13:hover {
   color: #171819;
 }
 
@@ -135,6 +135,38 @@ exports[`FTFooter should match snapshot 1`] = `
   line-height: 1.1428571428571428;
   padding-top: 25px;
   padding-bottom: 15px;
+}
+
+.c6 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.c6:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+  background-color: #ffdd00;
+}
+
+.c6:link {
+  color: #1d70b8;
+}
+
+.c6:visited {
+  color: #4c2c92;
+}
+
+.c6:hover {
+  color: #2b8cc4;
+}
+
+.c6:active {
+  color: #2b8cc4;
+}
+
+.c6:focus {
+  color: #0b0c0c;
 }
 
 .c4 {
@@ -161,15 +193,15 @@ exports[`FTFooter should match snapshot 1`] = `
 }
 
 @media print {
-  .c6 {
+  .c10 {
     font-family: sans-serif;
   }
 }
 
 @media print {
-  .c6[href^="/"]::after,
-  .c6[href^="http://"]::after,
-  .c6[href^="https://"]::after {
+  .c10[href^="/"]::after,
+  .c10[href^="http://"]::after,
+  .c10[href^="https://"]::after {
     content: " (" attr(href) ")";
     font-size: 90%;
     word-wrap: break-word;
@@ -231,6 +263,16 @@ exports[`FTFooter should match snapshot 1`] = `
 @media only screen and (min-width:641px) {
   .c0 {
     padding-bottom: 25px;
+  }
+}
+
+@media print {
+  .c6[href^="/"]::after,
+  .c6[href^="http://"]::after,
+  .c6[href^="https://"]::after {
+    content: " (" attr(href) ")";
+    font-size: 90%;
+    word-wrap: break-word;
   }
 }
 
@@ -356,7 +398,7 @@ exports[`FTFooter should match snapshot 1`] = `
             >
               All content is available under the 
               <a
-                class="c6 c10"
+                class="c10 c11"
                 href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
                 rel="license"
               >
@@ -367,10 +409,10 @@ exports[`FTFooter should match snapshot 1`] = `
           </div>
         </div>
         <div
-          class="c11"
+          class="c12"
         >
           <a
-            class="c6 c12"
+            class="c10 c13"
             href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
             image="[object Object]"
           >

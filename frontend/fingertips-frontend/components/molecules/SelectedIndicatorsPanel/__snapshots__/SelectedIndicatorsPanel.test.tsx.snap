@@ -25,6 +25,42 @@ exports[`SelectedIndicatorsPanel snapshot test 1`] = `
   -moz-osx-font-smoothing: grayscale;
 }
 
+.c5 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.c5:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+  background-color: #ffdd00;
+}
+
+.c5:link {
+  color: #1d70b8;
+}
+
+.c5:visited {
+  color: #4c2c92;
+}
+
+.c5:hover {
+  color: #2b8cc4;
+}
+
+.c5:active {
+  color: #2b8cc4;
+}
+
+.c5:focus {
+  color: #0b0c0c;
+}
+
+.c6 {
+  font-size: 16px;
+}
+
 .c7 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -131,46 +167,10 @@ exports[`SelectedIndicatorsPanel snapshot test 1`] = `
   margin-bottom: 0;
 }
 
-.c5 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.c5:focus {
-  outline: 3px solid #ffdd00;
-  outline-offset: 0;
-  background-color: #ffdd00;
-}
-
-.c5:link {
-  color: #1d70b8;
-}
-
-.c5:visited {
-  color: #4c2c92;
-}
-
-.c5:hover {
-  color: #2b8cc4;
-}
-
-.c5:active {
-  color: #2b8cc4;
-}
-
-.c5:focus {
-  color: #0b0c0c;
-}
-
 .c9 {
   margin: 0;
   border: 0;
   border-bottom: 1px solid #bfc1c3;
-}
-
-.c6 {
-  font-size: 16px;
 }
 
 .c0 {
@@ -189,6 +189,16 @@ exports[`SelectedIndicatorsPanel snapshot test 1`] = `
 @media print {
   .c4 {
     font-family: sans-serif;
+  }
+}
+
+@media print {
+  .c5[href^="/"]::after,
+  .c5[href^="http://"]::after,
+  .c5[href^="https://"]::after {
+    content: " (" attr(href) ")";
+    font-size: 90%;
+    word-wrap: break-word;
   }
 }
 
@@ -247,22 +257,6 @@ exports[`SelectedIndicatorsPanel snapshot test 1`] = `
 @media only screen and (min-width:641px) {
   .c1 {
     margin-bottom: 0;
-  }
-}
-
-@media print {
-  .c5 {
-    font-family: sans-serif;
-  }
-}
-
-@media print {
-  .c5[href^="/"]::after,
-  .c5[href^="http://"]::after,
-  .c5[href^="https://"]::after {
-    content: " (" attr(href) ")";
-    font-size: 90%;
-    word-wrap: break-word;
   }
 }
 

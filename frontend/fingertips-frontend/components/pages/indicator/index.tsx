@@ -5,7 +5,6 @@ import {
   H1,
   H3,
   H4,
-  Link,
   ListItem,
   Paragraph,
   SectionBreak,
@@ -23,6 +22,7 @@ import {
 } from '@/lib/searchStateManager';
 import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
+import { Link } from '@/components/atoms/Link';
 
 export type IndicatorDefinitionProps = {
   indicatorName: string;

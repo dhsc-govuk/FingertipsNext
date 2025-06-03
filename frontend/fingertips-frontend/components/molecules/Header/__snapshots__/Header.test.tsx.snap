@@ -250,12 +250,6 @@ exports[`Header should match snapshot 1`] = `
 }
 
 @media print {
-  .c21 {
-    font-family: sans-serif;
-  }
-}
-
-@media print {
   .c21[href^="/"]::after,
   .c21[href^="http://"]::after,
   .c21[href^="https://"]::after {

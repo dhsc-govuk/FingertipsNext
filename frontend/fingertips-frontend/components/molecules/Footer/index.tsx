@@ -2,9 +2,10 @@
 
 import { contactEmailLink, GDSLink } from '@/lib/links';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { Footer, Link } from 'govuk-react';
+import { Footer } from 'govuk-react';
 import styled from 'styled-components';
 import { ProjectVersion } from '@/components/atoms/ProjectVersion';
+import { Link } from '@/components/atoms/Link';
 
 const FooterContainer = styled('ul')({
   padding: 0,

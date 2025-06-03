@@ -3,10 +3,10 @@
 import { Pill } from '../Pill';
 import styled from 'styled-components';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { Link } from 'govuk-react';
 import { SearchStateManager } from '@/lib/searchStateManager';
 import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
+import { Link } from '@/components/atoms/Link';
 
 const StyleIndicatorLink = styled(Link)({
   fontSize: 16,

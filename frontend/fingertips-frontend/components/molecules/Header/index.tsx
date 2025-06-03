@@ -1,7 +1,8 @@
 'use client';
 
+import { Link } from '@/components/atoms/Link';
 import { contactEmailLink } from '@/lib/links';
-import { Link, Main, PhaseBanner, TopNav } from 'govuk-react';
+import { Main, PhaseBanner, TopNav } from 'govuk-react';
 import styled from 'styled-components';
 
 const ZeroPaddingMain = styled(Main)`

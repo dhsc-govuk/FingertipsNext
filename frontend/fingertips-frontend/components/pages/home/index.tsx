@@ -4,7 +4,6 @@ import {
   ErrorSummary,
   H2,
   H3,
-  Link,
   ListItem,
   Paragraph,
   SectionBreak,
@@ -22,6 +21,7 @@ import { spacing } from '@govuk-react/lib';
 import { Area } from '@/generated-sources/ft-api-client';
 import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
 import { useSearchState } from '@/context/SearchStateContext';
+import { Link } from '@/components/atoms/Link';
 
 const ZeroMarginParagraph = styled(Paragraph)(
   spacing.withWhiteSpace({ marginBottom: 0 })
