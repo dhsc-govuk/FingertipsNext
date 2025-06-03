@@ -340,7 +340,7 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
   left: 0;
   z-index: 1;
   padding-right: 0.5em;
-  border-right: solid #bfc1c3 1px;
+  border-right: solid #BfC1C3 1px;
 }
 
 .c37 {
@@ -376,7 +376,7 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
   text-align: center;
   padding: 0;
   position: relative;
-  border-left: 1px solid #bfc1c3;
+  border-left: solid #BfC1C3 1px;
   vertical-align: middle;
 }
 
@@ -1539,7 +1539,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   left: 0;
   z-index: 1;
   padding-right: 0.5em;
-  border-right: solid #bfc1c3 1px;
+  border-right: solid #BfC1C3 1px;
 }
 
 .c37 {
@@ -1575,7 +1575,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   text-align: center;
   padding: 0;
   position: relative;
-  border-left: 1px solid #bfc1c3;
+  border-left: solid #BfC1C3 1px;
   vertical-align: middle;
 }
 

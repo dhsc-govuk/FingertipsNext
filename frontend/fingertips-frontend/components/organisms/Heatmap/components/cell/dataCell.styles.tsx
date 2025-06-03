@@ -6,7 +6,7 @@ export const NumericCell = styled(Table.Cell)({
   textAlign: 'center',
   padding: 0,
   position: 'relative',
-  borderLeft: `solid #${BorderColour} 1px`,
+  borderLeft: `solid ${BorderColour} 1px`,
   verticalAlign: 'middle',
 });
 

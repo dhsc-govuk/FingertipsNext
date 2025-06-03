@@ -9,7 +9,7 @@ export const IndicatorCell = styled(Table.Cell)({
   left: 0,
   zIndex: 1,
   paddingRight: '0.5em',
-  borderRight: `solid #${BorderColour} 1px`,
+  borderRight: `solid ${BorderColour} 1px`,
 });
 
 export const TextCell = styled(Table.Cell)({
