@@ -193,6 +193,12 @@ exports[`SelectedIndicatorsPanel snapshot test 1`] = `
 }
 
 @media print {
+  .c5 {
+    font-family: sans-serif;
+  }
+}
+
+@media print {
   .c5[href^="/"]::after,
   .c5[href^="http://"]::after,
   .c5[href^="https://"]::after {

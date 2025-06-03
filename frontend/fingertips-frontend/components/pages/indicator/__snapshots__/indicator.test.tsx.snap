@@ -227,6 +227,10 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -413,6 +417,10 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
 
 }
 
@@ -613,6 +621,10 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
 
 }
 
@@ -843,6 +855,10 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
 
 }
 
@@ -1081,6 +1097,10 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
   .c1 {
     margin-bottom: 0;
@@ -1312,6 +1332,10 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
   .c1 {
     margin-bottom: 0;
@@ -1492,6 +1516,10 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
 
 }
 
@@ -1719,6 +1747,10 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
 
 }
 
@@ -1988,6 +2020,12 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 @media print {
+  .c4 {
+    font-family: sans-serif;
+  }
+}
+
+@media print {
   .c4[href^="/"]::after,
   .c4[href^="http://"]::after,
   .c4[href^="https://"]::after {
@@ -2252,6 +2290,10 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -2442,6 +2484,10 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
 
 }
 
@@ -2672,6 +2718,10 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -2863,6 +2913,10 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
 
 }
 
@@ -3093,6 +3147,10 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -3284,6 +3342,10 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
 
 }
 
@@ -3514,6 +3576,10 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -3706,6 +3772,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
 
 }
 
@@ -3936,6 +4006,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 
 }
 
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -4114,6 +4188,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
 
 }
 
@@ -4333,6 +4411,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
   .c0 {
     margin-bottom: 30px;
   }
+}
+
+@media print {
+
 }
 
 @media print {
@@ -4650,6 +4732,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 
 }
 
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -4894,6 +4980,12 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 @media only screen and (min-width:641px) {
   .c0 {
     margin-bottom: 30px;
+  }
+}
+
+@media print {
+  .c3 {
+    font-family: sans-serif;
   }
 }
 
@@ -5214,6 +5306,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 
 }
 
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -5427,6 +5523,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
   .c0 {
     margin-bottom: 30px;
   }
+}
+
+@media print {
+
 }
 
 @media print {
@@ -5674,6 +5774,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 
 }
 
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -5897,6 +6001,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 
 }
 
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -6089,6 +6197,10 @@ Fusce bibendum vestibulum lacus, non bibendum tellus ullamcorper ut. Curabitur a
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
 
 }
 
@@ -6320,6 +6432,10 @@ Fusce bibendum vestibulum lacus, non bibendum tellus ullamcorper ut. Curabitur a
 
 }
 
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -6519,6 +6635,10 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 
 }
 
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -6709,6 +6829,10 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
 
 }
 
@@ -6939,6 +7063,10 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 
 }
 
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -7130,6 +7258,10 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
 
 }
 
@@ -7360,6 +7492,10 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 
 }
 
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -7558,6 +7694,10 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 
 }
 
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -7748,6 +7888,10 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
 
 }
 
@@ -8013,6 +8157,12 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 }
 
 @media print {
+  .c4 {
+    font-family: sans-serif;
+  }
+}
+
+@media print {
   .c4[href^="/"]::after,
   .c4[href^="http://"]::after,
   .c4[href^="https://"]::after {
@@ -8240,6 +8390,10 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
 
 }
 
@@ -8502,6 +8656,12 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 
 @media only screen and (min-width:641px) {
 
+}
+
+@media print {
+  .c4 {
+    font-family: sans-serif;
+  }
 }
 
 @media print {

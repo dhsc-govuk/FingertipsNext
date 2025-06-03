@@ -68,6 +68,12 @@ exports[`IndicatorSelectedPill should match snapshot 1`] = `
 }
 
 @media print {
+  .c2 {
+    font-family: sans-serif;
+  }
+}
+
+@media print {
   .c2[href^="/"]::after,
   .c2[href^="http://"]::after,
   .c2[href^="https://"]::after {

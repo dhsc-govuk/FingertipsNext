@@ -325,6 +325,12 @@ exports[`Indicator Checkbox snapshot test 1`] = `
 }
 
 @media print {
+  .c8 {
+    font-family: sans-serif;
+  }
+}
+
+@media print {
   .c8[href^="/"]::after,
   .c8[href^="http://"]::after,
   .c8[href^="https://"]::after {
