@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import {
-  StyledDivIndicatorInformationValueUnitCellContent,
+  IndicatorInfoValueCellContent,
   TextCell,
 } from './indicatorCell.styles';
 interface IndicatorInfoValueUnitCellProps {
@@ -12,9 +12,7 @@ export const IndicatorInfoValueUnitCell: FC<
 > = ({ content }: IndicatorInfoValueUnitCellProps) => {
   return (
     <TextCell data-testid="heatmap-cell-indicator-info-value-unit">
-      <StyledDivIndicatorInformationValueUnitCellContent>
-        {content}
-      </StyledDivIndicatorInformationValueUnitCellContent>
+      <IndicatorInfoValueCellContent>{content}</IndicatorInfoValueCellContent>
     </TextCell>
   );
 };

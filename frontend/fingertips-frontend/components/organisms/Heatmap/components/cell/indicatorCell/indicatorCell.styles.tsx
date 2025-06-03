@@ -30,20 +30,16 @@ export const IndicatorTitleCellContent = styled.div({
   paddingLeft: '10px',
 });
 
-export const IndicatorInformationCellContent = styled.div({
+export const IndicatorInfoCellContent = styled.div({
   minWidth: '40px',
   paddingRight: '10px',
   paddingLeft: '10px',
 });
 
-export const StyledDivIndicatorInformationValueUnitCellContent = styled(
-  IndicatorInformationCellContent
-)({
+export const IndicatorInfoValueCellContent = styled(IndicatorInfoCellContent)({
   textAlign: 'left',
 });
 
-export const StyledDivIndicatorInformationPeriodCellContent = styled(
-  IndicatorInformationCellContent
-)({
+export const IndicatorInfoPeriodCellContent = styled(IndicatorInfoCellContent)({
   textAlign: 'right',
 });
