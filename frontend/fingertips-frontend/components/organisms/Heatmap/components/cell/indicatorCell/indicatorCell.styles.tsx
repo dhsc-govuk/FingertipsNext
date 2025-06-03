@@ -1,0 +1,49 @@
+import { Table } from 'govuk-react';
+import styled from 'styled-components';
+import { heatmapIndicatorTitleColumnWidth } from '../../../heatmapUtil';
+
+const stickyLeft = {
+  background: 'white',
+  position: 'sticky',
+  left: 0,
+  zIndex: 1,
+  paddingRight: '0.5em',
+};
+
+export const IndicatorCell = styled(Table.Cell)({
+  ...(stickyLeft as unknown as TemplateStringsArray),
+  borderRight: 'solid #bfc1c3 1px',
+});
+
+export const TextCell = styled(Table.Cell)({
+  minHeight: '70px',
+  paddingRight: 0,
+});
+
+export const IndicatorTitleCellContent = styled.div({
+  textOverflow: 'ellipsis',
+  overflow: 'hidden',
+  width: `${heatmapIndicatorTitleColumnWidth}px`,
+  display: '-webkit-box',
+  WebkitLineClamp: 4,
+  WebkitBoxOrient: 'vertical',
+  paddingLeft: '10px',
+});
+
+export const IndicatorInformationCellContent = styled.div({
+  minWidth: '40px',
+  paddingRight: '10px',
+  paddingLeft: '10px',
+});
+
+export const StyledDivIndicatorInformationValueUnitCellContent = styled(
+  IndicatorInformationCellContent
+)({
+  textAlign: 'left',
+});
+
+export const StyledDivIndicatorInformationPeriodCellContent = styled(
+  IndicatorInformationCellContent
+)({
+  textAlign: 'right',
+});

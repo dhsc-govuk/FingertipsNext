@@ -1,29 +1,29 @@
-import { getTextColour } from '@/lib/styleHelpers/colours';
+import { getTextColour, GovukColours } from '@/lib/styleHelpers/colours';
 import { FC, MouseEventHandler } from 'react';
-import { StyledCellData, StyledDivDataCellContent } from './heatmapCell.styles';
+import { DataTableCell, DataCellContent } from './dataCell.styles';
 
 interface DataCellProps {
   content: string;
-  backgroundColour: string;
+  backgroundColour?: string;
   mouseEnterHandler?: MouseEventHandler;
   mouseLeaveHandler?: MouseEventHandler;
 }
 
 export const DataCell: FC<DataCellProps> = ({
   content,
-  backgroundColour,
+  backgroundColour = GovukColours.White,
   mouseEnterHandler,
   mouseLeaveHandler,
 }: DataCellProps) => {
   return (
-    <StyledCellData
+    <DataTableCell
       data-testid="heatmap-cell-data"
       $color={getTextColour(backgroundColour)}
       $backgroundColor={backgroundColour}
       onMouseOver={mouseEnterHandler}
       onMouseLeave={mouseLeaveHandler}
     >
-      <StyledDivDataCellContent>{content}</StyledDivDataCellContent>
-    </StyledCellData>
+      <DataCellContent>{content}</DataCellContent>
+    </DataTableCell>
   );
 };

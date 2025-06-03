@@ -1,10 +1,9 @@
-import { GovukColours } from '@/lib/styleHelpers/colours';
 import { CellType } from '../../heatmapUtil';
 import { FC, MouseEventHandler } from 'react';
-import { IndicatorTitleCell } from './indicatorTitleCell';
-import { IndicatorInfoValueUnitCell } from './indicatorInfoValueUnitCell';
-import { IndicatorInfoPeriodCell } from './indicatorInfoPeriodCell';
-import { DataCell } from './dataCell';
+import { IndicatorTitleCell } from './indicatorCell/indicatorTitleCell';
+import { IndicatorInfoValueUnitCell } from './indicatorCell/indicatorInfoValueUnitCell';
+import { IndicatorInfoPeriodCell } from './indicatorCell/indicatorInfoPeriodCell';
+import { DataCell } from './dataCell/dataCell';
 
 interface HeatmapCellProps {
   cellType: CellType;
@@ -17,7 +16,7 @@ interface HeatmapCellProps {
 export const HeatmapCell: FC<HeatmapCellProps> = ({
   cellType,
   content,
-  backgroundColour = GovukColours.White,
+  backgroundColour,
   mouseEnterHandler,
   mouseLeaveHandler,
 }) => {

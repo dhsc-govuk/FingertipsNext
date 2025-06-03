@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import {
-  StyledCellText,
+  TextCell,
   StyledDivIndicatorInformationPeriodCellContent,
-} from './heatmapCell.styles';
+} from './indicatorCell.styles';
 
 interface IndicatorInfoPeriodCellProps {
   content: string;
@@ -12,10 +12,10 @@ export const IndicatorInfoPeriodCell: FC<IndicatorInfoPeriodCellProps> = ({
   content,
 }: IndicatorInfoPeriodCellProps) => {
   return (
-    <StyledCellText data-testid="heatmap-cell-indicator-info-period">
+    <TextCell data-testid="heatmap-cell-indicator-info-period">
       <StyledDivIndicatorInformationPeriodCellContent>
         {content}
       </StyledDivIndicatorInformationPeriodCellContent>
-    </StyledCellText>
+    </TextCell>
   );
 };

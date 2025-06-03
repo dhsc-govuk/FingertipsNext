@@ -348,6 +348,30 @@ exports[`snapshot test - england benchmark 1`] = `
   padding-right: 0;
 }
 
+.c36 {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 240px;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  padding-left: 10px;
+}
+
+.c38 {
+  min-width: 40px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.c40 {
+  text-align: left;
+}
+
+.c39 {
+  text-align: right;
+}
+
 .c41 {
   text-align: center;
   padding: 0;
@@ -390,30 +414,6 @@ exports[`snapshot test - england benchmark 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-}
-
-.c36 {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  width: 240px;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  padding-left: 10px;
-}
-
-.c38 {
-  min-width: 40px;
-  padding-right: 10px;
-  padding-left: 10px;
-}
-
-.c40 {
-  text-align: left;
-}
-
-.c39 {
-  text-align: right;
 }
 
 .c20 {
@@ -1530,6 +1530,30 @@ exports[`snapshot test - group area benchmark 1`] = `
   padding-right: 0;
 }
 
+.c36 {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 240px;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  padding-left: 10px;
+}
+
+.c38 {
+  min-width: 40px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.c40 {
+  text-align: left;
+}
+
+.c39 {
+  text-align: right;
+}
+
 .c41 {
   text-align: center;
   padding: 0;
@@ -1577,30 +1601,6 @@ exports[`snapshot test - group area benchmark 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-}
-
-.c36 {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  width: 240px;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  padding-left: 10px;
-}
-
-.c38 {
-  min-width: 40px;
-  padding-right: 10px;
-  padding-left: 10px;
-}
-
-.c40 {
-  text-align: left;
-}
-
-.c39 {
-  text-align: right;
 }
 
 .c20 {
