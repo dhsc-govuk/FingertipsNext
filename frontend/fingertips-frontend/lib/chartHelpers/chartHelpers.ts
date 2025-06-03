@@ -306,8 +306,11 @@ const getComparisonLabelText = (
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
   benchmarkOutcome: BenchmarkOutcome
 ) => {
+  const validOutcomes = Object.values(BenchmarkOutcome);
+
   if (
     !benchmarkOutcome ||
+    !validOutcomes.includes(benchmarkOutcome) ||
     benchmarkOutcome === BenchmarkOutcome.NotCompared ||
     benchmarkComparisonMethod === BenchmarkComparisonMethod.Quintiles
   )

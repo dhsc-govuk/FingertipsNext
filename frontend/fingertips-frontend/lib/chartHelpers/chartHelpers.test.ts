@@ -1205,6 +1205,22 @@ describe('getTooltipContent', () => {
       comparisonLabel: '',
     });
   });
+
+  it('should just return "Not compared" when the Benchmark outcome is not valid', () => {
+    const benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown;
+
+    const result = getTooltipContent(
+      'some-invalid-type' as BenchmarkOutcome,
+      AreaTypeLabelEnum.Area,
+      benchmarkComparisonMethod
+    );
+
+    expect(result).toEqual({
+      benchmarkLabel: 'Not compared',
+      category: '',
+      comparisonLabel: '',
+    });
+  });
 });
 
 describe('getTooltipHtml', () => {

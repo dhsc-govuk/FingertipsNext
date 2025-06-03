@@ -56,13 +56,10 @@ interface FormatSymbolHoverProps {
 
 function formatSymbol(colour: string, shape: SymbolsEnum) {
   const shadowStyle = `text-shadow:
-                        0 0 1.5px #000,
-                        0 0 1.5px #000,
-                        0 0 1.5px #000,
                         0 0 1.5px #000;`;
 
   return `<div style="color:${colour}; font-size:30px;
-            ${shape !== SymbolsEnum.PlotLine ? shadowStyle : undefined} 
+            ${shape !== SymbolsEnum.PlotLine ? shadowStyle : ''} 
           ">
             ${shape}
           </div>`;
