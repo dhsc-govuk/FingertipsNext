@@ -8,8 +8,8 @@ import {
   extractSortedAreasIndicatorsAndDataPoints,
   generateHeaders,
   generateRows,
-  HeaderType,
 } from './heatmapUtil';
+import { HeaderType } from './heatmapTypes';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 

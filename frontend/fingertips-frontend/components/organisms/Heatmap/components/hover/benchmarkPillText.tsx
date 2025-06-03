@@ -5,8 +5,8 @@ import {
 import { getConfidenceLimitNumber } from '@/lib/chartHelpers/chartHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
 import { FC } from 'react';
-import { HeatmapBenchmarkOutcome } from '../../heatmapUtil';
 import { StyledText } from './benchmarkPill.styles';
+import { HeatmapBenchmarkOutcome } from '../../heatmapTypes';
 
 interface BenchmarkPillTextProps {
   value?: number;

@@ -3,8 +3,8 @@ import {
   extractSortedAreasIndicatorsAndDataPoints,
   generateHeaders,
   generateRows,
-  HeatmapIndicatorData,
 } from '@/components/organisms/Heatmap/heatmapUtil';
+import { HeatmapIndicatorData } from './heatmapTypes';
 import { getMethodsAndOutcomes } from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
 import { CsvData } from '@/lib/downloadHelpers/convertToCsv';
 import { convertHeatmapToCsv } from '@/components/organisms/Heatmap/convertHeatmapToCsv';

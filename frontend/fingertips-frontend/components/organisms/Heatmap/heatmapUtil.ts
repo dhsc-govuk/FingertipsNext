@@ -1,63 +1,21 @@
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
-  HealthDataForArea,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { formatNumber } from '@/lib/numberFormatter';
-
-export const heatmapIndicatorTitleColumnWidth = 240;
-export const heatmapDataColumnWidth = 60;
-
-export enum HeaderType {
-  IndicatorTitle,
-  Period,
-  ValueUnit,
-  BenchmarkGroupArea,
-  NonBenchmarkGroupArea,
-  Area,
-}
-
-export enum CellType {
-  IndicatorTitle,
-  IndicatorPeriod,
-  IndicatorValueUnit,
-  Data,
-}
-
-export interface HeatmapIndicatorData {
-  indicatorId: string;
-  indicatorName: string;
-  healthDataForAreas: HealthDataForArea[];
-  unitLabel: string;
-  benchmarkComparisonMethod: BenchmarkComparisonMethod;
-  polarity: IndicatorPolarity;
-}
-
-export interface HeatmapDataRow {
-  key: string;
-  cells: HeatmapDataCell[];
-}
-
-export interface DataCellHoverProps {
-  areaName: string;
-  period: number;
-  indicatorName: string;
-  value?: number;
-  unitLabel: string;
-  benchmark: DataPointBenchmark;
-}
-
-export interface HeatmapDataCell {
-  key: string;
-  type: CellType;
-  content: string;
-  backgroundColour?: string;
-  hoverProps?: DataCellHoverProps;
-}
+import {
+  CellType,
+  DataPointBenchmark,
+  HeaderType,
+  HeatmapBenchmarkOutcome,
+  HeatmapDataCell,
+  HeatmapDataRow,
+  HeatmapIndicatorData,
+} from './heatmapTypes';
 
 interface Header {
   key: string;
@@ -87,15 +45,6 @@ interface DataPoint {
   indicatorId: string;
   benchmark?: DataPointBenchmark;
 }
-
-export interface DataPointBenchmark {
-  outcome: HeatmapBenchmarkOutcome;
-  benchmarkMethod: BenchmarkComparisonMethod;
-  polarity: IndicatorPolarity;
-  benchmarkAreaCode?: string;
-}
-
-export type HeatmapBenchmarkOutcome = BenchmarkOutcome | 'Baseline';
 
 export const extractSortedAreasIndicatorsAndDataPoints = (
   indicatorData: HeatmapIndicatorData[],

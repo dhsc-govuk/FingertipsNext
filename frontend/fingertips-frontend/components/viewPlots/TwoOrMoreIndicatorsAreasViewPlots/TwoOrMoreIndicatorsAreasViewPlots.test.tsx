@@ -14,7 +14,7 @@ import { render, screen, within } from '@testing-library/react';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmapUtil';
+import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmapTypes';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { LoaderContext } from '@/context/LoaderContext';
 

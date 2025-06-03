@@ -10,7 +10,7 @@ import {
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { SpineChartTable } from '@/components/organisms/SpineChartTable';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
-import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmapUtil';
+import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmapTypes';
 import {
   buildSpineChartIndicatorData,
   SpineChartIndicatorData,

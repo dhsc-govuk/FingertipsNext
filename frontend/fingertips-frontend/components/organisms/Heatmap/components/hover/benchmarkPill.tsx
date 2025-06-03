@@ -4,10 +4,10 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { GridCol, GridRow } from 'govuk-react';
-import { HeatmapBenchmarkOutcome } from '../../heatmapUtil';
 import { StyledGridColIcon } from './benchmarkPill.styles';
 import { BenchmarkPillText } from './benchmarkPillText';
 import { BenchmarkPillIcon } from './benchmarkPillIcon';
+import { HeatmapBenchmarkOutcome } from '../../heatmapTypes';
 
 export interface HeatmapHoverBenchmarkPillProps {
   value?: number;

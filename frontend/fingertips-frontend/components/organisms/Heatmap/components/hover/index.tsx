@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { DataCellHoverProps } from '../../heatmapUtil';
+import { DataCellHoverProps } from '../../heatmapTypes';
 import { HeatmapHoverBenchmarkPill } from './benchmarkPill';
 import {
   StyledDivHover,

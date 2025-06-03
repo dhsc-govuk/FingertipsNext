@@ -6,8 +6,8 @@ import { Table } from 'govuk-react';
 import {
   generateHeaders,
   generateRows,
-  HeatmapDataCell,
 } from '@/components/organisms/Heatmap/heatmapUtil';
+import { HeatmapDataCell } from '../heatmapTypes';
 import { useRotatedHeaders } from '@/components/organisms/Heatmap/useRotatedHeaders';
 
 const StyledTable = styled(Table)({
