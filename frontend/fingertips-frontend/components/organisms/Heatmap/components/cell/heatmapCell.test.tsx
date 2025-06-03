@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
-import { HeatmapCell } from './heatmapCell';
-import { CellType } from '../heatmapUtil';
+import { HeatmapCell } from '.';
+import { CellType } from '../../heatmapUtil';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 
 describe('cell types', () => {
