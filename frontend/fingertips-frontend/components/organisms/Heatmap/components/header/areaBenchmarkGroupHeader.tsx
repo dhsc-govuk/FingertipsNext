@@ -1,7 +1,7 @@
 import {
-  StyledCellHeaderArea,
-  StyledDiv,
-  StyledH4PrimaryBenchmarkHeader,
+  HeaderCell,
+  HeaderTitleWrapper,
+  BenchmarkGroupHeaderTitle,
 } from './areaHeader.styles';
 
 interface AreaPrimaryBenchmarkHeaderProps {
@@ -12,12 +12,10 @@ export const AreaPrimaryBenchmarkHeader: React.FC<
   AreaPrimaryBenchmarkHeaderProps
 > = ({ content }: AreaPrimaryBenchmarkHeaderProps) => {
   return (
-    <StyledCellHeaderArea>
-      <StyledDiv>
-        <StyledH4PrimaryBenchmarkHeader>
-          {content}
-        </StyledH4PrimaryBenchmarkHeader>
-      </StyledDiv>
-    </StyledCellHeaderArea>
+    <HeaderCell>
+      <HeaderTitleWrapper>
+        <BenchmarkGroupHeaderTitle>{content}</BenchmarkGroupHeaderTitle>
+      </HeaderTitleWrapper>
+    </HeaderCell>
   );
 };

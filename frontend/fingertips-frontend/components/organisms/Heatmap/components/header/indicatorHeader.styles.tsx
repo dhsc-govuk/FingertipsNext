@@ -2,16 +2,16 @@ import { H4, Table } from 'govuk-react';
 import styled from 'styled-components';
 import { heatmapIndicatorTitleColumnWidth } from '../../heatmapUtil';
 
-export const StyledH4Header = styled(H4)({
+export const IndicatorInfoText = styled(H4)({
   height: '50px',
   margin: 0,
 });
 
-export const StyledH4IndicatorHeader = styled(StyledH4Header)({
+export const IndicatorTitleText = styled(IndicatorInfoText)({
   width: `${heatmapIndicatorTitleColumnWidth}px`,
 });
 
-export const StyledCellHeaderIndicatorTitle = styled(Table.CellHeader)({
+export const HeaderCell = styled(Table.CellHeader)({
   background: 'white',
   position: 'sticky',
   left: 0,
@@ -22,18 +22,14 @@ export const StyledCellHeaderIndicatorTitle = styled(Table.CellHeader)({
   paddingLeft: '10px',
 });
 
-export const StyledCellHeaderIndicatorInformationValueUnit = styled(
-  Table.CellHeader
-)({
+export const ValueUnitHeaderCell = styled(Table.CellHeader)({
   verticalAlign: 'bottom',
   paddingRight: '10px',
   paddingLeft: '10px',
   textAlign: 'left',
 });
 
-export const StyledCellHeaderIndicatorInformationPeriod = styled(
-  Table.CellHeader
-)({
+export const PeriodHeaderCell = styled(Table.CellHeader)({
   verticalAlign: 'bottom',
   paddingRight: '10px',
   paddingLeft: '10px',

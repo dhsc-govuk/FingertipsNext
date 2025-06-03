@@ -1,6 +1,6 @@
 import {
-  StyledCellHeaderIndicatorTitle,
-  StyledH4IndicatorHeader,
+  IndicatorTitleCellHeader,
+  IndicatorTitleText,
 } from './indicatorHeader.styles';
 
 interface IndicatorTitleHeaderProps {
@@ -11,8 +11,8 @@ export const IndicatorTitleHeader: React.FC<IndicatorTitleHeaderProps> = ({
   content,
 }: IndicatorTitleHeaderProps) => {
   return (
-    <StyledCellHeaderIndicatorTitle>
-      <StyledH4IndicatorHeader>{content}</StyledH4IndicatorHeader>
-    </StyledCellHeaderIndicatorTitle>
+    <IndicatorTitleCellHeader>
+      <IndicatorTitleText>{content}</IndicatorTitleText>
+    </IndicatorTitleCellHeader>
   );
 };

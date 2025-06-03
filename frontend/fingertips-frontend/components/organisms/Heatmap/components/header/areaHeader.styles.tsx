@@ -3,12 +3,12 @@ import { H4, Table } from 'govuk-react';
 import styled from 'styled-components';
 import { heatmapDataColumnWidth } from '../../heatmapUtil';
 
-export const StyledDiv = styled.div({
+export const HeaderTitleWrapper = styled.div({
   position: 'relative',
   height: '50px',
 });
 
-export const StyledH4AreaScaled = styled(H4)({
+export const Title = styled(H4)({
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
   overflowX: 'hidden',
@@ -22,15 +22,15 @@ export const StyledH4AreaScaled = styled(H4)({
   transform: 'translate(0, 15px) rotate(-60deg)',
 });
 
-export const StyledH4PrimaryBenchmarkHeader = styled(StyledH4AreaScaled)({
+export const BenchmarkGroupHeaderTitle = styled(Title)({
   backgroundColor: GovukColours.MidGrey,
 });
 
-export const StyledH4SecondaryBenchmarkHeader = styled(StyledH4AreaScaled)({
+export const NonBenchmarkGroupHeaderTitle = styled(Title)({
   backgroundColor: GovukColours.LightGrey,
 });
 
-export const StyledCellHeaderArea = styled(Table.CellHeader)({
+export const HeaderCell = styled(Table.CellHeader)({
   verticalAlign: 'bottom',
   width: `${heatmapDataColumnWidth}px`,
   paddingRight: '0px',

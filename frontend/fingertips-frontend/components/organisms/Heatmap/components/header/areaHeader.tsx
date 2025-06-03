@@ -1,8 +1,4 @@
-import {
-  StyledCellHeaderArea,
-  StyledDiv,
-  StyledH4AreaScaled,
-} from './areaHeader.styles';
+import { HeaderCell, HeaderTitleWrapper, Title } from './areaHeader.styles';
 
 interface AreaHeaderProps {
   content: string;
@@ -12,10 +8,10 @@ export const AreaHeader: React.FC<AreaHeaderProps> = ({
   content,
 }: AreaHeaderProps) => {
   return (
-    <StyledCellHeaderArea>
-      <StyledDiv>
-        <StyledH4AreaScaled>{content}</StyledH4AreaScaled>
-      </StyledDiv>
-    </StyledCellHeaderArea>
+    <HeaderCell>
+      <HeaderTitleWrapper>
+        <Title>{content}</Title>
+      </HeaderTitleWrapper>
+    </HeaderCell>
   );
 };

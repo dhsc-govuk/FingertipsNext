@@ -3,8 +3,8 @@ import { HeaderType } from '../../heatmapUtil';
 import { IndicatorTitleHeader } from './indicatorTitleHeader';
 import { IndicatorPeriodHeader } from './indicatorPeriodHeader';
 import { IndicatorValueUnitHeader } from './indicatorValueUnitHeader';
-import { AreaPrimaryBenchmarkHeader } from './areaPrimaryBenchmarkHeader';
-import { AreaSecondaryBenchmarkHeader } from './areaSecondaryBenchmarkHeader';
+import { AreaPrimaryBenchmarkHeader } from './areaBenchmarkGroupHeader';
+import { AreaSecondaryBenchmarkHeader } from './areaNonBenchmarkGroupHeader';
 import { AreaHeader } from './areaHeader';
 
 interface HeatmapHeaderProps {

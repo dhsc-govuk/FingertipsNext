@@ -1,6 +1,6 @@
 import {
-  StyledCellHeaderIndicatorInformationValueUnit,
-  StyledH4Header,
+  ValueUnitHeaderCell,
+  IndicatorInfoText,
 } from './indicatorHeader.styles';
 
 interface IndicatorValueUnitHeaderProps {
@@ -11,8 +11,8 @@ export const IndicatorValueUnitHeader: React.FC<
   IndicatorValueUnitHeaderProps
 > = ({ content }: IndicatorValueUnitHeaderProps) => {
   return (
-    <StyledCellHeaderIndicatorInformationValueUnit>
-      <StyledH4Header>{content}</StyledH4Header>
-    </StyledCellHeaderIndicatorInformationValueUnit>
+    <ValueUnitHeaderCell>
+      <IndicatorInfoText>{content}</IndicatorInfoText>
+    </ValueUnitHeaderCell>
   );
 };
