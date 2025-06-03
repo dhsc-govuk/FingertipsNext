@@ -316,7 +316,7 @@ const getComparisonLabelText = (
   return `(${comparison}%)`;
 };
 
-const getBenchmarkLabel = (
+export const getBenchmarkLabel = (
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
   benchmarkOutcome?: BenchmarkOutcome,
   areaName?: string
@@ -337,13 +337,15 @@ export const getTooltipContent = (
   benchmarkOutcome: BenchmarkOutcome,
   label: string,
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
-  areaName?: string
+  areaName?: string,
+  showComparisonLabels = true
 ) => {
   const category = getCategory(benchmarkOutcome, label);
 
   if (
     label === AreaTypeLabelEnum.Benchmark ||
-    label === AreaTypeLabelEnum.Group
+    label === AreaTypeLabelEnum.Group ||
+    !showComparisonLabels
   ) {
     return { category, benchmarkLabel: '', comparisonLabel: '' };
   }

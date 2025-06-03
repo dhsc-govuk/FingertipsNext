@@ -17,6 +17,8 @@ import { ReactNode } from 'react';
 import { convertInequalitiesTrendTableToCsvData } from './convertInequalitiesTrendTableToCsvData';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
+import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
+import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
 
 export enum InequalitiesTableHeadingsEnum {
   PERIOD = 'Period',
@@ -28,6 +30,11 @@ interface InequalitiesLineChartTableProps {
   tableData: InequalitiesChartData;
   dynamicKeys: string[];
 }
+
+const StyledTable = styled(Table)({
+  borderCollapse: 'separate',
+  marginBottom: '1rem',
+});
 
 const StyledAlignCenterHeader = styled(StyledTableCellHeader)({
   textAlign: 'center',
@@ -104,47 +111,51 @@ export function InequalitiesLineChartTable({
   return (
     <>
       <StyledDivWithScrolling data-testid="inequalitiesLineChartTable-component">
-        <Table
-          id="inequalitiesTrendTable"
-          head={
-            <>
-              <Table.Row>
-                <StyledAlignCenterHeader colSpan={tableHeaders.length}>
-                  {tableData.areaName}
-                  {indicatorMetadata?.unitLabel ? (
-                    <span
-                      style={{ display: 'block', marginTop: '10px' }}
-                      data-testid="inequalitiesLineChartTable-measurementUnit"
-                    >
-                      Value: {indicatorMetadata.unitLabel}
-                    </span>
-                  ) : null}
-                </StyledAlignCenterHeader>
+        <div id="inequalitiesTrendTable">
+          <StyledTable
+            head={
+              <>
+                <Table.Row>
+                  <StyledAlignCenterHeader colSpan={tableHeaders.length}>
+                    {tableData.areaName}
+                    {indicatorMetadata?.unitLabel ? (
+                      <span
+                        style={{ display: 'block', marginTop: '10px' }}
+                        data-testid="inequalitiesLineChartTable-measurementUnit"
+                      >
+                        Value: {indicatorMetadata.unitLabel}
+                      </span>
+                    ) : null}
+                  </StyledAlignCenterHeader>
+                </Table.Row>
+                <Table.Row>
+                  {tableHeaders.map((heading, index) =>
+                    getCellHeader(heading, index)
+                  )}
+                </Table.Row>
+              </>
+            }
+          >
+            {filteredRowData.map((data, index) => (
+              <Table.Row key={String(data.period) + index}>
+                <StyledAlignLeftStickyTableCell>
+                  {String(data.period)}
+                </StyledAlignLeftStickyTableCell>
+                {dynamicKeys.map((key, index) => (
+                  <StyledAlignRightTableCell
+                    key={key + index}
+                    style={{ paddingRight: '10px' }}
+                  >
+                    {getDisplayValue(data.inequalities[key]?.value)}
+                  </StyledAlignRightTableCell>
+                ))}
               </Table.Row>
-              <Table.Row>
-                {tableHeaders.map((heading, index) =>
-                  getCellHeader(heading, index)
-                )}
-              </Table.Row>
-            </>
-          }
-        >
-          {filteredRowData.map((data, index) => (
-            <Table.Row key={String(data.period) + index}>
-              <StyledAlignLeftStickyTableCell>
-                {String(data.period)}
-              </StyledAlignLeftStickyTableCell>
-              {dynamicKeys.map((key, index) => (
-                <StyledAlignRightTableCell
-                  key={key + index}
-                  style={{ paddingRight: '10px' }}
-                >
-                  {getDisplayValue(data.inequalities[key]?.value)}
-                </StyledAlignRightTableCell>
-              ))}
-            </Table.Row>
-          ))}
-        </Table>
+            ))}
+          </StyledTable>
+          <ExportOnlyWrapper>
+            <ExportCopyright />
+          </ExportOnlyWrapper>
+        </div>
       </StyledDivWithScrolling>
       <ExportOptionsButton
         targetId={'inequalitiesTrendTable'}

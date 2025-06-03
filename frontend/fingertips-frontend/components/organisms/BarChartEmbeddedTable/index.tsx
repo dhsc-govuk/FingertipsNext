@@ -32,6 +32,9 @@ import {
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
 import { convertBarChartEmbeddedTableToCsv } from '@/components/organisms/BarChartEmbeddedTable/convertBarChartEmbeddedTableToCsv';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
+import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 function sortByValueAndAreaName(
   a: BarChartEmbeddedTableRow,
@@ -66,7 +69,8 @@ const ConfidenceLimitsHeader: FC<{ confidenceLimit?: number }> = ({
 
 interface BarChartEmbeddedTableProps {
   healthIndicatorData: HealthDataForArea[];
-  benchmarkData?: HealthDataForArea;
+  benchmarkToUse: string;
+  englandData?: HealthDataForArea;
   groupIndicatorData?: HealthDataForArea;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
@@ -75,7 +79,8 @@ interface BarChartEmbeddedTableProps {
 
 export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
   healthIndicatorData,
-  benchmarkData,
+  benchmarkToUse,
+  englandData,
   groupIndicatorData,
   benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
   polarity = IndicatorPolarity.Unknown,
@@ -86,7 +91,7 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
   const maxValue = getMaxValue(healthIndicatorData);
   const fullYear = getLatestYearWithBenchmarks(
     healthIndicatorData,
-    benchmarkData,
+    englandData,
     groupIndicatorData
   );
 
@@ -113,8 +118,10 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
   );
 
   const sortedTableRows = tableRows.toSorted(sortByValueAndAreaName);
+  const benchmarkAreaName =
+    sortedTableRows[0].benchmarkComparison?.benchmarkAreaName;
 
-  const benchmarkDataPoint = benchmarkData?.healthData.find(
+  const englandDataPoint = englandData?.healthData.find(
     (point) => point.year === fullYear
   );
   const groupDataPoint = groupIndicatorData?.healthData.find(
@@ -126,6 +133,25 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
 
   const confidenceLimit = getConfidenceLimitNumber(benchmarkComparisonMethod);
 
+  let englandDataPointNamePrefix,
+    groupDataPointNamePrefix,
+    englandLabel,
+    groupLabel,
+    showComparisonLabels;
+  if (benchmarkToUse === areaCodeForEngland) {
+    englandDataPointNamePrefix = 'Benchmark: ';
+    groupDataPointNamePrefix = 'Group: ';
+    englandLabel = AreaTypeLabelEnum.Benchmark;
+    groupLabel = AreaTypeLabelEnum.Group;
+    showComparisonLabels = true;
+  } else {
+    englandDataPointNamePrefix = '';
+    groupDataPointNamePrefix = 'Benchmark: ';
+    englandLabel = AreaTypeLabelEnum.Area;
+    groupLabel = AreaTypeLabelEnum.Benchmark;
+    showComparisonLabels = false;
+  }
+
   const id = 'barChartEmbeddedTable';
 
   const csvData = useMemo(
@@ -134,7 +160,7 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
         sortedTableRows,
         fullYear,
         indicatorMetadata,
-        benchmarkData,
+        englandData,
         groupIndicatorData,
         confidenceLimit
       ),
@@ -142,7 +168,7 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
       fullYear,
       sortedTableRows,
       indicatorMetadata,
-      benchmarkData,
+      englandData,
       groupIndicatorData,
       confidenceLimit,
     ]
@@ -159,7 +185,7 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
         <BenchmarkLegend
           benchmarkComparisonMethod={benchmarkComparisonMethod}
           polarity={polarity}
-          title={`Compared to England for ${fullYear} time period`}
+          title={`Compared to ${benchmarkAreaName} for ${fullYear} time period`}
         />
 
         <Table
@@ -213,26 +239,26 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
             </React.Fragment>
           }
         >
-          {benchmarkDataPoint ? (
+          {englandDataPoint ? (
             <Table.Row
-              key={`${benchmarkData?.areaName}`}
+              key={`${englandData?.areaName}`}
               style={{ backgroundColor: GovukColours.LightGrey }}
               data-testid="table-row-benchmark"
             >
               <CheckValueInTableCell
-                value={`Benchmark: ${benchmarkData?.areaName}`}
+                value={`${englandDataPointNamePrefix}${englandData?.areaName}`}
                 style={{ textAlign: 'left', paddingLeft: '10px' }}
               />
               <Table.Cell style={{ textAlign: 'center' }}>
-                <TrendTag trendFromResponse={benchmarkDataPoint.trend} />
+                <TrendTag trendFromResponse={englandDataPoint.trend} />
               </Table.Cell>
               <FormatNumberInTableCell
-                value={benchmarkDataPoint.count}
+                value={englandDataPoint.count}
                 numberStyle={'whole'}
                 style={{ textAlign: 'right' }}
               />
               <FormatNumberInTableCell
-                value={benchmarkDataPoint.value}
+                value={englandDataPoint.value}
                 style={{
                   textAlign: 'right',
                   paddingRight: '0px',
@@ -241,31 +267,32 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
               />
               <Table.Cell style={{ paddingRight: '0px' }}>
                 <SparklineChart
-                  value={[benchmarkDataPoint.value]}
+                  value={[englandDataPoint.value]}
                   maxValue={maxValue}
                   confidenceIntervalValues={[
-                    benchmarkDataPoint.lowerCi,
-                    benchmarkDataPoint.upperCi,
+                    englandDataPoint.lowerCi,
+                    englandDataPoint.upperCi,
                   ]}
                   showConfidenceIntervalsData={showConfidenceIntervalsData}
                   benchmarkOutcome={
-                    benchmarkDataPoint.benchmarkComparison?.outcome
+                    englandDataPoint?.benchmarkComparison?.outcome
                   }
                   benchmarkComparisonMethod={benchmarkComparisonMethod}
                   polarity={polarity}
-                  label={AreaTypeLabelEnum.Benchmark}
-                  area={benchmarkData?.areaName}
-                  year={benchmarkDataPoint.year}
+                  label={englandLabel}
+                  area={englandData?.areaName}
+                  year={englandDataPoint.year}
                   measurementUnit={measurementUnit}
                   barColor={GovukColours.DarkGrey}
+                  showComparisonLabels={showComparisonLabels}
                 ></SparklineChart>
               </Table.Cell>
               <FormatNumberInTableCell
-                value={benchmarkDataPoint.lowerCi}
+                value={englandDataPoint.lowerCi}
                 style={{ textAlign: 'right' }}
               />
               <FormatNumberInTableCell
-                value={benchmarkDataPoint.upperCi}
+                value={englandDataPoint.upperCi}
                 style={{ textAlign: 'right', paddingRight: '10px' }}
               />
             </Table.Row>
@@ -278,7 +305,7 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
               data-testid="table-row-group"
             >
               <CheckValueInTableCell
-                value={`Group: ${groupIndicatorData?.areaName}`}
+                value={`${groupDataPointNamePrefix}${groupIndicatorData?.areaName}`}
                 style={{ textAlign: 'left', paddingLeft: '10px' }}
               />
               <Table.Cell style={{ textAlign: 'center' }}>
@@ -309,7 +336,7 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
                   benchmarkOutcome={groupDataPoint.benchmarkComparison?.outcome}
                   benchmarkComparisonMethod={benchmarkComparisonMethod}
                   polarity={polarity}
-                  label={AreaTypeLabelEnum.Group}
+                  label={groupLabel}
                   area={groupIndicatorData?.areaName}
                   year={groupDataPoint.year}
                   measurementUnit={measurementUnit}
@@ -335,7 +362,12 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
             polarity={polarity}
           />
         </Table>
+
         <DataSource dataSource={dataSource} />
+
+        <ExportOnlyWrapper>
+          <ExportCopyright />
+        </ExportOnlyWrapper>
       </div>
       <ExportOptionsButton targetId={id} csvData={csvData} />
     </>

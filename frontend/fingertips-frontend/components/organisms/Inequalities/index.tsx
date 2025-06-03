@@ -30,7 +30,7 @@ export function Inequalities({
       <InequalitiesForSingleTimePeriod
         healthIndicatorData={healthIndicatorData}
         searchState={searchState}
-        measurementUnit={indicatorMetadata?.unitLabel}
+        indicatorMetadata={indicatorMetadata}
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
         dataSource={dataSource}

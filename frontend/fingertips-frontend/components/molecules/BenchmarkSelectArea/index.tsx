@@ -7,6 +7,7 @@ import { useLoadingState } from '@/context/LoaderContext';
 import { usePathname, useRouter } from 'next/navigation';
 import { StyledFilterSelect } from '@/components/styles/StyledFilterSelect';
 import { AreaWithoutAreaType } from '@/lib/common-types';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 interface BenchmarkSelectAreaProps {
   availableAreas: AreaWithoutAreaType[];
@@ -36,7 +37,8 @@ export function BenchmarkSelectArea({
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
 
-  const selectedArea = searchState?.[benchmarkAreaSelectedKey];
+  const selectedArea =
+    searchState?.[benchmarkAreaSelectedKey] ?? areaCodeForEngland;
 
   return (
     <StyledFilterSelect

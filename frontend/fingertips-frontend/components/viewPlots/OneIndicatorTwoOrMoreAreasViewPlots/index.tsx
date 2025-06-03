@@ -178,13 +178,15 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
       <StyleChartWrapper>
         <H3>Compare an indicator by areas</H3>
         <BarChartEmbeddedTable
+          key={`barchart-${benchmarkToUse}`}
           data-testid="barChartEmbeddedTable-component"
           healthIndicatorData={dataWithoutEnglandOrGroup}
-          benchmarkData={englandData}
+          englandData={englandData}
           groupIndicatorData={groupData}
           indicatorMetadata={indicatorMetadata}
           benchmarkComparisonMethod={benchmarkMethod}
           polarity={polarity}
+          benchmarkToUse={benchmarkToUse}
         />
       </StyleChartWrapper>
     </section>

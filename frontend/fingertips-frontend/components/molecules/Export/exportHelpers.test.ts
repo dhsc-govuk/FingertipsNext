@@ -1,12 +1,23 @@
 import {
+  addCopyrightFooterToChartOptions,
   canvasToBlob,
+  ExcludeFromExport,
+  ExportOnly,
   getHtmlToImageCanvas,
   getSvgFromOptions,
+  preCanvasConversion,
   svgStringToDomElement,
   triggerBlobDownload,
 } from '@/components/molecules/Export/exportHelpers';
 import Highcharts, { Chart } from 'highcharts';
 import html2canvas from 'html2canvas';
+import {
+  exportAccessedDate,
+  exportCopyrightText,
+} from '@/components/molecules/Export/ExportCopyright';
+import { mapSourceForType } from '@/components/organisms/ThematicMap/thematicMapHelpers';
+import { CustomOptions } from '@/components/molecules/Export/export.types';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 jest.mock('html2canvas', () => jest.fn());
 jest.mock('highcharts', () => {
@@ -48,12 +59,69 @@ describe('exportHelpers', () => {
 
       expect(html2canvas).toHaveBeenCalledWith(mockElement, {
         scale: 2.5,
-        onclone: expect.any(Function),
+        onclone: preCanvasConversion,
       });
       expect(result).toBe(mockCanvas);
       expect(result?.style.width).toBe('100%');
       expect(result?.style.height).toBe('auto');
       expect(mockParent.style.overflowX).toBe('');
+    });
+
+    describe('preCanvasConversion', () => {
+      let clonedDocument: Document;
+      let clonedElement: HTMLElement;
+
+      beforeEach(() => {
+        clonedDocument =
+          document.implementation.createHTMLDocument('Test Document');
+        clonedElement = clonedDocument.createElement('div');
+
+        const chartPageContent = clonedDocument.createElement('div');
+        chartPageContent.id = 'chartPageContent';
+        clonedDocument.body.appendChild(chartPageContent);
+
+        const elementToBeExcluded = clonedDocument.createElement('div');
+        elementToBeExcluded.className = ExcludeFromExport;
+        const mapNavigation = clonedDocument.createElement('div');
+        mapNavigation.className = 'highcharts-map-navigation';
+        const highChartsTooltip = clonedDocument.createElement('div');
+        highChartsTooltip.className = 'highcharts-tooltip';
+        clonedDocument.body.appendChild(elementToBeExcluded);
+        clonedDocument.body.appendChild(mapNavigation);
+        clonedDocument.body.appendChild(highChartsTooltip);
+
+        const exportOnlyElement = clonedDocument.createElement('div');
+        exportOnlyElement.className = ExportOnly;
+        exportOnlyElement.style.display = 'none';
+        clonedDocument.body.appendChild(exportOnlyElement);
+      });
+
+      it('removes elements with specific class names', () => {
+        preCanvasConversion(clonedDocument, clonedElement);
+        expect(
+          clonedDocument.querySelector(`.${ExcludeFromExport}`)
+        ).toBeNull();
+        expect(
+          clonedDocument.querySelector('.highcharts-map-navigation')
+        ).toBeNull();
+        expect(clonedDocument.querySelector('.highcharts-tooltip')).toBeNull();
+      });
+
+      it('makes elements with ExportOnly class visible', () => {
+        const exportOnly = clonedDocument.querySelector(
+          `.${ExportOnly}`
+        ) as HTMLElement;
+        expect(exportOnly.style.display).toBe('none');
+
+        preCanvasConversion(clonedDocument, clonedElement);
+        expect(exportOnly.style.display).toBe('block');
+      });
+
+      it('does nothing if #chartPageContent is missing', () => {
+        const doc =
+          document.implementation.createHTMLDocument('No chart content');
+        expect(() => preCanvasConversion(doc, clonedElement)).not.toThrow();
+      });
     });
   });
 
@@ -72,7 +140,7 @@ describe('exportHelpers', () => {
     });
 
     it('returns a undefined for invalid SVG', () => {
-      const badSvg = `<svg><g><circle></svg>`; // malformed
+      const badSvg = `<svg><g><circle r="1"></svg>`; // malformed
       const element = svgStringToDomElement(badSvg);
       expect(element).toBeUndefined();
     });
@@ -184,6 +252,42 @@ describe('exportHelpers', () => {
         (child) => child.tagName === 'DIV'
       );
       expect(containerInDom).toBeUndefined();
+    });
+  });
+
+  describe('addCopyrightFooterToChartOptions', () => {
+    it('modifies chart options and attaches a load event', () => {
+      const inputOptions = {
+        chart: {
+          events: {},
+        },
+      };
+
+      const modified = addCopyrightFooterToChartOptions(inputOptions);
+
+      expect(modified.chart.spacingBottom).toBe(25);
+      expect(modified.caption).toEqual({
+        margin: 20,
+        style: {
+          color: GovukColours.Black,
+          fontSize: '14px',
+        },
+        text: `${exportCopyrightText()}<br />${exportAccessedDate()}`,
+      });
+    });
+
+    it('includes map metadata when custom.mapAreaType is set', () => {
+      const inputOptions = {
+        chart: {
+          events: {},
+        },
+        custom: {
+          mapAreaType: 'regions',
+        },
+      } as CustomOptions;
+
+      const modified = addCopyrightFooterToChartOptions(inputOptions);
+      expect(modified.caption?.text).toContain(mapSourceForType('regions'));
     });
   });
 });
