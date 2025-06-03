@@ -64,7 +64,6 @@ type componentProps = {
   hasTypeDropDown?: boolean;
   isWideComponent?: boolean;
   hasRecentTrend?: boolean;
-  hasBenchmark?: boolean;
 };
 
 type component = {
@@ -87,7 +86,6 @@ export function getScenarioConfig(
       componentLocator: ChartPage.lineChartComponent,
       componentProps: {
         hasConfidenceIntervals: true,
-        hasBenchmark: true,
       },
     },
     {

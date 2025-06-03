@@ -115,7 +115,8 @@ export default class ChartPage extends AreaFilter {
         visibleComponent,
         selectedIndicators,
         areaMode,
-        selectedAreaFilters
+        selectedAreaFilters,
+        indicatorMode
       );
       await this.verifyComponentVisibleAndScreenshotMatch(
         visibleComponent,
@@ -166,7 +167,8 @@ export default class ChartPage extends AreaFilter {
     },
     selectedIndicators: SimpleIndicatorDocument[],
     areaMode: AreaMode,
-    selectedAreaFilters: AreaFilters
+    selectedAreaFilters: AreaFilters,
+    indicatorMode: IndicatorMode
   ) {
     const { componentLocator, componentProps } = component;
 
@@ -205,7 +207,10 @@ export default class ChartPage extends AreaFilter {
           ),
       },
       {
-        condition: componentProps.hasBenchmark,
+        condition:
+          indicatorMode === IndicatorMode.ONE_INDICATOR &&
+          (areaMode === AreaMode.TWO_AREAS ||
+            areaMode === AreaMode.THREE_PLUS_AREAS),
         action: () =>
           this.selectBenchmarkDropdownOption(component, selectedAreaFilters),
       },
