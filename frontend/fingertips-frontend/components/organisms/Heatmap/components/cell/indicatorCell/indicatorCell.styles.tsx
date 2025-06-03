@@ -1,6 +1,7 @@
 import { Table } from 'govuk-react';
 import styled from 'styled-components';
 import { heatmapIndicatorTitleColumnWidth } from '../../../heatmapUtil';
+import { BorderColour } from '@/lib/styleHelpers/colours';
 
 export const IndicatorCell = styled(Table.Cell)({
   background: 'white',
@@ -8,7 +9,7 @@ export const IndicatorCell = styled(Table.Cell)({
   left: 0,
   zIndex: 1,
   paddingRight: '0.5em',
-  borderRight: 'solid #bfc1c3 1px',
+  borderRight: `solid #${BorderColour} 1px`,
 });
 
 export const TextCell = styled(Table.Cell)({

@@ -27,6 +27,11 @@ export enum GovukColours {
   DarkSlateGray = '#D7D7D7',
 }
 
+// govuk-react table border colour
+// it is the old gds grey 2
+// and it appears govuk-react hasn't been updated with the latest gds colours
+export const BorderColour = '#BfC1C3';
+
 export enum TagColours {
   GreyText = '#303436',
   GreyBackground = '#E1E2E3',

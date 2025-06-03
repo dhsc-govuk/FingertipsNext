@@ -1,12 +1,12 @@
 import { Table } from 'govuk-react';
 import styled from 'styled-components';
-import { GovukColours } from '@/lib/styleHelpers/colours';
+import { GovukColours, BorderColour } from '@/lib/styleHelpers/colours';
 
 export const NumericCell = styled(Table.Cell)({
   textAlign: 'center',
   padding: 0,
   position: 'relative',
-  borderLeft: `1px solid #bfc1c3`,
+  borderLeft: `solid #${BorderColour} 1px`,
   verticalAlign: 'middle',
 });
 
