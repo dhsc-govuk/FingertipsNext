@@ -2,7 +2,7 @@
 
 import { Tabs } from 'govuk-react';
 import React, { JSX, useState } from 'react';
-import styled from 'styled-components';
+import { TabPanel } from './tabContainer.styles';
 
 interface TabItem {
   id: string;
@@ -29,8 +29,6 @@ export const TabContainer = ({
     setTabIndex(index);
   };
 
-  const StyledTabPanel = styled(Tabs.Panel)({ marginBottom: '5px' });
-
   return (
     <Tabs data-testid={`tabContainer-${id}`}>
       <Tabs.List>
@@ -47,7 +45,7 @@ export const TabContainer = ({
         ))}
       </Tabs.List>
       {items.map(({ content, id }, index) => (
-        <StyledTabPanel
+        <TabPanel
           selected={tabIndex === index}
           key={id}
           data-testid={`tabContent-${id}`}
@@ -57,7 +55,7 @@ export const TabContainer = ({
         >
           {content}
           <div data-testid={`tabFooter-${id}`}>{footer}</div>
-        </StyledTabPanel>
+        </TabPanel>
       ))}
     </Tabs>
   );
