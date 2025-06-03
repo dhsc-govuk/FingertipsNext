@@ -19,14 +19,14 @@ export const HeatmapHeader: FC<HeatmapHeaderProps> = ({
   switch (headerType) {
     case HeaderType.IndicatorTitle:
       return <IndicatorTitleHeader content={content} />;
-    case HeaderType.IndicatorInformationPeriod:
+    case HeaderType.Period:
       return <IndicatorPeriodHeader content={content} />;
-    case HeaderType.IndicatorInformationValueUnit:
+    case HeaderType.ValueUnit:
       return <IndicatorValueUnitHeader content={content} />;
 
-    case HeaderType.PrimaryBenchmarkArea:
+    case HeaderType.BenchmarkGroupArea:
       return <AreaPrimaryBenchmarkHeader content={content} />;
-    case HeaderType.SecondaryBenchmarkArea:
+    case HeaderType.NonBenchmarkGroupArea:
       return <AreaSecondaryBenchmarkHeader content={content} />;
     case HeaderType.Area:
       return <AreaHeader content={content} />;

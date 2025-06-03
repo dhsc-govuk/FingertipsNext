@@ -11,7 +11,7 @@ export const IndicatorTitleText = styled(IndicatorInfoText)({
   width: `${heatmapIndicatorTitleColumnWidth}px`,
 });
 
-export const HeaderCell = styled(Table.CellHeader)({
+export const TitleHeaderCell = styled(Table.CellHeader)({
   background: 'white',
   position: 'sticky',
   left: 0,

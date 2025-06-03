@@ -1,4 +1,4 @@
-import { HeatmapHeader } from '@/components/organisms/Heatmap/components/header/header';
+import { HeatmapHeader } from '@/components/organisms/Heatmap/components/header';
 import { HeatmapCell } from '@/components/organisms/Heatmap/components/cell';
 import React, { FC, MouseEvent } from 'react';
 import styled from 'styled-components';
