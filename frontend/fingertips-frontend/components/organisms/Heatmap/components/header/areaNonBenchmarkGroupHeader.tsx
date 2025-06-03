@@ -12,7 +12,7 @@ export const AreaSecondaryBenchmarkHeader: React.FC<
   AreaSecondaryBenchmarkHeaderProps
 > = ({ content }: AreaSecondaryBenchmarkHeaderProps) => {
   return (
-    <HeaderCell>
+    <HeaderCell data-testid="heatmap-header-non-benchmark-group">
       <HeaderTitleWrapper>
         <NonBenchmarkGroupHeaderTitle>{content}</NonBenchmarkGroupHeaderTitle>
       </HeaderTitleWrapper>

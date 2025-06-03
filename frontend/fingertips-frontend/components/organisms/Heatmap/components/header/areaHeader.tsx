@@ -8,7 +8,7 @@ export const AreaHeader: React.FC<AreaHeaderProps> = ({
   content,
 }: AreaHeaderProps) => {
   return (
-    <HeaderCell>
+    <HeaderCell data-testid="heatmap-header-area">
       <HeaderTitleWrapper>
         <Title>{content}</Title>
       </HeaderTitleWrapper>

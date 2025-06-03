@@ -8,7 +8,7 @@ export const IndicatorPeriodHeader: React.FC<IndicatorPeriodHeaderProps> = ({
   content,
 }: IndicatorPeriodHeaderProps) => {
   return (
-    <PeriodHeaderCell>
+    <PeriodHeaderCell data-testid="heatmap-header-period">
       <IndicatorInfoText>{content}</IndicatorInfoText>
     </PeriodHeaderCell>
   );

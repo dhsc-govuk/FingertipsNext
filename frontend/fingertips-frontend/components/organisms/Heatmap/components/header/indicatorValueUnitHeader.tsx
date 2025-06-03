@@ -11,7 +11,7 @@ export const IndicatorValueUnitHeader: React.FC<
   IndicatorValueUnitHeaderProps
 > = ({ content }: IndicatorValueUnitHeaderProps) => {
   return (
-    <ValueUnitHeaderCell>
+    <ValueUnitHeaderCell data-testid="heatmap-header-value-unit">
       <IndicatorInfoText>{content}</IndicatorInfoText>
     </ValueUnitHeaderCell>
   );

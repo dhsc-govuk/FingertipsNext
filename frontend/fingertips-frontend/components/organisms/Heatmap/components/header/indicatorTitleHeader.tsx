@@ -1,7 +1,4 @@
-import {
-  IndicatorTitleCellHeader,
-  IndicatorTitleText,
-} from './indicatorHeader.styles';
+import { TitleHeaderCell, IndicatorTitleText } from './indicatorHeader.styles';
 
 interface IndicatorTitleHeaderProps {
   content: string;
@@ -11,8 +8,8 @@ export const IndicatorTitleHeader: React.FC<IndicatorTitleHeaderProps> = ({
   content,
 }: IndicatorTitleHeaderProps) => {
   return (
-    <IndicatorTitleCellHeader>
+    <TitleHeaderCell data-testid="heatmap-header-indicator-title">
       <IndicatorTitleText>{content}</IndicatorTitleText>
-    </IndicatorTitleCellHeader>
+    </TitleHeaderCell>
   );
 };
