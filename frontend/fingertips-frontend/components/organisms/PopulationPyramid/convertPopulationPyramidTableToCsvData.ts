@@ -22,6 +22,7 @@ export function convertPopulationPyramidTableToCsvData(
     CsvHeader.AgeRange,
     CsvHeader.Male,
     CsvHeader.Female,
+    CsvHeader.Totals,
   ];
 
   const rows: CsvData = [];
@@ -76,5 +77,6 @@ function convertPopulationPyramidTableAreaToCsvRow(
     ageCategory,
     populationDataForArea.maleSeries[i],
     populationDataForArea.femaleSeries[i],
+    populationDataForArea.maleSeries[i] + populationDataForArea.femaleSeries[i],
   ]);
 }

@@ -56,6 +56,7 @@ describe('PopulationPyramidTableToCsv', () => {
     CsvHeader.AgeRange,
     CsvHeader.Male,
     CsvHeader.Female,
+    CsvHeader.Totals,
   ];
 
   const expectedAreaCsvRows: CsvField[][] = [
@@ -68,6 +69,7 @@ describe('PopulationPyramidTableToCsv', () => {
       'oldest',
       5,
       1,
+      6,
     ],
     [
       stubIndicatorId,
@@ -78,6 +80,7 @@ describe('PopulationPyramidTableToCsv', () => {
       'upper middle',
       4,
       2,
+      6,
     ],
     [
       stubIndicatorId,
@@ -89,6 +92,7 @@ describe('PopulationPyramidTableToCsv', () => {
       'middle',
       3,
       3,
+      6,
     ],
     [
       stubIndicatorId,
@@ -99,6 +103,7 @@ describe('PopulationPyramidTableToCsv', () => {
       'lower middle',
       2,
       4,
+      6,
     ],
     [
       stubIndicatorId,
@@ -109,6 +114,7 @@ describe('PopulationPyramidTableToCsv', () => {
       'youngest',
       1,
       5,
+      6,
     ],
   ];
 
@@ -122,6 +128,7 @@ describe('PopulationPyramidTableToCsv', () => {
       'oldest',
       500,
       100,
+      600,
     ],
     [
       stubIndicatorId,
@@ -132,6 +139,7 @@ describe('PopulationPyramidTableToCsv', () => {
       'upper middle',
       400,
       200,
+      600,
     ],
     [
       stubIndicatorId,
@@ -142,6 +150,7 @@ describe('PopulationPyramidTableToCsv', () => {
       'middle',
       300,
       300,
+      600,
     ],
     [
       stubIndicatorId,
@@ -152,6 +161,7 @@ describe('PopulationPyramidTableToCsv', () => {
       'lower middle',
       200,
       400,
+      600,
     ],
     [
       stubIndicatorId,
@@ -162,6 +172,7 @@ describe('PopulationPyramidTableToCsv', () => {
       'youngest',
       100,
       500,
+      600,
     ],
   ];
 
@@ -175,6 +186,7 @@ describe('PopulationPyramidTableToCsv', () => {
       'oldest',
       50,
       10,
+      60,
     ],
     [
       stubIndicatorId,
@@ -185,6 +197,7 @@ describe('PopulationPyramidTableToCsv', () => {
       'upper middle',
       40,
       20,
+      60,
     ],
     [
       stubIndicatorId,
@@ -195,6 +208,7 @@ describe('PopulationPyramidTableToCsv', () => {
       'middle',
       30,
       30,
+      60,
     ],
     [
       stubIndicatorId,
@@ -205,6 +219,7 @@ describe('PopulationPyramidTableToCsv', () => {
       'lower middle',
       20,
       40,
+      60,
     ],
     [
       stubIndicatorId,
@@ -215,6 +230,7 @@ describe('PopulationPyramidTableToCsv', () => {
       'youngest',
       10,
       50,
+      60,
     ],
   ];
 
@@ -229,7 +245,7 @@ describe('PopulationPyramidTableToCsv', () => {
     }).toThrowError(new Error('IndicatorID and IndicatorName are required'));
   });
 
-  it('should throw an error if IndicatorName is undefiend', () => {
+  it('should throw an error if IndicatorName is undefined', () => {
     expect(() => {
       convertPopulationPyramidTableToCsvData(
         stubPeriod,
