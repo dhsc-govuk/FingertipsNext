@@ -24,8 +24,7 @@ interface ThematicMapProps {
   areaCodes: string[];
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
-  benchmarkIndicatorData?: HealthDataForArea;
-  groupIndicatorData?: HealthDataForArea;
+  comparatorData?: HealthDataForArea;
   indicatorMetadata?: IndicatorDocument;
 }
 
@@ -35,8 +34,7 @@ export function ThematicMap({
   areaCodes,
   benchmarkComparisonMethod,
   polarity,
-  benchmarkIndicatorData,
-  groupIndicatorData,
+  comparatorData,
   indicatorMetadata,
 }: Readonly<ThematicMapProps>) {
   const { isLoading, error, mapGeographyData } = useMapGeographyData(
@@ -91,21 +89,20 @@ export function ThematicMap({
             <div
               key={`thematicMap-chart-hover-${indicatorDataForArea.areaCode}`}
               id={`thematicMap-chart-hover-${indicatorDataForArea.areaCode}`}
-              // style={{ display: 'none' }}
+              style={{ display: 'none' }}
             >
               <ThematicMapTooltip
                 indicatorData={indicatorDataForArea}
                 benchmarkComparisonMethod={benchmarkComparisonMethod}
                 measurementUnit={indicatorMetadata?.unitLabel}
-                indicatorDataForBenchmark={benchmarkIndicatorData} // DHSCFT-858 remove this
-                indicatorDataForGroup={groupIndicatorData}
+                indicatorDataForGroup={comparatorData}
                 polarity={polarity}
               />
             </div>
           );
         })}
         <BenchmarkLegend
-          title={`Compared to ${benchmarkIndicatorData?.areaName ?? 'England'}`}
+          title={`Compared to ${healthIndicatorData[0].healthData[0].benchmarkComparison?.benchmarkAreaName}`}
           benchmarkComparisonMethod={benchmarkComparisonMethod}
           polarity={polarity}
         />

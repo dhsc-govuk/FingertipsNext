@@ -65,11 +65,11 @@ export function sortHealthDataByYearDescending(
 
 export function sortHealthDataPointsByDescendingYear(
   data: HealthDataPoint[] | undefined
-): HealthDataPoint[] {
-  if (!data) {
-    return [];
+) {
+  if (!data || data.length === 0) {
+    return []; // TODO: return undefined instead? also used in pop-pyramid
   }
-  return data.toSorted((a, b) => b.year - a.year);
+  return data?.toSorted((a, b) => b.year - a.year);
 }
 
 export function seriesDataForIndicatorIndexAndArea(

@@ -1,21 +1,16 @@
 import { getAreaTitle } from '@/components/molecules/ThematicMapTooltip/ThematicMapTooltipHelpers';
+import { BenchmarkOutcome } from '@/generated-sources/ft-api-client';
 import { formatNumber } from '@/lib/numberFormatter';
 
-export type TooltipType = 'area' | 'benchmark' | 'group';
+export type TooltipType = 'area' | 'benchmark' | 'comparator';
 
 interface BenchmarkTooltipArea {
   areaName: string;
   year: number | undefined;
-  value: number | undefined;
+  value: number | BenchmarkOutcome | undefined;
   measurementUnit: string | undefined;
   tooltipType: TooltipType;
   comparisonText?: string;
-
-  // mostRecentDataPoint: HealthDataPoint;
-  // // indicatorData: HealthDataForArea;
-  // benchmarkComparisonMethod: BenchmarkComparisonMethod;
-  // measurementUnit: string | undefined;
-  // polarity: IndicatorPolarity;
 }
 
 export function BenchmarkTooltipArea({
@@ -24,14 +19,8 @@ export function BenchmarkTooltipArea({
   value,
   measurementUnit,
   comparisonText,
-  // mostRecentDataPoint,
-  // benchmarkComparisonMethod,
-  // measurementUnit,
   tooltipType,
-  // polarity,
 }: Readonly<BenchmarkTooltipArea>) {
-  // const benchmarkArea =
-  //   mostRecentDataPoint?.benchmarkComparison?.benchmarkAreaName ?? 'England'; // DHSCFT-858 remove this fallback?
   // const benchmarkOutcome =
   //   mostRecentDataPoint?.benchmarkComparison?.outcome ??
   //   BenchmarkOutcome.NotCompared;
@@ -63,6 +52,19 @@ export function BenchmarkTooltipArea({
 
   // TODO: refactor to use styled components
 
+  const formatedValue = (() => {
+    switch (true) {
+      case value === undefined:
+        return 'No data available';
+      case typeof value === 'number':
+        return `${formatNumber(value)}${measurementUnit ? ` ${measurementUnit}` : ''}`;
+      case value === BenchmarkOutcome.NotCompared:
+        return 'Not compared';
+      default:
+        return value;
+    }
+  })();
+
   return (
     <div
       data-testid={'benchmark-tooltip-area'} // TODO: change this name?
@@ -92,10 +94,7 @@ export function BenchmarkTooltipArea({
         </div>
 
         <div style={{ marginTop: '5px' }}>
-          <span style={{ display: 'block' }}>
-            {value ? formatNumber(value) : 'No data available'}{' '}
-            {value ? measurementUnit : null}
-          </span>
+          <span style={{ display: 'block' }}>{formatedValue}</span>
           {tooltipType !== 'benchmark'
             ? comparisonText
             : // getComparisonText(
