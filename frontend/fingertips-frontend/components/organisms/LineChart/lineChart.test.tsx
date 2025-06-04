@@ -85,4 +85,18 @@ describe('LineChart', () => {
     expect(lineChartOptions.series[0].events.hide).toBeDefined();
     expect(lineChartOptions.series[1].visible).toBeFalsy();
   });
+
+  it('should render a title when supplied', async () => {
+    await act(async () => {
+      render(
+        <LineChart
+          title={'This is a line chart'}
+          lineChartOptions={lineChartDefaultOptions}
+          variant={LineChartVariant.Standard}
+        />
+      );
+    });
+
+    expect(screen.getByText(/This is a line chart/)).toBeInTheDocument();
+  });
 });

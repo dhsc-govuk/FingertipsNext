@@ -40,6 +40,7 @@ import {
   CellTypeEnum,
   StyledAreaNameHeader,
 } from './BenchmarkingCellWrapper';
+import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
 
 export enum LineChartTableHeadingEnum {
   AreaPeriod = 'Period',
@@ -52,6 +53,7 @@ export enum LineChartTableHeadingEnum {
 }
 
 export interface LineChartTableProps {
+  title?: string;
   healthIndicatorData: HealthDataForArea[];
   englandIndicatorData?: HealthDataForArea;
   groupIndicatorData?: HealthDataForArea;
@@ -203,6 +205,7 @@ interface AreaDataMatchedByYear {
 }
 
 export function LineChartTable({
+  title,
   healthIndicatorData,
   englandIndicatorData,
   groupIndicatorData,
@@ -294,6 +297,7 @@ export function LineChartTable({
     <>
       <StyledDivWithScrolling data-testid="lineChartTable-component">
         <div id={'lineChartTable'}>
+          {title ? <ChartTitle>{title}</ChartTitle> : null}
           <StyledTable
             head={
               <>

@@ -117,6 +117,7 @@ describe('Line chart table suite', () => {
     it('should render expected elements', () => {
       render(
         <LineChartTable
+          title={'A line chart table title'}
           healthIndicatorData={[mockHealthData[0]]}
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
@@ -149,6 +150,8 @@ describe('Line chart table suite', () => {
         .forEach((heading) =>
           expect(screen.getByTestId(`header-${heading}-0`)).toBeInTheDocument()
         );
+
+      expect(screen.getByText(/A line chart table title/)).toBeInTheDocument();
     });
 
     it('should render the expected elements when England is the only area and 99.8%', () => {

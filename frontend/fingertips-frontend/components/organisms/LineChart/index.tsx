@@ -9,13 +9,16 @@ import { HighChartsWrapper } from '@/components/molecules/HighChartsWrapper/High
 import { useState } from 'react';
 import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
 import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
+import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
 
 interface LineChartProps {
+  title?: string;
   lineChartOptions: Highcharts.Options;
   variant: LineChartVariant;
 }
 
 export function LineChart({
+  title,
   lineChartOptions,
   variant,
 }: Readonly<LineChartProps>) {
@@ -33,12 +36,13 @@ export function LineChart({
   const id = `${variant}LineChart-component`;
   return (
     <div data-testid={id}>
-      <ConfidenceIntervalCheckbox
-        chartName={`${variant}LineChart`}
-        showConfidenceIntervalsData={showConfidenceIntervalsData}
-        setShowConfidenceIntervalsData={setShowConfidenceIntervalsData}
-      />
       <div id={id}>
+        {title ? <ChartTitle>{title}</ChartTitle> : null}
+        <ConfidenceIntervalCheckbox
+          chartName={`${variant}LineChart`}
+          showConfidenceIntervalsData={showConfidenceIntervalsData}
+          setShowConfidenceIntervalsData={setShowConfidenceIntervalsData}
+        />
         <HighChartsWrapper
           chartOptions={lineChartOptions}
           testId={'highcharts-react-component-lineChart'}

@@ -106,6 +106,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     true,
     benchmarkToUse,
     {
+      indicatorName: indicatorData.name,
       englandData,
       benchmarkComparisonMethod: indicatorData.benchmarkMethod,
       groupIndicatorData: groupData,
@@ -134,6 +135,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                 title: 'Line chart',
                 content: (
                   <LineChart
+                    title={lineChartOptions.title?.text}
                     lineChartOptions={lineChartOptions}
                     variant={LineChartVariant.Standard}
                   />
@@ -144,6 +146,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                 title: 'Table',
                 content: (
                   <LineChartTable
+                    title={lineChartOptions.title?.text}
                     healthIndicatorData={dataWithoutEnglandOrGroup}
                     englandIndicatorData={englandData}
                     groupIndicatorData={groupData}
