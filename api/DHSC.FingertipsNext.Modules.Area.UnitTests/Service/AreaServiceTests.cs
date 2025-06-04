@@ -62,8 +62,8 @@ public class AreaServiceTests
 
     private static readonly List<AreaTypeModel> SampleAreaTypes = new List<AreaTypeModel>
     {
-        new AreaTypeModel{ AreaTypeKey = "at1", AreaTypeName = "AT1", HierarchyType = "HT1", Level = 1 },
-        new AreaTypeModel{ AreaTypeKey = "at2", AreaTypeName = "AT2", HierarchyType = "HT2", Level = 2 }
+        new() { AreaTypeKey = "at1", AreaTypeName = "AT1", HierarchyType = "HT1", Level = 1 },
+        new() { AreaTypeKey = "at2", AreaTypeName = "AT2", HierarchyType = "HT2", Level = 2 }
     };
 
     #endregion
