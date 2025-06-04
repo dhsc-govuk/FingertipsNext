@@ -40,7 +40,8 @@ const testRender = () => {
         polarity={'Unknown'}
         areaCodes={mockAreaCodes}
         selectedAreaType={'regions'}
-        comparatorData={mockHealthData['92420'][0]}
+        benchmarkIndicatorData={mockHealthData['92420'][0]}
+        comparatorData={mockHealthData['92420'][1]}
       />
     </QueryClientProvider>
   );
@@ -92,7 +93,7 @@ describe('ThematicMap', () => {
   it('should render the hovers', async () => {
     testRender();
     const hovers = await screen.findAllByTestId('benchmark-tooltip-area');
-    expect(hovers).toHaveLength(19); // 9 regions + 9 subregions + 1 England
+    expect(hovers).toHaveLength(27); // 9 areas * 3 tooltip sections
   });
 
   it('should render the export button', async () => {

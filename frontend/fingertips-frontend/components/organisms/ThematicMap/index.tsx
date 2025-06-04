@@ -24,7 +24,8 @@ interface ThematicMapProps {
   areaCodes: string[];
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
-  comparatorData: HealthDataForArea;
+  benchmarkIndicatorData?: HealthDataForArea;
+  comparatorData?: HealthDataForArea;
   indicatorMetadata?: IndicatorDocument;
 }
 
@@ -34,6 +35,7 @@ export function ThematicMap({
   areaCodes,
   benchmarkComparisonMethod,
   polarity,
+  benchmarkIndicatorData,
   comparatorData,
   indicatorMetadata,
 }: Readonly<ThematicMapProps>) {
@@ -95,6 +97,7 @@ export function ThematicMap({
                 indicatorData={indicatorDataForArea}
                 benchmarkComparisonMethod={benchmarkComparisonMethod}
                 measurementUnit={indicatorMetadata?.unitLabel}
+                indicatorDataForBenchmark={benchmarkIndicatorData}
                 indicatorDataForComparator={comparatorData}
                 polarity={polarity}
               />
