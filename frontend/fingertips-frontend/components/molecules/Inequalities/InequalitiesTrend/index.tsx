@@ -228,6 +228,7 @@ export function InequalitiesTrend({
             title: 'Line chart',
             content: (
               <LineChart
+                title={''}
                 lineChartOptions={inequalitiesLineChartOptions}
                 variant={LineChartVariant.Inequalities}
               />

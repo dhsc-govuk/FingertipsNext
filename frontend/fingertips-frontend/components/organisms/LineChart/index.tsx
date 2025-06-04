@@ -12,7 +12,7 @@ import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapp
 import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
 
 interface LineChartProps {
-  title?: string;
+  title: string;
   lineChartOptions: Highcharts.Options;
   variant: LineChartVariant;
 }
@@ -35,9 +35,9 @@ export function LineChart({
 
   const id = `${variant}LineChart-component`;
   return (
-    <div data-testid={id}>
-      <div id={id}>
-        {title ? <ChartTitle>{title}</ChartTitle> : null}
+    <>
+      <div id={id} data-testid={id}>
+        <ChartTitle>{title}</ChartTitle>
         <ConfidenceIntervalCheckbox
           chartName={`${variant}LineChart`}
           showConfidenceIntervalsData={showConfidenceIntervalsData}
@@ -51,8 +51,7 @@ export function LineChart({
           <ExportCopyright />
         </ExportOnlyWrapper>
       </div>
-
       <ExportOptionsButton targetId={id} chartOptions={lineChartOptions} />
-    </div>
+    </>
   );
 }

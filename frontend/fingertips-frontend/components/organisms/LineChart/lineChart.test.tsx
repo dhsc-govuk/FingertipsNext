@@ -40,6 +40,7 @@ describe('LineChart', () => {
     act(() => {
       render(
         <LineChart
+          title={'Title'}
           lineChartOptions={lineChartDefaultOptions}
           variant={LineChartVariant.Standard}
         />
@@ -63,6 +64,7 @@ describe('LineChart', () => {
     act(() => {
       render(
         <LineChart
+          title={'Title'}
           lineChartOptions={lineChartOptions}
           variant={LineChartVariant.Standard}
         />
@@ -86,7 +88,7 @@ describe('LineChart', () => {
     expect(lineChartOptions.series[1].visible).toBeFalsy();
   });
 
-  it('should render a title when supplied', async () => {
+  it('should render a title', async () => {
     await act(async () => {
       render(
         <LineChart

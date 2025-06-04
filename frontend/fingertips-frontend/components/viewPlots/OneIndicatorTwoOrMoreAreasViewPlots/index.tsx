@@ -135,7 +135,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                 title: 'Line chart',
                 content: (
                   <LineChart
-                    title={lineChartOptions.title?.text}
+                    title={lineChartOptions.title?.text ?? ''}
                     lineChartOptions={lineChartOptions}
                     variant={LineChartVariant.Standard}
                   />
@@ -146,7 +146,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                 title: 'Table',
                 content: (
                   <LineChartTable
-                    title={lineChartOptions.title?.text}
+                    title={lineChartOptions.title?.text ?? ''}
                     healthIndicatorData={dataWithoutEnglandOrGroup}
                     englandIndicatorData={englandData}
                     groupIndicatorData={groupData}
