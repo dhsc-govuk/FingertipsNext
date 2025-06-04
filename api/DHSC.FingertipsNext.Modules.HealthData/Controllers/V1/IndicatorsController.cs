@@ -87,7 +87,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
             years ?? [],
             inequalities ?? [],
             latestOnly
-        ).ConfigureAwait(false);
+        );
 
         return indicatorData?.Status switch
         {
@@ -143,7 +143,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
             areaType,
             ancestorCode,
             benchmarkRefType == BenchmarkReferenceType.SubNational ? ancestorCode : "E92000001"
-        ).ConfigureAwait(false);
+        );
 
         return quartileData == null ? NotFound() : Ok(quartileData);
     }

@@ -44,7 +44,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
                 LatestYear = healthMeasure.Year
             })
             .Take(1)
-            .FirstOrDefaultAsync().ConfigureAwait(false);
+            .FirstOrDefaultAsync();
 
         if (model != null) return model;
 
@@ -63,7 +63,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
                 LatestYear = healthMeasure.Year
             })
             .Take(1)
-            .FirstOrDefaultAsync().ConfigureAwait(false);
+            .FirstOrDefaultAsync();
     }
 
     public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataAsync(int indicatorId, string[] areaCodes,
@@ -131,7 +131,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
                               healthMeasure.IsDeprivationAggregatedOrSingle
             })
             .AsNoTracking()
-            .ToListAsync().ConfigureAwait(false);
+            .ToListAsync();
     }
 
     public async Task<IEnumerable<AreaDimensionModel>> GetAreasAsync(string[] areaCodes)
@@ -139,7 +139,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         return await _dbContext.AreaDimension
             .Where(areaDimension => EF.Constant(areaCodes).Contains(areaDimension.Code))
             .AsNoTracking()
-            .ToListAsync().ConfigureAwait(false);
+            .ToListAsync();
     }
 
     public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync(
@@ -176,7 +176,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         (@$"
               EXEC dbo.GetIndicatorDetailsWithQuintileBenchmarkComparison @RequestedAreas={areasOfInterest}, @RequestedAreaType={areaTypeOfInterest}, @RequestedYears={yearsOfInterest}, @RequestedIndicatorId={requestedIndicatorId}, @RequestedBenchmarkAreaCode={requestedBenchmarkAreaCode}
               "
-        ).ToListAsync().ConfigureAwait(false);
+        ).ToListAsync();
 
         return
         [
@@ -211,7 +211,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         (@$"
               EXEC dbo.GetIndicatorQuartileDataForLatestYear @RequestedAreaType={AreaType}, @RequestedIndicatorIds={RequestedIndicators}, @RequestedArea={AreaCode}, @RequestedAncestorCode={AncestorCode}, @RequestedBenchmarkCode={BenchmarkAreaCode}
               "
-        ).ToListAsync().ConfigureAwait(false);
+        ).ToListAsync();
 
         return retVal;
     }

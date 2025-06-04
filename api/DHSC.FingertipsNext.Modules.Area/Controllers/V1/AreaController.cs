@@ -53,7 +53,7 @@ public class AreaController : ControllerBase
                     $"Too many values supplied for parameter area_codes. The maximum is {MaxNumberAreas} but {areaCodes.Length} supplied."
             });
 
-        var areasData = await _areaService.GetMultipleAreaDetails(areaCodes).ConfigureAwait(false);
+        var areasData = await _areaService.GetMultipleAreaDetails(areaCodes);
 
         if (areasData.IsNullOrEmpty()) return NotFound();
 
@@ -68,7 +68,7 @@ public class AreaController : ControllerBase
     [ProducesResponseType(typeof(List<string>), StatusCodes.Status200OK)]
     [Route("hierarchies")]
     public async Task<IActionResult> GetHierarchiesAsync() =>
-        Ok(await _areaService.GetHierarchies().ConfigureAwait(false));
+        Ok(await _areaService.GetHierarchies());
 
     /// <summary>
     /// Get area types, optionally filtering by hierarchy type
@@ -79,7 +79,7 @@ public class AreaController : ControllerBase
     [ProducesResponseType(typeof(List<AreaType>), StatusCodes.Status200OK)]
     [Route("areatypes")]
     public async Task<IActionResult> GetAreatypesAsync([FromQuery(Name = "hierarchy_type")] string? hierarchyType = null) =>
-        Ok(await _areaService.GetAreaTypes(hierarchyType).ConfigureAwait(false));
+        Ok(await _areaService.GetAreaTypes(hierarchyType));
 
     /// <summary>
     /// Get the full details of a given area, including its parent, optionally including its children.
@@ -109,7 +109,7 @@ public class AreaController : ControllerBase
             includeChildren,
             includeSiblings,
             childAreaType
-        ).ConfigureAwait(false);
+        );
 
         return areaDetails == null ? NotFound() : Ok(areaDetails);
     }
@@ -126,7 +126,7 @@ public class AreaController : ControllerBase
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public async Task<IActionResult> GetAreaDetailsForAreaTypeAsync([FromRoute(Name = "area_type_key")] string areaTypeKey)
     {
-        var areaDetails = await _areaService.GetAreaDetailsForAreaType(areaTypeKey).ConfigureAwait(false);
+        var areaDetails = await _areaService.GetAreaDetailsForAreaType(areaTypeKey);
 
         return areaDetails.Count == 0 ? NotFound() : Ok(areaDetails);
     }

@@ -51,7 +51,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         IEnumerable<string> inequalities,
         bool latestOnly = false)
     {
-        var indicatorData = await healthDataRepository.GetIndicatorDimensionAsync(indicatorId, [.. areaCodes]).ConfigureAwait(false);
+        var indicatorData = await healthDataRepository.GetIndicatorDimensionAsync(indicatorId, [.. areaCodes]);
         if (indicatorData == null)
             return new ServiceResponse<IndicatorWithHealthDataForAreas>(ResponseStatus.IndicatorDoesNotExist);
 
@@ -70,10 +70,10 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
             inequalities,
             method,
             polarity
-        ).ConfigureAwait(false)) ?? [])
+        )) ?? [])
         .ToList();
 
-        await AddAreasWithNoData(areaHealthData, areaCodes).ConfigureAwait(false);
+        await AddAreasWithNoData(areaHealthData, areaCodes);
 
         return new ServiceResponse<IndicatorWithHealthDataForAreas>()
         {
@@ -95,7 +95,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         var areasWithNoData = areaCodes.Except(areaHealthData.Select(data => data.AreaCode)).ToArray();
         if (areasWithNoData.Length == 0)
             return;
-        var areaWithNoData = await healthDataRepository.GetAreasAsync(areasWithNoData).ConfigureAwait(false);
+        var areaWithNoData = await healthDataRepository.GetAreasAsync(areasWithNoData);
 
         areaHealthData.AddRange(areaWithNoData.Select(area => new HealthDataForArea
         {
@@ -132,7 +132,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
                 years.Distinct().ToArray(),
                 areaType,
                 benchmarkAreaCode
-                ).ConfigureAwait(false);
+                );
 
 
             return healthMeasureData
@@ -166,7 +166,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
             indicatorId,
             areaCodesForSearch.ToArray(),
             years.Distinct().ToArray(),
-            inequalitiesList.Distinct().ToArray()).ConfigureAwait(false);
+            inequalitiesList.Distinct().ToArray());
 
         var healthDataForAreas = healthMeasureData
             .GroupBy(healthMeasure => new
@@ -228,7 +228,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         string benchmarkAreaCode
         )
     {
-        var quartileData = await healthDataRepository.GetQuartileDataAsync(indicatorIds, areaCode, areaType, ancestorCode, benchmarkAreaCode).ConfigureAwait(false);
+        var quartileData = await healthDataRepository.GetQuartileDataAsync(indicatorIds, areaCode, areaType, ancestorCode, benchmarkAreaCode);
         return quartileData == null ? null : healthDataMapper.Map(quartileData.ToList());
     }
 }

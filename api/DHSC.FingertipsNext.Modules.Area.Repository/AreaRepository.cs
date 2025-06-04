@@ -25,7 +25,7 @@ public class AreaRepository : IAreaRepository
             .Select(areaType => areaType.HierarchyType)
             .Where(areaType => areaType != InternalHierarchyTypes.Both)
             .Distinct()
-            .ToListAsync().ConfigureAwait(false);
+            .ToListAsync();
 
     /// <summary>
     /// Retrieves a list of area models based on the requested area codes.
@@ -50,7 +50,7 @@ public class AreaRepository : IAreaRepository
                 }
             })
             .AsNoTracking()
-            .ToListAsync().ConfigureAwait(false);
+            .ToListAsync();
     }
 
     /// <summary>
@@ -67,7 +67,7 @@ public class AreaRepository : IAreaRepository
         else
             areaTypes = _dbContext.AreaType;
 
-        return await areaTypes.ToListAsync().ConfigureAwait(false);
+        return await areaTypes.ToListAsync();
     }
 
     /// <summary>
@@ -79,7 +79,7 @@ public class AreaRepository : IAreaRepository
         await _dbContext.Area
         .Include(area => area.AreaType)
         .Where(area => area.AreaTypeKey == areaTypeKey)
-        .ToListAsync().ConfigureAwait(false);
+        .ToListAsync();
 
     /// <summary>
     ///
@@ -120,7 +120,7 @@ public class AreaRepository : IAreaRepository
                  .ThenInclude(area => area.AreaType)
              .Where(area => area.AreaCode == areaCode)
              .AsSplitQuery()
-             .FirstOrDefaultAsync().ConfigureAwait(false);
+             .FirstOrDefaultAsync();
 
         if (area == null)
         {
@@ -142,7 +142,7 @@ public class AreaRepository : IAreaRepository
     {
         return string.IsNullOrWhiteSpace(childAreaType) ?
             area.Children.ToList() :
-            (await GetDescendantAreas(area, childAreaType).ConfigureAwait(false)).ToList();
+            (await GetDescendantAreas(area, childAreaType)).ToList();
     }
 
     // Retrieves all descendant areas of a specified area, filtered by a requested area type.
@@ -155,7 +155,7 @@ public class AreaRepository : IAreaRepository
             new SqlParameter("@RequestedAreaType", childAreaTypeKey),
             new SqlParameter("@RequestedAncestorAreaCode", startingArea.AreaCode)
         )
-        .ToListAsync().ConfigureAwait(false);
+        .ToListAsync();
         return [.. areaWithAreaTypeList
             .Select(area => area.Normalise())
             .OrderBy(area => area.AreaType.Level)];
