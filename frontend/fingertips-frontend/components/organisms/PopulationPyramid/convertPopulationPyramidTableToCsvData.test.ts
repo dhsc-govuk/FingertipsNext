@@ -56,6 +56,7 @@ describe('PopulationPyramidTableToCsv', () => {
     CsvHeader.AgeRange,
     CsvHeader.Male,
     CsvHeader.Female,
+    CsvHeader.Totals,
   ];
 
   const expectedAreaCsvRows: CsvField[][] = [
@@ -63,51 +64,57 @@ describe('PopulationPyramidTableToCsv', () => {
       stubIndicatorId,
       stubIndicatorName,
       stubPeriod,
-      'A001',
       'area one',
+      'A001',
       'oldest',
       5,
       1,
+      6,
     ],
     [
       stubIndicatorId,
       stubIndicatorName,
       stubPeriod,
-      'A001',
       'area one',
+      'A001',
       'upper middle',
       4,
       2,
+      6,
     ],
     [
       stubIndicatorId,
       stubIndicatorName,
       stubPeriod,
-      'A001',
       'area one',
+      'A001',
+
       'middle',
       3,
       3,
+      6,
     ],
     [
       stubIndicatorId,
       stubIndicatorName,
       stubPeriod,
-      'A001',
       'area one',
+      'A001',
       'lower middle',
       2,
       4,
+      6,
     ],
     [
       stubIndicatorId,
       stubIndicatorName,
       stubPeriod,
-      'A001',
       'area one',
+      'A001',
       'youngest',
       1,
       5,
+      6,
     ],
   ];
 
@@ -116,51 +123,56 @@ describe('PopulationPyramidTableToCsv', () => {
       stubIndicatorId,
       stubIndicatorName,
       stubPeriod,
-      'A002',
       'benchmark area',
+      'A002',
       'oldest',
       500,
       100,
+      600,
     ],
     [
       stubIndicatorId,
       stubIndicatorName,
       stubPeriod,
-      'A002',
       'benchmark area',
+      'A002',
       'upper middle',
       400,
       200,
+      600,
     ],
     [
       stubIndicatorId,
       stubIndicatorName,
       stubPeriod,
-      'A002',
       'benchmark area',
+      'A002',
       'middle',
       300,
       300,
+      600,
     ],
     [
       stubIndicatorId,
       stubIndicatorName,
       stubPeriod,
-      'A002',
       'benchmark area',
+      'A002',
       'lower middle',
       200,
       400,
+      600,
     ],
     [
       stubIndicatorId,
       stubIndicatorName,
       stubPeriod,
-      'A002',
       'benchmark area',
+      'A002',
       'youngest',
       100,
       500,
+      600,
     ],
   ];
 
@@ -169,51 +181,56 @@ describe('PopulationPyramidTableToCsv', () => {
       stubIndicatorId,
       stubIndicatorName,
       stubPeriod,
-      'A003',
       'group area',
+      'A003',
       'oldest',
       50,
       10,
+      60,
     ],
     [
       stubIndicatorId,
       stubIndicatorName,
       stubPeriod,
-      'A003',
       'group area',
+      'A003',
       'upper middle',
       40,
       20,
+      60,
     ],
     [
       stubIndicatorId,
       stubIndicatorName,
       stubPeriod,
-      'A003',
       'group area',
+      'A003',
       'middle',
       30,
       30,
+      60,
     ],
     [
       stubIndicatorId,
       stubIndicatorName,
       stubPeriod,
-      'A003',
       'group area',
+      'A003',
       'lower middle',
       20,
       40,
+      60,
     ],
     [
       stubIndicatorId,
       stubIndicatorName,
       stubPeriod,
-      'A003',
       'group area',
+      'A003',
       'youngest',
       10,
       50,
+      60,
     ],
   ];
 
@@ -228,7 +245,7 @@ describe('PopulationPyramidTableToCsv', () => {
     }).toThrowError(new Error('IndicatorID and IndicatorName are required'));
   });
 
-  it('should throw an error if IndicatorName is undefiend', () => {
+  it('should throw an error if IndicatorName is undefined', () => {
     expect(() => {
       convertPopulationPyramidTableToCsvData(
         stubPeriod,
@@ -264,8 +281,8 @@ describe('PopulationPyramidTableToCsv', () => {
     // assert
     expect(actual).toEqual([
       expectedHeaderCsvRow,
-      ...expectedBenchmarkCsvRows,
       ...expectedAreaCsvRows,
+      ...expectedBenchmarkCsvRows,
     ]);
   });
 
@@ -283,9 +300,12 @@ describe('PopulationPyramidTableToCsv', () => {
     // assert
     expect(actual).toEqual([
       expectedHeaderCsvRow,
-      ...expectedBenchmarkCsvRows,
-      ...expectedGroupCsvRows,
       ...expectedAreaCsvRows,
+      ...expectedGroupCsvRows.map((row) => {
+        row[3] = `Group: ${row[3]}`;
+        return row;
+      }),
+      ...expectedBenchmarkCsvRows,
     ]);
   });
 });

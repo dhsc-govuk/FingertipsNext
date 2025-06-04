@@ -363,13 +363,13 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
           />
         </Table>
 
-        <DataSource dataSource={dataSource} />
-
         <ExportOnlyWrapper>
           <ExportCopyright />
         </ExportOnlyWrapper>
       </div>
+
       <ExportOptionsButton targetId={id} csvData={csvData} />
+      <DataSource dataSource={dataSource} />
     </>
   );
 };
