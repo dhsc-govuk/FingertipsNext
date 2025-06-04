@@ -22,9 +22,34 @@ export function convertPopulationPyramidTableToCsvData(
     CsvHeader.AgeRange,
     CsvHeader.Male,
     CsvHeader.Female,
+    CsvHeader.Totals,
   ];
 
   const rows: CsvData = [];
+
+  rows.push(
+    ...convertPopulationPyramidTableAreaToCsvRow(
+      indicatorId,
+      indicatorName,
+      period,
+      populationDataForArea
+    )
+  );
+  if (populationDataForGroup) {
+    const groupRows = convertPopulationPyramidTableAreaToCsvRow(
+      indicatorId,
+      indicatorName,
+      period,
+      populationDataForGroup
+    ).map((row) => {
+      const groupRow = [...row];
+      groupRow[3] = `Group: ${groupRow[3]}`;
+      return groupRow;
+    });
+
+    rows.push(...groupRows);
+  }
+
   if (populationDataForBenchmark)
     rows.push(
       ...convertPopulationPyramidTableAreaToCsvRow(
@@ -34,23 +59,6 @@ export function convertPopulationPyramidTableToCsvData(
         populationDataForBenchmark
       )
     );
-  if (populationDataForGroup)
-    rows.push(
-      ...convertPopulationPyramidTableAreaToCsvRow(
-        indicatorId,
-        indicatorName,
-        period,
-        populationDataForGroup
-      )
-    );
-  rows.push(
-    ...convertPopulationPyramidTableAreaToCsvRow(
-      indicatorId,
-      indicatorName,
-      period,
-      populationDataForArea
-    )
-  );
 
   return [header, ...rows];
 }
@@ -64,10 +72,11 @@ function convertPopulationPyramidTableAreaToCsvRow(
     indicatorId,
     indicatorName,
     period,
-    populationDataForArea.areaCode,
     populationDataForArea.areaName,
+    populationDataForArea.areaCode,
     ageCategory,
     populationDataForArea.maleSeries[i],
     populationDataForArea.femaleSeries[i],
+    populationDataForArea.maleSeries[i] + populationDataForArea.femaleSeries[i],
   ]);
 }
