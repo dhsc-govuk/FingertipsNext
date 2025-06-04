@@ -57,7 +57,7 @@ export const IndicatorSearchForm = ({
         defaultValue={JSON.stringify(searchState)}
         hidden
       />
-      <StyledTitleParagraph>Search by Subject</StyledTitleParagraph>
+      <StyledTitleParagraph>Search by subject</StyledTitleParagraph>
       <StyledHintParagraph>
         For example, smoking, diabetes prevalence, or a specific indicator ID
       </StyledHintParagraph>
