@@ -78,7 +78,7 @@ public class AreaController : ControllerBase
     [HttpGet]
     [ProducesResponseType(typeof(List<AreaType>), StatusCodes.Status200OK)]
     [Route("areatypes")]
-    public async Task<IActionResult> GetAreatypesAsync([FromQuery(Name = "hierachy_type")] string? hierarchyType = null) =>
+    public async Task<IActionResult> GetAreatypesAsync([FromQuery(Name = "hierarchy_type")] string? hierarchyType = null) =>
         Ok(await _areaService.GetAreaTypes(hierarchyType).ConfigureAwait(false));
 
     /// <summary>
