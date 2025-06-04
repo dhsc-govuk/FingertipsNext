@@ -52,7 +52,7 @@ export const coreTestJourneys: TestParams[] = [
       },
     ],
     areaFiltersToSelect: {
-      areaType: 'england',
+      areaType: 'nhs-regions',
       groupType: 'england',
       group: 'england',
     },
