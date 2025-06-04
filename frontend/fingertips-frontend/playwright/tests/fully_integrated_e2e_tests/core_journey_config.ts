@@ -52,23 +52,6 @@ export const coreTestJourneys: TestParams[] = [
       },
     ],
     areaFiltersToSelect: {
-      areaType: 'counties-and-unitary-authorities',
-      groupType: 'regions',
-      group: 'North West Region', // if not england then this group is also selected in the benchmarking drop down on the relevant views
-    },
-  },
-  {
-    indicatorMode: IndicatorMode.ONE_INDICATOR,
-    areaMode: AreaMode.TWO_AREAS,
-    searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'emergency',
-    indicatorsToSelect: [
-      {
-        indicatorID: '41101',
-        knownTrend: 'No recent trend data available',
-      },
-    ],
-    areaFiltersToSelect: {
       areaType: 'england',
       groupType: 'england',
       group: 'england',
@@ -131,7 +114,7 @@ export const coreTestJourneys: TestParams[] = [
   },
   {
     indicatorMode: IndicatorMode.TWO_INDICATORS,
-    areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
+    areaMode: AreaMode.TWO_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
     subjectSearchTerm: 'emergency',
     indicatorsToSelect: [
@@ -139,15 +122,16 @@ export const coreTestJourneys: TestParams[] = [
         indicatorID: '41101',
         knownTrend: 'No recent trend data available',
       },
+
       {
         indicatorID: '22401',
-        knownTrend: 'No recent trend data available', // for all areas in a group, this indicators trend is not available at that geography level
+        knownTrend: 'Decreasing and getting better',
       },
     ],
     areaFiltersToSelect: {
-      areaType: 'regions',
-      groupType: 'england',
-      group: 'england',
+      areaType: 'counties-and-unitary-authorities',
+      groupType: 'regions',
+      group: 'North West Region', // if not england then this group is also selected in the benchmarking drop down on the relevant views
     },
   },
   {
@@ -162,6 +146,27 @@ export const coreTestJourneys: TestParams[] = [
       {
         indicatorID: '22401',
         knownTrend: 'Decreasing and getting better',
+      },
+    ],
+    areaFiltersToSelect: {
+      areaType: 'regions',
+      groupType: 'england',
+      group: 'england',
+    },
+  },
+  {
+    indicatorMode: IndicatorMode.TWO_INDICATORS,
+    areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
+    searchMode: SearchMode.ONLY_SUBJECT,
+    subjectSearchTerm: 'emergency',
+    indicatorsToSelect: [
+      {
+        indicatorID: '41101',
+        knownTrend: 'No recent trend data available',
+      },
+      {
+        indicatorID: '22401',
+        knownTrend: 'No recent trend data available', // for all areas in a group, this indicators trend is not available at that geography level
       },
     ],
     areaFiltersToSelect: {
