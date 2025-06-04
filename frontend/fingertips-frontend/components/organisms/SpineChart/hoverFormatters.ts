@@ -17,7 +17,7 @@ function benchmarkComparisonMethodToString(
     case BenchmarkComparisonMethod.Quintiles:
       return 'Highest quintile';
     default:
-      return 'Not compared';
+      return '';
   }
 }
 
@@ -55,7 +55,17 @@ interface FormatSymbolHoverProps {
 }
 
 function formatSymbol(colour: string, shape: SymbolsEnum) {
-  return `<div style="color:${colour}; font-size:19px;">${shape}</div>`;
+  const shadowStyle = `text-shadow:
+                        0 0 1.5px #000,
+                        0 0 1.5px #000,
+                        0 0 1.5px #000,
+                        0 0 1.5px #000;`;
+
+  return `<div style="color:${colour}; font-size:30px;
+            ${shape !== SymbolsEnum.PlotLine ? shadowStyle : ''} 
+          ">
+            ${shape}
+          </div>`;
 }
 
 function hoverTemplate(

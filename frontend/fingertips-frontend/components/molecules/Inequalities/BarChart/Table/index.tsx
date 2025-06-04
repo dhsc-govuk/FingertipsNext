@@ -23,6 +23,8 @@ import { getConfidenceLimitNumber } from '@/lib/chartHelpers/chartHelpers';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { convertInequalitiesOverTimeTableToCsvData } from './convertInequalitiesOverTimeTableToCsvData';
+import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
+import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
 
 interface InequalitiesBarChartTableProps {
   tableData: InequalitiesBarChartData;
@@ -63,9 +65,8 @@ export function InequalitiesBarChartTable({
   const id = 'inequalitiesBarChartTable';
   return (
     <>
-      <div data-testid={`${id}-component`}>
+      <div data-testid={`${id}-component`} id={id}>
         <Table
-          id={id}
           head={
             <InequalitiesBarChartTableHead
               areaName={areaName}
@@ -103,6 +104,9 @@ export function InequalitiesBarChartTable({
             </Table.Row>
           ))}
         </Table>
+        <ExportOnlyWrapper>
+          <ExportCopyright />
+        </ExportOnlyWrapper>
       </div>
       <ExportOptionsButton targetId={id} csvData={csvData} />
     </>

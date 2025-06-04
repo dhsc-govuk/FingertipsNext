@@ -32,6 +32,8 @@ import {
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
 import { convertBarChartEmbeddedTableToCsv } from '@/components/organisms/BarChartEmbeddedTable/convertBarChartEmbeddedTableToCsv';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
+import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 function sortByValueAndAreaName(
@@ -131,10 +133,24 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
 
   const confidenceLimit = getConfidenceLimitNumber(benchmarkComparisonMethod);
 
-  const englandDataPointNamePrefix =
-    benchmarkToUse === areaCodeForEngland ? 'Benchmark: ' : '';
-  const groupDataPointNamePrefix =
-    benchmarkToUse === areaCodeForEngland ? 'Group: ' : 'Benchmark: ';
+  let englandDataPointNamePrefix,
+    groupDataPointNamePrefix,
+    englandLabel,
+    groupLabel,
+    showComparisonLabels;
+  if (benchmarkToUse === areaCodeForEngland) {
+    englandDataPointNamePrefix = 'Benchmark: ';
+    groupDataPointNamePrefix = 'Group: ';
+    englandLabel = AreaTypeLabelEnum.Benchmark;
+    groupLabel = AreaTypeLabelEnum.Group;
+    showComparisonLabels = true;
+  } else {
+    englandDataPointNamePrefix = '';
+    groupDataPointNamePrefix = 'Benchmark: ';
+    englandLabel = AreaTypeLabelEnum.Area;
+    groupLabel = AreaTypeLabelEnum.Benchmark;
+    showComparisonLabels = false;
+  }
 
   const id = 'barChartEmbeddedTable';
 
@@ -259,15 +275,16 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
                   ]}
                   showConfidenceIntervalsData={showConfidenceIntervalsData}
                   benchmarkOutcome={
-                    englandDataPoint.benchmarkComparison?.outcome
+                    englandDataPoint?.benchmarkComparison?.outcome
                   }
                   benchmarkComparisonMethod={benchmarkComparisonMethod}
                   polarity={polarity}
-                  label={AreaTypeLabelEnum.Benchmark}
+                  label={englandLabel}
                   area={englandData?.areaName}
                   year={englandDataPoint.year}
                   measurementUnit={measurementUnit}
                   barColor={GovukColours.DarkGrey}
+                  showComparisonLabels={showComparisonLabels}
                 ></SparklineChart>
               </Table.Cell>
               <FormatNumberInTableCell
@@ -319,7 +336,7 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
                   benchmarkOutcome={groupDataPoint.benchmarkComparison?.outcome}
                   benchmarkComparisonMethod={benchmarkComparisonMethod}
                   polarity={polarity}
-                  label={AreaTypeLabelEnum.Group}
+                  label={groupLabel}
                   area={groupIndicatorData?.areaName}
                   year={groupDataPoint.year}
                   measurementUnit={measurementUnit}
@@ -345,9 +362,14 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
             polarity={polarity}
           />
         </Table>
-        <DataSource dataSource={dataSource} />
+
+        <ExportOnlyWrapper>
+          <ExportCopyright />
+        </ExportOnlyWrapper>
       </div>
+
       <ExportOptionsButton targetId={id} csvData={csvData} />
+      <DataSource dataSource={dataSource} />
     </>
   );
 };

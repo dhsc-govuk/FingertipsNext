@@ -306,8 +306,11 @@ const getComparisonLabelText = (
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
   benchmarkOutcome: BenchmarkOutcome
 ) => {
+  const validOutcomes = Object.values(BenchmarkOutcome);
+
   if (
     !benchmarkOutcome ||
+    !validOutcomes.includes(benchmarkOutcome) ||
     benchmarkOutcome === BenchmarkOutcome.NotCompared ||
     benchmarkComparisonMethod === BenchmarkComparisonMethod.Quintiles
   )
@@ -327,9 +330,15 @@ export const getBenchmarkLabel = (
   if (benchmarkComparisonMethod === BenchmarkComparisonMethod.Quintiles)
     return `${benchmarkOutcome} quintile`;
 
+  const outcome = getBenchmarkLabelText(benchmarkOutcome);
+
+  if (outcome === 'Not compared') {
+    return outcome;
+  }
+
   const joiningWord =
     benchmarkOutcome === BenchmarkOutcome.Similar ? 'to' : 'than';
-  const outcome = getBenchmarkLabelText(benchmarkOutcome);
+
   return `${outcome} ${joiningWord} ${areaName ?? 'England'}`;
 };
 
@@ -337,13 +346,15 @@ export const getTooltipContent = (
   benchmarkOutcome: BenchmarkOutcome,
   label: string,
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
-  areaName?: string
+  areaName?: string,
+  showComparisonLabels = true
 ) => {
   const category = getCategory(benchmarkOutcome, label);
 
   if (
     label === AreaTypeLabelEnum.Benchmark ||
-    label === AreaTypeLabelEnum.Group
+    label === AreaTypeLabelEnum.Group ||
+    !showComparisonLabels
   ) {
     return { category, benchmarkLabel: '', comparisonLabel: '' };
   }
