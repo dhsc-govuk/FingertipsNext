@@ -4,6 +4,7 @@ import {
 } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 import { Paragraph } from 'govuk-react';
 import styled from 'styled-components';
+import { ExcludeFromExport } from '@/components/molecules/Export/exportHelpers';
 
 interface ThematicMapCreditsProps {
   areaType: AreaTypeKeysForMapMeta;
@@ -26,7 +27,9 @@ export function ThematicMapCredits({
       <StyledCredits>{`Map source: [${mapMetaDataEncoder[areaType].mapSource}](${mapMetaDataEncoder[areaType].mapSourceURL})<br />
         ${mapMetaDataEncoder[areaType].mapCopyright}`}</StyledCredits>
       {dataSource ? (
-        <StyledCredits>{`Data source: ${dataSource}`}</StyledCredits>
+        <StyledCredits
+          className={ExcludeFromExport}
+        >{`Data source: ${dataSource}`}</StyledCredits>
       ) : null}
     </div>
   );

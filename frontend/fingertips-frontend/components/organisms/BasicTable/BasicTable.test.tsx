@@ -25,6 +25,15 @@ const mockIndicatorData: BasicTableData[] = [
 const mockAreaName = 'mockName';
 
 describe('BasicTable', () => {
+  beforeAll(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2024-12-25T12:00:00Z'));
+  });
+
+  afterAll(() => {
+    jest.useRealTimers();
+  });
+
   it('should match snapshot', () => {
     const { asFragment } = render(
       <BasicTable areaName={mockAreaName} indicatorData={mockIndicatorData} />

@@ -1172,6 +1172,45 @@ describe('getTooltipContent', () => {
     });
   });
 
+  it('should return a comparisonLabel, category and benchmarkLabel when areaName is passed in', () => {
+    const benchmarkOutcome = BenchmarkOutcome.Similar;
+    const benchmarkComparisonMethod =
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95;
+
+    const result = getTooltipContent(
+      benchmarkOutcome,
+      AreaTypeLabelEnum.Area,
+      benchmarkComparisonMethod,
+      'London'
+    );
+
+    expect(result).toEqual({
+      benchmarkLabel: 'Similar to London',
+      category: '',
+      comparisonLabel: '(95%)',
+    });
+  });
+
+  it('should return an empty string for benchmarkLabel, category and comparisonLabel when showComparisonLabels = false is passed in', () => {
+    const benchmarkOutcome = BenchmarkOutcome.Similar;
+    const benchmarkComparisonMethod =
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95;
+
+    const result = getTooltipContent(
+      benchmarkOutcome,
+      AreaTypeLabelEnum.Area,
+      benchmarkComparisonMethod,
+      'London',
+      false
+    );
+
+    expect(result).toEqual({
+      benchmarkLabel: '',
+      category: '',
+      comparisonLabel: '',
+    });
+  });
+
   it('should return tooltip for quintiles with no CI% shown', () => {
     const benchmarkOutcome = BenchmarkOutcome.Worse;
     const benchmarkComparisonMethod = BenchmarkComparisonMethod.Quintiles;
@@ -1195,6 +1234,22 @@ describe('getTooltipContent', () => {
 
     const result = getTooltipContent(
       benchmarkOutcome,
+      AreaTypeLabelEnum.Area,
+      benchmarkComparisonMethod
+    );
+
+    expect(result).toEqual({
+      benchmarkLabel: 'Not compared',
+      category: '',
+      comparisonLabel: '',
+    });
+  });
+
+  it('should just return "Not compared" when the Benchmark outcome is not valid', () => {
+    const benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown;
+
+    const result = getTooltipContent(
+      'some-invalid-type' as BenchmarkOutcome,
       AreaTypeLabelEnum.Area,
       benchmarkComparisonMethod
     );
