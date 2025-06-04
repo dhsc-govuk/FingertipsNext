@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TopNavLink should match the snapshot 1`] = `
+<DocumentFragment>
+  .c0 {
+  color: #FFFFFF;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  -webkit-text-decoration-skip-ink: none;
+  text-decoration-skip-ink: none;
+  border-bottom: 1px solid transparent;
+  font-weight: 700;
+  line-height: 1;
+  display: inline-block;
+}
+
+.c0:hover {
+  border-bottom-color: #FFFFFF;
+}
+
+.c0:focus {
+  color: #0B0C0C;
+  background-color: #FFDD00;
+  outline: 3px solid #FFDD00;
+}
+
+.c0:focus:hover {
+  border-bottom-color: #0B0C0C;
+}
+
+<a
+    class="c0"
+    href="#"
+  >
+    Link text
+  </a>
+</DocumentFragment>
+`;

@@ -34,6 +34,32 @@ exports[`Header should match snapshot 1`] = `
   color: #0b0c0c;
 }
 
+.c9 {
+  color: #FFFFFF;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  -webkit-text-decoration-skip-ink: none;
+  text-decoration-skip-ink: none;
+  border-bottom: 1px solid transparent;
+  font-weight: 700;
+  line-height: 1;
+  display: inline-block;
+}
+
+.c9:hover {
+  border-bottom-color: #FFFFFF;
+}
+
+.c9:focus {
+  color: #0B0C0C;
+  background-color: #FFDD00;
+  outline: 3px solid #FFDD00;
+}
+
+.c9:focus:hover {
+  border-bottom-color: #0B0C0C;
+}
+
 .c12 {
   padding-top: 30px;
   text-align: center;
@@ -210,32 +236,6 @@ exports[`Header should match snapshot 1`] = `
 
 .c13 {
   padding: 0px;
-}
-
-.c9 {
-  color: #FFFFFF;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  -webkit-text-decoration-skip-ink: none;
-  text-decoration-skip-ink: none;
-  border-bottom: 1px solid transparent;
-  font-weight: 700;
-  line-height: 1;
-  display: inline-block;
-}
-
-.c9:hover {
-  border-bottom-color: #FFFFFF;
-}
-
-.c9:focus {
-  color: #0B0C0C;
-  background-color: #FFDD00;
-  outline: 3px solid #FFDD00;
-}
-
-.c9:focus:hover {
-  border-bottom-color: #0B0C0C;
 }
 
 .c10 {
