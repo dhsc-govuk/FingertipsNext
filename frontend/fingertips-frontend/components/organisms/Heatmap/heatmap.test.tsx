@@ -1,13 +1,13 @@
 import { render } from '@testing-library/react';
 import { Heatmap } from '.';
 import {
-  placeholderGroupAreaCode,
-  placeholderHeatmapIndicatorData as placeholderIndicatorData,
-} from './heatmapUtil.test';
-import {
   areaCodeForEngland,
   englandAreaString,
 } from '@/lib/chartHelpers/constants';
+import {
+  placeholderGroupAreaCode,
+  placeholderHeatmapIndicatorData as placeholderIndicatorData,
+} from './prepareHeatmapData.test';
 
 describe('heatmap', () => {
   beforeAll(() => {

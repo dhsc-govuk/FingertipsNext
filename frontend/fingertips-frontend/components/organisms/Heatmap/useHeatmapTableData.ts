@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import {
-  extractSortedAreasIndicatorsAndDataPoints,
   generateHeaders,
   generateRows,
-} from '@/components/organisms/Heatmap/heatmapUtil';
+} from '@/components/organisms/Heatmap/generateHeatmapComponents';
+import { extractSortedAreasIndicatorsAndDataPoints } from './prepareHeatmapData';
 import { HeatmapIndicatorData } from './heatmapTypes';
 import { getMethodsAndOutcomes } from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
 import { CsvData } from '@/lib/downloadHelpers/convertToCsv';

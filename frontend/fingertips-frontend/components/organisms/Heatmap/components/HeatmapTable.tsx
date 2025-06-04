@@ -6,8 +6,8 @@ import { Table } from 'govuk-react';
 import {
   generateHeaders,
   generateRows,
-} from '@/components/organisms/Heatmap/heatmapUtil';
-import { HeatmapDataCell } from '../heatmapTypes';
+} from '@/components/organisms/Heatmap/generateHeatmapComponents';
+import { Cell } from '../heatmapTypes';
 import { useRotatedHeaders } from '@/components/organisms/Heatmap/useRotatedHeaders';
 
 const StyledTable = styled(Table)({
@@ -28,7 +28,7 @@ const StyledDivTableContainer = styled.div({
 interface HeatmapTableProps {
   headers: ReturnType<typeof generateHeaders>;
   rows: ReturnType<typeof generateRows>;
-  handleMouseOverCell: (cell?: HeatmapDataCell) => (event: MouseEvent) => void;
+  handleMouseOverCell: (cell?: Cell) => (event: MouseEvent) => void;
 }
 
 const HeatmapTable: FC<HeatmapTableProps> = ({

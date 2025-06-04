@@ -1,5 +1,5 @@
 import { convertHeatmapToCsv } from '@/components/organisms/Heatmap/convertHeatmapToCsv';
-import { extractSortedAreasIndicatorsAndDataPoints } from '@/components/organisms/Heatmap/heatmapUtil';
+import { extractSortedAreasIndicatorsAndDataPoints } from './prepareHeatmapData';
 import { CsvHeader } from '@/components/molecules/Export/export.types';
 
 const mockEngland = {

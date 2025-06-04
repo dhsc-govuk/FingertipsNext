@@ -5,24 +5,6 @@ import {
   BenchmarkOutcome,
 } from '@/generated-sources/ft-api-client';
 
-export const heatmapIndicatorTitleColumnWidth = 240;
-export const heatmapDataColumnWidth = 60;
-
-export enum HeaderType {
-  IndicatorTitle,
-  Period,
-  ValueUnit,
-  BenchmarkGroupArea,
-  NonBenchmarkGroupArea,
-  Area,
-}
-export enum CellType {
-  IndicatorTitle,
-  IndicatorPeriod,
-  IndicatorValueUnit,
-  Data,
-}
-
 export interface HeatmapIndicatorData {
   indicatorId: string;
   indicatorName: string;
@@ -32,33 +14,84 @@ export interface HeatmapIndicatorData {
   polarity: IndicatorPolarity;
 }
 
-export interface HeatmapDataRow {
-  key: string;
-  cells: HeatmapDataCell[];
+export interface Area {
+  code: string;
+  position?: number;
+  name: string;
 }
 
-export interface DataCellHoverProps {
+export interface Indicator {
+  id: string;
+  position?: number;
+  name: string;
+  unitLabel: string;
+  latestDataPeriod: number;
+  benchmarkMethod?: BenchmarkComparisonMethod;
+  polarity?: IndicatorPolarity;
+}
+
+export interface DataPoint {
+  value?: number;
+  areaCode: string;
+  indicatorId: string;
+  benchmark?: Benchmark;
+}
+
+export interface HeatmapData {
+  areas: Area[];
+  indicators: Indicator[];
+  dataPoints: Record<string, Record<string, DataPoint>>;
+}
+
+export enum HeaderType {
+  IndicatorTitle,
+  Period,
+  ValueUnit,
+  BenchmarkGroupArea,
+  NonBenchmarkGroupArea,
+  Area,
+}
+
+export enum CellType {
+  IndicatorTitle,
+  IndicatorPeriod,
+  IndicatorValueUnit,
+  Data,
+}
+
+export interface Cell {
+  key: string;
+  type: CellType;
+  content: string;
+  backgroundColour?: string;
+  hoverProps?: CellHoverProps;
+}
+
+export interface CellHoverProps {
   areaName: string;
   period: number;
   indicatorName: string;
   value?: number;
   unitLabel: string;
-  benchmark: DataPointBenchmark;
+  benchmark: Benchmark;
 }
 
-export interface HeatmapDataCell {
+export interface Row {
   key: string;
-  type: CellType;
-  content: string;
-  backgroundColour?: string;
-  hoverProps?: DataCellHoverProps;
+  cells: Cell[];
 }
 
 export type HeatmapBenchmarkOutcome = BenchmarkOutcome | 'Baseline';
 
-export interface DataPointBenchmark {
+export interface Benchmark {
   outcome: HeatmapBenchmarkOutcome;
   benchmarkMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
   benchmarkAreaCode?: string;
+}
+
+export interface Header {
+  key: string;
+  type: HeaderType;
+  content: string;
 }

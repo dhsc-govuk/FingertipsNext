@@ -1,7 +1,7 @@
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { H4, Table } from 'govuk-react';
 import styled from 'styled-components';
-import { heatmapDataColumnWidth } from '../../heatmapTypes';
+import { heatmapDataColumnWidth } from '../../heatmapConstants';
 
 export const HeaderTitleWrapper = styled.div({
   position: 'relative',
