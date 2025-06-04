@@ -10,7 +10,6 @@ import {
   SectionBreak,
   Table,
   UnorderedList,
-  BackLink,
 } from 'govuk-react';
 import { useEffect } from 'react';
 import styled from 'styled-components';
@@ -23,6 +22,7 @@ import {
 import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
 import { Link } from '@/components/atoms/Link';
+import { BackLink } from '@/components/atoms/BackLink';
 
 export type IndicatorDefinitionProps = {
   indicatorName: string;
