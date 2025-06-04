@@ -7,12 +7,12 @@ import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { FC } from 'react';
-import { HeatmapBenchmarkOutcome } from '../../heatmapUtil';
 import {
   StyledText,
   StyledDivSquareBenchmarkNotCompared,
   StyledDivSquareBenchmarkColour,
 } from './benchmarkPill.styles';
+import { HeatmapBenchmarkOutcome } from '../../heatmapTypes';
 
 interface BenchmarkPillIconProps {
   value?: number;
