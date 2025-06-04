@@ -1,3 +1,5 @@
+-- This script identifies duplicate health measures in the database.
+-- It groups the health measures by various dimensions and counts the duplicates.
 WITH 
   groupedHealthMeasures AS (
 SELECT
@@ -37,7 +39,7 @@ GROUP BY
 	ad2.AgeKey,
 	ad2.Name,
 	sd.Name,
-    dd.DeprivationKey,
+	dd.DeprivationKey,
 	dd.Name
 	)
 SELECT
