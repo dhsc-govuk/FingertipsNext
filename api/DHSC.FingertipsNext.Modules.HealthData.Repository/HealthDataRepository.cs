@@ -145,28 +145,32 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
     public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync(
         int indicatorId, string[] areaCodes, int[] years, string areaTypeKey, string benchmarkAreaCode)
     {
+        SqlParameter areasOfInterest;
+        SqlParameter yearsOfInterest;
         // Convert the array parameters into DataTables for presentation to the Stored Procedure.
-        var AreaCodesTable = new DataTable();
-
-        ArgumentNullException.ThrowIfNull(areaCodes);
-        AreaCodesTable.Columns.Add("AreaCode", typeof(string));
-        foreach (var area in areaCodes) AreaCodesTable.Rows.Add(area);
-        var areasOfInterest = new SqlParameter("@RequestedAreas", AreaCodesTable)
+        using (var areaCodesTable = new DataTable())
         {
-            SqlDbType = SqlDbType.Structured,
-            TypeName = "AreaCodeList"
-        };
+            ArgumentNullException.ThrowIfNull(areaCodes);
+            areaCodesTable.Columns.Add("AreaCode", typeof(string));
+            foreach (var area in areaCodes) areaCodesTable.Rows.Add(area);
+            areasOfInterest = new SqlParameter("@RequestedAreas", areaCodesTable)
+            {
+                SqlDbType = SqlDbType.Structured,
+                TypeName = "AreaCodeList"
+            };
+        }
 
-        var YearsTable = new DataTable();
-        YearsTable.Columns.Add("YearNum", typeof(int));
-
-        ArgumentNullException.ThrowIfNull(years);
-        foreach (var item in years) YearsTable.Rows.Add(item);
-        var yearsOfInterest = new SqlParameter("@RequestedYears", YearsTable)
+        using (var yearsTable = new DataTable())
         {
-            SqlDbType = SqlDbType.Structured,
-            TypeName = "YearList"
-        };
+            ArgumentNullException.ThrowIfNull(years);
+            yearsTable.Columns.Add("YearNum", typeof(int));
+            foreach (var item in years) yearsTable.Rows.Add(item);
+            yearsOfInterest = new SqlParameter("@RequestedYears", yearsTable)
+            {
+                SqlDbType = SqlDbType.Structured,
+                TypeName = "YearList"
+            };
+        }
 
         var areaTypeOfInterest = new SqlParameter("@RequestedAreaType", areaTypeKey);
         var requestedIndicatorId = new SqlParameter("@RequestedIndicatorId", indicatorId);
@@ -189,27 +193,29 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
     public async Task<IEnumerable<QuartileDataModel>> GetQuartileDataAsync(IEnumerable<int> indicatorIds,
         string areaCode, string areaTypeKey, string ancestorCode, string benchmarkAreaCode)
     {
+        SqlParameter requestedIndicators;
         // Convert the array parameters into DataTables for presentation to the Stored Procedure.
-        var IndicatorIdTable = new DataTable();
-        IndicatorIdTable.Columns.Add("IndicatorId", typeof(int));
-
-        ArgumentNullException.ThrowIfNull(indicatorIds);
-        foreach (var indicator in indicatorIds) IndicatorIdTable.Rows.Add(indicator);
-
-        var RequestedIndicators = new SqlParameter("@RequestedIndicators", IndicatorIdTable)
+        using (var indicatorIdTable = new DataTable())
         {
-            SqlDbType = SqlDbType.Structured,
-            TypeName = "IndicatorList"
-        };
+            ArgumentNullException.ThrowIfNull(indicatorIds);
+            indicatorIdTable.Columns.Add("IndicatorId", typeof(int));
+            foreach (var indicator in indicatorIds) indicatorIdTable.Rows.Add(indicator);
 
-        var AreaType = new SqlParameter("@RequestedAreaType", areaTypeKey);
-        var AreaCode = new SqlParameter("@RequestedArea", areaCode);
-        var AncestorCode = new SqlParameter("@RequestedAncestorCode", ancestorCode);
-        var BenchmarkAreaCode = new SqlParameter("@RequestedBenchmarkCode", benchmarkAreaCode);
+            requestedIndicators = new SqlParameter("@RequestedIndicators", indicatorIdTable)
+            {
+                SqlDbType = SqlDbType.Structured,
+                TypeName = "IndicatorList"
+            };
+        }
+
+        var areaType = new SqlParameter("@RequestedAreaType", areaTypeKey);
+        var areaCodeSqlParam = new SqlParameter("@RequestedArea", areaCode);
+        var ancestorCodeSqlParam = new SqlParameter("@RequestedAncestorCode", ancestorCode);
+        var benchmarkAreaCodeSqlParam = new SqlParameter("@RequestedBenchmarkCode", benchmarkAreaCode);
 
         var retVal = await _dbContext.QuartileData.FromSql
         (@$"
-              EXEC dbo.GetIndicatorQuartileDataForLatestYear @RequestedAreaType={AreaType}, @RequestedIndicatorIds={RequestedIndicators}, @RequestedArea={AreaCode}, @RequestedAncestorCode={AncestorCode}, @RequestedBenchmarkCode={BenchmarkAreaCode}
+              EXEC dbo.GetIndicatorQuartileDataForLatestYear @RequestedAreaType={areaType}, @RequestedIndicatorIds={requestedIndicators}, @RequestedArea={areaCodeSqlParam}, @RequestedAncestorCode={ancestorCodeSqlParam}, @RequestedBenchmarkCode={benchmarkAreaCodeSqlParam}
               "
         ).ToListAsync();
 

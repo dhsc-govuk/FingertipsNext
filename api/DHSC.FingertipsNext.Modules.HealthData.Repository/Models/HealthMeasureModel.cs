@@ -55,5 +55,5 @@ public class HealthMeasureModel
 
     public bool IsAggregate { get; set; }
     [NotMapped]
-    public BenchmarkComparisonModel? BenchmarkComparison { get; set; }
+    public BenchmarkComparisonModel BenchmarkComparison { get; set; }
 }
