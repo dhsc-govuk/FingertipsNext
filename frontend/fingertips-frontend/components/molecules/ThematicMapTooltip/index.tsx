@@ -12,7 +12,7 @@ interface BenchmarkTooltipProps {
   indicatorData: HealthDataForArea;
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
   measurementUnit: string | undefined;
-  indicatorDataForGroup: HealthDataForArea | undefined;
+  indicatorDataForComparator: HealthDataForArea;
   polarity: IndicatorPolarity;
 }
 
@@ -20,7 +20,7 @@ export function ThematicMapTooltip({
   indicatorData,
   benchmarkComparisonMethod,
   measurementUnit,
-  indicatorDataForGroup,
+  indicatorDataForComparator,
   polarity, // TODO: use this prop to determine the colour of the area symbols
 }: Readonly<BenchmarkTooltipProps>) {
   const mostRecentDataPointForArea = sortHealthDataPointsByDescendingYear(
@@ -28,17 +28,17 @@ export function ThematicMapTooltip({
   )[0];
 
   const mostRecentDataPointForGroup =
-    indicatorDataForGroup?.healthData.filter(
-      (area) => area.year === mostRecentDataPointForArea.year
+    indicatorDataForComparator?.healthData.filter(
+      (area) => area.year === mostRecentDataPointForArea?.year
     )[0] ?? undefined;
 
   const comparisonTextForArea = getComparisonString(
     benchmarkComparisonMethod || BenchmarkComparisonMethod.Unknown,
-    mostRecentDataPointForArea.benchmarkComparison?.outcome ?? undefined,
-    mostRecentDataPointForArea.benchmarkComparison?.benchmarkAreaName
+    mostRecentDataPointForArea?.benchmarkComparison?.outcome ?? undefined,
+    mostRecentDataPointForArea?.benchmarkComparison?.benchmarkAreaName
   );
   const comparisonTextForGroup =
-    indicatorDataForGroup?.areaCode !== areaCodeForEngland
+    indicatorDataForComparator?.areaCode !== areaCodeForEngland
       ? getComparisonString(
           benchmarkComparisonMethod || BenchmarkComparisonMethod.Unknown,
           mostRecentDataPointForGroup?.benchmarkComparison?.outcome,
@@ -48,23 +48,20 @@ export function ThematicMapTooltip({
 
   return (
     <div style={{ width: 185, fontSize: '16px' }}>
-      {mostRecentDataPointForArea.benchmarkComparison?.benchmarkAreaName ? (
+      {mostRecentDataPointForArea?.benchmarkComparison?.benchmarkAreaName ? (
         <BenchmarkTooltipArea
           areaName={
             mostRecentDataPointForArea.benchmarkComparison?.benchmarkAreaName
           }
-          year={mostRecentDataPointForArea.year}
-          value={
-            mostRecentDataPointForArea.benchmarkComparison?.benchmarkValue ??
-            undefined
-          }
+          year={mostRecentDataPointForArea.year ?? undefined}
+          value={mostRecentDataPointForArea.benchmarkComparison?.benchmarkValue}
           measurementUnit={measurementUnit}
           tooltipType={'benchmark'}
         />
       ) : null}
       <BenchmarkTooltipArea
-        areaName={indicatorDataForGroup?.areaName} // TODO: how to fallback if no group data?
-        year={mostRecentDataPointForArea.year}
+        areaName={indicatorDataForComparator?.areaName} // TODO: how to fallback if no group data?
+        year={mostRecentDataPointForArea?.year ?? undefined}
         value={mostRecentDataPointForGroup?.value}
         measurementUnit={measurementUnit}
         comparisonText={comparisonTextForGroup}
@@ -72,8 +69,8 @@ export function ThematicMapTooltip({
       />
       <BenchmarkTooltipArea
         areaName={indicatorData.areaName}
-        year={mostRecentDataPointForArea.year}
-        value={mostRecentDataPointForArea.value}
+        year={mostRecentDataPointForArea?.year ?? undefined}
+        value={mostRecentDataPointForArea?.value ?? undefined}
         measurementUnit={measurementUnit}
         comparisonText={comparisonTextForArea}
         tooltipType={'area'}

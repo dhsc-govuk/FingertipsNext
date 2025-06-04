@@ -3,20 +3,18 @@ import {
   BenchmarkOutcome,
 } from '@/generated-sources/ft-api-client';
 import { getAreaTitle, getComparisonString } from './ThematicMapTooltipHelpers';
+import { TooltipType } from '@/components/atoms/BenchmarkTooltipArea';
 
 describe('getAreaTitle', () => {
   it.each([
     ['area', 'Test Area'],
-    ['group', 'Group: Test Area'],
-    ['group', 'England', 'England'],
+    ['comparator', 'Group: Test Area'],
+    ['comparator', 'England', 'England'],
     ['benchmark', 'Benchmark: Test Area'],
-  ])(
+  ] as [TooltipType, string, string][])(
     'should return the correct area title for a given tooltip type',
-    (tooltipType, expectedTitle, stubAreaName = 'Test Area') => {
-      const result = getAreaTitle(
-        stubAreaName,
-        tooltipType as 'area' | 'group' | 'benchmark'
-      );
+    (tooltipType: TooltipType, expectedTitle, stubAreaName = 'Test Area') => {
+      const result = getAreaTitle(stubAreaName, tooltipType);
       expect(result).toBe(expectedTitle);
     }
   );
@@ -39,7 +37,7 @@ describe('getComparisonString', () => {
     [BenchmarkOutcome.Worse, 'than '],
     [BenchmarkOutcome.Lower, 'than '],
     [BenchmarkOutcome.Higher, 'than '],
-    [undefined, 'No data available'],
+    [undefined, ''],
   ])(
     'should return the correct comparison string for RAG, with confidence limit',
     (

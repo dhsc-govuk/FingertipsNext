@@ -21,7 +21,7 @@ export function getAreaTitle(areaName: string, tooltipType: TooltipType) {
 export function getComparisonString(
   benchmarkComparisonMethod: BenchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
   benchmarkOutcome: BenchmarkOutcome | undefined,
-  benchmarkAreaName?: string // TODO: handle undefined case
+  benchmarkAreaName?: string
 ) {
   const benchmarkConfidenceLimit = getConfidenceLimitNumber(
     benchmarkComparisonMethod
@@ -33,6 +33,7 @@ export function getComparisonString(
     benchmarkAreaName
   );
   if (
+    comparisonText &&
     benchmarkConfidenceLimit &&
     // && benchmarkAreaName !== 'England'
     benchmarkOutcome !== BenchmarkOutcome.NotCompared
@@ -56,7 +57,7 @@ function getComparisonText(
 ) {
   switch (true) {
     case !benchmarkOutcome:
-      return `No data available`;
+      return '';
     case benchmarkComparisonMethod === BenchmarkComparisonMethod.Quintiles:
       return `${benchmarkOutcome} quintile`;
     case benchmarkComparisonMethod === BenchmarkComparisonMethod.Unknown:
