@@ -205,7 +205,7 @@ export default class ChartPage extends AreaFilter {
           ),
       },
       {
-        condition: selectedAreaFilters.group !== 'england',
+        condition: componentProps.showsBenchmarkComparisons,
         action: () =>
           this.selectBenchmarkDropdownOption(component, selectedAreaFilters),
       },
@@ -369,52 +369,50 @@ export default class ChartPage extends AreaFilter {
       selectedAreaFilters.group.charAt(0).toUpperCase() +
       selectedAreaFilters.group.slice(1);
 
-    // check benchmark is defaulted to England before changing dropdown
-    if (selectedAreaFilters.areaType != 'england') {
-      await expect(
-        this.page
-          .getByTestId(component.componentLocator)
-          .getByText('Benchmark: England')
-      ).toBeVisible();
-    } else {
-      expect(options.length).toBe(1);
-      await expect(
-        this.page
-          .getByTestId(component.componentLocator)
-          .getByText('Benchmark:')
-      ).not.toBeVisible();
-    }
+    // check benchmark dropdown defaults to England as first option
+    expect(options[0].text).toBe('England');
 
-    // set dropdown to the group selected in the area filter (may be england)
+    // Determine expected values based on area filters
+    const isEnglandGroup = selectedAreaFilters.group === 'england';
+    const isEnglandAreaType = selectedAreaFilters.areaType === 'england';
+    const isThematicMap =
+      component.componentLocator === ChartPage.thematicMapComponent;
+
+    // Check options length based on group selection
+    const expectedOptionsLength = isEnglandGroup ? 1 : 2;
+    expect(options.length).toBe(expectedOptionsLength);
+
+    // set dropdown to the group selected in the area filter
     await combobox.selectOption({
       label: upperCaseFirstCharSelectedGroup,
     });
     await this.waitAfterDropDownInteraction();
+
+    const expectedSelectedOption = isEnglandGroup
+      ? 'England'
+      : upperCaseFirstCharSelectedGroup;
+    const shouldShowBenchmarkText = !(isEnglandGroup && isEnglandAreaType);
+
+    // Verify the correct option is selected
     expect(await combobox.locator('option:checked').textContent()).toBe(
-      upperCaseFirstCharSelectedGroup
+      expectedSelectedOption
     );
 
-    // check benchmark is the group one after changing dropdown
-    if (selectedAreaFilters.group != 'england') {
-      expect(options.length).toBe(2);
+    // Verify benchmark text visibility
+    if (shouldShowBenchmarkText) {
+      const benchmarkPrefix = isThematicMap ? 'Compared to' : 'Benchmark:';
+      const expectedBenchmarkText = `${benchmarkPrefix} ${expectedSelectedOption}`;
+
       await expect(
         this.page
           .getByTestId(component.componentLocator)
-          .getByText(`Benchmark: ${upperCaseFirstCharSelectedGroup}`)
+          .getByText(expectedBenchmarkText)
       ).toBeVisible();
-    } else if (selectedAreaFilters.areaType != 'england') {
-      expect(options.length).toBe(1);
+    } else {
       await expect(
         this.page
           .getByTestId(component.componentLocator)
           .getByText('Benchmark: England')
-      ).toBeVisible();
-    } else {
-      expect(options.length).toBe(1);
-      await expect(
-        this.page
-          .getByTestId(component.componentLocator)
-          .getByText('Benchmark:')
       ).not.toBeVisible();
     }
   }

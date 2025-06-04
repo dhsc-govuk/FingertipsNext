@@ -64,6 +64,7 @@ type componentProps = {
   hasTypeDropDown?: boolean;
   isWideComponent?: boolean;
   hasRecentTrend?: boolean;
+  showsBenchmarkComparisons?: boolean;
 };
 
 type component = {
@@ -86,6 +87,7 @@ export function getScenarioConfig(
       componentLocator: ChartPage.lineChartComponent,
       componentProps: {
         hasConfidenceIntervals: true,
+        showsBenchmarkComparisons: true,
       },
     },
     {
@@ -93,6 +95,7 @@ export function getScenarioConfig(
       componentProps: {
         isTabTable: true,
         hasRecentTrend: true,
+        showsBenchmarkComparisons: true,
       },
     },
     {
@@ -148,13 +151,14 @@ export function getScenarioConfig(
     },
     {
       componentLocator: ChartPage.thematicMapComponent,
-      componentProps: {},
+      componentProps: { showsBenchmarkComparisons: true },
     },
     {
       componentLocator: ChartPage.barChartEmbeddedTableComponent,
       componentProps: {
         hasConfidenceIntervals: true,
         hasRecentTrend: true,
+        showsBenchmarkComparisons: true,
       },
     },
     {
@@ -165,6 +169,7 @@ export function getScenarioConfig(
       componentLocator: ChartPage.heatMapComponent,
       componentProps: {
         isWideComponent: true,
+        showsBenchmarkComparisons: true,
       },
     },
     {
@@ -172,6 +177,7 @@ export function getScenarioConfig(
       componentProps: {
         isWideComponent: true,
         hasRecentTrend: true,
+        showsBenchmarkComparisons: true,
       },
     },
   ];

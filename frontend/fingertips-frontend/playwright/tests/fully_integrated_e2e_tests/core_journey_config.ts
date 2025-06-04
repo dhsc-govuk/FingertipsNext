@@ -10,7 +10,7 @@ export const coreTestJourneys: TestParams[] = [
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ENGLAND_AREA,
     searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: '22401', // test searching for a specific indicatorID
+    subjectSearchTerm: '22401', // tests searching for a specific indicatorID
     indicatorsToSelect: [
       {
         indicatorID: '22401',
@@ -59,13 +59,30 @@ export const coreTestJourneys: TestParams[] = [
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
-    areaMode: AreaMode.THREE_PLUS_AREAS,
-    searchMode: SearchMode.BOTH_SUBJECT_AND_AREA,
+    areaMode: AreaMode.TWO_AREAS,
+    searchMode: SearchMode.ONLY_SUBJECT,
     subjectSearchTerm: 'emergency',
     indicatorsToSelect: [
       {
         indicatorID: '41101',
         knownTrend: 'No recent trend data available',
+      },
+    ],
+    areaFiltersToSelect: {
+      areaType: 'england',
+      groupType: 'england',
+      group: 'england',
+    },
+  },
+  {
+    indicatorMode: IndicatorMode.ONE_INDICATOR,
+    areaMode: AreaMode.THREE_PLUS_AREAS,
+    searchMode: SearchMode.ONLY_SUBJECT,
+    subjectSearchTerm: '91894', // tests searching for a specific indicatorID
+    indicatorsToSelect: [
+      {
+        indicatorID: '91894',
+        knownTrend: 'No significant change',
       },
     ],
     areaFiltersToSelect: {
