@@ -1,6 +1,6 @@
 import { getTextColour, GovukColours } from '@/lib/styleHelpers/colours';
 import { FC, MouseEventHandler } from 'react';
-import { DataTableCell, DataCellContent } from './dataCell.styles';
+import { DataTableCell, DataCellContent } from './DataCell.styles';
 
 interface DataCellProps {
   content: string;

@@ -1,6 +1,6 @@
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { render } from '@testing-library/react';
-import { DataCell } from './dataCell';
+import { DataCell } from './DataCell';
 
 describe('data cell', () => {
   it('should render white background with black text by default', () => {

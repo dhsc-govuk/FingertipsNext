@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { TextCell, IndicatorPeriodCellContent } from './indicatorCell.styles';
+import { TextCell, IndicatorPeriodCellContent } from './IndicatorCell.styles';
 
 interface IndicatorPeriodCellProps {
   content: string;

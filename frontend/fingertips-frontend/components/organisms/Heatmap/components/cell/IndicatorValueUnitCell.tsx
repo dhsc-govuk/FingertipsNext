@@ -2,7 +2,7 @@ import { FC } from 'react';
 import {
   IndicatorValueUnitCellContent,
   TextCell,
-} from './indicatorCell.styles';
+} from './IndicatorCell.styles';
 interface IndicatorValueUnitCellProps {
   content: string;
 }
