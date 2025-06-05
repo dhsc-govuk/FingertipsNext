@@ -65,6 +65,7 @@ type componentProps = {
   isWideComponent?: boolean;
   hasRecentTrend?: boolean;
   showsBenchmarkComparisons?: boolean;
+  hasTooltipHovers?: boolean;
 };
 
 type component = {
@@ -87,6 +88,7 @@ export function getScenarioConfig(
       componentLocator: ChartPage.lineChartComponent,
       componentProps: {
         showsBenchmarkComparisons: true,
+        hasTooltipHovers: true,
         hasConfidenceIntervals: true,
       },
     },
@@ -151,13 +153,17 @@ export function getScenarioConfig(
     },
     {
       componentLocator: ChartPage.thematicMapComponent,
-      componentProps: { showsBenchmarkComparisons: true },
+      componentProps: {
+        showsBenchmarkComparisons: true,
+        hasTooltipHovers: true,
+      },
     },
     {
       componentLocator: ChartPage.barChartEmbeddedTableComponent,
       componentProps: {
         hasRecentTrend: true,
         showsBenchmarkComparisons: true,
+        hasTooltipHovers: true,
         hasConfidenceIntervals: true,
       },
     },
@@ -170,6 +176,7 @@ export function getScenarioConfig(
       componentProps: {
         isWideComponent: true,
         showsBenchmarkComparisons: true,
+        hasTooltipHovers: true,
       },
     },
     {
@@ -178,6 +185,7 @@ export function getScenarioConfig(
         isWideComponent: true,
         hasRecentTrend: true,
         showsBenchmarkComparisons: true,
+        hasTooltipHovers: true,
       },
     },
   ];

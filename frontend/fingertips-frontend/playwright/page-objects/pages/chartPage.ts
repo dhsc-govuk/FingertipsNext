@@ -392,28 +392,64 @@ export default class ChartPage extends AreaFilter {
       ? 'England'
       : upperCaseFirstCharSelectedGroup;
     const shouldShowBenchmarkText = !(isEnglandGroup && isEnglandAreaType);
+    const benchmarkPrefix = isThematicMap ? 'Compared to' : 'Benchmark:';
+    const expectedBenchmarkText = `${benchmarkPrefix} ${expectedSelectedOption}`;
 
     // Verify the correct option is selected in the benchmark dropdown
     expect(await combobox.locator('option:checked').textContent()).toBe(
       expectedSelectedOption
     );
 
-    // Verify benchmark text visibility
+    // Verify benchmark text visibility in the chart component title
     if (shouldShowBenchmarkText) {
-      const benchmarkPrefix = isThematicMap ? 'Compared to' : 'Benchmark:';
-      const expectedBenchmarkText = `${benchmarkPrefix} ${expectedSelectedOption}`;
-
       await expect(
         this.page
           .getByTestId(component.componentLocator)
+          .getByLabel('Chart title')
           .getByText(expectedBenchmarkText)
       ).toBeVisible();
+      // check hover if current chart component has tooltip hovers
+      if (component.componentProps.hasTooltipHovers) {
+        await this.checkHovers(component, expectedBenchmarkText);
+      }
     } else {
       await expect(
         this.page
           .getByTestId(component.componentLocator)
+          .getByLabel('Chart title')
           .getByText('Benchmark: England')
       ).not.toBeVisible();
+      // check hover doesnt contain 'Benchmark:' if current chart component has tooltip hovers
+      if (component.componentProps.hasTooltipHovers) {
+        await this.checkHovers(component);
+      }
+    }
+  }
+
+  private async checkHovers(
+    component: VisibleComponent,
+    expectedBenchmarkText?: string
+  ) {
+    // Verify benchmark text visibility in the chart hover content
+    const chartPoint = this.page
+      .getByTestId(component.componentLocator)
+      .locator('.highcharts-point')
+      .first();
+    await chartPoint.hover();
+    await chartPoint.click();
+    await this.page.waitForTimeout(250); // Small wait for tooltip to appear
+
+    const hoverContent = await this.page
+      .locator('.tooltip-point-selector')
+      .first()
+      .textContent();
+
+    console.log('Hover content:', hoverContent);
+
+    if (expectedBenchmarkText) {
+      expect(hoverContent).toContain(expectedBenchmarkText);
+    } else {
+      expect(hoverContent).not.toContain('Benchmark:');
     }
   }
 
