@@ -88,7 +88,7 @@ export function ThematicMapTooltip({
             indicatorDataForBenchmark.areaName,
             'benchmark'
           )}
-          year={mostRecentDataPointForBenchmark?.year ?? undefined}
+          year={mostRecentDataPointForBenchmark?.year}
           valueText={valueStringForBenchmark}
           symbol={
             mostRecentDataPointForBenchmark?.value
@@ -104,13 +104,18 @@ export function ThematicMapTooltip({
             indicatorDataForComparator?.areaName,
             'comparator'
           )}
-          year={mostRecentDataPointForArea?.year ?? undefined}
+          year={mostRecentDataPointForArea?.year}
           valueText={valueStringForComparator}
           comparisonText={comparisonTextForComparator}
-          symbol={getBenchmarkSymbol(
-            mostRecentDataPointForComparator?.benchmarkComparison?.outcome,
-            benchmarkComparisonMethod
-          )}
+          symbol={
+            indicatorDataForComparator.areaCode === areaCodeForEngland
+              ? SymbolsEnum.Circle
+              : getBenchmarkSymbol(
+                  mostRecentDataPointForComparator?.benchmarkComparison
+                    ?.outcome,
+                  benchmarkComparisonMethod
+                )
+          }
           symbolColour={
             indicatorDataForComparator.areaCode === areaCodeForEngland
               ? GovukColours.Pink
@@ -126,7 +131,7 @@ export function ThematicMapTooltip({
 
       <BenchmarkTooltipArea
         titleText={getAreaTitle(indicatorData.areaName, 'area')}
-        year={mostRecentDataPointForArea?.year ?? undefined}
+        year={mostRecentDataPointForArea?.year}
         valueText={valueStringForArea}
         comparisonText={comparisonTextForArea}
         symbol={getBenchmarkSymbol(

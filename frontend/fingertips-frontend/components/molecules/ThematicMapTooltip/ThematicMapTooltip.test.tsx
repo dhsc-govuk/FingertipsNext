@@ -35,7 +35,7 @@ describe('ThematicMapTooltip', () => {
     ],
   };
 
-  const stubComparatorData = {
+  const stubGroupData = {
     areaCode: 'areaCode2',
     areaName: 'Group Name',
     healthData: [
@@ -56,7 +56,7 @@ describe('ThematicMapTooltip', () => {
     ],
   };
 
-  const stubBenchmarkData = {
+  const stubEnglandData = {
     areaCode: 'areaCode3',
     areaName: 'Benchmark Name',
     healthData: [
@@ -106,7 +106,7 @@ describe('ThematicMapTooltip', () => {
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95
         }
         measurementUnit={'%'}
-        indicatorDataForComparator={stubComparatorData}
+        indicatorDataForComparator={stubGroupData}
         polarity={IndicatorPolarity.Unknown}
       />
     );
@@ -114,7 +114,7 @@ describe('ThematicMapTooltip', () => {
     expect(screen.getAllByTestId('benchmark-tooltip-area')).toHaveLength(2);
     // Area Names
     expect(
-      screen.queryByText(`Group: ${stubComparatorData.areaName}`)
+      screen.queryByText(`Group: ${stubGroupData.areaName}`)
     ).toBeInTheDocument();
     expect(screen.queryByText(`${stubAreaData.areaName}`)).toBeInTheDocument();
     // Years
@@ -126,9 +126,7 @@ describe('ThematicMapTooltip', () => {
       screen.queryByText(`${formatNumber(stubAreaData.healthData[0].value)} %`)
     ).toBeInTheDocument();
     expect(
-      screen.queryByText(
-        `${formatNumber(stubComparatorData.healthData[0].value)} %`
-      )
+      screen.queryByText(`${formatNumber(stubGroupData.healthData[0].value)} %`)
     ).toBeInTheDocument();
     // Comparison Text
     expect(screen.queryByText(`Better than England (95%)`)).toBeInTheDocument();
@@ -152,7 +150,7 @@ describe('ThematicMapTooltip', () => {
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95
         }
         measurementUnit={'%'}
-        indicatorDataForBenchmark={stubBenchmarkData}
+        indicatorDataForBenchmark={stubEnglandData}
         polarity={IndicatorPolarity.Unknown}
       />
     );
@@ -160,7 +158,7 @@ describe('ThematicMapTooltip', () => {
     expect(screen.getAllByTestId('benchmark-tooltip-area')).toHaveLength(2);
     // Area Names
     expect(
-      screen.queryByText(`Benchmark: ${stubBenchmarkData.areaName}`)
+      screen.queryByText(`Benchmark: ${stubEnglandData.areaName}`)
     ).toBeInTheDocument();
     expect(screen.queryByText(`${stubAreaData.areaName}`)).toBeInTheDocument();
     // Years
@@ -173,7 +171,7 @@ describe('ThematicMapTooltip', () => {
     ).toBeInTheDocument();
     expect(
       screen.queryByText(
-        `${formatNumber(stubBenchmarkData?.healthData[0].value)} %`
+        `${formatNumber(stubEnglandData?.healthData[0].value)} %`
       )
     ).toBeInTheDocument();
     // Comparison Text
@@ -197,8 +195,8 @@ describe('ThematicMapTooltip', () => {
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95
         }
         measurementUnit={'%'}
-        indicatorDataForComparator={stubComparatorData}
-        indicatorDataForBenchmark={stubBenchmarkData}
+        indicatorDataForComparator={stubGroupData}
+        indicatorDataForBenchmark={stubEnglandData}
         polarity={IndicatorPolarity.Unknown}
       />
     );
@@ -206,10 +204,10 @@ describe('ThematicMapTooltip', () => {
     expect(screen.getAllByTestId('benchmark-tooltip-area')).toHaveLength(3);
     // Area Names
     expect(
-      screen.queryByText(`Benchmark: ${stubBenchmarkData.areaName}`)
+      screen.queryByText(`Benchmark: ${stubEnglandData.areaName}`)
     ).toBeInTheDocument();
     expect(
-      screen.queryByText(`Group: ${stubComparatorData.areaName}`)
+      screen.queryByText(`Group: ${stubGroupData.areaName}`)
     ).toBeInTheDocument();
     expect(screen.queryByText(`${stubAreaData.areaName}`)).toBeInTheDocument();
     // Colours
@@ -232,13 +230,13 @@ describe('ThematicMapTooltip', () => {
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95
         }
         measurementUnit={'%'}
-        indicatorDataForComparator={stubComparatorData}
+        indicatorDataForComparator={stubGroupData}
         polarity={IndicatorPolarity.Unknown}
       />
     );
 
     expect(
-      screen.queryByText(`Group: ${stubComparatorData.areaName}`)
+      screen.queryByText(`Group: ${stubGroupData.areaName}`)
     ).toBeInTheDocument();
     expect(screen.queryByText(`${stubAreaData.areaName}`)).toBeInTheDocument();
     expect(screen.getAllByText('No data available')).toHaveLength(2);
@@ -261,7 +259,7 @@ describe('ThematicMapTooltip', () => {
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95
         }
         measurementUnit={'%'}
-        indicatorDataForComparator={{ ...stubComparatorData, healthData: [] }}
+        indicatorDataForComparator={{ ...stubGroupData, healthData: [] }}
         polarity={IndicatorPolarity.Unknown}
       />
     );
@@ -271,7 +269,7 @@ describe('ThematicMapTooltip', () => {
     expect(screen.getAllByText('No data available')).toHaveLength(1);
     // Area Names
     expect(
-      screen.queryByText(`Group: ${stubComparatorData.areaName}`)
+      screen.queryByText(`Group: ${stubGroupData.areaName}`)
     ).toBeInTheDocument();
     expect(screen.queryByText(`${stubAreaData.areaName}`)).toBeInTheDocument();
     // Symbols
@@ -290,7 +288,7 @@ describe('ThematicMapTooltip', () => {
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95
         }
         measurementUnit={'%'}
-        indicatorDataForBenchmark={{ ...stubBenchmarkData, healthData: [] }}
+        indicatorDataForBenchmark={{ ...stubEnglandData, healthData: [] }}
         polarity={IndicatorPolarity.Unknown}
       />
     );
@@ -299,7 +297,7 @@ describe('ThematicMapTooltip', () => {
     // Area Names
     expect(screen.queryByText(`${stubAreaData.areaName}`)).toBeInTheDocument();
     expect(
-      screen.queryByText(`Benchmark: ${stubBenchmarkData.areaName}`)
+      screen.queryByText(`Benchmark: ${stubEnglandData.areaName}`)
     ).toBeInTheDocument();
     // Symbols
     expect(screen.getByText(SymbolsEnum.Circle)).toBeInTheDocument();
@@ -309,7 +307,7 @@ describe('ThematicMapTooltip', () => {
     });
   });
 
-  it('should have a pink symbol for the compartor if the comparator is England', () => {
+  it('should have a pink circle for the compartor if the comparator is England', () => {
     render(
       <ThematicMapTooltip
         indicatorData={stubAreaData}
@@ -318,7 +316,7 @@ describe('ThematicMapTooltip', () => {
         }
         measurementUnit={'%'}
         indicatorDataForComparator={{
-          ...stubComparatorData,
+          ...stubEnglandData,
           areaCode: areaCodeForEngland,
         }}
         polarity={IndicatorPolarity.Unknown}
