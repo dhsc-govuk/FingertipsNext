@@ -59,11 +59,11 @@ exports[`snapshot test - renders the form 1`] = `
   border: 0;
 }
 
-.c11 {
+.c12 {
   display: block;
 }
 
-.c9 {
+.c10 {
   width: 100%;
   height: 40px;
   padding: 6px;
@@ -81,17 +81,17 @@ exports[`snapshot test - renders the form 1`] = `
   -webkit-appearance: none;
 }
 
-.c9:focus {
+.c10:focus {
   margin-right: 3px;
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c9:focus ~ button {
+.c10:focus ~ button {
   width: 46px;
 }
 
-.c10 {
+.c11 {
   background-color: #2b8cc4;
   border: 0;
   display: block;
@@ -106,7 +106,7 @@ exports[`snapshot test - renders the form 1`] = `
   overflow: hidden;
 }
 
-.c10:focus {
+.c11:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
@@ -120,6 +120,10 @@ exports[`snapshot test - renders the form 1`] = `
   width: 100%;
   background: #ffffff;
   margin-bottom: 0;
+}
+
+.c9 {
+  margin-bottom: 5px;
 }
 
 .c2 {
@@ -175,6 +179,12 @@ exports[`snapshot test - renders the form 1`] = `
 }
 
 @media only screen and (min-width:641px) {
+  .c9 {
+    margin-bottom: 5px;
+  }
+}
+
+@media only screen and (min-width:641px) {
   .c2 {
     margin-bottom: 30px;
   }
@@ -216,10 +226,10 @@ exports[`snapshot test - renders the form 1`] = `
       </p>
     </div>
     <div
-      class="c8"
+      class="c8 c9"
     >
       <input
-        class="c9"
+        class="c10"
         data-testid="indicator-search-form-input"
         id="indicator"
         maxlength="200"
@@ -230,13 +240,13 @@ exports[`snapshot test - renders the form 1`] = `
         value="test value"
       />
       <button
-        class="c10"
+        class="c11"
         data-testid="indicator-search-form-submit"
         title="Search"
         type="submit"
       >
         <svg
-          class="c11"
+          class="c12"
           fill="#ffffff"
           height="100%"
           version="1.1"
