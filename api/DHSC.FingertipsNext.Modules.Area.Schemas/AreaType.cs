@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace DHSC.FingertipsNext.Modules.Area.Schemas;
+namespace DHSC.FingertipsNext.Modules.AreaData.Schemas;
 
 /// <summary>
 /// An area type e.g. 'Region' or 'Integrated Care Board'

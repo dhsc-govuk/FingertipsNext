@@ -1,9 +1,9 @@
-﻿using DHSC.FingertipsNext.Modules.Area.Repository.Models;
-using DHSC.FingertipsNext.Modules.Area.Service;
-using DHSC.FingertipsNext.Modules.Area.UnitTests.Fakers;
+﻿using DHSC.FingertipsNext.Modules.AreaData.Repository.Models;
+using DHSC.FingertipsNext.Modules.AreaData.Service;
+using DHSC.FingertipsNext.Modules.AreaData.UnitTests.Fakers;
 using Shouldly;
 
-namespace DHSC.FingertipsNext.Modules.Area.UnitTests.Service;
+namespace DHSC.FingertipsNext.Modules.AreaData.UnitTests.Service;
 
 public class AreaMapperTests
 {

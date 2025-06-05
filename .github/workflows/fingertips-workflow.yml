@@ -153,7 +153,6 @@ jobs:
         
       - name: Check API Code Format
         run: dotnet format --verify-no-changes
-        continue-on-error: true
 
       - name: Build API
         run: dotnet build

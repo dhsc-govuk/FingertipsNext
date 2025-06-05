@@ -1,4 +1,4 @@
-﻿namespace DHSC.FingertipsNext.Modules.Area.Repository.Models;
+﻿namespace DHSC.FingertipsNext.Modules.AreaData.Repository.Models;
 public class AreaWithRelationsModel
 {
     public required AreaModel Area { get; init; }

@@ -1,8 +1,8 @@
-﻿using DHSC.FingertipsNext.Modules.Area.Repository.Models;
+﻿using DHSC.FingertipsNext.Modules.AreaData.Repository.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
-namespace DHSC.FingertipsNext.Modules.Area.Repository;
+namespace DHSC.FingertipsNext.Modules.AreaData.Repository;
 
 public class AreaRepository : IAreaRepository
 {

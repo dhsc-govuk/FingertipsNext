@@ -4,7 +4,7 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Tests;
 
 public class ModuleTests
 {
-    private readonly Module _module = new Module();
+    private readonly HealthDataModule _module = new HealthDataModule();
 
     [Fact]
     public void ModuleNameIsNamedIndicators()

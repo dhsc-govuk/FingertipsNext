@@ -1,15 +1,15 @@
-﻿using DHSC.FingertipsNext.Modules.Area.Controllers;
-using DHSC.FingertipsNext.Modules.Area.Repository;
-using DHSC.FingertipsNext.Modules.Area.Service;
+﻿using DHSC.FingertipsNext.Modules.AreaData.Controllers;
+using DHSC.FingertipsNext.Modules.AreaData.Repository;
+using DHSC.FingertipsNext.Modules.AreaData.Service;
 using DHSC.FingertipsNext.Monolith;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DHSC.FingertipsNext.Modules.Area;
+namespace DHSC.FingertipsNext.Modules.AreaData;
 
-public class Module : AbstractMonolithModule, IMonolithModule
+public class AreaModule : AbstractMonolithModule, IMonolithModule
 {
     public override string ModuleName => "area";
 

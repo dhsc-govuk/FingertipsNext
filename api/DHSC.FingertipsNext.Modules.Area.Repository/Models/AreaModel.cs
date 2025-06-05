@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DHSC.FingertipsNext.Modules.Area.Repository.Models;
+namespace DHSC.FingertipsNext.Modules.AreaData.Repository.Models;
 
 /// <summary>
 /// An area or geography that has associated public health data

@@ -1,12 +1,12 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using DHSC.FingertipsNext.Modules.Area.Schemas;
+using DHSC.FingertipsNext.Modules.AreaData.Schemas;
 using DHSC.FingertipsNext.Modules.Common.Schemas;
-using DHSC.FingertipsNext.Modules.Area.Service;
+using DHSC.FingertipsNext.Modules.AreaData.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
-namespace DHSC.FingertipsNext.Modules.Area.Controllers.V1;
+namespace DHSC.FingertipsNext.Modules.AreaData.Controllers.V1;
 
 /// <summary>
 ///

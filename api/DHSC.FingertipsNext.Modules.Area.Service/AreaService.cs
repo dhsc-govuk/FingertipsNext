@@ -1,8 +1,8 @@
-﻿using DHSC.FingertipsNext.Modules.Area.Repository;
-using DHSC.FingertipsNext.Modules.Area.Schemas;
+﻿using DHSC.FingertipsNext.Modules.AreaData.Repository;
+using DHSC.FingertipsNext.Modules.AreaData.Schemas;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DHSC.FingertipsNext.Modules.Area.Service;
+namespace DHSC.FingertipsNext.Modules.AreaData.Service;
 
 /// <summary>
 ///

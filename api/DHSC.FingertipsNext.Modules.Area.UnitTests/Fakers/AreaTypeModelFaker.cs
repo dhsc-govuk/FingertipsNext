@@ -1,7 +1,7 @@
 ﻿using Bogus;
-using DHSC.FingertipsNext.Modules.Area.Repository.Models;
+using DHSC.FingertipsNext.Modules.AreaData.Repository.Models;
 
-namespace DHSC.FingertipsNext.Modules.Area.UnitTests.Fakers;
+namespace DHSC.FingertipsNext.Modules.AreaData.UnitTests.Fakers;
 
 internal class AreaTypeModelFaker : Faker<AreaTypeModel>
 {

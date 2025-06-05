@@ -6,7 +6,7 @@ using Shouldly;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Repository;
 
-public class HealthDataRepositoryTests
+public class HealthDataRepositoryTests : IDisposable
 {
     private readonly HealthDataDbContext _dbContext;
 
@@ -27,6 +27,20 @@ public class HealthDataRepositoryTests
 
         _dbContext = new HealthDataDbContext(dbOptions.Options);
         _healthDataRepository = new HealthDataRepository(_dbContext);
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _dbContext.Dispose();
+        }
     }
 
     [Fact]

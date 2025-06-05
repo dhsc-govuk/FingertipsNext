@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace DHSC.FingertipsNext.Modules.Area.Schemas;
+namespace DHSC.FingertipsNext.Modules.AreaData.Schemas;
 
 /// <summary>
 /// The root node of the area / geography hierarchies
