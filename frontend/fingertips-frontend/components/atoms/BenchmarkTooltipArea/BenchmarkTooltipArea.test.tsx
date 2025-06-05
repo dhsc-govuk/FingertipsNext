@@ -23,13 +23,15 @@ describe('BenchmarkTooltipArea', () => {
           titleText="Test Area"
           year={1976}
           valueText={'some string'}
-          comparisonText="test text"
+          comparisonText={'test text'}
+          symbol={SymbolsEnum.Circle}
         />
       );
       expect(screen.getByText('Test Area')).toBeInTheDocument();
       expect(screen.getByText('1976')).toBeInTheDocument();
       expect(screen.getByText('some string')).toBeInTheDocument();
       expect(screen.getByText('test text')).toBeInTheDocument();
+      expect(screen.getByText(SymbolsEnum.Circle)).toBeInTheDocument();
     });
   });
 });

@@ -4,10 +4,12 @@ import {
 } from '@/generated-sources/ft-api-client';
 import {
   getAreaTitle,
+  getBenchmarkSymbol,
   getComparisonString,
   getValueString as getValueText,
   TooltipType,
 } from './ThematicMapTooltipHelpers';
+import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 
 describe('getAreaTitle', () => {
   it.each([
@@ -128,4 +130,37 @@ describe('getValueText', () => {
       expect(result).toEqual(expected);
     }
   );
+});
+
+describe('getBenchmarSymbol', () => {
+  it.each([
+    BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+    BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
+  ])('should return a filled circle for rag', (stubMethod) => {
+    const result = getBenchmarkSymbol('Best', stubMethod);
+    expect(result).toBe(SymbolsEnum.Circle);
+  });
+
+  it('should return a filled diamond for quintiles', () => {
+    const result = getBenchmarkSymbol('Best', 'Quintiles');
+    expect(result).toBe(SymbolsEnum.Diamond);
+  });
+
+  it('should return X if benchmark outcome is undefined', () => {
+    const result = getBenchmarkSymbol(
+      undefined,
+      'CIOverlappingReferenceValue95'
+    );
+    expect(result).toBe(SymbolsEnum.MultiplicationX);
+  });
+
+  it('should return a white circle if the comparison method is unknown', () => {
+    const result = getBenchmarkSymbol('Best', 'Unknown');
+    expect(result).toBe(SymbolsEnum.WhiteCircle);
+  });
+
+  it('should return a white circle if the outcome is not compared', () => {
+    const result = getBenchmarkSymbol('Best', 'Unknown');
+    expect(result).toBe(SymbolsEnum.WhiteCircle);
+  });
 });

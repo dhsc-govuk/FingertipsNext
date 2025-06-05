@@ -7,10 +7,12 @@ import {
 import { sortHealthDataPointsByDescendingYear } from '@/lib/chartHelpers/chartHelpers';
 import {
   getAreaTitle,
+  getBenchmarkSymbol,
   getComparisonString,
   getValueString,
 } from './ThematicMapTooltipHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 
 interface BenchmarkTooltipProps {
   indicatorData: HealthDataForArea;
@@ -83,6 +85,11 @@ export function ThematicMapTooltip({
           )}
           year={mostRecentDataPointForBenchmark?.year ?? undefined}
           valueText={valueStringForBenchmark}
+          symbol={
+            mostRecentDataPointForBenchmark?.value
+              ? SymbolsEnum.Circle
+              : SymbolsEnum.MultiplicationX
+          }
         />
       ) : null}
       {indicatorDataForComparator ? (
@@ -94,6 +101,10 @@ export function ThematicMapTooltip({
           year={mostRecentDataPointForArea?.year ?? undefined}
           valueText={valueStringForComparator}
           comparisonText={comparisonTextForComparator}
+          symbol={getBenchmarkSymbol(
+            mostRecentDataPointForComparator?.benchmarkComparison?.outcome,
+            benchmarkComparisonMethod
+          )}
         />
       ) : null}
 
@@ -102,6 +113,10 @@ export function ThematicMapTooltip({
         year={mostRecentDataPointForArea?.year ?? undefined}
         valueText={valueStringForArea}
         comparisonText={comparisonTextForArea}
+        symbol={getBenchmarkSymbol(
+          mostRecentDataPointForArea?.benchmarkComparison?.outcome,
+          benchmarkComparisonMethod
+        )}
       />
     </div>
   );

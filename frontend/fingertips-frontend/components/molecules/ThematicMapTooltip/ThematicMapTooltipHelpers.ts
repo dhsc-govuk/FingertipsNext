@@ -1,5 +1,4 @@
 import {
-  HealthDataPoint,
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
 } from '@/generated-sources/ft-api-client';
@@ -74,22 +73,21 @@ function getComparisonText(
   }
 }
 
-export function getAreaMarkerSymbol(
-  mostRecentDataPoint: HealthDataPoint,
-  benchmarkComparisonMethod: string
-) {
-  return () => {
-    switch (true) {
-      case !mostRecentDataPoint?.benchmarkComparison?.outcome:
-        return SymbolsEnum.MultiplicationX;
-      case benchmarkComparisonMethod === BenchmarkComparisonMethod.Unknown:
-      case mostRecentDataPoint.benchmarkComparison?.outcome ===
-        BenchmarkOutcome.NotCompared:
-        return SymbolsEnum.WhiteCircle;
-      default:
-        return SymbolsEnum.Circle;
-    }
-  };
+export function getBenchmarkSymbol(
+  outcome: BenchmarkOutcome | undefined,
+  benchmarkComparisonMethod: BenchmarkComparisonMethod
+): SymbolsEnum {
+  switch (true) {
+    case !outcome:
+      return SymbolsEnum.MultiplicationX;
+    case benchmarkComparisonMethod === BenchmarkComparisonMethod.Unknown:
+    case outcome === BenchmarkOutcome.NotCompared:
+      return SymbolsEnum.WhiteCircle;
+    case benchmarkComparisonMethod === BenchmarkComparisonMethod.Quintiles:
+      return SymbolsEnum.Diamond;
+    default:
+      return SymbolsEnum.Circle;
+  }
 }
 
 export function getValueString(

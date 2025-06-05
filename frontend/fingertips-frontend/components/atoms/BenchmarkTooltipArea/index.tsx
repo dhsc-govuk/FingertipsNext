@@ -1,7 +1,10 @@
+import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
+
 interface BenchmarkTooltipArea {
   titleText: string;
   year: number | undefined;
   valueText: string | undefined;
+  symbol: SymbolsEnum;
   comparisonText?: string;
 }
 
@@ -10,6 +13,7 @@ export function BenchmarkTooltipArea({
   year,
   valueText,
   comparisonText,
+  symbol,
 }: Readonly<BenchmarkTooltipArea>) {
   // let benchmarkColour: string | undefined = GovukColours.Black;
   // if (
@@ -58,7 +62,7 @@ export function BenchmarkTooltipArea({
             fontSize: '24px',
           }}
         >
-          {/* {areaMarkerSymbol()} */}
+          {symbol}
         </div>
 
         <div style={{ marginTop: '5px' }}>

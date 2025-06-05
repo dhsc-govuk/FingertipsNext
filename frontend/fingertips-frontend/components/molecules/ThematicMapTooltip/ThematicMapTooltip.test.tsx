@@ -10,6 +10,7 @@ import {
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { allAgesAge, personsSex, noDeprivation } from '@/lib/mocks';
 import { formatNumber } from '@/lib/numberFormatter';
+import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 
 describe('ThematicMapTooltip', () => {
   const stubAreaData: HealthDataForArea = {
@@ -33,7 +34,7 @@ describe('ThematicMapTooltip', () => {
     ],
   };
 
-  const stubGroupData = {
+  const stubComparatorData = {
     areaCode: 'areaCode2',
     areaName: 'Group Name',
     healthData: [
@@ -69,7 +70,7 @@ describe('ThematicMapTooltip', () => {
     ],
   };
 
-  it('should render the expected tooltip content for an area', () => {
+  it('should render the expected RAG tooltip content for an area', () => {
     render(
       <ThematicMapTooltip
         indicatorData={stubAreaData}
@@ -90,9 +91,10 @@ describe('ThematicMapTooltip', () => {
       screen.queryByText(`${formatNumber(stubAreaData.healthData[0].value)} %`)
     ).toBeInTheDocument();
     expect(screen.queryByText(`Better than England (95%)`)).toBeInTheDocument();
+    expect(screen.getByText(SymbolsEnum.Circle)).toBeInTheDocument();
   });
 
-  it('should render the expected tooltip content for an area and group', () => {
+  it('should render the expected RAG tooltip content for an area and group', () => {
     render(
       <ThematicMapTooltip
         indicatorData={stubAreaData}
@@ -100,7 +102,7 @@ describe('ThematicMapTooltip', () => {
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95
         }
         measurementUnit={'%'}
-        indicatorDataForComparator={stubGroupData}
+        indicatorDataForComparator={stubComparatorData}
         polarity={IndicatorPolarity.Unknown}
       />
     );
@@ -108,7 +110,7 @@ describe('ThematicMapTooltip', () => {
     expect(screen.getAllByTestId('benchmark-tooltip-area')).toHaveLength(2);
     // Area Names
     expect(
-      screen.queryByText(`Group: ${stubGroupData.areaName}`)
+      screen.queryByText(`Group: ${stubComparatorData.areaName}`)
     ).toBeInTheDocument();
     expect(screen.queryByText(`${stubAreaData.areaName}`)).toBeInTheDocument();
     // Years
@@ -120,14 +122,18 @@ describe('ThematicMapTooltip', () => {
       screen.queryByText(`${formatNumber(stubAreaData.healthData[0].value)} %`)
     ).toBeInTheDocument();
     expect(
-      screen.queryByText(`${formatNumber(stubGroupData.healthData[0].value)} %`)
+      screen.queryByText(
+        `${formatNumber(stubComparatorData.healthData[0].value)} %`
+      )
     ).toBeInTheDocument();
     // Comparison Text
     expect(screen.queryByText(`Better than England (95%)`)).toBeInTheDocument();
     expect(screen.queryByText(`Worse than England (95%)`)).toBeInTheDocument();
+    // Symbols
+    expect(screen.getAllByText(SymbolsEnum.Circle)).toHaveLength(2);
   });
 
-  it('should render the expected tooltip content for an area and benchmark', () => {
+  it('should render the expected RAG tooltip content for an area and benchmark', () => {
     render(
       <ThematicMapTooltip
         indicatorData={stubAreaData}
@@ -161,9 +167,13 @@ describe('ThematicMapTooltip', () => {
     ).toBeInTheDocument();
     // Comparison Text
     expect(screen.queryByText(`Better than England (95%)`)).toBeInTheDocument();
+    // Symbols
+
+    screen.debug();
+    expect(screen.getAllByText(SymbolsEnum.Circle)).toHaveLength(2);
   });
 
-  it('should render the expected tooltip sections for an area, group and benchmark', () => {
+  it('should render the expected RAG tooltip sections for an area, group and benchmark', () => {
     render(
       <ThematicMapTooltip
         indicatorData={stubAreaData}
@@ -171,7 +181,7 @@ describe('ThematicMapTooltip', () => {
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95
         }
         measurementUnit={'%'}
-        indicatorDataForComparator={stubGroupData}
+        indicatorDataForComparator={stubComparatorData}
         indicatorDataForBenchmark={stubBenchmarkData}
         polarity={IndicatorPolarity.Unknown}
       />
@@ -183,12 +193,12 @@ describe('ThematicMapTooltip', () => {
       screen.queryByText(`Benchmark: ${stubBenchmarkData.areaName}`)
     ).toBeInTheDocument();
     expect(
-      screen.queryByText(`Group: ${stubGroupData.areaName}`)
+      screen.queryByText(`Group: ${stubComparatorData.areaName}`)
     ).toBeInTheDocument();
     expect(screen.queryByText(`${stubAreaData.areaName}`)).toBeInTheDocument();
   });
 
-  it('should render the expected tooltip when Healthdata for the area are missing', () => {
+  it('should render the expected RAG tooltip when Healthdata for the area are missing', () => {
     render(
       <ThematicMapTooltip
         indicatorData={{ ...stubAreaData, healthData: [] }}
@@ -196,7 +206,7 @@ describe('ThematicMapTooltip', () => {
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95
         }
         measurementUnit={'%'}
-        indicatorDataForComparator={stubGroupData}
+        indicatorDataForComparator={stubComparatorData}
         polarity={IndicatorPolarity.Unknown}
       />
     );
@@ -204,12 +214,13 @@ describe('ThematicMapTooltip', () => {
     expect(screen.getAllByText('No data available')).toHaveLength(2);
     // Area Names
     expect(
-      screen.queryByText(`Group: ${stubGroupData.areaName}`)
+      screen.queryByText(`Group: ${stubComparatorData.areaName}`)
     ).toBeInTheDocument();
     expect(screen.queryByText(`${stubAreaData.areaName}`)).toBeInTheDocument();
+    expect(screen.getAllByText(SymbolsEnum.MultiplicationX)).toHaveLength(2);
   });
 
-  it('should render the expected tooltip when Healthdata for the comparator area are missing', () => {
+  it('should render the expected RAG tooltip when Healthdata for the comparator area are missing', () => {
     render(
       <ThematicMapTooltip
         indicatorData={stubAreaData}
@@ -217,7 +228,7 @@ describe('ThematicMapTooltip', () => {
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95
         }
         measurementUnit={'%'}
-        indicatorDataForComparator={{ ...stubGroupData, healthData: [] }}
+        indicatorDataForComparator={{ ...stubComparatorData, healthData: [] }}
         polarity={IndicatorPolarity.Unknown}
       />
     );
@@ -227,12 +238,15 @@ describe('ThematicMapTooltip', () => {
     expect(screen.getAllByText('No data available')).toHaveLength(1);
     // Area Names
     expect(
-      screen.queryByText(`Group: ${stubGroupData.areaName}`)
+      screen.queryByText(`Group: ${stubComparatorData.areaName}`)
     ).toBeInTheDocument();
     expect(screen.queryByText(`${stubAreaData.areaName}`)).toBeInTheDocument();
+    // Symbols
+    expect(screen.getByText(SymbolsEnum.Circle)).toBeInTheDocument();
+    expect(screen.getByText(SymbolsEnum.MultiplicationX)).toBeInTheDocument();
   });
 
-  it('should render the expected tooltip when Healthdata for the benchmark area are missing', () => {
+  it('should render the expected RAG tooltip when Healthdata for the benchmark area are missing', () => {
     render(
       <ThematicMapTooltip
         indicatorData={stubAreaData}
@@ -251,5 +265,8 @@ describe('ThematicMapTooltip', () => {
     expect(
       screen.queryByText(`Benchmark: ${stubBenchmarkData.areaName}`)
     ).toBeInTheDocument();
+    // Symbols
+    expect(screen.getByText(SymbolsEnum.Circle)).toBeInTheDocument();
+    expect(screen.getByText(SymbolsEnum.MultiplicationX)).toBeInTheDocument();
   });
 });
