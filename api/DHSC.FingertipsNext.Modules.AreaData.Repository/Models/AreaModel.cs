@@ -6,7 +6,6 @@ namespace DHSC.FingertipsNext.Modules.AreaData.Repository.Models;
 /// <summary>
 /// An area or geography that has associated public health data
 /// </summary>
-[Serializable]
 [Table("Areas", Schema = "Areas")]
 public class AreaModel
 {

@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.AreaData.Repository\DHSC.FingertipsNext.Modules.AreaData.Repository.csproj" />
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.AreaData.Schemas\DHSC.FingertipsNext.Modules.AreaData.Schemas.csproj" />
+    </ItemGroup>
+
+</Project>

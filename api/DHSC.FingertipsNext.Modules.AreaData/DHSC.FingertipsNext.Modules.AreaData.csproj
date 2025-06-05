@@ -7,8 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Area.Repository\DHSC.FingertipsNext.Modules.Area.Repository.csproj" />
-      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Area.Service\DHSC.FingertipsNext.Modules.Area.Service.csproj" />
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.AreaData.Repository\DHSC.FingertipsNext.Modules.AreaData.Repository.csproj" />
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.AreaData.Service\DHSC.FingertipsNext.Modules.AreaData.Service.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Common.Schemas\DHSC.FingertipsNext.Modules.Common.Schemas.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Monolith\DHSC.FingertipsNext.Monolith.csproj" />
     </ItemGroup>
