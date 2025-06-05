@@ -1,12 +1,12 @@
 'use client';
 
 import { FC, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { useLoadingState } from '@/context/LoaderContext';
+import { useSearchParams } from 'next/navigation';
 
 export const FocusOnFragment: FC = () => {
-  const query = useSearchParams();
   const loadingState = useLoadingState();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     if (!window) return;
@@ -17,7 +17,7 @@ export const FocusOnFragment: FC = () => {
     if (!element) return;
 
     element.focus();
-  }, [query, loadingState]);
+  }, [searchParams, loadingState]);
 
   return null;
 };

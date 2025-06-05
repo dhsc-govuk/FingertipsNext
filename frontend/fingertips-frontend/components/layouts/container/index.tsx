@@ -8,6 +8,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { reactQueryClient } from '@/lib/reactQueryClient';
 import { ModalProvider } from '@/context/ModalContext';
 import { FocusOnFragment } from '@/components/atoms/FocusOnFragment/FocusOnFragment';
+import { Suspense } from 'react';
 
 const StyledMain = styled(Main)({
   minHeight: '80vh',
@@ -24,7 +25,9 @@ export function FTContainer({
             <main>
               <StyledMain>{children}</StyledMain>
             </main>
-            <FocusOnFragment />
+            <Suspense>
+              <FocusOnFragment />
+            </Suspense>
           </LoaderProvider>
         </SearchStateProvider>
       </ModalProvider>
