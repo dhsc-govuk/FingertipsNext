@@ -1,4 +1,5 @@
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 interface BenchmarkTooltipArea {
   titleText: string;
@@ -6,6 +7,7 @@ interface BenchmarkTooltipArea {
   valueText: string | undefined;
   symbol: SymbolsEnum;
   comparisonText?: string;
+  symbolColour: GovukColours | undefined;
 }
 
 export function BenchmarkTooltipArea({
@@ -14,27 +16,8 @@ export function BenchmarkTooltipArea({
   valueText,
   comparisonText,
   symbol,
+  symbolColour = GovukColours.Black,
 }: Readonly<BenchmarkTooltipArea>) {
-  // let benchmarkColour: string | undefined = GovukColours.Black;
-  // if (
-  //   tooltipType !== 'benchmark' &&
-  //   mostRecentDataPoint?.benchmarkComparison?.outcome
-  // ) {
-  //   benchmarkColour = getBenchmarkColour(
-  //     benchmarkComparisonMethod,
-  //     benchmarkOutcome ?? BenchmarkOutcome.NotCompared,
-  //     polarity
-  //   );
-  // }
-
-  // TODO: DHSCFT-858: reinstate this logic
-  // if (
-  //   tooltipType === 'group' &&
-  //   indicatorData.areaCode === areaCodeForEngland
-  // ) {
-  //   benchmarkColour = GovukColours.Pink;
-  // }
-
   // TODO: refactor to use styled components
 
   return (
@@ -55,7 +38,7 @@ export function BenchmarkTooltipArea({
       >
         <div
           style={{
-            // color: benchmarkColour,
+            color: symbolColour,
             display: 'flex',
             marginLeft: '5px',
             gap: '0.5em',

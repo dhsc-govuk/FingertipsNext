@@ -11,6 +11,7 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { allAgesAge, personsSex, noDeprivation } from '@/lib/mocks';
 import { formatNumber } from '@/lib/numberFormatter';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 describe('ThematicMapTooltip', () => {
   const stubAreaData: HealthDataForArea = {
@@ -92,6 +93,9 @@ describe('ThematicMapTooltip', () => {
     ).toBeInTheDocument();
     expect(screen.queryByText(`Better than England (95%)`)).toBeInTheDocument();
     expect(screen.getByText(SymbolsEnum.Circle)).toBeInTheDocument();
+    expect(screen.getByText(SymbolsEnum.Circle)).toHaveStyle({
+      color: GovukColours.Green,
+    });
   });
 
   it('should render the expected RAG tooltip content for an area and group', () => {
@@ -131,6 +135,13 @@ describe('ThematicMapTooltip', () => {
     expect(screen.queryByText(`Worse than England (95%)`)).toBeInTheDocument();
     // Symbols
     expect(screen.getAllByText(SymbolsEnum.Circle)).toHaveLength(2);
+    // Colours
+    expect(screen.getAllByText(SymbolsEnum.Circle)[0]).toHaveStyle({
+      color: GovukColours.Red,
+    });
+    expect(screen.getAllByText(SymbolsEnum.Circle)[1]).toHaveStyle({
+      color: GovukColours.Green,
+    });
   });
 
   it('should render the expected RAG tooltip content for an area and benchmark', () => {
@@ -168,9 +179,14 @@ describe('ThematicMapTooltip', () => {
     // Comparison Text
     expect(screen.queryByText(`Better than England (95%)`)).toBeInTheDocument();
     // Symbols
-
-    screen.debug();
     expect(screen.getAllByText(SymbolsEnum.Circle)).toHaveLength(2);
+    // Colours
+    expect(screen.getAllByText(SymbolsEnum.Circle)[0]).toHaveStyle({
+      color: GovukColours.Black,
+    });
+    expect(screen.getAllByText(SymbolsEnum.Circle)[1]).toHaveStyle({
+      color: GovukColours.Green,
+    });
   });
 
   it('should render the expected RAG tooltip sections for an area, group and benchmark', () => {
@@ -196,6 +212,16 @@ describe('ThematicMapTooltip', () => {
       screen.queryByText(`Group: ${stubComparatorData.areaName}`)
     ).toBeInTheDocument();
     expect(screen.queryByText(`${stubAreaData.areaName}`)).toBeInTheDocument();
+    // Colours
+    expect(screen.getAllByText(SymbolsEnum.Circle)[0]).toHaveStyle({
+      color: GovukColours.Black,
+    });
+    expect(screen.getAllByText(SymbolsEnum.Circle)[1]).toHaveStyle({
+      color: GovukColours.Red,
+    });
+    expect(screen.getAllByText(SymbolsEnum.Circle)[2]).toHaveStyle({
+      color: GovukColours.Green,
+    });
   });
 
   it('should render the expected RAG tooltip when Healthdata for the area are missing', () => {
@@ -211,13 +237,20 @@ describe('ThematicMapTooltip', () => {
       />
     );
 
-    expect(screen.getAllByText('No data available')).toHaveLength(2);
-    // Area Names
     expect(
       screen.queryByText(`Group: ${stubComparatorData.areaName}`)
     ).toBeInTheDocument();
     expect(screen.queryByText(`${stubAreaData.areaName}`)).toBeInTheDocument();
+    expect(screen.getAllByText('No data available')).toHaveLength(2);
+
+    screen.debug();
     expect(screen.getAllByText(SymbolsEnum.MultiplicationX)).toHaveLength(2);
+    expect(screen.getAllByText(SymbolsEnum.MultiplicationX)[0]).toHaveStyle({
+      color: GovukColours.Black,
+    });
+    expect(screen.getAllByText(SymbolsEnum.MultiplicationX)[1]).toHaveStyle({
+      color: GovukColours.Black,
+    });
   });
 
   it('should render the expected RAG tooltip when Healthdata for the comparator area are missing', () => {
@@ -244,6 +277,9 @@ describe('ThematicMapTooltip', () => {
     // Symbols
     expect(screen.getByText(SymbolsEnum.Circle)).toBeInTheDocument();
     expect(screen.getByText(SymbolsEnum.MultiplicationX)).toBeInTheDocument();
+    expect(screen.getByText(SymbolsEnum.MultiplicationX)).toHaveStyle({
+      color: GovukColours.Black,
+    });
   });
 
   it('should render the expected RAG tooltip when Healthdata for the benchmark area are missing', () => {
@@ -268,5 +304,28 @@ describe('ThematicMapTooltip', () => {
     // Symbols
     expect(screen.getByText(SymbolsEnum.Circle)).toBeInTheDocument();
     expect(screen.getByText(SymbolsEnum.MultiplicationX)).toBeInTheDocument();
+    expect(screen.getByText(SymbolsEnum.MultiplicationX)).toHaveStyle({
+      color: GovukColours.Black,
+    });
+  });
+
+  it('should have a pink symbol for the compartor if the comparator is England', () => {
+    render(
+      <ThematicMapTooltip
+        indicatorData={stubAreaData}
+        benchmarkComparisonMethod={
+          BenchmarkComparisonMethod.CIOverlappingReferenceValue95
+        }
+        measurementUnit={'%'}
+        indicatorDataForComparator={{
+          ...stubComparatorData,
+          areaCode: areaCodeForEngland,
+        }}
+        polarity={IndicatorPolarity.Unknown}
+      />
+    );
+    expect(screen.getAllByText(SymbolsEnum.Circle)[0]).toHaveStyle({
+      color: GovukColours.Pink,
+    });
   });
 });

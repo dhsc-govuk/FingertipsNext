@@ -1,10 +1,14 @@
 import { BenchmarkTooltipArea } from '@/components/atoms/BenchmarkTooltipArea';
 import {
   BenchmarkComparisonMethod,
+  BenchmarkOutcome,
   HealthDataForArea,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
-import { sortHealthDataPointsByDescendingYear } from '@/lib/chartHelpers/chartHelpers';
+import {
+  getBenchmarkColour,
+  sortHealthDataPointsByDescendingYear,
+} from '@/lib/chartHelpers/chartHelpers';
 import {
   getAreaTitle,
   getBenchmarkSymbol,
@@ -13,6 +17,7 @@ import {
 } from './ThematicMapTooltipHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 interface BenchmarkTooltipProps {
   indicatorData: HealthDataForArea;
@@ -29,7 +34,7 @@ export function ThematicMapTooltip({
   measurementUnit,
   indicatorDataForBenchmark,
   indicatorDataForComparator,
-  // polarity, // TODO: use this prop to determine the colour of the area symbols
+  polarity,
 }: Readonly<BenchmarkTooltipProps>) {
   const mostRecentDataPointForArea = sortHealthDataPointsByDescendingYear(
     indicatorData.healthData
@@ -90,6 +95,7 @@ export function ThematicMapTooltip({
               ? SymbolsEnum.Circle
               : SymbolsEnum.MultiplicationX
           }
+          symbolColour={GovukColours.Black}
         />
       ) : null}
       {indicatorDataForComparator ? (
@@ -105,6 +111,16 @@ export function ThematicMapTooltip({
             mostRecentDataPointForComparator?.benchmarkComparison?.outcome,
             benchmarkComparisonMethod
           )}
+          symbolColour={
+            indicatorDataForComparator.areaCode === areaCodeForEngland
+              ? GovukColours.Pink
+              : (getBenchmarkColour(
+                  benchmarkComparisonMethod,
+                  mostRecentDataPointForComparator?.benchmarkComparison
+                    ?.outcome ?? BenchmarkOutcome.NotCompared,
+                  polarity
+                ) as GovukColours)
+          }
         />
       ) : null}
 
@@ -117,6 +133,14 @@ export function ThematicMapTooltip({
           mostRecentDataPointForArea?.benchmarkComparison?.outcome,
           benchmarkComparisonMethod
         )}
+        symbolColour={
+          getBenchmarkColour(
+            benchmarkComparisonMethod,
+            mostRecentDataPointForArea?.benchmarkComparison?.outcome ??
+              BenchmarkOutcome.NotCompared,
+            polarity
+          ) as GovukColours
+        }
       />
     </div>
   );
