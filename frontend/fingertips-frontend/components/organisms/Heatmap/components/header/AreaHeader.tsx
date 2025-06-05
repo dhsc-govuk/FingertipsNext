@@ -1,4 +1,4 @@
-import { HeaderCell, HeaderTitleWrapper, Title } from './areaHeader.styles';
+import { HeaderCell, HeaderTitleWrapper, Title } from './AreaHeader.styles';
 
 interface AreaHeaderProps {
   content: string;

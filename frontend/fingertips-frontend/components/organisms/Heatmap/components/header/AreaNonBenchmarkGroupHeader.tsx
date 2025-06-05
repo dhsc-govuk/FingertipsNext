@@ -2,7 +2,7 @@ import {
   HeaderCell,
   HeaderTitleWrapper,
   NonBenchmarkGroupHeaderTitle,
-} from './areaHeader.styles';
+} from './AreaHeader.styles';
 
 interface AreaSecondaryBenchmarkHeaderProps {
   content: string;

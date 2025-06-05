@@ -1,4 +1,4 @@
-import { PeriodHeaderCell, IndicatorInfoText } from './indicatorHeader.styles';
+import { PeriodHeaderCell, IndicatorInfoText } from './IndicatorHeader.styles';
 
 interface IndicatorPeriodHeaderProps {
   content: string;

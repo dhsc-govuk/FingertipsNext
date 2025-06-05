@@ -1,11 +1,11 @@
 import { FC } from 'react';
 import { HeaderType } from '../../heatmapUtil';
-import { IndicatorTitleHeader } from './indicatorTitleHeader';
-import { IndicatorPeriodHeader } from './indicatorPeriodHeader';
-import { IndicatorValueUnitHeader } from './indicatorValueUnitHeader';
-import { AreaPrimaryBenchmarkHeader } from './areaBenchmarkGroupHeader';
-import { AreaSecondaryBenchmarkHeader } from './areaNonBenchmarkGroupHeader';
-import { AreaHeader } from './areaHeader';
+import { IndicatorTitleHeader } from './IndicatorTitleHeader';
+import { IndicatorPeriodHeader } from './IndicatorPeriodHeader';
+import { IndicatorValueUnitHeader } from './IndicatorValueUnitHeader';
+import { AreaPrimaryBenchmarkHeader } from './AreaBenchmarkGroupHeader';
+import { AreaSecondaryBenchmarkHeader } from './AreaNonBenchmarkGroupHeader';
+import { AreaHeader } from './AreaHeader';
 
 interface HeatmapHeaderProps {
   headerType: HeaderType;

@@ -1,7 +1,7 @@
 import {
   ValueUnitHeaderCell,
   IndicatorInfoText,
-} from './indicatorHeader.styles';
+} from './IndicatorHeader.styles';
 
 interface IndicatorValueUnitHeaderProps {
   content: string;

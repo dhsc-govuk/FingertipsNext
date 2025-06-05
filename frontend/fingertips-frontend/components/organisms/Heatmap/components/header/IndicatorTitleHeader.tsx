@@ -1,4 +1,4 @@
-import { TitleHeaderCell, IndicatorTitleText } from './indicatorHeader.styles';
+import { TitleHeaderCell, IndicatorTitleText } from './IndicatorHeader.styles';
 
 interface IndicatorTitleHeaderProps {
   content: string;
