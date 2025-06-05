@@ -340,7 +340,7 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
   left: 0;
   z-index: 1;
   padding-right: 0.5em;
-  border-right: solid #bfc1c3 1px;
+  border-right: solid #BFC1C3 1px;
 }
 
 .c37 {
@@ -348,11 +348,35 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
   padding-right: 0;
 }
 
+.c36 {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 240px;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  padding-left: 10px;
+}
+
+.c38 {
+  min-width: 40px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.c40 {
+  text-align: left;
+}
+
+.c39 {
+  text-align: right;
+}
+
 .c41 {
   text-align: center;
   padding: 0;
   position: relative;
-  border-left: 1px solid #bfc1c3;
+  border-left: solid #BFC1C3 1px;
   vertical-align: middle;
 }
 
@@ -390,30 +414,6 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-}
-
-.c36 {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  width: 240px;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  padding-left: 10px;
-}
-
-.c38 {
-  min-width: 40px;
-  padding-right: 10px;
-  padding-left: 10px;
-}
-
-.c40 {
-  text-align: left;
-}
-
-.c39 {
-  text-align: right;
 }
 
 .c20 {
@@ -1539,7 +1539,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   left: 0;
   z-index: 1;
   padding-right: 0.5em;
-  border-right: solid #bfc1c3 1px;
+  border-right: solid #BFC1C3 1px;
 }
 
 .c37 {
@@ -1547,11 +1547,35 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   padding-right: 0;
 }
 
+.c36 {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 240px;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  padding-left: 10px;
+}
+
+.c38 {
+  min-width: 40px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.c40 {
+  text-align: left;
+}
+
+.c39 {
+  text-align: right;
+}
+
 .c41 {
   text-align: center;
   padding: 0;
   position: relative;
-  border-left: 1px solid #bfc1c3;
+  border-left: solid #BFC1C3 1px;
   vertical-align: middle;
 }
 
@@ -1594,30 +1618,6 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-}
-
-.c36 {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  width: 240px;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  padding-left: 10px;
-}
-
-.c38 {
-  min-width: 40px;
-  padding-right: 10px;
-  padding-left: 10px;
-}
-
-.c40 {
-  text-align: left;
-}
-
-.c39 {
-  text-align: right;
 }
 
 .c20 {
