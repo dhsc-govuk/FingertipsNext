@@ -34,13 +34,31 @@ BEGIN
 	WHERE
 		ind.IndicatorId = @RequestedIndicatorId
     ),
-	--- This finds ALL data points in England of the same areaType which are aggregated (not inequalities) data points
+	AreasWithFlag (AreaCode, IsBenchmarkArea) AS (
+	SELECT AreaCode, 1 
+	FROM 
+		dbo.FindAreaDescendants_Fn(@RequestedAreaType, @RequestedBenchmarkAreaCode)
+	UNION 
+	SELECT 
+		al.AreaCode, 0 
+	FROM 
+		@RequestedAreas al
+	JOIN 
+		dbo.AreaDimension ad
+	ON 
+		al.AreaCode = ad.Code AND ad.AreaType != @RequestedAreaType
+	),
 	HealthData AS (
-	SELECT
+		SELECT
 		    hm.HealthMeasureKey,
-		    NTILE(5) OVER(PARTITION BY hm.Year ORDER BY	Value) AS Quintile,
-		    benchmarkAreas.AreaCode AS AreaDimensionCode,
-		    benchmarkAreas.AreaName AS AreaDimensionName,
+		    CASE
+				WHEN benchmarkAreas.IsBenchmarkArea = 1 
+					THEN NTILE(5) OVER(PARTITION BY hm.Year, benchmarkAreas.IsBenchmarkArea ORDER BY Value)
+				ELSE NULL
+			END AS Quintile,
+			benchmarkAreas.IsBenchmarkArea,
+		    areaDim.Code AS AreaDimensionCode,
+		    areaDim.Name AS AreaDimensionName,
 		    sex.Name AS SexDimensionName,
 		    sex.HasValue AS SexDimensionHasValue,
 			hm.IsSexAggregatedOrSingle AS SexDimensionIsAggregate,
@@ -69,7 +87,7 @@ BEGIN
         ON
 		    hm.AreaKey = areaDim.AreaKey 
 	JOIN
-	        dbo.FindAreaDescendants_Fn(@RequestedAreaType, @RequestedBenchmarkAreaCode) AS benchmarkAreas
+	        AreasWithFlag AS benchmarkAreas
 	    ON
 	        areaDim.Code = benchmarkAreas.AreaCode
 	JOIN
