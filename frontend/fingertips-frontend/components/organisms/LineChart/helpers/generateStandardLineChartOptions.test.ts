@@ -33,6 +33,7 @@ describe('generateStandardLineChartOptions', () => {
       false,
       areaCodeForEngland,
       {
+        indicatorName: 'Hospital admissions',
         englandData: mockEnglandData,
         groupIndicatorData: mockParentData,
         yAxisTitle: 'yAxis',
@@ -77,6 +78,7 @@ describe('generateStandardLineChartOptions', () => {
       false,
       areaCodeForEngland,
       {
+        indicatorName: 'Hospital admissions',
         englandData: mockBenchmarkAreaWithEarlyYear,
         groupIndicatorData: mockGroupAreaWithLateYear,
         yAxisTitle: 'yAxis',

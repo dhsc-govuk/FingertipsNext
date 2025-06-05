@@ -150,6 +150,7 @@ export const SpineChartTableRow: FC<SpineChartTableRowProps> = ({
       </StyledBenchmarkCell>
       <StyledBenchmarkChart data-testid={`benchmark-range`}>
         <SpineChart
+          key={`spineChart-${benchmarkToUse}`}
           name={indicatorName}
           units={valueUnit}
           period={latestDataPeriod}

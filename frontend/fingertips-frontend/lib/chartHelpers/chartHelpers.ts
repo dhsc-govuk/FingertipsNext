@@ -306,8 +306,11 @@ const getComparisonLabelText = (
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
   benchmarkOutcome: BenchmarkOutcome
 ) => {
+  const validOutcomes = Object.values(BenchmarkOutcome);
+
   if (
     !benchmarkOutcome ||
+    !validOutcomes.includes(benchmarkOutcome) ||
     benchmarkOutcome === BenchmarkOutcome.NotCompared ||
     benchmarkComparisonMethod === BenchmarkComparisonMethod.Quintiles
   )
@@ -316,7 +319,7 @@ const getComparisonLabelText = (
   return `(${comparison}%)`;
 };
 
-const getBenchmarkLabel = (
+export const getBenchmarkLabel = (
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
   benchmarkOutcome?: BenchmarkOutcome,
   areaName?: string
@@ -327,9 +330,15 @@ const getBenchmarkLabel = (
   if (benchmarkComparisonMethod === BenchmarkComparisonMethod.Quintiles)
     return `${benchmarkOutcome} quintile`;
 
+  const outcome = getBenchmarkLabelText(benchmarkOutcome);
+
+  if (outcome === 'Not compared') {
+    return outcome;
+  }
+
   const joiningWord =
     benchmarkOutcome === BenchmarkOutcome.Similar ? 'to' : 'than';
-  const outcome = getBenchmarkLabelText(benchmarkOutcome);
+
   return `${outcome} ${joiningWord} ${areaName ?? 'England'}`;
 };
 

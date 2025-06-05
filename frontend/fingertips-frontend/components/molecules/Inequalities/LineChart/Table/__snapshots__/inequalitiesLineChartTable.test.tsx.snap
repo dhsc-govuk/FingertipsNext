@@ -2,24 +2,24 @@
 
 exports[`Inequalities table suite snapshot test - should match snapshot 1`] = `
 <DocumentFragment>
-  .c2 {
+  .c3 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: left;
   font-weight: 700;
 }
 
-.c2:last-child {
+.c3:last-child {
   padding-right: 0;
 }
 
-.c9 {
+.c10 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: left;
 }
 
-.c9:last-child {
+.c10:last-child {
   padding-right: 0;
 }
 
@@ -37,7 +37,7 @@ exports[`Inequalities table suite snapshot test - should match snapshot 1`] = `
   margin-bottom: 20px;
 }
 
-.c3 {
+.c4 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -48,13 +48,13 @@ exports[`Inequalities table suite snapshot test - should match snapshot 1`] = `
   padding: 0.625em 0;
 }
 
-.c7 {
+.c8 {
   text-align: right;
   padding-right: 10px;
   vertical-align: top;
 }
 
-.c10 {
+.c11 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -64,17 +64,17 @@ exports[`Inequalities table suite snapshot test - should match snapshot 1`] = `
   padding-right: 0;
 }
 
-.c13 {
+.c14 {
   text-align: right;
   padding-right: 10px;
 }
 
-.c11 {
+.c12 {
   text-align: left;
   width: 10%;
 }
 
-.c12 {
+.c13 {
   position: -webkit-sticky;
   position: sticky;
   left: 0;
@@ -85,13 +85,13 @@ exports[`Inequalities table suite snapshot test - should match snapshot 1`] = `
   padding-left: 10px;
 }
 
-.c5 {
+.c6 {
   text-align: left;
   vertical-align: top;
   padding-left: 10px;
 }
 
-.c6 {
+.c7 {
   position: -webkit-sticky;
   position: sticky;
   left: 0;
@@ -106,11 +106,21 @@ exports[`Inequalities table suite snapshot test - should match snapshot 1`] = `
   width: 100%;
 }
 
-.c4 {
+.c15 {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.c2 {
+  border-collapse: separate;
+  margin-bottom: 1rem;
+}
+
+.c5 {
   text-align: center;
 }
 
-.c8 {
+.c9 {
   padding-left: 10px;
 }
 
@@ -161,28 +171,28 @@ exports[`Inequalities table suite snapshot test - should match snapshot 1`] = `
 }
 
 @media print {
-  .c3 {
+  .c4 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c3 {
+  .c4 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media print {
-  .c10 {
+  .c11 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c10 {
+  .c11 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
@@ -192,119 +202,134 @@ exports[`Inequalities table suite snapshot test - should match snapshot 1`] = `
     class="c0"
     data-testid="inequalitiesLineChartTable-component"
   >
-    <table
-      class="c1"
+    <div
       id="inequalitiesTrendTable"
     >
-      <thead
-        class=""
+      <table
+        class="c1 c2"
       >
-        <tr
+        <thead
           class=""
         >
-          <th
-            class="c2 c3 c4"
-            colspan="4"
+          <tr
+            class=""
           >
-            South FooBar
-            <span
-              data-testid="inequalitiesLineChartTable-measurementUnit"
-              style="display: block; margin-top: 10px;"
+            <th
+              class="c3 c4 c5"
+              colspan="4"
             >
-              Value: per 100,000
-            </span>
-          </th>
-        </tr>
-        <tr
+              South FooBar
+              <span
+                data-testid="inequalitiesLineChartTable-measurementUnit"
+                style="display: block; margin-top: 10px;"
+              >
+                Value: per 100,000
+              </span>
+            </th>
+          </tr>
+          <tr
+            class=""
+          >
+            <th
+              class="c3 c4 c6 c7"
+              data-testid="header-Period-0"
+              style="padding-left: 10px;"
+            >
+              Period
+            </th>
+            <th
+              class="c3 c4 c8"
+              data-testid="header-Persons-1"
+              style="padding-right: 10px;"
+            >
+              Persons
+            </th>
+            <th
+              class="c3 c4 c8 c9"
+              data-testid="header-Male-2"
+            >
+              Male
+            </th>
+            <th
+              class="c3 c4 c8 c9"
+              data-testid="header-Female-3"
+            >
+              Female
+            </th>
+          </tr>
+        </thead>
+        <tbody
           class=""
         >
-          <th
-            class="c2 c3 c5 c6"
-            data-testid="header-Period-0"
-            style="padding-left: 10px;"
+          <tr
+            class=""
           >
-            Period
-          </th>
-          <th
-            class="c2 c3 c7"
-            data-testid="header-Persons-1"
-            style="padding-right: 10px;"
+            <td
+              class="0 c10 c11 c12 c13"
+            >
+              2004
+            </td>
+            <td
+              class="c10 c11 c14"
+              style="padding-right: 10px;"
+            >
+              890.3
+            </td>
+            <td
+              class="c10 c11 c14"
+              style="padding-right: 10px;"
+            >
+              703.4
+            </td>
+            <td
+              class="c10 c11 c14"
+              style="padding-right: 10px;"
+            >
+              703.4
+            </td>
+          </tr>
+          <tr
+            class=""
           >
-            Persons
-          </th>
-          <th
-            class="c2 c3 c7 c8"
-            data-testid="header-Male-2"
-          >
-            Male
-          </th>
-          <th
-            class="c2 c3 c7 c8"
-            data-testid="header-Female-3"
-          >
-            Female
-          </th>
-        </tr>
-      </thead>
-      <tbody
-        class=""
+            <td
+              class="0 c10 c11 c12 c13"
+            >
+              2008
+            </td>
+            <td
+              class="c10 c11 c14"
+              style="padding-right: 10px;"
+            >
+              135.1
+            </td>
+            <td
+              class="c10 c11 c14"
+              style="padding-right: 10px;"
+            >
+              890.3
+            </td>
+            <td
+              class="c10 c11 c14"
+              style="padding-right: 10px;"
+            >
+              890.3
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div
+        class="exportOnly"
+        style="display: none;"
       >
-        <tr
-          class=""
+        <div
+          class="c15"
         >
-          <td
-            class="0 c9 c10 c11 c12"
-          >
-            2004
-          </td>
-          <td
-            class="c9 c10 c13"
-            style="padding-right: 10px;"
-          >
-            890.3
-          </td>
-          <td
-            class="c9 c10 c13"
-            style="padding-right: 10px;"
-          >
-            703.4
-          </td>
-          <td
-            class="c9 c10 c13"
-            style="padding-right: 10px;"
-          >
-            703.4
-          </td>
-        </tr>
-        <tr
-          class=""
-        >
-          <td
-            class="0 c9 c10 c11 c12"
-          >
-            2008
-          </td>
-          <td
-            class="c9 c10 c13"
-            style="padding-right: 10px;"
-          >
-            135.1
-          </td>
-          <td
-            class="c9 c10 c13"
-            style="padding-right: 10px;"
-          >
-            890.3
-          </td>
-          <td
-            class="c9 c10 c13"
-            style="padding-right: 10px;"
-          >
-            890.3
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          ©Crown copyright 2024. Office for Health Improvement & Disparities.
+          <br />
+          Public Health Profiles accessed on 25 December 2024 www.fingertips.phe.org.uk
+        </div>
+      </div>
+    </div>
   </div>
   .c0 {
   font-family: "nta",Arial,sans-serif;

@@ -22,6 +22,15 @@ import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 describe('Line chart table suite', () => {
+  beforeAll(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2024-12-25T12:00:00Z'));
+  });
+
+  afterAll(() => {
+    jest.useRealTimers();
+  });
+
   const mockHealthData: HealthDataForArea[] = [
     {
       areaCode: 'A1425',
@@ -82,6 +91,7 @@ describe('Line chart table suite', () => {
     it('snapshot test - should match snapshot', () => {
       const container = render(
         <LineChartTable
+          title={'Title'}
           healthIndicatorData={[mockHealthData[0]]}
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
@@ -96,6 +106,7 @@ describe('Line chart table suite', () => {
     it('should render the LineChartTable component', () => {
       render(
         <LineChartTable
+          title={'Title'}
           healthIndicatorData={[mockHealthData[0]]}
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
@@ -108,6 +119,7 @@ describe('Line chart table suite', () => {
     it('should render expected elements', () => {
       render(
         <LineChartTable
+          title={'A line chart table title'}
           healthIndicatorData={[mockHealthData[0]]}
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
@@ -140,11 +152,14 @@ describe('Line chart table suite', () => {
         .forEach((heading) =>
           expect(screen.getByTestId(`header-${heading}-0`)).toBeInTheDocument()
         );
+
+      expect(screen.getByText(/A line chart table title/)).toBeInTheDocument();
     });
 
     it('should render the expected elements when England is the only area and 99.8%', () => {
       render(
         <LineChartTable
+          title={'Title'}
           healthIndicatorData={[]}
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
@@ -165,6 +180,7 @@ describe('Line chart table suite', () => {
     it('should render the group column with benchmark column styling, when the subnational benchmark is not england ', () => {
       render(
         <LineChartTable
+          title={'Title'}
           healthIndicatorData={[mockHealthData[0]]}
           englandIndicatorData={MOCK_ENGLAND_DATA}
           groupIndicatorData={MOCK_PARENT_DATA}
@@ -181,6 +197,7 @@ describe('Line chart table suite', () => {
     it('should render the group column with default group column styling, when the subnational benchmark is england ', () => {
       render(
         <LineChartTable
+          title={'Title'}
           healthIndicatorData={[mockHealthData[0]]}
           englandIndicatorData={MOCK_ENGLAND_DATA}
           groupIndicatorData={MOCK_PARENT_DATA}
@@ -197,6 +214,7 @@ describe('Line chart table suite', () => {
     it('should display table with periods sorted in ascending order', () => {
       render(
         <LineChartTable
+          title={'Title'}
           healthIndicatorData={[mockHealthData[0]]}
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
@@ -209,6 +227,7 @@ describe('Line chart table suite', () => {
     it('should render X if England benchmark prop is undefined', () => {
       render(
         <LineChartTable
+          title={'Title'}
           healthIndicatorData={[mockHealthData[0]]}
           englandIndicatorData={undefined}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
@@ -229,6 +248,7 @@ describe('Line chart table suite', () => {
     it('should render trend markers based on data returned by the API', () => {
       render(
         <LineChartTable
+          title={'Title'}
           healthIndicatorData={[MOCK_HEALTH_DATA_WITH_TRENDS[0]]}
           englandIndicatorData={undefined}
           indicatorMetadata={{ unitLabel: 'per 100,000' } as IndicatorDocument}
@@ -247,6 +267,7 @@ describe('Line chart table suite', () => {
     it('snapshot test - should match snapshot', () => {
       const container = render(
         <LineChartTable
+          title={'Title'}
           healthIndicatorData={mockHealthData}
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
@@ -261,6 +282,7 @@ describe('Line chart table suite', () => {
     it('should render expected elements', () => {
       render(
         <LineChartTable
+          title={'Title'}
           healthIndicatorData={mockHealthData}
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
@@ -299,6 +321,7 @@ describe('Line chart table suite', () => {
     it('should have single period and benchmark columns', () => {
       render(
         <LineChartTable
+          title={'Title'}
           healthIndicatorData={mockHealthData}
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
@@ -315,6 +338,7 @@ describe('Line chart table suite', () => {
     it('should display table with periods sorted in ascending order', () => {
       render(
         <LineChartTable
+          title={'Title'}
           healthIndicatorData={mockHealthData}
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
@@ -327,6 +351,7 @@ describe('Line chart table suite', () => {
     it('should render trend markers for 2 indicators based on data returned by the API', () => {
       render(
         <LineChartTable
+          title={'Title'}
           healthIndicatorData={MOCK_HEALTH_DATA_WITH_TRENDS}
           englandIndicatorData={undefined}
           indicatorMetadata={{ unitLabel: 'per 100,000' } as IndicatorDocument}
@@ -352,6 +377,7 @@ describe('Line chart table suite', () => {
     it('should render the parent area heading when passed parentData', () => {
       render(
         <LineChartTable
+          title={'Title'}
           healthIndicatorData={mockHealthData}
           englandIndicatorData={MOCK_ENGLAND_DATA}
           groupIndicatorData={MOCK_PARENT_DATA}
@@ -372,6 +398,7 @@ describe('Line chart table suite', () => {
     it('should not render the parent area heading when not passed parentData', () => {
       render(
         <LineChartTable
+          title={'Title'}
           healthIndicatorData={mockHealthData}
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
@@ -385,6 +412,7 @@ describe('Line chart table suite', () => {
     it('should render the parent expect number of cells elements', () => {
       render(
         <LineChartTable
+          title={'Title'}
           healthIndicatorData={mockHealthData}
           englandIndicatorData={MOCK_ENGLAND_DATA}
           groupIndicatorData={MOCK_PARENT_DATA}
@@ -399,6 +427,7 @@ describe('Line chart table suite', () => {
     it('should not render the group column when the area selected is England', () => {
       render(
         <LineChartTable
+          title={'Title'}
           healthIndicatorData={[MOCK_ENGLAND_DATA]}
           groupIndicatorData={MOCK_PARENT_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
@@ -469,6 +498,7 @@ describe('Line chart table suite', () => {
     it('should not render the benchmark column', () => {
       render(
         <LineChartTable
+          title={'Title'}
           healthIndicatorData={[mockHealthData[0]]}
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
@@ -501,6 +531,7 @@ describe('Line chart table suite', () => {
 
       render(
         <LineChartTable
+          title={'Title'}
           healthIndicatorData={[mockHealthArea1, mockHealthArea2]}
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
@@ -550,6 +581,7 @@ describe('Line chart table suite', () => {
 
       render(
         <LineChartTable
+          title={'Title'}
           healthIndicatorData={MOCK_HEALTH_DATA}
           englandIndicatorData={mockBenchmarkAreaWithEarlyYear}
           groupIndicatorData={mockGroupAreaWithLateYear}

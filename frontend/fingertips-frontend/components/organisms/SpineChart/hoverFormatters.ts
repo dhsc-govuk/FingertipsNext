@@ -1,4 +1,8 @@
-import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client';
+import {
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
+} from '@/generated-sources/ft-api-client';
+import { getBenchmarkLabel } from '@/lib/chartHelpers/chartHelpers';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 import { formatNumber } from '@/lib/numberFormatter';
 
@@ -13,7 +17,7 @@ function benchmarkComparisonMethodToString(
     case BenchmarkComparisonMethod.Quintiles:
       return 'Highest quintile';
     default:
-      return 'Not compared';
+      return '';
   }
 }
 
@@ -51,7 +55,17 @@ interface FormatSymbolHoverProps {
 }
 
 function formatSymbol(colour: string, shape: SymbolsEnum) {
-  return `<div style="color:${colour}; font-size:19px;">${shape}</div>`;
+  const shadowStyle = `text-shadow:
+                        0 0 1.5px #000,
+                        0 0 1.5px #000,
+                        0 0 1.5px #000,
+                        0 0 1.5px #000;`;
+
+  return `<div style="color:${colour}; font-size:30px;
+            ${shape !== SymbolsEnum.PlotLine ? shadowStyle : ''} 
+          ">
+            ${shape}
+          </div>`;
 }
 
 function hoverTemplate(
@@ -106,19 +120,9 @@ export function formatBarHover(props: FormatBarHoverProps) {
 }
 
 export function formatSymbolHover(props: FormatSymbolHoverProps) {
-  let outcomeContent = '';
-
-  if (props.outcome) {
-    if (props.outcome === 'Not compared') {
-      outcomeContent = '<div>Not compared</div>';
-    } else {
-      outcomeContent = `<div>${props.outcome} than ${props.benchmarkName}</div>
-                        <div>${benchmarkComparisonMethodToString(props.benchmarkComparisonMethod)}</div>`;
-    }
-  }
-
   const mainContent = `<div>${formatNumber(props.value)}${formatUnits(props.units)}</div>
-                      ${outcomeContent}`;
+                      ${getBenchmarkLabel(props.benchmarkComparisonMethod, props.outcome as BenchmarkOutcome, props.benchmarkName)}
+                      <div>${benchmarkComparisonMethodToString(props.benchmarkComparisonMethod)}</div>`;
 
   return hoverTemplate(
     formatTitleBlock(props.title, props.period, props.indicatorName),
