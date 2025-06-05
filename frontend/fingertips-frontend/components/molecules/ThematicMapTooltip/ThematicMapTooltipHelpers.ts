@@ -20,10 +20,10 @@ export function getAreaTitle(areaName: string, tooltipType: TooltipType) {
 }
 
 export function getComparisonString(
-  benchmarkComparisonMethod: BenchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
   benchmarkOutcome: BenchmarkOutcome | undefined,
   tooltipType: TooltipType,
-  benchmarkAreaName?: string
+  benchmarkAreaName?: string,
+  benchmarkComparisonMethod: BenchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown
 ) {
   if (tooltipType === 'benchmark') return;
   const benchmarkConfidenceLimit = getConfidenceLimitNumber(
@@ -98,7 +98,9 @@ export function getValueString(
     case value === undefined:
       return 'No data available';
     case typeof value === 'number':
-      return `${formatNumber(value)}${measurementUnit ? ` ${measurementUnit}` : ''}`;
+      return measurementUnit
+        ? `${formatNumber(value)} ${measurementUnit}`
+        : `${formatNumber(value)}`;
     case value === BenchmarkOutcome.NotCompared:
       return 'Not compared';
     default:

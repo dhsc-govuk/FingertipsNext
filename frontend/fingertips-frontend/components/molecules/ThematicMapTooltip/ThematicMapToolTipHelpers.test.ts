@@ -29,10 +29,10 @@ describe('getAreaTitle', () => {
 describe('getComparisonString', () => {
   it('should return undefined for a benchmark', () => {
     const result = getComparisonString(
-      'CIOverlappingReferenceValue95',
       'Best',
       'benchmark',
-      'test area'
+      'test area',
+      'CIOverlappingReferenceValue95'
     );
 
     expect(result).toBeUndefined();
@@ -65,10 +65,10 @@ describe('getComparisonString', () => {
       const stubBenchmarkAreaName = 'Test Area';
 
       const result = getComparisonString(
-        stubBenchmarkComparisonMethod,
         stubBenchmarkOutcome,
         'area',
-        stubBenchmarkAreaName
+        stubBenchmarkAreaName,
+        stubBenchmarkComparisonMethod
       );
       if (
         stubBenchmarkOutcome &&
@@ -100,10 +100,10 @@ describe('getComparisonString', () => {
       const stubBenchmarkAreaName = 'Test Area';
 
       const result = getComparisonString(
-        stubBenchmarkComparisonMethod,
         stubBenchmarkOutcome,
         'area',
-        stubBenchmarkAreaName
+        stubBenchmarkAreaName,
+        stubBenchmarkComparisonMethod
       );
 
       expect(result).toContain(' quintile');

@@ -44,19 +44,19 @@ export function ThematicMapTooltip({
     )[0] ?? undefined;
 
   const comparisonTextForArea = getComparisonString(
-    benchmarkComparisonMethod || BenchmarkComparisonMethod.Unknown,
     mostRecentDataPointForArea?.benchmarkComparison?.outcome ?? undefined,
     'area',
-    mostRecentDataPointForArea?.benchmarkComparison?.benchmarkAreaName
+    mostRecentDataPointForArea?.benchmarkComparison?.benchmarkAreaName,
+    benchmarkComparisonMethod || BenchmarkComparisonMethod.Unknown
   );
   const comparisonTextForComparator =
     indicatorDataForComparator?.areaCode !== areaCodeForEngland
       ? getComparisonString(
-          benchmarkComparisonMethod || BenchmarkComparisonMethod.Unknown,
           mostRecentDataPointForComparator?.benchmarkComparison?.outcome,
           'comparator',
           mostRecentDataPointForComparator?.benchmarkComparison
-            ?.benchmarkAreaName
+            ?.benchmarkAreaName,
+          benchmarkComparisonMethod || BenchmarkComparisonMethod.Unknown
         )
       : undefined;
 

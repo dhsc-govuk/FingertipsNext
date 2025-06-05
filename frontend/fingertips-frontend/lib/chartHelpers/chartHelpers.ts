@@ -63,8 +63,10 @@ export function sortHealthDataByYearDescending(
   }));
 }
 
-export function sortHealthDataPointsByDescendingYear(data: HealthDataPoint[]) {
-  if (data.length === 0) {
+export function sortHealthDataPointsByDescendingYear(
+  data: HealthDataPoint[] | undefined
+) {
+  if (!data || data.length === 0) {
     return [];
   }
   return data.toSorted((a, b) => b.year - a.year);
