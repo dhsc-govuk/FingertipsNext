@@ -244,12 +244,7 @@ paths:
       summary: Get health data for an indicator
       description:
         Get data for a public health indicator. This will return all data for
-        all requested areas and all time periods for the specified indicator and for a single 
-        period-type e.g. Calendar year. Optionally filter the results by 
-        supplying to and from time periods in the query string. If the 
-        Indicator supports data for more than one time period type, the 
-        period_type query parameter can be used to specify which period type to
-        return data for.
+        all requested areas and all time periods for the specified indicator. 
 
         The returned data will include a benchmark comparison against either England or an ancestor area
         group, depending on the benchmark_ref_type and ancestor_code parameters.
@@ -259,7 +254,7 @@ paths:
       responses:
         "200":
           description:
-            Data containing the health data points for the indicator, time period
+            Data containing the health data points for the indicator
             and geographical areas requested
           content:
             application/json:
@@ -283,9 +278,6 @@ paths:
         - $ref: "#/components/parameters/area_type"
         - $ref: "#/components/parameters/ancestor_code"
         - $ref: "#/components/parameters/benchmark_ref_type"
-        - $ref: "#/components/parameters/from_date"
-        - $ref: "#/components/parameters/to_date"
-        - $ref: "#/components/parameters/period_type"
         - $ref: "#/components/parameters/inequalities"
         - $ref: "#/components/parameters/latest_only"
       operationId: getHealthDataForAnIndicator
@@ -300,8 +292,8 @@ paths:
         either England or a sub-national area, depending on the 
         benchmark_ref_type parameter. It will use the latest data available 
         for the area group requested. If the indicator has data for 
-        more than one time period type then the period_type query parameter can be 
-        used to specify which period type to return data for.
+        more than one time period type then the API will return data for each
+        data period type separately.
       parameters:
         - name: ancestor_code
           in: query
@@ -337,11 +329,6 @@ paths:
           description: The benchmark reference type
           schema:
             $ref: "#/components/schemas/BenchmarkReferenceType"
-        - name: period_type
-          in: query
-          description: The date period type to return data for
-          schema:
-            $ref: "#/components/schemas/PeriodType"
       responses:
         "200":
           description: search results matching criteria
@@ -572,8 +559,7 @@ components:
         period_types:
           type: array
           items:
-            type: string
-            example: "Calendar"
+            $ref: "#/components/schemas/PeriodType"
           description: The period types that the indicator holds data for
     HealthDataPoint:
       type: object
@@ -589,12 +575,14 @@ components:
         - trend
         - deprivation
       properties:
-        from-date:
+        fromDate:
           $ref: "#/components/schemas/Date"
           example: "2023-01-01"
-        to-date:
+        toDate:
           $ref: "#/components/schemas/Date"
           example: "2023-12-31"
+        periodType:
+          $ref: "#/components/schemas/PeriodType"
         count:
           type: number
           example: 222
@@ -750,8 +738,6 @@ components:
           $ref: "#/components/schemas/IndicatorPolarity"
         benchmarkMethod:
           $ref: "#/components/schemas/BenchmarkComparisonMethod"
-        periodType:
-          $ref: "#/components/schemas/PeriodType"
         areaHealthData:
           type: array
           items:
@@ -772,6 +758,10 @@ components:
           $ref: "#/components/schemas/Date"
           example: "2023-12-31"
           description: The end date for the data, in ISO 8601 format (YYYY-MM-DD)
+        periodType:
+          $ref: "#/components/schemas/PeriodType"
+          example: Calendar
+          description: The type of date period the data is for, e.g. Calendar or Financial year
         polarity:
           $ref: "#/components/schemas/IndicatorPolarity"
         q0Value:
