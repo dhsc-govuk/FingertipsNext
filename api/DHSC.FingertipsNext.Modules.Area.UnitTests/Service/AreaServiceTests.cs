@@ -1,12 +1,12 @@
-﻿using DHSC.FingertipsNext.Modules.AreaData.Repository;
-using DHSC.FingertipsNext.Modules.AreaData.Repository.Models;
-using DHSC.FingertipsNext.Modules.AreaData.Schemas;
-using DHSC.FingertipsNext.Modules.AreaData.Service;
-using DHSC.FingertipsNext.Modules.AreaData.UnitTests.Fakers;
+﻿using DHSC.FingertipsNext.Modules.Area.Repository;
+using DHSC.FingertipsNext.Modules.Area.Repository.Models;
+using DHSC.FingertipsNext.Modules.Area.Schemas;
+using DHSC.FingertipsNext.Modules.Area.Service;
+using DHSC.FingertipsNext.Modules.Area.UnitTests.Fakers;
 using NSubstitute;
 using Shouldly;
 
-namespace DHSC.FingertipsNext.Modules.AreaData.UnitTests.Service;
+namespace DHSC.FingertipsNext.Modules.Area.UnitTests.Service;
 
 /// <summary>
 ///

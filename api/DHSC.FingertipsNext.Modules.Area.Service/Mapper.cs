@@ -1,15 +1,15 @@
-﻿using DHSC.FingertipsNext.Modules.AreaData.Repository.Models;
-using DHSC.FingertipsNext.Modules.AreaData.Schemas;
+﻿using DHSC.FingertipsNext.Modules.Area.Repository.Models;
+using DHSC.FingertipsNext.Modules.Area.Schemas;
 
-namespace DHSC.FingertipsNext.Modules.AreaData.Service;
+namespace DHSC.FingertipsNext.Modules.Area.Service;
 
 public interface IAreaMapper
 {
     AreaType Map(AreaTypeModel source);
     IList<AreaType> Map(IList<AreaTypeModel> source);
     AreaWithRelations Map(AreaWithRelationsModel source);
-    Schemas.Area Map(AreaModel source);
-    IList<Schemas.Area> Map(IList<AreaModel> source);
+    Schemas.AreaData Map(AreaModel source);
+    IList<Schemas.AreaData> Map(IList<AreaModel> source);
     RootArea MapToRootArea(AreaModel source);
 }
 
@@ -48,10 +48,10 @@ public class AreaMapper : IAreaMapper
         };
     }
 
-    public Schemas.Area Map(AreaModel source)
+    public Schemas.AreaData Map(AreaModel source)
     {
         ArgumentNullException.ThrowIfNull(source);
-        return new Schemas.Area
+        return new Schemas.AreaData
         {
             Code = source.AreaCode,
             Name = source.AreaName,
@@ -59,7 +59,7 @@ public class AreaMapper : IAreaMapper
         };
     }
 
-    public IList<Schemas.Area> Map(IList<AreaModel> source)
+    public IList<Schemas.AreaData> Map(IList<AreaModel> source)
     {
         return source.Select(Map).ToList();
     }

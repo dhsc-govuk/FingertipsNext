@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DHSC.FingertipsNext.Modules.AreaData.Repository.Models;
+namespace DHSC.FingertipsNext.Modules.Area.Repository.Models;
 
 /// <summary>
 /// A denormalised version of area and area type 

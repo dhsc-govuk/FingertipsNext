@@ -1,4 +1,4 @@
-﻿namespace DHSC.FingertipsNext.Modules.AreaData.Repository;
+﻿namespace DHSC.FingertipsNext.Modules.Area.Repository;
 
 public static class InternalHierarchyTypes
 {

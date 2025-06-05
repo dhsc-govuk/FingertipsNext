@@ -1,9 +1,9 @@
-﻿using DHSC.FingertipsNext.Modules.AreaData.Repository.Models;
-using DHSC.FingertipsNext.Modules.AreaData.Service;
-using DHSC.FingertipsNext.Modules.AreaData.UnitTests.Fakers;
+﻿using DHSC.FingertipsNext.Modules.Area.Repository.Models;
+using DHSC.FingertipsNext.Modules.Area.Service;
+using DHSC.FingertipsNext.Modules.Area.UnitTests.Fakers;
 using Shouldly;
 
-namespace DHSC.FingertipsNext.Modules.AreaData.UnitTests.Service;
+namespace DHSC.FingertipsNext.Modules.Area.UnitTests.Service;
 
 public class AreaMapperTests
 {
@@ -111,7 +111,7 @@ public class AreaMapperTests
 
     #endregion
 
-    static void AssertAreaPropertiesMatch(Schemas.Area area, AreaModel areaModel, bool canBeNull = false)
+    static void AssertAreaPropertiesMatch(Schemas.AreaData area, AreaModel areaModel, bool canBeNull = false)
     {
         if (area == null && areaModel == null && canBeNull)
             return;
@@ -132,7 +132,7 @@ public class AreaMapperTests
         }
     }
 
-    static void AssertAreaListsAreEquivalent(IList<Schemas.Area> mappedAreas, IList<AreaModel> modelAreas)
+    static void AssertAreaListsAreEquivalent(IList<Schemas.AreaData> mappedAreas, IList<AreaModel> modelAreas)
     {
         mappedAreas.Count.ShouldBe(modelAreas.Count);
 

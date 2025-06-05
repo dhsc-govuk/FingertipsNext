@@ -1,7 +1,7 @@
-﻿using DHSC.FingertipsNext.Modules.AreaData.Controllers;
+﻿using DHSC.FingertipsNext.Modules.Area.Controllers;
 using Microsoft.Extensions.Configuration;
 
-namespace DHSC.FingertipsNext.Modules.AreaData;
+namespace DHSC.FingertipsNext.Modules.Area;
 
 /// <summary>
 /// 

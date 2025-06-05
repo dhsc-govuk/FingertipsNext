@@ -1,4 +1,4 @@
-﻿namespace DHSC.FingertipsNext.Modules.AreaData.Controllers;
+﻿namespace DHSC.FingertipsNext.Modules.Area.Controllers;
 
 /// <summary>
 /// 

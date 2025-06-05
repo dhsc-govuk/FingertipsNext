@@ -1,6 +1,6 @@
-﻿using DHSC.FingertipsNext.Modules.AreaData.Schemas;
+﻿using DHSC.FingertipsNext.Modules.Area.Schemas;
 
-namespace DHSC.FingertipsNext.Modules.AreaData.Service;
+namespace DHSC.FingertipsNext.Modules.Area.Service;
 
 /// <summary>
 ///
@@ -18,7 +18,7 @@ public interface IAreaService
     /// </summary>
     /// <param name="areaCodes"></param>
     /// <returns>List of areas requested</returns>
-    public Task<IList<Schemas.Area>> GetMultipleAreaDetails(string[] areaCodes);
+    public Task<IList<Schemas.AreaData>> GetMultipleAreaDetails(string[] areaCodes);
 
     /// <summary>
     /// Get area types, optionally filtering by hierarchy type
@@ -50,7 +50,7 @@ public interface IAreaService
     /// </summary>
     /// <param name="areaTypeKey"></param>
     /// <returns></returns>
-    public Task<IList<Schemas.Area>> GetAreaDetailsForAreaType(string areaTypeKey);
+    public Task<IList<Schemas.AreaData>> GetAreaDetailsForAreaType(string areaTypeKey);
 
     /// <summary>
     /// Get the root node of the area hierarchy

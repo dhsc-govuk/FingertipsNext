@@ -1,8 +1,8 @@
-﻿using DHSC.FingertipsNext.Modules.AreaData.Repository;
-using DHSC.FingertipsNext.Modules.AreaData.Schemas;
+﻿using DHSC.FingertipsNext.Modules.Area.Repository;
+using DHSC.FingertipsNext.Modules.Area.Schemas;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DHSC.FingertipsNext.Modules.AreaData.Service;
+namespace DHSC.FingertipsNext.Modules.Area.Service;
 
 /// <summary>
 ///
@@ -35,7 +35,7 @@ public class AreaService : IAreaService
     /// </summary>
     /// <param name="areaCodes"></param>
     /// <returns>List of areas requested</returns>
-    public async Task<IList<Schemas.Area>> GetMultipleAreaDetails(string[] areaCodes)
+    public async Task<IList<Schemas.AreaData>> GetMultipleAreaDetails(string[] areaCodes)
     {
         return _areaMapper.Map(await _areaRepository.GetMultipleAreaDetailsAsync(areaCodes));
     }
@@ -78,7 +78,7 @@ public class AreaService : IAreaService
     /// </summary>
     /// <param name="areaTypeKey"></param>
     /// <returns></returns>
-    public async Task<IList<Schemas.Area>> GetAreaDetailsForAreaType(string areaTypeKey)
+    public async Task<IList<Schemas.AreaData>> GetAreaDetailsForAreaType(string areaTypeKey)
     {
         var areas = await _areaRepository.GetAreasForAreaTypeAsync(areaTypeKey);
 

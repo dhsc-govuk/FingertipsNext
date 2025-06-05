@@ -1,11 +1,11 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace DHSC.FingertipsNext.Modules.AreaData.Schemas;
+namespace DHSC.FingertipsNext.Modules.Area.Schemas;
 
 /// <summary>
 /// A area or geography that has associated public health data
 /// </summary>
-public class Area
+public class AreaData
 {
     /// <summary>
     /// The unique area code of the area / geography
