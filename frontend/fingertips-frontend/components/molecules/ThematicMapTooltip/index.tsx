@@ -5,7 +5,11 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { sortHealthDataPointsByDescendingYear } from '@/lib/chartHelpers/chartHelpers';
-import { getComparisonString } from './ThematicMapTooltipHelpers';
+import {
+  getAreaTitle,
+  getComparisonString,
+  getValueString,
+} from './ThematicMapTooltipHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 interface BenchmarkTooltipProps {
@@ -28,7 +32,7 @@ export function ThematicMapTooltip({
   const mostRecentDataPointForArea = sortHealthDataPointsByDescendingYear(
     indicatorData.healthData
   )[0];
-  const mostRecentDataPointForGroup =
+  const mostRecentDataPointForComparator =
     indicatorDataForComparator?.healthData.filter(
       (area) => area.year === mostRecentDataPointForArea?.year
     )[0] ?? undefined;
@@ -40,46 +44,64 @@ export function ThematicMapTooltip({
   const comparisonTextForArea = getComparisonString(
     benchmarkComparisonMethod || BenchmarkComparisonMethod.Unknown,
     mostRecentDataPointForArea?.benchmarkComparison?.outcome ?? undefined,
+    'area',
     mostRecentDataPointForArea?.benchmarkComparison?.benchmarkAreaName
   );
-  const comparisonTextForGroup =
+  const comparisonTextForComparator =
     indicatorDataForComparator?.areaCode !== areaCodeForEngland
       ? getComparisonString(
           benchmarkComparisonMethod || BenchmarkComparisonMethod.Unknown,
-          mostRecentDataPointForGroup?.benchmarkComparison?.outcome,
-          mostRecentDataPointForGroup?.benchmarkComparison?.benchmarkAreaName
+          mostRecentDataPointForComparator?.benchmarkComparison?.outcome,
+          'comparator',
+          mostRecentDataPointForComparator?.benchmarkComparison
+            ?.benchmarkAreaName
         )
       : undefined;
+
+  const valueStringForArea = getValueString(
+    mostRecentDataPointForArea?.value,
+    measurementUnit
+  );
+
+  const valueStringForComparator = getValueString(
+    mostRecentDataPointForComparator?.value,
+    measurementUnit
+  );
+
+  const valueStringForBenchmark = getValueString(
+    mostRecentDataPointForBenchmark?.value,
+    measurementUnit
+  );
 
   return (
     <div style={{ width: 185, fontSize: '16px' }}>
       {indicatorDataForBenchmark ? (
         <BenchmarkTooltipArea
-          areaName={indicatorDataForBenchmark.areaName}
+          titleText={getAreaTitle(
+            indicatorDataForBenchmark.areaName,
+            'benchmark'
+          )}
           year={mostRecentDataPointForBenchmark?.year ?? undefined}
-          value={mostRecentDataPointForBenchmark?.value ?? undefined}
-          measurementUnit={measurementUnit}
-          tooltipType={'benchmark'}
+          valueText={valueStringForBenchmark}
         />
       ) : null}
       {indicatorDataForComparator ? (
         <BenchmarkTooltipArea
-          areaName={indicatorDataForComparator?.areaName}
+          titleText={getAreaTitle(
+            indicatorDataForComparator?.areaName,
+            'comparator'
+          )}
           year={mostRecentDataPointForArea?.year ?? undefined}
-          value={mostRecentDataPointForGroup?.value}
-          measurementUnit={measurementUnit}
-          comparisonText={comparisonTextForGroup}
-          tooltipType={'comparator'}
+          valueText={valueStringForComparator}
+          comparisonText={comparisonTextForComparator}
         />
       ) : null}
 
       <BenchmarkTooltipArea
-        areaName={indicatorData.areaName}
+        titleText={getAreaTitle(indicatorData.areaName, 'area')}
         year={mostRecentDataPointForArea?.year ?? undefined}
-        value={mostRecentDataPointForArea?.value ?? undefined}
-        measurementUnit={measurementUnit}
+        valueText={valueStringForArea}
         comparisonText={comparisonTextForArea}
-        tooltipType={'area'}
       />
     </div>
   );

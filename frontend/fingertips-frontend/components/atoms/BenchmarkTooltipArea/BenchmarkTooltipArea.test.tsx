@@ -14,134 +14,22 @@ import { GovukColours } from '@/lib/styleHelpers/colours';
 import { BenchmarkTooltipArea } from '@/components/atoms/BenchmarkTooltipArea/index';
 
 // TODO: add symbols to these tests
+// TODO: add symbol colours to these tests
 describe('BenchmarkTooltipArea', () => {
   describe('areas', () => {
     it('should render the expected tooltip for an area', () => {
       render(
         <BenchmarkTooltipArea
-          areaName="Test Area"
+          titleText="Test Area"
           year={1976}
-          value={333}
-          measurementUnit="Mpa"
-          tooltipType={'area'}
+          valueText={'some string'}
           comparisonText="test text"
         />
       );
       expect(screen.getByText('Test Area')).toBeInTheDocument();
       expect(screen.getByText('1976')).toBeInTheDocument();
-      expect(screen.getByText(RegExp(formatNumber(333)))).toBeInTheDocument();
-      expect(screen.getByText(RegExp('Mpa'))).toBeInTheDocument();
+      expect(screen.getByText('some string')).toBeInTheDocument();
       expect(screen.getByText('test text')).toBeInTheDocument();
-    });
-
-    it('should render the expected tooltip when there is no data', () => {
-      render(
-        <BenchmarkTooltipArea
-          areaName="Test Area"
-          year={1976}
-          value={undefined}
-          measurementUnit="Mpa"
-          tooltipType={'area'}
-        />
-      );
-      expect(screen.getByText('Test Area')).toBeInTheDocument();
-      expect(screen.getByText('No data available')).toBeInTheDocument();
-    });
-  });
-
-  describe('benchmarks', () => {
-    it('should render the expected tooltip for a benchmark of England', () => {
-      render(
-        <BenchmarkTooltipArea
-          areaName="England"
-          year={1976}
-          value={333}
-          measurementUnit="Mpa"
-          tooltipType={'benchmark'}
-        />
-      );
-      expect(screen.getByText('Benchmark: England')).toBeInTheDocument();
-      expect(screen.getByText('1976')).toBeInTheDocument();
-      expect(screen.getByText(RegExp(formatNumber(333)))).toBeInTheDocument();
-      expect(screen.getByText(RegExp('Mpa'))).toBeInTheDocument();
-    });
-
-    it('should render the expected tooltip for a Benchmark which is not England', () => {
-      render(
-        <BenchmarkTooltipArea
-          areaName="Benchmark Area"
-          year={1976}
-          value={333}
-          measurementUnit="Mpa"
-          tooltipType={'benchmark'}
-        />
-      );
-      expect(screen.getByText('Benchmark: Benchmark Area')).toBeInTheDocument();
-      expect(screen.getByText('1976')).toBeInTheDocument();
-      expect(screen.getByText(RegExp(formatNumber(333)))).toBeInTheDocument();
-      expect(screen.getByText(RegExp('Mpa'))).toBeInTheDocument();
-    });
-
-    it('should render the expected tooltip when there is no data', () => {
-      render(
-        <BenchmarkTooltipArea
-          areaName="Benchmark Area"
-          year={1976}
-          value={undefined}
-          measurementUnit="Mpa"
-          tooltipType={'benchmark'}
-        />
-      );
-      expect(screen.getByText('Benchmark: Benchmark Area')).toBeInTheDocument();
-      expect(screen.getByText('No data available')).toBeInTheDocument();
-    });
-  });
-
-  describe('group comparators', () => {
-    it('should render the expected tooltip for a group', () => {
-      render(
-        <BenchmarkTooltipArea
-          areaName="Comparator Area"
-          year={1976}
-          value={333}
-          measurementUnit="Mpa"
-          tooltipType={'comparator'}
-        />
-      );
-      expect(screen.getByText('Group: Comparator Area')).toBeInTheDocument();
-      expect(screen.getByText('1976')).toBeInTheDocument();
-      expect(screen.getByText(RegExp(formatNumber(333)))).toBeInTheDocument();
-      expect(screen.getByText(RegExp('Mpa'))).toBeInTheDocument();
-    });
-
-    it('should render the expected tooltip for a comparator of England', () => {
-      render(
-        <BenchmarkTooltipArea
-          areaName="England"
-          year={1976}
-          value={333}
-          measurementUnit="Mpa"
-          tooltipType={'comparator'}
-        />
-      );
-      expect(screen.getByText('England')).toBeInTheDocument();
-      expect(screen.getByText('1976')).toBeInTheDocument();
-      expect(screen.getByText(RegExp(formatNumber(333)))).toBeInTheDocument();
-      expect(screen.getByText(RegExp('Mpa'))).toBeInTheDocument();
-    });
-
-    it('should render the expected comparator tooltip when there is no data', () => {
-      render(
-        <BenchmarkTooltipArea
-          areaName="Comparator Area"
-          year={1976}
-          value={undefined}
-          measurementUnit="Mpa"
-          tooltipType={'comparator'}
-        />
-      );
-      expect(screen.getByText('Group: Comparator Area')).toBeInTheDocument();
-      expect(screen.getByText('No data available')).toBeInTheDocument();
     });
   });
 });
@@ -214,7 +102,7 @@ describe.skip('OLD_BenchmarkTooltipArea', () => {
 
       render(
         <BenchmarkTooltipArea
-          areaName={testIndicatorDataForArea.areaName}
+          titleText={testIndicatorDataForArea.areaName}
           year={testIndicatorDataForArea.healthData[0].year}
           value={testIndicatorDataForArea.healthData[0].value}
           measurementUnit={mockUnits}
@@ -258,7 +146,7 @@ describe.skip('OLD_BenchmarkTooltipArea', () => {
 
     render(
       <BenchmarkTooltipArea
-        areaName={testIndicatorDataForArea.areaName}
+        titleText={testIndicatorDataForArea.areaName}
         year={undefined}
         value={undefined}
         measurementUnit={mockUnits}
@@ -306,7 +194,7 @@ describe.skip('OLD_BenchmarkTooltipArea', () => {
 
       render(
         <BenchmarkTooltipArea
-          areaName={testIndicatorDataForArea.areaName}
+          titleText={testIndicatorDataForArea.areaName}
           year={testIndicatorDataForArea.healthData[0].year}
           value={testIndicatorDataForArea.healthData[0].value}
           measurementUnit={mockUnits}
@@ -341,7 +229,7 @@ describe.skip('OLD_BenchmarkTooltipArea', () => {
   it('should include Group when passed a RAG group', () => {
     render(
       <BenchmarkTooltipArea
-        areaName={mockIndicatorData.areaName}
+        titleText={mockIndicatorData.areaName}
         year={mockIndicatorData.healthData[0].year}
         value={mockIndicatorData.healthData[0].value}
         measurementUnit={mockUnits}
@@ -354,7 +242,7 @@ describe.skip('OLD_BenchmarkTooltipArea', () => {
   it.skip('should include Benchmark and only required elements when passed a RAG benchmark', () => {
     render(
       <BenchmarkTooltipArea
-        areaName={mockBenchmarkArea}
+        titleText={mockBenchmarkArea}
         year={mockIndicatorData.healthData[0].year}
         value={mockIndicatorData.healthData[0].value}
         measurementUnit={mockUnits}
@@ -370,7 +258,7 @@ describe.skip('OLD_BenchmarkTooltipArea', () => {
   it('should not include comparison text when tooltipType is comparator and area is England', () => {
     render(
       <BenchmarkTooltipArea
-        areaName={mockBenchmarkArea}
+        titleText={mockBenchmarkArea}
         year={mockIndicatorData.healthData[0].year}
         value={mockIndicatorData.healthData[0].value}
         measurementUnit={mockUnits}

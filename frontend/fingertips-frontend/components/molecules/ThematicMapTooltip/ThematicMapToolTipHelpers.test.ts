@@ -2,8 +2,12 @@ import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
 } from '@/generated-sources/ft-api-client';
-import { getAreaTitle, getComparisonString } from './ThematicMapTooltipHelpers';
-import { TooltipType } from '@/components/atoms/BenchmarkTooltipArea';
+import {
+  getAreaTitle,
+  getComparisonString,
+  getValueString as getValueText,
+  TooltipType,
+} from './ThematicMapTooltipHelpers';
 
 describe('getAreaTitle', () => {
   it.each([
@@ -21,6 +25,16 @@ describe('getAreaTitle', () => {
 });
 
 describe('getComparisonString', () => {
+  it('should return undefined for a benchmark', () => {
+    const result = getComparisonString(
+      'CIOverlappingReferenceValue95',
+      'Best',
+      'benchmark',
+      'test area'
+    );
+
+    expect(result).toBeUndefined();
+  });
   it.each([
     [
       BenchmarkOutcome.NotCompared,
@@ -51,6 +65,7 @@ describe('getComparisonString', () => {
       const result = getComparisonString(
         stubBenchmarkComparisonMethod,
         stubBenchmarkOutcome,
+        'area',
         stubBenchmarkAreaName
       );
       if (
@@ -77,7 +92,7 @@ describe('getComparisonString', () => {
     [BenchmarkOutcome.Best],
     [BenchmarkOutcome.Worst],
   ])(
-    'should return the correct comparison string for Quntiles',
+    'should return the correct comparison string for Quintiles',
     (stubBenchmarkOutcome: BenchmarkOutcome) => {
       const stubBenchmarkComparisonMethod = BenchmarkComparisonMethod.Quintiles;
       const stubBenchmarkAreaName = 'Test Area';
@@ -85,10 +100,32 @@ describe('getComparisonString', () => {
       const result = getComparisonString(
         stubBenchmarkComparisonMethod,
         stubBenchmarkOutcome,
+        'area',
         stubBenchmarkAreaName
       );
 
       expect(result).toContain(' quintile');
+    }
+  );
+});
+
+describe('getValueText', () => {
+  it.each([
+    [10, '10.0 Mpa', 'Mpa'],
+    [undefined, 'No data available', undefined],
+    [10, '10.0', undefined],
+    [BenchmarkOutcome.Better, 'Better', undefined],
+    [BenchmarkOutcome.NotCompared, 'Not compared', undefined],
+  ])(
+    'should return the expected value string',
+    (
+      value: number | BenchmarkOutcome | undefined,
+      expected: string,
+      measurementUnit: string | undefined
+    ) => {
+      const result = getValueText(value, measurementUnit);
+
+      expect(result).toEqual(expected);
     }
   );
 });

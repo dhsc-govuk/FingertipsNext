@@ -1,35 +1,16 @@
-import { getAreaTitle } from '@/components/molecules/ThematicMapTooltip/ThematicMapTooltipHelpers';
-import { BenchmarkOutcome } from '@/generated-sources/ft-api-client';
-import { formatNumber } from '@/lib/numberFormatter';
-
-export type TooltipType = 'area' | 'benchmark' | 'comparator';
-
 interface BenchmarkTooltipArea {
-  areaName: string;
+  titleText: string;
   year: number | undefined;
-  value: number | BenchmarkOutcome | undefined;
-  measurementUnit: string | undefined;
-  tooltipType: TooltipType;
+  valueText: string | undefined;
   comparisonText?: string;
 }
 
 export function BenchmarkTooltipArea({
-  areaName,
+  titleText,
   year,
-  value,
-  measurementUnit,
+  valueText,
   comparisonText,
-  tooltipType,
 }: Readonly<BenchmarkTooltipArea>) {
-  // const benchmarkOutcome =
-  //   mostRecentDataPoint?.benchmarkComparison?.outcome ??
-  //   BenchmarkOutcome.NotCompared;
-
-  // const areaMarkerSymbol = getAreaMarkerSymbol(
-  //   mostRecentDataPoint,
-  //   benchmarkComparisonMethod
-  // );
-
   // let benchmarkColour: string | undefined = GovukColours.Black;
   // if (
   //   tooltipType !== 'benchmark' &&
@@ -52,26 +33,13 @@ export function BenchmarkTooltipArea({
 
   // TODO: refactor to use styled components
 
-  const formatedValue = (() => {
-    switch (true) {
-      case value === undefined:
-        return 'No data available';
-      case typeof value === 'number':
-        return `${formatNumber(value)}${measurementUnit ? ` ${measurementUnit}` : ''}`;
-      case value === BenchmarkOutcome.NotCompared:
-        return 'Not compared';
-      default:
-        return value;
-    }
-  })();
-
   return (
     <div
       data-testid={'benchmark-tooltip-area'} // TODO: change this name?
       style={{ marginBlock: '10px', textWrap: 'wrap' }}
     >
       <div>
-        <b>{getAreaTitle(areaName, tooltipType)}</b>
+        <b>{titleText}</b>
         <p style={{ marginBlock: 0 }}>{year}</p>
       </div>
       <div
@@ -94,15 +62,8 @@ export function BenchmarkTooltipArea({
         </div>
 
         <div style={{ marginTop: '5px' }}>
-          <span style={{ display: 'block' }}>{formatedValue}</span>
-          {tooltipType !== 'benchmark'
-            ? comparisonText
-            : // getComparisonText(
-              //     benchmarkArea,
-              //     benchmarkComparisonMethod,
-              //     mostRecentDataPoint?.benchmarkComparison?.outcome ?? undefined
-              //   )
-              null}
+          <span style={{ display: 'block' }}>{valueText}</span>
+          {comparisonText}
         </div>
       </div>
     </div>

@@ -222,6 +222,8 @@ describe('ThematicMapTooltip', () => {
       />
     );
 
+    screen.debug();
+
     expect(screen.getAllByText('No data available')).toHaveLength(1);
     // Area Names
     expect(

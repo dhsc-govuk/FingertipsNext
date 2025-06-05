@@ -1,4 +1,3 @@
-import { TooltipType } from '@/components/atoms/BenchmarkTooltipArea';
 import {
   HealthDataPoint,
   BenchmarkComparisonMethod,
@@ -6,6 +5,9 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { getConfidenceLimitNumber } from '@/lib/chartHelpers/chartHelpers';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
+import { formatNumber } from '@/lib/numberFormatter';
+
+export type TooltipType = 'area' | 'benchmark' | 'comparator';
 
 export function getAreaTitle(areaName: string, tooltipType: TooltipType) {
   switch (tooltipType) {
@@ -21,8 +23,10 @@ export function getAreaTitle(areaName: string, tooltipType: TooltipType) {
 export function getComparisonString(
   benchmarkComparisonMethod: BenchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
   benchmarkOutcome: BenchmarkOutcome | undefined,
+  tooltipType: TooltipType,
   benchmarkAreaName?: string
 ) {
+  if (tooltipType === 'benchmark') return;
   const benchmarkConfidenceLimit = getConfidenceLimitNumber(
     benchmarkComparisonMethod
   );
@@ -86,4 +90,20 @@ export function getAreaMarkerSymbol(
         return SymbolsEnum.Circle;
     }
   };
+}
+
+export function getValueString(
+  value: number | BenchmarkOutcome | undefined,
+  measurementUnit?: string
+): string | undefined {
+  switch (true) {
+    case value === undefined:
+      return 'No data available';
+    case typeof value === 'number':
+      return `${formatNumber(value)}${measurementUnit ? ` ${measurementUnit}` : ''}`;
+    case value === BenchmarkOutcome.NotCompared:
+      return 'Not compared';
+    default:
+      return value;
+  }
 }
