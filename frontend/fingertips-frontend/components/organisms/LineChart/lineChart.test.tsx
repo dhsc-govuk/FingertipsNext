@@ -40,6 +40,7 @@ describe('LineChart', () => {
     act(() => {
       render(
         <LineChart
+          title={'Title'}
           lineChartOptions={lineChartDefaultOptions}
           variant={LineChartVariant.Standard}
         />
@@ -63,6 +64,7 @@ describe('LineChart', () => {
     act(() => {
       render(
         <LineChart
+          title={'Title'}
           lineChartOptions={lineChartOptions}
           variant={LineChartVariant.Standard}
         />
@@ -84,5 +86,19 @@ describe('LineChart', () => {
     expect(lineChartOptions.series[0].events.show).toBeDefined();
     expect(lineChartOptions.series[0].events.hide).toBeDefined();
     expect(lineChartOptions.series[1].visible).toBeFalsy();
+  });
+
+  it('should render a title', async () => {
+    await act(async () => {
+      render(
+        <LineChart
+          title={'This is a line chart'}
+          lineChartOptions={lineChartDefaultOptions}
+          variant={LineChartVariant.Standard}
+        />
+      );
+    });
+
+    expect(screen.getByText(/This is a line chart/)).toBeInTheDocument();
   });
 });
