@@ -1,9 +1,9 @@
 import { CellType } from '../../heatmapUtil';
 import { FC, MouseEventHandler } from 'react';
-import { IndicatorTitleCell } from './indicatorTitleCell';
-import { IndicatorValueUnitCell } from './indicatorValueUnitCell';
-import { IndicatorPeriodCell } from './indicatorPeriodCell';
-import { DataCell } from './dataCell';
+import { IndicatorTitleCell } from './IndicatorTitleCell';
+import { IndicatorValueUnitCell } from './IndicatorValueUnitCell';
+import { IndicatorPeriodCell } from './IndicatorPeriodCell';
+import { DataCell } from './DataCell';
 
 interface HeatmapCellProps {
   cellType: CellType;

@@ -34,6 +34,7 @@ export enum CsvHeader {
   WorstLowest = 'Worst/Lowest',
   BestHighest = 'Best/Highest',
   PersonsComparison = 'Compared to persons',
+  Totals = 'Totals',
 }
 
 export interface CustomOptions extends Options {

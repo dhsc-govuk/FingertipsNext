@@ -10,6 +10,8 @@ interface TabItem {
   content: JSX.Element;
 }
 
+const StyledTabPanel = styled(Tabs.Panel)({ marginBottom: '5px' });
+
 export const TabContainer = ({
   id,
   items,
@@ -28,8 +30,6 @@ export const TabContainer = ({
     event.preventDefault();
     setTabIndex(index);
   };
-
-  const StyledTabPanel = styled(Tabs.Panel)({ marginBottom: '5px' });
 
   return (
     <Tabs data-testid={`tabContainer-${id}`}>
