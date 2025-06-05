@@ -6,6 +6,15 @@ import { InequalitiesChartData } from '@/components/organisms/Inequalities/inequ
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 describe('Inequalities table suite', () => {
+  beforeAll(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2024-12-25T12:00:00Z'));
+  });
+
+  afterAll(() => {
+    jest.useRealTimers();
+  });
+
   const CELLS_PER_ROW = 4;
 
   const tableData: InequalitiesChartData = {

@@ -7,7 +7,11 @@ export const ExportPreviewCanvasDiv = styled.div({
   borderColor: GovukColours.MidGrey,
   margin: '1rem 0',
   maxHeight: '50vh',
-  overflow: 'hidden',
+  overflow: 'auto',
+  svg: {
+    width: '100%',
+    height: 'auto',
+  },
 });
 
 export const FlexDiv = styled.div({

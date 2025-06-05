@@ -33,11 +33,14 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { convertLineChartTableToCsvData } from '@/components/organisms/LineChartTable/convertLineChartTableToCsvData';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
+import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
+import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
 import {
   BenchmarkWrapper,
   CellTypeEnum,
   StyledAreaNameHeader,
 } from './BenchmarkingCellWrapper';
+import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
 
 export enum LineChartTableHeadingEnum {
   AreaPeriod = 'Period',
@@ -50,6 +53,7 @@ export enum LineChartTableHeadingEnum {
 }
 
 export interface LineChartTableProps {
+  title: string;
   healthIndicatorData: HealthDataForArea[];
   englandIndicatorData?: HealthDataForArea;
   groupIndicatorData?: HealthDataForArea;
@@ -70,6 +74,7 @@ export interface LineChartTableRowData {
 
 const StyledTable = styled(Table)({
   borderCollapse: 'separate',
+  marginBottom: '1rem',
 });
 
 const StyledBenchmarkTrendHeader = styled(StyledAlignLeftHeader)({
@@ -200,6 +205,7 @@ interface AreaDataMatchedByYear {
 }
 
 export function LineChartTable({
+  title,
   healthIndicatorData,
   englandIndicatorData,
   groupIndicatorData,
@@ -289,9 +295,12 @@ export function LineChartTable({
 
   return (
     <>
-      <StyledDivWithScrolling data-testid="lineChartTable-component">
+      <StyledDivWithScrolling
+        data-testid="lineChartTable-component"
+        id={'lineChartTable'}
+      >
+        <ChartTitle>{title}</ChartTitle>
         <StyledTable
-          id={'lineChartTable'}
           head={
             <>
               <Table.Row>
@@ -468,6 +477,9 @@ export function LineChartTable({
             </Table.Row>
           ))}
         </StyledTable>
+        <ExportOnlyWrapper>
+          <ExportCopyright />
+        </ExportOnlyWrapper>
       </StyledDivWithScrolling>
       <ExportOptionsButton targetId={'lineChartTable'} csvData={csvData} />
     </>
