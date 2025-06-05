@@ -23,8 +23,8 @@ export enum HeaderType {
 
 export enum CellType {
   IndicatorTitle,
-  IndicatorInformationPeriod,
-  IndicatorInformationValueUnit,
+  IndicatorPeriod,
+  IndicatorValueUnit,
   Data,
 }
 
@@ -151,14 +151,14 @@ export const generateRows = (
       },
       {
         key: `col-${indicator.id}-period`,
-        type: CellType.IndicatorInformationPeriod,
+        type: CellType.IndicatorPeriod,
         content: indicator.latestDataPeriod
           ? indicator.latestDataPeriod.toString()
           : '',
       },
       {
         key: `col-${indicator.id}-unitlabel`,
-        type: CellType.IndicatorInformationValueUnit,
+        type: CellType.IndicatorValueUnit,
         content: indicator.unitLabel,
       },
     ];
