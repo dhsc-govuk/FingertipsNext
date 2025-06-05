@@ -15,7 +15,7 @@ public static class HealthDataPredicates
 
     /// <summary>
     /// Checks that when multiple areas are requested - i.e. more than one area code or no area codes (so everything) -
-    /// that the a given area code is not the one for England.
+    /// that the given area code is not the one for England.
     /// </summary>
     public static Expression<Func<HealthMeasureModel, bool>> IsNotEnglandWhenMultipleRequested(string[] areaCodes)
     {

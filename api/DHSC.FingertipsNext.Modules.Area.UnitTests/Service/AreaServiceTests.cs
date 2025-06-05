@@ -85,8 +85,8 @@ public class AreaServiceTests
     public async Task GetAreaDetailsShouldDelegateToRepositorySupplyingDefaults()
     {
         _mockRepository
-            .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string?>())
-            .Returns((AreaWithRelationsModel?)null);
+            .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string>())
+            .Returns((AreaWithRelationsModel)null);
 
         await _service.GetAreaDetails("area1", null, null, null);
 
@@ -97,8 +97,8 @@ public class AreaServiceTests
     public async Task GetAreaDetailsShouldReturnNullIfRepositoryReturnsNull()
     {
         _mockRepository
-            .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string?>())
-            .Returns((AreaWithRelationsModel?)null);
+            .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string>())
+            .Returns((AreaWithRelationsModel)null);
 
         var result = await _service.GetAreaDetails("area1", null, null, null);
 
@@ -110,7 +110,7 @@ public class AreaServiceTests
     {
         var fakeAreaWithRelationsModel = Fake.AreaWithRelationsModel;
         _mockRepository
-            .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string?>())
+            .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string>())
             .Returns(fakeAreaWithRelationsModel);
 
         var result = await _service.GetAreaDetails("area1", null, null, null);

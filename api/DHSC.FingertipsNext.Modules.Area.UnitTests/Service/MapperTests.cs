@@ -111,7 +111,7 @@ public class AreaMapperTests
 
     #endregion
 
-    static void AssertAreaPropertiesMatch(Schemas.Area? area, AreaModel? areaModel, bool canBeNull = false)
+    static void AssertAreaPropertiesMatch(Schemas.Area area, AreaModel areaModel, bool canBeNull = false)
     {
         if (area == null && areaModel == null && canBeNull)
             return;
