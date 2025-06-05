@@ -39,7 +39,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.AreaData.Service\DHSC.FingertipsNext.Modules.AreaData.Service.csproj" />
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Area.Service\DHSC.FingertipsNext.Modules.Area.Service.csproj" />
     </ItemGroup>
 
 </Project>
