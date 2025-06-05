@@ -108,7 +108,8 @@ export function ThematicMapTooltip({
           valueText={valueStringForComparator}
           comparisonText={comparisonTextForComparator}
           symbol={
-            indicatorDataForComparator.areaCode === areaCodeForEngland
+            indicatorDataForComparator.areaCode === areaCodeForEngland &&
+            mostRecentDataPointForComparator!
               ? SymbolsEnum.Circle
               : getBenchmarkSymbol(
                   mostRecentDataPointForComparator?.benchmarkComparison

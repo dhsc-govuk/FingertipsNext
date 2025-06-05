@@ -326,4 +326,25 @@ describe('ThematicMapTooltip', () => {
       color: GovukColours.Pink,
     });
   });
+
+  it('should have a pink x for the compartor if the comparator is England but has no data', () => {
+    render(
+      <ThematicMapTooltip
+        indicatorData={stubAreaData}
+        benchmarkComparisonMethod={
+          BenchmarkComparisonMethod.CIOverlappingReferenceValue95
+        }
+        measurementUnit={'%'}
+        indicatorDataForComparator={{
+          ...stubEnglandData,
+          areaCode: areaCodeForEngland,
+          healthData: [],
+        }}
+        polarity={IndicatorPolarity.Unknown}
+      />
+    );
+    expect(screen.getAllByText(SymbolsEnum.MultiplicationX)[0]).toHaveStyle({
+      color: GovukColours.Pink,
+    });
+  });
 });
