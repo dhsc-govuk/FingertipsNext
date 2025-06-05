@@ -124,7 +124,25 @@ export function generateStandardLineChartOptions(
         }
       : sortedGroupData;
 
-  const fromTo = `from ${firstYear} to ${lastYear}`;
+  const series = generateSeriesData(
+    sortedHealthIndicatorData,
+    filteredSortedEnglandData,
+    filteredSortedGroupData,
+    lineChartCI,
+    benchmarkToUse
+  );
+  const allXAxisEntries = series
+    .filter(({ type }) => type === 'line')
+    .flatMap((seriesData) => {
+      const { data } = seriesData as Highcharts.SeriesLineOptions;
+      if (!data) return [];
+      return data.map((values) => (values as number[])[0]);
+    });
+
+  const minXAxisEntries = Math.min(...allXAxisEntries);
+  const maxXAxisEntries = Math.max(...allXAxisEntries);
+
+  const fromTo = `from ${minXAxisEntries} to ${maxXAxisEntries}`;
   const titleText = optionalParams?.indicatorName
     ? `${optionalParams?.indicatorName} ${fromTo}`
     : fromTo;
@@ -142,13 +160,7 @@ export function generateStandardLineChartOptions(
       optionalParams?.xAxisTitle,
       optionalParams?.xAxisLabelFormatter
     ),
-    series: generateSeriesData(
-      sortedHealthIndicatorData,
-      filteredSortedEnglandData,
-      filteredSortedGroupData,
-      lineChartCI,
-      benchmarkToUse
-    ),
+    series,
     tooltip: generateTooltip(
       sortedHealthIndicatorData,
       benchmarkToUse,
