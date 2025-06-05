@@ -12,7 +12,7 @@ import {
   StyledBenchmarkChart,
   StyledGroupCell,
   StyledIndicatorTitleStickyLeftCell,
-} from './SpineChartTableStyles';
+} from './SpineChartTable.Styles';
 import { SpineChart } from '../SpineChart';
 import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
 import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';

@@ -8,7 +8,7 @@ import {
   StyledDivTableContainer,
   StyledTableMultipleAreas,
   StyledTableOneArea,
-} from './SpineChartTableStyles';
+} from './SpineChartTable.Styles';
 import { H2 } from 'govuk-react';
 import styled from 'styled-components';
 import { SpineChartLegend } from '@/components/organisms/SpineChartLegend/SpineChartLegend';
