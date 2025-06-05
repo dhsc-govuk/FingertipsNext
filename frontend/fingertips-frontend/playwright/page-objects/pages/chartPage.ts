@@ -184,10 +184,6 @@ export default class ChartPage extends AreaFilter {
         action: () => this.selectLastTypeDropdownOption(componentLocator),
       },
       {
-        condition: componentProps.hasConfidenceIntervals,
-        action: () => this.toggleConfidenceInterval(componentLocator),
-      },
-      {
         condition: componentProps.hasDetailsExpander,
         action: () => this.expandDetailsSection(componentLocator),
       },
@@ -208,6 +204,10 @@ export default class ChartPage extends AreaFilter {
         condition: componentProps.showsBenchmarkComparisons,
         action: () =>
           this.selectBenchmarkDropdownOption(component, selectedAreaFilters),
+      },
+      {
+        condition: componentProps.hasConfidenceIntervals,
+        action: () => this.toggleConfidenceInterval(componentLocator),
       },
     ];
 
@@ -369,7 +369,7 @@ export default class ChartPage extends AreaFilter {
       selectedAreaFilters.group.charAt(0).toUpperCase() +
       selectedAreaFilters.group.slice(1);
 
-    // check benchmark dropdown defaults to England as first option
+    // check benchmark dropdown defaults to England as first option in all cases
     expect(options[0].text).toBe('England');
 
     // Determine expected values based on area filters
@@ -378,11 +378,11 @@ export default class ChartPage extends AreaFilter {
     const isThematicMap =
       component.componentLocator === ChartPage.thematicMapComponent;
 
-    // Check options length based on group selection
+    // Check benchmark dropdown options length based on group selection
     const expectedOptionsLength = isEnglandGroup ? 1 : 2;
     expect(options.length).toBe(expectedOptionsLength);
 
-    // set dropdown to the group selected in the area filter
+    // set benchmark dropdown to the group selected in the area filter
     await combobox.selectOption({
       label: upperCaseFirstCharSelectedGroup,
     });
@@ -393,7 +393,7 @@ export default class ChartPage extends AreaFilter {
       : upperCaseFirstCharSelectedGroup;
     const shouldShowBenchmarkText = !(isEnglandGroup && isEnglandAreaType);
 
-    // Verify the correct option is selected
+    // Verify the correct option is selected in the benchmark dropdown
     expect(await combobox.locator('option:checked').textContent()).toBe(
       expectedSelectedOption
     );
