@@ -1,5 +1,13 @@
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import {
+  StyledHoverWrapper,
+  StyledYearParagraph,
+  StyledDataWrapper,
+  StyledSymbolDiv,
+  StyledValueWrapper,
+  StyledValueSpan,
+} from './BenchmarkTooltipArea.Styles';
 
 interface BenchmarkTooltipArea {
   titleText: string;
@@ -18,41 +26,19 @@ export function BenchmarkTooltipArea({
   symbol,
   symbolColour = GovukColours.Black,
 }: Readonly<BenchmarkTooltipArea>) {
-  // TODO: refactor to use styled components
-
   return (
-    <div
-      data-testid={'benchmark-tooltip-area'} // TODO: change this name?
-      style={{ marginBlock: '10px', textWrap: 'wrap' }}
-    >
+    <StyledHoverWrapper data-testid={'benchmark-tooltip-area'}>
       <div>
         <b>{titleText}</b>
-        <p style={{ marginBlock: 0 }}>{year}</p>
+        <StyledYearParagraph>{year}</StyledYearParagraph>
       </div>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.5em',
-        }}
-      >
-        <div
-          style={{
-            color: symbolColour,
-            display: 'flex',
-            marginLeft: '5px',
-            gap: '0.5em',
-            fontSize: '24px',
-          }}
-        >
-          {symbol}
-        </div>
-
-        <div style={{ marginTop: '5px' }}>
-          <span style={{ display: 'block' }}>{valueText}</span>
+      <StyledDataWrapper>
+        <StyledSymbolDiv colour={symbolColour}>{symbol}</StyledSymbolDiv>
+        <StyledValueWrapper>
+          <StyledValueSpan>{valueText}</StyledValueSpan>
           {comparisonText}
-        </div>
-      </div>
-    </div>
+        </StyledValueWrapper>
+      </StyledDataWrapper>
+    </StyledHoverWrapper>
   );
 }
