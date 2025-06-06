@@ -457,6 +457,7 @@ export default class ChartPage extends AreaFilter {
 
     const hoverContent = await this.page
       .locator('div.highcharts-tooltip')
+      .first()
       .textContent();
 
     if (expectedBenchmarkText) {
