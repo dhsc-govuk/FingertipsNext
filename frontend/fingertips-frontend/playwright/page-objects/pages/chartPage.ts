@@ -459,8 +459,6 @@ export default class ChartPage extends AreaFilter {
       .locator('div.highcharts-tooltip')
       .textContent();
 
-    console.log('Hover content:', hoverContent);
-
     if (expectedBenchmarkText) {
       expect(hoverContent).toContain(expectedBenchmarkText);
     } else {
