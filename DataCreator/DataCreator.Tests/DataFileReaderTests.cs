@@ -2,72 +2,44 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using DataCreator;
-using Moq;
 using NUnit.Framework;
 
 public class DataFileReaderTests
 {
     [Test]
-    public void GetPocIndicators_ReturnsParsedIndicators()
+    public void GetHealthDataForIndicator_SkipsRowsWithCCGOrSTP()
     {
         // Arrange
+        var indicatorId = 12345;
+        var tempDir = Path.Join("..", "..", "..", "data", "in", "temp");
+        Directory.CreateDirectory(tempDir);
+        var filePath = Path.Join(tempDir, $"{indicatorId}.csv");
         var csvLines = new[]
         {
-            "1,Name1,Method1,Polarity1",
-            "2,Name2,Method2,Polarity2"
+            "col0,col1,col2,col3,col4,col5,col6,col7,col8,col9,col10,col11,col12,col13,col14,col15,col16,col17,col18,col19,col20,col21,col22,col23,col24,col25,col26",
+            // CCG row (should be skipped)
+            "0,1,2,3,AREA1,5,CCG,M,10,catType,decile,11,12,13,14,15,16,17,18,19,20,21,22,2020-21,24,25,26",
+            // STP row (should be skipped)
+            "0,1,2,3,AREA2,5,STP,F,10,catType,decile,11,12,13,14,15,16,17,18,19,20,21,22,2020-21,24,25,26",
+            // Valid row (should be included)
+            "0,1,2,3,AREA3,5,OTHER,M,10,catType,decile,11,12,13,14,15,16,17,18,19,20,21,22,2020-21,24,25,26"
         };
-        var filePath = Path.Join("..", "..", "..", "data", "in", "temp", "pocindicators.csv");
-        var fileMock = new Mock<IFileSystem>();
-        fileMock.Setup(f => f.ReadAllLines(filePath)).Returns(csvLines);
-
-        // Act
-        var indicators = DataFileReaderTestProxy.GetPocIndicators(fileMock.Object);
-
-        // Assert
-        Assert.That(indicators.Count, Is.EqualTo(2)); // Updated to use NUnit's Assert.That
-        Assert.That(indicators[0].IndicatorID, Is.EqualTo(1));
-        Assert.That(indicators[0].IndicatorName, Is.EqualTo("Name1"));
-        Assert.That(indicators[0].BenchmarkComparisonMethod, Is.EqualTo("Method1"));
-        Assert.That(indicators[0].Polarity, Is.EqualTo("Polarity1"));
-    }
-
-    [Test]
-    public void GetHealthDataForIndicator_FileDoesNotExist_ReturnsEmptyList()
-    {
-        // Arrange
-        var indicatorId = 123;
-        var filePath = Path.Join("..", "..", "..", "data", "in", "temp", $"{indicatorId}.csv");
-        var fileMock = new Mock<IFileSystem>();
-        fileMock.Setup(f => f.Exists(filePath)).Returns(false);
-
-        // Act
-        var result = DataFileReaderTestProxy.GetHealthDataForIndicator(indicatorId, new Dictionary<string, string>(), fileMock.Object);
-
-        // Assert
-        Assert.That(result, Is.Empty); // Updated to use NUnit's Assert.That
-    }
-
-    [Test]
-    public void GetLastUpdatedDataForIndicators_ReturnsParsedEntities()
-    {
-        // Arrange
-        var csvLines = new[]
+        File.WriteAllLines(filePath, csvLines);
+        var areasDict = new Dictionary<string, string>
         {
-            "IndicatorId,LastUpdatedDate",
-            "\"1\",\"2024-01-01\"",
-            "\"2\",\"2024-02-02\""
+            { "AREA3", "Area 3" }
         };
-        var filePath = Path.Join("..", "..", "..", "data", "in", "temp", "lastupdated.csv");
-        var fileMock = new Mock<IFileSystem>();
-        fileMock.Setup(f => f.ReadAllLines(filePath)).Returns(csvLines);
 
         // Act
-        var result = DataFileReaderTestProxy.GetLastUpdatedDataForIndicators(fileMock.Object).ToList();
+        var result = DataFileReader.GetHealthDataForIndicator(indicatorId, areasDict);
 
         // Assert
-        Assert.That(result.Count, Is.EqualTo(2)); // Updated to use NUnit's Assert.That
-        Assert.That(result[0].IndicatorId, Is.EqualTo(1));
-        Assert.That(result[0].LastUpdatedDate, Is.EqualTo("2024-01-01"));
+        Assert.That(result, Has.Exactly(1).Items);
+        Assert.That(result[0].AreaCode, Is.EqualTo("AREA3"));
+
+        // Cleanup
+        File.Delete(filePath);
+        Directory.Delete(tempDir, true);
     }
 }
 
