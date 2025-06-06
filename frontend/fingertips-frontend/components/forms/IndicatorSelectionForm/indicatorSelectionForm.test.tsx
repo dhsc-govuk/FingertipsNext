@@ -232,7 +232,7 @@ describe('IndicatorSelectionForm', () => {
     await user.click(screen.getByRole('checkbox', { name: /NHS/i }));
 
     expect(mockReplace).toHaveBeenCalledWith(
-      `${mockPath}?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=1`,
+      `${mockPath}?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=1#search-results-indicator-1`,
       {
         scroll: false,
       }
@@ -258,7 +258,7 @@ describe('IndicatorSelectionForm', () => {
     await user.click(screen.getByRole('checkbox', { name: /NHS/i }));
 
     expect(mockReplace).toHaveBeenCalledWith(
-      `${mockPath}?${SearchParams.SearchedIndicator}=test`,
+      `${mockPath}?${SearchParams.SearchedIndicator}=test#search-results-indicator-1`,
       {
         scroll: false,
       }
@@ -328,7 +328,7 @@ describe('IndicatorSelectionForm', () => {
     await user.click(screen.getByRole('checkbox', { name: /Select all/i }));
 
     expect(mockReplace).toHaveBeenCalledWith(
-      `${mockPath}?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`,
+      `${mockPath}?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2#search-results-indicator-all`,
       { scroll: false }
     );
   });
@@ -352,7 +352,7 @@ describe('IndicatorSelectionForm', () => {
     await user.click(screen.getByRole('checkbox', { name: /Select all/i }));
 
     expect(mockReplace).toHaveBeenCalledWith(
-      `${mockPath}?${SearchParams.SearchedIndicator}=test`,
+      `${mockPath}?${SearchParams.SearchedIndicator}=test#search-results-indicator-all`,
       { scroll: false }
     );
   });
@@ -601,7 +601,7 @@ describe('IndicatorSelectionForm', () => {
       ).map((index) => `${SearchParams.IndicatorsSelected}=${index}`);
 
       expect(mockReplace).toHaveBeenCalledWith(
-        `${mockPath}?${SearchParams.SearchedIndicator}=test&${expectedSelectedIndicatorsParam.join('&')}`,
+        `${mockPath}?${SearchParams.SearchedIndicator}=test&${expectedSelectedIndicatorsParam.join('&')}#search-results-indicator-all`,
         { scroll: false }
       );
     });
@@ -619,7 +619,7 @@ describe('IndicatorSelectionForm', () => {
       await user.click(screen.getByRole('checkbox', { name: /Select all/i }));
 
       expect(mockReplace).toHaveBeenCalledWith(
-        `${mockPath}?${SearchParams.SearchedIndicator}=test`,
+        `${mockPath}?${SearchParams.SearchedIndicator}=test#search-results-indicator-all`,
         { scroll: false }
       );
     });
@@ -682,14 +682,14 @@ describe('IndicatorSelectionForm', () => {
       fireEvent.click(firstCheckbox);
       expect(firstCheckbox).toBeChecked();
       expect(mockReplace).toHaveBeenCalledWith(
-        'some-mock-path?si=patient&is=93474',
+        'some-mock-path?si=patient&is=93474#search-results-indicator-93474',
         { scroll: false }
       );
       mockReplace.mockReset();
       //  select all checkbox to see what happen and check it against the uri
       await user.click(screen.getByRole('checkbox', { name: /Select all/i }));
       expect(mockReplace).toHaveBeenCalledWith(
-        'some-mock-path?si=patient&is=93474&is=94035&is=41101',
+        'some-mock-path?si=patient&is=93474&is=94035&is=41101#search-results-indicator-all',
         { scroll: false }
       );
     });
