@@ -53,8 +53,11 @@ namespace DataCreator
                 if (split.Length != 27)
                     continue; //avoid bad data
 
-                if (split[6].Trim().Equals("CCG", StringComparison.CurrentCultureIgnoreCase)) //CCGs and ICBs share the same area code so do this to avoid doubling up data
+                if (split[6].Trim().Equals("CCG", StringComparison.CurrentCultureIgnoreCase) ||
+                    split[6].Trim().Equals("STP", StringComparison.CurrentCultureIgnoreCase)
+                ) //CCGs, STPs and ICBs share the same area code so do this to avoid doubling up data
                     continue;
+
                 var areaCode = split[4].Trim().CleanAreaCode();
 
                 if (!areasDict.TryGetValue(areaCode, out var area))

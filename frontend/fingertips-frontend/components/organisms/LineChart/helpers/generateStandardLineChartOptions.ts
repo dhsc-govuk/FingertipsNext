@@ -14,6 +14,7 @@ import { generateXAxis } from './generateXAxis';
 import { generateTooltip } from './generateTooltip';
 import { generateAccessibility } from './generateAccessibility';
 import { generateSeriesData } from './generateSeriesData';
+import Highcharts from 'highcharts';
 
 export enum LineChartVariant {
   Standard = 'standard',
@@ -74,6 +75,7 @@ export function generateStandardLineChartOptions(
   lineChartCI: boolean,
   benchmarkToUse: string,
   optionalParams?: {
+    indicatorName?: string;
     englandData?: HealthDataForArea;
     groupIndicatorData?: HealthDataForArea;
     yAxisTitle?: string;
@@ -122,20 +124,43 @@ export function generateStandardLineChartOptions(
         }
       : sortedGroupData;
 
+  const series = generateSeriesData(
+    sortedHealthIndicatorData,
+    filteredSortedEnglandData,
+    filteredSortedGroupData,
+    lineChartCI,
+    benchmarkToUse
+  );
+  const allXAxisEntries = series
+    .filter(({ type }) => type === 'line')
+    .flatMap((seriesData) => {
+      const { data } = seriesData as Highcharts.SeriesLineOptions;
+      if (!data) return [];
+      return data.map((values) => (values as number[])[0]);
+    });
+
+  const minXAxisEntries = Math.min(...allXAxisEntries);
+  const maxXAxisEntries = Math.max(...allXAxisEntries);
+
+  const fromTo = `from ${minXAxisEntries} to ${maxXAxisEntries}`;
+  const titleText = optionalParams?.indicatorName
+    ? `${optionalParams?.indicatorName} ${fromTo}`
+    : fromTo;
+
   return {
     ...lineChartDefaultOptions,
+    title: {
+      text: titleText,
+      style: {
+        display: 'none',
+      },
+    },
     yAxis: generateYAxis(optionalParams?.yAxisTitle),
     xAxis: generateXAxis(
       optionalParams?.xAxisTitle,
       optionalParams?.xAxisLabelFormatter
     ),
-    series: generateSeriesData(
-      sortedHealthIndicatorData,
-      filteredSortedEnglandData,
-      filteredSortedGroupData,
-      lineChartCI,
-      benchmarkToUse
-    ),
+    series,
     tooltip: generateTooltip(
       sortedHealthIndicatorData,
       benchmarkToUse,

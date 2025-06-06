@@ -56,6 +56,7 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
     "style": {
       "display": "none",
     },
+    "text": "from 2004 to 2006",
   },
   "tooltip": {
     "formatter": [Function],
@@ -197,6 +198,7 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
     "style": {
       "display": "none",
     },
+    "text": "Hospital admissions from 2004 to 2006",
   },
   "tooltip": {
     "formatter": [Function],
@@ -338,6 +340,7 @@ exports[`generateStandardLineChartOptions should not include benchmark or group 
     "style": {
       "display": "none",
     },
+    "text": "Hospital admissions from 2004 to 2006",
   },
   "tooltip": {
     "formatter": [Function],
