@@ -26,9 +26,10 @@ interface ThematicMapProps {
   areaCodes: string[];
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
-  benchmarkIndicatorData?: HealthDataForArea;
-  comparatorData?: HealthDataForArea;
+  englandData?: HealthDataForArea;
+  groupData?: HealthDataForArea;
   indicatorMetadata?: IndicatorDocument;
+  benchmarkToUse?: string;
 }
 
 export function ThematicMap({
@@ -37,9 +38,10 @@ export function ThematicMap({
   areaCodes,
   benchmarkComparisonMethod,
   polarity,
-  benchmarkIndicatorData,
-  comparatorData,
+  englandData,
+  groupData,
   indicatorMetadata,
+  benchmarkToUse,
 }: Readonly<ThematicMapProps>) {
   const { isLoading, error, mapGeographyData } = useMapGeographyData(
     areaCodes,
@@ -98,9 +100,10 @@ export function ThematicMap({
               indicatorData={indicatorDataForArea}
               benchmarkComparisonMethod={benchmarkComparisonMethod}
               measurementUnit={indicatorMetadata?.unitLabel}
-              indicatorDataForBenchmark={benchmarkIndicatorData}
-              indicatorDataForComparator={comparatorData}
+              englandData={englandData}
+              groupData={groupData}
               polarity={polarity}
+              benchmarkToUse={benchmarkToUse}
             />
           </div>
         ))}

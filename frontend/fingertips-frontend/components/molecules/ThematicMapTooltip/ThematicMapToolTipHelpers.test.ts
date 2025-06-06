@@ -14,8 +14,8 @@ import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 describe('getAreaTitle', () => {
   it.each([
     ['area', 'Test Area'],
-    ['comparator', 'Group: Test Area'],
-    ['comparator', 'England', 'England'],
+    ['nonBenchmark', 'Group: Test Area'],
+    ['nonBenchmark', 'England', 'England'],
     ['benchmark', 'Benchmark: Test Area'],
   ] as [TooltipType, string, string][])(
     'should return the correct area title for a given tooltip type',

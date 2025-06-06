@@ -87,16 +87,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
 
   const benchmarkToUse = determineBenchmarkToUse(benchmarkAreaSelected);
 
-  // This allows for thematic map to have different data for hovers
-  // it may be harmonised when all components in the view use the same benchmark
-  let benchmarkDataForThematicMap = englandData;
-  let comparatorDataForThematicMap = groupData;
-
-  if (benchmarkToUse !== areaCodeForEngland) {
-    benchmarkDataForThematicMap = groupData;
-    comparatorDataForThematicMap = englandData;
-  }
-
   const yAxisTitle = indicatorMetadata?.unitLabel
     ? `Value: ${indicatorMetadata?.unitLabel}`
     : undefined;
@@ -172,9 +162,10 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
             }
             polarity={polarity ?? IndicatorPolarity.Unknown}
             indicatorMetadata={indicatorMetadata}
-            comparatorData={comparatorDataForThematicMap}
-            benchmarkIndicatorData={benchmarkDataForThematicMap}
+            groupData={groupData}
+            englandData={englandData}
             areaCodes={areaCodes ?? []}
+            benchmarkToUse={benchmarkToUse}
           />
         </StyleChartWrapper>
       )}

@@ -6,13 +6,13 @@ import { getConfidenceLimitNumber } from '@/lib/chartHelpers/chartHelpers';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 import { formatNumber } from '@/lib/numberFormatter';
 
-export type TooltipType = 'area' | 'benchmark' | 'comparator';
+export type TooltipType = 'area' | 'benchmark' | 'nonBenchmark';
 
 export function getAreaTitle(areaName: string, tooltipType: TooltipType) {
   switch (tooltipType) {
     case 'benchmark':
       return `Benchmark: ${areaName}`;
-    case 'comparator':
+    case 'nonBenchmark':
       return areaName !== 'England' ? `Group: ${areaName}` : areaName;
     default:
       return areaName;

@@ -40,8 +40,8 @@ const testRender = () => {
         polarity={'Unknown'}
         areaCodes={mockAreaCodes}
         selectedAreaType={'regions'}
-        benchmarkIndicatorData={mockHealthData['92420'][0]}
-        comparatorData={mockHealthData['92420'][1]}
+        englandData={mockHealthData['92420'][0]}
+        groupData={mockHealthData['92420'][1]}
       />
     </QueryClientProvider>
   );
@@ -88,7 +88,7 @@ describe('ThematicMap', () => {
         <ThematicMap
           healthIndicatorData={mockHealthData['92420']}
           benchmarkComparisonMethod={'Unknown'}
-          benchmarkIndicatorData={mockHealthData['92420'][0]}
+          englandData={mockHealthData['92420'][0]}
           polarity={'Unknown'}
           areaCodes={mockAreaCodes}
           selectedAreaType={'regions'}

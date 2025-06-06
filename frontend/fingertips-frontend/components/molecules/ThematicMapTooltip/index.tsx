@@ -23,28 +23,35 @@ interface BenchmarkTooltipProps {
   indicatorData: HealthDataForArea;
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
   measurementUnit: string | undefined;
-  indicatorDataForBenchmark?: HealthDataForArea;
-  indicatorDataForComparator?: HealthDataForArea;
+  englandData?: HealthDataForArea;
+  groupData?: HealthDataForArea;
   polarity: IndicatorPolarity;
+  benchmarkToUse?: string;
 }
 
 export function ThematicMapTooltip({
   indicatorData,
   benchmarkComparisonMethod,
   measurementUnit,
-  indicatorDataForBenchmark,
-  indicatorDataForComparator,
+  englandData,
+  groupData,
   polarity,
+  benchmarkToUse,
 }: Readonly<BenchmarkTooltipProps>) {
+  const BenchmarkData =
+    benchmarkToUse === areaCodeForEngland ? englandData : groupData;
+  const nonBenchmarkData =
+    benchmarkToUse === areaCodeForEngland ? groupData : englandData;
+
   const mostRecentDataPointForArea = sortHealthDataPointsByDescendingYear(
     indicatorData.healthData
   )[0];
-  const mostRecentDataPointForComparator =
-    indicatorDataForComparator?.healthData.filter(
+  const mostRecentDataForNonBenchmark =
+    nonBenchmarkData?.healthData.filter(
       (area) => area.year === mostRecentDataPointForArea?.year
     )[0] ?? undefined;
-  const mostRecentDataPointForBenchmark =
-    indicatorDataForBenchmark?.healthData.filter(
+  const mostRecentDataForBenchmark =
+    BenchmarkData?.healthData.filter(
       (area) => area.year === mostRecentDataPointForArea?.year
     )[0] ?? undefined;
 
@@ -54,13 +61,12 @@ export function ThematicMapTooltip({
     mostRecentDataPointForArea?.benchmarkComparison?.benchmarkAreaName,
     benchmarkComparisonMethod || BenchmarkComparisonMethod.Unknown
   );
-  const comparisonTextForComparator =
-    indicatorDataForComparator?.areaCode !== areaCodeForEngland
+  const comparisonTextForNonBenchmark =
+    nonBenchmarkData?.areaCode !== areaCodeForEngland
       ? getComparisonString(
-          mostRecentDataPointForComparator?.benchmarkComparison?.outcome,
-          'comparator',
-          mostRecentDataPointForComparator?.benchmarkComparison
-            ?.benchmarkAreaName,
+          mostRecentDataForNonBenchmark?.benchmarkComparison?.outcome,
+          'nonBenchmark',
+          mostRecentDataForNonBenchmark?.benchmarkComparison?.benchmarkAreaName,
           benchmarkComparisonMethod || BenchmarkComparisonMethod.Unknown
         )
       : undefined;
@@ -69,12 +75,12 @@ export function ThematicMapTooltip({
     mostRecentDataPointForArea?.value,
     measurementUnit
   );
-  const valueStringForComparator = getValueString(
-    mostRecentDataPointForComparator?.value,
+  const valueStringForNonBenchmark = getValueString(
+    mostRecentDataForNonBenchmark?.value,
     measurementUnit
   );
   const valueStringForBenchmark = getValueString(
-    mostRecentDataPointForBenchmark?.value,
+    mostRecentDataForBenchmark?.value,
     measurementUnit
   );
 
@@ -82,15 +88,15 @@ export function ThematicMapTooltip({
     mostRecentDataPointForArea?.benchmarkComparison?.outcome,
     benchmarkComparisonMethod
   );
-  const symbolForComparator =
-    indicatorDataForComparator?.areaCode === areaCodeForEngland &&
-    mostRecentDataPointForComparator!
+  const symbolForNonBenchmark =
+    nonBenchmarkData?.areaCode === areaCodeForEngland &&
+    mostRecentDataForNonBenchmark!
       ? SymbolsEnum.Circle
       : getBenchmarkSymbol(
-          mostRecentDataPointForComparator?.benchmarkComparison?.outcome,
+          mostRecentDataForNonBenchmark?.benchmarkComparison?.outcome,
           benchmarkComparisonMethod
         );
-  const symbolForBenchmark = mostRecentDataPointForBenchmark?.value
+  const symbolForBenchmark = mostRecentDataForBenchmark?.value
     ? SymbolsEnum.Circle
     : SymbolsEnum.MultiplicationX;
 
@@ -100,43 +106,41 @@ export function ThematicMapTooltip({
       BenchmarkOutcome.NotCompared,
     polarity
   ) as GovukColours;
-  const symbolColourForComparator =
-    indicatorDataForComparator?.areaCode === areaCodeForEngland
+  const symbolColourForNonBenchmark =
+    nonBenchmarkData?.areaCode === areaCodeForEngland
       ? GovukColours.Pink
       : (getBenchmarkColour(
           benchmarkComparisonMethod,
-          mostRecentDataPointForComparator?.benchmarkComparison?.outcome ??
+          mostRecentDataForNonBenchmark?.benchmarkComparison?.outcome ??
             BenchmarkOutcome.NotCompared,
           polarity
         ) as GovukColours);
 
   const titleForBenchmark =
-    indicatorDataForBenchmark &&
-    getAreaTitle(indicatorDataForBenchmark.areaName, 'benchmark');
-  const titleForComparator =
-    indicatorDataForComparator &&
-    getAreaTitle(indicatorDataForComparator.areaName, 'comparator');
+    BenchmarkData && getAreaTitle(BenchmarkData.areaName, 'benchmark');
+  const titleForNonBenchMark =
+    nonBenchmarkData && getAreaTitle(nonBenchmarkData.areaName, 'nonBenchmark');
   const titleForArea = getAreaTitle(indicatorData.areaName, 'area');
 
   return (
     <div>
-      {indicatorDataForBenchmark && titleForBenchmark ? (
+      {BenchmarkData && titleForBenchmark ? (
         <BenchmarkTooltipArea
           titleText={titleForBenchmark}
-          year={mostRecentDataPointForBenchmark?.year}
+          year={mostRecentDataForBenchmark?.year}
           valueText={valueStringForBenchmark}
           symbol={symbolForBenchmark}
           symbolColour={GovukColours.Black}
         />
       ) : null}
-      {indicatorDataForComparator && titleForComparator ? (
+      {nonBenchmarkData && titleForNonBenchMark ? (
         <BenchmarkTooltipArea
-          titleText={titleForComparator}
+          titleText={titleForNonBenchMark}
           year={mostRecentDataPointForArea?.year}
-          valueText={valueStringForComparator}
-          comparisonText={comparisonTextForComparator}
-          symbol={symbolForComparator}
-          symbolColour={symbolColourForComparator}
+          valueText={valueStringForNonBenchmark}
+          comparisonText={comparisonTextForNonBenchmark}
+          symbol={symbolForNonBenchmark}
+          symbolColour={symbolColourForNonBenchmark}
         />
       ) : null}
 

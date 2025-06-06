@@ -80,6 +80,7 @@ describe('ThematicMapTooltip', () => {
         }
         measurementUnit={'%'}
         polarity={IndicatorPolarity.Unknown}
+        benchmarkToUse="England"
       />
     );
 
@@ -106,8 +107,9 @@ describe('ThematicMapTooltip', () => {
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95
         }
         measurementUnit={'%'}
-        indicatorDataForComparator={stubGroupData}
+        groupData={stubGroupData}
         polarity={IndicatorPolarity.Unknown}
+        benchmarkToUse={areaCodeForEngland}
       />
     );
 
@@ -136,7 +138,7 @@ describe('ThematicMapTooltip', () => {
     });
   });
 
-  it('should render the expected RAG tooltip content for an area and benchmark', () => {
+  it('should render the expected RAG tooltip content for an area and benchmark of England', () => {
     render(
       <ThematicMapTooltip
         indicatorData={stubAreaData}
@@ -144,8 +146,9 @@ describe('ThematicMapTooltip', () => {
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95
         }
         measurementUnit={'%'}
-        indicatorDataForBenchmark={stubEnglandData}
+        englandData={stubEnglandData}
         polarity={IndicatorPolarity.Unknown}
+        benchmarkToUse={areaCodeForEngland}
       />
     );
 
@@ -175,6 +178,46 @@ describe('ThematicMapTooltip', () => {
     });
   });
 
+  it('should render the expected RAG tooltip content for an area and benchmark of group', () => {
+    render(
+      <ThematicMapTooltip
+        indicatorData={stubAreaData}
+        benchmarkComparisonMethod={
+          BenchmarkComparisonMethod.CIOverlappingReferenceValue95
+        }
+        measurementUnit={'%'}
+        groupData={stubGroupData}
+        polarity={IndicatorPolarity.Unknown}
+        benchmarkToUse={stubGroupData.areaCode}
+      />
+    );
+
+    expect(screen.getAllByTestId('benchmark-tooltip-area')).toHaveLength(2);
+    expect(
+      screen.queryByText(`Benchmark: ${stubGroupData.areaName}`)
+    ).toBeInTheDocument();
+    expect(screen.queryByText(`${stubAreaData.areaName}`)).toBeInTheDocument();
+    expect(
+      screen.queryAllByText(stubAreaData.healthData[0].year.toString())
+    ).toHaveLength(2);
+    expect(
+      screen.queryByText(`${formatNumber(stubAreaData.healthData[0].value)} %`)
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        `${formatNumber(stubGroupData?.healthData[0].value)} %`
+      )
+    ).toBeInTheDocument();
+    expect(screen.queryByText(`Better than England (95%)`)).toBeInTheDocument();
+    expect(screen.getAllByText(SymbolsEnum.Circle)).toHaveLength(2);
+    expect(screen.getAllByText(SymbolsEnum.Circle)[0]).toHaveStyle({
+      color: GovukColours.Black,
+    });
+    expect(screen.getAllByText(SymbolsEnum.Circle)[1]).toHaveStyle({
+      color: GovukColours.Green,
+    });
+  });
+
   it('should render the expected RAG tooltip sections for an area, group and benchmark', () => {
     render(
       <ThematicMapTooltip
@@ -183,9 +226,10 @@ describe('ThematicMapTooltip', () => {
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95
         }
         measurementUnit={'%'}
-        indicatorDataForComparator={stubGroupData}
-        indicatorDataForBenchmark={stubEnglandData}
+        groupData={stubGroupData}
+        englandData={stubEnglandData}
         polarity={IndicatorPolarity.Unknown}
+        benchmarkToUse={areaCodeForEngland}
       />
     );
 
@@ -216,8 +260,9 @@ describe('ThematicMapTooltip', () => {
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95
         }
         measurementUnit={'%'}
-        indicatorDataForComparator={stubGroupData}
+        groupData={stubGroupData}
         polarity={IndicatorPolarity.Unknown}
+        benchmarkToUse={areaCodeForEngland}
       />
     );
 
@@ -243,8 +288,9 @@ describe('ThematicMapTooltip', () => {
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95
         }
         measurementUnit={'%'}
-        indicatorDataForComparator={{ ...stubGroupData, healthData: [] }}
+        groupData={{ ...stubGroupData, healthData: [] }}
         polarity={IndicatorPolarity.Unknown}
+        benchmarkToUse={areaCodeForEngland}
       />
     );
 
@@ -268,8 +314,9 @@ describe('ThematicMapTooltip', () => {
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95
         }
         measurementUnit={'%'}
-        indicatorDataForBenchmark={{ ...stubEnglandData, healthData: [] }}
+        englandData={{ ...stubEnglandData, healthData: [] }}
         polarity={IndicatorPolarity.Unknown}
+        benchmarkToUse={areaCodeForEngland}
       />
     );
 
@@ -293,11 +340,12 @@ describe('ThematicMapTooltip', () => {
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95
         }
         measurementUnit={'%'}
-        indicatorDataForComparator={{
+        groupData={{
           ...stubEnglandData,
           areaCode: areaCodeForEngland,
         }}
         polarity={IndicatorPolarity.Unknown}
+        benchmarkToUse={areaCodeForEngland}
       />
     );
 
@@ -314,12 +362,13 @@ describe('ThematicMapTooltip', () => {
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95
         }
         measurementUnit={'%'}
-        indicatorDataForComparator={{
+        groupData={{
           ...stubEnglandData,
           areaCode: areaCodeForEngland,
           healthData: [],
         }}
         polarity={IndicatorPolarity.Unknown}
+        benchmarkToUse={areaCodeForEngland}
       />
     );
 
