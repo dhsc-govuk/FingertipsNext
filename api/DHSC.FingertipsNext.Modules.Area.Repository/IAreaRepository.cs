@@ -11,21 +11,21 @@ public interface IAreaRepository
     ///
     /// </summary>
     /// <returns></returns>
-    Task<List<string>> GetHierarchiesAsync();
+    Task<IList<string>> GetHierarchiesAsync();
 
     /// <summary>
     /// Retrieves a list of area models based on the requested area codes.
     /// </summary>
     /// <param name="areaCodes"></param>
     /// <returns>List of areas requested</returns>
-    Task<List<AreaModel>> GetMultipleAreaDetailsAsync(string[] areaCodes);
+    Task<IList<AreaModel>> GetMultipleAreaDetailsAsync(string[] areaCodes);
 
     /// <summary>
     ///
     /// </summary>
     /// <param name="hierarchyType"></param>
     /// <returns></returns>
-    Task<List<AreaTypeModel>> GetAreaTypesAsync(string hierarchyType);
+    Task<IList<AreaTypeModel>> GetAreaTypesAsync(string hierarchyType);
 
     /// <summary>
     /// Get the full details of a given area, including its parent, optionally including its children.
@@ -50,5 +50,5 @@ public interface IAreaRepository
     /// </summary>
     /// <param name="areaTypeKey"></param>
     /// <returns></returns>
-    Task<List<AreaModel>> GetAreasForAreaTypeAsync(string areaTypeKey);
+    Task<IList<AreaModel>> GetAreasForAreaTypeAsync(string areaTypeKey);
 }

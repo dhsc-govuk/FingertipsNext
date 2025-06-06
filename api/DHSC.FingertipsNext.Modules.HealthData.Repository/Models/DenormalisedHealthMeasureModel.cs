@@ -20,7 +20,7 @@ public class DenormalisedHealthMeasureModel
     public required string DeprivationDimensionType { get; set; }
     public required byte DeprivationDimensionSequence { get; set; }
     public required bool DeprivationDimensionHasValue { get; set; }
-    public required bool DeprivationDimensionIsAggregate{ get; set; }
+    public required bool DeprivationDimensionIsAggregate { get; set; }
     public required double? Count { get; set; }
     public required double? Value { get; set; }
     public required double? LowerCi { get; set; }
@@ -40,24 +40,29 @@ public class DenormalisedHealthMeasureModel
             Count = Count,
             LowerCi = LowerCi,
             UpperCi = UpperCi,
-            AgeDimension = new AgeDimensionModel() {
+            AgeDimension = new AgeDimensionModel()
+            {
                 Name = AgeDimensionName,
                 HasValue = AgeDimensionHasValue,
                 IsAggregate = AgeDimensionIsAggregate,
             },
-            SexDimension = new SexDimensionModel() {
+            SexDimension = new SexDimensionModel()
+            {
                 Name = SexDimensionName,
                 HasValue = SexDimensionHasValue,
                 IsAggregate = SexDimensionIsAggregate
             },
-            IndicatorDimension = new IndicatorDimensionModel() {
+            IndicatorDimension = new IndicatorDimensionModel()
+            {
                 Name = IndicatorDimensionName,
             },
-            AreaDimension = new AreaDimensionModel() {
+            AreaDimension = new AreaDimensionModel()
+            {
                 Name = AreaDimensionName,
                 Code = AreaDimensionCode,
             },
-            DeprivationDimension = new DeprivationDimensionModel() {
+            DeprivationDimension = new DeprivationDimensionModel()
+            {
                 Name = DeprivationDimensionName,
                 Type = DeprivationDimensionType,
                 Sequence = DeprivationDimensionSequence,

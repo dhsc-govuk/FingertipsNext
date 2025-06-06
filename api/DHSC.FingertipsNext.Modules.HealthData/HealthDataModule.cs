@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DHSC.FingertipsNext.Modules.HealthData;
 
-public class Module : AbstractMonolithModule, IMonolithModule
+public class HealthDataModule : AbstractMonolithModule, IMonolithModule
 {
     public override string ModuleName => "healthdata";
 

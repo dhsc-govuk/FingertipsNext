@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using DHSC.FingertipsNext.Modules.Area.Schemas;
-using DHSC.FingertipsNext.Modules.Common.Schemas;
 using DHSC.FingertipsNext.Modules.Area.Service;
+using DHSC.FingertipsNext.Modules.Common.Schemas;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -33,7 +33,7 @@ public class AreaController : ControllerBase
     /// If no area codes are provided then a client error response is returned.
     /// </remarks>
     [HttpGet]
-    [ProducesResponseType(typeof(List<Schemas.Area>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<Schemas.AreaData>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(SimpleError), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetMultipleAreaDetailsAsync(
@@ -46,7 +46,7 @@ public class AreaController : ControllerBase
                 Message = "Please provide at least one value for the parameter area_codes"
             });
 
-        if (areaCodes is {Length: > MaxNumberAreas})
+        if (areaCodes is { Length: > MaxNumberAreas })
             return new BadRequestObjectResult(new SimpleError
             {
                 Message =
@@ -73,22 +73,22 @@ public class AreaController : ControllerBase
     /// <summary>
     /// Get area types, optionally filtering by hierarchy type
     /// </summary>
-    /// <param name="hierarchy_type"></param>
+    /// <param name="hierarchyType"></param>
     /// <returns>The available area types e.g. ICB, PCN or GP Surgery</returns>
     [HttpGet]
     [ProducesResponseType(typeof(List<AreaType>), StatusCodes.Status200OK)]
     [Route("areatypes")]
-    public async Task<IActionResult> GetAreatypesAsync([FromQuery] string? hierarchy_type = null) =>
-        Ok(await _areaService.GetAreaTypes(hierarchy_type));
+    public async Task<IActionResult> GetAreatypesAsync([FromQuery(Name = "hierarchy_type")] string? hierarchyType = null) =>
+        Ok(await _areaService.GetAreaTypes(hierarchyType));
 
     /// <summary>
     /// Get the full details of a given area, including its parent, optionally including its children.
     /// </summary>
-    /// <param name="area_code">The area code of the area/geography</param>
-    /// <param name="include_children">Optional. Include the child areas. By default, this is the direct children,
+    /// <param name="areaCode">The area code of the area/geography</param>
+    /// <param name="includeChildren">Optional. Include the child areas. By default, this is the direct children,
     /// to get children at a lower level supply the optional query parameter for child area type.</param>
-    /// <param name="include_siblings">Optional. Include the sibling areas.</param>
-    /// <param name="child_area_type">Optional. Functions only when include_children is true. The type of area to
+    /// <param name="includeSiblings">Optional. Include the sibling areas.</param>
+    /// <param name="childAreaType">Optional. Functions only when include_children is true. The type of area to
     /// request children for. If no child area type is supplied, or is empty/white space then the direct child areas
     /// will be retrieved.</param>
     /// <returns></returns>
@@ -98,17 +98,17 @@ public class AreaController : ControllerBase
     [Route("{area_code}")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public async Task<IActionResult> GetAreaDetailsAsync(
-        [FromRoute] string area_code,
-        [FromQuery] bool? include_children = null,
-        [FromQuery] bool? include_siblings = null,
-        [FromQuery] string? child_area_type = null
+        [FromRoute(Name = "area_code")] string areaCode,
+        [FromQuery(Name = "include_children")] bool? includeChildren = null,
+        [FromQuery(Name = "include_siblings")] bool? includeSiblings = null,
+        [FromQuery(Name = "child_area_type")] string? childAreaType = null
     )
     {
         var areaDetails = await _areaService.GetAreaDetails(
-            area_code,
-            include_children,
-            include_siblings,
-            child_area_type
+            areaCode,
+            includeChildren,
+            includeSiblings,
+            childAreaType
         );
 
         return areaDetails == null ? NotFound() : Ok(areaDetails);
@@ -117,16 +117,16 @@ public class AreaController : ControllerBase
     /// <summary>
     /// Get the areas that have a given area type
     /// </summary>
-    /// <param name="area_type_key"></param>
+    /// <param name="areaTypeKey"></param>
     /// <returns></returns>
     [HttpGet]
-    [ProducesResponseType(typeof(List<Schemas.Area>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<Schemas.AreaData>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [Route("areatypes/{area_type_key}/areas")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public async Task<IActionResult> GetAreaDetailsForAreaTypeAsync([FromRoute] string area_type_key)
+    public async Task<IActionResult> GetAreaDetailsForAreaTypeAsync([FromRoute(Name = "area_type_key")] string areaTypeKey)
     {
-        var areaDetails = await _areaService.GetAreaDetailsForAreaType(area_type_key);
+        var areaDetails = await _areaService.GetAreaDetailsForAreaType(areaTypeKey);
 
         return areaDetails.Count == 0 ? NotFound() : Ok(areaDetails);
     }

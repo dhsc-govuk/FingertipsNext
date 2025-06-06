@@ -6,7 +6,7 @@ using Shouldly;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Repository;
 
-public class HealthDataRepositoryTests
+public class HealthDataRepositoryTests : IDisposable
 {
     private readonly HealthDataDbContext _dbContext;
 
@@ -29,8 +29,22 @@ public class HealthDataRepositoryTests
         _healthDataRepository = new HealthDataRepository(_dbContext);
     }
 
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _dbContext.Dispose();
+        }
+    }
+
     [Fact]
-    public void RepositoryInitialisation_ShouldThrowError_IfNullDBContextIsProvided()
+    public void RepositoryInitialisationShouldThrowErrorIfNullDBContextIsProvided()
     {
         var act = () => _healthDataRepository = new HealthDataRepository(null!);
 
@@ -41,7 +55,7 @@ public class HealthDataRepositoryTests
     #region GetIndicatorDimensionAsync
 
     [Fact]
-    public async Task Repository_ShouldReturnCorrectIndicatorAndLatestYearWhenNoAreaCodesProvided()
+    public async Task RepositoryShouldReturnCorrectIndicatorAndLatestYearWhenNoAreaCodesProvided()
     {
         const int LATESTYEAR = 2099;
         const int INDICATORID = 1;
@@ -49,13 +63,13 @@ public class HealthDataRepositoryTests
         PopulateDatabase(new HealthMeasureModelHelper(year: LATESTYEAR)
             .WithIndicatorDimension(indicatorId: INDICATORID)
             .Build());
-        PopulateDatabase(new HealthMeasureModel 
+        PopulateDatabase(new HealthMeasureModel
         {
-            IndicatorDimension=new IndicatorDimensionModel 
+            IndicatorDimension = new IndicatorDimensionModel
             {
-                IndicatorId= INDICATORID 
+                IndicatorId = INDICATORID
             },
-            Year=LATESTYEAR-1 
+            Year = LATESTYEAR - 1
         });
 
         // act
@@ -66,7 +80,7 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task Repository_ShouldReturnCorrectIndicatorAndLatestYearWhenAreaCodesProvided()
+    public async Task RepositoryShouldReturnCorrectIndicatorAndLatestYearWhenAreaCodesProvided()
     {
         // Replicates scenario where England data may be published ahead of sub-areas
         const int ENGLAND_YEAR = 2024;
@@ -101,7 +115,7 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task Repository_ShouldReturnCorrectIndicatorAndLatestYearWhenEnglandRequested()
+    public async Task RepositoryShouldReturnCorrectIndicatorAndLatestYearWhenEnglandRequested()
     {
         const int ENGLAND_YEAR = 2024;
         const string ENGLAND_AREA_CODE = "E92000001";
@@ -120,7 +134,7 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task Repository_ShouldReturnCorrectIndicatorAndLatestYearForAllDataWhenAreasContainNoData()
+    public async Task RepositoryShouldReturnCorrectIndicatorAndLatestYearForAllDataWhenAreasContainNoData()
     {
         const int LATEST_YEAR = 2024;
         const string AREA_CODE = "E92000002";
@@ -146,7 +160,7 @@ public class HealthDataRepositoryTests
     #region GetIndicatorDataAsync
 
     [Fact]
-    public async Task GetIndicatorDataAsync_ShouldReturnEmptyList_IfIndicatorNotFound()
+    public async Task GetIndicatorDataAsyncShouldReturnEmptyListIfIndicatorNotFound()
     {
         // arrange
         PopulateDatabase(
@@ -161,7 +175,7 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task GetIndicatorDataAsync_ShouldFindByOnlyIndicatorId_IfQueryParamsAreEmpty()
+    public async Task GetIndicatorDataAsyncShouldFindByOnlyIndicatorIdIfQueryParamsAreEmpty()
     {
         // arrange
         const int expectedIndicatorId = 1;
@@ -187,7 +201,7 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task GetIndicatorDataAsync_ShouldFilterResultsByAreaCodes_WhenAreaCodesProvided()
+    public async Task GetIndicatorDataAsyncShouldFilterResultsByAreaCodesWhenAreaCodesProvided()
     {
         // arrange
         const string unexpectedAreaCode = "Code1";
@@ -233,7 +247,7 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task GetIndicatorDataAsync_ShouldReturnEmptyList_IfAreaCodeNotFound()
+    public async Task GetIndicatorDataAsyncShouldReturnEmptyListIfAreaCodeNotFound()
     {
         // arrange
         PopulateDatabase(
@@ -251,7 +265,7 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task GetIndicatorDataAsync_ShouldFilterResultsByYears_WhenYearsProvided()
+    public async Task GetIndicatorDataAsyncShouldFilterResultsByYearsWhenYearsProvided()
     {
         // arrange
         var unexpectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
@@ -288,7 +302,7 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task GetIndicatorDataAsync_ShouldReturnEmptyList_IfYearsNotFound()
+    public async Task GetIndicatorDataAsyncShouldReturnEmptyListIfYearsNotFound()
     {
         // arrange
         PopulateDatabase(
@@ -310,7 +324,7 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task GetIndicatorDataAsync_ShouldFilterResultsByAllFilters_WhenProvided()
+    public async Task GetIndicatorDataAsyncShouldFilterResultsByAllFiltersWhenProvided()
     {
         // arrange
         var unexpectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
@@ -376,7 +390,7 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task GetIndicatorDataAsync_ShouldOnlyIncludeResultsWithoutASexDimensionValue()
+    public async Task GetIndicatorDataAsyncShouldOnlyIncludeResultsWithoutASexDimensionValue()
     {
         // arrange
         var unexpectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
@@ -412,7 +426,7 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task GetIndicatorDataAsync_ShouldIncludeResultsWhenIndicatorHasASingleSexDimensionValue()
+    public async Task GetIndicatorDataAsyncShouldIncludeResultsWhenIndicatorHasASingleSexDimensionValue()
     {
         // arrange
         var maleSexDimension = new SexDimensionModel
@@ -451,7 +465,7 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task GetIndicatorDataAsync_ShouldNotReturnResultsWhenIndicatorHasMultipleSexDimensionValuesAndNoneWithoutSexDimension()
+    public async Task GetIndicatorDataAsyncShouldNotReturnResultsWhenIndicatorHasMultipleSexDimensionValuesAndNoneWithoutSexDimension()
     {
         // arrange
         var unexpectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
@@ -476,7 +490,7 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task GetIndicatorDataAsync_ShouldOnlyIncludeResultsWithoutAnAgeDimensionValue()
+    public async Task GetIndicatorDataAsyncShouldOnlyIncludeResultsWithoutAnAgeDimensionValue()
     {
         // arrange
         var unexpectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
@@ -511,7 +525,7 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task GetIndicatorDataAsync_ShouldIncludeResultsWhenIndicatorHasASingleAgeDimensionValue()
+    public async Task GetIndicatorDataAsyncShouldIncludeResultsWhenIndicatorHasASingleAgeDimensionValue()
     {
         // arrange
         var fifteenToFourtyFourYearsAgeDimension = new AgeDimensionModel
@@ -550,7 +564,7 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task GetIndicatorDataAsync_ShouldNotReturnResultsWhenIndicatorHasMultipleAgeDimensionValuesAndNoneWithoutAgeDimension()
+    public async Task GetIndicatorDataAsyncShouldNotReturnResultsWhenIndicatorHasMultipleAgeDimensionValuesAndNoneWithoutAgeDimension()
     {
         // arrange
         var unexpectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
@@ -575,7 +589,7 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task GetIndicatorDataAsync_ShouldOnlyIncludeResultsWithoutADeprivationDimensionValue()
+    public async Task GetIndicatorDataAsyncShouldOnlyIncludeResultsWithoutADeprivationDimensionValue()
     {
         // arrange
         var unexpectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
@@ -611,7 +625,7 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task GetIndicatorDataAsync_ShouldIncludeResultsWhenIndicatorHasASingleDeprivationDimensionValue()
+    public async Task GetIndicatorDataAsyncShouldIncludeResultsWhenIndicatorHasASingleDeprivationDimensionValue()
     {
         // arrange
         var secondMostDeprivedDecile = new DeprivationDimensionModel
@@ -652,7 +666,7 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task GetIndicatorDataAsync_ShouldNotReturnResultsWhenIndicatorHasMultipleDeprivationDimensionValuesAndNoneWithoutDeprivationDimension()
+    public async Task GetIndicatorDataAsyncShouldNotReturnResultsWhenIndicatorHasMultipleDeprivationDimensionValuesAndNoneWithoutDeprivationDimension()
     {
         // arrange
         var unexpectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
@@ -677,7 +691,7 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task GetIndicatorDataAsync_ShouldIncludeResultsWithOnlySexDimensionData_IfSexInequalityIsSpecified()
+    public async Task GetIndicatorDataAsyncShouldIncludeResultsWithOnlySexDimensionDataIfSexInequalityIsSpecified()
     {
         // arrange
         var healthMeasureWithSex = new HealthMeasureModelHelper(1, 2020, false)
@@ -718,7 +732,7 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task GetIndicatorDataAsync_ShouldIncludeResultsWithOnlyAgeDimensionData_IfAgeInequalityIsSpecified()
+    public async Task GetIndicatorDataAsyncShouldIncludeResultsWithOnlyAgeDimensionDataIfAgeInequalityIsSpecified()
     {
         // arrange
         var healthMeasureWithAgeAndNoSex = new HealthMeasureModelHelper(1, 2020, false)
@@ -769,7 +783,7 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task GetIndicatorDataAsync_ShouldIncludeResultsWithOnlyDeprivationDimensionData_IfDeprivationInequalityIsSpecified()
+    public async Task GetIndicatorDataAsyncShouldIncludeResultsWithOnlyDeprivationDimensionDataIfDeprivationInequalityIsSpecified()
     {
         // arrange
         var healthMeasureWithAgeAndNoDeprivation = new HealthMeasureModelHelper(1, 2020, false)
@@ -825,7 +839,7 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task GetIndicatorDataAsync_ShouldIncludeResultsWithAllInequalityData_IfAllAreSpecified()
+    public async Task GetIndicatorDataAsyncShouldIncludeResultsWithAllInequalityDataIfAllAreSpecified()
     {
         // arrange
         var personsSexDimension = new SexDimensionModel()
@@ -980,7 +994,7 @@ public class HealthDataRepositoryTests
     #region GetAreasAsync
 
     [Fact]
-    public async Task GetAreasAsync_ShouldReturnMatchingAreasInDatabase_WhenRequestIncludesAreasThatAreNotPresent()
+    public async Task GetAreasAsyncShouldReturnMatchingAreasInDatabaseWhenRequestIncludesAreasThatAreNotPresent()
     {
         // arrange
         var healthMeasure0 = new HealthMeasureModelHelper(key: 100)
