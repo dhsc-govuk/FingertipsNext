@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using DataCreator;
 using NUnit.Framework;
 
+namespace DataCreator.Tests;
+
+[TestFixture]
+[TestOf(typeof(DataFileReader))]
 public class DataFileReaderTests
 {
     [Test]
@@ -43,84 +46,3 @@ public class DataFileReaderTests
     }
 }
 
-// Helper interfaces and proxy for testability
-public interface IFileSystem
-{
-    string[] ReadAllLines(string path);
-    bool Exists(string path);
-}
-
-public interface IZipFile
-{
-    void ExtractToDirectory(string sourceArchiveFileName, string destinationDirectoryName);
-}
-
-public interface IDirectory
-{
-    bool Exists(string path);
-    void Delete(string path, bool recursive);
-}
-
-// Proxy class to inject dependencies for testing
-public static class DataFileReaderTestProxy
-{
-    public static List<SimpleIndicator> GetPocIndicators(IFileSystem fileSystem)
-    {
-        var lines = fileSystem.ReadAllLines(Path.Join("..", "..", "..", "data", "in", "temp", "pocindicators.csv"));
-        var indicators = new List<SimpleIndicator>();
-        foreach (var line in lines)
-        {
-            var split = line.Split(',');
-            indicators.Add(new SimpleIndicator
-            {
-                IndicatorID = int.Parse(split[0]),
-                IndicatorName = split[1],
-                BenchmarkComparisonMethod = split[2],
-                Polarity = split[3]
-            });
-        }
-        return indicators;
-    }
-
-    public static List<HealthMeasureEntity> GetHealthDataForIndicator(int indicatorId, Dictionary<string, string> areasDict, IFileSystem fileSystem)
-    {
-        var filePath = Path.Join("..", "..", "..", "data", "in", "temp", $"{indicatorId}.csv");
-        if (!fileSystem.Exists(filePath))
-            return Enumerable.Empty<HealthMeasureEntity>().ToList();
-
-        var lines = fileSystem.ReadAllLines(filePath);
-        // ... (copy logic from DataFileReader, adapt as needed for test)
-        return new List<HealthMeasureEntity>(); // Simplified for brevity
-    }
-
-    public static IEnumerable<IndicatorLastUpdatedEntity> GetLastUpdatedDataForIndicators(IFileSystem fileSystem)
-    {
-        var filePath = Path.Join("..", "..", "..", "data", "in", "temp", "lastupdated.csv");
-        var lines = fileSystem.ReadAllLines(filePath);
-        var allData = new List<IndicatorLastUpdatedEntity>();
-        for (var count = 1; count < lines.Length; count++)
-        {
-            var split = lines[count].Split(',');
-            allData.Add(new IndicatorLastUpdatedEntity
-            {
-                IndicatorId = int.Parse(split[0].Trim('\"')),
-                LastUpdatedDate = split[1].Trim('\"')
-            });
-        }
-        return allData;
-    }
-
-    public static void UnzipSourceFiles(IZipFile zipFile)
-    {
-        var inFilePath = Path.Join("..", "..", "..", "data", "in");
-        var tempDirPath = Path.Join(inFilePath, "temp");
-        zipFile.ExtractToDirectory(Path.Join(inFilePath, "in.zip"), tempDirPath);
-    }
-
-    public static void DeleteTempInputFiles(IDirectory directory)
-    {
-        var tempDirPath = Path.Join("..", "..", "..", "data", "in", "temp");
-        if (directory.Exists(tempDirPath))
-            directory.Delete(tempDirPath, true);
-    }
-}
