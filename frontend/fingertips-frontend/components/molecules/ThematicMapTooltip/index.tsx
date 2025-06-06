@@ -35,7 +35,7 @@ export function ThematicMapTooltip({
   indicatorDataForBenchmark,
   indicatorDataForComparator,
   polarity,
-}: BenchmarkTooltipProps) {
+}: Readonly<BenchmarkTooltipProps>) {
   const mostRecentDataPointForArea = sortHealthDataPointsByDescendingYear(
     indicatorData.healthData
   )[0];
