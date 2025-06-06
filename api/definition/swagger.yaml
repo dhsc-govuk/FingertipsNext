@@ -243,12 +243,18 @@ paths:
         - indicators
       summary: Get health data for an indicator
       description:
-        Get data for a public health indicator. This will return all data for all areas and all years for the indicators. Optionally filter the results by supplying one
-        or more area codes and one or more years in the query string.
+        Get data for a public health indicator. This will return all data for
+        all requested areas and all time periods for the specified indicator. 
+
+        The returned data will include a benchmark comparison against either England or an ancestor area
+        group, depending on the benchmark_ref_type and ancestor_code parameters.
+
+        Data can be provided disagregated by various categories such as age and sex
+        using the inequalities query parameter.
       responses:
         "200":
           description:
-            Data containing the health data points for the indicator, years
+            Data containing the health data points for the indicator
             and geographical areas requested
           content:
             application/json:
@@ -263,10 +269,7 @@ paths:
               examples:
                 Too many area_codes:
                   value:
-                    message: Too many values supplied for parameter area_codes. The maximum is 300 but 301 supplied.
-                Too many years:
-                  value:
-                    message: Too many values supplied for parameter years. The maximum is 20 but 21 supplied.
+                    message: Too many values supplied for parameter area_codes. The maximum is 300 but 301 supplied.   
         "500":
           $ref: "#/components/responses/InternalServerError"
       parameters:
@@ -275,7 +278,6 @@ paths:
         - $ref: "#/components/parameters/area_type"
         - $ref: "#/components/parameters/ancestor_code"
         - $ref: "#/components/parameters/benchmark_ref_type"
-        - $ref: "#/components/parameters/years"
         - $ref: "#/components/parameters/inequalities"
         - $ref: "#/components/parameters/latest_only"
       operationId: getHealthDataForAnIndicator
@@ -285,11 +287,16 @@ paths:
         - indicators
       summary: Get quartile values for indicators
       description:
-        Get quartile information for indicators including
+        Get quartile information for many indicators for one area. This will 
+        calculate the quartile based on all areas of the specified type within 
+        either England or a sub-national area, depending on the 
+        benchmark_ref_type parameter. It will use the latest data available 
+        for the area group requested. If the indicator has data for 
+        more than one time period type then the API will return data for each
+        data period type separately.
       parameters:
         - name: ancestor_code
           in: query
-          style: simple
           schema:
             type: string
             example: E12000001
@@ -297,7 +304,6 @@ paths:
           description: The area code of an ancestor area
         - name: area_code
           in: query
-          style: simple
           schema:
             type: string
             example: G82109
@@ -440,6 +446,27 @@ components:
           type: string
           example: "NHS"
           description: The name of the associated hierarchy for the area / geography
+    Date:
+      type: string
+      format: date
+      example: "2023-12-31"
+      description: The end date for the data request, in ISO 8601 format (YYYY-MM-DD)
+    PeriodType:
+      type: string
+      example: Calendar
+      description: a type of date period e.g. Calendar or Financial year
+      enum: 
+        [
+          Calendar,
+          Financial,
+          NovemberNovember
+        ]
+      x-enum-varnames:
+        [
+          Calendar,
+          Financial,
+          NovemberNovember
+        ]
     RootArea:
       type: object
       description: The root node of the area / geography hierarchies
@@ -529,24 +556,33 @@ components:
             recorded on practice disease registers (proportion of total list
             size)"
           description: The definition of the indicator
+        period_types:
+          type: array
+          items:
+            $ref: "#/components/schemas/PeriodType"
+          description: The period types that the indicator holds data for
     HealthDataPoint:
       type: object
       description:
         Represents a health data point for a public health indicator with a
         count, value, upper confidence interval, lower confidence interval,
-        year, age band and sex.
+        date range, age band and sex.
       required:
-        - year
+        - from-date
+        - to-date
         - ageBand
         - sex
         - trend
         - deprivation
       properties:
-        year:
-          type: integer
-          format: int32
-          example: 2023
-          description: The year that the data point is for
+        fromDate:
+          $ref: "#/components/schemas/Date"
+          example: "2023-01-01"
+        toDate:
+          $ref: "#/components/schemas/Date"
+          example: "2023-12-31"
+        periodType:
+          $ref: "#/components/schemas/PeriodType"
         count:
           type: number
           example: 222
@@ -714,11 +750,18 @@ components:
           type: integer
           example: 21404
           description: Unique ID of the indicator
-        year:
-          type: integer
-          format: int32
-          example: 2023
-          description: The year that the data point is for
+        fromDate:
+          $ref: "#/components/schemas/Date"
+          example: "2023-01-01"
+          description: The start date for the data, in ISO 8601 format (YYYY-MM-DD)
+        toDate:
+          $ref: "#/components/schemas/Date"
+          example: "2023-12-31"
+          description: The end date for the data, in ISO 8601 format (YYYY-MM-DD)
+        periodType:
+          $ref: "#/components/schemas/PeriodType"
+          example: Calendar
+          description: The type of date period the data is for, e.g. Calendar or Financial year
         polarity:
           $ref: "#/components/schemas/IndicatorPolarity"
         q0Value:
@@ -756,17 +799,26 @@ components:
         The server could not understand the request due to invalid syntax.
         The client should modify the request and try again.
   parameters:
-    years:
+    from_date:
       in: query
-      name: years
-      description: A list of years, up to 20 years can be requested
-      style: form
+      name: from_date
+      description: The start date for the data request, if ommited defaults to the earliest date for which the indicator has data
+      example: "2023-01-01"
       schema:
-        type: array
-        items:
-          type: integer
-          example: 2023
-        maxItems: 20
+        $ref: "#/components/schemas/Date"
+    to_date:
+      in: query
+      name: to_date
+      description: The end date for the data request, if ommited defaults to the latest date for which the indicator has data
+      example: "2023-12-31"
+      schema:
+        $ref: "#/components/schemas/Date"
+    period_type:
+      in: query
+      name: period_type
+      description: The type of date period to return data for, e.g. "Calendar" or "Financial", if ommited defaults to the indicators default value 
+      schema:
+        $ref: "#/components/schemas/PeriodType"
     area_code:
       in: path
       name: area_code
@@ -793,7 +845,7 @@ components:
     latest_only:
       in: query
       name: latest_only
-      description: Set to true to get data for the latest date period only, default is false. This overrides the years parameter if set to true.
+      description: Set to true to get data for the latest date period only, default is false. This overrides the to and from date parameter if set to true.
       schema:
         type: boolean
     area_type_key:
