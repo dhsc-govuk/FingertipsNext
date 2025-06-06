@@ -12,11 +12,11 @@ import {
 
 interface BenchmarkTooltipArea {
   titleText: string;
-  year: number | undefined;
-  valueText: string | undefined;
+  year?: number;
+  valueText?: string;
   symbol: SymbolsEnum;
   comparisonText?: string;
-  symbolColour: GovukColours | undefined;
+  symbolColour?: GovukColours;
 }
 
 export function BenchmarkTooltipArea({

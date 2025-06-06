@@ -5,7 +5,7 @@ import { H5 } from 'govuk-react';
 export const StyledHoverWrapper = styled.div({
   marginBlock: '10px',
   textWrap: 'wrap',
-  fontSize: '12px',
+  width: '180px',
 });
 
 export const StyledTitleH5 = styled(H5)({

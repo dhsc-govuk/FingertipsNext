@@ -29,20 +29,16 @@ describe('getAreaTitle', () => {
 describe('getComparisonString', () => {
   it('should return undefined for a benchmark', () => {
     const result = getComparisonString(
-      'Best',
+      BenchmarkOutcome.Best,
       'benchmark',
       'test area',
-      'CIOverlappingReferenceValue95'
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95
     );
 
     expect(result).toBeUndefined();
   });
+
   it.each([
-    [
-      BenchmarkOutcome.NotCompared,
-      'Not compared',
-      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-    ],
     [
       BenchmarkOutcome.Better,
       'than ',
@@ -53,7 +49,6 @@ describe('getComparisonString', () => {
     [BenchmarkOutcome.Worse, 'than '],
     [BenchmarkOutcome.Lower, 'than '],
     [BenchmarkOutcome.Higher, 'than '],
-    [undefined, ''],
   ])(
     'should return the correct comparison string for RAG, with confidence limit',
     (
@@ -70,13 +65,8 @@ describe('getComparisonString', () => {
         stubBenchmarkAreaName,
         stubBenchmarkComparisonMethod
       );
-      if (
-        stubBenchmarkOutcome &&
-        stubBenchmarkOutcome !== BenchmarkOutcome.NotCompared
-      ) {
-        expect(result).toContain(stubBenchmarkAreaName);
-        expect(result).toContain(expectedConfidenceLimit);
-      }
+      expect(result).toContain(stubBenchmarkAreaName);
+      expect(result).toContain(expectedConfidenceLimit);
       expect(result).toContain(expectedString);
     }
   );
@@ -84,8 +74,32 @@ describe('getComparisonString', () => {
   it.each([
     [
       BenchmarkOutcome.NotCompared,
-      // SymbolsEnum.WhiteCircle
+      'Not compared',
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
     ],
+    [undefined, ''],
+  ])(
+    'should return the correct comparison string for RAG, with confidence limit when the outcome is undefined or notCompared',
+    (
+      stubBenchmarkOutcome: BenchmarkOutcome | undefined,
+      expectedString: string,
+      stubBenchmarkComparisonMethod: BenchmarkComparisonMethod = BenchmarkComparisonMethod.CIOverlappingReferenceValue95
+    ) => {
+      const stubBenchmarkAreaName = 'Test Area';
+
+      const result = getComparisonString(
+        stubBenchmarkOutcome,
+        'area',
+        stubBenchmarkAreaName,
+        stubBenchmarkComparisonMethod
+      );
+
+      expect(result).toContain(expectedString);
+    }
+  );
+
+  it.each([
+    [BenchmarkOutcome.NotCompared],
     [BenchmarkOutcome.Lowest],
     [BenchmarkOutcome.Low],
     [BenchmarkOutcome.Middle],
@@ -132,7 +146,7 @@ describe('getValueText', () => {
   );
 });
 
-describe('getBenchmarSymbol', () => {
+describe('getBenchmarkSymbol', () => {
   it.each([
     BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
     BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,

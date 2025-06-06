@@ -112,28 +112,22 @@ describe('ThematicMapTooltip', () => {
     );
 
     expect(screen.getAllByTestId('benchmark-tooltip-area')).toHaveLength(2);
-    // Area Names
     expect(
       screen.queryByText(`Group: ${stubGroupData.areaName}`)
     ).toBeInTheDocument();
     expect(screen.queryByText(`${stubAreaData.areaName}`)).toBeInTheDocument();
-    // Years
     expect(
       screen.queryAllByText(stubAreaData.healthData[0].year.toString())
     ).toHaveLength(2);
-    // Values
     expect(
       screen.queryByText(`${formatNumber(stubAreaData.healthData[0].value)} %`)
     ).toBeInTheDocument();
     expect(
       screen.queryByText(`${formatNumber(stubGroupData.healthData[0].value)} %`)
     ).toBeInTheDocument();
-    // Comparison Text
     expect(screen.queryByText(`Better than England (95%)`)).toBeInTheDocument();
     expect(screen.queryByText(`Worse than England (95%)`)).toBeInTheDocument();
-    // Symbols
     expect(screen.getAllByText(SymbolsEnum.Circle)).toHaveLength(2);
-    // Colours
     expect(screen.getAllByText(SymbolsEnum.Circle)[0]).toHaveStyle({
       color: GovukColours.Red,
     });
@@ -156,16 +150,13 @@ describe('ThematicMapTooltip', () => {
     );
 
     expect(screen.getAllByTestId('benchmark-tooltip-area')).toHaveLength(2);
-    // Area Names
     expect(
       screen.queryByText(`Benchmark: ${stubEnglandData.areaName}`)
     ).toBeInTheDocument();
     expect(screen.queryByText(`${stubAreaData.areaName}`)).toBeInTheDocument();
-    // Years
     expect(
       screen.queryAllByText(stubAreaData.healthData[0].year.toString())
     ).toHaveLength(2);
-    // Values
     expect(
       screen.queryByText(`${formatNumber(stubAreaData.healthData[0].value)} %`)
     ).toBeInTheDocument();
@@ -174,11 +165,8 @@ describe('ThematicMapTooltip', () => {
         `${formatNumber(stubEnglandData?.healthData[0].value)} %`
       )
     ).toBeInTheDocument();
-    // Comparison Text
     expect(screen.queryByText(`Better than England (95%)`)).toBeInTheDocument();
-    // Symbols
     expect(screen.getAllByText(SymbolsEnum.Circle)).toHaveLength(2);
-    // Colours
     expect(screen.getAllByText(SymbolsEnum.Circle)[0]).toHaveStyle({
       color: GovukColours.Black,
     });
@@ -202,7 +190,6 @@ describe('ThematicMapTooltip', () => {
     );
 
     expect(screen.getAllByTestId('benchmark-tooltip-area')).toHaveLength(3);
-    // Area Names
     expect(
       screen.queryByText(`Benchmark: ${stubEnglandData.areaName}`)
     ).toBeInTheDocument();
@@ -210,7 +197,6 @@ describe('ThematicMapTooltip', () => {
       screen.queryByText(`Group: ${stubGroupData.areaName}`)
     ).toBeInTheDocument();
     expect(screen.queryByText(`${stubAreaData.areaName}`)).toBeInTheDocument();
-    // Colours
     expect(screen.getAllByText(SymbolsEnum.Circle)[0]).toHaveStyle({
       color: GovukColours.Black,
     });
@@ -222,7 +208,7 @@ describe('ThematicMapTooltip', () => {
     });
   });
 
-  it('should render the expected RAG tooltip when Healthdata for the area are missing', () => {
+  it('should render the expected RAG tooltip when Healthdata for the area is missing', () => {
     render(
       <ThematicMapTooltip
         indicatorData={{ ...stubAreaData, healthData: [] }}
@@ -240,8 +226,6 @@ describe('ThematicMapTooltip', () => {
     ).toBeInTheDocument();
     expect(screen.queryByText(`${stubAreaData.areaName}`)).toBeInTheDocument();
     expect(screen.getAllByText('No data available')).toHaveLength(2);
-
-    screen.debug();
     expect(screen.getAllByText(SymbolsEnum.MultiplicationX)).toHaveLength(2);
     expect(screen.getAllByText(SymbolsEnum.MultiplicationX)[0]).toHaveStyle({
       color: GovukColours.Black,
@@ -251,7 +235,7 @@ describe('ThematicMapTooltip', () => {
     });
   });
 
-  it('should render the expected RAG tooltip when Healthdata for the comparator area are missing', () => {
+  it('should render the expected RAG tooltip when Healthdata for the comparator area is missing', () => {
     render(
       <ThematicMapTooltip
         indicatorData={stubAreaData}
@@ -264,15 +248,11 @@ describe('ThematicMapTooltip', () => {
       />
     );
 
-    screen.debug();
-
     expect(screen.getAllByText('No data available')).toHaveLength(1);
-    // Area Names
     expect(
       screen.queryByText(`Group: ${stubGroupData.areaName}`)
     ).toBeInTheDocument();
     expect(screen.queryByText(`${stubAreaData.areaName}`)).toBeInTheDocument();
-    // Symbols
     expect(screen.getByText(SymbolsEnum.Circle)).toBeInTheDocument();
     expect(screen.getByText(SymbolsEnum.MultiplicationX)).toBeInTheDocument();
     expect(screen.getByText(SymbolsEnum.MultiplicationX)).toHaveStyle({
@@ -280,7 +260,7 @@ describe('ThematicMapTooltip', () => {
     });
   });
 
-  it('should render the expected RAG tooltip when Healthdata for the benchmark area are missing', () => {
+  it('should render the expected RAG tooltip when Healthdata for the benchmark area is missing', () => {
     render(
       <ThematicMapTooltip
         indicatorData={stubAreaData}
@@ -294,12 +274,10 @@ describe('ThematicMapTooltip', () => {
     );
 
     expect(screen.getAllByText('No data available')).toHaveLength(1);
-    // Area Names
     expect(screen.queryByText(`${stubAreaData.areaName}`)).toBeInTheDocument();
     expect(
       screen.queryByText(`Benchmark: ${stubEnglandData.areaName}`)
     ).toBeInTheDocument();
-    // Symbols
     expect(screen.getByText(SymbolsEnum.Circle)).toBeInTheDocument();
     expect(screen.getByText(SymbolsEnum.MultiplicationX)).toBeInTheDocument();
     expect(screen.getByText(SymbolsEnum.MultiplicationX)).toHaveStyle({
@@ -307,7 +285,7 @@ describe('ThematicMapTooltip', () => {
     });
   });
 
-  it('should have a pink circle for the compartor if the comparator is England', () => {
+  it('should have a pink circle for the comparator if the comparator is England', () => {
     render(
       <ThematicMapTooltip
         indicatorData={stubAreaData}
@@ -322,6 +300,7 @@ describe('ThematicMapTooltip', () => {
         polarity={IndicatorPolarity.Unknown}
       />
     );
+
     expect(screen.getAllByText(SymbolsEnum.Circle)[0]).toHaveStyle({
       color: GovukColours.Pink,
     });
@@ -343,6 +322,7 @@ describe('ThematicMapTooltip', () => {
         polarity={IndicatorPolarity.Unknown}
       />
     );
+
     expect(screen.getAllByText(SymbolsEnum.MultiplicationX)[0]).toHaveStyle({
       color: GovukColours.Pink,
     });

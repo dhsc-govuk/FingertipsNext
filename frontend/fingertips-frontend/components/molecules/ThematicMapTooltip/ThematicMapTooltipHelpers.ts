@@ -38,19 +38,12 @@ export function getComparisonString(
   if (
     comparisonText &&
     benchmarkConfidenceLimit &&
-    // && benchmarkAreaName !== 'England'
     benchmarkOutcome !== BenchmarkOutcome.NotCompared
   ) {
     comparisonText += ` (${benchmarkConfidenceLimit}%)`;
   }
 
   return comparisonText;
-  // <>
-  //   <span style={{ display: 'block' }}>{comparisonText()}</span>
-  //   {benchmarkConfidenceLimit && benchmarkArea !== 'England' ? (
-  //     <span style={{ display: 'block' }}>({benchmarkConfidenceLimit}%)</span>
-  //   ) : null}
-  // </>
 }
 
 function getComparisonText(
