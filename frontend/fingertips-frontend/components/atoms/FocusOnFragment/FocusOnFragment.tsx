@@ -9,7 +9,6 @@ export const FocusOnFragment: FC = () => {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (!window) return;
     const hash = window.location.hash.substring(1);
     if (!hash) return;
 
