@@ -15,6 +15,7 @@ import { generateTooltip } from './generateTooltip';
 import { generateAccessibility } from './generateAccessibility';
 import { generateSeriesData } from './generateSeriesData';
 import Highcharts from 'highcharts';
+import { getMinAndMaxXAxisEntries } from './getMinAndMaxXAxisEntries';
 
 export enum LineChartVariant {
   Standard = 'standard',
@@ -131,16 +132,8 @@ export function generateStandardLineChartOptions(
     lineChartCI,
     benchmarkToUse
   );
-  const allXAxisEntries = series
-    .filter(({ type }) => type === 'line')
-    .flatMap((seriesData) => {
-      const { data } = seriesData as Highcharts.SeriesLineOptions;
-      if (!data) return [];
-      return data.map((values) => (values as number[])[0]);
-    });
 
-  const minXAxisEntries = Math.min(...allXAxisEntries);
-  const maxXAxisEntries = Math.max(...allXAxisEntries);
+  const { minXAxisEntries, maxXAxisEntries } = getMinAndMaxXAxisEntries(series);
 
   const fromTo = `from ${minXAxisEntries} to ${maxXAxisEntries}`;
   const titleText = optionalParams?.indicatorName

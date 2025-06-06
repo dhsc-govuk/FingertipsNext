@@ -52,6 +52,7 @@ interface InequalitiesTrendProps {
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   indicatorMetadata?: IndicatorDocument;
   dataSource?: string;
+  indicatorName?: string;
 }
 
 const getBenchmarkOutcomeForYear = (
@@ -69,6 +70,7 @@ export function InequalitiesTrend({
   searchState,
   benchmarkComparisonMethod,
   dataSource,
+  indicatorName,
 }: Readonly<InequalitiesTrendProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
@@ -201,6 +203,8 @@ export function InequalitiesTrend({
         xAxisTitleText: 'Period',
         measurementUnit: indicatorMetadata?.unitLabel,
         inequalityLineChartAreaSelected,
+        indicatorName,
+        areaName: healthDataForArea.areaName,
       }
     );
 
@@ -228,7 +232,7 @@ export function InequalitiesTrend({
             title: 'Line chart',
             content: (
               <LineChart
-                title={''}
+                title={inequalitiesLineChartOptions.title?.text ?? ''}
                 lineChartOptions={inequalitiesLineChartOptions}
                 variant={LineChartVariant.Inequalities}
               />
@@ -239,6 +243,7 @@ export function InequalitiesTrend({
             title: 'Table',
             content: (
               <InequalitiesLineChartTable
+                title={inequalitiesLineChartOptions.title?.text ?? ''}
                 tableData={lineChartData}
                 indicatorMetadata={indicatorMetadata}
                 dynamicKeys={orderedDynamicKeys}

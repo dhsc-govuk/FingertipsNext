@@ -46,6 +46,7 @@ describe('Inequalities table suite', () => {
         tableData={tableData}
         dynamicKeys={['Persons', 'Male', 'Female']}
         inequalityTypeSelected="Sex"
+        title="Inequalities Line chart table title"
       />
     );
 
@@ -62,9 +63,13 @@ describe('Inequalities table suite', () => {
         tableData={tableData}
         dynamicKeys={['Persons', 'Male', 'Female']}
         inequalityTypeSelected="Sex"
+        title="Inequalities Line chart table title"
       />
     );
 
+    expect(
+      screen.getByText(/Inequalities Line chart table title/)
+    ).toBeInTheDocument();
     expect(screen.getByRole('table')).toBeInTheDocument();
     expect(screen.getAllByRole('columnheader')[0]).toHaveTextContent(
       MOCK_HEALTH_DATA[1].areaName
@@ -110,6 +115,7 @@ describe('Inequalities table suite', () => {
         tableData={tableData}
         dynamicKeys={['Persons', 'Male', 'Female']}
         inequalityTypeSelected="Sex"
+        title="Inequalities Line chart table title"
       />
     );
     expect(screen.getAllByRole('cell')).toHaveLength(
@@ -129,6 +135,7 @@ describe('Inequalities table suite', () => {
         tableData={tableData}
         dynamicKeys={[]}
         inequalityTypeSelected="Sex"
+        title="Inequalities Line chart table title"
       />
     );
 
@@ -150,6 +157,7 @@ describe('Inequalities table suite', () => {
         dynamicKeys={['Persons', 'Male', 'Female']}
         indicatorMetadata={{ unitLabel: 'per 100,000' } as IndicatorDocument}
         inequalityTypeSelected="Sex"
+        title="Inequalities Line chart table title"
       />
     );
     expect(screen.getByText('Value: per 100,000')).toBeInTheDocument();
@@ -161,6 +169,7 @@ describe('Inequalities table suite', () => {
         tableData={tableData}
         dynamicKeys={['Persons', 'Male', 'Female']}
         inequalityTypeSelected="Sex"
+        title="Inequalities Line chart table title"
       />
     );
 
@@ -176,6 +185,7 @@ describe('Inequalities table suite', () => {
         dynamicKeys={['Persons', 'Male', 'Female']}
         indicatorMetadata={{ unitLabel: 'per 100,000' } as IndicatorDocument}
         inequalityTypeSelected="Sex"
+        title="Inequalities Line chart table title"
       />
     );
     expect(container.asFragment()).toMatchSnapshot();
@@ -210,6 +220,7 @@ describe('Inequalities table suite', () => {
         tableData={tableDataWithExtraYears}
         dynamicKeys={['Persons', 'Male', 'Female']}
         inequalityTypeSelected="Sex"
+        title="Inequalities Line chart table title"
       />
     );
 

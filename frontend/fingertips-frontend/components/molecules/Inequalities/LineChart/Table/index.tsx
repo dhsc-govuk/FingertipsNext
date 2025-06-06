@@ -19,6 +19,7 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
 import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
 import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
+import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
 
 export enum InequalitiesTableHeadingsEnum {
   PERIOD = 'Period',
@@ -29,6 +30,7 @@ interface InequalitiesLineChartTableProps {
   indicatorMetadata?: IndicatorDocument;
   tableData: InequalitiesChartData;
   dynamicKeys: string[];
+  title?: string;
 }
 
 const StyledTable = styled(Table)({
@@ -84,6 +86,7 @@ export function InequalitiesLineChartTable({
   indicatorMetadata,
   tableData,
   dynamicKeys,
+  title,
 }: Readonly<InequalitiesLineChartTableProps>) {
   const tableHeaders = [
     ...Object.values(InequalitiesTableHeadingsEnum),
@@ -112,6 +115,7 @@ export function InequalitiesLineChartTable({
     <>
       <StyledDivWithScrolling data-testid="inequalitiesLineChartTable-component">
         <div id="inequalitiesTrendTable">
+          <ChartTitle>{title}</ChartTitle>
           <StyledTable
             head={
               <>
