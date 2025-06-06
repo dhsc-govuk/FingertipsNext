@@ -166,6 +166,7 @@ export function OneIndicatorOneAreaViewPlots({
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
         dataSource={indicatorMetadata?.dataSource}
+        indicatorName={indicatorData.name}
       />
     </section>
   );

@@ -974,30 +974,42 @@ describe('getAggregatePointInfo', () => {
 });
 
 describe('generateInequalitiesLineChartOptions', () => {
+  const defaultExpected = {
+    ...lineChartDefaultOptions,
+    yAxis: {
+      ...lineChartDefaultOptions.yAxis,
+      title: { text: 'yAxis: %', margin: 20 },
+    },
+    xAxis: {
+      ...lineChartDefaultOptions.xAxis,
+      title: { text: 'xAxis', margin: 20 },
+    },
+    tooltip: {
+      headerFormat: '',
+      useHTML: true,
+    },
+    series: generateInequalitiesLineChartSeriesData(
+      sexKeys,
+      InequalitiesTypes.Sex,
+      mockChartData,
+      ['A1'],
+      false
+    ),
+    title: {
+      style: {
+        display: 'none',
+      },
+    },
+  };
+
   it('should generate inequalities line chart options', () => {
     const expected = {
-      ...lineChartDefaultOptions,
-      yAxis: {
-        ...lineChartDefaultOptions.yAxis,
-        title: { text: 'yAxis: %', margin: 20 },
+      ...defaultExpected,
+      title: {
+        ...defaultExpected.title,
+        text: 'inequalities from 2004 to 2008',
       },
-      xAxis: {
-        ...lineChartDefaultOptions.xAxis,
-        title: { text: 'xAxis', margin: 20 },
-      },
-      tooltip: {
-        headerFormat: '',
-        useHTML: true,
-      },
-      series: generateInequalitiesLineChartSeriesData(
-        sexKeys,
-        InequalitiesTypes.Sex,
-        mockChartData,
-        ['A1'],
-        false
-      ),
     };
-
     const actual = generateInequalitiesLineChartOptions(
       mockChartData,
       sexKeys,
@@ -1014,6 +1026,47 @@ describe('generateInequalitiesLineChartOptions', () => {
     expect(actual).toMatchObject(expected);
     expect(actual.tooltip?.pointFormatter).toBeDefined();
     expect(typeof actual.tooltip?.pointFormatter).toBe('function');
+  });
+
+  it('should generate inequalities line chart options with indicator name and area', () => {
+    const actual = generateInequalitiesLineChartOptions(
+      mockChartData,
+      sexKeys,
+      InequalitiesTypes.Sex,
+      false,
+      () => [],
+      {
+        yAxisTitleText: 'yAxis',
+        xAxisTitleText: 'xAxis',
+        measurementUnit: '%',
+        indicatorName: 'Random indicator',
+        areaName: 'Random area',
+      }
+    );
+
+    expect(actual.title?.text).toBe(
+      'Random indicator inequalities for Random area from 2004 to 2008'
+    );
+  });
+
+  it('should display empty string for area name if not provided', () => {
+    const actual = generateInequalitiesLineChartOptions(
+      mockChartData,
+      sexKeys,
+      InequalitiesTypes.Sex,
+      false,
+      () => [],
+      {
+        yAxisTitleText: 'yAxis',
+        xAxisTitleText: 'xAxis',
+        measurementUnit: '%',
+        indicatorName: 'Random indicator',
+      }
+    );
+
+    expect(actual.title?.text).toBe(
+      `Random indicator inequalities from 2004 to 2008`
+    );
   });
 });
 

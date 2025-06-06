@@ -18,6 +18,7 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { AreaWithoutAreaType } from '@/lib/common-types';
 import { lineChartDefaultOptions } from '../LineChart/helpers/generateStandardLineChartOptions';
 import { chartSymbols } from '../LineChart/helpers/generateSeriesData';
+import { getMinAndMaxXAxisEntries } from '../LineChart/helpers/getMinAndMaxXAxisEntries';
 
 export const localeSort = (a: string, b: string) => a.localeCompare(b);
 export const sexCategory = 'Sex';
@@ -338,6 +339,8 @@ export function generateInequalitiesLineChartOptions(
     xAxisTitleText?: string;
     measurementUnit?: string;
     inequalityLineChartAreaSelected?: string;
+    indicatorName?: string;
+    areaName?: string;
   }
 ): Highcharts.Options {
   const seriesData = generateInequalitiesLineChartSeriesData(
@@ -349,6 +352,16 @@ export function generateInequalitiesLineChartOptions(
     optionalParams?.inequalityLineChartAreaSelected
   );
 
+  const { minXAxisEntries, maxXAxisEntries } =
+    getMinAndMaxXAxisEntries(seriesData);
+  const fromTo = ` from ${minXAxisEntries} to ${maxXAxisEntries}`;
+  const areaName = optionalParams?.areaName
+    ? ` for ${optionalParams.areaName}`
+    : '';
+  const titleText = optionalParams?.indicatorName
+    ? `${optionalParams.indicatorName} inequalities${areaName}${fromTo}`
+    : `inequalities${fromTo}`;
+
   const chartHeight =
     type === InequalitiesTypes.Deprivation
       ? Number(lineChartDefaultOptions.chart?.height) * 1.5
@@ -356,6 +369,12 @@ export function generateInequalitiesLineChartOptions(
 
   return {
     ...lineChartDefaultOptions,
+    title: {
+      text: titleText,
+      style: {
+        display: 'none',
+      },
+    },
     chart: {
       ...lineChartDefaultOptions.chart,
       height: chartHeight,
