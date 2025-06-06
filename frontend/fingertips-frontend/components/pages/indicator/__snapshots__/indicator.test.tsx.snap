@@ -6,12 +6,6 @@ exports[`indicator description page should match snapshot 1`] = `
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 1.1428571428571428;
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   display: inline-block;
   position: relative;
   margin-top: 15px;
@@ -36,7 +30,7 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 .c0[href] {
-  border-bottom: 1px solid #0b0c0c;
+  border-bottom: 1px solid #0B0C0C;
 }
 
 .c0::before {
@@ -58,17 +52,147 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 @media print {
-  .c0 {
-    font-size: 14px;
-    line-height: 1.2;
-  }
+
 }
 
 @media only screen and (min-width:641px) {
-  .c0 {
-    font-size: 16px;
-    line-height: 1.25;
-  }
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
 }
 
 @media print {
@@ -87,150 +211,6 @@ exports[`indicator description page should match snapshot 1`] = `
   }
 }
 
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -244,6 +224,7 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 <a
+    aria-label="Go back to the previous page"
     class="c0"
     data-testid="indicator-info-back-link"
     href="/chart?is=1&is=2&as=A001"
@@ -260,22 +241,6 @@ exports[`indicator description page should match snapshot 1`] = `
   margin-bottom: 5px;
   display: block;
   color: #6f777b;
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
 }
 
 @media print {
@@ -384,14 +349,6 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -425,6 +382,22 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
 
 }
 
@@ -460,22 +433,6 @@ exports[`indicator description page should match snapshot 1`] = `
 
 .c1 {
   margin-bottom: 10px;
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
 }
 
 @media print {
@@ -588,14 +545,6 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -629,6 +578,22 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
 
 }
 
@@ -710,22 +675,6 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -807,14 +756,6 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 @media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
 
 }
 
@@ -863,6 +804,22 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
 
 }
 
@@ -945,22 +902,6 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -1042,14 +983,6 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 @media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
 
 }
 
@@ -1098,6 +1031,22 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
 
 }
 
@@ -1180,22 +1129,6 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -1277,14 +1210,6 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 @media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
 
 }
 
@@ -1336,6 +1261,22 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
   .c1 {
     margin-bottom: 0;
@@ -1379,22 +1320,6 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -1483,14 +1408,6 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -1524,6 +1441,22 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
 
 }
 
@@ -1602,22 +1535,6 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -1699,14 +1616,6 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 @media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
 
 }
 
@@ -1755,6 +1664,22 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
 
 }
 
@@ -1849,22 +1774,6 @@ exports[`indicator description page should match snapshot 1`] = `
 
 .c4:focus {
   color: #0b0c0c;
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
 }
 
 @media print {
@@ -1980,6 +1889,46 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 @media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
   .c4 {
     font-family: sans-serif;
   }
@@ -1999,39 +1948,7 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
 @media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
 
 }
 
@@ -2122,22 +2039,6 @@ exports[`indicator description page should match snapshot 1`] = `
   display: block;
   margin-top: 0;
   margin-bottom: 15px;
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
 }
 
 @media print {
@@ -2250,14 +2151,6 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -2291,6 +2184,22 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
 
 }
 
@@ -2323,22 +2232,6 @@ exports[`indicator description page should match snapshot 1`] = `
   display: block;
   margin-top: 0;
   margin-bottom: 15px;
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
 }
 
 @media print {
@@ -2451,14 +2344,6 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -2492,6 +2377,22 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
 
 }
 
@@ -2566,22 +2467,6 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -2663,14 +2548,6 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 @media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
 
 }
 
@@ -2722,6 +2599,22 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -2752,22 +2645,6 @@ exports[`indicator description page should match snapshot 1`] = `
   display: block;
   margin-top: 0;
   margin-bottom: 15px;
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
 }
 
 @media print {
@@ -2880,14 +2757,6 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -2921,6 +2790,22 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
 
 }
 
@@ -2995,22 +2880,6 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -3092,14 +2961,6 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 @media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
 
 }
 
@@ -3151,6 +3012,22 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -3181,22 +3058,6 @@ exports[`indicator description page should match snapshot 1`] = `
   display: block;
   margin-top: 0;
   margin-bottom: 15px;
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
 }
 
 @media print {
@@ -3309,14 +3170,6 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -3350,6 +3203,22 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
 
 }
 
@@ -3424,22 +3293,6 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -3521,14 +3374,6 @@ exports[`indicator description page should match snapshot 1`] = `
 }
 
 @media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
 
 }
 
@@ -3580,6 +3425,22 @@ exports[`indicator description page should match snapshot 1`] = `
 
 }
 
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -3611,22 +3472,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
   display: block;
   margin-top: 0;
   margin-bottom: 15px;
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
 }
 
 @media print {
@@ -3739,14 +3584,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -3780,6 +3617,22 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
 
 }
 
@@ -3854,22 +3707,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -3951,14 +3788,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 }
 
 @media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
 
 }
 
@@ -4010,6 +3839,22 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 
 }
 
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -4051,22 +3896,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -4155,14 +3984,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -4196,6 +4017,22 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
 
 }
 
@@ -4263,22 +4100,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -4360,14 +4181,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 }
 
 @media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
 
 }
 
@@ -4419,6 +4232,22 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
   .c0 {
     margin-bottom: 30px;
   }
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
 }
 
 @media only screen and (min-width:641px) {
@@ -4578,22 +4407,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -4692,14 +4505,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -4733,6 +4538,22 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
 
 }
 
@@ -4754,39 +4575,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
   >
     Data sources and reuse
   </h3>
-  .c3 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.c3:focus {
-  outline: 3px solid #ffdd00;
-  outline-offset: 0;
-  background-color: #ffdd00;
-}
-
-.c3:link {
-  color: #1d70b8;
-}
-
-.c3:visited {
-  color: #4c2c92;
-}
-
-.c3:hover {
-  color: #2b8cc4;
-}
-
-.c3:active {
-  color: #2b8cc4;
-}
-
-.c3:focus {
-  color: #0b0c0c;
-}
-
-.c1 {
+  .c1 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: left;
@@ -4821,44 +4610,36 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
   margin-bottom: 20px;
 }
 
-@media print {
-
+.c3 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-@media only screen and (min-width:641px) {
-
+.c3:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+  background-color: #ffdd00;
 }
 
-@media print {
-
+.c3:link {
+  color: #1d70b8;
 }
 
-@media print {
-
+.c3:visited {
+  color: #4c2c92;
 }
 
-@media print {
-
+.c3:hover {
+  color: #2b8cc4;
 }
 
-@media only screen and (min-width:641px) {
-
+.c3:active {
+  color: #2b8cc4;
 }
 
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
+.c3:focus {
+  color: #0b0c0c;
 }
 
 @media print {
@@ -4889,6 +4670,46 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 
 }
 
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
 @media print {
 
 }
@@ -4915,38 +4736,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 
 @media only screen and (min-width:641px) {
 
-}
-
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-  .c3 {
-    font-family: sans-serif;
-  }
-}
-
-@media print {
-  .c3[href^="/"]::after,
-  .c3[href^="http://"]::after,
-  .c3[href^="https://"]::after {
-    content: " (" attr(href) ")";
-    font-size: 90%;
-    word-wrap: break-word;
-  }
 }
 
 @media print {
@@ -4997,6 +4786,30 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
   .c0 {
     margin-bottom: 30px;
   }
+}
+
+@media print {
+  .c3 {
+    font-family: sans-serif;
+  }
+}
+
+@media print {
+  .c3[href^="/"]::after,
+  .c3[href^="http://"]::after,
+  .c3[href^="https://"]::after {
+    content: " (" attr(href) ")";
+    font-size: 90%;
+    word-wrap: break-word;
+  }
+}
+
+@media print {
+
+}
+
+@media print {
+
 }
 
 @media only screen and (min-width:641px) {
@@ -5152,22 +4965,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -5266,14 +5063,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -5307,6 +5096,22 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
 
 }
 
@@ -5375,22 +5180,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -5472,14 +5261,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 }
 
 @media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
 
 }
 
@@ -5531,6 +5312,22 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
   .c0 {
     margin-bottom: 30px;
   }
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
 }
 
 @media only screen and (min-width:641px) {
@@ -5620,22 +5417,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -5734,14 +5515,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -5775,6 +5548,22 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
 
 }
 
@@ -5849,22 +5638,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -5946,14 +5719,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 }
 
 @media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
 
 }
 
@@ -6005,6 +5770,22 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
 
 }
 
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -6036,22 +5817,6 @@ Fusce bibendum vestibulum lacus, non bibendum tellus ullamcorper ut. Curabitur a
   display: block;
   margin-top: 0;
   margin-bottom: 15px;
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
 }
 
 @media print {
@@ -6164,14 +5929,6 @@ Fusce bibendum vestibulum lacus, non bibendum tellus ullamcorper ut. Curabitur a
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -6205,6 +5962,22 @@ Fusce bibendum vestibulum lacus, non bibendum tellus ullamcorper ut. Curabitur a
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
 
 }
 
@@ -6280,22 +6053,6 @@ Fusce bibendum vestibulum lacus, non bibendum tellus ullamcorper ut. Curabitur a
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -6377,14 +6134,6 @@ Fusce bibendum vestibulum lacus, non bibendum tellus ullamcorper ut. Curabitur a
 }
 
 @media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
 
 }
 
@@ -6436,6 +6185,22 @@ Fusce bibendum vestibulum lacus, non bibendum tellus ullamcorper ut. Curabitur a
 
 }
 
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -6467,22 +6232,6 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
   display: block;
   margin-top: 0;
   margin-bottom: 15px;
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
 }
 
 @media print {
@@ -6595,14 +6344,6 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -6636,6 +6377,22 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
 
 }
 
@@ -6668,22 +6425,6 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
   display: block;
   margin-top: 0;
   margin-bottom: 15px;
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
 }
 
 @media print {
@@ -6796,14 +6537,6 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -6837,6 +6570,22 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
 
 }
 
@@ -6911,22 +6660,6 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -7008,14 +6741,6 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 }
 
 @media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
 
 }
 
@@ -7067,6 +6792,22 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 
 }
 
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -7097,22 +6838,6 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
   display: block;
   margin-top: 0;
   margin-bottom: 15px;
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
 }
 
 @media print {
@@ -7225,14 +6950,6 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -7266,6 +6983,22 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
 
 }
 
@@ -7340,22 +7073,6 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -7437,14 +7154,6 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 }
 
 @media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
 
 }
 
@@ -7496,6 +7205,22 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 
 }
 
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -7526,22 +7251,6 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
   display: block;
   margin-top: 0;
   margin-bottom: 15px;
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
 }
 
 @media print {
@@ -7654,14 +7363,6 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -7695,6 +7396,22 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
 
 }
 
@@ -7727,22 +7444,6 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
   display: block;
   margin-top: 0;
   margin-bottom: 15px;
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
 }
 
 @media print {
@@ -7855,14 +7556,6 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -7896,6 +7589,22 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
 
 }
 
@@ -7997,22 +7706,6 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 }
 
 @media print {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
   .c3 {
     font-size: 14px;
     line-height: 1.15;
@@ -8117,6 +7810,46 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 }
 
 @media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
   .c4 {
     font-family: sans-serif;
   }
@@ -8136,39 +7869,7 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 
 }
 
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
 @media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
 
 }
 
@@ -8243,22 +7944,6 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -8357,14 +8042,6 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 
 }
 
-@media print {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -8398,6 +8075,22 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
 
 }
 
@@ -8499,22 +8192,6 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 }
 
 @media print {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
   .c3 {
     font-size: 14px;
     line-height: 1.15;
@@ -8619,6 +8296,46 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 }
 
 @media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
   .c4 {
     font-family: sans-serif;
   }
@@ -8638,39 +8355,7 @@ Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperd
 
 }
 
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
 @media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
 
 }
 

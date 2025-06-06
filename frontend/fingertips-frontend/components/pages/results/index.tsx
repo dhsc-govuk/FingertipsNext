@@ -1,6 +1,6 @@
 'use client';
 
-import { BackLink, ErrorSummary, GridCol, GridRow, H1 } from 'govuk-react';
+import { ErrorSummary, GridCol, GridRow, H1 } from 'govuk-react';
 import { useActionState, useEffect } from 'react';
 import {
   IndicatorSelectionState,
@@ -25,6 +25,7 @@ import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
 import { useSearchParams } from 'next/navigation';
 import styled from 'styled-components';
+import { BackLink } from '@/components/atoms/BackLink';
 
 type SearchResultsProps = {
   initialIndicatorSelectionState: IndicatorSelectionState;

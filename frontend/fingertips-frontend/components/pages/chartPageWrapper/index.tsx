@@ -10,9 +10,10 @@ import {
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
-import { BackLink, GridCol, GridRow, H2 } from 'govuk-react';
+import { GridCol, GridRow, H2 } from 'govuk-react';
 import { useEffect, useState } from 'react';
 import { FilterSummaryPanel } from '@/components/molecules/FilterSummaryPanel';
+import { BackLink } from '@/components/atoms/BackLink';
 
 interface ChartPageWrapperProps {
   children: React.ReactNode;

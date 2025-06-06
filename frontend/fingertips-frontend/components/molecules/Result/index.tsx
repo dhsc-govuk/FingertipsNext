@@ -6,7 +6,6 @@ import {
   GridRow,
   GridCol,
   Checkbox,
-  Link,
   Tag,
 } from 'govuk-react';
 import { spacing, typography } from '@govuk-react/lib';
@@ -19,6 +18,7 @@ import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
 import { TrendTag } from '../TrendTag';
 import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
+import { Link } from '@/components/atoms/Link';
 
 type SearchResultProps = {
   result: IndicatorDocument;

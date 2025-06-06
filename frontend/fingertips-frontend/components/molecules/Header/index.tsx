@@ -1,7 +1,9 @@
 'use client';
 
+import { Link } from '@/components/atoms/Link';
+import { TopNavLink } from '@/components/atoms/TopNavLink';
 import { contactEmailLink } from '@/lib/links';
-import { Link, Main, PhaseBanner, TopNav } from 'govuk-react';
+import { Main, PhaseBanner, TopNav } from 'govuk-react';
 import styled from 'styled-components';
 
 const ZeroPaddingMain = styled(Main)`
@@ -17,9 +19,9 @@ export function FTHeader() {
     <header>
       <TopNav
         serviceTitle={
-          <TopNav.NavLink href="/">
+          <TopNavLink href="/">
             <ServiceTitle>Access public health data</ServiceTitle>
-          </TopNav.NavLink>
+          </TopNavLink>
         }
       />
       <ZeroPaddingMain>
