@@ -6,7 +6,6 @@ import {
   HealthDataPointTrendEnum,
   SexData,
 } from '@/generated-sources/ft-api-client';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 const noDeprivation: DeprivationData = {
   sequence: 1,
@@ -1723,8 +1722,8 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           trend: HealthDataPointTrendEnum.NotYetCalculated,
           deprivation: noDeprivation,
           benchmarkComparison: {
-            benchmarkAreaCode: areaCodeForEngland,
-            benchmarkAreaName: 'England',
+            benchmarkAreaCode: 'stubBenchmarkAreaCode',
+            benchmarkAreaName: 'Stub BenchmarkAreaName',
             benchmarkValue: 1,
             outcome: BenchmarkOutcome.Middle,
           },
