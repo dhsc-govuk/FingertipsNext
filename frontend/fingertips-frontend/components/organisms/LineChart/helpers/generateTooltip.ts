@@ -80,7 +80,7 @@ function generateTooltipPointForSelectedAreas(
   return (point: Highcharts.Point, symbol: string) => {
     return [
       `
-      <div style="padding-right: 25px">
+      <div style="padding-right: 25px" class="tooltip-point-selector">
         <span style="display: block; font-weight: bold">${point.series.name}</span>
         <span style="display: block;>${point.x}</span>
         <div style="display: flex; margin-top: 15px; align-items: center;">

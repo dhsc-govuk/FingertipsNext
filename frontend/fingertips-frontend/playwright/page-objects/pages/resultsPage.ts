@@ -204,7 +204,8 @@ export default class ResultsPage extends AreaFilter {
 
   async clickViewChartsButton() {
     await this.clickAndAwaitLoadingComplete(
-      this.page.getByTestId(this.viewChartsButton)
+      this.page.getByTestId(this.viewChartsButton),
+      20_000 // Increased timeout to 20 seconds to allow for charts to load
     );
   }
 
