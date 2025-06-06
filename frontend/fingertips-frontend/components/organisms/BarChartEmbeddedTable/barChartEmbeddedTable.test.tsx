@@ -172,15 +172,20 @@ describe('BarChartEmbeddedTable', () => {
     ],
   };
 
-  it('should render BarChartEmbeddedTable component', async () => {
+  it('should render BarChartEmbeddedTable component with title', async () => {
     render(
       <BarChartEmbeddedTable
         benchmarkToUse={areaCodeForEngland}
         healthIndicatorData={mockHealthIndicatorData}
+        indicatorMetadata={
+          { indicatorName: 'Falls in over 65s' } as IndicatorDocument
+        }
       />
     );
 
     expect(await screen.findByRole('table')).toBeInTheDocument();
+    const headings = screen.getAllByRole('heading');
+    expect(headings[0]).toHaveTextContent('Falls in over 65s, 2008');
     expect(
       await screen.findByTestId('barChartEmbeddedTable-component')
     ).toBeInTheDocument();

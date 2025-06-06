@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ContainerWithOutline should render correctly 1`] = `
+@media (min-width:641px) {
+  .c0 {
+    border: 1px solid #BFC1C3;
+    padding: 30px 20px 5px 20px;
+  }
+}
+
+<div>
+  <div
+    class="c0"
+  >
+    Content
+  </div>
+</div>
+`;

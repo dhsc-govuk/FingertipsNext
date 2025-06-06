@@ -35,6 +35,9 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
 import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
+import { ContainerWithOutline } from '@/components/atoms/ContainerWithOutline/ContainerWithOutline';
+import { ContainerWithScrolling } from '@/components/atoms/ContainerWithScrolling/ContainerWithScrolling';
 
 function sortByValueAndAreaName(
   a: BarChartEmbeddedTableRow,
@@ -174,9 +177,12 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
     ]
   );
 
+  const title = `${indicatorMetadata?.indicatorName}, ${fullYear}`;
+
   return (
-    <>
+    <ContainerWithOutline>
       <div data-testid={`${id}-component`} id={id}>
+        <ChartTitle>{title}</ChartTitle>
         <ConfidenceIntervalCheckbox
           chartName={chartName}
           showConfidenceIntervalsData={showConfidenceIntervalsData}
@@ -185,191 +191,192 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
         <BenchmarkLegend
           benchmarkComparisonMethod={benchmarkComparisonMethod}
           polarity={polarity}
-          title={`Compared to ${benchmarkAreaName} for ${fullYear} time period`}
+          title={`Compared to ${benchmarkAreaName}`}
         />
+        <ContainerWithScrolling horizontal>
+          <Table
+            head={
+              <React.Fragment>
+                <Table.Row>
+                  <Table.CellHeader colSpan={5}></Table.CellHeader>
+                  <Table.CellHeader colSpan={2} style={{ textAlign: 'center' }}>
+                    <ConfidenceLimitsHeader confidenceLimit={confidenceLimit} />
+                  </Table.CellHeader>
+                </Table.Row>
 
-        <Table
-          head={
-            <React.Fragment>
-              <Table.Row>
-                <Table.CellHeader colSpan={5}></Table.CellHeader>
-                <Table.CellHeader colSpan={2} style={{ textAlign: 'center' }}>
-                  <ConfidenceLimitsHeader confidenceLimit={confidenceLimit} />
-                </Table.CellHeader>
-              </Table.Row>
+                <Table.Row>
+                  <Table.CellHeader
+                    style={{ verticalAlign: 'top', paddingLeft: '10px' }}
+                  >
+                    {BarChartEmbeddedTableHeadingEnum.AreaName}
+                  </Table.CellHeader>
 
-              <Table.Row>
-                <Table.CellHeader
-                  style={{ verticalAlign: 'top', paddingLeft: '10px' }}
-                >
-                  {BarChartEmbeddedTableHeadingEnum.AreaName}
-                </Table.CellHeader>
-
-                <Table.CellHeader
-                  style={{ verticalAlign: 'top', textAlign: 'center' }}
-                >
-                  {BarChartEmbeddedTableHeadingEnum.RecentTrend}
-                </Table.CellHeader>
-                <Table.CellHeader
-                  style={{ verticalAlign: 'top', textAlign: 'right' }}
-                >
-                  {BarChartEmbeddedTableHeadingEnum.Count}
-                </Table.CellHeader>
-                <Table.CellHeader
-                  colSpan={2}
-                  style={{ verticalAlign: 'top', textAlign: 'center' }}
-                >
-                  {BarChartEmbeddedTableHeadingEnum.Value} {measurementUnit}
-                </Table.CellHeader>
-                <Table.CellHeader
-                  style={{ verticalAlign: 'top', textAlign: 'right' }}
-                >
-                  {BarChartEmbeddedTableHeadingEnum.Lower}
-                </Table.CellHeader>
-                <Table.CellHeader
-                  style={{
-                    verticalAlign: 'top',
-                    textAlign: 'right',
-                    paddingRight: '10px',
-                  }}
-                >
-                  {BarChartEmbeddedTableHeadingEnum.Upper}
-                </Table.CellHeader>
-              </Table.Row>
-            </React.Fragment>
-          }
-        >
-          {englandDataPoint ? (
-            <Table.Row
-              key={`${englandData?.areaName}`}
-              style={{ backgroundColor: GovukColours.LightGrey }}
-              data-testid="table-row-benchmark"
-            >
-              <CheckValueInTableCell
-                value={`${englandDataPointNamePrefix}${englandData?.areaName}`}
-                style={{ textAlign: 'left', paddingLeft: '10px' }}
-              />
-              <Table.Cell style={{ textAlign: 'center' }}>
-                <TrendTag trendFromResponse={englandDataPoint.trend} />
-              </Table.Cell>
-              <FormatNumberInTableCell
-                value={englandDataPoint.count}
-                numberStyle={'whole'}
-                style={{ textAlign: 'right' }}
-              />
-              <FormatNumberInTableCell
-                value={englandDataPoint.value}
-                style={{
-                  textAlign: 'right',
-                  paddingRight: '0px',
-                  paddingLeft: '20px',
-                }}
-              />
-              <Table.Cell style={{ paddingRight: '0px' }}>
-                <SparklineChart
-                  value={[englandDataPoint.value]}
-                  maxValue={maxValue}
-                  confidenceIntervalValues={[
-                    englandDataPoint.lowerCi,
-                    englandDataPoint.upperCi,
-                  ]}
-                  showConfidenceIntervalsData={showConfidenceIntervalsData}
-                  benchmarkOutcome={
-                    englandDataPoint?.benchmarkComparison?.outcome
-                  }
-                  benchmarkComparisonMethod={benchmarkComparisonMethod}
-                  polarity={polarity}
-                  label={englandLabel}
-                  area={englandData?.areaName}
-                  year={englandDataPoint.year}
-                  measurementUnit={measurementUnit}
-                  barColor={GovukColours.DarkGrey}
-                  showComparisonLabels={showComparisonLabels}
-                ></SparklineChart>
-              </Table.Cell>
-              <FormatNumberInTableCell
-                value={englandDataPoint.lowerCi}
-                style={{ textAlign: 'right' }}
-              />
-              <FormatNumberInTableCell
-                value={englandDataPoint.upperCi}
-                style={{ textAlign: 'right', paddingRight: '10px' }}
-              />
-            </Table.Row>
-          ) : null}
-
-          {groupDataPoint ? (
-            <Table.Row
-              key={`${groupIndicatorData?.areaName}`}
-              style={{ backgroundColor: GovukColours.LightGrey }}
-              data-testid="table-row-group"
-            >
-              <CheckValueInTableCell
-                value={`${groupDataPointNamePrefix}${groupIndicatorData?.areaName}`}
-                style={{ textAlign: 'left', paddingLeft: '10px' }}
-              />
-              <Table.Cell style={{ textAlign: 'center' }}>
-                <TrendTag trendFromResponse={groupDataPoint.trend} />
-              </Table.Cell>
-              <FormatNumberInTableCell
-                value={groupDataPoint.count}
-                numberStyle={'whole'}
-                style={{ textAlign: 'right' }}
-              />
-              <FormatNumberInTableCell
-                value={groupDataPoint.value}
-                style={{
-                  textAlign: 'right',
-                  paddingRight: '0px',
-                  paddingLeft: '20px',
-                }}
-              />
-              <Table.Cell style={{ paddingRight: '0px' }}>
-                <SparklineChart
-                  value={[groupDataPoint.value]}
-                  maxValue={maxValue}
-                  confidenceIntervalValues={[
-                    groupDataPoint.lowerCi,
-                    groupDataPoint.upperCi,
-                  ]}
-                  showConfidenceIntervalsData={showConfidenceIntervalsData}
-                  benchmarkOutcome={groupDataPoint.benchmarkComparison?.outcome}
-                  benchmarkComparisonMethod={benchmarkComparisonMethod}
-                  polarity={polarity}
-                  label={groupLabel}
-                  area={groupIndicatorData?.areaName}
-                  year={groupDataPoint.year}
-                  measurementUnit={measurementUnit}
-                  barColor={GovukColours.DarkGrey}
+                  <Table.CellHeader
+                    style={{ verticalAlign: 'top', textAlign: 'center' }}
+                  >
+                    {BarChartEmbeddedTableHeadingEnum.RecentTrend}
+                  </Table.CellHeader>
+                  <Table.CellHeader
+                    style={{ verticalAlign: 'top', textAlign: 'right' }}
+                  >
+                    {BarChartEmbeddedTableHeadingEnum.Count}
+                  </Table.CellHeader>
+                  <Table.CellHeader
+                    colSpan={2}
+                    style={{ verticalAlign: 'top', textAlign: 'center' }}
+                  >
+                    {BarChartEmbeddedTableHeadingEnum.Value} {measurementUnit}
+                  </Table.CellHeader>
+                  <Table.CellHeader
+                    style={{ verticalAlign: 'top', textAlign: 'right' }}
+                  >
+                    {BarChartEmbeddedTableHeadingEnum.Lower}
+                  </Table.CellHeader>
+                  <Table.CellHeader
+                    style={{
+                      verticalAlign: 'top',
+                      textAlign: 'right',
+                      paddingRight: '10px',
+                    }}
+                  >
+                    {BarChartEmbeddedTableHeadingEnum.Upper}
+                  </Table.CellHeader>
+                </Table.Row>
+              </React.Fragment>
+            }
+          >
+            {englandDataPoint ? (
+              <Table.Row
+                key={`${englandData?.areaName}`}
+                style={{ backgroundColor: GovukColours.LightGrey }}
+                data-testid="table-row-benchmark"
+              >
+                <CheckValueInTableCell
+                  value={`${englandDataPointNamePrefix}${englandData?.areaName}`}
+                  style={{ textAlign: 'left', paddingLeft: '10px' }}
                 />
-              </Table.Cell>
-              <FormatNumberInTableCell
-                value={groupDataPoint.lowerCi}
-                style={{ textAlign: 'right' }}
-              />
-              <FormatNumberInTableCell
-                value={groupDataPoint.upperCi}
-                style={{ textAlign: 'right', paddingRight: '10px' }}
-              />
-            </Table.Row>
-          ) : null}
+                <Table.Cell style={{ textAlign: 'center' }}>
+                  <TrendTag trendFromResponse={englandDataPoint.trend} />
+                </Table.Cell>
+                <FormatNumberInTableCell
+                  value={englandDataPoint.count}
+                  numberStyle={'whole'}
+                  style={{ textAlign: 'right' }}
+                />
+                <FormatNumberInTableCell
+                  value={englandDataPoint.value}
+                  style={{
+                    textAlign: 'right',
+                    paddingRight: '0px',
+                    paddingLeft: '20px',
+                  }}
+                />
+                <Table.Cell style={{ paddingRight: '0px' }}>
+                  <SparklineChart
+                    value={[englandDataPoint.value]}
+                    maxValue={maxValue}
+                    confidenceIntervalValues={[
+                      englandDataPoint.lowerCi,
+                      englandDataPoint.upperCi,
+                    ]}
+                    showConfidenceIntervalsData={showConfidenceIntervalsData}
+                    benchmarkOutcome={
+                      englandDataPoint?.benchmarkComparison?.outcome
+                    }
+                    benchmarkComparisonMethod={benchmarkComparisonMethod}
+                    polarity={polarity}
+                    label={englandLabel}
+                    area={englandData?.areaName}
+                    year={englandDataPoint.year}
+                    measurementUnit={measurementUnit}
+                    barColor={GovukColours.DarkGrey}
+                    showComparisonLabels={showComparisonLabels}
+                  ></SparklineChart>
+                </Table.Cell>
+                <FormatNumberInTableCell
+                  value={englandDataPoint.lowerCi}
+                  style={{ textAlign: 'right' }}
+                />
+                <FormatNumberInTableCell
+                  value={englandDataPoint.upperCi}
+                  style={{ textAlign: 'right', paddingRight: '10px' }}
+                />
+              </Table.Row>
+            ) : null}
 
-          <BarChartEmbeddedRows
-            rows={sortedTableRows}
-            benchmarkComparisonMethod={benchmarkComparisonMethod}
-            maxValue={maxValue}
-            showConfidenceIntervalsData={showConfidenceIntervalsData}
-            polarity={polarity}
-          />
-        </Table>
+            {groupDataPoint ? (
+              <Table.Row
+                key={`${groupIndicatorData?.areaName}`}
+                style={{ backgroundColor: GovukColours.LightGrey }}
+                data-testid="table-row-group"
+              >
+                <CheckValueInTableCell
+                  value={`${groupDataPointNamePrefix}${groupIndicatorData?.areaName}`}
+                  style={{ textAlign: 'left', paddingLeft: '10px' }}
+                />
+                <Table.Cell style={{ textAlign: 'center' }}>
+                  <TrendTag trendFromResponse={groupDataPoint.trend} />
+                </Table.Cell>
+                <FormatNumberInTableCell
+                  value={groupDataPoint.count}
+                  numberStyle={'whole'}
+                  style={{ textAlign: 'right' }}
+                />
+                <FormatNumberInTableCell
+                  value={groupDataPoint.value}
+                  style={{
+                    textAlign: 'right',
+                    paddingRight: '0px',
+                    paddingLeft: '20px',
+                  }}
+                />
+                <Table.Cell style={{ paddingRight: '0px' }}>
+                  <SparklineChart
+                    value={[groupDataPoint.value]}
+                    maxValue={maxValue}
+                    confidenceIntervalValues={[
+                      groupDataPoint.lowerCi,
+                      groupDataPoint.upperCi,
+                    ]}
+                    showConfidenceIntervalsData={showConfidenceIntervalsData}
+                    benchmarkOutcome={
+                      groupDataPoint.benchmarkComparison?.outcome
+                    }
+                    benchmarkComparisonMethod={benchmarkComparisonMethod}
+                    polarity={polarity}
+                    label={groupLabel}
+                    area={groupIndicatorData?.areaName}
+                    year={groupDataPoint.year}
+                    measurementUnit={measurementUnit}
+                    barColor={GovukColours.DarkGrey}
+                  />
+                </Table.Cell>
+                <FormatNumberInTableCell
+                  value={groupDataPoint.lowerCi}
+                  style={{ textAlign: 'right' }}
+                />
+                <FormatNumberInTableCell
+                  value={groupDataPoint.upperCi}
+                  style={{ textAlign: 'right', paddingRight: '10px' }}
+                />
+              </Table.Row>
+            ) : null}
 
+            <BarChartEmbeddedRows
+              rows={sortedTableRows}
+              benchmarkComparisonMethod={benchmarkComparisonMethod}
+              maxValue={maxValue}
+              showConfidenceIntervalsData={showConfidenceIntervalsData}
+              polarity={polarity}
+            />
+          </Table>
+        </ContainerWithScrolling>
         <ExportOnlyWrapper>
           <ExportCopyright />
         </ExportOnlyWrapper>
       </div>
-
       <ExportOptionsButton targetId={id} csvData={csvData} />
       <DataSource dataSource={dataSource} />
-    </>
+    </ContainerWithOutline>
   );
 };
