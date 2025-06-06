@@ -259,11 +259,6 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
   font-size: 19px;
 }
 
-.c30 {
-  position: relative;
-  height: 50px;
-}
-
 .c25 {
   height: 50px;
   margin: 0;
@@ -271,6 +266,37 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
 
 .c26 {
   width: 240px;
+}
+
+.c23 {
+  background: white;
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  padding-right: 10px;
+  vertical-align: bottom;
+  width: 240px;
+  padding-left: 10px;
+}
+
+.c28 {
+  vertical-align: bottom;
+  padding-right: 10px;
+  padding-left: 10px;
+  text-align: left;
+}
+
+.c27 {
+  vertical-align: bottom;
+  padding-right: 10px;
+  padding-left: 10px;
+  text-align: right;
+}
+
+.c30 {
+  position: relative;
+  height: 50px;
 }
 
 .c31 {
@@ -299,38 +325,12 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
   background-color: #F3F2F1;
 }
 
-.c23 {
-  background: white;
-  position: -webkit-sticky;
-  position: sticky;
-  left: 0;
-  z-index: 1;
-  padding-right: 10px;
-  vertical-align: bottom;
-  width: 240px;
-  padding-left: 10px;
-}
-
 .c29 {
   vertical-align: bottom;
   width: 60px;
   padding-right: 0px;
   padding-left: 10px;
   height: 300px;
-}
-
-.c28 {
-  vertical-align: bottom;
-  padding-right: 10px;
-  padding-left: 10px;
-  text-align: left;
-}
-
-.c27 {
-  vertical-align: bottom;
-  padding-right: 10px;
-  padding-left: 10px;
-  text-align: right;
 }
 
 .c35 {
@@ -684,6 +684,7 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
           >
             <th
               class="c22 c23"
+              data-testid="heatmap-header-indicator-title"
               style="height: 30px;"
             >
               <h4
@@ -694,6 +695,7 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
             </th>
             <th
               class="c22 c27"
+              data-testid="heatmap-header-period"
               style="height: 30px;"
             >
               <h4
@@ -704,6 +706,7 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
             </th>
             <th
               class="c22 c28"
+              data-testid="heatmap-header-value-unit"
               style="height: 30px;"
             >
               <h4
@@ -714,6 +717,7 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
             </th>
             <th
               class="c22 c29"
+              data-testid="heatmap-header-benchmark-group"
               style="height: 30px;"
             >
               <div
@@ -728,6 +732,7 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
             </th>
             <th
               class="c22 c29"
+              data-testid="heatmap-header-non-benchmark-group"
               style="height: 30px;"
             >
               <div
@@ -742,6 +747,7 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
             </th>
             <th
               class="c22 c29"
+              data-testid="heatmap-header-area"
               style="height: 30px;"
             >
               <div
@@ -756,6 +762,7 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
             </th>
             <th
               class="c22 c29"
+              data-testid="heatmap-header-area"
               style="height: 30px;"
             >
               <div
@@ -1458,11 +1465,6 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   font-size: 19px;
 }
 
-.c30 {
-  position: relative;
-  height: 50px;
-}
-
 .c25 {
   height: 50px;
   margin: 0;
@@ -1470,6 +1472,37 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
 
 .c26 {
   width: 240px;
+}
+
+.c23 {
+  background: white;
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  padding-right: 10px;
+  vertical-align: bottom;
+  width: 240px;
+  padding-left: 10px;
+}
+
+.c28 {
+  vertical-align: bottom;
+  padding-right: 10px;
+  padding-left: 10px;
+  text-align: left;
+}
+
+.c27 {
+  vertical-align: bottom;
+  padding-right: 10px;
+  padding-left: 10px;
+  text-align: right;
+}
+
+.c30 {
+  position: relative;
+  height: 50px;
 }
 
 .c31 {
@@ -1498,38 +1531,12 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   background-color: #F3F2F1;
 }
 
-.c23 {
-  background: white;
-  position: -webkit-sticky;
-  position: sticky;
-  left: 0;
-  z-index: 1;
-  padding-right: 10px;
-  vertical-align: bottom;
-  width: 240px;
-  padding-left: 10px;
-}
-
 .c29 {
   vertical-align: bottom;
   width: 60px;
   padding-right: 0px;
   padding-left: 10px;
   height: 300px;
-}
-
-.c28 {
-  vertical-align: bottom;
-  padding-right: 10px;
-  padding-left: 10px;
-  text-align: left;
-}
-
-.c27 {
-  vertical-align: bottom;
-  padding-right: 10px;
-  padding-left: 10px;
-  text-align: right;
 }
 
 .c35 {
@@ -1888,6 +1895,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
           >
             <th
               class="c22 c23"
+              data-testid="heatmap-header-indicator-title"
               style="height: 30px;"
             >
               <h4
@@ -1898,6 +1906,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
             </th>
             <th
               class="c22 c27"
+              data-testid="heatmap-header-period"
               style="height: 30px;"
             >
               <h4
@@ -1908,6 +1917,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
             </th>
             <th
               class="c22 c28"
+              data-testid="heatmap-header-value-unit"
               style="height: 30px;"
             >
               <h4
@@ -1918,6 +1928,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
             </th>
             <th
               class="c22 c29"
+              data-testid="heatmap-header-non-benchmark-group"
               style="height: 30px;"
             >
               <div
@@ -1932,6 +1943,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
             </th>
             <th
               class="c22 c29"
+              data-testid="heatmap-header-benchmark-group"
               style="height: 30px;"
             >
               <div
@@ -1946,6 +1958,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
             </th>
             <th
               class="c22 c29"
+              data-testid="heatmap-header-area"
               style="height: 30px;"
             >
               <div
@@ -1960,6 +1973,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
             </th>
             <th
               class="c22 c29"
+              data-testid="heatmap-header-area"
               style="height: 30px;"
             >
               <div

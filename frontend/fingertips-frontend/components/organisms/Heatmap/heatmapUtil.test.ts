@@ -91,22 +91,22 @@ describe('generate headers and rows - benchmark area is England', () => {
   });
 
   it('should set the second header to period header', () => {
-    expect(headers[1].type).toEqual(HeaderType.IndicatorInformationPeriod);
+    expect(headers[1].type).toEqual(HeaderType.Period);
     expect(headers[1].content).toEqual('Period');
   });
 
   it('should set the third header to value unit header', () => {
-    expect(headers[2].type).toEqual(HeaderType.IndicatorInformationValueUnit);
+    expect(headers[2].type).toEqual(HeaderType.ValueUnit);
     expect(headers[2].content).toEqual('Value unit');
   });
 
   it('should set the header corresponding to the benchmark area (england) to benchmark header type', () => {
-    expect(headers[3].type).toEqual(HeaderType.PrimaryBenchmarkArea);
+    expect(headers[3].type).toEqual(HeaderType.BenchmarkGroupArea);
     expect(headers[3].content).toEqual('Benchmark: England');
   });
 
   it('should set the header corresponding to the group area to group area header type', () => {
-    expect(headers[4].type).toEqual(HeaderType.SecondaryBenchmarkArea);
+    expect(headers[4].type).toEqual(HeaderType.NonBenchmarkGroupArea);
     expect(headers[4].content).toEqual('Group: Group Area');
   });
 

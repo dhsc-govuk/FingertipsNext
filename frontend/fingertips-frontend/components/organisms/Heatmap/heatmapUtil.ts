@@ -14,10 +14,10 @@ export const heatmapDataColumnWidth = 60;
 
 export enum HeaderType {
   IndicatorTitle,
-  IndicatorInformationPeriod,
-  IndicatorInformationValueUnit,
-  PrimaryBenchmarkArea,
-  SecondaryBenchmarkArea,
+  Period,
+  ValueUnit,
+  BenchmarkGroupArea,
+  NonBenchmarkGroupArea,
   Area,
 }
 
@@ -396,23 +396,23 @@ export const generateHeaders = (
     }
 
     if (pos === 1) {
-      return HeaderType.IndicatorInformationPeriod;
+      return HeaderType.Period;
     }
 
     if (pos === 2) {
-      return HeaderType.IndicatorInformationValueUnit;
+      return HeaderType.ValueUnit;
     }
 
     if (areaCode === areaCodeForEngland) {
       return benchmarkAreaCode === areaCodeForEngland
-        ? HeaderType.PrimaryBenchmarkArea
-        : HeaderType.SecondaryBenchmarkArea;
+        ? HeaderType.BenchmarkGroupArea
+        : HeaderType.NonBenchmarkGroupArea;
     }
 
     if (groupAreaCode && areaCode === groupAreaCode) {
       return benchmarkAreaCode === areaCodeForEngland
-        ? HeaderType.SecondaryBenchmarkArea
-        : HeaderType.PrimaryBenchmarkArea;
+        ? HeaderType.NonBenchmarkGroupArea
+        : HeaderType.BenchmarkGroupArea;
     }
 
     return HeaderType.Area;
