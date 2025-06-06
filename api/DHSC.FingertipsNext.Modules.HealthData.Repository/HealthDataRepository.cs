@@ -76,20 +76,36 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         return await _dbContext.HealthMeasure
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
             .Where(HealthDataPredicates.IsInAreaCodes(areaCodes))
-            .Where(healthMeasure => years.Length == 0 || EF.Constant(years).Contains(healthMeasure.Year))
             .Where(healthMeasure => excludeDisaggregatedSexValues ? healthMeasure.IsSexAggregatedOrSingle : true)
             .Where(healthMeasure => excludeDisaggregatedAgeValues ? healthMeasure.IsAgeAggregatedOrSingle : true)
             .Where(healthMeasure =>
                 excludeDisaggregatedDeprivationValues ? healthMeasure.IsDeprivationAggregatedOrSingle : true)
             .OrderBy(healthMeasure => healthMeasure.Year)
+            .OrderBy(healthMeasure => healthMeasure.ToDateDimension)
+            .OrderBy(healthMeasure => healthMeasure.FromDateDimension)
             .Include(healthMeasure => healthMeasure.AreaDimension)
             .Include(healthMeasure => healthMeasure.AgeDimension)
+            .Include(healthMeasure => healthMeasure.PeriodDimension)
+            .Include(healthMeasure => healthMeasure.ToDateDimension)
+            .Include(healthMeasure => healthMeasure.FromDateDimension)
             .Include(healthMeasure => healthMeasure.SexDimension)
             .Include(healthMeasure => healthMeasure.IndicatorDimension)
             .Include(healthMeasure => healthMeasure.DeprivationDimension)
             .Select(healthMeasure => new HealthMeasureModel
             {
                 Year = healthMeasure.Year,
+                PeriodDimension = new PeriodDimensionModel
+                {
+                    Period = healthMeasure.PeriodDimension.Period
+                },
+                FromDateDimension = new DateDimensionModel
+                {
+                    Date = healthMeasure.FromDateDimension.Date
+                },
+                ToDateDimension = new DateDimensionModel
+                {
+                    Date = healthMeasure.ToDateDimension.Date
+                },
                 Value = healthMeasure.Value,
                 Count = healthMeasure.Count,
                 LowerCi = healthMeasure.LowerCi,
