@@ -13,5 +13,5 @@ public class AreaDimensionModel
 
     [MaxLength(255)]
     public string Name { get; set; }
-    
+
 }

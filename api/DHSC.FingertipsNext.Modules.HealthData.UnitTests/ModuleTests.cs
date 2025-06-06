@@ -4,10 +4,10 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Tests;
 
 public class ModuleTests
 {
-    private readonly Module _module = new Module();
-    
+    private readonly HealthDataModule _module = new HealthDataModule();
+
     [Fact]
-    public void ModuleName_IsNamed_Indicators()
+    public void ModuleNameIsNamedIndicators()
     {
         _module.ModuleName.ShouldBe("healthdata");
     }

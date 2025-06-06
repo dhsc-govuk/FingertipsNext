@@ -6,7 +6,6 @@ namespace DHSC.FingertipsNext.Modules.Area.Repository.Models;
 /// <summary>
 /// An area or geography that has associated public health data
 /// </summary>
-[Serializable]
 [Table("Areas", Schema = "Areas")]
 public class AreaModel
 {
@@ -36,14 +35,14 @@ public class AreaModel
     /// </summary>
     [ForeignKey("AreaTypeKey")]
     public required AreaTypeModel AreaType { get; set; }
-    
+
     /// <summary>
     /// 
     /// </summary>
     [MaxLength(50)]
     public string AreaTypeKey { get; set; }
-    
-    public virtual ICollection<AreaModel> Children { get; set; }
-    
-    public virtual ICollection<AreaModel> Parents { get; set; }
+
+    public virtual ICollection<AreaModel> Children { get; init; }
+
+    public virtual ICollection<AreaModel> Parents { get; init; }
 }

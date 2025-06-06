@@ -15,7 +15,7 @@ public class RootArea
     /// </remarks>
     [JsonPropertyName("code")]
     public required string Code { get; init; }
-    
+
     /// <summary>
     /// The name of the area / geography
     /// </summary>

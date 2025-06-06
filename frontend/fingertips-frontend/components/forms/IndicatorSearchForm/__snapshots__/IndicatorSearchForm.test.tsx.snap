@@ -215,7 +215,7 @@ exports[`snapshot test - renders the form 1`] = `
       class="c3 c4 c5"
     >
       <p>
-        Search by Subject
+        Search by subject
       </p>
     </div>
     <div

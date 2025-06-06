@@ -301,6 +301,11 @@ export default class ResultsPage extends AreaFilter {
     await expect(selectAllCheckbox).not.toBeChecked();
   }
 
+  async verifyCheckboxIsInFocus(locator: string) {
+    const checkboxElement = this.page.locator(locator);
+    await expect(checkboxElement).toBeFocused();
+  }
+
   async selectIndicator(indicatorId: string) {
     const indicatorCheckbox = this.page.getByTestId(
       `${this.indicatorCheckboxPrefix}-${indicatorId}`

@@ -161,6 +161,12 @@ test.describe('Results Page Tests', () => {
       await resultsPage.verifyUrlExcludesAllIndicators();
     });
 
+    await test.step('Verify select all checkbox is still in focus', async () => {
+      await resultsPage.verifyCheckboxIsInFocus(
+        '#search-results-indicator-all'
+      );
+    });
+
     await test.step('Verify individual selections to select all', async () => {
       await resultsPage.selectEveryIndicator(allValidIndicatorIDs);
       await resultsPage.verifySelectAllCheckboxTicked();
@@ -172,6 +178,12 @@ test.describe('Results Page Tests', () => {
       await resultsPage.verifySelectAllCheckboxUnticked();
       await resultsPage.verifyUrlUpdatedAfterDeselection(
         allValidIndicatorIDs[0]
+      );
+    });
+
+    await test.step('Verify that the previously deselected checkbox is still in focus', async () => {
+      await resultsPage.verifyCheckboxIsInFocus(
+        `#search-results-indicator-${allValidIndicatorIDs[0]}`
       );
     });
   });

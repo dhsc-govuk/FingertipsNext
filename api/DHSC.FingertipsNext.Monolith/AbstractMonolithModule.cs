@@ -7,13 +7,13 @@ namespace DHSC.FingertipsNext.Monolith;
 public abstract class AbstractMonolithModule : IMonolithModule
 {
     public abstract string ModuleName { get; }
-    
+
     public void RegisterConfiguration(IConfigurationBuilder configurationBuilder)
     {
         var pathToExe = Process.GetCurrentProcess().MainModule?.FileName;
         var pathToContentRoot = Path.GetDirectoryName(pathToExe);
-        var environment= Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-        
+        var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
         var config = new ConfigurationBuilder()
             .SetBasePath(pathToContentRoot ?? string.Empty)
             .AddJsonFile($"appsettings.{ModuleName}.module.json", optional: true, reloadOnChange: true)

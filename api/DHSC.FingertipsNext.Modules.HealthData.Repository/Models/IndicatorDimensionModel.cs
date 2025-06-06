@@ -14,7 +14,7 @@ public class IndicatorDimensionModel
     public int IndicatorId { get; set; }
 
     public string BenchmarkComparisonMethod { get; set; }
-    
+
     public string Polarity { get; set; }
 
     public int LatestYear { get; set; }
