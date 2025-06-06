@@ -974,40 +974,33 @@ describe('getAggregatePointInfo', () => {
 });
 
 describe('generateInequalitiesLineChartOptions', () => {
-  const defaultExpected = {
-    ...lineChartDefaultOptions,
-    yAxis: {
-      ...lineChartDefaultOptions.yAxis,
-      title: { text: 'yAxis: %', margin: 20 },
-    },
-    xAxis: {
-      ...lineChartDefaultOptions.xAxis,
-      title: { text: 'xAxis', margin: 20 },
-    },
-    tooltip: {
-      headerFormat: '',
-      useHTML: true,
-    },
-    series: generateInequalitiesLineChartSeriesData(
-      sexKeys,
-      InequalitiesTypes.Sex,
-      mockChartData,
-      ['A1'],
-      false
-    ),
-    title: {
-      style: {
-        display: 'none',
-      },
-    },
-  };
-
   it('should generate inequalities line chart options', () => {
     const expected = {
-      ...defaultExpected,
+      ...lineChartDefaultOptions,
+      yAxis: {
+        ...lineChartDefaultOptions.yAxis,
+        title: { text: 'yAxis: %', margin: 20 },
+      },
+      xAxis: {
+        ...lineChartDefaultOptions.xAxis,
+        title: { text: 'xAxis', margin: 20 },
+      },
+      tooltip: {
+        headerFormat: '',
+        useHTML: true,
+      },
+      series: generateInequalitiesLineChartSeriesData(
+        sexKeys,
+        InequalitiesTypes.Sex,
+        mockChartData,
+        ['A1'],
+        false
+      ),
       title: {
-        ...defaultExpected.title,
         text: 'inequalities from 2004 to 2008',
+        style: {
+          display: 'none',
+        },
       },
     };
     const actual = generateInequalitiesLineChartOptions(
