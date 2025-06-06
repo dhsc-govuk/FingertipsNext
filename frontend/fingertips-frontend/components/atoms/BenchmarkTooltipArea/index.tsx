@@ -7,6 +7,7 @@ import {
   StyledSymbolDiv,
   StyledValueWrapper,
   StyledValueSpan,
+  StyledTitleH5,
 } from './BenchmarkTooltipArea.Styles';
 
 interface BenchmarkTooltipArea {
@@ -29,11 +30,11 @@ export function BenchmarkTooltipArea({
   return (
     <StyledHoverWrapper data-testid={'benchmark-tooltip-area'}>
       <div>
-        <b>{titleText}</b>
+        <StyledTitleH5>{titleText}</StyledTitleH5>
         <StyledYearParagraph>{year}</StyledYearParagraph>
       </div>
       <StyledDataWrapper>
-        <StyledSymbolDiv colour={symbolColour}>{symbol}</StyledSymbolDiv>
+        <StyledSymbolDiv color={symbolColour}>{symbol}</StyledSymbolDiv>
         <StyledValueWrapper>
           <StyledValueSpan>{valueText}</StyledValueSpan>
           {comparisonText}
