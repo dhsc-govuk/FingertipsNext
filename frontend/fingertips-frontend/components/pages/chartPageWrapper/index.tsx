@@ -71,7 +71,7 @@ export function ChartPageWrapper({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const width = !isHideFilters ? containerStyle.chartCol : 'full';
+  const chartContentWidth = isHideFilters ? 'full' : containerStyle.chartCol;
 
   return (
     <div
@@ -97,7 +97,7 @@ export function ChartPageWrapper({
             />
           </GridCol>
         )}
-        <GridCol setWidth={width} id={'chartPageContent'}>
+        <GridCol setWidth={chartContentWidth} id={'chartPageContent'}>
           <H2>View data for selected indicators and areas</H2>
 
           {isHideFilters ? (
