@@ -6,8 +6,9 @@ export type BaseComponentProps = {
   hasTypeDropDown?: boolean;
   isWideComponent?: boolean;
   hasRecentTrend?: boolean;
+  showsBenchmarkComparisons?: boolean;
+  hasTooltipHovers?: boolean;
   typeDropDownOptionToSelect?: boolean;
-  hasBenchmark?: boolean;
 };
 
 export type ComponentDefinition = {

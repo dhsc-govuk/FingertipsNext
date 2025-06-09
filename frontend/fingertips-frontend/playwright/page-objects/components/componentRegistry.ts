@@ -5,6 +5,8 @@ export const allComponents: ComponentDefinition[] = [
   {
     componentLocator: ChartPage.lineChartComponent,
     componentProps: {
+      showsBenchmarkComparisons: true,
+      hasTooltipHovers: true,
       hasConfidenceIntervals: true,
     },
   },
@@ -13,7 +15,7 @@ export const allComponents: ComponentDefinition[] = [
     componentProps: {
       isTabTable: true,
       hasRecentTrend: true,
-      hasBenchmark: true,
+      showsBenchmarkComparisons: true,
     },
   },
   {
@@ -25,16 +27,16 @@ export const allComponents: ComponentDefinition[] = [
   {
     componentLocator: ChartPage.inequalitiesForSingleTimePeriodComponent,
     componentProps: {
-      hasConfidenceIntervals: true,
       hasTimePeriodDropDown: true,
       hasTypeDropDown: false, // even though it has a type dropdown, we want to test the default view
+      hasConfidenceIntervals: true,
     },
   },
   {
     componentLocator: ChartPage.inequalitiesTrendComponent,
     componentProps: {
-      hasConfidenceIntervals: true,
       hasTypeDropDown: true, // and in this case we want to test the type dropdown
+      hasConfidenceIntervals: true,
     },
   },
   {
@@ -72,13 +74,18 @@ export const allComponents: ComponentDefinition[] = [
   },
   {
     componentLocator: ChartPage.thematicMapComponent,
-    componentProps: {},
+    componentProps: {
+      showsBenchmarkComparisons: true,
+      hasTooltipHovers: true,
+    },
   },
   {
     componentLocator: ChartPage.barChartEmbeddedTableComponent,
     componentProps: {
-      hasConfidenceIntervals: true,
       hasRecentTrend: true,
+      showsBenchmarkComparisons: true,
+      hasTooltipHovers: true,
+      hasConfidenceIntervals: true,
     },
   },
   {
@@ -91,6 +98,8 @@ export const allComponents: ComponentDefinition[] = [
     componentLocator: ChartPage.heatMapComponent,
     componentProps: {
       isWideComponent: true,
+      showsBenchmarkComparisons: true,
+      hasTooltipHovers: true,
     },
   },
   {
@@ -98,6 +107,8 @@ export const allComponents: ComponentDefinition[] = [
     componentProps: {
       isWideComponent: true,
       hasRecentTrend: true,
+      showsBenchmarkComparisons: true,
+      hasTooltipHovers: true,
     },
   },
 ];

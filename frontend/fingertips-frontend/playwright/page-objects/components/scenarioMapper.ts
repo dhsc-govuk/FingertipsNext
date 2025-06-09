@@ -56,6 +56,12 @@ const visibleComponentMap: Record<string, string[]> = {
     ChartPage.populationPyramidComponent,
     ChartPage.populationPyramidTableComponent,
   ],
+  [`${IndicatorMode.TWO_INDICATORS}-${AreaMode.TWO_AREAS}`]: [
+    ChartPage.spineChartTableComponent,
+    ChartPage.heatMapComponent,
+    ChartPage.populationPyramidComponent,
+    ChartPage.populationPyramidTableComponent,
+  ],
   [`${IndicatorMode.TWO_INDICATORS}-${AreaMode.THREE_PLUS_AREAS}`]: [
     ChartPage.heatMapComponent,
     ChartPage.populationPyramidComponent,
@@ -90,11 +96,11 @@ export function getScenarioConfig(
     throw new Error(`Unsupported combination: ${scenarioKey}`);
   }
 
-  const visibleComponents = allComponents.filter((c) =>
-    visibleLocators.includes(c.componentLocator)
+  const visibleComponents = allComponents.filter((component) =>
+    visibleLocators.includes(component.componentLocator)
   );
   const hiddenComponents = allComponents.filter(
-    (c) => !visibleLocators.includes(c.componentLocator)
+    (component) => !visibleLocators.includes(component.componentLocator)
   );
 
   return { visibleComponents, hiddenComponents };
