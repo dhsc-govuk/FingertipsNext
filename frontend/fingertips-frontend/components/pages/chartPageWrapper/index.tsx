@@ -13,6 +13,7 @@ import {
 import { BackLink, GridCol, GridRow, H2 } from 'govuk-react';
 import { useEffect, useState } from 'react';
 import { FilterSummaryPanel } from '@/components/molecules/FilterSummaryPanel';
+import styles from './ChartPageWrapper.module.css';
 
 interface ChartPageWrapperProps {
   children: React.ReactNode;
@@ -44,42 +45,8 @@ export function ChartPageWrapper({
   const [isHideFilters, setIsHideFilters] = useState(false);
   const backLinkPath = stateManager.generatePath('/results');
 
-  const [containerStyle, setContainerStyle] = useState({
-    width: 80,
-    areaFilterCol: 'one-quarter',
-    chartCol: 'three-quarters',
-  });
-
-  useEffect(() => {
-    function handleResize() {
-      if (window.innerWidth > 1200) {
-        setContainerStyle({
-          width: 80,
-          areaFilterCol: 'one-quarter',
-          chartCol: 'three-quarters',
-        });
-      } else {
-        setContainerStyle({
-          width: 90,
-          areaFilterCol: 'one-third',
-          chartCol: 'two-thirds',
-        });
-      }
-    }
-    window.addEventListener('resize', handleResize);
-    handleResize();
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const chartContentWidth = isHideFilters ? 'full' : containerStyle.chartCol;
-
   return (
-    <div
-      style={{
-        width: `${containerStyle.width}vw`,
-        marginLeft: `calc(-${containerStyle.width / 2}vw + 50%)`,
-      }}
-    >
+    <div className={styles['chart-page-wrapper']}>
       <BackLink
         data-testid="chart-page-back-link"
         onClick={() => setIsLoading(true)}
@@ -88,7 +55,7 @@ export function ChartPageWrapper({
       />
       <GridRow>
         {isHideFilters ? null : (
-          <GridCol setWidth={containerStyle.areaFilterCol}>
+          <GridCol className={styles['chart-area-filter-col']}>
             <AreaFilterPane
               areaFilterData={areaFilterData}
               selectedAreasData={selectedAreasData}
@@ -97,7 +64,10 @@ export function ChartPageWrapper({
             />
           </GridCol>
         )}
-        <GridCol setWidth={chartContentWidth} id={'chartPageContent'}>
+        <GridCol
+          className={styles['chart-content-col']}
+          id={'chartPageContent'}
+        >
           <H2>View data for selected indicators and areas</H2>
 
           {isHideFilters ? (
