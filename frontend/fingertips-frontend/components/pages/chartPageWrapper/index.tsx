@@ -77,7 +77,6 @@ export function ChartPageWrapper({
     <div
       style={{
         width: `${containerStyle.width}vw`,
-        maxWidth: `${containerStyle.width}vw`,
         marginLeft: `calc(-${containerStyle.width / 2}vw + 50%)`,
       }}
     >
