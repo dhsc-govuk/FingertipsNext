@@ -99,6 +99,17 @@ jobs:
         if: ${{ !inputs.update_screenshots && always() }}
         run: npm run test-e2e-ci
 
+      - name: Send slack notification based on test results
+        if: always()
+        run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            npx slack-ctrf results ctrf/ctrf-report.json --title "PR deployment successful to Fingertips Instance: ${{ vars.FINGERTIPS_FRONTEND_URL }}"
+          else
+            npx slack-ctrf results ctrf/ctrf-report.json --title "E2E Test Failure Against Deployed Fingertips Instance"
+          fi
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.slack-webhook-url }}
+
       - name: Run Playwright tests and update baseline screenshot
         if: ${{ inputs.update_screenshots }}
         run: npm run test-e2e-ci -- --update-snapshots
@@ -195,9 +206,13 @@ jobs:
             ${{ env.frontend-directory }}/test-results/*/*.png
           retention-days: 5
 
-      - name: Send slack message if e2e tests fail - for CD test execution
-        if: failure()
+      - name: Send slack notification based on test results
+        if: always()
         run: |
-          npx slack-ctrf results ctrf/ctrf-report.json --title "E2E Test Failure Against Deployed Fingertips Instance"
+          if [ "${{ job.status }}" == "success" ]; then
+            npx slack-ctrf results ctrf/ctrf-report.json --title "PR deployment successful to Fingertips Instance: ${{ vars.FINGERTIPS_FRONTEND_URL }}"
+          else
+            npx slack-ctrf results ctrf/ctrf-report.json --title "E2E Test Failure Against Deployed Fingertips Instance"
+          fi
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.slack-webhook-url }}
