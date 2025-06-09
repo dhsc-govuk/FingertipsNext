@@ -35,7 +35,7 @@ export const HeatmapHover: FC<HeatmapHoverProps> = ({
     top: `${top}px`,
   };
   return (
-    <StyledDivHover style={styles}>
+    <StyledDivHover style={styles} className="highcharts-tooltip">
       <StyledDivTriangle />
       <StyledDivTriangleOccluder />
       <StyledParagraphZeroMargin>{`**${areaName}**`}</StyledParagraphZeroMargin>
