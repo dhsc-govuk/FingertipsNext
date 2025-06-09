@@ -44,10 +44,43 @@ export function ChartPageWrapper({
   const [isHideFilters, setIsHideFilters] = useState(false);
   const backLinkPath = stateManager.generatePath('/results');
 
-  const width = !isHideFilters ? 'two-thirds' : 'full';
+  const [containerStyle, setContainerStyle] = useState({
+    width: 80,
+    areaFilterCol: 'one-quarter',
+    chartCol: 'three-quarters',
+  });
+
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth > 1200) {
+        setContainerStyle({
+          width: 80,
+          areaFilterCol: 'one-quarter',
+          chartCol: 'three-quarters',
+        });
+      } else {
+        setContainerStyle({
+          width: 90,
+          areaFilterCol: 'one-third',
+          chartCol: 'two-thirds',
+        });
+      }
+    }
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const width = !isHideFilters ? containerStyle.chartCol : 'full';
 
   return (
-    <>
+    <div
+      style={{
+        width: `${containerStyle.width}vw`,
+        maxWidth: `${containerStyle.width}vw`,
+        marginLeft: `calc(-${containerStyle.width / 2}vw + 50%)`,
+      }}
+    >
       <BackLink
         data-testid="chart-page-back-link"
         onClick={() => setIsLoading(true)}
@@ -56,7 +89,7 @@ export function ChartPageWrapper({
       />
       <GridRow>
         {isHideFilters ? null : (
-          <GridCol setWidth="one-third">
+          <GridCol setWidth={containerStyle.areaFilterCol}>
             <AreaFilterPane
               areaFilterData={areaFilterData}
               selectedAreasData={selectedAreasData}
@@ -77,6 +110,6 @@ export function ChartPageWrapper({
           {children}
         </GridCol>
       </GridRow>
-    </>
+    </div>
   );
 }
