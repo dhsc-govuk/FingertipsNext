@@ -38,6 +38,7 @@ public class HealthDataMapper : IHealthDataMapper
             Count = source.Count,
             Value = source.Value,
             Year = source.Year,
+            DatePeriod = Map(source.FromDateDimension, source.ToDateDimension, source.PeriodDimension)
             BenchmarkComparison = Map(source.BenchmarkComparison),
             IsAggregate = source.IsAggregate,
             LowerConfidenceInterval = source.LowerCi,
@@ -90,9 +91,9 @@ public class HealthDataMapper : IHealthDataMapper
         };
     }
 
-    private static Deprivation Map(DeprivationDimensionModel source)
+    private static DatePeriod Map(DateDimensionModel from, DateDimensionModel to, DatePeriodType type)
     {
-        return new Deprivation
+        return new DatePeriod
         {
             Value = source.Name,
             Sequence = source.Sequence,
