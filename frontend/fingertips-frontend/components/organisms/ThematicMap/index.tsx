@@ -78,7 +78,6 @@ export function ThematicMap({
 
   // This prevents errors from trying to render before the module is loaded in the useEffect callback
   if (!chartOptions || !selectedAreaType || !indicatorMetadata) {
-    console.log({ chartOptions, selectedAreaType, indicatorMetadata });
     return null;
   }
 
