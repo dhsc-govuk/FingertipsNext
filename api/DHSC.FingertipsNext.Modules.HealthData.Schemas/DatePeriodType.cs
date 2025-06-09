@@ -4,5 +4,6 @@ public enum DatePeriodType
 {
     Calendar,
     Financial,
-    NovemberNovember
+    NovemberNovember,
+    Unknown
 }

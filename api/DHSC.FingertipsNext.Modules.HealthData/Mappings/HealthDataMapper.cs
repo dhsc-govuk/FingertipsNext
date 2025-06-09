@@ -30,6 +30,17 @@ public class HealthDataMapper : IHealthDataMapper
         };
     }
 
+    public static DatePeriodType MapDatePeriodType(string periodType)
+    {
+        return periodType switch
+        {
+            "Calendar" => DatePeriodType.Calendar,
+            "Financial" => DatePeriodType.Financial,
+            "November-November" => DatePeriodType.NovemberNovember,
+            _ => DatePeriodType.Unknown,
+        };
+    }
+
     public HealthDataPoint Map(HealthMeasureModel source)
     {
         ArgumentNullException.ThrowIfNull(source);
@@ -38,7 +49,7 @@ public class HealthDataMapper : IHealthDataMapper
             Count = source.Count,
             Value = source.Value,
             Year = source.Year,
-            DatePeriod = Map(source.FromDateDimension, source.ToDateDimension, source.PeriodDimension)
+            DatePeriod = Map(source.FromDateDimension, source.ToDateDimension, source.PeriodDimension),
             BenchmarkComparison = Map(source.BenchmarkComparison),
             IsAggregate = source.IsAggregate,
             LowerConfidenceInterval = source.LowerCi,
@@ -91,9 +102,19 @@ public class HealthDataMapper : IHealthDataMapper
         };
     }
 
-    private static DatePeriod Map(DateDimensionModel from, DateDimensionModel to, DatePeriodType type)
+    private static DatePeriod Map(DateDimensionModel from, DateDimensionModel to, PeriodDimensionModel type)
     {
         return new DatePeriod
+        {
+            PeriodType = MapDatePeriodType(type.Period),
+            From = DateOnly.FromDateTime(from.Date),
+            To = DateOnly.FromDateTime(to.Date),
+        };
+    }
+
+    private static Deprivation Map(DeprivationDimensionModel source)
+    {
+        return new Deprivation
         {
             Value = source.Name,
             Sequence = source.Sequence,
