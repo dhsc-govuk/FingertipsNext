@@ -415,7 +415,9 @@ export default class ChartPage extends AreaFilter {
       }
     } else {
       await expect(
-        this.page.getByTestId(component.componentLocator).getByText('Benchmark')
+        this.page
+          .getByTestId(component.componentLocator)
+          .getByText('Benchmark:')
       ).not.toBeVisible();
       // check hover doesnt contain 'Benchmark:' if current chart component has tooltip hovers
       if (component.componentProps.hasTooltipHovers) {
