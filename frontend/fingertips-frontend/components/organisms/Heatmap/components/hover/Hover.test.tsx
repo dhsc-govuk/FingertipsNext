@@ -42,6 +42,21 @@ describe('heatmap hover', () => {
     expect(screen.getByText(testHoverProps.indicatorName)).toBeInTheDocument();
   });
 
+  it('should not display period if it is zero', () => {
+    const screen = render(
+      <HeatmapHover
+        areaName={testHoverProps.areaName}
+        period={0}
+        indicatorName={testHoverProps.indicatorName}
+        unitLabel={testHoverProps.unitLabel}
+        benchmark={testHoverProps.benchmark}
+        benchmarkAreaName={testHoverProps.benchmarkAreaName}
+      />
+    );
+
+    expect(screen.queryByText(0)).not.toBeInTheDocument();
+  });
+
   it('snapshot', () => {
     const container = render(
       <HeatmapHover
