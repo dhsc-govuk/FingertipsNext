@@ -369,7 +369,7 @@ export default class ChartPage extends AreaFilter {
       selectedAreaFilters.group.charAt(0).toUpperCase() +
       selectedAreaFilters.group.slice(1);
 
-    // heck benchmark dropdown defaults to England as first option in all cases
+    // check benchmark dropdown defaults to England as first option in all cases
     expect(options[0].text).toBe('England');
 
     // determine expected values based on area filters
@@ -445,15 +445,21 @@ export default class ChartPage extends AreaFilter {
       .locator('.highcharts-point')
       .nth(tooltipPointToAssert);
 
-    // doing the following as we need to disable the actionability checks for hover and click for thematic map
-    chartPoint.focus();
-    chartPoint.scrollIntoViewIfNeeded();
-    await expect(chartPoint).toBeVisible();
-    await expect(chartPoint).toBeAttached();
-    await expect(chartPoint).toBeEnabled();
+    // we need to disable the actionability checks for hover and click for thematic map as it never reaches stable - https://playwright.dev/docs/actionability#stable
+    if (component.componentLocator === ChartPage.thematicMapComponent) {
+      chartPoint.focus();
+      chartPoint.scrollIntoViewIfNeeded();
+      await expect(chartPoint).toBeVisible();
+      await expect(chartPoint).toBeAttached();
+      await expect(chartPoint).toBeEnabled();
 
-    await chartPoint.hover({ force: true }); // have to disable actionability checks for hover due to thematic map
-    await chartPoint.click({ force: true }); // have to disable actionability checks for click due to thematic map
+      await chartPoint.hover({ force: true });
+      await chartPoint.click({ force: true });
+    } else {
+      await chartPoint.hover();
+      await chartPoint.click();
+    }
+
     await this.page.waitForTimeout(250); // small wait for tooltip to appear
 
     const hoverContent = await this.page
