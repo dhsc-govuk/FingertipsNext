@@ -24,6 +24,7 @@ describe('Inequalities bar chart table suite', () => {
     it('should render the inequalitiesBarChartTable component', () => {
       render(
         <InequalitiesBarChartTable
+          title="inequalities for South FooBar, 2008"
           tableData={getTestData()}
           type={InequalitiesTypes.Sex}
           inequalityTypeSelected="Sex"
@@ -40,10 +41,16 @@ describe('Inequalities bar chart table suite', () => {
 
       render(
         <InequalitiesBarChartTable
+          title="inequalities for South FooBar, 2008"
           tableData={getTestData()}
           type={InequalitiesTypes.Sex}
           inequalityTypeSelected="Sex"
         />
+      );
+
+      expect(screen.getByRole('heading')).toBeInTheDocument();
+      expect(screen.getByRole('heading')).toHaveTextContent(
+        'inequalities for South FooBar, 2008'
       );
 
       expect(screen.getByRole('table')).toBeInTheDocument();
@@ -67,6 +74,7 @@ describe('Inequalities bar chart table suite', () => {
       mockData.data.inequalities.Female = { value: 1 };
       render(
         <InequalitiesBarChartTable
+          title="inequalities for South FooBar, 2008"
           tableData={mockData}
           type={InequalitiesTypes.Sex}
           inequalityTypeSelected="Sex"
@@ -84,6 +92,7 @@ describe('Inequalities bar chart table suite', () => {
     it('check if the measurementUnit value "kg" is rendered correctly with braces', () => {
       render(
         <InequalitiesBarChartTable
+          title="inequalities for South FooBar, 2008"
           tableData={getTestData()}
           type={InequalitiesTypes.Sex}
           inequalityTypeSelected="Sex"
@@ -96,6 +105,7 @@ describe('Inequalities bar chart table suite', () => {
     it('check if that measurementUnit value is not shown when its not passed', () => {
       render(
         <InequalitiesBarChartTable
+          title="inequalities for South FooBar, 2008"
           tableData={getTestData()}
           type={InequalitiesTypes.Sex}
           inequalityTypeSelected="Sex"
@@ -109,6 +119,7 @@ describe('Inequalities bar chart table suite', () => {
     it('snapshot test - should match snapshot', () => {
       const container = render(
         <InequalitiesBarChartTable
+          title="inequalities for South FooBar, 2008"
           tableData={getTestData()}
           type={InequalitiesTypes.Sex}
           inequalityTypeSelected="Sex"
@@ -145,6 +156,7 @@ describe('Inequalities bar chart table suite', () => {
         };
         render(
           <InequalitiesBarChartTable
+            title="inequalities for South FooBar, 2008"
             tableData={mockData}
             type={InequalitiesTypes.Sex}
             inequalityTypeSelected="Sex"
@@ -159,6 +171,7 @@ describe('Inequalities bar chart table suite', () => {
       it('should render 99.8% confidence', () => {
         render(
           <InequalitiesBarChartTable
+            title="inequalities for South FooBar, 2008"
             tableData={getTestData()}
             type={InequalitiesTypes.Sex}
             inequalityTypeSelected="Sex"
@@ -175,6 +188,7 @@ describe('Inequalities bar chart table suite', () => {
       it('should not render confidence limits if missing', () => {
         render(
           <InequalitiesBarChartTable
+            title="inequalities for South FooBar, 2008"
             tableData={getTestData()}
             type={InequalitiesTypes.Sex}
             inequalityTypeSelected="Sex"
