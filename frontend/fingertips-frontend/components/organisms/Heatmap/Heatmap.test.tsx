@@ -3,7 +3,7 @@ import { Heatmap } from '.';
 import {
   placeholderGroupAreaCode,
   placeholderHeatmapIndicatorData as placeholderIndicatorData,
-} from './heatmapUtil.test';
+} from './prepareHeatmapData.test';
 import {
   areaCodeForEngland,
   englandAreaString,

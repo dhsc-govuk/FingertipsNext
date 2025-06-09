@@ -3,12 +3,8 @@ import { HeatmapCell } from '@/components/organisms/Heatmap/components/cell';
 import React, { FC, MouseEvent } from 'react';
 import styled from 'styled-components';
 import { Table } from 'govuk-react';
-import {
-  generateHeaders,
-  generateRows,
-  HeatmapDataCell,
-} from '@/components/organisms/Heatmap/heatmapUtil';
 import { useRotatedHeaders } from '@/components/organisms/Heatmap/useRotatedHeaders';
+import { Cell, Header, Row } from '../heatmapTypes';
 
 const StyledTable = styled(Table)({
   borderCollapse: 'separate',
@@ -26,9 +22,9 @@ const StyledDivTableContainer = styled.div({
 });
 
 interface HeatmapTableProps {
-  headers: ReturnType<typeof generateHeaders>;
-  rows: ReturnType<typeof generateRows>;
-  handleMouseOverCell: (cell?: HeatmapDataCell) => (event: MouseEvent) => void;
+  headers: Header[];
+  rows: Row[];
+  handleMouseOverCell: (cell?: Cell) => (event: MouseEvent) => void;
 }
 
 const HeatmapTable: FC<HeatmapTableProps> = ({

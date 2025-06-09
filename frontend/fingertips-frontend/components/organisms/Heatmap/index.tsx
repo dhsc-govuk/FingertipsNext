@@ -1,6 +1,6 @@
 'use client';
 
-import { HeatmapIndicatorData } from './heatmapUtil';
+import { HeatmapIndicatorData } from './heatmapTypes';
 import { BenchmarkLegends } from '../BenchmarkLegend';
 import { HeatmapHover } from './components/hover';
 import React, { FC } from 'react';
