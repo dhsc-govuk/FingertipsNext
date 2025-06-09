@@ -1,4 +1,7 @@
-import { BarChartEmbeddedTableRow } from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedTable.types';
+import {
+  barChartEmbeddedRowClassName,
+  BarChartEmbeddedTableRow,
+} from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedTable.types';
 import { Table } from 'govuk-react';
 import {
   CheckValueInTableCell,
@@ -12,7 +15,6 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { AreaTypeLabelEnum } from '@/lib/chartHelpers/chartHelpers';
-import { barChartEmbeddedRowClassName } from '@/components/organisms/BarChartEmbeddedTable/barChartEmbeddedTableHelpers';
 
 interface BarChartEmbeddedRowProps {
   item: BarChartEmbeddedTableRow;

@@ -1,30 +1,5 @@
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
-export enum BarChartEmbeddedTableHeadingEnum {
-  AreaName = 'Area',
-  RecentTrend = 'Recent trend',
-  Period = 'Period',
-  Count = 'Count',
-  Value = 'Value',
-  Lower = 'Lower',
-  Upper = 'Upper',
-}
-
-export const chartName = 'barChartEmbeddedTable';
-export const barChartEmbeddedRowClassName = 'barChartEmbeddedTableRow';
-
-export const filterUndefined = (value: unknown) => value !== undefined;
-
-export const getMaxValue = (healthDataForAreas: HealthDataForArea[]) => {
-  const values = healthDataForAreas.flatMap(
-    (item) =>
-      item.healthData
-        .map((item) => item.value)
-        .filter(filterUndefined) as number[]
-  );
-  return Math.max(...values);
-};
-
 export const getLatestYearWithBenchmarks = (
   healthDataForAreas: HealthDataForArea[],
   benchmarkData: HealthDataForArea | undefined,

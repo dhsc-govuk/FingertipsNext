@@ -1,9 +1,7 @@
-import {
-  filterUndefined,
-  getLatestYearWithBenchmarks,
-  getMaxValue,
-} from '@/components/organisms/BarChartEmbeddedTable/barChartEmbeddedTableHelpers';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { getMaxValue } from '@/components/organisms/BarChartEmbeddedTable/helpers/getMaxValue';
+import { getLatestYearWithBenchmarks } from '@/components/organisms/BarChartEmbeddedTable/helpers/getLatestYearWithBenchmarks';
+import { filterDefined } from '@/lib/chartHelpers/filterDefined';
 
 const getTestArea = (values: (number | undefined)[]) => {
   return {
@@ -14,7 +12,7 @@ const getTestArea = (values: (number | undefined)[]) => {
 describe('BarChartEmbeddedTableHelpers', () => {
   describe('filterUndefined', () => {
     it('should remove all undefined items from array', () => {
-      expect(['a', 'b', undefined, 'd'].filter(filterUndefined)).toEqual([
+      expect(['a', 'b', undefined, 'd'].filter(filterDefined)).toEqual([
         'a',
         'b',
         'd',

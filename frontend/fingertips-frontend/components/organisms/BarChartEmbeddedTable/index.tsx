@@ -15,22 +15,20 @@ import {
   CheckValueInTableCell,
   FormatNumberInTableCell,
 } from '@/components/molecules/CheckValueInTableCell';
-import React, { FC, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { SparklineChart } from '@/components/organisms/SparklineChart';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
 import { TrendTag } from '@/components/molecules/TrendTag';
 import { BenchmarkLegend } from '@/components/organisms/BenchmarkLegend';
-import { BarChartEmbeddedTableRow } from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedTable.types';
-import { BarChartEmbeddedRows } from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedRows';
-import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import {
   BarChartEmbeddedTableHeadingEnum,
+  BarChartEmbeddedTableRow,
   chartName,
-  getLatestYearWithBenchmarks,
-  getMaxValue,
-} from '@/components/organisms/BarChartEmbeddedTable/barChartEmbeddedTableHelpers';
+} from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedTable.types';
+import { BarChartEmbeddedRows } from '@/components/organisms/BarChartEmbeddedTable/components/BarChartEmbeddedRow/BarChartEmbeddedRows';
+import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
-import { convertBarChartEmbeddedTableToCsv } from '@/components/organisms/BarChartEmbeddedTable/convertBarChartEmbeddedTableToCsv';
+import { convertBarChartEmbeddedTableToCsv } from '@/components/organisms/BarChartEmbeddedTable/helpers/convertBarChartEmbeddedTableToCsv';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
 import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
@@ -38,37 +36,10 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
 import { ContainerWithOutline } from '@/components/atoms/ContainerWithOutline/ContainerWithOutline';
 import { ContainerWithScrolling } from '@/components/atoms/ContainerWithScrolling/ContainerWithScrolling';
-
-function sortByValueAndAreaName(
-  a: BarChartEmbeddedTableRow,
-  b: BarChartEmbeddedTableRow
-): number {
-  if (!a.value && !b.value) return 0;
-
-  if (!a.value) return 1;
-
-  if (!b.value) return -1;
-
-  const valueResult = b.value - a.value;
-
-  if (valueResult != 0) return valueResult;
-
-  return a.area.localeCompare(b.area, undefined, { sensitivity: 'base' });
-}
-
-const ConfidenceLimitsHeader: FC<{ confidenceLimit?: number }> = ({
-  confidenceLimit,
-}) => {
-  if (!confidenceLimit) return null;
-  return (
-    <>
-      {confidenceLimit}%<br />
-      confidence
-      <br />
-      limits
-    </>
-  );
-};
+import { ConfidenceLimitsHeader } from '@/components/atoms/ConfidenceLimitsHeader/ConfidenceLimitsHeader';
+import { sortByValueAndAreaName } from '@/components/organisms/BarChartEmbeddedTable/helpers/sortByValueAndAreaName';
+import { getMaxValue } from '@/components/organisms/BarChartEmbeddedTable/helpers/getMaxValue';
+import { getLatestYearWithBenchmarks } from '@/components/organisms/BarChartEmbeddedTable/helpers/getLatestYearWithBenchmarks';
 
 interface BarChartEmbeddedTableProps {
   healthIndicatorData: HealthDataForArea[];
@@ -80,7 +51,7 @@ interface BarChartEmbeddedTableProps {
   indicatorMetadata?: IndicatorDocument;
 }
 
-export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
+export function BarChartEmbeddedTable({
   healthIndicatorData,
   benchmarkToUse,
   englandData,
@@ -88,7 +59,7 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
   benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
   polarity = IndicatorPolarity.Unknown,
   indicatorMetadata,
-}) => {
+}: Readonly<BarChartEmbeddedTableProps>) {
   const { unitLabel: measurementUnit, dataSource } = indicatorMetadata ?? {};
 
   const maxValue = getMaxValue(healthIndicatorData);
@@ -122,7 +93,7 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
 
   const sortedTableRows = tableRows.toSorted(sortByValueAndAreaName);
   const benchmarkAreaName =
-    sortedTableRows[0].benchmarkComparison?.benchmarkAreaName;
+    sortedTableRows[0].benchmarkComparison?.benchmarkAreaName ?? '';
 
   const englandDataPoint = englandData?.healthData.find(
     (point) => point.year === fullYear
@@ -379,4 +350,4 @@ export const BarChartEmbeddedTable: FC<BarChartEmbeddedTableProps> = ({
       <DataSource dataSource={dataSource} />
     </ContainerWithOutline>
   );
-};
+}
