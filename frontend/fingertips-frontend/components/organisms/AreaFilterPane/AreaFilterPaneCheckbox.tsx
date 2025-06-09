@@ -23,6 +23,7 @@ export const AreaFilterPaneCheckbox: FC<AreaFilterPaneCheckboxProps> = ({
       onChange={(e) => {
         handleAreaSelected(code, e.target.checked);
       }}
+      id={`area-select-${code}`}
     >
       {name}
     </Checkbox>

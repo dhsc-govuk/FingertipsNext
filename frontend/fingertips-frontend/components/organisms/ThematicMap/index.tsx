@@ -11,7 +11,7 @@ import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/mod
 import { IndicatorPolarity } from '@/generated-sources/ft-api-client/models/IndicatorPolarity';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { ThematicMapCredits } from '../../molecules/ThematicMapCredits';
-import { BenchmarkTooltip } from '@/components/molecules/BenchmarkTooltip';
+import { ThematicMapTooltip } from '@/components/molecules/ThematicMapTooltip';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { useMapGeographyData } from '@/components/organisms/ThematicMap/useMapGeographyData';
 import { H3 } from 'govuk-react';
@@ -26,9 +26,10 @@ interface ThematicMapProps {
   areaCodes: string[];
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
-  benchmarkIndicatorData?: HealthDataForArea;
-  groupIndicatorData?: HealthDataForArea;
+  englandData?: HealthDataForArea;
+  groupData?: HealthDataForArea;
   indicatorMetadata?: IndicatorDocument;
+  benchmarkToUse?: string;
 }
 
 export function ThematicMap({
@@ -37,9 +38,10 @@ export function ThematicMap({
   areaCodes,
   benchmarkComparisonMethod,
   polarity,
-  benchmarkIndicatorData,
-  groupIndicatorData,
+  englandData,
+  groupData,
   indicatorMetadata,
+  benchmarkToUse,
 }: Readonly<ThematicMapProps>) {
   const { isLoading, error, mapGeographyData } = useMapGeographyData(
     areaCodes,
@@ -94,18 +96,19 @@ export function ThematicMap({
             id={`thematicMap-chart-hover-${indicatorDataForArea.areaCode}`}
             style={{ display: 'none' }}
           >
-            <BenchmarkTooltip
+            <ThematicMapTooltip
               indicatorData={indicatorDataForArea}
               benchmarkComparisonMethod={benchmarkComparisonMethod}
               measurementUnit={indicatorMetadata?.unitLabel}
-              indicatorDataForBenchmark={benchmarkIndicatorData}
-              indicatorDataForGroup={groupIndicatorData}
+              englandData={englandData}
+              groupData={groupData}
               polarity={polarity}
+              benchmarkToUse={benchmarkToUse}
             />
           </div>
         ))}
         <BenchmarkLegend
-          title={`Compared to ${benchmarkIndicatorData?.areaName ?? 'England'}`}
+          title={`Compared to ${healthIndicatorData[0].healthData[0].benchmarkComparison?.benchmarkAreaName}`}
           benchmarkComparisonMethod={benchmarkComparisonMethod}
           polarity={polarity}
         />

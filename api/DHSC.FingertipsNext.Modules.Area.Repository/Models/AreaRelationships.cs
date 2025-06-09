@@ -6,7 +6,6 @@ namespace DHSC.FingertipsNext.Modules.Area.Repository.Models;
 /// <summary>
 /// An area or geography that has associated public health data
 /// </summary>
-[Serializable]
 [Keyless]
 [Table("AreaRelationships", Schema = "Areas")]
 public class AreaRelationshipModel
@@ -23,6 +22,6 @@ public class AreaRelationshipModel
     /// </summary>
     [ForeignKey("ChildAreaKey")]
     public int ChildAreaKey { get; set; }
-    
+
     public AreaModel Child { get; set; }
 }

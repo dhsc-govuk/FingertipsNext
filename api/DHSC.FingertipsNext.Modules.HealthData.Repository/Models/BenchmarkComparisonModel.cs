@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 
 [Keyless]
+[Serializable]
 
 public class BenchmarkComparisonModel
 {
