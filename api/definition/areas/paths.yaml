@@ -1,0 +1,34 @@
+hierarchies:
+  get:
+    tags:
+      - areas
+    summary: Get hierarchies
+    description: Get all available hierarchy types
+    operationId: getAreaHierarchies
+    responses:
+      "200":
+        description: The available hierarchy types, e.g. NHS or Administrative
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+      "500":
+        $ref: "../system/responses.yaml#/InternalServerError"
+root:
+  get:
+    tags:
+      - areas
+    summary: Get root
+    description: Get the root node of the area hierarchy
+    operationId: getAreaRoot
+    responses:
+      "200":
+        description: The root area node
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas.yaml#/RootArea"
+      "500":
+        $ref: "../system/responses.yaml#/InternalServerError"

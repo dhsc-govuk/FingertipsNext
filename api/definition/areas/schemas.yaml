@@ -1,0 +1,15 @@
+RootArea:
+  type: object
+  description: The root node of the area / geography hierarchies
+  required:
+    - code
+    - name
+  properties:
+    code:
+      type: string
+      example: "E92000001"
+      description: The unique area code of the area / geography
+    name:
+      type: string
+      example: "England"
+      description: The name of the area / geography

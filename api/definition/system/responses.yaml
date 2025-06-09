@@ -1,0 +1,32 @@
+NotFound:
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - message
+        properties:
+          message:
+            type: string
+  description:
+    The server cannot find the requested resource. The endpoint may be
+    invalid or the resource may no longer exist.
+InternalServerError:
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - message
+        properties:
+          message:
+            type: string
+  description: The server encountered an unexpected condition that prevented it
+    from fulfilling the request. Report the issue to the support team if it
+    persists.
+BadRequest:
+  description: Bad request. The server could not process the request.
+  content:
+    application/json:
+      schema:
+        $ref: "./schemas.yaml#/BadRequest"

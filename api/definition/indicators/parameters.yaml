@@ -1,0 +1,11 @@
+indicator_ids:
+  in: query
+  name: indicator_ids
+  description: A list of indicator_ids, up to 10 can be requested
+  style: form
+  schema:
+    type: array
+    items:
+      type: integer
+      example: 1234
+    maxItems: 10

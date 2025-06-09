@@ -1,0 +1,16 @@
+IndicatorSummary:
+  type: object
+  description: A summary of a public health indicator
+  required:
+    - indicator_id
+    - title
+  properties:
+    indicator_id:
+      type: integer
+      format: int32
+      example: 3456
+      description: The unique identifier of the indicator
+    title:
+      type: string
+      example: "Hypertension: QOF prevalence (all ages)"
+      description: The title of the indicator

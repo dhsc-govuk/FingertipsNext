@@ -1,0 +1,23 @@
+indicators:
+  get:
+    tags:
+      - indicators
+    summary: Get indicator summaries & filter results
+    operationId: filterIndicators
+    description: |
+      Get summaries of public health indicators, by passing in the appropriate options you can filter the results
+    parameters:
+      - $ref: "./parameters.yaml#/indicator_ids"
+    responses:
+      "200":
+        description: search results matching criteria
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "./schemas.yaml#/IndicatorSummary"
+      "400":
+        $ref: "../system/responses.yaml#/BadRequest"
+      "500":
+        $ref: "../system/responses.yaml#/InternalServerError"
