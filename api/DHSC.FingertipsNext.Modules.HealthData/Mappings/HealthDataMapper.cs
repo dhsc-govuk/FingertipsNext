@@ -24,14 +24,15 @@ public class HealthDataMapper : IHealthDataMapper
             "Confidence intervals overlapping reference value (95.0)" =>
                 BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
             "Confidence intervals overlapping reference value (99.8)" =>
-                BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
+                BenchmarkComparisonMethod.CIOverlappingReferenceValue998,
             "Quintiles" => BenchmarkComparisonMethod.Quintiles,
             _ => BenchmarkComparisonMethod.Unknown,
         };
     }
-    
+
     public HealthDataPoint Map(HealthMeasureModel source)
     {
+        ArgumentNullException.ThrowIfNull(source);
         return new HealthDataPoint
         {
             Count = source.Count,
@@ -47,13 +48,13 @@ public class HealthDataMapper : IHealthDataMapper
             Deprivation = Map(source.DeprivationDimension),
         };
     }
-       
-    public List<HealthDataPoint> Map(IList<HealthMeasureModel> source)
+
+    public IList<HealthDataPoint> Map(IList<HealthMeasureModel> source)
     {
         return source.Select(Map).ToList();
     }
-    
-    public List<IndicatorQuartileData> Map(IList<QuartileDataModel> source)
+
+    public IList<IndicatorQuartileData> Map(IList<QuartileDataModel> source)
     {
         return source.Select(Map).ToList();
     }
@@ -66,7 +67,7 @@ public class HealthDataMapper : IHealthDataMapper
 
         return new BenchmarkComparison
         {
-            Outcome = source.Outcome switch 
+            Outcome = source.Outcome switch
             {
                 "NOT COMPARED" => BenchmarkOutcome.NotCompared,
                 "LOWEST" => BenchmarkOutcome.Lowest,

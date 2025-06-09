@@ -3,8 +3,8 @@ import { Paragraph } from 'govuk-react';
 import { FC } from 'react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
-import { DataCellHoverProps } from './heatmapUtil';
-import { HeatmapHoverBenchmarkPill } from './heatmapHoverBenchmarkPill';
+import { DataCellHoverProps } from '../heatmapUtil';
+import { HeatmapHoverBenchmarkPill } from './HeatmapHoverBenchmarkPill';
 
 const StyledDivHover = styled.div({
   color: GovukColours.Black,

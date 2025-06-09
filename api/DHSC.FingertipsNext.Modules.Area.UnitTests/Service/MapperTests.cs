@@ -7,10 +7,10 @@ namespace DHSC.FingertipsNext.Modules.Area.UnitTests.Service;
 
 public class AreaMapperTests
 {
-    private readonly IAreaMapper _areaMapper = new AreaMapper();
+    private readonly AreaMapper _areaMapper = new AreaMapper();
 
     [Fact]
-    public void Mapping_AreaModel_To_SchemaRootArea()
+    public void MappingAreaModelToSchemaRootArea()
     {
         var areaModel = Fake.AreaModel;
         var mappedArea = _areaMapper.MapToRootArea(areaModel);
@@ -20,7 +20,7 @@ public class AreaMapperTests
     }
 
     [Fact]
-    public void Mapping_AreaModel_To_SchemaArea()
+    public void MappingAreaModelToSchemaArea()
     {
         var areaModel = Fake.AreaModel;
         var mappedArea = _areaMapper.Map(areaModel);
@@ -31,7 +31,7 @@ public class AreaMapperTests
     #region AreaWithRelationsModel to Schema AreaWithRelations
 
     [Fact]
-    public void Mapping_AreaWithRelationsModel_To_SchemaAreaWithRelations_WhenModelFullyPopulated()
+    public void MappingAreaWithRelationsModelToSchemaAreaWithRelationsWhenModelFullyPopulated()
     {
         var awr = Fake.AreaWithRelationsModel;
         var mappedAwr = _areaMapper.Map(awr);
@@ -52,7 +52,7 @@ public class AreaMapperTests
     }
 
     [Fact]
-    public void Mapping_AreaWithRelationsModel_To_SchemaAreaWithRelations_WhenModelFullyPopulatedExceptForParent()
+    public void MappingAreaWithRelationsModelToSchemaAreaWithRelationsWhenModelFullyPopulatedExceptForParent()
     {
         var awr = Fake.AreaWithRelationsModel;
         var mappedAwr = _areaMapper.Map(awr);
@@ -65,10 +65,10 @@ public class AreaMapperTests
     }
 
     [Fact]
-    public void Mapping_AreaWithRelationsModel_To_SchemaAreaWithRelations_WhenModelFullyPopulatedExceptForChildren()
+    public void MappingAreaWithRelationsModelToSchemaAreaWithRelationsWhenModelFullyPopulatedExceptForChildren()
     {
         var awr = Fake.AreaWithRelationsModel;
-        awr.Children = [];
+        awr.Children.Clear();
         var mappedAwr = _areaMapper.Map(awr);
 
         AssertAreaPropertiesMatch(mappedAwr, awr.Area);
@@ -80,10 +80,10 @@ public class AreaMapperTests
 
 
     [Fact]
-    public void Mapping_AreaWithRelationsModel_To_SchemaAreaWithRelations_WhenModelFullyPopulatedExceptForSiblings()
+    public void MappingAreaWithRelationsModelToSchemaAreaWithRelationsWhenModelFullyPopulatedExceptForSiblings()
     {
         var awr = Fake.AreaWithRelationsModel;
-        awr.Siblings = [];
+        awr.Siblings.Clear();
         var mappedAwr = _areaMapper.Map(awr);
 
         AssertAreaPropertiesMatch(mappedAwr, awr.Area);
@@ -98,7 +98,7 @@ public class AreaMapperTests
     #region AreaTypeModel To Schema AreaType
 
     [Fact]
-    public void Mapping_AreaTypeModel_To_SchemaAreaType()
+    public void MappingAreaTypeModelToSchemaAreaType()
     {
         var areaTypeModel = Fake.AreaTypeModel;
         var mappedAreaType = _areaMapper.Map(areaTypeModel);
@@ -111,7 +111,7 @@ public class AreaMapperTests
 
     #endregion
 
-    void AssertAreaPropertiesMatch(Schemas.Area? area, AreaModel? areaModel, bool canBeNull = false)
+    static void AssertAreaPropertiesMatch(Schemas.AreaData area, AreaModel areaModel, bool canBeNull = false)
     {
         if (area == null && areaModel == null && canBeNull)
             return;
@@ -120,7 +120,7 @@ public class AreaMapperTests
         {
             area.Code.ShouldBe(areaModel.AreaCode);
             area.Name.ShouldBe(areaModel.AreaName);
-            
+
             area.AreaType.HierarchyName.ShouldBe(areaModel.AreaType.HierarchyType);
             area.AreaType.Name.ShouldBe(areaModel.AreaType.AreaTypeName);
             area.AreaType.Key.ShouldBe(areaModel.AreaType.AreaTypeKey);
@@ -132,7 +132,7 @@ public class AreaMapperTests
         }
     }
 
-    void AssertAreaListsAreEquivalent(List<Schemas.Area> mappedAreas, List<AreaModel> modelAreas)
+    static void AssertAreaListsAreEquivalent(IList<Schemas.AreaData> mappedAreas, IList<AreaModel> modelAreas)
     {
         mappedAreas.Count.ShouldBe(modelAreas.Count);
 

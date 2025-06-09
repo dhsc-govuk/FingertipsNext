@@ -26,7 +26,7 @@ public class AreaServiceTests
     }
 
     [Fact]
-    public async Task GetHierarchies_ShouldDelegateToRepository()
+    public async Task GetHierarchiesShouldDelegateToRepository()
     {
         _mockRepository.GetHierarchiesAsync().Returns(["str1", "str2"]);
 
@@ -39,7 +39,7 @@ public class AreaServiceTests
     #region GetAreaTypes
 
     [Fact]
-    public async Task GetAreaTypes_ShouldDelegateToRepository_IfParameterPassed()
+    public async Task GetAreaTypesShouldDelegateToRepositoryIfParameterPassed()
     {
         _mockRepository.GetAreaTypesAsync("hierarchyType").Returns(SampleAreaTypes);
 
@@ -50,7 +50,7 @@ public class AreaServiceTests
     }
 
     [Fact]
-    public async Task GetAreaTypes_ShouldDelegateToRepository_IfNoParameterPassed()
+    public async Task GetAreaTypesShouldDelegateToRepositoryIfNoParameterPassed()
     {
         _mockRepository.GetAreaTypesAsync(null).Returns(SampleAreaTypes);
 
@@ -62,31 +62,31 @@ public class AreaServiceTests
 
     private static readonly List<AreaTypeModel> SampleAreaTypes = new List<AreaTypeModel>
     {
-        new AreaTypeModel{ AreaTypeKey = "at1", AreaTypeName = "AT1", HierarchyType = "HT1", Level = 1 },
-        new AreaTypeModel{ AreaTypeKey = "at2", AreaTypeName = "AT2", HierarchyType = "HT2", Level = 2 }
+        new() { AreaTypeKey = "at1", AreaTypeName = "AT1", HierarchyType = "HT1", Level = 1 },
+        new() { AreaTypeKey = "at2", AreaTypeName = "AT2", HierarchyType = "HT2", Level = 2 }
     };
-    
+
     #endregion
 
     #region GetRootArea
 
     [Fact]
-    public void GetRootArea_ShouldReturnEnglandAlways()
+    public void GetRootAreaShouldReturnEnglandAlways()
     {
-        var result =  _service.GetRootArea();
-        result.ShouldBeEquivalentTo(new RootArea { Name="England", Code="E92000001"});
+        var result = _service.GetRootArea();
+        result.ShouldBeEquivalentTo(new RootArea { Name = "England", Code = "E92000001" });
     }
 
     #endregion
 
     #region GetAreaDetails
-    
+
     [Fact]
-    public async Task GetAreaDetails_ShouldDelegateToRepositorySupplyingDefaults()
+    public async Task GetAreaDetailsShouldDelegateToRepositorySupplyingDefaults()
     {
         _mockRepository
-            .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string?>())
-            .Returns((AreaWithRelationsModel?)null);
+            .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string>())
+            .Returns((AreaWithRelationsModel)null);
 
         await _service.GetAreaDetails("area1", null, null, null);
 
@@ -94,11 +94,11 @@ public class AreaServiceTests
     }
 
     [Fact]
-    public async Task GetAreaDetails_ShouldReturnNull_IfRepositoryReturnsNull()
+    public async Task GetAreaDetailsShouldReturnNullIfRepositoryReturnsNull()
     {
         _mockRepository
-            .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string?>())
-            .Returns((AreaWithRelationsModel?)null);
+            .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string>())
+            .Returns((AreaWithRelationsModel)null);
 
         var result = await _service.GetAreaDetails("area1", null, null, null);
 
@@ -106,11 +106,11 @@ public class AreaServiceTests
     }
 
     [Fact]
-    public async Task GetAreaDetails_ShouldReturnedMappedResult_IfRepositoryReturnsArea()
+    public async Task GetAreaDetailsShouldReturnedMappedResultIfRepositoryReturnsArea()
     {
         var fakeAreaWithRelationsModel = Fake.AreaWithRelationsModel;
         _mockRepository
-            .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string?>())
+            .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string>())
             .Returns(fakeAreaWithRelationsModel);
 
         var result = await _service.GetAreaDetails("area1", null, null, null);
@@ -124,39 +124,39 @@ public class AreaServiceTests
     #region GetAreaDetailsForAreaType
 
     [Fact]
-    public async Task GetAreaDetailsForAreaType_ShouldReturnEmptyList_IfRepositoryReturnsEmptyList()
+    public async Task GetAreaDetailsForAreaTypeShouldReturnEmptyListIfRepositoryReturnsEmptyList()
     {
         var fakeAreaModels = new List<AreaModel>();
         _mockRepository
             .GetAreasForAreaTypeAsync(Arg.Any<string>())
             .Returns(fakeAreaModels);
-        
+
         var result = await _service.GetAreaDetailsForAreaType("area1");
-        
+
         result.Count.ShouldBe(0);
     }
-    
+
     [Fact]
-    public async Task GetAreaDetailsForAreaType_ShouldReturnMappedList_IfRepositoryReturnsAreas()
+    public async Task GetAreaDetailsForAreaTypeShouldReturnMappedListIfRepositoryReturnsAreas()
     {
-        var fakeAreaModels = new List<AreaModel>{ Fake.AreaModel, Fake.AreaModel };
+        var fakeAreaModels = new List<AreaModel> { Fake.AreaModel, Fake.AreaModel };
         _mockRepository
             .GetAreasForAreaTypeAsync(Arg.Any<string>())
             .Returns(fakeAreaModels);
-        
+
         var result = await _service.GetAreaDetailsForAreaType("area1");
-        
+
         result.Count.ShouldBe(2);
         result[0].Code.ShouldBeEquivalentTo(fakeAreaModels[0].AreaCode);
         result[1].Code.ShouldBeEquivalentTo(fakeAreaModels[1].AreaCode);
     }
-    
+
     #endregion
 
     #region GetMultipleAreaDetails
 
     [Fact]
-    public async Task GetMultipleAreaDetails_ShouldReturnedMappedResult_IfRepositoryReturnsAreas()
+    public async Task GetMultipleAreaDetailsShouldReturnedMappedResultIfRepositoryReturnsAreas()
     {
         var fakeAreaWithNoRelationsModel = new List<AreaModel>
         {
@@ -182,11 +182,11 @@ public class AreaServiceTests
     }
 
     [Fact]
-    public async Task GetMultipleAreaDetails_ShouldReturnedEmptyList_IfRepositoryReturnsEmpty()
+    public async Task GetMultipleAreaDetailsShouldReturnedEmptyListIfRepositoryReturnsEmpty()
     {
         _mockRepository
             .GetMultipleAreaDetailsAsync(Arg.Any<string[]>())
-            .Returns(new List<AreaModel>{});
+            .Returns(new List<AreaModel> { });
 
         var result = await _service.GetMultipleAreaDetails(["areaOne"]);
 

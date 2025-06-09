@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { GridCol, GridRow, Paragraph } from 'govuk-react';
 import { typography } from '@govuk-react/lib';
-import { HeatmapBenchmarkOutcome } from './heatmapUtil';
+import { HeatmapBenchmarkOutcome } from '../heatmapUtil';
 import {
   getBenchmarkColour,
   getConfidenceLimitNumber,

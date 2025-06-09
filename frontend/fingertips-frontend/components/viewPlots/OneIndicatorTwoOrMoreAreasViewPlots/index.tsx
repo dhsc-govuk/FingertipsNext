@@ -87,16 +87,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
 
   const benchmarkToUse = determineBenchmarkToUse(benchmarkAreaSelected);
 
-  // This allows for thematic map to have different data for hovers
-  // it may be harmonised when all components in the view use the same benchmark
-  let benchmarkDataForThematicMapHovers = englandData;
-  let groupDataForThematicMapHovers = groupData;
-
-  if (benchmarkToUse !== areaCodeForEngland) {
-    benchmarkDataForThematicMapHovers = groupData;
-    groupDataForThematicMapHovers = englandData;
-  }
-
   const yAxisTitle = indicatorMetadata?.unitLabel
     ? `Value: ${indicatorMetadata?.unitLabel}`
     : undefined;
@@ -106,6 +96,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     true,
     benchmarkToUse,
     {
+      indicatorName: indicatorData.name,
       englandData,
       benchmarkComparisonMethod: indicatorData.benchmarkMethod,
       groupIndicatorData: groupData,
@@ -134,6 +125,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                 title: 'Line chart',
                 content: (
                   <LineChart
+                    title={lineChartOptions.title?.text ?? ''}
                     lineChartOptions={lineChartOptions}
                     variant={LineChartVariant.Standard}
                   />
@@ -144,6 +136,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                 title: 'Table',
                 content: (
                   <LineChartTable
+                    title={lineChartOptions.title?.text ?? ''}
                     healthIndicatorData={dataWithoutEnglandOrGroup}
                     englandIndicatorData={englandData}
                     groupIndicatorData={groupData}
@@ -169,9 +162,10 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
             }
             polarity={polarity ?? IndicatorPolarity.Unknown}
             indicatorMetadata={indicatorMetadata}
-            benchmarkIndicatorData={benchmarkDataForThematicMapHovers}
-            groupIndicatorData={groupDataForThematicMapHovers}
+            groupData={groupData}
+            englandData={englandData}
             areaCodes={areaCodes ?? []}
+            benchmarkToUse={benchmarkToUse}
           />
         </StyleChartWrapper>
       )}

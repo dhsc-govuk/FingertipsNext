@@ -1,5 +1,6 @@
 import {
   AgeData,
+  BenchmarkOutcome,
   DeprivationData,
   HealthDataForArea,
   HealthDataPointTrendEnum,
@@ -1720,6 +1721,12 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           sex: personsSex,
           trend: HealthDataPointTrendEnum.NotYetCalculated,
           deprivation: noDeprivation,
+          benchmarkComparison: {
+            benchmarkAreaCode: 'stubBenchmarkAreaCode',
+            benchmarkAreaName: 'Stub BenchmarkAreaName',
+            benchmarkValue: 1,
+            outcome: BenchmarkOutcome.Middle,
+          },
         },
       ],
     },

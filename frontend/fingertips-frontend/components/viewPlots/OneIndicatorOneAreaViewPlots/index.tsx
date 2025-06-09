@@ -27,6 +27,7 @@ import {
   generateStandardLineChartOptions,
   LineChartVariant,
 } from '@/components/organisms/LineChart/helpers/generateStandardLineChartOptions';
+import Highcharts from 'highcharts';
 
 function shouldLineChartBeShown(
   dataWithoutEnglandOrGroup: HealthDataForArea[],
@@ -99,6 +100,7 @@ export function OneIndicatorOneAreaViewPlots({
     true,
     benchmarkToUse,
     {
+      indicatorName: indicatorData.name,
       englandData: englandDataWithoutInequalities,
       benchmarkComparisonMethod: benchmarkComparisonMethod,
       groupIndicatorData: groupDataWithoutInequalities,
@@ -130,6 +132,7 @@ export function OneIndicatorOneAreaViewPlots({
                 title: 'Line chart',
                 content: (
                   <LineChart
+                    title={lineChartOptions.title?.text ?? ''}
                     lineChartOptions={lineChartOptions}
                     variant={LineChartVariant.Standard}
                   />
@@ -140,6 +143,7 @@ export function OneIndicatorOneAreaViewPlots({
                 title: 'Table',
                 content: (
                   <LineChartTable
+                    title={lineChartOptions.title?.text ?? ''}
                     healthIndicatorData={areaDataWithoutInequalities}
                     englandIndicatorData={englandDataWithoutInequalities}
                     groupIndicatorData={groupDataWithoutInequalities}

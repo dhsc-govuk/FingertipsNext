@@ -17,6 +17,10 @@ export type AreaFilterData = {
   availableAreas?: Area[];
 };
 
+export const selectAreaTypeId = 'select-area-type';
+export const selectAreaGroupTypeId = 'select-area-group-type';
+export const selectAreaGroupId = 'select-area-group';
+
 interface SelectAreasFilterPanelProps {
   areaFilterData?: AreaFilterData;
 }
@@ -61,7 +65,12 @@ export function SelectAreasFilterPanel({
       SearchParams.GroupTypeSelected
     );
     searchStateManager.removeParamValueFromState(SearchParams.GroupSelected);
-    replace(searchStateManager.generatePath(pathname), { scroll: false });
+    replace(
+      `${searchStateManager.generatePath(pathname)}#${selectAreaTypeId}`,
+      {
+        scroll: false,
+      }
+    );
   };
 
   const groupTypeSelected = (valueSelected: string) => {
@@ -72,7 +81,10 @@ export function SelectAreasFilterPanel({
       valueSelected
     );
     searchStateManager.removeParamValueFromState(SearchParams.GroupSelected);
-    replace(searchStateManager.generatePath(pathname), { scroll: false });
+    replace(
+      `${searchStateManager.generatePath(pathname)}#${selectAreaGroupTypeId}`,
+      { scroll: false }
+    );
   };
 
   const groupSelected = (valueSelected: string) => {
@@ -82,7 +94,12 @@ export function SelectAreasFilterPanel({
       SearchParams.GroupSelected,
       valueSelected
     );
-    replace(searchStateManager.generatePath(pathname), { scroll: false });
+    replace(
+      `${searchStateManager.generatePath(pathname)}#${selectAreaGroupId}`,
+      {
+        scroll: false,
+      }
+    );
   };
 
   const handleAreaSelected = (areaCode: string, checked: boolean) => {
@@ -142,7 +159,10 @@ export function SelectAreasFilterPanel({
       );
     }
 
-    replace(searchStateManager.generatePath(pathname), { scroll: false });
+    replace(
+      `${searchStateManager.generatePath(pathname)}#area-select-${areaCode}`,
+      { scroll: false }
+    );
   };
 
   const handleSelectAllAreasSelected = (checked: boolean) => {
@@ -179,6 +199,7 @@ export function SelectAreasFilterPanel({
           disabled: hasAreasSelected,
         }}
         style={{ marginBottom: '1em' }}
+        id={selectAreaTypeId}
       >
         {areaFilterData?.availableAreaTypes?.map((areaType) => (
           <option key={areaType.key} value={areaType.key}>
@@ -196,6 +217,7 @@ export function SelectAreasFilterPanel({
           disabled: hasAreasSelected,
         }}
         style={{ marginBottom: '1em' }}
+        id={selectAreaGroupTypeId}
       >
         {areaFilterData?.availableGroupTypes?.map((areaType) => (
           <option key={areaType.key} value={areaType.key}>
@@ -213,6 +235,7 @@ export function SelectAreasFilterPanel({
           disabled: hasAreasSelected,
         }}
         style={{ marginBottom: '1em' }}
+        id={selectAreaGroupId}
       >
         {areaFilterData?.availableGroups?.map((area) => (
           <option key={area.code} value={area.code}>
@@ -230,6 +253,7 @@ export function SelectAreasFilterPanel({
             searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED
           }
           onChange={(e) => handleSelectAllAreasSelected(e.target.checked)}
+          id={'area-select-all'}
         >
           Select all areas
         </StyledSelectAllCheckBox>
