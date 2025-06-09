@@ -201,6 +201,8 @@ export function InequalitiesTrend({
         xAxisTitleText: 'Period',
         measurementUnit: indicatorMetadata?.unitLabel,
         inequalityLineChartAreaSelected,
+        indicatorName: indicatorMetadata?.indicatorName,
+        areaName: healthDataForArea.areaName,
       }
     );
 
@@ -228,7 +230,7 @@ export function InequalitiesTrend({
             title: 'Line chart',
             content: (
               <LineChart
-                title={''}
+                title={inequalitiesLineChartOptions.title?.text ?? ''}
                 lineChartOptions={inequalitiesLineChartOptions}
                 variant={LineChartVariant.Inequalities}
               />
@@ -239,6 +241,7 @@ export function InequalitiesTrend({
             title: 'Table',
             content: (
               <InequalitiesLineChartTable
+                title={inequalitiesLineChartOptions.title?.text ?? ''}
                 tableData={lineChartData}
                 indicatorMetadata={indicatorMetadata}
                 dynamicKeys={orderedDynamicKeys}
