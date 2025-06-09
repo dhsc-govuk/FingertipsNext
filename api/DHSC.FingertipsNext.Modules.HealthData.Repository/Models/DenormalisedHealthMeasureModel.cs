@@ -35,9 +35,9 @@ public class DenormalisedHealthMeasureModel
     {
         var normalisedBenchmark = BenchmarkComparisonOutcome is null ? null : new BenchmarkComparisonModel()
         {
-             Outcome = BenchmarkComparisonOutcome,
-             BenchmarkAreaCode = BenchmarkComparisonAreaCode,
-             BenchmarkAreaName = BenchmarkComparisonAreaName,
+            Outcome = BenchmarkComparisonOutcome,
+            BenchmarkAreaCode = BenchmarkComparisonAreaCode,
+            BenchmarkAreaName = BenchmarkComparisonAreaName,
         };
         return new HealthMeasureModel()
         {
