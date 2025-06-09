@@ -37,11 +37,13 @@ type InequalitySequenceSelector = (dataPoint?: HealthDataPoint) => number;
 type HealthDataFilterFunction = (dataPoint: HealthDataPoint) => boolean;
 
 export interface InequalitiesChartData {
+  areaCode: string;
   areaName: string;
   rowData: InequalitiesTableRowData[];
 }
 
 export interface InequalitiesBarChartData {
+  areaCode: string;
   areaName: string;
   data: InequalitiesTableRowData;
 }

@@ -1,9 +1,9 @@
 import { MouseEvent, useCallback, useRef, useState } from 'react';
-import { HeatmapHoverProps } from '@/components/organisms/Heatmap/heatmapHover';
+import { TransientHeatmapHoverProps } from '@/components/organisms/Heatmap/components/HeatmapHover';
 import { HeatmapDataCell } from '@/components/organisms/Heatmap/heatmapUtil';
 
 export const useHeatmapHover = () => {
-  const [hover, setHover] = useState<HeatmapHoverProps | null>(null);
+  const [hover, setHover] = useState<TransientHeatmapHoverProps | null>(null);
   const refHoverRect = useRef<DOMRect | null>(null);
 
   let left = 0;

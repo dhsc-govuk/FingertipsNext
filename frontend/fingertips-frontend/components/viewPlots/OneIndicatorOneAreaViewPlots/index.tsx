@@ -27,6 +27,7 @@ import {
   generateStandardLineChartOptions,
   LineChartVariant,
 } from '@/components/organisms/LineChart/helpers/generateStandardLineChartOptions';
+import Highcharts from 'highcharts';
 
 function shouldLineChartBeShown(
   dataWithoutEnglandOrGroup: HealthDataForArea[],
@@ -46,7 +47,7 @@ export function OneIndicatorOneAreaViewPlots({
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreasSelected]: areasSelected,
-    [SearchParams.LineChartBenchmarkAreaSelected]: lineChartAreaSelected,
+    [SearchParams.BenchmarkAreaSelected]: benchmarkAreaSelected,
   } = searchState;
 
   const areaCodes = determineAreaCodes(areasSelected);
@@ -88,7 +89,7 @@ export function OneIndicatorOneAreaViewPlots({
     areasSelected
   );
 
-  const benchmarkToUse = determineBenchmarkToUse(lineChartAreaSelected);
+  const benchmarkToUse = determineBenchmarkToUse(benchmarkAreaSelected);
 
   const yAxisTitle = indicatorMetadata?.unitLabel
     ? `Value: ${indicatorMetadata?.unitLabel}`
@@ -99,6 +100,7 @@ export function OneIndicatorOneAreaViewPlots({
     true,
     benchmarkToUse,
     {
+      indicatorName: indicatorData.name,
       englandData: englandDataWithoutInequalities,
       benchmarkComparisonMethod: benchmarkComparisonMethod,
       groupIndicatorData: groupDataWithoutInequalities,
@@ -111,19 +113,17 @@ export function OneIndicatorOneAreaViewPlots({
 
   return (
     <section data-testid="oneIndicatorOneAreaViewPlot-component">
+      <BenchmarkSelectArea
+        availableAreas={availableAreasForBenchmarking}
+        benchmarkAreaSelectedKey={SearchParams.BenchmarkAreaSelected}
+        searchState={searchState}
+      />
       {shouldLineChartBeShown(
         areaDataWithoutInequalities,
         englandDataWithoutInequalities
       ) && (
         <StyleChartWrapper>
           <H3>Indicator data over time</H3>
-          <BenchmarkSelectArea
-            availableAreas={availableAreasForBenchmarking}
-            benchmarkAreaSelectedKey={
-              SearchParams.LineChartBenchmarkAreaSelected
-            }
-            searchState={searchState}
-          />
           <TabContainer
             id="lineChartAndTable"
             items={[
@@ -132,6 +132,7 @@ export function OneIndicatorOneAreaViewPlots({
                 title: 'Line chart',
                 content: (
                   <LineChart
+                    title={lineChartOptions.title?.text ?? ''}
                     lineChartOptions={lineChartOptions}
                     variant={LineChartVariant.Standard}
                   />
@@ -142,12 +143,14 @@ export function OneIndicatorOneAreaViewPlots({
                 title: 'Table',
                 content: (
                   <LineChartTable
+                    title={lineChartOptions.title?.text ?? ''}
                     healthIndicatorData={areaDataWithoutInequalities}
-                    englandBenchmarkData={englandDataWithoutInequalities}
+                    englandIndicatorData={englandDataWithoutInequalities}
                     groupIndicatorData={groupDataWithoutInequalities}
                     indicatorMetadata={indicatorMetadata}
                     benchmarkComparisonMethod={benchmarkComparisonMethod}
                     polarity={polarity}
+                    benchmarkToUse={benchmarkToUse}
                   />
                 ),
               },
@@ -159,7 +162,7 @@ export function OneIndicatorOneAreaViewPlots({
       <Inequalities
         healthIndicatorData={healthIndicatorData}
         searchState={searchState}
-        measurementUnit={indicatorMetadata?.unitLabel}
+        indicatorMetadata={indicatorMetadata}
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
         dataSource={indicatorMetadata?.dataSource}

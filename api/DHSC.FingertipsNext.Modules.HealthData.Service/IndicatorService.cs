@@ -25,11 +25,11 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
     ///     The areaType which these codes should be compared against. This is important to specify to discriminate between
     ///     counties and districts which introduce amiguity to the areaType by duplicating areas.
     /// </param>
-    /// <param name="areaGroup">
-    ///     The areaGroup which these codes should be compared against. Dependent on what benchmarkRefType is set to.
+    /// <param name="ancestorCode">
+    ///     The ancestorCode which these codes should be compared against. Dependent on what benchmarkRefType is set to.
     /// </param>    
     /// <param name="becnhmarkRefType">
-    ///     The benchmark reference type to be used when benchmarking. England, AreaGroup or IndicatorGoal.
+    ///     The benchmark reference type to be used when benchmarking. England, SubNational or IndicatorGoal.
     /// </param>
     /// <param name="years">
     ///     An array of years. If the array is empty all years are retrieved.
@@ -45,15 +45,14 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         int indicatorId,
         IEnumerable<string> areaCodes,
         string areaType,
-        string areaGroup,
+        string ancestorCode,
         BenchmarkReferenceType benchmarkRefType,
         IEnumerable<int> years,
         IEnumerable<string> inequalities,
-        bool includeEmptyAreas = false,
         bool latestOnly = false)
     {
         var indicatorData = await healthDataRepository.GetIndicatorDimensionAsync(indicatorId, [.. areaCodes]);
-        if (indicatorData == null) 
+        if (indicatorData == null)
             return new ServiceResponse<IndicatorWithHealthDataForAreas>(ResponseStatus.IndicatorDoesNotExist);
 
         var method = healthDataMapper.MapBenchmarkComparisonMethod(indicatorData.BenchmarkComparisonMethod);
@@ -65,7 +64,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
             indicatorId,
             areaCodes,
             areaType,
-            areaGroup,
+            ancestorCode,
             benchmarkRefType,
             years,
             inequalities,
@@ -74,13 +73,13 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         )) ?? [])
         .ToList();
 
-        if(includeEmptyAreas)
-            await AddAreasWithNoData(areaHealthData, areaCodes);
+        await AddAreasWithNoData(areaHealthData, areaCodes);
 
         return new ServiceResponse<IndicatorWithHealthDataForAreas>()
         {
-            Status = areaHealthData.Any() ? ResponseStatus.Success : ResponseStatus.NoDataForIndicator,
-            Content = new IndicatorWithHealthDataForAreas(){
+            Status = areaHealthData.Count != 0 ? ResponseStatus.Success : ResponseStatus.NoDataForIndicator,
+            Content = new IndicatorWithHealthDataForAreas()
+            {
                 IndicatorId = indicatorData.IndicatorId,
                 Name = indicatorData.Name,
                 Polarity = polarity,
@@ -110,7 +109,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         int indicatorId,
         IEnumerable<string> areaCodes,
         string areaType,
-        string areaGroup,
+        string ancestorCode,
         BenchmarkReferenceType benchmarkRefType,
         IEnumerable<int> years,
         IEnumerable<string> inequalities,
@@ -121,8 +120,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         IEnumerable<HealthMeasureModel> healthMeasureData;
         var areaCodesForSearch = areaCodes.ToList();
 
-        // The benchmark reference can be either England or a passed in AreaGroup
-        var benchmarkAreaCode = (benchmarkRefType == BenchmarkReferenceType.AreaGroup) ? areaGroup : AreaCodeEngland;
+        // The benchmark reference can be either England or a passed in ancestorCode
+        var benchmarkAreaCode = (benchmarkRefType == BenchmarkReferenceType.SubNational) ? ancestorCode : AreaCodeEngland;
 
         if (comparisonMethod == BenchmarkComparisonMethod.Quintiles)
         {
@@ -135,7 +134,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
                 benchmarkAreaCode
                 );
 
-           
+
             return healthMeasureData
                 .GroupBy(healthMeasure => new
                 {
@@ -155,18 +154,19 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
 
         var hasBenchmarkDataBeenRequested = comparisonMethod is
              BenchmarkComparisonMethod.CIOverlappingReferenceValue95 or
-             BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8;
+             BenchmarkComparisonMethod.CIOverlappingReferenceValue998;
 
         //if benchmark data has been requested and the benchmark area wasn't already in the requested area collection add it now
         if (hasBenchmarkDataBeenRequested && !wasBenchmarkAreaCodeRequested)
             areaCodesForSearch.Add(benchmarkAreaCode);
 
         // get the data from the database
+        var inequalitiesList = inequalities.ToList();
         healthMeasureData = await healthDataRepository.GetIndicatorDataAsync(
             indicatorId,
             areaCodesForSearch.ToArray(),
             years.Distinct().ToArray(),
-            inequalities.Distinct().ToArray());
+            inequalitiesList.Distinct().ToArray());
 
         var healthDataForAreas = healthMeasureData
             .GroupBy(healthMeasure => new
@@ -186,8 +186,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
             return healthDataForAreas;
 
         // separate the data for results and data for performing benchmarks
-        var benchmarkHealthData=healthDataForAreas.FirstOrDefault(data => data.AreaCode == benchmarkAreaCode);
-        if(benchmarkHealthData == null && !inequalities.Any())
+        var benchmarkHealthData = healthDataForAreas.FirstOrDefault(data => data.AreaCode == benchmarkAreaCode);
+        if (benchmarkHealthData == null && inequalitiesList.Count == 0)
             return healthDataForAreas;
 
         //if the benchmark area was not in the original request then remove the benchmark data
@@ -224,10 +224,11 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         IEnumerable<int> indicatorIds,
         string areaCode,
         string areaType,
-        string ancestorCode
+        string ancestorCode,
+        string benchmarkAreaCode
         )
     {
-        var quartileData = await healthDataRepository.GetQuartileDataAsync(indicatorIds, areaCode, areaType, ancestorCode);
+        var quartileData = await healthDataRepository.GetQuartileDataAsync(indicatorIds, areaCode, areaType, ancestorCode, benchmarkAreaCode);
         return quartileData == null ? null : healthDataMapper.Map(quartileData.ToList());
     }
 }

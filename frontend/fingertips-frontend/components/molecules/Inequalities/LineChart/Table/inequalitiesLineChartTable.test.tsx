@@ -3,11 +3,22 @@ import { expect } from '@jest/globals';
 import { InequalitiesLineChartTable } from '.';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { InequalitiesChartData } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 describe('Inequalities table suite', () => {
+  beforeAll(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2024-12-25T12:00:00Z'));
+  });
+
+  afterAll(() => {
+    jest.useRealTimers();
+  });
+
   const CELLS_PER_ROW = 4;
 
   const tableData: InequalitiesChartData = {
+    areaCode: MOCK_HEALTH_DATA[1].areaCode,
     areaName: MOCK_HEALTH_DATA[1].areaName,
     rowData: [
       {
@@ -34,6 +45,7 @@ describe('Inequalities table suite', () => {
       <InequalitiesLineChartTable
         tableData={tableData}
         dynamicKeys={['Persons', 'Male', 'Female']}
+        inequalityTypeSelected="Sex"
       />
     );
 
@@ -49,6 +61,7 @@ describe('Inequalities table suite', () => {
       <InequalitiesLineChartTable
         tableData={tableData}
         dynamicKeys={['Persons', 'Male', 'Female']}
+        inequalityTypeSelected="Sex"
       />
     );
 
@@ -68,11 +81,13 @@ describe('Inequalities table suite', () => {
         screen.getByTestId(`header-${heading}-${index}`)
       ).toBeInTheDocument()
     );
+    expect(screen.getByRole('button')).toHaveTextContent('Export options');
   });
 
   it('should display x if data point is not available', () => {
     const expectedNumberOfRows = 2;
     const tableData: InequalitiesChartData = {
+      areaCode: MOCK_HEALTH_DATA[1].areaCode,
       areaName: MOCK_HEALTH_DATA[1].areaName,
       rowData: [
         {
@@ -94,6 +109,7 @@ describe('Inequalities table suite', () => {
       <InequalitiesLineChartTable
         tableData={tableData}
         dynamicKeys={['Persons', 'Male', 'Female']}
+        inequalityTypeSelected="Sex"
       />
     );
     expect(screen.getAllByRole('cell')).toHaveLength(
@@ -109,7 +125,11 @@ describe('Inequalities table suite', () => {
     const cellsPerRow = 1;
 
     render(
-      <InequalitiesLineChartTable tableData={tableData} dynamicKeys={[]} />
+      <InequalitiesLineChartTable
+        tableData={tableData}
+        dynamicKeys={[]}
+        inequalityTypeSelected="Sex"
+      />
     );
 
     expect(screen.getByTestId('header-Period-0')).toBeInTheDocument();
@@ -128,7 +148,8 @@ describe('Inequalities table suite', () => {
       <InequalitiesLineChartTable
         tableData={tableData}
         dynamicKeys={['Persons', 'Male', 'Female']}
-        measurementUnit="per 100,000"
+        indicatorMetadata={{ unitLabel: 'per 100,000' } as IndicatorDocument}
+        inequalityTypeSelected="Sex"
       />
     );
     expect(screen.getByText('Value: per 100,000')).toBeInTheDocument();
@@ -139,6 +160,7 @@ describe('Inequalities table suite', () => {
       <InequalitiesLineChartTable
         tableData={tableData}
         dynamicKeys={['Persons', 'Male', 'Female']}
+        inequalityTypeSelected="Sex"
       />
     );
 
@@ -152,7 +174,8 @@ describe('Inequalities table suite', () => {
       <InequalitiesLineChartTable
         tableData={tableData}
         dynamicKeys={['Persons', 'Male', 'Female']}
-        measurementUnit="per 100,000"
+        indicatorMetadata={{ unitLabel: 'per 100,000' } as IndicatorDocument}
+        inequalityTypeSelected="Sex"
       />
     );
     expect(container.asFragment()).toMatchSnapshot();
@@ -186,6 +209,7 @@ describe('Inequalities table suite', () => {
       <InequalitiesLineChartTable
         tableData={tableDataWithExtraYears}
         dynamicKeys={['Persons', 'Male', 'Female']}
+        inequalityTypeSelected="Sex"
       />
     );
 

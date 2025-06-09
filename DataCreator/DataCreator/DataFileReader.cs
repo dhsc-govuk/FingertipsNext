@@ -53,8 +53,11 @@ namespace DataCreator
                 if (split.Length != 27)
                     continue; //avoid bad data
 
-                if (split[6].Equals("CCG", StringComparison.CurrentCultureIgnoreCase)) //CCGs and ICBs share the same area code so do this to avoid doubling up data
+                if (split[6].Trim().Equals("CCG", StringComparison.CurrentCultureIgnoreCase) ||
+                    split[6].Trim().Equals("STP", StringComparison.CurrentCultureIgnoreCase)
+                ) //CCGs, STPs and ICBs share the same area code so do this to avoid doubling up data
                     continue;
+
                 var areaCode = split[4].Trim().CleanAreaCode();
 
                 if (!areasDict.TryGetValue(areaCode, out var area))
@@ -91,7 +94,8 @@ namespace DataCreator
                     Denominator = GetDoubleValue(split[18]),
                     Year = int.Parse(split[23].Trim().Substring(0, 4)),
                     Category = category.Trim(),
-                    CategoryType = categoryType.Trim()
+                    CategoryType = categoryType.Trim(),
+                    TimePeriodSortable = split[23],
                 };
                 allData.Add(indicatorData);
             }
@@ -121,7 +125,7 @@ namespace DataCreator
 
         public static void UnzipSourceFiles() => ZipFile.ExtractToDirectory(Path.Join(InFilePath, "in.zip"), TempDirPath);
 
-        public static void DeleteTempFiles()
+        public static void DeleteTempInputFiles()
         {
             if (Directory.Exists(TempDirPath))
                 Directory.Delete(TempDirPath, true);

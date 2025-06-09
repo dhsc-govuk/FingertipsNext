@@ -10,7 +10,9 @@ describe('generateAreaDisplayString', () => {
       'Some postcode'
     );
 
-    expect(formattedAreaName).toEqual('A001 - Some name Some postcode');
+    expect(formattedAreaName).toEqual(
+      'A001 - Some name' + '\u00A0 ' + 'Some postcode'
+    );
   });
 
   it('should return the areaName and postcode provided when the areaTypeKey is not gps', () => {
@@ -21,7 +23,9 @@ describe('generateAreaDisplayString', () => {
       'Some postcode'
     );
 
-    expect(formattedAreaName).toEqual('Some name Some postcode');
+    expect(formattedAreaName).toEqual(
+      'Some name' + '\u00A0 ' + 'Some postcode'
+    );
   });
 
   it('should return nothing in place of postcode when postcode is not provided', () => {

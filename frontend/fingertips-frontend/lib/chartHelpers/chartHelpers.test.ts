@@ -42,6 +42,7 @@ import {
   generateHealthDataPoint,
   generateMockHealthDataForArea,
 } from './testHelpers';
+import { ALL_AREAS_SELECTED } from '../areaFilterHelpers/constants';
 
 const mockData: HealthDataForArea[] = [
   {
@@ -1171,6 +1172,45 @@ describe('getTooltipContent', () => {
     });
   });
 
+  it('should return a comparisonLabel, category and benchmarkLabel when areaName is passed in', () => {
+    const benchmarkOutcome = BenchmarkOutcome.Similar;
+    const benchmarkComparisonMethod =
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95;
+
+    const result = getTooltipContent(
+      benchmarkOutcome,
+      AreaTypeLabelEnum.Area,
+      benchmarkComparisonMethod,
+      'London'
+    );
+
+    expect(result).toEqual({
+      benchmarkLabel: 'Similar to London',
+      category: '',
+      comparisonLabel: '(95%)',
+    });
+  });
+
+  it('should return an empty string for benchmarkLabel, category and comparisonLabel when showComparisonLabels = false is passed in', () => {
+    const benchmarkOutcome = BenchmarkOutcome.Similar;
+    const benchmarkComparisonMethod =
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95;
+
+    const result = getTooltipContent(
+      benchmarkOutcome,
+      AreaTypeLabelEnum.Area,
+      benchmarkComparisonMethod,
+      'London',
+      false
+    );
+
+    expect(result).toEqual({
+      benchmarkLabel: '',
+      category: '',
+      comparisonLabel: '',
+    });
+  });
+
   it('should return tooltip for quintiles with no CI% shown', () => {
     const benchmarkOutcome = BenchmarkOutcome.Worse;
     const benchmarkComparisonMethod = BenchmarkComparisonMethod.Quintiles;
@@ -1194,6 +1234,22 @@ describe('getTooltipContent', () => {
 
     const result = getTooltipContent(
       benchmarkOutcome,
+      AreaTypeLabelEnum.Area,
+      benchmarkComparisonMethod
+    );
+
+    expect(result).toEqual({
+      benchmarkLabel: 'Not compared',
+      category: '',
+      comparisonLabel: '',
+    });
+  });
+
+  it('should just return "Not compared" when the Benchmark outcome is not valid', () => {
+    const benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown;
+
+    const result = getTooltipContent(
+      'some-invalid-type' as BenchmarkOutcome,
       AreaTypeLabelEnum.Area,
       benchmarkComparisonMethod
     );
@@ -1341,7 +1397,7 @@ describe('getFormattedLabel', () => {
 });
 
 describe('determineAreasForBenchmarking', () => {
-  const mockAreas: HealthDataForArea[] = [
+  const mockHealthDataForAreas: HealthDataForArea[] = [
     { areaCode: 'A1', areaName: 'Area 1', healthData: [] },
     { areaCode: areaCodeForEngland, areaName: 'England', healthData: [] },
     { areaCode: 'G1', areaName: 'Group 1', healthData: [] },
@@ -1349,12 +1405,14 @@ describe('determineAreasForBenchmarking', () => {
   ];
 
   it('returns only England if present and no group selected', () => {
-    const result = determineAreasForBenchmarking(mockAreas);
+    const result = determineAreasForBenchmarking(mockHealthDataForAreas);
     expect(result).toEqual([{ code: areaCodeForEngland, name: 'England' }]);
   });
 
   it('returns England and selected group when a selectedGroupCode and an areaSelected is provided', () => {
-    const result = determineAreasForBenchmarking(mockAreas, 'G1', ['A0001']);
+    const result = determineAreasForBenchmarking(mockHealthDataForAreas, 'G1', [
+      'A0001',
+    ]);
     expect(result).toEqual([
       { code: areaCodeForEngland, name: 'England' },
       { code: 'G1', name: 'Group 1' },
@@ -1362,13 +1420,29 @@ describe('determineAreasForBenchmarking', () => {
   });
 
   it('returns England and not the selected group when an areaSelected is not provided', () => {
-    const result = determineAreasForBenchmarking(mockAreas, 'G1');
+    const result = determineAreasForBenchmarking(mockHealthDataForAreas, 'G1');
     expect(result).toEqual([{ code: areaCodeForEngland, name: 'England' }]);
   });
 
   it('returns England when selected group is England even if areasSelected are provided', () => {
-    const result = determineAreasForBenchmarking(mockAreas, areaCodeForEngland);
+    const result = determineAreasForBenchmarking(
+      mockHealthDataForAreas,
+      areaCodeForEngland
+    );
     expect(result).toEqual([{ code: areaCodeForEngland, name: 'England' }]);
+  });
+
+  it('returns England and selected group when a selectedGroupCode is provided and an selectedGroupArea is ALL, so no areas are provided', () => {
+    const result = determineAreasForBenchmarking(
+      mockHealthDataForAreas,
+      'G1',
+      [],
+      ALL_AREAS_SELECTED
+    );
+    expect(result).toEqual([
+      { code: areaCodeForEngland, name: 'England' },
+      { code: 'G1', name: 'Group 1' },
+    ]);
   });
 });
 

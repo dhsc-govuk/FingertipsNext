@@ -15,9 +15,15 @@ import {
   buildSpineChartIndicatorData,
   SpineChartIndicatorData,
 } from '@/components/organisms/SpineChartTable/spineChartTableHelpers';
-import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
+import {
+  determineAreaCodes,
+  determineAreasForBenchmarking,
+  determineBenchmarkToUse,
+} from '@/lib/chartHelpers/chartHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
+import { BenchmarkSelectArea } from '@/components/molecules/BenchmarkSelectArea';
+import { englandAreaString } from '@/lib/chartHelpers/constants';
 
 function shouldShowHeatmap(
   areaCodes: string[],
@@ -69,6 +75,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.GroupAreaSelected]: groupAreaSelected,
+    [SearchParams.BenchmarkAreaSelected]: benchmarkAreaSelected,
   } = stateManager.getSearchState();
 
   const areaCodes = determineAreaCodes(
@@ -108,15 +115,33 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     selectedGroupCode
   );
 
+  const availableAreasForBenchmarking = determineAreasForBenchmarking(
+    indicatorData[0].areaHealthData ?? [],
+    selectedGroupCode,
+    areasSelected,
+    groupAreaSelected
+  );
+
+  const benchmarkToUse = determineBenchmarkToUse(benchmarkAreaSelected);
+
   return (
     <section data-testid="twoOrMoreIndicatorsAreasViewPlot-component">
+      <BenchmarkSelectArea
+        availableAreas={availableAreasForBenchmarking}
+        benchmarkAreaSelectedKey={SearchParams.BenchmarkAreaSelected}
+        searchState={searchState}
+      />
       {shouldShowSpineChart(
         areaCodes,
         spineChartIndicatorData,
         groupAreaSelected
       ) ? (
         <StyleChartWrapper>
-          <SpineChartTable indicatorData={spineChartIndicatorData} />
+          <SpineChartTable
+            indicatorData={spineChartIndicatorData}
+            benchmarkToUse={benchmarkToUse}
+            searchState={searchState}
+          />
         </StyleChartWrapper>
       ) : null}
       {shouldShowHeatmap(areaCodes, groupAreaSelected) ? (
@@ -127,6 +152,12 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
               indicatorMetadata
             )}
             groupAreaCode={selectedGroupCode}
+            benchmarkAreaCode={benchmarkToUse}
+            benchmarkAreaName={
+              availableAreasForBenchmarking?.find((area) => {
+                return area.code === benchmarkToUse;
+              })?.name ?? englandAreaString
+            }
           />
         </StyleChartWrapper>
       ) : null}

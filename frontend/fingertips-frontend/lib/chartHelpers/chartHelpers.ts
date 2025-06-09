@@ -65,8 +65,8 @@ export function sortHealthDataByYearDescending(
 
 export function sortHealthDataPointsByDescendingYear(
   data: HealthDataPoint[] | undefined
-): HealthDataPoint[] {
-  if (!data) {
+) {
+  if (!data || data.length === 0) {
     return [];
   }
   return data.toSorted((a, b) => b.year - a.year);
@@ -150,6 +150,7 @@ export function getMostRecentData(
 
 export async function loadHighchartsModules(callback: () => void) {
   await import('highcharts/modules/exporting');
+  await import('highcharts/modules/map');
   await import('highcharts/highcharts-more').then(callback);
 }
 
@@ -305,8 +306,11 @@ const getComparisonLabelText = (
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
   benchmarkOutcome: BenchmarkOutcome
 ) => {
+  const validOutcomes = Object.values(BenchmarkOutcome);
+
   if (
     !benchmarkOutcome ||
+    !validOutcomes.includes(benchmarkOutcome) ||
     benchmarkOutcome === BenchmarkOutcome.NotCompared ||
     benchmarkComparisonMethod === BenchmarkComparisonMethod.Quintiles
   )
@@ -315,7 +319,7 @@ const getComparisonLabelText = (
   return `(${comparison}%)`;
 };
 
-const getBenchmarkLabel = (
+export const getBenchmarkLabel = (
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
   benchmarkOutcome?: BenchmarkOutcome,
   areaName?: string
@@ -326,9 +330,15 @@ const getBenchmarkLabel = (
   if (benchmarkComparisonMethod === BenchmarkComparisonMethod.Quintiles)
     return `${benchmarkOutcome} quintile`;
 
+  const outcome = getBenchmarkLabelText(benchmarkOutcome);
+
+  if (outcome === 'Not compared') {
+    return outcome;
+  }
+
   const joiningWord =
     benchmarkOutcome === BenchmarkOutcome.Similar ? 'to' : 'than';
-  const outcome = getBenchmarkLabelText(benchmarkOutcome);
+
   return `${outcome} ${joiningWord} ${areaName ?? 'England'}`;
 };
 
@@ -336,13 +346,15 @@ export const getTooltipContent = (
   benchmarkOutcome: BenchmarkOutcome,
   label: string,
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
-  areaName?: string
+  areaName?: string,
+  showComparisonLabels = true
 ) => {
   const category = getCategory(benchmarkOutcome, label);
 
   if (
     label === AreaTypeLabelEnum.Benchmark ||
-    label === AreaTypeLabelEnum.Group
+    label === AreaTypeLabelEnum.Group ||
+    !showComparisonLabels
   ) {
     return { category, benchmarkLabel: '', comparisonLabel: '' };
   }
@@ -406,19 +418,21 @@ export const getFormattedLabel = (
 
 const shouldAddGroupAreaForBenchmarking = (
   areasSelected?: string[],
-  selectedGroupCode?: string
+  selectedGroupCode?: string,
+  selectedGroupArea?: string
 ): boolean => {
   return (
     selectedGroupCode !== areaCodeForEngland &&
-    Array.isArray(areasSelected) &&
-    areasSelected.length > 0
+    (selectedGroupArea === ALL_AREAS_SELECTED ||
+      (Array.isArray(areasSelected) && areasSelected.length > 0))
   );
 };
 
 export const determineAreasForBenchmarking = (
   healthDataForAreas: HealthDataForArea[],
   selectedGroupCode?: string,
-  areasSelected?: string[]
+  areasSelected?: string[],
+  selectedGroupArea?: string
 ): AreaWithoutAreaType[] => {
   const areasForBenchmarking: AreaWithoutAreaType[] = [
     {
@@ -427,7 +441,13 @@ export const determineAreasForBenchmarking = (
     },
   ];
 
-  if (shouldAddGroupAreaForBenchmarking(areasSelected, selectedGroupCode)) {
+  if (
+    shouldAddGroupAreaForBenchmarking(
+      areasSelected,
+      selectedGroupCode,
+      selectedGroupArea
+    )
+  ) {
     const groupArea = healthDataForAreas.find(
       (area) => area.areaCode === selectedGroupCode
     );

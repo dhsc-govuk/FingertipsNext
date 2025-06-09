@@ -40,6 +40,8 @@ const testRender = () => {
         polarity={'Unknown'}
         areaCodes={mockAreaCodes}
         selectedAreaType={'regions'}
+        englandData={mockHealthData['92420'][0]}
+        groupData={mockHealthData['92420'][1]}
       />
     </QueryClientProvider>
   );
@@ -63,16 +65,47 @@ describe('ThematicMap', () => {
     expect(msg).toBeInTheDocument();
   });
 
-  it('should render the benchmark title', async () => {
+  it('should render the correct title', async () => {
     testRender();
     const title = await screen.findByRole('heading', { level: 3 });
     expect(title).toHaveTextContent('Compare an indicator by areas');
+  });
+
+  it('should render the correct benchmark legend when a different benchmark area is provided', async () => {
+    (fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => regionsMap,
+    });
+
+    const searchState: SearchStateParams = {
+      [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
+      [SearchParams.AreaTypeSelected]: 'regions',
+    };
+
+    mockGetSearchState.mockReturnValue(searchState);
+    render(
+      <QueryClientProvider client={reactQueryClient}>
+        <ThematicMap
+          healthIndicatorData={mockHealthData['92420']}
+          benchmarkComparisonMethod={'Unknown'}
+          englandData={mockHealthData['92420'][0]}
+          polarity={'Unknown'}
+          areaCodes={mockAreaCodes}
+          selectedAreaType={'regions'}
+        />
+      </QueryClientProvider>
+    );
+
+    const legend = await screen.findByTestId('benchmarkLegend-component');
+    expect(legend).toBeInTheDocument();
+    expect(legend).toHaveTextContent('Compared to Stub BenchmarkAreaName');
   });
 
   it('should render the benchmark legend', async () => {
     testRender();
     const legend = await screen.findByTestId('benchmarkLegend-component');
     expect(legend).toBeInTheDocument();
+    expect(legend).toHaveTextContent('Compared to Stub BenchmarkAreaName');
   });
 
   it('should render the credits', async () => {
@@ -84,6 +117,12 @@ describe('ThematicMap', () => {
   it('should render the hovers', async () => {
     testRender();
     const hovers = await screen.findAllByTestId('benchmark-tooltip-area');
-    expect(hovers).toHaveLength(9);
+    expect(hovers).toHaveLength(27); // 9 areas * 3 tooltip sections
+  });
+
+  it('should render the export button', async () => {
+    testRender();
+    const btn = await screen.findByRole('button', { name: 'Export options' });
+    expect(btn).toBeInTheDocument();
   });
 });

@@ -114,7 +114,7 @@ const createPopPyramidSeriesOptions = (
                     <span style='display:block;'>
                         ${xAxisTitle}
                     <span>
-                    <span style="display:block; font-weight:'bold';">Male</span>
+                    <span style="display:block; font-weight:bold;">Male</span>
                   </div>
                 `,
           align: 'high',
@@ -150,7 +150,7 @@ const createPopPyramidSeriesOptions = (
                     <span style='display:block;'>
                         ${xAxisTitle}
                     <span>
-                     <span style='display:block; font-weight:'bold''>Female</span>
+                     <span style="display:block; font-weight:bold">Female</span>
                   </div>`,
           align: 'high',
           x: -15,
@@ -358,7 +358,7 @@ const createAdditionalChartSeries = (
     );
     series.push(
       {
-        name: `Benchmark: ${dataForBenchmark.areaName} `,
+        name: `${dataForBenchmark.areaName} `,
         data: femaleBenchmarkSeries,
         type: 'line',
         marker: { symbol: SymbolNames.Circle },
@@ -368,7 +368,7 @@ const createAdditionalChartSeries = (
         custom: { tag: 'Female', shape: SymbolsEnum.Circle },
       },
       {
-        name: `Benchmark: ${dataForBenchmark.areaName} `,
+        name: `${dataForBenchmark.areaName} `,
         data: maleBenchmarkSeries.map((datapoint) => -datapoint),
         type: 'line',
         stack: 3,

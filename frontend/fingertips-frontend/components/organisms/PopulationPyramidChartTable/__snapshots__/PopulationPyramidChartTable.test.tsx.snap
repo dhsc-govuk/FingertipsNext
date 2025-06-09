@@ -93,6 +93,11 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
   font-weight: 700;
 }
 
+.c13 {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -112,6 +117,7 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
   -webkit-box-align: stretch;
   -ms-flex-align: stretch;
   align-items: stretch;
+  margin-bottom: 1rem;
 }
 
 .c0 table {
@@ -206,6 +212,26 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
 }
 
 @media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
   .c4 {
     font-size: 14px;
     line-height: 1.15;
@@ -293,21 +319,269 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
   }
 }
 
-<section
-    class="c0"
+<div
     data-testid="populationPyramidTable-component"
+    id="populationPyramidTable"
   >
-    <div
-      class="c1"
+    <section
+      class="c0"
     >
       <div
-        class="c2"
+        class="c1"
+      >
+        <div
+          class="c2"
+        >
+          <section>
+            <h3
+              class="c3"
+            >
+              Test Area
+            </h3>
+            <table
+              class="c4"
+            >
+              <thead
+                class=""
+              >
+                <tr
+                  class=""
+                >
+                  <th
+                    class="c5 c6 c7 c8"
+                  >
+                    Age range
+                  </th>
+                  <th
+                    class="c5 c6 c7 c8"
+                  >
+                    Male
+                  </th>
+                  <th
+                    class="c5 c6 c7 c8"
+                  >
+                    Female
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                class=""
+              >
+                <tr
+                  class=""
+                >
+                  <td
+                    class="c9 c10"
+                  >
+                    0-4
+                  </td>
+                  <td
+                    class="c9 c10"
+                  >
+                    900
+                  </td>
+                  <td
+                    class="c9 c10"
+                  >
+                    1,000
+                  </td>
+                </tr>
+                <tr
+                  class=""
+                >
+                  <td
+                    class="c9 c10"
+                  >
+                    5-9
+                  </td>
+                  <td
+                    class="c9 c10"
+                  >
+                    1,100
+                  </td>
+                  <td
+                    class="c9 c10"
+                  >
+                    1,200
+                  </td>
+                </tr>
+                <tr
+                  class=""
+                >
+                  <td
+                    class="c9 c10"
+                  >
+                    10-14
+                  </td>
+                  <td
+                    class="c9 c10"
+                  >
+                    1,050
+                  </td>
+                  <td
+                    class="c9 c10"
+                  >
+                    1,100
+                  </td>
+                </tr>
+                <tr
+                  class=""
+                >
+                  <td
+                    class="c9 c10"
+                  >
+                    15+
+                  </td>
+                  <td
+                    class="c9 c10"
+                  >
+                    1,250
+                  </td>
+                  <td
+                    class="c9 c10"
+                  >
+                    1,300
+                  </td>
+                </tr>
+                <tr
+                  class=""
+                >
+                  <th
+                    class="c5 c6 c7 c8"
+                  >
+                    All ages
+                  </th>
+                  <th
+                    class="c5 c6 c7 c8"
+                  >
+                    4,300
+                  </th>
+                  <th
+                    class="c5 c6 c7 c8"
+                  >
+                    4,600
+                  </th>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </div>
+        <div
+          class="c11"
+        >
+          <section>
+            <h3
+              class="c3"
+            >
+              Group Area
+            </h3>
+            <table
+              class="c4"
+            >
+              <thead
+                class=""
+              >
+                <tr
+                  class=""
+                >
+                  <th
+                    class="c5 c6 c7 c8"
+                  >
+                    Male
+                  </th>
+                  <th
+                    class="c5 c6 c7 c8"
+                  >
+                    Female
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                class=""
+              >
+                <tr
+                  class=""
+                >
+                  <td
+                    class="c9 c10"
+                  >
+                    100
+                  </td>
+                  <td
+                    class="c9 c10"
+                  >
+                    1,100
+                  </td>
+                </tr>
+                <tr
+                  class=""
+                >
+                  <td
+                    class="c9 c10"
+                  >
+                    10
+                  </td>
+                  <td
+                    class="c9 c10"
+                  >
+                    1,300
+                  </td>
+                </tr>
+                <tr
+                  class=""
+                >
+                  <td
+                    class="c9 c10"
+                  >
+                    1,150
+                  </td>
+                  <td
+                    class="c9 c10"
+                  >
+                    1,200
+                  </td>
+                </tr>
+                <tr
+                  class=""
+                >
+                  <td
+                    class="c9 c10"
+                  >
+                    150
+                  </td>
+                  <td
+                    class="c9 c10"
+                  >
+                    1,400
+                  </td>
+                </tr>
+                <tr
+                  class=""
+                >
+                  <th
+                    class="c5 c6 c7 c8"
+                  >
+                    1,410
+                  </th>
+                  <th
+                    class="c5 c6 c7 c8"
+                  >
+                    5,000
+                  </th>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </div>
+      </div>
+      <div
+        class="c12"
       >
         <section>
           <h3
             class="c3"
           >
-            Test Area
+            Benchmark Area
           </h3>
           <table
             class="c4"
@@ -318,11 +592,6 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
               <tr
                 class=""
               >
-                <th
-                  class="c5 c6 c7 c8"
-                >
-                  Age range
-                </th>
                 <th
                   class="c5 c6 c7 c8"
                 >
@@ -344,153 +613,21 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
                 <td
                   class="c9 c10"
                 >
-                  0-4
-                </td>
-                <td
-                  class="c9 c10"
-                >
-                  900
-                </td>
-                <td
-                  class="c9 c10"
-                >
-                  1,000
-                </td>
-              </tr>
-              <tr
-                class=""
-              >
-                <td
-                  class="c9 c10"
-                >
-                  5-9
+                  1,100
                 </td>
                 <td
                   class="c9 c10"
                 >
                   1,100
                 </td>
+              </tr>
+              <tr
+                class=""
+              >
                 <td
                   class="c9 c10"
                 >
                   1,200
-                </td>
-              </tr>
-              <tr
-                class=""
-              >
-                <td
-                  class="c9 c10"
-                >
-                  10-14
-                </td>
-                <td
-                  class="c9 c10"
-                >
-                  1,050
-                </td>
-                <td
-                  class="c9 c10"
-                >
-                  1,100
-                </td>
-              </tr>
-              <tr
-                class=""
-              >
-                <td
-                  class="c9 c10"
-                >
-                  15+
-                </td>
-                <td
-                  class="c9 c10"
-                >
-                  1,250
-                </td>
-                <td
-                  class="c9 c10"
-                >
-                  1,300
-                </td>
-              </tr>
-              <tr
-                class=""
-              >
-                <th
-                  class="c5 c6 c7 c8"
-                >
-                  All ages
-                </th>
-                <th
-                  class="c5 c6 c7 c8"
-                >
-                  4,300
-                </th>
-                <th
-                  class="c5 c6 c7 c8"
-                >
-                  4,600
-                </th>
-              </tr>
-            </tbody>
-          </table>
-        </section>
-      </div>
-      <div
-        class="c11"
-      >
-        <section>
-          <h3
-            class="c3"
-          >
-            Group Area
-          </h3>
-          <table
-            class="c4"
-          >
-            <thead
-              class=""
-            >
-              <tr
-                class=""
-              >
-                <th
-                  class="c5 c6 c7 c8"
-                >
-                  Male
-                </th>
-                <th
-                  class="c5 c6 c7 c8"
-                >
-                  Female
-                </th>
-              </tr>
-            </thead>
-            <tbody
-              class=""
-            >
-              <tr
-                class=""
-              >
-                <td
-                  class="c9 c10"
-                >
-                  100
-                </td>
-                <td
-                  class="c9 c10"
-                >
-                  1,100
-                </td>
-              </tr>
-              <tr
-                class=""
-              >
-                <td
-                  class="c9 c10"
-                >
-                  10
                 </td>
                 <td
                   class="c9 c10"
@@ -518,7 +655,7 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
                 <td
                   class="c9 c10"
                 >
-                  150
+                  1,350
                 </td>
                 <td
                   class="c9 c10"
@@ -532,7 +669,7 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
                 <th
                   class="c5 c6 c7 c8"
                 >
-                  1,410
+                  4,800
                 </th>
                 <th
                   class="c5 c6 c7 c8"
@@ -544,114 +681,204 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
           </table>
         </section>
       </div>
-    </div>
+    </section>
     <div
-      class="c12"
+      class="exportOnly"
+      style="display: none;"
     >
-      <section>
-        <h3
-          class="c3"
-        >
-          Benchmark Area
-        </h3>
-        <table
-          class="c4"
-        >
-          <thead
-            class=""
-          >
-            <tr
-              class=""
-            >
-              <th
-                class="c5 c6 c7 c8"
-              >
-                Male
-              </th>
-              <th
-                class="c5 c6 c7 c8"
-              >
-                Female
-              </th>
-            </tr>
-          </thead>
-          <tbody
-            class=""
-          >
-            <tr
-              class=""
-            >
-              <td
-                class="c9 c10"
-              >
-                1,100
-              </td>
-              <td
-                class="c9 c10"
-              >
-                1,100
-              </td>
-            </tr>
-            <tr
-              class=""
-            >
-              <td
-                class="c9 c10"
-              >
-                1,200
-              </td>
-              <td
-                class="c9 c10"
-              >
-                1,300
-              </td>
-            </tr>
-            <tr
-              class=""
-            >
-              <td
-                class="c9 c10"
-              >
-                1,150
-              </td>
-              <td
-                class="c9 c10"
-              >
-                1,200
-              </td>
-            </tr>
-            <tr
-              class=""
-            >
-              <td
-                class="c9 c10"
-              >
-                1,350
-              </td>
-              <td
-                class="c9 c10"
-              >
-                1,400
-              </td>
-            </tr>
-            <tr
-              class=""
-            >
-              <th
-                class="c5 c6 c7 c8"
-              >
-                4,800
-              </th>
-              <th
-                class="c5 c6 c7 c8"
-              >
-                5,000
-              </th>
-            </tr>
-          </tbody>
-        </table>
-      </section>
+      <div
+        class="c13"
+      >
+        ©Crown copyright 2024. Office for Health Improvement & Disparities.
+        <br />
+        Public Health Profiles accessed on 25 December 2024 www.fingertips.phe.org.uk
+      </div>
     </div>
-  </section>
+  </div>
+  .c0 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  box-sizing: border-box;
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  margin-top: 0;
+  padding: 7px 10px;
+  border: 2px solid transparent;
+  border-radius: 0;
+  color: #ffffff;
+  background-color: #00703c;
+  box-shadow: 0 2px 0 #002413;
+  text-align: center;
+  vertical-align: top;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-bottom: 22px;
+}
+
+.c0:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+}
+
+.c0:link,
+.c0:visited,
+.c0:active,
+.c0:hover {
+  color: #ffffff;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c0::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+.c0:hover,
+.c0:focus {
+  background-color: #00572e;
+}
+
+.c0:active {
+  top: 2px;
+  box-shadow: none;
+}
+
+.c0::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  bottom: -4px;
+  left: -2px;
+  background: transparent;
+}
+
+.c0:active::before {
+  top: -4px;
+}
+
+.c0:disabled {
+  opacity: 0.5;
+  background: #00703c;
+}
+
+.c0:disabled:hover {
+  background-color: #00703c;
+  cursor: default;
+}
+
+.c0:disabled:focus {
+  outline: none;
+}
+
+.c0:disabled:active {
+  top: 0;
+  box-shadow: 0 2px 0 #002413;
+}
+
+.c0 svg {
+  max-width: 15px;
+}
+
+.c1 {
+  margin-top: 1rem;
+}
+
+@media print {
+  .c0 {
+    font-size: 14px;
+    line-height: 19px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    font-size: 19px;
+    line-height: 19px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    width: auto;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 svg {
+    margin-left: 10px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    margin-bottom: 32px;
+  }
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:480px) {
+
+}
+
+<button
+    class="c0 c1"
+  >
+    Export options
+  </button>
 </DocumentFragment>
 `;

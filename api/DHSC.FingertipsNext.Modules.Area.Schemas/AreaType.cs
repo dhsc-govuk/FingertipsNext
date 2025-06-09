@@ -42,4 +42,4 @@ public class AreaType
     /// </remarks>
     [JsonPropertyName("level")]
     public int Level { get; init; }
- }
+}

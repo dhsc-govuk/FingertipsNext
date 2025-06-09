@@ -10,7 +10,7 @@ public class ServiceResponse<T>
     {
         Status = status;
     }
-    
+
     public T Content { get; set; }
     public ResponseStatus Status { get; set; }
 }

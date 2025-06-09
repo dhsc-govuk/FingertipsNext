@@ -201,8 +201,10 @@ export function IndicatorSelectionForm({
         indicatorId
       );
     }
-
-    replace(stateManager.generatePath(pathname), { scroll: false });
+    const newPath = stateManager.generatePath(pathname);
+    replace(`${newPath}#search-results-indicator-${indicatorId}`, {
+      scroll: false,
+    });
   };
 
   const handleSelectAll = (checked: boolean) => {
@@ -215,10 +217,7 @@ export function IndicatorSelectionForm({
     if (checked) {
       stateManager.setState({
         ...searchState,
-        [SearchParams.IndicatorsSelected]: [
-          ...selectedIndicators,
-          ...allIndicatorIdsForPage,
-        ],
+        [SearchParams.IndicatorsSelected]: allIndicatorIdsForPage,
       });
     } else {
       const newSelectedIndicators = selectedIndicators.filter(
@@ -230,7 +229,10 @@ export function IndicatorSelectionForm({
       });
     }
 
-    replace(stateManager.generatePath(pathname), { scroll: false });
+    replace(
+      `${stateManager.generatePath(pathname)}#search-results-indicator-all`,
+      { scroll: false }
+    );
   };
 
   return (
@@ -260,6 +262,7 @@ export function IndicatorSelectionForm({
               data-testid="select-all-checkbox"
               defaultChecked={areAllIndicatorsSelected}
               onChange={(e) => handleSelectAll(e.target.checked)}
+              id={'search-results-indicator-all'}
             >
               Select all
             </Checkbox>

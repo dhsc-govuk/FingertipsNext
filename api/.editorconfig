@@ -1,0 +1,10 @@
+dotnet_analyzer_diagnostic.category-Style.severity = error
+dotnet_analyzer_diagnostic.category-Naming.severity = error
+dotnet_analyzer_diagnostic.category-Maintainability.severity = error
+
+[*.cs]
+dotnet_diagnostic.CA2007.severity = none
+dotnet_diagnostic.CA1303.severity = none
+
+[*{Controller,Tests}.cs]
+dotnet_diagnostic.CA1515.severity = none

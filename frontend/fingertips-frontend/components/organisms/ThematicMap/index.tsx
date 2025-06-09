@@ -1,9 +1,7 @@
 'use client';
 
-import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client/models/HealthDataForArea';
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import {
   AreaTypeKeysForMapMeta,
   createThematicMapChartOptions,
@@ -13,10 +11,14 @@ import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/mod
 import { IndicatorPolarity } from '@/generated-sources/ft-api-client/models/IndicatorPolarity';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { ThematicMapCredits } from '../../molecules/ThematicMapCredits';
-import { BenchmarkTooltip } from '@/components/molecules/BenchmarkTooltip';
+import { ThematicMapTooltip } from '@/components/molecules/ThematicMapTooltip';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { useMapGeographyData } from '@/components/organisms/ThematicMap/useMapGeographyData';
 import { H3 } from 'govuk-react';
+import { HighChartsWrapper } from '@/components/molecules/HighChartsWrapper/HighChartsWrapper';
+import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
+import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
+import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
 
 interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];
@@ -24,14 +26,11 @@ interface ThematicMapProps {
   areaCodes: string[];
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
-  benchmarkIndicatorData?: HealthDataForArea;
-  groupIndicatorData?: HealthDataForArea;
+  englandData?: HealthDataForArea;
+  groupData?: HealthDataForArea;
   indicatorMetadata?: IndicatorDocument;
+  benchmarkToUse?: string;
 }
-
-const loadHighchartsModules = async (callback: () => void) => {
-  import('highcharts/modules/map').then(callback);
-};
 
 export function ThematicMap({
   healthIndicatorData,
@@ -39,40 +38,31 @@ export function ThematicMap({
   areaCodes,
   benchmarkComparisonMethod,
   polarity,
-  benchmarkIndicatorData,
-  groupIndicatorData,
+  englandData,
+  groupData,
   indicatorMetadata,
+  benchmarkToUse,
 }: Readonly<ThematicMapProps>) {
   const { isLoading, error, mapGeographyData } = useMapGeographyData(
     areaCodes,
     selectedAreaType as AreaTypeKeysForMapMeta
   );
 
-  const [options, setOptions] = useState<Highcharts.Options>();
-  // useEffect and async loading of map module to address issue with Highcharts 12 with Next 15.
-  // See: https://github.com/highcharts/highcharts-react/issues/502#issuecomment-2531711517
-  useEffect(() => {
+  const chartOptions = useMemo(() => {
     if (!mapGeographyData || !selectedAreaType) return;
-    void loadHighchartsModules(async () => {
-      setOptions(
-        createThematicMapChartOptions(
-          healthIndicatorData,
-          mapGeographyData,
-          selectedAreaType as AreaTypeKeysForMapMeta,
-          benchmarkComparisonMethod,
-          polarity
-        )
-      );
-    });
+    return createThematicMapChartOptions(
+      healthIndicatorData,
+      mapGeographyData,
+      selectedAreaType as AreaTypeKeysForMapMeta,
+      benchmarkComparisonMethod,
+      polarity
+    );
   }, [
+    benchmarkComparisonMethod,
     healthIndicatorData,
     mapGeographyData,
-    selectedAreaType,
-    benchmarkComparisonMethod,
     polarity,
-    indicatorMetadata,
-    benchmarkIndicatorData,
-    groupIndicatorData,
+    selectedAreaType,
   ]);
 
   if (isLoading) {
@@ -85,7 +75,7 @@ export function ThematicMap({
   }
 
   // This prevents errors from trying to render before the module is loaded in the useEffect callback
-  if (!options) {
+  if (!chartOptions) {
     return null;
   }
 
@@ -93,47 +83,55 @@ export function ThematicMap({
     <>
       <H3>Compare an indicator by areas</H3>
       <div
+        id={'thematicMap'}
         data-testid="thematicMap-component"
         style={{
           border: `1px solid ${GovukColours.LightGrey}`,
           paddingInline: '5px',
         }}
       >
-        {healthIndicatorData.map((indicatorDataForArea) => {
-          return (
-            <div
-              key={`thematicMap-chart-hover-${indicatorDataForArea.areaCode}`}
-              id={`thematicMap-chart-hover-${indicatorDataForArea.areaCode}`}
-              style={{ display: 'none' }}
-            >
-              <BenchmarkTooltip
-                indicatorData={indicatorDataForArea}
-                benchmarkComparisonMethod={benchmarkComparisonMethod}
-                measurementUnit={indicatorMetadata?.unitLabel}
-                indicatorDataForBenchmark={benchmarkIndicatorData}
-                indicatorDataForGroup={groupIndicatorData}
-                polarity={polarity}
-              />
-            </div>
-          );
-        })}
+        {healthIndicatorData.map((indicatorDataForArea) => (
+          <div
+            key={`thematicMap-chart-hover-${indicatorDataForArea.areaCode}`}
+            id={`thematicMap-chart-hover-${indicatorDataForArea.areaCode}`}
+            style={{ display: 'none' }}
+          >
+            <ThematicMapTooltip
+              indicatorData={indicatorDataForArea}
+              benchmarkComparisonMethod={benchmarkComparisonMethod}
+              measurementUnit={indicatorMetadata?.unitLabel}
+              englandData={englandData}
+              groupData={groupData}
+              polarity={polarity}
+              benchmarkToUse={benchmarkToUse}
+            />
+          </div>
+        ))}
         <BenchmarkLegend
+          title={`Compared to ${healthIndicatorData[0].healthData[0].benchmarkComparison?.benchmarkAreaName}`}
           benchmarkComparisonMethod={benchmarkComparisonMethod}
           polarity={polarity}
         />
-        <HighchartsReact
-          containerProps={{
-            'data-testid': 'highcharts-react-thematicMap-component',
-          }}
-          highcharts={Highcharts}
+        <HighChartsWrapper
+          chartOptions={chartOptions}
+          testId={'highcharts-react-thematicMap-component'}
           constructorType={'mapChart'}
-          options={options}
         />
+        <ExportOnlyWrapper>
+          <ExportCopyright />
+        </ExportOnlyWrapper>
         <ThematicMapCredits
           areaType={selectedAreaType as AreaTypeKeysForMapMeta}
           dataSource={indicatorMetadata?.dataSource}
         />
       </div>
+      <ExportOptionsButton
+        targetId={'thematicMap'}
+        chartOptions={{
+          ...chartOptions,
+          custom: { mapAreaType: selectedAreaType as AreaTypeKeysForMapMeta },
+        }}
+      />
     </>
   );
 }

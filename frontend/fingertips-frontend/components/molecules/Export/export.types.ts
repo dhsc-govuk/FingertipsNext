@@ -1,3 +1,6 @@
+import { Options } from 'highcharts';
+import { AreaTypeKeysForMapMeta } from '@/components/organisms/ThematicMap/thematicMapHelpers';
+
 export enum ExportType {
   PNG = 'png',
   SVG = 'svg',
@@ -23,4 +26,19 @@ export enum CsvHeader {
   Value = 'Value',
   LowerCI = 'Lower confidence limit X%',
   UpperCI = 'Upper confidence limit X%',
+  InequalityCategory = 'Inequality category',
+  InequalityType = 'Inequality type',
+  AgeRange = 'Age range',
+  Male = 'Male',
+  Female = 'Female',
+  WorstLowest = 'Worst/Lowest',
+  BestHighest = 'Best/Highest',
+  PersonsComparison = 'Compared to persons',
+  Totals = 'Totals',
+}
+
+export interface CustomOptions extends Options {
+  custom?: {
+    mapAreaType?: AreaTypeKeysForMapMeta;
+  };
 }

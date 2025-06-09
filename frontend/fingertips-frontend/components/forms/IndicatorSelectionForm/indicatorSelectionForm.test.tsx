@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react';
+import { render, screen, within, fireEvent } from '@testing-library/react';
 import { IndicatorSelectionForm } from '.';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
@@ -232,7 +232,7 @@ describe('IndicatorSelectionForm', () => {
     await user.click(screen.getByRole('checkbox', { name: /NHS/i }));
 
     expect(mockReplace).toHaveBeenCalledWith(
-      `${mockPath}?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=1`,
+      `${mockPath}?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=1#search-results-indicator-1`,
       {
         scroll: false,
       }
@@ -258,7 +258,7 @@ describe('IndicatorSelectionForm', () => {
     await user.click(screen.getByRole('checkbox', { name: /NHS/i }));
 
     expect(mockReplace).toHaveBeenCalledWith(
-      `${mockPath}?${SearchParams.SearchedIndicator}=test`,
+      `${mockPath}?${SearchParams.SearchedIndicator}=test#search-results-indicator-1`,
       {
         scroll: false,
       }
@@ -328,7 +328,7 @@ describe('IndicatorSelectionForm', () => {
     await user.click(screen.getByRole('checkbox', { name: /Select all/i }));
 
     expect(mockReplace).toHaveBeenCalledWith(
-      `${mockPath}?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`,
+      `${mockPath}?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2#search-results-indicator-all`,
       { scroll: false }
     );
   });
@@ -352,7 +352,7 @@ describe('IndicatorSelectionForm', () => {
     await user.click(screen.getByRole('checkbox', { name: /Select all/i }));
 
     expect(mockReplace).toHaveBeenCalledWith(
-      `${mockPath}?${SearchParams.SearchedIndicator}=test`,
+      `${mockPath}?${SearchParams.SearchedIndicator}=test#search-results-indicator-all`,
       { scroll: false }
     );
   });
@@ -601,7 +601,7 @@ describe('IndicatorSelectionForm', () => {
       ).map((index) => `${SearchParams.IndicatorsSelected}=${index}`);
 
       expect(mockReplace).toHaveBeenCalledWith(
-        `${mockPath}?${SearchParams.SearchedIndicator}=test&${expectedSelectedIndicatorsParam.join('&')}`,
+        `${mockPath}?${SearchParams.SearchedIndicator}=test&${expectedSelectedIndicatorsParam.join('&')}#search-results-indicator-all`,
         { scroll: false }
       );
     });
@@ -619,7 +619,77 @@ describe('IndicatorSelectionForm', () => {
       await user.click(screen.getByRole('checkbox', { name: /Select all/i }));
 
       expect(mockReplace).toHaveBeenCalledWith(
-        `${mockPath}?${SearchParams.SearchedIndicator}=test`,
+        `${mockPath}?${SearchParams.SearchedIndicator}=test#search-results-indicator-all`,
+        { scroll: false }
+      );
+    });
+
+    it('Should ensure that when items are previously selected, the previously selected items are not included with all the item list', async () => {
+      const mockDocuments: IndicatorDocument[] = [
+        {
+          indicatorID: '93474',
+          indicatorName: 'NHS',
+          indicatorDefinition:
+            'Total number of patients registered with the practice',
+          earliestDataPeriod: '2021',
+          latestDataPeriod: '2023',
+          dataSource: 'NHS website',
+          lastUpdatedDate: new Date('December 6, 2024'),
+          unitLabel: '',
+          hasInequalities: false,
+        },
+        {
+          indicatorID: '94035',
+          indicatorName: 'DHSC',
+          indicatorDefinition:
+            'Total number of patients registered with the practice',
+          earliestDataPeriod: '2021',
+          latestDataPeriod: '2022',
+          dataSource: 'Student article',
+          lastUpdatedDate: new Date('November 5, 2023'),
+          unitLabel: '',
+          hasInequalities: true,
+        },
+
+        {
+          indicatorID: '41101',
+          indicatorName: 'DHSC with 41101',
+          indicatorDefinition: 'patients registered with practice testing',
+          earliestDataPeriod: '2021',
+          latestDataPeriod: '2022',
+          dataSource: 'Student article',
+          lastUpdatedDate: new Date('November 5, 2023'),
+          unitLabel: '',
+          hasInequalities: true,
+        },
+      ];
+      // pass the search indicator
+      const searchState: SearchStateParams = {
+        [SearchParams.SearchedIndicator]: 'patient',
+      };
+
+      mockGetSearchState.mockReturnValue(searchState);
+      render(
+        <IndicatorSelectionForm
+          searchResults={mockDocuments}
+          showTrends={false}
+          formAction={mockFormAction}
+        />
+      );
+
+      // manually check the first indicator
+      const firstCheckbox = screen.getAllByRole('checkbox')[1]; // Skip 'Select all'
+      fireEvent.click(firstCheckbox);
+      expect(firstCheckbox).toBeChecked();
+      expect(mockReplace).toHaveBeenCalledWith(
+        'some-mock-path?si=patient&is=93474#search-results-indicator-93474',
+        { scroll: false }
+      );
+      mockReplace.mockReset();
+      //  select all checkbox to see what happen and check it against the uri
+      await user.click(screen.getByRole('checkbox', { name: /Select all/i }));
+      expect(mockReplace).toHaveBeenCalledWith(
+        'some-mock-path?si=patient&is=93474&is=94035&is=41101#search-results-indicator-all',
         { scroll: false }
       );
     });
