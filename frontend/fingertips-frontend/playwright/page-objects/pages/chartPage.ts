@@ -369,25 +369,26 @@ export default class ChartPage extends AreaFilter {
       selectedAreaFilters.group.charAt(0).toUpperCase() +
       selectedAreaFilters.group.slice(1);
 
-    // check benchmark dropdown defaults to England as first option in all cases
+    // heck benchmark dropdown defaults to England as first option in all cases
     expect(options[0].text).toBe('England');
 
-    // Determine expected values based on area filters
+    // determine expected values based on area filters
     const isEnglandGroup = selectedAreaFilters.group === 'england';
     const isEnglandAreaType = selectedAreaFilters.areaType === 'england';
     const isThematicMap =
       component.componentLocator === ChartPage.thematicMapComponent;
 
-    // Check benchmark dropdown options length based on group selection
+    // check benchmark dropdown options length based on group selection
     const expectedOptionsLength = isEnglandGroup ? 1 : 2;
     expect(options.length).toBe(expectedOptionsLength);
 
-    // set benchmark dropdown to the group selected in the area filter
+    // set benchmark dropdown to the same group that was selected in the area filter
     await combobox.selectOption({
       label: upperCaseFirstCharSelectedGroup,
     });
     await this.waitAfterDropDownInteraction();
 
+    // determine expected benchmarking text based on area filters
     const expectedSelectedOption = isEnglandGroup
       ? 'England'
       : upperCaseFirstCharSelectedGroup;
@@ -396,12 +397,12 @@ export default class ChartPage extends AreaFilter {
     const expectedBenchmarkTitleText = `${benchmarkPrefix} ${expectedSelectedOption}`;
     const expectedBenchmarkTooltipText = `Benchmark: ${expectedSelectedOption}`;
 
-    // Verify the correct option is selected in the benchmark dropdown
+    // verify the correct benchmark dropdown option is now selected
     expect(await combobox.locator('option:checked').textContent()).toBe(
       expectedSelectedOption
     );
 
-    // Verify benchmark text visibility in the chart component title
+    // verify benchmark text visibility in the chart component title
     if (shouldShowBenchmarkText) {
       await expect(
         this.page
@@ -414,9 +415,7 @@ export default class ChartPage extends AreaFilter {
       }
     } else {
       await expect(
-        this.page
-          .getByTestId(component.componentLocator)
-          .getByText('Benchmark: England')
+        this.page.getByTestId(component.componentLocator).getByText('Benchmark')
       ).not.toBeVisible();
       // check hover doesnt contain 'Benchmark:' if current chart component has tooltip hovers
       if (component.componentProps.hasTooltipHovers) {
@@ -438,7 +437,7 @@ export default class ChartPage extends AreaFilter {
         ? 1
         : 0;
 
-    // Verify benchmark text visibility in the chart hover content
+    // verify benchmark text visibility in the chart hover content
     const chartPoint = this.page
       .getByTestId(component.componentLocator)
       .locator('.highcharts-point')
@@ -451,15 +450,16 @@ export default class ChartPage extends AreaFilter {
     await expect(chartPoint).toBeAttached();
     await expect(chartPoint).toBeEnabled();
 
-    await chartPoint.hover({ force: true });
-    await chartPoint.click({ force: true });
-    await this.page.waitForTimeout(250); // Small wait for tooltip to appear
+    await chartPoint.hover({ force: true }); // have to disable actionability checks for hover due to thematic map
+    await chartPoint.click({ force: true }); // have to disable actionability checks for click due to thematic map
+    await this.page.waitForTimeout(250); // small wait for tooltip to appear
 
     const hoverContent = await this.page
       .locator('div.highcharts-tooltip')
       .first()
       .textContent();
 
+    // assert hover content contains expected benchmark text
     if (expectedBenchmarkText) {
       expect(hoverContent).toContain(expectedBenchmarkText);
     } else {
