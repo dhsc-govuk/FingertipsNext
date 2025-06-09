@@ -1,5 +1,4 @@
-﻿--- This stored procedure Gets HealthData and performs Quintile calculations
-CREATE PROCEDURE [dbo].[GetIndicatorDetailsWithQuintileBenchmarkComparison]
+﻿CREATE PROCEDURE [dbo].[GetIndicatorDetailsWithQuintileBenchmarkComparison]
 @RequestedAreas AreaCodeList READONLY,
 --- The Areas we want data for
 @RequestedAreaType varchar(50),
@@ -34,19 +33,19 @@ BEGIN
 	WHERE
 		ind.IndicatorId = @RequestedIndicatorId
     ),
-	AreasWithFlag (AreaCode, IsBenchmarkArea) AS (
+	AreasWithIsBenchmarkAreaFlag (AreaCode, IsBenchmarkArea) AS (
 	SELECT AreaCode, 1 
 	FROM 
 		dbo.FindAreaDescendants_Fn(@RequestedAreaType, @RequestedBenchmarkAreaCode)
 	UNION 
 	SELECT 
-		al.AreaCode, 0 
+		ra.AreaCode, 0 
 	FROM 
-		@RequestedAreas al
+		@RequestedAreas ra
 	JOIN 
 		dbo.AreaDimension ad
 	ON 
-		al.AreaCode = ad.Code AND ad.AreaType != @RequestedAreaType
+		ra.AreaCode = ad.Code AND ad.AreaType != @RequestedAreaType
 	),
 	HealthData AS (
 		SELECT
@@ -56,7 +55,6 @@ BEGIN
 					THEN NTILE(5) OVER(PARTITION BY hm.Year, benchmarkAreas.IsBenchmarkArea ORDER BY Value)
 				ELSE NULL
 			END AS Quintile,
-			benchmarkAreas.IsBenchmarkArea,
 		    areaDim.Code AS AreaDimensionCode,
 		    areaDim.Name AS AreaDimensionName,
 		    sex.Name AS SexDimensionName,
@@ -87,7 +85,7 @@ BEGIN
         ON
 		    hm.AreaKey = areaDim.AreaKey 
 	JOIN
-	        AreasWithFlag AS benchmarkAreas
+	        AreasWithIsBenchmarkAreaFlag AS benchmarkAreas
 	    ON
 	        areaDim.Code = benchmarkAreas.AreaCode
 	JOIN
@@ -165,7 +163,7 @@ BEGIN
 		bag.Code AS BenchmarkComparisonAreaCode,
 		bag.Name AS BenchmarkComparisonAreaName,
 	CASE
-		WHEN nc.Count < 5 THEN NULL
+		WHEN nc.Count < 5 THEN 'NOT COMPARED'
 
 		WHEN ind.Polarity = 'High is good'
 		AND hd.Quintile = 1 THEN 'WORST'
