@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import {
   HeatmapHoverBenchmarkPill,
   HeatmapHoverBenchmarkPillProps,
-} from './HeatmapHoverBenchmarkPill';
+} from './BenchmarkPill';
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
