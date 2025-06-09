@@ -160,7 +160,7 @@ export function InequalitiesBarChart({
 
   const barChartOptions = getBarChartOptions({
     // The deprivation chart needs more height
-    height: type === InequalitiesTypes.Deprivation ? '600' : '300',
+    height: type === InequalitiesTypes.Deprivation ? '800' : '400',
     xAxisTitleText: `${xAxisTitlePrefix} ${mapToXAxisTitle[type]}`,
     xAxisCategories: barChartFields,
     yAxisTitleText: `${yAxisLabel}${measurementUnit ? ': ' + measurementUnit : ''}`,
