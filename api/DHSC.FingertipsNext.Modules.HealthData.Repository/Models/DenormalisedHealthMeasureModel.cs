@@ -31,14 +31,18 @@ public class DenormalisedHealthMeasureModel
     public required string BenchmarkComparisonAreaCode { get; set; }
     public required string BenchmarkComparisonAreaName { get; set; }
 
+#nullable enable
+    private BenchmarkComparisonModel? NormalisedBenchmark =>
+        BenchmarkComparisonOutcome is null ? null : new BenchmarkComparisonModel() 
+        {
+            Outcome = BenchmarkComparisonOutcome, 
+            BenchmarkAreaCode = BenchmarkComparisonAreaCode, 
+            BenchmarkAreaName = BenchmarkComparisonAreaName, 
+        };
+#nullable disable
+
     public HealthMeasureModel Normalise()
     {
-        var normalisedBenchmark = BenchmarkComparisonOutcome is null ? null : new BenchmarkComparisonModel()
-        {
-            Outcome = BenchmarkComparisonOutcome,
-            BenchmarkAreaCode = BenchmarkComparisonAreaCode,
-            BenchmarkAreaName = BenchmarkComparisonAreaName,
-        };
         return new HealthMeasureModel()
         {
             Year = Year,
@@ -74,7 +78,7 @@ public class DenormalisedHealthMeasureModel
             {
                 Name = TrendDimensionName,
             },
-            BenchmarkComparison = normalisedBenchmark,
+            BenchmarkComparison = NormalisedBenchmark,
             IsAggregate = true
         };
     }
