@@ -40,7 +40,7 @@ export const BarChartEmbeddedRow: FC<BarChartEmbeddedRowProps> = ({
         style={{ textAlign: 'left', paddingLeft: '10px' }}
       />
       <Table.Cell style={{ textAlign: 'center' }}>
-        {!!item.trend ? <TrendTag trendFromResponse={item.trend} /> : null}
+        {item.trend ? <TrendTag trendFromResponse={item.trend} /> : null}
       </Table.Cell>
       <FormatNumberInTableCell
         value={item.count}
@@ -52,7 +52,7 @@ export const BarChartEmbeddedRow: FC<BarChartEmbeddedRowProps> = ({
         style={{ textAlign: 'right', paddingRight: '0px', paddingLeft: '20px' }}
       />
       <Table.Cell style={{ paddingRight: '0px' }}>
-        {!!item.value ? (
+        {item.value ? (
           <SparklineChart
             value={[item.value]}
             maxValue={maxValue}
