@@ -204,7 +204,8 @@ export default class ResultsPage extends AreaFilter {
 
   async clickViewChartsButton() {
     await this.clickAndAwaitLoadingComplete(
-      this.page.getByTestId(this.viewChartsButton)
+      this.page.getByTestId(this.viewChartsButton),
+      20_000 // Increased timeout to 20 seconds to allow for charts to load
     );
   }
 
@@ -298,6 +299,11 @@ export default class ResultsPage extends AreaFilter {
     );
     await this.page.waitForLoadState();
     await expect(selectAllCheckbox).not.toBeChecked();
+  }
+
+  async verifyCheckboxIsInFocus(locator: string) {
+    const checkboxElement = this.page.locator(locator);
+    await expect(checkboxElement).toBeFocused();
   }
 
   async selectIndicator(indicatorId: string) {

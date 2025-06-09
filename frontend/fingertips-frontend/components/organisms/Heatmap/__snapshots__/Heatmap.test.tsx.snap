@@ -810,7 +810,7 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
               </div>
             </td>
             <td
-              class="c34 c41 c42"
+              class="c34 c41 c42 highcharts-point"
               data-testid="heatmap-cell-data"
             >
               <div
@@ -820,7 +820,7 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
               </div>
             </td>
             <td
-              class="c34 c41 c44"
+              class="c34 c41 c44 highcharts-point"
               data-testid="heatmap-cell-data"
             >
               <div
@@ -830,7 +830,7 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
               </div>
             </td>
             <td
-              class="c34 c41 c44"
+              class="c34 c41 c44 highcharts-point"
               data-testid="heatmap-cell-data"
             >
               <div
@@ -840,7 +840,7 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
               </div>
             </td>
             <td
-              class="c34 c41 c44"
+              class="c34 c41 c44 highcharts-point"
               data-testid="heatmap-cell-data"
             >
               <div
@@ -884,7 +884,7 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
               </div>
             </td>
             <td
-              class="c34 c41 c42"
+              class="c34 c41 c42 highcharts-point"
               data-testid="heatmap-cell-data"
             >
               <div
@@ -894,7 +894,7 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
               </div>
             </td>
             <td
-              class="c34 c41 c44"
+              class="c34 c41 c44 highcharts-point"
               data-testid="heatmap-cell-data"
             >
               <div
@@ -904,7 +904,7 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
               </div>
             </td>
             <td
-              class="c34 c41 c44"
+              class="c34 c41 c44 highcharts-point"
               data-testid="heatmap-cell-data"
             >
               <div
@@ -914,7 +914,7 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
               </div>
             </td>
             <td
-              class="c34 c41 c44"
+              class="c34 c41 c44 highcharts-point"
               data-testid="heatmap-cell-data"
             >
               <div
@@ -958,7 +958,7 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
               </div>
             </td>
             <td
-              class="c34 c41 c44"
+              class="c34 c41 c44 highcharts-point"
               data-testid="heatmap-cell-data"
             >
               <div
@@ -968,7 +968,7 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
               </div>
             </td>
             <td
-              class="c34 c41 c44"
+              class="c34 c41 c44 highcharts-point"
               data-testid="heatmap-cell-data"
             >
               <div
@@ -978,7 +978,7 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
               </div>
             </td>
             <td
-              class="c34 c41 c45"
+              class="c34 c41 c45 highcharts-point"
               data-testid="heatmap-cell-data"
             >
               <div
@@ -988,7 +988,7 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
               </div>
             </td>
             <td
-              class="c34 c41 c44"
+              class="c34 c41 c44 highcharts-point"
               data-testid="heatmap-cell-data"
             >
               <div
@@ -2021,7 +2021,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
               </div>
             </td>
             <td
-              class="c34 c41 c42"
+              class="c34 c41 c42 highcharts-point"
               data-testid="heatmap-cell-data"
             >
               <div
@@ -2031,7 +2031,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
               </div>
             </td>
             <td
-              class="c34 c41 c44"
+              class="c34 c41 c44 highcharts-point"
               data-testid="heatmap-cell-data"
             >
               <div
@@ -2041,7 +2041,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
               </div>
             </td>
             <td
-              class="c34 c41 c45"
+              class="c34 c41 c45 highcharts-point"
               data-testid="heatmap-cell-data"
             >
               <div
@@ -2051,7 +2051,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
               </div>
             </td>
             <td
-              class="c34 c41 c45"
+              class="c34 c41 c45 highcharts-point"
               data-testid="heatmap-cell-data"
             >
               <div
@@ -2095,7 +2095,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
               </div>
             </td>
             <td
-              class="c34 c41 c42"
+              class="c34 c41 c42 highcharts-point"
               data-testid="heatmap-cell-data"
             >
               <div
@@ -2105,7 +2105,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
               </div>
             </td>
             <td
-              class="c34 c41 c44"
+              class="c34 c41 c44 highcharts-point"
               data-testid="heatmap-cell-data"
             >
               <div
@@ -2115,7 +2115,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
               </div>
             </td>
             <td
-              class="c34 c41 c45"
+              class="c34 c41 c45 highcharts-point"
               data-testid="heatmap-cell-data"
             >
               <div
@@ -2125,7 +2125,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
               </div>
             </td>
             <td
-              class="c34 c41 c45"
+              class="c34 c41 c45 highcharts-point"
               data-testid="heatmap-cell-data"
             >
               <div
@@ -2169,7 +2169,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
               </div>
             </td>
             <td
-              class="c34 c41 c45"
+              class="c34 c41 c45 highcharts-point"
               data-testid="heatmap-cell-data"
             >
               <div
@@ -2179,7 +2179,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
               </div>
             </td>
             <td
-              class="c34 c41 c45"
+              class="c34 c41 c45 highcharts-point"
               data-testid="heatmap-cell-data"
             >
               <div
@@ -2189,7 +2189,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
               </div>
             </td>
             <td
-              class="c34 c41 c46"
+              class="c34 c41 c46 highcharts-point"
               data-testid="heatmap-cell-data"
             >
               <div
@@ -2199,7 +2199,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
               </div>
             </td>
             <td
-              class="c34 c41 c45"
+              class="c34 c41 c45 highcharts-point"
               data-testid="heatmap-cell-data"
             >
               <div

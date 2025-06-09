@@ -275,6 +275,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
       const searchState: SearchStateParams = {
         [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
         [SearchParams.AreaTypeSelected]: 'regions',
+        [SearchParams.GroupSelected]: 'E12000003',
       };
 
       mockGetSearchState.mockReturnValue(searchState);
@@ -290,7 +291,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
               ],
             }}
             searchState={searchState}
-            areaCodes={['E12000001', 'E12000002', 'E12000003']}
+            areaCodes={['E12000001', 'E12000002']}
           />
         </QueryClientProvider>
       );

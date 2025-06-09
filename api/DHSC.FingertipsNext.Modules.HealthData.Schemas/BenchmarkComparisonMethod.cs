@@ -5,6 +5,6 @@ public enum BenchmarkComparisonMethod
     Unknown,
     Quintiles,
     CIOverlappingReferenceValue95,
-    CIOverlappingReferenceValue99_8
+    CIOverlappingReferenceValue998
 }
 

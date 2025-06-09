@@ -2,7 +2,7 @@ using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 
-public class HealthMeasureModelHelper(
+internal class HealthMeasureModelHelper(
     int key = 1,
     short year = 2025,
     bool isAggregate = true,

@@ -38,7 +38,7 @@ public class HealthDataMapperTests
 
     [Fact]
     public void
-        Mapper_ShouldMapAHealthMeasure_ToAHealthDataPoint()
+        MapperShouldMapAHealthMeasureToAHealthDataPoint()
     {
         // arrange
         var expectedAgeBand = new Age
@@ -92,18 +92,18 @@ public class HealthDataMapperTests
     }
 
     [Theory]
-    [ InlineData("High is good", IndicatorPolarity.HighIsGood)]
-    [ InlineData("Low is good", IndicatorPolarity.LowIsGood)]
-    [ InlineData("No judgement", IndicatorPolarity.NoJudgement)]
-    [ InlineData(null, IndicatorPolarity.Unknown)]
-    
-    public void Mapper_ShouldMapAnIndicatorDimensionModelPolarity_ToAnIndicatorPolarity(string modelPolarity, IndicatorPolarity expectedPolarity)
+    [InlineData("High is good", IndicatorPolarity.HighIsGood)]
+    [InlineData("Low is good", IndicatorPolarity.LowIsGood)]
+    [InlineData("No judgement", IndicatorPolarity.NoJudgement)]
+    [InlineData(null, IndicatorPolarity.Unknown)]
+
+    public void MapperShouldMapAnIndicatorDimensionModelPolarityToAnIndicatorPolarity(string modelPolarity, IndicatorPolarity expectedPolarity)
     {
         // Arrange
         var indicator = new IndicatorDimensionModel
-            {
-                Polarity = modelPolarity
-            };
+        {
+            Polarity = modelPolarity
+        };
 
         // Act
         var actual = _healthDataMapper.MapIndicatorPolarity(indicator.Polarity);
@@ -111,13 +111,13 @@ public class HealthDataMapperTests
         // Assert
         actual.ShouldBeEquivalentTo(expectedPolarity);
     }
-    
+
     [Theory]
-    [InlineData("Confidence intervals overlapping reference value (95.0)",BenchmarkComparisonMethod.CIOverlappingReferenceValue95)]
-    [InlineData("Confidence intervals overlapping reference value (99.8)",BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8)]
-    [InlineData("Quintiles",BenchmarkComparisonMethod.Quintiles)]
-    [InlineData(null,BenchmarkComparisonMethod.Unknown)]
-    public void Mapper_ShouldMapAnIndicatorDimensionModelBenchmarkComparisonMethod_ToABenchmarkComparisonMethod(string modelBenchmarkComparisonMethod, BenchmarkComparisonMethod expectedBenchmarkComparisonMethod)
+    [InlineData("Confidence intervals overlapping reference value (95.0)", BenchmarkComparisonMethod.CIOverlappingReferenceValue95)]
+    [InlineData("Confidence intervals overlapping reference value (99.8)", BenchmarkComparisonMethod.CIOverlappingReferenceValue998)]
+    [InlineData("Quintiles", BenchmarkComparisonMethod.Quintiles)]
+    [InlineData(null, BenchmarkComparisonMethod.Unknown)]
+    public void MapperShouldMapAnIndicatorDimensionModelBenchmarkComparisonMethodToABenchmarkComparisonMethod(string modelBenchmarkComparisonMethod, BenchmarkComparisonMethod expectedBenchmarkComparisonMethod)
     {
         // Arrange
         var indicator = new IndicatorDimensionModel
@@ -131,9 +131,9 @@ public class HealthDataMapperTests
         // Assert
         actual.ShouldBeEquivalentTo(expectedBenchmarkComparisonMethod);
     }
-    
+
     [Fact]
-    public void Mapper_ShouldMapQuartileDataModel_ToIndicatorQuartileData()
+    public void MapperShouldMapQuartileDataModelToIndicatorQuartileData()
     {
         // Arrange
         var mockQuartileData = new List<QuartileDataModel>
@@ -170,10 +170,10 @@ public class HealthDataMapperTests
                 EnglandValue = 300
             }
         };
-    
+
         // Act
         var actual = _healthDataMapper.Map(mockQuartileData);
-        
+
         // Assert
         actual.ShouldBeEquivalentTo(expectedQuartileData);
     }

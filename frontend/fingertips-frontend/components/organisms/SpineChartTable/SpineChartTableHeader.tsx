@@ -12,7 +12,7 @@ import {
   StyledAlignLeftStickyLeftHeader,
   StyledAlignRightHeaderPad,
   StyledAlignLeftHeaderRightBorder,
-} from './SpineChartTableStyles';
+} from './SpineChartTable.Styles';
 import {
   areaCodeForEngland,
   englandAreaString,
