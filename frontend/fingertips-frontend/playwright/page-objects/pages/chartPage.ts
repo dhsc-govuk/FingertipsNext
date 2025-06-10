@@ -6,16 +6,13 @@ import {
   SimpleIndicatorDocument,
 } from '@/playwright/testHelpers';
 import { expect } from '../pageFactory';
-import {
-  PlaywrightTestArgs,
-  PlaywrightTestOptions,
-  PlaywrightWorkerArgs,
-  PlaywrightWorkerOptions,
-  TestType,
-  Locator,
-} from '@playwright/test';
 import AreaFilter from '../components/areaFilter';
 import { SearchParams } from '@/lib/searchStateManager';
+import { ExportType } from '@/components/molecules/Export/export.types';
+import { Locator, test } from '@playwright/test';
+import path from 'path';
+import fs from 'fs/promises';
+import { date } from 'zod';
 
 interface VisibleComponent {
   componentLocator: string;
@@ -55,6 +52,7 @@ export default class ChartPage extends AreaFilter {
     'inequalitiesTypes-dropDown-component-lc';
   static readonly basicTableComponent = 'basicTable-component';
   static readonly benchmarkDropDownComponent = `${SearchParams.BenchmarkAreaSelected}-dropDown-benchmark-component`;
+  static readonly exportModalPaneComponent = 'modalPane';
 
   async checkOnChartPage() {
     await expect(
@@ -84,15 +82,12 @@ export default class ChartPage extends AreaFilter {
    * The scenario combinations here were chosen as they are happy paths covering lots of chart components.
    * Note all 15 scenarios should be covered in lower level unit testing.
    */
-  async checkChartVisibility(
+  async checkCharts(
     indicatorMode: IndicatorMode,
     areaMode: AreaMode,
-    test: TestType<
-      PlaywrightTestArgs & PlaywrightTestOptions,
-      PlaywrightWorkerArgs & PlaywrightWorkerOptions
-    >,
     selectedIndicators: SimpleIndicatorDocument[],
-    selectedAreaFilters: AreaFilters
+    selectedAreaFilters: AreaFilters,
+    checkExports: boolean
   ) {
     const testInfo = test.info();
     const testName = testInfo.title;
@@ -121,7 +116,9 @@ export default class ChartPage extends AreaFilter {
         visibleComponent,
         selectedIndicators,
         areaMode,
-        selectedAreaFilters
+        indicatorMode,
+        selectedAreaFilters,
+        checkExports
       );
       await this.verifyComponentVisibleAndScreenshotMatch(
         visibleComponent,
@@ -172,7 +169,9 @@ export default class ChartPage extends AreaFilter {
     },
     selectedIndicators: SimpleIndicatorDocument[],
     areaMode: AreaMode,
-    selectedAreaFilters: AreaFilters
+    indicatorMode: IndicatorMode,
+    selectedAreaFilters: AreaFilters,
+    checkExports: boolean
   ) {
     const { componentLocator, componentProps } = component;
 
@@ -206,6 +205,20 @@ export default class ChartPage extends AreaFilter {
             selectedIndicators
           ),
       },
+      {
+        condition: checkExports && componentProps.hasPNGExport,
+        action: () => this.verifyPNGExport(component, areaMode, indicatorMode),
+      },
+      // {
+      //   condition: checkExports && componentProps.hasSVGExport,
+      //   action: () =>
+      //     this.verifySVGExport(component, areaMode, selectedIndicators),
+      // },
+      // {
+      //   condition: checkExports && componentProps.hasCSVExport,
+      //   action: () =>
+      //     this.verifyCSVExport(component, areaMode, selectedIndicators),
+      // },
       {
         condition: componentProps.showsBenchmarkComparisons,
         action: () =>
@@ -313,7 +326,6 @@ export default class ChartPage extends AreaFilter {
     selectedIndicators: SimpleIndicatorDocument[]
   ) {
     const dataSourceLocator = this.page.getByTestId('data-source');
-
     if (indicatorMode === IndicatorMode.ONE_INDICATOR) {
       const allDataSources = await dataSourceLocator.allTextContents();
       allDataSources.forEach((dataSource) => {
@@ -519,6 +531,69 @@ export default class ChartPage extends AreaFilter {
         value: option.value,
         text: option.text,
       }))
+    );
+  }
+
+  private async verifyPNGExport(
+    component: VisibleComponent,
+    areaMode: AreaMode,
+    indicatorMode: IndicatorMode
+  ): Promise<void> {
+    const exportDataTestId = `tabContent-${component.componentLocator.replace('-component', '')}`;
+
+    // Create download directory structure
+    const projectName = test.info().project.name;
+    const downloadDir = path.join(
+      process.cwd(),
+      '.test',
+      'spec',
+      'exports',
+      ExportType.PNG,
+      projectName,
+      `${areaMode}-${indicatorMode}`
+    );
+
+    // Ensure directory exists
+    await fs.mkdir(downloadDir, { recursive: true });
+
+    await this.clickAndAwaitLoadingComplete(
+      this.page
+        .getByTestId(exportDataTestId)
+        .getByRole('button', { name: 'Export options' })
+    );
+
+    // Assert the export modal is visible and contains PNG option and displays the preview
+    expect(
+      this.page
+        .getByTestId(ChartPage.exportModalPaneComponent)
+        .getByText(String(ExportType.PNG))
+    ).toBeVisible();
+    expect(
+      this.page
+        .getByTestId(ChartPage.exportModalPaneComponent)
+        .locator('canvas')
+    ).toBeVisible();
+
+    // Click the PNG export option
+    const downloadPromise = this.page.waitForEvent('download');
+    await this.clickAndAwaitLoadingComplete(
+      this.page
+        .getByTestId(ChartPage.exportModalPaneComponent)
+        .getByRole('button')
+        .getByText('Export')
+    );
+    const download = await downloadPromise;
+    const filename = download.suggestedFilename();
+    const downloadPath = path.join(downloadDir, filename);
+
+    await download.saveAs(downloadPath);
+
+    // Verify the file was downloaded successfully
+    expect(download.suggestedFilename()).toBeDefined();
+
+    // close the export modal
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByRole('button', { name: 'Close modal' })
     );
   }
 }

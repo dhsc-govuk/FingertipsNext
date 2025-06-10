@@ -28,6 +28,7 @@ export interface TestParams {
   indicatorsToSelect: IndicatorInfo[];
   subjectSearchTerm?: string;
   areaFiltersToSelect?: AreaFilters;
+  checkExports?: boolean;
 }
 
 export enum SearchMode {
@@ -66,6 +67,9 @@ type componentProps = {
   hasRecentTrend?: boolean;
   showsBenchmarkComparisons?: boolean;
   hasTooltipHovers?: boolean;
+  hasPNGExport?: boolean;
+  hasSVGExport?: boolean;
+  hasCSVExport?: boolean;
 };
 
 type component = {
@@ -87,6 +91,8 @@ export function getScenarioConfig(
     {
       componentLocator: ChartPage.lineChartComponent,
       componentProps: {
+        hasPNGExport: true,
+        hasSVGExport: true,
         showsBenchmarkComparisons: true,
         hasTooltipHovers: true,
         hasConfidenceIntervals: true,
@@ -95,6 +101,8 @@ export function getScenarioConfig(
     {
       componentLocator: ChartPage.lineChartTableComponent,
       componentProps: {
+        hasPNGExport: true,
+        hasCSVExport: true,
         isTabTable: true,
         hasRecentTrend: true,
         showsBenchmarkComparisons: true,
@@ -103,6 +111,8 @@ export function getScenarioConfig(
     {
       componentLocator: ChartPage.inequalitiesBarChartComponent,
       componentProps: {
+        hasPNGExport: true,
+        hasSVGExport: true,
         hasConfidenceIntervals: true,
       },
     },
@@ -124,36 +134,48 @@ export function getScenarioConfig(
     {
       componentLocator: ChartPage.inequalitiesLineChartComponent,
       componentProps: {
+        hasPNGExport: true,
+        hasSVGExport: true,
         hasConfidenceIntervals: true,
       },
     },
     {
       componentLocator: ChartPage.inequalitiesBarChartTableComponent,
       componentProps: {
+        hasPNGExport: true,
+        hasCSVExport: true,
         isTabTable: true,
       },
     },
     {
       componentLocator: ChartPage.inequalitiesLineChartTableComponent,
       componentProps: {
+        hasPNGExport: true,
+        hasCSVExport: true,
         isTabTable: true,
       },
     },
     {
       componentLocator: ChartPage.populationPyramidComponent,
       componentProps: {
+        hasPNGExport: true,
+        hasSVGExport: true,
         hasDetailsExpander: true,
       },
     },
     {
       componentLocator: ChartPage.populationPyramidTableComponent,
       componentProps: {
+        hasPNGExport: true,
+        hasCSVExport: true,
         isTabTable: true,
       },
     },
     {
       componentLocator: ChartPage.thematicMapComponent,
       componentProps: {
+        hasPNGExport: true,
+        hasSVGExport: true,
         showsBenchmarkComparisons: true,
         hasTooltipHovers: true,
       },
@@ -161,6 +183,8 @@ export function getScenarioConfig(
     {
       componentLocator: ChartPage.barChartEmbeddedTableComponent,
       componentProps: {
+        hasPNGExport: true,
+        hasCSVExport: true,
         hasRecentTrend: true,
         showsBenchmarkComparisons: true,
         hasTooltipHovers: true,
@@ -169,11 +193,17 @@ export function getScenarioConfig(
     },
     {
       componentLocator: ChartPage.basicTableComponent,
-      componentProps: { hasRecentTrend: true },
+      componentProps: {
+        hasPNGExport: true,
+        hasCSVExport: true,
+        hasRecentTrend: true,
+      },
     },
     {
       componentLocator: ChartPage.heatMapComponent,
       componentProps: {
+        hasPNGExport: true,
+        hasSVGExport: true,
         isWideComponent: true,
         showsBenchmarkComparisons: true,
         hasTooltipHovers: true,
@@ -182,6 +212,8 @@ export function getScenarioConfig(
     {
       componentLocator: ChartPage.spineChartTableComponent,
       componentProps: {
+        hasPNGExport: true,
+        hasCSVExport: true,
         isWideComponent: true,
         hasRecentTrend: true,
         showsBenchmarkComparisons: true,

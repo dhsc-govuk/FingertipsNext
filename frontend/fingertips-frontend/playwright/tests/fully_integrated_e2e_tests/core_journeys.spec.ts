@@ -37,6 +37,7 @@ test.describe(
         subjectSearchTerm,
         indicatorsToSelect,
         areaFiltersToSelect,
+        checkExports,
       }) => {
         const typedIndicatorData = indicatorData.map(
           (indicator: RawIndicatorDocument) => {
@@ -120,12 +121,12 @@ test.describe(
 
             await chartPage.checkOnChartPage();
 
-            await chartPage.checkChartVisibility(
+            await chartPage.checkCharts(
               indicatorMode,
               areaMode,
-              test,
               selectedIndicatorsData,
-              areaFiltersToSelect!
+              areaFiltersToSelect!,
+              checkExports!
             );
           });
         });

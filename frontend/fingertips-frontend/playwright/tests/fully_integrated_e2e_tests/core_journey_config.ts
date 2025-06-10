@@ -30,6 +30,7 @@ export const coreTestJourneys: TestParams[] = [
       groupType: 'england',
       group: 'england',
     },
+    checkExports: true,
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
