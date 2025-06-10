@@ -25,8 +25,10 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { convertInequalitiesOverTimeTableToCsvData } from './convertInequalitiesOverTimeTableToCsvData';
 import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
 import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
+import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
 
 interface InequalitiesBarChartTableProps {
+  title: string;
   tableData: InequalitiesBarChartData;
   type?: InequalitiesTypes;
   indicatorMetadata?: IndicatorDocument;
@@ -36,6 +38,7 @@ interface InequalitiesBarChartTableProps {
 }
 
 export function InequalitiesBarChartTable({
+  title,
   tableData,
   type = InequalitiesTypes.Sex,
   indicatorMetadata,
@@ -43,7 +46,7 @@ export function InequalitiesBarChartTable({
   polarity = IndicatorPolarity.Unknown,
   inequalityTypeSelected,
 }: Readonly<InequalitiesBarChartTableProps>) {
-  const { areaName, data } = tableData;
+  const { data } = tableData;
   const inequalities = { ...data.inequalities };
   const { sortedKeys, inequalityDimensions } =
     getAggregatePointInfo(inequalities);
@@ -66,10 +69,10 @@ export function InequalitiesBarChartTable({
   return (
     <>
       <div data-testid={`${id}-component`} id={id}>
+        <ChartTitle>{title}</ChartTitle>
         <Table
           head={
             <InequalitiesBarChartTableHead
-              areaName={areaName}
               measurementUnit={indicatorMetadata?.unitLabel}
               confidenceLimit={confidenceLimit}
             />
