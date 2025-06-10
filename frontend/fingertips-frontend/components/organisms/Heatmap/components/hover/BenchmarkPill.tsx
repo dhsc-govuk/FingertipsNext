@@ -5,7 +5,7 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { GridCol, GridRow } from 'govuk-react';
 import { HeatmapBenchmarkOutcome } from '../../heatmapUtil';
-import { StyledGridColIcon } from './BenchmarkPill.styles';
+import { IconGridCol } from './BenchmarkPill.styles';
 import { BenchmarkPillIcon } from './BenchmarkPillIcon';
 import { BenchmarkPillText } from './BenchmarkPillText';
 
@@ -28,7 +28,7 @@ export const HeatmapHoverBenchmarkPill: FC<HeatmapHoverBenchmarkPillProps> = ({
 }) => {
   return (
     <GridRow>
-      <StyledGridColIcon setWidth={'12px'}>
+      <IconGridCol setWidth={'12px'}>
         {
           <BenchmarkPillIcon
             value={value}
@@ -38,7 +38,7 @@ export const HeatmapHoverBenchmarkPill: FC<HeatmapHoverBenchmarkPillProps> = ({
             data-testid="heatmap-hover-benchmark-icon"
           />
         }
-      </StyledGridColIcon>
+      </IconGridCol>
       <GridCol>
         <BenchmarkPillText
           value={value}

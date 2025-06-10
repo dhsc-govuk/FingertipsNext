@@ -6,7 +6,7 @@ import { getConfidenceLimitNumber } from '@/lib/chartHelpers/chartHelpers';
 import { formatNumber } from '@/lib/numberFormatter';
 import { FC } from 'react';
 import { HeatmapBenchmarkOutcome } from '../../heatmapUtil';
-import { StyledText } from './BenchmarkPill.styles';
+import { BenchmarkPillText } from './BenchmarkPill.styles';
 
 interface BenchmarkPillTextProps {
   value?: number;
@@ -24,13 +24,13 @@ export const BenchmarkPillText: FC<BenchmarkPillTextProps> = ({
   benchmarkAreaName,
 }) => {
   if (value === undefined) {
-    return <StyledText>No data available</StyledText>;
+    return <BenchmarkPillText>No data available</BenchmarkPillText>;
   }
 
   const valueString = `${formatNumber(value)}${formatUnitLabel(unitLabel)}`;
 
   if (outcome === 'Baseline') {
-    return <StyledText>{valueString}</StyledText>;
+    return <BenchmarkPillText>{valueString}</BenchmarkPillText>;
   }
 
   const comparisonText = () => {
@@ -54,8 +54,8 @@ export const BenchmarkPillText: FC<BenchmarkPillTextProps> = ({
 
   return (
     <>
-      <StyledText>{valueString}</StyledText>
-      <StyledText>{`${comparisonText()}${benchmarkConfidenceLimit()}`}</StyledText>
+      <BenchmarkPillText>{valueString}</BenchmarkPillText>
+      <BenchmarkPillText>{`${comparisonText()}${benchmarkConfidenceLimit()}`}</BenchmarkPillText>
     </>
   );
 };

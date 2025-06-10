@@ -9,9 +9,9 @@ import { GovukColours } from '@/lib/styleHelpers/colours';
 import { FC } from 'react';
 import { HeatmapBenchmarkOutcome } from '../../heatmapUtil';
 import {
-  StyledText,
-  StyledDivSquareBenchmarkNotCompared,
-  StyledDivSquareBenchmarkColour,
+  BenchmarkPillText,
+  NotComparedBenchmarkIcon,
+  ColouredBenchmarkIcon,
 } from './BenchmarkPill.styles';
 
 interface BenchmarkPillIconProps {
@@ -28,19 +28,19 @@ export const BenchmarkPillIcon: FC<BenchmarkPillIconProps> = ({
   polarity,
 }) => {
   if (value === undefined) {
-    return <StyledText>{SymbolsEnum.MultiplicationX}</StyledText>;
+    return <BenchmarkPillText>{SymbolsEnum.MultiplicationX}</BenchmarkPillText>;
   }
 
   if (outcome === BenchmarkOutcome.NotCompared) {
-    return <StyledDivSquareBenchmarkNotCompared />;
+    return <NotComparedBenchmarkIcon />;
   }
 
   if (outcome === 'Baseline') {
-    return <StyledDivSquareBenchmarkColour $colour={GovukColours.DarkGrey} />;
+    return <ColouredBenchmarkIcon $colour={GovukColours.DarkGrey} />;
   }
 
   return (
-    <StyledDivSquareBenchmarkColour
+    <ColouredBenchmarkIcon
       $colour={
         getBenchmarkColour(benchmarkMethod, outcome, polarity) ??
         GovukColours.White
