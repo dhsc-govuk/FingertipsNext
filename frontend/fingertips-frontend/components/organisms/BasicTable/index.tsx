@@ -139,8 +139,8 @@ export function BasicTable({
             <ExportCopyright />
           </ExportOnlyWrapper>
         </div>
+        <ExportOptionsButton targetId="basicTable" csvData={csvData} />
       </ContainerWithOutline>
-      <ExportOptionsButton targetId="basicTable" csvData={csvData} />
     </div>
   );
 }
