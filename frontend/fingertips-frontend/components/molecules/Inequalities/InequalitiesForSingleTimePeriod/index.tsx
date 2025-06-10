@@ -123,9 +123,8 @@ export function InequalitiesForSingleTimePeriod({
 
   if (!yearsDesc.length) return null;
 
-  const periodData = allData.find(
-    (data) => data.period === Number(selectedYear ?? yearsDesc[0])
-  );
+  const dataPeriod = Number(selectedYear ?? yearsDesc[0]);
+  const periodData = allData.find((data) => data.period === dataPeriod);
 
   if (!periodData) throw new Error('data does not exist for selected year');
 
@@ -134,6 +133,9 @@ export function InequalitiesForSingleTimePeriod({
     areaName: healthDataForArea.areaName,
     data: periodData,
   };
+
+  const chartTitle = `${indicatorMetadata?.indicatorName ?? ''} inequalities for ${healthDataForArea.areaName}, ${dataPeriod}`;
+
   return (
     <StyleChartWrapper data-testid="inequalitiesForSingleTimePeriod-component">
       <H3>Inequalities data for a single time period</H3>
@@ -159,6 +161,7 @@ export function InequalitiesForSingleTimePeriod({
             title: 'Bar chart',
             content: (
               <InequalitiesBarChart
+                title={chartTitle}
                 barChartData={barChartData}
                 measurementUnit={indicatorMetadata?.unitLabel}
                 type={type}
@@ -173,6 +176,7 @@ export function InequalitiesForSingleTimePeriod({
             title: 'Table',
             content: (
               <InequalitiesBarChartTable
+                title={chartTitle}
                 tableData={barChartData}
                 indicatorMetadata={indicatorMetadata}
                 type={type}

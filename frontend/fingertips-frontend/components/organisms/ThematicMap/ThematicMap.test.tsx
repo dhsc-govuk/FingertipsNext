@@ -7,6 +7,7 @@ import regionsMap from '@/components/organisms/ThematicMap/regions.json';
 import { reactQueryClient } from '@/lib/reactQueryClient';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 
 const mockAreaCodes = ['E12000001', 'E12000002'];
 const mockGetSearchState = jest.fn();
@@ -42,6 +43,7 @@ const testRender = () => {
         selectedAreaType={'regions'}
         englandData={mockHealthData['92420'][0]}
         groupData={mockHealthData['92420'][1]}
+        indicatorMetadata={mockIndicatorDocument({ indicatorID: '92420' })}
       />
     </QueryClientProvider>
   );
@@ -71,6 +73,14 @@ describe('ThematicMap', () => {
     expect(title).toHaveTextContent('Compare an indicator by areas');
   });
 
+  it('should render the correct chart title', async () => {
+    testRender();
+    const titles = await screen.findAllByRole('heading', { level: 4 });
+    expect(titles[0]).toHaveTextContent(
+      'Emergency readmissions within 30 days of discharge from hospital for Regions in North West, 2023'
+    );
+  });
+
   it('should render the correct benchmark legend when a different benchmark area is provided', async () => {
     (fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
@@ -92,6 +102,7 @@ describe('ThematicMap', () => {
           polarity={'Unknown'}
           areaCodes={mockAreaCodes}
           selectedAreaType={'regions'}
+          indicatorMetadata={mockIndicatorDocument({ indicatorID: '92420' })}
         />
       </QueryClientProvider>
     );
