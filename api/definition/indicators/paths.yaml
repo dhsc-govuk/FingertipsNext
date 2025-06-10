@@ -44,6 +44,16 @@ indicators_by_indicator_id:
       Fetches details of a specific indicator by its unique identifier. The
       response includes the indicator's metadata
     operationId: getIndicator
+  post:
+    tags:
+      - indicators
+    summary: add a batch of new data for an indicator
+    description: Not Yet Implemented - Creates new data for the indicator. The data is always created in an unpublished and unapproved state.
+  delete:
+    tags:
+      - indicators
+    summary: delete a batch of unpublished data for an indicator
+    description: Not Yet Implemented - Deletes ALL unpublished data for that indicator
 indicators_by_indicator_id_data:
   get:
     tags:

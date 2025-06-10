@@ -18,10 +18,6 @@ tags:
     description: Endpoints dealing with areas / geography
   - name: system
     description: System endpoints
-  - name: data_manager
-    description: Endpoints for managing data
-  - name: NYI
-    description: Not yet implemented
 paths:
   /areas/hierarchies:
     $ref: "./areas/paths.yaml#/hierarchies"
@@ -45,9 +41,3 @@ paths:
     $ref: "./indicators/paths.yaml#/indicators_by_indicator_id_data"
   /indicators/quartiles:
     $ref: "./indicators/paths.yaml#/quartiles"
-  /data_manager:
-    $ref: "./data_manager/paths.yaml#/data_manager"
-  /data_manager/{indicator_id}:
-    $ref: "./data_manager/paths.yaml#/indicator"
-  /data_manager/{indicator_id}/approve:
-    $ref: "./data_manager/paths.yaml#/approve"
