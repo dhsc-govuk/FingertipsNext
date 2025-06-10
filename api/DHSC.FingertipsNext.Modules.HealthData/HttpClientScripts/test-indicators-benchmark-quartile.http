@@ -7,6 +7,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85
             "indicatorId": 94063,
             "polarity": "NoJudgement",
             "year": 2023,
+            "datePeriod": {
+                "type": "Financial",
+                "from": "2023-04-06",
+                "to": "2024-04-05"
+            },            
             "q0Value": 15.7894736842105,
             "q1Value": 64.9253731343284,
             "q2Value": 71.830985915493,
@@ -30,6 +35,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85
             "indicatorId": 94063,
             "polarity": "NoJudgement",
             "year": 2023,
+            "datePeriod": {
+                "type": "Financial",
+                "from": "2023-04-06",
+                "to": "2024-04-05"
+            },
             "q0Value": 70.0729927007299,
             "q1Value": 73.8372093023256,
             "q2Value": 76.1904761904762,
@@ -54,6 +64,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids
             "indicatorId": 94063,
             "polarity": "NoJudgement",
             "year": 2023,
+            "datePeriod": {
+                "type": "Financial",
+                "from": "2023-04-06",
+                "to": "2024-04-05"
+            },
             "q0Value": 15.7894736842105,
             "q1Value": 64.9253731343284,
             "q2Value": 71.830985915493,
@@ -67,6 +82,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids
             "indicatorId": 90453,
             "polarity": "NoJudgement",
             "year": 2024,
+            "datePeriod": {
+                "type": "Calendar",
+                "from": "2024-01-01",
+                "to": "2024-12-31"
+           },
             "q0Value": 3.07953,
             "q1Value": 24.36787,
             "q2Value": 29.14221,
@@ -90,6 +110,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids
             "indicatorId": 94063,
             "polarity": "NoJudgement",
             "year": 2023,
+            "datePeriod": {
+                "type": "Financial",
+                "from": "2023-04-06",
+                "to": "2024-04-05"
+            },
             "q0Value": 70.0729927007299,
             "q1Value": 73.8372093023256,
             "q2Value": 76.1904761904762,
@@ -103,6 +128,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids
             "indicatorId": 90453,
             "polarity": "NoJudgement",
             "year": 2024,
+            "datePeriod": {
+                "type": "Calendar",
+                "from": "2024-01-01",
+                "to": "2024-12-31"
+            },
             "q0Value": 26.36997,
             "q1Value": 26.53913,
             "q2Value": 27.07651,
@@ -126,6 +156,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=241&area_code=N8500
             "indicatorId": 241,
             "polarity": "NoJudgement",
             "year": 2023,
+            "datePeriod": {
+                "type": "Financial",
+                "from": "2023-04-06",
+                "to": "2024-04-05"
+            },
             "q0Value": 0.51393,
             "q1Value": 6.94186,
             "q2Value": 8.06184,
@@ -150,6 +185,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=999999&area_code=N8
             "indicatorId": 999999,
             "polarity": null,
             "year": null,
+            "datePeriod": null,
             "q0Value": null,
             "q1Value": null,
             "q2Value": null,
@@ -173,6 +209,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_code=N85
             "indicatorId": 90453,
             "polarity": "NoJudgement",
             "year": 2024,
+            "datePeriod": {
+                "type": "Calendar",
+                "from": "2024-01-01",
+                "to": "2024-12-31"
+            },
             "q0Value": 3.07953,
             "q1Value": 24.36787,
             "q2Value": 29.14221,
@@ -197,6 +238,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_type=gps
             "indicatorId": 90453,
             "polarity": "NoJudgement",
             "year": 2024,
+            "datePeriod": {
+                "type": "Calendar",
+                "from": "2024-01-01",
+                "to": "2024-12-31"
+            },
             "q0Value": 3.07953,
             "q1Value": 24.36787,
             "q2Value": 29.14221,
@@ -220,6 +266,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_type=err
             "indicatorId": 90453,
             "polarity": "NoJudgement",
             "year": null,
+            "datePeriod": null,
             "q0Value": null,
             "q1Value": null,
             "q2Value": null,
@@ -268,6 +315,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94103&area_code=E09
             "indicatorId": 94103,
             "polarity": "LowIsGood",
             "year": 2019,
+            "datePeriod": {
+                "type": "Calendar",
+                "from": "2019-01-01",
+                "to": "2019-12-31"
+            },
             "q0Value": 20.76935,
             "q1Value": 24.72157,
             "q2Value": 25.99248,
@@ -290,6 +342,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94103&area_code=E09
             "indicatorId": 94103,
             "polarity": "LowIsGood",
             "year": 2019,
+            "datePeriod": {
+                "type": "Calendar",
+                "from": "2019-01-01",
+                "to": "2019-12-31"
+            },
             "q0Value": 20.76935,
             "q1Value": 24.79926,
             "q2Value": 26.05024,
@@ -324,6 +381,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=91894&area_code=E54
             "indicatorId": 91894,
             "polarity": "NoJudgement",
             "year": 2023,
+            "datePeriod": {
+                "type": "Calendar",
+                "from": "2023-01-01",
+                "to": "2023-12-31"
+            },
             "q0Value": 17.03,
             "q1Value": 21.08,
             "q2Value": 26.23,
@@ -346,6 +408,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93085&area_code=E09
             "indicatorId": 93085,
             "polarity": "LowIsGood",
             "year": 2023,
+            "datePeriod": {
+                "type": "Financial",
+                "from": "2023-04-06",
+                "to": "2024-04-05"
+            },
             "q0Value": 2.8,
             "q1Value": 5.3,
             "q2Value": 7.5,
@@ -369,6 +436,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_code=D83
             "indicatorId": 90453,
             "polarity": "NoJudgement",
             "year": 2024,
+            "datePeriod": {
+                "type": "Calendar",
+                "from": "2024-01-01",
+                "to": "2024-12-31"
+            },
             "q0Value": null,
             "q1Value": null,
             "q2Value": null,
@@ -392,6 +464,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85
             "indicatorId": 94063,
             "polarity": "NoJudgement",
             "year": 2023,
+            "datePeriod": {
+                "type": "Financial",
+                "from": "2023-04-06",
+                "to": "2024-04-05"
+            },
             "q0Value": 62.0320855614973,
             "q1Value": 70.4697986577181,
             "q2Value": 74.9244712990937,
@@ -415,6 +492,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38
             "indicatorId": 94063,
             "polarity": "NoJudgement",
             "year": 2023,
+            "datePeriod": {
+                "type": "Financial",
+                "from": "2023-04-06",
+                "to": "2024-04-05"
+            },
             "q0Value": 66.2418790604698,
             "q1Value": 69.4552026852569,
             "q2Value": 73.1362196409715,
@@ -438,6 +520,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38
             "indicatorId": 94063,
             "polarity": "NoJudgement",
             "year": 2023,
+            "datePeriod": {
+                "type": "Financial",
+                "from": "2023-04-06",
+                "to": "2024-04-05"
+            },
             "q0Value": 59.2823399336617,
             "q1Value": 66.546633057256,
             "q2Value": 72.5647792706334,
@@ -461,6 +548,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38
             "indicatorId": 94063,
             "polarity": "NoJudgement",
             "year": 2023,
+            "datePeriod": {
+                "type": "Financial",
+                "from": "2023-04-06",
+                "to": "2024-04-05"
+            },
             "q0Value": 54.5377677564825,
             "q1Value": 67.9388408201968,
             "q2Value": 71.7729933525151,
@@ -485,6 +577,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93861&area_code=E07
             "indicatorId": 93861,
             "polarity": "NoJudgement",
             "year": 2023,
+            "datePeriod": {
+                "type": "Calendar",
+                "from": "2023-01-01",
+                "to": "2023-12-31"
+            },
             "q0Value": 4.48617,
             "q1Value": 4.53989,
             "q2Value": 4.83127,
@@ -508,6 +605,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93861&area_code=E07
             "indicatorId": 93861,
             "polarity": "NoJudgement",
             "year": 2023,
+            "datePeriod": {
+                "type": "Calendar",
+                "from": "2023-01-01",
+                "to": "2023-12-31"
+            },
             "q0Value": 4.25991,
             "q1Value": 4.76673,
             "q2Value": 4.92386,
@@ -530,6 +632,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93861&area_code=E07
             "indicatorId": 93861,
             "polarity": "NoJudgement",
             "year": 2023,
+            "datePeriod": {
+                "type": "Calendar",
+                "from": "2023-01-01",
+                "to": "2023-12-31"
+            },
             "q0Value": 3.26941,
             "q1Value": 4.75739,
             "q2Value": 5.21437,

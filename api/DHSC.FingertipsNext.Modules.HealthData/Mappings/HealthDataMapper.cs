@@ -49,7 +49,7 @@ public class HealthDataMapper : IHealthDataMapper
             Count = source.Count,
             Value = source.Value,
             Year = source.Year,
-            DatePeriod = Map(source.FromDateDimension, source.ToDateDimension, source.PeriodDimension),
+            DatePeriod = Map(source.FromDateDimension.Date, source.ToDateDimension.Date, source.PeriodDimension.Period),
             BenchmarkComparison = Map(source.BenchmarkComparison),
             IsAggregate = source.IsAggregate,
             LowerConfidenceInterval = source.LowerCi,
@@ -102,13 +102,13 @@ public class HealthDataMapper : IHealthDataMapper
         };
     }
 
-    private static DatePeriod Map(DateDimensionModel from, DateDimensionModel to, PeriodDimensionModel type)
+    private static DatePeriod Map(DateTime fromDate, DateTime toDate, string periodStr)
     {
         return new DatePeriod
         {
-            PeriodType = MapDatePeriodType(type.Period),
-            From = DateOnly.FromDateTime(from.Date),
-            To = DateOnly.FromDateTime(to.Date),
+            PeriodType = MapDatePeriodType(periodStr),
+            From = DateOnly.FromDateTime(fromDate),
+            To = DateOnly.FromDateTime(toDate),
         };
     }
 
@@ -140,6 +140,7 @@ public class HealthDataMapper : IHealthDataMapper
             IndicatorId = source.IndicatorId,
             Polarity = source.Polarity == null ? null : MapIndicatorPolarity(source.Polarity),
             Year = source.Year,
+            DatePeriod = source.FromDate == null || source.ToDate == null || source.Period == null ? null : Map((DateTime)source.FromDate, (DateTime)source.ToDate, (string)source.Period),
             Q0Value = source.Q0Value,
             Q1Value = source.Q1Value,
             Q2Value = source.Q2Value,

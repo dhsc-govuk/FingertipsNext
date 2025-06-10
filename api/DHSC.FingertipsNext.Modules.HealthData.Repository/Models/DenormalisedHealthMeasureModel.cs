@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Globalization;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 
@@ -23,6 +25,9 @@ public class DenormalisedHealthMeasureModel
     public required bool DeprivationDimensionIsAggregate { get; set; }
     public required double? Count { get; set; }
     public required double? Value { get; set; }
+    public required DateTime FromDate { get; set; }
+    public required DateTime ToDate { get; set; }
+    public required string Period { get; set; }
     public required double? LowerCi { get; set; }
     public required double? UpperCi { get; set; }
     public required short Year { get; set; }
@@ -36,6 +41,18 @@ public class DenormalisedHealthMeasureModel
         return new HealthMeasureModel()
         {
             Year = Year,
+            FromDateDimension = new DateDimensionModel()
+            {
+                Date = FromDate,
+            },
+            ToDateDimension = new DateDimensionModel()
+            {
+                Date = ToDate,
+            },
+            PeriodDimension = new PeriodDimensionModel()
+            {
+                Period = Period,
+            },
             Value = Value,
             Count = Count,
             LowerCi = LowerCi,
