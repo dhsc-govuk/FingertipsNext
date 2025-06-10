@@ -21,18 +21,20 @@
     <PostDeploy Include="PostDeployment\PopulateFingertips.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Tables\AgeDimension.sql" />
-    <Build Include="Tables\AreaDimension.sql" />
-    <Build Include="Tables\HealthMeasure.sql" />
-    <Build Include="Tables\IndicatorDimension.sql" />
-    <Build Include="Tables\SexDimension.sql" />
-    <Build Include="Tables\TrendDimension.sql" />
-    <Build Include="Tables\DateDimension.sql" />
-    <Build Include="Tables\PeriodDimension.sql" />
+    <Build Include="Tables\IndicatorData\AgeDimension.sql" />
+    <Build Include="Tables\Area\AreaDimension.sql" />
+    <Build Include="Tables\IndicatorData\HealthMeasure.sql" />
+    <Build Include="Tables\IndicatorData\IndicatorDimension.sql" />
+    <Build Include="Tables\IndicatorData\SexDimension.sql" />
+    <Build Include="Tables\IndicatorData\TrendDimension.sql" />
+    <Build Include="Tables\IndicatorData\DateDimension.sql" />
+    <Build Include="Tables\IndicatorData\PeriodDimension.sql" />
     <Build Include="Security\Areas.sql" />
-    <Build Include="Tables\Areas.sql" />
-    <Build Include="Tables\AreaRelationships.sql" />
-    <Build Include="Tables\AreaTypes.sql" />
+    <Build Include="Security\DataManager.sql" />
+    <Build Include="Tables\Area\Areas.sql" />
+    <Build Include="Tables\Area\AreaRelationships.sql" />
+    <Build Include="Tables\Area\AreaTypes.sql" />
+    <Build Include="Tables\DataManager\Batch.sql" />
     <Build Include="StoredProcedures\GetIndicatorDataWithQuintileBenchmarkComparison.sql" />
   </ItemGroup>
   <ItemGroup>
