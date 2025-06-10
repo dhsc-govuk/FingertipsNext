@@ -7,7 +7,7 @@ import {
   PopulationDataForArea,
 } from '@/lib/chartHelpers/preparePopulationData';
 import { TabContainer } from '@/components/layouts/tabContainer';
-import { H3, H5 } from 'govuk-react';
+import { H3 } from 'govuk-react';
 import {
   determineHealthDataForArea,
   seriesDataWithoutGroup,
@@ -127,8 +127,8 @@ export const PopulationPyramidWithTable = ({
                   title: 'Population pyramid',
                   content: (
                     <>
-                      <H5>{title}</H5>
                       <PopulationPyramid
+                        title={title}
                         dataForSelectedArea={populationDataForSelectedArea}
                         dataForGroup={groupToUse}
                         dataForBenchmark={benchmarkToUse}
@@ -143,6 +143,7 @@ export const PopulationPyramidWithTable = ({
                   title: 'Table',
                   content: (
                     <PopulationPyramidChartTable
+                      title={title}
                       healthDataForArea={populationDataForSelectedArea}
                       benchmarkData={benchmarkToUse}
                       groupData={groupToUse}
