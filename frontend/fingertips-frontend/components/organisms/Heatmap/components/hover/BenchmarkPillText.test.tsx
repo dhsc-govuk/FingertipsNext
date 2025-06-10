@@ -146,7 +146,7 @@ describe('benchmark pill text', () => {
     }
   );
 
-  it('should return appropriate comparison text if benchmark outcome is "Similar"', () => {
+  it('should return appropriate comparison text to benchmark area if benchmark outcome is "Similar"', () => {
     const outcome = BenchmarkOutcome.Similar;
     const screen = render(
       <BenchmarkPillText
@@ -195,7 +195,7 @@ describe('benchmark pill text', () => {
     BenchmarkOutcome.Lower,
     BenchmarkOutcome.Higher,
   ])(
-    'should return appropriate comparison text for other outcomes',
+    'should return appropriate comparison text to benchmark area for other outcomes',
     (outcome: BenchmarkOutcome) => {
       const screen = render(
         <BenchmarkPillText
