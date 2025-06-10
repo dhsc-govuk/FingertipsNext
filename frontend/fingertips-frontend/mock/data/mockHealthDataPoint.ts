@@ -1,5 +1,4 @@
 import { HealthDataPoint } from '@/generated-sources/ft-api-client';
-import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
 
 export const mockHealthDataPoint = (
   overrides?: Partial<HealthDataPoint>
