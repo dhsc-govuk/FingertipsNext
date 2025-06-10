@@ -30,11 +30,13 @@ const FooterLink = styled(Link)({
 interface FTFooterProps {
   tag?: string;
   hash?: string;
+  chartPage?: boolean;
 }
 
-export function FTFooter({ tag, hash }: FTFooterProps) {
+export function FTFooter({ tag, hash, chartPage = false }: FTFooterProps) {
   return (
     <Footer
+      className={chartPage ? 'chart-page-footer' : ''}
       meta={
         <FooterContainer>
           <FooterListItem>

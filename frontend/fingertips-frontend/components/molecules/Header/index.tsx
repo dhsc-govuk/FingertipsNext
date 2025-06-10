@@ -3,6 +3,7 @@
 import { contactEmailLink } from '@/lib/links';
 import { Link, Main, PhaseBanner, TopNav } from 'govuk-react';
 import styled from 'styled-components';
+import '../../../global.css';
 
 const ZeroPaddingMain = styled(Main)`
   padding: 0px;
@@ -12,9 +13,9 @@ const ServiceTitle = styled('span')({
   fontWeight: '700',
 });
 
-export function FTHeader() {
+export function FTHeader({ chartPage = false }) {
   return (
-    <header>
+    <header className={chartPage ? 'chart-page-header' : ''}>
       <TopNav
         serviceTitle={
           <TopNav.NavLink href="/">
