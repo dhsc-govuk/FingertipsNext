@@ -14,10 +14,10 @@ const config: Config = {
   coverageReporters: ['lcov', 'text', 'text-summary'],
   coverageThreshold: {
     global: {
-      statements: 92.6,
-      branches: 84.45,
-      functions: 91.6,
-      lines: 93.2,
+      statements: 94.4,
+      branches: 85.4,
+      functions: 93.6,
+      lines: 95,
     },
   },
   collectCoverageFrom: [

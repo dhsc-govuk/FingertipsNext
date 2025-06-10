@@ -81,20 +81,18 @@ const CellHeader: FC<CellHeaderProps> = ({ header, measurementUnit = '' }) => {
 };
 
 interface InequalitiesBarChartTableHeadProps {
-  areaName: string;
   measurementUnit?: string;
   confidenceLimit?: number;
 }
 
 export const InequalitiesBarChartTableHead = ({
-  areaName,
   measurementUnit = '',
   confidenceLimit = 0,
 }: Readonly<InequalitiesBarChartTableHeadProps>) => {
   return (
     <>
       <Table.Row>
-        <StyledAlignLeftHeader colSpan={4}>{areaName}</StyledAlignLeftHeader>
+        <StyledAlignLeftHeader colSpan={4}></StyledAlignLeftHeader>
         <StyledConfidenceLimitsHeader
           colSpan={2}
           style={{ textAlign: 'center' }}

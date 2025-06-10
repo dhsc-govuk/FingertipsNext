@@ -34,11 +34,20 @@ describe('BasicTable', () => {
     jest.useRealTimers();
   });
 
-  it('should match snapshot', () => {
-    const { asFragment } = render(
+  it('should include a title', () => {
+    render(
       <BasicTable areaName={mockAreaName} indicatorData={mockIndicatorData} />
     );
-    expect(asFragment()).toMatchSnapshot();
+    const title = screen.getByRole('heading', { level: 4 });
+    expect(title).toHaveTextContent('Overview of selected indicators');
+  });
+
+  it('should match snapshot', () => {
+    render(
+      <BasicTable areaName={mockAreaName} indicatorData={mockIndicatorData} />
+    );
+    const table = screen.getByRole('table');
+    expect(table).toMatchSnapshot();
   });
 
   it('should render BasicTable component', () => {

@@ -258,7 +258,10 @@ export default class ChartPage extends AreaFilter {
     await this.waitForURLToContain(lastOption);
 
     await expect(
-      this.page.getByText(`persons for ${lastOption} time period`)
+      this.page
+        .getByRole('heading')
+        .getByText(`, ${lastOption}`)
+        .getByText('inequalities for')
     ).toBeVisible();
     expect(await combobox.inputValue()).toBe(lastOption);
   }

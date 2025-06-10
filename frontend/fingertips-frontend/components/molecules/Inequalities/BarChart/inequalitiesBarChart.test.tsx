@@ -12,6 +12,7 @@ describe('Inequalities BarChart suite', () => {
     const yAxisLabel = 'YAxis';
     render(
       <InequalitiesBarChart
+        title="inequalities for South FooBar, 2008"
         barChartData={getTestData()}
         yAxisLabel={yAxisLabel}
         type={InequalitiesTypes.Deprivation}
@@ -37,7 +38,7 @@ describe('Inequalities BarChart suite', () => {
     expect(barChart).toHaveTextContent(yAxisLabel);
     expect(barChart).toHaveTextContent('$');
     expect(
-      screen.getByText('Compared to South FooBar persons for 2008 time period')
+      screen.getByText('inequalities for South FooBar, 2008')
     ).toBeInTheDocument();
     expect(screen.getByText('Lower')).toBeInTheDocument();
     expect(screen.getByText('Higher')).toBeInTheDocument();
@@ -48,6 +49,7 @@ describe('Inequalities BarChart suite', () => {
   it('should render the sex inequality variant with the expected changes', async () => {
     render(
       <InequalitiesBarChart
+        title={'inequalities for South FooBar, 2008'}
         barChartData={getTestData()}
         yAxisLabel={'Y Axis'}
         type={InequalitiesTypes.Sex}
