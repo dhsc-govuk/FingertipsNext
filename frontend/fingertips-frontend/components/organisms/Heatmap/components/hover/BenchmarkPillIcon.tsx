@@ -29,22 +29,28 @@ export const BenchmarkPillIcon: FC<BenchmarkPillIconProps> = ({
 }) => {
   if (value === undefined) {
     return (
-      <BenchmarkPillParagraph>
+      <BenchmarkPillParagraph data-testid={'heatmap-benchmark-icon'}>
         {SymbolsEnum.MultiplicationX}
       </BenchmarkPillParagraph>
     );
   }
 
   if (outcome === BenchmarkOutcome.NotCompared) {
-    return <NotComparedBenchmarkIcon />;
+    return <NotComparedBenchmarkIcon data-testid={'heatmap-benchmark-icon'} />;
   }
 
   if (outcome === 'Baseline') {
-    return <ColouredBenchmarkIcon $colour={GovukColours.DarkGrey} />;
+    return (
+      <ColouredBenchmarkIcon
+        data-testid={'heatmap-benchmark-icon'}
+        $colour={GovukColours.DarkGrey}
+      />
+    );
   }
 
   return (
     <ColouredBenchmarkIcon
+      data-testid={'heatmap-benchmark-icon'}
       $colour={
         getBenchmarkColour(benchmarkMethod, outcome, polarity) ??
         GovukColours.White
