@@ -1,4 +1,5 @@
 RootArea:
+  title: Root Area
   type: object
   description: The root node of the area / geography hierarchies
   required:
@@ -14,6 +15,7 @@ RootArea:
       example: "England"
       description: The name of the area / geography
 Area:
+  title: Area
   type: object
   description: An area or geography that has associated public health data
   required:
@@ -32,6 +34,7 @@ Area:
     areaType:
       $ref: "#/AreaType"
 AreaType:
+  title: Area Type
   type: object
   description: An area type e.g. PCN or GP
   required:
@@ -57,6 +60,7 @@ AreaType:
       example: "NHS"
       description: The name of the associated hierarchy for the area / geography
 AreaWithRelations:
+  title: Area With Relations
   allOf:
     - $ref: "#/Area"
     - type: object

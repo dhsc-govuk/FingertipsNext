@@ -1,4 +1,5 @@
 IndicatorSummary:
+  title: Indicator Summary
   type: object
   description: A summary of a public health indicator
   required:
@@ -15,6 +16,7 @@ IndicatorSummary:
       example: "Hypertension: QOF prevalence (all ages)"
       description: The title of the indicator
 Indicator:
+  title: Indicator
   type: object
   description: A public health indicator
   required:
@@ -38,6 +40,7 @@ Indicator:
         size)"
       description: The definition of the indicator
 IndicatorWithHealthDataForArea:
+  title: Indicator With Health Data For Area
   type: object
   description: Indicator information with area health data
   properties:
@@ -58,10 +61,12 @@ IndicatorWithHealthDataForArea:
       items:
         $ref: "#/HealthDataForArea"
 IndicatorPolarity: # Define enum globally
+  title: Indicator Polarity
   type: string
   enum: [Unknown, NoJudgement, LowIsGood, HighIsGood]
   x-enum-varnames: [Unknown, NoJudgement, LowIsGood, HighIsGood]
 BenchmarkComparisonMethod:
+  title: Benchmark Comparison Method
   type: string
   example: CIOverlappingReferenceValue95
   description: the benchmark comparison method used
@@ -80,6 +85,7 @@ BenchmarkComparisonMethod:
       CIOverlappingReferenceValue99_8,
     ]
 HealthDataForArea:
+  title: Health Data For Area
   type: object
   description: Associates a list of health data points with the relevant
     geographical area (represented by it's unique code).
@@ -102,6 +108,7 @@ HealthDataForArea:
         $ref: "#/HealthDataPoint"
       description: The health data points for the area and indicator
 HealthDataPoint:
+  title: Health Data Point
   type: object
   description:
     Represents a health data point for a public health indicator with a
@@ -181,6 +188,7 @@ HealthDataPoint:
     deprivation:
       $ref: "#/DeprivationData"
 AgeData:
+  title: Age Data
   type: object
   description: Details of the age band that this data point belongs to.
   required:
@@ -196,6 +204,7 @@ AgeData:
       example: false
       description: Indicates if the datapoint is an aggregated value for the age dimension.
 SexData:
+  title: Sex Data
   type: object
   description: Details of the sex category that this data point belongs to.
   required:
@@ -211,6 +220,7 @@ SexData:
       example: false
       description: Indicates if the datapoint is an aggregated value for the sex dimension.
 BenchmarkOutcome:
+  title: Benchmark Outcome
   type: string
   example: Lower
   description: benchmark outcome
@@ -247,6 +257,7 @@ BenchmarkOutcome:
       Similar,
     ]
 DeprivationData:
+  title: Deprivation Data
   type: object
   description: Details of the deprivation category that this data point belongs to.
   required:
@@ -273,12 +284,14 @@ DeprivationData:
       example: false
       description: Indicates if the datapoint is an aggregated value for the deprivation dimension.
 BenchmarkReferenceType:
+  title: Benchmark Reference Type
   type: string
   example: England
   description: benchmark reference type
   enum: [England, SubNational]
   x-enum-varnames: [England, SubNational]
 QuartileData:
+  title: Quartile Data
   type: object
   description: Quartile data for an indicator plus supporting information
   properties:

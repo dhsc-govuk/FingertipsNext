@@ -1,4 +1,5 @@
 BadRequest:
+  title: Bad Request
   type: object
   required:
     - message
