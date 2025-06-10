@@ -166,6 +166,7 @@ export function BarChartEmbeddedTable({
         />
         <ContainerWithScrolling horizontal>
           <Table
+            tabIndex={0}
             head={
               <React.Fragment>
                 <Table.Row>
