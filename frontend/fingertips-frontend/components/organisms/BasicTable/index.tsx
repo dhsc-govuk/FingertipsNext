@@ -17,6 +17,8 @@ import { convertBasicTableToCsvData } from './convertBasicTableToCsvData';
 import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
 import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
 import styled from 'styled-components';
+import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
+import { ContainerWithOutline } from '@/components/atoms/ContainerWithOutline/ContainerWithOutline';
 
 export enum BasicTableEnum {
   Indicator = 'Indicator',
@@ -51,90 +53,93 @@ export function BasicTable({
   const csvData = convertBasicTableToCsvData(indicatorData);
   return (
     <div data-testid={'basicTable-component'}>
-      <div id="basicTable">
-        <StyledTable
-          head={
-            <React.Fragment>
-              <Table.Row>
-                <Table.CellHeader colSpan={6} style={{ paddingLeft: '10px' }}>
-                  {areaName}
-                </Table.CellHeader>
-              </Table.Row>
+      <ContainerWithOutline>
+        <div id="basicTable">
+          <ChartTitle>Overview of selected indicators</ChartTitle>
+          <StyledTable
+            head={
+              <React.Fragment>
+                <Table.Row>
+                  <Table.CellHeader colSpan={6} style={{ paddingLeft: '10px' }}>
+                    {areaName}
+                  </Table.CellHeader>
+                </Table.Row>
 
-              <Table.Row>
-                <Table.CellHeader
-                  style={{ verticalAlign: 'top', paddingLeft: '10px' }}
-                >
-                  {BasicTableEnum.Indicator}
-                </Table.CellHeader>
-                <Table.CellHeader style={{ verticalAlign: 'top' }}>
-                  {BasicTableEnum.Period}
-                </Table.CellHeader>
-                <Table.CellHeader
-                  style={{ verticalAlign: 'top', textAlign: 'right' }}
-                >
-                  {BasicTableEnum.Count}
-                </Table.CellHeader>
-                <Table.CellHeader
-                  style={{
-                    verticalAlign: 'top',
-                    textAlign: 'left',
-                  }}
-                >
-                  {BasicTableEnum.ValueUnit}
-                </Table.CellHeader>
-                <Table.CellHeader
-                  style={{ verticalAlign: 'top', textAlign: 'right' }}
-                >
-                  {BasicTableEnum.Value}
-                </Table.CellHeader>
-                <Table.CellHeader
-                  style={{ verticalAlign: 'top', textAlign: 'center' }}
-                >
-                  {BasicTableEnum.RecentTrend}
-                </Table.CellHeader>
-              </Table.Row>
-            </React.Fragment>
-          }
-        >
-          {indicatorData.map((item) => (
-            <Table.Row key={item.indicatorId}>
-              <CheckValueInTableCell
-                value={item?.indicatorName}
-                style={{ paddingLeft: '10px' }}
-              />
-              <CheckValueInTableCell
-                value={item?.period}
-                style={{ textAlign: 'right' }}
-              />
-              <FormatNumberInTableCell
-                value={item?.latestEnglandHealthData?.count}
-                numberStyle={'whole'}
-                style={{ textAlign: 'right' }}
-              />
-              <CheckValueInTableCell
-                value={item?.unitLabel}
-                style={{ textAlign: 'left' }}
-              />
-              <FormatNumberInTableCell
-                value={item?.latestEnglandHealthData?.value}
-                style={{ textAlign: 'right' }}
-              />
-              <StyledCenterTableCell>
-                <TrendTag
-                  trendFromResponse={
-                    item?.latestEnglandHealthData?.trend ??
-                    HealthDataPointTrendEnum.CannotBeCalculated
-                  }
+                <Table.Row>
+                  <Table.CellHeader
+                    style={{ verticalAlign: 'top', paddingLeft: '10px' }}
+                  >
+                    {BasicTableEnum.Indicator}
+                  </Table.CellHeader>
+                  <Table.CellHeader style={{ verticalAlign: 'top' }}>
+                    {BasicTableEnum.Period}
+                  </Table.CellHeader>
+                  <Table.CellHeader
+                    style={{ verticalAlign: 'top', textAlign: 'right' }}
+                  >
+                    {BasicTableEnum.Count}
+                  </Table.CellHeader>
+                  <Table.CellHeader
+                    style={{
+                      verticalAlign: 'top',
+                      textAlign: 'left',
+                    }}
+                  >
+                    {BasicTableEnum.ValueUnit}
+                  </Table.CellHeader>
+                  <Table.CellHeader
+                    style={{ verticalAlign: 'top', textAlign: 'right' }}
+                  >
+                    {BasicTableEnum.Value}
+                  </Table.CellHeader>
+                  <Table.CellHeader
+                    style={{ verticalAlign: 'top', textAlign: 'center' }}
+                  >
+                    {BasicTableEnum.RecentTrend}
+                  </Table.CellHeader>
+                </Table.Row>
+              </React.Fragment>
+            }
+          >
+            {indicatorData.map((item) => (
+              <Table.Row key={item.indicatorId}>
+                <CheckValueInTableCell
+                  value={item?.indicatorName}
+                  style={{ paddingLeft: '10px' }}
                 />
-              </StyledCenterTableCell>
-            </Table.Row>
-          ))}
-        </StyledTable>
-        <ExportOnlyWrapper>
-          <ExportCopyright />
-        </ExportOnlyWrapper>
-      </div>
+                <CheckValueInTableCell
+                  value={item?.period}
+                  style={{ textAlign: 'right' }}
+                />
+                <FormatNumberInTableCell
+                  value={item?.latestEnglandHealthData?.count}
+                  numberStyle={'whole'}
+                  style={{ textAlign: 'right' }}
+                />
+                <CheckValueInTableCell
+                  value={item?.unitLabel}
+                  style={{ textAlign: 'left' }}
+                />
+                <FormatNumberInTableCell
+                  value={item?.latestEnglandHealthData?.value}
+                  style={{ textAlign: 'right' }}
+                />
+                <StyledCenterTableCell>
+                  <TrendTag
+                    trendFromResponse={
+                      item?.latestEnglandHealthData?.trend ??
+                      HealthDataPointTrendEnum.CannotBeCalculated
+                    }
+                  />
+                </StyledCenterTableCell>
+              </Table.Row>
+            ))}
+          </StyledTable>
+          <ExportOnlyWrapper>
+            <ExportCopyright />
+          </ExportOnlyWrapper>
+        </div>
+      </ContainerWithOutline>
       <ExportOptionsButton targetId="basicTable" csvData={csvData} />
     </div>
   );
