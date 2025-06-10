@@ -31,15 +31,13 @@ public class DenormalisedHealthMeasureModel
     public required string BenchmarkComparisonAreaCode { get; set; }
     public required string BenchmarkComparisonAreaName { get; set; }
 
-#nullable enable
     private BenchmarkComparisonModel? NormalisedBenchmark =>
-        BenchmarkComparisonOutcome is null ? null : new BenchmarkComparisonModel() 
-        {
-            Outcome = BenchmarkComparisonOutcome, 
-            BenchmarkAreaCode = BenchmarkComparisonAreaCode, 
-            BenchmarkAreaName = BenchmarkComparisonAreaName, 
-        };
-#nullable disable
+    BenchmarkComparisonOutcome is null ? null : new BenchmarkComparisonModel() 
+    {
+        Outcome = BenchmarkComparisonOutcome, 
+        BenchmarkAreaCode = BenchmarkComparisonAreaCode, 
+        BenchmarkAreaName = BenchmarkComparisonAreaName, 
+    };
 
     public HealthMeasureModel Normalise()
     {
