@@ -2,11 +2,11 @@ import { FC } from 'react';
 import { DataCellHoverProps } from '../../heatmapUtil';
 import { HeatmapHoverBenchmarkPill } from './BenchmarkPill';
 import {
-  StyledDivHover,
-  StyledDivTriangle,
-  StyledDivTriangleOccluder,
-  StyledParagraphZeroMargin,
-  StyledParagraph,
+  Hover,
+  HoverTriangle,
+  HoverTriangleOccluder,
+  HoverParagraphZeroMargin,
+  HoverParagraph,
 } from './Hover.styles';
 
 export interface TransientHeatmapHoverProps extends DataCellHoverProps {
@@ -35,16 +35,14 @@ export const HeatmapHover: FC<HeatmapHoverProps> = ({
     top: `${top}px`,
   };
   return (
-    <StyledDivHover style={styles} className="highcharts-tooltip">
-      <StyledDivTriangle />
-      <StyledDivTriangleOccluder />
-      <StyledParagraphZeroMargin>{`**${areaName}**`}</StyledParagraphZeroMargin>
+    <Hover style={styles} className="highcharts-tooltip">
+      <HoverTriangle />
+      <HoverTriangleOccluder />
+      <HoverParagraphZeroMargin>{`**${areaName}**`}</HoverParagraphZeroMargin>
       {period ? (
-        <StyledParagraphZeroMargin>
-          {period.toString()}
-        </StyledParagraphZeroMargin>
+        <HoverParagraphZeroMargin>{period.toString()}</HoverParagraphZeroMargin>
       ) : null}
-      <StyledParagraph>{indicatorName}</StyledParagraph>
+      <HoverParagraph>{indicatorName}</HoverParagraph>
       <HeatmapHoverBenchmarkPill
         value={value}
         unitLabel={unitLabel}
@@ -53,6 +51,6 @@ export const HeatmapHover: FC<HeatmapHoverProps> = ({
         polarity={benchmark.polarity}
         benchmarkAreaName={benchmarkAreaName}
       />
-    </StyledDivHover>
+    </Hover>
   );
 };

@@ -3,7 +3,7 @@ import { Paragraph } from 'govuk-react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 
-export const StyledDivHover = styled.div({
+export const Hover = styled.div({
   color: GovukColours.Black,
   backgroundColor: GovukColours.White,
   boxShadow: `0px 0px 4px 0px ${GovukColours.DarkGrey}`,
@@ -18,7 +18,7 @@ export const StyledDivHover = styled.div({
   transform: 'translateY(-50%)',
 });
 
-export const StyledDivTriangle = styled.div({
+export const HoverTriangle = styled.div({
   backgroundColor: GovukColours.White,
   boxShadow: `0px 0px 4px 0px ${GovukColours.DarkGrey}`,
   borderRadius: '2px',
@@ -33,7 +33,7 @@ export const StyledDivTriangle = styled.div({
   border: 'none',
 });
 
-export const StyledDivTriangleOccluder = styled.div({
+export const HoverTriangleOccluder = styled.div({
   backgroundColor: GovukColours.White,
   display: 'block',
   zIndex: 2,
@@ -45,7 +45,7 @@ export const StyledDivTriangleOccluder = styled.div({
   transform: 'translateY(-12px)',
 });
 
-export const StyledParagraph = styled(Paragraph)(typography.font({ size: 16 }));
-export const StyledParagraphZeroMargin = styled(StyledParagraph)({
+export const HoverParagraph = styled(Paragraph)(typography.font({ size: 16 }));
+export const HoverParagraphZeroMargin = styled(HoverParagraph)({
   marginBottom: '0',
 });
