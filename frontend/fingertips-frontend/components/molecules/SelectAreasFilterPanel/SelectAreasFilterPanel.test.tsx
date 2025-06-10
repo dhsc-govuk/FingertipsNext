@@ -1,5 +1,10 @@
 import { render, screen, within } from '@testing-library/react';
-import { SelectAreasFilterPanel } from '.';
+import {
+  selectAreaGroupId,
+  selectAreaGroupTypeId,
+  SelectAreasFilterPanel,
+  selectAreaTypeId,
+} from '.';
 import { mockAvailableAreas } from '@/mock/data/areaData';
 import {
   allAreaTypes,
@@ -157,6 +162,7 @@ describe('SelectAreasFilterPanel', () => {
       const expectedPath = [
         `${mockPath}`,
         `?${SearchParams.AreaTypeSelected}=nhs-regions`,
+        `#${selectAreaTypeId}`,
       ].join('');
 
       const user = userEvent.setup();
@@ -201,6 +207,7 @@ describe('SelectAreasFilterPanel', () => {
       const expectedPath = [
         `${mockPath}`,
         `?${SearchParams.AreaTypeSelected}=nhs-regions`,
+        `#${selectAreaTypeId}`,
       ].join('');
 
       const user = userEvent.setup();
@@ -326,6 +333,7 @@ describe('SelectAreasFilterPanel', () => {
         `${mockPath}`,
         `?${SearchParams.AreaTypeSelected}=nhs-regions`,
         `&${SearchParams.GroupTypeSelected}=england`,
+        `#${selectAreaGroupTypeId}`,
       ].join('');
 
       const user = userEvent.setup();
@@ -382,6 +390,7 @@ describe('SelectAreasFilterPanel', () => {
         `${mockPath}`,
         `?${SearchParams.AreaTypeSelected}=nhs-regions`,
         `&${SearchParams.GroupTypeSelected}=england`,
+        `#${selectAreaGroupTypeId}`,
       ].join('');
 
       const user = userEvent.setup();
@@ -508,6 +517,7 @@ describe('SelectAreasFilterPanel', () => {
         `${mockPath}`,
         `?${SearchParams.AreaTypeSelected}=nhs-regions`,
         `&${SearchParams.GroupSelected}=${availableGroups[1].code}`,
+        `#${selectAreaGroupId}`,
       ].join('');
 
       const user = userEvent.setup();
@@ -622,6 +632,7 @@ describe('SelectAreasFilterPanel', () => {
         `${mockPath}`,
         `?${SearchParams.AreasSelected}=${eastEnglandNHSRegion.code}`,
         `&${SearchParams.AreaTypeSelected}=nhs-regions`,
+        `#area-select-${eastEnglandNHSRegion.code}`,
       ].join('');
       const availableAreas = mockAvailableAreas['nhs-regions'];
 
@@ -661,6 +672,7 @@ describe('SelectAreasFilterPanel', () => {
         `${mockPath}`,
         `?${SearchParams.AreasSelected}=${eastEnglandNHSRegion.code}`,
         `&${SearchParams.AreaTypeSelected}=nhs-regions`,
+        `#area-select-${eastEnglandNHSRegion.code}`,
       ].join('');
       const availableAreas = mockAvailableAreas['nhs-regions'];
 
@@ -716,6 +728,7 @@ describe('SelectAreasFilterPanel', () => {
       const expectedPath = [
         `${mockPath}`,
         `?${SearchParams.AreaTypeSelected}=nhs-regions`,
+        `#area-select-${eastEnglandNHSRegion.code}`,
       ].join('');
       const availableAreas = mockAvailableAreas['nhs-regions'];
 
@@ -755,6 +768,7 @@ describe('SelectAreasFilterPanel', () => {
       const expectedPath = [
         `${mockPath}`,
         `?${SearchParams.AreaTypeSelected}=nhs-regions`,
+        `#area-select-${eastEnglandNHSRegion.code}`,
       ].join('');
       const availableAreas = mockAvailableAreas['nhs-regions'];
 
@@ -792,6 +806,7 @@ describe('SelectAreasFilterPanel', () => {
         `${mockPath}`,
         `?${SearchParams.AreaTypeSelected}=nhs-regions`,
         `&${SearchParams.GroupAreaSelected}=${ALL_AREAS_SELECTED}`,
+        `#area-select-${eastEnglandNHSRegion.code}`,
       ].join('');
 
       render(
@@ -833,6 +848,7 @@ describe('SelectAreasFilterPanel', () => {
         `${mockPath}`,
         ...expectedAreasSelected,
         `&${SearchParams.AreaTypeSelected}=nhs-regions`,
+        `#area-select-${eastEnglandNHSRegion.code}`,
       ].join('');
 
       render(

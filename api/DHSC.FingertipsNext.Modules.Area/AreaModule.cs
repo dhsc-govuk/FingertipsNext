@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DHSC.FingertipsNext.Modules.Area;
 
-public class Module : AbstractMonolithModule, IMonolithModule
+public class AreaModule : AbstractMonolithModule, IMonolithModule
 {
     public override string ModuleName => "area";
 
@@ -23,7 +23,7 @@ public class Module : AbstractMonolithModule, IMonolithModule
         RegisterDbContext(services, new AreaModuleConfig(configuration));
     }
 
-    private static void RegisterDbContext(IServiceCollection services, IAreaModuleConfig configuration)
+    private static void RegisterDbContext(IServiceCollection services, AreaModuleConfig configuration)
     {
         if (configuration.TrustServerCertificate)
         {

@@ -8,6 +8,6 @@ public interface IHealthDataMapper
     IndicatorPolarity MapIndicatorPolarity(string source);
     BenchmarkComparisonMethod MapBenchmarkComparisonMethod(string source);
     HealthDataPoint Map(HealthMeasureModel source);
-    List<HealthDataPoint> Map(IList<HealthMeasureModel> source);
-    List<IndicatorQuartileData> Map(IList<QuartileDataModel> source);
+    IList<HealthDataPoint> Map(IList<HealthMeasureModel> source);
+    IList<IndicatorQuartileData> Map(IList<QuartileDataModel> source);
 }

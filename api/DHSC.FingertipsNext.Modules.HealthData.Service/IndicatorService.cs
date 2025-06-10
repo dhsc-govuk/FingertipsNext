@@ -52,7 +52,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         bool latestOnly = false)
     {
         var indicatorData = await healthDataRepository.GetIndicatorDimensionAsync(indicatorId, [.. areaCodes]);
-        if (indicatorData == null) 
+        if (indicatorData == null)
             return new ServiceResponse<IndicatorWithHealthDataForAreas>(ResponseStatus.IndicatorDoesNotExist);
 
         var method = healthDataMapper.MapBenchmarkComparisonMethod(indicatorData.BenchmarkComparisonMethod);
@@ -77,8 +77,9 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
 
         return new ServiceResponse<IndicatorWithHealthDataForAreas>()
         {
-            Status = areaHealthData.Any() ? ResponseStatus.Success : ResponseStatus.NoDataForIndicator,
-            Content = new IndicatorWithHealthDataForAreas(){
+            Status = areaHealthData.Count != 0 ? ResponseStatus.Success : ResponseStatus.NoDataForIndicator,
+            Content = new IndicatorWithHealthDataForAreas()
+            {
                 IndicatorId = indicatorData.IndicatorId,
                 Name = indicatorData.Name,
                 Polarity = polarity,
@@ -133,7 +134,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
                 benchmarkAreaCode
                 );
 
-           
+
             return healthMeasureData
                 .GroupBy(healthMeasure => new
                 {
@@ -153,18 +154,19 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
 
         var hasBenchmarkDataBeenRequested = comparisonMethod is
              BenchmarkComparisonMethod.CIOverlappingReferenceValue95 or
-             BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8;
+             BenchmarkComparisonMethod.CIOverlappingReferenceValue998;
 
         //if benchmark data has been requested and the benchmark area wasn't already in the requested area collection add it now
         if (hasBenchmarkDataBeenRequested && !wasBenchmarkAreaCodeRequested)
             areaCodesForSearch.Add(benchmarkAreaCode);
 
         // get the data from the database
+        var inequalitiesList = inequalities.ToList();
         healthMeasureData = await healthDataRepository.GetIndicatorDataAsync(
             indicatorId,
             areaCodesForSearch.ToArray(),
             years.Distinct().ToArray(),
-            inequalities.Distinct().ToArray());
+            inequalitiesList.Distinct().ToArray());
 
         var healthDataForAreas = healthMeasureData
             .GroupBy(healthMeasure => new
@@ -184,8 +186,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
             return healthDataForAreas;
 
         // separate the data for results and data for performing benchmarks
-        var benchmarkHealthData=healthDataForAreas.FirstOrDefault(data => data.AreaCode == benchmarkAreaCode);
-        if(benchmarkHealthData == null && !inequalities.Any())
+        var benchmarkHealthData = healthDataForAreas.FirstOrDefault(data => data.AreaCode == benchmarkAreaCode);
+        if (benchmarkHealthData == null && inequalitiesList.Count == 0)
             return healthDataForAreas;
 
         //if the benchmark area was not in the original request then remove the benchmark data

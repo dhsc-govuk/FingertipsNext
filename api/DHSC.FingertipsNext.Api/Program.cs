@@ -9,15 +9,15 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Scalar.AspNetCore;
 
-public static class Program
+internal static class Program
 {
-    private static readonly string ApplicationInsightsConnectionString = "APPLICATIONINSIGHTS_CONNECTION_STRING";
+    private const string ApplicationInsightsConnectionString = "APPLICATIONINSIGHTS_CONNECTION_STRING";
     public static void Main(string[] args)
     {
-        #if DEBUG
-            // support for .env file
-            Env.Load(string.Empty, new LoadOptions(true, true, false));
-        #endif
+#if DEBUG
+        // support for .env file
+        Env.Load(string.Empty, new LoadOptions(true, true, false));
+#endif
 
         var builder = WebApplication.CreateBuilder(args);
 
@@ -39,9 +39,9 @@ public static class Program
                 .AddHttpClientInstrumentation()
                 .AddEntityFrameworkCoreInstrumentation();
 
-            #if DEBUG
-                tcb.AddConsoleExporter();
-            #endif
+#if DEBUG
+            tcb.AddConsoleExporter();
+#endif
         });
 
         builder.Services.AddSingleton(TracerProvider.Default.GetTracer(serviceName));

@@ -15,6 +15,7 @@ import { generateTooltip } from './generateTooltip';
 import { generateAccessibility } from './generateAccessibility';
 import { generateSeriesData } from './generateSeriesData';
 import Highcharts from 'highcharts';
+import { getMinAndMaxXAxisEntries } from './getMinAndMaxXAxisEntries';
 
 export enum LineChartVariant {
   Standard = 'standard',
@@ -124,7 +125,17 @@ export function generateStandardLineChartOptions(
         }
       : sortedGroupData;
 
-  const fromTo = `from ${firstYear} to ${lastYear}`;
+  const series = generateSeriesData(
+    sortedHealthIndicatorData,
+    filteredSortedEnglandData,
+    filteredSortedGroupData,
+    lineChartCI,
+    benchmarkToUse
+  );
+
+  const { minXAxisEntries, maxXAxisEntries } = getMinAndMaxXAxisEntries(series);
+
+  const fromTo = `from ${minXAxisEntries} to ${maxXAxisEntries}`;
   const titleText = optionalParams?.indicatorName
     ? `${optionalParams?.indicatorName} ${fromTo}`
     : fromTo;
@@ -142,13 +153,7 @@ export function generateStandardLineChartOptions(
       optionalParams?.xAxisTitle,
       optionalParams?.xAxisLabelFormatter
     ),
-    series: generateSeriesData(
-      sortedHealthIndicatorData,
-      filteredSortedEnglandData,
-      filteredSortedGroupData,
-      lineChartCI,
-      benchmarkToUse
-    ),
+    series,
     tooltip: generateTooltip(
       sortedHealthIndicatorData,
       benchmarkToUse,

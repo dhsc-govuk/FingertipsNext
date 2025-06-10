@@ -2,7 +2,7 @@
 
 namespace DHSC.FingertipsNext.Modules.Area.UnitTests.Fakers;
 
-public static class Fake
+internal static class Fake
 {
     public static AreaTypeModel AreaTypeModel => new AreaTypeModelFaker().Generate();
 

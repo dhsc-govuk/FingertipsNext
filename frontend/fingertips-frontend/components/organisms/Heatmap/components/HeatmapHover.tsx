@@ -3,8 +3,8 @@ import { Paragraph } from 'govuk-react';
 import { FC } from 'react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
-import { DataCellHoverProps } from './heatmapUtil';
-import { HeatmapHoverBenchmarkPill } from './heatmapHoverBenchmarkPill';
+import { DataCellHoverProps } from '../heatmapUtil';
+import { HeatmapHoverBenchmarkPill } from './HeatmapHoverBenchmarkPill';
 
 const StyledDivHover = styled.div({
   color: GovukColours.Black,
@@ -79,7 +79,7 @@ export const HeatmapHover: FC<HeatmapHoverProps> = ({
     top: `${top}px`,
   };
   return (
-    <StyledDivHover style={styles}>
+    <StyledDivHover style={styles} className="highcharts-tooltip">
       <StyledDivTriangle />
       <StyledDivTriangleOccluder />
       <StyledParagraphZeroMargin>{`**${areaName}**`}</StyledParagraphZeroMargin>

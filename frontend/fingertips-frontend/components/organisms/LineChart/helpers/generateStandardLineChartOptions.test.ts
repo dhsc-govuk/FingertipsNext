@@ -91,4 +91,26 @@ describe('generateStandardLineChartOptions', () => {
     expect((generatedOptions.series?.[1] as any).data).toHaveLength(2);
     expect(generatedOptions).toMatchSnapshot();
   });
+
+  it('should include from and to in the title when only england data is supplied', () => {
+    const generatedOptions = generateStandardLineChartOptions(
+      [],
+      false,
+      areaCodeForEngland,
+      {
+        indicatorName: 'Hospital admissions',
+        englandData: mockEnglandData,
+        groupIndicatorData: undefined,
+        yAxisTitle: 'yAxis',
+        xAxisTitle: 'xAxis',
+        measurementUnit: '%',
+        accessibilityLabel: 'accessibility',
+      }
+    );
+
+    expect(generatedOptions.title).toHaveProperty(
+      'text',
+      'Hospital admissions from 2004 to 2006'
+    );
+  });
 });

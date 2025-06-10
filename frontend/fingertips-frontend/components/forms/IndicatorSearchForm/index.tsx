@@ -11,6 +11,10 @@ import { CharacterCount } from '@/components/atoms/CharacterCount';
 
 const govukErrorBorderWidth = '2px';
 
+const StyledSearchBox = styled(SearchBox)(
+  spacing.withWhiteSpace({ marginBottom: 1 })
+);
+
 const StyledFormGroup = styled(FormGroup)(
   spacing.withWhiteSpace({ marginBottom: 6 })
 );
@@ -53,7 +57,7 @@ export const IndicatorSearchForm = ({
         defaultValue={JSON.stringify(searchState)}
         hidden
       />
-      <StyledTitleParagraph>Search by Subject</StyledTitleParagraph>
+      <StyledTitleParagraph>Search by subject</StyledTitleParagraph>
       <StyledHintParagraph>
         For example, smoking, diabetes prevalence, or a specific indicator ID
       </StyledHintParagraph>
@@ -64,7 +68,7 @@ export const IndicatorSearchForm = ({
       ) : (
         ''
       )}
-      <SearchBox>
+      <StyledSearchBox>
         {SearchBox.Input && (
           <SearchBox.Input
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
@@ -94,7 +98,7 @@ export const IndicatorSearchForm = ({
             data-testid="indicator-search-form-submit"
           />
         )}
-      </SearchBox>
+      </StyledSearchBox>
       <CharacterCount
         textLength={inputTextLength}
         characterLimit={INDICATOR_SEARCH_MAX_CHARACTERS}

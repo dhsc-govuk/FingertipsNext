@@ -14,17 +14,17 @@ export const heatmapDataColumnWidth = 60;
 
 export enum HeaderType {
   IndicatorTitle,
-  IndicatorInformationPeriod,
-  IndicatorInformationValueUnit,
-  PrimaryBenchmarkArea,
-  SecondaryBenchmarkArea,
+  Period,
+  ValueUnit,
+  BenchmarkGroupArea,
+  NonBenchmarkGroupArea,
   Area,
 }
 
 export enum CellType {
   IndicatorTitle,
-  IndicatorInformationPeriod,
-  IndicatorInformationValueUnit,
+  IndicatorPeriod,
+  IndicatorValueUnit,
   Data,
 }
 
@@ -151,14 +151,14 @@ export const generateRows = (
       },
       {
         key: `col-${indicator.id}-period`,
-        type: CellType.IndicatorInformationPeriod,
+        type: CellType.IndicatorPeriod,
         content: indicator.latestDataPeriod
           ? indicator.latestDataPeriod.toString()
           : '',
       },
       {
         key: `col-${indicator.id}-unitlabel`,
-        type: CellType.IndicatorInformationValueUnit,
+        type: CellType.IndicatorValueUnit,
         content: indicator.unitLabel,
       },
     ];
@@ -396,23 +396,23 @@ export const generateHeaders = (
     }
 
     if (pos === 1) {
-      return HeaderType.IndicatorInformationPeriod;
+      return HeaderType.Period;
     }
 
     if (pos === 2) {
-      return HeaderType.IndicatorInformationValueUnit;
+      return HeaderType.ValueUnit;
     }
 
     if (areaCode === areaCodeForEngland) {
       return benchmarkAreaCode === areaCodeForEngland
-        ? HeaderType.PrimaryBenchmarkArea
-        : HeaderType.SecondaryBenchmarkArea;
+        ? HeaderType.BenchmarkGroupArea
+        : HeaderType.NonBenchmarkGroupArea;
     }
 
     if (groupAreaCode && areaCode === groupAreaCode) {
       return benchmarkAreaCode === areaCodeForEngland
-        ? HeaderType.SecondaryBenchmarkArea
-        : HeaderType.PrimaryBenchmarkArea;
+        ? HeaderType.NonBenchmarkGroupArea
+        : HeaderType.BenchmarkGroupArea;
     }
 
     return HeaderType.Area;

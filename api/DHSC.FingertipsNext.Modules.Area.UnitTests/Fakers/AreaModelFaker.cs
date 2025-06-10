@@ -3,7 +3,7 @@ using DHSC.FingertipsNext.Modules.Area.Repository.Models;
 
 namespace DHSC.FingertipsNext.Modules.Area.UnitTests.Fakers;
 
-public class AreaModelFaker: Faker<AreaModel>
+internal class AreaModelFaker : Faker<AreaModel>
 {
     public AreaModelFaker()
     {

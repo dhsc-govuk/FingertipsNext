@@ -65,8 +65,8 @@ export function sortHealthDataByYearDescending(
 
 export function sortHealthDataPointsByDescendingYear(
   data: HealthDataPoint[] | undefined
-): HealthDataPoint[] {
-  if (!data) {
+) {
+  if (!data || data.length === 0) {
     return [];
   }
   return data.toSorted((a, b) => b.year - a.year);
