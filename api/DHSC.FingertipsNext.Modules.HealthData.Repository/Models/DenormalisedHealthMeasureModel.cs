@@ -31,6 +31,16 @@ public class DenormalisedHealthMeasureModel
     public required string BenchmarkComparisonAreaCode { get; set; }
     public required string BenchmarkComparisonAreaName { get; set; }
 
+    private BenchmarkComparisonModel? NormalisedBenchmark =>
+        BenchmarkComparisonOutcome is null
+            ? null
+            : new BenchmarkComparisonModel
+            {
+                Outcome = BenchmarkComparisonOutcome,
+                BenchmarkAreaCode = BenchmarkComparisonAreaCode,
+                BenchmarkAreaName = BenchmarkComparisonAreaName
+            };
+
     public HealthMeasureModel Normalise()
     {
         return new HealthMeasureModel()
@@ -73,12 +83,7 @@ public class DenormalisedHealthMeasureModel
             {
                 Name = TrendDimensionName,
             },
-            BenchmarkComparison = new BenchmarkComparisonModel()
-            {
-                Outcome = BenchmarkComparisonOutcome,
-                BenchmarkAreaCode = BenchmarkComparisonAreaCode,
-                BenchmarkAreaName = BenchmarkComparisonAreaName,
-            },
+            BenchmarkComparison = NormalisedBenchmark,
             IsAggregate = true
         };
     }
