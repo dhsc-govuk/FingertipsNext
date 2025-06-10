@@ -11,7 +11,10 @@ import {
 import {
   getBenchmarkColour,
   getIndicatorDataForAreasForMostRecentYearOnly,
+  getLatestYearForAreas,
 } from '@/lib/chartHelpers/chartHelpers';
+import { allAreaTypes } from '@/lib/areaFilterHelpers/areaType';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 export type MapGeographyData = {
   mapFile: GeoJSON;
@@ -380,4 +383,22 @@ function thematicMapTooltips(point: Highcharts.Point & { areaCode: string }) {
   );
   if (el) return el.innerHTML;
   return '';
+}
+
+export function thematicMapTitle(
+  indicatorMetadata: IndicatorDocument,
+  selectedAreaType: string,
+  groupData: HealthDataForArea | undefined,
+  healthIndicatorData: HealthDataForArea[]
+): string {
+  const areaType = allAreaTypes.find(
+    (areaType) => areaType.key === selectedAreaType
+  );
+  if (!areaType) return '';
+
+  const areaTitle = groupData?.areaName ?? 'England';
+  const latestYear = getLatestYearForAreas(healthIndicatorData);
+  if (!latestYear) return '';
+
+  return `${indicatorMetadata.indicatorName} for ${areaType.name} in ${areaTitle}, ${latestYear}`;
 }

@@ -251,6 +251,10 @@ paths:
 
         Data can be provided disagregated by various categories such as age and sex
         using the inequalities query parameter.
+
+        This returns data for England, a given ancestor code (if provided) and the specified 
+        areas. If an area is provided that exists outside of the benchmarked area, then no 
+        health data is returned for that area.
       responses:
         "200":
           description:

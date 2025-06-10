@@ -13,6 +13,7 @@ import {
 import { BackLink, GridCol, GridRow, H2 } from 'govuk-react';
 import { useEffect, useState } from 'react';
 import { FilterSummaryPanel } from '@/components/molecules/FilterSummaryPanel';
+import styles from './ChartPageWrapper.module.css';
 
 interface ChartPageWrapperProps {
   children: React.ReactNode;
@@ -44,10 +45,8 @@ export function ChartPageWrapper({
   const [isHideFilters, setIsHideFilters] = useState(false);
   const backLinkPath = stateManager.generatePath('/results');
 
-  const width = !isHideFilters ? 'two-thirds' : 'full';
-
   return (
-    <>
+    <div className={styles['chart-page-wrapper']}>
       <BackLink
         data-testid="chart-page-back-link"
         onClick={() => setIsLoading(true)}
@@ -56,7 +55,7 @@ export function ChartPageWrapper({
       />
       <GridRow>
         {isHideFilters ? null : (
-          <GridCol setWidth="one-third">
+          <GridCol className={styles['chart-area-filter-col']}>
             <AreaFilterPane
               areaFilterData={areaFilterData}
               selectedAreasData={selectedAreasData}
@@ -65,7 +64,10 @@ export function ChartPageWrapper({
             />
           </GridCol>
         )}
-        <GridCol setWidth={width} id={'chartPageContent'}>
+        <GridCol
+          className={styles['chart-content-col']}
+          id={'chartPageContent'}
+        >
           <H2>View data for selected indicators and areas</H2>
 
           {isHideFilters ? (
@@ -77,6 +79,6 @@ export function ChartPageWrapper({
           {children}
         </GridCol>
       </GridRow>
-    </>
+    </div>
   );
 }

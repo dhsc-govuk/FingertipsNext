@@ -2,6 +2,7 @@ import regionsMap from '@/components/organisms/ThematicMap/regions.json';
 import {
   getMapGeographyData,
   prepareThematicMapSeriesData,
+  thematicMapTitle,
 } from './thematicMapHelpers';
 import { mockMapRegionBoundaries } from '@/mock/data/mapGroupBoundaries';
 import {
@@ -11,6 +12,12 @@ import {
 } from '@/generated-sources/ft-api-client';
 
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
+import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
+import {
+  mockHealthDataForArea,
+  mockHealthDataForArea_Group,
+} from '@/mock/data/mockHealthDataForArea';
+import { mockHealthDataPoint } from '@/mock/data/mockHealthDataPoint';
 
 describe('getMapGeographyData', () => {
   it('should return an object with the expected mapGroupBoundary', () => {
@@ -185,5 +192,91 @@ describe('prepareThematicMapSeriesData', () => {
     ];
 
     expect(actual).toEqual(expected);
+  });
+});
+
+describe('thematicMapTitle', () => {
+  it('should return the title for regions in the North West', () => {
+    const indicatorMetaData = mockIndicatorDocument();
+    const selectedAreaType = 'regions';
+    const groupData = mockHealthDataForArea_Group();
+    const healthIndicatorData = mockHealthDataForArea();
+    const result = thematicMapTitle(
+      indicatorMetaData,
+      selectedAreaType,
+      groupData,
+      [healthIndicatorData]
+    );
+    expect(result).toEqual(
+      `${indicatorMetaData.indicatorName} for Regions in ${groupData.areaName}, ${healthIndicatorData.healthData[0].year}`
+    );
+  });
+
+  it('should return the title for regions if there is no group', () => {
+    const indicatorMetaData = mockIndicatorDocument();
+    const selectedAreaType = 'regions';
+    const groupData = undefined;
+    const healthIndicatorData = mockHealthDataForArea();
+    const result = thematicMapTitle(
+      indicatorMetaData,
+      selectedAreaType,
+      groupData,
+      [healthIndicatorData]
+    );
+    expect(result).toEqual(
+      `${indicatorMetaData.indicatorName} for Regions in England, ${healthIndicatorData.healthData[0].year}`
+    );
+  });
+
+  it('should return the title for the latest year data', () => {
+    const indicatorMetaData = mockIndicatorDocument({
+      indicatorName: 'Heart attacks',
+    });
+    const selectedAreaType = 'counties-and-unitary-authorities';
+    const groupData = undefined;
+    const healthIndicatorData = mockHealthDataForArea({
+      healthData: [
+        mockHealthDataPoint({ year: 2020 }),
+        mockHealthDataPoint({ year: 2022 }),
+        mockHealthDataPoint({ year: 2021 }),
+      ],
+    });
+    const result = thematicMapTitle(
+      indicatorMetaData,
+      selectedAreaType,
+      groupData,
+      [healthIndicatorData]
+    );
+    expect(result).toEqual(
+      `${indicatorMetaData.indicatorName} for Counties and Unitary Authorities in England, 2022`
+    );
+  });
+
+  it('should return empty string if there is no areaType', () => {
+    const indicatorMetaData = mockIndicatorDocument();
+    const selectedAreaType = 'mountains';
+    const groupData = undefined;
+    const healthIndicatorData = mockHealthDataForArea();
+    const result = thematicMapTitle(
+      indicatorMetaData,
+      selectedAreaType,
+      groupData,
+      [healthIndicatorData]
+    );
+    expect(result).toEqual('');
+  });
+
+  it('should return empty string if there is no health data points', () => {
+    const indicatorMetaData = mockIndicatorDocument();
+    const selectedAreaType = 'counties-and-unitary-authorities';
+    const groupData = undefined;
+    const healthIndicatorData = mockHealthDataForArea({ healthData: [] });
+    const result = thematicMapTitle(
+      indicatorMetaData,
+      selectedAreaType,
+      groupData,
+      [healthIndicatorData]
+    );
+    expect(result).toEqual('');
   });
 });

@@ -25,8 +25,10 @@ import { HighChartsWrapper } from '../../HighChartsWrapper/HighChartsWrapper';
 import { ExportOptionsButton } from '../../Export/ExportOptionsButton';
 import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
 import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
+import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
 
 interface InequalitiesBarChartProps {
+  title: string;
   barChartData: InequalitiesBarChartData;
   yAxisLabel: string;
   type?: InequalitiesTypes;
@@ -55,6 +57,7 @@ const getMaxValue = (values: (number | undefined)[]) =>
   Math.max(...values.filter((number) => number !== undefined));
 
 export function InequalitiesBarChart({
+  title,
   barChartData,
   yAxisLabel,
   measurementUnit,
@@ -78,7 +81,6 @@ export function InequalitiesBarChart({
     benchmarkValue,
   ]);
 
-  const timePeriod = barChartData.data.period;
   const comparedTo = `${barChartData.areaName}`;
 
   const generateInequalitiesBarChartTooltipForPoint = (
@@ -160,7 +162,7 @@ export function InequalitiesBarChart({
 
   const barChartOptions = getBarChartOptions({
     // The deprivation chart needs more height
-    height: type === InequalitiesTypes.Deprivation ? '100%' : undefined,
+    height: type === InequalitiesTypes.Deprivation ? '800' : '400',
     xAxisTitleText: `${xAxisTitlePrefix} ${mapToXAxisTitle[type]}`,
     xAxisCategories: barChartFields,
     yAxisTitleText: `${yAxisLabel}${measurementUnit ? ': ' + measurementUnit : ''}`,
@@ -179,15 +181,16 @@ export function InequalitiesBarChart({
 
   const id = 'inequalitiesBarChart-component';
   return (
-    <div data-testid={id}>
-      <ConfidenceIntervalCheckbox
-        chartName="inequalitiesBarChart"
-        showConfidenceIntervalsData={showConfidenceIntervalsData}
-        setShowConfidenceIntervalsData={setShowConfidenceIntervalsData}
-      />
-      <div id={id}>
+    <>
+      <div id={id} data-testid={id}>
+        <ChartTitle>{title}</ChartTitle>
+        <ConfidenceIntervalCheckbox
+          chartName="inequalitiesBarChart"
+          showConfidenceIntervalsData={showConfidenceIntervalsData}
+          setShowConfidenceIntervalsData={setShowConfidenceIntervalsData}
+        />
         <BenchmarkLegend
-          title={`Compared to ${comparedTo} persons for ${timePeriod} time period`}
+          title={'Compared to persons'}
           benchmarkComparisonMethod={benchmarkComparisonMethod}
           polarity={polarity}
         />
@@ -200,6 +203,6 @@ export function InequalitiesBarChart({
         </ExportOnlyWrapper>
       </div>
       <ExportOptionsButton targetId={id} chartOptions={barChartOptions} />
-    </div>
+    </>
   );
 }
