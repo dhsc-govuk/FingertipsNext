@@ -40,7 +40,7 @@ public class DenormalisedHealthMeasureModel
                 BenchmarkAreaCode = BenchmarkComparisonAreaCode,
                 BenchmarkAreaName = BenchmarkComparisonAreaName
             };
-    
+
     public HealthMeasureModel Normalise()
     {
         return new HealthMeasureModel()
