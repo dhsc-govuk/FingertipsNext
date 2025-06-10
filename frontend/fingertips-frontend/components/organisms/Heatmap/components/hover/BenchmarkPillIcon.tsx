@@ -9,7 +9,7 @@ import { GovukColours } from '@/lib/styleHelpers/colours';
 import { FC } from 'react';
 import { HeatmapBenchmarkOutcome } from '../../heatmapUtil';
 import {
-  BenchmarkPillText,
+  BenchmarkPillParagraph,
   NotComparedBenchmarkIcon,
   ColouredBenchmarkIcon,
 } from './BenchmarkPill.styles';
@@ -28,7 +28,11 @@ export const BenchmarkPillIcon: FC<BenchmarkPillIconProps> = ({
   polarity,
 }) => {
   if (value === undefined) {
-    return <BenchmarkPillText>{SymbolsEnum.MultiplicationX}</BenchmarkPillText>;
+    return (
+      <BenchmarkPillParagraph>
+        {SymbolsEnum.MultiplicationX}
+      </BenchmarkPillParagraph>
+    );
   }
 
   if (outcome === BenchmarkOutcome.NotCompared) {

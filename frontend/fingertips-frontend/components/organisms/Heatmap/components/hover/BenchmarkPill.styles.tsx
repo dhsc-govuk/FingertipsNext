@@ -20,7 +20,7 @@ export const NotComparedBenchmarkIcon = styled(BenchmarkIcon)({
   border: `1px solid ${GovukColours.Black}`,
 });
 
-export const BenchmarkPillText = styled(Paragraph)(
+export const BenchmarkPillParagraph = styled(Paragraph)(
   { marginBottom: '0' },
   typography.font({ size: 16 })
 );
