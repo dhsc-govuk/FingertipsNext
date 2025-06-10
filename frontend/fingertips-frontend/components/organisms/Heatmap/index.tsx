@@ -7,16 +7,11 @@ import React, { FC } from 'react';
 import HeatmapTable from '@/components/organisms/Heatmap/components/HeatmapTable';
 import { useHeatmapTableData } from '@/components/organisms/Heatmap/useHeatmapTableData';
 import { useHeatmapHover } from '@/components/organisms/Heatmap/useHeatmapHover';
-import styled from 'styled-components';
-import { H2 } from 'govuk-react';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
 import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
 import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
-
-const HeatmapHeading = styled(H2)({
-  fontSize: '1.5rem',
-  marginTop: '1rem',
-});
+import { ContainerWithOutline } from '@/components/atoms/ContainerWithOutline/ContainerWithOutline';
+import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
 
 export interface HeatmapProps {
   indicatorData: HeatmapIndicatorData[];
@@ -40,35 +35,37 @@ export const Heatmap: FC<HeatmapProps> = ({
 
   return (
     <>
-      <div id={'heatmap'}>
-        <HeatmapHeading>Compare indicators by areas</HeatmapHeading>
-        <BenchmarkLegends
-          title={`Compared to ${benchmarkAreaName}`}
-          legendsToShow={legendsToShow}
-        />
-        {hover ? (
-          <HeatmapHover
-            areaName={hover.areaName}
-            period={hover.period}
-            indicatorName={hover.indicatorName}
-            value={hover.value}
-            unitLabel={hover.unitLabel}
-            benchmark={hover.benchmark}
-            left={left}
-            top={top}
-            benchmarkAreaName={benchmarkAreaName}
+      <ContainerWithOutline>
+        <div id={'heatmap'}>
+          <ChartTitle>Overview of selected indicators</ChartTitle>
+          <BenchmarkLegends
+            title={`Compared to ${benchmarkAreaName}`}
+            legendsToShow={legendsToShow}
           />
-        ) : null}
-        <HeatmapTable
-          headers={headers}
-          rows={rows}
-          handleMouseOverCell={handleMouseOverCell}
-        />
-        <ExportOnlyWrapper>
-          <ExportCopyright />
-        </ExportOnlyWrapper>
-      </div>
-      <ExportOptionsButton targetId={'heatmap'} csvData={csvData} />
+          {hover ? (
+            <HeatmapHover
+              areaName={hover.areaName}
+              period={hover.period}
+              indicatorName={hover.indicatorName}
+              value={hover.value}
+              unitLabel={hover.unitLabel}
+              benchmark={hover.benchmark}
+              left={left}
+              top={top}
+              benchmarkAreaName={benchmarkAreaName}
+            />
+          ) : null}
+          <HeatmapTable
+            headers={headers}
+            rows={rows}
+            handleMouseOverCell={handleMouseOverCell}
+          />
+          <ExportOnlyWrapper>
+            <ExportCopyright />
+          </ExportOnlyWrapper>
+        </div>
+        <ExportOptionsButton targetId={'heatmap'} csvData={csvData} />
+      </ContainerWithOutline>
     </>
   );
 };

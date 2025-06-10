@@ -2,1019 +2,7 @@
 
 exports[`heatmap snapshot test - england benchmark 1`] = `
 <DocumentFragment>
-  .c0 {
-  color: #0b0c0c;
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 1.0416666666666667;
-  display: block;
-  margin-top: 0;
-  margin-bottom: 20px;
-}
-
-.c24 {
-  color: #0b0c0c;
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 1.25;
-  display: block;
-  margin-top: 0;
-  margin-bottom: 15px;
-}
-
-.c6 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 1;
-  display: inline-block;
-  padding-top: 5px;
-  padding-right: 8px;
-  padding-bottom: 4px;
-  padding-left: 8px;
-  outline: 2px solid transparent;
-  outline-offset: -2px;
-  -webkit-letter-spacing: 1px;
-  -moz-letter-spacing: 1px;
-  -ms-letter-spacing: 1px;
-  letter-spacing: 1px;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  text-transform: uppercase;
-  background-color: #1d70b8;
-  color: #ffffff;
-}
-
-.c22 {
-  padding: 10px 20px 10px 0;
-  border-bottom: 1px solid #bfc1c3;
-  text-align: left;
-  font-weight: 700;
-}
-
-.c22:last-child {
-  padding-right: 0;
-}
-
-.c34 {
-  padding: 10px 20px 10px 0;
-  border-bottom: 1px solid #bfc1c3;
-  text-align: left;
-}
-
-.c34:last-child {
-  padding-right: 0;
-}
-
-.c19 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  color: #0b0c0c;
-  width: 100%;
-  border-spacing: 0;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-}
-
-.c7 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #00703C;
-  tint: SOLID;
-}
-
-.c8 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #FFDD00;
-  color: #0B0C0C;
-}
-
-.c9 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #D4351C;
-  tint: SOLID;
-}
-
-.c10 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: transparent;
-  color: #0B0C0C;
-  border: 1px solid #0B0C0C;
-}
-
-.c11 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #85994B;
-  color: #0B0C0C;
-}
-
-.c12 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #831504;
-  tint: SOLID;
-}
-
-.c13 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #E4DDFF;
-  color: #0B0C0C;
-}
-
-.c14 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #CBBEF4;
-  color: #0B0C0C;
-}
-
-.c15 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #AA90EC;
-  color: #0B0C0C;
-}
-
-.c16 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #8B60E2;
-  tint: SOLID;
-}
-
-.c17 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #6B33C3;
-  tint: SOLID;
-}
-
-.c5 {
-  position: relative;
-  left: -5px;
-}
-
-.c4 {
-  display: block;
-  margin: 4px 0 0 0;
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-  font-size: 16px;
-}
-
-.c2 {
-  margin-bottom: 2em;
-}
-
-.c3 {
-  -webkit-align-self: stretch;
-  -ms-flex-item-align: stretch;
-  align-self: stretch;
-  margin: 16px 0 8px 0;
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-  font-size: 19px;
-}
-
-.c25 {
-  height: 50px;
-  margin: 0;
-}
-
-.c26 {
-  width: 240px;
-}
-
-.c23 {
-  background: white;
-  position: -webkit-sticky;
-  position: sticky;
-  left: 0;
-  z-index: 1;
-  padding-right: 10px;
-  vertical-align: bottom;
-  width: 240px;
-  padding-left: 10px;
-}
-
-.c28 {
-  vertical-align: bottom;
-  padding-right: 10px;
-  padding-left: 10px;
-  text-align: left;
-}
-
-.c27 {
-  vertical-align: bottom;
-  padding-right: 10px;
-  padding-left: 10px;
-  text-align: right;
-}
-
-.c30 {
-  position: relative;
-  height: 50px;
-}
-
-.c31 {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow-x: hidden;
-  display: block;
-  margin: 0px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 4px 8px;
-  -webkit-transform-origin: top left;
-  -ms-transform-origin: top left;
-  transform-origin: top left;
-  -webkit-transform: translate(0,15px) rotate(-60deg);
-  -ms-transform: translate(0,15px) rotate(-60deg);
-  transform: translate(0,15px) rotate(-60deg);
-}
-
-.c32 {
-  background-color: #B1B4B6;
-}
-
-.c33 {
-  background-color: #F3F2F1;
-}
-
-.c29 {
-  vertical-align: bottom;
-  width: 60px;
-  padding-right: 0px;
-  padding-left: 10px;
-  height: 300px;
-}
-
-.c35 {
-  background: white;
-  position: -webkit-sticky;
-  position: sticky;
-  left: 0;
-  z-index: 1;
-  padding-right: 0.5em;
-  border-right: solid #BFC1C3 1px;
-}
-
-.c37 {
-  min-height: 70px;
-  padding-right: 0;
-}
-
-.c36 {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  width: 240px;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  padding-left: 10px;
-}
-
-.c38 {
-  min-width: 40px;
-  padding-right: 10px;
-  padding-left: 10px;
-}
-
-.c40 {
-  text-align: left;
-}
-
-.c39 {
-  text-align: right;
-}
-
-.c41 {
-  text-align: center;
-  padding: 0;
-  position: relative;
-  border-left: solid #BFC1C3 1px;
-  vertical-align: middle;
-}
-
-.c42 {
-  color: #0B0C0C;
-  background-color: #B1B4B6;
-}
-
-.c44 {
-  color: #0B0C0C;
-  background-color: #FFFFFF;
-}
-
-.c45 {
-  color: #FFFFFF;
-  background-color: #6B33C3;
-}
-
-.c43 {
-  margin: 2px;
-  padding: 10px;
-  min-width: 40px;
-  max-width: 120px;
-  min-height: 2em;
-  height: 100%;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-
-.c20 {
-  border-collapse: separate;
-  width: auto;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
-}
-
-.c21 {
-  height: 100%;
-}
-
-.c18 {
-  overflow-y: visible;
-  overflow-x: scroll;
-}
-
-.c46 {
-  font-size: 14px;
-  margin-bottom: 8px;
-}
-
-.c1 {
-  font-size: 1.5rem;
-  margin-top: 1rem;
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-  .c0 {
-    color: #000;
-  }
-}
-
-@media print {
-  .c0 {
-    font-size: 24px;
-    line-height: 1.05;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 {
-    font-size: 36px;
-    line-height: 1.1111111111111112;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 {
-    margin-bottom: 30px;
-  }
-}
-
-@media print {
-  .c24 {
-    color: #000;
-  }
-}
-
-@media print {
-  .c24 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c24 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c24 {
-    margin-bottom: 20px;
-  }
-}
-
-@media print {
-  .c6 {
-    font-size: 14px;
-    line-height: 1;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c6 {
-    font-size: 16px;
-    line-height: 1;
-  }
-}
-
-@media print {
-  .c19 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c19 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c19 {
-    color: #000;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c19 {
-    margin-bottom: 30px;
-  }
-}
-
-<div
-    id="heatmap"
-  >
-    <h2
-      class="c0 c1"
-    >
-      Compare indicators by areas
-    </h2>
-    <div
-      class="c2"
-      data-testid="benchmarkLegend-component"
-    >
-      <h4
-        class="c3"
-      >
-        Compared to England
-      </h4>
-      <span
-        class="c4"
-      >
-        95% confidence
-      </span>
-      <div
-        class="c5"
-        role="group"
-      >
-        <strong
-          class="c6 c7"
-        >
-          Better
-        </strong>
-        <strong
-          class="c6 c8"
-        >
-          Similar
-        </strong>
-        <strong
-          class="c6 c9"
-        >
-          Worse
-        </strong>
-        <strong
-          class="c6 c10"
-        >
-          Not compared
-        </strong>
-      </div>
-      <span
-        class="c4"
-      >
-        99.8% confidence
-      </span>
-      <div
-        class="c5"
-        role="group"
-      >
-        <strong
-          class="c6 c11"
-        >
-          Better
-        </strong>
-        <strong
-          class="c6 c8"
-        >
-          Similar
-        </strong>
-        <strong
-          class="c6 c12"
-        >
-          Worse
-        </strong>
-        <strong
-          class="c6 c10"
-        >
-          Not compared
-        </strong>
-      </div>
-      <span
-        class="c4"
-      >
-        Quintiles
-      </span>
-      <div
-        class="c5"
-        role="group"
-      >
-        <strong
-          class="c6 c13"
-        >
-          Lowest
-        </strong>
-        <strong
-          class="c6 c14"
-        >
-          Low
-        </strong>
-        <strong
-          class="c6 c15"
-        >
-          Middle
-        </strong>
-        <strong
-          class="c6 c16"
-        >
-          High
-        </strong>
-        <strong
-          class="c6 c17"
-        >
-          Highest
-        </strong>
-      </div>
-    </div>
-    <div
-      class="c18"
-    >
-      <table
-        class="c19 c20"
-        data-testid="heatmapChart-component"
-        style="margin-right: 0px;"
-      >
-        <tbody
-          class=""
-        >
-          <tr
-            class=" c21"
-          >
-            <th
-              class="c22 c23"
-              data-testid="heatmap-header-indicator-title"
-              style="height: 30px;"
-            >
-              <h4
-                class="c24 c25 c26"
-              >
-                Indicators
-              </h4>
-            </th>
-            <th
-              class="c22 c27"
-              data-testid="heatmap-header-period"
-              style="height: 30px;"
-            >
-              <h4
-                class="c24 c25"
-              >
-                Period
-              </h4>
-            </th>
-            <th
-              class="c22 c28"
-              data-testid="heatmap-header-value-unit"
-              style="height: 30px;"
-            >
-              <h4
-                class="c24 c25"
-              >
-                Value unit
-              </h4>
-            </th>
-            <th
-              class="c22 c29"
-              data-testid="heatmap-header-benchmark-group"
-              style="height: 30px;"
-            >
-              <div
-                class="c30"
-              >
-                <h4
-                  class="c24 c31 c32"
-                >
-                  Benchmark: England
-                </h4>
-              </div>
-            </th>
-            <th
-              class="c22 c29"
-              data-testid="heatmap-header-non-benchmark-group"
-              style="height: 30px;"
-            >
-              <div
-                class="c30"
-              >
-                <h4
-                  class="c24 c31 c33"
-                >
-                  Group: Dentdale
-                </h4>
-              </div>
-            </th>
-            <th
-              class="c22 c29"
-              data-testid="heatmap-header-area"
-              style="height: 30px;"
-            >
-              <div
-                class="c30"
-              >
-                <h4
-                  class="c24 c31"
-                >
-                  Comedically Long Area Name with a Devilishly Difficult Distance to Display
-                </h4>
-              </div>
-            </th>
-            <th
-              class="c22 c29"
-              data-testid="heatmap-header-area"
-              style="height: 30px;"
-            >
-              <div
-                class="c30"
-              >
-                <h4
-                  class="c24 c31"
-                >
-                  Garsdale
-                </h4>
-              </div>
-            </th>
-          </tr>
-          <tr
-            class=" c21"
-          >
-            <td
-              class="c34 c35"
-              data-testid="heatmap-cell-indicator-title"
-            >
-              <div
-                class="c36"
-              >
-                Donkey / Goose ratio
-              </div>
-            </td>
-            <td
-              class="c34 c37"
-              data-testid="heatmap-cell-indicator-info-period"
-            >
-              <div
-                class="c38 c39"
-              >
-                2002
-              </div>
-            </td>
-            <td
-              class="c34 c37"
-              data-testid="heatmap-cell-indicator-info-value-unit"
-            >
-              <div
-                class="c38 c40"
-              >
-                %
-              </div>
-            </td>
-            <td
-              class="c34 c41 c42 highcharts-point"
-              data-testid="heatmap-cell-data"
-            >
-              <div
-                class="c43"
-              >
-                1,112.0
-              </div>
-            </td>
-            <td
-              class="c34 c41 c44 highcharts-point"
-              data-testid="heatmap-cell-data"
-            >
-              <div
-                class="c43"
-              >
-                1,132.0
-              </div>
-            </td>
-            <td
-              class="c34 c41 c44 highcharts-point"
-              data-testid="heatmap-cell-data"
-            >
-              <div
-                class="c43"
-              >
-                1,142.0
-              </div>
-            </td>
-            <td
-              class="c34 c41 c44 highcharts-point"
-              data-testid="heatmap-cell-data"
-            >
-              <div
-                class="c43"
-              >
-                1,122.0
-              </div>
-            </td>
-          </tr>
-          <tr
-            class=" c21"
-          >
-            <td
-              class="c34 c35"
-              data-testid="heatmap-cell-indicator-title"
-            >
-              <div
-                class="c36"
-              >
-                Rate of walkers tripping over sheep
-              </div>
-            </td>
-            <td
-              class="c34 c37"
-              data-testid="heatmap-cell-indicator-info-period"
-            >
-              <div
-                class="c38 c39"
-              >
-                2002
-              </div>
-            </td>
-            <td
-              class="c34 c37"
-              data-testid="heatmap-cell-indicator-info-value-unit"
-            >
-              <div
-                class="c38 c40"
-              >
-                per 100
-              </div>
-            </td>
-            <td
-              class="c34 c41 c42 highcharts-point"
-              data-testid="heatmap-cell-data"
-            >
-              <div
-                class="c43"
-              >
-                112.0
-              </div>
-            </td>
-            <td
-              class="c34 c41 c44 highcharts-point"
-              data-testid="heatmap-cell-data"
-            >
-              <div
-                class="c43"
-              >
-                132.0
-              </div>
-            </td>
-            <td
-              class="c34 c41 c44 highcharts-point"
-              data-testid="heatmap-cell-data"
-            >
-              <div
-                class="c43"
-              >
-                142.0
-              </div>
-            </td>
-            <td
-              class="c34 c41 c44 highcharts-point"
-              data-testid="heatmap-cell-data"
-            >
-              <div
-                class="c43"
-              >
-                X
-              </div>
-            </td>
-          </tr>
-          <tr
-            class=" c21"
-          >
-            <td
-              class="c34 c35"
-              data-testid="heatmap-cell-indicator-title"
-            >
-              <div
-                class="c36"
-              >
-                Very Verbose Indicator Name With an Extreeeeeeeme Number of Words to Try And Trip Up The View. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus varius magna massa, commodo consectetur erat hendrerit id. In semper, nibh eu efficitur sagittis, quam lectus semper augue, quis vestibulum ipsum urna ut orci.
-              </div>
-            </td>
-            <td
-              class="c34 c37"
-              data-testid="heatmap-cell-indicator-info-period"
-            >
-              <div
-                class="c38 c39"
-              >
-                2004
-              </div>
-            </td>
-            <td
-              class="c34 c37"
-              data-testid="heatmap-cell-indicator-info-value-unit"
-            >
-              <div
-                class="c38 c40"
-              >
-                per 1,000
-              </div>
-            </td>
-            <td
-              class="c34 c41 c44 highcharts-point"
-              data-testid="heatmap-cell-data"
-            >
-              <div
-                class="c43"
-              >
-                X
-              </div>
-            </td>
-            <td
-              class="c34 c41 c44 highcharts-point"
-              data-testid="heatmap-cell-data"
-            >
-              <div
-                class="c43"
-              >
-                X
-              </div>
-            </td>
-            <td
-              class="c34 c41 c45 highcharts-point"
-              data-testid="heatmap-cell-data"
-            >
-              <div
-                class="c43"
-              >
-                41.0
-              </div>
-            </td>
-            <td
-              class="c34 c41 c44 highcharts-point"
-              data-testid="heatmap-cell-data"
-            >
-              <div
-                class="c43"
-              >
-                X
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div
-      class="exportOnly"
-      style="display: none;"
-    >
-      <div
-        class="c46"
-      >
-        ©Crown copyright 2024. Office for Health Improvement & Disparities.
-        <br />
-        Public Health Profiles accessed on 25 December 2024 www.fingertips.phe.org.uk
-      </div>
-    </div>
-  </div>
-  .c0 {
+  .c47 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -1039,36 +27,36 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
   margin-bottom: 22px;
 }
 
-.c0:focus {
+.c47:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c0:link,
-.c0:visited,
-.c0:active,
-.c0:hover {
+.c47:link,
+.c47:visited,
+.c47:active,
+.c47:hover {
   color: #ffffff;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c0::-moz-focus-inner {
+.c47::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
 
-.c0:hover,
-.c0:focus {
+.c47:hover,
+.c47:focus {
   background-color: #00572e;
 }
 
-.c0:active {
+.c47:active {
   top: 2px;
   box-shadow: none;
 }
 
-.c0::before {
+.c47::before {
   content: "";
   display: block;
   position: absolute;
@@ -1079,149 +67,34 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
   background: transparent;
 }
 
-.c0:active::before {
+.c47:active::before {
   top: -4px;
 }
 
-.c0:disabled {
+.c47:disabled {
   opacity: 0.5;
   background: #00703c;
 }
 
-.c0:disabled:hover {
+.c47:disabled:hover {
   background-color: #00703c;
   cursor: default;
 }
 
-.c0:disabled:focus {
+.c47:disabled:focus {
   outline: none;
 }
 
-.c0:disabled:active {
+.c47:disabled:active {
   top: 0;
   box-shadow: 0 2px 0 #002413;
 }
 
-.c0 svg {
+.c47 svg {
   max-width: 15px;
 }
 
 .c1 {
-  margin-top: 1rem;
-}
-
-@media print {
-  .c0 {
-    font-size: 14px;
-    line-height: 19px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 {
-    font-size: 19px;
-    line-height: 19px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 {
-    width: auto;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 svg {
-    margin-left: 10px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 {
-    margin-bottom: 32px;
-  }
-}
-
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-<button
-    class="c0 c1"
-  >
-    Export options
-  </button>
-</DocumentFragment>
-`;
-
-exports[`heatmap snapshot test - group area benchmark 1`] = `
-<DocumentFragment>
-  .c0 {
-  color: #0b0c0c;
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 1.0416666666666667;
-  display: block;
-  margin-top: 0;
-  margin-bottom: 20px;
-}
-
-.c24 {
   color: #0b0c0c;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -1234,7 +107,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   margin-bottom: 15px;
 }
 
-.c6 {
+.c7 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -1259,14 +132,14 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   color: #ffffff;
 }
 
-.c22 {
+.c23 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: left;
   font-weight: 700;
 }
 
-.c22:last-child {
+.c23:last-child {
   padding-right: 0;
 }
 
@@ -1280,7 +153,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   padding-right: 0;
 }
 
-.c19 {
+.c20 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -1294,7 +167,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   margin-bottom: 20px;
 }
 
-.c7 {
+.c8 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -1307,7 +180,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   tint: SOLID;
 }
 
-.c8 {
+.c9 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -1320,7 +193,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   color: #0B0C0C;
 }
 
-.c9 {
+.c10 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -1333,7 +206,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   tint: SOLID;
 }
 
-.c10 {
+.c11 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -1347,7 +220,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   border: 1px solid #0B0C0C;
 }
 
-.c11 {
+.c12 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -1360,7 +233,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   color: #0B0C0C;
 }
 
-.c12 {
+.c13 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -1373,7 +246,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   tint: SOLID;
 }
 
-.c13 {
+.c14 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -1386,7 +259,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   color: #0B0C0C;
 }
 
-.c14 {
+.c15 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -1399,7 +272,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   color: #0B0C0C;
 }
 
-.c15 {
+.c16 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -1412,7 +285,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   color: #0B0C0C;
 }
 
-.c16 {
+.c17 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -1425,7 +298,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   tint: SOLID;
 }
 
-.c17 {
+.c18 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -1438,12 +311,12 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   tint: SOLID;
 }
 
-.c5 {
+.c6 {
   position: relative;
   left: -5px;
 }
 
-.c4 {
+.c5 {
   display: block;
   margin: 4px 0 0 0;
   font-family: nta,Arial,sans-serif;
@@ -1451,11 +324,11 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   font-size: 16px;
 }
 
-.c2 {
+.c3 {
   margin-bottom: 2em;
 }
 
-.c3 {
+.c4 {
   -webkit-align-self: stretch;
   -ms-flex-item-align: stretch;
   align-self: stretch;
@@ -1474,7 +347,1109 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   width: 240px;
 }
 
+.c24 {
+  background: white;
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  padding-right: 10px;
+  vertical-align: bottom;
+  width: 240px;
+  padding-left: 10px;
+}
+
+.c28 {
+  vertical-align: bottom;
+  padding-right: 10px;
+  padding-left: 10px;
+  text-align: left;
+}
+
+.c27 {
+  vertical-align: bottom;
+  padding-right: 10px;
+  padding-left: 10px;
+  text-align: right;
+}
+
+.c30 {
+  position: relative;
+  height: 50px;
+}
+
+.c31 {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow-x: hidden;
+  display: block;
+  margin: 0px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 4px 8px;
+  -webkit-transform-origin: top left;
+  -ms-transform-origin: top left;
+  transform-origin: top left;
+  -webkit-transform: translate(0,15px) rotate(-60deg);
+  -ms-transform: translate(0,15px) rotate(-60deg);
+  transform: translate(0,15px) rotate(-60deg);
+}
+
+.c32 {
+  background-color: #B1B4B6;
+}
+
+.c33 {
+  background-color: #F3F2F1;
+}
+
+.c29 {
+  vertical-align: bottom;
+  width: 60px;
+  padding-right: 0px;
+  padding-left: 10px;
+  height: 300px;
+}
+
+.c35 {
+  background: white;
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  padding-right: 0.5em;
+  border-right: solid #BFC1C3 1px;
+}
+
+.c37 {
+  min-height: 70px;
+  padding-right: 0;
+}
+
+.c36 {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 240px;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  padding-left: 10px;
+}
+
+.c38 {
+  min-width: 40px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.c40 {
+  text-align: left;
+}
+
+.c39 {
+  text-align: right;
+}
+
+.c41 {
+  text-align: center;
+  padding: 0;
+  position: relative;
+  border-left: solid #BFC1C3 1px;
+  vertical-align: middle;
+}
+
+.c42 {
+  color: #0B0C0C;
+  background-color: #B1B4B6;
+}
+
+.c44 {
+  color: #0B0C0C;
+  background-color: #FFFFFF;
+}
+
+.c45 {
+  color: #FFFFFF;
+  background-color: #6B33C3;
+}
+
+.c43 {
+  margin: 2px;
+  padding: 10px;
+  min-width: 40px;
+  max-width: 120px;
+  min-height: 2em;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c21 {
+  border-collapse: separate;
+  width: auto;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
+.c22 {
+  height: 100%;
+}
+
+.c19 {
+  overflow-y: visible;
+  overflow-x: scroll;
+}
+
+.c46 {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.c48 {
+  margin-top: 1rem;
+}
+
+.c2 {
+  font-size: 19px;
+  margin: 0 0 30px 0;
+}
+
+@media print {
+  .c47 {
+    font-size: 14px;
+    line-height: 19px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c47 {
+    font-size: 19px;
+    line-height: 19px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c47 {
+    width: auto;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c47 svg {
+    margin-left: 10px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c47 {
+    margin-bottom: 32px;
+  }
+}
+
+@media print {
+  .c1 {
+    color: #000;
+  }
+}
+
+@media print {
+  .c1 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c1 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c1 {
+    margin-bottom: 20px;
+  }
+}
+
+@media print {
+  .c7 {
+    font-size: 14px;
+    line-height: 1;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c7 {
+    font-size: 16px;
+    line-height: 1;
+  }
+}
+
+@media print {
+  .c20 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c20 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c20 {
+    color: #000;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c20 {
+    margin-bottom: 30px;
+  }
+}
+
+@media (min-width:641px) {
+  .c0 {
+    border: 1px solid #BFC1C3;
+    padding: 30px 20px 5px 20px;
+  }
+}
+
+<div
+    class="c0"
+  >
+    <div
+      id="heatmap"
+    >
+      <h4
+        class="c1 c2"
+      >
+        Overview of selected indicators
+      </h4>
+      <div
+        class="c3"
+        data-testid="benchmarkLegend-component"
+      >
+        <h4
+          class="c4"
+        >
+          Compared to England
+        </h4>
+        <span
+          class="c5"
+        >
+          95% confidence
+        </span>
+        <div
+          class="c6"
+          role="group"
+        >
+          <strong
+            class="c7 c8"
+          >
+            Better
+          </strong>
+          <strong
+            class="c7 c9"
+          >
+            Similar
+          </strong>
+          <strong
+            class="c7 c10"
+          >
+            Worse
+          </strong>
+          <strong
+            class="c7 c11"
+          >
+            Not compared
+          </strong>
+        </div>
+        <span
+          class="c5"
+        >
+          99.8% confidence
+        </span>
+        <div
+          class="c6"
+          role="group"
+        >
+          <strong
+            class="c7 c12"
+          >
+            Better
+          </strong>
+          <strong
+            class="c7 c9"
+          >
+            Similar
+          </strong>
+          <strong
+            class="c7 c13"
+          >
+            Worse
+          </strong>
+          <strong
+            class="c7 c11"
+          >
+            Not compared
+          </strong>
+        </div>
+        <span
+          class="c5"
+        >
+          Quintiles
+        </span>
+        <div
+          class="c6"
+          role="group"
+        >
+          <strong
+            class="c7 c14"
+          >
+            Lowest
+          </strong>
+          <strong
+            class="c7 c15"
+          >
+            Low
+          </strong>
+          <strong
+            class="c7 c16"
+          >
+            Middle
+          </strong>
+          <strong
+            class="c7 c17"
+          >
+            High
+          </strong>
+          <strong
+            class="c7 c18"
+          >
+            Highest
+          </strong>
+        </div>
+      </div>
+      <div
+        class="c19"
+      >
+        <table
+          class="c20 c21"
+          data-testid="heatmapChart-component"
+          style="margin-right: 0px;"
+        >
+          <tbody
+            class=""
+          >
+            <tr
+              class=" c22"
+            >
+              <th
+                class="c23 c24"
+                data-testid="heatmap-header-indicator-title"
+                style="height: 30px;"
+              >
+                <h4
+                  class="c1 c25 c26"
+                >
+                  Indicators
+                </h4>
+              </th>
+              <th
+                class="c23 c27"
+                data-testid="heatmap-header-period"
+                style="height: 30px;"
+              >
+                <h4
+                  class="c1 c25"
+                >
+                  Period
+                </h4>
+              </th>
+              <th
+                class="c23 c28"
+                data-testid="heatmap-header-value-unit"
+                style="height: 30px;"
+              >
+                <h4
+                  class="c1 c25"
+                >
+                  Value unit
+                </h4>
+              </th>
+              <th
+                class="c23 c29"
+                data-testid="heatmap-header-benchmark-group"
+                style="height: 30px;"
+              >
+                <div
+                  class="c30"
+                >
+                  <h4
+                    class="c1 c31 c32"
+                  >
+                    Benchmark: England
+                  </h4>
+                </div>
+              </th>
+              <th
+                class="c23 c29"
+                data-testid="heatmap-header-non-benchmark-group"
+                style="height: 30px;"
+              >
+                <div
+                  class="c30"
+                >
+                  <h4
+                    class="c1 c31 c33"
+                  >
+                    Group: Dentdale
+                  </h4>
+                </div>
+              </th>
+              <th
+                class="c23 c29"
+                data-testid="heatmap-header-area"
+                style="height: 30px;"
+              >
+                <div
+                  class="c30"
+                >
+                  <h4
+                    class="c1 c31"
+                  >
+                    Comedically Long Area Name with a Devilishly Difficult Distance to Display
+                  </h4>
+                </div>
+              </th>
+              <th
+                class="c23 c29"
+                data-testid="heatmap-header-area"
+                style="height: 30px;"
+              >
+                <div
+                  class="c30"
+                >
+                  <h4
+                    class="c1 c31"
+                  >
+                    Garsdale
+                  </h4>
+                </div>
+              </th>
+            </tr>
+            <tr
+              class=" c22"
+            >
+              <td
+                class="c34 c35"
+                data-testid="heatmap-cell-indicator-title"
+              >
+                <div
+                  class="c36"
+                >
+                  Donkey / Goose ratio
+                </div>
+              </td>
+              <td
+                class="c34 c37"
+                data-testid="heatmap-cell-indicator-info-period"
+              >
+                <div
+                  class="c38 c39"
+                >
+                  2002
+                </div>
+              </td>
+              <td
+                class="c34 c37"
+                data-testid="heatmap-cell-indicator-info-value-unit"
+              >
+                <div
+                  class="c38 c40"
+                >
+                  %
+                </div>
+              </td>
+              <td
+                class="c34 c41 c42 highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="c43"
+                >
+                  1,112.0
+                </div>
+              </td>
+              <td
+                class="c34 c41 c44 highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="c43"
+                >
+                  1,132.0
+                </div>
+              </td>
+              <td
+                class="c34 c41 c44 highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="c43"
+                >
+                  1,142.0
+                </div>
+              </td>
+              <td
+                class="c34 c41 c44 highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="c43"
+                >
+                  1,122.0
+                </div>
+              </td>
+            </tr>
+            <tr
+              class=" c22"
+            >
+              <td
+                class="c34 c35"
+                data-testid="heatmap-cell-indicator-title"
+              >
+                <div
+                  class="c36"
+                >
+                  Rate of walkers tripping over sheep
+                </div>
+              </td>
+              <td
+                class="c34 c37"
+                data-testid="heatmap-cell-indicator-info-period"
+              >
+                <div
+                  class="c38 c39"
+                >
+                  2002
+                </div>
+              </td>
+              <td
+                class="c34 c37"
+                data-testid="heatmap-cell-indicator-info-value-unit"
+              >
+                <div
+                  class="c38 c40"
+                >
+                  per 100
+                </div>
+              </td>
+              <td
+                class="c34 c41 c42 highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="c43"
+                >
+                  112.0
+                </div>
+              </td>
+              <td
+                class="c34 c41 c44 highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="c43"
+                >
+                  132.0
+                </div>
+              </td>
+              <td
+                class="c34 c41 c44 highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="c43"
+                >
+                  142.0
+                </div>
+              </td>
+              <td
+                class="c34 c41 c44 highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="c43"
+                >
+                  X
+                </div>
+              </td>
+            </tr>
+            <tr
+              class=" c22"
+            >
+              <td
+                class="c34 c35"
+                data-testid="heatmap-cell-indicator-title"
+              >
+                <div
+                  class="c36"
+                >
+                  Very Verbose Indicator Name With an Extreeeeeeeme Number of Words to Try And Trip Up The View. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus varius magna massa, commodo consectetur erat hendrerit id. In semper, nibh eu efficitur sagittis, quam lectus semper augue, quis vestibulum ipsum urna ut orci.
+                </div>
+              </td>
+              <td
+                class="c34 c37"
+                data-testid="heatmap-cell-indicator-info-period"
+              >
+                <div
+                  class="c38 c39"
+                >
+                  2004
+                </div>
+              </td>
+              <td
+                class="c34 c37"
+                data-testid="heatmap-cell-indicator-info-value-unit"
+              >
+                <div
+                  class="c38 c40"
+                >
+                  per 1,000
+                </div>
+              </td>
+              <td
+                class="c34 c41 c44 highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="c43"
+                >
+                  X
+                </div>
+              </td>
+              <td
+                class="c34 c41 c44 highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="c43"
+                >
+                  X
+                </div>
+              </td>
+              <td
+                class="c34 c41 c45 highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="c43"
+                >
+                  41.0
+                </div>
+              </td>
+              <td
+                class="c34 c41 c44 highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="c43"
+                >
+                  X
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div
+        class="exportOnly"
+        style="display: none;"
+      >
+        <div
+          class="c46"
+        >
+          ©Crown copyright 2024. Office for Health Improvement & Disparities.
+          <br />
+          Public Health Profiles accessed on 25 December 2024 www.fingertips.phe.org.uk
+        </div>
+      </div>
+    </div>
+    <button
+      class="c47 c48"
+    >
+      Export options
+    </button>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`heatmap snapshot test - group area benchmark 1`] = `
+<DocumentFragment>
+  .c48 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  box-sizing: border-box;
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  margin-top: 0;
+  padding: 7px 10px;
+  border: 2px solid transparent;
+  border-radius: 0;
+  color: #ffffff;
+  background-color: #00703c;
+  box-shadow: 0 2px 0 #002413;
+  text-align: center;
+  vertical-align: top;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-bottom: 22px;
+}
+
+.c48:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+}
+
+.c48:link,
+.c48:visited,
+.c48:active,
+.c48:hover {
+  color: #ffffff;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c48::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+.c48:hover,
+.c48:focus {
+  background-color: #00572e;
+}
+
+.c48:active {
+  top: 2px;
+  box-shadow: none;
+}
+
+.c48::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  bottom: -4px;
+  left: -2px;
+  background: transparent;
+}
+
+.c48:active::before {
+  top: -4px;
+}
+
+.c48:disabled {
+  opacity: 0.5;
+  background: #00703c;
+}
+
+.c48:disabled:hover {
+  background-color: #00703c;
+  cursor: default;
+}
+
+.c48:disabled:focus {
+  outline: none;
+}
+
+.c48:disabled:active {
+  top: 0;
+  box-shadow: 0 2px 0 #002413;
+}
+
+.c48 svg {
+  max-width: 15px;
+}
+
+.c1 {
+  color: #0b0c0c;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.25;
+  display: block;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.c7 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  display: inline-block;
+  padding-top: 5px;
+  padding-right: 8px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  -webkit-letter-spacing: 1px;
+  -moz-letter-spacing: 1px;
+  -ms-letter-spacing: 1px;
+  letter-spacing: 1px;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: #1d70b8;
+  color: #ffffff;
+}
+
 .c23 {
+  padding: 10px 20px 10px 0;
+  border-bottom: 1px solid #bfc1c3;
+  text-align: left;
+  font-weight: 700;
+}
+
+.c23:last-child {
+  padding-right: 0;
+}
+
+.c34 {
+  padding: 10px 20px 10px 0;
+  border-bottom: 1px solid #bfc1c3;
+  text-align: left;
+}
+
+.c34:last-child {
+  padding-right: 0;
+}
+
+.c20 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #0b0c0c;
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.c8 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #00703C;
+  tint: SOLID;
+}
+
+.c9 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #FFDD00;
+  color: #0B0C0C;
+}
+
+.c10 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #D4351C;
+  tint: SOLID;
+}
+
+.c11 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: transparent;
+  color: #0B0C0C;
+  border: 1px solid #0B0C0C;
+}
+
+.c12 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #85994B;
+  color: #0B0C0C;
+}
+
+.c13 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #831504;
+  tint: SOLID;
+}
+
+.c14 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #E4DDFF;
+  color: #0B0C0C;
+}
+
+.c15 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #CBBEF4;
+  color: #0B0C0C;
+}
+
+.c16 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #AA90EC;
+  color: #0B0C0C;
+}
+
+.c17 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #8B60E2;
+  tint: SOLID;
+}
+
+.c18 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #6B33C3;
+  tint: SOLID;
+}
+
+.c6 {
+  position: relative;
+  left: -5px;
+}
+
+.c5 {
+  display: block;
+  margin: 4px 0 0 0;
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+}
+
+.c3 {
+  margin-bottom: 2em;
+}
+
+.c4 {
+  -webkit-align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
+  margin: 16px 0 8px 0;
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+  font-size: 19px;
+}
+
+.c25 {
+  height: 50px;
+  margin: 0;
+}
+
+.c26 {
+  width: 240px;
+}
+
+.c24 {
   background: white;
   position: -webkit-sticky;
   position: sticky;
@@ -1627,7 +1602,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   align-items: center;
 }
 
-.c20 {
+.c21 {
   border-collapse: separate;
   width: auto;
   height: -webkit-fit-content;
@@ -1635,11 +1610,11 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   height: fit-content;
 }
 
-.c21 {
+.c22 {
   height: 100%;
 }
 
-.c18 {
+.c19 {
   overflow-y: visible;
   overflow-x: scroll;
 }
@@ -1649,770 +1624,587 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   margin-bottom: 8px;
 }
 
-.c1 {
-  font-size: 1.5rem;
+.c49 {
   margin-top: 1rem;
 }
 
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
+.c2 {
+  font-size: 19px;
+  margin: 0 0 30px 0;
 }
 
 @media print {
-  .c0 {
+  .c48 {
+    font-size: 14px;
+    line-height: 19px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c48 {
+    font-size: 19px;
+    line-height: 19px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c48 {
+    width: auto;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c48 svg {
+    margin-left: 10px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c48 {
+    margin-bottom: 32px;
+  }
+}
+
+@media print {
+  .c1 {
     color: #000;
   }
 }
 
 @media print {
-  .c0 {
-    font-size: 24px;
-    line-height: 1.05;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 {
-    font-size: 36px;
-    line-height: 1.1111111111111112;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 {
-    margin-bottom: 30px;
-  }
-}
-
-@media print {
-  .c24 {
-    color: #000;
-  }
-}
-
-@media print {
-  .c24 {
+  .c1 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c24 {
+  .c1 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c24 {
+  .c1 {
     margin-bottom: 20px;
   }
 }
 
 @media print {
-  .c6 {
+  .c7 {
     font-size: 14px;
     line-height: 1;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c6 {
+  .c7 {
     font-size: 16px;
     line-height: 1;
   }
 }
 
 @media print {
-  .c19 {
+  .c20 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c19 {
+  .c20 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media print {
-  .c19 {
+  .c20 {
     color: #000;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c19 {
+  .c20 {
     margin-bottom: 30px;
   }
 }
 
+@media (min-width:641px) {
+  .c0 {
+    border: 1px solid #BFC1C3;
+    padding: 30px 20px 5px 20px;
+  }
+}
+
 <div
-    id="heatmap"
+    class="c0"
   >
-    <h2
-      class="c0 c1"
-    >
-      Compare indicators by areas
-    </h2>
     <div
-      class="c2"
-      data-testid="benchmarkLegend-component"
+      id="heatmap"
     >
       <h4
-        class="c3"
+        class="c1 c2"
       >
-        Compared to Dentdale
+        Overview of selected indicators
       </h4>
-      <span
-        class="c4"
-      >
-        95% confidence
-      </span>
       <div
-        class="c5"
-        role="group"
+        class="c3"
+        data-testid="benchmarkLegend-component"
       >
-        <strong
-          class="c6 c7"
+        <h4
+          class="c4"
         >
-          Better
-        </strong>
-        <strong
-          class="c6 c8"
+          Compared to Dentdale
+        </h4>
+        <span
+          class="c5"
         >
-          Similar
-        </strong>
-        <strong
-          class="c6 c9"
+          95% confidence
+        </span>
+        <div
+          class="c6"
+          role="group"
         >
-          Worse
-        </strong>
-        <strong
-          class="c6 c10"
+          <strong
+            class="c7 c8"
+          >
+            Better
+          </strong>
+          <strong
+            class="c7 c9"
+          >
+            Similar
+          </strong>
+          <strong
+            class="c7 c10"
+          >
+            Worse
+          </strong>
+          <strong
+            class="c7 c11"
+          >
+            Not compared
+          </strong>
+        </div>
+        <span
+          class="c5"
         >
-          Not compared
-        </strong>
+          99.8% confidence
+        </span>
+        <div
+          class="c6"
+          role="group"
+        >
+          <strong
+            class="c7 c12"
+          >
+            Better
+          </strong>
+          <strong
+            class="c7 c9"
+          >
+            Similar
+          </strong>
+          <strong
+            class="c7 c13"
+          >
+            Worse
+          </strong>
+          <strong
+            class="c7 c11"
+          >
+            Not compared
+          </strong>
+        </div>
+        <span
+          class="c5"
+        >
+          Quintiles
+        </span>
+        <div
+          class="c6"
+          role="group"
+        >
+          <strong
+            class="c7 c14"
+          >
+            Lowest
+          </strong>
+          <strong
+            class="c7 c15"
+          >
+            Low
+          </strong>
+          <strong
+            class="c7 c16"
+          >
+            Middle
+          </strong>
+          <strong
+            class="c7 c17"
+          >
+            High
+          </strong>
+          <strong
+            class="c7 c18"
+          >
+            Highest
+          </strong>
+        </div>
       </div>
-      <span
-        class="c4"
-      >
-        99.8% confidence
-      </span>
       <div
-        class="c5"
-        role="group"
+        class="c19"
       >
-        <strong
-          class="c6 c11"
+        <table
+          class="c20 c21"
+          data-testid="heatmapChart-component"
+          style="margin-right: 0px;"
         >
-          Better
-        </strong>
-        <strong
-          class="c6 c8"
-        >
-          Similar
-        </strong>
-        <strong
-          class="c6 c12"
-        >
-          Worse
-        </strong>
-        <strong
-          class="c6 c10"
-        >
-          Not compared
-        </strong>
+          <tbody
+            class=""
+          >
+            <tr
+              class=" c22"
+            >
+              <th
+                class="c23 c24"
+                data-testid="heatmap-header-indicator-title"
+                style="height: 30px;"
+              >
+                <h4
+                  class="c1 c25 c26"
+                >
+                  Indicators
+                </h4>
+              </th>
+              <th
+                class="c23 c27"
+                data-testid="heatmap-header-period"
+                style="height: 30px;"
+              >
+                <h4
+                  class="c1 c25"
+                >
+                  Period
+                </h4>
+              </th>
+              <th
+                class="c23 c28"
+                data-testid="heatmap-header-value-unit"
+                style="height: 30px;"
+              >
+                <h4
+                  class="c1 c25"
+                >
+                  Value unit
+                </h4>
+              </th>
+              <th
+                class="c23 c29"
+                data-testid="heatmap-header-non-benchmark-group"
+                style="height: 30px;"
+              >
+                <div
+                  class="c30"
+                >
+                  <h4
+                    class="c1 c31 c32"
+                  >
+                    England
+                  </h4>
+                </div>
+              </th>
+              <th
+                class="c23 c29"
+                data-testid="heatmap-header-benchmark-group"
+                style="height: 30px;"
+              >
+                <div
+                  class="c30"
+                >
+                  <h4
+                    class="c1 c31 c33"
+                  >
+                    Benchmark: Dentdale
+                  </h4>
+                </div>
+              </th>
+              <th
+                class="c23 c29"
+                data-testid="heatmap-header-area"
+                style="height: 30px;"
+              >
+                <div
+                  class="c30"
+                >
+                  <h4
+                    class="c1 c31"
+                  >
+                    Comedically Long Area Name with a Devilishly Difficult Distance to Display
+                  </h4>
+                </div>
+              </th>
+              <th
+                class="c23 c29"
+                data-testid="heatmap-header-area"
+                style="height: 30px;"
+              >
+                <div
+                  class="c30"
+                >
+                  <h4
+                    class="c1 c31"
+                  >
+                    Garsdale
+                  </h4>
+                </div>
+              </th>
+            </tr>
+            <tr
+              class=" c22"
+            >
+              <td
+                class="c34 c35"
+                data-testid="heatmap-cell-indicator-title"
+              >
+                <div
+                  class="c36"
+                >
+                  Donkey / Goose ratio
+                </div>
+              </td>
+              <td
+                class="c34 c37"
+                data-testid="heatmap-cell-indicator-info-period"
+              >
+                <div
+                  class="c38 c39"
+                >
+                  2002
+                </div>
+              </td>
+              <td
+                class="c34 c37"
+                data-testid="heatmap-cell-indicator-info-value-unit"
+              >
+                <div
+                  class="c38 c40"
+                >
+                  %
+                </div>
+              </td>
+              <td
+                class="c34 c41 c42 highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="c43"
+                >
+                  1,112.0
+                </div>
+              </td>
+              <td
+                class="c34 c41 c44 highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="c43"
+                >
+                  1,132.0
+                </div>
+              </td>
+              <td
+                class="c34 c41 c45 highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="c43"
+                >
+                  1,142.0
+                </div>
+              </td>
+              <td
+                class="c34 c41 c45 highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="c43"
+                >
+                  1,122.0
+                </div>
+              </td>
+            </tr>
+            <tr
+              class=" c22"
+            >
+              <td
+                class="c34 c35"
+                data-testid="heatmap-cell-indicator-title"
+              >
+                <div
+                  class="c36"
+                >
+                  Rate of walkers tripping over sheep
+                </div>
+              </td>
+              <td
+                class="c34 c37"
+                data-testid="heatmap-cell-indicator-info-period"
+              >
+                <div
+                  class="c38 c39"
+                >
+                  2002
+                </div>
+              </td>
+              <td
+                class="c34 c37"
+                data-testid="heatmap-cell-indicator-info-value-unit"
+              >
+                <div
+                  class="c38 c40"
+                >
+                  per 100
+                </div>
+              </td>
+              <td
+                class="c34 c41 c42 highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="c43"
+                >
+                  112.0
+                </div>
+              </td>
+              <td
+                class="c34 c41 c44 highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="c43"
+                >
+                  132.0
+                </div>
+              </td>
+              <td
+                class="c34 c41 c45 highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="c43"
+                >
+                  142.0
+                </div>
+              </td>
+              <td
+                class="c34 c41 c45 highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="c43"
+                >
+                  X
+                </div>
+              </td>
+            </tr>
+            <tr
+              class=" c22"
+            >
+              <td
+                class="c34 c35"
+                data-testid="heatmap-cell-indicator-title"
+              >
+                <div
+                  class="c36"
+                >
+                  Very Verbose Indicator Name With an Extreeeeeeeme Number of Words to Try And Trip Up The View. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus varius magna massa, commodo consectetur erat hendrerit id. In semper, nibh eu efficitur sagittis, quam lectus semper augue, quis vestibulum ipsum urna ut orci.
+                </div>
+              </td>
+              <td
+                class="c34 c37"
+                data-testid="heatmap-cell-indicator-info-period"
+              >
+                <div
+                  class="c38 c39"
+                >
+                  2004
+                </div>
+              </td>
+              <td
+                class="c34 c37"
+                data-testid="heatmap-cell-indicator-info-value-unit"
+              >
+                <div
+                  class="c38 c40"
+                >
+                  per 1,000
+                </div>
+              </td>
+              <td
+                class="c34 c41 c45 highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="c43"
+                >
+                  X
+                </div>
+              </td>
+              <td
+                class="c34 c41 c45 highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="c43"
+                >
+                  X
+                </div>
+              </td>
+              <td
+                class="c34 c41 c46 highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="c43"
+                >
+                  41.0
+                </div>
+              </td>
+              <td
+                class="c34 c41 c45 highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="c43"
+                >
+                  X
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <span
-        class="c4"
-      >
-        Quintiles
-      </span>
       <div
-        class="c5"
-        role="group"
+        class="exportOnly"
+        style="display: none;"
       >
-        <strong
-          class="c6 c13"
+        <div
+          class="c47"
         >
-          Lowest
-        </strong>
-        <strong
-          class="c6 c14"
-        >
-          Low
-        </strong>
-        <strong
-          class="c6 c15"
-        >
-          Middle
-        </strong>
-        <strong
-          class="c6 c16"
-        >
-          High
-        </strong>
-        <strong
-          class="c6 c17"
-        >
-          Highest
-        </strong>
+          ©Crown copyright 2024. Office for Health Improvement & Disparities.
+          <br />
+          Public Health Profiles accessed on 25 December 2024 www.fingertips.phe.org.uk
+        </div>
       </div>
     </div>
-    <div
-      class="c18"
+    <button
+      class="c48 c49"
     >
-      <table
-        class="c19 c20"
-        data-testid="heatmapChart-component"
-        style="margin-right: 0px;"
-      >
-        <tbody
-          class=""
-        >
-          <tr
-            class=" c21"
-          >
-            <th
-              class="c22 c23"
-              data-testid="heatmap-header-indicator-title"
-              style="height: 30px;"
-            >
-              <h4
-                class="c24 c25 c26"
-              >
-                Indicators
-              </h4>
-            </th>
-            <th
-              class="c22 c27"
-              data-testid="heatmap-header-period"
-              style="height: 30px;"
-            >
-              <h4
-                class="c24 c25"
-              >
-                Period
-              </h4>
-            </th>
-            <th
-              class="c22 c28"
-              data-testid="heatmap-header-value-unit"
-              style="height: 30px;"
-            >
-              <h4
-                class="c24 c25"
-              >
-                Value unit
-              </h4>
-            </th>
-            <th
-              class="c22 c29"
-              data-testid="heatmap-header-non-benchmark-group"
-              style="height: 30px;"
-            >
-              <div
-                class="c30"
-              >
-                <h4
-                  class="c24 c31 c32"
-                >
-                  England
-                </h4>
-              </div>
-            </th>
-            <th
-              class="c22 c29"
-              data-testid="heatmap-header-benchmark-group"
-              style="height: 30px;"
-            >
-              <div
-                class="c30"
-              >
-                <h4
-                  class="c24 c31 c33"
-                >
-                  Benchmark: Dentdale
-                </h4>
-              </div>
-            </th>
-            <th
-              class="c22 c29"
-              data-testid="heatmap-header-area"
-              style="height: 30px;"
-            >
-              <div
-                class="c30"
-              >
-                <h4
-                  class="c24 c31"
-                >
-                  Comedically Long Area Name with a Devilishly Difficult Distance to Display
-                </h4>
-              </div>
-            </th>
-            <th
-              class="c22 c29"
-              data-testid="heatmap-header-area"
-              style="height: 30px;"
-            >
-              <div
-                class="c30"
-              >
-                <h4
-                  class="c24 c31"
-                >
-                  Garsdale
-                </h4>
-              </div>
-            </th>
-          </tr>
-          <tr
-            class=" c21"
-          >
-            <td
-              class="c34 c35"
-              data-testid="heatmap-cell-indicator-title"
-            >
-              <div
-                class="c36"
-              >
-                Donkey / Goose ratio
-              </div>
-            </td>
-            <td
-              class="c34 c37"
-              data-testid="heatmap-cell-indicator-info-period"
-            >
-              <div
-                class="c38 c39"
-              >
-                2002
-              </div>
-            </td>
-            <td
-              class="c34 c37"
-              data-testid="heatmap-cell-indicator-info-value-unit"
-            >
-              <div
-                class="c38 c40"
-              >
-                %
-              </div>
-            </td>
-            <td
-              class="c34 c41 c42 highcharts-point"
-              data-testid="heatmap-cell-data"
-            >
-              <div
-                class="c43"
-              >
-                1,112.0
-              </div>
-            </td>
-            <td
-              class="c34 c41 c44 highcharts-point"
-              data-testid="heatmap-cell-data"
-            >
-              <div
-                class="c43"
-              >
-                1,132.0
-              </div>
-            </td>
-            <td
-              class="c34 c41 c45 highcharts-point"
-              data-testid="heatmap-cell-data"
-            >
-              <div
-                class="c43"
-              >
-                1,142.0
-              </div>
-            </td>
-            <td
-              class="c34 c41 c45 highcharts-point"
-              data-testid="heatmap-cell-data"
-            >
-              <div
-                class="c43"
-              >
-                1,122.0
-              </div>
-            </td>
-          </tr>
-          <tr
-            class=" c21"
-          >
-            <td
-              class="c34 c35"
-              data-testid="heatmap-cell-indicator-title"
-            >
-              <div
-                class="c36"
-              >
-                Rate of walkers tripping over sheep
-              </div>
-            </td>
-            <td
-              class="c34 c37"
-              data-testid="heatmap-cell-indicator-info-period"
-            >
-              <div
-                class="c38 c39"
-              >
-                2002
-              </div>
-            </td>
-            <td
-              class="c34 c37"
-              data-testid="heatmap-cell-indicator-info-value-unit"
-            >
-              <div
-                class="c38 c40"
-              >
-                per 100
-              </div>
-            </td>
-            <td
-              class="c34 c41 c42 highcharts-point"
-              data-testid="heatmap-cell-data"
-            >
-              <div
-                class="c43"
-              >
-                112.0
-              </div>
-            </td>
-            <td
-              class="c34 c41 c44 highcharts-point"
-              data-testid="heatmap-cell-data"
-            >
-              <div
-                class="c43"
-              >
-                132.0
-              </div>
-            </td>
-            <td
-              class="c34 c41 c45 highcharts-point"
-              data-testid="heatmap-cell-data"
-            >
-              <div
-                class="c43"
-              >
-                142.0
-              </div>
-            </td>
-            <td
-              class="c34 c41 c45 highcharts-point"
-              data-testid="heatmap-cell-data"
-            >
-              <div
-                class="c43"
-              >
-                X
-              </div>
-            </td>
-          </tr>
-          <tr
-            class=" c21"
-          >
-            <td
-              class="c34 c35"
-              data-testid="heatmap-cell-indicator-title"
-            >
-              <div
-                class="c36"
-              >
-                Very Verbose Indicator Name With an Extreeeeeeeme Number of Words to Try And Trip Up The View. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus varius magna massa, commodo consectetur erat hendrerit id. In semper, nibh eu efficitur sagittis, quam lectus semper augue, quis vestibulum ipsum urna ut orci.
-              </div>
-            </td>
-            <td
-              class="c34 c37"
-              data-testid="heatmap-cell-indicator-info-period"
-            >
-              <div
-                class="c38 c39"
-              >
-                2004
-              </div>
-            </td>
-            <td
-              class="c34 c37"
-              data-testid="heatmap-cell-indicator-info-value-unit"
-            >
-              <div
-                class="c38 c40"
-              >
-                per 1,000
-              </div>
-            </td>
-            <td
-              class="c34 c41 c45 highcharts-point"
-              data-testid="heatmap-cell-data"
-            >
-              <div
-                class="c43"
-              >
-                X
-              </div>
-            </td>
-            <td
-              class="c34 c41 c45 highcharts-point"
-              data-testid="heatmap-cell-data"
-            >
-              <div
-                class="c43"
-              >
-                X
-              </div>
-            </td>
-            <td
-              class="c34 c41 c46 highcharts-point"
-              data-testid="heatmap-cell-data"
-            >
-              <div
-                class="c43"
-              >
-                41.0
-              </div>
-            </td>
-            <td
-              class="c34 c41 c45 highcharts-point"
-              data-testid="heatmap-cell-data"
-            >
-              <div
-                class="c43"
-              >
-                X
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div
-      class="exportOnly"
-      style="display: none;"
-    >
-      <div
-        class="c47"
-      >
-        ©Crown copyright 2024. Office for Health Improvement & Disparities.
-        <br />
-        Public Health Profiles accessed on 25 December 2024 www.fingertips.phe.org.uk
-      </div>
-    </div>
+      Export options
+    </button>
   </div>
-  .c0 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 19px;
-  box-sizing: border-box;
-  display: inline-block;
-  position: relative;
-  width: 100%;
-  margin-top: 0;
-  padding: 7px 10px;
-  border: 2px solid transparent;
-  border-radius: 0;
-  color: #ffffff;
-  background-color: #00703c;
-  box-shadow: 0 2px 0 #002413;
-  text-align: center;
-  vertical-align: top;
-  cursor: pointer;
-  -webkit-appearance: none;
-  margin-bottom: 22px;
-}
-
-.c0:focus {
-  outline: 3px solid #ffdd00;
-  outline-offset: 0;
-}
-
-.c0:link,
-.c0:visited,
-.c0:active,
-.c0:hover {
-  color: #ffffff;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.c0::-moz-focus-inner {
-  padding: 0;
-  border: 0;
-}
-
-.c0:hover,
-.c0:focus {
-  background-color: #00572e;
-}
-
-.c0:active {
-  top: 2px;
-  box-shadow: none;
-}
-
-.c0::before {
-  content: "";
-  display: block;
-  position: absolute;
-  top: -2px;
-  right: -2px;
-  bottom: -4px;
-  left: -2px;
-  background: transparent;
-}
-
-.c0:active::before {
-  top: -4px;
-}
-
-.c0:disabled {
-  opacity: 0.5;
-  background: #00703c;
-}
-
-.c0:disabled:hover {
-  background-color: #00703c;
-  cursor: default;
-}
-
-.c0:disabled:focus {
-  outline: none;
-}
-
-.c0:disabled:active {
-  top: 0;
-  box-shadow: 0 2px 0 #002413;
-}
-
-.c0 svg {
-  max-width: 15px;
-}
-
-.c1 {
-  margin-top: 1rem;
-}
-
-@media print {
-  .c0 {
-    font-size: 14px;
-    line-height: 19px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 {
-    font-size: 19px;
-    line-height: 19px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 {
-    width: auto;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 svg {
-    margin-left: 10px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 {
-    margin-bottom: 32px;
-  }
-}
-
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-<button
-    class="c0 c1"
-  >
-    Export options
-  </button>
 </DocumentFragment>
 `;
