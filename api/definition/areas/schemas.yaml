@@ -13,3 +13,63 @@ RootArea:
       type: string
       example: "England"
       description: The name of the area / geography
+Area:
+  type: object
+  description: A area or geography that has associated public health data
+  required:
+    - code
+    - name
+    - areaType
+  properties:
+    code:
+      type: string
+      example: "E06000047"
+      description: The unique area code of the area / geography
+    name:
+      type: string
+      example: "County Durham"
+      description: The name of the area / geography
+    areaType:
+      $ref: "#/AreaType"
+AreaType:
+  type: object
+  description: An area type e.g. PCN or GP
+  required:
+    - key
+    - name
+    - level
+    - hierarchyName
+  properties:
+    key:
+      type: string
+      example: "combined-authorities"
+      description: The key name of the area type
+    name:
+      type: string
+      example: "Combined Authorities"
+      description: The name of the area type for presentation
+    level:
+      type: integer
+      example: "3"
+      description: The level in the hierarchy
+    hierarchyName:
+      type: string
+      example: "NHS"
+      description: The name of the associated hierarchy for the area / geography
+AreaWithRelations:
+  allOf:
+    - $ref: "#/Area"
+    - type: object
+      properties:
+        parents:
+          type: array
+          items:
+            $ref: "#/Area"
+        children:
+          type: array
+          items:
+            $ref: "#/Area"
+        siblings:
+          type: array
+          items:
+            $ref: "#/Area"

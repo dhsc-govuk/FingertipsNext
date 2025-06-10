@@ -16,6 +16,109 @@ hierarchies:
                 type: string
       "500":
         $ref: "../system/responses.yaml#/InternalServerError"
+areatypes:
+  get:
+    tags:
+      - areas
+    summary: Get area types
+    description: Get area types, optionally filtering by hierarchy type
+    operationId: getAreaTypes
+    parameters:
+      - $ref: "./parameters.yaml#/hierarchy_type"
+    responses:
+      "200":
+        description: The available area types e.g. ICB, PCN or GP Surgery, together with related data
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/AreaType"
+      "500":
+      $ref: "../system/responses.yaml#/InternalServerError"
+areas_by_area_type:
+  get:
+    tags:
+      - areas
+    summary: Get member areas for an area type
+    description: Get the areas that have a given area type
+    operationId: getAreaTypeMembers
+    parameters:
+      - $ref: "./parameters.yaml#/area_type_key"
+    responses:
+      "200":
+        description: The available areas for the area type
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "./schemas.yaml#/Area"
+      "404":
+        $ref: "../system/responses.yaml#/NotFound"
+      "500":
+        $ref: "../system/responses.yaml#/InternalServerError"
+area_by_area_code:
+  get:
+    tags:
+      - areas
+    summary: Get single area
+    description: Get the full details of a given area, including it's parents, optionally including it's children, siblings and cousins
+    operationId: getArea
+    parameters:
+      - $ref: "./parameters.yaml#/area_code"
+      - $ref: "./parameters.yaml#/include_children"
+      - $ref: "./parameters.yaml#/include_siblings"
+      - $ref: "./parameters.yaml#/child_area_type"
+    responses:
+      "200":
+        description: The area node
+        content:
+          application/json:
+            schema:
+              $ref: "schemas.yaml#/AreaWithRelations"
+      "404":
+        $ref: "../system/responses.yaml#/NotFound"
+      "500":
+        $ref: "../system/responses.yaml#/InternalServerError"
+areas:
+  get:
+    tags:
+      - areas
+    summary: Get multiple areas
+    description:
+      Get the basic details without children, parent relationships etc.
+      for 1 or more areas. Will return duplicate of areas that are applicable to multiple areaTypes.
+    operationId: getAreas
+    parameters:
+      - $ref: "./parameters.yaml#/area_codes"
+    responses:
+      "200":
+        description: A list of the basic area details for each of the requested area codes.
+        content:
+          application/json:
+            schema:
+              type: array
+              maxItems: 300
+              items:
+                $ref: "schemas.yaml#/Area"
+      "400":
+        description: A validation error due to improper usage of the area_codes parameter.
+        content:
+          application/json:
+            schema:
+              $ref: "../system/responses.yaml#/BadRequest"
+            examples:
+              No area_codes provided:
+                value:
+                  message: Please provide at least value for the parameter area_codes.
+              Too many area_codes:
+                value:
+                  message: Too many values supplied for parameter area_codes. The maximum is 300 but 301 supplied.
+      "404":
+        $ref: "../system/responses.yaml#/NotFound"
+      "500":
+        $ref: "../system/responses.yaml#/InternalServerError"
 root:
   get:
     tags:
