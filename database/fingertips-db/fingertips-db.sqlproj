@@ -30,11 +30,11 @@
     <Build Include="Tables\IndicatorData\DateDimension.sql" />
     <Build Include="Tables\IndicatorData\PeriodDimension.sql" />
     <Build Include="Security\Areas.sql" />
-    <Build Include="Security\DataManager.sql" />
+    <Build Include="Security\UploadManager.sql" />
     <Build Include="Tables\Area\Areas.sql" />
     <Build Include="Tables\Area\AreaRelationships.sql" />
     <Build Include="Tables\Area\AreaTypes.sql" />
-    <Build Include="Tables\DataManager\Batch.sql" />
+    <Build Include="Tables\UploadManager\Batch.sql" />
     <Build Include="StoredProcedures\GetIndicatorDataWithQuintileBenchmarkComparison.sql" />
   </ItemGroup>
   <ItemGroup>
