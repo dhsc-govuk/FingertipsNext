@@ -107,6 +107,12 @@ export default class ChartPage extends AreaFilter {
       visibleComponents,
       hiddenComponents
     );
+
+    // get the selected area filters from the UI if selectedAreaFilters weren't defined in core_journey_config.ts due to the case being searchMode of either SearchMode.BOTH_SUBJECT_AND_AREA or SearchMode.ONLY_AREA
+    if (!selectedAreaFilters) {
+      selectedAreaFilters = await this.getSelectedAreaFilters();
+    }
+
     await this.hideFiltersPane();
     await this.verifyDataSourceIsDisplayed(indicatorMode, selectedIndicators);
 
@@ -373,7 +379,8 @@ export default class ChartPage extends AreaFilter {
     expect(options[0].text).toBe('England');
 
     // determine expected values based on area filters
-    const isEnglandGroup = selectedAreaFilters.group === 'england';
+    const isEnglandGroup =
+      selectedAreaFilters.group.toLocaleLowerCase() === 'england';
     const isEnglandAreaType = selectedAreaFilters.areaType === 'england';
     const isThematicMap =
       component.componentLocator === ChartPage.thematicMapComponent;

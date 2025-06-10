@@ -8,15 +8,10 @@ import {
   TestTag,
 } from '../../testHelpers';
 import indicators from '../../../../../search-setup/assets/indicators.json';
-import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
-import { coreTestJourneys } from './core_journey_config';
+import { RawIndicatorDocument } from '@/lib/search/searchTypes';
+import { areaSearchTerm, coreTestJourneys } from './core_journey_config';
 //@ts-expect-error don't type check this json file
 const indicatorData = indicators as RawIndicatorDocument[];
-const areaSearchTerm: AreaDocument = {
-  areaCode: 'E12000002',
-  areaType: 'Regions',
-  areaName: 'north west region',
-};
 let allValidIndicators: SimpleIndicatorDocument[] = [];
 let selectedIndicatorsData: SimpleIndicatorDocument[] = [];
 const checkTrends = process.env.CHECK_TRENDS_ON_RESULTS_PAGE === 'true';

@@ -1,9 +1,17 @@
+import { AreaDocument } from '@/lib/search/searchTypes';
 import {
   AreaMode,
   IndicatorMode,
   SearchMode,
   TestParams,
 } from '@/playwright/testHelpers';
+
+// this is for core journeys defined in core_journey_config.ts that are a searchMode of either SearchMode.BOTH_SUBJECT_AND_AREA or SearchMode.ONLY_AREA
+export const areaSearchTerm: AreaDocument = {
+  areaCode: 'E12000002',
+  areaType: 'Regions',
+  areaName: 'north west region',
+};
 
 export const coreTestJourneys: TestParams[] = [
   {
@@ -26,7 +34,7 @@ export const coreTestJourneys: TestParams[] = [
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ONE_AREA,
-    searchMode: SearchMode.BOTH_SUBJECT_AND_AREA,
+    searchMode: SearchMode.BOTH_SUBJECT_AND_AREA, // therefore no subject search term or areaFiltersToSelect required
     subjectSearchTerm: 'emergency',
     indicatorsToSelect: [
       {
@@ -34,11 +42,6 @@ export const coreTestJourneys: TestParams[] = [
         knownTrend: 'No recent trend data available',
       },
     ],
-    areaFiltersToSelect: {
-      areaType: 'regions',
-      groupType: 'england',
-      group: 'england',
-    },
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
@@ -137,7 +140,7 @@ export const coreTestJourneys: TestParams[] = [
   {
     indicatorMode: IndicatorMode.TWO_INDICATORS,
     areaMode: AreaMode.THREE_PLUS_AREAS,
-    searchMode: SearchMode.ONLY_AREA, // therefore no subject search term required
+    searchMode: SearchMode.ONLY_AREA, // therefore no subject search term or areaFiltersToSelect required
     indicatorsToSelect: [
       {
         indicatorID: '41101',
@@ -148,11 +151,6 @@ export const coreTestJourneys: TestParams[] = [
         knownTrend: 'Decreasing and getting better',
       },
     ],
-    areaFiltersToSelect: {
-      areaType: 'regions',
-      groupType: 'england',
-      group: 'england',
-    },
   },
   {
     indicatorMode: IndicatorMode.TWO_INDICATORS,
