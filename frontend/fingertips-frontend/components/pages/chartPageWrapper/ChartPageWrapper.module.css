@@ -1,0 +1,36 @@
+.chart-page-wrapper {
+  width: 80vw;
+  margin-left: calc(-40vw + 50%);
+}
+
+@media (max-width: 1200px) {
+  .chart-page-wrapper {
+    width: 90vw;
+    margin-left: calc(-45vw + 50%);
+  }
+}
+
+.chart-area-filter-col {
+  width: 25%;
+}
+.chart-content-col {
+  width: 75%;
+}
+
+@media (max-width: 1200px) {
+  .chart-area-filter-col {
+    width: 33.3333%;
+  }
+  .chart-content-col {
+    width: 66.6667%;
+  }
+}
+
+@media (max-width: 640px) {
+  .chart-area-filter-col {
+    width: 100%;
+  }
+  .chart-content-col {
+    width: 100%;
+  }
+}

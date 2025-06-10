@@ -184,10 +184,6 @@ export default class ChartPage extends AreaFilter {
         action: () => this.selectLastTypeDropdownOption(componentLocator),
       },
       {
-        condition: componentProps.hasConfidenceIntervals,
-        action: () => this.toggleConfidenceInterval(componentLocator),
-      },
-      {
         condition: componentProps.hasDetailsExpander,
         action: () => this.expandDetailsSection(componentLocator),
       },
@@ -205,9 +201,13 @@ export default class ChartPage extends AreaFilter {
           ),
       },
       {
-        condition: componentProps.hasBenchmark,
+        condition: componentProps.showsBenchmarkComparisons,
         action: () =>
-          this.selectBenchmarkDropdownOption(component, selectedAreaFilters),
+          this.verifyBenchmarkingForComponent(component, selectedAreaFilters),
+      },
+      {
+        condition: componentProps.hasConfidenceIntervals,
+        action: () => this.toggleConfidenceInterval(componentLocator),
       },
     ];
 
@@ -359,7 +359,7 @@ export default class ChartPage extends AreaFilter {
     }
   }
 
-  private async selectBenchmarkDropdownOption(
+  private async verifyBenchmarkingForComponent(
     component: VisibleComponent,
     selectedAreaFilters: AreaFilters
   ) {
@@ -372,53 +372,109 @@ export default class ChartPage extends AreaFilter {
       selectedAreaFilters.group.charAt(0).toUpperCase() +
       selectedAreaFilters.group.slice(1);
 
-    // check benchmark is defaulted to England before changing dropdown
-    if (selectedAreaFilters.areaType != 'england') {
-      await expect(
-        this.page
-          .getByTestId(component.componentLocator)
-          .getByText('Benchmark: England')
-      ).toBeVisible();
-    } else {
-      expect(options.length).toBe(1);
-      await expect(
-        this.page
-          .getByTestId(component.componentLocator)
-          .getByText('Benchmark:')
-      ).not.toBeVisible();
-    }
+    // check benchmark dropdown defaults to England as first option in all cases
+    expect(options[0].text).toBe('England');
 
-    // set dropdown to the group selected in the area filter (may be england)
+    // determine expected values based on area filters
+    const isEnglandGroup = selectedAreaFilters.group === 'england';
+    const isEnglandAreaType = selectedAreaFilters.areaType === 'england';
+    const isThematicMap =
+      component.componentLocator === ChartPage.thematicMapComponent;
+
+    // check benchmark dropdown options length based on group selection
+    const expectedOptionsLength = isEnglandGroup ? 1 : 2;
+    expect(options.length).toBe(expectedOptionsLength);
+
+    // set benchmark dropdown to the same group that was selected in the area filter
     await combobox.selectOption({
       label: upperCaseFirstCharSelectedGroup,
     });
     await this.waitAfterDropDownInteraction();
+
+    // determine expected benchmarking text based on area filters
+    const expectedSelectedOption = isEnglandGroup
+      ? 'England'
+      : upperCaseFirstCharSelectedGroup;
+    const shouldShowBenchmarkText = !(isEnglandGroup && isEnglandAreaType);
+    const benchmarkPrefix = isThematicMap ? 'Compared to' : 'Benchmark:';
+    const expectedBenchmarkTitleText = `${benchmarkPrefix} ${expectedSelectedOption}`;
+    const expectedBenchmarkTooltipText = `Benchmark: ${expectedSelectedOption}`;
+
+    // verify the correct benchmark dropdown option is now selected
     expect(await combobox.locator('option:checked').textContent()).toBe(
-      upperCaseFirstCharSelectedGroup
+      expectedSelectedOption
     );
 
-    // check benchmark is the group one after changing dropdown
-    if (selectedAreaFilters.group != 'england') {
-      expect(options.length).toBe(2);
+    // verify benchmark text visibility in the chart component title
+    if (shouldShowBenchmarkText) {
       await expect(
         this.page
           .getByTestId(component.componentLocator)
-          .getByText(`Benchmark: ${upperCaseFirstCharSelectedGroup}`)
+          .getByText(expectedBenchmarkTitleText)
       ).toBeVisible();
-    } else if (selectedAreaFilters.areaType != 'england') {
-      expect(options.length).toBe(1);
-      await expect(
-        this.page
-          .getByTestId(component.componentLocator)
-          .getByText('Benchmark: England')
-      ).toBeVisible();
+      // check hover if current chart component has tooltip hovers
+      if (component.componentProps.hasTooltipHovers) {
+        await this.checkHovers(component, expectedBenchmarkTooltipText);
+      }
     } else {
-      expect(options.length).toBe(1);
       await expect(
         this.page
           .getByTestId(component.componentLocator)
           .getByText('Benchmark:')
       ).not.toBeVisible();
+      // check hover doesnt contain 'Benchmark:' if current chart component has tooltip hovers
+      if (component.componentProps.hasTooltipHovers) {
+        await this.checkHovers(component);
+      }
+    }
+  }
+
+  private async checkHovers(
+    component: VisibleComponent,
+    expectedBenchmarkText?: string
+  ) {
+    // get correct chart point based on component locator
+    const tooltipPointToAssert =
+      (component.componentLocator ===
+        ChartPage.barChartEmbeddedTableComponent ||
+        component.componentLocator === ChartPage.heatMapComponent) &&
+      expectedBenchmarkText !== 'Benchmark: England'
+        ? 1
+        : 0;
+
+    // verify benchmark text visibility in the chart hover content
+    const chartPoint = this.page
+      .getByTestId(component.componentLocator)
+      .locator('.highcharts-point')
+      .nth(tooltipPointToAssert);
+
+    // we need to disable the actionability checks for hover and click for thematic map as it never reaches stable - https://playwright.dev/docs/actionability#stable
+    if (component.componentLocator === ChartPage.thematicMapComponent) {
+      chartPoint.focus();
+      chartPoint.scrollIntoViewIfNeeded();
+      await expect(chartPoint).toBeVisible();
+      await expect(chartPoint).toBeAttached();
+      await expect(chartPoint).toBeEnabled();
+
+      await chartPoint.hover({ force: true });
+      await chartPoint.click({ force: true });
+    } else {
+      await chartPoint.hover();
+      await chartPoint.click();
+    }
+
+    await this.page.waitForTimeout(250); // small wait for tooltip to appear
+
+    const hoverContent = await this.page
+      .locator('div.highcharts-tooltip')
+      .first()
+      .textContent();
+
+    // assert hover content contains expected benchmark text
+    if (expectedBenchmarkText) {
+      expect(hoverContent).toContain(expectedBenchmarkText);
+    } else {
+      expect(hoverContent).not.toContain('Benchmark:');
     }
   }
 

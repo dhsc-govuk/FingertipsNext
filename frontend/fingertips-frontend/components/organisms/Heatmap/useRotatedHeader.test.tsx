@@ -4,7 +4,7 @@ import { useRotatedHeaders } from './useRotatedHeaders';
 import { HeaderType } from './heatmapUtil';
 
 const headers = [
-  { key: 'key', type: HeaderType.PrimaryBenchmarkArea, content: 'content' },
+  { key: 'key', type: HeaderType.BenchmarkGroupArea, content: 'content' },
 ];
 
 const TestComponent = () => {

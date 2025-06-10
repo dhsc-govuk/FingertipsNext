@@ -64,7 +64,8 @@ type componentProps = {
   hasTypeDropDown?: boolean;
   isWideComponent?: boolean;
   hasRecentTrend?: boolean;
-  hasBenchmark?: boolean;
+  showsBenchmarkComparisons?: boolean;
+  hasTooltipHovers?: boolean;
 };
 
 type component = {
@@ -86,8 +87,9 @@ export function getScenarioConfig(
     {
       componentLocator: ChartPage.lineChartComponent,
       componentProps: {
+        showsBenchmarkComparisons: true,
+        hasTooltipHovers: true,
         hasConfidenceIntervals: true,
-        // hasBenchmark: true,
       },
     },
     {
@@ -95,6 +97,7 @@ export function getScenarioConfig(
       componentProps: {
         isTabTable: true,
         hasRecentTrend: true,
+        showsBenchmarkComparisons: true,
       },
     },
     {
@@ -106,16 +109,16 @@ export function getScenarioConfig(
     {
       componentLocator: ChartPage.inequalitiesForSingleTimePeriodComponent,
       componentProps: {
-        hasConfidenceIntervals: true,
         hasTimePeriodDropDown: true,
         hasTypeDropDown: false, // even though it has a type dropdown, we want to test the default view
+        hasConfidenceIntervals: true,
       },
     },
     {
       componentLocator: ChartPage.inequalitiesTrendComponent,
       componentProps: {
-        hasConfidenceIntervals: true,
         hasTypeDropDown: true, // and in this case we want to test the type dropdown
+        hasConfidenceIntervals: true,
       },
     },
     {
@@ -150,13 +153,18 @@ export function getScenarioConfig(
     },
     {
       componentLocator: ChartPage.thematicMapComponent,
-      componentProps: {},
+      componentProps: {
+        showsBenchmarkComparisons: true,
+        hasTooltipHovers: true,
+      },
     },
     {
       componentLocator: ChartPage.barChartEmbeddedTableComponent,
       componentProps: {
-        hasConfidenceIntervals: true,
         hasRecentTrend: true,
+        showsBenchmarkComparisons: true,
+        hasTooltipHovers: true,
+        hasConfidenceIntervals: true,
       },
     },
     {
@@ -167,6 +175,8 @@ export function getScenarioConfig(
       componentLocator: ChartPage.heatMapComponent,
       componentProps: {
         isWideComponent: true,
+        showsBenchmarkComparisons: true,
+        hasTooltipHovers: true,
       },
     },
     {
@@ -174,6 +184,8 @@ export function getScenarioConfig(
       componentProps: {
         isWideComponent: true,
         hasRecentTrend: true,
+        showsBenchmarkComparisons: true,
+        hasTooltipHovers: true,
       },
     },
   ];
@@ -225,6 +237,12 @@ export function getScenarioConfig(
     ],
     [`${IndicatorMode.TWO_INDICATORS}-${AreaMode.ENGLAND_AREA}`]: [
       ChartPage.basicTableComponent,
+      ChartPage.populationPyramidComponent,
+      ChartPage.populationPyramidTableComponent,
+    ],
+    [`${IndicatorMode.TWO_INDICATORS}-${AreaMode.TWO_AREAS}`]: [
+      ChartPage.spineChartTableComponent,
+      ChartPage.heatMapComponent,
       ChartPage.populationPyramidComponent,
       ChartPage.populationPyramidTableComponent,
     ],

@@ -22,6 +22,7 @@ export const DataCell: FC<DataCellProps> = ({
       $backgroundColor={backgroundColour}
       onMouseOver={mouseEnterHandler}
       onMouseLeave={mouseLeaveHandler}
+      className="highcharts-point"
     >
       <DataCellContent>{content}</DataCellContent>
     </DataTableCell>
