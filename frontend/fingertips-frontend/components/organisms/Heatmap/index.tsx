@@ -34,38 +34,36 @@ export const Heatmap: FC<HeatmapProps> = ({
   const { hover, left, top, handleMouseOverCell } = useHeatmapHover();
 
   return (
-    <>
-      <ContainerWithOutline>
-        <div id={'heatmap'}>
-          <ChartTitle>Overview of selected indicators</ChartTitle>
-          <BenchmarkLegends
-            title={`Compared to ${benchmarkAreaName}`}
-            legendsToShow={legendsToShow}
+    <ContainerWithOutline>
+      <div id={'heatmap'}>
+        <ChartTitle>Overview of selected indicators</ChartTitle>
+        <BenchmarkLegends
+          title={`Compared to ${benchmarkAreaName}`}
+          legendsToShow={legendsToShow}
+        />
+        {hover ? (
+          <HeatmapHover
+            areaName={hover.areaName}
+            period={hover.period}
+            indicatorName={hover.indicatorName}
+            value={hover.value}
+            unitLabel={hover.unitLabel}
+            benchmark={hover.benchmark}
+            left={left}
+            top={top}
+            benchmarkAreaName={benchmarkAreaName}
           />
-          {hover ? (
-            <HeatmapHover
-              areaName={hover.areaName}
-              period={hover.period}
-              indicatorName={hover.indicatorName}
-              value={hover.value}
-              unitLabel={hover.unitLabel}
-              benchmark={hover.benchmark}
-              left={left}
-              top={top}
-              benchmarkAreaName={benchmarkAreaName}
-            />
-          ) : null}
-          <HeatmapTable
-            headers={headers}
-            rows={rows}
-            handleMouseOverCell={handleMouseOverCell}
-          />
-          <ExportOnlyWrapper>
-            <ExportCopyright />
-          </ExportOnlyWrapper>
-        </div>
-        <ExportOptionsButton targetId={'heatmap'} csvData={csvData} />
-      </ContainerWithOutline>
-    </>
+        ) : null}
+        <HeatmapTable
+          headers={headers}
+          rows={rows}
+          handleMouseOverCell={handleMouseOverCell}
+        />
+        <ExportOnlyWrapper>
+          <ExportCopyright />
+        </ExportOnlyWrapper>
+      </div>
+      <ExportOptionsButton targetId={'heatmap'} csvData={csvData} />
+    </ContainerWithOutline>
   );
 };
