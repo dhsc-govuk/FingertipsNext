@@ -21,3 +21,124 @@ indicators:
         $ref: "../system/responses.yaml#/BadRequest"
       "500":
         $ref: "../system/responses.yaml#/InternalServerError"
+indicators_by_indicator_id:
+  get:
+    tags:
+      - indicators
+    summary: Get indicator
+    responses:
+      "200":
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas.yaml#/Indicator"
+        description: The request was successful, and the server has returned the
+          requested resource in the response body.
+      "404":
+        $ref: "../system/responses.yaml#/NotFound"
+      "500":
+        $ref: "../system/responses.yaml#/InternalServerError"
+    parameters:
+      - $ref: "./parameters.yaml#/indicator_id"
+    description: >
+      Fetches details of a specific indicator by its unique identifier. The
+      response includes the indicator's metadata
+    operationId: getIndicator
+indicators_by_indicator_id_data:
+  get:
+    tags:
+      - indicators
+    summary: Get health data for an indicator
+    description:
+      Get data for a public health indicator. This will return all data for all areas and all years for the indicators. Optionally filter the results by supplying one
+      or more area codes and one or more years in the query string.
+    responses:
+      "200":
+        description:
+          Data containing the health data points for the indicator, years
+          and geographical areas requested
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas.yaml#/IndicatorWithHealthDataForArea"
+      "400":
+        description: Bad request. The server could not process the request.
+        content:
+          application/json:
+            schema:
+              $ref: "../system/responses.yaml#/BadRequest"
+            examples:
+              Too many area_codes:
+                value:
+                  message: Too many values supplied for parameter area_codes. The maximum is 300 but 301 supplied.
+              Too many years:
+                value:
+                  message: Too many values supplied for parameter years. The maximum is 20 but 21 supplied.
+      "500":
+        $ref: "../system/responses.yaml#/InternalServerError"
+    parameters:
+      - $ref: "./parameters.yaml#/indicator_id"
+      - $ref: "../parameters.yaml#/area_codes"
+      - $ref: "./parameters.yaml#/area_type"
+      - $ref: "./parameters.yaml#/ancestor_code"
+      - $ref: "./parameters.yaml#/benchmark_ref_type"
+      - $ref: "./parameters.yaml#/years"
+      - $ref: "./parameters.yaml#/inequalities"
+      - $ref: "./parameters.yaml#/latest_only"
+    operationId: getHealthDataForAnIndicator
+quartiles:
+  get:
+    tags:
+      - indicators
+    summary: Get quartile values for indicators
+    description: Get quartile information for indicators including
+    parameters:
+      - name: ancestor_code
+        in: query
+        style: simple
+        schema:
+          type: string
+          example: E12000001
+        explode: false
+        description: The area code of an ancestor area
+      - name: area_code
+        in: query
+        style: simple
+        schema:
+          type: string
+          example: G82109
+        explode: false
+        description: The area code of the area/ geography
+      - name: area_type
+        in: query
+        description: The area type which the areas belong to
+        schema:
+          type: string
+      - name: indicator_ids
+        in: query
+        description: A list of indicator_ids, up to 10 can be requested
+        style: form
+        schema:
+          type: array
+          items:
+            type: integer
+            example: 1234
+          maxItems: 10
+      - name: benchmark_ref_type
+        in: query
+        description: The benchmark reference type
+        schema:
+          $ref: "./schemas.yaml#/BenchmarkReferenceType"
+    responses:
+      "200":
+        description: search results matching criteria
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "./schemas.yaml#/QuartileData"
+      "400":
+        $ref: "../system/responses.yaml#/BadRequest"
+      "500":
+        $ref: "../system/responses.yaml#/InternalServerError"

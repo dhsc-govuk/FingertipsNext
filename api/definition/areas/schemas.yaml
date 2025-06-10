@@ -15,7 +15,7 @@ RootArea:
       description: The name of the area / geography
 Area:
   type: object
-  description: A area or geography that has associated public health data
+  description: An area or geography that has associated public health data
   required:
     - code
     - name

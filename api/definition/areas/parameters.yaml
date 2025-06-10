@@ -44,14 +44,3 @@ child_area_type:
   description: the area_type of descendants to be returned
   schema:
     type: string
-area_codes:
-  in: query
-  name: area_codes
-  description: A list of area codes, up to 300 area codes can be requested
-  style: form
-  schema:
-    type: array
-    items:
-      type: string
-      example: G82109
-    maxItems: 300

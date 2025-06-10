@@ -91,7 +91,7 @@ areas:
       for 1 or more areas. Will return duplicate of areas that are applicable to multiple areaTypes.
     operationId: getAreas
     parameters:
-      - $ref: "./parameters.yaml#/area_codes"
+      - $ref: "../parameters.yaml#/area_codes"
     responses:
       "200":
         description: A list of the basic area details for each of the requested area codes.
