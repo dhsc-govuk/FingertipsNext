@@ -15,7 +15,7 @@ hierarchies:
               items:
                 type: string
       "500":
-        $ref: "../system/responses.yaml#/InternalServerError"
+        $ref: "../responses.yaml#/InternalServerError"
 areatypes:
   get:
     tags:
@@ -35,7 +35,7 @@ areatypes:
               items:
                 $ref: "#/components/schemas/AreaType"
       "500":
-      $ref: "../system/responses.yaml#/InternalServerError"
+      $ref: "../responses.yaml#/InternalServerError"
 areas_by_area_type:
   get:
     tags:
@@ -55,9 +55,9 @@ areas_by_area_type:
               items:
                 $ref: "./schemas.yaml#/Area"
       "404":
-        $ref: "../system/responses.yaml#/NotFound"
+        $ref: "../responses.yaml#/NotFound"
       "500":
-        $ref: "../system/responses.yaml#/InternalServerError"
+        $ref: "../responses.yaml#/InternalServerError"
 area_by_area_code:
   get:
     tags:
@@ -78,9 +78,9 @@ area_by_area_code:
             schema:
               $ref: "schemas.yaml#/AreaWithRelations"
       "404":
-        $ref: "../system/responses.yaml#/NotFound"
+        $ref: "../responses.yaml#/NotFound"
       "500":
-        $ref: "../system/responses.yaml#/InternalServerError"
+        $ref: "../responses.yaml#/InternalServerError"
 areas:
   get:
     tags:
@@ -107,7 +107,7 @@ areas:
         content:
           application/json:
             schema:
-              $ref: "../system/responses.yaml#/BadRequest"
+              $ref: "../responses.yaml#/BadRequest"
             examples:
               No area_codes provided:
                 value:
@@ -116,9 +116,9 @@ areas:
                 value:
                   message: Too many values supplied for parameter area_codes. The maximum is 300 but 301 supplied.
       "404":
-        $ref: "../system/responses.yaml#/NotFound"
+        $ref: "../responses.yaml#/NotFound"
       "500":
-        $ref: "../system/responses.yaml#/InternalServerError"
+        $ref: "../responses.yaml#/InternalServerError"
 root:
   get:
     tags:
@@ -134,4 +134,4 @@ root:
             schema:
               $ref: "./schemas.yaml#/RootArea"
       "500":
-        $ref: "../system/responses.yaml#/InternalServerError"
+        $ref: "../responses.yaml#/InternalServerError"

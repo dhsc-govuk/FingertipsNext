@@ -18,9 +18,9 @@ indicators:
               items:
                 $ref: "./schemas.yaml#/IndicatorSummary"
       "400":
-        $ref: "../system/responses.yaml#/BadRequest"
+        $ref: "../responses.yaml#/BadRequest"
       "500":
-        $ref: "../system/responses.yaml#/InternalServerError"
+        $ref: "../responses.yaml#/InternalServerError"
 indicators_by_indicator_id:
   get:
     tags:
@@ -35,25 +35,16 @@ indicators_by_indicator_id:
         description: The request was successful, and the server has returned the
           requested resource in the response body.
       "404":
-        $ref: "../system/responses.yaml#/NotFound"
+        $ref: "../responses.yaml#/NotFound"
       "500":
-        $ref: "../system/responses.yaml#/InternalServerError"
+        $ref: "../responses.yaml#/InternalServerError"
     parameters:
       - $ref: "./parameters.yaml#/indicator_id"
     description: >
       Fetches details of a specific indicator by its unique identifier. The
       response includes the indicator's metadata
     operationId: getIndicator
-  post:
-    tags:
-      - indicators
-    summary: add a batch of new data for an indicator
-    description: Not Yet Implemented - Creates new data for the indicator. The data is always created in an unpublished and unapproved state.
-  delete:
-    tags:
-      - indicators
-    summary: delete a batch of unpublished data for an indicator
-    description: Not Yet Implemented - Deletes ALL unpublished data for that indicator
+
 indicators_by_indicator_id_data:
   get:
     tags:
@@ -76,7 +67,7 @@ indicators_by_indicator_id_data:
         content:
           application/json:
             schema:
-              $ref: "../system/responses.yaml#/BadRequest"
+              $ref: "../responses.yaml#/BadRequest"
             examples:
               Too many area_codes:
                 value:
@@ -85,7 +76,7 @@ indicators_by_indicator_id_data:
                 value:
                   message: Too many values supplied for parameter years. The maximum is 20 but 21 supplied.
       "500":
-        $ref: "../system/responses.yaml#/InternalServerError"
+        $ref: "../responses.yaml#/InternalServerError"
     parameters:
       - $ref: "./parameters.yaml#/indicator_id"
       - $ref: "../parameters.yaml#/area_codes"
@@ -96,6 +87,16 @@ indicators_by_indicator_id_data:
       - $ref: "./parameters.yaml#/inequalities"
       - $ref: "./parameters.yaml#/latest_only"
     operationId: getHealthDataForAnIndicator
+  post:
+    tags:
+      - indicators
+    summary: add a batch of new data for an indicator
+    description: Not Yet Implemented - Creates new data for the indicator. The data is always created in an unpublished and unapproved state.
+  delete:
+    tags:
+      - indicators
+    summary: delete a batch of unpublished data for an indicator
+    description: Not Yet Implemented - Deletes ALL unpublished data for that indicator
 quartiles:
   get:
     tags:
@@ -149,6 +150,6 @@ quartiles:
               items:
                 $ref: "./schemas.yaml#/QuartileData"
       "400":
-        $ref: "../system/responses.yaml#/BadRequest"
+        $ref: "../responses.yaml#/BadRequest"
       "500":
-        $ref: "../system/responses.yaml#/InternalServerError"
+        $ref: "../responses.yaml#/InternalServerError"
