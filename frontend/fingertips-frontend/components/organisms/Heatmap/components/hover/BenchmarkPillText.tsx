@@ -8,7 +8,7 @@ import { FC } from 'react';
 import { HeatmapBenchmarkOutcome } from '../../heatmapUtil';
 import { BenchmarkPillParagraph } from './BenchmarkPill.styles';
 
-interface BenchmarkPillTextProps {
+export interface BenchmarkPillTextProps {
   value?: number;
   unitLabel: string;
   outcome: HeatmapBenchmarkOutcome;
