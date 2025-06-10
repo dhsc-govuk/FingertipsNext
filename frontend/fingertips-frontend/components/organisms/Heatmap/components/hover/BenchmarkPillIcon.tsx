@@ -14,7 +14,7 @@ import {
   ColouredBenchmarkIcon,
 } from './BenchmarkPill.styles';
 
-interface BenchmarkPillIconProps {
+export interface BenchmarkPillIconProps {
   value?: number;
   outcome: HeatmapBenchmarkOutcome;
   benchmarkMethod: BenchmarkComparisonMethod;
