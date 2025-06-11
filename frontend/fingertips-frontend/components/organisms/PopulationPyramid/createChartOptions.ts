@@ -251,6 +251,7 @@ const createPopPyramidSeriesOptions = (
       },
       useHTML: true,
       outside: true,
+      hideDelay: 0,
     },
     series: [
       {
