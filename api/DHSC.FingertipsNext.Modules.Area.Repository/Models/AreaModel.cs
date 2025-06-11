@@ -13,7 +13,7 @@ public class AreaModel
     /// The unique area key of the area - this is a surrogate key
     /// </summary>
     [Key]
-    public int AreaKey { get; set; }
+    public int AreaKey { get; init; }
 
     /// <summary>
     /// The area code of the area - may not be unique because
