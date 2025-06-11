@@ -19,6 +19,8 @@ tags:
   - name: system
     description: System endpoints
 paths:
+  /healthcheck:
+    $ref: "./system/paths.yaml"
   /areas/hierarchies:
     $ref: "./areas/paths.yaml#/hierarchies"
   /areas/areatypes:
@@ -31,8 +33,6 @@ paths:
     $ref: "./areas/paths.yaml#/root"
   /areas:
     $ref: "./areas/paths.yaml#/areas"
-  /healthcheck:
-    $ref: "./system/healthcheck.yaml"
   /indicators:
     $ref: "./indicators/paths.yaml#/indicators"
   /indicators/{indicator_id}:

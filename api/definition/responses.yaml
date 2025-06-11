@@ -25,8 +25,8 @@ InternalServerError:
     from fulfilling the request. Report the issue to the support team if it
     persists.
 BadRequest:
-  description: Bad request. The server could not process the request.
   content:
     application/json:
       schema:
         $ref: "./schemas.yaml#/BadRequest"
+  description: Bad request. The server could not process the request.

@@ -33,9 +33,9 @@ areatypes:
             schema:
               type: array
               items:
-                $ref: "#/components/schemas/AreaType"
+                $ref: "./schemas.yaml#/AreaType"
       "500":
-      $ref: "../responses.yaml#/InternalServerError"
+        $ref: "../responses.yaml#/InternalServerError"
 areas_by_area_type:
   get:
     tags:
