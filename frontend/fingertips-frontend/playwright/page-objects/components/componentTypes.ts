@@ -3,7 +3,7 @@ export type BaseComponentProps = {
   isTabTable?: boolean;
   hasDetailsExpander?: boolean;
   hasTimePeriodDropDown?: boolean;
-  hasTypeDropDown?: boolean;
+  hasInequalityTypeDropDown?: boolean;
   isWideComponent?: boolean;
   hasRecentTrend?: boolean;
   showsBenchmarkComparisons?: boolean;

@@ -28,14 +28,14 @@ export const allComponents: ComponentDefinition[] = [
     componentLocator: ChartPage.inequalitiesForSingleTimePeriodComponent,
     componentProps: {
       hasTimePeriodDropDown: true,
-      hasTypeDropDown: false, // even though it has a type dropdown, we want to test the default view
+      hasInequalityTypeDropDown: false, // even though it has a type dropdown, we want to test the default view
       hasConfidenceIntervals: true,
     },
   },
   {
     componentLocator: ChartPage.inequalitiesTrendComponent,
     componentProps: {
-      hasTypeDropDown: true, // and in this case we want to test the type dropdown
+      hasInequalityTypeDropDown: true, // and in this case we want to test the type dropdown
       hasConfidenceIntervals: true,
     },
   },
@@ -43,7 +43,7 @@ export const allComponents: ComponentDefinition[] = [
     componentLocator: ChartPage.inequalitiesLineChartComponent,
     componentProps: {
       hasConfidenceIntervals: true,
-      hasTypeDropDown: true,
+      hasInequalityTypeDropDown: true,
       isWideComponent: true,
       selectDeprivationInequality: true,
     },
