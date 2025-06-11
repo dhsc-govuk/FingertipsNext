@@ -33,7 +33,11 @@ interface FTFooterProps {
   chartPage?: boolean;
 }
 
-export function FTFooter({ tag, hash, chartPage = false }: FTFooterProps) {
+export function FTFooter({
+  tag,
+  hash,
+  chartPage = false,
+}: Readonly<FTFooterProps>) {
   return (
     <Footer
       className={chartPage ? 'chart-page-footer' : ''}

@@ -9,11 +9,11 @@ export function HeaderFooterWrapper({
   children,
   tag,
   hash,
-}: {
+}: Readonly<{
   children: React.ReactNode;
   tag?: string;
   hash?: string;
-}) {
+}>) {
   const pathname = usePathname();
   const isChartPage = pathname.startsWith('/chart');
 
