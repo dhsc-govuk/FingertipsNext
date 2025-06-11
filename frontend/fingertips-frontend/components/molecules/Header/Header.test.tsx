@@ -9,6 +9,14 @@ describe('Header', () => {
     expect(container.asFragment()).toMatchSnapshot();
   });
 
+  it('should have className "chart-page-header" when chartPage is true', () => {
+    render(<FTHeader chartPage={true} />);
+
+    const header = screen.getByRole('banner');
+
+    expect(header).toHaveClass('chart-page-header');
+  });
+
   it('should render Access public health data as a link', async () => {
     render(<FTHeader />);
     const returnToHomePageLink = screen.getByRole('link', {

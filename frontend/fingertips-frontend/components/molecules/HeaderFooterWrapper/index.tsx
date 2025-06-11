@@ -15,7 +15,7 @@ export function HeaderFooterWrapper({
   hash?: string;
 }) {
   const pathname = usePathname();
-  const isChartPage = pathname.startsWith('/chart'); // adjust as needed
+  const isChartPage = pathname.startsWith('/chart');
 
   return (
     <>
