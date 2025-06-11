@@ -8,8 +8,8 @@ import Highcharts, {
   SeriesOptionsType,
 } from 'highcharts';
 import {
-  SymbolsEnum,
   SymbolNames,
+  SymbolsEnum,
 } from '@/lib/chartHelpers/pointFormatterHelper';
 
 import { GovukColours } from '@/lib/styleHelpers/colours';
@@ -222,32 +222,35 @@ const createPopPyramidSeriesOptions = (
 
         return `
                 <div style="min-width: 100px; font-size: 12px;">
-                <div style="">
-                <h4 style="margin:0px; padding:0px;">
-                  ${title}
-                </h4>
-                <span style="display:block;" >${this.category}</span>
-                <span style="display:block;"> ${this.series.userOptions.custom?.tag}</span>
-                <div style="padding:0px; margin:0px;">
-                  <div style="display:flex; 
+                  <div style="">
+                    <h4 style="margin:0px; padding:0px;">
+                      ${title}
+                    </h4>
+                    <span style="display:block;" >${this.category}</span>
+                    <span style="display:block;"> ${this.series.userOptions.custom?.tag}</span>
+                    <div style="padding:0px; margin:0px;">
+                      <div style="display:flex; 
                       flex-direction:row;
                       align-items: center;
                       flex-wrap:nowrap;
                       justify-content: flex-start;
                       ">
-                      <div style="flex-grow:2; 
+                        <div style="flex-grow:2; 
                         align-self:center;
                         text-align:center;
                         padding:1px;
                         ">
-                        <span style="color:${this.color}; font-size:16px;">${this.series.userOptions.custom?.shape} </span> 
-                        <span>${value}% of total population</span>
+                          <span style="color:${this.color}; font-size:16px;">${this.series.userOptions.custom?.shape} </span> 
+                          <span>${value}% of total population</span>
+                        </div>
                       </div>
+                    </div>
                   </div>
                 </div>
             `;
       },
       useHTML: true,
+      outside: true,
     },
     series: [
       {
