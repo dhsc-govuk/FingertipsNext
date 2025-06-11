@@ -35,7 +35,7 @@ export const Heatmap: FC<HeatmapProps> = ({
 
   return (
     <ContainerWithOutline>
-      <div id={'heatmap'}>
+      <div id={'heatmap'} data-testid="heatmapChart-component">
         <ChartTitle>Overview of selected indicators</ChartTitle>
         <BenchmarkLegends
           title={`Compared to ${benchmarkAreaName}`}
