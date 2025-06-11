@@ -4,9 +4,9 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { BarChartEmbeddedTableRow } from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedTable.types';
-import { BarChartEmbeddedRow } from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedRow';
+import { BarChartEmbeddedRow } from '@/components/organisms/BarChartEmbeddedTable/components/BarChartEmbeddedRow/BarChartEmbeddedRow';
 import { useMoreRowsWhenScrolling } from '@/components/hooks/useMoreRowsWhenScrolling';
-import { BarChartEmbeddedPlaceholderRows } from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedPlaceholderRows';
+import { BarChartEmbeddedPlaceholderRows } from '@/components/organisms/BarChartEmbeddedTable/components/BarChartEmbeddedPlaceholderRows/BarChartEmbeddedPlaceholderRows';
 
 interface BarChartEmbeddedRowsProps {
   rows: BarChartEmbeddedTableRow[];
