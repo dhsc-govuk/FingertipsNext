@@ -54,6 +54,11 @@ public class HealthMeasureModel
     public bool IsDeprivationAggregatedOrSingle { get; set; } = true;
 
     public bool IsAggregate { get; set; }
+    
+    public DateTime PublishedAt { get; set; }
+            
+    public string BatchId { get; set; }
+    
     [NotMapped]
     public BenchmarkComparisonModel BenchmarkComparison { get; set; }
 }

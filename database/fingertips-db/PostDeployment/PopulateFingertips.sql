@@ -543,7 +543,9 @@ INSERT INTO [dbo].[HealthMeasure]
     IsDeprivationAggregatedOrSingle,
     FromDateKey,
     ToDateKey,
-    PeriodKey
+    PeriodKey,
+    PublishedAt,
+    BatchId
 )
 SELECT
     areadim.AreaKey,
@@ -562,7 +564,9 @@ SELECT
     IsDeprivationAggregatedOrSingle,
     datedim_from.DateKey,
     datedim_to.DateKey,
-    perioddim.PeriodKey
+    perioddim.PeriodKey,
+    GETUTCDATE(),
+    CONCAT(IndicatorKey, '_', REPLACE(CONVERT(VARCHAR, GETUTCDATE(),101),'/','') + REPLACE(CONVERT(VARCHAR,GETUTCDATE(),108),':',''))
 FROM 
 	#TempHealthData temp
 JOIN
@@ -583,6 +587,74 @@ JOIN
     [dbo].[PeriodDimension] perioddim ON perioddim.[Period] = temp.Period
 WHERE 
     temp.Value IS NOT NULL;
+    
+-- Insert "unpublished" data for testing
+-- START
+INSERT INTO [dbo].[HealthMeasure]
+(
+    AreaKey,
+    IndicatorKey,
+    SexKey,
+    AgeKey,
+    DeprivationKey,
+    Count,
+    Denominator,
+    Value,
+    LowerCI,
+    UpperCI,
+    Year,
+    IsSexAggregatedOrSingle,
+    IsAgeAggregatedOrSingle,
+    IsDeprivationAggregatedOrSingle,
+    FromDateKey,
+    ToDateKey,
+    PeriodKey,
+    PublishedAt,
+    BatchId
+)
+SELECT
+    areadim.AreaKey,
+    inddim.[IndicatorKey],
+    sexdim.[SexKey],
+    agedim.[AgeKey],
+    depdim.[DeprivationKey],
+    Count,
+    Denominator,
+    Value,
+    Lower95CI,
+    Upper95CI,
+    2025,
+    IsSexAggregatedOrSingle,
+    IsAgeAggregatedOrSingle,
+    IsDeprivationAggregatedOrSingle,
+    datedim_from.DateKey,
+    datedim_to.DateKey,
+    perioddim.PeriodKey,
+    DATEADD(year, 1, GETUTCDATE()),
+    CONCAT(temp.IndicatorId, '_', REPLACE(CONVERT(VARCHAR, GETUTCDATE(),101),'/','') + REPLACE(CONVERT(VARCHAR,GETUTCDATE(),108),':',''))
+FROM 
+	#TempHealthData temp
+JOIN
+	[dbo].[AreaDimension] areadim ON LTRIM(RTRIM(temp.AreaCode))=areadim.[Code]
+JOIN
+	[dbo].[IndicatorDimension] inddim ON inddim.IndicatorId = temp.IndicatorId
+JOIN
+	[dbo].[SexDimension] sexdim ON sexdim.[Name] = LTRIM(RTRIM(temp.Sex))
+JOIN
+	[dbo].[AgeDimension] agedim ON agedim.[AgeID] = temp.AgeID
+JOIN
+	[dbo].[DeprivationDimension] depdim  ON depdim.[Name] = LTRIM(RTRIM(temp.Category)) AND depdim.[Type]=LTRIM(RTRIM(temp.CategoryType))
+JOIN
+	[dbo].[DateDimension] datedim_from ON datedim_from.[Date] = (CONVERT(DATETIME, temp.FromDate, 103)) 
+JOIN
+    [dbo].[DateDimension] datedim_to ON datedim_to.[Date] = (CONVERT(DATETIME, temp.ToDate, 103))
+JOIN   
+    [dbo].[PeriodDimension] perioddim ON perioddim.[Period] = temp.Period
+WHERE 
+    temp.Value IS NOT NULL
+    AND temp.Year = 2024
+    AND temp.IndicatorId = 90453;
+-- END
 
 ALTER TABLE [dbo].[HealthMeasure] CHECK CONSTRAINT ALL
 

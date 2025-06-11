@@ -32,6 +32,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
             .Where(HealthDataPredicates.IsInAreaCodes(areaCodes))
             .Where(HealthDataPredicates.IsNotEnglandWhenMultipleRequested(areaCodes))
+            .Where(healthMeasure => healthMeasure.PublishedAt < DateTime.UtcNow)
             .OrderByDescending(healthMeasure => healthMeasure.Year)
             .Include(healthMeasure => healthMeasure.IndicatorDimension)
             .Select(healthMeasure => new IndicatorDimensionModel
@@ -51,6 +52,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         // Default to the latest year for all indicator data if none of the requested areas have data
         return await _dbContext.HealthMeasure
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
+            .Where(healthMeasure => healthMeasure.PublishedAt < DateTime.UtcNow)
             .OrderByDescending(healthMeasure => healthMeasure.Year)
             .Include(healthMeasure => healthMeasure.IndicatorDimension)
             .Select(healthMeasure => new IndicatorDimensionModel
@@ -81,6 +83,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .Where(healthMeasure => excludeDisaggregatedAgeValues ? healthMeasure.IsAgeAggregatedOrSingle : true)
             .Where(healthMeasure =>
                 excludeDisaggregatedDeprivationValues ? healthMeasure.IsDeprivationAggregatedOrSingle : true)
+            .Where(healthMeasure => healthMeasure.PublishedAt < DateTime.UtcNow)
             .OrderBy(healthMeasure => healthMeasure.Year)
             .Include(healthMeasure => healthMeasure.AreaDimension)
             .Include(healthMeasure => healthMeasure.AgeDimension)
