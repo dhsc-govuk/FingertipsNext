@@ -84,7 +84,7 @@ export default class ChartPage extends AreaFilter {
    * This function tests a subset of indicator + area scenario combinations from
    * https://confluence.collab.test-and-trace.nhs.uk/pages/viewpage.action?pageId=419245267
    * The scenario combinations here were chosen as they are happy paths covering lots of chart components.
-   * Note all 15 scenarios should be covered in lower level unit testing.
+   * Note all 15 scenarios should be covered in lower level unit testing
    */
   async checkChartVisibility(
     indicatorMode: IndicatorMode,
