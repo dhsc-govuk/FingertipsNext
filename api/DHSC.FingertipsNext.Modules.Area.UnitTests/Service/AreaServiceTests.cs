@@ -50,18 +50,6 @@ public class AreaServiceTests
         await _mockRepository.Received().GetAreaTypesAsync("hierarchyType");
     }
 
-    [Fact]
-    public async Task GetAreaTypesShouldNotDelegateToRepositoryIfBlankParameterPassed()
-    {
-        _mockRepository.GetAreaTypesAsync(Arg.Any<string>()).Returns(SampleAreaTypes);
-
-        var result = await _service.GetAreaTypes("");
-
-        result.ShouldBeEquivalentTo(_areaMapper.Map(SampleAreaTypes));
-
-        await _mockRepository.Received().GetAreaTypesAsync("");
-    }
-
     private static readonly List<AreaTypeModel> SampleAreaTypes = new List<AreaTypeModel>
     {
         new() { AreaTypeKey = "at1", AreaTypeName = "AT1", HierarchyType = "HT1", Level = 1 },

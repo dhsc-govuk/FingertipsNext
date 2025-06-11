@@ -43,6 +43,7 @@ public class AreaModule : AbstractMonolithModule, IMonolithModule
 
         services.AddDbContext<AreaRepositoryDbContext>
         (
+            // Tracking is globally disabled on the area repository as it can't be updated from the area module.
             options => options.UseSqlServer(builder.ConnectionString).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution)
         );
     }
