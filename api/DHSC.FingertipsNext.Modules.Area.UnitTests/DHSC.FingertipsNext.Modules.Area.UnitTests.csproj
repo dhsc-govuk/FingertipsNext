@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>disable</Nullable>
+        <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
     </PropertyGroup>
 
@@ -40,6 +40,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Area.Service\DHSC.FingertipsNext.Modules.Area.Service.csproj" />
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Area\DHSC.FingertipsNext.Modules.Area.csproj" />
     </ItemGroup>
 
 </Project>
