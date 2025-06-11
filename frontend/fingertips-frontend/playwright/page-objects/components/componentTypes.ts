@@ -3,12 +3,12 @@ export type BaseComponentProps = {
   isTabTable?: boolean;
   hasDetailsExpander?: boolean;
   hasTimePeriodDropDown?: boolean;
-  hasTypeDropDown?: boolean;
+  hasInequalityTypeDropDown?: boolean;
   isWideComponent?: boolean;
   hasRecentTrend?: boolean;
   showsBenchmarkComparisons?: boolean;
   hasTooltipHovers?: boolean;
-  typeDropDownOptionToSelect?: boolean;
+  selectDeprivationInequality?: boolean;
 };
 
 export type ComponentDefinition = {

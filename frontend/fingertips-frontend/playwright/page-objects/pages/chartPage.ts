@@ -182,9 +182,9 @@ export default class ChartPage extends AreaFilter {
         action: () => this.selectLastTimePeriodOption(),
       },
       {
-        condition: componentProps.hasTypeDropDown,
+        condition: componentProps.hasInequalityTypeDropDown,
         action: () =>
-          this.selectTypeDropdownOption({ componentLocator, componentProps }),
+          this.selectInequalityTypeDropdownOption({ componentLocator, componentProps }),
       },
       {
         condition: componentProps.hasDetailsExpander,
@@ -250,8 +250,8 @@ export default class ChartPage extends AreaFilter {
     expect(await combobox.inputValue()).toBe(lastOption);
   }
 
-  // selects either first or last option in the dropdown
-  private async selectTypeDropdownOption({
+  // selects either first or last option (sex) in the inequality dropdown
+  private async selectInequalityTypeDropdownOption({
     componentLocator,
     componentProps,
   }: ComponentDefinition) {
@@ -272,7 +272,7 @@ export default class ChartPage extends AreaFilter {
       );
     }
 
-    const valueToSelect = componentProps.typeDropDownOptionToSelect
+    const valueToSelect = componentProps.selectDeprivationInequality
       ? options[0].value
       : options.at(-1)?.value;
 
