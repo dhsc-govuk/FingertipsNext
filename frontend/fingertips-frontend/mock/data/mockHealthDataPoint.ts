@@ -32,3 +32,13 @@ export const mockHealthDataPoint = (
   },
   ...overrides,
 });
+
+export const mockHealthDataPoints = (
+  manyOverrides: (Partial<HealthDataPoint> | number | undefined)[]
+) =>
+  manyOverrides.map((overrides) => {
+    if (overrides === undefined || typeof overrides === 'number') {
+      return mockHealthDataPoint({ year: overrides, value: overrides });
+    }
+    return mockHealthDataPoint(overrides);
+  });
