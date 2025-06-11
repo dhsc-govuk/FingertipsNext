@@ -20,6 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.DataManagement.Repository\DHSC.FingertipsNext.Modules.DataManagement.Repository.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.DataManager\DHSC.FingertipsNext.Modules.DataManagement.csproj" />
     </ItemGroup>
 

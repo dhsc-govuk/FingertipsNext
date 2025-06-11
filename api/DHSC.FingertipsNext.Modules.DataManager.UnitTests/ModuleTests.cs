@@ -7,6 +7,6 @@ public class ModuleTests
     [Fact]
     public void ModuleIsNamedDataManager()
     {
-        _module.ModuleName.ShouldBe("DataManager");
+        _module.ModuleName.ShouldBe("DataManagement");
     }
 }
