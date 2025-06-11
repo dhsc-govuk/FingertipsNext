@@ -8,3 +8,7 @@ dotnet_diagnostic.CA1303.severity = none
 
 [*{Controller,Tests}.cs]
 dotnet_diagnostic.CA1515.severity = none
+
+# Suppresses CS8618 in the context of an entity framework model
+[*Repository/Models**.cs] 
+dotnet_diagnostic.CS8618.severity = none

@@ -15,23 +15,22 @@ public class AreaTypeModel
     /// </summary>
     [Key]
     [MaxLength(50)]
-    public required string AreaTypeKey { get; set; }
+    public string AreaTypeKey { get; set; }
 
     /// <summary>
     /// The level of the area type in the hierarchy
     /// </summary>
-    public required int Level { get; set; }
+    public int Level { get; set; }
 
     /// <summary>
     /// The name of the associated hierarchy for the area type
     /// </summary>
     [MaxLength(20)]
-    public required string HierarchyType { get; set; }
+    public string HierarchyType { get; set; }
 
     /// <summary>
     /// The name of the area type for display
     /// </summary>
     [MaxLength(50)]
-    public required string AreaTypeName { get; set; }
-
+    public string AreaTypeName { get; set; }
 }

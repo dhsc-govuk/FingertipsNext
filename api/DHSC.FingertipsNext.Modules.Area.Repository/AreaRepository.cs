@@ -8,18 +8,9 @@ public class AreaRepository : IAreaRepository
 {
     private readonly AreaRepositoryDbContext _dbContext;
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="dbContext"></param>
-    /// <exception cref="ArgumentNullException"></exception>
     public AreaRepository(AreaRepositoryDbContext dbContext) =>
         _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <returns></returns>
     public async Task<IList<string>> GetHierarchiesAsync() =>
         await _dbContext.AreaType
             .Select(areaType => areaType.HierarchyType)
@@ -27,11 +18,6 @@ public class AreaRepository : IAreaRepository
             .Distinct()
             .ToListAsync();
 
-    /// <summary>
-    /// Retrieves a list of area models based on the requested area codes.
-    /// </summary>
-    /// <param name="areaCodes"></param>
-    /// <returns>List of areas requested</returns>
     public async Task<IList<AreaModel>> GetMultipleAreaDetailsAsync(string[] areaCodes)
     {
         return await _dbContext.Area
@@ -41,7 +27,6 @@ public class AreaRepository : IAreaRepository
             {
                 AreaCode = area.AreaCode,
                 AreaName = area.AreaName,
-                AreaTypeKey = area.AreaTypeKey,
                 AreaType = new AreaTypeModel
                 {
                     AreaTypeKey = area.AreaType.AreaTypeKey,
@@ -54,46 +39,23 @@ public class AreaRepository : IAreaRepository
             .ToListAsync();
     }
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="hierarchyType"></param>
-    /// <returns></returns>
     public async Task<IList<AreaTypeModel>> GetAreaTypesAsync(string hierarchyType)
     {
         return await _dbContext.AreaType
             .Where(areaType => areaType.HierarchyType == hierarchyType || areaType.HierarchyType == InternalHierarchyTypes.Both).ToListAsync();
     }
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <returns></returns>
     public async Task<IList<AreaTypeModel>> GetAllAreaTypesAsync()
     {
         return await _dbContext.AreaType.ToListAsync();
     }
 
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="areaTypeKey"></param>
-    /// <returns></returns>
     public async Task<IList<AreaModel>> GetAreasForAreaTypeAsync(string areaTypeKey) =>
         await _dbContext.Area
         .Include(area => area.AreaType)
-        .Where(area => area.AreaType.AreaTypeKey == areaTypeKey)
+        .Where(area => area.AreaTypeKey == areaTypeKey)
         .ToListAsync();
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="areaCode"></param>
-    /// <param name="includeChildren"></param>
-    /// <param name="includeSiblings"></param>
-    /// <param name="childAreaType"></param>
-    /// <returns></returns>
     public async Task<AreaWithRelationsModel?> GetAreaAsync
     (
         string areaCode,
@@ -147,8 +109,13 @@ public class AreaRepository : IAreaRepository
             (await GetDescendantAreas(area, childAreaType)).ToList();
     }
 
-    // Retrieves all descendant areas of a specified area, filtered by a requested area type.
-    // in a sorted ordered by hierarchy level.
+    /// <summary>
+    /// Retrieves all descendant areas of a specified area, filtered by a requested area type.
+    /// in a sorted ordered by hierarchy level.
+    /// </summary>
+    /// <param name="startingArea"></param>
+    /// <param name="childAreaTypeKey"></param>
+    /// <returns></returns>
     private async Task<ICollection<AreaModel>> GetDescendantAreas(AreaModel startingArea, string childAreaTypeKey)
     {
         var areaWithAreaTypeList = await _dbContext.DenormalisedAreaWithAreaType

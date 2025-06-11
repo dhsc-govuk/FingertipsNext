@@ -8,7 +8,7 @@ namespace DHSC.FingertipsNext.Modules.Area.Repository;
 public interface IAreaRepository
 {
     /// <summary>
-    ///
+    /// Gets all hierarchies from the database.
     /// </summary>
     /// <returns></returns>
     Task<IList<string>> GetHierarchiesAsync();
@@ -21,14 +21,14 @@ public interface IAreaRepository
     Task<IList<AreaModel>> GetMultipleAreaDetailsAsync(string[] areaCodes);
 
     /// <summary>
-    ///
+    /// Gets all area types from the database matching given hierarchy type.
     /// </summary>
     /// <param name="hierarchyType"></param>
     /// <returns></returns>
     Task<IList<AreaTypeModel>> GetAreaTypesAsync(string hierarchyType);
 
     /// <summary>
-    ///
+    /// Gets all area types from the database.
     /// </summary>
     /// <returns></returns>
     Task<IList<AreaTypeModel>> GetAllAreaTypesAsync();

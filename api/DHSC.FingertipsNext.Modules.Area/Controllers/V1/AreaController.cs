@@ -4,7 +4,6 @@ using DHSC.FingertipsNext.Modules.Area.Service;
 using DHSC.FingertipsNext.Modules.Common.Schemas;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 
 namespace DHSC.FingertipsNext.Modules.Area.Controllers.V1;
 
@@ -33,7 +32,7 @@ public class AreaController : ControllerBase
     /// If no area codes are provided then a client error response is returned.
     /// </remarks>
     [HttpGet]
-    [ProducesResponseType(typeof(List<Schemas.AreaData>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<AreaData>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(SimpleError), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetMultipleAreaDetailsAsync(
@@ -129,7 +128,7 @@ public class AreaController : ControllerBase
     /// <param name="areaTypeKey"></param>
     /// <returns></returns>
     [HttpGet]
-    [ProducesResponseType(typeof(List<Schemas.AreaData>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<AreaData>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [Route("areatypes/{area_type_key}/areas")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]

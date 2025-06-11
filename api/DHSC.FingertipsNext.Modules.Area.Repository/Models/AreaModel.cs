@@ -9,7 +9,6 @@ namespace DHSC.FingertipsNext.Modules.Area.Repository.Models;
 [Table("Areas", Schema = "Areas")]
 public class AreaModel
 {
-
     /// <summary>
     /// The unique area key of the area - this is a surrogate key
     /// </summary>
@@ -22,22 +21,22 @@ public class AreaModel
     /// areaType in which case they have two entries in the DB
     /// </summary>
     [MaxLength(20)]
-    public required string AreaCode { get; init; }
+    public string AreaCode { get; init; }
 
     /// <summary>
     /// The name of the area e.g. 'Derby'
     /// </summary>
     [MaxLength(255)]
-    public required string AreaName { get; init; }
+    public string AreaName { get; init; }
 
     /// <summary>
     /// The type of the area e.g. 'Region'
     /// </summary>
     [ForeignKey("AreaTypeKey")]
-    public required AreaTypeModel AreaType { get; init; }
+    public AreaTypeModel AreaType { get; init; }
 
     [MaxLength(50)]
-    public required string AreaTypeKey { get; init; }
+    public string AreaTypeKey { get; init; }
 
     public virtual ICollection<AreaModel> Children { get; init; } = [];
 
