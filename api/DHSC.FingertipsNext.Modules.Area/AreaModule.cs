@@ -43,7 +43,7 @@ public class AreaModule : AbstractMonolithModule, IMonolithModule
 
         services.AddDbContext<AreaRepositoryDbContext>
         (
-            options => options.UseSqlServer(builder.ConnectionString)
+            options => options.UseSqlServer(builder.ConnectionString).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution)
         );
     }
 }

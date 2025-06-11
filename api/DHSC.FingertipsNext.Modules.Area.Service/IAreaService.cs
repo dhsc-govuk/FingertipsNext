@@ -21,11 +21,18 @@ public interface IAreaService
     public Task<IList<Schemas.AreaData>> GetMultipleAreaDetails(string[] areaCodes);
 
     /// <summary>
-    /// Get area types, optionally filtering by hierarchy type
+    /// Get area types filtering by hierarchy type
     /// </summary>
     /// <param name="hierarchyType"></param>
     /// <returns></returns>
-    public Task<IList<AreaType>> GetAreaTypes(string? hierarchyType = null);
+    public Task<IList<AreaType>> GetAreaTypes(string hierarchyType);
+
+    /// <summary>
+    /// Get all area types.
+    /// </summary>
+    /// <returns></returns>
+    public Task<IList<AreaType>> GetAllAreaTypes();
+
 
     /// <summary>
     /// Get the full details of a given area, including its parent, optionally including its children.
@@ -40,8 +47,8 @@ public interface IAreaService
     /// <returns>The requested area node, or null if it cannot be located.</returns>
     public Task<AreaWithRelations?> GetAreaDetails(
         string areaCode,
-        bool? includeChildren,
-        bool? includeSiblings,
+        bool includeChildren,
+        bool includeSiblings,
         string? childAreaType
     );
 
@@ -56,5 +63,5 @@ public interface IAreaService
     /// Get the root node of the area hierarchy
     /// </summary>
     /// <returns></returns>
-    public RootArea? GetRootArea();
+    public RootArea GetRootArea();
 }

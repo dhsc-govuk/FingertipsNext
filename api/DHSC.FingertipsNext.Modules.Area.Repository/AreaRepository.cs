@@ -41,6 +41,7 @@ public class AreaRepository : IAreaRepository
             {
                 AreaCode = area.AreaCode,
                 AreaName = area.AreaName,
+                AreaTypeKey = area.AreaTypeKey,
                 AreaType = new AreaTypeModel
                 {
                     AreaTypeKey = area.AreaType.AreaTypeKey,
@@ -60,15 +61,19 @@ public class AreaRepository : IAreaRepository
     /// <returns></returns>
     public async Task<IList<AreaTypeModel>> GetAreaTypesAsync(string hierarchyType)
     {
-        IQueryable<AreaTypeModel> areaTypes;
-        if (!string.IsNullOrEmpty(hierarchyType))
-            areaTypes = _dbContext.AreaType
-                .Where(areaType => areaType.HierarchyType == hierarchyType || areaType.HierarchyType == InternalHierarchyTypes.Both);
-        else
-            areaTypes = _dbContext.AreaType;
-
-        return await areaTypes.ToListAsync();
+        return await _dbContext.AreaType
+            .Where(areaType => areaType.HierarchyType == hierarchyType || areaType.HierarchyType == InternalHierarchyTypes.Both).ToListAsync();
     }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <returns></returns>
+    public async Task<IList<AreaTypeModel>> GetAllAreaTypesAsync()
+    {
+        return await _dbContext.AreaType.ToListAsync();
+    }
+
 
     /// <summary>
     ///
@@ -78,7 +83,7 @@ public class AreaRepository : IAreaRepository
     public async Task<IList<AreaModel>> GetAreasForAreaTypeAsync(string areaTypeKey) =>
         await _dbContext.Area
         .Include(area => area.AreaType)
-        .Where(area => area.AreaTypeKey == areaTypeKey)
+        .Where(area => area.AreaType.AreaTypeKey == areaTypeKey)
         .ToListAsync();
 
     /// <summary>
@@ -89,16 +94,15 @@ public class AreaRepository : IAreaRepository
     /// <param name="includeSiblings"></param>
     /// <param name="childAreaType"></param>
     /// <returns></returns>
-    public async Task<AreaWithRelationsModel> GetAreaAsync
+    public async Task<AreaWithRelationsModel?> GetAreaAsync
     (
         string areaCode,
         bool includeChildren,
         bool includeSiblings,
-        string childAreaType
+        string? childAreaType 
     )
     {
-
-        var area = await _dbContext
+        AreaModel? area = await _dbContext
              .Area
              .Include(area => area.AreaType)
              .Include(a => a.Children)
@@ -127,20 +131,18 @@ public class AreaRepository : IAreaRepository
             return null;
         }
 
-        var areasWithRelations = new AreaWithRelationsModel
+        return new AreaWithRelationsModel
         {
             Area = area,
             ParentAreas = area.Parents.ToList(),
             Siblings = includeSiblings ? area.Parents.SelectMany(p => p.Children).ToList() : [],
-            Children = includeChildren ? await GetChildren(childAreaType, area) : null
+            Children = includeChildren ? await GetChildren(childAreaType, area) : []
         };
-
-        return areasWithRelations;
     }
 
-    private async Task<IList<AreaModel>> GetChildren(string childAreaType, AreaModel area)
+    private async Task<IList<AreaModel>> GetChildren(string? childAreaType, AreaModel area)
     {
-        return string.IsNullOrWhiteSpace(childAreaType) ?
+        return childAreaType == null ?
             area.Children.ToList() :
             (await GetDescendantAreas(area, childAreaType)).ToList();
     }

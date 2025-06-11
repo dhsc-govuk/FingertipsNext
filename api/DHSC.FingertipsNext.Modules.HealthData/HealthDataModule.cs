@@ -49,7 +49,7 @@ public class HealthDataModule : AbstractMonolithModule, IMonolithModule
             TrustServerCertificate = trustServerCertificate
         };
 
-        services.AddDbContext<HealthDataDbContext>(options => options.UseSqlServer(builder.ConnectionString));
+        services.AddDbContext<HealthDataDbContext>(options => options.UseSqlServer(builder.ConnectionString).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution));
     }
 
     private static string GetEnvironmentValue(IConfiguration configuration, string name) =>

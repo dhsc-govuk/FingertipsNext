@@ -45,8 +45,21 @@ public class AreaService : IAreaService
     /// </summary>
     /// <param name="hierarchyType"></param>
     /// <returns></returns>
-    public async Task<IList<AreaType>> GetAreaTypes(string? hierarchyType = null) =>
-        _areaMapper.Map(await _areaRepository.GetAreaTypesAsync(hierarchyType));
+    public async Task<IList<AreaType>> GetAreaTypes(string hierarchyType)
+    {
+        return _areaMapper.Map(await _areaRepository.GetAreaTypesAsync(hierarchyType));
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="hierarchyType"></param>
+    /// <returns></returns>
+    public async Task<IList<AreaType>> GetAllAreaTypes()
+    {
+        return _areaMapper.Map(await _areaRepository.GetAllAreaTypesAsync());
+    }
+
 
     /// <summary>
     ///
@@ -58,15 +71,15 @@ public class AreaService : IAreaService
     /// <returns></returns>
     public async Task<AreaWithRelations?> GetAreaDetails(
         string areaCode,
-        bool? includeChildren,
-        bool? includeSiblings,
+        bool includeChildren,
+        bool includeSiblings,
         string? childAreaType
     )
     {
         var area = await _areaRepository.GetAreaAsync(
             areaCode,
-            includeChildren ?? false,
-            includeSiblings ?? false,
+            includeChildren,
+            includeSiblings,
             childAreaType
         );
 
@@ -89,7 +102,7 @@ public class AreaService : IAreaService
     ///
     /// </summary>
     /// <returns></returns>
-    public RootArea? GetRootArea() =>
+    public RootArea GetRootArea() =>
         new() { Name = "England", Code = "E92000001" };
 
     /// <summary>

@@ -55,7 +55,7 @@ public class AreaController : ControllerBase
 
         var areasData = await _areaService.GetMultipleAreaDetails(areaCodes);
 
-        if (areasData.IsNullOrEmpty()) return NotFound();
+        if (areasData.Count == 0) return NotFound();
 
         return Ok(areasData);
     }
@@ -78,8 +78,17 @@ public class AreaController : ControllerBase
     [HttpGet]
     [ProducesResponseType(typeof(List<AreaType>), StatusCodes.Status200OK)]
     [Route("areatypes")]
-    public async Task<IActionResult> GetAreatypesAsync([FromQuery(Name = "hierarchy_type")] string? hierarchyType = null) =>
-        Ok(await _areaService.GetAreaTypes(hierarchyType));
+    public async Task<IActionResult> GetAreaTypesAsync([FromQuery(Name = "hierarchy_type")] string? hierarchyType = null)
+    {
+        if(hierarchyType == null)
+        {
+            return Ok(await _areaService.GetAllAreaTypes());
+        }
+        else
+        {
+            return Ok(await _areaService.GetAreaTypes(hierarchyType));
+        }
+    }
 
     /// <summary>
     /// Get the full details of a given area, including its parent, optionally including its children.
@@ -99,8 +108,8 @@ public class AreaController : ControllerBase
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public async Task<IActionResult> GetAreaDetailsAsync(
         [FromRoute(Name = "area_code")] string areaCode,
-        [FromQuery(Name = "include_children")] bool? includeChildren = null,
-        [FromQuery(Name = "include_siblings")] bool? includeSiblings = null,
+        [FromQuery(Name = "include_children")] bool includeChildren = false,
+        [FromQuery(Name = "include_siblings")] bool includeSiblings = false,
         [FromQuery(Name = "child_area_type")] string? childAreaType = null
     )
     {
