@@ -12,7 +12,6 @@ import { ExportType } from '@/components/molecules/Export/export.types';
 import { Locator, test } from '@playwright/test';
 import path from 'path';
 import fs from 'fs/promises';
-import { date } from 'zod';
 
 interface VisibleComponent {
   componentLocator: string;
@@ -25,8 +24,10 @@ export default class ChartPage extends AreaFilter {
   // chart components
   static readonly lineChartComponent = 'standardLineChart-component';
   static readonly lineChartTableComponent = 'lineChartTable-component';
-  static readonly populationPyramidComponent =
+  static readonly populationPyramidContainer =
     'populationPyramidWithTable-component';
+  static readonly populationPyramidChartComponent =
+    'populationPyramidChart-component';
   static readonly populationPyramidTableComponent =
     'populationPyramidTable-component';
   static readonly inequalitiesBarChartTableComponent =
@@ -190,7 +191,7 @@ export default class ChartPage extends AreaFilter {
       },
       {
         condition: componentProps.hasDetailsExpander,
-        action: () => this.expandDetailsSection(componentLocator),
+        action: () => this.expandDetailsSection(),
       },
       {
         condition: componentProps.isWideComponent,
@@ -310,9 +311,11 @@ export default class ChartPage extends AreaFilter {
   }
 
   // clicks on 'Show population data' to show population pyramid component
-  private async expandDetailsSection(componentLocator: string) {
+  private async expandDetailsSection() {
     await this.clickAndAwaitLoadingComplete(
-      this.page.getByTestId(componentLocator).getByText('Show population data')
+      this.page
+        .getByTestId(ChartPage.populationPyramidContainer)
+        .getByText('Show population data')
     );
   }
 
@@ -504,7 +507,12 @@ export default class ChartPage extends AreaFilter {
   ) {
     const { componentLocator } = component;
 
-    await expect(this.page.getByTestId(componentLocator)).toBeVisible({
+    const locatorToUse =
+      componentLocator !== ChartPage.populationPyramidChartComponent
+        ? componentLocator
+        : `tabContent-${componentLocator.replace('-component', '')}`;
+
+    await expect(this.page.getByTestId(locatorToUse)).toBeVisible({
       visible: true,
     });
 
