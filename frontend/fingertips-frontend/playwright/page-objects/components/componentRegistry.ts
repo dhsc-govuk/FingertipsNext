@@ -43,9 +43,9 @@ export const allComponents: ComponentDefinition[] = [
     componentLocator: ChartPage.inequalitiesLineChartComponent,
     componentProps: {
       hasConfidenceIntervals: true,
-      hasTypeDropDown: true,
+      hasTypeDropDown: true, 
       isWideComponent: true,
-      typeDropDownOptionToSelect: true,
+      selectDeprivationInequality: true,
     },
   },
   {
