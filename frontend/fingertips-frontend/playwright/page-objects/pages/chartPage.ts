@@ -184,7 +184,10 @@ export default class ChartPage extends AreaFilter {
       {
         condition: componentProps.hasInequalityTypeDropDown,
         action: () =>
-          this.selectInequalityTypeDropdownOption({ componentLocator, componentProps }),
+          this.selectInequalityTypeDropdownOption({
+            componentLocator,
+            componentProps,
+          }),
       },
       {
         condition: componentProps.hasDetailsExpander,
