@@ -5,6 +5,7 @@ import {
   IndicatorMode,
   SimpleIndicatorDocument,
   customEncodeURIComponent,
+  PersistentCsvHeaders,
 } from '@/playwright/testHelpers';
 import { ComponentDefinition } from '../components/componentTypes';
 import { expect } from '../pageFactory';
@@ -221,11 +222,16 @@ export default class ChartPage extends AreaFilter {
       //   action: () =>
       //     this.verifySVGExport(component, areaMode, selectedIndicators),
       // },
-      // {
-      //   condition: checkExports && componentProps.hasCSVExport,
-      //   action: () =>
-      //     this.verifyCSVExport(component, areaMode, selectedIndicators),
-      // },
+      {
+        condition: checkExports && componentProps.hasCSVExport,
+        action: () =>
+          this.verifyCSVExport(
+            component,
+            areaMode,
+            indicatorMode,
+            selectedIndicators
+          ),
+      },
       {
         condition: componentProps.showsBenchmarkComparisons,
         action: () =>
@@ -597,12 +603,13 @@ export default class ChartPage extends AreaFilter {
         .getByRole('button', { name: 'Export options' })
     );
 
-    // Assert the export modal is visible and contains PNG option and displays the preview
+    // Assert the export modal is visible and defaults to PNG option and displays the preview
     expect(
       this.page
         .getByTestId(ChartPage.exportModalPaneComponent)
         .getByText(String(ExportType.PNG))
     ).toBeVisible();
+    // this assertions ensures PNG is default and the preview of the PNG is displayed
     expect(
       this.page
         .getByTestId(ChartPage.exportModalPaneComponent)
@@ -625,6 +632,104 @@ export default class ChartPage extends AreaFilter {
 
     // Verify the file was downloaded successfully
     expect(download.suggestedFilename()).toBeDefined();
+
+    // close the export modal
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByRole('button', { name: 'Close modal' })
+    );
+  }
+
+  private async verifyCSVExport(
+    component: VisibleComponent,
+    areaMode: AreaMode,
+    indicatorMode: IndicatorMode,
+    selectedIndicators: SimpleIndicatorDocument[]
+  ): Promise<void> {
+    const exportDataTestId = `tabContent-${component.componentLocator.replace('-component', '')}`;
+
+    // Create download directory structure
+    const projectName = test.info().project.name;
+    const downloadDir = path.join(
+      process.cwd(),
+      '.test',
+      'spec',
+      'exports',
+      ExportType.CSV,
+      projectName,
+      `${areaMode}-${indicatorMode}`
+    );
+
+    // Ensure directory exists
+    await fs.mkdir(downloadDir, { recursive: true });
+
+    await this.clickAndAwaitLoadingComplete(
+      this.page
+        .getByTestId(exportDataTestId)
+        .getByRole('button', { name: 'Export options' })
+    );
+
+    // Assert the export modal is visible and defaults to PNG option and displays the preview
+    expect(
+      this.page
+        .getByTestId(ChartPage.exportModalPaneComponent)
+        .getByText(String(ExportType.PNG))
+    ).toBeVisible();
+    // this assertions ensures PNG is default and the preview of the PNG is displayed
+    expect(
+      this.page
+        .getByTestId(ChartPage.exportModalPaneComponent)
+        .locator('canvas')
+    ).toBeVisible();
+
+    // Click the CSV export option
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByRole('radio', { name: 'CSV' })
+    );
+
+    const exportModalPreview = this.page
+      .getByTestId(ChartPage.exportModalPaneComponent)
+      .locator('div')
+      .last();
+
+    // Check the modal preview contains the persistent CSV headers and the selected indicators
+    for (const header of Object.values(PersistentCsvHeaders)) {
+      await expect(exportModalPreview).toContainText(header);
+    }
+    const expectedCsvIndicatorID =
+      component.componentLocator ===
+        ChartPage.populationPyramidTableComponent &&
+      areaMode === AreaMode.ENGLAND_AREA
+        ? 92708
+        : selectedIndicators[0].indicatorID;
+    await expect(exportModalPreview).toContainText(
+      String(expectedCsvIndicatorID)
+    );
+    const expectedCsvIndicatorName =
+      component.componentLocator ===
+        ChartPage.populationPyramidTableComponent &&
+      areaMode === AreaMode.ENGLAND_AREA
+        ? 'Resident population'
+        : selectedIndicators[0].indicatorName;
+    await expect(exportModalPreview).toContainText(expectedCsvIndicatorName);
+
+    // Click the CSV export option
+    const downloadPromise = this.page.waitForEvent('download');
+    await this.clickAndAwaitLoadingComplete(
+      this.page
+        .getByTestId(ChartPage.exportModalPaneComponent)
+        .getByRole('button')
+        .getByText('Export')
+    );
+    const download = await downloadPromise;
+    const filename = download.suggestedFilename();
+    const downloadPath = path.join(downloadDir, filename);
+
+    await download.saveAs(downloadPath);
+
+    // Verify the file was downloaded successfully
+    expect(download.suggestedFilename()).toBeDefined();
+
+    // add more assertions
 
     // close the export modal
     await this.clickAndAwaitLoadingComplete(
