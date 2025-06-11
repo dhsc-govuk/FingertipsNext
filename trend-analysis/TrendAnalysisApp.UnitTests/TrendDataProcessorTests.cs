@@ -116,8 +116,8 @@ public class TrendDataProcessorTests
         });
         _dbContext.SaveChanges();
 
-        PopulateMockHealthMeasureData(gpRegIndicator.Entity.IndicatorKey);
-        PopulateMockHealthMeasureData(residentPopulationIndicator.Entity.IndicatorKey, startKey: residentPopulationIndicatorKey);
+        PopulateMockHealthMeasureData(gpRegIndicator.Entity.IndicatorKey, Indicator.GpRegisteredPopulationId);
+        PopulateMockHealthMeasureData(residentPopulationIndicator.Entity.IndicatorKey, Indicator.ResidentPopulationId, startKey: residentPopulationIndicatorKey);
         
         // act
         await _trendDataProcessor.Process(_serviceProvider);
@@ -182,8 +182,8 @@ public class TrendDataProcessorTests
         });
         _dbContext.SaveChanges();
 
-        PopulateMockHealthMeasureData(mockIndicator.Entity.IndicatorKey);
-        PopulateMockHealthMeasureData(mockIndicator.Entity.IndicatorKey, SecondAreaEntityKey, startKey:secondGroupsStartKey, setTrendCannotBeCalculated: true);
+        PopulateMockHealthMeasureData(mockIndicator.Entity.IndicatorKey, 1);
+        PopulateMockHealthMeasureData(mockIndicator.Entity.IndicatorKey, 1,SecondAreaEntityKey, startKey:secondGroupsStartKey, setTrendCannotBeCalculated: true);
 
         // act
         await _trendDataProcessor.Process(_serviceProvider);
@@ -246,8 +246,8 @@ public class TrendDataProcessorTests
         });
         _dbContext.SaveChanges();
 
-        PopulateMockHealthMeasureData(mockIndicatorKey);
-        PopulateMockHealthMeasureData(mockIndicatorKey, SecondAreaEntityKey, startKey: secondAreaStartKey, isAggregate: false, setTrendCannotBeCalculated:true);
+        PopulateMockHealthMeasureData(mockIndicatorKey, 1);
+        PopulateMockHealthMeasureData(mockIndicatorKey, 1, SecondAreaEntityKey, startKey: secondAreaStartKey, isAggregate: false, setTrendCannotBeCalculated:true);
 
         // act
         await _trendDataProcessor.Process(_serviceProvider);
@@ -283,8 +283,10 @@ public class TrendDataProcessorTests
        /// <param name="isAggregate">Defaults to true, will add non-aggregated data if false.</param>
        /// <param name="startYear">Default start year of 2024</param>
        /// <param name="setTrendCannotBeCalculated">Defaults to false, but will add data for which the trend cannot be calculated if true.</param>
+       /// <param name="indicatorId">Indicator ID.</param>
     private void PopulateMockHealthMeasureData(
         short entityIndicatorKey,
+        int indicatorId,
         int areaEntityKey = FirstAreaEntityKey,
         int startKey = MockHealthMeasureStartKey,
         bool isAggregate = true,
@@ -300,6 +302,7 @@ public class TrendDataProcessorTests
 
         for (var i = 0; i < TrendCalculator.RequiredNumberOfDataPoints; i++)
         {
+            var now = DateTime.UtcNow;
             _dbContext.Add(new HealthMeasureModel
             {
                 HealthMeasureKey = startKey + i,
@@ -315,6 +318,8 @@ public class TrendDataProcessorTests
                 LowerCI = 7,
                 UpperCI = 7,
                 Year = (short)(startYear - i),
+                PublishedAt = now,
+                BatchId = $"{indicatorId}_{now:yyyyMMddHHmmss}"
             });
         }
 
