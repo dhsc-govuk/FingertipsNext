@@ -1,9 +1,9 @@
 ﻿using Shouldly;
-namespace DHSC.FingertipsNext.Modules.DataManager.UnitTests;
+namespace DHSC.FingertipsNext.Modules.DataManagement.UnitTests;
 
 public class ModuleTests
 {
-    private readonly DataManagerModule _module = new();
+    private readonly DataManagementModule _module = new();
     [Fact]
     public void ModuleIsNamedDataManager()
     {

@@ -1,8 +1,8 @@
 ﻿// using DHSC.FingertipsNext.Monolith;
 
-namespace DHSC.FingertipsNext.Modules.DataManager;
+namespace DHSC.FingertipsNext.Modules.DataManagement;
 
-public class DataManagerModule 
+public class DataManagementModule 
 {
     public string ModuleName => "DataManager";
 }
