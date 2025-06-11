@@ -6,7 +6,7 @@ import { useShallowSearchParams } from '@/components/shallow/hooks/useShallowSea
 import { Select } from 'govuk-react';
 
 export const GroupTypeSelect: FC = () => {
-  const { selectedAreaType, selectedGroupType, shallowUpdate, search } =
+  const { areaTypeSelected, groupTypeSelected, shallowUpdate, search } =
     useShallowSearchParams();
 
   // get all the areaTypes
@@ -15,7 +15,7 @@ export const GroupTypeSelect: FC = () => {
   // and filter by selectedAreaType
   const availableGroupTypes = determineApplicableGroupTypes(
     areaTypes,
-    selectedAreaType as AreaTypeKeys
+    areaTypeSelected as AreaTypeKeys
   );
 
   // and then sort
@@ -35,7 +35,7 @@ export const GroupTypeSelect: FC = () => {
       label={'Select a group type'}
       input={{
         onChange: onSelectGroupType,
-        value: selectedGroupType,
+        value: groupTypeSelected,
         name: 'gts',
         disabled: sortedByLevelGroupTypes.length <= 1,
       }}

@@ -8,21 +8,21 @@ import { OneIndicatorTwoOrMoreAreasViewPlots } from '@/components/viewPlots/OneI
 import { HealthDataForAnIndicatorUrlOptions } from '@/components/shallow/apiUrls';
 
 export const ShallowViews: FC = () => {
-  const { selectedAreas, selectedAreaType, selectedGroup } =
+  const { areasSelected, areaTypeSelected, groupSelected } =
     useShallowSearchParams();
 
   const selectedAreasWithEngland = [
-    ...new Set([...selectedAreas, areaCodeForEngland]),
+    ...new Set([...areasSelected, areaCodeForEngland]),
   ];
 
   const indicatorParams: HealthDataForAnIndicatorUrlOptions = {
     areaCodes: selectedAreasWithEngland,
-    areaType: selectedAreaType,
+    areaType: areaTypeSelected,
   };
 
-  if (selectedAreas.length >= 2) {
+  if (areasSelected.length >= 2) {
     indicatorParams.includeEmptyAreas = true;
-    indicatorParams.latestOnly = selectedAreas.length > 2;
+    indicatorParams.latestOnly = areasSelected.length > 2;
   } else {
     indicatorParams.inequalities = [
       GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
@@ -35,11 +35,11 @@ export const ShallowViews: FC = () => {
     indicatorParams
   );
 
-  const searchState = { gs: selectedGroup, as: selectedAreas };
+  const searchState = { gs: groupSelected, as: areasSelected };
 
   if (!healthData) return <div>Loading...</div>;
 
-  if (selectedAreas.length >= 2) {
+  if (areasSelected.length >= 2) {
     return (
       <OneIndicatorTwoOrMoreAreasViewPlots
         searchState={searchState}

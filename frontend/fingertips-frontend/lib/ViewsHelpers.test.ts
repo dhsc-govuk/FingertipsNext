@@ -237,7 +237,7 @@ describe('getIndicatorData', () => {
   const testParams: GetIndicatorDataParam = {
     areasSelected: ['abc', 'def'],
     indicatorSelected: ['1'],
-    selectedAreaType: 'test_area_type',
+    areaTypeSelected: 'test_area_type',
   };
 
   afterEach(() => {

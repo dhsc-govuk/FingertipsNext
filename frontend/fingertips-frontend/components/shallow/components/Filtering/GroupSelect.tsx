@@ -4,9 +4,9 @@ import { useShallowSearchParams } from '@/components/shallow/hooks/useShallowSea
 import { Select } from 'govuk-react';
 
 export const GroupSelect: FC = () => {
-  const { selectedGroupType, shallowUpdate, search, selectedGroup } =
+  const { groupTypeSelected, shallowUpdate, search, groupSelected } =
     useShallowSearchParams();
-  const { areas: groups } = useApiAreaTypeMembersGet(selectedGroupType);
+  const { areas: groups } = useApiAreaTypeMembersGet(groupTypeSelected);
 
   const onSelectGroup = (e: ChangeEvent<HTMLSelectElement>) => {
     const newSearchParams = new URLSearchParams(search.toString());
@@ -25,7 +25,7 @@ export const GroupSelect: FC = () => {
       label={'Select a group type'}
       input={{
         onChange: onSelectGroup,
-        value: selectedGroup,
+        value: groupSelected,
         name: 'gs',
         disabled: options.length <= 1,
       }}

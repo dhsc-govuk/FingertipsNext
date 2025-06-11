@@ -10,14 +10,14 @@ export const AreaCheckBoxes = () => {
   const {
     search,
     shallowUpdate,
-    selectedAreas,
-    selectedAreaType,
-    selectedGroupType,
-    selectedGroup,
+    areasSelected,
+    areaTypeSelected,
+    groupTypeSelected,
+    groupSelected,
   } = useShallowSearchParams();
-  const { areas: groups } = useApiAreaTypeMembersGet(selectedGroupType);
-  const determinedSelectedGroup = determineSelectedGroup(selectedGroup, groups);
-  const { areas } = useApiAreasGet(determinedSelectedGroup, selectedAreaType);
+  const { areas: groups } = useApiAreaTypeMembersGet(groupTypeSelected);
+  const determinedSelectedGroup = determineSelectedGroup(groupSelected, groups);
+  const { areas } = useApiAreasGet(determinedSelectedGroup, areaTypeSelected);
 
   const onSelectArea = (area: Area) => (e: ChangeEvent<HTMLInputElement>) => {
     const newSearchParams = new URLSearchParams(search);
@@ -36,8 +36,9 @@ export const AreaCheckBoxes = () => {
         <Checkbox
           id={area.code}
           key={area.code}
+          sizeVariant="SMALL"
           value={area.code}
-          checked={selectedAreas.includes(area.code)}
+          checked={areasSelected.includes(area.code)}
           onChange={onSelectArea(area)}
           name={'as'}
         >

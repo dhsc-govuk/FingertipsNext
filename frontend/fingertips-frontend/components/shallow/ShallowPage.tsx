@@ -8,7 +8,7 @@ import {
   DivFlexRow,
 } from '@/components/shallow/ShallowNavigationStyles';
 import { ServerSideOnly } from '@/components/shallow/ServerSideOnly';
-import { ShallowFiltering } from '@/components/shallow/Filtering/ShallowFiltering';
+import { ShallowFiltering } from '@/components/shallow/components/Filtering/ShallowFiltering';
 
 // CLIENT SIDE RENDERED - AND - SERVER SIDE RENDERED
 export const ShallowPage: FC = () => {

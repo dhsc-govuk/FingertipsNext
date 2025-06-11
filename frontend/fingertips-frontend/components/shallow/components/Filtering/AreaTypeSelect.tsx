@@ -4,7 +4,7 @@ import { useApiAreaTypesGet } from '@/components/shallow/hooks/useApiAreaTypesGe
 import { Select } from 'govuk-react';
 
 export const AreaTypeSelect: FC = () => {
-  const { search, shallowUpdate, selectedAreaType } = useShallowSearchParams();
+  const { search, shallowUpdate, areaTypeSelected } = useShallowSearchParams();
   const { areaTypes } = useApiAreaTypesGet();
 
   const onSelectAreaType = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -21,7 +21,7 @@ export const AreaTypeSelect: FC = () => {
       label={'Select an area type'}
       input={{
         onChange: onSelectAreaType,
-        value: selectedAreaType,
+        value: areaTypeSelected,
         name: 'ats',
       }}
     >
