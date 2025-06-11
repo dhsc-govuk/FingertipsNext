@@ -635,6 +635,7 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
     class="c0"
   >
     <div
+      data-testid="heatmapChart-component"
       id="heatmap"
     >
       <h4
@@ -752,7 +753,6 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
       >
         <table
           class="c20 c21"
-          data-testid="heatmapChart-component"
           style="margin-right: 0px;"
         >
           <tbody
@@ -1742,6 +1742,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
     class="c0"
   >
     <div
+      data-testid="heatmapChart-component"
       id="heatmap"
     >
       <h4
@@ -1859,7 +1860,6 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
       >
         <table
           class="c20 c21"
-          data-testid="heatmapChart-component"
           style="margin-right: 0px;"
         >
           <tbody
