@@ -16,53 +16,32 @@ body {
   font-family: 'gdsTransportFont', sans-serif;
 }
 
-.chart-page-header {
-  [class^="logo-search-wrapper"] { 
-    margin-left: calc(-40vw + 50%) !important;
-    max-width: 80vw !important;
-    padding-right: 5vw !important;
-  }
-
-  [class^="bottom-nav-wrapper"] { 
-    margin-left: calc(-40vw + 50%) !important;
-    max-width: 80vw !important;
-  }
-
-  [class^="src__InnerContainer"] { 
-    margin-left: calc(-40vw + 50%) !important;
-    max-width: 80vw !important;
-  }
+.chart-page-header [class^="logo-search-wrapper"],
+.chart-page-header [class^="bottom-nav-wrapper"],
+.chart-page-header [class^="src__InnerContainer"],
+.chart-page-footer [class^="width-container"] {
+  margin-left: calc(-40vw + 50%) !important;
+  max-width: 80vw !important;
 }
 
-.chart-page-footer {
-  [class^="width-container"] {
-    margin-left: calc(-40vw + 50%) !important;
-    max-width: 80vw !important;
-  }
+.chart-page-header [class^="logo-search-wrapper"] {
+  padding-right: 5vw !important;
 }
 
 @media (max-width: 1200px) {
-  .chart-page-header {
-    [class^="logo-search-wrapper"] { 
-      margin-left: calc(-45vw + 50%) !important;
-      max-width: 90vw !important;
-    }
-    
-    [class^="bottom-nav-wrapper"] { 
-      margin-left: calc(-45vw + 50%) !important;
-      max-width: 90vw !important;
-    }
-
-    [class^="src__InnerContainer"] { 
-      margin-left: 5vw !important; 
-      max-width: 90vw !important;
-    }
+  .chart-page-header [class^="logo-search-wrapper"],
+  .chart-page-header [class^="bottom-nav-wrapper"],
+  .chart-page-footer [class^="width-container"] {
+    margin-left: calc(-45vw + 50%) !important;
+    max-width: 90vw !important;
   }
 
-  .chart-page-footer {
-    [class^="width-container"] {
-      margin-left: calc(-45vw + 50%) !important;
-      max-width: 90vw !important;
-    }
+  .chart-page-header [class^="logo-search-wrapper"] {
+    padding-right: 5vw !important;
+  }
+
+  .chart-page-header [class^="src__InnerContainer"] {
+    margin-left: 5vw !important;
+    max-width: 90vw !important;
   }
 }
