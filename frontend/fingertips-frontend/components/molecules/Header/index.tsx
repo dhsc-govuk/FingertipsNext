@@ -14,7 +14,7 @@ const ServiceTitle = styled('span')({
 
 export function FTHeader({ chartPage = false }) {
   return (
-    <header className={chartPage ? 'chart-page-header' : ''}>
+    <header className={chartPage ? 'chart-page-header' : undefined}>
       <TopNav
         serviceTitle={
           <TopNav.NavLink href="/">

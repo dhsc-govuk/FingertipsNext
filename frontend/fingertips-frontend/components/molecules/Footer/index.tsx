@@ -40,7 +40,7 @@ export function FTFooter({
 }: Readonly<FTFooterProps>) {
   return (
     <Footer
-      className={chartPage ? 'chart-page-footer' : ''}
+      className={chartPage ? 'chart-page-footer' : undefined}
       meta={
         <FooterContainer>
           <FooterListItem>

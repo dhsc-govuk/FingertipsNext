@@ -382,9 +382,7 @@ exports[`Header should match snapshot 1`] = `
   }
 }
 
-<header
-    class=""
-  >
+<header>
     <div
       class="c0"
       color="#ffffff"
