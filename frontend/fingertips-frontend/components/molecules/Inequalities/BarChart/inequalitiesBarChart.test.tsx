@@ -1,5 +1,5 @@
 import { InequalitiesBarChart } from '.';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { getTestData } from './mocks';
 import { InequalitiesTypes } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import {
@@ -40,9 +40,12 @@ describe('Inequalities BarChart suite', () => {
     expect(
       screen.getByText('inequalities for South FooBar, 2008')
     ).toBeInTheDocument();
-    expect(screen.getByText('Lower')).toBeInTheDocument();
-    expect(screen.getByText('Higher')).toBeInTheDocument();
-    expect(screen.getByText('Similar')).toBeInTheDocument();
+
+    const benchmarkLegend = screen.getByTestId('benchmarkLegend-component');
+    expect(within(benchmarkLegend).getByText('Lower')).toBeInTheDocument();
+    expect(within(benchmarkLegend).getByText('Higher')).toBeInTheDocument();
+    expect(within(benchmarkLegend).getByText('Similar')).toBeInTheDocument();
+
     expect(screen.getByRole('button')).toHaveTextContent('Export options');
   });
 

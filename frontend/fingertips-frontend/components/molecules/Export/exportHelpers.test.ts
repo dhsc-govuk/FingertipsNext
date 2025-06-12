@@ -1,30 +1,14 @@
 import {
-  addCopyrightFooterToChartOptions,
   canvasToBlob,
   ExcludeFromExport,
   ExportOnly,
   getHtmlToImageCanvas,
-  getSvgFromOptions,
   preCanvasConversion,
-  svgStringToDomElement,
   triggerBlobDownload,
 } from '@/components/molecules/Export/exportHelpers';
-import Highcharts, { Chart } from 'highcharts';
 import html2canvas from 'html2canvas';
-import {
-  exportAccessedDate,
-  exportCopyrightText,
-} from '@/components/molecules/Export/ExportCopyright';
-import { mapSourceForType } from '@/components/organisms/ThematicMap/thematicMapHelpers';
-import { CustomOptions } from '@/components/molecules/Export/export.types';
-import { GovukColours } from '@/lib/styleHelpers/colours';
 
 jest.mock('html2canvas', () => jest.fn());
-jest.mock('highcharts', () => {
-  return {
-    chart: jest.fn(),
-  };
-});
 
 describe('exportHelpers', () => {
   describe('getHtmlToImageCanvas', () => {
@@ -125,27 +109,6 @@ describe('exportHelpers', () => {
     });
   });
 
-  describe('svgStringToDomElement', () => {
-    it('parses a valid SVG string into an SVGElement', () => {
-      const svgString = `<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
-                         <circle cx="50" cy="50" r="40" stroke="black" fill="red" />
-                       </svg>`;
-
-      const element = svgStringToDomElement(svgString) as HTMLElement;
-
-      expect(element).toBeInstanceOf(SVGElement);
-      expect(element.nodeName).toBe('svg');
-      expect(element.getAttribute('width')).toBe('100');
-      expect(element.getAttribute('height')).toBe('100');
-    });
-
-    it('returns a undefined for invalid SVG', () => {
-      const badSvg = `<svg><g><circle r="1"></svg>`; // malformed
-      const element = svgStringToDomElement(badSvg);
-      expect(element).toBeUndefined();
-    });
-  });
-
   describe('canvasToBlob', () => {
     it('resolves with a Blob when canvas.toBlob is called', async () => {
       const mockBlob = new Blob(['test'], { type: 'image/png' });
@@ -219,75 +182,6 @@ describe('exportHelpers', () => {
       expect(mockLink).toHaveProperty('href', 'blob:http://fake-url');
       expect(mockLink).toHaveProperty('download', fileName);
       expect(mockLink.click).toHaveBeenCalled();
-    });
-  });
-
-  describe('getSvgFromOptions', () => {
-    let mockChart: Chart;
-
-    beforeEach(() => {
-      mockChart = {
-        getSVG: jest.fn().mockReturnValue('<svg>mocked</svg>'),
-        destroy: jest.fn(),
-      } as unknown as Chart;
-      (Highcharts.chart as jest.Mock).mockReturnValue(mockChart);
-    });
-
-    afterEach(() => {
-      jest.clearAllMocks();
-    });
-
-    it('should create a chart, get its SVG, destroy the chart, and remove the container', () => {
-      const options = { title: { text: 'Test Chart' } };
-
-      const svg = getSvgFromOptions(options);
-
-      expect(Highcharts.chart).toHaveBeenCalled();
-      expect(mockChart.getSVG).toHaveBeenCalled();
-      expect(mockChart.destroy).toHaveBeenCalled();
-      expect(svg).toBe('<svg>mocked</svg>');
-
-      // Ensure the container is removed from the DOM
-      const containerInDom = Array.from(document.body.children).find(
-        (child) => child.tagName === 'DIV'
-      );
-      expect(containerInDom).toBeUndefined();
-    });
-  });
-
-  describe('addCopyrightFooterToChartOptions', () => {
-    it('modifies chart options and attaches a load event', () => {
-      const inputOptions = {
-        chart: {
-          events: {},
-        },
-      };
-
-      const modified = addCopyrightFooterToChartOptions(inputOptions);
-
-      expect(modified.chart.spacingBottom).toBe(25);
-      expect(modified.caption).toEqual({
-        margin: 20,
-        style: {
-          color: GovukColours.Black,
-          fontSize: '14px',
-        },
-        text: `${exportCopyrightText()}<br />${exportAccessedDate()}`,
-      });
-    });
-
-    it('includes map metadata when custom.mapAreaType is set', () => {
-      const inputOptions = {
-        chart: {
-          events: {},
-        },
-        custom: {
-          mapAreaType: 'regions',
-        },
-      } as CustomOptions;
-
-      const modified = addCopyrightFooterToChartOptions(inputOptions);
-      expect(modified.caption?.text).toContain(mapSourceForType('regions'));
     });
   });
 });

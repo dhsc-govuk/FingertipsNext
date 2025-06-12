@@ -69,7 +69,7 @@ describe('SpineChartLegend', () => {
 
   it('renders BenchmarkLegends and SpineChartQuartilesInfoContainer', () => {
     render(<SpineChartLegend {...defaultProps} />);
-    expect(screen.getByTestId('benchmark-legends')).toBeInTheDocument();
+    expect(screen.getByTestId('benchmarkLegend-component')).toBeInTheDocument();
     expect(screen.getByTestId('quartiles-info')).toBeInTheDocument();
   });
 });

@@ -17,10 +17,10 @@ interface BenchmarkLabelProps {
 
 export const BenchmarkTagStyle = styled(Tag)<{
   outcome: BenchmarkOutcome;
-  group: BenchmarkComparisonMethod;
+  comparisonMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
-}>(({ outcome, group, polarity }) => {
-  const theme = getBenchmarkTagStyle(group, outcome, polarity);
+}>(({ outcome, comparisonMethod, polarity }) => {
+  const theme = getBenchmarkTagStyle(comparisonMethod, outcome, polarity);
 
   return {
     padding: '5px 8px 4px 8px',
@@ -56,7 +56,7 @@ export const BenchmarkLabel: React.FC<BenchmarkLabelProps> = ({
   return (
     <BenchmarkTagStyle
       outcome={outcomeParsed}
-      group={methodParsed}
+      comparisonMethod={methodParsed}
       polarity={polarityParsed}
     >
       {labelText}

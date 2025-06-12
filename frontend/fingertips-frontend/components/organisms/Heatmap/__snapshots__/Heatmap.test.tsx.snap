@@ -311,33 +311,6 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
   tint: SOLID;
 }
 
-.c6 {
-  position: relative;
-  left: -5px;
-}
-
-.c5 {
-  display: block;
-  margin: 4px 0 0 0;
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-  font-size: 16px;
-}
-
-.c3 {
-  margin-bottom: 2em;
-}
-
-.c4 {
-  -webkit-align-self: stretch;
-  -ms-flex-item-align: stretch;
-  align-self: stretch;
-  margin: 16px 0 8px 0;
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-  font-size: 19px;
-}
-
 .c25 {
   height: 50px;
   margin: 0;
@@ -524,6 +497,33 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
 .c2 {
   font-size: 19px;
   margin: 0 0 30px 0;
+}
+
+.c3 {
+  margin-bottom: 2em;
+}
+
+.c4 {
+  -webkit-align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
+  margin: 16px 0 8px 0;
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+  font-size: 19px;
+}
+
+.c6 {
+  position: relative;
+  left: -5px;
+}
+
+.c5 {
+  display: block;
+  margin: 4px 0 0 0;
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+  font-size: 16px;
 }
 
 @media print {

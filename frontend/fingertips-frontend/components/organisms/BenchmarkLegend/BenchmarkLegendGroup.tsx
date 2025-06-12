@@ -4,22 +4,12 @@ import {
   BenchmarkOutcome,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
-import styled from 'styled-components';
 import { FC } from 'react';
 import { getConfidenceLimitNumber } from '@/lib/chartHelpers/chartHelpers';
-
-const LegendGroup = styled('div')({
-  position: 'relative',
-  left: '-5px',
-});
-
-const StyledLegendLabel = styled('span')({
-  display: 'block',
-  margin: '4px 0 0 0',
-  fontFamily: 'nta,Arial,sans-serif',
-  fontWeight: 300,
-  fontSize: '16px', //16px
-});
+import {
+  LegendGroup,
+  StyledLegendLabel,
+} from '@/components/organisms/BenchmarkLegend/BenchmarkLegend.styles';
 
 interface BenchmarkLegendProps {
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
@@ -28,7 +18,7 @@ interface BenchmarkLegendProps {
   subTitle?: string;
 }
 
-const BenchmarkLegendGroup: FC<BenchmarkLegendProps> = ({
+export const BenchmarkLegendGroup: FC<BenchmarkLegendProps> = ({
   outcomes,
   benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
   polarity,
@@ -59,5 +49,3 @@ const BenchmarkLegendGroup: FC<BenchmarkLegendProps> = ({
     </>
   );
 };
-
-export default BenchmarkLegendGroup;
