@@ -1,5 +1,9 @@
-import { AuthServiceMock } from './authServiceMock';
+import NextAuth from 'next-auth';
+import { AuthServiceMock, mockAuthProvider } from './authServiceMock';
 import { IAuthService } from './authTypes';
+import { NoOpAuthService } from './noOpAuthService';
+
+// a few placeholders to keep any auth changes out of sight while WIP
 
 export class AuthServiceFactory {
   private static authServiceInstance: IAuthService | null;
@@ -9,7 +13,16 @@ export class AuthServiceFactory {
   }
 
   private static buildAuthService(): IAuthService {
-    return this.buildAuthServiceMock();
+    if (
+      process.env.NODE_ENV === 'development' &&
+      process.env.MOCK_AUTH === 'true'
+    ) {
+      console.log('using mock credentials');
+      return NextAuth({ providers: [mockAuthProvider] });
+    }
+
+    console.log('using noop');
+    return new NoOpAuthService();
   }
 
   public static getAuthService(): IAuthService {

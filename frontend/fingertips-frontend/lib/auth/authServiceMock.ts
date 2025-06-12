@@ -1,5 +1,6 @@
 import { Session } from 'next-auth';
 import { IAuthService } from './authTypes';
+import Credentials from 'next-auth/providers/credentials';
 
 const defaultUser = 'Mock User';
 const defaultExpiry = new Date('January 1, 1900').toISOString();
@@ -28,3 +29,16 @@ export class AuthServiceMock implements IAuthService {
     return this.session;
   }
 }
+
+export const mockAuthProvider = Credentials({
+  id: 'password',
+  name: 'password',
+  credentials: { password: { label: 'Password', type: 'password' } },
+  authorize: (credentials) => {
+    if (credentials.password === 'password') {
+      return { email: 'testUser@example.com', name: 'testUser', image: '' };
+    }
+
+    throw new Error();
+  },
+});
