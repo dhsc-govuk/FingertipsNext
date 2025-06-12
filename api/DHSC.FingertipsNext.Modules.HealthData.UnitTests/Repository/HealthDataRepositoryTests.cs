@@ -76,7 +76,7 @@ public class HealthDataRepositoryTests : IDisposable
         var result = await _healthDataRepository.GetIndicatorDimensionAsync(1, []);
 
         // assert
-        result.LatestYear.ShouldBe(LATESTYEAR);
+        result!.LatestYear.ShouldBe(LATESTYEAR);
     }
 
     [Fact]
