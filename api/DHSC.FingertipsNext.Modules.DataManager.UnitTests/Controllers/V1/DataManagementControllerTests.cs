@@ -1,4 +1,5 @@
 using DHSC.FingertipsNext.Modules.DataManagement.Controllers.V1;
+using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using DHSC.FingertipsNext.Modules.DataManagement.Service;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
@@ -8,13 +9,14 @@ namespace DHSC.FingertipsNext.Modules.DataManagement.UnitTests.Controllers.V1;
 
 public class DataManagementControllerTests
 {
-     
-     private readonly DataManagementController _controller;
+     private readonly IDataManagementRepository _dataManagementRepository;
      private readonly IDataManagementService _dataManagementService;
+     private readonly DataManagementController _controller;
 
      public DataManagementControllerTests()
      {
-          _dataManagementService = Substitute.For<IDataManagementService>();
+          _dataManagementRepository = new DataManagementRepository();
+          _dataManagementService = new DataManagementService(_dataManagementRepository);
           _controller = new DataManagementController(_dataManagementService);
      }
      
@@ -32,6 +34,6 @@ public class DataManagementControllerTests
           // act
           var response = _controller.Healthcheck() as OkObjectResult;
           // assert
-          response?.Value.ShouldBe("Hello");
+          response?.Value.ShouldBe("The Repository says: I'm a Repository");
      }
 }

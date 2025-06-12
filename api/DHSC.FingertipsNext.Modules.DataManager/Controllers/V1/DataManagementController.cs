@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DHSC.FingertipsNext.Modules.DataManagement.Controllers.V1;
 [ApiController]
-[Route("[controller]")] // TODO: confrim this syntax from the api/Healthcheck endpoint
+[Route("[controller]")] // TODO: confirm this syntax from the api/Healthcheck endpoint
 public class DataManagementController (IDataManagementService dataManagementService) : ControllerBase
 {
     /// <summary>
@@ -16,6 +16,6 @@ public class DataManagementController (IDataManagementService dataManagementServ
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     public ActionResult Healthcheck()
     {
-        return Ok("Hello");
+        return Ok(dataManagementService.SayHelloToRepository());
     }
 }
