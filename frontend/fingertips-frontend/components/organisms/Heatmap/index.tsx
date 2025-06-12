@@ -1,7 +1,6 @@
 'use client';
 
 import { HeatmapIndicatorData } from './heatmapUtil';
-import { BenchmarkLegends } from '../BenchmarkLegend';
 import { HeatmapHover } from './components/hover';
 import React, { FC } from 'react';
 import HeatmapTable from '@/components/organisms/Heatmap/components/HeatmapTable';
@@ -12,6 +11,7 @@ import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapp
 import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
 import { ContainerWithOutline } from '@/components/atoms/ContainerWithOutline/ContainerWithOutline';
 import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
+import { BenchmarkLegends } from '@/components/organisms/BenchmarkLegend/BenchmarkLegends';
 
 export interface HeatmapProps {
   indicatorData: HeatmapIndicatorData[];

@@ -21,6 +21,8 @@ import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapp
 import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
 import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
 import { ContainerWithOutline } from '@/components/atoms/ContainerWithOutline/ContainerWithOutline';
+import { BenchmarkLegends } from '@/components/organisms/BenchmarkLegend/BenchmarkLegends';
+import { getMethodsAndOutcomes } from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
 
 interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];
@@ -88,6 +90,10 @@ export function ThematicMap({
     healthIndicatorData
   );
 
+  const legendsToShow = getMethodsAndOutcomes([
+    { benchmarkComparisonMethod, polarity },
+  ]);
+
   return (
     <>
       <H3>Compare an indicator by areas</H3>
@@ -111,10 +117,10 @@ export function ThematicMap({
               />
             </div>
           ))}
-          <BenchmarkLegend
+          <BenchmarkLegends
+            legendsToShow={legendsToShow}
             title={`Compared to ${healthIndicatorData[0].healthData[0].benchmarkComparison?.benchmarkAreaName}`}
-            benchmarkComparisonMethod={benchmarkComparisonMethod}
-            polarity={polarity}
+            svg
           />
           <HighChartsWrapper
             chartOptions={chartOptions}
