@@ -1,15 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
 import { ExportType } from '@/components/molecules/Export/export.types';
-import {
-  getHtmlToImageCanvas,
-  getSvgFromOptions,
-  svgStringToDomElement,
-} from '@/components/molecules/Export/exportHelpers';
+import { getHtmlToImageCanvas } from '@/components/molecules/Export/exportHelpers';
 import { Options } from 'highcharts';
 import { convertToCsv, CsvData } from '@/lib/downloadHelpers/convertToCsv';
+import { svgClone } from '@/components/molecules/Export/helpers/svgClone';
+import { svgFromString } from '@/components/molecules/Export/helpers/svgFromString';
+import { svgStringFromChartOptions } from '@/components/molecules/Export/helpers/svgStringFromChartOptions';
+import { chartOptionsAddFooter } from '@/components/molecules/Export/helpers/chartOptionsAddFooter';
+import { svgWithChartAndLegend } from '@/components/molecules/Export/helpers/svgWithChartAndLegend';
+import { svgStringFromElement } from '@/components/molecules/Export/helpers/svgStringFromElement';
 
 export interface PreviewPrep {
-  element?: HTMLElement | HTMLCanvasElement;
+  element?: HTMLElement | HTMLCanvasElement | SVGSVGElement;
   text: string;
 }
 
@@ -34,9 +36,17 @@ export const usePreviewPrep = (
           if (!chartOptions) {
             throw new Error('invalid chartRef');
           }
-          const svgString = getSvgFromOptions(chartOptions);
-          const svgElement = svgStringToDomElement(svgString);
-          return { text: svgString, element: svgElement };
+
+          const legend = svgClone(`#${targetId} .svgBenchmarkLegend`);
+          const optionsWithFooter = chartOptionsAddFooter(chartOptions);
+          const svgChartString = svgStringFromChartOptions(optionsWithFooter);
+          const chart = svgFromString(svgChartString);
+          const svg = svgWithChartAndLegend(chart, legend);
+          if (svg) {
+            return { text: svgStringFromElement(svg), element: svg };
+          }
+
+          return { text: svgChartString, element: chart.element };
         }
         case ExportType.CSV: {
           if (!csvData) {

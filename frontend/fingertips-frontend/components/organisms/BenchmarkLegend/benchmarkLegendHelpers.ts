@@ -80,6 +80,17 @@ export const quintilesOutcomesWithJudgement = [
   BenchmarkOutcome.Best,
 ];
 
+const both = {
+  judgement: true,
+  noJudgement: true,
+};
+
+export const allLegendItems: BenchmarkLegendsToShow = {
+  [BenchmarkComparisonMethod.CIOverlappingReferenceValue95]: both,
+  [BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8]: both,
+  [BenchmarkComparisonMethod.Quintiles]: both,
+};
+
 export const isJudgemental = (polarity: IndicatorPolarity) =>
   polarity === IndicatorPolarity.HighIsGood ||
   polarity === IndicatorPolarity.LowIsGood;

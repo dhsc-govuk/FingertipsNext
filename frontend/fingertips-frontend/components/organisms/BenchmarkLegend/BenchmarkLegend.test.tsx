@@ -1,11 +1,12 @@
 import { render, screen } from '@testing-library/react';
-import { BenchmarkLegend, BenchmarkLegends } from '.';
+import { BenchmarkLegend } from '.';
 import '@testing-library/jest-dom';
 import {
   BenchmarkComparisonMethod,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { BenchmarkLegendsToShow } from '@/components/organisms/BenchmarkLegend/benchmarkLegend.types';
+import { BenchmarkLegends } from '@/components/organisms/BenchmarkLegend/BenchmarkLegends';
 
 describe('Testing the benchmark component', () => {
   it('Snapshot testing of the UI RAG 95', () => {

@@ -79,19 +79,6 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB 95 1`] =
   border: 1px solid #0B0C0C;
 }
 
-.c3 {
-  position: relative;
-  left: -5px;
-}
-
-.c2 {
-  display: block;
-  margin: 4px 0 0 0;
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-  font-size: 16px;
-}
-
 .c0 {
   margin-bottom: 2em;
 }
@@ -104,6 +91,19 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB 95 1`] =
   font-family: nta,Arial,sans-serif;
   font-weight: 300;
   font-size: 19px;
+}
+
+.c3 {
+  position: relative;
+  left: -5px;
+}
+
+.c2 {
+  display: block;
+  margin: 4px 0 0 0;
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+  font-size: 16px;
 }
 
 @media print {
@@ -243,19 +243,6 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB 99.8 1`]
   border: 1px solid #0B0C0C;
 }
 
-.c3 {
-  position: relative;
-  left: -5px;
-}
-
-.c2 {
-  display: block;
-  margin: 4px 0 0 0;
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-  font-size: 16px;
-}
-
 .c0 {
   margin-bottom: 2em;
 }
@@ -268,6 +255,19 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB 99.8 1`]
   font-family: nta,Arial,sans-serif;
   font-weight: 300;
   font-size: 19px;
+}
+
+.c3 {
+  position: relative;
+  left: -5px;
+}
+
+.c2 {
+  display: block;
+  margin: 4px 0 0 0;
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+  font-size: 16px;
 }
 
 @media print {
@@ -419,19 +419,6 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB quintile
   tint: SOLID;
 }
 
-.c3 {
-  position: relative;
-  left: -5px;
-}
-
-.c2 {
-  display: block;
-  margin: 4px 0 0 0;
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-  font-size: 16px;
-}
-
 .c0 {
   margin-bottom: 2em;
 }
@@ -444,6 +431,19 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB quintile
   font-family: nta,Arial,sans-serif;
   font-weight: 300;
   font-size: 19px;
+}
+
+.c3 {
+  position: relative;
+  left: -5px;
+}
+
+.c2 {
+  display: block;
+  margin: 4px 0 0 0;
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+  font-size: 16px;
 }
 
 @media print {
@@ -588,19 +588,6 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG 95 1`] =
   border: 1px solid #0B0C0C;
 }
 
-.c3 {
-  position: relative;
-  left: -5px;
-}
-
-.c2 {
-  display: block;
-  margin: 4px 0 0 0;
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-  font-size: 16px;
-}
-
 .c0 {
   margin-bottom: 2em;
 }
@@ -613,6 +600,19 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG 95 1`] =
   font-family: nta,Arial,sans-serif;
   font-weight: 300;
   font-size: 19px;
+}
+
+.c3 {
+  position: relative;
+  left: -5px;
+}
+
+.c2 {
+  display: block;
+  margin: 4px 0 0 0;
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+  font-size: 16px;
 }
 
 @media print {
@@ -752,19 +752,6 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG 99.8 1`]
   border: 1px solid #0B0C0C;
 }
 
-.c3 {
-  position: relative;
-  left: -5px;
-}
-
-.c2 {
-  display: block;
-  margin: 4px 0 0 0;
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-  font-size: 16px;
-}
-
 .c0 {
   margin-bottom: 2em;
 }
@@ -777,6 +764,19 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG 99.8 1`]
   font-family: nta,Arial,sans-serif;
   font-weight: 300;
   font-size: 19px;
+}
+
+.c3 {
+  position: relative;
+  left: -5px;
+}
+
+.c2 {
+  display: block;
+  margin: 4px 0 0 0;
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+  font-size: 16px;
 }
 
 @media print {
@@ -928,19 +928,6 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG quintile
   tint: SOLID;
 }
 
-.c3 {
-  position: relative;
-  left: -5px;
-}
-
-.c2 {
-  display: block;
-  margin: 4px 0 0 0;
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-  font-size: 16px;
-}
-
 .c0 {
   margin-bottom: 2em;
 }
@@ -953,6 +940,19 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG quintile
   font-family: nta,Arial,sans-serif;
   font-weight: 300;
   font-size: 19px;
+}
+
+.c3 {
+  position: relative;
+  left: -5px;
+}
+
+.c2 {
+  display: block;
+  margin: 4px 0 0 0;
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+  font-size: 16px;
 }
 
 @media print {
@@ -1304,19 +1304,6 @@ exports[`Testing the benchmark component Snapshot testing of the legend with all
   tint: SOLID;
 }
 
-.c3 {
-  position: relative;
-  left: -5px;
-}
-
-.c2 {
-  display: block;
-  margin: 4px 0 0 0;
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-  font-size: 16px;
-}
-
 .c0 {
   margin-bottom: 2em;
 }
@@ -1329,6 +1316,19 @@ exports[`Testing the benchmark component Snapshot testing of the legend with all
   font-family: nta,Arial,sans-serif;
   font-weight: 300;
   font-size: 19px;
+}
+
+.c3 {
+  position: relative;
+  left: -5px;
+}
+
+.c2 {
+  display: block;
+  margin: 4px 0 0 0;
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+  font-size: 16px;
 }
 
 @media print {

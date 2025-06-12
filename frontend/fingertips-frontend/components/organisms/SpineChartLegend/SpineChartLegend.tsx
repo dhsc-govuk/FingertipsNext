@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { SpineChartLegendItem } from '@/components/organisms/SpineChartLegend/SpineChartLegendItem';
 import { SpineChartLegendTypes } from '@/components/organisms/SpineChartLegend/SpineChartLegend.types';
 import React, { FC } from 'react';
-import { BenchmarkLegends } from '@/components/organisms/BenchmarkLegend';
 import { BenchmarkLegendsToShow } from '@/components/organisms/BenchmarkLegend/benchmarkLegend.types';
 import { SpineChartQuartilesInfoContainer } from '@/components/organisms/SpineChart/SpineChartQuartilesInfo';
 import {
@@ -10,6 +9,7 @@ import {
   englandAreaString,
 } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { BenchmarkLegends } from '@/components/organisms/BenchmarkLegend/BenchmarkLegends';
 
 const DivContainer = styled.div({
   fontFamily: 'nta, Arial, sans-serif',

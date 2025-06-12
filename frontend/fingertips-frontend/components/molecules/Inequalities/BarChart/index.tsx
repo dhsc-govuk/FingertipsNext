@@ -6,7 +6,6 @@ import {
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { getBarChartOptions } from '@/components/molecules/Inequalities/BarChart/barChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
-import { BenchmarkLegend } from '@/components/organisms/BenchmarkLegend';
 import { ConfidenceIntervalCheckbox } from '../../ConfidenceIntervalCheckbox';
 import { useState } from 'react';
 import {
@@ -26,6 +25,8 @@ import { ExportOptionsButton } from '../../Export/ExportOptionsButton';
 import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
 import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
 import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
+import { getMethodsAndOutcomes } from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
+import { BenchmarkLegends } from '@/components/organisms/BenchmarkLegend/BenchmarkLegends';
 
 interface InequalitiesBarChartProps {
   title: string;
@@ -162,7 +163,7 @@ export function InequalitiesBarChart({
 
   const barChartOptions = getBarChartOptions({
     // The deprivation chart needs more height
-    height: type === InequalitiesTypes.Deprivation ? '800' : '400',
+    height: type === InequalitiesTypes.Deprivation ? 800 : 400,
     xAxisTitleText: `${xAxisTitlePrefix} ${mapToXAxisTitle[type]}`,
     xAxisCategories: barChartFields,
     yAxisTitleText: `${yAxisLabel}${measurementUnit ? ': ' + measurementUnit : ''}`,
@@ -180,6 +181,9 @@ export function InequalitiesBarChart({
   });
 
   const id = 'inequalitiesBarChart-component';
+  const legendsToShow = getMethodsAndOutcomes([
+    { benchmarkComparisonMethod, polarity },
+  ]);
   return (
     <>
       <div id={id} data-testid={id}>
@@ -189,10 +193,10 @@ export function InequalitiesBarChart({
           showConfidenceIntervalsData={showConfidenceIntervalsData}
           setShowConfidenceIntervalsData={setShowConfidenceIntervalsData}
         />
-        <BenchmarkLegend
+        <BenchmarkLegends
+          legendsToShow={legendsToShow}
           title={'Compared to persons'}
-          benchmarkComparisonMethod={benchmarkComparisonMethod}
-          polarity={polarity}
+          svg
         />
         <HighChartsWrapper
           chartOptions={barChartOptions}
