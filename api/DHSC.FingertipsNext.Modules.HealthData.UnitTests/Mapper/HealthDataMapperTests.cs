@@ -25,6 +25,7 @@ public class HealthDataMapperTests
         return new HealthDataPoint
         {
             Year = year,
+            DatePeriod = new DatePeriod { From = new DateOnly(year, 1, 1), To = new DateOnly(year, 12, 31), PeriodType = DatePeriodType.Calendar },
             Count = count,
             Value = value,
             LowerConfidenceInterval = lowerConfidenceInterval,
@@ -142,6 +143,9 @@ public class HealthDataMapperTests
                 IndicatorId = 0,
                 Polarity = "High is good",
                 Year = 2024,
+                FromDate = new DateTime(2024, 1, 1),
+                ToDate = new DateTime(2024, 12, 31),
+                Period = "Calendar",
                 Q0Value = 10,
                 Q1Value = 20,
                 Q2Value = 30,
@@ -160,6 +164,7 @@ public class HealthDataMapperTests
                 IndicatorId = 0,
                 Polarity = IndicatorPolarity.HighIsGood,
                 Year = 2024,
+                DatePeriod =  new DatePeriod { From = new DateOnly(2024, 1, 1), To = new DateOnly(2024, 12, 31), PeriodType = DatePeriodType.Calendar },
                 Q0Value = 10,
                 Q1Value = 20,
                 Q2Value = 30,

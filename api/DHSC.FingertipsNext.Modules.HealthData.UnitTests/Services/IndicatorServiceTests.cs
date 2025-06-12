@@ -878,6 +878,9 @@ public class IndicatorServiceTests
                 SexDimension = new SexDimensionModel(),
                 DeprivationDimension = new DeprivationDimensionModel(),
                 AgeDimension = new AgeDimensionModel(),
+                FromDateDimension = new DateDimensionModel() { Date = new DateTime(2024, 1, 1) },
+                ToDateDimension = new DateDimensionModel() { Date = new DateTime(2024, 12, 31) },
+                PeriodDimension = new PeriodDimensionModel() { Period = "Calendar"}
             },
         };
 

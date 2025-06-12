@@ -76,6 +76,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         return await _dbContext.HealthMeasure
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
             .Where(HealthDataPredicates.IsInAreaCodes(areaCodes))
+            .Where(healthMeasure => years.Length == 0 || EF.Constant(years).Contains(healthMeasure.Year))
             .Where(healthMeasure => excludeDisaggregatedSexValues ? healthMeasure.IsSexAggregatedOrSingle : true)
             .Where(healthMeasure => excludeDisaggregatedAgeValues ? healthMeasure.IsAgeAggregatedOrSingle : true)
             .Where(healthMeasure =>

@@ -1055,6 +1055,13 @@ public class HealthDataRepositoryTests : IDisposable
         healthMeasure.DeprivationKey = 0;
         healthMeasure.DeprivationDimension.DeprivationKey = 0;
 
+        healthMeasure.FromDateKey = 0;
+        healthMeasure.FromDateDimension.DateKey = 0;
+        healthMeasure.ToDateKey = 0;
+        healthMeasure.ToDateDimension.DateKey = 0;
+        healthMeasure.PeriodKey = 0;
+        healthMeasure.PeriodDimension.PeriodKey = 0;
+
         // We don't load these values when retrieving a health measure from the DB, so they default to true.
         healthMeasure.IsAgeAggregatedOrSingle = true;
         healthMeasure.IsSexAggregatedOrSingle = true;
