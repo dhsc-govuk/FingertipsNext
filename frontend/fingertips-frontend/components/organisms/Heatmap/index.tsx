@@ -2,7 +2,7 @@
 
 import { HeatmapIndicatorData } from './heatmapUtil';
 import { BenchmarkLegends } from '../BenchmarkLegend';
-import { HeatmapHover } from './components/HeatmapHover';
+import { HeatmapHover } from './components/hover';
 import React, { FC } from 'react';
 import HeatmapTable from '@/components/organisms/Heatmap/components/HeatmapTable';
 import { useHeatmapTableData } from '@/components/organisms/Heatmap/useHeatmapTableData';
