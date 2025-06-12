@@ -21,14 +21,14 @@
     <PostDeploy Include="PostDeployment\PopulateFingertips.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Tables\IndicatorData\AgeDimension.sql" />
-    <Build Include="Tables\IndicatorData\AreaDimension.sql" />
-    <Build Include="Tables\IndicatorData\HealthMeasure.sql" />
-    <Build Include="Tables\IndicatorData\IndicatorDimension.sql" />
-    <Build Include="Tables\IndicatorData\SexDimension.sql" />
-    <Build Include="Tables\IndicatorData\TrendDimension.sql" />
-    <Build Include="Tables\IndicatorData\DateDimension.sql" />
-    <Build Include="Tables\IndicatorData\PeriodDimension.sql" />
+    <Build Include="Tables\HealthData\AgeDimension.sql" />
+    <Build Include="Tables\HealthData\AreaDimension.sql" />
+    <Build Include="Tables\HealthData\HealthMeasure.sql" />
+    <Build Include="Tables\HealthData\IndicatorDimension.sql" />
+    <Build Include="Tables\HealthData\SexDimension.sql" />
+    <Build Include="Tables\HealthData\TrendDimension.sql" />
+    <Build Include="Tables\HealthData\DateDimension.sql" />
+    <Build Include="Tables\HealthData\PeriodDimension.sql" />
     <Build Include="Security\Areas.sql" />
     <Build Include="Security\DataManagement.sql" />
     <Build Include="Tables\Areas\Areas.sql" />

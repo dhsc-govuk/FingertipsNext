@@ -2,9 +2,9 @@
 CREATE TABLE [DataManagement].[Batch]
 (
     [BatchKey] [int] IDENTITY(1,1) NOT NULL,  -- Surrogate key for the batch
+    [BatchId] [nvarchar](50) NOT NULL,  -- The ID for the batch
     [IndicatorKey] [smallint] NOT NULL,  -- Indicator ID of the indicator this batch belongs to
     [Created] [datetime2](7) NOT NULL DEFAULT GETDATE(),  -- The date and time the batch was created
-    [BatchId] AS (CONVERT(nvarchar(50), [IndicatorKey]) + '_' + REPLACE(CONVERT(varchar, [Created], 101), '/', '') + REPLACE(CONVERT(varchar, [Created], 108), ':', '')) PERSISTED NOT NULL,
 CONSTRAINT [PK_Batch] PRIMARY KEY CLUSTERED
 (
     [BatchKey] ASC
