@@ -7,7 +7,6 @@ import {
   createThematicMapChartOptions,
   thematicMapTitle,
 } from '@/components/organisms/ThematicMap/thematicMapHelpers';
-import { BenchmarkLegend } from '../BenchmarkLegend';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
 import { IndicatorPolarity } from '@/generated-sources/ft-api-client/models/IndicatorPolarity';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
