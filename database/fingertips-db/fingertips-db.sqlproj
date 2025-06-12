@@ -15,7 +15,7 @@
     <Folder Include="Scripts\" />
     <Folder Include="Security\" />
     <Folder Include="StoredProcedures" />
-    <Folder Include="StoredFunctions"/>
+    <Folder Include="StoredFunctions" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="PostDeployment\PopulateFingertips.sql" />
@@ -36,6 +36,7 @@
     <Build Include="Tables\Areas\AreaTypes.sql" />
     <Build Include="Tables\DataManagement\Batch.sql" />
     <Build Include="StoredProcedures\GetIndicatorDataWithQuintileBenchmarkComparison.sql" />
+    <Build Include="StoredProcedures\GetIndicatorQuartileDataForLatestYear.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="BlobStorageLocation">
