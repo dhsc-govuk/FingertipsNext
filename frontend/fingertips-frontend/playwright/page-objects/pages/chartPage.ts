@@ -577,20 +577,6 @@ export default class ChartPage extends AreaFilter {
     );
   }
 
-  private async checkPNGisVisibleAndDefault(): Promise<void> {
-    expect(
-      this.page
-        .getByTestId(ChartPage.exportModalPaneComponent)
-        .getByText(String(ExportType.PNG))
-    ).toBeVisible();
-    // this assertions ensures PNG is default and the preview of the PNG is displayed
-    expect(
-      this.page
-        .getByTestId(ChartPage.exportModalPaneComponent)
-        .locator('canvas')
-    ).toBeVisible();
-  }
-
   private async clickExportAndSaveFile(
     downloadDir: string
   ): Promise<{ download: Download; downloadPath: string }> {
@@ -621,6 +607,20 @@ export default class ChartPage extends AreaFilter {
     await this.clickAndAwaitLoadingComplete(
       this.page.getByRole('button', { name: 'Close modal' })
     );
+  }
+
+  private async checkPNGisVisibleAndDefault(): Promise<void> {
+    expect(
+      this.page
+        .getByTestId(ChartPage.exportModalPaneComponent)
+        .getByText(String(ExportType.PNG))
+    ).toBeVisible();
+    // this assertions ensures PNG is default and the preview of the PNG is displayed
+    expect(
+      this.page
+        .getByTestId(ChartPage.exportModalPaneComponent)
+        .locator('canvas')
+    ).toBeVisible();
   }
 
   private async verifyPNGExport(
@@ -685,11 +685,18 @@ export default class ChartPage extends AreaFilter {
     expect(exportModalPreview).toBeVisible();
 
     // Click the SVG export option and save the file locally
-    const { download } = await this.clickExportAndSaveFile(await downloadDir);
+    const { download, downloadPath } = await this.clickExportAndSaveFile(
+      await downloadDir
+    );
 
     // Verify the file downloaded successfully
     expect(download.suggestedFilename()).toBeDefined();
     expect(download.suggestedFilename()).toMatch(/\.svg$/i);
+
+    // validate that the SVG file content matches the modal preview
+    const svgFileContent = await fs.readFile(downloadPath, 'utf-8');
+    const previewSVG = await exportModalPreview.innerHTML();
+    expect(svgFileContent).toMatch(previewSVG);
 
     await this.closeExportModal();
   }
@@ -715,22 +722,19 @@ export default class ChartPage extends AreaFilter {
 
   private getExpectedCSVData(
     component: VisibleComponent,
-    areaMode: AreaMode,
     selectedIndicators: SimpleIndicatorDocument[]
   ): {
     expectedCsvIndicatorID: number | string;
     expectedCsvIndicatorName: string;
   } {
-    const isPopulationPyramidEngland =
-      component.componentLocator ===
-        ChartPage.populationPyramidTableComponent &&
-      areaMode === AreaMode.ENGLAND_AREA;
+    const isPopulationPyramid =
+      component.componentLocator === ChartPage.populationPyramidTableComponent;
 
     return {
-      expectedCsvIndicatorID: isPopulationPyramidEngland
+      expectedCsvIndicatorID: isPopulationPyramid
         ? 92708
         : selectedIndicators[0].indicatorID,
-      expectedCsvIndicatorName: isPopulationPyramidEngland
+      expectedCsvIndicatorName: isPopulationPyramid
         ? 'Resident population'
         : selectedIndicators[0].indicatorName,
     };
@@ -744,7 +748,7 @@ export default class ChartPage extends AreaFilter {
   ): Promise<void> {
     const exportDataTestId = `tabContent-${component.componentLocator.replace('-component', '')}`;
     const { expectedCsvIndicatorID, expectedCsvIndicatorName } =
-      this.getExpectedCSVData(component, areaMode, selectedIndicators);
+      this.getExpectedCSVData(component, selectedIndicators);
 
     // Create download directory structure
     const downloadDir = createDownloadPath(
@@ -789,7 +793,7 @@ export default class ChartPage extends AreaFilter {
     const fileInfo = await fs.stat(downloadPath);
     expect(fileInfo.size).toBeGreaterThan(500);
 
-    // validate file content
+    // validate that the CSV file content matches the modal preview
     const fileContent = await fs.readFile(downloadPath, 'utf-8');
     const modalPreviewText = await exportModalPreview.textContent();
     expect(fileContent).toContain(modalPreviewText);

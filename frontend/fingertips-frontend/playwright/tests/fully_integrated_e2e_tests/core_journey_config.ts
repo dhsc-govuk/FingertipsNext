@@ -43,6 +43,7 @@ export const coreTestJourneys: TestParams[] = [
         knownTrend: 'No recent trend data available',
       },
     ],
+    checkExports: true,
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
@@ -137,6 +138,7 @@ export const coreTestJourneys: TestParams[] = [
       groupType: 'regions',
       group: 'North West Region', // if not england then this group is also selected in the benchmarking drop down on the relevant views
     },
+    checkExports: true,
   },
   {
     indicatorMode: IndicatorMode.TWO_INDICATORS,
@@ -223,5 +225,6 @@ export const coreTestJourneys: TestParams[] = [
       groupType: 'england',
       group: 'england',
     },
+    checkExports: true,
   },
 ];
