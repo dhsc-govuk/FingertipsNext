@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DHSC.FingertipsNext.Modules.DataManagement.Controllers.V1;
 [ApiController]
 [Route("data_management")]
-public class DataManagementController (IDataManagementService dataManagementService) : ControllerBase
+public class DataManagementController(IDataManagementService dataManagementService) : ControllerBase
 {
     /// <summary>
     /// Simple endpoint to implement testable module skeleton

@@ -10,7 +10,7 @@ public class DataManagementServiceTests
 {
     private readonly DataManagementService _service;
     private readonly IDataManagementRepository _repository;
-    
+
 
     public DataManagementServiceTests()
     {
@@ -24,5 +24,5 @@ public class DataManagementServiceTests
         // assert
         _service.SayHelloToRepository().ShouldBe("The Repository says: I'm a Repository");
     }
-    
+
 }

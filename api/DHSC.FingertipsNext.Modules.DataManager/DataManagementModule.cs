@@ -15,5 +15,5 @@ public class DataManagementModule : AbstractMonolithModule, IMonolithModule
         services.AddTransient<IDataManagementService, DataManagementService>();
         services.AddTransient<IDataManagementRepository, DataManagementRepository>();
     }
-    
+
 }
