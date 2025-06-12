@@ -1,8 +1,21 @@
+using DHSC.FingertipsNext.Modules.DataManagement.Service;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
 namespace DHSC.FingertipsNext.Modules.DataManagement.Controllers.V1;
-public class DataManagementController
+[ApiController]
+[Route("[controller]")] // TODO: confrim this syntax from the api/Healthcheck endpoint
+public class DataManagementController (IDataManagementService dataManagementService) : ControllerBase
 {
-    public string SayHello()
+    /// <summary>
+    /// Simple endpoint to implement testable module skeleton
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet(Name = "GetDataManagementHealthy")]
+    [Route("/")]
+    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    public ActionResult Healthcheck()
     {
-        return "Hello";
+        return Ok("Hello");
     }
 }
