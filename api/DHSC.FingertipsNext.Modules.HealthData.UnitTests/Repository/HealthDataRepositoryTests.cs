@@ -65,8 +65,13 @@ public class HealthDataRepositoryTests : IDisposable
             .Build());
         PopulateDatabase(new HealthMeasureModel
         {
+            AreaDimension = new AreaDimensionModel() { Name = String.Empty, Code = string.Empty },
+            AgeDimension = new AgeDimensionModel() { Name = String.Empty },
+            SexDimension = new SexDimensionModel() { Name = String.Empty },
+            DeprivationDimension = new DeprivationDimensionModel() { Name = String.Empty, Type = string.Empty },
             IndicatorDimension = new IndicatorDimensionModel
             {
+                Name = String.Empty,
                 IndicatorId = INDICATORID
             },
             Year = LATESTYEAR - 1
@@ -609,6 +614,7 @@ public class HealthDataRepositoryTests : IDisposable
         var expectedHealthMeasure = new HealthMeasureModelHelper(key: 3, year: 2024)
             .WithDeprivationDimension(hasValue: false)
             .WithIndicatorDimension(indicatorId: 500)
+            .WithTrendDimension(trendId: 3)
             .Build();
 
         PopulateDatabase(expectedHealthMeasure);
@@ -878,6 +884,7 @@ public class HealthDataRepositoryTests : IDisposable
             Name = "All",
             HasValue = false,
             IsAggregate = true,
+            Type = String.Empty
         };
         var mostDeprivedDimension = new DeprivationDimensionModel()
         {
@@ -885,6 +892,7 @@ public class HealthDataRepositoryTests : IDisposable
             Name = "Most deprived decile",
             HasValue = true,
             IsAggregate = false,
+            Type = String.Empty
         };
 
         var allDimensionsDataPoint = new HealthMeasureModelHelper(1, 2020, isAggregate: false)
@@ -1049,7 +1057,7 @@ public class HealthDataRepositoryTests : IDisposable
         healthMeasure.AreaKey = 0;
         healthMeasure.SexKey = 0;
 
-        healthMeasure.TrendKey = 0;
+        healthMeasure.TrendKey = null;
         healthMeasure.TrendDimension.TrendKey = 0;
 
         healthMeasure.DeprivationKey = 0;

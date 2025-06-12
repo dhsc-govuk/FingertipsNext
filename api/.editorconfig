@@ -12,6 +12,9 @@ dotnet_diagnostic.CA1016.severity = none
 [*{Controller,Tests}.cs]
 dotnet_diagnostic.CA1515.severity = none
 
+[*{Tests}.cs]
+dotnet_diagnostic.CS8602.severity = none
+
 # Suppresses CS8618 in the context of a dbcontext
 [*DbContext.cs] 
 dotnet_diagnostic.CS8618.severity = none

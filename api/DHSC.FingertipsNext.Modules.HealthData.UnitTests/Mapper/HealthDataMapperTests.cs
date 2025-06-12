@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
+﻿using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 using DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 using Shouldly;
@@ -97,11 +96,12 @@ public class HealthDataMapperTests
     [InlineData("No judgement", IndicatorPolarity.NoJudgement)]
     [InlineData(null, IndicatorPolarity.Unknown)]
 
-    public void MapperShouldMapAnIndicatorDimensionModelPolarityToAnIndicatorPolarity(string modelPolarity, IndicatorPolarity expectedPolarity)
+    public void MapperShouldMapAnIndicatorDimensionModelPolarityToAnIndicatorPolarity(string? modelPolarity, IndicatorPolarity expectedPolarity)
     {
         // Arrange
         var indicator = new IndicatorDimensionModel
         {
+            Name = "",
             Polarity = modelPolarity
         };
 
@@ -117,11 +117,12 @@ public class HealthDataMapperTests
     [InlineData("Confidence intervals overlapping reference value (99.8)", BenchmarkComparisonMethod.CIOverlappingReferenceValue998)]
     [InlineData("Quintiles", BenchmarkComparisonMethod.Quintiles)]
     [InlineData(null, BenchmarkComparisonMethod.Unknown)]
-    public void MapperShouldMapAnIndicatorDimensionModelBenchmarkComparisonMethodToABenchmarkComparisonMethod(string modelBenchmarkComparisonMethod, BenchmarkComparisonMethod expectedBenchmarkComparisonMethod)
+    public void MapperShouldMapAnIndicatorDimensionModelBenchmarkComparisonMethodToABenchmarkComparisonMethod(string? modelBenchmarkComparisonMethod, BenchmarkComparisonMethod expectedBenchmarkComparisonMethod)
     {
         // Arrange
         var indicator = new IndicatorDimensionModel
         {
+            Name = string.Empty,
             BenchmarkComparisonMethod = modelBenchmarkComparisonMethod
         };
 

@@ -12,11 +12,12 @@ internal sealed class HealthMeasureModelHelper(
     double? upperCi = 1.0
 )
 {
-    private AreaDimensionModel _areaDimension;
-    private AgeDimensionModel _ageDimension;
-    private IndicatorDimensionModel _indicatorDimension;
-    private SexDimensionModel _sexDimension;
-    private DeprivationDimensionModel _deprivationDimension;
+    private AreaDimensionModel? _areaDimension;
+    private AgeDimensionModel? _ageDimension;
+    private IndicatorDimensionModel? _indicatorDimension;
+    private SexDimensionModel? _sexDimension;
+    private DeprivationDimensionModel? _deprivationDimension;
+    private TrendDimensionModel? _trendDimension;
 
     public HealthMeasureModelHelper WithAreaDimension(
         string code = "AreaCode",
@@ -143,6 +144,15 @@ internal sealed class HealthMeasureModelHelper(
         };
     }
 
+    public HealthMeasureModelHelper WithTrendDimension(
+        byte trendId = 1
+    )
+    {
+        _trendDimension = DefaultTrendDimension();
+        _trendDimension.TrendKey = trendId;
+        return this;
+    }
+
     private TrendDimensionModel DefaultTrendDimension()
     {
         return new TrendDimensionModel
@@ -199,7 +209,7 @@ internal sealed class HealthMeasureModelHelper(
         var ageDimension = _ageDimension ?? DefaultAgeDimension();
         var indicatorDimension = _indicatorDimension ?? DefaultIndicatorDimension();
         var sexDimension = _sexDimension ?? DefaultSexDimension();
-        var trendDimension = DefaultTrendDimension();
+        var trendDimension = _trendDimension ?? DefaultTrendDimension();
         var deprivationDimension = _deprivationDimension ?? DefaultDeprivationDimension();
 
         return new HealthMeasureModel
