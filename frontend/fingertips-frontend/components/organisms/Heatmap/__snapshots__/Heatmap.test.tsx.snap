@@ -636,7 +636,7 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
   >
     <div
       data-testid="heatmapChart-component"
-      id="heatmap"
+      id="heatmapChart"
     >
       <h4
         class="c1 c2"
@@ -1743,7 +1743,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   >
     <div
       data-testid="heatmapChart-component"
-      id="heatmap"
+      id="heatmapChart"
     >
       <h4
         class="c1 c2"
