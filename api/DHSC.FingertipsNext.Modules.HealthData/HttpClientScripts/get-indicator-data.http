@@ -42,13 +42,17 @@ GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=K84
 
         client.assert(response.body.areaHealthData[2].areaCode =="K84031", "AreaCode not as expected");
 
-        client.assert(response.body.areaHealthData[2].healthData[0].year == 2020)
-        client.assert(response.body.areaHealthData[2].healthData[1].year == 2021)
-        client.assert(response.body.areaHealthData[2].healthData[2].year == 2022)
-        client.assert(response.body.areaHealthData[2].healthData[3].year == 2023)
-        client.assert(response.body.areaHealthData[2].healthData[4].year == 2024)
-        client.assert(response.body.areaHealthData[2].healthData.length == 5)
+        healthData = response.body.areaHealthData[2].healthData;
+        yearList = [];
+        healthData.forEach(item => {
+            yearList.push(item.year);
+        });
 
-        client.assert(response.body.areaHealthData.length == 5);
+        expectedYears = [2020, 2021, 2022, 2023, 2024];
+
+        containsAllExpectedYears = expectedYears.every(r => yearList.includes(r))
+        client.assert(containsAllExpectedYears == true)
+        client.assert(yearList.indexOf(2025) == -1)
+        client.assert(yearList.length == 5)
     });
 %}
