@@ -79,7 +79,7 @@ public class AreaController : ControllerBase
     [Route("areatypes")]
     public async Task<IActionResult> GetAreaTypesAsync([FromQuery(Name = "hierarchy_type")] string? hierarchyType = null)
     {
-        if(hierarchyType == null)
+        if (hierarchyType == null)
         {
             return Ok(await _areaService.GetAllAreaTypes());
         }

@@ -31,7 +31,7 @@ public class DenormalisedHealthMeasureModel
     public required string BenchmarkComparisonAreaCode { get; set; }
     public required string BenchmarkComparisonAreaName { get; set; }
 
-    private BenchmarkComparisonModel? NormalisedBenchmark =>
+    private BenchmarkComparisonModel NormalisedBenchmark =>
         BenchmarkComparisonOutcome is null
             ? null
             : new BenchmarkComparisonModel

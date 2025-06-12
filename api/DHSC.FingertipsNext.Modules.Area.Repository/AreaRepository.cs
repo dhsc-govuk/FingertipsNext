@@ -27,6 +27,7 @@ public class AreaRepository : IAreaRepository
             {
                 AreaCode = area.AreaCode,
                 AreaName = area.AreaName,
+                AreaTypeKey = area.AreaTypeKey,
                 AreaType = new AreaTypeModel
                 {
                     AreaTypeKey = area.AreaType.AreaTypeKey,
@@ -61,7 +62,7 @@ public class AreaRepository : IAreaRepository
         string areaCode,
         bool includeChildren,
         bool includeSiblings,
-        string? childAreaType 
+        string? childAreaType
     )
     {
         AreaModel? area = await _dbContext
