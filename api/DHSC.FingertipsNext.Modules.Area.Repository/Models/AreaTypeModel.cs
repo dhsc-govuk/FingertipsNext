@@ -15,7 +15,7 @@ public class AreaTypeModel
     /// </summary>
     [Key]
     [MaxLength(50)]
-    public string AreaTypeKey { get; init; }
+    public required string AreaTypeKey { get; init; }
 
     /// <summary>
     /// The level of the area type in the hierarchy
@@ -26,11 +26,11 @@ public class AreaTypeModel
     /// The name of the associated hierarchy for the area type
     /// </summary>
     [MaxLength(20)]
-    public string HierarchyType { get; init; }
+    public required string HierarchyType { get; init; }
 
     /// <summary>
     /// The name of the area type for display
     /// </summary>
     [MaxLength(50)]
-    public string AreaTypeName { get; init; }
+    public required string AreaTypeName { get; init; }
 }

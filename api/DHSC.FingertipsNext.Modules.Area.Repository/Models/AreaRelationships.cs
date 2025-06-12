@@ -15,7 +15,7 @@ public class AreaRelationshipModel
     /// </summary>
     [ForeignKey("ParentAreaKey")]
     public int ParentAreaKey { get; init; }
-    public AreaModel Parent { get; init; }
+    public required AreaModel Parent { get; init; }
 
     /// <summary>
     /// The child area in the relationship
@@ -23,5 +23,5 @@ public class AreaRelationshipModel
     [ForeignKey("ChildAreaKey")]
     public int ChildAreaKey { get; init; }
 
-    public AreaModel Child { get; init; }
+    public required AreaModel Child { get; init; }
 }

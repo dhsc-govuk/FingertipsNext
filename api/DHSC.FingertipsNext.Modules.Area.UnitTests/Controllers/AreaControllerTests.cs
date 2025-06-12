@@ -25,13 +25,13 @@ public class AreaControllerTests
     {
         _mockService.GetAreaTypes(Arg.Any<string>()).Returns([]);
         _mockService.GetAllAreaTypes().Returns([new AreaType() { HierarchyName = "Name1", Key = "Key1", Level = 0, Name = "Name1" }]);
-        
+
         var result = await _controller.GetAreaTypesAsync();
 
         var okResult = result as OkObjectResult;
         var resultList = okResult?.Value as List<AreaType>;
 
-        resultList?.Count.ShouldBe(1,"Should contain single result");
+        resultList?.Count.ShouldBe(1, "Should contain single result");
     }
 
     [Fact]
@@ -88,7 +88,7 @@ public class AreaControllerTests
     public async Task EmptyAreaDetailsShouldReturnNotFound()
     {
         _mockService.GetMultipleAreaDetails(Arg.Any<string[]>()).Returns([]);
-        
+
         var result = await _controller.GetMultipleAreaDetailsAsync(["value"]);
 
         var notFoundResult = result as NotFoundResult;
@@ -99,7 +99,7 @@ public class AreaControllerTests
     [Fact]
     public async Task AreaDetailsShouldReturnValuesFromService()
     {
-        _mockService.GetMultipleAreaDetails(Arg.Any<string[]>()).Returns([new AreaData() { AreaType = new AreaType() { Name = "name", HierarchyName = "hierarchy", Key = "key", Level = 0}, Code = "code", Name = "name"}]);
+        _mockService.GetMultipleAreaDetails(Arg.Any<string[]>()).Returns([new AreaData() { AreaType = new AreaType() { Name = "name", HierarchyName = "hierarchy", Key = "key", Level = 0 }, Code = "code", Name = "name" }]);
 
         var result = await _controller.GetMultipleAreaDetailsAsync(["value"]);
 
@@ -127,7 +127,7 @@ public class AreaControllerTests
         _mockService.GetAreaDetailsForAreaType(Arg.Any<string>()).Returns([
             new AreaData()
             {
-                AreaType = new AreaType() { HierarchyName = "name", Key = "", Name = "", Level = 0 }, 
+                AreaType = new AreaType() { HierarchyName = "name", Key = "", Name = "", Level = 0 },
                 Name = "areaname",
                 Code = "code"
             }
@@ -139,5 +139,4 @@ public class AreaControllerTests
 
         notFoundResult.ShouldNotBeNull();
     }
-
 }

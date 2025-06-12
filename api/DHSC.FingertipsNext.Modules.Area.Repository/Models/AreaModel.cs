@@ -21,22 +21,22 @@ public class AreaModel
     /// areaType in which case they have two entries in the DB
     /// </summary>
     [MaxLength(20)]
-    public string AreaCode { get; init; }
+    public required string AreaCode { get; init; }
 
     /// <summary>
     /// The name of the area e.g. 'Derby'
     /// </summary>
     [MaxLength(255)]
-    public string AreaName { get; init; }
+    public required string AreaName { get; init; }
 
     /// <summary>
     /// The type of the area e.g. 'Region'
     /// </summary>
     [ForeignKey("AreaTypeKey")]
-    public AreaTypeModel AreaType { get; init; }
+    public required AreaTypeModel AreaType { get; init; }
 
     [MaxLength(50)]
-    public string AreaTypeKey { get; init; }
+    public required string AreaTypeKey { get; init; }
 
     public virtual ICollection<AreaModel> Children { get; init; } = [];
 
