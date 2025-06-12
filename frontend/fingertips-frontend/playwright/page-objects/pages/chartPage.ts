@@ -648,6 +648,18 @@ export default class ChartPage extends AreaFilter {
     selectedIndicators: SimpleIndicatorDocument[]
   ): Promise<void> {
     const exportDataTestId = `tabContent-${component.componentLocator.replace('-component', '')}`;
+    const expectedCsvIndicatorID =
+      component.componentLocator ===
+        ChartPage.populationPyramidTableComponent &&
+      areaMode === AreaMode.ENGLAND_AREA
+        ? 92708
+        : selectedIndicators[0].indicatorID;
+    const expectedCsvIndicatorName =
+      component.componentLocator ===
+        ChartPage.populationPyramidTableComponent &&
+      areaMode === AreaMode.ENGLAND_AREA
+        ? 'Resident population'
+        : selectedIndicators[0].indicatorName;
 
     // Create download directory structure
     const projectName = test.info().project.name;
@@ -697,21 +709,11 @@ export default class ChartPage extends AreaFilter {
     for (const header of Object.values(PersistentCsvHeaders)) {
       await expect(exportModalPreview).toContainText(header);
     }
-    const expectedCsvIndicatorID =
-      component.componentLocator ===
-        ChartPage.populationPyramidTableComponent &&
-      areaMode === AreaMode.ENGLAND_AREA
-        ? 92708
-        : selectedIndicators[0].indicatorID;
+
     await expect(exportModalPreview).toContainText(
       String(expectedCsvIndicatorID)
     );
-    const expectedCsvIndicatorName =
-      component.componentLocator ===
-        ChartPage.populationPyramidTableComponent &&
-      areaMode === AreaMode.ENGLAND_AREA
-        ? 'Resident population'
-        : selectedIndicators[0].indicatorName;
+
     await expect(exportModalPreview).toContainText(expectedCsvIndicatorName);
 
     // Click the CSV export option
