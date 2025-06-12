@@ -126,16 +126,14 @@ export const PopulationPyramidWithTable = ({
                   id: 'populationPyramidChart',
                   title: 'Population pyramid',
                   content: (
-                    <>
-                      <PopulationPyramid
-                        title={title}
-                        dataForSelectedArea={populationDataForSelectedArea}
-                        dataForGroup={groupToUse}
-                        dataForBenchmark={benchmarkToUse}
-                        xAxisTitle={xAxisTitle}
-                        yAxisTitle={yAxisTitle}
-                      />
-                    </>
+                    <PopulationPyramid
+                      title={title}
+                      dataForSelectedArea={populationDataForSelectedArea}
+                      dataForGroup={groupToUse}
+                      dataForBenchmark={benchmarkToUse}
+                      xAxisTitle={xAxisTitle}
+                      yAxisTitle={yAxisTitle}
+                    />
                   ),
                 },
                 {
