@@ -23,4 +23,21 @@ public class HealthDataDbContext : DbContext
     public DbSet<DeprivationDimensionModel> DeprivationDimension { get; set; }
     public DbSet<DenormalisedHealthMeasureModel> DenormalisedHealthMeasure { get; set; }
     public DbSet<QuartileDataModel> QuartileData { get; set; }
+
+    public IQueryable<HealthMeasureModel> PublishedHealthMeasure
+    {
+        get
+        {
+            return HealthMeasure.Where(hm => hm.PublishedAt < DateTime.UtcNow);
+        }
+    }
+
+    public IQueryable<HealthMeasureModel> UnpublishedHealthMeasure
+    {
+        get
+        {
+            return HealthMeasure.Where(hm => hm.PublishedAt >= DateTime.UtcNow);
+        }
+    }
+
 }

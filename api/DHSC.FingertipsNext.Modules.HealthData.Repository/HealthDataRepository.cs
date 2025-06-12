@@ -28,11 +28,10 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
     /// <returns>IndicatorDimensionModel containing relevant indicator metadata</returns>
     public async Task<IndicatorDimensionModel> GetIndicatorDimensionAsync(int indicatorId, string[] areaCodes)
     {
-        var model = await _dbContext.HealthMeasure
+        var model = await _dbContext.PublishedHealthMeasure
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
             .Where(HealthDataPredicates.IsInAreaCodes(areaCodes))
             .Where(HealthDataPredicates.IsNotEnglandWhenMultipleRequested(areaCodes))
-            .Where(healthMeasure => healthMeasure.PublishedAt < DateTime.UtcNow)
             .OrderByDescending(healthMeasure => healthMeasure.Year)
             .Include(healthMeasure => healthMeasure.IndicatorDimension)
             .Select(healthMeasure => new IndicatorDimensionModel
@@ -50,9 +49,8 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         if (model != null) return model;
 
         // Default to the latest year for all indicator data if none of the requested areas have data
-        return await _dbContext.HealthMeasure
+        return await _dbContext.PublishedHealthMeasure
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
-            .Where(healthMeasure => healthMeasure.PublishedAt < DateTime.UtcNow)
             .OrderByDescending(healthMeasure => healthMeasure.Year)
             .Include(healthMeasure => healthMeasure.IndicatorDimension)
             .Select(healthMeasure => new IndicatorDimensionModel
@@ -75,7 +73,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         var excludeDisaggregatedAgeValues = !inequalities.Contains(AGE);
         var excludeDisaggregatedDeprivationValues = !inequalities.Contains(DEPRIVATION);
 
-        return await _dbContext.HealthMeasure
+        return await _dbContext.PublishedHealthMeasure
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
             .Where(HealthDataPredicates.IsInAreaCodes(areaCodes))
             .Where(healthMeasure => years.Length == 0 || EF.Constant(years).Contains(healthMeasure.Year))
@@ -83,7 +81,6 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .Where(healthMeasure => excludeDisaggregatedAgeValues ? healthMeasure.IsAgeAggregatedOrSingle : true)
             .Where(healthMeasure =>
                 excludeDisaggregatedDeprivationValues ? healthMeasure.IsDeprivationAggregatedOrSingle : true)
-            .Where(healthMeasure => healthMeasure.PublishedAt < DateTime.UtcNow)
             .OrderBy(healthMeasure => healthMeasure.Year)
             .Include(healthMeasure => healthMeasure.AreaDimension)
             .Include(healthMeasure => healthMeasure.AgeDimension)

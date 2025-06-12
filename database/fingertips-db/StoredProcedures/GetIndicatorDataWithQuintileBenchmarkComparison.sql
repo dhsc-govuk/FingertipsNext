@@ -74,7 +74,9 @@ BEGIN
 		    Value,
 		    LowerCi,
 		    UpperCi,
-		    hm.Year
+		    hm.Year,
+			hm.BatchId,
+			hm.PublishedAt
 	FROM
 		    dbo.HealthMeasure AS hm
 	JOIN
@@ -164,6 +166,8 @@ BEGIN
 		ind.Name AS IndicatorDimensionName,
 		bag.Code AS BenchmarkComparisonAreaCode,
 		bag.Name AS BenchmarkComparisonAreaName,
+		hd.BatchId,
+		hd.PublishedAt,
 	CASE
 		WHEN nc.Count < 5 THEN 'NOT COMPARED'
 
