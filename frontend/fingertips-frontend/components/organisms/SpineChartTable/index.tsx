@@ -57,7 +57,7 @@ export function SpineChartTable({
     <>
       <SubTitle>Compare indicators by areas</SubTitle>
       <ContainerWithOutline>
-        <div id={'spineChartTable'}>
+        <div id={'spineChartTable'} data-testid="spineChartTable-component">
           <ChartTitle>{title}</ChartTitle>
           <SpineChartLegend
             legendsToShow={methods}
@@ -67,7 +67,7 @@ export function SpineChartTable({
             searchState={searchState}
           />
 
-          <StyledDivTableContainer data-testid="spineChartTable-component">
+          <StyledDivTableContainer>
             <StyledTable>
               <SpineChartTableHeader
                 areaNames={areaNames}
