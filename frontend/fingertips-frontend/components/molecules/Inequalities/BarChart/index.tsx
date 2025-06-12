@@ -6,7 +6,6 @@ import {
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { getBarChartOptions } from '@/components/molecules/Inequalities/BarChart/barChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
-import { BenchmarkLegend } from '@/components/organisms/BenchmarkLegend';
 import { ConfidenceIntervalCheckbox } from '../../ConfidenceIntervalCheckbox';
 import { useState } from 'react';
 import {
@@ -26,12 +25,8 @@ import { ExportOptionsButton } from '../../Export/ExportOptionsButton';
 import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
 import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
 import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
-import {
-  allLegendItems,
-  getMethodsAndOutcomes,
-} from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
+import { getMethodsAndOutcomes } from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
 import { BenchmarkLegends } from '@/components/organisms/BenchmarkLegend/BenchmarkLegends';
-import { BenchmarkLegendsSvg } from '@/components/organisms/BenchmarkLegend/components/svg/BenchmarkLegendsSvg';
 
 interface InequalitiesBarChartProps {
   title: string;
