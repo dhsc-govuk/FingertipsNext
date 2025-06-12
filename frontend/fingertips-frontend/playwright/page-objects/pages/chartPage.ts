@@ -15,6 +15,7 @@ import { ExportType } from '@/components/molecules/Export/export.types';
 import { Locator, test } from '@playwright/test';
 import path from 'path';
 import fs from 'fs/promises';
+import { createDownloadPath } from '@/playwright/testHelpers/exportUtils';
 
 interface VisibleComponent {
   componentLocator: string;
@@ -57,6 +58,7 @@ export default class ChartPage extends AreaFilter {
   static readonly basicTableComponent = 'basicTable-component';
   static readonly benchmarkDropDownComponent = `${SearchParams.BenchmarkAreaSelected}-dropDown-benchmark-component`;
   static readonly exportModalPaneComponent = 'modalPane';
+  static readonly exportDomContainer = 'domContainer';
 
   async checkOnChartPage() {
     await expect(
@@ -217,11 +219,10 @@ export default class ChartPage extends AreaFilter {
         condition: checkExports && componentProps.hasPNGExport,
         action: () => this.verifyPNGExport(component, areaMode, indicatorMode),
       },
-      // {
-      //   condition: checkExports && componentProps.hasSVGExport,
-      //   action: () =>
-      //     this.verifySVGExport(component, areaMode, selectedIndicators),
-      // },
+      {
+        condition: checkExports && componentProps.hasSVGExport,
+        action: () => this.verifySVGExport(component, areaMode, indicatorMode),
+      },
       {
         condition: checkExports && componentProps.hasCSVExport,
         action: () =>
@@ -583,19 +584,11 @@ export default class ChartPage extends AreaFilter {
     const exportDataTestId = `tabContent-${component.componentLocator.replace('-component', '')}`;
 
     // Create download directory structure
-    const projectName = test.info().project.name;
-    const downloadDir = path.join(
-      process.cwd(),
-      '.test',
-      'spec',
-      'exports',
+    const downloadDir = createDownloadPath(
       ExportType.PNG,
-      projectName,
-      `${areaMode}-${indicatorMode}`
+      areaMode,
+      indicatorMode
     );
-
-    // Ensure directory exists
-    await fs.mkdir(downloadDir, { recursive: true });
 
     await this.clickAndAwaitLoadingComplete(
       this.page
@@ -626,12 +619,83 @@ export default class ChartPage extends AreaFilter {
     );
     const download = await downloadPromise;
     const filename = download.suggestedFilename();
-    const downloadPath = path.join(downloadDir, filename);
+    const downloadPath = path.join(await downloadDir, filename);
 
     await download.saveAs(downloadPath);
 
-    // Verify the file was downloaded successfully
+    // Verify the file downloaded successfully
     expect(download.suggestedFilename()).toBeDefined();
+    expect(filename).toMatch(/\.png$/i);
+
+    // close the export modal
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByRole('button', { name: 'Close modal' })
+    );
+  }
+
+  private async verifySVGExport(
+    component: VisibleComponent,
+    areaMode: AreaMode,
+    indicatorMode: IndicatorMode
+  ): Promise<void> {
+    const exportDataTestId = `tabContent-${component.componentLocator.replace('-component', '')}`;
+
+    // Create download directory structure
+    const downloadDir = createDownloadPath(
+      ExportType.SVG,
+      areaMode,
+      indicatorMode
+    );
+
+    await this.clickAndAwaitLoadingComplete(
+      this.page
+        .getByTestId(exportDataTestId)
+        .getByRole('button', { name: 'Export options' })
+    );
+
+    // Assert the export modal is visible and defaults to PNG option and displays the preview
+    expect(
+      this.page
+        .getByTestId(ChartPage.exportModalPaneComponent)
+        .getByText(String(ExportType.PNG))
+    ).toBeVisible();
+    // this assertions ensures PNG is default and the preview of the PNG is displayed
+    expect(
+      this.page
+        .getByTestId(ChartPage.exportModalPaneComponent)
+        .locator('canvas')
+    ).toBeVisible();
+
+    // Click the SVG export option
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByRole('radio', { name: 'SVG' })
+    );
+
+    const exportModalPreview = this.page
+      .getByTestId(ChartPage.exportModalPaneComponent)
+      .getByTestId(ChartPage.exportDomContainer)
+      .locator('svg')
+      .last();
+
+    expect(exportModalPreview).toBeVisible();
+
+    // Click the SVG export option
+    const downloadPromise = this.page.waitForEvent('download');
+    await this.clickAndAwaitLoadingComplete(
+      this.page
+        .getByTestId(ChartPage.exportModalPaneComponent)
+        .getByRole('button')
+        .getByText('Export')
+    );
+    const download = await downloadPromise;
+    const filename = download.suggestedFilename();
+    const downloadPath = path.join(await downloadDir, filename);
+
+    await download.saveAs(downloadPath);
+
+    // Verify the file downloaded successfully
+    expect(download.suggestedFilename()).toBeDefined();
+    expect(filename).toMatch(/\.svg$/i);
 
     // close the export modal
     await this.clickAndAwaitLoadingComplete(
@@ -660,19 +724,11 @@ export default class ChartPage extends AreaFilter {
         : selectedIndicators[0].indicatorName;
 
     // Create download directory structure
-    const projectName = test.info().project.name;
-    const downloadDir = path.join(
-      process.cwd(),
-      '.test',
-      'spec',
-      'exports',
+    const downloadDir = createDownloadPath(
       ExportType.CSV,
-      projectName,
-      `${areaMode}-${indicatorMode}`
+      areaMode,
+      indicatorMode
     );
-
-    // Ensure directory exists
-    await fs.mkdir(downloadDir, { recursive: true });
 
     await this.clickAndAwaitLoadingComplete(
       this.page
@@ -726,12 +782,13 @@ export default class ChartPage extends AreaFilter {
     );
     const download = await downloadPromise;
     const filename = download.suggestedFilename();
-    const downloadPath = path.join(downloadDir, filename);
+    const downloadPath = path.join(await downloadDir, filename);
 
     await download.saveAs(downloadPath);
 
-    // Verify the file was downloaded successfully
+    // Verify the file downloaded successfully
     expect(download.suggestedFilename()).toBeDefined();
+    expect(filename).toMatch(/\.csv$/i);
 
     // validate file is downloaded size
     const fileInfo = await fs.stat(downloadPath);
