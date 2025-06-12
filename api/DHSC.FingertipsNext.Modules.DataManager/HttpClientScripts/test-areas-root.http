@@ -1,0 +1,9 @@
+﻿
+GET http://localhost:5144/data_management
+
+> {%
+    client.test("simple functional check of scaffold", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body === "The Repository says: I'm a Repository", "wrong response")
+    });
+%}
