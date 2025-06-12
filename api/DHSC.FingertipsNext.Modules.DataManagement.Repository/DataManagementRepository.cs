@@ -1,9 +1,9 @@
 ﻿namespace DHSC.FingertipsNext.Modules.DataManagement.Repository;
 
-public class DataManagementRepository
+public class DataManagementRepository : IDataManagementRepository
 {
     public string SayHello()
     {
-        return "Hello Repository";
+        return "I'm a Repository";
     }
 }

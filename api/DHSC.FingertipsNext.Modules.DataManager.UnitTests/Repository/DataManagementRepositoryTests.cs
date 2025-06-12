@@ -1,4 +1,3 @@
-using DHSC.FingertipsNext.Modules.DataManagement.Controllers.V1;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 
 namespace DHSC.FingertipsNext.Modules.DataManagement.UnitTests.Repository;
@@ -16,6 +15,6 @@ public class DataManagementRepositoryTests
     public void SayHelloTest()
     {
         // assert
-        _repository.SayHello().ShouldBe("Hello Repository");
+        _repository.SayHello().ShouldBe("I'm a Repository");
     }
 }
