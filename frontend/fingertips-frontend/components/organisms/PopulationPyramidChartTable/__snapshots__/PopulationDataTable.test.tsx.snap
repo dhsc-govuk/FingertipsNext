@@ -192,16 +192,19 @@ exports[`PopulationDataTable take a snapshot 1`] = `
         >
           <th
             class="c2 c3 c4 c5"
+            style="white-space: nowrap;"
           >
             Age Band
           </th>
           <th
             class="c2 c3 c4 c5"
+            style="white-space: nowrap;"
           >
             Females
           </th>
           <th
             class="c2 c3 c4 c5"
+            style="white-space: nowrap;"
           >
             Males
           </th>
@@ -215,16 +218,19 @@ exports[`PopulationDataTable take a snapshot 1`] = `
         >
           <td
             class="c6 c7"
+            style="white-space: nowrap;"
           >
             0-4
           </td>
           <td
             class="c6 c7"
+            style="white-space: nowrap;"
           >
             900
           </td>
           <td
             class="c6 c7"
+            style="white-space: nowrap;"
           >
             1,000
           </td>
@@ -234,16 +240,19 @@ exports[`PopulationDataTable take a snapshot 1`] = `
         >
           <td
             class="c6 c7"
+            style="white-space: nowrap;"
           >
             5-9
           </td>
           <td
             class="c6 c7"
+            style="white-space: nowrap;"
           >
             1,100
           </td>
           <td
             class="c6 c7"
+            style="white-space: nowrap;"
           >
             1,200
           </td>
@@ -253,16 +262,19 @@ exports[`PopulationDataTable take a snapshot 1`] = `
         >
           <td
             class="c6 c7"
+            style="white-space: nowrap;"
           >
             10-14
           </td>
           <td
             class="c6 c7"
+            style="white-space: nowrap;"
           >
             1,050
           </td>
           <td
             class="c6 c7"
+            style="white-space: nowrap;"
           >
             1,100
           </td>
@@ -272,16 +284,19 @@ exports[`PopulationDataTable take a snapshot 1`] = `
         >
           <td
             class="c6 c7"
+            style="white-space: nowrap;"
           >
             15+
           </td>
           <td
             class="c6 c7"
+            style="white-space: nowrap;"
           >
             1,250
           </td>
           <td
             class="c6 c7"
+            style="white-space: nowrap;"
           >
             1,300
           </td>

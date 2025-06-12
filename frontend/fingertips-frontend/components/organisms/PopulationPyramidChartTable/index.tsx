@@ -8,6 +8,7 @@ import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptions
 import { convertPopulationPyramidTableToCsvData } from '@/components/organisms/PopulationPyramid/convertPopulationPyramidTableToCsvData';
 import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
 import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
+import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
 
 const DefaultMinimumWidthForTablePanel = 250;
 
@@ -91,6 +92,7 @@ const StyleSelectedAreaTableContextDiv = styled('div')({
 });
 
 export interface PopulationPyramidTableProps {
+  title: string;
   healthDataForArea: PopulationDataForArea;
   benchmarkData?: PopulationDataForArea;
   groupData?: PopulationDataForArea;
@@ -100,6 +102,7 @@ export interface PopulationPyramidTableProps {
 }
 
 export function PopulationPyramidChartTable({
+  title,
   healthDataForArea,
   benchmarkData,
   groupData,
@@ -122,6 +125,7 @@ export function PopulationPyramidChartTable({
         id="populationPyramidTable"
         data-testid="populationPyramidTable-component"
       >
+        <ChartTitle>{title}</ChartTitle>
         <StylePopulationPyramidTableSection>
           <StyleScrollableContentDiv>
             <StyleSelectedAreaTableContextDiv>
