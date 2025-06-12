@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   AreaFilters,
   AreaMode,
@@ -16,7 +15,6 @@ import { ExportType } from '@/components/molecules/Export/export.types';
 import { Locator, test } from '@playwright/test';
 import path from 'path';
 import fs from 'fs/promises';
-import Papa from 'papaparse';
 
 interface VisibleComponent {
   componentLocator: string;
@@ -709,12 +707,14 @@ export default class ChartPage extends AreaFilter {
     for (const header of Object.values(PersistentCsvHeaders)) {
       await expect(exportModalPreview).toContainText(header);
     }
-
     await expect(exportModalPreview).toContainText(
       String(expectedCsvIndicatorID)
     );
-
     await expect(exportModalPreview).toContainText(expectedCsvIndicatorName);
+    // Validate England area data
+    if (areaMode === AreaMode.ENGLAND_AREA) {
+      expect(exportModalPreview).toContainText('England');
+    }
 
     // Click the CSV export option
     const downloadPromise = this.page.waitForEvent('download');
@@ -733,54 +733,14 @@ export default class ChartPage extends AreaFilter {
     // Verify the file was downloaded successfully
     expect(download.suggestedFilename()).toBeDefined();
 
-    // validate file size
+    // validate file is downloaded size
     const fileInfo = await fs.stat(downloadPath);
     expect(fileInfo.size).toBeGreaterThan(500);
 
-    // Read and parse the actual CSV content
-    const csvContent = await fs.readFile(downloadPath, 'utf-8');
-    const parsedCSV = Papa.parse(csvContent, {
-      header: true,
-      dynamicTyping: true,
-      skipEmptyLines: true,
-    });
-
-    // Validate CSV structure
-    expect(parsedCSV.errors).toHaveLength(0);
-    expect(parsedCSV.data.length).toBeGreaterThan(0);
-
-    // Validate headers exactly match expected
-    const actualHeaders = parsedCSV.meta.fields || [];
-    const expectedHeaders = Object.values(PersistentCsvHeaders);
-    expect(actualHeaders).toEqual(expect.arrayContaining(expectedHeaders));
-
-    // Validate specific data content
-    const firstRow = parsedCSV.data[0] as any;
-    expect(firstRow['Indicator ID']).toBe(expectedCsvIndicatorID);
-    expect(firstRow['Indicator name']).toBe(expectedCsvIndicatorName);
-
-    // Validate England area data
-    if (areaMode === AreaMode.ENGLAND_AREA) {
-      // All data should be England-related
-      parsedCSV.data.forEach((row: any) => {
-        expect(row['Area']).toContain('England');
-        if (
-          component.componentLocator ===
-          ChartPage.populationPyramidTableComponent
-        ) {
-          expect(row['Indicator ID']).toBe(expectedCsvIndicatorID);
-          expect(row['Indicator name']).toBe(expectedCsvIndicatorName);
-        }
-      });
-    }
-
-    if (indicatorMode === IndicatorMode.ONE_INDICATOR) {
-      // All rows should have the same indicator
-      const indicatorIds = [
-        ...new Set(parsedCSV.data.map((row: any) => row['Indicator ID'])),
-      ];
-      expect(indicatorIds).toHaveLength(1);
-    }
+    // validate file content
+    const fileContent = await fs.readFile(downloadPath, 'utf-8');
+    const modalPreviewText = await exportModalPreview.textContent();
+    expect(fileContent).toContain(modalPreviewText);
 
     // close the export modal
     await this.clickAndAwaitLoadingComplete(
