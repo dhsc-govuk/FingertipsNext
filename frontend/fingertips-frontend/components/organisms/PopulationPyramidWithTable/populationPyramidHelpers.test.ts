@@ -45,7 +45,7 @@ describe('determineHeaderTitle', () => {
       areaTypeSelected,
       2022
     );
-    expect(result).toEqual('Registered population profile for Area 1 2022');
+    expect(result).toEqual('Area 1 registered population, 2022');
   });
 });
 
