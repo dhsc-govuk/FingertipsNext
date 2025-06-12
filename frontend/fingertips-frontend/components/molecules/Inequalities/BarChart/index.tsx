@@ -201,7 +201,7 @@ export function InequalitiesBarChart({
         <BenchmarkLegends
           legendsToShow={legendsToShow}
           title={'Compared to persons'}
-          // svg
+          svg
         />
         <HighChartsWrapper
           chartOptions={barChartOptions}
