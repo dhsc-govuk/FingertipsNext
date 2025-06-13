@@ -45,8 +45,8 @@ export default class BasePage {
 
     await locator.click();
 
-    await this.page.waitForLoadState();
     await expect(this.page.getByText('Loading')).toHaveCount(0, { timeout });
+    await this.page.waitForLoadState();
   }
 
   async checkAndAwaitLoadingComplete(locator: Locator) {

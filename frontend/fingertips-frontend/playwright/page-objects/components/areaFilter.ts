@@ -22,21 +22,21 @@ export default class AreaFilter extends BasePage {
   readonly filterName = 'filter-name';
   readonly removeIcon = 'x-icon';
 
-  areaFilterPills() {
+  async areaFilterPills() {
     return this.page
       .getByTestId(this.areaFilterContainer)
       .getByTestId(this.pillContainer);
   }
 
   async areaFilterPillsText() {
-    const pillFilterNames = await this.areaFilterPills()
+    const pillFilterNames = await (await this.areaFilterPills())
       .getByTestId(this.filterName)
       .all();
 
     return Promise.all(pillFilterNames.map(async (l) => await l.textContent()));
   }
 
-  indicatorPills() {
+  async indicatorPills() {
     return this.page
       .getByTestId(this.selectedIndicatorContainer)
       .getByTestId(this.pillContainer)
@@ -66,7 +66,7 @@ export default class AreaFilter extends BasePage {
   async closeAreaFilterPill(index: number) {
     await this.page.waitForLoadState();
 
-    const pills = await this.areaFilterPills()
+    const pills = await (await this.areaFilterPills())
       .getByTestId(this.removeIcon)
       .all();
 
