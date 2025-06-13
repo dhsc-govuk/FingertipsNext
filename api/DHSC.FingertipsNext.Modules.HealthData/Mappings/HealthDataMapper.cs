@@ -6,7 +6,7 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Mappings;
 
 public class HealthDataMapper : IHealthDataMapper
 {
-    public IndicatorPolarity MapIndicatorPolarity(string source)
+    public IndicatorPolarity MapIndicatorPolarity(string? source)
     {
         return source switch
         {
@@ -17,7 +17,7 @@ public class HealthDataMapper : IHealthDataMapper
         };
     }
 
-    public BenchmarkComparisonMethod MapBenchmarkComparisonMethod(string source)
+    public BenchmarkComparisonMethod MapBenchmarkComparisonMethod(string? source)
     {
         return source switch
         {
@@ -56,7 +56,7 @@ public class HealthDataMapper : IHealthDataMapper
             UpperConfidenceInterval = source.UpperCi,
             AgeBand = Map(source.AgeDimension),
             Sex = Map(source.SexDimension),
-            Trend = source.TrendDimension?.Name,
+            Trend = source.TrendDimension?.Name ?? string.Empty,
             Deprivation = Map(source.DeprivationDimension),
         };
     }

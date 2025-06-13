@@ -1,7 +1,8 @@
 import React, { FC, RefObject, useLayoutEffect } from 'react';
 import { Table } from 'govuk-react';
 import { InViewTrigger } from '@/components/hooks/InViewTrigger';
-import { barChartEmbeddedRowClassName } from '@/components/organisms/BarChartEmbeddedTable/barChartEmbeddedTableHelpers';
+
+import { barChartEmbeddedRowClassName } from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedTable.types';
 
 const calculateAverageVerticalSpacing = () => {
   const elements = document.getElementsByClassName(

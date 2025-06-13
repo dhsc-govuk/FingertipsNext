@@ -3,7 +3,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 
-internal class HealthMeasureModelHelper(
+internal sealed class HealthMeasureModelHelper(
     int key = 1,
     short year = 2025,
     bool isAggregate = true,
@@ -13,11 +13,12 @@ internal class HealthMeasureModelHelper(
     double? upperCi = 1.0
 )
 {
-    private AreaDimensionModel _areaDimension;
-    private AgeDimensionModel _ageDimension;
-    private IndicatorDimensionModel _indicatorDimension;
-    private SexDimensionModel _sexDimension;
-    private DeprivationDimensionModel _deprivationDimension;
+    private AreaDimensionModel? _areaDimension;
+    private AgeDimensionModel? _ageDimension;
+    private IndicatorDimensionModel? _indicatorDimension;
+    private SexDimensionModel? _sexDimension;
+    private DeprivationDimensionModel? _deprivationDimension;
+    private TrendDimensionModel? _trendDimension;
     private DateDimensionModel _fromDateDimension = new DateDimensionModel { DateKey = key, Date = new DateTime(year, 01, 01) };
     private DateDimensionModel _toDateDimension = new DateDimensionModel { DateKey = key, Date = new DateTime(year, 12, 31) };
     private PeriodDimensionModel _periodDimension = new PeriodDimensionModel { PeriodKey = (byte)key, Period = "Calendar" };
@@ -147,6 +148,15 @@ internal class HealthMeasureModelHelper(
         };
     }
 
+    public HealthMeasureModelHelper WithTrendDimension(
+        byte trendId = 1
+    )
+    {
+        _trendDimension = DefaultTrendDimension();
+        _trendDimension.TrendKey = trendId;
+        return this;
+    }
+
     private TrendDimensionModel DefaultTrendDimension()
     {
         return new TrendDimensionModel
@@ -226,7 +236,7 @@ internal class HealthMeasureModelHelper(
         var ageDimension = _ageDimension ?? DefaultAgeDimension();
         var indicatorDimension = _indicatorDimension ?? DefaultIndicatorDimension();
         var sexDimension = _sexDimension ?? DefaultSexDimension();
-        var trendDimension = DefaultTrendDimension();
+        var trendDimension = _trendDimension ?? DefaultTrendDimension();
         var deprivationDimension = _deprivationDimension ?? DefaultDeprivationDimension();
 
         return new HealthMeasureModel

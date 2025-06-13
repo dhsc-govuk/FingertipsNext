@@ -31,19 +31,19 @@ public class DenormalisedHealthMeasureModel
     public required double? LowerCi { get; set; }
     public required double? UpperCi { get; set; }
     public required short Year { get; set; }
-    public required string BenchmarkComparisonOutcome { get; set; }
+    public string? BenchmarkComparisonOutcome { get; set; }
     public required string BenchmarkComparisonIndicatorPolarity { get; set; }
-    public required string BenchmarkComparisonAreaCode { get; set; }
-    public required string BenchmarkComparisonAreaName { get; set; }
+    public string? BenchmarkComparisonAreaCode { get; set; }
+    public string? BenchmarkComparisonAreaName { get; set; }
 
     private BenchmarkComparisonModel? NormalisedBenchmark =>
-        BenchmarkComparisonOutcome is null
+        BenchmarkComparisonOutcome == null
             ? null
             : new BenchmarkComparisonModel
             {
                 Outcome = BenchmarkComparisonOutcome,
-                BenchmarkAreaCode = BenchmarkComparisonAreaCode,
-                BenchmarkAreaName = BenchmarkComparisonAreaName
+                BenchmarkAreaCode = BenchmarkComparisonAreaCode!,
+                BenchmarkAreaName = BenchmarkComparisonAreaName!
             };
 
     public HealthMeasureModel Normalise()

@@ -1,5 +1,4 @@
-﻿using DHSC.FingertipsNext.Modules.HealthData.Mappings;
-using DHSC.FingertipsNext.Modules.HealthData.Repository;
+﻿using DHSC.FingertipsNext.Modules.HealthData.Repository;
 using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 using DHSC.FingertipsNext.Modules.HealthData.Service;
@@ -51,13 +50,13 @@ public class IndicatorServiceTests
             new object[] { 9, 8, 7, "No Judgement", BenchmarkOutcome.Higher },
         };
 
-    public static IEnumerable<object[]> BenchmarkMissingValues =>
-        new List<object[]>
+    public static IEnumerable<object?[]> BenchmarkMissingValues =>
+        new List<object?[]>
         {
-            new object[] { 1, 2, 3, true },
-            new object[] { 1, null, 3, false },
-            new object[] { null, 2, 3, false },
-            new object[] { 1, 2, null, false },
+            new object?[] { 1, 2, 3, true },
+            new object?[] { 1, null, 3, false },
+            new object?[] { null, 2, 3, false },
+            new object?[] { 1, 2, null, false },
         };
 
     [Fact]
@@ -875,9 +874,10 @@ public class IndicatorServiceTests
                     Code = "SomeCode",
                     AreaKey = 4,
                 },
-                SexDimension = new SexDimensionModel(),
-                DeprivationDimension = new DeprivationDimensionModel(),
-                AgeDimension = new AgeDimensionModel(),
+                SexDimension = new SexDimensionModel() { Name = string.Empty},
+                DeprivationDimension = new DeprivationDimensionModel() { Name = string.Empty, Type = String.Empty },
+                AgeDimension = new AgeDimensionModel() { Name = String.Empty },
+                IndicatorDimension = new IndicatorDimensionModel() { Name = String.Empty }
                 FromDateDimension = new DateDimensionModel() { Date = new DateTime(2024, 1, 1) },
                 ToDateDimension = new DateDimensionModel() { Date = new DateTime(2024, 12, 31) },
                 PeriodDimension = new PeriodDimensionModel() { Period = "Calendar"}
@@ -915,7 +915,7 @@ public class IndicatorServiceTests
     {
         _healthDataRepository
             .GetIndicatorDimensionAsync(1, Arg.Any<string[]>())
-            .Returns(Task.FromResult<IndicatorDimensionModel>(null));
+            .Returns(Task.FromResult<IndicatorDimensionModel?>(null));
         _healthDataRepository
             .GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], Arg.Any<string[]>())
             .Returns([]);
@@ -939,7 +939,7 @@ public class IndicatorServiceTests
         _healthDataRepository
             .GetIndicatorDimensionAsync(1, Arg.Any<string[]>())
             .Returns(
-                Task.FromResult<IndicatorDimensionModel>(
+                Task.FromResult<IndicatorDimensionModel?>(
                     new IndicatorDimensionModel() { Name = "Foo" }
                 )
             );
@@ -1031,7 +1031,7 @@ public class IndicatorServiceTests
         result.Content.AreaHealthData.ShouldNotBeEmpty();
         result.Content.AreaHealthData.Count().ShouldBe(4);
         result.Content.AreaHealthData.ShouldBeEquivalentTo(expected);
-        await _healthDataRepository.DidNotReceiveWithAnyArgs().GetAreasAsync(null);
+        await _healthDataRepository.DidNotReceiveWithAnyArgs().GetAreasAsync([]);
     }
 
     [Fact]

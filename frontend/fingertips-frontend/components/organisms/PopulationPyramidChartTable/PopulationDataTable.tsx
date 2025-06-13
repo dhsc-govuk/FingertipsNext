@@ -112,7 +112,10 @@ export const PopulationDataTable = ({
           <Table.Row>
             {headers.map((header) => {
               return (
-                <StyledAreaNameHeader key={header}>
+                <StyledAreaNameHeader
+                  key={header}
+                  style={{ whiteSpace: 'nowrap' }}
+                >
                   {header}
                 </StyledAreaNameHeader>
               );
@@ -129,6 +132,7 @@ export const PopulationDataTable = ({
               {columnValues.map((value, valueIndex: number) => (
                 <StyledTableCell
                   key={`${healthDataForArea.areaName}-${index}-${valueIndex}`}
+                  style={{ whiteSpace: 'nowrap' }}
                 >
                   {valueFormatter(value)}
                 </StyledTableCell>

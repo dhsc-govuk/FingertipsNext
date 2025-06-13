@@ -23,6 +23,7 @@ const mockPopulationData: PopulationDataForArea = {
 test('should render the Highcharts react component within the PopulationPyramid component', async () => {
   render(
     <PopulationPyramid
+      title={'Area resident population, 2023'}
       dataForSelectedArea={mockPopulationData}
       xAxisTitle="Age"
       yAxisTitle="Population Percentage"
@@ -32,4 +33,7 @@ test('should render the Highcharts react component within the PopulationPyramid 
     'highcharts-react-component-populationPyramid'
   );
   expect(highcharts).toBeInTheDocument();
+
+  const title = screen.getByRole('heading', { level: 4 });
+  expect(title).toHaveTextContent('Area resident population, 2023');
 });

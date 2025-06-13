@@ -26,7 +26,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
     /// <param name="indicatorId"></param>
     /// <param name="areaCodes"></param>
     /// <returns>IndicatorDimensionModel containing relevant indicator metadata</returns>
-    public async Task<IndicatorDimensionModel> GetIndicatorDimensionAsync(int indicatorId, string[] areaCodes)
+    public async Task<IndicatorDimensionModel?> GetIndicatorDimensionAsync(int indicatorId, string[] areaCodes)
     {
         var model = await _dbContext.HealthMeasure
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
@@ -132,7 +132,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
                     Code = healthMeasure.AreaDimension.Code,
                     Name = healthMeasure.AreaDimension.Name
                 },
-                TrendDimension = new TrendDimensionModel
+                TrendDimension = healthMeasure.TrendDimension == null ? null : new TrendDimensionModel
                 {
                     Name = healthMeasure.TrendDimension.Name
                 },

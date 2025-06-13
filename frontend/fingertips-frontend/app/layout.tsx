@@ -1,10 +1,9 @@
 import { FTContainer } from '@/components/layouts/container';
-import { FTFooter } from '@/components/molecules/Footer';
-import { FTHeader } from '@/components/molecules/Header';
 import StyledComponentsRegistry from '@/lib/registry';
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
 import '../global.css';
+import { HeaderFooterWrapper } from '@/components/molecules/HeaderFooterWrapper';
 
 export const metadata: Metadata = {
   title: 'FingertipsNext',
@@ -20,13 +19,14 @@ export default function RootLayout({
   // vars read SSR and passed down to the footer component
   const tag = process.env.NEXT_PUBLIC_FINGERTIPS_GIT_TAG;
   const hash = process.env.NEXT_PUBLIC_FINGERTIPS_GIT_HASH;
+
   return (
     <html lang="en">
       <body style={{ margin: 0 }}>
         <StyledComponentsRegistry>
-          <FTHeader />
-          <FTContainer>{children}</FTContainer>
-          <FTFooter tag={tag} hash={hash} />
+          <HeaderFooterWrapper tag={tag} hash={hash}>
+            <FTContainer>{children}</FTContainer>
+          </HeaderFooterWrapper>
         </StyledComponentsRegistry>
       </body>
     </html>

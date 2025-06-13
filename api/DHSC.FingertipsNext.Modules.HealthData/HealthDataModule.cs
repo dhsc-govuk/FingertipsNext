@@ -1,9 +1,9 @@
-﻿using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
+﻿using DHSC.FingertipsNext.Modules.HealthData.Mappings;
 using DHSC.FingertipsNext.Modules.HealthData.Repository;
 using DHSC.FingertipsNext.Modules.HealthData.Service;
-using DHSC.FingertipsNext.Modules.HealthData.Mappings;
 using DHSC.FingertipsNext.Monolith;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
