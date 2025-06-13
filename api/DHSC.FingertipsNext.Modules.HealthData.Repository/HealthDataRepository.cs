@@ -128,9 +128,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
                     IsAggregate = healthMeasure.IsDeprivationAggregatedOrSingle
                 },
                 IsAggregate = healthMeasure.IsAgeAggregatedOrSingle && healthMeasure.IsSexAggregatedOrSingle &&
-                              healthMeasure.IsDeprivationAggregatedOrSingle,
-                PublishedAt = healthMeasure.PublishedAt,
-                BatchId = healthMeasure.BatchId
+                              healthMeasure.IsDeprivationAggregatedOrSingle
             })
             .AsNoTracking()
             .ToListAsync();

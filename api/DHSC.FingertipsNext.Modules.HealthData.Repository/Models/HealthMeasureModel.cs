@@ -57,7 +57,7 @@ public class HealthMeasureModel
 
     public DateTime PublishedAt { get; set; }
 
-    public required string BatchId { get; set; }
+    public string BatchId { get; set; }
 
     [NotMapped]
     public BenchmarkComparisonModel BenchmarkComparison { get; set; }
