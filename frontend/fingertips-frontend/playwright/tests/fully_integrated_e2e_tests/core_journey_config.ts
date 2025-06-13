@@ -6,7 +6,7 @@ import {
   TestParams,
 } from '@/playwright/testHelpers';
 
-// this is for core journeys defined in core_journey_config.ts that are a searchMode of either SearchMode.BOTH_SUBJECT_AND_AREA or SearchMode.ONLY_AREA
+// this is for core journeys that are a searchMode of either SearchMode.BOTH_SUBJECT_AND_AREA or SearchMode.ONLY_AREA
 export const areaSearchTerm: AreaDocument = {
   areaCode: 'E12000002',
   areaType: 'Regions',

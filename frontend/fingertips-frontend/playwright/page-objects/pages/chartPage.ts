@@ -184,32 +184,32 @@ export default class ChartPage extends AreaFilter {
     const interactions = [
       {
         condition: componentProps.isTabTable,
-        action: () => this.selectTabForComponent(componentLocator),
+        action: async () => await this.selectTabForComponent(componentLocator),
       },
       {
         condition: componentProps.hasTimePeriodDropDown,
-        action: () => this.selectLastTimePeriodOption(),
+        action: async () => await this.selectLastTimePeriodOption(),
       },
       {
         condition: componentProps.hasInequalityTypeDropDown,
-        action: () =>
-          this.selectInequalityTypeDropdownOption({
+        action: async () =>
+          await this.selectInequalityTypeDropdownOption({
             componentLocator,
             componentProps,
           }),
       },
       {
         condition: componentProps.hasDetailsExpander,
-        action: () => this.expandDetailsSection(),
+        action: async () => await this.expandDetailsSection(),
       },
       {
         condition: componentProps.isWideComponent,
-        action: () => this.scrollToMiddle(componentLocator),
+        action: async () => await this.scrollToMiddle(componentLocator),
       },
       {
         condition: componentProps.hasRecentTrend,
-        action: () =>
-          this.verifyTrendTagForComponent(
+        action: async () =>
+          await this.verifyTrendTagForComponent(
             component,
             areaMode,
             selectedIndicators
@@ -217,16 +217,18 @@ export default class ChartPage extends AreaFilter {
       },
       {
         condition: checkExports && componentProps.hasPNGExport,
-        action: () => this.verifyPNGExport(component, areaMode, indicatorMode),
+        action: async () =>
+          await this.verifyPNGExport(component, areaMode, indicatorMode),
       },
       {
         condition: checkExports && componentProps.hasSVGExport,
-        action: () => this.verifySVGExport(component, areaMode, indicatorMode),
+        action: async () =>
+          await this.verifySVGExport(component, areaMode, indicatorMode),
       },
       {
         condition: checkExports && componentProps.hasCSVExport,
-        action: () =>
-          this.verifyCSVExport(
+        action: async () =>
+          await this.verifyCSVExport(
             component,
             areaMode,
             indicatorMode,
@@ -235,12 +237,16 @@ export default class ChartPage extends AreaFilter {
       },
       {
         condition: componentProps.showsBenchmarkComparisons,
-        action: () =>
-          this.verifyBenchmarkingForComponent(component, selectedAreaFilters),
+        action: async () =>
+          await this.verifyBenchmarkingForComponent(
+            component,
+            selectedAreaFilters
+          ),
       },
       {
         condition: componentProps.hasConfidenceIntervals,
-        action: () => this.toggleConfidenceInterval(componentLocator),
+        action: async () =>
+          await this.toggleConfidenceInterval(componentLocator),
       },
     ];
 
