@@ -3,19 +3,25 @@ root = true
 [*.cs]
 dotnet_analyzer_diagnostic.category-Maintainability.severity = error
 dotnet_analyzer_diagnostic.category-Naming.severity = error
-# Disabling this until we've got some proper rules defined around c# standards
+# Disabling the style warning until we've got some proper rules defined around c# standards
 dotnet_analyzer_diagnostic.category-Style.severity = none
+# Do not directly await a Task
 dotnet_diagnostic.CA2007.severity = none
+# Do not pass literals as localized parameters
 dotnet_diagnostic.CA1303.severity = none
+# Mark assemblies with AssemblyVersionAttribute
 dotnet_diagnostic.CA1016.severity = none
 
+
 [*{Controller,Tests}.cs]
+# Consider making public types internal
 dotnet_diagnostic.CA1515.severity = none
 
-[*{Tests}.cs]
+[*{Test,Tests}.cs]
+# Ignore Resolve nullable warnings for test files
 dotnet_diagnostic.CS8602.severity = none
 
-# Suppresses CS8618 in the context of a dbcontext
 [*DbContext.cs] 
+# Suppresses CS8618 in a dbcontext to allow dbsets to remain undefined
 dotnet_diagnostic.CS8618.severity = none
 
