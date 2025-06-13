@@ -18,7 +18,6 @@ import type {
   Area,
   AreaType,
   AreaWithRelations,
-  BadRequest,
   GetAreaHierarchies500Response,
   RootArea,
 } from '../models/index';
@@ -29,8 +28,6 @@ import {
     AreaTypeToJSON,
     AreaWithRelationsFromJSON,
     AreaWithRelationsToJSON,
-    BadRequestFromJSON,
-    BadRequestToJSON,
     GetAreaHierarchies500ResponseFromJSON,
     GetAreaHierarchies500ResponseToJSON,
     RootAreaFromJSON,

@@ -7,7 +7,6 @@ models/AgeData.ts
 models/Area.ts
 models/AreaType.ts
 models/AreaWithRelations.ts
-models/BadRequest.ts
 models/BenchmarkComparisonMethod.ts
 models/BenchmarkOutcome.ts
 models/BenchmarkReferenceType.ts

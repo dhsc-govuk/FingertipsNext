@@ -210,4 +210,7 @@ If you wish to autogenerate the mock handlers again, use the following command:
 npm run generate:ft-mocks
 ```
 
-`msw-auto-mock` will generate mock service workers for `browser`, `native` and `node`. We only need `node` so the other 2 can be deleted. These files are also `.js` files. Rename `handler.js` and `node.js` to `handler.ts` and `node.ts`.
+`msw-auto-mock` will generate mock service workers for `browser`, `native`, `handlers` and `node`. 
+- We do not need `browser` or `native` so these should be deleted.
+- Since the project is using Typescript `node.js` should be renamed `node.ts`.
+- The project uses the `handlers.ts` file, and a number of manual edits will have been made to this file. Any additional code from the generated `handlers.js` file should be transposed into this existing `.ts` file. `handlers.js` can then be deleted. 

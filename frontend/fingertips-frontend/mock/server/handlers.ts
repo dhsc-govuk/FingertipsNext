@@ -141,6 +141,21 @@ export const handlers = [
       return HttpResponse.json(...resultArray[next() % resultArray.length]);
     }
   ),
+  http.post(`${baseURL}/indicators/:indicatorId/data`, async () => {
+    const resultArray = [
+      [getPostIndicatorsIndicatorIdData501Response(), { status: 501 }],
+    ];
+
+    return HttpResponse.json(...resultArray[next() % resultArray.length]);
+  }),
+  http.delete(`${baseURL}/indicators/:indicatorId/data`, async () => {
+    const resultArray = [
+      [getDeleteIndicatorsIndicatorIdData501Response(), { status: 501 }],
+    ];
+
+    return HttpResponse.json(...resultArray[next() % resultArray.length]);
+  }),
+
   http.get(`${baseURL}/healthcheck`, async () => {
     const resultArray = [[getGetHealthcheck200Response(), { status: 200 }]];
 
@@ -251,6 +266,20 @@ export function getGetHealthDataForAnIndicator200Response(
       ? healthDataForArea
       : healthDataForIndicator,
   };
+}
+
+export function getGetHealthDataForAnIndicator500Response() {
+  return {
+    message: faker.lorem.words(),
+  };
+}
+
+export function getPostIndicatorsIndicatorIdData501Response() {
+  return null;
+}
+
+export function getDeleteIndicatorsIndicatorIdData501Response() {
+  return null;
 }
 
 function isAreaCodesEmpty(areaCodes: string[]) {
