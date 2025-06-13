@@ -17,7 +17,7 @@ import {
   sequenceSelectorForInequality,
   valueSelectorForInequality,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { SearchParams } from '@/lib/searchStateManager';
 import {
   BenchmarkComparisonMethod,
   HealthDataForArea,
@@ -32,10 +32,10 @@ import { InequalitiesTypesDropDown } from '../InequalitiesTypesDropDown';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
 interface InequalitiesForSingleTimePeriodProps {
   healthIndicatorData: HealthDataForArea[];
-  searchState: SearchStateParams;
   indicatorMetadata?: IndicatorDocument;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
@@ -44,7 +44,6 @@ interface InequalitiesForSingleTimePeriodProps {
 
 export function InequalitiesForSingleTimePeriod({
   healthIndicatorData,
-  searchState,
   indicatorMetadata,
   benchmarkComparisonMethod,
   polarity,
@@ -56,7 +55,7 @@ export function InequalitiesForSingleTimePeriod({
     [SearchParams.InequalityBarChartTypeSelected]: inequalityTypeSelected,
     [SearchParams.InequalityBarChartAreaSelected]:
       inequalityBarChartAreaSelected,
-  } = searchState;
+  } = useSearchStateParams();
 
   const healthdataWithoutGroup = seriesDataWithoutGroup(
     healthIndicatorData,
@@ -139,19 +138,17 @@ export function InequalitiesForSingleTimePeriod({
   return (
     <StyleChartWrapper data-testid="inequalitiesForSingleTimePeriod-component">
       <H3>Inequalities data for a single time period</H3>
-      <TimePeriodDropDown years={yearsDesc} searchState={searchState} />
+      <TimePeriodDropDown years={yearsDesc} />
       <InequalitiesTypesDropDown
         inequalitiesOptions={inequalityCategories}
         inequalityTypeSelectedSearchParam={
           SearchParams.InequalityBarChartTypeSelected
         }
         testRef="bc"
-        searchState={searchState}
       />
       <ChartSelectArea
         availableAreas={availableAreasWithInequalities}
         chartAreaSelectedKey={SearchParams.InequalityBarChartAreaSelected}
-        searchState={searchState}
       />
       <TabContainer
         id="inequalitiesBarChartAndTable"

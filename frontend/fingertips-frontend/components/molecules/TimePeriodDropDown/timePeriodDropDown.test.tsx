@@ -2,7 +2,6 @@ import { render, screen, within } from '@testing-library/react';
 import { TimePeriodDropDown } from '.';
 import { SearchParams } from '@/lib/searchStateManager';
 import userEvent from '@testing-library/user-event';
-import { SearchStateContext } from '@/context/SearchStateContext';
 import { LoaderContext } from '@/context/LoaderContext';
 
 const mockPath = 'some-mock-path';
@@ -32,25 +31,11 @@ jest.mock('@/context/LoaderContext', () => {
   };
 });
 
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: jest.fn(),
-  setSearchState: jest.fn(),
-};
-jest.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
-
-const mockSearchState = {
-  [SearchParams.InequalityYearSelected]: '2023',
-};
-
 const years = ['2023', '2022', '2021', '2020'];
 
 describe('TimePeriodDropDown suite', () => {
   it('should display expected elements', () => {
-    render(<TimePeriodDropDown years={years} searchState={mockSearchState} />);
+    render(<TimePeriodDropDown years={years} />);
     const dropDown = screen.getByRole('combobox');
     const yearOptions = within(dropDown).getAllByRole('option');
 
@@ -69,7 +54,7 @@ describe('TimePeriodDropDown suite', () => {
     ].join('');
 
     const user = userEvent.setup();
-    render(<TimePeriodDropDown years={years} searchState={mockSearchState} />);
+    render(<TimePeriodDropDown years={years} />);
 
     await user.selectOptions(screen.getByRole('combobox'), '2022');
 
@@ -83,16 +68,7 @@ describe('TimePeriodDropDown suite', () => {
     ].join('');
 
     const user = userEvent.setup();
-    render(
-      <TimePeriodDropDown
-        years={years}
-        searchState={{
-          ...mockSearchState,
-          [SearchParams.InequalityBarChartTypeSelected]: 'some type',
-          [SearchParams.InequalityBarChartAreaSelected]: 'A001',
-        }}
-      />
-    );
+    render(<TimePeriodDropDown years={years} />);
 
     await user.selectOptions(screen.getByRole('combobox'), '2022');
 

@@ -7,7 +7,6 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { SearchStateParams } from '@/lib/searchStateManager';
 
 export type OneIndicatorViewPlotProps = {
-  searchState: SearchStateParams;
   indicatorData: IndicatorWithHealthDataForArea;
   indicatorMetadata?: IndicatorDocument;
   availableAreas?: Area[];

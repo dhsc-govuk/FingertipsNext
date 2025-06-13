@@ -1,28 +1,24 @@
-import {
-  SearchParamKeys,
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
+import { SearchParamKeys, SearchStateManager } from '@/lib/searchStateManager';
 import { useLoadingState } from '@/context/LoaderContext';
 import { usePathname, useRouter } from 'next/navigation';
 import { StyledFilterSelect } from '@/components/styles/StyledFilterSelect';
 import { AreaWithoutAreaType } from '@/lib/common-types';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
 interface ChartSelectAreaProps {
   availableAreas: AreaWithoutAreaType[];
   chartAreaSelectedKey: SearchParamKeys;
-  searchState: SearchStateParams;
 }
 
 export function ChartSelectArea({
   availableAreas,
   chartAreaSelectedKey,
-  searchState,
 }: Readonly<ChartSelectAreaProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
   const { setIsLoading } = useLoadingState();
 
+  const searchState = useSearchStateParams();
   const searchStateManager = SearchStateManager.initialise(searchState);
 
   const chartAreaTypeSelected = (valueSelected: string) => {

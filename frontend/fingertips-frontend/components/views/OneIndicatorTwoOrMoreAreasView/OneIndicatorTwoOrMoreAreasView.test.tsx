@@ -97,7 +97,6 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
     });
 
     expect(page.props.children.props.indicatorData).toEqual(mockIndicatorData);
-    expect(page.props.children.props.searchState).toEqual(searchState);
   });
 
   it('should pass the latestYear flag as true when there are more than 2 areas selected', async () => {
