@@ -1,4 +1,5 @@
 import { getLatestYearWithBenchmarks } from '@/components/organisms/BarChartEmbeddedTable/helpers/getLatestYearWithBenchmarks';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
 import { mockHealthDataPoints } from '@/mock/data/mockHealthDataPoint';
 
@@ -18,7 +19,8 @@ describe('getLatestYearWithBenchmarks', () => {
       getLatestYearWithBenchmarks(
         [testArea1, testArea2, testArea3],
         undefined,
-        undefined
+        undefined,
+        areaCodeForEngland
       )
     ).toEqual(2023);
   });
