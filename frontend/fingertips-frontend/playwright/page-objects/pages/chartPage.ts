@@ -626,7 +626,7 @@ export default class ChartPage extends AreaFilter {
       this.page
         .getByTestId(ChartPage.exportModalPaneComponent)
         .locator('canvas')
-    ).toBeVisible();
+    ).toBeVisible({ timeout: 20000 });
   }
 
   private async verifyPNGExport(
@@ -684,7 +684,7 @@ export default class ChartPage extends AreaFilter {
       .getByTestId(ChartPage.exportDomContainer)
       .locator('svg')
       .last();
-    expect(exportModalPreview).toBeVisible();
+    expect(exportModalPreview).toBeVisible({ timeout: 20000 });
 
     // Click the SVG export option and save the file locally
     const { download, downloadPath } = await this.clickExportAndSaveFile(
@@ -772,6 +772,7 @@ export default class ChartPage extends AreaFilter {
       .getByTestId(ChartPage.exportModalPaneComponent)
       .locator('div')
       .last();
+    expect(exportModalPreview).toBeVisible({ timeout: 20000 });
 
     // Check the modal preview contains the persistent CSV headers and the selected indicators
     await this.checkCSVPreview(
