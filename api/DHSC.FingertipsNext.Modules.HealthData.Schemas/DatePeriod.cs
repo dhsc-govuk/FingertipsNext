@@ -6,7 +6,7 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Schemas;
 ///     Date period and type
 /// </summary>
 public class DatePeriod
-{  
+{
     [JsonPropertyName("type")]
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public DatePeriodType PeriodType { get; init; }
