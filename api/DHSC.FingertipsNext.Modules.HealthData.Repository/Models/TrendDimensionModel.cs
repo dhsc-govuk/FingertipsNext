@@ -9,7 +9,7 @@ public class TrendDimensionModel
     public byte TrendKey { get; set; }
 
     [MaxLength(20)]
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     public bool HasValue { get; set; }
 }

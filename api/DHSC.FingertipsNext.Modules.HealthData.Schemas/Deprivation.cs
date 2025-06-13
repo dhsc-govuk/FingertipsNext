@@ -18,13 +18,13 @@ public class Deprivation
     ///     The deprivation value for this data point
     /// </summary>
     [JsonPropertyName("value")]
-    public string Value { get; init; }
+    public required string Value { get; init; }
 
     /// <summary>
     ///     The deprivation category that this data point's deprivation value belongs to.
     /// </summary>
     [JsonPropertyName("type")]
-    public string Type { get; init; }
+    public required string Type { get; init; }
 
     /// <summary>
     ///     Indicates if the datapoint is an aggregated value for the deprivation dimension

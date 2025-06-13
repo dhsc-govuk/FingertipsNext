@@ -6,7 +6,7 @@ public class QuartileDataModel
 {
     [Key]
     public required int IndicatorId { get; set; }
-    public required string Polarity { get; set; }
+    public required string? Polarity { get; set; }
     public required short? Year { get; set; }
     public required double? Q0Value { get; set; }
     public required double? Q1Value { get; set; }
