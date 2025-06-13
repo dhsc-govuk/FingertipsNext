@@ -12,6 +12,14 @@ const testArea2 = mockHealthDataForArea({
 const testArea3 = mockHealthDataForArea({
   healthData: mockHealthDataPoints([2019, 2022, 2023, 2024, 2025]),
 });
+const englandDataWithNoPoints = mockHealthDataForArea({
+  areaCode: areaCodeForEngland,
+  healthData: [],
+});
+const groupDataWithNoPoints = mockHealthDataForArea({
+  areaCode: 'GROUP',
+  healthData: [],
+});
 
 describe('getLatestYearWithBenchmarks', () => {
   it('should find the first complete year', () => {
@@ -20,6 +28,39 @@ describe('getLatestYearWithBenchmarks', () => {
         [testArea1, testArea2, testArea3],
         undefined,
         undefined,
+        areaCodeForEngland
+      )
+    ).toEqual(2023);
+  });
+
+  it('should ignore englandData with no healthData points', () => {
+    expect(
+      getLatestYearWithBenchmarks(
+        [testArea1, testArea2, testArea3],
+        englandDataWithNoPoints,
+        undefined,
+        areaCodeForEngland
+      )
+    ).toEqual(2023);
+  });
+
+  it('should ignore groupData with no healthData points', () => {
+    expect(
+      getLatestYearWithBenchmarks(
+        [testArea1, testArea2, testArea3],
+        undefined,
+        groupDataWithNoPoints,
+        'GROUP'
+      )
+    ).toEqual(2023);
+  });
+
+  it('should ignore both englandData and groupData with no healthData points', () => {
+    expect(
+      getLatestYearWithBenchmarks(
+        [testArea1, testArea2, testArea3],
+        englandDataWithNoPoints,
+        groupDataWithNoPoints,
         areaCodeForEngland
       )
     ).toEqual(2023);
