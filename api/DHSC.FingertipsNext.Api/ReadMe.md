@@ -9,12 +9,13 @@ match those used to build associated containers/services. Please check the `.env
 
 ## Sample URLs
 
-| Path               | Sample Url                                                                   | Note                                         |
-|--------------------|------------------------------------------------------------------------------|----------------------------------------------|
-| /scalar/v1         | http://localhost:5144/scalar/v1                                              | Api documentation in development mode server |
-| /indicators        | http://localhost:5144/indicators                                             | Healthcare data                              |
-| /areas/hierarchies | http://localhost:5144/areas/hierarchies                                      | Area hierarchy types                         |
-| /areas/areatypes   | http://localhost:5144/areas/areatypes?hierarchy_type=NHS                     | Area types                                   |
-| /area/{area_code}  | http://localhost:5144/areas/355?include_children=true | Area details                                 |
-| /area/root         | http://localhost:5144/areas/root                                             | Root area details                            |
+| Path               | Sample Url                                               | Note                                         |
+|--------------------|----------------------------------------------------------|----------------------------------------------|
+| /scalar/v1         | http://localhost:5144/scalar/v1                          | Api documentation in development mode server |
+| /indicators        | http://localhost:5144/indicators                         | Healthcare data                              |
+| /areas/hierarchies | http://localhost:5144/areas/hierarchies                  | Area hierarchy types                         |
+| /areas/areatypes   | http://localhost:5144/areas/areatypes?hierarchy_type=NHS | Area types                                   |
+| /area/{area_code}  | http://localhost:5144/areas/355?include_children=true    | Area details                                 |
+| /area/root         | http://localhost:5144/areas/root                         | Root area details                            |
+| /data_management   | http://localhost:5144/data_management                    | Scaffold endpoint for data management module |
 

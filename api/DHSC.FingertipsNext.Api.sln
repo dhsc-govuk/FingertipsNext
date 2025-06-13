@@ -41,6 +41,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataManagement", "DataManagement", "{594379C5-606C-468B-8F91-1D30757E4681}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules.DataManagement", "DHSC.FingertipsNext.Modules.DataManager\DHSC.FingertipsNext.Modules.DataManagement.csproj", "{5418E004-FFA9-4589-99CF-514B08C0A622}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules.DataManagement.UnitTests", "DHSC.FingertipsNext.Modules.DataManager.UnitTests\DHSC.FingertipsNext.Modules.DataManagement.UnitTests.csproj", "{8EFD0D19-1AA6-4CF6-8CEA-F6B40053C378}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules.DataManagement.Repository", "DHSC.FingertipsNext.Modules.DataManagement.Repository\DHSC.FingertipsNext.Modules.DataManagement.Repository.csproj", "{91F1E0C8-6F6B-4E90-9EB9-8556942A9752}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules.DataManagement.Service", "DHSC.FingertipsNext.Modules.DataManagement.Service\DHSC.FingertipsNext.Modules.DataManagement.Service.csproj", "{16444D72-F068-4A78-A8D3-C85207D85DBC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +109,22 @@ Global
 		{21DCB8D7-8997-E53B-CC16-A2C665BC20D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21DCB8D7-8997-E53B-CC16-A2C665BC20D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21DCB8D7-8997-E53B-CC16-A2C665BC20D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5418E004-FFA9-4589-99CF-514B08C0A622}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5418E004-FFA9-4589-99CF-514B08C0A622}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5418E004-FFA9-4589-99CF-514B08C0A622}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5418E004-FFA9-4589-99CF-514B08C0A622}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EFD0D19-1AA6-4CF6-8CEA-F6B40053C378}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EFD0D19-1AA6-4CF6-8CEA-F6B40053C378}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EFD0D19-1AA6-4CF6-8CEA-F6B40053C378}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EFD0D19-1AA6-4CF6-8CEA-F6B40053C378}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91F1E0C8-6F6B-4E90-9EB9-8556942A9752}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91F1E0C8-6F6B-4E90-9EB9-8556942A9752}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91F1E0C8-6F6B-4E90-9EB9-8556942A9752}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91F1E0C8-6F6B-4E90-9EB9-8556942A9752}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16444D72-F068-4A78-A8D3-C85207D85DBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16444D72-F068-4A78-A8D3-C85207D85DBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16444D72-F068-4A78-A8D3-C85207D85DBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16444D72-F068-4A78-A8D3-C85207D85DBC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -116,6 +142,12 @@ Global
 		{EFC224D2-23B1-459B-9278-D01B0E6AD9D4} = {F4B09CAF-3A01-49E2-AE30-7B1DA31C5584}
 		{B1FACE86-8717-47E4-A5E8-FD060E7F201A} = {F4B09CAF-3A01-49E2-AE30-7B1DA31C5584}
 		{6E807864-6AFC-4EBB-8500-C6DAB591D974} = {F4B09CAF-3A01-49E2-AE30-7B1DA31C5584}
+		{594379C5-606C-468B-8F91-1D30757E4681} = {68620BFB-ED52-4B92-B37E-BBDF367D3830}
+		{5418E004-FFA9-4589-99CF-514B08C0A622} = {594379C5-606C-468B-8F91-1D30757E4681}
+		{8EFD0D19-1AA6-4CF6-8CEA-F6B40053C378} = {594379C5-606C-468B-8F91-1D30757E4681}
+		{91F1E0C8-6F6B-4E90-9EB9-8556942A9752} = {594379C5-606C-468B-8F91-1D30757E4681}
+		{16444D72-F068-4A78-A8D3-C85207D85DBC} = {594379C5-606C-468B-8F91-1D30757E4681}
+		{2EB4D837-6C00-4E13-8F71-D613DCCAD577} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {745A1299-79AE-4D97-8156-A825611994C6}
