@@ -5,12 +5,12 @@
 /* eslint-disable */
 /* tslint:disable */
 // @ts-nocheck
-import { HttpResponse, http } from "msw";
-import { faker } from "@faker-js/faker";
+import { HttpResponse, http } from 'msw';
+import { faker } from '@faker-js/faker';
 
 faker.seed(1);
 
-const baseURL = "";
+const baseURL = '';
 const MAX_ARRAY_LENGTH = 20;
 
 // Map to store counters for each API endpoint
@@ -33,7 +33,7 @@ export const handlers = [
     ];
 
     return HttpResponse.json(
-      ...resultArray[next(`get /healthcheck`) % resultArray.length],
+      ...resultArray[next(`get /healthcheck`) % resultArray.length]
     );
   }),
   http.get(`${baseURL}/areas/hierarchies`, async () => {
@@ -43,7 +43,7 @@ export const handlers = [
     ];
 
     return HttpResponse.json(
-      ...resultArray[next(`get /areas/hierarchies`) % resultArray.length],
+      ...resultArray[next(`get /areas/hierarchies`) % resultArray.length]
     );
   }),
   http.get(`${baseURL}/areas/areatypes`, async () => {
@@ -53,7 +53,7 @@ export const handlers = [
     ];
 
     return HttpResponse.json(
-      ...resultArray[next(`get /areas/areatypes`) % resultArray.length],
+      ...resultArray[next(`get /areas/areatypes`) % resultArray.length]
     );
   }),
   http.get(`${baseURL}/areas/areatypes/:areaTypeKey/areas`, async () => {
@@ -66,7 +66,7 @@ export const handlers = [
     return HttpResponse.json(
       ...resultArray[
         next(`get /areas/areatypes/:areaTypeKey/areas`) % resultArray.length
-      ],
+      ]
     );
   }),
   http.get(`${baseURL}/areas/:areaCode`, async () => {
@@ -77,7 +77,7 @@ export const handlers = [
     ];
 
     return HttpResponse.json(
-      ...resultArray[next(`get /areas/:areaCode`) % resultArray.length],
+      ...resultArray[next(`get /areas/:areaCode`) % resultArray.length]
     );
   }),
   http.get(`${baseURL}/areas/root`, async () => {
@@ -87,7 +87,7 @@ export const handlers = [
     ];
 
     return HttpResponse.json(
-      ...resultArray[next(`get /areas/root`) % resultArray.length],
+      ...resultArray[next(`get /areas/root`) % resultArray.length]
     );
   }),
   http.get(`${baseURL}/areas`, async () => {
@@ -99,7 +99,7 @@ export const handlers = [
     ];
 
     return HttpResponse.json(
-      ...resultArray[next(`get /areas`) % resultArray.length],
+      ...resultArray[next(`get /areas`) % resultArray.length]
     );
   }),
   http.get(`${baseURL}/indicators`, async () => {
@@ -110,7 +110,7 @@ export const handlers = [
     ];
 
     return HttpResponse.json(
-      ...resultArray[next(`get /indicators`) % resultArray.length],
+      ...resultArray[next(`get /indicators`) % resultArray.length]
     );
   }),
   http.get(`${baseURL}/indicators/:indicatorId`, async () => {
@@ -121,7 +121,7 @@ export const handlers = [
     ];
 
     return HttpResponse.json(
-      ...resultArray[next(`get /indicators/:indicatorId`) % resultArray.length],
+      ...resultArray[next(`get /indicators/:indicatorId`) % resultArray.length]
     );
   }),
   http.get(`${baseURL}/indicators/:indicatorId/data`, async () => {
@@ -134,7 +134,7 @@ export const handlers = [
     return HttpResponse.json(
       ...resultArray[
         next(`get /indicators/:indicatorId/data`) % resultArray.length
-      ],
+      ]
     );
   }),
   http.post(`${baseURL}/indicators/:indicatorId/data`, async () => {
@@ -145,7 +145,7 @@ export const handlers = [
     return HttpResponse.json(
       ...resultArray[
         next(`post /indicators/:indicatorId/data`) % resultArray.length
-      ],
+      ]
     );
   }),
   http.delete(`${baseURL}/indicators/:indicatorId/data`, async () => {
@@ -156,7 +156,7 @@ export const handlers = [
     return HttpResponse.json(
       ...resultArray[
         next(`delete /indicators/:indicatorId/data`) % resultArray.length
-      ],
+      ]
     );
   }),
   http.get(`${baseURL}/indicators/quartiles`, async () => {
@@ -167,21 +167,21 @@ export const handlers = [
     ];
 
     return HttpResponse.json(
-      ...resultArray[next(`get /indicators/quartiles`) % resultArray.length],
+      ...resultArray[next(`get /indicators/quartiles`) % resultArray.length]
     );
   }),
 ];
 
 export function getGetHealthcheck200Response() {
   return {
-    status: "Healthy",
+    status: 'Healthy',
   };
 }
 
 export function getGetHealthcheck500Response() {
   return {
-    status: "Unhealthy",
-    message: "API is experiencing issues",
+    status: 'Unhealthy',
+    message: 'API is experiencing issues',
   };
 }
 
@@ -201,10 +201,10 @@ export function getGetAreaTypes200Response() {
   return [
     ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
   ].map((_) => ({
-    key: "combined-authorities",
-    name: "Combined Authorities",
-    level: "3",
-    hierarchyName: "NHS",
+    key: 'combined-authorities',
+    name: 'Combined Authorities',
+    level: '3',
+    hierarchyName: 'NHS',
   }));
 }
 
@@ -218,13 +218,13 @@ export function getGetAreaTypeMembers200Response() {
   return [
     ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
   ].map((_) => ({
-    code: "E06000047",
-    name: "County Durham",
+    code: 'E06000047',
+    name: 'County Durham',
     areaType: {
-      key: "combined-authorities",
-      name: "Combined Authorities",
-      level: "3",
-      hierarchyName: "NHS",
+      key: 'combined-authorities',
+      name: 'Combined Authorities',
+      level: '3',
+      hierarchyName: 'NHS',
     },
   }));
 }
@@ -243,48 +243,48 @@ export function getGetAreaTypeMembers500Response() {
 
 export function getGetArea200Response() {
   return {
-    code: "E06000047",
-    name: "County Durham",
+    code: 'E06000047',
+    name: 'County Durham',
     areaType: {
-      key: "combined-authorities",
-      name: "Combined Authorities",
-      level: "3",
-      hierarchyName: "NHS",
+      key: 'combined-authorities',
+      name: 'Combined Authorities',
+      level: '3',
+      hierarchyName: 'NHS',
     },
     parents: [
       ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
     ].map((_) => ({
-      code: "E06000047",
-      name: "County Durham",
+      code: 'E06000047',
+      name: 'County Durham',
       areaType: {
-        key: "combined-authorities",
-        name: "Combined Authorities",
-        level: "3",
-        hierarchyName: "NHS",
+        key: 'combined-authorities',
+        name: 'Combined Authorities',
+        level: '3',
+        hierarchyName: 'NHS',
       },
     })),
     children: [
       ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
     ].map((_) => ({
-      code: "E06000047",
-      name: "County Durham",
+      code: 'E06000047',
+      name: 'County Durham',
       areaType: {
-        key: "combined-authorities",
-        name: "Combined Authorities",
-        level: "3",
-        hierarchyName: "NHS",
+        key: 'combined-authorities',
+        name: 'Combined Authorities',
+        level: '3',
+        hierarchyName: 'NHS',
       },
     })),
     siblings: [
       ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
     ].map((_) => ({
-      code: "E06000047",
-      name: "County Durham",
+      code: 'E06000047',
+      name: 'County Durham',
       areaType: {
-        key: "combined-authorities",
-        name: "Combined Authorities",
-        level: "3",
-        hierarchyName: "NHS",
+        key: 'combined-authorities',
+        name: 'Combined Authorities',
+        level: '3',
+        hierarchyName: 'NHS',
       },
     })),
   };
@@ -304,8 +304,8 @@ export function getGetArea500Response() {
 
 export function getGetAreaRoot200Response() {
   return {
-    code: "E92000001",
-    name: "England",
+    code: 'E92000001',
+    name: 'England',
   };
 }
 
@@ -318,15 +318,15 @@ export function getGetAreaRoot500Response() {
 export function getGetAreas200Response() {
   return [...new Array(faker.number.int({ min: 1, max: 300 })).keys()].map(
     (_) => ({
-      code: "E06000047",
-      name: "County Durham",
+      code: 'E06000047',
+      name: 'County Durham',
       areaType: {
-        key: "combined-authorities",
-        name: "Combined Authorities",
-        level: "3",
-        hierarchyName: "NHS",
+        key: 'combined-authorities',
+        name: 'Combined Authorities',
+        level: '3',
+        hierarchyName: 'NHS',
       },
-    }),
+    })
   );
 }
 
@@ -353,7 +353,7 @@ export function getFilterIndicators200Response() {
     ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
   ].map((_) => ({
     indicator_id: 3456,
-    title: "Hypertension: QOF prevalence (all ages)",
+    title: 'Hypertension: QOF prevalence (all ages)',
   }));
 }
 
@@ -372,9 +372,9 @@ export function getFilterIndicators500Response() {
 export function getGetIndicator200Response() {
   return {
     indicator_id: 3456,
-    title: "Hypertension: QOF prevalence (all ages)",
+    title: 'Hypertension: QOF prevalence (all ages)',
     definition:
-      "The percentage of patients with established hypertension, as recorded on practice disease registers (proportion of total list size)",
+      'The percentage of patients with established hypertension, as recorded on practice disease registers (proportion of total list size)',
   };
 }
 
@@ -393,22 +393,22 @@ export function getGetIndicator500Response() {
 export function getGetHealthDataForAnIndicator200Response() {
   return {
     indicatorId: 21404,
-    name: "Emergency readmissions within 30 days of discharge from hospital",
+    name: 'Emergency readmissions within 30 days of discharge from hospital',
     polarity: faker.helpers.arrayElement([
-      "Unknown",
-      "NoJudgement",
-      "LowIsGood",
-      "HighIsGood",
+      'Unknown',
+      'NoJudgement',
+      'LowIsGood',
+      'HighIsGood',
     ]),
-    benchmarkMethod: "CIOverlappingReferenceValue95",
+    benchmarkMethod: 'CIOverlappingReferenceValue95',
     areaHealthData: [
       ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
     ].map((_) => ({
-      areaCode: "E92000001",
-      areaName: "England",
+      areaCode: 'E92000001',
+      areaName: 'England',
       healthData: [
         ...new Array(
-          faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH }),
+          faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })
         ).keys(),
       ].map((_) => ({
         year: 2023,
@@ -417,25 +417,25 @@ export function getGetHealthDataForAnIndicator200Response() {
         lowerCi: 441.69151,
         upperCi: 578.32766,
         ageBand: {
-          value: "0-4",
+          value: '0-4',
           isAggregate: faker.datatype.boolean(),
         },
         sex: {
-          value: "Female",
+          value: 'Female',
           isAggregate: faker.datatype.boolean(),
         },
-        trend: "Increasing",
+        trend: 'Increasing',
         isAggregate: faker.datatype.boolean(),
         benchmarkComparison: {
-          outcome: "Lower",
-          benchmarkAreaCode: "E92000001",
-          benchmarkAreaName: "England",
+          outcome: 'Lower',
+          benchmarkAreaCode: 'E92000001',
+          benchmarkAreaName: 'England',
           benchmarkValue: 123.5,
         },
         deprivation: {
           sequence: 2,
-          value: "Second most deprived decile",
-          type: "District & UA deprivation deciles in England (IMD2019, 4/21 geography)",
+          value: 'Second most deprived decile',
+          type: 'District & UA deprivation deciles in England (IMD2019, 4/21 geography)',
           isAggregate: faker.datatype.boolean(),
         },
       })),
@@ -470,10 +470,10 @@ export function getGetIndicatorsQuartiles200Response() {
     indicatorId: 21404,
     year: 2023,
     polarity: faker.helpers.arrayElement([
-      "Unknown",
-      "NoJudgement",
-      "LowIsGood",
-      "HighIsGood",
+      'Unknown',
+      'NoJudgement',
+      'LowIsGood',
+      'HighIsGood',
     ]),
     q0Value: faker.number.int(),
     q1Value: faker.number.int(),
