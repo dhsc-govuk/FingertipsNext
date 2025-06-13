@@ -128,7 +128,7 @@ BEGIN
 			       @RequestedYears
 			)
         )
-		AND hm.PublishedAt < GETUTCDATE()
+		AND hm.PublishedAt <= GETUTCDATE()
     ),
     HealthDataNTileGroupCount AS (
         SELECT

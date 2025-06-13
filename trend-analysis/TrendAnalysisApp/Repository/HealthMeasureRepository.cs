@@ -8,9 +8,8 @@ public class HealthMeasureRepository(HealthMeasureDbContext dbCtx)
     private readonly HealthMeasureDbContext _dbContext = dbCtx ?? throw new ArgumentNullException(nameof(dbCtx));
 
     public async Task<IEnumerable<HealthMeasureModel>> GetByIndicator(int indicatorKey) {
-        return await _dbContext.HealthMeasure
+        return await _dbContext.PublishedHealthMeasure
             .Where(hm => hm.IndicatorDimension == null || hm.IndicatorDimension.IndicatorKey == indicatorKey)
-            .Where(hm => hm.PublishedAt < DateTime.UtcNow)
             .Include(hm => hm.IndicatorDimension)
             .Include(hm => hm.TrendDimension)
             .Select(x => new HealthMeasureModel()

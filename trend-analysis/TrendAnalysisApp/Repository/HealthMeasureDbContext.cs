@@ -15,4 +15,20 @@ public class HealthMeasureDbContext : DbContext
     public DbSet<AgeDimensionModel> AgeDimension { get; set; }
     public DbSet<SexDimensionModel> SexDimension { get; set; }
     public DbSet<TrendDimensionModel> TrendDimension { get; set; }
+    
+    public IQueryable<HealthMeasureModel> PublishedHealthMeasure
+    {
+        get
+        {
+            return HealthMeasure.Where(hm => hm.PublishedAt <= DateTime.UtcNow);
+        }
+    }
+
+    public IQueryable<HealthMeasureModel> UnpublishedHealthMeasure
+    {
+        get
+        {
+            return HealthMeasure.Where(hm => hm.PublishedAt > DateTime.UtcNow);
+        }
+    }
 }

@@ -28,7 +28,7 @@ public class HealthDataDbContext : DbContext
     {
         get
         {
-            return HealthMeasure.Where(hm => hm.PublishedAt < DateTime.UtcNow);
+            return HealthMeasure.Where(hm => hm.PublishedAt <= DateTime.UtcNow);
         }
     }
 
@@ -36,7 +36,7 @@ public class HealthDataDbContext : DbContext
     {
         get
         {
-            return HealthMeasure.Where(hm => hm.PublishedAt >= DateTime.UtcNow);
+            return HealthMeasure.Where(hm => hm.PublishedAt > DateTime.UtcNow);
         }
     }
 
