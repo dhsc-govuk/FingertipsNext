@@ -1,21 +1,26 @@
 import { AuthButton } from '@/components/atoms/AuthButton';
-import { Session } from 'next-auth';
 import { Content, ContentItem, PositionWrapper } from './AuthHeader.styles';
 import { AuthHeaderUserWidget } from './AuthHeaderUserWidget';
+import { Auth } from '@/lib/auth/authHandlers';
 
 interface AuthHeaderProps {
-  session: Session | null;
+  auth?: Auth;
 }
 
-export function AuthHeader({ session }: AuthHeaderProps) {
-  return (
+export function AuthHeader({ auth }: AuthHeaderProps) {
+  return auth ? (
     <PositionWrapper>
       <Content>
-        <AuthHeaderUserWidget session={session} />
+        <AuthHeaderUserWidget session={auth.session} />
         <ContentItem>
-          <AuthButton session={session} />
+          <AuthButton
+            data-testid={'auth-button'}
+            session={auth.session}
+            signInHandler={auth.signInHandler}
+            signOutHandler={auth.signOutHandler}
+          />
         </ContentItem>
       </Content>
     </PositionWrapper>
-  );
+  ) : null;
 }

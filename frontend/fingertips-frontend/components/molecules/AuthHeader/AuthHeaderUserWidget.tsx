@@ -1,4 +1,4 @@
-import { AuthStatusWidget } from '@/components/atoms/AuthStatusWidget';
+import { UserStatusWidget } from '@/components/atoms/UserStatusWidget';
 import { ContentItem } from './AuthHeader.styles';
 import { Session } from 'next-auth';
 
@@ -9,7 +9,9 @@ interface AuthHeaderUserWidgetProps {
 export function AuthHeaderUserWidget({ session }: AuthHeaderUserWidgetProps) {
   return session ? (
     <ContentItem>
-      <AuthStatusWidget session={session} />
+      <div data-testid={'auth-user-info'}>
+        <UserStatusWidget user={session.user} />
+      </div>
     </ContentItem>
   ) : null;
 }
