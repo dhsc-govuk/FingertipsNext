@@ -3,8 +3,6 @@ servers:
   # Added by API Auto Mocking Plugin
   - url: https://fingertips-next-api/1.0.0
     description: SwaggerHub API Auto Mocking
-  - url: http://localhost:5144
-    description: localhost
 info:
   description: An API to query public health indicator data.
   version: "1.0.0"
