@@ -1095,6 +1095,7 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
     </div>
     <button
       class="c47 c48"
+      data-testid="heatmapChart-export-button"
     >
       Export options
     </button>
@@ -2202,6 +2203,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
     </div>
     <button
       class="c48 c49"
+      data-testid="heatmapChart-export-button"
     >
       Export options
     </button>
