@@ -5,19 +5,17 @@ import {
   IndicatorMode,
   SimpleIndicatorDocument,
   customEncodeURIComponent,
+  PersistentCsvHeaders,
 } from '@/playwright/testHelpers';
 import { ComponentDefinition } from '../components/componentTypes';
 import { expect } from '../pageFactory';
-import {
-  Locator,
-  PlaywrightTestArgs,
-  PlaywrightTestOptions,
-  PlaywrightWorkerArgs,
-  PlaywrightWorkerOptions,
-  TestType,
-} from '@playwright/test';
 import AreaFilter from '../components/areaFilter';
 import { SearchParams } from '@/lib/searchStateManager';
+import { ExportType } from '@/components/molecules/Export/export.types';
+import { Download, Locator, test } from '@playwright/test';
+import path from 'path';
+import fs from 'fs/promises';
+import { createDownloadPath } from '@/playwright/testHelpers/exportUtils';
 
 interface VisibleComponent {
   componentLocator: string;
@@ -30,8 +28,10 @@ export default class ChartPage extends AreaFilter {
   // chart components
   static readonly lineChartComponent = 'standardLineChart-component';
   static readonly lineChartTableComponent = 'lineChartTable-component';
-  static readonly populationPyramidComponent =
+  static readonly populationPyramidContainer =
     'populationPyramidWithTable-component';
+  static readonly populationPyramidChartComponent =
+    'populationPyramidChart-component';
   static readonly populationPyramidTableComponent =
     'populationPyramidTable-component';
   static readonly inequalitiesBarChartTableComponent =
@@ -57,6 +57,8 @@ export default class ChartPage extends AreaFilter {
     'inequalitiesTypes-dropDown-component-lc';
   static readonly basicTableComponent = 'basicTable-component';
   static readonly benchmarkDropDownComponent = `${SearchParams.BenchmarkAreaSelected}-dropDown-benchmark-component`;
+  static readonly exportModalPaneComponent = 'modalPane';
+  static readonly exportDomContainer = 'domContainer';
 
   async checkOnChartPage() {
     await expect(
@@ -86,15 +88,12 @@ export default class ChartPage extends AreaFilter {
    * The scenario combinations here were chosen as they are happy paths covering lots of chart components.
    * Note all 15 scenarios should be covered in lower level unit testing
    */
-  async checkChartVisibility(
+  async checkCharts(
     indicatorMode: IndicatorMode,
     areaMode: AreaMode,
-    test: TestType<
-      PlaywrightTestArgs & PlaywrightTestOptions,
-      PlaywrightWorkerArgs & PlaywrightWorkerOptions
-    >,
     selectedIndicators: SimpleIndicatorDocument[],
-    selectedAreaFilters: AreaFilters
+    selectedAreaFilters: AreaFilters,
+    checkExports: boolean
   ) {
     const testInfo = test.info();
     const testName = testInfo.title;
@@ -109,6 +108,12 @@ export default class ChartPage extends AreaFilter {
       visibleComponents,
       hiddenComponents
     );
+
+    // get the selected area filters from the UI if selectedAreaFilters weren't defined in core_journey_config.ts due to the case being searchMode of either SearchMode.BOTH_SUBJECT_AND_AREA or SearchMode.ONLY_AREA
+    if (!selectedAreaFilters) {
+      selectedAreaFilters = await this.getSelectedAreaFilters();
+    }
+
     await this.hideFiltersPane();
     await this.verifyDataSourceIsDisplayed(indicatorMode, selectedIndicators);
 
@@ -117,7 +122,9 @@ export default class ChartPage extends AreaFilter {
         visibleComponent,
         selectedIndicators,
         areaMode,
-        selectedAreaFilters
+        indicatorMode,
+        selectedAreaFilters,
+        checkExports
       );
       await this.verifyComponentVisibleAndScreenshotMatch(
         visibleComponent,
@@ -168,52 +175,78 @@ export default class ChartPage extends AreaFilter {
     },
     selectedIndicators: SimpleIndicatorDocument[],
     areaMode: AreaMode,
-    selectedAreaFilters: AreaFilters
+    indicatorMode: IndicatorMode,
+    selectedAreaFilters: AreaFilters,
+    checkExports: boolean
   ) {
     const { componentLocator, componentProps } = component;
 
     const interactions = [
       {
         condition: componentProps.isTabTable,
-        action: () => this.selectTabForComponent(componentLocator),
+        action: async () => await this.selectTabForComponent(componentLocator),
       },
       {
         condition: componentProps.hasTimePeriodDropDown,
-        action: () => this.selectLastTimePeriodOption(),
+        action: async () => await this.selectLastTimePeriodOption(),
       },
       {
         condition: componentProps.hasInequalityTypeDropDown,
-        action: () =>
-          this.selectInequalityTypeDropdownOption({
+        action: async () =>
+          await this.selectInequalityTypeDropdownOption({
             componentLocator,
             componentProps,
           }),
       },
       {
         condition: componentProps.hasDetailsExpander,
-        action: () => this.expandDetailsSection(componentLocator),
+        action: async () => await this.expandDetailsSection(),
       },
       {
         condition: componentProps.isWideComponent,
-        action: () => this.scrollToMiddle(componentLocator),
+        action: async () => await this.scrollToMiddle(componentLocator),
       },
       {
         condition: componentProps.hasRecentTrend,
-        action: () =>
-          this.verifyTrendTagForComponent(
+        action: async () =>
+          await this.verifyTrendTagForComponent(
             component,
             areaMode,
             selectedIndicators
           ),
       },
       {
+        condition: checkExports && componentProps.hasPNGExport,
+        action: async () =>
+          await this.verifyPNGExport(component, areaMode, indicatorMode),
+      },
+      {
+        condition: checkExports && componentProps.hasSVGExport,
+        action: async () =>
+          await this.verifySVGExport(component, areaMode, indicatorMode),
+      },
+      {
+        condition: checkExports && componentProps.hasCSVExport,
+        action: async () =>
+          await this.verifyCSVExport(
+            component,
+            areaMode,
+            indicatorMode,
+            selectedIndicators
+          ),
+      },
+      {
         condition: componentProps.showsBenchmarkComparisons,
-        action: () =>
-          this.verifyBenchmarkingForComponent(component, selectedAreaFilters),
+        action: async () =>
+          await this.verifyBenchmarkingForComponent(
+            component,
+            selectedAreaFilters
+          ),
       },
       {
         condition: componentProps.hasConfidenceIntervals,
-        action: () => this.toggleConfidenceInterval(componentLocator),
+        action: async () =>
+          await this.toggleConfidenceInterval(componentLocator),
       },
     ];
 
@@ -315,9 +348,11 @@ export default class ChartPage extends AreaFilter {
   }
 
   // clicks on 'Show population data' to show population pyramid component
-  private async expandDetailsSection(componentLocator: string) {
+  private async expandDetailsSection() {
     await this.clickAndAwaitLoadingComplete(
-      this.page.getByTestId(componentLocator).getByText('Show population data')
+      this.page
+        .getByTestId(ChartPage.populationPyramidContainer)
+        .getByText('Show population data')
     );
   }
 
@@ -334,7 +369,6 @@ export default class ChartPage extends AreaFilter {
     selectedIndicators: SimpleIndicatorDocument[]
   ) {
     const dataSourceLocator = this.page.getByTestId('data-source');
-
     if (indicatorMode === IndicatorMode.ONE_INDICATOR) {
       const allDataSources = await dataSourceLocator.allTextContents();
       allDataSources.forEach((dataSource) => {
@@ -400,7 +434,8 @@ export default class ChartPage extends AreaFilter {
     expect(options[0].text).toBe('England');
 
     // determine expected values based on area filters
-    const isEnglandGroup = selectedAreaFilters.group === 'england';
+    const isEnglandGroup =
+      selectedAreaFilters.group.toLocaleLowerCase() === 'england';
     const isEnglandAreaType = selectedAreaFilters.areaType === 'england';
     const isThematicMap =
       component.componentLocator === ChartPage.thematicMapComponent;
@@ -510,7 +545,12 @@ export default class ChartPage extends AreaFilter {
   ) {
     const { componentLocator } = component;
 
-    await expect(this.page.getByTestId(componentLocator)).toBeVisible({
+    const locatorToUse =
+      componentLocator !== ChartPage.populationPyramidChartComponent
+        ? componentLocator
+        : `tabContent-${componentLocator.replace('-component', '')}`;
+
+    await expect(this.page.getByTestId(locatorToUse)).toBeVisible({
       visible: true,
     });
 
@@ -541,5 +581,220 @@ export default class ChartPage extends AreaFilter {
         text: option.text,
       }))
     );
+  }
+
+  private async clickExportAndSaveFile(
+    downloadDir: string
+  ): Promise<{ download: Download; downloadPath: string }> {
+    const downloadPromise = this.page.waitForEvent('download');
+    await this.clickAndAwaitLoadingComplete(
+      this.page
+        .getByTestId(ChartPage.exportModalPaneComponent)
+        .getByRole('button')
+        .getByText('Export')
+    );
+    const download = await downloadPromise;
+    const filename = download.suggestedFilename();
+    const downloadPath = path.join(downloadDir, filename);
+
+    await download.saveAs(downloadPath);
+    return { download, downloadPath };
+  }
+
+  private async openExportModal(chartDataTestId: string): Promise<void> {
+    const exportButtonDataTestId = `${chartDataTestId.replace('-component', '-export-button')}`;
+
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByTestId(exportButtonDataTestId)
+    );
+  }
+
+  private async closeExportModal(): Promise<void> {
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByRole('button', { name: 'Close modal' })
+    );
+  }
+
+  private async checkPNGisDefault(): Promise<void> {
+    this.page.waitForTimeout(250); // wait for modal to open and render
+    expect(
+      this.page
+        .getByTestId(ChartPage.exportModalPaneComponent)
+        .getByRole('radio', { name: String(ExportType.PNG) })
+    ).toBeChecked();
+  }
+
+  private async verifyPNGExport(
+    component: VisibleComponent,
+    areaMode: AreaMode,
+    indicatorMode: IndicatorMode
+  ): Promise<void> {
+    // Create download directory structure
+    const downloadDir = createDownloadPath(
+      ExportType.PNG,
+      areaMode,
+      indicatorMode
+    );
+
+    await this.openExportModal(component.componentLocator);
+
+    // Assert the export modal is visible and defaults to PNG option and displays the preview
+    await this.checkPNGisDefault();
+
+    // Click the PNG export option and save the file locally
+    const { download } = await this.clickExportAndSaveFile(await downloadDir);
+
+    // Verify the file downloaded successfully
+    expect(download.suggestedFilename()).toBeDefined();
+    expect(download.suggestedFilename()).toMatch(/\.png$/i);
+
+    await this.closeExportModal();
+  }
+
+  private async verifySVGExport(
+    component: VisibleComponent,
+    areaMode: AreaMode,
+    indicatorMode: IndicatorMode
+  ): Promise<void> {
+    // Create download directory structure
+    const downloadDir = createDownloadPath(
+      ExportType.SVG,
+      areaMode,
+      indicatorMode
+    );
+
+    await this.openExportModal(component.componentLocator);
+
+    // Assert the export modal is visible and defaults to PNG option and displays the preview
+    await this.checkPNGisDefault();
+
+    // Click the SVG radio option
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByRole('radio', { name: 'SVG' })
+    );
+
+    // Check the SVG is visible in the preview
+    const exportModalPreview = this.page
+      .getByTestId(ChartPage.exportModalPaneComponent)
+      .getByTestId(ChartPage.exportDomContainer)
+      .locator('svg')
+      .last();
+    expect(exportModalPreview).toBeAttached();
+
+    // Click the SVG export option and save the file locally
+    const { download, downloadPath } = await this.clickExportAndSaveFile(
+      await downloadDir
+    );
+
+    // Verify the file downloaded successfully
+    expect(download.suggestedFilename()).toBeDefined();
+    expect(download.suggestedFilename()).toMatch(/\.svg$/i);
+
+    // validate that the SVG file content matches the modal preview
+    const svgFileContent = await fs.readFile(downloadPath, 'utf-8');
+    const previewSVG = await exportModalPreview.innerHTML();
+    expect(svgFileContent).toMatch(previewSVG);
+
+    await this.closeExportModal();
+  }
+
+  private async checkCSVPreview(
+    exportModalPreview: Locator,
+    expectedCsvIndicatorID: number | string,
+    expectedCsvIndicatorName: string,
+    areaMode: AreaMode
+  ): Promise<void> {
+    for (const header of Object.values(PersistentCsvHeaders)) {
+      await expect(exportModalPreview).toContainText(header);
+    }
+    await expect(exportModalPreview).toContainText(
+      String(expectedCsvIndicatorID)
+    );
+    await expect(exportModalPreview).toContainText(expectedCsvIndicatorName);
+    // Validate England area data
+    if (areaMode === AreaMode.ENGLAND_AREA) {
+      expect(exportModalPreview).toContainText('England');
+    }
+  }
+
+  private getExpectedCSVData(
+    component: VisibleComponent,
+    selectedIndicators: SimpleIndicatorDocument[]
+  ): {
+    expectedCsvIndicatorID: number | string;
+    expectedCsvIndicatorName: string;
+  } {
+    const isPopulationPyramid =
+      component.componentLocator === ChartPage.populationPyramidTableComponent;
+
+    return {
+      expectedCsvIndicatorID: isPopulationPyramid
+        ? 92708
+        : selectedIndicators[0].indicatorID,
+      expectedCsvIndicatorName: isPopulationPyramid
+        ? 'Resident population'
+        : selectedIndicators[0].indicatorName,
+    };
+  }
+
+  private async verifyCSVExport(
+    component: VisibleComponent,
+    areaMode: AreaMode,
+    indicatorMode: IndicatorMode,
+    selectedIndicators: SimpleIndicatorDocument[]
+  ): Promise<void> {
+    const { expectedCsvIndicatorID, expectedCsvIndicatorName } =
+      this.getExpectedCSVData(component, selectedIndicators);
+
+    // Create download directory structure
+    const downloadDir = createDownloadPath(
+      ExportType.CSV,
+      areaMode,
+      indicatorMode
+    );
+
+    await this.openExportModal(component.componentLocator);
+
+    // Assert the export modal is visible and defaults to PNG option and displays the preview
+    await this.checkPNGisDefault();
+
+    // Click the CSV radio option
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByRole('radio', { name: 'CSV' })
+    );
+
+    const exportModalPreview = this.page
+      .getByTestId(ChartPage.exportModalPaneComponent)
+      .locator('div')
+      .last();
+    expect(exportModalPreview).toBeAttached();
+
+    // Check the modal preview contains the persistent CSV headers and the selected indicators
+    await this.checkCSVPreview(
+      exportModalPreview,
+      expectedCsvIndicatorID,
+      expectedCsvIndicatorName,
+      areaMode
+    );
+
+    // Click the CSV export option and save the file locally
+    const { download, downloadPath } = await this.clickExportAndSaveFile(
+      await downloadDir
+    );
+
+    // Verify the file downloaded successfully
+    expect(download.suggestedFilename()).toBeDefined();
+    expect(download.suggestedFilename()).toMatch(/\.csv$/i);
+
+    // validate file downloaded has size greater than 100 bytes
+    const fileInfo = await fs.stat(downloadPath);
+    expect(fileInfo.size).toBeGreaterThan(100);
+
+    // validate that the CSV file content matches the modal preview
+    const fileContent = await fs.readFile(downloadPath, 'utf-8');
+    const modalPreviewText = await exportModalPreview.textContent();
+    expect(fileContent).toContain(modalPreviewText);
+
+    await this.closeExportModal();
   }
 }

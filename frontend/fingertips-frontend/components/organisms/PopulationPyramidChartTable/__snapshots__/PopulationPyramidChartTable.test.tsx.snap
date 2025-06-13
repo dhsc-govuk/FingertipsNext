@@ -977,6 +977,7 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
 
 <button
     class="c0 c1"
+    data-testid="populationPyramidTable-export-button"
   >
     Export options
   </button>

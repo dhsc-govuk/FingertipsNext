@@ -33,5 +33,12 @@ export const ExportOptionsButton: FC<ExportOptionsButtonProps> = ({
       ),
     });
   };
-  return <ButtonWithMargin onClick={onClick}>Export options</ButtonWithMargin>;
+  return (
+    <ButtonWithMargin
+      data-testid={`${targetId}-export-button`}
+      onClick={onClick}
+    >
+      Export options
+    </ButtonWithMargin>
+  );
 };

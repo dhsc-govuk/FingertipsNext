@@ -292,13 +292,11 @@ export function LineChartTable({
         confidenceLimit
       )
     : undefined;
+  const id = 'lineChartTable';
 
   return (
     <>
-      <StyledDivWithScrolling
-        data-testid="lineChartTable-component"
-        id={'lineChartTable'}
-      >
+      <StyledDivWithScrolling id={id} data-testid={`${id}-component`}>
         <ChartTitle>{title}</ChartTitle>
         <StyledTable
           head={
@@ -481,7 +479,7 @@ export function LineChartTable({
           <ExportCopyright />
         </ExportOnlyWrapper>
       </StyledDivWithScrolling>
-      <ExportOptionsButton targetId={'lineChartTable'} csvData={csvData} />
+      <ExportOptionsButton targetId={id} csvData={csvData} />
     </>
   );
 }
