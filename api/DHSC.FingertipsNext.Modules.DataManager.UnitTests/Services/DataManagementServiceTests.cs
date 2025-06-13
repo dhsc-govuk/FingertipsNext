@@ -8,7 +8,7 @@ public class DataManagementServiceTests
 {
     private readonly DataManagementService _service;
     private readonly IDataManagementRepository _repository;
-    
+
     public DataManagementServiceTests()
     {
         _repository = new DataManagementRepository();
