@@ -168,18 +168,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/Area'
         '400':
-          description: A validation error due to improper usage of the area_codes parameter.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequest'
-              examples:
-                No area_codes provided:
-                  value:
-                    message: Please provide at least value for the parameter area_codes.
-                Too many area_codes:
-                  value:
-                    message: Too many values supplied for parameter area_codes. The maximum is 300 but 301 supplied.
+          $ref: '#/components/responses/BadRequest'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -229,6 +218,15 @@ paths:
         Fetches details of a specific indicator by its unique identifier. The response includes the indicator's metadata
       operationId: getIndicator
   /indicators/{indicator_id}/data:
+    parameters:
+      - $ref: '#/components/parameters/indicator_id'
+      - $ref: '#/components/parameters/area_codes'
+      - $ref: '#/components/parameters/area_type'
+      - $ref: '#/components/parameters/ancestor_code'
+      - $ref: '#/components/parameters/benchmark_ref_type'
+      - $ref: '#/components/parameters/years'
+      - $ref: '#/components/parameters/inequalities'
+      - $ref: '#/components/parameters/latest_only'
     get:
       tags:
         - indicators
@@ -242,40 +240,36 @@ paths:
               schema:
                 $ref: '#/components/schemas/IndicatorWithHealthDataForArea'
         '400':
-          description: Bad request. The server could not process the request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequest'
-              examples:
-                Too many area_codes:
-                  value:
-                    message: Too many values supplied for parameter area_codes. The maximum is 300 but 301 supplied.
-                Too many years:
-                  value:
-                    message: Too many values supplied for parameter years. The maximum is 20 but 21 supplied.
+          $ref: '#/components/responses/BadRequest'
         '500':
           $ref: '#/components/responses/InternalServerError'
-      parameters:
-        - $ref: '#/components/parameters/indicator_id'
-        - $ref: '#/components/parameters/area_codes'
-        - $ref: '#/components/parameters/area_type'
-        - $ref: '#/components/parameters/ancestor_code'
-        - $ref: '#/components/parameters/benchmark_ref_type'
-        - $ref: '#/components/parameters/years'
-        - $ref: '#/components/parameters/inequalities'
-        - $ref: '#/components/parameters/latest_only'
       operationId: getHealthDataForAnIndicator
     post:
       tags:
         - indicators
       summary: add a batch of new data for an indicator
       description: Not Yet Implemented - Creates new data for the indicator. The data is always created in an unpublished and unapproved state.
+      responses:
+        '501':
+          description: Not Implemented
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Not Implemented
     delete:
       tags:
         - indicators
       summary: delete a batch of unpublished data for an indicator
       description: Not Yet Implemented - Deletes ALL unpublished data for that indicator
+      responses:
+        '501':
+          description: Not Implemented
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Not Implemented
   /indicators/quartiles:
     get:
       tags:
@@ -335,17 +329,7 @@ paths:
 components:
   responses:
     InternalServerError:
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-              - message
-            properties:
-              message:
-                type: string
       description: The server encountered an unexpected condition that prevented it from fulfilling the request. Report the issue to the support team if it persists.
-    NotFound:
       content:
         application/json:
           schema:
@@ -355,13 +339,35 @@ components:
             properties:
               message:
                 type: string
+    NotFound:
       description: The server cannot find the requested resource. The endpoint may be invalid or the resource may no longer exist.
-    BadRequest:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/schemas_BadRequest'
-      description: Bad request. The server could not process the request.
+            type: object
+            required:
+              - message
+            properties:
+              message:
+                type: string
+    BadRequest:
+      description: The server could not understand the request due to invalid syntax. The client should modify the request and try again.
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - message
+            properties:
+              message:
+                type: string
+          examples:
+            Too many area_codes:
+              value:
+                message: Too many values supplied for parameter area_codes. The maximum is 300 but 301 supplied.
+            Too many years:
+              value:
+                message: Too many values supplied for parameter years. The maximum is 20 but 21 supplied.
   parameters:
     hierarchy_type:
       in: query
@@ -571,12 +577,6 @@ components:
           type: string
           example: England
           description: The name of the area / geography
-    BadRequest:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/schemas_BadRequest'
-      description: Bad request. The server could not process the request.
     IndicatorSummary:
       title: Indicator Summary
       type: object
@@ -594,15 +594,6 @@ components:
           type: string
           example: 'Hypertension: QOF prevalence (all ages)'
           description: The title of the indicator
-    schemas_BadRequest:
-      title: Bad Request
-      type: object
-      required:
-        - message
-      properties:
-        message:
-          type: string
-      description: The server could not understand the request due to invalid syntax. The client should modify the request and try again.
     Indicator:
       title: Indicator
       type: object

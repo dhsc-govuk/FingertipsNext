@@ -103,18 +103,7 @@ areas:
               items:
                 $ref: "schemas.yaml#/Area"
       "400":
-        description: A validation error due to improper usage of the area_codes parameter.
-        content:
-          application/json:
-            schema:
-              $ref: "../responses.yaml#/BadRequest"
-            examples:
-              No area_codes provided:
-                value:
-                  message: Please provide at least value for the parameter area_codes.
-              Too many area_codes:
-                value:
-                  message: Too many values supplied for parameter area_codes. The maximum is 300 but 301 supplied.
+        $ref: "../responses.yaml#/BadRequest"
       "404":
         $ref: "../responses.yaml#/NotFound"
       "500":
