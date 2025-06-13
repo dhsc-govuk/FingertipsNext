@@ -66,10 +66,10 @@ const testHealthData: IndicatorWithHealthDataForArea = {
   areaHealthData: [mockHealthData['108'][1], mockHealthData['108'][2]],
 };
 
-const searchState: SearchStateParams = {
-  [SearchParams.SearchedIndicator]: mockSearch,
-  [SearchParams.IndicatorsSelected]: mockIndicator,
-};
+const mockSearchState: SearchStateParams = {};
+jest.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockSearchState,
+}));
 
 const lineChartTestId = 'standardLineChart-component';
 const lineChartTableTestId = 'lineChartTable-component';
@@ -106,6 +106,9 @@ const assertLineChartAndTableNotInDocument = async () => {
 describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    mockSearchState[SearchParams.SearchedIndicator] = mockSearch;
+    mockSearchState[SearchParams.IndicatorsSelected] = mockIndicator;
+    mockSearchState[SearchParams.AreasSelected] = mockAreas;
   });
 
   afterAll(() => {
@@ -117,10 +120,6 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
       render(
         <OneIndicatorTwoOrMoreAreasViewPlots
           indicatorData={testHealthData}
-          searchState={{
-            ...searchState,
-            [SearchParams.AreasSelected]: mockAreas,
-          }}
           indicatorMetadata={mockMetaData}
         />
       )
@@ -147,10 +146,6 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
       render(
         <OneIndicatorTwoOrMoreAreasViewPlots
           indicatorData={testHealthData}
-          searchState={{
-            ...searchState,
-            [SearchParams.AreasSelected]: mockAreas,
-          }}
           indicatorMetadata={mockMetaData}
         />
       );
@@ -161,10 +156,6 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
       render(
         <OneIndicatorTwoOrMoreAreasViewPlots
           indicatorData={testHealthData}
-          searchState={{
-            ...searchState,
-            [SearchParams.AreasSelected]: mockAreas,
-          }}
           indicatorMetadata={mockMetaData}
         />
       );
@@ -185,32 +176,19 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         ],
       };
 
-      const state: SearchStateParams = {
-        [SearchParams.IndicatorsSelected]: ['0'],
-        [SearchParams.AreasSelected]: ['A001'],
-      };
+      mockSearchState[SearchParams.SearchedIndicator] = undefined;
 
-      render(
-        <OneIndicatorTwoOrMoreAreasViewPlots
-          indicatorData={MOCK_DATA}
-          searchState={state}
-        />
-      );
+      render(<OneIndicatorTwoOrMoreAreasViewPlots indicatorData={MOCK_DATA} />);
 
       await waitFor(() => assertLineChartAndTableNotInDocument());
     });
 
     it('should not render the LineChart components when there are more than 2 areas', async () => {
-      const searchState: SearchStateParams = {
-        [SearchParams.SearchedIndicator]: mockSearch,
-        [SearchParams.IndicatorsSelected]: mockIndicator,
-        [SearchParams.AreasSelected]: [...mockAreas, 'A003'],
-      };
+      mockSearchState[SearchParams.AreasSelected] = [...mockAreas, 'A003'];
 
       render(
         <OneIndicatorTwoOrMoreAreasViewPlots
           indicatorData={testHealthData}
-          searchState={searchState}
           indicatorMetadata={mockMetaData}
         />
       );
@@ -221,17 +199,10 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
 
   describe('BarChartEmbeddedTable', () => {
     it('should render the BarChartEmbeddedTable component, when two or more areas are selected', async () => {
-      const searchState: SearchStateParams = {
-        [SearchParams.SearchedIndicator]: mockSearch,
-        [SearchParams.IndicatorsSelected]: mockIndicator,
-        [SearchParams.AreasSelected]: ['A1245', 'A1246', 'A1427'],
-      };
+      mockSearchState[SearchParams.AreasSelected] = ['A1245', 'A1246', 'A1427'];
 
       render(
-        <OneIndicatorTwoOrMoreAreasViewPlots
-          indicatorData={testHealthData}
-          searchState={searchState}
-        />
+        <OneIndicatorTwoOrMoreAreasViewPlots indicatorData={testHealthData} />
       );
 
       expect(
@@ -240,17 +211,9 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     });
 
     it('should render the title for BarChartEmbeddedTable', async () => {
-      const searchState: SearchStateParams = {
-        [SearchParams.SearchedIndicator]: mockSearch,
-        [SearchParams.IndicatorsSelected]: mockIndicator,
-        [SearchParams.AreasSelected]: ['A1245', 'A1246', 'A1427'],
-      };
-
+      mockSearchState[SearchParams.AreasSelected] = ['A1245', 'A1246', 'A1427'];
       render(
-        <OneIndicatorTwoOrMoreAreasViewPlots
-          indicatorData={testHealthData}
-          searchState={searchState}
-        />
+        <OneIndicatorTwoOrMoreAreasViewPlots indicatorData={testHealthData} />
       );
 
       expect(
@@ -265,6 +228,13 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
       mockGetSearchState.mockReturnValue({
         [SearchParams.AreaTypeSelected]: 'regions',
       });
+
+      mockSearchState[SearchParams.SearchedIndicator] = mockSearch;
+      mockSearchState[SearchParams.IndicatorsSelected] = mockIndicator;
+      mockSearchState[SearchParams.AreasSelected] = mockAreas;
+      mockSearchState[SearchParams.GroupAreaSelected] = ALL_AREAS_SELECTED;
+      mockSearchState[SearchParams.AreaTypeSelected] = 'regions';
+      mockSearchState[SearchParams.GroupSelected] = 'E12000003';
     });
 
     it('should render the ThematicMap with title', async () => {
@@ -272,14 +242,6 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         ok: true,
         json: async () => regionsMap,
       });
-
-      const searchState: SearchStateParams = {
-        [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
-        [SearchParams.AreaTypeSelected]: 'regions',
-        [SearchParams.GroupSelected]: 'E12000003',
-      };
-
-      mockGetSearchState.mockReturnValue(searchState);
 
       render(
         <QueryClientProvider client={reactQueryClient}>
@@ -291,7 +253,6 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
                 mockHealthData[108][3],
               ],
             }}
-            searchState={searchState}
             areaCodes={['E12000001', 'E12000002']}
             indicatorMetadata={mockIndicatorDocument()}
           />
@@ -310,12 +271,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     });
 
     it('should not render the ThematicMap when not all areas in a group are selected', async () => {
-      const searchState: SearchStateParams = {
-        [SearchParams.GroupAreaSelected]: 'not ALL',
-        [SearchParams.AreaTypeSelected]: 'regions',
-      };
-
-      mockGetSearchState.mockReturnValue(searchState);
+      mockSearchState[SearchParams.GroupAreaSelected] = 'not_all';
 
       render(
         <OneIndicatorTwoOrMoreAreasViewPlots
@@ -326,7 +282,6 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
               mockHealthData[108][3],
             ],
           }}
-          searchState={searchState}
         />
       );
 

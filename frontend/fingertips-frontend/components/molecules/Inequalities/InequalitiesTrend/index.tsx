@@ -7,11 +7,7 @@ import {
   BenchmarkOutcome,
   HealthDataForArea,
 } from '@/generated-sources/ft-api-client';
-import {
-  SearchParams,
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
+import { SearchParams } from '@/lib/searchStateManager';
 import {
   generateInequalitiesLineChartOptions,
   getDynamicKeys,
@@ -45,10 +41,10 @@ import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
 import { LineChartVariant } from '@/components/organisms/LineChart/helpers/generateStandardLineChartOptions';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
 interface InequalitiesTrendProps {
   healthIndicatorData: HealthDataForArea[];
-  searchState: SearchStateParams;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   indicatorMetadata?: IndicatorDocument;
   dataSource?: string;
@@ -66,18 +62,16 @@ const getBenchmarkOutcomeForYear = (
 export function InequalitiesTrend({
   healthIndicatorData,
   indicatorMetadata,
-  searchState,
   benchmarkComparisonMethod,
   dataSource,
 }: Readonly<InequalitiesTrendProps>) {
-  const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.InequalityLineChartTypeSelected]: inequalityTypeSelected,
     [SearchParams.InequalityLineChartAreaSelected]:
       inequalityLineChartAreaSelected,
-  } = stateManager.getSearchState();
+  } = useSearchStateParams();
 
   const areaCodes = determineAreaCodes(areasSelected);
 
@@ -215,12 +209,10 @@ export function InequalitiesTrend({
           SearchParams.InequalityLineChartTypeSelected
         }
         testRef="lc"
-        searchState={searchState}
       />
       <ChartSelectArea
         availableAreas={availableAreasWithInequalities}
         chartAreaSelectedKey={SearchParams.InequalityLineChartAreaSelected}
-        searchState={searchState}
       />
       <TabContainer
         id="inequalitiesLineChartAndTable"

@@ -8,8 +8,7 @@ import { OneIndicatorTwoOrMoreAreasViewPlots } from '@/components/viewPlots/OneI
 import { HealthDataForAnIndicatorUrlOptions } from '@/components/shallow/apiUrls';
 
 export const ShallowViews: FC = () => {
-  const { areasSelected, areaTypeSelected, groupSelected } =
-    useShallowSearchParams();
+  const { areasSelected, areaTypeSelected } = useShallowSearchParams();
 
   const selectedAreasWithEngland = [
     ...new Set([...areasSelected, areaCodeForEngland]),
@@ -35,23 +34,11 @@ export const ShallowViews: FC = () => {
     indicatorParams
   );
 
-  const searchState = { gs: groupSelected, as: areasSelected };
-
   if (!healthData) return <div>Loading...</div>;
 
   if (areasSelected.length >= 2) {
-    return (
-      <OneIndicatorTwoOrMoreAreasViewPlots
-        searchState={searchState}
-        indicatorData={healthData}
-      />
-    );
+    return <OneIndicatorTwoOrMoreAreasViewPlots indicatorData={healthData} />;
   }
 
-  return (
-    <OneIndicatorOneAreaViewPlots
-      searchState={searchState}
-      indicatorData={healthData}
-    />
-  );
+  return <OneIndicatorOneAreaViewPlots indicatorData={healthData} />;
 };

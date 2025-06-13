@@ -1,25 +1,21 @@
 import { StyledFilterSelect } from '@/components/styles/StyledFilterSelect';
 import { useLoadingState } from '@/context/LoaderContext';
-import {
-  SearchParams,
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { usePathname, useRouter } from 'next/navigation';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
 interface TimePeriodDropDownProps {
   years: (number | string)[];
-  searchState: SearchStateParams;
 }
 
 export function TimePeriodDropDown({
   years,
-  searchState,
 }: Readonly<TimePeriodDropDownProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
   const { setIsLoading } = useLoadingState();
 
+  const searchState = useSearchStateParams();
   const searchStateManager = SearchStateManager.initialise(searchState);
 
   const setSelectedYear = (selectedYear: string) => {

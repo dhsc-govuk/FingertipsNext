@@ -243,7 +243,7 @@ export async function getIndicatorData(
           areasSelected,
           indicatorSelected,
           selectedGroupCode,
-          selectedGroupType: groupTypeSelected,
+          selectedGroupType,
         },
         indicatorDataAllAreas.areaHealthData
       );

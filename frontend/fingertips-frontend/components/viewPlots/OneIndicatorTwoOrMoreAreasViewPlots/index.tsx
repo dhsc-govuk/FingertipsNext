@@ -15,8 +15,6 @@ import { H3 } from 'govuk-react';
 import { OneIndicatorViewPlotProps } from '@/components/viewPlots/ViewPlot.types';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
-import { useEffect } from 'react';
-import { useSearchState } from '@/context/SearchStateContext';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
 import { IndicatorPolarity } from '@/generated-sources/ft-api-client';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
@@ -26,6 +24,7 @@ import {
   LineChartVariant,
 } from '@/components/organisms/LineChart/helpers/generateStandardLineChartOptions';
 import { BenchmarkSelectArea } from '@/components/molecules/BenchmarkSelectArea';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
 interface OneIndicatorTwoOrMoreAreasViewPlotsProps
   extends OneIndicatorViewPlotProps {
@@ -35,14 +34,14 @@ interface OneIndicatorTwoOrMoreAreasViewPlotsProps
 export function OneIndicatorTwoOrMoreAreasViewPlots({
   indicatorData,
   indicatorMetadata,
-  searchState,
   areaCodes = [],
 }: Readonly<OneIndicatorTwoOrMoreAreasViewPlotsProps>) {
-  const { setSearchState } = useSearchState();
-
-  useEffect(() => {
-    setSearchState(searchState ?? {});
-  }, [searchState, setSearchState]);
+  const searchState = useSearchStateParams();
+  // const { setSearchState } = useSearchState();
+  //
+  // useEffect(() => {
+  //   setSearchState(searchState ?? {});
+  // }, [searchState, setSearchState]);
 
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
@@ -112,7 +111,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
       <BenchmarkSelectArea
         availableAreas={availableAreasForBenchmarking}
         benchmarkAreaSelectedKey={SearchParams.BenchmarkAreaSelected}
-        searchState={searchState}
       />
       {shouldLineChartbeShown && (
         <StyleChartWrapper>

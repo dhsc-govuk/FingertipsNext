@@ -1,14 +1,13 @@
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { SearchParams } from '@/lib/searchStateManager';
 
 export const useShallowSearchParams = () => {
   const search = useSearchParams();
-  const router = useRouter();
   const pathname = usePathname();
 
   const shallowUpdate = (newSearchParams: URLSearchParams) => {
-    // history.pushState({}, '', `${pathname}?${newSearchParams.toString()}`);
-    router.push(`${pathname}?${newSearchParams.toString()}`);
+    // do NOT use the useRouter hook from NextJS as it does not support shallow routing
+    history.pushState({}, '', `${pathname}?${newSearchParams.toString()}`);
   };
 
   const areasSelected = search.getAll(SearchParams.AreasSelected);

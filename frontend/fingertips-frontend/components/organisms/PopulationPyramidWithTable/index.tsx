@@ -117,7 +117,6 @@ export const PopulationPyramidWithTable = ({
             <ChartSelectArea
               availableAreas={availableAreas}
               chartAreaSelectedKey={SearchParams.PopulationAreaSelected}
-              searchState={searchState}
             />
             <TabContainer
               id="pyramidChartAndTableView"

@@ -62,7 +62,6 @@ export default async function OneIndicatorTwoOrMoreAreasView({
       <OneIndicatorTwoOrMoreAreasViewPlots
         areaCodes={areaCodes}
         indicatorData={indicatorData}
-        searchState={searchState}
         indicatorMetadata={indicatorMetadata}
       />
     </ViewsWrapper>
