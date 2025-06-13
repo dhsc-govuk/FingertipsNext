@@ -8,7 +8,7 @@ public class HealthMeasureRepository(HealthMeasureDbContext dbCtx)
     private readonly HealthMeasureDbContext _dbContext = dbCtx ?? throw new ArgumentNullException(nameof(dbCtx));
 
     public async Task<IEnumerable<HealthMeasureModel>> GetByIndicator(int indicatorKey) {
-        return await _dbContext.HealthMeasure
+        return await _dbContext.PublishedHealthMeasure
             .Where(hm => hm.IndicatorDimension == null || hm.IndicatorDimension.IndicatorKey == indicatorKey)
             .Include(hm => hm.IndicatorDimension)
             .Include(hm => hm.TrendDimension)
@@ -37,7 +37,9 @@ public class HealthMeasureRepository(HealthMeasureDbContext dbCtx)
                 TrendDimension = new TrendDimensionModel()
                 {
                     Name = x.TrendDimension.Name
-                }
+                },
+                BatchId = x.BatchId,
+                PublishedAt = x.PublishedAt
             })
             .ToListAsync();
     }

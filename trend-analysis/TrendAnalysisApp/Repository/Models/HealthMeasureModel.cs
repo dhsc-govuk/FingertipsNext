@@ -34,4 +34,6 @@ public class HealthMeasureModel
     public double? LowerCI { get; set; }
     public double? UpperCI { get; set; }
     public required short Year { get; set; }
+    public DateTime PublishedAt { get; set; }
+    public string BatchId { get; set; }
 }

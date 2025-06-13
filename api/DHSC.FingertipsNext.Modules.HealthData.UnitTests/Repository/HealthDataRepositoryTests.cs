@@ -69,7 +69,8 @@ public class HealthDataRepositoryTests : IDisposable
             {
                 IndicatorId = INDICATORID
             },
-            Year = LATESTYEAR - 1
+            Year = LATESTYEAR - 1,
+            BatchId = $"{INDICATORID}_20990101120000"
         });
 
         // act
@@ -985,6 +986,93 @@ public class HealthDataRepositoryTests : IDisposable
                 ResetKeys(sexAndDeprivationDataPoint),
                 ResetKeys(ageAndDeprivationDataPoint),
                 ResetKeys(aggregateDataPoint),
+            }
+        );
+    }
+
+    [Fact]
+    public async Task GetIndicatorDimensionAsyncShouldNotReturnUnpublishedData_AreaData()
+    {
+        const int ENGLAND_YEAR = 2024;
+        const int DISTRICT_YEAR = 2023;
+        const string ENGLAND_AREA_CODE = "E92000001";
+        const string DISTRICT_ONE_AREA_CODE = "ABC123";
+        const int INDICATORID = 1;
+
+        // Arrange
+        PopulateDatabase(new HealthMeasureModelHelper(year: ENGLAND_YEAR)
+            .WithIndicatorDimension(indicatorId: INDICATORID)
+            .WithAreaDimension(code: ENGLAND_AREA_CODE)
+            .Build());
+        PopulateDatabase(new HealthMeasureModelHelper(year: DISTRICT_YEAR, key: 2, isPublished: false)
+            .WithIndicatorDimension(indicatorId: INDICATORID)
+            .WithAreaDimension(code: DISTRICT_ONE_AREA_CODE)
+            .Build());
+
+        // Act
+        var result = await _healthDataRepository.GetIndicatorDimensionAsync(1, [
+            ENGLAND_AREA_CODE
+        ]);
+
+        // Assert
+        result.LatestYear.ShouldBe(ENGLAND_YEAR);
+    }
+
+    [Fact]
+    public async Task GetIndicatorDimensionAsyncShouldNotReturnUnpublishedData_NoAreaData()
+    {
+        const string AREA_CODE = "E92000002";
+        const int INDICATORID = 1;
+
+        // Arrange
+        PopulateDatabase(new HealthMeasureModelHelper(year: 2024, isPublished: false)
+            .WithIndicatorDimension(indicatorId: INDICATORID)
+            .WithAreaDimension(code: AREA_CODE)
+            .Build());
+
+        // Act
+        var result = await _healthDataRepository.GetIndicatorDimensionAsync(1, [
+            "TESTAREA_ONE",
+            "TESTAREA_TWO"
+        ]);
+
+        // Assert
+        result.ShouldBe(null);
+    }
+
+    [Fact]
+    public async Task GetIndicatorDataAsyncShouldNotReturnUnpublishedData()
+    {
+        // Arrange
+        const string expectedAreaCode = "Code1";
+        var expectedHealthMeasure = new HealthMeasureModelHelper(key: 2, year: 2024)
+            .WithIndicatorDimension(indicatorId: 1)
+            .WithAreaDimension(code: expectedAreaCode)
+            .Build();
+
+        var unpublishedHealthMeasure = new HealthMeasureModelHelper(key: 3, year: 2025, isPublished: false)
+            .WithIndicatorDimension(indicatorId: 1)
+            .WithAreaDimension(code: expectedAreaCode)
+            .Build();
+
+        PopulateDatabase(expectedHealthMeasure);
+        PopulateDatabase(unpublishedHealthMeasure);
+
+        // Act
+        var result = await _healthDataRepository.GetIndicatorDataAsync(
+                    1,
+                    [expectedAreaCode],
+                    [],
+                    []
+                );
+
+        // Assert
+        result.ShouldNotBeEmpty();
+        result.Count().ShouldBe(1);
+        result.ShouldBeEquivalentTo(
+            new List<HealthMeasureModel>()
+            {
+                ResetKeys(expectedHealthMeasure)
             }
         );
     }

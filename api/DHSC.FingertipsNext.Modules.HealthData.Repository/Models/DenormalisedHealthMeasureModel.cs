@@ -30,6 +30,8 @@ public class DenormalisedHealthMeasureModel
     public required string BenchmarkComparisonIndicatorPolarity { get; set; }
     public required string BenchmarkComparisonAreaCode { get; set; }
     public required string BenchmarkComparisonAreaName { get; set; }
+    public required DateTime PublishedAt { get; set; }
+    public required string BatchId { get; set; }
 
     private BenchmarkComparisonModel? NormalisedBenchmark =>
         BenchmarkComparisonOutcome is null
@@ -84,7 +86,9 @@ public class DenormalisedHealthMeasureModel
                 Name = TrendDimensionName,
             },
             BenchmarkComparison = NormalisedBenchmark,
-            IsAggregate = true
+            IsAggregate = true,
+            PublishedAt = PublishedAt,
+            BatchId = BatchId
         };
     }
 }

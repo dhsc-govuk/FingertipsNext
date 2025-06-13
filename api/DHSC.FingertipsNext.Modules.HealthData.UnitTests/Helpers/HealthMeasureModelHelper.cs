@@ -9,7 +9,9 @@ internal class HealthMeasureModelHelper(
     double? count = 1.0,
     double? value = 1.0,
     double? lowerCi = 1.0,
-    double? upperCi = 1.0
+    double? upperCi = 1.0,
+    string batchId = "12345_20250101120000",
+    bool isPublished = true
 )
 {
     private AreaDimensionModel _areaDimension;
@@ -201,6 +203,7 @@ internal class HealthMeasureModelHelper(
         var sexDimension = _sexDimension ?? DefaultSexDimension();
         var trendDimension = DefaultTrendDimension();
         var deprivationDimension = _deprivationDimension ?? DefaultDeprivationDimension();
+        var publishedAt = isPublished ? DateTime.UtcNow : DateTime.UtcNow.AddYears(1);
 
         return new HealthMeasureModel
         {
@@ -222,7 +225,9 @@ internal class HealthMeasureModelHelper(
             SexDimension = sexDimension,
             TrendDimension = trendDimension,
             DeprivationDimension = deprivationDimension,
-            IsAggregate = isAggregate
+            IsAggregate = isAggregate,
+            PublishedAt = publishedAt,
+            BatchId = batchId
         };
     }
 }
