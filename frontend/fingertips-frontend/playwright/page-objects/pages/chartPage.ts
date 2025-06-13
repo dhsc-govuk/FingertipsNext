@@ -595,11 +595,11 @@ export default class ChartPage extends AreaFilter {
     return { download, downloadPath };
   }
 
-  private async openExportModal(exportDataTestId: string): Promise<void> {
+  private async openExportModal(chartDataTestId: string): Promise<void> {
+    const exportButtonDataTestId = `${chartDataTestId.replace('-component', '-export-button')}`;
+
     await this.clickAndAwaitLoadingComplete(
-      this.page
-        .getByTestId(exportDataTestId)
-        .getByRole('button', { name: 'Export options' })
+      this.page.getByTestId(exportButtonDataTestId)
     );
   }
 
@@ -628,8 +628,6 @@ export default class ChartPage extends AreaFilter {
     areaMode: AreaMode,
     indicatorMode: IndicatorMode
   ): Promise<void> {
-    const exportDataTestId = `tabContent-${component.componentLocator.replace('-component', '')}`;
-
     // Create download directory structure
     const downloadDir = createDownloadPath(
       ExportType.PNG,
@@ -637,7 +635,7 @@ export default class ChartPage extends AreaFilter {
       indicatorMode
     );
 
-    await this.openExportModal(exportDataTestId);
+    await this.openExportModal(component.componentLocator);
 
     // Assert the export modal is visible and defaults to PNG option and displays the preview
     await this.checkPNGisVisibleAndDefault();
@@ -657,8 +655,6 @@ export default class ChartPage extends AreaFilter {
     areaMode: AreaMode,
     indicatorMode: IndicatorMode
   ): Promise<void> {
-    const exportDataTestId = `tabContent-${component.componentLocator.replace('-component', '')}`;
-
     // Create download directory structure
     const downloadDir = createDownloadPath(
       ExportType.SVG,
@@ -666,7 +662,7 @@ export default class ChartPage extends AreaFilter {
       indicatorMode
     );
 
-    await this.openExportModal(exportDataTestId);
+    await this.openExportModal(component.componentLocator);
 
     // Assert the export modal is visible and defaults to PNG option and displays the preview
     await this.checkPNGisVisibleAndDefault();
@@ -746,7 +742,6 @@ export default class ChartPage extends AreaFilter {
     indicatorMode: IndicatorMode,
     selectedIndicators: SimpleIndicatorDocument[]
   ): Promise<void> {
-    const exportDataTestId = `tabContent-${component.componentLocator.replace('-component', '')}`;
     const { expectedCsvIndicatorID, expectedCsvIndicatorName } =
       this.getExpectedCSVData(component, selectedIndicators);
 
@@ -757,7 +752,7 @@ export default class ChartPage extends AreaFilter {
       indicatorMode
     );
 
-    await this.openExportModal(exportDataTestId);
+    await this.openExportModal(component.componentLocator);
 
     // Assert the export modal is visible and defaults to PNG option and displays the preview
     await this.checkPNGisVisibleAndDefault();

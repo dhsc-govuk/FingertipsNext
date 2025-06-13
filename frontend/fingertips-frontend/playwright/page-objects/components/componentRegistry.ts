@@ -120,7 +120,7 @@ export const allComponents: ComponentDefinition[] = [
     componentLocator: ChartPage.heatMapComponent,
     componentProps: {
       hasPNGExport: true,
-      hasSVGExport: true,
+      hasCSVExport: true,
       isWideComponent: true,
       showsBenchmarkComparisons: true,
       hasTooltipHovers: true,

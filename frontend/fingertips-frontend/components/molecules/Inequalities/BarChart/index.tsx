@@ -179,10 +179,10 @@ export function InequalitiesBarChart({
     },
   });
 
-  const id = 'inequalitiesBarChart-component';
+  const id = 'inequalitiesBarChart';
   return (
     <>
-      <div id={id} data-testid={id}>
+      <div id={id} data-testid={`${id}-component`}>
         <ChartTitle>{title}</ChartTitle>
         <ConfidenceIntervalCheckbox
           chartName="inequalitiesBarChart"
