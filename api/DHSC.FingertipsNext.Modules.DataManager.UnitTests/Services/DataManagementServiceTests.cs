@@ -1,5 +1,3 @@
-
-
 using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using DHSC.FingertipsNext.Modules.DataManagement.Service;
 using Shouldly;
@@ -10,8 +8,7 @@ public class DataManagementServiceTests
 {
     private readonly DataManagementService _service;
     private readonly IDataManagementRepository _repository;
-
-
+    
     public DataManagementServiceTests()
     {
         _repository = new DataManagementRepository();
@@ -24,5 +21,4 @@ public class DataManagementServiceTests
         // assert
         _service.SayHelloToRepository().ShouldBe("The Repository says: I'm a Repository");
     }
-
 }

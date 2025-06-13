@@ -5,7 +5,7 @@ public class ModuleTests
 {
     private readonly DataManagementModule _module = new();
     [Fact]
-    public void ModuleIsNamedDataManager()
+    public void ModuleIsNamedDataManagement()
     {
         _module.ModuleName.ShouldBe("DataManagement");
     }
