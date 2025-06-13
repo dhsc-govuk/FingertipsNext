@@ -37,11 +37,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   areaCodes = [],
 }: Readonly<OneIndicatorTwoOrMoreAreasViewPlotsProps>) {
   const searchState = useSearchStateParams();
-  // const { setSearchState } = useSearchState();
-  //
-  // useEffect(() => {
-  //   setSearchState(searchState ?? {});
-  // }, [searchState, setSearchState]);
 
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
