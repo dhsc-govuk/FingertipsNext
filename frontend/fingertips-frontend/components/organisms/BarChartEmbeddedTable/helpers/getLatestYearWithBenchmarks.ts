@@ -10,7 +10,7 @@ export const getLatestYearWithBenchmarks = (
   const healthData = [...healthDataForAreas];
   if (englandData && englandData.healthData.length > 0)
     healthData.push(englandData);
-  if (groupData && groupData.healthData.length) healthData.push(groupData);
+  if (groupData && groupData.healthData.length > 0) healthData.push(groupData);
 
   const allYears = healthData.flatMap((areaData) =>
     areaData.healthData.map((point) => point.year)
