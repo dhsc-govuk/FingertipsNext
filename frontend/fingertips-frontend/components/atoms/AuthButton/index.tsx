@@ -3,19 +3,9 @@ import { SignInButton } from './SignInButton';
 import { SignOutButton } from './SignOutButton';
 
 interface authButtonProps {
-  session: Session | null;
-  signInHandler: () => Promise<void>;
-  signOutHandler: () => Promise<void>;
+  session?: Session;
 }
 
-export function AuthButton({
-  session,
-  signInHandler,
-  signOutHandler,
-}: authButtonProps) {
-  return session ? (
-    <SignOutButton signOutHandler={signOutHandler} />
-  ) : (
-    <SignInButton signInHandler={signInHandler} />
-  );
+export function AuthButton({ session }: authButtonProps) {
+  return session ? <SignOutButton /> : <SignInButton />;
 }

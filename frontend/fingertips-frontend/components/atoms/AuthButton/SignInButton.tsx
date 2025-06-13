@@ -1,11 +1,8 @@
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { StyledButton } from './AuthButton.styles';
+import { signInHandler } from '@/lib/authService/authHandlers';
 
-interface signInButtonProps {
-  signInHandler: () => Promise<void>;
-}
-
-export function SignInButton({ signInHandler }: signInButtonProps) {
+export function SignInButton() {
   return (
     <form action={signInHandler}>
       <StyledButton buttonColour={GovukColours.Black}>Sign in</StyledButton>

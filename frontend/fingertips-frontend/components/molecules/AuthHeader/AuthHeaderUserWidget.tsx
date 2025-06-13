@@ -3,7 +3,7 @@ import { ContentItem } from './AuthHeader.styles';
 import { Session } from 'next-auth';
 
 interface AuthHeaderUserWidgetProps {
-  session: Session | null;
+  session?: Session;
 }
 
 export function AuthHeaderUserWidget({ session }: AuthHeaderUserWidgetProps) {

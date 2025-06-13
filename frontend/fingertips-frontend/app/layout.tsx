@@ -5,7 +5,7 @@ import StyledComponentsRegistry from '@/lib/registry';
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
 import '../global.css';
-import { auth } from '@/auth';
+import { auth } from '@/lib/authService/auth';
 
 export const metadata: Metadata = {
   title: 'FingertipsNext',
@@ -27,7 +27,7 @@ export default async function RootLayout({
     <html lang="en">
       <body style={{ margin: 0 }}>
         <StyledComponentsRegistry>
-          <FTHeader session={session} />
+          <FTHeader session={session ?? undefined} />
           <FTContainer>{children}</FTContainer>
           <FTFooter tag={tag} hash={hash} />
         </StyledComponentsRegistry>

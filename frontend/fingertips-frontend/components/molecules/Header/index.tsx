@@ -4,7 +4,7 @@ import { contactEmailLink } from '@/lib/links';
 import { Link, Main, PhaseBanner, TopNav } from 'govuk-react';
 import styled from 'styled-components';
 import { AuthHeader } from '../AuthHeader';
-import { Auth } from '@/lib/auth/authHandlers';
+import { Session } from 'next-auth';
 
 const ZeroPaddingMain = styled(Main)`
   padding: 0px;
@@ -15,15 +15,15 @@ const ServiceTitle = styled('span')({
 });
 
 interface FTHeaderProps {
-  auth?: Auth;
+  session?: Session;
 }
 
-export function FTHeader({ auth }: FTHeaderProps) {
+export function FTHeader({ session }: FTHeaderProps) {
   return (
     <header>
       <div>
         <div>
-          <AuthHeader auth={auth} />
+          <AuthHeader session={session} />
           <TopNav
             serviceTitle={
               <TopNav.NavLink href="/">
