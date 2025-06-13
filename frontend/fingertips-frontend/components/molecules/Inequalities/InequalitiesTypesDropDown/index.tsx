@@ -1,27 +1,23 @@
 import { StyledFilterSelect } from '@/components/styles/StyledFilterSelect';
-import {
-  SearchParamKeys,
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
+import { SearchParamKeys, SearchStateManager } from '@/lib/searchStateManager';
 import { usePathname, useRouter } from 'next/navigation';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
 interface InequalitiesTypeDropDownProps {
   inequalitiesOptions: string[];
   inequalityTypeSelectedSearchParam: SearchParamKeys;
   testRef: string;
-  searchState: SearchStateParams;
 }
 
 export function InequalitiesTypesDropDown({
   inequalitiesOptions,
   inequalityTypeSelectedSearchParam,
   testRef,
-  searchState,
 }: Readonly<InequalitiesTypeDropDownProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
 
+  const searchState = useSearchStateParams();
   const searchStateManager = SearchStateManager.initialise(searchState);
 
   const setSelectedType = (selectedType: string) => {

@@ -5,13 +5,11 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { InequalitiesForSingleTimePeriod } from '@/components/molecules/Inequalities/InequalitiesForSingleTimePeriod';
 import { InequalitiesTrend } from '@/components/molecules/Inequalities/InequalitiesTrend';
-import { SearchStateParams } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 interface InequalitiesProps {
   healthIndicatorData: HealthDataForArea[];
   indicatorMetadata?: IndicatorDocument;
-  searchState: SearchStateParams;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
   dataSource?: string;
@@ -20,7 +18,6 @@ interface InequalitiesProps {
 export function Inequalities({
   healthIndicatorData,
   indicatorMetadata,
-  searchState,
   benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
   polarity = IndicatorPolarity.Unknown,
   dataSource,
@@ -29,7 +26,6 @@ export function Inequalities({
     <div data-testid="inequalities-component">
       <InequalitiesForSingleTimePeriod
         healthIndicatorData={healthIndicatorData}
-        searchState={searchState}
         indicatorMetadata={indicatorMetadata}
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
@@ -38,7 +34,6 @@ export function Inequalities({
       <InequalitiesTrend
         healthIndicatorData={healthIndicatorData}
         indicatorMetadata={indicatorMetadata}
-        searchState={searchState}
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         dataSource={dataSource}
       />

@@ -19,23 +19,6 @@ export enum SearchParams {
   BenchmarkAreaSelected = 'bas',
 }
 
-export type SearchParamKeys = `${SearchParams}`;
-
-const multiValueParams = [
-  SearchParams.IndicatorsSelected as string,
-  SearchParams.AreasSelected as string,
-];
-
-const chartStateParams = [
-  SearchParams.InequalityYearSelected,
-  SearchParams.InequalityBarChartAreaSelected,
-  SearchParams.InequalityLineChartAreaSelected,
-  SearchParams.InequalityBarChartTypeSelected,
-  SearchParams.InequalityLineChartTypeSelected,
-  SearchParams.PopulationAreaSelected,
-  SearchParams.BenchmarkAreaSelected,
-];
-
 export type SearchStateParams = {
   [SearchParams.SearchedIndicator]?: string;
   [SearchParams.IndicatorsSelected]?: string[];
@@ -55,8 +38,28 @@ export type SearchStateParams = {
   [SearchParams.BenchmarkAreaSelected]?: string;
 };
 
-const isMultiValueTypeParam = (searchParamKey: SearchParamKeys) =>
-  multiValueParams.includes(searchParamKey);
+export type SearchParamKeys = `${SearchParams}`;
+
+const multiValueParams = [
+  SearchParams.IndicatorsSelected as string,
+  SearchParams.AreasSelected as string,
+];
+
+const chartStateParams = [
+  SearchParams.InequalityYearSelected,
+  SearchParams.InequalityBarChartAreaSelected,
+  SearchParams.InequalityLineChartAreaSelected,
+  SearchParams.InequalityBarChartTypeSelected,
+  SearchParams.InequalityLineChartTypeSelected,
+  SearchParams.PopulationAreaSelected,
+  SearchParams.BenchmarkAreaSelected,
+];
+
+export const isMultiValueTypeParam = (
+  searchParamKey: SearchParamKeys
+): searchParamKey is
+  | SearchParams.IndicatorsSelected
+  | SearchParams.AreasSelected => multiValueParams.includes(searchParamKey);
 
 export class SearchStateManager {
   private searchState: SearchStateParams;
