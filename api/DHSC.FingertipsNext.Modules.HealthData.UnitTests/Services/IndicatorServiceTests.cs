@@ -877,7 +877,7 @@ public class IndicatorServiceTests
                 SexDimension = new SexDimensionModel() { Name = string.Empty},
                 DeprivationDimension = new DeprivationDimensionModel() { Name = string.Empty, Type = String.Empty },
                 AgeDimension = new AgeDimensionModel() { Name = String.Empty },
-                IndicatorDimension = new IndicatorDimensionModel() { Name = String.Empty }
+                IndicatorDimension = new IndicatorDimensionModel() { Name = String.Empty },
                 FromDateDimension = new DateDimensionModel() { Date = new DateTime(2024, 1, 1) },
                 ToDateDimension = new DateDimensionModel() { Date = new DateTime(2024, 12, 31) },
                 PeriodDimension = new PeriodDimensionModel() { Period = "Calendar"}

@@ -47,17 +47,17 @@ public class HealthMeasureModel
 
     public short Year { get; set; }
 
-    public DateDimensionModel FromDateDimension { get; set; }
+    public required DateDimensionModel FromDateDimension { get; set; }
 
     [ForeignKey("FromDateDimension")]
     public int FromDateKey { get; set; }
 
-    public DateDimensionModel ToDateDimension { get; set; }
+    public required DateDimensionModel ToDateDimension { get; set; }
 
     [ForeignKey("ToDateDimension")]
     public int ToDateKey { get; set; }
 
-    public PeriodDimensionModel PeriodDimension { get; set; }
+    public required PeriodDimensionModel PeriodDimension { get; set; }
     [ForeignKey("PeriodDimension")]
     public byte PeriodKey { get; set; }
 

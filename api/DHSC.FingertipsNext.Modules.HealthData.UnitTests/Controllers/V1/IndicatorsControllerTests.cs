@@ -24,6 +24,12 @@ public class IndicatorControllerTests
                     new HealthDataPoint
                     {
                         Year = 2023,
+                        DatePeriod = new DatePeriod
+                        {
+                            PeriodType = DatePeriodType.Calendar,
+                            From = new DateOnly(2023, 1, 1),
+                            To = new DateOnly(2023, 12, 31)
+                        },
                         Count = 1,
                         Value = 1,
                         LowerConfidenceInterval = 1.1111f,

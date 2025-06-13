@@ -74,7 +74,10 @@ public class HealthDataRepositoryTests : IDisposable
                 Name = String.Empty,
                 IndicatorId = INDICATORID
             },
-            Year = LATESTYEAR - 1
+            Year = LATESTYEAR - 1,
+            FromDateDimension = new DateDimensionModel { DateKey = 100, Date = new DateTime(LATESTYEAR - 1, 1, 1) },
+            ToDateDimension = new DateDimensionModel { DateKey = 101, Date = new DateTime(LATESTYEAR - 1, 12, 31) },
+            PeriodDimension = new PeriodDimensionModel { PeriodKey = 100, Period = "Calendar" },
         });
 
         // act

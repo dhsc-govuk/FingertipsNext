@@ -18,7 +18,7 @@ public class HealthDataPoint
     ///     The date period that the data point is for
     /// </summary>
     [JsonPropertyName("datePeriod")]
-    public DatePeriod DatePeriod { get; init; }
+    public required DatePeriod DatePeriod { get; init; }
 
     /// <summary>
     ///     The count
