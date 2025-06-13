@@ -1,4 +1,4 @@
-import { HeatmapHeader } from '@/components/organisms/Heatmap/components/HeatmapHeader';
+import { HeatmapHeader } from '@/components/organisms/Heatmap/components/header';
 import { HeatmapCell } from '@/components/organisms/Heatmap/components/cell';
 import React, { FC, MouseEvent } from 'react';
 import styled from 'styled-components';
@@ -40,7 +40,7 @@ const HeatmapTable: FC<HeatmapTableProps> = ({
 
   return (
     <StyledDivTableContainer ref={containerRef}>
-      <StyledTable data-testid="heatmapChart-component">
+      <StyledTable>
         <StyledRow>
           {headers.map((header) => (
             <HeatmapHeader

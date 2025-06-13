@@ -143,7 +143,7 @@ To make our isolated ui testing and fully integrated e2e testing as close to rea
 
 ### Accessibility Testing
 
-Performed in the ui tests. Libraries used: @axe-core/playwright and axe-playwright. 
+Performed in the ui tests, libraries used: @axe-core/playwright and axe-playwright. 
 
 Configured to the WCAG2.2 AA standard in the following file playwright/page-objects/pageFactory.ts. Any violations of this standard cause a test failure unless the rule violated has been accepted in pageFactory.ts.
 

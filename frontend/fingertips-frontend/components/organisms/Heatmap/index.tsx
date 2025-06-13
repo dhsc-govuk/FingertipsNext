@@ -2,21 +2,16 @@
 
 import { HeatmapIndicatorData } from './heatmapUtil';
 import { BenchmarkLegends } from '../BenchmarkLegend';
-import { HeatmapHover } from './components/HeatmapHover';
+import { HeatmapHover } from './components/hover';
 import React, { FC } from 'react';
 import HeatmapTable from '@/components/organisms/Heatmap/components/HeatmapTable';
 import { useHeatmapTableData } from '@/components/organisms/Heatmap/useHeatmapTableData';
 import { useHeatmapHover } from '@/components/organisms/Heatmap/useHeatmapHover';
-import styled from 'styled-components';
-import { H2 } from 'govuk-react';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
 import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
 import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
-
-const HeatmapHeading = styled(H2)({
-  fontSize: '1.5rem',
-  marginTop: '1rem',
-});
+import { ContainerWithOutline } from '@/components/atoms/ContainerWithOutline/ContainerWithOutline';
+import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
 
 export interface HeatmapProps {
   indicatorData: HeatmapIndicatorData[];
@@ -39,9 +34,9 @@ export const Heatmap: FC<HeatmapProps> = ({
   const { hover, left, top, handleMouseOverCell } = useHeatmapHover();
 
   return (
-    <>
-      <div id={'heatmap'}>
-        <HeatmapHeading>Compare indicators by areas</HeatmapHeading>
+    <ContainerWithOutline>
+      <div id={'heatmap'} data-testid="heatmapChart-component">
+        <ChartTitle>Overview of selected indicators</ChartTitle>
         <BenchmarkLegends
           title={`Compared to ${benchmarkAreaName}`}
           legendsToShow={legendsToShow}
@@ -69,6 +64,6 @@ export const Heatmap: FC<HeatmapProps> = ({
         </ExportOnlyWrapper>
       </div>
       <ExportOptionsButton targetId={'heatmap'} csvData={csvData} />
-    </>
+    </ContainerWithOutline>
   );
 };

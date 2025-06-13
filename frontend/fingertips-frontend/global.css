@@ -1,17 +1,47 @@
 @font-face {
-    font-family: 'gdsTransportFont';
-    src: url('/fonts/GDSTransportLight.ttf') format('woff2');
-    font-weight: 400;
-    font-style: normal;
+  font-family: 'gdsTransportFont';
+  src: url('/fonts/GDSTransportLight.ttf') format('woff2');
+  font-weight: 400;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'gdsTransportFont';
-    src: url('/fonts/GDSTransportBold.ttf') format('woff2');
-    font-weight: 700;
-    font-style: normal;
+  font-family: 'gdsTransportFont';
+  src: url('/fonts/GDSTransportBold.ttf') format('woff2');
+  font-weight: 700;
+  font-style: normal;
 }
 
 body {
-    font-family: 'gdsTransportFont', sans-serif;
+  font-family: 'gdsTransportFont', sans-serif;
+}
+
+.chart-page-header [class^="logo-search-wrapper"],
+.chart-page-header [class^="bottom-nav-wrapper"],
+.chart-page-header [class^="src__InnerContainer"],
+.chart-page-footer [class^="width-container"] {
+  margin-left: calc(-40vw + 50%) !important;
+  max-width: 80vw !important;
+}
+
+.chart-page-header [class^="logo-search-wrapper"] {
+  padding-right: 5vw !important;
+}
+
+@media (max-width: 1200px) {
+  .chart-page-header [class^="logo-search-wrapper"],
+  .chart-page-header [class^="bottom-nav-wrapper"],
+  .chart-page-footer [class^="width-container"] {
+    margin-left: calc(-45vw + 50%) !important;
+    max-width: 90vw !important;
+  }
+
+  .chart-page-header [class^="logo-search-wrapper"] {
+    padding-right: 5vw !important;
+  }
+
+  .chart-page-header [class^="src__InnerContainer"] {
+    margin-left: 5vw !important;
+    max-width: 90vw !important;
+  }
 }

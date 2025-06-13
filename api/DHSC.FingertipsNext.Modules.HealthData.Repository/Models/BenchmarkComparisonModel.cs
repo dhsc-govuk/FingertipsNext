@@ -7,9 +7,9 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 
 public class BenchmarkComparisonModel
 {
-    public string Outcome { get; set; }
+    public required string Outcome { get; set; }
 
-    public string BenchmarkAreaCode { get; set; }
+    public required string BenchmarkAreaCode { get; set; }
 
-    public string BenchmarkAreaName { get; set; }
+    public required string BenchmarkAreaName { get; set; }
 }

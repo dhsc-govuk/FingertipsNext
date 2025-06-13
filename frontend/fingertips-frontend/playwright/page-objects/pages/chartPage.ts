@@ -4,15 +4,17 @@ import {
   getScenarioConfig,
   IndicatorMode,
   SimpleIndicatorDocument,
+  customEncodeURIComponent,
 } from '@/playwright/testHelpers';
+import { ComponentDefinition } from '../components/componentTypes';
 import { expect } from '../pageFactory';
 import {
+  Locator,
   PlaywrightTestArgs,
   PlaywrightTestOptions,
   PlaywrightWorkerArgs,
   PlaywrightWorkerOptions,
   TestType,
-  Locator,
 } from '@playwright/test';
 import AreaFilter from '../components/areaFilter';
 import { SearchParams } from '@/lib/searchStateManager';
@@ -82,7 +84,7 @@ export default class ChartPage extends AreaFilter {
    * This function tests a subset of indicator + area scenario combinations from
    * https://confluence.collab.test-and-trace.nhs.uk/pages/viewpage.action?pageId=419245267
    * The scenario combinations here were chosen as they are happy paths covering lots of chart components.
-   * Note all 15 scenarios should be covered in lower level unit testing.
+   * Note all 15 scenarios should be covered in lower level unit testing
    */
   async checkChartVisibility(
     indicatorMode: IndicatorMode,
@@ -180,8 +182,12 @@ export default class ChartPage extends AreaFilter {
         action: () => this.selectLastTimePeriodOption(),
       },
       {
-        condition: componentProps.hasTypeDropDown,
-        action: () => this.selectLastTypeDropdownOption(componentLocator),
+        condition: componentProps.hasInequalityTypeDropDown,
+        action: () =>
+          this.selectInequalityTypeDropdownOption({
+            componentLocator,
+            componentProps,
+          }),
       },
       {
         condition: componentProps.hasDetailsExpander,
@@ -239,13 +245,19 @@ export default class ChartPage extends AreaFilter {
     await this.waitForURLToContain(lastOption);
 
     await expect(
-      this.page.getByText(`persons for ${lastOption} time period`)
+      this.page
+        .getByRole('heading')
+        .getByText(`, ${lastOption}`)
+        .getByText('inequalities for')
     ).toBeVisible();
     expect(await combobox.inputValue()).toBe(lastOption);
   }
 
-  // selects last type option in the dropdown
-  private async selectLastTypeDropdownOption(componentLocator: string) {
+  // selects either first or last option (sex) in the inequality dropdown
+  private async selectInequalityTypeDropdownOption({
+    componentLocator,
+    componentProps,
+  }: ComponentDefinition) {
     const dropdownComponent =
       componentLocator === ChartPage.inequalitiesForSingleTimePeriodComponent
         ? ChartPage.inequalitiesTypesDropDownComponentBC
@@ -254,15 +266,30 @@ export default class ChartPage extends AreaFilter {
     const combobox = this.page
       .getByTestId(dropdownComponent)
       .getByRole('combobox');
+
     const options = await this.getSelectOptions(combobox);
-    const lastOption = options.at(-1)?.value;
-    if (!lastOption) return;
 
-    await combobox.selectOption({ value: lastOption });
+    if (!options.length) {
+      throw new Error(
+        `No options found in dropdown at [${dropdownComponent}].`
+      );
+    }
+
+    const valueToSelect = componentProps.selectDeprivationInequality
+      ? options[0].value
+      : options.at(-1)?.value;
+
+    if (!valueToSelect) {
+      throw new Error(
+        `Unable to determine option to select from dropdown at [${dropdownComponent}].`
+      );
+    }
+
+    await combobox.selectOption({ value: valueToSelect });
     await this.waitAfterDropDownInteraction();
-    await this.waitForURLToContain(encodeURIComponent(lastOption));
+    expect(await combobox.inputValue()).toBe(valueToSelect);
 
-    expect(await combobox.inputValue()).toBe(lastOption);
+    await this.waitForURLToContain(customEncodeURIComponent(valueToSelect));
   }
 
   // checks the confidence interval checkbox
@@ -408,6 +435,7 @@ export default class ChartPage extends AreaFilter {
         this.page
           .getByTestId(component.componentLocator)
           .getByText(expectedBenchmarkTitleText)
+          .first()
       ).toBeVisible();
       // check hover if current chart component has tooltip hovers
       if (component.componentProps.hasTooltipHovers) {

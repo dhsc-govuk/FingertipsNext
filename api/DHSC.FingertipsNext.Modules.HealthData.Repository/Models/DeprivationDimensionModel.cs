@@ -9,10 +9,10 @@ public class DeprivationDimensionModel
     public short DeprivationKey { get; set; }
 
     [MaxLength(100)]
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     [MaxLength(255)]
-    public string Type { get; set; }
+    public required string Type { get; set; }
 
     public bool HasValue { get; set; }
 

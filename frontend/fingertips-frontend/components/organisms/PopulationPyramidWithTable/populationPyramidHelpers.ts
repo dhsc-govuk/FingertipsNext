@@ -23,10 +23,10 @@ export const determineHeaderTitle = (
 
   const titleTypeText =
     hierarchyName?.hierarchyName === HierarchyNameTypes.NHS
-      ? 'Registered'
-      : 'Resident';
+      ? 'registered'
+      : 'resident';
 
-  return `${titleTypeText} population profile for ${healthDataForAreaSelected?.areaName} ${year}`;
+  return `${healthDataForAreaSelected?.areaName} ${titleTypeText} population, ${year}`;
 };
 
 export const determinePopulationDataForArea = (

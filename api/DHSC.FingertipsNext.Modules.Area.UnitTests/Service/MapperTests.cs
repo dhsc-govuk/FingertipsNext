@@ -78,7 +78,6 @@ public class AreaMapperTests
         AssertAreaListsAreEquivalent(mappedAwr.Siblings, awr.Siblings);
     }
 
-
     [Fact]
     public void MappingAreaWithRelationsModelToSchemaAreaWithRelationsWhenModelFullyPopulatedExceptForSiblings()
     {
