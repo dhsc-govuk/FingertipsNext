@@ -4,15 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DHSC.FingertipsNext.Modules.DataManagement.Controllers.V1;
 [ApiController]
-[Route("[controller]")] // TODO: confirm this syntax from the api/Healthcheck endpoint
-public class DataManagementController (IDataManagementService dataManagementService) : ControllerBase
+[Route("data_management")]
+public class DataManagementController(IDataManagementService dataManagementService) : ControllerBase
 {
     /// <summary>
     /// Simple endpoint to implement testable module skeleton
     /// </summary>
     /// <returns></returns>
-    [HttpGet(Name = "GetDataManagementHealthy")]
-    [Route("/")]
+    [HttpGet]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     public ActionResult Healthcheck()
     {
