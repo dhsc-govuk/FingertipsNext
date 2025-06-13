@@ -9,6 +9,7 @@ import { SearchStateContext } from '@/context/SearchStateContext';
 import { reactQueryClient } from '@/lib/reactQueryClient';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { LoaderContext } from '@/context/LoaderContext';
+import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -292,6 +293,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
             }}
             searchState={searchState}
             areaCodes={['E12000001', 'E12000002']}
+            indicatorMetadata={mockIndicatorDocument()}
           />
         </QueryClientProvider>
       );

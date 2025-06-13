@@ -245,6 +245,8 @@ paths:
       description:
         Get data for a public health indicator. This will return all data for all areas and all years for the indicators. Optionally filter the results by supplying one
         or more area codes and one or more years in the query string.
+
+        This returns data for England, a given ancestor code (if provided) and the specified areas. If an area is provided that exists outside of the benchmarked area, then no health data is returned for that area.
       responses:
         "200":
           description:

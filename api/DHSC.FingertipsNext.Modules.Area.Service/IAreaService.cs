@@ -18,14 +18,20 @@ public interface IAreaService
     /// </summary>
     /// <param name="areaCodes"></param>
     /// <returns>List of areas requested</returns>
-    public Task<IList<Schemas.AreaData>> GetMultipleAreaDetails(string[] areaCodes);
+    public Task<IList<AreaData>> GetMultipleAreaDetails(string[] areaCodes);
 
     /// <summary>
-    /// Get area types, optionally filtering by hierarchy type
+    /// Get area types filtering by hierarchy type
     /// </summary>
-    /// <param name="hierarchyType"></param>
+    /// <param name="hierarchyType">Hierarchy type to filter against.</param>
     /// <returns></returns>
-    public Task<IList<AreaType>> GetAreaTypes(string? hierarchyType = null);
+    public Task<IList<AreaType>> GetAreaTypes(string hierarchyType);
+
+    /// <summary>
+    /// Get all area types.
+    /// </summary>
+    /// <returns></returns>
+    public Task<IList<AreaType>> GetAllAreaTypes();
 
     /// <summary>
     /// Get the full details of a given area, including its parent, optionally including its children.
@@ -40,21 +46,21 @@ public interface IAreaService
     /// <returns>The requested area node, or null if it cannot be located.</returns>
     public Task<AreaWithRelations?> GetAreaDetails(
         string areaCode,
-        bool? includeChildren,
-        bool? includeSiblings,
+        bool includeChildren,
+        bool includeSiblings,
         string? childAreaType
     );
 
     /// <summary>
     /// Get the areas that have a given area type
     /// </summary>
-    /// <param name="areaTypeKey"></param>
-    /// <returns></returns>
-    public Task<IList<Schemas.AreaData>> GetAreaDetailsForAreaType(string areaTypeKey);
+    /// <param name="areaTypeKey">Area type key to filter against</param>
+    /// <returns>List of area data matching the area type key</returns>
+    public Task<IList<AreaData>> GetAreaDetailsForAreaType(string areaTypeKey);
 
     /// <summary>
     /// Get the root node of the area hierarchy
     /// </summary>
-    /// <returns></returns>
-    public RootArea? GetRootArea();
+    /// <returns>The root area</returns>
+    public RootArea GetRootArea();
 }

@@ -36,7 +36,7 @@ const HeatmapTable: FC<HeatmapTableProps> = ({
 
   return (
     <StyledDivTableContainer ref={containerRef}>
-      <StyledTable data-testid="heatmapChart-component">
+      <StyledTable>
         <StyledRow>
           {headers.map((header) => (
             <HeatmapHeader

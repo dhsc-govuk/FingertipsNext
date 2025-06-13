@@ -1,5 +1,4 @@
 ﻿using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
-using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Repository;
 
@@ -16,7 +15,7 @@ public interface IHealthDataRepository
                                                                  string areaTypeKey,
                                                                  string benchmarkAreaCode);
 
-    Task<IndicatorDimensionModel> GetIndicatorDimensionAsync(int indicatorId, string[] areaCodes);
+    Task<IndicatorDimensionModel?> GetIndicatorDimensionAsync(int indicatorId, string[] areaCodes);
     Task<IEnumerable<QuartileDataModel>> GetQuartileDataAsync(IEnumerable<int> indicatorIds, string areaCode, string areaTypeKey, string ancestorCode, string benchmarkAreaCode);
 
     Task<IEnumerable<AreaDimensionModel>> GetAreasAsync(string[] areaCodes);

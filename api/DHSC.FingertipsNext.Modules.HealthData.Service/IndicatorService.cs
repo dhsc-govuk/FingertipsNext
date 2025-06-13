@@ -57,6 +57,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
 
         var method = healthDataMapper.MapBenchmarkComparisonMethod(indicatorData.BenchmarkComparisonMethod);
         var polarity = healthDataMapper.MapIndicatorPolarity(indicatorData.Polarity);
+
         if (latestOnly)
             years = [indicatorData.LatestYear];
 
@@ -220,7 +221,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
     /// <returns>
     ///     <c>QuartileData for the latest years for which the indicators have data.
     /// </returns>
-    public async Task<IEnumerable<IndicatorQuartileData>> GetQuartileDataAsync(
+    public async Task<IEnumerable<IndicatorQuartileData>?> GetQuartileDataAsync(
         IEnumerable<int> indicatorIds,
         string areaCode,
         string areaType,
@@ -229,6 +230,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         )
     {
         var quartileData = await healthDataRepository.GetQuartileDataAsync(indicatorIds, areaCode, areaType, ancestorCode, benchmarkAreaCode);
+
         return quartileData == null ? null : healthDataMapper.Map(quartileData.ToList());
     }
 }

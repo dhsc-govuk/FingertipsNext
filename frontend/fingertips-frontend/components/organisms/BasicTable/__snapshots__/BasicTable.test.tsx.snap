@@ -1,99 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`BasicTable should match snapshot 1`] = `
-<DocumentFragment>
-  .c11 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 19px;
-  box-sizing: border-box;
-  display: inline-block;
-  position: relative;
-  width: 100%;
-  margin-top: 0;
-  padding: 7px 10px;
-  border: 2px solid transparent;
-  border-radius: 0;
-  color: #ffffff;
-  background-color: #00703c;
-  box-shadow: 0 2px 0 #002413;
-  text-align: center;
-  vertical-align: top;
-  cursor: pointer;
-  -webkit-appearance: none;
-  margin-bottom: 22px;
-}
-
-.c11:focus {
-  outline: 3px solid #ffdd00;
-  outline-offset: 0;
-}
-
-.c11:link,
-.c11:visited,
-.c11:active,
-.c11:hover {
-  color: #ffffff;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.c11::-moz-focus-inner {
-  padding: 0;
-  border: 0;
-}
-
-.c11:hover,
-.c11:focus {
-  background-color: #00572e;
-}
-
-.c11:active {
-  top: 2px;
-  box-shadow: none;
-}
-
-.c11::before {
-  content: "";
-  display: block;
-  position: absolute;
-  top: -2px;
-  right: -2px;
-  bottom: -4px;
-  left: -2px;
-  background: transparent;
-}
-
-.c11:active::before {
-  top: -4px;
-}
-
-.c11:disabled {
-  opacity: 0.5;
-  background: #00703c;
-}
-
-.c11:disabled:hover {
-  background-color: #00703c;
-  cursor: default;
-}
-
-.c11:disabled:focus {
-  outline: none;
-}
-
-.c11:disabled:active {
-  top: 0;
-  box-shadow: 0 2px 0 #002413;
-}
-
-.c11 svg {
-  max-width: 15px;
-}
-
 .c8 {
   margin: 0;
   font-family: "nta",Arial,sans-serif;
@@ -236,49 +143,44 @@ exports[`BasicTable should match snapshot 1`] = `
   padding-right: 10px;
 }
 
-.c10 {
-  font-size: 14px;
-  margin-bottom: 8px;
-}
-
-.c12 {
-  margin-top: 1rem;
-}
-
 .c1 {
   margin-bottom: 1rem;
 }
 
 @media print {
-  .c11 {
-    font-size: 14px;
-    line-height: 19px;
-  }
+
 }
 
 @media only screen and (min-width:641px) {
-  .c11 {
-    font-size: 19px;
-    line-height: 19px;
-  }
+
 }
 
 @media only screen and (min-width:641px) {
-  .c11 {
-    width: auto;
-  }
+
 }
 
 @media only screen and (min-width:641px) {
-  .c11 svg {
-    margin-left: 10px;
-  }
+
 }
 
 @media only screen and (min-width:641px) {
-  .c11 {
-    margin-bottom: 32px;
-  }
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
 }
 
 @media print {
@@ -355,218 +257,196 @@ exports[`BasicTable should match snapshot 1`] = `
   }
 }
 
-<div
-    data-testid="basicTable-component"
+@media (min-width:641px) {
+
+}
+
+<table
+  class="c0 c1"
+>
+  <thead
+    class=""
   >
-    <div
-      id="basicTable"
+    <tr
+      class=""
     >
-      <table
-        class="c0 c1"
+      <th
+        class="c2"
+        colspan="6"
+        style="padding-left: 10px;"
       >
-        <thead
-          class=""
-        >
-          <tr
-            class=""
-          >
-            <th
-              class="c2"
-              colspan="6"
-              style="padding-left: 10px;"
-            >
-              mockName
-            </th>
-          </tr>
-          <tr
-            class=""
-          >
-            <th
-              class="c2"
-              style="vertical-align: top; padding-left: 10px;"
-            >
-              Indicator
-            </th>
-            <th
-              class="c2"
-              style="vertical-align: top;"
-            >
-              Period
-            </th>
-            <th
-              class="c2"
-              style="vertical-align: top; text-align: right;"
-            >
-              Count
-            </th>
-            <th
-              class="c2"
-              style="vertical-align: top; text-align: left;"
-            >
-              Value unit
-            </th>
-            <th
-              class="c2"
-              style="vertical-align: top; text-align: right;"
-            >
-              Value
-            </th>
-            <th
-              class="c2"
-              style="vertical-align: top; text-align: center;"
-            >
-              Recent trend
-            </th>
-          </tr>
-        </thead>
-        <tbody
-          class=""
-        >
-          <tr
-            class=""
-          >
-            <td
-              class="c3"
-              style="padding-left: 10px;"
-            >
-               
-            </td>
-            <td
-              class="c3"
-              style="text-align: right;"
-            >
-              2008
-            </td>
-            <td
-              class="c3"
-              style="text-align: right;"
-            >
-              389
-            </td>
-            <td
-              aria-label="Not compared"
-              class="c3"
-              style="text-align: left;"
-            >
-              X
-            </td>
-            <td
-              class="c3"
-              style="text-align: right;"
-            >
-              278.3
-            </td>
-            <td
-              class="c3 c4"
-            >
-              <div
-                data-testid="trendTag-container"
-              >
-                <strong
-                  class="c5 c6"
-                >
-                  <div
-                    class="c7"
-                    data-testid="trend-tag-component"
-                  >
-                    <div>
-                      <div
-                        class="c8 c9"
-                      >
-                        <p>
-                          No recent trend data available
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </strong>
-              </div>
-            </td>
-          </tr>
-          <tr
-            class=""
-          >
-            <td
-              class="c3"
-              style="padding-left: 10px;"
-            >
-              no data indicator
-            </td>
-            <td
-              aria-label="Not compared"
-              class="c3"
-              style="text-align: right;"
-            >
-              X
-            </td>
-            <td
-              aria-label="Not compared"
-              class="c3"
-              style="text-align: right;"
-            >
-              X
-            </td>
-            <td
-              aria-label="Not compared"
-              class="c3"
-              style="text-align: left;"
-            >
-              X
-            </td>
-            <td
-              aria-label="Not compared"
-              class="c3"
-              style="text-align: right;"
-            >
-              X
-            </td>
-            <td
-              class="c3 c4"
-            >
-              <div
-                data-testid="trendTag-container"
-              >
-                <strong
-                  class="c5 c6"
-                >
-                  <div
-                    class="c7"
-                    data-testid="trend-tag-component"
-                  >
-                    <div>
-                      <div
-                        class="c8 c9"
-                      >
-                        <p>
-                          No recent trend data available
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </strong>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div
-        class="exportOnly"
-        style="display: none;"
+        mockName
+      </th>
+    </tr>
+    <tr
+      class=""
+    >
+      <th
+        class="c2"
+        style="vertical-align: top; padding-left: 10px;"
+      >
+        Indicator
+      </th>
+      <th
+        class="c2"
+        style="vertical-align: top;"
+      >
+        Period
+      </th>
+      <th
+        class="c2"
+        style="vertical-align: top; text-align: right;"
+      >
+        Count
+      </th>
+      <th
+        class="c2"
+        style="vertical-align: top; text-align: left;"
+      >
+        Value unit
+      </th>
+      <th
+        class="c2"
+        style="vertical-align: top; text-align: right;"
+      >
+        Value
+      </th>
+      <th
+        class="c2"
+        style="vertical-align: top; text-align: center;"
+      >
+        Recent trend
+      </th>
+    </tr>
+  </thead>
+  <tbody
+    class=""
+  >
+    <tr
+      class=""
+    >
+      <td
+        class="c3"
+        style="padding-left: 10px;"
+      >
+         
+      </td>
+      <td
+        class="c3"
+        style="text-align: right;"
+      >
+        2008
+      </td>
+      <td
+        class="c3"
+        style="text-align: right;"
+      >
+        389
+      </td>
+      <td
+        aria-label="Not compared"
+        class="c3"
+        style="text-align: left;"
+      >
+        X
+      </td>
+      <td
+        class="c3"
+        style="text-align: right;"
+      >
+        278.3
+      </td>
+      <td
+        class="c3 c4"
       >
         <div
-          class="c10"
+          data-testid="trendTag-container"
         >
-          ©Crown copyright 2024. Office for Health Improvement & Disparities.
-          <br />
-          Public Health Profiles accessed on 25 December 2024 www.fingertips.phe.org.uk
+          <strong
+            class="c5 c6"
+          >
+            <div
+              class="c7"
+              data-testid="trend-tag-component"
+            >
+              <div>
+                <div
+                  class="c8 c9"
+                >
+                  <p>
+                    No recent trend data available
+                  </p>
+                </div>
+              </div>
+            </div>
+          </strong>
         </div>
-      </div>
-    </div>
-    <button
-      class="c11 c12"
+      </td>
+    </tr>
+    <tr
+      class=""
     >
-      Export options
-    </button>
-  </div>
-</DocumentFragment>
+      <td
+        class="c3"
+        style="padding-left: 10px;"
+      >
+        no data indicator
+      </td>
+      <td
+        aria-label="Not compared"
+        class="c3"
+        style="text-align: right;"
+      >
+        X
+      </td>
+      <td
+        aria-label="Not compared"
+        class="c3"
+        style="text-align: right;"
+      >
+        X
+      </td>
+      <td
+        aria-label="Not compared"
+        class="c3"
+        style="text-align: left;"
+      >
+        X
+      </td>
+      <td
+        aria-label="Not compared"
+        class="c3"
+        style="text-align: right;"
+      >
+        X
+      </td>
+      <td
+        class="c3 c4"
+      >
+        <div
+          data-testid="trendTag-container"
+        >
+          <strong
+            class="c5 c6"
+          >
+            <div
+              class="c7"
+              data-testid="trend-tag-component"
+            >
+              <div>
+                <div
+                  class="c8 c9"
+                >
+                  <p>
+                    No recent trend data available
+                  </p>
+                </div>
+              </div>
+            </div>
+          </strong>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
 `;
