@@ -1,7 +1,8 @@
-import { BarChartEmbeddedPlaceholderRows } from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedPlaceholderRows';
+import { BarChartEmbeddedPlaceholderRows } from '@/components/organisms/BarChartEmbeddedTable/components/BarChartEmbeddedPlaceholderRows/BarChartEmbeddedPlaceholderRows';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import { useEffect, useRef } from 'react';
-import { barChartEmbeddedRowClassName } from '@/components/organisms/BarChartEmbeddedTable/barChartEmbeddedTableHelpers';
+
+import { barChartEmbeddedRowClassName } from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedTable.types';
 
 const TestBarChartEmbeddedPlaceholderRows = ({
   nRowsToHide = 10,

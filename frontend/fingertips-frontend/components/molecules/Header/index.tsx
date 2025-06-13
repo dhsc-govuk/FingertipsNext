@@ -12,9 +12,9 @@ const ServiceTitle = styled('span')({
   fontWeight: '700',
 });
 
-export function FTHeader() {
+export function FTHeader({ chartPage = false }) {
   return (
-    <header>
+    <header className={chartPage ? 'chart-page-header' : undefined}>
       <TopNav
         serviceTitle={
           <TopNav.NavLink href="/">

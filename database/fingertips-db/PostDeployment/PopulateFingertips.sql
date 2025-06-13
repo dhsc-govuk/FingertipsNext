@@ -83,6 +83,13 @@ BEGIN CATCH
 END CATCH;
 GO
 
+BEGIN TRY 
+    DELETE FROM [DataManagement].[Batch];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
 
 --reseed the tables, starting from 0. Currently identity insert is turned off for this seeding data
 DBCC CHECKIDENT ('[HealthMeasure]', RESEED, 0);
@@ -95,6 +102,7 @@ DBCC CHECKIDENT ('[TrendDimension]', RESEED, 0);
 DBCC CHECKIDENT ('[DateDimension]', RESEED, 0);
 DBCC CHECKIDENT ('[PeriodDimension]', RESEED, 0);
 DBCC CHECKIDENT ('[Areas].[Areas]', RESEED, 0);
+DBCC CHECKIDENT ('[DataManagement].[Batch]', RESEED, 0);
 
 --create some sex dimension data
 INSERT INTO [dbo].[SexDimension] 

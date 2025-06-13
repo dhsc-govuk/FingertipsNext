@@ -2,28 +2,41 @@
 
 exports[`PopulationPyramidChartTable check that all 3 tables are rendered and then take a snapshot 1`] = `
 <DocumentFragment>
-  .c5 {
+  .c0 {
+  color: #0b0c0c;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.25;
+  display: block;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.c7 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: left;
   font-weight: 700;
 }
 
-.c5:last-child {
+.c7:last-child {
   padding-right: 0;
 }
 
-.c9 {
+.c11 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: left;
 }
 
-.c9:last-child {
+.c11:last-child {
   padding-right: 0;
 }
 
-.c4 {
+.c6 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -37,7 +50,7 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
   margin-bottom: 20px;
 }
 
-.c6 {
+.c8 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -48,7 +61,7 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
   padding: 0.625em 0;
 }
 
-.c10 {
+.c12 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -58,13 +71,13 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
   padding-right: 0;
 }
 
-.c7 {
+.c9 {
   text-align: left;
   vertical-align: top;
   padding-left: 10px;
 }
 
-.c3 {
+.c5 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -81,7 +94,7 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
   font-weight: 700;
 }
 
-.c8 {
+.c10 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -93,12 +106,17 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
   font-weight: 700;
 }
 
-.c13 {
+.c15 {
   font-size: 14px;
   margin-bottom: 8px;
 }
 
-.c0 {
+.c1 {
+  font-size: 19px;
+  margin: 0 0 30px 0;
+}
+
+.c2 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -120,20 +138,20 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
   margin-bottom: 1rem;
 }
 
-.c0 table {
+.c2 table {
   margin: 0px !important;
   border: 0px;
 }
 
-.c0 table th {
+.c2 table th {
   padding: 10px !important;
 }
 
-.c0 table td {
+.c2 table td {
   padding: 10px 10px 10px 0px !important;
 }
 
-.c12 {
+.c14 {
   -webkit-box-flex: 2;
   -webkit-flex-grow: 2;
   -ms-flex-positive: 2;
@@ -143,18 +161,18 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
   min-width: 250px;
 }
 
-.c12 table td,
-.c12 table th {
+.c14 table td,
+.c14 table th {
   border-bottom-color: #F3F2F1;
   border-top-color: #F3F2F1;
   text-align: right;
 }
 
-.c12 h3 {
+.c14 h3 {
   text-align: center;
 }
 
-.c1 {
+.c3 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -173,7 +191,7 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
   clear: both;
 }
 
-.c11 {
+.c13 {
   -webkit-box-flex: 2;
   -webkit-flex-grow: 2;
   -ms-flex-positive: 2;
@@ -182,14 +200,14 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
   min-width: 250px;
 }
 
-.c11 table td,
-.c11 table th {
+.c13 table td,
+.c13 table th {
   border-bottom-color: #B1B4B6;
   border-top-color: #B1B4B6;
   text-align: right;
 }
 
-.c2 {
+.c4 {
   -webkit-box-flex: 8;
   -webkit-flex-grow: 8;
   -ms-flex-positive: 8;
@@ -197,15 +215,15 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
   min-width: 290px;
 }
 
-.c2 table td:first-child,
-.c2 table th:first-child {
+.c4 table td:first-child,
+.c4 table th:first-child {
   min-width: 90px;
   text-align: left;
   padding-left: 10px !important;
 }
 
-.c2 table td,
-.c2 table th {
+.c4 table td,
+.c4 table th {
   border-top-color: #B1B4B6;
   border-bottom-color: #B1B4B6;
   text-align: right;
@@ -232,40 +250,94 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
 }
 
 @media print {
-  .c4 {
+  .c0 {
+    color: #000;
+  }
+}
+
+@media print {
+  .c0 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c4 {
+  .c0 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    margin-bottom: 20px;
+  }
+}
+
+@media print {
+  .c6 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c6 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media print {
-  .c4 {
+  .c6 {
     color: #000;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c4 {
+  .c6 {
     margin-bottom: 30px;
   }
 }
 
 @media print {
-  .c6 {
+  .c8 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c6 {
+  .c8 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c12 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c12 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c5 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c5 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
@@ -280,41 +352,13 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
 
 @media only screen and (min-width:641px) {
   .c10 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c3 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c3 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c8 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c8 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media only screen and (min-width:480px) {
-  .c1 {
+  .c3 {
     overflow-x: auto;
   }
 }
@@ -323,23 +367,28 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
     data-testid="populationPyramidTable-component"
     id="populationPyramidTable"
   >
+    <h4
+      class="c0 c1"
+    >
+      Area resident population, 2023
+    </h4>
     <section
-      class="c0"
+      class="c2"
     >
       <div
-        class="c1"
+        class="c3"
       >
         <div
-          class="c2"
+          class="c4"
         >
           <section>
             <h3
-              class="c3"
+              class="c5"
             >
               Test Area
             </h3>
             <table
-              class="c4"
+              class="c6"
             >
               <thead
                 class=""
@@ -348,17 +397,20 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
                   class=""
                 >
                   <th
-                    class="c5 c6 c7 c8"
+                    class="c7 c8 c9 c10"
+                    style="white-space: nowrap;"
                   >
                     Age range
                   </th>
                   <th
-                    class="c5 c6 c7 c8"
+                    class="c7 c8 c9 c10"
+                    style="white-space: nowrap;"
                   >
                     Male
                   </th>
                   <th
-                    class="c5 c6 c7 c8"
+                    class="c7 c8 c9 c10"
+                    style="white-space: nowrap;"
                   >
                     Female
                   </th>
@@ -371,17 +423,20 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
                   class=""
                 >
                   <td
-                    class="c9 c10"
+                    class="c11 c12"
+                    style="white-space: nowrap;"
                   >
                     0-4
                   </td>
                   <td
-                    class="c9 c10"
+                    class="c11 c12"
+                    style="white-space: nowrap;"
                   >
                     900
                   </td>
                   <td
-                    class="c9 c10"
+                    class="c11 c12"
+                    style="white-space: nowrap;"
                   >
                     1,000
                   </td>
@@ -390,17 +445,20 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
                   class=""
                 >
                   <td
-                    class="c9 c10"
+                    class="c11 c12"
+                    style="white-space: nowrap;"
                   >
                     5-9
                   </td>
                   <td
-                    class="c9 c10"
+                    class="c11 c12"
+                    style="white-space: nowrap;"
                   >
                     1,100
                   </td>
                   <td
-                    class="c9 c10"
+                    class="c11 c12"
+                    style="white-space: nowrap;"
                   >
                     1,200
                   </td>
@@ -409,17 +467,20 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
                   class=""
                 >
                   <td
-                    class="c9 c10"
+                    class="c11 c12"
+                    style="white-space: nowrap;"
                   >
                     10-14
                   </td>
                   <td
-                    class="c9 c10"
+                    class="c11 c12"
+                    style="white-space: nowrap;"
                   >
                     1,050
                   </td>
                   <td
-                    class="c9 c10"
+                    class="c11 c12"
+                    style="white-space: nowrap;"
                   >
                     1,100
                   </td>
@@ -428,17 +489,20 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
                   class=""
                 >
                   <td
-                    class="c9 c10"
+                    class="c11 c12"
+                    style="white-space: nowrap;"
                   >
                     15+
                   </td>
                   <td
-                    class="c9 c10"
+                    class="c11 c12"
+                    style="white-space: nowrap;"
                   >
                     1,250
                   </td>
                   <td
-                    class="c9 c10"
+                    class="c11 c12"
+                    style="white-space: nowrap;"
                   >
                     1,300
                   </td>
@@ -447,17 +511,17 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
                   class=""
                 >
                   <th
-                    class="c5 c6 c7 c8"
+                    class="c7 c8 c9 c10"
                   >
                     All ages
                   </th>
                   <th
-                    class="c5 c6 c7 c8"
+                    class="c7 c8 c9 c10"
                   >
                     4,300
                   </th>
                   <th
-                    class="c5 c6 c7 c8"
+                    class="c7 c8 c9 c10"
                   >
                     4,600
                   </th>
@@ -467,16 +531,16 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
           </section>
         </div>
         <div
-          class="c11"
+          class="c13"
         >
           <section>
             <h3
-              class="c3"
+              class="c5"
             >
               Group Area
             </h3>
             <table
-              class="c4"
+              class="c6"
             >
               <thead
                 class=""
@@ -485,12 +549,14 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
                   class=""
                 >
                   <th
-                    class="c5 c6 c7 c8"
+                    class="c7 c8 c9 c10"
+                    style="white-space: nowrap;"
                   >
                     Male
                   </th>
                   <th
-                    class="c5 c6 c7 c8"
+                    class="c7 c8 c9 c10"
+                    style="white-space: nowrap;"
                   >
                     Female
                   </th>
@@ -503,12 +569,14 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
                   class=""
                 >
                   <td
-                    class="c9 c10"
+                    class="c11 c12"
+                    style="white-space: nowrap;"
                   >
                     100
                   </td>
                   <td
-                    class="c9 c10"
+                    class="c11 c12"
+                    style="white-space: nowrap;"
                   >
                     1,100
                   </td>
@@ -517,12 +585,14 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
                   class=""
                 >
                   <td
-                    class="c9 c10"
+                    class="c11 c12"
+                    style="white-space: nowrap;"
                   >
                     10
                   </td>
                   <td
-                    class="c9 c10"
+                    class="c11 c12"
+                    style="white-space: nowrap;"
                   >
                     1,300
                   </td>
@@ -531,12 +601,14 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
                   class=""
                 >
                   <td
-                    class="c9 c10"
+                    class="c11 c12"
+                    style="white-space: nowrap;"
                   >
                     1,150
                   </td>
                   <td
-                    class="c9 c10"
+                    class="c11 c12"
+                    style="white-space: nowrap;"
                   >
                     1,200
                   </td>
@@ -545,12 +617,14 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
                   class=""
                 >
                   <td
-                    class="c9 c10"
+                    class="c11 c12"
+                    style="white-space: nowrap;"
                   >
                     150
                   </td>
                   <td
-                    class="c9 c10"
+                    class="c11 c12"
+                    style="white-space: nowrap;"
                   >
                     1,400
                   </td>
@@ -559,12 +633,12 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
                   class=""
                 >
                   <th
-                    class="c5 c6 c7 c8"
+                    class="c7 c8 c9 c10"
                   >
                     1,410
                   </th>
                   <th
-                    class="c5 c6 c7 c8"
+                    class="c7 c8 c9 c10"
                   >
                     5,000
                   </th>
@@ -575,16 +649,16 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
         </div>
       </div>
       <div
-        class="c12"
+        class="c14"
       >
         <section>
           <h3
-            class="c3"
+            class="c5"
           >
             Benchmark Area
           </h3>
           <table
-            class="c4"
+            class="c6"
           >
             <thead
               class=""
@@ -593,12 +667,14 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
                 class=""
               >
                 <th
-                  class="c5 c6 c7 c8"
+                  class="c7 c8 c9 c10"
+                  style="white-space: nowrap;"
                 >
                   Male
                 </th>
                 <th
-                  class="c5 c6 c7 c8"
+                  class="c7 c8 c9 c10"
+                  style="white-space: nowrap;"
                 >
                   Female
                 </th>
@@ -611,12 +687,14 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
                 class=""
               >
                 <td
-                  class="c9 c10"
+                  class="c11 c12"
+                  style="white-space: nowrap;"
                 >
                   1,100
                 </td>
                 <td
-                  class="c9 c10"
+                  class="c11 c12"
+                  style="white-space: nowrap;"
                 >
                   1,100
                 </td>
@@ -625,12 +703,14 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
                 class=""
               >
                 <td
-                  class="c9 c10"
+                  class="c11 c12"
+                  style="white-space: nowrap;"
                 >
                   1,200
                 </td>
                 <td
-                  class="c9 c10"
+                  class="c11 c12"
+                  style="white-space: nowrap;"
                 >
                   1,300
                 </td>
@@ -639,12 +719,14 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
                 class=""
               >
                 <td
-                  class="c9 c10"
+                  class="c11 c12"
+                  style="white-space: nowrap;"
                 >
                   1,150
                 </td>
                 <td
-                  class="c9 c10"
+                  class="c11 c12"
+                  style="white-space: nowrap;"
                 >
                   1,200
                 </td>
@@ -653,12 +735,14 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
                 class=""
               >
                 <td
-                  class="c9 c10"
+                  class="c11 c12"
+                  style="white-space: nowrap;"
                 >
                   1,350
                 </td>
                 <td
-                  class="c9 c10"
+                  class="c11 c12"
+                  style="white-space: nowrap;"
                 >
                   1,400
                 </td>
@@ -667,12 +751,12 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
                 class=""
               >
                 <th
-                  class="c5 c6 c7 c8"
+                  class="c7 c8 c9 c10"
                 >
                   4,800
                 </th>
                 <th
-                  class="c5 c6 c7 c8"
+                  class="c7 c8 c9 c10"
                 >
                   5,000
                 </th>
@@ -687,7 +771,7 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
       style="display: none;"
     >
       <div
-        class="c13"
+        class="c15"
       >
         ©Crown copyright 2024. Office for Health Improvement & Disparities.
         <br />
@@ -821,6 +905,22 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
   .c0 {
     margin-bottom: 32px;
   }
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
 }
 
 @media print {
