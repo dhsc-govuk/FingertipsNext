@@ -21,10 +21,10 @@ public class IndicatorsController(IDataUploadService dataUploadService, IConfigu
         
         await using var stream = file.OpenReadStream();
 
-        var status = await dataUploadService.UploadWithSdkAsync
+        var response = await dataUploadService.UploadWithSdkAsync
             (stream, file.FileName, configuration.GetValue<string>("STORAGE_CONTAINER_NAME"));
 
-        return status.Status switch
+        return response.Status switch
         {
             ResponseStatus.Success => Ok(),
             ResponseStatus.InvalidCsv => BadRequest(),
