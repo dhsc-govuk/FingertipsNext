@@ -1,25 +1,21 @@
-import {
-  SearchParamKeys,
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
+import { SearchParamKeys, SearchStateManager } from '@/lib/searchStateManager';
 import { useLoadingState } from '@/context/LoaderContext';
 import { usePathname, useRouter } from 'next/navigation';
 import { StyledFilterSelect } from '@/components/styles/StyledFilterSelect';
 import { AreaWithoutAreaType } from '@/lib/common-types';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
 interface BenchmarkSelectAreaProps {
   availableAreas: AreaWithoutAreaType[];
   benchmarkAreaSelectedKey: SearchParamKeys;
-  searchState: SearchStateParams;
 }
 
 export function BenchmarkSelectArea({
   availableAreas,
   benchmarkAreaSelectedKey,
-  searchState,
 }: Readonly<BenchmarkSelectAreaProps>) {
+  const searchState = useSearchStateParams();
   const pathname = usePathname();
   const { replace } = useRouter();
   const { setIsLoading } = useLoadingState();
