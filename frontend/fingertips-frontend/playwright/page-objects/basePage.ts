@@ -31,14 +31,6 @@ export default class BasePage {
     }
   }
 
-  async clickAndWaitForLoadState(locator: Locator) {
-    await this.page.waitForLoadState();
-
-    await locator.click();
-
-    await this.page.waitForLoadState();
-  }
-
   async clickAndAwaitLoadingComplete(locator: Locator, timeout?: number) {
     await this.page.waitForLoadState();
     await expect(this.page.getByText('Loading')).toHaveCount(0, { timeout });

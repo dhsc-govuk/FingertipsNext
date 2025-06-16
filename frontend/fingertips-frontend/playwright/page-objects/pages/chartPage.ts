@@ -16,6 +16,8 @@ import { Download, Locator, test } from '@playwright/test';
 import path from 'path';
 import fs from 'fs/promises';
 import { createDownloadPath } from '@/playwright/testHelpers/exportUtils';
+import { copyrightDateFormat } from '@/components/molecules/Export/ExportCopyright';
+import { format } from 'date-fns/format';
 
 interface VisibleComponent {
   componentLocator: string;
@@ -102,13 +104,6 @@ export default class ChartPage extends AreaFilter {
       areaMode
     );
 
-    this.logScenarioInfo(
-      indicatorMode,
-      areaMode,
-      visibleComponents,
-      hiddenComponents
-    );
-
     // get the selected area filters from the UI if selectedAreaFilters weren't defined in core_journey_config.ts due to the case being searchMode of either SearchMode.BOTH_SUBJECT_AND_AREA or SearchMode.ONLY_AREA
     if (!selectedAreaFilters) {
       selectedAreaFilters = await this.getSelectedAreaFilters();
@@ -139,32 +134,11 @@ export default class ChartPage extends AreaFilter {
 
   // click the hide filters pane before asserting visibility and taking screenshots
   private async hideFiltersPane() {
-    await this.clickAndWaitForLoadState(
+    await this.clickAndAwaitLoadingComplete(
       this.page.getByTestId('area-filter-pane-hidefilters')
     );
     await expect(this.page.getByTestId('show-filter-cta')).toHaveText(
       'Show filter'
-    );
-  }
-
-  private logScenarioInfo(
-    indicatorMode: IndicatorMode,
-    areaMode: AreaMode,
-    visibleComponents: {
-      componentLocator: string;
-      componentProps: Record<string, boolean>;
-    }[],
-    hiddenComponents: { componentLocator: string }[]
-  ) {
-    console.log(
-      `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart components: ${visibleComponents
-        .map(
-          (c) =>
-            `${c.componentLocator}(hasCI:${c.componentProps.hasConfidenceIntervals},isTab:${c.componentProps.isTabTable},hasTimePeriod:${c.componentProps.hasTimePeriodDropDown})`
-        )
-        .join(
-          ', '
-        )} are displayed and that chart components: ${hiddenComponents.map((c) => c.componentLocator).join(', ')} are not displayed.`
     );
   }
 
@@ -223,7 +197,12 @@ export default class ChartPage extends AreaFilter {
       {
         condition: checkExports && componentProps.hasSVGExport,
         action: async () =>
-          await this.verifySVGExport(component, areaMode, indicatorMode),
+          await this.verifySVGExport(
+            component,
+            areaMode,
+            indicatorMode,
+            selectedAreaFilters
+          ),
       },
       {
         condition: checkExports && componentProps.hasCSVExport,
@@ -417,38 +396,20 @@ export default class ChartPage extends AreaFilter {
     }
   }
 
-  private async verifyBenchmarkingForComponent(
-    component: VisibleComponent,
-    selectedAreaFilters: AreaFilters
+  private getBenchmarkConfig(
+    selectedAreaFilters: AreaFilters,
+    component: VisibleComponent
   ) {
-    const dropdownComponent = ChartPage.benchmarkDropDownComponent;
-    const combobox = this.page
-      .getByTestId(dropdownComponent)
-      .getByRole('combobox');
-    const options = await this.getSelectOptions(combobox);
     const upperCaseFirstCharSelectedGroup =
       selectedAreaFilters.group.charAt(0).toUpperCase() +
       selectedAreaFilters.group.slice(1);
 
-    // check benchmark dropdown defaults to England as first option in all cases
-    expect(options[0].text).toBe('England');
-
     // determine expected values based on area filters
     const isEnglandGroup =
-      selectedAreaFilters.group.toLocaleLowerCase() === 'england';
+      selectedAreaFilters.group.toLowerCase() === 'england';
     const isEnglandAreaType = selectedAreaFilters.areaType === 'england';
     const isThematicMap =
       component.componentLocator === ChartPage.thematicMapComponent;
-
-    // check benchmark dropdown options length based on group selection
-    const expectedOptionsLength = isEnglandGroup ? 1 : 2;
-    expect(options.length).toBe(expectedOptionsLength);
-
-    // set benchmark dropdown to the same group that was selected in the area filter
-    await combobox.selectOption({
-      label: upperCaseFirstCharSelectedGroup,
-    });
-    await this.waitAfterDropDownInteraction();
 
     // determine expected benchmarking text based on area filters
     const expectedSelectedOption = isEnglandGroup
@@ -459,22 +420,65 @@ export default class ChartPage extends AreaFilter {
     const expectedBenchmarkTitleText = `${benchmarkPrefix} ${expectedSelectedOption}`;
     const expectedBenchmarkTooltipText = `Benchmark: ${expectedSelectedOption}`;
 
+    return {
+      upperCaseFirstCharSelectedGroup,
+      isEnglandGroup,
+      isEnglandAreaType,
+      isThematicMap,
+      expectedSelectedOption,
+      shouldShowBenchmarkText,
+      benchmarkPrefix,
+      expectedBenchmarkTitleText,
+      expectedBenchmarkTooltipText,
+    };
+  }
+
+  private async verifyBenchmarkingForComponent(
+    component: VisibleComponent,
+    selectedAreaFilters: AreaFilters
+  ) {
+    const dropdownComponent = ChartPage.benchmarkDropDownComponent;
+    const combobox = this.page
+      .getByTestId(dropdownComponent)
+      .getByRole('combobox');
+    const options = await this.getSelectOptions(combobox);
+    const benchmarkConfig = this.getBenchmarkConfig(
+      selectedAreaFilters,
+      component
+    );
+
+    // check benchmark dropdown defaults to England as first option in all cases
+    expect(options[0].text).toBe('England');
+
+    // check benchmark dropdown options length based on group selection
+    const expectedOptionsLength = benchmarkConfig.isEnglandGroup ? 1 : 2;
+    expect(options.length).toBe(expectedOptionsLength);
+
+    // set benchmark dropdown to the same group that was selected in the area filter
+    await combobox.selectOption({
+      label: benchmarkConfig.upperCaseFirstCharSelectedGroup,
+    });
+    await this.waitAfterDropDownInteraction();
+
     // verify the correct benchmark dropdown option is now selected
     expect(await combobox.locator('option:checked').textContent()).toBe(
-      expectedSelectedOption
+      benchmarkConfig.expectedSelectedOption
     );
 
     // verify benchmark text visibility in the chart component title
-    if (shouldShowBenchmarkText) {
+    if (benchmarkConfig.shouldShowBenchmarkText) {
       await expect(
         this.page
           .getByTestId(component.componentLocator)
-          .getByText(expectedBenchmarkTitleText)
+          .getByText(benchmarkConfig.expectedBenchmarkTitleText)
           .first()
       ).toBeVisible();
       // check hover if current chart component has tooltip hovers
       if (component.componentProps.hasTooltipHovers) {
-        await this.checkHovers(component, expectedBenchmarkTooltipText);
+        await this.checkHovers(
+          component,
+          benchmarkConfig.expectedBenchmarkTooltipText
+        );
       }
     } else {
       await expect(
@@ -501,8 +505,6 @@ export default class ChartPage extends AreaFilter {
       expectedBenchmarkText !== 'Benchmark: England'
         ? 1
         : 0;
-
-    // verify benchmark text visibility in the chart hover content
     const chartPoint = this.page
       .getByTestId(component.componentLocator)
       .locator('.highcharts-point')
@@ -520,11 +522,10 @@ export default class ChartPage extends AreaFilter {
       await chartPoint.click({ force: true });
     } else {
       await chartPoint.hover();
-      await chartPoint.click();
+      await this.clickAndAwaitLoadingComplete(chartPoint);
     }
 
     await this.page.waitForTimeout(250); // small wait for tooltip to appear
-
     const hoverContent = await this.page
       .locator('div.highcharts-tooltip')
       .first()
@@ -538,7 +539,6 @@ export default class ChartPage extends AreaFilter {
     }
   }
 
-  // verifies component is visible and baseline screenshot matches
   private async verifyComponentVisibleAndScreenshotMatch(
     component: { componentLocator: string },
     testName: string
@@ -565,7 +565,6 @@ export default class ChartPage extends AreaFilter {
     }).toHaveScreenshot(`${testName}-${componentLocator}.png`);
   }
 
-  // verifies component is NOT visible
   private async verifyComponentNotVisible(component: {
     componentLocator: string;
   }) {
@@ -629,7 +628,6 @@ export default class ChartPage extends AreaFilter {
     areaMode: AreaMode,
     indicatorMode: IndicatorMode
   ): Promise<void> {
-    // Create download directory structure
     const downloadDir = createDownloadPath(
       ExportType.PNG,
       areaMode,
@@ -638,13 +636,11 @@ export default class ChartPage extends AreaFilter {
 
     await this.openExportModal(component.componentLocator);
 
-    // Assert the export modal is visible and defaults to PNG option and displays the preview
     await this.checkPNGisDefault();
 
-    // Click the PNG export option and save the file locally
     const { download } = await this.clickExportAndSaveFile(await downloadDir);
 
-    // Verify the file downloaded successfully
+    // verify the file downloaded successfully
     expect(download.suggestedFilename()).toBeDefined();
     expect(download.suggestedFilename()).toMatch(/\.png$/i);
 
@@ -654,9 +650,14 @@ export default class ChartPage extends AreaFilter {
   private async verifySVGExport(
     component: VisibleComponent,
     areaMode: AreaMode,
-    indicatorMode: IndicatorMode
+    indicatorMode: IndicatorMode,
+    selectedAreaFilters: AreaFilters
   ): Promise<void> {
-    // Create download directory structure
+    const benchmarkConfig = this.getBenchmarkConfig(
+      selectedAreaFilters,
+      component
+    );
+
     const downloadDir = createDownloadPath(
       ExportType.SVG,
       areaMode,
@@ -665,15 +666,14 @@ export default class ChartPage extends AreaFilter {
 
     await this.openExportModal(component.componentLocator);
 
-    // Assert the export modal is visible and defaults to PNG option and displays the preview
     await this.checkPNGisDefault();
 
-    // Click the SVG radio option
+    // click the SVG radio option
     await this.clickAndAwaitLoadingComplete(
       this.page.getByRole('radio', { name: 'SVG' })
     );
 
-    // Check the SVG is visible in the preview
+    // check the SVG is visible in the preview
     const exportModalPreview = this.page
       .getByTestId(ChartPage.exportModalPaneComponent)
       .getByTestId(ChartPage.exportDomContainer)
@@ -681,12 +681,13 @@ export default class ChartPage extends AreaFilter {
       .last();
     expect(exportModalPreview).toBeAttached();
 
-    // Click the SVG export option and save the file locally
+    await this.checkSVGPreview(component, exportModalPreview, benchmarkConfig);
+
     const { download, downloadPath } = await this.clickExportAndSaveFile(
       await downloadDir
     );
 
-    // Verify the file downloaded successfully
+    // verify the file downloaded successfully
     expect(download.suggestedFilename()).toBeDefined();
     expect(download.suggestedFilename()).toMatch(/\.svg$/i);
 
@@ -711,13 +712,41 @@ export default class ChartPage extends AreaFilter {
       String(expectedCsvIndicatorID)
     );
     await expect(exportModalPreview).toContainText(expectedCsvIndicatorName);
-    // Validate England area data
+    // validate England area data
     if (areaMode === AreaMode.ENGLAND_AREA) {
       expect(exportModalPreview).toContainText('England');
     }
   }
 
-  private getExpectedCSVData(
+  private async checkSVGPreview(
+    component: VisibleComponent,
+    exportModalPreview: Locator,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    benchmarkConfig: any
+  ): Promise<void> {
+    const now = new Date();
+    const svgContent = await exportModalPreview.textContent();
+
+    const copyrightText = `©Crown copyright ${now.getFullYear()}. Office for Health Improvement & Disparities.`;
+    expect(svgContent).toContain(copyrightText);
+
+    const accessText = `Public Health Profiles accessed on ${format(now, copyrightDateFormat)} www.fingertips.phe.org.uk`;
+    expect(svgContent).toContain(accessText);
+
+    if (component.componentProps.showsBenchmarkComparisons) {
+      if (benchmarkConfig.shouldShowBenchmarkText) {
+        await expect(
+          this.page.getByText(benchmarkConfig.expectedBenchmarkTitleText).last()
+        ).toBeVisible();
+      } else {
+        await expect(
+          this.page.getByText(benchmarkConfig.expectedBenchmarkTitleText).last()
+        ).not.toBeVisible();
+      }
+    }
+  }
+
+  private getExpectedData(
     component: VisibleComponent,
     selectedIndicators: SimpleIndicatorDocument[]
   ): {
@@ -744,9 +773,8 @@ export default class ChartPage extends AreaFilter {
     selectedIndicators: SimpleIndicatorDocument[]
   ): Promise<void> {
     const { expectedCsvIndicatorID, expectedCsvIndicatorName } =
-      this.getExpectedCSVData(component, selectedIndicators);
+      this.getExpectedData(component, selectedIndicators);
 
-    // Create download directory structure
     const downloadDir = createDownloadPath(
       ExportType.CSV,
       areaMode,
@@ -755,10 +783,9 @@ export default class ChartPage extends AreaFilter {
 
     await this.openExportModal(component.componentLocator);
 
-    // Assert the export modal is visible and defaults to PNG option and displays the preview
     await this.checkPNGisDefault();
 
-    // Click the CSV radio option
+    // click the CSV radio option
     await this.clickAndAwaitLoadingComplete(
       this.page.getByRole('radio', { name: 'CSV' })
     );
@@ -769,7 +796,6 @@ export default class ChartPage extends AreaFilter {
       .last();
     expect(exportModalPreview).toBeAttached();
 
-    // Check the modal preview contains the persistent CSV headers and the selected indicators
     await this.checkCSVPreview(
       exportModalPreview,
       expectedCsvIndicatorID,
@@ -777,12 +803,11 @@ export default class ChartPage extends AreaFilter {
       areaMode
     );
 
-    // Click the CSV export option and save the file locally
     const { download, downloadPath } = await this.clickExportAndSaveFile(
       await downloadDir
     );
 
-    // Verify the file downloaded successfully
+    // verify the file downloaded successfully
     expect(download.suggestedFilename()).toBeDefined();
     expect(download.suggestedFilename()).toMatch(/\.csv$/i);
 
