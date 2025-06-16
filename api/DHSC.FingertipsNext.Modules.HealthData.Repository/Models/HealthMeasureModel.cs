@@ -53,7 +53,7 @@ public class HealthMeasureModel
     public bool IsAgeAggregatedOrSingle { get; set; } = true;
 
     public bool IsDeprivationAggregatedOrSingle { get; set; } = true;
-    
+
     [NotMapped]
     public bool IsAggregate => IsAgeAggregatedOrSingle && IsSexAggregatedOrSingle && IsDeprivationAggregatedOrSingle;
 

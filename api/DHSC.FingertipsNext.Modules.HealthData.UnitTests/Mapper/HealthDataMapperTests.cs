@@ -83,7 +83,7 @@ public class HealthDataMapperTests
             }).Build();
 
         var expectedHealthData = BuildHealthDataPoint(
-            2007, expectedAgeBand, expectedSex, expectedTrend, expectedDeprivation, isAggregate:healthMeasure.IsAggregate);
+            2007, expectedAgeBand, expectedSex, expectedTrend, expectedDeprivation, isAggregate: healthMeasure.IsAggregate);
 
         // act
         var actual = _healthDataMapper.Map(healthMeasure);
