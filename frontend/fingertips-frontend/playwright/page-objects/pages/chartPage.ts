@@ -596,7 +596,16 @@ export default class ChartPage extends AreaFilter {
     const filename = download.suggestedFilename();
     const downloadPath = path.join(downloadDir, filename);
 
+    // move the downloaded file to the specified directory
     await download.saveAs(downloadPath);
+
+    // Delete the original download if it exists
+    try {
+      await download.delete();
+    } catch {
+      // Ignore if already deleted or doesn't exist
+    }
+
     return { download, downloadPath };
   }
 
@@ -678,7 +687,7 @@ export default class ChartPage extends AreaFilter {
       .getByTestId(ChartPage.exportModalPaneComponent)
       .getByTestId(ChartPage.exportDomContainer)
       .locator('svg')
-      .last();
+      .first();
     expect(exportModalPreview).toBeAttached();
 
     await this.checkSVGPreview(component, exportModalPreview, benchmarkConfig);
@@ -693,8 +702,12 @@ export default class ChartPage extends AreaFilter {
 
     // validate that the SVG file content matches the modal preview
     const svgFileContent = await fs.readFile(downloadPath, 'utf-8');
-    const previewSVG = await exportModalPreview.innerHTML();
-    expect(svgFileContent).toMatch(previewSVG);
+    expect(svgFileContent).toMatch(
+      await this.page
+        .getByTestId(ChartPage.exportModalPaneComponent)
+        .getByTestId(ChartPage.exportDomContainer)
+        .innerHTML()
+    );
 
     await this.closeExportModal();
   }
