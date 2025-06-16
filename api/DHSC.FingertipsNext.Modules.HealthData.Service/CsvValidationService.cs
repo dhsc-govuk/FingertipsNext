@@ -4,6 +4,6 @@ public class CsvValidationService : IValidationService
 {
     public bool IsValid(Stream input)
     {
-        return input is { Length: > 0 };
+        return input is {Length: > 0};  
     }
 }
