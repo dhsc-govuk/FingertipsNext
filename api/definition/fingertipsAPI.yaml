@@ -8,8 +8,6 @@ info:
 servers:
   - url: https://fingertips-next-api/1.0.0
     description: SwaggerHub API Auto Mocking
-  - url: http://localhost:5144
-    description: localhost
 tags:
   - name: indicators
     description: Endpoints dealing with public health indicators
