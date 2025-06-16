@@ -140,7 +140,9 @@ public class HealthDataMapper : IHealthDataMapper
             IndicatorId = source.IndicatorId,
             Polarity = source.Polarity == null ? null : MapIndicatorPolarity(source.Polarity),
             Year = source.Year,
-            DatePeriod = Map((DateTime)source.FromDate, (DateTime)source.ToDate, (string)source.Period),
+            DatePeriod = (source.FromDate.HasValue && source.ToDate.HasValue && source.Period != null)
+                ? Map(source.FromDate.Value, source.ToDate.Value, source.Period)
+                : null!,
             Q0Value = source.Q0Value,
             Q1Value = source.Q1Value,
             Q2Value = source.Q2Value,
