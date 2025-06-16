@@ -12,9 +12,7 @@
 
 # testing
 /coverage
-.test/spec/exports/png/*/*/**.png
-.test/spec/exports/csv/*/*/**.csv
-.test/spec/exports/svg/*/*/**.svg
+.test/spec/exports/**
 
 # next.js
 /.next/
