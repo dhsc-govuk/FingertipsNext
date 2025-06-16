@@ -23,6 +23,8 @@ services:
         condition: service_completed_successfully
       db-apply-trends:
         condition: service_completed_successfully
+      storage:
+        condition: service_started
 
     build: api
     environment:
@@ -31,6 +33,9 @@ services:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       TRUST_CERT: "True"
+      # These are the publicly-available connection details for the Azurite storage emulator.
+      # DO NOT commit the details of an actual Azure Storage account here!
+      STORAGE_CONNECTION_STRING: "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://storage:10000/devstoreaccount1;"
     ports:
       - 5144:8080
     healthcheck:
@@ -85,3 +90,14 @@ services:
       - 1433:1433
     volumes:
       - ./DataCreator/DataCreator/data/out:/var/opt/mssql/csv/
+
+  storage:
+    profiles:
+      - all
+      - api
+      - storage
+
+    image: mcr.microsoft.com/azure-storage/azurite
+    command: azurite-blob # Run only the blob storage service
+    ports:
+      - 10000:10000
