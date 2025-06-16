@@ -14,9 +14,8 @@ public class DataUploadService(BlobServiceClient blobServiceClient) : IDataUploa
         {
             await blobClient.UploadAsync(fileStream, true);
         }
-        catch (RequestFailedException exception)
+        catch (RequestFailedException _)
         {
-            Console.WriteLine("error is here " + exception.Message);
             return new ServiceResponse<bool> { Status = ResponseStatus.Unknown, Content = false };
         }
         
