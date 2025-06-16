@@ -42,7 +42,7 @@ Indicator:
     period_types:
       type: array
       items:
-        $ref: "#/components/schemas/PeriodType"
+        $ref: "#/PeriodType"
       description: The period types that the indicator holds data for      
 IndicatorWithHealthDataForArea:
   title: Indicator With Health Data For Area
