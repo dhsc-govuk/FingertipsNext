@@ -5,7 +5,6 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 internal sealed class HealthMeasureModelHelper(
     int key = 1,
     short year = 2025,
-    bool isAggregate = true,
     double? count = 1.0,
     double? value = 1.0,
     double? lowerCi = 1.0,
