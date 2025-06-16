@@ -62,8 +62,6 @@ jobs:
         run: npm ci
 
       - name: Create .env file for db-setup - for CI test execution
-        # Note: The below storage account connection string uses the publicly-available connection details for the Azurite storage emulator.
-        # DO NOT commit the details of an actual Azure Storage account here!
         run: |
           echo "DB_PASSWORD=${{ secrets.fingertips_e2e_db_password }}" > .env
           echo "DB_NAME=fingertips" >> .env
