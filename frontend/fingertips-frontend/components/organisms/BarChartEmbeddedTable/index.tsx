@@ -63,10 +63,12 @@ export function BarChartEmbeddedTable({
   const { unitLabel: measurementUnit, dataSource } = indicatorMetadata ?? {};
 
   const maxValue = getMaxValue(healthIndicatorData);
+
   const fullYear = getLatestYearWithBenchmarks(
     healthIndicatorData,
     englandData,
-    groupIndicatorData
+    groupIndicatorData,
+    benchmarkToUse
   );
 
   const tableRows: BarChartEmbeddedTableRow[] = healthIndicatorData.map(
