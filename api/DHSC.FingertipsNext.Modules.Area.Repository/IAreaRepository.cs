@@ -8,7 +8,7 @@ namespace DHSC.FingertipsNext.Modules.Area.Repository;
 public interface IAreaRepository
 {
     /// <summary>
-    ///
+    /// Gets all hierarchies from the database.
     /// </summary>
     /// <returns></returns>
     Task<IList<string>> GetHierarchiesAsync();
@@ -21,11 +21,17 @@ public interface IAreaRepository
     Task<IList<AreaModel>> GetMultipleAreaDetailsAsync(string[] areaCodes);
 
     /// <summary>
-    ///
+    /// Gets all area types from the database matching given hierarchy type.
     /// </summary>
     /// <param name="hierarchyType"></param>
     /// <returns></returns>
     Task<IList<AreaTypeModel>> GetAreaTypesAsync(string hierarchyType);
+
+    /// <summary>
+    /// Gets all area types from the database.
+    /// </summary>
+    /// <returns></returns>
+    Task<IList<AreaTypeModel>> GetAllAreaTypesAsync();
 
     /// <summary>
     /// Get the full details of a given area, including its parent, optionally including its children.
@@ -37,12 +43,12 @@ public interface IAreaRepository
     /// <param name="childAreaType">Optional. Functions only when include_children is true. The type of area to
     /// request children for. If no child area type is supplied, or is empty/white space then the direct child areas
     /// will be retrieved.</param>
-    /// <returns>The requested area, or null if it cannot be located.</returns>
-    Task<AreaWithRelationsModel> GetAreaAsync(
+    /// <returns>The requested area or null if one can't be found.</returns>
+    Task<AreaWithRelationsModel?> GetAreaAsync(
         string areaCode,
         bool includeChildren,
         bool includeSiblings,
-        string childAreaType
+        string? childAreaType
     );
 
     /// <summary>

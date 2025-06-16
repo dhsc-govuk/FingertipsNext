@@ -1,0 +1,46 @@
+hierarchy_type:
+  in: query
+  name: hierarchy_type
+  style: form
+  schema:
+    type: string
+    example: NHS
+  description: The name of the hierarchy type
+area_type_key:
+  in: path
+  name: area_type_key
+  style: simple
+  schema:
+    type: string
+    example: nhs-region
+  explode: false
+  required: true
+  description: The area type key
+area_code:
+  in: path
+  name: area_code
+  style: simple
+  schema:
+    type: string
+    example: G82109
+  explode: false
+  required: true
+  description: The area code of the area/ geography
+include_children:
+  in: query
+  name: include_children
+  description: include the child areas
+  schema:
+    type: boolean
+include_siblings:
+  in: query
+  name: include_siblings
+  description: include the sibling areas
+  schema:
+    type: boolean
+child_area_type:
+  in: query
+  name: child_area_type
+  description: the area_type of descendants to be returned
+  schema:
+    type: string

@@ -86,7 +86,6 @@ export default async function OneIndicatorOneAreaView({
       <OneIndicatorOneAreaViewPlots
         key={`OneIndicatorOneAreaViewPlots-${JSON.stringify(searchState)}`}
         indicatorData={indicatorData}
-        searchState={searchState}
         indicatorMetadata={selectedIndicatorsData?.[0]}
       />
     </ViewsWrapper>
