@@ -1,5 +1,4 @@
-﻿using Azure.Identity;
-using Azure.Storage.Blobs;
+﻿using System.Net.Http.Headers;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using DHSC.FingertipsNext.Modules.HealthData.Repository;
@@ -20,10 +19,11 @@ public class HealthDataModule : AbstractMonolithModule, IMonolithModule
     {
         services.AddTransient<IIndicatorsService, IndicatorService>();
         services.AddTransient<IHealthDataRepository, HealthDataRepository>();
-        services.AddTransient<IDataUploadService, DataUploadService>();
         services.AddSingleton<IHealthDataMapper, HealthDataMapper>();
+        services.AddTransient<IValidationService, CsvValidationService>();
         RegisterDbContext(services, configuration);
         RegisterAzureClients(services, configuration);
+        RegisterHttpClient(services, configuration);
     }
     
     private static void RegisterAzureClients(IServiceCollection services, IConfiguration configuration)
@@ -41,6 +41,29 @@ public class HealthDataModule : AbstractMonolithModule, IMonolithModule
 
             // DefaultAzureCredential credential = new();
             // clientBuilder.UseCredential(credential);
+        });
+    }
+
+    private static void RegisterHttpClient(IServiceCollection services, IConfiguration configuration)
+    {
+        const string storageContainerUrlEnvVar = "STORAGE_CONTAINER_URL";
+        const string storageContainerNameEnvVar = "STORAGE_CONTAINER_NAME";
+        const string storageAccountNameEnvVar = "STORAGE_ACCOUNT_NAME";
+        const string storageAccountKeyEnvVar = "STORAGE_ACCOUNT_KEY";
+        
+        var storageContainerUrl = GetEnvironmentValue(configuration, storageContainerUrlEnvVar);
+        var storageContainerName = GetEnvironmentValue(configuration, storageContainerNameEnvVar);
+        var storageAccountName = GetEnvironmentValue(configuration, storageAccountNameEnvVar);
+        var  storageAccountKey = GetEnvironmentValue(configuration, storageAccountKeyEnvVar);
+        
+        services.AddHttpClient<IDataUploadService, DataUploadService>(client =>
+        {
+            client.BaseAddress = new Uri($"{storageContainerUrl}/{storageContainerName}");
+            client.DefaultRequestHeaders.Authorization = 
+                AuthenticationHeaderValue.Parse($"SharedKey {storageAccountName}:{storageAccountKey}");
+            client.DefaultRequestHeaders.Add("x-ms-date", DateTimeOffset.UtcNow.ToString("R"));
+            client.DefaultRequestHeaders.Add("x-ms-version", "2015-02-21");
+            client.DefaultRequestHeaders.Add("x-ms-blob-type", "BlockBlob");
         });
     }
 

@@ -31,4 +31,26 @@ public class IndicatorsController(IDataUploadService dataUploadService, IConfigu
             _ => StatusCode(500)
         };
     }
+
+    [HttpPost]
+    [Route("upload_rest")]
+    public async Task<IActionResult> UploadWithHttp(IFormFile? file)
+    {
+        if (file == null || file.Length == 0) return BadRequest();
+        
+        await using var stream = file.OpenReadStream();
+
+        var accountName = configuration.GetValue<string>("STORAGE_ACCOUNT_NAME");
+        var containerName = configuration.GetValue<string>("STORAGE_CONTAINER_NAME");
+        var accountKey = configuration.GetValue<string>("STORAGE_ACCOUNT_KEY");
+        
+        var response = await dataUploadService.UploadWithRestAsync(stream, accountName, containerName, file.FileName, accountKey);
+
+        return response.Status switch
+        {
+            ResponseStatus.Success => Ok(),
+            ResponseStatus.InvalidCsv => BadRequest(),
+            _ => StatusCode(500)
+        };
+    }
 }
