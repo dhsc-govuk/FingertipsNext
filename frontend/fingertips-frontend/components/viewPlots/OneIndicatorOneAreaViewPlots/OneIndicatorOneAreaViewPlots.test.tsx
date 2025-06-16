@@ -1,10 +1,8 @@
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { SearchParams } from '@/lib/searchStateManager';
 import { OneIndicatorOneAreaViewPlots } from '.';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { act, render, screen, waitFor, within } from '@testing-library/react';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { SearchStateContext } from '@/context/SearchStateContext';
 import { LoaderContext } from '@/context/LoaderContext';
 
 jest.mock('next/navigation', () => {
@@ -27,16 +25,6 @@ jest.mock('@/context/LoaderContext', () => {
   };
 });
 
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: jest.fn(),
-  setSearchState: jest.fn(),
-};
-jest.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
-
 const mockMetaData = {
   indicatorID: '108',
   indicatorName: 'pancakes eaten',
@@ -52,12 +40,13 @@ const mockMetaData = {
 const mockSearch = 'test';
 const mockIndicator = ['108'];
 const mockAreas = ['A001'];
-
-const searchState: SearchStateParams = {
-  [SearchParams.SearchedIndicator]: mockSearch,
-  [SearchParams.IndicatorsSelected]: mockIndicator,
-  [SearchParams.AreasSelected]: mockAreas,
-};
+jest.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => ({
+    [SearchParams.SearchedIndicator]: mockSearch,
+    [SearchParams.IndicatorsSelected]: mockIndicator,
+    [SearchParams.AreasSelected]: mockAreas,
+  }),
+}));
 
 const testHealthData: IndicatorWithHealthDataForArea = {
   areaHealthData: [mockHealthData['108'][0], mockHealthData['108'][1]],
@@ -73,7 +62,6 @@ describe('OneIndicatorOneAreaViewPlots', () => {
       render(
         <OneIndicatorOneAreaViewPlots
           indicatorData={testHealthData}
-          searchState={searchState}
           indicatorMetadata={mockMetaData}
         />
       )
@@ -100,7 +88,6 @@ describe('OneIndicatorOneAreaViewPlots', () => {
       render(
         <OneIndicatorOneAreaViewPlots
           indicatorData={testHealthData}
-          searchState={searchState}
           indicatorMetadata={mockMetaData}
         />
       )
@@ -128,21 +115,10 @@ describe('OneIndicatorOneAreaViewPlots', () => {
   });
 
   it('should render the LineChart components in the special case that England is the only area', async () => {
-    const mockSearch = 'test';
-    const mockIndicator = ['108'];
-    const mockAreas = [areaCodeForEngland];
-
-    const searchState: SearchStateParams = {
-      [SearchParams.SearchedIndicator]: mockSearch,
-      [SearchParams.IndicatorsSelected]: mockIndicator,
-      [SearchParams.AreasSelected]: mockAreas,
-    };
-
     await act(() =>
       render(
         <OneIndicatorOneAreaViewPlots
           indicatorData={{ areaHealthData: [mockHealthData['108'][0]] }}
-          searchState={searchState}
           indicatorMetadata={mockMetaData}
         />
       )
@@ -177,7 +153,6 @@ describe('OneIndicatorOneAreaViewPlots', () => {
       render(
         <OneIndicatorOneAreaViewPlots
           indicatorData={testHealthData}
-          searchState={searchState}
           indicatorMetadata={mockMetaData}
         />
       )
@@ -203,7 +178,6 @@ describe('OneIndicatorOneAreaViewPlots', () => {
       render(
         <OneIndicatorOneAreaViewPlots
           indicatorData={MOCK_DATA}
-          searchState={searchState}
           indicatorMetadata={mockMetaData}
         />
       )
@@ -232,7 +206,6 @@ describe('OneIndicatorOneAreaViewPlots', () => {
       render(
         <OneIndicatorOneAreaViewPlots
           indicatorData={testHealthData}
-          searchState={searchState}
           indicatorMetadata={mockMetaData}
         />
       )

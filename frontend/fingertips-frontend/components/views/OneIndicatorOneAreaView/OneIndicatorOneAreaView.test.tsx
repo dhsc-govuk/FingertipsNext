@@ -180,6 +180,5 @@ describe('OneIndicatorOneAreaView', () => {
 
     const page = await OneIndicatorOneAreaView({ searchState: searchState });
     expect(page.props.children.props.indicatorData).toEqual(mockIndicator);
-    expect(page.props.children.props.searchState).toEqual(searchState);
   });
 });

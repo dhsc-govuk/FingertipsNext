@@ -129,7 +129,6 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
       <BenchmarkSelectArea
         availableAreas={availableAreasForBenchmarking}
         benchmarkAreaSelectedKey={SearchParams.BenchmarkAreaSelected}
-        searchState={searchState}
       />
       {shouldShowSpineChart(
         areaCodes,

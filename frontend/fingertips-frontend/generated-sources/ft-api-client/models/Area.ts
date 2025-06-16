@@ -22,7 +22,7 @@ import {
 } from './AreaType';
 
 /**
- * A area or geography that has associated public health data
+ * An area or geography that has associated public health data
  * @export
  * @interface Area
  */

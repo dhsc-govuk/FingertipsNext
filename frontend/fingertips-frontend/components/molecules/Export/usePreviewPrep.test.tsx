@@ -10,9 +10,15 @@ jest.mock('@/components/molecules/Export/exportHelpers', () => ({
   getHtmlToImageCanvas: jest.fn(() => {
     return Promise.resolve({ nodeName: 'CANVAS' });
   }),
-  getSvgFromOptions: jest.fn(() => '<svg></svg>'),
   svgStringToDomElement: jest.fn(() => document.createElement('svg')),
 }));
+
+jest.mock(
+  '@/components/molecules/Export/helpers/svgStringFromChartOptions',
+  () => ({
+    svgStringFromChartOptions: jest.fn(() => '<svg></svg>'),
+  })
+);
 
 const createWrapper = () => {
   const client = new QueryClient({
@@ -63,7 +69,7 @@ describe('usePreviewPrep', () => {
     );
 
     await waitFor(() => result.current.isSuccess);
-    expect(result.current.element?.nodeName).toBe('SVG');
+    expect(result.current.element?.nodeName).toBe('svg');
     expect(result.current.text).toBe('<svg></svg>');
   });
 
