@@ -1,7 +1,7 @@
 import { FC, useEffect, useRef } from 'react';
 
 interface DomContainerProps {
-  data?: HTMLElement | HTMLCanvasElement;
+  data?: HTMLElement | HTMLCanvasElement | SVGSVGElement;
 }
 
 export const DomContainer: FC<DomContainerProps> = ({ data }) => {
