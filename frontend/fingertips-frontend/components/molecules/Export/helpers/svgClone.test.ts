@@ -1,9 +1,9 @@
 import { svgClone } from '@/components/molecules/Export/helpers/svgClone';
-import { ElementInfo } from '@/components/molecules/Export/export.types'; // adjust import path
+import { ElementInfo } from '@/components/molecules/Export/export.types';
 
 describe('svgClone', () => {
   beforeEach(() => {
-    document.body.innerHTML = ''; // Clear DOM before each test
+    document.body.innerHTML = '';
   });
 
   it('should clone the element and return correct width and height', () => {
