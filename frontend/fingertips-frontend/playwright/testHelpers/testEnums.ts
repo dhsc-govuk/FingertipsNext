@@ -50,4 +50,13 @@ export interface TestParams {
   indicatorsToSelect: IndicatorInfo[];
   subjectSearchTerm?: string;
   areaFiltersToSelect?: AreaFilters;
+  checkExports?: boolean;
+}
+
+export enum PersistentCsvHeaders {
+  IndicatorId = 'Indicator ID',
+  IndicatorName = 'Indicator name',
+  Period = 'Period',
+  Area = 'Area',
+  AreaCode = 'Area code',
 }

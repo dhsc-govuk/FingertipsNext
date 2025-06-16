@@ -244,7 +244,7 @@ test.describe('Area Filter Tests', () => {
       ];
 
       await test
-        .expect(resultsPage.areaFilterPills())
+        .expect(await resultsPage.areaFilterPills())
         .toHaveCount(expectedPillTexts.length);
 
       const filterPillNames = await resultsPage.areaFilterPillsText();
@@ -265,7 +265,7 @@ test.describe('Area Filter Tests', () => {
       ];
 
       await test
-        .expect(resultsPage.areaFilterPills())
+        .expect(await resultsPage.areaFilterPills())
         .toHaveCount(expectedRemainingPills.length);
 
       const remainingPillNames = await resultsPage.areaFilterPillsText();

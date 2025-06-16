@@ -127,7 +127,7 @@ export function OneIndicatorOneAreaViewPlots({
             id="lineChartAndTable"
             items={[
               {
-                id: 'lineChart',
+                id: `${LineChartVariant.Standard}LineChart`,
                 title: 'Line chart',
                 content: (
                   <LineChart

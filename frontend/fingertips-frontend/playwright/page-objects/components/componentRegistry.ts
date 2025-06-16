@@ -5,6 +5,8 @@ export const allComponents: ComponentDefinition[] = [
   {
     componentLocator: ChartPage.lineChartComponent,
     componentProps: {
+      hasPNGExport: true,
+      hasSVGExport: true,
       showsBenchmarkComparisons: true,
       hasTooltipHovers: true,
       hasConfidenceIntervals: true,
@@ -13,6 +15,8 @@ export const allComponents: ComponentDefinition[] = [
   {
     componentLocator: ChartPage.lineChartTableComponent,
     componentProps: {
+      hasPNGExport: true,
+      hasCSVExport: true,
       isTabTable: true,
       hasRecentTrend: true,
       showsBenchmarkComparisons: true,
@@ -21,6 +25,8 @@ export const allComponents: ComponentDefinition[] = [
   {
     componentLocator: ChartPage.inequalitiesBarChartComponent,
     componentProps: {
+      hasPNGExport: true,
+      hasSVGExport: true,
       hasConfidenceIntervals: true,
     },
   },
@@ -42,39 +48,51 @@ export const allComponents: ComponentDefinition[] = [
   {
     componentLocator: ChartPage.inequalitiesLineChartComponent,
     componentProps: {
-      hasConfidenceIntervals: true,
+      hasPNGExport: true,
+      hasSVGExport: true,
       hasInequalityTypeDropDown: true,
       isWideComponent: true,
       selectDeprivationInequality: true,
+      hasConfidenceIntervals: true,
     },
   },
   {
     componentLocator: ChartPage.inequalitiesBarChartTableComponent,
     componentProps: {
+      hasPNGExport: true,
+      hasCSVExport: true,
       isTabTable: true,
     },
   },
   {
     componentLocator: ChartPage.inequalitiesLineChartTableComponent,
     componentProps: {
+      hasPNGExport: true,
+      hasCSVExport: true,
       isTabTable: true,
     },
   },
   {
-    componentLocator: ChartPage.populationPyramidComponent,
+    componentLocator: ChartPage.populationPyramidChartComponent,
     componentProps: {
+      hasPNGExport: true,
+      hasSVGExport: true,
       hasDetailsExpander: true,
     },
   },
   {
     componentLocator: ChartPage.populationPyramidTableComponent,
     componentProps: {
+      hasPNGExport: true,
+      hasCSVExport: true,
       isTabTable: true,
     },
   },
   {
     componentLocator: ChartPage.thematicMapComponent,
     componentProps: {
+      hasPNGExport: true,
+      hasSVGExport: true,
       showsBenchmarkComparisons: true,
       hasTooltipHovers: true,
     },
@@ -82,6 +100,8 @@ export const allComponents: ComponentDefinition[] = [
   {
     componentLocator: ChartPage.barChartEmbeddedTableComponent,
     componentProps: {
+      hasPNGExport: true,
+      hasCSVExport: true,
       hasRecentTrend: true,
       showsBenchmarkComparisons: true,
       hasTooltipHovers: true,
@@ -91,12 +111,16 @@ export const allComponents: ComponentDefinition[] = [
   {
     componentLocator: ChartPage.basicTableComponent,
     componentProps: {
+      hasPNGExport: true,
+      hasCSVExport: true,
       hasRecentTrend: true,
     },
   },
   {
     componentLocator: ChartPage.heatMapComponent,
     componentProps: {
+      hasPNGExport: true,
+      hasCSVExport: true,
       isWideComponent: true,
       showsBenchmarkComparisons: true,
       hasTooltipHovers: true,
@@ -105,6 +129,8 @@ export const allComponents: ComponentDefinition[] = [
   {
     componentLocator: ChartPage.spineChartTableComponent,
     componentProps: {
+      hasPNGExport: true,
+      hasCSVExport: true,
       isWideComponent: true,
       hasRecentTrend: true,
       showsBenchmarkComparisons: true,

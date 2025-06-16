@@ -110,11 +110,12 @@ export function InequalitiesLineChartTable({
     filteredRowData,
     indicatorMetadata
   );
+  const id = 'inequalitiesLineChartTable';
 
   return (
     <>
-      <StyledDivWithScrolling data-testid="inequalitiesLineChartTable-component">
-        <div id="inequalitiesTrendTable">
+      <StyledDivWithScrolling data-testid={`${id}-component`}>
+        <div id={id}>
           <ChartTitle>{title}</ChartTitle>
           <StyledTable
             head={
@@ -125,7 +126,7 @@ export function InequalitiesLineChartTable({
                     {indicatorMetadata?.unitLabel ? (
                       <span
                         style={{ display: 'block', marginTop: '10px' }}
-                        data-testid="inequalitiesLineChartTable-measurementUnit"
+                        data-testid={`${id}-measurementUnit`}
                       >
                         Value: {indicatorMetadata.unitLabel}
                       </span>
@@ -161,10 +162,7 @@ export function InequalitiesLineChartTable({
           </ExportOnlyWrapper>
         </div>
       </StyledDivWithScrolling>
-      <ExportOptionsButton
-        targetId={'inequalitiesTrendTable'}
-        csvData={csvData}
-      />
+      <ExportOptionsButton targetId={id} csvData={csvData} />
     </>
   );
 }

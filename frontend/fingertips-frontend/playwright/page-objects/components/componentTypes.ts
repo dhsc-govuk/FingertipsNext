@@ -7,8 +7,11 @@ export type BaseComponentProps = {
   isWideComponent?: boolean;
   hasRecentTrend?: boolean;
   showsBenchmarkComparisons?: boolean;
-  hasTooltipHovers?: boolean;
   selectDeprivationInequality?: boolean;
+  hasPNGExport?: boolean;
+  hasSVGExport?: boolean;
+  hasCSVExport?: boolean;
+  hasTooltipHovers?: boolean;
 };
 
 export type ComponentDefinition = {
