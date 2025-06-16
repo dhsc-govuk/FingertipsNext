@@ -45,7 +45,7 @@ public interface IIndicatorsService
     /// <returns>
     ///     <c>IndicatorWithHealthDataForArea</c> matching the criteria
     /// </returns>
-    Task<IEnumerable<IndicatorQuartileData>> GetQuartileDataAsync(
+    Task<IEnumerable<IndicatorQuartileData>?> GetQuartileDataAsync(
         IEnumerable<int> indicatorIds,
         string areaCode,
         string areaType,

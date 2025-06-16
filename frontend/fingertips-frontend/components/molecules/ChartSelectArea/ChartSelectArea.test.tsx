@@ -56,7 +56,6 @@ describe('ChartSelectArea', () => {
       <ChartSelectArea
         availableAreas={mockAvailableAreas}
         chartAreaSelectedKey={SearchParams.InequalityBarChartAreaSelected}
-        searchState={{}}
       />
     );
 
@@ -77,7 +76,6 @@ describe('ChartSelectArea', () => {
       <ChartSelectArea
         availableAreas={mockAvailableAreas}
         chartAreaSelectedKey={SearchParams.InequalityBarChartAreaSelected}
-        searchState={{ [SearchParams.InequalityBarChartAreaSelected]: 'A002' }}
       />
     );
 
@@ -99,7 +97,6 @@ describe('ChartSelectArea', () => {
       <ChartSelectArea
         availableAreas={mockAvailableAreas}
         chartAreaSelectedKey={SearchParams.InequalityLineChartAreaSelected}
-        searchState={{}}
       />
     );
 

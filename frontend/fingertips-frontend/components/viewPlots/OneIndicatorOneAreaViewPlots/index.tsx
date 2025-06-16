@@ -28,6 +28,7 @@ import {
   LineChartVariant,
 } from '@/components/organisms/LineChart/helpers/generateStandardLineChartOptions';
 import Highcharts from 'highcharts';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
 function shouldLineChartBeShown(
   dataWithoutEnglandOrGroup: HealthDataForArea[],
@@ -41,14 +42,13 @@ function shouldLineChartBeShown(
 
 export function OneIndicatorOneAreaViewPlots({
   indicatorData,
-  searchState,
   indicatorMetadata,
 }: Readonly<OneIndicatorViewPlotProps>) {
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.BenchmarkAreaSelected]: benchmarkAreaSelected,
-  } = searchState;
+  } = useSearchStateParams();
 
   const areaCodes = determineAreaCodes(areasSelected);
 
@@ -116,7 +116,6 @@ export function OneIndicatorOneAreaViewPlots({
       <BenchmarkSelectArea
         availableAreas={availableAreasForBenchmarking}
         benchmarkAreaSelectedKey={SearchParams.BenchmarkAreaSelected}
-        searchState={searchState}
       />
       {shouldLineChartBeShown(
         areaDataWithoutInequalities,
@@ -161,7 +160,6 @@ export function OneIndicatorOneAreaViewPlots({
       )}
       <Inequalities
         healthIndicatorData={healthIndicatorData}
-        searchState={searchState}
         indicatorMetadata={indicatorMetadata}
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}

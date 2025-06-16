@@ -7,9 +7,10 @@ export enum ExportType {
   CSV = 'csv',
 }
 
-export interface ExportDownload {
-  canvas?: HTMLCanvasElement;
-  svg?: string;
+export interface ElementInfo {
+  element?: HTMLElement | SVGSVGElement;
+  width: number;
+  height: number;
 }
 
 export enum CsvHeader {

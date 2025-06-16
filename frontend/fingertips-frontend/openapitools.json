@@ -6,7 +6,7 @@
     "generators": {
       "v1.0": {
         "generatorName": "typescript-fetch",
-        "inputSpec": "./../../api/definition/swagger.yaml",
+        "inputSpec": "./../../api/definition/fingertipsAPI.yaml",
         "output": "generated-sources/ft-api-client",
         "additionalProperties": {
           "supportsES6": true,
