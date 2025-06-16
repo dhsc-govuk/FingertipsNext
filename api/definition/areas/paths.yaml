@@ -1,0 +1,126 @@
+hierarchies:
+  get:
+    tags:
+      - areas
+    summary: Get hierarchies
+    description: Get all available hierarchy types
+    operationId: getAreaHierarchies
+    responses:
+      "200":
+        description: The available hierarchy types, e.g. NHS or Administrative
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+      "500":
+        $ref: "../responses.yaml#/InternalServerError"
+areatypes:
+  get:
+    tags:
+      - areas
+    summary: Get area types
+    description: Get area types, optionally filtering by hierarchy type
+    operationId: getAreaTypes
+    parameters:
+      - $ref: "./parameters.yaml#/hierarchy_type"
+    responses:
+      "200":
+        description: The available area types e.g. ICB, PCN or GP Surgery, together with related data
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "./schemas.yaml#/AreaType"
+      "500":
+        $ref: "../responses.yaml#/InternalServerError"
+areas_by_area_type:
+  get:
+    tags:
+      - areas
+    summary: Get member areas for an area type
+    description: Get the areas that have a given area type
+    operationId: getAreaTypeMembers
+    parameters:
+      - $ref: "./parameters.yaml#/area_type_key"
+    responses:
+      "200":
+        description: The available areas for the area type
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "./schemas.yaml#/Area"
+      "404":
+        $ref: "../responses.yaml#/NotFound"
+      "500":
+        $ref: "../responses.yaml#/InternalServerError"
+area_by_area_code:
+  get:
+    tags:
+      - areas
+    summary: Get single area
+    description: Get the full details of a given area, including it's parents, optionally including it's children, siblings and cousins
+    operationId: getArea
+    parameters:
+      - $ref: "./parameters.yaml#/area_code"
+      - $ref: "./parameters.yaml#/include_children"
+      - $ref: "./parameters.yaml#/include_siblings"
+      - $ref: "./parameters.yaml#/child_area_type"
+    responses:
+      "200":
+        description: The area node
+        content:
+          application/json:
+            schema:
+              $ref: "schemas.yaml#/AreaWithRelations"
+      "404":
+        $ref: "../responses.yaml#/NotFound"
+      "500":
+        $ref: "../responses.yaml#/InternalServerError"
+areas:
+  get:
+    tags:
+      - areas
+    summary: Get multiple areas
+    description:
+      Get the basic details without children, parent relationships etc.
+      for 1 or more areas. Will return duplicate of areas that are applicable to multiple areaTypes.
+    operationId: getAreas
+    parameters:
+      - $ref: "../parameters.yaml#/area_codes"
+    responses:
+      "200":
+        description: A list of the basic area details for each of the requested area codes.
+        content:
+          application/json:
+            schema:
+              type: array
+              maxItems: 300
+              items:
+                $ref: "schemas.yaml#/Area"
+      "400":
+        $ref: "../responses.yaml#/BadRequest"
+      "404":
+        $ref: "../responses.yaml#/NotFound"
+      "500":
+        $ref: "../responses.yaml#/InternalServerError"
+root:
+  get:
+    tags:
+      - areas
+    summary: Get root
+    description: Get the root node of the area hierarchy
+    operationId: getAreaRoot
+    responses:
+      "200":
+        description: The root area node
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas.yaml#/RootArea"
+      "500":
+        $ref: "../responses.yaml#/InternalServerError"
