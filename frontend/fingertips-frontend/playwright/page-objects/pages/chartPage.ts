@@ -1,11 +1,11 @@
 import {
   AreaFilters,
   AreaMode,
+  customEncodeURIComponent,
   getScenarioConfig,
   IndicatorMode,
-  SimpleIndicatorDocument,
-  customEncodeURIComponent,
   PersistentCsvHeaders,
+  SimpleIndicatorDocument,
 } from '@/playwright/testHelpers';
 import { ComponentDefinition } from '../components/componentTypes';
 import { expect } from '../pageFactory';
@@ -18,6 +18,7 @@ import fs from 'fs/promises';
 import { createDownloadPath } from '@/playwright/testHelpers/exportUtils';
 import { copyrightDateFormat } from '@/components/molecules/Export/ExportCopyright';
 import { format } from 'date-fns/format';
+import { XMLParser } from 'fast-xml-parser';
 
 interface VisibleComponent {
   componentLocator: string;
@@ -676,9 +677,7 @@ export default class ChartPage extends AreaFilter {
     // check the SVG is visible in the preview
     const exportModalPreview = this.page
       .getByTestId(ChartPage.exportModalPaneComponent)
-      .getByTestId(ChartPage.exportDomContainer)
-      .locator('svg')
-      .last();
+      .getByTestId(ChartPage.exportDomContainer);
     expect(exportModalPreview).toBeAttached();
 
     await this.checkSVGPreview(component, exportModalPreview, benchmarkConfig);
@@ -694,7 +693,27 @@ export default class ChartPage extends AreaFilter {
     // validate that the SVG file content matches the modal preview
     const svgFileContent = await fs.readFile(downloadPath, 'utf-8');
     const previewSVG = await exportModalPreview.innerHTML();
-    expect(svgFileContent).toMatch(previewSVG);
+    //xmlns:xlink=\"http://www.w3.org/1999/xlink\"
+
+    const reg = /xmlns(:xlink)?="[^"]+" /g;
+    const previewSVGwithoutXlmns = previewSVG.replaceAll(reg, '');
+    const svgFileContentWithoutXlmns = svgFileContent.replaceAll(reg, '');
+
+    const compareXmlStrings = (str1: string, str2: string) => {
+      const parser = new XMLParser({
+        ignoreAttributes: false,
+        ignoreDeclaration: true,
+        attributeNamePrefix: '',
+        trimValues: true,
+      });
+      const json1 = parser.parse(str1);
+      const json2 = parser.parse(str2);
+      return JSON.stringify(json1) === JSON.stringify(json2);
+    };
+
+    expect(
+      compareXmlStrings(previewSVGwithoutXlmns, svgFileContentWithoutXlmns)
+    ).toBe(true);
 
     await this.closeExportModal();
   }
