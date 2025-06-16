@@ -98,6 +98,8 @@ services:
       - storage
 
     image: mcr.microsoft.com/azure-storage/azurite
-    command: azurite-blob # Run only the blob storage service
+    # azurite-blob - Run only the blob storage service
+    # --blobHost 0.0.0.0 - allow the blob service to listen for external connections
+    command: ["azurite-blob", "--blobHost", "0.0.0.0"]
     ports:
       - 10000:10000
