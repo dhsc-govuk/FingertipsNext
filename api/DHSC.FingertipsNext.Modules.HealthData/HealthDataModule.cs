@@ -1,4 +1,6 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Azure.Identity;
+using Azure.Storage.Blobs;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using DHSC.FingertipsNext.Modules.HealthData.Repository;
 using DHSC.FingertipsNext.Modules.HealthData.Service;
@@ -6,6 +8,7 @@ using DHSC.FingertipsNext.Modules.HealthData.Mappings;
 using DHSC.FingertipsNext.Monolith;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Azure;
 
 namespace DHSC.FingertipsNext.Modules.HealthData;
 
@@ -17,8 +20,28 @@ public class HealthDataModule : AbstractMonolithModule, IMonolithModule
     {
         services.AddTransient<IIndicatorsService, IndicatorService>();
         services.AddTransient<IHealthDataRepository, HealthDataRepository>();
+        services.AddTransient<IDataUploadService, DataUploadService>();
         services.AddSingleton<IHealthDataMapper, HealthDataMapper>();
         RegisterDbContext(services, configuration);
+        RegisterAzureClients(services, configuration);
+    }
+    
+    private static void RegisterAzureClients(IServiceCollection services, IConfiguration configuration)
+    {
+        const string storageContainerConnectionStringEnvVar = "STORAGE_CONTAINER_CONNECTION_STRING";
+        var storageContainerConnectionString = GetEnvironmentValue(configuration, storageContainerConnectionStringEnvVar);
+            
+        services.AddAzureClients(clientBuilder =>
+        {
+            clientBuilder.AddBlobServiceClient(storageContainerConnectionString)
+                .ConfigureOptions(options =>
+                {
+                    options.Retry.MaxRetries = 1;
+                });
+
+            // DefaultAzureCredential credential = new();
+            // clientBuilder.UseCredential(credential);
+        });
     }
 
     private static void RegisterDbContext(IServiceCollection services, IConfiguration configuration)
