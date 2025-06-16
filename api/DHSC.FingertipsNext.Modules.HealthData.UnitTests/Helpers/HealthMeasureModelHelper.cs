@@ -225,7 +225,9 @@ internal class HealthMeasureModelHelper(
             SexDimension = sexDimension,
             TrendDimension = trendDimension,
             DeprivationDimension = deprivationDimension,
-            IsAggregate = isAggregate,
+            IsAgeAggregatedOrSingle = ageDimension.IsAggregate,
+            IsSexAggregatedOrSingle = sexDimension.IsAggregate,
+            IsDeprivationAggregatedOrSingle = deprivationDimension.IsAggregate,
             PublishedAt = publishedAt,
             BatchId = batchId
         };

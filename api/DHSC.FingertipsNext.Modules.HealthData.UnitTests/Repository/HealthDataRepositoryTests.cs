@@ -70,6 +70,7 @@ public class HealthDataRepositoryTests : IDisposable
                 IndicatorId = INDICATORID
             },
             Year = LATESTYEAR - 1,
+            PublishedAt = new DateTime(2025, 1, 1),
             BatchId = $"{INDICATORID}_20990101120000"
         });
 
@@ -197,7 +198,7 @@ public class HealthDataRepositoryTests : IDisposable
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(1);
         result.ShouldBeEquivalentTo(
-            new List<HealthMeasureModel>() { ResetKeys(expectedHealthMeasure) }
+            new List<HealthMeasureModel>() { expectedHealthMeasure }
         );
     }
 
@@ -241,8 +242,8 @@ public class HealthDataRepositoryTests : IDisposable
         result.ShouldBeEquivalentTo(
             new List<HealthMeasureModel>()
             {
-                ResetKeys(expectedHealthMeasure1),
-                ResetKeys(expectedHealthMeasure2),
+                expectedHealthMeasure1,
+                expectedHealthMeasure2,
             }
         );
     }
@@ -296,8 +297,8 @@ public class HealthDataRepositoryTests : IDisposable
         result.ShouldBeEquivalentTo(
             new List<HealthMeasureModel>()
             {
-                ResetKeys(expectedHealthMeasure1),
-                ResetKeys(expectedHealthMeasure2),
+                expectedHealthMeasure1,
+                expectedHealthMeasure2,
             }
         );
     }
@@ -382,10 +383,10 @@ public class HealthDataRepositoryTests : IDisposable
         result.ShouldBeEquivalentTo(
             new List<HealthMeasureModel>()
             {
-                ResetKeys(expectedHealthMeasure1),
-                ResetKeys(expectedHealthMeasure2),
-                ResetKeys(expectedHealthMeasure3),
-                ResetKeys(expectedHealthMeasure4),
+                expectedHealthMeasure1,
+                expectedHealthMeasure2,
+                expectedHealthMeasure3,
+                expectedHealthMeasure4,
             }
         );
     }
@@ -422,7 +423,7 @@ public class HealthDataRepositoryTests : IDisposable
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(1);
         result.ShouldBeEquivalentTo(
-            new List<HealthMeasureModel>() { ResetKeys(expectedHealthMeasure) }
+            new List<HealthMeasureModel>() { expectedHealthMeasure }
         );
     }
 
@@ -459,8 +460,8 @@ public class HealthDataRepositoryTests : IDisposable
         result.ShouldBeEquivalentTo(
             new List<HealthMeasureModel>()
             {
-                ResetKeys(expectedHealthMeasure1),
-                ResetKeys(expectedHealthMeasure2),
+                expectedHealthMeasure1,
+                expectedHealthMeasure2,
             }
         );
     }
@@ -521,7 +522,7 @@ public class HealthDataRepositoryTests : IDisposable
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(1);
         result.ShouldBeEquivalentTo(
-            new List<HealthMeasureModel>() { ResetKeys(expectedHealthMeasure) }
+            new List<HealthMeasureModel>() { expectedHealthMeasure }
         );
     }
 
@@ -558,8 +559,8 @@ public class HealthDataRepositoryTests : IDisposable
         result.ShouldBeEquivalentTo(
             new List<HealthMeasureModel>()
             {
-                ResetKeys(expectedHealthMeasure1),
-                ResetKeys(expectedHealthMeasure2),
+                expectedHealthMeasure1,
+                expectedHealthMeasure2,
             }
         );
     }
@@ -621,7 +622,7 @@ public class HealthDataRepositoryTests : IDisposable
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(1);
         result.ShouldBeEquivalentTo(
-            new List<HealthMeasureModel>() { ResetKeys(expectedHealthMeasure) }
+            new List<HealthMeasureModel>() { expectedHealthMeasure }
         );
     }
 
@@ -660,8 +661,8 @@ public class HealthDataRepositoryTests : IDisposable
         result.ShouldBeEquivalentTo(
             new List<HealthMeasureModel>()
             {
-                ResetKeys(expectedHealthMeasure1),
-                ResetKeys(expectedHealthMeasure2),
+                expectedHealthMeasure1,
+                expectedHealthMeasure2,
             }
         );
     }
@@ -726,8 +727,8 @@ public class HealthDataRepositoryTests : IDisposable
         result.ShouldBeEquivalentTo(
             new List<HealthMeasureModel>
             {
-                ResetKeys(healthMeasureWithSex),
-                ResetKeys(healthMeasureWithNoSexAndNoAge),
+                healthMeasureWithSex,
+                healthMeasureWithNoSexAndNoAge,
             }
         );
     }
@@ -777,8 +778,8 @@ public class HealthDataRepositoryTests : IDisposable
         result.ShouldBeEquivalentTo(
             new List<HealthMeasureModel>
             {
-                ResetKeys(healthMeasureWithAgeAndNoSex),
-                ResetKeys(healthMeasureWithNoAgeAndNoSex),
+                healthMeasureWithAgeAndNoSex,
+                healthMeasureWithNoAgeAndNoSex,
             }
         );
     }
@@ -833,8 +834,8 @@ public class HealthDataRepositoryTests : IDisposable
         result.ShouldBeEquivalentTo(
             new List<HealthMeasureModel>
             {
-                ResetKeys(healthMeasureWithNoAgeAndDeprivation),
-                ResetKeys(healthMeasureWithNoAgeAndNoDeprivation),
+                healthMeasureWithNoAgeAndDeprivation,
+                healthMeasureWithNoAgeAndNoDeprivation,
             }
         );
     }
@@ -978,23 +979,23 @@ public class HealthDataRepositoryTests : IDisposable
         result.ShouldBeEquivalentTo(
             new List<HealthMeasureModel>
             {
-                ResetKeys(allDimensionsDataPoint),
-                ResetKeys(sexOnlyDataPoint),
-                ResetKeys(ageOnlyDataPoint),
-                ResetKeys(deprivationOnlyDataPoint),
-                ResetKeys(sexAndAgeDataPoint),
-                ResetKeys(sexAndDeprivationDataPoint),
-                ResetKeys(ageAndDeprivationDataPoint),
-                ResetKeys(aggregateDataPoint),
+                allDimensionsDataPoint,
+                sexOnlyDataPoint,
+                ageOnlyDataPoint,
+                deprivationOnlyDataPoint,
+                sexAndAgeDataPoint,
+                sexAndDeprivationDataPoint,
+                ageAndDeprivationDataPoint,
+                aggregateDataPoint,
             }
         );
     }
 
     [Fact]
-    public async Task GetIndicatorDimensionAsyncShouldNotReturnUnpublishedData_AreaData()
+    public async Task GetIndicatorDimensionAsyncShouldNotReturnUnpublishedDataAreaData()
     {
         const int ENGLAND_YEAR = 2024;
-        const int DISTRICT_YEAR = 2023;
+        const int DISTRICT_YEAR = 2025;
         const string ENGLAND_AREA_CODE = "E92000001";
         const string DISTRICT_ONE_AREA_CODE = "ABC123";
         const int INDICATORID = 1;
@@ -1011,7 +1012,8 @@ public class HealthDataRepositoryTests : IDisposable
 
         // Act
         var result = await _healthDataRepository.GetIndicatorDimensionAsync(1, [
-            ENGLAND_AREA_CODE
+            ENGLAND_AREA_CODE,
+            DISTRICT_ONE_AREA_CODE
         ]);
 
         // Assert
@@ -1019,7 +1021,7 @@ public class HealthDataRepositoryTests : IDisposable
     }
 
     [Fact]
-    public async Task GetIndicatorDimensionAsyncShouldNotReturnUnpublishedData_NoAreaData()
+    public async Task GetIndicatorDimensionAsyncShouldNotReturnUnpublishedDataNoAreaData()
     {
         const string AREA_CODE = "E92000002";
         const int INDICATORID = 1;
@@ -1072,7 +1074,7 @@ public class HealthDataRepositoryTests : IDisposable
         result.ShouldBeEquivalentTo(
             new List<HealthMeasureModel>()
             {
-                ResetKeys(expectedHealthMeasure)
+                expectedHealthMeasure
             }
         );
     }
@@ -1119,35 +1121,5 @@ public class HealthDataRepositoryTests : IDisposable
     {
         _dbContext.HealthMeasure.Add(healthMeasure);
         _dbContext.SaveChanges();
-    }
-
-    private static HealthMeasureModel ResetKeys(HealthMeasureModel healthMeasure)
-    {
-        healthMeasure.HealthMeasureKey = 0;
-
-        healthMeasure.AreaDimension.AreaKey = 0;
-        healthMeasure.AgeDimension.AgeKey = 0;
-        healthMeasure.IndicatorDimension.IndicatorKey = 0;
-        healthMeasure.SexDimension.SexKey = 0;
-
-        healthMeasure.AgeKey = 0;
-        healthMeasure.IndicatorKey = 0;
-        healthMeasure.IndicatorDimension.IndicatorId = 0;
-
-        healthMeasure.AreaKey = 0;
-        healthMeasure.SexKey = 0;
-
-        healthMeasure.TrendKey = 0;
-        healthMeasure.TrendDimension.TrendKey = 0;
-
-        healthMeasure.DeprivationKey = 0;
-        healthMeasure.DeprivationDimension.DeprivationKey = 0;
-
-        // We don't load these values when retrieving a health measure from the DB, so they default to true.
-        healthMeasure.IsAgeAggregatedOrSingle = true;
-        healthMeasure.IsSexAggregatedOrSingle = true;
-        healthMeasure.IsDeprivationAggregatedOrSingle = true;
-
-        return healthMeasure;
     }
 }

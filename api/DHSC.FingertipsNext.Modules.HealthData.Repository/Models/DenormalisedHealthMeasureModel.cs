@@ -86,7 +86,9 @@ public class DenormalisedHealthMeasureModel
                 Name = TrendDimensionName,
             },
             BenchmarkComparison = NormalisedBenchmark,
-            IsAggregate = true,
+            IsAgeAggregatedOrSingle = AgeDimensionIsAggregate,
+            IsSexAggregatedOrSingle = SexDimensionIsAggregate,
+            IsDeprivationAggregatedOrSingle = DeprivationDimensionIsAggregate,
             PublishedAt = PublishedAt,
             BatchId = BatchId
         };

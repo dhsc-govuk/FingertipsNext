@@ -878,6 +878,7 @@ public class IndicatorServiceTests
                 SexDimension = new SexDimensionModel(),
                 DeprivationDimension = new DeprivationDimensionModel(),
                 AgeDimension = new AgeDimensionModel(),
+                PublishedAt = new DateTime(2025, 1, 1),
                 BatchId = "12345_20250101120000"
             },
         };
