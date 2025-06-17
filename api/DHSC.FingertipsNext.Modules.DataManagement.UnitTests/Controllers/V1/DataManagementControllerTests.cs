@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Shouldly;
 
-namespace DHSC.FingertipsNext.Modules.DataManagement.UnitTests.Controllers.V1;
+namespace DHSC.FingertipsNext.Modules.DataManagement.UnitTestsOLD.Controllers.V1;
 
 public class DataManagementControllerTests
 {

@@ -14,12 +14,17 @@ namespace DHSC.FingertipsNext.Modules.DataManagement.Controllers.V1;
 public class DataManagementController() : ControllerBase
 {
     [HttpPost]
-    public IActionResult AcceptFile(IFormFile? file)
+    public IActionResult AcceptFile([FromForm] IFormFile? file)
     {
-        if (file == null || file.Length == 0) return BadRequest();
+        // Console.WriteLine($"Request content type: {Request.ContentType}");
+        // Console.WriteLine($"Form field count: {Request.Form.Count}");
+        // Console.WriteLine($"File: {file?.FileName}, Size: {file?.Length}");
 
-        using var reader = new StreamReader(file.OpenReadStream());
-        using var csv = new CsvReader(reader, new CultureInfo("en-GB"));
+        if (file == null || file.Length == 0) 
+            return BadRequest("File is missing or empty");
+
+        // using var reader = new StreamReader(file.OpenReadStream());
+        // using var csv = new CsvReader(reader, new CultureInfo("en-GB"));
         
         return Ok($"File {file.FileName} has been accepted.");
     }

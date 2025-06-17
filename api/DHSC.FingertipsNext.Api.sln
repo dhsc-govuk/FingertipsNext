@@ -45,7 +45,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataManagement", "DataManag
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules.DataManagement", "DHSC.FingertipsNext.Modules.DataManager\DHSC.FingertipsNext.Modules.DataManagement.csproj", "{5418E004-FFA9-4589-99CF-514B08C0A622}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules.DataManagement.UnitTests", "DHSC.FingertipsNext.Modules.DataManager.UnitTests\DHSC.FingertipsNext.Modules.DataManagement.UnitTests.csproj", "{8EFD0D19-1AA6-4CF6-8CEA-F6B40053C378}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules.DataManagement.UnitTests", "DHSC.FingertipsNext.Modules.DataManagement.UnitTests\DHSC.FingertipsNext.Modules.DataManagement.UnitTests.csproj", "{8EFD0D19-1AA6-4CF6-8CEA-F6B40053C378}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules.DataManagement.Repository", "DHSC.FingertipsNext.Modules.DataManagement.Repository\DHSC.FingertipsNext.Modules.DataManagement.Repository.csproj", "{91F1E0C8-6F6B-4E90-9EB9-8556942A9752}"
 EndProject

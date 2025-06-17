@@ -1,7 +1,7 @@
 using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using Shouldly;
 
-namespace DHSC.FingertipsNext.Modules.DataManagement.UnitTests.Repository;
+namespace DHSC.FingertipsNext.Modules.DataManagement.UnitTestsOLD.Repository;
 
 public class DataManagementRepositoryTests
 {

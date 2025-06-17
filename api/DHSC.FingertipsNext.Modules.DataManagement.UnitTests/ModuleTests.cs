@@ -1,5 +1,5 @@
 ﻿using Shouldly;
-namespace DHSC.FingertipsNext.Modules.DataManagement.UnitTests;
+namespace DHSC.FingertipsNext.Modules.DataManagement.UnitTestsOLD;
 
 public class ModuleTests
 {

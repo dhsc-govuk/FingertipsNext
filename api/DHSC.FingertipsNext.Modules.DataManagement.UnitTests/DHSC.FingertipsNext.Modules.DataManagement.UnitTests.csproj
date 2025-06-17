@@ -5,6 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
+        <RootNamespace>DHSC.FingertipsNext.Modules.DataManagement.UnitTestsOLD</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
