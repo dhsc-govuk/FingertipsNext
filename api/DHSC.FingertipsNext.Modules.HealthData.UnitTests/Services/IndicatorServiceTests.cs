@@ -4,6 +4,7 @@ using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 using DHSC.FingertipsNext.Modules.HealthData.Service;
 using DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 using NSubstitute;
+using NSubstitute.Core.Arguments;
 using Shouldly;
 using BenchmarkComparison = DHSC.FingertipsNext.Modules.HealthData.Schemas.BenchmarkComparison;
 
@@ -893,7 +894,7 @@ public class IndicatorServiceTests
 
         _healthDataRepository.GetIndicatorDataWithQuintileBenchmarkComparisonAsync(
             1, Arg.Any<string[]>(),
-            [], Arg.Any<string>(), "E92000001").Returns(mockHealthData); ;
+            [], Arg.Any<string>(), "E92000001", Arg.Any<string>(), Arg.Any<string>()).Returns(mockHealthData); ;
 
         var result = await _indicatorService.GetIndicatorDataAsync(
             1,

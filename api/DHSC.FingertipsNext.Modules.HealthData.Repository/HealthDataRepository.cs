@@ -67,7 +67,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
     }
 
     public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataAsync(int indicatorId, string[] areaCodes,
-        int[] years, string[] inequalities)
+        int[] years, string[] inequalities, string? fromDate = null, string? toDate = null)
     {
         var excludeDisaggregatedSexValues = !inequalities.Contains(SEX);
         var excludeDisaggregatedAgeValues = !inequalities.Contains(AGE);
@@ -160,7 +160,13 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
     }
 
     public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync(
-        int indicatorId, string[] areaCodes, int[] years, string areaTypeKey, string benchmarkAreaCode)
+        int indicatorId,
+        string[] areaCodes,
+        int[] years,
+        string areaTypeKey,
+        string benchmarkAreaCode,
+        string? fromDate = null,
+        string? toDate = null)
     {
         SqlParameter areasOfInterest;
         SqlParameter yearsOfInterest;
@@ -192,10 +198,12 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         var areaTypeOfInterest = new SqlParameter("@RequestedAreaType", areaTypeKey);
         var requestedIndicatorId = new SqlParameter("@RequestedIndicatorId", indicatorId);
         var requestedBenchmarkAreaCode = new SqlParameter("@RequestedBenchmarkAreaCode", benchmarkAreaCode);
+        var requestedFromDate = new SqlParameter("@RequestedFromDate", (object?)fromDate ?? DBNull.Value);
+        var requestedToDate = new SqlParameter("@RequestedToDate", (object?)toDate ?? DBNull.Value);
 
         var denormalisedHealthData = await _dbContext.DenormalisedHealthMeasure.FromSqlInterpolated
         (@$"
-              EXEC dbo.GetIndicatorDetailsWithQuintileBenchmarkComparison @RequestedAreas={areasOfInterest}, @RequestedAreaType={areaTypeOfInterest}, @RequestedYears={yearsOfInterest}, @RequestedIndicatorId={requestedIndicatorId}, @RequestedBenchmarkAreaCode={requestedBenchmarkAreaCode}
+              EXEC dbo.GetIndicatorDetailsWithQuintileBenchmarkComparison @RequestedAreas={areasOfInterest}, @RequestedAreaType={areaTypeOfInterest}, @RequestedYears={yearsOfInterest}, @RequestedIndicatorId={requestedIndicatorId}, @RequestedBenchmarkAreaCode={requestedBenchmarkAreaCode}, @RequestedFromDate={requestedFromDate}, @RequestedToDate={requestedToDate}
               "
         ).ToListAsync();
 

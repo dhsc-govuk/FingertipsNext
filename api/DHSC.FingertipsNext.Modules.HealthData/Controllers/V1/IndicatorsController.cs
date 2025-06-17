@@ -47,6 +47,8 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
         [FromQuery(Name = "benchmark_ref_type")]
             BenchmarkReferenceType benchmarkRefType = BenchmarkReferenceType.Unknown,
         [FromQuery] int[]? years = null,
+        [FromQuery] string? fromDate = null,
+        [FromQuery] string? toDate = null,
         [FromQuery] string[]? inequalities = null,
         [FromQuery(Name = "latest_only")] bool latestOnly = false
     )
@@ -86,7 +88,9 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
             benchmarkRefType,
             years ?? [],
             inequalities ?? [],
-            latestOnly
+            latestOnly,
+            fromDate,
+            toDate
         );
 
         return indicatorData?.Status switch
