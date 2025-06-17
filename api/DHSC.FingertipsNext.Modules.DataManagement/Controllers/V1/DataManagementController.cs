@@ -15,9 +15,6 @@ public class DataManagementController() : ControllerBase
     {
         if (file == null || file.Length == 0) return BadRequest();
 
-        // using var reader = new StreamReader(file.OpenReadStream());
-        // using var csv = new CsvReader(reader, new CultureInfo("en-GB"));
-
         return Ok($"File {file.FileName} has been accepted.");
     }
 }
