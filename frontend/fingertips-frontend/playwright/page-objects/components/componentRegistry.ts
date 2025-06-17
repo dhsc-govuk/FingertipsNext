@@ -1,53 +1,53 @@
 import ChartPage from '../../page-objects/pages/chartPage';
-import { ComponentDefinition } from './componentTypes';
+import { ChartComponentDefinition } from './componentTypes';
 
-export const allComponents: ComponentDefinition[] = [
+export const allComponents: ChartComponentDefinition[] = [
   {
-    componentLocator: ChartPage.lineChartComponent,
-    componentProps: {
+    chartComponentLocator: ChartPage.lineChartComponent,
+    chartComponentProps: {
       hasPNGExport: true,
       hasSVGExport: true,
-      showsBenchmarkComparisons: true,
+      hasBenchmarkComparisons: true,
       hasTooltipHovers: true,
       hasConfidenceIntervals: true,
     },
   },
   {
-    componentLocator: ChartPage.lineChartTableComponent,
-    componentProps: {
+    chartComponentLocator: ChartPage.lineChartTableComponent,
+    chartComponentProps: {
       hasPNGExport: true,
       hasCSVExport: true,
       isTabTable: true,
       hasRecentTrend: true,
-      showsBenchmarkComparisons: true,
+      hasBenchmarkComparisons: true,
     },
   },
   {
-    componentLocator: ChartPage.inequalitiesBarChartComponent,
-    componentProps: {
+    chartComponentLocator: ChartPage.inequalitiesBarChartComponent,
+    chartComponentProps: {
       hasPNGExport: true,
       hasSVGExport: true,
       hasConfidenceIntervals: true,
     },
   },
   {
-    componentLocator: ChartPage.inequalitiesForSingleTimePeriodComponent,
-    componentProps: {
+    chartComponentLocator: ChartPage.inequalitiesForSingleTimePeriodComponent,
+    chartComponentProps: {
       hasInequalitiesTimePeriodDropDown: true,
       hasInequalityTypeDropDown: true,
       hasConfidenceIntervals: true,
     },
   },
   {
-    componentLocator: ChartPage.inequalitiesTrendComponent,
-    componentProps: {
+    chartComponentLocator: ChartPage.inequalitiesTrendComponent,
+    chartComponentProps: {
       hasInequalityTypeDropDown: true,
       hasConfidenceIntervals: true,
     },
   },
   {
-    componentLocator: ChartPage.inequalitiesLineChartComponent,
-    componentProps: {
+    chartComponentLocator: ChartPage.inequalitiesLineChartComponent,
+    chartComponentProps: {
       hasPNGExport: true,
       hasSVGExport: true,
       hasInequalityTypeDropDown: true,
@@ -56,8 +56,8 @@ export const allComponents: ComponentDefinition[] = [
     },
   },
   {
-    componentLocator: ChartPage.inequalitiesBarChartTableComponent,
-    componentProps: {
+    chartComponentLocator: ChartPage.inequalitiesBarChartTableComponent,
+    chartComponentProps: {
       hasInequalityTypeDropDown: true,
       hasPNGExport: true,
       hasCSVExport: true,
@@ -65,8 +65,8 @@ export const allComponents: ComponentDefinition[] = [
     },
   },
   {
-    componentLocator: ChartPage.inequalitiesLineChartTableComponent,
-    componentProps: {
+    chartComponentLocator: ChartPage.inequalitiesLineChartTableComponent,
+    chartComponentProps: {
       hasInequalityTypeDropDown: true,
       hasPNGExport: true,
       hasCSVExport: true,
@@ -74,67 +74,67 @@ export const allComponents: ComponentDefinition[] = [
     },
   },
   {
-    componentLocator: ChartPage.populationPyramidChartComponent,
-    componentProps: {
+    chartComponentLocator: ChartPage.populationPyramidChartComponent,
+    chartComponentProps: {
       hasPNGExport: true,
       hasSVGExport: true,
       hasDetailsExpander: true,
     },
   },
   {
-    componentLocator: ChartPage.populationPyramidTableComponent,
-    componentProps: {
+    chartComponentLocator: ChartPage.populationPyramidTableComponent,
+    chartComponentProps: {
       hasPNGExport: true,
       hasCSVExport: true,
       isTabTable: true,
     },
   },
   {
-    componentLocator: ChartPage.thematicMapComponent,
-    componentProps: {
+    chartComponentLocator: ChartPage.thematicMapComponent,
+    chartComponentProps: {
       hasPNGExport: true,
       hasSVGExport: true,
-      showsBenchmarkComparisons: true,
+      hasBenchmarkComparisons: true,
       hasTooltipHovers: true,
     },
   },
   {
-    componentLocator: ChartPage.barChartEmbeddedTableComponent,
-    componentProps: {
+    chartComponentLocator: ChartPage.barChartEmbeddedTableComponent,
+    chartComponentProps: {
       hasPNGExport: true,
       hasCSVExport: true,
       hasRecentTrend: true,
-      showsBenchmarkComparisons: true,
+      hasBenchmarkComparisons: true,
       hasTooltipHovers: true,
       hasConfidenceIntervals: true,
     },
   },
   {
-    componentLocator: ChartPage.basicTableComponent,
-    componentProps: {
+    chartComponentLocator: ChartPage.basicTableComponent,
+    chartComponentProps: {
       hasPNGExport: true,
       hasCSVExport: true,
       hasRecentTrend: true,
     },
   },
   {
-    componentLocator: ChartPage.heatMapComponent,
-    componentProps: {
+    chartComponentLocator: ChartPage.heatMapComponent,
+    chartComponentProps: {
       hasPNGExport: true,
       hasCSVExport: true,
       isWideComponent: true,
-      showsBenchmarkComparisons: true,
+      hasBenchmarkComparisons: true,
       hasTooltipHovers: true,
     },
   },
   {
-    componentLocator: ChartPage.spineChartTableComponent,
-    componentProps: {
+    chartComponentLocator: ChartPage.spineChartTableComponent,
+    chartComponentProps: {
       hasPNGExport: true,
       hasCSVExport: true,
       isWideComponent: true,
       hasRecentTrend: true,
-      showsBenchmarkComparisons: true,
+      hasBenchmarkComparisons: true,
       hasTooltipHovers: true,
     },
   },

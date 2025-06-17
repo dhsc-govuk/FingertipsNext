@@ -6,7 +6,7 @@ import { AreaMode, IndicatorMode, SimpleIndicatorDocument } from './testEnums';
 import { expect } from '../page-objects/pageFactory';
 import { XMLParser } from 'fast-xml-parser';
 import ChartPage from '../page-objects/pages/chartPage';
-import { ComponentDefinition } from '../page-objects/components/componentTypes';
+import { ChartComponentDefinition } from '../page-objects/components/componentTypes';
 
 export const createDownloadPath = async (
   exportType: ExportType,
@@ -96,14 +96,15 @@ export const verifyCSVDownloadMatchesPreview = async (
 };
 
 export const getExpectedCSVIndicatorData = (
-  component: ComponentDefinition,
+  component: ChartComponentDefinition,
   selectedIndicators: SimpleIndicatorDocument[]
 ): {
   expectedCsvIndicatorID: number | string;
   expectedCsvIndicatorName: string;
 } => {
   const isPopulationPyramid =
-    component.componentLocator === ChartPage.populationPyramidTableComponent;
+    component.chartComponentLocator ===
+    ChartPage.populationPyramidTableComponent;
 
   return {
     expectedCsvIndicatorID: isPopulationPyramid

@@ -1,4 +1,4 @@
-export type BaseComponentProps = {
+export type BaseChartComponentProps = {
   hasConfidenceIntervals?: boolean;
   isTabTable?: boolean;
   hasDetailsExpander?: boolean;
@@ -6,14 +6,14 @@ export type BaseComponentProps = {
   hasInequalityTypeDropDown?: boolean;
   isWideComponent?: boolean;
   hasRecentTrend?: boolean;
-  showsBenchmarkComparisons?: boolean;
+  hasBenchmarkComparisons?: boolean;
   hasPNGExport?: boolean;
   hasSVGExport?: boolean;
   hasCSVExport?: boolean;
   hasTooltipHovers?: boolean;
 };
 
-export type ComponentDefinition = {
-  componentLocator: string;
-  componentProps: BaseComponentProps;
+export type ChartComponentDefinition = {
+  chartComponentLocator: string;
+  chartComponentProps: BaseChartComponentProps;
 };
