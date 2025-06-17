@@ -60,9 +60,11 @@ export default async function ChartPage(
       seedData[`/indicator/${indicator.indicatorID}`] = indicator;
     });
 
+    // if we want to show the line chart data then load that now server side
+    // and seed the cache - this will help with progressive enhancement and
+    // coping with devices that do not have javascript enabled by seeding
+    // the data react query can still proceed with data loaded on the server
     if (lineChartOverTimeIsRequired(searchState)) {
-      // we want to show the line chart data so load that now
-
       const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
       let healthData: IndicatorWithHealthDataForArea | undefined;
       const apiRequestParams = lineChartOverTimeRequestParams(searchState);
