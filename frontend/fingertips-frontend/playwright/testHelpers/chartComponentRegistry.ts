@@ -1,5 +1,5 @@
-import ChartPage from '../../page-objects/pages/chartPage';
-import { ChartComponentDefinition } from './componentTypes';
+import ChartPage from '../page-objects/pages/chartPage';
+import { ChartComponentDefinition } from './chartComponentTypes';
 
 export const allComponents: ChartComponentDefinition[] = [
   {

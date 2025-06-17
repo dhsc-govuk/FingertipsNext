@@ -1,6 +1,5 @@
-export * from './testEnums';
-export * from './indicatorUtils';
-export * from '../page-objects/components/scenarioMapper';
+export * from './testDefinitions';
+export * from './scenarioMapper';
 
 export function sortAlphabetically(array: (string | null)[]) {
   array.sort((a, b) => a!.localeCompare(b!));

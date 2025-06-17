@@ -5,7 +5,7 @@ import {
   IndicatorInfo,
   SearchMode,
   SimpleIndicatorDocument,
-} from '@/playwright/testHelpers/genericTestUtils';
+} from '@/playwright/testHelpers/genericTestUtilities';
 import AreaFilter from '../components/areaFilter';
 import { RawIndicatorDocument } from '@/lib/search/searchTypes';
 import {

@@ -1,12 +1,14 @@
 import { test } from '../../page-objects/pageFactory';
 import {
-  getAllIndicators,
-  getAllIndicatorsForSearchTerm,
-  mergeIndicatorData,
   SearchMode,
   SimpleIndicatorDocument,
   TestTag,
-} from '../../testHelpers/genericTestUtils';
+} from '../../testHelpers/genericTestUtilities';
+import {
+  getAllIndicators,
+  getAllIndicatorsForSearchTerm,
+  mergeIndicatorData,
+} from '../../testHelpers/indicatorDataUtilities';
 import indicators from '../../../../../search-setup/assets/indicators.json';
 import { RawIndicatorDocument } from '@/lib/search/searchTypes';
 import { areaSearchTerm, coreTestJourneys } from './core_journey_config';

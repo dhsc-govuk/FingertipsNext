@@ -6,8 +6,8 @@ import {
   IndicatorMode,
   PersistentCsvHeaders,
   SimpleIndicatorDocument,
-} from '@/playwright/testHelpers/genericTestUtils';
-import { ChartComponentDefinition } from '../components/componentTypes';
+} from '@/playwright/testHelpers/genericTestUtilities';
+import { ChartComponentDefinition } from '../../testHelpers/chartComponentTypes';
 import { expect } from '../pageFactory';
 import AreaFilter from '../components/areaFilter';
 import { SearchParams } from '@/lib/searchStateManager';
@@ -19,7 +19,7 @@ import {
   getExpectedCSVIndicatorData,
   verifyCSVDownloadMatchesPreview,
   verifySVGDownloadMatchesPreview,
-} from '@/playwright/testHelpers/exportUtils';
+} from '../../testHelpers/exportUtilities';
 import { copyrightDateFormat } from '@/components/molecules/Export/ExportCopyright';
 import { format } from 'date-fns/format';
 import { InequalitiesTypes } from '@/components/organisms/Inequalities/inequalitiesHelpers';

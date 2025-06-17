@@ -2,11 +2,15 @@ import { Download, Locator, test } from '@playwright/test';
 import path from 'path';
 import fs from 'fs/promises';
 import { ExportType } from '@/components/molecules/Export/export.types';
-import { AreaMode, IndicatorMode, SimpleIndicatorDocument } from './testEnums';
+import {
+  AreaMode,
+  IndicatorMode,
+  SimpleIndicatorDocument,
+} from './testDefinitions';
 import { expect } from '../page-objects/pageFactory';
 import { XMLParser } from 'fast-xml-parser';
 import ChartPage from '../page-objects/pages/chartPage';
-import { ChartComponentDefinition } from '../page-objects/components/componentTypes';
+import { ChartComponentDefinition } from './chartComponentTypes';
 
 export const createDownloadPath = async (
   exportType: ExportType,

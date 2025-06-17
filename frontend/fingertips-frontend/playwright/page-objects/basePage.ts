@@ -1,7 +1,7 @@
 import type { Locator, Page as PlaywrightPage } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { expect } from './pageFactory';
-import { SearchMode } from '../testHelpers/genericTestUtils';
+import { SearchMode } from '../testHelpers/genericTestUtilities';
 
 export default class BasePage {
   readonly errorPageTitleHeaderId = 'error-page-title';
