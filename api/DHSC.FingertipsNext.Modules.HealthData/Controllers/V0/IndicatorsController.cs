@@ -1,7 +1,6 @@
 using DHSC.FingertipsNext.Modules.HealthData.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Controllers.V0;
