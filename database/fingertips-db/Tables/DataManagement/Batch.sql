@@ -3,8 +3,9 @@ CREATE TABLE [DataManagement].[Batch]
 (
     [BatchKey] [int] IDENTITY(1,1) NOT NULL,  -- Surrogate key for the batch
     [BatchId] [nvarchar](50) NOT NULL,  -- The ID for the batch
-    [IndicatorKey] [smallint] NOT NULL,  -- Indicator ID of the indicator this batch belongs to
+    [IndicatorId] [int] NOT NULL,  -- Indicator ID of the indicator this batch belongs to
     [Created] [datetime2](7) NOT NULL DEFAULT GETDATE(),  -- The date and time the batch was created
+--     TODO: DHSCFT-961 add status 
 CONSTRAINT [PK_Batch] PRIMARY KEY CLUSTERED
 (
     [BatchKey] ASC
