@@ -1,0 +1,17 @@
+﻿### Upload valid CSV to indicator endpoint
+POST http://localhost:5144/indicators/123/data
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="StubHealthdataUpload.csv"
+Content-Type: text/csv
+
+< ../../DHSC.FingertipsNext.Modules.DataManagement.UnitTests/TestData/StubHealthdataUpload.csv
+--WebAppBoundary--
+
+> {%
+    client.test("CSV upload accepted", () => {
+        client.assert(response.status === 200, "Expected 200 OK");
+        client.assert(response.body.includes("StubHealthdataUpload.csvv"), "Response does not contain filename");
+    });
+%}

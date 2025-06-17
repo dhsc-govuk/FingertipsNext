@@ -2,7 +2,7 @@ using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using DHSC.FingertipsNext.Modules.DataManagement.Service;
 using Shouldly;
 
-namespace DHSC.FingertipsNext.Modules.DataManagement.UnitTestsOLD.Services;
+namespace DHSC.FingertipsNext.Modules.DataManagement.UnitTests.Services;
 
 public class DataManagementServiceTests
 {

@@ -1,7 +1,4 @@
-using System.Globalization;
 using System.Runtime.InteropServices.JavaScript;
-using CsvHelper;
-using DHSC.FingertipsNext.Modules.DataManagement.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
