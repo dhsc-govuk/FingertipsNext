@@ -99,13 +99,8 @@ indicators_by_indicator_id_data:
             schema: 
               type: string
               example: The file has been accepted.
-      "501":
-        description: Not Implemented
-        content:
-          text/plain:
-            schema:
-              type: string
-              example: Not Implemented
+      "400":
+        $ref: "../responses.yaml#/BadRequest"
   delete:
     tags:
       - indicators
