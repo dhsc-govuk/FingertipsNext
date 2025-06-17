@@ -16,18 +16,34 @@ Content-Type: text/csv
     });
 %}
 
-### Upload null CSV to indicator endpoint
+### Upload empty CSV to indicator endpoint
 POST http://localhost:5144/indicators/123/data
 Content-Type: multipart/form-data; boundary=WebAppBoundary
 
 --WebAppBoundary
-Content-Disposition: form-data; name="file"; filename="null.csv"
+Content-Disposition: form-data; name="file"; filename="empty.csv"
 Content-Type: text/csv
 
 --WebAppBoundary--
 
 > {%
-    client.test("CSV upload accepted", () => {
+    client.test("Empty file upload returns 400", () => {
         client.assert(response.status === 400, "Expected 400");
+    });
+%}
+
+### Upload with no file (null file)
+POST http://localhost:5144/indicators/123/data
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="null"
+Content-Type: text/plain
+
+--WebAppBoundary--
+
+> {%
+    client.test("Null file upload returns 400", () => {
+        client.assert(response.status === 400, "Expected 400 BadRequest for missing file field");
     });
 %}
