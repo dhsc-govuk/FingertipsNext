@@ -7,8 +7,10 @@ import { HighChartsWrapper } from '@/components/molecules/HighChartsWrapper/High
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
 import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
 import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
+import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
 
 interface PyramidChartProps {
+  title: string;
   dataForSelectedArea: PopulationDataForArea;
   dataForBenchmark?: PopulationDataForArea;
   dataForGroup?: PopulationDataForArea;
@@ -18,6 +20,7 @@ interface PyramidChartProps {
 }
 
 export function PopulationPyramid({
+  title,
   dataForSelectedArea,
   dataForBenchmark,
   dataForGroup,
@@ -36,9 +39,11 @@ export function PopulationPyramid({
       dataForBenchmark,
       dataForGroup
     );
+  const id = 'populationPyramidChart';
   return (
     <>
-      <div id="populationPyramid" data-testid="populationPyramid-component">
+      <div id={id} data-testid={`${id}-component`}>
+        <ChartTitle>{title}</ChartTitle>
         <HighChartsWrapper
           testId={'highcharts-react-component-populationPyramid'}
           chartOptions={populationPyramidOptions}
@@ -48,7 +53,7 @@ export function PopulationPyramid({
         </ExportOnlyWrapper>
       </div>
       <ExportOptionsButton
-        targetId={'populationPyramid'}
+        targetId={id}
         chartOptions={populationPyramidOptions}
       />
     </>

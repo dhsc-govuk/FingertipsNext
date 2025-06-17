@@ -128,7 +128,7 @@ describe('Spine chart table suite', () => {
   };
 
   describe('Spine chart table', () => {
-    it('should render the SpineChartTable component', () => {
+    it('should render the SpineChartTable component with title', () => {
       render(
         <SpineChartTable
           indicatorData={mockIndicatorData}
@@ -138,6 +138,12 @@ describe('Spine chart table suite', () => {
       );
       const spineChart = screen.getByTestId('spineChartTable-component');
       expect(spineChart).toBeInTheDocument();
+
+      const titles = screen.getAllByRole('heading', { level: 4 });
+      expect(titles[0]).toHaveTextContent(
+        'Area profile for Greater Manchester ICB - 00T'
+      );
+      expect(titles[1]).toHaveTextContent('Compared to England');
     });
 
     it('should render the SpineChartTable in ascending indicator order', () => {
@@ -194,6 +200,11 @@ describe('Spine chart table suite', () => {
           benchmarkToUse={areaCodeForEngland}
           searchState={mockSearchState}
         />
+      );
+
+      const titles = screen.getAllByRole('heading', { level: 4 });
+      expect(titles[0]).toHaveTextContent(
+        'Area profile for Greater Manchester ICB - 00T and Greater Manchester ICB - 01T'
       );
 
       expect(screen.getByTestId('area-header-1')).toHaveTextContent(

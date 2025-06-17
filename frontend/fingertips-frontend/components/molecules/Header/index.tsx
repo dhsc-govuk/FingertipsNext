@@ -15,12 +15,13 @@ const ServiceTitle = styled('span')({
 });
 
 interface FTHeaderProps {
+  chartPage: boolean;
   session?: Session;
 }
 
-export function FTHeader({ session }: FTHeaderProps) {
+export function FTHeader({ chartPage = false, session }: FTHeaderProps) {
   return (
-    <header>
+    <header className={chartPage ? 'chart-page-header' : undefined}>
       <div>
         <div>
           <AuthHeader session={session} />

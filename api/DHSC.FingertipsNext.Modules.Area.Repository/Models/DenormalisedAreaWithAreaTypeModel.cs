@@ -12,7 +12,7 @@ public class DenormalisedAreaWithAreaTypeModel
     /// The unique area key of the area - this is a surrogate key
     /// </summary>
     [Key]
-    public required int AreaKey { get; set; }
+    public required int AreaKey { get; init; }
 
     /// <summary>
     /// The area code of the area - may not be unique because
@@ -20,35 +20,35 @@ public class DenormalisedAreaWithAreaTypeModel
     /// areaType in which case they have two entries in the DB
     /// </summary>
     [MaxLength(20)]
-    public required string AreaCode { get; set; }
+    public required string AreaCode { get; init; }
 
     /// <summary>
     /// The name of the area e.g. 'Derby'
     /// </summary>
     [MaxLength(255)]
-    public required string AreaName { get; set; }
+    public required string AreaName { get; init; }
 
     /// <summary>
     /// 
     /// </summary>
-    public required string AreaTypeKey { get; set; }
+    public required string AreaTypeKey { get; init; }
 
     /// <summary>
     /// The level of the area type in the hierarchy
     /// </summary>
-    public required int Level { get; set; }
+    public required int Level { get; init; }
 
     /// <summary>
     /// The name of the associated hierarchy for the area type
     /// </summary>
     [MaxLength(20)]
-    public required string HierarchyType { get; set; }
+    public required string HierarchyType { get; init; }
 
     /// <summary>
     /// The name of the area type for display
     /// </summary>
     [MaxLength(50)]
-    public required string AreaTypeName { get; set; }
+    public required string AreaTypeName { get; init; }
 
     /// <summary>
     /// This function converts back to an AreaModel with an AreaTypeModel

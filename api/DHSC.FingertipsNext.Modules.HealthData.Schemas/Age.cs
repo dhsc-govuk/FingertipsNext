@@ -11,7 +11,7 @@ public class Age
     ///     Age band which the data are for.
     /// </summary>
     [JsonPropertyName("value")]
-    public string Value { get; init; }
+    public required string Value { get; init; }
 
     /// <summary>
     ///     Indicates if the datapoint is an aggregated value for the age dimension

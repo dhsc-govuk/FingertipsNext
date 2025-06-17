@@ -1,0 +1,10 @@
+apisDefinitions:
+  main: definition/swagger.yaml
+
+extends:
+  - recommended
+rules:
+  info-license: off
+  no-server-example.com: off
+  security-defined: off
+  operation-4xx-response: off

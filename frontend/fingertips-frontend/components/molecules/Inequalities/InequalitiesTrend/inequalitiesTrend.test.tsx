@@ -1,10 +1,8 @@
 import { render, screen, within } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { InequalitiesTrend } from '.';
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { LoaderContext } from '@/context/LoaderContext';
-import { SearchStateContext } from '@/context/SearchStateContext';
 import {
   HealthDataForArea,
   HealthDataPointTrendEnum,
@@ -35,20 +33,6 @@ jest.mock('@/context/LoaderContext', () => {
     useLoadingState: () => mockLoaderContext,
   };
 });
-
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: jest.fn(),
-  setSearchState: jest.fn(),
-};
-jest.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
-
-const state: SearchStateParams = {
-  [SearchParams.InequalityLineChartTypeSelected]: 'Sex',
-};
 
 describe('InequalitiesTrend suite', () => {
   it('should render expected elements', async () => {
@@ -96,7 +80,6 @@ describe('InequalitiesTrend suite', () => {
     render(
       <InequalitiesTrend
         healthIndicatorData={mockHealthData}
-        searchState={state}
         dataSource="inequalities data source"
       />
     );
@@ -151,12 +134,7 @@ describe('InequalitiesTrend suite', () => {
       healthData: MOCK_HEALTH_DATA[0].healthData.slice(0, 2),
     };
 
-    render(
-      <InequalitiesTrend
-        healthIndicatorData={[mockHealthData]}
-        searchState={state}
-      />
-    );
+    render(<InequalitiesTrend healthIndicatorData={[mockHealthData]} />);
 
     expect(
       screen.queryByTestId('inequalitiesTrend-component')
@@ -169,12 +147,7 @@ describe('InequalitiesTrend suite', () => {
       healthData: [MOCK_HEALTH_DATA[0].healthData[0]],
     };
 
-    render(
-      <InequalitiesTrend
-        healthIndicatorData={[mockHealthData]}
-        searchState={state}
-      />
-    );
+    render(<InequalitiesTrend healthIndicatorData={[mockHealthData]} />);
 
     expect(
       screen.queryByTestId('inequalitiesTrend-component')

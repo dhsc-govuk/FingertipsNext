@@ -2,7 +2,6 @@ import { render, screen, within } from '@testing-library/react';
 import { InequalitiesTypesDropDown } from '.';
 import { SearchParams } from '@/lib/searchStateManager';
 import userEvent from '@testing-library/user-event';
-import { SearchStateContext } from '@/context/SearchStateContext';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -24,16 +23,9 @@ const mockSearchState = {
   [SearchParams.InequalityLineChartTypeSelected]: 'Sex',
   [SearchParams.InequalityBarChartTypeSelected]: 'Sex',
 };
-
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: jest.fn(),
-  setSearchState: jest.fn(),
-};
-jest.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
+jest.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockSearchState,
+}));
 
 describe('InequalitiesTypesDropDown suite', () => {
   const options = ['deprivation1', 'deprivation2', 'deprivation3', 'Sex'];
@@ -46,7 +38,6 @@ describe('InequalitiesTypesDropDown suite', () => {
           SearchParams.InequalityBarChartTypeSelected
         }
         testRef="bc"
-        searchState={mockSearchState}
       />
     );
     const dropDown = screen.getByRole('combobox');
@@ -74,7 +65,6 @@ describe('InequalitiesTypesDropDown suite', () => {
           SearchParams.InequalityLineChartTypeSelected
         }
         testRef="lc"
-        searchState={mockSearchState}
       />
     );
 
@@ -84,9 +74,8 @@ describe('InequalitiesTypesDropDown suite', () => {
   });
 
   it('should select option specified in searchState', async () => {
-    const mockSearchState = {
-      [SearchParams.InequalityLineChartTypeSelected]: 'deprivation3',
-    };
+    mockSearchState[SearchParams.InequalityLineChartTypeSelected] =
+      'deprivation3';
 
     render(
       <InequalitiesTypesDropDown
@@ -95,7 +84,6 @@ describe('InequalitiesTypesDropDown suite', () => {
           SearchParams.InequalityLineChartTypeSelected
         }
         testRef="bc"
-        searchState={mockSearchState}
       />
     );
 

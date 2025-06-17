@@ -39,6 +39,7 @@ describe('PopulationPyramidChartTable', () => {
   test('renders tables with health and benchmark data', () => {
     render(
       <PopulationPyramidChartTable
+        title={'Area resident population, 2023'}
         healthDataForArea={mockHealthDataForArea}
         groupData={mockGroupData}
         benchmarkData={mockBenchmarkData}
@@ -47,6 +48,9 @@ describe('PopulationPyramidChartTable', () => {
         period={2003}
       />
     );
+
+    const title = screen.getByRole('heading', { level: 4 });
+    expect(title).toHaveTextContent('Area resident population, 2023');
 
     expect(screen.getByText('Test Area')).toBeInTheDocument();
     expect(screen.getByText('Group Area')).toBeInTheDocument();
@@ -59,6 +63,7 @@ describe('PopulationPyramidChartTable', () => {
   test('renders without benchmark data', () => {
     render(
       <PopulationPyramidChartTable
+        title={'Area resident population, 2023'}
         healthDataForArea={mockHealthDataForArea}
         benchmarkData={undefined}
         groupData={mockGroupData}
@@ -77,6 +82,7 @@ describe('PopulationPyramidChartTable', () => {
   test('check that all 3 tables are rendered and then take a snapshot', () => {
     const { asFragment } = render(
       <PopulationPyramidChartTable
+        title={'Area resident population, 2023'}
         healthDataForArea={mockHealthDataForArea}
         benchmarkData={mockBenchmarkData}
         groupData={mockGroupData}
@@ -94,6 +100,7 @@ describe('PopulationPyramidChartTable', () => {
   test('check it contains the export button', () => {
     render(
       <PopulationPyramidChartTable
+        title={'Area resident population, 2023'}
         healthDataForArea={mockHealthDataForArea}
         benchmarkData={mockBenchmarkData}
         groupData={mockGroupData}
