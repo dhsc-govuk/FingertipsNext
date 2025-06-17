@@ -39,7 +39,7 @@ public class IndicatorsController(IDataUploadService dataUploadService, IConfigu
     {
         await using var stream = HttpContext.Request.Body;
         
-        if (stream.Length == 0) return BadRequest();
+        // if (stream.Length == 0) return BadRequest();  - throws an error 
         
         var response = await dataUploadService.UploadWithSdkAsync
             (stream, "big-file.csv", configuration.GetValue<string>("STORAGE_CONTAINER_NAME"));
