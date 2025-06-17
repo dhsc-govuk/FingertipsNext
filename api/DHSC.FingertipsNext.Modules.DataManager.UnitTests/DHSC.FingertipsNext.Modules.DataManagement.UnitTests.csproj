@@ -26,4 +26,10 @@
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.DataManager\DHSC.FingertipsNext.Modules.DataManagement.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="TestData\StubHealthdataUpload.csv">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

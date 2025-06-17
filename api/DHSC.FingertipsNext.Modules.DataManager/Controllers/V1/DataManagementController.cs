@@ -1,3 +1,6 @@
+using System.Globalization;
+using System.Runtime.InteropServices.JavaScript;
+using CsvHelper;
 using DHSC.FingertipsNext.Modules.DataManagement.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -5,17 +8,19 @@ using Microsoft.AspNetCore.Mvc;
 namespace DHSC.FingertipsNext.Modules.DataManagement.Controllers.V1;
 
 [ApiController]
-[Route("data_management")]
-public class DataManagementController(IDataManagementService dataManagementService) : ControllerBase
+[Route("indicators/{indicatorId:int}/data")]
+[ProducesResponseType(StatusCodes.Status200OK)]
+[ProducesResponseType(typeof(JSType.Error), StatusCodes.Status400BadRequest)]
+public class DataManagementController() : ControllerBase
 {
-    /// <summary>
-    /// Simple endpoint to implement testable module skeleton
-    /// </summary>
-    /// <returns></returns>
-    [HttpGet]
-    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-    public ActionResult Healthcheck()
+    [HttpPost]
+    public IActionResult AcceptFile(IFormFile? file)
     {
-        return Ok(dataManagementService.SayHelloToRepository());
+        if (file == null || file.Length == 0) return BadRequest();
+
+        using var reader = new StreamReader(file.OpenReadStream());
+        using var csv = new CsvReader(reader, new CultureInfo("en-GB"));
+        
+        return Ok($"File {file.FileName} has been accepted.");
     }
 }

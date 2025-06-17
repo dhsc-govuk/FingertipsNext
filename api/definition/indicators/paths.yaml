@@ -47,14 +47,15 @@ indicators_by_indicator_id:
 indicators_by_indicator_id_data:
   parameters:
     - $ref: "./parameters.yaml#/indicator_id"
-    - $ref: "../parameters.yaml#/area_codes"
-    - $ref: "./parameters.yaml#/area_type"
-    - $ref: "./parameters.yaml#/ancestor_code"
-    - $ref: "./parameters.yaml#/benchmark_ref_type"
-    - $ref: "./parameters.yaml#/years"
-    - $ref: "./parameters.yaml#/inequalities"
-    - $ref: "./parameters.yaml#/latest_only"
   get:
+    parameters:
+      - $ref: "../parameters.yaml#/area_codes"
+      - $ref: "./parameters.yaml#/area_type"
+      - $ref: "./parameters.yaml#/ancestor_code"
+      - $ref: "./parameters.yaml#/benchmark_ref_type"
+      - $ref: "./parameters.yaml#/years"
+      - $ref: "./parameters.yaml#/inequalities"
+      - $ref: "./parameters.yaml#/latest_only"
     tags:
       - indicators
     summary: Get health data for an indicator
@@ -80,7 +81,24 @@ indicators_by_indicator_id_data:
       - indicators
     summary: add a batch of new data for an indicator
     description: Not Yet Implemented - Creates new data for the indicator. The data is always created in an unpublished and unapproved state.
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              file: 
+                type: string
+                format: binary
     responses:
+      "200":
+        description: The file has been accepted by the API and further processing will be conducted. 
+        content:
+          text/plain:
+            schema: 
+              type: string
+              example: The file has been accepted.
       "501":
         description: Not Implemented
         content:
