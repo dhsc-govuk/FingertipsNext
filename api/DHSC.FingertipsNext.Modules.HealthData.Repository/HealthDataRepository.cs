@@ -159,7 +159,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync(
+    public async Task<IEnumerable<DenormalisedHealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync(
         int indicatorId, string[] areaCodes, int[] years, string areaTypeKey, string benchmarkAreaCode)
     {
         SqlParameter areasOfInterest;
@@ -199,12 +199,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
               "
         ).ToListAsync();
 
-        return
-        [
-            .. denormalisedHealthData
-                .Select(a => a.Normalise())
-                .OrderBy(a => a.Year)
-        ];
+        return denormalisedHealthData.OrderBy(a => a.Year);
     }
 
     public async Task<IEnumerable<QuartileDataModel>> GetQuartileDataAsync(IEnumerable<int> indicatorIds,

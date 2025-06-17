@@ -8,48 +8,38 @@ public class DateDimensionModel
     [Key]
     public int DateKey { get; set; }
 
-    [Required]
-    public DateTime Date { get; set; }
+    public required DateTime Date { get; set; }
 
-    [Required]
     public byte Day { get; set; }
 
-    [Required, MaxLength(2)]
-    public string DaySuffix { get; set; } = string.Empty;
+    [MaxLength(2)]
+    public string? DaySuffix { get; set; }
 
-    [Required]
     public byte Weekday { get; set; }
 
-    [Required, MaxLength(10)]
-    public string WeekDayName { get; set; } = string.Empty;
+    [MaxLength(10)]
+    public string? WeekDayName { get; set; }
 
-    [Required]
     public short DayOfYear { get; set; }
 
-    [Required]
     public byte WeekOfMonth { get; set; }
 
-    [Required]
     public byte WeekOfYear { get; set; }
 
-    [Required]
     public byte Month { get; set; }
 
-    [Required, MaxLength(10)]
-    public string MonthName { get; set; } = string.Empty;
+    [MaxLength(10)]
+    public string? MonthName { get; set; }
 
-    [Required, MaxLength(3)]
-    public string MonthNameShort { get; set; } = string.Empty;
+    [MaxLength(3)]
+    public string? MonthNameShort { get; set; }
 
-    [Required]
     public byte Quarter { get; set; }
 
-    [Required, MaxLength(6)]
-    public string QuarterName { get; set; } = string.Empty;
+    [MaxLength(6)]
+    public string? QuarterName { get; set; }
 
-    [Required]
     public int Year { get; set; }
 
-    [Required]
     public bool IsWeekend { get; set; }
 }

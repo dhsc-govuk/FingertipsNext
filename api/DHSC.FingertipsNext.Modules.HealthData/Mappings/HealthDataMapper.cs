@@ -61,7 +61,55 @@ public class HealthDataMapper : IHealthDataMapper
         };
     }
 
+    public static HealthDataPoint Map(DenormalisedHealthMeasureModel source)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        return new HealthDataPoint
+        {
+            Count = source.Count,
+            Value = source.Value,
+            Year = source.Year,
+            DatePeriod = Map(source.FromDate, source.ToDate, source.Period),
+            BenchmarkComparison = Map(source.BenchmarkComparisonOutcome == null
+            ? null
+            : new BenchmarkComparisonModel
+            {
+                Outcome = source.BenchmarkComparisonOutcome,
+                BenchmarkAreaCode = source.BenchmarkComparisonAreaCode!,
+                BenchmarkAreaName = source.BenchmarkComparisonAreaName!
+            }),
+            IsAggregate = true,
+            LowerConfidenceInterval = source.LowerCi,
+            UpperConfidenceInterval = source.UpperCi,
+            AgeBand = Map(new AgeDimensionModel()
+            {
+                Name = source.AgeDimensionName,
+                HasValue = source.AgeDimensionHasValue,
+                IsAggregate = source.AgeDimensionIsAggregate,
+            }),
+            Sex = Map(new SexDimensionModel()
+            {
+                Name = source.SexDimensionName,
+                HasValue = source.SexDimensionHasValue,
+                IsAggregate = source.SexDimensionIsAggregate
+            }),
+            Trend = source.TrendDimensionName ?? string.Empty,
+            Deprivation = Map(new DeprivationDimensionModel()
+            {
+                Name = source.DeprivationDimensionName,
+                Type = source.DeprivationDimensionType,
+                Sequence = source.DeprivationDimensionSequence,
+                HasValue = source.DeprivationDimensionHasValue,
+                IsAggregate = source.DeprivationDimensionIsAggregate,
+            }),
+        };
+    }
+
     public IList<HealthDataPoint> Map(IList<HealthMeasureModel> source)
+    {
+        return source.Select(Map).ToList();
+    }
+    public IList<HealthDataPoint> Map(IList<DenormalisedHealthMeasureModel> source)
     {
         return source.Select(Map).ToList();
     }

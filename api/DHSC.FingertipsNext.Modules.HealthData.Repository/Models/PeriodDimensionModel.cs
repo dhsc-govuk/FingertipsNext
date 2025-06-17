@@ -13,7 +13,7 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Repository.Models
         [Key]
         public byte PeriodKey { get; set; }
 
-        [Required, MaxLength(50)]
-        public string Period { get; set; } = string.Empty;
+        [MaxLength(50)]
+        public required string Period { get; set; }
     }
 }

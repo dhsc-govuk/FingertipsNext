@@ -1,5 +1,4 @@
 using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 
