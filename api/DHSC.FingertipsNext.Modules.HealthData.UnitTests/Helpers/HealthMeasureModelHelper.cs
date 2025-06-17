@@ -213,6 +213,7 @@ internal sealed class HealthMeasureModelHelper(
         { DateKey = key, Date = new DateTime(year, month, day) };
         return this;
     }
+
     private HealthMeasureModelHelper DefaultToDateDimension(int year, int month, int day)
     {
         _toDateDimension = new DateDimensionModel()
