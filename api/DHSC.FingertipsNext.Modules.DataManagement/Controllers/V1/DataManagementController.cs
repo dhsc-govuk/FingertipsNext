@@ -17,7 +17,7 @@ public class DataManagementController() : ControllerBase
 
         // using var reader = new StreamReader(file.OpenReadStream());
         // using var csv = new CsvReader(reader, new CultureInfo("en-GB"));
-        
+
         return Ok($"File {file.FileName} has been accepted.");
     }
 }

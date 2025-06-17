@@ -20,7 +20,7 @@ public class DataManagementControllerTests
         // _controller = new DataManagementController(_dataManagementService);
         _controller = new DataManagementController();
     }
-    
+
     [Fact]
     public void PostReturnsExpectedResponseWhenGivenAValidFile()
     {
@@ -29,16 +29,16 @@ public class DataManagementControllerTests
         var filePath = Path.Combine("TestData", stubFileName);
         var bytes = File.ReadAllBytes(filePath);
         var stream = new MemoryStream(bytes);
-        var formFile = new FormFile(stream, 0, bytes.Length, 
+        var formFile = new FormFile(stream, 0, bytes.Length,
             "file", stubFileName);
-        
+
         // act
         var response = _controller.AcceptFile(formFile) as OkObjectResult;
         // assert
         response?.StatusCode.ShouldBe(200);
         response?.Value.ToString().ShouldBe($"File {stubFileName} has been accepted.");
     }
-    
+
     [Fact]
     public void NullFileReturns400()
     {
@@ -55,7 +55,7 @@ public class DataManagementControllerTests
     {
         // Arrange
         var stream = new MemoryStream(); // no data
-        var formFile = new FormFile(stream, 0, 0, 
+        var formFile = new FormFile(stream, 0, 0,
             "file", "empty.csv");
 
         // Act
