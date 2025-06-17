@@ -12,9 +12,10 @@ export const lineChartOverTimeIsRequired = (searchState: SearchStateParams) => {
   } = searchState;
 
   const areaCodes = determineAreaCodes(areasSelected);
+
   if (
-    areaCodes.length === 1 &&
-    areaCodes[0] === areaCodeForEngland &&
+    areaCodes?.length === 1 &&
+    areaCodes?.at(0) === areaCodeForEngland &&
     areaTypeSelected === 'england'
   ) {
     // yes if ONLY england
@@ -22,7 +23,7 @@ export const lineChartOverTimeIsRequired = (searchState: SearchStateParams) => {
   }
 
   if (groupAreaSelected === ALL_AREAS_SELECTED) return false; // not if all areas
-  if (areaCodes.length > 2) return false; // not if more than 2 areas
+  if (areaCodes?.length > 2) return false; // not if more than 2 areas
   if (indicatorIds?.length !== 1) return false; // not if we don't have exactly 1 indicator
 
   return Boolean(areaCodes.length > 0); // we must have some areas
