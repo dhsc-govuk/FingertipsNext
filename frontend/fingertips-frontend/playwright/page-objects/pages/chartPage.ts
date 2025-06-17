@@ -1,33 +1,33 @@
 import {
   AreaFilters,
   AreaMode,
+  capitaliseFirstCharacter,
   customEncodeURIComponent,
   getScenarioConfig,
   IndicatorMode,
   PersistentCsvHeaders,
   SimpleIndicatorDocument,
-} from '@/playwright/testHelpers';
-import { ComponentDefinition } from '../components/componentTypes';
+} from '@/playwright/testHelpers/genericTestUtilities';
+import { ChartComponentDefinition } from '../../testHelpers/testDefinitions';
 import { expect } from '../pageFactory';
 import AreaFilter from '../components/areaFilter';
 import { SearchParams } from '@/lib/searchStateManager';
 import { ExportType } from '@/components/molecules/Export/export.types';
 import { Download, Locator, test } from '@playwright/test';
-import path from 'path';
-import fs from 'fs/promises';
-import { createDownloadPath } from '@/playwright/testHelpers/exportUtils';
+import {
+  copySavedFileIntoDirectory,
+  createDownloadPath,
+  getExpectedCSVIndicatorData,
+  verifyCSVDownloadMatchesPreview,
+  verifySVGDownloadMatchesPreview,
+} from '../../testHelpers/exportUtilities';
 import { copyrightDateFormat } from '@/components/molecules/Export/ExportCopyright';
 import { format } from 'date-fns/format';
-import { XMLParser } from 'fast-xml-parser';
-
-interface VisibleComponent {
-  componentLocator: string;
-  componentProps: Record<string, boolean>;
-}
+import { InequalitiesTypes } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 export default class ChartPage extends AreaFilter {
   readonly backLink = 'chart-page-back-link';
-
+  readonly chartPageTitle = 'View data for selected indicators and areas';
   // chart components
   static readonly lineChartComponent = 'standardLineChart-component';
   static readonly lineChartTableComponent = 'lineChartTable-component';
@@ -64,9 +64,7 @@ export default class ChartPage extends AreaFilter {
   static readonly exportDomContainer = 'domContainer';
 
   async checkOnChartPage() {
-    await expect(
-      this.page.getByText('View data for selected indicators and areas')
-    ).toBeVisible();
+    await expect(this.page.getByText(this.chartPageTitle)).toBeVisible();
   }
 
   async checkSpecificChartComponent(chartComponent: string) {
@@ -77,12 +75,6 @@ export default class ChartPage extends AreaFilter {
     await this.clickAndAwaitLoadingComplete(
       this.page.getByTestId(this.backLink)
     );
-  }
-
-  async waitAfterDropDownInteraction() {
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
-    await this.page.waitForTimeout(1000);
   }
 
   /**
@@ -96,7 +88,8 @@ export default class ChartPage extends AreaFilter {
     areaMode: AreaMode,
     selectedIndicators: SimpleIndicatorDocument[],
     selectedAreaFilters: AreaFilters,
-    checkExports: boolean
+    checkExports: boolean,
+    typeOfInequalityToSelect: InequalitiesTypes
   ) {
     const testInfo = test.info();
     const testName = testInfo.title;
@@ -120,7 +113,8 @@ export default class ChartPage extends AreaFilter {
         areaMode,
         indicatorMode,
         selectedAreaFilters,
-        checkExports
+        checkExports,
+        typeOfInequalityToSelect
       );
       await this.verifyComponentVisibleAndScreenshotMatch(
         visibleComponent,
@@ -133,56 +127,48 @@ export default class ChartPage extends AreaFilter {
     }
   }
 
-  // click the hide filters pane before asserting visibility and taking screenshots
-  private async hideFiltersPane() {
-    await this.clickAndAwaitLoadingComplete(
-      this.page.getByTestId('area-filter-pane-hidefilters')
-    );
-    await expect(this.page.getByTestId('show-filter-cta')).toHaveText(
-      'Show filter'
-    );
-  }
-
   private async handleComponentInteractions(
-    component: {
-      componentLocator: string;
-      componentProps: Record<string, boolean>;
-    },
+    component: ChartComponentDefinition,
     selectedIndicators: SimpleIndicatorDocument[],
     areaMode: AreaMode,
     indicatorMode: IndicatorMode,
     selectedAreaFilters: AreaFilters,
-    checkExports: boolean
+    checkExports: boolean,
+    typeOfInequalityToSelect: InequalitiesTypes
   ) {
-    const { componentLocator, componentProps } = component;
+    const { chartComponentLocator, chartComponentProps } = component;
 
     const interactions = [
       {
-        condition: componentProps.isTabTable,
-        action: async () => await this.selectTabForComponent(componentLocator),
+        condition: chartComponentProps.isTabTable,
+        action: async () =>
+          await this.selectTabForComponent(chartComponentLocator),
       },
       {
-        condition: componentProps.hasTimePeriodDropDown,
+        condition: chartComponentProps.hasInequalitiesTimePeriodDropDown,
         action: async () => await this.selectLastTimePeriodOption(),
       },
       {
-        condition: componentProps.hasInequalityTypeDropDown,
+        condition: chartComponentProps.hasInequalityTypeDropDown,
         action: async () =>
-          await this.selectInequalityTypeDropdownOption({
-            componentLocator,
-            componentProps,
-          }),
+          await this.selectInequalityTypeDropdownOption(
+            {
+              chartComponentLocator,
+              chartComponentProps,
+            },
+            typeOfInequalityToSelect
+          ),
       },
       {
-        condition: componentProps.hasDetailsExpander,
+        condition: chartComponentProps.hasDetailsExpander,
         action: async () => await this.expandDetailsSection(),
       },
       {
-        condition: componentProps.isWideComponent,
-        action: async () => await this.scrollToMiddle(componentLocator),
+        condition: chartComponentProps.isWideComponent,
+        action: async () => await this.scrollToMiddle(chartComponentLocator),
       },
       {
-        condition: componentProps.hasRecentTrend,
+        condition: chartComponentProps.hasRecentTrend,
         action: async () =>
           await this.verifyTrendTagForComponent(
             component,
@@ -191,12 +177,12 @@ export default class ChartPage extends AreaFilter {
           ),
       },
       {
-        condition: checkExports && componentProps.hasPNGExport,
+        condition: checkExports && chartComponentProps.hasPNGExport,
         action: async () =>
           await this.verifyPNGExport(component, areaMode, indicatorMode),
       },
       {
-        condition: checkExports && componentProps.hasSVGExport,
+        condition: checkExports && chartComponentProps.hasSVGExport,
         action: async () =>
           await this.verifySVGExport(
             component,
@@ -206,7 +192,7 @@ export default class ChartPage extends AreaFilter {
           ),
       },
       {
-        condition: checkExports && componentProps.hasCSVExport,
+        condition: checkExports && chartComponentProps.hasCSVExport,
         action: async () =>
           await this.verifyCSVExport(
             component,
@@ -216,7 +202,7 @@ export default class ChartPage extends AreaFilter {
           ),
       },
       {
-        condition: componentProps.showsBenchmarkComparisons,
+        condition: chartComponentProps.hasBenchmarkComparisons,
         action: async () =>
           await this.verifyBenchmarkingForComponent(
             component,
@@ -224,9 +210,9 @@ export default class ChartPage extends AreaFilter {
           ),
       },
       {
-        condition: componentProps.hasConfidenceIntervals,
+        condition: chartComponentProps.hasConfidenceIntervals,
         action: async () =>
-          await this.toggleConfidenceInterval(componentLocator),
+          await this.toggleConfidenceInterval(chartComponentLocator),
       },
     ];
 
@@ -238,8 +224,8 @@ export default class ChartPage extends AreaFilter {
   }
 
   // clicks on the tab if the component is a table
-  private async selectTabForComponent(componentLocator: string) {
-    const tabTestId = `tabTitle-${componentLocator.replace('-component', '')}`;
+  private async selectTabForComponent(chartComponentLocator: string) {
+    const tabTestId = `tabTitle-${chartComponentLocator.replace('-component', '')}`;
     await this.clickAndAwaitLoadingComplete(this.page.getByTestId(tabTestId));
   }
 
@@ -253,7 +239,7 @@ export default class ChartPage extends AreaFilter {
     const lastOption = options.at(-1)?.value;
     if (!lastOption) return;
 
-    await combobox.selectOption({ value: lastOption });
+    await this.selectOptionAndAwaitLoadingComplete(combobox, lastOption);
     await this.waitAfterDropDownInteraction();
     await this.waitForURLToContain(lastOption);
 
@@ -266,13 +252,13 @@ export default class ChartPage extends AreaFilter {
     expect(await combobox.inputValue()).toBe(lastOption);
   }
 
-  // selects either first or last option (sex) in the inequality dropdown
-  private async selectInequalityTypeDropdownOption({
-    componentLocator,
-    componentProps,
-  }: ComponentDefinition) {
+  private async selectInequalityTypeDropdownOption(
+    { chartComponentLocator }: ChartComponentDefinition,
+    typeOfInequalityToSelect: InequalitiesTypes
+  ) {
     const dropdownComponent =
-      componentLocator === ChartPage.inequalitiesForSingleTimePeriodComponent
+      chartComponentLocator ===
+      ChartPage.inequalitiesForSingleTimePeriodComponent
         ? ChartPage.inequalitiesTypesDropDownComponentBC
         : ChartPage.inequalitiesTypesDropDownComponentLC;
 
@@ -288,25 +274,45 @@ export default class ChartPage extends AreaFilter {
       );
     }
 
-    const valueToSelect = componentProps.selectDeprivationInequality
-      ? options[0].value
-      : options.at(-1)?.value;
+    let selectedOption: string;
 
-    if (!valueToSelect) {
+    if (typeOfInequalityToSelect === InequalitiesTypes.Sex) {
+      // For Sex we can select by exact value
+      const sexInequalityOptionCapitalised = capitaliseFirstCharacter(
+        String(InequalitiesTypes.Sex)
+      );
+      selectedOption = sexInequalityOptionCapitalised;
+
+      await this.selectOptionAndAwaitLoadingComplete(combobox, selectedOption);
+      await this.waitAfterDropDownInteraction();
+    } else if (typeOfInequalityToSelect === InequalitiesTypes.Deprivation) {
+      // For Deprivation find the option that contains "deprivation"
+      const deprivationOption = options.find((option) =>
+        option.text.toLowerCase().includes('deprivation')
+      );
+
+      if (!deprivationOption) {
+        throw new Error(
+          `No deprivation option found in dropdown at [${dropdownComponent}].`
+        );
+      }
+
+      selectedOption = deprivationOption.value;
+      await this.selectOptionAndAwaitLoadingComplete(combobox, selectedOption);
+      await this.waitAfterDropDownInteraction();
+    } else {
       throw new Error(
-        `Unable to determine option to select from dropdown at [${dropdownComponent}].`
+        `Unsupported inequality type: ${typeOfInequalityToSelect}`
       );
     }
 
-    await combobox.selectOption({ value: valueToSelect });
     await this.waitAfterDropDownInteraction();
-    expect(await combobox.inputValue()).toBe(valueToSelect);
-
-    await this.waitForURLToContain(customEncodeURIComponent(valueToSelect));
+    expect(await combobox.inputValue()).toBe(selectedOption);
+    await this.waitForURLToContain(customEncodeURIComponent(selectedOption));
   }
 
   // checks the confidence interval checkbox
-  private async toggleConfidenceInterval(componentLocator: string) {
+  private async toggleConfidenceInterval(chartComponentLocator: string) {
     const mapping: Record<string, string> = {
       [ChartPage.inequalitiesForSingleTimePeriodComponent]:
         ChartPage.inequalitiesBarChartComponent,
@@ -321,7 +327,7 @@ export default class ChartPage extends AreaFilter {
     };
 
     const ciComponent =
-      mapping[componentLocator] || ChartPage.lineChartComponent;
+      mapping[chartComponentLocator] || ChartPage.lineChartComponent;
     const testId = `confidence-interval-checkbox-${ciComponent.replace('-component', '')}`;
 
     await this.checkAndAwaitLoadingComplete(this.page.getByTestId(testId));
@@ -337,8 +343,8 @@ export default class ChartPage extends AreaFilter {
   }
 
   // scrolls to the middle of the component for better screenshot
-  private async scrollToMiddle(componentLocator: string) {
-    await this.page.getByTestId(componentLocator).evaluate((element) => {
+  private async scrollToMiddle(chartComponentLocator: string) {
+    await this.page.getByTestId(chartComponentLocator).evaluate((element) => {
       element.scrollLeft = (element.scrollWidth - element.clientWidth) / 2;
     });
   }
@@ -362,21 +368,21 @@ export default class ChartPage extends AreaFilter {
   }
 
   private async verifyTrendTagForComponent(
-    visibleComponent: VisibleComponent,
+    visibleComponent: ChartComponentDefinition,
     areaMode: AreaMode,
     selectedIndicators: SimpleIndicatorDocument[]
   ): Promise<void> {
-    if (!visibleComponent.componentProps.hasRecentTrend) {
+    if (!visibleComponent.chartComponentProps.hasRecentTrend) {
       return;
     }
 
-    const componentLocator = visibleComponent.componentLocator;
+    const chartComponentLocator = visibleComponent.chartComponentLocator;
     const trendTagLocator = this.page
-      .getByTestId(componentLocator)
+      .getByTestId(chartComponentLocator)
       .getByTestId('trendTag-container');
 
     if (
-      componentLocator === 'spineChartTable-component' &&
+      chartComponentLocator === 'spineChartTable-component' &&
       areaMode !== AreaMode.ONE_AREA
     ) {
       // Verify no trend container is present for spine chart in non-ONE_AREA modes
@@ -399,18 +405,18 @@ export default class ChartPage extends AreaFilter {
 
   private getBenchmarkConfig(
     selectedAreaFilters: AreaFilters,
-    component: VisibleComponent
+    component: ChartComponentDefinition
   ) {
-    const upperCaseFirstCharSelectedGroup =
-      selectedAreaFilters.group.charAt(0).toUpperCase() +
-      selectedAreaFilters.group.slice(1);
+    const upperCaseFirstCharSelectedGroup = capitaliseFirstCharacter(
+      selectedAreaFilters.group
+    );
 
     // determine expected values based on area filters
     const isEnglandGroup =
       selectedAreaFilters.group.toLowerCase() === 'england';
     const isEnglandAreaType = selectedAreaFilters.areaType === 'england';
     const isThematicMap =
-      component.componentLocator === ChartPage.thematicMapComponent;
+      component.chartComponentLocator === ChartPage.thematicMapComponent;
 
     // determine expected benchmarking text based on area filters
     const expectedSelectedOption = isEnglandGroup
@@ -435,7 +441,7 @@ export default class ChartPage extends AreaFilter {
   }
 
   private async verifyBenchmarkingForComponent(
-    component: VisibleComponent,
+    component: ChartComponentDefinition,
     selectedAreaFilters: AreaFilters
   ) {
     const dropdownComponent = ChartPage.benchmarkDropDownComponent;
@@ -470,12 +476,12 @@ export default class ChartPage extends AreaFilter {
     if (benchmarkConfig.shouldShowBenchmarkText) {
       await expect(
         this.page
-          .getByTestId(component.componentLocator)
+          .getByTestId(component.chartComponentLocator)
           .getByText(benchmarkConfig.expectedBenchmarkTitleText)
           .first()
       ).toBeVisible();
       // check hover if current chart component has tooltip hovers
-      if (component.componentProps.hasTooltipHovers) {
+      if (component.chartComponentProps.hasTooltipHovers) {
         await this.checkHovers(
           component,
           benchmarkConfig.expectedBenchmarkTooltipText
@@ -484,35 +490,35 @@ export default class ChartPage extends AreaFilter {
     } else {
       await expect(
         this.page
-          .getByTestId(component.componentLocator)
+          .getByTestId(component.chartComponentLocator)
           .getByText('Benchmark:')
       ).not.toBeVisible();
       // check hover doesnt contain 'Benchmark:' if current chart component has tooltip hovers
-      if (component.componentProps.hasTooltipHovers) {
+      if (component.chartComponentProps.hasTooltipHovers) {
         await this.checkHovers(component);
       }
     }
   }
 
   private async checkHovers(
-    component: VisibleComponent,
+    component: ChartComponentDefinition,
     expectedBenchmarkText?: string
   ) {
     // get correct chart point based on component locator
     const tooltipPointToAssert =
-      (component.componentLocator ===
+      (component.chartComponentLocator ===
         ChartPage.barChartEmbeddedTableComponent ||
-        component.componentLocator === ChartPage.heatMapComponent) &&
+        component.chartComponentLocator === ChartPage.heatMapComponent) &&
       expectedBenchmarkText !== 'Benchmark: England'
         ? 1
         : 0;
     const chartPoint = this.page
-      .getByTestId(component.componentLocator)
+      .getByTestId(component.chartComponentLocator)
       .locator('.highcharts-point')
       .nth(tooltipPointToAssert);
 
     // we need to disable the actionability checks for hover and click for thematic map as it never reaches stable - https://playwright.dev/docs/actionability#stable
-    if (component.componentLocator === ChartPage.thematicMapComponent) {
+    if (component.chartComponentLocator === ChartPage.thematicMapComponent) {
       chartPoint.focus();
       chartPoint.scrollIntoViewIfNeeded();
       await expect(chartPoint).toBeVisible();
@@ -541,15 +547,15 @@ export default class ChartPage extends AreaFilter {
   }
 
   private async verifyComponentVisibleAndScreenshotMatch(
-    component: { componentLocator: string },
+    component: { chartComponentLocator: string },
     testName: string
   ) {
-    const { componentLocator } = component;
+    const { chartComponentLocator } = component;
 
     const locatorToUse =
-      componentLocator !== ChartPage.populationPyramidChartComponent
-        ? componentLocator
-        : `tabContent-${componentLocator.replace('-component', '')}`;
+      chartComponentLocator !== ChartPage.populationPyramidChartComponent
+        ? chartComponentLocator
+        : `tabContent-${chartComponentLocator.replace('-component', '')}`;
 
     await expect(this.page.getByTestId(locatorToUse)).toBeVisible({
       visible: true,
@@ -561,53 +567,17 @@ export default class ChartPage extends AreaFilter {
     await this.page.waitForFunction('window.scrollY === 0');
     await this.page.waitForTimeout(1000);
 
-    await expect(this.page.getByTestId(componentLocator), {
-      message: `Screenshot match failed: ${componentLocator}`,
-    }).toHaveScreenshot(`${testName}-${componentLocator}.png`);
+    await expect(this.page.getByTestId(chartComponentLocator), {
+      message: `Screenshot match failed: ${chartComponentLocator}`,
+    }).toHaveScreenshot(`${testName}-${chartComponentLocator}.png`);
   }
 
   private async verifyComponentNotVisible(component: {
-    componentLocator: string;
+    chartComponentLocator: string;
   }) {
-    await expect(this.page.getByTestId(component.componentLocator)).toBeVisible(
-      { visible: false }
-    );
-  }
-
-  private async getSelectOptions(combobox: Locator) {
-    return await combobox.evaluate((select: HTMLSelectElement) =>
-      Array.from(select.options).map((option) => ({
-        value: option.value,
-        text: option.text,
-      }))
-    );
-  }
-
-  private async clickExportAndSaveFile(
-    downloadDir: string
-  ): Promise<{ download: Download; downloadPath: string }> {
-    const downloadPromise = this.page.waitForEvent('download');
-    await this.clickAndAwaitLoadingComplete(
-      this.page
-        .getByTestId(ChartPage.exportModalPaneComponent)
-        .getByRole('button')
-        .getByText('Export')
-    );
-    const download = await downloadPromise;
-    const filename = download.suggestedFilename();
-    const downloadPath = path.join(downloadDir, filename);
-
-    // move the downloaded file to the specified directory
-    await download.saveAs(downloadPath);
-
-    // Delete the original download if it exists
-    try {
-      await download.delete();
-    } catch {
-      // Ignore if already deleted or doesn't exist
-    }
-
-    return { download, downloadPath };
+    await expect(
+      this.page.getByTestId(component.chartComponentLocator)
+    ).toBeVisible({ visible: false });
   }
 
   private async openExportModal(chartDataTestId: string): Promise<void> {
@@ -616,6 +586,17 @@ export default class ChartPage extends AreaFilter {
     await this.clickAndAwaitLoadingComplete(
       this.page.getByTestId(exportButtonDataTestId)
     );
+  }
+
+  private async clickExport(): Promise<Download> {
+    const downloadPromise = this.page.waitForEvent('download');
+    await this.clickAndAwaitLoadingComplete(
+      this.page
+        .getByTestId(ChartPage.exportModalPaneComponent)
+        .getByRole('button')
+        .getByText('Export')
+    );
+    return downloadPromise;
   }
 
   private async closeExportModal(): Promise<void> {
@@ -634,7 +615,7 @@ export default class ChartPage extends AreaFilter {
   }
 
   private async verifyPNGExport(
-    component: VisibleComponent,
+    component: ChartComponentDefinition,
     areaMode: AreaMode,
     indicatorMode: IndicatorMode
   ): Promise<void> {
@@ -644,11 +625,16 @@ export default class ChartPage extends AreaFilter {
       indicatorMode
     );
 
-    await this.openExportModal(component.componentLocator);
+    await this.openExportModal(component.chartComponentLocator);
 
     await this.checkPNGisDefault();
 
-    const { download } = await this.clickExportAndSaveFile(await downloadDir);
+    const downloadPromise = this.clickExport();
+
+    const { download } = await copySavedFileIntoDirectory(
+      await downloadDir,
+      downloadPromise
+    );
 
     // verify the file downloaded successfully
     expect(download.suggestedFilename()).toBeDefined();
@@ -658,7 +644,7 @@ export default class ChartPage extends AreaFilter {
   }
 
   private async verifySVGExport(
-    component: VisibleComponent,
+    component: ChartComponentDefinition,
     areaMode: AreaMode,
     indicatorMode: IndicatorMode,
     selectedAreaFilters: AreaFilters
@@ -674,7 +660,7 @@ export default class ChartPage extends AreaFilter {
       indicatorMode
     );
 
-    await this.openExportModal(component.componentLocator);
+    await this.openExportModal(component.chartComponentLocator);
 
     await this.checkPNGisDefault();
 
@@ -691,8 +677,11 @@ export default class ChartPage extends AreaFilter {
 
     await this.checkSVGPreview(component, exportModalPreview, benchmarkConfig);
 
-    const { download, downloadPath } = await this.clickExportAndSaveFile(
-      await downloadDir
+    const downloadPromise = this.clickExport();
+
+    const { download, downloadPath } = await copySavedFileIntoDirectory(
+      await downloadDir,
+      downloadPromise
     );
 
     // verify the file downloaded successfully
@@ -700,29 +689,7 @@ export default class ChartPage extends AreaFilter {
     expect(download.suggestedFilename()).toMatch(/\.svg$/i);
 
     // validate that the SVG file content matches the modal preview
-    const svgFileContent = await fs.readFile(downloadPath, 'utf-8');
-    const previewSVG = await exportModalPreview.innerHTML();
-    //xmlns:xlink=\"http://www.w3.org/1999/xlink\"
-
-    const reg = /xmlns(:xlink)?="[^"]+" /g;
-    const previewSVGwithoutXlmns = previewSVG.replaceAll(reg, '');
-    const svgFileContentWithoutXlmns = svgFileContent.replaceAll(reg, '');
-
-    const compareXmlStrings = (str1: string, str2: string) => {
-      const parser = new XMLParser({
-        ignoreAttributes: false,
-        ignoreDeclaration: true,
-        attributeNamePrefix: '',
-        trimValues: true,
-      });
-      const json1 = parser.parse(str1);
-      const json2 = parser.parse(str2);
-      return JSON.stringify(json1) === JSON.stringify(json2);
-    };
-
-    expect(
-      compareXmlStrings(previewSVGwithoutXlmns, svgFileContentWithoutXlmns)
-    ).toBe(true);
+    await verifySVGDownloadMatchesPreview(downloadPath, exportModalPreview);
 
     await this.closeExportModal();
   }
@@ -747,7 +714,7 @@ export default class ChartPage extends AreaFilter {
   }
 
   private async checkSVGPreview(
-    component: VisibleComponent,
+    component: ChartComponentDefinition,
     exportModalPreview: Locator,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     benchmarkConfig: any
@@ -761,7 +728,7 @@ export default class ChartPage extends AreaFilter {
     const accessText = `Public Health Profiles accessed on ${format(now, copyrightDateFormat)} www.fingertips.phe.org.uk`;
     expect(svgContent).toContain(accessText);
 
-    if (component.componentProps.showsBenchmarkComparisons) {
+    if (component.chartComponentProps.hasBenchmarkComparisons) {
       if (benchmarkConfig.shouldShowBenchmarkText) {
         await expect(
           this.page.getByText(benchmarkConfig.expectedBenchmarkTitleText).last()
@@ -774,34 +741,14 @@ export default class ChartPage extends AreaFilter {
     }
   }
 
-  private getExpectedData(
-    component: VisibleComponent,
-    selectedIndicators: SimpleIndicatorDocument[]
-  ): {
-    expectedCsvIndicatorID: number | string;
-    expectedCsvIndicatorName: string;
-  } {
-    const isPopulationPyramid =
-      component.componentLocator === ChartPage.populationPyramidTableComponent;
-
-    return {
-      expectedCsvIndicatorID: isPopulationPyramid
-        ? 92708
-        : selectedIndicators[0].indicatorID,
-      expectedCsvIndicatorName: isPopulationPyramid
-        ? 'Resident population'
-        : selectedIndicators[0].indicatorName,
-    };
-  }
-
   private async verifyCSVExport(
-    component: VisibleComponent,
+    component: ChartComponentDefinition,
     areaMode: AreaMode,
     indicatorMode: IndicatorMode,
     selectedIndicators: SimpleIndicatorDocument[]
   ): Promise<void> {
     const { expectedCsvIndicatorID, expectedCsvIndicatorName } =
-      this.getExpectedData(component, selectedIndicators);
+      getExpectedCSVIndicatorData(component, selectedIndicators);
 
     const downloadDir = createDownloadPath(
       ExportType.CSV,
@@ -809,7 +756,7 @@ export default class ChartPage extends AreaFilter {
       indicatorMode
     );
 
-    await this.openExportModal(component.componentLocator);
+    await this.openExportModal(component.chartComponentLocator);
 
     await this.checkPNGisDefault();
 
@@ -831,22 +778,19 @@ export default class ChartPage extends AreaFilter {
       areaMode
     );
 
-    const { download, downloadPath } = await this.clickExportAndSaveFile(
-      await downloadDir
+    const downloadPromise = this.clickExport();
+
+    const { download, downloadPath } = await copySavedFileIntoDirectory(
+      await downloadDir,
+      downloadPromise
     );
 
     // verify the file downloaded successfully
     expect(download.suggestedFilename()).toBeDefined();
     expect(download.suggestedFilename()).toMatch(/\.csv$/i);
 
-    // validate file downloaded has size greater than 100 bytes
-    const fileInfo = await fs.stat(downloadPath);
-    expect(fileInfo.size).toBeGreaterThan(100);
-
-    // validate that the CSV file content matches the modal preview
-    const fileContent = await fs.readFile(downloadPath, 'utf-8');
-    const modalPreviewText = await exportModalPreview.textContent();
-    expect(fileContent).toContain(modalPreviewText);
+    // validate file downloaded matches the preview
+    verifyCSVDownloadMatchesPreview(downloadPath, exportModalPreview);
 
     await this.closeExportModal();
   }

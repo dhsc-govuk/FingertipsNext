@@ -1,6 +1,5 @@
-export * from './testHelpers/testEnums';
-export * from './testHelpers/indicatorUtils';
-export * from './page-objects/components/scenarioMapper';
+export * from './testDefinitions';
+export * from './scenarioMapper';
 
 export function sortAlphabetically(array: (string | null)[]) {
   array.sort((a, b) => a!.localeCompare(b!));
@@ -15,4 +14,8 @@ export function customEncodeURIComponent(value: string): string {
     .replace(/%20/g, '+')
     .replace(/\(/g, '%28')
     .replace(/\)/g, '%29');
+}
+
+export function capitaliseFirstCharacter(value: string): string {
+  return value.charAt(0).toUpperCase() + value.slice(1);
 }

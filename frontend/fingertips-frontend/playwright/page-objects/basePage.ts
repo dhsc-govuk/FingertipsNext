@@ -1,7 +1,7 @@
 import type { Locator, Page as PlaywrightPage } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { expect } from './pageFactory';
-import { SearchMode } from '../testHelpers';
+import { SearchMode } from '../testHelpers/genericTestUtilities';
 
 export default class BasePage {
   readonly errorPageTitleHeaderId = 'error-page-title';
@@ -89,6 +89,21 @@ export default class BasePage {
 
     await this.page.waitForLoadState();
     await expect(this.page.getByText('Loading')).toHaveCount(0);
+  }
+
+  async waitAfterDropDownInteraction() {
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.page.waitForTimeout(1000);
+  }
+
+  async getSelectOptions(combobox: Locator) {
+    return await combobox.evaluate((select: HTMLSelectElement) =>
+      Array.from(select.options).map((option) => ({
+        value: option.value,
+        text: option.text,
+      }))
+    );
   }
 
   async expectNoAccessibilityViolations(

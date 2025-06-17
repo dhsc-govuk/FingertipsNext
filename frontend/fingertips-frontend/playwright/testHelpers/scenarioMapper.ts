@@ -1,11 +1,11 @@
-import { IndicatorMode, AreaMode } from '../../testHelpers';
-import ChartPage from '../pages/chartPage';
-import { allComponents } from './componentRegistry';
-import { ComponentDefinition } from './componentTypes';
+import { IndicatorMode, AreaMode } from './genericTestUtilities';
+import ChartPage from '../page-objects/pages/chartPage';
+import { allComponents } from './chartComponentRegistry';
+import { ChartComponentDefinition } from './testDefinitions';
 
 type ScenarioConfig = {
-  visibleComponents: ComponentDefinition[];
-  hiddenComponents: ComponentDefinition[];
+  visibleComponents: ChartComponentDefinition[];
+  hiddenComponents: ChartComponentDefinition[];
 };
 
 const visibleComponentMap: Record<string, string[]> = {
@@ -97,10 +97,10 @@ export function getScenarioConfig(
   }
 
   const visibleComponents = allComponents.filter((component) =>
-    visibleLocators.includes(component.componentLocator)
+    visibleLocators.includes(component.chartComponentLocator)
   );
   const hiddenComponents = allComponents.filter(
-    (component) => !visibleLocators.includes(component.componentLocator)
+    (component) => !visibleLocators.includes(component.chartComponentLocator)
   );
 
   return { visibleComponents, hiddenComponents };

@@ -1,15 +1,17 @@
 import { test } from '../../page-objects/pageFactory';
 import {
-  getAllIndicatorIDsForSearchTerm,
-  returnIndicatorIDsByIndicatorMode,
   sortAlphabetically,
-  getAllAreasByAreaType,
   IndicatorMode,
   SearchMode,
   AreaMode,
   IndicatorInfo,
   AreaFilters,
-} from '../../testHelpers';
+} from '../../testHelpers/genericTestUtilities';
+import {
+  getAllIndicatorIDsForSearchTerm,
+  returnIndicatorIDsByIndicatorMode,
+  getAllAreasByAreaType,
+} from '../../testHelpers/indicatorDataUtilities';
 import mockIndicators from '../../../assets/mockIndicatorData.json';
 import mockAreas from '../../../assets/mockAreaData.json';
 import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';

@@ -1,3 +1,5 @@
+import { InequalitiesTypes } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+
 export enum SearchMode {
   ONLY_SUBJECT = 'ONLY_SUBJECT',
   ONLY_AREA = 'ONLY_AREA',
@@ -43,7 +45,7 @@ export interface AreaFilters {
   group: string;
 }
 
-export interface TestParams {
+export interface TestParameters {
   indicatorMode: IndicatorMode;
   areaMode: AreaMode;
   searchMode: SearchMode;
@@ -51,6 +53,7 @@ export interface TestParams {
   subjectSearchTerm?: string;
   areaFiltersToSelect?: AreaFilters;
   checkExports?: boolean;
+  typeOfInequalityToSelect?: InequalitiesTypes;
 }
 
 export enum PersistentCsvHeaders {
@@ -60,3 +63,23 @@ export enum PersistentCsvHeaders {
   Area = 'Area',
   AreaCode = 'Area code',
 }
+
+type BaseChartComponentProps = {
+  hasConfidenceIntervals?: boolean;
+  isTabTable?: boolean;
+  hasDetailsExpander?: boolean;
+  hasInequalitiesTimePeriodDropDown?: boolean;
+  hasInequalityTypeDropDown?: boolean;
+  isWideComponent?: boolean;
+  hasRecentTrend?: boolean;
+  hasBenchmarkComparisons?: boolean;
+  hasPNGExport?: boolean;
+  hasSVGExport?: boolean;
+  hasCSVExport?: boolean;
+  hasTooltipHovers?: boolean;
+};
+
+export type ChartComponentDefinition = {
+  chartComponentLocator: string;
+  chartComponentProps: BaseChartComponentProps;
+};
