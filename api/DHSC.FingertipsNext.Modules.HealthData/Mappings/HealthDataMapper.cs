@@ -30,7 +30,7 @@ public class HealthDataMapper : IHealthDataMapper
         };
     }
 
-    public static DatePeriodType MapDatePeriodType(string periodType)
+    private static DatePeriodType MapDatePeriodType(string periodType)
     {
         return periodType switch
         {
