@@ -2,15 +2,11 @@ import { Download, Locator, test } from '@playwright/test';
 import path from 'path';
 import fs from 'fs/promises';
 import { ExportType } from '@/components/molecules/Export/export.types';
-import {
-  AreaMode,
-  IndicatorMode,
-  SimpleIndicatorDocument,
-  VisibleComponent,
-} from './testEnums';
+import { AreaMode, IndicatorMode, SimpleIndicatorDocument } from './testEnums';
 import { expect } from '../page-objects/pageFactory';
 import { XMLParser } from 'fast-xml-parser';
 import ChartPage from '../page-objects/pages/chartPage';
+import { ComponentDefinition } from '../page-objects/components/componentTypes';
 
 export const createDownloadPath = async (
   exportType: ExportType,
@@ -100,7 +96,7 @@ export const verifyCSVDownloadMatchesPreview = async (
 };
 
 export const getExpectedCSVIndicatorData = (
-  component: VisibleComponent,
+  component: ComponentDefinition,
   selectedIndicators: SimpleIndicatorDocument[]
 ): {
   expectedCsvIndicatorID: number | string;
