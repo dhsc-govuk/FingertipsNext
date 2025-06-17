@@ -7,7 +7,7 @@ import {
   PersistentCsvHeaders,
   SimpleIndicatorDocument,
 } from '@/playwright/testHelpers/genericTestUtilities';
-import { ChartComponentDefinition } from '../../testHelpers/chartComponentTypes';
+import { ChartComponentDefinition } from '../../testHelpers/testDefinitions';
 import { expect } from '../pageFactory';
 import AreaFilter from '../components/areaFilter';
 import { SearchParams } from '@/lib/searchStateManager';

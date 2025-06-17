@@ -1,7 +1,7 @@
 import { IndicatorMode, AreaMode } from './genericTestUtilities';
 import ChartPage from '../page-objects/pages/chartPage';
 import { allComponents } from './chartComponentRegistry';
-import { ChartComponentDefinition } from './chartComponentTypes';
+import { ChartComponentDefinition } from './testDefinitions';
 
 type ScenarioConfig = {
   visibleComponents: ChartComponentDefinition[];
