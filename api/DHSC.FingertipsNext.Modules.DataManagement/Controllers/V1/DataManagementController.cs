@@ -13,12 +13,7 @@ public class DataManagementController() : ControllerBase
     [HttpPost]
     public IActionResult AcceptFile([FromForm] IFormFile? file)
     {
-        // Console.WriteLine($"Request content type: {Request.ContentType}");
-        // Console.WriteLine($"Form field count: {Request.Form.Count}");
-        // Console.WriteLine($"File: {file?.FileName}, Size: {file?.Length}");
-
-        if (file == null || file.Length == 0) 
-            return BadRequest("File is missing or empty");
+        if (file == null || file.Length == 0) return BadRequest();
 
         // using var reader = new StreamReader(file.OpenReadStream());
         // using var csv = new CsvReader(reader, new CultureInfo("en-GB"));
