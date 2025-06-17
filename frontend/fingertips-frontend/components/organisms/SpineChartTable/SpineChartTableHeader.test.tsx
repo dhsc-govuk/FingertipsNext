@@ -5,13 +5,17 @@ import { GovukColours } from '@/lib/styleHelpers/colours';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams } from '@/lib/searchStateManager';
 
+const mockSearchState = { [SearchParams.GroupSelected]: 'A001' };
+
+jest.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockSearchState,
+}));
+
 describe('Spine chart table header', () => {
   const mockHeaderData = {
     area: 'testArea',
     group: 'testGroup',
   };
-
-  const mockSearchState = { [SearchParams.GroupSelected]: 'A001' };
 
   it('should contain the expected elements', () => {
     render(
@@ -21,7 +25,6 @@ describe('Spine chart table header', () => {
             areaNames={[mockHeaderData.area]}
             groupName={mockHeaderData.group}
             benchmarkToUse={areaCodeForEngland}
-            searchState={mockSearchState}
           />
         </thead>
       </table>
@@ -52,7 +55,6 @@ describe('Spine chart table header', () => {
             areaNames={[mockHeaderData.area]}
             groupName={mockHeaderData.group}
             benchmarkToUse={areaCodeForEngland}
-            searchState={mockSearchState}
           />
         </thead>
       </table>
@@ -81,7 +83,6 @@ describe('Spine chart table header', () => {
             areaNames={[mockHeaderData.area]}
             groupName={mockHeaderData.group}
             benchmarkToUse={areaCodeForEngland}
-            searchState={mockSearchState}
           />
         </thead>
       </table>
@@ -104,7 +105,6 @@ describe('Spine chart table header', () => {
             areaNames={['East of England Region', 'East Midlands Region']}
             groupName={mockHeaderData.group}
             benchmarkToUse={areaCodeForEngland}
-            searchState={mockSearchState}
           />
         </thead>
       </table>
@@ -132,6 +132,8 @@ describe('Spine chart table header', () => {
   });
 
   it('should not render the group header value if group is England', () => {
+    mockSearchState[SearchParams.GroupSelected] = areaCodeForEngland;
+
     render(
       <table>
         <thead>
@@ -139,9 +141,6 @@ describe('Spine chart table header', () => {
             areaNames={['East of England Region']}
             groupName={'England'}
             benchmarkToUse={areaCodeForEngland}
-            searchState={{
-              [SearchParams.GroupSelected]: areaCodeForEngland,
-            }}
           />
         </thead>
       </table>

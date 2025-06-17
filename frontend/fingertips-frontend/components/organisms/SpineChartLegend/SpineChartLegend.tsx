@@ -8,8 +8,9 @@ import {
   areaCodeForEngland,
   englandAreaString,
 } from '@/lib/chartHelpers/constants';
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { SearchParams } from '@/lib/searchStateManager';
 import { BenchmarkLegends } from '@/components/organisms/BenchmarkLegend/BenchmarkLegends';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
 const DivContainer = styled.div({
   fontFamily: 'nta, Arial, sans-serif',
@@ -24,7 +25,6 @@ const FlexDiv = styled.div({
 interface SpineChartLegendProps {
   legendsToShow: BenchmarkLegendsToShow;
   benchmarkToUse: string;
-  searchState: SearchStateParams;
   groupName?: string;
   areaNames?: string[];
 }
@@ -32,10 +32,10 @@ interface SpineChartLegendProps {
 export const SpineChartLegend: FC<SpineChartLegendProps> = ({
   legendsToShow,
   benchmarkToUse,
-  searchState,
   groupName = '',
   areaNames = ['Area'],
 }) => {
+  const searchState = useSearchStateParams();
   const { [SearchParams.GroupSelected]: selectedGroupCode } = searchState;
 
   const benchmarkName =

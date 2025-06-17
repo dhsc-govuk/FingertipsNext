@@ -3,7 +3,6 @@ import {
   getLatestPeriodHealthDataPoint,
   TwoOrMoreIndicatorsEnglandViewPlots,
 } from '@/components/viewPlots/TwoOrMoreIndicatorsEnglandViewPlots/index';
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import {
   BenchmarkComparisonMethod,
@@ -14,10 +13,6 @@ import {
 import { render, screen } from '@testing-library/react';
 import { healthDataPoint } from '@/lib/mocks';
 
-const mockSearchParams: SearchStateParams = {
-  [SearchParams.IndicatorsSelected]: ['1', '2'],
-  [SearchParams.AreasSelected]: [areaCodeForEngland],
-};
 const mockEnglandHealthData: HealthDataForArea = {
   areaCode: areaCodeForEngland,
   areaName: 'England',
@@ -75,7 +70,6 @@ describe('TwoOrMoreIndicatorsEnglandView', () => {
   it('should render the EnglandAreaTypeTable component', () => {
     render(
       <TwoOrMoreIndicatorsEnglandViewPlots
-        searchState={mockSearchParams}
         indicatorData={mockIndicatorData}
         indicatorMetadata={mockIndicatorMetaData}
       />

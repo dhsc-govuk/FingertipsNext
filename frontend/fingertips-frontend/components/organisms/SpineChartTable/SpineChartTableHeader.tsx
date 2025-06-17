@@ -17,13 +17,13 @@ import {
   areaCodeForEngland,
   englandAreaString,
 } from '@/lib/chartHelpers/constants';
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { SearchParams } from '@/lib/searchStateManager';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
 export interface TableHeaderProps {
   areaNames: string[];
   groupName: string;
   benchmarkToUse: string;
-  searchState: SearchStateParams;
 }
 
 interface HeaderData {
@@ -159,8 +159,8 @@ export function SpineChartTableHeader({
   areaNames,
   groupName,
   benchmarkToUse,
-  searchState,
 }: Readonly<TableHeaderProps>) {
+  const searchState = useSearchStateParams();
   const twoAreasRequested = areaNames.length === 2;
   const showGroupData = groupName !== englandAreaString;
   const benchmarkSubHeaderData = getBenchmarkSubHeaderData(

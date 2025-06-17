@@ -43,7 +43,7 @@ describe('SpineChartLegend', () => {
     render(
       <SpineChartLegend
         {...defaultProps}
-        searchState={{ [SearchParams.GroupSelected]: 'GROUP_CODE' }}
+        // searchState={{ [SearchParams.GroupSelected]: 'GROUP_CODE' }}
       />
     );
     expect(screen.getByText('Group: Test Group')).toBeInTheDocument();
@@ -54,7 +54,7 @@ describe('SpineChartLegend', () => {
       <SpineChartLegend
         {...defaultProps}
         benchmarkToUse="GROUP_CODE"
-        searchState={{ [SearchParams.GroupSelected]: 'GROUP_CODE' }}
+        // searchState={{ [SearchParams.GroupSelected]: 'GROUP_CODE' }}
       />
     );
     expect(screen.getByText(`Benchmark: Test Group`)).toBeInTheDocument();
