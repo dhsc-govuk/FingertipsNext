@@ -30,6 +30,24 @@ public class IndicatorsController(IDataUploadService dataUploadService, IConfigu
             _ => StatusCode(500)
         };
     }
+    
+    [HttpPost]
+    [Route("upload_asStream")]
+    [RequestSizeLimit(500_000_000)] // An alternative is using the attribute [DisableRequestSizeLimit] to disable the limit entirely 
+    public async Task<IActionResult> UploadFile()
+    {
+        await using var stream = HttpContext.Request.Body;
+        
+        var response = await dataUploadService.UploadWithSdkAsync
+            (stream, "big-file.csv", configuration.GetValue<string>("STORAGE_CONTAINER_NAME"));
+
+        return response.Status switch
+        {
+            ResponseStatus.Success => Ok(),
+            ResponseStatus.InvalidCsv => BadRequest(),
+            _ => StatusCode(500)
+        };
+    }
 
     [HttpPost]
     [Route("upload_rest")]

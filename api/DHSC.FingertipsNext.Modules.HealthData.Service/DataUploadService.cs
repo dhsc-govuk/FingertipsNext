@@ -10,14 +10,14 @@ public class DataUploadService(BlobServiceClient blobServiceClient, HttpClient h
 {
     public async Task<ServiceResponse<bool>> UploadWithSdkAsync(Stream fileStream, string fileName, string containerName)
     {
-        if (!validationService.IsValid(fileStream))
-            return new ServiceResponse<bool> { Status = ResponseStatus.InvalidCsv, Content = false };
+        // if (!validationService.IsValid(fileStream))
+        //     return new ServiceResponse<bool> { Status = ResponseStatus.InvalidCsv, Content = false };
 
         // Reading the contents of the uploaded file 
-        using var sr = new StreamReader(fileStream);
-        var content = await sr.ReadToEndAsync();
-        Console.WriteLine(content);
-        fileStream.Position = 0;
+        // using var sr = new StreamReader(fileStream);
+        // var content = await sr.ReadToEndAsync();
+        // Console.WriteLine(content);
+        // fileStream.Position = 0;
         
         var containerClient = blobServiceClient.GetBlobContainerClient(containerName);
         var blobClient = containerClient.GetBlobClient(fileName);
