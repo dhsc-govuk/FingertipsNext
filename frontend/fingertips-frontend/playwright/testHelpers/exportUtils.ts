@@ -8,6 +8,7 @@ import {
   SimpleIndicatorDocument,
   VisibleComponent,
 } from './testEnums';
+import { expect } from '../page-objects/pageFactory';
 import { XMLParser } from 'fast-xml-parser';
 import ChartPage from '../page-objects/pages/chartPage';
 
