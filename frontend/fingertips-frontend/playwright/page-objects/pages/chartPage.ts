@@ -6,24 +6,23 @@ import {
   IndicatorMode,
   PersistentCsvHeaders,
   SimpleIndicatorDocument,
-} from '@/playwright/testHelpers';
+  VisibleComponent,
+} from '@/playwright/testHelpers/genericTestUtils';
 import { ComponentDefinition } from '../components/componentTypes';
 import { expect } from '../pageFactory';
 import AreaFilter from '../components/areaFilter';
 import { SearchParams } from '@/lib/searchStateManager';
 import { ExportType } from '@/components/molecules/Export/export.types';
 import { Download, Locator, test } from '@playwright/test';
-import path from 'path';
-import fs from 'fs/promises';
-import { createDownloadPath } from '@/playwright/testHelpers/exportUtils';
+import {
+  copySavedFileIntoDirectory,
+  createDownloadPath,
+  getExpectedCSVIndicatorData,
+  verifyCSVDownloadMatchesPreview,
+  verifySVGDownloadMatchesPreview,
+} from '@/playwright/testHelpers/exportUtils';
 import { copyrightDateFormat } from '@/components/molecules/Export/ExportCopyright';
 import { format } from 'date-fns/format';
-import { XMLParser } from 'fast-xml-parser';
-
-interface VisibleComponent {
-  componentLocator: string;
-  componentProps: Record<string, boolean>;
-}
 
 export default class ChartPage extends AreaFilter {
   readonly backLink = 'chart-page-back-link';
@@ -583,9 +582,15 @@ export default class ChartPage extends AreaFilter {
     );
   }
 
-  private async clickExportAndSaveFile(
-    downloadDir: string
-  ): Promise<{ download: Download; downloadPath: string }> {
+  private async openExportModal(chartDataTestId: string): Promise<void> {
+    const exportButtonDataTestId = `${chartDataTestId.replace('-component', '-export-button')}`;
+
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByTestId(exportButtonDataTestId)
+    );
+  }
+
+  private async clickExport(): Promise<Download> {
     const downloadPromise = this.page.waitForEvent('download');
     await this.clickAndAwaitLoadingComplete(
       this.page
@@ -593,29 +598,7 @@ export default class ChartPage extends AreaFilter {
         .getByRole('button')
         .getByText('Export')
     );
-    const download = await downloadPromise;
-    const filename = download.suggestedFilename();
-    const downloadPath = path.join(downloadDir, filename);
-
-    // move the downloaded file to the specified directory
-    await download.saveAs(downloadPath);
-
-    // Delete the original download if it exists
-    try {
-      await download.delete();
-    } catch {
-      // Ignore if already deleted or doesn't exist
-    }
-
-    return { download, downloadPath };
-  }
-
-  private async openExportModal(chartDataTestId: string): Promise<void> {
-    const exportButtonDataTestId = `${chartDataTestId.replace('-component', '-export-button')}`;
-
-    await this.clickAndAwaitLoadingComplete(
-      this.page.getByTestId(exportButtonDataTestId)
-    );
+    return downloadPromise;
   }
 
   private async closeExportModal(): Promise<void> {
@@ -648,7 +631,12 @@ export default class ChartPage extends AreaFilter {
 
     await this.checkPNGisDefault();
 
-    const { download } = await this.clickExportAndSaveFile(await downloadDir);
+    const downloadPromise = this.clickExport();
+
+    const { download } = await copySavedFileIntoDirectory(
+      await downloadDir,
+      downloadPromise
+    );
 
     // verify the file downloaded successfully
     expect(download.suggestedFilename()).toBeDefined();
@@ -691,8 +679,11 @@ export default class ChartPage extends AreaFilter {
 
     await this.checkSVGPreview(component, exportModalPreview, benchmarkConfig);
 
-    const { download, downloadPath } = await this.clickExportAndSaveFile(
-      await downloadDir
+    const downloadPromise = this.clickExport();
+
+    const { download, downloadPath } = await copySavedFileIntoDirectory(
+      await downloadDir,
+      downloadPromise
     );
 
     // verify the file downloaded successfully
@@ -700,29 +691,7 @@ export default class ChartPage extends AreaFilter {
     expect(download.suggestedFilename()).toMatch(/\.svg$/i);
 
     // validate that the SVG file content matches the modal preview
-    const svgFileContent = await fs.readFile(downloadPath, 'utf-8');
-    const previewSVG = await exportModalPreview.innerHTML();
-    //xmlns:xlink=\"http://www.w3.org/1999/xlink\"
-
-    const reg = /xmlns(:xlink)?="[^"]+" /g;
-    const previewSVGwithoutXlmns = previewSVG.replaceAll(reg, '');
-    const svgFileContentWithoutXlmns = svgFileContent.replaceAll(reg, '');
-
-    const compareXmlStrings = (str1: string, str2: string) => {
-      const parser = new XMLParser({
-        ignoreAttributes: false,
-        ignoreDeclaration: true,
-        attributeNamePrefix: '',
-        trimValues: true,
-      });
-      const json1 = parser.parse(str1);
-      const json2 = parser.parse(str2);
-      return JSON.stringify(json1) === JSON.stringify(json2);
-    };
-
-    expect(
-      compareXmlStrings(previewSVGwithoutXlmns, svgFileContentWithoutXlmns)
-    ).toBe(true);
+    await verifySVGDownloadMatchesPreview(downloadPath, exportModalPreview);
 
     await this.closeExportModal();
   }
@@ -774,26 +743,6 @@ export default class ChartPage extends AreaFilter {
     }
   }
 
-  private getExpectedData(
-    component: VisibleComponent,
-    selectedIndicators: SimpleIndicatorDocument[]
-  ): {
-    expectedCsvIndicatorID: number | string;
-    expectedCsvIndicatorName: string;
-  } {
-    const isPopulationPyramid =
-      component.componentLocator === ChartPage.populationPyramidTableComponent;
-
-    return {
-      expectedCsvIndicatorID: isPopulationPyramid
-        ? 92708
-        : selectedIndicators[0].indicatorID,
-      expectedCsvIndicatorName: isPopulationPyramid
-        ? 'Resident population'
-        : selectedIndicators[0].indicatorName,
-    };
-  }
-
   private async verifyCSVExport(
     component: VisibleComponent,
     areaMode: AreaMode,
@@ -801,7 +750,7 @@ export default class ChartPage extends AreaFilter {
     selectedIndicators: SimpleIndicatorDocument[]
   ): Promise<void> {
     const { expectedCsvIndicatorID, expectedCsvIndicatorName } =
-      this.getExpectedData(component, selectedIndicators);
+      getExpectedCSVIndicatorData(component, selectedIndicators);
 
     const downloadDir = createDownloadPath(
       ExportType.CSV,
@@ -831,22 +780,19 @@ export default class ChartPage extends AreaFilter {
       areaMode
     );
 
-    const { download, downloadPath } = await this.clickExportAndSaveFile(
-      await downloadDir
+    const downloadPromise = this.clickExport();
+
+    const { download, downloadPath } = await copySavedFileIntoDirectory(
+      await downloadDir,
+      downloadPromise
     );
 
     // verify the file downloaded successfully
     expect(download.suggestedFilename()).toBeDefined();
     expect(download.suggestedFilename()).toMatch(/\.csv$/i);
 
-    // validate file downloaded has size greater than 100 bytes
-    const fileInfo = await fs.stat(downloadPath);
-    expect(fileInfo.size).toBeGreaterThan(100);
-
-    // validate that the CSV file content matches the modal preview
-    const fileContent = await fs.readFile(downloadPath, 'utf-8');
-    const modalPreviewText = await exportModalPreview.textContent();
-    expect(fileContent).toContain(modalPreviewText);
+    // validate file downloaded matches the preview
+    verifyCSVDownloadMatchesPreview(downloadPath, exportModalPreview);
 
     await this.closeExportModal();
   }

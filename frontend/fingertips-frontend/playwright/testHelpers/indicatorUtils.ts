@@ -4,7 +4,7 @@ import {
   IndicatorMode,
   IndicatorInfo,
   SimpleIndicatorDocument,
-} from '../testHelpers';
+} from './genericTestUtils';
 
 const indicatorsUsedInPOC = (indicator: RawIndicatorDocument): boolean =>
   indicator.usedInPoc === true;

@@ -1,4 +1,4 @@
-import { IndicatorMode, AreaMode } from '../../testHelpers';
+import { IndicatorMode, AreaMode } from '../../testHelpers/genericTestUtils';
 import ChartPage from '../pages/chartPage';
 import { allComponents } from './componentRegistry';
 import { ComponentDefinition } from './componentTypes';

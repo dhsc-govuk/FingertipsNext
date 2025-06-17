@@ -9,7 +9,7 @@ import {
   AreaMode,
   IndicatorInfo,
   AreaFilters,
-} from '../../testHelpers';
+} from '../../testHelpers/genericTestUtils';
 import mockIndicators from '../../../assets/mockIndicatorData.json';
 import mockAreas from '../../../assets/mockAreaData.json';
 import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';

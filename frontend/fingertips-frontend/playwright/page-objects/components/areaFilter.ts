@@ -6,7 +6,7 @@ import {
   AreaMode,
   SearchMode,
   SimpleIndicatorDocument,
-} from '@/playwright/testHelpers';
+} from '@/playwright/testHelpers/genericTestUtils';
 
 export default class AreaFilter extends BasePage {
   readonly areaFilterContainer = 'area-filter-container';

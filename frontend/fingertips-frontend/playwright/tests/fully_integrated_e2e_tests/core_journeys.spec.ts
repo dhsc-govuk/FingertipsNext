@@ -6,7 +6,7 @@ import {
   SearchMode,
   SimpleIndicatorDocument,
   TestTag,
-} from '../../testHelpers';
+} from '../../testHelpers/genericTestUtils';
 import indicators from '../../../../../search-setup/assets/indicators.json';
 import { RawIndicatorDocument } from '@/lib/search/searchTypes';
 import { areaSearchTerm, coreTestJourneys } from './core_journey_config';

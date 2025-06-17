@@ -60,3 +60,8 @@ export enum PersistentCsvHeaders {
   Area = 'Area',
   AreaCode = 'Area code',
 }
+
+export interface VisibleComponent {
+  componentLocator: string;
+  componentProps: Record<string, boolean>;
+}

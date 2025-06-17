@@ -4,7 +4,7 @@ import {
   IndicatorMode,
   SearchMode,
   TestParams,
-} from '@/playwright/testHelpers';
+} from '@/playwright/testHelpers/genericTestUtils';
 
 // this is for core journeys that are a searchMode of either SearchMode.BOTH_SUBJECT_AND_AREA or SearchMode.ONLY_AREA
 export const areaSearchTerm: AreaDocument = {
