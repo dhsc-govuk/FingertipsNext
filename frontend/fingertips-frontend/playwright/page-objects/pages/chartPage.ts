@@ -1,6 +1,7 @@
 import {
   AreaFilters,
   AreaMode,
+  capitaliseFirstCharacter,
   customEncodeURIComponent,
   getScenarioConfig,
   IndicatorMode,
@@ -26,7 +27,7 @@ import { InequalitiesTypes } from '@/components/organisms/Inequalities/inequalit
 
 export default class ChartPage extends AreaFilter {
   readonly backLink = 'chart-page-back-link';
-
+  readonly chartPageTitle = 'View data for selected indicators and areas';
   // chart components
   static readonly lineChartComponent = 'standardLineChart-component';
   static readonly lineChartTableComponent = 'lineChartTable-component';
@@ -63,9 +64,7 @@ export default class ChartPage extends AreaFilter {
   static readonly exportDomContainer = 'domContainer';
 
   async checkOnChartPage() {
-    await expect(
-      this.page.getByText('View data for selected indicators and areas')
-    ).toBeVisible();
+    await expect(this.page.getByText(this.chartPageTitle)).toBeVisible();
   }
 
   async checkSpecificChartComponent(chartComponent: string) {
@@ -76,12 +75,6 @@ export default class ChartPage extends AreaFilter {
     await this.clickAndAwaitLoadingComplete(
       this.page.getByTestId(this.backLink)
     );
-  }
-
-  async waitAfterDropDownInteraction() {
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
-    await this.page.waitForTimeout(1000);
   }
 
   /**
@@ -132,16 +125,6 @@ export default class ChartPage extends AreaFilter {
     for (const hiddenComponent of hiddenComponents) {
       await this.verifyComponentNotVisible(hiddenComponent);
     }
-  }
-
-  // click the hide filters pane before asserting visibility and taking screenshots
-  private async hideFiltersPane() {
-    await this.clickAndAwaitLoadingComplete(
-      this.page.getByTestId('area-filter-pane-hidefilters')
-    );
-    await expect(this.page.getByTestId('show-filter-cta')).toHaveText(
-      'Show filter'
-    );
   }
 
   private async handleComponentInteractions(
@@ -256,7 +239,7 @@ export default class ChartPage extends AreaFilter {
     const lastOption = options.at(-1)?.value;
     if (!lastOption) return;
 
-    await combobox.selectOption({ value: lastOption });
+    await this.selectOptionAndAwaitLoadingComplete(combobox, lastOption);
     await this.waitAfterDropDownInteraction();
     await this.waitForURLToContain(lastOption);
 
@@ -295,12 +278,13 @@ export default class ChartPage extends AreaFilter {
 
     if (typeOfInequalityToSelect === InequalitiesTypes.Sex) {
       // For Sex we can select by exact value
-      const sexInequalityOptionCapitalised =
-        String(InequalitiesTypes.Sex).charAt(0).toUpperCase() +
-        String(InequalitiesTypes.Sex).slice(1);
+      const sexInequalityOptionCapitalised = capitaliseFirstCharacter(
+        String(InequalitiesTypes.Sex)
+      );
       selectedOption = sexInequalityOptionCapitalised;
 
-      await combobox.selectOption({ value: selectedOption });
+      await this.selectOptionAndAwaitLoadingComplete(combobox, selectedOption);
+      await this.waitAfterDropDownInteraction();
     } else if (typeOfInequalityToSelect === InequalitiesTypes.Deprivation) {
       // For Deprivation find the option that contains "deprivation"
       const deprivationOption = options.find((option) =>
@@ -314,7 +298,8 @@ export default class ChartPage extends AreaFilter {
       }
 
       selectedOption = deprivationOption.value;
-      await combobox.selectOption({ value: selectedOption });
+      await this.selectOptionAndAwaitLoadingComplete(combobox, selectedOption);
+      await this.waitAfterDropDownInteraction();
     } else {
       throw new Error(
         `Unsupported inequality type: ${typeOfInequalityToSelect}`
@@ -422,9 +407,9 @@ export default class ChartPage extends AreaFilter {
     selectedAreaFilters: AreaFilters,
     component: ChartComponentDefinition
   ) {
-    const upperCaseFirstCharSelectedGroup =
-      selectedAreaFilters.group.charAt(0).toUpperCase() +
-      selectedAreaFilters.group.slice(1);
+    const upperCaseFirstCharSelectedGroup = capitaliseFirstCharacter(
+      selectedAreaFilters.group
+    );
 
     // determine expected values based on area filters
     const isEnglandGroup =
@@ -593,15 +578,6 @@ export default class ChartPage extends AreaFilter {
     await expect(
       this.page.getByTestId(component.chartComponentLocator)
     ).toBeVisible({ visible: false });
-  }
-
-  private async getSelectOptions(combobox: Locator) {
-    return await combobox.evaluate((select: HTMLSelectElement) =>
-      Array.from(select.options).map((option) => ({
-        value: option.value,
-        text: option.text,
-      }))
-    );
   }
 
   private async openExportModal(chartDataTestId: string): Promise<void> {

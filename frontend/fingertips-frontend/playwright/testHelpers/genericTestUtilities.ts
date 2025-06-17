@@ -15,3 +15,7 @@ export function customEncodeURIComponent(value: string): string {
     .replace(/\(/g, '%28')
     .replace(/\)/g, '%29');
 }
+
+export function capitaliseFirstCharacter(value: string): string {
+  return value.charAt(0).toUpperCase() + value.slice(1);
+}

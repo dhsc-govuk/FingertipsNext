@@ -91,6 +91,21 @@ export default class BasePage {
     await expect(this.page.getByText('Loading')).toHaveCount(0);
   }
 
+  async waitAfterDropDownInteraction() {
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.page.waitForTimeout(1000);
+  }
+
+  async getSelectOptions(combobox: Locator) {
+    return await combobox.evaluate((select: HTMLSelectElement) =>
+      Array.from(select.options).map((option) => ({
+        value: option.value,
+        text: option.text,
+      }))
+    );
+  }
+
   async expectNoAccessibilityViolations(
     axeBuilder: AxeBuilder,
     allowList: string[] = []

@@ -59,7 +59,7 @@ export function getAllIndicatorsForSearchTerm(
     }));
 }
 
-export function getIndicatorDataByIndicatorID(
+function getIndicatorDataByIndicatorID(
   indicators: RawIndicatorDocument[],
   indicatorID: string
 ): SimpleIndicatorDocument[] {
