@@ -149,7 +149,7 @@ describe('Spine chart table row', () => {
   });
 
   it('should not render a cell for group if the group is England', () => {
-    mockSearchState[SearchParams.GroupSelected] = areaCodeForEngland
+    mockSearchState[SearchParams.GroupSelected] = areaCodeForEngland;
 
     const indicatorDataGroupEngland = {
       ...mockSpineIndicatorData,
