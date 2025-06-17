@@ -76,7 +76,7 @@ public class HealthDataRepositoryTests : IDisposable
             },
             Year = LATESTYEAR - 1,
             PublishedAt = new DateTime(2025, 1, 1),
-            BatchId = $"{INDICATORID}_20990101120000"
+            BatchId = $"{INDICATORID}_2099-01-01T12:00:00:000"
         });
 
         // act

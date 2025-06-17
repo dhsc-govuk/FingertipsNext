@@ -319,7 +319,7 @@ public class TrendDataProcessorTests
                 UpperCI = 7,
                 Year = (short)(startYear - i),
                 PublishedAt = now,
-                BatchId = $"{indicatorId}_{now:yyyyMMddHHmmss}"
+                BatchId = $"{indicatorId}_{DateTime.UtcNow:yyyy-MM-ddTHH:mm:ss.fff}"
             });
         }
 
