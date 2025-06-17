@@ -19,6 +19,14 @@ const nextConfig: NextConfig = {
   cacheHandler: require.resolve(
     'next/dist/server/lib/incremental-cache/file-system-cache.js'
   ),
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*', // your local path
+        destination: 'http://localhost:5144/:path*', // external API
+      },
+    ];
+  },
 };
 
 const withAnalyzer = withBundleAnalyzer({
