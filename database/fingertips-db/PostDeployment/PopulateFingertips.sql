@@ -574,7 +574,7 @@ SELECT
     datedim_to.DateKey,
     perioddim.PeriodKey,
     GETUTCDATE(),
-    CONCAT(temp.IndicatorId, '_', REPLACE(CONVERT(VARCHAR, GETUTCDATE(),126),'/',''))
+    CONCAT(temp.IndicatorId, '_', CONVERT(VARCHAR, GETUTCDATE(),126))
 FROM 
 	#TempHealthData temp
 JOIN
@@ -639,7 +639,7 @@ SELECT
     datedim_to.DateKey,
     perioddim.PeriodKey,
     DATEADD(year, 1, GETUTCDATE()),
-    CONCAT(temp.IndicatorId, '_', REPLACE(CONVERT(VARCHAR, GETUTCDATE(),126),'/',''))
+    CONCAT(temp.IndicatorId, '_', CONVERT(VARCHAR, GETUTCDATE(),126))
 FROM 
 	#TempHealthData temp
 JOIN
