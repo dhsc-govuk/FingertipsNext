@@ -2,12 +2,11 @@ export type BaseComponentProps = {
   hasConfidenceIntervals?: boolean;
   isTabTable?: boolean;
   hasDetailsExpander?: boolean;
-  hasTimePeriodDropDown?: boolean;
+  hasInequalitiesTimePeriodDropDown?: boolean;
   hasInequalityTypeDropDown?: boolean;
   isWideComponent?: boolean;
   hasRecentTrend?: boolean;
   showsBenchmarkComparisons?: boolean;
-  selectDeprivationInequality?: boolean;
   hasPNGExport?: boolean;
   hasSVGExport?: boolean;
   hasCSVExport?: boolean;

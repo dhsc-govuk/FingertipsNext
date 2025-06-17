@@ -38,6 +38,7 @@ test.describe(
         indicatorsToSelect,
         areaFiltersToSelect,
         checkExports,
+        typeOfInequalityToSelect,
       }) => {
         const typedIndicatorData = indicatorData.map(
           (indicator: RawIndicatorDocument) => {
@@ -126,7 +127,8 @@ test.describe(
               areaMode,
               selectedIndicatorsData,
               areaFiltersToSelect!,
-              checkExports!
+              checkExports!,
+              typeOfInequalityToSelect!
             );
           });
         });

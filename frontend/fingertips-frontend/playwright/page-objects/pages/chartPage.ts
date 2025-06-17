@@ -6,7 +6,6 @@ import {
   IndicatorMode,
   PersistentCsvHeaders,
   SimpleIndicatorDocument,
-  VisibleComponent,
 } from '@/playwright/testHelpers/genericTestUtils';
 import { ComponentDefinition } from '../components/componentTypes';
 import { expect } from '../pageFactory';
@@ -23,6 +22,7 @@ import {
 } from '@/playwright/testHelpers/exportUtils';
 import { copyrightDateFormat } from '@/components/molecules/Export/ExportCopyright';
 import { format } from 'date-fns/format';
+import { InequalitiesTypes } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 export default class ChartPage extends AreaFilter {
   readonly backLink = 'chart-page-back-link';
@@ -95,7 +95,8 @@ export default class ChartPage extends AreaFilter {
     areaMode: AreaMode,
     selectedIndicators: SimpleIndicatorDocument[],
     selectedAreaFilters: AreaFilters,
-    checkExports: boolean
+    checkExports: boolean,
+    typeOfInequalityToSelect: InequalitiesTypes
   ) {
     const testInfo = test.info();
     const testName = testInfo.title;
@@ -119,7 +120,8 @@ export default class ChartPage extends AreaFilter {
         areaMode,
         indicatorMode,
         selectedAreaFilters,
-        checkExports
+        checkExports,
+        typeOfInequalityToSelect
       );
       await this.verifyComponentVisibleAndScreenshotMatch(
         visibleComponent,
@@ -143,15 +145,13 @@ export default class ChartPage extends AreaFilter {
   }
 
   private async handleComponentInteractions(
-    component: {
-      componentLocator: string;
-      componentProps: Record<string, boolean>;
-    },
+    component: ComponentDefinition,
     selectedIndicators: SimpleIndicatorDocument[],
     areaMode: AreaMode,
     indicatorMode: IndicatorMode,
     selectedAreaFilters: AreaFilters,
-    checkExports: boolean
+    checkExports: boolean,
+    typeOfInequalityToSelect: InequalitiesTypes
   ) {
     const { componentLocator, componentProps } = component;
 
@@ -161,16 +161,19 @@ export default class ChartPage extends AreaFilter {
         action: async () => await this.selectTabForComponent(componentLocator),
       },
       {
-        condition: componentProps.hasTimePeriodDropDown,
+        condition: componentProps.hasInequalitiesTimePeriodDropDown,
         action: async () => await this.selectLastTimePeriodOption(),
       },
       {
         condition: componentProps.hasInequalityTypeDropDown,
         action: async () =>
-          await this.selectInequalityTypeDropdownOption({
-            componentLocator,
-            componentProps,
-          }),
+          await this.selectInequalityTypeDropdownOption(
+            {
+              componentLocator,
+              componentProps,
+            },
+            typeOfInequalityToSelect
+          ),
       },
       {
         condition: componentProps.hasDetailsExpander,
@@ -265,11 +268,10 @@ export default class ChartPage extends AreaFilter {
     expect(await combobox.inputValue()).toBe(lastOption);
   }
 
-  // selects either first or last option (sex) in the inequality dropdown
-  private async selectInequalityTypeDropdownOption({
-    componentLocator,
-    componentProps,
-  }: ComponentDefinition) {
+  private async selectInequalityTypeDropdownOption(
+    { componentLocator }: ComponentDefinition,
+    typeOfInequalityToSelect: InequalitiesTypes
+  ) {
     const dropdownComponent =
       componentLocator === ChartPage.inequalitiesForSingleTimePeriodComponent
         ? ChartPage.inequalitiesTypesDropDownComponentBC
@@ -287,21 +289,39 @@ export default class ChartPage extends AreaFilter {
       );
     }
 
-    const valueToSelect = componentProps.selectDeprivationInequality
-      ? options[0].value
-      : options.at(-1)?.value;
+    let selectedOption: string;
 
-    if (!valueToSelect) {
+    if (typeOfInequalityToSelect === InequalitiesTypes.Sex) {
+      // For Sex we can select by exact value
+      const sexInequalityOptionCapitalised =
+        String(InequalitiesTypes.Sex).charAt(0).toUpperCase() +
+        String(InequalitiesTypes.Sex).slice(1);
+      selectedOption = sexInequalityOptionCapitalised;
+
+      await combobox.selectOption({ value: selectedOption });
+    } else if (typeOfInequalityToSelect === InequalitiesTypes.Deprivation) {
+      // For Deprivation find the option that contains "deprivation"
+      const deprivationOption = options.find((option) =>
+        option.text.toLowerCase().includes('deprivation')
+      );
+
+      if (!deprivationOption) {
+        throw new Error(
+          `No deprivation option found in dropdown at [${dropdownComponent}].`
+        );
+      }
+
+      selectedOption = deprivationOption.value;
+      await combobox.selectOption({ value: selectedOption });
+    } else {
       throw new Error(
-        `Unable to determine option to select from dropdown at [${dropdownComponent}].`
+        `Unsupported inequality type: ${typeOfInequalityToSelect}`
       );
     }
 
-    await combobox.selectOption({ value: valueToSelect });
     await this.waitAfterDropDownInteraction();
-    expect(await combobox.inputValue()).toBe(valueToSelect);
-
-    await this.waitForURLToContain(customEncodeURIComponent(valueToSelect));
+    expect(await combobox.inputValue()).toBe(selectedOption);
+    await this.waitForURLToContain(customEncodeURIComponent(selectedOption));
   }
 
   // checks the confidence interval checkbox
@@ -361,7 +381,7 @@ export default class ChartPage extends AreaFilter {
   }
 
   private async verifyTrendTagForComponent(
-    visibleComponent: VisibleComponent,
+    visibleComponent: ComponentDefinition,
     areaMode: AreaMode,
     selectedIndicators: SimpleIndicatorDocument[]
   ): Promise<void> {
@@ -398,7 +418,7 @@ export default class ChartPage extends AreaFilter {
 
   private getBenchmarkConfig(
     selectedAreaFilters: AreaFilters,
-    component: VisibleComponent
+    component: ComponentDefinition
   ) {
     const upperCaseFirstCharSelectedGroup =
       selectedAreaFilters.group.charAt(0).toUpperCase() +
@@ -434,7 +454,7 @@ export default class ChartPage extends AreaFilter {
   }
 
   private async verifyBenchmarkingForComponent(
-    component: VisibleComponent,
+    component: ComponentDefinition,
     selectedAreaFilters: AreaFilters
   ) {
     const dropdownComponent = ChartPage.benchmarkDropDownComponent;
@@ -494,7 +514,7 @@ export default class ChartPage extends AreaFilter {
   }
 
   private async checkHovers(
-    component: VisibleComponent,
+    component: ComponentDefinition,
     expectedBenchmarkText?: string
   ) {
     // get correct chart point based on component locator
@@ -617,7 +637,7 @@ export default class ChartPage extends AreaFilter {
   }
 
   private async verifyPNGExport(
-    component: VisibleComponent,
+    component: ComponentDefinition,
     areaMode: AreaMode,
     indicatorMode: IndicatorMode
   ): Promise<void> {
@@ -646,7 +666,7 @@ export default class ChartPage extends AreaFilter {
   }
 
   private async verifySVGExport(
-    component: VisibleComponent,
+    component: ComponentDefinition,
     areaMode: AreaMode,
     indicatorMode: IndicatorMode,
     selectedAreaFilters: AreaFilters
@@ -716,7 +736,7 @@ export default class ChartPage extends AreaFilter {
   }
 
   private async checkSVGPreview(
-    component: VisibleComponent,
+    component: ComponentDefinition,
     exportModalPreview: Locator,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     benchmarkConfig: any
@@ -744,7 +764,7 @@ export default class ChartPage extends AreaFilter {
   }
 
   private async verifyCSVExport(
-    component: VisibleComponent,
+    component: ComponentDefinition,
     areaMode: AreaMode,
     indicatorMode: IndicatorMode,
     selectedIndicators: SimpleIndicatorDocument[]

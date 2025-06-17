@@ -1,9 +1,10 @@
+import { InequalitiesTypes } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { AreaDocument } from '@/lib/search/searchTypes';
 import {
   AreaMode,
   IndicatorMode,
   SearchMode,
-  TestParams,
+  TestParameters,
 } from '@/playwright/testHelpers/genericTestUtils';
 
 // this is for core journeys that are a searchMode of either SearchMode.BOTH_SUBJECT_AND_AREA or SearchMode.ONLY_AREA
@@ -13,7 +14,7 @@ export const areaSearchTerm: AreaDocument = {
   areaName: 'north west region',
 };
 
-export const coreTestJourneys: TestParams[] = [
+export const coreTestJourneys: TestParameters[] = [
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ENGLAND_AREA,
@@ -30,6 +31,7 @@ export const coreTestJourneys: TestParams[] = [
       groupType: 'england',
       group: 'england',
     },
+    typeOfInequalityToSelect: InequalitiesTypes.Deprivation,
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
@@ -43,6 +45,7 @@ export const coreTestJourneys: TestParams[] = [
       },
     ],
     checkExports: true,
+    typeOfInequalityToSelect: InequalitiesTypes.Sex,
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,

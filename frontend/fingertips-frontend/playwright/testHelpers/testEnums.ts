@@ -1,3 +1,5 @@
+import { InequalitiesTypes } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+
 export enum SearchMode {
   ONLY_SUBJECT = 'ONLY_SUBJECT',
   ONLY_AREA = 'ONLY_AREA',
@@ -43,7 +45,7 @@ export interface AreaFilters {
   group: string;
 }
 
-export interface TestParams {
+export interface TestParameters {
   indicatorMode: IndicatorMode;
   areaMode: AreaMode;
   searchMode: SearchMode;
@@ -51,6 +53,7 @@ export interface TestParams {
   subjectSearchTerm?: string;
   areaFiltersToSelect?: AreaFilters;
   checkExports?: boolean;
+  typeOfInequalityToSelect?: InequalitiesTypes;
 }
 
 export enum PersistentCsvHeaders {
@@ -59,9 +62,4 @@ export enum PersistentCsvHeaders {
   Period = 'Period',
   Area = 'Area',
   AreaCode = 'Area code',
-}
-
-export interface VisibleComponent {
-  componentLocator: string;
-  componentProps: Record<string, boolean>;
 }
