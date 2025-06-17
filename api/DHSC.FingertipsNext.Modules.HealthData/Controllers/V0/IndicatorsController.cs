@@ -14,6 +14,7 @@ public class IndicatorsController(IDataUploadService dataUploadService, IConfigu
 {
     [HttpPost]
     [Route("upload")]
+    [RequestSizeLimit(500_000_000)]
     public async Task<IActionResult> UploadFile(IFormFile? file)
     {
         if (file == null || file.Length == 0) return BadRequest();
@@ -37,6 +38,8 @@ public class IndicatorsController(IDataUploadService dataUploadService, IConfigu
     public async Task<IActionResult> UploadFile()
     {
         await using var stream = HttpContext.Request.Body;
+        
+        if (stream.Length == 0) return BadRequest();
         
         var response = await dataUploadService.UploadWithSdkAsync
             (stream, "big-file.csv", configuration.GetValue<string>("STORAGE_CONTAINER_NAME"));
