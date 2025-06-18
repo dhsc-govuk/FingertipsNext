@@ -184,7 +184,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
             .GroupBy(healthMeasure => new
             {
                 code = healthMeasure.AreaDimension.Code,
-                name = healthMeasure.AreaDimension.Name
+                name = healthMeasure.AreaDimension.Name,
+                periodType = healthMeasure.PeriodDimension.Period
             })
             .Select(group => new HealthDataForArea
             {

@@ -1,5 +1,6 @@
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -73,17 +74,19 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         var excludeDisaggregatedAgeValues = !inequalities.Contains(AGE);
         var excludeDisaggregatedDeprivationValues = !inequalities.Contains(DEPRIVATION);
 
+        DateTime? parsedFromDate = fromDate != null ? DateTime.Parse(fromDate, CultureInfo.InvariantCulture) : (DateTime?)null;
+        DateTime? parsedToDate = toDate != null ? DateTime.Parse(toDate, CultureInfo.InvariantCulture) : (DateTime?)null;
+
         return await _dbContext.HealthMeasure
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
             .Where(HealthDataPredicates.IsInAreaCodes(areaCodes))
             .Where(healthMeasure => years.Length == 0 || EF.Constant(years).Contains(healthMeasure.Year))
+            .Where(healthMeasure => parsedFromDate != null ? healthMeasure.FromDateDimension.Date >= parsedFromDate : true)
+            .Where(healthMeasure => parsedToDate != null ? healthMeasure.ToDateDimension.Date <= parsedToDate : true)
             .Where(healthMeasure => excludeDisaggregatedSexValues ? healthMeasure.IsSexAggregatedOrSingle : true)
             .Where(healthMeasure => excludeDisaggregatedAgeValues ? healthMeasure.IsAgeAggregatedOrSingle : true)
             .Where(healthMeasure =>
                 excludeDisaggregatedDeprivationValues ? healthMeasure.IsDeprivationAggregatedOrSingle : true)
-            .OrderBy(healthMeasure => healthMeasure.Year)
-            .OrderBy(healthMeasure => healthMeasure.ToDateDimension)
-            .OrderBy(healthMeasure => healthMeasure.FromDateDimension)
             .Include(healthMeasure => healthMeasure.AreaDimension)
             .Include(healthMeasure => healthMeasure.AgeDimension)
             .Include(healthMeasure => healthMeasure.PeriodDimension)

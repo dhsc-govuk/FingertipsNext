@@ -86,7 +86,8 @@ public static class BenchmarkComparisonEngine
 
         var benchmarkHealthDataPoint = benchmarkDataPoints.FirstOrDefault(item =>
             item != healthDataPointOfInterest && // cannot be compared to itself
-            item.Year == healthDataPointOfInterest.Year && // must be the same year
+            item.DatePeriod.To == healthDataPointOfInterest.DatePeriod.To && // must be the same date period
+            item.DatePeriod.From == healthDataPointOfInterest.DatePeriod.From && // must be the same date period
             item.IsAggregate && // must be an aggregate point
             item.Value != null // must have a value
             );
