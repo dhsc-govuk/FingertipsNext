@@ -6,7 +6,7 @@ import { AreaAutoCompleteSuggestionPanel } from '@/components/molecules/AreaSugg
 import styled from 'styled-components';
 import { SearchParams } from '@/lib/searchStateManager';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
-import { useSearchState } from '@/context/SearchStateContext';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
 const MIN_SEARCH_SIZE = 3;
 const DEBOUNCE_SEARCH_DELAY = 300;
@@ -25,8 +25,8 @@ export function AreaAutoCompleteInputField({
   inputFieldErrorStatus = false,
   selectedAreaName,
 }: Readonly<AreaAutoCompleteInputFieldProps>) {
-  const { getSearchState } = useSearchState();
-  const searchState = getSearchState();
+  // const { getSearchState } = useSearchState();
+  const searchState = useSearchStateParams();
 
   const selectedAreasParams = searchState?.[SearchParams.AreasSelected];
 

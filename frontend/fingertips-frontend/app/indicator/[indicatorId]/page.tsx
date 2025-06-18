@@ -45,7 +45,6 @@ export default async function IndicatorDefinitionPage(
     return (
       <IndicatorDefinition
         indicatorDefinitionProps={fullMetadata}
-        searchState={stateManager.getSearchState()}
       />
     );
   } catch (error) {

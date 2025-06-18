@@ -22,7 +22,7 @@ import {
   SearchStateParams,
 } from '@/lib/searchStateManager';
 import { useLoadingState } from '@/context/LoaderContext';
-import { useSearchState } from '@/context/SearchStateContext';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
 export type IndicatorDefinitionProps = {
   indicatorName: string;
@@ -66,7 +66,6 @@ export type IndicatorDefinitionProps = {
 
 type IndicatorProps = {
   indicatorDefinitionProps: IndicatorDefinitionProps;
-  searchState: SearchStateParams;
 };
 
 const ZeroMarginParagraph = styled(Paragraph)(
@@ -80,14 +79,9 @@ const StyledSectionBreak = styled(SectionBreak)(
 
 export function IndicatorDefinition({
   indicatorDefinitionProps,
-  searchState,
 }: Readonly<IndicatorProps>) {
   const { setIsLoading } = useLoadingState();
-  const { setSearchState } = useSearchState();
-
-  useEffect(() => {
-    setSearchState(searchState ?? {});
-  }, [searchState, setSearchState]);
+  const searchState = useSearchStateParams()
 
   const stateManager = SearchStateManager.initialise(searchState);
 

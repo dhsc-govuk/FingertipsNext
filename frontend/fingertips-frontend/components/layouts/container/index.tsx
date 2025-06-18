@@ -1,7 +1,6 @@
 'use client';
 
 import { LoaderProvider } from '@/context/LoaderContext';
-import { SearchStateProvider } from '@/context/SearchStateContext';
 import { Main } from 'govuk-react';
 import styled from 'styled-components';
 import { QueryClientProvider } from '@tanstack/react-query';
@@ -20,7 +19,6 @@ export function FTContainer({
   return (
     <QueryClientProvider client={reactQueryClient}>
       <ModalProvider>
-        <SearchStateProvider>
           <LoaderProvider>
             <main>
               <StyledMain>{children}</StyledMain>
@@ -29,7 +27,6 @@ export function FTContainer({
               <FocusOnFragment />
             </Suspense>
           </LoaderProvider>
-        </SearchStateProvider>
       </ModalProvider>
     </QueryClientProvider>
   );

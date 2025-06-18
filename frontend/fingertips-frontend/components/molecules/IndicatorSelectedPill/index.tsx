@@ -6,7 +6,7 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { Link } from 'govuk-react';
 import { SearchStateManager } from '@/lib/searchStateManager';
 import { useLoadingState } from '@/context/LoaderContext';
-import { useSearchState } from '@/context/SearchStateContext';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
 const StyleIndicatorLink = styled(Link)({
   fontSize: 16,
@@ -21,8 +21,9 @@ export const IndicatorSelectedPill = ({
   indicator,
   isFullWidth,
 }: Readonly<IndicatorSelectedPillProps>) => {
+  const searchState = useSearchStateParams()
   const stateManager = SearchStateManager.initialise(
-    useSearchState().getSearchState()
+    searchState
   );
   const { setIsLoading } = useLoadingState();
 

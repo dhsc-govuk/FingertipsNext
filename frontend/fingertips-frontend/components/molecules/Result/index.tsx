@@ -16,9 +16,9 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { TagColours } from '@/lib/styleHelpers/colours';
 import { formatDate, isWithinOneMonth } from '@/lib/dateHelpers/dateHelpers';
 import { useLoadingState } from '@/context/LoaderContext';
-import { useSearchState } from '@/context/SearchStateContext';
 import { TrendTag } from '../TrendTag';
 import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
 type SearchResultProps = {
   result: IndicatorDocument;
@@ -78,8 +78,7 @@ export function SearchResult({
   currentDate = new Date(),
 }: Readonly<SearchResultProps>) {
   const { setIsLoading } = useLoadingState();
-  const { getSearchState } = useSearchState();
-  const searchState = getSearchState();
+  const searchState = useSearchStateParams();
 
   const stateManager = SearchStateManager.initialise(searchState);
 
