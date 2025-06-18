@@ -92,7 +92,7 @@ indicators_by_indicator_id_data:
                 type: string
                 format: binary
     responses:
-      "200":
+      "202":
         description: The file has been accepted by the API and further processing will be conducted. 
         content:
           text/plain:
