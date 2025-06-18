@@ -185,7 +185,6 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
       selectedIndicatorsData: fullSelectedIndicatorsData,
     });
 
-    expect(page.props.children.props.searchState).toEqual(fullSearchParams);
     expect(page.props.children.props.indicatorData).toEqual([
       mockIndicator,
       mockIndicator,

@@ -42,6 +42,9 @@ const mockAreas = ['A001', 'A002', 'A003'];
 const mockGroupArea = 'G001';
 
 let mockSearchParams: SearchStateParams;
+jest.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockSearchParams,
+}));
 
 const mockGroupHealthData: HealthDataForArea = {
   areaCode: mockGroupArea,
@@ -217,7 +220,6 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
   it('should render the benchmark select area drop down for the view', async () => {
     render(
       <TwoOrMoreIndicatorsAreasViewPlot
-        searchState={mockSearchParams}
         indicatorData={mockIndicatorData}
         indicatorMetadata={mockMetaData}
         benchmarkStatistics={mockBenchmarkStatistics}
@@ -243,7 +245,6 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
 
     render(
       <TwoOrMoreIndicatorsAreasViewPlot
-        searchState={mockSearchParams}
         indicatorData={mockIndicatorData}
         indicatorMetadata={mockMetaData}
         benchmarkStatistics={mockBenchmarkStatistics}
@@ -260,7 +261,6 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
 
     render(
       <TwoOrMoreIndicatorsAreasViewPlot
-        searchState={mockSearchParams}
         indicatorData={mockIndicatorData}
         indicatorMetadata={mockMetaData}
         benchmarkStatistics={mockBenchmarkStatistics}
@@ -279,7 +279,6 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
 
     render(
       <TwoOrMoreIndicatorsAreasViewPlot
-        searchState={mockSearchParams}
         indicatorData={mockIndicatorData}
         indicatorMetadata={mockMetaData}
         benchmarkStatistics={mockBenchmarkStatistics}
@@ -304,7 +303,6 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
 
     render(
       <TwoOrMoreIndicatorsAreasViewPlot
-        searchState={mockSearchParams}
         indicatorData={mockIndicatorData}
         indicatorMetadata={mockMetaData}
         benchmarkStatistics={mockBenchmarkStatistics}

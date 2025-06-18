@@ -33,10 +33,10 @@ export function LineChart({
     setVisibility
   );
 
-  const id = `${variant}LineChart-component`;
+  const id = `${variant}LineChart`;
   return (
     <>
-      <div id={id} data-testid={id}>
+      <div id={id} data-testid={`${id}-component`}>
         <ChartTitle>{title}</ChartTitle>
         <ConfidenceIntervalCheckbox
           chartName={`${variant}LineChart`}
