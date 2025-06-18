@@ -76,7 +76,7 @@ export const Home = ({
           }}
         />
       )}
-      <H2>Access public health data</H2>
+      <H2>Find public health data</H2>
       <Paragraph>
         A free government service that provides access to a wide range of public
         health data in England.
