@@ -8,12 +8,12 @@ namespace DHSC.FingertipsNext.Modules.DataManagement.Controllers.V1;
 
 [ApiController]
 [Route("indicators/{indicatorId:int}/data")]
-[ProducesResponseType(StatusCodes.Status200OK)]
+[ProducesResponseType(StatusCodes.Status202Accepted)]
 [ProducesResponseType(typeof(SimpleError), StatusCodes.Status400BadRequest)]
 public class DataManagementController : ControllerBase
 {
     [HttpPost]
-    public IActionResult UploadHealthData([FromForm] IFormFile? file, int indicatorId)
+    public static IActionResult UploadHealthData([FromForm] IFormFile? file, int indicatorId)
     {
         if (file == null || file.Length == 0)
             return new BadRequestObjectResult(new SimpleError
@@ -23,6 +23,11 @@ public class DataManagementController : ControllerBase
         var untrustedFileName = Path.GetFileName(file.FileName);
         var encodedUntrustedFileName = HttpUtility.HtmlEncode(untrustedFileName);
 
-        return Ok($"File {encodedUntrustedFileName} has been accepted for indicator {indicatorId}.");
+        return new AcceptedResult
+        {
+            StatusCode = StatusCodes.Status202Accepted,
+            Value = $"File {encodedUntrustedFileName} has been accepted for indicator {indicatorId}."
+        };
+
     }
 }

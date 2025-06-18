@@ -8,39 +8,47 @@ using Shouldly;
 
 namespace DHSC.FingertipsNext.Modules.DataManagement.UnitTests.Controllers.V1;
 
-public class DataManagementControllerTests
+public class DataManagementControllerTests : IDisposable
 {
-    private readonly DataManagementController _controller;
-    private readonly int stubIndicatorId = 123;
+    // private readonly DataManagementController _controller = new();
+    private const int StubIndicatorId = 123;
+    private const string StubFileName = "StubHealthdataUpload.csv";
 
-    public DataManagementControllerTests()
+    private static readonly string FilePath = Path.Combine("TestData", StubFileName);
+    private static readonly byte[] Bytes = File.ReadAllBytes(FilePath);
+    private static readonly MemoryStream Stream = new(Bytes);
+    private readonly FormFile _formFile = new(Stream, 0, Bytes.Length,
+        "file", StubFileName);
+
+    public void Dispose()
     {
-        _controller = new DataManagementController();
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            Stream.Dispose();
+        }
     }
 
     [Fact]
     public void PostReturnsExpectedResponseWhenGivenAValidFile()
     {
-        // arrange
-        var stubFileName = "StubHealthdataUpload.csv";
-        var filePath = Path.Combine("TestData", stubFileName);
-        var bytes = File.ReadAllBytes(filePath);
-        var stream = new MemoryStream(bytes);
-        var formFile = new FormFile(stream, 0, bytes.Length,
-            "file", stubFileName);
+        var response = DataManagementController.UploadHealthData(_formFile, StubIndicatorId) as AcceptedResult;
+        var expected = $"File {StubFileName} has been accepted for indicator {StubIndicatorId}.";
 
-        // act
-        var response = _controller.UploadHealthData(formFile, stubIndicatorId) as OkObjectResult;
-        // assert
-        response?.StatusCode.ShouldBe(200);
-        response?.Value.ToString().ShouldBe($"File {stubFileName} has been accepted for indicator {stubIndicatorId}.");
+        response?.StatusCode.ShouldBe(202);
+        (response?.Value.ToString() ?? string.Empty).ShouldBe(expected);
     }
 
     [Fact]
     public void NullFileReturns400()
     {
         // Act
-        var result = _controller.UploadHealthData(null, stubIndicatorId) as BadRequestObjectResult;
+        var result = DataManagementController.UploadHealthData(null, StubIndicatorId) as BadRequestObjectResult;
 
         // Assert
         result.ShouldNotBeNull();
@@ -56,7 +64,7 @@ public class DataManagementControllerTests
             "file", "empty.csv");
 
         // Act
-        var result = _controller.UploadHealthData(formFile, stubIndicatorId) as BadRequestObjectResult;
+        var result = DataManagementController.UploadHealthData(formFile, StubIndicatorId) as BadRequestObjectResult;
 
         // Assert
         result.ShouldNotBeNull();
@@ -67,20 +75,15 @@ public class DataManagementControllerTests
     public void PostReturnsEncodedFilenameInResponse()
     {
         // Arrange
-        var stubFileName = "Stub Healthdata Üpload.csv"; // filename with space and non-ASCII for encoding check
-        var csv = @"area_code,date_from,date_to,period_type,sex,age_from_years_inclusive,age_to_years_inclusive,deprivation_decile,deprivation_category,count,value,denominator,lower_ci_95,upper_ci_95,lower_ci_99_8,upper_ci_99_8
-E123456,2020-01-01,2020-12-31,Year,Male,18,64,3,Category,100,50,200,45,55,44,56";
-
-        var bytes = System.Text.Encoding.UTF8.GetBytes(csv);
-        var stream = new MemoryStream(bytes);
-        var formFile = new FormFile(stream, 0, bytes.Length, "file", stubFileName);
-        var expectedEncoded = HttpUtility.HtmlEncode(stubFileName);
+        const string stubFileNameWithCharsToEncode = "Stub Healthdata Üpload.csv"; // filename with space and non-ASCII for encoding check
+        var formFile = new FormFile(Stream, 0, Bytes.Length, "file", stubFileNameWithCharsToEncode);
+        var expectedEncoded = HttpUtility.HtmlEncode(stubFileNameWithCharsToEncode);
 
         // Act
-        var response = _controller.UploadHealthData(formFile, stubIndicatorId) as OkObjectResult;
+        var response = DataManagementController.UploadHealthData(formFile, StubIndicatorId) as AcceptedResult;
 
         // Assert
-        response?.StatusCode.ShouldBe(200);
+        response?.StatusCode.ShouldBe(202);
         (response?.Value.ToString() ?? string.Empty).ShouldContain(expectedEncoded);
     }
 }
