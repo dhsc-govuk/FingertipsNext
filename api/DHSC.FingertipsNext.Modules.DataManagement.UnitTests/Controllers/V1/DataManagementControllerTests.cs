@@ -10,6 +10,7 @@ namespace DHSC.FingertipsNext.Modules.DataManagement.UnitTests.Controllers.V1;
 public class DataManagementControllerTests
 {
     private readonly DataManagementController _controller;
+    private readonly int stubIndicatorId = 123;
 
     public DataManagementControllerTests()
     {
@@ -28,17 +29,17 @@ public class DataManagementControllerTests
             "file", stubFileName);
 
         // act
-        var response = _controller.UploadHealthData(formFile) as OkObjectResult;
+        var response = _controller.UploadHealthData(formFile, stubIndicatorId) as OkObjectResult;
         // assert
         response?.StatusCode.ShouldBe(200);
-        response?.Value.ToString().ShouldBe($"File {stubFileName} has been accepted.");
+        response?.Value.ToString().ShouldBe($"File {stubFileName} has been accepted for indicator {stubIndicatorId}.");
     }
 
     [Fact]
     public void NullFileReturns400()
     {
         // Act
-        var result = _controller.UploadHealthData(null) as BadRequestResult;
+        var result = _controller.UploadHealthData(null, stubIndicatorId) as BadRequestResult;
 
         // Assert
         result.ShouldNotBeNull();
@@ -54,7 +55,7 @@ public class DataManagementControllerTests
             "file", "empty.csv");
 
         // Act
-        var result = _controller.UploadHealthData(formFile) as BadRequestResult;
+        var result = _controller.UploadHealthData(formFile, stubIndicatorId) as BadRequestResult;
 
         // Assert
         result.ShouldNotBeNull();
