@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Common.Schemas\DHSC.FingertipsNext.Modules.Common.Schemas.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.DataManagement.Service\DHSC.FingertipsNext.Modules.DataManagement.Service.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Monolith\DHSC.FingertipsNext.Monolith.csproj" />
     </ItemGroup>

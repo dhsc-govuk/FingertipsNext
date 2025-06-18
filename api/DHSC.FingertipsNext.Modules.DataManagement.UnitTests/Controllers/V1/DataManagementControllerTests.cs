@@ -40,7 +40,7 @@ public class DataManagementControllerTests
     public void NullFileReturns400()
     {
         // Act
-        var result = _controller.UploadHealthData(null, stubIndicatorId) as BadRequestResult;
+        var result = _controller.UploadHealthData(null, stubIndicatorId) as BadRequestObjectResult;
 
         // Assert
         result.ShouldNotBeNull();
@@ -56,7 +56,7 @@ public class DataManagementControllerTests
             "file", "empty.csv");
 
         // Act
-        var result = _controller.UploadHealthData(formFile, stubIndicatorId) as BadRequestResult;
+        var result = _controller.UploadHealthData(formFile, stubIndicatorId) as BadRequestObjectResult;
 
         // Assert
         result.ShouldNotBeNull();
