@@ -1,15 +1,21 @@
 import { OneIndicatorOneAreaViewPlots } from '@/components/viewPlots/OneIndicatorOneAreaViewPlots';
-import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  BenchmarkReferenceType,
+  GetHealthDataForAnIndicatorInequalitiesEnum,
+  IndicatorWithHealthDataForArea,
+} from '@/generated-sources/ft-api-client';
 import {
   API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
 import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
-import { lineChartOverTimeRequestParams } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeRequestParams';
+import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
+import { determineBenchmarkRefType } from '@/lib/ViewsHelpers';
 
 export default async function OneIndicatorOneAreaView({
   selectedIndicatorsData,
@@ -19,6 +25,9 @@ export default async function OneIndicatorOneAreaView({
   const {
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.IndicatorsSelected]: indicatorSelected,
+    [SearchParams.GroupSelected]: selectedGroupCode,
+    [SearchParams.AreaTypeSelected]: areaTypeSelected,
+    [SearchParams.BenchmarkAreaSelected]: benchmarkAreaSelected,
   } = stateManager.getSearchState();
 
   const areaCodes = determineAreaCodes(areasSelected);
@@ -27,14 +36,41 @@ export default async function OneIndicatorOneAreaView({
     throw new Error('Invalid parameters provided to view');
   }
 
+  const areaCodesToRequest = [...areaCodes];
+  if (!areaCodesToRequest.includes(areaCodeForEngland)) {
+    areaCodesToRequest.push(areaCodeForEngland);
+  }
+  if (selectedGroupCode && selectedGroupCode !== areaCodeForEngland) {
+    areaCodesToRequest.push(selectedGroupCode);
+  }
+
   await connection();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
-  let healthData: IndicatorWithHealthDataForArea | undefined;
-  const apiRequestParams = lineChartOverTimeRequestParams(searchState);
+  const areaTypeToUse =
+    areaCodes[0] === areaCodeForEngland
+      ? englandAreaType.key
+      : areaTypeSelected;
+
+  const benchmarkRefType = determineBenchmarkRefType(benchmarkAreaSelected);
+
+  let indicatorData: IndicatorWithHealthDataForArea | undefined;
   try {
-    healthData = await indicatorApi.getHealthDataForAnIndicator(
-      apiRequestParams,
+    indicatorData = await indicatorApi.getHealthDataForAnIndicator(
+      {
+        indicatorId: Number(indicatorSelected[0]),
+        areaCodes: areaCodesToRequest,
+        inequalities: [
+          GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
+          GetHealthDataForAnIndicatorInequalitiesEnum.Deprivation,
+        ],
+        areaType: areaTypeToUse,
+        benchmarkRefType,
+        ancestorCode:
+          benchmarkRefType === BenchmarkReferenceType.SubNational
+            ? selectedGroupCode
+            : undefined,
+      },
       API_CACHE_CONFIG
     );
   } catch (error) {
@@ -43,10 +79,13 @@ export default async function OneIndicatorOneAreaView({
   }
 
   return (
-    <ViewsWrapper areaCodes={areaCodes} indicatorsDataForAreas={[healthData]}>
+    <ViewsWrapper
+      areaCodes={areaCodes}
+      indicatorsDataForAreas={[indicatorData]}
+    >
       <OneIndicatorOneAreaViewPlots
         key={`OneIndicatorOneAreaViewPlots-${JSON.stringify(searchState)}`}
-        indicatorData={healthData}
+        indicatorData={indicatorData}
         indicatorMetadata={selectedIndicatorsData?.[0]}
       />
     </ViewsWrapper>

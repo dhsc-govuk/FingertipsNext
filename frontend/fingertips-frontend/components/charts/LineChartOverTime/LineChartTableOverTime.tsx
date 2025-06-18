@@ -7,9 +7,9 @@ export function LineChartTableOverTime() {
 
   const {
     chartOptions,
-    areaDataWithoutInequalities,
-    englandDataWithoutInequalities,
-    groupDataWithoutInequalities,
+    areaData,
+    englandData,
+    groupData,
     indicatorMetaData,
     polarity,
     benchmarkComparisonMethod,
@@ -18,9 +18,9 @@ export function LineChartTableOverTime() {
   return (
     <LineChartTable
       title={chartOptions.title?.text ?? ''}
-      healthIndicatorData={areaDataWithoutInequalities}
-      englandIndicatorData={englandDataWithoutInequalities}
-      groupIndicatorData={groupDataWithoutInequalities}
+      healthIndicatorData={areaData}
+      englandIndicatorData={englandData}
+      groupIndicatorData={groupData}
       indicatorMetadata={indicatorMetaData}
       benchmarkComparisonMethod={benchmarkComparisonMethod}
       polarity={polarity}

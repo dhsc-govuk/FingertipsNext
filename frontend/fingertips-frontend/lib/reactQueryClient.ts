@@ -5,7 +5,7 @@ export const reactQueryClient = new QueryClient({
     queries: {
       retry: false,
       refetchOnWindowFocus: false,
-      staleTime: 60 * 1000,
+      staleTime: Infinity,
     },
   },
 });

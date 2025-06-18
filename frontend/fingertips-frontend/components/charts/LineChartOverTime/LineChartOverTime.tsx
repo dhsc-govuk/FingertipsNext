@@ -1,6 +1,6 @@
 import { LineChartVariant } from '@/components/organisms/LineChart/helpers/generateStandardLineChartOptions';
 import { LineChart } from '@/components/organisms/LineChart';
-import { useLineChartOverTimeData } from '@/components/charts/LineChartOverTime/hooks/useLineChartOverTimeData';
+import { useLineChartOverTimeData } from '@/components/charts/LineChartOverTime';
 
 export function LineChartOverTime() {
   const lineChartOverTimeData = useLineChartOverTimeData();

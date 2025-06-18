@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { SeedQueryCache } from '@/components/atoms/SeedQueryCache/SeedQueryCache';
 import { useQueryClient } from '@tanstack/react-query';
 import { SeedData } from '@/components/atoms/SeedQueryCache/seedQueryCache.types';
@@ -29,6 +29,7 @@ describe('SeedQueryCache', () => {
 
   afterEach(() => {
     process.env = originalEnv;
+    jest.resetAllMocks();
   });
 
   it('renders nothing when seedData is empty', () => {
@@ -49,27 +50,51 @@ describe('SeedQueryCache', () => {
     expect(setQueryDataMock).toHaveBeenCalledWith(['/api/bar'], mockHealth);
   });
 
-  it('renders seeded URLs in development mode', () => {
+  it('renders null', () => {
     const seedData: SeedData = {
       '/api/test': mockIndicatorDocument(),
     };
 
-    render(<SeedQueryCache seedData={seedData} />);
-    expect(screen.getByText('Seeded these urls...')).toBeInTheDocument();
-    expect(screen.getByText('/api/test')).toBeInTheDocument();
+    const { container } = render(<SeedQueryCache seedData={seedData} />);
+    expect(container.firstChild).toBeNull();
   });
 
   it('renders nothing if not in development mode', () => {
+    const seedData: SeedData = {
+      '/api/production-mode': mockMeta,
+    };
+
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     process.env.NODE_ENV = 'production';
+    const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
 
+    render(<SeedQueryCache seedData={seedData} />);
+
+    expect(setQueryDataMock).toHaveBeenCalledWith(
+      ['/api/production-mode'],
+      mockMeta
+    );
+    expect(logSpy).not.toHaveBeenCalled();
+  });
+
+  it('logs query keys in development mode', () => {
     const seedData: SeedData = {
-      '/api/test': mockMeta,
+      '/api/dev-mode': mockHealth,
     };
 
-    const { container } = render(<SeedQueryCache seedData={seedData} />);
-    expect(container.firstChild).toBeNull();
-    expect(setQueryDataMock).toHaveBeenCalledWith(['/api/test'], mockMeta);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    process.env.NODE_ENV = 'development';
+    const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    render(<SeedQueryCache seedData={seedData} />);
+
+    expect(setQueryDataMock).toHaveBeenCalledWith(
+      ['/api/dev-mode'],
+      mockHealth
+    );
+    expect(logSpy).toHaveBeenCalledWith(
+      expect.stringContaining('/api/dev-mode')
+    );
   });
 });

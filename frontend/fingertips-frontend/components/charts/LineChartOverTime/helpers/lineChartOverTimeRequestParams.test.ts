@@ -1,7 +1,4 @@
-import {
-  BenchmarkReferenceType,
-  GetHealthDataForAnIndicatorInequalitiesEnum,
-} from '@/generated-sources/ft-api-client';
+import { BenchmarkReferenceType } from '@/generated-sources/ft-api-client';
 import { SearchParams } from '@/lib/searchStateManager';
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
@@ -44,10 +41,6 @@ describe('lineChartOverTimeRequestParams', () => {
     expect(result).toEqual({
       indicatorId: 123,
       areaCodes: ['E08000001', areaCodeForEngland, 'E92000002'],
-      inequalities: [
-        GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
-        GetHealthDataForAnIndicatorInequalitiesEnum.Deprivation,
-      ],
       areaType: 'AreaType1',
       benchmarkRefType: BenchmarkReferenceType.England,
       ancestorCode: undefined,

@@ -20,6 +20,8 @@ const nextConfig: NextConfig = {
     'next/dist/server/lib/incremental-cache/file-system-cache.js'
   ),
   async rewrites() {
+    // useful for dev as it reverse proxies the api from wherever it is
+    // onto /api/ avoiding CORS issues and is more representative of prod
     return [
       {
         source: '/api/:path*', // your local path

@@ -25,7 +25,6 @@ export const useApiGetHealthDataForAnIndicator = (
       return indicatorsApiInstance.getHealthDataForAnIndicator(options);
     },
     enabled: !!options.indicatorId,
-    gcTime: 60 * 1000,
   });
 
   return useMemo(() => {

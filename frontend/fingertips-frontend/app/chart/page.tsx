@@ -73,14 +73,13 @@ export default async function ChartPage(
           apiRequestParams,
           API_CACHE_CONFIG
         );
+
+        // store data in query cache
+        const queryKeyLineChart = queryKeyFromRequestParams(apiRequestParams);
+        seedData[queryKeyLineChart] = healthData;
       } catch (error) {
         console.error('error getting health indicator data for area', error);
-        throw new Error('error getting health indicator data for area');
       }
-
-      // store data in query cache
-      const queryKeyLineChart = queryKeyFromRequestParams(apiRequestParams);
-      seedData[queryKeyLineChart] = healthData;
     }
 
     const selectedAreasData = await getSelectedAreasDataByAreaType(

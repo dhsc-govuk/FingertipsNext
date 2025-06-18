@@ -1,6 +1,5 @@
 import {
   BenchmarkReferenceType,
-  GetHealthDataForAnIndicatorInequalitiesEnum,
   GetHealthDataForAnIndicatorRequest,
 } from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
@@ -44,10 +43,6 @@ export const lineChartOverTimeRequestParams = (
   return {
     indicatorId: Number(indicatorsSelected[0]),
     areaCodes: areaCodesToRequest,
-    inequalities: [
-      GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
-      GetHealthDataForAnIndicatorInequalitiesEnum.Deprivation,
-    ],
     areaType: areaTypeToUse,
     benchmarkRefType,
     ancestorCode,

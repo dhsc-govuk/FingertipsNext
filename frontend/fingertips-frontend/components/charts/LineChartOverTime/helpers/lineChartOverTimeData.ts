@@ -1,16 +1,12 @@
-import {
-  determineAreaCodes,
-  determineBenchmarkToUse,
-  seriesDataWithoutEnglandOrGroup,
-} from '@/lib/chartHelpers/chartHelpers';
+import { determineBenchmarkToUse } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { getAllDataWithoutInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { generateStandardLineChartOptions } from '@/components/organisms/LineChart/helpers/generateStandardLineChartOptions';
 import {
   BenchmarkComparisonMethod,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { findAndRemoveByAreaCode } from '@/lib/healthDataHelpers/findAndRemoveByAreaCode';
 
 export const lineChartOverTimeData = (
   indicatorMetaData: IndicatorDocument,
@@ -19,44 +15,25 @@ export const lineChartOverTimeData = (
   selectedGroupCode?: string,
   benchmarkAreaSelected?: string
 ) => {
-  const areaCodes = determineAreaCodes(areasSelected);
   const benchmarkComparisonMethod = healthData?.benchmarkMethod;
   const polarity = healthData?.polarity;
 
-  const healthIndicatorData = healthData?.areaHealthData ?? [];
-  const dataWithoutEnglandOrGroup = seriesDataWithoutEnglandOrGroup(
-    healthIndicatorData,
+  const [healthDataWithoutEngland, englandData] = findAndRemoveByAreaCode(
+    healthData.areaHealthData ?? [],
+    areaCodeForEngland
+  );
+
+  const [healthWithoutEnglandOrGroup, groupData] = findAndRemoveByAreaCode(
+    healthDataWithoutEngland,
     selectedGroupCode
   );
 
-  const englandIndicatorData = healthIndicatorData.find(
-    (areaData) => areaData.areaCode === areaCodeForEngland
-  );
-
-  const groupData =
-    selectedGroupCode && selectedGroupCode !== areaCodeForEngland
-      ? healthIndicatorData.find(
-          (areaData) => areaData.areaCode === selectedGroupCode
-        )
-      : undefined;
-
-  const {
-    areaDataWithoutInequalities,
-    englandDataWithoutInequalities,
-    groupDataWithoutInequalities,
-  } = getAllDataWithoutInequalities(
-    dataWithoutEnglandOrGroup,
-    { englandIndicatorData, groupData },
-    areaCodes
-  );
-
   const shouldLineChartBeShownForOneArea =
-    areaDataWithoutInequalities[0]?.healthData.length > 1 ||
-    (englandDataWithoutInequalities &&
-      englandDataWithoutInequalities.healthData.length > 1);
+    healthWithoutEnglandOrGroup[0]?.healthData.length > 1 ||
+    (englandData && englandData.healthData.length > 1);
 
   const shouldLineChartBeShownForTwoAreas =
-    (dataWithoutEnglandOrGroup[0]?.healthData.length > 1 ||
+    (healthWithoutEnglandOrGroup[0]?.healthData.length > 1 ||
       benchmarkComparisonMethod === BenchmarkComparisonMethod.Quintiles) &&
     areasSelected.length === 2;
 
@@ -70,14 +47,14 @@ export const lineChartOverTimeData = (
   const benchmarkToUse = determineBenchmarkToUse(benchmarkAreaSelected);
 
   const chartOptions = generateStandardLineChartOptions(
-    areaDataWithoutInequalities,
+    healthWithoutEnglandOrGroup,
     true,
     benchmarkToUse,
     {
       indicatorName: indicatorMetaData?.indicatorName,
-      englandData: englandDataWithoutInequalities,
+      englandData: englandData,
       benchmarkComparisonMethod: benchmarkComparisonMethod,
-      groupIndicatorData: groupDataWithoutInequalities,
+      groupIndicatorData: groupData,
       yAxisTitle,
       xAxisTitle: 'Period',
       measurementUnit: indicatorMetaData?.unitLabel,
@@ -87,9 +64,9 @@ export const lineChartOverTimeData = (
 
   return {
     chartOptions,
-    areaDataWithoutInequalities,
-    englandDataWithoutInequalities,
-    groupDataWithoutInequalities,
+    areaData: healthWithoutEnglandOrGroup,
+    englandData,
+    groupData,
     indicatorMetaData,
     polarity,
     benchmarkComparisonMethod,

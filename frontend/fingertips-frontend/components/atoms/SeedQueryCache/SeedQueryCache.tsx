@@ -2,7 +2,6 @@
 
 import { useQueryClient } from '@tanstack/react-query';
 import { SeedData } from '@/components/atoms/SeedQueryCache/seedQueryCache.types';
-import { StyledDiv } from '@/components/atoms/SeedQueryCache/SeedQueryCache.styles';
 
 interface SeedQueryCacheProps {
   seedData: SeedData;
@@ -17,14 +16,10 @@ export function SeedQueryCache({ seedData }: Readonly<SeedQueryCacheProps>) {
     queryClient.setQueryData([url], data);
   });
 
-  if (process.env.NODE_ENV !== 'development') return null;
+  if (process.env.NODE_ENV === 'development') {
+    const queryKeys = Object.keys(seedData).join('\n');
+    console.log(`SEEDING DATA FOR REACT QUERY\n${queryKeys}`);
+  }
 
-  return (
-    <StyledDiv>
-      <p>Seeded these urls...</p>
-      {keys.map((url) => (
-        <pre key={url}>{url}</pre>
-      ))}
-    </StyledDiv>
-  );
+  return null;
 }

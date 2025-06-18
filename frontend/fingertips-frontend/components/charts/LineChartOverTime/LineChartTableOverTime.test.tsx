@@ -44,9 +44,9 @@ describe('LineChartTableOverTime', () => {
   it('renders LineChartTable with expected props', () => {
     mockUseLineChartOverTimeData.mockReturnValue({
       chartOptions: { title: { text: 'Test Chart Title' } },
-      areaDataWithoutInequalities: [mockHealthDataForArea()],
-      englandDataWithoutInequalities: mockHealthDataForArea_England(),
-      groupDataWithoutInequalities: mockHealthDataForArea({ areaCode: 'G1' }),
+      areaData: [mockHealthDataForArea()],
+      englandData: mockHealthDataForArea_England(),
+      groupData: mockHealthDataForArea({ areaCode: 'G1' }),
       indicatorMetaData: mockIndicatorDocument(),
       polarity: IndicatorPolarity.HighIsGood,
       benchmarkComparisonMethod: BenchmarkComparisonMethod.Quintiles,
@@ -65,9 +65,9 @@ describe('LineChartTableOverTime', () => {
   it('renders with empty title if chartOptions.title is missing', () => {
     mockUseLineChartOverTimeData.mockReturnValue({
       chartOptions: {},
-      areaDataWithoutInequalities: [],
-      englandDataWithoutInequalities: undefined,
-      groupDataWithoutInequalities: undefined,
+      areaData: [],
+      englandData: undefined,
+      groupData: undefined,
       indicatorMetaData: mockIndicatorDocument(),
       polarity: IndicatorPolarity.HighIsGood,
       benchmarkComparisonMethod:
