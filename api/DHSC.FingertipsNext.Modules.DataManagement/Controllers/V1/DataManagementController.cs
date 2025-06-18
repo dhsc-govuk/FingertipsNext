@@ -15,7 +15,7 @@ public class DataManagementController : ControllerBase
     [HttpPost]
     public IActionResult UploadHealthData([FromForm] IFormFile? file, int indicatorId)
     {
-        if (file == null || file.Length == 0) 
+        if (file == null || file.Length == 0)
             return new BadRequestObjectResult(new SimpleError
             {
                 Message = "File is empty"

@@ -62,7 +62,7 @@ public class DataManagementControllerTests
         result.ShouldNotBeNull();
         result.StatusCode.ShouldBe(400);
     }
-    
+
     [Fact]
     public void PostReturnsEncodedFilenameInResponse()
     {
@@ -74,8 +74,8 @@ E123456,2020-01-01,2020-12-31,Year,Male,18,64,3,Category,100,50,200,45,55,44,56"
         var bytes = System.Text.Encoding.UTF8.GetBytes(csv);
         var stream = new MemoryStream(bytes);
         var formFile = new FormFile(stream, 0, bytes.Length, "file", stubFileName);
-        var expectedEncoded = HttpUtility.HtmlEncode(stubFileName); 
-        
+        var expectedEncoded = HttpUtility.HtmlEncode(stubFileName);
+
         // Act
         var response = _controller.UploadHealthData(formFile, stubIndicatorId) as OkObjectResult;
 
