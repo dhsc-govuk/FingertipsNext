@@ -9,7 +9,7 @@ public interface IHealthDataRepository
                                                                  int[] years,
                                                                  string[] inequalities);
 
-    Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync(int indicatorId,
+    Task<IEnumerable<DenormalisedHealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync(int indicatorId,
                                                                  string[] areaCodes,
                                                                  int[] years,
                                                                  string areaTypeKey,

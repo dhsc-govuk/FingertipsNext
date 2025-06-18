@@ -59,8 +59,14 @@ indicators_by_indicator_id_data:
       - indicators
     summary: Get health data for an indicator
     description:
-      Get data for a public health indicator. This will return all data for all areas and all years for the indicators. Optionally filter the results by supplying one
-      or more area codes and one or more years in the query string.
+      Get data for a public health indicator. This will return all data for
+        all requested areas and all time periods for the specified indicator. 
+
+        The returned data will include a benchmark comparison against either England or an ancestor area
+        group, depending on the benchmark_ref_type and ancestor_code parameters.
+
+        Data can be provided disagregated by various categories such as age and sex
+        using the inequalities query parameter.
     responses:
       "200":
         description:
@@ -106,7 +112,13 @@ quartiles:
     tags:
       - indicators
     summary: Get quartile values for indicators
-    description: Get quartile information for indicators including
+    description: Get quartile information for many indicators for one area. This will 
+        calculate the quartile based on all areas of the specified type within 
+        either England or a sub-national area, depending on the 
+        benchmark_ref_type parameter. It will use the latest data available 
+        for the area group requested. If the indicator has data for 
+        more than one time period type then the API will return data for each
+        data period type separately.
     parameters:
       - name: ancestor_code
         in: query
