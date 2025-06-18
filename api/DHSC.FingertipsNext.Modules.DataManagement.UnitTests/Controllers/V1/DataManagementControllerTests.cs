@@ -1,3 +1,4 @@
+using System.Web;
 using DHSC.FingertipsNext.Modules.DataManagement.Controllers.V1;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using DHSC.FingertipsNext.Modules.DataManagement.Service;
@@ -60,5 +61,26 @@ public class DataManagementControllerTests
         // Assert
         result.ShouldNotBeNull();
         result.StatusCode.ShouldBe(400);
+    }
+    
+    [Fact]
+    public void PostReturnsEncodedFilenameInResponse()
+    {
+        // Arrange
+        var stubFileName = "Stub Healthdata Üpload.csv"; // filename with space and non-ASCII for encoding check
+        var csv = @"area_code,date_from,date_to,period_type,sex,age_from_years_inclusive,age_to_years_inclusive,deprivation_decile,deprivation_category,count,value,denominator,lower_ci_95,upper_ci_95,lower_ci_99_8,upper_ci_99_8
+E123456,2020-01-01,2020-12-31,Year,Male,18,64,3,Category,100,50,200,45,55,44,56";
+
+        var bytes = System.Text.Encoding.UTF8.GetBytes(csv);
+        var stream = new MemoryStream(bytes);
+        var formFile = new FormFile(stream, 0, bytes.Length, "file", stubFileName);
+        var expectedEncoded = HttpUtility.HtmlEncode(stubFileName); 
+        
+        // Act
+        var response = _controller.UploadHealthData(formFile, stubIndicatorId) as OkObjectResult;
+
+        // Assert
+        response?.StatusCode.ShouldBe(200);
+        (response?.Value.ToString() ?? string.Empty).ShouldContain(expectedEncoded);
     }
 }
