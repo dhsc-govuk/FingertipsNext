@@ -1019,7 +1019,7 @@ public class HealthDataRepositoryTests : IDisposable
             .Build());
 
         // Act
-        var result = await _healthDataRepository.GetIndicatorDimensionAsync(1, [
+        var result = await _healthDataRepository.GetIndicatorDimensionAsync(INDICATORID, [
             ENGLAND_AREA_CODE,
             DISTRICT_ONE_AREA_CODE
         ]);
@@ -1041,7 +1041,7 @@ public class HealthDataRepositoryTests : IDisposable
             .Build());
 
         // Act
-        var result = await _healthDataRepository.GetIndicatorDimensionAsync(1, [
+        var result = await _healthDataRepository.GetIndicatorDimensionAsync(INDICATORID, [
             "TESTAREA_ONE",
             "TESTAREA_TWO"
         ]);

@@ -18,8 +18,7 @@ public class HealthDataMapperTests
         float count = 1,
         float value = 1,
         float lowerConfidenceInterval = 1,
-        float upperConfidenceInterval = 1,
-        bool isAggregate = true
+        float upperConfidenceInterval = 1
     )
     {
         return new HealthDataPoint
@@ -82,7 +81,7 @@ public class HealthDataMapperTests
             }).Build();
 
         var expectedHealthData = BuildHealthDataPoint(
-            2007, expectedAgeBand, expectedSex, expectedTrend, expectedDeprivation, isAggregate: healthMeasure.IsAggregate);
+            2007, expectedAgeBand, expectedSex, expectedTrend, expectedDeprivation);
 
         // act
         var actual = _healthDataMapper.Map(healthMeasure);

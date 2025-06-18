@@ -898,7 +898,7 @@
             "value": "Female",
             "isAggregate": false
           },
-          "trend": "Cannot be calculated",
+          "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Better",
             "benchmarkAreaCode": "E12000007",
@@ -927,7 +927,7 @@
             "value": "Male",
             "isAggregate": false
           },
-          "trend": "Cannot be calculated",
+          "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
             "benchmarkAreaCode": "E12000007",
@@ -956,7 +956,7 @@
             "value": "Persons",
             "isAggregate": true
           },
-          "trend": "Cannot be calculated",
+          "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Similar",
             "benchmarkAreaCode": "E92000001",

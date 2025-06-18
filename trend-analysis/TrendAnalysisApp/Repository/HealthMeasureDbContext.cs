@@ -5,9 +5,9 @@ namespace TrendAnalysisApp.Repository;
 
 public class HealthMeasureDbContext : DbContext
 {
-    public HealthMeasureDbContext() {}
+    public HealthMeasureDbContext() { }
 
-    public HealthMeasureDbContext(DbContextOptions options) : base(options) {}
+    public HealthMeasureDbContext(DbContextOptions options) : base(options) { }
 
     public DbSet<HealthMeasureModel> HealthMeasure { get; set; }
     public DbSet<AreaDimensionModel> AreaDimension { get; set; }
@@ -15,20 +15,4 @@ public class HealthMeasureDbContext : DbContext
     public DbSet<AgeDimensionModel> AgeDimension { get; set; }
     public DbSet<SexDimensionModel> SexDimension { get; set; }
     public DbSet<TrendDimensionModel> TrendDimension { get; set; }
-    
-    public IQueryable<HealthMeasureModel> PublishedHealthMeasure
-    {
-        get
-        {
-            return HealthMeasure.Where(hm => hm.PublishedAt <= DateTime.UtcNow);
-        }
-    }
-
-    public IQueryable<HealthMeasureModel> UnpublishedHealthMeasure
-    {
-        get
-        {
-            return HealthMeasure.Where(hm => hm.PublishedAt > DateTime.UtcNow);
-        }
-    }
 }

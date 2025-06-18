@@ -35,24 +35,24 @@ GET http://localhost:5144/indicators/247/data?area_codes=N81096&comparison_metho
 GET http://localhost:5144/indicators/91894/data?area_codes=E92000001&inequalities=deprivation
 
 ### Ensure unpublished data is not returned
-GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=K84017&area_codes=P81002&area_type=gps&years=2025&years=2024&years=2023&years=2022&years=2021&years=2020&ancestor_code=E38000136&area_codes=E38000136&area_codes=E92000001&benchmark_ref_type=SubNational
+GET http://localhost:5144/indicators/41101/data?area_codes=E38000101&area_type=gps&years=2025&years=2024&years=2023&years=2022&years=2021&years=2020&ancestor_code=E38000136&area_codes=E38000136&area_codes=E92000001&benchmark_ref_type=SubNational
 > {%
     client.test("Ensure unpublished data is not returned", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
 
-        client.assert(response.body.areaHealthData[2].areaCode =="K84031", "AreaCode not as expected");
+        client.assert(response.body.benchmarkMethod =="CIOverlappingReferenceValue95", "benchmarkMethod not as expected");
 
-        healthData = response.body.areaHealthData[2].healthData;
+        healthData = response.body.areaHealthData[0].healthData;
         yearList = [];
         healthData.forEach(item => {
             yearList.push(item.year);
         });
 
-        expectedYears = [2020, 2021, 2022, 2023, 2024];
+        expectedYears = [2020, 2021, 2022, 2023];
 
         containsAllExpectedYears = expectedYears.every(r => yearList.includes(r))
         client.assert(containsAllExpectedYears == true)
-        client.assert(yearList.indexOf(2025) == -1)
-        client.assert(yearList.length == 5)
+        client.assert(yearList.indexOf(2024) == -1)
+        client.assert(yearList.length == 4)
     });
 %}
