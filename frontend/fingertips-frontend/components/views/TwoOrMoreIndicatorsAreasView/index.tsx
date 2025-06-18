@@ -125,7 +125,6 @@ export default async function TwoOrMoreIndicatorsAreasView({
         indicatorData={combinedIndicatorData}
         indicatorMetadata={selectedIndicatorsData}
         benchmarkStatistics={benchmarkQuartiles}
-        searchState={searchState}
         availableAreas={availableAreas}
       />
     </ViewsWrapper>
