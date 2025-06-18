@@ -19,11 +19,9 @@ let selectedIndicatorsData: SimpleIndicatorDocument[] = [];
 const checkTrends = process.env.CHECK_TRENDS_ON_RESULTS_PAGE === 'true';
 
 /**
- * This tests, in parallel, the indicator + area scenario combinations from
- * https://ukhsa.atlassian.net/wiki/spaces/FTN/pages/171448170/Frontend+Application+-+Displaying+Charts
- * These scenario combinations are know as core journeys and are defined in coreTestJourneys,
- * they were chosen as they are happy paths covering lots of chart components, they also cover the three different search mode scenarios.
- * All 15 journeys are covered in lower level unit testing.
+ * This tests, in parallel, the 15 indicator + area scenario combinations defined in coreTestJourneys from core_journey_config.ts
+ * These scenario combinations are know as core journeys, they are happy path journeys testing all chart components as well as
+ * the three different search mode scenarios.
  */
 test.describe(
   `Search via`,

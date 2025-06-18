@@ -8,6 +8,7 @@ type ScenarioConfig = {
   hiddenComponents: ChartComponentDefinition[];
 };
 
+// as defined in https://ukhsa.atlassian.net/wiki/spaces/FTN/pages/171448117/Area+Indicator+journeys
 const visibleComponentMap: Record<string, string[]> = {
   [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.ONE_AREA}`]: [
     ChartPage.lineChartComponent,
@@ -28,6 +29,17 @@ const visibleComponentMap: Record<string, string[]> = {
     ChartPage.populationPyramidChartComponent,
     ChartPage.populationPyramidTableComponent,
   ],
+  [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.THREE_PLUS_AREAS}`]: [
+    ChartPage.barChartEmbeddedTableComponent,
+    ChartPage.populationPyramidChartComponent,
+    ChartPage.populationPyramidTableComponent,
+  ],
+  [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.ALL_AREAS_IN_A_GROUP}`]: [
+    ChartPage.thematicMapComponent,
+    ChartPage.barChartEmbeddedTableComponent,
+    ChartPage.populationPyramidChartComponent,
+    ChartPage.populationPyramidTableComponent,
+  ],
   [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.ENGLAND_AREA}`]: [
     ChartPage.lineChartComponent,
     ChartPage.lineChartTableComponent,
@@ -40,19 +52,8 @@ const visibleComponentMap: Record<string, string[]> = {
     ChartPage.populationPyramidChartComponent,
     ChartPage.populationPyramidTableComponent,
   ],
-  [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.THREE_PLUS_AREAS}`]: [
-    ChartPage.barChartEmbeddedTableComponent,
-    ChartPage.populationPyramidChartComponent,
-    ChartPage.populationPyramidTableComponent,
-  ],
-  [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.ALL_AREAS_IN_A_GROUP}`]: [
-    ChartPage.thematicMapComponent,
-    ChartPage.barChartEmbeddedTableComponent,
-    ChartPage.populationPyramidChartComponent,
-    ChartPage.populationPyramidTableComponent,
-  ],
-  [`${IndicatorMode.TWO_INDICATORS}-${AreaMode.ENGLAND_AREA}`]: [
-    ChartPage.basicTableComponent,
+  [`${IndicatorMode.TWO_INDICATORS}-${AreaMode.ONE_AREA}`]: [
+    ChartPage.spineChartTableComponent,
     ChartPage.populationPyramidChartComponent,
     ChartPage.populationPyramidTableComponent,
   ],
@@ -72,6 +73,11 @@ const visibleComponentMap: Record<string, string[]> = {
     ChartPage.populationPyramidChartComponent,
     ChartPage.populationPyramidTableComponent,
   ],
+  [`${IndicatorMode.TWO_INDICATORS}-${AreaMode.ENGLAND_AREA}`]: [
+    ChartPage.basicTableComponent,
+    ChartPage.populationPyramidChartComponent,
+    ChartPage.populationPyramidTableComponent,
+  ],
   [`${IndicatorMode.THREE_PLUS_INDICATORS}-${AreaMode.ONE_AREA}`]: [
     ChartPage.spineChartTableComponent,
     ChartPage.populationPyramidChartComponent,
@@ -80,6 +86,21 @@ const visibleComponentMap: Record<string, string[]> = {
   [`${IndicatorMode.THREE_PLUS_INDICATORS}-${AreaMode.TWO_AREAS}`]: [
     ChartPage.heatMapComponent,
     ChartPage.spineChartTableComponent,
+    ChartPage.populationPyramidChartComponent,
+    ChartPage.populationPyramidTableComponent,
+  ],
+  [`${IndicatorMode.THREE_PLUS_INDICATORS}-${AreaMode.THREE_PLUS_AREAS}`]: [
+    ChartPage.heatMapComponent,
+    ChartPage.populationPyramidChartComponent,
+    ChartPage.populationPyramidTableComponent,
+  ],
+  [`${IndicatorMode.THREE_PLUS_INDICATORS}-${AreaMode.ALL_AREAS_IN_A_GROUP}`]: [
+    ChartPage.heatMapComponent,
+    ChartPage.populationPyramidChartComponent,
+    ChartPage.populationPyramidTableComponent,
+  ],
+  [`${IndicatorMode.THREE_PLUS_INDICATORS}-${AreaMode.ENGLAND_AREA}`]: [
+    ChartPage.basicTableComponent,
     ChartPage.populationPyramidChartComponent,
     ChartPage.populationPyramidTableComponent,
   ],
