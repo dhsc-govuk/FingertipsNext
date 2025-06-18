@@ -13,6 +13,7 @@ Content-Type: text/csv
     client.test("CSV upload accepted", () => {
         client.assert(response.status === 200, "Expected 200 OK");
         client.assert(response.body.includes("StubHealthdataUpload.csv"), "Response does not contain filename");
+        client.assert(response.body.includes("123"), "Response does not contain indicatorId");
     });
 %}
 
