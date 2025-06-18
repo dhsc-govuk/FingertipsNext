@@ -101,11 +101,11 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
                 },
                 FromDateDimension = new DateDimensionModel
                 {
-                    Date = healthMeasure.FromDateDimension.Date
+                    Date = healthMeasure.FromDate
                 },
                 ToDateDimension = new DateDimensionModel
                 {
-                    Date = healthMeasure.ToDateDimension.Date
+                    Date = healthMeasure.ToDate
                 },
                 Value = healthMeasure.Value,
                 Count = healthMeasure.Count,
@@ -159,7 +159,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync(
+    public async Task<IEnumerable<DenormalisedHealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync(
         int indicatorId,
         string[] areaCodes,
         int[] years,
@@ -207,12 +207,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
               "
         ).ToListAsync();
 
-        return
-        [
-            .. denormalisedHealthData
-                .Select(a => a.Normalise())
-                .OrderBy(a => a.Year)
-        ];
+        return denormalisedHealthData.OrderBy(a => a.Year);
     }
 
     public async Task<IEnumerable<QuartileDataModel>> GetQuartileDataAsync(IEnumerable<int> indicatorIds,

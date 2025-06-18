@@ -1,4 +1,7 @@
-import { SearchMode, TestTag } from '@/playwright/testHelpers';
+import {
+  SearchMode,
+  TestTag,
+} from '@/playwright/testHelpers/genericTestUtilities';
 import { test } from '../../../page-objects/pageFactory';
 
 test.describe(

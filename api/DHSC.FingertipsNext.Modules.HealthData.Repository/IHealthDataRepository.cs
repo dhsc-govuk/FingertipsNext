@@ -11,7 +11,7 @@ public interface IHealthDataRepository
                                                                  string? fromDate = null,
                                                                  string? toDate = null);
 
-    Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync(int indicatorId,
+    Task<IEnumerable<DenormalisedHealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync(int indicatorId,
                                                                  string[] areaCodes,
                                                                  int[] years,
                                                                  string areaTypeKey,

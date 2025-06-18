@@ -1,5 +1,4 @@
 using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 
@@ -213,6 +212,7 @@ internal sealed class HealthMeasureModelHelper(
         { DateKey = key, Date = new DateTime(year, month, day) };
         return this;
     }
+
     private HealthMeasureModelHelper DefaultToDateDimension(int year, int month, int day)
     {
         _toDateDimension = new DateDimensionModel()
