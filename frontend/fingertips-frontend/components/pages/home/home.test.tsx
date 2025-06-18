@@ -141,17 +141,19 @@ describe('contents items should link to appropriate headings', () => {
       screen.getByRole('heading', { name: headingText }).closest(`${href}`)
     ).toHaveAttribute('id', href.slice(1));
   });
-  
+
   it('content item find public health data should link to the search section', () => {
     setupUI();
-    
+
     const link = screen.getByRole('link', { name: 'Find public health data' });
     expect(link).toHaveAttribute('href', '#search');
-    
+
     const section = document.getElementById('search');
     expect(section).toBeInTheDocument();
-    
-    const heading = within(section!).getByRole('heading', { name: 'Find public health data' });
+
+    const heading = within(section!).getByRole('heading', {
+      name: 'Find public health data',
+    });
     expect(heading).toBeInTheDocument();
   });
 });

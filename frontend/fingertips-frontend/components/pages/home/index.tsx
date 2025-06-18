@@ -4,6 +4,7 @@ import {
   ErrorSummary,
   H2,
   H3,
+  InsetText,
   Link,
   ListItem,
   Paragraph,
@@ -78,10 +79,14 @@ export const Home = ({
       )}
       <H2>Find public health data</H2>
       <Paragraph>
-        This service provides easy access to a comprehensive collection of public health data for England. It can be used to monitor  trends, identify inequalities, and make make data-driven decisions to improve public health.
+        This service provides easy access to a comprehensive collection of
+        public health data for England. It can be used to monitor trends,
+        identify inequalities, and make make data-driven decisions to improve
+        public health.
       </Paragraph>
-      <br />
 
+      <InsetText>This service was previously known as Fingertips</InsetText>
+      <br />
       <ZeroMarginParagraph>Contents</ZeroMarginParagraph>
       <UnorderedList listStyleType='"— "'>
         <ListItem>
