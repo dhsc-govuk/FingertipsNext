@@ -141,13 +141,16 @@ export const handlers = [
       return HttpResponse.json(...resultArray[next() % resultArray.length]);
     }
   ),
+
   http.post(`${baseURL}/indicators/:indicatorId/data`, async () => {
     const resultArray = [
-      [getPostIndicatorsIndicatorIdData501Response(), { status: 501 }],
+      [getPostIndicatorsIndicatorIdData202Response(), { status: 202 }],
+      [getPostIndicatorsIndicatorIdData400Response(), { status: 400 }],
     ];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
+
   http.delete(`${baseURL}/indicators/:indicatorId/data`, async () => {
     const resultArray = [
       [getDeleteIndicatorsIndicatorIdData501Response(), { status: 501 }],
@@ -274,8 +277,14 @@ export function getGetHealthDataForAnIndicator500Response() {
   };
 }
 
-export function getPostIndicatorsIndicatorIdData501Response() {
+export function getPostIndicatorsIndicatorIdData202Response() {
   return null;
+}
+
+export function getPostIndicatorsIndicatorIdData400Response() {
+  return {
+    message: faker.lorem.words(),
+  };
 }
 
 export function getDeleteIndicatorsIndicatorIdData501Response() {
