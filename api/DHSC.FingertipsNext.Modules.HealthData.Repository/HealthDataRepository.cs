@@ -101,11 +101,11 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
                 },
                 FromDateDimension = new DateDimensionModel
                 {
-                    Date = healthMeasure.FromDate
+                    Date = healthMeasure.FromDateDimension.Date
                 },
                 ToDateDimension = new DateDimensionModel
                 {
-                    Date = healthMeasure.ToDate
+                    Date = healthMeasure.ToDateDimension.Date
                 },
                 Value = healthMeasure.Value,
                 Count = healthMeasure.Count,
