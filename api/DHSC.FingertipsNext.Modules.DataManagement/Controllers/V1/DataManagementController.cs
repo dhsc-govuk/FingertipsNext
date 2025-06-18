@@ -8,10 +8,10 @@ namespace DHSC.FingertipsNext.Modules.DataManagement.Controllers.V1;
 [Route("indicators/{indicatorId:int}/data")]
 [ProducesResponseType(StatusCodes.Status200OK)]
 [ProducesResponseType(typeof(JSType.Error), StatusCodes.Status400BadRequest)]
-public class DataManagementController() : ControllerBase
+public class DataManagementController : ControllerBase
 {
     [HttpPost]
-    public IActionResult AcceptFile([FromForm] IFormFile? file)
+    public IActionResult UploadHealthData([FromForm] IFormFile? file)
     {
         if (file == null || file.Length == 0) return BadRequest();
 
