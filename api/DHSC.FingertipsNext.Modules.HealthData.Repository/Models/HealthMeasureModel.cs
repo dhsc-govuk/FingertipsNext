@@ -52,10 +52,14 @@ public class HealthMeasureModel
     [ForeignKey("FromDateDimension")]
     public int FromDateKey { get; set; }
 
+    public DateTime FromDate => FromDateDimension.Date;
+
     public required DateDimensionModel ToDateDimension { get; set; }
 
     [ForeignKey("ToDateDimension")]
     public int ToDateKey { get; set; }
+
+    public DateTime ToDate => ToDateDimension.Date;
 
     public required PeriodDimensionModel PeriodDimension { get; set; }
     [ForeignKey("PeriodDimension")]

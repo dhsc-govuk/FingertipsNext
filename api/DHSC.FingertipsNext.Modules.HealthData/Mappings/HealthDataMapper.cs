@@ -49,7 +49,7 @@ public class HealthDataMapper : IHealthDataMapper
             Count = source.Count,
             Value = source.Value,
             Year = source.Year,
-            DatePeriod = Map(source.FromDateDimension.Date, source.ToDateDimension.Date, source.PeriodDimension.Period),
+            DatePeriod = Map(source.FromDate, source.ToDate, source.PeriodDimension.Period),
             BenchmarkComparison = Map(source.BenchmarkComparison),
             IsAggregate = source.IsAggregate,
             LowerConfidenceInterval = source.LowerCi,
@@ -78,7 +78,7 @@ public class HealthDataMapper : IHealthDataMapper
                 BenchmarkAreaCode = source.BenchmarkComparisonAreaCode!,
                 BenchmarkAreaName = source.BenchmarkComparisonAreaName!
             }),
-            IsAggregate = true,
+            IsAggregate = source.AgeDimensionIsAggregate && source.SexDimensionIsAggregate && source.DeprivationDimensionIsAggregate,
             LowerConfidenceInterval = source.LowerCi,
             UpperConfidenceInterval = source.UpperCi,
             AgeBand = Map(new AgeDimensionModel()
