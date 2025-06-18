@@ -89,6 +89,8 @@ For e2e tests there is a difference between where and how the tests are executed
 
  2. In CD, which occurs when code merges into main, we execute the e2e tests against the deployed azure instance of fingertips, using both chromium and webkit browsers. Note we do not perform visual screenshot snapshot testing at this point.
 
+We use tags to tag our tests to control whether they run in both CI and CD, or just one of these. This depends on what the e2e test is testing as certain data and infrastructure only exists in the CD environment.
+
 For local development we also have the option to run the tests locally against mocks or against a containerised instance of fingertips using docker.
 
 ### Running the Jest Unit tests
