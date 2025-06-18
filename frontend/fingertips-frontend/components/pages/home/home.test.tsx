@@ -151,7 +151,7 @@ describe('contents items should link to appropriate headings', () => {
     const section = document.getElementById('search');
     expect(section).toBeInTheDocument();
     
-    const heading = within(section).getByRole('heading', { name: 'Find public health data' });
+    const heading = within(section!).getByRole('heading', { name: 'Find public health data' });
     expect(heading).toBeInTheDocument();
   });
 });

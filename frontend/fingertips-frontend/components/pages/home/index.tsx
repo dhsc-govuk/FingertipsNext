@@ -78,8 +78,7 @@ export const Home = ({
       )}
       <H2>Find public health data</H2>
       <Paragraph>
-        A free government service that provides access to a wide range of public
-        health data in England.
+        This service provides easy access to a comprehensive collection of public health data for England. It can be used to monitor  trends, identify inequalities, and make make data-driven decisions to improve public health.
       </Paragraph>
       <br />
 
