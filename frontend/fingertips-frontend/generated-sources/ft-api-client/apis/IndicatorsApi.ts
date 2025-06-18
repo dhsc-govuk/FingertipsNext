@@ -58,24 +58,11 @@ export interface GetIndicatorRequest {
 
 export interface IndicatorsIndicatorIdDataDeleteRequest {
     indicatorId: number;
-    areaCodes?: Array<string>;
-    areaType?: string;
-    ancestorCode?: string;
-    benchmarkRefType?: BenchmarkReferenceType;
-    years?: Array<number>;
-    inequalities?: Array<IndicatorsIndicatorIdDataDeleteInequalitiesEnum>;
-    latestOnly?: boolean;
 }
 
 export interface IndicatorsIndicatorIdDataPostRequest {
     indicatorId: number;
-    areaCodes?: Array<string>;
-    areaType?: string;
-    ancestorCode?: string;
-    benchmarkRefType?: BenchmarkReferenceType;
-    years?: Array<number>;
-    inequalities?: Array<IndicatorsIndicatorIdDataPostInequalitiesEnum>;
-    latestOnly?: boolean;
+    file?: Blob;
 }
 
 export interface IndicatorsQuartilesGetRequest {
@@ -152,13 +139,6 @@ export interface IndicatorsApiInterface {
      * Not Yet Implemented - Deletes ALL unpublished data for that indicator
      * @summary delete a batch of unpublished data for an indicator
      * @param {number} indicatorId The unique identifier of the indicator
-     * @param {Array<string>} [areaCodes] A list of area codes, up to 300 area codes can be requested
-     * @param {string} [areaType] The area type which the areas belong to
-     * @param {string} [ancestorCode] An ancestor area which the area_codes belong to
-     * @param {BenchmarkReferenceType} [benchmarkRefType] The benchmark reference type
-     * @param {Array<number>} [years] A list of years, up to 20 years can be requested
-     * @param {Array<'age' | 'sex' | 'deprivation'>} [inequalities] Determines the kind of inequality data that should be returned if an option is specified
-     * @param {boolean} [latestOnly] Set to true to get data for the latest date period only, default is false. This overrides the years parameter if set to true.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof IndicatorsApiInterface
@@ -175,24 +155,18 @@ export interface IndicatorsApiInterface {
      * Not Yet Implemented - Creates new data for the indicator. The data is always created in an unpublished and unapproved state.
      * @summary add a batch of new data for an indicator
      * @param {number} indicatorId The unique identifier of the indicator
-     * @param {Array<string>} [areaCodes] A list of area codes, up to 300 area codes can be requested
-     * @param {string} [areaType] The area type which the areas belong to
-     * @param {string} [ancestorCode] An ancestor area which the area_codes belong to
-     * @param {BenchmarkReferenceType} [benchmarkRefType] The benchmark reference type
-     * @param {Array<number>} [years] A list of years, up to 20 years can be requested
-     * @param {Array<'age' | 'sex' | 'deprivation'>} [inequalities] Determines the kind of inequality data that should be returned if an option is specified
-     * @param {boolean} [latestOnly] Set to true to get data for the latest date period only, default is false. This overrides the years parameter if set to true.
+     * @param {Blob} [file] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof IndicatorsApiInterface
      */
-    indicatorsIndicatorIdDataPostRaw(requestParameters: IndicatorsIndicatorIdDataPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+    indicatorsIndicatorIdDataPostRaw(requestParameters: IndicatorsIndicatorIdDataPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>>;
 
     /**
      * Not Yet Implemented - Creates new data for the indicator. The data is always created in an unpublished and unapproved state.
      * add a batch of new data for an indicator
      */
-    indicatorsIndicatorIdDataPost(requestParameters: IndicatorsIndicatorIdDataPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+    indicatorsIndicatorIdDataPost(requestParameters: IndicatorsIndicatorIdDataPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string>;
 
     /**
      * Get quartile information for indicators including
@@ -365,34 +339,6 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
 
         const queryParameters: any = {};
 
-        if (requestParameters['areaCodes'] != null) {
-            queryParameters['area_codes'] = requestParameters['areaCodes'];
-        }
-
-        if (requestParameters['areaType'] != null) {
-            queryParameters['area_type'] = requestParameters['areaType'];
-        }
-
-        if (requestParameters['ancestorCode'] != null) {
-            queryParameters['ancestor_code'] = requestParameters['ancestorCode'];
-        }
-
-        if (requestParameters['benchmarkRefType'] != null) {
-            queryParameters['benchmark_ref_type'] = requestParameters['benchmarkRefType'];
-        }
-
-        if (requestParameters['years'] != null) {
-            queryParameters['years'] = requestParameters['years'];
-        }
-
-        if (requestParameters['inequalities'] != null) {
-            queryParameters['inequalities'] = requestParameters['inequalities'];
-        }
-
-        if (requestParameters['latestOnly'] != null) {
-            queryParameters['latest_only'] = requestParameters['latestOnly'];
-        }
-
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
@@ -417,7 +363,7 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
      * Not Yet Implemented - Creates new data for the indicator. The data is always created in an unpublished and unapproved state.
      * add a batch of new data for an indicator
      */
-    async indicatorsIndicatorIdDataPostRaw(requestParameters: IndicatorsIndicatorIdDataPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async indicatorsIndicatorIdDataPostRaw(requestParameters: IndicatorsIndicatorIdDataPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
         if (requestParameters['indicatorId'] == null) {
             throw new runtime.RequiredError(
                 'indicatorId',
@@ -427,52 +373,50 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
 
         const queryParameters: any = {};
 
-        if (requestParameters['areaCodes'] != null) {
-            queryParameters['area_codes'] = requestParameters['areaCodes'];
-        }
-
-        if (requestParameters['areaType'] != null) {
-            queryParameters['area_type'] = requestParameters['areaType'];
-        }
-
-        if (requestParameters['ancestorCode'] != null) {
-            queryParameters['ancestor_code'] = requestParameters['ancestorCode'];
-        }
-
-        if (requestParameters['benchmarkRefType'] != null) {
-            queryParameters['benchmark_ref_type'] = requestParameters['benchmarkRefType'];
-        }
-
-        if (requestParameters['years'] != null) {
-            queryParameters['years'] = requestParameters['years'];
-        }
-
-        if (requestParameters['inequalities'] != null) {
-            queryParameters['inequalities'] = requestParameters['inequalities'];
-        }
-
-        if (requestParameters['latestOnly'] != null) {
-            queryParameters['latest_only'] = requestParameters['latestOnly'];
-        }
-
         const headerParameters: runtime.HTTPHeaders = {};
+
+        const consumes: runtime.Consume[] = [
+            { contentType: 'multipart/form-data' },
+        ];
+        // @ts-ignore: canConsumeForm may be unused
+        const canConsumeForm = runtime.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any };
+        let useForm = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new URLSearchParams();
+        }
+
+        if (requestParameters['file'] != null) {
+            formParams.append('file', requestParameters['file'] as any);
+        }
 
         const response = await this.request({
             path: `/indicators/{indicator_id}/data`.replace(`{${"indicator_id"}}`, encodeURIComponent(String(requestParameters['indicatorId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
+            body: formParams,
         }, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<string>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
     }
 
     /**
      * Not Yet Implemented - Creates new data for the indicator. The data is always created in an unpublished and unapproved state.
      * add a batch of new data for an indicator
      */
-    async indicatorsIndicatorIdDataPost(requestParameters: IndicatorsIndicatorIdDataPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.indicatorsIndicatorIdDataPostRaw(requestParameters, initOverrides);
+    async indicatorsIndicatorIdDataPost(requestParameters: IndicatorsIndicatorIdDataPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+        const response = await this.indicatorsIndicatorIdDataPostRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**
@@ -534,21 +478,3 @@ export const GetHealthDataForAnIndicatorInequalitiesEnum = {
     Deprivation: 'deprivation'
 } as const;
 export type GetHealthDataForAnIndicatorInequalitiesEnum = typeof GetHealthDataForAnIndicatorInequalitiesEnum[keyof typeof GetHealthDataForAnIndicatorInequalitiesEnum];
-/**
- * @export
- */
-export const IndicatorsIndicatorIdDataDeleteInequalitiesEnum = {
-    Age: 'age',
-    Sex: 'sex',
-    Deprivation: 'deprivation'
-} as const;
-export type IndicatorsIndicatorIdDataDeleteInequalitiesEnum = typeof IndicatorsIndicatorIdDataDeleteInequalitiesEnum[keyof typeof IndicatorsIndicatorIdDataDeleteInequalitiesEnum];
-/**
- * @export
- */
-export const IndicatorsIndicatorIdDataPostInequalitiesEnum = {
-    Age: 'age',
-    Sex: 'sex',
-    Deprivation: 'deprivation'
-} as const;
-export type IndicatorsIndicatorIdDataPostInequalitiesEnum = typeof IndicatorsIndicatorIdDataPostInequalitiesEnum[keyof typeof IndicatorsIndicatorIdDataPostInequalitiesEnum];
