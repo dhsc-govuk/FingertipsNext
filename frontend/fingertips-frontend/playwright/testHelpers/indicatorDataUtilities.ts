@@ -4,7 +4,7 @@ import {
   IndicatorMode,
   IndicatorInfo,
   SimpleIndicatorDocument,
-} from '../testHelpers';
+} from './genericTestUtilities';
 
 const indicatorsUsedInPOC = (indicator: RawIndicatorDocument): boolean =>
   indicator.usedInPoc === true;
@@ -59,7 +59,7 @@ export function getAllIndicatorsForSearchTerm(
     }));
 }
 
-export function getIndicatorDataByIndicatorID(
+function getIndicatorDataByIndicatorID(
   indicators: RawIndicatorDocument[],
   indicatorID: string
 ): SimpleIndicatorDocument[] {

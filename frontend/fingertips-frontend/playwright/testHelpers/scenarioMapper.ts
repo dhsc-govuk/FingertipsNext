@@ -1,11 +1,11 @@
-import { IndicatorMode, AreaMode } from '../../testHelpers';
-import ChartPage from '../pages/chartPage';
-import { allComponents } from './componentRegistry';
-import { ComponentDefinition } from './componentTypes';
+import { IndicatorMode, AreaMode } from './genericTestUtilities';
+import ChartPage from '../page-objects/pages/chartPage';
+import { allComponents } from './chartComponentRegistry';
+import { ChartComponentDefinition } from './testDefinitions';
 
 type ScenarioConfig = {
-  visibleComponents: ComponentDefinition[];
-  hiddenComponents: ComponentDefinition[];
+  visibleComponents: ChartComponentDefinition[];
+  hiddenComponents: ChartComponentDefinition[];
 };
 
 const visibleComponentMap: Record<string, string[]> = {
@@ -18,14 +18,14 @@ const visibleComponentMap: Record<string, string[]> = {
     ChartPage.inequalitiesLineChartTableComponent,
     ChartPage.inequalitiesForSingleTimePeriodComponent,
     ChartPage.inequalitiesTrendComponent,
-    ChartPage.populationPyramidComponent,
+    ChartPage.populationPyramidChartComponent,
     ChartPage.populationPyramidTableComponent,
   ],
   [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.TWO_AREAS}`]: [
     ChartPage.lineChartComponent,
     ChartPage.lineChartTableComponent,
     ChartPage.barChartEmbeddedTableComponent,
-    ChartPage.populationPyramidComponent,
+    ChartPage.populationPyramidChartComponent,
     ChartPage.populationPyramidTableComponent,
   ],
   [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.ENGLAND_AREA}`]: [
@@ -37,50 +37,50 @@ const visibleComponentMap: Record<string, string[]> = {
     ChartPage.inequalitiesBarChartTableComponent,
     ChartPage.inequalitiesForSingleTimePeriodComponent,
     ChartPage.inequalitiesTrendComponent,
-    ChartPage.populationPyramidComponent,
+    ChartPage.populationPyramidChartComponent,
     ChartPage.populationPyramidTableComponent,
   ],
   [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.THREE_PLUS_AREAS}`]: [
     ChartPage.barChartEmbeddedTableComponent,
-    ChartPage.populationPyramidComponent,
+    ChartPage.populationPyramidChartComponent,
     ChartPage.populationPyramidTableComponent,
   ],
   [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.ALL_AREAS_IN_A_GROUP}`]: [
     ChartPage.thematicMapComponent,
     ChartPage.barChartEmbeddedTableComponent,
-    ChartPage.populationPyramidComponent,
+    ChartPage.populationPyramidChartComponent,
     ChartPage.populationPyramidTableComponent,
   ],
   [`${IndicatorMode.TWO_INDICATORS}-${AreaMode.ENGLAND_AREA}`]: [
     ChartPage.basicTableComponent,
-    ChartPage.populationPyramidComponent,
+    ChartPage.populationPyramidChartComponent,
     ChartPage.populationPyramidTableComponent,
   ],
   [`${IndicatorMode.TWO_INDICATORS}-${AreaMode.TWO_AREAS}`]: [
     ChartPage.spineChartTableComponent,
     ChartPage.heatMapComponent,
-    ChartPage.populationPyramidComponent,
+    ChartPage.populationPyramidChartComponent,
     ChartPage.populationPyramidTableComponent,
   ],
   [`${IndicatorMode.TWO_INDICATORS}-${AreaMode.THREE_PLUS_AREAS}`]: [
     ChartPage.heatMapComponent,
-    ChartPage.populationPyramidComponent,
+    ChartPage.populationPyramidChartComponent,
     ChartPage.populationPyramidTableComponent,
   ],
   [`${IndicatorMode.TWO_INDICATORS}-${AreaMode.ALL_AREAS_IN_A_GROUP}`]: [
     ChartPage.heatMapComponent,
-    ChartPage.populationPyramidComponent,
+    ChartPage.populationPyramidChartComponent,
     ChartPage.populationPyramidTableComponent,
   ],
   [`${IndicatorMode.THREE_PLUS_INDICATORS}-${AreaMode.ONE_AREA}`]: [
     ChartPage.spineChartTableComponent,
-    ChartPage.populationPyramidComponent,
+    ChartPage.populationPyramidChartComponent,
     ChartPage.populationPyramidTableComponent,
   ],
   [`${IndicatorMode.THREE_PLUS_INDICATORS}-${AreaMode.TWO_AREAS}`]: [
     ChartPage.heatMapComponent,
     ChartPage.spineChartTableComponent,
-    ChartPage.populationPyramidComponent,
+    ChartPage.populationPyramidChartComponent,
     ChartPage.populationPyramidTableComponent,
   ],
 };
@@ -97,10 +97,10 @@ export function getScenarioConfig(
   }
 
   const visibleComponents = allComponents.filter((component) =>
-    visibleLocators.includes(component.componentLocator)
+    visibleLocators.includes(component.chartComponentLocator)
   );
   const hiddenComponents = allComponents.filter(
-    (component) => !visibleLocators.includes(component.componentLocator)
+    (component) => !visibleLocators.includes(component.chartComponentLocator)
   );
 
   return { visibleComponents, hiddenComponents };

@@ -39,9 +39,10 @@ export function PopulationPyramid({
       dataForBenchmark,
       dataForGroup
     );
+  const id = 'populationPyramidChart';
   return (
     <>
-      <div id="populationPyramid" data-testid="populationPyramid-component">
+      <div id={id} data-testid={`${id}-component`}>
         <ChartTitle>{title}</ChartTitle>
         <HighChartsWrapper
           testId={'highcharts-react-component-populationPyramid'}
@@ -52,7 +53,7 @@ export function PopulationPyramid({
         </ExportOnlyWrapper>
       </div>
       <ExportOptionsButton
-        targetId={'populationPyramid'}
+        targetId={id}
         chartOptions={populationPyramidOptions}
       />
     </>
