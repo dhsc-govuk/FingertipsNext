@@ -110,7 +110,7 @@ export interface IndicatorsApiInterface {
     filterIndicators(requestParameters: FilterIndicatorsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<IndicatorSummary>>;
 
     /**
-     * Get data for a public health indicator. This will return all data for all areas and all years for the indicators. Optionally filter the results by supplying one or more area codes and one or more years in the query string.
+     * Get data for a public health indicator. This will return all data for all requested areas and all time periods for the specified indicator. The returned data will include a benchmark comparison against either England or an ancestor area group, depending on the benchmark_ref_type and ancestor_code parameters. Data can be provided disagregated by various categories such as age and sex using the inequalities query parameter.
      * @summary Get health data for an indicator
      * @param {number} indicatorId The unique identifier of the indicator
      * @param {Array<string>} [areaCodes] A list of area codes, up to 300 area codes can be requested
@@ -127,7 +127,7 @@ export interface IndicatorsApiInterface {
     getHealthDataForAnIndicatorRaw(requestParameters: GetHealthDataForAnIndicatorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<IndicatorWithHealthDataForArea>>;
 
     /**
-     * Get data for a public health indicator. This will return all data for all areas and all years for the indicators. Optionally filter the results by supplying one or more area codes and one or more years in the query string.
+     * Get data for a public health indicator. This will return all data for all requested areas and all time periods for the specified indicator. The returned data will include a benchmark comparison against either England or an ancestor area group, depending on the benchmark_ref_type and ancestor_code parameters. Data can be provided disagregated by various categories such as age and sex using the inequalities query parameter.
      * Get health data for an indicator
      */
     getHealthDataForAnIndicator(requestParameters: GetHealthDataForAnIndicatorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<IndicatorWithHealthDataForArea>;
@@ -195,7 +195,7 @@ export interface IndicatorsApiInterface {
     indicatorsIndicatorIdDataPost(requestParameters: IndicatorsIndicatorIdDataPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
     /**
-     * Get quartile information for indicators including
+     * Get quartile information for many indicators for one area. This will calculate the quartile based on all areas of the specified type within either England or a sub-national area, depending on the benchmark_ref_type parameter. It will use the latest data available for the area group requested. If the indicator has data for more than one time period type then the API will return data for each data period type separately.
      * @summary Get quartile values for indicators
      * @param {string} [ancestorCode] The area code of an ancestor area
      * @param {string} [areaCode] The area code of the area/ geography
@@ -209,7 +209,7 @@ export interface IndicatorsApiInterface {
     indicatorsQuartilesGetRaw(requestParameters: IndicatorsQuartilesGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<QuartileData>>>;
 
     /**
-     * Get quartile information for indicators including
+     * Get quartile information for many indicators for one area. This will calculate the quartile based on all areas of the specified type within either England or a sub-national area, depending on the benchmark_ref_type parameter. It will use the latest data available for the area group requested. If the indicator has data for more than one time period type then the API will return data for each data period type separately.
      * Get quartile values for indicators
      */
     indicatorsQuartilesGet(requestParameters: IndicatorsQuartilesGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<QuartileData>>;
@@ -254,7 +254,7 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
     }
 
     /**
-     * Get data for a public health indicator. This will return all data for all areas and all years for the indicators. Optionally filter the results by supplying one or more area codes and one or more years in the query string.
+     * Get data for a public health indicator. This will return all data for all requested areas and all time periods for the specified indicator. The returned data will include a benchmark comparison against either England or an ancestor area group, depending on the benchmark_ref_type and ancestor_code parameters. Data can be provided disagregated by various categories such as age and sex using the inequalities query parameter.
      * Get health data for an indicator
      */
     async getHealthDataForAnIndicatorRaw(requestParameters: GetHealthDataForAnIndicatorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<IndicatorWithHealthDataForArea>> {
@@ -308,7 +308,7 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
     }
 
     /**
-     * Get data for a public health indicator. This will return all data for all areas and all years for the indicators. Optionally filter the results by supplying one or more area codes and one or more years in the query string.
+     * Get data for a public health indicator. This will return all data for all requested areas and all time periods for the specified indicator. The returned data will include a benchmark comparison against either England or an ancestor area group, depending on the benchmark_ref_type and ancestor_code parameters. Data can be provided disagregated by various categories such as age and sex using the inequalities query parameter.
      * Get health data for an indicator
      */
     async getHealthDataForAnIndicator(requestParameters: GetHealthDataForAnIndicatorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<IndicatorWithHealthDataForArea> {
@@ -476,7 +476,7 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
     }
 
     /**
-     * Get quartile information for indicators including
+     * Get quartile information for many indicators for one area. This will calculate the quartile based on all areas of the specified type within either England or a sub-national area, depending on the benchmark_ref_type parameter. It will use the latest data available for the area group requested. If the indicator has data for more than one time period type then the API will return data for each data period type separately.
      * Get quartile values for indicators
      */
     async indicatorsQuartilesGetRaw(requestParameters: IndicatorsQuartilesGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<QuartileData>>> {
@@ -515,7 +515,7 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
     }
 
     /**
-     * Get quartile information for indicators including
+     * Get quartile information for many indicators for one area. This will calculate the quartile based on all areas of the specified type within either England or a sub-national area, depending on the benchmark_ref_type parameter. It will use the latest data available for the area group requested. If the indicator has data for more than one time period type then the API will return data for each data period type separately.
      * Get quartile values for indicators
      */
     async indicatorsQuartilesGet(requestParameters: IndicatorsQuartilesGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<QuartileData>> {

@@ -229,7 +229,10 @@ paths:
       tags:
         - indicators
       summary: Get health data for an indicator
-      description: Get data for a public health indicator. This will return all data for all areas and all years for the indicators. Optionally filter the results by supplying one or more area codes and one or more years in the query string.
+      description: |-
+        Get data for a public health indicator. This will return all data for all requested areas and all time periods for the specified indicator.
+        The returned data will include a benchmark comparison against either England or an ancestor area group, depending on the benchmark_ref_type and ancestor_code parameters.
+        Data can be provided disagregated by various categories such as age and sex using the inequalities query parameter.
       responses:
         '200':
           description: Data containing the health data points for the indicator, years and geographical areas requested
@@ -273,7 +276,7 @@ paths:
       tags:
         - indicators
       summary: Get quartile values for indicators
-      description: Get quartile information for indicators including
+      description: Get quartile information for many indicators for one area. This will calculate the quartile based on all areas of the specified type within either England or a sub-national area, depending on the benchmark_ref_type parameter. It will use the latest data available for the area group requested. If the indicator has data for more than one time period type then the API will return data for each data period type separately.
       parameters:
         - name: ancestor_code
           in: query
@@ -592,6 +595,18 @@ components:
           type: string
           example: 'Hypertension: QOF prevalence (all ages)'
           description: The title of the indicator
+    PeriodType:
+      type: string
+      example: Calendar
+      description: a type of date period e.g. Calendar or Financial year
+      enum:
+        - Calendar
+        - Financial
+        - NovemberNovember
+      x-enum-varnames:
+        - Calendar
+        - Financial
+        - NovemberNovember
     Indicator:
       title: Indicator
       type: object
@@ -614,6 +629,11 @@ components:
           type: string
           example: The percentage of patients with established hypertension, as recorded on practice disease registers (proportion of total list size)
           description: The definition of the indicator
+        period_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/PeriodType'
+          description: The period types that the indicator holds data for
     BenchmarkReferenceType:
       title: Benchmark Reference Type
       type: string
