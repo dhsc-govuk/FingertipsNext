@@ -1,4 +1,68 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Indicator Checkbox > snapshot test 1`] = `
+<DocumentFragment>
+  <li
+    class="src__ListItem-sc-u4zf5o-0 fxpeqO"
+    data-testid="search-result"
+  >
+    <div
+      class="src__GridRow-sc-1jwfkx4-0 sc-gsFSXq jrhIGk jkTcYE"
+    >
+      <div
+        class="src__StyledGridCol-sc-gufadr-0 eiFMMY"
+      >
+        <label
+          class="src__StyledCheckbox-sc-1hkoucn-0 hmfctV"
+        >
+          <input
+            class="src__StyledInput-sc-1hkoucn-1 jTixhA"
+            data-testid="search-results-indicator-1"
+            id="search-results-indicator-1"
+            name="indicator"
+            type="checkbox"
+            value="1"
+          />
+          <span
+            class="src__StyledLabel-sc-1hkoucn-2 esiyCa"
+          >
+            <h5
+              class="heading__StyledHeading-sc-1dsobun-0 EoZyU"
+            >
+              <a
+                class="src__Link-sc-1loawqx-0 jjZtWC"
+                href="/chart?si=test&is=1&as=Area1"
+              >
+                NHS
+              </a>
+            </h5>
+            <div
+              class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-dcJsrY fzYQlH"
+            >
+              <p>
+                Data period: 1999 to 2023
+              </p>
+            </div>
+            <div
+              class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-dcJsrY sc-iGgWBj fzYQlH jWNgkG"
+            >
+              <p>
+                Last updated: 06 December 2024
+              </p>
+            </div>
+            <div
+              class="src__GridRow-sc-1jwfkx4-0 sc-kAyceB jrhIGk hInZQr"
+            />
+          </span>
+        </label>
+      </div>
+    </div>
+    <hr
+      class="src__SectionBreak-sc-fayw97-0 kMqhKb"
+    />
+  </li>
+</DocumentFragment>
+`;
 
 exports[`Indicator Checkbox snapshot test 1`] = `
 <DocumentFragment>

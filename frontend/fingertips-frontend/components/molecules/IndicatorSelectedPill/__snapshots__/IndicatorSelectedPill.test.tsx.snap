@@ -1,4 +1,28 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`IndicatorSelectedPill > should match snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-gEvEer cmUCgj"
+    data-testid="pill-container"
+  >
+    <div
+      class="sc-eqUAAy eqmima"
+      data-testid="filter-name"
+    >
+      indicator name for id 1
+      <br />
+      <a
+        class="src__Link-sc-1loawqx-0 sc-dcJsrY jjZtWC kXAAIg"
+        data-testid="view-background-info-link"
+        href="/indicator/1?is=1&as=A001&as=A002"
+      >
+        View background information
+      </a>
+    </div>
+  </div>
+</DocumentFragment>
+`;
 
 exports[`IndicatorSelectedPill should match snapshot 1`] = `
 <DocumentFragment>

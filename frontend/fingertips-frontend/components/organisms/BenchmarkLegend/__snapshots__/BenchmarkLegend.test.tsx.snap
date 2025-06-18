@@ -1,4 +1,444 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Testing the benchmark component > Snapshot testing of the UI BOB 95 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-gEvEer hUVGLl"
+    data-testid="benchmarkLegend-component"
+  >
+    <h4
+      class="sc-fqkvVR cBEgfO"
+    >
+      no judgement
+    </h4>
+    <span
+      class="sc-iGgWBj katTUG"
+    >
+      95% confidence
+    </span>
+    <div
+      class="sc-dcJsrY hGrsaS"
+      role="group"
+    >
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx iQOdOL"
+      >
+        Lower
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx heUIzG"
+      >
+        Similar
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx jEVfsw"
+      >
+        Higher
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx coBLhn"
+      >
+        Not compared
+      </strong>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Testing the benchmark component > Snapshot testing of the UI BOB 99.8 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-gEvEer hUVGLl"
+    data-testid="benchmarkLegend-component"
+  >
+    <h4
+      class="sc-fqkvVR cBEgfO"
+    >
+      NoJudgement
+    </h4>
+    <span
+      class="sc-iGgWBj katTUG"
+    >
+      99.8% confidence
+    </span>
+    <div
+      class="sc-dcJsrY hGrsaS"
+      role="group"
+    >
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx cyWRAo"
+      >
+        Lower
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx heUIzG"
+      >
+        Similar
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx ktlZIY"
+      >
+        Higher
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx coBLhn"
+      >
+        Not compared
+      </strong>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Testing the benchmark component > Snapshot testing of the UI BOB quintiles 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-gEvEer hUVGLl"
+    data-testid="benchmarkLegend-component"
+  >
+    <h4
+      class="sc-fqkvVR cBEgfO"
+    >
+      NoJudgement
+    </h4>
+    <span
+      class="sc-iGgWBj katTUG"
+    >
+      Quintiles
+    </span>
+    <div
+      class="sc-dcJsrY hGrsaS"
+      role="group"
+    >
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx jefKnb"
+      >
+        Lowest
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx crfIbS"
+      >
+        Low
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx hBStil"
+      >
+        Middle
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx gquRmP"
+      >
+        High
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx fcZQJk"
+      >
+        Highest
+      </strong>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Testing the benchmark component > Snapshot testing of the UI RAG 95 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-gEvEer hUVGLl"
+    data-testid="benchmarkLegend-component"
+  >
+    <h4
+      class="sc-fqkvVR cBEgfO"
+    >
+      high is good
+    </h4>
+    <span
+      class="sc-iGgWBj katTUG"
+    >
+      95% confidence
+    </span>
+    <div
+      class="sc-dcJsrY hGrsaS"
+      role="group"
+    >
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx izPMCf"
+      >
+        Better
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx heUIzG"
+      >
+        Similar
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx dmzatQ"
+      >
+        Worse
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx coBLhn"
+      >
+        Not compared
+      </strong>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Testing the benchmark component > Snapshot testing of the UI RAG 99.8 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-gEvEer hUVGLl"
+    data-testid="benchmarkLegend-component"
+  >
+    <h4
+      class="sc-fqkvVR cBEgfO"
+    >
+      low is good
+    </h4>
+    <span
+      class="sc-iGgWBj katTUG"
+    >
+      99.8% confidence
+    </span>
+    <div
+      class="sc-dcJsrY hGrsaS"
+      role="group"
+    >
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx hxCiFJ"
+      >
+        Better
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx heUIzG"
+      >
+        Similar
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx cNCqSz"
+      >
+        Worse
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx coBLhn"
+      >
+        Not compared
+      </strong>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Testing the benchmark component > Snapshot testing of the UI RAG quintiles 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-gEvEer hUVGLl"
+    data-testid="benchmarkLegend-component"
+  >
+    <h4
+      class="sc-fqkvVR cBEgfO"
+    >
+      low is good
+    </h4>
+    <span
+      class="sc-iGgWBj katTUG"
+    >
+      Quintiles
+    </span>
+    <div
+      class="sc-dcJsrY hGrsaS"
+      role="group"
+    >
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx cGZRRp"
+      >
+        Worst
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx dvOAJg"
+      >
+        Worse
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx lhmTZT"
+      >
+        Middle
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx ilXYPr"
+      >
+        Better
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx siIDO"
+      >
+        Best
+      </strong>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Testing the benchmark component > Snapshot testing of the legend with all items shown 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-gEvEer hUVGLl"
+    data-testid="benchmarkLegend-component"
+  >
+    <h4
+      class="sc-fqkvVR cBEgfO"
+    >
+      All
+    </h4>
+    <span
+      class="sc-iGgWBj katTUG"
+    >
+      95% confidence
+    </span>
+    <div
+      class="sc-dcJsrY hGrsaS"
+      role="group"
+    >
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx izPMCf"
+      >
+        Better
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx heUIzG"
+      >
+        Similar
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx dmzatQ"
+      >
+        Worse
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx coBLhn"
+      >
+        Not compared
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx iQOdOL"
+      >
+        Lower
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx jEVfsw"
+      >
+        Higher
+      </strong>
+    </div>
+    <span
+      class="sc-iGgWBj katTUG"
+    >
+      99.8% confidence
+    </span>
+    <div
+      class="sc-dcJsrY hGrsaS"
+      role="group"
+    >
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx hxCiFJ"
+      >
+        Better
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx heUIzG"
+      >
+        Similar
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx cNCqSz"
+      >
+        Worse
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx coBLhn"
+      >
+        Not compared
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx cyWRAo"
+      >
+        Lower
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx ktlZIY"
+      >
+        Higher
+      </strong>
+    </div>
+    <span
+      class="sc-iGgWBj katTUG"
+    >
+      Quintiles
+    </span>
+    <div
+      class="sc-dcJsrY hGrsaS"
+      role="group"
+    >
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx jefKnb"
+      >
+        Lowest
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx crfIbS"
+      >
+        Low
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx hBStil"
+      >
+        Middle
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx gquRmP"
+      >
+        High
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx fcZQJk"
+      >
+        Highest
+      </strong>
+    </div>
+    <div
+      class="sc-dcJsrY hGrsaS"
+      role="group"
+    >
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx cGZRRp"
+      >
+        Worst
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx dvOAJg"
+      >
+        Worse
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx lhmTZT"
+      >
+        Middle
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx ilXYPr"
+      >
+        Better
+      </strong>
+      <strong
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx siIDO"
+      >
+        Best
+      </strong>
+    </div>
+  </div>
+</DocumentFragment>
+`;
 
 exports[`Testing the benchmark component Snapshot testing of the UI BOB 95 1`] = `
 <DocumentFragment>

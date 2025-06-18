@@ -8,16 +8,16 @@ import { INDICATOR_SEARCH_INDEX_NAME } from './searchTypes';
 import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client/models/HealthDataPoint';
 import { escapeString } from '../escapeString';
 
-jest.mock('@azure/search-documents', () => ({
-  SearchClient: jest.fn(),
-  AzureKeyCredential: jest.fn(),
+vi.mock('@azure/search-documents', () => ({
+  SearchClient: vi.fn(),
+  AzureKeyCredential: vi.fn(),
 }));
 
 describe('IndicatorSearchService', () => {
-  const mockSearch = jest.fn();
-  const mockGetDocument = jest.fn();
+  const mockSearch = vi.fn();
+  const mockGetDocument = vi.fn();
 
-  (SearchClient as jest.Mock).mockImplementation(() => ({
+  (SearchClient as Mock).mockImplementation(() => ({
     search: mockSearch,
     getDocument: mockGetDocument,
   }));
@@ -53,7 +53,7 @@ describe('IndicatorSearchService', () => {
       process.env.DHSC_AI_SEARCH_SERVICE_URL = 'test-url';
       process.env.DHSC_AI_SEARCH_API_KEY = 'test-api-key';
 
-      (AzureKeyCredential as jest.Mock).mockImplementation(() => ({
+      (AzureKeyCredential as Mock).mockImplementation(() => ({
         key: 'test-api-key',
       }));
 
@@ -303,7 +303,7 @@ describe('IndicatorSearchService', () => {
     mockGetDocument.mockImplementation(async () => {
       throw new Error('some error');
     });
-    const spyLog = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const spyLog = vi.spyOn(console, 'error').mockImplementation(() => {});
 
     const searchService = SearchServiceFactory.getIndicatorSearchService();
     const result = await searchService.getIndicator('123');

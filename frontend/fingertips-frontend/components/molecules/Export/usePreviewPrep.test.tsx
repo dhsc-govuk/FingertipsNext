@@ -6,17 +6,17 @@ import { Options } from 'highcharts';
 import { ReactNode } from 'react';
 import { QueryClient } from '@tanstack/query-core';
 
-jest.mock('@/components/molecules/Export/exportHelpers', () => ({
-  getHtmlToImageCanvas: jest.fn(() => {
+vi.mock('@/components/molecules/Export/exportHelpers', () => ({
+  getHtmlToImageCanvas: vi.fn(() => {
     return Promise.resolve({ nodeName: 'CANVAS' });
   }),
-  svgStringToDomElement: jest.fn(() => document.createElement('svg')),
+  svgStringToDomElement: vi.fn(() => document.createElement('svg')),
 }));
 
-jest.mock(
+vi.mock(
   '@/components/molecules/Export/helpers/svgStringFromChartOptions',
   () => ({
-    svgStringFromChartOptions: jest.fn(() => '<svg></svg>'),
+    svgStringFromChartOptions: vi.fn(() => '<svg></svg>'),
   })
 );
 

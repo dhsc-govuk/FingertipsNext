@@ -1,4 +1,155 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`FTFooter > should match snapshot 1`] = `
+<DocumentFragment>
+  <footer
+    class="src__FooterContainer-sc-1t3c5e2-0 bUcjgw"
+    role="contentinfo"
+  >
+    <div
+      class="width-container__WidthContainer-sc-213f5v-0 fcJuvm"
+    >
+      <div
+        class="meta__Meta-sc-b55tvf-0 kDAUtY"
+      >
+        <div
+          class="meta-item__MetaItem-sc-nseoos-0 jVUYPa"
+        >
+          <ul
+            class="sc-aXZVg hGmeqC"
+          >
+            <li
+              class="sc-gEvEer fKNsJh"
+            >
+              <a
+                class="src__Link-sc-1loawqx-0 sc-eqUAAy jjZtWC iLuUv"
+                href="#"
+              >
+                Help
+              </a>
+            </li>
+            <li
+              class="sc-gEvEer fKNsJh"
+            >
+              <a
+                class="src__Link-sc-1loawqx-0 sc-eqUAAy jjZtWC iLuUv"
+                href="#"
+              >
+                Privacy
+              </a>
+            </li>
+            <li
+              class="sc-gEvEer fKNsJh"
+            >
+              <a
+                class="src__Link-sc-1loawqx-0 sc-eqUAAy jjZtWC iLuUv"
+                href="#"
+              >
+                Cookies
+              </a>
+            </li>
+            <li
+              class="sc-gEvEer fKNsJh"
+            >
+              <a
+                class="src__Link-sc-1loawqx-0 sc-eqUAAy jjZtWC iLuUv"
+                href="#"
+              >
+                Accessibility statement
+              </a>
+            </li>
+            <li
+              class="sc-gEvEer fKNsJh"
+            >
+              <a
+                class="src__Link-sc-1loawqx-0 sc-eqUAAy jjZtWC iLuUv"
+                href="mailto:profilefeedback@dhsc.gov.uk?subject=Profile%20Feedback%20[General enquiry]"
+              >
+                Contact
+              </a>
+            </li>
+            <li
+              class="sc-gEvEer fKNsJh"
+            >
+              <a
+                class="src__Link-sc-1loawqx-0 sc-eqUAAy jjZtWC iLuUv"
+                href="#"
+              >
+                Terms and conditions
+              </a>
+            </li>
+            <li
+              class="sc-gEvEer fKNsJh"
+            >
+              <a
+                class="src__Link-sc-1loawqx-0 sc-eqUAAy jjZtWC iLuUv"
+                href="#"
+              >
+                Rhestr o Wasanaethau Cymraeg
+              </a>
+            </li>
+            <li
+              class="sc-gEvEer fKNsJh"
+            >
+              <a
+                class="src__Link-sc-1loawqx-0 sc-eqUAAy jjZtWC iLuUv"
+                href="https://www.gov.uk/government/organisations/government-digital-service"
+              >
+                Government Digital Service
+              </a>
+            </li>
+            <pre
+              data-testid="project-version"
+            >
+              Version: 0.0.0 (#12345678)
+            </pre>
+          </ul>
+          <div>
+            <svg
+              class="licence__LicenceLogo-sc-76bcjk-0 cHEyxv"
+              focusable="false"
+              height="17"
+              role="presentation"
+              viewBox="0 0 483.2 195.7"
+              width="41"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145"
+                fill="currentColor"
+              />
+            </svg>
+            <span
+              class="licence__LicenceDescription-sc-76bcjk-1 klKSfk"
+            >
+              All content is available under the 
+              <a
+                class="src__Link-sc-1loawqx-0 link__FooterLink-sc-1vhdcoj-0 jjZtWC hnBWgl"
+                href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+                rel="license"
+              >
+                Open Government Licence v3.0
+              </a>
+              , except where otherwise stated
+            </span>
+          </div>
+        </div>
+        <div
+          class="meta-item__MetaItem-sc-nseoos-0 gjTXEz"
+        >
+          <a
+            class="src__Link-sc-1loawqx-0 copyright__StyledCopyright-sc-1i22iwf-0 jjZtWC eIJfEU"
+            href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+            image="[object Object]"
+          >
+            © Crown copyright
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</DocumentFragment>
+`;
 
 exports[`FTFooter should match snapshot 1`] = `
 <DocumentFragment>

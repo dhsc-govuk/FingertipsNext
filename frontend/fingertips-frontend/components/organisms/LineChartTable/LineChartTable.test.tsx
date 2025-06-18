@@ -1,5 +1,5 @@
 import { render, screen, within } from '@testing-library/react';
-import { expect } from '@jest/globals';
+
 import {
   LineChartTable,
   LineChartTableHeadingEnum,
@@ -23,12 +23,12 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 describe('Line chart table suite', () => {
   beforeAll(() => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date('2024-12-25T12:00:00Z'));
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2024-12-25T12:00:00Z'));
   });
 
   afterAll(() => {
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   const mockHealthData: HealthDataForArea[] = [

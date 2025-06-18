@@ -1,4 +1,14 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Testing the BenchmarkLabel Component > snapshot testing of the UI 1`] = `
+<DocumentFragment>
+  <strong
+    class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx cGZRRp"
+  >
+    Worst
+  </strong>
+</DocumentFragment>
+`;
 
 exports[`Testing the BenchmarkLabel Component snapshot testing of the UI 1`] = `
 <DocumentFragment>

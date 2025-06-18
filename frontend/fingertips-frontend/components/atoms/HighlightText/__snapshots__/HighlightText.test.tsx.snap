@@ -1,4 +1,56 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`HighlightText > should highlight the searchHint part of the text provided 1`] = `
+<DocumentFragment>
+  This is 
+  <span
+    class="sc-aXZVg iulCsT"
+  >
+    some
+  </span>
+   text
+</DocumentFragment>
+`;
+
+exports[`HighlightText > should highlight the searchHint part of the text provided regardless of case 1`] = `
+<DocumentFragment>
+  <span
+    class="sc-aXZVg iulCsT"
+  >
+    This
+  </span>
+   is some text
+</DocumentFragment>
+`;
+
+exports[`HighlightText > should highlight the searchHint part of the text provided when the highlight occurs in the middle of the searchHint text 1`] = `
+<DocumentFragment>
+  This is a 
+  <span
+    class="sc-aXZVg iulCsT"
+  >
+    some
+  </span>
+  what short text
+</DocumentFragment>
+`;
+
+exports[`HighlightText > should highlight the searchHint part of the text provided when there are parentheses 1`] = `
+<DocumentFragment>
+  <span
+    class="sc-aXZVg iulCsT"
+  >
+    (This 
+  </span>
+  is) some text
+</DocumentFragment>
+`;
+
+exports[`HighlightText > should not hightlight text if the searched term is not found within it 1`] = `
+<DocumentFragment>
+  This is some text
+</DocumentFragment>
+`;
 
 exports[`HighlightText should highlight the searchHint part of the text provided 1`] = `
 <DocumentFragment>

@@ -1,4 +1,43 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ArrowExpander > take a snapshot 1`] = `
+<DocumentFragment>
+  <span
+    class="sc-gEvEer ekryFy"
+  >
+    <svg
+      class="sc-aXZVg ayqFX"
+      data-testid="arrow-toggle-button"
+      height="30"
+      viewBox="0 0 25 25"
+      width="30"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="#ff0000"
+        stroke-width="0.5"
+      />
+      <path
+        d="M8 10l4 4 4-4"
+        fill="none"
+        stroke="#ff0000"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+      />
+    </svg>
+    <label
+      class="src__Label-sc-iqzvxn-0 sc-eqUAAy cjKMYe hdqXQu"
+      fill="#ff0000"
+    >
+      Open
+    </label>
+  </span>
+</DocumentFragment>
+`;
 
 exports[`ArrowExpander take a snapshot 1`] = `
 <DocumentFragment>

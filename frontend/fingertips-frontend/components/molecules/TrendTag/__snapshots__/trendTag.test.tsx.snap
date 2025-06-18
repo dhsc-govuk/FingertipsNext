@@ -1,4 +1,53 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Trend Tag Suite > snapshot test 1`] = `
+<DocumentFragment>
+  <div
+    data-testid="trendTag-container"
+  >
+    <strong
+      class="src__Tag-sc-10wvgvx-0 sc-gEvEer bujMNx jsPIOH"
+    >
+      <div
+        class="sc-aXZVg dOZydJ"
+        data-testid="trend-tag-component"
+      >
+        <div>
+          <svg
+            data-testid="arrow-icon"
+            fill="none"
+            height="15"
+            stroke="#270D0B"
+            stroke-linecap="square"
+            stroke-width="1.5"
+            viewBox="0 0 20 20"
+            width="15"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g
+              transform="rotate(0)"
+            >
+              <path
+                d="M12 19V6M5 12l7-7 7 7"
+                data-testid="arrow-up"
+              />
+            </g>
+          </svg>
+        </div>
+        <div>
+          <div
+            class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-eqUAAy crFqhO"
+          >
+            <p>
+              Increasing and getting worse
+            </p>
+          </div>
+        </div>
+      </div>
+    </strong>
+  </div>
+</DocumentFragment>
+`;
 
 exports[`Trend Tag Suite snapshot test 1`] = `
 <DocumentFragment>

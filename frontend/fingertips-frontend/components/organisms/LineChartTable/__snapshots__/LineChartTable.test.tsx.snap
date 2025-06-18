@@ -1,4 +1,693 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Line chart table suite > 1 Indicator, 1 Area > snapshot test - should match snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-eldPxv cerndm"
+    data-testid="lineChartTable-component"
+    id="lineChartTable"
+  >
+    <h4
+      class="heading__StyledHeading-sc-1dsobun-0 EoZyU sc-jxOSlx bLSbGR"
+    >
+      Title
+    </h4>
+    <table
+      class="src__StyledTable-sc-16s660v-0 duOufa sc-lcIPJg etIKta"
+    >
+      <thead
+        class="TableHeader-sc-1n1nw4b-0"
+      >
+        <tr
+          class="Row-sc-1y8eqfp-0"
+        >
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-bbSZdi cFENDr hucACB kcoElX"
+          />
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-fBWQRz cFENDr hucACB eCwcmk"
+            colspan="5"
+          >
+            <div
+              class="sc-fXSgeo kryqpy"
+            >
+              Recent trend:
+              <div
+                data-testid="trendTag-container"
+              >
+                <strong
+                  class="src__Tag-sc-10wvgvx-0 sc-ikkxIA bujMNx klYgCy"
+                >
+                  <div
+                    class="sc-gFqAkR iipijX"
+                    data-testid="trend-tag-component"
+                  >
+                    <div>
+                      <div
+                        class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-dAbbOL dZrKJU"
+                      >
+                        <p>
+                          No recent trend data available
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </strong>
+              </div>
+            </div>
+          </th>
+        </tr>
+        <tr
+          class="Row-sc-1y8eqfp-0"
+        >
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc"
+          />
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-bmzYkS cFENDr hucACB hdGCNz"
+            colspan="5"
+          >
+            Greater Manchester ICB - 00T
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer sc-eqUAAy sc-fqkvVR cFENDr fDMEct cdqIVT leThpU"
+            data-testid="england-header"
+          >
+             
+            <br />
+             England
+          </th>
+        </tr>
+        <tr
+          class="Row-sc-1y8eqfp-0"
+        >
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc"
+            colspan="4"
+          />
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-esYiGF cFENDr hucACB fPChvl"
+            colspan="2"
+          >
+            95%
+            <br />
+            confidence
+            <br />
+            limits
+          </th>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj sc-gsFSXq sc-kAyceB gaSlHc kcOQDY imqpTn elIaiJ fEiRwR"
+            data-testid="england-cell"
+          />
+        </tr>
+        <tr
+          class="Row-sc-1y8eqfp-0"
+        >
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-eDPEul cFENDr hucACB hsRJux"
+            data-testid="header-Period-0"
+          >
+            Period
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-kdBSHD cFENDr hucACB fPsjZE"
+            data-testid="header-Compared to benchmark-0"
+          >
+            Compared to benchmark
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer cFENDr fDMEct"
+            data-testid="header-Count-0"
+          >
+            Count
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer cFENDr fDMEct"
+            data-testid="header-Value-0"
+          >
+            Value
+            <span
+              class="sc-fjvvzt bhMCqE"
+            >
+               %
+            </span>
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer cFENDr fDMEct"
+            data-testid="header-Lower-0"
+          >
+            Lower
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer cFENDr fDMEct"
+            data-testid="header-Upper-0"
+          >
+            Upper
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer sc-eqUAAy sc-fqkvVR cFENDr fDMEct cdqIVT leThpU"
+            data-testid="england-subheader"
+          >
+            Value  
+            <span
+              class="sc-fjvvzt bhMCqE"
+            >
+              %
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="TableBody-sc-1qqarm8-0"
+      >
+        <tr
+          class="Row-sc-1y8eqfp-0"
+        >
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-imWYAI sc-dhKdcB kbqrMm kcOQDY lnElgr qqbNf"
+          >
+            2004
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-kpDqfm sc-dAlyuH gaSlHc bmeULG dmATtu"
+          >
+            <strong
+              class="src__Tag-sc-10wvgvx-0 sc-fPXMVe bujMNx cvZtIt"
+            >
+              Not compared
+            </strong>
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
+          >
+            267
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
+          >
+            703.4
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
+          >
+            441.7
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
+          >
+            578.3
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj sc-gsFSXq sc-kAyceB gaSlHc kcOQDY imqpTn elIaiJ fEiRwR"
+            data-testid="england-cell"
+          >
+            904.9
+          </td>
+        </tr>
+        <tr
+          class="Row-sc-1y8eqfp-0"
+        >
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-imWYAI sc-dhKdcB kbqrMm kcOQDY lnElgr qqbNf"
+          >
+            2008
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-kpDqfm sc-dAlyuH gaSlHc bmeULG dmATtu"
+          >
+            <strong
+              class="src__Tag-sc-10wvgvx-0 sc-fPXMVe bujMNx cvZtIt"
+            >
+              Not compared
+            </strong>
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
+          >
+            222
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
+          >
+            890.3
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
+          >
+            441.7
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
+          >
+            578.3
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj sc-gsFSXq sc-kAyceB gaSlHc kcOQDY imqpTn elIaiJ fEiRwR"
+            data-testid="england-cell"
+          >
+            966.0
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div
+      class="exportOnly"
+      style="display: none;"
+    >
+      <div
+        class="sc-hzhJZQ fCBUdc"
+      >
+        ©Crown copyright 2024. Office for Health Improvement & Disparities.
+        <br />
+        Public Health Profiles accessed on 25 December 2024 www.fingertips.phe.org.uk
+      </div>
+    </div>
+  </div>
+  <button
+    class="src__StyledButton-sc-19ocyxv-0 eEShVH sc-koXPp cbdPWW"
+    data-testid="lineChartTable-export-button"
+  >
+    Export options
+  </button>
+</DocumentFragment>
+`;
+
+exports[`Line chart table suite > 1 Indicator, 2 Areas > snapshot test - should match snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-eldPxv cerndm"
+    data-testid="lineChartTable-component"
+    id="lineChartTable"
+  >
+    <h4
+      class="heading__StyledHeading-sc-1dsobun-0 EoZyU sc-jxOSlx bLSbGR"
+    >
+      Title
+    </h4>
+    <table
+      class="src__StyledTable-sc-16s660v-0 duOufa sc-lcIPJg etIKta"
+    >
+      <thead
+        class="TableHeader-sc-1n1nw4b-0"
+      >
+        <tr
+          class="Row-sc-1y8eqfp-0"
+        >
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-bbSZdi cFENDr hucACB kcoElX"
+          />
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-fBWQRz cFENDr hucACB eCwcmk"
+            colspan="5"
+          >
+            <div
+              class="sc-fXSgeo kryqpy"
+            >
+              Recent trend:
+              <div
+                data-testid="trendTag-container"
+              >
+                <strong
+                  class="src__Tag-sc-10wvgvx-0 sc-ikkxIA bujMNx klYgCy"
+                >
+                  <div
+                    class="sc-gFqAkR iipijX"
+                    data-testid="trend-tag-component"
+                  >
+                    <div>
+                      <div
+                        class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-dAbbOL dZrKJU"
+                      >
+                        <p>
+                          No recent trend data available
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </strong>
+              </div>
+            </div>
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-fBWQRz cFENDr hucACB eCwcmk"
+            colspan="5"
+          >
+            <div
+              class="sc-fXSgeo kryqpy"
+            >
+              Recent trend:
+              <div
+                data-testid="trendTag-container"
+              >
+                <strong
+                  class="src__Tag-sc-10wvgvx-0 sc-ikkxIA bujMNx klYgCy"
+                >
+                  <div
+                    class="sc-gFqAkR iipijX"
+                    data-testid="trend-tag-component"
+                  >
+                    <div>
+                      <div
+                        class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-dAbbOL dZrKJU"
+                      >
+                        <p>
+                          No recent trend data available
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </strong>
+              </div>
+            </div>
+          </th>
+        </tr>
+        <tr
+          class="Row-sc-1y8eqfp-0"
+        >
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc"
+          />
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-bmzYkS cFENDr hucACB hdGCNz"
+            colspan="5"
+          >
+            Greater Manchester ICB - 00T
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-bmzYkS cFENDr hucACB hdGCNz"
+            colspan="5"
+          >
+            South FooBar
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer sc-eqUAAy sc-fqkvVR cFENDr fDMEct cdqIVT leThpU"
+            data-testid="england-header"
+          >
+             
+            <br />
+             England
+          </th>
+        </tr>
+        <tr
+          class="Row-sc-1y8eqfp-0"
+        >
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc"
+            colspan="4"
+          />
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-esYiGF cFENDr hucACB fPChvl"
+            colspan="2"
+          >
+            95%
+            <br />
+            confidence
+            <br />
+            limits
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc"
+            colspan="3"
+          />
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-esYiGF cFENDr hucACB fPChvl"
+            colspan="2"
+          >
+            95%
+            <br />
+            confidence
+            <br />
+            limits
+          </th>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj sc-gsFSXq sc-kAyceB gaSlHc kcOQDY imqpTn elIaiJ fEiRwR"
+            data-testid="england-cell"
+          />
+        </tr>
+        <tr
+          class="Row-sc-1y8eqfp-0"
+        >
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-eDPEul cFENDr hucACB hsRJux"
+            data-testid="header-Period-0"
+          >
+            Period
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-kdBSHD cFENDr hucACB fPsjZE"
+            data-testid="header-Compared to benchmark-0"
+          >
+            Compared to benchmark
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer cFENDr fDMEct"
+            data-testid="header-Count-0"
+          >
+            Count
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer cFENDr fDMEct"
+            data-testid="header-Value-0"
+          >
+            Value
+            <span
+              class="sc-fjvvzt bhMCqE"
+            >
+               %
+            </span>
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer cFENDr fDMEct"
+            data-testid="header-Lower-0"
+          >
+            Lower
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer cFENDr fDMEct"
+            data-testid="header-Upper-0"
+          >
+            Upper
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-kdBSHD sc-tagGq cFENDr hucACB fPsjZE jaOamI"
+            data-testid="header-Compared to benchmark-1"
+          >
+            Compared to benchmark
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer cFENDr fDMEct"
+            data-testid="header-Count-1"
+          >
+            Count
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer cFENDr fDMEct"
+            data-testid="header-Value-1"
+          >
+            Value
+            <span
+              class="sc-fjvvzt bhMCqE"
+            >
+               %
+            </span>
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer cFENDr fDMEct"
+            data-testid="header-Lower-1"
+          >
+            Lower
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer cFENDr fDMEct"
+            data-testid="header-Upper-1"
+          >
+            Upper
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer sc-eqUAAy sc-fqkvVR cFENDr fDMEct cdqIVT leThpU"
+            data-testid="england-subheader"
+          >
+            Value  
+            <span
+              class="sc-fjvvzt bhMCqE"
+            >
+              %
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="TableBody-sc-1qqarm8-0"
+      >
+        <tr
+          class="Row-sc-1y8eqfp-0"
+        >
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-imWYAI sc-dhKdcB kbqrMm kcOQDY lnElgr qqbNf"
+          >
+            2004
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-kpDqfm sc-dAlyuH gaSlHc bmeULG dmATtu"
+          >
+            <strong
+              class="src__Tag-sc-10wvgvx-0 sc-fPXMVe bujMNx cvZtIt"
+            >
+              Not compared
+            </strong>
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
+          >
+            267
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
+          >
+            703.4
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
+          >
+            441.7
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
+          >
+            578.3
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-imWYAI sc-JrDLc gaSlHc kcOQDY lnElgr bLbBKd"
+          >
+            <strong
+              class="src__Tag-sc-10wvgvx-0 sc-fPXMVe bujMNx cvZtIt"
+            >
+              Not compared
+            </strong>
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
+          >
+            222
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
+          >
+            135.1
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
+          >
+            441.7
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
+          >
+            578.3
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj sc-gsFSXq sc-kAyceB gaSlHc kcOQDY imqpTn elIaiJ fEiRwR"
+            data-testid="england-cell"
+          >
+            904.9
+          </td>
+        </tr>
+        <tr
+          class="Row-sc-1y8eqfp-0"
+        >
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-imWYAI sc-dhKdcB kbqrMm kcOQDY lnElgr qqbNf"
+          >
+            2008
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-kpDqfm sc-dAlyuH gaSlHc bmeULG dmATtu"
+          >
+            <strong
+              class="src__Tag-sc-10wvgvx-0 sc-fPXMVe bujMNx cvZtIt"
+            >
+              Not compared
+            </strong>
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
+          >
+            222
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
+          >
+            890.3
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
+          >
+            441.7
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
+          >
+            578.3
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-imWYAI sc-JrDLc gaSlHc kcOQDY lnElgr bLbBKd"
+          >
+            <strong
+              class="src__Tag-sc-10wvgvx-0 sc-fPXMVe bujMNx cvZtIt"
+            >
+              Not compared
+            </strong>
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
+          >
+            222
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
+          >
+            135.1
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
+          >
+            441.7
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
+          >
+            578.3
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj sc-gsFSXq sc-kAyceB gaSlHc kcOQDY imqpTn elIaiJ fEiRwR"
+            data-testid="england-cell"
+          >
+            966.0
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div
+      class="exportOnly"
+      style="display: none;"
+    >
+      <div
+        class="sc-hzhJZQ fCBUdc"
+      >
+        ©Crown copyright 2024. Office for Health Improvement & Disparities.
+        <br />
+        Public Health Profiles accessed on 25 December 2024 www.fingertips.phe.org.uk
+      </div>
+    </div>
+  </div>
+  <button
+    class="src__StyledButton-sc-19ocyxv-0 eEShVH sc-koXPp cbdPWW"
+    data-testid="lineChartTable-export-button"
+  >
+    Export options
+  </button>
+</DocumentFragment>
+`;
 
 exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match snapshot 1`] = `
 <DocumentFragment>

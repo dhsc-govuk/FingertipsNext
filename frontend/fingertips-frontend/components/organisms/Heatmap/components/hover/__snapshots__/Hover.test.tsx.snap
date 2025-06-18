@@ -1,4 +1,68 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`heatmap hover > snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-gsFSXq bGOFXN highcharts-tooltip"
+  >
+    <div
+      class="sc-kAyceB RDwOT"
+    />
+    <div
+      class="sc-imWYAI kKISuQ"
+    />
+    <div
+      class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-jXbUNg sc-dhKdcB iTBPcL gqFGjn"
+    >
+      <p>
+        <strong>
+          Sesame Street
+        </strong>
+      </p>
+    </div>
+    <div
+      class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-jXbUNg sc-dhKdcB iTBPcL gqFGjn"
+    >
+      <p>
+        1966
+      </p>
+    </div>
+    <div
+      class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-jXbUNg iTBPcL"
+    >
+      <p>
+        Cookies eaten by the cookie monster compared to total US production
+      </p>
+    </div>
+    <div
+      class="src__GridRow-sc-1jwfkx4-0 jrhIGk"
+    >
+      <div
+        class="src__StyledGridCol-sc-gufadr-0 hxNMkE sc-dcJsrY dbtHrt"
+      >
+        <div
+          class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-fqkvVR evtgRB"
+        >
+          <p>
+            ✕
+          </p>
+        </div>
+      </div>
+      <div
+        class="src__StyledGridCol-sc-gufadr-0 eiFMMY"
+      >
+        <div
+          class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-fqkvVR evtgRB"
+        >
+          <p>
+            No data available
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
 
 exports[`heatmap hover snapshot 1`] = `
 <DocumentFragment>

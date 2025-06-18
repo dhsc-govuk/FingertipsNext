@@ -1,6 +1,6 @@
 import { act, render, screen, waitFor } from '@testing-library/react';
 import { LineChart } from '@/components/organisms/LineChart/index';
-import { expect } from '@jest/globals';
+
 import {
   lineChartDefaultOptions,
   LineChartVariant,

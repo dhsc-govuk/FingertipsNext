@@ -9,7 +9,7 @@ import {
   IndicatorPolarity,
   IndicatorsApi,
 } from '@/generated-sources/ft-api-client';
-import { mockDeep } from 'jest-mock-extended';
+import { mockDeep } from 'vitest-mock-extended';
 import OneIndicatorOneAreaView from '.';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
@@ -30,7 +30,7 @@ ApiClientFactory.getAreasApiClient = () => mockAreasApi;
 
 describe('OneIndicatorOneAreaView', () => {
   afterEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
   beforeEach(() => {
     mockAreasApi.getArea.mockResolvedValue(londonNHSRegion);

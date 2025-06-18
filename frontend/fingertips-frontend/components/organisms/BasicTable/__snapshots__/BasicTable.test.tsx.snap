@@ -1,4 +1,195 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`BasicTable > should match snapshot 1`] = `
+<table
+  class="src__StyledTable-sc-16s660v-0 duOufa sc-dtBdUo ekpRUm"
+>
+  <thead
+    class="TableHeader-sc-1n1nw4b-0"
+  >
+    <tr
+      class="Row-sc-1y8eqfp-0"
+    >
+      <th
+        class="Cell-sc-msv0l6-0 iftjBc"
+        colspan="6"
+        style="padding-left: 10px;"
+      >
+        mockName
+      </th>
+    </tr>
+    <tr
+      class="Row-sc-1y8eqfp-0"
+    >
+      <th
+        class="Cell-sc-msv0l6-0 iftjBc"
+        style="vertical-align: top; padding-left: 10px;"
+      >
+        Indicator
+      </th>
+      <th
+        class="Cell-sc-msv0l6-0 iftjBc"
+        style="vertical-align: top;"
+      >
+        Period
+      </th>
+      <th
+        class="Cell-sc-msv0l6-0 iftjBc"
+        style="vertical-align: top; text-align: right;"
+      >
+        Count
+      </th>
+      <th
+        class="Cell-sc-msv0l6-0 iftjBc"
+        style="vertical-align: top; text-align: left;"
+      >
+        Value unit
+      </th>
+      <th
+        class="Cell-sc-msv0l6-0 iftjBc"
+        style="vertical-align: top; text-align: right;"
+      >
+        Value
+      </th>
+      <th
+        class="Cell-sc-msv0l6-0 iftjBc"
+        style="vertical-align: top; text-align: center;"
+      >
+        Recent trend
+      </th>
+    </tr>
+  </thead>
+  <tbody
+    class="TableBody-sc-1qqarm8-0"
+  >
+    <tr
+      class="Row-sc-1y8eqfp-0"
+    >
+      <td
+        class="Cell-sc-msv0l6-0 gaSlHc"
+        style="padding-left: 10px;"
+      >
+         
+      </td>
+      <td
+        class="Cell-sc-msv0l6-0 gaSlHc"
+        style="text-align: right;"
+      >
+        2008
+      </td>
+      <td
+        class="Cell-sc-msv0l6-0 gaSlHc"
+        style="text-align: right;"
+      >
+        389
+      </td>
+      <td
+        aria-label="Not compared"
+        class="Cell-sc-msv0l6-0 gaSlHc"
+        style="text-align: left;"
+      >
+        X
+      </td>
+      <td
+        class="Cell-sc-msv0l6-0 gaSlHc"
+        style="text-align: right;"
+      >
+        278.3
+      </td>
+      <td
+        class="Cell-sc-msv0l6-0 sc-cwHptR gaSlHc itmUVF"
+      >
+        <div
+          data-testid="trendTag-container"
+        >
+          <strong
+            class="src__Tag-sc-10wvgvx-0 sc-gEvEer bujMNx dZEcNR"
+          >
+            <div
+              class="sc-aXZVg dOZydJ"
+              data-testid="trend-tag-component"
+            >
+              <div>
+                <div
+                  class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-eqUAAy crFqhO"
+                >
+                  <p>
+                    No recent trend data available
+                  </p>
+                </div>
+              </div>
+            </div>
+          </strong>
+        </div>
+      </td>
+    </tr>
+    <tr
+      class="Row-sc-1y8eqfp-0"
+    >
+      <td
+        class="Cell-sc-msv0l6-0 gaSlHc"
+        style="padding-left: 10px;"
+      >
+        no data indicator
+      </td>
+      <td
+        aria-label="Not compared"
+        class="Cell-sc-msv0l6-0 gaSlHc"
+        style="text-align: right;"
+      >
+        X
+      </td>
+      <td
+        aria-label="Not compared"
+        class="Cell-sc-msv0l6-0 gaSlHc"
+        style="text-align: right;"
+      >
+        X
+      </td>
+      <td
+        aria-label="Not compared"
+        class="Cell-sc-msv0l6-0 gaSlHc"
+        style="text-align: left;"
+      >
+        X
+      </td>
+      <td
+        aria-label="Not compared"
+        class="Cell-sc-msv0l6-0 gaSlHc"
+        style="text-align: right;"
+      >
+        X
+      </td>
+      <td
+        class="Cell-sc-msv0l6-0 sc-cwHptR gaSlHc itmUVF"
+      >
+        <div
+          data-testid="trendTag-container"
+        >
+          <strong
+            class="src__Tag-sc-10wvgvx-0 sc-gEvEer bujMNx dZEcNR"
+          >
+            <div
+              class="sc-aXZVg dOZydJ"
+              data-testid="trend-tag-component"
+            >
+              <div>
+                <div
+                  class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-eqUAAy crFqhO"
+                >
+                  <p>
+                    No recent trend data available
+                  </p>
+                </div>
+              </div>
+            </div>
+          </strong>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
 
 exports[`BasicTable should match snapshot 1`] = `
 .c8 {

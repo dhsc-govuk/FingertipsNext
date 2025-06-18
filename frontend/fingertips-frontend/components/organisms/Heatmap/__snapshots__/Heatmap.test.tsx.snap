@@ -1,4 +1,952 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`heatmap > snapshot test - england benchmark 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-fhzFiK cKjcgg"
+  >
+    <div
+      data-testid="heatmapChart-component"
+      id="heatmapChart"
+    >
+      <h4
+        class="heading__StyledHeading-sc-1dsobun-0 EoZyU sc-jxOSlx bLSbGR"
+      >
+        Overview of selected indicators
+      </h4>
+      <div
+        class="sc-lcIPJg jFxtkA"
+        data-testid="benchmarkLegend-component"
+      >
+        <h4
+          class="sc-tagGq loaFNQ"
+        >
+          Compared to England
+        </h4>
+        <span
+          class="sc-fXSgeo jZBWDA"
+        >
+          95% confidence
+        </span>
+        <div
+          class="sc-esYiGF hNPbMw"
+          role="group"
+        >
+          <strong
+            class="src__Tag-sc-10wvgvx-0 sc-iGgWBj bujMNx gwAAvT"
+          >
+            Better
+          </strong>
+          <strong
+            class="src__Tag-sc-10wvgvx-0 sc-iGgWBj bujMNx gGqXNu"
+          >
+            Similar
+          </strong>
+          <strong
+            class="src__Tag-sc-10wvgvx-0 sc-iGgWBj bujMNx jrGKdM"
+          >
+            Worse
+          </strong>
+          <strong
+            class="src__Tag-sc-10wvgvx-0 sc-iGgWBj bujMNx bfVCWn"
+          >
+            Not compared
+          </strong>
+        </div>
+        <span
+          class="sc-fXSgeo jZBWDA"
+        >
+          99.8% confidence
+        </span>
+        <div
+          class="sc-esYiGF hNPbMw"
+          role="group"
+        >
+          <strong
+            class="src__Tag-sc-10wvgvx-0 sc-iGgWBj bujMNx loEhHh"
+          >
+            Better
+          </strong>
+          <strong
+            class="src__Tag-sc-10wvgvx-0 sc-iGgWBj bujMNx gGqXNu"
+          >
+            Similar
+          </strong>
+          <strong
+            class="src__Tag-sc-10wvgvx-0 sc-iGgWBj bujMNx UHmxH"
+          >
+            Worse
+          </strong>
+          <strong
+            class="src__Tag-sc-10wvgvx-0 sc-iGgWBj bujMNx bfVCWn"
+          >
+            Not compared
+          </strong>
+        </div>
+        <span
+          class="sc-fXSgeo jZBWDA"
+        >
+          Quintiles
+        </span>
+        <div
+          class="sc-esYiGF hNPbMw"
+          role="group"
+        >
+          <strong
+            class="src__Tag-sc-10wvgvx-0 sc-iGgWBj bujMNx esIOgP"
+          >
+            Lowest
+          </strong>
+          <strong
+            class="src__Tag-sc-10wvgvx-0 sc-iGgWBj bujMNx gsuvpO"
+          >
+            Low
+          </strong>
+          <strong
+            class="src__Tag-sc-10wvgvx-0 sc-iGgWBj bujMNx bugBhd"
+          >
+            Middle
+          </strong>
+          <strong
+            class="src__Tag-sc-10wvgvx-0 sc-iGgWBj bujMNx fbDNAv"
+          >
+            High
+          </strong>
+          <strong
+            class="src__Tag-sc-10wvgvx-0 sc-iGgWBj bujMNx wnqSs"
+          >
+            Highest
+          </strong>
+        </div>
+      </div>
+      <div
+        class="sc-koXPp eNjaWH"
+      >
+        <table
+          class="src__StyledTable-sc-16s660v-0 duOufa sc-jsJBEP itbhGE"
+          style="margin-right: 0px;"
+        >
+          <tbody
+            class="TableBody-sc-1qqarm8-0"
+          >
+            <tr
+              class="Row-sc-1y8eqfp-0 sc-eeDRCY  cZrilS"
+            >
+              <th
+                class="Cell-sc-msv0l6-0 iftjBc sc-jlZhew hTOddo"
+                data-testid="heatmap-header-indicator-title"
+                style="height: 30px;"
+              >
+                <h4
+                  class="heading__StyledHeading-sc-1dsobun-0 EoZyU sc-kpDqfm sc-dAlyuH hRAnUE iXauMI"
+                >
+                  Indicators
+                </h4>
+              </th>
+              <th
+                class="Cell-sc-msv0l6-0 iftjBc sc-jEACwC bA-duTy"
+                data-testid="heatmap-header-period"
+                style="height: 30px;"
+              >
+                <h4
+                  class="heading__StyledHeading-sc-1dsobun-0 EoZyU sc-kpDqfm hRAnUE"
+                >
+                  Period
+                </h4>
+              </th>
+              <th
+                class="Cell-sc-msv0l6-0 iftjBc sc-cwHptR flJKxi"
+                data-testid="heatmap-header-value-unit"
+                style="height: 30px;"
+              >
+                <h4
+                  class="heading__StyledHeading-sc-1dsobun-0 EoZyU sc-kpDqfm hRAnUE"
+                >
+                  Value unit
+                </h4>
+              </th>
+              <th
+                class="Cell-sc-msv0l6-0 iftjBc sc-fPXMVe lfKZci"
+                data-testid="heatmap-header-benchmark-group"
+                style="height: 30px;"
+              >
+                <div
+                  class="sc-cPiKLX ivRkUn"
+                >
+                  <h4
+                    class="heading__StyledHeading-sc-1dsobun-0 EoZyU sc-dLMFU sc-eDPEul iZZbDb edqsyU"
+                  >
+                    Benchmark: England
+                  </h4>
+                </div>
+              </th>
+              <th
+                class="Cell-sc-msv0l6-0 iftjBc sc-fPXMVe lfKZci"
+                data-testid="heatmap-header-non-benchmark-group"
+                style="height: 30px;"
+              >
+                <div
+                  class="sc-cPiKLX ivRkUn"
+                >
+                  <h4
+                    class="heading__StyledHeading-sc-1dsobun-0 EoZyU sc-dLMFU sc-eldPxv iZZbDb AtrHt"
+                  >
+                    Group: Dentdale
+                  </h4>
+                </div>
+              </th>
+              <th
+                class="Cell-sc-msv0l6-0 iftjBc sc-fPXMVe lfKZci"
+                data-testid="heatmap-header-area"
+                style="height: 30px;"
+              >
+                <div
+                  class="sc-cPiKLX ivRkUn"
+                >
+                  <h4
+                    class="heading__StyledHeading-sc-1dsobun-0 EoZyU sc-dLMFU iZZbDb"
+                  >
+                    Comedically Long Area Name with a Devilishly Difficult Distance to Display
+                  </h4>
+                </div>
+              </th>
+              <th
+                class="Cell-sc-msv0l6-0 iftjBc sc-fPXMVe lfKZci"
+                data-testid="heatmap-header-area"
+                style="height: 30px;"
+              >
+                <div
+                  class="sc-cPiKLX ivRkUn"
+                >
+                  <h4
+                    class="heading__StyledHeading-sc-1dsobun-0 EoZyU sc-dLMFU iZZbDb"
+                  >
+                    Garsdale
+                  </h4>
+                </div>
+              </th>
+            </tr>
+            <tr
+              class="Row-sc-1y8eqfp-0 sc-eeDRCY  cZrilS"
+            >
+              <td
+                class="Cell-sc-msv0l6-0 sc-gFqAkR gaSlHc HRkQm"
+                data-testid="heatmap-cell-indicator-title"
+              >
+                <div
+                  class="sc-dAbbOL bIHHuB"
+                >
+                  Donkey / Goose ratio
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-ikkxIA gaSlHc bYRTTj"
+                data-testid="heatmap-cell-indicator-info-period"
+              >
+                <div
+                  class="sc-feUZmu sc-hzhJZQ iGNgio gqKiSz"
+                >
+                  2002
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-ikkxIA gaSlHc bYRTTj"
+                data-testid="heatmap-cell-indicator-info-value-unit"
+              >
+                <div
+                  class="sc-feUZmu sc-fUnMCh iGNgio fCPZQA"
+                >
+                  %
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo kanshG highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="sc-bXCLTC enPqre"
+                >
+                  1,112.0
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo jNpENX highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="sc-bXCLTC enPqre"
+                >
+                  1,132.0
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo jNpENX highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="sc-bXCLTC enPqre"
+                >
+                  1,142.0
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo jNpENX highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="sc-bXCLTC enPqre"
+                >
+                  1,122.0
+                </div>
+              </td>
+            </tr>
+            <tr
+              class="Row-sc-1y8eqfp-0 sc-eeDRCY  cZrilS"
+            >
+              <td
+                class="Cell-sc-msv0l6-0 sc-gFqAkR gaSlHc HRkQm"
+                data-testid="heatmap-cell-indicator-title"
+              >
+                <div
+                  class="sc-dAbbOL bIHHuB"
+                >
+                  Rate of walkers tripping over sheep
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-ikkxIA gaSlHc bYRTTj"
+                data-testid="heatmap-cell-indicator-info-period"
+              >
+                <div
+                  class="sc-feUZmu sc-hzhJZQ iGNgio gqKiSz"
+                >
+                  2002
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-ikkxIA gaSlHc bYRTTj"
+                data-testid="heatmap-cell-indicator-info-value-unit"
+              >
+                <div
+                  class="sc-feUZmu sc-fUnMCh iGNgio fCPZQA"
+                >
+                  per 100
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo kanshG highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="sc-bXCLTC enPqre"
+                >
+                  112.0
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo jNpENX highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="sc-bXCLTC enPqre"
+                >
+                  132.0
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo jNpENX highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="sc-bXCLTC enPqre"
+                >
+                  142.0
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo jNpENX highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="sc-bXCLTC enPqre"
+                >
+                  X
+                </div>
+              </td>
+            </tr>
+            <tr
+              class="Row-sc-1y8eqfp-0 sc-eeDRCY  cZrilS"
+            >
+              <td
+                class="Cell-sc-msv0l6-0 sc-gFqAkR gaSlHc HRkQm"
+                data-testid="heatmap-cell-indicator-title"
+              >
+                <div
+                  class="sc-dAbbOL bIHHuB"
+                >
+                  Very Verbose Indicator Name With an Extreeeeeeeme Number of Words to Try And Trip Up The View. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus varius magna massa, commodo consectetur erat hendrerit id. In semper, nibh eu efficitur sagittis, quam lectus semper augue, quis vestibulum ipsum urna ut orci.
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-ikkxIA gaSlHc bYRTTj"
+                data-testid="heatmap-cell-indicator-info-period"
+              >
+                <div
+                  class="sc-feUZmu sc-hzhJZQ iGNgio gqKiSz"
+                >
+                  2004
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-ikkxIA gaSlHc bYRTTj"
+                data-testid="heatmap-cell-indicator-info-value-unit"
+              >
+                <div
+                  class="sc-feUZmu sc-fUnMCh iGNgio fCPZQA"
+                >
+                  per 1,000
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo jNpENX highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="sc-bXCLTC enPqre"
+                >
+                  X
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo jNpENX highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="sc-bXCLTC enPqre"
+                >
+                  X
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo cgMjml highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="sc-bXCLTC enPqre"
+                >
+                  41.0
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo jNpENX highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="sc-bXCLTC enPqre"
+                >
+                  X
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div
+        class="exportOnly"
+        style="display: none;"
+      >
+        <div
+          class="sc-dtBdUo fqwTKP"
+        >
+          ©Crown copyright 2024. Office for Health Improvement & Disparities.
+          <br />
+          Public Health Profiles accessed on 25 December 2024 www.fingertips.phe.org.uk
+        </div>
+      </div>
+    </div>
+    <button
+      class="src__StyledButton-sc-19ocyxv-0 eEShVH sc-dCFHLb jjJOzN"
+      data-testid="heatmapChart-export-button"
+    >
+      Export options
+    </button>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`heatmap > snapshot test - group area benchmark 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-fhzFiK cKjcgg"
+  >
+    <div
+      data-testid="heatmapChart-component"
+      id="heatmapChart"
+    >
+      <h4
+        class="heading__StyledHeading-sc-1dsobun-0 EoZyU sc-jxOSlx bLSbGR"
+      >
+        Overview of selected indicators
+      </h4>
+      <div
+        class="sc-lcIPJg jFxtkA"
+        data-testid="benchmarkLegend-component"
+      >
+        <h4
+          class="sc-tagGq loaFNQ"
+        >
+          Compared to Dentdale
+        </h4>
+        <span
+          class="sc-fXSgeo jZBWDA"
+        >
+          95% confidence
+        </span>
+        <div
+          class="sc-esYiGF hNPbMw"
+          role="group"
+        >
+          <strong
+            class="src__Tag-sc-10wvgvx-0 sc-iGgWBj bujMNx gwAAvT"
+          >
+            Better
+          </strong>
+          <strong
+            class="src__Tag-sc-10wvgvx-0 sc-iGgWBj bujMNx gGqXNu"
+          >
+            Similar
+          </strong>
+          <strong
+            class="src__Tag-sc-10wvgvx-0 sc-iGgWBj bujMNx jrGKdM"
+          >
+            Worse
+          </strong>
+          <strong
+            class="src__Tag-sc-10wvgvx-0 sc-iGgWBj bujMNx bfVCWn"
+          >
+            Not compared
+          </strong>
+        </div>
+        <span
+          class="sc-fXSgeo jZBWDA"
+        >
+          99.8% confidence
+        </span>
+        <div
+          class="sc-esYiGF hNPbMw"
+          role="group"
+        >
+          <strong
+            class="src__Tag-sc-10wvgvx-0 sc-iGgWBj bujMNx loEhHh"
+          >
+            Better
+          </strong>
+          <strong
+            class="src__Tag-sc-10wvgvx-0 sc-iGgWBj bujMNx gGqXNu"
+          >
+            Similar
+          </strong>
+          <strong
+            class="src__Tag-sc-10wvgvx-0 sc-iGgWBj bujMNx UHmxH"
+          >
+            Worse
+          </strong>
+          <strong
+            class="src__Tag-sc-10wvgvx-0 sc-iGgWBj bujMNx bfVCWn"
+          >
+            Not compared
+          </strong>
+        </div>
+        <span
+          class="sc-fXSgeo jZBWDA"
+        >
+          Quintiles
+        </span>
+        <div
+          class="sc-esYiGF hNPbMw"
+          role="group"
+        >
+          <strong
+            class="src__Tag-sc-10wvgvx-0 sc-iGgWBj bujMNx esIOgP"
+          >
+            Lowest
+          </strong>
+          <strong
+            class="src__Tag-sc-10wvgvx-0 sc-iGgWBj bujMNx gsuvpO"
+          >
+            Low
+          </strong>
+          <strong
+            class="src__Tag-sc-10wvgvx-0 sc-iGgWBj bujMNx bugBhd"
+          >
+            Middle
+          </strong>
+          <strong
+            class="src__Tag-sc-10wvgvx-0 sc-iGgWBj bujMNx fbDNAv"
+          >
+            High
+          </strong>
+          <strong
+            class="src__Tag-sc-10wvgvx-0 sc-iGgWBj bujMNx wnqSs"
+          >
+            Highest
+          </strong>
+        </div>
+      </div>
+      <div
+        class="sc-koXPp eNjaWH"
+      >
+        <table
+          class="src__StyledTable-sc-16s660v-0 duOufa sc-jsJBEP itbhGE"
+          style="margin-right: 0px;"
+        >
+          <tbody
+            class="TableBody-sc-1qqarm8-0"
+          >
+            <tr
+              class="Row-sc-1y8eqfp-0 sc-eeDRCY  cZrilS"
+            >
+              <th
+                class="Cell-sc-msv0l6-0 iftjBc sc-jlZhew hTOddo"
+                data-testid="heatmap-header-indicator-title"
+                style="height: 30px;"
+              >
+                <h4
+                  class="heading__StyledHeading-sc-1dsobun-0 EoZyU sc-kpDqfm sc-dAlyuH hRAnUE iXauMI"
+                >
+                  Indicators
+                </h4>
+              </th>
+              <th
+                class="Cell-sc-msv0l6-0 iftjBc sc-jEACwC bA-duTy"
+                data-testid="heatmap-header-period"
+                style="height: 30px;"
+              >
+                <h4
+                  class="heading__StyledHeading-sc-1dsobun-0 EoZyU sc-kpDqfm hRAnUE"
+                >
+                  Period
+                </h4>
+              </th>
+              <th
+                class="Cell-sc-msv0l6-0 iftjBc sc-cwHptR flJKxi"
+                data-testid="heatmap-header-value-unit"
+                style="height: 30px;"
+              >
+                <h4
+                  class="heading__StyledHeading-sc-1dsobun-0 EoZyU sc-kpDqfm hRAnUE"
+                >
+                  Value unit
+                </h4>
+              </th>
+              <th
+                class="Cell-sc-msv0l6-0 iftjBc sc-fPXMVe lfKZci"
+                data-testid="heatmap-header-non-benchmark-group"
+                style="height: 30px;"
+              >
+                <div
+                  class="sc-cPiKLX ivRkUn"
+                >
+                  <h4
+                    class="heading__StyledHeading-sc-1dsobun-0 EoZyU sc-dLMFU sc-eldPxv iZZbDb AtrHt"
+                  >
+                    England
+                  </h4>
+                </div>
+              </th>
+              <th
+                class="Cell-sc-msv0l6-0 iftjBc sc-fPXMVe lfKZci"
+                data-testid="heatmap-header-benchmark-group"
+                style="height: 30px;"
+              >
+                <div
+                  class="sc-cPiKLX ivRkUn"
+                >
+                  <h4
+                    class="heading__StyledHeading-sc-1dsobun-0 EoZyU sc-dLMFU sc-eDPEul iZZbDb edqsyU"
+                  >
+                    Benchmark: Dentdale
+                  </h4>
+                </div>
+              </th>
+              <th
+                class="Cell-sc-msv0l6-0 iftjBc sc-fPXMVe lfKZci"
+                data-testid="heatmap-header-area"
+                style="height: 30px;"
+              >
+                <div
+                  class="sc-cPiKLX ivRkUn"
+                >
+                  <h4
+                    class="heading__StyledHeading-sc-1dsobun-0 EoZyU sc-dLMFU iZZbDb"
+                  >
+                    Comedically Long Area Name with a Devilishly Difficult Distance to Display
+                  </h4>
+                </div>
+              </th>
+              <th
+                class="Cell-sc-msv0l6-0 iftjBc sc-fPXMVe lfKZci"
+                data-testid="heatmap-header-area"
+                style="height: 30px;"
+              >
+                <div
+                  class="sc-cPiKLX ivRkUn"
+                >
+                  <h4
+                    class="heading__StyledHeading-sc-1dsobun-0 EoZyU sc-dLMFU iZZbDb"
+                  >
+                    Garsdale
+                  </h4>
+                </div>
+              </th>
+            </tr>
+            <tr
+              class="Row-sc-1y8eqfp-0 sc-eeDRCY  cZrilS"
+            >
+              <td
+                class="Cell-sc-msv0l6-0 sc-gFqAkR gaSlHc HRkQm"
+                data-testid="heatmap-cell-indicator-title"
+              >
+                <div
+                  class="sc-dAbbOL bIHHuB"
+                >
+                  Donkey / Goose ratio
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-ikkxIA gaSlHc bYRTTj"
+                data-testid="heatmap-cell-indicator-info-period"
+              >
+                <div
+                  class="sc-feUZmu sc-hzhJZQ iGNgio gqKiSz"
+                >
+                  2002
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-ikkxIA gaSlHc bYRTTj"
+                data-testid="heatmap-cell-indicator-info-value-unit"
+              >
+                <div
+                  class="sc-feUZmu sc-fUnMCh iGNgio fCPZQA"
+                >
+                  %
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo hUcaLh highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="sc-bXCLTC enPqre"
+                >
+                  1,112.0
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo kanshG highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="sc-bXCLTC enPqre"
+                >
+                  1,132.0
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo jNpENX highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="sc-bXCLTC enPqre"
+                >
+                  1,142.0
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo jNpENX highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="sc-bXCLTC enPqre"
+                >
+                  1,122.0
+                </div>
+              </td>
+            </tr>
+            <tr
+              class="Row-sc-1y8eqfp-0 sc-eeDRCY  cZrilS"
+            >
+              <td
+                class="Cell-sc-msv0l6-0 sc-gFqAkR gaSlHc HRkQm"
+                data-testid="heatmap-cell-indicator-title"
+              >
+                <div
+                  class="sc-dAbbOL bIHHuB"
+                >
+                  Rate of walkers tripping over sheep
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-ikkxIA gaSlHc bYRTTj"
+                data-testid="heatmap-cell-indicator-info-period"
+              >
+                <div
+                  class="sc-feUZmu sc-hzhJZQ iGNgio gqKiSz"
+                >
+                  2002
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-ikkxIA gaSlHc bYRTTj"
+                data-testid="heatmap-cell-indicator-info-value-unit"
+              >
+                <div
+                  class="sc-feUZmu sc-fUnMCh iGNgio fCPZQA"
+                >
+                  per 100
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo hUcaLh highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="sc-bXCLTC enPqre"
+                >
+                  112.0
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo kanshG highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="sc-bXCLTC enPqre"
+                >
+                  132.0
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo jNpENX highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="sc-bXCLTC enPqre"
+                >
+                  142.0
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo jNpENX highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="sc-bXCLTC enPqre"
+                >
+                  X
+                </div>
+              </td>
+            </tr>
+            <tr
+              class="Row-sc-1y8eqfp-0 sc-eeDRCY  cZrilS"
+            >
+              <td
+                class="Cell-sc-msv0l6-0 sc-gFqAkR gaSlHc HRkQm"
+                data-testid="heatmap-cell-indicator-title"
+              >
+                <div
+                  class="sc-dAbbOL bIHHuB"
+                >
+                  Very Verbose Indicator Name With an Extreeeeeeeme Number of Words to Try And Trip Up The View. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus varius magna massa, commodo consectetur erat hendrerit id. In semper, nibh eu efficitur sagittis, quam lectus semper augue, quis vestibulum ipsum urna ut orci.
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-ikkxIA gaSlHc bYRTTj"
+                data-testid="heatmap-cell-indicator-info-period"
+              >
+                <div
+                  class="sc-feUZmu sc-hzhJZQ iGNgio gqKiSz"
+                >
+                  2004
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-ikkxIA gaSlHc bYRTTj"
+                data-testid="heatmap-cell-indicator-info-value-unit"
+              >
+                <div
+                  class="sc-feUZmu sc-fUnMCh iGNgio fCPZQA"
+                >
+                  per 1,000
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo jNpENX highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="sc-bXCLTC enPqre"
+                >
+                  X
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo jNpENX highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="sc-bXCLTC enPqre"
+                >
+                  X
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo cgMjml highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="sc-bXCLTC enPqre"
+                >
+                  41.0
+                </div>
+              </td>
+              <td
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo jNpENX highcharts-point"
+                data-testid="heatmap-cell-data"
+              >
+                <div
+                  class="sc-bXCLTC enPqre"
+                >
+                  X
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div
+        class="exportOnly"
+        style="display: none;"
+      >
+        <div
+          class="sc-dtBdUo fqwTKP"
+        >
+          ©Crown copyright 2024. Office for Health Improvement & Disparities.
+          <br />
+          Public Health Profiles accessed on 25 December 2024 www.fingertips.phe.org.uk
+        </div>
+      </div>
+    </div>
+    <button
+      class="src__StyledButton-sc-19ocyxv-0 eEShVH sc-dCFHLb jjJOzN"
+      data-testid="heatmapChart-export-button"
+    >
+      Export options
+    </button>
+  </div>
+</DocumentFragment>
+`;
 
 exports[`heatmap snapshot test - england benchmark 1`] = `
 <DocumentFragment>

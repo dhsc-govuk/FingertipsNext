@@ -1,4 +1,153 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Inequalities table suite > snapshot test - should match snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-eldPxv cerndm"
+    data-testid="inequalitiesLineChartTable-component"
+  >
+    <div
+      id="inequalitiesLineChartTable"
+    >
+      <h4
+        class="heading__StyledHeading-sc-1dsobun-0 EoZyU sc-jsJBEP huOjbH"
+      >
+        Inequalities Line chart table title
+      </h4>
+      <table
+        class="src__StyledTable-sc-16s660v-0 duOufa sc-eeDRCY jilpgJ"
+      >
+        <thead
+          class="TableHeader-sc-1n1nw4b-0"
+        >
+          <tr
+            class="Row-sc-1y8eqfp-0"
+          >
+            <th
+              class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-koXPp cFENDr kVBjwD"
+              colspan="4"
+            >
+              South FooBar
+              <span
+                data-testid="inequalitiesLineChartTable-measurementUnit"
+                style="display: block; margin-top: 10px;"
+              >
+                Value: per 100,000
+              </span>
+            </th>
+          </tr>
+          <tr
+            class="Row-sc-1y8eqfp-0"
+          >
+            <th
+              class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-eDPEul cFENDr hucACB hsRJux"
+              data-testid="header-Period-0"
+              style="padding-left: 10px;"
+            >
+              Period
+            </th>
+            <th
+              class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer cFENDr fDMEct"
+              data-testid="header-Persons-1"
+              style="padding-right: 10px;"
+            >
+              Persons
+            </th>
+            <th
+              class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer sc-bmzYkS cFENDr fDMEct eJfwUD"
+              data-testid="header-Male-2"
+            >
+              Male
+            </th>
+            <th
+              class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer sc-bmzYkS cFENDr fDMEct eJfwUD"
+              data-testid="header-Female-3"
+            >
+              Female
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          class="TableBody-sc-1qqarm8-0"
+        >
+          <tr
+            class="Row-sc-1y8eqfp-0"
+          >
+            <td
+              class="Cell-sc-msv0l6-0 sc-dcJsrY sc-imWYAI sc-dhKdcB gaSlHc kcOQDY lnElgr qqbNf"
+            >
+              2004
+            </td>
+            <td
+              class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj gaSlHc kcOQDY imqpTn"
+              style="padding-right: 10px;"
+            >
+              890.3
+            </td>
+            <td
+              class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj gaSlHc kcOQDY imqpTn"
+              style="padding-right: 10px;"
+            >
+              703.4
+            </td>
+            <td
+              class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj gaSlHc kcOQDY imqpTn"
+              style="padding-right: 10px;"
+            >
+              703.4
+            </td>
+          </tr>
+          <tr
+            class="Row-sc-1y8eqfp-0"
+          >
+            <td
+              class="Cell-sc-msv0l6-0 sc-dcJsrY sc-imWYAI sc-dhKdcB gaSlHc kcOQDY lnElgr qqbNf"
+            >
+              2008
+            </td>
+            <td
+              class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj gaSlHc kcOQDY imqpTn"
+              style="padding-right: 10px;"
+            >
+              135.1
+            </td>
+            <td
+              class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj gaSlHc kcOQDY imqpTn"
+              style="padding-right: 10px;"
+            >
+              890.3
+            </td>
+            <td
+              class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj gaSlHc kcOQDY imqpTn"
+              style="padding-right: 10px;"
+            >
+              890.3
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div
+        class="exportOnly"
+        style="display: none;"
+      >
+        <div
+          class="sc-dAbbOL jXFvph"
+        >
+          ©Crown copyright 2024. Office for Health Improvement & Disparities.
+          <br />
+          Public Health Profiles accessed on 25 December 2024 www.fingertips.phe.org.uk
+        </div>
+      </div>
+    </div>
+  </div>
+  <button
+    class="src__StyledButton-sc-19ocyxv-0 eEShVH sc-bXCLTC gBmkrQ"
+    data-testid="inequalitiesLineChartTable-export-button"
+  >
+    Export options
+  </button>
+</DocumentFragment>
+`;
 
 exports[`Inequalities table suite snapshot test - should match snapshot 1`] = `
 <DocumentFragment>

@@ -7,7 +7,7 @@ import {
   IndicatorsApi,
 } from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
-import { mockDeep } from 'jest-mock-extended';
+import { mockDeep } from 'vitest-mock-extended';
 
 import {
   API_CACHE_CONFIG,
@@ -23,7 +23,7 @@ ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 
 describe('OneIndicatorTwoOrMoreAreasView', () => {
   afterEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   it.each([

@@ -5,8 +5,8 @@ import { ViewsSelector } from './ViewsSelector';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
-const mockOneIndicatorOneAreaView = jest.fn();
-jest.mock(
+const mockOneIndicatorOneAreaView = vi.fn();
+vi.mock(
   './OneIndicatorOneAreaView/',
   () =>
     function fn() {
@@ -15,8 +15,8 @@ jest.mock(
     }
 );
 
-const mockOneIndicatorTwoOrMoreAreasView = jest.fn();
-jest.mock(
+const mockOneIndicatorTwoOrMoreAreasView = vi.fn();
+vi.mock(
   './OneIndicatorTwoOrMoreAreasView/',
   () =>
     function fn() {
@@ -25,8 +25,8 @@ jest.mock(
     }
 );
 
-const mockTwoOrMoreIndicatorsAreasView = jest.fn();
-jest.mock(
+const mockTwoOrMoreIndicatorsAreasView = vi.fn();
+vi.mock(
   './TwoOrMoreIndicatorsAreasView/',
   () =>
     function fn() {
@@ -35,8 +35,8 @@ jest.mock(
     }
 );
 
-const mockTwoOrMoreIndicatorsEnglandView = jest.fn();
-jest.mock(
+const mockTwoOrMoreIndicatorsEnglandView = vi.fn();
+vi.mock(
   './TwoOrMoreIndicatorsEnglandView/',
   () =>
     function fn() {

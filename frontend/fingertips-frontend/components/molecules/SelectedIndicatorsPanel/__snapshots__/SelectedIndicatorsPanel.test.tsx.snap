@@ -1,4 +1,65 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SelectedIndicatorsPanel > snapshot test 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-iGgWBj iNzuGi"
+    data-testid="selected-indicators-panel"
+  >
+    <span
+      class="src__LabelText-sc-1lbxenh-0 sc-gsFSXq bKqlAx khDiFW"
+    >
+      Selected indicators (2)
+    </span>
+    <div
+      class="sc-gEvEer cmUCgj"
+      data-testid="pill-container"
+    >
+      <div
+        class="sc-eqUAAy eqmima"
+        data-testid="filter-name"
+      >
+        indicator name for id 1
+        <br />
+        <a
+          class="src__Link-sc-1loawqx-0 sc-dcJsrY jjZtWC kXAAIg"
+          data-testid="view-background-info-link"
+          href="/indicator/1"
+        >
+          View background information
+        </a>
+      </div>
+    </div>
+    <div
+      class="sc-gEvEer cmUCgj"
+      data-testid="pill-container"
+    >
+      <div
+        class="sc-eqUAAy eqmima"
+        data-testid="filter-name"
+      >
+        indicator name for id 2
+        <br />
+        <a
+          class="src__Link-sc-1loawqx-0 sc-dcJsrY jjZtWC kXAAIg"
+          data-testid="view-background-info-link"
+          href="/indicator/2"
+        >
+          View background information
+        </a>
+      </div>
+    </div>
+    <button
+      class="src__StyledButton-sc-19ocyxv-0 eEShVH sc-kAyceB Yuwtp"
+    >
+      Add or change indicators
+    </button>
+    <hr
+      class="src__SectionBreak-sc-fayw97-0 kMqhKb"
+    />
+  </div>
+</DocumentFragment>
+`;
 
 exports[`SelectedIndicatorsPanel snapshot test 1`] = `
 <DocumentFragment>

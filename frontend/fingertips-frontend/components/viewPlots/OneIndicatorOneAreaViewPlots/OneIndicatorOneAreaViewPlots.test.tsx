@@ -5,21 +5,21 @@ import { act, render, screen, waitFor, within } from '@testing-library/react';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { LoaderContext } from '@/context/LoaderContext';
 
-jest.mock('next/navigation', () => {
-  const originalModule = jest.requireActual('next/navigation');
+vi.mock('next/navigation', async () => {
+  const originalModule = await vi.importActual('next/navigation');
 
   return {
     ...originalModule,
     usePathname: () => 'some-mock-path',
-    useRouter: jest.fn().mockImplementation(() => ({})),
+    useRouter: vi.fn().mockImplementation(() => ({})),
   };
 });
 
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: jest.fn(),
-  setIsLoading: jest.fn(),
+  getIsLoading: vi.fn(),
+  setIsLoading: vi.fn(),
 };
-jest.mock('@/context/LoaderContext', () => {
+vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
   };
@@ -40,7 +40,7 @@ const mockMetaData = {
 const mockSearch = 'test';
 const mockIndicator = ['108'];
 const mockAreas = ['A001'];
-jest.mock('@/components/hooks/useSearchStateParams', () => ({
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
   useSearchStateParams: () => ({
     [SearchParams.SearchedIndicator]: mockSearch,
     [SearchParams.IndicatorsSelected]: mockIndicator,
@@ -54,7 +54,7 @@ const testHealthData: IndicatorWithHealthDataForArea = {
 
 describe('OneIndicatorOneAreaViewPlots', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should render the benchmark select area drop down for the view', async () => {

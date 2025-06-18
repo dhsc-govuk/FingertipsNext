@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { expect } from '@jest/globals';
+
 import { InequalitiesLineChartTable } from '.';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { InequalitiesChartData } from '@/components/organisms/Inequalities/inequalitiesHelpers';
@@ -7,12 +7,12 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 describe('Inequalities table suite', () => {
   beforeAll(() => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date('2024-12-25T12:00:00Z'));
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2024-12-25T12:00:00Z'));
   });
 
   afterAll(() => {
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   const CELLS_PER_ROW = 4;

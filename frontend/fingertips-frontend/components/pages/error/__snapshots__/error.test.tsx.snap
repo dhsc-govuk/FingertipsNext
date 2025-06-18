@@ -1,4 +1,37 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Error Page > snapshot test 1`] = `
+<DocumentFragment>
+  <h1
+    class="heading__StyledHeading-sc-1dsobun-0 eaMQId"
+    data-testid="error-page-title"
+  >
+    Sorry, there is a problem with the service
+  </h1>
+  <div
+    class="src__StyledParagraph-sc-sgc9po-0 qWnWb"
+  >
+    <p>
+      Try again later.
+    </p>
+  </div>
+  <div
+    class="src__StyledParagraph-sc-sgc9po-0 qWnWb"
+  >
+    <p>
+      You can 
+      <a
+        class="src__Link-sc-1loawqx-0 jjZtWC"
+        href="/"
+        node="[object Object]"
+      >
+        go back to the homepage
+      </a>
+       and start your search again.
+    </p>
+  </div>
+</DocumentFragment>
+`;
 
 exports[`Error Page snapshot test 1`] = `
 <DocumentFragment>

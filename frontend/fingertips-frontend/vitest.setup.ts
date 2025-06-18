@@ -1,12 +1,11 @@
-import '@testing-library/jest-dom';
-import 'jest-styled-components';
+import '@testing-library/jest-dom/vitest';
 import { configure } from '@testing-library/react';
 
 process.env.DHSC_AI_SEARCH_USE_MOCK_SERVICE = 'true';
 process.env.FINGERTIPS_API_URL = 'ft-api-url/';
 
-vi.mock('@/lib/logging', () => {
-  const original = jest.requireActual('@/lib/logging');
+vi.mock('@/lib/logging', async () => {
+  const original = await vi.importActual('@/lib/logging');
   return {
     ...original,
     logUsingMockAiSearchService: vi.fn(),

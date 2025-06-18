@@ -12,36 +12,36 @@ import { LoaderContext } from '@/context/LoaderContext';
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 
 const mockPath = 'some-mock-path';
-const mockReplace = jest.fn();
-jest.mock('next/navigation', () => {
-  const originalModule = jest.requireActual('next/navigation');
+const mockReplace = vi.fn();
+vi.mock('next/navigation', async () => {
+  const originalModule = await vi.importActual('next/navigation');
 
   return {
     ...originalModule,
     usePathname: () => mockPath,
     useSearchParams: () => {},
-    useRouter: jest.fn().mockImplementation(() => ({
+    useRouter: vi.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
   };
 });
 
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: jest.fn(),
-  setIsLoading: jest.fn(),
+  getIsLoading: vi.fn(),
+  setIsLoading: vi.fn(),
 };
-jest.mock('@/context/LoaderContext', () => {
+vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
   };
 });
 
-const mockGetSearchState = jest.fn();
+const mockGetSearchState = vi.fn();
 const mockSearchStateContext: SearchStateContext = {
   getSearchState: mockGetSearchState,
-  setSearchState: jest.fn(),
+  setSearchState: vi.fn(),
 };
-jest.mock('@/context/SearchStateContext', () => {
+vi.mock('@/context/SearchStateContext', () => {
   return {
     useSearchState: () => mockSearchStateContext,
   };
@@ -67,7 +67,7 @@ const testHealthData: IndicatorWithHealthDataForArea = {
 };
 
 const mockSearchState: SearchStateParams = {};
-jest.mock('@/components/hooks/useSearchStateParams', () => ({
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
   useSearchStateParams: () => mockSearchState,
 }));
 
@@ -105,14 +105,14 @@ const assertLineChartAndTableNotInDocument = async () => {
 
 describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     mockSearchState[SearchParams.SearchedIndicator] = mockSearch;
     mockSearchState[SearchParams.IndicatorsSelected] = mockIndicator;
     mockSearchState[SearchParams.AreasSelected] = mockAreas;
   });
 
   afterAll(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   it('should render the benchmark select area drop down for the view', async () => {
@@ -224,7 +224,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
 
   describe('ThematicMap', () => {
     beforeEach(() => {
-      global.fetch = jest.fn();
+      global.fetch = vi.fn();
       mockGetSearchState.mockReturnValue({
         [SearchParams.AreaTypeSelected]: 'regions',
       });
@@ -238,7 +238,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     });
 
     it('should render the ThematicMap with title', async () => {
-      (fetch as jest.Mock).mockResolvedValueOnce({
+      (fetch as vi.Mock).mockResolvedValueOnce({
         ok: true,
         json: async () => regionsMap,
       });

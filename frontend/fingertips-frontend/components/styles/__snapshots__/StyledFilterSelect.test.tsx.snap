@@ -1,4 +1,27 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`StyledFilterSelect > should style the Select component as expected 1`] = `
+<DocumentFragment>
+  <label
+    class="src__Label-sc-iqzvxn-0 cjKMYe sc-aXZVg ciCqQj"
+  >
+    <span
+      class="src__LabelText-sc-1lbxenh-0 bKqlAx"
+    >
+      Select an area
+    </span>
+    <select
+      class="src__StyledSelect-sc-sgud4a-0 krelYQ"
+    >
+      <option
+        value="some value"
+      >
+        some option
+      </option>
+    </select>
+  </label>
+</DocumentFragment>
+`;
 
 exports[`StyledFilterSelect should style the Select component as expected 1`] = `
 <DocumentFragment>

@@ -1,4 +1,38 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`AreaSearchInputField > should render correctly and match snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-aXZVg dCwhqm"
+    data-testid="area-search-input-field"
+  >
+    <label
+      class="src__Label-sc-iqzvxn-0 cjKMYe"
+    >
+      <span
+        class="src__LabelText-sc-1lbxenh-0 bKqlAx"
+      >
+        Search by area
+      </span>
+      <span
+        class="src__HintText-sc-tq1z5r-0 PfjNt"
+      >
+        <div
+          style="color: rgb(80, 90, 95);"
+        >
+          For example, postcode, district, county, region, NHS organisation or GP practice or code
+        </div>
+      </span>
+      <input
+        class="src__Input-sc-1ch9crp-0 hYZdGo"
+        id="areaSearched"
+        name="areaSearched"
+        value="London"
+      />
+    </label>
+  </div>
+</DocumentFragment>
+`;
 
 exports[`AreaSearchInputField should render correctly and match snapshot 1`] = `
 <DocumentFragment>

@@ -6,17 +6,17 @@ import {
 } from './searchTypes';
 import { AreaSearchService } from './areaSearchService';
 
-jest.mock('@azure/search-documents', () => ({
-  SearchClient: jest.fn(),
-  AzureKeyCredential: jest.fn(),
+vi.mock('@azure/search-documents', () => ({
+  SearchClient: vi.fn(),
+  AzureKeyCredential: vi.fn(),
 }));
 
 describe('AreaSearchService', () => {
-  const mockSearch = jest.fn();
+  const mockSearch = vi.fn();
 
-  (SearchClient as jest.Mock).mockImplementation(() => ({
+  (SearchClient as Mock).mockImplementation(() => ({
     suggest: mockSearch,
-    getDocument: jest.fn().mockResolvedValue({
+    getDocument: vi.fn().mockResolvedValue({
       areaCode: '123',
       areaType: 'Town',
       areaName: 'Solihull',

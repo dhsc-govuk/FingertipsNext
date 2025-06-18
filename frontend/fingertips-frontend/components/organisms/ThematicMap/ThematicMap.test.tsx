@@ -10,19 +10,19 @@ import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 
 const mockAreaCodes = ['E12000001', 'E12000002'];
-const mockGetSearchState = jest.fn();
+const mockGetSearchState = vi.fn();
 const mockSearchStateContext: SearchStateContext = {
   getSearchState: mockGetSearchState,
-  setSearchState: jest.fn(),
+  setSearchState: vi.fn(),
 };
-jest.mock('@/context/SearchStateContext', () => {
+vi.mock('@/context/SearchStateContext', () => {
   return {
     useSearchState: () => mockSearchStateContext,
   };
 });
 
 const testRender = () => {
-  (fetch as jest.Mock).mockResolvedValueOnce({
+  (fetch as vi.Mock).mockResolvedValueOnce({
     ok: true,
     json: async () => regionsMap,
   });
@@ -51,14 +51,14 @@ const testRender = () => {
 
 describe('ThematicMap', () => {
   beforeEach(() => {
-    global.fetch = jest.fn();
+    global.fetch = vi.fn();
     mockGetSearchState.mockReturnValue({
       [SearchParams.AreaTypeSelected]: 'regions',
     });
   });
 
   afterEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   it('should render the loading message', async () => {
@@ -82,7 +82,7 @@ describe('ThematicMap', () => {
   });
 
   it('should render the correct benchmark legend when a different benchmark area is provided', async () => {
-    (fetch as jest.Mock).mockResolvedValueOnce({
+    (fetch as vi.Mock).mockResolvedValueOnce({
       ok: true,
       json: async () => regionsMap,
     });

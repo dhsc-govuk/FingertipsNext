@@ -28,7 +28,7 @@ describe('generateXAxis', () => {
   });
 
   it('should use the provided labels formatter', () => {
-    const mockFormatter = jest.fn();
+    const mockFormatter = vi.fn();
     const xAxis = generateXAxis(undefined, mockFormatter);
 
     expect(xAxis.labels?.formatter).toBe(mockFormatter);

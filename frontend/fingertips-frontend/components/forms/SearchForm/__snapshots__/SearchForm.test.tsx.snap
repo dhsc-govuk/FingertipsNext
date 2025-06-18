@@ -1,4 +1,131 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SearchForm > snapshot test - renders the form 1`] = `
+<DocumentFragment>
+  <div
+    data-testid="search-form"
+  >
+    <h3
+      class="heading__StyledHeading-sc-1dsobun-0 bRbIzR"
+    >
+      Find public health data
+    </h3>
+    <input
+      hidden=""
+      name="searchState"
+      value="{}"
+    />
+    <div
+      class="sc-fHjqPf hcxYAS"
+    >
+      <label
+        class="src__Label-sc-iqzvxn-0 cjKMYe sc-fUnMCh gcyXBz"
+        data-testid="indicator-search-form-input"
+      >
+        <span
+          class="src__LabelText-sc-1lbxenh-0 bKqlAx"
+        >
+          Search by subject
+        </span>
+        <span
+          class="src__HintText-sc-tq1z5r-0 PfjNt"
+        >
+          <div
+            style="color: rgb(80, 90, 95);"
+          >
+            For example, smoking, diabetes prevalence, or a specific indicator ID
+          </div>
+        </span>
+        <input
+          class="src__Input-sc-1ch9crp-0 hYZdGo"
+          id="indicator"
+          maxlength="200"
+          name="indicator"
+          value="indicator"
+        />
+      </label>
+      <div
+        class="sc-hzhJZQ hYbmVU"
+      />
+    </div>
+    <div
+      class="sc-gsFSXq fZsHAk"
+    >
+      <div
+        class="sc-aXZVg dCwhqm"
+        data-testid="area-search-input-field"
+      >
+        <label
+          class="src__Label-sc-iqzvxn-0 cjKMYe"
+        >
+          <span
+            class="src__LabelText-sc-1lbxenh-0 bKqlAx"
+          >
+            Search by area
+          </span>
+          <span
+            class="src__HintText-sc-tq1z5r-0 PfjNt"
+          >
+            <div
+              style="color: rgb(80, 90, 95);"
+            >
+              For example, postcode, district, county, region, NHS organisation or GP practice or code
+            </div>
+          </span>
+          <input
+            class="src__Input-sc-1ch9crp-0 hYZdGo"
+            id="areaSearched"
+            name="areaSearched"
+            value=""
+          />
+        </label>
+      </div>
+    </div>
+    <button
+      class="src__StyledButton-sc-19ocyxv-0 eEShVH"
+      data-testid="search-form-button-submit"
+      style="margin-top: 10px;"
+      type="submit"
+    >
+      Search
+    </button>
+    <span
+      class="sc-dAbbOL eyuXGu"
+    >
+      <svg
+        class="sc-ikkxIA fIoiNQ"
+        data-testid="arrow-toggle-button"
+        height="30"
+        viewBox="0 0 25 25"
+        width="30"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="#1D70B8"
+          stroke-width="0.5"
+        />
+        <path
+          d="M8 10l4 4 4-4"
+          fill="none"
+          stroke="#1D70B8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+        />
+      </svg>
+      <label
+        class="src__Label-sc-iqzvxn-0 sc-feUZmu cjKMYe jcuaii"
+        fill="#1D70B8"
+      >
+        Open area filter
+      </label>
+    </span>
+  </div>
+</DocumentFragment>
+`;
 
 exports[`SearchForm snapshot test - renders the form 1`] = `
 <DocumentFragment>

@@ -7,13 +7,13 @@ import {
   triggerBlobDownload,
 } from '@/components/molecules/Export/exportHelpers';
 
-jest.mock('./exportHelpers.ts', () => ({
-  triggerBlobDownload: jest.fn(),
-  canvasToBlob: jest.fn(),
+vi.mock('./exportHelpers.ts', () => ({
+  triggerBlobDownload: vi.fn(),
+  canvasToBlob: vi.fn(),
 }));
 
-const mockTriggerBlobDownload = triggerBlobDownload as jest.Mock;
-const mockCanvasToBlob = canvasToBlob as jest.Mock;
+const mockTriggerBlobDownload = triggerBlobDownload as vi.Mock;
+const mockCanvasToBlob = canvasToBlob as vi.Mock;
 
 describe('ExportDownloadButton', () => {
   beforeEach(() => {
@@ -23,7 +23,7 @@ describe('ExportDownloadButton', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders a button', () => {

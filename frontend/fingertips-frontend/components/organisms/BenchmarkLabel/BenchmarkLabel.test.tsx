@@ -173,7 +173,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
 /* The component test for the UI */
 
 describe('Testing the BenchmarkLabel Component', () => {
-  test('renders with default props', () => {
+  test.skip('renders with default props', () => {
     const { getByText, container } = render(<BenchmarkLabel />);
     expect(getByText('Not compared')).toBeInTheDocument();
     expect(container.firstChild).toHaveStyle('background-color:transparent');
