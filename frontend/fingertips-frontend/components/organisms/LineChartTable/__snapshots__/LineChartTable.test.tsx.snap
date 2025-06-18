@@ -976,6 +976,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
 
 <button
     class="c0 c1"
+    data-testid="lineChartTable-export-button"
   >
     Export options
   </button>
@@ -2112,6 +2113,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
 
 <button
     class="c0 c1"
+    data-testid="lineChartTable-export-button"
   >
     Export options
   </button>

@@ -15,7 +15,6 @@ import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptions
 import { convertSpineChartTableToCsv } from '@/components/organisms/SpineChartTable/convertSpineChartTableToCsv';
 import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
 import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
-import { SearchStateParams } from '@/lib/searchStateManager';
 import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
 import { SubTitle } from '@/components/atoms/SubTitle/SubTitle';
 import { ContainerWithOutline } from '@/components/atoms/ContainerWithOutline/ContainerWithOutline';
@@ -23,7 +22,6 @@ import { ContainerWithOutline } from '@/components/atoms/ContainerWithOutline/Co
 export interface SpineChartTableProps {
   indicatorData: SpineChartIndicatorData[];
   benchmarkToUse: string;
-  searchState: SearchStateParams;
 }
 
 const sortByIndicator = (indicatorData: SpineChartIndicatorData[]) =>
@@ -36,7 +34,6 @@ const sortByIndicator = (indicatorData: SpineChartIndicatorData[]) =>
 export function SpineChartTable({
   indicatorData,
   benchmarkToUse,
-  searchState,
 }: Readonly<SpineChartTableProps>) {
   const sortedData = sortByIndicator(indicatorData);
   const methods = getMethodsAndOutcomes(indicatorData);
@@ -64,7 +61,6 @@ export function SpineChartTable({
             benchmarkToUse={benchmarkToUse}
             groupName={groupName}
             areaNames={areaNames}
-            searchState={searchState}
           />
 
           <StyledDivTableContainer>
@@ -73,7 +69,6 @@ export function SpineChartTable({
                 areaNames={areaNames}
                 groupName={sortedData[0].groupData?.areaName ?? 'Group'}
                 benchmarkToUse={benchmarkToUse}
-                searchState={searchState}
               />
               {sortedData.map((indicatorData) => (
                 <React.Fragment key={indicatorData.indicatorId}>
@@ -81,7 +76,6 @@ export function SpineChartTable({
                     indicatorData={indicatorData}
                     twoAreasRequested={areaNames.length > 1}
                     benchmarkToUse={benchmarkToUse}
-                    searchState={searchState}
                   />
                 </React.Fragment>
               ))}

@@ -2,8 +2,6 @@ import { render, screen, within } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { InequalitiesForSingleTimePeriod } from '.';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
-import { SearchStateContext } from '@/context/SearchStateContext';
-import { SearchParams } from '@/lib/searchStateManager';
 import {
   HealthDataForArea,
   HealthDataPointTrendEnum,
@@ -36,20 +34,6 @@ jest.mock('@/context/LoaderContext', () => {
     useLoadingState: () => mockLoaderContext,
   };
 });
-
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: jest.fn(),
-  setSearchState: jest.fn(),
-};
-jest.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
-
-const mockSearchState = {
-  [SearchParams.InequalityYearSelected]: '2008',
-};
 
 describe('InequalitiesForSingleTimePeriod suite', () => {
   it('should render expected elements', async () => {
@@ -93,7 +77,6 @@ describe('InequalitiesForSingleTimePeriod suite', () => {
     render(
       <InequalitiesForSingleTimePeriod
         healthIndicatorData={[mockHealthData]}
-        searchState={mockSearchState}
         dataSource={'inequalities data source'}
       />
     );
@@ -160,10 +143,7 @@ describe('InequalitiesForSingleTimePeriod suite', () => {
     };
 
     render(
-      <InequalitiesForSingleTimePeriod
-        healthIndicatorData={[mockHealthData]}
-        searchState={mockSearchState}
-      />
+      <InequalitiesForSingleTimePeriod healthIndicatorData={[mockHealthData]} />
     );
 
     expect(

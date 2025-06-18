@@ -62,7 +62,6 @@ export default async function TwoOrMoreIndicatorsEnglandView({
     >
       <TwoOrMoreIndicatorsEnglandViewPlots
         indicatorData={combinedIndicatorData}
-        searchState={searchState}
         indicatorMetadata={selectedIndicatorsData}
       />
     </ViewsWrapper>
