@@ -74,7 +74,10 @@ public class HealthDataRepositoryTests : IDisposable
                 Name = String.Empty,
                 IndicatorId = INDICATORID
             },
-            Year = LATESTYEAR - 1
+            Year = LATESTYEAR - 1,
+            FromDateDimension = new DateDimensionModel { DateKey = 100, Date = new DateTime(LATESTYEAR - 1, 1, 1) },
+            ToDateDimension = new DateDimensionModel { DateKey = 101, Date = new DateTime(LATESTYEAR - 1, 12, 31) },
+            PeriodDimension = new PeriodDimensionModel { PeriodKey = 100, Period = "Calendar" },
         });
 
         // act
@@ -1062,6 +1065,13 @@ public class HealthDataRepositoryTests : IDisposable
 
         healthMeasure.DeprivationKey = 0;
         healthMeasure.DeprivationDimension.DeprivationKey = 0;
+
+        healthMeasure.FromDateKey = 0;
+        healthMeasure.FromDateDimension.DateKey = 0;
+        healthMeasure.ToDateKey = 0;
+        healthMeasure.ToDateDimension.DateKey = 0;
+        healthMeasure.PeriodKey = 0;
+        healthMeasure.PeriodDimension.PeriodKey = 0;
 
         // We don't load these values when retrieving a health measure from the DB, so they default to true.
         healthMeasure.IsAgeAggregatedOrSingle = true;

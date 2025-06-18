@@ -127,7 +127,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         if (comparisonMethod == BenchmarkComparisonMethod.Quintiles)
         {
             // get the data from the database
-            healthMeasureData = await healthDataRepository.GetIndicatorDataWithQuintileBenchmarkComparisonAsync(
+            var denormalisedHealthMeasureData = await healthDataRepository.GetIndicatorDataWithQuintileBenchmarkComparisonAsync(
                 indicatorId,
                 areaCodesForSearch.ToArray(),
                 years.Distinct().ToArray(),
@@ -136,11 +136,11 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
                 );
 
 
-            return healthMeasureData
-                .GroupBy(healthMeasure => new
+            return denormalisedHealthMeasureData
+                .GroupBy(denormalisedHealthMeasure => new
                 {
-                    code = healthMeasure.AreaDimension.Code,
-                    name = healthMeasure.AreaDimension.Name
+                    code = denormalisedHealthMeasure.AreaDimensionCode,
+                    name = denormalisedHealthMeasure.AreaDimensionName
                 })
                 .Select(group => new HealthDataForArea
                 {
