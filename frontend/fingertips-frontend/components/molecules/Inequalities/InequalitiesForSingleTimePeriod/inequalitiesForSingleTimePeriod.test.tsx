@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react';
+import { act, render, screen, within } from '@testing-library/react';
 
 import { InequalitiesForSingleTimePeriod } from '.';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
@@ -32,6 +32,16 @@ const mockLoaderContext: LoaderContext = {
 vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
+  };
+});
+
+// TODO - work out why using the actual highcharts component causes a flaky error
+// we're not asserting on the behaviour here so it's mocked away for now
+vi.mock('@/components/molecules/HighChartsWrapper/HighChartsWrapper', () => {
+  return {
+    HighChartsWrapper: () => {
+      return <div />;
+    },
   };
 });
 
@@ -74,6 +84,7 @@ describe('InequalitiesForSingleTimePeriod suite', () => {
       ],
     };
 
+    await act(async () => {});
     render(
       <InequalitiesForSingleTimePeriod
         healthIndicatorData={[mockHealthData]}

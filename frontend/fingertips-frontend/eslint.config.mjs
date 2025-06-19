@@ -2,7 +2,6 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import js from '@eslint/js';
 import { FlatCompat } from '@eslint/eslintrc';
-import pluginJest from 'eslint-plugin-jest';
 import pluginPlaywright from 'eslint-plugin-playwright';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -24,7 +23,7 @@ const eslintConfig = [
   },
   ...compat.extends('next/core-web-vitals', 'next/typescript', 'next'),
   {
-    plugins: { jest: pluginJest, playwright: pluginPlaywright },
+    plugins: { vitest: pluginJest, playwright: pluginPlaywright },
     languageOptions: {
       globals: pluginJest.environments.globals.globals,
     },
@@ -36,11 +35,11 @@ const eslintConfig = [
           argsIgnorePattern: '^_',
         },
       ],
-      'jest/no-focused-tests': 'error',
-      'jest/no-disabled-tests': 'warn',
-      'jest/no-identical-title': 'error',
-      'jest/prefer-to-have-length': 'error',
-      'jest/valid-expect': 'error',
+      'vitest/no-focused-tests': 'error',
+      'vitest/no-disabled-tests': 'warn',
+      'vitest/no-identical-title': 'error',
+      'vitest/prefer-to-have-length': 'error',
+      'vitest/valid-expect': 'error',
       'playwright/no-focused-test': 'error',
       'playwright/no-skipped-test': 'warn',
       'playwright/no-page-pause': 'error',
