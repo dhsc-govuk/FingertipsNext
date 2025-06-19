@@ -21,10 +21,8 @@ export const IndicatorSelectedPill = ({
   indicator,
   isFullWidth,
 }: Readonly<IndicatorSelectedPillProps>) => {
-  const searchState = useSearchStateParams()
-  const stateManager = SearchStateManager.initialise(
-    searchState
-  );
+  const searchState = useSearchStateParams();
+  const stateManager = SearchStateManager.initialise(searchState);
   const { setIsLoading } = useLoadingState();
 
   const indicatorInfoLink = stateManager.generatePath(

@@ -2,19 +2,13 @@ import { render, screen } from '@testing-library/react';
 import { IndicatorDefinition, IndicatorDefinitionProps } from '.';
 import placeholderIndicatorMetadata from '../../../assets/placeholderIndicatorMetadata.json';
 import { formatDate } from '@/lib/dateHelpers/dateHelpers';
-import { SearchParams } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { LoaderContext } from '@/context/LoaderContext';
-import { SearchStateContext } from '@/context/SearchStateContext';
 
 const indicatorDefinition: IndicatorDefinitionProps = {
   ...placeholderIndicatorMetadata,
   indicatorID: String(placeholderIndicatorMetadata.indicatorID),
   lastUpdatedDate: new Date(placeholderIndicatorMetadata.lastUpdatedDate),
-};
-
-const searchState = {
-  [SearchParams.IndicatorsSelected]: ['1', '2'],
-  [SearchParams.AreasSelected]: ['A001'],
 };
 
 jest.mock('next/navigation', () => {
@@ -37,23 +31,18 @@ jest.mock('@/context/LoaderContext', () => {
   };
 });
 
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: jest.fn(),
-  setSearchState: jest.fn(),
+const mockSearchState: SearchStateParams = {
+  [SearchParams.IndicatorsSelected]: ['1', '2'],
+  [SearchParams.AreasSelected]: ['A001'],
 };
-jest.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
+jest.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockSearchState,
+}));
 
 describe('contents items should link to appropriate headings', () => {
   beforeEach(() => {
     render(
-      <IndicatorDefinition
-        indicatorDefinitionProps={indicatorDefinition}
-        searchState={searchState}
-      />
+      <IndicatorDefinition indicatorDefinitionProps={indicatorDefinition} />
     );
   });
 
@@ -101,19 +90,13 @@ describe('contents items should link to appropriate headings', () => {
 describe('indicator description page', () => {
   beforeEach(() => {
     render(
-      <IndicatorDefinition
-        indicatorDefinitionProps={indicatorDefinition}
-        searchState={searchState}
-      />
+      <IndicatorDefinition indicatorDefinitionProps={indicatorDefinition} />
     );
   });
 
   it('should match snapshot', () => {
     const page = render(
-      <IndicatorDefinition
-        indicatorDefinitionProps={indicatorDefinition}
-        searchState={searchState}
-      />
+      <IndicatorDefinition indicatorDefinitionProps={indicatorDefinition} />
     );
 
     expect(page.asFragment()).toMatchSnapshot();

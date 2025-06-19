@@ -13,14 +13,10 @@ import {
   UnorderedList,
   BackLink,
 } from 'govuk-react';
-import { useEffect } from 'react';
 import styled from 'styled-components';
 import { spacing } from '@govuk-react/lib';
 import { formatDate } from '@/lib/dateHelpers/dateHelpers';
-import {
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
+import { SearchStateManager } from '@/lib/searchStateManager';
 import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
@@ -81,7 +77,7 @@ export function IndicatorDefinition({
   indicatorDefinitionProps,
 }: Readonly<IndicatorProps>) {
   const { setIsLoading } = useLoadingState();
-  const searchState = useSearchStateParams()
+  const searchState = useSearchStateParams();
 
   const stateManager = SearchStateManager.initialise(searchState);
 

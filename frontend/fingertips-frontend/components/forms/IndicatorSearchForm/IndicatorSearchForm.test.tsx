@@ -4,7 +4,6 @@ import { IndicatorSearchFormState } from './indicatorSearchActions';
 import { IndicatorSearchForm } from '.';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { LoaderContext } from '@/context/LoaderContext';
-import { SearchStateContext } from '@/context/SearchStateContext';
 import userEvent from '@testing-library/user-event';
 import { INDICATOR_SEARCH_MAX_CHARACTERS } from '@/lib/search/indicatorSearchService';
 
@@ -38,33 +37,20 @@ jest.mock('@/context/LoaderContext', () => {
   };
 });
 
-const mockGetSearchState = jest.fn();
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: mockGetSearchState,
-  setSearchState: jest.fn(),
-};
-jest.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
-
 const mockIndicatorValue = 'test value';
-
-const state: SearchStateParams = {
+const searchState: SearchStateParams = {
   [SearchParams.SearchedIndicator]: mockIndicatorValue,
 };
+jest.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => searchState,
+}));
 
 const initialState: IndicatorSearchFormState = {
-  searchState: JSON.stringify(state),
+  searchState: JSON.stringify(searchState),
   indicator: mockIndicatorValue,
   message: null,
   errors: {},
 };
-
-beforeEach(() => {
-  mockGetSearchState.mockReturnValue(state);
-});
 
 it('snapshot test - renders the form', () => {
   const container = render(

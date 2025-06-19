@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { ThematicMap } from '.';
-import { SearchStateContext } from '@/context/SearchStateContext';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import regionsMap from '@/components/organisms/ThematicMap/regions.json';
 import { reactQueryClient } from '@/lib/reactQueryClient';
@@ -10,16 +9,10 @@ import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 
 const mockAreaCodes = ['E12000001', 'E12000002'];
-const mockGetSearchState = jest.fn();
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: mockGetSearchState,
-  setSearchState: jest.fn(),
-};
-jest.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
+let mockSearchState: SearchStateParams = {};
+jest.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockSearchState,
+}));
 
 const testRender = () => {
   (fetch as jest.Mock).mockResolvedValueOnce({
@@ -32,7 +25,7 @@ const testRender = () => {
     [SearchParams.AreaTypeSelected]: 'regions',
   };
 
-  mockGetSearchState.mockReturnValue(searchState);
+  mockSearchState = searchState;
   render(
     <QueryClientProvider client={reactQueryClient}>
       <ThematicMap
@@ -52,9 +45,9 @@ const testRender = () => {
 describe('ThematicMap', () => {
   beforeEach(() => {
     global.fetch = jest.fn();
-    mockGetSearchState.mockReturnValue({
+    mockSearchState = {
       [SearchParams.AreaTypeSelected]: 'regions',
-    });
+    };
   });
 
   afterEach(() => {
@@ -92,7 +85,7 @@ describe('ThematicMap', () => {
       [SearchParams.AreaTypeSelected]: 'regions',
     };
 
-    mockGetSearchState.mockReturnValue(searchState);
+    mockSearchState = searchState;
     render(
       <QueryClientProvider client={reactQueryClient}>
         <ThematicMap

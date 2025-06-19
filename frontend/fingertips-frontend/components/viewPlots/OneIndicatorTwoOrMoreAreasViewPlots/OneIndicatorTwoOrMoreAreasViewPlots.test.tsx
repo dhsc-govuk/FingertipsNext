@@ -5,7 +5,6 @@ import { mockHealthData } from '@/mock/data/healthdata';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import regionsMap from '@/components/organisms/ThematicMap/regions.json';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
-import { SearchStateContext } from '@/context/SearchStateContext';
 import { reactQueryClient } from '@/lib/reactQueryClient';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { LoaderContext } from '@/context/LoaderContext';
@@ -36,16 +35,10 @@ jest.mock('@/context/LoaderContext', () => {
   };
 });
 
-const mockGetSearchState = jest.fn();
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: mockGetSearchState,
-  setSearchState: jest.fn(),
-};
-jest.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
+let mockSearchState: SearchStateParams = {};
+jest.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockSearchState,
+}));
 
 const mockMetaData = {
   indicatorID: '108',
@@ -65,11 +58,6 @@ const mockAreas = ['E12000001', 'E12000003'];
 const testHealthData: IndicatorWithHealthDataForArea = {
   areaHealthData: [mockHealthData['108'][1], mockHealthData['108'][2]],
 };
-
-const mockSearchState: SearchStateParams = {};
-jest.mock('@/components/hooks/useSearchStateParams', () => ({
-  useSearchStateParams: () => mockSearchState,
-}));
 
 const lineChartTestId = 'standardLineChart-component';
 const lineChartTableTestId = 'lineChartTable-component';
@@ -225,9 +213,9 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
   describe('ThematicMap', () => {
     beforeEach(() => {
       global.fetch = jest.fn();
-      mockGetSearchState.mockReturnValue({
+      mockSearchState = {
         [SearchParams.AreaTypeSelected]: 'regions',
-      });
+      };
 
       mockSearchState[SearchParams.SearchedIndicator] = mockSearch;
       mockSearchState[SearchParams.IndicatorsSelected] = mockIndicator;

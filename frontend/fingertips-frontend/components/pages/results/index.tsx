@@ -58,7 +58,7 @@ export function SearchResults({
 }: Readonly<SearchResultsProps>) {
   const { setIsLoading } = useLoadingState();
   // const { setSearchState } = useSearchState();
-  const searchState = useSearchStateParams()
+  const searchState = useSearchStateParams();
   const searchParams = useSearchParams();
 
   // useEffect(() => {

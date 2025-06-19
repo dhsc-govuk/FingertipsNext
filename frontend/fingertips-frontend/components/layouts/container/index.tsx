@@ -19,14 +19,14 @@ export function FTContainer({
   return (
     <QueryClientProvider client={reactQueryClient}>
       <ModalProvider>
-          <LoaderProvider>
-            <main>
-              <StyledMain>{children}</StyledMain>
-            </main>
-            <Suspense>
-              <FocusOnFragment />
-            </Suspense>
-          </LoaderProvider>
+        <LoaderProvider>
+          <main>
+            <StyledMain>{children}</StyledMain>
+          </main>
+          <Suspense>
+            <FocusOnFragment />
+          </Suspense>
+        </LoaderProvider>
       </ModalProvider>
     </QueryClientProvider>
   );

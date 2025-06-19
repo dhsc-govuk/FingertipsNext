@@ -5,7 +5,6 @@ import {
 } from '@/lib/search/searchTypes';
 import { mockDeep } from 'jest-mock-extended';
 import IndicatorDefinitionPage from './page';
-import { SearchParams } from '@/lib/searchStateManager';
 
 const mockIndicatorSearchService = mockDeep<IIndicatorSearchService>();
 SearchServiceFactory.getIndicatorSearchService = () =>
@@ -54,21 +53,5 @@ describe('Indicator definition page', () => {
     expect(page.props.indicatorDefinitionProps).toMatchObject(
       mockGetIndicatorResponse
     );
-  });
-
-  it('should pass searchState prop using the params provided', async () => {
-    const searchState = {
-      [SearchParams.IndicatorsSelected]: ['1', '2'],
-      [SearchParams.AreasSelected]: ['A001'],
-    };
-
-    const page = await IndicatorDefinitionPage({
-      params: Promise.resolve({
-        indicatorId: mockGetIndicatorResponse.indicatorID,
-      }),
-      searchParams: Promise.resolve(searchState),
-    });
-
-    expect(page.props.searchState).toMatchObject(searchState);
   });
 });

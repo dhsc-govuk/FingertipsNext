@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { AreaAutoCompleteSuggestionPanel } from './index';
 import { SuggestionResult } from '@/lib/search/searchTypes';
-import { SearchParams } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import userEvent from '@testing-library/user-event';
 import {
   englandAreaType,
@@ -9,7 +9,6 @@ import {
 } from '@/lib/areaFilterHelpers/areaType';
 import { englandArea } from '@/mock/data/areas/englandAreas';
 import { LoaderContext } from '@/context/LoaderContext';
-import { SearchStateContext } from '@/context/SearchStateContext';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
@@ -59,21 +58,15 @@ jest.mock('@/context/LoaderContext', () => {
   };
 });
 
-const mockGetSearchState = jest.fn();
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: mockGetSearchState,
-  setSearchState: jest.fn(),
-};
-jest.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
+const searchState: SearchStateParams = {};
+jest.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => searchState,
+}));
 
 describe('AreaSuggestionPanel', () => {
   beforeEach(() => {
     mockReplace.mockClear();
-    mockGetSearchState.mockReturnValue({});
+    searchState[SearchParams.AreasSelected] = [];
   });
 
   it('should render correctly and match snapshot', () => {
@@ -84,9 +77,7 @@ describe('AreaSuggestionPanel', () => {
   });
 
   it('should not render the area suggestion panel when the searchState contains areasSelected', () => {
-    mockGetSearchState.mockReturnValue({
-      [SearchParams.AreasSelected]: ['A001'],
-    });
+    searchState[SearchParams.AreasSelected] = ['A001'];
 
     render(<AreaAutoCompleteSuggestionPanel suggestedAreas={[]} />);
 
@@ -145,11 +136,9 @@ describe('AreaSuggestionPanel', () => {
   });
 
   it('should remove any previous area filter selection from the state', async () => {
-    mockGetSearchState.mockReturnValue({
-      [SearchParams.AreaTypeSelected]: nhsRegionsAreaType.key,
-      [SearchParams.GroupTypeSelected]: englandAreaType.key,
-      [SearchParams.GroupSelected]: englandArea.code,
-    });
+    searchState[SearchParams.AreaTypeSelected] = nhsRegionsAreaType.key;
+    searchState[SearchParams.GroupTypeSelected] = englandAreaType.key;
+    searchState[SearchParams.GroupSelected] = englandArea.code;
 
     const expectedPath = [
       `${mockPath}`,
