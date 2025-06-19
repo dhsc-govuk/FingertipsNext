@@ -23,11 +23,11 @@ export const coreTestJourneys: TestParameters[] = [
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ONE_AREA,
     searchMode: SearchMode.BOTH_SUBJECT_AND_AREA, // therefore no subject search term or areaFiltersToSelect required
-    subjectSearchTerm: 'emergency',
+    subjectSearchTerm: 'smokers',
     indicatorsToSelect: [
       {
-        indicatorID: '41101',
-        knownTrend: 'No recent trend data available',
+        indicatorID: '93085',
+        knownTrend: 'Decreasing and getting better',
       },
     ],
     checkExports: true,
@@ -37,10 +37,10 @@ export const coreTestJourneys: TestParameters[] = [
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.TWO_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'smokers',
+    subjectSearchTerm: 'emergency',
     indicatorsToSelect: [
       {
-        indicatorID: '90453',
+        indicatorID: '41101',
         knownTrend: 'No recent trend data available',
       },
     ],

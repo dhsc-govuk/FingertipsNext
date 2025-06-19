@@ -49,7 +49,7 @@ export function getAllIndicatorsForSearchTerm(
   if (!searchTerm) return [];
 
   const lowerCasedSearchTerm = searchTerm.toLowerCase();
-  indicators
+  return indicators
     .filter(
       (indicator) =>
         indicatorsUsedInPOC(indicator) &&
@@ -61,7 +61,6 @@ export function getAllIndicatorsForSearchTerm(
       associatedAreaCodes: indicator.associatedAreaCodes,
       dataSource: indicator.dataSource,
     }));
-  return indicators;
 }
 
 function getIndicatorDataByIndicatorID(
