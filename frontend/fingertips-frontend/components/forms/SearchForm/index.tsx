@@ -31,7 +31,6 @@ export const SearchForm = ({
   areaFilterData,
 }: Readonly<SearchFormProps>) => {
   const { setIsLoading } = useLoadingState();
-  // const { getSearchState } = useSearchState();
   const searchState = useSearchStateParams();
 
   useEffect(() => {

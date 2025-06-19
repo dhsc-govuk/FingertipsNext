@@ -26,25 +26,15 @@ const ZeroMarginParagraph = styled(Paragraph)(
 );
 
 interface HomeProps {
-  // searchState?: SearchStateParams;
   areaFilterData?: AreaFilterData;
   selectedAreasData?: Area[];
   initialFormState: SearchFormState;
 }
 export const Home = ({
-  // searchState,
   areaFilterData,
   initialFormState,
   selectedAreasData,
 }: HomeProps) => {
-  // const searchState = useSearchStateParams();
-
-  // const { setSearchState } = useSearchState();
-
-  // useEffect(() => {
-  //   setSearchState(searchState ?? {});
-  // }, [searchState, setSearchState]);
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

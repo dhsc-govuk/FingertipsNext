@@ -40,7 +40,6 @@ export function SelectedAreasPanel({
   const pathname = usePathname();
   const { replace } = useRouter();
   const { setIsLoading } = useLoadingState();
-  // const { getSearchState } = useSearchState();
   const searchState = useSearchStateParams();
 
   const searchStateManager = SearchStateManager.initialise(searchState);

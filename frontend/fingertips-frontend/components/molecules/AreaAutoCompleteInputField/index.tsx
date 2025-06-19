@@ -25,7 +25,6 @@ export function AreaAutoCompleteInputField({
   inputFieldErrorStatus = false,
   selectedAreaName,
 }: Readonly<AreaAutoCompleteInputFieldProps>) {
-  // const { getSearchState } = useSearchState();
   const searchState = useSearchStateParams();
 
   const selectedAreasParams = searchState?.[SearchParams.AreasSelected];

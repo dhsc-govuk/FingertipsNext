@@ -53,17 +53,11 @@ export function SearchResults({
   areaFilterData,
   selectedAreasData,
   isEnglandSelectedAsGroup,
-  // searchState,
   currentDate,
 }: Readonly<SearchResultsProps>) {
   const { setIsLoading } = useLoadingState();
-  // const { setSearchState } = useSearchState();
   const searchState = useSearchStateParams();
   const searchParams = useSearchParams();
-
-  // useEffect(() => {
-  //   setSearchState(searchState ?? {});
-  // }, [searchState, setSearchState]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
