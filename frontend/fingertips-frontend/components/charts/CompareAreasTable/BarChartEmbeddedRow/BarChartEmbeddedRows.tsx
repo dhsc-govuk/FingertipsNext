@@ -3,10 +3,10 @@ import {
   BenchmarkComparisonMethod,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
-import { BarChartEmbeddedTableRow } from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedTable.types';
-import { BarChartEmbeddedRow } from '@/components/organisms/BarChartEmbeddedTable/components/BarChartEmbeddedRow/BarChartEmbeddedRow';
+import { BarChartEmbeddedTableRow } from '@/components/charts/CompareAreasTable/BarChartEmbeddedTable/BarChartEmbeddedTable.types';
+import { BarChartEmbeddedRow } from '@/components/charts/CompareAreasTable/BarChartEmbeddedRow/BarChartEmbeddedRow';
 import { useMoreRowsWhenScrolling } from '@/components/hooks/useMoreRowsWhenScrolling';
-import { BarChartEmbeddedPlaceholderRows } from '@/components/organisms/BarChartEmbeddedTable/components/BarChartEmbeddedPlaceholderRows/BarChartEmbeddedPlaceholderRows';
+import { BarChartEmbeddedPlaceholderRows } from '@/components/charts/CompareAreasTable/BarChartEmbeddedPlaceholderRows/BarChartEmbeddedPlaceholderRows';
 
 interface BarChartEmbeddedRowsProps {
   rows: BarChartEmbeddedTableRow[];

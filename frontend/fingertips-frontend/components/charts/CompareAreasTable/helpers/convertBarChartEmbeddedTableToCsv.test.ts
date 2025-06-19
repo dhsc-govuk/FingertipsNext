@@ -1,6 +1,6 @@
 import { convertBarChartEmbeddedTableToCsv } from './convertBarChartEmbeddedTableToCsv';
 import { CsvHeader } from '@/components/molecules/Export/export.types';
-import { BarChartEmbeddedTableRow } from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedTable.types';
+import { BarChartEmbeddedTableRow } from '@/components/charts/CompareAreasTable/BarChartEmbeddedTable/BarChartEmbeddedTable.types';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
   BenchmarkOutcome,

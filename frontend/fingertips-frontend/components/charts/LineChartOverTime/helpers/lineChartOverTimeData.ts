@@ -18,22 +18,22 @@ export const lineChartOverTimeData = (
   const benchmarkComparisonMethod = healthData?.benchmarkMethod;
   const polarity = healthData?.polarity;
 
-  const [healthDataWithoutEngland, englandData] = findAndRemoveByAreaCode(
+  const [withoutEngland, englandData] = findAndRemoveByAreaCode(
     healthData.areaHealthData ?? [],
     areaCodeForEngland
   );
 
-  const [healthWithoutEnglandOrGroup, groupData] = findAndRemoveByAreaCode(
-    healthDataWithoutEngland,
+  const [withoutEnglandOrGroup, groupData] = findAndRemoveByAreaCode(
+    withoutEngland,
     selectedGroupCode
   );
 
   const shouldLineChartBeShownForOneArea =
-    healthWithoutEnglandOrGroup[0]?.healthData.length > 1 ||
+    withoutEnglandOrGroup[0]?.healthData.length > 1 ||
     (englandData && englandData.healthData.length > 1);
 
   const shouldLineChartBeShownForTwoAreas =
-    (healthWithoutEnglandOrGroup[0]?.healthData.length > 1 ||
+    (withoutEnglandOrGroup[0]?.healthData.length > 1 ||
       benchmarkComparisonMethod === BenchmarkComparisonMethod.Quintiles) &&
     areasSelected.length === 2;
 
@@ -47,7 +47,7 @@ export const lineChartOverTimeData = (
   const benchmarkToUse = determineBenchmarkToUse(benchmarkAreaSelected);
 
   const chartOptions = generateStandardLineChartOptions(
-    healthWithoutEnglandOrGroup,
+    withoutEnglandOrGroup,
     true,
     benchmarkToUse,
     {
@@ -64,7 +64,7 @@ export const lineChartOverTimeData = (
 
   return {
     chartOptions,
-    areaData: healthWithoutEnglandOrGroup,
+    areaData: withoutEnglandOrGroup,
     englandData,
     groupData,
     indicatorMetaData,

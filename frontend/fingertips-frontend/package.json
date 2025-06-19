@@ -43,6 +43,7 @@
     "@opentelemetry/sdk-trace-base": "^1.30.0",
     "@opentelemetry/semantic-conventions": "^1.28.0",
     "@tanstack/react-query": "^5.74.4",
+    "@tanstack/react-query-devtools": "^5.80.7",
     "@turf/union": "^7.2.0",
     "@types/styled-components": "^5.1.34",
     "date-fns": "^4.1.0",

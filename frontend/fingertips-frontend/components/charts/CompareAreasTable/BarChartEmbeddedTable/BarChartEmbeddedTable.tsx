@@ -24,11 +24,11 @@ import {
   BarChartEmbeddedTableHeadingEnum,
   BarChartEmbeddedTableRow,
   chartName,
-} from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedTable.types';
-import { BarChartEmbeddedRows } from '@/components/organisms/BarChartEmbeddedTable/components/BarChartEmbeddedRow/BarChartEmbeddedRows';
+} from '@/components/charts/CompareAreasTable/BarChartEmbeddedTable/BarChartEmbeddedTable.types';
+import { BarChartEmbeddedRows } from '@/components/charts/CompareAreasTable/BarChartEmbeddedRow/BarChartEmbeddedRows';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
-import { convertBarChartEmbeddedTableToCsv } from '@/components/organisms/BarChartEmbeddedTable/helpers/convertBarChartEmbeddedTableToCsv';
+import { convertBarChartEmbeddedTableToCsv } from '@/components/charts/CompareAreasTable/helpers/convertBarChartEmbeddedTableToCsv';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
 import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
@@ -37,9 +37,9 @@ import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
 import { ContainerWithOutline } from '@/components/atoms/ContainerWithOutline/ContainerWithOutline';
 import { ContainerWithScrolling } from '@/components/atoms/ContainerWithScrolling/ContainerWithScrolling';
 import { ConfidenceLimitsHeader } from '@/components/atoms/ConfidenceLimitsHeader/ConfidenceLimitsHeader';
-import { sortByValueAndAreaName } from '@/components/organisms/BarChartEmbeddedTable/helpers/sortByValueAndAreaName';
-import { getMaxValue } from '@/components/organisms/BarChartEmbeddedTable/helpers/getMaxValue';
-import { getLatestYearWithBenchmarks } from '@/components/organisms/BarChartEmbeddedTable/helpers/getLatestYearWithBenchmarks';
+import { sortByValueAndAreaName } from '@/lib/healthDataHelpers/sortByValueAndAreaName';
+import { getMaxValue } from '@/lib/healthDataHelpers/getMaxValue';
+import { getLatestYearWithBenchmarks } from '@/components/charts/CompareAreasTable/helpers/getLatestYearWithBenchmarks';
 
 interface BarChartEmbeddedTableProps {
   healthIndicatorData: HealthDataForArea[];

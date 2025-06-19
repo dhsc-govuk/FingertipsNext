@@ -6,7 +6,7 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 export const lineChartOverTimeIsRequired = (searchState: SearchStateParams) => {
   const {
     [SearchParams.IndicatorsSelected]: indicatorIds,
-    [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.AreasSelected]: areasSelected = [],
     [SearchParams.GroupAreaSelected]: groupAreaSelected,
     [SearchParams.AreaTypeSelected]: areaTypeSelected,
   } = searchState;
@@ -22,7 +22,7 @@ export const lineChartOverTimeIsRequired = (searchState: SearchStateParams) => {
   }
 
   if (groupAreaSelected === ALL_AREAS_SELECTED) return false;
-  if (areaCodes?.length > 2) return false;
+  if (areasSelected.length > 2) return false;
   if (indicatorIds?.length !== 1) return false;
 
   return Boolean(areaCodes.length > 0);

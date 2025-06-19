@@ -1,5 +1,5 @@
 import { act, render, screen, within } from '@testing-library/react';
-import { BarChartEmbeddedTable } from '@/components/organisms/BarChartEmbeddedTable/index';
+import { BarChartEmbeddedTable } from '@/components/charts/CompareAreasTable/BarChartEmbeddedTable/BarChartEmbeddedTable';
 import {
   HealthDataForArea,
   HealthDataPoint,

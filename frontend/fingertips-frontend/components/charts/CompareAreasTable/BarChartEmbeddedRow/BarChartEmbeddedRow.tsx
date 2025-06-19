@@ -1,7 +1,7 @@
 import {
   barChartEmbeddedRowClassName,
   BarChartEmbeddedTableRow,
-} from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedTable.types';
+} from '@/components/charts/CompareAreasTable/BarChartEmbeddedTable/BarChartEmbeddedTable.types';
 import { Table } from 'govuk-react';
 import {
   CheckValueInTableCell,
