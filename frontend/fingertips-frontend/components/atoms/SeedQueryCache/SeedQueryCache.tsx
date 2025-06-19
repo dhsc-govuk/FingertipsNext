@@ -9,9 +9,6 @@ interface SeedQueryCacheProps {
 
 export function SeedQueryCache({ seedData }: Readonly<SeedQueryCacheProps>) {
   const queryClient = useQueryClient();
-  const keys = Object.keys(seedData);
-  if (keys.length === 0) return null;
-
   Object.entries(seedData).forEach(([url, data]) => {
     queryClient.setQueryData([url], data);
   });
