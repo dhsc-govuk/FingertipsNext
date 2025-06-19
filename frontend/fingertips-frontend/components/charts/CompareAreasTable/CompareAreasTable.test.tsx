@@ -11,6 +11,7 @@ import {
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { useCompareAreasTableData } from '@/components/charts/CompareAreasTable/hooks/useCompareAreasTableData';
 
+// Mock dependencies
 jest.mock(
   '@/components/charts/CompareAreasTable/BarChartEmbeddedTable/BarChartEmbeddedTable',
   () => ({
