@@ -78,7 +78,9 @@ export default class HomePage extends AreaFilter {
 
   async checkOnHomePage() {
     await expect(
-      this.page.getByRole('heading', { name: 'Find public health data' })
+      this.page
+        .getByRole('heading', { name: 'Find public health data' })
+        .first()
     ).toBeVisible();
   }
 

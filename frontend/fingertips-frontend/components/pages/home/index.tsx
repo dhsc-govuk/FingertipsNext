@@ -77,7 +77,7 @@ export const Home = ({
           }}
         />
       )}
-      <H2>Find public health data</H2>
+      <H2 data-testid="home-page-title">Find public health data</H2>
       <Paragraph>
         This service provides easy access to a comprehensive collection of
         public health data for England. It can be used to monitor trends,
