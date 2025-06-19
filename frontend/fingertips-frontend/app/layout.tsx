@@ -5,10 +5,12 @@ import { ReactNode } from 'react';
 import '../global.css';
 import { HeaderFooterWrapper } from '@/components/molecules/HeaderFooterWrapper';
 
+const siteTitle = 'Find public health data';
+const siteDescription = `${siteTitle} is a rich source of indicators across a range of health and wellbeing themes designed to support JSNA and commissioning to improve health and wellbeing, and reduce inequalities.`;
+
 export const metadata: Metadata = {
-  title: 'FingertipsNext',
-  description:
-    'Fingertips is a rich source of indicators across a range of health and wellbeing themes designed to support JSNA and commissioning to improve health and wellbeing, and reduce inequalities.',
+  title: siteTitle,
+  description: siteDescription,
 };
 
 export default function RootLayout({
