@@ -13,7 +13,8 @@ namespace DHSC.FingertipsNext.Modules.DataManagement.Controllers.V1;
 public class DataManagementController : ControllerBase
 {
     [HttpPost]
-    public static IActionResult UploadHealthData([FromForm] IFormFile? file, int indicatorId)
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822", Justification = "Controller actions must not be static. It is anticipated that this can be removed as full behaviour is added and _service is passed.")]
+    public IActionResult UploadHealthData([FromForm] IFormFile? file, int indicatorId)
     {
         if (file == null || file.Length == 0)
             return new BadRequestObjectResult(new SimpleError

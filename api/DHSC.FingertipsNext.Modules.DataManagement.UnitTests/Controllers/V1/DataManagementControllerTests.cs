@@ -10,15 +10,16 @@ namespace DHSC.FingertipsNext.Modules.DataManagement.UnitTests.Controllers.V1;
 
 public class DataManagementControllerTests : IDisposable
 {
-    // private readonly DataManagementController _controller = new();
     private const int StubIndicatorId = 123;
     private const string StubFileName = "StubHealthdataUpload.csv";
+    private readonly DataManagementController _controller = new();
 
     private static readonly string FilePath = Path.Combine("TestData", StubFileName);
     private static readonly byte[] Bytes = File.ReadAllBytes(FilePath);
     private static readonly MemoryStream Stream = new(Bytes);
     private readonly FormFile _formFile = new(Stream, 0, Bytes.Length,
         "file", StubFileName);
+
 
     public void Dispose()
     {
@@ -37,7 +38,7 @@ public class DataManagementControllerTests : IDisposable
     [Fact]
     public void PostReturnsExpectedResponseWhenGivenAValidFile()
     {
-        var response = DataManagementController.UploadHealthData(_formFile, StubIndicatorId) as AcceptedResult;
+        var response = _controller.UploadHealthData(_formFile, StubIndicatorId) as AcceptedResult;
         var expected = $"File {StubFileName} has been accepted for indicator {StubIndicatorId}.";
 
         response?.StatusCode.ShouldBe(202);
@@ -48,7 +49,7 @@ public class DataManagementControllerTests : IDisposable
     public void NullFileReturns400()
     {
         // Act
-        var result = DataManagementController.UploadHealthData(null, StubIndicatorId) as BadRequestObjectResult;
+        var result = _controller.UploadHealthData(null, StubIndicatorId) as BadRequestObjectResult;
 
         // Assert
         result.ShouldNotBeNull();
@@ -64,7 +65,7 @@ public class DataManagementControllerTests : IDisposable
             "file", "empty.csv");
 
         // Act
-        var result = DataManagementController.UploadHealthData(formFile, StubIndicatorId) as BadRequestObjectResult;
+        var result = _controller.UploadHealthData(formFile, StubIndicatorId) as BadRequestObjectResult;
 
         // Assert
         result.ShouldNotBeNull();
@@ -80,7 +81,7 @@ public class DataManagementControllerTests : IDisposable
         var expectedEncoded = HttpUtility.HtmlEncode(stubFileNameWithCharsToEncode);
 
         // Act
-        var response = DataManagementController.UploadHealthData(formFile, StubIndicatorId) as AcceptedResult;
+        var response = _controller.UploadHealthData(formFile, StubIndicatorId) as AcceptedResult;
 
         // Assert
         response?.StatusCode.ShouldBe(202);
