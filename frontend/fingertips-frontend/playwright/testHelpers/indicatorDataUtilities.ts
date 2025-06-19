@@ -13,8 +13,12 @@ const indicatorsMatchingSearchTerm = (
   indicator: RawIndicatorDocument,
   normalizedSearchTerm: string
 ): boolean =>
-  indicator.indicatorName.toLowerCase().includes(normalizedSearchTerm) ||
-  indicator.indicatorDefinition.toLowerCase().includes(normalizedSearchTerm);
+  indicator.indicatorID.toString().includes(normalizedSearchTerm) ||
+  indicator.indicatorName.toLowerCase().trim().includes(normalizedSearchTerm) ||
+  indicator.indicatorDefinition
+    .toLowerCase()
+    .trim()
+    .includes(normalizedSearchTerm);
 
 const indicatorMatchingIndicatorID = (
   indicator: RawIndicatorDocument,
@@ -45,7 +49,7 @@ export function getAllIndicatorsForSearchTerm(
   if (!searchTerm) return [];
 
   const lowerCasedSearchTerm = searchTerm.toLowerCase();
-  return indicators
+  indicators
     .filter(
       (indicator) =>
         indicatorsUsedInPOC(indicator) &&
@@ -57,6 +61,7 @@ export function getAllIndicatorsForSearchTerm(
       associatedAreaCodes: indicator.associatedAreaCodes,
       dataSource: indicator.dataSource,
     }));
+  return indicators;
 }
 
 function getIndicatorDataByIndicatorID(

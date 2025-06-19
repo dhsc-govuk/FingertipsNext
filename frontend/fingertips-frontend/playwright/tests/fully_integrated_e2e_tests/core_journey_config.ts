@@ -37,10 +37,10 @@ export const coreTestJourneys: TestParameters[] = [
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.TWO_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'emergency',
+    subjectSearchTerm: 'smokers',
     indicatorsToSelect: [
       {
-        indicatorID: '41101',
+        indicatorID: '90453',
         knownTrend: 'No recent trend data available',
       },
     ],
@@ -106,15 +106,15 @@ export const coreTestJourneys: TestParameters[] = [
     indicatorMode: IndicatorMode.TWO_INDICATORS,
     areaMode: AreaMode.ONE_AREA,
     searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'emergency',
+    subjectSearchTerm: 'outcome',
     indicatorsToSelect: [
       {
-        indicatorID: '41101',
-        knownTrend: 'No recent trend data available',
+        indicatorID: '247',
+        knownTrend: 'No significant change',
       },
       {
-        indicatorID: '22401',
-        knownTrend: 'Decreasing and getting better',
+        indicatorID: '241',
+        knownTrend: 'Increasing',
       },
     ],
     areaFiltersToSelect: {
@@ -127,14 +127,14 @@ export const coreTestJourneys: TestParameters[] = [
     indicatorMode: IndicatorMode.TWO_INDICATORS,
     areaMode: AreaMode.TWO_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'emergency',
+    subjectSearchTerm: 'mortality',
     indicatorsToSelect: [
       {
-        indicatorID: '41101',
+        indicatorID: '93763',
         knownTrend: 'No recent trend data available',
       },
       {
-        indicatorID: '22401',
+        indicatorID: '93861',
         knownTrend: 'Decreasing and getting better',
       },
     ],
@@ -150,12 +150,12 @@ export const coreTestJourneys: TestParameters[] = [
     searchMode: SearchMode.ONLY_AREA, // therefore no subject search term or areaFiltersToSelect required
     indicatorsToSelect: [
       {
-        indicatorID: '41101',
+        indicatorID: '93015',
         knownTrend: 'No recent trend data available',
       },
       {
-        indicatorID: '22401',
-        knownTrend: 'Decreasing and getting better',
+        indicatorID: '93088',
+        knownTrend: 'No recent trend data available',
       },
     ],
   },
@@ -184,15 +184,15 @@ export const coreTestJourneys: TestParameters[] = [
     indicatorMode: IndicatorMode.TWO_INDICATORS,
     areaMode: AreaMode.ENGLAND_AREA,
     searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'emergency',
+    subjectSearchTerm: 'over',
     indicatorsToSelect: [
       {
-        indicatorID: '41101',
+        indicatorID: '94035',
         knownTrend: 'No recent trend data available',
       },
       {
-        indicatorID: '22401',
-        knownTrend: 'Decreasing and getting better',
+        indicatorID: '94063',
+        knownTrend: 'No significant change',
       },
     ],
     areaFiltersToSelect: {
@@ -209,8 +209,8 @@ export const coreTestJourneys: TestParameters[] = [
     subjectSearchTerm: 'hospital', // a different subject search term is required that returns enough search results allowing for three indicators to be selected
     indicatorsToSelect: [
       {
-        indicatorID: '41101',
-        knownTrend: 'No recent trend data available',
+        indicatorID: '93474',
+        knownTrend: 'Decreasing',
       },
       {
         indicatorID: '22401',
