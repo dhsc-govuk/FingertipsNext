@@ -5,11 +5,12 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 internal sealed class HealthMeasureModelHelper(
     int key = 1,
     short year = 2025,
-    bool isAggregate = true,
     double? count = 1.0,
     double? value = 1.0,
     double? lowerCi = 1.0,
-    double? upperCi = 1.0
+    double? upperCi = 1.0,
+    string batchId = "12345_20250101120000",
+    bool isPublished = true
 )
 {
     private AreaDimensionModel? _areaDimension;
@@ -18,6 +19,9 @@ internal sealed class HealthMeasureModelHelper(
     private SexDimensionModel? _sexDimension;
     private DeprivationDimensionModel? _deprivationDimension;
     private TrendDimensionModel? _trendDimension;
+    private DateDimensionModel _fromDateDimension = new DateDimensionModel { DateKey = key, Date = new DateTime(year, 01, 01) };
+    private DateDimensionModel _toDateDimension = new DateDimensionModel { DateKey = key, Date = new DateTime(year, 12, 31) };
+    private PeriodDimensionModel _periodDimension = new PeriodDimensionModel { PeriodKey = (byte)key, Period = "Calendar" };
 
     public HealthMeasureModelHelper WithAreaDimension(
         string code = "AreaCode",
@@ -203,6 +207,30 @@ internal sealed class HealthMeasureModelHelper(
         };
     }
 
+    private HealthMeasureModelHelper DefaultFromDateDimension(int year, int month, int day)
+    {
+        _fromDateDimension = new DateDimensionModel()
+        { DateKey = key, Date = new DateTime(year, month, day) };
+        return this;
+    }
+
+    private HealthMeasureModelHelper DefaultToDateDimension(int year, int month, int day)
+    {
+        _toDateDimension = new DateDimensionModel()
+        { DateKey = key + 1, Date = new DateTime(year, month, day) };
+        return this;
+    }
+
+    private HealthMeasureModelHelper DefaultPeriodDimension(string period)
+    {
+        _periodDimension = new PeriodDimensionModel()
+        {
+            PeriodKey = (byte)key,
+            Period = period
+        };
+        return this;
+    }
+
     public HealthMeasureModel Build()
     {
         var areaDimension = _areaDimension ?? DefaultAreaDimension();
@@ -211,6 +239,7 @@ internal sealed class HealthMeasureModelHelper(
         var sexDimension = _sexDimension ?? DefaultSexDimension();
         var trendDimension = _trendDimension ?? DefaultTrendDimension();
         var deprivationDimension = _deprivationDimension ?? DefaultDeprivationDimension();
+        var publishedAt = isPublished ? DateTime.UtcNow : DateTime.UtcNow.AddYears(1);
 
         return new HealthMeasureModel
         {
@@ -220,6 +249,9 @@ internal sealed class HealthMeasureModelHelper(
             LowerCi = lowerCi,
             UpperCi = upperCi,
             Year = year,
+            FromDateDimension = _fromDateDimension,
+            ToDateDimension = _toDateDimension,
+            PeriodDimension = _periodDimension,
             AreaKey = areaDimension.AreaKey,
             AgeKey = ageDimension.AgeKey,
             IndicatorKey = indicatorDimension.IndicatorKey,
@@ -232,7 +264,11 @@ internal sealed class HealthMeasureModelHelper(
             SexDimension = sexDimension,
             TrendDimension = trendDimension,
             DeprivationDimension = deprivationDimension,
-            IsAggregate = isAggregate
+            IsAgeAggregatedOrSingle = ageDimension.IsAggregate,
+            IsSexAggregatedOrSingle = sexDimension.IsAggregate,
+            IsDeprivationAggregatedOrSingle = deprivationDimension.IsAggregate,
+            PublishedAt = publishedAt,
+            BatchId = batchId
         };
     }
 }
