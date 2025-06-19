@@ -659,6 +659,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_code=K84
             "indicatorId": 90453,
             "polarity": "NoJudgement",
             "year": 2024,
+            "datePeriod": {
+                "type": "Calendar",
+                "from": "2024-01-01",
+                "to": "2024-12-31"
+            },
             "q0Value": 3.07953,
             "q1Value": 24.36787,
             "q2Value": 29.14221,
