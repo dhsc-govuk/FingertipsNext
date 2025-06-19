@@ -864,8 +864,45 @@ public class IndicatorServiceTests
                 AgeDimension = new AgeDimensionModel() { Name = String.Empty },
                 IndicatorDimension = new IndicatorDimensionModel() { Name = String.Empty },
                 PublishedAt = new DateTime(2025, 1, 1),
-                BatchId = "12345_20250101120000"
+                BatchId = "12345_20250101120000",
+                FromDateDimension = new DateDimensionModel() { Date = new DateTime(2024, 1, 1) },
+                ToDateDimension = new DateDimensionModel() { Date = new DateTime(2024, 12, 31) },
+                PeriodDimension = new PeriodDimensionModel() { Period = "Calendar"}
             },
+        };
+
+        var mockDenormalisedHealthData = new List<DenormalisedHealthMeasureModel>
+        {
+            new DenormalisedHealthMeasureModel
+            {
+                HealthMeasureKey = 1,
+                AreaDimensionCode = "SomeCode",
+                AreaDimensionName = "Name",
+                IndicatorDimensionName = "IndicatorName",
+                SexDimensionName = "Male",
+                SexDimensionHasValue = true,
+                SexDimensionIsAggregate = false,
+                TrendDimensionName = "Trend",
+                AgeDimensionName = "0-4",
+                AgeDimensionHasValue = true,
+                AgeDimensionIsAggregate = false,
+                DeprivationDimensionName = "Most deprived",
+                DeprivationDimensionType = "Decile",
+                DeprivationDimensionSequence = 1,
+                DeprivationDimensionHasValue = true,
+                DeprivationDimensionIsAggregate = false,
+                Count = 1000,
+                Value = 5,
+                LowerCi = 3,
+                UpperCi = 6,
+                Year = 2024,
+                FromDate = new DateTime(2024, 1, 1),
+                ToDate = new DateTime(2024, 12, 31),
+                Period = "Calendar",
+                BenchmarkComparisonIndicatorPolarity = "High is good",
+                BenchmarkComparisonAreaCode = "E92000001",
+                BenchmarkComparisonAreaName = "England"
+            }
         };
 
         _healthDataRepository
@@ -877,7 +914,7 @@ public class IndicatorServiceTests
 
         _healthDataRepository.GetIndicatorDataWithQuintileBenchmarkComparisonAsync(
             1, Arg.Any<string[]>(),
-            [], Arg.Any<string>(), "E92000001").Returns(mockHealthData); ;
+            [], Arg.Any<string>(), "E92000001").Returns(mockDenormalisedHealthData); ;
 
         var result = await _indicatorService.GetIndicatorDataAsync(
             1,

@@ -247,7 +247,7 @@ exports[`Inequalities table suite snapshot test - should match snapshot 1`] = `
     data-testid="inequalitiesLineChartTable-component"
   >
     <div
-      id="inequalitiesTrendTable"
+      id="inequalitiesLineChartTable"
     >
       <h4
         class="c1 c2"
@@ -558,6 +558,7 @@ exports[`Inequalities table suite snapshot test - should match snapshot 1`] = `
 
 <button
     class="c0 c1"
+    data-testid="inequalitiesLineChartTable-export-button"
   >
     Export options
   </button>

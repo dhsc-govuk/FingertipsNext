@@ -48,6 +48,24 @@ public class HealthMeasureModel
 
     public short Year { get; set; }
 
+    public required DateDimensionModel FromDateDimension { get; set; }
+
+    [ForeignKey("FromDateDimension")]
+    public int FromDateKey { get; set; }
+
+    public DateTime FromDate => FromDateDimension.Date;
+
+    public required DateDimensionModel ToDateDimension { get; set; }
+
+    [ForeignKey("ToDateDimension")]
+    public int ToDateKey { get; set; }
+
+    public DateTime ToDate => ToDateDimension.Date;
+
+    public required PeriodDimensionModel PeriodDimension { get; set; }
+    [ForeignKey("PeriodDimension")]
+    public byte PeriodKey { get; set; }
+
     public bool IsSexAggregatedOrSingle { get; set; } = true;
 
     public bool IsAgeAggregatedOrSingle { get; set; } = true;

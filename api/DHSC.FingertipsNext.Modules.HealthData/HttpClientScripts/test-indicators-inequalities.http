@@ -1,6 +1,6 @@
 ﻿
 ### GET health data with deprivation inequality
-GET http://localhost:5144/indicators/22401/data?area_codes=E92000001&inequalities=deprivation&years=2016
+GET http://localhost:5144/indicators/22401/data?area_codes=E92000001&years=2016&inequalities=deprivation
 
 > {%
     client.test("Expected health data returned with deprivation inequalities breakdown", function (callbackfn, thisArg) {

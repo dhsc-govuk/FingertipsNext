@@ -125,6 +125,9 @@ BEGIN
 	SELECT
 	        hm.IndicatorKey,
 		    hm.Year,
+		    fromDate.Date AS FromDate,
+		    toDate.Date AS ToDate,
+		    datePeriod.Period AS DatePeriod,
 		    NTILE(4) OVER(PARTITION BY hm.Year, hm.indicatorKey ORDER BY hm.Value) AS Quartile,
 		    hm.Value
 	FROM
@@ -143,6 +146,18 @@ BEGIN
 	        BenchmarkAreas as ba
 	ON
 	        areaDim.Code = ba.AreaCode
+    JOIN
+            dbo.DateDimension AS fromDate
+    ON
+        	hm.FromDateKey = fromDate.DateKey
+    JOIN
+            dbo.DateDimension AS toDate
+    ON
+        	hm.ToDateKey = toDate.DateKey
+    JOIN
+            dbo.PeriodDimension AS datePeriod
+    ON
+        	hm.PeriodKey = datePeriod.PeriodKey	        
 	WHERE
 		(
 		--- This ensures we are only dealing with Aggregate data
@@ -155,6 +170,9 @@ BEGIN
     SELECT
         IndicatorKey,
 		hd.Year,
+	    hd.FromDate,
+	    hd.ToDate,
+	    hd.DatePeriod,
 	    COUNT(*) count,
 	    MIN(hd.Value) Minimum,
 	    MAX(CASE WHEN hd.Quartile = 1 THEN Value END) Quartile1,
@@ -164,13 +182,16 @@ BEGIN
     FROM
 		HealthData AS hd
     GROUP BY
-	    IndicatorKey, Year
+	    IndicatorKey, Year, hd.FromDate, hd.ToDate, hd.DatePeriod
 	)
 	--- Now combine data to return
 	SELECT 
 	    rii.IndicatorId AS IndicatorId,
 	    ri.Polarity AS Polarity,
 	    qd.Year AS Year,
+		qd.FromDate,
+		qd.ToDate,
+		qd.DatePeriod AS Period,
 	    CASE WHEN qd.count >= 4 THEN qd.Minimum END AS Q0Value,
 	    CASE WHEN qd.count >= 4 THEN qd.Quartile1 END AS Q1Value,
 	    CASE WHEN qd.count >= 4 THEN qd.Median END AS Q2Value,

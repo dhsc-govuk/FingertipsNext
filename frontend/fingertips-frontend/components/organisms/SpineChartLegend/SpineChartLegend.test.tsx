@@ -40,23 +40,12 @@ describe('SpineChartLegend', () => {
   });
 
   it('renders the group legend when selectedGroupCode is not England', () => {
-    render(
-      <SpineChartLegend
-        {...defaultProps}
-        searchState={{ [SearchParams.GroupSelected]: 'GROUP_CODE' }}
-      />
-    );
+    render(<SpineChartLegend {...defaultProps} />);
     expect(screen.getByText('Group: Test Group')).toBeInTheDocument();
   });
 
   it('should not render alternative benchmark legend as England when group is benchmark', () => {
-    render(
-      <SpineChartLegend
-        {...defaultProps}
-        benchmarkToUse="GROUP_CODE"
-        searchState={{ [SearchParams.GroupSelected]: 'GROUP_CODE' }}
-      />
-    );
+    render(<SpineChartLegend {...defaultProps} benchmarkToUse="GROUP_CODE" />);
     expect(screen.getByText(`Benchmark: Test Group`)).toBeInTheDocument();
     expect(screen.queryByText(englandAreaString)).not.toBeInTheDocument();
   });

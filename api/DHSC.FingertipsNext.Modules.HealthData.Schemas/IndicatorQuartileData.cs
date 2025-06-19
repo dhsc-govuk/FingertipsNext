@@ -14,6 +14,12 @@ public class IndicatorQuartileData
     [JsonPropertyName("year")]
     public short? Year { get; init; }
 
+    /// <summary>
+    ///     The date period that the Quartile data is for
+    /// </summary>
+    [JsonPropertyName("datePeriod")]
+    public required DatePeriod DatePeriod { get; init; }
+
     [JsonPropertyName("q0Value")]
     public double? Q0Value { get; init; }
 

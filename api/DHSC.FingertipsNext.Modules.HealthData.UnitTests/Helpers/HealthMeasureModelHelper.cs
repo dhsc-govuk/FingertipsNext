@@ -19,6 +19,9 @@ internal sealed class HealthMeasureModelHelper(
     private SexDimensionModel? _sexDimension;
     private DeprivationDimensionModel? _deprivationDimension;
     private TrendDimensionModel? _trendDimension;
+    private DateDimensionModel _fromDateDimension = new DateDimensionModel { DateKey = key, Date = new DateTime(year, 01, 01) };
+    private DateDimensionModel _toDateDimension = new DateDimensionModel { DateKey = key, Date = new DateTime(year, 12, 31) };
+    private PeriodDimensionModel _periodDimension = new PeriodDimensionModel { PeriodKey = (byte)key, Period = "Calendar" };
 
     public HealthMeasureModelHelper WithAreaDimension(
         string code = "AreaCode",
@@ -204,6 +207,30 @@ internal sealed class HealthMeasureModelHelper(
         };
     }
 
+    private HealthMeasureModelHelper DefaultFromDateDimension(int year, int month, int day)
+    {
+        _fromDateDimension = new DateDimensionModel()
+        { DateKey = key, Date = new DateTime(year, month, day) };
+        return this;
+    }
+
+    private HealthMeasureModelHelper DefaultToDateDimension(int year, int month, int day)
+    {
+        _toDateDimension = new DateDimensionModel()
+        { DateKey = key + 1, Date = new DateTime(year, month, day) };
+        return this;
+    }
+
+    private HealthMeasureModelHelper DefaultPeriodDimension(string period)
+    {
+        _periodDimension = new PeriodDimensionModel()
+        {
+            PeriodKey = (byte)key,
+            Period = period
+        };
+        return this;
+    }
+
     public HealthMeasureModel Build()
     {
         var areaDimension = _areaDimension ?? DefaultAreaDimension();
@@ -222,6 +249,9 @@ internal sealed class HealthMeasureModelHelper(
             LowerCi = lowerCi,
             UpperCi = upperCi,
             Year = year,
+            FromDateDimension = _fromDateDimension,
+            ToDateDimension = _toDateDimension,
+            PeriodDimension = _periodDimension,
             AreaKey = areaDimension.AreaKey,
             AgeKey = ageDimension.AgeKey,
             IndicatorKey = indicatorDimension.IndicatorKey,
