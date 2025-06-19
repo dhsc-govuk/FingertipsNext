@@ -176,7 +176,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
             indicatorId,
             areaCodesForSearch.ToArray(),
             years.Distinct().ToArray(),
-            inequalitiesList.Distinct().ToArray(), 
+            inequalitiesList.Distinct().ToArray(),
             fromDate,
             toDate);
 
@@ -192,6 +192,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
                 AreaCode = group.Key.code,
                 AreaName = group.Key.name,
                 HealthData = healthDataMapper.Map(group.ToList())
+                    .OrderBy(dataPoint => dataPoint.DatePeriod.From)
+                    .ToList()
             })
             .ToList();
 
