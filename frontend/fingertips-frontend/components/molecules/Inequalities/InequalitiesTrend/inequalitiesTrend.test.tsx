@@ -1,5 +1,4 @@
-import { render, screen, within } from '@testing-library/react';
-
+import { act, render, screen, within } from '@testing-library/react';
 import { InequalitiesTrend } from '.';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { LoaderContext } from '@/context/LoaderContext';
@@ -8,6 +7,16 @@ import {
   HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
 import { allAgesAge, maleSex, noDeprivation } from '@/lib/mocks';
+
+// TODO - work out why using the actual highcharts component causes a flaky error
+// we're not asserting on the behaviour here so it's mocked away for now
+vi.mock('@/components/molecules/HighChartsWrapper/HighChartsWrapper', () => {
+  return {
+    HighChartsWrapper: () => {
+      return <div />;
+    },
+  };
+});
 
 const mockPath = 'some-mock-path';
 const mockReplace = vi.fn();
@@ -28,6 +37,7 @@ const mockLoaderContext: LoaderContext = {
   getIsLoading: vi.fn(),
   setIsLoading: vi.fn(),
 };
+
 vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
@@ -77,13 +87,15 @@ describe('InequalitiesTrend suite', () => {
         ],
       },
     ];
-    render(
-      <InequalitiesTrend
-        healthIndicatorData={mockHealthData}
-        dataSource="inequalities data source"
-      />
-    );
 
+    await act(async () => {
+      render(
+        <InequalitiesTrend
+          healthIndicatorData={mockHealthData}
+          dataSource="inequalities data source"
+        />
+      );
+    });
     const inequalitiesTypesDropDown = screen.getByRole('combobox', {
       name: 'Select an inequality type',
     });
@@ -128,26 +140,30 @@ describe('InequalitiesTrend suite', () => {
     ).toHaveLength(2);
   });
 
-  it('should not render component if inequalities data is absent', () => {
+  it('should not render component if inequalities data is absent', async () => {
     const mockHealthData: HealthDataForArea = {
       ...MOCK_HEALTH_DATA[0],
       healthData: MOCK_HEALTH_DATA[0].healthData.slice(0, 2),
     };
 
-    render(<InequalitiesTrend healthIndicatorData={[mockHealthData]} />);
+    await act(async () => {
+      render(<InequalitiesTrend healthIndicatorData={[mockHealthData]} />);
+    });
 
     expect(
       screen.queryByTestId('inequalitiesTrend-component')
     ).not.toBeInTheDocument();
   });
 
-  it('should not render component if inequalities data has less than 2 data points', () => {
+  it('should not render component if inequalities data has less than 2 data points', async () => {
     const mockHealthData: HealthDataForArea = {
       ...MOCK_HEALTH_DATA[0],
       healthData: [MOCK_HEALTH_DATA[0].healthData[0]],
     };
 
-    render(<InequalitiesTrend healthIndicatorData={[mockHealthData]} />);
+    await act(async () => {
+      render(<InequalitiesTrend healthIndicatorData={[mockHealthData]} />);
+    });
 
     expect(
       screen.queryByTestId('inequalitiesTrend-component')

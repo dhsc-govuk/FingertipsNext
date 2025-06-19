@@ -6,14 +6,15 @@ import {
   canvasToBlob,
   triggerBlobDownload,
 } from '@/components/molecules/Export/exportHelpers';
+import { Mock } from 'vitest';
 
 vi.mock('./exportHelpers.ts', () => ({
   triggerBlobDownload: vi.fn(),
   canvasToBlob: vi.fn(),
 }));
 
-const mockTriggerBlobDownload = triggerBlobDownload as vi.Mock;
-const mockCanvasToBlob = canvasToBlob as vi.Mock;
+const mockTriggerBlobDownload = triggerBlobDownload as Mock;
+const mockCanvasToBlob = canvasToBlob as Mock;
 
 describe('ExportDownloadButton', () => {
   beforeEach(() => {

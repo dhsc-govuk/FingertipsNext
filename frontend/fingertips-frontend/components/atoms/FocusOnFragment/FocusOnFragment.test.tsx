@@ -1,6 +1,9 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { FocusOnFragment } from './FocusOnFragment';
+import { useSearchParams } from 'next/navigation';
+import { useLoadingState } from '@/context/LoaderContext';
+import { Mock } from 'vitest';
 
 vi.mock('next/navigation', () => ({
   useSearchParams: vi.fn(),
@@ -10,11 +13,8 @@ vi.mock('@/context/LoaderContext', () => ({
   useLoadingState: vi.fn(),
 }));
 
-import { useSearchParams } from 'next/navigation';
-import { useLoadingState } from '@/context/LoaderContext';
-
 describe('FocusOnFragment', () => {
-  let focusMock: vi.Mock;
+  let focusMock: Mock;
 
   beforeEach(() => {
     focusMock = vi.fn();
@@ -36,8 +36,8 @@ describe('FocusOnFragment', () => {
     });
 
     // Provide return values for mocks
-    (useSearchParams as vi.Mock).mockReturnValue(new URLSearchParams());
-    (useLoadingState as vi.Mock).mockReturnValue({});
+    (useSearchParams as Mock).mockReturnValue(new URLSearchParams());
+    (useLoadingState as Mock).mockReturnValue({});
   });
 
   afterEach(() => {
@@ -50,7 +50,7 @@ describe('FocusOnFragment', () => {
   });
 
   it('does nothing if no element matches', () => {
-    (document.getElementById as vi.Mock).mockReturnValue(null);
+    (document.getElementById as Mock).mockReturnValue(null);
     render(<FocusOnFragment />);
     expect(focusMock).not.toHaveBeenCalled();
   });

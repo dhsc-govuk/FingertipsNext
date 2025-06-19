@@ -8,6 +8,7 @@ import { reactQueryClient } from '@/lib/reactQueryClient';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
+import { Mock } from 'vitest';
 
 const mockAreaCodes = ['E12000001', 'E12000002'];
 const mockGetSearchState = vi.fn();
@@ -22,7 +23,7 @@ vi.mock('@/context/SearchStateContext', () => {
 });
 
 const testRender = () => {
-  (fetch as vi.Mock).mockResolvedValueOnce({
+  (fetch as Mock).mockResolvedValueOnce({
     ok: true,
     json: async () => regionsMap,
   });
@@ -82,7 +83,7 @@ describe('ThematicMap', () => {
   });
 
   it('should render the correct benchmark legend when a different benchmark area is provided', async () => {
-    (fetch as vi.Mock).mockResolvedValueOnce({
+    (fetch as Mock).mockResolvedValueOnce({
       ok: true,
       json: async () => regionsMap,
     });

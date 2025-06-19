@@ -1,5 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
-
+import { act, render, screen, waitFor } from '@testing-library/react';
 import { Inequalities } from '.';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { LoaderContext } from '@/context/LoaderContext';
@@ -33,7 +32,9 @@ vi.mock('next/navigation', async () => {
 
 describe('Inequalities suite', () => {
   it('should render inequalities component', async () => {
-    render(<Inequalities healthIndicatorData={MOCK_HEALTH_DATA} />);
+    await act(async () => {
+      render(<Inequalities healthIndicatorData={MOCK_HEALTH_DATA} />);
+    });
 
     await waitFor(async () => {
       expect(screen.getByTestId('inequalities-component')).toBeInTheDocument();
@@ -59,7 +60,9 @@ describe('Inequalities suite', () => {
   });
 
   it('should render expected text', async () => {
-    render(<Inequalities healthIndicatorData={MOCK_HEALTH_DATA} />);
+    await act(async () => {
+      render(<Inequalities healthIndicatorData={MOCK_HEALTH_DATA} />);
+    });
 
     expect(
       await screen.findByText(/Inequalities data for a single time period/i)
@@ -70,12 +73,15 @@ describe('Inequalities suite', () => {
   });
 
   it('check if the measurement unit value "kg" is rendered correctly', async () => {
-    render(
-      <Inequalities
-        healthIndicatorData={MOCK_HEALTH_DATA}
-        indicatorMetadata={{ unitLabel: 'kg' } as IndicatorDocument}
-      />
-    );
+    await act(async () => {
+      render(
+        <Inequalities
+          healthIndicatorData={MOCK_HEALTH_DATA}
+          indicatorMetadata={{ unitLabel: 'kg' } as IndicatorDocument}
+        />
+      );
+    });
+
     expect(await screen.findByText('kg')).toBeInTheDocument();
   });
 });

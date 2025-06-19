@@ -10,6 +10,7 @@ import { reactQueryClient } from '@/lib/reactQueryClient';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { LoaderContext } from '@/context/LoaderContext';
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
+import { Mock } from 'vitest';
 
 const mockPath = 'some-mock-path';
 const mockReplace = vi.fn();
@@ -238,7 +239,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     });
 
     it('should render the ThematicMap with title', async () => {
-      (fetch as vi.Mock).mockResolvedValueOnce({
+      (fetch as Mock).mockResolvedValueOnce({
         ok: true,
         json: async () => regionsMap,
       });

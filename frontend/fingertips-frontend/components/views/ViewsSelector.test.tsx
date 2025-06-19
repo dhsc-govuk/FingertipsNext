@@ -6,44 +6,44 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 const mockOneIndicatorOneAreaView = vi.fn();
-vi.mock(
-  './OneIndicatorOneAreaView/',
-  () =>
-    function fn() {
+vi.mock('./OneIndicatorOneAreaView/', () => {
+  return {
+    default: () => {
       mockOneIndicatorOneAreaView();
       return <div />;
-    }
-);
+    },
+  };
+});
 
 const mockOneIndicatorTwoOrMoreAreasView = vi.fn();
-vi.mock(
-  './OneIndicatorTwoOrMoreAreasView/',
-  () =>
-    function fn() {
+vi.mock('./OneIndicatorTwoOrMoreAreasView/', () => {
+  return {
+    default: () => {
       mockOneIndicatorTwoOrMoreAreasView();
       return <div />;
-    }
-);
+    },
+  };
+});
 
 const mockTwoOrMoreIndicatorsAreasView = vi.fn();
-vi.mock(
-  './TwoOrMoreIndicatorsAreasView/',
-  () =>
-    function fn() {
+vi.mock('./TwoOrMoreIndicatorsAreasView/', () => {
+  return {
+    default: () => {
       mockTwoOrMoreIndicatorsAreasView();
       return <div />;
-    }
-);
+    },
+  };
+});
 
 const mockTwoOrMoreIndicatorsEnglandView = vi.fn();
-vi.mock(
-  './TwoOrMoreIndicatorsEnglandView/',
-  () =>
-    function fn() {
+vi.mock('./TwoOrMoreIndicatorsEnglandView/', () => {
+  return {
+    default: () => {
       mockTwoOrMoreIndicatorsEnglandView();
       return <div />;
-    }
-);
+    },
+  };
+});
 
 describe('ViewsSelector', () => {
   const mockAvailableAreas = [
