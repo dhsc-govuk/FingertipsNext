@@ -1,5 +1,6 @@
 import { AreasApi, IndicatorsApi } from '@/generated-sources/ft-api-client';
 import { ApiClientFactory } from './apiClientFactory';
+import { Mock } from 'vitest';
 
 global.fetch = vi.fn(() =>
   Promise.resolve({

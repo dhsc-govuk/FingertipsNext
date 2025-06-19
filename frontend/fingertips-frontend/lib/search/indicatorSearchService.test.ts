@@ -7,6 +7,7 @@ import { SearchServiceFactory } from './searchServiceFactory';
 import { INDICATOR_SEARCH_INDEX_NAME } from './searchTypes';
 import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client/models/HealthDataPoint';
 import { escapeString } from '../escapeString';
+import { Mock } from 'vitest';
 
 vi.mock('@azure/search-documents', () => ({
   SearchClient: vi.fn(),

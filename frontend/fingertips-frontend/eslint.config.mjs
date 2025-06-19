@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url';
 import js from '@eslint/js';
 import { FlatCompat } from '@eslint/eslintrc';
 import pluginPlaywright from 'eslint-plugin-playwright';
+import vitest from '@vitest/eslint-plugin';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,9 +24,14 @@ const eslintConfig = [
   },
   ...compat.extends('next/core-web-vitals', 'next/typescript', 'next'),
   {
-    plugins: { vitest: pluginJest, playwright: pluginPlaywright },
+    plugins: { vitest, playwright: pluginPlaywright },
     languageOptions: {
-      globals: pluginJest.environments.globals.globals,
+      globals: { ...vitest.environments.env.globals },
+    },
+    settings: {
+      vitest: {
+        typecheck: true,
+      },
     },
     rules: {
       '@typescript-eslint/no-unused-vars': [

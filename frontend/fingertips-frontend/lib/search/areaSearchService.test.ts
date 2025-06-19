@@ -5,6 +5,7 @@ import {
   highlightTag,
 } from './searchTypes';
 import { AreaSearchService } from './areaSearchService';
+import { Mock } from 'vitest';
 
 vi.mock('@azure/search-documents', () => ({
   SearchClient: vi.fn(),

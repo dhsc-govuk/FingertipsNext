@@ -1,5 +1,5 @@
 /**
- * @jest-environment node
+ * @vitest-environment node
  */
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
