@@ -1,8 +1,5 @@
 'use client';
 
-import { TabContainer } from '@/components/layouts/tabContainer';
-import { LineChart } from '@/components/organisms/LineChart';
-import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { BarChartEmbeddedTable } from '@/components/organisms/BarChartEmbeddedTable';
 import {
   determineAreasForBenchmarking,
@@ -17,14 +14,11 @@ import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
 import { IndicatorPolarity } from '@/generated-sources/ft-api-client';
-import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
-import {
-  generateStandardLineChartOptions,
-  LineChartVariant,
-} from '@/components/organisms/LineChart/helpers/generateStandardLineChartOptions';
 import { BenchmarkSelectArea } from '@/components/molecules/BenchmarkSelectArea';
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
+import { LineChartAndTableOverTime } from '@/components/charts/LineChartOverTime/LineChartAndTableOverTime';
+import { lineChartOverTimeIsRequired } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeIsRequired';
 
 interface OneIndicatorTwoOrMoreAreasViewPlotsProps
   extends OneIndicatorViewPlotProps {
@@ -66,12 +60,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
         )
       : undefined;
 
-  const shouldLineChartbeShown =
-    (dataWithoutEnglandOrGroup[0]?.healthData.length > 1 ||
-      benchmarkMethod === BenchmarkComparisonMethod.Quintiles) &&
-    areasSelected &&
-    areasSelected?.length <= 2;
-
   const availableAreasForBenchmarking = determineAreasForBenchmarking(
     healthIndicatorData,
     selectedGroupCode,
@@ -80,26 +68,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   );
 
   const benchmarkToUse = determineBenchmarkToUse(benchmarkAreaSelected);
-
-  const yAxisTitle = indicatorMetadata?.unitLabel
-    ? `Value: ${indicatorMetadata?.unitLabel}`
-    : undefined;
-
-  const lineChartOptions: Highcharts.Options = generateStandardLineChartOptions(
-    dataWithoutEnglandOrGroup,
-    true,
-    benchmarkToUse,
-    {
-      indicatorName: indicatorData.name,
-      englandData,
-      benchmarkComparisonMethod: indicatorData.benchmarkMethod,
-      groupIndicatorData: groupData,
-      yAxisTitle,
-      xAxisTitle: 'Period',
-      measurementUnit: indicatorMetadata?.unitLabel,
-      accessibilityLabel: 'A line chart showing healthcare data',
-    }
-  );
+  const showLineChartOverTime = lineChartOverTimeIsRequired(searchState);
 
   return (
     <section data-testid="oneIndicatorTwoOrMoreAreasViewPlots-component">
@@ -107,44 +76,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
         availableAreas={availableAreasForBenchmarking}
         benchmarkAreaSelectedKey={SearchParams.BenchmarkAreaSelected}
       />
-      {shouldLineChartbeShown && (
-        <StyleChartWrapper>
-          <H3>Indicator data over time</H3>
-          <TabContainer
-            id="lineChartAndTable"
-            items={[
-              {
-                id: 'lineChart',
-                title: 'Line chart',
-                content: (
-                  <LineChart
-                    title={lineChartOptions.title?.text ?? ''}
-                    lineChartOptions={lineChartOptions}
-                    variant={LineChartVariant.Standard}
-                  />
-                ),
-              },
-              {
-                id: 'lineChartTable',
-                title: 'Table',
-                content: (
-                  <LineChartTable
-                    title={lineChartOptions.title?.text ?? ''}
-                    healthIndicatorData={dataWithoutEnglandOrGroup}
-                    englandIndicatorData={englandData}
-                    groupIndicatorData={groupData}
-                    indicatorMetadata={indicatorMetadata}
-                    benchmarkComparisonMethod={benchmarkMethod}
-                    polarity={polarity}
-                    benchmarkToUse={benchmarkToUse}
-                  />
-                ),
-              },
-            ]}
-            footer={<DataSource dataSource={indicatorMetadata?.dataSource} />}
-          />
-        </StyleChartWrapper>
-      )}
+      {showLineChartOverTime ? <LineChartAndTableOverTime /> : null}
       {selectedGroupArea === ALL_AREAS_SELECTED && (
         <StyleChartWrapper>
           <ThematicMap

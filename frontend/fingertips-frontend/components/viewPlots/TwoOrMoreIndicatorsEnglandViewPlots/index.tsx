@@ -1,6 +1,5 @@
 'use client';
 
-import { SearchStateParams } from '@/lib/searchStateManager';
 import {
   HealthDataPoint,
   IndicatorWithHealthDataForArea,
@@ -12,7 +11,6 @@ import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChart
 
 type TwoOrMoreIndicatorsEnglandViewPlotProps = {
   indicatorData: IndicatorWithHealthDataForArea[];
-  searchState: SearchStateParams;
   indicatorMetadata: IndicatorDocument[];
 };
 

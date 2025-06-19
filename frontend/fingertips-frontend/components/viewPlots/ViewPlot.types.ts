@@ -4,7 +4,6 @@ import {
   QuartileData,
 } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { SearchStateParams } from '@/lib/searchStateManager';
 
 export type OneIndicatorViewPlotProps = {
   indicatorData: IndicatorWithHealthDataForArea;
@@ -13,7 +12,6 @@ export type OneIndicatorViewPlotProps = {
 };
 
 export type TwoOrMoreIndicatorsViewPlotProps = {
-  searchState: SearchStateParams;
   indicatorData: IndicatorWithHealthDataForArea[];
   indicatorMetadata: IndicatorDocument[];
   benchmarkStatistics: QuartileData[];
