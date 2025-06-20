@@ -62,7 +62,7 @@ export const SearchForm = ({
       : selectedAreasData?.[0]?.name;
 
   return (
-    <div data-testid="search-form">
+    <StyledFormGroup data-testid="search-form" error={formState.message !== undefined}>
       <H3>Find public health data</H3>
       <input
         name="searchState"
@@ -165,6 +165,6 @@ export const SearchForm = ({
           areaFilterData={areaFilterData}
         />
       </ArrowExpander>
-    </div>
+    </StyledFormGroup>
   );
 };
