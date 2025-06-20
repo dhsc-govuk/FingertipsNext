@@ -6,7 +6,7 @@ import {
 import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 import { userEvent, UserEvent } from '@testing-library/user-event';
 import { LoaderContext } from '@/context/LoaderContext';
-import { SearchStateContext } from '@/context/SearchStateContext';
+import { SearchStateParams } from '@/lib/searchStateManager';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -21,16 +21,10 @@ jest.mock('@/context/LoaderContext', () => {
   };
 });
 
-const mockGetSearchState = jest.fn();
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: mockGetSearchState,
-  setSearchState: jest.fn(),
-};
-jest.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
+const mockSearchState: SearchStateParams = {};
+jest.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockSearchState,
+}));
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');

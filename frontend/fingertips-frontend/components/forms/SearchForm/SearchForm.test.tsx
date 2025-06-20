@@ -11,7 +11,6 @@ import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { mockAreaDataForNHSRegion } from '@/mock/data/areaData';
 import { LoaderContext } from '@/context/LoaderContext';
 import userEvent from '@testing-library/user-event';
-import { SearchStateContext } from '@/context/SearchStateContext';
 
 const mockPath = 'some path';
 const mockReplace = jest.fn();
@@ -39,18 +38,10 @@ jest.mock('@/context/LoaderContext', () => {
   };
 });
 
-const mockGetSearchState = jest.fn();
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: mockGetSearchState,
-  setSearchState: jest.fn(),
-};
-jest.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
-
-const mockSearchState: SearchStateParams = {};
+let mockSearchState: SearchStateParams = {};
+jest.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockSearchState,
+}));
 
 const initialDataState: SearchFormState = {
   indicator: 'indicator',
@@ -61,7 +52,7 @@ const initialDataState: SearchFormState = {
 
 describe('SearchForm', () => {
   beforeEach(() => {
-    mockGetSearchState.mockReturnValue(mockSearchState);
+    mockSearchState = {};
   });
 
   afterEach(() => {
@@ -87,7 +78,7 @@ describe('SearchForm', () => {
       [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
     };
 
-    mockGetSearchState.mockReturnValue(searchState);
+    mockSearchState = searchState;
 
     const searchFormState: SearchFormState = {
       ...initialDataState,
@@ -133,9 +124,9 @@ describe('SearchForm', () => {
   });
 
   it('should not render the selected areas panel when there are no areasSelected', () => {
-    mockGetSearchState.mockReturnValue({
+    mockSearchState = {
       [SearchParams.AreasSelected]: undefined,
-    });
+    };
 
     render(<SearchForm formState={initialDataState} />);
 
@@ -145,9 +136,9 @@ describe('SearchForm', () => {
   });
 
   it('should render the selected areas panel when there are areasSelected', () => {
-    mockGetSearchState.mockReturnValue({
+    mockSearchState = {
       [SearchParams.AreasSelected]: ['E40000007'],
-    });
+    };
 
     render(<SearchForm formState={initialDataState} />);
 

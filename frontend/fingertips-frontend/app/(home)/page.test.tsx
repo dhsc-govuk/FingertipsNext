@@ -18,7 +18,6 @@ import {
   eastEnglandNHSRegion,
   londonNHSRegion,
 } from '@/mock/data/areas/nhsRegionsAreas';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { getSelectedAreasDataByAreaType } from '@/lib/areaFilterHelpers/getSelectedAreasData';
 
 jest.mock('@/lib/areaFilterHelpers/getAreaFilterData');
@@ -109,34 +108,6 @@ describe('Home page', () => {
         eastEnglandNHSRegion,
         londonNHSRegion,
       ]);
-    });
-
-    it('should pass the searchState prop with data from the params and updated by getAreaFilterData call', async () => {
-      const initialSearchState = {
-        [SearchParams.SearchedIndicator]: 'testing',
-        [SearchParams.AreasSelected]: ['E40000007', 'E40000003'],
-      };
-
-      const updatedSearchState = {
-        ...initialSearchState,
-        [SearchParams.GroupTypeSelected]: 'england',
-        [SearchParams.GroupSelected]: areaCodeForEngland,
-      };
-
-      mockGetAreaFilterData.mockResolvedValue({
-        updatedSearchState,
-      });
-
-      mockGetSelectedAreasDataByAreaType.mockResolvedValue([
-        eastEnglandNHSRegion,
-        londonNHSRegion,
-      ]);
-
-      const page = await HomePage({
-        searchParams: generateSearchParams(initialSearchState),
-      });
-
-      expect(page.props.searchState).toEqual(updatedSearchState);
     });
   });
 });

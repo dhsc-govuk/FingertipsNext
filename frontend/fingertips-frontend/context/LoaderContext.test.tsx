@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { LoaderProvider, useLoadingState } from './LoaderContext';
 import userEvent from '@testing-library/user-event';
-import { SearchStateContext } from './SearchStateContext';
+import { SearchStateParams } from '@/lib/searchStateManager';
 
 const mockPath = 'some-mock-path';
 jest.mock('next/navigation', () => {
@@ -13,16 +13,10 @@ jest.mock('next/navigation', () => {
   };
 });
 
-const mockGetSearchState = jest.fn();
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: mockGetSearchState,
-  setSearchState: jest.fn(),
-};
-jest.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
+let mockSearchState: SearchStateParams = {};
+jest.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockSearchState,
+}));
 
 const TestComponent = () => {
   const { getIsLoading, setIsLoading } = useLoadingState();
@@ -37,7 +31,7 @@ const TestComponent = () => {
 
 describe('LoaderContext', () => {
   it('should have access to getIsLoading prop in the TestComponent', () => {
-    mockGetSearchState.mockReturnValue({});
+    mockSearchState = {};
 
     render(
       <LoaderProvider>

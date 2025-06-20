@@ -9,10 +9,10 @@ import { allAreaTypes } from '@/lib/areaFilterHelpers/areaType';
 import { AreaFilterData } from '../SelectAreasFilterPanel';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { useLoadingState } from '@/context/LoaderContext';
-import { useSearchState } from '@/context/SearchStateContext';
 import React from 'react';
 import { useMoreRowsWhenScrolling } from '@/components/hooks/useMoreRowsWhenScrolling';
 import { InViewTrigger } from '@/components/hooks/InViewTrigger';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
 interface SelectedAreasPanelProps {
   selectedAreasData?: Area[];
@@ -40,8 +40,7 @@ export function SelectedAreasPanel({
   const pathname = usePathname();
   const { replace } = useRouter();
   const { setIsLoading } = useLoadingState();
-  const { getSearchState } = useSearchState();
-  const searchState = getSearchState();
+  const searchState = useSearchStateParams();
 
   const searchStateManager = SearchStateManager.initialise(searchState);
 

@@ -41,7 +41,6 @@ export function ViewsContext({
 
   return (
     <ChartPageWrapper
-      searchState={searchState}
       areaFilterData={areaFilterData}
       selectedAreasData={selectedAreasData}
       selectedIndicatorsData={selectedIndicatorsData}

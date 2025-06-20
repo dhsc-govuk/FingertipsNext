@@ -6,7 +6,6 @@ import userEvent from '@testing-library/user-event';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { LoaderContext } from '@/context/LoaderContext';
-import { SearchStateContext } from '@/context/SearchStateContext';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -59,15 +58,14 @@ jest.mock('@/context/LoaderContext', () => {
   };
 });
 
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: jest.fn(),
-  setSearchState: jest.fn(),
+const searchedIndicator = 'test';
+
+let mockSearchState: SearchStateParams = {
+  [SearchParams.SearchedIndicator]: searchedIndicator,
 };
-jest.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
+jest.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockSearchState,
+}));
 
 const MOCK_DATA: IndicatorDocument[] = [
   {
@@ -95,12 +93,9 @@ const MOCK_DATA: IndicatorDocument[] = [
     hasInequalities: true,
   },
 ];
-const searchedIndicator = 'test';
-const state: SearchStateParams = {
-  [SearchParams.SearchedIndicator]: searchedIndicator,
-};
+
 const initialState: IndicatorSelectionState = {
-  searchState: JSON.stringify(state),
+  searchState: JSON.stringify(mockSearchState),
   indicatorsSelected: [],
   message: null,
 };
@@ -112,7 +107,6 @@ describe('Search Results Suite', () => {
         isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={initialState}
         searchResults={[]}
-        searchState={state}
       />
     );
 
@@ -138,7 +132,6 @@ describe('Search Results Suite', () => {
         isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={initialState}
         searchResults={LARGE_MOCK_DATA}
-        searchState={state}
       />
     );
     const title = screen.getByRole('heading', {
@@ -159,7 +152,7 @@ describe('Search Results Suite', () => {
         indicatorName: `Indicator ${index}`,
       })
     );
-    const stateWithInvalidPage: SearchStateParams = {
+    mockSearchState = {
       [SearchParams.SearchedIndicator]: searchedIndicator,
       [SearchParams.PageNumber]: '5',
     };
@@ -170,7 +163,6 @@ describe('Search Results Suite', () => {
         isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={initialState}
         searchResults={LARGE_MOCK_DATA}
-        searchState={stateWithInvalidPage}
       />
     );
     const title = screen.getByRole('heading', {
@@ -183,12 +175,15 @@ describe('Search Results Suite', () => {
   });
 
   it('should render the backLink', () => {
+    mockSearchState = {
+      [SearchParams.SearchedIndicator]: searchedIndicator,
+    };
+
     render(
       <SearchResults
         isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={initialState}
         searchResults={[]}
-        searchState={state}
       />
     );
 
@@ -207,7 +202,6 @@ describe('Search Results Suite', () => {
         isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={initialState}
         searchResults={[]}
-        searchState={state}
       />
     );
 
@@ -220,7 +214,6 @@ describe('Search Results Suite', () => {
         isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={initialState}
         searchResults={[]}
-        searchState={state}
       />
     );
 
@@ -233,7 +226,6 @@ describe('Search Results Suite', () => {
         isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={initialState}
         searchResults={[]}
-        searchState={state}
       />
     );
 
@@ -253,7 +245,6 @@ describe('Search Results Suite', () => {
         isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={errorState}
         searchResults={MOCK_DATA}
-        searchState={state}
       />
     );
 
@@ -279,7 +270,6 @@ describe('Search Results Suite', () => {
         isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={errorState}
         searchResults={MOCK_DATA}
-        searchState={state}
       />
     );
 

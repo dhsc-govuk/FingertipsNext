@@ -7,13 +7,13 @@ import { usePathname, useRouter } from 'next/navigation';
 import { HighlightText } from '@/components/atoms/HighlightText';
 import { FOCUSABLE } from '@govuk-react/constants';
 import { useLoadingState } from '@/context/LoaderContext';
-import { useSearchState } from '@/context/SearchStateContext';
 import {
   allAreaTypes,
   englandAreaType,
 } from '@/lib/areaFilterHelpers/areaType';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
 const StyleSearchSuggestionPanel = styled(UnorderedList)`
   display: flex;
@@ -60,8 +60,7 @@ export const AreaAutoCompleteSuggestionPanel = ({
   suggestedAreas,
 }: AreaAutoCompleteSuggestionPanelProps) => {
   const { setIsLoading } = useLoadingState();
-  const { getSearchState } = useSearchState();
-  const searchState = getSearchState();
+  const searchState = useSearchStateParams();
 
   const stateManager = SearchStateManager.initialise(searchState);
   const pathname = usePathname();

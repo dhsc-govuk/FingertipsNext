@@ -4,7 +4,7 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { SortOrderKeys } from '@/components/forms/IndicatorSort/indicatorSort.types';
 import { usePathname, useRouter } from 'next/navigation';
 import { useLoadingState } from '@/context/LoaderContext';
-import { useSearchState } from '@/context/SearchStateContext';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
 export const useIndicatorSort = (
   results: IndicatorDocument[],
@@ -13,8 +13,7 @@ export const useIndicatorSort = (
   const pathname = usePathname();
   const { replace } = useRouter();
   const { setIsLoading } = useLoadingState();
-  const { getSearchState } = useSearchState();
-  const searchState = getSearchState();
+  const searchState = useSearchStateParams();
   const stateManager = SearchStateManager.initialise(searchState);
 
   const sortOrderFromState = searchState?.[SearchParams.SearchedOrder];

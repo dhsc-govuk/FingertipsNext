@@ -4,7 +4,6 @@ import { render } from '@testing-library/react';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { LoaderContext } from '@/context/LoaderContext';
-import { SearchStateContext } from '@/context/SearchStateContext';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -25,15 +24,10 @@ jest.mock('@/context/LoaderContext', () => {
   };
 });
 
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: jest.fn(),
-  setSearchState: jest.fn(),
-};
-jest.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
+const mockSearchState: SearchStateParams = {};
+jest.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockSearchState,
+}));
 
 const mockOneIndicatorOneAreaView = jest.fn();
 jest.mock(

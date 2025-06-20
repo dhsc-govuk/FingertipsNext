@@ -1,6 +1,5 @@
 import { SearchResult } from '@/components/molecules/Result';
 import { useLoadingState } from '@/context/LoaderContext';
-import { useSearchState } from '@/context/SearchStateContext';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
   SearchParams,
@@ -24,6 +23,7 @@ import { GovukColours } from '@/lib/styleHelpers/colours';
 import { Arrow } from '@/components/atoms/Arrow';
 import { Direction } from '@/lib/common-types';
 import { RESULTS_PER_PAGE } from '@/components/pages/results';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
 const ResultLabelsContainer = styled.span({
   alignItems: 'center',
@@ -141,8 +141,8 @@ export function IndicatorSelectionForm({
   const pathname = usePathname();
   const { replace } = useRouter();
   const { setIsLoading } = useLoadingState();
-  const { getSearchState } = useSearchState();
-  const searchStateFromQueryString = getSearchState();
+
+  const searchStateFromQueryString = useSearchStateParams();
   const searchState = { ...searchStateFromQueryString };
   const availableIndicatorIds = searchResults.map(
     ({ indicatorID }) => indicatorID
