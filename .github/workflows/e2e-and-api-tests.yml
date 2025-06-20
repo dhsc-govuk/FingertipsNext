@@ -85,6 +85,17 @@ jobs:
       - name: Start Backend Docker services
         run: npm run start:backend-services
 
+      - name: Create .env file for API integration tests
+        run: |
+          echo "TRUST_CERT=localhost" >> .env
+          echo "DB_SERVER=localhost" >> .env
+          echo "DB_NAME=fingertips" >> .env
+          echo "DB_PASSWORD=${{ secrets.fingertips_e2e_db_password }}" > .env
+          echo "DB_USER=sa" >> .env
+          echo "UPLOAD_STORAGE_ACCOUNT_CONNECTION_STRING=UseDevelopmentStorage=true" >> .env
+          echo "UPLOAD_STORAGE_CONTAINER_NAME=fingertips-upload-container" >> .env
+        working-directory: ${{ env.api-directory }}/DHSC.FingertipsNext.Api.IntegrationTests
+
       - name: Run API Integration Tests
         if: ${{ !inputs.update_screenshots }}
         run: dotnet test --filter FullyQualifiedName~IntegrationTests
