@@ -23,11 +23,11 @@ export const coreTestJourneys: TestParameters[] = [
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ONE_AREA,
     searchMode: SearchMode.BOTH_SUBJECT_AND_AREA, // therefore no subject search term or areaFiltersToSelect required
-    subjectSearchTerm: 'smokers',
+    subjectSearchTerm: 'Emergency',
     indicatorsToSelect: [
       {
-        indicatorID: '93085',
-        knownTrend: 'Decreasing and getting better',
+        indicatorID: '41101',
+        knownTrend: 'No recent trend data available',
       },
     ],
     checkExports: true,
@@ -54,7 +54,7 @@ export const coreTestJourneys: TestParameters[] = [
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.THREE_PLUS_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: '91894', // tests searching for a specific indicatorID
+    subjectSearchTerm: '91894', // tests searching for a single specific indicatorID
     indicatorsToSelect: [
       {
         indicatorID: '91894',
@@ -64,7 +64,7 @@ export const coreTestJourneys: TestParameters[] = [
     areaFiltersToSelect: {
       areaType: 'counties-and-unitary-authorities',
       groupType: 'combined-authorities',
-      group: 'Greater Manchester Combined Authority', // if not england then this group is also selected in the benchmarking drop down on the relevant views
+      group: 'Greater Manchester Combined Authority',
     },
   },
   {
@@ -88,7 +88,7 @@ export const coreTestJourneys: TestParameters[] = [
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ENGLAND_AREA,
     searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: '22401', // tests searching for a specific indicatorID
+    subjectSearchTerm: '22401', // tests searching for a single specific indicatorID
     indicatorsToSelect: [
       {
         indicatorID: '22401',
@@ -141,7 +141,7 @@ export const coreTestJourneys: TestParameters[] = [
     areaFiltersToSelect: {
       areaType: 'counties-and-unitary-authorities',
       groupType: 'regions',
-      group: 'North West Region', // if not england then this group is also selected in the benchmarking drop down on the relevant views
+      group: 'North West Region',
     },
   },
   {
@@ -171,7 +171,7 @@ export const coreTestJourneys: TestParameters[] = [
       },
       {
         indicatorID: '22401',
-        knownTrend: 'No recent trend data available', // for all areas in a group, this indicators trend is not available at that geography level
+        knownTrend: 'No recent trend data available',
       },
     ],
     areaFiltersToSelect: {
@@ -206,7 +206,7 @@ export const coreTestJourneys: TestParameters[] = [
     indicatorMode: IndicatorMode.THREE_PLUS_INDICATORS,
     areaMode: AreaMode.ONE_AREA,
     searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'hospital', // a different subject search term is required that returns enough search results allowing for three indicators to be selected
+    subjectSearchTerm: 'hospital',
     indicatorsToSelect: [
       {
         indicatorID: '93474',
@@ -231,7 +231,7 @@ export const coreTestJourneys: TestParameters[] = [
     indicatorMode: IndicatorMode.THREE_PLUS_INDICATORS,
     areaMode: AreaMode.TWO_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'hospital', // a different subject search term is required that returns enough search results allowing for three indicators to be selected
+    subjectSearchTerm: 'hospital',
     indicatorsToSelect: [
       {
         indicatorID: '41101',
@@ -257,7 +257,7 @@ export const coreTestJourneys: TestParameters[] = [
     indicatorMode: IndicatorMode.THREE_PLUS_INDICATORS,
     areaMode: AreaMode.THREE_PLUS_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'hospital', // a different subject search term is required that returns enough search results allowing for three indicators to be selected
+    subjectSearchTerm: 'hospital',
     indicatorsToSelect: [
       {
         indicatorID: '41101',
@@ -282,7 +282,7 @@ export const coreTestJourneys: TestParameters[] = [
     indicatorMode: IndicatorMode.THREE_PLUS_INDICATORS,
     areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
     searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'hospital', // a different subject search term is required that returns enough search results allowing for three indicators to be selected
+    subjectSearchTerm: 'hospital',
     indicatorsToSelect: [
       {
         indicatorID: '41101',
@@ -307,11 +307,11 @@ export const coreTestJourneys: TestParameters[] = [
     indicatorMode: IndicatorMode.THREE_PLUS_INDICATORS,
     areaMode: AreaMode.ENGLAND_AREA,
     searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'hospital', // a different subject search term is required that returns enough search results allowing for three indicators to be selected
+    subjectSearchTerm: '93085 22401 91894', // tests searching for multiple specific indicatorIDs
     indicatorsToSelect: [
       {
-        indicatorID: '41101',
-        knownTrend: 'No recent trend data available',
+        indicatorID: '93085',
+        knownTrend: 'Decreasing and getting better',
       },
       {
         indicatorID: '22401',
