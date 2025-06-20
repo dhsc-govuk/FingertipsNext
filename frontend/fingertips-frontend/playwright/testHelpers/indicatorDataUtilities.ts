@@ -12,9 +12,26 @@ const indicatorsUsedInPOC = (indicator: RawIndicatorDocument): boolean =>
 const indicatorsMatchingSearchTerm = (
   indicator: RawIndicatorDocument,
   normalizedSearchTerm: string
-): boolean =>
-  indicator.indicatorName.toLowerCase().includes(normalizedSearchTerm) ||
-  indicator.indicatorDefinition.toLowerCase().includes(normalizedSearchTerm);
+): boolean => {
+  // Check if searched for text is a space-separated list of numbers
+  const spaceSeparatedPattern = /^\d+(\s+\d+)+$/;
+
+  if (spaceSeparatedPattern.test(normalizedSearchTerm)) {
+    // Parse indicator IDs and match exactly
+    const indicatorIds = normalizedSearchTerm
+      .split(/\s+/)
+      .filter((id) => id.length > 0);
+
+    return indicatorIds.includes(indicator.indicatorID.toString());
+  }
+
+  const lowerSearchTerm = normalizedSearchTerm.toLowerCase();
+  return (
+    indicator.indicatorID.toString().includes(lowerSearchTerm) ||
+    indicator.indicatorName.toLowerCase().trim().includes(lowerSearchTerm) ||
+    indicator.indicatorDefinition.toLowerCase().trim().includes(lowerSearchTerm)
+  );
+};
 
 const indicatorMatchingIndicatorID = (
   indicator: RawIndicatorDocument,
@@ -43,13 +60,12 @@ export function getAllIndicatorsForSearchTerm(
   searchTerm: string
 ): SimpleIndicatorDocument[] {
   if (!searchTerm) return [];
-
-  const lowerCasedSearchTerm = searchTerm.toLowerCase();
+  const trimmedSearchTerm = searchTerm.trim();
   return indicators
     .filter(
       (indicator) =>
         indicatorsUsedInPOC(indicator) &&
-        indicatorsMatchingSearchTerm(indicator, lowerCasedSearchTerm)
+        indicatorsMatchingSearchTerm(indicator, trimmedSearchTerm)
     )
     .map((indicator) => ({
       indicatorName: indicator.indicatorName,
