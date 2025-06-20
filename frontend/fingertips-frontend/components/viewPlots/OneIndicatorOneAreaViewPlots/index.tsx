@@ -3,11 +3,8 @@
 import { determineAreasForBenchmarking } from '@/lib/chartHelpers/chartHelpers';
 import { SearchParams } from '@/lib/searchStateManager';
 import { OneIndicatorViewPlotProps } from '../ViewPlot.types';
-import {
-  BenchmarkComparisonMethod,
-  IndicatorPolarity,
-} from '@/generated-sources/ft-api-client';
-import { Inequalities } from '@/components/organisms/Inequalities';
+import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client';
+import { Inequalities } from '@/components/charts/Inequalities/Inequalities';
 import { BenchmarkSelectArea } from '@/components/molecules/BenchmarkSelectArea';
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 import { LineChartAndTableOverTime } from '@/components/charts/LineChartOverTime/LineChartAndTableOverTime';
@@ -23,7 +20,6 @@ export function OneIndicatorOneAreaViewPlots({
     [SearchParams.AreasSelected]: areasSelected,
   } = searchState;
 
-  const polarity = indicatorData.polarity as IndicatorPolarity;
   const benchmarkComparisonMethod =
     indicatorData.benchmarkMethod as BenchmarkComparisonMethod;
 
@@ -49,7 +45,6 @@ export function OneIndicatorOneAreaViewPlots({
         healthIndicatorData={healthIndicatorData}
         indicatorMetadata={indicatorMetadata}
         benchmarkComparisonMethod={benchmarkComparisonMethod}
-        polarity={polarity}
         dataSource={indicatorMetadata?.dataSource}
       />
     </section>

@@ -2,6 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { useMemo } from 'react';
 
+type UseApiGetIndicatorMetaDataResult = Readonly<{
+  indicatorMetaData: IndicatorDocument | undefined;
+  indicatorMetaDataLoading: boolean;
+  indicatorMetaDataError: unknown;
+}>;
+
 export const useApiGetIndicatorMetaData = (indicatorID: string) => {
   const query = useQuery<IndicatorDocument>({
     // all indicator metadata comes from AISearch not from the .NET API
@@ -16,7 +22,7 @@ export const useApiGetIndicatorMetaData = (indicatorID: string) => {
     enabled: false,
   });
 
-  return useMemo(() => {
+  return useMemo<UseApiGetIndicatorMetaDataResult>(() => {
     return {
       indicatorMetaData: query.data,
       indicatorMetaDataLoading: query.isLoading,

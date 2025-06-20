@@ -2,6 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { Area } from '@/generated-sources/ft-api-client';
 
+type UseApiAvailableAreasResult = Readonly<{
+  availableAreas: Area[] | undefined;
+  availableAreasLoading: boolean;
+  availableAreasError: unknown;
+}>;
+
 export const useApiAvailableAreas = () => {
   const query = useQuery<Area[]>({
     // in future work we should alter the area filtering to also query
@@ -13,7 +19,7 @@ export const useApiAvailableAreas = () => {
     enabled: false,
   });
 
-  return useMemo(() => {
+  return useMemo<UseApiAvailableAreasResult>(() => {
     return {
       availableAreas: query.data,
       availableAreasLoading: query.isLoading,

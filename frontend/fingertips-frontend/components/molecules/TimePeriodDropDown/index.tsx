@@ -1,8 +1,8 @@
 import { StyledFilterSelect } from '@/components/styles/StyledFilterSelect';
-import { useLoadingState } from '@/context/LoaderContext';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
+import { ChangeEvent } from 'react';
 
 interface TimePeriodDropDownProps {
   years: (number | string)[];
@@ -12,15 +12,12 @@ export function TimePeriodDropDown({
   years,
 }: Readonly<TimePeriodDropDownProps>) {
   const pathname = usePathname();
-  const { replace } = useRouter();
-  const { setIsLoading } = useLoadingState();
 
   const searchState = useSearchStateParams();
   const searchStateManager = SearchStateManager.initialise(searchState);
 
-  const setSelectedYear = (selectedYear: string) => {
-    setIsLoading(true);
-
+  const onSelectYear = (e: ChangeEvent<HTMLSelectElement>) => {
+    const selectedYear = e.target.value;
     searchStateManager.removeParamValueFromState(
       SearchParams.InequalityBarChartTypeSelected
     );
@@ -32,7 +29,9 @@ export function TimePeriodDropDown({
       selectedYear
     );
 
-    replace(searchStateManager.generatePath(pathname), { scroll: false });
+    const newUrl = searchStateManager.generatePath(pathname);
+
+    window.history.pushState(null, '', newUrl);
   };
 
   const { [SearchParams.InequalityYearSelected]: selectedYear } =
@@ -46,9 +45,7 @@ export function TimePeriodDropDown({
         label="Select a time period"
         input={{
           value: selectedYear,
-          onChange: (e) => {
-            setSelectedYear(e.target.value);
-          },
+          onChange: onSelectYear,
         }}
         style={{ marginBottom: '1.5em' }}
       >

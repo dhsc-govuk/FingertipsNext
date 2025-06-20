@@ -56,21 +56,23 @@ export default async function OneIndicatorOneAreaView({
 
   let indicatorData: IndicatorWithHealthDataForArea | undefined;
   try {
+    const requestOptions = {
+      indicatorId: Number(indicatorSelected[0]),
+      areaCodes: areaCodesToRequest,
+      inequalities: [
+        GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
+        GetHealthDataForAnIndicatorInequalitiesEnum.Deprivation,
+      ],
+      areaType: areaTypeToUse,
+      benchmarkRefType,
+      ancestorCode:
+        benchmarkRefType === BenchmarkReferenceType.SubNational
+          ? selectedGroupCode
+          : undefined,
+    };
+
     indicatorData = await indicatorApi.getHealthDataForAnIndicator(
-      {
-        indicatorId: Number(indicatorSelected[0]),
-        areaCodes: areaCodesToRequest,
-        inequalities: [
-          GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
-          GetHealthDataForAnIndicatorInequalitiesEnum.Deprivation,
-        ],
-        areaType: areaTypeToUse,
-        benchmarkRefType,
-        ancestorCode:
-          benchmarkRefType === BenchmarkReferenceType.SubNational
-            ? selectedGroupCode
-            : undefined,
-      },
+      requestOptions,
       API_CACHE_CONFIG
     );
   } catch (error) {

@@ -1,0 +1,19 @@
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
+import { useInequalitiesRequestParams } from '@/components/charts/Inequalities/hooks/useInequalitiesRequestParams';
+import { useApiGetHealthDataForAnIndicator } from '@/components/charts/hooks/useApiGetHealthDataForAnIndicator';
+import { inequalitiesData } from '@/components/charts/Inequalities/helpers/inequalitiesData';
+import { useMemo } from 'react';
+import { useIndicatorMetaData } from '@/components/charts/hooks/useIndicatorMetaData';
+
+export const useInequalitiesData = () => {
+  const searchState = useSearchStateParams();
+  const { indicatorMetaData } = useIndicatorMetaData();
+  const requestParams = useInequalitiesRequestParams();
+  const { healthData } = useApiGetHealthDataForAnIndicator(requestParams);
+
+  return useMemo(() => {
+    const data = inequalitiesData(searchState, indicatorMetaData, healthData);
+    if (!data || !healthData || !indicatorMetaData) return null;
+    return data;
+  }, [healthData, indicatorMetaData, searchState]);
+};
