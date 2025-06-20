@@ -11,19 +11,19 @@ import { CharacterCount } from '@/components/atoms/CharacterCount';
 
 const govukErrorBorderWidth = '2px';
 
-const StyledSearchBox = styled(SearchBox)(
+export const StyledSearchBox = styled(SearchBox)(
   spacing.withWhiteSpace({ marginBottom: 1 })
 );
 
-const StyledFormGroup = styled(FormGroup)(
+export const StyledFormGroup = styled(FormGroup)(
   spacing.withWhiteSpace({ marginBottom: 6 })
 );
 
-const StyledTitleParagraph = styled(styled(Paragraph)`
+export const StyledTitleParagraph = styled(styled(Paragraph)`
   padding-bottom: 2px;
 `)(spacing.withWhiteSpace({ marginBottom: 0 }));
 
-const StyledHintParagraph = styled(styled(Paragraph)`
+export const StyledHintParagraph = styled(styled(Paragraph)`
   color: ${GovukColours.DarkGrey};
 `)(spacing.withWhiteSpace({ marginBottom: 3 }));
 

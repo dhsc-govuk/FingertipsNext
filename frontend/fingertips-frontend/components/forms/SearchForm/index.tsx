@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, H3 } from 'govuk-react';
+import { Button, ErrorText, H3, SearchBox } from 'govuk-react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { AreaAutoCompleteInputField } from '@/components/molecules/AreaAutoCompleteInputField';
 import { SearchParams } from '@/lib/searchStateManager';
@@ -14,16 +14,28 @@ import {
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
-import React, { useEffect } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { ArrowExpander } from '@/components/molecules/ArrowExpander';
 import { InputField } from '@/components/atoms/InputField';
 import { INDICATOR_SEARCH_MAX_CHARACTERS } from '@/lib/search/indicatorSearchService';
+import { StyledFormGroup, StyledHintParagraph, StyledSearchBox, StyledTitleParagraph } from '../IndicatorSearchForm';
+import styled from 'styled-components';
 
 interface SearchFormProps {
   formState: SearchFormState;
   selectedAreasData?: Area[];
   areaFilterData?: AreaFilterData;
 }
+
+const StyledSearchBoxWithBorder = styled(SearchBox)({
+  marginBottom: '30px',
+  border: `1.5px solid ${GovukColours.Black}`,
+})
+
+const StyledInlineSearchBox = styled(SearchBox)({
+  // display: 'flex',
+  // alignItems: 'stretch',
+})
 
 export const SearchForm = ({
   formState,
@@ -33,7 +45,7 @@ export const SearchForm = ({
   const { setIsLoading } = useLoadingState();
   const { getSearchState } = useSearchState();
   const searchState = getSearchState();
-
+  
   useEffect(() => {
     if (formState.message) {
       setIsLoading(false);
@@ -57,33 +69,68 @@ export const SearchForm = ({
         defaultValue={JSON.stringify(searchState)}
         hidden
       />
-      <InputField
-        characterLimit={INDICATOR_SEARCH_MAX_CHARACTERS}
-        thresholdPercentage={75}
-        onKeyDown={(e) => {
-          if (e.code === 'Enter') {
-            e.preventDefault();
-          }
-        }}
-        input={{
-          id: 'indicator',
-          name: 'indicator',
-          defaultValue: formState.indicator ?? '',
-        }}
-        hint={
-          <div style={{ color: GovukColours.DarkGrey }}>
-            For example, smoking, diabetes prevalence, or a specific indicator
-            ID
-          </div>
-        }
-        meta={{
-          touched: !!formState.message,
-          error: 'Enter a subject you want to search for',
-        }}
-        data-testid="indicator-search-form-input"
-      >
-        Search by subject
-      </InputField>
+      <StyledTitleParagraph>Search by subject</StyledTitleParagraph>
+      <StyledHintParagraph>
+        For example, smoking, diabetes prevalence, or a specific indicator ID
+      </StyledHintParagraph>
+      <StyledSearchBoxWithBorder>
+        {SearchBox.Input && (
+          <SearchBox.Input
+            characterLimit={INDICATOR_SEARCH_MAX_CHARACTERS}
+            thresholdPercentage={75}
+            input={{
+              id: 'indicator',
+              name: 'indicator',
+              defaultValue: formState.indicator ?? '',
+            }}
+            defaultValue={formState.indicator ?? ''}
+            meta={{
+              touched: !!formState.message,
+              error: 'Enter a subject you want to search for',
+            }}
+            data-testid="indicator-search-form-input"
+          />
+        )}
+        {SearchBox.Button && (
+          <SearchBox.Button
+            onClick={() => setIsLoading(true)}
+            type="submit"
+            data-testid="indicator-search-form-submit"
+          />
+        )}
+      </StyledSearchBoxWithBorder>
+      {/*<StyledInlineSearchBox>*/}
+      {/*<InputField*/}
+      {/*  characterLimit={INDICATOR_SEARCH_MAX_CHARACTERS}*/}
+      {/*  thresholdPercentage={75}*/}
+      {/*  input={{*/}
+      {/*    id: 'indicator',*/}
+      {/*    name: 'indicator',*/}
+      {/*    defaultValue: formState.indicator ?? '',*/}
+      {/*  }}*/}
+      {/*  hint={*/}
+      {/*    <div style={{ color: GovukColours.DarkGrey }}>*/}
+      {/*      For example, smoking, diabetes prevalence, or a specific indicator*/}
+      {/*      ID*/}
+      {/*    </div>*/}
+      {/*  }*/}
+      {/*  meta={{*/}
+      {/*    touched: !!formState.message,*/}
+      {/*    error: 'Enter a subject you want to search for',*/}
+      {/*  }}*/}
+      {/*  data-testid="indicator-search-form-input"*/}
+      {/*>*/}
+      {/*  Search by subject*/}
+      {/*</InputField>*/}
+      {/*  {SearchBox.Button && (*/}
+      {/*    <SearchBox.Button*/}
+      {/*      onClick={() => setIsLoading(true)}*/}
+      {/*      type="submit"*/}
+      {/*      data-testid="indicator-search-form-submit"*/}
+      {/*    />*/}
+      {/*  )}*/}
+      {/*</StyledInlineSearchBox>*/}
+      
       <AreaAutoCompleteInputField
         key={`area-auto-complete-${JSON.stringify(searchState)}`}
         inputFieldErrorStatus={!!formState.message}
