@@ -520,7 +520,7 @@ public class IndicatorServiceTests
             }
         );
 
-        var femaleResult2023 = areaResults.HealthData.First(h => h.Year == 2023 && h.Sex.Value == "Female"); 
+        var femaleResult2023 = areaResults.HealthData.First(h => h.Year == 2023 && h.Sex.Value == "Female");
         femaleResult2023.Sex.ShouldBeEquivalentTo(
             new Sex { Value = "Female", IsAggregate = false }
         );
