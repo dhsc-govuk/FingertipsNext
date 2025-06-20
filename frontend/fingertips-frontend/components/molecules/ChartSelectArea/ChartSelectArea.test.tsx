@@ -114,4 +114,32 @@ describe('ChartSelectArea', () => {
       scroll: false,
     });
   });
+
+  it.each([
+    SearchParams.InequalityLineChartAreaSelected,
+    SearchParams.InequalityBarChartAreaSelected,
+  ])(
+    'should alter the browser history state when param type is %s',
+    async (chartAreaSelectedKey) => {
+      const spy = jest.spyOn(window.history, 'pushState');
+
+      render(
+        <ChartSelectArea
+          availableAreas={mockAvailableAreas}
+          chartAreaSelectedKey={chartAreaSelectedKey}
+        />
+      );
+
+      await userEvent.selectOptions(
+        screen.getByRole('combobox', { name: areaDropDownLabel }),
+        mockAvailableAreas[2].code
+      );
+
+      expect(spy).toHaveBeenCalledWith(
+        null,
+        '',
+        `some-mock-path?${chartAreaSelectedKey}=${mockAvailableAreas[2].code}`
+      );
+    }
+  );
 });
