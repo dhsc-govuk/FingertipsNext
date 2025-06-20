@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 
@@ -18,6 +17,5 @@ public class IndicatorDimensionModel
 
     public string? Polarity { get; set; }
 
-    [NotMapped]
     public int LatestYear { get; set; }
 }

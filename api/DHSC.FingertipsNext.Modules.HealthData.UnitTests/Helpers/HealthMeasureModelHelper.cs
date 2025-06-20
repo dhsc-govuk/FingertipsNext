@@ -5,12 +5,11 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 internal sealed class HealthMeasureModelHelper(
     int key = 1,
     short year = 2025,
+    bool isAggregate = true,
     double? count = 1.0,
     double? value = 1.0,
     double? lowerCi = 1.0,
-    double? upperCi = 1.0,
-    string batchId = "12345_20250101120000",
-    bool isPublished = true
+    double? upperCi = 1.0
 )
 {
     private AreaDimensionModel? _areaDimension;
@@ -239,7 +238,6 @@ internal sealed class HealthMeasureModelHelper(
         var sexDimension = _sexDimension ?? DefaultSexDimension();
         var trendDimension = _trendDimension ?? DefaultTrendDimension();
         var deprivationDimension = _deprivationDimension ?? DefaultDeprivationDimension();
-        var publishedAt = isPublished ? DateTime.UtcNow : DateTime.UtcNow.AddYears(1);
 
         return new HealthMeasureModel
         {
@@ -264,11 +262,7 @@ internal sealed class HealthMeasureModelHelper(
             SexDimension = sexDimension,
             TrendDimension = trendDimension,
             DeprivationDimension = deprivationDimension,
-            IsAgeAggregatedOrSingle = ageDimension.IsAggregate,
-            IsSexAggregatedOrSingle = sexDimension.IsAggregate,
-            IsDeprivationAggregatedOrSingle = deprivationDimension.IsAggregate,
-            PublishedAt = publishedAt,
-            BatchId = batchId
+            IsAggregate = isAggregate
         };
     }
 }
