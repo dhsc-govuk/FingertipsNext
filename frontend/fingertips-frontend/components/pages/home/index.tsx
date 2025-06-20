@@ -23,6 +23,7 @@ import { spacing } from '@govuk-react/lib';
 import { Area } from '@/generated-sources/ft-api-client';
 import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
 import { useSearchState } from '@/context/SearchStateContext';
+import { siteTitle } from '@/lib/constants';
 
 const ZeroMarginParagraph = styled(Paragraph)(
   spacing.withWhiteSpace({ marginBottom: 0 })
@@ -77,7 +78,7 @@ export const Home = ({
           }}
         />
       )}
-      <H2 data-testid="home-page-title">Find public health data</H2>
+      <H2>{siteTitle}</H2>
       <Paragraph>
         This service provides easy access to a comprehensive collection of
         public health data for England. It can be used to monitor trends,
@@ -86,7 +87,7 @@ export const Home = ({
       </Paragraph>
 
       <InsetText>This service was previously known as Fingertips</InsetText>
-      <br />
+
       <ZeroMarginParagraph>Contents</ZeroMarginParagraph>
       <UnorderedList listStyleType='"— "'>
         <ListItem>
