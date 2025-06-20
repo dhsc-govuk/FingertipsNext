@@ -28,7 +28,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
     /// <returns>IndicatorDimensionModel containing relevant indicator metadata</returns>
     public async Task<IndicatorDimensionModel?> GetIndicatorDimensionAsync(int indicatorId, string[] areaCodes)
     {
-        var model = await _dbContext.PublishedHealthMeasure
+        var model = await _dbContext.HealthMeasure
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
             .Where(HealthDataPredicates.IsInAreaCodes(areaCodes))
             .Where(HealthDataPredicates.IsNotEnglandWhenMultipleRequested(areaCodes))
@@ -49,7 +49,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         if (model != null) return model;
 
         // Default to the latest year for all indicator data if none of the requested areas have data
-        return await _dbContext.PublishedHealthMeasure
+        return await _dbContext.HealthMeasure
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
             .OrderByDescending(healthMeasure => healthMeasure.Year)
             .Include(healthMeasure => healthMeasure.IndicatorDimension)
@@ -73,7 +73,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         var excludeDisaggregatedAgeValues = !inequalities.Contains(AGE);
         var excludeDisaggregatedDeprivationValues = !inequalities.Contains(DEPRIVATION);
 
-        var healthMeasures = await _dbContext.PublishedHealthMeasure
+        return await _dbContext.HealthMeasure
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
             .Where(HealthDataPredicates.IsInAreaCodes(areaCodes))
             .Where(healthMeasure => years.Length == 0 || EF.Constant(years).Contains(healthMeasure.Year))
@@ -92,18 +92,63 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .Include(healthMeasure => healthMeasure.SexDimension)
             .Include(healthMeasure => healthMeasure.IndicatorDimension)
             .Include(healthMeasure => healthMeasure.DeprivationDimension)
-            .Include(healthMeasure => healthMeasure.TrendDimension)
+            .Select(healthMeasure => new HealthMeasureModel
+            {
+                Year = healthMeasure.Year,
+                PeriodDimension = new PeriodDimensionModel
+                {
+                    Period = healthMeasure.PeriodDimension.Period
+                },
+                FromDateDimension = new DateDimensionModel
+                {
+                    Date = healthMeasure.FromDateDimension.Date
+                },
+                ToDateDimension = new DateDimensionModel
+                {
+                    Date = healthMeasure.ToDateDimension.Date
+                },
+                Value = healthMeasure.Value,
+                Count = healthMeasure.Count,
+                LowerCi = healthMeasure.LowerCi,
+                UpperCi = healthMeasure.UpperCi,
+                AgeDimension = new AgeDimensionModel
+                {
+                    Name = healthMeasure.AgeDimension.Name,
+                    HasValue = healthMeasure.AgeDimension.HasValue,
+                    IsAggregate = healthMeasure.IsAgeAggregatedOrSingle
+                },
+                SexDimension = new SexDimensionModel
+                {
+                    Name = healthMeasure.SexDimension.Name,
+                    HasValue = healthMeasure.SexDimension.HasValue,
+                    IsAggregate = healthMeasure.IsSexAggregatedOrSingle
+                },
+                IndicatorDimension = new IndicatorDimensionModel
+                {
+                    Name = healthMeasure.IndicatorDimension.Name
+                },
+                AreaDimension = new AreaDimensionModel
+                {
+                    Code = healthMeasure.AreaDimension.Code,
+                    Name = healthMeasure.AreaDimension.Name
+                },
+                TrendDimension = healthMeasure.TrendDimension == null ? null : new TrendDimensionModel
+                {
+                    Name = healthMeasure.TrendDimension.Name
+                },
+                DeprivationDimension = new DeprivationDimensionModel
+                {
+                    Name = healthMeasure.DeprivationDimension.Name,
+                    Type = healthMeasure.DeprivationDimension.Type,
+                    Sequence = healthMeasure.DeprivationDimension.Sequence,
+                    HasValue = healthMeasure.DeprivationDimension.HasValue,
+                    IsAggregate = healthMeasure.IsDeprivationAggregatedOrSingle
+                },
+                IsAggregate = healthMeasure.IsAgeAggregatedOrSingle && healthMeasure.IsSexAggregatedOrSingle &&
+                              healthMeasure.IsDeprivationAggregatedOrSingle
+            })
             .AsNoTracking()
             .ToListAsync();
-
-        foreach (var healthMeasure in healthMeasures)
-        {
-            healthMeasure.AgeDimension.IsAggregate = healthMeasure.IsAgeAggregatedOrSingle;
-            healthMeasure.SexDimension.IsAggregate = healthMeasure.IsSexAggregatedOrSingle;
-            healthMeasure.DeprivationDimension.IsAggregate = healthMeasure.IsDeprivationAggregatedOrSingle;
-        }
-
-        return healthMeasures;
     }
 
     public async Task<IEnumerable<AreaDimensionModel>> GetAreasAsync(string[] areaCodes)

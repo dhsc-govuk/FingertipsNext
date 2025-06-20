@@ -41,7 +41,6 @@ BEGIN
         RequestedIndicators ri
     ON
         hm.IndicatorKey = ri.IndicatorKey 
-    WHERE hm.PublishedAt <= GETUTCDATE()
     GROUP BY
         hm.IndicatorKey
     ),
@@ -68,7 +67,6 @@ BEGIN
 	        --- This ensures we are only dealing with Aggregate data
 	        hm.IsSexAggregatedOrSingle=1 AND hm.IsAgeAggregatedOrSingle=1 AND hm.IsDeprivationAggregatedOrSingle=1
 	    )
-    AND hm.PublishedAt <= GETUTCDATE()
     ), 
     ComparisonAncestor AS (
     SELECT
@@ -93,7 +91,6 @@ BEGIN
 	        --- This ensures we are only dealing with Aggregate data
 	        hm.IsSexAggregatedOrSingle=1 AND hm.IsAgeAggregatedOrSingle=1 AND hm.IsDeprivationAggregatedOrSingle=1
 	    )
-    AND hm.PublishedAt <= GETUTCDATE()
     ), 
     EnglandValue AS (
     SELECT
@@ -118,7 +115,6 @@ BEGIN
 	        --- This ensures we are only dealing with Aggregate data
 	        hm.IsSexAggregatedOrSingle=1 AND hm.IsAgeAggregatedOrSingle=1 AND hm.IsDeprivationAggregatedOrSingle=1
 	    )
-    AND hm.PublishedAt <= GETUTCDATE()
     ), 
 	--- This finds ALL data points in England of the same areaType which are aggregated (not inequalities) data points
 	HealthData AS (
@@ -163,7 +159,6 @@ BEGIN
 		--- This ensures we are only dealing with Aggregate data
 	        hm.IsSexAggregatedOrSingle=1 AND hm.IsAgeAggregatedOrSingle=1 AND hm.IsDeprivationAggregatedOrSingle=1
 	    )
-        AND hm.PublishedAt <= GETUTCDATE()
     ),
     --- Calculate Quartiles
     QuartileData AS ( 
