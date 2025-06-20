@@ -18,7 +18,7 @@ export function FTHeader({ chartPage = false }) {
       <TopNav
         serviceTitle={
           <TopNav.NavLink href="/">
-            <ServiceTitle>Find public health data</ServiceTitle>
+            <ServiceTitle>{ siteTitle }</ServiceTitle>
           </TopNav.NavLink>
         }
       />
