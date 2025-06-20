@@ -6,7 +6,6 @@ import {
   HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
 import { mockHealthData } from '@/mock/data/healthdata';
-import '@testing-library/jest-dom';
 import { AreaDocument } from '@/lib/search/searchTypes';
 import { disaggregatedAge, femaleSex, noDeprivation } from '@/lib/mocks';
 import { LoaderContext } from '@/context/LoaderContext';
