@@ -18,9 +18,7 @@ CREATE TABLE [dbo].[HealthMeasure](
 	[IsDeprivationAggregatedOrSingle] bit NULL,
 	[FromDateKey] [int] NULL,
 	[ToDateKey] [int] NULL,
-	[PeriodKey] [tinyint] NULL,
-	[PublishedAt] [datetime2] NOT NULL,
-	[BatchId] [nvarchar](50) NOT NULL          
+	[PeriodKey] [tinyint] NULL           
  CONSTRAINT [PK_HealthMeasure] PRIMARY KEY CLUSTERED
 (
 	[HealthMeasureKey] ASC

@@ -60,7 +60,7 @@ public class HealthDataMapperTests
             IsAggregate = false
         };
 
-        var healthMeasure = new HealthMeasureModelHelper(year: 2007)
+        var healthMeasure = new HealthMeasureModelHelper(year: 2007, isAggregate: false)
             .WithAgeDimension(new AgeDimensionModel
             {
                 Name = "25-31",

@@ -5,9 +5,9 @@ namespace TrendAnalysisApp.Repository;
 
 public class HealthMeasureDbContext : DbContext
 {
-    public HealthMeasureDbContext() { }
+    public HealthMeasureDbContext() {}
 
-    public HealthMeasureDbContext(DbContextOptions options) : base(options) { }
+    public HealthMeasureDbContext(DbContextOptions options) : base(options) {}
 
     public DbSet<HealthMeasureModel> HealthMeasure { get; set; }
     public DbSet<AreaDimensionModel> AreaDimension { get; set; }

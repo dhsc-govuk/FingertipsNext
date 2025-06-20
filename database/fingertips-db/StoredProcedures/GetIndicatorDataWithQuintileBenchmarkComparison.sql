@@ -93,7 +93,6 @@ HealthData AS (
 				FROM @RequestedYears
 			)
 		)
-		AND hm.PublishedAt <= GETUTCDATE()
 ),
 HealthDataNTileGroupCount AS (
 	SELECT Year,
