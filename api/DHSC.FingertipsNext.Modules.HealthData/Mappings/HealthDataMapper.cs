@@ -101,7 +101,7 @@ public class HealthDataMapper : IHealthDataMapper
                 Sequence = source.DeprivationDimensionSequence,
                 HasValue = source.DeprivationDimensionHasValue,
                 IsAggregate = source.DeprivationDimensionIsAggregate,
-            })
+            }),
         };
     }
 

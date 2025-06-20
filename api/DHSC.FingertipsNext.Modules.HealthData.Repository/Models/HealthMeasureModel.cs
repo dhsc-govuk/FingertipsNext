@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 
@@ -72,12 +71,7 @@ public class HealthMeasureModel
 
     public bool IsDeprivationAggregatedOrSingle { get; set; } = true;
 
-    [NotMapped]
-    public bool IsAggregate => IsAgeAggregatedOrSingle && IsSexAggregatedOrSingle && IsDeprivationAggregatedOrSingle;
-
-    public required DateTime PublishedAt { get; set; }
-
-    public required string BatchId { get; set; }
+    public bool IsAggregate { get; set; }
 
     [NotMapped]
     public BenchmarkComparisonModel? BenchmarkComparison { get; set; }

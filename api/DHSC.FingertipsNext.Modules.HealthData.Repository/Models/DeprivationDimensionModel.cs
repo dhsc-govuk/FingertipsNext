@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 
@@ -19,6 +18,5 @@ public class DeprivationDimensionModel
 
     public byte Sequence { get; set; }
 
-    [NotMapped]
     public bool IsAggregate { get; set; }
 }

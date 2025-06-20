@@ -206,7 +206,8 @@ public class IndicatorServiceTests
         var healthMeasure1 = new HealthMeasureModelHelper(
             year: 2023,
             lowerCi: lowerCi,
-            upperCi: upperCi
+            upperCi: upperCi,
+            isAggregate: true
         )
             .WithAreaDimension(expectedAreaCode, expectedAreaName)
             .Build();
@@ -217,6 +218,7 @@ public class IndicatorServiceTests
         const string benchmarkAreaName = "Eng";
         var healthMeasure2 = new HealthMeasureModelHelper(
             year: 2023,
+            isAggregate: true,
             value: benchmarkValue
         )
             .WithAreaDimension(benchmarkAreaCode, benchmarkAreaName)
@@ -319,7 +321,8 @@ public class IndicatorServiceTests
             year: 2022,
             lowerCi: 10,
             value: 20,
-            upperCi: 30
+            upperCi: 30,
+            isAggregate: false
         )
             .WithAreaDimension(benchmarkAreaCode, benchmarkAreaName)
             .WithSexDimension(name: "Male", sexIsAggregate: false)
@@ -329,7 +332,8 @@ public class IndicatorServiceTests
             year: 2022,
             lowerCi: 10,
             value: 20,
-            upperCi: 30
+            upperCi: 30,
+            isAggregate: false
         )
             .WithAreaDimension(benchmarkAreaCode, benchmarkAreaName)
             .WithSexDimension(name: "Female", sexIsAggregate: false)
@@ -348,7 +352,8 @@ public class IndicatorServiceTests
             year: 2022,
             lowerCi: 10,
             value: 20,
-            upperCi: 30
+            upperCi: 30,
+            isAggregate: false
         )
             .WithAreaDimension(expectedAreaCode, expectedAreaName)
             .WithSexDimension(null, name: "Male", sexIsAggregate: false)
@@ -357,7 +362,8 @@ public class IndicatorServiceTests
             year: 2022,
             lowerCi: 300,
             value: 400,
-            upperCi: 500
+            upperCi: 500,
+            isAggregate: false
         )
             .WithAreaDimension(expectedAreaCode, expectedAreaName)
             .WithSexDimension(null, name: "Female", sexIsAggregate: false)
@@ -385,7 +391,8 @@ public class IndicatorServiceTests
             year: 2023,
             lowerCi: 2,
             value: 3,
-            upperCi: 4
+            upperCi: 4,
+            isAggregate: false
         )
             .WithAreaDimension(expectedAreaCode, expectedAreaName)
             .WithSexDimension(null, name: "Male", sexIsAggregate: false)
@@ -394,7 +401,8 @@ public class IndicatorServiceTests
             year: 2023,
             lowerCi: 3,
             value: 4,
-            upperCi: 5
+            upperCi: 5,
+            isAggregate: false
         )
             .WithAreaDimension(expectedAreaCode, expectedAreaName)
             .WithSexDimension(null, name: "Female", sexIsAggregate: false)
@@ -578,7 +586,8 @@ public class IndicatorServiceTests
             year: 2023,
             lowerCi: 0.125,
             value: 2.25,
-            upperCi: 9.78
+            upperCi: 9.78,
+            isAggregate: true
         )
             .WithAreaDimension(IndicatorService.AreaCodeEngland, "Eng")
             .WithSexDimension()
@@ -587,7 +596,8 @@ public class IndicatorServiceTests
             year: 2023,
             lowerCi: 1,
             value: benchmarkValue,
-            upperCi: 3
+            upperCi: 3,
+            isAggregate: true
         )
             .WithAreaDimension(expectedAreaCode, expectedAreaName)
             .WithSexDimension()
@@ -597,7 +607,8 @@ public class IndicatorServiceTests
             year: 2023,
             lowerCi: lowerCi,
             value: 3,
-            upperCi: upperCi
+            upperCi: upperCi,
+            isAggregate: false
         )
             .WithAreaDimension(expectedAreaCode, expectedAreaName)
             .WithSexDimension(null, name: "Male", sexIsAggregate: false)
@@ -661,7 +672,8 @@ public class IndicatorServiceTests
             year: 2023,
             lowerCi: 1,
             value: 2,
-            upperCi: 3
+            upperCi: 3,
+            isAggregate: true
         )
             .WithAreaDimension(IndicatorService.AreaCodeEngland, "Eng")
             .WithDeprivationDimension()
@@ -671,7 +683,8 @@ public class IndicatorServiceTests
             year: 2023,
             lowerCi: 4,
             value: 5,
-            upperCi: 6
+            upperCi: 6,
+            isAggregate: true
         )
             .WithAreaDimension(expectedAreaCode, expectedAreaName)
             .WithDeprivationDimension()
@@ -681,7 +694,8 @@ public class IndicatorServiceTests
             year: 2023,
             lowerCi: 7,
             value: 8,
-            upperCi: 9
+            upperCi: 9,
+            isAggregate: false
         )
             .WithAreaDimension(expectedAreaCode, expectedAreaName)
             .WithDeprivationDimension(name: "one", deprivationIsAggregate: false)
@@ -691,7 +705,8 @@ public class IndicatorServiceTests
             year: 2023,
             lowerCi: 1,
             value: 3,
-            upperCi: 4
+            upperCi: 4,
+            isAggregate: false
         )
             .WithAreaDimension(expectedAreaCode, expectedAreaName)
             .WithDeprivationDimension(name: "two", deprivationIsAggregate: false)
@@ -863,8 +878,6 @@ public class IndicatorServiceTests
                 DeprivationDimension = new DeprivationDimensionModel() { Name = string.Empty, Type = String.Empty },
                 AgeDimension = new AgeDimensionModel() { Name = String.Empty },
                 IndicatorDimension = new IndicatorDimensionModel() { Name = String.Empty },
-                PublishedAt = new DateTime(2025, 1, 1),
-                BatchId = "12345_20250101120000",
                 FromDateDimension = new DateDimensionModel() { Date = new DateTime(2024, 1, 1) },
                 ToDateDimension = new DateDimensionModel() { Date = new DateTime(2024, 12, 31) },
                 PeriodDimension = new PeriodDimensionModel() { Period = "Calendar"}
@@ -1195,7 +1208,8 @@ public class IndicatorServiceTests
         var healthMeasure1 = new HealthMeasureModelHelper(
             year: 2023,
             lowerCi: 1,
-            upperCi: 10
+            upperCi: 10,
+            isAggregate: true
         )
             .WithAreaDimension(expectedAreaCode, expectedAreaName)
             .Build();
@@ -1204,7 +1218,7 @@ public class IndicatorServiceTests
 
         const string benchmarkAreaCode = expectedAreaGroupCode;
         const string benchmarkAreaName = expectedAreaGroupName;
-        var healthMeasure2 = new HealthMeasureModelHelper(year: 2023, value: 5)
+        var healthMeasure2 = new HealthMeasureModelHelper(year: 2023, isAggregate: true, value: 5)
             .WithAreaDimension(benchmarkAreaCode, benchmarkAreaName)
             .Build();
         mockHealthData.Add(healthMeasure2);
