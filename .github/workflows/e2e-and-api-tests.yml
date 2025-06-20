@@ -72,26 +72,30 @@ jobs:
           echo "UPLOAD_STORAGE_CONTAINER_NAME=fingertips-upload-container" >> .env
 
       - name: Setup dotnet
+        if: ${{ !inputs.update_screenshots }}
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{env.dotnet-version}}
 
       - name: Restore dotnet Packages
+        if: ${{ !inputs.update_screenshots }}
         run: dotnet restore
         working-directory: ${{ env.api-directory }}
 
       - name: Start Backend Docker services
-        run: MOCK_SERVER=false npm run start:backend-services
+        run: npm run start:backend-services
 
       - name: Run API Integration Tests
+        if: ${{ !inputs.update_screenshots }}
         run: dotnet test --filter FullyQualifiedName~IntegrationTests
         working-directory: ${{ env.api-directory }}
 
       - name: Start Application Docker services
+        if: ${{ !inputs.update_screenshots }}
         run: MOCK_SERVER=false npm run start:app-services
 
       - name: Run .http API tests
-        if: ${{ !inputs.update_screenshots && always() }}
+        if: ${{ !inputs.update_screenshots }}
         working-directory: ./api
         run: |
           npx httpyac send ./**/*.http --all --json --filter only-failed --output-failed exchange | tee httpyacresults.json
@@ -101,11 +105,11 @@ jobs:
           exit $HTTP_EXIT_CODE
 
       - name: Set dynamic HTTP results artifact name
-        if: ${{ !inputs.update_screenshots && always() }}
+        if: ${{ !inputs.update_screenshots }}
         run: echo "HTTP_ARTIFACT_NAME=httpyac-results-$(date +%s)" >> $GITHUB_ENV
 
       - name: Upload .http test results
-        if: ${{ !inputs.update_screenshots && always() }}
+        if: ${{ !inputs.update_screenshots }}
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.HTTP_ARTIFACT_NAME }}
@@ -116,7 +120,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run Playwright tests in CI
-        if: ${{ !inputs.update_screenshots && always() }}
+        if: ${{ !inputs.update_screenshots }}
         run: npm run test-e2e-ci
 
       - name: Run Playwright tests and update baseline screenshot
