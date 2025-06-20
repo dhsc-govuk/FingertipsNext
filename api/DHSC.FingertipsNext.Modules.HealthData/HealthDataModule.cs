@@ -6,6 +6,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Azure;
 
 namespace DHSC.FingertipsNext.Modules.HealthData;
 
@@ -18,7 +19,45 @@ public class HealthDataModule : AbstractMonolithModule, IMonolithModule
         services.AddTransient<IIndicatorsService, IndicatorService>();
         services.AddTransient<IHealthDataRepository, HealthDataRepository>();
         services.AddSingleton<IHealthDataMapper, HealthDataMapper>();
+        services.AddTransient<IValidationService, CsvValidationService>();
         RegisterDbContext(services, configuration);
+        RegisterAzureClients(services, configuration);
+        RegisterHttpClient(services, configuration);
+    }
+    
+    private static void RegisterAzureClients(IServiceCollection services, IConfiguration configuration)
+    {
+        const string storageContainerConnectionStringEnvVar = "STORAGE_CONTAINER_CONNECTION_STRING";
+        var storageContainerConnectionString = GetEnvironmentValue(configuration, storageContainerConnectionStringEnvVar);
+            
+        services.AddAzureClients(clientBuilder =>
+        {
+            clientBuilder.AddBlobServiceClient(storageContainerConnectionString)
+                .ConfigureOptions(options =>
+                {
+                    options.Retry.MaxRetries = 1;
+                });
+
+            // DefaultAzureCredential credential = new();
+            // clientBuilder.UseCredential(credential);
+        });
+    }
+
+    private static void RegisterHttpClient(IServiceCollection services, IConfiguration configuration)
+    {
+        const string storageContainerUrlEnvVar = "STORAGE_CONTAINER_URL";
+        const string storageContainerNameEnvVar = "STORAGE_CONTAINER_NAME";
+        
+        var storageContainerUrl = GetEnvironmentValue(configuration, storageContainerUrlEnvVar);
+        var storageContainerName = GetEnvironmentValue(configuration, storageContainerNameEnvVar);
+        
+        services.AddHttpClient<IDataUploadService, DataUploadService>(client =>
+        {
+            client.BaseAddress = new Uri($"{storageContainerUrl}/{storageContainerName}");
+            client.DefaultRequestHeaders.Add("x-ms-date", DateTimeOffset.UtcNow.ToString("R"));
+            client.DefaultRequestHeaders.Add("x-ms-version", "2015-02-21");
+            client.DefaultRequestHeaders.Add("x-ms-blob-type", "BlockBlob");
+        });
     }
 
     private static void RegisterDbContext(IServiceCollection services, IConfiguration configuration)
