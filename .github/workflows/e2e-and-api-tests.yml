@@ -2,6 +2,7 @@ name: Execute e2e tests
 
 env:
   frontend-directory: ./frontend/fingertips-frontend
+  api-directory: ./api
   NEXT_TELEMETRY_DISABLED: true
   NODE_VERSION: 22.x
   BRANCH_NAME: ${{ github.event_name == 'pull_request' && format('refs/pull/{0}/merge', github.event.pull_request.number) || (github.head_ref || github.ref_name) }}
@@ -77,12 +78,14 @@ jobs:
 
       - name: Restore dotnet Packages
         run: dotnet restore
+        working-directory: ${{ env.api-directory }}
 
       - name: Start Backend Docker services
         run: MOCK_SERVER=false npm run start:backend-services
 
       - name: Run API Integration Tests
         run: dotnet test --filter FullyQualifiedName~IntegrationTests
+        working-directory: ${{ env.api-directory }}
 
       - name: Start Application Docker services
         run: MOCK_SERVER=false npm run start:app-services
