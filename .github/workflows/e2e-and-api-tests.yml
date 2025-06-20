@@ -110,7 +110,7 @@ jobs:
           retention-days: 5
 
       - name: Install playwright dependencies - for CI test execution
-        run: npx playwright install --with-deps chromium webkit
+        run: npx playwright install --with-deps chromium
 
       - name: Run Playwright tests in CI
         if: ${{ !inputs.update_screenshots && always() }}

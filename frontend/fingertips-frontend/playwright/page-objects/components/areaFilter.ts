@@ -213,7 +213,15 @@ export default class AreaFilter extends BasePage {
     areaFiltersToSelect: AreaFilters
   ): Promise<void> {
     if (searchMode === SearchMode.ONLY_SUBJECT) {
-      await this.waitForURLToContain(searchTerm);
+      let trimmedSearchText = searchTerm.trim();
+
+      // Check if searched for text is a space-separated list of numbers
+      const spaceSeparatedPattern = /^\d+(\s+\d+)+$/;
+      if (spaceSeparatedPattern.test(trimmedSearchText)) {
+        // replace whitespace with +
+        trimmedSearchText = trimmedSearchText.replaceAll(' ', '+');
+      }
+      await this.waitForURLToContain(trimmedSearchText);
       await this.selectAreaFilters(areaMode, areaFiltersToSelect);
       await this.selectAreaCheckboxes(areaMode, areaFiltersToSelect.areaType);
     } else if (
