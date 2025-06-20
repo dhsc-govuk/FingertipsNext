@@ -373,7 +373,7 @@
             "value": "Persons",
             "isAggregate": true
           },
-          "trend": "Cannot be calculated",
+          "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Similar",
             "benchmarkAreaCode": "E92000001",
