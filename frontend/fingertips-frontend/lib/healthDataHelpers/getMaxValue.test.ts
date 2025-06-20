@@ -1,4 +1,4 @@
-import { getMaxValue } from '@/components/organisms/BarChartEmbeddedTable/helpers/getMaxValue';
+import { getMaxValue } from '@/lib/healthDataHelpers/getMaxValue';
 import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
 import { mockHealthDataPoints } from '@/mock/data/mockHealthDataPoint';
 

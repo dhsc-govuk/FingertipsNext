@@ -9,7 +9,10 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
 import { lineChartOverTimeRequestParams } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeRequestParams';
-import { queryKeyFromRequestParams } from '@/components/charts/helpers/queryKeyFromRequestParams';
+import {
+  EndPoints,
+  queryKeyFromRequestParams,
+} from '@/components/charts/helpers/queryKeyFromRequestParams';
 import {
   mockHealthDataForArea,
   mockHealthDataForArea_England,
@@ -66,7 +69,10 @@ const testRender = async (
   mockUseSearchStateParams.mockReturnValue(searchState);
   const client = new QueryClient();
   const lineChartApiParams = lineChartOverTimeRequestParams(searchState);
-  const lineChartQueryKey = queryKeyFromRequestParams(lineChartApiParams);
+  const lineChartQueryKey = queryKeyFromRequestParams(
+    EndPoints.HealthDataForAnIndicator,
+    lineChartApiParams
+  );
   client.setQueryData([lineChartQueryKey], healthData);
   client.setQueryData(
     [`/indicator/${indicatorMetadata.indicatorID}`],

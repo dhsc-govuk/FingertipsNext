@@ -1,5 +1,4 @@
 import { Home } from '@/components/pages/home';
-
 import { SearchFormState } from '@/components/forms/SearchForm/searchActions';
 import {
   SearchParams,

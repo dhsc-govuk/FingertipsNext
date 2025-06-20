@@ -5,13 +5,19 @@ import {
   IndicatorsApi,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
-import { queryKeyFromRequestParams } from '@/components/charts/helpers/queryKeyFromRequestParams';
+import {
+  EndPoints,
+  queryKeyFromRequestParams,
+} from '@/components/charts/helpers/queryKeyFromRequestParams';
 import { useMemo } from 'react';
 
 export const useApiGetHealthDataForAnIndicator = (
   options: GetHealthDataForAnIndicatorRequest
 ) => {
-  const queryKey = [queryKeyFromRequestParams(options)];
+  const queryKey = [
+    queryKeyFromRequestParams(EndPoints.HealthDataForAnIndicator, options),
+  ];
+
   const query = useQuery<IndicatorWithHealthDataForArea>({
     queryKey,
     queryFn: async () => {

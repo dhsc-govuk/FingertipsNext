@@ -13,10 +13,8 @@ export function SeedQueryCache({ seedData }: Readonly<SeedQueryCacheProps>) {
     queryClient.setQueryData([url], data);
   });
 
-  if (process.env.NODE_ENV === 'development') {
-    const queryKeys = Object.keys(seedData).join('\n');
-    console.log(`SEEDING DATA FOR REACT QUERY\n${queryKeys}`);
-  }
-
+  // needs to be a 'use client' component, but we need to generate
+  // the seed data in a server ONLY component
+  // therefore there is no need to return anything
   return null;
 }

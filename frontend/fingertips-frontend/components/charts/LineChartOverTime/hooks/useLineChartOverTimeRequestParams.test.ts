@@ -10,6 +10,7 @@ jest.mock(
   '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeRequestParams'
 );
 
+jest.mock('@/components/hooks/useSearchStateParams');
 const mockUseSearchStateParams = useSearchStateParams as jest.MockedFunction<
   typeof useSearchStateParams
 >;
