@@ -13,7 +13,11 @@ import { mockHealthDataPoints } from '@/mock/data/mockHealthDataPoint';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { QueryClient } from '@tanstack/query-core';
 import { lineChartOverTimeRequestParams } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeRequestParams';
-import { queryKeyFromRequestParams } from '@/components/charts/helpers/queryKeyFromRequestParams';
+import {
+  EndPoints,
+  queryKeyFromRequestParams,
+} from '@/components/charts/helpers/queryKeyFromRequestParams';
+import { compareAreasTableRequestParams } from '@/components/charts/CompareAreasTable/helpers/compareAreasTableRequestParams';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -109,9 +113,16 @@ const testRender = async (
 ) => {
   mockUseSearchStateParams.mockReturnValue(searchState);
   const client = new QueryClient();
+
+  // seed line chart over time data
   const lineChartApiParams = lineChartOverTimeRequestParams(searchState);
-  const lineChartQueryKey = queryKeyFromRequestParams(lineChartApiParams);
+  const lineChartQueryKey = queryKeyFromRequestParams(
+    EndPoints.HealthDataForAnIndicator,
+    lineChartApiParams
+  );
   client.setQueryData([lineChartQueryKey], healthData);
+
+  // seed indicatorMetadata
   if (indicatorMetadata) {
     client.setQueryData(
       [`/indicator/${indicatorMetadata.indicatorID}`],
@@ -119,6 +130,18 @@ const testRender = async (
     );
   }
 
+  // seed the same data for compare areas
+  const compareAreasTableApiParams = compareAreasTableRequestParams(
+    searchState,
+    []
+  );
+  const compareAreasTableQueryKey = queryKeyFromRequestParams(
+    EndPoints.HealthDataForAnIndicator,
+    compareAreasTableApiParams
+  );
+  client.setQueryData([compareAreasTableQueryKey], healthData);
+
+  // seed geoJson for regions map
   client.setQueryData(['map-geo-json/regions'], regionsMap);
 
   let areaCodes = undefined;

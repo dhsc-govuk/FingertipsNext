@@ -1,5 +1,5 @@
 import { mockHealthDataPoint } from '@/mock/data/mockHealthDataPoint';
-import { sortByValueAndAreaName } from '@/components/organisms/BarChartEmbeddedTable/helpers/sortByValueAndAreaName';
+import { sortByValueAndAreaName } from '@/lib/healthDataHelpers/sortByValueAndAreaName';
 
 const mockPoint = {
   ...mockHealthDataPoint({ value: 99 }),

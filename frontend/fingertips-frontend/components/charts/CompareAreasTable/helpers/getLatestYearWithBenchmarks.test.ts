@@ -1,4 +1,4 @@
-import { getLatestYearWithBenchmarks } from '@/components/organisms/BarChartEmbeddedTable/helpers/getLatestYearWithBenchmarks';
+import { getLatestYearWithBenchmarks } from '@/components/charts/CompareAreasTable/helpers/getLatestYearWithBenchmarks';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
 import { mockHealthDataPoints } from '@/mock/data/mockHealthDataPoint';

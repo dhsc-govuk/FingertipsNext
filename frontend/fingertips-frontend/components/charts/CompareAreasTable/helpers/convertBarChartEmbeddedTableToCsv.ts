@@ -1,5 +1,5 @@
 import { CsvData } from '@/lib/downloadHelpers/convertToCsv';
-import { BarChartEmbeddedTableRow } from '@/components/organisms/BarChartEmbeddedTable/BarChartEmbeddedTable.types';
+import { BarChartEmbeddedTableRow } from '@/components/charts/CompareAreasTable/BarChartEmbeddedTable/BarChartEmbeddedTable.types';
 import { CsvHeader } from '@/components/molecules/Export/export.types';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';

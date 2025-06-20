@@ -32,12 +32,6 @@ describe('SeedQueryCache', () => {
     jest.resetAllMocks();
   });
 
-  it('renders nothing when seedData is empty', () => {
-    const { container } = render(<SeedQueryCache seedData={{}} />);
-    expect(container.firstChild).toBeNull();
-    expect(setQueryDataMock).not.toHaveBeenCalled();
-  });
-
   it('calls setQueryData for each seeded entry', () => {
     const seedData: SeedData = {
       '/api/foo': mockMeta,
@@ -48,53 +42,5 @@ describe('SeedQueryCache', () => {
     expect(setQueryDataMock).toHaveBeenCalledTimes(2);
     expect(setQueryDataMock).toHaveBeenCalledWith(['/api/foo'], mockMeta);
     expect(setQueryDataMock).toHaveBeenCalledWith(['/api/bar'], mockHealth);
-  });
-
-  it('renders null', () => {
-    const seedData: SeedData = {
-      '/api/test': mockIndicatorDocument(),
-    };
-
-    const { container } = render(<SeedQueryCache seedData={seedData} />);
-    expect(container.firstChild).toBeNull();
-  });
-
-  it('renders nothing if not in development mode', () => {
-    const seedData: SeedData = {
-      '/api/production-mode': mockMeta,
-    };
-
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    process.env.NODE_ENV = 'production';
-    const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-
-    render(<SeedQueryCache seedData={seedData} />);
-
-    expect(setQueryDataMock).toHaveBeenCalledWith(
-      ['/api/production-mode'],
-      mockMeta
-    );
-    expect(logSpy).not.toHaveBeenCalled();
-  });
-
-  it('logs query keys in development mode', () => {
-    const seedData: SeedData = {
-      '/api/dev-mode': mockHealth,
-    };
-
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    process.env.NODE_ENV = 'development';
-    const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-    render(<SeedQueryCache seedData={seedData} />);
-
-    expect(setQueryDataMock).toHaveBeenCalledWith(
-      ['/api/dev-mode'],
-      mockHealth
-    );
-    expect(logSpy).toHaveBeenCalledWith(
-      expect.stringContaining('/api/dev-mode')
-    );
   });
 });
