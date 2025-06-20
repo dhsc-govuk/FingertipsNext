@@ -158,7 +158,7 @@ jobs:
         run: dotnet build
 
       - name: Run Unit Tests
-        run: dotnet test
+        run: dotnet test --filter FullyQualifiedName\!~IntegrationTests
 
   trend-analysis-app-test:
     needs: [check-changes, determine-version]

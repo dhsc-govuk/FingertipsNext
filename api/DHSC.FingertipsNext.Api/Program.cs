@@ -9,7 +9,7 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Scalar.AspNetCore;
 
-internal static class Program
+public class Program
 {
     private const string ApplicationInsightsConnectionString = "APPLICATIONINSIGHTS_CONNECTION_STRING";
     public static void Main(string[] args)
