@@ -12,7 +12,7 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { expectAnyHealthDataForArea } from '@/mock/data/expectAnyHealthDataForArea';
 
-describe('compareAreasTableData (no mocks)', () => {
+describe('compareAreasTableData', () => {
   it('extracts England and group data from health data', () => {
     const input = mockIndicatorWithHealthDataForArea({
       areaHealthData: [

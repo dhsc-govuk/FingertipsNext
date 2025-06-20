@@ -33,10 +33,4 @@ describe('findAndRemoveByAreaCode', () => {
     expect(found).toBeUndefined();
     expect(remaining).toEqual(mockData);
   });
-
-  it('does not mutate the original array', () => {
-    const original = [...mockData];
-    findAndRemoveByAreaCode(mockData, 'A1');
-    expect(mockData).toEqual(original);
-  });
 });

@@ -11,7 +11,6 @@ import {
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { useCompareAreasTableData } from '@/components/charts/CompareAreasTable/hooks/useCompareAreasTableData';
 
-// Mock dependencies
 jest.mock(
   '@/components/charts/CompareAreasTable/BarChartEmbeddedTable/BarChartEmbeddedTable',
   () => ({
@@ -55,7 +54,7 @@ describe('CompareAreasTable', () => {
     render(<CompareAreasTable />);
 
     expect(
-      screen.getByRole('heading', { name: /compare an indicator by areas/i })
+      screen.getByRole('heading', { name: /Compare an indicator by areas/ })
     ).toBeInTheDocument();
     expect(
       screen.getByTestId('barChartEmbeddedTable-component')
