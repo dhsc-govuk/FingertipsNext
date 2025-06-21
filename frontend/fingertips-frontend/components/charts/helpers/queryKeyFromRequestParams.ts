@@ -1,4 +1,4 @@
-import { localeSort } from '@/components/charts/Inequalities/Inequalities/inequalitiesHelpers';
+import { localeSort } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
 
 export enum EndPoints {
   HealthDataForAnIndicator = 'healthDataForAnIndicator',

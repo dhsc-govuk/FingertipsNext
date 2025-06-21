@@ -2,7 +2,7 @@ import {
   getAggregatePointInfo,
   InequalitiesBarChartData,
   InequalitiesTypes,
-} from '@/components/charts/Inequalities/Inequalities/inequalitiesHelpers';
+} from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
 import {
   getDisplayValue,
   getDisplayWholeNumber,

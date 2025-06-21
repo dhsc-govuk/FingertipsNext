@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import { Inequalities } from './index';
+import { Inequalities } from './Inequalities';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { LoaderContext } from '@/context/LoaderContext';
 import { IndicatorDocument } from '@/lib/search/searchTypes';

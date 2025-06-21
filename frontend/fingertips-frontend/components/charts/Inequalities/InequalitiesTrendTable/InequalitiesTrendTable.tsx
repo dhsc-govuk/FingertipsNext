@@ -12,9 +12,9 @@ import {
 import {
   getYearsWithInequalityData,
   InequalitiesChartData,
-} from '@/components/charts/Inequalities/Inequalities/inequalitiesHelpers';
+} from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
 import { ReactNode } from 'react';
-import { convertInequalitiesTrendTableToCsvData } from './convertInequalitiesTrendTableToCsvData';
+import { convertInequalitiesTrendTableToCsvData } from '../helpers/convertInequalitiesTrendTableToCsvData';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
 import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
@@ -81,7 +81,7 @@ const getCellHeader = (heading: string, index: number): ReactNode => {
   );
 };
 
-export function InequalitiesLineChartTable({
+export function InequalitiesTrendTable({
   inequalityTypeSelected,
   indicatorMetadata,
   tableData,

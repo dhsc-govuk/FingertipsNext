@@ -3,9 +3,10 @@ import {
   HealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 
-import { InequalitiesTrend } from '../InequalitiesTrend';
+import { InequalitiesTrend } from '@/components/charts/Inequalities/InequalitiesTrendChart/InequalitiesTrendChart';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { InequalitiesBarChartAndTable } from '@/components/charts/Inequalities/InequalitiesBarChartAndTable/InequalitiesBarChartAndTable';
+import { InequalitiesTrendChartAndTable } from '@/components/charts/Inequalities/InequalitiesTrendChartAndTable/InequalitiesTrendChartAndTable';
 
 interface InequalitiesProps {
   healthIndicatorData: HealthDataForArea[];
@@ -23,6 +24,7 @@ export function Inequalities({
   return (
     <div data-testid="inequalities-component">
       <InequalitiesBarChartAndTable />
+      <InequalitiesTrendChartAndTable />
       <InequalitiesTrend
         healthIndicatorData={healthIndicatorData}
         indicatorMetadata={indicatorMetadata}

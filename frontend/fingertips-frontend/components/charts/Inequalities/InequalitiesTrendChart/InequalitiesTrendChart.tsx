@@ -1,7 +1,7 @@
 import { TabContainer } from '@/components/layouts/tabContainer';
 import { LineChart } from '@/components/organisms/LineChart';
 import { H3 } from 'govuk-react';
-import { InequalitiesLineChartTable } from '@/components/charts/Inequalities/LineChart/Table';
+import { InequalitiesTrendTable } from '../InequalitiesTrendTable/InequalitiesTrendTable';
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
@@ -26,7 +26,7 @@ import {
   getInequalitiesType,
   InequalitiesTypes,
   ChartType,
-} from '@/components/charts/Inequalities/Inequalities/inequalitiesHelpers';
+} from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
 import {
   AreaTypeLabelEnum,
   createTooltipHTML,
@@ -232,7 +232,7 @@ export function InequalitiesTrend({
             id: 'inequalitiesLineChartTable',
             title: 'Table',
             content: (
-              <InequalitiesLineChartTable
+              <InequalitiesTrendTable
                 title={inequalitiesLineChartOptions.title?.text ?? ''}
                 tableData={lineChartData}
                 indicatorMetadata={indicatorMetadata}

@@ -1,4 +1,4 @@
-import { InequalitiesTypes } from '@/components/charts/Inequalities/Inequalities/inequalitiesHelpers';
+import { InequalitiesTypes } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
 
 export enum SearchMode {
   ONLY_SUBJECT = 'ONLY_SUBJECT',

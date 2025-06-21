@@ -4,16 +4,22 @@ import { useApiGetHealthDataForAnIndicator } from '@/components/charts/hooks/use
 import { inequalitiesData } from '@/components/charts/Inequalities/helpers/inequalitiesData';
 import { useMemo } from 'react';
 import { useIndicatorMetaData } from '@/components/charts/hooks/useIndicatorMetaData';
+import { ChartType } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
 
-export const useInequalitiesData = () => {
+export const useInequalitiesData = (chartType = ChartType.SingleTimePeriod) => {
   const searchState = useSearchStateParams();
   const { indicatorMetaData } = useIndicatorMetaData();
   const requestParams = useInequalitiesRequestParams();
   const { healthData } = useApiGetHealthDataForAnIndicator(requestParams);
 
   return useMemo(() => {
-    const data = inequalitiesData(searchState, indicatorMetaData, healthData);
+    const data = inequalitiesData(
+      searchState,
+      indicatorMetaData,
+      healthData,
+      chartType
+    );
     if (!data || !healthData || !indicatorMetaData) return null;
     return data;
-  }, [healthData, indicatorMetaData, searchState]);
+  }, [chartType, healthData, indicatorMetaData, searchState]);
 };

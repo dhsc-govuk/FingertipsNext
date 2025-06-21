@@ -1,7 +1,7 @@
 import { InequalitiesBarChartTable } from './InequalitiesBarChartTable';
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import { InequalitiesTypes } from '@/components/charts/Inequalities/Inequalities/inequalitiesHelpers';
+import { InequalitiesTypes } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
 import { getTestData } from '../InequalitiesBarChart/mocks';
 import { InequalitiesBarChartTableHeaders } from '@/components/charts/Inequalities/InequalitiesBarChartTable/InequalitiesBarChartTableHead';
 import {

@@ -1,6 +1,6 @@
 import { render, screen, within } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import { InequalitiesTrend } from './index';
+import { InequalitiesTrend } from './InequalitiesTrendChart';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { LoaderContext } from '@/context/LoaderContext';
 import {
@@ -34,7 +34,7 @@ jest.mock('@/context/LoaderContext', () => {
   };
 });
 
-describe('InequalitiesTrend suite', () => {
+describe('InequalitiesTrendChart suite', () => {
   it('should render expected elements', async () => {
     const inequalitiesOptions = ['Sex', 'Unitary deciles'];
     const mockHealthData: HealthDataForArea[] = [

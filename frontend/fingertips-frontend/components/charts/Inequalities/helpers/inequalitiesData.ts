@@ -1,41 +1,68 @@
 import {
+  determineAreaCodes,
   determineHealthDataForArea,
-  seriesDataWithoutGroup,
 } from '@/lib/chartHelpers/chartHelpers';
 import {
+  ChartType,
   filterHealthData,
+  generateInequalitiesLineChartOptions,
   getAreasWithInequalitiesData,
+  getDynamicKeys,
   getInequalitiesType,
   getInequalityCategories,
   getYearDataGroupedByInequalities,
   getYearsWithInequalityData,
   groupHealthDataByYear,
   healthDataFilterFunctionGeneratorForInequality,
-  InequalitiesBarChartData,
   mapToInequalitiesTableData,
+  reorderItemsArraysToEnd,
   sequenceSelectorForInequality,
   valueSelectorForInequality,
-} from '@/components/charts/Inequalities/Inequalities/inequalitiesHelpers';
+} from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
-import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  BenchmarkComparisonMethod,
+  IndicatorWithHealthDataForArea,
+} from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { findAndRemoveByAreaCode } from '@/lib/healthDataHelpers/findAndRemoveByAreaCode';
+import { inequalitiesBarChartData } from '@/components/charts/Inequalities/helpers/inequalitiesBarChartData';
+import { inequalitiesLineChartData } from '@/components/charts/Inequalities/helpers/inequalitiesLineChartData';
+import { inequalitiesLineChartTooltipForPoint } from '@/components/charts/Inequalities/helpers/inequalitiesLineChartTooltipForPoint';
 
 export const inequalitiesData = (
   searchState: SearchStateParams,
   indicatorMetaData?: IndicatorDocument,
-  healthData?: IndicatorWithHealthDataForArea
+  healthData?: IndicatorWithHealthDataForArea,
+  chartType = ChartType.SingleTimePeriod
 ) => {
   const {
+    [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.InequalityYearSelected]: selectedYear,
-    [SearchParams.InequalityBarChartTypeSelected]: inequalityTypeSelected,
+    [SearchParams.InequalityBarChartTypeSelected]:
+      inequalityBarChartTypeSelected,
     [SearchParams.InequalityBarChartAreaSelected]:
       inequalityBarChartAreaSelected,
+    [SearchParams.InequalityLineChartTypeSelected]:
+      inequalityLineChartTypeSelected,
+    [SearchParams.InequalityLineChartAreaSelected]:
+      inequalityLineChartAreaSelected,
   } = searchState;
 
   if (!healthData || !indicatorMetaData) return null;
-  const { benchmarkMethod, polarity } = healthData;
+  const { benchmarkMethod = BenchmarkComparisonMethod.Unknown, polarity } =
+    healthData;
+
+  const inequalityTypeSelected =
+    chartType === ChartType.SingleTimePeriod
+      ? inequalityBarChartTypeSelected
+      : inequalityLineChartTypeSelected;
+
+  const inequalityAreaSelected =
+    chartType === ChartType.SingleTimePeriod
+      ? inequalityBarChartAreaSelected
+      : inequalityLineChartAreaSelected;
 
   const [healthDataWithoutGroup] = findAndRemoveByAreaCode(
     healthData.areaHealthData ?? [],
@@ -44,7 +71,7 @@ export const inequalitiesData = (
 
   const healthDataForArea = determineHealthDataForArea(
     healthDataWithoutGroup,
-    inequalityBarChartAreaSelected
+    inequalityAreaSelected
   );
 
   if (!healthDataForArea) return null;
@@ -103,20 +130,59 @@ export const inequalitiesData = (
   if (!yearsDesc.length) return null;
 
   const dataPeriod = Number(selectedYear ?? yearsDesc[0]);
-  const periodData = allData.find((data) => data.period === dataPeriod);
 
-  if (!periodData) throw new Error('data does not exist for selected year');
+  const barChartData =
+    chartType == ChartType.SingleTimePeriod
+      ? inequalitiesBarChartData(
+          healthDataForArea,
+          allData,
+          yearsDesc,
+          selectedYear
+        )
+      : null;
 
-  const barChartData: InequalitiesBarChartData = {
-    areaCode: healthDataForArea.areaCode,
-    areaName: healthDataForArea.areaName,
-    data: periodData,
-  };
+  const lineChartData =
+    chartType == ChartType.Trend
+      ? inequalitiesLineChartData(healthDataForArea, allData, yearsDesc)
+      : null;
+
+  const dynamicKeys = getDynamicKeys(
+    yearlyHealthDataGroupedByInequalities,
+    sequenceSelector
+  );
+
+  const inequalitiesLineChartOptions = lineChartData
+    ? generateInequalitiesLineChartOptions(
+        lineChartData,
+        dynamicKeys,
+        type,
+        true,
+        inequalitiesLineChartTooltipForPoint(
+          lineChartData,
+          type,
+          benchmarkMethod,
+          indicatorMetaData.unitLabel
+        ),
+        {
+          areasSelected: determineAreaCodes(areasSelected),
+          yAxisTitleText: 'Value',
+          xAxisTitleText: 'Period',
+          measurementUnit: indicatorMetaData?.unitLabel,
+          inequalityLineChartAreaSelected,
+          indicatorName: indicatorMetaData?.indicatorName,
+          areaName: healthDataForArea.areaName,
+        }
+      )
+    : null;
 
   const chartTitle = `${indicatorMetaData?.indicatorName ?? ''} inequalities for ${healthDataForArea.areaName}, ${dataPeriod}`;
 
+  const orderedDynamicKeys = reorderItemsArraysToEnd(dynamicKeys, ['Persons']);
+
   return {
     barChartData,
+    lineChartData,
+    inequalitiesLineChartOptions,
     chartTitle,
     availableAreasWithInequalities,
     yearsDesc,
@@ -125,5 +191,6 @@ export const inequalitiesData = (
     inequalityType,
     benchmarkMethod,
     polarity,
+    orderedDynamicKeys,
   };
 };

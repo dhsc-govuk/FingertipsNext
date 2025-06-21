@@ -3,8 +3,8 @@ import {
   getAggregatePointInfo,
   InequalitiesBarChartData,
   InequalitiesTypes,
-} from '@/components/charts/Inequalities/Inequalities/inequalitiesHelpers';
-import { getBarChartOptions } from '@/components/charts/Inequalities/InequalitiesBarChart/barChartHelpers';
+} from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
+import { getBarChartOptions } from '@/components/charts/Inequalities/helpers/barChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { ConfidenceIntervalCheckbox } from '../../../molecules/ConfidenceIntervalCheckbox';
 import { useState } from 'react';

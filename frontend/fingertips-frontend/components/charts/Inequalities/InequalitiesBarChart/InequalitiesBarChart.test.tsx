@@ -1,7 +1,7 @@
 import { InequalitiesBarChart } from './InequalitiesBarChart';
 import { render, screen, within } from '@testing-library/react';
 import { getTestData } from './mocks';
-import { InequalitiesTypes } from '@/components/charts/Inequalities/Inequalities/inequalitiesHelpers';
+import { InequalitiesTypes } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
 import {
   BenchmarkComparisonMethod,
   IndicatorPolarity,

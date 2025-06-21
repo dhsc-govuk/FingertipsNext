@@ -1,5 +1,5 @@
 import { CsvHeader } from '@/components/molecules/Export/export.types';
-import { InequalitiesBarChartData } from '@/components/charts/Inequalities/Inequalities/inequalitiesHelpers';
+import { InequalitiesBarChartData } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
 import { CsvData, CsvRow } from '@/lib/downloadHelpers/convertToCsv';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 

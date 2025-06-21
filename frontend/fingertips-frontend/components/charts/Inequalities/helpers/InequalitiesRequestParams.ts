@@ -8,7 +8,7 @@ import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 import { determineBenchmarkRefType } from '@/lib/ViewsHelpers';
-import { InequalitiesTypes } from '@/components/charts/Inequalities/Inequalities/inequalitiesHelpers';
+import { InequalitiesTypes } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
 
 export const inequalitiesRequestParams = (
   searchState: SearchStateParams

@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import { InequalitiesLineChartTable } from './index';
+import { InequalitiesTrendTable } from './InequalitiesTrendTable';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
-import { InequalitiesChartData } from '@/components/charts/Inequalities/Inequalities/inequalitiesHelpers';
+import { InequalitiesChartData } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 describe('Inequalities table suite', () => {
@@ -42,7 +42,7 @@ describe('Inequalities table suite', () => {
 
   it('should render the InequalitiesBarChartTable component', () => {
     render(
-      <InequalitiesLineChartTable
+      <InequalitiesTrendTable
         tableData={tableData}
         dynamicKeys={['Persons', 'Male', 'Female']}
         inequalityTypeSelected="Sex"
@@ -59,7 +59,7 @@ describe('Inequalities table suite', () => {
     const headings = ['Period', 'Persons', 'Male', 'Female'];
 
     render(
-      <InequalitiesLineChartTable
+      <InequalitiesTrendTable
         tableData={tableData}
         dynamicKeys={['Persons', 'Male', 'Female']}
         inequalityTypeSelected="Sex"
@@ -111,7 +111,7 @@ describe('Inequalities table suite', () => {
     };
 
     render(
-      <InequalitiesLineChartTable
+      <InequalitiesTrendTable
         tableData={tableData}
         dynamicKeys={['Persons', 'Male', 'Female']}
         inequalityTypeSelected="Sex"
@@ -131,7 +131,7 @@ describe('Inequalities table suite', () => {
     const cellsPerRow = 1;
 
     render(
-      <InequalitiesLineChartTable
+      <InequalitiesTrendTable
         tableData={tableData}
         dynamicKeys={[]}
         inequalityTypeSelected="Sex"
@@ -152,7 +152,7 @@ describe('Inequalities table suite', () => {
 
   it('When the UI is rendered with measurement unit it should render correctly', () => {
     render(
-      <InequalitiesLineChartTable
+      <InequalitiesTrendTable
         tableData={tableData}
         dynamicKeys={['Persons', 'Male', 'Female']}
         indicatorMetadata={{ unitLabel: 'per 100,000' } as IndicatorDocument}
@@ -165,7 +165,7 @@ describe('Inequalities table suite', () => {
 
   it("Value: 'unit measurement' should not be in document when the unit measurement is not provided", () => {
     render(
-      <InequalitiesLineChartTable
+      <InequalitiesTrendTable
         tableData={tableData}
         dynamicKeys={['Persons', 'Male', 'Female']}
         inequalityTypeSelected="Sex"
@@ -180,7 +180,7 @@ describe('Inequalities table suite', () => {
 
   it('snapshot test - should match snapshot', () => {
     const container = render(
-      <InequalitiesLineChartTable
+      <InequalitiesTrendTable
         tableData={tableData}
         dynamicKeys={['Persons', 'Male', 'Female']}
         indicatorMetadata={{ unitLabel: 'per 100,000' } as IndicatorDocument}
@@ -216,7 +216,7 @@ describe('Inequalities table suite', () => {
     };
 
     render(
-      <InequalitiesLineChartTable
+      <InequalitiesTrendTable
         tableData={tableDataWithExtraYears}
         dynamicKeys={['Persons', 'Male', 'Female']}
         inequalityTypeSelected="Sex"

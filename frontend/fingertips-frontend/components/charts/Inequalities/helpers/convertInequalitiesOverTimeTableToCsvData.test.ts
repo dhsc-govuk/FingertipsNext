@@ -1,7 +1,7 @@
 import { CsvHeader } from '@/components/molecules/Export/export.types';
 import { convertInequalitiesOverTimeTableToCsvData } from './convertInequalitiesOverTimeTableToCsvData';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { InequalitiesTableRowData } from '@/components/charts/Inequalities/Inequalities/inequalitiesHelpers';
+import { InequalitiesTableRowData } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
 import { BenchmarkOutcome } from '@/generated-sources/ft-api-client';
 
 describe('convertInequalitiesOverTimeTableToCsvData', () => {

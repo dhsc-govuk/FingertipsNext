@@ -1,4 +1,4 @@
-import { InequalitiesBarChartData } from '@/components/charts/Inequalities/Inequalities/inequalitiesHelpers';
+import { InequalitiesBarChartData } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
 
 export const getTestData = (): InequalitiesBarChartData => ({
   areaCode: 'A1425',
