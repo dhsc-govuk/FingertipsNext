@@ -290,11 +290,11 @@ export const coreTestJourneys: TestParameters[] = [
       },
       {
         indicatorID: '22401',
-        knownTrend: 'Decreasing and getting better',
+        knownTrend: 'No recent trend data available',
       },
       {
         indicatorID: '91894',
-        knownTrend: 'Decreasing',
+        knownTrend: 'No recent trend data available',
       },
     ],
     areaFiltersToSelect: {
