@@ -8,7 +8,12 @@ CREATE PROCEDURE [dbo].[GetIndicatorDetailsWithQuintileBenchmarkComparison] @Req
 @RequestedIndicatorId int,
 --- The specific indicatorId we are interested in
 @RequestedBenchmarkAreaCode varchar(20) --- The area used for benchmarking
-AS BEGIN WITH --- Get the Benchmark Area
+AS BEGIN 
+
+DECLARE @NOW AS DATETIME2;
+SET @NOW = GETUTCDATE();
+
+WITH --- Get the Benchmark Area
 BenchmarkAreaGroup AS (
 	SELECT *
 	FROM dbo.AreaDimension AS areaDim
@@ -93,7 +98,7 @@ HealthData AS (
 				FROM @RequestedYears
 			)
 		)
-		AND hm.PublishedAt <= GETUTCDATE()
+		AND hm.PublishedAt <= @NOW
 ),
 HealthDataNTileGroupCount AS (
 	SELECT Year,
