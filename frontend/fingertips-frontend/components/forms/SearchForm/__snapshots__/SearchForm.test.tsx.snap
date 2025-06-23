@@ -605,6 +605,7 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
           id="indicator"
           name="indicator"
           style="border-color: #0b0c0c; border-width: 2px; border-style: solid;"
+          title="indicator"
           type="search"
           value="indicator"
         />

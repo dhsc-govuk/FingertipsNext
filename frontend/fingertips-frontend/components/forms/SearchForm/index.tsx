@@ -90,7 +90,7 @@ export const SearchForm = ({
               defaultValue={formState.indicator ?? ''}
               data-testid="indicator-search-form-input"
               style={
-                !!formState.message
+                Boolean(formState.message)
                   ? {
                       borderColor: GovukColours.Red,
                       borderWidth: '4px',
