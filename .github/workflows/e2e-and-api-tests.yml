@@ -64,12 +64,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Create .env file for db-setup - for CI test execution
+      - name: Create .env file for CI test execution
         run: |
-          echo "DB_PASSWORD=${{ secrets.fingertips_e2e_db_password }}" > .env
+          echo "TRUST_CERT=True" > .env
+          echo "DB_SERVER=localhost" >> .env
           echo "DB_NAME=fingertips" >> .env
+          echo "DB_PASSWORD=${{ secrets.fingertips_e2e_db_password }}" >> .env
           echo "DB_USER=sa" >> .env
+          echo "UPLOAD_STORAGE_ACCOUNT_CONNECTION_STRING=UseDevelopmentStorage=true" >> .env
           echo "UPLOAD_STORAGE_CONTAINER_NAME=fingertips-upload-container" >> .env
+        working-directory: .
 
       - name: Setup dotnet
         if: ${{ !inputs.update_screenshots }}
@@ -81,17 +85,6 @@ jobs:
         if: ${{ !inputs.update_screenshots }}
         run: dotnet restore
         working-directory: ${{ env.api-directory }}
-
-      - name: Create .env file for API integration tests
-        run: |
-          echo "TRUST_CERT=True" > .env
-          echo "DB_SERVER=localhost" >> .env
-          echo "DB_NAME=fingertips" >> .env
-          echo "DB_PASSWORD=${{ secrets.fingertips_e2e_db_password }}" >> .env
-          echo "DB_USER=sa" >> .env
-          echo "UPLOAD_STORAGE_ACCOUNT_CONNECTION_STRING=UseDevelopmentStorage=true" >> .env
-          echo "UPLOAD_STORAGE_CONTAINER_NAME=fingertips-upload-container" >> .env
-        working-directory: ${{ env.api-directory }}/DHSC.FingertipsNext.Api.IntegrationTests
 
       - name: Start Backend Docker services
         run: npm run start:backend-services

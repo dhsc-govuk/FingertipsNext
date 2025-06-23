@@ -1,5 +1,7 @@
 ﻿using Azure.Storage.Blobs;
+using DotNetEnv;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.Configuration;
 using Shouldly;
 
 namespace DHSC.FingertipsNext.Api.IntegrationTests.DataManagement;
@@ -8,19 +10,26 @@ public class DataManagementIntegrationTests : IClassFixture<WebApplicationFactor
 {
     private const string TestDataDir = "TestData";
     private const string BlobName = "blobName";
-
     private readonly HttpClient _apiClient;
     private readonly BlobContainerClient _blobContainerClient;
 
     public DataManagementIntegrationTests(WebApplicationFactory<Program> factory)
     {
+        // support for .env file
+        Env.Load(string.Empty, new LoadOptions(true, true, false));
+
+        var configuration = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.test.json")
+            .AddEnvironmentVariables()
+            .Build();
+
         ArgumentNullException.ThrowIfNull(factory);
         _apiClient = factory.CreateClient();
 
-        var connectionString = Environment.GetEnvironmentVariable("UPLOAD_STORAGE_ACCOUNT_CONNECTION_STRING");
+        var connectionString = configuration.GetConnectionString("UploadStorageAccount");
         ArgumentNullException.ThrowIfNull(connectionString);
 
-        var containerName = Environment.GetEnvironmentVariable("UPLOAD_STORAGE_CONTAINER_NAME");
+        var containerName = configuration.GetValue<string>("UPLOAD_STORAGE_CONTAINER_NAME");
         ArgumentNullException.ThrowIfNull(containerName);
 
         var blobServiceClient = new BlobServiceClient(connectionString);
@@ -46,7 +55,7 @@ public class DataManagementIntegrationTests : IClassFixture<WebApplicationFactor
         var blobClient = _blobContainerClient.GetBlobClient(BlobName);
         var blobContentFilePath = Path.Combine(TestDataDir, "blobContent.json");
 
-        // Temporarily upload the file ourself, until the API is uploading files to Azure storage.
+        // Temporarily upload the file ourselves, until the API is uploading files to Azure storage.
         await blobClient.UploadAsync(blobContentFilePath);
 
         // Act

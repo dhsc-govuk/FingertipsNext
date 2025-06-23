@@ -8,11 +8,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Azure.Storage.Blobs" Version="12.24.1" />
+        <PackageReference Include="Azure.Storage.Blobs" Version="12.24.1"/>
         <PackageReference Include="coverlet.collector" Version="6.0.2"/>
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.6" />
+        <PackageReference Include="DotNetEnv" Version="3.1.1"/>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.6"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.6"/>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0"/>
-        <PackageReference Include="Shouldly" Version="4.3.0" />
+        <PackageReference Include="Shouldly" Version="4.3.0"/>
         <PackageReference Include="xunit" Version="2.9.2"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2"/>
     </ItemGroup>
@@ -22,13 +24,16 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DHSC.FingertipsNext.Api\DHSC.FingertipsNext.Api.csproj" />
+        <ProjectReference Include="..\DHSC.FingertipsNext.Api\DHSC.FingertipsNext.Api.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="TestData\blobContent.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
+        <None Update="TestData\blobContent.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="appsettings.test.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>
