@@ -12,6 +12,11 @@ using Scalar.AspNetCore;
 public class Program
 {
     private const string ApplicationInsightsConnectionString = "APPLICATIONINSIGHTS_CONNECTION_STRING";
+
+    private Program()
+    {
+    }
+
     public static void Main(string[] args)
     {
 #if DEBUG
