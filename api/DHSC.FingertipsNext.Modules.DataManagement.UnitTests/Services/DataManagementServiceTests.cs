@@ -22,7 +22,7 @@ public class DataManagementServiceTests
         _repository = new DataManagementRepository();
         var blobServiceClient = Substitute.For<BlobServiceClient>();
         _service = new DataManagementService(_repository, blobServiceClient);
-        
+
         blobServiceClient.GetBlobContainerClient(ContainerName).Returns(_containerClient);
         _containerClient.GetBlobClient(BlobName).Returns(_blobClient);
     }
@@ -33,7 +33,7 @@ public class DataManagementServiceTests
         // assert
         _service.SayHelloToRepository().ShouldBe("The Repository says: I'm a Repository");
     }
-    
+
     [Fact]
     public async Task UploadShouldSucceed()
     {
@@ -42,7 +42,7 @@ public class DataManagementServiceTests
         await _blobClient.Received(1).UploadAsync(Arg.Any<Stream>(), true);
         result.ShouldBe(true);
     }
-    
+
     [Fact]
     public async Task UploadShouldFail()
     {
@@ -50,7 +50,7 @@ public class DataManagementServiceTests
             .When(x => x.UploadAsync(Arg.Any<Stream>(), true))
             .Do(x => throw new RequestFailedException("failed"));
 
-        var result = await _service.UploadFileAsync(Stream.Null, BlobName,  ContainerName);
+        var result = await _service.UploadFileAsync(Stream.Null, BlobName, ContainerName);
 
         await _blobClient.Received(1).UploadAsync(Arg.Any<Stream>(), true);
         result.ShouldBe(false);
