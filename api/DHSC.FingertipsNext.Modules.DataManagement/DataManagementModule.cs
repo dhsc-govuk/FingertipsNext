@@ -20,12 +20,12 @@ public class DataManagementModule : AbstractMonolithModule, IMonolithModule
 
     private static void RegisterAzureClients(IServiceCollection services, IConfiguration configuration)
     {
-        const string storageContainerConnectionStringEnvVar = "UPLOAD_STORAGE_ACCOUNT_CONNECTION_STRING";
-        var storageContainerConnectionString = configuration.GetValue<string>(storageContainerConnectionStringEnvVar);
+        const string storageConnectionStringEnvVar = "STORAGE_CONNECTION_STRING";
+        var storageConnectionString = GetConfigurationValue(configuration, storageConnectionStringEnvVar);
 
         services.AddAzureClients(clientBuilder =>
         {
-            clientBuilder.AddBlobServiceClient(storageContainerConnectionString)
+            clientBuilder.AddBlobServiceClient(storageConnectionString)
                 .ConfigureOptions(options =>
                 {
                     options.Retry.MaxRetries = 1;
@@ -33,4 +33,8 @@ public class DataManagementModule : AbstractMonolithModule, IMonolithModule
         });
     }
 
+    private static string GetConfigurationValue(IConfiguration configuration, string key)
+    {
+        return configuration.GetValue<string>(key) ?? throw new ArgumentException($"Missing configuration value for key '{key}'.");
+    }
 }

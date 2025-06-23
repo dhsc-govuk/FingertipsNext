@@ -19,7 +19,7 @@ public class DataManagementService(IDataManagementRepository dataManagementRepos
 
         try
         {
-            await blobClient.UploadAsync(fileStream);
+            await blobClient.UploadAsync(fileStream, true);
         }
         catch (Exception ex) when (ex.GetType() == typeof(RequestFailedException) ||
                                    ex.GetType() == typeof(AggregateException))
