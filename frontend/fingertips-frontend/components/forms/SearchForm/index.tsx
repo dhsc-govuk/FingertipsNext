@@ -62,7 +62,7 @@ export const SearchForm = ({
       : selectedAreasData?.[0]?.name;
 
   return (
-    <StyledFormGroup data-testid="search-form" error={formState.message !== undefined}>
+    <div data-testid="search-form">
       <H3>Find public health data</H3>
       <input
         name="searchState"
@@ -74,21 +74,34 @@ export const SearchForm = ({
         For example, smoking, diabetes prevalence, or a specific indicator ID
       </StyledHintParagraph>
       <StyledSearchBoxWithBorder>
+        {formState.message ? (
+          <ErrorText data-testid="indicator-search-form-error">
+            {formState.message}
+          </ErrorText>
+        ) : (
+          ''
+        )}
         {SearchBox.Input && (
           <SearchBox.Input
             characterLimit={INDICATOR_SEARCH_MAX_CHARACTERS}
             thresholdPercentage={75}
-            input={{
-              id: 'indicator',
-              name: 'indicator',
-              defaultValue: formState.indicator ?? '',
-            }}
+            id="indicator"
+            name="indicator"
             defaultValue={formState.indicator ?? ''}
-            meta={{
-              touched: !!formState.message,
-              error: 'Enter a subject you want to search for',
-            }}
+            // meta={{
+            //   touched: !!formState.message,
+            //   error: 'Enter a subject you want to search for',
+            // }}
             data-testid="indicator-search-form-input"
+            // style={
+            //   formState.errors
+            //     ? {
+            //       borderColor: GovukColours.Red,
+            //       borderWidth: '2px',
+            //       borderStyle: 'solid',
+            //     }
+            //     : {}
+            // }
           />
         )}
         {SearchBox.Button && (
@@ -165,6 +178,6 @@ export const SearchForm = ({
           areaFilterData={areaFilterData}
         />
       </ArrowExpander>
-    </StyledFormGroup>
+    </div>
   );
 };
