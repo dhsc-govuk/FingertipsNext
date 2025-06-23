@@ -2,7 +2,7 @@
 
 exports[`SearchForm snapshot test - renders the form 1`] = `
 <DocumentFragment>
-  .c10 {
+  .c19 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -27,36 +27,36 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   margin-bottom: 22px;
 }
 
-.c10:focus {
+.c19:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c10:link,
-.c10:visited,
-.c10:active,
-.c10:hover {
+.c19:link,
+.c19:visited,
+.c19:active,
+.c19:hover {
   color: #ffffff;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c10::-moz-focus-inner {
+.c19::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
 
-.c10:hover,
-.c10:focus {
+.c19:hover,
+.c19:focus {
   background-color: #00572e;
 }
 
-.c10:active {
+.c19:active {
   top: 2px;
   box-shadow: none;
 }
 
-.c10::before {
+.c19::before {
   content: "";
   display: block;
   position: absolute;
@@ -67,34 +67,34 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   background: transparent;
 }
 
-.c10:active::before {
+.c19:active::before {
   top: -4px;
 }
 
-.c10:disabled {
+.c19:disabled {
   opacity: 0.5;
   background: #00703c;
 }
 
-.c10:disabled:hover {
+.c19:disabled:hover {
   background-color: #00703c;
   cursor: default;
 }
 
-.c10:disabled:focus {
+.c19:disabled:focus {
   outline: none;
 }
 
-.c10:disabled:active {
+.c19:disabled:active {
   top: 0;
   box-shadow: 0 2px 0 #002413;
 }
 
-.c10 svg {
+.c19 svg {
   max-width: 15px;
 }
 
-.c5 {
+.c17 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -106,7 +106,7 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   color: #6f777b;
 }
 
-.c4 {
+.c16 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -120,7 +120,7 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   margin-bottom: 0;
 }
 
-.c6 {
+.c18 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -140,22 +140,22 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   margin-bottom: 0;
 }
 
-.c6:focus {
+.c18:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c6::-webkit-outer-spin-button,
-.c6::-webkit-inner-spin-button {
+.c18::-webkit-outer-spin-button,
+.c18::-webkit-inner-spin-button {
   margin: 0;
   -webkit-appearance: none;
 }
 
-.c6[type="number"] {
+.c18[type="number"] {
   -moz-appearance: textfield;
 }
 
-.c2 {
+.c15 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -167,7 +167,7 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   margin-bottom: 0;
 }
 
-.c2:after {
+.c15:after {
   content: '';
   display: table;
   clear: both;
@@ -186,15 +186,128 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   margin-bottom: 15px;
 }
 
-.c9 {
-  margin-bottom: 5px;
+.c3 {
+  margin: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 15px;
 }
 
-.c8 {
-  margin-bottom: 1em;
+.c3 > p {
+  margin: 0;
+}
+
+.c3 > p > code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,0.05);
+  border-radius: 3px;
+}
+
+.c3 > pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.c3 > pre > code {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+}
+
+.c2 {
+  margin-bottom: 20px;
+}
+
+.c1 .c1:last-of-type {
+  margin-bottom: 0;
 }
 
 .c12 {
+  display: block;
+}
+
+.c10 {
+  width: 100%;
+  height: 40px;
+  padding: 6px;
+  margin: 0;
+  border: solid 1px #bfc1c3;
+  border-right: 0;
+  box-sizing: border-box;
+  font-family: "nta",Arial,sans-serif;
+  font-weight: 400;
+  text-transform: none;
+  font-size: 16px;
+  line-height: 1.75;
+  background: #ffffff;
+  border-radius: 0;
+  -webkit-appearance: none;
+}
+
+.c10:focus {
+  margin-right: 3px;
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+}
+
+.c10:focus ~ button {
+  width: 46px;
+}
+
+.c11 {
+  background-color: #2b8cc4;
+  border: 0;
+  display: block;
+  color: #ffffff;
+  position: relative;
+  padding: 10px;
+  width: 45px;
+  height: 40px;
+  background-repeat: no-repeat;
+  background-position: 2px 50%;
+  text-indent: -999em;
+  overflow: hidden;
+}
+
+.c11:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+}
+
+.c8 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  background: #ffffff;
+  margin-bottom: 0;
+}
+
+.c14 {
+  margin-bottom: 5px;
+}
+
+.c13 {
+  margin-bottom: 1em;
+}
+
+.c21 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -213,12 +326,12 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   cursor: pointer;
 }
 
-.c12 circle {
+.c21 circle {
   outline: none;
   fill: none;
 }
 
-.c11 {
+.c20 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -246,16 +359,16 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   align-items: center;
 }
 
-.c11:hover svg circle {
+.c20:hover svg circle {
   fill: #0B0C0C;
   stroke: #0B0C0C;
 }
 
-.c11:hover svg path {
+.c20:hover svg path {
   stroke: #FFFFFF;
 }
 
-.c13 {
+.c22 {
   font-weight: 300;
   color: #1D70B8;
   padding: 2px 1px 1px 1px;
@@ -264,112 +377,120 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   font-size: 19px;
 }
 
-.c3 {
-  margin-bottom: 5px;
+.c4 {
+  padding-bottom: 2px;
+}
+
+.c5 {
+  margin-bottom: 0;
+}
+
+.c6 {
+  color: #505A5F;
 }
 
 .c7 {
-  position: absolute;
+  margin-bottom: 15px;
 }
 
-.c1 {
-  padding-bottom: 30px;
+.c9 {
+  margin-bottom: 30px;
 }
 
 @media print {
-  .c10 {
+  .c19 {
     font-size: 14px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c10 {
+  .c19 {
     font-size: 19px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c10 {
+  .c19 {
     width: auto;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c10 svg {
+  .c19 svg {
     margin-left: 10px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c10 {
+  .c19 {
     margin-bottom: 32px;
   }
 }
 
 @media print {
-  .c5 {
+  .c17 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c5 {
+  .c17 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media print {
-  .c4 {
+  .c16 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c4 {
+  .c16 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media print {
-  .c4 {
+  .c16 {
     color: #000;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c4 {
+  .c16 {
     margin-bottom: 0;
   }
 }
 
 @media print {
-  .c6 {
+  .c18 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c6 {
+  .c18 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c6 {
+  .c18 {
     margin-bottom: 0;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c2 {
+  .c15 {
     margin-bottom: 0;
   }
 }
@@ -400,9 +521,47 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   }
 }
 
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
 @media only screen and (min-width:641px) {
   .c3 {
-    margin-bottom: 5px;
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    margin-bottom: 20px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c2 {
+    margin-bottom: 30px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c8 {
+    margin-bottom: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c5 {
+    margin-bottom: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c7 {
+    margin-bottom: 15px;
   }
 }
 
@@ -420,55 +579,75 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
       value="{}"
     />
     <div
-      class="c1"
+      class="c1 c2"
     >
-      <label
-        class="c2 c3"
-        data-testid="indicator-search-form-input"
+      <div
+        class="c3 c4 c5"
       >
-        <span
-          class="c4"
-        >
+        <p>
           Search by subject
-        </span>
-        <span
-          class="c5"
-        >
-          <div
-            style="color: rgb(80, 90, 95);"
-          >
-            For example, smoking, diabetes prevalence, or a specific indicator ID
-          </div>
-        </span>
+        </p>
+      </div>
+      <div
+        class="c3 c6 c7"
+      >
+        <p>
+          For example, smoking, diabetes prevalence, or a specific indicator ID
+        </p>
+      </div>
+      <div
+        class="c8 c9"
+      >
         <input
-          class="c6"
+          class="c10"
+          data-testid="indicator-search-form-input"
           id="indicator"
-          maxlength="200"
           name="indicator"
+          style="border-color: #0b0c0c; border-width: 2px; border-style: solid;"
+          type="search"
           value="indicator"
         />
-      </label>
-      <div
-        class="c7"
-      />
+        <button
+          class="c11"
+          data-testid="indicator-search-form-submit"
+          title="Search"
+          type="submit"
+        >
+          <svg
+            class="c12"
+            fill="#ffffff"
+            height="100%"
+            version="1.1"
+            viewBox="0 0 57 57"
+            width="100%"
+          >
+            <title>
+              Search
+            </title>
+            <path
+              d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23 s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92 c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17 s-17-7.626-17-17S14.61,6,23.984,6z"
+            />
+          </svg>
+        </button>
+      </div>
     </div>
     <div
-      class="c8"
+      class="c13"
     >
       <div
-        class="c9"
+        class="c14"
         data-testid="area-search-input-field"
       >
         <label
-          class="c2"
+          class="c15"
         >
           <span
-            class="c4"
+            class="c16"
           >
             Search by area
           </span>
           <span
-            class="c5"
+            class="c17"
           >
             <div
               style="color: rgb(80, 90, 95);"
@@ -477,7 +656,7 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
             </div>
           </span>
           <input
-            class="c6"
+            class="c18"
             id="areaSearched"
             name="areaSearched"
             value=""
@@ -486,7 +665,7 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
       </div>
     </div>
     <button
-      class="c10"
+      class="c19"
       data-testid="search-form-button-submit"
       style="margin-top: 10px;"
       type="submit"
@@ -494,10 +673,10 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
       Search
     </button>
     <span
-      class="c11"
+      class="c20"
     >
       <svg
-        class="c12"
+        class="c21"
         data-testid="arrow-toggle-button"
         height="30"
         viewBox="0 0 25 25"
@@ -521,7 +700,7 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
         />
       </svg>
       <label
-        class="c2 c13"
+        class="c15 c22"
         fill="#1D70B8"
       >
         Open area filter

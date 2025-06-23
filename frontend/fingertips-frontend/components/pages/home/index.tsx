@@ -106,11 +106,11 @@ export const Home = ({
       <br />
       <div id="search">
         <form action={setFormState}>
-        <SearchForm
-          formState={formState}
-          selectedAreasData={selectedAreasData}
-          areaFilterData={areaFilterData}
-        />
+          <SearchForm
+            formState={formState}
+            selectedAreasData={selectedAreasData}
+            areaFilterData={areaFilterData}
+          />
         </form>
       </div>
       <SectionBreak level="LARGE" visible />

@@ -103,13 +103,13 @@ it('should focus on the input boxes when there is a validation error', async () 
   setupUI(errorState);
 
   const anchor = within(screen.getByTestId('search-form-error-summary'))
-    .getByText('Enter a subject you want to search for')
+    .getByText('Enter an area you want to search for')
     .closest('a')!;
   await user.click(anchor);
 
   await waitFor(() => {
     expect(
-      screen.getByRole('textbox', { name: /Search by subject/i })
+      screen.getByRole('textbox', { name: /Search by area/i })
     ).toHaveFocus();
   });
   expect(scrollMock).toBeCalledTimes(1);
