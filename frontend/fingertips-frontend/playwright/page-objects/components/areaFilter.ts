@@ -62,7 +62,7 @@ export default class AreaFilter extends BasePage {
     );
 
     for (const pillText of expectedPillText) {
-      expect(cleanedPillTexts).toContain(pillText.indicatorName);
+      expect(cleanedPillTexts).toContain(pillText.indicatorName.trim());
     }
   }
 
