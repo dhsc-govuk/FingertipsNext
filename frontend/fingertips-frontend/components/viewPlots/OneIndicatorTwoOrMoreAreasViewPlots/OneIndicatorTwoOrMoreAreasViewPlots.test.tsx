@@ -18,7 +18,6 @@ import {
   queryKeyFromRequestParams,
 } from '@/components/charts/helpers/queryKeyFromRequestParams';
 import { compareAreasTableRequestParams } from '@/components/charts/CompareAreasTable/helpers/compareAreasTableRequestParams';
-import { Mock } from 'vitest';
 
 const mockPath = 'some-mock-path';
 const mockReplace = vi.fn();
@@ -102,8 +101,8 @@ const mockSearchState = {
   [SearchParams.IndicatorsSelected]: [testMetaData.indicatorID],
   [SearchParams.AreasSelected]: mockAreas,
 };
-const mockUseSearchStateParams = jest.fn();
-jest.mock('@/components/hooks/useSearchStateParams', () => ({
+const mockUseSearchStateParams = vi.fn();
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
   useSearchStateParams: () => mockUseSearchStateParams(),
 }));
 

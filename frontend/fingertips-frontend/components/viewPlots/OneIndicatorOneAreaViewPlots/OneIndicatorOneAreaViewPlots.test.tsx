@@ -56,7 +56,7 @@ const mockSearchState = {
   [SearchParams.IndicatorsSelected]: [testMetaData.indicatorID],
   [SearchParams.AreasSelected]: mockAreas,
 };
-const mockUseSearchStateParams = jest.fn();
+const mockUseSearchStateParams = vi.fn();
 vi.mock('@/components/hooks/useSearchStateParams', () => ({
   useSearchStateParams: () => mockUseSearchStateParams(),
 }));

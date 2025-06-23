@@ -11,19 +11,3 @@ exports[`styleChartWrapper > should style the ChartWrapper component as expected
   </div>
 </DocumentFragment>
 `;
-
-exports[`styleChartWrapper should style the ChartWrapper component as expected 1`] = `
-<DocumentFragment>
-  .c0 {
-  margin-bottom: 50px;
-}
-
-<div
-    class="c0"
-  >
-    <div
-      data-testid="mock component"
-    />
-  </div>
-</DocumentFragment>
-`;

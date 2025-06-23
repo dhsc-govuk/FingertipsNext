@@ -12,11 +12,10 @@ import {
 } from '@/mock/data/mockHealthDataForArea';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { ComponentProps } from 'react';
+import { MockedFunction } from 'vitest';
 
-jest.mock(
-  '@/components/charts/LineChartOverTime/hooks/useLineChartOverTimeData'
-);
-jest.mock('@/components/organisms/LineChartTable', () => ({
+vi.mock('@/components/charts/LineChartOverTime/hooks/useLineChartOverTimeData');
+vi.mock('@/components/organisms/LineChartTable', () => ({
   LineChartTable: (props: ComponentProps<typeof LineChartTable>) => (
     <div data-testid="mock-line-chart-table">
       <div data-testid="title">{props.title}</div>
@@ -25,14 +24,13 @@ jest.mock('@/components/organisms/LineChartTable', () => ({
   ),
 }));
 
-const mockUseLineChartOverTimeData =
-  useLineChartOverTimeData as jest.MockedFunction<
-    typeof useLineChartOverTimeData
-  >;
+const mockUseLineChartOverTimeData = useLineChartOverTimeData as MockedFunction<
+  typeof useLineChartOverTimeData
+>;
 
 describe('LineChartTableOverTime', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('returns null if lineChartOverTimeData is null', () => {
