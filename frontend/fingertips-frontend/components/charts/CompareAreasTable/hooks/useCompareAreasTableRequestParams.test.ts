@@ -9,6 +9,7 @@ import {
   Area,
   GetHealthDataForAnIndicatorRequest,
 } from '@/generated-sources/ft-api-client';
+import { MockedFunction } from 'vitest';
 
 vi.mock('@/components/hooks/useSearchStateParams');
 vi.mock('@/components/charts/hooks/useApiAvailableAreas');
