@@ -98,10 +98,7 @@ jobs:
 
       - name: Run API Integration Tests
         if: ${{ !inputs.update_screenshots }}
-        run: |
-          pwd
-          cat DHSC.FingertipsNext.Api.IntegrationTests/.env
-          dotnet test --filter FullyQualifiedName~IntegrationTests
+        run: dotnet test --filter FullyQualifiedName~IntegrationTests
         working-directory: ${{ env.api-directory }}
 
       - name: Start Application Docker services
