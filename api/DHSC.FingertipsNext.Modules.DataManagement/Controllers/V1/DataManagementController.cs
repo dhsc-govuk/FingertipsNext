@@ -30,9 +30,9 @@ public class DataManagementController(IDataManagementService dataManagementServi
         {
             return new StatusCodeResult(StatusCodes.Status500InternalServerError);
         }
-        
+
         await using var fileStream = file.OpenReadStream();
-        
+
         var isSuccess = await dataManagementService.UploadFileAsync(fileStream, encodedUntrustedFileName, containerName);
 
         return isSuccess switch

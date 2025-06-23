@@ -44,7 +44,7 @@ public class DataManagementControllerTests
             .Returns(true);
         var response = await _controller.UploadHealthData(_formFile, StubIndicatorId) as AcceptedResult;
         var expected = $"File {StubFileName} has been accepted for indicator {StubIndicatorId}.";
-        
+
         await _dataManagementService.Received(1).UploadFileAsync(Arg.Any<Stream>(), StubFileName, "StubContainerName");
         response?.StatusCode.ShouldBe(202);
         response?.Value.ToString().ShouldBe(expected);
@@ -100,12 +100,12 @@ public class DataManagementControllerTests
     public async Task RequestReturns500IfEnvironmentVariableNotFound()
     {
         _configuration = new ConfigurationBuilder()
-            .AddInMemoryCollection(new Dictionary<string, string?> {{"STORAGE_CONTAINER_NAME", ""}})
+            .AddInMemoryCollection(new Dictionary<string, string?> { { "STORAGE_CONTAINER_NAME", "" } })
             .Build();
         _controller = new DataManagementController(_dataManagementService, _configuration);
 
         var response = await _controller.UploadHealthData(_formFile, StubIndicatorId) as StatusCodeResult;
-        
+
         response.StatusCode.ShouldBe(500);
     }
 
@@ -114,9 +114,9 @@ public class DataManagementControllerTests
     {
         _dataManagementService.UploadFileAsync(Arg.Any<Stream>(), StubFileName, "StubContainerName")
             .Returns(false);
-        
+
         var response = await _controller.UploadHealthData(_formFile, StubIndicatorId) as StatusCodeResult;
-        
+
         await _dataManagementService.Received(1).UploadFileAsync(Arg.Any<Stream>(), StubFileName, "StubContainerName");
         response?.StatusCode.ShouldBe(500);
     }

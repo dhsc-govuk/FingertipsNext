@@ -17,7 +17,7 @@ public class DataManagementModule : AbstractMonolithModule, IMonolithModule
         services.AddTransient<IDataManagementRepository, DataManagementRepository>();
         RegisterAzureClients(services, configuration);
     }
-    
+
     private static void RegisterAzureClients(IServiceCollection services, IConfiguration configuration)
     {
         const string storageContainerConnectionStringEnvVar = "UPLOAD_STORAGE_ACCOUNT_CONNECTION_STRING";
