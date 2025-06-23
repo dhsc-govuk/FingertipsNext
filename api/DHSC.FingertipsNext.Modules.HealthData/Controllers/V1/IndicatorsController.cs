@@ -43,7 +43,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
         [FromRoute] int indicatorId,
         [FromQuery(Name = "area_codes")] string[]? areaCodes = null,
         [FromQuery(Name = "area_type")] string areaType = "",
-        [FromQuery(Name = "ancestor_code")] string? ancestorCode = "",
+        [FromQuery(Name = "ancestor_code")] string ancestorCode = "",
         [FromQuery(Name = "benchmark_ref_type")]
             BenchmarkReferenceType benchmarkRefType = BenchmarkReferenceType.Unknown,
         [FromQuery] int[]? years = null,

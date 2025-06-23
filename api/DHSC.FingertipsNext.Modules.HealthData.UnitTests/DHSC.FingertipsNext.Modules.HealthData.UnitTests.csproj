@@ -2,9 +2,6 @@
 
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>disable</Nullable>
-        <IsPackable>false</IsPackable>
         <RootNamespace>DHSC.FingertipsNext.Modules.HealthData.Tests</RootNamespace>
     </PropertyGroup>
 

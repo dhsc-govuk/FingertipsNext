@@ -14,14 +14,14 @@ public class AreaRelationshipModel
     /// The parent area in the relationship
     /// </summary>
     [ForeignKey("ParentAreaKey")]
-    public int ParentAreaKey { get; set; }
-    public AreaModel Parent { get; set; }
+    public int ParentAreaKey { get; init; }
+    public required AreaModel Parent { get; init; }
 
     /// <summary>
     /// The child area in the relationship
     /// </summary>
     [ForeignKey("ChildAreaKey")]
-    public int ChildAreaKey { get; set; }
+    public int ChildAreaKey { get; init; }
 
-    public AreaModel Child { get; set; }
+    public required AreaModel Child { get; init; }
 }

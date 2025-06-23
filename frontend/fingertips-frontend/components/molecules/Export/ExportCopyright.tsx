@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import styled from 'styled-components';
 
-const copyrightDateFormat = 'd MMMM yyyy';
+export const copyrightDateFormat = 'd MMMM yyyy';
 
 const StyledDiv = styled.div({
   fontSize: '14px',

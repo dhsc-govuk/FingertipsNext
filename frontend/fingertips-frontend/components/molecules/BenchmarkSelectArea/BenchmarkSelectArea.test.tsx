@@ -56,7 +56,6 @@ describe('BenchmarkSelectArea', () => {
       <BenchmarkSelectArea
         availableAreas={mockAvailableAreas}
         benchmarkAreaSelectedKey={SearchParams.BenchmarkAreaSelected}
-        searchState={{}}
       />
     );
 
@@ -77,7 +76,6 @@ describe('BenchmarkSelectArea', () => {
       <BenchmarkSelectArea
         availableAreas={mockAvailableAreas}
         benchmarkAreaSelectedKey={SearchParams.BenchmarkAreaSelected}
-        searchState={{ [SearchParams.InequalityBarChartAreaSelected]: 'A002' }}
       />
     );
 
@@ -99,7 +97,6 @@ describe('BenchmarkSelectArea', () => {
       <BenchmarkSelectArea
         availableAreas={mockAvailableAreas}
         benchmarkAreaSelectedKey={SearchParams.BenchmarkAreaSelected}
-        searchState={{}}
       />
     );
 

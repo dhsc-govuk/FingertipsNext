@@ -2,14 +2,15 @@ import styled from 'styled-components';
 import { SpineChartLegendItem } from '@/components/organisms/SpineChartLegend/SpineChartLegendItem';
 import { SpineChartLegendTypes } from '@/components/organisms/SpineChartLegend/SpineChartLegend.types';
 import React, { FC } from 'react';
-import { BenchmarkLegends } from '@/components/organisms/BenchmarkLegend';
 import { BenchmarkLegendsToShow } from '@/components/organisms/BenchmarkLegend/benchmarkLegend.types';
 import { SpineChartQuartilesInfoContainer } from '@/components/organisms/SpineChart/SpineChartQuartilesInfo';
 import {
   areaCodeForEngland,
   englandAreaString,
 } from '@/lib/chartHelpers/constants';
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { SearchParams } from '@/lib/searchStateManager';
+import { BenchmarkLegends } from '@/components/organisms/BenchmarkLegend/BenchmarkLegends';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
 const DivContainer = styled.div({
   fontFamily: 'nta, Arial, sans-serif',
@@ -24,7 +25,6 @@ const FlexDiv = styled.div({
 interface SpineChartLegendProps {
   legendsToShow: BenchmarkLegendsToShow;
   benchmarkToUse: string;
-  searchState: SearchStateParams;
   groupName?: string;
   areaNames?: string[];
 }
@@ -32,10 +32,10 @@ interface SpineChartLegendProps {
 export const SpineChartLegend: FC<SpineChartLegendProps> = ({
   legendsToShow,
   benchmarkToUse,
-  searchState,
   groupName = '',
   areaNames = ['Area'],
 }) => {
+  const searchState = useSearchStateParams();
   const { [SearchParams.GroupSelected]: selectedGroupCode } = searchState;
 
   const benchmarkName =

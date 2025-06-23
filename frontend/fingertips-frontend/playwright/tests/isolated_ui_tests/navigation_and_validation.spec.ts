@@ -1,15 +1,17 @@
 import { test } from '../../page-objects/pageFactory';
 import {
-  getAllIndicatorIDsForSearchTerm,
-  returnIndicatorIDsByIndicatorMode,
   sortAlphabetically,
-  getAllAreasByAreaType,
   IndicatorMode,
   SearchMode,
   AreaMode,
   IndicatorInfo,
   AreaFilters,
-} from '../../testHelpers';
+} from '../../testHelpers/genericTestUtilities';
+import {
+  getAllIndicatorIDsForSearchTerm,
+  returnIndicatorIDsByIndicatorMode,
+  getAllAreasByAreaType,
+} from '../../testHelpers/indicatorDataUtilities';
 import mockIndicators from '../../../assets/mockIndicatorData.json';
 import mockAreas from '../../../assets/mockAreaData.json';
 import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
@@ -244,7 +246,7 @@ test.describe('Area Filter Tests', () => {
       ];
 
       await test
-        .expect(resultsPage.areaFilterPills())
+        .expect(await resultsPage.areaFilterPills())
         .toHaveCount(expectedPillTexts.length);
 
       const filterPillNames = await resultsPage.areaFilterPillsText();
@@ -265,7 +267,7 @@ test.describe('Area Filter Tests', () => {
       ];
 
       await test
-        .expect(resultsPage.areaFilterPills())
+        .expect(await resultsPage.areaFilterPills())
         .toHaveCount(expectedRemainingPills.length);
 
       const remainingPillNames = await resultsPage.areaFilterPillsText();

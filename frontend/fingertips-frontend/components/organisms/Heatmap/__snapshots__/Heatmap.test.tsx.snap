@@ -311,33 +311,6 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
   tint: SOLID;
 }
 
-.c6 {
-  position: relative;
-  left: -5px;
-}
-
-.c5 {
-  display: block;
-  margin: 4px 0 0 0;
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-  font-size: 16px;
-}
-
-.c3 {
-  margin-bottom: 2em;
-}
-
-.c4 {
-  -webkit-align-self: stretch;
-  -ms-flex-item-align: stretch;
-  align-self: stretch;
-  margin: 16px 0 8px 0;
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-  font-size: 19px;
-}
-
 .c25 {
   height: 50px;
   margin: 0;
@@ -526,6 +499,33 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
   margin: 0 0 30px 0;
 }
 
+.c3 {
+  margin-bottom: 2em;
+}
+
+.c4 {
+  -webkit-align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
+  margin: 16px 0 8px 0;
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+  font-size: 19px;
+}
+
+.c6 {
+  position: relative;
+  left: -5px;
+}
+
+.c5 {
+  display: block;
+  margin: 4px 0 0 0;
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+}
+
 @media print {
   .c47 {
     font-size: 14px;
@@ -636,7 +636,7 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
   >
     <div
       data-testid="heatmapChart-component"
-      id="heatmap"
+      id="heatmapChart"
     >
       <h4
         class="c1 c2"
@@ -1095,6 +1095,7 @@ exports[`heatmap snapshot test - england benchmark 1`] = `
     </div>
     <button
       class="c47 c48"
+      data-testid="heatmapChart-export-button"
     >
       Export options
     </button>
@@ -1413,33 +1414,6 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   tint: SOLID;
 }
 
-.c6 {
-  position: relative;
-  left: -5px;
-}
-
-.c5 {
-  display: block;
-  margin: 4px 0 0 0;
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-  font-size: 16px;
-}
-
-.c3 {
-  margin-bottom: 2em;
-}
-
-.c4 {
-  -webkit-align-self: stretch;
-  -ms-flex-item-align: stretch;
-  align-self: stretch;
-  margin: 16px 0 8px 0;
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-  font-size: 19px;
-}
-
 .c25 {
   height: 50px;
   margin: 0;
@@ -1633,6 +1607,33 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   margin: 0 0 30px 0;
 }
 
+.c3 {
+  margin-bottom: 2em;
+}
+
+.c4 {
+  -webkit-align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
+  margin: 16px 0 8px 0;
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+  font-size: 19px;
+}
+
+.c6 {
+  position: relative;
+  left: -5px;
+}
+
+.c5 {
+  display: block;
+  margin: 4px 0 0 0;
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+}
+
 @media print {
   .c48 {
     font-size: 14px;
@@ -1743,7 +1744,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
   >
     <div
       data-testid="heatmapChart-component"
-      id="heatmap"
+      id="heatmapChart"
     >
       <h4
         class="c1 c2"
@@ -2202,6 +2203,7 @@ exports[`heatmap snapshot test - group area benchmark 1`] = `
     </div>
     <button
       class="c48 c49"
+      data-testid="heatmapChart-export-button"
     >
       Export options
     </button>

@@ -1,0 +1,126 @@
+import { useLineChartOverTimeData } from '@/components/charts/LineChartOverTime/hooks/useLineChartOverTimeData';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
+import { useApiGetHealthDataForAnIndicator } from '@/components/charts/hooks/useApiGetHealthDataForAnIndicator';
+import { useApiGetIndicatorMetaData } from '@/components/charts/hooks/useApiGetIndicatorMetaData';
+import { lineChartOverTimeIsRequired } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeIsRequired';
+import { lineChartOverTimeData } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeData';
+import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
+import { renderHook } from '@testing-library/react';
+import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+
+jest.mock('@/components/hooks/useSearchStateParams');
+jest.mock(
+  '@/components/charts/LineChartOverTime/hooks/useLineChartOverTimeRequestParams'
+);
+jest.mock('@/components/charts/hooks/useApiGetHealthDataForAnIndicator');
+jest.mock('@/components/charts/hooks/useApiGetIndicatorMetaData');
+jest.mock(
+  '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeIsRequired'
+);
+jest.mock(
+  '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeData'
+);
+
+const mockUseSearchStateParams = useSearchStateParams as jest.MockedFunction<
+  typeof useSearchStateParams
+>;
+
+const mockUseApiGetHealthDataForAnIndicator =
+  useApiGetHealthDataForAnIndicator as jest.MockedFunction<
+    typeof useApiGetHealthDataForAnIndicator
+  >;
+const mockUseApiGetIndicatorMetaData =
+  useApiGetIndicatorMetaData as jest.MockedFunction<
+    typeof useApiGetIndicatorMetaData
+  >;
+const mockLineChartOverTimeIsRequired =
+  lineChartOverTimeIsRequired as jest.MockedFunction<
+    typeof lineChartOverTimeIsRequired
+  >;
+const mockLineChartOverTimeData = lineChartOverTimeData as jest.MockedFunction<
+  typeof lineChartOverTimeData
+>;
+
+describe('useLineChartOverTimeData', () => {
+  const mockSearchState: SearchStateParams = {
+    [SearchParams.IndicatorsSelected]: ['101'],
+    [SearchParams.GroupSelected]: 'G001',
+    [SearchParams.BenchmarkAreaSelected]: 'BA001',
+    [SearchParams.AreasSelected]: ['A001'],
+  };
+
+  let mockHealthQuery: ReturnType<typeof useApiGetHealthDataForAnIndicator>;
+  let mockMetaQuery: ReturnType<typeof useApiGetIndicatorMetaData>;
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    mockUseSearchStateParams.mockReturnValue(mockSearchState);
+
+    mockHealthQuery = {
+      healthData: mockIndicatorWithHealthDataForArea(),
+      healthDataLoading: false,
+      healthDataError: null,
+    };
+
+    mockMetaQuery = {
+      indicatorMetaData: mockIndicatorDocument(),
+      indicatorMetaDataError: null,
+      indicatorMetaDataLoading: false,
+    };
+  });
+
+  it('returns null if healthData is missing', () => {
+    mockUseApiGetHealthDataForAnIndicator.mockReturnValue({
+      ...mockHealthQuery,
+      healthData: undefined,
+    });
+    mockUseApiGetIndicatorMetaData.mockReturnValue(mockMetaQuery);
+    mockLineChartOverTimeIsRequired.mockReturnValue(true);
+
+    const { result } = renderHook(() => useLineChartOverTimeData());
+    expect(result.current).toBeNull();
+  });
+
+  it('returns null if indicatorMetaData is missing', () => {
+    mockUseApiGetHealthDataForAnIndicator.mockReturnValue(mockHealthQuery);
+    mockUseApiGetIndicatorMetaData.mockReturnValue({
+      ...mockMetaQuery,
+      indicatorMetaData: undefined,
+    });
+    mockLineChartOverTimeIsRequired.mockReturnValue(true);
+
+    const { result } = renderHook(() => useLineChartOverTimeData());
+    expect(result.current).toBeNull();
+  });
+
+  it('returns null if chart is not required', () => {
+    mockUseApiGetHealthDataForAnIndicator.mockReturnValue(mockHealthQuery);
+    mockUseApiGetIndicatorMetaData.mockReturnValue(mockMetaQuery);
+    mockLineChartOverTimeIsRequired.mockReturnValue(false);
+
+    const { result } = renderHook(() => useLineChartOverTimeData());
+    expect(result.current).toBeNull();
+  });
+
+  it('returns chart data when all inputs are valid', () => {
+    const expectedChartData = { chart: 'data' };
+
+    mockUseApiGetHealthDataForAnIndicator.mockReturnValue(mockHealthQuery);
+    mockUseApiGetIndicatorMetaData.mockReturnValue(mockMetaQuery);
+    mockLineChartOverTimeIsRequired.mockReturnValue(true);
+    mockLineChartOverTimeData.mockReturnValue(
+      expectedChartData as unknown as ReturnType<typeof lineChartOverTimeData>
+    );
+
+    const { result } = renderHook(() => useLineChartOverTimeData());
+    expect(result.current).toEqual(expectedChartData);
+    expect(mockLineChartOverTimeData).toHaveBeenCalledWith(
+      mockMetaQuery.indicatorMetaData,
+      mockHealthQuery.healthData,
+      ['A001'],
+      'G001',
+      'BA001'
+    );
+  });
+});

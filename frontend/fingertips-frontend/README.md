@@ -85,9 +85,11 @@ Isolated ui testing, covering accessibility, page navigation and validations occ
 
 For e2e tests there is a difference between where and how the tests are executed:
 
- 1. In CI, which occurs on push and in pull requests, we execute the e2e tests against a dockerised container instance of fingertips running in the github runner agent. Note that we also perform visual screenshot snapshot testing of the chart components at this point.
+ 1. In CI, which occurs on push and in pull requests, we execute the e2e tests against a dockerised container instance of fingertips, using chromium browser, running in the github runner agent. Note that we also perform visual screenshot snapshot testing of all the chart components at this point.
 
- 2. In CD, which occurs when code merges into main, we execute the e2e tests against the deployed azure instance of fingertips. Note we do not perform visual screenshot snapshot testing at this point.
+ 2. In CD, which occurs when code merges into main, we execute the e2e tests against the deployed azure instance of fingertips, using both chromium and webkit browsers. Note we do not perform visual screenshot snapshot testing at this point.
+
+We use tags to tag our tests to control whether they run in both CI and CD, or just one of these. This depends on what the e2e test is testing as certain data and infrastructure only exists in the CD environment.
 
 For local development we also have the option to run the tests locally against mocks or against a containerised instance of fingertips using docker.
 
@@ -137,7 +139,7 @@ To run the e2e tests locally, headed allowing debug:
 npm run test-e2e-ui-mode
 ```
 
-Except for in ui mode, each test will be executed in parallel using Chromium and Webkit as defined in playwright.config.ts. 
+Each test will be executed in parallel using Chromium and Webkit as defined in playwright.config.ts, except for in --ui mode which launches the playwright test runner. 
 
 To make our isolated ui testing and fully integrated e2e testing as close to real world as possible, we use the full chromium headless mode offered by recent playwright versions see https://playwright.dev/docs/release-notes#try-new-chromium-headless.
 
@@ -210,4 +212,7 @@ If you wish to autogenerate the mock handlers again, use the following command:
 npm run generate:ft-mocks
 ```
 
-`msw-auto-mock` will generate mock service workers for `browser`, `native` and `node`. We only need `node` so the other 2 can be deleted. These files are also `.js` files. Rename `handler.js` and `node.js` to `handler.ts` and `node.ts`.
+`msw-auto-mock` will generate mock service workers for `browser`, `native`, `handlers` and `node`. 
+- We do not need `browser` or `native` so these should be deleted.
+- Since the project is using Typescript `node.js` should be renamed `node.ts`.
+- The project uses the `handlers.ts` file, and a number of manual edits will have been made to this file. Any additional code from the generated `handlers.js` file should be transposed into this existing `.ts` file. `handlers.js` can then be deleted. 

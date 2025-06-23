@@ -8,6 +8,9 @@ CREATE PROCEDURE [dbo].[GetIndicatorQuartileDataForLatestYear]
 --- The area used for benchmarking
 AS
 BEGIN
+    DECLARE @NOW AS DATETIME2;
+    SET @NOW = GETUTCDATE();
+
     WITH
     --- Get the Benchmark Areas - these are areas of a specific type which are descendants of the benchmark areaGroup
     BenchmarkAreas AS (
@@ -41,6 +44,7 @@ BEGIN
         RequestedIndicators ri
     ON
         hm.IndicatorKey = ri.IndicatorKey 
+    WHERE hm.PublishedAt <= @NOW
     GROUP BY
         hm.IndicatorKey
     ),
@@ -67,6 +71,7 @@ BEGIN
 	        --- This ensures we are only dealing with Aggregate data
 	        hm.IsSexAggregatedOrSingle=1 AND hm.IsAgeAggregatedOrSingle=1 AND hm.IsDeprivationAggregatedOrSingle=1
 	    )
+    AND hm.PublishedAt <= @NOW
     ), 
     ComparisonAncestor AS (
     SELECT
@@ -91,6 +96,7 @@ BEGIN
 	        --- This ensures we are only dealing with Aggregate data
 	        hm.IsSexAggregatedOrSingle=1 AND hm.IsAgeAggregatedOrSingle=1 AND hm.IsDeprivationAggregatedOrSingle=1
 	    )
+    AND hm.PublishedAt <= @NOW
     ), 
     EnglandValue AS (
     SELECT
@@ -115,12 +121,16 @@ BEGIN
 	        --- This ensures we are only dealing with Aggregate data
 	        hm.IsSexAggregatedOrSingle=1 AND hm.IsAgeAggregatedOrSingle=1 AND hm.IsDeprivationAggregatedOrSingle=1
 	    )
+    AND hm.PublishedAt <= @NOW
     ), 
 	--- This finds ALL data points in England of the same areaType which are aggregated (not inequalities) data points
 	HealthData AS (
 	SELECT
 	        hm.IndicatorKey,
 		    hm.Year,
+		    fromDate.Date AS FromDate,
+		    toDate.Date AS ToDate,
+		    datePeriod.Period AS DatePeriod,
 		    NTILE(4) OVER(PARTITION BY hm.Year, hm.indicatorKey ORDER BY hm.Value) AS Quartile,
 		    hm.Value
 	FROM
@@ -139,17 +149,33 @@ BEGIN
 	        BenchmarkAreas as ba
 	ON
 	        areaDim.Code = ba.AreaCode
+    JOIN
+            dbo.DateDimension AS fromDate
+    ON
+        	hm.FromDateKey = fromDate.DateKey
+    JOIN
+            dbo.DateDimension AS toDate
+    ON
+        	hm.ToDateKey = toDate.DateKey
+    JOIN
+            dbo.PeriodDimension AS datePeriod
+    ON
+        	hm.PeriodKey = datePeriod.PeriodKey	        
 	WHERE
 		(
 		--- This ensures we are only dealing with Aggregate data
 	        hm.IsSexAggregatedOrSingle=1 AND hm.IsAgeAggregatedOrSingle=1 AND hm.IsDeprivationAggregatedOrSingle=1
 	    )
+        AND hm.PublishedAt <= @NOW
     ),
     --- Calculate Quartiles
     QuartileData AS ( 
     SELECT
         IndicatorKey,
 		hd.Year,
+	    hd.FromDate,
+	    hd.ToDate,
+	    hd.DatePeriod,
 	    COUNT(*) count,
 	    MIN(hd.Value) Minimum,
 	    MAX(CASE WHEN hd.Quartile = 1 THEN Value END) Quartile1,
@@ -159,13 +185,16 @@ BEGIN
     FROM
 		HealthData AS hd
     GROUP BY
-	    IndicatorKey, Year
+	    IndicatorKey, Year, hd.FromDate, hd.ToDate, hd.DatePeriod
 	)
 	--- Now combine data to return
 	SELECT 
 	    rii.IndicatorId AS IndicatorId,
 	    ri.Polarity AS Polarity,
 	    qd.Year AS Year,
+		qd.FromDate,
+		qd.ToDate,
+		qd.DatePeriod AS Period,
 	    CASE WHEN qd.count >= 4 THEN qd.Minimum END AS Q0Value,
 	    CASE WHEN qd.count >= 4 THEN qd.Quartile1 END AS Q1Value,
 	    CASE WHEN qd.count >= 4 THEN qd.Median END AS Q2Value,

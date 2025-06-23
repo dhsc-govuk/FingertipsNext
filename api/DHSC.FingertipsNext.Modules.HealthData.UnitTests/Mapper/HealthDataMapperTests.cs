@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
+﻿using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 using DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 using Shouldly;
@@ -25,6 +24,7 @@ public class HealthDataMapperTests
         return new HealthDataPoint
         {
             Year = year,
+            DatePeriod = new DatePeriod { From = new DateOnly(year, 1, 1), To = new DateOnly(year, 12, 31), PeriodType = DatePeriodType.Calendar },
             Count = count,
             Value = value,
             LowerConfidenceInterval = lowerConfidenceInterval,
@@ -60,7 +60,7 @@ public class HealthDataMapperTests
             IsAggregate = false
         };
 
-        var healthMeasure = new HealthMeasureModelHelper(year: 2007, isAggregate: false)
+        var healthMeasure = new HealthMeasureModelHelper(year: 2007)
             .WithAgeDimension(new AgeDimensionModel
             {
                 Name = "25-31",
@@ -97,11 +97,12 @@ public class HealthDataMapperTests
     [InlineData("No judgement", IndicatorPolarity.NoJudgement)]
     [InlineData(null, IndicatorPolarity.Unknown)]
 
-    public void MapperShouldMapAnIndicatorDimensionModelPolarityToAnIndicatorPolarity(string modelPolarity, IndicatorPolarity expectedPolarity)
+    public void MapperShouldMapAnIndicatorDimensionModelPolarityToAnIndicatorPolarity(string? modelPolarity, IndicatorPolarity expectedPolarity)
     {
         // Arrange
         var indicator = new IndicatorDimensionModel
         {
+            Name = "",
             Polarity = modelPolarity
         };
 
@@ -117,11 +118,12 @@ public class HealthDataMapperTests
     [InlineData("Confidence intervals overlapping reference value (99.8)", BenchmarkComparisonMethod.CIOverlappingReferenceValue998)]
     [InlineData("Quintiles", BenchmarkComparisonMethod.Quintiles)]
     [InlineData(null, BenchmarkComparisonMethod.Unknown)]
-    public void MapperShouldMapAnIndicatorDimensionModelBenchmarkComparisonMethodToABenchmarkComparisonMethod(string modelBenchmarkComparisonMethod, BenchmarkComparisonMethod expectedBenchmarkComparisonMethod)
+    public void MapperShouldMapAnIndicatorDimensionModelBenchmarkComparisonMethodToABenchmarkComparisonMethod(string? modelBenchmarkComparisonMethod, BenchmarkComparisonMethod expectedBenchmarkComparisonMethod)
     {
         // Arrange
         var indicator = new IndicatorDimensionModel
         {
+            Name = string.Empty,
             BenchmarkComparisonMethod = modelBenchmarkComparisonMethod
         };
 
@@ -142,6 +144,9 @@ public class HealthDataMapperTests
                 IndicatorId = 0,
                 Polarity = "High is good",
                 Year = 2024,
+                FromDate = new DateTime(2024, 1, 1),
+                ToDate = new DateTime(2024, 12, 31),
+                Period = "Calendar",
                 Q0Value = 10,
                 Q1Value = 20,
                 Q2Value = 30,
@@ -160,6 +165,7 @@ public class HealthDataMapperTests
                 IndicatorId = 0,
                 Polarity = IndicatorPolarity.HighIsGood,
                 Year = 2024,
+                DatePeriod =  new DatePeriod { From = new DateOnly(2024, 1, 1), To = new DateOnly(2024, 12, 31), PeriodType = DatePeriodType.Calendar },
                 Q0Value = 10,
                 Q1Value = 20,
                 Q2Value = 30,

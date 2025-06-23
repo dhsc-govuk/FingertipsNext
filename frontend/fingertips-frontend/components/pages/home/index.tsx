@@ -4,6 +4,7 @@ import {
   ErrorSummary,
   H2,
   H3,
+  InsetText,
   Link,
   ListItem,
   Paragraph,
@@ -22,6 +23,7 @@ import { spacing } from '@govuk-react/lib';
 import { Area } from '@/generated-sources/ft-api-client';
 import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
 import { useSearchState } from '@/context/SearchStateContext';
+import { siteTitle } from '@/lib/constants';
 
 const ZeroMarginParagraph = styled(Paragraph)(
   spacing.withWhiteSpace({ marginBottom: 0 })
@@ -76,12 +78,15 @@ export const Home = ({
           }}
         />
       )}
-      <H2>Access public health data</H2>
+      <H2>{siteTitle}</H2>
       <Paragraph>
-        A free government service that provides access to a wide range of public
-        health data in England.
+        This service provides easy access to a comprehensive collection of
+        public health data for England. It can be used to monitor trends,
+        identify inequalities, and make make data-driven decisions to improve
+        public health.
       </Paragraph>
-      <br />
+
+      <InsetText>This service was previously known as Fingertips</InsetText>
 
       <ZeroMarginParagraph>Contents</ZeroMarginParagraph>
       <UnorderedList listStyleType='"— "'>

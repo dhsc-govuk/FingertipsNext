@@ -5,7 +5,8 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { Options } from 'highcharts';
 import userEvent from '@testing-library/user-event';
 import { CsvData } from '@/lib/downloadHelpers/convertToCsv';
-import { getSvgFromOptions } from '@/components/molecules/Export/exportHelpers';
+
+import { svgStringFromChartOptions } from '@/components/molecules/Export/helpers/svgStringFromChartOptions';
 
 jest.mock('html2canvas', () => ({
   __esModule: true,
@@ -13,9 +14,15 @@ jest.mock('html2canvas', () => ({
 }));
 
 jest.mock('@/components/molecules/Export/exportHelpers', () => ({
-  getSvgFromOptions: jest.fn(() => '<svg></svg>'),
   getHtmlToImageCanvas: () => Promise.resolve(document.createElement('canvas')),
 }));
+
+jest.mock(
+  '@/components/molecules/Export/helpers/svgStringFromChartOptions',
+  () => ({
+    svgStringFromChartOptions: jest.fn(() => '<svg></svg>'),
+  })
+);
 
 const testRender = (chartOptions?: Options, csvData?: CsvData) => {
   render(
@@ -59,6 +66,9 @@ describe('ExportPreviewOptions', () => {
 
   it('should show svg if the chart object is supplied', async () => {
     const mockChartOptions: Options = {
+      accessibility: {
+        enabled: false,
+      },
       series: [
         {
           type: 'line',
@@ -78,7 +88,7 @@ describe('ExportPreviewOptions', () => {
     await userEvent.click(svg);
 
     await waitFor(() => {
-      expect(getSvgFromOptions).toHaveBeenCalled();
+      expect(svgStringFromChartOptions).toHaveBeenCalled();
     });
   });
 

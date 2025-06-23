@@ -15,6 +15,12 @@ public class HealthDataPoint
     public int Year { get; init; }
 
     /// <summary>
+    ///     The date period that the data point is for
+    /// </summary>
+    [JsonPropertyName("datePeriod")]
+    public required DatePeriod DatePeriod { get; init; }
+
+    /// <summary>
     ///     The count
     /// </summary>
     [JsonPropertyName("count")]
@@ -42,19 +48,19 @@ public class HealthDataPoint
     ///     Age band which the data are for.
     /// </summary>
     [JsonPropertyName("ageBand")]
-    public Age AgeBand { get; init; }
+    public required Age AgeBand { get; init; }
 
     /// <summary>
     ///     Deprivation category which the data are for.
     /// </summary>
     [JsonPropertyName("deprivation")]
-    public Deprivation Deprivation { get; init; }
+    public required Deprivation Deprivation { get; init; }
 
     /// <summary>
     ///     Sex which the data are for.
     /// </summary>
     [JsonPropertyName("sex")]
-    public Sex Sex { get; init; }
+    public required Sex Sex { get; init; }
 
     /// <summary>
     ///     The statistical trend that applies to the data point, given the preceding data.
@@ -69,7 +75,7 @@ public class HealthDataPoint
     ///     Benchmark which the data are for.
     /// </summary>
     [JsonPropertyName("benchmarkComparison")]
-    public BenchmarkComparison BenchmarkComparison { get; set; }
+    public BenchmarkComparison? BenchmarkComparison { get; set; }
 
     /// <summary>
     ///     Is the data an aggregated point

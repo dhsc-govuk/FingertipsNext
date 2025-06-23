@@ -1,6 +1,6 @@
 import { AreaDocument } from '@/lib/search/searchTypes';
 import { test } from '../../../page-objects/pageFactory';
-import { TestTag } from '@/playwright/testHelpers';
+import { TestTag } from '@/playwright/testHelpers/genericTestUtilities';
 
 test.describe(
   'Azure AI Search: Area search suggestions',

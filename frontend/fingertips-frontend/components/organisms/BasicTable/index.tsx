@@ -45,6 +45,7 @@ interface BasicTableProps {
 const StyledTable = styled(Table)({
   marginBottom: '1rem',
 });
+const id = 'basicTable';
 
 export function BasicTable({
   indicatorData,
@@ -52,9 +53,9 @@ export function BasicTable({
 }: Readonly<BasicTableProps>) {
   const csvData = convertBasicTableToCsvData(indicatorData);
   return (
-    <div data-testid={'basicTable-component'}>
+    <div data-testid={`${id}-component`}>
       <ContainerWithOutline>
-        <div id="basicTable">
+        <div id={id}>
           <ChartTitle>Overview of selected indicators</ChartTitle>
           <StyledTable
             head={
@@ -139,7 +140,7 @@ export function BasicTable({
             <ExportCopyright />
           </ExportOnlyWrapper>
         </div>
-        <ExportOptionsButton targetId="basicTable" csvData={csvData} />
+        <ExportOptionsButton targetId={id} csvData={csvData} />
       </ContainerWithOutline>
     </div>
   );

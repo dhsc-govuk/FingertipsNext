@@ -7,7 +7,6 @@ models/AgeData.ts
 models/Area.ts
 models/AreaType.ts
 models/AreaWithRelations.ts
-models/BadRequest.ts
 models/BenchmarkComparisonMethod.ts
 models/BenchmarkOutcome.ts
 models/BenchmarkReferenceType.ts
@@ -22,6 +21,7 @@ models/Indicator.ts
 models/IndicatorPolarity.ts
 models/IndicatorSummary.ts
 models/IndicatorWithHealthDataForArea.ts
+models/PeriodType.ts
 models/QuartileData.ts
 models/RootArea.ts
 models/SexData.ts

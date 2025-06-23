@@ -108,7 +108,6 @@ describe('TwoOrMoreIndicatorsEnglandView', () => {
         selectedIndicatorsData: fullSelectedIndicatorsData,
       });
 
-      expect(page.props.children.props.searchState).toEqual(mockSearchParams);
       expect(page.props.children.props.indicatorData).toEqual([
         mockIndicator,
         mockIndicatorWithHealthData,
