@@ -19,6 +19,8 @@ dotnet_diagnostic.CA1016.severity = none
 dotnet_diagnostic.CA1515.severity = none
 # Static holder types should be Static or NotInheritable
 dotnet_diagnostic.CA1052.severity = none
+# CA1812: Avoid uninstantiated internal classes
+dotnet_diagnostic.CA1812.severity = silent
 
 [*{Controller,Tests}.cs]
 # Consider making public types internal

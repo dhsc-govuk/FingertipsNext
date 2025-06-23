@@ -1,24 +1,44 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Security.Claims;
+using DHSC.FingertipsNext.Modules.Common.Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DHSC.FingertipsNext.Modules.User.Controllers.V1
+namespace DHSC.FingertipsNext.Modules.UserAuth.Controllers.V1
 {
     [ApiController]
-    //[Authorize]
     [Route("user")]
+    [Authorize]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>")]
     public class UserController : ControllerBase
     {
-        /// <summary>
-        /// Get all available hierarchy types
-        /// </summary>
-        /// <returns>The available hierarchy types, e.g. NHS or Administrative</returns>
-        [HttpGet]
-        [Route("info")]
-        [ProducesResponseType(null, StatusCodes.Status200OK)]
-        public static IActionResult UserInfo()
+        private readonly IAuthorizationService _authService;
+
+        public UserController(IAuthorizationService authService)
         {
-            return new OkResult();
+            _authService = authService;
         }
 
+        [HttpGet]
+        [Route("info")]
+        public IActionResult UserInfo()
+        {
+            var userSub = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+
+            return new OkObjectResult(userSub?.Value ?? "Sub Undefined");
+        }
+
+        [HttpGet]
+        [Route("indicator/{indicatorId}")]
+        public async Task<IActionResult> GetIndicator(string indicatorId)
+        {
+            var authResult = await _authService.AuthorizeAsync(User, indicatorId, CanAdministerIndicatorRequirement.PolicyName);
+
+            if (!authResult.Succeeded)
+            {
+                return new ForbidResult();
+            }
+
+            return new OkObjectResult("Is Authenticated");
+        }
     }
 }

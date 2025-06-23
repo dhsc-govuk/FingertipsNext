@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DHSC.FingertipsNext.Modules.Area;
+namespace DHSC.FingertipsNext.Modules.UserAuth;
 
 public class UserAuthModule : AbstractMonolithModule, IMonolithModule
 {
