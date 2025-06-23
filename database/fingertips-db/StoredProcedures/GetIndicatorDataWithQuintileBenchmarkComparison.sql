@@ -14,7 +14,12 @@ CREATE PROCEDURE [dbo].[GetIndicatorDetailsWithQuintileBenchmarkComparison]
 --- The inclusive date range we are interested in - can be empty
 @RequestedFromDate DATE,
 @RequestedToDate DATE
-AS BEGIN WITH --- Get the Benchmark Area
+AS BEGIN 
+
+DECLARE @NOW AS DATETIME2;
+SET @NOW = GETUTCDATE();
+
+WITH --- Get the Benchmark Area
 BenchmarkAreaGroup AS (
 	SELECT *
 	FROM dbo.AreaDimension AS areaDim
@@ -106,6 +111,7 @@ HealthData AS (
 			@RequestedToDate IS NULL
 			OR toDate.Date <= @RequestedToDate
 		)
+		AND hm.PublishedAt <= @NOW
 	),
 HealthDataNTileGroupCount AS (
 	SELECT ToDate, FromDate,

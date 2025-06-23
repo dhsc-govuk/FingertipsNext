@@ -4,7 +4,12 @@ CREATE PROCEDURE [dbo].[GetIndicatorQuartileDataForLatestYear] @RequestedAreaTyp
 @RequestedArea varchar(50),
 @RequestedAncestorCode varchar(20),
 @RequestedBenchmarkCode varchar(20) --- The area used for benchmarking
-AS BEGIN WITH --- Get the Benchmark Areas - these are areas of a specific type which are descendants of the benchmark areaGroup
+AS BEGIN 
+
+    DECLARE @NOW AS DATETIME2;
+    SET @NOW = GETUTCDATE();
+
+WITH --- Get the Benchmark Areas - these are areas of a specific type which are descendants of the benchmark areaGroup
 BenchmarkAreas AS (
     SELECT AreaCode
     FROM dbo.FindAreaDescendants_Fn(@RequestedAreaType, @RequestedBenchmarkCode)
@@ -33,6 +38,7 @@ LatestDatePerIndicatorSegment AS (
     FROM indicatorSegments AS indSeg
         JOIN dbo.HealthMeasure hm ON hm.IndicatorKey = indSeg.IndicatorKey
         AND hm.PeriodKey = indSeg.PeriodKey
+    WHERE hm.PublishedAt <= @NOW
     GROUP BY hm.IndicatorKey,
         hm.PeriodKey
 ),
@@ -52,6 +58,8 @@ ComparisonAreaValue AS (
             AND hm.IsAgeAggregatedOrSingle = 1
             AND hm.IsDeprivationAggregatedOrSingle = 1
         )
+        AND hm.PublishedAt <= @NOW
+
 ),
 ComparisonAncestor AS (
     SELECT latestDatePerSegment.IndicatorKey,
@@ -69,6 +77,7 @@ ComparisonAncestor AS (
             AND hm.IsAgeAggregatedOrSingle = 1
             AND hm.IsDeprivationAggregatedOrSingle = 1
         )
+        AND hm.PublishedAt <= @NOW
 ),
 EnglandValue AS (
     SELECT latestDatePerSegment.IndicatorKey,
@@ -86,6 +95,7 @@ EnglandValue AS (
             AND hm.IsAgeAggregatedOrSingle = 1
             AND hm.IsDeprivationAggregatedOrSingle = 1
         )
+     AND hm.PublishedAt <= @NOW
 ),
 --- This finds ALL data points in England of the same areaType which are aggregated (not inequalities) data points
 HealthData AS (
@@ -117,6 +127,7 @@ HealthData AS (
             AND hm.IsAgeAggregatedOrSingle = 1
             AND hm.IsDeprivationAggregatedOrSingle = 1
         )
+        AND hm.PublishedAt <= @NOW
 ),
 --- Calculate Quartiles
 QuartileData AS (

@@ -329,3 +329,26 @@ GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=K84
        client.assert(response.body.areaHealthData.length == 4);
    });
 %}
+
+### Ensure unpublished data is not returned
+GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=K84017&area_codes=P81002&area_type=gps&years=2025&years=2024&years=2023&years=2022&years=2021&years=2020&ancestor_code=E38000136&area_codes=E38000136&area_codes=E92000001&benchmark_ref_type=SubNational
+> {%
+    client.test("Ensure unpublished data is not returned", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+
+        client.assert(response.body.areaHealthData[2].areaCode =="K84031", "AreaCode not as expected");
+
+        healthData = response.body.areaHealthData[2].healthData;
+        yearList = [];
+        healthData.forEach(item => {
+            yearList.push(item.year);
+        });
+
+        expectedYears = [2020, 2021, 2022, 2023, 2024];
+
+        containsAllExpectedYears = expectedYears.every(r => yearList.includes(r))
+        client.assert(containsAllExpectedYears == true)
+        client.assert(yearList.indexOf(2025) == -1)
+        client.assert(yearList.length == 5)
+    });
+%}

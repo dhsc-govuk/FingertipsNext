@@ -9,6 +9,7 @@ import { reactQueryClient } from '@/lib/reactQueryClient';
 import { ModalProvider } from '@/context/ModalContext';
 import { FocusOnFragment } from '@/components/atoms/FocusOnFragment/FocusOnFragment';
 import { Suspense } from 'react';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const StyledMain = styled(Main)({
   minHeight: '80vh',
@@ -31,6 +32,9 @@ export function FTContainer({
           </LoaderProvider>
         </SearchStateProvider>
       </ModalProvider>
+      {process.env.NODE_ENV === 'development' ? (
+        <ReactQueryDevtools initialIsOpen={false} />
+      ) : null}
     </QueryClientProvider>
   );
 }

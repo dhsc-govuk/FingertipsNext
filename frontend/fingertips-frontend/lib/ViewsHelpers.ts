@@ -175,18 +175,20 @@ export async function getIndicatorData(
       ? selectedGroupCode
       : undefined;
 
-  const indicatorRequestArray = chunkArray(areasSelected).map((requestAreas) =>
-    indicatorApi.getHealthDataForAnIndicator(
-      {
-        indicatorId: Number(indicatorSelected[0]),
-        areaCodes: [...requestAreas],
-        areaType: selectedAreaType,
-        latestOnly,
-        benchmarkRefType,
-        ancestorCode,
-      },
-      API_CACHE_CONFIG
-    )
+  const indicatorRequestArray = chunkArray(areasSelected).map(
+    (requestAreas) => {
+      return indicatorApi.getHealthDataForAnIndicator(
+        {
+          indicatorId: Number(indicatorSelected[0]),
+          areaCodes: [...requestAreas],
+          areaType: selectedAreaType,
+          latestOnly,
+          benchmarkRefType,
+          ancestorCode,
+        },
+        API_CACHE_CONFIG
+      );
+    }
   );
 
   if (!areasSelected.includes(areaCodeForEngland) && !latestOnly) {

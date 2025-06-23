@@ -18,7 +18,9 @@ CREATE TABLE [dbo].[HealthMeasure](
 	[IsDeprivationAggregatedOrSingle] bit NULL,
 	[FromDateKey] [int] NULL,
 	[ToDateKey] [int] NULL,
-	[PeriodKey] [tinyint] NULL           
+	[PeriodKey] [tinyint] NULL,
+	[PublishedAt] [datetime2] NOT NULL,
+	[BatchId] [nvarchar](50) NOT NULL          
  CONSTRAINT [PK_HealthMeasure] PRIMARY KEY CLUSTERED
 (
 	[HealthMeasureKey] ASC
@@ -144,7 +146,13 @@ CREATE NONCLUSTERED INDEX [PeriodIndex] ON [dbo].[HealthMeasure]
 )
 GO
 
-CREATE NONCLUSTERED INDEX InequalitiesAggregatedIndex
+CREATE NONCLUSTERED INDEX [PublishedAtIndex] ON [dbo].[HealthMeasure] ([PublishedAt]) INCLUDE ([IndicatorKey],[Year])
+GO
+
+CREATE NONCLUSTERED INDEX [IndicatorPublishedAtIndex] ON [dbo].[HealthMeasure] ([IndicatorKey],[PublishedAt]) INCLUDE ([Year])
+GO
+
+CREATE NONCLUSTERED INDEX InequalitiesAggregatedIndex	
 ON [dbo].[HealthMeasure] ([IsSexAggregatedOrSingle],[IsAgeAggregatedOrSingle],[IsDeprivationAggregatedOrSingle])
 INCLUDE ([AgeKey],[AreaKey],[IndicatorKey],[SexKey],[TrendKey],[DeprivationKey],[Count],[Value],[LowerCI],[UpperCI],[Year])
 
