@@ -84,6 +84,7 @@ export const SearchForm = ({
             <SearchBox.Input
               characterLimit={INDICATOR_SEARCH_MAX_CHARACTERS}
               thresholdPercentage={75}
+              title="indicator"
               id="indicator"
               name="indicator"
               defaultValue={formState.indicator ?? ''}

@@ -574,6 +574,7 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
       Find public health data
     </h3>
     <input
+      aria-label="Search"
       hidden=""
       name="searchState"
       value="{}"
