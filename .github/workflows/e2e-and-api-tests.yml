@@ -88,7 +88,7 @@ jobs:
           echo "TRUST_CERT=True" > .env
           echo "DB_SERVER=localhost" >> .env
           echo "DB_NAME=fingertips" >> .env
-          echo "DB_PASSWORD=${{ secrets.fingertips_e2e_db_password }}" > .env
+          echo "DB_PASSWORD=${{ secrets.fingertips_e2e_db_password }}" >> .env
           echo "DB_USER=sa" >> .env
           echo "UPLOAD_STORAGE_ACCOUNT_CONNECTION_STRING=UseDevelopmentStorage=true" >> .env
           echo "UPLOAD_STORAGE_CONTAINER_NAME=fingertips-upload-container" >> .env

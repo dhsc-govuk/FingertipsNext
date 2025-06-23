@@ -6,3 +6,5 @@ Please ensure you have started any services and/or docker containers that you wi
 Create an `.env` file based on `.env.template`, and supply any required values. Passwords and server names may need to
 match those used to build associated containers/services. Please check the `.env` file in the main FingertipsNext
 directory.
+
+TEST
