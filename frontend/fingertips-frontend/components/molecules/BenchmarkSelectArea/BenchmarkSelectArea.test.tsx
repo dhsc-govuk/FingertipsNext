@@ -4,6 +4,8 @@ import { LoaderContext } from '@/context/LoaderContext';
 import { SearchParams } from '@/lib/searchStateManager';
 import userEvent from '@testing-library/user-event';
 import { AreaWithoutAreaType } from '@/lib/common-types';
+import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -89,7 +91,10 @@ describe('BenchmarkSelectArea', () => {
   it('should add the selected area for the chart to the url for the provided search param', async () => {
     const expectedPath = [
       `${mockPath}`,
-      `?${SearchParams.BenchmarkAreaSelected}=${mockAvailableAreas[2].code}`,
+      `?${SearchParams.AreaTypeSelected}=${englandAreaType.key}`,
+      `&${SearchParams.GroupTypeSelected}=${englandAreaType.key}`,
+      `&${SearchParams.GroupSelected}=${areaCodeForEngland}`,
+      `&${SearchParams.BenchmarkAreaSelected}=${mockAvailableAreas[2].code}`,
     ].join('');
 
     const user = userEvent.setup();

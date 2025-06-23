@@ -6,7 +6,7 @@ import {
   areaCodeForEngland,
   englandAreaString,
 } from '@/lib/chartHelpers/constants';
-import { SearchParams } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 
 jest.mock('@/components/organisms/BenchmarkLegend', () => ({
   BenchmarkLegends: () => <div data-testid="benchmark-legends" />,
@@ -23,10 +23,14 @@ jest.mock('./SpineChartLegendItem', () => ({
   ),
 }));
 
+let mockSearchState: SearchStateParams = {};
+jest.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockSearchState,
+}));
+
 const defaultProps = {
   legendsToShow: {} as BenchmarkLegendsToShow,
   benchmarkToUse: areaCodeForEngland,
-  searchState: { [SearchParams.GroupSelected]: areaCodeForEngland },
   groupName: 'Test Group',
   areaNames: ['Area 1', 'Area 2'],
 };
@@ -40,6 +44,9 @@ describe('SpineChartLegend', () => {
   });
 
   it('renders the group legend when selectedGroupCode is not England', () => {
+    mockSearchState = {
+      [SearchParams.GroupSelected]: 'A001',
+    };
     render(<SpineChartLegend {...defaultProps} />);
     expect(screen.getByText('Group: Test Group')).toBeInTheDocument();
   });

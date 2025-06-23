@@ -32,7 +32,6 @@ type SearchResultsProps = {
   areaFilterData?: AreaFilterData;
   isEnglandSelectedAsGroup: boolean;
   selectedAreasData?: Area[];
-  // searchState?: SearchStateParams;
   currentDate?: Date;
 };
 
