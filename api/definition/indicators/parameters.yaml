@@ -56,6 +56,18 @@ years:
       type: integer
       example: 2023
     maxItems: 20
+to_date:
+  in: query
+  name: to_date
+  description: The latest date for which data should be returned, if not specified then the latest date for the indicator will be used.
+  schema:
+    type: string
+from_date:
+  in: query
+  name: from_date
+  description: The earliest date for which data should be returned, if not specified then the earliest date for the indicator will be used.
+  schema:
+    type: string    
 inequalities:
   in: query
   name: inequalities

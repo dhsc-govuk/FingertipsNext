@@ -153,3 +153,12 @@ CREATE NONCLUSTERED INDEX InequalitiesAndIndicatorAggregatedIndex
 ON [dbo].[HealthMeasure] ([IndicatorKey],[IsSexAggregatedOrSingle],[IsAgeAggregatedOrSingle],[IsDeprivationAggregatedOrSingle])
 INCLUDE ([AgeKey],[AreaKey],[SexKey],[TrendKey],[DeprivationKey],[Count],[Value],[LowerCI],[UpperCI],[Year])
 GO
+
+CREATE NONCLUSTERED INDEX IndicatorKeyIndex ON [dbo].[HealthMeasure] 
+(
+	[IndicatorKey]
+) 
+INCLUDE 
+(
+	[FromDateKey], [PeriodKey]
+);
