@@ -35,6 +35,15 @@ SELECT
         dd.DeprivationKey,
         dd.Name
 )
-SELECT *
+SELECT DuplicateCount,
+    IndicatorId,
+    Code,
+    Year,
+    Period,
+    FromDate,
+    ToDate,
+    ageName,
+    sexName,
+    imdName
 FROM groupedHealthMeasures
-WHERE DuplicateCount > 1;
+WHERE DuplicateCount > 1
