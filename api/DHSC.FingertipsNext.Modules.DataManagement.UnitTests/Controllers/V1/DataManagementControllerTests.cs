@@ -4,15 +4,20 @@ using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using DHSC.FingertipsNext.Modules.DataManagement.Service;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using NSubstitute;
 using Shouldly;
 
 namespace DHSC.FingertipsNext.Modules.DataManagement.UnitTests.Controllers.V1;
 
-public class DataManagementControllerTests : IDisposable
+public class DataManagementControllerTests
 {
     private const int StubIndicatorId = 123;
     private const string StubFileName = "StubHealthdataUpload.csv";
-    private readonly DataManagementController _controller = new();
+
+    private IConfiguration _configuration;
+    private readonly IDataManagementService _dataManagementService;
+    private DataManagementController _controller;
 
     private static readonly string FilePath = Path.Combine("TestData", StubFileName);
     private static readonly byte[] Bytes = File.ReadAllBytes(FilePath);
@@ -20,36 +25,36 @@ public class DataManagementControllerTests : IDisposable
     private readonly FormFile _formFile = new(Stream, 0, Bytes.Length,
         "file", StubFileName);
 
-
-    public void Dispose()
+    public DataManagementControllerTests()
     {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-
-    protected virtual void Dispose(bool disposing)
-    {
-        if (disposing)
-        {
-            Stream.Dispose();
-        }
+        var inMemorySettings = new Dictionary<string, string?> {
+            {"STORAGE_CONTAINER_NAME", "StubContainerName"},
+        };
+        _configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(inMemorySettings)
+            .Build();
+        _dataManagementService = Substitute.For<IDataManagementService>();
+        _controller = new DataManagementController(_dataManagementService, _configuration);
     }
 
     [Fact]
-    public void PostReturnsExpectedResponseWhenGivenAValidFile()
+    public async Task PostReturnsExpectedResponseWhenGivenAValidFile()
     {
-        var response = _controller.UploadHealthData(_formFile, StubIndicatorId) as AcceptedResult;
+        _dataManagementService.UploadFileAsync(Arg.Any<Stream>(), StubFileName, "StubContainerName")
+            .Returns(true);
+        var response = await _controller.UploadHealthData(_formFile, StubIndicatorId) as AcceptedResult;
         var expected = $"File {StubFileName} has been accepted for indicator {StubIndicatorId}.";
-
+        
+        await _dataManagementService.Received(1).UploadFileAsync(Arg.Any<Stream>(), StubFileName, "StubContainerName");
         response?.StatusCode.ShouldBe(202);
-        (response?.Value.ToString() ?? string.Empty).ShouldBe(expected);
+        response?.Value.ToString().ShouldBe(expected);
     }
 
     [Fact]
-    public void NullFileReturns400()
+    public async Task NullFileReturns400()
     {
         // Act
-        var result = _controller.UploadHealthData(null, StubIndicatorId) as BadRequestObjectResult;
+        var result = await _controller.UploadHealthData(null, StubIndicatorId) as BadRequestObjectResult;
 
         // Assert
         result.ShouldNotBeNull();
@@ -57,7 +62,7 @@ public class DataManagementControllerTests : IDisposable
     }
 
     [Fact]
-    public void EmptyFileReturns400()
+    public async Task EmptyFileReturns400()
     {
         // Arrange
         var stream = new MemoryStream(); // no data
@@ -65,7 +70,7 @@ public class DataManagementControllerTests : IDisposable
             "file", "empty.csv");
 
         // Act
-        var result = _controller.UploadHealthData(formFile, StubIndicatorId) as BadRequestObjectResult;
+        var result = await _controller.UploadHealthData(formFile, StubIndicatorId) as BadRequestObjectResult;
 
         // Assert
         result.ShouldNotBeNull();
@@ -73,18 +78,46 @@ public class DataManagementControllerTests : IDisposable
     }
 
     [Fact]
-    public void PostReturnsEncodedFilenameInResponse()
+    public async Task PostReturnsEncodedFilenameInResponse()
     {
         // Arrange
         const string stubFileNameWithCharsToEncode = "Stub Healthdata Üpload.csv"; // filename with space and non-ASCII for encoding check
         var formFile = new FormFile(Stream, 0, Bytes.Length, "file", stubFileNameWithCharsToEncode);
         var expectedEncoded = HttpUtility.HtmlEncode(stubFileNameWithCharsToEncode);
+        _dataManagementService.UploadFileAsync(Arg.Any<Stream>(), expectedEncoded, "StubContainerName")
+            .Returns(true);
 
         // Act
-        var response = _controller.UploadHealthData(formFile, StubIndicatorId) as AcceptedResult;
+        var response = await _controller.UploadHealthData(formFile, StubIndicatorId) as AcceptedResult;
 
         // Assert
+        await _dataManagementService.Received(1).UploadFileAsync(Arg.Any<Stream>(), Arg.Any<string>(), Arg.Any<string>());
         response?.StatusCode.ShouldBe(202);
-        (response?.Value.ToString() ?? string.Empty).ShouldContain(expectedEncoded);
+        response?.Value?.ToString()?.ShouldContain(expectedEncoded);
+    }
+
+    [Fact]
+    public async Task RequestReturns500IfEnvironmentVariableNotFound()
+    {
+        _configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(new Dictionary<string, string?> {{"STORAGE_CONTAINER_NAME", ""}})
+            .Build();
+        _controller = new DataManagementController(_dataManagementService, _configuration);
+
+        var response = await _controller.UploadHealthData(_formFile, StubIndicatorId) as StatusCodeResult;
+        
+        response.StatusCode.ShouldBe(500);
+    }
+
+    [Fact]
+    public async Task RequestReturns500IfUploadFails()
+    {
+        _dataManagementService.UploadFileAsync(Arg.Any<Stream>(), StubFileName, "StubContainerName")
+            .Returns(false);
+        
+        var response = await _controller.UploadHealthData(_formFile, StubIndicatorId) as StatusCodeResult;
+        
+        await _dataManagementService.Received(1).UploadFileAsync(Arg.Any<Stream>(), StubFileName, "StubContainerName");
+        response?.StatusCode.ShouldBe(500);
     }
 }
