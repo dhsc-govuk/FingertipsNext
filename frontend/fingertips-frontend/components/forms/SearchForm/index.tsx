@@ -65,6 +65,7 @@ export const SearchForm = ({
         name="searchState"
         defaultValue={JSON.stringify(searchState)}
         hidden
+        aria-label="Search"
       />
       <FormGroup error={formState.message !== null}>
         <StyledTitleParagraph>Search by subject</StyledTitleParagraph>
