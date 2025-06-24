@@ -7,27 +7,27 @@ import { SearchStateContext } from '@/context/SearchStateContext';
 
 const mockIndicator = generateIndicatorDocument('1');
 
-const mockSetIsLoading = jest.fn();
+const mockSetIsLoading = vi.fn();
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: jest.fn(),
+  getIsLoading: vi.fn(),
   setIsLoading: mockSetIsLoading,
 };
 
-jest.mock('@/context/LoaderContext', () => {
+vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
   };
 });
 
-const mockGetSearchState = jest.fn().mockReturnValue({
+const mockGetSearchState = vi.fn().mockReturnValue({
   [SearchParams.AreasSelected]: ['A001', 'A002'],
   [SearchParams.IndicatorsSelected]: ['1'],
 } satisfies SearchStateParams);
 const mockSearchStateContext: SearchStateContext = {
   getSearchState: mockGetSearchState,
-  setSearchState: jest.fn(),
+  setSearchState: vi.fn(),
 };
-jest.mock('@/context/SearchStateContext', () => {
+vi.mock('@/context/SearchStateContext', () => {
   return {
     useSearchState: () => mockSearchStateContext,
   };

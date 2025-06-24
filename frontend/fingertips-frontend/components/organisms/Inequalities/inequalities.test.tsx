@@ -1,31 +1,30 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import { expect } from '@jest/globals';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import { Inequalities } from '.';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { LoaderContext } from '@/context/LoaderContext';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: jest.fn(),
-  setIsLoading: jest.fn(),
+  getIsLoading: vi.fn(),
+  setIsLoading: vi.fn(),
 };
-jest.mock('@/context/LoaderContext', () => {
+vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
   };
 });
 
 const mockPath = 'some-mock-path';
-const mockReplace = jest.fn();
+const mockReplace = vi.fn();
 
-jest.mock('next/navigation', () => {
-  const originalModule = jest.requireActual('next/navigation');
+vi.mock('next/navigation', async () => {
+  const originalModule = await vi.importActual('next/navigation');
 
   return {
     ...originalModule,
     usePathname: () => mockPath,
     useSearchParams: () => {},
-    useRouter: jest.fn().mockImplementation(() => ({
+    useRouter: vi.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
   };
@@ -33,7 +32,9 @@ jest.mock('next/navigation', () => {
 
 describe('Inequalities suite', () => {
   it('should render inequalities component', async () => {
-    render(<Inequalities healthIndicatorData={MOCK_HEALTH_DATA} />);
+    await act(async () => {
+      render(<Inequalities healthIndicatorData={MOCK_HEALTH_DATA} />);
+    });
 
     await waitFor(async () => {
       expect(screen.getByTestId('inequalities-component')).toBeInTheDocument();
@@ -59,7 +60,9 @@ describe('Inequalities suite', () => {
   });
 
   it('should render expected text', async () => {
-    render(<Inequalities healthIndicatorData={MOCK_HEALTH_DATA} />);
+    await act(async () => {
+      render(<Inequalities healthIndicatorData={MOCK_HEALTH_DATA} />);
+    });
 
     expect(
       await screen.findByText(/Inequalities data for a single time period/i)
@@ -70,12 +73,15 @@ describe('Inequalities suite', () => {
   });
 
   it('check if the measurement unit value "kg" is rendered correctly', async () => {
-    render(
-      <Inequalities
-        healthIndicatorData={MOCK_HEALTH_DATA}
-        indicatorMetadata={{ unitLabel: 'kg' } as IndicatorDocument}
-      />
-    );
+    await act(async () => {
+      render(
+        <Inequalities
+          healthIndicatorData={MOCK_HEALTH_DATA}
+          indicatorMetadata={{ unitLabel: 'kg' } as IndicatorDocument}
+        />
+      );
+    });
+
     expect(await screen.findByText('kg')).toBeInTheDocument();
   });
 });

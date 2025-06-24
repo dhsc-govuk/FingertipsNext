@@ -17,31 +17,31 @@ const searchState = {
   [SearchParams.AreasSelected]: ['A001'],
 };
 
-jest.mock('next/navigation', () => {
-  const originalModule = jest.requireActual('next/navigation');
+vi.mock('next/navigation', async () => {
+  const originalModule = await vi.importActual('next/navigation');
 
   return {
     ...originalModule,
-    usePathname: jest.fn(),
+    usePathname: vi.fn(),
   };
 });
 
-const mockSetIsLoading = jest.fn();
+const mockSetIsLoading = vi.fn();
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: jest.fn(),
+  getIsLoading: vi.fn(),
   setIsLoading: mockSetIsLoading,
 };
-jest.mock('@/context/LoaderContext', () => {
+vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
   };
 });
 
 const mockSearchStateContext: SearchStateContext = {
-  getSearchState: jest.fn(),
-  setSearchState: jest.fn(),
+  getSearchState: vi.fn(),
+  setSearchState: vi.fn(),
 };
-jest.mock('@/context/SearchStateContext', () => {
+vi.mock('@/context/SearchStateContext', () => {
   return {
     useSearchState: () => mockSearchStateContext,
   };

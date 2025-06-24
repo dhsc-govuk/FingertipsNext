@@ -7,45 +7,46 @@ import { mockAreaDataForNHSRegion } from '@/mock/data/areaData';
 import { eastEnglandNHSRegion } from '@/mock/data/areas/nhsRegionsAreas';
 import { LoaderContext } from '@/context/LoaderContext';
 import { SearchStateContext } from '@/context/SearchStateContext';
+import { MockedFunction } from 'vitest';
 
-jest.mock('@/components/forms/SearchForm/searchActions');
+vi.mock('@/components/forms/SearchForm/searchActions');
 
-const mockGetSearchSuggestions = getSearchSuggestions as jest.MockedFunction<
+const mockGetSearchSuggestions = getSearchSuggestions as MockedFunction<
   typeof getSearchSuggestions
 >;
 
 const mockPath = 'some-mock-path';
-const mockReplace = jest.fn();
+const mockReplace = vi.fn();
 
-jest.mock('next/navigation', () => {
-  const originalModule = jest.requireActual('next/navigation');
+vi.mock('next/navigation', async () => {
+  const originalModule = await vi.importActual('next/navigation');
 
   return {
     ...originalModule,
     usePathname: () => mockPath,
     useSearchParams: () => {},
-    useRouter: jest.fn().mockImplementation(() => ({
+    useRouter: vi.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
   };
 });
 
-const mockSetIsLoading = jest.fn();
+const mockSetIsLoading = vi.fn();
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: jest.fn(),
+  getIsLoading: vi.fn(),
   setIsLoading: mockSetIsLoading,
 };
-jest.mock('@/context/LoaderContext', () => {
+vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
   };
 });
 
 const mockSearchStateContext: SearchStateContext = {
-  getSearchState: jest.fn(),
-  setSearchState: jest.fn(),
+  getSearchState: vi.fn(),
+  setSearchState: vi.fn(),
 };
-jest.mock('@/context/SearchStateContext', () => {
+vi.mock('@/context/SearchStateContext', () => {
   return {
     useSearchState: () => mockSearchStateContext,
   };
@@ -68,7 +69,7 @@ describe('AreaAutoCompleteInputField', () => {
   ];
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should render the area search input field and not the area suggestion panel when first rendered', () => {

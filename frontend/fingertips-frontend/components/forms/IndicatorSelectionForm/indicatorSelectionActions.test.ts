@@ -5,8 +5,8 @@ import {
 } from './indicatorSelectionActions';
 import { redirect, RedirectType } from 'next/navigation';
 
-jest.mock('next/navigation');
-const redirectMock = jest.mocked(redirect);
+vi.mock('next/navigation');
+const redirectMock = vi.mocked(redirect);
 
 const state: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'boom',
@@ -21,7 +21,7 @@ let formData: FormData;
 
 describe('Indicator Selection Actions', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('submitIndicatorSelection', () => {

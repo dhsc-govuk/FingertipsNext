@@ -1,13 +1,9 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Remove Icon Suite snapshot test 1`] = `
+exports[`Remove Icon Suite > snapshot test 1`] = `
 <DocumentFragment>
-  .c0 {
-  cursor: pointer;
-}
-
-<svg
-    class="c0"
+  <svg
+    class="sc-aXZVg kKRHvy"
     data-testid="x-icon"
     fill="none"
     height="20"

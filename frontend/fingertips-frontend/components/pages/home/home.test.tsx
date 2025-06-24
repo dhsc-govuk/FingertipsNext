@@ -1,7 +1,7 @@
 import { render, screen, waitFor, within } from '@testing-library/react';
 import { Home } from '@/components/pages/home/index';
 import { SearchFormState } from '@/components/forms/SearchForm/searchActions';
-import { expect } from '@jest/globals';
+
 import { userEvent } from '@testing-library/user-event';
 import { LoaderContext } from '@/context/LoaderContext';
 import { SearchStateContext } from '@/context/SearchStateContext';
@@ -13,30 +13,30 @@ const initialState: SearchFormState = {
   errors: {},
 };
 
-jest.mock('next/navigation', () => ({
-  useRouter: jest.fn().mockReturnValue({
-    push: jest.fn(),
-    set: jest.fn(),
+vi.mock('next/navigation', () => ({
+  useRouter: vi.fn().mockReturnValue({
+    push: vi.fn(),
+    set: vi.fn(),
   }),
-  useSearchParams: jest.fn(),
-  usePathname: jest.fn(),
+  useSearchParams: vi.fn(),
+  usePathname: vi.fn(),
 }));
 
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: jest.fn(),
-  setIsLoading: jest.fn(),
+  getIsLoading: vi.fn(),
+  setIsLoading: vi.fn(),
 };
-jest.mock('@/context/LoaderContext', () => {
+vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
   };
 });
 
 const mockSearchStateContext: SearchStateContext = {
-  getSearchState: jest.fn(),
-  setSearchState: jest.fn(),
+  getSearchState: vi.fn(),
+  setSearchState: vi.fn(),
 };
-jest.mock('@/context/SearchStateContext', () => {
+vi.mock('@/context/SearchStateContext', () => {
   return {
     useSearchState: () => mockSearchStateContext,
   };
@@ -50,7 +50,7 @@ const setupUI = (state?: SearchFormState) => {
 };
 
 afterEach(() => {
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
 
 it('should render an indicator link', () => {
@@ -88,7 +88,7 @@ it('should display the error summary component when there is a validation error'
 
 it('should focus on the input boxes when there is a validation error', async () => {
   // Add missing function to jsdom
-  const scrollMock = jest.fn();
+  const scrollMock = vi.fn();
   window.HTMLElement.prototype.scrollIntoView = scrollMock;
 
   const user = userEvent.setup();
@@ -122,10 +122,6 @@ describe('contents items should link to appropriate headings', () => {
   }
   it.each<TestData>([
     {
-      linkText: 'Find public health data',
-      headingText: 'Find public health data',
-    },
-    {
       linkText: 'What the service is for',
       headingText: 'What the service is for',
     },
@@ -144,5 +140,20 @@ describe('contents items should link to appropriate headings', () => {
     expect(
       screen.getByRole('heading', { name: headingText }).closest(`${href}`)
     ).toHaveAttribute('id', href.slice(1));
+  });
+
+  it('content item find public health data should link to the search section', () => {
+    setupUI();
+
+    const link = screen.getByRole('link', { name: 'Find public health data' });
+    expect(link).toHaveAttribute('href', '#search');
+
+    const section = document.getElementById('search');
+    expect(section).toBeInTheDocument();
+
+    const heading = within(section!).getByRole('heading', {
+      name: 'Find public health data',
+    });
+    expect(heading).toBeInTheDocument();
   });
 });

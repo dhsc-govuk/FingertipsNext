@@ -19,12 +19,22 @@ export default class BasePage {
     subjectSearchTerm: string,
     areaSearchCode: string
   ) {
-    if (searchMode === SearchMode.ONLY_SUBJECT) {
-      await this.waitForURLToContain(subjectSearchTerm);
-    }
-    if (searchMode === SearchMode.BOTH_SUBJECT_AND_AREA) {
-      await this.waitForURLToContain(subjectSearchTerm);
-      await this.waitForURLToContain(areaSearchCode);
+    if (subjectSearchTerm) {
+      let trimmedSearchText = subjectSearchTerm.trim();
+
+      // Check if searched for text is a space-separated list of numbers
+      const spaceSeparatedPattern = /^\d+(\s+\d+)+$/;
+      if (spaceSeparatedPattern.test(trimmedSearchText)) {
+        // replace whitespace with +
+        trimmedSearchText = trimmedSearchText.replaceAll(' ', '+');
+      }
+      if (searchMode === SearchMode.ONLY_SUBJECT) {
+        await this.waitForURLToContain(trimmedSearchText);
+      }
+      if (searchMode === SearchMode.BOTH_SUBJECT_AND_AREA) {
+        await this.waitForURLToContain(trimmedSearchText);
+        await this.waitForURLToContain(areaSearchCode);
+      }
     }
     if (searchMode === SearchMode.ONLY_AREA) {
       await this.waitForURLToContain(areaSearchCode);

@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 describe('InputField', () => {
   it('should preserve any existing onChange handler', async () => {
     const user = userEvent.setup();
-    const initialHandler = jest.fn();
+    const initialHandler = vi.fn();
     render(
       <InputField input={{ onChange: initialHandler }}>Input Field</InputField>
     );
@@ -24,7 +24,7 @@ describe('InputField', () => {
 
   it('should update character count on change', async () => {
     const user = userEvent.setup();
-    const initialHandler = jest.fn();
+    const initialHandler = vi.fn();
     render(
       <InputField characterLimit={10} input={{ onChange: initialHandler }}>
         Input Field

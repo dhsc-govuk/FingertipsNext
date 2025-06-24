@@ -1,186 +1,192 @@
-import { SearchParams } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { OneIndicatorOneAreaViewPlots } from '.';
-import { mockHealthData } from '@/mock/data/healthdata';
 import { act, render, screen, waitFor, within } from '@testing-library/react';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { LoaderContext } from '@/context/LoaderContext';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient } from '@tanstack/query-core';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
+import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
+import { lineChartOverTimeRequestParams } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeRequestParams';
+import {
+  EndPoints,
+  queryKeyFromRequestParams,
+} from '@/components/charts/helpers/queryKeyFromRequestParams';
+import {
+  mockHealthDataForArea,
+  mockHealthDataForArea_England,
+} from '@/mock/data/mockHealthDataForArea';
+import { mockHealthDataPoints } from '@/mock/data/mockHealthDataPoint';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
-jest.mock('next/navigation', () => {
-  const originalModule = jest.requireActual('next/navigation');
+vi.mock('next/navigation', async () => {
+  const originalModule = await vi.importActual('next/navigation');
 
   return {
     ...originalModule,
     usePathname: () => 'some-mock-path',
-    useRouter: jest.fn().mockImplementation(() => ({})),
+    useRouter: vi.fn().mockImplementation(() => ({})),
   };
 });
 
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: jest.fn(),
-  setIsLoading: jest.fn(),
+  getIsLoading: vi.fn(),
+  setIsLoading: vi.fn(),
 };
-jest.mock('@/context/LoaderContext', () => {
+vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
   };
 });
 
-const mockMetaData = {
-  indicatorID: '108',
-  indicatorName: 'pancakes eaten',
-  indicatorDefinition: 'number of pancakes consumed',
-  dataSource: 'BJSS Leeds',
-  earliestDataPeriod: '2025',
-  latestDataPeriod: '2025',
-  lastUpdatedDate: new Date('March 4, 2025'),
-  unitLabel: 'pancakes',
-  hasInequalities: true,
-};
+const testMetaData = mockIndicatorDocument();
+const testHealthData = mockIndicatorWithHealthDataForArea({
+  areaHealthData: [
+    mockHealthDataForArea({
+      healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2022 }]),
+    }),
+  ],
+});
 
 const mockSearch = 'test';
-const mockIndicator = ['108'];
-const mockAreas = ['A001'];
-jest.mock('@/components/hooks/useSearchStateParams', () => ({
-  useSearchStateParams: () => ({
-    [SearchParams.SearchedIndicator]: mockSearch,
-    [SearchParams.IndicatorsSelected]: mockIndicator,
-    [SearchParams.AreasSelected]: mockAreas,
-  }),
+const mockAreas = [testHealthData.name as string];
+const mockSearchState = {
+  [SearchParams.SearchedIndicator]: mockSearch,
+  [SearchParams.IndicatorsSelected]: [testMetaData.indicatorID],
+  [SearchParams.AreasSelected]: mockAreas,
+};
+const mockUseSearchStateParams = vi.fn();
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockUseSearchStateParams(),
 }));
 
-const testHealthData: IndicatorWithHealthDataForArea = {
-  areaHealthData: [mockHealthData['108'][0], mockHealthData['108'][1]],
+const testRender = async (
+  searchState: SearchStateParams,
+  healthData: IndicatorWithHealthDataForArea,
+  indicatorMetadata: IndicatorDocument
+) => {
+  mockUseSearchStateParams.mockReturnValue(searchState);
+  const client = new QueryClient();
+  const lineChartApiParams = lineChartOverTimeRequestParams(searchState);
+  const lineChartQueryKey = queryKeyFromRequestParams(
+    EndPoints.HealthDataForAnIndicator,
+    lineChartApiParams
+  );
+  client.setQueryData([lineChartQueryKey], healthData);
+  client.setQueryData(
+    [`/indicator/${indicatorMetadata.indicatorID}`],
+    indicatorMetadata
+  );
+
+  await act(() =>
+    render(
+      <QueryClientProvider client={client}>
+        <OneIndicatorOneAreaViewPlots
+          indicatorData={healthData}
+          indicatorMetadata={indicatorMetadata}
+        />
+      </QueryClientProvider>
+    )
+  );
 };
 
 describe('OneIndicatorOneAreaViewPlots', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should render the benchmark select area drop down for the view', async () => {
-    await act(() =>
-      render(
-        <OneIndicatorOneAreaViewPlots
-          indicatorData={testHealthData}
-          indicatorMetadata={mockMetaData}
-        />
-      )
-    );
+    await testRender(mockSearchState, testHealthData, testMetaData);
 
-    await waitFor(async () => {
-      const benchmarkAreaDropDown = screen.getByRole('combobox', {
-        name: 'Select a benchmark',
-      });
-      const benchmarkAreaDropDownOptions = within(
-        benchmarkAreaDropDown
-      ).getAllByRole('option');
+    const benchmarkAreaDropDown = screen.getByRole('combobox', {
+      name: 'Select a benchmark',
+    });
+    const benchmarkAreaDropDownOptions = within(
+      benchmarkAreaDropDown
+    ).getAllByRole('option');
 
-      expect(benchmarkAreaDropDown).toBeInTheDocument();
-      expect(benchmarkAreaDropDownOptions).toHaveLength(1);
-      benchmarkAreaDropDownOptions.forEach((option) => {
-        expect(option.textContent).toBe('England');
-      });
+    expect(benchmarkAreaDropDown).toBeInTheDocument();
+    expect(benchmarkAreaDropDownOptions).toHaveLength(1);
+    benchmarkAreaDropDownOptions.forEach((option) => {
+      expect(option.textContent).toBe('England');
     });
   });
 
   it('should render the LineChart components', async () => {
-    await act(() =>
-      render(
-        <OneIndicatorOneAreaViewPlots
-          indicatorData={testHealthData}
-          indicatorMetadata={mockMetaData}
-        />
-      )
-    );
+    await testRender(mockSearchState, testHealthData, testMetaData);
 
-    await waitFor(async () => {
-      expect(
-        screen.getByRole('heading', {
-          name: 'Indicator data over time',
-        })
-      ).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', {
+        name: 'Indicator data over time',
+      })
+    ).toBeInTheDocument();
 
-      expect(
-        screen.getByTestId('tabContainer-lineChartAndTable')
-      ).toBeInTheDocument();
+    expect(
+      screen.getByTestId('tabContainer-lineChartAndTable')
+    ).toBeInTheDocument();
 
-      expect(
-        await screen.findByTestId('standardLineChart-component')
-      ).toBeInTheDocument();
+    expect(
+      await screen.findByTestId('standardLineChart-component')
+    ).toBeInTheDocument();
 
-      expect(
-        screen.getByTestId('lineChartTable-component')
-      ).toBeInTheDocument();
-    });
+    expect(screen.getByTestId('lineChartTable-component')).toBeInTheDocument();
   });
 
   it('should render the LineChart components in the special case that England is the only area', async () => {
-    await act(() =>
-      render(
-        <OneIndicatorOneAreaViewPlots
-          indicatorData={{ areaHealthData: [mockHealthData['108'][0]] }}
-          indicatorMetadata={mockMetaData}
-        />
-      )
+    const mockSearchStateOnlyEngland = {
+      [SearchParams.IndicatorsSelected]: [testMetaData.indicatorID],
+      [SearchParams.AreaTypeSelected]: 'england',
+      [SearchParams.AreasSelected]: [areaCodeForEngland],
+    };
+    const testHealthDataOnlyEngland = mockIndicatorWithHealthDataForArea({
+      areaHealthData: [
+        mockHealthDataForArea_England({
+          healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2022 }]),
+        }),
+      ],
+    });
+    await testRender(
+      mockSearchStateOnlyEngland,
+      testHealthDataOnlyEngland,
+      testMetaData
     );
 
-    await waitFor(async () => {
-      const highcharts = await screen.findAllByTestId(
-        'highcharts-react-component-lineChart'
-      );
-      expect(highcharts).toHaveLength(2);
-      expect(highcharts[0]).toHaveTextContent('England');
-      expect(highcharts[0]).not.toHaveTextContent('Benchmark');
-      expect(
-        screen.getByRole('heading', {
-          name: 'Indicator data over time',
-        })
-      ).toBeInTheDocument();
-      expect(
-        screen.getByTestId('tabContainer-lineChartAndTable')
-      ).toBeInTheDocument();
-      expect(
-        await screen.findByTestId('standardLineChart-component')
-      ).toBeInTheDocument();
-      expect(
-        screen.getByTestId('lineChartTable-component')
-      ).toBeInTheDocument();
-    });
+    const highcharts = await screen.findAllByTestId(
+      'highcharts-react-component-lineChart'
+    );
+    expect(highcharts[0]).toHaveTextContent('England');
+    expect(highcharts[0]).not.toHaveTextContent('Benchmark');
+    expect(
+      screen.getByRole('heading', {
+        name: 'Indicator data over time',
+      })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByTestId('tabContainer-lineChartAndTable')
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByTestId('standardLineChart-component')
+    ).toBeInTheDocument();
+    expect(screen.getByTestId('lineChartTable-component')).toBeInTheDocument();
   });
 
   it('should display data source when metadata exists', async () => {
-    await act(() =>
-      render(
-        <OneIndicatorOneAreaViewPlots
-          indicatorData={testHealthData}
-          indicatorMetadata={mockMetaData}
-        />
-      )
-    );
+    await testRender(mockSearchState, testHealthData, testMetaData);
 
-    const actual = await screen.findAllByText('Data source:', { exact: false });
+    const actual = await screen.findAllByText(
+      `Data source: ${testMetaData.dataSource}`,
+      { exact: true }
+    );
 
     expect(actual[0]).toBeVisible();
   });
 
   it('should not display line chart and line chart table when there are less than 2 time periods per area selected', async () => {
-    const MOCK_DATA = {
-      areaHealthData: [
-        {
-          areaCode: 'A1',
-          areaName: 'Area 1',
-          healthData: [mockHealthData['1'][0].healthData[0]],
-        },
-      ],
-    };
-
-    await act(() =>
-      render(
-        <OneIndicatorOneAreaViewPlots
-          indicatorData={MOCK_DATA}
-          indicatorMetadata={mockMetaData}
-        />
-      )
+    await testRender(
+      mockSearchState,
+      mockIndicatorWithHealthDataForArea(),
+      testMetaData
     );
 
     expect(
@@ -202,14 +208,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
   });
 
   it('should render the inequalities component', async () => {
-    await act(() =>
-      render(
-        <OneIndicatorOneAreaViewPlots
-          indicatorData={testHealthData}
-          indicatorMetadata={mockMetaData}
-        />
-      )
-    );
+    await testRender(mockSearchState, testHealthData, testMetaData);
 
     expect(
       await screen.findByTestId('inequalities-component')

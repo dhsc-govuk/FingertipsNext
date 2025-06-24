@@ -8,13 +8,13 @@ import {
 } from '@/lib/chartHelpers/constants';
 import { SearchParams } from '@/lib/searchStateManager';
 
-jest.mock('@/components/organisms/BenchmarkLegend', () => ({
+vi.mock('@/components/organisms/BenchmarkLegend', () => ({
   BenchmarkLegends: () => <div data-testid="benchmark-legends" />,
 }));
-jest.mock('@/components/organisms/SpineChart/SpineChartQuartilesInfo', () => ({
+vi.mock('@/components/organisms/SpineChart/SpineChartQuartilesInfo', () => ({
   SpineChartQuartilesInfoContainer: () => <div data-testid="quartiles-info" />,
 }));
-jest.mock('./SpineChartLegendItem', () => ({
+vi.mock('./SpineChartLegendItem', () => ({
   SpineChartLegendItem: ({
     children,
     itemType,

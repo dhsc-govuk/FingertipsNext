@@ -1,10 +1,10 @@
 /**
- * @jest-environment node
+ * @vitest-environment node
  */
 
 import ChartPage from './page';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
-import { mockDeep } from 'jest-mock-extended';
+import { mockDeep } from 'vitest-mock-extended';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { IndicatorsApi } from '@/generated-sources/ft-api-client';
 import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
@@ -25,23 +25,24 @@ import { IIndicatorSearchService } from '@/lib/search/searchTypes';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 import { getSelectedAreasDataByAreaType } from '@/lib/areaFilterHelpers/getSelectedAreasData';
+import { MockedFunction } from 'vitest';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 
-jest.mock('@/components/organisms/ThematicMap/thematicMapHelpers.ts', () => ({
-  getMapGeographyData: jest.fn(),
+vi.mock('@/components/organisms/ThematicMap/thematicMapHelpers.ts', () => ({
+  getMapGeographyData: vi.fn(),
 }));
 
-jest.mock('@/lib/areaFilterHelpers/getAreaFilterData');
-const mockGetAreaFilterData = getAreaFilterData as jest.MockedFunction<
+vi.mock('@/lib/areaFilterHelpers/getAreaFilterData');
+const mockGetAreaFilterData = getAreaFilterData as MockedFunction<
   typeof getAreaFilterData
 >;
 mockGetAreaFilterData.mockResolvedValue({});
 
-jest.mock('@/lib/areaFilterHelpers/getSelectedAreasData');
+vi.mock('@/lib/areaFilterHelpers/getSelectedAreasData');
 const mockGetSelectedAreasDataByAreaType =
-  getSelectedAreasDataByAreaType as jest.MockedFunction<
+  getSelectedAreasDataByAreaType as MockedFunction<
     typeof getSelectedAreasDataByAreaType
   >;
 mockGetSelectedAreasDataByAreaType.mockResolvedValue([]);
@@ -56,7 +57,7 @@ async function generateSearchParams(value: SearchStateParams) {
 
 describe('Chart Page', () => {
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('ViewContext', () => {
@@ -70,7 +71,9 @@ describe('Chart Page', () => {
       const page = await ChartPage({
         searchParams: generateSearchParams(searchParams),
       });
-      expect(page.props.searchState).toEqual({
+
+      const viewsContext = page.props.children[1];
+      expect(viewsContext.props.searchState).toEqual({
         [SearchParams.SearchedIndicator]: 'testing',
         [SearchParams.IndicatorsSelected]: ['333'],
         [SearchParams.AreasSelected]: ['E06000047'],
@@ -97,9 +100,10 @@ describe('Chart Page', () => {
       const page = await ChartPage({
         searchParams: generateSearchParams(searchState),
       });
+      const viewsContext = page.props.children[1];
 
       expect(mockGetAreaFilterData).toHaveBeenCalledWith(searchState, []);
-      expect(page.props.areaFilterData).toEqual(areaFilterData);
+      expect(viewsContext.props.areaFilterData).toEqual(areaFilterData);
     });
 
     it('should pass the selectedAreasData prop with data from getSelectedAreasDataByAreaType', async () => {
@@ -123,7 +127,9 @@ describe('Chart Page', () => {
         ['E40000007', 'E40000003'],
         'nhs-regions'
       );
-      expect(page.props.selectedAreasData).toEqual([
+
+      const viewsContext = page.props.children[1];
+      expect(viewsContext.props.selectedAreasData).toEqual([
         eastEnglandNHSRegion,
         londonNHSRegion,
       ]);
@@ -167,7 +173,9 @@ describe('Chart Page', () => {
         2,
         secondSelectedIndicatorId
       );
-      expect(page.props.selectedIndicatorsData).toEqual([
+
+      const viewsContext = page.props.children[1];
+      expect(viewsContext.props.selectedIndicatorsData).toEqual([
         mockIndicatorDocument1,
         mockIndicatorDocument2,
       ]);

@@ -3,19 +3,20 @@ import { render, screen } from '@testing-library/react';
 import { ExportOptionsButton } from './ExportOptionsButton';
 import { useModal } from '@/context/ModalContext';
 import userEvent from '@testing-library/user-event';
+import { Mock } from 'vitest';
 
-jest.mock('@/context/ModalContext', () => ({
-  useModal: jest.fn(),
+vi.mock('@/context/ModalContext', () => ({
+  useModal: vi.fn(),
 }));
 
-jest.mock('@/components/molecules/Export/ExportPreviewOptions', () => ({
+vi.mock('@/components/molecules/Export/ExportPreviewOptions', () => ({
   ExportPreviewOptions: () => <div>Mock Export Preview</div>,
 }));
 
-const mockUseModal = useModal as jest.Mock;
+const mockUseModal = useModal as Mock;
 
 describe('ExportOptionsButton', () => {
-  const setModalMock = jest.fn();
+  const setModalMock = vi.fn();
 
   beforeEach(() => {
     mockUseModal.mockReturnValue({ setModal: setModalMock });

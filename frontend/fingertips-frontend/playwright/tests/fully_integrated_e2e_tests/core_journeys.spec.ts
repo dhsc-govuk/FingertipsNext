@@ -12,18 +12,23 @@ import {
 import indicators from '../../../../../search-setup/assets/indicators.json';
 import { RawIndicatorDocument } from '@/lib/search/searchTypes';
 import { areaSearchTerm, coreTestJourneys } from './core_journey_config';
+
 //@ts-expect-error don't type check this json file
 const indicatorData = indicators as RawIndicatorDocument[];
-let allValidIndicators: SimpleIndicatorDocument[] = [];
-let selectedIndicatorsData: SimpleIndicatorDocument[] = [];
+
+const typedIndicatorData = indicatorData.map(
+  (indicator: RawIndicatorDocument) => ({
+    ...indicator,
+    lastUpdated: new Date(indicator.lastUpdatedDate),
+  })
+);
+
 const checkTrends = process.env.CHECK_TRENDS_ON_RESULTS_PAGE === 'true';
 
 /**
- * This tests, in parallel, the indicator + area scenario combinations from
- * https://ukhsa.atlassian.net/wiki/spaces/FTN/pages/171448170/Frontend+Application+-+Displaying+Charts
- * These scenario combinations are know as core journeys and are defined in coreTestJourneys,
- * they were chosen as they are happy paths covering lots of chart components, they also cover the three different search mode scenarios.
- * All 15 journeys are covered in lower level unit testing.
+ * This tests, in parallel, the 15 indicator + area scenario combinations defined in coreTestJourneys from core_journey_config.ts
+ * These scenario combinations are known as core journeys, they are happy path journeys testing all chart components as well as
+ * the three different search mode scenarios.
  */
 test.describe(
   `Search via`,
@@ -42,28 +47,19 @@ test.describe(
         checkExports,
         typeOfInequalityToSelect,
       }) => {
-        const typedIndicatorData = indicatorData.map(
-          (indicator: RawIndicatorDocument) => {
-            return {
-              ...indicator,
-              lastUpdated: new Date(indicator.lastUpdatedDate),
-            };
-          }
-        );
-
-        allValidIndicators =
-          searchMode === SearchMode.ONLY_AREA
-            ? getAllIndicators(typedIndicatorData)
-            : getAllIndicatorsForSearchTerm(
-                typedIndicatorData,
-                subjectSearchTerm!
-              );
-
         test(`${searchMode} then select ${indicatorMode} and ${areaMode} then check the charts page`, async ({
           homePage,
           resultsPage,
           chartPage,
         }) => {
+          const allValidIndicators: SimpleIndicatorDocument[] =
+            searchMode === SearchMode.ONLY_AREA
+              ? getAllIndicators(typedIndicatorData)
+              : getAllIndicatorsForSearchTerm(
+                  typedIndicatorData,
+                  subjectSearchTerm!
+                );
+
           await test.step('Navigate to home page and search for indicators', async () => {
             await homePage.navigateToHomePage();
             await homePage.checkOnHomePage();
@@ -76,7 +72,7 @@ test.describe(
             await homePage.clickSearchButton();
           });
 
-          await test.step(`check results page based on search mode and then select ${areaMode} and ${indicatorMode}`, async ({}) => {
+          await test.step(`check results page based on search mode and then select ${areaMode} and ${indicatorMode}`, async () => {
             await resultsPage.waitForURLToContainBasedOnSearchMode(
               searchMode,
               subjectSearchTerm!,
@@ -113,7 +109,7 @@ test.describe(
           });
 
           await test.step(`check the results page and then view the chart page, checking that the displayed charts are correct`, async () => {
-            selectedIndicatorsData = mergeIndicatorData(
+            const selectedIndicatorsData = mergeIndicatorData(
               indicatorsToSelect,
               typedIndicatorData
             );
@@ -139,7 +135,7 @@ test.describe(
   }
 );
 
-// log out current url when a test fails
+// Log out current url when a test fails
 test.afterEach(async ({ page }, testInfo) => {
   if (testInfo.status !== testInfo.expectedStatus) {
     // Test failed - capture the URL

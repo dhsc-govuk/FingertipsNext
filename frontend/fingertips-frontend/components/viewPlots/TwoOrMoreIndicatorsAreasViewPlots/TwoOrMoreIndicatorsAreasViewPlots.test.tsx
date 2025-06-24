@@ -18,20 +18,20 @@ import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmapUtil
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { LoaderContext } from '@/context/LoaderContext';
 
-jest.mock('next/navigation', () => {
-  const originalModule = jest.requireActual('next/navigation');
+vi.mock('next/navigation', async () => {
+  const originalModule = await vi.importActual('next/navigation');
 
   return {
     ...originalModule,
-    useRouter: jest.fn().mockImplementation(() => ({})),
+    useRouter: vi.fn().mockImplementation(() => ({})),
   };
 });
 
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: jest.fn(),
-  setIsLoading: jest.fn(),
+  getIsLoading: vi.fn(),
+  setIsLoading: vi.fn(),
 };
-jest.mock('@/context/LoaderContext', () => {
+vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
   };
@@ -42,7 +42,7 @@ const mockAreas = ['A001', 'A002', 'A003'];
 const mockGroupArea = 'G001';
 
 let mockSearchParams: SearchStateParams;
-jest.mock('@/components/hooks/useSearchStateParams', () => ({
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
   useSearchStateParams: () => mockSearchParams,
 }));
 

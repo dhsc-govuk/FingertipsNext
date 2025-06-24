@@ -2,6 +2,7 @@ name: Execute e2e tests
 
 env:
   frontend-directory: ./frontend/fingertips-frontend
+  api-directory: ./api
   NEXT_TELEMETRY_DISABLED: true
   NODE_VERSION: 22.x
   BRANCH_NAME: ${{ github.event_name == 'pull_request' && format('refs/pull/{0}/merge', github.event.pull_request.number) || (github.head_ref || github.ref_name) }}
@@ -10,24 +11,24 @@ on:
   workflow_call:
     inputs:
       environment:
-        description: 'Deployment environment'
+        description: "Deployment environment"
         required: true
         type: string
       playwright-mode:
-        description: 'Mode from which tests are run - either run inside docker or against the azure stack'
+        description: "Mode from which tests are run - either run inside docker or against the azure stack"
         required: true
         type: string
       update_screenshots:
-        description: 'Whether to update baseline screenshots'
+        description: "Whether to update baseline screenshots"
         required: false
         default: false
         type: boolean
     secrets:
       slack-webhook-url:
-        description: 'URL of the slack webhook'
+        description: "URL of the slack webhook"
         required: false
       fingertips_e2e_db_password:
-        description: 'Password for the database'
+        description: "Password for the database"
         required: false
 jobs:
   execute-e2e-tests-docker:
@@ -35,6 +36,12 @@ jobs:
     runs-on: ubuntu-latest
     if: inputs.playwright-mode == 'docker'
 
+    env:
+      dotnet-version: 9.0.x
+      DB_NAME: fingertips
+      DB_USER: sa
+      DB_PASSWORD: ${{ secrets.fingertips_e2e_db_password }}
+      UPLOAD_STORAGE_CONTAINER_NAME: fingertips-upload-container
     defaults:
       run:
         working-directory: ${{ env.frontend-directory }}
@@ -47,7 +54,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
           cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
       - name: Cache playwright dependencies - for CI test execution
@@ -61,21 +68,30 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Create .env file for db-setup - for CI test execution
-        run: |
-          echo "DB_PASSWORD=${{ secrets.fingertips_e2e_db_password }}" > .env
-          echo "DB_NAME=fingertips" >> .env
-          echo "DB_USER=sa" >> .env
-          echo "UPLOAD_STORAGE_CONTAINER_NAME=fingertips-upload-container" >> .env
+      - name: Setup dotnet
+        if: ${{ !inputs.update_screenshots }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{env.dotnet-version}}
 
-      - name: Install playwright dependencies - for CI test execution
-        run: npx playwright install --with-deps chromium webkit
+      - name: Restore dotnet Packages
+        if: ${{ !inputs.update_screenshots }}
+        run: dotnet restore
+        working-directory: ${{ env.api-directory }}
 
-      - name: Start Docker services
-        run: MOCK_SERVER=false npm run start:all
+      - name: Start Backend Docker services
+        run: npm run start:backend-services
+
+      - name: Run API Integration Tests
+        if: ${{ !inputs.update_screenshots }}
+        run: dotnet test --filter FullyQualifiedName~IntegrationTests
+        working-directory: ${{ env.api-directory }}
+
+      - name: Start Application Docker services
+        run: MOCK_SERVER=false npm run start:app-services
 
       - name: Run .http API tests
-        if: ${{ !inputs.update_screenshots && always() }}
+        if: ${{ !inputs.update_screenshots }}
         working-directory: ./api
         run: |
           npx httpyac send ./**/*.http --all --json --filter only-failed --output-failed exchange | tee httpyacresults.json
@@ -85,19 +101,22 @@ jobs:
           exit $HTTP_EXIT_CODE
 
       - name: Set dynamic HTTP results artifact name
-        if: ${{ !inputs.update_screenshots && always() }}
+        if: ${{ !inputs.update_screenshots }}
         run: echo "HTTP_ARTIFACT_NAME=httpyac-results-$(date +%s)" >> $GITHUB_ENV
 
       - name: Upload .http test results
-        if: ${{ !inputs.update_screenshots && always() }}
+        if: ${{ !inputs.update_screenshots }}
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.HTTP_ARTIFACT_NAME }}
           path: ./api/httpyacresults.json
           retention-days: 5
 
+      - name: Install playwright dependencies - for CI test execution
+        run: npx playwright install --with-deps chromium
+
       - name: Run Playwright tests in CI
-        if: ${{ !inputs.update_screenshots && always() }}
+        if: ${{ !inputs.update_screenshots }}
         run: npm run test-e2e-ci
 
       - name: Run Playwright tests and update baseline screenshot
@@ -119,10 +138,10 @@ jobs:
           else
             # Commit the changes with a descriptive message
             git commit -m "Update visual test baseline screenshots"
-            
+
             # Push the changes
             git push origin ${{ github.head_ref || github.ref_name }}
-            
+
             echo "Updated screenshots committed and pushed"
           fi
 
@@ -162,7 +181,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
           cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
       - name: Install dependencies
