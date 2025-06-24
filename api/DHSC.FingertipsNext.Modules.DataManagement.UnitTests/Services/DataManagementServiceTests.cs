@@ -10,7 +10,6 @@ namespace DHSC.FingertipsNext.Modules.DataManagement.UnitTests.Services;
 public class DataManagementServiceTests
 {
     private readonly DataManagementService _service;
-    private readonly IDataManagementRepository _repository;
     private readonly BlobContainerClient _containerClient = Substitute.For<BlobContainerClient>();
     private readonly BlobClient _blobClient = Substitute.For<BlobClient>();
 
@@ -19,26 +18,20 @@ public class DataManagementServiceTests
 
     public DataManagementServiceTests()
     {
-        _repository = new DataManagementRepository();
         var blobServiceClient = Substitute.For<BlobServiceClient>();
-        _service = new DataManagementService(_repository, blobServiceClient);
+        _service = new DataManagementService(blobServiceClient);
 
         blobServiceClient.GetBlobContainerClient(ContainerName).Returns(_containerClient);
         _containerClient.GetBlobClient(BlobName).Returns(_blobClient);
     }
 
     [Fact]
-    public void SayHelloToRepositoryTest()
-    {
-        // assert
-        _service.SayHelloToRepository().ShouldBe("The Repository says: I'm a Repository");
-    }
-
-    [Fact]
     public async Task UploadShouldSucceed()
     {
+        // Act
         var result = await _service.UploadFileAsync(Stream.Null, BlobName, ContainerName);
 
+        // Assert
         await _blobClient.Received(1).UploadAsync(Arg.Any<Stream>(), true);
         result.ShouldBe(true);
     }
@@ -46,12 +39,15 @@ public class DataManagementServiceTests
     [Fact]
     public async Task UploadShouldFail()
     {
+        // Arrange
         _blobClient
             .When(x => x.UploadAsync(Arg.Any<Stream>(), true))
             .Do(x => throw new RequestFailedException("failed"));
 
+        // Act
         var result = await _service.UploadFileAsync(Stream.Null, BlobName, ContainerName);
 
+        // Assert
         await _blobClient.Received(1).UploadAsync(Arg.Any<Stream>(), true);
         result.ShouldBe(false);
     }

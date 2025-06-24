@@ -2,6 +2,7 @@ using System.Web;
 using DHSC.FingertipsNext.Modules.DataManagement.Controllers.V1;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using DHSC.FingertipsNext.Modules.DataManagement.Service;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -40,13 +41,17 @@ public class DataManagementControllerTests
     [Fact]
     public async Task PostReturnsExpectedResponseWhenGivenAValidFile()
     {
+        // Arrange
         _dataManagementService.UploadFileAsync(Arg.Any<Stream>(), StubFileName, "StubContainerName")
             .Returns(true);
-        var response = await _controller.UploadHealthData(_formFile, StubIndicatorId) as AcceptedResult;
         var expected = $"File {StubFileName} has been accepted for indicator {StubIndicatorId}.";
 
+        // Act
+        var response = await _controller.UploadHealthData(_formFile, StubIndicatorId) as AcceptedResult;
+
+        // Assert
         await _dataManagementService.Received(1).UploadFileAsync(Arg.Any<Stream>(), StubFileName, "StubContainerName");
-        response?.StatusCode.ShouldBe(202);
+        response?.StatusCode.ShouldBe(StatusCodes.Status202Accepted);
         response?.Value.ToString().ShouldBe(expected);
     }
 
@@ -58,7 +63,7 @@ public class DataManagementControllerTests
 
         // Assert
         result.ShouldNotBeNull();
-        result.StatusCode.ShouldBe(400);
+        result.StatusCode.ShouldBe(StatusCodes.Status400BadRequest);
     }
 
     [Fact]
@@ -74,7 +79,7 @@ public class DataManagementControllerTests
 
         // Assert
         result.ShouldNotBeNull();
-        result.StatusCode.ShouldBe(400);
+        result.StatusCode.ShouldBe(StatusCodes.Status400BadRequest);
     }
 
     [Fact]
@@ -92,32 +97,38 @@ public class DataManagementControllerTests
 
         // Assert
         await _dataManagementService.Received(1).UploadFileAsync(Arg.Any<Stream>(), Arg.Any<string>(), Arg.Any<string>());
-        response?.StatusCode.ShouldBe(202);
+        response?.StatusCode.ShouldBe(StatusCodes.Status202Accepted);
         response?.Value?.ToString()?.ShouldContain(expectedEncoded);
     }
 
     [Fact]
     public async Task RequestReturns500IfEnvironmentVariableNotFound()
     {
+        // Arrange
         _configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(new Dictionary<string, string?> { { "STORAGE_CONTAINER_NAME", "" } })
             .Build();
         _controller = new DataManagementController(_dataManagementService, _configuration);
 
+        // Act
         var response = await _controller.UploadHealthData(_formFile, StubIndicatorId) as StatusCodeResult;
 
-        response.StatusCode.ShouldBe(500);
+        // Assert
+        response.StatusCode.ShouldBe(StatusCodes.Status500InternalServerError);
     }
 
     [Fact]
     public async Task RequestReturns500IfUploadFails()
     {
+        // Arrange
         _dataManagementService.UploadFileAsync(Arg.Any<Stream>(), StubFileName, "StubContainerName")
             .Returns(false);
 
+        // Act
         var response = await _controller.UploadHealthData(_formFile, StubIndicatorId) as StatusCodeResult;
 
+        // Assert
         await _dataManagementService.Received(1).UploadFileAsync(Arg.Any<Stream>(), StubFileName, "StubContainerName");
-        response?.StatusCode.ShouldBe(500);
+        response?.StatusCode.ShouldBe(StatusCodes.Status500InternalServerError);
     }
 }

@@ -4,14 +4,8 @@ using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 
 namespace DHSC.FingertipsNext.Modules.DataManagement.Service;
 
-public class DataManagementService(IDataManagementRepository dataManagementRepository, BlobServiceClient blobServiceClient) : IDataManagementService
+public class DataManagementService(BlobServiceClient blobServiceClient) : IDataManagementService
 {
-    public string SayHelloToRepository()
-    {
-        var repositorySays = dataManagementRepository.SayHello();
-        return "The Repository says: " + repositorySays;
-    }
-
     public async Task<bool> UploadFileAsync(Stream fileStream, string fileName, string containerName)
     {
         var containerClient = blobServiceClient.GetBlobContainerClient(containerName);
@@ -21,8 +15,7 @@ public class DataManagementService(IDataManagementRepository dataManagementRepos
         {
             await blobClient.UploadAsync(fileStream, true);
         }
-        catch (Exception ex) when (ex.GetType() == typeof(RequestFailedException) ||
-                                   ex.GetType() == typeof(AggregateException))
+        catch (Exception exception) when (exception is RequestFailedException or AggregateException)
         {
             return false;
         }

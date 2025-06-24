@@ -282,9 +282,7 @@ export function getPostIndicatorsIndicatorIdData202Response() {
 }
 
 export function getPostIndicatorsIndicatorIdData400Response() {
-  return {
-    message: faker.lorem.words(),
-  };
+  return getGetIndicator404Response();
 }
 
 export function getDeleteIndicatorsIndicatorIdData501Response() {
