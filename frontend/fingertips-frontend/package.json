@@ -26,7 +26,7 @@
     "test-ui-local-mocks": "NODE_ENV=production playwright test isolated_ui_tests --ignore-snapshots",
     "test-e2e-local-docker": "cross-env MOCK_SERVER=false CHECK_TRENDS_ON_RESULTS_PAGE=false npm run start:all && playwright test fully_integrated_e2e_tests --ignore-snapshots --grep @ci || true && npm run stop:all",
     "test-e2e-ci": "MOCK_SERVER=false CHECK_TRENDS_ON_RESULTS_PAGE=false playwright test fully_integrated_e2e_tests --grep @ci --project=chromium",
-    "test-e2e-cd": "MOCK_SERVER=false CHECK_TRENDS_ON_RESULTS_PAGE=true playwright test fully_integrated_e2e_tests ai_search_tests --grep @cd --project=webkit chromium",
+    "test-e2e-cd": "MOCK_SERVER=false CHECK_TRENDS_ON_RESULTS_PAGE=true playwright test fully_integrated_e2e_tests ai_search_tests --grep @cd --project=webkit --project=chromium",
     "test-e2e-ui-mode": "MOCK_SERVER=false CHECK_TRENDS_ON_RESULTS_PAGE=false playwright test fully_integrated_e2e_tests --ui --ignore-snapshots --grep @ci",
     "prettier": "prettier --write .",
     "prettier-ci": "prettier . --check"
@@ -42,7 +42,7 @@
     "@opentelemetry/sdk-node": "^0.57.0",
     "@opentelemetry/sdk-trace-base": "^1.30.0",
     "@opentelemetry/semantic-conventions": "^1.28.0",
-    "@tanstack/react-query": "^5.74.4",
+    "@tanstack/react-query": "^5.81.2",
     "@tanstack/react-query-devtools": "^5.81.2",
     "@turf/union": "^7.2.0",
     "date-fns": "^4.1.0",
