@@ -11,11 +11,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Common.Auth\DHSC.FingertipsNext.Modules.Common.Auth.csproj" />
+    <ProjectReference Include="..\DHSC.FingertipsNext.Modules.UserAuth.Schemas\DHSC.FingertipsNext.Modules.UserAuth.Schemas.csproj" />
     <ProjectReference Include="..\DHSC.FingertipsNext.Monolith\DHSC.FingertipsNext.Monolith.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="HttpClientScripts\" />
   </ItemGroup>
 
 </Project>
