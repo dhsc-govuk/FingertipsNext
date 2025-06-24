@@ -1,6 +1,8 @@
 import { renderHook } from '@testing-library/react';
 import { SearchParams } from '@/lib/searchStateManager';
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
+import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 jest.mock('next/navigation', () => ({
   useSearchParams: jest.fn(),
@@ -27,14 +29,24 @@ describe('useSearchStateParams', () => {
     expect(result.current[SearchParams.AreasSelected]).toEqual(['a1', 'a2']);
   });
 
-  it.skip('should handle missing params gracefully', () => {
+  it('should handle missing params gracefully', () => {
     const mockParams = new URLSearchParams();
     mockUseSearchParams.mockReturnValue(mockParams);
 
     const { result } = renderHook(() => useSearchStateParams());
 
     Object.values(SearchParams).forEach((key) => {
-      if (Array.isArray(result.current[key])) {
+      if (
+        key === SearchParams.AreaTypeSelected ||
+        key === SearchParams.GroupTypeSelected
+      ) {
+        expect(result.current[key]).toBe(englandAreaType.key);
+      } else if (key === SearchParams.GroupSelected) {
+        expect(result.current[key]).toBe(areaCodeForEngland);
+      } else if (
+        key === SearchParams.IndicatorsSelected ||
+        key === SearchParams.AreasSelected
+      ) {
         expect(result.current[key]).toEqual([]);
       } else {
         expect(result.current[key]).toBeUndefined();
