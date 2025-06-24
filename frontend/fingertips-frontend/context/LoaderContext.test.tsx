@@ -4,8 +4,8 @@ import userEvent from '@testing-library/user-event';
 import { SearchStateContext } from './SearchStateContext';
 
 const mockPath = 'some-mock-path';
-jest.mock('next/navigation', () => {
-  const originalModule = jest.requireActual('next/navigation');
+vi.mock('next/navigation', async () => {
+  const originalModule = await vi.importActual('next/navigation');
 
   return {
     ...originalModule,
@@ -13,12 +13,12 @@ jest.mock('next/navigation', () => {
   };
 });
 
-const mockGetSearchState = jest.fn();
+const mockGetSearchState = vi.fn();
 const mockSearchStateContext: SearchStateContext = {
   getSearchState: mockGetSearchState,
-  setSearchState: jest.fn(),
+  setSearchState: vi.fn(),
 };
-jest.mock('@/context/SearchStateContext', () => {
+vi.mock('@/context/SearchStateContext', () => {
   return {
     useSearchState: () => mockSearchStateContext,
   };

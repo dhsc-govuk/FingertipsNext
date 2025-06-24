@@ -79,7 +79,7 @@ You can then open [http://localhost:3000](http://localhost:3000) with your brows
 
 ## Testing
 
-This project uses Jest + React Testing Library for unit testing and Playwright for ui and e2e testing.
+This project uses Vitest + React Testing Library for unit testing and Playwright for ui and e2e testing.
 
 Isolated ui testing, covering accessibility, page navigation and validations occurs in both CI on push and pull requests, as well in CD as when code merges to main.
 
@@ -93,7 +93,7 @@ We use tags to tag our tests to control whether they run in both CI and CD, or j
 
 For local development we also have the option to run the tests locally against mocks or against a containerised instance of fingertips using docker.
 
-### Running the Jest Unit tests
+### Running the unit tests
 
 ```bash
 npm run test

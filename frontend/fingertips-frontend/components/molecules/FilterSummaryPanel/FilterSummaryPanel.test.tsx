@@ -9,37 +9,37 @@ import { LoaderContext } from '@/context/LoaderContext';
 import { SearchStateContext } from '@/context/SearchStateContext';
 
 const mockPath = 'some-mock-path';
-const mockReplace = jest.fn();
+const mockReplace = vi.fn();
 
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: jest.fn(),
-  setIsLoading: jest.fn(),
+  getIsLoading: vi.fn(),
+  setIsLoading: vi.fn(),
 };
-jest.mock('@/context/LoaderContext', () => {
+vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
   };
 });
 
-const mockGetSearchState = jest.fn();
+const mockGetSearchState = vi.fn();
 const mockSearchStateContext: SearchStateContext = {
   getSearchState: mockGetSearchState,
-  setSearchState: jest.fn(),
+  setSearchState: vi.fn(),
 };
-jest.mock('@/context/SearchStateContext', () => {
+vi.mock('@/context/SearchStateContext', () => {
   return {
     useSearchState: () => mockSearchStateContext,
   };
 });
 
-jest.mock('next/navigation', () => {
-  const originalModule = jest.requireActual('next/navigation');
+vi.mock('next/navigation', async () => {
+  const originalModule = await vi.importActual('next/navigation');
 
   return {
     ...originalModule,
     usePathname: () => mockPath,
     useSearchParams: () => {},
-    useRouter: jest.fn().mockImplementation(() => ({
+    useRouter: vi.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
   };
@@ -47,13 +47,13 @@ jest.mock('next/navigation', () => {
 
 describe('FilterSummaryPanel', () => {
   let user: UserEvent;
-  const mockChangeSelection = jest.fn();
+  const mockChangeSelection = vi.fn();
 
   beforeEach(() => {
     user = userEvent.setup();
   });
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   const defaultProps: FilterSummaryPanelProps = {

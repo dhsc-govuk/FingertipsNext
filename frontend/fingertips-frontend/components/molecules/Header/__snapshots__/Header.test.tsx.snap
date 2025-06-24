@@ -1,406 +1,26 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Header should match snapshot 1`] = `
+exports[`Header > should match snapshot 1`] = `
 <DocumentFragment>
-  .c21 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.c21:focus {
-  outline: 3px solid #ffdd00;
-  outline-offset: 0;
-  background-color: #ffdd00;
-}
-
-.c21:link {
-  color: #1d70b8;
-}
-
-.c21:visited {
-  color: #4c2c92;
-}
-
-.c21:hover {
-  color: #2b8cc4;
-}
-
-.c21:active {
-  color: #2b8cc4;
-}
-
-.c21:focus {
-  color: #0b0c0c;
-}
-
-.c13 {
-  padding-top: 30px;
-  text-align: center;
-}
-
-.c15 {
-  max-width: 960px;
-  margin-left: 15px;
-  margin-right: 15px;
-  text-align: left;
-}
-
-.c0 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  background-color: #0b0c0c;
-  color: #ffffff;
-  font-family: "nta",Arial,sans-serif;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 1.1428571429;
-}
-
-.c1 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  width: calc(100% - 30px);
-  max-width: 960px;
-  padding: calc(10px * 0.8) 15px;
-  box-sizing: border-box;
-}
-
-.c12 {
-  border-bottom: 10px solid #1d70b8;
-  max-width: 960px;
-  margin: 0 auto;
-  width: calc(100% - 30px);
-}
-
-.c3 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  font-weight: 800;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: start;
-  -webkit-justify-content: flex-start;
-  -ms-flex-pack: start;
-  justify-content: flex-start;
-  font-size: 30px;
-}
-
-.c2 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-}
-
-.c7 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-
-.c4 {
-  vertical-align: baseline;
-}
-
-.c5 {
-  width: 36px;
-  max-height: 27px;
-  display: inline-block;
-  margin-right: 7px;
-}
-
-.c6 {
-  display: inline-block;
-  font-weight: 700;
-}
-
-.c9 {
-  color: #ffffff;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  -webkit-text-decoration-skip-ink: none;
-  text-decoration-skip-ink: none;
-  border-bottom: 1px solid transparent;
-  font-weight: 700;
-  line-height: 1;
-}
-
-.c9:hover {
-  border-bottom-color: #ffffff;
-}
-
-.c9:focus {
-  outline: 3px solid #ffdd00;
-}
-
-.c10 {
-  display: inline-block;
-}
-
-.c10:focus {
-  color: #0b0c0c;
-  background-color: #ffdd00;
-  outline: 3px solid #ffdd00;
-}
-
-.c10:focus:hover {
-  border-bottom-color: #0b0c0c;
-}
-
-.c8 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 1.1111111111111112;
-  width: 50%;
-}
-
-.c19 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 1;
-  display: inline-block;
-  padding-top: 5px;
-  padding-right: 8px;
-  padding-bottom: 4px;
-  padding-left: 8px;
-  outline: 2px solid transparent;
-  outline-offset: -2px;
-  -webkit-letter-spacing: 1px;
-  -moz-letter-spacing: 1px;
-  -ms-letter-spacing: 1px;
-  letter-spacing: 1px;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  text-transform: uppercase;
-  background-color: #1d70b8;
-  color: #ffffff;
-}
-
-.c16 {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #bfc1c3;
-}
-
-.c17 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 1.1428571428571428;
-  color: #0b0c0c;
-  display: table;
-  margin: 0;
-}
-
-.c17 .c18 {
-  margin-right: 10px;
-}
-
-.c20 {
-  display: table-cell;
-  vertical-align: baseline;
-}
-
-.c14 {
-  padding: 0px;
-}
-
-.c11 {
-  font-weight: 700;
-}
-
-@media print {
-  .c21 {
-    font-family: sans-serif;
-  }
-}
-
-@media print {
-  .c21[href^="/"]::after,
-  .c21[href^="http://"]::after,
-  .c21[href^="https://"]::after {
-    content: " (" attr(href) ")";
-    font-size: 90%;
-    word-wrap: break-word;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c15 {
-    margin-left: 30px;
-    margin-right: 30px;
-  }
-}
-
-@media only screen and (min-width:1020px) {
-  .c15 {
-    margin: 0 auto;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 {
-    font-size: 16px;
-    line-height: 1.25;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c1 {
-    padding: calc(10px * 0.8) 0;
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    width: calc(100% - 60px);
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c12 {
-    width: calc(100% - 60px);
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c2 {
-    display: block;
-    padding-right: 15px;
-    width: 33.33%;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c7 {
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    -webkit-align-items: flex-start;
-    -webkit-box-align: flex-start;
-    -ms-flex-align: flex-start;
-    align-items: flex-start;
-    -webkit-box-pack: start;
-    -webkit-justify-content: flex-start;
-    -ms-flex-pack: start;
-    justify-content: flex-start;
-    width: 66.66%;
-    padding-left: 15px;
-    margin-top: 0;
-  }
-}
-
-@media print {
-  .c8 {
-    font-size: 18px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c8 {
-    font-size: 24px;
-    line-height: 1.25;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c8 {
-    width: auto;
-  }
-}
-
-@media print {
-  .c19 {
-    font-size: 14px;
-    line-height: 1;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c19 {
-    font-size: 16px;
-    line-height: 1;
-  }
-}
-
-@media print {
-  .c17 {
-    font-size: 14px;
-    line-height: 1.2;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c17 {
-    font-size: 16px;
-    line-height: 1.25;
-  }
-}
-
-@media print {
-  .c17 {
-    color: #000;
-  }
-}
-
-<header>
+  <header>
     <div
-      class="c0"
+      class="top-nav-wrapper__TopNavWrapper-sc-1wnrl5k-0 iLJKss"
       color="#ffffff"
     >
       <div
-        class="c1"
+        class="top-nav-inner__TopNavInner-sc-15yph1v-0 dOFoTT"
       >
         <div
-          class="c2"
+          class="logo-search-wrapper__LogoSearchWrapper-sc-1iq7ssu-0 MTFlD"
         >
           <div
-            class="c3"
+            class="company__Company-sc-fxukuq-0 fzLMnv"
           >
             <div
-              class="c4"
+              class="icon-title__Container-sc-onvli0-0 iptqcn"
             >
               <span
-                class="c5"
+                class="icon-title__IconContainer-sc-onvli0-1 gIQzke"
               >
                 <svg
                   fill="currentColor"
@@ -422,7 +42,7 @@ exports[`Header should match snapshot 1`] = `
                 </svg>
               </span>
               <span
-                class="c6"
+                class="icon-title__TitleContainer-sc-onvli0-2 gYHSDS"
               >
                 GOV.UK
               </span>
@@ -430,17 +50,17 @@ exports[`Header should match snapshot 1`] = `
           </div>
         </div>
         <div
-          class="c7"
+          class="right-hand-side__RightHandSide-sc-1c11aed-0 fLjOPR"
         >
           <div
-            class="c8"
+            class="src__ServiceTitleWrapper-sc-140rlix-0 edFvrp"
           >
             <a
-              class="c9 c10"
+              class="top-nav-anchor__TopNavAnchor-sc-lt39h5-0 nav-link-anchor__NavLinkAnchor-sc-1pr115z-0 dlfbAW eawaIf"
               href="/"
             >
               <span
-                class="c11"
+                class="sc-gEvEer hRecmW"
               >
                 Find public health data
               </span>
@@ -450,31 +70,31 @@ exports[`Header should match snapshot 1`] = `
       </div>
     </div>
     <div
-      class="c12"
+      class="bottom-nav-wrapper__BottomNavWrapper-sc-1334g24-0 cyblJf"
     />
     <div
-      class="c13 c14"
+      class="src__OuterContainer-sc-1lvyroj-0 bXeQwK sc-aXZVg dxEzcC"
     >
       <div
-        class="c15"
+        class="src__InnerContainer-sc-1lvyroj-1 ePlXRJ"
       >
         <div
-          class="c16"
+          class="src__StyledBanner-sc-11ccy2-0 fbYIQI"
         >
           <p
-            class="c17"
+            class="src__BannerContent-sc-11ccy2-1 hXCoUq"
           >
             <strong
-              class="c18 c19"
+              class="src__Tag-sc-10wvgvx-0 bujMNx"
             >
               alpha
             </strong>
             <span
-              class="c20"
+              class="src__BannerText-sc-11ccy2-2 GRUId"
             >
               This is a new service - your 
               <a
-                class="c21"
+                class="src__Link-sc-1loawqx-0 jjZtWC"
                 href="mailto:profilefeedback@dhsc.gov.uk?subject=Profile%20Feedback%20[General enquiry]"
               >
                 feedback

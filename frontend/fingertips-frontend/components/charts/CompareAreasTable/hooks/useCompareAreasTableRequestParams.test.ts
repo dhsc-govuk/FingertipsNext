@@ -9,21 +9,22 @@ import {
   Area,
   GetHealthDataForAnIndicatorRequest,
 } from '@/generated-sources/ft-api-client';
+import { MockedFunction } from 'vitest';
 
-jest.mock('@/components/hooks/useSearchStateParams');
-jest.mock('@/components/charts/hooks/useApiAvailableAreas');
-jest.mock(
+vi.mock('@/components/hooks/useSearchStateParams');
+vi.mock('@/components/charts/hooks/useApiAvailableAreas');
+vi.mock(
   '@/components/charts/CompareAreasTable/helpers/compareAreasTableRequestParams'
 );
 
-const mockUseSearchStateParams = useSearchStateParams as jest.MockedFunction<
+const mockUseSearchStateParams = useSearchStateParams as MockedFunction<
   typeof useSearchStateParams
 >;
-const mockUseApiAvailableAreas = useApiAvailableAreas as jest.MockedFunction<
+const mockUseApiAvailableAreas = useApiAvailableAreas as MockedFunction<
   typeof useApiAvailableAreas
 >;
 const mockCompareAreasTableRequestParams =
-  compareAreasTableRequestParams as jest.MockedFunction<
+  compareAreasTableRequestParams as MockedFunction<
     typeof compareAreasTableRequestParams
   >;
 
