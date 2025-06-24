@@ -54,11 +54,7 @@ describe('BenchmarkSelectArea', () => {
   const areaDropDownLabel = 'Select a benchmark';
 
   it('should render all the available areas', () => {
-    render(
-      <BenchmarkSelectArea
-        availableAreas={mockAvailableAreas}
-      />
-    );
+    render(<BenchmarkSelectArea availableAreas={mockAvailableAreas} />);
 
     const areaSelectDropdown = screen.getByRole('combobox', {
       name: areaDropDownLabel,
@@ -73,11 +69,7 @@ describe('BenchmarkSelectArea', () => {
   });
 
   it('should have the chart areaSelected as the pre-selected value', () => {
-    render(
-      <BenchmarkSelectArea
-        availableAreas={mockAvailableAreas}
-      />
-    );
+    render(<BenchmarkSelectArea availableAreas={mockAvailableAreas} />);
 
     expect(
       screen.getByRole('combobox', {
@@ -96,11 +88,7 @@ describe('BenchmarkSelectArea', () => {
     ].join('');
 
     const user = userEvent.setup();
-    render(
-      <BenchmarkSelectArea
-        availableAreas={mockAvailableAreas}
-      />
-    );
+    render(<BenchmarkSelectArea availableAreas={mockAvailableAreas} />);
 
     await user.selectOptions(
       screen.getByRole('combobox', { name: areaDropDownLabel }),
