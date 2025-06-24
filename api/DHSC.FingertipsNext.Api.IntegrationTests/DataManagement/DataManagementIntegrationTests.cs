@@ -1,5 +1,4 @@
-﻿using Azure.Storage.Blobs;
-using DotNetEnv;
+﻿using DotNetEnv;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Shouldly;
@@ -11,13 +10,14 @@ public class DataManagementIntegrationTests : IClassFixture<WebApplicationFactor
     private const string TestDataDir = "TestData";
     private const string BlobName = "blobName";
     private readonly HttpClient _apiClient;
-    private readonly BlobContainerClient _blobContainerClient;
+    private readonly AzureStorageBlobClient _azureStorageBlobClient;
 
     public DataManagementIntegrationTests(WebApplicationFactory<Program> factory)
     {
-        // support for .env file
+        // Load environment variables from the .env file
         Env.Load(string.Empty, new LoadOptions(true, true, false));
 
+        // Load configuration from the test JSON file.
         var configuration = new ConfigurationBuilder()
             .AddJsonFile("appsettings.test.json")
             .AddEnvironmentVariables()
@@ -26,14 +26,7 @@ public class DataManagementIntegrationTests : IClassFixture<WebApplicationFactor
         ArgumentNullException.ThrowIfNull(factory);
         _apiClient = factory.CreateClient();
 
-        var connectionString = configuration.GetConnectionString("UploadStorageAccount");
-        ArgumentNullException.ThrowIfNull(connectionString);
-
-        var containerName = configuration.GetValue<string>("UPLOAD_STORAGE_CONTAINER_NAME");
-        ArgumentNullException.ThrowIfNull(containerName);
-
-        var blobServiceClient = new BlobServiceClient(connectionString);
-        _blobContainerClient = blobServiceClient.GetBlobContainerClient(containerName);
+        _azureStorageBlobClient = new AzureStorageBlobClient(configuration);
     }
 
     public void Dispose()
@@ -44,7 +37,7 @@ public class DataManagementIntegrationTests : IClassFixture<WebApplicationFactor
 
     protected virtual void Dispose(bool disposing)
     {
-        _blobContainerClient.DeleteBlobIfExists(BlobName);
+        _azureStorageBlobClient.DeleteBlob(BlobName);
         _apiClient.Dispose();
     }
 
@@ -52,11 +45,10 @@ public class DataManagementIntegrationTests : IClassFixture<WebApplicationFactor
     public async Task DataManagementEndpointShouldUploadAFile()
     {
         // Arrange
-        var blobClient = _blobContainerClient.GetBlobClient(BlobName);
         var blobContentFilePath = Path.Combine(TestDataDir, "blobContent.json");
 
         // Temporarily upload the file ourselves, until the API is uploading files to Azure storage.
-        await blobClient.UploadAsync(blobContentFilePath);
+        await _azureStorageBlobClient.UploadBlob(BlobName, blobContentFilePath);
 
         // Act
         var response = await _apiClient.GetAsync(new Uri("/data_management"));
@@ -64,8 +56,7 @@ public class DataManagementIntegrationTests : IClassFixture<WebApplicationFactor
         // Assert
         response.EnsureSuccessStatusCode();
 
-        var blobResponse = await blobClient.DownloadContentAsync();
-        var blobContent = blobResponse.Value.Content.ToArray();
+        var blobContent = await _azureStorageBlobClient.DownloadBlob(BlobName);
         var localFileContent = await File.ReadAllBytesAsync(blobContentFilePath);
         blobContent.ShouldBeEquivalentTo(localFileContent);
     }
