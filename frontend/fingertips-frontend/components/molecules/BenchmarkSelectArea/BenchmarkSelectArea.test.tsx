@@ -57,7 +57,6 @@ describe('BenchmarkSelectArea', () => {
     render(
       <BenchmarkSelectArea
         availableAreas={mockAvailableAreas}
-        benchmarkAreaSelectedKey={SearchParams.BenchmarkAreaSelected}
       />
     );
 
@@ -77,7 +76,6 @@ describe('BenchmarkSelectArea', () => {
     render(
       <BenchmarkSelectArea
         availableAreas={mockAvailableAreas}
-        benchmarkAreaSelectedKey={SearchParams.BenchmarkAreaSelected}
       />
     );
 
@@ -101,7 +99,6 @@ describe('BenchmarkSelectArea', () => {
     render(
       <BenchmarkSelectArea
         availableAreas={mockAvailableAreas}
-        benchmarkAreaSelectedKey={SearchParams.BenchmarkAreaSelected}
       />
     );
 
