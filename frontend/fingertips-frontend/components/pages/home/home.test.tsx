@@ -1,7 +1,7 @@
 import { render, screen, waitFor, within } from '@testing-library/react';
 import { Home } from '@/components/pages/home/index';
 import { SearchFormState } from '@/components/forms/SearchForm/searchActions';
-import { expect } from '@jest/globals';
+
 import { userEvent } from '@testing-library/user-event';
 import { LoaderContext } from '@/context/LoaderContext';
 import { SearchStateParams } from '@/lib/searchStateManager';
@@ -13,27 +13,27 @@ const initialState: SearchFormState = {
   errors: {},
 };
 
-jest.mock('next/navigation', () => ({
-  useRouter: jest.fn().mockReturnValue({
-    push: jest.fn(),
-    set: jest.fn(),
+vi.mock('next/navigation', () => ({
+  useRouter: vi.fn().mockReturnValue({
+    push: vi.fn(),
+    set: vi.fn(),
   }),
-  useSearchParams: jest.fn(),
-  usePathname: jest.fn(),
+  useSearchParams: vi.fn(),
+  usePathname: vi.fn(),
 }));
 
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: jest.fn(),
-  setIsLoading: jest.fn(),
+  getIsLoading: vi.fn(),
+  setIsLoading: vi.fn(),
 };
-jest.mock('@/context/LoaderContext', () => {
+vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
   };
 });
 
 const mockSearchState: SearchStateParams = {};
-jest.mock('@/components/hooks/useSearchStateParams', () => ({
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
   useSearchStateParams: () => mockSearchState,
 }));
 
@@ -45,7 +45,7 @@ const setupUI = (state?: SearchFormState) => {
 };
 
 afterEach(() => {
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
 
 it('should render an indicator link', () => {
@@ -83,7 +83,7 @@ it('should display the error summary component when there is a validation error'
 
 it('should focus on the input boxes when there is a validation error', async () => {
   // Add missing function to jsdom
-  const scrollMock = jest.fn();
+  const scrollMock = vi.fn();
   window.HTMLElement.prototype.scrollIntoView = scrollMock;
 
   const user = userEvent.setup();

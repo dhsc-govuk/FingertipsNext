@@ -12,7 +12,7 @@ describe('getBarChartOptions', () => {
       plotLineValue: 75,
       seriesData: [],
       tooltipAreaName: 'Tooltip Area',
-      tooltipPointFormatter: jest.fn(),
+      tooltipPointFormatter: vi.fn(),
     });
 
     expect(barChartOptions).toMatchSnapshot();
@@ -22,7 +22,7 @@ describe('getBarChartOptions', () => {
     const barChartOptions = getBarChartOptions({
       seriesData: [],
       tooltipAreaName: 'Tooltip Area',
-      tooltipPointFormatter: jest.fn(),
+      tooltipPointFormatter: vi.fn(),
     });
 
     expect(barChartOptions).toMatchSnapshot();

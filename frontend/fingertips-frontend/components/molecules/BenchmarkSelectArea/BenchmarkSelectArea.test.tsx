@@ -8,26 +8,26 @@ import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 const mockPath = 'some-mock-path';
-const mockReplace = jest.fn();
-jest.mock('next/navigation', () => {
-  const originalModule = jest.requireActual('next/navigation');
+const mockReplace = vi.fn();
+vi.mock('next/navigation', async () => {
+  const originalModule = await vi.importActual('next/navigation');
 
   return {
     ...originalModule,
     usePathname: () => mockPath,
     useSearchParams: () => {},
-    useRouter: jest.fn().mockImplementation(() => ({
+    useRouter: vi.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
   };
 });
 
-const mockSetIsLoading = jest.fn();
+const mockSetIsLoading = vi.fn();
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: jest.fn(),
+  getIsLoading: vi.fn(),
   setIsLoading: mockSetIsLoading,
 };
-jest.mock('@/context/LoaderContext', () => {
+vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
   };
@@ -48,7 +48,7 @@ const mockAvailableAreas = [
 
 describe('BenchmarkSelectArea', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   const areaDropDownLabel = 'Select a benchmark';

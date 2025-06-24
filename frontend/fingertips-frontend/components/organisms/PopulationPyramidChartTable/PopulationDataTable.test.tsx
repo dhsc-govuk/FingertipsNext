@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { PopulationDataTable } from './PopulationDataTable';
 
 const mockHealthDataForArea = {

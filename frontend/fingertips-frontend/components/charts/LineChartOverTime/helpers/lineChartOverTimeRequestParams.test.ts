@@ -5,21 +5,20 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 import { determineBenchmarkRefType } from '@/lib/ViewsHelpers';
 import { lineChartOverTimeRequestParams } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeRequestParams';
+import { MockedFunction } from 'vitest';
 
-jest.mock('@/lib/chartHelpers/chartHelpers');
-jest.mock('@/lib/ViewsHelpers');
+vi.mock('@/lib/chartHelpers/chartHelpers');
+vi.mock('@/lib/ViewsHelpers');
 
-const mockDetermineAreaCodes = determineAreaCodes as jest.MockedFunction<
+const mockDetermineAreaCodes = determineAreaCodes as MockedFunction<
   typeof determineAreaCodes
 >;
 const mockDetermineBenchmarkRefType =
-  determineBenchmarkRefType as jest.MockedFunction<
-    typeof determineBenchmarkRefType
-  >;
+  determineBenchmarkRefType as MockedFunction<typeof determineBenchmarkRefType>;
 
 describe('lineChartOverTimeRequestParams', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('includes england and group area codes if not already in areaCodes', () => {

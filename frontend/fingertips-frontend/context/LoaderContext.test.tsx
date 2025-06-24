@@ -4,8 +4,8 @@ import userEvent from '@testing-library/user-event';
 import { SearchStateParams } from '@/lib/searchStateManager';
 
 const mockPath = 'some-mock-path';
-jest.mock('next/navigation', () => {
-  const originalModule = jest.requireActual('next/navigation');
+vi.mock('next/navigation', async () => {
+  const originalModule = await vi.importActual('next/navigation');
 
   return {
     ...originalModule,
@@ -14,7 +14,7 @@ jest.mock('next/navigation', () => {
 });
 
 let mockSearchState: SearchStateParams = {};
-jest.mock('@/components/hooks/useSearchStateParams', () => ({
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
   useSearchStateParams: () => mockSearchState,
 }));
 

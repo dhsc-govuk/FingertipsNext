@@ -9,28 +9,28 @@ import { SortOrderKeys } from '@/components/forms/IndicatorSort/indicatorSort.ty
 import { RESULTS_PER_PAGE } from '@/components/pages/results';
 
 const mockPath = 'some-mock-path';
-const mockReplace = jest.fn();
+const mockReplace = vi.fn();
 let user: UserEvent;
 
-jest.mock('next/navigation', () => {
-  const originalModule = jest.requireActual('next/navigation');
+vi.mock('next/navigation', async () => {
+  const originalModule = await vi.importActual('next/navigation');
 
   return {
     ...originalModule,
     usePathname: () => mockPath,
     useSearchParams: () => {},
-    useRouter: jest.fn().mockImplementation(() => ({
+    useRouter: vi.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
   };
 });
 
-const mockSetIsLoading = jest.fn();
+const mockSetIsLoading = vi.fn();
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: jest.fn(),
+  getIsLoading: vi.fn(),
   setIsLoading: mockSetIsLoading,
 };
-jest.mock('@/context/LoaderContext', () => {
+vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
   };
@@ -39,7 +39,7 @@ jest.mock('@/context/LoaderContext', () => {
 const searchState: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'test',
 };
-jest.mock('@/components/hooks/useSearchStateParams', () => ({
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
   useSearchStateParams: () => searchState,
 }));
 
@@ -70,7 +70,7 @@ const MOCK_DATA: IndicatorDocument[] = [
   },
 ];
 
-const mockFormAction = jest.fn();
+const mockFormAction = vi.fn();
 
 describe('IndicatorSelectionForm', () => {
   beforeEach(() => {
@@ -396,7 +396,7 @@ describe('IndicatorSelectionForm', () => {
 
   describe('Pagination', () => {
     beforeEach(() => {
-      window.history.replaceState = jest.fn();
+      window.history.replaceState = vi.fn();
     });
 
     const generateMockSearchResults = (resultsToGenerate: number) => {

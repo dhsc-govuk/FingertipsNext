@@ -19,39 +19,38 @@ import {
   mockHealthDataForArea,
   mockHealthDataForArea_England,
 } from '@/mock/data/mockHealthDataForArea';
+import { MockedFunction } from 'vitest';
 
-jest.mock('@/components/hooks/useSearchStateParams');
-jest.mock(
+vi.mock('@/components/hooks/useSearchStateParams');
+vi.mock(
   '@/components/charts/CompareAreasTable/hooks/useCompareAreasTableRequestParams'
 );
-jest.mock('@/components/charts/hooks/useApiGetHealthDataForAnIndicator');
-jest.mock('@/components/charts/hooks/useApiGetIndicatorMetaData');
-jest.mock(
-  '@/components/charts/CompareAreasTable/helpers/compareAreasTableData'
-);
+vi.mock('@/components/charts/hooks/useApiGetHealthDataForAnIndicator');
+vi.mock('@/components/charts/hooks/useApiGetIndicatorMetaData');
+vi.mock('@/components/charts/CompareAreasTable/helpers/compareAreasTableData');
 
-const mockUseSearchStateParams = useSearchStateParams as jest.MockedFunction<
+const mockUseSearchStateParams = useSearchStateParams as MockedFunction<
   typeof useSearchStateParams
 >;
 const mockUseCompareAreasTableRequestParams =
-  useCompareAreasTableRequestParams as jest.MockedFunction<
+  useCompareAreasTableRequestParams as MockedFunction<
     typeof useCompareAreasTableRequestParams
   >;
 const mockUseApiGetHealthDataForAnIndicator =
-  useApiGetHealthDataForAnIndicator as jest.MockedFunction<
+  useApiGetHealthDataForAnIndicator as MockedFunction<
     typeof useApiGetHealthDataForAnIndicator
   >;
 const mockUseApiGetIndicatorMetaData =
-  useApiGetIndicatorMetaData as jest.MockedFunction<
+  useApiGetIndicatorMetaData as MockedFunction<
     typeof useApiGetIndicatorMetaData
   >;
-const mockCompareAreasTableData = compareAreasTableData as jest.MockedFunction<
+const mockCompareAreasTableData = compareAreasTableData as MockedFunction<
   typeof compareAreasTableData
 >;
 
 describe('useCompareAreasTableData', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('returns null when healthData is not available', () => {

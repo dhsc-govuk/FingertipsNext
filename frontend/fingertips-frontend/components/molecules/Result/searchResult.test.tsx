@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { expect } from '@jest/globals';
+
 import { SearchResult } from '.';
 import { UserEvent, userEvent } from '@testing-library/user-event';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
@@ -48,21 +48,21 @@ const MOCK_DATA_LASTUPDATED_INEQUALITIES: IndicatorDocument = {
   unitLabel: '',
 };
 
-const mockHandleClick = jest.fn();
+const mockHandleClick = vi.fn();
 
-const mockSetIsLoading = jest.fn();
+const mockSetIsLoading = vi.fn();
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: jest.fn(),
+  getIsLoading: vi.fn(),
   setIsLoading: mockSetIsLoading,
 };
-jest.mock('@/context/LoaderContext', () => {
+vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
   };
 });
 
 let mockSearchState: SearchStateParams = {};
-jest.mock('@/components/hooks/useSearchStateParams', () => ({
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
   useSearchStateParams: () => mockSearchState,
 }));
 

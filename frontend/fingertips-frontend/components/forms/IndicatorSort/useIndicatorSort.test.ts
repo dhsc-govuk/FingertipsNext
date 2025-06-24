@@ -7,34 +7,34 @@ import { SortOrderKeys } from '@/components/forms/IndicatorSort/indicatorSort.ty
 import { ChangeEvent } from 'react';
 
 const mockPath = 'some-mock-path';
-const mockReplace = jest.fn();
+const mockReplace = vi.fn();
 
-jest.mock('next/navigation', () => {
-  const originalModule = jest.requireActual('next/navigation');
+vi.mock('next/navigation', async () => {
+  const originalModule = await vi.importActual('next/navigation');
 
   return {
     ...originalModule,
     usePathname: () => mockPath,
-    useSearchParams: () => {},
-    useRouter: jest.fn().mockImplementation(() => ({
+    useSearchParams: () => { },
+    useRouter: vi.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
   };
 });
 
-const mockSetIsLoading = jest.fn();
+const mockSetIsLoading = vi.fn();
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: jest.fn(),
+  getIsLoading: vi.fn(),
   setIsLoading: mockSetIsLoading,
 };
-jest.mock('@/context/LoaderContext', () => {
+vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
   };
 });
 
 let mockSearchState: SearchStateParams = {};
-jest.mock('@/components/hooks/useSearchStateParams', () => ({
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
   useSearchStateParams: () => mockSearchState,
 }));
 
@@ -55,7 +55,7 @@ const mockDamson = {
   lastUpdatedDate: new Date('2015/12/25'),
 } as IndicatorDocument;
 
-const mockSetCurrentPage = jest.fn();
+const mockSetCurrentPage = vi.fn();
 
 describe('useIndicatorSort', () => {
   const mockResults = [mockBanana, mockApple, mockDamson, mockCherry];

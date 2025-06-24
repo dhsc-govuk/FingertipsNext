@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { expect } from '@jest/globals';
+
 import { RESULTS_PER_PAGE, SearchResults } from '.';
 import { IndicatorSelectionState } from '../../forms/IndicatorSelectionForm/indicatorSelectionActions';
 import userEvent from '@testing-library/user-event';
@@ -7,12 +7,12 @@ import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { LoaderContext } from '@/context/LoaderContext';
 
-jest.mock('next/navigation', () => {
-  const originalModule = jest.requireActual('next/navigation');
+vi.mock('next/navigation', async () => {
+  const originalModule = await vi.importActual('next/navigation');
 
   return {
     ...originalModule,
-    usePathname: jest.fn(),
+    usePathname: vi.fn(),
     useSearchParams: () => {
       return {
         get: (key: string) => {
@@ -21,14 +21,14 @@ jest.mock('next/navigation', () => {
         },
       };
     },
-    useRouter: jest.fn().mockImplementation(() => ({
-      replace: jest.fn(),
+    useRouter: vi.fn().mockImplementation(() => ({
+      replace: vi.fn(),
     })),
   };
 });
 
 function setupMockUseActionState<T>() {
-  return jest
+  return vi
     .fn()
     .mockImplementation(
       (
@@ -38,8 +38,8 @@ function setupMockUseActionState<T>() {
     );
 }
 
-jest.mock('react', () => {
-  const originalModule = jest.requireActual('react');
+vi.mock('react', async () => {
+  const originalModule = await vi.importActual('react');
 
   return {
     ...originalModule,
@@ -47,12 +47,12 @@ jest.mock('react', () => {
   };
 });
 
-const mockSetIsLoading = jest.fn();
+const mockSetIsLoading = vi.fn();
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: jest.fn(),
+  getIsLoading: vi.fn(),
   setIsLoading: mockSetIsLoading,
 };
-jest.mock('@/context/LoaderContext', () => {
+vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
   };
@@ -63,7 +63,7 @@ const searchedIndicator = 'test';
 let mockSearchState: SearchStateParams = {
   [SearchParams.SearchedIndicator]: searchedIndicator,
 };
-jest.mock('@/components/hooks/useSearchStateParams', () => ({
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
   useSearchStateParams: () => mockSearchState,
 }));
 
@@ -254,7 +254,7 @@ describe('Search Results Suite', () => {
   });
 
   it('should focus to the first checkbox when clicking on the error link in the summary', async () => {
-    const scrollMock = jest.fn();
+    const scrollMock = vi.fn();
     window.HTMLElement.prototype.scrollIntoView = scrollMock;
 
     const user = userEvent.setup();

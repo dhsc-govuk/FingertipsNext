@@ -16,16 +16,16 @@ jest.mock('next/navigation', () => {
 
   return {
     ...originalModule,
-    usePathname: jest.fn(),
+    usePathname: vi.fn(),
   };
 });
 
-const mockSetIsLoading = jest.fn();
+const mockSetIsLoading = vi.fn();
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: jest.fn(),
+  getIsLoading: vi.fn(),
   setIsLoading: mockSetIsLoading,
 };
-jest.mock('@/context/LoaderContext', () => {
+vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
   };
@@ -35,7 +35,7 @@ const mockSearchState: SearchStateParams = {
   [SearchParams.IndicatorsSelected]: ['1', '2'],
   [SearchParams.AreasSelected]: ['A001'],
 };
-jest.mock('@/components/hooks/useSearchStateParams', () => ({
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
   useSearchStateParams: () => mockSearchState,
 }));
 

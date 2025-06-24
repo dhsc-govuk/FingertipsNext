@@ -9,13 +9,14 @@ import {
 import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
 import { generateStandardLineChartOptions } from '@/components/organisms/LineChart/helpers/generateStandardLineChartOptions';
 import { Options } from 'highcharts';
+import { MockedFunction } from 'vitest';
 
-jest.mock(
+vi.mock(
   '@/components/organisms/LineChart/helpers/generateStandardLineChartOptions'
 );
 
 const mockGenerateStandardLineChartOptions =
-  generateStandardLineChartOptions as jest.MockedFunction<
+  generateStandardLineChartOptions as MockedFunction<
     typeof generateStandardLineChartOptions
   >;
 
@@ -48,7 +49,7 @@ describe('lineChartOverTimeData', () => {
   });
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('returns null when there is only 1 time point', () => {

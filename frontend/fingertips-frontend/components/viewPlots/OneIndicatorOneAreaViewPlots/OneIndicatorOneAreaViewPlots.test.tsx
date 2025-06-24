@@ -20,21 +20,21 @@ import {
 import { mockHealthDataPoints } from '@/mock/data/mockHealthDataPoint';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
-jest.mock('next/navigation', () => {
-  const originalModule = jest.requireActual('next/navigation');
+vi.mock('next/navigation', async () => {
+  const originalModule = await vi.importActual('next/navigation');
 
   return {
     ...originalModule,
     usePathname: () => 'some-mock-path',
-    useRouter: jest.fn().mockImplementation(() => ({})),
+    useRouter: vi.fn().mockImplementation(() => ({})),
   };
 });
 
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: jest.fn(),
-  setIsLoading: jest.fn(),
+  getIsLoading: vi.fn(),
+  setIsLoading: vi.fn(),
 };
-jest.mock('@/context/LoaderContext', () => {
+vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
   };
@@ -56,8 +56,8 @@ const mockSearchState = {
   [SearchParams.IndicatorsSelected]: [testMetaData.indicatorID],
   [SearchParams.AreasSelected]: mockAreas,
 };
-const mockUseSearchStateParams = jest.fn();
-jest.mock('@/components/hooks/useSearchStateParams', () => ({
+const mockUseSearchStateParams = vi.fn();
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
   useSearchStateParams: () => mockUseSearchStateParams(),
 }));
 
@@ -93,7 +93,7 @@ const testRender = async (
 
 describe('OneIndicatorOneAreaViewPlots', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should render the benchmark select area drop down for the view', async () => {

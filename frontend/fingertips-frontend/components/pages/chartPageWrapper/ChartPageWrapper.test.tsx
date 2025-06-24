@@ -4,22 +4,22 @@ import { SearchStateParams, SearchParams } from '@/lib/searchStateManager';
 import { LoaderContext } from '@/context/LoaderContext';
 import { userEvent, UserEvent } from '@testing-library/user-event';
 
-jest.mock('next/navigation', () => {
-  const originalModule = jest.requireActual('next/navigation');
+vi.mock('next/navigation', async () => {
+  const originalModule = await vi.importActual('next/navigation');
 
   return {
     ...originalModule,
-    useRouter: jest.fn().mockImplementation(() => ({})),
+    useRouter: vi.fn().mockImplementation(() => ({})),
   };
 });
 
-const mockGetIsLoading = jest.fn();
-const mockSetIsLoading = jest.fn();
+const mockGetIsLoading = vi.fn();
+const mockSetIsLoading = vi.fn();
 const mockLoaderContext: LoaderContext = {
   getIsLoading: mockGetIsLoading,
   setIsLoading: mockSetIsLoading,
 };
-jest.mock('@/context/LoaderContext', () => {
+vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
   };
@@ -44,7 +44,7 @@ jest.mock('@/components/hooks/useSearchStateParams', () => ({
 
 describe('ChartPageWrapper', () => {
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   let user: UserEvent;

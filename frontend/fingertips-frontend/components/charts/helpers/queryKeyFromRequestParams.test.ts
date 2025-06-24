@@ -6,7 +6,7 @@ import { GetHealthDataForAnIndicatorRequest } from '@/generated-sources/ft-api-c
 
 describe('queryKeyFromRequestParams', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('serializes single key-value pairs', () => {

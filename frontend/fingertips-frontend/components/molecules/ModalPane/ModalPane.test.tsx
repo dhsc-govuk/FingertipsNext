@@ -5,10 +5,10 @@ import userEvent from '@testing-library/user-event';
 const mockModalContext = {
   content: <p>Modal content</p>,
   title: 'Modal title',
-  setModal: jest.fn(),
+  setModal: vi.fn(),
 };
 
-jest.mock('@/context/ModalContext', () => {
+vi.mock('@/context/ModalContext', () => {
   return {
     useModal: () => mockModalContext,
   };
@@ -18,7 +18,7 @@ describe('ModalPane', () => {
   beforeEach(() => {
     mockModalContext.content = <p>Modal content</p>;
     mockModalContext.title = 'Modal title';
-    mockModalContext.setModal = jest.fn();
+    mockModalContext.setModal = vi.fn();
   });
 
   it('should render an overlay with a close onClick', async () => {

@@ -7,15 +7,16 @@ import { reactQueryClient } from '@/lib/reactQueryClient';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
+import { Mock } from 'vitest';
 
 const mockAreaCodes = ['E12000001', 'E12000002'];
 let mockSearchState: SearchStateParams = {};
-jest.mock('@/components/hooks/useSearchStateParams', () => ({
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
   useSearchStateParams: () => mockSearchState,
 }));
 
 const testRender = () => {
-  (fetch as jest.Mock).mockResolvedValueOnce({
+  (fetch as Mock).mockResolvedValueOnce({
     ok: true,
     json: async () => regionsMap,
   });
@@ -51,7 +52,7 @@ describe('ThematicMap', () => {
   });
 
   afterEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   it('should render the loading message', async () => {
@@ -75,7 +76,7 @@ describe('ThematicMap', () => {
   });
 
   it('should render the correct benchmark legend when a different benchmark area is provided', async () => {
-    (fetch as jest.Mock).mockResolvedValueOnce({
+    (fetch as Mock).mockResolvedValueOnce({
       ok: true,
       json: async () => regionsMap,
     });

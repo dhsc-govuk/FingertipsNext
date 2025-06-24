@@ -1,4 +1,3 @@
-import { expect } from '@jest/globals';
 import { render, screen } from '@testing-library/react';
 import { IndicatorSearchFormState } from './indicatorSearchActions';
 import { IndicatorSearchForm } from '.';
@@ -7,12 +6,12 @@ import { LoaderContext } from '@/context/LoaderContext';
 import userEvent from '@testing-library/user-event';
 import { INDICATOR_SEARCH_MAX_CHARACTERS } from '@/lib/search/indicatorSearchService';
 
-jest.mock('react', () => {
-  const originalModule = jest.requireActual('react');
+vi.mock('react', async () => {
+  const originalModule = await vi.importActual('react');
 
   return {
     ...originalModule,
-    useActionState: jest
+    useActionState: vi
       .fn()
       .mockImplementation(
         (
@@ -26,12 +25,12 @@ jest.mock('react', () => {
   };
 });
 
-const mockSetIsLoading = jest.fn();
+const mockSetIsLoading = vi.fn();
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: jest.fn(),
+  getIsLoading: vi.fn(),
   setIsLoading: mockSetIsLoading,
 };
-jest.mock('@/context/LoaderContext', () => {
+vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
   };
