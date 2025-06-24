@@ -4,10 +4,10 @@ CREATE PROCEDURE [dbo].[GetIndicatorQuartileDataForLatestYear] @RequestedAreaTyp
 @RequestedArea varchar(50),
 @RequestedAncestorCode varchar(20),
 @RequestedBenchmarkCode varchar(20) --- The area used for benchmarking
-AS BEGIN 
+AS BEGIN
+DECLARE @NOW AS DATETIME2;
 
-    DECLARE @NOW AS DATETIME2;
-    SET @NOW = GETUTCDATE();
+SET @NOW = GETUTCDATE();
 
 WITH --- Get the Benchmark Areas - these are areas of a specific type which are descendants of the benchmark areaGroup
 BenchmarkAreas AS (
@@ -59,7 +59,6 @@ ComparisonAreaValue AS (
             AND hm.IsDeprivationAggregatedOrSingle = 1
         )
         AND hm.PublishedAt <= @NOW
-
 ),
 ComparisonAncestor AS (
     SELECT latestDatePerSegment.IndicatorKey,
@@ -95,7 +94,7 @@ EnglandValue AS (
             AND hm.IsAgeAggregatedOrSingle = 1
             AND hm.IsDeprivationAggregatedOrSingle = 1
         )
-     AND hm.PublishedAt <= @NOW
+        AND hm.PublishedAt <= @NOW
 ),
 --- This finds ALL data points in England of the same areaType which are aggregated (not inequalities) data points
 HealthData AS (
@@ -105,8 +104,7 @@ HealthData AS (
         toDate.Date AS ToDate,
         datePeriod.Period AS DatePeriod,
         NTILE(4) OVER(
-            PARTITION BY 
-            hm.indicatorKey,
+            PARTITION BY hm.indicatorKey,
             fromDate.Date,
             toDate.Date
             ORDER BY hm.Value
@@ -185,7 +183,7 @@ SELECT rii.IndicatorId AS IndicatorId,
     ca.Value AS AreaValue,
     ancestor.Value AS AncestorValue,
     england.Value AS EnglandValue,
-    qd.QuartileCount 
+    qd.QuartileCount
 FROM @RequestedIndicatorIds AS rii
     LEFT JOIN RequestedIndicators AS ri ON rii.IndicatorId = ri.IndicatorId
     LEFT JOIN QuartileData AS qd ON qd.IndicatorKey = ri.IndicatorKey
