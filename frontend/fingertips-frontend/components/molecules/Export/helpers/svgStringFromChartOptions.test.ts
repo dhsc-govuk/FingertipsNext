@@ -29,6 +29,8 @@ describe('svgStringFromChartOptions', () => {
     const svg = svgStringFromChartOptions(options);
 
     expect(Highcharts.chart).toHaveBeenCalled();
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     expect(mockChart.getSVG).toHaveBeenCalled();
     expect(mockChart.destroy).toHaveBeenCalled();
     expect(svg).toBe('<svg>mocked</svg>');
