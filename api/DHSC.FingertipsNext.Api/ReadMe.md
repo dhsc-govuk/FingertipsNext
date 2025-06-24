@@ -35,4 +35,5 @@ In order to enable this functionality
 
 Instance, TenantId and ClientID are all parameters available within the entra external ID instance connected to.
 
-Specifying the AdminRole role id (GUID) allows the definition of a global administration user.
+Specifying the AdminRole role id (GUID) allows the definition of a global administration role group. The user must present a claim with membership 
+of this group in order to be seen by the fingertips API as an admin with global indicator permissions.

@@ -33,7 +33,7 @@ namespace DHSC.FingertipsNext.Modules.UserAuth.Controllers.V1
         [Route("indicator/{indicatorId}")]
         public async Task<IActionResult> HasIndicatorPermission(string indicatorId)
         {
-            var authResult = await authService.AuthorizeAsync(User, indicatorId, CanAdministerIndicatorRequirement.PolicyName);
+            var authResult = await authService.AuthorizeAsync(User, indicatorId, CanAdministerIndicatorRequirement.Policy);
 
             if (!authResult.Succeeded)
             {

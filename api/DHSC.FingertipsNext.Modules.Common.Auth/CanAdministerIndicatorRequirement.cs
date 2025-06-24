@@ -8,6 +8,6 @@ namespace DHSC.FingertipsNext.Modules.Common.Auth
     /// </summary>
     public class CanAdministerIndicatorRequirement : IAuthorizationRequirement
     {
-        public const string PolicyName = "AdministerIndicatorPolicy";
+        public const string Policy = "AdministerIndicatorPolicy";
     }
 }
