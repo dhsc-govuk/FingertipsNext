@@ -6,28 +6,28 @@
 30302,High is good,Confidence intervals overlapping reference value (95.0),Proportion,Hepatitis B vaccination coverage aged 2 years,Financial
 20401,Low is good,Confidence intervals overlapping reference value (95.0),Crude rate,Conception rate in females aged 17 years and under,Calendar
 41203,Low is good,Confidence intervals overlapping reference value (95.0),Crude rate,Preventable sight loss from diabetic eye disease ,Financial
-108,"","",Directly standardised rate,Under 75 mortality rate for all causes,Calendar
+108,Low is good,Confidence intervals overlapping reference value (95.0),Directly standardised rate,Mortality rate for all causes aged 74 and under,Calendar
 241,No judgement,Confidence intervals overlapping reference value (99.8),Proportion,Diabetes prevalence aged 17 years and over (Quality and Outcomes Framework),Financial
 337,"","",Count,GP registered population by sex and quinary age band,Calendar
 22401,Low is good,Confidence intervals overlapping reference value (95.0),Directly standardised rate,Emergency hospital admissions due to falls aged 65 years and over,Financial
-90362,"","",Life expectancy,A01a - Life expectancy at birth,Calendar
+90362,Low is good,Confidence intervals overlapping reference value (95.0),Life expectancy,Healthy life expectancy at birth,Calendar
 90453,No judgement,Quintiles,Proportion,Former smokers (GP Patient Survey),Calendar
-91040,"","",Proportion,Percentage of NHS Health Checks offered to the total eligible population in the quarter,Financial
-91102,"","",Life expectancy,A01b - Life expectancy at 65,Calendar
-91112,"","",Proportion,People receiving an NHS health check,Financial multi year cumulative quarters
+91040,Low is good,Confidence intervals overlapping reference value (95.0),Proportion,NHS Health Checks offered to the total eligible population in the quarter ,Financial
+91102,High is good,Confidence intervals overlapping reference value (95.0),Life expectancy,Life expectancy aged 65 ,Calendar
+91112,High is good,Confidence intervals overlapping reference value (95.0),Proportion,People receiving an NHS Health Check,Financial multi year cumulative quarters
 91344,No judgement,Confidence intervals overlapping reference value (99.8),Indirectly standardised ratio,Urgent suspected cancer referrals ,Financial
 91894,No judgement,Confidence intervals overlapping reference value (95.0),Proportion,Deaths in hospital for people with dementia aged 65 years and over,Calendar
-92033,"","",Proportion,Year 6 prevalence of obesity (including severe obesity) 5 years data combine,Academic
+92033,High is good,Confidence intervals overlapping reference value (95.0),Proportion,Obesity prevalence including severe obesity in Year 6,Academic
 92266,No judgement,Confidence intervals overlapping reference value (95.0),Crude rate,General fertility rate in females,Calendar
 92708,"","",Count,Resident population,Calendar
-92904,"","",Crude rate,Admission episodes for alcohol-specific conditions - Under 18s (persons),Financial
+92904,Low is good,Confidence intervals overlapping reference value (95.0),Crude rate,Hospital admission episodes for alcohol-specific conditions aged 17 and under,Financial
 93015,Low is good,Confidence intervals overlapping reference value (95.0),Proportion,Physically inactive in adults aged 19 years and over,November-November
 93085,Low is good,Confidence intervals overlapping reference value (95.0),Proportion,Smokers at time of childbirth delivery,Financial
 93088,Low is good,Confidence intervals overlapping reference value (95.0),Proportion,Overweight prevalence (including obesity) in adults aged 18 years and over,November-November
 93124,Low is good,Confidence intervals overlapping reference value (95.0),Crude rate,Acute hepatitis B incidence rate ,Calendar
-93283,"","",Life expectancy,Life expectancy at birth upper age band 90 and over,Calendar
-93415,"","",Crude rate,C. difficile infection 12-month rolling counts and rates of community onset-healthcare associated by Sub ICB Location (SICBL) and month,Financial
-93468,"","",Proportion,Proportion  of GP registered populations by age group ,Financial year end point
+93283,High is good,Confidence intervals overlapping reference value (95.0),Life expectancy,Life expectancy at birth aged 90 and over,Calendar
+93415,No judgement,Quintiles,Crude rate,Community onset healthcare-associated clostridium difficile rates,Financial
+93468,No judgement,Quintiles,Proportion,GP registered populations by age group,Financial year end point
 93474,No judgement,Confidence intervals overlapping reference value (95.0),Proportion,Deaths in hospital,Calendar
 93553,Low is good,Quintiles,Score,Deprivation score (Index of Multiple Deprivation 2019),Calendar
 93701,Low is good,Confidence intervals overlapping reference value (95.0),Proportion,Children in absolute low income families aged 15 years and under,Financial
