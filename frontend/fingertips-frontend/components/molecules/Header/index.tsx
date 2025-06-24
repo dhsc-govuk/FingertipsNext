@@ -5,7 +5,7 @@ import { Link, Main, PhaseBanner, TopNav } from 'govuk-react';
 import styled from 'styled-components';
 import { siteTitle } from '@/lib/constants';
 import { AuthHeader } from '../AuthHeader';
-import { Session } from 'next-auth';
+import { Session } from '@/lib/authService/authTypes';
 
 const ZeroPaddingMain = styled(Main)`
   padding: 0px;

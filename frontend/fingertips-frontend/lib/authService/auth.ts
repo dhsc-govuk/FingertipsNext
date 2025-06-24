@@ -7,56 +7,57 @@ type AuthProvider = 'Entra' | 'Mock' | 'Multiple' | undefined;
 let authProvider: AuthProvider = undefined;
 
 export const getAuthProvider = () => {
+  console.log(authProvider);
   return authProvider;
 };
 
-const buildProviders = () => {
-  interface EntraConfig {
-    clientId: string;
-    clientSecret: string;
-    issuer: string;
-  }
+const credentialsProvider = Credentials({
+  id: 'password',
+  name: 'password',
+  credentials: { password: { label: 'Password', type: 'password' } },
+  authorize: (credentials) => {
+    if (credentials.password === 'password') {
+      return {
+        email: 'testUser@example.com',
+        name: 'testUser',
+        id: 'test-user',
+        image: '',
+      };
+    }
 
-  const getAzureConfiguration = (): EntraConfig | undefined => {
-    const clientId = process.env.AUTH_MICROSOFT_ENTRA_ID_ID;
-    const clientSecret = process.env.AUTH_MICROSOFT_ENTRA_ID_SECRET;
-    const issuer = process.env.AUTH_MICROSOFT_ENTRA_ID_ISSUER;
+    throw new Error();
+  },
+});
 
-    return clientId && clientSecret && issuer
-      ? { clientId, clientSecret, issuer }
-      : undefined;
-  };
+interface EntraConfig {
+  clientId: string;
+  clientSecret: string;
+  issuer: string;
+}
 
-  const buildAzureProvider = ({
-    clientId,
-    clientSecret,
-    issuer,
-  }: EntraConfig) => {
-    return MicrosoftEntraID({
-      clientId: clientId,
-      clientSecret: clientSecret,
-      issuer: issuer,
-    });
-  };
+const getAzureConfiguration = (): EntraConfig | undefined => {
+  const clientId = process.env.AUTH_MICROSOFT_ENTRA_ID_ID;
+  const clientSecret = process.env.AUTH_MICROSOFT_ENTRA_ID_SECRET;
+  const issuer = process.env.AUTH_MICROSOFT_ENTRA_ID_ISSUER;
 
-  const credentialsProvider = Credentials({
-    id: 'password',
-    name: 'password',
-    credentials: { password: { label: 'Password', type: 'password' } },
-    authorize: (credentials) => {
-      if (credentials.password === 'password') {
-        return {
-          email: 'testUser@example.com',
-          name: 'testUser',
-          id: 'test-user',
-          image: '',
-        };
-      }
+  return clientId && clientSecret && issuer
+    ? { clientId, clientSecret, issuer }
+    : undefined;
+};
 
-      throw new Error();
-    },
+const buildAzureProvider = ({
+  clientId,
+  clientSecret,
+  issuer,
+}: EntraConfig) => {
+  return MicrosoftEntraID({
+    clientId: clientId,
+    clientSecret: clientSecret,
+    issuer: issuer,
   });
+};
 
+const buildProviders = () => {
   const providers = [];
   const entraConfig = getAzureConfiguration();
   if (entraConfig) {
@@ -70,7 +71,10 @@ const buildProviders = () => {
   ) {
     if (!authProvider) {
       authProvider = 'Mock';
+    } else {
+      authProvider = 'Multiple';
     }
+
     providers.push(credentialsProvider);
   }
 

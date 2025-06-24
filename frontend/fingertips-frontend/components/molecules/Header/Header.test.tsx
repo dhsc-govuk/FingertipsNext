@@ -1,9 +1,16 @@
 import { render, screen } from '@testing-library/react';
 import { FTHeader } from '.';
 
+vi.mock('@/lib/authService/authHandlers', () => {
+  return {
+    signInHandler: vi.fn(),
+    signOutHandler: vi.fn(),
+  };
+});
+
 describe('Header', () => {
   it('should match snapshot', () => {
-    const container = render(<FTHeader />);
+    const container = render(<FTHeader chartPage={false} />);
 
     expect(container.asFragment()).toMatchSnapshot();
   });
@@ -25,7 +32,7 @@ describe('Header', () => {
   });
 
   it('should render Find public health data as a link', async () => {
-    render(<FTHeader />);
+    render(<FTHeader chartPage={false} />);
     const returnToHomePageLink = screen.getByRole('link', {
       name: /Find public health data/i,
     });

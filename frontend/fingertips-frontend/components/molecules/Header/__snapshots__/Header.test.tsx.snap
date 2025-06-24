@@ -6,6 +6,23 @@ exports[`Header > should match snapshot 1`] = `
     <div>
       <div>
         <div
+          class="sc-gEvEer gtmASv"
+        >
+          <ul
+            class="sc-eqUAAy nPHcu"
+          >
+            <li
+              class="sc-fqkvVR geITMv"
+            >
+              <button
+                class="src__StyledButton-sc-19ocyxv-0 dELbwv sc-aXZVg iHyyt"
+              >
+                Sign in
+              </button>
+            </li>
+          </ul>
+        </div>
+        <div
           class="top-nav-wrapper__TopNavWrapper-sc-1wnrl5k-0 iLJKss"
           color="#ffffff"
         >
@@ -62,7 +79,7 @@ exports[`Header > should match snapshot 1`] = `
                   href="/"
                 >
                   <span
-                    class="sc-gEvEer hRecmW"
+                    class="sc-iGgWBj bMNuUy"
                   >
                     Find public health data
                   </span>
@@ -77,7 +94,7 @@ exports[`Header > should match snapshot 1`] = `
       </div>
     </div>
     <div
-      class="src__OuterContainer-sc-1lvyroj-0 bXeQwK sc-aXZVg dxEzcC"
+      class="src__OuterContainer-sc-1lvyroj-0 bXeQwK sc-dcJsrY jIMhhx"
     >
       <div
         class="src__InnerContainer-sc-1lvyroj-1 ePlXRJ"

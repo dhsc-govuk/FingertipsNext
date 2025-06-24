@@ -1,11 +1,18 @@
 import { render } from '@testing-library/react';
 import { AuthButton } from '.';
 import userEvent from '@testing-library/user-event';
+import { signInHandler, signOutHandler } from '@/lib/authService/authHandlers';
 
-// const mockSignInHandler = jest.fn();
-// const mockSignOutHandler = jest.fn();
+vi.mock('@/lib/authService/authHandlers', () => {
+  return {
+    signInHandler: vi.fn(),
+    signOutHandler: vi.fn(),
+  };
+});
 
 describe('auth button', () => {
+  beforeEach(vi.clearAllMocks);
+
   it('should display a button labelled "Sign in" when no session is provided', () => {
     const screen = render(<AuthButton />);
 
@@ -26,7 +33,7 @@ describe('auth button', () => {
     const user = userEvent.setup();
     await user.click(screen.getByRole('button'));
 
-    //expect(mockSignInHandler).toHaveBeenCalled();
+    expect(signInHandler).toHaveBeenCalled();
   });
 
   it('should call the sign out handler when the "Sign out" button is clicked', async () => {
@@ -35,6 +42,6 @@ describe('auth button', () => {
     const user = userEvent.setup();
     await user.click(screen.getByRole('button'));
 
-    //expect(mockSignOutHandler).toHaveBeenCalled();
+    expect(signOutHandler).toHaveBeenCalled();
   });
 });
