@@ -37,7 +37,9 @@ public class HealthMeasureRepository(HealthMeasureDbContext dbCtx)
                 TrendDimension = new TrendDimensionModel()
                 {
                     Name = x.TrendDimension.Name
-                }
+                },
+                BatchId = x.BatchId,
+                PublishedAt = x.PublishedAt
             })
             .ToListAsync();
     }
