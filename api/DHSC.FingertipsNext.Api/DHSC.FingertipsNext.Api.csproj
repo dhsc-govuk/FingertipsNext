@@ -5,6 +5,7 @@
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
         <UserSecretsId>709d7ae7-e444-4455-87b4-f7c729cb63a0</UserSecretsId>
+
   </PropertyGroup>
 
     <ItemGroup>
@@ -35,6 +36,12 @@
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.HealthData\DHSC.FingertipsNext.Modules.HealthData.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Area\DHSC.FingertipsNext.Modules.Area.csproj" />
     </ItemGroup>
+
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+			<_Parameter1>$(AssemblyName).UnitTests</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
 
     <ItemGroup>
       <Content Include="..\..\.gitignore">

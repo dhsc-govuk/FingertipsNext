@@ -22,7 +22,7 @@ namespace DHSC.FingertipsNext.Modules.UserAuth.UnitTests.Controllers
         }
 
         [Fact]
-        public void UserIdExtractedFromClaims()
+        public void UserIdCanBeExtractedFromClaimsAndReturnedToCaller()
         {
             string externalId = "12345_ABCDE";
 

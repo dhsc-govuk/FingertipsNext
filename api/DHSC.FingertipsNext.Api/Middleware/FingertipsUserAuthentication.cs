@@ -19,10 +19,9 @@ namespace DHSC.FingertipsNext.Api.Middleware
 
             collection.AddAuthorization(options =>
             {
-                options.AddPolicy(CanAdministerIndicatorRequirement.PolicyName, policy =>
+                options.AddPolicy(CanAdministerIndicatorRequirement.Policy, policy =>
                     policy.Requirements.Add(new CanAdministerIndicatorRequirement()));
             });
-
 
             return collection;
         }

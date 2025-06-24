@@ -22,7 +22,7 @@ match those used to build associated containers/services. Please check the `.env
 ## User Authentication
 
 Fingertips is configured with ASP.net authentication backed by entra external ID. 
-In order to enable this functionality
+In order to enable this functionality the following configuration parameters must be set within app config:
 
 ```json
     "AzureAd": {
@@ -35,5 +35,5 @@ In order to enable this functionality
 
 Instance, TenantId and ClientID are all parameters available within the entra external ID instance connected to.
 
-Specifying the AdminRole role id (GUID) allows the definition of a global administration role group. The user must present a claim with membership 
-of this group in order to be seen by the fingertips API as an admin with global indicator permissions.
+Specifying the AdminRole role id (a GUID) is optional allows the definition of a global administration role group. 
+A user presenting a claim with membership to this group will be seen by the fingertips API as an amin user with global indicator permissions.
