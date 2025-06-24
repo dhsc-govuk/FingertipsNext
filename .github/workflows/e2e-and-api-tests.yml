@@ -88,7 +88,6 @@ jobs:
         working-directory: ${{ env.api-directory }}
 
       - name: Start Application Docker services
-        if: ${{ !inputs.update_screenshots }}
         run: MOCK_SERVER=false npm run start:app-services
 
       - name: Run .http API tests

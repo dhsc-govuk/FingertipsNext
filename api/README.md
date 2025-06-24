@@ -39,3 +39,5 @@ Alternatively, if you would like a high-level report of all the tests, you can r
 `npx httpyac send ./**/*.http --all --json --output-failed short --output short > httpyacresults.json`
 
 For more info on this tool, please visit: [httpyac](https://www.npmjs.com/package/httpyac)
+
+Change to trigger API build.
