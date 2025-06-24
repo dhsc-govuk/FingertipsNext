@@ -8,19 +8,19 @@ import { CsvData } from '@/lib/downloadHelpers/convertToCsv';
 
 import { svgStringFromChartOptions } from '@/components/molecules/Export/helpers/svgStringFromChartOptions';
 
-jest.mock('html2canvas', () => ({
+vi.mock('html2canvas', () => ({
   __esModule: true,
   default: () => Promise.resolve(document.createElement('canvas')),
 }));
 
-jest.mock('@/components/molecules/Export/exportHelpers', () => ({
+vi.mock('@/components/molecules/Export/exportHelpers', () => ({
   getHtmlToImageCanvas: () => Promise.resolve(document.createElement('canvas')),
 }));
 
-jest.mock(
+vi.mock(
   '@/components/molecules/Export/helpers/svgStringFromChartOptions',
   () => ({
-    svgStringFromChartOptions: jest.fn(() => '<svg></svg>'),
+    svgStringFromChartOptions: vi.fn(() => '<svg></svg>'),
   })
 );
 

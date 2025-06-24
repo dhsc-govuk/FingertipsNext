@@ -3,6 +3,7 @@
 import { contactEmailLink } from '@/lib/links';
 import { Link, Main, PhaseBanner, TopNav } from 'govuk-react';
 import styled from 'styled-components';
+import { siteTitle } from '@/lib/constants';
 import { AuthHeader } from '../AuthHeader';
 import { Session } from 'next-auth';
 
@@ -28,7 +29,7 @@ export function FTHeader({ chartPage = false, session }: FTHeaderProps) {
           <TopNav
             serviceTitle={
               <TopNav.NavLink href="/">
-                <ServiceTitle>Access public health data</ServiceTitle>
+                <ServiceTitle>{siteTitle}</ServiceTitle>
               </TopNav.NavLink>
             }
           ></TopNav>

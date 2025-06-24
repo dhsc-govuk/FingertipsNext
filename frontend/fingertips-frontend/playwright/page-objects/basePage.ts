@@ -1,7 +1,7 @@
 import type { Locator, Page as PlaywrightPage } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { expect } from './pageFactory';
-import { SearchMode } from '../testHelpers';
+import { SearchMode } from '../testHelpers/genericTestUtilities';
 
 export default class BasePage {
   readonly errorPageTitleHeaderId = 'error-page-title';
@@ -19,12 +19,22 @@ export default class BasePage {
     subjectSearchTerm: string,
     areaSearchCode: string
   ) {
-    if (searchMode === SearchMode.ONLY_SUBJECT) {
-      await this.waitForURLToContain(subjectSearchTerm);
-    }
-    if (searchMode === SearchMode.BOTH_SUBJECT_AND_AREA) {
-      await this.waitForURLToContain(subjectSearchTerm);
-      await this.waitForURLToContain(areaSearchCode);
+    if (subjectSearchTerm) {
+      let trimmedSearchText = subjectSearchTerm.trim();
+
+      // Check if searched for text is a space-separated list of numbers
+      const spaceSeparatedPattern = /^\d+(\s+\d+)+$/;
+      if (spaceSeparatedPattern.test(trimmedSearchText)) {
+        // replace whitespace with +
+        trimmedSearchText = trimmedSearchText.replaceAll(' ', '+');
+      }
+      if (searchMode === SearchMode.ONLY_SUBJECT) {
+        await this.waitForURLToContain(trimmedSearchText);
+      }
+      if (searchMode === SearchMode.BOTH_SUBJECT_AND_AREA) {
+        await this.waitForURLToContain(trimmedSearchText);
+        await this.waitForURLToContain(areaSearchCode);
+      }
     }
     if (searchMode === SearchMode.ONLY_AREA) {
       await this.waitForURLToContain(areaSearchCode);
@@ -89,6 +99,21 @@ export default class BasePage {
 
     await this.page.waitForLoadState();
     await expect(this.page.getByText('Loading')).toHaveCount(0);
+  }
+
+  async waitAfterDropDownInteraction() {
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.page.waitForTimeout(1000);
+  }
+
+  async getSelectOptions(combobox: Locator) {
+    return await combobox.evaluate((select: HTMLSelectElement) =>
+      Array.from(select.options).map((option) => ({
+        value: option.value,
+        text: option.text,
+      }))
+    );
   }
 
   async expectNoAccessibilityViolations(

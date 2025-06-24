@@ -4,12 +4,12 @@ import type { Metadata } from 'next';
 import { ReactNode } from 'react';
 import '../global.css';
 import { HeaderFooterWrapper } from '@/components/molecules/HeaderFooterWrapper';
+import { siteDescription, siteTitle } from '@/lib/constants';
 import { auth } from '@/lib/authService/auth';
 
 export const metadata: Metadata = {
-  title: 'FingertipsNext',
-  description:
-    'Fingertips is a rich source of indicators across a range of health and wellbeing themes designed to support JSNA and commissioning to improve health and wellbeing, and reduce inequalities.',
+  title: siteTitle,
+  description: siteDescription,
 };
 
 export default async function RootLayout({

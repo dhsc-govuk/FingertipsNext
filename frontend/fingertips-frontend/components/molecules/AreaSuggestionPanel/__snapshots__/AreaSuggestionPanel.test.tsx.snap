@@ -1,150 +1,20 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
+exports[`AreaSuggestionPanel > should render correctly and match snapshot 1`] = `
 <DocumentFragment>
-  .c4 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  margin-bottom: 5px;
-}
-
-.c1 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  color: #0b0c0c;
-  margin-top: 0;
-  margin-bottom: 15px;
-  padding-left: 20px;
-}
-
-.c0 .c0 {
-  margin-top: 10px;
-}
-
-.c1 > .c3 {
-  margin-bottom: 5px;
-}
-
-.c7 {
-  display: block;
-}
-
-.c8 {
-  font-weight: 600;
-}
-
-.c2 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  padding: 0;
-  margin-left: 0px;
-  margin-right: 0px;
-  list-style-type: none;
-}
-
-.c9 {
-  background-color: #E1E2E3;
-  margin: auto;
-  padding: 5px 8px 4px 8px;
-  font-size: 16px;
-  text-align: right;
-  font-weight: 300;
-}
-
-.c5 {
-  border-bottom: 1px solid #75738c;
-  padding: 10px 1px;
-  margin: 0;
-}
-
-.c6 {
-  border: 0;
-  background: white;
-  cursor: pointer;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  font-size: 19px;
-  font-weight: 300;
-  width: 100%;
-  padding: 1px 0px 1px 0px;
-}
-
-.c6:focus {
-  outline: 3px solid #ffdd00;
-  outline-offset: 0;
-}
-
-@media print {
-  .c4 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c4 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c1 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c1 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c1 {
-    color: #000;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c1 {
-    margin-bottom: 20px;
-  }
-}
-
-<ul
-    class="c0 c1 c2"
+  <ul
+    class="src__OrderedList-sc-1392v8j-0 fFBzQn sc-gEvEer ckZFEt"
     data-testid="area-suggestion-panel"
   >
     <li
-      class="c3 c4 c5"
+      class="src__ListItem-sc-u4zf5o-0 sc-fqkvVR fxpeqO ePbcQX"
     >
       <button
-        class="c6"
+        class="sc-dcJsrY jkqred"
         data-testid="area-suggestion-item-GP01"
       >
         <svg
-          class="c7"
+          class="SVGBase__StyledSvg-sc-16k4s64-0 fzOiHV"
           fill="#75738c"
           height="15px"
           style="padding: 0px; margin: auto 10px auto auto;"
@@ -164,27 +34,27 @@ exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
         >
           GP01 - 
           <span
-            class="c8"
+            class="sc-aXZVg iulCsT"
           >
             York
           </span>
         </div>
         <div
-          class="c9"
+          class="sc-eqUAAy kvLCGQ"
         >
           GPs
         </div>
       </button>
     </li>
     <li
-      class="c3 c4 c5"
+      class="src__ListItem-sc-u4zf5o-0 sc-fqkvVR fxpeqO ePbcQX"
     >
       <button
-        class="c6"
+        class="sc-dcJsrY jkqred"
         data-testid="area-suggestion-item-GP02"
       >
         <svg
-          class="c7"
+          class="SVGBase__StyledSvg-sc-16k4s64-0 fzOiHV"
           fill="#75738c"
           height="15px"
           style="padding: 0px; margin: auto 10px auto auto;"
@@ -204,28 +74,28 @@ exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
         >
           GP02 - North 
           <span
-            class="c8"
+            class="sc-aXZVg iulCsT"
           >
             York
           </span>
           shire
         </div>
         <div
-          class="c9"
+          class="sc-eqUAAy kvLCGQ"
         >
           GPs
         </div>
       </button>
     </li>
     <li
-      class="c3 c4 c5"
+      class="src__ListItem-sc-u4zf5o-0 sc-fqkvVR fxpeqO ePbcQX"
     >
       <button
-        class="c6"
+        class="sc-dcJsrY jkqred"
         data-testid="area-suggestion-item-CT01"
       >
         <svg
-          class="c7"
+          class="SVGBase__StyledSvg-sc-16k4s64-0 fzOiHV"
           fill="#75738c"
           height="15px"
           style="padding: 0px; margin: auto 10px auto auto;"
@@ -245,14 +115,14 @@ exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
         >
           South 
           <span
-            class="c8"
+            class="sc-aXZVg iulCsT"
           >
             York
           </span>
           shire
         </div>
         <div
-          class="c9"
+          class="sc-eqUAAy kvLCGQ"
         >
           CT
         </div>

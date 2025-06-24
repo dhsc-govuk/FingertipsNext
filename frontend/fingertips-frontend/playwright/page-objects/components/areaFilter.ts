@@ -4,9 +4,10 @@ import { expect } from '../pageFactory';
 import {
   AreaFilters,
   AreaMode,
+  capitaliseFirstCharacter,
   SearchMode,
   SimpleIndicatorDocument,
-} from '@/playwright/testHelpers';
+} from '@/playwright/testHelpers/genericTestUtilities';
 
 export default class AreaFilter extends BasePage {
   readonly areaFilterContainer = 'area-filter-container';
@@ -21,6 +22,8 @@ export default class AreaFilter extends BasePage {
   readonly pillContainer = 'pill-container';
   readonly filterName = 'filter-name';
   readonly removeIcon = 'x-icon';
+  readonly hideAreaFilterPane = 'area-filter-pane-hidefilters';
+  readonly showAreaFilterPane = 'show-filter-cta';
 
   async areaFilterPills() {
     return this.page
@@ -59,7 +62,7 @@ export default class AreaFilter extends BasePage {
     );
 
     for (const pillText of expectedPillText) {
-      expect(cleanedPillTexts).toContain(pillText.indicatorName);
+      expect(cleanedPillTexts).toContain(pillText.indicatorName.trim());
     }
   }
 
@@ -180,7 +183,7 @@ export default class AreaFilter extends BasePage {
 
     await this.page
       .getByTestId(this.groupSelector)
-      .selectOption({ label: group.charAt(0).toUpperCase() + group.slice(1) });
+      .selectOption({ label: capitaliseFirstCharacter(group) });
 
     await this.page.waitForLoadState();
     await expect(this.page.getByText('Loading')).toHaveCount(0);
@@ -210,7 +213,15 @@ export default class AreaFilter extends BasePage {
     areaFiltersToSelect: AreaFilters
   ): Promise<void> {
     if (searchMode === SearchMode.ONLY_SUBJECT) {
-      await this.waitForURLToContain(searchTerm);
+      let trimmedSearchText = searchTerm.trim();
+
+      // Check if searched for text is a space-separated list of numbers
+      const spaceSeparatedPattern = /^\d+(\s+\d+)+$/;
+      if (spaceSeparatedPattern.test(trimmedSearchText)) {
+        // replace whitespace with +
+        trimmedSearchText = trimmedSearchText.replaceAll(' ', '+');
+      }
+      await this.waitForURLToContain(trimmedSearchText);
       await this.selectAreaFilters(areaMode, areaFiltersToSelect);
       await this.selectAreaCheckboxes(areaMode, areaFiltersToSelect.areaType);
     } else if (
@@ -311,6 +322,15 @@ export default class AreaFilter extends BasePage {
     // Assert the correct number of areas are selected
     await expect(this.page.getByTestId(this.areaFilterContainer)).toContainText(
       `Selected areas (${checkboxCount})`
+    );
+  }
+
+  async hideFiltersPane() {
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByTestId(this.hideAreaFilterPane)
+    );
+    await expect(this.page.getByTestId(this.showAreaFilterPane)).toHaveText(
+      'Show filter'
     );
   }
 }

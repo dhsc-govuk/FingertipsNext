@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { expect } from '@jest/globals';
+
 import { SpineChartTableRow } from './SpineChartTableRow';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
@@ -16,6 +16,10 @@ const mockSearchState: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'some search',
 };
 
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockSearchState,
+}));
+
 describe('Spine chart table row', () => {
   it('should have dark grey cell color for benchmark column', () => {
     render(
@@ -24,7 +28,6 @@ describe('Spine chart table row', () => {
           <SpineChartTableRow
             indicatorData={mockSpineIndicatorData}
             benchmarkToUse={areaCodeForEngland}
-            searchState={mockSearchState}
           />
         </tbody>
       </table>
@@ -48,7 +51,6 @@ describe('Spine chart table row', () => {
           <SpineChartTableRow
             indicatorData={mockSpineIndicatorData}
             benchmarkToUse={areaCodeForEngland}
-            searchState={mockSearchState}
           />
         </tbody>
       </table>
@@ -85,7 +87,6 @@ describe('Spine chart table row', () => {
           <SpineChartTableRow
             indicatorData={indicatorWithMissingData}
             benchmarkToUse={areaCodeForEngland}
-            searchState={mockSearchState}
           />
         </tbody>
       </table>
@@ -133,7 +134,6 @@ describe('Spine chart table row', () => {
             indicatorData={indicatorDataWithTwoAreas}
             twoAreasRequested
             benchmarkToUse={areaCodeForEngland}
-            searchState={mockSearchState}
           />
         </tbody>
       </table>
@@ -149,6 +149,8 @@ describe('Spine chart table row', () => {
   });
 
   it('should not render a cell for group if the group is England', () => {
+    mockSearchState[SearchParams.GroupSelected] = areaCodeForEngland;
+
     const indicatorDataGroupEngland = {
       ...mockSpineIndicatorData,
       groupData: {
@@ -176,7 +178,6 @@ describe('Spine chart table row', () => {
           <SpineChartTableRow
             indicatorData={indicatorDataGroupEngland}
             benchmarkToUse={areaCodeForEngland}
-            searchState={{ [SearchParams.GroupSelected]: areaCodeForEngland }}
           />
         </tbody>
       </table>

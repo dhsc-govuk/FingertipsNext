@@ -3,7 +3,7 @@ import {
   API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
-import { mockDeep } from 'jest-mock-extended';
+import { mockDeep } from 'vitest-mock-extended';
 import { getAreaFilterData } from './getAreaFilterData';
 import {
   allAreaTypes,
@@ -26,7 +26,7 @@ ApiClientFactory.getAreasApiClient = () => mockAreasApi;
 
 describe('getAreaFilterData', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should return availableAreaTypes from the getAreaTypes call that have been sorted by hierarchy and level', async () => {

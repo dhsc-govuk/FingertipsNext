@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import { ProjectVersion } from '@/components/atoms/ProjectVersion/index';
-import { expect } from '@jest/globals';
 
 describe('ProjectVersion', () => {
   it('should render versions', () => {

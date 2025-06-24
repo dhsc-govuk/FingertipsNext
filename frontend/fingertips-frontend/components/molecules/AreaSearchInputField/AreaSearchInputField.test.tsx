@@ -6,14 +6,14 @@ const areaSearchErrorMessage = 'Enter an area you want to search for';
 describe('AreaSearchInputField', () => {
   it('should render correctly and match snapshot', () => {
     const { asFragment } = render(
-      <AreaSearchInputField value="London" onTextChange={jest.fn()} />
+      <AreaSearchInputField value="London" onTextChange={vi.fn()} />
     );
     expect(asFragment()).toMatchSnapshot();
   });
 
   it('should display hint text correctly', () => {
     const { getByText } = render(
-      <AreaSearchInputField value="London" onTextChange={jest.fn()} />
+      <AreaSearchInputField value="London" onTextChange={vi.fn()} />
     );
 
     expect(
@@ -28,7 +28,7 @@ describe('AreaSearchInputField', () => {
       <AreaSearchInputField
         value="London"
         hasError={true}
-        onTextChange={jest.fn()}
+        onTextChange={vi.fn()}
       />
     );
 
@@ -40,7 +40,7 @@ describe('AreaSearchInputField', () => {
       <AreaSearchInputField
         value="London"
         hasError={false}
-        onTextChange={jest.fn()}
+        onTextChange={vi.fn()}
       />
     );
 
@@ -52,7 +52,7 @@ describe('AreaSearchInputField', () => {
       <AreaSearchInputField
         value="London"
         disabled={false}
-        onTextChange={jest.fn()}
+        onTextChange={vi.fn()}
       />
     );
 
@@ -66,7 +66,7 @@ describe('AreaSearchInputField', () => {
       <AreaSearchInputField
         value="London"
         disabled={true}
-        onTextChange={jest.fn()}
+        onTextChange={vi.fn()}
       />
     );
 

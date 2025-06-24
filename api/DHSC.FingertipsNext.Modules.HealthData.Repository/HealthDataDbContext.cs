@@ -19,8 +19,27 @@ public class HealthDataDbContext : DbContext
     public DbSet<IndicatorDimensionModel> IndicatorDimension { get; set; }
     public DbSet<AgeDimensionModel> AgeDimension { get; set; }
     public DbSet<SexDimensionModel> SexDimension { get; set; }
+    public DbSet<DateDimensionModel> DateDimension { get; set; }
+    public DbSet<PeriodDimensionModel> PeriodDimension { get; set; }
     public DbSet<TrendDimensionModel> TrendDimension { get; set; }
     public DbSet<DeprivationDimensionModel> DeprivationDimension { get; set; }
     public DbSet<DenormalisedHealthMeasureModel> DenormalisedHealthMeasure { get; set; }
     public DbSet<QuartileDataModel> QuartileData { get; set; }
+
+    public IQueryable<HealthMeasureModel> PublishedHealthMeasure
+    {
+        get
+        {
+            return HealthMeasure.Where(hm => hm.PublishedAt <= DateTime.UtcNow);
+        }
+    }
+
+    public IQueryable<HealthMeasureModel> UnpublishedHealthMeasure
+    {
+        get
+        {
+            return HealthMeasure.Where(hm => hm.PublishedAt > DateTime.UtcNow);
+        }
+    }
+
 }

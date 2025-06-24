@@ -24,12 +24,12 @@ import {
   englandAreaString,
 } from '@/lib/chartHelpers/constants';
 import { StyledAlignRightTableCellPaddingRight } from '@/lib/tableHelpers';
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { SearchParams } from '@/lib/searchStateManager';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
 export interface SpineChartTableRowProps {
   indicatorData: SpineChartIndicatorData;
   benchmarkToUse: string;
-  searchState: SearchStateParams;
   twoAreasRequested?: boolean;
 }
 
@@ -37,8 +37,8 @@ export const SpineChartTableRow: FC<SpineChartTableRowProps> = ({
   indicatorData,
   twoAreasRequested = false,
   benchmarkToUse,
-  searchState,
 }) => {
+  const searchState = useSearchStateParams();
   const { [SearchParams.GroupSelected]: selectedGroupCode } = searchState;
 
   const {

@@ -7,8 +7,11 @@ import {
   triggerBlobDownload,
 } from '@/components/molecules/Export/exportHelpers';
 import html2canvas from 'html2canvas';
+import { Mock, MockInstance } from 'vitest';
 
-jest.mock('html2canvas', () => jest.fn());
+vi.mock('html2canvas', () => {
+  return { default: vi.fn() };
+});
 
 describe('exportHelpers', () => {
   describe('getHtmlToImageCanvas', () => {
@@ -24,12 +27,12 @@ describe('exportHelpers', () => {
       document.body.appendChild(mockParent);
 
       mockCanvas = document.createElement('canvas');
-      (html2canvas as jest.Mock).mockResolvedValue(mockCanvas);
+      (html2canvas as Mock).mockResolvedValue(mockCanvas);
     });
 
     afterEach(() => {
       document.body.innerHTML = '';
-      jest.clearAllMocks();
+      vi.clearAllMocks();
     });
 
     it('returns undefined if element is not found', async () => {
@@ -138,32 +141,32 @@ describe('exportHelpers', () => {
   });
 
   describe('triggerBlobDownload', () => {
-    let createObjectURLSpy: jest.SpyInstance;
-    let revokeObjectURLSpy: jest.SpyInstance;
-    let createElementSpy: jest.SpyInstance;
-    let appendChildSpy: jest.SpyInstance;
-    let removeChildSpy: jest.SpyInstance;
+    let createObjectURLSpy: MockInstance;
+    let revokeObjectURLSpy: MockInstance;
+    let createElementSpy: MockInstance;
+    let appendChildSpy: MockInstance;
+    let removeChildSpy: MockInstance;
     const mockLink = document.createElement('a');
-    mockLink.click = jest.fn();
+    mockLink.click = vi.fn();
 
     beforeEach(() => {
       // Define createObjectURL if it doesn't exist
       if (!URL.createObjectURL) {
-        URL.createObjectURL = jest.fn();
+        URL.createObjectURL = vi.fn();
       }
       if (!URL.revokeObjectURL) {
-        URL.revokeObjectURL = jest.fn();
+        URL.revokeObjectURL = vi.fn();
       }
-      createObjectURLSpy = jest
+      createObjectURLSpy = vi
         .spyOn(URL, 'createObjectURL')
         .mockReturnValue('blob:http://fake-url');
-      revokeObjectURLSpy = jest
+      revokeObjectURLSpy = vi
         .spyOn(URL, 'revokeObjectURL')
         .mockImplementation(() => {});
-      createElementSpy = jest.spyOn(document, 'createElement');
+      createElementSpy = vi.spyOn(document, 'createElement');
       createElementSpy.mockImplementation(() => mockLink);
-      appendChildSpy = jest.spyOn(document.body, 'appendChild');
-      removeChildSpy = jest.spyOn(document.body, 'removeChild');
+      appendChildSpy = vi.spyOn(document.body, 'appendChild');
+      removeChildSpy = vi.spyOn(document.body, 'removeChild');
       document.body.innerHTML = ''; // Clean up any existing elements
     });
 

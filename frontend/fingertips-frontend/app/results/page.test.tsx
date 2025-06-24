@@ -1,5 +1,5 @@
 /**
- * @jest-environment node
+ * @vitest-environment node
  */
 
 import ResultsPage from './page';
@@ -9,7 +9,7 @@ import {
   IndicatorDocument,
 } from '@/lib/search/searchTypes';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
-import { mockDeep } from 'jest-mock-extended';
+import { mockDeep } from 'vitest-mock-extended';
 import { AreasApi } from '@/generated-sources/ft-api-client';
 import {
   mockAreaDataForNHSRegion,
@@ -31,16 +31,17 @@ import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 import { getSelectedAreasDataByAreaType } from '@/lib/areaFilterHelpers/getSelectedAreasData';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { INDICATOR_SEARCH_MAX_CHARACTERS } from '@/lib/search/indicatorSearchService';
+import { MockedFunction } from 'vitest';
 
-jest.mock('@/lib/areaFilterHelpers/getAreaFilterData');
-jest.mock('@/lib/areaFilterHelpers/getSelectedAreasData');
+vi.mock('@/lib/areaFilterHelpers/getAreaFilterData');
+vi.mock('@/lib/areaFilterHelpers/getSelectedAreasData');
 
-const mockGetAreaFilterData = getAreaFilterData as jest.MockedFunction<
+const mockGetAreaFilterData = getAreaFilterData as MockedFunction<
   typeof getAreaFilterData
 >;
 
 const mockGetSelectedAreasDataByAreaType =
-  getSelectedAreasDataByAreaType as jest.MockedFunction<
+  getSelectedAreasDataByAreaType as MockedFunction<
     typeof getSelectedAreasDataByAreaType
   >;
 
@@ -52,7 +53,7 @@ const mockIndicatorSearchResults: IndicatorDocument[] = [
 const mockIndicatorSearchService = mockDeep<IIndicatorSearchService>();
 const mockAreasApi = mockDeep<AreasApi>();
 
-jest.mock('@/components/pages/results');
+vi.mock('@/components/pages/results');
 
 SearchServiceFactory.getIndicatorSearchService = () =>
   mockIndicatorSearchService;
@@ -75,7 +76,7 @@ describe('Results Page', () => {
   };
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('Check correct props are passed to SearchResults Page component', () => {
@@ -284,14 +285,14 @@ describe('Results Page', () => {
 
     it('should pass the current date prop', async () => {
       const date = new Date('January 1, 2000');
-      jest.useFakeTimers();
-      jest.setSystemTime(date);
+      vi.useFakeTimers();
+      vi.setSystemTime(date);
 
       const page = await ResultsPage({});
 
       expect(page.props.currentDate).toEqual(date);
 
-      jest.useRealTimers();
+      vi.useRealTimers();
     });
   });
 

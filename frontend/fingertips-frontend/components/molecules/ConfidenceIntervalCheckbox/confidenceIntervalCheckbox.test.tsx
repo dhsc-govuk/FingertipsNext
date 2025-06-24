@@ -1,4 +1,3 @@
-import { expect } from '@jest/globals';
 import { render, screen } from '@testing-library/react';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox/index';
 import { userEvent } from '@testing-library/user-event';
@@ -9,7 +8,7 @@ describe('ConfidenceIntervalCheckbox', () => {
       <ConfidenceIntervalCheckbox
         chartName="example chart"
         showConfidenceIntervalsData={false}
-        setShowConfidenceIntervalsData={jest.fn()}
+        setShowConfidenceIntervalsData={vi.fn()}
       />
     );
     await userEvent.click(screen.getByRole('checkbox'));
@@ -18,7 +17,7 @@ describe('ConfidenceIntervalCheckbox', () => {
   });
 
   it('should show the confidenceIntervalSelected state when checkbox is checked', async () => {
-    const setShowConfidenceIntervalsDataMock = jest.fn();
+    const setShowConfidenceIntervalsDataMock = vi.fn();
     render(
       <ConfidenceIntervalCheckbox
         chartName="example chart"
@@ -33,7 +32,7 @@ describe('ConfidenceIntervalCheckbox', () => {
   });
 
   it('should hide the confidenceIntervalSelected state when checkbox is un-checked', async () => {
-    const setShowConfidenceIntervalsDataMock = jest.fn();
+    const setShowConfidenceIntervalsDataMock = vi.fn();
 
     render(
       <ConfidenceIntervalCheckbox

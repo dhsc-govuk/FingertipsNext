@@ -1,44 +1,12 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`ModalPane should render a close button 1`] = `
-.c0 {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  padding: 8px;
-  border: none;
-  background-color: transparent;
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-.c1 {
-  cursor: pointer;
-}
-
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
+exports[`ModalPane > should render a close button 1`] = `
 <button
   aria-label="Close modal"
-  class="c0"
+  class="sc-fqkvVR cMgDe"
 >
   <svg
-    class="c1"
+    class="sc-dcJsrY icdRDx"
     data-testid="x-icon"
     fill="none"
     height="20px"
@@ -66,34 +34,8 @@ exports[`ModalPane should render a close button 1`] = `
 </button>
 `;
 
-exports[`ModalPane should render an overlay with a close onClick 1`] = `
-.c0 {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(255,255,255,0.75);
-  pointer-events: auto;
-}
-
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
+exports[`ModalPane > should render an overlay with a close onClick 1`] = `
 <div
-  class="c0"
+  class="sc-gEvEer cmwaMJ"
 />
 `;

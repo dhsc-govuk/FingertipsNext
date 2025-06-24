@@ -1,4 +1,4 @@
-import { SearchMode } from '@/playwright/testHelpers';
+import { SearchMode } from '@/playwright/testHelpers/genericTestUtilities';
 import AreaFilter from '../components/areaFilter';
 import { expect } from '../pageFactory';
 
@@ -78,7 +78,9 @@ export default class HomePage extends AreaFilter {
 
   async checkOnHomePage() {
     await expect(
-      this.page.getByRole('heading', { name: 'Access public health data' })
+      this.page
+        .getByRole('heading', { name: 'Find public health data' })
+        .first()
     ).toBeVisible();
   }
 
