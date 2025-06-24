@@ -11,7 +11,7 @@ const indicatorDefinition: IndicatorDefinitionProps = {
   lastUpdatedDate: new Date(placeholderIndicatorMetadata.lastUpdatedDate),
 };
 
-jest.mock('next/navigation', () => {
+vi.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
 
   return {

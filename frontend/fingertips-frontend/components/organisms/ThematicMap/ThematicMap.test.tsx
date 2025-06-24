@@ -45,7 +45,7 @@ const testRender = () => {
 
 describe('ThematicMap', () => {
   beforeEach(() => {
-    global.fetch = jest.fn();
+    global.fetch = vi.fn();
     mockSearchState = {
       [SearchParams.AreaTypeSelected]: 'regions',
     };

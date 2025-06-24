@@ -40,7 +40,7 @@ const mockIndicatorValue = 'test value';
 const searchState: SearchStateParams = {
   [SearchParams.SearchedIndicator]: mockIndicatorValue,
 };
-jest.mock('@/components/hooks/useSearchStateParams', () => ({
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
   useSearchStateParams: () => searchState,
 }));
 

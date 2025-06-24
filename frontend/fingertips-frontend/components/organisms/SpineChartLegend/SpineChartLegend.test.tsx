@@ -24,7 +24,7 @@ vi.mock('./SpineChartLegendItem', () => ({
 }));
 
 let mockSearchState: SearchStateParams = {};
-jest.mock('@/components/hooks/useSearchStateParams', () => ({
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
   useSearchStateParams: () => mockSearchState,
 }));
 

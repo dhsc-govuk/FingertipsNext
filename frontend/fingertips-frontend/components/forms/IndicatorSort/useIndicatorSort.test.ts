@@ -15,7 +15,7 @@ vi.mock('next/navigation', async () => {
   return {
     ...originalModule,
     usePathname: () => mockPath,
-    useSearchParams: () => { },
+    useSearchParams: () => {},
     useRouter: vi.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
