@@ -53,8 +53,6 @@ describe('FocusOnFragment', () => {
     (document.getElementById as Mock).mockReturnValue(null);
     render(<FocusOnFragment />);
     expect(focusMock).not.toHaveBeenCalled();
-    // trigger sonar to do something?
-    expect(1).toEqual(1);
   });
 
   it('does nothing if no hash', () => {
