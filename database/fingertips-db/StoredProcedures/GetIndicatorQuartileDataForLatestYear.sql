@@ -8,6 +8,9 @@ CREATE PROCEDURE [dbo].[GetIndicatorQuartileDataForLatestYear]
 --- The area used for benchmarking
 AS
 BEGIN
+    DECLARE @NOW AS DATETIME2;
+    SET @NOW = GETUTCDATE();
+
     WITH
     --- Get the Benchmark Areas - these are areas of a specific type which are descendants of the benchmark areaGroup
     BenchmarkAreas AS (
@@ -41,6 +44,7 @@ BEGIN
         RequestedIndicators ri
     ON
         hm.IndicatorKey = ri.IndicatorKey 
+    WHERE hm.PublishedAt <= @NOW
     GROUP BY
         hm.IndicatorKey
     ),
@@ -67,6 +71,7 @@ BEGIN
 	        --- This ensures we are only dealing with Aggregate data
 	        hm.IsSexAggregatedOrSingle=1 AND hm.IsAgeAggregatedOrSingle=1 AND hm.IsDeprivationAggregatedOrSingle=1
 	    )
+    AND hm.PublishedAt <= @NOW
     ), 
     ComparisonAncestor AS (
     SELECT
@@ -91,6 +96,7 @@ BEGIN
 	        --- This ensures we are only dealing with Aggregate data
 	        hm.IsSexAggregatedOrSingle=1 AND hm.IsAgeAggregatedOrSingle=1 AND hm.IsDeprivationAggregatedOrSingle=1
 	    )
+    AND hm.PublishedAt <= @NOW
     ), 
     EnglandValue AS (
     SELECT
@@ -115,6 +121,7 @@ BEGIN
 	        --- This ensures we are only dealing with Aggregate data
 	        hm.IsSexAggregatedOrSingle=1 AND hm.IsAgeAggregatedOrSingle=1 AND hm.IsDeprivationAggregatedOrSingle=1
 	    )
+    AND hm.PublishedAt <= @NOW
     ), 
 	--- This finds ALL data points in England of the same areaType which are aggregated (not inequalities) data points
 	HealthData AS (
@@ -159,6 +166,7 @@ BEGIN
 		--- This ensures we are only dealing with Aggregate data
 	        hm.IsSexAggregatedOrSingle=1 AND hm.IsAgeAggregatedOrSingle=1 AND hm.IsDeprivationAggregatedOrSingle=1
 	    )
+        AND hm.PublishedAt <= @NOW
     ),
     --- Calculate Quartiles
     QuartileData AS ( 

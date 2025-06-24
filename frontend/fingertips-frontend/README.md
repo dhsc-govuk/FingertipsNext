@@ -139,7 +139,7 @@ To run the e2e tests locally, headed allowing debug:
 npm run test-e2e-ui-mode
 ```
 
-Except for in ui mode, each test will be executed in parallel using Chromium and Webkit as defined in playwright.config.ts. 
+Each test will be executed in parallel using Chromium and Webkit as defined in playwright.config.ts, except for in --ui mode which launches the playwright test runner. 
 
 To make our isolated ui testing and fully integrated e2e testing as close to real world as possible, we use the full chromium headless mode offered by recent playwright versions see https://playwright.dev/docs/release-notes#try-new-chromium-headless.
 

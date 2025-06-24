@@ -184,15 +184,15 @@ export const coreTestJourneys: TestParameters[] = [
     indicatorMode: IndicatorMode.TWO_INDICATORS,
     areaMode: AreaMode.ENGLAND_AREA,
     searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'over',
+    subjectSearchTerm: 'rate',
     indicatorsToSelect: [
       {
-        indicatorID: '94035',
-        knownTrend: 'No recent trend data available',
+        indicatorID: '93124',
+        knownTrend: 'Decreasing and getting better',
       },
       {
-        indicatorID: '94063',
-        knownTrend: 'No significant change',
+        indicatorID: '92266',
+        knownTrend: 'Decreasing',
       },
     ],
     areaFiltersToSelect: {
@@ -290,11 +290,11 @@ export const coreTestJourneys: TestParameters[] = [
       },
       {
         indicatorID: '22401',
-        knownTrend: 'Decreasing and getting better',
+        knownTrend: 'No recent trend data available',
       },
       {
         indicatorID: '91894',
-        knownTrend: 'Decreasing',
+        knownTrend: 'No recent trend data available',
       },
     ],
     areaFiltersToSelect: {
