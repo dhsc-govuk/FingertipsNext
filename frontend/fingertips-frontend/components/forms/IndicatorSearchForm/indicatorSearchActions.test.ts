@@ -1,5 +1,4 @@
-import { expect } from '@jest/globals';
-import { mockDeep } from 'jest-mock-extended';
+import { mockDeep } from 'vitest-mock-extended';
 import { redirect, RedirectType } from 'next/navigation';
 import { SearchParams } from '@/lib/searchStateManager';
 import {
@@ -7,11 +6,11 @@ import {
   searchIndicator,
 } from './indicatorSearchActions';
 
-jest.mock('next/navigation');
-const redirectMock = jest.mocked(redirect);
+vi.mock('next/navigation');
+const redirectMock = vi.mocked(redirect);
 
 beforeEach(() => {
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
 
 function* iteratorFromList<T>(list: T[]): IterableIterator<T> {
@@ -22,7 +21,7 @@ function* iteratorFromList<T>(list: T[]): IterableIterator<T> {
 
 export const getMockFormData = (formData: Record<string, string>) =>
   mockDeep<FormData>({
-    entries: jest.fn().mockImplementation(() => {
+    entries: vi.fn().mockImplementation(() => {
       const formDataEntries = Object.entries(formData);
 
       return iteratorFromList(formDataEntries);

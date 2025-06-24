@@ -1,6 +1,6 @@
 import { InequalitiesBarChartTable } from '.';
 import { render, screen } from '@testing-library/react';
-import { expect } from '@jest/globals';
+
 import { InequalitiesTypes } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { getTestData } from '../mocks';
 import { InequalitiesBarChartTableHeaders } from '@/components/molecules/Inequalities/BarChart/Table/InequalitiesBarChartTableHead';
@@ -12,12 +12,12 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 describe('Inequalities bar chart table suite', () => {
   beforeAll(() => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date('2024-12-25T12:00:00Z'));
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2024-12-25T12:00:00Z'));
   });
 
   afterAll(() => {
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   describe('Sex inequality', () => {

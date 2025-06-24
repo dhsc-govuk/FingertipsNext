@@ -4,16 +4,16 @@ import { SearchParams } from '@/lib/searchStateManager';
 import userEvent from '@testing-library/user-event';
 
 const mockPath = 'some-mock-path';
-const mockReplace = jest.fn();
+const mockReplace = vi.fn();
 
-jest.mock('next/navigation', () => {
-  const originalModule = jest.requireActual('next/navigation');
+vi.mock('next/navigation', async () => {
+  const originalModule = await vi.importActual('next/navigation');
 
   return {
     ...originalModule,
     usePathname: () => mockPath,
     useSearchParams: () => {},
-    useRouter: jest.fn().mockImplementation(() => ({
+    useRouter: vi.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
   };
@@ -23,7 +23,7 @@ const mockSearchState = {
   [SearchParams.InequalityLineChartTypeSelected]: 'Sex',
   [SearchParams.InequalityBarChartTypeSelected]: 'Sex',
 };
-jest.mock('@/components/hooks/useSearchStateParams', () => ({
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
   useSearchStateParams: () => mockSearchState,
 }));
 

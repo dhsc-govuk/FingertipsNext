@@ -1,160 +1,42 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Testing the benchmark component Snapshot testing of the UI BOB 95 1`] = `
+exports[`Testing the benchmark component > Snapshot testing of the UI BOB 95 1`] = `
 <DocumentFragment>
-  .c4 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 1;
-  display: inline-block;
-  padding-top: 5px;
-  padding-right: 8px;
-  padding-bottom: 4px;
-  padding-left: 8px;
-  outline: 2px solid transparent;
-  outline-offset: -2px;
-  -webkit-letter-spacing: 1px;
-  -moz-letter-spacing: 1px;
-  -ms-letter-spacing: 1px;
-  letter-spacing: 1px;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  text-transform: uppercase;
-  background-color: #1d70b8;
-  color: #ffffff;
-}
-
-.c5 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #5694CA;
-}
-
-.c6 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #FFDD00;
-  color: #0B0C0C;
-}
-
-.c7 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #003078;
-  tint: SOLID;
-}
-
-.c8 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: transparent;
-  color: #0B0C0C;
-  border: 1px solid #0B0C0C;
-}
-
-.c0 {
-  margin-bottom: 2em;
-}
-
-.c1 {
-  -webkit-align-self: stretch;
-  -ms-flex-item-align: stretch;
-  align-self: stretch;
-  margin: 16px 0 8px 0;
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-  font-size: 19px;
-}
-
-.c3 {
-  position: relative;
-  left: -5px;
-}
-
-.c2 {
-  display: block;
-  margin: 4px 0 0 0;
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-  font-size: 16px;
-}
-
-@media print {
-  .c4 {
-    font-size: 14px;
-    line-height: 1;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c4 {
-    font-size: 16px;
-    line-height: 1;
-  }
-}
-
-<div
-    class="c0"
+  <div
+    class="sc-gEvEer hUVGLl"
     data-testid="benchmarkLegend-component"
   >
     <h4
-      class="c1"
+      class="sc-fqkvVR cBEgfO"
     >
       no judgement
     </h4>
     <span
-      class="c2"
+      class="sc-iGgWBj katTUG"
     >
       95% confidence
     </span>
     <div
-      class="c3"
+      class="sc-dcJsrY hGrsaS"
       role="group"
     >
       <strong
-        class="c4 c5"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx iQOdOL"
       >
         Lower
       </strong>
       <strong
-        class="c4 c6"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx heUIzG"
       >
         Similar
       </strong>
       <strong
-        class="c4 c7"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx jEVfsw"
       >
         Higher
       </strong>
       <strong
-        class="c4 c8"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx coBLhn"
       >
         Not compared
       </strong>
@@ -163,162 +45,43 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB 95 1`] =
 </DocumentFragment>
 `;
 
-exports[`Testing the benchmark component Snapshot testing of the UI BOB 99.8 1`] = `
+exports[`Testing the benchmark component > Snapshot testing of the UI BOB 99.8 1`] = `
 <DocumentFragment>
-  .c4 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 1;
-  display: inline-block;
-  padding-top: 5px;
-  padding-right: 8px;
-  padding-bottom: 4px;
-  padding-left: 8px;
-  outline: 2px solid transparent;
-  outline-offset: -2px;
-  -webkit-letter-spacing: 1px;
-  -moz-letter-spacing: 1px;
-  -ms-letter-spacing: 1px;
-  letter-spacing: 1px;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  text-transform: uppercase;
-  background-color: #1d70b8;
-  color: #ffffff;
-}
-
-.c5 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #AFCFE5;
-  color: #0B0C0C;
-}
-
-.c6 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #FFDD00;
-  color: #0B0C0C;
-}
-
-.c7 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #1D70B8;
-  tint: SOLID;
-}
-
-.c8 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: transparent;
-  color: #0B0C0C;
-  border: 1px solid #0B0C0C;
-}
-
-.c0 {
-  margin-bottom: 2em;
-}
-
-.c1 {
-  -webkit-align-self: stretch;
-  -ms-flex-item-align: stretch;
-  align-self: stretch;
-  margin: 16px 0 8px 0;
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-  font-size: 19px;
-}
-
-.c3 {
-  position: relative;
-  left: -5px;
-}
-
-.c2 {
-  display: block;
-  margin: 4px 0 0 0;
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-  font-size: 16px;
-}
-
-@media print {
-  .c4 {
-    font-size: 14px;
-    line-height: 1;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c4 {
-    font-size: 16px;
-    line-height: 1;
-  }
-}
-
-<div
-    class="c0"
+  <div
+    class="sc-gEvEer hUVGLl"
     data-testid="benchmarkLegend-component"
   >
     <h4
-      class="c1"
+      class="sc-fqkvVR cBEgfO"
     >
       NoJudgement
     </h4>
     <span
-      class="c2"
+      class="sc-iGgWBj katTUG"
     >
       99.8% confidence
     </span>
     <div
-      class="c3"
+      class="sc-dcJsrY hGrsaS"
       role="group"
     >
       <strong
-        class="c4 c5"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx cyWRAo"
       >
         Lower
       </strong>
       <strong
-        class="c4 c6"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx heUIzG"
       >
         Similar
       </strong>
       <strong
-        class="c4 c7"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx ktlZIY"
       >
         Higher
       </strong>
       <strong
-        class="c4 c8"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx coBLhn"
       >
         Not compared
       </strong>
@@ -327,179 +90,48 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB 99.8 1`]
 </DocumentFragment>
 `;
 
-exports[`Testing the benchmark component Snapshot testing of the UI BOB quintiles 1`] = `
+exports[`Testing the benchmark component > Snapshot testing of the UI BOB quintiles 1`] = `
 <DocumentFragment>
-  .c4 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 1;
-  display: inline-block;
-  padding-top: 5px;
-  padding-right: 8px;
-  padding-bottom: 4px;
-  padding-left: 8px;
-  outline: 2px solid transparent;
-  outline-offset: -2px;
-  -webkit-letter-spacing: 1px;
-  -moz-letter-spacing: 1px;
-  -ms-letter-spacing: 1px;
-  letter-spacing: 1px;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  text-transform: uppercase;
-  background-color: #1d70b8;
-  color: #ffffff;
-}
-
-.c5 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #E4DDFF;
-  color: #0B0C0C;
-}
-
-.c6 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #CBBEF4;
-  color: #0B0C0C;
-}
-
-.c7 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #AA90EC;
-  color: #0B0C0C;
-}
-
-.c8 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #8B60E2;
-  tint: SOLID;
-}
-
-.c9 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #6B33C3;
-  tint: SOLID;
-}
-
-.c0 {
-  margin-bottom: 2em;
-}
-
-.c1 {
-  -webkit-align-self: stretch;
-  -ms-flex-item-align: stretch;
-  align-self: stretch;
-  margin: 16px 0 8px 0;
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-  font-size: 19px;
-}
-
-.c3 {
-  position: relative;
-  left: -5px;
-}
-
-.c2 {
-  display: block;
-  margin: 4px 0 0 0;
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-  font-size: 16px;
-}
-
-@media print {
-  .c4 {
-    font-size: 14px;
-    line-height: 1;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c4 {
-    font-size: 16px;
-    line-height: 1;
-  }
-}
-
-<div
-    class="c0"
+  <div
+    class="sc-gEvEer hUVGLl"
     data-testid="benchmarkLegend-component"
   >
     <h4
-      class="c1"
+      class="sc-fqkvVR cBEgfO"
     >
       NoJudgement
     </h4>
     <span
-      class="c2"
+      class="sc-iGgWBj katTUG"
     >
       Quintiles
     </span>
     <div
-      class="c3"
+      class="sc-dcJsrY hGrsaS"
       role="group"
     >
       <strong
-        class="c4 c5"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx jefKnb"
       >
         Lowest
       </strong>
       <strong
-        class="c4 c6"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx crfIbS"
       >
         Low
       </strong>
       <strong
-        class="c4 c7"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx hBStil"
       >
         Middle
       </strong>
       <strong
-        class="c4 c8"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx gquRmP"
       >
         High
       </strong>
       <strong
-        class="c4 c9"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx fcZQJk"
       >
         Highest
       </strong>
@@ -508,162 +140,43 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB quintile
 </DocumentFragment>
 `;
 
-exports[`Testing the benchmark component Snapshot testing of the UI RAG 95 1`] = `
+exports[`Testing the benchmark component > Snapshot testing of the UI RAG 95 1`] = `
 <DocumentFragment>
-  .c4 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 1;
-  display: inline-block;
-  padding-top: 5px;
-  padding-right: 8px;
-  padding-bottom: 4px;
-  padding-left: 8px;
-  outline: 2px solid transparent;
-  outline-offset: -2px;
-  -webkit-letter-spacing: 1px;
-  -moz-letter-spacing: 1px;
-  -ms-letter-spacing: 1px;
-  letter-spacing: 1px;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  text-transform: uppercase;
-  background-color: #1d70b8;
-  color: #ffffff;
-}
-
-.c5 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #00703C;
-  tint: SOLID;
-}
-
-.c6 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #FFDD00;
-  color: #0B0C0C;
-}
-
-.c7 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #D4351C;
-  tint: SOLID;
-}
-
-.c8 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: transparent;
-  color: #0B0C0C;
-  border: 1px solid #0B0C0C;
-}
-
-.c0 {
-  margin-bottom: 2em;
-}
-
-.c1 {
-  -webkit-align-self: stretch;
-  -ms-flex-item-align: stretch;
-  align-self: stretch;
-  margin: 16px 0 8px 0;
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-  font-size: 19px;
-}
-
-.c3 {
-  position: relative;
-  left: -5px;
-}
-
-.c2 {
-  display: block;
-  margin: 4px 0 0 0;
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-  font-size: 16px;
-}
-
-@media print {
-  .c4 {
-    font-size: 14px;
-    line-height: 1;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c4 {
-    font-size: 16px;
-    line-height: 1;
-  }
-}
-
-<div
-    class="c0"
+  <div
+    class="sc-gEvEer hUVGLl"
     data-testid="benchmarkLegend-component"
   >
     <h4
-      class="c1"
+      class="sc-fqkvVR cBEgfO"
     >
       high is good
     </h4>
     <span
-      class="c2"
+      class="sc-iGgWBj katTUG"
     >
       95% confidence
     </span>
     <div
-      class="c3"
+      class="sc-dcJsrY hGrsaS"
       role="group"
     >
       <strong
-        class="c4 c5"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx izPMCf"
       >
         Better
       </strong>
       <strong
-        class="c4 c6"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx heUIzG"
       >
         Similar
       </strong>
       <strong
-        class="c4 c7"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx dmzatQ"
       >
         Worse
       </strong>
       <strong
-        class="c4 c8"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx coBLhn"
       >
         Not compared
       </strong>
@@ -672,162 +185,43 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG 95 1`] =
 </DocumentFragment>
 `;
 
-exports[`Testing the benchmark component Snapshot testing of the UI RAG 99.8 1`] = `
+exports[`Testing the benchmark component > Snapshot testing of the UI RAG 99.8 1`] = `
 <DocumentFragment>
-  .c4 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 1;
-  display: inline-block;
-  padding-top: 5px;
-  padding-right: 8px;
-  padding-bottom: 4px;
-  padding-left: 8px;
-  outline: 2px solid transparent;
-  outline-offset: -2px;
-  -webkit-letter-spacing: 1px;
-  -moz-letter-spacing: 1px;
-  -ms-letter-spacing: 1px;
-  letter-spacing: 1px;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  text-transform: uppercase;
-  background-color: #1d70b8;
-  color: #ffffff;
-}
-
-.c5 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #85994B;
-  color: #0B0C0C;
-}
-
-.c6 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #FFDD00;
-  color: #0B0C0C;
-}
-
-.c7 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #831504;
-  tint: SOLID;
-}
-
-.c8 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: transparent;
-  color: #0B0C0C;
-  border: 1px solid #0B0C0C;
-}
-
-.c0 {
-  margin-bottom: 2em;
-}
-
-.c1 {
-  -webkit-align-self: stretch;
-  -ms-flex-item-align: stretch;
-  align-self: stretch;
-  margin: 16px 0 8px 0;
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-  font-size: 19px;
-}
-
-.c3 {
-  position: relative;
-  left: -5px;
-}
-
-.c2 {
-  display: block;
-  margin: 4px 0 0 0;
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-  font-size: 16px;
-}
-
-@media print {
-  .c4 {
-    font-size: 14px;
-    line-height: 1;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c4 {
-    font-size: 16px;
-    line-height: 1;
-  }
-}
-
-<div
-    class="c0"
+  <div
+    class="sc-gEvEer hUVGLl"
     data-testid="benchmarkLegend-component"
   >
     <h4
-      class="c1"
+      class="sc-fqkvVR cBEgfO"
     >
       low is good
     </h4>
     <span
-      class="c2"
+      class="sc-iGgWBj katTUG"
     >
       99.8% confidence
     </span>
     <div
-      class="c3"
+      class="sc-dcJsrY hGrsaS"
       role="group"
     >
       <strong
-        class="c4 c5"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx hxCiFJ"
       >
         Better
       </strong>
       <strong
-        class="c4 c6"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx heUIzG"
       >
         Similar
       </strong>
       <strong
-        class="c4 c7"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx cNCqSz"
       >
         Worse
       </strong>
       <strong
-        class="c4 c8"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx coBLhn"
       >
         Not compared
       </strong>
@@ -836,179 +230,48 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG 99.8 1`]
 </DocumentFragment>
 `;
 
-exports[`Testing the benchmark component Snapshot testing of the UI RAG quintiles 1`] = `
+exports[`Testing the benchmark component > Snapshot testing of the UI RAG quintiles 1`] = `
 <DocumentFragment>
-  .c4 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 1;
-  display: inline-block;
-  padding-top: 5px;
-  padding-right: 8px;
-  padding-bottom: 4px;
-  padding-left: 8px;
-  outline: 2px solid transparent;
-  outline-offset: -2px;
-  -webkit-letter-spacing: 1px;
-  -moz-letter-spacing: 1px;
-  -ms-letter-spacing: 1px;
-  letter-spacing: 1px;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  text-transform: uppercase;
-  background-color: #1d70b8;
-  color: #ffffff;
-}
-
-.c5 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #D494C1;
-  color: #0B0C0C;
-}
-
-.c6 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #BC6AAA;
-  color: #0B0C0C;
-}
-
-.c7 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #A44596;
-  tint: SOLID;
-}
-
-.c8 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #812972;
-  tint: SOLID;
-}
-
-.c9 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #561950;
-  tint: SOLID;
-}
-
-.c0 {
-  margin-bottom: 2em;
-}
-
-.c1 {
-  -webkit-align-self: stretch;
-  -ms-flex-item-align: stretch;
-  align-self: stretch;
-  margin: 16px 0 8px 0;
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-  font-size: 19px;
-}
-
-.c3 {
-  position: relative;
-  left: -5px;
-}
-
-.c2 {
-  display: block;
-  margin: 4px 0 0 0;
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-  font-size: 16px;
-}
-
-@media print {
-  .c4 {
-    font-size: 14px;
-    line-height: 1;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c4 {
-    font-size: 16px;
-    line-height: 1;
-  }
-}
-
-<div
-    class="c0"
+  <div
+    class="sc-gEvEer hUVGLl"
     data-testid="benchmarkLegend-component"
   >
     <h4
-      class="c1"
+      class="sc-fqkvVR cBEgfO"
     >
       low is good
     </h4>
     <span
-      class="c2"
+      class="sc-iGgWBj katTUG"
     >
       Quintiles
     </span>
     <div
-      class="c3"
+      class="sc-dcJsrY hGrsaS"
       role="group"
     >
       <strong
-        class="c4 c5"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx cGZRRp"
       >
         Worst
       </strong>
       <strong
-        class="c4 c6"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx dvOAJg"
       >
         Worse
       </strong>
       <strong
-        class="c4 c7"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx lhmTZT"
       >
         Middle
       </strong>
       <strong
-        class="c4 c8"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx ilXYPr"
       >
         Better
       </strong>
       <strong
-        class="c4 c9"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx siIDO"
       >
         Best
       </strong>
@@ -1017,484 +280,158 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG quintile
 </DocumentFragment>
 `;
 
-exports[`Testing the benchmark component Snapshot testing of the legend with all items shown 1`] = `
+exports[`Testing the benchmark component > Snapshot testing of the legend with all items shown 1`] = `
 <DocumentFragment>
-  .c4 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 1;
-  display: inline-block;
-  padding-top: 5px;
-  padding-right: 8px;
-  padding-bottom: 4px;
-  padding-left: 8px;
-  outline: 2px solid transparent;
-  outline-offset: -2px;
-  -webkit-letter-spacing: 1px;
-  -moz-letter-spacing: 1px;
-  -ms-letter-spacing: 1px;
-  letter-spacing: 1px;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  text-transform: uppercase;
-  background-color: #1d70b8;
-  color: #ffffff;
-}
-
-.c5 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #00703C;
-  tint: SOLID;
-}
-
-.c6 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #FFDD00;
-  color: #0B0C0C;
-}
-
-.c7 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #D4351C;
-  tint: SOLID;
-}
-
-.c8 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: transparent;
-  color: #0B0C0C;
-  border: 1px solid #0B0C0C;
-}
-
-.c9 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #5694CA;
-}
-
-.c10 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #003078;
-  tint: SOLID;
-}
-
-.c11 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #85994B;
-  color: #0B0C0C;
-}
-
-.c12 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #831504;
-  tint: SOLID;
-}
-
-.c13 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #AFCFE5;
-  color: #0B0C0C;
-}
-
-.c14 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #1D70B8;
-  tint: SOLID;
-}
-
-.c15 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #E4DDFF;
-  color: #0B0C0C;
-}
-
-.c16 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #CBBEF4;
-  color: #0B0C0C;
-}
-
-.c17 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #AA90EC;
-  color: #0B0C0C;
-}
-
-.c18 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #8B60E2;
-  tint: SOLID;
-}
-
-.c19 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #6B33C3;
-  tint: SOLID;
-}
-
-.c20 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #D494C1;
-  color: #0B0C0C;
-}
-
-.c21 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #BC6AAA;
-  color: #0B0C0C;
-}
-
-.c22 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #A44596;
-  tint: SOLID;
-}
-
-.c23 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #812972;
-  tint: SOLID;
-}
-
-.c24 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: #561950;
-  tint: SOLID;
-}
-
-.c0 {
-  margin-bottom: 2em;
-}
-
-.c1 {
-  -webkit-align-self: stretch;
-  -ms-flex-item-align: stretch;
-  align-self: stretch;
-  margin: 16px 0 8px 0;
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-  font-size: 19px;
-}
-
-.c3 {
-  position: relative;
-  left: -5px;
-}
-
-.c2 {
-  display: block;
-  margin: 4px 0 0 0;
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-  font-size: 16px;
-}
-
-@media print {
-  .c4 {
-    font-size: 14px;
-    line-height: 1;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c4 {
-    font-size: 16px;
-    line-height: 1;
-  }
-}
-
-<div
-    class="c0"
+  <div
+    class="sc-gEvEer hUVGLl"
     data-testid="benchmarkLegend-component"
   >
     <h4
-      class="c1"
+      class="sc-fqkvVR cBEgfO"
     >
       All
     </h4>
     <span
-      class="c2"
+      class="sc-iGgWBj katTUG"
     >
       95% confidence
     </span>
     <div
-      class="c3"
+      class="sc-dcJsrY hGrsaS"
       role="group"
     >
       <strong
-        class="c4 c5"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx izPMCf"
       >
         Better
       </strong>
       <strong
-        class="c4 c6"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx heUIzG"
       >
         Similar
       </strong>
       <strong
-        class="c4 c7"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx dmzatQ"
       >
         Worse
       </strong>
       <strong
-        class="c4 c8"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx coBLhn"
       >
         Not compared
       </strong>
       <strong
-        class="c4 c9"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx iQOdOL"
       >
         Lower
       </strong>
       <strong
-        class="c4 c10"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx jEVfsw"
       >
         Higher
       </strong>
     </div>
     <span
-      class="c2"
+      class="sc-iGgWBj katTUG"
     >
       99.8% confidence
     </span>
     <div
-      class="c3"
+      class="sc-dcJsrY hGrsaS"
       role="group"
     >
       <strong
-        class="c4 c11"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx hxCiFJ"
       >
         Better
       </strong>
       <strong
-        class="c4 c6"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx heUIzG"
       >
         Similar
       </strong>
       <strong
-        class="c4 c12"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx cNCqSz"
       >
         Worse
       </strong>
       <strong
-        class="c4 c8"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx coBLhn"
       >
         Not compared
       </strong>
       <strong
-        class="c4 c13"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx cyWRAo"
       >
         Lower
       </strong>
       <strong
-        class="c4 c14"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx ktlZIY"
       >
         Higher
       </strong>
     </div>
     <span
-      class="c2"
+      class="sc-iGgWBj katTUG"
     >
       Quintiles
     </span>
     <div
-      class="c3"
+      class="sc-dcJsrY hGrsaS"
       role="group"
     >
       <strong
-        class="c4 c15"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx jefKnb"
       >
         Lowest
       </strong>
       <strong
-        class="c4 c16"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx crfIbS"
       >
         Low
       </strong>
       <strong
-        class="c4 c17"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx hBStil"
       >
         Middle
       </strong>
       <strong
-        class="c4 c18"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx gquRmP"
       >
         High
       </strong>
       <strong
-        class="c4 c19"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx fcZQJk"
       >
         Highest
       </strong>
     </div>
     <div
-      class="c3"
+      class="sc-dcJsrY hGrsaS"
       role="group"
     >
       <strong
-        class="c4 c20"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx cGZRRp"
       >
         Worst
       </strong>
       <strong
-        class="c4 c21"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx dvOAJg"
       >
         Worse
       </strong>
       <strong
-        class="c4 c22"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx lhmTZT"
       >
         Middle
       </strong>
       <strong
-        class="c4 c23"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx ilXYPr"
       >
         Better
       </strong>
       <strong
-        class="c4 c24"
+        class="src__Tag-sc-10wvgvx-0 sc-aXZVg bujMNx siIDO"
       >
         Best
       </strong>

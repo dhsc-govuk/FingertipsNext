@@ -3,7 +3,7 @@ import {
   IIndicatorSearchService,
   IndicatorDocument,
 } from '@/lib/search/searchTypes';
-import { mockDeep } from 'jest-mock-extended';
+import { mockDeep } from 'vitest-mock-extended';
 import IndicatorDefinitionPage from './page';
 import { SearchParams } from '@/lib/searchStateManager';
 
@@ -28,7 +28,7 @@ mockIndicatorSearchService.getIndicator.mockResolvedValue(
 );
 
 beforeEach(() => {
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
 
 describe('Indicator definition page', () => {

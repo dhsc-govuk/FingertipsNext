@@ -8,21 +8,20 @@ import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 
 import { determineBenchmarkRefType } from '@/lib/ViewsHelpers';
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
+import { MockedFunction } from 'vitest';
 
-jest.mock('@/lib/ViewsHelpers');
-jest.mock('@/lib/chartHelpers/chartHelpers');
+vi.mock('@/lib/ViewsHelpers');
+vi.mock('@/lib/chartHelpers/chartHelpers');
 
 const mockDetermineBenchmarkRefType =
-  determineBenchmarkRefType as jest.MockedFunction<
-    typeof determineBenchmarkRefType
-  >;
-const mockDetermineAreaCodes = determineAreaCodes as jest.MockedFunction<
+  determineBenchmarkRefType as MockedFunction<typeof determineBenchmarkRefType>;
+const mockDetermineAreaCodes = determineAreaCodes as MockedFunction<
   typeof determineAreaCodes
 >;
 
 describe('compareAreasTableRequestParams', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('builds request params with all area codes, including England and group if missing', () => {

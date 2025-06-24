@@ -1,13 +1,13 @@
 import { render } from '@testing-library/react';
-import { expect } from '@jest/globals';
+
 import { ErrorPage } from '.';
 import { SearchStateContext } from '@/context/SearchStateContext';
 
 const mockSearchStateContext: SearchStateContext = {
-  getSearchState: jest.fn(),
-  setSearchState: jest.fn(),
+  getSearchState: vi.fn(),
+  setSearchState: vi.fn(),
 };
-jest.mock('@/context/SearchStateContext', () => {
+vi.mock('@/context/SearchStateContext', () => {
   return {
     useSearchState: () => mockSearchStateContext,
   };

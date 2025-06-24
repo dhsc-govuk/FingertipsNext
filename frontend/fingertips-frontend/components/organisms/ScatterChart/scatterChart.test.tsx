@@ -1,7 +1,6 @@
 import { ScatterChart } from '@/components/organisms/ScatterChart/index';
 import { render, screen } from '@testing-library/react';
 import { mockHealthData } from '@/mock/data/healthdata';
-import { expect } from '@jest/globals';
 
 it('should render the Highcharts react component with the passed axis and subtitle parameters', () => {
   const yAxisPropsTitle = 'DifferentYTitle';

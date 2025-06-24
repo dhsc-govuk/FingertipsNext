@@ -31,7 +31,7 @@ export class SearchServiceFactory {
    * The following code is duplicated between the search-setup project and here.
    * Both have to make the same updates to the areaData. It is preferable to make
    * this shared code common by creating a shared package but the Typescript,
-   * Javascript, Jest and eslint tooling is not currently in place to support this
+   * Javascript, Vitest and eslint tooling is not currently in place to support this
    *
    * Duplicated functions are
    *  - isDualLevelArea

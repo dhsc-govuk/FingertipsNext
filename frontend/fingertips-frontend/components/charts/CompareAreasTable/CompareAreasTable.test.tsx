@@ -10,8 +10,9 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { useCompareAreasTableData } from '@/components/charts/CompareAreasTable/hooks/useCompareAreasTableData';
+import { MockedFunction } from 'vitest';
 
-jest.mock(
+vi.mock(
   '@/components/charts/CompareAreasTable/BarChartEmbeddedTable/BarChartEmbeddedTable',
   () => ({
     BarChartEmbeddedTable: () => (
@@ -20,17 +21,14 @@ jest.mock(
   })
 );
 
-jest.mock(
-  '@/components/charts/CompareAreasTable/hooks/useCompareAreasTableData'
-);
-const mockUseCompareAreasTableData =
-  useCompareAreasTableData as jest.MockedFunction<
-    typeof useCompareAreasTableData
-  >;
+vi.mock('@/components/charts/CompareAreasTable/hooks/useCompareAreasTableData');
+const mockUseCompareAreasTableData = useCompareAreasTableData as MockedFunction<
+  typeof useCompareAreasTableData
+>;
 
 describe('CompareAreasTable', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders nothing when hook returns null', () => {
