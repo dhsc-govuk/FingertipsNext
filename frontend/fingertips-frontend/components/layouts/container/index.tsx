@@ -1,7 +1,6 @@
 'use client';
 
 import { LoaderProvider } from '@/context/LoaderContext';
-import { SearchStateProvider } from '@/context/SearchStateContext';
 import { Main } from 'govuk-react';
 import styled from 'styled-components';
 import { QueryClientProvider } from '@tanstack/react-query';
@@ -21,16 +20,14 @@ export function FTContainer({
   return (
     <QueryClientProvider client={reactQueryClient}>
       <ModalProvider>
-        <SearchStateProvider>
-          <LoaderProvider>
-            <main>
-              <StyledMain>{children}</StyledMain>
-            </main>
-            <Suspense>
-              <FocusOnFragment />
-            </Suspense>
-          </LoaderProvider>
-        </SearchStateProvider>
+        <LoaderProvider>
+          <main>
+            <StyledMain>{children}</StyledMain>
+          </main>
+          <Suspense>
+            <FocusOnFragment />
+          </Suspense>
+        </LoaderProvider>
       </ModalProvider>
       {process.env.NODE_ENV === 'development' ? (
         <ReactQueryDevtools initialIsOpen={false} />

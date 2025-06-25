@@ -3,7 +3,6 @@ import { IndicatorSelectedPill } from './index';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 import { LoaderContext } from '@/context/LoaderContext';
-import { SearchStateContext } from '@/context/SearchStateContext';
 
 const mockIndicator = generateIndicatorDocument('1');
 
@@ -19,19 +18,13 @@ vi.mock('@/context/LoaderContext', () => {
   };
 });
 
-const mockGetSearchState = vi.fn().mockReturnValue({
+const mockSearchState: SearchStateParams = {
   [SearchParams.AreasSelected]: ['A001', 'A002'],
   [SearchParams.IndicatorsSelected]: ['1'],
-} satisfies SearchStateParams);
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: mockGetSearchState,
-  setSearchState: vi.fn(),
 };
-vi.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockSearchState,
+}));
 
 describe('IndicatorSelectedPill', () => {
   it('should render the IndicatorSelectedPill correctly', () => {

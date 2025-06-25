@@ -9,7 +9,7 @@ import { mockHealthData } from '@/mock/data/healthdata';
 import { AreaDocument } from '@/lib/search/searchTypes';
 import { disaggregatedAge, femaleSex, noDeprivation } from '@/lib/mocks';
 import { LoaderContext } from '@/context/LoaderContext';
-import { SearchStateContext } from '@/context/SearchStateContext';
+import { SearchStateParams } from '@/lib/searchStateManager';
 
 const mockPath = 'some-mock-path';
 const mockReplace = vi.fn();
@@ -38,16 +38,10 @@ vi.mock('@/context/LoaderContext', () => {
   };
 });
 
-const mockGetSearchState = vi.fn();
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: mockGetSearchState,
-  setSearchState: vi.fn(),
-};
-vi.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
+const mockSearchState: SearchStateParams = {};
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockSearchState,
+}));
 
 const mockHealthDataPoint: HealthDataPoint[] = [
   {

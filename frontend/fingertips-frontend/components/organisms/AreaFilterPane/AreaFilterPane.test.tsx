@@ -3,7 +3,7 @@ import { AreaFilterPane } from '.';
 import { mockAreaDataForNHSRegion } from '@/mock/data/areaData';
 import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 import { LoaderContext } from '@/context/LoaderContext';
-import { SearchStateContext } from '@/context/SearchStateContext';
+import { SearchStateParams } from '@/lib/searchStateManager';
 
 const mockPath = 'some-mock-path';
 const mockReplace = vi.fn();
@@ -31,15 +31,10 @@ vi.mock('@/context/LoaderContext', () => {
   };
 });
 
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: vi.fn(),
-  setSearchState: vi.fn(),
-};
-vi.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
+const mockSearchState: SearchStateParams = {};
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockSearchState,
+}));
 
 const mockSelectedAreasData = [
   mockAreaDataForNHSRegion['E40000007'],
