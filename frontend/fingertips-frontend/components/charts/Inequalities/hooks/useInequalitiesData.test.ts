@@ -1,4 +1,4 @@
-// MUST BE AT THE TOP
+// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
 import { mockUseSearchStateParams } from '@/mock/utils/mockUseSearchStateParams';
 //
 import { renderHook } from '@testing-library/react';

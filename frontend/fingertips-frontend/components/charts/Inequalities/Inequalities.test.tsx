@@ -1,4 +1,4 @@
-// MUST BE AT THE TOP DUE TO JEST HOISTING OF MOCKED MODULES
+// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
 import { mockUseSearchStateParams } from '@/mock/utils/mockUseSearchStateParams';
 import { mockUsePathname } from '@/mock/utils/mockNextNavigation';
 import { mockGetIsLoading } from '@/mock/utils/mockLoadingUseState';
@@ -79,6 +79,10 @@ describe('Inequalities', () => {
     'inequalitiesBarChart-component',
     'tabContainer-inequalitiesLineChartAndTable',
     'tabContainer-inequalitiesBarChartAndTable',
+    'inequalitiesForSingleTimePeriod-component',
+    'inequalitiesTrend-component',
+    'inequalitiesTypes-dropDown-component-bc',
+    'inequalitiesTypes-dropDown-component-lc',
   ])('should render inequalities component: %s', async (testId) => {
     await testRender(testData);
     expect(screen.getByTestId(testId)).toBeInTheDocument();

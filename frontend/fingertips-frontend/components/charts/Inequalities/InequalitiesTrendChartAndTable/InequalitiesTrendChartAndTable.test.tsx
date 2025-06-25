@@ -1,4 +1,4 @@
-// MUST BE AT THE TOP DUE TO JEST HOISTING OF MOCKED MODULES
+// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
 import { mockUseSearchStateParams } from '@/mock/utils/mockUseSearchStateParams';
 import { mockUsePathname } from '@/mock/utils/mockNextNavigation';
 import { mockGetIsLoading } from '@/mock/utils/mockLoadingUseState';
