@@ -74,8 +74,8 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         var excludeDisaggregatedAgeValues = !inequalities.Contains(AGE);
         var excludeDisaggregatedDeprivationValues = !inequalities.Contains(DEPRIVATION);
 
-        DateTime? toDateTime = toDate != null ? toDate.Value.ToDateTime(TimeOnly.MinValue): null;
-        DateTime? fromDateTime = fromDate != null ? fromDate.Value.ToDateTime(TimeOnly.MinValue): null;
+        DateTime? toDateTime = toDate != null ? toDate.Value.ToDateTime(TimeOnly.MinValue) : null;
+        DateTime? fromDateTime = fromDate != null ? fromDate.Value.ToDateTime(TimeOnly.MinValue) : null;
 
         var healthMeasures = await _dbContext.PublishedHealthMeasure
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
