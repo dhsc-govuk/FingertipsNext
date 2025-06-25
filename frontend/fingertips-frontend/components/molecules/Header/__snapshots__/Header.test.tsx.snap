@@ -8,7 +8,7 @@ exports[`Header > should match snapshot 1`] = `
         <div
           class="sc-eqUAAy ixdjaR"
         >
-          <ul
+          <div
             class="sc-fqkvVR gvlJmA"
           >
             <button
@@ -22,7 +22,7 @@ exports[`Header > should match snapshot 1`] = `
                 </p>
               </div>
             </button>
-          </ul>
+          </div>
         </div>
         <div
           class="top-nav-wrapper__TopNavWrapper-sc-1wnrl5k-0 iLJKss"

@@ -6,7 +6,7 @@ interface AuthHeaderProps {
   session?: Session;
 }
 
-export function AuthHeader({ session }: AuthHeaderProps) {
+export function AuthHeader({ session }: Readonly<AuthHeaderProps>) {
   return (
     <PositionWrapper>
       <Content>

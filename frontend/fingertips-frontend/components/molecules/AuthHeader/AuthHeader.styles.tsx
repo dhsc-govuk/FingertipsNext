@@ -5,7 +5,7 @@ export const PositionWrapper = styled.div({
   width: '100%',
 });
 
-export const Content = styled.ul({
+export const Content = styled.div({
   display: 'block',
   width: 'fit-content',
   height: '100%',

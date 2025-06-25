@@ -12,9 +12,8 @@ export class AuthProvidersFactory {
     | null;
 
   public static getProviders() {
-    if (!this.providers) {
-      this.providers = this.buildProviders();
-    }
+    this.providers ??= this.buildProviders();
+
     return this.providers;
   }
 

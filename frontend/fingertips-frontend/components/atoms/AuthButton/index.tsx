@@ -2,11 +2,11 @@ import { Session } from 'next-auth';
 import { signOutHandler, signInHandler } from '@/lib/auth/handlers';
 import { ButtonText, InvisibleButton } from './AuthButton.styles';
 
-interface authButtonProps {
+interface AuthButtonProps {
   session?: Session;
 }
 
-export function AuthButton({ session }: authButtonProps) {
+export function AuthButton({ session }: Readonly<AuthButtonProps>) {
   return session ? <SignOutButton /> : <SignInButton />;
 }
 

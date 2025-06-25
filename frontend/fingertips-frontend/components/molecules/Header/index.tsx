@@ -20,7 +20,10 @@ interface FTHeaderProps {
   session?: Session;
 }
 
-export function FTHeader({ chartPage = false, session }: FTHeaderProps) {
+export function FTHeader({
+  chartPage = false,
+  session,
+}: Readonly<FTHeaderProps>) {
   return (
     <header className={chartPage ? 'chart-page-header' : undefined}>
       <div>
