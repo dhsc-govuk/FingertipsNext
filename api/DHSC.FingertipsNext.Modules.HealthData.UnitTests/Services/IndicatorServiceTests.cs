@@ -912,7 +912,7 @@ public class IndicatorServiceTests
 
         _healthDataRepository.GetIndicatorDataWithQuintileBenchmarkComparisonAsync(
             1, Arg.Any<string[]>(),
-            [], Arg.Any<string>(), "E92000001", Arg.Any<DateOnly>(), Arg.Any<DateOnly>()).Returns(mockDenormalisedHealthData); ;
+            [], Arg.Any<string>(), "E92000001", null, null).Returns(mockDenormalisedHealthData); ;
 
         var result = await _indicatorService.GetIndicatorDataAsync(
             1,
@@ -921,10 +921,8 @@ public class IndicatorServiceTests
             string.Empty,
             BenchmarkReferenceType.Unknown,
             [],
-            [],
-            false,
-            DateOnly.Parse("2020-01-01", CultureInfo.InvariantCulture),
-            DateOnly.Parse("2020-12-31", CultureInfo.InvariantCulture)
+            []
+
         );
         result.Content.Name.ShouldBe(name);
         result.Content.Polarity.ShouldBeEquivalentTo(expectedPolarity);
