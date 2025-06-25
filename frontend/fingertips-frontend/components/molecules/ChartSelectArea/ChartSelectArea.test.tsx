@@ -121,7 +121,7 @@ describe('ChartSelectArea', () => {
   ])(
     'should alter the browser history state when param type is %s',
     async (chartAreaSelectedKey) => {
-      const spy = jest.spyOn(window.history, 'pushState');
+      const spy = vi.spyOn(window.history, 'pushState');
 
       render(
         <ChartSelectArea

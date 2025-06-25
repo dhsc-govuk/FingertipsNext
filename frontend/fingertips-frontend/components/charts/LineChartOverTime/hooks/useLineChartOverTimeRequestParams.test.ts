@@ -8,15 +8,10 @@ import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { GetHealthDataForAnIndicatorRequest } from '@/generated-sources/ft-api-client';
 import { MockedFunction } from 'vitest';
 
-vi.mock('@/components/hooks/useSearchStateParams');
 vi.mock(
   '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeRequestParams'
 );
 
-vi.mock('@/components/hooks/useSearchStateParams');
-const mockUseSearchStateParams = useSearchStateParams as MockedFunction<
-  typeof useSearchStateParams
->;
 const mockLineChartOverTimeRequestParams =
   lineChartOverTimeRequestParams as MockedFunction<
     typeof lineChartOverTimeRequestParams

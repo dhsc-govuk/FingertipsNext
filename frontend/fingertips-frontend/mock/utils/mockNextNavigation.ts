@@ -1,15 +1,16 @@
-export const mockReplace = jest.fn();
-export const mockUsePathname = jest.fn();
-export const mockUseSearchParams = jest.fn();
+export const mockReplace = vi.fn();
+export const mockUsePathname = vi.fn();
+export const mockUseSearchParams = vi.fn();
 
-jest.mock('next/navigation', () => {
-  const originalModule = jest.requireActual('next/navigation');
+vi.mock('next/navigation', async () => {
+  const originalModule =
+    await vi.importActual<typeof import('next/navigation')>('next/navigation');
 
   return {
     ...originalModule,
     usePathname: mockUsePathname,
     useSearchParams: mockUseSearchParams,
-    useRouter: jest.fn().mockImplementation(() => ({
+    useRouter: vi.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
   };

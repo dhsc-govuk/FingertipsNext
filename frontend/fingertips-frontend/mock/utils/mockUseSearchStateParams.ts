@@ -1,5 +1,7 @@
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
+import { MockedFunction, vi } from 'vitest';
 
-jest.mock('@/components/hooks/useSearchStateParams');
-export const mockUseSearchStateParams =
-  useSearchStateParams as jest.MockedFunction<typeof useSearchStateParams>;
+vi.mock('@/components/hooks/useSearchStateParams');
+export const mockUseSearchStateParams = useSearchStateParams as MockedFunction<
+  typeof useSearchStateParams
+>;

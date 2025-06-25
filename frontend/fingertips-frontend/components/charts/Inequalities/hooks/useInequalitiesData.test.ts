@@ -11,22 +11,20 @@ import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { SearchParams } from '@/lib/searchStateManager';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
 
-jest.mock('@/components/charts/hooks/useIndicatorMetaData');
-jest.mock(
-  '@/components/charts/Inequalities/hooks/useInequalitiesRequestParams'
-);
-jest.mock('@/components/charts/hooks/useApiGetHealthDataForAnIndicator');
-jest.mock('@/components/charts/Inequalities/helpers/inequalitiesData');
+vi.mock('@/components/charts/hooks/useIndicatorMetaData');
+vi.mock('@/components/charts/Inequalities/hooks/useInequalitiesRequestParams');
+vi.mock('@/components/charts/hooks/useApiGetHealthDataForAnIndicator');
+vi.mock('@/components/charts/Inequalities/helpers/inequalitiesData');
 
-const mockUseIndicatorMetaData = useIndicatorMetaData as jest.MockedFunction<
+const mockUseIndicatorMetaData = useIndicatorMetaData as vi.MockedFunction<
   typeof useIndicatorMetaData
 >;
 
 const mockUseApiGetHealthDataForAnIndicator =
-  useApiGetHealthDataForAnIndicator as jest.MockedFunction<
+  useApiGetHealthDataForAnIndicator as vi.MockedFunction<
     typeof useApiGetHealthDataForAnIndicator
   >;
-const mockInequalitiesData = inequalitiesData as jest.MockedFunction<
+const mockInequalitiesData = inequalitiesData as vi.MockedFunction<
   typeof inequalitiesData
 >;
 
@@ -37,7 +35,7 @@ mockUseSearchStateParams.mockReturnValue(mockSearchState);
 
 describe('useInequalitiesData', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 
     mockUseIndicatorMetaData.mockReturnValue({
       indicatorMetaData: mockIndicatorDocument(),
@@ -50,7 +48,7 @@ describe('useInequalitiesData', () => {
       healthDataLoading: false,
     });
 
-    (inequalitiesData as jest.Mock).mockReturnValue({ transformed: 'data' });
+    (inequalitiesData as vi.Mock).mockReturnValue({ transformed: 'data' });
   });
 
   it.each(Object.values(ChartType))(

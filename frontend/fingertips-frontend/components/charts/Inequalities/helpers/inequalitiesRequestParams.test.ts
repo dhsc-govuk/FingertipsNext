@@ -11,7 +11,7 @@ import { inequalitiesRequestParams } from '@/components/charts/Inequalities/help
 
 describe('inequalitiesRequestParams', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('constructs the request params correctly', () => {

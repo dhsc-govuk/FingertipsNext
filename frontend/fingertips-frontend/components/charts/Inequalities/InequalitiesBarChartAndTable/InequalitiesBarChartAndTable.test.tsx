@@ -4,7 +4,6 @@ import { mockUsePathname } from '@/mock/utils/mockNextNavigation';
 import { mockUseSearchStateParams } from '@/mock/utils/mockUseSearchStateParams';
 //
 import { act, render, screen, within } from '@testing-library/react';
-import { expect } from '@jest/globals';
 import { InequalitiesBarChartAndTable } from './InequalitiesBarChartAndTable';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';

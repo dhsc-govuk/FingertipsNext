@@ -40,7 +40,7 @@ describe('InequalitiesTypesDropDown', () => {
   });
 
   it('should add selected inequality type to the url when an option is selected', async () => {
-    const spy = jest.spyOn(window.history, 'pushState');
+    const spy = vi.spyOn(window.history, 'pushState');
     const expectedPath = [
       mockPath,
       `?${SearchParams.InequalityLineChartTypeSelected}=deprivation2&${SearchParams.InequalityBarChartTypeSelected}=Sex`,

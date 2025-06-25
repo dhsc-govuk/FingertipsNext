@@ -6,13 +6,12 @@ import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { GetHealthDataForAnIndicatorRequest } from '@/generated-sources/ft-api-client';
 import { useInequalitiesRequestParams } from '@/components/charts/Inequalities/hooks/useInequalitiesRequestParams';
 import { inequalitiesRequestParams } from '@/components/charts/Inequalities/helpers/inequalitiesRequestParams';
+import { MockedFunction } from 'vitest';
 
-jest.mock('@/components/charts/Inequalities/helpers/inequalitiesRequestParams');
+vi.mock('@/components/charts/Inequalities/helpers/inequalitiesRequestParams');
 
 const mockInequalitiesRequestParams =
-  inequalitiesRequestParams as jest.MockedFunction<
-    typeof inequalitiesRequestParams
-  >;
+  inequalitiesRequestParams as MockedFunction<typeof inequalitiesRequestParams>;
 
 describe('useLineChartOverTimeRequestParams', () => {
   it('returns request params from helper using search state', () => {

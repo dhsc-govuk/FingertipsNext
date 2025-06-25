@@ -534,7 +534,7 @@ const getInequalityDeprivationCategories = (
     disaggregatedDeprivationData,
     (data) => data.deprivation.type
   );
-  console.log({ chartType, selectedYear, groupedByDeprivationType });
+
   if (chartType === ChartType.Trend) {
     const validCategories = Object.entries(groupedByDeprivationType)
       .filter(([, dataPoints]) => {
@@ -542,7 +542,7 @@ const getInequalityDeprivationCategories = (
         return uniqueYears.size > 1;
       })
       .map(([type]) => type);
-    console.log({ validCategories });
+
     return validCategories;
   }
 

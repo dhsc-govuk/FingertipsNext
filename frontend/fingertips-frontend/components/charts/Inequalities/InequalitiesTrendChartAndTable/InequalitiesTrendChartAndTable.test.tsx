@@ -4,7 +4,6 @@ import { mockUsePathname } from '@/mock/utils/mockNextNavigation';
 import { mockGetIsLoading } from '@/mock/utils/mockLoadingUseState';
 //
 import { screen, within } from '@testing-library/react';
-import { expect } from '@jest/globals';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { InequalitiesTrendChartAndTable } from '@/components/charts/Inequalities/InequalitiesTrendChartAndTable/InequalitiesTrendChartAndTable';
 import { testRenderQueryClient } from '@/mock/utils/testRenderQueryClient';

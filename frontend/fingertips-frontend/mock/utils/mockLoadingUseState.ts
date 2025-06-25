@@ -1,13 +1,14 @@
 import { useLoadingState } from '@/context/LoaderContext';
+import { MockedFunction } from 'vitest';
 
-jest.mock('@/context/LoaderContext');
+vi.mock('@/context/LoaderContext');
 
-export const mockUseLoadingState = useLoadingState as jest.MockedFunction<
+export const mockUseLoadingState = useLoadingState as MockedFunction<
   typeof useLoadingState
 >;
 
-export const mockSetIsLoading = jest.fn();
-export const mockGetIsLoading = jest.fn();
+export const mockSetIsLoading = vi.fn();
+export const mockGetIsLoading = vi.fn();
 
 mockUseLoadingState.mockReturnValue({
   setIsLoading: mockSetIsLoading,
