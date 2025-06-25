@@ -5,7 +5,6 @@ import { UserEvent, userEvent } from '@testing-library/user-event';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { LoaderContext } from '@/context/LoaderContext';
-import { SearchStateContext } from '@/context/SearchStateContext';
 
 let user: UserEvent;
 
@@ -62,16 +61,10 @@ vi.mock('@/context/LoaderContext', () => {
   };
 });
 
-const mockGetSearchState = vi.fn();
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: mockGetSearchState,
-  setSearchState: vi.fn(),
-};
-vi.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
+let mockSearchState: SearchStateParams = {};
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockSearchState,
+}));
 
 const initialSearchState: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'test',
@@ -80,7 +73,7 @@ const initialSearchState: SearchStateParams = {
 
 beforeEach(() => {
   user = userEvent.setup();
-  mockGetSearchState.mockReturnValue(initialSearchState);
+  mockSearchState = initialSearchState;
 });
 
 describe('content', () => {

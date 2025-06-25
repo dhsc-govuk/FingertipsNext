@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event';
 import { mockAreaDataForNHSRegion } from '@/mock/data/areaData';
 import { eastEnglandNHSRegion } from '@/mock/data/areas/nhsRegionsAreas';
 import { LoaderContext } from '@/context/LoaderContext';
-import { SearchStateContext } from '@/context/SearchStateContext';
+import { SearchStateParams } from '@/lib/searchStateManager';
 import { MockedFunction } from 'vitest';
 
 vi.mock('@/components/forms/SearchForm/searchActions');
@@ -42,15 +42,10 @@ vi.mock('@/context/LoaderContext', () => {
   };
 });
 
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: vi.fn(),
-  setSearchState: vi.fn(),
-};
-vi.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
+const mockSearchState: SearchStateParams = {};
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockSearchState,
+}));
 
 describe('AreaAutoCompleteInputField', () => {
   const mockAreas: SuggestionResult[] = [

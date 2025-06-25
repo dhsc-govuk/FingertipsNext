@@ -1,9 +1,8 @@
 import { LoaderContext } from '@/context/LoaderContext';
-import { SearchStateContext } from '@/context/SearchStateContext';
 import { useIndicatorSort } from '@/components/forms/IndicatorSort/useIndicatorSort';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { renderHook } from '@testing-library/react';
-import { SearchParams } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { SortOrderKeys } from '@/components/forms/IndicatorSort/indicatorSort.types';
 import { ChangeEvent } from 'react';
 
@@ -34,16 +33,10 @@ vi.mock('@/context/LoaderContext', () => {
   };
 });
 
-const mockGetSearchState = vi.fn();
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: mockGetSearchState,
-  setSearchState: vi.fn(),
-};
-vi.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
+let mockSearchState: SearchStateParams = {};
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockSearchState,
+}));
 
 const mockApple = {
   indicatorName: 'Apple',
@@ -80,9 +73,10 @@ describe('useIndicatorSort', () => {
   });
 
   it('should change the sort order to alphabetical', () => {
-    mockGetSearchState.mockImplementation(() => ({
+    mockSearchState = {
       [SearchParams.SearchedOrder]: SortOrderKeys.alphabetical,
-    }));
+    };
+
     const { result } = renderHook(() =>
       useIndicatorSort(mockResults, mockSetCurrentPage)
     );
@@ -98,9 +92,10 @@ describe('useIndicatorSort', () => {
   });
 
   it('should change the sort order to most recently updated', () => {
-    mockGetSearchState.mockImplementation(() => ({
+    mockSearchState = {
       [SearchParams.SearchedOrder]: SortOrderKeys.updated,
-    }));
+    };
+
     const { result } = renderHook(() => useIndicatorSort(mockResults));
     expect(result.current.selectedSortOrder).toEqual(SortOrderKeys.updated);
     expect(result.current.sortedResults).toEqual([
@@ -112,9 +107,10 @@ describe('useIndicatorSort', () => {
   });
 
   it('should not change the sort order when nonsense is given as an order term', () => {
-    mockGetSearchState.mockImplementation(() => ({
+    mockSearchState = {
       [SearchParams.SearchedOrder]: 'foobar',
-    }));
+    };
+
     const { result } = renderHook(() => useIndicatorSort(mockResults));
     expect(result.current.selectedSortOrder).toEqual(SortOrderKeys.relevance);
     expect(result.current.sortedResults).toEqual([
@@ -127,19 +123,20 @@ describe('useIndicatorSort', () => {
 
   it('should not limit the results to 20', () => {
     // we have previously limited the results to 20, but don't anymore.
-    mockGetSearchState.mockImplementation(() => ({
+    mockSearchState = {
       [SearchParams.SearchedOrder]: SortOrderKeys.updated,
-    }));
+    };
+
     const lotsOfResults = new Array(35).map(() => mockApple);
     const { result } = renderHook(() => useIndicatorSort(lotsOfResults));
     expect(result.current.sortedResults).toHaveLength(35);
   });
 
   it('should return a callback function to use on the select element', () => {
-    mockGetSearchState.mockImplementation(() => ({
+    mockSearchState = {
       [SearchParams.SearchedOrder]: SortOrderKeys.updated,
-      [SearchParams.IndicatorsSelected]: [1, 2, 3],
-    }));
+      [SearchParams.IndicatorsSelected]: ['1', '2', '3'],
+    };
 
     const { result } = renderHook(() => useIndicatorSort(mockResults));
     expect(result.current).toHaveProperty('handleSortOrder');
@@ -157,9 +154,9 @@ describe('useIndicatorSort', () => {
   });
 
   it('should call the provided setCurrentPage function when handleSortOrder is called', () => {
-    mockGetSearchState.mockImplementation(() => ({
+    mockSearchState = {
       [SearchParams.SearchedOrder]: SortOrderKeys.updated,
-    }));
+    };
 
     const { result } = renderHook(() =>
       useIndicatorSort(mockResults, mockSetCurrentPage)
