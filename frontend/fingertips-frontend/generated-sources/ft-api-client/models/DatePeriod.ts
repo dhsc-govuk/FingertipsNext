@@ -34,13 +34,13 @@ export interface DatePeriod {
      */
     type: PeriodType;
     /**
-     * The end date for the data request, in ISO 8601 format (YYYY-MM-DD)
+     * Date in ISO 8601 format (YYYY-MM-DD).
      * @type {Date}
      * @memberof DatePeriod
      */
     from: Date;
     /**
-     * The end date for the data request, in ISO 8601 format (YYYY-MM-DD)
+     * Date in ISO 8601 format (YYYY-MM-DD).
      * @type {Date}
      * @memberof DatePeriod
      */
