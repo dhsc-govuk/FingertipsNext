@@ -3,6 +3,8 @@ import { TimePeriodDropDown } from '.';
 import { SearchParams } from '@/lib/searchStateManager';
 import userEvent from '@testing-library/user-event';
 import { LoaderContext } from '@/context/LoaderContext';
+import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 const mockPath = 'some-mock-path';
 const mockReplace = vi.fn();
@@ -50,7 +52,10 @@ describe('TimePeriodDropDown suite', () => {
   it('should add selected year to the url when an option is selected', async () => {
     const expectedPath = [
       mockPath,
-      `?${SearchParams.InequalityYearSelected}=2022`,
+      `?${SearchParams.AreaTypeSelected}=${englandAreaType.key}`,
+      `&${SearchParams.GroupTypeSelected}=${englandAreaType.key}`,
+      `&${SearchParams.GroupSelected}=${areaCodeForEngland}`,
+      `&${SearchParams.InequalityYearSelected}=2022`,
     ].join('');
 
     const user = userEvent.setup();
@@ -64,7 +69,10 @@ describe('TimePeriodDropDown suite', () => {
   it('should reset the state of inequalityType and inequalityArea selected params when an option is selected', async () => {
     const expectedPath = [
       mockPath,
-      `?${SearchParams.InequalityYearSelected}=2022`,
+      `?${SearchParams.AreaTypeSelected}=${englandAreaType.key}`,
+      `&${SearchParams.GroupTypeSelected}=${englandAreaType.key}`,
+      `&${SearchParams.GroupSelected}=${areaCodeForEngland}`,
+      `&${SearchParams.InequalityYearSelected}=2022`,
     ].join('');
 
     const user = userEvent.setup();

@@ -1,5 +1,4 @@
-﻿
-### check GET health data with rag comparison
+﻿### check GET health data with rag comparison
 
 GET http://localhost:5144/indicators/41101/data?area_codes=E12000007
 
@@ -196,3 +195,40 @@ GET http://localhost:5144/indicators/94063/data?area_codes=N85008&ancestor_code=
     });
 %}
 
+### Check we are getting the correct data for England
+GET http://localhost:5144/indicators/383/data?area_codes=E92000001&area_type=england&benchmark_ref_type=England&latest_only=false
+> {%
+        client.test("Check we are getting the correct data for England", () => {
+            const expectedResults = [ 
+                {areaName:"England", from:"2012-01-01", value:0.568661614775663},
+                {areaName:"England", from:"2013-01-01", value:0.5169052},
+                {areaName:"England", from:"2014-01-01", value:0.556408625061949},
+                {areaName:"England", from:"2015-01-01", value:1.03245374052936},
+                {areaName:"England", from:"2016-01-01", value:0.602373421846305},
+                {areaName:"England", from:"2017-01-01", value:0.633407092721309},
+                {areaName:"England", from:"2018-01-01", value:0.629991351541638},
+                {areaName:"England", from:"2019-01-01", value:0.649879406896621},
+                {areaName:"England", from:"2020-01-01", value:0.639274606519187},
+                {areaName:"England", from:"2021-01-01", value:0.563986295990208},
+                {areaName:"England", from:"2022-01-01", value:0.60998466767936},
+                {areaName:"England", from:"2023-01-01", value:0.6638},
+                {areaName:"England", from:"2024-01-01", value:0.53075},
+                ];
+
+                
+        var numHealthDataPoints = response.body.areaHealthData.map(area => area.healthData.length).reduce((partialSum, b) => partialSum + b, 0);
+        client.assert(
+            numHealthDataPoints === expectedResults.length,
+            `Expected ${expectedResults.length} area health data items, but got ${numHealthDataPoints}`
+        );
+
+        expectedResults.forEach((expected) => {
+            client.assert(
+                response.body.areaHealthData.find(area => area.areaName === expected.areaName)
+                .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
+                .value === expected.value,
+                `failed for ${expected.areaName} ${expected.from} ${expected.outcome}`
+            );
+        });
+    });
+%}

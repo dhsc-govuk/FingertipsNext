@@ -4,7 +4,7 @@ import { SearchFormState } from '@/components/forms/SearchForm/searchActions';
 
 import { userEvent } from '@testing-library/user-event';
 import { LoaderContext } from '@/context/LoaderContext';
-import { SearchStateContext } from '@/context/SearchStateContext';
+import { SearchStateParams } from '@/lib/searchStateManager';
 
 const initialState: SearchFormState = {
   indicator: '',
@@ -32,15 +32,10 @@ vi.mock('@/context/LoaderContext', () => {
   };
 });
 
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: vi.fn(),
-  setSearchState: vi.fn(),
-};
-vi.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
+const mockSearchState: SearchStateParams = {};
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockSearchState,
+}));
 
 const setupUI = (state?: SearchFormState) => {
   if (!state) {
