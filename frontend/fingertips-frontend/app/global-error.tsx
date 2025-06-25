@@ -16,7 +16,7 @@ export default function GlobalError() {
     <html lang="en">
       <body>
         <StyledComponentsRegistry>
-          <FTHeader chartPage={false} />
+          <FTHeader />
           <FTContainer>
             <ErrorPage />
           </FTContainer>

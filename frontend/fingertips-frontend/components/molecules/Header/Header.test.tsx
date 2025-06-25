@@ -10,7 +10,7 @@ vi.mock('@/lib/auth/handlers', () => {
 
 describe('Header', () => {
   it('should match snapshot', () => {
-    const container = render(<FTHeader chartPage={false} />);
+    const container = render(<FTHeader />);
 
     expect(container.asFragment()).toMatchSnapshot();
   });
@@ -32,7 +32,7 @@ describe('Header', () => {
   });
 
   it('should render Find public health data as a link', async () => {
-    render(<FTHeader chartPage={false} />);
+    render(<FTHeader />);
     const returnToHomePageLink = screen.getByRole('link', {
       name: /Find public health data/i,
     });

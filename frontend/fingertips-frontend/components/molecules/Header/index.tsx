@@ -16,7 +16,7 @@ const ServiceTitle = styled('span')({
 });
 
 interface FTHeaderProps {
-  chartPage: boolean;
+  chartPage?: boolean;
   session?: Session;
 }
 
