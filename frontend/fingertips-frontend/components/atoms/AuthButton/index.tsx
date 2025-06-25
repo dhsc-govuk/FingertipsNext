@@ -1,5 +1,5 @@
 import { Session } from 'next-auth';
-import { signOutHandler, signInHandler } from '@/lib/authService/authHandlers';
+import { signOutHandler, signInHandler } from '@/lib/auth/handlers';
 import { ButtonText, InvisibleButton } from './AuthButton.styles';
 
 interface authButtonProps {

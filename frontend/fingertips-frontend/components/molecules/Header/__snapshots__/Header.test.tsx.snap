@@ -6,20 +6,22 @@ exports[`Header > should match snapshot 1`] = `
     <div>
       <div>
         <div
-          class="sc-gEvEer gtmASv"
+          class="sc-eqUAAy ixdjaR"
         >
           <ul
-            class="sc-eqUAAy nPHcu"
+            class="sc-fqkvVR gvlJmA"
           >
-            <li
-              class="sc-fqkvVR geITMv"
+            <button
+              class="sc-aXZVg cEA-DzH"
             >
-              <button
-                class="src__StyledButton-sc-19ocyxv-0 dELbwv sc-aXZVg iHyyt"
+              <div
+                class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-gEvEer gevLwH"
               >
-                Sign in
-              </button>
-            </li>
+                <p>
+                  Sign in
+                </p>
+              </div>
+            </button>
           </ul>
         </div>
         <div

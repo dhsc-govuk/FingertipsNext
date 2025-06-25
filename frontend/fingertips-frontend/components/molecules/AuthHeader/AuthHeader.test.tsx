@@ -1,9 +1,9 @@
 import { render } from '@testing-library/react';
 import { AuthHeader } from '.';
-import { signInHandler, signOutHandler } from '@/lib/authService/authHandlers';
+import { signInHandler, signOutHandler } from '@/lib/auth/handlers';
 import userEvent from '@testing-library/user-event';
 
-vi.mock('@/lib/authService/authHandlers', () => {
+vi.mock('@/lib/auth/handlers', () => {
   return {
     signInHandler: vi.fn(),
     signOutHandler: vi.fn(),

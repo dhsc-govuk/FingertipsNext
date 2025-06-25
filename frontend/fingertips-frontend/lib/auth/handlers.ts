@@ -1,9 +1,10 @@
 'use server';
 
-import { getAuthProvider, signIn, signOut } from '@/lib/authService/auth';
+import { signIn, signOut } from '@/lib/auth';
+import { AuthConfigFactory } from '@/lib/auth/config';
 
 export async function signInHandler() {
-  const provider = getAuthProvider();
+  const provider = AuthConfigFactory.getProvider();
   if (!provider) {
     return;
   }
@@ -12,8 +13,8 @@ export async function signInHandler() {
     return await signIn('credentials');
   }
 
-  if (provider === 'Entra') {
-    return await signIn('microsoft-entra-id');
+  if (provider === 'FTA') {
+    return await signIn('fta');
   }
 
   return await signIn();
