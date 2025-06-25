@@ -15,7 +15,7 @@ public class DataManagementControllerTests
 {
     private const int StubIndicatorId = 123;
     private const string StubFileName = "StubHealthdataUpload.csv";
-    
+
     private readonly IDataManagementService _dataManagementService;
     private DataManagementController _controller;
 

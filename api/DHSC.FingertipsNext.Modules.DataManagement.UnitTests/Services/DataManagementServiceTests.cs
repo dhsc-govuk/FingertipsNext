@@ -21,7 +21,7 @@ public class DataManagementServiceTests
 
     private const string ContainerName = "TestContainer";
     private const int StubIndicatorId = 1;
-    
+
     public DataManagementServiceTests()
     {
         var inMemorySettings = new Dictionary<string, string?> {
@@ -72,12 +72,12 @@ public class DataManagementServiceTests
         _configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(new Dictionary<string, string?> { { "STORAGE_CONTAINER_NAME", "" } })
             .Build();
-        
+
         _service = new DataManagementService(_blobServiceClient, _configuration, _logger, _timeProvider);
-        
+
         // Act
         var result = await _service.UploadFileAsync(Stream.Null, StubIndicatorId);
-        
+
         // Assert
         await _blobClient.Received(0).UploadAsync(Arg.Any<Stream>());
         result.ShouldBe(false);

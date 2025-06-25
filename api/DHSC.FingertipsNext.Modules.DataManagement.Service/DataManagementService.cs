@@ -31,7 +31,7 @@ public class DataManagementService(
         LogLevel.Debug,
         new EventId(4, "InvalidConfigLog"),
         "Config variable 'STORAGE_CONTAINER_NAME' is invalid: {ContainerName}");
-    
+
     public async Task<bool> UploadFileAsync(Stream fileStream, int indicatorId)
     {
         var containerName = configuration["STORAGE_CONTAINER_NAME"];
@@ -40,7 +40,7 @@ public class DataManagementService(
             InvalidConfigLog(logger, containerName, null);
             return false;
         }
-        
+
         var containerClient = blobServiceClient.GetBlobContainerClient(containerName);
         var batchId = $"{indicatorId}_{timeProvider.GetUtcNow():yyyy-MM-ddTHH:mm:ss.fff}";
 
