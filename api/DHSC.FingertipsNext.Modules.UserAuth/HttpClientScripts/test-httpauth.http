@@ -1,15 +1,15 @@
-### Call authorised user endpoint with a valid bearer token and verify 401 unauthorised response
+### Call authorised user endpoint without a valid bearer token and verify 401 unauthorised response
 GET http://localhost:5144/user/info
 > {%
     client.test("Expected authenticated endpoint returns authentication failure", function (callbackfn, thisArg) {
-        client.assert(response.status === 401, "Response status is not 200");
+        client.assert(response.status === 401, "Response status should indicate user is unauthorized.");
     });
 %}
 
-### Call authorised user endpoint with a valid bearer token and verify 401 unauthorised response
+### Call authorised user endpoint without a valid bearer token and verify 401 unauthorised response
 HEAD http://localhost:5144/user/indicator/123
 > {%
     client.test("Expected authenticated endpoint returns authentication failure", function (callbackfn, thisArg) {
-        client.assert(response.status === 401, "Response status is not 200");
+        client.assert(response.status === 401, "Response status should indicate user is unauthorized");
     });
 %}
