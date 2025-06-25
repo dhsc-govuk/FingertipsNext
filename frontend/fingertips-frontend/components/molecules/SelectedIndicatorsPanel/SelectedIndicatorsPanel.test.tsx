@@ -2,9 +2,8 @@ import { render, screen } from '@testing-library/react';
 import { SelectedIndicatorsPanel } from '.';
 import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 import userEvent from '@testing-library/user-event';
-import { SearchParams } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { LoaderContext } from '@/context/LoaderContext';
-import { SearchStateContext } from '@/context/SearchStateContext';
 
 const mockPath = 'some-mock-path';
 const mockReplace = vi.fn();
@@ -33,16 +32,10 @@ vi.mock('@/context/LoaderContext', () => {
   };
 });
 
-const mockGetSearchState = vi.fn();
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: mockGetSearchState,
-  setSearchState: vi.fn(),
-};
-vi.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
+let mockSearchState: SearchStateParams = {};
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockSearchState,
+}));
 
 const mockSelectedIndicatorsData = [
   generateIndicatorDocument('1'),
@@ -93,10 +86,10 @@ describe('SelectedIndicatorsPanel', () => {
   });
 
   it('should return to the results page with the provided search state when the Add or change indicators button is clicked', async () => {
-    mockGetSearchState.mockReturnValue({
+    mockSearchState = {
       [SearchParams.IndicatorsSelected]: ['1', '2'],
       [SearchParams.AreasSelected]: ['E40000012'],
-    });
+    };
 
     const expectedPath = [
       `/results`,

@@ -252,37 +252,6 @@ describe('Results Page', () => {
       ]);
     });
 
-    it('should pass the searchState prop with data from the params and updated by getAreaFilterData call', async () => {
-      const initialSearchState = {
-        ...searchParams,
-        [SearchParams.IndicatorsSelected]: ['1', '2'],
-        [SearchParams.AreasSelected]: ['E40000007', 'E40000003'],
-      };
-
-      const updatedSearchState = {
-        ...initialSearchState,
-        [SearchParams.GroupTypeSelected]: 'england',
-        [SearchParams.GroupSelected]: areaCodeForEngland,
-      };
-
-      mockGetAreaFilterData.mockResolvedValue({
-        updatedSearchState,
-      });
-
-      mockAreasApi.getArea.mockResolvedValueOnce({
-        ...eastEnglandNHSRegion,
-      });
-      mockAreasApi.getArea.mockResolvedValueOnce({
-        ...londonNHSRegion,
-      });
-
-      const page = await ResultsPage({
-        searchParams: generateSearchParams(initialSearchState),
-      });
-
-      expect(page.props.searchState).toEqual(updatedSearchState);
-    });
-
     it('should pass the current date prop', async () => {
       const date = new Date('January 1, 2000');
       vi.useFakeTimers();

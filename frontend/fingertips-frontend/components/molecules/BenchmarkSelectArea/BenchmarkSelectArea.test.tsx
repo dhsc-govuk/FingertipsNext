@@ -4,6 +4,8 @@ import { LoaderContext } from '@/context/LoaderContext';
 import { SearchParams } from '@/lib/searchStateManager';
 import userEvent from '@testing-library/user-event';
 import { AreaWithoutAreaType } from '@/lib/common-types';
+import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 const mockPath = 'some-mock-path';
 const mockReplace = vi.fn();
@@ -52,12 +54,7 @@ describe('BenchmarkSelectArea', () => {
   const areaDropDownLabel = 'Select a benchmark';
 
   it('should render all the available areas', () => {
-    render(
-      <BenchmarkSelectArea
-        availableAreas={mockAvailableAreas}
-        benchmarkAreaSelectedKey={SearchParams.BenchmarkAreaSelected}
-      />
-    );
+    render(<BenchmarkSelectArea availableAreas={mockAvailableAreas} />);
 
     const areaSelectDropdown = screen.getByRole('combobox', {
       name: areaDropDownLabel,
@@ -72,12 +69,7 @@ describe('BenchmarkSelectArea', () => {
   });
 
   it('should have the chart areaSelected as the pre-selected value', () => {
-    render(
-      <BenchmarkSelectArea
-        availableAreas={mockAvailableAreas}
-        benchmarkAreaSelectedKey={SearchParams.BenchmarkAreaSelected}
-      />
-    );
+    render(<BenchmarkSelectArea availableAreas={mockAvailableAreas} />);
 
     expect(
       screen.getByRole('combobox', {
@@ -89,16 +81,14 @@ describe('BenchmarkSelectArea', () => {
   it('should add the selected area for the chart to the url for the provided search param', async () => {
     const expectedPath = [
       `${mockPath}`,
-      `?${SearchParams.BenchmarkAreaSelected}=${mockAvailableAreas[2].code}`,
+      `?${SearchParams.AreaTypeSelected}=${englandAreaType.key}`,
+      `&${SearchParams.GroupTypeSelected}=${englandAreaType.key}`,
+      `&${SearchParams.GroupSelected}=${areaCodeForEngland}`,
+      `&${SearchParams.BenchmarkAreaSelected}=${mockAvailableAreas[2].code}`,
     ].join('');
 
     const user = userEvent.setup();
-    render(
-      <BenchmarkSelectArea
-        availableAreas={mockAvailableAreas}
-        benchmarkAreaSelectedKey={SearchParams.BenchmarkAreaSelected}
-      />
-    );
+    render(<BenchmarkSelectArea availableAreas={mockAvailableAreas} />);
 
     await user.selectOptions(
       screen.getByRole('combobox', { name: areaDropDownLabel }),
