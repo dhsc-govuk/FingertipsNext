@@ -53,8 +53,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Api.IntegrationTests", "DHSC.FingertipsNext.Api.IntegrationTests\DHSC.FingertipsNext.Api.IntegrationTests.csproj", "{521C70AD-121C-4BBD-80B7-A64F0DA8CF5D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{890B3929-CED3-4BBA-967E-17050A8168C4}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -157,7 +155,6 @@ Global
 		{16444D72-F068-4A78-A8D3-C85207D85DBC} = {594379C5-606C-468B-8F91-1D30757E4681}
 		{2EB4D837-6C00-4E13-8F71-D613DCCAD577} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{521C70AD-121C-4BBD-80B7-A64F0DA8CF5D} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{890B3929-CED3-4BBA-967E-17050A8168C4} = {68620BFB-ED52-4B92-B37E-BBDF367D3830}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {745A1299-79AE-4D97-8156-A825611994C6}
