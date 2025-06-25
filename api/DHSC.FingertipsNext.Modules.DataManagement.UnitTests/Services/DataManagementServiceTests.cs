@@ -2,6 +2,8 @@ using Azure;
 using Azure.Storage.Blobs;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using DHSC.FingertipsNext.Modules.DataManagement.Service;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Shouldly;
 
@@ -9,46 +11,75 @@ namespace DHSC.FingertipsNext.Modules.DataManagement.UnitTests.Services;
 
 public class DataManagementServiceTests
 {
-    private readonly DataManagementService _service;
+    private DataManagementService _service;
     private readonly BlobContainerClient _containerClient = Substitute.For<BlobContainerClient>();
+    private readonly BlobServiceClient _blobServiceClient = Substitute.For<BlobServiceClient>();
     private readonly BlobClient _blobClient = Substitute.For<BlobClient>();
+    private readonly ILogger<DataManagementService> _logger = Substitute.For<ILogger<DataManagementService>>();
+    private readonly TimeProvider _timeProvider = Substitute.For<TimeProvider>();
+    private IConfiguration _configuration;
 
     private const string ContainerName = "TestContainer";
-    private const string BlobName = "TestBlob";
-
+    private const int StubIndicatorId = 1;
+    
     public DataManagementServiceTests()
     {
-        var blobServiceClient = Substitute.For<BlobServiceClient>();
-        _service = new DataManagementService(blobServiceClient);
+        var inMemorySettings = new Dictionary<string, string?> {
+            {"STORAGE_CONTAINER_NAME", ContainerName},
+        };
+        _configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(inMemorySettings)
+            .Build();
+        _service = new DataManagementService(_blobServiceClient, _configuration, _logger, _timeProvider);
 
-        blobServiceClient.GetBlobContainerClient(ContainerName).Returns(_containerClient);
-        _containerClient.GetBlobClient(BlobName).Returns(_blobClient);
+        var mockDate = new DateTime(2024, 6, 15, 10, 30, 45, 123, DateTimeKind.Utc);
+        _timeProvider.GetUtcNow().Returns(mockDate);
+        _blobServiceClient.GetBlobContainerClient(ContainerName).Returns(_containerClient);
+        _containerClient.GetBlobClient($"{StubIndicatorId}_{mockDate:yyyy-MM-ddTHH:mm:ss.fff}").Returns(_blobClient);
     }
 
     [Fact]
     public async Task UploadShouldSucceed()
     {
         // Act
-        var result = await _service.UploadFileAsync(Stream.Null, BlobName, ContainerName);
+        var result = await _service.UploadFileAsync(Stream.Null, StubIndicatorId);
 
         // Assert
-        await _blobClient.Received(1).UploadAsync(Arg.Any<Stream>(), true);
+        await _blobClient.Received(1).UploadAsync(Arg.Any<Stream>());
         result.ShouldBe(true);
     }
 
     [Fact]
-    public async Task UploadShouldFail()
+    public async Task UploadShouldFailWhenExceptionIsThrown()
     {
         // Arrange
         _blobClient
-            .When(x => x.UploadAsync(Arg.Any<Stream>(), true))
+            .When(x => x.UploadAsync(Arg.Any<Stream>()))
             .Do(x => throw new RequestFailedException("failed"));
 
         // Act
-        var result = await _service.UploadFileAsync(Stream.Null, BlobName, ContainerName);
+        var result = await _service.UploadFileAsync(Stream.Null, StubIndicatorId);
 
         // Assert
-        await _blobClient.Received(1).UploadAsync(Arg.Any<Stream>(), true);
+        await _blobClient.Received(1).UploadAsync(Arg.Any<Stream>());
+        result.ShouldBe(false);
+    }
+
+    [Fact]
+    public async Task UploadShouldFailWhenConfigVariableIsNullOrEmpty()
+    {
+        // Arrange
+        _configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(new Dictionary<string, string?> { { "STORAGE_CONTAINER_NAME", "" } })
+            .Build();
+        
+        _service = new DataManagementService(_blobServiceClient, _configuration, _logger, _timeProvider);
+        
+        // Act
+        var result = await _service.UploadFileAsync(Stream.Null, StubIndicatorId);
+        
+        // Assert
+        await _blobClient.Received(0).UploadAsync(Arg.Any<Stream>());
         result.ShouldBe(false);
     }
 }

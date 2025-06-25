@@ -13,6 +13,8 @@ public class DataManagementModule : AbstractMonolithModule, IMonolithModule
 
     public override void RegisterModule(IServiceCollection services, IConfiguration configuration)
     {
+        services.AddLogging();
+        services.AddSingleton(TimeProvider.System);
         services.AddTransient<IDataManagementService, DataManagementService>();
         services.AddTransient<IDataManagementRepository, DataManagementRepository>();
         RegisterAzureClients(services, configuration);
@@ -20,8 +22,8 @@ public class DataManagementModule : AbstractMonolithModule, IMonolithModule
 
     private static void RegisterAzureClients(IServiceCollection services, IConfiguration configuration)
     {
-        const string storageConnectionStringEnvVar = "STORAGE_CONNECTION_STRING";
-        var storageConnectionString = GetConfigurationValue(configuration, storageConnectionStringEnvVar);
+        var storageConnectionString = configuration.GetConnectionString("UploadStorageAccount")
+            ?? throw new ArgumentException("UploadStorageAccount connection string not set");
 
         services.AddAzureClients(clientBuilder =>
         {
@@ -31,10 +33,5 @@ public class DataManagementModule : AbstractMonolithModule, IMonolithModule
                     options.Retry.MaxRetries = 1;
                 });
         });
-    }
-
-    private static string GetConfigurationValue(IConfiguration configuration, string key)
-    {
-        return configuration.GetValue<string>(key) ?? throw new ArgumentException($"Missing configuration value for key '{key}'.");
     }
 }

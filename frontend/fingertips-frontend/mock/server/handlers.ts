@@ -278,7 +278,9 @@ export function getGetHealthDataForAnIndicator500Response() {
 }
 
 export function getPostIndicatorsIndicatorIdData202Response() {
-  return null;
+  return {
+    message: 'Data processing started successfully',
+  };
 }
 
 export function getPostIndicatorsIndicatorIdData400Response() {

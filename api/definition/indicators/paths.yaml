@@ -61,13 +61,13 @@ indicators_by_indicator_id_data:
     summary: Get health data for an indicator
     description:
       Get data for a public health indicator. This will return all data for
-        all requested areas and all time periods for the specified indicator. 
+      all requested areas and all time periods for the specified indicator.
 
-        The returned data will include a benchmark comparison against either England or an ancestor area
-        group, depending on the benchmark_ref_type and ancestor_code parameters.
+      The returned data will include a benchmark comparison against either England or an ancestor area
+      group, depending on the benchmark_ref_type and ancestor_code parameters.
 
-        Data can be provided disagregated by various categories such as age and sex
-        using the inequalities query parameter.
+      Data can be provided disagregated by various categories such as age and sex
+      using the inequalities query parameter.
     responses:
       "200":
         description:
@@ -86,7 +86,7 @@ indicators_by_indicator_id_data:
     tags:
       - indicators
     summary: add a batch of new data for an indicator
-    description: Not Yet Implemented - Creates new data for the indicator. The data is always created in an unpublished and unapproved state.
+    description: Creates new data for the indicator. The data is always created in an unpublished and unapproved state.
     requestBody:
       required: true
       content:
@@ -94,15 +94,15 @@ indicators_by_indicator_id_data:
           schema:
             type: object
             properties:
-              file: 
+              file:
                 type: string
                 format: binary
     responses:
       "202":
-        description: The file has been accepted by the API and further processing will be conducted. 
+        description: The file has been accepted by the API and further processing will be conducted.
         content:
           text/plain:
-            schema: 
+            schema:
               type: string
               example: The file has been accepted.
       "400":
@@ -125,13 +125,14 @@ quartiles:
     tags:
       - indicators
     summary: Get quartile values for indicators
-    description: Get quartile information for many indicators for one area. This will 
-        calculate the quartile based on all areas of the specified type within 
-        either England or a sub-national area, depending on the 
-        benchmark_ref_type parameter. It will use the latest data available 
-        for the area group requested. If the indicator has data for 
-        more than one time period type then the API will return data for each
-        data period type separately.
+    description:
+      Get quartile information for many indicators for one area. This will
+      calculate the quartile based on all areas of the specified type within
+      either England or a sub-national area, depending on the
+      benchmark_ref_type parameter. It will use the latest data available
+      for the area group requested. If the indicator has data for
+      more than one time period type then the API will return data for each
+      data period type separately.
     parameters:
       - name: ancestor_code
         in: query

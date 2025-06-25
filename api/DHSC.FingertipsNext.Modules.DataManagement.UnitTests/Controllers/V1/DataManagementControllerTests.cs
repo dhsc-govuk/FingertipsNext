@@ -15,8 +15,7 @@ public class DataManagementControllerTests
 {
     private const int StubIndicatorId = 123;
     private const string StubFileName = "StubHealthdataUpload.csv";
-
-    private IConfiguration _configuration;
+    
     private readonly IDataManagementService _dataManagementService;
     private DataManagementController _controller;
 
@@ -28,21 +27,15 @@ public class DataManagementControllerTests
 
     public DataManagementControllerTests()
     {
-        var inMemorySettings = new Dictionary<string, string?> {
-            {"STORAGE_CONTAINER_NAME", "StubContainerName"},
-        };
-        _configuration = new ConfigurationBuilder()
-            .AddInMemoryCollection(inMemorySettings)
-            .Build();
         _dataManagementService = Substitute.For<IDataManagementService>();
-        _controller = new DataManagementController(_dataManagementService, _configuration);
+        _controller = new DataManagementController(_dataManagementService);
     }
 
     [Fact]
     public async Task PostReturnsExpectedResponseWhenGivenAValidFile()
     {
         // Arrange
-        _dataManagementService.UploadFileAsync(Arg.Any<Stream>(), StubFileName, "StubContainerName")
+        _dataManagementService.UploadFileAsync(Arg.Any<Stream>(), StubIndicatorId)
             .Returns(true);
         var expected = $"File {StubFileName} has been accepted for indicator {StubIndicatorId}.";
 
@@ -50,7 +43,7 @@ public class DataManagementControllerTests
         var response = await _controller.UploadHealthData(_formFile, StubIndicatorId) as AcceptedResult;
 
         // Assert
-        await _dataManagementService.Received(1).UploadFileAsync(Arg.Any<Stream>(), StubFileName, "StubContainerName");
+        await _dataManagementService.Received(1).UploadFileAsync(Arg.Any<Stream>(), StubIndicatorId);
         response?.StatusCode.ShouldBe(StatusCodes.Status202Accepted);
         response?.Value.ToString().ShouldBe(expected);
     }
@@ -89,46 +82,31 @@ public class DataManagementControllerTests
         const string stubFileNameWithCharsToEncode = "Stub Healthdata Üpload.csv"; // filename with space and non-ASCII for encoding check
         var formFile = new FormFile(Stream, 0, Bytes.Length, "file", stubFileNameWithCharsToEncode);
         var expectedEncoded = HttpUtility.HtmlEncode(stubFileNameWithCharsToEncode);
-        _dataManagementService.UploadFileAsync(Arg.Any<Stream>(), expectedEncoded, "StubContainerName")
+        _dataManagementService.UploadFileAsync(Arg.Any<Stream>(), StubIndicatorId)
             .Returns(true);
 
         // Act
         var response = await _controller.UploadHealthData(formFile, StubIndicatorId) as AcceptedResult;
 
         // Assert
-        await _dataManagementService.Received(1).UploadFileAsync(Arg.Any<Stream>(), Arg.Any<string>(), Arg.Any<string>());
+        await _dataManagementService.Received(1).UploadFileAsync(Arg.Any<Stream>(), StubIndicatorId);
         response?.StatusCode.ShouldBe(StatusCodes.Status202Accepted);
         response?.Value?.ToString()?.ShouldContain(expectedEncoded);
-    }
-
-    [Fact]
-    public async Task RequestReturns500IfEnvironmentVariableNotFound()
-    {
-        // Arrange
-        _configuration = new ConfigurationBuilder()
-            .AddInMemoryCollection(new Dictionary<string, string?> { { "STORAGE_CONTAINER_NAME", "" } })
-            .Build();
-        _controller = new DataManagementController(_dataManagementService, _configuration);
-
-        // Act
-        var response = await _controller.UploadHealthData(_formFile, StubIndicatorId) as StatusCodeResult;
-
-        // Assert
-        response.StatusCode.ShouldBe(StatusCodes.Status500InternalServerError);
     }
 
     [Fact]
     public async Task RequestReturns500IfUploadFails()
     {
         // Arrange
-        _dataManagementService.UploadFileAsync(Arg.Any<Stream>(), StubFileName, "StubContainerName")
+        _dataManagementService.UploadFileAsync(Arg.Any<Stream>(), StubIndicatorId)
             .Returns(false);
 
         // Act
-        var response = await _controller.UploadHealthData(_formFile, StubIndicatorId) as StatusCodeResult;
+        var response = await _controller.UploadHealthData(_formFile, StubIndicatorId) as ObjectResult;
 
         // Assert
-        await _dataManagementService.Received(1).UploadFileAsync(Arg.Any<Stream>(), StubFileName, "StubContainerName");
+        await _dataManagementService.Received(1).UploadFileAsync(Arg.Any<Stream>(), StubIndicatorId);
         response?.StatusCode.ShouldBe(StatusCodes.Status500InternalServerError);
+        response?.Value?.ToString()?.ShouldContain("File upload was unsuccessful.");
     }
 }
