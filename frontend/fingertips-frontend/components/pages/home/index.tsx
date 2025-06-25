@@ -11,7 +11,6 @@ import {
   SectionBreak,
   UnorderedList,
 } from 'govuk-react';
-import { SearchStateParams } from '@/lib/searchStateManager';
 import { SearchForm } from '@/components/forms/SearchForm';
 import {
   SearchFormState,
@@ -22,7 +21,6 @@ import styled from 'styled-components';
 import { spacing } from '@govuk-react/lib';
 import { Area } from '@/generated-sources/ft-api-client';
 import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
-import { useSearchState } from '@/context/SearchStateContext';
 import { siteTitle } from '@/lib/constants';
 
 const ZeroMarginParagraph = styled(Paragraph)(
@@ -30,23 +28,15 @@ const ZeroMarginParagraph = styled(Paragraph)(
 );
 
 interface HomeProps {
-  searchState?: SearchStateParams;
   areaFilterData?: AreaFilterData;
   selectedAreasData?: Area[];
   initialFormState: SearchFormState;
 }
 export const Home = ({
-  searchState,
   areaFilterData,
   initialFormState,
   selectedAreasData,
 }: HomeProps) => {
-  const { setSearchState } = useSearchState();
-
-  useEffect(() => {
-    setSearchState(searchState ?? {});
-  }, [searchState, setSearchState]);
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { LoaderProvider, useLoadingState } from './LoaderContext';
 import userEvent from '@testing-library/user-event';
-import { SearchStateContext } from './SearchStateContext';
+import { SearchStateParams } from '@/lib/searchStateManager';
 
 const mockPath = 'some-mock-path';
 vi.mock('next/navigation', async () => {
@@ -13,16 +13,10 @@ vi.mock('next/navigation', async () => {
   };
 });
 
-const mockGetSearchState = vi.fn();
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: mockGetSearchState,
-  setSearchState: vi.fn(),
-};
-vi.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
+let mockSearchState: SearchStateParams = {};
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockSearchState,
+}));
 
 const TestComponent = () => {
   const { getIsLoading, setIsLoading } = useLoadingState();
@@ -37,7 +31,7 @@ const TestComponent = () => {
 
 describe('LoaderContext', () => {
   it('should have access to getIsLoading prop in the TestComponent', () => {
-    mockGetSearchState.mockReturnValue({});
+    mockSearchState = {};
 
     render(
       <LoaderProvider>

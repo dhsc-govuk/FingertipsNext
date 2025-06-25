@@ -39,10 +39,7 @@ export function OneIndicatorOneAreaViewPlots({
 
   return (
     <section data-testid="oneIndicatorOneAreaViewPlot-component">
-      <BenchmarkSelectArea
-        availableAreas={availableAreasForBenchmarking}
-        benchmarkAreaSelectedKey={SearchParams.BenchmarkAreaSelected}
-      />
+      <BenchmarkSelectArea availableAreas={availableAreasForBenchmarking} />
       {showLineChartOverTime ? <LineChartAndTableOverTime /> : null}
 
       <Inequalities
