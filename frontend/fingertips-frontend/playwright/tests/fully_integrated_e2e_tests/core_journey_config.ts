@@ -154,7 +154,7 @@ export const coreTestJourneys: TestParameters[] = [
         knownTrend: 'No recent trend data available',
       },
       {
-        indicatorID: '93088',
+        indicatorID: '241',
         knownTrend: 'No recent trend data available',
       },
     ],
