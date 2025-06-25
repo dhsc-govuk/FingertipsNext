@@ -10,7 +10,7 @@ export const benchmarkOutcomeForYear = (
     (point) => point.period === Number(year)
   );
   return (
-    matchingRow?.inequalities[inequality]?.benchmarkComparison?.outcome ||
+    matchingRow?.inequalities[inequality]?.benchmarkComparison?.outcome ??
     BenchmarkOutcome.NotCompared
   );
 };
