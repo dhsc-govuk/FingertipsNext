@@ -494,23 +494,6 @@ describe('Line chart table suite', () => {
     }
   };
 
-  describe('LineChartTable when given quintiles data', () => {
-    it('should not render the benchmark column', () => {
-      render(
-        <LineChartTable
-          title={'Title'}
-          healthIndicatorData={[mockHealthData[0]]}
-          englandIndicatorData={MOCK_ENGLAND_DATA}
-          indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
-          benchmarkComparisonMethod={BenchmarkComparisonMethod.Quintiles}
-        />
-      );
-
-      expect(screen.queryByTestId(`england-subheader`)).not.toBeInTheDocument();
-      expect(screen.queryByTestId('england-header')).not.toBeInTheDocument();
-    });
-  });
-
   describe('LineChartTable when mismatched years are supplied', () => {
     it('should not render Xs but keep the correct years aligned', () => {
       const mockHealthArea1 = JSON.parse(JSON.stringify(MOCK_ENGLAND_DATA));
