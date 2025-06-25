@@ -150,7 +150,7 @@ export const coreTestJourneys: TestParameters[] = [
     searchMode: SearchMode.ONLY_AREA, // therefore no subject search term or areaFiltersToSelect required
     indicatorsToSelect: [
       {
-        indicatorID: '93015',
+        indicatorID: '20401',
         knownTrend: 'No recent trend data available',
       },
       {
