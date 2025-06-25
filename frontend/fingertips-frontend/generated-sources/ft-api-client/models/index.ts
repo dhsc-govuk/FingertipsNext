@@ -7,6 +7,7 @@ export * from './AreaWithRelations';
 export * from './BenchmarkComparisonMethod';
 export * from './BenchmarkOutcome';
 export * from './BenchmarkReferenceType';
+export * from './DatePeriod';
 export * from './DeprivationData';
 export * from './GetAreaHierarchies500Response';
 export * from './GetHealthcheck200Response';
