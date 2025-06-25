@@ -14,9 +14,9 @@ interface FTAProviderConfig {
 }
 
 export function getFTAProviderConfig(): FTAProviderConfig | undefined {
-  const clientId = process.env.AUTH_OIDC_CLIENT_ID;
-  const clientSecret = process.env.AUTH_OIDC_CLIENT_SECRET;
-  const issuer = process.env.AUTH_OIDC_ISSUER;
+  const clientId = process.env.AUTH_FTA_ID;
+  const clientSecret = process.env.AUTH_FTA_SECRET;
+  const issuer = process.env.AUTH_FTA_ISSUER;
 
   return clientId && clientSecret && issuer
     ? { clientId, clientSecret, issuer }

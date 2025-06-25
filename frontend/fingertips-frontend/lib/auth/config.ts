@@ -30,7 +30,7 @@ export class AuthProvidersFactory {
     }
 
     if (
-      process.env.NODE_ENV === 'development' &&
+      process.env.NODE_ENV !== 'production' &&
       process.env.AUTH_USE_MOCK === 'true'
     ) {
       providers.push(MockAuthProvider);
