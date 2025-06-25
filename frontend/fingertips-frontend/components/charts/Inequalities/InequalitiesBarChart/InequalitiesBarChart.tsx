@@ -20,13 +20,14 @@ import {
   BenchmarkOutcome,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
-import { HighChartsWrapper } from '../../../molecules/HighChartsWrapper/HighChartsWrapper';
+
 import { ExportOptionsButton } from '../../../molecules/Export/ExportOptionsButton';
 import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
 import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
 import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
 import { getMethodsAndOutcomes } from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
 import { BenchmarkLegends } from '@/components/organisms/BenchmarkLegend/BenchmarkLegends';
+import { HighChartsWrapper } from '@/components/molecules/HighChartsWrapper/HighChartsWrapper';
 
 interface InequalitiesBarChartProps {
   title: string;

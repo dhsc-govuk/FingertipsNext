@@ -2,6 +2,7 @@
 import { mockGetIsLoading } from '@/mock/utils/mockLoadingUseState';
 import { mockUsePathname } from '@/mock/utils/mockNextNavigation';
 import { mockUseSearchStateParams } from '@/mock/utils/mockUseSearchStateParams';
+import { mockHighcharts } from '@/mock/utils/mockHighchartsReact';
 //
 import { act, render, screen, within } from '@testing-library/react';
 import { InequalitiesBarChartAndTable } from './InequalitiesBarChartAndTable';
@@ -23,6 +24,7 @@ import { mockDeprivationData } from '@/mock/data/mockDeprivationData';
 
 mockGetIsLoading.mockReturnValue(false);
 mockUsePathname.mockReturnValue('some-mock-path');
+mockHighcharts.mockReturnValue(() => <div />);
 
 const mockSearchState: SearchStateParams = {
   [SearchParams.IndicatorsSelected]: ['41101'],

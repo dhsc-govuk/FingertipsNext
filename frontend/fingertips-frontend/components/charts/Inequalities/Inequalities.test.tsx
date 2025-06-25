@@ -2,6 +2,7 @@
 import { mockUseSearchStateParams } from '@/mock/utils/mockUseSearchStateParams';
 import { mockUsePathname } from '@/mock/utils/mockNextNavigation';
 import { mockGetIsLoading } from '@/mock/utils/mockLoadingUseState';
+import { mockHighcharts } from '@/mock/utils/mockHighchartsReact';
 //
 import { screen } from '@testing-library/react';
 import { Inequalities } from './Inequalities';
@@ -25,6 +26,7 @@ import { testRenderQueryClient } from '@/mock/utils/testRenderQueryClient';
 
 mockGetIsLoading.mockReturnValue(false);
 mockUsePathname.mockReturnValue('some-mock-path');
+mockHighcharts.mockReturnValue(() => <div />);
 
 const mockSearchState: SearchStateParams = {
   [SearchParams.IndicatorsSelected]: ['41101'],
