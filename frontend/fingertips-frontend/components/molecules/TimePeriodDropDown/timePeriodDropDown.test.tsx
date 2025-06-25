@@ -1,8 +1,10 @@
+// MUST BE AT THE TOP
+import { mockSetIsLoading } from '@/mock/utils/mockLoadingUseState';
+//
 import { render, screen, within } from '@testing-library/react';
 import { TimePeriodDropDown } from '.';
 import { SearchParams } from '@/lib/searchStateManager';
 import userEvent from '@testing-library/user-event';
-import { LoaderContext } from '@/context/LoaderContext';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
@@ -22,16 +24,7 @@ vi.mock('next/navigation', async () => {
   };
 });
 
-const mockSetIsLoading = vi.fn();
-const mockLoaderContext: LoaderContext = {
-  getIsLoading: vi.fn(),
-  setIsLoading: mockSetIsLoading,
-};
-vi.mock('@/context/LoaderContext', () => {
-  return {
-    useLoadingState: () => mockLoaderContext,
-  };
-});
+mockSetIsLoading.mockReturnValue(false);
 
 const years = ['2023', '2022', '2021', '2020'];
 

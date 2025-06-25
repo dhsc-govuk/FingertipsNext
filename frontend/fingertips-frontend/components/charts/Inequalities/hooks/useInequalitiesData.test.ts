@@ -10,21 +10,22 @@ import { ChartType } from '@/components/charts/Inequalities/helpers/inequalities
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { SearchParams } from '@/lib/searchStateManager';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
+import { Mock, MockedFunction } from 'vitest';
 
 vi.mock('@/components/charts/hooks/useIndicatorMetaData');
 vi.mock('@/components/charts/Inequalities/hooks/useInequalitiesRequestParams');
 vi.mock('@/components/charts/hooks/useApiGetHealthDataForAnIndicator');
 vi.mock('@/components/charts/Inequalities/helpers/inequalitiesData');
 
-const mockUseIndicatorMetaData = useIndicatorMetaData as vi.MockedFunction<
+const mockUseIndicatorMetaData = useIndicatorMetaData as MockedFunction<
   typeof useIndicatorMetaData
 >;
 
 const mockUseApiGetHealthDataForAnIndicator =
-  useApiGetHealthDataForAnIndicator as vi.MockedFunction<
+  useApiGetHealthDataForAnIndicator as MockedFunction<
     typeof useApiGetHealthDataForAnIndicator
   >;
-const mockInequalitiesData = inequalitiesData as vi.MockedFunction<
+const mockInequalitiesData = inequalitiesData as MockedFunction<
   typeof inequalitiesData
 >;
 
@@ -48,7 +49,7 @@ describe('useInequalitiesData', () => {
       healthDataLoading: false,
     });
 
-    (inequalitiesData as vi.Mock).mockReturnValue({ transformed: 'data' });
+    (inequalitiesData as Mock).mockReturnValue({ transformed: 'data' });
   });
 
   it.each(Object.values(ChartType))(
