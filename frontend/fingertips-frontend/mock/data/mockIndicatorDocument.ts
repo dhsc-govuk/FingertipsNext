@@ -3,11 +3,11 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 export const mockIndicatorDocument = (
   overrides?: Partial<IndicatorDocument>
 ): IndicatorDocument => ({
-  indicatorID: '41101',
+  indicatorID: '352',
   indicatorName:
-    'Emergency readmissions within 30 days of discharge from hospital',
+    'MOCK People with caring responsibility aged 16 years and over',
   indicatorDefinition:
-    'This indicator measures the percentage of emergency admissions',
+    'This indicator measures the percentage of people with caring responsibility aged 16 years and over',
   dataSource: 'NHS England',
   earliestDataPeriod: '2013',
   latestDataPeriod: '2023',
