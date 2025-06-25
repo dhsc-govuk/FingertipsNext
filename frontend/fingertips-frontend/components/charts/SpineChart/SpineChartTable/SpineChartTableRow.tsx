@@ -13,12 +13,12 @@ import {
   StyledGroupCell,
   StyledIndicatorTitleStickyLeftCell,
 } from './SpineChartTable.Styles';
-import { SpineChart } from '../SpineChart';
+import { SpineChart } from '../SpineChart/SpineChart';
 import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
 import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 import { TrendTag } from '@/components/molecules/TrendTag';
-import { orderStatistics } from '../SpineChart/SpineChartHelpers';
-import { SpineChartIndicatorData } from './spineChartTableHelpers';
+import { orderStatistics } from '../helpers/orderStatistics';
+import { SpineChartIndicatorData } from '../helpers/buildSpineChartIndicatorData';
 import {
   areaCodeForEngland,
   englandAreaString,

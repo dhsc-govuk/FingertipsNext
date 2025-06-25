@@ -5,7 +5,7 @@ import {
   BenchmarkOutcome,
 } from '@/generated-sources/ft-api-client';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { SpineChartProps } from '.';
+import { SpineChartProps } from '../SpineChart/SpineChart';
 import {
   areaCodeForEngland,
   englandAreaString,

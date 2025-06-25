@@ -2,7 +2,7 @@ import {
   IndicatorPolarity,
   QuartileData,
 } from '@/generated-sources/ft-api-client';
-import { SpineChart } from '.';
+import { SpineChart } from './SpineChart';
 import { render, screen } from '@testing-library/react';
 
 import {

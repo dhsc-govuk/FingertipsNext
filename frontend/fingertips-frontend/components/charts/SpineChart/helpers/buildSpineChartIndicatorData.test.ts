@@ -2,7 +2,7 @@ import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import {
   buildSpineChartIndicatorData,
   getHealthDataForArea,
-} from './spineChartTableHelpers';
+} from './buildSpineChartIndicatorData';
 import {
   mockSpineHealthDataForArea,
   mockSpineIndicatorData,
@@ -11,7 +11,7 @@ import {
   mockSpineIndicatorWithHealthDataWithGroup,
   mockSpineIndicatorWithNoHealthData,
   mockSpineQuartileData,
-} from '@/components/organisms/SpineChartTable/spineChartMockTestData';
+} from '@/components/charts/SpineChart/SpineChartTable/spineChartMockTestData';
 
 describe('spineChartTableHelpers tests', () => {
   const mockAreaHealthData: HealthDataForArea[] = [mockSpineHealthDataForArea];

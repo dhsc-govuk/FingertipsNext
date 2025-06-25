@@ -1,5 +1,5 @@
 import Highcharts from 'highcharts';
-import { SpineChartProps } from '.';
+import { SpineChartProps } from '../SpineChart/SpineChart';
 import { generateSeriesData } from './generateSeriesData';
 
 export function generateChartOptions(props: Readonly<SpineChartProps>) {

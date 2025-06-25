@@ -1,4 +1,4 @@
-import { SpineChartLegendTypes } from '@/components/organisms/SpineChartLegend/SpineChartLegend.types';
+import { SpineChartLegendTypes } from '@/components/charts/SpineChart/SpineChartLegend/SpineChartLegend.types';
 
 export const SpineChartLegendLine = () => (
   <svg width="1em" height="1em" viewBox="0 0 20 20">

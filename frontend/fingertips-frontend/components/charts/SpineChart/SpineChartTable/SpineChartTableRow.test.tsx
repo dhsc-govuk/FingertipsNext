@@ -6,9 +6,9 @@ import {
   HealthDataForArea,
   HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
-import { SpineChartIndicatorData } from './spineChartTableHelpers';
+import { SpineChartIndicatorData } from '../helpers/buildSpineChartIndicatorData';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
-import { mockSpineIndicatorData } from '@/components/organisms/SpineChartTable/spineChartMockTestData';
+import { mockSpineIndicatorData } from '@/components/charts/SpineChart/SpineChartTable/spineChartMockTestData';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 
