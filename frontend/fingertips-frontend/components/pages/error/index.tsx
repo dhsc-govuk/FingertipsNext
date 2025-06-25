@@ -2,15 +2,8 @@
 
 import { H1, Paragraph } from 'govuk-react';
 import { useEffect } from 'react';
-import { useSearchState } from '@/context/SearchStateContext';
 
 export function ErrorPage() {
-  const { setSearchState } = useSearchState();
-
-  useEffect(() => {
-    setSearchState({});
-  }, [setSearchState]);
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

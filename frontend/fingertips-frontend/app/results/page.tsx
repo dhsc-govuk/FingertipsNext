@@ -97,7 +97,6 @@ export default async function Page(
         }}
         isEnglandSelectedAsGroup={isEnglandSelectedAsGroup}
         selectedAreasData={selectedAreasData}
-        searchState={stateManager.getSearchState()}
         currentDate={new Date()}
       />
     );

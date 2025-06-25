@@ -5,7 +5,7 @@ import { Button, LabelText, SectionBreak } from 'govuk-react';
 import { SearchStateManager } from '@/lib/searchStateManager';
 import { useRouter } from 'next/navigation';
 import { useLoadingState } from '@/context/LoaderContext';
-import { useSearchState } from '@/context/SearchStateContext';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
 interface SelectedIndicatorsPanelProps {
   selectedIndicatorsData: IndicatorDocument[];
@@ -33,8 +33,7 @@ export function SelectedIndicatorsPanel({
 }: Readonly<SelectedIndicatorsPanelProps>) {
   const { replace } = useRouter();
   const { setIsLoading } = useLoadingState();
-  const { getSearchState } = useSearchState();
-  const searchState = getSearchState();
+  const searchState = useSearchStateParams();
 
   const stateManager = SearchStateManager.initialise(searchState);
 

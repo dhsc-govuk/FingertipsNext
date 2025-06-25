@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react';
 import { ChartPageWrapper } from '.';
 import { SearchStateParams, SearchParams } from '@/lib/searchStateManager';
 import { LoaderContext } from '@/context/LoaderContext';
-import { SearchStateContext } from '@/context/SearchStateContext';
 import { userEvent, UserEvent } from '@testing-library/user-event';
 
 vi.mock('next/navigation', async () => {
@@ -26,16 +25,6 @@ vi.mock('@/context/LoaderContext', () => {
   };
 });
 
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: vi.fn(),
-  setSearchState: vi.fn(),
-};
-vi.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
-
 const ChildComponent = () => (
   <div data-testid="some-child-component">Child component</div>
 );
@@ -44,11 +33,14 @@ const mockSearch = 'test';
 const mockIndicator = ['108'];
 const mockAreas = ['E12000001', 'E12000003'];
 
-const searchState: SearchStateParams = {
+const mockSearchState: SearchStateParams = {
   [SearchParams.SearchedIndicator]: mockSearch,
   [SearchParams.IndicatorsSelected]: mockIndicator,
   [SearchParams.AreasSelected]: mockAreas,
 };
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockSearchState,
+}));
 
 describe('ChartPageWrapper', () => {
   afterEach(() => {
@@ -59,7 +51,7 @@ describe('ChartPageWrapper', () => {
 
   const renderWrapper = () => {
     return render(
-      <ChartPageWrapper searchState={searchState}>
+      <ChartPageWrapper>
         <ChildComponent />
       </ChartPageWrapper>
     );

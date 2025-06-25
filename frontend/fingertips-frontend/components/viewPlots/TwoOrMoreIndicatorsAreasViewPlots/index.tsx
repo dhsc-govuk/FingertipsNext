@@ -127,10 +127,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
 
   return (
     <section data-testid="twoOrMoreIndicatorsAreasViewPlot-component">
-      <BenchmarkSelectArea
-        availableAreas={availableAreasForBenchmarking}
-        benchmarkAreaSelectedKey={SearchParams.BenchmarkAreaSelected}
-      />
+      <BenchmarkSelectArea availableAreas={availableAreasForBenchmarking} />
       {shouldShowSpineChart(
         areaCodes,
         spineChartIndicatorData,
