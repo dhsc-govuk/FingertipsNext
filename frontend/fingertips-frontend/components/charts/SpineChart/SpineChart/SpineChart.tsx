@@ -5,7 +5,7 @@ import {
   BenchmarkOutcome,
   QuartileData,
 } from '@/generated-sources/ft-api-client';
-import { generateChartOptions } from './SpineChartOptions';
+import { generateChartOptions } from '../helpers/generateChartOptions';
 
 export interface SpineChartProps {
   name: string;

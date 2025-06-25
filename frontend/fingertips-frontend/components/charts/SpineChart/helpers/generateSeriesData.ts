@@ -6,8 +6,8 @@ import {
 import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { SpineChartProps } from '.';
-import { orderStatistics } from './SpineChartHelpers';
+import { SpineChartProps } from '../SpineChart/SpineChart';
+import { orderStatistics } from './orderStatistics';
 import { formatBarHover, formatSymbolHover } from './hoverFormatters';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 

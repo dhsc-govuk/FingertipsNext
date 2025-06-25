@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import { SpineChartLegendItem } from '@/components/organisms/SpineChartLegend/SpineChartLegendItem';
-import { SpineChartLegendTypes } from '@/components/organisms/SpineChartLegend/SpineChartLegend.types';
+import { SpineChartLegendItem } from '@/components/charts/SpineChart/SpineChartLegend/SpineChartLegendItem';
+import { SpineChartLegendTypes } from '@/components/charts/SpineChart/SpineChartLegend/SpineChartLegend.types';
 import React, { FC } from 'react';
 import { BenchmarkLegendsToShow } from '@/components/organisms/BenchmarkLegend/benchmarkLegend.types';
-import { SpineChartQuartilesInfoContainer } from '@/components/organisms/SpineChart/SpineChartQuartilesInfo';
+import { SpineChartQuartilesInfoContainer } from '@/components/charts/SpineChart/SpineChart/SpineChartQuartilesInfo';
 import {
   areaCodeForEngland,
   englandAreaString,

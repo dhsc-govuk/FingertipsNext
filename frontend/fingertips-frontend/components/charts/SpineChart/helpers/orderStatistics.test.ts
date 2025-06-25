@@ -1,5 +1,5 @@
 import { IndicatorPolarity } from '@/generated-sources/ft-api-client';
-import { orderStatistics } from './SpineChartHelpers';
+import { orderStatistics } from './orderStatistics';
 
 describe('Spine chart helper', () => {
   it('empty stats should return zeros', () => {

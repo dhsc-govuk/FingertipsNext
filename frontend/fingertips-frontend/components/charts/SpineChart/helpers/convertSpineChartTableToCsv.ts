@@ -1,7 +1,7 @@
-import { SpineChartIndicatorData } from '@/components/organisms/SpineChartTable/spineChartTableHelpers';
+import { SpineChartIndicatorData } from '@/components/charts/SpineChart/helpers/buildSpineChartIndicatorData';
 import { CsvData, CsvRow } from '@/lib/downloadHelpers/convertToCsv';
 import { CsvHeader } from '@/components/molecules/Export/export.types';
-import { orderStatistics } from '@/components/organisms/SpineChart/SpineChartHelpers';
+import { orderStatistics } from '@/components/charts/SpineChart/helpers/orderStatistics';
 
 export const convertSpineChartTableToCsv = (
   indicatorData: SpineChartIndicatorData[]

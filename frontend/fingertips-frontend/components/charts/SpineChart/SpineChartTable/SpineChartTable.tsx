@@ -8,11 +8,11 @@ import {
   StyledTableMultipleAreas,
   StyledTableOneArea,
 } from './SpineChartTable.Styles';
-import { SpineChartLegend } from '@/components/organisms/SpineChartLegend/SpineChartLegend';
+import { SpineChartLegend } from '@/components/charts/SpineChart/SpineChartLegend/SpineChartLegend';
 import { getMethodsAndOutcomes } from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
-import { SpineChartIndicatorData } from './spineChartTableHelpers';
+import { SpineChartIndicatorData } from '../helpers/buildSpineChartIndicatorData';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
-import { convertSpineChartTableToCsv } from '@/components/organisms/SpineChartTable/convertSpineChartTableToCsv';
+import { convertSpineChartTableToCsv } from '@/components/charts/SpineChart/helpers/convertSpineChartTableToCsv';
 import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
 import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
 import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';

@@ -4,8 +4,8 @@ import {
   mockSpineHealthDataForArea,
   mockSpineIndicatorData,
   mockSpineQuartileData,
-} from '@/components/organisms/SpineChartTable/spineChartMockTestData';
-import { convertSpineChartTableToCsv } from '@/components/organisms/SpineChartTable/convertSpineChartTableToCsv';
+} from '@/components/charts/SpineChart/SpineChartTable/spineChartMockTestData';
+import { convertSpineChartTableToCsv } from '@/components/charts/SpineChart/helpers/convertSpineChartTableToCsv';
 import { CsvHeader } from '@/components/molecules/Export/export.types';
 
 describe('convertSpineChartTableToCsv', () => {

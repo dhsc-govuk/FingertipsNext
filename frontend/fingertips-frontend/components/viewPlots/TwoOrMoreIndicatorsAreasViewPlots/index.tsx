@@ -8,13 +8,13 @@ import {
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { SpineChartTable } from '@/components/organisms/SpineChartTable';
+import { SpineChartTable } from '../../charts/SpineChart/SpineChartTable/SpineChartTable';
 import { SearchParams } from '@/lib/searchStateManager';
 import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmapUtil';
 import {
   buildSpineChartIndicatorData,
   SpineChartIndicatorData,
-} from '@/components/organisms/SpineChartTable/spineChartTableHelpers';
+} from '@/components/charts/SpineChart/helpers/buildSpineChartIndicatorData';
 import {
   determineAreaCodes,
   determineAreasForBenchmarking,

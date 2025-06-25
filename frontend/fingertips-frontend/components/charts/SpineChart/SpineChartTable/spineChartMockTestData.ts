@@ -1,4 +1,4 @@
-import { SpineChartIndicatorData } from '@/components/organisms/SpineChartTable/spineChartTableHelpers';
+import { SpineChartIndicatorData } from '@/components/charts/SpineChart/helpers/buildSpineChartIndicatorData';
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,

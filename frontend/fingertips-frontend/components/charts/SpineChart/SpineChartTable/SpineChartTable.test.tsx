@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
-import { SpineChartTable } from './index';
+import { SpineChartTable } from './SpineChartTable';
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,

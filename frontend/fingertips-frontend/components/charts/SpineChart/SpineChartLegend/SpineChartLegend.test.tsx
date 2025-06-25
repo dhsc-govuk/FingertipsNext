@@ -11,9 +11,14 @@ import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 vi.mock('@/components/organisms/BenchmarkLegend', () => ({
   BenchmarkLegends: () => <div data-testid="benchmark-legends" />,
 }));
-vi.mock('@/components/organisms/SpineChart/SpineChartQuartilesInfo', () => ({
-  SpineChartQuartilesInfoContainer: () => <div data-testid="quartiles-info" />,
-}));
+vi.mock(
+  '@/components/charts/SpineChart/SpineChart/SpineChartQuartilesInfo',
+  () => ({
+    SpineChartQuartilesInfoContainer: () => (
+      <div data-testid="quartiles-info" />
+    ),
+  })
+);
 vi.mock('./SpineChartLegendItem', () => ({
   SpineChartLegendItem: ({
     children,
