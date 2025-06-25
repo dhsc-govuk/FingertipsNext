@@ -1,17 +1,17 @@
 import { GET } from './route';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { SystemApi } from '@/generated-sources/ft-api-client';
-import { mockDeep } from 'jest-mock-extended';
+import { mockDeep } from 'vitest-mock-extended';
 
-jest.mock('@/lib/apiClient/apiClientFactory');
+vi.mock('@/lib/apiClient/apiClientFactory');
 
 const mockSystemApi = mockDeep<SystemApi>();
-const mockApiClientFactory = jest.mocked(ApiClientFactory);
+const mockApiClientFactory = vi.mocked(ApiClientFactory);
 mockApiClientFactory.getSystemApiClient.mockReturnValue(mockSystemApi);
 
-jest.mock('next/server', () => ({
+vi.mock('next/server', () => ({
   NextResponse: {
-    json: jest.fn((data, options) => ({
+    json: vi.fn((data, options) => ({
       json: async () => data,
       status: options.status,
     })),
@@ -20,9 +20,9 @@ jest.mock('next/server', () => ({
 
 describe('Healthcheck API', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
-    jest.spyOn(console, 'log').mockImplementation(() => {});
-    jest.spyOn(console, 'error').mockImplementation(() => {});
+    vi.clearAllMocks();
+    vi.spyOn(console, 'log').mockImplementation(() => {});
+    vi.spyOn(console, 'error').mockImplementation(() => {});
   });
 
   it('should return 200 when API is healthy', async () => {

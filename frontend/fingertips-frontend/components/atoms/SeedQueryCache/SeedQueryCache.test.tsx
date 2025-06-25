@@ -4,15 +4,16 @@ import { useQueryClient } from '@tanstack/react-query';
 import { SeedData } from '@/components/atoms/SeedQueryCache/seedQueryCache.types';
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
+import { Mock } from 'vitest';
 
-jest.mock('@tanstack/react-query', () => ({
-  useQueryClient: jest.fn(),
+vi.mock('@tanstack/react-query', () => ({
+  useQueryClient: vi.fn(),
 }));
-const setQueryDataMock = jest.fn();
+const setQueryDataMock = vi.fn();
 
 beforeEach(() => {
   setQueryDataMock.mockClear();
-  (useQueryClient as jest.Mock).mockReturnValue({
+  (useQueryClient as Mock).mockReturnValue({
     setQueryData: setQueryDataMock,
   });
 });
@@ -29,7 +30,7 @@ describe('SeedQueryCache', () => {
 
   afterEach(() => {
     process.env = originalEnv;
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   it('calls setQueryData for each seeded entry', () => {

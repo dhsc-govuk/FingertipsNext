@@ -20,25 +20,25 @@ import {
 import { compareAreasTableRequestParams } from '@/components/charts/CompareAreasTable/helpers/compareAreasTableRequestParams';
 
 const mockPath = 'some-mock-path';
-const mockReplace = jest.fn();
-jest.mock('next/navigation', () => {
-  const originalModule = jest.requireActual('next/navigation');
+const mockReplace = vi.fn();
+vi.mock('next/navigation', async () => {
+  const originalModule = await vi.importActual('next/navigation');
 
   return {
     ...originalModule,
     usePathname: () => mockPath,
     useSearchParams: () => {},
-    useRouter: jest.fn().mockImplementation(() => ({
+    useRouter: vi.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
   };
 });
 
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: jest.fn(),
-  setIsLoading: jest.fn(),
+  getIsLoading: vi.fn(),
+  setIsLoading: vi.fn(),
 };
-jest.mock('@/context/LoaderContext', () => {
+vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
   };
@@ -101,8 +101,8 @@ const mockSearchState = {
   [SearchParams.IndicatorsSelected]: [testMetaData.indicatorID],
   [SearchParams.AreasSelected]: mockAreas,
 };
-const mockUseSearchStateParams = jest.fn();
-jest.mock('@/components/hooks/useSearchStateParams', () => ({
+const mockUseSearchStateParams = vi.fn();
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
   useSearchStateParams: () => mockUseSearchStateParams(),
 }));
 
@@ -164,11 +164,11 @@ const testRender = async (
 
 describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   afterAll(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   it('should render the benchmark select area drop down for the view', async () => {

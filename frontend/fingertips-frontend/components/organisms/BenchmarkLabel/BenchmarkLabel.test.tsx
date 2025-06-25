@@ -176,7 +176,9 @@ describe('Testing the BenchmarkLabel Component', () => {
   test('renders with default props', () => {
     const { getByText, container } = render(<BenchmarkLabel />);
     expect(getByText('Not compared')).toBeInTheDocument();
-    expect(container.firstChild).toHaveStyle('background-color:transparent');
+    expect(container.firstChild).toHaveStyle(
+      'background-color:rgba(0, 0, 0, 0)'
+    );
     expect(container.firstChild).toHaveStyle('color:#0B0C0C');
   });
 

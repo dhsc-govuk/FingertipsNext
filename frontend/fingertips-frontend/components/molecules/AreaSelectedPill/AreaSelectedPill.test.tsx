@@ -5,7 +5,7 @@ import { mockAreaDataForNHSRegion } from '@/mock/data/areaData';
 import { eastEnglandNHSRegion } from '@/mock/data/areas/nhsRegionsAreas';
 
 describe('AreaSelectedPill', () => {
-  const mockRemoveFilter = jest.fn();
+  const mockRemoveFilter = vi.fn();
   const area = mockAreaDataForNHSRegion[eastEnglandNHSRegion.code];
 
   beforeEach(() => {

@@ -3,20 +3,18 @@ import { render, screen } from '@testing-library/react';
 import { LineChartOverTime } from '@/components/charts/LineChartOverTime/LineChartOverTime';
 import { useLineChartOverTimeData } from '@/components/charts/LineChartOverTime/hooks/useLineChartOverTimeData';
 import { lineChartOverTimeData } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeData';
+import { MockedFunction } from 'vitest';
 
-jest.mock(
-  '@/components/charts/LineChartOverTime/hooks/useLineChartOverTimeData'
-);
-jest.mock('@/components/organisms/LineChart', () => ({
+vi.mock('@/components/charts/LineChartOverTime/hooks/useLineChartOverTimeData');
+vi.mock('@/components/organisms/LineChart', () => ({
   LineChart: ({ title }: { title: string }) => (
     <div data-testid="mock-line-chart">{title}</div>
   ),
 }));
 
-const mockUseLineChartOverTimeData =
-  useLineChartOverTimeData as jest.MockedFunction<
-    typeof useLineChartOverTimeData
-  >;
+const mockUseLineChartOverTimeData = useLineChartOverTimeData as MockedFunction<
+  typeof useLineChartOverTimeData
+>;
 
 describe('LineChartOverTime', () => {
   it('returns null when useLineChartOverTimeData returns null', () => {

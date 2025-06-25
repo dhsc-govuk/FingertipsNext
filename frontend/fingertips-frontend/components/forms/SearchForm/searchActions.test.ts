@@ -1,11 +1,10 @@
-import { expect } from '@jest/globals';
 import {
   searchIndicator,
   SearchFormState,
   getSearchSuggestions,
   getAreaDocument,
 } from './searchActions';
-import { mockDeep } from 'jest-mock-extended';
+import { mockDeep } from 'vitest-mock-extended';
 import { redirect, RedirectType } from 'next/navigation';
 import { SearchParams } from '@/lib/searchStateManager';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
@@ -13,11 +12,11 @@ import { AreaDocument } from '@/lib/search/searchTypes';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { IndicatorSearchFormState } from '@/components/forms/IndicatorSearchForm/indicatorSearchActions';
 
-jest.mock('next/navigation');
-const redirectMock = jest.mocked(redirect);
+vi.mock('next/navigation');
+const redirectMock = vi.mocked(redirect);
 
 beforeEach(() => {
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
 
 function* iteratorFromList<T>(list: T[]): IterableIterator<T> {
@@ -28,7 +27,7 @@ function* iteratorFromList<T>(list: T[]): IterableIterator<T> {
 
 const getMockFormData = (formData: Record<string, string>) =>
   mockDeep<FormData>({
-    entries: jest.fn().mockImplementation(() => {
+    entries: vi.fn().mockImplementation(() => {
       const formDataEntries = Object.entries(formData);
 
       return iteratorFromList(formDataEntries);
@@ -184,10 +183,10 @@ describe('getAreaDocument', () => {
   };
 
   it('should return the area document when getAreaDocument succeeds', async () => {
-    const getAreaDocumentMock = jest.fn().mockResolvedValue(mockAreaDocument);
-    jest.spyOn(SearchServiceFactory, 'getAreaSearchService').mockReturnValue({
+    const getAreaDocumentMock = vi.fn().mockResolvedValue(mockAreaDocument);
+    vi.spyOn(SearchServiceFactory, 'getAreaSearchService').mockReturnValue({
       getAreaDocument: getAreaDocumentMock,
-      getAreaSuggestions: jest.fn(),
+      getAreaSuggestions: vi.fn(),
     });
 
     const area = await getAreaDocument('123');
@@ -196,17 +195,17 @@ describe('getAreaDocument', () => {
   });
 
   it('returns undefined when getAreaDocument throws an exception', async () => {
-    const getAreaDocumentMock = jest
+    const getAreaDocumentMock = vi
       .fn()
       .mockImplementation((areaCode: string) => {
         throw new Error(`areaCode : ${areaCode} not found`);
       });
-    jest.spyOn(SearchServiceFactory, 'getAreaSearchService').mockReturnValue({
+    vi.spyOn(SearchServiceFactory, 'getAreaSearchService').mockReturnValue({
       getAreaDocument: getAreaDocumentMock,
-      getAreaSuggestions: jest.fn(),
+      getAreaSuggestions: vi.fn(),
     });
 
-    const spyLog = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const spyLog = vi.spyOn(console, 'error').mockImplementation(() => {});
 
     const area = await getAreaDocument('123');
     expect(area).toBeUndefined();

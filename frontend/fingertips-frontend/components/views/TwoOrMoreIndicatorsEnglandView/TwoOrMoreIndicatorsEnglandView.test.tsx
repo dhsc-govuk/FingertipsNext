@@ -1,5 +1,5 @@
 /**
- * @jest-environment node
+ * @vitest-environment node
  */
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
@@ -9,7 +9,7 @@ import {
   IndicatorsApi,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
-import { mockDeep } from 'jest-mock-extended';
+import { mockDeep } from 'vitest-mock-extended';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import TwoOrMoreIndicatorsEnglandView from '@/components/views/TwoOrMoreIndicatorsEnglandView/index';
 import { healthDataPoint } from '@/lib/mocks';

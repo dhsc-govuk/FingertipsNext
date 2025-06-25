@@ -4,18 +4,19 @@ import { lineChartOverTimeRequestParams } from '@/components/charts/LineChartOve
 import { renderHook } from '@testing-library/react';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { GetHealthDataForAnIndicatorRequest } from '@/generated-sources/ft-api-client';
+import { MockedFunction } from 'vitest';
 
-jest.mock('@/components/hooks/useSearchStateParams');
-jest.mock(
+vi.mock('@/components/hooks/useSearchStateParams');
+vi.mock(
   '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeRequestParams'
 );
 
-jest.mock('@/components/hooks/useSearchStateParams');
-const mockUseSearchStateParams = useSearchStateParams as jest.MockedFunction<
+vi.mock('@/components/hooks/useSearchStateParams');
+const mockUseSearchStateParams = useSearchStateParams as MockedFunction<
   typeof useSearchStateParams
 >;
 const mockLineChartOverTimeRequestParams =
-  lineChartOverTimeRequestParams as jest.MockedFunction<
+  lineChartOverTimeRequestParams as MockedFunction<
     typeof lineChartOverTimeRequestParams
   >;
 
