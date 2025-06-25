@@ -495,7 +495,7 @@ describe('Line chart table suite', () => {
   };
 
   describe('LineChartTable when given quintiles data', () => {
-    it('should not render the benchmark column', () => {
+    it('should render the benchmark column', () => {
       render(
         <LineChartTable
           title={'Title'}
@@ -506,8 +506,8 @@ describe('Line chart table suite', () => {
         />
       );
 
-      expect(screen.queryByTestId(`england-subheader`)).not.toBeInTheDocument();
-      expect(screen.queryByTestId('england-header')).not.toBeInTheDocument();
+      expect(screen.queryByTestId(`england-subheader`)).toBeInTheDocument();
+      expect(screen.queryByTestId('england-header')).toBeInTheDocument();
     });
   });
 
