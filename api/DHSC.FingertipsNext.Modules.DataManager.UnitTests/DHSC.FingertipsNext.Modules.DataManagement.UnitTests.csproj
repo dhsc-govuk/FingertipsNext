@@ -26,4 +26,16 @@
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.DataManager\DHSC.FingertipsNext.Modules.DataManagement.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Services\Validation\CSVs\Invalid.csv">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Services\Validation\CSVs\Valid.csv">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Services\Validation\CSVs\ValidHeaders.csv">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
