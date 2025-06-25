@@ -1,6 +1,6 @@
 import { Session } from 'next-auth';
 import { signOutHandler, signInHandler } from '@/lib/auth/handlers';
-import { ButtonText, InvisibleButton } from './AuthButton.styles';
+import { StyledAuthButton } from './AuthButton.styles';
 
 interface AuthButtonProps {
   session?: Session;
@@ -11,17 +11,9 @@ export function AuthButton({ session }: Readonly<AuthButtonProps>) {
 }
 
 function SignInButton() {
-  return (
-    <InvisibleButton onClick={signInHandler}>
-      <ButtonText>Sign in</ButtonText>
-    </InvisibleButton>
-  );
+  return <StyledAuthButton onClick={signInHandler}>Sign in</StyledAuthButton>;
 }
 
 function SignOutButton() {
-  return (
-    <InvisibleButton onClick={signOutHandler}>
-      <ButtonText>Sign out</ButtonText>
-    </InvisibleButton>
-  );
+  return <StyledAuthButton onClick={signOutHandler}>Sign out</StyledAuthButton>;
 }
