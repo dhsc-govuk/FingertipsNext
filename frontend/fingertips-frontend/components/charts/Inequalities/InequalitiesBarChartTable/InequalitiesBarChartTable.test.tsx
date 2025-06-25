@@ -1,3 +1,6 @@
+// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
+import { mockHighcharts } from '@/mock/utils/mockHighchartsReact';
+//
 import { InequalitiesBarChartTable } from './InequalitiesBarChartTable';
 import { render, screen } from '@testing-library/react';
 
@@ -9,6 +12,8 @@ import {
   BenchmarkOutcome,
 } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+
+mockHighcharts.mockReturnValue(() => <div />);
 
 describe('Inequalities bar chart table suite', () => {
   beforeAll(() => {
