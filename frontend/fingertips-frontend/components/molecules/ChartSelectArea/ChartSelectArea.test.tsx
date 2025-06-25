@@ -89,6 +89,7 @@ describe('ChartSelectArea', () => {
   });
 
   it('should add the selected area for the chart to the url for the provided search param', async () => {
+    const spy = vi.spyOn(window.history, 'pushState');
     const expectedPath = [
       `${mockPath}`,
       `?${SearchParams.AreaTypeSelected}=${englandAreaType.key}`,
@@ -110,9 +111,7 @@ describe('ChartSelectArea', () => {
       mockAvailableAreas[2].code
     );
 
-    expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
-      scroll: false,
-    });
+    expect(spy).toHaveBeenCalledWith(null, '', expectedPath);
   });
 
   it.each([
@@ -138,7 +137,7 @@ describe('ChartSelectArea', () => {
       expect(spy).toHaveBeenCalledWith(
         null,
         '',
-        `some-mock-path?${chartAreaSelectedKey}=${mockAvailableAreas[2].code}`
+        `some-mock-path?ats=england&gts=england&gs=E92000001&${chartAreaSelectedKey}=${mockAvailableAreas[2].code}`
       );
     }
   );
