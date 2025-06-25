@@ -77,8 +77,11 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
         DateOnly? toDate = null;
         if (toDateStr is not null)
         {
-            try { toDate = DateOnly.Parse(toDateStr, CultureInfo.InvariantCulture); }
-            catch
+            try
+            {
+                toDate = DateOnly.Parse(toDateStr, CultureInfo.InvariantCulture);
+            }
+            catch (FormatException)
             {
                 return new BadRequestObjectResult(
                     new SimpleError
@@ -92,8 +95,11 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
         DateOnly? fromDate = null;
         if (fromDateStr is not null)
         {
-            try { fromDate = DateOnly.Parse(fromDateStr, CultureInfo.InvariantCulture); }
-            catch
+            try
+            {
+                fromDate = DateOnly.Parse(fromDateStr, CultureInfo.InvariantCulture);
+            }
+            catch (FormatException)
             {
                 return new BadRequestObjectResult(
                     new SimpleError
@@ -103,7 +109,6 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
                 );
             }
         }
-
 
         if ((benchmarkRefType == BenchmarkReferenceType.SubNational) && (string.IsNullOrEmpty(ancestorCode)))
             return new BadRequestObjectResult(

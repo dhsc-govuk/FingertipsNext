@@ -74,16 +74,19 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         var excludeDisaggregatedAgeValues = !inequalities.Contains(AGE);
         var excludeDisaggregatedDeprivationValues = !inequalities.Contains(DEPRIVATION);
 
+        DateTime? toDateTime = toDate != null ? toDate.Value.ToDateTime(TimeOnly.MinValue): null;
+        DateTime? fromDateTime = fromDate != null ? fromDate.Value.ToDateTime(TimeOnly.MinValue): null;
+
         var healthMeasures = await _dbContext.PublishedHealthMeasure
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
             .Where(HealthDataPredicates.IsInAreaCodes(areaCodes))
             .Where(healthMeasure => years.Length == 0 || EF.Constant(years).Contains(healthMeasure.Year))
-            .Where(healthMeasure => fromDate != null ? healthMeasure.FromDateDimension.Date >= fromDate.Value.ToDateTime(TimeOnly.MinValue) : true)
-            .Where(healthMeasure => toDate != null ? healthMeasure.ToDateDimension.Date <= toDate.Value.ToDateTime(TimeOnly.MinValue) : true)
-            .Where(healthMeasure => excludeDisaggregatedSexValues ? healthMeasure.IsSexAggregatedOrSingle : true)
-            .Where(healthMeasure => excludeDisaggregatedAgeValues ? healthMeasure.IsAgeAggregatedOrSingle : true)
+            .Where(healthMeasure => fromDate == null || healthMeasure.FromDateDimension.Date >= fromDateTime)
+            .Where(healthMeasure => toDate == null || healthMeasure.ToDateDimension.Date <= toDateTime)
+            .Where(healthMeasure => !excludeDisaggregatedSexValues || healthMeasure.IsSexAggregatedOrSingle)
+            .Where(healthMeasure => !excludeDisaggregatedAgeValues || healthMeasure.IsAgeAggregatedOrSingle)
             .Where(healthMeasure =>
-                excludeDisaggregatedDeprivationValues ? healthMeasure.IsDeprivationAggregatedOrSingle : true)
+                !excludeDisaggregatedDeprivationValues || healthMeasure.IsDeprivationAggregatedOrSingle)
             .Include(healthMeasure => healthMeasure.AreaDimension)
             .Include(healthMeasure => healthMeasure.AgeDimension)
             .Include(healthMeasure => healthMeasure.PeriodDimension)
