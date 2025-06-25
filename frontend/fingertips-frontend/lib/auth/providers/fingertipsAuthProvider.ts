@@ -1,7 +1,11 @@
-import { Provider } from 'next-auth/providers';
-
 // FingertipsAuthProvider is a generic OIDC provider
 // with the aud and scope embedding stage added to the auth flow
+
+import { OIDCConfig } from 'next-auth/providers';
+
+export interface FingertipsProfile {
+  aud: string;
+}
 
 interface FTAProviderConfig {
   clientId: string;
@@ -23,7 +27,7 @@ export const FingertipsAuthProvider = ({
   clientId,
   clientSecret,
   issuer,
-}: FTAProviderConfig): Provider => ({
+}: FTAProviderConfig): OIDCConfig<FingertipsProfile> => ({
   id: 'fta',
   name: 'FTA',
   type: 'oidc',

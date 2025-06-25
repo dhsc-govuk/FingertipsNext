@@ -1,7 +1,6 @@
 import Credentials from 'next-auth/providers/credentials';
-import { Provider } from 'next-auth/providers';
 
-export const MockAuthProvider: Provider = Credentials({
+export const MockAuthProvider = Credentials({
   id: 'password',
   name: 'password',
   credentials: { password: { label: 'Password', type: 'password' } },

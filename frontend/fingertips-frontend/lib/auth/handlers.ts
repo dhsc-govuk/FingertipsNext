@@ -1,23 +1,19 @@
 'use server';
 
 import { signIn, signOut } from '@/lib/auth';
-import { AuthConfigFactory } from '@/lib/auth/config';
+import { AuthProvidersFactory } from '@/lib/auth/config';
 
 export async function signInHandler() {
-  const provider = AuthConfigFactory.getProvider();
-  if (!provider) {
+  const providers = AuthProvidersFactory.getProviders();
+  if (providers.length === 0) {
     return;
   }
 
-  if (provider === 'Mock') {
-    return await signIn('credentials');
+  if (providers.length > 1) {
+    return await signIn();
   }
 
-  if (provider === 'FTA') {
-    return await signIn('fta');
-  }
-
-  return await signIn();
+  return await signIn(providers[0].id as string);
 }
 
 export async function signOutHandler() {
