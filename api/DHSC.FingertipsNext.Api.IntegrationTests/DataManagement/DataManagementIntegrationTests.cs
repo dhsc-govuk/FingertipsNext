@@ -5,12 +5,13 @@ using Shouldly;
 
 namespace DHSC.FingertipsNext.Api.IntegrationTests.DataManagement;
 
-public class DataManagementIntegrationTests : IClassFixture<WebApplicationFactory<Program>>, IDisposable
+public sealed class DataManagementIntegrationTests : IClassFixture<WebApplicationFactory<Program>>, IDisposable
 {
     private const string TestDataDir = "TestData";
     private const string BlobName = "blobName";
-    private readonly HttpClient _apiClient;
     private readonly AzureStorageBlobClient _azureStorageBlobClient;
+
+    private readonly WebApplicationFactory<Program> _appFactory;
 
     public DataManagementIntegrationTests(WebApplicationFactory<Program> factory)
     {
@@ -24,21 +25,26 @@ public class DataManagementIntegrationTests : IClassFixture<WebApplicationFactor
             .Build();
 
         ArgumentNullException.ThrowIfNull(factory);
-        _apiClient = factory.CreateClient();
+
+        _appFactory = factory.WithWebHostBuilder(builder =>
+        {
+            builder.ConfigureAppConfiguration((context, configBuilder) =>
+            {
+                Env.Load(string.Empty, new LoadOptions(true, true, false));
+
+                configBuilder.AddConfiguration(configuration);
+            });
+
+        });
+
 
         _azureStorageBlobClient = new AzureStorageBlobClient(configuration);
     }
 
     public void Dispose()
     {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-
-    protected virtual void Dispose(bool disposing)
-    {
         _azureStorageBlobClient.DeleteBlob(BlobName);
-        _apiClient.Dispose();
+        _appFactory?.Dispose();
     }
 
     [Fact]
@@ -50,8 +56,10 @@ public class DataManagementIntegrationTests : IClassFixture<WebApplicationFactor
         // Temporarily upload the file ourselves, until the API is uploading files to Azure storage.
         await _azureStorageBlobClient.UploadBlob(BlobName, blobContentFilePath);
 
+        var client = _appFactory.CreateClient();
+
         // Act
-        var response = await _apiClient.GetAsync(new Uri("/data_management"));
+        var response = await client.GetAsync(new Uri("/data_management", UriKind.Relative));
 
         // Assert
         response.EnsureSuccessStatusCode();

@@ -1,0 +1,66 @@
+user_info:
+  get:
+    security:
+      - bearerAuth: [] 
+    tags:
+      - user
+    summary: Get User Info
+    description: Get info for logged in user
+    operationId: getUserInfo
+    responses:
+      "200":
+        description: The information about the logged in user
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                externalId:
+                  type: string
+                  description: The external ID provided by the JWT authority.
+      "400":
+        $ref: "../responses.yaml#/UserBadRequest"
+      "401":
+        $ref: "../responses.yaml#/Unauthorized"
+      "500":
+        $ref: "../responses.yaml#/InternalServerError"
+
+indicator_permissions:
+  head:
+    parameters:
+      - in: path
+        name: userId
+        schema:
+          type: integer
+        required: true
+        description: ID of the indicator to query against
+    security:
+      - bearerAuth: [] 
+    tags:
+      - user
+    summary: Check Indicator Permissions
+    description: Queries against a specified indicator id. Return success if the user has administrative permission for the indicator. 403 if the user does not.
+    operationId: checkIndicatorPermissions
+    responses:
+      "200":
+        description: The user has admin permission for the specified indicator.
+      "400":
+        $ref: "../responses.yaml#/UserBadRequest"
+      "403":
+        description: The user does not have administration permission for the specified indicator.
+      "401":
+        $ref: "../responses.yaml#/Unauthorized"
+      "500":
+        $ref: "../responses.yaml#/InternalServerError"
+UserInfoType:
+  title: User Info Type
+  type: object
+  description: Representation of the currently logged in user
+  required:
+    - externalId
+  properties:
+    externalId:
+      type: string
+      example: "ABC123"
+      description: The 
+   

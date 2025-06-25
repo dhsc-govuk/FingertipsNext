@@ -1,6 +1,6 @@
-﻿using System.Security.Authentication;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using DHSC.FingertipsNext.Modules.Common.Auth;
+using DHSC.FingertipsNext.Modules.Common.Schemas;
 using DHSC.FingertipsNext.Modules.UserAuth.Schemas;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +11,7 @@ namespace DHSC.FingertipsNext.Modules.UserAuth.Controllers.V1
     [Route("user")]
     [Authorize]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>")]
-    public class UserController(IAuthorizationService authService) : ControllerBase
+    public class UserController() : ControllerBase
     {
         [HttpGet]
         [Route("info")]
@@ -21,7 +21,7 @@ namespace DHSC.FingertipsNext.Modules.UserAuth.Controllers.V1
 
             if (nameClaim == null)
             {
-                throw new AuthenticationException("User missing name claim.");
+                return new BadRequestObjectResult(new SimpleError() { Message = $"Missing {ClaimTypes.NameIdentifier} claim." });
             }
 
             var currentUser = new UserInfo() { ExternalId = nameClaim.Value };
@@ -31,15 +31,9 @@ namespace DHSC.FingertipsNext.Modules.UserAuth.Controllers.V1
 
         [HttpHead]
         [Route("indicator/{indicatorId}")]
-        public async Task<IActionResult> HasIndicatorPermission(string indicatorId)
+        [Authorize(Policy = CanAdministerIndicatorRequirement.Policy)]
+        public IActionResult HasIndicatorPermission(string indicatorId)
         {
-            var authResult = await authService.AuthorizeAsync(User, indicatorId, CanAdministerIndicatorRequirement.Policy);
-
-            if (!authResult.Succeeded)
-            {
-                return new ForbidResult();
-            }
-
             return new OkResult();
         }
     }

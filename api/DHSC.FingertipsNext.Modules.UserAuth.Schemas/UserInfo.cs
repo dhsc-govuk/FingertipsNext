@@ -10,6 +10,6 @@ public class UserInfo
     /// <summary>
     /// Externally provided user id.
     /// </summary>
-    [JsonPropertyName("sub")]
+    [JsonPropertyName("externalId")]
     public required string ExternalId { get; init; }
 }

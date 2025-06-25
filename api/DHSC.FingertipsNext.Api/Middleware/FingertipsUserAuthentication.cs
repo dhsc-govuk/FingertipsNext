@@ -15,7 +15,7 @@ namespace DHSC.FingertipsNext.Api.Middleware
                 .EnableTokenAcquisitionToCallDownstreamApi()
                 .AddInMemoryTokenCaches();
 
-            collection.AddTransient<IAuthorizationHandler, IndicatorAdministrationAuthHandler>();
+            collection.AddTransient<IAuthorizationHandler, ShouldBeAnAdministratorRequirementHandler>();
 
             collection.AddAuthorization(options =>
             {

@@ -3,15 +3,15 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace DHSC.FingertipsNext.Api.Services
 {
-    internal sealed class IndicatorAdministrationAuthHandler(IConfiguration config) : AuthorizationHandler<CanAdministerIndicatorRequirement, string>
+    internal sealed class ShouldBeAnAdministratorRequirementHandler(IConfiguration config) : AuthorizationHandler<CanAdministerIndicatorRequirement>
     {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, CanAdministerIndicatorRequirement requirement, string indicatorId)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, CanAdministerIndicatorRequirement requirement)
         {
             var adminRole = config["AdminRole"];
 
             if (!string.IsNullOrWhiteSpace(adminRole))
             {
-                if (context?.User.IsInRole(adminRole) ?? false)
+                if (context.User.IsInRole(adminRole))
                 {
                     context.Succeed(requirement);
                 }
