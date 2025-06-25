@@ -31,8 +31,8 @@ public interface IIndicatorsService
         IEnumerable<int> years,
         IEnumerable<string> inequalities,
         bool latestOnly = false,
-        string? fromDate = null,
-        string? toDate = null);
+        DateOnly? fromDate = null,
+        DateOnly? toDate = null);
 
     /// <summary>
     ///     Get quartile data for set of public health indicators. Returns data for all

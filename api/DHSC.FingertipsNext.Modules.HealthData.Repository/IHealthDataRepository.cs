@@ -8,16 +8,16 @@ public interface IHealthDataRepository
                                                                  string[] areaCodes,
                                                                  int[] years,
                                                                  string[] inequalities,
-                                                                 string? fromDate = null,
-                                                                 string? toDate = null);
+                                                                 DateOnly? fromDate = null,
+                                                                 DateOnly? toDate = null);
 
     Task<IEnumerable<DenormalisedHealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync(int indicatorId,
                                                                  string[] areaCodes,
                                                                  int[] years,
                                                                  string areaTypeKey,
                                                                  string benchmarkAreaCode,
-                                                                 string? fromDate = null,
-                                                                 string? toDate = null);
+                                                                 DateOnly? fromDate = null,
+                                                                 DateOnly? toDate = null);
 
     Task<IndicatorDimensionModel?> GetIndicatorDimensionAsync(int indicatorId, string[] areaCodes);
     Task<IEnumerable<QuartileDataModel>> GetQuartileDataAsync(IEnumerable<int> indicatorIds, string areaCode, string areaTypeKey, string ancestorCode, string benchmarkAreaCode);

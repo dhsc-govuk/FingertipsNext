@@ -68,21 +68,18 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
     }
 
     public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataAsync(int indicatorId, string[] areaCodes,
-        int[] years, string[] inequalities, string? fromDate = null, string? toDate = null)
+        int[] years, string[] inequalities, DateOnly? fromDate = null, DateOnly? toDate = null)
     {
         var excludeDisaggregatedSexValues = !inequalities.Contains(SEX);
         var excludeDisaggregatedAgeValues = !inequalities.Contains(AGE);
         var excludeDisaggregatedDeprivationValues = !inequalities.Contains(DEPRIVATION);
 
-        DateTime? parsedFromDate = fromDate != null ? DateTime.Parse(fromDate, CultureInfo.InvariantCulture) : (DateTime?)null;
-        DateTime? parsedToDate = toDate != null ? DateTime.Parse(toDate, CultureInfo.InvariantCulture) : (DateTime?)null;
-
         var healthMeasures = await _dbContext.PublishedHealthMeasure
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
             .Where(HealthDataPredicates.IsInAreaCodes(areaCodes))
             .Where(healthMeasure => years.Length == 0 || EF.Constant(years).Contains(healthMeasure.Year))
-            .Where(healthMeasure => parsedFromDate != null ? healthMeasure.FromDateDimension.Date >= parsedFromDate : true)
-            .Where(healthMeasure => parsedToDate != null ? healthMeasure.ToDateDimension.Date <= parsedToDate : true)
+            .Where(healthMeasure => fromDate != null ? healthMeasure.FromDateDimension.Date >= fromDate.Value.ToDateTime(TimeOnly.MinValue) : true)
+            .Where(healthMeasure => toDate != null ? healthMeasure.ToDateDimension.Date <= toDate.Value.ToDateTime(TimeOnly.MinValue) : true)
             .Where(healthMeasure => excludeDisaggregatedSexValues ? healthMeasure.IsSexAggregatedOrSingle : true)
             .Where(healthMeasure => excludeDisaggregatedAgeValues ? healthMeasure.IsAgeAggregatedOrSingle : true)
             .Where(healthMeasure =>
@@ -123,8 +120,8 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         int[] years,
         string areaTypeKey,
         string benchmarkAreaCode,
-        string? fromDate = null,
-        string? toDate = null)
+        DateOnly? fromDate = null,
+        DateOnly? toDate = null)
     {
         SqlParameter areasOfInterest;
         SqlParameter yearsOfInterest;
@@ -156,8 +153,9 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         var areaTypeOfInterest = new SqlParameter("@RequestedAreaType", areaTypeKey);
         var requestedIndicatorId = new SqlParameter("@RequestedIndicatorId", indicatorId);
         var requestedBenchmarkAreaCode = new SqlParameter("@RequestedBenchmarkAreaCode", benchmarkAreaCode);
-        var requestedFromDate = new SqlParameter("@RequestedFromDate", (object?)fromDate ?? DBNull.Value);
-        var requestedToDate = new SqlParameter("@RequestedToDate", (object?)toDate ?? DBNull.Value);
+
+        var requestedFromDate = new SqlParameter("@RequestedFromDate", fromDate.HasValue ? fromDate.Value : DBNull.Value);
+        var requestedToDate = new SqlParameter("@RequestedToDate", toDate.HasValue ? toDate.Value : DBNull.Value);
 
         var denormalisedHealthData = await _dbContext.DenormalisedHealthMeasure.FromSqlInterpolated
         (@$"

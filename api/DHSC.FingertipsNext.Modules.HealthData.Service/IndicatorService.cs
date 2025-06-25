@@ -50,8 +50,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         IEnumerable<int> years,
         IEnumerable<string> inequalities,
         bool latestOnly = false,
-        string? fromDate = null,
-        string? toDate = null
+        DateOnly? fromDate = null,
+        DateOnly? toDate = null
         )
     {
         var indicatorData = await healthDataRepository.GetIndicatorDimensionAsync(indicatorId, [.. areaCodes]);
@@ -121,8 +121,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         IEnumerable<string> inequalities,
         BenchmarkComparisonMethod comparisonMethod,
         IndicatorPolarity polarity,
-        string? fromDate = null,
-        string? toDate = null
+        DateOnly? fromDate = null,
+        DateOnly? toDate = null
         )
     {
         IEnumerable<HealthMeasureModel> healthMeasureData;

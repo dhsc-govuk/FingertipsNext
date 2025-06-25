@@ -36,10 +36,10 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
 
 
 
-### Check from Date exludes earlier points
+### Check from-date excludes earlier points - and absence of to-date includes all later points
 GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82023&area_codes=D82024&area_codes=D82040&area_codes=D82060&from_date=2022-04-07
 > {%
-    client.test("Check from Date exludes earlier points", function (callbackfn, thisArg) {
+    client.test("Check from-date is inclusive of the requested date and excludes earlier points - and absence of to-date includes all later points", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
             const expectedResults = [ 
                 {areaName:"Trinity & Bowthorpe Medical Practice", from:"2023-04-06", value: 65.4205607476636},  
@@ -67,10 +67,10 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
 %}
 
 
-### Check to Date is inclusive
+### Check to-date is inclusive of the requested date and excludes later points and - and absence of from-date includes all earlier points
 GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82023&area_codes=D82024&area_codes=D82040&area_codes=D82060&to_date=2024-04-05
 > {%
-    client.test("Check to Date is inclusive", function (callbackfn, thisArg) {
+    client.test("Check to-date is inclusive of the requested date and excludes later points and - and absence of from-date includes all earlier points", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
             const expectedResults = [ 
                 {areaName:"Trinity & Bowthorpe Medical Practice", from:"2022-04-06", value:65.0943396226415},  
@@ -102,10 +102,10 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
     });
 %}
 
-### Check to Date excludes earlier points
+### Check to-date excludes earlier points - and absence of from-date includes all later points
 GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82023&area_codes=D82024&area_codes=D82040&area_codes=D82060&to_date=2024-04-04
 > {%
-    client.test("Check to Date excludes earlier points", function (callbackfn, thisArg) {
+    client.test("Check to-date excludes earlier points - and absence of from-date includes all later points", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
             const expectedResults = [ 
                 {areaName:"Trinity & Bowthorpe Medical Practice", from:"2022-04-06", value:65.0943396226415},  
@@ -133,10 +133,10 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
 %}
 
 
-### Check both Dates work together
+### Check both to-date and from-date work together
 GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82023&area_codes=D82024&area_codes=D82040&area_codes=D82060&from_date=2022-04-06&to_date=2024-04-05
 > {%
-    client.test("Check both Dates work together", function (callbackfn, thisArg) {
+    client.test("Check both to-date and from-date work together", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
             const expectedResults = [ 
                 {areaName:"Trinity & Bowthorpe Medical Practice", from:"2022-04-06", value:65.0943396226415},  
@@ -150,6 +150,30 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
                 {areaName:"Bacon Road Medical Centre", from:"2022-04-06", value: 63.0434782608696},  
                 {areaName:"Bacon Road Medical Centre", from:"2023-04-06", value: 68.0851063829787},  
                 ];
+
+        var numHealthDataPoints = response.body.areaHealthData.map(area => area.healthData.length).reduce((partialSum, b) => partialSum + b, 0);
+        client.assert(
+            numHealthDataPoints === expectedResults.length,
+            `Expected ${expectedResults.length} area health data items, but got ${numHealthDataPoints}`
+        );
+
+        expectedResults.forEach((expected) => {
+            client.assert(
+                response.body.areaHealthData.find(area => area.areaName === expected.areaName)
+                .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
+                .value === expected.value,
+                `failed for ${expected.areaName} value`
+            );
+        });
+    });
+%}
+
+### Check both to-date and from-date work together excluding everything
+GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82023&area_codes=D82024&area_codes=D82040&area_codes=D82060&from_date=2022-04-07&to_date=2024-04-04
+> {%
+    client.test("Check both to-date and from-date work together excluding everything", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+            const expectedResults = [  ];
 
         var numHealthDataPoints = response.body.areaHealthData.map(area => area.healthData.length).reduce((partialSum, b) => partialSum + b, 0);
         client.assert(
@@ -192,12 +216,11 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
     });
 %}
 
-
-### Quintiles: Check both to and from Dates work inclusively
+### Quintiles: Check both to-date and from-date work when including data with requested date
 GET http://localhost:5144/indicators/90453/data?from_date=2020-01-01&to_date=2023-12-31&area_codes=K84031&area_codes=K84017&area_type=gps&ancestor_code=E38000136&benchmark_ref_type=SubNational
 
 > {%
-        client.test("Quintiles: Check both to and from Dates work inclusively", () => {
+        client.test("Quintiles: Check both to-date and from-date work when including data with requested date", () => {
             const expectedResults = [ 
                 {areaName:"The Leys Health Centre", from:"2020-01-01", value:28.5142773147121},
                 {areaName:"The Leys Health Centre", from:"2021-01-01", value:25.6137193440141},
@@ -228,11 +251,11 @@ GET http://localhost:5144/indicators/90453/data?from_date=2020-01-01&to_date=202
 %}
 
 
-### Quintiles: Check both to and from Dates work inclusively
+### Quintiles: Check both to-date and from-date work when excluding data outside of requested dates
 GET http://localhost:5144/indicators/90453/data?from_date=2020-01-02&to_date=2023-12-30&area_codes=K84031&area_codes=K84017&area_type=gps&ancestor_code=E38000136&benchmark_ref_type=SubNational
 
 > {%
-        client.test("Quintiles: Check both to and from Dates work inclusively", () => {
+        client.test("Quintiles: Check both to-date and from-date work when excluding data outside of requested dates", () => {
             const expectedResults = [ 
                 {areaName:"The Leys Health Centre", from:"2021-01-01", value:25.6137193440141},
                 {areaName:"The Leys Health Centre", from:"2022-01-01", value:27.6788790510882},
@@ -259,10 +282,10 @@ GET http://localhost:5144/indicators/90453/data?from_date=2020-01-02&to_date=202
 %}
 
 
-### Quintiles: Check with no toDate
+### Quintiles: Check absent to-date captures all dates after from-date
 GET http://localhost:5144/indicators/90453/data?from_date=2020-01-01&area_codes=K84031&area_codes=K84017&area_type=gps&ancestor_code=E38000136&benchmark_ref_type=SubNational
 > {%
-        client.test("Quintiles: Check with no toDate", () => {
+        client.test("Quintiles: Check absent to-date captures all dates after from-date", () => {
             const expectedResults = [ 
                 {areaName:"The Leys Health Centre", from:"2020-01-01", value:28.5142773147121},
                 {areaName:"The Leys Health Centre", from:"2021-01-01", value:25.6137193440141},
@@ -293,34 +316,11 @@ GET http://localhost:5144/indicators/90453/data?from_date=2020-01-01&area_codes=
     });
 %}
 
-### Check both Dates work together excluding everything
-GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82023&area_codes=D82024&area_codes=D82040&area_codes=D82060&from_date=2022-04-07&to_date=2024-04-04
-> {%
-    client.test("Check both Dates work together excluding everything", function (callbackfn, thisArg) {
-        client.assert(response.status === 200, "Response status is not 200");
-            const expectedResults = [  ];
 
-        var numHealthDataPoints = response.body.areaHealthData.map(area => area.healthData.length).reduce((partialSum, b) => partialSum + b, 0);
-        client.assert(
-            numHealthDataPoints === expectedResults.length,
-            `Expected ${expectedResults.length} area health data items, but got ${numHealthDataPoints}`
-        );
-
-        expectedResults.forEach((expected) => {
-            client.assert(
-                response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
-                .value === expected.value,
-                `failed for ${expected.areaName} value`
-            );
-        });
-    });
-%}
-
-### Quintiles: Check with no fromDate
+### Quintiles: Check absent from-date captures all dates before to-date
 GET http://localhost:5144/indicators/90453/data?to_date=2023-12-31&area_codes=K84031&area_codes=K84017&area_type=gps&ancestor_code=E38000136&benchmark_ref_type=SubNational
 > {%
-        client.test("Quintiles: Check with no fromDate", () => {
+        client.test("Quintiles: Check absent from-date captures all dates before to-date", () => {
             const expectedResults = [ 
                 {areaName:"The Leys Health Centre", from:"2013-01-01", value:27.018263139165},
                 {areaName:"The Leys Health Centre", from:"2020-01-01", value:28.5142773147121},
@@ -352,11 +352,13 @@ GET http://localhost:5144/indicators/90453/data?to_date=2023-12-31&area_codes=K8
     });
 %}
 
-### check invalid date format
+
+
+### check invalid from-date format
 GET http://localhost:5144/indicators/94103/data?from_date=invalid&area_codes=E09000027&area_type=counties-and-unitary-authorities
 
 > {%
-    client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
+    client.test("check invalid from-date format", function (callbackfn, thisArg) {
        client.assert(response.status === 400, "Response status is not 400");
        const expected = {
             "message": "from_date invalid is invalid, should be formatted like 2023-06-20"
@@ -365,11 +367,11 @@ GET http://localhost:5144/indicators/94103/data?from_date=invalid&area_codes=E09
     });
 %}
 
-### check invalid date format
+### check invalid to-date format
 GET http://localhost:5144/indicators/94103/data?to_date=invalid&area_codes=E09000027&area_type=counties-and-unitary-authorities
 
 > {%
-    client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
+    client.test("check invalid to-date format", function (callbackfn, thisArg) {
        client.assert(response.status === 400, "Response status is not 400");
        const expected = {
             "message": "to_date invalid is invalid, should be formatted like 2023-06-20"
