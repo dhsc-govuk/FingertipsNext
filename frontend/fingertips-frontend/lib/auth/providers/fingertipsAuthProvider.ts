@@ -27,9 +27,9 @@ export const FingertipsAuthProvider = ({
   id: 'fta',
   name: 'FTA',
   type: 'oidc',
-  issuer: clientId,
-  clientId: clientSecret,
-  clientSecret: issuer,
+  issuer: issuer,
+  clientId: clientId,
+  clientSecret: clientSecret,
   authorization: {
     params: {
       scope: `api://${clientId}/.default openid`,
