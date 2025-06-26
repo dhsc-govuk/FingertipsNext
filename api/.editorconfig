@@ -12,7 +12,7 @@ dotnet_diagnostic.CA1303.severity = none
 # Mark assemblies with AssemblyVersionAttribute
 dotnet_diagnostic.CA1016.severity = none
 
-# CA1812: Avoid uninstantiated internal classes
+# CA1812: Avoid uninstantiated internal classes - allows defining classes injected by DI that never get instantiated directly.
 dotnet_diagnostic.CA1812.severity = none
 
 [Program.cs]
