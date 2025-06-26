@@ -20,17 +20,17 @@ public class DataManagerTests
                     new()
                     {
                         IndicatorID = 1,
-                        YearType = "Calendar"
+                        PeriodType = "Calendar"
                     },
                     new()
                     {
                         IndicatorID = 2,
-                        YearType = "Financial"
+                        PeriodType = "Financial"
                     },
                     new()
                     {
                         IndicatorID = 3,
-                        YearType = "November-November"
+                        PeriodType = "November-November"
                     },
                 };
         

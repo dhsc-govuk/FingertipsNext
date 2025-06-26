@@ -99,8 +99,8 @@ namespace DataCreator
                     if (!string.IsNullOrEmpty(indicatorUsedInPoc.IndicatorName))
                     {
                         indicator.IndicatorName = indicatorUsedInPoc.IndicatorName;
-                        // YearType is needed to CreateHealthMeasurePeriodDates()
-                        pocIndicators.First(i => i.IndicatorID == indicator.IndicatorID).YearType = indicator.YearType;
+                        // PeriodType is needed to CreateHealthMeasurePeriodDates()
+                        pocIndicators.First(i => i.IndicatorID == indicator.IndicatorID).PeriodType = indicator.PeriodType;
                     }
 
                     indicator.BenchmarkComparisonMethod = indicatorUsedInPoc.BenchmarkComparisonMethod;
@@ -308,13 +308,13 @@ namespace DataCreator
         {
             var indicatorsYearMap = indicators.ToDictionary(
                 i => i.IndicatorID,
-                i => i.YearType);
+                i => i.PeriodType);
             foreach (var healthMeasure in healthMeasures)
             {
-                var indicatorYearType = indicatorsYearMap[healthMeasure.IndicatorId];
+                var indicatorPeriodType = indicatorsYearMap[healthMeasure.IndicatorId];
                 
                 int year;
-                switch (indicatorYearType)
+                switch (indicatorPeriodType)
                 {
                     case "Calendar":
                         year = int.Parse(healthMeasure.TimePeriodSortable.Trim()[..4]);
@@ -332,7 +332,7 @@ namespace DataCreator
                         healthMeasure.ToDate = new DateOnly(year+1, 10, 31).ToShortDateString();
                         break;
                 }
-                healthMeasure.Period=indicatorYearType;
+                healthMeasure.Period=indicatorPeriodType;
             }
             
         }
