@@ -13,13 +13,6 @@
  */
 
 import { mapValues } from '../runtime';
-import type { DatePeriod } from './DatePeriod';
-import {
-    DatePeriodFromJSON,
-    DatePeriodFromJSONTyped,
-    DatePeriodToJSON,
-    DatePeriodToJSONTyped,
-} from './DatePeriod';
 import type { IndicatorPolarity } from './IndicatorPolarity';
 import {
     IndicatorPolarityFromJSON,
@@ -46,12 +39,6 @@ export interface QuartileData {
      * @memberof QuartileData
      */
     year?: number;
-    /**
-     * 
-     * @type {DatePeriod}
-     * @memberof QuartileData
-     */
-    datePeriod?: DatePeriod;
     /**
      * 
      * @type {IndicatorPolarity}
@@ -129,7 +116,6 @@ export function QuartileDataFromJSONTyped(json: any, ignoreDiscriminator: boolea
         
         'indicatorId': json['indicatorId'] == null ? undefined : json['indicatorId'],
         'year': json['year'] == null ? undefined : json['year'],
-        'datePeriod': json['datePeriod'] == null ? undefined : DatePeriodFromJSON(json['datePeriod']),
         'polarity': json['polarity'] == null ? undefined : IndicatorPolarityFromJSON(json['polarity']),
         'q0Value': json['q0Value'] == null ? undefined : json['q0Value'],
         'q1Value': json['q1Value'] == null ? undefined : json['q1Value'],
@@ -155,7 +141,6 @@ export function QuartileDataToJSONTyped(value?: QuartileData | null, ignoreDiscr
         
         'indicatorId': value['indicatorId'],
         'year': value['year'],
-        'datePeriod': DatePeriodToJSON(value['datePeriod']),
         'polarity': IndicatorPolarityToJSON(value['polarity']),
         'q0Value': value['q0Value'],
         'q1Value': value['q1Value'],

@@ -7,7 +7,6 @@ import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
   generateConfidenceIntervalSeries,
   getBenchmarkColour,
-  loadHighchartsModules,
   getTooltipContent,
 } from '@/lib/chartHelpers/chartHelpers';
 import {
@@ -18,6 +17,7 @@ import {
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { formatNumber } from '@/lib/numberFormatter';
 import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
+import { loadHighchartsModules } from '@/lib/chartHelpers/loadHighchartsModules';
 
 interface SparklineChartProps {
   value: (number | undefined)[];

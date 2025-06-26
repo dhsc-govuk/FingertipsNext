@@ -16,10 +16,10 @@ export default defineConfig({
       enabled: true,
       reporter: ['lcov', 'text', 'text-summary'],
       thresholds: {
-        statements: 94.4,
-        branches: 85.4,
-        functions: 93.5,
-        lines: 95,
+        statements: 96.8,
+        branches: 92.5,
+        functions: 94,
+        lines: 96.8,
       },
       include: ['**/*.ts', '**/*.tsx'],
       exclude: [

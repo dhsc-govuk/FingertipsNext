@@ -25,6 +25,8 @@ import {
 } from '@/components/charts/helpers/queryKeyFromRequestParams';
 import { compareAreasTableRequestParams } from '@/components/charts/CompareAreasTable/helpers/compareAreasTableRequestParams';
 import { compareAreasTableIsRequired } from '@/components/charts/CompareAreasTable/helpers/compareAreasTableIsRequired';
+import { inequalitiesIsRequired } from '@/components/charts/Inequalities/helpers/inequalitiesIsRequired';
+import { inequalitiesRequestParams } from '@/components/charts/Inequalities/helpers/inequalitiesRequestParams';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -134,7 +136,33 @@ export default async function ChartPage(
           );
         seedData[compareAreasQueryKey] = compareAreasHealthData;
       } catch (e) {
-        console.error('error getting health indicator data for area', e);
+        console.error(
+          'error getting health indicator data for compare areas',
+          e
+        );
+      }
+    }
+
+    const inequalitiesQueryParams = inequalitiesRequestParams(searchState);
+    const inequalitiesQueryKey = queryKeyFromRequestParams(
+      EndPoints.HealthDataForAnIndicator,
+      inequalitiesQueryParams
+    );
+    if (
+      inequalitiesIsRequired(searchState) &&
+      !Object.keys(seedData).includes(inequalitiesQueryKey)
+    ) {
+      try {
+        seedData[inequalitiesQueryKey] =
+          await indicatorApi.getHealthDataForAnIndicator(
+            inequalitiesQueryParams,
+            API_CACHE_CONFIG
+          );
+      } catch (e) {
+        console.error(
+          'error getting health indicator data for inequalities',
+          e
+        );
       }
     }
 

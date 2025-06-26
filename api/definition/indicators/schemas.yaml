@@ -131,8 +131,6 @@ HealthDataPoint:
       format: int32
       example: 2023
       description: The year that the data point is for
-    datePeriod:
-      $ref: "#/DatePeriod"
     count:
       type: number
       example: 222
@@ -230,11 +228,11 @@ Date:
   type: string
   format: date
   example: "2023-12-31"
-  description: Date in ISO 8601 format (YYYY-MM-DD).
+  description: The end date for the data request, in ISO 8601 format (YYYY-MM-DD)
 PeriodType:
   type: string
   example: Calendar
-  description: a type of date period e.g. Calendar or Financial year.
+  description: a type of date period e.g. Calendar or Financial year
   enum: 
     [
       Calendar,
@@ -247,24 +245,6 @@ PeriodType:
       Financial,
       NovemberNovember
     ]
-DatePeriod:
-  title: Date Period
-  type: object
-  description: A date period for a health data point.
-  required:
-    - type
-    - from
-    - to
-  properties:
-    type:
-      $ref: "#/PeriodType"
-      description: The type of date period, e.g. Calendar or Financial year.
-    from:
-      $ref: "#/Date"
-      description: The start date for the data request, in ISO 8601 format (YYYY-MM-DD).
-    to:
-      $ref: "#/Date"
-      description: The end date for the data request, in ISO 8601 format (YYYY-MM-DD).
 BenchmarkOutcome:
   title: Benchmark Outcome
   type: string
@@ -350,9 +330,6 @@ QuartileData:
       format: int32
       example: 2023
       description: The year that the data point is for
-    datePeriod:
-      $ref: "#/DatePeriod"
-      description: The date period that the data point is for.
     polarity:
       $ref: "./schemas.yaml#/IndicatorPolarity"
     q0Value:

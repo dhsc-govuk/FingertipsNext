@@ -30,9 +30,7 @@ public interface IIndicatorsService
         BenchmarkReferenceType benchmarkRefType,
         IEnumerable<int> years,
         IEnumerable<string> inequalities,
-        bool latestOnly = false,
-        DateOnly? fromDate = null,
-        DateOnly? toDate = null);
+        bool latestOnly = false);
 
     /// <summary>
     ///     Get quartile data for set of public health indicators. Returns data for all
