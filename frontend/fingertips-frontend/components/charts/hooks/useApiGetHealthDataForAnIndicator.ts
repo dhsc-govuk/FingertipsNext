@@ -11,6 +11,12 @@ import {
 } from '@/components/charts/helpers/queryKeyFromRequestParams';
 import { useMemo } from 'react';
 
+type UseApiGetHealthDataForAnIndicatorResult = Readonly<{
+  healthData: IndicatorWithHealthDataForArea | undefined;
+  healthDataLoading: boolean;
+  healthDataError: unknown;
+}>;
+
 export const useApiGetHealthDataForAnIndicator = (
   options: GetHealthDataForAnIndicatorRequest
 ) => {
@@ -33,7 +39,7 @@ export const useApiGetHealthDataForAnIndicator = (
     enabled: !!options.indicatorId,
   });
 
-  return useMemo(() => {
+  return useMemo<UseApiGetHealthDataForAnIndicatorResult>(() => {
     return {
       healthData: query.data,
       healthDataLoading: query.isLoading,

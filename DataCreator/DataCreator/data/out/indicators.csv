@@ -1,38 +1,38 @@
-﻿IndicatorID,Polarity,BenchmarkComparisonMethod,ValueType,IndicatorName,PeriodType
-41101,Low is good,Confidence intervals overlapping reference value (95.0),Indirectly standardised proportion,Emergency readmissions within 30 days of discharge from hospital,
-383,No judgement,Quintiles,Proportion,People reporting Alzheimer's disease or dementia,
-247,No judgement,Confidence intervals overlapping reference value (99.8),Proportion,Dementia prevalence (Quality and Outcomes Framework),
-352,No judgement,Quintiles,Proportion,People with caring responsibility aged 16 years and over,
-30302,High is good,Confidence intervals overlapping reference value (95.0),Proportion,Hepatitis B vaccination coverage aged 2 years,
-20401,Low is good,Confidence intervals overlapping reference value (95.0),Crude rate,Conception rate in females aged 17 years and under,
-41203,Low is good,Confidence intervals overlapping reference value (95.0),Crude rate,Preventable sight loss from diabetic eye disease ,
-108,Low is good,Confidence intervals overlapping reference value (95.0),Directly standardised rate,Mortality rate for all causes aged 74 and under,
-241,No judgement,Confidence intervals overlapping reference value (99.8),Proportion,Diabetes prevalence aged 17 years and over (Quality and Outcomes Framework),
-337,"","",Count,GP registered population by sex and quinary age band,
-22401,Low is good,Confidence intervals overlapping reference value (95.0),Directly standardised rate,Emergency hospital admissions due to falls aged 65 years and over,
-90362,Low is good,Confidence intervals overlapping reference value (95.0),Life expectancy,Healthy life expectancy at birth,
-90453,No judgement,Quintiles,Proportion,Former smokers (GP Patient Survey),
-91040,Low is good,Confidence intervals overlapping reference value (95.0),Proportion,NHS Health Checks offered to the total eligible population in the quarter ,
-91102,High is good,Confidence intervals overlapping reference value (95.0),Life expectancy,Life expectancy aged 65 ,
-91112,High is good,Confidence intervals overlapping reference value (95.0),Proportion,People receiving an NHS Health Check,
-91344,No judgement,Confidence intervals overlapping reference value (99.8),Indirectly standardised ratio,Urgent suspected cancer referrals ,
-91894,No judgement,Confidence intervals overlapping reference value (95.0),Proportion,Deaths in hospital for people with dementia aged 65 years and over,
-92033,High is good,Confidence intervals overlapping reference value (95.0),Proportion,Obesity prevalence including severe obesity in Year 6,
-92266,No judgement,Confidence intervals overlapping reference value (95.0),Crude rate,General fertility rate in females,
-92708,"","",Count,Resident population,
-92904,Low is good,Confidence intervals overlapping reference value (95.0),Crude rate,Hospital admission episodes for alcohol-specific conditions aged 17 and under,
-93015,Low is good,Confidence intervals overlapping reference value (95.0),Proportion,Physically inactive in adults aged 19 years and over,
-93085,Low is good,Confidence intervals overlapping reference value (95.0),Proportion,Smokers at time of childbirth delivery,
-93088,Low is good,Confidence intervals overlapping reference value (95.0),Proportion,Overweight prevalence (including obesity) in adults aged 18 years and over,
-93124,Low is good,Confidence intervals overlapping reference value (95.0),Crude rate,Acute hepatitis B incidence rate ,
-93283,High is good,Confidence intervals overlapping reference value (95.0),Life expectancy,Life expectancy at birth aged 90 and over,
-93415,No judgement,Quintiles,Crude rate,Community onset healthcare-associated clostridium difficile rates,
-93468,No judgement,Quintiles,Proportion,GP registered populations by age group,
-93474,No judgement,Confidence intervals overlapping reference value (95.0),Proportion,Deaths in hospital,
-93553,Low is good,Quintiles,Score,Deprivation score (Index of Multiple Deprivation 2019),
-93701,Low is good,Confidence intervals overlapping reference value (95.0),Proportion,Children in absolute low income families aged 15 years and under,
-93763,Low is good,Confidence intervals overlapping reference value (95.0),Directly standardised rate,Alcohol-related mortality,
-93861,No judgement,No comparison,Proportion,Particulate air pollution attributable mortality (new method),
-94035,No judgement,Confidence intervals overlapping reference value (99.8),Directly standardised rate,Hospital admissions for cataract surgery aged 65 years and over,
-94063,No judgement,Confidence intervals overlapping reference value (99.8),Proportion,Breast screening coverage aged 53 to 70 years,
-94103,Low is good,Quintiles,Proportion,Perinatal mental health conditions prevalence ,
+﻿IndicatorID,Polarity,BenchmarkComparisonMethod,ValueType,IndicatorName,YearType
+41101,Low is good,Confidence intervals overlapping reference value (95.0),Indirectly standardised proportion,Emergency readmissions within 30 days of discharge from hospital,Financial
+383,No judgement,Quintiles,Proportion,People reporting Alzheimer's disease or dementia,Calendar
+247,No judgement,Confidence intervals overlapping reference value (99.8),Proportion,Dementia prevalence (Quality and Outcomes Framework),Financial
+352,No judgement,Quintiles,Proportion,People with caring responsibility aged 16 years and over,Calendar
+30302,High is good,Confidence intervals overlapping reference value (95.0),Proportion,Hepatitis B vaccination coverage aged 2 years,Financial
+20401,Low is good,Confidence intervals overlapping reference value (95.0),Crude rate,Conception rate in females aged 17 years and under,Calendar
+41203,Low is good,Confidence intervals overlapping reference value (95.0),Crude rate,Preventable sight loss from diabetic eye disease ,Financial
+108,Low is good,Confidence intervals overlapping reference value (95.0),Directly standardised rate,Mortality rate for all causes aged 74 and under,Calendar
+241,No judgement,Confidence intervals overlapping reference value (99.8),Proportion,Diabetes prevalence aged 17 years and over (Quality and Outcomes Framework),Financial
+337,"","",Count,GP registered population by sex and quinary age band,Calendar
+22401,Low is good,Confidence intervals overlapping reference value (95.0),Directly standardised rate,Emergency hospital admissions due to falls aged 65 years and over,Financial
+90362,Low is good,Confidence intervals overlapping reference value (95.0),Life expectancy,Healthy life expectancy at birth,Calendar
+90453,No judgement,Quintiles,Proportion,Former smokers (GP Patient Survey),Calendar
+91040,Low is good,Confidence intervals overlapping reference value (95.0),Proportion,NHS Health Checks offered to the total eligible population in the quarter ,Financial
+91102,High is good,Confidence intervals overlapping reference value (95.0),Life expectancy,Life expectancy aged 65 ,Calendar
+91112,High is good,Confidence intervals overlapping reference value (95.0),Proportion,People receiving an NHS Health Check,Financial multi year cumulative quarters
+91344,No judgement,Confidence intervals overlapping reference value (99.8),Indirectly standardised ratio,Urgent suspected cancer referrals ,Financial
+91894,No judgement,Confidence intervals overlapping reference value (95.0),Proportion,Deaths in hospital for people with dementia aged 65 years and over,Calendar
+92033,High is good,Confidence intervals overlapping reference value (95.0),Proportion,Obesity prevalence including severe obesity in Year 6,Academic
+92266,No judgement,Confidence intervals overlapping reference value (95.0),Crude rate,General fertility rate in females,Calendar
+92708,"","",Count,Resident population,Calendar
+92904,Low is good,Confidence intervals overlapping reference value (95.0),Crude rate,Hospital admission episodes for alcohol-specific conditions aged 17 and under,Financial
+93015,Low is good,Confidence intervals overlapping reference value (95.0),Proportion,Physically inactive in adults aged 19 years and over,November-November
+93085,Low is good,Confidence intervals overlapping reference value (95.0),Proportion,Smokers at time of childbirth delivery,Financial
+93088,Low is good,Confidence intervals overlapping reference value (95.0),Proportion,Overweight prevalence (including obesity) in adults aged 18 years and over,November-November
+93124,Low is good,Confidence intervals overlapping reference value (95.0),Crude rate,Acute hepatitis B incidence rate ,Calendar
+93283,High is good,Confidence intervals overlapping reference value (95.0),Life expectancy,Life expectancy at birth aged 90 and over,Calendar
+93415,No judgement,Quintiles,Crude rate,Community onset healthcare-associated clostridium difficile rates,Financial
+93468,No judgement,Quintiles,Proportion,GP registered populations by age group,Financial year end point
+93474,No judgement,Confidence intervals overlapping reference value (95.0),Proportion,Deaths in hospital,Calendar
+93553,Low is good,Quintiles,Score,Deprivation score (Index of Multiple Deprivation 2019),Calendar
+93701,Low is good,Confidence intervals overlapping reference value (95.0),Proportion,Children in absolute low income families aged 15 years and under,Financial
+93763,Low is good,Confidence intervals overlapping reference value (95.0),Directly standardised rate,Alcohol-related mortality,Calendar
+93861,No judgement,No comparison,Proportion,Particulate air pollution attributable mortality (new method),Calendar
+94035,No judgement,Confidence intervals overlapping reference value (99.8),Directly standardised rate,Hospital admissions for cataract surgery aged 65 years and over,Financial
+94063,No judgement,Confidence intervals overlapping reference value (99.8),Proportion,Breast screening coverage aged 53 to 70 years,Financial
+94103,Low is good,Quintiles,Proportion,Perinatal mental health conditions prevalence ,Calendar

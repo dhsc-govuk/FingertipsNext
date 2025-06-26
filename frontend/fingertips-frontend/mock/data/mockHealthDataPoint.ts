@@ -1,4 +1,5 @@
 import { HealthDataPoint } from '@/generated-sources/ft-api-client';
+import { mockDeprivationData } from '@/mock/data/mockDeprivationData';
 
 export const mockHealthDataPoint = (
   overrides?: Partial<HealthDataPoint>
@@ -24,12 +25,7 @@ export const mockHealthDataPoint = (
     benchmarkAreaName: 'England',
     benchmarkValue: 14.8,
   },
-  deprivation: {
-    sequence: 11,
-    value: 'Persons',
-    type: 'Persons',
-    isAggregate: true,
-  },
+  deprivation: mockDeprivationData(),
   ...overrides,
 });
 

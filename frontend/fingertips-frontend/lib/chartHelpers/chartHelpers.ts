@@ -148,12 +148,6 @@ export function getMostRecentData(
   return data.length > 0 ? data[0] : undefined;
 }
 
-export async function loadHighchartsModules(callback: () => void) {
-  await import('highcharts/modules/exporting');
-  await import('highcharts/modules/map');
-  await import('highcharts/highcharts-more').then(callback);
-}
-
 export const getBenchmarkColour = (
   method: BenchmarkComparisonMethod,
   outcome: BenchmarkOutcome,
