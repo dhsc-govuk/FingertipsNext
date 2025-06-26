@@ -59,13 +59,13 @@ public class DataManagementIntegrationTests : IClassFixture<CustomWebApplication
             });
         }).CreateClient();
     }
-    
+
     [Fact]
     public async Task DataManagementEndpointShouldUploadAFile()
     {
         // Arrange
         var apiClient = GetApiClient(_factory);
-        
+
         var blobContentFilePath = Path.Combine(TestDataDir, "blobContent.json");
         await using var fileStream = File.OpenRead(blobContentFilePath);
         using var content = new MultipartFormDataContent();
@@ -75,7 +75,7 @@ public class DataManagementIntegrationTests : IClassFixture<CustomWebApplication
 
         // Act
         var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
-        
+
         // Assert
         response.EnsureSuccessStatusCode();
 
@@ -89,17 +89,17 @@ public class DataManagementIntegrationTests : IClassFixture<CustomWebApplication
     {
         // Arrange
         var apiClient = GetApiClient(_factory);
-        
+
         var blobContentFilePath = Path.Combine(TestDataDir, "blobContent.json");
         await using var fileStream = File.OpenRead(blobContentFilePath);
         using var content = new MultipartFormDataContent();
         using var streamContent = new StreamContent(fileStream);
         streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
         content.Add(streamContent, "file", "blobContent.json");
-        
+
         // Act
         await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
-        
+
         // Assert
         var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
         response.StatusCode.ShouldBe(HttpStatusCode.InternalServerError);
@@ -110,15 +110,15 @@ public class DataManagementIntegrationTests : IClassFixture<CustomWebApplication
     {
         // Arrange
         var apiClient = GetApiClient(_factory);
-        
+
         using var content = new MultipartFormDataContent();
         using var streamContent = new StreamContent(Stream.Null);
         streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
         content.Add(streamContent, "file", "fakeFile.txt");
-        
+
         // Act
         var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
-        
+
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
     }
@@ -128,12 +128,12 @@ public class DataManagementIntegrationTests : IClassFixture<CustomWebApplication
     {
         // Arrange
         var apiClient = GetApiClient(_factory);
-        
+
         using var content = new MultipartFormDataContent();
-        
+
         // Act
         var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
-        
+
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
     }
@@ -143,17 +143,17 @@ public class DataManagementIntegrationTests : IClassFixture<CustomWebApplication
     {
         // Arrange
         var apiClient = GetApiClient(_factory, "non-existent-container");
-        
+
         var blobContentFilePath = Path.Combine(TestDataDir, "blobContent.json");
         await using var fileStream = File.OpenRead(blobContentFilePath);
         using var content = new MultipartFormDataContent();
         using var streamContent = new StreamContent(fileStream);
         streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
         content.Add(streamContent, "file", "blobContent.json");
-        
+
         // Act
         var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
-        
+
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.InternalServerError);
     }
