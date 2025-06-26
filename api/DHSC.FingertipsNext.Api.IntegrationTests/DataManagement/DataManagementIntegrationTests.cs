@@ -85,7 +85,7 @@ public class DataManagementIntegrationTests : IClassFixture<CustomWebApplication
     }
 
     [Fact]
-    public async Task UploadingDuplicateFileNameShouldReturn500Response()
+    public async Task UploadFailuresShouldReturn500Response()
     {
         // Arrange
         var apiClient = GetApiClient(_factory);
@@ -99,9 +99,9 @@ public class DataManagementIntegrationTests : IClassFixture<CustomWebApplication
 
         // Act
         await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
+        var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
 
         // Assert
-        var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
         response.StatusCode.ShouldBe(HttpStatusCode.InternalServerError);
     }
 
