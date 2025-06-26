@@ -21,6 +21,7 @@ vi.mock(
 );
 vi.mock('@/components/charts/LineChartOverTime/helpers/lineChartOverTimeData');
 
+vi.mock('@/components/hooks/useSearchStateParams');
 const mockUseSearchStateParams = useSearchStateParams as MockedFunction<
   typeof useSearchStateParams
 >;

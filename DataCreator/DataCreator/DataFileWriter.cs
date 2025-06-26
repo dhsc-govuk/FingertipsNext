@@ -9,6 +9,7 @@ namespace DataCreator
         private static readonly string OutFolderPath = Path.Join("..","..","..", "data", "out");
         private static readonly string RepositoryRoot = Path.Join("..", "..", "..", "..", "..");
         private static readonly string SearchSetupAssetsPath = Path.Join(RepositoryRoot, "search-setup", "assets");
+        private static readonly string MockAiSearchAssetsPath = Path.Join(RepositoryRoot, "frontend", "fingertips-frontend","assets");
 
         private static readonly CsvFileDescription CsvFileDescription = new() {EnforceCsvColumnAttribute=true};
         private static readonly JsonSerializerOptions JsonSerializerOptions = new()
@@ -21,12 +22,14 @@ namespace DataCreator
             var contents = JsonSerializer.Serialize(data, JsonSerializerOptions);
             File.WriteAllText(Path.Join(RepositoryRoot, "trend-analysis", "TrendAnalysisApp", "SearchData", "assets", "indicators.json"), contents);
             File.WriteAllText(Path.Join(SearchSetupAssetsPath, "indicators.json"), contents);
+            File.WriteAllText(Path.Join(MockAiSearchAssetsPath, "mockIndicatorData.json"), contents);
         }
 
         public static void WriteAreasJsonData(object data)
         {
             var contents = JsonSerializer.Serialize(data, JsonSerializerOptions);
             File.WriteAllText(Path.Join(SearchSetupAssetsPath, "areas.json"), contents);
+            File.WriteAllText(Path.Join(MockAiSearchAssetsPath, "mockAreaData.json"), contents);
         }
 
         public static void WriteHealthCsvData(string fileName, IEnumerable<HealthMeasureEntity> data)
