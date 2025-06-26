@@ -198,6 +198,14 @@ export default class ResultsPage extends AreaFilter {
       `${this.indicatorCheckboxPrefix}-${indicatorIDString}`
     );
 
+    // Check if checkbox exists first - this will throw if not found - and be caught by the try catch in the calling method
+    const isVisible = await checkbox.isVisible().catch(() => false);
+    if (!isVisible) {
+      throw new Error(
+        `Checkbox for indicator ${indicatorIDString} not found on current page`
+      );
+    }
+
     // Verify initial state
     await expect(checkbox).toBeAttached();
     await expect(checkbox).toBeVisible();
@@ -243,12 +251,16 @@ export default class ResultsPage extends AreaFilter {
         return;
       } catch {
         // Try next page
-        const nextButton = pagination
-          .getByRole('button')
-          .locator('aria-label', { hasText: 'Next' });
+        const nextButton = pagination.getByRole('button', {
+          name: 'Next page',
+        });
 
-        if (!(await nextButton.isVisible())) {
-          break; // No more pages so come out of loop
+        const isNextButtonVisible = await nextButton
+          .isVisible()
+          .catch(() => false);
+
+        if (!isNextButtonVisible) {
+          break; // No more pages as Next button not displayed
         }
 
         await this.clickAndAwaitLoadingComplete(nextButton);
@@ -257,7 +269,7 @@ export default class ResultsPage extends AreaFilter {
     }
 
     throw new Error(
-      `Indicator ${indicatorIDString} not found after searching first ${String(maxPages)} pages.`
+      `Indicator ${indicatorIDString} not found after searching the first ${String(maxPages)} pages.`
     );
   }
 
