@@ -14,7 +14,7 @@
 
 
 /**
- * a type of date period e.g. Calendar or Financial year.
+ * a type of date period e.g. Calendar or Financial year
  * @export
  */
 export const PeriodType = {
