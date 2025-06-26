@@ -41,6 +41,7 @@ export const coreTestJourneys: TestParameters[] = [
     indicatorsToSelect: [
       {
         indicatorID: '41101',
+        knownTrend: 'No recent trend data available',
       },
     ],
     areaFiltersToSelect: {
@@ -57,6 +58,7 @@ export const coreTestJourneys: TestParameters[] = [
     indicatorsToSelect: [
       {
         indicatorID: '91894',
+        knownTrend: 'No significant change',
       },
     ],
     areaFiltersToSelect: {
