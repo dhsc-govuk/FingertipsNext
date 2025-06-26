@@ -44,7 +44,7 @@ public class DataManagementService(
         var containerClient = blobServiceClient.GetBlobContainerClient(containerName);
         var batchId = $"{indicatorId}_{timeProvider.GetUtcNow():yyyy-MM-ddTHH:mm:ss.fff}";
 
-        var blobClient = containerClient.GetBlobClient(batchId);
+        var blobClient = containerClient.GetBlobClient($"{batchId}.csv");
 
         try
         {

@@ -35,7 +35,7 @@ public class DataManagementServiceTests
         var mockDate = new DateTime(2024, 6, 15, 10, 30, 45, 123, DateTimeKind.Utc);
         _timeProvider.GetUtcNow().Returns(mockDate);
         _blobServiceClient.GetBlobContainerClient(ContainerName).Returns(_containerClient);
-        _containerClient.GetBlobClient($"{StubIndicatorId}_{mockDate:yyyy-MM-ddTHH:mm:ss.fff}").Returns(_blobClient);
+        _containerClient.GetBlobClient($"{StubIndicatorId}_{mockDate:yyyy-MM-ddTHH:mm:ss.fff}.csv").Returns(_blobClient);
     }
 
     [Fact]
