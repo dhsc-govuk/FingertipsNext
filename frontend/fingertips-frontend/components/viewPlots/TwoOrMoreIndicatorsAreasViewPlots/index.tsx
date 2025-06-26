@@ -8,13 +8,8 @@ import {
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { SpineChartTable } from '../../charts/SpineChart/SpineChartTable/SpineChartTable';
 import { SearchParams } from '@/lib/searchStateManager';
 import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmapUtil';
-import {
-  buildSpineChartIndicatorData,
-  SpineChartIndicatorData,
-} from '@/components/charts/SpineChart/helpers/buildSpineChartIndicatorData';
 import {
   determineAreaCodes,
   determineAreasForBenchmarking,
@@ -25,24 +20,14 @@ import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChart
 import { BenchmarkSelectArea } from '@/components/molecules/BenchmarkSelectArea';
 import { englandAreaString } from '@/lib/chartHelpers/constants';
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
+import { SpineChartWrapper } from '@/components/charts/SpineChart/SpineChartWrapper';
+import { spineChartIsRequired } from '@/components/charts/SpineChart/helpers/spineChartIsRequired';
 
 function shouldShowHeatmap(
   areaCodes: string[],
   groupAreaSelected?: string
 ): boolean {
   return areaCodes.length > 1 || groupAreaSelected === ALL_AREAS_SELECTED;
-}
-
-function shouldShowSpineChart(
-  areaCodes: string[],
-  spineChartIndicatorData: SpineChartIndicatorData[],
-  groupAreaSelected?: string
-): boolean {
-  return (
-    areaCodes.length < 3 &&
-    spineChartIndicatorData.length > 0 &&
-    groupAreaSelected !== ALL_AREAS_SELECTED
-  );
 }
 
 export function extractHeatmapIndicatorData(
@@ -67,7 +52,6 @@ export function extractHeatmapIndicatorData(
 export function TwoOrMoreIndicatorsAreasViewPlot({
   indicatorData,
   indicatorMetadata,
-  benchmarkStatistics,
   availableAreas,
 }: Readonly<TwoOrMoreIndicatorsViewPlotProps>) {
   const searchState = useSearchStateParams();
@@ -108,14 +92,6 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
       });
   };
 
-  const spineChartIndicatorData = buildSpineChartIndicatorData(
-    indicatorData,
-    indicatorMetadata,
-    benchmarkStatistics,
-    areaCodes,
-    selectedGroupCode
-  );
-
   const availableAreasForBenchmarking = determineAreasForBenchmarking(
     indicatorData[0].areaHealthData ?? [],
     selectedGroupCode,
@@ -125,19 +101,14 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
 
   const benchmarkToUse = determineBenchmarkToUse(benchmarkAreaSelected);
 
+  const showSpine = spineChartIsRequired(searchState);
+
   return (
     <section data-testid="twoOrMoreIndicatorsAreasViewPlot-component">
       <BenchmarkSelectArea availableAreas={availableAreasForBenchmarking} />
-      {shouldShowSpineChart(
-        areaCodes,
-        spineChartIndicatorData,
-        groupAreaSelected
-      ) ? (
+      {showSpine ? (
         <StyleChartWrapper>
-          <SpineChartTable
-            indicatorData={spineChartIndicatorData}
-            benchmarkToUse={benchmarkToUse}
-          />
+          <SpineChartWrapper />
         </StyleChartWrapper>
       ) : null}
       {shouldShowHeatmap(areaCodes, groupAreaSelected) ? (

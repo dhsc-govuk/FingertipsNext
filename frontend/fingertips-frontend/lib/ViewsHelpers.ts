@@ -30,22 +30,29 @@ export const getHealthDataForIndicator = async (
   let healthIndicatorData: IndicatorWithHealthDataForArea | undefined;
 
   try {
+    console.log('START getHealthDataForIndicator', {
+      indicatorId,
+      combinedRequestAreas,
+    });
     const healthIndicatorDataChunks = await Promise.all(
       combinedRequestAreas.flatMap((requestAreas) => {
-        return chunkArray(requestAreas.areaCodes).map((areaCodes) =>
-          indicatorApi.getHealthDataForAnIndicator(
-            {
-              indicatorId: Number(indicatorId),
-              areaCodes: areaCodes,
-              areaType: requestAreas.areaType,
-              inequalities: requestAreas.inequalities,
-              latestOnly,
-              benchmarkRefType,
-              ancestorCode: areaGroup,
-            },
+        return chunkArray(requestAreas.areaCodes).map((areaCodes) => {
+          const reqOptions = {
+            indicatorId: Number(indicatorId),
+            areaCodes: areaCodes,
+            areaType: requestAreas.areaType,
+            inequalities: requestAreas.inequalities,
+            latestOnly,
+            benchmarkRefType,
+            ancestorCode: areaGroup,
+          };
+
+          console.log({ indicatorId, areaCodes, reqOptions });
+          return indicatorApi.getHealthDataForAnIndicator(
+            reqOptions,
             API_CACHE_CONFIG
-          )
-        );
+          );
+        });
       })
     );
 
@@ -60,7 +67,7 @@ export const getHealthDataForIndicator = async (
   } catch (error) {
     throw new Error(`Error getting health indicator data for areas: ${error}`);
   }
-
+  console.log('END getHealthDataForIndicator', { healthIndicatorData });
   return healthIndicatorData;
 };
 

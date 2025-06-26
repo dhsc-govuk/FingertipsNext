@@ -11,11 +11,10 @@ import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 import {
   determineBenchmarkRefType,
   getHealthDataForIndicator,
-  HealthDataRequestAreas,
 } from '@/lib/ViewsHelpers';
-import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 import { BenchmarkReferenceType } from '@/generated-sources/ft-api-client';
+import { healthDataRequestAreas } from '@/components/charts/SpineChart/helpers/healthDataRequestAreas';
 
 export default async function TwoOrMoreIndicatorsAreasView({
   searchState,
@@ -28,7 +27,6 @@ export default async function TwoOrMoreIndicatorsAreasView({
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.AreaTypeSelected]: selectedAreaType,
     [SearchParams.GroupSelected]: selectedGroupCode,
-    [SearchParams.GroupTypeSelected]: selectedGroupType,
     [SearchParams.GroupAreaSelected]: groupAreaSelected,
     [SearchParams.BenchmarkAreaSelected]: benchmarkAreaSelected,
   } = stateManager.getSearchState();
@@ -58,26 +56,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
     throw new Error('invalid indicator metadata passed to view');
   }
 
-  const areasToRequest: HealthDataRequestAreas[] = [
-    {
-      areaCodes,
-      areaType: selectedAreaType,
-    },
-  ];
-
-  if (!areaCodes.includes(areaCodeForEngland)) {
-    areasToRequest.push({
-      areaCodes: [areaCodeForEngland],
-      areaType: englandAreaType.key,
-    });
-  }
-
-  if (selectedGroupCode && selectedGroupCode !== areaCodeForEngland) {
-    areasToRequest.push({
-      areaCodes: [selectedGroupCode],
-      areaType: selectedGroupType,
-    });
-  }
+  const areasToRequest = healthDataRequestAreas(searchState, availableAreas);
 
   const benchmarkRefType = determineBenchmarkRefType(benchmarkAreaSelected);
   const areaGroup =
@@ -87,7 +66,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
 
   await connection();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
-
+  console.log({ areasToRequest });
   const combinedIndicatorData = await Promise.all(
     indicatorsSelected.map((indicator) => {
       return getHealthDataForIndicator(
