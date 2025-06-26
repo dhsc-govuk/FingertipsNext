@@ -5,6 +5,7 @@ export enum EndPoints {
   AreaWithRelations = 'areaWithRelations',
   AreaTypeMembers = 'areaTypeMembers',
   AreaTypes = 'areaTypes',
+  Quartiles = 'quartiles',
 }
 
 export const queryKeyFromRequestParams = <T extends object>(

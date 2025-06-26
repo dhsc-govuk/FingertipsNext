@@ -35,6 +35,7 @@ export function SpineChartTable({
   indicatorData,
   benchmarkToUse,
 }: Readonly<SpineChartTableProps>) {
+  if (!indicatorData.length) return null;
   const sortedData = sortByIndicator(indicatorData);
   const methods = getMethodsAndOutcomes(indicatorData);
   const areaNames = sortedData[0].areasHealthData.map(

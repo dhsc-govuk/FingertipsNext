@@ -3,6 +3,7 @@ import {
   AreaType,
   AreaWithRelations,
   IndicatorWithHealthDataForArea,
+  QuartileData,
 } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
@@ -13,4 +14,5 @@ export type SeedData = Record<
   | IndicatorWithHealthDataForArea
   | Area[]
   | IndicatorDocument
+  | QuartileData[]
 >;
