@@ -30,7 +30,7 @@ public sealed class UploadedIndicatorDataRowMap : ClassMap<UploadedIndicatorData
 
     public UploadedIndicatorDataRowMap()
     {
-        Regex dateRegex = new Regex(DateFormatRegex);
+        Regex dateRegex = new Regex(DateFormatRegex, RegexOptions.CultureInvariant, TimeSpan.FromMilliseconds(100));
 
         Map(m => m.AreaCode).Name("area_code");
 

@@ -36,7 +36,11 @@ public class CsvValidationTests
         };
 
         // Act
-        CsvValidationResult result = UploadedCsvValidator.Validate(path);
+        CsvValidationResult result;
+        using (FileStream stream = File.Open(path, FileMode.Open))
+        {
+            result = UploadedCsvValidator.Validate(stream);
+        }
 
         // Assert
         result.Success.ShouldBeFalse();
@@ -57,7 +61,11 @@ public class CsvValidationTests
         string path = Path.Combine(Directory.GetCurrentDirectory(), @"Services/Validation/CSVs/ValidHeaders.csv");
 
         // Act
-        CsvValidationResult result = UploadedCsvValidator.Validate(path);
+        CsvValidationResult result;
+        using (FileStream stream = File.Open(path, FileMode.Open))
+        {
+            result = UploadedCsvValidator.Validate(stream);
+        }
 
         // Assert
         result.Success.ShouldBeFalse();
@@ -76,7 +84,11 @@ public class CsvValidationTests
         string path = Path.Combine(Directory.GetCurrentDirectory(), @"Services/Validation/CSVs/Valid.csv");
 
         // Act
-        CsvValidationResult result = UploadedCsvValidator.Validate(path);
+        CsvValidationResult result;
+        using (FileStream stream = File.Open(path, FileMode.Open))
+        {
+            result = UploadedCsvValidator.Validate(stream);
+        }
 
         // Assert
         result.Success.ShouldBeTrue();

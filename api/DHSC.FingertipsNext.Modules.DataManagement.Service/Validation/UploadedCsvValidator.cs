@@ -10,18 +10,17 @@ namespace DHSC.FingertipsNext.Modules.DataManagement.Service.Validation;
 /// </summary>
 public static class UploadedCsvValidator
 {
-
     /// <summary>
     /// Reads the CSV file and attempts to build a list of UploadedIndicatorDataRow
     /// This will log any validation errors
     /// </summary>
-    /// <param name="path"></param>
-    public static CsvValidationResult Validate(string path)
+    /// <param name="stream"></param>
+    public static CsvValidationResult Validate(Stream stream)
     {
         var errors = new List<CsvValidationError>();
-        var csvReaderConfiguration = _setupCsvReaderConfiguration(errors);
+        var csvReaderConfiguration = SetupCsvReaderConfiguration(errors);
 
-        using (var reader = new StreamReader(path))
+        using (var reader = new StreamReader(stream))
         using (var csv = new CsvReader(reader, csvReaderConfiguration))
         {
             csv.Context.RegisterClassMap<UploadedIndicatorDataRowMap>();
@@ -38,7 +37,7 @@ public static class UploadedCsvValidator
             }
             catch (HeaderValidationException ex)
             {
-                foreach (var headerError in _formatHeaderErrors(ex.Message))
+                foreach (var headerError in FormatHeaderErrors(ex.Message))
                 {
                     CsvValidationError error = new CsvValidationError(headerError, 1, 1);
                     errors.Add(error);
@@ -52,7 +51,7 @@ public static class UploadedCsvValidator
             return new CsvValidationResult(true, new Collection<CsvValidationError>());
     }
 
-    private static List<string> _formatHeaderErrors(string message)
+    private static List<string> FormatHeaderErrors(string message)
     {
         var headerErrors = message.Split('\n').Where(m => m.StartsWith("Header with name", StringComparison.InvariantCulture)).ToList();
         for (var i = 0; i < headerErrors.Count; i++)
@@ -63,15 +62,15 @@ public static class UploadedCsvValidator
         return headerErrors;
     }
 
-    private static CsvConfiguration _setupCsvReaderConfiguration(List<CsvValidationError> errors)
+    private static CsvConfiguration SetupCsvReaderConfiguration(List<CsvValidationError> errors)
     {
         return new CsvConfiguration(CultureInfo.InvariantCulture)
         {
-            ReadingExceptionOccurred = (args) => _logError(args, errors)
+            ReadingExceptionOccurred = (args) => LogError(args, errors)
         };
     }
 
-    private static bool _logError(ReadingExceptionOccurredArgs args, List<CsvValidationError> errors)
+    private static bool LogError(ReadingExceptionOccurredArgs args, List<CsvValidationError> errors)
     {
         if (args.Exception is FieldValidationException exception)
         {
