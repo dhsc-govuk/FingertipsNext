@@ -66,7 +66,6 @@ export default async function TwoOrMoreIndicatorsAreasView({
 
   await connection();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
-  console.log({ areasToRequest });
   const combinedIndicatorData = await Promise.all(
     indicatorsSelected.map((indicator) => {
       return getHealthDataForIndicator(
