@@ -216,3 +216,4 @@ npm run generate:ft-mocks
 - We do not need `browser` or `native` so these should be deleted.
 - Since the project is using Typescript `node.js` should be renamed `node.ts`.
 - The project uses the `handlers.ts` file, and a number of manual edits will have been made to this file. Any additional code from the generated `handlers.js` file should be transposed into this existing `.ts` file. `handlers.js` can then be deleted. 
+

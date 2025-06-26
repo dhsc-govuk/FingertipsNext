@@ -7,8 +7,6 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 export type OneIndicatorViewPlotProps = {
   indicatorData: IndicatorWithHealthDataForArea;
-  indicatorMetadata?: IndicatorDocument;
-  availableAreas?: Area[];
 };
 
 export type TwoOrMoreIndicatorsViewPlotProps = {

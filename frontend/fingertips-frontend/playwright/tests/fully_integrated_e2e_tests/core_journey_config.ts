@@ -1,4 +1,4 @@
-import { InequalitiesTypes } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { InequalitiesTypes } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
 import { AreaDocument } from '@/lib/search/searchTypes';
 import {
   AreaMode,
