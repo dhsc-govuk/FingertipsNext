@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import { IndicatorSearchFormState } from './indicatorSearchActions';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { useLoadingState } from '@/context/LoaderContext';
-import { useSearchState } from '@/context/SearchStateContext';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { INDICATOR_SEARCH_MAX_CHARACTERS } from '@/lib/search/indicatorSearchService';
 import { CharacterCount } from '@/components/atoms/CharacterCount';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
 const govukErrorBorderWidth = '2px';
 
@@ -33,8 +33,7 @@ export const IndicatorSearchForm = ({
   indicatorSearchFormState: IndicatorSearchFormState;
 }) => {
   const { setIsLoading } = useLoadingState();
-  const { getSearchState } = useSearchState();
-  const searchState = getSearchState();
+  const searchState = useSearchStateParams();
   const indicatorSearchTerm = indicatorSearchFormState.indicator;
   const [inputTextLength, setInputTextLength] = useState(
     indicatorSearchTerm.length

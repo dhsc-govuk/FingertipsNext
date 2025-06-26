@@ -3,6 +3,7 @@ using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 using DHSC.FingertipsNext.Modules.HealthData.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Controllers.V1;
 
@@ -27,6 +28,8 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     /// <param name="ancestorCode">Optional Ancestor Code used for benchmarking.</param>
     /// <param name="benchmarkRefType">Optional benchmark reference type.</param>
     /// <param name="years">A list of years. Up to 20 distinct years can be requested.</param>
+    /// <param name="fromDate">The earliest date data can be for, inclusive.</param>
+    /// <param name="toDate">The latest date data can be for, inclusive.</param>
     /// <param name="inequalities">A list of desired inequalities.</param>
     /// <param name="latestOnly">Set to true to get data for the latest date period only, default is false. This overrides the years parameter if set to true</param>
     /// <returns></returns>
@@ -47,6 +50,8 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
         [FromQuery(Name = "benchmark_ref_type")]
             BenchmarkReferenceType benchmarkRefType = BenchmarkReferenceType.Unknown,
         [FromQuery] int[]? years = null,
+        [FromQuery(Name = "from_date")] string? fromDateStr = null,
+        [FromQuery(Name = "to_date")] string? toDateStr = null,
         [FromQuery] string[]? inequalities = null,
         [FromQuery(Name = "latest_only")] bool latestOnly = false
     )
@@ -69,6 +74,42 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
                 }
             );
 
+        DateOnly? toDate = null;
+        if (toDateStr is not null)
+        {
+            try
+            {
+                toDate = DateOnly.Parse(toDateStr, CultureInfo.InvariantCulture);
+            }
+            catch (FormatException)
+            {
+                return new BadRequestObjectResult(
+                    new SimpleError
+                    {
+                        Message = $"to_date {toDateStr} is invalid, should be formatted like 2023-06-20",
+                    }
+                );
+            }
+        }
+
+        DateOnly? fromDate = null;
+        if (fromDateStr is not null)
+        {
+            try
+            {
+                fromDate = DateOnly.Parse(fromDateStr, CultureInfo.InvariantCulture);
+            }
+            catch (FormatException)
+            {
+                return new BadRequestObjectResult(
+                    new SimpleError
+                    {
+                        Message = $"from_date {fromDateStr} is invalid, should be formatted like 2023-06-20",
+                    }
+                );
+            }
+        }
+
         if ((benchmarkRefType == BenchmarkReferenceType.SubNational) && (string.IsNullOrEmpty(ancestorCode)))
             return new BadRequestObjectResult(
                 new SimpleError
@@ -86,7 +127,9 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
             benchmarkRefType,
             years ?? [],
             inequalities ?? [],
-            latestOnly
+            latestOnly,
+            fromDate,
+            toDate
         );
 
         return indicatorData?.Status switch

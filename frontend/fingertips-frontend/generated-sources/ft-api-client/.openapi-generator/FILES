@@ -10,6 +10,7 @@ models/AreaWithRelations.ts
 models/BenchmarkComparisonMethod.ts
 models/BenchmarkOutcome.ts
 models/BenchmarkReferenceType.ts
+models/DatePeriod.ts
 models/DeprivationData.ts
 models/GetAreaHierarchies500Response.ts
 models/GetHealthcheck200Response.ts

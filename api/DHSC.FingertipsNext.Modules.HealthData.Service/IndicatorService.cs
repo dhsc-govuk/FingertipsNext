@@ -49,7 +49,10 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         BenchmarkReferenceType benchmarkRefType,
         IEnumerable<int> years,
         IEnumerable<string> inequalities,
-        bool latestOnly = false)
+        bool latestOnly = false,
+        DateOnly? fromDate = null,
+        DateOnly? toDate = null
+        )
     {
         var indicatorData = await healthDataRepository.GetIndicatorDimensionAsync(indicatorId, [.. areaCodes]);
         if (indicatorData == null)
@@ -70,7 +73,9 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
             years,
             inequalities,
             method,
-            polarity
+            polarity,
+            fromDate,
+            toDate
         )) ?? [])
         .ToList();
 
@@ -115,7 +120,9 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         IEnumerable<int> years,
         IEnumerable<string> inequalities,
         BenchmarkComparisonMethod comparisonMethod,
-        IndicatorPolarity polarity
+        IndicatorPolarity polarity,
+        DateOnly? fromDate = null,
+        DateOnly? toDate = null
         )
     {
         IEnumerable<HealthMeasureModel> healthMeasureData;
@@ -132,7 +139,9 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
                 areaCodesForSearch.ToArray(),
                 years.Distinct().ToArray(),
                 areaType,
-                benchmarkAreaCode
+                benchmarkAreaCode,
+                fromDate,
+                toDate
                 );
 
 
@@ -167,19 +176,24 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
             indicatorId,
             areaCodesForSearch.ToArray(),
             years.Distinct().ToArray(),
-            inequalitiesList.Distinct().ToArray());
+            inequalitiesList.Distinct().ToArray(),
+            fromDate,
+            toDate);
 
         var healthDataForAreas = healthMeasureData
             .GroupBy(healthMeasure => new
             {
                 code = healthMeasure.AreaDimension.Code,
-                name = healthMeasure.AreaDimension.Name
+                name = healthMeasure.AreaDimension.Name,
+                periodType = healthMeasure.PeriodDimension.Period
             })
             .Select(group => new HealthDataForArea
             {
                 AreaCode = group.Key.code,
                 AreaName = group.Key.name,
                 HealthData = healthDataMapper.Map(group.ToList())
+                    .OrderBy(dataPoint => dataPoint.DatePeriod.From)
+                    .ToList()
             })
             .ToList();
 
