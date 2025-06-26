@@ -15,6 +15,17 @@ public class CsvValidationTests
     {
         // Arrange
         string path = Path.Combine(Directory.GetCurrentDirectory(), @"Services/Validation/CSVs/Invalid.csv");
+
+        // Act
+        CsvValidationResult result;
+        using (FileStream stream = File.Open(path, FileMode.Open))
+        {
+            result = UploadedCsvValidator.Validate(stream);
+        }
+
+        // Assert
+        result.Success.ShouldBeFalse();
+
         List<string> missingHeaders = new List<string>()
         {
             "area_code",
@@ -34,17 +45,7 @@ public class CsvValidationTests
             "lower_ci_99_8",
             "upper_ci_99_8"
         };
-
-        // Act
-        CsvValidationResult result;
-        using (FileStream stream = File.Open(path, FileMode.Open))
-        {
-            result = UploadedCsvValidator.Validate(stream);
-        }
-
-        // Assert
-        result.Success.ShouldBeFalse();
-        result.Errors.Count.ShouldBe(16);
+        result.Errors.Count.ShouldBe(missingHeaders.Count);
         foreach (var header in missingHeaders)
         {
             result.Errors.ShouldContain(x => x.Value == $"Header with name '{header}' was not found.");

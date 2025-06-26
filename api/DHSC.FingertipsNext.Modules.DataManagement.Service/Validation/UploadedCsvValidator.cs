@@ -18,7 +18,10 @@ public static class UploadedCsvValidator
     public static CsvValidationResult Validate(Stream stream)
     {
         var errors = new List<CsvValidationError>();
-        var csvReaderConfiguration = SetupCsvReaderConfiguration(errors);
+        var csvReaderConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
+        {
+            ReadingExceptionOccurred = (args) => LogError(args, errors)
+        };
 
         using (var reader = new StreamReader(stream))
         using (var csv = new CsvReader(reader, csvReaderConfiguration))
@@ -43,10 +46,7 @@ public static class UploadedCsvValidator
             }
         }
 
-        if (errors.Count != 0)
-            return new CsvValidationResult(false, new Collection<CsvValidationError>(errors));
-
-        return new CsvValidationResult(true, new Collection<CsvValidationError>());
+        return errors.Count != 0 ? new CsvValidationResult(false, new Collection<CsvValidationError>(errors)) : new CsvValidationResult(true, new Collection<CsvValidationError>());
     }
 
     private static List<string> FormatHeaderErrors(string message)
@@ -59,14 +59,6 @@ public static class UploadedCsvValidator
         }
 
         return headerErrors;
-    }
-
-    private static CsvConfiguration SetupCsvReaderConfiguration(List<CsvValidationError> errors)
-    {
-        return new CsvConfiguration(CultureInfo.InvariantCulture)
-        {
-            ReadingExceptionOccurred = (args) => LogError(args, errors)
-        };
     }
 
     private static bool LogError(ReadingExceptionOccurredArgs args, List<CsvValidationError> errors)
