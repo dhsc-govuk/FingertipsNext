@@ -18,7 +18,6 @@ import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 import { determineBenchmarkRefType } from '@/lib/ViewsHelpers';
 
 export default async function OneIndicatorOneAreaView({
-  selectedIndicatorsData,
   searchState,
 }: Readonly<ViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
@@ -56,21 +55,23 @@ export default async function OneIndicatorOneAreaView({
 
   let indicatorData: IndicatorWithHealthDataForArea | undefined;
   try {
+    const requestOptions = {
+      indicatorId: Number(indicatorSelected[0]),
+      areaCodes: areaCodesToRequest,
+      inequalities: [
+        GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
+        GetHealthDataForAnIndicatorInequalitiesEnum.Deprivation,
+      ],
+      areaType: areaTypeToUse,
+      benchmarkRefType,
+      ancestorCode:
+        benchmarkRefType === BenchmarkReferenceType.SubNational
+          ? selectedGroupCode
+          : undefined,
+    };
+
     indicatorData = await indicatorApi.getHealthDataForAnIndicator(
-      {
-        indicatorId: Number(indicatorSelected[0]),
-        areaCodes: areaCodesToRequest,
-        inequalities: [
-          GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
-          GetHealthDataForAnIndicatorInequalitiesEnum.Deprivation,
-        ],
-        areaType: areaTypeToUse,
-        benchmarkRefType,
-        ancestorCode:
-          benchmarkRefType === BenchmarkReferenceType.SubNational
-            ? selectedGroupCode
-            : undefined,
-      },
+      requestOptions,
       API_CACHE_CONFIG
     );
   } catch (error) {
@@ -86,7 +87,6 @@ export default async function OneIndicatorOneAreaView({
       <OneIndicatorOneAreaViewPlots
         key={`OneIndicatorOneAreaViewPlots-${JSON.stringify(searchState)}`}
         indicatorData={indicatorData}
-        indicatorMetadata={selectedIndicatorsData?.[0]}
       />
     </ViewsWrapper>
   );

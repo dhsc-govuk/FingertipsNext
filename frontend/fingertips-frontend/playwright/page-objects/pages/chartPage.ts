@@ -23,7 +23,7 @@ import {
 } from '../../testHelpers/exportUtilities';
 import { copyrightDateFormat } from '@/components/molecules/Export/ExportCopyright';
 import { format } from 'date-fns/format';
-import { InequalitiesTypes } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { InequalitiesTypes } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
 
 export default class ChartPage extends AreaFilter {
   readonly backLink = 'chart-page-back-link';
