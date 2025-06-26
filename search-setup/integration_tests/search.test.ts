@@ -131,10 +131,10 @@ describe('AI search index creation and data loading', () => {
       expect(result.value).toHaveLength(2);
     });
 
-    it('should be 1 indicator with 65 and "E07000117"', async () => {
+    it('should be 2 indicators with 65 and "E07000117"', async () => {
       const response = await searchIndicatorsRequest('65', ['E07000117']);
       const result = await response.json();
-      expect(result.value).toHaveLength(1);
+      expect(result.value).toHaveLength(2);
     });
 
     describe('synonym map', () => {
