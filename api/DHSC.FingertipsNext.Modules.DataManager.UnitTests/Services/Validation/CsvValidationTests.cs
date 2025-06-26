@@ -70,8 +70,8 @@ public class CsvValidationTests
         // Assert
         result.Success.ShouldBeFalse();
         result.Errors.Count.ShouldBe(2);
-        result.Errors[0].ErrorMessage.ShouldBeEquivalentTo("The value: '2024-01-AB' is invalid. At row 2 in column 1.");
-        result.Errors[1].ErrorMessage.ShouldBeEquivalentTo("The value: '2024-12-AB' is invalid. At row 3 in column 2.");
+        result.Errors[0].ErrorMessage.ShouldBeEquivalentTo("The value: '2024-01-AB' is invalid. At row 2 in column 2.");
+        result.Errors[1].ErrorMessage.ShouldBeEquivalentTo("The value: '2024-12-AB' is invalid. At row 3 in column 3.");
     }
 
     /// <summary>

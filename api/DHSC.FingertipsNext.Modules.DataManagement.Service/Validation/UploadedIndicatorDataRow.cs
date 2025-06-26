@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text.RegularExpressions;
 using CsvHelper;
 using CsvHelper.Configuration;
@@ -15,13 +16,13 @@ public class UploadedIndicatorDataRow
     public int? AgeToYearsInclusive { get; set; }
     public int? DeprivationDecile { get; set; }
     public string? DeprivationCategory { get; set; }
-    public required int? Count { get; set; }
-    public required int? Value { get; set; }
-    public required double? Denominator { get; set; }
-    public required double? LowerCi95 { get; set; }
-    public required double? UpperCi95 { get; set; }
-    public required double? LowerCi99 { get; set; }
-    public required double? UpperCi99 { get; set; }
+    public int? Count { get; set; }
+    public int? Value { get; set; }
+    public double? Denominator { get; set; }
+    public double? LowerCi95 { get; set; }
+    public double? UpperCi95 { get; set; }
+    public double? LowerCi99 { get; set; }
+    public double? UpperCi99 { get; set; }
 }
 
 public sealed class UploadedIndicatorDataRowMap : ClassMap<UploadedIndicatorDataRow>
@@ -35,10 +36,10 @@ public sealed class UploadedIndicatorDataRowMap : ClassMap<UploadedIndicatorData
         Map(m => m.AreaCode).Name("area_code");
 
         Map(m => m.DateFrom).Name("date_from")
-            .Validate(args => dateRegex.IsMatch(args.Field));
+            .Validate(args => IsValidDate(args.Field));
 
         Map(m => m.DateTo).Name("date_to")
-            .Validate(args => dateRegex.IsMatch(args.Field));
+            .Validate(args => IsValidDate(args.Field));
 
         Map(m => m.PeriodType).Name("period_type");
 
@@ -65,5 +66,10 @@ public sealed class UploadedIndicatorDataRowMap : ClassMap<UploadedIndicatorData
         Map(m => m.LowerCi99).Name("lower_ci_99_8");
 
         Map(m => m.UpperCi99).Name("upper_ci_99_8");
+    }
+
+    private static bool IsValidDate(string date)
+    {
+        return DateTime.TryParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out _);
     }
 }
