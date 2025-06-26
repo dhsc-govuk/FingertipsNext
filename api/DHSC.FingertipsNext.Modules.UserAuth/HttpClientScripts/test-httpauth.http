@@ -1,4 +1,6 @@
+
 ### Call authorised user endpoint without a valid bearer token and verify 401 unauthorised response
+# @disabled # disabled pending integration with entra external id - DHSCFT-950
 GET http://localhost:5144/user/info
 > {%
     client.test("Expected authenticated endpoint returns authentication failure", function (callbackfn, thisArg) {
@@ -7,6 +9,7 @@ GET http://localhost:5144/user/info
 %}
 
 ### Call authorised user endpoint without a valid bearer token and verify 401 unauthorised response
+# @disabled # disabled pending integration with entra external id - DHSCFT-950
 HEAD http://localhost:5144/user/indicator/123
 > {%
     client.test("Expected authenticated endpoint returns authentication failure", function (callbackfn, thisArg) {

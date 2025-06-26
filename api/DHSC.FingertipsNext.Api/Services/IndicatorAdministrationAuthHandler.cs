@@ -9,12 +9,9 @@ namespace DHSC.FingertipsNext.Api.Services
         {
             var adminRole = config["AdminRole"];
 
-            if (!string.IsNullOrWhiteSpace(adminRole))
+            if (!string.IsNullOrWhiteSpace(adminRole) && (context.User.IsInRole(adminRole)))
             {
-                if (context.User.IsInRole(adminRole))
-                {
-                    context.Succeed(requirement);
-                }
+                context.Succeed(requirement);
             }
 
             return Task.CompletedTask;
