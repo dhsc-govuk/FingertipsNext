@@ -1,6 +1,7 @@
 apis/AreasApi.ts
 apis/IndicatorsApi.ts
 apis/SystemApi.ts
+apis/UserApi.ts
 apis/index.ts
 index.ts
 models/AgeData.ts
@@ -14,6 +15,7 @@ models/DeprivationData.ts
 models/GetAreaHierarchies500Response.ts
 models/GetHealthcheck200Response.ts
 models/GetHealthcheck500Response.ts
+models/GetUserInfo200Response.ts
 models/HealthDataForArea.ts
 models/HealthDataPoint.ts
 models/HealthDataPointBenchmarkComparison.ts

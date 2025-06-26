@@ -355,11 +355,11 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  /user/indicator/{indicatorId}:
+  /user/indicator/{indicator_id}:
     head:
       parameters:
         - in: path
-          name: userId
+          name: indicator_id
           schema:
             type: integer
           required: true
@@ -373,13 +373,13 @@ paths:
       operationId: checkIndicatorPermissions
       responses:
         '200':
-          description: The user has admin permission for the specified indicator.
+          description: The user has administrator permissions for the specified indicator.
         '400':
           $ref: '#/components/responses/UserBadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
-          description: The user does not have administration permission for the specified indicator.
+          description: The user does not have administration permissions for the specified indicator.
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
