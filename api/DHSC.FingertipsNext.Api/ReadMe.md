@@ -33,7 +33,7 @@ In order to enable this functionality the following configuration parameters mus
     "AdminRole": "<Fingertips Administration Group ID>"
 ```
 
-Instance, TenantId and ClientID are all parameters available within the entra external ID instance connected to.
+Instance, TenantId and ClientId are all parameters available within the Entra External ID instance connected to.
 
-Specifying the AdminRole role id (a GUID) is optional allows the definition of a global administration role group. 
-A user presenting a claim with membership to this group will be seen by the fingertips API as an amin user with global indicator permissions.
+Specifying the AdminRole role ID (a GUID) is optional allows the definition of a global administration role group. 
+A user presenting a claim with membership to this group will be seen by the fingertips API as an admin user with global indicator permissions.

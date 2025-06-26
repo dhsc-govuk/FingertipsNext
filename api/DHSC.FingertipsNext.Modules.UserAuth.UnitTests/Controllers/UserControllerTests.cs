@@ -39,6 +39,7 @@ namespace DHSC.FingertipsNext.Modules.UserAuth.UnitTests.Controllers
 
             response.StatusCode.ShouldBe(200);
         }
+
         private static ControllerContext BuildControllerContext(string withExternalId)
         {
             var claims = new List<Claim>()

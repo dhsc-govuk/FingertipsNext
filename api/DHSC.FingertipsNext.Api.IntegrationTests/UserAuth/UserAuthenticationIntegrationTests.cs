@@ -65,6 +65,18 @@ namespace DHSC.FingertipsNext.Api.IntegrationTests.UserAuth
         }
 
         [Fact]
+        public async Task UserInfoEndpointShouldRejectExpiredTokensFromAuthenticatedUsers()
+        {
+            var client = _appFactory.CreateClient();
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken(tokenIsExpired: true));
+
+            var response = await client.GetAsync(new Uri("/user/info", UriKind.Relative));
+
+            response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
+        }
+
+        [Fact]
         public async Task UserInfoEndpointRejectsNonAdminAuthenticatedUsersFromViewingProtectedIndicators()
         {
             var client = _appFactory.CreateClient();
@@ -91,7 +103,7 @@ namespace DHSC.FingertipsNext.Api.IntegrationTests.UserAuth
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
         }
 
-        private static string GenerateTestToken(string? includeRoleClaim = null)
+        private static string GenerateTestToken(string? includeRoleClaim = null, bool tokenIsExpired = false)
         {
             var claims = new List<Claim>()
             {
@@ -104,6 +116,13 @@ namespace DHSC.FingertipsNext.Api.IntegrationTests.UserAuth
                 claims.Add(new Claim(ClaimTypes.Role, includeRoleClaim));
             }
 
+            DateTime tokenExpiry = DateTime.UtcNow.AddMinutes(30);
+
+            if (tokenIsExpired)
+            {
+                tokenExpiry = DateTime.UtcNow.AddMinutes(-1);
+            }
+
             var key = new SymmetricSecurityKey(new byte[256]);
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
@@ -111,7 +130,7 @@ namespace DHSC.FingertipsNext.Api.IntegrationTests.UserAuth
                 issuer: "TestIssuer",
                 audience: "TestAudience",
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(30),
+                expires: tokenExpiry,
                 signingCredentials: creds
             );
 

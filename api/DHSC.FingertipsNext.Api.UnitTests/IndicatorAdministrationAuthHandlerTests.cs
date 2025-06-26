@@ -23,11 +23,9 @@ namespace DHSC.FingertipsNext.Api.UnitTests
         [Fact]
         public async Task AuthHandlerReturnsUnauthorizedWhenAdminRoleUndefined()
         {
-            var indicatorId = "123";
 
             AuthorizationHandlerContext authContext = new AuthorizationHandlerContext([new CanAdministerIndicatorRequirement()],
-                buildClaimsPrincipal(),
-                indicatorId);
+                GenerateClaimsPrincipal(), null);
 
             await _authHandler.HandleAsync(authContext);
 
@@ -37,14 +35,10 @@ namespace DHSC.FingertipsNext.Api.UnitTests
         [Fact]
         public async Task AuthHandlerReturnsUnauthorizedWhenUserLacksAdminRole()
         {
-            string adminRoleId = "8c3441bf-a2a6-415a-be6e-5467c9237671";
-            _mockConfig["AdminRole"].Returns(adminRoleId);
-
-            var indicatorId = "123";
+            _mockConfig["AdminRole"].Returns("8c3441bf-a2a6-415a-be6e-5467c9237671");
 
             AuthorizationHandlerContext authContext = new AuthorizationHandlerContext([new CanAdministerIndicatorRequirement()],
-                buildClaimsPrincipal(),
-                indicatorId);
+                GenerateClaimsPrincipal(), null);
 
             await _authHandler.HandleAsync(authContext);
 
@@ -57,11 +51,8 @@ namespace DHSC.FingertipsNext.Api.UnitTests
             string adminRoleId = "8c3441bf-a2a6-415a-be6e-5467c9237671";
             _mockConfig["AdminRole"].Returns(adminRoleId);
 
-            var indicatorId = "123";
-
             AuthorizationHandlerContext authContext = new AuthorizationHandlerContext([new CanAdministerIndicatorRequirement()],
-                buildClaimsPrincipal(adminRoleId),
-                indicatorId);
+                GenerateClaimsPrincipal(adminRoleId), null);
 
             await _authHandler.HandleAsync(authContext);
 
@@ -69,16 +60,17 @@ namespace DHSC.FingertipsNext.Api.UnitTests
         }
 
 
-        private static ClaimsPrincipal buildClaimsPrincipal(string roleToAdd = "")
+        private static ClaimsPrincipal GenerateClaimsPrincipal(string? roleToAdd = null)
         {
-            var claims = new List<Claim>()
+            var claims = new List<Claim>();
+
+            if (roleToAdd != null)
             {
-                new Claim(ClaimTypes.Role, roleToAdd)
-            };
+                claims.Add(new Claim(ClaimTypes.Role, roleToAdd));
+            }
 
             var identity = new ClaimsIdentity(claims, "TestAuth");
             var user = new ClaimsPrincipal(identity);
-
 
             return user;
         }
