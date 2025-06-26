@@ -30,7 +30,7 @@ public class DataManagementModule : AbstractMonolithModule, IMonolithModule
             clientBuilder.AddBlobServiceClient(storageConnectionString)
                 .ConfigureOptions(options =>
                 {
-                    options.Retry.MaxRetries = 1;
+                    options.Retry.MaxRetries = 2;
                 });
         });
     }
