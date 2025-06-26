@@ -1,20 +1,16 @@
 ﻿--- This stored procedure Gets HealthData and performs Quintile calculations
-CREATE PROCEDURE [dbo].[GetIndicatorDetailsWithQuintileBenchmarkComparison] --- The Areas we want data for
-@RequestedAreas AreaCodeList READONLY,
---- The AreaType we are comparing against - this needs to be passed in because the AreaCodes can be ambiguous for districts and counties
+CREATE PROCEDURE [dbo].[GetIndicatorDetailsWithQuintileBenchmarkComparison] @RequestedAreas AreaCodeList READONLY,
+--- The Areas we want data for
 @RequestedAreaType varchar(50),
---- The Years we are interested in - can be empty - DEPRECATED
+--- The AreaType we are comparing against - this needs to be passed in because the AreaCodes can be ambiguous for districts and counties
 @RequestedYears YearList READONLY,
---- The specific indicatorId we are interested in
+--- The Years we are interested in - can be empty
 @RequestedIndicatorId int,
---- The area used for benchmarking
-@RequestedBenchmarkAreaCode varchar(20),
---- The inclusive date range we are interested in - can be empty
-@RequestedFromDate DATE,
-@RequestedToDate DATE 
-AS BEGIN
-DECLARE @NOW AS DATETIME2;
+--- The specific indicatorId we are interested in
+@RequestedBenchmarkAreaCode varchar(20) --- The area used for benchmarking
+AS BEGIN 
 
+DECLARE @NOW AS DATETIME2;
 SET @NOW = GETUTCDATE();
 
 WITH --- Get the Benchmark Area
@@ -31,33 +27,23 @@ RequestedIndicator AS (
 	FROM dbo.IndicatorDimension AS ind
 	WHERE ind.IndicatorId = @RequestedIndicatorId
 ),
---- The set of areas used for the Quintile calculation - these are the descendants of the requested benchmark area
-BenchmarkDescendants AS (
-	SELECT AreaCode
-	FROM dbo.FindAreaDescendants_Fn(@RequestedAreaType, @RequestedBenchmarkAreaCode)
-),
---- We want to return data for all areas but only calculate the quintiles for the benchmark area and its descendants
 AreasWithIsBenchmarkAreaFlag (AreaCode, IsBenchmarkArea) AS (
 	SELECT AreaCode,
 		1
-	FROM BenchmarkDescendants
+	FROM dbo.FindAreaDescendants_Fn(@RequestedAreaType, @RequestedBenchmarkAreaCode)
 	UNION
 	SELECT ra.AreaCode,
 		0
 	FROM @RequestedAreas ra
 		JOIN dbo.AreaDimension ad ON ra.AreaCode = ad.Code
-	WHERE ra.AreaCode NOT IN (
-			SELECT AreaCode
-			FROM BenchmarkDescendants
-		)
+		AND ad.AreaType != @RequestedAreaType
 ),
 HealthData AS (
 	SELECT hm.HealthMeasureKey,
 		CASE
 			WHEN benchmarkAreas.IsBenchmarkArea = 1 THEN NTILE(5) OVER(
-				PARTITION BY benchmarkAreas.IsBenchmarkArea,
-				fromDate.Date,
-				toDate.Date
+				PARTITION BY hm.Year,
+				benchmarkAreas.IsBenchmarkArea
 				ORDER BY Value
 			)
 			ELSE NULL
@@ -107,27 +93,18 @@ HealthData AS (
 				FROM @RequestedYears
 			)
 			OR NOT EXISTS (
+				--- If no years are passed in then return data for ALL years
 				SELECT 1
 				FROM @RequestedYears
 			)
 		)
-		AND (
-			@RequestedFromDate IS NULL
-			OR fromDate.Date >= @RequestedFromDate
-		)
-		AND (
-			@RequestedToDate IS NULL
-			OR toDate.Date <= @RequestedToDate
-		)
 		AND hm.PublishedAt <= @NOW
 ),
 HealthDataNTileGroupCount AS (
-	SELECT ToDate,
-		FromDate,
+	SELECT Year,
 		COUNT(*) AS COUNT
 	FROM HealthData AS hd
-	GROUP BY ToDate,
-		FromDate
+	GROUP BY Year
 ) --- The final select now filters based on the requested areas and calculates the Benchmark outcome
 SELECT hd.HealthMeasureKey,
 	hd.Quintile,
@@ -192,11 +169,9 @@ SELECT hd.HealthMeasureKey,
 	END AS BenchmarkComparisonOutcome
 FROM HealthData AS hd
 	JOIN @RequestedAreas AS areas ON hd.AreaDimensionCode = areas.AreaCode
-	JOIN HealthDataNTileGroupCount AS nc ON hd.FromDate = nc.FromDate
-	AND hd.ToDate = nc.ToDate
+	JOIN HealthDataNTileGroupCount AS nc ON hd.Year = nc.Year
 	CROSS JOIN RequestedIndicator ind
 	CROSS JOIN BenchmarkAreaGroup bag
 ORDER BY AreaDimensionName,
-	hd.ToDate DESC,
-	hd.FromDate DESC
+	hd.Year DESC
 END

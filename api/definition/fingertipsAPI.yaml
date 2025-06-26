@@ -225,8 +225,6 @@ paths:
       - $ref: '#/components/parameters/ancestor_code'
       - $ref: '#/components/parameters/benchmark_ref_type'
       - $ref: '#/components/parameters/years'
-      - $ref: '#/components/parameters/to_date'
-      - $ref: '#/components/parameters/from_date'
       - $ref: '#/components/parameters/inequalities'
       - $ref: '#/components/parameters/latest_only'
     get:
@@ -545,20 +543,6 @@ components:
           type: integer
           example: 2023
         maxItems: 20
-    to_date:
-      in: query
-      name: to_date
-      description: The latest date, in ISO 8601 format (YYYY-MM-DD), for which data should be returned, if not specified then the latest date for the indicator will be used.
-      schema:
-        type: string
-        example: '2023-12-31'
-    from_date:
-      in: query
-      name: from_date
-      description: The earliest date, in ISO 8601 format (YYYY-MM-DD), for which data should be returned, if not specified then the earliest date for the indicator will be used.
-      schema:
-        type: string
-        example: '2023-01-01'
     inequalities:
       in: query
       name: inequalities
@@ -678,7 +662,7 @@ components:
     PeriodType:
       type: string
       example: Calendar
-      description: a type of date period e.g. Calendar or Financial year.
+      description: a type of date period e.g. Calendar or Financial year
       enum:
         - Calendar
         - Financial
@@ -753,29 +737,6 @@ components:
         - Quintiles
         - CIOverlappingReferenceValue95
         - CIOverlappingReferenceValue99_8
-    Date:
-      type: string
-      format: date
-      example: '2023-12-31'
-      description: Date in ISO 8601 format (YYYY-MM-DD).
-    DatePeriod:
-      title: Date Period
-      type: object
-      description: A date period for a health data point.
-      required:
-        - type
-        - from
-        - to
-      properties:
-        type:
-          $ref: '#/components/schemas/PeriodType'
-          description: The type of date period, e.g. Calendar or Financial year.
-        from:
-          $ref: '#/components/schemas/Date'
-          description: The start date for the data request, in ISO 8601 format (YYYY-MM-DD).
-        to:
-          $ref: '#/components/schemas/Date'
-          description: The end date for the data request, in ISO 8601 format (YYYY-MM-DD).
     AgeData:
       title: Age Data
       type: object
@@ -884,8 +845,6 @@ components:
           format: int32
           example: 2023
           description: The year that the data point is for
-        datePeriod:
-          $ref: '#/components/schemas/DatePeriod'
         count:
           type: number
           example: 222
@@ -1000,9 +959,6 @@ components:
           format: int32
           example: 2023
           description: The year that the data point is for
-        datePeriod:
-          $ref: '#/components/schemas/DatePeriod'
-          description: The date period that the data point is for.
         polarity:
           $ref: '#/components/schemas/IndicatorPolarity'
         q0Value:
