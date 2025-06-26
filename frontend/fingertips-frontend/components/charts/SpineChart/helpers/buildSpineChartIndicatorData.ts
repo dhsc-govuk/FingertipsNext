@@ -58,7 +58,7 @@ export const buildSpineChartIndicatorData = (
   selectedGroupCode: string
 ): SpineChartIndicatorData[] => {
   return allIndicatorData
-    .map((indicatorData, index) => {
+    .map((indicatorData) => {
       if (
         indicatorData.indicatorId === undefined ||
         indicatorData.name === null
@@ -98,14 +98,6 @@ export const buildSpineChartIndicatorData = (
         indicatorData.areaHealthData,
         areaCodeForEngland
       );
-
-      if (index === 0) {
-        console.log({
-          areaHealthData: indicatorData.areaHealthData,
-          englandData,
-          groupData,
-        });
-      }
 
       return {
         indicatorId,

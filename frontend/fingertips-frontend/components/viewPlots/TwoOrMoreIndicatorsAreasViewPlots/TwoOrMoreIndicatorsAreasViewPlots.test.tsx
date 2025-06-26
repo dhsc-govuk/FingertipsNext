@@ -1,3 +1,6 @@
+import { mockUsePathname } from '@/mock/utils/mockNextNavigation';
+import { mockSetIsLoading } from '@/mock/utils/mockLoadingUseState';
+//
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import {
   extractHeatmapIndicatorData,
@@ -16,26 +19,12 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmapUtil';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
-import { LoaderContext } from '@/context/LoaderContext';
 
-vi.mock('next/navigation', async () => {
-  const originalModule = await vi.importActual('next/navigation');
-
-  return {
-    ...originalModule,
-    useRouter: vi.fn().mockImplementation(() => ({})),
-  };
-});
-
-const mockLoaderContext: LoaderContext = {
-  getIsLoading: vi.fn(),
-  setIsLoading: vi.fn(),
-};
-vi.mock('@/context/LoaderContext', () => {
-  return {
-    useLoadingState: () => mockLoaderContext,
-  };
-});
+mockUsePathname.mockReturnValue('some-mock-pathname');
+mockSetIsLoading(false);
+vi.mock('@/components/charts/SpineChart/SpineChartWrapper', () => ({
+  SpineChartWrapper: () => <div data-testid="spineChartTable-component" />,
+}));
 
 const indicatorIds = ['123', '321'];
 const mockAreas = ['A001', 'A002', 'A003'];

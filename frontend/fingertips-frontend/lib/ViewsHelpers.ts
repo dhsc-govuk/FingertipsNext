@@ -30,10 +30,6 @@ export const getHealthDataForIndicator = async (
   let healthIndicatorData: IndicatorWithHealthDataForArea | undefined;
 
   try {
-    console.log('START getHealthDataForIndicator', {
-      indicatorId,
-      combinedRequestAreas,
-    });
     const healthIndicatorDataChunks = await Promise.all(
       combinedRequestAreas.flatMap((requestAreas) => {
         return chunkArray(requestAreas.areaCodes).map((areaCodes) => {
@@ -47,7 +43,6 @@ export const getHealthDataForIndicator = async (
             ancestorCode: areaGroup,
           };
 
-          console.log({ indicatorId, areaCodes, reqOptions });
           return indicatorApi.getHealthDataForAnIndicator(
             reqOptions,
             API_CACHE_CONFIG
@@ -67,7 +62,7 @@ export const getHealthDataForIndicator = async (
   } catch (error) {
     throw new Error(`Error getting health indicator data for areas: ${error}`);
   }
-  console.log('END getHealthDataForIndicator', { healthIndicatorData });
+
   return healthIndicatorData;
 };
 

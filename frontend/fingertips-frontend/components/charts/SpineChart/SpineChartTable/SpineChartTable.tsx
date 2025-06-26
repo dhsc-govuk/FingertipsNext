@@ -35,7 +35,6 @@ export function SpineChartTable({
   indicatorData,
   benchmarkToUse,
 }: Readonly<SpineChartTableProps>) {
-  if (!indicatorData.length) return null;
   const sortedData = sortByIndicator(indicatorData);
   const methods = getMethodsAndOutcomes(indicatorData);
   const areaNames = sortedData[0].areasHealthData.map(
@@ -47,6 +46,8 @@ export function SpineChartTable({
   const csvData = useMemo(() => {
     return convertSpineChartTableToCsv(sortedData);
   }, [sortedData]);
+
+  if (!indicatorData.length) return null;
 
   const groupName = sortedData[0].groupData?.areaName;
   const title = `Area profile for ${areaNames.join(' and ')}`;
