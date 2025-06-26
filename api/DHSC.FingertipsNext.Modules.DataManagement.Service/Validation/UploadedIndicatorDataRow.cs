@@ -27,12 +27,8 @@ public class UploadedIndicatorDataRow
 
 public sealed class UploadedIndicatorDataRowMap : ClassMap<UploadedIndicatorDataRow>
 {
-    const string DateFormatRegex = @"\d{4}-\d{2}-\d{2}";
-
     public UploadedIndicatorDataRowMap()
     {
-        Regex dateRegex = new Regex(DateFormatRegex, RegexOptions.CultureInvariant, TimeSpan.FromMilliseconds(100));
-
         Map(m => m.AreaCode).Name("area_code");
 
         Map(m => m.DateFrom).Name("date_from")

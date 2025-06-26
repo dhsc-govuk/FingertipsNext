@@ -32,9 +32,10 @@ public static class UploadedCsvValidator
             try
             {
                 // Do not call .ToList() on records, as this will bring the entire CSV structure into memory
-                // Turn into a for loop
                 foreach (UploadedIndicatorDataRow row in records)
-                { }
+                {
+                    // Need the foreach to trigger the validation
+                }
             }
             catch (HeaderValidationException ex)
             {
