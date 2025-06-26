@@ -100,6 +100,7 @@ describe('PopulationPyramidWithTable', () => {
       />
     );
   };
+
   const mockHealthDataForArea: HealthDataForArea[] = [
     {
       areaCode: '123',
@@ -155,6 +156,14 @@ describe('PopulationPyramidWithTable', () => {
     populationAreasDropDownOptions.forEach((option, i) => {
       expect(option.textContent).toBe(mockHealthDataForArea[i].areaName);
     });
+  });
+
+  it('should not render population pyramid if given empty health data', () => {
+    setupUI([]);
+
+    expect(
+      screen.queryByTestId('populationPyramidWithTable-component')
+    ).not.toBeInTheDocument();
   });
 
   test('take a snapshot', () => {
