@@ -1,3 +1,4 @@
+using Azure.Storage;
 using Azure.Storage.Blobs;
 using Microsoft.Extensions.Configuration;
 
@@ -12,13 +13,19 @@ internal sealed class AzureStorageBlobClient
     {
         _configuration = configuration;
 
-        var connectionString = configuration.GetConnectionString("UploadStorageAccount");
-        ArgumentNullException.ThrowIfNull(connectionString);
+        var storageUri = configuration.GetValue<string>("UPLOAD_STORAGE_ACCOUNT_URI");
+        ArgumentNullException.ThrowIfNull(storageUri);
+
+        var storageAccountName = configuration.GetValue<string>("UPLOAD_STORAGE_ACCOUNT_NAME");
+        ArgumentNullException.ThrowIfNull(storageAccountName);
+        var storageAccountKey = configuration.GetValue<string>("UPLOAD_STORAGE_ACCOUNT_KEY");
+        ArgumentNullException.ThrowIfNull(storageAccountKey);
 
         var containerName = configuration.GetValue<string>("UPLOAD_STORAGE_CONTAINER_NAME");
         ArgumentNullException.ThrowIfNull(containerName);
 
-        var blobServiceClient = new BlobServiceClient(connectionString);
+        var blobServiceClient = new BlobServiceClient(new Uri(storageUri),
+            new StorageSharedKeyCredential(storageAccountName, storageAccountKey));
         _blobContainerClient = blobServiceClient.GetBlobContainerClient(containerName);
     }
 
