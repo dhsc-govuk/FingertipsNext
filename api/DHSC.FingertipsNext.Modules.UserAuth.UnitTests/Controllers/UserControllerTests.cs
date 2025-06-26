@@ -27,7 +27,7 @@ namespace DHSC.FingertipsNext.Modules.UserAuth.UnitTests.Controllers
             var response = _controller.UserInfo() as ObjectResult;
             var responseObject = response.Value as UserInfo;
 
-            response?.StatusCode.ShouldBe(200);
+            response.StatusCode.ShouldBe(200);
             responseObject?.ShouldNotBeNull();
             responseObject.ExternalId.ShouldBe(externalId);
         }
@@ -39,8 +39,6 @@ namespace DHSC.FingertipsNext.Modules.UserAuth.UnitTests.Controllers
 
             response.StatusCode.ShouldBe(200);
         }
-
-
         private static ControllerContext BuildControllerContext(string withExternalId)
         {
             var claims = new List<Claim>()

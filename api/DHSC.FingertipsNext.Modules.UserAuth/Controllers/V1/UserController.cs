@@ -11,7 +11,7 @@ namespace DHSC.FingertipsNext.Modules.UserAuth.Controllers.V1
     [Route("user")]
     [Authorize]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>")]
-    public class UserController() : ControllerBase
+    public class UserController : ControllerBase
     {
         [HttpGet]
         [Route("info")]
