@@ -4,7 +4,6 @@ import {
   IndicatorMode,
   SearchMode,
   AreaMode,
-  IndicatorInfo,
   AreaFilters,
 } from '../../testHelpers/genericTestUtilities';
 import {
@@ -14,15 +13,10 @@ import {
 } from '../../testHelpers/indicatorDataUtilities';
 import mockIndicators from '../../../assets/mockIndicatorData.json';
 import mockAreas from '../../../assets/mockAreaData.json';
-import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
+import { RawIndicatorDocument } from '@/lib/search/searchTypes';
 import ChartPage from '@/playwright/page-objects/pages/chartPage';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
-const areaFiltersToSelect: AreaFilters = {
-  areaType: 'gps',
-  groupType: 'nhs-sub-integrated-care-boards',
-  group: '',
-};
 /**
  * Note that this test suite uses mock service worker to mock API responses, therefore these playwright tests are isolated from the backend
  * See:
@@ -37,32 +31,29 @@ const subjectSearchTerm = 'hospital';
 const secondSubjectSearchTerm = 'diabetes';
 const indicatorMode = IndicatorMode.ONE_INDICATOR;
 const searchMode = SearchMode.ONLY_SUBJECT;
-let allValidIndicatorIDs: string[];
-let validIndicatorIDs: IndicatorInfo[];
-let allNHSRegionAreas: AreaDocument[];
-let typedIndicatorData: RawIndicatorDocument[];
-
-test.beforeAll('Initialize test data from mock sources', () => {
-  typedIndicatorData = indicatorData.map((indicator: RawIndicatorDocument) => ({
+const areaFiltersToSelect: AreaFilters = {
+  areaType: 'gps',
+  groupType: 'nhs-sub-integrated-care-boards',
+  group: '',
+};
+// Initialize test data from mock sources
+const typedIndicatorData = indicatorData.map(
+  (indicator: RawIndicatorDocument) => ({
     ...indicator,
     lastUpdated: new Date(indicator.lastUpdatedDate),
-  }));
-
-  // Get all valid indicators based on subjectSearchTerm search term
-  allValidIndicatorIDs = getAllIndicatorIDsForSearchTerm(
-    typedIndicatorData,
-    subjectSearchTerm
-  );
-
-  // Filter down valid indicators based on mode
-  validIndicatorIDs = returnIndicatorIDsByIndicatorMode(
-    allValidIndicatorIDs,
-    indicatorMode
-  );
-
-  // Get all NHS region areas
-  allNHSRegionAreas = getAllAreasByAreaType(mockAreas, 'nhs-regions');
-});
+  })
+);
+const allValidIndicatorIDs = getAllIndicatorIDsForSearchTerm(
+  typedIndicatorData,
+  subjectSearchTerm
+);
+// Filter down valid indicators based on mode
+const validIndicatorIDs = returnIndicatorIDsByIndicatorMode(
+  allValidIndicatorIDs,
+  indicatorMode
+);
+// Get all NHS region areas
+const allNHSRegionAreas = getAllAreasByAreaType(mockAreas, 'nhs-regions');
 
 test.describe('Home Page Tests', () => {
   test('should navigate to home page and validate accessibility', async ({

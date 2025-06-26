@@ -51,8 +51,9 @@ GET http://localhost:5144/indicators/41101/data?area_codes=E38000101&area_type=g
         expectedYears = [2020, 2021, 2022, 2023];
 
         containsAllExpectedYears = expectedYears.every(r => yearList.includes(r))
-        client.assert(containsAllExpectedYears == true)
-        client.assert(yearList.indexOf(2024) == -1)
-        client.assert(yearList.length == 4)
+        client.assert(containsAllExpectedYears == true, "returned data does not include all expected years")
+        client.assert(yearList.indexOf(2024) == -1, “2024 data is unpublished so should not be returned”)
+        client.assert(yearList.indexOf(2025) == -1, “2025 data is unpublished so should not be returned”)
+        client.assert(yearList.length == 4, "only 4 years worth of data should be returned")
     });
 %}
