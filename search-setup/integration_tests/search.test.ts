@@ -117,12 +117,12 @@ describe('AI search index creation and data loading', () => {
       expect(result.value).toHaveLength(0);
     });
 
-    it('should be 3 indicators with 65 and [ONS_AREA_CODE_ENGLAND]', async () => {
+    it('should be 4 indicators with 65 and [ONS_AREA_CODE_ENGLAND]', async () => {
       const response = await searchIndicatorsRequest('65', [
         ONS_AREA_CODE_ENGLAND,
       ]);
       const result = await response.json();
-      expect(result.value).toHaveLength(3);
+      expect(result.value).toHaveLength(4);
     });
 
     it('should be 2 indicators with 65 and "E38000233"', async () => {
