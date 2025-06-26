@@ -7,17 +7,13 @@ public interface IHealthDataRepository
     Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataAsync(int indicatorId,
                                                                  string[] areaCodes,
                                                                  int[] years,
-                                                                 string[] inequalities,
-                                                                 DateOnly? fromDate = null,
-                                                                 DateOnly? toDate = null);
+                                                                 string[] inequalities);
 
     Task<IEnumerable<DenormalisedHealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync(int indicatorId,
                                                                  string[] areaCodes,
                                                                  int[] years,
                                                                  string areaTypeKey,
-                                                                 string benchmarkAreaCode,
-                                                                 DateOnly? fromDate = null,
-                                                                 DateOnly? toDate = null);
+                                                                 string benchmarkAreaCode);
 
     Task<IndicatorDimensionModel?> GetIndicatorDimensionAsync(int indicatorId, string[] areaCodes);
     Task<IEnumerable<QuartileDataModel>> GetQuartileDataAsync(IEnumerable<int> indicatorIds, string areaCode, string areaTypeKey, string ancestorCode, string benchmarkAreaCode);

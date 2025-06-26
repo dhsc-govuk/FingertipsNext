@@ -1,6 +1,5 @@
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -68,25 +67,23 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
     }
 
     public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataAsync(int indicatorId, string[] areaCodes,
-        int[] years, string[] inequalities, DateOnly? fromDate = null, DateOnly? toDate = null)
+        int[] years, string[] inequalities)
     {
         var excludeDisaggregatedSexValues = !inequalities.Contains(SEX);
         var excludeDisaggregatedAgeValues = !inequalities.Contains(AGE);
         var excludeDisaggregatedDeprivationValues = !inequalities.Contains(DEPRIVATION);
 
-        DateTime? toDateTime = toDate != null ? toDate.Value.ToDateTime(TimeOnly.MinValue) : null;
-        DateTime? fromDateTime = fromDate != null ? fromDate.Value.ToDateTime(TimeOnly.MinValue) : null;
-
         var healthMeasures = await _dbContext.PublishedHealthMeasure
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
             .Where(HealthDataPredicates.IsInAreaCodes(areaCodes))
             .Where(healthMeasure => years.Length == 0 || EF.Constant(years).Contains(healthMeasure.Year))
-            .Where(healthMeasure => fromDate == null || healthMeasure.FromDateDimension.Date >= fromDateTime)
-            .Where(healthMeasure => toDate == null || healthMeasure.ToDateDimension.Date <= toDateTime)
-            .Where(healthMeasure => !excludeDisaggregatedSexValues || healthMeasure.IsSexAggregatedOrSingle)
-            .Where(healthMeasure => !excludeDisaggregatedAgeValues || healthMeasure.IsAgeAggregatedOrSingle)
+            .Where(healthMeasure => excludeDisaggregatedSexValues ? healthMeasure.IsSexAggregatedOrSingle : true)
+            .Where(healthMeasure => excludeDisaggregatedAgeValues ? healthMeasure.IsAgeAggregatedOrSingle : true)
             .Where(healthMeasure =>
-                !excludeDisaggregatedDeprivationValues || healthMeasure.IsDeprivationAggregatedOrSingle)
+                excludeDisaggregatedDeprivationValues ? healthMeasure.IsDeprivationAggregatedOrSingle : true)
+            .OrderBy(healthMeasure => healthMeasure.Year)
+            .OrderBy(healthMeasure => healthMeasure.ToDateDimension)
+            .OrderBy(healthMeasure => healthMeasure.FromDateDimension)
             .Include(healthMeasure => healthMeasure.AreaDimension)
             .Include(healthMeasure => healthMeasure.AgeDimension)
             .Include(healthMeasure => healthMeasure.PeriodDimension)
@@ -118,13 +115,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
     }
 
     public async Task<IEnumerable<DenormalisedHealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync(
-        int indicatorId,
-        string[] areaCodes,
-        int[] years,
-        string areaTypeKey,
-        string benchmarkAreaCode,
-        DateOnly? fromDate = null,
-        DateOnly? toDate = null)
+        int indicatorId, string[] areaCodes, int[] years, string areaTypeKey, string benchmarkAreaCode)
     {
         SqlParameter areasOfInterest;
         SqlParameter yearsOfInterest;
@@ -157,12 +148,9 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         var requestedIndicatorId = new SqlParameter("@RequestedIndicatorId", indicatorId);
         var requestedBenchmarkAreaCode = new SqlParameter("@RequestedBenchmarkAreaCode", benchmarkAreaCode);
 
-        var requestedFromDate = new SqlParameter("@RequestedFromDate", fromDate.HasValue ? fromDate.Value : DBNull.Value);
-        var requestedToDate = new SqlParameter("@RequestedToDate", toDate.HasValue ? toDate.Value : DBNull.Value);
-
         var denormalisedHealthData = await _dbContext.DenormalisedHealthMeasure.FromSqlInterpolated
         (@$"
-              EXEC dbo.GetIndicatorDetailsWithQuintileBenchmarkComparison @RequestedAreas={areasOfInterest}, @RequestedAreaType={areaTypeOfInterest}, @RequestedYears={yearsOfInterest}, @RequestedIndicatorId={requestedIndicatorId}, @RequestedBenchmarkAreaCode={requestedBenchmarkAreaCode}, @RequestedFromDate={requestedFromDate}, @RequestedToDate={requestedToDate}
+              EXEC dbo.GetIndicatorDetailsWithQuintileBenchmarkComparison @RequestedAreas={areasOfInterest}, @RequestedAreaType={areaTypeOfInterest}, @RequestedYears={yearsOfInterest}, @RequestedIndicatorId={requestedIndicatorId}, @RequestedBenchmarkAreaCode={requestedBenchmarkAreaCode}
               "
         ).ToListAsync();
 

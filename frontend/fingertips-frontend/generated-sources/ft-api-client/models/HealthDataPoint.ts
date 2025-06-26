@@ -27,13 +27,6 @@ import {
     DeprivationDataToJSON,
     DeprivationDataToJSONTyped,
 } from './DeprivationData';
-import type { DatePeriod } from './DatePeriod';
-import {
-    DatePeriodFromJSON,
-    DatePeriodFromJSONTyped,
-    DatePeriodToJSON,
-    DatePeriodToJSONTyped,
-} from './DatePeriod';
 import type { SexData } from './SexData';
 import {
     SexDataFromJSON,
@@ -61,12 +54,6 @@ export interface HealthDataPoint {
      * @memberof HealthDataPoint
      */
     year: number;
-    /**
-     * 
-     * @type {DatePeriod}
-     * @memberof HealthDataPoint
-     */
-    datePeriod?: DatePeriod;
     /**
      * The count
      * @type {number}
@@ -170,7 +157,6 @@ export function HealthDataPointFromJSONTyped(json: any, ignoreDiscriminator: boo
     return {
         
         'year': json['year'],
-        'datePeriod': json['datePeriod'] == null ? undefined : DatePeriodFromJSON(json['datePeriod']),
         'count': json['count'] == null ? undefined : json['count'],
         'value': json['value'] == null ? undefined : json['value'],
         'lowerCi': json['lowerCi'] == null ? undefined : json['lowerCi'],
@@ -196,7 +182,6 @@ export function HealthDataPointToJSONTyped(value?: HealthDataPoint | null, ignor
     return {
         
         'year': value['year'],
-        'datePeriod': DatePeriodToJSON(value['datePeriod']),
         'count': value['count'],
         'value': value['value'],
         'lowerCi': value['lowerCi'],

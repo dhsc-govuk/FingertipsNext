@@ -52,8 +52,6 @@ indicators_by_indicator_id_data:
     - $ref: "./parameters.yaml#/ancestor_code"
     - $ref: "./parameters.yaml#/benchmark_ref_type"
     - $ref: "./parameters.yaml#/years"
-    - $ref: "./parameters.yaml#/to_date"
-    - $ref: "./parameters.yaml#/from_date"
     - $ref: "./parameters.yaml#/inequalities"
     - $ref: "./parameters.yaml#/latest_only"
   get:
