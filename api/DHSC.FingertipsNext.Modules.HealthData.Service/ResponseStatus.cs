@@ -5,5 +5,6 @@ public enum ResponseStatus
     Unknown = 0,
     Success = 1,
     NoDataForIndicator = 2,
-    IndicatorDoesNotExist = 3
+    IndicatorDoesNotExist = 3,
+    InvalidCsv = 4
 }
