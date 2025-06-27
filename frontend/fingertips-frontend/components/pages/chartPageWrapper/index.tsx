@@ -3,21 +3,17 @@
 import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
 import { AreaFilterPane } from '@/components/organisms/AreaFilterPane';
 import { useLoadingState } from '@/context/LoaderContext';
-import { useSearchState } from '@/context/SearchStateContext';
 import { Area } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import {
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
+import { SearchStateManager } from '@/lib/searchStateManager';
 import { BackLink, GridCol, GridRow, H2 } from 'govuk-react';
 import { useEffect, useState } from 'react';
 import { FilterSummaryPanel } from '@/components/molecules/FilterSummaryPanel';
 import styles from './ChartPageWrapper.module.css';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
 interface ChartPageWrapperProps {
   children: React.ReactNode;
-  searchState?: SearchStateParams;
   areaFilterData?: AreaFilterData;
   selectedAreasData?: Area[];
   selectedIndicatorsData?: IndicatorDocument[];
@@ -25,17 +21,12 @@ interface ChartPageWrapperProps {
 
 export function ChartPageWrapper({
   children,
-  searchState,
   areaFilterData,
   selectedAreasData,
   selectedIndicatorsData,
 }: Readonly<ChartPageWrapperProps>) {
   const { setIsLoading } = useLoadingState();
-  const { setSearchState } = useSearchState();
-
-  useEffect(() => {
-    setSearchState(searchState ?? {});
-  }, [searchState, setSearchState]);
+  const searchState = useSearchStateParams();
 
   useEffect(() => {
     window.scrollTo(0, 0);

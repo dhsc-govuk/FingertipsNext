@@ -1,6 +1,5 @@
 'use client';
 
-import { BarChartEmbeddedTable } from '@/components/organisms/BarChartEmbeddedTable';
 import {
   determineAreasForBenchmarking,
   determineBenchmarkToUse,
@@ -8,7 +7,6 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams } from '@/lib/searchStateManager';
-import { H3 } from 'govuk-react';
 import { OneIndicatorViewPlotProps } from '@/components/viewPlots/ViewPlot.types';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
@@ -17,12 +15,16 @@ import { IndicatorPolarity } from '@/generated-sources/ft-api-client';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
 import { BenchmarkSelectArea } from '@/components/molecules/BenchmarkSelectArea';
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
-import { LineChartAndTableOverTime } from '@/components/charts/LineChartOverTime/LineChartAndTableOverTime';
 import { lineChartOverTimeIsRequired } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeIsRequired';
+import { LineChartAndTableOverTime } from '@/components/charts/LineChartOverTime/LineChartAndTableOverTime';
+import { CompareAreasTable } from '@/components/charts/CompareAreasTable/CompareAreasTable';
+import { compareAreasTableIsRequired } from '@/components/charts/CompareAreasTable/helpers/compareAreasTableIsRequired';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 interface OneIndicatorTwoOrMoreAreasViewPlotsProps
   extends OneIndicatorViewPlotProps {
   areaCodes?: string[];
+  indicatorMetadata?: IndicatorDocument;
 }
 
 export function OneIndicatorTwoOrMoreAreasViewPlots({
@@ -68,14 +70,13 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   );
 
   const benchmarkToUse = determineBenchmarkToUse(benchmarkAreaSelected);
+
   const showLineChartOverTime = lineChartOverTimeIsRequired(searchState);
+  const showCompareAreasTable = compareAreasTableIsRequired(searchState);
 
   return (
     <section data-testid="oneIndicatorTwoOrMoreAreasViewPlots-component">
-      <BenchmarkSelectArea
-        availableAreas={availableAreasForBenchmarking}
-        benchmarkAreaSelectedKey={SearchParams.BenchmarkAreaSelected}
-      />
+      <BenchmarkSelectArea availableAreas={availableAreasForBenchmarking} />
       {showLineChartOverTime ? <LineChartAndTableOverTime /> : null}
       {selectedGroupArea === ALL_AREAS_SELECTED && (
         <StyleChartWrapper>
@@ -94,20 +95,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
           />
         </StyleChartWrapper>
       )}
-      <StyleChartWrapper>
-        <H3>Compare an indicator by areas</H3>
-        <BarChartEmbeddedTable
-          key={`barchart-${benchmarkToUse}`}
-          data-testid="barChartEmbeddedTable-component"
-          healthIndicatorData={dataWithoutEnglandOrGroup}
-          englandData={englandData}
-          groupIndicatorData={groupData}
-          indicatorMetadata={indicatorMetadata}
-          benchmarkComparisonMethod={benchmarkMethod}
-          polarity={polarity}
-          benchmarkToUse={benchmarkToUse}
-        />
-      </StyleChartWrapper>
+      {showCompareAreasTable ? <CompareAreasTable /> : null}
     </section>
   );
 }

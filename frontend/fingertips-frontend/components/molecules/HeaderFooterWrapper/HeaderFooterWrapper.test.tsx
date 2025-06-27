@@ -3,18 +3,18 @@ import { render, screen } from '@testing-library/react';
 import { HeaderFooterWrapper } from './index';
 
 let mockPathname = '/';
-jest.mock('next/navigation', () => ({
+vi.mock('next/navigation', () => ({
   usePathname: () => mockPathname,
 }));
 
-jest.mock('@/components/molecules/Header', () => ({
+vi.mock('@/components/molecules/Header', () => ({
   FTHeader: ({ chartPage }: { chartPage: boolean }) => (
     <div data-testid="header">
       {chartPage ? 'Chart Header' : 'Normal Header'}
     </div>
   ),
 }));
-jest.mock('@/components/molecules/Footer', () => ({
+vi.mock('@/components/molecules/Footer', () => ({
   FTFooter: ({ chartPage }: { chartPage: boolean }) => (
     <div data-testid="footer">
       {chartPage ? 'Chart Footer' : 'Normal Footer'}

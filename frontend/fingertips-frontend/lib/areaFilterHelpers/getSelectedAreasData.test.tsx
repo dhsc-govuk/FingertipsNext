@@ -1,4 +1,4 @@
-import { mockDeep } from 'jest-mock-extended';
+import { mockDeep } from 'vitest-mock-extended';
 import { AreaTypeKeys, englandAreaType, nhsRegionsAreaType } from './areaType';
 import { getSelectedAreasDataByAreaType } from './getSelectedAreasData';
 import { Area, AreasApi } from '@/generated-sources/ft-api-client';
@@ -27,7 +27,7 @@ const generateMockArea = (
 
 describe('getSelectedAreasDataByAreaType', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should return an empty array when areas selected is undefined', async () => {

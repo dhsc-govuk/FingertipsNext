@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { expect } from '@jest/globals';
+
 import { SpineChartTableHeader } from './SpineChartTableHeader';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
@@ -7,7 +7,7 @@ import { SearchParams } from '@/lib/searchStateManager';
 
 const mockSearchState = { [SearchParams.GroupSelected]: 'A001' };
 
-jest.mock('@/components/hooks/useSearchStateParams', () => ({
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
   useSearchStateParams: () => mockSearchState,
 }));
 

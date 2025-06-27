@@ -13,11 +13,11 @@ import {
 } from '@/components/molecules/SelectAreasFilterPanel';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { useLoadingState } from '@/context/LoaderContext';
-import { useSearchState } from '@/context/SearchStateContext';
 import React, { useEffect } from 'react';
 import { ArrowExpander } from '@/components/molecules/ArrowExpander';
 
 import { INDICATOR_SEARCH_MAX_CHARACTERS } from '@/lib/search/indicatorSearchService';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 import {
   StyledHintParagraph,
   StyledTitleParagraph,
@@ -40,8 +40,7 @@ export const SearchForm = ({
   areaFilterData,
 }: Readonly<SearchFormProps>) => {
   const { setIsLoading } = useLoadingState();
-  const { getSearchState } = useSearchState();
-  const searchState = getSearchState();
+  const searchState = useSearchStateParams();
 
   useEffect(() => {
     if (formState.message) {

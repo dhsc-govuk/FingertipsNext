@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { expect } from '@jest/globals';
+
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import React from 'react';

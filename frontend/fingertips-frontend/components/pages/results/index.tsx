@@ -22,9 +22,9 @@ import {
 import { IndicatorSelectionForm } from '@/components/forms/IndicatorSelectionForm';
 import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
 import { useLoadingState } from '@/context/LoaderContext';
-import { useSearchState } from '@/context/SearchStateContext';
 import { useSearchParams } from 'next/navigation';
 import styled from 'styled-components';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
 type SearchResultsProps = {
   initialIndicatorSelectionState: IndicatorSelectionState;
@@ -32,7 +32,6 @@ type SearchResultsProps = {
   areaFilterData?: AreaFilterData;
   isEnglandSelectedAsGroup: boolean;
   selectedAreasData?: Area[];
-  searchState?: SearchStateParams;
   currentDate?: Date;
 };
 
@@ -53,16 +52,11 @@ export function SearchResults({
   areaFilterData,
   selectedAreasData,
   isEnglandSelectedAsGroup,
-  searchState,
   currentDate,
 }: Readonly<SearchResultsProps>) {
   const { setIsLoading } = useLoadingState();
-  const { setSearchState } = useSearchState();
+  const searchState = useSearchStateParams();
   const searchParams = useSearchParams();
-
-  useEffect(() => {
-    setSearchState(searchState ?? {});
-  }, [searchState, setSearchState]);
 
   useEffect(() => {
     window.scrollTo(0, 0);

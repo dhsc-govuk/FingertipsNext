@@ -1,12 +1,10 @@
 import { H3 } from 'govuk-react';
 import { TabContainer } from '@/components/layouts/tabContainer';
-import {
-  LineChartOverTime,
-  LineChartTableOverTime,
-  useLineChartOverTimeData,
-} from '@/components/charts/LineChartOverTime';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
+import { useLineChartOverTimeData } from '@/components/charts/LineChartOverTime/hooks/useLineChartOverTimeData';
+import { LineChartOverTime } from '@/components/charts/LineChartOverTime/LineChartOverTime';
+import { LineChartTableOverTime } from '@/components/charts/LineChartOverTime/LineChartTableOverTime';
 
 export function LineChartAndTableOverTime() {
   const lineChartOverTimeData = useLineChartOverTimeData();

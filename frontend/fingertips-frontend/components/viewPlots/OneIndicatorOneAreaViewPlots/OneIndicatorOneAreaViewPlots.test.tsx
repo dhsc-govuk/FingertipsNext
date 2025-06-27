@@ -9,7 +9,10 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
 import { lineChartOverTimeRequestParams } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeRequestParams';
-import { queryKeyFromRequestParams } from '@/components/charts/helpers/queryKeyFromRequestParams';
+import {
+  EndPoints,
+  queryKeyFromRequestParams,
+} from '@/components/charts/helpers/queryKeyFromRequestParams';
 import {
   mockHealthDataForArea,
   mockHealthDataForArea_England,
@@ -17,21 +20,21 @@ import {
 import { mockHealthDataPoints } from '@/mock/data/mockHealthDataPoint';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
-jest.mock('next/navigation', () => {
-  const originalModule = jest.requireActual('next/navigation');
+vi.mock('next/navigation', async () => {
+  const originalModule = await vi.importActual('next/navigation');
 
   return {
     ...originalModule,
     usePathname: () => 'some-mock-path',
-    useRouter: jest.fn().mockImplementation(() => ({})),
+    useRouter: vi.fn().mockImplementation(() => ({})),
   };
 });
 
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: jest.fn(),
-  setIsLoading: jest.fn(),
+  getIsLoading: vi.fn(),
+  setIsLoading: vi.fn(),
 };
-jest.mock('@/context/LoaderContext', () => {
+vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
   };
@@ -53,8 +56,8 @@ const mockSearchState = {
   [SearchParams.IndicatorsSelected]: [testMetaData.indicatorID],
   [SearchParams.AreasSelected]: mockAreas,
 };
-const mockUseSearchStateParams = jest.fn();
-jest.mock('@/components/hooks/useSearchStateParams', () => ({
+const mockUseSearchStateParams = vi.fn();
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
   useSearchStateParams: () => mockUseSearchStateParams(),
 }));
 
@@ -66,7 +69,10 @@ const testRender = async (
   mockUseSearchStateParams.mockReturnValue(searchState);
   const client = new QueryClient();
   const lineChartApiParams = lineChartOverTimeRequestParams(searchState);
-  const lineChartQueryKey = queryKeyFromRequestParams(lineChartApiParams);
+  const lineChartQueryKey = queryKeyFromRequestParams(
+    EndPoints.HealthDataForAnIndicator,
+    lineChartApiParams
+  );
   client.setQueryData([lineChartQueryKey], healthData);
   client.setQueryData(
     [`/indicator/${indicatorMetadata.indicatorID}`],
@@ -76,10 +82,7 @@ const testRender = async (
   await act(() =>
     render(
       <QueryClientProvider client={client}>
-        <OneIndicatorOneAreaViewPlots
-          indicatorData={healthData}
-          indicatorMetadata={indicatorMetadata}
-        />
+        <OneIndicatorOneAreaViewPlots indicatorData={healthData} />
       </QueryClientProvider>
     )
   );
@@ -87,7 +90,7 @@ const testRender = async (
 
 describe('OneIndicatorOneAreaViewPlots', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should render the benchmark select area drop down for the view', async () => {

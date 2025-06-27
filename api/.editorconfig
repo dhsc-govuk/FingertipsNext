@@ -12,6 +12,13 @@ dotnet_diagnostic.CA1303.severity = none
 # Mark assemblies with AssemblyVersionAttribute
 dotnet_diagnostic.CA1016.severity = none
 
+[Program.cs]
+# These rules must be disabled for Program.cs to allow integration tests to instantiate the class.
+
+# Consider making public types internal
+dotnet_diagnostic.CA1515.severity = none
+# Static holder types should be Static or NotInheritable
+dotnet_diagnostic.CA1052.severity = none
 
 [*{Controller,Tests}.cs]
 # Consider making public types internal

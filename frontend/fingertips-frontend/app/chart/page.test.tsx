@@ -1,10 +1,10 @@
 /**
- * @jest-environment node
+ * @vitest-environment node
  */
 
 import ChartPage from './page';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
-import { mockDeep } from 'jest-mock-extended';
+import { mockDeep } from 'vitest-mock-extended';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { IndicatorsApi } from '@/generated-sources/ft-api-client';
 import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
@@ -25,23 +25,24 @@ import { IIndicatorSearchService } from '@/lib/search/searchTypes';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 import { getSelectedAreasDataByAreaType } from '@/lib/areaFilterHelpers/getSelectedAreasData';
+import { MockedFunction } from 'vitest';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 
-jest.mock('@/components/organisms/ThematicMap/thematicMapHelpers.ts', () => ({
-  getMapGeographyData: jest.fn(),
+vi.mock('@/components/organisms/ThematicMap/thematicMapHelpers.ts', () => ({
+  getMapGeographyData: vi.fn(),
 }));
 
-jest.mock('@/lib/areaFilterHelpers/getAreaFilterData');
-const mockGetAreaFilterData = getAreaFilterData as jest.MockedFunction<
+vi.mock('@/lib/areaFilterHelpers/getAreaFilterData');
+const mockGetAreaFilterData = getAreaFilterData as MockedFunction<
   typeof getAreaFilterData
 >;
 mockGetAreaFilterData.mockResolvedValue({});
 
-jest.mock('@/lib/areaFilterHelpers/getSelectedAreasData');
+vi.mock('@/lib/areaFilterHelpers/getSelectedAreasData');
 const mockGetSelectedAreasDataByAreaType =
-  getSelectedAreasDataByAreaType as jest.MockedFunction<
+  getSelectedAreasDataByAreaType as MockedFunction<
     typeof getSelectedAreasDataByAreaType
   >;
 mockGetSelectedAreasDataByAreaType.mockResolvedValue([]);
@@ -56,7 +57,7 @@ async function generateSearchParams(value: SearchStateParams) {
 
 describe('Chart Page', () => {
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('ViewContext', () => {

@@ -1,6 +1,16 @@
-import { localeSort } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { localeSort } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
 
-export const queryKeyFromRequestParams = <T extends object>(params: T) => {
+export enum EndPoints {
+  HealthDataForAnIndicator = 'healthDataForAnIndicator',
+  AreaWithRelations = 'areaWithRelations',
+  AreaTypeMembers = 'areaTypeMembers',
+  AreaTypes = 'areaTypes',
+}
+
+export const queryKeyFromRequestParams = <T extends object>(
+  endPoint: EndPoints,
+  params: T
+) => {
   const query = new URLSearchParams();
 
   const keys = Object.keys(params).toSorted(localeSort);
@@ -17,5 +27,5 @@ export const queryKeyFromRequestParams = <T extends object>(params: T) => {
     });
   });
 
-  return query.toString();
+  return `${endPoint}/${query.toString()}`;
 };

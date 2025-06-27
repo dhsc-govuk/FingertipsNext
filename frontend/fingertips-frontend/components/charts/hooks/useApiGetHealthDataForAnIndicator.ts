@@ -5,13 +5,25 @@ import {
   IndicatorsApi,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
-import { queryKeyFromRequestParams } from '@/components/charts/helpers/queryKeyFromRequestParams';
+import {
+  EndPoints,
+  queryKeyFromRequestParams,
+} from '@/components/charts/helpers/queryKeyFromRequestParams';
 import { useMemo } from 'react';
+
+type UseApiGetHealthDataForAnIndicatorResult = Readonly<{
+  healthData: IndicatorWithHealthDataForArea | undefined;
+  healthDataLoading: boolean;
+  healthDataError: unknown;
+}>;
 
 export const useApiGetHealthDataForAnIndicator = (
   options: GetHealthDataForAnIndicatorRequest
 ) => {
-  const queryKey = [queryKeyFromRequestParams(options)];
+  const queryKey = [
+    queryKeyFromRequestParams(EndPoints.HealthDataForAnIndicator, options),
+  ];
+
   const query = useQuery<IndicatorWithHealthDataForArea>({
     queryKey,
     queryFn: async () => {
@@ -27,7 +39,7 @@ export const useApiGetHealthDataForAnIndicator = (
     enabled: !!options.indicatorId,
   });
 
-  return useMemo(() => {
+  return useMemo<UseApiGetHealthDataForAnIndicatorResult>(() => {
     return {
       healthData: query.data,
       healthDataLoading: query.isLoading,

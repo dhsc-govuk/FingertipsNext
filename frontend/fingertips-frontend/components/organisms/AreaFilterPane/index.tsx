@@ -8,9 +8,9 @@ import {
 } from '@/components/molecules/SelectAreasFilterPanel';
 import { SelectedIndicatorsPanel } from '@/components/molecules/SelectedIndicatorsPanel';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { useSearchState } from '@/context/SearchStateContext';
 import { typography } from '@govuk-react/lib';
 import { GovukColours, TagColours } from '@/lib/styleHelpers/colours';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
 interface AreaFilterPaneProps {
   selectedAreasData?: Area[];
@@ -77,8 +77,7 @@ export function AreaFilterPane({
   areaFilterData,
   hideFilters,
 }: Readonly<AreaFilterPaneProps>) {
-  const { getSearchState } = useSearchState();
-  const searchState = getSearchState();
+  const searchState = useSearchStateParams();
 
   return (
     <StyledFilterPane data-testid="area-filter-container">

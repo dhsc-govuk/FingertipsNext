@@ -12,7 +12,7 @@ const mockPoint = {
   },
 };
 
-const mockGenerateTooltipList = jest
+const mockGenerateTooltipList = vi
   .fn()
   .mockImplementation((point: typeof mockPoint, symbol: string) => [
     symbol,

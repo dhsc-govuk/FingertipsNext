@@ -1,575 +1,12 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`SearchForm snapshot test - renders the form 1`] = `
+exports[`SearchForm > snapshot test - renders the form 1`] = `
 <DocumentFragment>
-  .c19 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 19px;
-  box-sizing: border-box;
-  display: inline-block;
-  position: relative;
-  width: 100%;
-  margin-top: 0;
-  padding: 7px 10px;
-  border: 2px solid transparent;
-  border-radius: 0;
-  color: #ffffff;
-  background-color: #00703c;
-  box-shadow: 0 2px 0 #002413;
-  text-align: center;
-  vertical-align: top;
-  cursor: pointer;
-  -webkit-appearance: none;
-  margin-bottom: 22px;
-}
-
-.c19:focus {
-  outline: 3px solid #ffdd00;
-  outline-offset: 0;
-}
-
-.c19:link,
-.c19:visited,
-.c19:active,
-.c19:hover {
-  color: #ffffff;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.c19::-moz-focus-inner {
-  padding: 0;
-  border: 0;
-}
-
-.c19:hover,
-.c19:focus {
-  background-color: #00572e;
-}
-
-.c19:active {
-  top: 2px;
-  box-shadow: none;
-}
-
-.c19::before {
-  content: "";
-  display: block;
-  position: absolute;
-  top: -2px;
-  right: -2px;
-  bottom: -4px;
-  left: -2px;
-  background: transparent;
-}
-
-.c19:active::before {
-  top: -4px;
-}
-
-.c19:disabled {
-  opacity: 0.5;
-  background: #00703c;
-}
-
-.c19:disabled:hover {
-  background-color: #00703c;
-  cursor: default;
-}
-
-.c19:disabled:focus {
-  outline: none;
-}
-
-.c19:disabled:active {
-  top: 0;
-  box-shadow: 0 2px 0 #002413;
-}
-
-.c19 svg {
-  max-width: 15px;
-}
-
-.c17 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  display: block;
-  margin-bottom: 15px;
-  color: #6f777b;
-}
-
-.c16 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  color: #0b0c0c;
-  display: block;
-  clear: none;
-  padding-bottom: 2px;
-  margin-bottom: 0;
-}
-
-.c18 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  box-sizing: border-box;
-  width: 100%;
-  height: 40px;
-  margin-top: 0;
-  padding: 5px;
-  border: 2px solid #0b0c0c;
-  border-radius: 0;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  margin-bottom: 0;
-}
-
-.c18:focus {
-  outline: 3px solid #ffdd00;
-  outline-offset: 0;
-}
-
-.c18::-webkit-outer-spin-button,
-.c18::-webkit-inner-spin-button {
-  margin: 0;
-  -webkit-appearance: none;
-}
-
-.c18[type="number"] {
-  -moz-appearance: textfield;
-}
-
-.c15 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  box-sizing: border-box;
-  margin-bottom: 0;
-}
-
-.c15:after {
-  content: '';
-  display: table;
-  clear: both;
-}
-
-.c0 {
-  color: #0b0c0c;
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 700;
-  font-size: 18px;
-  line-height: 1.1111111111111112;
-  display: block;
-  margin-top: 0;
-  margin-bottom: 15px;
-}
-
-.c3 {
-  margin: 0;
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  margin-bottom: 15px;
-}
-
-.c3 > p {
-  margin: 0;
-}
-
-.c3 > p > code {
-  padding: 0.2em 0.4em;
-  margin: 0;
-  font-size: 85%;
-  background-color: rgba(27,31,35,0.05);
-  border-radius: 3px;
-}
-
-.c3 > pre {
-  padding: 16px;
-  overflow: auto;
-  font-size: 85%;
-  line-height: 1.45;
-  background-color: #f6f8fa;
-  border-radius: 3px;
-}
-
-.c3 > pre > code {
-  display: inline;
-  padding: 0;
-  margin: 0;
-  border: 0;
-  overflow: visible;
-  line-height: inherit;
-  word-wrap: normal;
-}
-
-.c2 {
-  margin-bottom: 20px;
-}
-
-.c1 .c1:last-of-type {
-  margin-bottom: 0;
-}
-
-.c12 {
-  display: block;
-}
-
-.c10 {
-  width: 100%;
-  height: 40px;
-  padding: 6px;
-  margin: 0;
-  border: solid 1px #bfc1c3;
-  border-right: 0;
-  box-sizing: border-box;
-  font-family: "nta",Arial,sans-serif;
-  font-weight: 400;
-  text-transform: none;
-  font-size: 16px;
-  line-height: 1.75;
-  background: #ffffff;
-  border-radius: 0;
-  -webkit-appearance: none;
-}
-
-.c10:focus {
-  margin-right: 3px;
-  outline: 3px solid #ffdd00;
-  outline-offset: 0;
-}
-
-.c10:focus ~ button {
-  width: 46px;
-}
-
-.c11 {
-  background-color: #2b8cc4;
-  border: 0;
-  display: block;
-  color: #ffffff;
-  position: relative;
-  padding: 10px;
-  width: 45px;
-  height: 40px;
-  background-repeat: no-repeat;
-  background-position: 2px 50%;
-  text-indent: -999em;
-  overflow: hidden;
-}
-
-.c11:focus {
-  outline: 3px solid #ffdd00;
-  outline-offset: 0;
-}
-
-.c8 {
-  box-sizing: border-box;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  width: 100%;
-  background: #ffffff;
-  margin-bottom: 0;
-}
-
-.c14 {
-  margin-bottom: 5px;
-}
-
-.c13 {
-  margin-bottom: 1em;
-}
-
-.c21 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-box-pack: left;
-  -webkit-justify-content: left;
-  -ms-flex-pack: left;
-  justify-content: left;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  cursor: pointer;
-}
-
-.c21 circle {
-  outline: none;
-  fill: none;
-}
-
-.c20 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-box-pack: left;
-  -webkit-justify-content: left;
-  -ms-flex-pack: left;
-  justify-content: left;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  margin: 0px;
-  margin-bottom: 15px;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  cursor: pointer;
-  padding: 0px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-
-.c20:hover svg circle {
-  fill: #0B0C0C;
-  stroke: #0B0C0C;
-}
-
-.c20:hover svg path {
-  stroke: #FFFFFF;
-}
-
-.c22 {
-  font-weight: 300;
-  color: #1D70B8;
-  padding: 2px 1px 1px 1px;
-  cursor: pointer;
-  spacing: 0;
-  font-size: 19px;
-}
-
-.c4 {
-  padding-bottom: 2px;
-}
-
-.c5 {
-  margin-bottom: 0;
-}
-
-.c6 {
-  color: #505A5F;
-}
-
-.c7 {
-  margin-bottom: 15px;
-}
-
-.c9 {
-  margin-bottom: 30px;
-}
-
-@media print {
-  .c19 {
-    font-size: 14px;
-    line-height: 19px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c19 {
-    font-size: 19px;
-    line-height: 19px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c19 {
-    width: auto;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c19 svg {
-    margin-left: 10px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c19 {
-    margin-bottom: 32px;
-  }
-}
-
-@media print {
-  .c17 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c17 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c16 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c16 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c16 {
-    color: #000;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c16 {
-    margin-bottom: 0;
-  }
-}
-
-@media print {
-  .c18 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c18 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c18 {
-    margin-bottom: 0;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c15 {
-    margin-bottom: 0;
-  }
-}
-
-@media print {
-  .c0 {
-    color: #000;
-  }
-}
-
-@media print {
-  .c0 {
-    font-size: 18px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 {
-    font-size: 24px;
-    line-height: 1.25;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 {
-    margin-bottom: 20px;
-  }
-}
-
-@media print {
-  .c3 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c3 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c3 {
-    margin-bottom: 20px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c2 {
-    margin-bottom: 30px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c8 {
-    margin-bottom: 0;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c5 {
-    margin-bottom: 0;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c7 {
-    margin-bottom: 15px;
-  }
-}
-
-<div
+  <div
     data-testid="search-form"
   >
     <h3
-      class="c0"
+      class="heading__StyledHeading-sc-1dsobun-0 bRbIzR"
     >
       Find public health data
     </h3>
@@ -580,43 +17,43 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
       value="{}"
     />
     <div
-      class="c1 c2"
+      class="src__FormGroup-sc-1m4431t-0 gMksRW"
     >
       <div
-        class="c3 c4 c5"
+        class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-fHjqPf sc-hmdomO cMVjFj laGYDo"
       >
         <p>
           Search by subject
         </p>
       </div>
       <div
-        class="c3 c6 c7"
+        class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-bXCLTC sc-jsJBEP htWUzE hTHKZE"
       >
         <p>
           For example, smoking, diabetes prevalence, or a specific indicator ID
         </p>
       </div>
       <div
-        class="c8 c9"
+        class="src__StyledSearchBox-sc-bgtefr-2 oulCC sc-eeDRCY jupjjW"
       >
         <input
-          class="c10"
+          class="src__Input-sc-bgtefr-0 fcebrZ"
           data-testid="indicator-search-form-input"
           id="indicator"
           name="indicator"
-          style="border-color: #0b0c0c; border-width: 2px; border-style: solid;"
+          style="border-color: rgb(11, 12, 12); border-width: 2px; border-style: solid;"
           title="indicator"
           type="search"
           value="indicator"
         />
         <button
-          class="c11"
+          class="src__SearchButton-sc-bgtefr-1 gaKdlu"
           data-testid="indicator-search-form-submit"
           title="Search"
           type="submit"
         >
           <svg
-            class="c12"
+            class="SVGBase__StyledSvg-sc-16k4s64-0 fzOiHV"
             fill="#ffffff"
             height="100%"
             version="1.1"
@@ -634,22 +71,22 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
       </div>
     </div>
     <div
-      class="c13"
+      class="sc-gsFSXq fZsHAk"
     >
       <div
-        class="c14"
+        class="sc-aXZVg dCwhqm"
         data-testid="area-search-input-field"
       >
         <label
-          class="c15"
+          class="src__Label-sc-iqzvxn-0 cjKMYe"
         >
           <span
-            class="c16"
+            class="src__LabelText-sc-1lbxenh-0 bKqlAx"
           >
             Search by area
           </span>
           <span
-            class="c17"
+            class="src__HintText-sc-tq1z5r-0 PfjNt"
           >
             <div
               style="color: rgb(80, 90, 95);"
@@ -658,7 +95,7 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
             </div>
           </span>
           <input
-            class="c18"
+            class="src__Input-sc-1ch9crp-0 hYZdGo"
             id="areaSearched"
             name="areaSearched"
             value=""
@@ -667,7 +104,7 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
       </div>
     </div>
     <button
-      class="c19"
+      class="src__StyledButton-sc-19ocyxv-0 eEShVH"
       data-testid="search-form-button-submit"
       style="margin-top: 10px;"
       type="submit"
@@ -675,10 +112,10 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
       Search
     </button>
     <span
-      class="c20"
+      class="sc-dAbbOL eyuXGu"
     >
       <svg
-        class="c21"
+        class="sc-ikkxIA fIoiNQ"
         data-testid="arrow-toggle-button"
         height="30"
         viewBox="0 0 25 25"
@@ -702,7 +139,7 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
         />
       </svg>
       <label
-        class="c15 c22"
+        class="src__Label-sc-iqzvxn-0 sc-feUZmu cjKMYe jcuaii"
         fill="#1D70B8"
       >
         Open area filter

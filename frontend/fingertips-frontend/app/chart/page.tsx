@@ -19,7 +19,14 @@ import {
   API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
-import { queryKeyFromRequestParams } from '@/components/charts/helpers/queryKeyFromRequestParams';
+import {
+  EndPoints,
+  queryKeyFromRequestParams,
+} from '@/components/charts/helpers/queryKeyFromRequestParams';
+import { compareAreasTableRequestParams } from '@/components/charts/CompareAreasTable/helpers/compareAreasTableRequestParams';
+import { compareAreasTableIsRequired } from '@/components/charts/CompareAreasTable/helpers/compareAreasTableIsRequired';
+import { inequalitiesIsRequired } from '@/components/charts/Inequalities/helpers/inequalitiesIsRequired';
+import { inequalitiesRequestParams } from '@/components/charts/Inequalities/helpers/inequalitiesRequestParams';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -60,12 +67,13 @@ export default async function ChartPage(
       seedData[`/indicator/${indicator.indicatorID}`] = indicator;
     });
 
+    const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
+
     // if we want to show the line chart data then load that now server side
     // and seed the cache - this will help with progressive enhancement and
     // coping with devices that do not have javascript enabled by seeding
     // the data react query can still proceed with data loaded on the server
     if (lineChartOverTimeIsRequired(searchState)) {
-      const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
       let healthData: IndicatorWithHealthDataForArea | undefined;
       const apiRequestParams = lineChartOverTimeRequestParams(searchState);
       try {
@@ -75,7 +83,10 @@ export default async function ChartPage(
         );
 
         // store data in query cache
-        const queryKeyLineChart = queryKeyFromRequestParams(apiRequestParams);
+        const queryKeyLineChart = queryKeyFromRequestParams(
+          EndPoints.HealthDataForAnIndicator,
+          apiRequestParams
+        );
         seedData[queryKeyLineChart] = healthData;
       } catch (error) {
         console.error('error getting health indicator data for area', error);
@@ -98,8 +109,61 @@ export default async function ChartPage(
       selectedAreasData
     );
 
+    seedData[`availableAreas`] = availableAreas ?? [];
+
     if (updatedSearchState) {
       stateManager.setState(updatedSearchState);
+    }
+
+    const compareAreasQueryParams = compareAreasTableRequestParams(
+      searchState,
+      availableAreas ?? []
+    );
+    const compareAreasQueryKey = queryKeyFromRequestParams(
+      EndPoints.HealthDataForAnIndicator,
+      compareAreasQueryParams
+    );
+
+    if (
+      compareAreasTableIsRequired(searchState) &&
+      !Object.keys(seedData).includes(compareAreasQueryKey)
+    ) {
+      try {
+        const compareAreasHealthData =
+          await indicatorApi.getHealthDataForAnIndicator(
+            compareAreasQueryParams,
+            API_CACHE_CONFIG
+          );
+        seedData[compareAreasQueryKey] = compareAreasHealthData;
+      } catch (e) {
+        console.error(
+          'error getting health indicator data for compare areas',
+          e
+        );
+      }
+    }
+
+    const inequalitiesQueryParams = inequalitiesRequestParams(searchState);
+    const inequalitiesQueryKey = queryKeyFromRequestParams(
+      EndPoints.HealthDataForAnIndicator,
+      inequalitiesQueryParams
+    );
+    if (
+      inequalitiesIsRequired(searchState) &&
+      !Object.keys(seedData).includes(inequalitiesQueryKey)
+    ) {
+      try {
+        seedData[inequalitiesQueryKey] =
+          await indicatorApi.getHealthDataForAnIndicator(
+            inequalitiesQueryParams,
+            API_CACHE_CONFIG
+          );
+      } catch (e) {
+        console.error(
+          'error getting health indicator data for inequalities',
+          e
+        );
+      }
     }
 
     return (

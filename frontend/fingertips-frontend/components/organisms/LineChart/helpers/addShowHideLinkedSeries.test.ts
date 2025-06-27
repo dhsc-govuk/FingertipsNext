@@ -16,7 +16,7 @@ describe('addShowHideLinkedSeries', () => {
       true
     );
 
-    setVisibility = jest.fn() as Dispatch<
+    setVisibility = vi.fn() as Dispatch<
       SetStateAction<Record<string, boolean>>
     >;
   });

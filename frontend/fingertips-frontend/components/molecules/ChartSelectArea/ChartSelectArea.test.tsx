@@ -4,28 +4,30 @@ import { LoaderContext } from '@/context/LoaderContext';
 import { SearchParams } from '@/lib/searchStateManager';
 import userEvent from '@testing-library/user-event';
 import { AreaWithoutAreaType } from '@/lib/common-types';
+import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 const mockPath = 'some-mock-path';
-const mockReplace = jest.fn();
-jest.mock('next/navigation', () => {
-  const originalModule = jest.requireActual('next/navigation');
+const mockReplace = vi.fn();
+vi.mock('next/navigation', async () => {
+  const originalModule = await vi.importActual('next/navigation');
 
   return {
     ...originalModule,
     usePathname: () => mockPath,
     useSearchParams: () => {},
-    useRouter: jest.fn().mockImplementation(() => ({
+    useRouter: vi.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
   };
 });
 
-const mockSetIsLoading = jest.fn();
+const mockSetIsLoading = vi.fn();
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: jest.fn(),
+  getIsLoading: vi.fn(),
   setIsLoading: mockSetIsLoading,
 };
-jest.mock('@/context/LoaderContext', () => {
+vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
   };
@@ -46,7 +48,7 @@ const mockAvailableAreas = [
 
 describe('ChartSelectArea', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   const areaDropDownLabel = 'Select an area';
@@ -87,9 +89,13 @@ describe('ChartSelectArea', () => {
   });
 
   it('should add the selected area for the chart to the url for the provided search param', async () => {
+    const spy = vi.spyOn(window.history, 'pushState');
     const expectedPath = [
       `${mockPath}`,
-      `?${SearchParams.InequalityLineChartAreaSelected}=${mockAvailableAreas[2].code}`,
+      `?${SearchParams.AreaTypeSelected}=${englandAreaType.key}`,
+      `&${SearchParams.GroupTypeSelected}=${englandAreaType.key}`,
+      `&${SearchParams.GroupSelected}=${areaCodeForEngland}`,
+      `&${SearchParams.InequalityLineChartAreaSelected}=${mockAvailableAreas[2].code}`,
     ].join('');
 
     const user = userEvent.setup();
@@ -105,8 +111,34 @@ describe('ChartSelectArea', () => {
       mockAvailableAreas[2].code
     );
 
-    expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
-      scroll: false,
-    });
+    expect(spy).toHaveBeenCalledWith(null, '', expectedPath);
   });
+
+  it.each([
+    SearchParams.InequalityLineChartAreaSelected,
+    SearchParams.InequalityBarChartAreaSelected,
+  ])(
+    'should alter the browser history state when param type is %s',
+    async (chartAreaSelectedKey) => {
+      const spy = vi.spyOn(window.history, 'pushState');
+
+      render(
+        <ChartSelectArea
+          availableAreas={mockAvailableAreas}
+          chartAreaSelectedKey={chartAreaSelectedKey}
+        />
+      );
+
+      await userEvent.selectOptions(
+        screen.getByRole('combobox', { name: areaDropDownLabel }),
+        mockAvailableAreas[2].code
+      );
+
+      expect(spy).toHaveBeenCalledWith(
+        null,
+        '',
+        `some-mock-path?ats=england&gts=england&gs=E92000001&${chartAreaSelectedKey}=${mockAvailableAreas[2].code}`
+      );
+    }
+  );
 });

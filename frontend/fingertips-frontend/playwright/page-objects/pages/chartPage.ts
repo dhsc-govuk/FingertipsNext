@@ -23,7 +23,7 @@ import {
 } from '../../testHelpers/exportUtilities';
 import { copyrightDateFormat } from '@/components/molecules/Export/ExportCopyright';
 import { format } from 'date-fns/format';
-import { InequalitiesTypes } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { InequalitiesTypes } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
 
 export default class ChartPage extends AreaFilter {
   readonly backLink = 'chart-page-back-link';
@@ -104,7 +104,11 @@ export default class ChartPage extends AreaFilter {
     }
 
     await this.hideFiltersPane();
-    await this.verifyDataSourceIsDisplayed(indicatorMode, selectedIndicators);
+    await this.verifyDataSourceIsDisplayed(
+      indicatorMode,
+      areaMode,
+      selectedIndicators
+    );
 
     for (const visibleComponent of visibleComponents) {
       await this.handleComponentInteractions(
@@ -349,19 +353,29 @@ export default class ChartPage extends AreaFilter {
     });
   }
 
-  // verifies data source is displayed for one indicator
+  // verifies data source is displayed in the correct scenarios
   private async verifyDataSourceIsDisplayed(
     indicatorMode: IndicatorMode,
+    areaMode: AreaMode,
     selectedIndicators: SimpleIndicatorDocument[]
   ) {
     const dataSourceLocator = this.page.getByTestId('data-source');
-    if (indicatorMode === IndicatorMode.ONE_INDICATOR) {
+
+    const isMultiIndicatorWithSpecificAreaMode =
+      indicatorMode !== IndicatorMode.ONE_INDICATOR &&
+      (areaMode === AreaMode.ENGLAND_AREA || areaMode === AreaMode.ONE_AREA);
+
+    const shouldShowDataSource =
+      indicatorMode === IndicatorMode.ONE_INDICATOR ||
+      isMultiIndicatorWithSpecificAreaMode;
+
+    if (shouldShowDataSource) {
+      const expectedText = `Data source: ${selectedIndicators[0].dataSource}`;
       const allDataSources = await dataSourceLocator.allTextContents();
-      allDataSources.forEach((dataSource) => {
-        expect(dataSource).toBe(
-          `Data source: ${selectedIndicators[0].dataSource}`
-        );
-      });
+
+      allDataSources.forEach((dataSource) =>
+        expect(dataSource).toBe(expectedText)
+      );
     } else {
       await expect(dataSourceLocator).not.toBeAttached();
     }

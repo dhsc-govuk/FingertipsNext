@@ -1,11 +1,11 @@
 import { svgStringFromChartOptions } from '@/components/molecules/Export/helpers/svgStringFromChartOptions';
 import Highcharts from 'highcharts';
 import { Chart } from 'highcharts';
+import { Mock } from 'vitest';
 
-jest.mock('highcharts', () => {
-  return {
-    chart: jest.fn(),
-  };
+vi.mock('highcharts', async () => {
+  const originalModule = await vi.importActual('highcharts');
+  return { default: { ...originalModule, chart: vi.fn() } };
 });
 
 describe('svgStringFromChartOptions', () => {
@@ -13,14 +13,14 @@ describe('svgStringFromChartOptions', () => {
 
   beforeEach(() => {
     mockChart = {
-      getSVG: jest.fn().mockReturnValue('<svg>mocked</svg>'),
-      destroy: jest.fn(),
+      getSVG: vi.fn().mockReturnValue('<svg>mocked</svg>'),
+      destroy: vi.fn(),
     } as unknown as Chart;
-    (Highcharts.chart as jest.Mock).mockReturnValue(mockChart);
+    (Highcharts.chart as Mock).mockReturnValue(mockChart);
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should create a chart, get its SVG, destroy the chart, and remove the container', () => {

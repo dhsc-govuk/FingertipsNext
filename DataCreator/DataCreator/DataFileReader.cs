@@ -123,7 +123,11 @@ namespace DataCreator
             return allData;
         }
 
-        public static void UnzipSourceFiles() => ZipFile.ExtractToDirectory(Path.Join(InFilePath, "in.zip"), TempDirPath);
+        public static void UnzipSourceFiles()
+        {
+            ZipFile.ExtractToDirectory(Path.Join(InFilePath, "in.zip"), TempDirPath);
+            ZipFile.ExtractToDirectory(Path.Join(InFilePath, "in2.zip"), TempDirPath);
+        }
 
         public static void DeleteTempInputFiles()
         {
