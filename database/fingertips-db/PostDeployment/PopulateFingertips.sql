@@ -325,7 +325,8 @@ CREATE TABLE #TempIndicatorData
     BenchmarkComparisonMethod [nvarchar](255),
     ValueType NVARCHAR(255),
     IndicatorName NVARCHAR(255),
-    PeriodType NVARCHAR(255)
+    PeriodType NVARCHAR(255),
+    CollectionFrequency NVARCHAR(255)
 );
 DECLARE @sqlInd NVARCHAR(4000), @filePathInd NVARCHAR(500);
 IF @UseAzureBlob = '1'
@@ -348,7 +349,8 @@ INSERT INTO [dbo].[IndicatorDimension]
 	BenchmarkComparisonMethod,
     StartDate,
     EndDate,
-    PeriodType
+    PeriodType,
+    CollectionFrequency
 )
 SELECT 
     REPLACE(REPLACE(IndicatorName, '"', ''), char(13),''),
@@ -358,7 +360,8 @@ SELECT
     BenchmarkComparisonMethod,
     DATEADD(YEAR, -10, GETDATE()),
     DATEADD(YEAR, 10, GETDATE()),
-    #TempIndicatorData.PeriodType
+    PeriodType,
+    CollectionFrequency
 FROM 
     #TempIndicatorData;
 

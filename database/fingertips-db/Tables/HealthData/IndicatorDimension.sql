@@ -8,7 +8,8 @@ CREATE TABLE [dbo].[IndicatorDimension](
 	[BenchmarkComparisonMethod] [nvarchar](255) NULL,        --e.g. RAG or Quintiles
 	[StartDate] [datetime2](7) NOT NULL,					--The start data that this row was relevant for, to support slowly changing dimensions if an indicator changes over time
 	[EndDate] [datetime2](7) NOT NULL,
-    [PeriodType] [nvarchar](255) NULL 
+    [PeriodType] [nvarchar](255) NULL,                      --The period for which indicator is reported e.g. Calendar year, Financial year
+    [CollectionFrequency] [nvarchar](225) NULL,             --The frequency at which data are collected for the indicator e.g. annually, quarterly
 CONSTRAINT [PK_IndicatorDimension] PRIMARY KEY CLUSTERED 
 (
 	[IndicatorKey] ASC
