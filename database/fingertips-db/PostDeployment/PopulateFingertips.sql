@@ -120,9 +120,13 @@ INSERT INTO [dbo].[SexDimension]
 INSERT INTO [dbo].[PeriodDimension]
 (Period)
 VALUES
-    ('Calendar'),
-    ('Financial'),
-    ('November-November')
+    ('Academic year'),
+    ('Calendar year'),
+    ('Financial multi-year'),
+    ('Financial year'),
+    ('November-November'),
+    ('Financial year end point'),
+    ('Yearly')
 
 --create the trend dimension data
 SET IDENTITY_INSERT [dbo].[TrendDimension] ON
