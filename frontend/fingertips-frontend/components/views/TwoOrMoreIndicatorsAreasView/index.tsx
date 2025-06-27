@@ -15,6 +15,9 @@ import {
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 import { BenchmarkReferenceType } from '@/generated-sources/ft-api-client';
 import { healthDataRequestAreas } from '@/components/charts/SpineChart/helpers/healthDataRequestAreas';
+import { SeedDataPromises } from '@/components/atoms/SeedQueryCache/seedQueryCache.types';
+import { SeedQueryCache } from '@/components/atoms/SeedQueryCache/SeedQueryCache';
+import { seedDataFromPromises } from '@/components/atoms/SeedQueryCache/seedDataFromPromises';
 
 export default async function TwoOrMoreIndicatorsAreasView({
   searchState,
@@ -65,6 +68,9 @@ export default async function TwoOrMoreIndicatorsAreasView({
       : undefined;
 
   await connection();
+
+  const seedPromises: SeedDataPromises = {};
+
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
   const combinedIndicatorData = await Promise.all(
     indicatorsSelected.map((indicator) => {
@@ -74,10 +80,13 @@ export default async function TwoOrMoreIndicatorsAreasView({
         areasToRequest,
         benchmarkRefType,
         true,
-        areaGroup
+        areaGroup,
+        seedPromises
       );
     })
   );
+
+  const seedData = await seedDataFromPromises(seedPromises);
 
   const indicatorList = indicatorsSelected.map((indicatorAsAString) => {
     return Number(indicatorAsAString);
@@ -99,6 +108,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
       areaCodes={areaCodes}
       indicatorsDataForAreas={combinedIndicatorData}
     >
+      <SeedQueryCache seedData={seedData} />
       <TwoOrMoreIndicatorsAreasViewPlot
         indicatorData={combinedIndicatorData}
         indicatorMetadata={selectedIndicatorsData}

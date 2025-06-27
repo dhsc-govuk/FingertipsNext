@@ -1,5 +1,7 @@
+// MUST BE AT THE TOP
+import { mockUseSearchStateParams } from '@/mock/utils/mockUseSearchStateParams';
 import { mockUsePathname } from '@/mock/utils/mockNextNavigation';
-import { mockSetIsLoading } from '@/mock/utils/mockLoadingUseState';
+import { mockSetIsLoading } from '@/mock/utils/mockUseLoadingState';
 //
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import {
@@ -8,20 +10,24 @@ import {
 } from '.';
 import {
   BenchmarkComparisonMethod,
-  HealthDataForArea,
-  HealthDataPointTrendEnum,
   IndicatorPolarity,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { render, screen, within } from '@testing-library/react';
-import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmapUtil';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import {
+  mockHealthDataForArea,
+  mockHealthDataForArea_England,
+  mockHealthDataForArea_Group,
+} from '@/mock/data/mockHealthDataForArea';
+import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
+import { mockQuartileData } from '@/mock/data/mockQuartileData';
+import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
 
 mockUsePathname.mockReturnValue('some-mock-pathname');
 mockSetIsLoading(false);
+
 vi.mock('@/components/charts/SpineChart/SpineChartWrapper', () => ({
   SpineChartWrapper: () => <div data-testid="spineChartTable-component" />,
 }));
@@ -31,167 +37,49 @@ const mockAreas = ['A001', 'A002', 'A003'];
 const mockGroupArea = 'G001';
 
 let mockSearchParams: SearchStateParams;
-vi.mock('@/components/hooks/useSearchStateParams', () => ({
-  useSearchStateParams: () => mockSearchParams,
-}));
+mockUseSearchStateParams.mockImplementation(() => mockSearchParams);
 
-const mockGroupHealthData: HealthDataForArea = {
-  areaCode: mockGroupArea,
-  areaName: 'Some group',
-  healthData: [
-    {
-      year: 2008,
-      count: 222,
-      value: 890.305692,
-      lowerCi: 441.69151,
-      upperCi: 578.32766,
-      ageBand: allAgesAge,
-      sex: personsSex,
-      trend: HealthDataPointTrendEnum.NotYetCalculated,
-      deprivation: noDeprivation,
-    },
-  ],
-};
+const mockHealthArea1 = mockHealthDataForArea({
+  areaCode: mockAreas[0],
+  areaName: 'Area1',
+});
+const mockHealthArea2 = mockHealthDataForArea({
+  areaCode: mockAreas[1],
+  areaName: 'Area2',
+});
 
-const mockEnglandHealthData: HealthDataForArea = {
-  areaCode: areaCodeForEngland,
-  areaName: 'England',
-  healthData: [
-    {
-      year: 2008,
-      count: 222,
-      value: 890.305692,
-      lowerCi: 441.69151,
-      upperCi: 578.32766,
-      ageBand: allAgesAge,
-      sex: personsSex,
-      trend: HealthDataPointTrendEnum.NotYetCalculated,
-      deprivation: noDeprivation,
-    },
-  ],
-};
-
-const mockAreaHealthData: HealthDataForArea[] = [
-  {
-    areaCode: mockAreas[0],
-    areaName: 'Greater Manchester ICB - 00T',
-    healthData: [
-      {
-        year: 2008,
-        count: 222,
-        value: 890.305692,
-        lowerCi: 441.69151,
-        upperCi: 578.32766,
-        ageBand: allAgesAge,
-        sex: personsSex,
-        trend: HealthDataPointTrendEnum.NotYetCalculated,
-        deprivation: noDeprivation,
-      },
-    ],
-  },
-  {
-    areaCode: mockAreas[1],
-    areaName: 'Greater Manchester ICB - 01T',
-    healthData: [
-      {
-        year: 2024,
-        count: 111,
-        value: 690.305692,
-        lowerCi: 341.69151,
-        upperCi: 478.32766,
-        ageBand: allAgesAge,
-        sex: personsSex,
-        trend: HealthDataPointTrendEnum.NotYetCalculated,
-        deprivation: noDeprivation,
-      },
-    ],
-  },
-  {
-    areaCode: mockAreas[2],
-    areaName: 'Greater Manchester ICB - 02T',
-    healthData: [
-      {
-        year: 2008,
-        count: 222,
-        value: 890.305692,
-        lowerCi: 441.69151,
-        upperCi: 578.32766,
-        ageBand: allAgesAge,
-        sex: personsSex,
-        trend: HealthDataPointTrendEnum.NotYetCalculated,
-        deprivation: noDeprivation,
-      },
-    ],
-  },
-];
-
+const mockHealthArea3 = mockHealthDataForArea({
+  areaCode: mockAreas[2],
+  areaName: 'Area3',
+});
 const mockIndicatorData: IndicatorWithHealthDataForArea[] = [
   {
     indicatorId: Number(indicatorIds[0]),
     areaHealthData: [
-      mockAreaHealthData[0],
-      mockAreaHealthData[1],
-      mockGroupHealthData,
-      mockEnglandHealthData,
+      mockHealthArea1,
+      mockHealthArea2,
+      mockHealthDataForArea_Group({ areaCode: mockGroupArea }),
+      mockHealthDataForArea_England(),
     ],
   },
   {
     indicatorId: Number(indicatorIds[1]),
     areaHealthData: [
-      mockAreaHealthData[1],
-      mockAreaHealthData[2],
-      mockGroupHealthData,
-      mockEnglandHealthData,
+      mockHealthArea2,
+      mockHealthArea3,
+      mockHealthDataForArea_Group(),
+      mockHealthDataForArea_England(),
     ],
   },
 ];
 
-const mockMetaData = [
-  {
-    indicatorID: indicatorIds[0],
-    indicatorName: 'indicator 1',
-    indicatorDefinition: 'indicator 1 count',
-    dataSource: 'data source 1',
-    earliestDataPeriod: '2025',
-    latestDataPeriod: '2025',
-    lastUpdatedDate: new Date('March 4, 2025'),
-    associatedAreaCodes: [mockAreas[0], mockAreas[1]],
-    unitLabel: 'count',
-    hasInequalities: true,
-    usedInPoc: false,
-  },
-  {
-    indicatorID: indicatorIds[1],
-    indicatorName: 'indicator 2',
-    indicatorDefinition: 'indicator 2 count',
-    dataSource: 'data source 1',
-    earliestDataPeriod: '2023',
-    latestDataPeriod: '2023',
-    lastUpdatedDate: new Date('March 4, 2023'),
-    associatedAreaCodes: [mockAreas[2], mockAreas[3]],
-    unitLabel: 'values',
-    hasInequalities: true,
-    usedInPoc: false,
-  },
-];
+const mockMeta1 = mockIndicatorDocument({ indicatorID: indicatorIds[0] });
+const mockMeta2 = mockIndicatorDocument({ indicatorID: indicatorIds[1] });
+const mockMetaData = [mockMeta1, mockMeta2];
 
-const mockBenchmarkStatistics = [
-  {
-    indicatorId: Number(indicatorIds[0]),
-    polarity: IndicatorPolarity.LowIsGood,
-    q0Value: 0,
-    q1Value: 1,
-    q3Value: 3,
-    q4Value: 4,
-  },
-  {
-    indicatorId: Number(indicatorIds[1]),
-    polarity: IndicatorPolarity.LowIsGood,
-    q0Value: 4,
-    q1Value: 3,
-    q3Value: 1,
-    q4Value: 0,
-  },
+const mockQuartiles = [
+  mockQuartileData({ indicatorId: Number(indicatorIds[0]) }),
+  mockQuartileData({ indicatorId: Number(indicatorIds[1]) }),
 ];
 
 describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
@@ -211,7 +99,7 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
       <TwoOrMoreIndicatorsAreasViewPlot
         indicatorData={mockIndicatorData}
         indicatorMetadata={mockMetaData}
-        benchmarkStatistics={mockBenchmarkStatistics}
+        benchmarkStatistics={mockQuartiles}
       />
     );
 
@@ -225,18 +113,19 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
     expect(benchmarkAreaDropDown).toBeInTheDocument();
     expect(benchmarkAreaDropDownOptions).toHaveLength(2);
     expect(benchmarkAreaDropDownOptions[0]).toHaveTextContent('England');
-    expect(benchmarkAreaDropDownOptions[1]).toHaveTextContent('Some group');
+    expect(benchmarkAreaDropDownOptions[1]).toHaveTextContent(
+      'North West Region'
+    );
   });
 
   it('should render all components with up to 2 areas selected', () => {
     const areas = [mockAreas[0], mockAreas[1]];
     mockSearchParams[SearchParams.AreasSelected] = areas;
-
     render(
       <TwoOrMoreIndicatorsAreasViewPlot
         indicatorData={mockIndicatorData}
         indicatorMetadata={mockMetaData}
-        benchmarkStatistics={mockBenchmarkStatistics}
+        benchmarkStatistics={mockQuartiles}
       />
     );
 
@@ -252,7 +141,7 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
       <TwoOrMoreIndicatorsAreasViewPlot
         indicatorData={mockIndicatorData}
         indicatorMetadata={mockMetaData}
-        benchmarkStatistics={mockBenchmarkStatistics}
+        benchmarkStatistics={mockQuartiles}
       />
     );
 
@@ -270,20 +159,14 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
       <TwoOrMoreIndicatorsAreasViewPlot
         indicatorData={mockIndicatorData}
         indicatorMetadata={mockMetaData}
-        benchmarkStatistics={mockBenchmarkStatistics}
+        benchmarkStatistics={mockQuartiles}
       />
     );
 
     const heatmapTable = screen.getByTestId('heatmapChart-component');
-    expect(
-      within(heatmapTable).getByText('Greater Manchester ICB - 00T')
-    ).toBeInTheDocument();
-    expect(
-      within(heatmapTable).getByText('Greater Manchester ICB - 01T')
-    ).toBeInTheDocument();
-    expect(
-      within(heatmapTable).getByText('Greater Manchester ICB - 02T')
-    ).toBeInTheDocument();
+    expect(within(heatmapTable).getByText('Area1')).toBeInTheDocument();
+    expect(within(heatmapTable).getByText('Area2')).toBeInTheDocument();
+    expect(within(heatmapTable).getByText('Area3')).toBeInTheDocument();
   });
 
   it('should not render the spine chart component with more than 2 areas selected', () => {
@@ -294,7 +177,7 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
       <TwoOrMoreIndicatorsAreasViewPlot
         indicatorData={mockIndicatorData}
         indicatorMetadata={mockMetaData}
-        benchmarkStatistics={mockBenchmarkStatistics}
+        benchmarkStatistics={mockQuartiles}
       />
     );
 
@@ -306,69 +189,54 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
 });
 
 describe('extractHeatmapIndicatorData', () => {
-  const populatedAreaHealthData: HealthDataForArea[] = [
-    {
-      areaCode: 'A123',
-      areaName: 'some area',
-      healthData: [
-        {
-          year: 2012,
-          ageBand: {
-            value: '',
-            isAggregate: false,
-          },
-          sex: {
-            value: '',
-            isAggregate: false,
-          },
-          trend: 'Not yet calculated',
-          deprivation: {
-            sequence: 0,
-            value: '',
-            type: '',
-            isAggregate: false,
-          },
-        },
-      ],
-    },
-  ];
-
-  const benchmarkMethod =
-    BenchmarkComparisonMethod.CIOverlappingReferenceValue95;
-  const polarity = IndicatorPolarity.HighIsGood;
-
-  const populatedIndicatorData: IndicatorWithHealthDataForArea = {
-    indicatorId: 123,
-    name: 'some name',
-    areaHealthData: populatedAreaHealthData,
-    benchmarkMethod: benchmarkMethod,
-    polarity: polarity,
-  };
-
-  const populatedIndicatorMetadata: IndicatorDocument = {
-    indicatorID: '123',
-    indicatorName: 'some name',
-    indicatorDefinition: 'not relevant',
-    dataSource: 'not relevant',
-    earliestDataPeriod: 'not relevant',
-    latestDataPeriod: 'not relevant',
-    lastUpdatedDate: new Date(),
-    hasInequalities: false,
-    unitLabel: 'valid unit label',
-  };
+  const populatedIndicatorData = mockIndicatorWithHealthDataForArea();
+  const populatedIndicatorMetadata = mockIndicatorDocument();
 
   it('should populate heatmap indicator data with values from indicator data and metadata', () => {
     const expectedHeatmapIndicatorData: HeatmapIndicatorData = {
       indicatorId: populatedIndicatorMetadata.indicatorID,
       indicatorName: populatedIndicatorMetadata.indicatorName,
-      healthDataForAreas: populatedAreaHealthData,
+      healthDataForAreas: populatedIndicatorData.areaHealthData ?? [],
       unitLabel: populatedIndicatorMetadata.unitLabel,
-      benchmarkComparisonMethod: benchmarkMethod,
-      polarity: polarity,
+      benchmarkComparisonMethod:
+        populatedIndicatorData.benchmarkMethod ??
+        BenchmarkComparisonMethod.Unknown,
+      polarity: populatedIndicatorData.polarity ?? IndicatorPolarity.Unknown,
     };
 
     const heatmapData = extractHeatmapIndicatorData(
       populatedIndicatorData,
+      populatedIndicatorMetadata
+    );
+
+    expect(heatmapData).toEqual(expectedHeatmapIndicatorData);
+  });
+
+  it('should return undefined if indicatorData.areaHealthData is undefined', () => {
+    const heatmapData = extractHeatmapIndicatorData(
+      { ...populatedIndicatorData, areaHealthData: undefined },
+      populatedIndicatorMetadata
+    );
+
+    expect(heatmapData).toBe(undefined);
+  });
+
+  it('should default props if not defined in inputs', () => {
+    const expectedHeatmapIndicatorData: HeatmapIndicatorData = {
+      indicatorId: populatedIndicatorMetadata.indicatorID,
+      indicatorName: populatedIndicatorMetadata.indicatorName,
+      healthDataForAreas: populatedIndicatorData.areaHealthData ?? [],
+      unitLabel: populatedIndicatorMetadata.unitLabel,
+      benchmarkComparisonMethod: BenchmarkComparisonMethod.Unknown,
+      polarity: IndicatorPolarity.Unknown,
+    };
+
+    const heatmapData = extractHeatmapIndicatorData(
+      {
+        ...populatedIndicatorData,
+        benchmarkMethod: undefined,
+        polarity: undefined,
+      },
       populatedIndicatorMetadata
     );
 

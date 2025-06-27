@@ -20,13 +20,11 @@ export const useSpineChartData = () => {
   const quartileParams = useQuartilesRequestParams();
   const { quartileData } = useApiGetQuartiles(quartileParams);
   const { indicatorMetaData } = useApiGetIndicatorMetaDatas(indicatorIds);
-
-  const areaCodes = determineAreaCodes(areasSelected, groupAreaSelected);
   const requestParams = useSpineChartRequestParams();
-
   const { healthData } =
     useApiGetHealthDataForMultipleIndicators(requestParams);
 
+  const areaCodes = determineAreaCodes(areasSelected, groupAreaSelected);
   if (
     !quartileData ||
     !areaCodes.length ||
