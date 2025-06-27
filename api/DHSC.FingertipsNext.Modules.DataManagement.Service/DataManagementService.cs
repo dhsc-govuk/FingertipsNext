@@ -6,7 +6,7 @@ using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 
 namespace DHSC.FingertipsNext.Modules.DataManagement.Service;
 
-public class DataManagementService: IDataManagementService
+public class DataManagementService : IDataManagementService
 {
     private static readonly Action<ILogger, string, Exception?> UploadErrorLog = LoggerMessage.Define<string>(
         LogLevel.Error,
