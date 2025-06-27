@@ -98,6 +98,7 @@ HealthDataForArea:
     - areaCode
     - areaName
     - healthData
+    - indicatorSegments
   properties:
     areaCode:
       type: string
@@ -107,6 +108,32 @@ HealthDataForArea:
       type: string
       example: England
       description: The name of the area that the health data are for
+    indicatorSegments:
+      type: array
+      items:
+        $ref: "#/IndicatorSegment"
+      description: An array of indicator segments
+    healthData:
+      type: array
+      items:
+        $ref: "#/HealthDataPoint"
+      description: The health data points for the area and indicator
+IndicatorSegment:
+  title: IndicatorSegment
+  type: object
+  description:
+    Represents a segment of an Indicator health data point for a public health indicator .
+  required:
+    - ageBand
+    - sex
+  properties:
+    ageBand:
+      $ref: "#/AgeData"
+    sex:
+      $ref: "#/SexData"
+    isAggregate:
+      type: boolean
+      description: Indicates if the segment is the aggregate
     healthData:
       type: array
       items:
@@ -121,8 +148,6 @@ HealthDataPoint:
     year, age band and sex.
   required:
     - year
-    - ageBand
-    - sex
     - trend
     - deprivation
   properties:

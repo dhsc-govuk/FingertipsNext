@@ -20,6 +20,13 @@ import {
     HealthDataPointToJSON,
     HealthDataPointToJSONTyped,
 } from './HealthDataPoint';
+import type { IndicatorSegment } from './IndicatorSegment';
+import {
+    IndicatorSegmentFromJSON,
+    IndicatorSegmentFromJSONTyped,
+    IndicatorSegmentToJSON,
+    IndicatorSegmentToJSONTyped,
+} from './IndicatorSegment';
 
 /**
  * Associates a list of health data points with the relevant geographical area (represented by it's unique code).
@@ -40,6 +47,12 @@ export interface HealthDataForArea {
      */
     areaName: string;
     /**
+     * An array of indicator segments
+     * @type {Array<IndicatorSegment>}
+     * @memberof HealthDataForArea
+     */
+    indicatorSegments: Array<IndicatorSegment>;
+    /**
      * The health data points for the area and indicator
      * @type {Array<HealthDataPoint>}
      * @memberof HealthDataForArea
@@ -53,6 +66,7 @@ export interface HealthDataForArea {
 export function instanceOfHealthDataForArea(value: object): value is HealthDataForArea {
     if (!('areaCode' in value) || value['areaCode'] === undefined) return false;
     if (!('areaName' in value) || value['areaName'] === undefined) return false;
+    if (!('indicatorSegments' in value) || value['indicatorSegments'] === undefined) return false;
     if (!('healthData' in value) || value['healthData'] === undefined) return false;
     return true;
 }
@@ -69,6 +83,7 @@ export function HealthDataForAreaFromJSONTyped(json: any, ignoreDiscriminator: b
         
         'areaCode': json['areaCode'],
         'areaName': json['areaName'],
+        'indicatorSegments': ((json['indicatorSegments'] as Array<any>).map(IndicatorSegmentFromJSON)),
         'healthData': ((json['healthData'] as Array<any>).map(HealthDataPointFromJSON)),
     };
 }
@@ -86,6 +101,7 @@ export function HealthDataForAreaToJSONTyped(value?: HealthDataForArea | null, i
         
         'areaCode': value['areaCode'],
         'areaName': value['areaName'],
+        'indicatorSegments': ((value['indicatorSegments'] as Array<any>).map(IndicatorSegmentToJSON)),
         'healthData': ((value['healthData'] as Array<any>).map(HealthDataPointToJSON)),
     };
 }
