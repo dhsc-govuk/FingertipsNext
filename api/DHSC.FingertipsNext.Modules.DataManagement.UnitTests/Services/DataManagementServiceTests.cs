@@ -25,7 +25,7 @@ public class DataManagementServiceTests
     public DataManagementServiceTests()
     {
         var inMemorySettings = new Dictionary<string, string?> {
-            {"STORAGE_CONTAINER_NAME", ContainerName},
+            {"UPLOAD_STORAGE_CONTAINER_NAME", ContainerName},
         };
         _configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(inMemorySettings)
@@ -70,7 +70,7 @@ public class DataManagementServiceTests
     {
         // Arrange
         _configuration = new ConfigurationBuilder()
-            .AddInMemoryCollection(new Dictionary<string, string?> { { "STORAGE_CONTAINER_NAME", "" } })
+            .AddInMemoryCollection(new Dictionary<string, string?> { { "UPLOAD_STORAGE_CONTAINER_NAME", "" } })
             .Build();
 
         _service = new DataManagementService(_blobServiceClient, _configuration, _logger, _timeProvider);
