@@ -24,7 +24,7 @@
             var (areasAndIndicators, healthMeasures)=  DataManager.CreateHealthDataAndAgeData(areasWeWant, pocIndicators, ageData);
             Console.WriteLine($"Created all health data");
             //create the indicator data and write to csv
-            await _dataManager.CreateIndicatorDataAsync(areasAndIndicators, pocIndicators, addAreasToIndicator: true);
+            await _dataManager.CreateIndicatorDataAsync(areasAndIndicators, pocIndicators);
             Console.WriteLine($"Created all indicator data");
             //add period data to health data
             DataManager.CreateHealthMeasurePeriodDates(pocIndicators, healthMeasures);

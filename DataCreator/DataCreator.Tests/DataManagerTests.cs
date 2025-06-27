@@ -9,28 +9,28 @@ namespace DataCreator.Tests;
 [TestOf(typeof(DataManager))]
 public class DataManagerTests
 {
-    private List<SimpleIndicator> _stubIndicators;
+    private List<FingerTipsIndicator> _stubIndicators;
     private List<HealthMeasureEntity> _stubHealthMeasures;
 
     [SetUp]
     public void SetUp()
     {
-        _stubIndicators = new List<SimpleIndicator>
+        _stubIndicators = new List<FingerTipsIndicator>
                 {
                     new()
                     {
                         IndicatorID = 1,
-                        YearType = "Calendar"
+                        PeriodType = "Calendar"
                     },
                     new()
                     {
                         IndicatorID = 2,
-                        YearType = "Financial"
+                        PeriodType = "Financial"
                     },
                     new()
                     {
                         IndicatorID = 3,
-                        YearType = "November-November"
+                        PeriodType = "November-November"
                     },
                 };
         

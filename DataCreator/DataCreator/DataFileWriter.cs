@@ -42,7 +42,7 @@ namespace DataCreator
             new CsvContext().Write(secondHalf, Path.Join(OutFolderPath, $"{fileName}2.csv"), CsvFileDescription);
         } 
 
-        public static void WriteSimpleIndicatorCsvData(string fileName, IEnumerable<SimpleIndicator> data) =>
+        public static void WriteSimpleIndicatorCsvData(string fileName, IEnumerable<FingerTipsIndicator> data) =>
              new CsvContext().Write(data, Path.Join(OutFolderPath, $"{fileName}.csv"), CsvFileDescription);
 
         public static void WriteSimpleAreaCsvData(string fileName, IEnumerable<SimpleAreaWithChildren> data) =>
