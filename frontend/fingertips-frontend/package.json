@@ -91,7 +91,7 @@
     "fast-xml-parser": "^5.2.5",
     "jsdom": "^26.1.0",
     "msw": "^2.6.8",
-    "playwright-ctrf-json-reporter": "^0.0.19",
+    "playwright-ctrf-json-reporter": "^0.0.21",
     "playwright-webkit": "^1.53.0",
     "postcss": "^8.4.49",
     "prettier": "^3.4.2",
