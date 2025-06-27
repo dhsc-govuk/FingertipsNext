@@ -5,6 +5,7 @@ import {
   IndicatorInfo,
   SimpleIndicatorDocument,
 } from './genericTestUtilities';
+import { spaceSeparatedPattern } from '@/lib/constants';
 
 const indicatorsUsedInPOC = (indicator: RawIndicatorDocument): boolean =>
   indicator.usedInPoc === true;
@@ -14,8 +15,6 @@ const indicatorsMatchingSearchTerm = (
   normalizedSearchTerm: string
 ): boolean => {
   // Check if searched for text is a space-separated list of numbers
-  const spaceSeparatedPattern = /^\d+(\s+\d+)+$/;
-
   if (spaceSeparatedPattern.test(normalizedSearchTerm)) {
     // Parse indicator IDs and match exactly
     const indicatorIds = normalizedSearchTerm

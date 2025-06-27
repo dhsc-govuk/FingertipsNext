@@ -2,6 +2,7 @@ import type { Locator, Page as PlaywrightPage } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { expect } from './pageFactory';
 import { SearchMode } from '../testHelpers/genericTestUtilities';
+import { spaceSeparatedPattern } from '@/lib/constants';
 
 export default class BasePage {
   readonly errorPageTitleHeaderId = 'error-page-title';
@@ -23,13 +24,15 @@ export default class BasePage {
       let trimmedSearchText = subjectSearchTerm.trim();
 
       // Check if searched for text is a space-separated list of numbers
-      const spaceSeparatedPattern = /^\d+(\s+\d+)+$/;
       if (spaceSeparatedPattern.test(trimmedSearchText)) {
         // replace whitespace with +
         trimmedSearchText = trimmedSearchText.replaceAll(' ', '+');
       }
+
       if (searchMode === SearchMode.ONLY_SUBJECT) {
-        await this.waitForURLToContain(trimmedSearchText);
+        await this.waitForURLToContain(
+          trimmedSearchText.replaceAll(/'/g, '%27') // handle ' common special character in search term
+        );
       }
       if (searchMode === SearchMode.BOTH_SUBJECT_AND_AREA) {
         await this.waitForURLToContain(trimmedSearchText);
