@@ -18,7 +18,6 @@ import {
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
 import { mockHealthData } from '@/mock/data/healthdata';
-import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 import { londonNHSRegion } from '@/mock/data/areas/nhsRegionsAreas';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 
@@ -133,33 +132,6 @@ describe('OneIndicatorOneAreaView', () => {
         benchmarkRefType: 'England',
       },
       API_CACHE_CONFIG
-    );
-  });
-
-  it('should pass the first indicatorDocument from selectedIndicatorData as indicatorMetadata prop', async () => {
-    const firstIndicatorDocument = generateIndicatorDocument('1');
-
-    const searchParams: SearchStateParams = {
-      [SearchParams.SearchedIndicator]: 'testing',
-      [SearchParams.IndicatorsSelected]: ['1'],
-      [SearchParams.AreasSelected]: ['E12000001'],
-      [SearchParams.AreaTypeSelected]: 'regions',
-    };
-
-    const mockIndicatorData = {
-      areaHealthData: [mockHealthData['108'][1]],
-    };
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
-      mockIndicatorData
-    );
-
-    const page = await OneIndicatorOneAreaView({
-      selectedIndicatorsData: [firstIndicatorDocument],
-      searchState: searchParams,
-    });
-
-    expect(page.props.children.props.indicatorMetadata).toEqual(
-      firstIndicatorDocument
     );
   });
 

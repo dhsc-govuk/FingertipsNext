@@ -19,10 +19,12 @@ import { lineChartOverTimeIsRequired } from '@/components/charts/LineChartOverTi
 import { LineChartAndTableOverTime } from '@/components/charts/LineChartOverTime/LineChartAndTableOverTime';
 import { CompareAreasTable } from '@/components/charts/CompareAreasTable/CompareAreasTable';
 import { compareAreasTableIsRequired } from '@/components/charts/CompareAreasTable/helpers/compareAreasTableIsRequired';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 interface OneIndicatorTwoOrMoreAreasViewPlotsProps
   extends OneIndicatorViewPlotProps {
   areaCodes?: string[];
+  indicatorMetadata?: IndicatorDocument;
 }
 
 export function OneIndicatorTwoOrMoreAreasViewPlots({

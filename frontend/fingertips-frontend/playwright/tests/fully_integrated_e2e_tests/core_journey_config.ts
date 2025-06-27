@@ -1,4 +1,4 @@
-import { InequalitiesTypes } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { InequalitiesTypes } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
 import { AreaDocument } from '@/lib/search/searchTypes';
 import {
   AreaMode,
@@ -150,12 +150,12 @@ export const coreTestJourneys: TestParameters[] = [
     searchMode: SearchMode.ONLY_AREA, // therefore no subject search term or areaFiltersToSelect required
     indicatorsToSelect: [
       {
-        indicatorID: '93015',
-        knownTrend: 'No recent trend data available',
+        indicatorID: '20401',
+        knownTrend: 'Decreasing and getting better',
       },
       {
-        indicatorID: '93088',
-        knownTrend: 'No recent trend data available',
+        indicatorID: '241',
+        knownTrend: 'Increasing',
       },
     ],
   },
