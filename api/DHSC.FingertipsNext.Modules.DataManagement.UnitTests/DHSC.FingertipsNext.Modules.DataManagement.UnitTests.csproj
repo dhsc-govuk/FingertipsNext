@@ -5,6 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
+        <RootNamespace>DHSC.FingertipsNext.Modules.DataManagement.UnitTests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -23,7 +24,13 @@
     <ItemGroup>
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.DataManagement.Repository\DHSC.FingertipsNext.Modules.DataManagement.Repository.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.DataManagement.Service\DHSC.FingertipsNext.Modules.DataManagement.Service.csproj" />
-      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.DataManager\DHSC.FingertipsNext.Modules.DataManagement.csproj" />
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.DataManagement\DHSC.FingertipsNext.Modules.DataManagement.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="TestData\StubHealthdataUpload.csv">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

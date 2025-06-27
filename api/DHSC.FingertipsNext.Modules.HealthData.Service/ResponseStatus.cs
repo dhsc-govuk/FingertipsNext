@@ -1,4 +1,4 @@
-namespace DHSC.FingertipsNext.Modules.HealthData;
+namespace DHSC.FingertipsNext.Modules.HealthData.Service;
 
 public enum ResponseStatus
 {
