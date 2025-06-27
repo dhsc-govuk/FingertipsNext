@@ -127,8 +127,6 @@ IndicatorSegment:
     - ageBand
     - sex
   properties:
-    ageBand:
-      $ref: "#/AgeData"
     sex:
       $ref: "#/SexData"
     isAggregate:
@@ -370,6 +368,11 @@ QuartileData:
       type: integer
       example: 21404
       description: Unique ID of the indicator
+    sex:
+      $ref: "#/SexData"
+    isAggregate:
+      type: boolean
+      description: Indicates if the segment is the aggregate
     year:
       type: integer
       format: int32

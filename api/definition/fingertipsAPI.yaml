@@ -689,22 +689,6 @@ components:
         - Quintiles
         - CIOverlappingReferenceValue95
         - CIOverlappingReferenceValue99_8
-    AgeData:
-      title: Age Data
-      type: object
-      description: Details of the age band that this data point belongs to.
-      required:
-        - value
-        - isAggregate
-      properties:
-        value:
-          type: string
-          example: 0-4
-          description: Age band which the data are for.
-        isAggregate:
-          type: boolean
-          example: false
-          description: Indicates if the datapoint is an aggregated value for the age dimension.
     SexData:
       title: Sex Data
       type: object
@@ -744,6 +728,22 @@ components:
         to:
           $ref: '#/components/schemas/Date'
           description: The end date for the data request, in ISO 8601 format (YYYY-MM-DD).
+    AgeData:
+      title: Age Data
+      type: object
+      description: Details of the age band that this data point belongs to.
+      required:
+        - value
+        - isAggregate
+      properties:
+        value:
+          type: string
+          example: 0-4
+          description: Age band which the data are for.
+        isAggregate:
+          type: boolean
+          example: false
+          description: Indicates if the datapoint is an aggregated value for the age dimension.
     BenchmarkOutcome:
       title: Benchmark Outcome
       type: string
@@ -885,8 +885,6 @@ components:
         - ageBand
         - sex
       properties:
-        ageBand:
-          $ref: '#/components/schemas/AgeData'
         sex:
           $ref: '#/components/schemas/SexData'
         isAggregate:
@@ -955,6 +953,11 @@ components:
           type: integer
           example: 21404
           description: Unique ID of the indicator
+        sex:
+          $ref: '#/components/schemas/SexData'
+        isAggregate:
+          type: boolean
+          description: Indicates if the segment is the aggregate
         year:
           type: integer
           format: int32
