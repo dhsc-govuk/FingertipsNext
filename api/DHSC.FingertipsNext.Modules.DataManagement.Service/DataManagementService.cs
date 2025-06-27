@@ -39,7 +39,7 @@ public class DataManagementService : IDataManagementService
         _blobServiceClient = blobServiceClient;
         _logger = logger;
         _timeProvider = timeProvider;
-        _containerName = configuration["STORAGE_CONTAINER_NAME"];
+        _containerName = configuration["UPLOAD_STORAGE_CONTAINER_NAME"];
     }
 
     public async Task<bool> UploadFileAsync(Stream fileStream, int indicatorId)

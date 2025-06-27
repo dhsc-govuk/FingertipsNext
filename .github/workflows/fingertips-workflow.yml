@@ -595,7 +595,7 @@ jobs:
             value       = null
           },
           {
-            name        = "CONTAINER_UAI_CLIENT_ID"
+            name        = "USER_ASSIGNED_MANAGED_IDENTITY_CLIENT_ID"
             secret_name = "fingertips-container-uai-client-id"
             value       = null
           }
