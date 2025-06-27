@@ -6,11 +6,7 @@ using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 
 namespace DHSC.FingertipsNext.Modules.DataManagement.Service;
 
-public class DataManagementService(
-    BlobServiceClient blobServiceClient,
-    IConfiguration configuration,
-    ILogger<DataManagementService> logger,
-    TimeProvider timeProvider) : IDataManagementService
+public class DataManagementService: IDataManagementService
 {
     private static readonly Action<ILogger, string, Exception?> UploadErrorLog = LoggerMessage.Define<string>(
         LogLevel.Error,
@@ -32,29 +28,42 @@ public class DataManagementService(
         new EventId(4, "InvalidConfigLog"),
         "Config variable 'STORAGE_CONTAINER_NAME' is invalid: {ContainerName}");
 
+    private readonly BlobServiceClient _blobServiceClient;
+    private readonly ILogger<DataManagementService> _logger;
+    private readonly TimeProvider _timeProvider;
+    private readonly string? _containerName;
+
+    public DataManagementService(BlobServiceClient blobServiceClient, IConfiguration configuration, ILogger<DataManagementService> logger, TimeProvider timeProvider)
+    {
+        ArgumentNullException.ThrowIfNull(configuration);
+        _blobServiceClient = blobServiceClient;
+        _logger = logger;
+        _timeProvider = timeProvider;
+        _containerName = configuration["STORAGE_CONTAINER_NAME"];
+    }
+
     public async Task<bool> UploadFileAsync(Stream fileStream, int indicatorId)
     {
-        var containerName = configuration["STORAGE_CONTAINER_NAME"];
-        if (string.IsNullOrWhiteSpace(containerName))
+        if (string.IsNullOrWhiteSpace(_containerName))
         {
-            InvalidConfigLog(logger, containerName, null);
+            InvalidConfigLog(_logger, _containerName, null);
             return false;
         }
 
-        var containerClient = blobServiceClient.GetBlobContainerClient(containerName);
-        var batchId = $"{indicatorId}_{timeProvider.GetUtcNow():yyyy-MM-ddTHH:mm:ss.fff}";
+        var containerClient = _blobServiceClient.GetBlobContainerClient(_containerName);
+        var batchId = $"{indicatorId}_{_timeProvider.GetUtcNow():yyyy-MM-ddTHH:mm:ss.fff}";
 
         var blobClient = containerClient.GetBlobClient($"{batchId}.csv");
 
         try
         {
-            UploadDebugLog(logger, batchId, containerName, null);
+            UploadDebugLog(_logger, batchId, _containerName, null);
             await blobClient.UploadAsync(fileStream);
-            UploadSuccessfulLog(logger, null);
+            UploadSuccessfulLog(_logger, null);
         }
         catch (Exception exception) when (exception is RequestFailedException or AggregateException)
         {
-            UploadErrorLog(logger, exception.Message, exception);
+            UploadErrorLog(_logger, exception.Message, exception);
             return false;
         }
 
