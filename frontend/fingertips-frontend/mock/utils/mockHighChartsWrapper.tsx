@@ -5,4 +5,8 @@ export const mockHighChartsWrapper = HighChartsWrapper as unknown as ReturnType<
   typeof vi.fn
 >;
 
-mockHighChartsWrapper.mockReturnValue(() => <div />);
+export const mockHighChartsWrapperSetup = () => {
+  mockHighChartsWrapper.mockImplementation(({ children }) => (
+    <div>{children}</div>
+  ));
+};

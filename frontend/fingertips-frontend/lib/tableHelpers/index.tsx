@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import { GovukColours } from '../styleHelpers/colours';
 import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
-import { spineChartIndicatorTitleColumnMinWidth } from '@/components/organisms/SpineChartTable/spineChartTableHelpers';
+import { spineChartIndicatorTitleColumnMinWidth } from '@/components/charts/SpineChart/helpers/buildSpineChartIndicatorData';
 
 const stickyLeft = {
   position: 'sticky',
