@@ -125,8 +125,9 @@ namespace DataCreator
 
         public static void UnzipSourceFiles()
         {
+            // ZipFile.ExtractToDirectory(Path.Join(InFilePath, "minimal.zip"), TempDirPath);
             ZipFile.ExtractToDirectory(Path.Join(InFilePath, "in.zip"), TempDirPath);
-            ZipFile.ExtractToDirectory(Path.Join(InFilePath, "in2.zip"), TempDirPath);
+            // ZipFile.ExtractToDirectory(Path.Join(InFilePath, "in2.zip"), TempDirPath);
         }
 
         public static void DeleteTempInputFiles()

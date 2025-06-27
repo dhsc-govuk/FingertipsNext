@@ -73,7 +73,7 @@ namespace DataCreator
         }
        
 
-        public async Task CreateIndicatorDataAsync(List<IndicatorWithAreasAndLatestUpdate> indicatorWithAreasAndLatestUpdates, List<SimpleIndicator> pocIndicators, bool addAreasToIndicator)
+        public async Task CreateIndicatorDataAsync(List<IndicatorWithAreasAndLatestUpdate> indicatorWithAreasAndLatestUpdates, List<SimpleIndicator> pocIndicators)
         {
             var indicators = (await _pholioDataFetcher.FetchIndicatorsAsync(pocIndicators)).ToList();
             foreach (var indicator in indicators)
@@ -99,9 +99,11 @@ namespace DataCreator
                     if (!string.IsNullOrEmpty(indicatorUsedInPoc.IndicatorName))
                     {
                         indicator.IndicatorName = indicatorUsedInPoc.IndicatorName;
-                        // PeriodType is needed to CreateHealthMeasurePeriodDates()
-                        pocIndicators.First(i => i.IndicatorID == indicator.IndicatorID).PeriodType = indicator.PeriodType;
+                        pocIndicators.First(i => i.IndicatorID == indicator.IndicatorID).PeriodType = indicator.YearType;
                     }
+                    // TODO: map YearType from PHOLIO to PeriodType
+                    indicator.PeriodType = indicator.YearType;
+                    // TODO: map Frequencies
 
                     indicator.BenchmarkComparisonMethod = indicatorUsedInPoc.BenchmarkComparisonMethod;
                     indicator.Polarity = indicatorUsedInPoc.Polarity;
@@ -314,6 +316,7 @@ namespace DataCreator
                 var indicatorPeriodType = indicatorsYearMap[healthMeasure.IndicatorId];
                 
                 int year;
+                // TODO: handle other things here
                 switch (indicatorPeriodType)
                 {
                     case "Calendar":

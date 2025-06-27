@@ -45,7 +45,6 @@ namespace DataCreator
         public string Copyright { get => copyright.StripHTML(); set => copyright = value; }
         public string Reuse { get; set; }
         public string Notes { get => notes.StripHTML(); set => notes = value; }
-        public string Frequency { get; set; }
         public string Rounding { get; set; }
 
         public List<string> AssociatedAreaCodes { get; set; } = [];
@@ -58,6 +57,7 @@ namespace DataCreator
         public bool UsedInPoc { get; set; }
 
         public bool HasInequalities { get; set; }
+        public string YearType { get; set; }
 
         //indicators 337 and 92708 are population indicators and we don't them to appear in search results
         public bool HideInSearch => IndicatorID == 337 || IndicatorID == 92708;
@@ -82,6 +82,9 @@ namespace DataCreator
         
         [CsvColumn(FieldIndex = 6)]
         public string PeriodType { get; set; }
+        
+        [CsvColumn(FieldIndex = 7)]
+        public string Frequency { get; set; }
         
         public bool HasMultipleSexes { get; set; }
 
