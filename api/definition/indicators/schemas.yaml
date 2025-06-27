@@ -98,7 +98,6 @@ HealthDataForArea:
     - areaCode
     - areaName
     - healthData
-    - indicatorSegments
   properties:
     areaCode:
       type: string
@@ -147,6 +146,8 @@ HealthDataPoint:
   required:
     - year
     - trend
+    - sex
+    - ageBand
     - deprivation
   properties:
     year:

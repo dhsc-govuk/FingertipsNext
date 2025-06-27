@@ -51,7 +51,7 @@ export interface HealthDataForArea {
      * @type {Array<IndicatorSegment>}
      * @memberof HealthDataForArea
      */
-    indicatorSegments: Array<IndicatorSegment>;
+    indicatorSegments?: Array<IndicatorSegment>;
     /**
      * The health data points for the area and indicator
      * @type {Array<HealthDataPoint>}
@@ -66,7 +66,6 @@ export interface HealthDataForArea {
 export function instanceOfHealthDataForArea(value: object): value is HealthDataForArea {
     if (!('areaCode' in value) || value['areaCode'] === undefined) return false;
     if (!('areaName' in value) || value['areaName'] === undefined) return false;
-    if (!('indicatorSegments' in value) || value['indicatorSegments'] === undefined) return false;
     if (!('healthData' in value) || value['healthData'] === undefined) return false;
     return true;
 }
@@ -83,7 +82,7 @@ export function HealthDataForAreaFromJSONTyped(json: any, ignoreDiscriminator: b
         
         'areaCode': json['areaCode'],
         'areaName': json['areaName'],
-        'indicatorSegments': ((json['indicatorSegments'] as Array<any>).map(IndicatorSegmentFromJSON)),
+        'indicatorSegments': json['indicatorSegments'] == null ? undefined : ((json['indicatorSegments'] as Array<any>).map(IndicatorSegmentFromJSON)),
         'healthData': ((json['healthData'] as Array<any>).map(HealthDataPointFromJSON)),
     };
 }
@@ -101,7 +100,7 @@ export function HealthDataForAreaToJSONTyped(value?: HealthDataForArea | null, i
         
         'areaCode': value['areaCode'],
         'areaName': value['areaName'],
-        'indicatorSegments': ((value['indicatorSegments'] as Array<any>).map(IndicatorSegmentToJSON)),
+        'indicatorSegments': value['indicatorSegments'] == null ? undefined : ((value['indicatorSegments'] as Array<any>).map(IndicatorSegmentToJSON)),
         'healthData': ((value['healthData'] as Array<any>).map(HealthDataPointToJSON)),
     };
 }

@@ -811,6 +811,8 @@ components:
       required:
         - year
         - trend
+        - sex
+        - ageBand
         - deprivation
       properties:
         year:
@@ -903,7 +905,6 @@ components:
         - areaCode
         - areaName
         - healthData
-        - indicatorSegments
       properties:
         areaCode:
           type: string

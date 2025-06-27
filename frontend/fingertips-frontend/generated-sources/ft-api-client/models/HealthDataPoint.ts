@@ -96,13 +96,13 @@ export interface HealthDataPoint {
      * @type {AgeData}
      * @memberof HealthDataPoint
      */
-    ageBand?: AgeData;
+    ageBand: AgeData;
     /**
      * 
      * @type {SexData}
      * @memberof HealthDataPoint
      */
-    sex?: SexData;
+    sex: SexData;
     /**
      * The statistical trend that applies to the data point, given the preceding data. Will only be calculated if there are at least 5 data points to use.
      * @type {string}
@@ -152,6 +152,8 @@ export type HealthDataPointTrendEnum = typeof HealthDataPointTrendEnum[keyof typ
  */
 export function instanceOfHealthDataPoint(value: object): value is HealthDataPoint {
     if (!('year' in value) || value['year'] === undefined) return false;
+    if (!('ageBand' in value) || value['ageBand'] === undefined) return false;
+    if (!('sex' in value) || value['sex'] === undefined) return false;
     if (!('trend' in value) || value['trend'] === undefined) return false;
     if (!('deprivation' in value) || value['deprivation'] === undefined) return false;
     return true;
@@ -173,8 +175,8 @@ export function HealthDataPointFromJSONTyped(json: any, ignoreDiscriminator: boo
         'value': json['value'] == null ? undefined : json['value'],
         'lowerCi': json['lowerCi'] == null ? undefined : json['lowerCi'],
         'upperCi': json['upperCi'] == null ? undefined : json['upperCi'],
-        'ageBand': json['ageBand'] == null ? undefined : AgeDataFromJSON(json['ageBand']),
-        'sex': json['sex'] == null ? undefined : SexDataFromJSON(json['sex']),
+        'ageBand': AgeDataFromJSON(json['ageBand']),
+        'sex': SexDataFromJSON(json['sex']),
         'trend': json['trend'],
         'isAggregate': json['isAggregate'] == null ? undefined : json['isAggregate'],
         'benchmarkComparison': json['benchmarkComparison'] == null ? undefined : HealthDataPointBenchmarkComparisonFromJSON(json['benchmarkComparison']),
