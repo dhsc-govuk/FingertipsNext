@@ -12,6 +12,7 @@ export * from './DeprivationData';
 export * from './GetAreaHierarchies500Response';
 export * from './GetHealthcheck200Response';
 export * from './GetHealthcheck500Response';
+export * from './GetUserInfo200Response';
 export * from './HealthDataForArea';
 export * from './HealthDataPoint';
 export * from './HealthDataPointBenchmarkComparison';

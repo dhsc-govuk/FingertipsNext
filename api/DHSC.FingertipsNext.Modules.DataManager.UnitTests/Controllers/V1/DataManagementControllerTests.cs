@@ -2,7 +2,6 @@ using DHSC.FingertipsNext.Modules.DataManagement.Controllers.V1;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using DHSC.FingertipsNext.Modules.DataManagement.Service;
 using Microsoft.AspNetCore.Mvc;
-using NSubstitute;
 using Shouldly;
 
 namespace DHSC.FingertipsNext.Modules.DataManagement.UnitTests.Controllers.V1;
@@ -28,6 +27,7 @@ public class DataManagementControllerTests
         // assert
         response?.StatusCode.ShouldBe(200);
     }
+
     [Fact]
     public void HealthcheckReturnsExpectedResult()
     {

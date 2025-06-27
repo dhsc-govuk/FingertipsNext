@@ -44,3 +44,7 @@ BadRequest:
         Too many years:
           value:
             message: Too many values supplied for parameter years. The maximum is 20 but 21 supplied.
+UserBadRequest:
+  description: User token was missing required claims.
+Unauthorized:
+  description: Authorization information is missing or invalid.
