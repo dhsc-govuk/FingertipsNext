@@ -48,6 +48,8 @@ export interface GetHealthDataForAnIndicatorRequest {
     ancestorCode?: string;
     benchmarkRefType?: BenchmarkReferenceType;
     years?: Array<number>;
+    toDate?: string;
+    fromDate?: string;
     inequalities?: Array<GetHealthDataForAnIndicatorInequalitiesEnum>;
     latestOnly?: boolean;
 }
@@ -63,6 +65,8 @@ export interface IndicatorsIndicatorIdDataDeleteRequest {
     ancestorCode?: string;
     benchmarkRefType?: BenchmarkReferenceType;
     years?: Array<number>;
+    toDate?: string;
+    fromDate?: string;
     inequalities?: Array<IndicatorsIndicatorIdDataDeleteInequalitiesEnum>;
     latestOnly?: boolean;
 }
@@ -74,6 +78,8 @@ export interface IndicatorsIndicatorIdDataPostRequest {
     ancestorCode?: string;
     benchmarkRefType?: BenchmarkReferenceType;
     years?: Array<number>;
+    toDate?: string;
+    fromDate?: string;
     inequalities?: Array<IndicatorsIndicatorIdDataPostInequalitiesEnum>;
     latestOnly?: boolean;
 }
@@ -118,6 +124,8 @@ export interface IndicatorsApiInterface {
      * @param {string} [ancestorCode] An ancestor area which the area_codes belong to
      * @param {BenchmarkReferenceType} [benchmarkRefType] The benchmark reference type
      * @param {Array<number>} [years] A list of years, up to 20 years can be requested
+     * @param {string} [toDate] The latest date, in ISO 8601 format (YYYY-MM-DD), for which data should be returned, if not specified then the latest date for the indicator will be used.
+     * @param {string} [fromDate] The earliest date, in ISO 8601 format (YYYY-MM-DD), for which data should be returned, if not specified then the earliest date for the indicator will be used.
      * @param {Array<'age' | 'sex' | 'deprivation'>} [inequalities] Determines the kind of inequality data that should be returned if an option is specified
      * @param {boolean} [latestOnly] Set to true to get data for the latest date period only, default is false. This overrides the years parameter if set to true.
      * @param {*} [options] Override http request option.
@@ -157,6 +165,8 @@ export interface IndicatorsApiInterface {
      * @param {string} [ancestorCode] An ancestor area which the area_codes belong to
      * @param {BenchmarkReferenceType} [benchmarkRefType] The benchmark reference type
      * @param {Array<number>} [years] A list of years, up to 20 years can be requested
+     * @param {string} [toDate] The latest date, in ISO 8601 format (YYYY-MM-DD), for which data should be returned, if not specified then the latest date for the indicator will be used.
+     * @param {string} [fromDate] The earliest date, in ISO 8601 format (YYYY-MM-DD), for which data should be returned, if not specified then the earliest date for the indicator will be used.
      * @param {Array<'age' | 'sex' | 'deprivation'>} [inequalities] Determines the kind of inequality data that should be returned if an option is specified
      * @param {boolean} [latestOnly] Set to true to get data for the latest date period only, default is false. This overrides the years parameter if set to true.
      * @param {*} [options] Override http request option.
@@ -180,6 +190,8 @@ export interface IndicatorsApiInterface {
      * @param {string} [ancestorCode] An ancestor area which the area_codes belong to
      * @param {BenchmarkReferenceType} [benchmarkRefType] The benchmark reference type
      * @param {Array<number>} [years] A list of years, up to 20 years can be requested
+     * @param {string} [toDate] The latest date, in ISO 8601 format (YYYY-MM-DD), for which data should be returned, if not specified then the latest date for the indicator will be used.
+     * @param {string} [fromDate] The earliest date, in ISO 8601 format (YYYY-MM-DD), for which data should be returned, if not specified then the earliest date for the indicator will be used.
      * @param {Array<'age' | 'sex' | 'deprivation'>} [inequalities] Determines the kind of inequality data that should be returned if an option is specified
      * @param {boolean} [latestOnly] Set to true to get data for the latest date period only, default is false. This overrides the years parameter if set to true.
      * @param {*} [options] Override http request option.
@@ -287,6 +299,14 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
             queryParameters['years'] = requestParameters['years'];
         }
 
+        if (requestParameters['toDate'] != null) {
+            queryParameters['to_date'] = requestParameters['toDate'];
+        }
+
+        if (requestParameters['fromDate'] != null) {
+            queryParameters['from_date'] = requestParameters['fromDate'];
+        }
+
         if (requestParameters['inequalities'] != null) {
             queryParameters['inequalities'] = requestParameters['inequalities'];
         }
@@ -385,6 +405,14 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
             queryParameters['years'] = requestParameters['years'];
         }
 
+        if (requestParameters['toDate'] != null) {
+            queryParameters['to_date'] = requestParameters['toDate'];
+        }
+
+        if (requestParameters['fromDate'] != null) {
+            queryParameters['from_date'] = requestParameters['fromDate'];
+        }
+
         if (requestParameters['inequalities'] != null) {
             queryParameters['inequalities'] = requestParameters['inequalities'];
         }
@@ -445,6 +473,14 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
 
         if (requestParameters['years'] != null) {
             queryParameters['years'] = requestParameters['years'];
+        }
+
+        if (requestParameters['toDate'] != null) {
+            queryParameters['to_date'] = requestParameters['toDate'];
+        }
+
+        if (requestParameters['fromDate'] != null) {
+            queryParameters['from_date'] = requestParameters['fromDate'];
         }
 
         if (requestParameters['inequalities'] != null) {
