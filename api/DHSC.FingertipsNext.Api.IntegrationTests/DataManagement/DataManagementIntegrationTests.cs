@@ -54,7 +54,7 @@ public class DataManagementIntegrationTests : IClassFixture<CustomWebApplication
             {
                 config.AddInMemoryCollection(new Dictionary<string, string?>
                 {
-                    ["STORAGE_CONTAINER_NAME"] = blobContainerName
+                    ["UPLOAD_STORAGE_CONTAINER_NAME"] = blobContainerName
                 });
             });
         }).CreateClient();
