@@ -33,7 +33,7 @@ const areaFiltersToSelect: AreaFilters = {
 // Test data setup
 // @ts-expect-error mock data type casting
 const indicatorData = mockIndicators as RawIndicatorDocument[];
-const subjectSearchTerm = 'hospital';
+const subjectSearchTerm = 'Alzheimer';
 const secondSubjectSearchTerm = 'diabetes';
 const indicatorMode = IndicatorMode.ONE_INDICATOR;
 const searchMode = SearchMode.ONLY_SUBJECT;
