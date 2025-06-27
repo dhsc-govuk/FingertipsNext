@@ -2,7 +2,7 @@
 
 namespace DataCreator
 {
-    public record IndicatorEntity: SimpleIndicator
+    public record PholioIndicatorEntity: FingerTipsIndicator
     {
         private string _indicatorDefinition;
         private string rationale;
@@ -63,7 +63,7 @@ namespace DataCreator
         public bool HideInSearch => IndicatorID == 337 || IndicatorID == 92708;
     }
 
-    public record SimpleIndicator
+    public record FingerTipsIndicator
     {
         [CsvColumn(FieldIndex = 1)]
         public int IndicatorID { get; set; }

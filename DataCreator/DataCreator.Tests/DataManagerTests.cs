@@ -9,13 +9,13 @@ namespace DataCreator.Tests;
 [TestOf(typeof(DataManager))]
 public class DataManagerTests
 {
-    private List<SimpleIndicator> _stubIndicators;
+    private List<FingerTipsIndicator> _stubIndicators;
     private List<HealthMeasureEntity> _stubHealthMeasures;
 
     [SetUp]
     public void SetUp()
     {
-        _stubIndicators = new List<SimpleIndicator>
+        _stubIndicators = new List<FingerTipsIndicator>
                 {
                     new()
                     {

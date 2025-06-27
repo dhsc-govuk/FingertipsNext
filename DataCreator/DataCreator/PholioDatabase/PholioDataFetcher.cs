@@ -338,13 +338,49 @@ FROM
         /// Get the indicators, adding in the Trend polarity as well as benchmarking details
         /// </summary>
         /// <returns></returns>
-        public async Task<List<IndicatorEntity>> FetchIndicatorsAsync(List<SimpleIndicator> pocIndicators)
+        public async Task<List<PholioIndicatorEntity>> FetchIndicatorsAsync(List<FingerTipsIndicator> pocIndicators)
         {
             using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
-
-            return (await connection.QueryAsync<IndicatorEntity>(IndicatorSql, new {IndicatorIds= pocIndicators.Select(x=>x.IndicatorID)})).ToList();
+            var indicators = (await connection.QueryAsync<PholioIndicatorEntity>(IndicatorSql, new {IndicatorIds= pocIndicators.Select(x=>x.IndicatorID)})).ToList();
+            CleanFrequencies(indicators);
+            return indicators;
         }
 
+        /// <summary>
+        /// Change Frequencies to GDS compliant names
+        /// </summary>
+        /// <parm name="indicators"/>
+        private static void CleanFrequencies(List<PholioIndicatorEntity> indicators)
+        {
+            // var FrequencyMap = new Dictionary<String, String>()
+            // {
+            //     "Annual", "annually",
+            //     "Annual (for NHS Digital data release, COVER data collected for every quarter by UKHSA).", "annually"
+            // };
+            foreach (var indicator in indicators) 
+            {
+                // perform mapping
+                switch (indicator.Frequency)
+                {
+                    case null:
+                    case "Annual":
+                    case "Annual.":
+                    case "Annual (for NHS Digital data release, COVER data collected for every quarter by UKHSA).":
+                    case "Annual. The source data is released in February or March, approximately 14 months after the end of the year in which the conceptions occurred. The indicator will usually be updated in Fingertips in May.":
+                    case "The data will be updated annually":
+                    case "The data will be updated annually.":
+                    case "Annual measurements during academic year. Data published in the final quarter of the calendar year.":
+                        indicator.Frequency = "annually";
+                        break;
+                    case "Quarterly":
+                        indicator.Frequency = "quarterly";
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException("indicator.Frequency: ",indicator.Frequency, " does not have a known mapping");
+                        
+                }
+            }
+        }        
         /// <summary>
         /// Get the age date
         /// </summary>

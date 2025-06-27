@@ -73,7 +73,7 @@ namespace DataCreator
         }
        
 
-        public async Task CreateIndicatorDataAsync(List<IndicatorWithAreasAndLatestUpdate> indicatorWithAreasAndLatestUpdates, List<SimpleIndicator> pocIndicators)
+        public async Task CreateIndicatorDataAsync(List<IndicatorWithAreasAndLatestUpdate> indicatorWithAreasAndLatestUpdates, List<FingerTipsIndicator> pocIndicators)
         {
             var indicators = (await _pholioDataFetcher.FetchIndicatorsAsync(pocIndicators)).ToList();
             foreach (var indicator in indicators)
@@ -101,10 +101,7 @@ namespace DataCreator
                         indicator.IndicatorName = indicatorUsedInPoc.IndicatorName;
                         pocIndicators.First(i => i.IndicatorID == indicator.IndicatorID).PeriodType = indicator.YearType;
                     }
-                    // TODO: map YearType from PHOLIO to PeriodType
                     indicator.PeriodType = indicator.YearType;
-                    // TODO: map Frequencies
-
                     indicator.BenchmarkComparisonMethod = indicatorUsedInPoc.BenchmarkComparisonMethod;
                     indicator.Polarity = indicatorUsedInPoc.Polarity;
                 }
@@ -112,10 +109,10 @@ namespace DataCreator
             AddLastUpdatedDate(indicators);
 
             DataFileWriter.WriteIndicatorsJsonData(indicators.Where(indicator=>!indicator.HideInSearch));
-            DataFileWriter.WriteSimpleIndicatorCsvData("indicators", indicators.Where(indicator => indicator.UsedInPoc).Cast<SimpleIndicator>());
+            DataFileWriter.WriteSimpleIndicatorCsvData("indicators", indicators.Where(indicator => indicator.UsedInPoc).Cast<FingerTipsIndicator>());
         }
 
-        private static void AddLastUpdatedDate(List<IndicatorEntity> indicatorEntities)
+        private static void AddLastUpdatedDate(List<PholioIndicatorEntity> indicatorEntities)
         {
             var lastUpdatedDates = DataFileReader.GetLastUpdatedDataForIndicators();
             foreach (var indicatorEntity in indicatorEntities)
@@ -126,7 +123,7 @@ namespace DataCreator
             }
         }
 
-        public static (List<IndicatorWithAreasAndLatestUpdate>, List<HealthMeasureEntity>) CreateHealthDataAndAgeData(List<string> areasWeWant, List<SimpleIndicator> pocIndicators, IEnumerable<AgeEntity> allAges)
+        public static (List<IndicatorWithAreasAndLatestUpdate>, List<HealthMeasureEntity>) CreateHealthDataAndAgeData(List<string> areasWeWant, List<FingerTipsIndicator> pocIndicators, IEnumerable<AgeEntity> allAges)
         {
             var healthMeasures = new List<HealthMeasureEntity>(1000000);
             var areasDictionary = areasWeWant.ToDictionary(areaCode => areaCode);
@@ -305,7 +302,7 @@ namespace DataCreator
         public async Task<IEnumerable<AgeEntity>> GetAgeDataAsync() =>
             await _pholioDataFetcher.FetchAgeDataAsync();
         
-        public static void CreateHealthMeasurePeriodDates(List<SimpleIndicator> indicators,
+        public static void CreateHealthMeasurePeriodDates(List<FingerTipsIndicator> indicators,
             List<HealthMeasureEntity> healthMeasures)
         {
             var indicatorsYearMap = indicators.ToDictionary(
@@ -316,7 +313,7 @@ namespace DataCreator
                 var indicatorPeriodType = indicatorsYearMap[healthMeasure.IndicatorId];
                 
                 int year;
-                // TODO: handle other things here
+                // TODO: handle other cases here
                 switch (indicatorPeriodType)
                 {
                     case "Calendar":
