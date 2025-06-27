@@ -1,5 +1,5 @@
 // MUST BE AT THE TOP
-import { mockSetIsLoading } from '@/mock/utils/mockLoadingUseState';
+import { mockSetIsLoading } from '@/mock/utils/mockUseLoadingState';
 import { mockUsePathname } from '@/mock/utils/mockNextNavigation';
 //
 import { render, screen, within } from '@testing-library/react';

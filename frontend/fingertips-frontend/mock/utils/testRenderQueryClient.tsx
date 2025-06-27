@@ -9,20 +9,30 @@ export const testRenderQueryClient = async (
   children: ReactNode,
   seedData: SeedData = {}
 ) => {
-  const queryClient = new QueryClient();
   let htmlContainer: HTMLElement | null = null;
 
+  const Wrapper = testRenderWrapper(seedData);
+
   await act(async () => {
-    const { container } = render(
-      <QueryClientProvider client={queryClient}>
-        <SeedQueryCache seedData={seedData} />
-        {children}
-      </QueryClientProvider>
-    );
+    const { container } = render(<Wrapper>{children}</Wrapper>);
     htmlContainer = container;
   });
 
   return {
     htmlContainer,
   };
+};
+
+export const testRenderWrapper = (seedData: SeedData) => {
+  const Wrapper = ({ children }: { children: ReactNode }) => {
+    const queryClient = new QueryClient();
+    return (
+      <QueryClientProvider client={queryClient}>
+        <SeedQueryCache seedData={seedData} />
+        {children}
+      </QueryClientProvider>
+    );
+  };
+  Wrapper.displayName = 'TestRenderQueryHookWrapper';
+  return Wrapper;
 };
