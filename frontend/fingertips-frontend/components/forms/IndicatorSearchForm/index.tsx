@@ -11,11 +11,11 @@ import { CharacterCount } from '@/components/atoms/CharacterCount';
 
 const govukErrorBorderWidth = '2px';
 
-export const StyledSearchBox = styled(SearchBox)(
+const StyledSearchBox = styled(SearchBox)(
   spacing.withWhiteSpace({ marginBottom: 1 })
 );
 
-export const StyledFormGroup = styled(FormGroup)(
+const StyledFormGroup = styled(FormGroup)(
   spacing.withWhiteSpace({ marginBottom: 6 })
 );
 
