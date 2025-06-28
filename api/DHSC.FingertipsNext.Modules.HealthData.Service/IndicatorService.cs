@@ -187,13 +187,26 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
                 name = healthMeasure.AreaDimension.Name,
                 periodType = healthMeasure.PeriodDimension.Period
             })
-            .Select(group => new HealthDataForArea
+            .Select(areaGroup => new HealthDataForArea
             {
-                AreaCode = group.Key.code,
-                AreaName = group.Key.name,
-                HealthData = healthDataMapper.Map(group.ToList())
+                AreaCode = areaGroup.Key.code,
+                AreaName = areaGroup.Key.name,
+                HealthData = healthDataMapper.Map(areaGroup.ToList())
+                    .Where(hdp => hdp.Sex.IsAggregate || inequalitiesList.Contains("sex"))
                     .OrderBy(dataPoint => dataPoint.DatePeriod.From)
-                    .ToList()
+                    .ToList(),
+                IndicatorSegments = areaGroup.GroupBy(healthMeasure => new
+                {
+                    sexName = healthMeasure.SexDimension.Name,
+                    isAggregate = healthMeasure.SexDimension.IsAggregate
+                })
+                .Select(segmentGroup => new IndicatorSegment { 
+                    Sex = new Sex { Value = segmentGroup.Key.sexName, IsAggregate = segmentGroup.Key.isAggregate },
+                    IsAggregate = segmentGroup.Key.isAggregate,
+                    HealthData = healthDataMapper.Map(segmentGroup.ToList())
+                      .OrderBy(dataPoint => dataPoint.DatePeriod.From)
+                      .ToList()
+                })
             })
             .ToList();
 
