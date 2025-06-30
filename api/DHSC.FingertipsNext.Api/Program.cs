@@ -1,3 +1,4 @@
+using DHSC.FingertipsNext.Api.Middleware;
 using DotNetEnv;
 
 namespace DHSC.FingertipsNext.Api;
@@ -73,6 +74,8 @@ public class Program
 
         RegisterModules(builder.Services, builder.Configuration);
 
+        builder.Services.AddFingertipsUserAuth(builder.Configuration);
+
         var app = builder.Build();
 
         app.MapOpenApi();
@@ -92,7 +95,7 @@ public class Program
 
         app.UseHttpsRedirection();
 
-        app.UseAuthorization();
+        app.UseFingerprintsAuth();
 
         app.MapControllers();
 
