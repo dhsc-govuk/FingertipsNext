@@ -93,7 +93,7 @@ export const Home = ({
           <Link href="#whofor">Who the service is for</Link>
         </ListItem>
       </UnorderedList>
-      <br />
+
       <div id="search">
         <form action={setFormState}>
           <SearchForm

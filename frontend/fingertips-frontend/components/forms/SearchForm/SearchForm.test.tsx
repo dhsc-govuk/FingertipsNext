@@ -174,6 +174,30 @@ describe('SearchForm', () => {
       await user.click(button);
     }
 
+    expect(mockSetIsLoading).toHaveBeenCalledTimes(2);
+  });
+
+  it('should search by subject when the search box is not empty and the enter key is pressed', async () => {
+    render(<SearchForm formState={initialDataState} />);
+
+    const user = userEvent.setup();
+    const input = screen.getByTestId('indicator-search-form-input');
+
+    await user.type(input, 'test');
+    await user.keyboard('{Enter}');
+
+    expect(mockSetIsLoading).toHaveBeenCalledWith(true);
+  });
+
+  it('should search by subject when the search box is not empty and the return key is pressed', async () => {
+    render(<SearchForm formState={initialDataState} />);
+
+    const user = userEvent.setup();
+    const input = screen.getByTestId('indicator-search-form-input');
+
+    await user.type(input, 'test');
+    await user.keyboard('{Return}');
+
     expect(mockSetIsLoading).toHaveBeenCalledWith(true);
   });
 

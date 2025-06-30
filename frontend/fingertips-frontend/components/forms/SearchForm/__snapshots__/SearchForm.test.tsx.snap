@@ -6,7 +6,7 @@ exports[`SearchForm > snapshot test - renders the form 1`] = `
     data-testid="search-form"
   >
     <h3
-      class="heading__StyledHeading-sc-1dsobun-0 bRbIzR"
+      class="heading__StyledHeading-sc-1dsobun-0 bRbIzR sc-jsJBEP duAQxZ"
     >
       Find public health data
     </h3>
@@ -20,21 +20,21 @@ exports[`SearchForm > snapshot test - renders the form 1`] = `
       class="src__FormGroup-sc-1m4431t-0 gMksRW"
     >
       <div
-        class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-fHjqPf sc-hmdomO cMVjFj laGYDo"
+        class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-fUnMCh sc-hzhJZQ iBmoNX gxxULH"
       >
         <p>
           Search by subject
         </p>
       </div>
       <div
-        class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-bXCLTC sc-jsJBEP htWUzE hTHKZE"
+        class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-fHjqPf sc-hmdomO kLkQUB cWHvxw"
       >
         <p>
           For example, smoking, diabetes prevalence, or a specific indicator ID
         </p>
       </div>
       <div
-        class="src__StyledSearchBox-sc-bgtefr-2 oulCC sc-eeDRCY jupjjW"
+        class="src__StyledSearchBox-sc-bgtefr-2 oulCC sc-bXCLTC cNlubM"
       >
         <input
           class="src__Input-sc-bgtefr-0 fcebrZ"

@@ -18,11 +18,12 @@ import { ArrowExpander } from '@/components/molecules/ArrowExpander';
 
 import { INDICATOR_SEARCH_MAX_CHARACTERS } from '@/lib/search/indicatorSearchService';
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
+
+import styled from 'styled-components';
 import {
   StyledHintParagraph,
   StyledTitleParagraph,
-} from '../IndicatorSearchForm';
-import styled from 'styled-components';
+} from '@/lib/formHelpers/formStyling';
 
 interface SearchFormProps {
   formState: SearchFormState;
@@ -32,6 +33,10 @@ interface SearchFormProps {
 
 const StyledSearchBoxWithBorder = styled(SearchBox)({
   marginBottom: '30px',
+});
+
+const SpacedTitle = styled(H3)({
+  marginTop: '40px',
 });
 
 export const SearchForm = ({
@@ -57,9 +62,21 @@ export const SearchForm = ({
         )?.name
       : selectedAreasData?.[0]?.name;
 
+  const inputStyle = formState.message
+    ? {
+        borderColor: GovukColours.Red,
+        borderWidth: '4px',
+        borderStyle: 'solid',
+      }
+    : {
+        borderColor: GovukColours.Black,
+        borderWidth: '2px',
+        borderStyle: 'solid',
+      };
+
   return (
     <div data-testid="search-form">
-      <H3>Find public health data</H3>
+      <SpacedTitle>Find public health data</SpacedTitle>
       <input
         name="searchState"
         defaultValue={JSON.stringify(searchState)}
@@ -75,11 +92,9 @@ export const SearchForm = ({
           <ErrorText data-testid="indicator-search-form-error">
             Enter a subject you want to search for
           </ErrorText>
-        ) : (
-          ''
-        )}
+        ) : null}
         <StyledSearchBoxWithBorder>
-          {SearchBox.Input && (
+          {SearchBox.Input ? (
             <SearchBox.Input
               characterLimit={INDICATOR_SEARCH_MAX_CHARACTERS}
               thresholdPercentage={75}
@@ -88,28 +103,21 @@ export const SearchForm = ({
               name="indicator"
               defaultValue={formState.indicator ?? ''}
               data-testid="indicator-search-form-input"
-              style={
-                Boolean(formState.message)
-                  ? {
-                      borderColor: GovukColours.Red,
-                      borderWidth: '4px',
-                      borderStyle: 'solid',
-                    }
-                  : {
-                      borderColor: GovukColours.Black,
-                      borderWidth: '2px',
-                      borderStyle: 'solid',
-                    }
-              }
+              style={inputStyle}
+              onKeyDown={(e: { key: string }) => {
+                if (e.key === 'Enter' || e.key === 'Return') {
+                  setIsLoading(true);
+                }
+              }}
             />
-          )}
-          {SearchBox.Button && (
+          ) : null}
+          {SearchBox.Button ? (
             <SearchBox.Button
               onClick={() => setIsLoading(true)}
               type="submit"
               data-testid="indicator-search-form-submit"
             />
-          )}
+          ) : null}
         </StyledSearchBoxWithBorder>
       </FormGroup>
 
