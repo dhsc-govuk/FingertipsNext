@@ -33,7 +33,7 @@ export default class BasePage {
         await this.waitForURLToContain(areaSearchCode);
         break;
 
-      case SearchMode.BOTH_SUBJECT_AND_AREA:
+      case SearchMode.BOTH_SUBJECT_AND_AREA: {
         if (!subjectSearchTerm?.trim() || !areaSearchCode?.trim()) return;
         // Wait for both terms to appear in URL (potentially in any order)
         const preparedSubject = this.prepareSearchTermForURL(subjectSearchTerm);
@@ -42,6 +42,7 @@ export default class BasePage {
           this.waitForURLToContain(areaSearchCode),
         ]);
         break;
+      }
     }
   }
 
