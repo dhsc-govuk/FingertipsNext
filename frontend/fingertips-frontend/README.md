@@ -126,7 +126,7 @@ npm run test-e2e-local-docker
 ```
 You will need to have all the docker services running first before executing this command.
 
-To run the e2e tests locally but pointing at the deployed CD environment, rather than using the local docker stack, headlessly uou will need to connect to the VPN then add FINGERTIPS_FRONTEND_URL={enter url here} after MOCK_SERVER=false. Then run the following command:
+To run the e2e tests locally but pointing at the deployed CD environment, rather than using the local docker stack, headlessly you will need to connect to the VPN then add FINGERTIPS_FRONTEND_URL={enter url here} after MOCK_SERVER=false. Then run the following command:
 
 ```bash
 npm run test-e2e-cd

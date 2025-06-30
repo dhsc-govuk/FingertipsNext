@@ -20,28 +20,42 @@ export default class BasePage {
     subjectSearchTerm: string,
     areaSearchCode: string
   ) {
-    if (subjectSearchTerm) {
-      let trimmedSearchText = subjectSearchTerm.trim();
-
-      // Check if searched for text is a space-separated list of numbers
-      if (spaceSeparatedPattern.test(trimmedSearchText)) {
-        // replace whitespace with +
-        trimmedSearchText = trimmedSearchText.replaceAll(' ', '+');
-      }
-
-      if (searchMode === SearchMode.ONLY_SUBJECT) {
+    switch (searchMode) {
+      case SearchMode.ONLY_SUBJECT:
+        if (!subjectSearchTerm?.trim()) return;
         await this.waitForURLToContain(
-          trimmedSearchText.replaceAll(/'/g, '%27') // handle ' common special character in search term
+          this.prepareSearchTermForURL(subjectSearchTerm)
         );
-      }
-      if (searchMode === SearchMode.BOTH_SUBJECT_AND_AREA) {
-        await this.waitForURLToContain(trimmedSearchText);
+        break;
+
+      case SearchMode.ONLY_AREA:
+        if (!areaSearchCode?.trim()) return;
         await this.waitForURLToContain(areaSearchCode);
-      }
+        break;
+
+      case SearchMode.BOTH_SUBJECT_AND_AREA:
+        if (!subjectSearchTerm?.trim() || !areaSearchCode?.trim()) return;
+        // Wait for both terms to appear in URL (potentially in any order)
+        const preparedSubject = this.prepareSearchTermForURL(subjectSearchTerm);
+        await Promise.all([
+          this.waitForURLToContain(preparedSubject),
+          this.waitForURLToContain(areaSearchCode),
+        ]);
+        break;
     }
-    if (searchMode === SearchMode.ONLY_AREA) {
-      await this.waitForURLToContain(areaSearchCode);
+  }
+
+  private prepareSearchTermForURL(searchTerm: string): string {
+    let trimmed = searchTerm.trim();
+
+    // Check if searched for text is a space-separated list of numbers
+    if (spaceSeparatedPattern.test(trimmed)) {
+      // replace whitespace with +
+      trimmed = trimmed.replaceAll(' ', '+');
     }
+
+    // handle ' common special character in search term
+    return trimmed.replaceAll(/'/g, '%27');
   }
 
   async clickAndAwaitLoadingComplete(locator: Locator, timeout?: number) {
