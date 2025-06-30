@@ -20,11 +20,7 @@ public static class UploadedCsvValidator
         var errors = new List<CsvValidationError>();
         if (stream != null)
         {
-            if (stream.Length == 0)
-            {
-                CsvValidationError emptyError = new CsvValidationError("File is empty", 1, 1, true);
-                return new CsvValidationResult(false, new List<CsvValidationError>() { emptyError });
-            }
+            if (IsStreamEmpty(stream, out var validate)) return validate;
 
             var csvReaderConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
@@ -76,6 +72,19 @@ public static class UploadedCsvValidator
         return errors.Count != 0 ? new CsvValidationResult(false, new Collection<CsvValidationError>(errors)) : new CsvValidationResult(true, new Collection<CsvValidationError>());
     }
 
+    private static bool IsStreamEmpty(Stream stream, out CsvValidationResult validate)
+    {
+        if (stream.Length == 0)
+        {
+            CsvValidationError emptyError = new CsvValidationError("File is empty", 1, 1, true);
+            validate = new CsvValidationResult(false, new List<CsvValidationError>() { emptyError });
+            return true;
+        }
+
+        validate = null!;
+        return false;
+    }
+
     private static bool ValidateHeaders(CsvReader csv, out List<string> unexpectedHeaders)
     {
         var headers = (csv.HeaderRecord ?? []).ToList();
@@ -83,7 +92,7 @@ public static class UploadedCsvValidator
         unexpectedHeaders = [];
         if (!headers.SequenceEqual(validHeaderList))
         {
-            unexpectedHeaders = (headers ?? []).Except(validHeaderList).ToList();
+            unexpectedHeaders = headers.Except(validHeaderList).ToList();
             return false;
         }
 

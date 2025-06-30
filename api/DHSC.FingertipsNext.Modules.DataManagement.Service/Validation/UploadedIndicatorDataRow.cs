@@ -70,7 +70,7 @@ public class UploadedIndicatorDataRow
                 NameAttribute? nameAttribute = attr as NameAttribute;
                 if (nameAttribute != null)
                 {
-                    headerNames.Add(nameAttribute.Names.First());
+                    headerNames.Add(nameAttribute.Names[0]);
                 }
             }
         }
