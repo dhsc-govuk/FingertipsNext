@@ -68,6 +68,18 @@ namespace DHSC.FingertipsNext.Api.IntegrationTests.UserAuth
         }
 
         [Fact]
+        public async Task UserInfoEndpointShouldHandleMissingIdentityClaimAsABadRequest()
+        {
+            var client = _appFactory.CreateClient();
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken(tokenContainsSubClaim: false));
+
+            var response = await client.GetAsync(new Uri("/user/info", UriKind.Relative));
+
+            response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
         public async Task UserInfoEndpointShouldRejectExpiredTokensFromAuthenticatedUsers()
         {
             var client = _appFactory.CreateClient();
@@ -106,13 +118,16 @@ namespace DHSC.FingertipsNext.Api.IntegrationTests.UserAuth
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
         }
 
-        private static string GenerateTestToken(string? includeRoleClaim = null, bool tokenIsExpired = false)
+        private static string GenerateTestToken(string? includeRoleClaim = null, bool tokenIsExpired = false, bool tokenContainsSubClaim = true)
         {
             var claims = new List<Claim>()
             {
-                new Claim(JwtRegisteredClaimNames.Sub, "test-user"),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
+
+            if (tokenContainsSubClaim)
+            {
+                claims.Add(new Claim(JwtRegisteredClaimNames.Sub, "test-user"));
+            }
 
             if (includeRoleClaim != null)
             {
