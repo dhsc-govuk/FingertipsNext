@@ -617,12 +617,18 @@ components:
       description: a type of date period e.g. Calendar or Financial year.
       enum:
         - Calendar
+        - Academic
+        - Yearly
         - Financial
-        - NovemberNovember
+        - FinancialYearEndPoint
+        - FinancialMultiYear
       x-enum-varnames:
         - Calendar
+        - Academic
+        - Yearly
         - Financial
-        - NovemberNovember
+        - FinancialYearEndPoint
+        - FinancialMultiYear
     Indicator:
       title: Indicator
       type: object
@@ -689,6 +695,20 @@ components:
         - Quintiles
         - CIOverlappingReferenceValue95
         - CIOverlappingReferenceValue99_8
+    Frequency:
+      type: string
+      example: Annual
+      description: a type of frequency eg Annual, monthly.
+      enum:
+        - Annual
+        - Monthly
+        - Quarterly
+        - CumulativeQuarters
+      x-enum-varnames:
+        - Annual
+        - Monthly
+        - Quarterly
+        - CumulativeQuarters
     Date:
       type: string
       format: date
@@ -706,6 +726,9 @@ components:
         type:
           $ref: '#/components/schemas/PeriodType'
           description: The type of date period, e.g. Calendar or Financial year.
+        frequency:
+          $ref: '#/components/schemas/Frequency'
+          description: The frequency of data collection e.g. Annually or Monthly.
         from:
           $ref: '#/components/schemas/Date'
           description: The start date for the data request, in ISO 8601 format (YYYY-MM-DD).

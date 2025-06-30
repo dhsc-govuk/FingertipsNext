@@ -238,14 +238,38 @@ PeriodType:
   enum: 
     [
       Calendar,
+      Academic,
+      Yearly,
       Financial,
-      NovemberNovember
+      FinancialYearEndPoint,
+      FinancialMultiYear,
     ]
   x-enum-varnames:
     [
       Calendar,
+      Academic,
+      Yearly,
       Financial,
-      NovemberNovember
+      FinancialYearEndPoint,
+      FinancialMultiYear,
+    ]
+Frequency:
+  type: string
+  example: Annual
+  description: a type of frequency eg Annual, monthly.
+  enum: 
+    [
+      Annual,
+      Monthly,
+      Quarterly,
+      CumulativeQuarters,
+    ]
+  x-enum-varnames:
+    [
+      Annual,
+      Monthly,
+      Quarterly,
+      CumulativeQuarters,
     ]
 DatePeriod:
   title: Date Period
@@ -259,6 +283,9 @@ DatePeriod:
     type:
       $ref: "#/PeriodType"
       description: The type of date period, e.g. Calendar or Financial year.
+    frequency:
+      $ref: "#/Frequency"
+      description: The frequency of data collection e.g. Annually or Monthly.
     from:
       $ref: "#/Date"
       description: The start date for the data request, in ISO 8601 format (YYYY-MM-DD).

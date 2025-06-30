@@ -20,6 +20,13 @@ import {
     PeriodTypeToJSON,
     PeriodTypeToJSONTyped,
 } from './PeriodType';
+import type { Frequency } from './Frequency';
+import {
+    FrequencyFromJSON,
+    FrequencyFromJSONTyped,
+    FrequencyToJSON,
+    FrequencyToJSONTyped,
+} from './Frequency';
 
 /**
  * A date period for a health data point.
@@ -33,6 +40,12 @@ export interface DatePeriod {
      * @memberof DatePeriod
      */
     type: PeriodType;
+    /**
+     * 
+     * @type {Frequency}
+     * @memberof DatePeriod
+     */
+    frequency?: Frequency;
     /**
      * Date in ISO 8601 format (YYYY-MM-DD).
      * @type {Date}
@@ -70,6 +83,7 @@ export function DatePeriodFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     return {
         
         'type': PeriodTypeFromJSON(json['type']),
+        'frequency': json['frequency'] == null ? undefined : FrequencyFromJSON(json['frequency']),
         'from': (new Date(json['from'])),
         'to': (new Date(json['to'])),
     };
@@ -87,6 +101,7 @@ export function DatePeriodToJSONTyped(value?: DatePeriod | null, ignoreDiscrimin
     return {
         
         'type': PeriodTypeToJSON(value['type']),
+        'frequency': FrequencyToJSON(value['frequency']),
         'from': ((value['from']).toISOString().substring(0,10)),
         'to': ((value['to']).toISOString().substring(0,10)),
     };
