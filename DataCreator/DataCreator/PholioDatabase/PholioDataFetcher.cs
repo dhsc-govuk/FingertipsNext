@@ -338,7 +338,7 @@ FROM
         /// Get the indicators, adding in the Trend polarity as well as benchmarking details
         /// </summary>
         /// <returns></returns>
-        public async Task<List<IndicatorEntity>> FetchIndicatorsAsync(List<FingerTipsIndicator> pocIndicators)
+        public async Task<List<IndicatorEntity>> FetchIndicatorsAsync(List<SimpleIndicator> pocIndicators)
         {
             using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
             var indicators = (await connection.QueryAsync<IndicatorEntity>(IndicatorSql, new { IndicatorIds = pocIndicators.Select(x => x.IndicatorID) })).ToList();

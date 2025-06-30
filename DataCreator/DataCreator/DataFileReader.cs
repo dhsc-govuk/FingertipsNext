@@ -9,14 +9,14 @@ namespace DataCreator
         private static readonly string InFilePath = Path.Join("..", "..", "..", "data", "in");
         private static readonly string TempDirPath = Path.Join(InFilePath, "temp");
 
-        public static List<FingerTipsIndicator> GetPocIndicators()
+        public static List<SimpleIndicator> GetPocIndicators()
         {
             var lines = File.ReadAllLines(Path.Join(TempDirPath, "pocindicators.csv"));
-            var indicators = new List<FingerTipsIndicator>();
+            var indicators = new List<SimpleIndicator>();
             foreach (var line in lines)
             {
                 var split = line.Split(',');
-                indicators.Add(new FingerTipsIndicator
+                indicators.Add(new SimpleIndicator
                 {
                     IndicatorID = int.Parse(split[0]),
                     IndicatorName = split[1],
