@@ -23,7 +23,7 @@ describe('getTimePeriodLabels', () => {
     });
   });
 
-  it('should return correct labels for Academic period type when past the cut off date 01/09', () => {
+  it('should return correct labels for Academic period type when after the cut off date 01/09', () => {
     const datePeriod: DatePeriod = {
       type: PeriodType.Academic,
       frequency: Frequency.Annual,
@@ -52,6 +52,40 @@ describe('getTimePeriodLabels', () => {
 
     expect(result).toEqual({
       periodLabel: 'Academic year',
+      datePointLabel: '2021/22',
+      timeRangeLabel: '2021/22 - 2022/23',
+    });
+  });
+
+  it('should return correct labels for Financial/Annual period type when after the cut off date 01/04', () => {
+    const datePeriod: DatePeriod = {
+      type: PeriodType.Financial,
+      frequency: Frequency.Annual,
+      from: new Date('2022-10-01'),
+      to: new Date('2023-09-30'),
+    };
+
+    const result = getTimePeriodLabels(datePeriod);
+
+    expect(result).toEqual({
+      periodLabel: 'Financial year',
+      datePointLabel: '2022/23',
+      timeRangeLabel: '2022/23 - 2023/24',
+    });
+  });
+
+  it('should return correct labels for Financial/Annual period type when before the cut off date 01/04', () => {
+    const datePeriod: DatePeriod = {
+      type: PeriodType.Financial,
+      frequency: Frequency.Annual,
+      from: new Date('2022-02-01'),
+      to: new Date('2023-01-31'),
+    };
+
+    const result = getTimePeriodLabels(datePeriod);
+
+    expect(result).toEqual({
+      periodLabel: 'Financial year',
       datePointLabel: '2021/22',
       timeRangeLabel: '2021/22 - 2022/23',
     });

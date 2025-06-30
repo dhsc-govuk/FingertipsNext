@@ -33,6 +33,24 @@ function getAcademicYear(date: Date) {
   }
 }
 
+// Financial year starts on 1st April.
+// If before 1st April, the financial year is previous year / current year.
+// If on/after 1st April, it's current year / next year.
+function getFinancialYear(date: Date) {
+  const year = date.getFullYear();
+  const month = date.getMonth(); // 0-based, so April is 3
+  if (month >= 3) {
+    // April or later
+    const endYearShort = (year + 1).toString().slice(-2);
+    return `${year}/${endYearShort}`;
+  } else {
+    // Before April
+    const startYear = year - 1;
+    const endYearShort = year.toString().slice(-2);
+    return `${startYear}/${endYearShort}`;
+  }
+}
+
 export const getTimePeriodLabels = (
   datePeriod: DatePeriod
 ): TimePeriodLabels => {
@@ -53,13 +71,11 @@ export const getTimePeriodLabels = (
   }
 
   if (datePeriod.type === PeriodType.Financial) {
-    if (datePeriod.frequency === Frequency.Annual) {
-      return {
-        periodLabel: 'Calendar year',
-        datePointLabel: formatYear(datePeriod.from),
-        timeRangeLabel: `${formatYear(datePeriod.from)} - ${formatYear(datePeriod.to)}`,
-      };
-    }
+    return {
+      periodLabel: 'Financial year',
+      datePointLabel: getFinancialYear(datePeriod.from),
+      timeRangeLabel: `${getFinancialYear(datePeriod.from)} - ${getFinancialYear(datePeriod.to)}`,
+    };
   }
 
   return {
