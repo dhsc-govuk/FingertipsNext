@@ -344,11 +344,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  externalId:
-                    type: string
-                    description: The external ID provided by the JWT authority.
+                $ref: '#/components/schemas/UserInfoType'
         '400':
           $ref: '#/components/responses/UserBadRequest'
         '401':
@@ -985,3 +981,14 @@ components:
         englandValue:
           type: number
           description: the average value for England for comparison
+    UserInfoType:
+      title: User Info Type
+      type: object
+      description: Representation of the currently logged in user
+      required:
+        - externalId
+      properties:
+        externalId:
+          type: string
+          example: ABC123
+          description: An ID to uniquely identify the user. Currently mapped to the NameIdentifier claim within the JWT.
