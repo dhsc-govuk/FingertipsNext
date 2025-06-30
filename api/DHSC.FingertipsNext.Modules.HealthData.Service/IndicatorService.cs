@@ -206,7 +206,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
                     HealthData = healthDataMapper.Map(segmentGroup.ToList())
                       .OrderBy(dataPoint => dataPoint.DatePeriod.From)
                       .ToList()
-                })
+                }).ToList()
             })
             .ToList();
 

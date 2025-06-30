@@ -39,16 +39,54 @@ public static class BenchmarkComparisonEngine
         return healthDataForAreasOfInterest;
     }
 
-    private static void ProcessBenchmarkComparisonsForArea(HealthDataForArea areaHealthData,
+    private static void ProcessBenchmarkComparisonsForArea(
+        HealthDataForArea areaHealthData,
         HealthDataForArea? benchmarkHealthData,
         IndicatorPolarity polarity)
     {
-        var areaHealthDataPoints = areaHealthData.HealthData;
-        foreach (var healthDataPointOfInterest in areaHealthDataPoints) ProcessBenchmarkComparisonsForAreaPoint(
+        foreach (var healthDataPointOfInterest in areaHealthData.HealthData) 
+            ProcessBenchmarkComparisonsForAreaPoint(
             healthDataPointOfInterest,
             areaHealthData,
             benchmarkHealthData,
             polarity);
+
+        foreach (var segment in areaHealthData.IndicatorSegments)
+            ProcessBenchmarkComparisonsForAreaSegment(
+                areaHealthData,
+                segment,
+                benchmarkHealthData,
+                polarity
+                );
+            
+    }
+
+    private static IndicatorSegment? SelectMatchingSegment(IndicatorSegment targetSegment, IEnumerable<IndicatorSegment> benchmarkSegments)
+    {
+        if (benchmarkSegments == null)
+            return null;
+
+        return benchmarkSegments.FirstOrDefault(
+            segment => segment.Sex.Value == targetSegment.Sex.Value
+        );
+    }
+
+    private static void ProcessBenchmarkComparisonsForAreaSegment(
+        HealthDataForArea areaHealthData,
+        IndicatorSegment areaSegment,
+        HealthDataForArea? benchmarkHealthData,
+        IndicatorPolarity polarity)
+    {
+        foreach (var segmentDataPoint in areaSegment.HealthData)
+        {
+            segmentDataPoint.BenchmarkComparison = new BenchmarkComparison
+            {
+                Outcome = BenchmarkOutcome.Similar,
+                BenchmarkValue = segmentDataPoint.Value,
+                BenchmarkAreaCode = benchmarkHealthData != null ? benchmarkHealthData.AreaCode: areaHealthData.AreaCode,
+                BenchmarkAreaName = benchmarkHealthData != null ? benchmarkHealthData.AreaName : areaHealthData.AreaName,
+            };
+        }
     }
 
     private static void ProcessBenchmarkComparisonsForAreaPoint
