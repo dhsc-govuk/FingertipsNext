@@ -26,7 +26,7 @@ test.describe(
           SearchMode.ONLY_SUBJECT,
           subjectSearchTerm
         );
-        await homePage.clickSearchButton();
+        await homePage.clickHomePageFormSearchButton();
 
         await resultsPage.checkNumberOfResults(1);
         await resultsPage.checkFirstResultHasName('Alcohol-related mortality');
@@ -45,7 +45,7 @@ test.describe(
           SearchMode.ONLY_SUBJECT,
           subjectSearchTerm
         );
-        await homePage.clickSearchButton();
+        await homePage.clickHomePageFormSearchButton();
 
         await resultsPage.checkFirstResultHasName(subjectSearchTerm);
       });
@@ -62,7 +62,7 @@ test.describe(
           SearchMode.ONLY_SUBJECT,
           subjectSearchTerm
         );
-        await homePage.clickSearchButton();
+        await homePage.clickHomePageFormSearchButton();
 
         await resultsPage.checkAnyResultNameContainsText("Alzheimer's");
       });
@@ -79,7 +79,7 @@ test.describe(
           SearchMode.ONLY_SUBJECT,
           subjectSearchTerm
         );
-        await homePage.clickSearchButton();
+        await homePage.clickHomePageFormSearchButton();
 
         await resultsPage.checkAnyResultNameContainsText(
           'Smokers at time of childbirth delivery'
@@ -115,7 +115,7 @@ test.describe(
           SearchMode.ONLY_SUBJECT,
           subjectSearchTerm
         );
-        await homePage.clickSearchButton();
+        await homePage.clickHomePageFormSearchButton();
 
         await resultsPage.checkNumberOfResults(3);
         await resultsPage.checkFirstResultHasName(
