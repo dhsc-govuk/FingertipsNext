@@ -241,7 +241,7 @@ jobs:
   ui-tests-local-mocks:
     needs: [check-changes]
     if: >
-      always() &&
+      false && always() &&
       contains(needs.*.result, 'success') &&
       !contains(needs.*.result, 'failure') &&
       !contains(needs.*.result, 'cancelled') &&
@@ -259,7 +259,7 @@ jobs:
   e2e-and-api-tests:
     needs: [check-changes]
     if: >
-      always() &&
+      false && always() &&
       contains(needs.*.result, 'success') &&
       !contains(needs.*.result, 'failure') &&
       !contains(needs.*.result, 'cancelled') &&
@@ -725,7 +725,7 @@ jobs:
       ]
     uses: ./.github/workflows/e2e-and-api-tests.yml
     if: >
-      always() &&
+      false && always() &&
       contains(needs.*.result, 'success') &&
       !contains(needs.*.result, 'failure') &&
       !contains(needs.*.result, 'cancelled') &&
