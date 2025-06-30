@@ -200,7 +200,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
                     sexName = healthMeasure.SexDimension.Name,
                     isAggregate = healthMeasure.SexDimension.IsAggregate
                 })
-                .Select(segmentGroup => new IndicatorSegment { 
+                .Select(segmentGroup => new IndicatorSegment
+                {
                     Sex = new Sex { Value = segmentGroup.Key.sexName, IsAggregate = segmentGroup.Key.isAggregate },
                     IsAggregate = segmentGroup.Key.isAggregate,
                     HealthData = healthDataMapper.Map(segmentGroup.ToList())

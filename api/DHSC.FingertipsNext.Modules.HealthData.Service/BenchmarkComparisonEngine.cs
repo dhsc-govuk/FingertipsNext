@@ -44,7 +44,7 @@ public static class BenchmarkComparisonEngine
         HealthDataForArea? benchmarkHealthData,
         IndicatorPolarity polarity)
     {
-        foreach (var healthDataPointOfInterest in areaHealthData.HealthData) 
+        foreach (var healthDataPointOfInterest in areaHealthData.HealthData)
             ProcessBenchmarkComparisonsForAreaPoint(
             healthDataPointOfInterest,
             areaHealthData,
@@ -58,7 +58,7 @@ public static class BenchmarkComparisonEngine
                 benchmarkHealthData,
                 polarity
                 );
-            
+
     }
 
     private static IndicatorSegment? SelectMatchingSegment(IndicatorSegment targetSegment, IEnumerable<IndicatorSegment> benchmarkSegments)
@@ -83,7 +83,7 @@ public static class BenchmarkComparisonEngine
             {
                 Outcome = BenchmarkOutcome.Similar,
                 BenchmarkValue = segmentDataPoint.Value,
-                BenchmarkAreaCode = benchmarkHealthData != null ? benchmarkHealthData.AreaCode: areaHealthData.AreaCode,
+                BenchmarkAreaCode = benchmarkHealthData != null ? benchmarkHealthData.AreaCode : areaHealthData.AreaCode,
                 BenchmarkAreaName = benchmarkHealthData != null ? benchmarkHealthData.AreaName : areaHealthData.AreaName,
             };
         }
