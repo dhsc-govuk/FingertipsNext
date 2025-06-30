@@ -96,6 +96,7 @@ namespace DataCreator
                     Category = category.Trim(),
                     CategoryType = categoryType.Trim(),
                     TimePeriodSortable = split[23],
+                    Period = split[26],
                 };
                 allData.Add(indicatorData);
             }

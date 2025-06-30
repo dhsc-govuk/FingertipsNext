@@ -129,10 +129,11 @@ namespace DataCreator
             var areasDictionary = areasWeWant.ToDictionary(areaCode => areaCode);
             foreach (var pocIndicator in pocIndicators)
             {
-                var data = DataFileReader.GetHealthDataForIndicator(pocIndicator.IndicatorID, areasDictionary);
+                var healthDataForIndicator = DataFileReader.GetHealthDataForIndicator(pocIndicator.IndicatorID, areasDictionary);
+                MapTimePeriodRangesToPeriods(healthDataForIndicator);
 
-                Console.WriteLine($"Grabbed {data.Count} points for indicator {pocIndicator.IndicatorID}");
-                healthMeasures.AddRange(data);
+                Console.WriteLine($"Grabbed {healthDataForIndicator.Count} points for indicator {pocIndicator.IndicatorID}");
+                healthMeasures.AddRange(healthDataForIndicator);
             }
             var usedAges = AddAgeIds(healthMeasures, allAges);
 
@@ -156,6 +157,32 @@ namespace DataCreator
             DataFileWriter.WriteAgeCsvData("agedata", usedAges);
 
             return (indicatorWithAreasAndLatestUpdates, healthMeasures);
+        }
+
+        private static void MapTimePeriodRangesToPeriods(List<HealthMeasureEntity> healthDataForIndicator)
+        {
+            var periodMap = new Dictionary<string, string>
+            {
+                {"1m","monthly"}, 
+                {"3m","quarterly"}, 
+                {"1y","yearly"}, 
+                {"2y","2 yearly"}, 
+                {"3y","3 yearly"},
+                {"5y","5 yearly"},
+            };
+            foreach (var healthDataPoint in healthDataForIndicator)
+            {
+                if (periodMap.TryGetValue(healthDataPoint.Period, out var mappedValue))
+                {
+                    healthDataPoint.Period = mappedValue;
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException(
+                        healthDataPoint.Period, healthDataPoint.Period, "does not have a known mapping"
+                    );
+                }
+            }
         }
 
         private static void SetAggregateFlags(List<IndicatorWithAreasAndLatestUpdate> indicatorWithAreasAndLatestUpdates, List<HealthMeasureEntity> healthMeasures)
@@ -331,7 +358,6 @@ namespace DataCreator
                         healthMeasure.ToDate = new DateOnly(year + 1, 10, 31).ToShortDateString();
                         break;
                 }
-                healthMeasure.Period = indicatorPeriodType;
             }
 
         }

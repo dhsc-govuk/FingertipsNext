@@ -60,7 +60,6 @@ namespace DataCreator
 
         public string TimePeriodSortable { get; set; }
 
-        // DHSCFT-750
         [CsvColumn(FieldIndex = 18)]
         public string FromDate { get; set; }
 
