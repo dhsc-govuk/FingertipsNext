@@ -11,13 +11,13 @@ namespace DataCreator
         public int Year { get; set; }
 
         [CsvColumn(FieldIndex = 3)]
-        public string AreaCode { get; set; }  
+        public string AreaCode { get; set; }
 
         [CsvColumn(FieldIndex = 4)]
         public double? Count { get; set; }
 
         [CsvColumn(FieldIndex = 5)]
-        public double? Value { get; set; }  
+        public double? Value { get; set; }
 
         [CsvColumn(FieldIndex = 6)]
         public double? Lower95CI { get; set; }
@@ -50,20 +50,20 @@ namespace DataCreator
         public int AgeID { get; set; }
 
         [CsvColumn(FieldIndex = 15)]
-        public int IsSexAggregatedOrSingle {  get; set; }
+        public int IsSexAggregatedOrSingle { get; set; }
 
         [CsvColumn(FieldIndex = 16)]
         public int IsAgeAggregatedOrSingle { get; set; }
 
         [CsvColumn(FieldIndex = 17)]
         public int IsDeprivationAggregatedOrSingle { get; set; }
-        
+
         public string TimePeriodSortable { get; set; }
 
         // DHSCFT-750
         [CsvColumn(FieldIndex = 18)]
         public string FromDate { get; set; }
-        
+
         [CsvColumn(FieldIndex = 19)]
         public string ToDate { get; set; }
 

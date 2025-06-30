@@ -33,7 +33,7 @@ public class DataManagerTests
                         PeriodType = "November-November"
                     },
                 };
-        
+
         _stubHealthMeasures = new List<HealthMeasureEntity>
                 {
                     new()
@@ -91,12 +91,12 @@ public class DataManagerTests
             "31/10/2010",
             "31/10/2011",
         };
-        
+
         // Act
         DataManager.CreateHealthMeasurePeriodDates(_stubIndicators, _stubHealthMeasures);
         // Extract
-        var actualFromDates = _stubHealthMeasures.Select(hm => hm.FromDate).ToList ();
-        var actualToDates = _stubHealthMeasures.Select(hm => hm.ToDate).ToList ();
+        var actualFromDates = _stubHealthMeasures.Select(hm => hm.FromDate).ToList();
+        var actualToDates = _stubHealthMeasures.Select(hm => hm.ToDate).ToList();
 
         // Assert
         actualFromDates.ShouldBeEquivalentTo(expectedFromDates);

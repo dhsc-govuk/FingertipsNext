@@ -2,7 +2,7 @@
 
 namespace DataCreator
 {
-    public record PholioIndicatorEntity: FingerTipsIndicator
+    public record IndicatorEntity : FingerTipsIndicator
     {
         private string _indicatorDefinition;
         private string rationale;
@@ -24,10 +24,10 @@ namespace DataCreator
         public string UnitLabel { get; set; }
         public string UnitValue { get; set; }
 
-        
+
         public string IndicatorDefinition
         {
-            get => _indicatorDefinition.StripHTML(); 
+            get => _indicatorDefinition.StripHTML();
             set { _indicatorDefinition = value; }
         }
 
@@ -79,13 +79,13 @@ namespace DataCreator
 
         [CsvColumn(FieldIndex = 5)]
         public string IndicatorName { get; set; }
-        
+
         [CsvColumn(FieldIndex = 6)]
         public string PeriodType { get; set; }
-        
+
         [CsvColumn(FieldIndex = 7)]
         public string Frequency { get; set; }
-        
+
         public bool HasMultipleSexes { get; set; }
 
         public bool HasMultipleAges { get; set; }
@@ -107,12 +107,12 @@ namespace DataCreator
 
         public bool HasMultipleSexes { get; set; }
 
-        public bool HasMultipleAges{ get; set; }
+        public bool HasMultipleAges { get; set; }
 
         public bool HasMultipleDeprivation { get; set; }
     }
 }
 
-    
+
 
 

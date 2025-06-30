@@ -106,7 +106,7 @@ JOIN
 WHERE
     indicator.IndicatorID IN @IndicatorIds
 ";
-        
+
         private readonly string AgeSql = @"
 SELECT
 	AgeID,
@@ -118,7 +118,7 @@ FROM
 ";
 
         public async Task<IEnumerable<AreaEntity>> FetchAreasAsync()
-        {   
+        {
             using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
 
             var areas = (await connection.QueryAsync<AreaEntity>($"{AreaSql}")).ToList();
@@ -159,7 +159,7 @@ FROM
         /// <param name="areas"></param>
         private static void SetAreaHierarchyAndCleanNames(List<AreaEntity> areas)
         {
-            List<AreaMap> typeNameMap=
+            List<AreaMap> typeNameMap =
             [
                 new()
                 {
@@ -276,12 +276,12 @@ FROM
                     Level=2
                 }
             ];
-            var cultInfo =  new CultureInfo("en-GB", false).TextInfo;
+            var cultInfo = new CultureInfo("en-GB", false).TextInfo;
             const string STATISTICAL = "(statistical)";
             const string CA = "CA-";
 
             foreach (var area in areas)
-            {   
+            {
                 //change the area type to a standard name and set the hierarchy type and level
                 var typeNameMatch = typeNameMap.FirstOrDefault(a => a.OriginalAreaType == area.AreaType);
                 if (typeNameMatch != null)
@@ -291,28 +291,28 @@ FROM
                     area.Level = typeNameMatch.Level;
                 }
 
-                area.AreaName=area.AreaName.Trim();
+                area.AreaName = area.AreaName.Trim();
                 //ticket DHSCFT-379, some area names should be changed
 
                 //remove (statistical) that applies to admin regions
-                if(area.AreaName.EndsWith(STATISTICAL))
-                    area.AreaName=area.AreaName.Replace(STATISTICAL, string.Empty).Trim();
+                if (area.AreaName.EndsWith(STATISTICAL))
+                    area.AreaName = area.AreaName.Replace(STATISTICAL, string.Empty).Trim();
                 //capitalise word region for NHS & admin regions
                 if (area.AreaName.EndsWith("region"))
-                    area.AreaName= cultInfo.ToTitleCase(area.AreaName);
+                    area.AreaName = cultInfo.ToTitleCase(area.AreaName);
                 //for combined authorities remove the prefix CA- and add the suffix Combined Authority
                 if (area.AreaName.StartsWith(CA))
-                    area.AreaName=$"{area.AreaName.Replace(CA, string.Empty).Trim()} Combined Authority";
+                    area.AreaName = $"{area.AreaName.Replace(CA, string.Empty).Trim()} Combined Authority";
             }
         }
 
-        private static List<AreaRelation> CreateChildAreas(AreaEntity area, IEnumerable<IGrouping<string,ParentChildAreaCode>> parentGroup, Dictionary<string, AreaEntity> areas)
+        private static List<AreaRelation> CreateChildAreas(AreaEntity area, IEnumerable<IGrouping<string, ParentChildAreaCode>> parentGroup, Dictionary<string, AreaEntity> areas)
         {
-            
+
             var group = parentGroup.FirstOrDefault(x => x.Key == area.AreaCode);
             if (group == null)
                 return [];
-            var allChildren=group
+            var allChildren = group
                     .Select(child => new AreaRelation { AreaCode = child.ChildAreaCode })
                     .ToList();
             //work out the direct children
@@ -332,17 +332,18 @@ FROM
                 .Where(x => x.IsDirect)
                 .ToList();
         }
-        
+
 
         /// <summary>
         /// Get the indicators, adding in the Trend polarity as well as benchmarking details
         /// </summary>
         /// <returns></returns>
-        public async Task<List<PholioIndicatorEntity>> FetchIndicatorsAsync(List<FingerTipsIndicator> pocIndicators)
+        public async Task<List<IndicatorEntity>> FetchIndicatorsAsync(List<FingerTipsIndicator> pocIndicators)
         {
             using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
-            var indicators = (await connection.QueryAsync<PholioIndicatorEntity>(IndicatorSql, new {IndicatorIds= pocIndicators.Select(x=>x.IndicatorID)})).ToList();
+            var indicators = (await connection.QueryAsync<IndicatorEntity>(IndicatorSql, new { IndicatorIds = pocIndicators.Select(x => x.IndicatorID) })).ToList();
             CleanFrequencies(indicators);
+            CleanYearTypes(indicators);
             return indicators;
         }
 
@@ -350,37 +351,78 @@ FROM
         /// Change Frequencies to GDS compliant names
         /// </summary>
         /// <parm name="indicators"/>
-        private static void CleanFrequencies(List<PholioIndicatorEntity> indicators)
+        private static void CleanFrequencies(List<IndicatorEntity> indicators)
         {
-            // var FrequencyMap = new Dictionary<String, String>()
-            // {
-            //     "Annual", "annually",
-            //     "Annual (for NHS Digital data release, COVER data collected for every quarter by UKHSA).", "annually"
-            // };
-            foreach (var indicator in indicators) 
+            var frequencyMap = new Dictionary<string, string>()
             {
-                // perform mapping
-                switch (indicator.Frequency)
+                {"Annual", "annually"},
+                {"Annual.", "annually"},
                 {
-                    case null:
-                    case "Annual":
-                    case "Annual.":
-                    case "Annual (for NHS Digital data release, COVER data collected for every quarter by UKHSA).":
-                    case "Annual. The source data is released in February or March, approximately 14 months after the end of the year in which the conceptions occurred. The indicator will usually be updated in Fingertips in May.":
-                    case "The data will be updated annually":
-                    case "The data will be updated annually.":
-                    case "Annual measurements during academic year. Data published in the final quarter of the calendar year.":
-                        indicator.Frequency = "annually";
-                        break;
-                    case "Quarterly":
-                        indicator.Frequency = "quarterly";
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException("indicator.Frequency: ",indicator.Frequency, " does not have a known mapping");
-                        
+                    "Annual (for NHS Digital data release, COVER data collected for every quarter by UKHSA).",
+                    "annually"
+                },
+                { "Annual. The source data is released in February or March, approximately 14 months after the end of the year in which the conceptions occurred. The indicator will usually be updated in Fingertips in May.", "annually" },
+                { "The data will be updated annually", "annually" },
+                { "The data will be updated annually.", "annually" },
+                { "Annual measurements during academic year. Data published in the final quarter of the calendar year.", "annually" },
+                { "Quarterly", "quarterly" }
+            };
+            foreach (var indicator in indicators)
+            {
+                var originalFrequency = indicator.Frequency;
+                if (originalFrequency == null)
+                {
+                    indicator.Frequency = "annually";
+                }
+                else if (frequencyMap.TryGetValue(originalFrequency, out var mappedValue))
+                {
+                    indicator.Frequency = mappedValue;
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException(
+                        "indicator.Frequency", originalFrequency, "does not have a known mapping"
+                        );
                 }
             }
-        }        
+        }
+        /// <summary>
+        /// Change YearType to agreed options
+        /// </summary>
+        /// <parm name="indicators"/>
+        private static void CleanYearTypes(List<IndicatorEntity> indicators)
+        {
+            var yearTypeMap = new Dictionary<string, string>
+            {
+                { "November-November", "Yearly" },
+                {"Financial multi year cumulative quarters","Financial multi-year"}
+            };
+
+            var allowedYearTypes = new HashSet<string>
+            {
+                "Calendar",
+                "Financial",
+                "Yearly",
+                "Financial year end point",
+                "Financial multi-year",
+                "Academic"
+            };
+
+            foreach (var indicator in indicators)
+            {
+                if (yearTypeMap.TryGetValue(indicator.YearType, out var mappedValue))
+                {
+                    indicator.YearType = mappedValue;
+                }
+                else if (!allowedYearTypes.Contains(indicator.YearType))
+                {
+                    throw new ArgumentOutOfRangeException(
+                        "indicator.Frequency", indicator.YearType, "does not have a known mapping"
+                    );
+                }
+            }
+        }
+
         /// <summary>
         /// Get the age date
         /// </summary>
@@ -400,7 +442,7 @@ FROM
 
         public int Level { get; set; }
 
-        public string HierarchyType{get;set; }
+        public string HierarchyType { get; set; }
     }
 
     public record IndicatorArea

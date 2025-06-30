@@ -6,7 +6,7 @@ namespace DataCreator
     public static class DataFileReader
     {
         private const string Persons = "Persons";
-        private static readonly string InFilePath = Path.Join("..","..","..","data","in");
+        private static readonly string InFilePath = Path.Join("..", "..", "..", "data", "in");
         private static readonly string TempDirPath = Path.Join(InFilePath, "temp");
 
         public static List<FingerTipsIndicator> GetPocIndicators()
@@ -125,9 +125,8 @@ namespace DataCreator
 
         public static void UnzipSourceFiles()
         {
-            // ZipFile.ExtractToDirectory(Path.Join(InFilePath, "minimal.zip"), TempDirPath);
             ZipFile.ExtractToDirectory(Path.Join(InFilePath, "in.zip"), TempDirPath);
-            // ZipFile.ExtractToDirectory(Path.Join(InFilePath, "in2.zip"), TempDirPath);
+            ZipFile.ExtractToDirectory(Path.Join(InFilePath, "in2.zip"), TempDirPath);
         }
 
         public static void DeleteTempInputFiles()
