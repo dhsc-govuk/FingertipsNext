@@ -381,7 +381,7 @@ FROM
                 else
                 {
                     throw new ArgumentOutOfRangeException(
-                        "indicator.Frequency", originalFrequency, "does not have a known mapping"
+                        indicator.Frequency, originalFrequency, "does not have a known mapping"
                         );
                 }
             }
@@ -417,7 +417,7 @@ FROM
                 else if (!allowedYearTypes.Contains(indicator.YearType))
                 {
                     throw new ArgumentOutOfRangeException(
-                        "indicator.Frequency", indicator.YearType, "does not have a known mapping"
+                        indicator.YearType, indicator.YearType, "does not have a known mapping"
                     );
                 }
             }
