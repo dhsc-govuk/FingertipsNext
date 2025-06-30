@@ -3,9 +3,8 @@ using DotNetEnv;
 
 namespace DHSC.FingertipsNext.Api;
 
-using Asp.Versioning;
 using Azure.Monitor.OpenTelemetry.AspNetCore;
-using DHSC.FingertipsNext.Monolith;
+using Monolith;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Scalar.AspNetCore;
@@ -78,15 +77,16 @@ public class Program
 
         var app = builder.Build();
 
-        app.MapOpenApi();
 
         if (app.Environment.IsDevelopment())
         {
+            app.MapOpenApi();
+
             app.MapScalarApiReference(options =>
             {
                 options
                     .WithTitle("Fingertips Next API")
-                    .WithDownloadButton(true)
+                    .WithDocumentDownloadType(DocumentDownloadType.Both)
                     .WithTheme(ScalarTheme.Purple)
                     .WithDefaultHttpClient(ScalarTarget.JavaScript, ScalarClient.Axios)
                     .WithModels(true);
