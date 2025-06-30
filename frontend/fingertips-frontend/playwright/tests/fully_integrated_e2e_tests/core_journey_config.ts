@@ -319,7 +319,7 @@ export const coreTestJourneys: TestParameters[] = [
       },
       {
         indicatorID: '90453', // this indicator has unpublished data which should not be returned to the chart page
-        knownTrend: 'No recent trend data available',
+        knownTrend: 'No significant change',
       },
     ],
     areaFiltersToSelect: {
