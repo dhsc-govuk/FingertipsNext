@@ -1,6 +1,7 @@
 apis/AreasApi.ts
 apis/IndicatorsApi.ts
 apis/SystemApi.ts
+apis/UserApi.ts
 apis/index.ts
 index.ts
 models/AgeData.ts
@@ -26,5 +27,6 @@ models/PeriodType.ts
 models/QuartileData.ts
 models/RootArea.ts
 models/SexData.ts
+models/UserInfoType.ts
 models/index.ts
 runtime.ts

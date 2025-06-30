@@ -6,7 +6,7 @@ using Shouldly;
 
 namespace DHSC.FingertipsNext.Api.IntegrationTests.DataManagement;
 
-public class DataManagementIntegrationTests : IClassFixture<CustomWebApplicationFactory<Program>>, IDisposable
+public sealed class DataManagementIntegrationTests : IClassFixture<CustomWebApplicationFactory<Program>>, IDisposable
 {
     private CustomWebApplicationFactory<Program> _factory;
     private const string TestDataDir = "TestData";
@@ -36,12 +36,6 @@ public class DataManagementIntegrationTests : IClassFixture<CustomWebApplication
     }
 
     public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-
-    protected virtual void Dispose(bool disposing)
     {
         _azureStorageBlobClient.DeleteBlob(_blobName);
     }
