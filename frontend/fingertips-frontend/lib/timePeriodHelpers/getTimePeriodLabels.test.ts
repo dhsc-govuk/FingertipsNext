@@ -91,6 +91,40 @@ describe('getTimePeriodLabels', () => {
     });
   });
 
+  it('should return correct labels for Financial/monthly period type when after the cut off date 01/04', () => {
+    const datePeriod: DatePeriod = {
+      type: PeriodType.Financial,
+      frequency: Frequency.Monthly,
+      from: new Date('2022-05-01'),
+      to: new Date('2022-06-01'),
+    };
+
+    const result = getTimePeriodLabels(datePeriod);
+
+    expect(result).toEqual({
+      periodLabel: 'Financial year, monthly',
+      datePointLabel: 'May 2022/23',
+      timeRangeLabel: 'May 2022/23 - Jun 2022/23',
+    });
+  });
+
+  it('should return correct labels for Financial/monthly period type when before the cut off date 01/04', () => {
+    const datePeriod: DatePeriod = {
+      type: PeriodType.Financial,
+      frequency: Frequency.Monthly,
+      from: new Date('2022-03-01'),
+      to: new Date('2022-04-01'),
+    };
+
+    const result = getTimePeriodLabels(datePeriod);
+
+    expect(result).toEqual({
+      periodLabel: 'Financial year, monthly',
+      datePointLabel: 'Mar 2021/22',
+      timeRangeLabel: 'Mar 2021/22 - Apr 2022/23',
+    });
+  });
+
   it('should return "X" labels for unknown period type', () => {
     const datePeriod: DatePeriod = {
       type: 'Unknown' as PeriodType,
