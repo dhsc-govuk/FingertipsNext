@@ -28,7 +28,7 @@ In order to enable this functionality the following configuration parameters mus
     "AzureAd": {
             "Instance": "<URL for the overall instance of entra, e.g. https://fingertipsdemoentra.ciamlogin.com/",
             "TenantId": "<Tenant ID corresponding to the entra directory>",
-            "ClientId": "<Client ID for the app the >"
+            "ClientId": "<Client ID for the app providing the Fingertips API>"
         },
     "AdminRole": "<Fingertips Administration Group ID>"
 ```

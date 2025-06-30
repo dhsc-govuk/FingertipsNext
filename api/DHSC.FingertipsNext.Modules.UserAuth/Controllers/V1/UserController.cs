@@ -10,7 +10,6 @@ namespace DHSC.FingertipsNext.Modules.UserAuth.Controllers.V1
     [ApiController]
     [Route("user")]
     [Authorize]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>")]
     public class UserController : ControllerBase
     {
         [HttpGet]
@@ -32,9 +31,6 @@ namespace DHSC.FingertipsNext.Modules.UserAuth.Controllers.V1
         [HttpHead]
         [Route("indicator/{indicatorId}")]
         [Authorize(Policy = CanAdministerIndicatorRequirement.Policy)]
-        public IActionResult HasIndicatorPermission(string indicatorId)
-        {
-            return new OkResult();
-        }
+        public IActionResult HasIndicatorPermission(string indicatorId) => new OkResult();
     }
 }

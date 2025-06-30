@@ -12,6 +12,9 @@ namespace DHSC.FingertipsNext.Api.IntegrationTests.UserAuth
 {
     public class UserAuthenticationIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     {
+        private const string JWT_STUB_ISSUER = "TestIssuer";
+        private const string JWT_STUB_AUDIENCE = "TestAudience";
+
         private readonly WebApplicationFactory<Program> _appFactory;
 
         public UserAuthenticationIntegrationTests(WebApplicationFactory<Program> factory)
@@ -32,8 +35,8 @@ namespace DHSC.FingertipsNext.Api.IntegrationTests.UserAuth
                                 ValidateAudience = true,
                                 ValidateLifetime = true,
                                 ValidateIssuerSigningKey = true,
-                                ValidIssuer = "TestIssuer",
-                                ValidAudience = "TestAudience",
+                                ValidIssuer = JWT_STUB_ISSUER,
+                                ValidAudience = JWT_STUB_AUDIENCE,
                                 IssuerSigningKey = new SymmetricSecurityKey(new byte[256]),
                                 ClockSkew = TimeSpan.Zero
                             };
@@ -65,6 +68,18 @@ namespace DHSC.FingertipsNext.Api.IntegrationTests.UserAuth
         }
 
         [Fact]
+        public async Task UserInfoEndpointShouldHandleMissingIdentityClaimAsABadRequest()
+        {
+            var client = _appFactory.CreateClient();
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken(tokenContainsSubClaim: false));
+
+            var response = await client.GetAsync(new Uri("/user/info", UriKind.Relative));
+
+            response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
         public async Task UserInfoEndpointShouldRejectExpiredTokensFromAuthenticatedUsers()
         {
             var client = _appFactory.CreateClient();
@@ -77,7 +92,7 @@ namespace DHSC.FingertipsNext.Api.IntegrationTests.UserAuth
         }
 
         [Fact]
-        public async Task UserInfoEndpointRejectsNonAdminAuthenticatedUsersFromViewingProtectedIndicators()
+        public async Task IndicatorPermissionsEndpointRejectsNonAdminAuthenticatedUsersFromViewingProtectedIndicators()
         {
             var client = _appFactory.CreateClient();
 
@@ -90,7 +105,7 @@ namespace DHSC.FingertipsNext.Api.IntegrationTests.UserAuth
         }
 
         [Fact]
-        public async Task UserInfoEndpointPermitsAdminAuthenticatedUsersToViewProtectedIndicators()
+        public async Task IndicatorPermissionsEndpointPermitsAdminAuthenticatedUsersToViewProtectedIndicators()
         {
             var adminRoleGuid = "a6f09d79-e3de-48ae-b0ce-c48d5d8e5353";
             var client = _appFactory.WithWebHostBuilder(b => b.UseSetting("AdminRole", adminRoleGuid)).CreateClient();
@@ -103,13 +118,16 @@ namespace DHSC.FingertipsNext.Api.IntegrationTests.UserAuth
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
         }
 
-        private static string GenerateTestToken(string? includeRoleClaim = null, bool tokenIsExpired = false)
+        private static string GenerateTestToken(string? includeRoleClaim = null, bool tokenIsExpired = false, bool tokenContainsSubClaim = true)
         {
             var claims = new List<Claim>()
             {
-                new Claim(JwtRegisteredClaimNames.Sub, "test-user"),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
+
+            if (tokenContainsSubClaim)
+            {
+                claims.Add(new Claim(JwtRegisteredClaimNames.Sub, "test-user"));
+            }
 
             if (includeRoleClaim != null)
             {
@@ -127,8 +145,8 @@ namespace DHSC.FingertipsNext.Api.IntegrationTests.UserAuth
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                issuer: "TestIssuer",
-                audience: "TestAudience",
+                issuer: JWT_STUB_ISSUER,
+                audience: JWT_STUB_AUDIENCE,
                 claims: claims,
                 expires: tokenExpiry,
                 signingCredentials: creds

@@ -13,11 +13,7 @@ user_info:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                externalId:
-                  type: string
-                  description: The external ID provided by the JWT authority.
+              $ref: "schemas.yaml#/UserInfoType"
       "400":
         $ref: "../responses.yaml#/UserBadRequest"
       "401":
@@ -29,7 +25,7 @@ indicator_permissions:
   head:
     parameters:
       - in: path
-        name: userId
+        name: indicator_id
         schema:
           type: integer
         required: true
@@ -43,24 +39,12 @@ indicator_permissions:
     operationId: checkIndicatorPermissions
     responses:
       "200":
-        description: The user has admin permission for the specified indicator.
+        description: The user has administrator permissions for the specified indicator.
       "400":
         $ref: "../responses.yaml#/UserBadRequest"
       "403":
-        description: The user does not have administration permission for the specified indicator.
+        description: The user does not have administration permissions for the specified indicator.
       "401":
         $ref: "../responses.yaml#/Unauthorized"
-      "500":
+      "500": 
         $ref: "../responses.yaml#/InternalServerError"
-UserInfoType:
-  title: User Info Type
-  type: object
-  description: Representation of the currently logged in user
-  required:
-    - externalId
-  properties:
-    externalId:
-      type: string
-      example: "ABC123"
-      description: The 
-   
