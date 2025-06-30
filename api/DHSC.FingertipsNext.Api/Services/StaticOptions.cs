@@ -3,10 +3,9 @@
 namespace DHSC.FingertipsNext.Api.Services
 {
     /// <summary>
-    /// This is included as an MVP wraper for the OpenApiOptions configuration allowing openapi to startup 
-    /// 
+    /// This is included as an MVP wraper for the OpenApiOptions configuration allowing openapi to startup successfully.
+    /// It has no functionality other than allowing injection of an object at project startup.
     /// </summary>
-    /// <typeparam name="TOptions"></typeparam>
     internal class StaticOptions<TOptions> : IOptionsSnapshot<TOptions> where TOptions : class
     {
         private readonly TOptions _options;
