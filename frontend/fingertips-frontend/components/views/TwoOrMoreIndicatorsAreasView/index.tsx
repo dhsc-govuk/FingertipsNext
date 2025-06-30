@@ -18,6 +18,12 @@ import { healthDataRequestAreas } from '@/components/charts/SpineChart/helpers/h
 import { SeedDataPromises } from '@/components/atoms/SeedQueryCache/seedQueryCache.types';
 import { SeedQueryCache } from '@/components/atoms/SeedQueryCache/SeedQueryCache';
 import { seedDataFromPromises } from '@/components/atoms/SeedQueryCache/seedDataFromPromises';
+import { quartilesQueryParams } from '@/components/charts/SpineChart/helpers/quartilesQueryParams';
+import {
+  EndPoints,
+  queryKeyFromRequestParams,
+} from '@/components/charts/helpers/queryKeyFromRequestParams';
+import { spineChartIsRequired } from '@/components/charts/SpineChart/helpers/spineChartIsRequired';
 
 export default async function TwoOrMoreIndicatorsAreasView({
   searchState,
@@ -102,6 +108,26 @@ export default async function TwoOrMoreIndicatorsAreasView({
     },
     API_CACHE_CONFIG
   );
+
+  // load quartiles data and seed if we don't have it already
+  const quartilesParams = quartilesQueryParams(searchState);
+  const quartilesKey = queryKeyFromRequestParams(
+    EndPoints.Quartiles,
+    quartilesParams
+  );
+  if (
+    spineChartIsRequired(searchState) &&
+    !Object.keys(seedData).includes(quartilesKey)
+  ) {
+    try {
+      seedData[quartilesKey] = await indicatorApi.indicatorsQuartilesGet(
+        quartilesParams,
+        API_CACHE_CONFIG
+      );
+    } catch (e) {
+      console.error('error getting quartile data', e);
+    }
+  }
 
   return (
     <ViewsWrapper

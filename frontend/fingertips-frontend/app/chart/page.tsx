@@ -27,8 +27,6 @@ import { compareAreasTableRequestParams } from '@/components/charts/CompareAreas
 import { compareAreasTableIsRequired } from '@/components/charts/CompareAreasTable/helpers/compareAreasTableIsRequired';
 import { inequalitiesIsRequired } from '@/components/charts/Inequalities/helpers/inequalitiesIsRequired';
 import { inequalitiesRequestParams } from '@/components/charts/Inequalities/helpers/inequalitiesRequestParams';
-import { spineChartIsRequired } from '@/components/charts/SpineChart/helpers/spineChartIsRequired';
-import { quartilesQueryParams } from '@/components/charts/SpineChart/helpers/quartilesQueryParams';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -165,27 +163,6 @@ export default async function ChartPage(
           'error getting health indicator data for inequalities',
           e
         );
-      }
-    }
-
-    // load quartiles data and seed if we don't have it already
-    const quartilesParams = quartilesQueryParams(searchState);
-    const quartilesKey = queryKeyFromRequestParams(
-      EndPoints.Quartiles,
-      quartilesParams
-    );
-    if (
-      spineChartIsRequired(searchState) &&
-      !Object.keys(seedData).includes(quartilesKey)
-    ) {
-      try {
-        const benchmarkQuartiles = await indicatorApi.indicatorsQuartilesGet(
-          quartilesParams,
-          API_CACHE_CONFIG
-        );
-        seedData[quartilesKey] = benchmarkQuartiles;
-      } catch (e) {
-        console.error('error getting quartile data', e);
       }
     }
 
