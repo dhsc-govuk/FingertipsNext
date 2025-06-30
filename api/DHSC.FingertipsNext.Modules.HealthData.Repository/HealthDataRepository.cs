@@ -67,8 +67,16 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .FirstOrDefaultAsync();
     }
 
-    public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataAsync(int indicatorId, string[] areaCodes,
-        int[] years, string[] inequalities, DateOnly? fromDate = null, DateOnly? toDate = null)
+    public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataAsync
+    (
+        int indicatorId,
+        string[] areaCodes,
+        int[] years,
+        string[] inequalities,
+        DateOnly? fromDate = null,
+        DateOnly? toDate = null,
+        bool includeUnpublished = false
+    )
     {
         var excludeDisaggregatedSexValues = !inequalities.Contains(SEX);
         var excludeDisaggregatedAgeValues = !inequalities.Contains(AGE);
@@ -76,8 +84,8 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
 
         DateTime? toDateTime = toDate != null ? toDate.Value.ToDateTime(TimeOnly.MinValue) : null;
         DateTime? fromDateTime = fromDate != null ? fromDate.Value.ToDateTime(TimeOnly.MinValue) : null;
-
-        var healthMeasures = await _dbContext.PublishedHealthMeasure
+        var healthMeasureQueryable = includeUnpublished ? _dbContext.HealthMeasure : _dbContext.PublishedHealthMeasure;
+        var healthMeasures = await healthMeasureQueryable
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
             .Where(HealthDataPredicates.IsInAreaCodes(areaCodes))
             .Where(healthMeasure => years.Length == 0 || EF.Constant(years).Contains(healthMeasure.Year))
@@ -117,14 +125,17 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<DenormalisedHealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync(
+    public async Task<IEnumerable<DenormalisedHealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync
+    (
         int indicatorId,
         string[] areaCodes,
         int[] years,
         string areaTypeKey,
         string benchmarkAreaCode,
         DateOnly? fromDate = null,
-        DateOnly? toDate = null)
+        DateOnly? toDate = null,
+        bool includeUnpublished = false
+    )
     {
         SqlParameter areasOfInterest;
         SqlParameter yearsOfInterest;
@@ -159,10 +170,11 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
 
         var requestedFromDate = new SqlParameter("@RequestedFromDate", fromDate.HasValue ? fromDate.Value : DBNull.Value);
         var requestedToDate = new SqlParameter("@RequestedToDate", toDate.HasValue ? toDate.Value : DBNull.Value);
+        var includeUnpublishedData = new SqlParameter("@IncludeUnpublishedData", includeUnpublished);
 
         var denormalisedHealthData = await _dbContext.DenormalisedHealthMeasure.FromSqlInterpolated
         (@$"
-              EXEC dbo.GetIndicatorDetailsWithQuintileBenchmarkComparison @RequestedAreas={areasOfInterest}, @RequestedAreaType={areaTypeOfInterest}, @RequestedYears={yearsOfInterest}, @RequestedIndicatorId={requestedIndicatorId}, @RequestedBenchmarkAreaCode={requestedBenchmarkAreaCode}, @RequestedFromDate={requestedFromDate}, @RequestedToDate={requestedToDate}
+              EXEC dbo.GetIndicatorDetailsWithQuintileBenchmarkComparison @RequestedAreas={areasOfInterest}, @RequestedAreaType={areaTypeOfInterest}, @RequestedYears={yearsOfInterest}, @RequestedIndicatorId={requestedIndicatorId}, @RequestedBenchmarkAreaCode={requestedBenchmarkAreaCode}, @RequestedFromDate={requestedFromDate}, @RequestedToDate={requestedToDate}, @IncludeUnpublishedData={includeUnpublishedData}
               "
         ).ToListAsync();
 

@@ -59,9 +59,9 @@ indicators_by_indicator_id_data:
   get:
     tags:
       - indicators
-    summary: Get health data for an indicator
+    summary: Get published health data for an indicator
     description:
-      Get data for a public health indicator. This will return all data for
+      Get data for a public health indicator. This will return all published data for
         all requested areas and all time periods for the specified indicator. 
 
         The returned data will include a benchmark comparison against either England or an ancestor area
@@ -72,7 +72,7 @@ indicators_by_indicator_id_data:
     responses:
       "200":
         description:
-          Data containing the health data points for the indicator, years
+          Data containing the published health data points for the indicator, years
           and geographical areas requested
         content:
           application/json:
@@ -109,6 +109,45 @@ indicators_by_indicator_id_data:
             schema:
               type: string
               example: Not Implemented
+indicators_by_indicator_id_all_data:
+  parameters:
+    - $ref: "./parameters.yaml#/indicator_id"
+    - $ref: "../parameters.yaml#/area_codes"
+    - $ref: "./parameters.yaml#/area_type"
+    - $ref: "./parameters.yaml#/ancestor_code"
+    - $ref: "./parameters.yaml#/benchmark_ref_type"
+    - $ref: "./parameters.yaml#/years"
+    - $ref: "./parameters.yaml#/to_date"
+    - $ref: "./parameters.yaml#/from_date"
+    - $ref: "./parameters.yaml#/inequalities"
+    - $ref: "./parameters.yaml#/latest_only"
+  get:
+    tags:
+      - indicators
+    summary: Get published and unpublished health data for an indicator
+    description:
+      Get data for a public health indicator. This will return all data for
+        all requested areas and all time periods for the specified indicator. 
+
+        The returned data will include a benchmark comparison against either England or an ancestor area
+        group, depending on the benchmark_ref_type and ancestor_code parameters.
+
+        Data can be provided disagregated by various categories such as age and sex
+        using the inequalities query parameter.
+    responses:
+      "200":
+        description:
+          Data containing the published and unpublished health data points for the indicator, years
+          and geographical areas requested
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas.yaml#/IndicatorWithHealthDataForArea"
+      "400":
+        $ref: "../responses.yaml#/BadRequest"
+      "500":
+        $ref: "../responses.yaml#/InternalServerError"
+    operationId: getHealthDataForAnIndicatorIncludingUnpublishedData
 quartiles:
   get:
     tags:
