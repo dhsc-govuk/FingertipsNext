@@ -334,7 +334,7 @@ jobs:
     environment: development
     runs-on: dev
     if: >
-      always() &&
+      false && always() &&
       contains(needs.*.result, 'success') &&
       !contains(needs.*.result, 'failure') &&
       !contains(needs.*.result, 'cancelled') &&
@@ -586,7 +586,7 @@ jobs:
           },
           {
             name        = "UPLOAD_STORAGE_ACCOUNT_URI"
-            secret_name = "fingertips-upload-storage-uri"
+            secret_name = "fingertips-upload-storage-uri2"
             value       = null
           },
           {

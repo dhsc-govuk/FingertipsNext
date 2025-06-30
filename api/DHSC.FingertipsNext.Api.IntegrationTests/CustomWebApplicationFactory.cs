@@ -8,7 +8,7 @@ namespace DHSC.FingertipsNext.Api.IntegrationTests;
 public class CustomWebApplicationFactory<T> : WebApplicationFactory<T> where T : class
 {
     public FakeTimeProvider MockTime { get; } = new();
-    
+
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder?.ConfigureServices(services =>
