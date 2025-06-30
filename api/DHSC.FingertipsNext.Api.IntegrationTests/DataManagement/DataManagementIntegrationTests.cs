@@ -18,6 +18,7 @@ public sealed class DataManagementIntegrationTests : IClassFixture<CustomWebAppl
     public DataManagementIntegrationTests(CustomWebApplicationFactory<Program> factory)
     {
         _factory = factory;
+        
         // Load environment variables from the .env file
         Env.Load(string.Empty, new LoadOptions(true, true, false));
 
@@ -38,8 +39,9 @@ public sealed class DataManagementIntegrationTests : IClassFixture<CustomWebAppl
     public void Dispose()
     {
         _azureStorageBlobClient.DeleteBlob(_blobName);
+        _factory.Dispose();
     }
-
+    
     private static HttpClient GetApiClient(CustomWebApplicationFactory<Program> factory, string blobContainerName = FingertipsStorageContainerName)
     {
         return factory.WithWebHostBuilder(builder =>
