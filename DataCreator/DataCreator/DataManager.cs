@@ -59,8 +59,8 @@ namespace DataCreator
             {
                 AreaCode = area.AreaCode.Trim(),
                 AreaName = Regex.Replace(
-                    Regex.Replace(area.AreaName.Trim(), @"\bOf\b", "of"),
-                    @"\bAnd The\b", "and the"
+                    Regex.Replace(area.AreaName.Trim(), @"\bOf\b", "of", RegexOptions.None, TimeSpan.FromMilliseconds(100)),
+                    @"\bAnd The\b", "and the",RegexOptions.None, TimeSpan.FromMilliseconds(100)
                 ),
                 Children = string.Join('|', area.ChildAreas.Select(c => c.AreaCode.Trim())),
                 Level = area.Level,
@@ -336,12 +336,12 @@ namespace DataCreator
         public static void CreateHealthMeasurePeriodDates(List<SimpleIndicator> indicators,
             List<HealthMeasureEntity> healthMeasures)
         {
-            var indicatorsYearMap = indicators.ToDictionary(
+            var indicatorsPeriodsMap = indicators.ToDictionary(
                 i => i.IndicatorID,
                 i => i.PeriodType);
             foreach (var healthMeasure in healthMeasures)
             {
-                var indicatorPeriodType = indicatorsYearMap[healthMeasure.IndicatorId];
+                var indicatorPeriodType = indicatorsPeriodsMap[healthMeasure.IndicatorId];
 
                 int year;
                 switch (indicatorPeriodType)
