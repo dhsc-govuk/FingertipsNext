@@ -3,7 +3,11 @@ using DotNetEnv;
 
 namespace DHSC.FingertipsNext.Api;
 
+using Asp.Versioning;
 using Azure.Monitor.OpenTelemetry.AspNetCore;
+using DHSC.FingertipsNext.Api.Services;
+using Microsoft.AspNetCore.OpenApi;
+using Microsoft.Extensions.Options;
 using Monolith;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -53,6 +57,14 @@ public class Program
 
         builder.Services.AddControllers().AddControllersAsServices();
 
+
+        // This is included to resolve a runtime crash on windows caused by https://github.com/dotnet/aspnetcore/issues/58805
+        builder.Services.AddSingleton<IOptionsSnapshot<OpenApiOptions>>(sp =>
+        {
+            OpenApiOptions options = new OpenApiOptions();
+            return new StaticOptions<OpenApiOptions>(options);
+        });
+
         builder.Services.AddOpenApi()
             .AddApiVersioning(options =>
             {
@@ -71,12 +83,12 @@ public class Program
                 options.SubstituteApiVersionInUrl = true;
             });
 
+
         RegisterModules(builder.Services, builder.Configuration);
 
         builder.Services.AddFingertipsUserAuth(builder.Configuration);
 
         var app = builder.Build();
-
 
         if (app.Environment.IsDevelopment())
         {
