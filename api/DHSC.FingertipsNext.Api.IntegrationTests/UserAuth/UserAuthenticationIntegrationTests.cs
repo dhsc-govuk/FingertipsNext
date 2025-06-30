@@ -12,6 +12,9 @@ namespace DHSC.FingertipsNext.Api.IntegrationTests.UserAuth
 {
     public class UserAuthenticationIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     {
+        private const string JWT_STUB_ISSUER = "TestIssuer";
+        private const string JWT_STUB_AUDIENCE = "TestAudience";
+
         private readonly WebApplicationFactory<Program> _appFactory;
 
         public UserAuthenticationIntegrationTests(WebApplicationFactory<Program> factory)
@@ -32,8 +35,8 @@ namespace DHSC.FingertipsNext.Api.IntegrationTests.UserAuth
                                 ValidateAudience = true,
                                 ValidateLifetime = true,
                                 ValidateIssuerSigningKey = true,
-                                ValidIssuer = "TestIssuer",
-                                ValidAudience = "TestAudience",
+                                ValidIssuer = JWT_STUB_ISSUER,
+                                ValidAudience = JWT_STUB_AUDIENCE,
                                 IssuerSigningKey = new SymmetricSecurityKey(new byte[256]),
                                 ClockSkew = TimeSpan.Zero
                             };
@@ -77,7 +80,7 @@ namespace DHSC.FingertipsNext.Api.IntegrationTests.UserAuth
         }
 
         [Fact]
-        public async Task UserInfoEndpointRejectsNonAdminAuthenticatedUsersFromViewingProtectedIndicators()
+        public async Task IndicatorPermissionsEndpointRejectsNonAdminAuthenticatedUsersFromViewingProtectedIndicators()
         {
             var client = _appFactory.CreateClient();
 
@@ -90,7 +93,7 @@ namespace DHSC.FingertipsNext.Api.IntegrationTests.UserAuth
         }
 
         [Fact]
-        public async Task UserInfoEndpointPermitsAdminAuthenticatedUsersToViewProtectedIndicators()
+        public async Task IndicatorPermissionsEndpointPermitsAdminAuthenticatedUsersToViewProtectedIndicators()
         {
             var adminRoleGuid = "a6f09d79-e3de-48ae-b0ce-c48d5d8e5353";
             var client = _appFactory.WithWebHostBuilder(b => b.UseSetting("AdminRole", adminRoleGuid)).CreateClient();
@@ -127,8 +130,8 @@ namespace DHSC.FingertipsNext.Api.IntegrationTests.UserAuth
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                issuer: "TestIssuer",
-                audience: "TestAudience",
+                issuer: JWT_STUB_ISSUER,
+                audience: JWT_STUB_AUDIENCE,
                 claims: claims,
                 expires: tokenExpiry,
                 signingCredentials: creds
