@@ -9,7 +9,6 @@ import {
   SimpleIndicatorDocument,
 } from '@/playwright/testHelpers/genericTestUtilities';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
-import { spaceSeparatedPattern } from '@/lib/constants';
 
 export default class AreaFilter extends BasePage {
   readonly areaFilterContainer = 'area-filter-container';
@@ -212,20 +211,11 @@ export default class AreaFilter extends BasePage {
   async selectAreasFiltersIfRequired(
     searchMode: SearchMode,
     areaMode: AreaMode,
-    searchTerm: string,
     areaFiltersToSelect: AreaFilters
   ): Promise<void> {
     await expect(this.page.getByTestId(this.areaFilterContainer)).toBeVisible();
 
     if (searchMode === SearchMode.ONLY_SUBJECT) {
-      let trimmedSearchText = searchTerm.trim();
-
-      // Check if searched for text is a space-separated list of numbers
-      if (spaceSeparatedPattern.test(trimmedSearchText)) {
-        // replace whitespace with +
-        trimmedSearchText = trimmedSearchText.replaceAll(' ', '+');
-      }
-
       await this.selectAreaFilters(areaMode, areaFiltersToSelect);
       await this.selectAreaCheckboxes(areaMode, areaFiltersToSelect.areaType);
     } else if (

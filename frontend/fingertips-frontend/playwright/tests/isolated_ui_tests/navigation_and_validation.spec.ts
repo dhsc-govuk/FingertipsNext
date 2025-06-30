@@ -430,7 +430,6 @@ test.describe('Navigation Tests', () => {
       await chartPage.selectAreasFiltersIfRequired(
         searchMode,
         AreaMode.THREE_PLUS_AREAS,
-        subjectSearchTerm,
         areaFiltersToSelect
       );
     });
