@@ -118,7 +118,7 @@ public class IndicatorServiceTests
             {
                 AreaCode = expectedAreaCode2,
                 AreaName = expectedAreaName2,
-                HealthData = new List<HealthDataPoint> { _healthDataMapper.Map(healthMeasure2) },   
+                HealthData = new List<HealthDataPoint> { _healthDataMapper.Map(healthMeasure2) },
                 IndicatorSegments = new List<IndicatorSegment>()
             },
         };
@@ -1133,7 +1133,7 @@ public class IndicatorServiceTests
 
         result.Content.AreaHealthData.ShouldNotBeEmpty();
         result.Content.AreaHealthData.Count().ShouldBe(4);
-        
+
         var areaHealthDataList = result.Content.AreaHealthData.ToList();
 
         for (int i = 0; i < areaHealthDataList.Count; i++)
