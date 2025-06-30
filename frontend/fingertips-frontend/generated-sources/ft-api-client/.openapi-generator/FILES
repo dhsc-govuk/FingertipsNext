@@ -15,7 +15,6 @@ models/DeprivationData.ts
 models/GetAreaHierarchies500Response.ts
 models/GetHealthcheck200Response.ts
 models/GetHealthcheck500Response.ts
-models/GetUserInfo200Response.ts
 models/HealthDataForArea.ts
 models/HealthDataPoint.ts
 models/HealthDataPointBenchmarkComparison.ts
@@ -27,5 +26,6 @@ models/PeriodType.ts
 models/QuartileData.ts
 models/RootArea.ts
 models/SexData.ts
+models/UserInfoType.ts
 models/index.ts
 runtime.ts

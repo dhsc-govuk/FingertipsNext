@@ -16,13 +16,13 @@
 import * as runtime from '../runtime';
 import type {
   GetAreaHierarchies500Response,
-  GetUserInfo200Response,
+  UserInfoType,
 } from '../models/index';
 import {
     GetAreaHierarchies500ResponseFromJSON,
     GetAreaHierarchies500ResponseToJSON,
-    GetUserInfo200ResponseFromJSON,
-    GetUserInfo200ResponseToJSON,
+    UserInfoTypeFromJSON,
+    UserInfoTypeToJSON,
 } from '../models/index';
 
 export interface CheckIndicatorPermissionsRequest {
@@ -59,13 +59,13 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    getUserInfoRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetUserInfo200Response>>;
+    getUserInfoRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserInfoType>>;
 
     /**
      * Get info for logged in user
      * Get User Info
      */
-    getUserInfo(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetUserInfo200Response>;
+    getUserInfo(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserInfoType>;
 
 }
 
@@ -120,7 +120,7 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
      * Get info for logged in user
      * Get User Info
      */
-    async getUserInfoRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetUserInfo200Response>> {
+    async getUserInfoRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserInfoType>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -140,14 +140,14 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => GetUserInfo200ResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => UserInfoTypeFromJSON(jsonValue));
     }
 
     /**
      * Get info for logged in user
      * Get User Info
      */
-    async getUserInfo(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetUserInfo200Response> {
+    async getUserInfo(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserInfoType> {
         const response = await this.getUserInfoRaw(initOverrides);
         return await response.value();
     }
