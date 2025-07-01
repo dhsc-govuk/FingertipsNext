@@ -51,7 +51,7 @@ public class DataManagementIntegrationTests : IClassFixture<WebApplicationFactor
         await _azureStorageBlobClient.UploadBlob(BlobName, blobContentFilePath);
 
         // Act
-        var response = await _apiClient.GetAsync(new Uri("/data_management"));
+        var response = await _apiClient.GetAsync(new Uri("http://localhost:5144/data_management"));
 
         // Assert
         response.EnsureSuccessStatusCode();
