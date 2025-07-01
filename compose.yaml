@@ -2,6 +2,7 @@ services:
   frontend:
     profiles:
       - all
+      - app-services
       - frontend
 
     build: frontend/fingertips-frontend
@@ -16,6 +17,7 @@ services:
   api:
     profiles:
       - all
+      - app-services
       - api
 
     depends_on:
@@ -36,8 +38,10 @@ services:
 
       # These are the publicly-available connection details for the Azurite storage emulator.
       # DO NOT commit the details of an actual Azure Storage account here!
-      STORAGE_CONNECTION_STRING: "${UPLOAD_STORAGE_ACCOUNT_CONNECTION_STRING:-DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://storage:10000/devstoreaccount1;}"
-      STORAGE_CONTAINER_NAME: ${UPLOAD_STORAGE_CONTAINER_NAME}
+      UPLOAD_STORAGE_ACCOUNT_URI: "${UPLOAD_STORAGE_ACCOUNT_URI:-http://storage:10000/devstoreaccount1}"
+      UPLOAD_STORAGE_ACCOUNT_NAME: "${UPLOAD_STORAGE_ACCOUNT_NAME:-devstoreaccount1}"
+      UPLOAD_STORAGE_ACCOUNT_KEY: "${UPLOAD_STORAGE_ACCOUNT_KEY:-Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==}"
+      UPLOAD_STORAGE_CONTAINER_NAME: ${UPLOAD_STORAGE_CONTAINER_NAME}
     ports:
       - 5144:8080
     healthcheck:
@@ -51,6 +55,7 @@ services:
     profiles:
       - all
       - api
+      - backend-services
       - db
 
     depends_on:
@@ -67,8 +72,9 @@ services:
   db-apply-trends:
     profiles:
       - all
-      - db
       - api
+      - backend-services
+      - db
 
     depends_on:
       db-setup:
@@ -82,6 +88,7 @@ services:
     profiles:
       - all
       - api
+      - backend-services
       - db
 
     image: mcr.microsoft.com/mssql/server
@@ -97,6 +104,7 @@ services:
     profiles:
       - all
       - api
+      - backend-services
       - storage
 
     image: mcr.microsoft.com/azure-storage/azurite
@@ -112,6 +120,7 @@ services:
     profiles:
       - all
       - api
+      - backend-services
       - storage
 
     depends_on:
@@ -123,11 +132,15 @@ services:
       - storage
       - container
       - create
-      - --connection-string
+      - --blob-endpoint
 
       # These are the publicly-available connection details for the Azurite storage emulator.
       # DO NOT commit the details of an actual Azure Storage account here!
-      - "${UPLOAD_STORAGE_ACCOUNT_CONNECTION_STRING:-DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://storage:10000/devstoreaccount1;}"
+      - "${UPLOAD_STORAGE_ACCOUNT_URI:-http://storage:10000/devstoreaccount1}"
+      - --account-name
+      - "${UPLOAD_STORAGE_ACCOUNT_NAME:-devstoreaccount1}"
+      - --account-key
+      - "${UPLOAD_STORAGE_ACCOUNT_KEY:-Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==}"
 
       - --name
       - ${UPLOAD_STORAGE_CONTAINER_NAME}

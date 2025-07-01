@@ -1,4 +1,4 @@
-import { InequalitiesTypes } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { InequalitiesTypes } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
 
 export enum SearchMode {
   ONLY_SUBJECT = 'ONLY_SUBJECT',
@@ -83,3 +83,11 @@ export type ChartComponentDefinition = {
   chartComponentLocator: string;
   chartComponentProps: BaseChartComponentProps;
 };
+
+export const ACCESSIBILITY_TAGS = [
+  'wcag2a',
+  'wcag2aa',
+  'wcag21a',
+  'wcag21aa',
+  'wcag22aa',
+] as const;

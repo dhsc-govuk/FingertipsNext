@@ -1,4 +1,3 @@
-import { expect } from '@jest/globals';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import { SearchForm } from '@/components/forms/SearchForm';
 import { SearchFormState } from './searchActions';
@@ -11,46 +10,38 @@ import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { mockAreaDataForNHSRegion } from '@/mock/data/areaData';
 import { LoaderContext } from '@/context/LoaderContext';
 import userEvent from '@testing-library/user-event';
-import { SearchStateContext } from '@/context/SearchStateContext';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 const mockPath = 'some path';
-const mockReplace = jest.fn();
+const mockReplace = vi.fn();
 
-jest.mock('next/navigation', () => {
-  const originalModule = jest.requireActual('next/navigation');
+vi.mock('next/navigation', async () => {
+  const originalModule = await vi.importActual('next/navigation');
   return {
     ...originalModule,
     usePathname: () => mockPath,
     useSearchParams: () => {},
-    useRouter: jest.fn().mockImplementation(() => ({
+    useRouter: vi.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
   };
 });
 
-const mockSetIsLoading = jest.fn();
+const mockSetIsLoading = vi.fn();
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: jest.fn(),
+  getIsLoading: vi.fn(),
   setIsLoading: mockSetIsLoading,
 };
-jest.mock('@/context/LoaderContext', () => {
+vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
   };
 });
 
-const mockGetSearchState = jest.fn();
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: mockGetSearchState,
-  setSearchState: jest.fn(),
-};
-jest.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
-
-const mockSearchState: SearchStateParams = {};
+let mockSearchState: SearchStateParams = {};
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockSearchState,
+}));
 
 const initialDataState: SearchFormState = {
   indicator: 'indicator',
@@ -61,11 +52,11 @@ const initialDataState: SearchFormState = {
 
 describe('SearchForm', () => {
   beforeEach(() => {
-    mockGetSearchState.mockReturnValue(mockSearchState);
+    mockSearchState = {};
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('snapshot test - renders the form', () => {
@@ -87,7 +78,7 @@ describe('SearchForm', () => {
       [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
     };
 
-    mockGetSearchState.mockReturnValue(searchState);
+    mockSearchState = searchState;
 
     const searchFormState: SearchFormState = {
       ...initialDataState,
@@ -133,9 +124,9 @@ describe('SearchForm', () => {
   });
 
   it('should not render the selected areas panel when there are no areasSelected', () => {
-    mockGetSearchState.mockReturnValue({
+    mockSearchState = {
       [SearchParams.AreasSelected]: undefined,
-    });
+    };
 
     render(<SearchForm formState={initialDataState} />);
 
@@ -145,9 +136,9 @@ describe('SearchForm', () => {
   });
 
   it('should render the selected areas panel when there are areasSelected', () => {
-    mockGetSearchState.mockReturnValue({
+    mockSearchState = {
       [SearchParams.AreasSelected]: ['E40000007'],
-    });
+    };
 
     render(<SearchForm formState={initialDataState} />);
 
@@ -173,12 +164,66 @@ describe('SearchForm', () => {
     });
   });
 
-  it('should call setIsLoading with true when the search button is clicked', async () => {
+  it('should call setIsLoading with true when the search buttons are clicked', async () => {
     render(<SearchForm formState={initialDataState} />);
 
     const user = userEvent.setup();
-    await user.click(screen.getByRole('button'));
+    const buttons = screen.queryAllByRole('button');
+
+    for (const button of buttons) {
+      await user.click(button);
+    }
+
+    expect(mockSetIsLoading).toHaveBeenCalledTimes(2);
+  });
+
+  it('should search by subject when the search box is not empty and the enter key is pressed', async () => {
+    render(<SearchForm formState={initialDataState} />);
+
+    const user = userEvent.setup();
+    const input = screen.getByTestId('indicator-search-form-input');
+
+    await user.type(input, 'test');
+    await user.keyboard('{Enter}');
 
     expect(mockSetIsLoading).toHaveBeenCalledWith(true);
+  });
+
+  it('should search by subject when the search box is not empty and the return key is pressed', async () => {
+    render(<SearchForm formState={initialDataState} />);
+
+    const user = userEvent.setup();
+    const input = screen.getByTestId('indicator-search-form-input');
+
+    await user.type(input, 'test');
+    await user.keyboard('{Return}');
+
+    expect(mockSetIsLoading).toHaveBeenCalledWith(true);
+  });
+
+  it('should display no message when there is no error and a black border around the input field', () => {
+    render(<SearchForm formState={initialDataState} />);
+
+    expect(
+      screen.queryByTestId('indicator-search-form-error')
+    ).not.toBeInTheDocument();
+
+    const input = screen.getByTestId('indicator-search-form-input');
+    expect(input).toHaveStyle(`border-color: ${GovukColours.Black}`);
+  });
+
+  it('should show error message and a red border around the input field when the formState message is set', () => {
+    render(
+      <SearchForm
+        formState={{ ...initialDataState, message: 'Error', indicator: '' }}
+      />
+    );
+
+    expect(
+      screen.getByTestId('indicator-search-form-error')
+    ).toBeInTheDocument();
+
+    const input = screen.getByTestId('indicator-search-form-input');
+    expect(input).toHaveStyle(`border-color: ${GovukColours.Red}`);
   });
 });

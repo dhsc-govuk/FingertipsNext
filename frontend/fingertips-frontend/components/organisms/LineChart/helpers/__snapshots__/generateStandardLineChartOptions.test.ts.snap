@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`generateStandardLineChartOptions should generate standard line chart options 1`] = `
+exports[`generateStandardLineChartOptions > should generate standard line chart options 1`] = `
 {
   "accessibility": {
     "description": "accessibility",
@@ -100,7 +100,7 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
 }
 `;
 
-exports[`generateStandardLineChartOptions should generate standard line chart options with benchmark and group data 1`] = `
+exports[`generateStandardLineChartOptions > should generate standard line chart options with benchmark and group data 1`] = `
 {
   "accessibility": {
     "description": "accessibility",
@@ -242,7 +242,7 @@ exports[`generateStandardLineChartOptions should generate standard line chart op
 }
 `;
 
-exports[`generateStandardLineChartOptions should not include benchmark or group years before or after the areas have data 1`] = `
+exports[`generateStandardLineChartOptions > should not include benchmark or group years before or after the areas have data 1`] = `
 {
   "accessibility": {
     "description": "accessibility",

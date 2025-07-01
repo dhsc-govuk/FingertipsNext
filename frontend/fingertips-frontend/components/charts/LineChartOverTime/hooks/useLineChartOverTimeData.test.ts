@@ -8,37 +8,37 @@ import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { renderHook } from '@testing-library/react';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { MockedFunction } from 'vitest';
 
-jest.mock('@/components/hooks/useSearchStateParams');
-jest.mock(
+vi.mock('@/components/hooks/useSearchStateParams');
+vi.mock(
   '@/components/charts/LineChartOverTime/hooks/useLineChartOverTimeRequestParams'
 );
-jest.mock('@/components/charts/hooks/useApiGetHealthDataForAnIndicator');
-jest.mock('@/components/charts/hooks/useApiGetIndicatorMetaData');
-jest.mock(
+vi.mock('@/components/charts/hooks/useApiGetHealthDataForAnIndicator');
+vi.mock('@/components/charts/hooks/useApiGetIndicatorMetaData');
+vi.mock(
   '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeIsRequired'
 );
-jest.mock(
-  '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeData'
-);
+vi.mock('@/components/charts/LineChartOverTime/helpers/lineChartOverTimeData');
 
-const mockUseSearchStateParams = useSearchStateParams as jest.MockedFunction<
+vi.mock('@/components/hooks/useSearchStateParams');
+const mockUseSearchStateParams = useSearchStateParams as MockedFunction<
   typeof useSearchStateParams
 >;
 
 const mockUseApiGetHealthDataForAnIndicator =
-  useApiGetHealthDataForAnIndicator as jest.MockedFunction<
+  useApiGetHealthDataForAnIndicator as MockedFunction<
     typeof useApiGetHealthDataForAnIndicator
   >;
 const mockUseApiGetIndicatorMetaData =
-  useApiGetIndicatorMetaData as jest.MockedFunction<
+  useApiGetIndicatorMetaData as MockedFunction<
     typeof useApiGetIndicatorMetaData
   >;
 const mockLineChartOverTimeIsRequired =
-  lineChartOverTimeIsRequired as jest.MockedFunction<
+  lineChartOverTimeIsRequired as MockedFunction<
     typeof lineChartOverTimeIsRequired
   >;
-const mockLineChartOverTimeData = lineChartOverTimeData as jest.MockedFunction<
+const mockLineChartOverTimeData = lineChartOverTimeData as MockedFunction<
   typeof lineChartOverTimeData
 >;
 
@@ -53,7 +53,7 @@ describe('useLineChartOverTimeData', () => {
   let mockHealthQuery: ReturnType<typeof useApiGetHealthDataForAnIndicator>;
   let mockMetaQuery: ReturnType<typeof useApiGetIndicatorMetaData>;
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 
     mockUseSearchStateParams.mockReturnValue(mockSearchState);
 

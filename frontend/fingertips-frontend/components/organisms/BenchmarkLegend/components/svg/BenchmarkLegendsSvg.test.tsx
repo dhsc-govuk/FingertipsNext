@@ -4,10 +4,10 @@ import { BenchmarkLegendsToShow } from '@/components/organisms/BenchmarkLegend/b
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client';
 
 // Mocking BenchmarkLegendGroupSvg to focus only on render logic
-jest.mock(
+vi.mock(
   '@/components/organisms/BenchmarkLegend/components/svg/BenchmarkLegendGroupSvg',
   () => ({
-    BenchmarkLegendGroupSvg: jest.fn(({ y, benchmarkComparisonMethod }) => (
+    BenchmarkLegendGroupSvg: vi.fn(({ y, benchmarkComparisonMethod }) => (
       <g data-testid={`legend-${benchmarkComparisonMethod}`} data-y={y}></g>
     )),
   })

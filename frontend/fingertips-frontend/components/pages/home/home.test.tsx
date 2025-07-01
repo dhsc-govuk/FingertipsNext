@@ -1,10 +1,10 @@
 import { render, screen, waitFor, within } from '@testing-library/react';
 import { Home } from '@/components/pages/home/index';
 import { SearchFormState } from '@/components/forms/SearchForm/searchActions';
-import { expect } from '@jest/globals';
+
 import { userEvent } from '@testing-library/user-event';
 import { LoaderContext } from '@/context/LoaderContext';
-import { SearchStateContext } from '@/context/SearchStateContext';
+import { SearchStateParams } from '@/lib/searchStateManager';
 
 const initialState: SearchFormState = {
   indicator: '',
@@ -13,34 +13,29 @@ const initialState: SearchFormState = {
   errors: {},
 };
 
-jest.mock('next/navigation', () => ({
-  useRouter: jest.fn().mockReturnValue({
-    push: jest.fn(),
-    set: jest.fn(),
+vi.mock('next/navigation', () => ({
+  useRouter: vi.fn().mockReturnValue({
+    push: vi.fn(),
+    set: vi.fn(),
   }),
-  useSearchParams: jest.fn(),
-  usePathname: jest.fn(),
+  useSearchParams: vi.fn(),
+  usePathname: vi.fn(),
 }));
 
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: jest.fn(),
-  setIsLoading: jest.fn(),
+  getIsLoading: vi.fn(),
+  setIsLoading: vi.fn(),
 };
-jest.mock('@/context/LoaderContext', () => {
+vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
   };
 });
 
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: jest.fn(),
-  setSearchState: jest.fn(),
-};
-jest.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
+const mockSearchState: SearchStateParams = {};
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockSearchState,
+}));
 
 const setupUI = (state?: SearchFormState) => {
   if (!state) {
@@ -50,7 +45,7 @@ const setupUI = (state?: SearchFormState) => {
 };
 
 afterEach(() => {
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
 
 it('should render an indicator link', () => {
@@ -88,7 +83,7 @@ it('should display the error summary component when there is a validation error'
 
 it('should focus on the input boxes when there is a validation error', async () => {
   // Add missing function to jsdom
-  const scrollMock = jest.fn();
+  const scrollMock = vi.fn();
   window.HTMLElement.prototype.scrollIntoView = scrollMock;
 
   const user = userEvent.setup();
@@ -103,13 +98,13 @@ it('should focus on the input boxes when there is a validation error', async () 
   setupUI(errorState);
 
   const anchor = within(screen.getByTestId('search-form-error-summary'))
-    .getByText('Enter a subject you want to search for')
+    .getByText('Enter an area you want to search for')
     .closest('a')!;
   await user.click(anchor);
 
   await waitFor(() => {
     expect(
-      screen.getByRole('textbox', { name: /Search by subject/i })
+      screen.getByRole('textbox', { name: /Search by area/i })
     ).toHaveFocus();
   });
   expect(scrollMock).toBeCalledTimes(1);

@@ -229,8 +229,7 @@ export function LineChartTable({
 
   const confidenceLimit = getConfidenceLimitNumber(benchmarkComparisonMethod);
   const showEnglandColumn =
-    healthIndicatorData[0]?.areaCode !== areaCodeForEngland &&
-    benchmarkComparisonMethod !== BenchmarkComparisonMethod.Quintiles;
+    healthIndicatorData[0]?.areaCode !== areaCodeForEngland;
 
   const showGroupColumn =
     healthIndicatorData[0]?.areaCode !== areaCodeForEngland &&

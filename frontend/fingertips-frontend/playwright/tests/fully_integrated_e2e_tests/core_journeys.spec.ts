@@ -69,7 +69,7 @@ test.describe(
               subjectSearchTerm,
               areaSearchTerm.areaName
             );
-            await homePage.clickSearchButton();
+            await homePage.clickHomePageFormSearchButton();
           });
 
           await test.step(`check results page based on search mode and then select ${areaMode} and ${indicatorMode}`, async () => {
@@ -86,7 +86,6 @@ test.describe(
             await resultsPage.selectAreasFiltersIfRequired(
               searchMode, // Only selects area filters if search mode is ONLY_SUBJECT
               areaMode,
-              subjectSearchTerm!,
               areaFiltersToSelect!
             );
 

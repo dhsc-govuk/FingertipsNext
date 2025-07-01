@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import { FTHeader } from '.';
-import { expect } from '@jest/globals';
 
 describe('Header', () => {
   it('should match snapshot', () => {

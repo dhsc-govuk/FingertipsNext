@@ -35,6 +35,7 @@ export default class ResultsPage extends AreaFilter {
   readonly filterName = 'filter-name';
   readonly removeIcon = 'x-icon';
   readonly viewBackgroundInfoLink = 'view-background-info-link';
+  readonly searchResultsPagination = 'search-results-pagination';
 
   async navigateToResults(
     searchIndicator: string,
@@ -171,29 +172,108 @@ export default class ResultsPage extends AreaFilter {
   }
 
   /**
-   * Selecting the passed in indicators checkboxes
-   * @param expectedIndicatorsToSelect - a list of all indicators to be selected
+   * Selects the specified indicator checkboxes and verifies URL updates
+   * @param expectedIndicatorsToSelect - List of indicators to be selected
    */
   async selectIndicatorCheckboxesAndVerifyURLUpdated(
     expectedIndicatorsToSelect: IndicatorInfo[]
-  ) {
-    for (const indicatorID of expectedIndicatorsToSelect) {
-      const indicatorIDString = String(indicatorID.indicatorID);
-      const checkbox = this.page.getByTestId(
-        `${this.indicatorCheckboxPrefix}-${indicatorIDString}`
-      );
+  ): Promise<void> {
+    for (const indicator of expectedIndicatorsToSelect) {
+      const indicatorIDString = String(indicator.indicatorID);
 
-      await expect(checkbox).toBeAttached();
-      await expect(checkbox).toBeVisible();
-      await expect(checkbox).toBeEnabled();
-      await expect(checkbox).toBeEditable();
-      await expect(checkbox).toBeChecked({ checked: false });
-
-      await this.checkAndAwaitLoadingComplete(checkbox);
-
-      await expect(checkbox).toBeChecked();
-      await this.waitForURLToContain(indicatorIDString);
+      try {
+        await this.selectIndicatorCheckbox(indicatorIDString);
+      } catch {
+        await this.searchAllPagesForIndicator(indicatorIDString);
+      }
     }
+  }
+
+  /**
+   * Selects an indicator checkbox and verifies the selection
+   */
+  private async selectIndicatorCheckbox(
+    indicatorIDString: string
+  ): Promise<void> {
+    const checkbox = this.page.getByTestId(
+      `${this.indicatorCheckboxPrefix}-${indicatorIDString}`
+    );
+
+    // Check if indicator checkbox exists on the page - this will throw a caught error if not found - the try catch in the calling method will then try the next page
+    const isVisible = await checkbox.isVisible().catch(() => false);
+    if (!isVisible) {
+      throw new Error(
+        `Checkbox for indicator ${indicatorIDString} not found on current page`
+      );
+    }
+
+    // Verify initial state
+    await expect(checkbox).toBeAttached();
+    await expect(checkbox).toBeVisible();
+    await expect(checkbox).toBeEnabled();
+    await expect(checkbox).toBeEditable();
+    await expect(checkbox).toBeChecked({ checked: false });
+
+    // Select the checkbox
+    await this.checkAndAwaitLoadingComplete(checkbox);
+
+    // Verify checked state
+    await this.checkIndicatorCheckboxChecked(indicatorIDString);
+    await this.waitForURLToContain(indicatorIDString);
+  }
+
+  /**
+   * Searches all results pages for the desired indicator checkbox and selects it when found
+   */
+  private async searchAllPagesForIndicator(
+    indicatorIDString: string
+  ): Promise<void> {
+    const pagination = this.page.getByTestId(this.searchResultsPagination);
+
+    if (!pagination) {
+      throw new Error(
+        `Indicator ${indicatorIDString} not found and no pagination available`
+      );
+    }
+
+    // Go to first page to start search
+    const firstPageButton = pagination.getByRole('button').first();
+    if (await firstPageButton.isVisible()) {
+      await this.clickAndAwaitLoadingComplete(firstPageButton);
+    }
+
+    // THIS NEEDS TO BE REVISITED WHEN ALL INDICATORS ARE LOADED
+    // IDEALLY WE CALL THE API TO CHECK RESULT RESPONSES AND DONT DO ANY OF THE FOLLOWING IF INDICATOR NOT IN RESPONSE
+    // Search through all pages up to a max of 3
+    let pageCount = 0;
+    const maxPages = 3;
+
+    while (pageCount < maxPages) {
+      try {
+        await this.selectIndicatorCheckbox(indicatorIDString);
+        return;
+      } catch {
+        // Get next page selector
+        const nextButton = pagination.getByRole('button', {
+          name: 'Next page',
+        });
+
+        // Safely check if next page selector is visible or not - if not the error is caught and we break out of the loop as no more pages to check
+        const isNextButtonVisible = await nextButton
+          .isVisible()
+          .catch(() => false);
+        if (!isNextButtonVisible) {
+          break; // No more pages as Next button not displayed
+        }
+
+        await this.clickAndAwaitLoadingComplete(nextButton);
+        pageCount++;
+      }
+    }
+
+    throw new Error(
+      `Indicator ${indicatorIDString} not found after searching the first ${String(maxPages)} pages.`
+    );
   }
 
   async checkIndicatorCheckboxChecked(indicatorId: string) {

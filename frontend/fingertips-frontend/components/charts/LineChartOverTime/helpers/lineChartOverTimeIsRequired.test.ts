@@ -3,16 +3,17 @@ import { lineChartOverTimeIsRequired } from './lineChartOverTimeIsRequired';
 import { SearchParams } from '@/lib/searchStateManager';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { MockedFunction } from 'vitest';
 
-jest.mock('@/lib/chartHelpers/chartHelpers');
+vi.mock('@/lib/chartHelpers/chartHelpers');
 
-const mockDetermineAreaCodes = determineAreaCodes as jest.MockedFunction<
+const mockDetermineAreaCodes = determineAreaCodes as MockedFunction<
   typeof determineAreaCodes
 >;
 
 describe('lineChartOverTimeIsRequired', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('returns true if areaTypeSelected is england and the only area code is england', () => {

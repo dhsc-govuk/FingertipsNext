@@ -1,3 +1,4 @@
+using DHSC.FingertipsNext.Api.Middleware;
 using DotNetEnv;
 
 namespace DHSC.FingertipsNext.Api;
@@ -9,9 +10,14 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Scalar.AspNetCore;
 
-internal static class Program
+public class Program
 {
     private const string ApplicationInsightsConnectionString = "APPLICATIONINSIGHTS_CONNECTION_STRING";
+
+    private Program()
+    {
+    }
+
     public static void Main(string[] args)
     {
 #if DEBUG
@@ -68,6 +74,8 @@ internal static class Program
 
         RegisterModules(builder.Services, builder.Configuration);
 
+        builder.Services.AddFingertipsUserAuth(builder.Configuration);
+
         var app = builder.Build();
 
         app.MapOpenApi();
@@ -87,7 +95,7 @@ internal static class Program
 
         app.UseHttpsRedirection();
 
-        app.UseAuthorization();
+        app.UseFingerprintsAuth();
 
         app.MapControllers();
 

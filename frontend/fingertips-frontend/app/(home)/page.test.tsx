@@ -1,5 +1,5 @@
 /**
- * @jest-environment node
+ * @vitest-environment node
  */
 
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
@@ -18,19 +18,19 @@ import {
   eastEnglandNHSRegion,
   londonNHSRegion,
 } from '@/mock/data/areas/nhsRegionsAreas';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { getSelectedAreasDataByAreaType } from '@/lib/areaFilterHelpers/getSelectedAreasData';
+import { MockedFunction } from 'vitest';
 
-jest.mock('@/lib/areaFilterHelpers/getAreaFilterData');
-jest.mock('@/lib/areaFilterHelpers/getSelectedAreasData');
-jest.mock('@/components/pages/home');
+vi.mock('@/lib/areaFilterHelpers/getAreaFilterData');
+vi.mock('@/lib/areaFilterHelpers/getSelectedAreasData');
+vi.mock('@/components/pages/home');
 
-const mockGetAreaFilterData = getAreaFilterData as jest.MockedFunction<
+const mockGetAreaFilterData = getAreaFilterData as MockedFunction<
   typeof getAreaFilterData
 >;
 
 const mockGetSelectedAreasDataByAreaType =
-  getSelectedAreasDataByAreaType as jest.MockedFunction<
+  getSelectedAreasDataByAreaType as MockedFunction<
     typeof getSelectedAreasDataByAreaType
   >;
 mockGetSelectedAreasDataByAreaType.mockResolvedValue([]);
@@ -41,7 +41,7 @@ async function generateSearchParams(value: SearchStateParams) {
 
 describe('Home page', () => {
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('Check correct props are passed to the Home Page component', () => {
@@ -109,34 +109,6 @@ describe('Home page', () => {
         eastEnglandNHSRegion,
         londonNHSRegion,
       ]);
-    });
-
-    it('should pass the searchState prop with data from the params and updated by getAreaFilterData call', async () => {
-      const initialSearchState = {
-        [SearchParams.SearchedIndicator]: 'testing',
-        [SearchParams.AreasSelected]: ['E40000007', 'E40000003'],
-      };
-
-      const updatedSearchState = {
-        ...initialSearchState,
-        [SearchParams.GroupTypeSelected]: 'england',
-        [SearchParams.GroupSelected]: areaCodeForEngland,
-      };
-
-      mockGetAreaFilterData.mockResolvedValue({
-        updatedSearchState,
-      });
-
-      mockGetSelectedAreasDataByAreaType.mockResolvedValue([
-        eastEnglandNHSRegion,
-        londonNHSRegion,
-      ]);
-
-      const page = await HomePage({
-        searchParams: generateSearchParams(initialSearchState),
-      });
-
-      expect(page.props.searchState).toEqual(updatedSearchState);
     });
   });
 });

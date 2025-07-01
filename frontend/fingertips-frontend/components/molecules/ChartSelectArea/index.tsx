@@ -1,4 +1,8 @@
-import { SearchParamKeys, SearchStateManager } from '@/lib/searchStateManager';
+import {
+  SearchParamKeys,
+  SearchParams,
+  SearchStateManager,
+} from '@/lib/searchStateManager';
 import { useLoadingState } from '@/context/LoaderContext';
 import { usePathname, useRouter } from 'next/navigation';
 import { StyledFilterSelect } from '@/components/styles/StyledFilterSelect';
@@ -22,17 +26,25 @@ export function ChartSelectArea({
   const searchStateManager = SearchStateManager.initialise(searchState);
 
   const chartAreaTypeSelected = (valueSelected: string) => {
-    setIsLoading(true);
-
     searchStateManager.addParamValueToState(
       chartAreaSelectedKey,
       valueSelected
     );
 
-    replace(searchStateManager.generatePath(pathname), { scroll: false });
+    const url = searchStateManager.generatePath(pathname);
+    if (
+      chartAreaSelectedKey === SearchParams.InequalityBarChartAreaSelected ||
+      chartAreaSelectedKey === SearchParams.InequalityLineChartAreaSelected
+    ) {
+      history.pushState(null, '', url);
+    } else {
+      setIsLoading(true);
+      replace(url, { scroll: false });
+    }
   };
 
-  const selectedArea = searchState?.[chartAreaSelectedKey];
+  const selectedArea =
+    searchState?.[chartAreaSelectedKey] ?? availableAreas.at(0)?.code;
 
   return (
     <StyledFilterSelect

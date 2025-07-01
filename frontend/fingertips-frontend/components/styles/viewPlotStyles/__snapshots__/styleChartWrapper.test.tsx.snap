@@ -1,13 +1,9 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`styleChartWrapper should style the ChartWrapper component as expected 1`] = `
+exports[`styleChartWrapper > should style the ChartWrapper component as expected 1`] = `
 <DocumentFragment>
-  .c0 {
-  margin-bottom: 50px;
-}
-
-<div
-    class="c0"
+  <div
+    class="sc-aXZVg iybZny"
   >
     <div
       data-testid="mock component"

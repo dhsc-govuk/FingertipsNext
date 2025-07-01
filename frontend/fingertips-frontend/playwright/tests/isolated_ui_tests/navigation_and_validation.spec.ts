@@ -4,7 +4,6 @@ import {
   IndicatorMode,
   SearchMode,
   AreaMode,
-  IndicatorInfo,
   AreaFilters,
 } from '../../testHelpers/genericTestUtilities';
 import {
@@ -14,15 +13,10 @@ import {
 } from '../../testHelpers/indicatorDataUtilities';
 import mockIndicators from '../../../assets/mockIndicatorData.json';
 import mockAreas from '../../../assets/mockAreaData.json';
-import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
+import { RawIndicatorDocument } from '@/lib/search/searchTypes';
 import ChartPage from '@/playwright/page-objects/pages/chartPage';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
-const areaFiltersToSelect: AreaFilters = {
-  areaType: 'gps',
-  groupType: 'nhs-sub-integrated-care-boards',
-  group: '',
-};
 /**
  * Note that this test suite uses mock service worker to mock API responses, therefore these playwright tests are isolated from the backend
  * See:
@@ -33,36 +27,33 @@ const areaFiltersToSelect: AreaFilters = {
 // Test data setup
 // @ts-expect-error mock data type casting
 const indicatorData = mockIndicators as RawIndicatorDocument[];
-const subjectSearchTerm = 'hospital';
+const subjectSearchTerm = 'Alzheimer';
 const secondSubjectSearchTerm = 'diabetes';
 const indicatorMode = IndicatorMode.ONE_INDICATOR;
 const searchMode = SearchMode.ONLY_SUBJECT;
-let allValidIndicatorIDs: string[];
-let validIndicatorIDs: IndicatorInfo[];
-let allNHSRegionAreas: AreaDocument[];
-let typedIndicatorData: RawIndicatorDocument[];
-
-test.beforeAll('Initialize test data from mock sources', () => {
-  typedIndicatorData = indicatorData.map((indicator: RawIndicatorDocument) => ({
+const areaFiltersToSelect: AreaFilters = {
+  areaType: 'gps',
+  groupType: 'nhs-sub-integrated-care-boards',
+  group: '',
+};
+// Initialize test data from mock sources
+const typedIndicatorData = indicatorData.map(
+  (indicator: RawIndicatorDocument) => ({
     ...indicator,
     lastUpdated: new Date(indicator.lastUpdatedDate),
-  }));
-
-  // Get all valid indicators based on subjectSearchTerm search term
-  allValidIndicatorIDs = getAllIndicatorIDsForSearchTerm(
-    typedIndicatorData,
-    subjectSearchTerm
-  );
-
-  // Filter down valid indicators based on mode
-  validIndicatorIDs = returnIndicatorIDsByIndicatorMode(
-    allValidIndicatorIDs,
-    indicatorMode
-  );
-
-  // Get all NHS region areas
-  allNHSRegionAreas = getAllAreasByAreaType(mockAreas, 'nhs-regions');
-});
+  })
+);
+const allValidIndicatorIDs = getAllIndicatorIDsForSearchTerm(
+  typedIndicatorData,
+  subjectSearchTerm
+);
+// Filter down valid indicators based on mode
+const validIndicatorIDs = returnIndicatorIDsByIndicatorMode(
+  allValidIndicatorIDs,
+  indicatorMode
+);
+// Get all NHS region areas
+const allNHSRegionAreas = getAllAreasByAreaType(mockAreas, 'nhs-regions');
 
 test.describe('Home Page Tests', () => {
   test('should navigate to home page and validate accessibility', async ({
@@ -74,7 +65,7 @@ test.describe('Home Page Tests', () => {
     await homePage.expectNoAccessibilityViolations(axeBuilder);
   });
 
-  test('should validate search field form validations', async ({
+  test('should validate search field form validations when no search term or area is searched when form search button is clicked', async ({
     homePage,
   }) => {
     await test.step('Navigate to home page', async () => {
@@ -84,7 +75,28 @@ test.describe('Home Page Tests', () => {
     });
 
     await test.step('Try to search with empty field', async () => {
-      await homePage.clickSearchButton();
+      await homePage.clickHomePageFormSearchButton();
+    });
+
+    await test.step('Verify validation messages', async () => {
+      await homePage.checkSummaryValidation(
+        `There is a problemEnter a subject you want to search forEnter an area you want to search for`
+      );
+    });
+  });
+
+  test('should trigger search field form validations when no search term or area is searched when Enter key is pressed', async ({
+    homePage,
+  }) => {
+    await test.step('Navigate to home page', async () => {
+      await homePage.navigateToHomePage();
+      await homePage.checkOnHomePage();
+      await homePage.checkSearchFieldIsPrePopulatedWith(); // nothing - as nothing should be prepopulated when first navigating to the home page
+    });
+
+    await test.step('Try to search with empty field', async () => {
+      await homePage.clickSubjectSearchField();
+      await homePage.pressKey('Enter');
     });
 
     await test.step('Verify validation messages', async () => {
@@ -108,7 +120,7 @@ test.describe('Results Page Tests', () => {
 
     await test.step('Search by subject for indicators', async () => {
       await homePage.searchForIndicators(searchMode, subjectSearchTerm);
-      await homePage.clickSearchButton();
+      await homePage.clickHomePageIndicatorSearchButton();
     });
 
     await test.step('Verify results page', async () => {
@@ -401,7 +413,7 @@ test.describe('Navigation Tests', () => {
     await test.step('Navigate to home page and search', async () => {
       await homePage.navigateToHomePage();
       await homePage.searchForIndicators(searchMode, subjectSearchTerm);
-      await homePage.clickSearchButton();
+      await homePage.clickHomePageFormSearchButton();
     });
 
     await test.step('Select indicator and check charts accessibility', async () => {
@@ -439,7 +451,6 @@ test.describe('Navigation Tests', () => {
       await chartPage.selectAreasFiltersIfRequired(
         searchMode,
         AreaMode.THREE_PLUS_AREAS,
-        subjectSearchTerm,
         areaFiltersToSelect
       );
     });
@@ -474,7 +485,7 @@ test.describe('Navigation Tests', () => {
     });
 
     await test.step('Verify validation prevents forward navigation', async () => {
-      await homePage.clickSearchButton();
+      await homePage.clickHomePageFormSearchButton();
       await homePage.checkSearchFieldIsPrePopulatedWith(); // nothing - as nothing should be prepopulated after clearing search field above
       await homePage.checkSummaryValidation(
         `There is a problemEnter a subject you want to search forEnter an area you want to search for`

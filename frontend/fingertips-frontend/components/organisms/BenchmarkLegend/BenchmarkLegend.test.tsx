@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import { BenchmarkLegend } from '.';
-import '@testing-library/jest-dom';
 import {
   BenchmarkComparisonMethod,
   IndicatorPolarity,

@@ -1,16 +1,21 @@
 import { renderHook } from '@testing-library/react';
 import { SearchParams } from '@/lib/searchStateManager';
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
+import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { ReadonlyURLSearchParams, useSearchParams } from 'next/navigation';
 
-jest.mock('next/navigation', () => ({
-  useSearchParams: jest.fn(),
-}));
+vi.mock('next/navigation', async () => {
+  const originalModule = await vi.importActual('next/navigation');
 
-const mockUseSearchParams = jest.requireMock('next/navigation').useSearchParams;
+  return { ...originalModule, useSearchParams: vi.fn() };
+});
+
+const mockUseSearchParams = vi.mocked(useSearchParams);
 
 describe('useSearchStateParams', () => {
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should return correct values for both single and multi-value params', () => {
@@ -19,7 +24,9 @@ describe('useSearchStateParams', () => {
     mockParams.append(SearchParams.AreasSelected, 'a1');
     mockParams.append(SearchParams.AreasSelected, 'a2');
 
-    mockUseSearchParams.mockReturnValue(mockParams);
+    mockUseSearchParams.mockReturnValue(
+      new ReadonlyURLSearchParams(mockParams)
+    );
 
     const { result } = renderHook(() => useSearchStateParams());
 
@@ -29,12 +36,24 @@ describe('useSearchStateParams', () => {
 
   it('should handle missing params gracefully', () => {
     const mockParams = new URLSearchParams();
-    mockUseSearchParams.mockReturnValue(mockParams);
+    mockUseSearchParams.mockReturnValue(
+      new ReadonlyURLSearchParams(mockParams)
+    );
 
     const { result } = renderHook(() => useSearchStateParams());
 
     Object.values(SearchParams).forEach((key) => {
-      if (Array.isArray(result.current[key])) {
+      if (
+        key === SearchParams.AreaTypeSelected ||
+        key === SearchParams.GroupTypeSelected
+      ) {
+        expect(result.current[key]).toBe(englandAreaType.key);
+      } else if (key === SearchParams.GroupSelected) {
+        expect(result.current[key]).toBe(areaCodeForEngland);
+      } else if (
+        key === SearchParams.IndicatorsSelected ||
+        key === SearchParams.AreasSelected
+      ) {
         expect(result.current[key]).toEqual([]);
       } else {
         expect(result.current[key]).toBeUndefined();

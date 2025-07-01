@@ -16,8 +16,8 @@ const TestBarChartEmbeddedPlaceholderRows = ({
   useEffect(() => {
     const rows = document.getElementsByClassName(barChartEmbeddedRowClassName);
     if (!rows.length) return;
-    rows[0].getBoundingClientRect = jest.fn(() => ({ top: 50 }) as DOMRect);
-    rows[nRowsToShow - 1].getBoundingClientRect = jest.fn(
+    rows[0].getBoundingClientRect = vi.fn(() => ({ top: 50 }) as DOMRect);
+    rows[nRowsToShow - 1].getBoundingClientRect = vi.fn(
       () => ({ bottom: 123 * nRowsToShow }) as DOMRect
     );
   }, [nRowsToShow]);

@@ -56,6 +56,20 @@ years:
       type: integer
       example: 2023
     maxItems: 20
+to_date:
+  in: query
+  name: to_date
+  description: The latest date, in ISO 8601 format (YYYY-MM-DD), for which data should be returned, if not specified then the latest date for the indicator will be used.
+  schema:
+    type: string
+    example: '2023-12-31'
+from_date:
+  in: query
+  name: from_date
+  description: The earliest date, in ISO 8601 format (YYYY-MM-DD), for which data should be returned, if not specified then the earliest date for the indicator will be used.
+  schema:
+    type: string    
+    example: '2023-01-01'
 inequalities:
   in: query
   name: inequalities

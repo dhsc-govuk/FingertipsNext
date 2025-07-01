@@ -65,7 +65,6 @@ export default async function Page(
           availableAreas,
         }}
         selectedAreasData={selectedAreasData}
-        searchState={stateManager.getSearchState()}
       />
     );
   } catch (error) {

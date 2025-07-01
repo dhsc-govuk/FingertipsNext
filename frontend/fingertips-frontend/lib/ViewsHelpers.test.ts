@@ -9,7 +9,7 @@ import {
   IndicatorsApi,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
-import { mockDeep } from 'jest-mock-extended';
+import { mockDeep } from 'vitest-mock-extended';
 import {
   API_CACHE_CONFIG,
   ApiClientFactory,
@@ -34,7 +34,7 @@ describe('getHealthDataForIndicator', () => {
   ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 
   afterEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   it('should return the health data for indicator', async () => {
@@ -241,7 +241,7 @@ describe('getIndicatorData', () => {
   };
 
   afterEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   it('should make appropriate calls to the healthIndicatorApi when no group is specified', async () => {

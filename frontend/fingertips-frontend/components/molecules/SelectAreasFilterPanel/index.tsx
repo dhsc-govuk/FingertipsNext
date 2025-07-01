@@ -1,5 +1,4 @@
 import { useLoadingState } from '@/context/LoaderContext';
-import { useSearchState } from '@/context/SearchStateContext';
 import { Area, AreaType } from '@/generated-sources/ft-api-client';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
@@ -9,6 +8,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import { AreaFilterPaneCheckboxes } from '@/components/organisms/AreaFilterPane/AreaFilterPaneCheckboxes';
 import { StyledFilterSelect } from '@/components/styles/StyledFilterSelect';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
 export type AreaFilterData = {
   availableAreaTypes?: AreaType[];
@@ -44,8 +44,7 @@ export function SelectAreasFilterPanel({
   const pathname = usePathname();
   const { replace } = useRouter();
   const { setIsLoading } = useLoadingState();
-  const { getSearchState } = useSearchState();
-  const searchState = getSearchState();
+  const searchState = useSearchStateParams();
 
   const searchStateManager = SearchStateManager.initialise(searchState);
 

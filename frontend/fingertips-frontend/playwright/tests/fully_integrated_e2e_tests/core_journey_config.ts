@@ -1,4 +1,4 @@
-import { InequalitiesTypes } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { InequalitiesTypes } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
 import { AreaDocument } from '@/lib/search/searchTypes';
 import {
   AreaMode,
@@ -26,7 +26,7 @@ export const coreTestJourneys: TestParameters[] = [
     subjectSearchTerm: 'Emergency',
     indicatorsToSelect: [
       {
-        indicatorID: '41101',
+        indicatorID: '41101', // this indicator has unpublished data which should not be returned to the chart page
         knownTrend: 'No recent trend data available',
       },
     ],
@@ -37,11 +37,11 @@ export const coreTestJourneys: TestParameters[] = [
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.TWO_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'emergency',
+    subjectSearchTerm: "Alzheimer's", // tests with common special character in subject search term
     indicatorsToSelect: [
       {
-        indicatorID: '41101',
-        knownTrend: 'No recent trend data available',
+        indicatorID: '383',
+        knownTrend: 'No significant change',
       },
     ],
     areaFiltersToSelect: {
@@ -74,7 +74,7 @@ export const coreTestJourneys: TestParameters[] = [
     subjectSearchTerm: 'emergency',
     indicatorsToSelect: [
       {
-        indicatorID: '41101',
+        indicatorID: '41101', // this indicator has unpublished data which should not be returned to the chart page
         knownTrend: 'No recent trend data available',
       },
     ],
@@ -150,12 +150,12 @@ export const coreTestJourneys: TestParameters[] = [
     searchMode: SearchMode.ONLY_AREA, // therefore no subject search term or areaFiltersToSelect required
     indicatorsToSelect: [
       {
-        indicatorID: '93015',
-        knownTrend: 'No recent trend data available',
+        indicatorID: '20401',
+        knownTrend: 'Decreasing and getting better',
       },
       {
-        indicatorID: '93088',
-        knownTrend: 'No recent trend data available',
+        indicatorID: '241',
+        knownTrend: 'Increasing',
       },
     ],
   },
@@ -163,19 +163,19 @@ export const coreTestJourneys: TestParameters[] = [
     indicatorMode: IndicatorMode.TWO_INDICATORS,
     areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
     searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'emergency',
+    subjectSearchTerm: 'people',
     indicatorsToSelect: [
       {
-        indicatorID: '41101',
+        indicatorID: '383',
         knownTrend: 'No recent trend data available',
       },
       {
-        indicatorID: '22401',
+        indicatorID: '91894',
         knownTrend: 'No recent trend data available',
       },
     ],
     areaFiltersToSelect: {
-      areaType: 'regions',
+      areaType: 'nhs-sub-integrated-care-boards',
       groupType: 'england',
       group: 'england',
     },
@@ -234,7 +234,7 @@ export const coreTestJourneys: TestParameters[] = [
     subjectSearchTerm: 'hospital',
     indicatorsToSelect: [
       {
-        indicatorID: '41101',
+        indicatorID: '41101', // this indicator has unpublished data which should not be returned to the chart page
         knownTrend: 'No recent trend data available',
       },
       {
@@ -260,7 +260,7 @@ export const coreTestJourneys: TestParameters[] = [
     subjectSearchTerm: 'hospital',
     indicatorsToSelect: [
       {
-        indicatorID: '41101',
+        indicatorID: '41101', // this indicator has unpublished data which should not be returned to the chart page
         knownTrend: 'No recent trend data available',
       },
       {
@@ -285,7 +285,7 @@ export const coreTestJourneys: TestParameters[] = [
     subjectSearchTerm: 'hospital',
     indicatorsToSelect: [
       {
-        indicatorID: '41101',
+        indicatorID: '41101', // this indicator has unpublished data which should not be returned to the chart page
         knownTrend: 'No recent trend data available',
       },
       {
@@ -307,7 +307,7 @@ export const coreTestJourneys: TestParameters[] = [
     indicatorMode: IndicatorMode.THREE_PLUS_INDICATORS,
     areaMode: AreaMode.ENGLAND_AREA,
     searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: '93085 22401 91894', // tests searching for multiple specific indicatorIDs
+    subjectSearchTerm: '93085 22401 90453', // tests searching for multiple specific indicatorIDs including one with unpublished data
     indicatorsToSelect: [
       {
         indicatorID: '93085',
@@ -318,8 +318,8 @@ export const coreTestJourneys: TestParameters[] = [
         knownTrend: 'Decreasing and getting better',
       },
       {
-        indicatorID: '91894',
-        knownTrend: 'No significant change',
+        indicatorID: '90453', // this indicator has unpublished data which should not be returned to the chart page
+        knownTrend: 'No recent trend data available',
       },
     ],
     areaFiltersToSelect: {

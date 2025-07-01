@@ -79,7 +79,7 @@ You can then open [http://localhost:3000](http://localhost:3000) with your brows
 
 ## Testing
 
-This project uses Jest + React Testing Library for unit testing and Playwright for ui and e2e testing.
+This project uses Vitest + React Testing Library for unit testing and Playwright for ui and e2e testing.
 
 Isolated ui testing, covering accessibility, page navigation and validations occurs in both CI on push and pull requests, as well in CD as when code merges to main.
 
@@ -93,7 +93,7 @@ We use tags to tag our tests to control whether they run in both CI and CD, or j
 
 For local development we also have the option to run the tests locally against mocks or against a containerised instance of fingertips using docker.
 
-### Running the Jest Unit tests
+### Running the unit tests
 
 ```bash
 npm run test
@@ -126,12 +126,12 @@ npm run test-e2e-local-docker
 ```
 You will need to have all the docker services running first before executing this command.
 
-To run the e2e tests locally but pointing at the deployed CD environment, rather than using the local docker stack, headlessly do:
+To run the e2e tests locally but pointing at the deployed CD environment, rather than using the local docker stack, headlessly you will need to connect to the VPN then add FINGERTIPS_FRONTEND_URL={enter url here} after MOCK_SERVER=false. Then run the following command:
 
 ```bash
 npm run test-e2e-cd
 ```
-You will need need to add FINGERTIPS_FRONTEND_URL={enter url here} after MOCK_SERVER=false. Also add the --ignore-snapshots parameter. Do not commit/push this as the url is a github secret.
+Note - Do not commit/push the FINGERTIPS_FRONTEND_URL as the url is a github secret.
 
 To run the e2e tests locally, headed allowing debug:
 
@@ -216,3 +216,4 @@ npm run generate:ft-mocks
 - We do not need `browser` or `native` so these should be deleted.
 - Since the project is using Typescript `node.js` should be renamed `node.ts`.
 - The project uses the `handlers.ts` file, and a number of manual edits will have been made to this file. Any additional code from the generated `handlers.js` file should be transposed into this existing `.ts` file. `handlers.js` can then be deleted. 
+
