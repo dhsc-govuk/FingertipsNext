@@ -47,7 +47,7 @@ export const Home = ({
   );
 
   return (
-    <form action={setFormState}>
+    <div>
       {formState.message && (
         <ErrorSummary
           errors={[
@@ -93,13 +93,15 @@ export const Home = ({
           <Link href="#whofor">Who the service is for</Link>
         </ListItem>
       </UnorderedList>
-      <br />
+
       <div id="search">
-        <SearchForm
-          formState={formState}
-          selectedAreasData={selectedAreasData}
-          areaFilterData={areaFilterData}
-        />
+        <form action={setFormState}>
+          <SearchForm
+            formState={formState}
+            selectedAreasData={selectedAreasData}
+            areaFilterData={areaFilterData}
+          />
+        </form>
       </div>
       <SectionBreak level="LARGE" visible />
       <H3 id="whatfor">What the service is for</H3>
@@ -137,6 +139,6 @@ export const Home = ({
         health trends, identify inequalities, and make informed decisions about
         public health in England.
       </Paragraph>
-    </form>
+    </div>
   );
 };
