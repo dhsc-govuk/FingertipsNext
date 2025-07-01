@@ -19,37 +19,38 @@ RequestedIndicators AS (
     SELECT rii.IndicatorId,
         IndicatorKey,
         Name,
-        Polarity
+        Polarity,
+        PeriodType
     FROM dbo.IndicatorDimension AS ind
         JOIN @RequestedIndicatorIds AS rii ON rii.IndicatorId = ind.IndicatorId
 ),
 --- Find each segment for each indicator - initially PeriodSegments supported
 IndicatorSegments AS (
     SELECT DISTINCT hm.IndicatorKey,
-        hm.PeriodKey
+        hm.PeriodKey AS ReportingPeriodKey
     FROM dbo.HealthMeasure AS hm
         JOIN RequestedIndicators AS ri ON hm.IndicatorKey = ri.IndicatorKey
 ),
 --- Find the latest year per indictator segment
 LatestDatePerIndicatorSegment AS (
     SELECT hm.IndicatorKey,
-        hm.PeriodKey,
+        hm.PeriodKey AS ReportingPeriodKey,
         MAX(hm.FromDateKey) AS LatestFromDateKey
     FROM indicatorSegments AS indSeg
         JOIN dbo.HealthMeasure hm ON hm.IndicatorKey = indSeg.IndicatorKey
-        AND hm.PeriodKey = indSeg.PeriodKey
+        AND hm.PeriodKey = indSeg.ReportingPeriodKey
     WHERE hm.PublishedAt <= @NOW
     GROUP BY hm.IndicatorKey,
         hm.PeriodKey
 ),
 ComparisonAreaValue AS (
     SELECT latestDatePerSegment.IndicatorKey,
-        latestDatePerSegment.PeriodKey,
+        latestDatePerSegment.ReportingPeriodKey,
         hm.Value
     FROM dbo.HealthMeasure AS hm
         JOIN dbo.AreaDimension AS areaDim ON hm.AreaKey = areaDim.AreaKey
         JOIN LatestDatePerIndicatorSegment AS latestDatePerSegment ON latestDatePerSegment.IndicatorKey = hm.IndicatorKey
-        AND latestDatePerSegment.PeriodKey = hm.PeriodKey
+        AND latestDatePerSegment.ReportingPeriodKey = hm.PeriodKey
         AND latestDatePerSegment.LatestFromDateKey = hm.FromDateKey
     WHERE areaDim.Code = @RequestedArea
         AND (
@@ -62,12 +63,12 @@ ComparisonAreaValue AS (
 ),
 ComparisonAncestor AS (
     SELECT latestDatePerSegment.IndicatorKey,
-        latestDatePerSegment.PeriodKey,
+        latestDatePerSegment.ReportingPeriodKey,
         hm.Value
     FROM dbo.HealthMeasure AS hm
         JOIN dbo.AreaDimension AS areaDim ON hm.AreaKey = areaDim.AreaKey
         JOIN LatestDatePerIndicatorSegment AS latestDatePerSegment ON latestDatePerSegment.IndicatorKey = hm.IndicatorKey
-        AND latestDatePerSegment.PeriodKey = hm.PeriodKey
+        AND latestDatePerSegment.ReportingPeriodKey = hm.PeriodKey
         AND latestDatePerSegment.LatestFromDateKey = hm.FromDateKey
     WHERE areaDim.Code = @RequestedAncestorCode
         AND (
@@ -80,12 +81,12 @@ ComparisonAncestor AS (
 ),
 EnglandValue AS (
     SELECT latestDatePerSegment.IndicatorKey,
-        latestDatePerSegment.PeriodKey,
+        latestDatePerSegment.ReportingPeriodKey,
         hm.Value
     FROM dbo.HealthMeasure AS hm
         JOIN dbo.AreaDimension AS areaDim ON hm.AreaKey = areaDim.AreaKey
         JOIN LatestDatePerIndicatorSegment AS latestDatePerSegment ON latestDatePerSegment.IndicatorKey = hm.IndicatorKey
-        AND latestDatePerSegment.PeriodKey = hm.PeriodKey
+        AND latestDatePerSegment.ReportingPeriodKey = hm.PeriodKey
         AND latestDatePerSegment.LatestFromDateKey = hm.FromDateKey
     WHERE areaDim.Code = 'E92000001'
         AND (
@@ -102,7 +103,7 @@ HealthData AS (
         hm.Year,
         fromDate.Date AS FromDate,
         toDate.Date AS ToDate,
-        datePeriod.Period AS DatePeriod,
+        reportingPeriod.Period AS ReportingPeriod,
         NTILE(4) OVER(
             PARTITION BY hm.indicatorKey,
             fromDate.Date,
@@ -112,13 +113,13 @@ HealthData AS (
         hm.Value
     FROM dbo.HealthMeasure AS hm
         JOIN LatestDatePerIndicatorSegment AS indSeg ON hm.IndicatorKey = indSeg.IndicatorKey
-        AND hm.PeriodKey = indSeg.PeriodKey
+        AND hm.PeriodKey = indSeg.ReportingPeriodKey
         AND hm.FromDateKey = indSeg.LatestFromDateKey
         JOIN dbo.AreaDimension AS areaDim ON hm.AreaKey = areaDim.AreaKey
         JOIN BenchmarkAreas AS ba ON areaDim.Code = ba.AreaCode
         JOIN dbo.DateDimension AS fromDate ON hm.FromDateKey = fromDate.DateKey
         JOIN dbo.DateDimension AS toDate ON hm.ToDateKey = toDate.DateKey
-        JOIN dbo.PeriodDimension AS datePeriod ON hm.PeriodKey = datePeriod.PeriodKey
+        JOIN dbo.PeriodDimension AS reportingPeriod ON hm.PeriodKey = reportingPeriod.PeriodKey
     WHERE (
             --- This ensures we are only dealing with Aggregate data
             hm.IsSexAggregatedOrSingle = 1
@@ -133,7 +134,7 @@ QuartileData AS (
         hd.Year,
         hd.FromDate,
         hd.ToDate,
-        hd.DatePeriod,
+        hd.ReportingPeriod,
         COUNT(*) QuartileCount,
         MIN(hd.Value) Minimum,
         MAX(
@@ -156,15 +157,16 @@ QuartileData AS (
     GROUP BY IndicatorKey,
         hd.FromDate,
         hd.ToDate,
-        hd.DatePeriod,
+        hd.ReportingPeriod,
         hd.Year
 ) --- Now combine data to return
 SELECT rii.IndicatorId AS IndicatorId,
     ri.Polarity AS Polarity,
     qd.Year AS Year,
+    ri.PeriodType,
     qd.FromDate,
     qd.ToDate,
-    qd.DatePeriod AS Period,
+    qd.ReportingPeriod,
     CASE
         WHEN qd.QuartileCount >= 4 THEN qd.Minimum
     END AS Q0Value,
