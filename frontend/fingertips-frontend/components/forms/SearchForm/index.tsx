@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, ErrorText, FormGroup, H3, SearchBox } from 'govuk-react';
+import { Button, ErrorText, FormGroup, H3, Link, SearchBox } from 'govuk-react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { AreaAutoCompleteInputField } from '@/components/molecules/AreaAutoCompleteInputField';
 import { SearchParams } from '@/lib/searchStateManager';
@@ -39,6 +39,10 @@ const SpacedTitle = styled(H3)({
   marginTop: '40px',
 });
 
+const StyledClearAllLink = styled(Link)({
+  marginLeft: '20px',
+})
+
 export const SearchForm = ({
   formState,
   selectedAreasData,
@@ -46,6 +50,7 @@ export const SearchForm = ({
 }: Readonly<SearchFormProps>) => {
   const { setIsLoading } = useLoadingState();
   const searchState = useSearchStateParams();
+  console.log('formState', formState);
 
   useEffect(() => {
     if (formState.message) {
@@ -73,6 +78,8 @@ export const SearchForm = ({
         borderWidth: '2px',
         borderStyle: 'solid',
       };
+  
+  const handleClearAll = (e: React.MouseEvent<HTMLAnchorElement>) => {}
 
   return (
     <div data-testid="search-form">
@@ -136,15 +143,17 @@ export const SearchForm = ({
           isFullWidth={false}
         />
       ) : null}
-
-      <Button
-        type="submit"
-        data-testid="search-form-button-submit"
-        style={{ marginTop: 10 }}
-        onClick={() => setIsLoading(true)}
-      >
-        Search
-      </Button>
+      <div>
+        <Button
+          type="submit"
+          data-testid="search-form-button-submit"
+          style={{ marginTop: 10 }}
+          onClick={() => setIsLoading(true)}
+        >
+          Search
+        </Button>
+        <StyledClearAllLink href="/" onClick={handleClearAll}>Clear all</StyledClearAllLink>
+      </div>
 
       <ArrowExpander
         openTitle="Open area filter"
