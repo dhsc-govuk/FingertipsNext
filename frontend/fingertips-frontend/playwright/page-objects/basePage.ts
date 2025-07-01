@@ -60,69 +60,61 @@ export default class BasePage {
   }
 
   async clickAndAwaitLoadingComplete(locator: Locator, timeout?: number) {
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0, { timeout });
+    await this.waitForLoadingToFinish(timeout);
 
     await locator.click();
 
-    await expect(this.page.getByText('Loading')).toHaveCount(0, { timeout });
-    await this.page.waitForLoadState();
+    await this.waitForLoadingToFinish(timeout);
   }
 
   async checkAndAwaitLoadingComplete(locator: Locator) {
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.waitForLoadingToFinish();
 
     await locator.check();
 
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.waitForLoadingToFinish();
   }
 
   async uncheckAndAwaitLoadingComplete(locator: Locator) {
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.waitForLoadingToFinish();
 
     await locator.uncheck();
 
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.waitForLoadingToFinish();
   }
 
   async fillAndAwaitLoadingComplete(locator: Locator, value: string) {
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.waitForLoadingToFinish();
 
     await locator.fill(value);
 
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.waitForLoadingToFinish();
   }
 
   async clearAndAwaitLoadingComplete(locator: Locator) {
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.waitForLoadingToFinish();
 
     await locator.clear();
 
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.waitForLoadingToFinish();
   }
 
   async selectOptionAndAwaitLoadingComplete(locator: Locator, option: string) {
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.waitForLoadingToFinish();
 
     await locator.selectOption(option);
 
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.waitForLoadingToFinish();
   }
 
   async waitAfterDropDownInteraction() {
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.waitForLoadingToFinish();
     await this.page.waitForTimeout(1000);
+  }
+
+  async waitForLoadingToFinish(timeout?: number) {
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0, { timeout });
   }
 
   async getSelectOptions(combobox: Locator) {
