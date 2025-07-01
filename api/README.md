@@ -4,11 +4,10 @@ This directory contains a .Net C# API project which exposes services implementin
 
 ## Prerequisites
 
-You'll need to following tools to work on the database project:
+You'll need to following tools to work on the api project:
 
-- [.Net 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+- [.Net 9](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
 - A suitable IDE
-  - On Windows, if you have Visual Studio, you can use [SQL Server Data Tools](https://learn.microsoft.com/en-us/sql/ssdt/sql-server-data-tools)
 
 ## Building
 

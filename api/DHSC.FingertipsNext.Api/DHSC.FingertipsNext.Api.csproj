@@ -30,7 +30,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Common.Auth\DHSC.FingertipsNext.Modules.Common.Auth.csproj" />
-      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.DataManager\DHSC.FingertipsNext.Modules.DataManagement.csproj" />
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.DataManagement\DHSC.FingertipsNext.Modules.DataManagement.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.UserAuth\DHSC.FingertipsNext.Modules.UserAuth.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Monolith\DHSC.FingertipsNext.Monolith.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.HealthData\DHSC.FingertipsNext.Modules.HealthData.csproj" />
