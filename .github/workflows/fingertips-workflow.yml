@@ -586,7 +586,7 @@ jobs:
           },
           {
             name        = "UPLOAD_STORAGE_ACCOUNT_URI"
-            secret_name = "fingertips-upload-storage-uri2"
+            secret_name = "fingertips-upload-storage-uri"
             value       = null
           },
           {
