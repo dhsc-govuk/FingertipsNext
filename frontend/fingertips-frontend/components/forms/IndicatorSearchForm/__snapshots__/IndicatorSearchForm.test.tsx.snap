@@ -3,7 +3,7 @@
 exports[`snapshot test - renders the form 1`] = `
 <DocumentFragment>
   <div
-    class="src__FormGroup-sc-1m4431t-0 sc-gEvEer tNjuh hjaNOj"
+    class="src__FormGroup-sc-1m4431t-0 sc-iGgWBj tNjuh keHwXv"
     data-testid="indicator-search-form"
   >
     <input
@@ -12,21 +12,21 @@ exports[`snapshot test - renders the form 1`] = `
       value="{"si":"test value"}"
     />
     <div
-      class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-eqUAAy sc-fqkvVR gIjSXQ qTXKq"
+      class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-aXZVg sc-gEvEer gcHxYC bFWrQa"
     >
       <p>
         Search by subject
       </p>
     </div>
     <div
-      class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-dcJsrY sc-iGgWBj kUHVFj fhSlHe"
+      class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-eqUAAy sc-fqkvVR gtUrcq qydxu"
     >
       <p>
         For example, smoking, diabetes prevalence, or a specific indicator ID
       </p>
     </div>
     <div
-      class="src__StyledSearchBox-sc-bgtefr-2 oulCC sc-aXZVg cfgmdq"
+      class="src__StyledSearchBox-sc-bgtefr-2 oulCC sc-dcJsrY bvJdkZ"
     >
       <input
         class="src__Input-sc-bgtefr-0 fcebrZ"

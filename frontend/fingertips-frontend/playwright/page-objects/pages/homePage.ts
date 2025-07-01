@@ -6,6 +6,7 @@ export default class HomePage extends AreaFilter {
   readonly subjectSearchField = 'indicator-search-form-input';
   readonly searchButton = 'search-form-button-submit';
   readonly validationSummary = 'search-form-error-summary';
+  readonly indicatorSearchButton = 'indicator-search-form-submit';
 
   async searchForIndicators(
     searchMode: SearchMode,
@@ -62,9 +63,15 @@ export default class HomePage extends AreaFilter {
     }
   }
 
-  async clickSearchButton() {
+  async clickHomePageFormSearchButton() {
     await this.clickAndAwaitLoadingComplete(
       this.page.getByTestId(this.searchButton)
+    );
+  }
+
+  async clickHomePageIndicatorSearchButton() {
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByTestId(this.indicatorSearchButton)
     );
   }
 
@@ -132,5 +139,11 @@ export default class HomePage extends AreaFilter {
           .nth(index)
       ).toContainText(area);
     });
+  }
+
+  async clickSubjectSearchField() {
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByTestId(this.subjectSearchField)
+    );
   }
 }
