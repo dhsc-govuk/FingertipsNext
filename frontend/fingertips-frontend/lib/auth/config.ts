@@ -29,10 +29,7 @@ export class AuthProvidersFactory {
       providers.push(FingertipsAuthProvider(ftaProviderConfig));
     }
 
-    if (
-      process.env.NODE_ENV !== 'production' &&
-      process.env.AUTH_USE_MOCK === 'true'
-    ) {
+    if (process.env.AUTH_USE_PASSWORD_MOCK === 'true') {
       providers.push(MockAuthProvider);
     }
 
