@@ -25,11 +25,6 @@ const nextConfig: NextConfig = {
     // onto /api/ avoiding CORS issues and is more representative of prod
     return [
       {
-        // JH I'm not sure if this is the final home of the auth package
-        source: '/api/auth/:path*',
-        destination: '/api/auth/:path*',
-      },
-      {
         source: '/api/:path*', // your local path
         destination: 'http://localhost:5144/:path*', // external API
       },

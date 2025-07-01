@@ -19,6 +19,8 @@ export default async function RootLayout({
 }>) {
   const session = await auth();
 
+  console.log(session);
+
   // vars read SSR and passed down to the footer component
   const tag = process.env.NEXT_PUBLIC_FINGERTIPS_GIT_TAG;
   const hash = process.env.NEXT_PUBLIC_FINGERTIPS_GIT_HASH;
