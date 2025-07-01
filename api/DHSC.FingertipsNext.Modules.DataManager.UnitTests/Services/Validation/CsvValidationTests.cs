@@ -7,11 +7,25 @@ namespace DHSC.FingertipsNext.Modules.DataManagement.UnitTests.Services.Validati
 
 public class CsvValidationTests
 {
-    List<string> _csvHeaders;
-    public CsvValidationTests()
-    {
-        this._csvHeaders = UploadedIndicatorDataRow.GetHeaders().ToList();
-    }
+    private readonly List<string> _csvHeaders =
+    [
+        "area_code",
+        "date_from",
+        "date_to",
+        "period_type",
+        "sex",
+        "age_from_years_inclusive",
+        "age_to_years_inclusive",
+        "deprivation_decile",
+        "deprivation_category",
+        "count",
+        "value",
+        "denominator",
+        "lower_ci_95",
+        "upper_ci_95",
+        "lower_ci_99_8",
+        "upper_ci_99_8"
+    ];
 
     /// <summary>
     /// CSV has invalid headers and data

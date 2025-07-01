@@ -82,39 +82,9 @@ public sealed class UploadedIndicatorDataRowMap : ClassMap<UploadedIndicatorData
 {
     public UploadedIndicatorDataRowMap()
     {
-        Map(m => m.AreaCode).Name("area_code");
-
-        Map(m => m.DateFrom).Name("date_from")
-            .Validate(args => IsValidDate(args.Field));
-
-        Map(m => m.DateTo).Name("date_to")
-            .Validate(args => IsValidDate(args.Field));
-
-        Map(m => m.PeriodType).Name("period_type");
-
-        Map(m => m.Sex).Name("sex");
-
-        Map(m => m.AgeFromYearsInclusive).Name("age_from_years_inclusive");
-
-        Map(m => m.AgeToYearsInclusive).Name("age_to_years_inclusive");
-
-        Map(m => m.DeprivationDecile).Name("deprivation_decile");
-
-        Map(m => m.DeprivationCategory).Name("deprivation_category");
-
-        Map(m => m.Count).Name("count");
-
-        Map(m => m.Value).Name("value");
-
-        Map(m => m.Denominator).Name("denominator");
-
-        Map(m => m.LowerCi95).Name("lower_ci_95");
-
-        Map(m => m.UpperCi95).Name("upper_ci_95");
-
-        Map(m => m.LowerCi99).Name("lower_ci_99_8");
-
-        Map(m => m.UpperCi99).Name("upper_ci_99_8");
+        AutoMap(CultureInfo.InvariantCulture);
+        Map(m => m.DateFrom).Validate(args => IsValidDate(args.Field));
+        Map(m => m.DateTo).Validate(args => IsValidDate(args.Field));
     }
 
     private static bool IsValidDate(string date)

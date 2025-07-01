@@ -17,72 +17,56 @@ public static class UploadedCsvValidator
     /// <param name="stream"></param>
     public static CsvValidationResult Validate(Stream? stream)
     {
-        var errors = new List<CsvValidationError>();
-        if (stream != null)
+        var errors = new List<CsvError>();
+        if (stream == null)
+            return CreateCsvErrorValidationResult("An error occurred when reading the file");
+
+        if (stream.Length == 0)
+            return CreateCsvErrorValidationResult("File is empty");
+
+        var csvReaderConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
         {
-            if (IsStreamEmpty(stream, out var validate)) return validate;
+            ReadingExceptionOccurred = (args) => LogError(args, errors)
+        };
 
-            var csvReaderConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
+        using var reader = new StreamReader(stream);
+        using var csv = new CsvReader(reader, csvReaderConfiguration);
+        csv.Context.RegisterClassMap<UploadedIndicatorDataRowMap>();
+        var records = csv.GetRecords<UploadedIndicatorDataRow>();
+
+        try
+        {
+            var count = 0;
+            // Do not call .ToList() on records, as this will bring the entire CSV structure into memory
+            foreach (UploadedIndicatorDataRow row in records)
             {
-                ReadingExceptionOccurred = (args) => LogError(args, errors)
-            };
-
-            using var reader = new StreamReader(stream);
-            using var csv = new CsvReader(reader, csvReaderConfiguration);
-            csv.Context.RegisterClassMap<UploadedIndicatorDataRowMap>();
-            var records = csv.GetRecords<UploadedIndicatorDataRow>();
-
-            try
-            {
-                var count = 0;
-                // Do not call .ToList() on records, as this will bring the entire CSV structure into memory
-                foreach (UploadedIndicatorDataRow row in records)
-                {
-                    // Need the foreach to trigger the validation
-                    // TryGetNonEnumeratedCount doesn't appear to work, so will have to manually increment the count
-                    count++;
-                }
-
-                if (count == 0)
-                {
-                    CsvValidationError error = new CsvValidationError($"No records found", 1, 1, true);
-                    return new CsvValidationResult(false, new List<CsvValidationError>() { error });
-                }
-
-                if (!ValidateHeaders(csv, out var unexpectedHeaders))
-                {
-                    CsvValidationError error = new CsvValidationError($"Unexpected header(s) found: {string.Join(", ", unexpectedHeaders)}", 1, 1, true);
-                    return new CsvValidationResult(false, new List<CsvValidationError>() { error });
-                }
+                // Need the foreach to trigger the validation
+                // TryGetNonEnumeratedCount doesn't appear to work, so will have to manually increment the count
+                count++;
             }
-            catch (HeaderValidationException ex)
+
+            if (count == 0)
+                return CreateCsvErrorValidationResult("No records found");
+
+            if (!ValidateHeaders(csv, out var unexpectedHeaders))
+                return CreateCsvErrorValidationResult($"Unexpected header(s) found: {string.Join(", ", unexpectedHeaders)}");
+        }
+        catch (HeaderValidationException ex)
+        {
+            foreach (var headerError in FormatHeaderErrors(ex.Message))
             {
-                foreach (var headerError in FormatHeaderErrors(ex.Message))
-                {
-                    CsvValidationError error = new CsvValidationError(headerError, 1, 1, true);
-                    errors.Add(error);
-                }
+                CsvError error = new CsvError(headerError);
+                errors.Add(error);
             }
         }
-        else
-        {
-            errors.Add(new CsvValidationError("An error occurred when reading the file", 1, 1, true));
-        }
 
-        return errors.Count != 0 ? new CsvValidationResult(false, new Collection<CsvValidationError>(errors)) : new CsvValidationResult(true, new Collection<CsvValidationError>());
+        return errors.Count != 0 ? new CsvValidationResult(false, new Collection<CsvError>(errors)) : new CsvValidationResult(true, new Collection<CsvError>());
     }
 
-    private static bool IsStreamEmpty(Stream stream, out CsvValidationResult validate)
+    private static CsvValidationResult CreateCsvErrorValidationResult(string message)
     {
-        if (stream.Length == 0)
-        {
-            CsvValidationError emptyError = new CsvValidationError("File is empty", 1, 1, true);
-            validate = new CsvValidationResult(false, new List<CsvValidationError>() { emptyError });
-            return true;
-        }
-
-        validate = null!;
-        return false;
+        CsvError error = new CsvError(message);
+        return new CsvValidationResult(false, new List<CsvError>() { error });
     }
 
     private static bool ValidateHeaders(CsvReader csv, out List<string> unexpectedHeaders)
@@ -111,11 +95,11 @@ public static class UploadedCsvValidator
         return headerErrors;
     }
 
-    private static bool LogError(ReadingExceptionOccurredArgs args, List<CsvValidationError> errors)
+    private static bool LogError(ReadingExceptionOccurredArgs args, List<CsvError> errors)
     {
         if (args.Exception is FieldValidationException exception && exception.Context != null && exception.Context.Reader != null && exception.Context.Parser != null)
         {
-            CsvValidationError error = new CsvValidationError(exception.Field, exception.Context.Parser.Row, exception.Context.Reader.CurrentIndex + 1, false);
+            CsvDataError error = new CsvDataError(exception.Field, exception.Context.Parser.Row, exception.Context.Reader.CurrentIndex + 1);
             errors.Add(error);
         }
 
