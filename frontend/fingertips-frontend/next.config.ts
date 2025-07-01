@@ -29,6 +29,11 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '100mb', // TODO: What should this be set to?
+    },
+  },
 };
 
 const withAnalyzer = withBundleAnalyzer({

@@ -9,9 +9,13 @@ import {
   Input,
   Label,
   LabelText,
+  Panel,
   WarningText,
 } from 'govuk-react';
 import styled from 'styled-components';
+import Form from 'next/form';
+import { uploadFile } from './uploadActions';
+import { useActionState } from 'react';
 
 // TODO: Extract stles to a style.tsx file
 const InterimWarningText = styled(WarningText)({
@@ -37,8 +41,16 @@ const FileUploadWithMargin = styled(FileUpload)({ marginBottom: '50px' });
 const SubmitContainer = styled('div')({ marginBottom: '50px' });
 
 export const Upload = () => {
+  const [state, action, pending] = useActionState(uploadFile, undefined);
+
   return (
-    <>
+    <Form action={action}>
+      {state ? (
+        <Panel title="Upload complete">
+          {state?.status} - {state?.body}
+        </Panel>
+      ) : null}
+
       <InterimWarningText>
         This is only an interim tool to allow developers to demonstrate data
         upload to the API
@@ -49,10 +61,17 @@ export const Upload = () => {
       <LabelGroup>
         <FieldLabelText>Add indicator ID</FieldLabelText>
         <FieldLabelHint>This is a unique identification number</FieldLabelHint>
-        <Input name="indicatorID" />
+        <Input name="indicatorId" />
       </LabelGroup>
 
-      <DateEntry hintText="The date must be today or in the future">
+      <DateEntry
+        hintText="The date must be today or in the future"
+        inputNames={{
+          day: 'publishDateDay',
+          month: 'publishDateMonth',
+          year: 'publishDateYear',
+        }}
+      >
         {/* TODO: Need to style this text */}
         Add a publish date
       </DateEntry>
@@ -72,8 +91,9 @@ export const Upload = () => {
             Submit the uploaded file and information
           </FieldLabelText>
         </Label>
-        <Button>Submit</Button>
+        {/* TODO: Disable button when submitted */}
+        <Button>{pending ? 'Submitted' : 'Submit'}</Button>
       </SubmitContainer>
-    </>
+    </Form>
   );
 };
