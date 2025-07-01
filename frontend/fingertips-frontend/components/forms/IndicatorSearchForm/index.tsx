@@ -1,4 +1,4 @@
-import { ErrorText, FormGroup, Paragraph, SearchBox } from 'govuk-react';
+import { ErrorText, FormGroup, SearchBox } from 'govuk-react';
 import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
 import { IndicatorSearchFormState } from './indicatorSearchActions';
@@ -8,6 +8,10 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { INDICATOR_SEARCH_MAX_CHARACTERS } from '@/lib/search/indicatorSearchService';
 import { CharacterCount } from '@/components/atoms/CharacterCount';
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
+import {
+  StyledHintParagraph,
+  StyledTitleParagraph,
+} from '@/lib/formHelpers/formStyling';
 
 const govukErrorBorderWidth = '2px';
 
@@ -18,14 +22,6 @@ const StyledSearchBox = styled(SearchBox)(
 const StyledFormGroup = styled(FormGroup)(
   spacing.withWhiteSpace({ marginBottom: 6 })
 );
-
-const StyledTitleParagraph = styled(styled(Paragraph)`
-  padding-bottom: 2px;
-`)(spacing.withWhiteSpace({ marginBottom: 0 }));
-
-const StyledHintParagraph = styled(styled(Paragraph)`
-  color: ${GovukColours.DarkGrey};
-`)(spacing.withWhiteSpace({ marginBottom: 3 }));
 
 export const IndicatorSearchForm = ({
   indicatorSearchFormState,

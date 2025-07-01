@@ -65,7 +65,7 @@ test.describe('Home Page Tests', () => {
     await homePage.expectNoAccessibilityViolations(axeBuilder);
   });
 
-  test('should validate search field form validations', async ({
+  test('should validate search field form validations when no search term or area is searched when form search button is clicked', async ({
     homePage,
   }) => {
     await test.step('Navigate to home page', async () => {
@@ -75,7 +75,28 @@ test.describe('Home Page Tests', () => {
     });
 
     await test.step('Try to search with empty field', async () => {
-      await homePage.clickSearchButton();
+      await homePage.clickHomePageFormSearchButton();
+    });
+
+    await test.step('Verify validation messages', async () => {
+      await homePage.checkSummaryValidation(
+        `There is a problemEnter a subject you want to search forEnter an area you want to search for`
+      );
+    });
+  });
+
+  test('should trigger search field form validations when no search term or area is searched when Enter key is pressed', async ({
+    homePage,
+  }) => {
+    await test.step('Navigate to home page', async () => {
+      await homePage.navigateToHomePage();
+      await homePage.checkOnHomePage();
+      await homePage.checkSearchFieldIsPrePopulatedWith(); // nothing - as nothing should be prepopulated when first navigating to the home page
+    });
+
+    await test.step('Try to search with empty field', async () => {
+      await homePage.clickSubjectSearchField();
+      await homePage.pressKey('Enter');
     });
 
     await test.step('Verify validation messages', async () => {
@@ -99,7 +120,7 @@ test.describe('Results Page Tests', () => {
 
     await test.step('Search by subject for indicators', async () => {
       await homePage.searchForIndicators(searchMode, subjectSearchTerm);
-      await homePage.clickSearchButton();
+      await homePage.clickHomePageIndicatorSearchButton();
     });
 
     await test.step('Verify results page', async () => {
@@ -392,7 +413,7 @@ test.describe('Navigation Tests', () => {
     await test.step('Navigate to home page and search', async () => {
       await homePage.navigateToHomePage();
       await homePage.searchForIndicators(searchMode, subjectSearchTerm);
-      await homePage.clickSearchButton();
+      await homePage.clickHomePageFormSearchButton();
     });
 
     await test.step('Select indicator and check charts accessibility', async () => {
@@ -464,7 +485,7 @@ test.describe('Navigation Tests', () => {
     });
 
     await test.step('Verify validation prevents forward navigation', async () => {
-      await homePage.clickSearchButton();
+      await homePage.clickHomePageFormSearchButton();
       await homePage.checkSearchFieldIsPrePopulatedWith(); // nothing - as nothing should be prepopulated after clearing search field above
       await homePage.checkSummaryValidation(
         `There is a problemEnter a subject you want to search forEnter an area you want to search for`

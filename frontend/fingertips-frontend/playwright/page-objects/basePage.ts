@@ -172,4 +172,8 @@ export default class BasePage {
   errorPageTitle() {
     return this.page.getByTestId(this.errorPageTitleHeaderId);
   }
+
+  async pressKey(key: string) {
+    await this.page.keyboard.press(key);
+  }
 }
