@@ -1,6 +1,7 @@
 ﻿using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 using DHSC.FingertipsNext.Modules.HealthData.Service;
+using System.Drawing;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Mappings;
 
@@ -30,13 +31,16 @@ public class HealthDataMapper : IHealthDataMapper
         };
     }
 
-    private static DatePeriodType MapDatePeriodType(string periodType)
+    private static DatePeriodType MapDatePeriodType(string? periodType)
     {
         return periodType switch
         {
+            "Academic" => DatePeriodType.Academic,
             "Calendar" => DatePeriodType.Calendar,
             "Financial" => DatePeriodType.Financial,
-            "November-November" => DatePeriodType.NovemberNovember,
+            "Financial multi-year" => DatePeriodType.FinancialMultiYear,
+            "Financial year end point" => DatePeriodType.FinancialYearEndPoint,
+            "Yearly" => DatePeriodType.Yearly,
             _ => DatePeriodType.Unknown,
         };
     }
@@ -49,7 +53,7 @@ public class HealthDataMapper : IHealthDataMapper
             Count = source.Count,
             Value = source.Value,
             Year = source.Year,
-            DatePeriod = Map(source.FromDate, source.ToDate, source.PeriodDimension.Period),
+            DatePeriod = Map(source.FromDate, source.ToDate, source.IndicatorDimension.PeriodType),
             BenchmarkComparison = Map(source.BenchmarkComparison),
             IsAggregate = source.IsAggregate,
             LowerConfidenceInterval = source.LowerCi,
@@ -69,7 +73,7 @@ public class HealthDataMapper : IHealthDataMapper
             Count = source.Count,
             Value = source.Value,
             Year = source.Year,
-            DatePeriod = Map(source.FromDate, source.ToDate, source.Period),
+            DatePeriod = Map(source.FromDate, source.ToDate, source.PeriodType),
             BenchmarkComparison = Map(source.BenchmarkComparisonOutcome == null
             ? null
             : new BenchmarkComparisonModel
@@ -150,7 +154,7 @@ public class HealthDataMapper : IHealthDataMapper
         };
     }
 
-    private static DatePeriod Map(DateTime fromDate, DateTime toDate, string periodStr)
+    private static DatePeriod Map(DateTime fromDate, DateTime toDate, string? periodStr)
     {
         return new DatePeriod
         {

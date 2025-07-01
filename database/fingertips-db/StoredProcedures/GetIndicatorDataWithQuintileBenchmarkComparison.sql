@@ -27,7 +27,8 @@ BenchmarkAreaGroup AS (
 RequestedIndicator AS (
 	SELECT IndicatorKey,
 		Name,
-		Polarity
+		Polarity,
+		PeriodType
 	FROM dbo.IndicatorDimension AS ind
 	WHERE ind.IndicatorId = @RequestedIndicatorId
 ),
@@ -83,7 +84,7 @@ HealthData AS (
 		hm.Year,
 		fromDate.Date AS FromDate,
 		toDate.Date AS ToDate,
-		datePeriod.Period AS DatePeriod
+		reportingPeriod.Period AS ReportingPeriod
 	FROM dbo.HealthMeasure AS hm
 		JOIN RequestedIndicator AS ind ON hm.IndicatorKey = ind.IndicatorKey
 		JOIN dbo.AreaDimension AS areaDim ON hm.AreaKey = areaDim.AreaKey
@@ -94,7 +95,7 @@ HealthData AS (
 		JOIN dbo.TrendDimension AS trendDim ON hm.TrendKey = trendDim.TrendKey
 		JOIN dbo.DateDimension AS fromDate ON hm.FromDateKey = fromDate.DateKey
 		JOIN dbo.DateDimension AS toDate ON hm.ToDateKey = toDate.DateKey
-		JOIN dbo.PeriodDimension AS datePeriod ON hm.PeriodKey = datePeriod.PeriodKey
+		JOIN dbo.PeriodDimension AS reportingPeriod ON hm.PeriodKey = reportingPeriod.PeriodKey
 	WHERE (
 			--- This ensures we are only dealing with Aggregate data
 			hm.IsSexAggregatedOrSingle = 1
@@ -152,7 +153,8 @@ SELECT hd.HealthMeasureKey,
 	hd.Year,
 	hd.FromDate,
 	hd.ToDate,
-	hd.DatePeriod AS Period,
+	ind.PeriodType,
+	hd.ReportingPeriod,
 	ind.Polarity AS BenchmarkComparisonIndicatorPolarity,
 	ind.Name AS IndicatorDimensionName,
 	bag.Code AS BenchmarkComparisonAreaCode,
