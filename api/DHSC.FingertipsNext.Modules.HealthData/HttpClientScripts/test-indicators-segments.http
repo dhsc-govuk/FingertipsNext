@@ -1,0 +1,300 @@
+﻿### check GET health data with rag comparison
+
+GET http://localhost:5144/indicators/41101/data?area_codes=E12000007
+
+> {%
+    const expected = require ('./test-indicators-benchmark-rag_expected-response.json');
+
+    client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body.length === expected.length, "Response length does not match");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+
+### Check expected segments and data points
+GET http://localhost:5144/indicators/41101/data?from_date=2020-01-01&area_codes=E12000007
+
+> {%
+    client.test("Check expected segments and data points", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+
+        const expectedResults = [ 
+            {areaCode:"E12000007", sex:"Female", from:"2020-04-06", value:15.7},  
+            {areaCode:"E12000007", sex:"Female", from:"2021-04-06", value:14.4},  
+            {areaCode:"E12000007", sex:"Female", from:"2022-04-06", value:14.1},  
+            {areaCode:"E12000007", sex:"Female", from:"2023-04-06", value:14.4},  
+            {areaCode:"E12000007", sex:"Male", from:"2020-04-06", value:16.6},  
+            {areaCode:"E12000007", sex:"Male", from:"2021-04-06", value:15.5},  
+            {areaCode:"E12000007", sex:"Male", from:"2022-04-06", value:14.9},  
+            {areaCode:"E12000007", sex:"Male", from:"2023-04-06", value:15.3},  
+            {areaCode:"E12000007", sex:"Persons", from:"2020-04-06", value:16.1},  
+            {areaCode:"E12000007", sex:"Persons", from:"2021-04-06", value:14.9},  
+            {areaCode:"E12000007", sex:"Persons", from:"2022-04-06", value:14.5},  
+            {areaCode:"E12000007", sex:"Persons", from:"2023-04-06", value:14.8},  
+        ];
+
+        var numHealthDataPoints = response.body.areaHealthData
+            .map(area => area.indicatorSegment
+            .map(segment => segment.healthData.length)
+            .reduce((sum, count) => sum + count, 0)
+            )
+            .reduce((total, count) => total + count, 0);
+
+        client.assert(numHealthDataPoints == expectedResults.length, `Expected ${expectedResults.length} dataPoints, got ${numHealthDataPoints}`)
+
+        expectedResults.forEach(expected =>{
+            client.assert(
+                response.body.areaHealthData.find(area => area.areaCode === expected.areaCode)
+                .indicatorSegment.find(segment => segment.sex.value == expected.sex)
+                .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
+                .value == expected.value,
+                `failed for ${expected.areaCode}:${expected.sex}:${expected.from}`
+            );
+
+        })
+    });
+%}
+
+### Check expected segments and data points including England
+GET http://localhost:5144/indicators/41101/data?from_date=2020-01-01&to_date=2023-01-01&area_codes=E12000007&area_codes=E92000001
+> {%
+    client.test("Check expected segments and data points including England", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+
+        const expectedResults = [ 
+            {areaCode:"E12000007", sex:"Female", from:"2020-04-06", value:15.7},  
+            {areaCode:"E12000007", sex:"Female", from:"2021-04-06", value:14.4},  
+            {areaCode:"E12000007", sex:"Male", from:"2020-04-06", value:16.6},  
+            {areaCode:"E12000007", sex:"Male", from:"2021-04-06", value:15.5},  
+            {areaCode:"E12000007", sex:"Persons", from:"2020-04-06", value:16.1},  
+            {areaCode:"E12000007", sex:"Persons", from:"2021-04-06", value:14.9},  
+            {areaCode:"E92000001", sex:"Female", from:"2020-04-06", value:15.2},  
+            {areaCode:"E92000001", sex:"Female", from:"2021-04-06", value:14.2},  
+            {areaCode:"E92000001", sex:"Male", from:"2020-04-06", value:15.7},  
+            {areaCode:"E92000001", sex:"Male", from:"2021-04-06", value:14.5},  
+            {areaCode:"E92000001", sex:"Persons", from:"2020-04-06", value:15.4},  
+            {areaCode:"E92000001", sex:"Persons", from:"2021-04-06", value:14.3},  
+        ];
+
+        var numHealthDataPoints = response.body.areaHealthData
+            .map(area => area.indicatorSegment
+            .map(segment => segment.healthData.length)
+            .reduce((sum, count) => sum + count, 0)
+            )
+            .reduce((total, count) => total + count, 0);
+
+        client.assert(numHealthDataPoints == expectedResults.length, `Expected ${expectedResults.length} dataPoints, got ${numHealthDataPoints}`)
+
+        expectedResults.forEach(expected =>{
+            client.assert(
+                response.body.areaHealthData.find(area => area.areaCode === expected.areaCode)
+                .indicatorSegment.find(segment => segment.sex.value == expected.sex)
+                .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
+                .value == expected.value,
+                `failed for ${expected.areaCode}:${expected.sex}:${expected.from}`
+            );
+
+        })
+    });
+%}
+
+### Check Expected Segments and data points with AreaGroup - but AreaGroup not included in results
+GET http://localhost:5144/indicators/94063/data?area_codes=N85008&ancestor_code=U79121&benchmark_ref_type=SubNational
+> {%
+    client.test("Check Expected Segments and data points with AreaGroup - but AreaGroup not included in results", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+
+        const expectedResults = [ 
+            {areaCode:"N85008", sex:"Female", from:"2022-04-06", value:74.7899159663866},  
+            {areaCode:"N85008", sex:"Female", from:"2023-04-06", value:76.1904761904762},  
+        ];
+
+        var numHealthDataPoints = response.body.areaHealthData
+            .map(area => area.indicatorSegment
+            .map(segment => segment.healthData.length)
+            .reduce((sum, count) => sum + count, 0)
+            )
+            .reduce((total, count) => total + count, 0);
+
+        client.assert(numHealthDataPoints == expectedResults.length, `Expected ${expectedResults.length} dataPoints, got ${numHealthDataPoints}`)
+
+        expectedResults.forEach(expected =>{
+            client.assert(
+                response.body.areaHealthData.find(area => area.areaCode === expected.areaCode)
+                .indicatorSegment.find(segment => segment.sex.value == expected.sex)
+                .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
+                .value == expected.value,
+                `failed for ${expected.areaCode}:${expected.sex}:${expected.from}`
+            );
+
+        })
+    });
+%}
+
+### Check Expected Segments and data points with AreaGroup included
+GET http://localhost:5144/indicators/94063/data?area_codes=N85008&area_codes=U79121&ancestor_code=U79121&benchmark_ref_type=SubNational
+> {%
+    client.test("Check Expected Segments and data points with AreaGroup included", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+
+        const expectedResults = [ 
+            {areaCode:"N85008", sex:"Female", from:"2022-04-06", value:74.7899159663866},  
+            {areaCode:"N85008", sex:"Female", from:"2023-04-06", value:76.1904761904762},  
+            {areaCode:"U79121", sex:"Female", from:"2022-04-06", value:74.4345081536034},  
+            {areaCode:"U79121", sex:"Female", from:"2023-04-06", value:76.4550264550265},  
+        ];
+
+        var numHealthDataPoints = response.body.areaHealthData
+            .map(area => area.indicatorSegment
+            .map(segment => segment.healthData.length)
+            .reduce((sum, count) => sum + count, 0)
+            )
+            .reduce((total, count) => total + count, 0);
+
+        client.assert(numHealthDataPoints == expectedResults.length, `Expected ${expectedResults.length} dataPoints, got ${numHealthDataPoints}`)
+
+        expectedResults.forEach(expected =>{
+            client.assert(
+                response.body.areaHealthData.find(area => area.areaCode === expected.areaCode)
+                .indicatorSegment.find(segment => segment.sex.value == expected.sex)
+                .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
+                .value == expected.value,
+                `failed for ${expected.areaCode}:${expected.sex}:${expected.from}`
+            );
+
+        })
+    });
+%}
+
+### Check Expected segments and data points when sex inequalities selected
+GET http://localhost:5144/indicators/41101/data?from_date=2020-01-01&area_codes=E12000007&inequalities=sex
+
+> {%
+    client.test("Check expected segments and data points", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+
+        const expectedResults = [ 
+            {areaCode:"E12000007", sex:"Female", from:"2020-04-06", value:15.7},  
+            {areaCode:"E12000007", sex:"Female", from:"2021-04-06", value:14.4},  
+            {areaCode:"E12000007", sex:"Female", from:"2022-04-06", value:14.1},  
+            {areaCode:"E12000007", sex:"Female", from:"2023-04-06", value:14.4},  
+            {areaCode:"E12000007", sex:"Male", from:"2020-04-06", value:16.6},  
+            {areaCode:"E12000007", sex:"Male", from:"2021-04-06", value:15.5},  
+            {areaCode:"E12000007", sex:"Male", from:"2022-04-06", value:14.9},  
+            {areaCode:"E12000007", sex:"Male", from:"2023-04-06", value:15.3},  
+            {areaCode:"E12000007", sex:"Persons", from:"2020-04-06", value:16.1},  
+            {areaCode:"E12000007", sex:"Persons", from:"2021-04-06", value:14.9},  
+            {areaCode:"E12000007", sex:"Persons", from:"2022-04-06", value:14.5},  
+            {areaCode:"E12000007", sex:"Persons", from:"2023-04-06", value:14.8},  
+        ];
+
+        var numHealthDataPoints = response.body.areaHealthData
+            .map(area => area.indicatorSegment
+            .map(segment => segment.healthData.length)
+            .reduce((sum, count) => sum + count, 0)
+            )
+            .reduce((total, count) => total + count, 0);
+
+        client.assert(numHealthDataPoints == expectedResults.length, `Expected ${expectedResults.length} dataPoints, got ${numHealthDataPoints}`)
+
+        expectedResults.forEach(expected =>{
+            client.assert(
+                response.body.areaHealthData.find(area => area.areaCode === expected.areaCode)
+                .indicatorSegment.find(segment => segment.sex.value == expected.sex)
+                .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
+                .value == expected.value,
+                `failed for ${expected.areaCode}:${expected.sex}:${expected.from}`
+            );
+
+        })
+    });
+%}
+
+### Check Expected segments and data points when deprivation inequalities selected
+GET http://localhost:5144/indicators/93015/data?from_date=2018-11-01&to_date=2019-11-01&area_codes=E92000001&inequalities=deprivation
+
+> {%
+    client.test("Check expected segments and data points", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+
+        const expectedResults = [ 
+            {areaCode:"E92000001", sex:"Female", from:"2018-11-01", imd:11, value:22.39396},  
+            {areaCode:"E92000001", sex:"Male", from:"2018-11-01", imd:11, value:20.20188},  
+            {areaCode:"E92000001", sex:"Persons", from:"2018-11-01", imd:11, value:21.39067},  
+            {areaCode:"E92000001", sex:"Persons", from:"2018-11-01", imd:10, value:30.98408},  
+            {areaCode:"E92000001", sex:"Persons", from:"2018-11-01", imd:9, value:25.67045},  
+            {areaCode:"E92000001", sex:"Persons", from:"2018-11-01", imd:8, value:22.77385},  
+            {areaCode:"E92000001", sex:"Persons", from:"2018-11-01", imd:7, value:20.73382},  
+            {areaCode:"E92000001", sex:"Persons", from:"2018-11-01", imd:6, value:19.78991},  
+            {areaCode:"E92000001", sex:"Persons", from:"2018-11-01", imd:5, value:19.36575},  
+            {areaCode:"E92000001", sex:"Persons", from:"2018-11-01", imd:4, value:17.98728},  
+            {areaCode:"E92000001", sex:"Persons", from:"2018-11-01", imd:3, value:18.12104},  
+            {areaCode:"E92000001", sex:"Persons", from:"2018-11-01", imd:2, value:17.41959},  
+            {areaCode:"E92000001", sex:"Persons", from:"2018-11-01", imd:1, value:15.88334},  
+        ];
+
+        var numHealthDataPoints = response.body.areaHealthData
+            .map(area => area.indicatorSegment
+            .map(segment => segment.healthData.length)
+            .reduce((sum, count) => sum + count, 0)
+            )
+            .reduce((total, count) => total + count, 0);
+
+        client.assert(numHealthDataPoints == expectedResults.length, `Expected ${expectedResults.length} dataPoints, got ${numHealthDataPoints}`)
+
+        expectedResults.forEach(expected =>{
+            client.assert(
+                response.body.areaHealthData.find(area => area.areaCode === expected.areaCode)
+                .indicatorSegment.find(segment => segment.sex.value == expected.sex)
+                .healthData.find(dataPoint => 
+                    dataPoint.datePeriod.from === expected.from && 
+                    dataPoint.deprivation.sequence== expected.imd
+                    )
+                .value == expected.value,
+                `failed for ${expected.areaCode}:${expected.sex}:${expected.from}`
+            );
+
+        })
+    });
+%}
+
+### Check Segments with multiple Areas
+GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82023&area_codes=D82024&area_codes=D82040&area_codes=D82060&ancestor_code=U00000&benchmark_ref_type=SubNational
+> {%
+    client.test("Check Get Health Data response when benchmarking against areaGroup", function (callbackfn, thisArg) {
+        const expectedResults = [ 
+            {areaCode:"D82017", sex:"Female", from:"2022-04-06", value:65.0943396226415},  
+            {areaCode:"D82017", sex:"Female", from:"2023-04-06", value:65.4205607476636},  
+            {areaCode:"D82023", sex:"Female", from:"2022-04-06", value:72.7626459143969},  
+            {areaCode:"D82023", sex:"Female", from:"2023-04-06", value:71.7557251908397},  
+            {areaCode:"D82024", sex:"Female", from:"2022-04-06", value:77.2277227722772},  
+            {areaCode:"D82024", sex:"Female", from:"2023-04-06", value:79.7101449275362},  
+            {areaCode:"D82040", sex:"Female", from:"2022-04-06", value:58.7677725118483},  
+            {areaCode:"D82040", sex:"Female", from:"2023-04-06", value:57.6923076923077},  
+            {areaCode:"D82060", sex:"Female", from:"2022-04-06", value:63.0434782608696},  
+            {areaCode:"D82060", sex:"Female", from:"2023-04-06", value:68.0851063829787},  
+        ];
+
+        var numHealthDataPoints = response.body.areaHealthData
+            .map(area => area.indicatorSegment
+            .map(segment => segment.healthData.length)
+            .reduce((sum, count) => sum + count, 0)
+            )
+            .reduce((total, count) => total + count, 0);
+
+        client.assert(numHealthDataPoints == expectedResults.length, `Expected ${expectedResults.length} dataPoints, got ${numHealthDataPoints}`)
+
+        expectedResults.forEach(expected =>{
+            client.assert(
+                response.body.areaHealthData.find(area => area.areaCode === expected.areaCode)
+                .indicatorSegment.find(segment => segment.sex.value == expected.sex)
+                .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
+                .value == expected.value,
+                `failed for ${expected.areaCode}:${expected.sex}:${expected.from}`
+            );
+
+        })
+    });
+%}
+

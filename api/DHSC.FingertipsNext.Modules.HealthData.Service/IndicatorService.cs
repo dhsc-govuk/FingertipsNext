@@ -214,7 +214,9 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
                     HealthData = healthDataMapper.Map(segmentGroup.ToList())
                       .OrderBy(dataPoint => dataPoint.DatePeriod.From)
                       .ToList()
-                }).ToList()
+                })
+                .OrderBy(segment => segment.Sex.Value)
+                .ToList()
             })
             .ToList();
 
@@ -227,7 +229,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
             return healthDataForAreas;
 
         //if the benchmark area was not in the original request then remove the benchmark data
-        if (!addBenchmarkAreaToList)
+        if (addBenchmarkAreaToList)
             healthDataForAreas.RemoveAll(data => data.AreaCode == benchmarkAreaCode);
 
         // enrich the data with benchmark comparison

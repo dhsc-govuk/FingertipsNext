@@ -93,6 +93,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .Include(healthMeasure => healthMeasure.IndicatorDimension)
             .Include(healthMeasure => healthMeasure.DeprivationDimension)
             .Include(healthMeasure => healthMeasure.TrendDimension)
+            .OrderBy(healthMeasure => healthMeasure.FromDateDimension.Date)
             .AsNoTracking()
             .ToListAsync();
 

@@ -42,10 +42,10 @@
               },
               "trend": "Not yet calculated",
               "benchmarkComparison": {
-                "outcome": "Similar",
+                "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 13.4
+                "benchmarkValue": 12.7
               },
               "isAggregate": false
             },
@@ -76,10 +76,10 @@
               },
               "trend": "Not yet calculated",
               "benchmarkComparison": {
-                "outcome": "Similar",
+                "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 13.5
+                "benchmarkValue": 12.9
               },
               "isAggregate": false
             },
@@ -110,10 +110,10 @@
               },
               "trend": "Not yet calculated",
               "benchmarkComparison": {
-                "outcome": "Similar",
+                "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 13.9
+                "benchmarkValue": 13.3
               },
               "isAggregate": false
             },
@@ -144,10 +144,10 @@
               },
               "trend": "Not yet calculated",
               "benchmarkComparison": {
-                "outcome": "Similar",
+                "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 13.8
+                "benchmarkValue": 13.4
               },
               "isAggregate": false
             },
@@ -178,10 +178,10 @@
               },
               "trend": "Not yet calculated",
               "benchmarkComparison": {
-                "outcome": "Similar",
+                "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 14.3
+                "benchmarkValue": 13.9
               },
               "isAggregate": false
             },
@@ -212,10 +212,10 @@
               },
               "trend": "Not yet calculated",
               "benchmarkComparison": {
-                "outcome": "Similar",
+                "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 14.9
+                "benchmarkValue": 14.4
               },
               "isAggregate": false
             },
@@ -246,10 +246,10 @@
               },
               "trend": "Not yet calculated",
               "benchmarkComparison": {
-                "outcome": "Similar",
+                "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 14.9
+                "benchmarkValue": 14.4
               },
               "isAggregate": false
             },
@@ -280,10 +280,10 @@
               },
               "trend": "Not yet calculated",
               "benchmarkComparison": {
-                "outcome": "Similar",
+                "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 16.6
+                "benchmarkValue": 15.7
               },
               "isAggregate": false
             },
@@ -314,10 +314,10 @@
               },
               "trend": "Not yet calculated",
               "benchmarkComparison": {
-                "outcome": "Similar",
+                "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 15.5
+                "benchmarkValue": 14.5
               },
               "isAggregate": false
             },
@@ -348,10 +348,10 @@
               },
               "trend": "Not yet calculated",
               "benchmarkComparison": {
-                "outcome": "Similar",
+                "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 14.9
+                "benchmarkValue": 14.4
               },
               "isAggregate": false
             },
@@ -382,10 +382,10 @@
               },
               "trend": "Not yet calculated",
               "benchmarkComparison": {
-                "outcome": "Similar",
+                "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 15.3
+                "benchmarkValue": 15.1
               },
               "isAggregate": false
             }
@@ -425,10 +425,10 @@
               },
               "trend": "Not yet calculated",
               "benchmarkComparison": {
-                "outcome": "Similar",
+                "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 12.5
+                "benchmarkValue": 12.1
               },
               "isAggregate": false
             },
@@ -459,10 +459,10 @@
               },
               "trend": "Not yet calculated",
               "benchmarkComparison": {
-                "outcome": "Similar",
+                "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 12.8
+                "benchmarkValue": 12.5
               },
               "isAggregate": false
             },
@@ -493,10 +493,10 @@
               },
               "trend": "Not yet calculated",
               "benchmarkComparison": {
-                "outcome": "Similar",
+                "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 13.1
+                "benchmarkValue": 12.9
               },
               "isAggregate": false
             },
@@ -530,7 +530,7 @@
                 "outcome": "Similar",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 13.1
+                "benchmarkValue": 13
               },
               "isAggregate": false
             },
@@ -561,10 +561,10 @@
               },
               "trend": "Not yet calculated",
               "benchmarkComparison": {
-                "outcome": "Similar",
+                "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 13.7
+                "benchmarkValue": 13.5
               },
               "isAggregate": false
             },
@@ -598,7 +598,7 @@
                 "outcome": "Similar",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 14.3
+                "benchmarkValue": 14.1
               },
               "isAggregate": false
             },
@@ -629,10 +629,10 @@
               },
               "trend": "Not yet calculated",
               "benchmarkComparison": {
-                "outcome": "Similar",
+                "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 14.5
+                "benchmarkValue": 14.2
               },
               "isAggregate": false
             },
@@ -663,10 +663,10 @@
               },
               "trend": "Not yet calculated",
               "benchmarkComparison": {
-                "outcome": "Similar",
+                "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 15.7
+                "benchmarkValue": 15.2
               },
               "isAggregate": false
             },
@@ -697,10 +697,10 @@
               },
               "trend": "Not yet calculated",
               "benchmarkComparison": {
-                "outcome": "Similar",
+                "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 14.4
+                "benchmarkValue": 14.2
               },
               "isAggregate": false
             },
@@ -734,7 +734,7 @@
                 "outcome": "Similar",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 14.1
+                "benchmarkValue": 14
               },
               "isAggregate": false
             },
@@ -768,7 +768,7 @@
                 "outcome": "Similar",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 14.4
+                "benchmarkValue": 14.6
               },
               "isAggregate": false
             }
@@ -808,10 +808,10 @@
               },
               "trend": "Not yet calculated",
               "benchmarkComparison": {
-                "outcome": "Similar",
+                "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 12.9
+                "benchmarkValue": 12.4
               },
               "isAggregate": true
             },
@@ -842,10 +842,10 @@
               },
               "trend": "Not yet calculated",
               "benchmarkComparison": {
-                "outcome": "Similar",
+                "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 13.1
+                "benchmarkValue": 12.7
               },
               "isAggregate": true
             },
@@ -876,10 +876,10 @@
               },
               "trend": "Not yet calculated",
               "benchmarkComparison": {
-                "outcome": "Similar",
+                "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 13.5
+                "benchmarkValue": 13
               },
               "isAggregate": true
             },
@@ -910,10 +910,10 @@
               },
               "trend": "Not yet calculated",
               "benchmarkComparison": {
-                "outcome": "Similar",
+                "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 13.4
+                "benchmarkValue": 13.2
               },
               "isAggregate": true
             },
@@ -944,10 +944,10 @@
               },
               "trend": "Not yet calculated",
               "benchmarkComparison": {
-                "outcome": "Similar",
+                "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 14
+                "benchmarkValue": 13.6
               },
               "isAggregate": true
             },
@@ -978,10 +978,10 @@
               },
               "trend": "Not yet calculated",
               "benchmarkComparison": {
-                "outcome": "Similar",
+                "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 14.6
+                "benchmarkValue": 14.2
               },
               "isAggregate": true
             },
@@ -1012,10 +1012,10 @@
               },
               "trend": "Not yet calculated",
               "benchmarkComparison": {
-                "outcome": "Similar",
+                "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 14.7
+                "benchmarkValue": 14.3
               },
               "isAggregate": true
             },
@@ -1046,10 +1046,10 @@
               },
               "trend": "Not yet calculated",
               "benchmarkComparison": {
-                "outcome": "Similar",
+                "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 16.1
+                "benchmarkValue": 15.4
               },
               "isAggregate": true
             },
@@ -1080,10 +1080,10 @@
               },
               "trend": "Not yet calculated",
               "benchmarkComparison": {
-                "outcome": "Similar",
+                "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 14.9
+                "benchmarkValue": 14.3
               },
               "isAggregate": true
             },
@@ -1114,10 +1114,10 @@
               },
               "trend": "Not yet calculated",
               "benchmarkComparison": {
-                "outcome": "Similar",
+                "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
                 "benchmarkAreaName": "England",
-                "benchmarkValue": 14.5
+                "benchmarkValue": 14.2
               },
               "isAggregate": true
             },
