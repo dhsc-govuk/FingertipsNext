@@ -44,6 +44,7 @@ public static class BenchmarkComparisonEngine
         HealthDataForArea? benchmarkHealthData,
         IndicatorPolarity polarity)
     {
+        // Deprecated Benchmarking
         foreach (var healthDataPointOfInterest in areaHealthData.HealthData)
             ProcessBenchmarkComparisonsForAreaPoint(
             healthDataPointOfInterest,
@@ -51,14 +52,39 @@ public static class BenchmarkComparisonEngine
             benchmarkHealthData,
             polarity);
 
-        foreach (var segment in areaHealthData.IndicatorSegments)
-            ProcessBenchmarkComparisonsForAreaSegment(
-                areaHealthData,
-                segment,
-                benchmarkHealthData,
-                polarity
-                );
+        // Now perform Benchmarking for each Indicator Segment
+        if (benchmarkHealthData != null)
+        {
+            // This is basic benchmarking between targetArea and benchmarkArea for equivalent segments
+            foreach (var targetSegment in areaHealthData.IndicatorSegments)
+            {
+                var benchmarkSegment = SelectMatchingSegment(targetSegment, benchmarkHealthData.IndicatorSegments);
+                if (benchmarkSegment == null)
+                    continue;
+                ProcessBenchmarkComparisonsForAreaSegment(
+                    targetSegment,
+                    benchmarkSegment,
+                    benchmarkHealthData.AreaCode,
+                    benchmarkHealthData.AreaName,
+                    polarity
+                    );
+            }
+        } else
+        {
+            // Perform Inequality benchmarking against aggregate segment
+            var aggregateSegment = areaHealthData.IndicatorSegments.First(segment => segment.IsAggregate == true);
+            foreach (var targetSegment in areaHealthData.IndicatorSegments)
+            {
+                ProcessBenchmarkComparisonsForAreaSegment(
+                    targetSegment,
+                    aggregateSegment,
+                    areaHealthData.AreaCode,
+                    areaHealthData.AreaName,
+                    polarity
+                    );
+            }
 
+        }
     }
 
     private static IndicatorSegment? SelectMatchingSegment(IndicatorSegment targetSegment, IEnumerable<IndicatorSegment> benchmarkSegments)
@@ -72,21 +98,47 @@ public static class BenchmarkComparisonEngine
     }
 
     private static void ProcessBenchmarkComparisonsForAreaSegment(
-        HealthDataForArea areaHealthData,
-        IndicatorSegment areaSegment,
-        HealthDataForArea? benchmarkHealthData,
+        IndicatorSegment targetSegment,
+        IndicatorSegment benchmarkSegment,
+        string benchmarkAreaCode,
+        string benchmarkAreaName,
         IndicatorPolarity polarity)
     {
-        foreach (var segmentDataPoint in areaSegment.HealthData)
+        foreach (var targetDataPoint in targetSegment.HealthData)
         {
-            segmentDataPoint.BenchmarkComparison = new BenchmarkComparison
-            {
-                Outcome = BenchmarkOutcome.Similar,
-                BenchmarkValue = segmentDataPoint.Value,
-                BenchmarkAreaCode = benchmarkHealthData != null ? benchmarkHealthData.AreaCode : areaHealthData.AreaCode,
-                BenchmarkAreaName = benchmarkHealthData != null ? benchmarkHealthData.AreaName : areaHealthData.AreaName,
-            };
+            if (targetDataPoint.LowerConfidenceInterval == null || targetDataPoint.UpperConfidenceInterval == null)
+                return;
+
+            var benchmarkDataPoint = benchmarkSegment.HealthData.FirstOrDefault(benchmark =>
+                benchmark.DatePeriod.To == targetDataPoint.DatePeriod.To && // must be the same date period
+                benchmark.DatePeriod.From == targetDataPoint.DatePeriod.From // must be the same date period
+                );
+
+            if (benchmarkDataPoint == null)
+                return;
+
+            targetDataPoint.BenchmarkComparison = CompareDataPoints(targetDataPoint, benchmarkDataPoint, polarity, benchmarkAreaCode, benchmarkAreaName);
         }
+    }
+
+    private static BenchmarkComparison CompareDataPoints(HealthDataPoint targetDataPoint, HealthDataPoint benchmarkDataPoint, IndicatorPolarity polarity, string benchmarkAreaCode, string benchmarkAreaName)
+    {
+        var comparisonValue = 0;
+
+        if (targetDataPoint.UpperConfidenceInterval < benchmarkDataPoint.Value)
+            comparisonValue = -1;
+
+        if (targetDataPoint.LowerConfidenceInterval > benchmarkDataPoint.Value)
+            comparisonValue = 1;
+
+        return new BenchmarkComparison
+        {
+            Outcome = GetOutcome(comparisonValue, polarity),
+            BenchmarkValue = benchmarkDataPoint.Value,
+            BenchmarkAreaCode = benchmarkAreaCode,
+            BenchmarkAreaName = benchmarkAreaName
+        };
+
     }
 
     private static void ProcessBenchmarkComparisonsForAreaPoint
