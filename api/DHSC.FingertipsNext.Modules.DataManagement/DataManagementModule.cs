@@ -37,13 +37,11 @@ public class DataManagementModule : AbstractMonolithModule, IMonolithModule
         {
             if (!string.IsNullOrEmpty(userAssignedManagedIdentityClientId))
             {
-                // clientBuilder.AddBlobServiceClient(new Uri(storageUri), new ManagedIdentityCredential(ManagedIdentityId.FromUserAssignedClientId(userAssignedManagedIdentityClientId)))
-                //     .ConfigureOptions(options =>
-                //     {
-                //         options.Retry.MaxRetries = 2;
-                //     });
-
-                clientBuilder.AddBlobServiceClient(new Uri(storageUri));
+                clientBuilder.AddBlobServiceClient(new Uri(storageUri))
+                    .ConfigureOptions(options =>
+                    {
+                        options.Retry.MaxRetries = 2;
+                    });
 
                 var credential = new DefaultAzureCredential(
                     new DefaultAzureCredentialOptions { ManagedIdentityClientId = userAssignedManagedIdentityClientId }
