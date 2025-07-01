@@ -126,12 +126,12 @@ npm run test-e2e-local-docker
 ```
 You will need to have all the docker services running first before executing this command.
 
-To run the e2e tests locally but pointing at the deployed CD environment, rather than using the local docker stack, headlessly do:
+To run the e2e tests locally but pointing at the deployed CD environment, rather than using the local docker stack, headlessly you will need to connect to the VPN then add FINGERTIPS_FRONTEND_URL={enter url here} after MOCK_SERVER=false. Then run the following command:
 
 ```bash
 npm run test-e2e-cd
 ```
-You will need need to add FINGERTIPS_FRONTEND_URL={enter url here} after MOCK_SERVER=false. Also add the --ignore-snapshots parameter. Do not commit/push this as the url is a github secret.
+Note - Do not commit/push the FINGERTIPS_FRONTEND_URL as the url is a github secret.
 
 To run the e2e tests locally, headed allowing debug:
 
@@ -145,7 +145,7 @@ To make our isolated ui testing and fully integrated e2e testing as close to rea
 
 ### Accessibility Testing
 
-Performed in the ui tests, libraries used: @axe-core/playwright and axe-playwright. 
+Performed in the ui tests, library used: @axe-core/playwright. 
 
 Configured to the WCAG2.2 AA standard in the following file playwright/page-objects/pageFactory.ts. Any violations of this standard cause a test failure unless the rule violated has been accepted in pageFactory.ts.
 

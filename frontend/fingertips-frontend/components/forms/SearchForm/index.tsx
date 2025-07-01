@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, H3 } from 'govuk-react';
+import { Button, ErrorText, FormGroup, H3, SearchBox } from 'govuk-react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { AreaAutoCompleteInputField } from '@/components/molecules/AreaAutoCompleteInputField';
 import { SearchParams } from '@/lib/searchStateManager';
@@ -15,15 +15,29 @@ import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { useLoadingState } from '@/context/LoaderContext';
 import React, { useEffect } from 'react';
 import { ArrowExpander } from '@/components/molecules/ArrowExpander';
-import { InputField } from '@/components/atoms/InputField';
+
 import { INDICATOR_SEARCH_MAX_CHARACTERS } from '@/lib/search/indicatorSearchService';
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
+
+import styled from 'styled-components';
+import {
+  StyledHintParagraph,
+  StyledTitleParagraph,
+} from '@/lib/formHelpers/formStyling';
 
 interface SearchFormProps {
   formState: SearchFormState;
   selectedAreasData?: Area[];
   areaFilterData?: AreaFilterData;
 }
+
+const StyledSearchBoxWithBorder = styled(SearchBox)({
+  marginBottom: '30px',
+});
+
+const SpacedTitle = styled(H3)({
+  marginTop: '40px',
+});
 
 export const SearchForm = ({
   formState,
@@ -48,41 +62,65 @@ export const SearchForm = ({
         )?.name
       : selectedAreasData?.[0]?.name;
 
+  const inputStyle = formState.message
+    ? {
+        borderColor: GovukColours.Red,
+        borderWidth: '4px',
+        borderStyle: 'solid',
+      }
+    : {
+        borderColor: GovukColours.Black,
+        borderWidth: '2px',
+        borderStyle: 'solid',
+      };
+
   return (
     <div data-testid="search-form">
-      <H3>Find public health data</H3>
+      <SpacedTitle>Find public health data</SpacedTitle>
       <input
         name="searchState"
         defaultValue={JSON.stringify(searchState)}
         hidden
+        aria-label="Search"
       />
-      <InputField
-        characterLimit={INDICATOR_SEARCH_MAX_CHARACTERS}
-        thresholdPercentage={75}
-        onKeyDown={(e) => {
-          if (e.code === 'Enter') {
-            e.preventDefault();
-          }
-        }}
-        input={{
-          id: 'indicator',
-          name: 'indicator',
-          defaultValue: formState.indicator ?? '',
-        }}
-        hint={
-          <div style={{ color: GovukColours.DarkGrey }}>
-            For example, smoking, diabetes prevalence, or a specific indicator
-            ID
-          </div>
-        }
-        meta={{
-          touched: !!formState.message,
-          error: 'Enter a subject you want to search for',
-        }}
-        data-testid="indicator-search-form-input"
-      >
-        Search by subject
-      </InputField>
+      <FormGroup error={formState.message !== null}>
+        <StyledTitleParagraph>Search by subject</StyledTitleParagraph>
+        <StyledHintParagraph>
+          For example, smoking, diabetes prevalence, or a specific indicator ID
+        </StyledHintParagraph>
+        {formState.message ? (
+          <ErrorText data-testid="indicator-search-form-error">
+            Enter a subject you want to search for
+          </ErrorText>
+        ) : null}
+        <StyledSearchBoxWithBorder>
+          {SearchBox.Input ? (
+            <SearchBox.Input
+              characterLimit={INDICATOR_SEARCH_MAX_CHARACTERS}
+              thresholdPercentage={75}
+              title="indicator"
+              id="indicator"
+              name="indicator"
+              defaultValue={formState.indicator ?? ''}
+              data-testid="indicator-search-form-input"
+              style={inputStyle}
+              onKeyDown={(e: { key: string }) => {
+                if (e.key === 'Enter' || e.key === 'Return') {
+                  setIsLoading(true);
+                }
+              }}
+            />
+          ) : null}
+          {SearchBox.Button ? (
+            <SearchBox.Button
+              onClick={() => setIsLoading(true)}
+              type="submit"
+              data-testid="indicator-search-form-submit"
+            />
+          ) : null}
+        </StyledSearchBoxWithBorder>
+      </FormGroup>
+
       <AreaAutoCompleteInputField
         key={`area-auto-complete-${JSON.stringify(searchState)}`}
         inputFieldErrorStatus={!!formState.message}

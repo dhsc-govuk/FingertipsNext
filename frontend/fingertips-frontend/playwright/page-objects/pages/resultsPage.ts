@@ -7,7 +7,6 @@ import {
   SimpleIndicatorDocument,
 } from '@/playwright/testHelpers/genericTestUtilities';
 import AreaFilter from '../components/areaFilter';
-import { RawIndicatorDocument } from '@/lib/search/searchTypes';
 import {
   AreaTypeKeys,
   englandAreaType,
@@ -35,6 +34,9 @@ export default class ResultsPage extends AreaFilter {
   readonly filterName = 'filter-name';
   readonly removeIcon = 'x-icon';
   readonly viewBackgroundInfoLink = 'view-background-info-link';
+  readonly searchResultsPagination = 'search-results-pagination';
+  readonly trendTitle = 'Recent trend for selected area';
+  readonly trendComponent = 'trend-tag-component';
 
   async navigateToResults(
     searchIndicator: string,
@@ -90,9 +92,9 @@ export default class ResultsPage extends AreaFilter {
       areaMode === AreaMode.ALL_AREAS_IN_A_GROUP ||
       areaMode === AreaMode.ENGLAND_AREA;
 
-    await expect(
-      this.page.getByText('Recent trend for selected area')
-    ).toBeVisible({ visible: trendsShouldBeVisible });
+    await expect(this.page.getByText(this.trendTitle)).toBeVisible({
+      visible: trendsShouldBeVisible,
+    });
 
     // currently, the trend text on each indicator is only visible on the results page in the deployed CD environment so checkTrends will be set to false in local and CI environments via the npm script
     if (trendsShouldBeVisible && checkTrends) {
@@ -109,7 +111,7 @@ export default class ResultsPage extends AreaFilter {
         });
 
         const trendText = searchResultItem
-          .getByTestId('trend-tag-component')
+          .getByTestId(this.trendComponent)
           .allInnerTexts();
 
         // Trim each text value before comparison
@@ -198,7 +200,7 @@ export default class ResultsPage extends AreaFilter {
       `${this.indicatorCheckboxPrefix}-${indicatorIDString}`
     );
 
-    // Check if checkbox exists first - this will throw if not found - and be caught by the try catch in the calling method
+    // Check if indicator checkbox exists on the page - this will throw a caught error if not found - the try catch in the calling method will then try the next page
     const isVisible = await checkbox.isVisible().catch(() => false);
     if (!isVisible) {
       throw new Error(
@@ -213,19 +215,21 @@ export default class ResultsPage extends AreaFilter {
     await expect(checkbox).toBeEditable();
     await expect(checkbox).toBeChecked({ checked: false });
 
-    // Select and verify after checked state
+    // Select the checkbox
     await this.checkAndAwaitLoadingComplete(checkbox);
+
+    // Verify checked state
     await this.checkIndicatorCheckboxChecked(indicatorIDString);
     await this.waitForURLToContain(indicatorIDString);
   }
 
   /**
-   * Searches all pages for an indicator and selects it when found
+   * Searches all results pages for the desired indicator checkbox and selects it when found
    */
   private async searchAllPagesForIndicator(
     indicatorIDString: string
   ): Promise<void> {
-    const pagination = this.page.getByTestId('search-results-pagination');
+    const pagination = this.page.getByTestId(this.searchResultsPagination);
 
     if (!pagination) {
       throw new Error(
@@ -250,15 +254,15 @@ export default class ResultsPage extends AreaFilter {
         await this.selectIndicatorCheckbox(indicatorIDString);
         return;
       } catch {
-        // Try next page
+        // Get next page selector
         const nextButton = pagination.getByRole('button', {
           name: 'Next page',
         });
 
+        // Safely check if next page selector is visible or not - if not the error is caught and we break out of the loop as no more pages to check
         const isNextButtonVisible = await nextButton
           .isVisible()
           .catch(() => false);
-
         if (!isNextButtonVisible) {
           break; // No more pages as Next button not displayed
         }
@@ -412,21 +416,6 @@ export default class ResultsPage extends AreaFilter {
   async verifyUrlUpdatedAfterDeselection(deselectedIndicator: string) {
     await expect(this.page).not.toHaveURL(
       new RegExp(`&is=${deselectedIndicator}`)
-    );
-  }
-
-  async clickViewBackgroundInformationLinkForIndicator(
-    indicator: RawIndicatorDocument
-  ) {
-    if (!indicator) {
-      throw new Error(`Indicator not found`);
-    }
-
-    await this.clickAndAwaitLoadingComplete(
-      this.page
-        .getByTestId(this.pillContainer)
-        .getByText(indicator.indicatorName)
-        .getByRole('link', { name: 'View background information' })
     );
   }
 

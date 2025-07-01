@@ -23,3 +23,4 @@ export * from './PeriodType';
 export * from './QuartileData';
 export * from './RootArea';
 export * from './SexData';
+export * from './UserInfoType';

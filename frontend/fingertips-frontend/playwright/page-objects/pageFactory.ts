@@ -3,61 +3,74 @@ import AxeBuilder from '@axe-core/playwright';
 import HomePage from './pages/homePage';
 import ResultsPage from './pages/resultsPage';
 import ChartPage from './pages/chartPage';
-import { test as baseTest } from '@playwright/test';
+import { test as baseTest, Page } from '@playwright/test';
 import IndicatorPage from '@/playwright/page-objects/pages/indicatorPage';
+import type { Result } from 'axe-core';
+import { ACCESSIBILITY_TAGS } from '../testHelpers/testDefinitions';
 
-type pages = {
+interface PageObjects {
   homePage: HomePage;
   resultsPage: ResultsPage;
   chartPage: ChartPage;
   indicatorPage: IndicatorPage;
-};
+}
 
-const testBase = baseTest.extend<{
+interface TestOptions {
   axeBuilder: AxeBuilder;
   failOnUnhandledError: boolean;
-}>({
+}
+
+const setupErrorHandling = (page: Page, failOnUnhandledError: boolean) => {
+  page.on('console', (message) => {
+    if (failOnUnhandledError && message.type() === 'error') {
+      throw new Error(`Console error: ${message.text()}`);
+    }
+  });
+
+  page.on('pageerror', (error) => {
+    throw new Error(
+      `Page error: ${error.message}. Stack trace: ${error.stack}`
+    );
+  });
+};
+
+const logAccessibilityViolations = (
+  violations: Result[],
+  testTitle: string,
+  testId: string
+) => {
+  if (violations.length > 0) {
+    console.log(
+      `${violations.length} accessibility violations found for "${testTitle.split('|')[0].trim()}" | testId: ${testId}`
+    );
+  }
+};
+
+const testBase = baseTest.extend<TestOptions>({
   failOnUnhandledError: [true, { option: true }],
+
   page: async ({ page, failOnUnhandledError }, use) => {
-    // Console errors
-    page.on('console', (message) => {
-      if (failOnUnhandledError && message.type() === 'error') {
-        throw new Error(`Console error: ${message.text()}`);
-      }
-    });
-
-    // Uncaught exceptions
-    page.on('pageerror', (error) => {
-      throw new Error(
-        `Page error: ${error.message}. Stack trace: ${error.stack}`
-      );
-    });
-
+    setupErrorHandling(page, failOnUnhandledError);
     await use(page);
   },
   axeBuilder: [
     async ({ page }, use, testInfo) => {
       // Initialize an AxeBuilder with the specified accessibility standards
-      const axeBuilder = new AxeBuilder({ page }).withTags([
-        'wcag2a',
-        'wcag2aa',
-        'wcag21a',
-        'wcag21aa',
-        'wcag22aa',
-      ]);
+      const axeBuilder = new AxeBuilder({ page }).withTags(
+        Array.from(ACCESSIBILITY_TAGS)
+      );
 
       await use(axeBuilder);
 
-      // Execute the scan
+      // Execute the accessibility scan
       const accessibilityResults = await axeBuilder.analyze();
 
-      if (accessibilityResults.violations.length > 0) {
-        console.log(
-          `${accessibilityResults.violations.length} accessibility violations found for "${testInfo.title.split('|')[0].trim()}" | testId: ${testInfo.testId}`
-        );
-      }
+      logAccessibilityViolations(
+        accessibilityResults.violations,
+        testInfo.title,
+        testInfo.testId
+      );
 
-      // Expect no accessibility violations
       expect(
         accessibilityResults.violations,
         'Auto-accessibility test failed.'
@@ -69,7 +82,7 @@ const testBase = baseTest.extend<{
   ],
 });
 
-export const test = testBase.extend<pages>({
+export const test = testBase.extend<PageObjects>({
   homePage: async ({ page }, use) => {
     await use(new HomePage(page));
   },

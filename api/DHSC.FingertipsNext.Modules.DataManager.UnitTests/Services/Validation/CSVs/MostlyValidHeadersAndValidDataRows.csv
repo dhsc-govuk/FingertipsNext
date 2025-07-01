@@ -1,0 +1,10 @@
+area_code,date_from,date_to,period_type,sex,age_from_years_inclusive,age_to_years_inclusive,deprivation_decile,deprivation_category,count,value,denominator,lower_ci_95,upper_ci_95,lower_ci_99_8,upper
+U25656,2024-01-01,2024-12-31,calendar_year,male,5,10,1,district_and_unitary_authorities_apr_2019_geography,3456,5678,3456.6,5678,1234,1234,1234
+U25656,2024-01-01,2024-12-31,calendar_year,female,5,10,1,district_and_unitary_authorities_apr_2019_geography,2324,5679,3459.7,5679,3456.2,3456.2,3456.2
+U25656,2024-01-01,2024-12-31,calendar_year,persons,5,10,1,district_and_unitary_authorities_apr_2019_geography,3457,5679,3433.3,5679,2122.6,2122.6,2122.6
+U25656,2024-01-01,2024-12-31,calendar_year,persons,65,,1,counties_and_unitary_authorities_apr_2021_geography,3457,5679,1459.2,5679,8666.5,8666.5,8666.5
+U25656,2024-01-01,2024-12-31,calendar_year,persons,15,,2,district_and_unitary_authorities_apr_2021_geography,874,5679,3259,5679,1123.3,1123.3,1123.3
+U25656,2024-01-01,2024-12-31,calendar_year,persons,,40,,,3456,3457,3439,5679,3345.7,3345.7,3345.7
+U25680,2024-01-01,2024-12-31,financial_year,persons,,,,,345,5679,4098.3,5679,9899.4,9899.4,9899.4
+U25680,2024-01-01,2024-12-31,three_year,persons,,,,,3456,5679,3678,5679,442.2,442.2,442.2
+U25680,2024-01-01,2024-12-31,quarter,persons,,,,,7893,5679,3345,5679,100.3,100.3,100.3

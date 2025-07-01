@@ -1,4 +1,12 @@
 openapi: 3.0.0
+
+components:
+  securitySchemes:
+    bearerAuth: 
+      type: http
+      scheme: bearer
+      bearerFormat: JWT # optional, arbitrary value for documentation purposes
+
 servers:
   # Added by API Auto Mocking Plugin
   - url: https://fingertips-next-api/1.0.0
@@ -16,6 +24,8 @@ tags:
     description: Endpoints dealing with areas / geography
   - name: system
     description: System endpoints
+  - name: user
+    description: Endpoints dealing with logged in users
 paths:
   /healthcheck:
     $ref: "./system/paths.yaml"
@@ -41,3 +51,7 @@ paths:
     $ref: "./indicators/paths.yaml#/indicators_by_indicator_id_all_data"
   /indicators/quartiles:
     $ref: "./indicators/paths.yaml#/quartiles"
+  /user/info:
+    $ref: "./user/paths.yaml#/user_info"
+  /user/indicator/{indicator_id}:
+    $ref: "./user/paths.yaml#/indicator_permissions"

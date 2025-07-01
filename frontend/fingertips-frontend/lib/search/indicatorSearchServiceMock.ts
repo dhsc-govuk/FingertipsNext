@@ -1,3 +1,4 @@
+import { spaceSeparatedPattern } from '../constants';
 import { IndicatorMapper } from './indicatorMapper';
 import {
   IIndicatorSearchService,
@@ -24,7 +25,6 @@ export class IndicatorSearchServiceMock implements IIndicatorSearchService {
     const searchResults = this.mockIndicatorData
       .filter((indicator) => {
         // Check if searched for text is a space-separated list of numbers
-        const spaceSeparatedPattern = /^\d+(\s+\d+)+$/;
         if (spaceSeparatedPattern.test(trimmedSearchText)) {
           // Parse indicator IDs and match exactly
           const indicatorIds = trimmedSearchText
