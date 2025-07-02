@@ -39,9 +39,15 @@ const SpacedTitle = styled(H3)({
   marginTop: '40px',
 });
 
-const StyledClearAllLink = styled(Link)({
-  marginLeft: '20px',
-})
+const StyledClearAllLinkHeight = styled(Link)({
+  height: '40px',
+});
+
+const StyledSearchWithClearAllLink = styled('div')({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '20px',
+});
 
 export const SearchForm = ({
   formState,
@@ -78,8 +84,6 @@ export const SearchForm = ({
         borderWidth: '2px',
         borderStyle: 'solid',
       };
-  
-  const handleClearAll = (e: React.MouseEvent<HTMLAnchorElement>) => {}
 
   return (
     <div data-testid="search-form">
@@ -143,7 +147,7 @@ export const SearchForm = ({
           isFullWidth={false}
         />
       ) : null}
-      <div>
+      <StyledSearchWithClearAllLink>
         <Button
           type="submit"
           data-testid="search-form-button-submit"
@@ -152,8 +156,8 @@ export const SearchForm = ({
         >
           Search
         </Button>
-        <StyledClearAllLink href="/" onClick={handleClearAll}>Clear all</StyledClearAllLink>
-      </div>
+        <StyledClearAllLinkHeight href="/">Clear all</StyledClearAllLinkHeight>
+      </StyledSearchWithClearAllLink>
 
       <ArrowExpander
         openTitle="Open area filter"

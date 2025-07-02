@@ -9,6 +9,10 @@ import styled from 'styled-components';
 import { AreaFilterPaneCheckboxes } from '@/components/organisms/AreaFilterPane/AreaFilterPaneCheckboxes';
 import { StyledFilterSelect } from '@/components/styles/StyledFilterSelect';
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
+import {
+  StyledFilterWithClearAllLink,
+  StyledRightClearAllLink,
+} from '@/lib/styleHelpers/filterPanelClearAllLinkStyle';
 
 export type AreaFilterData = {
   availableAreaTypes?: AreaType[];
@@ -187,6 +191,11 @@ export function SelectAreasFilterPanel({
 
   const rows = areaFilterData?.availableAreas ?? [];
 
+  const clearAllAreas = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    handleSelectAllAreasSelected(false);
+  };
+
   return (
     <div data-testid="select-areas-filter-panel">
       <StyledFilterSelect
@@ -245,17 +254,27 @@ export function SelectAreasFilterPanel({
 
       <FormGroup>
         <StyledFilterLabel>Select one or more areas</StyledFilterLabel>
-        <StyledSelectAllCheckBox
-          value={searchState?.[SearchParams.GroupSelected]}
-          sizeVariant="SMALL"
-          defaultChecked={
-            searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED
-          }
-          onChange={(e) => handleSelectAllAreasSelected(e.target.checked)}
-          id={'area-select-all'}
-        >
-          Select all areas
-        </StyledSelectAllCheckBox>
+        <StyledFilterWithClearAllLink>
+          <StyledSelectAllCheckBox
+            value={searchState?.[SearchParams.GroupSelected]}
+            sizeVariant="SMALL"
+            defaultChecked={
+              searchState?.[SearchParams.GroupAreaSelected] ===
+              ALL_AREAS_SELECTED
+            }
+            onChange={(e) => handleSelectAllAreasSelected(e.target.checked)}
+            id={'area-select-all'}
+          >
+            Select all areas
+          </StyledSelectAllCheckBox>
+          <StyledRightClearAllLink
+            href=""
+            onClick={clearAllAreas}
+            data-testid="clear-all-selected-areas-link"
+          >
+            Clear all
+          </StyledRightClearAllLink>
+        </StyledFilterWithClearAllLink>
         <StyledSectionBreak visible />
         <AreaFilterPaneCheckboxes
           rows={rows}
