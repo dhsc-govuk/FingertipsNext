@@ -1,5 +1,5 @@
 // MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
-import { mockHighChartsWrapper } from '@/mock/utils/mockHighChartsWrapper';
+import { mockHighChartsWrapperSetup } from '@/mock/utils/mockHighChartsWrapper';
 //
 import { InequalitiesBarChartTable } from './InequalitiesBarChartTable';
 import { render, screen } from '@testing-library/react';
@@ -13,7 +13,7 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
-mockHighChartsWrapper.mockReturnValue(() => <div />);
+mockHighChartsWrapperSetup();
 describe('Inequalities bar chart table suite', () => {
   beforeAll(() => {
     vi.useFakeTimers();
