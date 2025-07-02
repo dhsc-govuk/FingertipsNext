@@ -57,4 +57,14 @@ describe('spineChartIsRequired', () => {
     const result = spineChartIsRequired(searchState);
     expect(result).toBe(false);
   });
+
+  it('returns false when indicatorsSelected is empty', () => {
+    const searchState = {
+      [SearchParams.AreasSelected]: ['A1', 'A2'],
+      [SearchParams.GroupAreaSelected]: 'GROUP_X',
+    };
+
+    const result = spineChartIsRequired(searchState);
+    expect(result).toBe(false);
+  });
 });

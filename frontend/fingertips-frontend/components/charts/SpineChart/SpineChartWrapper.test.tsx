@@ -1,4 +1,4 @@
-// MUST BE AT THE TOP
+// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
 import { mockUseSearchStateParams } from '@/mock/utils/mockUseSearchStateParams';
 //
 import { SpineChartWrapper } from '@/components/charts/SpineChart/SpineChartWrapper';
@@ -71,12 +71,22 @@ seedData[queryKeys[3]] = mockIndicatorWithHealthDataForArea({
 });
 
 describe('SpineChartWrapper', () => {
-  it('renders without crashing', async () => {
+  it('renders the essential spine chart components', async () => {
     await testRenderQueryClient(<SpineChartWrapper />, seedData);
+
     expect(screen.getByTestId('spineChartTable-component')).toBeInTheDocument();
     expect(screen.getByTestId('benchmarkLegend-component')).toBeInTheDocument();
     expect(
       screen.getByTestId('spineChartTable-export-button')
     ).toBeInTheDocument();
+  });
+
+  it('renders nothing if spineChartIndicatorData is undefined', async () => {
+    const seedDataWithoutQuartiles = { ...seedData, [quartilesKey]: [] };
+    const { htmlContainer } = await testRenderQueryClient(
+      <SpineChartWrapper />,
+      seedDataWithoutQuartiles
+    );
+    expect(htmlContainer?.firstChild).toBeNull();
   });
 });

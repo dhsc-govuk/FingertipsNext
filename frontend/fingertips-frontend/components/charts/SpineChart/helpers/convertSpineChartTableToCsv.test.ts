@@ -7,6 +7,7 @@ import {
 } from '@/components/charts/SpineChart/SpineChartTable/spineChartMockTestData';
 import { convertSpineChartTableToCsv } from '@/components/charts/SpineChart/helpers/convertSpineChartTableToCsv';
 import { CsvHeader } from '@/components/molecules/Export/export.types';
+import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
 
 describe('convertSpineChartTableToCsv', () => {
   it('should have correct headings', () => {
@@ -148,5 +149,32 @@ describe('convertSpineChartTableToCsv', () => {
     expect(result[1][4]).toEqual(mockSpineHealthDataForArea.areaCode);
     expect(result[2][4]).toEqual(mockSpineGroupData.areaCode);
     expect(result[2][3]).toEqual(`Group: ${mockSpineGroupData.areaName}`);
+  });
+
+  it('should exclude row if an area has no healthData', () => {
+    const copyOfMockSpineIndicatorData = {
+      ...mockSpineIndicatorData,
+      areasHealthData: [mockHealthDataForArea({ healthData: [] })],
+    };
+    const result = convertSpineChartTableToCsv([copyOfMockSpineIndicatorData]);
+    expect(result).toHaveLength(3);
+  });
+
+  it('should exclude row if an groupData has no healthData', () => {
+    const copyOfMockSpineIndicatorData = {
+      ...mockSpineIndicatorData,
+      groupData: mockHealthDataForArea({ healthData: [] }),
+    };
+    const result = convertSpineChartTableToCsv([copyOfMockSpineIndicatorData]);
+    expect(result).toHaveLength(2);
+  });
+
+  it('should exclude row if an englandData has no healthData', () => {
+    const copyOfMockSpineIndicatorData = {
+      ...mockSpineIndicatorData,
+      englandData: mockHealthDataForArea({ healthData: [] }),
+    };
+    const result = convertSpineChartTableToCsv([copyOfMockSpineIndicatorData]);
+    expect(result).toHaveLength(3);
   });
 });

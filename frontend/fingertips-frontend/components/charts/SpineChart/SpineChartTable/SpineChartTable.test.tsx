@@ -186,6 +186,16 @@ describe('Spine chart table suite', () => {
       },
     ];
 
+    it('should display nothing if indicatorData is empty', () => {
+      const { container } = render(
+        <SpineChartTable
+          indicatorData={[]}
+          benchmarkToUse={areaCodeForEngland}
+        />
+      );
+      expect(container.firstChild).toBeNull();
+    });
+
     it('should display data correctly for both areas', () => {
       render(
         <SpineChartTable

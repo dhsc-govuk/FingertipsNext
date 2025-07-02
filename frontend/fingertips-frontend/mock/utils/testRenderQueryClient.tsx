@@ -9,7 +9,7 @@ export const testRenderQueryClient = async (
   children: ReactNode,
   seedData: SeedData = {}
 ) => {
-  let htmlContainer: HTMLElement | null = null;
+  let htmlContainer: HTMLElement | undefined;
 
   const Wrapper = testRenderWrapper(seedData);
 

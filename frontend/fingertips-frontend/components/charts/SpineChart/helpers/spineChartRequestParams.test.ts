@@ -30,7 +30,7 @@ describe('spineChartRequestParams', () => {
         areaCodes: areas,
         areaType: areaType,
         latestOnly: true,
-        benchmarkRefType: 'England',
+        benchmarkRefType: BenchmarkReferenceType.England,
       });
 
       expect(result).toContainEqual({
@@ -38,7 +38,7 @@ describe('spineChartRequestParams', () => {
         areaCodes: areas,
         areaType: areaType,
         latestOnly: true,
-        benchmarkRefType: 'England',
+        benchmarkRefType: BenchmarkReferenceType.England,
       });
     });
 
@@ -49,7 +49,7 @@ describe('spineChartRequestParams', () => {
         areaCodes: [areaCodeForEngland],
         areaType: 'england',
         latestOnly: true,
-        benchmarkRefType: 'England',
+        benchmarkRefType: BenchmarkReferenceType.England,
       });
 
       expect(result).toContainEqual({
@@ -57,7 +57,7 @@ describe('spineChartRequestParams', () => {
         areaCodes: [areaCodeForEngland],
         areaType: 'england',
         latestOnly: true,
-        benchmarkRefType: 'England',
+        benchmarkRefType: BenchmarkReferenceType.England,
       });
     });
 
@@ -68,7 +68,7 @@ describe('spineChartRequestParams', () => {
         areaCodes: [group],
         areaType: groupType,
         latestOnly: true,
-        benchmarkRefType: 'England',
+        benchmarkRefType: BenchmarkReferenceType.England,
       });
 
       expect(result).toContainEqual({
@@ -76,7 +76,7 @@ describe('spineChartRequestParams', () => {
         areaCodes: [group],
         areaType: groupType,
         latestOnly: true,
-        benchmarkRefType: 'England',
+        benchmarkRefType: BenchmarkReferenceType.England,
       });
     });
   });
@@ -106,6 +106,6 @@ describe('spineChartRequestParams', () => {
     };
 
     const result = spineChartRequestParams(searchState);
-    expect(result).toEqual([]);
+    expect(result).toHaveLength(0);
   });
 });

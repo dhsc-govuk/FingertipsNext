@@ -37,20 +37,21 @@ export function SpineChartTable({
 }: Readonly<SpineChartTableProps>) {
   const sortedData = sortByIndicator(indicatorData);
   const methods = getMethodsAndOutcomes(indicatorData);
-  const areaNames = sortedData[0].areasHealthData.map(
-    (areaHealthData) => areaHealthData?.areaName ?? ''
-  );
-  const StyledTable =
-    areaNames.length > 1 ? StyledTableMultipleAreas : StyledTableOneArea;
+  const areaNames = sortedData
+    .at(0)
+    ?.areasHealthData.map((areaHealthData) => areaHealthData?.areaName ?? '');
 
   const csvData = useMemo(() => {
     return convertSpineChartTableToCsv(sortedData);
   }, [sortedData]);
 
-  if (!indicatorData.length) return null;
+  if (!indicatorData.length || !areaNames) return null;
 
   const groupName = sortedData[0].groupData?.areaName;
   const title = `Area profile for ${areaNames.join(' and ')}`;
+
+  const StyledTable =
+    areaNames.length > 1 ? StyledTableMultipleAreas : StyledTableOneArea;
 
   return (
     <>

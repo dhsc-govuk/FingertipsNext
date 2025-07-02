@@ -47,7 +47,7 @@ describe('quartilesQueryParams', () => {
 
     const result = quartilesQueryParams(searchState);
 
-    expect(result.indicatorIds).toEqual([]);
+    expect(result.indicatorIds).toHaveLength(0);
   });
 
   it('uses the first areaCode returned by determineAreaCodes', () => {
@@ -64,7 +64,7 @@ describe('quartilesQueryParams', () => {
     expect(result.areaCode).toBe('X');
   });
 
-  it('returns the benchmarkRef when england is the selected', () => {
+  it('returns the benchmarkRef when england is the selected benchmarkArea', () => {
     const searchState = {
       [SearchParams.AreasSelected]: ['Z'],
       [SearchParams.IndicatorsSelected]: ['300'],

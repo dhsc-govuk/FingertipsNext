@@ -1,4 +1,4 @@
-// MUST BE AT THE TOP
+// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
 import { mockSetIsLoading } from '@/mock/utils/mockUseLoadingState';
 import { mockUsePathname } from '@/mock/utils/mockNextNavigation';
 //

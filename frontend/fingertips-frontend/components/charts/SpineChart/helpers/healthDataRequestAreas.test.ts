@@ -2,9 +2,10 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams } from '@/lib/searchStateManager';
 import { healthDataRequestAreas } from './healthDataRequestAreas';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
-import { Area } from '@/generated-sources/ft-api-client';
+import { mockArea } from '@/mock/data/mockArea';
 
-const mockArea1 = { code: 'A1', name: 'Area 1' } as Area;
+const mockArea1 = mockArea({ code: 'A1', name: 'Area1' });
+const mockArea2 = mockArea({ code: 'A2', name: 'Area2' });
 
 describe('healthDataRequestAreas', () => {
   it('returns only selected area codes if England is included', () => {
@@ -13,7 +14,7 @@ describe('healthDataRequestAreas', () => {
       [SearchParams.AreaTypeSelected]: 'LocalAuthority',
     };
 
-    const result = healthDataRequestAreas(searchState, [mockArea1]);
+    const result = healthDataRequestAreas(searchState, [mockArea1, mockArea2]);
 
     expect(result).toEqual([
       {

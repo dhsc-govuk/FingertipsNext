@@ -1,4 +1,4 @@
-// MUST BE AT THE TOP
+// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
 import { mockUseSearchStateParams } from '@/mock/utils/mockUseSearchStateParams';
 //
 import { renderHook } from '@testing-library/react';
@@ -16,6 +16,7 @@ mockUseSearchStateParams.mockReturnValue({
 describe('useSpineChartRequestParams', () => {
   it('returns memoized request params from search state', () => {
     const { result } = renderHook(() => useSpineChartRequestParams());
+
     expect(result.current).toHaveLength(6);
   });
 });
