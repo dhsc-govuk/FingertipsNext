@@ -185,11 +185,11 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
       selectedIndicatorsData: fullSelectedIndicatorsData,
     });
 
-    expect(page.props.children.props.indicatorData).toEqual([
+    expect(page.props.children[1].props.indicatorData).toEqual([
       mockIndicator,
       mockIndicator,
     ]);
-    expect(page.props.children.props.indicatorMetadata).toEqual(
+    expect(page.props.children[1].props.indicatorMetadata).toEqual(
       fullSelectedIndicatorsData
     );
   });

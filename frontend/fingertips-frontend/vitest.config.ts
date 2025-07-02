@@ -31,6 +31,7 @@ export default defineConfig({
         'instrumentation.*',
         '*.config.ts',
         '**/*.types.ts',
+        'lib/registry.tsx',
       ],
     },
   },
