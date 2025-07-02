@@ -32,8 +32,7 @@ namespace DataCreator
         /// Get health data from csv files that have been downloaded from the fingertips API
         /// </summary>
         /// <param name="indicatorId"></param>
-        /// <param name="yearFrom"></param>
-        /// <param name="areasWeWant"></param>
+        /// <param name="areasDict"></param>
         /// <returns></returns>
         public static List<HealthMeasureEntity> GetHealthDataForIndicator(int indicatorId, Dictionary<string, string> areasDict)
         {

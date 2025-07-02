@@ -343,7 +343,7 @@ FROM
             using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
             var indicators = (await connection.QueryAsync<IndicatorEntity>(IndicatorSql, new { IndicatorIds = pocIndicators.Select(x => x.IndicatorID) })).ToList();
             CleanFrequencies(indicators);
-            CleanYearTypes(indicators);
+            MapYearTypesToPeriodTypes(indicators);
             return indicators;
         }
 
@@ -390,15 +390,15 @@ FROM
         /// Change YearType to agreed options
         /// </summary>
         /// <parm name="indicators"/>
-        private static void CleanYearTypes(List<IndicatorEntity> indicators)
+        private static void MapYearTypesToPeriodTypes(List<IndicatorEntity> indicators)
         {
-            var yearTypeMap = new Dictionary<string, string>
+            var periodTypeMap = new Dictionary<string, string>
             {
-                { "November-November", "Yearly" },
-                {"Financial multi year cumulative quarters","Financial multi-year"}
+                {"November-November", "Yearly"},
+                {"Financial multi year cumulative quarters","Financial multi-year"} // TODO: change how this special case is handled
             };
 
-            var allowedYearTypes = new HashSet<string>
+            var allowedPeriodTypes = new HashSet<string>
             {
                 "Calendar",
                 "Financial",
@@ -410,16 +410,19 @@ FROM
 
             foreach (var indicator in indicators)
             {
-                if (yearTypeMap.TryGetValue(indicator.YearType, out var mappedValue))
+                if (periodTypeMap.TryGetValue(indicator.YearType, out var mappedValue))
                 {
-                    indicator.YearType = mappedValue;
+                    indicator.PeriodType = mappedValue;
+                    continue;
                 }
-                else if (!allowedYearTypes.Contains(indicator.YearType))
+
+                if (!allowedPeriodTypes.Contains(indicator.YearType))
                 {
                     throw new ArgumentOutOfRangeException(
                         indicator.YearType, indicator.YearType, "does not have a known mapping"
                     );
                 }
+                indicator.PeriodType = indicator.YearType;
             }
         }
 

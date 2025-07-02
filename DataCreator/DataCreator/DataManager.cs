@@ -75,8 +75,7 @@ namespace DataCreator
             DataFileWriter.WriteSimpleAreaCsvData("areas", simpleAreasWeWant);
             return areasWeWant;
         }
-
-
+        
         public async Task CreateIndicatorDataAsync(List<IndicatorWithAreasAndLatestUpdate> indicatorWithAreasAndLatestUpdates, List<SimpleIndicator> pocIndicators)
         {
             var indicators = (await _pholioDataFetcher.FetchIndicatorsAsync(pocIndicators)).ToList();
@@ -103,17 +102,20 @@ namespace DataCreator
                     if (!string.IsNullOrEmpty(indicatorUsedInPoc.IndicatorName))
                     {
                         indicator.IndicatorName = indicatorUsedInPoc.IndicatorName;
-                        pocIndicators.First(i => i.IndicatorID == indicator.IndicatorID).PeriodType = indicator.YearType;
                     }
-                    indicator.PeriodType = indicator.YearType;
                     indicator.BenchmarkComparisonMethod = indicatorUsedInPoc.BenchmarkComparisonMethod;
                     indicator.Polarity = indicatorUsedInPoc.Polarity;
+
+                    var pocIndicator = pocIndicators.Find(i => i.IndicatorID == indicator.IndicatorID);
+                    pocIndicator.PeriodType = indicator.PeriodType;
+                    pocIndicator.YearType = indicator.YearType;
                 }
             }
             AddLastUpdatedDate(indicators);
 
             DataFileWriter.WriteIndicatorsJsonData(indicators.Where(indicator => !indicator.HideInSearch));
             DataFileWriter.WriteSimpleIndicatorCsvData("indicators", indicators.Where(indicator => indicator.UsedInPoc).Cast<SimpleIndicator>());
+            Console.WriteLine($"Saved indicators .csv and .json files");
         }
 
         private static void AddLastUpdatedDate(List<IndicatorEntity> indicatorEntities)
@@ -333,38 +335,7 @@ namespace DataCreator
         public async Task<IEnumerable<AgeEntity>> GetAgeDataAsync() =>
             await _pholioDataFetcher.FetchAgeDataAsync();
 
-        public static void CreateHealthMeasurePeriodDates(List<SimpleIndicator> indicators,
-            List<HealthMeasureEntity> healthMeasures)
-        {
-            var indicatorsPeriodsMap = indicators.ToDictionary(
-                i => i.IndicatorID,
-                i => i.PeriodType);
-            foreach (var healthMeasure in healthMeasures)
-            {
-                var indicatorPeriodType = indicatorsPeriodsMap[healthMeasure.IndicatorId];
-
-                int year;
-                switch (indicatorPeriodType)
-                {
-                    case "Calendar":
-                        year = int.Parse(healthMeasure.TimePeriodSortable.Trim()[..4]);
-                        healthMeasure.FromDate = new DateOnly(year, 1, 1).ToShortDateString();
-                        healthMeasure.ToDate = new DateOnly(year, 12, 31).ToShortDateString();
-                        break;
-                    case "Financial":
-                        year = int.Parse(healthMeasure.TimePeriodSortable.Trim()[..4]);
-                        healthMeasure.FromDate = new DateOnly(year, 4, 6).ToShortDateString();
-                        healthMeasure.ToDate = new DateOnly(year + 1, 4, 5).ToShortDateString();
-                        break;
-                    case "November-November":
-                        year = int.Parse(healthMeasure.TimePeriodSortable.Trim()[..4]);
-                        healthMeasure.FromDate = new DateOnly(year, 11, 1).ToShortDateString();
-                        healthMeasure.ToDate = new DateOnly(year + 1, 10, 31).ToShortDateString();
-                        break;
-                }
-            }
-
-        }
+        
 
     }
 }

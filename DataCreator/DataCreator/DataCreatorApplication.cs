@@ -3,6 +3,7 @@
     public class DataCreatorApplication(DataManager dataManager)
     {
         private readonly DataManager _dataManager = dataManager;
+        private readonly HealthMeasureDateCalculator _healthMeasureDateCalculator =  new();
 
         public async Task CreateDataAsync()
         {
@@ -27,11 +28,11 @@
             await _dataManager.CreateIndicatorDataAsync(areasAndIndicators, pocIndicators);
             Console.WriteLine($"Created all indicator data");
             //add period data to health data
-            DataManager.CreateHealthMeasurePeriodDates(pocIndicators, healthMeasures);
+            _healthMeasureDateCalculator.CreateHealthMeasurePeriodDates(pocIndicators, healthMeasures);
             Console.WriteLine($"Created period data for all health measures");
             // write the healthdata to file
             DataFileWriter.WriteHealthCsvData("healthdata", healthMeasures);
-
+            Console.WriteLine($"Saved healthdata .csv and .json files");
             //clean up the unzipped files
             DataFileReader.DeleteTempInputFiles();
             Console.WriteLine($"Deleted temp files");

@@ -24,7 +24,6 @@ namespace DataCreator
         public string UnitLabel { get; set; }
         public string UnitValue { get; set; }
 
-
         public string IndicatorDefinition
         {
             get => _indicatorDefinition.StripHTML();
@@ -57,9 +56,8 @@ namespace DataCreator
         public bool UsedInPoc { get; set; }
 
         public bool HasInequalities { get; set; }
-        public string YearType { get; set; }
-
-        //indicators 337 and 92708 are population indicators and we don't them to appear in search results
+        
+        // //indicators 337 and 92708 are population indicators and we don't them to appear in search results
         public bool HideInSearch => IndicatorID == 337 || IndicatorID == 92708;
     }
 
@@ -82,6 +80,7 @@ namespace DataCreator
 
         [CsvColumn(FieldIndex = 6)]
         public string PeriodType { get; set; }
+        public string YearType { get; set; }
 
         [CsvColumn(FieldIndex = 7)]
         public string Frequency { get; set; }

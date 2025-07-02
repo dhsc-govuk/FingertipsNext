@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Shouldly;
+using Xunit;
 
 namespace DataCreator.Tests;
 
@@ -9,97 +10,268 @@ namespace DataCreator.Tests;
 [TestOf(typeof(DataManager))]
 public class DataManagerTests
 {
-    private List<SimpleIndicator> _stubIndicators;
-    private List<HealthMeasureEntity> _stubHealthMeasures;
-
-    [SetUp]
-    public void SetUp()
+    private readonly HealthMeasureDateCalculator _healthMeasureDateCalculator =  new();
+    
+    // TODO: cover reportingPeriods:
+    // monthly "1m" - 93415
+    // quarterly "3m" - 91040
+    // yearly "1y" - 108
+    // 2 yearly
+    // 3 yearly "3y" - 92904
+    // 5 yearly "5y" - 93283
+    
+    // TODO: Period Types
+    // Calendar
+    // Yearly
+    // Financial
+    // Financial year end point
+    // Financial multi-year
+    // Academic
+    
+    [Xunit.Theory]
+    [InlineData("Calendar", "20090000", "01/01/2009","31/12/2009")]
+    [InlineData("Yearly", "20090000", "01/01/2009","31/12/2009")]
+    [InlineData("Financial","20080000", "06/04/2008","05/04/2009")]
+    [InlineData("Financial multi-year","20080000", "06/04/2008","05/04/2009")]
+    [InlineData("Financial year end point", "20090000", "31/03/2009","31/03/2009")]
+    [InlineData("Academic","20080000", "01/09/2008","31/07/2009")]
+    public void CreateHealthMeasurePeriodDates_ShouldCreateTheCorrectFromDateAndToDateForMonthlyPeriod(
+        string indicatorPeriodType,
+        string timePeriodSortable,
+        string expectedFromDate,
+        string expectedToDate
+    )
     {
-        _stubIndicators = new List<SimpleIndicator>
-                {
-                    new()
-                    {
-                        IndicatorID = 1,
-                        PeriodType = "Calendar"
-                    },
-                    new()
-                    {
-                        IndicatorID = 2,
-                        PeriodType = "Financial"
-                    },
-                    new()
-                    {
-                        IndicatorID = 3,
-                        PeriodType = "November-November"
-                    },
-                };
-
-        _stubHealthMeasures = new List<HealthMeasureEntity>
-                {
-                    new()
-                    {
-                        IndicatorId = 1,
-                        TimePeriodSortable = "20090000"
-                    },
-                    new()
-                    {
-                        IndicatorId = 1,
-                        TimePeriodSortable = "20100000"
-                    },
-                    new()
-                    {
-                        IndicatorId = 2,
-                        TimePeriodSortable = "20090000"
-                    },
-                    new()
-                    {
-                        IndicatorId = 2,
-                        TimePeriodSortable = "20100000"
-                    },
-                    new()
-                    {
-                        IndicatorId = 3,
-                        TimePeriodSortable = "20090000"
-                    },
-                    new()
-                    {
-                        IndicatorId = 3,
-                        TimePeriodSortable = "20100000"
-                    },
-                };
+        const string reportingPeriod = "monthly";
+        var stubIndicators = new List<SimpleIndicator>{
+            new()
+            {
+                IndicatorID = 1,
+                PeriodType = indicatorPeriodType
+            }
+        };
+        var stubHealthMeasures = new List<HealthMeasureEntity>
+        {
+            new()
+            {
+                IndicatorId = 1,
+                TimePeriodSortable = timePeriodSortable,
+                Period = "yearly",
+            },
+        };
+        
+        // Act
+        _healthMeasureDateCalculator.CreateHealthMeasurePeriodDates(stubIndicators, stubHealthMeasures);
+        // Extract
+        var actualFromDates = stubHealthMeasures.First().FromDate;
+        var actualToDates = stubHealthMeasures.First().ToDate;
+        
+        // Assert
+        actualFromDates.ShouldBeEquivalentTo(expectedFromDate);
+        actualToDates.ShouldBeEquivalentTo(expectedToDate);
+    }
+    
+    
+    [Xunit.Theory]
+    [InlineData("Calendar", "20090000", "01/01/2009","31/12/2009")]
+    [InlineData("Yearly", "20090000", "01/01/2009","31/12/2009")]
+    [InlineData("Financial","20080000", "06/04/2008","05/04/2009")]
+    [InlineData("Financial multi-year","20080000", "06/04/2008","05/04/2009")]
+    [InlineData("Financial year end point", "20090000", "31/03/2009","31/03/2009")]
+    [InlineData("Academic","20080000", "01/09/2008","31/07/2009")]
+    public void CreateHealthMeasurePeriodDates_ShouldCreateTheCorrectFromDateAndToDateForYearlyPeriod(
+        string indicatorPeriodType,
+        string timePeriodSortable,
+        string expectedFromDate,
+        string expectedToDate
+        )
+    {
+        const string reportingPeriod = "yearly";
+        var stubIndicators = new List<SimpleIndicator>{
+            new()
+            {
+                IndicatorID = 1,
+                PeriodType = indicatorPeriodType
+            }
+        };
+        var stubHealthMeasures = new List<HealthMeasureEntity>
+        {
+            new()
+            {
+                IndicatorId = 1,
+                TimePeriodSortable = timePeriodSortable,
+                Period = "yearly",
+            },
+        };
+        
+        // Act
+        _healthMeasureDateCalculator.CreateHealthMeasurePeriodDates(stubIndicators, stubHealthMeasures);
+        // Extract
+        var actualFromDates = stubHealthMeasures.First().FromDate;
+        var actualToDates = stubHealthMeasures.First().ToDate;
+        
+        // Assert
+        actualFromDates.ShouldBeEquivalentTo(expectedFromDate);
+        actualToDates.ShouldBeEquivalentTo(expectedToDate);
     }
 
-    [Test]
-    public void CreateHealthMeasurePeriodDates_ShouldCreateTheCorrectFromDateAndToDate()
+    [Xunit.Theory]
+    [InlineData("Calendar", "20090000", "01/01/2009","31/12/2010")]
+    [InlineData("Yearly", "20090000", "01/01/2009","31/12/2010")]
+    [InlineData("Financial","20080000", "06/04/2008","05/04/2010")]
+    [InlineData("Financial multi-year","20080000", "06/04/2008","05/04/2010")] // TODO: handle this!
+    [InlineData("Academic","20080000", "01/09/2008","31/07/2010")]
+    public void CreateHealthMeasurePeriodDates_ShouldCreateTheCorrectFromDateAndToDateFor2YearlyPeriod(
+        string indicatorPeriodType,
+        string timePeriodSortable,
+        string expectedFromDate,
+        string expectedToDate
+    )
     {
-        // Arrange
-        var expectedFromDates = new List<string>
-        {
-            "01/01/2009",
-            "01/01/2010",
-            "06/04/2009",
-            "06/04/2010",
-            "01/11/2009",
-            "01/11/2010",
+        const string reportingPeriod = "2 yearly";
+        var stubIndicators = new List<SimpleIndicator>{
+            new()
+            {
+                IndicatorID = 1,
+                PeriodType = indicatorPeriodType
+            }
         };
-        var expectedToDates = new List<string>
+        var stubHealthMeasures = new List<HealthMeasureEntity>
         {
-            "31/12/2009",
-            "31/12/2010",
-            "05/04/2010",
-            "05/04/2011",
-            "31/10/2010",
-            "31/10/2011",
+            new()
+            {
+                IndicatorId = 1,
+                TimePeriodSortable = timePeriodSortable,
+                Period = reportingPeriod,
+            },
         };
-
+        
         // Act
-        DataManager.CreateHealthMeasurePeriodDates(_stubIndicators, _stubHealthMeasures);
+        _healthMeasureDateCalculator.CreateHealthMeasurePeriodDates(stubIndicators, stubHealthMeasures);
         // Extract
-        var actualFromDates = _stubHealthMeasures.Select(hm => hm.FromDate).ToList();
-        var actualToDates = _stubHealthMeasures.Select(hm => hm.ToDate).ToList();
-
+        var actualFromDates = stubHealthMeasures.First().FromDate;
+        var actualToDates = stubHealthMeasures.First().ToDate;
+        
         // Assert
-        actualFromDates.ShouldBeEquivalentTo(expectedFromDates);
-        actualToDates.ShouldBeEquivalentTo(expectedToDates);
+        actualFromDates.ShouldBeEquivalentTo(expectedFromDate);
+        actualToDates.ShouldBeEquivalentTo(expectedToDate);
+    }
+    
+    [Xunit.Theory]
+    [InlineData("Calendar", "20090000", "01/01/2009","31/12/2011")]
+    [InlineData("Yearly", "20090000", "01/01/2009","31/12/2011")]
+    [InlineData("Financial","20080000", "06/04/2008","05/04/2011")]
+    [InlineData("Academic","20080000", "01/09/2008","31/07/2011")]
+    public void CreateHealthMeasurePeriodDates_ShouldCreateTheCorrectFromDateAndToDateFor3YearlyPeriod(
+        string indicatorPeriodType,
+        string timePeriodSortable,
+        string expectedFromDate,
+        string expectedToDate
+    )
+    {
+        const string reportingPeriod = "3 yearly";
+        var stubIndicators = new List<SimpleIndicator>{
+            new()
+            {
+                IndicatorID = 1,
+                PeriodType = indicatorPeriodType
+            }
+        };
+        var stubHealthMeasures = new List<HealthMeasureEntity>
+        {
+            new()
+            {
+                IndicatorId = 1,
+                TimePeriodSortable = timePeriodSortable,
+                Period = reportingPeriod,
+            },
+        };
+        
+        // Act
+        _healthMeasureDateCalculator.CreateHealthMeasurePeriodDates(stubIndicators, stubHealthMeasures);
+        // Extract
+        var actualFromDates = stubHealthMeasures.First().FromDate;
+        var actualToDates = stubHealthMeasures.First().ToDate;
+        
+        // Assert
+        actualFromDates.ShouldBeEquivalentTo(expectedFromDate);
+        actualToDates.ShouldBeEquivalentTo(expectedToDate);
+    }
+
+    [Xunit.Theory]
+    [InlineData("Calendar", "20090000", "01/01/2009","31/12/2013")]
+    [InlineData("Yearly", "20090000", "01/01/2009","31/12/2013")]
+    [InlineData("Financial","20080000", "06/04/2008","05/04/2013")]
+    [InlineData("Academic","20080000", "01/09/2008","31/07/2013")]
+    public void CreateHealthMeasurePeriodDates_ShouldCreateTheCorrectFromDateAndToDateFor5YearlyPeriod(
+        string indicatorPeriodType,
+        string timePeriodSortable,
+        string expectedFromDate,
+        string expectedToDate
+    )
+    {
+        const string reportingPeriod = "5 yearly";
+        var stubIndicators = new List<SimpleIndicator>{
+            new()
+            {
+                IndicatorID = 1,
+                PeriodType = indicatorPeriodType
+            }
+        };
+        var stubHealthMeasures = new List<HealthMeasureEntity>
+        {
+            new()
+            {
+                IndicatorId = 1,
+                TimePeriodSortable = timePeriodSortable,
+                Period = reportingPeriod,
+            },
+        };
+        
+        // Act
+        _healthMeasureDateCalculator.CreateHealthMeasurePeriodDates(stubIndicators, stubHealthMeasures);
+        // Extract
+        var actualFromDates = stubHealthMeasures.First().FromDate;
+        var actualToDates = stubHealthMeasures.First().ToDate;
+        
+        // Assert
+        actualFromDates.ShouldBeEquivalentTo(expectedFromDate);
+        actualToDates.ShouldBeEquivalentTo(expectedToDate);
+    }
+    
+    [Xunit.Theory]
+    [InlineData("yearly", "01/11/2009", "31/10/2010")]
+    [InlineData("2 yearly", "01/11/2009", "31/10/2011")]
+    [InlineData("3 yearly", "01/11/2009", "31/10/2012")]
+    [InlineData("5 yearly", "01/11/2009", "31/10/2014")]
+    public void CreateHealthMeasurePeriodDates_ShouldCreateTheCorrectYearlyDatesForNov_Nov(string period, string expectedFromDate, string expectedToDate)
+    {
+        var stubIndicators = new List<SimpleIndicator>{
+            new()
+            {
+                IndicatorID = 1,
+                PeriodType = "Yearly",
+                YearType = "November-November"
+            }
+        };
+        var stubHealthMeasures = new List<HealthMeasureEntity>
+        {
+            new()
+            {
+                IndicatorId = 1,
+                TimePeriodSortable = "20090000",
+                Period = period,
+            },
+        };
+        
+        // Act
+        _healthMeasureDateCalculator.CreateHealthMeasurePeriodDates(stubIndicators, stubHealthMeasures);
+        // Extract
+        var actualFromDates = stubHealthMeasures.First().FromDate;
+        var actualToDates = stubHealthMeasures.First().ToDate;
+        
+        // Assert
+        actualFromDates.ShouldBeEquivalentTo(expectedFromDate);
+        actualToDates.ShouldBeEquivalentTo(expectedToDate);
     }
 }
