@@ -6,8 +6,6 @@ import {
   FileUpload,
   H1,
   InputField,
-  Label,
-  LabelText,
   Table,
   WarningText,
 } from 'govuk-react';
@@ -17,8 +15,8 @@ import { uploadFile } from './uploadActions';
 import { useActionState } from 'react';
 
 // TODO: Extract stles to a style.tsx file
-const InterimWarningText = styled(WarningText)({
-  fontSize: '20px', // TODO: This font sizing isn't working!
+const UploadPageText = styled('span')({ fontSize: '20px' });
+const InterimWarning = styled(WarningText)({
   marginBottom: '50px',
 });
 const ApiResponsePanel = styled('div')({
@@ -29,14 +27,15 @@ const ApiResponsePanel = styled('div')({
   padding: '15px',
 });
 const PageHeading = styled(H1)({ fontSize: '36px' });
-const FieldLabelText = styled(LabelText)({
+const FieldLabel = styled('div')({
   fontSize: '20px',
   fontWeight: 700,
 });
+const FieldLabelWithSpacing = styled(FieldLabel)({
+  marginBottom: '19px',
+});
 const InputFieldWithSpacing = styled(InputField)({ marginBottom: '50px' });
 const DateEntry = styled(DateField)({
-  fontSize: '20px', // TODO: This font sizing isn't working!
-  fontWeight: 700, // TODO: This font sizing isn't working!
   marginBottom: '50px',
 });
 const FileUploadWithMargin = styled(FileUpload)({ marginBottom: '50px' });
@@ -49,11 +48,13 @@ export const Upload = () => {
   );
 
   return (
-    <Form action={uploadFileAction}>
-      <InterimWarningText>
-        This is an interim tool to allow developers to demonstrate data upload
-        to the API
-      </InterimWarningText>
+    <>
+      <InterimWarning>
+        <UploadPageText>
+          This is an interim tool to allow developers to demonstrate data upload
+          to the API
+        </UploadPageText>
+      </InterimWarning>
 
       {uploadResponse ? (
         <ApiResponsePanel>
@@ -75,44 +76,40 @@ export const Upload = () => {
 
       <PageHeading>Indicator data portal</PageHeading>
 
-      <InputFieldWithSpacing
-        hint="This is a unique identification number"
-        input={{ name: 'indicatorId', type: 'number' }}
-      >
-        <Label>
-          <FieldLabelText>Add indicator ID</FieldLabelText>
-        </Label>
-      </InputFieldWithSpacing>
+      <Form action={uploadFileAction}>
+        <InputFieldWithSpacing
+          hint="This is a unique identification number"
+          input={{ name: 'indicatorId', type: 'number' }}
+        >
+          <FieldLabel>Add indicator ID</FieldLabel>
+        </InputFieldWithSpacing>
 
-      <DateEntry
-        hintText="The date must be today or in the future"
-        inputs={{
-          day: { name: 'publishDateDay', type: 'number' },
-          month: { name: 'publishDateMonth', type: 'number' },
-          year: { name: 'publishDateYear', type: 'number' },
-        }}
-      >
-        {/* TODO: Need to style this text */}
-        Add a publish date
-      </DateEntry>
+        <DateEntry
+          hintText="The date must be today or in the future"
+          inputs={{
+            day: { name: 'publishDateDay', type: 'number' },
+            month: { name: 'publishDateMonth', type: 'number' },
+            year: { name: 'publishDateYear', type: 'number' },
+          }}
+        >
+          <FieldLabel>Add a publish date</FieldLabel>
+        </DateEntry>
 
-      <FileUploadWithMargin
-        acceptedFormats=".csv"
-        hint="The file must be the CSV format provided by this service"
-        name="file"
-      >
-        {/* TODO: Need to style this text */}
-        Upload a file
-      </FileUploadWithMargin>
+        <FileUploadWithMargin
+          acceptedFormats=".csv"
+          hint="The file must be the CSV format provided by this service"
+          name="file"
+        >
+          <FieldLabel>Upload a file</FieldLabel>
+        </FileUploadWithMargin>
 
-      <SubmitContainer>
-        <Label>
-          <FieldLabelText>
+        <SubmitContainer>
+          <FieldLabelWithSpacing>
             Submit the uploaded file and information
-          </FieldLabelText>
-        </Label>
-        <Button disabled={uploadPending}>Submit</Button>
-      </SubmitContainer>
-    </Form>
+          </FieldLabelWithSpacing>
+          <Button disabled={uploadPending}>Submit</Button>
+        </SubmitContainer>
+      </Form>
+    </>
   );
 };
