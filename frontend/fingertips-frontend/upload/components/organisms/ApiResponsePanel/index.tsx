@@ -1,5 +1,5 @@
 import { Table } from 'govuk-react';
-import { ApiResponse } from '../../forms/IndicatorUploadForm/uploadActions';
+import { ApiResponse } from '@/upload/components/forms/IndicatorUploadForm/uploadActions';
 import { ResponsePanel } from './ApiResponsePanel.styles';
 
 type ApiResponsePanelProps = {

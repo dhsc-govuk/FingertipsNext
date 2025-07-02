@@ -2,8 +2,8 @@
 
 import { IndicatorUploadForm } from '@/upload/components/forms/IndicatorUploadForm';
 import { useActionState } from 'react';
-import { uploadFile } from '../../forms/IndicatorUploadForm/uploadActions';
-import { ApiResponsePanel } from '../../organisms/ApiResponsePanel';
+import { uploadFile } from '@/upload/components/forms/IndicatorUploadForm/uploadActions';
+import { ApiResponsePanel } from '@/upload/components/organisms/ApiResponsePanel';
 import {
   InterimWarning,
   InterimWarningText,
