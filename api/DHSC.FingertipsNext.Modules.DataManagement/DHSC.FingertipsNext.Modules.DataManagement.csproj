@@ -13,9 +13,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Azure.Storage.Blobs" Version="12.24.1" />
-      <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.3.0" />
-      <PackageReference Include="Microsoft.Extensions.Azure" Version="1.12.0" />
+      <PackageReference Include="Azure.Storage.Blobs"  />
+      <PackageReference Include="Microsoft.AspNetCore.Mvc" />
+      <PackageReference Include="Microsoft.Extensions.Azure" />
     </ItemGroup>
 
 </Project>
