@@ -27,9 +27,10 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
     /// <param name="indicatorId"></param>
     /// <param name="areaCodes"></param>
     /// <returns>IndicatorDimensionModel containing relevant indicator metadata</returns>
-    public async Task<IndicatorDimensionModel?> GetIndicatorDimensionAsync(int indicatorId, string[] areaCodes)
+    public async Task<IndicatorDimensionModel?> GetIndicatorDimensionAsync(int indicatorId, string[] areaCodes, bool includeUnpublished = false)
     {
-        var model = await _dbContext.PublishedHealthMeasure
+        var queryable=_dbContext.GetHealthMeasureQueryable(includeUnpublished);
+        var model = await queryable
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
             .Where(HealthDataPredicates.IsInAreaCodes(areaCodes))
             .Where(HealthDataPredicates.IsNotEnglandWhenMultipleRequested(areaCodes))
@@ -50,7 +51,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         if (model != null) return model;
 
         // Default to the latest year for all indicator data if none of the requested areas have data
-        return await _dbContext.PublishedHealthMeasure
+        return await queryable
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
             .OrderByDescending(healthMeasure => healthMeasure.Year)
             .Include(healthMeasure => healthMeasure.IndicatorDimension)
@@ -84,8 +85,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
 
         DateTime? toDateTime = toDate != null ? toDate.Value.ToDateTime(TimeOnly.MinValue) : null;
         DateTime? fromDateTime = fromDate != null ? fromDate.Value.ToDateTime(TimeOnly.MinValue) : null;
-        var healthMeasureQueryable = includeUnpublished ? _dbContext.HealthMeasure : _dbContext.PublishedHealthMeasure;
-        var healthMeasures = await healthMeasureQueryable
+        var healthMeasures = await _dbContext.GetHealthMeasureQueryable(includeUnpublished)
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
             .Where(HealthDataPredicates.IsInAreaCodes(areaCodes))
             .Where(healthMeasure => years.Length == 0 || EF.Constant(years).Contains(healthMeasure.Year))

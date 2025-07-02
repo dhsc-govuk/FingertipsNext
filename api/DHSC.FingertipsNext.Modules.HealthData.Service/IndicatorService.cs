@@ -55,7 +55,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         bool includeUnpublished = false
         )
     {
-        var indicator = await healthDataRepository.GetIndicatorDimensionAsync(indicatorId, [.. areaCodes]);
+        var indicator = await healthDataRepository.GetIndicatorDimensionAsync(indicatorId, [.. areaCodes], includeUnpublished);
         if (indicator == null)
             return new ServiceResponse<IndicatorWithHealthDataForAreas>(ResponseStatus.IndicatorDoesNotExist);
 
@@ -76,7 +76,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
             method,
             polarity,
             fromDate,
-            toDate
+            toDate,
+            includeUnpublished
         )) ?? [])
         .ToList();
 
@@ -144,7 +145,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
                 areaType,
                 benchmarkAreaCode,
                 fromDate,
-                toDate
+                toDate,
+                includeUnpublished
             );
 
             return denormalisedHealthMeasureData
@@ -180,7 +182,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
             years.Distinct().ToArray(),
             inequalitiesList.Distinct().ToArray(),
             fromDate,
-            toDate);
+            toDate,
+            includeUnpublished);
 
         var healthDataForAreas = healthMeasureData
             .GroupBy(healthMeasure => new

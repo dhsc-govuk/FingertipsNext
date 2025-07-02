@@ -260,7 +260,8 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
             inequalities ?? [],
             latestOnly,
             fromDate,
-            toDate
+            toDate,
+            includeUnpublished
         );
 
         return indicatorData?.Status switch

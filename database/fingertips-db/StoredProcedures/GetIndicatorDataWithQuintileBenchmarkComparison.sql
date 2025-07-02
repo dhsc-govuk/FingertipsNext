@@ -14,14 +14,14 @@ CREATE PROCEDURE [dbo].[GetIndicatorDetailsWithQuintileBenchmarkComparison] --- 
 @RequestedToDate DATE,
 @IncludeUnpublishedData BIT
 AS BEGIN
-DECLARE @NOW AS DATETIME2;
+DECLARE @DateBefore AS DATETIME2;
 
 --IF we don't want to include unpblished data we want data that has a published date in the past
 --IF we do want unpublished data we want data older than 10 years in the future - same as all dates
 IF @IncludeUnpublishedData = 0
-	SET @NOW = GETUTCDATE();
+	SET @DateBefore = GETUTCDATE();
 ELSE
-	SET @NOW = DateAdd(yy, 10, GETDATE());
+	SET @DateBefore = DateAdd(yy, 10, GETDATE());
 
 
 WITH --- Get the Benchmark Area
@@ -126,7 +126,7 @@ HealthData AS (
 			@RequestedToDate IS NULL
 			OR toDate.Date <= @RequestedToDate
 		)
-		AND hm.PublishedAt <= @NOW
+		AND hm.PublishedAt <= @DateBefore
 ),
 HealthDataNTileGroupCount AS (
 	SELECT ToDate,
