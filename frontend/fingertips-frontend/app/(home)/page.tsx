@@ -1,5 +1,4 @@
 import { Home } from '@/components/pages/home';
-
 import { SearchFormState } from '@/components/forms/SearchForm/searchActions';
 import {
   SearchParams,
@@ -66,7 +65,6 @@ export default async function Page(
           availableAreas,
         }}
         selectedAreasData={selectedAreasData}
-        searchState={stateManager.getSearchState()}
       />
     );
   } catch (error) {

@@ -2,6 +2,7 @@ services:
   frontend:
     profiles:
       - all
+      - app-services
       - frontend
 
     build: frontend/fingertips-frontend
@@ -16,12 +17,15 @@ services:
   api:
     profiles:
       - all
+      - app-services
       - api
 
     depends_on:
       db-setup:
         condition: service_completed_successfully
       db-apply-trends:
+        condition: service_completed_successfully
+      storage-setup:
         condition: service_completed_successfully
 
     build: api
@@ -31,6 +35,13 @@ services:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       TRUST_CERT: "True"
+
+      # These are the publicly-available connection details for the Azurite storage emulator.
+      # DO NOT commit the details of an actual Azure Storage account here!
+      UPLOAD_STORAGE_ACCOUNT_URI: "${UPLOAD_STORAGE_ACCOUNT_URI:-http://storage:10000/devstoreaccount1}"
+      UPLOAD_STORAGE_ACCOUNT_NAME: "${UPLOAD_STORAGE_ACCOUNT_NAME:-devstoreaccount1}"
+      UPLOAD_STORAGE_ACCOUNT_KEY: "${UPLOAD_STORAGE_ACCOUNT_KEY:-Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==}"
+      UPLOAD_STORAGE_CONTAINER_NAME: ${UPLOAD_STORAGE_CONTAINER_NAME}
     ports:
       - 5144:8080
     healthcheck:
@@ -44,6 +55,7 @@ services:
     profiles:
       - all
       - api
+      - backend-services
       - db
 
     depends_on:
@@ -60,8 +72,9 @@ services:
   db-apply-trends:
     profiles:
       - all
-      - db
       - api
+      - backend-services
+      - db
 
     depends_on:
       db-setup:
@@ -75,6 +88,7 @@ services:
     profiles:
       - all
       - api
+      - backend-services
       - db
 
     image: mcr.microsoft.com/mssql/server
@@ -85,3 +99,48 @@ services:
       - 1433:1433
     volumes:
       - ./DataCreator/DataCreator/data/out:/var/opt/mssql/csv/
+
+  storage:
+    profiles:
+      - all
+      - api
+      - backend-services
+      - storage
+
+    image: mcr.microsoft.com/azure-storage/azurite
+    command:
+      - azurite-blob # Run only the blob storage service
+      - --blobHost # Allow the blob service to listen for external connections
+      - 0.0.0.0
+      - --skipApiVersionCheck # Don't enforce specific API versions
+    ports:
+      - 10000:10000
+
+  storage-setup:
+    profiles:
+      - all
+      - api
+      - backend-services
+      - storage
+
+    depends_on:
+      - storage
+
+    image: mcr.microsoft.com/azure-cli
+    command:
+      - az
+      - storage
+      - container
+      - create
+      - --blob-endpoint
+
+      # These are the publicly-available connection details for the Azurite storage emulator.
+      # DO NOT commit the details of an actual Azure Storage account here!
+      - "${UPLOAD_STORAGE_ACCOUNT_URI:-http://storage:10000/devstoreaccount1}"
+      - --account-name
+      - "${UPLOAD_STORAGE_ACCOUNT_NAME:-devstoreaccount1}"
+      - --account-key
+      - "${UPLOAD_STORAGE_ACCOUNT_KEY:-Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==}"
+
+      - --name
+      - ${UPLOAD_STORAGE_CONTAINER_NAME}

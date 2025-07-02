@@ -9,7 +9,7 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { SpineChartTable } from '@/components/organisms/SpineChartTable';
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import { SearchParams } from '@/lib/searchStateManager';
 import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmapUtil';
 import {
   buildSpineChartIndicatorData,
@@ -24,6 +24,7 @@ import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
 import { BenchmarkSelectArea } from '@/components/molecules/BenchmarkSelectArea';
 import { englandAreaString } from '@/lib/chartHelpers/constants';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
 function shouldShowHeatmap(
   areaCodes: string[],
@@ -64,19 +65,19 @@ export function extractHeatmapIndicatorData(
 }
 
 export function TwoOrMoreIndicatorsAreasViewPlot({
-  searchState,
   indicatorData,
   indicatorMetadata,
   benchmarkStatistics,
   availableAreas,
 }: Readonly<TwoOrMoreIndicatorsViewPlotProps>) {
-  const stateManager = SearchStateManager.initialise(searchState);
+  const searchState = useSearchStateParams();
+
   const {
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.GroupAreaSelected]: groupAreaSelected,
     [SearchParams.BenchmarkAreaSelected]: benchmarkAreaSelected,
-  } = stateManager.getSearchState();
+  } = searchState;
 
   const areaCodes = determineAreaCodes(
     areasSelected,
@@ -126,10 +127,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
 
   return (
     <section data-testid="twoOrMoreIndicatorsAreasViewPlot-component">
-      <BenchmarkSelectArea
-        availableAreas={availableAreasForBenchmarking}
-        benchmarkAreaSelectedKey={SearchParams.BenchmarkAreaSelected}
-      />
+      <BenchmarkSelectArea availableAreas={availableAreasForBenchmarking} />
       {shouldShowSpineChart(
         areaCodes,
         spineChartIndicatorData,
@@ -139,7 +137,6 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
           <SpineChartTable
             indicatorData={spineChartIndicatorData}
             benchmarkToUse={benchmarkToUse}
-            searchState={searchState}
           />
         </StyleChartWrapper>
       ) : null}

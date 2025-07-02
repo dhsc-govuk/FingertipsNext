@@ -18,7 +18,9 @@ CREATE TABLE [dbo].[HealthMeasure](
 	[IsDeprivationAggregatedOrSingle] bit NULL,
 	[FromDateKey] [int] NULL,
 	[ToDateKey] [int] NULL,
-	[PeriodKey] [tinyint] NULL           
+	[PeriodKey] [tinyint] NULL,
+	[PublishedAt] [datetime2] NOT NULL,
+	[BatchId] [nvarchar](50) NOT NULL          
  CONSTRAINT [PK_HealthMeasure] PRIMARY KEY CLUSTERED
 (
 	[HealthMeasureKey] ASC
@@ -106,6 +108,10 @@ CREATE NONCLUSTERED INDEX [IndicatorIndex] ON [dbo].[HealthMeasure]
 (
 	[IndicatorKey] ASC
 )
+INCLUDE 
+(
+	[FromDateKey], [PeriodKey]
+);
 GO
 
 CREATE NONCLUSTERED INDEX [SexIndex] ON [dbo].[HealthMeasure]
@@ -144,12 +150,50 @@ CREATE NONCLUSTERED INDEX [PeriodIndex] ON [dbo].[HealthMeasure]
 )
 GO
 
-CREATE NONCLUSTERED INDEX InequalitiesAggregatedIndex
+CREATE NONCLUSTERED INDEX [PublishedAtIndex] ON [dbo].[HealthMeasure] 
+(
+	[PublishedAt]
+) 
+INCLUDE 
+(
+	[IndicatorKey],[FromDateKey],[PeriodKey]
+)
+GO
+
+CREATE NONCLUSTERED INDEX [IndicatorPublishedAtIndex] ON [dbo].[HealthMeasure] 
+(
+	[IndicatorKey],[PublishedAt]
+) 
+INCLUDE 
+(
+	[FromDateKey]
+)
+GO
+
+CREATE NONCLUSTERED INDEX InequalitiesAggregatedIndex	
 ON [dbo].[HealthMeasure] ([IsSexAggregatedOrSingle],[IsAgeAggregatedOrSingle],[IsDeprivationAggregatedOrSingle])
-INCLUDE ([AgeKey],[AreaKey],[IndicatorKey],[SexKey],[TrendKey],[DeprivationKey],[Count],[Value],[LowerCI],[UpperCI],[Year])
+INCLUDE ([AgeKey],[AreaKey],[IndicatorKey],[SexKey],[TrendKey],[DeprivationKey],[Count],[Value],[LowerCI],[UpperCI],[FromDateKey])
 
 GO
 CREATE NONCLUSTERED INDEX InequalitiesAndIndicatorAggregatedIndex
 ON [dbo].[HealthMeasure] ([IndicatorKey],[IsSexAggregatedOrSingle],[IsAgeAggregatedOrSingle],[IsDeprivationAggregatedOrSingle])
-INCLUDE ([AgeKey],[AreaKey],[SexKey],[TrendKey],[DeprivationKey],[Count],[Value],[LowerCI],[UpperCI],[Year])
+INCLUDE ([AgeKey],[AreaKey],[SexKey],[TrendKey],[DeprivationKey],[Count],[Value],[LowerCI],[UpperCI],[FromDateKey])
+GO
+
+CREATE NONCLUSTERED INDEX QuartileAggregateIndex
+ON [dbo].[HealthMeasure] (
+    [IndicatorKey],
+    [PeriodKey],
+    [FromDateKey],
+    [IsSexAggregatedOrSingle],
+    [IsAgeAggregatedOrSingle],
+    [IsDeprivationAggregatedOrSingle]
+)
+INCLUDE (
+    [AreaKey],
+    [Value],
+    [Year],
+    [ToDateKey],
+    [PublishedAt]
+);
 GO

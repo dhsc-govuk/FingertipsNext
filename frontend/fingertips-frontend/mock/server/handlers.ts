@@ -1,6 +1,5 @@
 import { http, HttpResponse } from 'msw';
 import { faker } from '@faker-js/faker';
-import { mockHealthData } from '@/mock/data/healthdata';
 import { mockAreaData, mockAvailableAreas } from '../data/areaData';
 import {
   allAreaTypes,
@@ -9,10 +8,13 @@ import {
 import {
   Area,
   AreaWithRelations,
-  BenchmarkComparisonMethod,
+  HealthDataForArea,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { ErrorIdPrefix } from '@/mock/ErrorTriggeringIds';
+import { mockHealthDataForArea } from '../data/mockHealthDataForArea';
+import { mockIndicatorWithHealthDataForArea } from '../data/mockIndicatorWithHealthDataForArea';
+import { mockHealthDataPoints } from '../data/mockHealthDataPoint';
 
 faker.seed(1);
 
@@ -141,13 +143,16 @@ export const handlers = [
       return HttpResponse.json(...resultArray[next() % resultArray.length]);
     }
   ),
+
   http.post(`${baseURL}/indicators/:indicatorId/data`, async () => {
     const resultArray = [
-      [getPostIndicatorsIndicatorIdData501Response(), { status: 501 }],
+      [getPostIndicatorsIndicatorIdData202Response(), { status: 202 }],
+      [getPostIndicatorsIndicatorIdData400Response(), { status: 400 }],
     ];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
+
   http.delete(`${baseURL}/indicators/:indicatorId/data`, async () => {
     const resultArray = [
       [getDeleteIndicatorsIndicatorIdData501Response(), { status: 501 }],
@@ -249,23 +254,21 @@ export function getGetHealthDataForAnIndicator200Response(
   indicatorId: string,
   areaCodes: string[]
 ): IndicatorWithHealthDataForArea {
-  let healthDataForIndicator = mockHealthData[1];
-
-  if (indicatorId in mockHealthData) {
-    healthDataForIndicator = mockHealthData[indicatorId];
-  }
-
-  const healthDataForArea = healthDataForIndicator.filter((healthData) =>
-    areaCodes.includes(healthData.areaCode)
+  const healthDataForAreas: HealthDataForArea[] = areaCodes.map((areaCode) =>
+    mockHealthDataForArea({
+      areaCode: areaCode,
+      areaName: areaCode,
+      healthData: mockHealthDataPoints([
+        { year: 2020, value: 10 },
+        { year: 2021, value: 9 },
+        { year: 2022, value: 8 },
+      ]),
+    })
   );
-  return {
+  return mockIndicatorWithHealthDataForArea({
     indicatorId: Number(indicatorId),
-    name: 'Indicator Name',
-    benchmarkMethod: BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-    areaHealthData: !isAreaCodesEmpty(areaCodes)
-      ? healthDataForArea
-      : healthDataForIndicator,
-  };
+    areaHealthData: healthDataForAreas,
+  });
 }
 
 export function getGetHealthDataForAnIndicator500Response() {
@@ -274,16 +277,18 @@ export function getGetHealthDataForAnIndicator500Response() {
   };
 }
 
-export function getPostIndicatorsIndicatorIdData501Response() {
-  return null;
+export function getPostIndicatorsIndicatorIdData202Response() {
+  return {
+    message: 'Data processing started successfully',
+  };
+}
+
+export function getPostIndicatorsIndicatorIdData400Response() {
+  return getGetIndicator404Response();
 }
 
 export function getDeleteIndicatorsIndicatorIdData501Response() {
   return null;
-}
-
-function isAreaCodesEmpty(areaCodes: string[]) {
-  return !areaCodes.length || (areaCodes.length === 1 && areaCodes[0] === '');
 }
 
 function getMockSelectedAreaData(areaCodes: string[]) {

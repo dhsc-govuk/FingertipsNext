@@ -7,19 +7,25 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { API_CACHE_CONFIG } from '@/lib/apiClient/apiClientFactory';
 import { maxNumAreasThatCanBeRequestedAPI } from '@/lib/chunkArray';
 
-const mockGetHealthDataForAnIndicator = jest.fn();
+const mockGetHealthDataForAnIndicator = vi.fn();
 
-jest.mock('@/lib/apiClient/apiClientFactory', () => ({
-  ApiClientFactory: {
-    getIndicatorsApiClient: jest.fn().mockImplementation(() => {
-      return {
-        getHealthDataForAnIndicator: mockGetHealthDataForAnIndicator,
-      };
-    }),
-  },
-}));
+vi.mock('@/lib/apiClient/apiClientFactory', async () => {
+  const originalModule = await vi.importActual(
+    '@/lib/apiClient/apiClientFactory'
+  );
 
-jest.mock('@/components/organisms/PopulationPyramidWithTable', () => ({
+  return {
+    ...originalModule,
+    ApiClientFactory: {
+      getIndicatorsApiClient: vi.fn().mockImplementation(() => {
+        return {
+          getHealthDataForAnIndicator: mockGetHealthDataForAnIndicator,
+        };
+      }),
+    },
+  };
+});
+vi.mock('@/components/organisms/PopulationPyramidWithTable', () => ({
   PopulationPyramidWithTable: () => <div>PopulationPyramidWithTable</div>,
 }));
 

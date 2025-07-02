@@ -1,5 +1,5 @@
 /**
- * @jest-environment node
+ * @vitest-environment node
  */
 
 import {
@@ -8,7 +8,7 @@ import {
   IndicatorsApi,
 } from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
-import { mockDeep } from 'jest-mock-extended';
+import { mockDeep } from 'vitest-mock-extended';
 import TwoOrMoreIndicatorsAreasView from '.';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import {
@@ -185,7 +185,6 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
       selectedIndicatorsData: fullSelectedIndicatorsData,
     });
 
-    expect(page.props.children.props.searchState).toEqual(fullSearchParams);
     expect(page.props.children.props.indicatorData).toEqual([
       mockIndicator,
       mockIndicator,

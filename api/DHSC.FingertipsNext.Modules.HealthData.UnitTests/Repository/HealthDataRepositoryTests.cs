@@ -74,7 +74,12 @@ public class HealthDataRepositoryTests : IDisposable
                 Name = String.Empty,
                 IndicatorId = INDICATORID
             },
-            Year = LATESTYEAR - 1
+            Year = LATESTYEAR - 1,
+            PublishedAt = new DateTime(2025, 1, 1),
+            BatchId = $"{INDICATORID}_2099-01-01T12:00:00:000",
+            FromDateDimension = new DateDimensionModel { DateKey = 100, Date = new DateTime(LATESTYEAR - 1, 1, 1) },
+            ToDateDimension = new DateDimensionModel { DateKey = 101, Date = new DateTime(LATESTYEAR - 1, 12, 31) },
+            PeriodDimension = new PeriodDimensionModel { PeriodKey = 100, Period = "Calendar" }
         });
 
         // act
@@ -201,7 +206,7 @@ public class HealthDataRepositoryTests : IDisposable
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(1);
         result.ShouldBeEquivalentTo(
-            new List<HealthMeasureModel>() { ResetKeys(expectedHealthMeasure) }
+            new List<HealthMeasureModel>() { expectedHealthMeasure }
         );
     }
 
@@ -245,8 +250,8 @@ public class HealthDataRepositoryTests : IDisposable
         result.ShouldBeEquivalentTo(
             new List<HealthMeasureModel>()
             {
-                ResetKeys(expectedHealthMeasure1),
-                ResetKeys(expectedHealthMeasure2),
+                expectedHealthMeasure1,
+                expectedHealthMeasure2,
             }
         );
     }
@@ -300,8 +305,8 @@ public class HealthDataRepositoryTests : IDisposable
         result.ShouldBeEquivalentTo(
             new List<HealthMeasureModel>()
             {
-                ResetKeys(expectedHealthMeasure1),
-                ResetKeys(expectedHealthMeasure2),
+                expectedHealthMeasure1,
+                expectedHealthMeasure2,
             }
         );
     }
@@ -386,10 +391,10 @@ public class HealthDataRepositoryTests : IDisposable
         result.ShouldBeEquivalentTo(
             new List<HealthMeasureModel>()
             {
-                ResetKeys(expectedHealthMeasure1),
-                ResetKeys(expectedHealthMeasure2),
-                ResetKeys(expectedHealthMeasure3),
-                ResetKeys(expectedHealthMeasure4),
+                expectedHealthMeasure1,
+                expectedHealthMeasure2,
+                expectedHealthMeasure3,
+                expectedHealthMeasure4,
             }
         );
     }
@@ -426,7 +431,7 @@ public class HealthDataRepositoryTests : IDisposable
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(1);
         result.ShouldBeEquivalentTo(
-            new List<HealthMeasureModel>() { ResetKeys(expectedHealthMeasure) }
+            new List<HealthMeasureModel>() { expectedHealthMeasure }
         );
     }
 
@@ -463,8 +468,8 @@ public class HealthDataRepositoryTests : IDisposable
         result.ShouldBeEquivalentTo(
             new List<HealthMeasureModel>()
             {
-                ResetKeys(expectedHealthMeasure1),
-                ResetKeys(expectedHealthMeasure2),
+                expectedHealthMeasure1,
+                expectedHealthMeasure2,
             }
         );
     }
@@ -525,7 +530,7 @@ public class HealthDataRepositoryTests : IDisposable
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(1);
         result.ShouldBeEquivalentTo(
-            new List<HealthMeasureModel>() { ResetKeys(expectedHealthMeasure) }
+            new List<HealthMeasureModel>() { expectedHealthMeasure }
         );
     }
 
@@ -562,8 +567,8 @@ public class HealthDataRepositoryTests : IDisposable
         result.ShouldBeEquivalentTo(
             new List<HealthMeasureModel>()
             {
-                ResetKeys(expectedHealthMeasure1),
-                ResetKeys(expectedHealthMeasure2),
+                expectedHealthMeasure1,
+                expectedHealthMeasure2,
             }
         );
     }
@@ -626,7 +631,7 @@ public class HealthDataRepositoryTests : IDisposable
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(1);
         result.ShouldBeEquivalentTo(
-            new List<HealthMeasureModel>() { ResetKeys(expectedHealthMeasure) }
+            new List<HealthMeasureModel>() { expectedHealthMeasure }
         );
     }
 
@@ -665,8 +670,8 @@ public class HealthDataRepositoryTests : IDisposable
         result.ShouldBeEquivalentTo(
             new List<HealthMeasureModel>()
             {
-                ResetKeys(expectedHealthMeasure1),
-                ResetKeys(expectedHealthMeasure2),
+                expectedHealthMeasure1,
+                expectedHealthMeasure2,
             }
         );
     }
@@ -700,7 +705,7 @@ public class HealthDataRepositoryTests : IDisposable
     public async Task GetIndicatorDataAsyncShouldIncludeResultsWithOnlySexDimensionDataIfSexInequalityIsSpecified()
     {
         // arrange
-        var healthMeasureWithSex = new HealthMeasureModelHelper(1, 2020, false)
+        var healthMeasureWithSex = new HealthMeasureModelHelper(1, 2020)
             .WithSexDimension(hasValue: true, sexIsAggregate: false)
             .WithIndicatorDimension(_indicatorDimension)
             .Build();
@@ -708,7 +713,7 @@ public class HealthDataRepositoryTests : IDisposable
         PopulateDatabase(healthMeasureWithSex);
 
         // should NOT be in the results because it is not aggregated for age and age is not specified
-        var healthMeasureWithSexAndAge = new HealthMeasureModelHelper(2, 2021, false)
+        var healthMeasureWithSexAndAge = new HealthMeasureModelHelper(2, 2021)
             .WithSexDimension(hasValue: true, sexIsAggregate: false)
             .WithAgeDimension(hasValue: true, ageIsAggregate: false)
             .WithIndicatorDimension(_indicatorDimension)
@@ -731,8 +736,8 @@ public class HealthDataRepositoryTests : IDisposable
         result.ShouldBeEquivalentTo(
             new List<HealthMeasureModel>
             {
-                ResetKeys(healthMeasureWithSex),
-                ResetKeys(healthMeasureWithNoSexAndNoAge),
+                healthMeasureWithSex,
+                healthMeasureWithNoSexAndNoAge,
             }
         );
     }
@@ -741,7 +746,7 @@ public class HealthDataRepositoryTests : IDisposable
     public async Task GetIndicatorDataAsyncShouldIncludeResultsWithOnlyAgeDimensionDataIfAgeInequalityIsSpecified()
     {
         // arrange
-        var healthMeasureWithAgeAndNoSex = new HealthMeasureModelHelper(1, 2020, false)
+        var healthMeasureWithAgeAndNoSex = new HealthMeasureModelHelper(1, 2020)
             .WithSexDimension(hasValue: false)
             .WithAgeDimension(hasValue: true, ageIsAggregate: false)
             .WithIndicatorDimension(_indicatorDimension)
@@ -749,7 +754,7 @@ public class HealthDataRepositoryTests : IDisposable
         healthMeasureWithAgeAndNoSex.IsAgeAggregatedOrSingle = false;
         PopulateDatabase(healthMeasureWithAgeAndNoSex);
 
-        var healthMeasureWithAgeAndSex = new HealthMeasureModelHelper(2, 2020, false)
+        var healthMeasureWithAgeAndSex = new HealthMeasureModelHelper(2, 2020)
             .WithAgeDimension(hasValue: true, ageIsAggregate: false)
             .WithSexDimension(hasValue: true, sexIsAggregate: false)
             .WithIndicatorDimension(_indicatorDimension)
@@ -758,7 +763,7 @@ public class HealthDataRepositoryTests : IDisposable
         healthMeasureWithAgeAndSex.IsSexAggregatedOrSingle = false;
         PopulateDatabase(healthMeasureWithAgeAndSex);
 
-        var healthMeasureWithNoAgeAndSex = new HealthMeasureModelHelper(3, 2020, false)
+        var healthMeasureWithNoAgeAndSex = new HealthMeasureModelHelper(3, 2020)
             .WithAgeDimension(hasValue: false)
             .WithSexDimension(hasValue: true, sexIsAggregate: false)
             .WithIndicatorDimension(_indicatorDimension)
@@ -782,8 +787,8 @@ public class HealthDataRepositoryTests : IDisposable
         result.ShouldBeEquivalentTo(
             new List<HealthMeasureModel>
             {
-                ResetKeys(healthMeasureWithAgeAndNoSex),
-                ResetKeys(healthMeasureWithNoAgeAndNoSex),
+                healthMeasureWithAgeAndNoSex,
+                healthMeasureWithNoAgeAndNoSex,
             }
         );
     }
@@ -792,7 +797,7 @@ public class HealthDataRepositoryTests : IDisposable
     public async Task GetIndicatorDataAsyncShouldIncludeResultsWithOnlyDeprivationDimensionDataIfDeprivationInequalityIsSpecified()
     {
         // arrange
-        var healthMeasureWithAgeAndNoDeprivation = new HealthMeasureModelHelper(1, 2020, false)
+        var healthMeasureWithAgeAndNoDeprivation = new HealthMeasureModelHelper(1, 2020)
             .WithAgeDimension(hasValue: true, ageIsAggregate: false)
             .WithDeprivationDimension(hasValue: false)
             .WithIndicatorDimension(_indicatorDimension)
@@ -800,7 +805,7 @@ public class HealthDataRepositoryTests : IDisposable
         healthMeasureWithAgeAndNoDeprivation.IsAgeAggregatedOrSingle = false;
         PopulateDatabase(healthMeasureWithAgeAndNoDeprivation);
 
-        var healthMeasureWithAgeAndDeprivation = new HealthMeasureModelHelper(2, 2020, false)
+        var healthMeasureWithAgeAndDeprivation = new HealthMeasureModelHelper(2, 2020)
             .WithAgeDimension(hasValue: true, ageIsAggregate: false)
             .WithDeprivationDimension(hasValue: true, deprivationIsAggregate: false)
             .WithIndicatorDimension(_indicatorDimension)
@@ -809,7 +814,7 @@ public class HealthDataRepositoryTests : IDisposable
         healthMeasureWithAgeAndDeprivation.IsDeprivationAggregatedOrSingle = false;
         PopulateDatabase(healthMeasureWithAgeAndDeprivation);
 
-        var healthMeasureWithNoAgeAndDeprivation = new HealthMeasureModelHelper(3, 2020, false)
+        var healthMeasureWithNoAgeAndDeprivation = new HealthMeasureModelHelper(3, 2020)
             .WithAgeDimension(hasValue: false)
             .WithDeprivationDimension(hasValue: true, deprivationIsAggregate: false)
             .WithIndicatorDimension(_indicatorDimension)
@@ -838,8 +843,8 @@ public class HealthDataRepositoryTests : IDisposable
         result.ShouldBeEquivalentTo(
             new List<HealthMeasureModel>
             {
-                ResetKeys(healthMeasureWithNoAgeAndDeprivation),
-                ResetKeys(healthMeasureWithNoAgeAndNoDeprivation),
+                healthMeasureWithNoAgeAndDeprivation,
+                healthMeasureWithNoAgeAndNoDeprivation,
             }
         );
     }
@@ -895,7 +900,7 @@ public class HealthDataRepositoryTests : IDisposable
             Type = String.Empty
         };
 
-        var allDimensionsDataPoint = new HealthMeasureModelHelper(1, 2020, isAggregate: false)
+        var allDimensionsDataPoint = new HealthMeasureModelHelper(1, 2020)
             .WithSexDimension(maleSexDimension)
             .WithAgeDimension(fourToFiveAgeDimension)
             .WithDeprivationDimension(mostDeprivedDimension)
@@ -906,7 +911,7 @@ public class HealthDataRepositoryTests : IDisposable
         allDimensionsDataPoint.IsDeprivationAggregatedOrSingle = false;
         PopulateDatabase(allDimensionsDataPoint);
 
-        var sexOnlyDataPoint = new HealthMeasureModelHelper(2, 2020, isAggregate: false)
+        var sexOnlyDataPoint = new HealthMeasureModelHelper(2, 2020)
             .WithSexDimension(maleSexDimension)
             .WithAgeDimension(allAgesDimension)
             .WithDeprivationDimension(allDeprivationDimension)
@@ -915,7 +920,7 @@ public class HealthDataRepositoryTests : IDisposable
         sexOnlyDataPoint.IsSexAggregatedOrSingle = false;
         PopulateDatabase(sexOnlyDataPoint);
 
-        var ageOnlyDataPoint = new HealthMeasureModelHelper(3, 2020, isAggregate: false)
+        var ageOnlyDataPoint = new HealthMeasureModelHelper(3, 2020)
             .WithSexDimension(personsSexDimension)
             .WithAgeDimension(fourToFiveAgeDimension)
             .WithDeprivationDimension(allDeprivationDimension)
@@ -924,7 +929,7 @@ public class HealthDataRepositoryTests : IDisposable
         ageOnlyDataPoint.IsAgeAggregatedOrSingle = false;
         PopulateDatabase(ageOnlyDataPoint);
 
-        var deprivationOnlyDataPoint = new HealthMeasureModelHelper(4, 2020, isAggregate: false)
+        var deprivationOnlyDataPoint = new HealthMeasureModelHelper(4, 2020)
             .WithSexDimension(personsSexDimension)
             .WithAgeDimension(allAgesDimension)
             .WithDeprivationDimension(mostDeprivedDimension)
@@ -933,7 +938,7 @@ public class HealthDataRepositoryTests : IDisposable
         deprivationOnlyDataPoint.IsDeprivationAggregatedOrSingle = false;
         PopulateDatabase(deprivationOnlyDataPoint);
 
-        var sexAndAgeDataPoint = new HealthMeasureModelHelper(5, 2020, isAggregate: false)
+        var sexAndAgeDataPoint = new HealthMeasureModelHelper(5, 2020)
             .WithSexDimension(maleSexDimension)
             .WithAgeDimension(fourToFiveAgeDimension)
             .WithDeprivationDimension(allDeprivationDimension)
@@ -943,7 +948,7 @@ public class HealthDataRepositoryTests : IDisposable
         sexAndAgeDataPoint.IsAgeAggregatedOrSingle = false;
         PopulateDatabase(sexAndAgeDataPoint);
 
-        var sexAndDeprivationDataPoint = new HealthMeasureModelHelper(6, 2020, isAggregate: false)
+        var sexAndDeprivationDataPoint = new HealthMeasureModelHelper(6, 2020)
             .WithSexDimension(maleSexDimension)
             .WithAgeDimension(allAgesDimension)
             .WithDeprivationDimension(mostDeprivedDimension)
@@ -953,7 +958,7 @@ public class HealthDataRepositoryTests : IDisposable
         sexAndDeprivationDataPoint.IsDeprivationAggregatedOrSingle = false;
         PopulateDatabase(sexAndDeprivationDataPoint);
 
-        var ageAndDeprivationDataPoint = new HealthMeasureModelHelper(7, 2020, isAggregate: false)
+        var ageAndDeprivationDataPoint = new HealthMeasureModelHelper(7, 2020)
             .WithSexDimension(personsSexDimension)
             .WithAgeDimension(fourToFiveAgeDimension)
             .WithDeprivationDimension(mostDeprivedDimension)
@@ -985,14 +990,102 @@ public class HealthDataRepositoryTests : IDisposable
         result.ShouldBeEquivalentTo(
             new List<HealthMeasureModel>
             {
-                ResetKeys(allDimensionsDataPoint),
-                ResetKeys(sexOnlyDataPoint),
-                ResetKeys(ageOnlyDataPoint),
-                ResetKeys(deprivationOnlyDataPoint),
-                ResetKeys(sexAndAgeDataPoint),
-                ResetKeys(sexAndDeprivationDataPoint),
-                ResetKeys(ageAndDeprivationDataPoint),
-                ResetKeys(aggregateDataPoint),
+                allDimensionsDataPoint,
+                sexOnlyDataPoint,
+                ageOnlyDataPoint,
+                deprivationOnlyDataPoint,
+                sexAndAgeDataPoint,
+                sexAndDeprivationDataPoint,
+                ageAndDeprivationDataPoint,
+                aggregateDataPoint,
+            }
+        );
+    }
+
+    [Fact]
+    public async Task GetIndicatorDimensionAsyncShouldNotReturnUnpublishedDataAreaData()
+    {
+        const int ENGLAND_YEAR = 2024;
+        const int DISTRICT_YEAR = 2025;
+        const string ENGLAND_AREA_CODE = "E92000001";
+        const string DISTRICT_ONE_AREA_CODE = "ABC123";
+        const int INDICATORID = 1;
+
+        // Arrange
+        PopulateDatabase(new HealthMeasureModelHelper(year: ENGLAND_YEAR)
+            .WithIndicatorDimension(indicatorId: INDICATORID)
+            .WithAreaDimension(code: ENGLAND_AREA_CODE)
+            .Build());
+        PopulateDatabase(new HealthMeasureModelHelper(year: DISTRICT_YEAR, key: 2, isPublished: false)
+            .WithIndicatorDimension(indicatorId: INDICATORID)
+            .WithAreaDimension(code: DISTRICT_ONE_AREA_CODE)
+            .Build());
+
+        // Act
+        var result = await _healthDataRepository.GetIndicatorDimensionAsync(INDICATORID, [
+            ENGLAND_AREA_CODE,
+            DISTRICT_ONE_AREA_CODE
+        ]);
+
+        // Assert
+        result.LatestYear.ShouldBe(ENGLAND_YEAR);
+    }
+
+    [Fact]
+    public async Task GetIndicatorDimensionAsyncShouldNotReturnUnpublishedDataNoAreaData()
+    {
+        const string AREA_CODE = "E92000002";
+        const int INDICATORID = 1;
+
+        // Arrange
+        PopulateDatabase(new HealthMeasureModelHelper(year: 2024, isPublished: false)
+            .WithIndicatorDimension(indicatorId: INDICATORID)
+            .WithAreaDimension(code: AREA_CODE)
+            .Build());
+
+        // Act
+        var result = await _healthDataRepository.GetIndicatorDimensionAsync(INDICATORID, [
+            "TESTAREA_ONE",
+            "TESTAREA_TWO"
+        ]);
+
+        // Assert
+        result.ShouldBe(null);
+    }
+
+    [Fact]
+    public async Task GetIndicatorDataAsyncShouldNotReturnUnpublishedData()
+    {
+        // Arrange
+        const string expectedAreaCode = "Code1";
+        var expectedHealthMeasure = new HealthMeasureModelHelper(key: 2, year: 2024)
+            .WithIndicatorDimension(indicatorId: 1)
+            .WithAreaDimension(code: expectedAreaCode)
+            .Build();
+
+        var unpublishedHealthMeasure = new HealthMeasureModelHelper(key: 3, year: 2025, isPublished: false)
+            .WithIndicatorDimension(indicatorId: 1)
+            .WithAreaDimension(code: expectedAreaCode)
+            .Build();
+
+        PopulateDatabase(expectedHealthMeasure);
+        PopulateDatabase(unpublishedHealthMeasure);
+
+        // Act
+        var result = await _healthDataRepository.GetIndicatorDataAsync(
+                    1,
+                    [expectedAreaCode],
+                    [],
+                    []
+                );
+
+        // Assert
+        result.ShouldNotBeEmpty();
+        result.Count().ShouldBe(1);
+        result.ShouldBeEquivalentTo(
+            new List<HealthMeasureModel>()
+            {
+                expectedHealthMeasure
             }
         );
     }
@@ -1039,35 +1132,5 @@ public class HealthDataRepositoryTests : IDisposable
     {
         _dbContext.HealthMeasure.Add(healthMeasure);
         _dbContext.SaveChanges();
-    }
-
-    private static HealthMeasureModel ResetKeys(HealthMeasureModel healthMeasure)
-    {
-        healthMeasure.HealthMeasureKey = 0;
-
-        healthMeasure.AreaDimension.AreaKey = 0;
-        healthMeasure.AgeDimension.AgeKey = 0;
-        healthMeasure.IndicatorDimension.IndicatorKey = 0;
-        healthMeasure.SexDimension.SexKey = 0;
-
-        healthMeasure.AgeKey = 0;
-        healthMeasure.IndicatorKey = 0;
-        healthMeasure.IndicatorDimension.IndicatorId = 0;
-
-        healthMeasure.AreaKey = 0;
-        healthMeasure.SexKey = 0;
-
-        healthMeasure.TrendKey = null;
-        healthMeasure.TrendDimension.TrendKey = 0;
-
-        healthMeasure.DeprivationKey = 0;
-        healthMeasure.DeprivationDimension.DeprivationKey = 0;
-
-        // We don't load these values when retrieving a health measure from the DB, so they default to true.
-        healthMeasure.IsAgeAggregatedOrSingle = true;
-        healthMeasure.IsSexAggregatedOrSingle = true;
-        healthMeasure.IsDeprivationAggregatedOrSingle = true;
-
-        return healthMeasure;
     }
 }

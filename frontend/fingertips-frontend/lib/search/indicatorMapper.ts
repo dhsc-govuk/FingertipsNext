@@ -38,7 +38,7 @@ export class IndicatorMapper {
     trendsWithAreas: AreaCodeWithTrend[],
     isEnglandSelectedAsGroup: boolean
   ): HealthDataPointTrendEnum | undefined {
-    if (requestedAreaCodes.length > 1) {
+    if (requestedAreaCodes.length > 1 || !trendsWithAreas) {
       return undefined;
     }
 

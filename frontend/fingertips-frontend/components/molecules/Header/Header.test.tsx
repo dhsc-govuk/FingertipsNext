@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import { FTHeader } from '.';
-import { expect } from '@jest/globals';
 
 describe('Header', () => {
   it('should match snapshot', () => {
@@ -25,10 +24,10 @@ describe('Header', () => {
     expect(header).not.toHaveClass('chart-page-header');
   });
 
-  it('should render Access public health data as a link', async () => {
+  it('should render Find public health data as a link', async () => {
     render(<FTHeader />);
     const returnToHomePageLink = screen.getByRole('link', {
-      name: /Access public health data/i,
+      name: /Find public health data/i,
     });
 
     expect(returnToHomePageLink).toBeInTheDocument();

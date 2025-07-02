@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { PopulationPyramidChartTable } from './index';
 
 const mockHealthDataForArea = {
@@ -28,12 +27,12 @@ const mockGroupData = {
 
 describe('PopulationPyramidChartTable', () => {
   beforeAll(() => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date('2024-12-25T12:00:00Z'));
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2024-12-25T12:00:00Z'));
   });
 
   afterAll(() => {
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   test('renders tables with health and benchmark data', () => {

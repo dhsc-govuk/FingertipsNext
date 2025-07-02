@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import { FTFooter } from '.';
-import { expect } from '@jest/globals';
 
 describe('FTFooter', () => {
   it('should match snapshot', () => {

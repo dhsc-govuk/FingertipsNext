@@ -6,15 +6,15 @@ import {
   areaCodeForEngland,
   englandAreaString,
 } from '@/lib/chartHelpers/constants';
-import { SearchParams } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 
-jest.mock('@/components/organisms/BenchmarkLegend', () => ({
+vi.mock('@/components/organisms/BenchmarkLegend', () => ({
   BenchmarkLegends: () => <div data-testid="benchmark-legends" />,
 }));
-jest.mock('@/components/organisms/SpineChart/SpineChartQuartilesInfo', () => ({
+vi.mock('@/components/organisms/SpineChart/SpineChartQuartilesInfo', () => ({
   SpineChartQuartilesInfoContainer: () => <div data-testid="quartiles-info" />,
 }));
-jest.mock('./SpineChartLegendItem', () => ({
+vi.mock('./SpineChartLegendItem', () => ({
   SpineChartLegendItem: ({
     children,
     itemType,
@@ -23,10 +23,14 @@ jest.mock('./SpineChartLegendItem', () => ({
   ),
 }));
 
+let mockSearchState: SearchStateParams = {};
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockSearchState,
+}));
+
 const defaultProps = {
   legendsToShow: {} as BenchmarkLegendsToShow,
   benchmarkToUse: areaCodeForEngland,
-  searchState: { [SearchParams.GroupSelected]: areaCodeForEngland },
   groupName: 'Test Group',
   areaNames: ['Area 1', 'Area 2'],
 };
@@ -40,23 +44,15 @@ describe('SpineChartLegend', () => {
   });
 
   it('renders the group legend when selectedGroupCode is not England', () => {
-    render(
-      <SpineChartLegend
-        {...defaultProps}
-        searchState={{ [SearchParams.GroupSelected]: 'GROUP_CODE' }}
-      />
-    );
+    mockSearchState = {
+      [SearchParams.GroupSelected]: 'A001',
+    };
+    render(<SpineChartLegend {...defaultProps} />);
     expect(screen.getByText('Group: Test Group')).toBeInTheDocument();
   });
 
   it('should not render alternative benchmark legend as England when group is benchmark', () => {
-    render(
-      <SpineChartLegend
-        {...defaultProps}
-        benchmarkToUse="GROUP_CODE"
-        searchState={{ [SearchParams.GroupSelected]: 'GROUP_CODE' }}
-      />
-    );
+    render(<SpineChartLegend {...defaultProps} benchmarkToUse="GROUP_CODE" />);
     expect(screen.getByText(`Benchmark: Test Group`)).toBeInTheDocument();
     expect(screen.queryByText(englandAreaString)).not.toBeInTheDocument();
   });

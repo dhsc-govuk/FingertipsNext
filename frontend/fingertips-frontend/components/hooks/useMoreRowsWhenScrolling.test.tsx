@@ -1,5 +1,6 @@
 import { act, render, screen, waitFor } from '@testing-library/react';
 import { useMoreRowsWhenScrolling } from './useMoreRowsWhenScrolling';
+import { MockInstance } from 'vitest';
 
 Object.defineProperty(window, 'innerHeight', {
   writable: true,
@@ -30,7 +31,7 @@ const TestComponent = ({ incrementRowCount = 10 }) => {
 };
 
 const getBoundingClientRectMock = (top: number) => {
-  return jest.fn(() => ({
+  return vi.fn(() => ({
     top,
     bottom: 610,
     left: 0,
@@ -44,20 +45,14 @@ const getBoundingClientRectMock = (top: number) => {
 };
 
 describe('useMoreRowsWhenScrolling', () => {
-  let intervalSpy: jest.SpyInstance<
-    NodeJS.Timeout,
-    [callback: () => void, ms?: number]
-  >;
+  let intervalSpy: MockInstance;
   beforeEach(() => {
-    intervalSpy = jest.spyOn(global, 'setInterval');
-
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
+    intervalSpy = vi.spyOn(global, 'setInterval');
     intervalSpy.mockImplementation(() => 1234);
   });
 
   afterEach(() => {
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
 
   it('adds timeout on initial render', async () => {

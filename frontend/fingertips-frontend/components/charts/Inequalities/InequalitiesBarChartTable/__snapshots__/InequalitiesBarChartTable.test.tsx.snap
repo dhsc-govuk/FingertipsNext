@@ -1,0 +1,213 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Inequalities bar chart table suite > Sex inequality > snapshot test - should match snapshot 1`] = `
+<DocumentFragment>
+  <div
+    data-testid="inequalitiesBarChartTable-component"
+    id="inequalitiesBarChartTable"
+  >
+    <h4
+      class="heading__StyledHeading-sc-1dsobun-0 EoZyU sc-jxOSlx bLSbGR"
+    >
+      inequalities for South FooBar, 2008
+    </h4>
+    <table
+      class="src__StyledTable-sc-16s660v-0 duOufa"
+    >
+      <thead
+        class="TableHeader-sc-1n1nw4b-0"
+      >
+        <tr
+          class="Row-sc-1y8eqfp-0"
+        >
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul hoeTcz dzKXJe"
+            colspan="4"
+          />
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-esYiGF hoeTcz dzKXJe fPChvl"
+            colspan="2"
+            style="text-align: center;"
+          >
+            95%
+            <br />
+            confidence
+            <br />
+            limits
+          </th>
+        </tr>
+        <tr
+          class="Row-sc-1y8eqfp-0"
+        >
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul hoeTcz dzKXJe"
+            data-testid="heading-Inequality type"
+            style="width: 16%;"
+          >
+            Inequality type
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-cwHptR kxOGSV"
+            data-testid="heading-Compared to persons"
+            style="width: 16%;"
+          >
+            Compared to persons
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eqUAAy hoeTcz brMjvX"
+            data-testid="heading-Count"
+            style="width: 16%;"
+          >
+            Count
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eqUAAy hoeTcz brMjvX"
+            data-testid="heading-Value"
+            style="width: 16%;"
+          >
+            Value
+            <span
+              data-testid="inequalitiesBarChart-measurementUnit"
+              style="display: block; margin: auto;"
+            >
+               kg
+            </span>
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eqUAAy hoeTcz brMjvX"
+            data-testid="heading-Lower"
+            style="width: 16%;"
+          >
+            Lower
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eqUAAy hoeTcz brMjvX"
+            data-testid="heading-Upper"
+            style="width: 16%; padding-right: 10px;"
+          >
+            Upper
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="TableBody-sc-1qqarm8-0"
+      >
+        <tr
+          class="Row-sc-1y8eqfp-0"
+        >
+          <td
+            class="Cell-sc-msv0l6-0 sc-cPiKLX gaSlHc hKweSg"
+          >
+            Persons
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dAlyuH gaSlHc kRfgxG"
+          />
+          <td
+            class="Cell-sc-msv0l6-0 sc-iGgWBj sc-gsFSXq gaSlHc eXbeNP dLcQtJ"
+          >
+            222
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-iGgWBj sc-gsFSXq gaSlHc eXbeNP dLcQtJ"
+          >
+            135.1
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-iGgWBj sc-gsFSXq gaSlHc eXbeNP dLcQtJ"
+          >
+            441.7
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-iGgWBj sc-dLMFU gaSlHc eXbeNP jlNuyg"
+          >
+            578.3
+          </td>
+        </tr>
+        <tr
+          class="Row-sc-1y8eqfp-0"
+        >
+          <td
+            class="Cell-sc-msv0l6-0 sc-cPiKLX gaSlHc hKweSg"
+          >
+            Male
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dAlyuH gaSlHc kRfgxG"
+          />
+          <td
+            class="Cell-sc-msv0l6-0 sc-iGgWBj sc-gsFSXq gaSlHc eXbeNP dLcQtJ"
+          >
+            131
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-iGgWBj sc-gsFSXq gaSlHc eXbeNP dLcQtJ"
+          >
+            890.3
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-iGgWBj sc-gsFSXq gaSlHc eXbeNP dLcQtJ"
+          >
+            441.7
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-iGgWBj sc-dLMFU gaSlHc eXbeNP jlNuyg"
+          >
+            578.3
+          </td>
+        </tr>
+        <tr
+          class="Row-sc-1y8eqfp-0"
+        >
+          <td
+            class="Cell-sc-msv0l6-0 sc-cPiKLX gaSlHc hKweSg"
+          >
+            Female
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-dAlyuH gaSlHc kRfgxG"
+          />
+          <td
+            class="Cell-sc-msv0l6-0 sc-iGgWBj sc-gsFSXq gaSlHc eXbeNP dLcQtJ"
+          >
+            131
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-iGgWBj sc-gsFSXq gaSlHc eXbeNP dLcQtJ"
+          >
+            890.3
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-iGgWBj sc-gsFSXq gaSlHc eXbeNP dLcQtJ"
+          >
+            441.7
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-iGgWBj sc-dLMFU gaSlHc eXbeNP jlNuyg"
+          >
+            578.3
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div
+      class="exportOnly"
+      style="display: none;"
+    >
+      <div
+        class="sc-hzhJZQ fCBUdc"
+      >
+        ©Crown copyright 2024. Office for Health Improvement & Disparities.
+        <br />
+        Public Health Profiles accessed on 25 December 2024 www.fingertips.phe.org.uk
+      </div>
+    </div>
+  </div>
+  <button
+    class="src__StyledButton-sc-19ocyxv-0 eEShVH sc-koXPp cbdPWW"
+    data-testid="inequalitiesBarChartTable-export-button"
+  >
+    Export options
+  </button>
+</DocumentFragment>
+`;

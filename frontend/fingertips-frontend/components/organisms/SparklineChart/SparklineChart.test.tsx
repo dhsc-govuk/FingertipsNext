@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import { SparklineChart } from '@/components/organisms/SparklineChart/index';
-import { expect } from '@jest/globals';
 
 describe('SparklineChart', () => {
   const mockValue = [48];

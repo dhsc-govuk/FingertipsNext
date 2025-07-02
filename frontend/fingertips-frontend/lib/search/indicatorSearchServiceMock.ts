@@ -1,3 +1,4 @@
+import { spaceSeparatedPattern } from '../constants';
 import { IndicatorMapper } from './indicatorMapper';
 import {
   IIndicatorSearchService,
@@ -19,18 +20,25 @@ export class IndicatorSearchServiceMock implements IIndicatorSearchService {
     isEnglandSelectedAsGroup: boolean,
     areaCodes: string[]
   ): Promise<IndicatorDocument[]> {
+    const trimmedSearchText = searchText.trim();
+
     const searchResults = this.mockIndicatorData
       .filter((indicator) => {
+        // Check if searched for text is a space-separated list of numbers
+        if (spaceSeparatedPattern.test(trimmedSearchText)) {
+          // Parse indicator IDs and match exactly
+          const indicatorIds = trimmedSearchText
+            .split(/\s+/)
+            .filter((id) => id.length > 0);
+          return indicatorIds.includes(indicator.indicatorID);
+        }
+
+        // Default behavior: fuzzy search
+        const lowerSearchText = trimmedSearchText.toLowerCase();
         return (
-          indicator.indicatorID
-            .toLowerCase()
-            .includes(searchText.toLowerCase()) ||
-          indicator.indicatorName
-            .toLocaleLowerCase()
-            .includes(searchText.toLocaleLowerCase()) ||
-          indicator.indicatorDefinition
-            .toLocaleLowerCase()
-            .includes(searchText.toLocaleLowerCase())
+          indicator.indicatorID.toLowerCase().includes(lowerSearchText) ||
+          indicator.indicatorName.toLowerCase().includes(lowerSearchText) ||
+          indicator.indicatorDefinition.toLowerCase().includes(lowerSearchText)
         );
       })
       .filter((indicator) => {
@@ -38,9 +46,7 @@ export class IndicatorSearchServiceMock implements IIndicatorSearchService {
           !areaCodes ||
           indicator.associatedAreaCodes.some((area) =>
             areaCodes
-              .map((areaCode) => {
-                return areaCode.toLowerCase();
-              })
+              .map((areaCode) => areaCode.toLowerCase())
               .includes(area.toLowerCase())
           )
         );

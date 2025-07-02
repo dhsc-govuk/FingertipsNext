@@ -20,17 +20,18 @@ NEXT_PUBLIC_FINGERTIPS_GIT_TAG=$(git describe --tags --abbrev=0 --always) \
 docker compose --profile all up --build --remove-orphans -d
 ```
 
-
 This will build and then start the containers in the background. You can view the frontend application at [http://localhost:3000/](http://localhost:3000/) and the API at [http://localhost:5144/](http://localhost:5144/).
 
 It is also possible to start a subset of the application's containers using Docker's support for profiles. The following profiles have been defined:
 
-| Profile Name | Services Included              |
-| ------------ | ------------------------------ |
-| all          | All application services       |
-| frontend     | The frontend application       |
-| api          | The API application & database |
-| db           | The SQL Server database        |
+| Profile Name     | Services Included                  |
+| ---------------- | ---------------------------------- |
+| all              | All application services           |
+| frontend         | The frontend application           |
+| api              | The API application & database     |
+| db               | The SQL Server database            |
+| storage          | The Azurite Azure Storage emulator |
+| backend-services | The storage emulator and database  |
 
 You can start a specific profile by providing the `--profile <profile_name>` argument to the `docker compose` command. For example the following command will start only the API:
 
@@ -103,5 +104,3 @@ You must also set the following [secrets](https://docs.github.com/en/actions/sec
 The approach we are taking with the API is 'design first'. The API is designed before it is coded using the [OpenAPI 3.0](https://swagger.io/docs/specification/v3_0/about/) standard and then that design is implemented in the .NET web API. The API design can also be used to help develop the website. A [swagger.yaml](api/definition/swagger.yaml) file is the API design artifact and defines how the API should look. To make changes to the yaml file you can either edit the file directly (fine for smaller changes) or use a visual editor (handy for major changes).
 A useful visual editor is [SwaggerHub](https://swagger.io/), which has a free tier.
 There is a handy VS Code extension [OpenAPI Editor](https://docs.42crunch.com/latest/content/tasks/integrate_vs_code.htm) which makes editing the yaml file easier and highlights any issues.
-
-

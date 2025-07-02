@@ -15,6 +15,8 @@ tags:
     description: Endpoints dealing with areas / geography
   - name: system
     description: System endpoints
+  - name: user
+    description: Endpoints dealing with logged in users
 paths:
   /healthcheck:
     get:
@@ -223,13 +225,18 @@ paths:
       - $ref: '#/components/parameters/ancestor_code'
       - $ref: '#/components/parameters/benchmark_ref_type'
       - $ref: '#/components/parameters/years'
+      - $ref: '#/components/parameters/to_date'
+      - $ref: '#/components/parameters/from_date'
       - $ref: '#/components/parameters/inequalities'
       - $ref: '#/components/parameters/latest_only'
     get:
       tags:
         - indicators
       summary: Get health data for an indicator
-      description: Get data for a public health indicator. This will return all data for all areas and all years for the indicators. Optionally filter the results by supplying one or more area codes and one or more years in the query string.
+      description: |-
+        Get data for a public health indicator. This will return all data for all requested areas and all time periods for the specified indicator.
+        The returned data will include a benchmark comparison against either England or an ancestor area group, depending on the benchmark_ref_type and ancestor_code parameters.
+        Data can be provided disagregated by various categories such as age and sex using the inequalities query parameter.
       responses:
         '200':
           description: Data containing the health data points for the indicator, years and geographical areas requested
@@ -273,7 +280,7 @@ paths:
       tags:
         - indicators
       summary: Get quartile values for indicators
-      description: Get quartile information for indicators including
+      description: Get quartile information for many indicators for one area. This will calculate the quartile based on all areas of the specified type within either England or a sub-national area, depending on the benchmark_ref_type parameter. It will use the latest data available for the area group requested. If the indicator has data for more than one time period type then the API will return data for each data period type separately.
       parameters:
         - name: ancestor_code
           in: query
@@ -324,7 +331,61 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /user/info:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - user
+      summary: Get User Info
+      description: Get info for logged in user
+      operationId: getUserInfo
+      responses:
+        '200':
+          description: The information about the logged in user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInfoType'
+        '400':
+          $ref: '#/components/responses/UserBadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /user/indicator/{indicator_id}:
+    head:
+      parameters:
+        - in: path
+          name: indicator_id
+          schema:
+            type: integer
+          required: true
+          description: ID of the indicator to query against
+      security:
+        - bearerAuth: []
+      tags:
+        - user
+      summary: Check Indicator Permissions
+      description: Queries against a specified indicator id. Return success if the user has administrative permission for the indicator. 403 if the user does not.
+      operationId: checkIndicatorPermissions
+      responses:
+        '200':
+          description: The user has administrator permissions for the specified indicator.
+        '400':
+          $ref: '#/components/responses/UserBadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: The user does not have administration permissions for the specified indicator.
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   responses:
     InternalServerError:
       description: The server encountered an unexpected condition that prevented it from fulfilling the request. Report the issue to the support team if it persists.
@@ -366,6 +427,10 @@ components:
             Too many years:
               value:
                 message: Too many values supplied for parameter years. The maximum is 20 but 21 supplied.
+    UserBadRequest:
+      description: User token was missing required claims.
+    Unauthorized:
+      description: Authorization information is missing or invalid.
   parameters:
     hierarchy_type:
       in: query
@@ -476,6 +541,20 @@ components:
           type: integer
           example: 2023
         maxItems: 20
+    to_date:
+      in: query
+      name: to_date
+      description: The latest date, in ISO 8601 format (YYYY-MM-DD), for which data should be returned, if not specified then the latest date for the indicator will be used.
+      schema:
+        type: string
+        example: '2023-12-31'
+    from_date:
+      in: query
+      name: from_date
+      description: The earliest date, in ISO 8601 format (YYYY-MM-DD), for which data should be returned, if not specified then the earliest date for the indicator will be used.
+      schema:
+        type: string
+        example: '2023-01-01'
     inequalities:
       in: query
       name: inequalities
@@ -592,6 +671,18 @@ components:
           type: string
           example: 'Hypertension: QOF prevalence (all ages)'
           description: The title of the indicator
+    PeriodType:
+      type: string
+      example: Calendar
+      description: a type of date period e.g. Calendar or Financial year.
+      enum:
+        - Calendar
+        - Financial
+        - NovemberNovember
+      x-enum-varnames:
+        - Calendar
+        - Financial
+        - NovemberNovember
     Indicator:
       title: Indicator
       type: object
@@ -614,6 +705,11 @@ components:
           type: string
           example: The percentage of patients with established hypertension, as recorded on practice disease registers (proportion of total list size)
           description: The definition of the indicator
+        period_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/PeriodType'
+          description: The period types that the indicator holds data for
     BenchmarkReferenceType:
       title: Benchmark Reference Type
       type: string
@@ -653,6 +749,29 @@ components:
         - Quintiles
         - CIOverlappingReferenceValue95
         - CIOverlappingReferenceValue99_8
+    Date:
+      type: string
+      format: date
+      example: '2023-12-31'
+      description: Date in ISO 8601 format (YYYY-MM-DD).
+    DatePeriod:
+      title: Date Period
+      type: object
+      description: A date period for a health data point.
+      required:
+        - type
+        - from
+        - to
+      properties:
+        type:
+          $ref: '#/components/schemas/PeriodType'
+          description: The type of date period, e.g. Calendar or Financial year.
+        from:
+          $ref: '#/components/schemas/Date'
+          description: The start date for the data request, in ISO 8601 format (YYYY-MM-DD).
+        to:
+          $ref: '#/components/schemas/Date'
+          description: The end date for the data request, in ISO 8601 format (YYYY-MM-DD).
     AgeData:
       title: Age Data
       type: object
@@ -761,6 +880,8 @@ components:
           format: int32
           example: 2023
           description: The year that the data point is for
+        datePeriod:
+          $ref: '#/components/schemas/DatePeriod'
         count:
           type: number
           example: 222
@@ -875,6 +996,9 @@ components:
           format: int32
           example: 2023
           description: The year that the data point is for
+        datePeriod:
+          $ref: '#/components/schemas/DatePeriod'
+          description: The date period that the data point is for.
         polarity:
           $ref: '#/components/schemas/IndicatorPolarity'
         q0Value:
@@ -901,3 +1025,14 @@ components:
         englandValue:
           type: number
           description: the average value for England for comparison
+    UserInfoType:
+      title: User Info Type
+      type: object
+      description: Representation of the currently logged in user
+      required:
+        - externalId
+      properties:
+        externalId:
+          type: string
+          example: ABC123
+          description: An ID to uniquely identify the user. Currently mapped to the NameIdentifier claim within the JWT.

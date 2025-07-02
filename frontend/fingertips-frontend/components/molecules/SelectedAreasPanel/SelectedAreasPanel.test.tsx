@@ -1,12 +1,11 @@
 import { mockAreaDataForNHSRegion } from '@/mock/data/areaData';
 import { render, screen, within } from '@testing-library/react';
 import { SelectedAreasPanel } from '.';
-import { SearchParams } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import userEvent from '@testing-library/user-event';
 import { nhsPrimaryCareNetworksAreaType } from '@/lib/areaFilterHelpers/areaType';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { LoaderContext } from '@/context/LoaderContext';
-import { SearchStateContext } from '@/context/SearchStateContext';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 const mockSelectedAreasData = [
@@ -15,50 +14,44 @@ const mockSelectedAreasData = [
 ];
 
 const mockPath = 'some-mock-path';
-const mockReplace = jest.fn();
+const mockReplace = vi.fn();
 
-jest.mock('next/navigation', () => {
-  const originalModule = jest.requireActual('next/navigation');
+vi.mock('next/navigation', async () => {
+  const originalModule = await vi.importActual('next/navigation');
 
   return {
     ...originalModule,
     usePathname: () => mockPath,
     useSearchParams: () => {},
-    useRouter: jest.fn().mockImplementation(() => ({
+    useRouter: vi.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
   };
 });
 
-const mockSetIsLoading = jest.fn();
+const mockSetIsLoading = vi.fn();
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: jest.fn(),
+  getIsLoading: vi.fn(),
   setIsLoading: mockSetIsLoading,
 };
-jest.mock('@/context/LoaderContext', () => {
+vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
   };
 });
 
-const mockGetSearchState = jest.fn();
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: mockGetSearchState,
-  setSearchState: jest.fn(),
-};
-jest.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
+let mockSearchState: SearchStateParams = {};
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockSearchState,
+}));
 
 describe('SelectedAreasPanel', () => {
   describe('When there is a group area selected', () => {
     beforeEach(() => {
-      mockGetSearchState.mockReturnValue({
+      mockSearchState = {
         [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
         [SearchParams.AreaTypeSelected]: nhsPrimaryCareNetworksAreaType.key,
-      });
+      };
     });
 
     it('snapshot test', () => {
@@ -149,7 +142,7 @@ describe('SelectedAreasPanel', () => {
 
   describe('When there are areas selected', () => {
     beforeEach(() => {
-      mockGetSearchState.mockReturnValue({});
+      mockSearchState = {};
     });
 
     it('snapshot test', () => {
@@ -186,10 +179,10 @@ describe('SelectedAreasPanel', () => {
     });
 
     it('should remove the area selected from the url when the remove icon is clicked for the area selected', async () => {
-      mockGetSearchState.mockReturnValue({
+      mockSearchState = {
         [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
         [SearchParams.AreaTypeSelected]: 'NHS Regions',
-      });
+      };
 
       const expectedPath = [
         `${mockPath}`,
@@ -211,7 +204,7 @@ describe('SelectedAreasPanel', () => {
     });
 
     it('should remove any chart state when an area is de-selected', async () => {
-      mockGetSearchState.mockReturnValue({
+      mockSearchState = {
         [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
         [SearchParams.AreaTypeSelected]: 'NHS Regions',
         [SearchParams.InequalityYearSelected]: '2022',
@@ -221,7 +214,7 @@ describe('SelectedAreasPanel', () => {
         [SearchParams.InequalityBarChartAreaSelected]: 'E40000007',
         [SearchParams.InequalityLineChartAreaSelected]: areaCodeForEngland,
         [SearchParams.PopulationAreaSelected]: areaCodeForEngland,
-      });
+      };
 
       const expectedPath = [
         `${mockPath}`,
@@ -243,10 +236,10 @@ describe('SelectedAreasPanel', () => {
     });
 
     it('should call setIsLoading with true when an area type is selected', async () => {
-      mockGetSearchState.mockReturnValue({
+      mockSearchState = {
         [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
         [SearchParams.AreaTypeSelected]: 'NHS Regions',
-      });
+      };
 
       const user = userEvent.setup();
       render(<SelectedAreasPanel selectedAreasData={mockSelectedAreasData} />);

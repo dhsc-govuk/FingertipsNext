@@ -1,209 +1,36 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`PopulationDataTable take a snapshot 1`] = `
+exports[`PopulationDataTable > take a snapshot 1`] = `
 <DocumentFragment>
-  .c2 {
-  padding: 10px 20px 10px 0;
-  border-bottom: 1px solid #bfc1c3;
-  text-align: left;
-  font-weight: 700;
-}
-
-.c2:last-child {
-  padding-right: 0;
-}
-
-.c6 {
-  padding: 10px 20px 10px 0;
-  border-bottom: 1px solid #bfc1c3;
-  text-align: left;
-}
-
-.c6:last-child {
-  padding-right: 0;
-}
-
-.c1 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  color: #0b0c0c;
-  width: 100%;
-  border-spacing: 0;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-}
-
-.c3 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  font-weight: bold;
-  padding: 0.625em 0;
-}
-
-.c7 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  padding-right: 0;
-}
-
-.c4 {
-  text-align: left;
-  vertical-align: top;
-  padding-left: 10px;
-}
-
-.c0 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  text-align: center;
-  height: 65px;
-  line-height: 65px;
-  -webkit-letter-spacing: 0px;
-  -moz-letter-spacing: 0px;
-  -ms-letter-spacing: 0px;
-  letter-spacing: 0px;
-  font-weight: 700;
-}
-
-.c5 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  border-top: solid #F3F2F1 2px;
-  text-align: center;
-  font-weight: 700;
-}
-
-@media print {
-  .c1 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c1 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c1 {
-    color: #000;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c1 {
-    margin-bottom: 30px;
-  }
-}
-
-@media print {
-  .c3 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c3 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c7 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c7 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c0 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c5 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c5 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-<section>
+  <section>
     <h3
-      class="c0"
+      class="sc-gFqAkR fPHWbj"
     >
       Population Data
     </h3>
     <table
-      class="c1"
+      class="src__StyledTable-sc-16s660v-0 duOufa"
     >
       <thead
-        class=""
+        class="TableHeader-sc-1n1nw4b-0"
       >
         <tr
-          class=""
+          class="Row-sc-1y8eqfp-0"
         >
           <th
-            class="c2 c3 c4 c5"
+            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
             style="white-space: nowrap;"
           >
             Age Band
           </th>
           <th
-            class="c2 c3 c4 c5"
+            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
             style="white-space: nowrap;"
           >
             Females
           </th>
           <th
-            class="c2 c3 c4 c5"
+            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
             style="white-space: nowrap;"
           >
             Males
@@ -211,111 +38,111 @@ exports[`PopulationDataTable take a snapshot 1`] = `
         </tr>
       </thead>
       <tbody
-        class=""
+        class="TableBody-sc-1qqarm8-0"
       >
         <tr
-          class=""
+          class="Row-sc-1y8eqfp-0"
         >
           <td
-            class="c6 c7"
+            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
             style="white-space: nowrap;"
           >
             0-4
           </td>
           <td
-            class="c6 c7"
+            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
             style="white-space: nowrap;"
           >
             900
           </td>
           <td
-            class="c6 c7"
+            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
             style="white-space: nowrap;"
           >
             1,000
           </td>
         </tr>
         <tr
-          class=""
+          class="Row-sc-1y8eqfp-0"
         >
           <td
-            class="c6 c7"
+            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
             style="white-space: nowrap;"
           >
             5-9
           </td>
           <td
-            class="c6 c7"
+            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
             style="white-space: nowrap;"
           >
             1,100
           </td>
           <td
-            class="c6 c7"
+            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
             style="white-space: nowrap;"
           >
             1,200
           </td>
         </tr>
         <tr
-          class=""
+          class="Row-sc-1y8eqfp-0"
         >
           <td
-            class="c6 c7"
+            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
             style="white-space: nowrap;"
           >
             10-14
           </td>
           <td
-            class="c6 c7"
+            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
             style="white-space: nowrap;"
           >
             1,050
           </td>
           <td
-            class="c6 c7"
+            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
             style="white-space: nowrap;"
           >
             1,100
           </td>
         </tr>
         <tr
-          class=""
+          class="Row-sc-1y8eqfp-0"
         >
           <td
-            class="c6 c7"
+            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
             style="white-space: nowrap;"
           >
             15+
           </td>
           <td
-            class="c6 c7"
+            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
             style="white-space: nowrap;"
           >
             1,250
           </td>
           <td
-            class="c6 c7"
+            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
             style="white-space: nowrap;"
           >
             1,300
           </td>
         </tr>
         <tr
-          class=""
+          class="Row-sc-1y8eqfp-0"
         >
           <th
-            class="c2 c3 c4 c5"
+            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
           >
             All ages
           </th>
           <th
-            class="c2 c3 c4 c5"
+            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
           >
             4,300
           </th>
           <th
-            class="c2 c3 c4 c5"
+            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
           >
             4,600
           </th>

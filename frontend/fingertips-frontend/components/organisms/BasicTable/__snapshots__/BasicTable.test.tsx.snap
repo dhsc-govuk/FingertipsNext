@@ -1,277 +1,17 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`BasicTable should match snapshot 1`] = `
-.c8 {
-  margin: 0;
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  margin-bottom: 15px;
-}
-
-.c8 > p {
-  margin: 0;
-}
-
-.c8 > p > code {
-  padding: 0.2em 0.4em;
-  margin: 0;
-  font-size: 85%;
-  background-color: rgba(27,31,35,0.05);
-  border-radius: 3px;
-}
-
-.c8 > pre {
-  padding: 16px;
-  overflow: auto;
-  font-size: 85%;
-  line-height: 1.45;
-  background-color: #f6f8fa;
-  border-radius: 3px;
-}
-
-.c8 > pre > code {
-  display: inline;
-  padding: 0;
-  margin: 0;
-  border: 0;
-  overflow: visible;
-  line-height: inherit;
-  word-wrap: normal;
-}
-
-.c5 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 1;
-  display: inline-block;
-  padding-top: 5px;
-  padding-right: 8px;
-  padding-bottom: 4px;
-  padding-left: 8px;
-  outline: 2px solid transparent;
-  outline-offset: -2px;
-  -webkit-letter-spacing: 1px;
-  -moz-letter-spacing: 1px;
-  -ms-letter-spacing: 1px;
-  letter-spacing: 1px;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  text-transform: uppercase;
-  background-color: #1d70b8;
-  color: #ffffff;
-}
-
-.c2 {
-  padding: 10px 20px 10px 0;
-  border-bottom: 1px solid #bfc1c3;
-  text-align: left;
-  font-weight: 700;
-}
-
-.c2:last-child {
-  padding-right: 0;
-}
-
-.c3 {
-  padding: 10px 20px 10px 0;
-  border-bottom: 1px solid #bfc1c3;
-  text-align: left;
-}
-
-.c3:last-child {
-  padding-right: 0;
-}
-
-.c0 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  color: #0b0c0c;
-  width: 100%;
-  border-spacing: 0;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-}
-
-.c7 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-
-.c6 {
-  text-transform: unset;
-  margin: 0.3125em;
-  color: #303436;
-  background-color: #E1E2E3;
-}
-
-.c9 {
-  margin-bottom: 0;
-  margin-left: 0.3125em;
-  position: relative;
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 1.1428571428571428;
-}
-
-.c4 {
-  text-align: center;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-.c1 {
-  margin-bottom: 1rem;
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-  .c8 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c8 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c8 {
-    margin-bottom: 20px;
-  }
-}
-
-@media print {
-  .c5 {
-    font-size: 14px;
-    line-height: 1;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c5 {
-    font-size: 16px;
-    line-height: 1;
-  }
-}
-
-@media print {
-  .c0 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c0 {
-    color: #000;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 {
-    margin-bottom: 30px;
-  }
-}
-
-@media print {
-  .c9 {
-    font-size: 14px;
-    line-height: 1.2;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c9 {
-    font-size: 16px;
-    line-height: 1.25;
-  }
-}
-
-@media (min-width:641px) {
-
-}
-
+exports[`BasicTable > should match snapshot 1`] = `
 <table
-  class="c0 c1"
+  class="src__StyledTable-sc-16s660v-0 duOufa sc-dtBdUo ekpRUm"
 >
   <thead
-    class=""
+    class="TableHeader-sc-1n1nw4b-0"
   >
     <tr
-      class=""
+      class="Row-sc-1y8eqfp-0"
     >
       <th
-        class="c2"
+        class="Cell-sc-msv0l6-0 iftjBc"
         colspan="6"
         style="padding-left: 10px;"
       >
@@ -279,40 +19,40 @@ exports[`BasicTable should match snapshot 1`] = `
       </th>
     </tr>
     <tr
-      class=""
+      class="Row-sc-1y8eqfp-0"
     >
       <th
-        class="c2"
+        class="Cell-sc-msv0l6-0 iftjBc"
         style="vertical-align: top; padding-left: 10px;"
       >
         Indicator
       </th>
       <th
-        class="c2"
+        class="Cell-sc-msv0l6-0 iftjBc"
         style="vertical-align: top;"
       >
         Period
       </th>
       <th
-        class="c2"
+        class="Cell-sc-msv0l6-0 iftjBc"
         style="vertical-align: top; text-align: right;"
       >
         Count
       </th>
       <th
-        class="c2"
+        class="Cell-sc-msv0l6-0 iftjBc"
         style="vertical-align: top; text-align: left;"
       >
         Value unit
       </th>
       <th
-        class="c2"
+        class="Cell-sc-msv0l6-0 iftjBc"
         style="vertical-align: top; text-align: right;"
       >
         Value
       </th>
       <th
-        class="c2"
+        class="Cell-sc-msv0l6-0 iftjBc"
         style="vertical-align: top; text-align: center;"
       >
         Recent trend
@@ -320,58 +60,58 @@ exports[`BasicTable should match snapshot 1`] = `
     </tr>
   </thead>
   <tbody
-    class=""
+    class="TableBody-sc-1qqarm8-0"
   >
     <tr
-      class=""
+      class="Row-sc-1y8eqfp-0"
     >
       <td
-        class="c3"
+        class="Cell-sc-msv0l6-0 gaSlHc"
         style="padding-left: 10px;"
       >
          
       </td>
       <td
-        class="c3"
+        class="Cell-sc-msv0l6-0 gaSlHc"
         style="text-align: right;"
       >
         2008
       </td>
       <td
-        class="c3"
+        class="Cell-sc-msv0l6-0 gaSlHc"
         style="text-align: right;"
       >
         389
       </td>
       <td
         aria-label="Not compared"
-        class="c3"
+        class="Cell-sc-msv0l6-0 gaSlHc"
         style="text-align: left;"
       >
         X
       </td>
       <td
-        class="c3"
+        class="Cell-sc-msv0l6-0 gaSlHc"
         style="text-align: right;"
       >
         278.3
       </td>
       <td
-        class="c3 c4"
+        class="Cell-sc-msv0l6-0 sc-cwHptR gaSlHc itmUVF"
       >
         <div
           data-testid="trendTag-container"
         >
           <strong
-            class="c5 c6"
+            class="src__Tag-sc-10wvgvx-0 sc-gEvEer bujMNx dZEcNR"
           >
             <div
-              class="c7"
+              class="sc-aXZVg dOZydJ"
               data-testid="trend-tag-component"
             >
               <div>
                 <div
-                  class="c8 c9"
+                  class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-eqUAAy crFqhO"
                 >
                   <p>
                     No recent trend data available
@@ -384,58 +124,58 @@ exports[`BasicTable should match snapshot 1`] = `
       </td>
     </tr>
     <tr
-      class=""
+      class="Row-sc-1y8eqfp-0"
     >
       <td
-        class="c3"
+        class="Cell-sc-msv0l6-0 gaSlHc"
         style="padding-left: 10px;"
       >
         no data indicator
       </td>
       <td
         aria-label="Not compared"
-        class="c3"
+        class="Cell-sc-msv0l6-0 gaSlHc"
         style="text-align: right;"
       >
         X
       </td>
       <td
         aria-label="Not compared"
-        class="c3"
+        class="Cell-sc-msv0l6-0 gaSlHc"
         style="text-align: right;"
       >
         X
       </td>
       <td
         aria-label="Not compared"
-        class="c3"
+        class="Cell-sc-msv0l6-0 gaSlHc"
         style="text-align: left;"
       >
         X
       </td>
       <td
         aria-label="Not compared"
-        class="c3"
+        class="Cell-sc-msv0l6-0 gaSlHc"
         style="text-align: right;"
       >
         X
       </td>
       <td
-        class="c3 c4"
+        class="Cell-sc-msv0l6-0 sc-cwHptR gaSlHc itmUVF"
       >
         <div
           data-testid="trendTag-container"
         >
           <strong
-            class="c5 c6"
+            class="src__Tag-sc-10wvgvx-0 sc-gEvEer bujMNx dZEcNR"
           >
             <div
-              class="c7"
+              class="sc-aXZVg dOZydJ"
               data-testid="trend-tag-component"
             >
               <div>
                 <div
-                  class="c8 c9"
+                  class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-eqUAAy crFqhO"
                 >
                   <p>
                     No recent trend data available

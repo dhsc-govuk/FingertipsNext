@@ -1,11 +1,10 @@
 import { render, screen } from '@testing-library/react';
-import { expect } from '@jest/globals';
+
 import { SearchResult } from '.';
 import { UserEvent, userEvent } from '@testing-library/user-event';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { LoaderContext } from '@/context/LoaderContext';
-import { SearchStateContext } from '@/context/SearchStateContext';
 
 let user: UserEvent;
 
@@ -49,29 +48,23 @@ const MOCK_DATA_LASTUPDATED_INEQUALITIES: IndicatorDocument = {
   unitLabel: '',
 };
 
-const mockHandleClick = jest.fn();
+const mockHandleClick = vi.fn();
 
-const mockSetIsLoading = jest.fn();
+const mockSetIsLoading = vi.fn();
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: jest.fn(),
+  getIsLoading: vi.fn(),
   setIsLoading: mockSetIsLoading,
 };
-jest.mock('@/context/LoaderContext', () => {
+vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
   };
 });
 
-const mockGetSearchState = jest.fn();
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: mockGetSearchState,
-  setSearchState: jest.fn(),
-};
-jest.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
+let mockSearchState: SearchStateParams = {};
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => mockSearchState,
+}));
 
 const initialSearchState: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'test',
@@ -80,7 +73,7 @@ const initialSearchState: SearchStateParams = {
 
 beforeEach(() => {
   user = userEvent.setup();
-  mockGetSearchState.mockReturnValue(initialSearchState);
+  mockSearchState = initialSearchState;
 });
 
 describe('content', () => {

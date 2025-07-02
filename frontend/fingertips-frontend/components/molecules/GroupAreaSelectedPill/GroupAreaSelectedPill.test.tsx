@@ -5,7 +5,7 @@ import { GroupAreaSelectedPill } from '.';
 import { userEvent } from '@testing-library/user-event';
 
 describe('GroupAreaSelectedPill', () => {
-  const mockRemoveFilter = jest.fn();
+  const mockRemoveFilter = vi.fn();
   const area = mockAreaDataForNHSRegion[eastEnglandNHSRegion.code];
   const areaTypeName = 'NHS Primary Care Network';
 

@@ -1,7 +1,8 @@
 import type { Locator, Page as PlaywrightPage } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { expect } from './pageFactory';
-import { SearchMode } from '../testHelpers';
+import { SearchMode } from '../testHelpers/genericTestUtilities';
+import { spaceSeparatedPattern } from '@/lib/constants';
 
 export default class BasePage {
   readonly errorPageTitleHeaderId = 'error-page-title';
@@ -19,76 +20,110 @@ export default class BasePage {
     subjectSearchTerm: string,
     areaSearchCode: string
   ) {
-    if (searchMode === SearchMode.ONLY_SUBJECT) {
-      await this.waitForURLToContain(subjectSearchTerm);
+    switch (searchMode) {
+      case SearchMode.ONLY_SUBJECT:
+        if (!subjectSearchTerm?.trim()) return;
+        await this.waitForURLToContain(
+          this.prepareSearchTermForURL(subjectSearchTerm)
+        );
+        break;
+
+      case SearchMode.ONLY_AREA:
+        if (!areaSearchCode?.trim()) return;
+        await this.waitForURLToContain(areaSearchCode);
+        break;
+
+      case SearchMode.BOTH_SUBJECT_AND_AREA: {
+        if (!subjectSearchTerm?.trim() || !areaSearchCode?.trim()) return;
+        // Wait for both terms to appear in URL (potentially in any order)
+        const preparedSubject = this.prepareSearchTermForURL(subjectSearchTerm);
+        await Promise.all([
+          this.waitForURLToContain(preparedSubject),
+          this.waitForURLToContain(areaSearchCode),
+        ]);
+        break;
+      }
     }
-    if (searchMode === SearchMode.BOTH_SUBJECT_AND_AREA) {
-      await this.waitForURLToContain(subjectSearchTerm);
-      await this.waitForURLToContain(areaSearchCode);
+  }
+
+  private prepareSearchTermForURL(searchTerm: string): string {
+    let trimmed = searchTerm.trim();
+
+    // Check if searched for text is a space-separated list of numbers
+    if (spaceSeparatedPattern.test(trimmed)) {
+      // replace whitespace with +
+      trimmed = trimmed.replaceAll(' ', '+');
     }
-    if (searchMode === SearchMode.ONLY_AREA) {
-      await this.waitForURLToContain(areaSearchCode);
-    }
+
+    // handle ' common special character in search term
+    return trimmed.replaceAll(/'/g, '%27');
   }
 
   async clickAndAwaitLoadingComplete(locator: Locator, timeout?: number) {
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0, { timeout });
+    await this.waitForLoadingToFinish(timeout);
 
     await locator.click();
 
-    await expect(this.page.getByText('Loading')).toHaveCount(0, { timeout });
-    await this.page.waitForLoadState();
+    await this.waitForLoadingToFinish(timeout);
   }
 
   async checkAndAwaitLoadingComplete(locator: Locator) {
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.waitForLoadingToFinish();
 
     await locator.check();
 
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.waitForLoadingToFinish();
   }
 
   async uncheckAndAwaitLoadingComplete(locator: Locator) {
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.waitForLoadingToFinish();
 
     await locator.uncheck();
 
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.waitForLoadingToFinish();
   }
 
   async fillAndAwaitLoadingComplete(locator: Locator, value: string) {
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.waitForLoadingToFinish();
 
     await locator.fill(value);
 
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.waitForLoadingToFinish();
   }
 
   async clearAndAwaitLoadingComplete(locator: Locator) {
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.waitForLoadingToFinish();
 
     await locator.clear();
 
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.waitForLoadingToFinish();
   }
 
   async selectOptionAndAwaitLoadingComplete(locator: Locator, option: string) {
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.waitForLoadingToFinish();
 
     await locator.selectOption(option);
 
+    await this.waitForLoadingToFinish();
+  }
+
+  async waitAfterDropDownInteraction() {
+    await this.waitForLoadingToFinish();
+    await this.page.waitForTimeout(1000);
+  }
+
+  async waitForLoadingToFinish(timeout?: number) {
     await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await expect(this.page.getByText('Loading')).toHaveCount(0, { timeout });
+  }
+
+  async getSelectOptions(combobox: Locator) {
+    return await combobox.evaluate((select: HTMLSelectElement) =>
+      Array.from(select.options).map((option) => ({
+        value: option.value,
+        text: option.text,
+      }))
+    );
   }
 
   async expectNoAccessibilityViolations(
@@ -128,5 +163,9 @@ export default class BasePage {
 
   errorPageTitle() {
     return this.page.getByTestId(this.errorPageTitleHeaderId);
+  }
+
+  async pressKey(key: string) {
+    await this.page.keyboard.press(key);
   }
 }
