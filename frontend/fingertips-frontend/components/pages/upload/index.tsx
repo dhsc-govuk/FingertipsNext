@@ -23,7 +23,7 @@ const InterimWarningText = styled(WarningText)({
 });
 const ApiResponsePanel = styled('div')({
   marginBottom: '50px',
-  borderColor: '#D4351C', // #00703C for green
+  borderColor: '#1D70B8',
   borderWidth: '5px',
   borderStyle: 'solid',
   padding: '15px',
@@ -57,14 +57,17 @@ export const Upload = () => {
 
       {uploadResponse ? (
         <ApiResponsePanel>
-          <Table caption="API Response">
+          <Table caption="Upload results">
+            {uploadResponse.status ? (
+              <Table.Row>
+                <Table.CellHeader>Status</Table.CellHeader>
+                <Table.Cell>{uploadResponse.status}</Table.Cell>
+              </Table.Row>
+            ) : null}
+
             <Table.Row>
-              <Table.CellHeader>Status</Table.CellHeader>
-              <Table.Cell>{uploadResponse.status}</Table.Cell>
-            </Table.Row>
-            <Table.Row>
-              <Table.CellHeader>Body</Table.CellHeader>
-              <Table.Cell>{uploadResponse.body}</Table.Cell>
+              <Table.CellHeader>Message</Table.CellHeader>
+              <Table.Cell>{uploadResponse.message}</Table.Cell>
             </Table.Row>
           </Table>
         </ApiResponsePanel>
