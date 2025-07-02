@@ -36,6 +36,8 @@ const areaFiltersToSelect: AreaFilters = {
   groupType: 'nhs-sub-integrated-care-boards',
   group: '',
 };
+const email = 'william.willis@bjss.com';
+const incorrectPassword = 'testing123!';
 // Initialize test data from mock sources
 const typedIndicatorData = indicatorData.map(
   (indicator: RawIndicatorDocument) => ({
@@ -56,6 +58,9 @@ const validIndicatorIDs = returnIndicatorIDsByIndicatorMode(
 const allNHSRegionAreas = getAllAreasByAreaType(mockAreas, 'nhs-regions');
 
 test.describe('Home Page Tests', () => {
+  // we are intentionally setting failOnUnhandledError to handle a 404 for the entra favicon
+  test.use({ failOnUnhandledError: false });
+
   test('should navigate to home page and validate accessibility', async ({
     homePage,
     axeBuilder,
@@ -94,7 +99,7 @@ test.describe('Home Page Tests', () => {
       await homePage.checkSearchFieldIsPrePopulatedWith(); // nothing - as nothing should be prepopulated when first navigating to the home page
     });
 
-    await test.step('Try to search with empty field', async () => {
+    await test.step('Try to search with empty field via Enter key', async () => {
       await homePage.clickSubjectSearchField();
       await homePage.pressKey('Enter');
     });
@@ -103,6 +108,33 @@ test.describe('Home Page Tests', () => {
       await homePage.checkSummaryValidation(
         `There is a problemEnter a subject you want to search forEnter an area you want to search for`
       );
+    });
+  });
+
+  test('should return incorrect password validation if the password is incorrect', async ({
+    homePage,
+    entraPage,
+  }) => {
+    await test.step('Navigate to home page', async () => {
+      await homePage.navigateToHomePage();
+      await homePage.checkOnHomePage();
+    });
+
+    await test.step('Click Sign in button', async () => {
+      await homePage.clickSignIn();
+    });
+
+    await test.step('Verify on Entra Sign In page and enter email and password', async () => {
+      await entraPage.checkOnEntraSignInPage();
+    });
+
+    await test.step('Enter correct email but incorrect password and verify correct message is displayed', async () => {
+      await entraPage.typeEmail(email);
+      await entraPage.clickNext();
+      await entraPage.typePassword(incorrectPassword, email);
+      await entraPage.clickSignIn();
+
+      await entraPage.checkIncorrectPasswordMessageIsDisplayed();
     });
   });
 });
