@@ -128,7 +128,7 @@ describe('indicatorMapper tests', () => {
     });
 
     // DHSCFT-198 - AC1 - if no area specified but England chosen as group, then return the trend for England
-    it('retrieves the trend for England when no area has been specificed but England chosen as group', () => {
+    it('retrieves the trend for England when no area has been specified but England chosen as group', () => {
       const mockRawIndicators = [
         {
           ...baseMockRawIndicators[0],
