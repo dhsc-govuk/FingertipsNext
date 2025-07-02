@@ -11,9 +11,17 @@ export function AuthButton({ session }: Readonly<AuthButtonProps>) {
 }
 
 function SignInButton() {
-  return <StyledAuthButton onClick={signInHandler}>Sign in</StyledAuthButton>;
+  return (
+    <StyledAuthButton data-testid="sign-in-button" onClick={signInHandler}>
+      Sign in
+    </StyledAuthButton>
+  );
 }
 
 function SignOutButton() {
-  return <StyledAuthButton onClick={signOutHandler}>Sign out</StyledAuthButton>;
+  return (
+    <StyledAuthButton data-testid="sign-out-button" onClick={signOutHandler}>
+      Sign out
+    </StyledAuthButton>
+  );
 }

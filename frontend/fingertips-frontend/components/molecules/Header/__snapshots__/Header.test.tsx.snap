@@ -13,6 +13,7 @@ exports[`Header > should match snapshot 1`] = `
           >
             <button
               class="sc-aXZVg kBvuNF"
+              data-testid="sign-in-button"
             >
               Sign in
             </button>

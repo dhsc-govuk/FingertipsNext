@@ -10,14 +10,14 @@ vi.mock('@/lib/auth/handlers', () => {
   };
 });
 
-// unexpected token issue
 describe('auth header', () => {
-  it('should render a sign in button if session is null', async () => {
+  it('should render a sign in button if session is undefined', () => {
     const screen = render(<AuthHeader session={undefined} />);
 
     expect(screen.queryByTestId('auth-user-info')).not.toBeInTheDocument();
 
     expect(screen.getByRole('button')).toBeInTheDocument();
+    expect(screen.getByTestId('sign-in-button')).toBeInTheDocument();
     expect(screen.getByRole('button')).toHaveTextContent('Sign in');
   });
 
@@ -30,11 +30,12 @@ describe('auth header', () => {
     expect(signInHandler).toHaveBeenCalled();
   });
 
-  it('should render a sign out button if session is not null', async () => {
+  it('should render a sign out button if session is not null', () => {
     const screen = render(<AuthHeader session={{ expires: '' }} />);
 
     expect(screen.getByRole('button')).toBeInTheDocument();
     expect(screen.getByRole('button')).toHaveTextContent('Sign out');
+    expect(screen.getByTestId('sign-out-button')).toBeInTheDocument();
   });
 
   it('should call the sign out handler when the "Sign out" button is clicked', async () => {
