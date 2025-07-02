@@ -9,6 +9,8 @@ export default class HomePage extends AreaFilter {
   readonly validationSummary = 'search-form-error-summary';
   readonly indicatorSearchButton = 'indicator-search-form-submit';
   readonly pillContainer = 'pill-container';
+  readonly signInButton = 'sign-in-button';
+  readonly signOutButton = 'sign-out-button';
 
   async searchForIndicators(
     searchMode: SearchMode,
@@ -144,6 +146,18 @@ export default class HomePage extends AreaFilter {
   async clickSubjectSearchField() {
     await this.clickAndAwaitLoadingComplete(
       this.page.getByTestId(this.subjectSearchField)
+    );
+  }
+
+  async clickSignIn() {
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByTestId(this.signInButton)
+    );
+  }
+
+  async clickSignOut() {
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByTestId(this.signOutButton)
     );
   }
 }
