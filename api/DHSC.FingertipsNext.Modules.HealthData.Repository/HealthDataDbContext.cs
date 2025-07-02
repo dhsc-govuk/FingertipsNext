@@ -28,7 +28,7 @@ public class HealthDataDbContext : DbContext
 
     public IQueryable<HealthMeasureModel> GetHealthMeasureQueryable(bool includeUnpublished)
     {
-        if(includeUnpublished)
+        if (includeUnpublished)
             return HealthMeasure;
         return HealthMeasure.Where(hm => hm.PublishedAt <= DateTime.UtcNow);
     }

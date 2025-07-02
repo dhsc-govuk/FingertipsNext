@@ -184,7 +184,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
         string? toDateStr = null,
         string[]? inequalities = null,
         bool latestOnly = false,
-        bool includeUnpublished=false
+        bool includeUnpublished = false
     )
     {
         if (areaCodes is { Length: > MaxNumberAreas })
