@@ -3,15 +3,15 @@
 import { ResponseError } from '@/generated-sources/ft-api-client';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 
-export type UploadResponse = {
+export type ApiResponse = {
   status?: number;
   message: string;
 };
 
 export async function uploadFile(
-  _prevState: UploadResponse | undefined,
+  _prevState: ApiResponse | undefined,
   formData: FormData
-): Promise<UploadResponse> {
+): Promise<ApiResponse> {
   const rawIndicatorId = formData.get('indicatorId');
   if (!rawIndicatorId) {
     return {
