@@ -52,8 +52,8 @@ export const Upload = () => {
       ) : null}
 
       <InterimWarningText>
-        This is only an interim tool to allow developers to demonstrate data
-        upload to the API
+        This is an interim tool to allow developers to demonstrate data upload
+        to the API
       </InterimWarningText>
 
       <PageHeading>Indicator data portal</PageHeading>
