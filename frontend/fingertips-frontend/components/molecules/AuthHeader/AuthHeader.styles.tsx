@@ -10,9 +10,6 @@ export const Content = styled.div({
   display: 'block',
   width: 'fit-content',
   height: '100%',
-  marginTop: 0,
-  marginBottom: 0,
-  marginLeft: 'auto',
-  padding: '8px',
-  paddingRight: '0',
+  margin: '0 0 0 auto',
+  padding: '8px 0 8px 8px',
 });

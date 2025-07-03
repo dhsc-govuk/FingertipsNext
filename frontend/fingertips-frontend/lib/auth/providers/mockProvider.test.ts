@@ -1,7 +1,7 @@
 import { mockAuthFunction, mockUser } from '@/lib/auth/providers/mockProvider';
 
 describe('mock auth', () => {
-  it('should return the test user when given the password password', () => {
+  it('should return the test user when given the password: password', () => {
     expect(mockAuthFunction({ password: 'password' })).toEqual(mockUser);
   });
 

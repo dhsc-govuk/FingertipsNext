@@ -27,16 +27,14 @@ export function FTHeader({
   return (
     <header className={chartPage ? 'chart-page-header' : undefined}>
       <div>
-        <div>
-          <AuthHeader session={session} />
-          <TopNav
-            serviceTitle={
-              <TopNav.NavLink href="/">
-                <ServiceTitle>{siteTitle}</ServiceTitle>
-              </TopNav.NavLink>
-            }
-          ></TopNav>
-        </div>
+        <AuthHeader session={session} />
+        <TopNav
+          serviceTitle={
+            <TopNav.NavLink href="/">
+              <ServiceTitle>{siteTitle}</ServiceTitle>
+            </TopNav.NavLink>
+          }
+        ></TopNav>
       </div>
       <ZeroPaddingMain>
         <PhaseBanner level="alpha">
