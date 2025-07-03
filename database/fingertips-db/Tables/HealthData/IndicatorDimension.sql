@@ -1,5 +1,5 @@
 ﻿--All the public health indicators
-CREATE TABLE [dbo].[IndicatorDimension](
+CREATE TABLE [HealthMeasure].[IndicatorDimension](
 	[IndicatorKey] [smallint] IDENTITY(1,1) NOT NULL,		--The surrogate key
 	[Name] [nvarchar](255) NOT NULL,						--The name of the indicator e.g. Under 75 mortality rate from all causes
 	[IndicatorId] [int] NOT NULL,							--The original ID of the indicator taken from the original Fingertips Pholio database.
