@@ -1,8 +1,8 @@
 import { format } from 'date-fns';
 
 /**
- * The following types are temporary. 
- * Once the swagger has been updated then these types will come from the generated code. 
+ * The following types are temporary.
+ * Once the swagger has been updated then these types will come from the generated code.
  */
 export const Frequency = {
   Annual: 'Annual',
