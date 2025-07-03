@@ -395,7 +395,7 @@ FROM
             var periodTypeMap = new Dictionary<string, string>
             {
                 {"November-November", "Yearly"},
-                {"Financial multi year cumulative quarters","Financial multi-year"} // TODO: change how this special case is handled
+                {"Financial multi year cumulative quarters","Financial multi-year"}
             };
 
             var allowedPeriodTypes = new HashSet<string>

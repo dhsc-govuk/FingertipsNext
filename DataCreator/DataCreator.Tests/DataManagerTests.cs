@@ -9,27 +9,11 @@ namespace DataCreator.Tests;
 [TestOf(typeof(DataManager))]
 public class DataManagerTests
 {
-    // TODO: cover reportingPeriods:
-    // monthly "1m" - 93415
-    // quarterly "3m" - 91040
-    // yearly "1y" - 108
-    // 2 yearly
-    // 3 yearly "3y" - 92904
-    // 5 yearly "5y" - 93283
-
-    // TODO: Period Types
-    // Calendar
-    // Yearly (i.e. November-November)
-    // Financial
-    // Financial year end point
-    // Financial multi-year
-    // Academic
-
     [Theory]
     [TestCase("Calendar", "20090000", "01/01/2009", "31/12/2009")]
     [TestCase("Yearly", "20090000", "01/11/2009","31/10/2010")]
     [TestCase("Financial", "20090000", "01/04/2009", "31/03/2010")]
-    // [TestCase("Financial multi-year", "20080000", "01/04/2008", "31/03/2009")]
+    [TestCase("Financial multi-year", "20090000", "01/04/2009", "31/03/2010")]
     [TestCase("Financial year end point", "20090000", "31/03/2009", "31/03/2009")]
     [TestCase("Academic", "20090000", "01/09/2009", "31/08/2010")]
     public void CreateHealthMeasurePeriodDates_ShouldCreateTheCorrectFromDateAndToDate_ForYearlyPeriod(
@@ -71,7 +55,7 @@ public class DataManagerTests
     [TestCase("Calendar", "20090000", "01/01/2009", "31/12/2010")]
     [TestCase("Yearly", "20090000", "01/11/2009","31/10/2011")]
     [TestCase("Financial", "20090000", "01/04/2009", "31/03/2011")]
-    // [TestCase("Financial multi-year", "20090000", "01/04/2008", "31/03/2010")] // TODO: handle this!
+    [TestCase("Financial multi-year", "20090000", "01/04/2009", "31/03/2011")]
     [TestCase("Academic", "20090000", "01/09/2009", "31/08/2011")]
     public void CreateHealthMeasurePeriodDates_ShouldCreateTheCorrectFromDateAndToDate_For2YearlyPeriod(
         string indicatorPeriodType,
@@ -113,6 +97,7 @@ public class DataManagerTests
     [TestCase("Calendar", "20090000", "01/01/2009", "31/12/2011")]
     [TestCase("Yearly", "20090000", "01/11/2009","31/10/2012")]
     [TestCase("Financial", "20090000", "01/04/2009", "31/03/2012")]
+    [TestCase("Financial multi-year", "20090000", "01/04/2009", "31/03/2012")]
     [TestCase("Academic", "20090000", "01/09/2009", "31/08/2012")]
     public void CreateHealthMeasurePeriodDates_ShouldCreateTheCorrectFromDateAndToDate_For3YearlyPeriod(
         string indicatorPeriodType,
@@ -152,10 +137,10 @@ public class DataManagerTests
 
     [Theory]
     [TestCase("Calendar", "20090000", "01/01/2009", "31/12/2013")]
-    // [TestCase("Yearly", "20090000", "01/01/2009","31/12/2013")]
     [TestCase("Financial", "20080000", "01/04/2008", "31/03/2013")]
+    [TestCase("Financial multi-year", "20080000", "01/04/2008", "31/03/2013")]
     [TestCase("Academic", "20080000", "01/09/2008", "31/08/2013")]
-    public void CreateHealthMeasurePeriodDates_ShouldCreateTheCorrectFromDateAndToDateFor5YearlyPeriod(
+    public void CreateHealthMeasurePeriodDates_ShouldCreateTheCorrectFromDateAndToDate_For5YearlyPeriod(
         string indicatorPeriodType,
         string timePeriodSortable,
         string expectedFromDate,
@@ -230,6 +215,7 @@ public class DataManagerTests
         actualFromDates.ShouldBeEquivalentTo(expectedFromDate);
         actualToDates.ShouldBeEquivalentTo(expectedToDate);
     }
+    
     [Theory]
     [TestCase("20090100", "01/04/2009")]
     [TestCase("20090200", "01/07/2009")]
@@ -246,6 +232,44 @@ public class DataManagerTests
             {
                 IndicatorID = 1,
                 PeriodType = "Financial"
+            }
+        };
+        var stubHealthMeasures = new List<HealthMeasureEntity>
+        {
+            new()
+            {
+                IndicatorId = 1,
+                TimePeriodSortable = timePeriodSortable,
+                Period = reportingPeriod,
+            },
+        };
+
+        // Act
+        HealthMeasureDateCalculator.CreateHealthMeasurePeriodDates(stubIndicators, stubHealthMeasures);
+        // Extract
+        var actualFromDates = stubHealthMeasures.First().FromDate;
+        var actualToDates = stubHealthMeasures.First().ToDate;
+
+        // Assert
+        actualFromDates.ShouldBeEquivalentTo(expectedFromDate);
+    }
+    
+    [Theory]
+    [TestCase("20090100", "01/04/2009")]
+    [TestCase("20090200", "01/07/2009")]
+    [TestCase("20090300", "01/10/2009")]
+    [TestCase("20090400", "01/01/2010")]
+    public void CreateHealthMeasurePeriodDates_ShouldCreateTheCorrectFromDate_ForFinancialMultiYearQuarterly(
+        string timePeriodSortable,
+        string expectedFromDate
+    )
+    {
+        const string reportingPeriod = "quarterly";
+        var stubIndicators = new List<SimpleIndicator>{
+            new()
+            {
+                IndicatorID = 1,
+                PeriodType = "Financial multi-year"
             }
         };
         var stubHealthMeasures = new List<HealthMeasureEntity>
