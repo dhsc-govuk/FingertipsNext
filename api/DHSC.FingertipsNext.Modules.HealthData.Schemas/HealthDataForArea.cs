@@ -23,7 +23,7 @@ public class HealthDataForArea
     /// <summary>
     ///     Segments of the indicator
     /// </summary>
-    [JsonPropertyName("indicatorSegment")]
+    [JsonPropertyName("indicatorSegments")]
     public IEnumerable<IndicatorSegment> IndicatorSegments { get; set; } = [];
 
     /// <summary>
