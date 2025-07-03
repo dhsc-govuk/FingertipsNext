@@ -10,6 +10,7 @@ import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { mockAreaDataForNHSRegion } from '@/mock/data/areaData';
 import { LoaderContext } from '@/context/LoaderContext';
 import userEvent from '@testing-library/user-event';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 const mockPath = 'some path';
 const mockReplace = vi.fn();
@@ -163,12 +164,66 @@ describe('SearchForm', () => {
     });
   });
 
-  it('should call setIsLoading with true when the search button is clicked', async () => {
+  it('should call setIsLoading with true when the search buttons are clicked', async () => {
     render(<SearchForm formState={initialDataState} />);
 
     const user = userEvent.setup();
-    await user.click(screen.getByRole('button'));
+    const buttons = screen.queryAllByRole('button');
+
+    for (const button of buttons) {
+      await user.click(button);
+    }
+
+    expect(mockSetIsLoading).toHaveBeenCalledTimes(2);
+  });
+
+  it('should search by subject when the search box is not empty and the enter key is pressed', async () => {
+    render(<SearchForm formState={initialDataState} />);
+
+    const user = userEvent.setup();
+    const input = screen.getByTestId('indicator-search-form-input');
+
+    await user.type(input, 'test');
+    await user.keyboard('{Enter}');
 
     expect(mockSetIsLoading).toHaveBeenCalledWith(true);
+  });
+
+  it('should search by subject when the search box is not empty and the return key is pressed', async () => {
+    render(<SearchForm formState={initialDataState} />);
+
+    const user = userEvent.setup();
+    const input = screen.getByTestId('indicator-search-form-input');
+
+    await user.type(input, 'test');
+    await user.keyboard('{Return}');
+
+    expect(mockSetIsLoading).toHaveBeenCalledWith(true);
+  });
+
+  it('should display no message when there is no error and a black border around the input field', () => {
+    render(<SearchForm formState={initialDataState} />);
+
+    expect(
+      screen.queryByTestId('indicator-search-form-error')
+    ).not.toBeInTheDocument();
+
+    const input = screen.getByTestId('indicator-search-form-input');
+    expect(input).toHaveStyle(`border-color: ${GovukColours.Black}`);
+  });
+
+  it('should show error message and a red border around the input field when the formState message is set', () => {
+    render(
+      <SearchForm
+        formState={{ ...initialDataState, message: 'Error', indicator: '' }}
+      />
+    );
+
+    expect(
+      screen.getByTestId('indicator-search-form-error')
+    ).toBeInTheDocument();
+
+    const input = screen.getByTestId('indicator-search-form-input');
+    expect(input).toHaveStyle(`border-color: ${GovukColours.Red}`);
   });
 });

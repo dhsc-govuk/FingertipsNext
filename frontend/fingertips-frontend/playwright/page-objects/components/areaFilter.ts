@@ -9,6 +9,7 @@ import {
   SimpleIndicatorDocument,
 } from '@/playwright/testHelpers/genericTestUtilities';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import { RawIndicatorDocument } from '@/lib/search/searchTypes';
 
 export default class AreaFilter extends BasePage {
   readonly areaFilterContainer = 'area-filter-container';
@@ -26,6 +27,7 @@ export default class AreaFilter extends BasePage {
   readonly hideAreaFilterPane = 'area-filter-pane-hidefilters';
   readonly showAreaFilterPane = 'show-filter-cta';
   readonly groupSelectedAreaPanel = 'group-selected-areas-panel';
+  readonly viewIndicatorText = 'View background information';
 
   async areaFilterPills() {
     return this.page
@@ -60,7 +62,7 @@ export default class AreaFilter extends BasePage {
     );
 
     const cleanedPillTexts = pillTexts.map((text) =>
-      text!.replace(/View background information$/, '').trim()
+      text!.replace(new RegExp(`${this.viewIndicatorText}$`), '').trim()
     );
 
     for (const pillText of expectedPillText) {
@@ -180,15 +182,13 @@ export default class AreaFilter extends BasePage {
   }
 
   async selectGroupAndAssertURLUpdated(group: string) {
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.waitForLoadingToFinish();
 
     await this.page
       .getByTestId(this.groupSelector)
       .selectOption({ label: capitaliseFirstCharacter(group) });
 
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.waitForLoadingToFinish();
     await this.waitForURLToContain(SearchParams.GroupSelected);
   }
 
@@ -351,6 +351,21 @@ export default class AreaFilter extends BasePage {
     );
     await expect(this.page.getByTestId(this.showAreaFilterPane)).toHaveText(
       'Show filter'
+    );
+  }
+
+  async clickViewBackgroundInformationLinkForIndicator(
+    indicator: RawIndicatorDocument
+  ) {
+    if (!indicator) {
+      throw new Error(`Indicator not found`);
+    }
+
+    await this.clickAndAwaitLoadingComplete(
+      this.page
+        .getByTestId(this.pillContainer)
+        .getByText(indicator.indicatorName)
+        .getByRole('link', { name: this.viewIndicatorText })
     );
   }
 }
