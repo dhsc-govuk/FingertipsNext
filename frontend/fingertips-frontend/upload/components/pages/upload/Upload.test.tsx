@@ -23,6 +23,8 @@ function setupMockUseActionState<T>(state: T | undefined = undefined) {
   );
 }
 
+const apiResponsePanelTestId = 'api-response-panel';
+
 describe('Upload page component', () => {
   beforeEach(() => {
     setupMockUseActionState<ApiResponse>();
@@ -43,7 +45,9 @@ describe('Upload page component', () => {
 
     render(<Upload />);
 
-    expect(screen.queryByRole('table')).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId(apiResponsePanelTestId)
+    ).not.toBeInTheDocument();
   });
 
   it('should render the API response panel when there is a response', () => {
@@ -51,7 +55,7 @@ describe('Upload page component', () => {
 
     render(<Upload />);
 
-    expect(screen.queryByRole('table')).toBeInTheDocument();
+    expect(screen.getByTestId(apiResponsePanelTestId)).toBeInTheDocument();
   });
 
   it('should render the page heading', () => {

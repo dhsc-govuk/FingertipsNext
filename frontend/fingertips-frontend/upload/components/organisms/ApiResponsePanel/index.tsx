@@ -9,7 +9,7 @@ type ApiResponsePanelProps = {
 export const ApiResponsePanel = ({ apiResponse }: ApiResponsePanelProps) => {
   return (
     <ResponsePanel>
-      <Table>
+      <Table data-testid="api-response-panel">
         {apiResponse.status ? (
           <Table.Row>
             <Table.CellHeader>Status</Table.CellHeader>
