@@ -50,6 +50,7 @@ public class HealthDataModule : AbstractMonolithModule, IMonolithModule
         };
 
         services.AddDbContext<HealthDataDbContext>(options => options.UseSqlServer(builder.ConnectionString));
+        services.AddDbContext<BatchHealthDataDbContext>(options => options.UseSqlServer(builder.ConnectionString));
     }
 
     private static string GetEnvironmentValue(IConfiguration configuration, string name) =>

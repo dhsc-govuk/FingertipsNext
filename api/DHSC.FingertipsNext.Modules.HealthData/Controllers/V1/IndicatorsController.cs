@@ -190,4 +190,16 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
 
         return quartileData == null ? NotFound() : Ok(quartileData);
     }
+
+    [HttpDelete]
+    [Route("{indicatorId:int}/batch/{batchId:alpha}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> DeleteUnpublishedData([FromRoute] int indicatorId, [FromRoute] string batchId)
+    { 
+        var result = await _indicatorsService.DeleteUnpublishedData(indicatorId, batchId);
+        return Ok();
+    }
 }

@@ -247,4 +247,9 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
 
         return quartileData == null ? null : healthDataMapper.Map(quartileData.ToList());
     }
+
+    public Task<ServiceResponse<string>> DeleteUnpublishedData(int indicatorId, string batchId)
+    {
+        throw new NotImplementedException();
+    }
 }

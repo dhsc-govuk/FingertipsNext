@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DHSC.FingertipsNext.Modules.HealthData.Repository;
 
 [SuppressMessage("ReSharper", "SimplifyConditionalTernaryExpression")]
-public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHealthDataRepository
+public class HealthDataRepository(HealthDataDbContext healthDataDbContext, BatchHealthDataDbContext batchHealthDataDbContext) : IHealthDataRepository
 {
     private const string SEX = "sex";
     private const string AGE = "age";
@@ -115,6 +115,20 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .Where(areaDimension => EF.Constant(areaCodes).Contains(areaDimension.Code))
             .AsNoTracking()
             .ToListAsync();
+    }
+
+    public async Task DeleteAllHealthMeasureByBatchIdAsync(int indicatorId, string batchId)
+    {
+        var batchToDelete = batchHealthDataDbContext.HealthMeasure
+            .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
+            .Where(healthMeasure => healthMeasure.BatchId == batchId);
+
+        if (await batchToDelete.AnyAsync(healthMeasure => healthMeasure.PublishedAt <= DateTime.UtcNow))
+        {
+            throw new InvalidOperationException("Error deleting published batch.");
+        }
+
+        await batchToDelete.ExecuteDeleteAsync();
     }
 
     public async Task<IEnumerable<DenormalisedHealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync(
