@@ -41,6 +41,7 @@ const SpacedTitle = styled(H3)({
 
 const StyledClearAllLinkHeight = styled(Link)({
   height: '40px',
+  fontSize: '19px',
 });
 
 const StyledSearchWithClearAllLink = styled('div')({
@@ -145,6 +146,7 @@ export const SearchForm = ({
           areaFilterData={areaFilterData}
           selectedAreasData={selectedAreasData}
           isFullWidth={false}
+          showClearAllLink={false}
         />
       ) : null}
       <StyledSearchWithClearAllLink>

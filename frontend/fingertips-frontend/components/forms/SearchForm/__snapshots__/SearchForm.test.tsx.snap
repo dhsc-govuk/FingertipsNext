@@ -115,7 +115,7 @@ exports[`SearchForm > snapshot test - renders the form 1`] = `
         Search
       </button>
       <a
-        class="src__Link-sc-1loawqx-0 sc-bmzYkS jjZtWC jeDTay"
+        class="src__Link-sc-1loawqx-0 sc-bmzYkS jjZtWC ewDVhN"
         href="/"
       >
         Clear all

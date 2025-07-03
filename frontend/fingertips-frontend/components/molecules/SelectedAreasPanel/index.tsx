@@ -22,6 +22,7 @@ interface SelectedAreasPanelProps {
   selectedAreasData?: Area[];
   areaFilterData?: AreaFilterData;
   isFullWidth?: boolean;
+  showClearAllLink?: boolean;
 }
 
 const StyledFilterSelectedAreaDiv = styled('div')({
@@ -40,6 +41,7 @@ export function SelectedAreasPanel({
   selectedAreasData,
   areaFilterData,
   isFullWidth,
+  showClearAllLink,
 }: Readonly<SelectedAreasPanelProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -98,13 +100,15 @@ export function SelectedAreasPanel({
             <StyledFilterLabel>
               {`Selected areas (${areaFilterData?.availableAreas?.length})`}
             </StyledFilterLabel>
-            <StyledRightClearAllLink
-              href=""
-              onClick={clearAllSelectedAreas}
-              data-testid="clear-all-group-selected-areas-link"
-            >
-              Clear all
-            </StyledRightClearAllLink>
+            {showClearAllLink ? (
+              <StyledRightClearAllLink
+                href=""
+                onClick={clearAllSelectedAreas}
+                data-testid="clear-all-group-selected-areas-link"
+              >
+                Clear all
+              </StyledRightClearAllLink>
+            ) : null}
           </StyledFilterWithClearAllLink>
           <GroupAreaSelectedPill
             areaTypeName={areaType?.name}
@@ -119,13 +123,15 @@ export function SelectedAreasPanel({
             <StyledFilterLabel>
               {`Selected areas (${selectedAreasData?.length ?? 0})`}
             </StyledFilterLabel>
-            <StyledRightClearAllLink
-              href=""
-              onClick={clearAllSelectedAreas}
-              data-testid="clear-all-group-selected-areas-link"
-            >
-              Clear all
-            </StyledRightClearAllLink>
+            {showClearAllLink ? (
+              <StyledRightClearAllLink
+                href=""
+                onClick={clearAllSelectedAreas}
+                data-testid="clear-all-group-selected-areas-link"
+              >
+                Clear all
+              </StyledRightClearAllLink>
+            ) : null}
           </StyledFilterWithClearAllLink>
           {selectedAreasData && selectedAreasData?.length > 0 ? (
             rowsToShow.map((selectedArea) => (

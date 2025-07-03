@@ -260,7 +260,12 @@ describe('SelectedAreasPanel', () => {
         [SearchParams.AreasSelected]: ['E40000007', 'E40000012'],
       };
 
-      render(<SelectedAreasPanel selectedAreasData={mockSelectedAreasData} />);
+      render(
+        <SelectedAreasPanel
+          selectedAreasData={mockSelectedAreasData}
+          showClearAllLink={true}
+        />
+      );
 
       const user = userEvent.setup();
 
