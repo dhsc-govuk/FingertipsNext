@@ -2,6 +2,8 @@
 
 import { ResponseError } from '@/generated-sources/ft-api-client';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import { UTCDateMini } from '@date-fns/utc';
+import { formatISO } from 'date-fns';
 
 export type ApiResponse = {
   status?: number;
@@ -30,10 +32,54 @@ export async function uploadFile(
     return { message: 'The provided file is not in the expected format.' };
   }
 
-  // TODO: Convert the date into a suitable format.
-  // const publishDateDay = formData.get('publishDateDay');
-  // const publishDateMonth = formData.get('publishDateMonth');
-  // const publishDateYear = formData.get('publishDateYear');
+  const rawPublishDateYear = formData.get('publishDateYear');
+  if (!rawPublishDateYear) {
+    return {
+      message: 'The publish date year must be specified.',
+    };
+  }
+
+  const rawPublishDateMonth = formData.get('publishDateMonth');
+  if (!rawPublishDateMonth) {
+    return {
+      message: 'The publish date month must be specified.',
+    };
+  }
+
+  const rawPublishDateDay = formData.get('publishDateDay');
+  if (!rawPublishDateDay) {
+    return {
+      message: 'The publish date day must be specified.',
+    };
+  }
+
+  const publishDateYear = Number(rawPublishDateYear);
+  if (isNaN(publishDateYear)) {
+    return {
+      message: 'The publish date year must be a number.',
+    };
+  }
+
+  const publishDateMonth = Number(rawPublishDateMonth);
+  if (isNaN(publishDateMonth)) {
+    return {
+      message: 'The publish date month must be a number.',
+    };
+  }
+
+  const publishDateDay = Number(rawPublishDateDay);
+  if (isNaN(publishDateDay)) {
+    return {
+      message: 'The publish date day must be a number.',
+    };
+  }
+
+  const isoPublishDate = formatISO(
+    new UTCDateMini(publishDateYear, publishDateMonth - 1, publishDateDay)
+  );
+  // The ISO-8601 date string will be passed to the API when it is updated
+  // to accept it.
+  console.log('Publish date: ', isoPublishDate);
 
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
