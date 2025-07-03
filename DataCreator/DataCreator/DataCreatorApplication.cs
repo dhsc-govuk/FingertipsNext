@@ -3,7 +3,7 @@
     public class DataCreatorApplication(DataManager dataManager)
     {
         private readonly DataManager _dataManager = dataManager;
-        private readonly HealthMeasureDateCalculator _healthMeasureDateCalculator =  new();
+        private readonly HealthMeasureDateCalculator _healthMeasureDateCalculator = new();
 
         public async Task CreateDataAsync()
         {

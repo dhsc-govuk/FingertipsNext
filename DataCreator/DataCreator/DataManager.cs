@@ -60,7 +60,7 @@ namespace DataCreator
                 AreaCode = area.AreaCode.Trim(),
                 AreaName = Regex.Replace(
                     Regex.Replace(area.AreaName.Trim(), @"\bOf\b", "of", RegexOptions.None, TimeSpan.FromMilliseconds(100)),
-                    @"\bAnd The\b", "and the",RegexOptions.None, TimeSpan.FromMilliseconds(100)
+                    @"\bAnd The\b", "and the", RegexOptions.None, TimeSpan.FromMilliseconds(100)
                 ),
                 Children = string.Join('|', area.ChildAreas.Select(c => c.AreaCode.Trim())),
                 Level = area.Level,
@@ -75,7 +75,7 @@ namespace DataCreator
             DataFileWriter.WriteSimpleAreaCsvData("areas", simpleAreasWeWant);
             return areasWeWant;
         }
-        
+
         public async Task CreateIndicatorDataAsync(List<IndicatorWithAreasAndLatestUpdate> indicatorWithAreasAndLatestUpdates, List<SimpleIndicator> pocIndicators)
         {
             var indicators = (await _pholioDataFetcher.FetchIndicatorsAsync(pocIndicators)).ToList();
@@ -169,10 +169,10 @@ namespace DataCreator
         {
             var periodMap = new Dictionary<string, string>
             {
-                {"1m","monthly"}, 
-                {"3m","quarterly"}, 
-                {"1y","yearly"}, 
-                {"2y","2 yearly"}, 
+                {"1m","monthly"},
+                {"3m","quarterly"},
+                {"1y","yearly"},
+                {"2y","2 yearly"},
                 {"3y","3 yearly"},
                 {"5y","5 yearly"},
             };
@@ -335,7 +335,7 @@ namespace DataCreator
         public async Task<IEnumerable<AgeEntity>> GetAgeDataAsync() =>
             await _pholioDataFetcher.FetchAgeDataAsync();
 
-        
+
 
     }
 }

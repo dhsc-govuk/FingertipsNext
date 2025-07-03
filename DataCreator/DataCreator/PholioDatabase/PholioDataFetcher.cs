@@ -402,7 +402,7 @@ FROM
             {
                 "Calendar",
                 "Financial",
-                "Yearly",
+                "Yearly", // TODO: see if anything other than Nov-Nov is yearly
                 "Financial year end point",
                 "Financial multi-year",
                 "Academic"
