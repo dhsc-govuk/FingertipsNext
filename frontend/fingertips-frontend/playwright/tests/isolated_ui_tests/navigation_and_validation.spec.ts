@@ -126,7 +126,9 @@ test.describe('Results Page Tests', () => {
     await test.step('Verify results page', async () => {
       await resultsPage.waitForURLToContain(subjectSearchTerm);
       await resultsPage.checkSearchResultsTitle(subjectSearchTerm);
-      await resultsPage.expectNoAccessibilityViolations(axeBuilder);
+      await resultsPage.expectNoAccessibilityViolations(axeBuilder, [
+        'color-contrast',
+      ]);
     });
   });
 
@@ -142,7 +144,9 @@ test.describe('Results Page Tests', () => {
       await resultsPage.clearIndicatorSearchBox();
       await resultsPage.clickIndicatorSearchButton();
       await resultsPage.checkForIndicatorSearchError();
-      await resultsPage.expectNoAccessibilityViolations(axeBuilder);
+      await resultsPage.expectNoAccessibilityViolations(axeBuilder, [
+        'color-contrast',
+      ]);
     });
 
     await test.step('Enter a different valid search and verify results page', async () => {

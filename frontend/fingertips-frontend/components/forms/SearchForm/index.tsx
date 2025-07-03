@@ -57,7 +57,6 @@ export const SearchForm = ({
 }: Readonly<SearchFormProps>) => {
   const { setIsLoading } = useLoadingState();
   const searchState = useSearchStateParams();
-  console.log('formState', formState);
 
   useEffect(() => {
     if (formState.message) {
@@ -79,11 +78,13 @@ export const SearchForm = ({
         borderColor: GovukColours.Red,
         borderWidth: '4px',
         borderStyle: 'solid',
+        fontSize: '19px',
       }
     : {
         borderColor: GovukColours.Black,
         borderWidth: '2px',
         borderStyle: 'solid',
+        fontSize: '19px',
       };
 
   return (
