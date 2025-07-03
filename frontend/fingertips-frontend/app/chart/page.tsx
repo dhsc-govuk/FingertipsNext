@@ -33,6 +33,9 @@ export default async function ChartPage(
     searchParams?: Promise<SearchStateParams>;
   }>
 ) {
+  // We don't want to render this page statically
+  await connection();
+
   try {
     const searchParams = await props.searchParams;
     const stateManager = SearchStateManager.initialise(searchParams);
@@ -44,9 +47,6 @@ export default async function ChartPage(
     } = searchState;
 
     const areasSelected = areaCodes ?? [];
-
-    // We don't want to render this page statically
-    await connection();
 
     const selectedIndicatorsData =
       indicatorsSelected && indicatorsSelected.length > 0
