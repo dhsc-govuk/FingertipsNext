@@ -26,7 +26,7 @@ public class HealthDataDbContext : DbContext
     public DbSet<DenormalisedHealthMeasureModel> DenormalisedHealthMeasure { get; set; }
     public DbSet<QuartileDataModel> QuartileData { get; set; }
 
-    public IQueryable<HealthMeasureModel> GetHealthMeasureQueryable(bool includeUnpublished)
+    public IQueryable<HealthMeasureModel> GetHealthMeasures(bool includeUnpublished)
     {
         if (includeUnpublished)
             return HealthMeasure;

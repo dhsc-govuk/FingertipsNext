@@ -54,9 +54,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
         [FromQuery(Name = "to_date")] string? toDateStr = null,
         [FromQuery] string[]? inequalities = null,
         [FromQuery(Name = "latest_only")] bool latestOnly = false
-    )
-    {
-        return await GetIndicatorDataInternalAsync(
+    ) => await GetIndicatorDataInternalAsync(
             indicatorId,
             areaCodes,
             areaType,
@@ -68,7 +66,6 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
             inequalities,
             latestOnly,
             false);
-    }
 
     /// <summary>
     /// Get published and unpublished data for a public health indicator. Returns all data for all
@@ -107,9 +104,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
         [FromQuery(Name = "to_date")] string? toDateStr = null,
         [FromQuery] string[]? inequalities = null,
         [FromQuery(Name = "latest_only")] bool latestOnly = false
-    )
-    {
-        return await GetIndicatorDataInternalAsync(
+    ) => await GetIndicatorDataInternalAsync(
             indicatorId,
             areaCodes,
             areaType,
@@ -121,7 +116,6 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
             inequalities,
             latestOnly,
             true);
-    }
 
     /// <summary>
     /// Get data for a public health indicator. Returns all data for all

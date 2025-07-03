@@ -29,7 +29,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
     /// <returns>IndicatorDimensionModel containing relevant indicator metadata</returns>
     public async Task<IndicatorDimensionModel?> GetIndicatorDimensionAsync(int indicatorId, string[] areaCodes, bool includeUnpublished = false)
     {
-        var queryable = _dbContext.GetHealthMeasureQueryable(includeUnpublished);
+        var queryable = _dbContext.GetHealthMeasures(includeUnpublished);
         var model = await queryable
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
             .Where(HealthDataPredicates.IsInAreaCodes(areaCodes))
@@ -85,7 +85,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
 
         DateTime? toDateTime = toDate != null ? toDate.Value.ToDateTime(TimeOnly.MinValue) : null;
         DateTime? fromDateTime = fromDate != null ? fromDate.Value.ToDateTime(TimeOnly.MinValue) : null;
-        var healthMeasures = await _dbContext.GetHealthMeasureQueryable(includeUnpublished)
+        var healthMeasures = await _dbContext.GetHealthMeasures(includeUnpublished)
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
             .Where(HealthDataPredicates.IsInAreaCodes(areaCodes))
             .Where(healthMeasure => years.Length == 0 || EF.Constant(years).Contains(healthMeasure.Year))
