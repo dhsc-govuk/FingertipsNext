@@ -148,6 +148,7 @@ public static class BenchmarkComparisonEngine
 
     }
 
+    [Obsolete("ProcessBenchmarkComparisonsForAreaPoint is deprecated, and will be removed once UI using IndicatorSegments.")]
     private static void ProcessBenchmarkComparisonsForAreaPoint
     (
         HealthDataPoint healthDataPointOfInterest,
