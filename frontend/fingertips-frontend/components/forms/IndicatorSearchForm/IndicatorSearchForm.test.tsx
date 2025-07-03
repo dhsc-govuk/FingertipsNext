@@ -1,19 +1,17 @@
-import { expect } from '@jest/globals';
 import { render, screen } from '@testing-library/react';
 import { IndicatorSearchFormState } from './indicatorSearchActions';
 import { IndicatorSearchForm } from '.';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { LoaderContext } from '@/context/LoaderContext';
-import { SearchStateContext } from '@/context/SearchStateContext';
 import userEvent from '@testing-library/user-event';
 import { INDICATOR_SEARCH_MAX_CHARACTERS } from '@/lib/search/indicatorSearchService';
 
-jest.mock('react', () => {
-  const originalModule = jest.requireActual('react');
+vi.mock('react', async () => {
+  const originalModule = await vi.importActual('react');
 
   return {
     ...originalModule,
-    useActionState: jest
+    useActionState: vi
       .fn()
       .mockImplementation(
         (
@@ -27,44 +25,31 @@ jest.mock('react', () => {
   };
 });
 
-const mockSetIsLoading = jest.fn();
+const mockSetIsLoading = vi.fn();
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: jest.fn(),
+  getIsLoading: vi.fn(),
   setIsLoading: mockSetIsLoading,
 };
-jest.mock('@/context/LoaderContext', () => {
+vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
   };
 });
 
-const mockGetSearchState = jest.fn();
-const mockSearchStateContext: SearchStateContext = {
-  getSearchState: mockGetSearchState,
-  setSearchState: jest.fn(),
-};
-jest.mock('@/context/SearchStateContext', () => {
-  return {
-    useSearchState: () => mockSearchStateContext,
-  };
-});
-
 const mockIndicatorValue = 'test value';
-
-const state: SearchStateParams = {
+const searchState: SearchStateParams = {
   [SearchParams.SearchedIndicator]: mockIndicatorValue,
 };
+vi.mock('@/components/hooks/useSearchStateParams', () => ({
+  useSearchStateParams: () => searchState,
+}));
 
 const initialState: IndicatorSearchFormState = {
-  searchState: JSON.stringify(state),
+  searchState: JSON.stringify(searchState),
   indicator: mockIndicatorValue,
   message: null,
   errors: {},
 };
-
-beforeEach(() => {
-  mockGetSearchState.mockReturnValue(state);
-});
 
 it('snapshot test - renders the form', () => {
   const container = render(

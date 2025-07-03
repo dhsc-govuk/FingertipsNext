@@ -1,415 +1,54 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`PopulationPyramidChartTable check that all 3 tables are rendered and then take a snapshot 1`] = `
+exports[`PopulationPyramidChartTable > check that all 3 tables are rendered and then take a snapshot 1`] = `
 <DocumentFragment>
-  .c0 {
-  color: #0b0c0c;
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 1.25;
-  display: block;
-  margin-top: 0;
-  margin-bottom: 15px;
-}
-
-.c7 {
-  padding: 10px 20px 10px 0;
-  border-bottom: 1px solid #bfc1c3;
-  text-align: left;
-  font-weight: 700;
-}
-
-.c7:last-child {
-  padding-right: 0;
-}
-
-.c11 {
-  padding: 10px 20px 10px 0;
-  border-bottom: 1px solid #bfc1c3;
-  text-align: left;
-}
-
-.c11:last-child {
-  padding-right: 0;
-}
-
-.c6 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  color: #0b0c0c;
-  width: 100%;
-  border-spacing: 0;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-}
-
-.c8 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  font-weight: bold;
-  padding: 0.625em 0;
-}
-
-.c12 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  padding-right: 0;
-}
-
-.c9 {
-  text-align: left;
-  vertical-align: top;
-  padding-left: 10px;
-}
-
-.c5 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  text-align: center;
-  height: 65px;
-  line-height: 65px;
-  -webkit-letter-spacing: 0px;
-  -moz-letter-spacing: 0px;
-  -ms-letter-spacing: 0px;
-  letter-spacing: 0px;
-  font-weight: 700;
-}
-
-.c10 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  border-top: solid #F3F2F1 2px;
-  text-align: center;
-  font-weight: 700;
-}
-
-.c15 {
-  font-size: 14px;
-  margin-bottom: 8px;
-}
-
-.c1 {
-  font-size: 19px;
-  margin: 0 0 30px 0;
-}
-
-.c2 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-flex-wrap: nowrap;
-  -ms-flex-wrap: nowrap;
-  flex-wrap: nowrap;
-  -webkit-box-pack: start;
-  -webkit-justify-content: flex-start;
-  -ms-flex-pack: start;
-  justify-content: flex-start;
-  -webkit-align-items: stretch;
-  -webkit-box-align: stretch;
-  -ms-flex-align: stretch;
-  align-items: stretch;
-  margin-bottom: 1rem;
-}
-
-.c2 table {
-  margin: 0px !important;
-  border: 0px;
-}
-
-.c2 table th {
-  padding: 10px !important;
-}
-
-.c2 table td {
-  padding: 10px 10px 10px 0px !important;
-}
-
-.c14 {
-  -webkit-box-flex: 2;
-  -webkit-flex-grow: 2;
-  -ms-flex-positive: 2;
-  flex-grow: 2;
-  margin-left: auto;
-  background-color: #B1B4B6;
-  min-width: 250px;
-}
-
-.c14 table td,
-.c14 table th {
-  border-bottom-color: #F3F2F1;
-  border-top-color: #F3F2F1;
-  text-align: right;
-}
-
-.c14 h3 {
-  text-align: center;
-}
-
-.c3 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-flex-wrap: nowrap;
-  -ms-flex-wrap: nowrap;
-  flex-wrap: nowrap;
-  -webkit-box-flex: 8;
-  -webkit-flex-grow: 8;
-  -ms-flex-positive: 8;
-  flex-grow: 8;
-  overflow: hidden;
-  clear: both;
-}
-
-.c13 {
-  -webkit-box-flex: 2;
-  -webkit-flex-grow: 2;
-  -ms-flex-positive: 2;
-  flex-grow: 2;
-  background-color: #F3F2F1;
-  min-width: 250px;
-}
-
-.c13 table td,
-.c13 table th {
-  border-bottom-color: #B1B4B6;
-  border-top-color: #B1B4B6;
-  text-align: right;
-}
-
-.c4 {
-  -webkit-box-flex: 8;
-  -webkit-flex-grow: 8;
-  -ms-flex-positive: 8;
-  flex-grow: 8;
-  min-width: 290px;
-}
-
-.c4 table td:first-child,
-.c4 table th:first-child {
-  min-width: 90px;
-  text-align: left;
-  padding-left: 10px !important;
-}
-
-.c4 table td,
-.c4 table th {
-  border-top-color: #B1B4B6;
-  border-bottom-color: #B1B4B6;
-  text-align: right;
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-  .c0 {
-    color: #000;
-  }
-}
-
-@media print {
-  .c0 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 {
-    margin-bottom: 20px;
-  }
-}
-
-@media print {
-  .c6 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c6 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c6 {
-    color: #000;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c6 {
-    margin-bottom: 30px;
-  }
-}
-
-@media print {
-  .c8 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c8 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c12 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c12 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c5 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c5 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c10 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c10 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media only screen and (min-width:480px) {
-  .c3 {
-    overflow-x: auto;
-  }
-}
-
-<div
+  <div
     data-testid="populationPyramidTable-component"
     id="populationPyramidTable"
   >
     <h4
-      class="c0 c1"
+      class="heading__StyledHeading-sc-1dsobun-0 EoZyU sc-koXPp gsWOD"
     >
       Area resident population, 2023
     </h4>
     <section
-      class="c2"
+      class="sc-bmzYkS cScMmi"
     >
       <div
-        class="c3"
+        class="sc-dtBdUo cUdKCW"
       >
         <div
-          class="c4"
+          class="sc-dtInlm dOHFFG"
         >
           <section>
             <h3
-              class="c5"
+              class="sc-gFqAkR fPHWbj"
             >
               Test Area
             </h3>
             <table
-              class="c6"
+              class="src__StyledTable-sc-16s660v-0 duOufa"
             >
               <thead
-                class=""
+                class="TableHeader-sc-1n1nw4b-0"
               >
                 <tr
-                  class=""
+                  class="Row-sc-1y8eqfp-0"
                 >
                   <th
-                    class="c7 c8 c9 c10"
+                    class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
                     style="white-space: nowrap;"
                   >
                     Age range
                   </th>
                   <th
-                    class="c7 c8 c9 c10"
+                    class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
                     style="white-space: nowrap;"
                   >
                     Male
                   </th>
                   <th
-                    class="c7 c8 c9 c10"
+                    class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
                     style="white-space: nowrap;"
                   >
                     Female
@@ -417,111 +56,111 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
                 </tr>
               </thead>
               <tbody
-                class=""
+                class="TableBody-sc-1qqarm8-0"
               >
                 <tr
-                  class=""
+                  class="Row-sc-1y8eqfp-0"
                 >
                   <td
-                    class="c11 c12"
+                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
                     style="white-space: nowrap;"
                   >
                     0-4
                   </td>
                   <td
-                    class="c11 c12"
+                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
                     style="white-space: nowrap;"
                   >
                     900
                   </td>
                   <td
-                    class="c11 c12"
+                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
                     style="white-space: nowrap;"
                   >
                     1,000
                   </td>
                 </tr>
                 <tr
-                  class=""
+                  class="Row-sc-1y8eqfp-0"
                 >
                   <td
-                    class="c11 c12"
+                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
                     style="white-space: nowrap;"
                   >
                     5-9
                   </td>
                   <td
-                    class="c11 c12"
+                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
                     style="white-space: nowrap;"
                   >
                     1,100
                   </td>
                   <td
-                    class="c11 c12"
+                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
                     style="white-space: nowrap;"
                   >
                     1,200
                   </td>
                 </tr>
                 <tr
-                  class=""
+                  class="Row-sc-1y8eqfp-0"
                 >
                   <td
-                    class="c11 c12"
+                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
                     style="white-space: nowrap;"
                   >
                     10-14
                   </td>
                   <td
-                    class="c11 c12"
+                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
                     style="white-space: nowrap;"
                   >
                     1,050
                   </td>
                   <td
-                    class="c11 c12"
+                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
                     style="white-space: nowrap;"
                   >
                     1,100
                   </td>
                 </tr>
                 <tr
-                  class=""
+                  class="Row-sc-1y8eqfp-0"
                 >
                   <td
-                    class="c11 c12"
+                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
                     style="white-space: nowrap;"
                   >
                     15+
                   </td>
                   <td
-                    class="c11 c12"
+                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
                     style="white-space: nowrap;"
                   >
                     1,250
                   </td>
                   <td
-                    class="c11 c12"
+                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
                     style="white-space: nowrap;"
                   >
                     1,300
                   </td>
                 </tr>
                 <tr
-                  class=""
+                  class="Row-sc-1y8eqfp-0"
                 >
                   <th
-                    class="c7 c8 c9 c10"
+                    class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
                   >
                     All ages
                   </th>
                   <th
-                    class="c7 c8 c9 c10"
+                    class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
                   >
                     4,300
                   </th>
                   <th
-                    class="c7 c8 c9 c10"
+                    class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
                   >
                     4,600
                   </th>
@@ -531,31 +170,31 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
           </section>
         </div>
         <div
-          class="c13"
+          class="sc-kOHTFB bHNnVy"
         >
           <section>
             <h3
-              class="c5"
+              class="sc-gFqAkR fPHWbj"
             >
               Group Area
             </h3>
             <table
-              class="c6"
+              class="src__StyledTable-sc-16s660v-0 duOufa"
             >
               <thead
-                class=""
+                class="TableHeader-sc-1n1nw4b-0"
               >
                 <tr
-                  class=""
+                  class="Row-sc-1y8eqfp-0"
                 >
                   <th
-                    class="c7 c8 c9 c10"
+                    class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
                     style="white-space: nowrap;"
                   >
                     Male
                   </th>
                   <th
-                    class="c7 c8 c9 c10"
+                    class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
                     style="white-space: nowrap;"
                   >
                     Female
@@ -563,82 +202,82 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
                 </tr>
               </thead>
               <tbody
-                class=""
+                class="TableBody-sc-1qqarm8-0"
               >
                 <tr
-                  class=""
+                  class="Row-sc-1y8eqfp-0"
                 >
                   <td
-                    class="c11 c12"
+                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
                     style="white-space: nowrap;"
                   >
                     100
                   </td>
                   <td
-                    class="c11 c12"
+                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
                     style="white-space: nowrap;"
                   >
                     1,100
                   </td>
                 </tr>
                 <tr
-                  class=""
+                  class="Row-sc-1y8eqfp-0"
                 >
                   <td
-                    class="c11 c12"
+                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
                     style="white-space: nowrap;"
                   >
                     10
                   </td>
                   <td
-                    class="c11 c12"
+                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
                     style="white-space: nowrap;"
                   >
                     1,300
                   </td>
                 </tr>
                 <tr
-                  class=""
+                  class="Row-sc-1y8eqfp-0"
                 >
                   <td
-                    class="c11 c12"
+                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
                     style="white-space: nowrap;"
                   >
                     1,150
                   </td>
                   <td
-                    class="c11 c12"
+                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
                     style="white-space: nowrap;"
                   >
                     1,200
                   </td>
                 </tr>
                 <tr
-                  class=""
+                  class="Row-sc-1y8eqfp-0"
                 >
                   <td
-                    class="c11 c12"
+                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
                     style="white-space: nowrap;"
                   >
                     150
                   </td>
                   <td
-                    class="c11 c12"
+                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
                     style="white-space: nowrap;"
                   >
                     1,400
                   </td>
                 </tr>
                 <tr
-                  class=""
+                  class="Row-sc-1y8eqfp-0"
                 >
                   <th
-                    class="c7 c8 c9 c10"
+                    class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
                   >
                     1,410
                   </th>
                   <th
-                    class="c7 c8 c9 c10"
+                    class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
                   >
                     5,000
                   </th>
@@ -649,31 +288,31 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
         </div>
       </div>
       <div
-        class="c14"
+        class="sc-iHGNWf cWTDyS"
       >
         <section>
           <h3
-            class="c5"
+            class="sc-gFqAkR fPHWbj"
           >
             Benchmark Area
           </h3>
           <table
-            class="c6"
+            class="src__StyledTable-sc-16s660v-0 duOufa"
           >
             <thead
-              class=""
+              class="TableHeader-sc-1n1nw4b-0"
             >
               <tr
-                class=""
+                class="Row-sc-1y8eqfp-0"
               >
                 <th
-                  class="c7 c8 c9 c10"
+                  class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
                   style="white-space: nowrap;"
                 >
                   Male
                 </th>
                 <th
-                  class="c7 c8 c9 c10"
+                  class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
                   style="white-space: nowrap;"
                 >
                   Female
@@ -681,82 +320,82 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
               </tr>
             </thead>
             <tbody
-              class=""
+              class="TableBody-sc-1qqarm8-0"
             >
               <tr
-                class=""
+                class="Row-sc-1y8eqfp-0"
               >
                 <td
-                  class="c11 c12"
+                  class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
                   style="white-space: nowrap;"
                 >
                   1,100
                 </td>
                 <td
-                  class="c11 c12"
+                  class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
                   style="white-space: nowrap;"
                 >
                   1,100
                 </td>
               </tr>
               <tr
-                class=""
+                class="Row-sc-1y8eqfp-0"
               >
                 <td
-                  class="c11 c12"
+                  class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
                   style="white-space: nowrap;"
                 >
                   1,200
                 </td>
                 <td
-                  class="c11 c12"
+                  class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
                   style="white-space: nowrap;"
                 >
                   1,300
                 </td>
               </tr>
               <tr
-                class=""
+                class="Row-sc-1y8eqfp-0"
               >
                 <td
-                  class="c11 c12"
+                  class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
                   style="white-space: nowrap;"
                 >
                   1,150
                 </td>
                 <td
-                  class="c11 c12"
+                  class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
                   style="white-space: nowrap;"
                 >
                   1,200
                 </td>
               </tr>
               <tr
-                class=""
+                class="Row-sc-1y8eqfp-0"
               >
                 <td
-                  class="c11 c12"
+                  class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
                   style="white-space: nowrap;"
                 >
                   1,350
                 </td>
                 <td
-                  class="c11 c12"
+                  class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
                   style="white-space: nowrap;"
                 >
                   1,400
                 </td>
               </tr>
               <tr
-                class=""
+                class="Row-sc-1y8eqfp-0"
               >
                 <th
-                  class="c7 c8 c9 c10"
+                  class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
                 >
                   4,800
                 </th>
                 <th
-                  class="c7 c8 c9 c10"
+                  class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
                 >
                   5,000
                 </th>
@@ -771,7 +410,7 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
       style="display: none;"
     >
       <div
-        class="c15"
+        class="sc-fUnMCh deztZs"
       >
         ©Crown copyright 2024. Office for Health Improvement & Disparities.
         <br />
@@ -779,204 +418,9 @@ exports[`PopulationPyramidChartTable check that all 3 tables are rendered and th
       </div>
     </div>
   </div>
-  .c0 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 19px;
-  box-sizing: border-box;
-  display: inline-block;
-  position: relative;
-  width: 100%;
-  margin-top: 0;
-  padding: 7px 10px;
-  border: 2px solid transparent;
-  border-radius: 0;
-  color: #ffffff;
-  background-color: #00703c;
-  box-shadow: 0 2px 0 #002413;
-  text-align: center;
-  vertical-align: top;
-  cursor: pointer;
-  -webkit-appearance: none;
-  margin-bottom: 22px;
-}
-
-.c0:focus {
-  outline: 3px solid #ffdd00;
-  outline-offset: 0;
-}
-
-.c0:link,
-.c0:visited,
-.c0:active,
-.c0:hover {
-  color: #ffffff;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.c0::-moz-focus-inner {
-  padding: 0;
-  border: 0;
-}
-
-.c0:hover,
-.c0:focus {
-  background-color: #00572e;
-}
-
-.c0:active {
-  top: 2px;
-  box-shadow: none;
-}
-
-.c0::before {
-  content: "";
-  display: block;
-  position: absolute;
-  top: -2px;
-  right: -2px;
-  bottom: -4px;
-  left: -2px;
-  background: transparent;
-}
-
-.c0:active::before {
-  top: -4px;
-}
-
-.c0:disabled {
-  opacity: 0.5;
-  background: #00703c;
-}
-
-.c0:disabled:hover {
-  background-color: #00703c;
-  cursor: default;
-}
-
-.c0:disabled:focus {
-  outline: none;
-}
-
-.c0:disabled:active {
-  top: 0;
-  box-shadow: 0 2px 0 #002413;
-}
-
-.c0 svg {
-  max-width: 15px;
-}
-
-.c1 {
-  margin-top: 1rem;
-}
-
-@media print {
-  .c0 {
-    font-size: 14px;
-    line-height: 19px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 {
-    font-size: 19px;
-    line-height: 19px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 {
-    width: auto;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 svg {
-    margin-left: 10px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 {
-    margin-bottom: 32px;
-  }
-}
-
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:480px) {
-
-}
-
-<button
-    class="c0 c1"
+  <button
+    class="src__StyledButton-sc-19ocyxv-0 eEShVH sc-eeDRCY eKCtWa"
+    data-testid="populationPyramidTable-export-button"
   >
     Export options
   </button>

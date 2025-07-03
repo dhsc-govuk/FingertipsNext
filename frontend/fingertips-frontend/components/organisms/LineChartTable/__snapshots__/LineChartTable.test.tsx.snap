@@ -1,553 +1,50 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match snapshot 1`] = `
+exports[`Line chart table suite > 1 Indicator, 1 Area > snapshot test - should match snapshot 1`] = `
 <DocumentFragment>
-  .c1 {
-  color: #0b0c0c;
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 1.25;
-  display: block;
-  margin-top: 0;
-  margin-bottom: 15px;
-}
-
-.c14 {
-  margin: 0;
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  margin-bottom: 15px;
-}
-
-.c14 > p {
-  margin: 0;
-}
-
-.c14 > p > code {
-  padding: 0.2em 0.4em;
-  margin: 0;
-  font-size: 85%;
-  background-color: rgba(27,31,35,0.05);
-  border-radius: 3px;
-}
-
-.c14 > pre {
-  padding: 16px;
-  overflow: auto;
-  font-size: 85%;
-  line-height: 1.45;
-  background-color: #f6f8fa;
-  border-radius: 3px;
-}
-
-.c14 > pre > code {
-  display: inline;
-  padding: 0;
-  margin: 0;
-  border: 0;
-  overflow: visible;
-  line-height: inherit;
-  word-wrap: normal;
-}
-
-.c11 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 1;
-  display: inline-block;
-  padding-top: 5px;
-  padding-right: 8px;
-  padding-bottom: 4px;
-  padding-left: 8px;
-  outline: 2px solid transparent;
-  outline-offset: -2px;
-  -webkit-letter-spacing: 1px;
-  -moz-letter-spacing: 1px;
-  -ms-letter-spacing: 1px;
-  letter-spacing: 1px;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  text-transform: uppercase;
-  background-color: #1d70b8;
-  color: #ffffff;
-}
-
-.c5 {
-  padding: 10px 20px 10px 0;
-  border-bottom: 1px solid #bfc1c3;
-  text-align: left;
-  font-weight: 700;
-}
-
-.c5:last-child {
-  padding-right: 0;
-}
-
-.c21 {
-  padding: 10px 20px 10px 0;
-  border-bottom: 1px solid #bfc1c3;
-  text-align: left;
-}
-
-.c21:last-child {
-  padding-right: 0;
-}
-
-.c29 {
-  padding: 10px 20px 10px 0;
-  border-bottom: 1px solid #bfc1c3;
-  text-align: right;
-  font-family: "ntatabularnumbers","nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-}
-
-.c29:last-child {
-  padding-right: 0;
-}
-
-.c3 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  color: #0b0c0c;
-  width: 100%;
-  border-spacing: 0;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-}
-
-.c6 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  font-weight: bold;
-  padding: 0.625em 0;
-}
-
-.c17 {
-  text-align: right;
-  padding-right: 10px;
-  vertical-align: top;
-}
-
-.c18 {
-  background-color: #B1B4B6;
-  border-top: solid #F3F2F1 2px;
-  vertical-align: top;
-}
-
-.c19 {
-  position: -webkit-sticky;
-  position: sticky;
-  right: 0;
-  z-index: 10;
-  border-left: solid black 1px;
-  padding-left: 0.5em;
-  padding-right: 0.5em !important;
-}
-
-.c22 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  padding-right: 0;
-}
-
-.c23 {
-  text-align: right;
-  padding-right: 10px;
-}
-
-.c24 {
-  background-color: #B1B4B6;
-  border-top: solid #F3F2F1 2px;
-}
-
-.c25 {
-  position: -webkit-sticky;
-  position: sticky;
-  right: 0;
-  z-index: 10;
-  border-left: solid black 1px;
-  padding-left: 0.5em;
-  padding-right: 0.5em !important;
-}
-
-.c30 {
-  text-align: left;
-  width: 10%;
-}
-
-.c31 {
-  position: -webkit-sticky;
-  position: sticky;
-  left: 0;
-  background-color: #FFFFFF;
-  z-index: 10;
-  border-right: solid black 1px;
-  padding-right: 0.5em;
-  padding-left: 10px;
-}
-
-.c32 {
-  text-align: center;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-.c33 {
-  width: 10%;
-}
-
-.c7 {
-  text-align: left;
-  vertical-align: top;
-  padding-left: 10px;
-}
-
-.c26 {
-  position: -webkit-sticky;
-  position: sticky;
-  left: 0;
-  background-color: #FFFFFF;
-  z-index: 10;
-  border-right: solid black 1px;
-  padding-right: 0.5em;
-}
-
-.c0 {
-  overflow-x: auto;
-  width: 100%;
-}
-
-.c34 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: transparent;
-  color: #0B0C0C;
-  border: 1px solid #0B0C0C;
-}
-
-.c13 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-
-.c12 {
-  text-transform: unset;
-  margin: 0.3125em;
-  color: #303436;
-  background-color: #E1E2E3;
-}
-
-.c15 {
-  margin-bottom: 0;
-  margin-left: 0.3125em;
-  position: relative;
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 1.1428571428571428;
-}
-
-.c35 {
-  font-size: 14px;
-  margin-bottom: 8px;
-}
-
-.c16 {
-  border-top: solid #F3F2F1 2px;
-  text-align: center;
-}
-
-.c2 {
-  font-size: 19px;
-  margin: 0 0 30px 0;
-}
-
-.c4 {
-  border-collapse: separate;
-  margin-bottom: 1rem;
-}
-
-.c27 {
-  padding: 0.6em;
-  text-align: center;
-}
-
-.c20 {
-  padding: 0.5em;
-  text-align: center;
-  vertical-align: top;
-  white-space: nowrap;
-}
-
-.c10 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: left;
-  -webkit-justify-content: left;
-  -ms-flex-pack: left;
-  justify-content: left;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  gap: 8px;
-  padding-left: 0;
-  white-space: nowrap;
-}
-
-.c28 {
-  display: block;
-}
-
-.c8 {
-  border: none;
-}
-
-.c9 {
-  padding-left: 0px;
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-  .c1 {
-    color: #000;
-  }
-}
-
-@media print {
-  .c1 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c1 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c1 {
-    margin-bottom: 20px;
-  }
-}
-
-@media print {
-  .c14 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c14 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c14 {
-    margin-bottom: 20px;
-  }
-}
-
-@media print {
-  .c11 {
-    font-size: 14px;
-    line-height: 1;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c11 {
-    font-size: 16px;
-    line-height: 1;
-  }
-}
-
-@media print {
-  .c29 {
-    font-family: sans-serif;
-  }
-}
-
-@media print {
-  .c3 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c3 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c3 {
-    color: #000;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c3 {
-    margin-bottom: 30px;
-  }
-}
-
-@media print {
-  .c6 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c6 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c22 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c22 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c15 {
-    font-size: 14px;
-    line-height: 1.2;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c15 {
-    font-size: 16px;
-    line-height: 1.25;
-  }
-}
-
-<div
-    class="c0"
+  <div
+    class="sc-eldPxv cerndm"
     data-testid="lineChartTable-component"
     id="lineChartTable"
   >
     <h4
-      class="c1 c2"
+      class="heading__StyledHeading-sc-1dsobun-0 EoZyU sc-jxOSlx bLSbGR"
     >
       Title
     </h4>
     <table
-      class="c3 c4"
+      class="src__StyledTable-sc-16s660v-0 duOufa sc-lcIPJg etIKta"
     >
       <thead
-        class=""
+        class="TableHeader-sc-1n1nw4b-0"
       >
         <tr
-          class=""
+          class="Row-sc-1y8eqfp-0"
         >
           <th
-            class="c5 c6 c7 c8"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-bbSZdi cFENDr hucACB kcoElX"
           />
           <th
-            class="c5 c6 c7 c9"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-fBWQRz cFENDr hucACB eCwcmk"
             colspan="5"
           >
             <div
-              class="c10"
+              class="sc-fXSgeo kryqpy"
             >
               Recent trend:
               <div
                 data-testid="trendTag-container"
               >
                 <strong
-                  class="c11 c12"
+                  class="src__Tag-sc-10wvgvx-0 sc-ikkxIA bujMNx klYgCy"
                 >
                   <div
-                    class="c13"
+                    class="sc-gFqAkR iipijX"
                     data-testid="trend-tag-component"
                   >
                     <div>
                       <div
-                        class="c14 c15"
+                        class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-dAbbOL dZrKJU"
                       >
                         <p>
                           No recent trend data available
@@ -561,19 +58,19 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           </th>
         </tr>
         <tr
-          class=""
+          class="Row-sc-1y8eqfp-0"
         >
           <th
-            class="c5"
+            class="Cell-sc-msv0l6-0 iftjBc"
           />
           <th
-            class="c5 c6 c7 c16"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-bmzYkS cFENDr hucACB hdGCNz"
             colspan="5"
           >
             Greater Manchester ICB - 00T
           </th>
           <th
-            class="c5 c6 c17 c18 c19"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer sc-eqUAAy sc-fqkvVR cFENDr fDMEct cdqIVT leThpU"
             data-testid="england-header"
           >
              
@@ -582,14 +79,14 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           </th>
         </tr>
         <tr
-          class=""
+          class="Row-sc-1y8eqfp-0"
         >
           <th
-            class="c5"
+            class="Cell-sc-msv0l6-0 iftjBc"
             colspan="4"
           />
           <th
-            class="c5 c6 c7 c20"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-esYiGF cFENDr hucACB fPChvl"
             colspan="2"
           >
             95%
@@ -599,61 +96,61 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
             limits
           </th>
           <td
-            class="c21 c22 c23 c24 c25"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj sc-gsFSXq sc-kAyceB gaSlHc kcOQDY imqpTn elIaiJ fEiRwR"
             data-testid="england-cell"
           />
         </tr>
         <tr
-          class=""
+          class="Row-sc-1y8eqfp-0"
         >
           <th
-            class="c5 8 c6 c7 c26"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-eDPEul cFENDr hucACB hsRJux"
             data-testid="header-Period-0"
           >
             Period
           </th>
           <th
-            class="c5 c6 c7 c27"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-kdBSHD cFENDr hucACB fPsjZE"
             data-testid="header-Compared to benchmark-0"
           >
             Compared to benchmark
           </th>
           <th
-            class="c5 c6 c17"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer cFENDr fDMEct"
             data-testid="header-Count-0"
           >
             Count
           </th>
           <th
-            class="c5 c6 c17"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer cFENDr fDMEct"
             data-testid="header-Value-0"
           >
             Value
             <span
-              class="c28"
+              class="sc-fjvvzt bhMCqE"
             >
                %
             </span>
           </th>
           <th
-            class="c5 c6 c17"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer cFENDr fDMEct"
             data-testid="header-Lower-0"
           >
             Lower
           </th>
           <th
-            class="c5 c6 c17"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer cFENDr fDMEct"
             data-testid="header-Upper-0"
           >
             Upper
           </th>
           <th
-            class="c5 c6 c17 c18 c19"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer sc-eqUAAy sc-fqkvVR cFENDr fDMEct cdqIVT leThpU"
             data-testid="england-subheader"
           >
             Value  
             <span
-              class="c28"
+              class="sc-fjvvzt bhMCqE"
             >
               %
             </span>
@@ -661,91 +158,91 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
         </tr>
       </thead>
       <tbody
-        class=""
+        class="TableBody-sc-1qqarm8-0"
       >
         <tr
-          class=""
+          class="Row-sc-1y8eqfp-0"
         >
           <td
-            class="0 c29 c22 c30 c31"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-imWYAI sc-dhKdcB kbqrMm kcOQDY lnElgr qqbNf"
           >
             2004
           </td>
           <td
-            class="1 c21 c32 c33"
+            class="Cell-sc-msv0l6-0 sc-kpDqfm sc-dAlyuH gaSlHc bmeULG dmATtu"
           >
             <strong
-              class="c11 c34"
+              class="src__Tag-sc-10wvgvx-0 sc-fPXMVe bujMNx cvZtIt"
             >
               Not compared
             </strong>
           </td>
           <td
-            class="c29 c22 c23"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
           >
             267
           </td>
           <td
-            class="c29 c22 c23"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
           >
             703.4
           </td>
           <td
-            class="c29 c22 c23"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
           >
             441.7
           </td>
           <td
-            class="c29 c22 c23"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
           >
             578.3
           </td>
           <td
-            class="c21 c22 c23 c24 c25"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj sc-gsFSXq sc-kAyceB gaSlHc kcOQDY imqpTn elIaiJ fEiRwR"
             data-testid="england-cell"
           >
             904.9
           </td>
         </tr>
         <tr
-          class=""
+          class="Row-sc-1y8eqfp-0"
         >
           <td
-            class="0 c29 c22 c30 c31"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-imWYAI sc-dhKdcB kbqrMm kcOQDY lnElgr qqbNf"
           >
             2008
           </td>
           <td
-            class="1 c21 c32 c33"
+            class="Cell-sc-msv0l6-0 sc-kpDqfm sc-dAlyuH gaSlHc bmeULG dmATtu"
           >
             <strong
-              class="c11 c34"
+              class="src__Tag-sc-10wvgvx-0 sc-fPXMVe bujMNx cvZtIt"
             >
               Not compared
             </strong>
           </td>
           <td
-            class="c29 c22 c23"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
           >
             222
           </td>
           <td
-            class="c29 c22 c23"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
           >
             890.3
           </td>
           <td
-            class="c29 c22 c23"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
           >
             441.7
           </td>
           <td
-            class="c29 c22 c23"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
           >
             578.3
           </td>
           <td
-            class="c21 c22 c23 c24 c25"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj sc-gsFSXq sc-kAyceB gaSlHc kcOQDY imqpTn elIaiJ fEiRwR"
             data-testid="england-cell"
           >
             966.0
@@ -758,7 +255,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
       style="display: none;"
     >
       <div
-        class="c35"
+        class="sc-hzhJZQ fCBUdc"
       >
         ©Crown copyright 2024. Office for Health Improvement & Disparities.
         <br />
@@ -766,779 +263,60 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
       </div>
     </div>
   </div>
-  .c0 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 19px;
-  box-sizing: border-box;
-  display: inline-block;
-  position: relative;
-  width: 100%;
-  margin-top: 0;
-  padding: 7px 10px;
-  border: 2px solid transparent;
-  border-radius: 0;
-  color: #ffffff;
-  background-color: #00703c;
-  box-shadow: 0 2px 0 #002413;
-  text-align: center;
-  vertical-align: top;
-  cursor: pointer;
-  -webkit-appearance: none;
-  margin-bottom: 22px;
-}
-
-.c0:focus {
-  outline: 3px solid #ffdd00;
-  outline-offset: 0;
-}
-
-.c0:link,
-.c0:visited,
-.c0:active,
-.c0:hover {
-  color: #ffffff;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.c0::-moz-focus-inner {
-  padding: 0;
-  border: 0;
-}
-
-.c0:hover,
-.c0:focus {
-  background-color: #00572e;
-}
-
-.c0:active {
-  top: 2px;
-  box-shadow: none;
-}
-
-.c0::before {
-  content: "";
-  display: block;
-  position: absolute;
-  top: -2px;
-  right: -2px;
-  bottom: -4px;
-  left: -2px;
-  background: transparent;
-}
-
-.c0:active::before {
-  top: -4px;
-}
-
-.c0:disabled {
-  opacity: 0.5;
-  background: #00703c;
-}
-
-.c0:disabled:hover {
-  background-color: #00703c;
-  cursor: default;
-}
-
-.c0:disabled:focus {
-  outline: none;
-}
-
-.c0:disabled:active {
-  top: 0;
-  box-shadow: 0 2px 0 #002413;
-}
-
-.c0 svg {
-  max-width: 15px;
-}
-
-.c1 {
-  margin-top: 1rem;
-}
-
-@media print {
-  .c0 {
-    font-size: 14px;
-    line-height: 19px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 {
-    font-size: 19px;
-    line-height: 19px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 {
-    width: auto;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 svg {
-    margin-left: 10px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 {
-    margin-bottom: 32px;
-  }
-}
-
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-<button
-    class="c0 c1"
+  <button
+    class="src__StyledButton-sc-19ocyxv-0 eEShVH sc-koXPp cbdPWW"
+    data-testid="lineChartTable-export-button"
   >
     Export options
   </button>
 </DocumentFragment>
 `;
 
-exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should match snapshot 1`] = `
+exports[`Line chart table suite > 1 Indicator, 2 Areas > snapshot test - should match snapshot 1`] = `
 <DocumentFragment>
-  .c1 {
-  color: #0b0c0c;
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 1.25;
-  display: block;
-  margin-top: 0;
-  margin-bottom: 15px;
-}
-
-.c14 {
-  margin: 0;
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  margin-bottom: 15px;
-}
-
-.c14 > p {
-  margin: 0;
-}
-
-.c14 > p > code {
-  padding: 0.2em 0.4em;
-  margin: 0;
-  font-size: 85%;
-  background-color: rgba(27,31,35,0.05);
-  border-radius: 3px;
-}
-
-.c14 > pre {
-  padding: 16px;
-  overflow: auto;
-  font-size: 85%;
-  line-height: 1.45;
-  background-color: #f6f8fa;
-  border-radius: 3px;
-}
-
-.c14 > pre > code {
-  display: inline;
-  padding: 0;
-  margin: 0;
-  border: 0;
-  overflow: visible;
-  line-height: inherit;
-  word-wrap: normal;
-}
-
-.c11 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 1;
-  display: inline-block;
-  padding-top: 5px;
-  padding-right: 8px;
-  padding-bottom: 4px;
-  padding-left: 8px;
-  outline: 2px solid transparent;
-  outline-offset: -2px;
-  -webkit-letter-spacing: 1px;
-  -moz-letter-spacing: 1px;
-  -ms-letter-spacing: 1px;
-  letter-spacing: 1px;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  text-transform: uppercase;
-  background-color: #1d70b8;
-  color: #ffffff;
-}
-
-.c5 {
-  padding: 10px 20px 10px 0;
-  border-bottom: 1px solid #bfc1c3;
-  text-align: left;
-  font-weight: 700;
-}
-
-.c5:last-child {
-  padding-right: 0;
-}
-
-.c21 {
-  padding: 10px 20px 10px 0;
-  border-bottom: 1px solid #bfc1c3;
-  text-align: left;
-}
-
-.c21:last-child {
-  padding-right: 0;
-}
-
-.c30 {
-  padding: 10px 20px 10px 0;
-  border-bottom: 1px solid #bfc1c3;
-  text-align: right;
-  font-family: "ntatabularnumbers","nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-}
-
-.c30:last-child {
-  padding-right: 0;
-}
-
-.c3 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  color: #0b0c0c;
-  width: 100%;
-  border-spacing: 0;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-}
-
-.c6 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  font-weight: bold;
-  padding: 0.625em 0;
-}
-
-.c17 {
-  text-align: right;
-  padding-right: 10px;
-  vertical-align: top;
-}
-
-.c18 {
-  background-color: #B1B4B6;
-  border-top: solid #F3F2F1 2px;
-  vertical-align: top;
-}
-
-.c19 {
-  position: -webkit-sticky;
-  position: sticky;
-  right: 0;
-  z-index: 10;
-  border-left: solid black 1px;
-  padding-left: 0.5em;
-  padding-right: 0.5em !important;
-}
-
-.c22 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  padding-right: 0;
-}
-
-.c23 {
-  text-align: right;
-  padding-right: 10px;
-}
-
-.c24 {
-  background-color: #B1B4B6;
-  border-top: solid #F3F2F1 2px;
-}
-
-.c25 {
-  position: -webkit-sticky;
-  position: sticky;
-  right: 0;
-  z-index: 10;
-  border-left: solid black 1px;
-  padding-left: 0.5em;
-  padding-right: 0.5em !important;
-}
-
-.c31 {
-  text-align: left;
-  width: 10%;
-}
-
-.c32 {
-  position: -webkit-sticky;
-  position: sticky;
-  left: 0;
-  background-color: #FFFFFF;
-  z-index: 10;
-  border-right: solid black 1px;
-  padding-right: 0.5em;
-  padding-left: 10px;
-}
-
-.c33 {
-  text-align: center;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-.c34 {
-  width: 10%;
-}
-
-.c7 {
-  text-align: left;
-  vertical-align: top;
-  padding-left: 10px;
-}
-
-.c26 {
-  position: -webkit-sticky;
-  position: sticky;
-  left: 0;
-  background-color: #FFFFFF;
-  z-index: 10;
-  border-right: solid black 1px;
-  padding-right: 0.5em;
-}
-
-.c0 {
-  overflow-x: auto;
-  width: 100%;
-}
-
-.c35 {
-  padding: 5px 8px 4px 8px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0.3125em;
-  font-weight: 300;
-  text-transform: unset;
-  background-color: transparent;
-  color: #0B0C0C;
-  border: 1px solid #0B0C0C;
-}
-
-.c13 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-
-.c12 {
-  text-transform: unset;
-  margin: 0.3125em;
-  color: #303436;
-  background-color: #E1E2E3;
-}
-
-.c15 {
-  margin-bottom: 0;
-  margin-left: 0.3125em;
-  position: relative;
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 1.1428571428571428;
-}
-
-.c37 {
-  font-size: 14px;
-  margin-bottom: 8px;
-}
-
-.c16 {
-  border-top: solid #F3F2F1 2px;
-  text-align: center;
-}
-
-.c2 {
-  font-size: 19px;
-  margin: 0 0 30px 0;
-}
-
-.c4 {
-  border-collapse: separate;
-  margin-bottom: 1rem;
-}
-
-.c27 {
-  padding: 0.6em;
-  text-align: center;
-}
-
-.c29 {
-  border-left: solid black 1px;
-}
-
-.c20 {
-  padding: 0.5em;
-  text-align: center;
-  vertical-align: top;
-  white-space: nowrap;
-}
-
-.c10 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: left;
-  -webkit-justify-content: left;
-  -ms-flex-pack: left;
-  justify-content: left;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  gap: 8px;
-  padding-left: 0;
-  white-space: nowrap;
-}
-
-.c36 {
-  border-left: solid black 1px;
-  text-align: center;
-}
-
-.c28 {
-  display: block;
-}
-
-.c8 {
-  border: none;
-}
-
-.c9 {
-  padding-left: 0px;
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-  .c1 {
-    color: #000;
-  }
-}
-
-@media print {
-  .c1 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c1 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c1 {
-    margin-bottom: 20px;
-  }
-}
-
-@media print {
-  .c14 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c14 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c14 {
-    margin-bottom: 20px;
-  }
-}
-
-@media print {
-  .c11 {
-    font-size: 14px;
-    line-height: 1;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c11 {
-    font-size: 16px;
-    line-height: 1;
-  }
-}
-
-@media print {
-  .c30 {
-    font-family: sans-serif;
-  }
-}
-
-@media print {
-  .c3 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c3 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c3 {
-    color: #000;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c3 {
-    margin-bottom: 30px;
-  }
-}
-
-@media print {
-  .c6 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c6 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c22 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c22 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c15 {
-    font-size: 14px;
-    line-height: 1.2;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c15 {
-    font-size: 16px;
-    line-height: 1.25;
-  }
-}
-
-<div
-    class="c0"
+  <div
+    class="sc-eldPxv cerndm"
     data-testid="lineChartTable-component"
     id="lineChartTable"
   >
     <h4
-      class="c1 c2"
+      class="heading__StyledHeading-sc-1dsobun-0 EoZyU sc-jxOSlx bLSbGR"
     >
       Title
     </h4>
     <table
-      class="c3 c4"
+      class="src__StyledTable-sc-16s660v-0 duOufa sc-lcIPJg etIKta"
     >
       <thead
-        class=""
+        class="TableHeader-sc-1n1nw4b-0"
       >
         <tr
-          class=""
+          class="Row-sc-1y8eqfp-0"
         >
           <th
-            class="c5 c6 c7 c8"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-bbSZdi cFENDr hucACB kcoElX"
           />
           <th
-            class="c5 c6 c7 c9"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-fBWQRz cFENDr hucACB eCwcmk"
             colspan="5"
           >
             <div
-              class="c10"
+              class="sc-fXSgeo kryqpy"
             >
               Recent trend:
               <div
                 data-testid="trendTag-container"
               >
                 <strong
-                  class="c11 c12"
+                  class="src__Tag-sc-10wvgvx-0 sc-ikkxIA bujMNx klYgCy"
                 >
                   <div
-                    class="c13"
+                    class="sc-gFqAkR iipijX"
                     data-testid="trend-tag-component"
                   >
                     <div>
                       <div
-                        class="c14 c15"
+                        class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-dAbbOL dZrKJU"
                       >
                         <p>
                           No recent trend data available
@@ -1551,26 +329,26 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             </div>
           </th>
           <th
-            class="c5 c6 c7 c9"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-fBWQRz cFENDr hucACB eCwcmk"
             colspan="5"
           >
             <div
-              class="c10"
+              class="sc-fXSgeo kryqpy"
             >
               Recent trend:
               <div
                 data-testid="trendTag-container"
               >
                 <strong
-                  class="c11 c12"
+                  class="src__Tag-sc-10wvgvx-0 sc-ikkxIA bujMNx klYgCy"
                 >
                   <div
-                    class="c13"
+                    class="sc-gFqAkR iipijX"
                     data-testid="trend-tag-component"
                   >
                     <div>
                       <div
-                        class="c14 c15"
+                        class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-dAbbOL dZrKJU"
                       >
                         <p>
                           No recent trend data available
@@ -1584,25 +362,25 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           </th>
         </tr>
         <tr
-          class=""
+          class="Row-sc-1y8eqfp-0"
         >
           <th
-            class="c5"
+            class="Cell-sc-msv0l6-0 iftjBc"
           />
           <th
-            class="c5 c6 c7 c16"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-bmzYkS cFENDr hucACB hdGCNz"
             colspan="5"
           >
             Greater Manchester ICB - 00T
           </th>
           <th
-            class="c5 c6 c7 c16"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-bmzYkS cFENDr hucACB hdGCNz"
             colspan="5"
           >
             South FooBar
           </th>
           <th
-            class="c5 c6 c17 c18 c19"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer sc-eqUAAy sc-fqkvVR cFENDr fDMEct cdqIVT leThpU"
             data-testid="england-header"
           >
              
@@ -1611,14 +389,14 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           </th>
         </tr>
         <tr
-          class=""
+          class="Row-sc-1y8eqfp-0"
         >
           <th
-            class="c5"
+            class="Cell-sc-msv0l6-0 iftjBc"
             colspan="4"
           />
           <th
-            class="c5 c6 c7 c20"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-esYiGF cFENDr hucACB fPChvl"
             colspan="2"
           >
             95%
@@ -1628,11 +406,11 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             limits
           </th>
           <th
-            class="c5"
+            class="Cell-sc-msv0l6-0 iftjBc"
             colspan="3"
           />
           <th
-            class="c5 c6 c7 c20"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-esYiGF cFENDr hucACB fPChvl"
             colspan="2"
           >
             95%
@@ -1642,96 +420,96 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             limits
           </th>
           <td
-            class="c21 c22 c23 c24 c25"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj sc-gsFSXq sc-kAyceB gaSlHc kcOQDY imqpTn elIaiJ fEiRwR"
             data-testid="england-cell"
           />
         </tr>
         <tr
-          class=""
+          class="Row-sc-1y8eqfp-0"
         >
           <th
-            class="c5 8 c6 c7 c26"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-eDPEul cFENDr hucACB hsRJux"
             data-testid="header-Period-0"
           >
             Period
           </th>
           <th
-            class="c5 c6 c7 c27"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-kdBSHD cFENDr hucACB fPsjZE"
             data-testid="header-Compared to benchmark-0"
           >
             Compared to benchmark
           </th>
           <th
-            class="c5 c6 c17"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer cFENDr fDMEct"
             data-testid="header-Count-0"
           >
             Count
           </th>
           <th
-            class="c5 c6 c17"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer cFENDr fDMEct"
             data-testid="header-Value-0"
           >
             Value
             <span
-              class="c28"
+              class="sc-fjvvzt bhMCqE"
             >
                %
             </span>
           </th>
           <th
-            class="c5 c6 c17"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer cFENDr fDMEct"
             data-testid="header-Lower-0"
           >
             Lower
           </th>
           <th
-            class="c5 c6 c17"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer cFENDr fDMEct"
             data-testid="header-Upper-0"
           >
             Upper
           </th>
           <th
-            class="c5 c6 c7 c27 c29"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-kdBSHD sc-tagGq cFENDr hucACB fPsjZE jaOamI"
             data-testid="header-Compared to benchmark-1"
           >
             Compared to benchmark
           </th>
           <th
-            class="c5 c6 c17"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer cFENDr fDMEct"
             data-testid="header-Count-1"
           >
             Count
           </th>
           <th
-            class="c5 c6 c17"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer cFENDr fDMEct"
             data-testid="header-Value-1"
           >
             Value
             <span
-              class="c28"
+              class="sc-fjvvzt bhMCqE"
             >
                %
             </span>
           </th>
           <th
-            class="c5 c6 c17"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer cFENDr fDMEct"
             data-testid="header-Lower-1"
           >
             Lower
           </th>
           <th
-            class="c5 c6 c17"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer cFENDr fDMEct"
             data-testid="header-Upper-1"
           >
             Upper
           </th>
           <th
-            class="c5 c6 c17 c18 c19"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer sc-eqUAAy sc-fqkvVR cFENDr fDMEct cdqIVT leThpU"
             data-testid="england-subheader"
           >
             Value  
             <span
-              class="c28"
+              class="sc-fjvvzt bhMCqE"
             >
               %
             </span>
@@ -1739,149 +517,149 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
         </tr>
       </thead>
       <tbody
-        class=""
+        class="TableBody-sc-1qqarm8-0"
       >
         <tr
-          class=""
+          class="Row-sc-1y8eqfp-0"
         >
           <td
-            class="0 c30 c22 c31 c32"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-imWYAI sc-dhKdcB kbqrMm kcOQDY lnElgr qqbNf"
           >
             2004
           </td>
           <td
-            class="1 c21 c33 c34"
+            class="Cell-sc-msv0l6-0 sc-kpDqfm sc-dAlyuH gaSlHc bmeULG dmATtu"
           >
             <strong
-              class="c11 c35"
+              class="src__Tag-sc-10wvgvx-0 sc-fPXMVe bujMNx cvZtIt"
             >
               Not compared
             </strong>
           </td>
           <td
-            class="c30 c22 c23"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
           >
             267
           </td>
           <td
-            class="c30 c22 c23"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
           >
             703.4
           </td>
           <td
-            class="c30 c22 c23"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
           >
             441.7
           </td>
           <td
-            class="c30 c22 c23"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
           >
             578.3
           </td>
           <td
-            class="c21 c22 c31 c36"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-imWYAI sc-JrDLc gaSlHc kcOQDY lnElgr bLbBKd"
           >
             <strong
-              class="c11 c35"
+              class="src__Tag-sc-10wvgvx-0 sc-fPXMVe bujMNx cvZtIt"
             >
               Not compared
             </strong>
           </td>
           <td
-            class="c30 c22 c23"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
           >
             222
           </td>
           <td
-            class="c30 c22 c23"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
           >
             135.1
           </td>
           <td
-            class="c30 c22 c23"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
           >
             441.7
           </td>
           <td
-            class="c30 c22 c23"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
           >
             578.3
           </td>
           <td
-            class="c21 c22 c23 c24 c25"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj sc-gsFSXq sc-kAyceB gaSlHc kcOQDY imqpTn elIaiJ fEiRwR"
             data-testid="england-cell"
           >
             904.9
           </td>
         </tr>
         <tr
-          class=""
+          class="Row-sc-1y8eqfp-0"
         >
           <td
-            class="0 c30 c22 c31 c32"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-imWYAI sc-dhKdcB kbqrMm kcOQDY lnElgr qqbNf"
           >
             2008
           </td>
           <td
-            class="1 c21 c33 c34"
+            class="Cell-sc-msv0l6-0 sc-kpDqfm sc-dAlyuH gaSlHc bmeULG dmATtu"
           >
             <strong
-              class="c11 c35"
+              class="src__Tag-sc-10wvgvx-0 sc-fPXMVe bujMNx cvZtIt"
             >
               Not compared
             </strong>
           </td>
           <td
-            class="c30 c22 c23"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
           >
             222
           </td>
           <td
-            class="c30 c22 c23"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
           >
             890.3
           </td>
           <td
-            class="c30 c22 c23"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
           >
             441.7
           </td>
           <td
-            class="c30 c22 c23"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
           >
             578.3
           </td>
           <td
-            class="c21 c22 c31 c36"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-imWYAI sc-JrDLc gaSlHc kcOQDY lnElgr bLbBKd"
           >
             <strong
-              class="c11 c35"
+              class="src__Tag-sc-10wvgvx-0 sc-fPXMVe bujMNx cvZtIt"
             >
               Not compared
             </strong>
           </td>
           <td
-            class="c30 c22 c23"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
           >
             222
           </td>
           <td
-            class="c30 c22 c23"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
           >
             135.1
           </td>
           <td
-            class="c30 c22 c23"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
           >
             441.7
           </td>
           <td
-            class="c30 c22 c23"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj kbqrMm kcOQDY imqpTn"
           >
             578.3
           </td>
           <td
-            class="c21 c22 c23 c24 c25"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj sc-gsFSXq sc-kAyceB gaSlHc kcOQDY imqpTn elIaiJ fEiRwR"
             data-testid="england-cell"
           >
             966.0
@@ -1894,7 +672,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
       style="display: none;"
     >
       <div
-        class="c37"
+        class="sc-hzhJZQ fCBUdc"
       >
         ©Crown copyright 2024. Office for Health Improvement & Disparities.
         <br />
@@ -1902,216 +680,9 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
       </div>
     </div>
   </div>
-  .c0 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 19px;
-  box-sizing: border-box;
-  display: inline-block;
-  position: relative;
-  width: 100%;
-  margin-top: 0;
-  padding: 7px 10px;
-  border: 2px solid transparent;
-  border-radius: 0;
-  color: #ffffff;
-  background-color: #00703c;
-  box-shadow: 0 2px 0 #002413;
-  text-align: center;
-  vertical-align: top;
-  cursor: pointer;
-  -webkit-appearance: none;
-  margin-bottom: 22px;
-}
-
-.c0:focus {
-  outline: 3px solid #ffdd00;
-  outline-offset: 0;
-}
-
-.c0:link,
-.c0:visited,
-.c0:active,
-.c0:hover {
-  color: #ffffff;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.c0::-moz-focus-inner {
-  padding: 0;
-  border: 0;
-}
-
-.c0:hover,
-.c0:focus {
-  background-color: #00572e;
-}
-
-.c0:active {
-  top: 2px;
-  box-shadow: none;
-}
-
-.c0::before {
-  content: "";
-  display: block;
-  position: absolute;
-  top: -2px;
-  right: -2px;
-  bottom: -4px;
-  left: -2px;
-  background: transparent;
-}
-
-.c0:active::before {
-  top: -4px;
-}
-
-.c0:disabled {
-  opacity: 0.5;
-  background: #00703c;
-}
-
-.c0:disabled:hover {
-  background-color: #00703c;
-  cursor: default;
-}
-
-.c0:disabled:focus {
-  outline: none;
-}
-
-.c0:disabled:active {
-  top: 0;
-  box-shadow: 0 2px 0 #002413;
-}
-
-.c0 svg {
-  max-width: 15px;
-}
-
-.c1 {
-  margin-top: 1rem;
-}
-
-@media print {
-  .c0 {
-    font-size: 14px;
-    line-height: 19px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 {
-    font-size: 19px;
-    line-height: 19px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 {
-    width: auto;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 svg {
-    margin-left: 10px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 {
-    margin-bottom: 32px;
-  }
-}
-
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-<button
-    class="c0 c1"
+  <button
+    class="src__StyledButton-sc-19ocyxv-0 eEShVH sc-koXPp cbdPWW"
+    data-testid="lineChartTable-export-button"
   >
     Export options
   </button>

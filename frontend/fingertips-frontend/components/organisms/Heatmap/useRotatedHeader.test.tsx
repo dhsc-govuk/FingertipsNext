@@ -27,9 +27,8 @@ const TestComponent = () => {
 
 describe('useRotatedHeaders', () => {
   beforeEach(() => {
-    jest
-      .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
-      .mockImplementation(function (this: HTMLElement) {
+    vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(
+      function (this: HTMLElement) {
         // override getBoundingClientRect based on element
         if (this.tagName === 'H4') {
           return {
@@ -43,11 +42,12 @@ describe('useRotatedHeaders', () => {
           height: 0,
           right: 250,
         } as DOMRect;
-      });
+      }
+    );
   });
 
   afterEach(() => {
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
 
   it('adds right margin when headers extend beyond table edge', () => {

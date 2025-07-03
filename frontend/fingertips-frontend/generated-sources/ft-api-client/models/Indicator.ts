@@ -13,6 +13,14 @@
  */
 
 import { mapValues } from '../runtime';
+import type { PeriodType } from './PeriodType';
+import {
+    PeriodTypeFromJSON,
+    PeriodTypeFromJSONTyped,
+    PeriodTypeToJSON,
+    PeriodTypeToJSONTyped,
+} from './PeriodType';
+
 /**
  * A public health indicator
  * @export
@@ -37,6 +45,12 @@ export interface Indicator {
      * @memberof Indicator
      */
     definition: string;
+    /**
+     * The period types that the indicator holds data for
+     * @type {Array<PeriodType>}
+     * @memberof Indicator
+     */
+    periodTypes?: Array<PeriodType>;
 }
 
 /**
@@ -62,6 +76,7 @@ export function IndicatorFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'indicatorId': json['indicator_id'],
         'title': json['title'],
         'definition': json['definition'],
+        'periodTypes': json['period_types'] == null ? undefined : ((json['period_types'] as Array<any>).map(PeriodTypeFromJSON)),
     };
 }
 
@@ -79,6 +94,7 @@ export function IndicatorToJSONTyped(value?: Indicator | null, ignoreDiscriminat
         'indicator_id': value['indicatorId'],
         'title': value['title'],
         'definition': value['definition'],
+        'period_types': value['periodTypes'] == null ? undefined : ((value['periodTypes'] as Array<any>).map(PeriodTypeToJSON)),
     };
 }
 

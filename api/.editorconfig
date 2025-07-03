@@ -12,10 +12,26 @@ dotnet_diagnostic.CA1303.severity = none
 # Mark assemblies with AssemblyVersionAttribute
 dotnet_diagnostic.CA1016.severity = none
 
+[Program.cs]
+# These rules must be disabled for Program.cs to allow integration tests to instantiate the class.
+
+# Consider making public types internal
+dotnet_diagnostic.CA1515.severity = none
+# Static holder types should be Static or NotInheritable
+dotnet_diagnostic.CA1052.severity = none
+
+[CustomWebApplicationFactory.cs]
+# Consider making public types internal
+dotnet_diagnostic.CA1515.severity = none
+
 
 [*{Controller,Tests}.cs]
 # Consider making public types internal
 dotnet_diagnostic.CA1515.severity = none
+# CA1812: Avoid uninstantiated internal classes - Controllers instansiated by aspnet runtime
+dotnet_diagnostic.CA1812.severity = none
+# CA1822: Mark members as static - Routing doesnt work with static routes
+dotnet_diagnostic.CA1822.severity = none
 
 [*{Test,Tests}.cs]
 # Ignore Resolve nullable warnings for test files

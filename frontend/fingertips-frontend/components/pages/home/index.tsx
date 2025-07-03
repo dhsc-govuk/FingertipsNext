@@ -4,13 +4,13 @@ import {
   ErrorSummary,
   H2,
   H3,
+  InsetText,
   Link,
   ListItem,
   Paragraph,
   SectionBreak,
   UnorderedList,
 } from 'govuk-react';
-import { SearchStateParams } from '@/lib/searchStateManager';
 import { SearchForm } from '@/components/forms/SearchForm';
 import {
   SearchFormState,
@@ -21,30 +21,22 @@ import styled from 'styled-components';
 import { spacing } from '@govuk-react/lib';
 import { Area } from '@/generated-sources/ft-api-client';
 import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
-import { useSearchState } from '@/context/SearchStateContext';
+import { siteTitle } from '@/lib/constants';
 
 const ZeroMarginParagraph = styled(Paragraph)(
   spacing.withWhiteSpace({ marginBottom: 0 })
 );
 
 interface HomeProps {
-  searchState?: SearchStateParams;
   areaFilterData?: AreaFilterData;
   selectedAreasData?: Area[];
   initialFormState: SearchFormState;
 }
 export const Home = ({
-  searchState,
   areaFilterData,
   initialFormState,
   selectedAreasData,
 }: HomeProps) => {
-  const { setSearchState } = useSearchState();
-
-  useEffect(() => {
-    setSearchState(searchState ?? {});
-  }, [searchState, setSearchState]);
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -55,7 +47,7 @@ export const Home = ({
   );
 
   return (
-    <form action={setFormState}>
+    <div>
       {formState.message && (
         <ErrorSummary
           errors={[
@@ -76,12 +68,15 @@ export const Home = ({
           }}
         />
       )}
-      <H2>Access public health data</H2>
+      <H2>{siteTitle}</H2>
       <Paragraph>
-        A free government service that provides access to a wide range of public
-        health data in England.
+        This service provides easy access to a comprehensive collection of
+        public health data for England. It can be used to monitor trends,
+        identify inequalities, and make make data-driven decisions to improve
+        public health.
       </Paragraph>
-      <br />
+
+      <InsetText>This service was previously known as Fingertips</InsetText>
 
       <ZeroMarginParagraph>Contents</ZeroMarginParagraph>
       <UnorderedList listStyleType='"— "'>
@@ -98,13 +93,15 @@ export const Home = ({
           <Link href="#whofor">Who the service is for</Link>
         </ListItem>
       </UnorderedList>
-      <br />
+
       <div id="search">
-        <SearchForm
-          formState={formState}
-          selectedAreasData={selectedAreasData}
-          areaFilterData={areaFilterData}
-        />
+        <form action={setFormState}>
+          <SearchForm
+            formState={formState}
+            selectedAreasData={selectedAreasData}
+            areaFilterData={areaFilterData}
+          />
+        </form>
       </div>
       <SectionBreak level="LARGE" visible />
       <H3 id="whatfor">What the service is for</H3>
@@ -142,6 +139,6 @@ export const Home = ({
         health trends, identify inequalities, and make informed decisions about
         public health in England.
       </Paragraph>
-    </form>
+    </div>
   );
 };

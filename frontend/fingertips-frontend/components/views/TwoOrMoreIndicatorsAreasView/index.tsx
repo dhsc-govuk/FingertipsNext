@@ -11,11 +11,19 @@ import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 import {
   determineBenchmarkRefType,
   getHealthDataForIndicator,
-  HealthDataRequestAreas,
 } from '@/lib/ViewsHelpers';
-import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 import { BenchmarkReferenceType } from '@/generated-sources/ft-api-client';
+import { healthDataRequestAreas } from '@/components/charts/SpineChart/helpers/healthDataRequestAreas';
+import { SeedDataPromises } from '@/components/atoms/SeedQueryCache/seedQueryCache.types';
+import { SeedQueryCache } from '@/components/atoms/SeedQueryCache/SeedQueryCache';
+import { seedDataFromPromises } from '@/components/atoms/SeedQueryCache/seedDataFromPromises';
+import { quartilesQueryParams } from '@/components/charts/SpineChart/helpers/quartilesQueryParams';
+import {
+  EndPoints,
+  queryKeyFromRequestParams,
+} from '@/components/charts/helpers/queryKeyFromRequestParams';
+import { spineChartIsRequired } from '@/components/charts/SpineChart/helpers/spineChartIsRequired';
 
 export default async function TwoOrMoreIndicatorsAreasView({
   searchState,
@@ -28,7 +36,6 @@ export default async function TwoOrMoreIndicatorsAreasView({
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.AreaTypeSelected]: selectedAreaType,
     [SearchParams.GroupSelected]: selectedGroupCode,
-    [SearchParams.GroupTypeSelected]: selectedGroupType,
     [SearchParams.GroupAreaSelected]: groupAreaSelected,
     [SearchParams.BenchmarkAreaSelected]: benchmarkAreaSelected,
   } = stateManager.getSearchState();
@@ -58,26 +65,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
     throw new Error('invalid indicator metadata passed to view');
   }
 
-  const areasToRequest: HealthDataRequestAreas[] = [
-    {
-      areaCodes,
-      areaType: selectedAreaType,
-    },
-  ];
-
-  if (!areaCodes.includes(areaCodeForEngland)) {
-    areasToRequest.push({
-      areaCodes: [areaCodeForEngland],
-      areaType: englandAreaType.key,
-    });
-  }
-
-  if (selectedGroupCode && selectedGroupCode !== areaCodeForEngland) {
-    areasToRequest.push({
-      areaCodes: [selectedGroupCode],
-      areaType: selectedGroupType,
-    });
-  }
+  const areasToRequest = healthDataRequestAreas(searchState, availableAreas);
 
   const benchmarkRefType = determineBenchmarkRefType(benchmarkAreaSelected);
   const areaGroup =
@@ -86,8 +74,10 @@ export default async function TwoOrMoreIndicatorsAreasView({
       : undefined;
 
   await connection();
-  const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
+  const seedPromises: SeedDataPromises = {};
+
+  const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
   const combinedIndicatorData = await Promise.all(
     indicatorsSelected.map((indicator) => {
       return getHealthDataForIndicator(
@@ -96,10 +86,13 @@ export default async function TwoOrMoreIndicatorsAreasView({
         areasToRequest,
         benchmarkRefType,
         true,
-        areaGroup
+        areaGroup,
+        seedPromises
       );
     })
   );
+
+  const seedData = await seedDataFromPromises(seedPromises);
 
   const indicatorList = indicatorsSelected.map((indicatorAsAString) => {
     return Number(indicatorAsAString);
@@ -116,16 +109,36 @@ export default async function TwoOrMoreIndicatorsAreasView({
     API_CACHE_CONFIG
   );
 
+  // load quartiles data and seed if we don't have it already
+  const quartilesParams = quartilesQueryParams(searchState);
+  const quartilesKey = queryKeyFromRequestParams(
+    EndPoints.Quartiles,
+    quartilesParams
+  );
+  if (
+    spineChartIsRequired(searchState) &&
+    !Object.keys(seedData).includes(quartilesKey)
+  ) {
+    try {
+      seedData[quartilesKey] = await indicatorApi.indicatorsQuartilesGet(
+        quartilesParams,
+        API_CACHE_CONFIG
+      );
+    } catch (e) {
+      console.error('error getting quartile data', e);
+    }
+  }
+
   return (
     <ViewsWrapper
       areaCodes={areaCodes}
       indicatorsDataForAreas={combinedIndicatorData}
     >
+      <SeedQueryCache seedData={seedData} />
       <TwoOrMoreIndicatorsAreasViewPlot
         indicatorData={combinedIndicatorData}
         indicatorMetadata={selectedIndicatorsData}
         benchmarkStatistics={benchmarkQuartiles}
-        searchState={searchState}
         availableAreas={availableAreas}
       />
     </ViewsWrapper>

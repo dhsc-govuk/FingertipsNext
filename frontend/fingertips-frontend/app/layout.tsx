@@ -1,14 +1,14 @@
 import { FTContainer } from '@/components/layouts/container';
 import StyledComponentsRegistry from '@/lib/registry';
 import type { Metadata } from 'next';
-import { ReactNode } from 'react';
+import { ReactNode, Suspense } from 'react';
 import '../global.css';
 import { HeaderFooterWrapper } from '@/components/molecules/HeaderFooterWrapper';
+import { siteDescription, siteTitle } from '@/lib/constants';
 
 export const metadata: Metadata = {
-  title: 'FingertipsNext',
-  description:
-    'Fingertips is a rich source of indicators across a range of health and wellbeing themes designed to support JSNA and commissioning to improve health and wellbeing, and reduce inequalities.',
+  title: siteTitle,
+  description: siteDescription,
 };
 
 export default function RootLayout({
@@ -23,11 +23,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body style={{ margin: 0 }}>
-        <StyledComponentsRegistry>
-          <HeaderFooterWrapper tag={tag} hash={hash}>
-            <FTContainer>{children}</FTContainer>
-          </HeaderFooterWrapper>
-        </StyledComponentsRegistry>
+        <Suspense>
+          <StyledComponentsRegistry>
+            <HeaderFooterWrapper tag={tag} hash={hash}>
+              <FTContainer>{children}</FTContainer>
+            </HeaderFooterWrapper>
+          </StyledComponentsRegistry>
+        </Suspense>
       </body>
     </html>
   );

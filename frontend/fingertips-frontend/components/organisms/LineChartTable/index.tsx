@@ -229,8 +229,7 @@ export function LineChartTable({
 
   const confidenceLimit = getConfidenceLimitNumber(benchmarkComparisonMethod);
   const showEnglandColumn =
-    healthIndicatorData[0]?.areaCode !== areaCodeForEngland &&
-    benchmarkComparisonMethod !== BenchmarkComparisonMethod.Quintiles;
+    healthIndicatorData[0]?.areaCode !== areaCodeForEngland;
 
   const showGroupColumn =
     healthIndicatorData[0]?.areaCode !== areaCodeForEngland &&
@@ -292,13 +291,11 @@ export function LineChartTable({
         confidenceLimit
       )
     : undefined;
+  const id = 'lineChartTable';
 
   return (
     <>
-      <StyledDivWithScrolling
-        data-testid="lineChartTable-component"
-        id={'lineChartTable'}
-      >
+      <StyledDivWithScrolling id={id} data-testid={`${id}-component`}>
         <ChartTitle>{title}</ChartTitle>
         <StyledTable
           head={
@@ -481,7 +478,7 @@ export function LineChartTable({
           <ExportCopyright />
         </ExportOnlyWrapper>
       </StyledDivWithScrolling>
-      <ExportOptionsButton targetId={'lineChartTable'} csvData={csvData} />
+      <ExportOptionsButton targetId={id} csvData={csvData} />
     </>
   );
 }

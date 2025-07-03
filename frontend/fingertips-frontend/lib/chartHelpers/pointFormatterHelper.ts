@@ -1,7 +1,7 @@
 // any required to allow customisation of Highcharts tooltips
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { InequalitiesPoint } from '@/components/molecules/Inequalities/BarChart';
+import { InequalitiesPoint } from '@/components/charts/Inequalities/InequalitiesBarChart/InequalitiesBarChart';
 import Highcharts from 'highcharts';
 
 export enum SymbolNames {

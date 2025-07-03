@@ -1,5 +1,6 @@
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -28,7 +29,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
     /// <returns>IndicatorDimensionModel containing relevant indicator metadata</returns>
     public async Task<IndicatorDimensionModel?> GetIndicatorDimensionAsync(int indicatorId, string[] areaCodes)
     {
-        var model = await _dbContext.HealthMeasure
+        var model = await _dbContext.PublishedHealthMeasure
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
             .Where(HealthDataPredicates.IsInAreaCodes(areaCodes))
             .Where(HealthDataPredicates.IsNotEnglandWhenMultipleRequested(areaCodes))
@@ -49,7 +50,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         if (model != null) return model;
 
         // Default to the latest year for all indicator data if none of the requested areas have data
-        return await _dbContext.HealthMeasure
+        return await _dbContext.PublishedHealthMeasure
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
             .OrderByDescending(healthMeasure => healthMeasure.Year)
             .Include(healthMeasure => healthMeasure.IndicatorDimension)
@@ -67,71 +68,45 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
     }
 
     public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataAsync(int indicatorId, string[] areaCodes,
-        int[] years, string[] inequalities)
+        int[] years, string[] inequalities, DateOnly? fromDate = null, DateOnly? toDate = null)
     {
         var excludeDisaggregatedSexValues = !inequalities.Contains(SEX);
         var excludeDisaggregatedAgeValues = !inequalities.Contains(AGE);
         var excludeDisaggregatedDeprivationValues = !inequalities.Contains(DEPRIVATION);
 
-        return await _dbContext.HealthMeasure
+        DateTime? toDateTime = toDate != null ? toDate.Value.ToDateTime(TimeOnly.MinValue) : null;
+        DateTime? fromDateTime = fromDate != null ? fromDate.Value.ToDateTime(TimeOnly.MinValue) : null;
+
+        var healthMeasures = await _dbContext.PublishedHealthMeasure
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
             .Where(HealthDataPredicates.IsInAreaCodes(areaCodes))
             .Where(healthMeasure => years.Length == 0 || EF.Constant(years).Contains(healthMeasure.Year))
-            .Where(healthMeasure => excludeDisaggregatedSexValues ? healthMeasure.IsSexAggregatedOrSingle : true)
-            .Where(healthMeasure => excludeDisaggregatedAgeValues ? healthMeasure.IsAgeAggregatedOrSingle : true)
+            .Where(healthMeasure => fromDate == null || healthMeasure.FromDateDimension.Date >= fromDateTime)
+            .Where(healthMeasure => toDate == null || healthMeasure.ToDateDimension.Date <= toDateTime)
+            .Where(healthMeasure => !excludeDisaggregatedSexValues || healthMeasure.IsSexAggregatedOrSingle)
+            .Where(healthMeasure => !excludeDisaggregatedAgeValues || healthMeasure.IsAgeAggregatedOrSingle)
             .Where(healthMeasure =>
-                excludeDisaggregatedDeprivationValues ? healthMeasure.IsDeprivationAggregatedOrSingle : true)
-            .OrderBy(healthMeasure => healthMeasure.Year)
+                !excludeDisaggregatedDeprivationValues || healthMeasure.IsDeprivationAggregatedOrSingle)
             .Include(healthMeasure => healthMeasure.AreaDimension)
             .Include(healthMeasure => healthMeasure.AgeDimension)
+            .Include(healthMeasure => healthMeasure.PeriodDimension)
+            .Include(healthMeasure => healthMeasure.ToDateDimension)
+            .Include(healthMeasure => healthMeasure.FromDateDimension)
             .Include(healthMeasure => healthMeasure.SexDimension)
             .Include(healthMeasure => healthMeasure.IndicatorDimension)
             .Include(healthMeasure => healthMeasure.DeprivationDimension)
-            .Select(healthMeasure => new HealthMeasureModel
-            {
-                Year = healthMeasure.Year,
-                Value = healthMeasure.Value,
-                Count = healthMeasure.Count,
-                LowerCi = healthMeasure.LowerCi,
-                UpperCi = healthMeasure.UpperCi,
-                AgeDimension = new AgeDimensionModel
-                {
-                    Name = healthMeasure.AgeDimension.Name,
-                    HasValue = healthMeasure.AgeDimension.HasValue,
-                    IsAggregate = healthMeasure.IsAgeAggregatedOrSingle
-                },
-                SexDimension = new SexDimensionModel
-                {
-                    Name = healthMeasure.SexDimension.Name,
-                    HasValue = healthMeasure.SexDimension.HasValue,
-                    IsAggregate = healthMeasure.IsSexAggregatedOrSingle
-                },
-                IndicatorDimension = new IndicatorDimensionModel
-                {
-                    Name = healthMeasure.IndicatorDimension.Name
-                },
-                AreaDimension = new AreaDimensionModel
-                {
-                    Code = healthMeasure.AreaDimension.Code,
-                    Name = healthMeasure.AreaDimension.Name
-                },
-                TrendDimension = healthMeasure.TrendDimension == null ? null : new TrendDimensionModel
-                {
-                    Name = healthMeasure.TrendDimension.Name
-                },
-                DeprivationDimension = new DeprivationDimensionModel
-                {
-                    Name = healthMeasure.DeprivationDimension.Name,
-                    Type = healthMeasure.DeprivationDimension.Type,
-                    Sequence = healthMeasure.DeprivationDimension.Sequence,
-                    HasValue = healthMeasure.DeprivationDimension.HasValue,
-                    IsAggregate = healthMeasure.IsDeprivationAggregatedOrSingle
-                },
-                IsAggregate = healthMeasure.IsAgeAggregatedOrSingle && healthMeasure.IsSexAggregatedOrSingle &&
-                              healthMeasure.IsDeprivationAggregatedOrSingle
-            })
+            .Include(healthMeasure => healthMeasure.TrendDimension)
             .AsNoTracking()
             .ToListAsync();
+
+        foreach (var healthMeasure in healthMeasures)
+        {
+            healthMeasure.AgeDimension.IsAggregate = healthMeasure.IsAgeAggregatedOrSingle;
+            healthMeasure.SexDimension.IsAggregate = healthMeasure.IsSexAggregatedOrSingle;
+            healthMeasure.DeprivationDimension.IsAggregate = healthMeasure.IsDeprivationAggregatedOrSingle;
+        }
+
+        return healthMeasures;
     }
 
     public async Task<IEnumerable<AreaDimensionModel>> GetAreasAsync(string[] areaCodes)
@@ -142,8 +117,14 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync(
-        int indicatorId, string[] areaCodes, int[] years, string areaTypeKey, string benchmarkAreaCode)
+    public async Task<IEnumerable<DenormalisedHealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync(
+        int indicatorId,
+        string[] areaCodes,
+        int[] years,
+        string areaTypeKey,
+        string benchmarkAreaCode,
+        DateOnly? fromDate = null,
+        DateOnly? toDate = null)
     {
         SqlParameter areasOfInterest;
         SqlParameter yearsOfInterest;
@@ -176,18 +157,16 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         var requestedIndicatorId = new SqlParameter("@RequestedIndicatorId", indicatorId);
         var requestedBenchmarkAreaCode = new SqlParameter("@RequestedBenchmarkAreaCode", benchmarkAreaCode);
 
+        var requestedFromDate = new SqlParameter("@RequestedFromDate", fromDate.HasValue ? fromDate.Value : DBNull.Value);
+        var requestedToDate = new SqlParameter("@RequestedToDate", toDate.HasValue ? toDate.Value : DBNull.Value);
+
         var denormalisedHealthData = await _dbContext.DenormalisedHealthMeasure.FromSqlInterpolated
         (@$"
-              EXEC dbo.GetIndicatorDetailsWithQuintileBenchmarkComparison @RequestedAreas={areasOfInterest}, @RequestedAreaType={areaTypeOfInterest}, @RequestedYears={yearsOfInterest}, @RequestedIndicatorId={requestedIndicatorId}, @RequestedBenchmarkAreaCode={requestedBenchmarkAreaCode}
+              EXEC dbo.GetIndicatorDetailsWithQuintileBenchmarkComparison @RequestedAreas={areasOfInterest}, @RequestedAreaType={areaTypeOfInterest}, @RequestedYears={yearsOfInterest}, @RequestedIndicatorId={requestedIndicatorId}, @RequestedBenchmarkAreaCode={requestedBenchmarkAreaCode}, @RequestedFromDate={requestedFromDate}, @RequestedToDate={requestedToDate}
               "
         ).ToListAsync();
 
-        return
-        [
-            .. denormalisedHealthData
-                .Select(a => a.Normalise())
-                .OrderBy(a => a.Year)
-        ];
+        return denormalisedHealthData.OrderBy(a => a.Year);
     }
 
     public async Task<IEnumerable<QuartileDataModel>> GetQuartileDataAsync(IEnumerable<int> indicatorIds,

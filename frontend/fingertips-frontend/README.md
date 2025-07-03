@@ -79,19 +79,21 @@ You can then open [http://localhost:3000](http://localhost:3000) with your brows
 
 ## Testing
 
-This project uses Jest + React Testing Library for unit testing and Playwright for ui and e2e testing.
+This project uses Vitest + React Testing Library for unit testing and Playwright for ui and e2e testing.
 
 Isolated ui testing, covering accessibility, page navigation and validations occurs in both CI on push and pull requests, as well in CD as when code merges to main.
 
 For e2e tests there is a difference between where and how the tests are executed:
 
- 1. In CI, which occurs on push and in pull requests, we execute the e2e tests against a dockerised container instance of fingertips running in the github runner agent. Note that we also perform visual screenshot snapshot testing of the chart components at this point.
+ 1. In CI, which occurs on push and in pull requests, we execute the e2e tests against a dockerised container instance of fingertips, using chromium browser, running in the github runner agent. Note that we also perform visual screenshot snapshot testing of all the chart components at this point.
 
- 2. In CD, which occurs when code merges into main, we execute the e2e tests against the deployed azure instance of fingertips. Note we do not perform visual screenshot snapshot testing at this point.
+ 2. In CD, which occurs when code merges into main, we execute the e2e tests against the deployed azure instance of fingertips, using both chromium and webkit browsers. Note we do not perform visual screenshot snapshot testing at this point.
+
+We use tags to tag our tests to control whether they run in both CI and CD, or just one of these. This depends on what the e2e test is testing as certain data and infrastructure only exists in the CD environment.
 
 For local development we also have the option to run the tests locally against mocks or against a containerised instance of fingertips using docker.
 
-### Running the Jest Unit tests
+### Running the unit tests
 
 ```bash
 npm run test
@@ -124,12 +126,12 @@ npm run test-e2e-local-docker
 ```
 You will need to have all the docker services running first before executing this command.
 
-To run the e2e tests locally but pointing at the deployed CD environment, rather than using the local docker stack, headlessly do:
+To run the e2e tests locally but pointing at the deployed CD environment, rather than using the local docker stack, headlessly you will need to connect to the VPN then add FINGERTIPS_FRONTEND_URL={enter url here} after MOCK_SERVER=false. Then run the following command:
 
 ```bash
 npm run test-e2e-cd
 ```
-You will need need to add FINGERTIPS_FRONTEND_URL={enter url here} after MOCK_SERVER=false. Also add the --ignore-snapshots parameter. Do not commit/push this as the url is a github secret.
+Note - Do not commit/push the FINGERTIPS_FRONTEND_URL as the url is a github secret.
 
 To run the e2e tests locally, headed allowing debug:
 
@@ -137,13 +139,13 @@ To run the e2e tests locally, headed allowing debug:
 npm run test-e2e-ui-mode
 ```
 
-Except for in ui mode, each test will be executed in parallel using Chromium and Webkit as defined in playwright.config.ts. 
+Each test will be executed in parallel using Chromium and Webkit as defined in playwright.config.ts, except for in --ui mode which launches the playwright test runner. 
 
 To make our isolated ui testing and fully integrated e2e testing as close to real world as possible, we use the full chromium headless mode offered by recent playwright versions see https://playwright.dev/docs/release-notes#try-new-chromium-headless.
 
 ### Accessibility Testing
 
-Performed in the ui tests, libraries used: @axe-core/playwright and axe-playwright. 
+Performed in the ui tests, library used: @axe-core/playwright. 
 
 Configured to the WCAG2.2 AA standard in the following file playwright/page-objects/pageFactory.ts. Any violations of this standard cause a test failure unless the rule violated has been accepted in pageFactory.ts.
 
@@ -214,3 +216,4 @@ npm run generate:ft-mocks
 - We do not need `browser` or `native` so these should be deleted.
 - Since the project is using Typescript `node.js` should be renamed `node.ts`.
 - The project uses the `handlers.ts` file, and a number of manual edits will have been made to this file. Any additional code from the generated `handlers.js` file should be transposed into this existing `.ts` file. `handlers.js` can then be deleted. 
+

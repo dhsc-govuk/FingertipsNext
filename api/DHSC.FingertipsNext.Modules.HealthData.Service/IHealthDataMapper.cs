@@ -9,5 +9,8 @@ public interface IHealthDataMapper
     BenchmarkComparisonMethod MapBenchmarkComparisonMethod(string? source);
     HealthDataPoint Map(HealthMeasureModel source);
     IList<HealthDataPoint> Map(IList<HealthMeasureModel> source);
+    IList<HealthDataPoint> Map(IList<DenormalisedHealthMeasureModel> source);
     IList<IndicatorQuartileData> Map(IList<QuartileDataModel> source);
+
 }
+

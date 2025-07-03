@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { Pill } from '.';
 import { userEvent } from '@testing-library/user-event';
 
-const mockFilterRemoveFunction = jest.fn();
+const mockFilterRemoveFunction = vi.fn();
 const selectedFilterName = 'Dementia';
 const selectedFilterId = '001';
 
@@ -19,7 +19,7 @@ const renderPill = (flags: { asViewOnly: boolean } = { asViewOnly: false }) =>
 
 describe('Pill Suite', () => {
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should render expected elements', () => {

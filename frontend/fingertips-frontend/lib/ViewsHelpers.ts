@@ -12,6 +12,11 @@ import {
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { chunkArray } from '@/lib/chunkArray';
+import { SeedDataPromises } from '@/components/atoms/SeedQueryCache/seedQueryCache.types';
+import {
+  EndPoints,
+  queryKeyFromRequestParams,
+} from '@/components/charts/helpers/queryKeyFromRequestParams';
 
 export interface HealthDataRequestAreas {
   areaCodes: string[];
@@ -25,27 +30,39 @@ export const getHealthDataForIndicator = async (
   combinedRequestAreas: HealthDataRequestAreas[],
   benchmarkRefType?: BenchmarkReferenceType,
   latestOnly?: boolean,
-  areaGroup?: string
+  areaGroup?: string,
+  seedPromises?: SeedDataPromises
 ) => {
   let healthIndicatorData: IndicatorWithHealthDataForArea | undefined;
 
   try {
     const healthIndicatorDataChunks = await Promise.all(
       combinedRequestAreas.flatMap((requestAreas) => {
-        return chunkArray(requestAreas.areaCodes).map((areaCodes) =>
-          indicatorApi.getHealthDataForAnIndicator(
-            {
-              indicatorId: Number(indicatorId),
-              areaCodes: areaCodes,
-              areaType: requestAreas.areaType,
-              inequalities: requestAreas.inequalities,
-              latestOnly,
-              benchmarkRefType,
-              ancestorCode: areaGroup,
-            },
+        return chunkArray(requestAreas.areaCodes).map((areaCodes) => {
+          const reqOptions = {
+            indicatorId: Number(indicatorId),
+            areaCodes: areaCodes,
+            areaType: requestAreas.areaType,
+            inequalities: requestAreas.inequalities,
+            latestOnly,
+            benchmarkRefType,
+            ancestorCode: areaGroup,
+          };
+          const queryKey = queryKeyFromRequestParams(
+            EndPoints.HealthDataForAnIndicator,
+            reqOptions
+          );
+
+          const promiseOfData = indicatorApi.getHealthDataForAnIndicator(
+            reqOptions,
             API_CACHE_CONFIG
-          )
-        );
+          );
+          if (seedPromises) {
+            seedPromises[queryKey] = promiseOfData;
+          }
+
+          return promiseOfData;
+        });
       })
     );
 
@@ -175,18 +192,20 @@ export async function getIndicatorData(
       ? selectedGroupCode
       : undefined;
 
-  const indicatorRequestArray = chunkArray(areasSelected).map((requestAreas) =>
-    indicatorApi.getHealthDataForAnIndicator(
-      {
-        indicatorId: Number(indicatorSelected[0]),
-        areaCodes: [...requestAreas],
-        areaType: selectedAreaType,
-        latestOnly,
-        benchmarkRefType,
-        ancestorCode,
-      },
-      API_CACHE_CONFIG
-    )
+  const indicatorRequestArray = chunkArray(areasSelected).map(
+    (requestAreas) => {
+      return indicatorApi.getHealthDataForAnIndicator(
+        {
+          indicatorId: Number(indicatorSelected[0]),
+          areaCodes: [...requestAreas],
+          areaType: selectedAreaType,
+          latestOnly,
+          benchmarkRefType,
+          ancestorCode,
+        },
+        API_CACHE_CONFIG
+      );
+    }
   );
 
   if (!areasSelected.includes(areaCodeForEngland) && !latestOnly) {
@@ -254,9 +273,9 @@ export async function getIndicatorData(
 }
 
 export function determineBenchmarkRefType(
-  lineChartAreaSelected?: string
+  benchmarkAreaSelected?: string
 ): BenchmarkReferenceType {
-  if (lineChartAreaSelected && lineChartAreaSelected !== areaCodeForEngland) {
+  if (benchmarkAreaSelected && benchmarkAreaSelected !== areaCodeForEngland) {
     return BenchmarkReferenceType.SubNational;
   }
   return BenchmarkReferenceType.England;

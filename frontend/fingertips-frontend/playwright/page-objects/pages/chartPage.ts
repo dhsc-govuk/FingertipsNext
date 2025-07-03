@@ -1,37 +1,40 @@
 import {
   AreaFilters,
   AreaMode,
+  capitaliseFirstCharacter,
+  customEncodeURIComponent,
   getScenarioConfig,
   IndicatorMode,
+  PersistentCsvHeaders,
   SimpleIndicatorDocument,
-  customEncodeURIComponent,
-} from '@/playwright/testHelpers';
-import { ComponentDefinition } from '../components/componentTypes';
+} from '@/playwright/testHelpers/genericTestUtilities';
+import { ChartComponentDefinition } from '../../testHelpers/testDefinitions';
 import { expect } from '../pageFactory';
-import {
-  Locator,
-  PlaywrightTestArgs,
-  PlaywrightTestOptions,
-  PlaywrightWorkerArgs,
-  PlaywrightWorkerOptions,
-  TestType,
-} from '@playwright/test';
 import AreaFilter from '../components/areaFilter';
 import { SearchParams } from '@/lib/searchStateManager';
-
-interface VisibleComponent {
-  componentLocator: string;
-  componentProps: Record<string, boolean>;
-}
+import { ExportType } from '@/components/molecules/Export/export.types';
+import { Download, Locator, test } from '@playwright/test';
+import {
+  copySavedFileIntoDirectory,
+  createDownloadPath,
+  getExpectedCSVIndicatorData,
+  verifyCSVDownloadMatchesPreview,
+  verifySVGDownloadMatchesPreview,
+} from '../../testHelpers/exportUtilities';
+import { copyrightDateFormat } from '@/components/molecules/Export/ExportCopyright';
+import { format } from 'date-fns/format';
+import { InequalitiesTypes } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
 
 export default class ChartPage extends AreaFilter {
   readonly backLink = 'chart-page-back-link';
-
+  readonly chartPageTitle = 'View data for selected indicators and areas';
   // chart components
   static readonly lineChartComponent = 'standardLineChart-component';
   static readonly lineChartTableComponent = 'lineChartTable-component';
-  static readonly populationPyramidComponent =
+  static readonly populationPyramidContainer =
     'populationPyramidWithTable-component';
+  static readonly populationPyramidChartComponent =
+    'populationPyramidChart-component';
   static readonly populationPyramidTableComponent =
     'populationPyramidTable-component';
   static readonly inequalitiesBarChartTableComponent =
@@ -50,18 +53,19 @@ export default class ChartPage extends AreaFilter {
   static readonly inequalitiesForSingleTimePeriodComponent =
     'inequalitiesForSingleTimePeriod-component';
   static readonly inequalitiesTrendComponent = 'inequalitiesTrend-component';
-  static readonly timePeriodDropDownComponent = 'timePeriod-dropDown-component';
-  static readonly inequalitiesTypesDropDownComponentBC =
+  readonly timePeriodDropDownComponent = 'timePeriod-dropDown-component';
+  readonly inequalitiesTypesDropDownComponentBC =
     'inequalitiesTypes-dropDown-component-bc';
-  static readonly inequalitiesTypesDropDownComponentLC =
+  readonly inequalitiesTypesDropDownComponentLC =
     'inequalitiesTypes-dropDown-component-lc';
   static readonly basicTableComponent = 'basicTable-component';
-  static readonly benchmarkDropDownComponent = `${SearchParams.BenchmarkAreaSelected}-dropDown-benchmark-component`;
+  readonly benchmarkDropDownComponent = `${SearchParams.BenchmarkAreaSelected}-dropDown-benchmark-component`;
+  readonly exportModalPaneComponent = 'modalPane';
+  readonly exportDomContainer = 'domContainer';
+  readonly trendTagContainer = 'trendTag-container';
 
   async checkOnChartPage() {
-    await expect(
-      this.page.getByText('View data for selected indicators and areas')
-    ).toBeVisible();
+    await expect(this.page.getByText(this.chartPageTitle)).toBeVisible();
   }
 
   async checkSpecificChartComponent(chartComponent: string) {
@@ -74,27 +78,19 @@ export default class ChartPage extends AreaFilter {
     );
   }
 
-  async waitAfterDropDownInteraction() {
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
-    await this.page.waitForTimeout(1000);
-  }
-
   /**
    * This function tests a subset of indicator + area scenario combinations from
    * https://confluence.collab.test-and-trace.nhs.uk/pages/viewpage.action?pageId=419245267
    * The scenario combinations here were chosen as they are happy paths covering lots of chart components.
    * Note all 15 scenarios should be covered in lower level unit testing
    */
-  async checkChartVisibility(
+  async checkCharts(
     indicatorMode: IndicatorMode,
     areaMode: AreaMode,
-    test: TestType<
-      PlaywrightTestArgs & PlaywrightTestOptions,
-      PlaywrightWorkerArgs & PlaywrightWorkerOptions
-    >,
     selectedIndicators: SimpleIndicatorDocument[],
-    selectedAreaFilters: AreaFilters
+    selectedAreaFilters: AreaFilters,
+    checkExports: boolean,
+    typeOfInequalityToSelect: InequalitiesTypes
   ) {
     const testInfo = test.info();
     const testName = testInfo.title;
@@ -103,21 +99,27 @@ export default class ChartPage extends AreaFilter {
       areaMode
     );
 
-    this.logScenarioInfo(
+    // get the selected area filters from the UI if selectedAreaFilters weren't defined in core_journey_config.ts due to the case being searchMode of either SearchMode.BOTH_SUBJECT_AND_AREA or SearchMode.ONLY_AREA
+    if (!selectedAreaFilters) {
+      selectedAreaFilters = await this.getSelectedAreaFilters();
+    }
+
+    await this.hideFiltersPane();
+    await this.verifyDataSourceIsDisplayed(
       indicatorMode,
       areaMode,
-      visibleComponents,
-      hiddenComponents
+      selectedIndicators
     );
-    await this.hideFiltersPane();
-    await this.verifyDataSourceIsDisplayed(indicatorMode, selectedIndicators);
 
     for (const visibleComponent of visibleComponents) {
       await this.handleComponentInteractions(
         visibleComponent,
         selectedIndicators,
         areaMode,
-        selectedAreaFilters
+        indicatorMode,
+        selectedAreaFilters,
+        checkExports,
+        typeOfInequalityToSelect
       );
       await this.verifyComponentVisibleAndScreenshotMatch(
         visibleComponent,
@@ -130,90 +132,92 @@ export default class ChartPage extends AreaFilter {
     }
   }
 
-  // click the hide filters pane before asserting visibility and taking screenshots
-  private async hideFiltersPane() {
-    await this.clickAndWaitForLoadState(
-      this.page.getByTestId('area-filter-pane-hidefilters')
-    );
-    await expect(this.page.getByTestId('show-filter-cta')).toHaveText(
-      'Show filter'
-    );
-  }
-
-  private logScenarioInfo(
-    indicatorMode: IndicatorMode,
-    areaMode: AreaMode,
-    visibleComponents: {
-      componentLocator: string;
-      componentProps: Record<string, boolean>;
-    }[],
-    hiddenComponents: { componentLocator: string }[]
-  ) {
-    console.log(
-      `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart components: ${visibleComponents
-        .map(
-          (c) =>
-            `${c.componentLocator}(hasCI:${c.componentProps.hasConfidenceIntervals},isTab:${c.componentProps.isTabTable},hasTimePeriod:${c.componentProps.hasTimePeriodDropDown})`
-        )
-        .join(
-          ', '
-        )} are displayed and that chart components: ${hiddenComponents.map((c) => c.componentLocator).join(', ')} are not displayed.`
-    );
-  }
-
   private async handleComponentInteractions(
-    component: {
-      componentLocator: string;
-      componentProps: Record<string, boolean>;
-    },
+    component: ChartComponentDefinition,
     selectedIndicators: SimpleIndicatorDocument[],
     areaMode: AreaMode,
-    selectedAreaFilters: AreaFilters
+    indicatorMode: IndicatorMode,
+    selectedAreaFilters: AreaFilters,
+    checkExports: boolean,
+    typeOfInequalityToSelect: InequalitiesTypes
   ) {
-    const { componentLocator, componentProps } = component;
+    const { chartComponentLocator, chartComponentProps } = component;
 
     const interactions = [
       {
-        condition: componentProps.isTabTable,
-        action: () => this.selectTabForComponent(componentLocator),
+        condition: chartComponentProps.isTabTable,
+        action: async () =>
+          await this.selectTabForComponent(chartComponentLocator),
       },
       {
-        condition: componentProps.hasTimePeriodDropDown,
-        action: () => this.selectLastTimePeriodOption(),
+        condition: chartComponentProps.hasInequalitiesTimePeriodDropDown,
+        action: async () => await this.selectLastTimePeriodOption(),
       },
       {
-        condition: componentProps.hasInequalityTypeDropDown,
-        action: () =>
-          this.selectInequalityTypeDropdownOption({
-            componentLocator,
-            componentProps,
-          }),
+        condition: chartComponentProps.hasInequalityTypeDropDown,
+        action: async () =>
+          await this.selectInequalityTypeDropdownOption(
+            {
+              chartComponentLocator,
+              chartComponentProps,
+            },
+            typeOfInequalityToSelect
+          ),
       },
       {
-        condition: componentProps.hasDetailsExpander,
-        action: () => this.expandDetailsSection(componentLocator),
+        condition: chartComponentProps.hasDetailsExpander,
+        action: async () => await this.expandDetailsSection(),
       },
       {
-        condition: componentProps.isWideComponent,
-        action: () => this.scrollToMiddle(componentLocator),
+        condition: chartComponentProps.isWideComponent,
+        action: async () => await this.scrollToMiddle(chartComponentLocator),
       },
       {
-        condition: componentProps.hasRecentTrend,
-        action: () =>
-          this.verifyTrendTagForComponent(
+        condition: chartComponentProps.hasRecentTrend,
+        action: async () =>
+          await this.verifyTrendTagForComponent(
             component,
             areaMode,
             selectedIndicators
           ),
       },
       {
-        condition: componentProps.showsBenchmarkComparisons,
-        action: () =>
-          this.verifyBenchmarkingForComponent(component, selectedAreaFilters),
+        condition: checkExports && chartComponentProps.hasPNGExport,
+        action: async () =>
+          await this.verifyPNGExport(component, areaMode, indicatorMode),
       },
       {
-        condition: componentProps.hasConfidenceIntervals,
-        action: () => this.toggleConfidenceInterval(componentLocator),
+        condition: checkExports && chartComponentProps.hasSVGExport,
+        action: async () =>
+          await this.verifySVGExport(
+            component,
+            areaMode,
+            indicatorMode,
+            selectedAreaFilters
+          ),
+      },
+      {
+        condition: checkExports && chartComponentProps.hasCSVExport,
+        action: async () =>
+          await this.verifyCSVExport(
+            component,
+            areaMode,
+            indicatorMode,
+            selectedIndicators
+          ),
+      },
+      {
+        condition: chartComponentProps.hasBenchmarkComparisons,
+        action: async () =>
+          await this.verifyBenchmarkingForComponent(
+            component,
+            selectedAreaFilters
+          ),
+      },
+      {
+        condition: chartComponentProps.hasConfidenceIntervals,
+        action: async () =>
+          await this.toggleConfidenceInterval(chartComponentLocator),
       },
     ];
 
@@ -225,22 +229,22 @@ export default class ChartPage extends AreaFilter {
   }
 
   // clicks on the tab if the component is a table
-  private async selectTabForComponent(componentLocator: string) {
-    const tabTestId = `tabTitle-${componentLocator.replace('-component', '')}`;
+  private async selectTabForComponent(chartComponentLocator: string) {
+    const tabTestId = `tabTitle-${this.replaceComponentSuffix(chartComponentLocator)}`;
     await this.clickAndAwaitLoadingComplete(this.page.getByTestId(tabTestId));
   }
 
   // selects last time period option in the dropdown
   private async selectLastTimePeriodOption() {
     const combobox = this.page
-      .getByTestId(ChartPage.timePeriodDropDownComponent)
+      .getByTestId(this.timePeriodDropDownComponent)
       .getByRole('combobox');
 
     const options = await this.getSelectOptions(combobox);
     const lastOption = options.at(-1)?.value;
     if (!lastOption) return;
 
-    await combobox.selectOption({ value: lastOption });
+    await this.selectOptionAndAwaitLoadingComplete(combobox, lastOption);
     await this.waitAfterDropDownInteraction();
     await this.waitForURLToContain(lastOption);
 
@@ -253,15 +257,15 @@ export default class ChartPage extends AreaFilter {
     expect(await combobox.inputValue()).toBe(lastOption);
   }
 
-  // selects either first or last option (sex) in the inequality dropdown
-  private async selectInequalityTypeDropdownOption({
-    componentLocator,
-    componentProps,
-  }: ComponentDefinition) {
+  private async selectInequalityTypeDropdownOption(
+    { chartComponentLocator }: ChartComponentDefinition,
+    typeOfInequalityToSelect: InequalitiesTypes
+  ) {
     const dropdownComponent =
-      componentLocator === ChartPage.inequalitiesForSingleTimePeriodComponent
-        ? ChartPage.inequalitiesTypesDropDownComponentBC
-        : ChartPage.inequalitiesTypesDropDownComponentLC;
+      chartComponentLocator ===
+      ChartPage.inequalitiesForSingleTimePeriodComponent
+        ? this.inequalitiesTypesDropDownComponentBC
+        : this.inequalitiesTypesDropDownComponentLC;
 
     const combobox = this.page
       .getByTestId(dropdownComponent)
@@ -275,25 +279,45 @@ export default class ChartPage extends AreaFilter {
       );
     }
 
-    const valueToSelect = componentProps.selectDeprivationInequality
-      ? options[0].value
-      : options.at(-1)?.value;
+    let selectedOption: string;
 
-    if (!valueToSelect) {
+    if (typeOfInequalityToSelect === InequalitiesTypes.Sex) {
+      // For Sex we can select by exact value
+      const sexInequalityOptionCapitalised = capitaliseFirstCharacter(
+        String(InequalitiesTypes.Sex)
+      );
+      selectedOption = sexInequalityOptionCapitalised;
+
+      await this.selectOptionAndAwaitLoadingComplete(combobox, selectedOption);
+      await this.waitAfterDropDownInteraction();
+    } else if (typeOfInequalityToSelect === InequalitiesTypes.Deprivation) {
+      // For Deprivation find the option that contains "deprivation"
+      const deprivationOption = options.find((option) =>
+        option.text.toLowerCase().includes('deprivation')
+      );
+
+      if (!deprivationOption) {
+        throw new Error(
+          `No deprivation option found in dropdown at [${dropdownComponent}].`
+        );
+      }
+
+      selectedOption = deprivationOption.value;
+      await this.selectOptionAndAwaitLoadingComplete(combobox, selectedOption);
+      await this.waitAfterDropDownInteraction();
+    } else {
       throw new Error(
-        `Unable to determine option to select from dropdown at [${dropdownComponent}].`
+        `Unsupported inequality type: ${typeOfInequalityToSelect}`
       );
     }
 
-    await combobox.selectOption({ value: valueToSelect });
     await this.waitAfterDropDownInteraction();
-    expect(await combobox.inputValue()).toBe(valueToSelect);
-
-    await this.waitForURLToContain(customEncodeURIComponent(valueToSelect));
+    expect(await combobox.inputValue()).toBe(selectedOption);
+    await this.waitForURLToContain(customEncodeURIComponent(selectedOption));
   }
 
   // checks the confidence interval checkbox
-  private async toggleConfidenceInterval(componentLocator: string) {
+  private async toggleConfidenceInterval(chartComponentLocator: string) {
     const mapping: Record<string, string> = {
       [ChartPage.inequalitiesForSingleTimePeriodComponent]:
         ChartPage.inequalitiesBarChartComponent,
@@ -308,61 +332,72 @@ export default class ChartPage extends AreaFilter {
     };
 
     const ciComponent =
-      mapping[componentLocator] || ChartPage.lineChartComponent;
-    const testId = `confidence-interval-checkbox-${ciComponent.replace('-component', '')}`;
+      mapping[chartComponentLocator] || ChartPage.lineChartComponent;
+    const testId = `confidence-interval-checkbox-${this.replaceComponentSuffix(ciComponent)}`;
 
     await this.checkAndAwaitLoadingComplete(this.page.getByTestId(testId));
   }
 
   // clicks on 'Show population data' to show population pyramid component
-  private async expandDetailsSection(componentLocator: string) {
+  private async expandDetailsSection() {
     await this.clickAndAwaitLoadingComplete(
-      this.page.getByTestId(componentLocator).getByText('Show population data')
+      this.page
+        .getByTestId(ChartPage.populationPyramidContainer)
+        .getByText('Show population data')
     );
   }
 
   // scrolls to the middle of the component for better screenshot
-  private async scrollToMiddle(componentLocator: string) {
-    await this.page.getByTestId(componentLocator).evaluate((element) => {
+  private async scrollToMiddle(chartComponentLocator: string) {
+    await this.page.getByTestId(chartComponentLocator).evaluate((element) => {
       element.scrollLeft = (element.scrollWidth - element.clientWidth) / 2;
     });
   }
 
-  // verifies data source is displayed for one indicator
+  // verifies data source is displayed in the correct scenarios
   private async verifyDataSourceIsDisplayed(
     indicatorMode: IndicatorMode,
+    areaMode: AreaMode,
     selectedIndicators: SimpleIndicatorDocument[]
   ) {
     const dataSourceLocator = this.page.getByTestId('data-source');
 
-    if (indicatorMode === IndicatorMode.ONE_INDICATOR) {
+    const isMultiIndicatorWithSpecificAreaMode =
+      indicatorMode !== IndicatorMode.ONE_INDICATOR &&
+      (areaMode === AreaMode.ENGLAND_AREA || areaMode === AreaMode.ONE_AREA);
+
+    const shouldShowDataSource =
+      indicatorMode === IndicatorMode.ONE_INDICATOR ||
+      isMultiIndicatorWithSpecificAreaMode;
+
+    if (shouldShowDataSource) {
+      const expectedText = `Data source: ${selectedIndicators[0].dataSource}`;
       const allDataSources = await dataSourceLocator.allTextContents();
-      allDataSources.forEach((dataSource) => {
-        expect(dataSource).toBe(
-          `Data source: ${selectedIndicators[0].dataSource}`
-        );
-      });
+
+      allDataSources.forEach((dataSource) =>
+        expect(dataSource).toBe(expectedText)
+      );
     } else {
       await expect(dataSourceLocator).not.toBeAttached();
     }
   }
 
   private async verifyTrendTagForComponent(
-    visibleComponent: VisibleComponent,
+    visibleComponent: ChartComponentDefinition,
     areaMode: AreaMode,
     selectedIndicators: SimpleIndicatorDocument[]
   ): Promise<void> {
-    if (!visibleComponent.componentProps.hasRecentTrend) {
+    if (!visibleComponent.chartComponentProps.hasRecentTrend) {
       return;
     }
 
-    const componentLocator = visibleComponent.componentLocator;
+    const chartComponentLocator = visibleComponent.chartComponentLocator;
     const trendTagLocator = this.page
-      .getByTestId(componentLocator)
-      .getByTestId('trendTag-container');
+      .getByTestId(chartComponentLocator)
+      .getByTestId(this.trendTagContainer);
 
     if (
-      componentLocator === 'spineChartTable-component' &&
+      chartComponentLocator === ChartPage.spineChartTableComponent &&
       areaMode !== AreaMode.ONE_AREA
     ) {
       // Verify no trend container is present for spine chart in non-ONE_AREA modes
@@ -383,37 +418,20 @@ export default class ChartPage extends AreaFilter {
     }
   }
 
-  private async verifyBenchmarkingForComponent(
-    component: VisibleComponent,
-    selectedAreaFilters: AreaFilters
+  private getBenchmarkConfig(
+    selectedAreaFilters: AreaFilters,
+    component: ChartComponentDefinition
   ) {
-    const dropdownComponent = ChartPage.benchmarkDropDownComponent;
-    const combobox = this.page
-      .getByTestId(dropdownComponent)
-      .getByRole('combobox');
-    const options = await this.getSelectOptions(combobox);
-    const upperCaseFirstCharSelectedGroup =
-      selectedAreaFilters.group.charAt(0).toUpperCase() +
-      selectedAreaFilters.group.slice(1);
-
-    // check benchmark dropdown defaults to England as first option in all cases
-    expect(options[0].text).toBe('England');
+    const upperCaseFirstCharSelectedGroup = capitaliseFirstCharacter(
+      selectedAreaFilters.group
+    );
 
     // determine expected values based on area filters
-    const isEnglandGroup = selectedAreaFilters.group === 'england';
+    const isEnglandGroup =
+      selectedAreaFilters.group.toLowerCase() === 'england';
     const isEnglandAreaType = selectedAreaFilters.areaType === 'england';
     const isThematicMap =
-      component.componentLocator === ChartPage.thematicMapComponent;
-
-    // check benchmark dropdown options length based on group selection
-    const expectedOptionsLength = isEnglandGroup ? 1 : 2;
-    expect(options.length).toBe(expectedOptionsLength);
-
-    // set benchmark dropdown to the same group that was selected in the area filter
-    await combobox.selectOption({
-      label: upperCaseFirstCharSelectedGroup,
-    });
-    await this.waitAfterDropDownInteraction();
+      component.chartComponentLocator === ChartPage.thematicMapComponent;
 
     // determine expected benchmarking text based on area filters
     const expectedSelectedOption = isEnglandGroup
@@ -424,57 +442,98 @@ export default class ChartPage extends AreaFilter {
     const expectedBenchmarkTitleText = `${benchmarkPrefix} ${expectedSelectedOption}`;
     const expectedBenchmarkTooltipText = `Benchmark: ${expectedSelectedOption}`;
 
+    return {
+      upperCaseFirstCharSelectedGroup,
+      isEnglandGroup,
+      isEnglandAreaType,
+      isThematicMap,
+      expectedSelectedOption,
+      shouldShowBenchmarkText,
+      benchmarkPrefix,
+      expectedBenchmarkTitleText,
+      expectedBenchmarkTooltipText,
+    };
+  }
+
+  private async verifyBenchmarkingForComponent(
+    component: ChartComponentDefinition,
+    selectedAreaFilters: AreaFilters
+  ) {
+    const dropdownComponent = this.benchmarkDropDownComponent;
+    const combobox = this.page
+      .getByTestId(dropdownComponent)
+      .getByRole('combobox');
+    const options = await this.getSelectOptions(combobox);
+    const benchmarkConfig = this.getBenchmarkConfig(
+      selectedAreaFilters,
+      component
+    );
+
+    // check benchmark dropdown defaults to England as first option in all cases
+    expect(options[0].text).toBe('England');
+
+    // check benchmark dropdown options length based on group selection
+    const expectedOptionsLength = benchmarkConfig.isEnglandGroup ? 1 : 2;
+    expect(options.length).toBe(expectedOptionsLength);
+
+    // set benchmark dropdown to the same group that was selected in the area filter
+    await combobox.selectOption({
+      label: benchmarkConfig.upperCaseFirstCharSelectedGroup,
+    });
+    await this.waitAfterDropDownInteraction();
+
     // verify the correct benchmark dropdown option is now selected
     expect(await combobox.locator('option:checked').textContent()).toBe(
-      expectedSelectedOption
+      benchmarkConfig.expectedSelectedOption
     );
 
     // verify benchmark text visibility in the chart component title
-    if (shouldShowBenchmarkText) {
+    if (benchmarkConfig.shouldShowBenchmarkText) {
       await expect(
         this.page
-          .getByTestId(component.componentLocator)
-          .getByText(expectedBenchmarkTitleText)
+          .getByTestId(component.chartComponentLocator)
+          .getByText(benchmarkConfig.expectedBenchmarkTitleText)
           .first()
       ).toBeVisible();
       // check hover if current chart component has tooltip hovers
-      if (component.componentProps.hasTooltipHovers) {
-        await this.checkHovers(component, expectedBenchmarkTooltipText);
+      if (component.chartComponentProps.hasTooltipHovers) {
+        await this.checkHovers(
+          component,
+          benchmarkConfig.expectedBenchmarkTooltipText
+        );
       }
     } else {
       await expect(
         this.page
-          .getByTestId(component.componentLocator)
+          .getByTestId(component.chartComponentLocator)
           .getByText('Benchmark:')
       ).not.toBeVisible();
       // check hover doesnt contain 'Benchmark:' if current chart component has tooltip hovers
-      if (component.componentProps.hasTooltipHovers) {
+      if (component.chartComponentProps.hasTooltipHovers) {
         await this.checkHovers(component);
       }
     }
   }
 
   private async checkHovers(
-    component: VisibleComponent,
+    component: ChartComponentDefinition,
     expectedBenchmarkText?: string
   ) {
     // get correct chart point based on component locator
     const tooltipPointToAssert =
-      (component.componentLocator ===
+      (component.chartComponentLocator ===
         ChartPage.barChartEmbeddedTableComponent ||
-        component.componentLocator === ChartPage.heatMapComponent) &&
+        component.chartComponentLocator === ChartPage.heatMapComponent) &&
       expectedBenchmarkText !== 'Benchmark: England'
         ? 1
         : 0;
-
-    // verify benchmark text visibility in the chart hover content
     const chartPoint = this.page
-      .getByTestId(component.componentLocator)
+      .getByTestId(component.chartComponentLocator)
       .locator('.highcharts-point')
       .nth(tooltipPointToAssert);
 
     // we need to disable the actionability checks for hover and click for thematic map as it never reaches stable - https://playwright.dev/docs/actionability#stable
-    if (component.componentLocator === ChartPage.thematicMapComponent) {
+    if (component.chartComponentLocator === ChartPage.thematicMapComponent) {
       chartPoint.focus();
       chartPoint.scrollIntoViewIfNeeded();
       await expect(chartPoint).toBeVisible();
@@ -485,11 +544,10 @@ export default class ChartPage extends AreaFilter {
       await chartPoint.click({ force: true });
     } else {
       await chartPoint.hover();
-      await chartPoint.click();
+      await this.clickAndAwaitLoadingComplete(chartPoint);
     }
 
     await this.page.waitForTimeout(250); // small wait for tooltip to appear
-
     const hoverContent = await this.page
       .locator('div.highcharts-tooltip')
       .first()
@@ -503,43 +561,258 @@ export default class ChartPage extends AreaFilter {
     }
   }
 
-  // verifies component is visible and baseline screenshot matches
   private async verifyComponentVisibleAndScreenshotMatch(
-    component: { componentLocator: string },
+    component: { chartComponentLocator: string },
     testName: string
   ) {
-    const { componentLocator } = component;
+    const { chartComponentLocator } = component;
 
-    await expect(this.page.getByTestId(componentLocator)).toBeVisible({
+    const locatorToUse =
+      chartComponentLocator !== ChartPage.populationPyramidChartComponent
+        ? chartComponentLocator
+        : `tabContent-${this.replaceComponentSuffix(chartComponentLocator)}`;
+
+    await expect(this.page.getByTestId(locatorToUse)).toBeVisible({
       visible: true,
     });
 
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.waitForLoadingToFinish();
     await this.page.evaluate(() => window.scrollTo(0, 0));
     await this.page.waitForFunction('window.scrollY === 0');
     await this.page.waitForTimeout(1000);
 
-    await expect(this.page.getByTestId(componentLocator), {
-      message: `Screenshot match failed: ${componentLocator}`,
-    }).toHaveScreenshot(`${testName}-${componentLocator}.png`);
+    await expect(this.page.getByTestId(chartComponentLocator), {
+      message: `Screenshot match failed: ${chartComponentLocator}`,
+    }).toHaveScreenshot(`${testName}-${chartComponentLocator}.png`);
   }
 
-  // verifies component is NOT visible
   private async verifyComponentNotVisible(component: {
-    componentLocator: string;
+    chartComponentLocator: string;
   }) {
-    await expect(this.page.getByTestId(component.componentLocator)).toBeVisible(
-      { visible: false }
+    await expect(
+      this.page.getByTestId(component.chartComponentLocator)
+    ).toBeVisible({ visible: false });
+  }
+
+  private async openExportModal(chartDataTestId: string): Promise<void> {
+    const exportButtonDataTestId = `${this.replaceComponentSuffix(chartDataTestId, '-export-button')}`;
+
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByTestId(exportButtonDataTestId)
     );
   }
 
-  private async getSelectOptions(combobox: Locator) {
-    return await combobox.evaluate((select: HTMLSelectElement) =>
-      Array.from(select.options).map((option) => ({
-        value: option.value,
-        text: option.text,
-      }))
+  private async clickExport(): Promise<Download> {
+    const downloadPromise = this.page.waitForEvent('download');
+    await this.clickAndAwaitLoadingComplete(
+      this.page
+        .getByTestId(this.exportModalPaneComponent)
+        .getByRole('button')
+        .getByText('Export')
     );
+    return downloadPromise;
+  }
+
+  private async closeExportModal(): Promise<void> {
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByRole('button', { name: 'Close modal' })
+    );
+  }
+
+  private async checkPNGisDefault(): Promise<void> {
+    this.page.waitForTimeout(250); // wait for modal to open and render
+    expect(
+      this.page
+        .getByTestId(this.exportModalPaneComponent)
+        .getByRole('radio', { name: String(ExportType.PNG) })
+    ).toBeChecked();
+  }
+
+  private async verifyPNGExport(
+    component: ChartComponentDefinition,
+    areaMode: AreaMode,
+    indicatorMode: IndicatorMode
+  ): Promise<void> {
+    const downloadDir = createDownloadPath(
+      ExportType.PNG,
+      areaMode,
+      indicatorMode
+    );
+
+    await this.openExportModal(component.chartComponentLocator);
+
+    await this.checkPNGisDefault();
+
+    const downloadPromise = this.clickExport();
+
+    const { download } = await copySavedFileIntoDirectory(
+      await downloadDir,
+      downloadPromise
+    );
+
+    // verify the file downloaded successfully
+    expect(download.suggestedFilename()).toBeDefined();
+    expect(download.suggestedFilename()).toMatch(/\.png$/i);
+
+    await this.closeExportModal();
+  }
+
+  private async verifySVGExport(
+    component: ChartComponentDefinition,
+    areaMode: AreaMode,
+    indicatorMode: IndicatorMode,
+    selectedAreaFilters: AreaFilters
+  ): Promise<void> {
+    const benchmarkConfig = this.getBenchmarkConfig(
+      selectedAreaFilters,
+      component
+    );
+
+    const downloadDir = createDownloadPath(
+      ExportType.SVG,
+      areaMode,
+      indicatorMode
+    );
+
+    await this.openExportModal(component.chartComponentLocator);
+
+    await this.checkPNGisDefault();
+
+    // click the SVG radio option
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByRole('radio', { name: String(ExportType.SVG) })
+    );
+
+    // check the SVG is visible in the preview
+    const exportModalPreview = this.page
+      .getByTestId(this.exportModalPaneComponent)
+      .getByTestId(this.exportDomContainer);
+    expect(exportModalPreview).toBeAttached();
+
+    await this.checkSVGPreview(component, exportModalPreview, benchmarkConfig);
+
+    const downloadPromise = this.clickExport();
+
+    const { download, downloadPath } = await copySavedFileIntoDirectory(
+      await downloadDir,
+      downloadPromise
+    );
+
+    // verify the file downloaded successfully
+    expect(download.suggestedFilename()).toBeDefined();
+    expect(download.suggestedFilename()).toMatch(/\.svg$/i);
+
+    // validate that the SVG file content matches the modal preview
+    await verifySVGDownloadMatchesPreview(downloadPath, exportModalPreview);
+
+    await this.closeExportModal();
+  }
+
+  private async checkCSVPreview(
+    exportModalPreview: Locator,
+    expectedCsvIndicatorID: number | string,
+    expectedCsvIndicatorName: string,
+    areaMode: AreaMode
+  ): Promise<void> {
+    for (const header of Object.values(PersistentCsvHeaders)) {
+      await expect(exportModalPreview).toContainText(header);
+    }
+    await expect(exportModalPreview).toContainText(
+      String(expectedCsvIndicatorID)
+    );
+    await expect(exportModalPreview).toContainText(expectedCsvIndicatorName);
+    // validate England area data
+    if (areaMode === AreaMode.ENGLAND_AREA) {
+      expect(exportModalPreview).toContainText('England');
+    }
+  }
+
+  private async checkSVGPreview(
+    component: ChartComponentDefinition,
+    exportModalPreview: Locator,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    benchmarkConfig: any
+  ): Promise<void> {
+    const now = new Date();
+    const svgContent = await exportModalPreview.textContent();
+
+    const copyrightText = `©Crown copyright ${now.getFullYear()}. Office for Health Improvement & Disparities.`;
+    expect(svgContent).toContain(copyrightText);
+
+    const accessText = `Public Health Profiles accessed on ${format(now, copyrightDateFormat)} www.fingertips.phe.org.uk`;
+    expect(svgContent).toContain(accessText);
+
+    if (component.chartComponentProps.hasBenchmarkComparisons) {
+      if (benchmarkConfig.shouldShowBenchmarkText) {
+        await expect(
+          this.page.getByText(benchmarkConfig.expectedBenchmarkTitleText).last()
+        ).toBeVisible();
+      } else {
+        await expect(
+          this.page.getByText(benchmarkConfig.expectedBenchmarkTitleText).last()
+        ).not.toBeVisible();
+      }
+    }
+  }
+
+  private async verifyCSVExport(
+    component: ChartComponentDefinition,
+    areaMode: AreaMode,
+    indicatorMode: IndicatorMode,
+    selectedIndicators: SimpleIndicatorDocument[]
+  ): Promise<void> {
+    const { expectedCsvIndicatorID, expectedCsvIndicatorName } =
+      getExpectedCSVIndicatorData(component, selectedIndicators);
+
+    const downloadDir = createDownloadPath(
+      ExportType.CSV,
+      areaMode,
+      indicatorMode
+    );
+
+    await this.openExportModal(component.chartComponentLocator);
+
+    await this.checkPNGisDefault();
+
+    // click the CSV radio option
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByRole('radio', { name: String(ExportType.CSV) })
+    );
+
+    const exportModalPreview = this.page
+      .getByTestId(this.exportModalPaneComponent)
+      .locator('div')
+      .last();
+    expect(exportModalPreview).toBeAttached();
+
+    await this.checkCSVPreview(
+      exportModalPreview,
+      expectedCsvIndicatorID,
+      expectedCsvIndicatorName,
+      areaMode
+    );
+
+    const downloadPromise = this.clickExport();
+
+    const { download, downloadPath } = await copySavedFileIntoDirectory(
+      await downloadDir,
+      downloadPromise
+    );
+
+    // verify the file downloaded successfully
+    expect(download.suggestedFilename()).toBeDefined();
+    expect(download.suggestedFilename()).toMatch(/\.csv$/i);
+
+    // validate file downloaded matches the preview
+    verifyCSVDownloadMatchesPreview(downloadPath, exportModalPreview);
+
+    await this.closeExportModal();
+  }
+
+  private replaceComponentSuffix(
+    inputString: string,
+    replaceWith: string = ''
+  ): string {
+    return inputString.replaceAll('-component', replaceWith);
   }
 }

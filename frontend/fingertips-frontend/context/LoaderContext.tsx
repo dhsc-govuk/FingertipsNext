@@ -10,7 +10,7 @@ import React, {
 } from 'react';
 import { usePathname } from 'next/navigation';
 import { LoadingBox } from 'govuk-react';
-import { useSearchState } from './SearchStateContext';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
 export type LoaderContext = {
   getIsLoading: () => boolean;
@@ -27,8 +27,7 @@ export const LoaderProvider: React.FC<LoaderContextProvider> = ({
   children,
 }) => {
   const pathname = usePathname();
-  const { getSearchState } = useSearchState();
-  const searchState = getSearchState();
+  const searchState = useSearchStateParams();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
