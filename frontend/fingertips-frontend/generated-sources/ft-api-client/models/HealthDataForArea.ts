@@ -56,6 +56,7 @@ export interface HealthDataForArea {
      * The health data points for the area and indicator
      * @type {Array<HealthDataPoint>}
      * @memberof HealthDataForArea
+     * @deprecated
      */
     healthData: Array<HealthDataPoint>;
 }

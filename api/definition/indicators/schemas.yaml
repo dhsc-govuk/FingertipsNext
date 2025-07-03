@@ -117,6 +117,7 @@ HealthDataForArea:
       items:
         $ref: "#/HealthDataPoint"
       description: The health data points for the area and indicator
+      deprecated: true
 IndicatorSegment:
   title: IndicatorSegment
   type: object
@@ -176,6 +177,7 @@ HealthDataPoint:
       $ref: "#/AgeData"
     sex:
       $ref: "#/SexData"
+      deprecated: true
     trend:
       type: string
       example: Increasing

@@ -843,6 +843,7 @@ components:
           $ref: '#/components/schemas/AgeData'
         sex:
           $ref: '#/components/schemas/SexData'
+          deprecated: true
         trend:
           type: string
           example: Increasing
@@ -884,7 +885,6 @@ components:
       type: object
       description: Represents a segment of an Indicator health data point for a public health indicator .
       required:
-        - ageBand
         - sex
       properties:
         sex:
@@ -924,6 +924,7 @@ components:
           items:
             $ref: '#/components/schemas/HealthDataPoint'
           description: The health data points for the area and indicator
+          deprecated: true
     IndicatorWithHealthDataForArea:
       title: Indicator With Health Data For Area
       type: object
