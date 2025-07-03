@@ -31,21 +31,12 @@ type TimePeriodLabels = {
   datePointLabel: string;
 };
 
-// Helper for academic year label, e.g. 2022/23
-function getAcademicYear(date: Date) {
+function getRollingYears(date: Date) {
   const year = date.getFullYear();
   const endYearShort = (year + 1).toString().slice(-2);
   return `${year}/${endYearShort}`;
 }
 
-// Helper for financial year label, e.g. 2022/23 (starts April)
-function getFinancialYear(date: Date) {
-  const year = date.getFullYear();
-  const endYearShort = (year + 1).toString().slice(-2);
-  return `${year}/${endYearShort}`;
-}
-
-// Add years to a date, returns a new Date
 function addYears(date: Date, years: number) {
   const newDate = new Date(date);
   newDate.setFullYear(newDate.getFullYear() + years);
@@ -57,7 +48,6 @@ function getPreviousMonth(month: number) {
   return (month + 11) % 12;
 }
 
-// Get month name from 0-based month index
 function getMonthName(month: number) {
   return format(new Date(2000, month, 1), 'MMM');
 }
@@ -70,7 +60,6 @@ export const getTimePeriodLabels = (
   // Sliding window for reportingPeriod > 1
   const slidingWindow = reportingPeriod - 1;
 
-  // periodLabelText mapping (as before)
   if (
     datePeriod.type === PeriodType.Academic &&
     collectionFrequency === Frequency.Annual
@@ -78,12 +67,11 @@ export const getTimePeriodLabels = (
     if (reportingPeriod === 1) {
       return {
         periodLabelText: 'Academic year',
-        datePointLabel: getAcademicYear(datePeriod.from),
+        datePointLabel: getRollingYears(datePeriod.from),
       };
     } else {
-      // e.g. 2023/24 to 2025/26
-      const fromLabel = getAcademicYear(datePeriod.from);
-      const toLabel = getAcademicYear(addYears(datePeriod.from, slidingWindow));
+      const fromLabel = getRollingYears(datePeriod.from);
+      const toLabel = getRollingYears(addYears(datePeriod.from, slidingWindow));
       return {
         periodLabelText: 'Academic year',
         datePointLabel: `${fromLabel} to ${toLabel}`,
@@ -102,7 +90,6 @@ export const getTimePeriodLabels = (
         datePointLabel: `${fromYear}/${toYearShort}`,
       };
     } else {
-      // e.g. 2023/24 to 2025/26
       const fromYear = datePeriod.from.getFullYear();
       const fromShort = (datePeriod.from.getFullYear() + 1)
         .toString()
@@ -122,12 +109,11 @@ export const getTimePeriodLabels = (
     if (reportingPeriod === 1) {
       return {
         periodLabelText: 'Financial year',
-        datePointLabel: getFinancialYear(datePeriod.from),
+        datePointLabel: getRollingYears(datePeriod.from),
       };
     } else {
-      // e.g. 2023/24 to 2025/26
-      const fromLabel = getFinancialYear(datePeriod.from);
-      const toLabel = getFinancialYear(
+      const fromLabel = getRollingYears(datePeriod.from);
+      const toLabel = getRollingYears(
         addYears(datePeriod.from, slidingWindow)
       );
       return {
@@ -146,7 +132,6 @@ export const getTimePeriodLabels = (
         datePointLabel: format(datePeriod.from, 'MMM yyyy'),
       };
     } else {
-      // e.g. Aug 2022 to Jul 2024
       const fromLabel = format(datePeriod.from, 'MMM yyyy');
       const toDate = addYears(datePeriod.from, slidingWindow);
       const toMonth = getPreviousMonth(datePeriod.from.getMonth());
@@ -171,12 +156,12 @@ export const getTimePeriodLabels = (
     if (reportingPeriod === 1) {
       return {
         periodLabelText: 'Financial year end point',
-        datePointLabel: `${dayMonth} ${getFinancialYear(fromDate)}`,
+        datePointLabel: `${dayMonth} ${getRollingYears(fromDate)}`,
       };
     } else {
-      const fromLabel = `${dayMonth} ${getFinancialYear(fromDate)}`;
+      const fromLabel = `${dayMonth} ${getRollingYears(fromDate)}`;
       const toDate = addYears(fromDate, slidingWindow);
-      const toLabel = `${dayMonth} ${getFinancialYear(toDate)}`;
+      const toLabel = `${dayMonth} ${getRollingYears(toDate)}`;
       return {
         periodLabelText: 'Financial year end point',
         datePointLabel: `${fromLabel} to ${toLabel}`,
@@ -188,7 +173,6 @@ export const getTimePeriodLabels = (
     collectionFrequency === Frequency.Quarterly
   ) {
     if (reportingPeriod === 1) {
-      // e.g. Apr to Jun 2022
       const fromMonth = format(datePeriod.from, 'MMM');
       const toMonth = format(datePeriod.to, 'MMM');
       const year = datePeriod.from.getFullYear();
@@ -197,10 +181,8 @@ export const getTimePeriodLabels = (
         datePointLabel: `${fromMonth} to ${toMonth} ${year}`,
       };
     } else {
-      // e.g. Apr 2022 to Mar 2024
       const fromLabel = `${format(datePeriod.from, 'MMM yyyy')}`;
       const toDate = addYears(datePeriod.from, slidingWindow);
-      // The "to" month is one before the "from" month, and year may need to be adjusted
       const toMonthIdx = getPreviousMonth(datePeriod.from.getMonth());
       const toYear =
         toMonthIdx === 11 ? toDate.getFullYear() - 1 : toDate.getFullYear();
@@ -223,7 +205,6 @@ export const getTimePeriodLabels = (
         datePointLabel: `${fromMonthYear} to ${toMonthYear}`,
       };
     } else {
-      // Not mapped in tests, return empty string
       return {
         periodLabelText: 'Financial multi-year, cumulative quarters',
         datePointLabel: '',
@@ -235,7 +216,6 @@ export const getTimePeriodLabels = (
     collectionFrequency === Frequency.Quarterly
   ) {
     if (reportingPeriod === 1) {
-      // e.g. Jan - Mar 2023
       const fromMonth = format(datePeriod.from, 'MMM');
       const toMonth = format(datePeriod.to, 'MMM');
       const year = datePeriod.from.getFullYear();
@@ -244,11 +224,9 @@ export const getTimePeriodLabels = (
         datePointLabel: `${fromMonth} - ${toMonth} ${year}`,
       };
     } else {
-      // e.g. Jan 2023 - Dec 2025
       const fromLabel = format(datePeriod.from, 'MMM yyyy');
-      const fromMonthIdx = datePeriod.from.getMonth();
       const fromYear = datePeriod.from.getFullYear();
-      const toMonthIdx = (fromMonthIdx + 11) % 12; // previous month
+      const toMonthIdx = getPreviousMonth(datePeriod.from.getMonth());
       const toYear = fromYear + reportingPeriod - 1;
       const toLabel = `${getMonthName(toMonthIdx)} ${toYear}`;
       return {
@@ -276,6 +254,7 @@ export const getTimePeriodLabels = (
       };
     }
   }
+
   // If no mapping found, return fallback
   return { periodLabelText: '', datePointLabel: 'X' };
 };
