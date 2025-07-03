@@ -46,7 +46,7 @@ describe('Upload page component', () => {
     expect(screen.queryByRole('table')).not.toBeInTheDocument();
   });
 
-  it('should render the API response panel when there a response', () => {
+  it('should render the API response panel when there is a response', () => {
     setupMockUseActionState<ApiResponse>({ message: 'A message from the API' });
   });
 
