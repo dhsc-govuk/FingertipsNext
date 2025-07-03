@@ -73,7 +73,8 @@ public static class BenchmarkComparisonEngine
                     polarity
                     );
             }
-        } else
+        }
+        else
         {
             // Perform Inequality benchmarking against aggregate segment
             var aggregateSegment = areaHealthData.IndicatorSegments.First(segment => segment.IsAggregate == true);

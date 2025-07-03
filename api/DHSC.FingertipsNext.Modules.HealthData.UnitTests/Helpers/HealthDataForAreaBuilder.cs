@@ -7,7 +7,7 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 
 internal static class HealthDataForAreaBuilder
 {
-    public static HealthDataForArea WithSexSegments(string areaCode, double spread, int[] persons, int[]? male, int[]?female)
+    public static HealthDataForArea WithSexSegments(string areaCode, double spread, int[] persons, int[]? male, int[]? female)
     {
         var sexes = new[] { "Male", "Female", "Persons" };
         var indicatorSegments = new List<IndicatorSegment>();

@@ -41,7 +41,7 @@ public class BenchmarkComparisonEngineTests
     [Fact]
     public void BenchmarkComparisonEngineTestBasicBenchmarkingLowIsGood()
     {
-        HealthDataForArea benchmarkHealthData = HealthDataForAreaBuilder.WithSexSegments(areaCode: "E92000001", spread:1.1, persons: [1, 2, 3, 4], null, null);
+        HealthDataForArea benchmarkHealthData = HealthDataForAreaBuilder.WithSexSegments(areaCode: "E92000001", spread: 1.1, persons: [1, 2, 3, 4], null, null);
         HealthDataForArea targetArea = HealthDataForAreaBuilder.WithSexSegments(areaCode: "TARGET", spread: 1.1, persons: [4, 3, 2, 1], null, null);
 
         BenchmarkComparisonEngine.ProcessBenchmarkComparisons(
@@ -60,7 +60,7 @@ public class BenchmarkComparisonEngineTests
     [Fact]
     public void BenchmarkComparisonEngineTestBasicBenchmarkingNoJudgement()
     {
-        HealthDataForArea benchmarkHealthData = HealthDataForAreaBuilder.WithSexSegments(areaCode: "E92000001", spread:1.1, persons: [1, 2, 3, 4], null, null);
+        HealthDataForArea benchmarkHealthData = HealthDataForAreaBuilder.WithSexSegments(areaCode: "E92000001", spread: 1.1, persons: [1, 2, 3, 4], null, null);
         HealthDataForArea targetArea = HealthDataForAreaBuilder.WithSexSegments(areaCode: "TARGET", spread: 1.1, persons: [4, 3, 2, 1], null, null);
 
         BenchmarkComparisonEngine.ProcessBenchmarkComparisons(
@@ -79,7 +79,7 @@ public class BenchmarkComparisonEngineTests
     [Fact]
     public void BenchmarkComparisonEngineTestInequalityBenchmarking()
     {
-        HealthDataForArea targetArea = HealthDataForAreaBuilder.WithSexSegments(areaCode: "TARGET", spread: 1.1, persons: [4, 3, 2, 1], male: [1,2,3,4], female: [2,3,4,5]);
+        HealthDataForArea targetArea = HealthDataForAreaBuilder.WithSexSegments(areaCode: "TARGET", spread: 1.1, persons: [4, 3, 2, 1], male: [1, 2, 3, 4], female: [2, 3, 4, 5]);
 
         BenchmarkComparisonEngine.ProcessBenchmarkComparisons(
             [targetArea], null, IndicatorPolarity.NoJudgement
@@ -105,7 +105,7 @@ public class BenchmarkComparisonEngineTests
 
         benchmarks[0].BenchmarkAreaCode.ShouldBe("TARGET");
         benchmarks[0].BenchmarkValue.ShouldBe(4);
-        
+
         benchmarks[0].Outcome.ShouldBe(BenchmarkOutcome.Lower);
         benchmarks[1].Outcome.ShouldBe(BenchmarkOutcome.Similar);
         benchmarks[2].Outcome.ShouldBe(BenchmarkOutcome.Higher);
