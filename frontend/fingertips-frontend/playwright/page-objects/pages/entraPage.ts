@@ -6,14 +6,26 @@ export default class EntraPage extends BasePage {
   readonly emailAriaLabel = 'Enter your email address';
   readonly passwordAriaLabel = 'Enter the password for ';
   readonly incorrectPasswordMessage = `We couldn't find an account with this email address or password.`;
+  readonly unRegisteredEmailMessage = `We couldn't find an account with this email address.`;
+  readonly createAccountText = 'Create account';
 
   async checkOnEntraSignInPage() {
     await expect(this.page.getByText(this.entraWelcomeText)).toBeVisible();
   }
 
+  async checkOnCreateAccountPage() {
+    await expect(this.page.getByText(this.createAccountText)).toBeVisible();
+  }
+
   async checkIncorrectPasswordMessageIsDisplayed() {
     await expect(
       this.page.getByText(this.incorrectPasswordMessage)
+    ).toBeVisible();
+  }
+
+  async checkUnRegisteredEmailMessageIsDisplayed() {
+    await expect(
+      this.page.getByText(this.unRegisteredEmailMessage)
     ).toBeVisible();
   }
 
@@ -26,6 +38,12 @@ export default class EntraPage extends BasePage {
   async clickSignIn() {
     await this.clickAndAwaitLoadingComplete(
       this.page.getByRole('button', { name: 'Sign in' })
+    );
+  }
+
+  async clickCreateAccount() {
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByRole('link', { name: 'No account? Create one' })
     );
   }
 

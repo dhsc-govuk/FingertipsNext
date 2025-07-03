@@ -36,8 +36,7 @@ const areaFiltersToSelect: AreaFilters = {
   groupType: 'nhs-sub-integrated-care-boards',
   group: '',
 };
-const email = 'william.willis@bjss.com';
-const incorrectPassword = 'testing123!';
+const password = 'password';
 // Initialize test data from mock sources
 const typedIndicatorData = indicatorData.map(
   (indicator: RawIndicatorDocument) => ({
@@ -58,7 +57,7 @@ const validIndicatorIDs = returnIndicatorIDsByIndicatorMode(
 const allNHSRegionAreas = getAllAreasByAreaType(mockAreas, 'nhs-regions');
 
 test.describe('Home Page Tests', () => {
-  // we are intentionally setting failOnUnhandledError to handle a 404 for the entra favicon
+  // we are intentionally setting failOnUnhandledError to handle a spurious 404
   test.use({ failOnUnhandledError: false });
 
   test('should navigate to home page and validate accessibility', async ({
@@ -111,9 +110,8 @@ test.describe('Home Page Tests', () => {
     });
   });
 
-  test('should return incorrect password validation if the password is incorrect', async ({
+  test('should display Sign out after successful mock sign in', async ({
     homePage,
-    entraPage,
   }) => {
     await test.step('Navigate to home page', async () => {
       await homePage.navigateToHomePage();
@@ -124,17 +122,10 @@ test.describe('Home Page Tests', () => {
       await homePage.clickSignIn();
     });
 
-    await test.step('Verify on Entra Sign In page and enter email and password', async () => {
-      await entraPage.checkOnEntraSignInPage();
-    });
-
     await test.step('Enter correct email but incorrect password and verify correct message is displayed', async () => {
-      await entraPage.typeEmail(email);
-      await entraPage.clickNext();
-      await entraPage.typePassword(incorrectPassword, email);
-      await entraPage.clickSignIn();
+      await homePage.signInToMock(password);
 
-      await entraPage.checkIncorrectPasswordMessageIsDisplayed();
+      await homePage.checkSignOutDisplayed();
     });
   });
 });

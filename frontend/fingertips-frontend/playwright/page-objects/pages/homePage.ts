@@ -160,4 +160,19 @@ export default class HomePage extends AreaFilter {
       this.page.getByTestId(this.signOutButton)
     );
   }
+
+  async signInToMock(password: string) {
+    await this.fillAndAwaitLoadingComplete(
+      this.page.getByRole('textbox', { name: 'Password' }),
+      password
+    );
+
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByRole('button', { name: 'Sign in with password' })
+    );
+  }
+
+  async checkSignOutDisplayed() {
+    await expect(this.page.getByTestId(this.signOutButton)).toBeVisible();
+  }
 }
