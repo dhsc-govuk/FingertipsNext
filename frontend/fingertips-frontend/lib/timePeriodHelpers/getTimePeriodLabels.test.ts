@@ -7,6 +7,22 @@ import {
 
 describe('getTimePeriodLabels', () => {
   describe('periodLabelText', () => {
+    it('should return "" when periodType is Calendar and collectionFrequency is Annually', () => {
+      const datePeriod: DatePeriod = {
+        type: PeriodType.Calendar,
+        from: new Date('2023-04-01'),
+        to: new Date('2023-06-30'),
+      };
+
+      const { periodLabelText } = getTimePeriodLabels(
+        datePeriod,
+        Frequency.Annual,
+        1
+      );
+
+      expect(periodLabelText).toEqual('');
+    });
+
     it('should return "Quarterly" when periodType is Calendar and collectionFrequency is Quarterly', () => {
       const datePeriod: DatePeriod = {
         type: PeriodType.Calendar,
@@ -148,7 +164,7 @@ describe('getTimePeriodLabels', () => {
 
       const { periodLabelText } = getTimePeriodLabels(
         datePeriod,
-        Frequency.Annual,
+        Frequency.CumulativeQuarters,
         1
       );
 

@@ -34,29 +34,15 @@ type TimePeriodLabels = {
 // Helper for academic year label, e.g. 2022/23
 function getAcademicYear(date: Date) {
   const year = date.getFullYear();
-  const month = date.getMonth(); // 0-based, so September is 8
-  if (month >= 8) {
-    const endYearShort = (year + 1).toString().slice(-2);
-    return `${year}/${endYearShort}`;
-  } else {
-    const startYear = year - 1;
-    const endYearShort = year.toString().slice(-2);
-    return `${startYear}/${endYearShort}`;
-  }
+  const endYearShort = (year + 1).toString().slice(-2);
+  return `${year}/${endYearShort}`;
 }
 
 // Helper for financial year label, e.g. 2022/23 (starts April)
 function getFinancialYear(date: Date) {
   const year = date.getFullYear();
-  const month = date.getMonth(); // 0-based, so April is 3
-  if (month >= 3) {
-    const endYearShort = (year + 1).toString().slice(-2);
-    return `${year}/${endYearShort}`;
-  } else {
-    const startYear = year - 1;
-    const endYearShort = year.toString().slice(-2);
-    return `${startYear}/${endYearShort}`;
-  }
+  const endYearShort = (year + 1).toString().slice(-2);
+  return `${year}/${endYearShort}`;
 }
 
 // Add years to a date, returns a new Date
@@ -177,19 +163,20 @@ export const getTimePeriodLabels = (
     datePeriod.type === PeriodType.FinancialYearEndPoint &&
     collectionFrequency === Frequency.Annual
   ) {
+    const fromDate = new Date(datePeriod.from);
+    fromDate.setFullYear(fromDate.getFullYear() - 1);
+
+    const dayMonth = format(datePeriod.to, 'dd MMM');
+
     if (reportingPeriod === 1) {
-      const dayMonth = format(datePeriod.to, 'dd MMM');
       return {
         periodLabelText: 'Financial year end point',
-        datePointLabel: `${dayMonth} ${getFinancialYear(datePeriod.from)}`,
+        datePointLabel: `${dayMonth} ${getFinancialYear(fromDate)}`,
       };
     } else {
-      // e.g. 31 Mar 2022/23 to 31 Mar 2024/25
-      const fromDayMonth = format(datePeriod.to, 'dd MMM');
-      const fromLabel = `${fromDayMonth} ${getFinancialYear(datePeriod.from)}`;
-      const toDate = addYears(datePeriod.from, slidingWindow);
-      const toDayMonth = format(datePeriod.to, 'dd MMM');
-      const toLabel = `${toDayMonth} ${getFinancialYear(toDate)}`;
+      const fromLabel = `${dayMonth} ${getFinancialYear(fromDate)}`;
+      const toDate = addYears(fromDate, slidingWindow);
+      const toLabel = `${dayMonth} ${getFinancialYear(toDate)}`;
       return {
         periodLabelText: 'Financial year end point',
         datePointLabel: `${fromLabel} to ${toLabel}`,
