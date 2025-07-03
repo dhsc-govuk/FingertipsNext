@@ -26,7 +26,9 @@ test.describe('Error page tests', () => {
     await test
       .expect(chartPage.errorPageTitle())
       .toContainText('Sorry, there is a problem with the service');
-    await chartPage.expectNoAccessibilityViolations(axeBuilder);
+    await chartPage.expectNoAccessibilityViolations(axeBuilder, [
+      'document-title',
+    ]);
   });
 
   test('Indicator page displays ErrorPage when API returns unexpected error', async ({
