@@ -113,9 +113,7 @@ export const getTimePeriodLabels = (
       };
     } else {
       const fromLabel = getRollingYears(datePeriod.from);
-      const toLabel = getRollingYears(
-        addYears(datePeriod.from, slidingWindow)
-      );
+      const toLabel = getRollingYears(addYears(datePeriod.from, slidingWindow));
       return {
         periodLabelText: 'Financial year',
         datePointLabel: `${fromLabel} to ${toLabel}`,
