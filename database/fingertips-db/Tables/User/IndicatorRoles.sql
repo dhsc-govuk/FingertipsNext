@@ -5,7 +5,6 @@ CREATE TABLE [User].[IndicatorRoles]
     [RoleId] UNIQUEIDENTIFIER NOT NULL,  -- The GUID of the entra role ID
     [IndicatorKey] SMALLINT NOT NULL,  -- ID of the indicator dimension
 );
-
 GO;
 
 -- Add the foreign key constraint to the IndicatorDimension table
@@ -13,7 +12,6 @@ ALTER TABLE [User].[IndicatorRoles] WITH CHECK
 ADD CONSTRAINT [FK_IndicatorRoles_IndicatorDimension] 
 FOREIGN KEY ([IndicatorKey])
 REFERENCES [HealthMeasure].[IndicatorDimension] ([IndicatorKey]);
-
 GO;
 
 -- Enable the foreign key constraint

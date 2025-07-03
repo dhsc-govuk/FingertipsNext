@@ -812,5 +812,40 @@ FROM
 DROP TABLE #TempAreaData;
 GO
 
+
+
+-- Indicator Permissions
+
+CREATE TABLE #TempIndicatorRoles
+(
+    IndicatorId INT,
+    RoleId UNIQUEIDENTIFIER,
+);
+DECLARE @sqlInd NVARCHAR(4000), @filePathInd NVARCHAR(500);
+IF @UseAzureBlob = '1'
+    SET @filePathInd = 'indicatorroles.csv';
+ELSE
+    SET @filePathInd = '$(LocalFilePath)indicatorroles.csv';
+SET @sqlInd = 'BULK INSERT #TempIndicatorRoles FROM ''' + @filePathInd + ''' WITH (' +
+              CASE WHEN @UseAzureBlob = '1'
+                   THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FORMAT = ''CSV'', FIRSTROW = 2, ROWTERMINATOR = ''0x0A'''
+                   ELSE 'DATAFILETYPE = ''char'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2'
+              END + ')';
+EXEC sp_executesql @sqlInd;
+
+INSERT INTO [dbo].[IndicatorRoles] 
+(
+    RoleId,
+    IndicatorKey
+)
+SELECT 
+    RoleId,
+    (SELECT TOP 1 IndicatorKey FROM [HealthMeasure].[IndicatorDimension] WHERE [IndicatorId]=IndicatorId AND [AreaTypeKey]='districts-and-unitary-authorities')
+FROM 
+    #TempIndicatorRoles;
+
+DROP TABLE #TempIndicatorData;
+
+
 PRINT N'Update complete.';
 GO
