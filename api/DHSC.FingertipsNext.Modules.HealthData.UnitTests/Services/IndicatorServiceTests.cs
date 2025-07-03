@@ -462,15 +462,7 @@ public class IndicatorServiceTests
             new Sex { Value = "Persons", IsAggregate = true }
         );
         personsResult2022.Year.ShouldBe(2022);
-        personsResult2022.BenchmarkComparison.ShouldBeEquivalentTo(
-            new BenchmarkComparison
-            {
-                Outcome = BenchmarkOutcome.Better,
-                BenchmarkAreaCode = IndicatorService.AreaCodeEngland,
-                BenchmarkAreaName = "Eng",
-                BenchmarkValue = 50,
-            }
-        );
+        personsResult2022.BenchmarkComparison.ShouldBeEquivalentTo(null);
 
         var maleResult2022 = areaResults.HealthData.First(h => h.Year == 2022 && h.Sex.Value == "Male");
         maleResult2022.Sex.ShouldBeEquivalentTo(new Sex { Value = "Male", IsAggregate = false });
@@ -505,15 +497,7 @@ public class IndicatorServiceTests
             new Sex { Value = "Persons", IsAggregate = true }
         );
         personsResult2023.Year.ShouldBe(2023);
-        personsResult2023.BenchmarkComparison.ShouldBeEquivalentTo(
-            new BenchmarkComparison
-            {
-                Outcome = BenchmarkOutcome.Worse,
-                BenchmarkAreaCode = IndicatorService.AreaCodeEngland,
-                BenchmarkAreaName = "Eng",
-                BenchmarkValue = 5,
-            }
-        );
+        personsResult2023.BenchmarkComparison.ShouldBeEquivalentTo(null);
 
         var maleResult2023 = areaResults.HealthData.First(h => h.Year == 2023 && h.Sex.Value == "Male");
         maleResult2023.Sex.ShouldBeEquivalentTo(new Sex { Value = "Male", IsAggregate = false });
@@ -624,7 +608,6 @@ public class IndicatorServiceTests
 
         var mockHealthData = new List<HealthMeasureModel>
         {
-            englandPoint,
             aggregatePoint,
             disAggregatePoint,
         };
@@ -712,7 +695,6 @@ public class IndicatorServiceTests
 
         var mockHealthData = new List<HealthMeasureModel>
         {
-            englandPoint,
             aggregatePoint,
             disAggregatePoint1,
             disAggregatePoint2,
@@ -732,7 +714,7 @@ public class IndicatorServiceTests
             "",
             BenchmarkReferenceType.Unknown,
             [],
-            ["Deprivation"]
+            ["deprivation"]
         );
         var areaDataResult = result.Content.AreaHealthData.ToList();
         areaDataResult.ShouldNotBeEmpty();
@@ -750,13 +732,7 @@ public class IndicatorServiceTests
             }
         );
         aggregatePointResult.BenchmarkComparison.ShouldBeEquivalentTo(
-            new BenchmarkComparison
-            {
-                Outcome = BenchmarkOutcome.Better,
-                BenchmarkAreaCode = IndicatorService.AreaCodeEngland,
-                BenchmarkAreaName = "Eng",
-                BenchmarkValue = 2,
-            }
+            null
         );
 
         var disAggregatePointResult1 = areasResults.ElementAt(1);

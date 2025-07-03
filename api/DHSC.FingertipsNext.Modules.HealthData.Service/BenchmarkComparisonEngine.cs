@@ -55,6 +55,10 @@ public static class BenchmarkComparisonEngine
         // Now perform Benchmarking for each Indicator Segment
         if (benchmarkHealthData != null)
         {
+            // We don't benchmark an area against itself!
+            if (benchmarkHealthData.AreaCode == areaHealthData.AreaCode)
+                return;
+
             // This is basic benchmarking between targetArea and benchmarkArea for equivalent segments
             foreach (var targetSegment in areaHealthData.IndicatorSegments)
             {
@@ -107,15 +111,17 @@ public static class BenchmarkComparisonEngine
         foreach (var targetDataPoint in targetSegment.HealthData)
         {
             if (targetDataPoint.LowerConfidenceInterval == null || targetDataPoint.UpperConfidenceInterval == null)
-                return;
+                continue;
 
             var benchmarkDataPoint = benchmarkSegment.HealthData.FirstOrDefault(benchmark =>
                 benchmark.DatePeriod.To == targetDataPoint.DatePeriod.To && // must be the same date period
-                benchmark.DatePeriod.From == targetDataPoint.DatePeriod.From // must be the same date period
+                benchmark.DatePeriod.From == targetDataPoint.DatePeriod.From && // must be the same date period
+                benchmark.Deprivation.IsAggregate == true && // The benchmark must always be the aggregate for this segment - this is relevant to inequality benchmarking
+                benchmark.AgeBand.IsAggregate == true // The benchmark must always be the aggregate for this segment - this is relevant to inequality benchmarking
                 );
 
-            if (benchmarkDataPoint == null)
-                return;
+            if (benchmarkDataPoint == null || benchmarkDataPoint == targetDataPoint)
+                continue;
 
             targetDataPoint.BenchmarkComparison = CompareDataPoints(targetDataPoint, benchmarkDataPoint, polarity, benchmarkAreaCode, benchmarkAreaName);
         }
