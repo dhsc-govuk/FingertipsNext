@@ -13,16 +13,9 @@ public class HealthMeasureDateCalculator
             List<HealthMeasureEntity> healthMeasures
             )
     {
-
-
         var indicatorsPeriodsMap = indicators.ToDictionary(
             i => i.IndicatorID,
             i => i.PeriodType);
-
-        // TODO: required for Nov-Nov?
-        // var indicatorsYearTypesMap = indicators.ToDictionary(
-        //     i => i.IndicatorID,
-        //     i => i.YearType);
 
         foreach (var healthMeasure in healthMeasures)
         {
@@ -34,7 +27,6 @@ public class HealthMeasureDateCalculator
 
     private static void SetToDate(string indicatorPeriodType, HealthMeasureEntity healthMeasure)
     {
-        // ToDate
         Dictionary<string, (int yearIncrement, int monthIncrement)> incrementsMap = new()
         {
             {"monthly", (yearIncrement: 0, monthIncrement: 1)},
@@ -60,14 +52,12 @@ public class HealthMeasureDateCalculator
         Dictionary<string, (int startMonth, int startDay)> startMonthDayMap = new()
         {
             {"Calendar", (startMonth: 1, startDay: 1) },
-            {"Yearly", (startMonth: 1, startDay: 1) }, // TODO: is this just Nov-Nov?
+            {"Yearly", (startMonth: 11, startDay: 1) },
             {"Financial", (startMonth: 4, startDay: 1) },
             {"Financial multi-year", (startMonth: 4, startDay: 1) },
             {"Financial year end point", (startMonth: 3, startDay: 31) },
             {"Academic", (startMonth: 9, startDay: 1) },
         };
-
-        // var indicatorYearType = indicatorsYearTypesMap[healthMeasure.IndicatorId]; TODO: needed to handle Nov-Nov        
 
         var baseStartYear = int.Parse(healthMeasure.TimePeriodSortable.Trim()[..4]);
         var (baseStartMonth, baseStartDay) = startMonthDayMap[indicatorPeriodType];

@@ -108,7 +108,6 @@ namespace DataCreator
 
                     var pocIndicator = pocIndicators.Find(i => i.IndicatorID == indicator.IndicatorID);
                     pocIndicator.PeriodType = indicator.PeriodType;
-                    pocIndicator.YearType = indicator.YearType;
                 }
             }
             AddLastUpdatedDate(indicators);
