@@ -89,6 +89,7 @@ export function SelectedAreasPanel({
 
   const clearAllSelectedAreas = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
+    if (!selectedAreasData?.length) return;
     removeSelectedGroup();
   };
 
@@ -105,6 +106,7 @@ export function SelectedAreasPanel({
                 href=""
                 onClick={clearAllSelectedAreas}
                 data-testid="clear-all-group-selected-areas-link"
+                enabled={!selectedAreasData?.length}
               >
                 Clear all
               </StyledRightClearAllLink>
@@ -128,6 +130,7 @@ export function SelectedAreasPanel({
                 href=""
                 onClick={clearAllSelectedAreas}
                 data-testid="clear-all-group-selected-areas-link"
+                enabled={!selectedAreasData?.length}
               >
                 Clear all
               </StyledRightClearAllLink>

@@ -193,6 +193,7 @@ export function SelectAreasFilterPanel({
 
   const clearAllAreas = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
+    if (!hasAreasSelected) return;
     handleSelectAllAreasSelected(false);
   };
 
@@ -271,6 +272,7 @@ export function SelectAreasFilterPanel({
             href=""
             onClick={clearAllAreas}
             data-testid="clear-all-selected-areas-link"
+            enabled={!hasAreasSelected}
           >
             Clear all
           </StyledRightClearAllLink>
