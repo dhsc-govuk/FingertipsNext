@@ -1,5 +1,7 @@
+using System.Globalization;
+
 namespace DataCreator;
-public class HealthMeasureDateCalculator
+public static class HealthMeasureDateCalculator
 {
 
     /// <summary>
@@ -8,7 +10,7 @@ public class HealthMeasureDateCalculator
     /// </summary>
     /// <param name="indicators"></param>
     /// <param name="healthMeasures"></param>
-    public void CreateHealthMeasurePeriodDates(
+    public static void CreateHealthMeasurePeriodDates(
             List<SimpleIndicator> indicators,
             List<HealthMeasureEntity> healthMeasures
             )
@@ -37,7 +39,7 @@ public class HealthMeasureDateCalculator
             {"5 yearly" , (yearIncrement: 5, monthIncrement: 0)},
         };
 
-        var toDate = DateTime.Parse(healthMeasure.FromDate);
+        var toDate = DateTime.Parse(healthMeasure.FromDate, new CultureInfo("en-GB"));
         var (yearIncrement, monthIncrement) = incrementsMap[healthMeasure.Period];
         if (indicatorPeriodType != "Financial year end point")
         {
@@ -61,7 +63,7 @@ public class HealthMeasureDateCalculator
 
         var baseStartYear = int.Parse(healthMeasure.TimePeriodSortable.Trim()[..4]);
         var (baseStartMonth, baseStartDay) = startMonthDayMap[indicatorPeriodType];
-        var fromDate = new DateTime(baseStartYear, baseStartMonth, baseStartDay);
+        var fromDate = new DateTime(baseStartYear, baseStartMonth, baseStartDay, 0, 0, 0, DateTimeKind.Utc);
 
         switch (healthMeasure.Period)
         {

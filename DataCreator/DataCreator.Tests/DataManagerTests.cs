@@ -9,8 +9,6 @@ namespace DataCreator.Tests;
 [TestOf(typeof(DataManager))]
 public class DataManagerTests
 {
-    private readonly HealthMeasureDateCalculator _healthMeasureDateCalculator = new();
-
     // TODO: cover reportingPeriods:
     // monthly "1m" - 93415
     // quarterly "3m" - 91040
@@ -59,7 +57,7 @@ public class DataManagerTests
         };
 
         // Act
-        _healthMeasureDateCalculator.CreateHealthMeasurePeriodDates(stubIndicators, stubHealthMeasures);
+        HealthMeasureDateCalculator.CreateHealthMeasurePeriodDates(stubIndicators, stubHealthMeasures);
         // Extract
         var actualFromDates = stubHealthMeasures.First().FromDate;
         var actualToDates = stubHealthMeasures.First().ToDate;
@@ -101,7 +99,7 @@ public class DataManagerTests
         };
 
         // Act
-        _healthMeasureDateCalculator.CreateHealthMeasurePeriodDates(stubIndicators, stubHealthMeasures);
+        HealthMeasureDateCalculator.CreateHealthMeasurePeriodDates(stubIndicators, stubHealthMeasures);
         // Extract
         var actualFromDates = stubHealthMeasures.First().FromDate;
         var actualToDates = stubHealthMeasures.First().ToDate;
@@ -142,7 +140,7 @@ public class DataManagerTests
         };
 
         // Act
-        _healthMeasureDateCalculator.CreateHealthMeasurePeriodDates(stubIndicators, stubHealthMeasures);
+        HealthMeasureDateCalculator.CreateHealthMeasurePeriodDates(stubIndicators, stubHealthMeasures);
         // Extract
         var actualFromDates = stubHealthMeasures.First().FromDate;
         var actualToDates = stubHealthMeasures.First().ToDate;
@@ -183,7 +181,7 @@ public class DataManagerTests
         };
 
         // Act
-        _healthMeasureDateCalculator.CreateHealthMeasurePeriodDates(stubIndicators, stubHealthMeasures);
+        HealthMeasureDateCalculator.CreateHealthMeasurePeriodDates(stubIndicators, stubHealthMeasures);
         // Extract
         var actualFromDates = stubHealthMeasures.First().FromDate;
         var actualToDates = stubHealthMeasures.First().ToDate;
@@ -223,7 +221,7 @@ public class DataManagerTests
         };
 
         // Act
-        _healthMeasureDateCalculator.CreateHealthMeasurePeriodDates(stubIndicators, stubHealthMeasures);
+        HealthMeasureDateCalculator.CreateHealthMeasurePeriodDates(stubIndicators, stubHealthMeasures);
         // Extract
         var actualFromDates = stubHealthMeasures.First().FromDate;
         var actualToDates = stubHealthMeasures.First().ToDate;
@@ -261,7 +259,7 @@ public class DataManagerTests
         };
 
         // Act
-        _healthMeasureDateCalculator.CreateHealthMeasurePeriodDates(stubIndicators, stubHealthMeasures);
+        HealthMeasureDateCalculator.CreateHealthMeasurePeriodDates(stubIndicators, stubHealthMeasures);
         // Extract
         var actualFromDates = stubHealthMeasures.First().FromDate;
         var actualToDates = stubHealthMeasures.First().ToDate;
@@ -307,7 +305,7 @@ public class DataManagerTests
         };
 
         // Act
-        _healthMeasureDateCalculator.CreateHealthMeasurePeriodDates(stubIndicators, stubHealthMeasures);
+        HealthMeasureDateCalculator.CreateHealthMeasurePeriodDates(stubIndicators, stubHealthMeasures);
         // Extract
         var actualFromDates = stubHealthMeasures.First().FromDate;
         var actualToDates = stubHealthMeasures.First().ToDate;
@@ -353,7 +351,7 @@ public class DataManagerTests
         };
 
         // Act
-        _healthMeasureDateCalculator.CreateHealthMeasurePeriodDates(stubIndicators, stubHealthMeasures);
+        HealthMeasureDateCalculator.CreateHealthMeasurePeriodDates(stubIndicators, stubHealthMeasures);
         // Extract
         var actualFromDates = stubHealthMeasures.First().FromDate;
         var actualToDates = stubHealthMeasures.First().ToDate;
@@ -393,7 +391,7 @@ public class DataManagerTests
         };
 
         // Act
-        _healthMeasureDateCalculator.CreateHealthMeasurePeriodDates(stubIndicators, stubHealthMeasures);
+        HealthMeasureDateCalculator.CreateHealthMeasurePeriodDates(stubIndicators, stubHealthMeasures);
         // Extract
         var actualFromDates = stubHealthMeasures.First().FromDate;
         var actualToDates = stubHealthMeasures.First().ToDate;
