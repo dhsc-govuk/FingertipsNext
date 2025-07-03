@@ -7,7 +7,7 @@
     {
       "areaCode": "E12000007",
       "areaName": "London Region",
-      "indicatorSegment": [
+      "indicatorSegments": [
         {
           "sex": {
             "value": "Female",

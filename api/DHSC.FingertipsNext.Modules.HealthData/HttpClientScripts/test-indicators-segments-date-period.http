@@ -17,9 +17,9 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
             {areaName:"Bacon Road Medical Centre", from:"2023-04-06", sex:"Female", value:68.0851063829787},  
         ];
 
-        // Count all healthData points in all indicatorSegments for all areas
+        // Count all healthData points in all indicatorSegmentss for all areas
         const numHealthDataPoints = response.body.areaHealthData
-            .map(area => area.indicatorSegment
+            .map(area => area.indicatorSegments
                 .map(segment => segment.healthData.length)
                 .reduce((sum, count) => sum + count, 0)
             )
@@ -27,13 +27,13 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
 
         client.assert(
             numHealthDataPoints === expectedResults.length,
-            `Expected ${expectedResults.length} indicatorSegment health data items, but got ${numHealthDataPoints}`
+            `Expected ${expectedResults.length} indicatorSegments health data items, but got ${numHealthDataPoints}`
         );
 
         expectedResults.forEach((expected) => {
             const area = response.body.areaHealthData.find(area => area.areaName === expected.areaName);
             client.assert(area, `Area not found: ${expected.areaName}`);
-            const segment = area.indicatorSegment.find(segment => segment.sex.value === expected.sex);
+            const segment = area.indicatorSegments.find(segment => segment.sex.value === expected.sex);
             client.assert(segment, `Segment not found for sex: ${expected.sex} in area: ${expected.areaName}`);
             const dataPoint = segment.healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from);
             client.assert(
@@ -59,9 +59,9 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
         {areaName:"Bacon Road Medical Centre", from:"2023-04-06", sex:"Female", value: 68.0851063829787},  
     ];
 
-    // Count all healthData points in all indicatorSegments for all areas
+    // Count all healthData points in all indicatorSegmentss for all areas
     const numHealthDataPoints = response.body.areaHealthData
-        .map(area => area.indicatorSegment
+        .map(area => area.indicatorSegments
             .map(segment => segment.healthData.length)
             .reduce((sum, count) => sum + count, 0)
         )
@@ -69,7 +69,7 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
 
     client.assert(
         numHealthDataPoints === expectedResults.length,
-        `Expected ${expectedResults.length} indicatorSegment health data items, but got ${numHealthDataPoints}`
+        `Expected ${expectedResults.length} indicatorSegments health data items, but got ${numHealthDataPoints}`
     );
 
 
@@ -77,7 +77,7 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
     expectedResults.forEach((expected) => {
         const area = response.body.areaHealthData.find(area => area.areaName === expected.areaName);
         client.assert(area, `Area not found: ${expected.areaName}`);
-        const segment = area.indicatorSegment.find(segment => segment.sex.value === expected.sex);
+        const segment = area.indicatorSegments.find(segment => segment.sex.value === expected.sex);
         client.assert(segment, `Segment not found for sex: ${expected.sex} in area: ${expected.areaName}`);
         const dataPoint = segment.healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from);
         client.assert(
@@ -107,9 +107,9 @@ client.test("Check to-date is inclusive of the requested date and excludes later
         {areaName:"Bacon Road Medical Centre", from:"2023-04-06", sex:"Female", value: 68.0851063829787},  
     ];
 
-    // Count all healthData points in all indicatorSegments for all areas
+    // Count all healthData points in all indicatorSegmentss for all areas
     const numHealthDataPoints = response.body.areaHealthData
-        .map(area => area.indicatorSegment
+        .map(area => area.indicatorSegments
             .map(segment => segment.healthData.length)
             .reduce((sum, count) => sum + count, 0)
         )
@@ -117,13 +117,13 @@ client.test("Check to-date is inclusive of the requested date and excludes later
 
     client.assert(
         numHealthDataPoints === expectedResults.length,
-        `Expected ${expectedResults.length} indicatorSegment health data items, but got ${numHealthDataPoints}`
+        `Expected ${expectedResults.length} indicatorSegments health data items, but got ${numHealthDataPoints}`
     );
 
     expectedResults.forEach((expected) => {
         const area = response.body.areaHealthData.find(area => area.areaName === expected.areaName);
         client.assert(area, `Area not found: ${expected.areaName}`);
-        const segment = area.indicatorSegment.find(segment => segment.sex.value === expected.sex);
+        const segment = area.indicatorSegments.find(segment => segment.sex.value === expected.sex);
         client.assert(segment, `Segment not found for sex: ${expected.sex} in area: ${expected.areaName}`);
         const dataPoint = segment.healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from);
         client.assert(
@@ -146,9 +146,9 @@ client.test("Check to-date excludes earlier points - and absence of from-date in
         {areaName:"Bacon Road Medical Centre", from:"2022-04-06", sex:"Female", value: 63.0434782608696},  
     ];
 
-    // Count all healthData points in all indicatorSegments for all areas
+    // Count all healthData points in all indicatorSegmentss for all areas
     const numHealthDataPoints = response.body.areaHealthData
-        .map(area => area.indicatorSegment
+        .map(area => area.indicatorSegments
             .map(segment => segment.healthData.length)
             .reduce((sum, count) => sum + count, 0)
         )
@@ -156,13 +156,13 @@ client.test("Check to-date excludes earlier points - and absence of from-date in
 
     client.assert(
         numHealthDataPoints === expectedResults.length,
-        `Expected ${expectedResults.length} indicatorSegment health data items, but got ${numHealthDataPoints}`
+        `Expected ${expectedResults.length} indicatorSegments health data items, but got ${numHealthDataPoints}`
     );
 
     expectedResults.forEach((expected) => {
         const area = response.body.areaHealthData.find(area => area.areaName === expected.areaName);
         client.assert(area, `Area not found: ${expected.areaName}`);
-        const segment = area.indicatorSegment.find(segment => segment.sex.value === expected.sex);
+        const segment = area.indicatorSegments.find(segment => segment.sex.value === expected.sex);
         client.assert(segment, `Segment not found for sex: ${expected.sex} in area: ${expected.areaName}`);
         const dataPoint = segment.healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from);
         client.assert(
@@ -192,9 +192,9 @@ client.test("Check both to-date and from-date work together", function (callback
         {areaName:"Bacon Road Medical Centre", from:"2023-04-06", sex:"Female", value: 68.0851063829787},  
     ];
 
-    // Count all healthData points in all indicatorSegments for all areas
+    // Count all healthData points in all indicatorSegmentss for all areas
     const numHealthDataPoints = response.body.areaHealthData
-        .map(area => area.indicatorSegment
+        .map(area => area.indicatorSegments
             .map(segment => segment.healthData.length)
             .reduce((sum, count) => sum + count, 0)
         )
@@ -202,13 +202,13 @@ client.test("Check both to-date and from-date work together", function (callback
 
     client.assert(
         numHealthDataPoints === expectedResults.length,
-        `Expected ${expectedResults.length} indicatorSegment health data items, but got ${numHealthDataPoints}`
+        `Expected ${expectedResults.length} indicatorSegments health data items, but got ${numHealthDataPoints}`
     );
 
     expectedResults.forEach((expected) => {
         const area = response.body.areaHealthData.find(area => area.areaName === expected.areaName);
         client.assert(area, `Area not found: ${expected.areaName}`);
-        const segment = area.indicatorSegment.find(segment => segment.sex.value === expected.sex);
+        const segment = area.indicatorSegments.find(segment => segment.sex.value === expected.sex);
         client.assert(segment, `Segment not found for sex: ${expected.sex} in area: ${expected.areaName}`);
         const dataPoint = segment.healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from);
         client.assert(
@@ -227,9 +227,9 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
         client.assert(response.status === 200, "Response status is not 200");
         const expectedResults = [];
 
-        // Count all healthData points in all indicatorSegments for all areas
+        // Count all healthData points in all indicatorSegmentss for all areas
         const numHealthDataPoints = response.body.areaHealthData
-            .map(area => area.indicatorSegment
+            .map(area => area.indicatorSegments
                 .map(segment => segment.healthData.length)
                 .reduce((sum, count) => sum + count, 0)
             )
@@ -237,7 +237,7 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
 
         client.assert(
             numHealthDataPoints === expectedResults.length,
-            `Expected ${expectedResults.length} indicatorSegment health data items, but got ${numHealthDataPoints}`
+            `Expected ${expectedResults.length} indicatorSegments health data items, but got ${numHealthDataPoints}`
         );
     });
 %}

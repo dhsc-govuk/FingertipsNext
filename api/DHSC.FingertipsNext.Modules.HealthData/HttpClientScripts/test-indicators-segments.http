@@ -35,7 +35,7 @@ GET http://localhost:5144/indicators/41101/data?from_date=2020-01-01&area_codes=
         ];
 
         var numHealthDataPoints = response.body.areaHealthData
-            .map(area => area.indicatorSegment
+            .map(area => area.indicatorSegments
             .map(segment => segment.healthData.length)
             .reduce((sum, count) => sum + count, 0)
             )
@@ -46,7 +46,7 @@ GET http://localhost:5144/indicators/41101/data?from_date=2020-01-01&area_codes=
         expectedResults.forEach(expected =>{
             client.assert(
                 response.body.areaHealthData.find(area => area.areaCode === expected.areaCode)
-                .indicatorSegment.find(segment => segment.sex.value == expected.sex)
+                .indicatorSegments.find(segment => segment.sex.value == expected.sex)
                 .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
                 .value == expected.value,
                 `failed for ${expected.areaCode}:${expected.sex}:${expected.from}`
@@ -78,7 +78,7 @@ GET http://localhost:5144/indicators/41101/data?from_date=2020-01-01&to_date=202
         ];
 
         var numHealthDataPoints = response.body.areaHealthData
-            .map(area => area.indicatorSegment
+            .map(area => area.indicatorSegments
             .map(segment => segment.healthData.length)
             .reduce((sum, count) => sum + count, 0)
             )
@@ -89,7 +89,7 @@ GET http://localhost:5144/indicators/41101/data?from_date=2020-01-01&to_date=202
         expectedResults.forEach(expected =>{
             client.assert(
                 response.body.areaHealthData.find(area => area.areaCode === expected.areaCode)
-                .indicatorSegment.find(segment => segment.sex.value == expected.sex)
+                .indicatorSegments.find(segment => segment.sex.value == expected.sex)
                 .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
                 .value == expected.value,
                 `failed for ${expected.areaCode}:${expected.sex}:${expected.from}`
@@ -111,7 +111,7 @@ GET http://localhost:5144/indicators/94063/data?area_codes=N85008&ancestor_code=
         ];
 
         var numHealthDataPoints = response.body.areaHealthData
-            .map(area => area.indicatorSegment
+            .map(area => area.indicatorSegments
             .map(segment => segment.healthData.length)
             .reduce((sum, count) => sum + count, 0)
             )
@@ -122,7 +122,7 @@ GET http://localhost:5144/indicators/94063/data?area_codes=N85008&ancestor_code=
         expectedResults.forEach(expected =>{
             client.assert(
                 response.body.areaHealthData.find(area => area.areaCode === expected.areaCode)
-                .indicatorSegment.find(segment => segment.sex.value == expected.sex)
+                .indicatorSegments.find(segment => segment.sex.value == expected.sex)
                 .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
                 .value == expected.value,
                 `failed for ${expected.areaCode}:${expected.sex}:${expected.from}`
@@ -146,7 +146,7 @@ GET http://localhost:5144/indicators/94063/data?area_codes=N85008&area_codes=U79
         ];
 
         var numHealthDataPoints = response.body.areaHealthData
-            .map(area => area.indicatorSegment
+            .map(area => area.indicatorSegments
             .map(segment => segment.healthData.length)
             .reduce((sum, count) => sum + count, 0)
             )
@@ -157,7 +157,7 @@ GET http://localhost:5144/indicators/94063/data?area_codes=N85008&area_codes=U79
         expectedResults.forEach(expected =>{
             client.assert(
                 response.body.areaHealthData.find(area => area.areaCode === expected.areaCode)
-                .indicatorSegment.find(segment => segment.sex.value == expected.sex)
+                .indicatorSegments.find(segment => segment.sex.value == expected.sex)
                 .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
                 .value == expected.value,
                 `failed for ${expected.areaCode}:${expected.sex}:${expected.from}`
@@ -190,7 +190,7 @@ GET http://localhost:5144/indicators/41101/data?from_date=2020-01-01&area_codes=
         ];
 
         var numHealthDataPoints = response.body.areaHealthData
-            .map(area => area.indicatorSegment
+            .map(area => area.indicatorSegments
             .map(segment => segment.healthData.length)
             .reduce((sum, count) => sum + count, 0)
             )
@@ -201,7 +201,7 @@ GET http://localhost:5144/indicators/41101/data?from_date=2020-01-01&area_codes=
         expectedResults.forEach(expected =>{
             client.assert(
                 response.body.areaHealthData.find(area => area.areaCode === expected.areaCode)
-                .indicatorSegment.find(segment => segment.sex.value == expected.sex)
+                .indicatorSegments.find(segment => segment.sex.value == expected.sex)
                 .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
                 .value == expected.value,
                 `failed for ${expected.areaCode}:${expected.sex}:${expected.from}`
@@ -235,7 +235,7 @@ GET http://localhost:5144/indicators/93015/data?from_date=2018-11-01&to_date=201
         ];
 
         var numHealthDataPoints = response.body.areaHealthData
-            .map(area => area.indicatorSegment
+            .map(area => area.indicatorSegments
             .map(segment => segment.healthData.length)
             .reduce((sum, count) => sum + count, 0)
             )
@@ -246,7 +246,7 @@ GET http://localhost:5144/indicators/93015/data?from_date=2018-11-01&to_date=201
         expectedResults.forEach(expected =>{
             client.assert(
                 response.body.areaHealthData.find(area => area.areaCode === expected.areaCode)
-                .indicatorSegment.find(segment => segment.sex.value == expected.sex)
+                .indicatorSegments.find(segment => segment.sex.value == expected.sex)
                 .healthData.find(dataPoint => 
                     dataPoint.datePeriod.from === expected.from && 
                     dataPoint.deprivation.sequence== expected.imd
@@ -277,7 +277,7 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
         ];
 
         var numHealthDataPoints = response.body.areaHealthData
-            .map(area => area.indicatorSegment
+            .map(area => area.indicatorSegments
             .map(segment => segment.healthData.length)
             .reduce((sum, count) => sum + count, 0)
             )
@@ -288,7 +288,7 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
         expectedResults.forEach(expected =>{
             client.assert(
                 response.body.areaHealthData.find(area => area.areaCode === expected.areaCode)
-                .indicatorSegment.find(segment => segment.sex.value == expected.sex)
+                .indicatorSegments.find(segment => segment.sex.value == expected.sex)
                 .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
                 .value == expected.value,
                 `failed for ${expected.areaCode}:${expected.sex}:${expected.from}`
