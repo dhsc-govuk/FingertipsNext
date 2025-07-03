@@ -1,10 +1,14 @@
+using DHSC.FingertipsNext.Api.Middleware;
 using DotNetEnv;
 
 namespace DHSC.FingertipsNext.Api;
 
 using Asp.Versioning;
 using Azure.Monitor.OpenTelemetry.AspNetCore;
-using DHSC.FingertipsNext.Monolith;
+using DHSC.FingertipsNext.Api.Services;
+using Microsoft.AspNetCore.OpenApi;
+using Microsoft.Extensions.Options;
+using Monolith;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Scalar.AspNetCore;
@@ -53,6 +57,14 @@ public class Program
 
         builder.Services.AddControllers().AddControllersAsServices();
 
+
+        // This is included to resolve a runtime crash on windows caused by https://github.com/dotnet/aspnetcore/issues/58805
+        builder.Services.AddSingleton<IOptionsSnapshot<OpenApiOptions>>(sp =>
+        {
+            OpenApiOptions options = new OpenApiOptions();
+            return new StaticOptions<OpenApiOptions>(options);
+        });
+
         builder.Services.AddOpenApi()
             .AddApiVersioning(options =>
             {
@@ -71,19 +83,22 @@ public class Program
                 options.SubstituteApiVersionInUrl = true;
             });
 
+
         RegisterModules(builder.Services, builder.Configuration);
+
+        builder.Services.AddFingertipsUserAuth(builder.Configuration);
 
         var app = builder.Build();
 
-        app.MapOpenApi();
-
         if (app.Environment.IsDevelopment())
         {
+            app.MapOpenApi();
+
             app.MapScalarApiReference(options =>
             {
                 options
                     .WithTitle("Fingertips Next API")
-                    .WithDownloadButton(true)
+                    .WithDocumentDownloadType(DocumentDownloadType.Both)
                     .WithTheme(ScalarTheme.Purple)
                     .WithDefaultHttpClient(ScalarTarget.JavaScript, ScalarClient.Axios)
                     .WithModels(true);
@@ -92,7 +107,7 @@ public class Program
 
         app.UseHttpsRedirection();
 
-        app.UseAuthorization();
+        app.UseFingerprintsAuth();
 
         app.MapControllers();
 

@@ -583,6 +583,21 @@ jobs:
             name        = "APPLICATIONINSIGHTS_CONNECTION_STRING"
             secret_name = "fingertips-api-application-insights"
             value       = null
+          },
+          {
+            name        = "UPLOAD_STORAGE_ACCOUNT_URI"
+            secret_name = "fingertips-upload-storage-uri"
+            value       = null
+          },
+          {
+            name        = "UPLOAD_STORAGE_CONTAINER_NAME"
+            secret_name = "fingertips-upload-storage-container-name"
+            value       = null
+          },
+          {
+            name        = "USER_ASSIGNED_MANAGED_IDENTITY_CLIENT_ID"
+            secret_name = "fingertips-container-uai-client-id"
+            value       = null
           }
         ]
       container_liveness_probe: |

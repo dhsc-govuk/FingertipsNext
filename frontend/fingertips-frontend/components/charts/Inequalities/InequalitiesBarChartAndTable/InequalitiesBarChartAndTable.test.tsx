@@ -1,8 +1,8 @@
 // MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
-import { mockGetIsLoading } from '@/mock/utils/mockLoadingUseState';
+import { mockGetIsLoading } from '@/mock/utils/mockUseLoadingState';
 import { mockUsePathname } from '@/mock/utils/mockNextNavigation';
 import { mockUseSearchStateParams } from '@/mock/utils/mockUseSearchStateParams';
-import { mockHighChartsWrapper } from '@/mock/utils/mockHighChartsWrapper';
+import { mockHighChartsWrapperSetup } from '@/mock/utils/mockHighChartsWrapper';
 //
 import { act, render, screen, within } from '@testing-library/react';
 import { InequalitiesBarChartAndTable } from './InequalitiesBarChartAndTable';
@@ -24,7 +24,7 @@ import { mockDeprivationData } from '@/mock/data/mockDeprivationData';
 
 mockGetIsLoading.mockReturnValue(false);
 mockUsePathname.mockReturnValue('some-mock-path');
-mockHighChartsWrapper.mockReturnValue(() => <div />);
+mockHighChartsWrapperSetup();
 const mockSearchState: SearchStateParams = {
   [SearchParams.IndicatorsSelected]: ['41101'],
   [SearchParams.AreasSelected]: ['E12000002'],

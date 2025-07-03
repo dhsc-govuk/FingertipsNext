@@ -8,6 +8,8 @@ import {
   SearchMode,
   SimpleIndicatorDocument,
 } from '@/playwright/testHelpers/genericTestUtilities';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import { RawIndicatorDocument } from '@/lib/search/searchTypes';
 
 export default class AreaFilter extends BasePage {
   readonly areaFilterContainer = 'area-filter-container';
@@ -24,6 +26,8 @@ export default class AreaFilter extends BasePage {
   readonly removeIcon = 'x-icon';
   readonly hideAreaFilterPane = 'area-filter-pane-hidefilters';
   readonly showAreaFilterPane = 'show-filter-cta';
+  readonly groupSelectedAreaPanel = 'group-selected-areas-panel';
+  readonly viewIndicatorText = 'View background information';
 
   async areaFilterPills() {
     return this.page
@@ -58,7 +62,7 @@ export default class AreaFilter extends BasePage {
     );
 
     const cleanedPillTexts = pillTexts.map((text) =>
-      text!.replace(/View background information$/, '').trim()
+      text!.replace(new RegExp(`${this.viewIndicatorText}$`), '').trim()
     );
 
     for (const pillText of expectedPillText) {
@@ -178,15 +182,13 @@ export default class AreaFilter extends BasePage {
   }
 
   async selectGroupAndAssertURLUpdated(group: string) {
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.waitForLoadingToFinish();
 
     await this.page
       .getByTestId(this.groupSelector)
       .selectOption({ label: capitaliseFirstCharacter(group) });
 
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.waitForLoadingToFinish();
     await this.waitForURLToContain(SearchParams.GroupSelected);
   }
 
@@ -209,19 +211,11 @@ export default class AreaFilter extends BasePage {
   async selectAreasFiltersIfRequired(
     searchMode: SearchMode,
     areaMode: AreaMode,
-    searchTerm: string,
     areaFiltersToSelect: AreaFilters
   ): Promise<void> {
-    if (searchMode === SearchMode.ONLY_SUBJECT) {
-      let trimmedSearchText = searchTerm.trim();
+    await expect(this.page.getByTestId(this.areaFilterContainer)).toBeVisible();
 
-      // Check if searched for text is a space-separated list of numbers
-      const spaceSeparatedPattern = /^\d+(\s+\d+)+$/;
-      if (spaceSeparatedPattern.test(trimmedSearchText)) {
-        // replace whitespace with +
-        trimmedSearchText = trimmedSearchText.replaceAll(' ', '+');
-      }
-      await this.waitForURLToContain(trimmedSearchText);
+    if (searchMode === SearchMode.ONLY_SUBJECT) {
       await this.selectAreaFilters(areaMode, areaFiltersToSelect);
       await this.selectAreaCheckboxes(areaMode, areaFiltersToSelect.areaType);
     } else if (
@@ -287,7 +281,7 @@ export default class AreaFilter extends BasePage {
     areaMode: AreaMode,
     areaType: string
   ): Promise<void> {
-    // England area mode doesn't require checkbox selection (handled in selectAreaFilters)
+    // England area mode doesn't require checkbox selection (handled in selectAreaFilters) so return out
     if (areaMode === AreaMode.ENGLAND_AREA) {
       return;
     }
@@ -296,25 +290,51 @@ export default class AreaFilter extends BasePage {
       .getByTestId(this.areaFilterContainer)
       .getByRole('checkbox');
 
-    // Determine number of checkboxes to select based on area mode
-    const totalCheckboxes = await areaCheckboxList.count();
-    const checkboxCountMap: Record<AreaMode, number> = {
+    // Handle AreaMode.ALL_AREAS_IN_A_GROUP then return out
+    if (areaMode === AreaMode.ALL_AREAS_IN_A_GROUP) {
+      await this.checkAndAwaitLoadingComplete(
+        this.page.getByRole('checkbox', { name: 'Select all areas' })
+      );
+
+      await this.page.waitForLoadState();
+      await this.waitForURLToContain(
+        `&${SearchParams.GroupAreaSelected}=${ALL_AREAS_SELECTED}`
+      );
+
+      // Assert all areas are selected
+      await expect(
+        this.page
+          .getByTestId(this.groupSelectedAreaPanel)
+          .getByText(`Selected areas (0)`)
+      ).not.toBeVisible();
+      await expect(
+        this.page
+          .getByTestId(this.groupSelectedAreaPanel)
+          .getByText(`All areas in England`)
+      ).toBeVisible();
+
+      return;
+    }
+
+    // Handle other AreaMode scenarios with numeric checkbox selection
+    const checkboxCountMap: Record<
+      Exclude<AreaMode, AreaMode.ALL_AREAS_IN_A_GROUP | AreaMode.ENGLAND_AREA>,
+      number
+    > = {
       [AreaMode.ONE_AREA]: 1,
       [AreaMode.TWO_AREAS]: 2,
       [AreaMode.THREE_PLUS_AREAS]: 3,
-      [AreaMode.ALL_AREAS_IN_A_GROUP]: totalCheckboxes - 1, // exclude 'All' checkbox
-      [AreaMode.ENGLAND_AREA]: 0,
     };
 
     const checkboxCount = checkboxCountMap[areaMode];
 
-    // Select the required number of checkboxes (skip index 0 which is 'All')
-    for (let i = 0; i < checkboxCount; i++) {
-      await this.checkAndAwaitLoadingComplete(areaCheckboxList.nth(i + 1));
+    // start at i = 0 to skip the All checkbox
+    for (let i = 1; i <= checkboxCount; i++) {
+      await this.checkAndAwaitLoadingComplete(areaCheckboxList.nth(i));
       await this.page.waitForLoadState();
 
       // Wait for URL to contain area type after first checkbox selection
-      if (i === 0) {
+      if (i === 1) {
         await this.waitForURLToContain(areaType);
       }
     }
@@ -331,6 +351,21 @@ export default class AreaFilter extends BasePage {
     );
     await expect(this.page.getByTestId(this.showAreaFilterPane)).toHaveText(
       'Show filter'
+    );
+  }
+
+  async clickViewBackgroundInformationLinkForIndicator(
+    indicator: RawIndicatorDocument
+  ) {
+    if (!indicator) {
+      throw new Error(`Indicator not found`);
+    }
+
+    await this.clickAndAwaitLoadingComplete(
+      this.page
+        .getByTestId(this.pillContainer)
+        .getByText(indicator.indicatorName)
+        .getByRole('link', { name: this.viewIndicatorText })
     );
   }
 }

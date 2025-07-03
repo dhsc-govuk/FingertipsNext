@@ -6,7 +6,10 @@
 # User-specific files
 *.rsuser
 *.suo
+# block files ending in .user
 *.user
+# But allow folders called user
+!user/**
 *.userosscache
 *.sln.docstates
 
