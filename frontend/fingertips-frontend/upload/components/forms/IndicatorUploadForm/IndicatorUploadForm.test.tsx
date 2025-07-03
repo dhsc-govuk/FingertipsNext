@@ -69,7 +69,9 @@ describe('IndicatorUploadForm', () => {
     const formAction = vi.fn();
 
     const expectedIndicatorId = '1234';
-    // const expectedFile = 'file';
+    const expectedFile = new File(['content'], 'upload.csv', {
+      type: 'text/csv',
+    });
     const expectedPublishDateDay = '7';
     const expectedPublishDateMonth = '3';
     const expectedPublishDateYear = '2020';
@@ -92,15 +94,14 @@ describe('IndicatorUploadForm', () => {
       screen.getByLabelText(publishDateYearLabelText),
       expectedPublishDateYear
     );
-    // TODO: Upload file
+    await user.upload(screen.getByLabelText(uploadFileLabelText), expectedFile);
     await user.click(screen.getByRole('button'));
 
     expect(formAction).toHaveBeenCalled();
     const actionParameters = formAction.mock.lastCall;
     const actualFormData = actionParameters?.[0] as FormData;
     expect(actualFormData.get('indicatorId')).toBe(expectedIndicatorId);
-    // TODO: Validate file properly
-    // expect(actualFormData.get('file')).toBe(expectedFile);
+    expect(actualFormData.get('file')).toEqual(expectedFile);
     expect(actualFormData.get('publishDateDay')).toBe(expectedPublishDateDay);
     expect(actualFormData.get('publishDateMonth')).toBe(
       expectedPublishDateMonth
