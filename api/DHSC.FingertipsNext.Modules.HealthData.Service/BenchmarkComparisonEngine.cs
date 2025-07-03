@@ -39,6 +39,7 @@ public static class BenchmarkComparisonEngine
         return healthDataForAreasOfInterest;
     }
 
+    [Obsolete]
     private static void ProcessBenchmarkComparisonsForArea(
         HealthDataForArea areaHealthData,
         HealthDataForArea? benchmarkHealthData,
