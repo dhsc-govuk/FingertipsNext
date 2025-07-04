@@ -61,7 +61,7 @@ internal static class BenchmarkComparisonEngine
                     polarity);
 
             // Perform Inequality benchmarking against aggregate segment
-            var aggregateSegment = areaHealthData.IndicatorSegments.First(segment => segment.IsAggregate == true);
+            var aggregateSegment = areaHealthData.IndicatorSegments.First(segment => segment.IsAggregate);
             var newIndicatorSegments = new List<IndicatorSegment>();
             foreach (var targetSegment in areaHealthData.IndicatorSegments)
             {
@@ -174,8 +174,8 @@ internal static class BenchmarkComparisonEngine
             var benchmarkDataPoint = benchmarkSegment.HealthData.FirstOrDefault(benchmark =>
                 benchmark.DatePeriod.To == targetDataPoint.DatePeriod.To &&
                 benchmark.DatePeriod.From == targetDataPoint.DatePeriod.From &&
-                benchmark.Deprivation.IsAggregate == true &&
-                benchmark.AgeBand.IsAggregate == true
+                benchmark.Deprivation.IsAggregate &&
+                benchmark.AgeBand.IsAggregate
             );
 
             if (benchmarkDataPoint == null || benchmarkDataPoint == targetDataPoint)
