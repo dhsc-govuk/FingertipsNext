@@ -220,16 +220,17 @@ paths:
   /indicators/{indicator_id}/data:
     parameters:
       - $ref: '#/components/parameters/indicator_id'
-      - $ref: '#/components/parameters/area_codes'
-      - $ref: '#/components/parameters/area_type'
-      - $ref: '#/components/parameters/ancestor_code'
-      - $ref: '#/components/parameters/benchmark_ref_type'
-      - $ref: '#/components/parameters/years'
-      - $ref: '#/components/parameters/to_date'
-      - $ref: '#/components/parameters/from_date'
-      - $ref: '#/components/parameters/inequalities'
-      - $ref: '#/components/parameters/latest_only'
     get:
+      parameters:
+        - $ref: '#/components/parameters/area_codes'
+        - $ref: '#/components/parameters/area_type'
+        - $ref: '#/components/parameters/ancestor_code'
+        - $ref: '#/components/parameters/benchmark_ref_type'
+        - $ref: '#/components/parameters/years'
+        - $ref: '#/components/parameters/to_date'
+        - $ref: '#/components/parameters/from_date'
+        - $ref: '#/components/parameters/inequalities'
+        - $ref: '#/components/parameters/latest_only'
       tags:
         - indicators
       summary: Get health data for an indicator
@@ -253,15 +254,27 @@ paths:
       tags:
         - indicators
       summary: add a batch of new data for an indicator
-      description: Not Yet Implemented - Creates new data for the indicator. The data is always created in an unpublished and unapproved state.
+      description: Creates new data for the indicator. The data is always created in an unpublished and unapproved state.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
       responses:
-        '501':
-          description: Not Implemented
+        '202':
+          description: The file has been accepted by the API and further processing will be conducted.
           content:
             text/plain:
               schema:
                 type: string
-                example: Not Implemented
+                example: The file has been accepted.
+        '400':
+          $ref: '#/components/responses/BadRequest'
     delete:
       tags:
         - indicators
@@ -676,9 +689,13 @@ components:
       example: Calendar
       description: a type of date period e.g. Calendar or Financial year.
       enum:
+        - Academic
         - Calendar
         - Financial
-        - NovemberNovember
+        - FinancialMultiYear
+        - FinancialYearEndPoint
+        - Yearly
+        - Unknown
       x-enum-varnames:
         - Calendar
         - Financial
