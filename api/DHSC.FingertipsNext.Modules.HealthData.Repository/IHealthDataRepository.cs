@@ -9,7 +9,8 @@ public interface IHealthDataRepository
                                                                  int[] years,
                                                                  string[] inequalities,
                                                                  DateOnly? fromDate = null,
-                                                                 DateOnly? toDate = null);
+                                                                 DateOnly? toDate = null,
+                                                                 bool includeUnpublished = false);
 
     Task<IEnumerable<DenormalisedHealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync(int indicatorId,
                                                                  string[] areaCodes,
@@ -17,9 +18,10 @@ public interface IHealthDataRepository
                                                                  string areaTypeKey,
                                                                  string benchmarkAreaCode,
                                                                  DateOnly? fromDate = null,
-                                                                 DateOnly? toDate = null);
+                                                                 DateOnly? toDate = null,
+                                                                 bool includeUnpublished = false);
 
-    Task<IndicatorDimensionModel?> GetIndicatorDimensionAsync(int indicatorId, string[] areaCodes);
+    Task<IndicatorDimensionModel?> GetIndicatorDimensionAsync(int indicatorId, string[] areaCodes, bool includeUnpublished = false);
     Task<IEnumerable<QuartileDataModel>> GetQuartileDataAsync(IEnumerable<int> indicatorIds, string areaCode, string areaTypeKey, string ancestorCode, string benchmarkAreaCode);
 
     Task<IEnumerable<AreaDimensionModel>> GetAreasAsync(string[] areaCodes);

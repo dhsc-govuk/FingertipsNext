@@ -1,10 +1,10 @@
 import { FTContainer } from '@/components/layouts/container';
 import StyledComponentsRegistry from '@/lib/registry';
 import type { Metadata } from 'next';
-import { ReactNode, Suspense } from 'react';
+import { ReactNode } from 'react';
 import '../global.css';
-import { HeaderFooterWrapper } from '@/components/molecules/HeaderFooterWrapper';
 import { siteDescription, siteTitle } from '@/lib/constants';
+import { HeaderFooterWrapper } from '@/components/molecules/HeaderFooterWrapper';
 import { auth } from '@/lib/auth';
 
 export const metadata: Metadata = {
@@ -26,17 +26,15 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body style={{ margin: 0 }}>
-        <Suspense>
-          <StyledComponentsRegistry>
-            <HeaderFooterWrapper
-              tag={tag}
-              hash={hash}
-              session={session ?? undefined}
-            >
-              <FTContainer>{children}</FTContainer>
-            </HeaderFooterWrapper>
-          </StyledComponentsRegistry>
-        </Suspense>
+        <StyledComponentsRegistry>
+          <HeaderFooterWrapper
+            tag={tag}
+            hash={hash}
+            session={session ?? undefined}
+          >
+            <FTContainer>{children}</FTContainer>
+          </HeaderFooterWrapper>
+        </StyledComponentsRegistry>
       </body>
     </html>
   );
