@@ -226,4 +226,15 @@ describe('SearchForm', () => {
     const input = screen.getByTestId('indicator-search-form-input');
     expect(input).toHaveStyle(`border-color: ${GovukColours.Red}`);
   });
+
+  describe('StyledInlineClearAllLink', () => {
+    it('should render the link with clear all text and correct href', () => {
+      render(<SearchForm formState={initialDataState} />);
+
+      const link = screen.getByRole('link', { name: /Clear all/i });
+
+      expect(link).toBeInTheDocument();
+      expect(link).toHaveAttribute('href', '/');
+    });
+  });
 });

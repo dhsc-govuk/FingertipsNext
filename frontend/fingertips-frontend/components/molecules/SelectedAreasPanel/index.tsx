@@ -13,11 +13,16 @@ import React from 'react';
 import { useMoreRowsWhenScrolling } from '@/components/hooks/useMoreRowsWhenScrolling';
 import { InViewTrigger } from '@/components/hooks/InViewTrigger';
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
+import {
+  StyledFilterWithClearAllLink,
+  StyledRightClearAllLink,
+} from '@/lib/styleHelpers/filterPanelClearAllLinkStyle';
 
 interface SelectedAreasPanelProps {
   selectedAreasData?: Area[];
   areaFilterData?: AreaFilterData;
   isFullWidth?: boolean;
+  showClearAllLink?: boolean;
 }
 
 const StyledFilterSelectedAreaDiv = styled('div')({
@@ -36,6 +41,7 @@ export function SelectedAreasPanel({
   selectedAreasData,
   areaFilterData,
   isFullWidth,
+  showClearAllLink,
 }: Readonly<SelectedAreasPanelProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -81,13 +87,37 @@ export function SelectedAreasPanel({
     10
   );
 
+  const clearAllSelectedAreas = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    if (!selectedAreasData?.length) return;
+    removeSelectedGroup();
+  };
+
+  const isAllAreas =
+    searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED;
+  const selectedAreaCount = isAllAreas
+    ? areaFilterData?.availableAreas?.length
+    : (selectedAreasData?.length ?? 0);
+
   return (
     <StyledFilterSelectedAreaDiv data-testid="selected-areas-panel">
       {searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED ? (
         <div data-testid="group-selected-areas-panel">
-          <StyledFilterLabel>
-            {`Selected areas (${areaFilterData?.availableAreas?.length})`}
-          </StyledFilterLabel>
+          <StyledFilterWithClearAllLink>
+            <StyledFilterLabel>
+              {`Selected areas (${selectedAreaCount})`}
+            </StyledFilterLabel>
+            {showClearAllLink ? (
+              <StyledRightClearAllLink
+                href=""
+                onClick={clearAllSelectedAreas}
+                data-testid="clear-all-group-selected-areas-link"
+                $enabled={!selectedAreasData?.length}
+              >
+                Clear all
+              </StyledRightClearAllLink>
+            ) : null}
+          </StyledFilterWithClearAllLink>
           <GroupAreaSelectedPill
             areaTypeName={areaType?.name}
             groupSelected={selectedGroupData}
@@ -97,9 +127,21 @@ export function SelectedAreasPanel({
         </div>
       ) : (
         <div data-testid="standard-selected-areas-panel">
-          <StyledFilterLabel>
-            {`Selected areas (${selectedAreasData?.length ?? 0})`}
-          </StyledFilterLabel>
+          <StyledFilterWithClearAllLink>
+            <StyledFilterLabel>
+              {`Selected areas (${selectedAreaCount})`}
+            </StyledFilterLabel>
+            {showClearAllLink ? (
+              <StyledRightClearAllLink
+                href=""
+                onClick={clearAllSelectedAreas}
+                data-testid="clear-all-group-selected-areas-link"
+                $enabled={!selectedAreasData?.length}
+              >
+                Clear all
+              </StyledRightClearAllLink>
+            ) : null}
+          </StyledFilterWithClearAllLink>
           {selectedAreasData && selectedAreasData?.length > 0 ? (
             rowsToShow.map((selectedArea) => (
               <AreaSelectedPill
