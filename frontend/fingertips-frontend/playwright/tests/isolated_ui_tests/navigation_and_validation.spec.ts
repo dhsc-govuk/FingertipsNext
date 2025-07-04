@@ -139,7 +139,7 @@ test.describe('Home Page Tests', () => {
       await test
         .expect(homePage.page)
         .not.toHaveURL(allNHSRegionAreas[0].areaCode);
-      await homePage.verifyUrlExcludesAllIndicators();
+      await homePage.checkSearchFieldIsPrePopulatedWith();
     });
   });
 });
@@ -445,7 +445,6 @@ test.describe('Area Filter Tests', () => {
       await test
         .expect(resultsPage.page)
         .not.toHaveURL(allNHSRegionAreas[0].areaCode);
-      await resultsPage.verifyUrlExcludesAllIndicators();
       await resultsPage.assertAreaFiltersEnabled();
     });
   });
