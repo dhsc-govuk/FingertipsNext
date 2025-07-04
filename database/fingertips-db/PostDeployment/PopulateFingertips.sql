@@ -120,9 +120,12 @@ INSERT INTO [dbo].[SexDimension]
 INSERT INTO [dbo].[PeriodDimension]
 (Period)
 VALUES
-    ('Calendar'),
-    ('Financial'),
-    ('November-November')
+    ('monthly'),
+    ('quarterly'),
+    ('yearly'),
+    ('2 yearly'),
+    ('3 yearly'),
+    ('5 yearly')
 
 --create the trend dimension data
 SET IDENTITY_INSERT [dbo].[TrendDimension] ON
@@ -325,7 +328,8 @@ CREATE TABLE #TempIndicatorData
     BenchmarkComparisonMethod [nvarchar](255),
     ValueType NVARCHAR(255),
     IndicatorName NVARCHAR(255),
-    YearType NVARCHAR(255)
+    PeriodType NVARCHAR(255),
+    CollectionFrequency NVARCHAR(255)
 );
 DECLARE @sqlInd NVARCHAR(4000), @filePathInd NVARCHAR(500);
 IF @UseAzureBlob = '1'
@@ -348,7 +352,8 @@ INSERT INTO [dbo].[IndicatorDimension]
 	BenchmarkComparisonMethod,
     StartDate,
     EndDate,
-    YearType
+    PeriodType,
+    CollectionFrequency
 )
 SELECT 
     REPLACE(REPLACE(IndicatorName, '"', ''), char(13),''),
@@ -358,7 +363,8 @@ SELECT
     BenchmarkComparisonMethod,
     DATEADD(YEAR, -10, GETDATE()),
     DATEADD(YEAR, 10, GETDATE()),
-    #TempIndicatorData.YearType
+    PeriodType,
+    CollectionFrequency
 FROM 
     #TempIndicatorData;
 

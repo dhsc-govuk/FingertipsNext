@@ -94,14 +94,16 @@ internal sealed class HealthMeasureModelHelper(
 
     public HealthMeasureModelHelper WithIndicatorDimension(
         string name = "indicator name",
-        short indicatorId = 1
+        short indicatorId = 1,
+        string periodType = "Calendar"
     )
     {
         return WithIndicatorDimension(new IndicatorDimensionModel
         {
             IndicatorKey = (short)key,
             Name = name,
-            IndicatorId = indicatorId
+            IndicatorId = indicatorId,
+            PeriodType = periodType
         });
     }
 
@@ -111,7 +113,8 @@ internal sealed class HealthMeasureModelHelper(
         {
             IndicatorKey = (short)key,
             Name = "indicator name",
-            IndicatorId = 1
+            IndicatorId = 1,
+            PeriodType = "Calendar"
         };
     }
 

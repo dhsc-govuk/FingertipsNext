@@ -2,8 +2,11 @@
 
 public enum DatePeriodType
 {
+    Academic,
     Calendar,
     Financial,
-    NovemberNovember,
+    FinancialMultiYear,
+    FinancialYearEndPoint,
+    Yearly,
     Unknown
 }

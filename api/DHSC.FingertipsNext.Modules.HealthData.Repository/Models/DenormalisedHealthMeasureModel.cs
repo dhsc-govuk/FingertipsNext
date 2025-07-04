@@ -27,7 +27,8 @@ public class DenormalisedHealthMeasureModel
     public required double? Value { get; set; }
     public required DateTime FromDate { get; set; }
     public required DateTime ToDate { get; set; }
-    public required string Period { get; set; }
+    public required string PeriodType { get; set; }
+    public required string ReportingPeriod { get; set; }
     public required double? LowerCi { get; set; }
     public required double? UpperCi { get; set; }
     public required short Year { get; set; }

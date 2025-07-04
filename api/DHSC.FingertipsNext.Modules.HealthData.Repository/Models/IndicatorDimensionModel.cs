@@ -20,4 +20,6 @@ public class IndicatorDimensionModel
 
     [NotMapped]
     public int LatestYear { get; set; }
+
+    public string? PeriodType { get; set; }
 }
