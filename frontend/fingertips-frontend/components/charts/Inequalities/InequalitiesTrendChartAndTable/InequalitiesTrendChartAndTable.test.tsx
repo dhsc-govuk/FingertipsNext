@@ -1,8 +1,8 @@
 // MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
 import { mockUseSearchStateParams } from '@/mock/utils/mockUseSearchStateParams';
 import { mockUsePathname } from '@/mock/utils/mockNextNavigation';
-import { mockGetIsLoading } from '@/mock/utils/mockLoadingUseState';
-import { mockHighChartsWrapper } from '@/mock/utils/mockHighChartsWrapper';
+import { mockGetIsLoading } from '@/mock/utils/mockUseLoadingState';
+import { mockHighChartsWrapperSetup } from '@/mock/utils/mockHighChartsWrapper';
 //
 import { screen, within } from '@testing-library/react';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
@@ -24,7 +24,7 @@ import { mockDeprivationData } from '@/mock/data/mockDeprivationData';
 
 mockGetIsLoading.mockReturnValue(false);
 mockUsePathname.mockReturnValue('some-mock-path');
-mockHighChartsWrapper.mockReturnValue(() => <div />);
+mockHighChartsWrapperSetup();
 const mockSearchState: SearchStateParams = {
   [SearchParams.IndicatorsSelected]: ['41101'],
   [SearchParams.AreasSelected]: ['E12000002'],

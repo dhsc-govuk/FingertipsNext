@@ -6,6 +6,7 @@ export const reactQueryClient = new QueryClient({
       retry: false,
       refetchOnWindowFocus: false,
       staleTime: Infinity,
+      gcTime: Infinity,
     },
   },
 });
