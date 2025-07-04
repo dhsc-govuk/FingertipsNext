@@ -140,10 +140,7 @@ public class IndicatorServiceTests
             [],
             latestOnly: true
         );
-        foreach (var area in result.Content.AreaHealthData)
-        {
-            area.IndicatorSegments = new List<IndicatorSegment>();
-        }
+
         result.Content.AreaHealthData.ShouldNotBeEmpty();
         result.Content.AreaHealthData.Count().ShouldBe(1);
         result.Content.AreaHealthData.ShouldBeEquivalentTo(expected);
@@ -211,10 +208,7 @@ public class IndicatorServiceTests
             [],
             []
         );
-        foreach (var item in result.Content.AreaHealthData)
-        {
-            item.IndicatorSegments = new List<IndicatorSegment>();
-        }
+
         result.Content.AreaHealthData.ShouldNotBeEmpty();
         result.Content.AreaHealthData.Count().ShouldBe(2);
         result.Content.AreaHealthData.ShouldBeEquivalentTo(expected);

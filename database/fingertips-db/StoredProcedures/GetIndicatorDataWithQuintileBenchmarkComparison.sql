@@ -13,6 +13,7 @@ CREATE PROCEDURE [dbo].[GetIndicatorDetailsWithQuintileBenchmarkComparison]
 --- The inclusive date range we are interested in - can be empty
 @RequestedFromDate DATE,
 @RequestedToDate DATE,
+--- Controls whether unpublished data is included in the response
 @IncludeUnpublishedData BIT
 AS BEGIN
 DECLARE @DateBefore AS DATETIME2;
@@ -24,9 +25,7 @@ IF @IncludeUnpublishedData = 0
 ELSE
 	SET @DateBefore = DateAdd(yy, 10, GETDATE());
 
-
-WITH 
---- Get the Benchmark Area
+WITH --- Get the Benchmark Area
 BenchmarkAreaGroup AS (
 	SELECT *
 	FROM dbo.AreaDimension AS areaDim
@@ -60,13 +59,13 @@ AreasWithIsBenchmarkAreaFlag (AreaCode, IsBenchmarkArea) AS (
 			FROM BenchmarkDescendants
 		)
 ),
---- Now get all the health measures for the requested indicator. This will include aggregate data and segment data
+--- Fetches all the required data and performs quintile calculation.
 HealthData AS (
 	SELECT 
 	    hm.HealthMeasureKey,
 		CASE
 			WHEN benchmarkAreas.IsBenchmarkArea = 1 THEN NTILE(5) OVER(
-				PARTITION BY --- This partitions by segments
+				PARTITION BY 
 				benchmarkAreas.IsBenchmarkArea,
 				fromDate.Date,
 				toDate.Date,
@@ -133,6 +132,7 @@ HealthData AS (
 		)
 		AND hm.PublishedAt <= @DateBefore
 ),
+--- Calculates the number of data points in each Quintile group - if this is too low then we don't use it
 HealthDataNTileGroupCount AS (
 	SELECT 
 	    ToDate,
