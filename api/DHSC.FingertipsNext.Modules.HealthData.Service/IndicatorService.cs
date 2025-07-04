@@ -232,13 +232,23 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         if (addBenchmarkAreaToList)
             healthDataForAreas.RemoveAll(data => data.AreaCode == benchmarkAreaCode);
 
-        // enrich the data with benchmark comparison
-        return BenchmarkComparisonEngine.ProcessBenchmarkComparisons
-        (
-            healthDataForAreas,
-            benchmarkHealthData,
-            polarity
-        );
+        if (benchmarkAgainstRefArea && benchmarkHealthData != null)
+        {
+            return BenchmarkComparisonEngine.PerformAreaBenchmarking
+            (
+                healthDataForAreas,
+                benchmarkHealthData,
+                polarity
+            );
+        }
+        else
+        {
+            return BenchmarkComparisonEngine.PerformInequalityBenchmarking
+            (
+               healthDataForAreas,
+               polarity
+            );
+        }
     }
 
     /// <summary>
