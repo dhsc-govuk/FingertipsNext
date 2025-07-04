@@ -1,4 +1,4 @@
-import { format } from 'date-fns';
+import { format, addYears, subMonths } from 'date-fns';
 
 /**
  * The following types are temporary.
@@ -41,20 +41,6 @@ function getRollingYears(date: Date) {
   return `${year}/${endYearShort}`;
 }
 
-function addYears(date: Date, years: number) {
-  const newDate = new Date(date);
-  newDate.setFullYear(newDate.getFullYear() + years);
-  return newDate;
-}
-
-function getPreviousMonth(month: number) {
-  return (month + 11) % 12;
-}
-
-function getMonthName(month: number) {
-  return format(new Date(2000, month, 1), 'MMM');
-}
-
 const labelFormatters: {
   [P in PeriodType]?: {
     [F in Frequency]?: {
@@ -74,39 +60,44 @@ const labelFormatters: {
           return datePeriod.from.getFullYear().toString();
         }
         const fromYear = datePeriod.from.getFullYear();
-        const toYear = fromYear + reportingPeriod - 1;
+        const toYear = addYears(
+          datePeriod.from,
+          reportingPeriod - 1
+        ).getFullYear();
         return `${fromYear} to ${toYear}`;
       },
     },
     [Frequency.Quarterly]: {
       periodLabelText: 'Quarterly',
       datePointLabel: (datePeriod, reportingPeriod) => {
+        const toDate = subMonths(
+          addYears(datePeriod.from, reportingPeriod - 1),
+          1
+        );
+
         if (reportingPeriod === 1) {
           const fromMonth = format(datePeriod.from, 'MMM');
-          const toMonth = format(datePeriod.to, 'MMM');
-          const year = datePeriod.from.getFullYear();
-          return `${fromMonth} - ${toMonth} ${year}`;
+          const toLabel = format(datePeriod.to, 'MMM yyyy');
+          return `${fromMonth} - ${toLabel}`;
         }
         const fromLabel = format(datePeriod.from, 'MMM yyyy');
-        const fromYear = datePeriod.from.getFullYear();
-        const toMonthIdx = getPreviousMonth(datePeriod.from.getMonth());
-        const toYear = fromYear + reportingPeriod - 1;
-        const toLabel = `${getMonthName(toMonthIdx)} ${toYear}`;
+        const toLabel = format(toDate, 'MMM yyyy');
         return `${fromLabel} - ${toLabel}`;
       },
     },
     [Frequency.Monthly]: {
       periodLabelText: 'Monthly',
       datePointLabel: (datePeriod, reportingPeriod) => {
+        const toDate = subMonths(
+          addYears(datePeriod.from, reportingPeriod - 1),
+          1
+        );
+
         if (reportingPeriod === 1) {
           return format(datePeriod.from, 'MMM yyyy');
         }
         const fromLabel = format(datePeriod.from, 'MMM yyyy');
-        const toDate = addYears(datePeriod.from, reportingPeriod - 1);
-        const toMonth = getPreviousMonth(datePeriod.from.getMonth());
-        const toYear =
-          toMonth === 11 ? toDate.getFullYear() - 1 : toDate.getFullYear();
-        const toLabel = `${getMonthName(toMonth)} ${toYear}`;
+        const toLabel = format(toDate, 'MMM yyyy');
         return `${fromLabel} to ${toLabel}`;
       },
     },
@@ -158,33 +149,36 @@ const labelFormatters: {
     [Frequency.Quarterly]: {
       periodLabelText: 'Financial year, Quarterly',
       datePointLabel: (datePeriod, reportingPeriod) => {
+        const toDate = subMonths(
+          addYears(datePeriod.from, reportingPeriod - 1),
+          1
+        );
+
         if (reportingPeriod === 1) {
           const fromMonth = format(datePeriod.from, 'MMM');
-          const toMonth = format(datePeriod.to, 'MMM');
-          const year = datePeriod.from.getFullYear();
-          return `${fromMonth} to ${toMonth} ${year}`;
+          const toDateLabel = format(datePeriod.to, 'MMM yyyy');
+          return `${fromMonth} to ${toDateLabel}`;
         }
+
         const fromLabel = `${format(datePeriod.from, 'MMM yyyy')}`;
-        const toDate = addYears(datePeriod.from, reportingPeriod - 1);
-        const toMonthIdx = getPreviousMonth(datePeriod.from.getMonth());
-        const toYear =
-          toMonthIdx === 11 ? toDate.getFullYear() - 1 : toDate.getFullYear();
-        const toLabel = `${getMonthName(toMonthIdx)} ${toYear}`;
+        const toLabel = format(toDate, 'MMM yyyy');
         return `${fromLabel} to ${toLabel}`;
       },
     },
     [Frequency.Monthly]: {
       periodLabelText: 'Monthly',
       datePointLabel: (datePeriod, reportingPeriod) => {
+        const toDate = subMonths(
+          addYears(datePeriod.from, reportingPeriod - 1),
+          1
+        );
+
         if (reportingPeriod === 1) {
           return format(datePeriod.from, 'MMM yyyy');
         }
-        const fromLabel = format(datePeriod.from, 'MMM yyyy');
-        const toDate = addYears(datePeriod.from, reportingPeriod - 1);
-        const toMonth = getPreviousMonth(datePeriod.from.getMonth());
-        const toYear =
-          toMonth === 11 ? toDate.getFullYear() - 1 : toDate.getFullYear();
-        const toLabel = `${getMonthName(toMonth)} ${toYear}`;
+
+        const fromLabel = `${format(datePeriod.from, 'MMM yyyy')}`;
+        const toLabel = format(toDate, 'MMM yyyy');
         return `${fromLabel} to ${toLabel}`;
       },
     },
@@ -196,9 +190,11 @@ const labelFormatters: {
         const fromDate = new Date(datePeriod.from);
         fromDate.setFullYear(fromDate.getFullYear() - 1);
         const dayMonth = format(datePeriod.to, 'dd MMM');
+
         if (reportingPeriod === 1) {
           return `${dayMonth} ${getRollingYears(fromDate)}`;
         }
+
         const fromLabel = `${dayMonth} ${getRollingYears(fromDate)}`;
         const toDate = addYears(fromDate, reportingPeriod - 1);
         const toLabel = `${dayMonth} ${getRollingYears(toDate)}`;

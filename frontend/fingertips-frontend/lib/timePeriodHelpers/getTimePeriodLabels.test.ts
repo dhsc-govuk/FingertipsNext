@@ -105,7 +105,7 @@ describe('getTimePeriodLabels', () => {
       expect(periodLabelText).toEqual('Financial year');
     });
 
-    it('should return "Financial year, Quarterly" when periodType is FinancialYearEndPoint and collectionFrequency is Quarterly', () => {
+    it('should return "Financial year, Quarterly" when periodType is Financial and collectionFrequency is Quarterly', () => {
       const datePeriod: DatePeriod = {
         type: PeriodType.Financial,
         from: new Date('2022-04-01'),
@@ -396,7 +396,7 @@ describe('getTimePeriodLabels', () => {
         3
       );
 
-      expect(datePointLabel).toEqual('Jan 2023 - Dec 2025');
+      expect(datePointLabel).toEqual('Jan 2023 - Dec 2024');
     });
 
     it('should return the correct datePointLabel when periodType is Calendar and collectionFrequency is Monthly', () => {
@@ -574,7 +574,7 @@ describe('getTimePeriodLabels', () => {
         5
       );
 
-      expect(datePointLabel).toEqual('Jan 2023 - Dec 2027');
+      expect(datePointLabel).toEqual('Jan 2023 - Dec 2026');
     });
 
     it('should return the correct datePointLabel when periodType is Calendar and collectionFrequency is Monthly', () => {
