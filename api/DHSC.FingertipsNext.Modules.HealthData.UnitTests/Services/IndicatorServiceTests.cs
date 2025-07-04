@@ -79,7 +79,7 @@ public class IndicatorServiceTests
         };
 
         _healthDataRepository
-            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>())
+            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>(), false)
             .Returns(testIndicator);
         _healthDataRepository
             .GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], [])
@@ -119,7 +119,7 @@ public class IndicatorServiceTests
             },
         };
         _healthDataRepository
-            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>())
+            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>(), false)
             .Returns(testIndicator);
         _healthDataRepository
             .GetIndicatorDataAsync(1, Arg.Any<string[]>(), Arg.Any<int[]>(), [])
@@ -175,7 +175,7 @@ public class IndicatorServiceTests
             },
         };
         _healthDataRepository
-            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>())
+            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>(), false)
             .Returns(testIndicator);
         _healthDataRepository
             .GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], [])
@@ -229,7 +229,7 @@ public class IndicatorServiceTests
 
         testIndicator.Polarity = polarity;
         _healthDataRepository
-            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>())
+            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>(), false)
             .Returns(testIndicator);
         _healthDataRepository
             .GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], [])
@@ -281,7 +281,7 @@ public class IndicatorServiceTests
         mockHealthData.Add(healthMeasure2);
 
         _healthDataRepository
-            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>())
+            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>(), false)
             .Returns(testIndicator);
         _healthDataRepository
             .GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], [])
@@ -419,7 +419,7 @@ public class IndicatorServiceTests
         };
 
         _healthDataRepository
-            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>())
+            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>(), false)
             .Returns(testIndicator);
         _healthDataRepository
             .GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], Arg.Any<string[]>())
@@ -616,7 +616,7 @@ public class IndicatorServiceTests
         };
 
         _healthDataRepository
-            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>())
+            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>(), false)
             .Returns(testIndicator);
         _healthDataRepository
             .GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], Arg.Any<string[]>())
@@ -705,7 +705,7 @@ public class IndicatorServiceTests
         };
 
         _healthDataRepository
-            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>())
+            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>(), false)
             .Returns(testIndicator);
         _healthDataRepository
             .GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], Arg.Any<string[]>())
@@ -905,7 +905,7 @@ public class IndicatorServiceTests
         };
 
         _healthDataRepository
-            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>())
+            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>(), false)
             .Returns(theIndicator);
         _healthDataRepository
             .GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], Arg.Any<string[]>())
@@ -935,7 +935,7 @@ public class IndicatorServiceTests
     public async Task GetIndicatorDataAsyncReturnsIndicatorDoesNotExistWhenNoDataFound()
     {
         _healthDataRepository
-            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>())
+            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>(), false)
             .Returns(Task.FromResult<IndicatorDimensionModel?>(null));
         _healthDataRepository
             .GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], Arg.Any<string[]>())
@@ -958,7 +958,7 @@ public class IndicatorServiceTests
     public async Task GetIndicatorDataAsyncReturnsEmptyArrayWhenNoDataFoundButValidIndicatorSelected()
     {
         _healthDataRepository
-            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>())
+            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>(), false)
             .Returns(
                 Task.FromResult<IndicatorDimensionModel?>(
                     new IndicatorDimensionModel() { Name = "Foo" }
@@ -1032,7 +1032,7 @@ public class IndicatorServiceTests
         };
 
         _healthDataRepository
-            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>())
+            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>(), false)
             .Returns(testIndicator);
         _healthDataRepository
             .GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], [])
@@ -1092,7 +1092,7 @@ public class IndicatorServiceTests
         };
 
         _healthDataRepository
-            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>())
+            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>(), false)
             .Returns(testIndicator);
         _healthDataRepository
             .GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], [])
@@ -1158,7 +1158,7 @@ public class IndicatorServiceTests
         };
 
         _healthDataRepository
-            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>())
+            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>(), false)
             .Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns([]);
         _healthDataRepository.GetAreasAsync(Arg.Any<string[]>()).Returns(missingAreas);
@@ -1211,7 +1211,7 @@ public class IndicatorServiceTests
 
         testIndicator.Polarity = IndicatorPolarity.HighIsGood.ToString();
         _healthDataRepository
-            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>())
+            .GetIndicatorDimensionAsync(1, Arg.Any<string[]>(), false)
             .Returns(testIndicator);
         _healthDataRepository
             .GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], [])

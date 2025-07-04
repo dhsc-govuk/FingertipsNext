@@ -19,6 +19,7 @@ public interface IIndicatorsService
     /// <param name="benchmarkRefType">The benchmark reference type to be used.</param>
     /// <param name="years">A list of years.</param>
     /// <param name="inequalities">A list of desired inequalities.</param>
+    /// <param name="includeUnpublished">Get unpublished and published data</param>
     /// <returns>
     ///     <c>IndicatorWithHealthDataForArea</c> matching the criteria
     /// </returns>
@@ -32,7 +33,8 @@ public interface IIndicatorsService
         IEnumerable<string> inequalities,
         bool latestOnly = false,
         DateOnly? fromDate = null,
-        DateOnly? toDate = null);
+        DateOnly? toDate = null,
+        bool includeUnpublished = false);
 
     /// <summary>
     ///     Get quartile data for set of public health indicators. Returns data for all

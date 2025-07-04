@@ -19,15 +19,14 @@ test.describe('Error page tests', () => {
 
   test('Chart page displays ErrorPage when API returns unexpected error', async ({
     chartPage,
-    // axeBuilder,
+    axeBuilder,
   }) => {
     await chartPage.page.goto(`/chart?is=`);
 
     await test
       .expect(chartPage.errorPageTitle())
       .toContainText('Sorry, there is a problem with the service');
-    // readd once DHSCFT-495 is actioned as the next error overlay is current causing the test to fail
-    // await chartPage.expectNoAccessibilityViolations(axeBuilder);
+    await chartPage.expectNoAccessibilityViolations(axeBuilder);
   });
 
   test('Indicator page displays ErrorPage when API returns unexpected error', async ({

@@ -17,6 +17,18 @@ type UseApiGetHealthDataForAnIndicatorResult = Readonly<{
   healthDataError: unknown;
 }>;
 
+export const queryFnHealthDataForAnIndicator =
+  (options: GetHealthDataForAnIndicatorRequest) => async () => {
+    const apiUrl = process.env.NEXT_PUBLIC_FINGERTIPS_API_URL;
+    const config: Configuration = new Configuration({
+      basePath: apiUrl,
+      fetchApi: fetch,
+    });
+
+    const indicatorsApiInstance = new IndicatorsApi(config);
+    return indicatorsApiInstance.getHealthDataForAnIndicator(options);
+  };
+
 export const useApiGetHealthDataForAnIndicator = (
   options: GetHealthDataForAnIndicatorRequest
 ) => {
@@ -26,16 +38,7 @@ export const useApiGetHealthDataForAnIndicator = (
 
   const query = useQuery<IndicatorWithHealthDataForArea>({
     queryKey,
-    queryFn: async () => {
-      const apiUrl = process.env.NEXT_PUBLIC_FINGERTIPS_API_URL;
-      const config: Configuration = new Configuration({
-        basePath: apiUrl,
-        fetchApi: fetch,
-      });
-
-      const indicatorsApiInstance = new IndicatorsApi(config);
-      return indicatorsApiInstance.getHealthDataForAnIndicator(options);
-    },
+    queryFn: queryFnHealthDataForAnIndicator(options),
     enabled: !!options.indicatorId,
   });
 
