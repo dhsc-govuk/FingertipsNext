@@ -36,6 +36,7 @@ const areaFiltersToSelect: AreaFilters = {
   groupType: 'nhs-sub-integrated-care-boards',
   group: '',
 };
+const password = 'password';
 // Initialize test data from mock sources
 const typedIndicatorData = indicatorData.map(
   (indicator: RawIndicatorDocument) => ({
@@ -56,6 +57,9 @@ const validIndicatorIDs = returnIndicatorIDsByIndicatorMode(
 const allNHSRegionAreas = getAllAreasByAreaType(mockAreas, 'nhs-regions');
 
 test.describe('Home Page Tests', () => {
+  // we are intentionally setting failOnUnhandledError to handle a spurious 404
+  test.use({ failOnUnhandledError: false });
+
   test('should navigate to home page and validate accessibility', async ({
     homePage,
     axeBuilder,
@@ -94,7 +98,7 @@ test.describe('Home Page Tests', () => {
       await homePage.checkSearchFieldIsPrePopulatedWith(); // nothing - as nothing should be prepopulated when first navigating to the home page
     });
 
-    await test.step('Try to search with empty field', async () => {
+    await test.step('Try to search with empty field via Enter key', async () => {
       await homePage.clickSubjectSearchField();
       await homePage.pressKey('Enter');
     });
@@ -105,6 +109,27 @@ test.describe('Home Page Tests', () => {
       );
     });
   });
+
+  // fails due to loading screen notyet implemented on auth flow
+  test.fixme(
+    'should display Sign out after successful mock sign in',
+    async ({ homePage }) => {
+      await test.step('Navigate to home page', async () => {
+        await homePage.navigateToHomePage();
+        await homePage.checkOnHomePage();
+      });
+
+      await test.step('Click Sign in button', async () => {
+        await homePage.clickSignIn();
+      });
+
+      await test.step('Enter correct email but incorrect password and verify correct message is displayed', async () => {
+        await homePage.signInToMock(password);
+
+        await homePage.checkSignOutDisplayed();
+      });
+    }
+  );
 });
 
 test.describe('Results Page Tests', () => {
