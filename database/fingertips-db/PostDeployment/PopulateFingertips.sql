@@ -404,10 +404,6 @@ FROM
 DROP TABLE #TempIndicatorRole;
 
 
-PRINT N'Update complete.';
-GO
-
-
 -- Area Data
 CREATE TABLE #TempAreaData
 (
@@ -854,4 +850,7 @@ FROM
 	@HigherLevels higher
 
 DROP TABLE #TempAreaData;
+GO
+
+PRINT N'Update complete.';
 GO
