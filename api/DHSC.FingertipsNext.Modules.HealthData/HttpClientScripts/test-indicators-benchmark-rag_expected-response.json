@@ -1,8 +1,8 @@
 {
-  "indicatorId": 383,
-  "name": "People reporting Alzheimer's disease or dementia",
-  "polarity": "NoJudgement",
-  "benchmarkMethod": "Quintiles",
+  "indicatorId": 41101,
+  "name": "Emergency readmissions within 30 days of discharge from hospital",
+  "polarity": "LowIsGood",
+  "benchmarkMethod": "CIOverlappingReferenceValue95",
   "areaHealthData": [
     {
       "areaCode": "E12000007",
