@@ -111,7 +111,7 @@ public class HealthDataRepositoryForBatchTests : IDisposable
 
         // Assert
         act.ShouldThrow<InvalidOperationException>()
-            .Message.ShouldBe("Error deleting published batch.");
+            .Message.ShouldBe("Error attempting to delete published batch.");
     }
 
     [Fact]
