@@ -93,13 +93,19 @@ export function SelectedAreasPanel({
     removeSelectedGroup();
   };
 
+  const isAllAreas =
+    searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED;
+  const selectedAreaCount = isAllAreas
+    ? areaFilterData?.availableAreas?.length
+    : (selectedAreasData?.length ?? 0);
+
   return (
     <StyledFilterSelectedAreaDiv data-testid="selected-areas-panel">
       {searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED ? (
         <div data-testid="group-selected-areas-panel">
           <StyledFilterWithClearAllLink>
             <StyledFilterLabel>
-              {`Selected areas (${areaFilterData?.availableAreas?.length})`}
+              {`Selected areas (${selectedAreaCount})`}
             </StyledFilterLabel>
             {showClearAllLink ? (
               <StyledRightClearAllLink
@@ -123,7 +129,7 @@ export function SelectedAreasPanel({
         <div data-testid="standard-selected-areas-panel">
           <StyledFilterWithClearAllLink>
             <StyledFilterLabel>
-              {`Selected areas (${selectedAreasData?.length ?? 0})`}
+              {`Selected areas (${selectedAreaCount})`}
             </StyledFilterLabel>
             {showClearAllLink ? (
               <StyledRightClearAllLink
