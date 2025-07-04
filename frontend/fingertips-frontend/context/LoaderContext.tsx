@@ -70,11 +70,11 @@ export const useLoadingState = () => {
 };
 
 // Next has a very peculiar quirk where useSearchState cannot be called server
-// side, which works fine during dev but build will fail
-// here we're creating a component which will not render server side by
+// side, which works fine during dev but build will fail.
+// Here we're creating a component which will not render server side by
 // suspending it until client mounts at which point it can set the loading
 // context value, all this is more complicated because loader context is in a
-// layout
+// layout.
 function SuspendedUseSearchStateParams({
   setSearchState,
 }: Readonly<{ setSearchState: Dispatch<SetStateAction<SearchStateParams>> }>) {
