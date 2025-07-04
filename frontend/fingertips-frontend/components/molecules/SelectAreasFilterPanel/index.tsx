@@ -272,7 +272,7 @@ export function SelectAreasFilterPanel({
             href=""
             onClick={clearAllAreas}
             data-testid="clear-all-selected-areas-link"
-            enabled={!hasAreasSelected}
+            $enabled={!hasAreasSelected}
           >
             Clear all
           </StyledRightClearAllLink>

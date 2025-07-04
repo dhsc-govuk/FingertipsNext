@@ -106,7 +106,7 @@ export function SelectedAreasPanel({
                 href=""
                 onClick={clearAllSelectedAreas}
                 data-testid="clear-all-group-selected-areas-link"
-                enabled={!selectedAreasData?.length}
+                $enabled={!selectedAreasData?.length}
               >
                 Clear all
               </StyledRightClearAllLink>
@@ -130,7 +130,7 @@ export function SelectedAreasPanel({
                 href=""
                 onClick={clearAllSelectedAreas}
                 data-testid="clear-all-group-selected-areas-link"
-                enabled={!selectedAreasData?.length}
+                $enabled={!selectedAreasData?.length}
               >
                 Clear all
               </StyledRightClearAllLink>

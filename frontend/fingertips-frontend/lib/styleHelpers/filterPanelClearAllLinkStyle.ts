@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import { Link } from 'govuk-react';
 
-export const StyledRightClearAllLink = styled(Link)<{ enabled: boolean }>(
-  ({ enabled }) => ({
+export const StyledRightClearAllLink = styled(Link)<{ $enabled: boolean }>(
+  ({ $enabled }) => ({
     display: 'flex',
     justifyContent: 'flex-end',
     fontSize: '19px',
-    pointerEvents: enabled ? 'none' : 'auto',
+    pointerEvents: $enabled ? 'none' : 'auto',
   })
 );
 
