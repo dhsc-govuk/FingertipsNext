@@ -3,6 +3,7 @@ using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
+using System.Runtime.CompilerServices;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Repository;
 
@@ -407,38 +408,40 @@ public class HealthDataRepositoryTests : IDisposable
     }
 
     [Fact]
-    public async Task GetIndicatorDataAsyncShouldOnlyIncludeResultsWithoutASexDimensionValue()
+    public async Task GetIndicatorDataAsyncShouldIncludeResultsWithSexDimensionValue()
     {
         // arrange
-        var unexpectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
+        var expectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
             .WithSexDimension(hasValue: true)
             .WithIndicatorDimension(_indicatorDimension)
             .Build();
-        unexpectedHealthMeasure1.IsSexAggregatedOrSingle = false;
-        PopulateDatabase(unexpectedHealthMeasure1);
+        expectedHealthMeasure1.IsSexAggregatedOrSingle = false;
+        expectedHealthMeasure1.SexDimension.IsAggregate = false;
+        PopulateDatabase(expectedHealthMeasure1);
 
-        var unexpectedHealthMeasure2 = new HealthMeasureModelHelper(key: 2, year: 2022)
+        var expectedHealthMeasure2 = new HealthMeasureModelHelper(key: 2, year: 2022)
             .WithSexDimension(hasValue: true)
             .WithIndicatorDimension(_indicatorDimension)
             .Build();
-        unexpectedHealthMeasure2.IsSexAggregatedOrSingle = false;
-        PopulateDatabase(unexpectedHealthMeasure2);
+        expectedHealthMeasure2.IsSexAggregatedOrSingle = false;
+        expectedHealthMeasure2.SexDimension.IsAggregate = false;
+        PopulateDatabase(expectedHealthMeasure2);
 
-        var expectedHealthMeasure = new HealthMeasureModelHelper(key: 3, year: 2023)
+        var expectedHealthMeasure3 = new HealthMeasureModelHelper(key: 3, year: 2023)
             .WithSexDimension(hasValue: false)
             .WithIndicatorDimension(_indicatorDimension)
             .Build();
-        expectedHealthMeasure.IsSexAggregatedOrSingle = true;
-        PopulateDatabase(expectedHealthMeasure);
+        expectedHealthMeasure3.IsSexAggregatedOrSingle = true;
+        PopulateDatabase(expectedHealthMeasure3);
 
         // act
         var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], []);
 
         // assert
         result.ShouldNotBeEmpty();
-        result.Count().ShouldBe(1);
+        result.Count().ShouldBe(3);
         result.ShouldBeEquivalentTo(
-            new List<HealthMeasureModel>() { expectedHealthMeasure }
+            new List<HealthMeasureModel>() { expectedHealthMeasure1, expectedHealthMeasure2, expectedHealthMeasure3 }
         );
     }
 
@@ -503,7 +506,7 @@ public class HealthDataRepositoryTests : IDisposable
         var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], []);
 
         // assert
-        result.ShouldBeEmpty();
+        result.Count().ShouldBe(2);
     }
 
     [Fact]
@@ -790,11 +793,13 @@ public class HealthDataRepositoryTests : IDisposable
 
         // assert
         result.ShouldNotBeEmpty();
-        result.Count().ShouldBe(2);
+        result.Count().ShouldBe(4);
         result.ShouldBeEquivalentTo(
             new List<HealthMeasureModel>
             {
                 healthMeasureWithAgeAndNoSex,
+                healthMeasureWithAgeAndSex,
+                healthMeasureWithNoAgeAndSex,
                 healthMeasureWithNoAgeAndNoSex,
             }
         );

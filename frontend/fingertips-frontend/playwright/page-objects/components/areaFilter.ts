@@ -28,6 +28,7 @@ export default class AreaFilter extends BasePage {
   readonly showAreaFilterPane = 'show-filter-cta';
   readonly groupSelectedAreaPanel = 'group-selected-areas-panel';
   readonly viewIndicatorText = 'View background information';
+  readonly clearAllAreas = 'clear-all-group-selected-areas-link';
 
   async areaFilterPills() {
     return this.page
@@ -102,7 +103,7 @@ export default class AreaFilter extends BasePage {
     return Promise.all(options.map((l) => l.textContent()));
   }
 
-  async assertFiltersDisabled() {
+  async assertAreaFiltersDisabled() {
     const areaType = this.page.getByTestId(this.areaTypeSelector);
     const groupType = this.page.getByTestId(this.groupTypeSelector);
     const group = this.page.getByTestId(this.groupSelector);
@@ -110,6 +111,16 @@ export default class AreaFilter extends BasePage {
     expect(areaType).toBeDisabled();
     expect(groupType).toBeDisabled();
     expect(group).toBeDisabled();
+  }
+
+  async assertAreaFiltersEnabled() {
+    const areaType = this.page.getByTestId(this.areaTypeSelector);
+    const groupType = this.page.getByTestId(this.groupTypeSelector);
+    const group = this.page.getByTestId(this.groupSelector);
+
+    expect(areaType).toBeEnabled();
+    expect(groupType).toBeEnabled();
+    expect(group).toBeEnabled();
   }
 
   async assertGroupTypeFilterContainsOnly(contain: string) {
@@ -366,6 +377,18 @@ export default class AreaFilter extends BasePage {
         .getByTestId(this.pillContainer)
         .getByText(indicator.indicatorName)
         .getByRole('link', { name: this.viewIndicatorText })
+    );
+  }
+
+  async clearAllSelectedAreasResultsPage() {
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByTestId(this.clearAllAreas)
+    );
+  }
+
+  async clearAllSelectedAreasHomePage() {
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByRole('link', { name: 'Clear all' })
     );
   }
 }

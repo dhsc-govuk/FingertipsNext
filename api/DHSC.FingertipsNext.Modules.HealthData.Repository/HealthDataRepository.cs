@@ -10,7 +10,6 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Repository;
 [SuppressMessage("ReSharper", "SimplifyConditionalTernaryExpression")]
 public class HealthDataRepository(HealthDataDbContext healthDataDbContext, BatchHealthDataDbContext batchHealthDataDbContext) : IHealthDataRepository
 {
-    private const string SEX = "sex";
     private const string AGE = "age";
     private const string DEPRIVATION = "deprivation";
 
@@ -79,7 +78,6 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext, Batch
         bool includeUnpublished = false
     )
     {
-        var excludeDisaggregatedSexValues = !inequalities.Contains(SEX);
         var excludeDisaggregatedAgeValues = !inequalities.Contains(AGE);
         var excludeDisaggregatedDeprivationValues = !inequalities.Contains(DEPRIVATION);
 
@@ -91,7 +89,6 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext, Batch
             .Where(healthMeasure => years.Length == 0 || EF.Constant(years).Contains(healthMeasure.Year))
             .Where(healthMeasure => fromDate == null || healthMeasure.FromDateDimension.Date >= fromDateTime)
             .Where(healthMeasure => toDate == null || healthMeasure.ToDateDimension.Date <= toDateTime)
-            .Where(healthMeasure => !excludeDisaggregatedSexValues || healthMeasure.IsSexAggregatedOrSingle)
             .Where(healthMeasure => !excludeDisaggregatedAgeValues || healthMeasure.IsAgeAggregatedOrSingle)
             .Where(healthMeasure =>
                 !excludeDisaggregatedDeprivationValues || healthMeasure.IsDeprivationAggregatedOrSingle)
@@ -104,6 +101,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext, Batch
             .Include(healthMeasure => healthMeasure.IndicatorDimension)
             .Include(healthMeasure => healthMeasure.DeprivationDimension)
             .Include(healthMeasure => healthMeasure.TrendDimension)
+            .OrderBy(healthMeasure => healthMeasure.FromDateDimension.Date)
             .AsNoTracking()
             .ToListAsync();
 
