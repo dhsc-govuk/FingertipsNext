@@ -7,7 +7,6 @@ import {
   SimpleIndicatorDocument,
 } from '@/playwright/testHelpers/genericTestUtilities';
 import AreaFilter from '../components/areaFilter';
-import { RawIndicatorDocument } from '@/lib/search/searchTypes';
 import {
   AreaTypeKeys,
   englandAreaType,
