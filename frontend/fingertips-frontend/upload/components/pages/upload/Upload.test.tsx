@@ -41,7 +41,9 @@ describe('Upload page component', () => {
     render(<Upload />);
     await user.click(screen.getByRole('button'));
 
-    expect(screen.getByTestId(apiResponsePanelTestId)).toBeInTheDocument();
+    expect(
+      await screen.findByTestId(apiResponsePanelTestId)
+    ).toBeInTheDocument();
   });
 
   it('should render the page heading', () => {
