@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import { HeatmapCell } from '.';
-import { CellType } from '../../heatmapUtil';
+import { CellType } from '../../heatmapTypes';
 
 describe('cell types', () => {
   it.each([

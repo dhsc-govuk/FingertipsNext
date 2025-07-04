@@ -1,6 +1,6 @@
 'use client';
 
-import { HeatmapIndicatorData } from './heatmapUtil';
+import { HeatmapIndicatorData } from './heatmapTypes';
 import { HeatmapHover } from './components/hover';
 import React, { FC } from 'react';
 import HeatmapTable from '@/components/organisms/Heatmap/components/HeatmapTable';
