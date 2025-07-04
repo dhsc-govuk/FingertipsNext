@@ -252,4 +252,34 @@ describe('SelectedAreasPanel', () => {
       expect(mockSetIsLoading).toHaveBeenCalledWith(true);
     });
   });
+
+  describe('StyledRightClearAllLink', () => {
+    it('should clear all group selected areas when the clear all link is clicked', async () => {
+      mockSearchState = {
+        [SearchParams.AreaTypeSelected]: 'nhs-regions',
+        [SearchParams.AreasSelected]: ['E40000007', 'E40000012'],
+      };
+
+      render(
+        <SelectedAreasPanel
+          selectedAreasData={mockSelectedAreasData}
+          showClearAllLink={true}
+        />
+      );
+
+      const user = userEvent.setup();
+
+      const link = screen.getByTestId('clear-all-group-selected-areas-link');
+
+      await user.click(link);
+
+      expect(mockSetIsLoading).toHaveBeenCalledWith(true);
+      expect(mockReplace).toHaveBeenCalledWith(
+        `${mockPath}` + `?${SearchParams.AreaTypeSelected}=nhs-regions`,
+        {
+          scroll: false,
+        }
+      );
+    });
+  });
 });

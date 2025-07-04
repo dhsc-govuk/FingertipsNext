@@ -26,20 +26,11 @@ public class HealthDataDbContext : DbContext
     public DbSet<DenormalisedHealthMeasureModel> DenormalisedHealthMeasure { get; set; }
     public DbSet<QuartileDataModel> QuartileData { get; set; }
 
-    public IQueryable<HealthMeasureModel> PublishedHealthMeasure
+    public IQueryable<HealthMeasureModel> GetHealthMeasures(bool includeUnpublished)
     {
-        get
-        {
-            return HealthMeasure.Where(hm => hm.PublishedAt <= DateTime.UtcNow);
-        }
-    }
-
-    public IQueryable<HealthMeasureModel> UnpublishedHealthMeasure
-    {
-        get
-        {
-            return HealthMeasure.Where(hm => hm.PublishedAt > DateTime.UtcNow);
-        }
+        if (includeUnpublished)
+            return HealthMeasure;
+        return HealthMeasure.Where(hm => hm.PublishedAt <= DateTime.UtcNow);
     }
 
 }

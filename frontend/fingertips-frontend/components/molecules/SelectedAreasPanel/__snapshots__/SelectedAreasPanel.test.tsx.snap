@@ -3,17 +3,21 @@
 exports[`SelectedAreasPanel > When there are areas selected > snapshot test 1`] = `
 <DocumentFragment>
   <div
-    class="sc-imWYAI hgsXXd"
+    class="sc-dhKdcB jLcTYV"
     data-testid="selected-areas-panel"
   >
     <div
       data-testid="standard-selected-areas-panel"
     >
-      <span
-        class="src__LabelText-sc-1lbxenh-0 sc-jXbUNg bKqlAx dTUTlm"
+      <div
+        class="sc-jXbUNg kZFtxe"
       >
-        Selected areas (2)
-      </span>
+        <span
+          class="src__LabelText-sc-1lbxenh-0 sc-kpDqfm bKqlAx kATRGH"
+        >
+          Selected areas (2)
+        </span>
+      </div>
       <div
         class="sc-gEvEer cmUCgj"
         data-testid="pill-container"
@@ -137,17 +141,21 @@ exports[`SelectedAreasPanel > When there are areas selected > snapshot test 1`] 
 exports[`SelectedAreasPanel > When there is a group area selected > snapshot test 1`] = `
 <DocumentFragment>
   <div
-    class="sc-imWYAI hgsXXd"
+    class="sc-dhKdcB jLcTYV"
     data-testid="selected-areas-panel"
   >
     <div
       data-testid="group-selected-areas-panel"
     >
-      <span
-        class="src__LabelText-sc-1lbxenh-0 sc-jXbUNg bKqlAx dTUTlm"
+      <div
+        class="sc-jXbUNg kZFtxe"
       >
-        Selected areas (2)
-      </span>
+        <span
+          class="src__LabelText-sc-1lbxenh-0 sc-kpDqfm bKqlAx kATRGH"
+        >
+          Selected areas (2)
+        </span>
+      </div>
       <div
         class="sc-gEvEer cmUCgj"
         data-testid="pill-container"
