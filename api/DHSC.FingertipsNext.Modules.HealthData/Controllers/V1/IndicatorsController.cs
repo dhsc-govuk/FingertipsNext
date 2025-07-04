@@ -268,7 +268,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     }
 
     [HttpDelete]
-    [Route("{indicatorId:int}/batch/{batchId:alpha}")]
+    [Route("{indicatorId:int}/batch/{batchId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
