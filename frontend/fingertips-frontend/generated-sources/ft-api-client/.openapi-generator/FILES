@@ -21,6 +21,7 @@ models/HealthDataPoint.ts
 models/HealthDataPointBenchmarkComparison.ts
 models/Indicator.ts
 models/IndicatorPolarity.ts
+models/IndicatorSegment.ts
 models/IndicatorSummary.ts
 models/IndicatorWithHealthDataForArea.ts
 models/PeriodType.ts
