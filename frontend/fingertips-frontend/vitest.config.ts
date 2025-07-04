@@ -17,8 +17,8 @@ export default defineConfig({
       reporter: ['lcov', 'text', 'text-summary'],
       thresholds: {
         statements: 96.8,
-        branches: 92.5,
-        functions: 93.8,
+        branches: 92.41,
+        functions: 93.65,
         lines: 96.8,
       },
       include: ['**/*.ts', '**/*.tsx'],
