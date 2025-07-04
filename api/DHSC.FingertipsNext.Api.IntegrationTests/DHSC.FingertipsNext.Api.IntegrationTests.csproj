@@ -15,6 +15,8 @@
         </PackageReference>
         <PackageReference Include="DotNetEnv" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+        <PackageReference Include="Microsoft.Data.Sqlite.Core" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Json" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" />
         <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" />
@@ -32,6 +34,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\DHSC.FingertipsNext.Api\DHSC.FingertipsNext.Api.csproj" />
+        <ProjectReference Include="..\DHSC.FingertipsNext.Modules.HealthData.UnitTests\DHSC.FingertipsNext.Modules.HealthData.UnitTests.csproj" />
     </ItemGroup>
 
     <ItemGroup>

@@ -8,151 +8,150 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Shouldly;
 
-namespace DHSC.FingertipsNext.Api.IntegrationTests.UserAuth
+namespace DHSC.FingertipsNext.Api.IntegrationTests.UserAuth;
+
+public class UserAuthenticationIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
 {
-    public class UserAuthenticationIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
+    private const string JWT_STUB_ISSUER = "TestIssuer";
+    private const string JWT_STUB_AUDIENCE = "TestAudience";
+
+    private readonly WebApplicationFactory<Program> _appFactory;
+
+    public UserAuthenticationIntegrationTests(WebApplicationFactory<Program> factory)
     {
-        private const string JWT_STUB_ISSUER = "TestIssuer";
-        private const string JWT_STUB_AUDIENCE = "TestAudience";
+        ArgumentNullException.ThrowIfNull(factory);
 
-        private readonly WebApplicationFactory<Program> _appFactory;
-
-        public UserAuthenticationIntegrationTests(WebApplicationFactory<Program> factory)
+        _appFactory = factory.WithWebHostBuilder(builder =>
         {
-            ArgumentNullException.ThrowIfNull(factory);
-
-            _appFactory = factory.WithWebHostBuilder(builder =>
+            builder.ConfigureTestServices(services =>
             {
-                builder.ConfigureTestServices(services =>
-                {
-                    // Remove the existing authentication schemes if necessary
-                    services.AddAuthentication("TestScheme")
-                        .AddJwtBearer("TestScheme", options =>
+                // Remove the existing authentication schemes if necessary
+                services.AddAuthentication("TestScheme")
+                    .AddJwtBearer("TestScheme", options =>
+                    {
+                        options.TokenValidationParameters = new TokenValidationParameters
                         {
-                            options.TokenValidationParameters = new TokenValidationParameters
-                            {
-                                ValidateIssuer = true,
-                                ValidateAudience = true,
-                                ValidateLifetime = true,
-                                ValidateIssuerSigningKey = true,
-                                ValidIssuer = JWT_STUB_ISSUER,
-                                ValidAudience = JWT_STUB_AUDIENCE,
-                                IssuerSigningKey = new SymmetricSecurityKey(new byte[256]),
-                                ClockSkew = TimeSpan.Zero
-                            };
-                        });
-                });
+                            ValidateIssuer = true,
+                            ValidateAudience = true,
+                            ValidateLifetime = true,
+                            ValidateIssuerSigningKey = true,
+                            ValidIssuer = JWT_STUB_ISSUER,
+                            ValidAudience = JWT_STUB_AUDIENCE,
+                            IssuerSigningKey = new SymmetricSecurityKey(new byte[256]),
+                            ClockSkew = TimeSpan.Zero
+                        };
+                    });
             });
-        }
+        });
+    }
 
-        [Fact]
-        public async Task UserInfoEndpointShouldRejectUnauthenticatedUsers()
+    [Fact]
+    public async Task UserInfoEndpointShouldRejectUnauthenticatedUsers()
+    {
+        var client = _appFactory.CreateClient();
+
+        var response = await client.GetAsync(new Uri("/user/info", UriKind.Relative));
+
+        response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
+    }
+
+    [Fact]
+    public async Task UserInfoEndpointShouldPermitAuthenticatedUsers()
+    {
+        var client = _appFactory.CreateClient();
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken());
+
+        var response = await client.GetAsync(new Uri("/user/info", UriKind.Relative));
+
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task UserInfoEndpointShouldHandleMissingIdentityClaimAsABadRequest()
+    {
+        var client = _appFactory.CreateClient();
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken(tokenContainsSubClaim: false));
+
+        var response = await client.GetAsync(new Uri("/user/info", UriKind.Relative));
+
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task UserInfoEndpointShouldRejectExpiredTokensFromAuthenticatedUsers()
+    {
+        var client = _appFactory.CreateClient();
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken(tokenIsExpired: true));
+
+        var response = await client.GetAsync(new Uri("/user/info", UriKind.Relative));
+
+        response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
+    }
+
+    [Fact]
+    public async Task IndicatorPermissionsEndpointRejectsNonAdminAuthenticatedUsersFromViewingProtectedIndicators()
+    {
+        var client = _appFactory.CreateClient();
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken());
+
+        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator/123", UriKind.Relative));
+        var response = await client.SendAsync(req);
+
+        response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
+    }
+
+    [Fact]
+    public async Task IndicatorPermissionsEndpointPermitsAdminAuthenticatedUsersToViewProtectedIndicators()
+    {
+        var adminRoleGuid = "a6f09d79-e3de-48ae-b0ce-c48d5d8e5353";
+        var client = _appFactory.WithWebHostBuilder(b => b.UseSetting("AdminRole", adminRoleGuid)).CreateClient();
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken(adminRoleGuid));
+
+        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator/123", UriKind.Relative));
+        var response = await client.SendAsync(req);
+
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+    }
+
+    private static string GenerateTestToken(string? includeRoleClaim = null, bool tokenIsExpired = false, bool tokenContainsSubClaim = true)
+    {
+        var claims = new List<Claim>()
         {
-            var client = _appFactory.CreateClient();
+        };
 
-            var response = await client.GetAsync(new Uri("/user/info", UriKind.Relative));
-
-            response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
-        }
-
-        [Fact]
-        public async Task UserInfoEndpointShouldPermitAuthenticatedUsers()
+        if (tokenContainsSubClaim)
         {
-            var client = _appFactory.CreateClient();
-
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken());
-
-            var response = await client.GetAsync(new Uri("/user/info", UriKind.Relative));
-
-            response.StatusCode.ShouldBe(HttpStatusCode.OK);
+            claims.Add(new Claim(JwtRegisteredClaimNames.Sub, "test-user"));
         }
 
-        [Fact]
-        public async Task UserInfoEndpointShouldHandleMissingIdentityClaimAsABadRequest()
+        if (includeRoleClaim != null)
         {
-            var client = _appFactory.CreateClient();
-
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken(tokenContainsSubClaim: false));
-
-            var response = await client.GetAsync(new Uri("/user/info", UriKind.Relative));
-
-            response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+            claims.Add(new Claim(ClaimTypes.Role, includeRoleClaim));
         }
 
-        [Fact]
-        public async Task UserInfoEndpointShouldRejectExpiredTokensFromAuthenticatedUsers()
+        DateTime tokenExpiry = DateTime.UtcNow.AddMinutes(30);
+
+        if (tokenIsExpired)
         {
-            var client = _appFactory.CreateClient();
-
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken(tokenIsExpired: true));
-
-            var response = await client.GetAsync(new Uri("/user/info", UriKind.Relative));
-
-            response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
+            tokenExpiry = DateTime.UtcNow.AddMinutes(-1);
         }
 
-        [Fact]
-        public async Task IndicatorPermissionsEndpointRejectsNonAdminAuthenticatedUsersFromViewingProtectedIndicators()
-        {
-            var client = _appFactory.CreateClient();
+        var key = new SymmetricSecurityKey(new byte[256]);
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken());
+        var token = new JwtSecurityToken(
+            issuer: JWT_STUB_ISSUER,
+            audience: JWT_STUB_AUDIENCE,
+            claims: claims,
+            expires: tokenExpiry,
+            signingCredentials: creds
+        );
 
-            using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator/123", UriKind.Relative));
-            var response = await client.SendAsync(req);
-
-            response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
-        }
-
-        [Fact]
-        public async Task IndicatorPermissionsEndpointPermitsAdminAuthenticatedUsersToViewProtectedIndicators()
-        {
-            var adminRoleGuid = "a6f09d79-e3de-48ae-b0ce-c48d5d8e5353";
-            var client = _appFactory.WithWebHostBuilder(b => b.UseSetting("AdminRole", adminRoleGuid)).CreateClient();
-
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken(adminRoleGuid));
-
-            using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator/123", UriKind.Relative));
-            var response = await client.SendAsync(req);
-
-            response.StatusCode.ShouldBe(HttpStatusCode.OK);
-        }
-
-        private static string GenerateTestToken(string? includeRoleClaim = null, bool tokenIsExpired = false, bool tokenContainsSubClaim = true)
-        {
-            var claims = new List<Claim>()
-            {
-            };
-
-            if (tokenContainsSubClaim)
-            {
-                claims.Add(new Claim(JwtRegisteredClaimNames.Sub, "test-user"));
-            }
-
-            if (includeRoleClaim != null)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, includeRoleClaim));
-            }
-
-            DateTime tokenExpiry = DateTime.UtcNow.AddMinutes(30);
-
-            if (tokenIsExpired)
-            {
-                tokenExpiry = DateTime.UtcNow.AddMinutes(-1);
-            }
-
-            var key = new SymmetricSecurityKey(new byte[256]);
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var token = new JwtSecurityToken(
-                issuer: JWT_STUB_ISSUER,
-                audience: JWT_STUB_AUDIENCE,
-                claims: claims,
-                expires: tokenExpiry,
-                signingCredentials: creds
-            );
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
+        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }

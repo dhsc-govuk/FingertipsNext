@@ -20,10 +20,13 @@ dotnet_diagnostic.CA1515.severity = none
 # Static holder types should be Static or NotInheritable
 dotnet_diagnostic.CA1052.severity = none
 
-[CustomWebApplicationFactory.cs]
+[*WebApplicationFactory.cs]
 # Consider making public types internal
 dotnet_diagnostic.CA1515.severity = none
 
+[HealthMeasureModelHelper.cs]
+# Consider making public types internal
+dotnet_diagnostic.CA1515.severity = none
 
 [*{Controller,Tests}.cs]
 # Consider making public types internal

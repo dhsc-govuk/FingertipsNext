@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DHSC.FingertipsNext.Modules.HealthData.Repository;
 
 [SuppressMessage("ReSharper", "SimplifyConditionalTernaryExpression")]
-public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHealthDataRepository
+public class HealthDataRepository(HealthDataDbContext healthDataDbContext, BatchHealthDataDbContext batchHealthDataDbContext) : IHealthDataRepository
 {
     private const string AGE = "age";
     private const string DEPRIVATION = "deprivation";
@@ -121,6 +121,28 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .Where(areaDimension => EF.Constant(areaCodes).Contains(areaDimension.Code))
             .AsNoTracking()
             .ToListAsync();
+    }
+
+    public async Task<bool> DeleteAllHealthMeasureByBatchIdAsync(int indicatorId, string batchId)
+    {
+        var batchToDelete = batchHealthDataDbContext.HealthMeasure
+            .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
+            .Where(healthMeasure => healthMeasure.BatchId == batchId);
+
+        var batchToDeleteList = await batchToDelete.ToListAsync();
+
+        if (batchToDeleteList.Count == 0)
+        {
+            return false;
+        }
+
+        if (batchToDeleteList.Any(healthMeasure => healthMeasure.PublishedAt <= DateTime.UtcNow))
+        {
+            throw new InvalidOperationException("Error attempting to delete published batch.");
+        }
+
+        await batchToDelete.ExecuteDeleteAsync();
+        return true;
     }
 
     public async Task<IEnumerable<DenormalisedHealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync

@@ -2,6 +2,7 @@
 using DHSC.FingertipsNext.Modules.HealthData.Controllers.V1;
 using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 using DHSC.FingertipsNext.Modules.HealthData.Service;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using NSubstitute.Equivalency;
@@ -171,5 +172,71 @@ public class IndicatorControllerTests
 
         response?.StatusCode.ShouldBe(400);
         (response?.Value as SimpleError)?.Message.Contains("Missing parameter 'ancestor_code'. When benchmark_ref_type is set to SubNational then the ancestor_code parameter must be set", StringComparison.Ordinal).ShouldBeTrue();
+    }
+
+    [Fact]
+    public async Task DeleteUnpublishedDataRespondsWith200Response()
+    {
+        // Arrange
+        var indicatorId = 1;
+        var batchId = "batch1";
+        _indicatorService.DeleteUnpublishedDataAsync(indicatorId, batchId).Returns(new ServiceResponse<string> { Status = ResponseStatus.Success });
+
+        // Act
+        var response = await _controller.DeleteUnpublishedData(indicatorId, batchId) as OkResult;
+
+        // Assert
+        response.StatusCode.ShouldBe(StatusCodes.Status200OK);
+    }
+
+    [Fact]
+    public async Task DeleteUnpublishedDataRespondsWith404Response()
+    {
+        // Arrange
+        var indicatorId = 1;
+        var batchId = "batch1";
+        _indicatorService.DeleteUnpublishedDataAsync(indicatorId, batchId).Returns(new ServiceResponse<string> { Status = ResponseStatus.BatchNotFound });
+
+        // Act
+        var response = await _controller.DeleteUnpublishedData(indicatorId, batchId) as NotFoundObjectResult;
+
+        // Assert
+        response?.StatusCode?.ShouldBe(StatusCodes.Status404NotFound);
+        (response.Value as SimpleError)?.Message.ShouldBe($"Batch with id {batchId} not found.");
+    }
+
+    [Fact]
+    public async Task DeleteUnpublishedDataRespondsWith400Response()
+    {
+        // Arrange
+        var indicatorId = 1;
+        var batchId = "batch1";
+        var message = "Error deleting published batch";
+        _indicatorService.DeleteUnpublishedDataAsync(indicatorId, batchId)
+            .Returns(new ServiceResponse<string>
+            { Status = ResponseStatus.ErrorDeletingPublishedBatch, Content = message });
+
+        // Act
+        var response = await _controller.DeleteUnpublishedData(indicatorId, batchId) as BadRequestObjectResult;
+
+        // Assert
+        response.StatusCode.ShouldBe(StatusCodes.Status400BadRequest);
+        (response.Value as SimpleError).Message.ShouldBe(message);
+    }
+
+    [Fact]
+    public async Task DeleteUnpublishedDataRespondsWith500Response()
+    {
+        // Arrange
+        var indicatorId = 1;
+        var batchId = "batch1";
+        _indicatorService.DeleteUnpublishedDataAsync(indicatorId, batchId)
+            .Returns(new ServiceResponse<string> { Status = ResponseStatus.Unknown });
+
+        // Act
+        var response = await _controller.DeleteUnpublishedData(indicatorId, batchId) as ObjectResult;
+
+        // Assert
+        response.StatusCode.ShouldBe(StatusCodes.Status500InternalServerError);
     }
 }

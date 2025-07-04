@@ -9,7 +9,7 @@ public class HealthDataDbContext : DbContext
     {
     }
 
-    public HealthDataDbContext(DbContextOptions options)
+    public HealthDataDbContext(DbContextOptions<HealthDataDbContext> options)
         : base(options)
     {
     }
