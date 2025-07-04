@@ -88,6 +88,12 @@ BEGIN TRY
 END TRY
 BEGIN CATCH
 END CATCH;
+
+BEGIN TRY 
+    DELETE FROM [User].[IndicatorRole];
+END TRY
+BEGIN CATCH
+END CATCH;
 GO
 
 
@@ -103,6 +109,7 @@ DBCC CHECKIDENT ('[DateDimension]', RESEED, 0);
 DBCC CHECKIDENT ('[PeriodDimension]', RESEED, 0);
 DBCC CHECKIDENT ('[Areas].[Areas]', RESEED, 0);
 DBCC CHECKIDENT ('[DataManagement].[Batch]', RESEED, 0);
+DBCC CHECKIDENT ('[User].[IndicatorRole]', RESEED, 0);
 
 --create some sex dimension data
 INSERT INTO [dbo].[SexDimension] 
@@ -363,6 +370,43 @@ FROM
     #TempIndicatorData;
 
 DROP TABLE #TempIndicatorData;
+
+-- Indicator Permissions
+
+CREATE TABLE #TempIndicatorRole
+(
+    IndicatorId INT,
+    RoleId UNIQUEIDENTIFIER,
+);
+DECLARE @sqlRoles NVARCHAR(4000), @filePathIndRole NVARCHAR(500);
+IF @UseAzureBlob = '1'
+    SET @filePathIndRole = 'indicatorroles.csv';
+ELSE
+    SET @filePathIndRole = '$(LocalFilePath)indicatorroles.csv';
+SET @sqlRoles = 'BULK INSERT #TempIndicatorRole FROM ''' + @filePathIndRole + ''' WITH (' +
+              CASE WHEN @UseAzureBlob = '1'
+                   THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FORMAT = ''CSV'', FIRSTROW = 2, ROWTERMINATOR = ''0x0A'''
+                   ELSE 'DATAFILETYPE = ''char'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2'
+              END + ')';
+EXEC sp_executesql @sqlRoles;
+
+INSERT INTO [User].[IndicatorRole] 
+(
+    RoleId,
+    IndicatorKey
+)
+SELECT 
+    RoleId,
+    (SELECT TOP 1 IndicatorKey FROM [dbo].[IndicatorDimension] WHERE [IndicatorId]=IndicatorId)
+FROM 
+    #TempIndicatorRole;
+
+DROP TABLE #TempIndicatorRole;
+
+
+PRINT N'Update complete.';
+GO
+
 
 -- Area Data
 CREATE TABLE #TempAreaData
@@ -810,42 +854,4 @@ FROM
 	@HigherLevels higher
 
 DROP TABLE #TempAreaData;
-GO
-
-
-
--- Indicator Permissions
-
-CREATE TABLE #TempIndicatorRoles
-(
-    IndicatorId INT,
-    RoleId UNIQUEIDENTIFIER,
-);
-DECLARE @sqlInd NVARCHAR(4000), @filePathInd NVARCHAR(500);
-IF @UseAzureBlob = '1'
-    SET @filePathInd = 'indicatorroles.csv';
-ELSE
-    SET @filePathInd = '$(LocalFilePath)indicatorroles.csv';
-SET @sqlInd = 'BULK INSERT #TempIndicatorRoles FROM ''' + @filePathInd + ''' WITH (' +
-              CASE WHEN @UseAzureBlob = '1'
-                   THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FORMAT = ''CSV'', FIRSTROW = 2, ROWTERMINATOR = ''0x0A'''
-                   ELSE 'DATAFILETYPE = ''char'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2'
-              END + ')';
-EXEC sp_executesql @sqlInd;
-
-INSERT INTO [dbo].[IndicatorRoles] 
-(
-    RoleId,
-    IndicatorKey
-)
-SELECT 
-    RoleId,
-    (SELECT TOP 1 IndicatorKey FROM [HealthMeasure].[IndicatorDimension] WHERE [IndicatorId]=IndicatorId AND [AreaTypeKey]='districts-and-unitary-authorities')
-FROM 
-    #TempIndicatorRoles;
-
-DROP TABLE #TempIndicatorData;
-
-
-PRINT N'Update complete.';
 GO
