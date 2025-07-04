@@ -8,11 +8,23 @@ public class DataManagementDbContext : DbContext
     public DataManagementDbContext()
     {
     }
-    
-    public DataManagementDbContext(DbContextOptions<DataManagementDbContext> options) : base(options)
+
+    public DataManagementDbContext(DbContextOptions options) : base(options)
     {
     }
-    
+
+    #region Required
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        ArgumentNullException.ThrowIfNull(modelBuilder);
+        modelBuilder.Entity<BatchModel>()
+            .Property(b => b.Status)
+            .HasConversion<string>();
+    }
+
+    #endregion
+
     public DbSet<BatchModel> Batch { get; set; }
 
 }
