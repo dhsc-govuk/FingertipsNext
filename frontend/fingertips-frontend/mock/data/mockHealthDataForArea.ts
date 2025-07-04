@@ -1,6 +1,7 @@
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { mockHealthDataPoint } from '@/mock/data/mockHealthDataPoint';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { mockIndicatorSegment } from '@/mock/data/mockIndicatorSegment';
 
 export const mockHealthDataForArea = (
   overrides?: Partial<HealthDataForArea>
@@ -8,6 +9,7 @@ export const mockHealthDataForArea = (
   areaCode: 'E06000015',
   areaName: 'Derby',
   healthData: [mockHealthDataPoint()],
+  indicatorSegments: [mockIndicatorSegment()],
   ...overrides,
 });
 
