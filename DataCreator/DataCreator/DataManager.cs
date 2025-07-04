@@ -168,12 +168,12 @@ namespace DataCreator
         {
             var periodMap = new Dictionary<string, string>
             {
-                {"1m","monthly"},
-                {"3m","quarterly"},
-                {"1y","yearly"},
-                {"2y","2 yearly"},
-                {"3y","3 yearly"},
-                {"5y","5 yearly"},
+                {"1m",PeriodConstants.Monthly},
+                {"3m",PeriodConstants.Quarterly},
+                {"1y",PeriodConstants.Yearly},
+                {"2y",PeriodConstants.TwoYearly},
+                {"3y",PeriodConstants.ThreeYearly},
+                {"5y",PeriodConstants.FiveYearly},
             };
             foreach (var healthDataPoint in healthDataForIndicator)
             {

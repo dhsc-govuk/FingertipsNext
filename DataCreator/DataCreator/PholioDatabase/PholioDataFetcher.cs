@@ -396,17 +396,17 @@ FROM
         {
             var periodTypeMap = new Dictionary<string, string>
             {
-                {"November-November", "Yearly"},
-                {"Financial multi year cumulative quarters","Financial multi-year"}
+                {"November-November", PeriodTypeConstants.Yearly},
+                {"Financial multi year cumulative quarters",PeriodTypeConstants.FinancialMultiYear}
             };
 
             var allowedPeriodTypes = new HashSet<string>
             {
-                "Calendar",
-                "Financial",
-                "Financial year end point",
-                "Financial multi-year",
-                "Academic"
+                PeriodTypeConstants.Calendar,
+                PeriodTypeConstants.Financial,
+                PeriodTypeConstants.FinancialYearEndPoint,
+                PeriodTypeConstants.FinancialMultiYear,
+                PeriodTypeConstants.Academic
             };
 
             foreach (var indicator in indicators)

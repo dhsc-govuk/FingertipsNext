@@ -73,4 +73,14 @@ namespace DataCreator
         [CsvColumn(FieldIndex = 21)]
         public int Avoid { get; set; }
     }
+
+    public static class PeriodConstants
+    {
+        public const string Monthly = "monthly";
+        public const string Quarterly = "quarterly"; 
+        public const string Yearly = "yearly"; 
+        public const string TwoYearly = "2 yearly";
+        public const string ThreeYearly = "3 yearly";
+        public const string FiveYearly = "5 yearly";
+    }
 }

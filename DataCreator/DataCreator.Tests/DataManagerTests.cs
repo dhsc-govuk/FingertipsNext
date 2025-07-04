@@ -8,14 +8,13 @@ namespace DataCreator.Tests;
 [TestFixture]
 [TestOf(typeof(DataManager))]
 public class DataManagerTests
-{
-    [Theory]
-    [TestCase("Calendar", "20090000", "01/01/2009", "31/12/2009")]
-    [TestCase("Yearly", "20090000", "01/11/2009", "31/10/2010")]
-    [TestCase("Financial", "20090000", "01/04/2009", "31/03/2010")]
-    [TestCase("Financial multi-year", "20090000", "01/04/2009", "31/03/2010")]
-    [TestCase("Financial year end point", "20090000", "31/03/2009", "31/03/2009")]
-    [TestCase("Academic", "20090000", "01/09/2009", "31/08/2010")]
+{ [Theory]
+    [TestCase(PeriodTypeConstants.Calendar, "20090000", "01/01/2009", "31/12/2009")]
+    [TestCase(PeriodTypeConstants.Yearly, "20090000", "01/11/2009", "31/10/2010")]
+    [TestCase(PeriodTypeConstants.Financial, "20090000", "01/04/2009", "31/03/2010")]
+    [TestCase(PeriodTypeConstants.FinancialMultiYear, "20090000", "01/04/2009", "31/03/2010")]
+    [TestCase(PeriodTypeConstants.FinancialYearEndPoint, "20090000", "31/03/2009", "31/03/2009")]
+    [TestCase(PeriodTypeConstants.Academic, "20090000", "01/09/2009", "31/08/2010")]
     public void CreateHealthMeasurePeriodDates_ShouldCreateTheCorrectFromDateAndToDate_ForYearlyPeriod(
         string indicatorPeriodType,
         string timePeriodSortable,
@@ -36,7 +35,7 @@ public class DataManagerTests
             {
                 IndicatorId = 1,
                 TimePeriodSortable = timePeriodSortable,
-                Period = "yearly",
+                Period = PeriodConstants.Yearly,
             },
         };
 
@@ -52,12 +51,12 @@ public class DataManagerTests
     }
 
     [Theory]
-    [TestCase("Calendar", "20090000", "01/01/2009", "31/12/2010")]
-    [TestCase("Yearly", "20090000", "01/11/2009", "31/10/2011")]
-    [TestCase("Financial", "20090000", "01/04/2009", "31/03/2011")]
-    [TestCase("Financial multi-year", "20090000", "01/04/2009", "31/03/2011")]
-    [TestCase("Financial year end point", "20090000", "31/03/2009", "31/03/2010")]
-    [TestCase("Academic", "20090000", "01/09/2009", "31/08/2011")]
+    [TestCase(PeriodTypeConstants.Calendar, "20090000", "01/01/2009", "31/12/2010")]
+    [TestCase(PeriodTypeConstants.Yearly, "20090000", "01/11/2009", "31/10/2011")]
+    [TestCase(PeriodTypeConstants.Financial, "20090000", "01/04/2009", "31/03/2011")]
+    [TestCase(PeriodTypeConstants.FinancialMultiYear, "20090000", "01/04/2009", "31/03/2011")]
+    [TestCase(PeriodTypeConstants.FinancialYearEndPoint, "20090000", "31/03/2009", "31/03/2010")]
+    [TestCase(PeriodTypeConstants.Academic, "20090000", "01/09/2009", "31/08/2011")]
     public void CreateHealthMeasurePeriodDates_ShouldCreateTheCorrectFromDateAndToDate_For2YearlyPeriod(
         string indicatorPeriodType,
         string timePeriodSortable,
@@ -65,7 +64,7 @@ public class DataManagerTests
         string expectedToDate
     )
     {
-        const string reportingPeriod = "2 yearly";
+        const string reportingPeriod = PeriodConstants.TwoYearly;
         var stubIndicators = new List<SimpleIndicator>{
             new()
             {
@@ -95,12 +94,12 @@ public class DataManagerTests
     }
 
     [Theory]
-    [TestCase("Calendar", "20090000", "01/01/2009", "31/12/2011")]
-    [TestCase("Yearly", "20090000", "01/11/2009", "31/10/2012")]
-    [TestCase("Financial", "20090000", "01/04/2009", "31/03/2012")]
-    [TestCase("Financial multi-year", "20090000", "01/04/2009", "31/03/2012")]
-    [TestCase("Financial year end point", "20090000", "31/03/2009", "31/03/2011")]
-    [TestCase("Academic", "20090000", "01/09/2009", "31/08/2012")]
+    [TestCase(PeriodTypeConstants.Calendar, "20090000", "01/01/2009", "31/12/2011")]
+    [TestCase(PeriodTypeConstants.Yearly, "20090000", "01/11/2009", "31/10/2012")]
+    [TestCase(PeriodTypeConstants.Financial, "20090000", "01/04/2009", "31/03/2012")]
+    [TestCase(PeriodTypeConstants.FinancialMultiYear, "20090000", "01/04/2009", "31/03/2012")]
+    [TestCase(PeriodTypeConstants.FinancialYearEndPoint, "20090000", "31/03/2009", "31/03/2011")]
+    [TestCase(PeriodTypeConstants.Academic, "20090000", "01/09/2009", "31/08/2012")]
     public void CreateHealthMeasurePeriodDates_ShouldCreateTheCorrectFromDateAndToDate_For3YearlyPeriod(
         string indicatorPeriodType,
         string timePeriodSortable,
@@ -108,7 +107,7 @@ public class DataManagerTests
         string expectedToDate
     )
     {
-        const string reportingPeriod = "3 yearly";
+        const string reportingPeriod = PeriodConstants.ThreeYearly;
         var stubIndicators = new List<SimpleIndicator>{
             new()
             {
@@ -138,12 +137,12 @@ public class DataManagerTests
     }
 
     [Theory]
-    [TestCase("Calendar", "20090000", "01/01/2009", "31/12/2013")]
-    [TestCase("Yearly", "20090000", "01/11/2009", "31/10/2014")]
-    [TestCase("Financial", "20090000", "01/04/2009", "31/03/2014")]
-    [TestCase("Financial multi-year", "20090000", "01/04/2009", "31/03/2014")]
-    [TestCase("Financial year end point", "20090000", "31/03/2009", "31/03/2013")]
-    [TestCase("Academic", "20080000", "01/09/2008", "31/08/2013")]
+    [TestCase(PeriodTypeConstants.Calendar, "20090000", "01/01/2009", "31/12/2013")]
+    [TestCase(PeriodTypeConstants.Yearly, "20090000", "01/11/2009", "31/10/2014")]
+    [TestCase(PeriodTypeConstants.Financial, "20090000", "01/04/2009", "31/03/2014")]
+    [TestCase(PeriodTypeConstants.FinancialMultiYear, "20090000", "01/04/2009", "31/03/2014")]
+    [TestCase(PeriodTypeConstants.FinancialYearEndPoint, "20090000", "31/03/2009", "31/03/2013")]
+    [TestCase(PeriodTypeConstants.Academic, "20080000", "01/09/2008", "31/08/2013")]
     public void CreateHealthMeasurePeriodDates_ShouldCreateTheCorrectFromDateAndToDate_For5YearlyPeriod(
         string indicatorPeriodType,
         string timePeriodSortable,
@@ -151,7 +150,7 @@ public class DataManagerTests
         string expectedToDate
     )
     {
-        const string reportingPeriod = "5 yearly";
+        const string reportingPeriod = PeriodConstants.FiveYearly;
         var stubIndicators = new List<SimpleIndicator>{
             new()
             {
@@ -191,12 +190,12 @@ public class DataManagerTests
         string expectedToDate
     )
     {
-        const string reportingPeriod = "quarterly";
+        const string reportingPeriod = PeriodConstants.Quarterly;
         var stubIndicators = new List<SimpleIndicator>{
             new()
             {
                 IndicatorID = 1,
-                PeriodType = "Calendar"
+                PeriodType = PeriodTypeConstants.Calendar
             }
         };
         var stubHealthMeasures = new List<HealthMeasureEntity>
@@ -231,12 +230,12 @@ public class DataManagerTests
         string expectedToDate
     )
     {
-        const string reportingPeriod = "quarterly";
+        const string reportingPeriod = PeriodConstants.Quarterly;
         var stubIndicators = new List<SimpleIndicator>{
             new()
             {
                 IndicatorID = 1,
-                PeriodType = "Financial"
+                PeriodType = PeriodTypeConstants.Financial
             }
         };
         var stubHealthMeasures = new List<HealthMeasureEntity>
@@ -271,12 +270,12 @@ public class DataManagerTests
         string expectedToDate
     )
     {
-        const string reportingPeriod = "quarterly";
+        const string reportingPeriod = PeriodConstants.Quarterly;
         var stubIndicators = new List<SimpleIndicator>{
             new()
             {
                 IndicatorID = 1,
-                PeriodType = "Financial multi-year"
+                PeriodType = PeriodTypeConstants.FinancialMultiYear
             }
         };
         var stubHealthMeasures = new List<HealthMeasureEntity>
@@ -319,12 +318,12 @@ public class DataManagerTests
         string expectedToDate
     )
     {
-        const string reportingPeriod = "monthly";
+        const string reportingPeriod = PeriodConstants.Monthly;
         var stubIndicators = new List<SimpleIndicator>{
             new()
             {
                 IndicatorID = 1,
-                PeriodType = "Calendar"
+                PeriodType = PeriodTypeConstants.Calendar
             }
         };
         var stubHealthMeasures = new List<HealthMeasureEntity>
@@ -367,12 +366,12 @@ public class DataManagerTests
         string expectedToDate
     )
     {
-        const string reportingPeriod = "monthly";
+        const string reportingPeriod = PeriodConstants.Monthly;
         var stubIndicators = new List<SimpleIndicator>{
             new()
             {
                 IndicatorID = 1,
-                PeriodType = "Financial"
+                PeriodType = PeriodTypeConstants.Financial
             }
         };
         var stubHealthMeasures = new List<HealthMeasureEntity>
@@ -409,12 +408,12 @@ public class DataManagerTests
         string expectedToDate
     )
     {
-        const string reportingPeriod = "monthly";
+        const string reportingPeriod = PeriodConstants.Monthly;
         var stubIndicators = new List<SimpleIndicator>{
             new()
             {
                 IndicatorID = 1,
-                PeriodType = "Academic"
+                PeriodType = PeriodTypeConstants.Academic
             }
         };
         var stubHealthMeasures = new List<HealthMeasureEntity>

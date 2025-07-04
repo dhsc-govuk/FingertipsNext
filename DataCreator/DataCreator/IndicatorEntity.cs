@@ -112,8 +112,17 @@ namespace DataCreator
 
         public bool HasMultipleDeprivation { get; set; }
     }
+
+    public static class PeriodTypeConstants
+    {
+        public const string Calendar = "Calendar";
+        public const string Yearly = "Yearly";
+        public const string Financial = "Financial";
+        public const string FinancialMultiYear = "Financial multi-year";
+        public const string FinancialYearEndPoint = "Financial year end point";
+        public const string Academic = "Academic";
+    }
+
 }
-
-
 
 

@@ -31,12 +31,12 @@ public static class HealthMeasureDateCalculator
     {
         Dictionary<string, (int yearIncrement, int monthIncrement)> incrementsMap = new()
         {
-            {"monthly", (yearIncrement: 0, monthIncrement: 1)},
-            {"quarterly" , (yearIncrement: 0, monthIncrement: 3)},
-            {"yearly" , (yearIncrement: 1, monthIncrement: 0)},
-            {"2 yearly" , (yearIncrement: 2, monthIncrement: 0)},
-            {"3 yearly" , (yearIncrement: 3, monthIncrement: 0)},
-            {"5 yearly" , (yearIncrement: 5, monthIncrement: 0)},
+            {PeriodConstants.Monthly, (yearIncrement: 0, monthIncrement: 1)},
+            {PeriodConstants.Quarterly, (yearIncrement: 0, monthIncrement: 3)},
+            {PeriodConstants.Yearly, (yearIncrement: 1, monthIncrement: 0)},
+            {PeriodConstants.TwoYearly, (yearIncrement: 2, monthIncrement: 0)},
+            {PeriodConstants.ThreeYearly, (yearIncrement: 3, monthIncrement: 0)},
+            {PeriodConstants.FiveYearly, (yearIncrement: 5, monthIncrement: 0)},
         };
 
         var toDate = DateTime.Parse(healthMeasure.FromDate, new CultureInfo("en-GB"));
@@ -52,12 +52,12 @@ public static class HealthMeasureDateCalculator
     {
         Dictionary<string, (int startMonth, int startDay)> startMonthDayMap = new()
         {
-            {"Calendar", (startMonth: 1, startDay: 1) },
-            {"Yearly", (startMonth: 11, startDay: 1) },
-            {"Financial", (startMonth: 4, startDay: 1) },
-            {"Financial multi-year", (startMonth: 4, startDay: 1) },
-            {"Financial year end point", (startMonth: 3, startDay: 31) },
-            {"Academic", (startMonth: 9, startDay: 1) },
+            {PeriodTypeConstants.Calendar, (startMonth: 1, startDay: 1) },
+            {PeriodTypeConstants.Yearly, (startMonth: 11, startDay: 1) },
+            {PeriodTypeConstants.Financial, (startMonth: 4, startDay: 1) },
+            {PeriodTypeConstants.FinancialMultiYear, (startMonth: 4, startDay: 1) },
+            {PeriodTypeConstants.FinancialYearEndPoint, (startMonth: 3, startDay: 31) },
+            {PeriodTypeConstants.Academic, (startMonth: 9, startDay: 1) },
         };
 
         var baseStartYear = int.Parse(healthMeasure.TimePeriodSortable.Trim()[..4]);
