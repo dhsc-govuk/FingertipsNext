@@ -113,7 +113,7 @@ namespace DataCreator
             AddLastUpdatedDate(indicators);
 
             DataFileWriter.WriteIndicatorsJsonData(indicators.Where(indicator => !indicator.HideInSearch));
-            DataFileWriter.WriteSimpleIndicatorCsvData("indicators", indicators.Where(indicator => indicator.UsedInPoc).Cast<SimpleIndicator>());
+            DataFileWriter.WriteSimpleIndicatorCsvData("indicators", indicators.Where(indicator => indicator.UsedInPoc));
             Console.WriteLine($"Saved indicators .csv and .json files");
         }
 

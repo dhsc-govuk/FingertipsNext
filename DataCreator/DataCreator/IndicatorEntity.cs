@@ -1,4 +1,5 @@
-﻿using LINQtoCSV;
+﻿using System.Text.Json.Serialization;
+using LINQtoCSV;
 
 namespace DataCreator
 {
@@ -24,7 +25,8 @@ namespace DataCreator
         public string UnitLabel { get; set; }
         public string UnitValue { get; set; }
         
-        public string YearType { get; set; }
+        [JsonIgnore]
+        public string YearType { get; init; }
         public string IndicatorDefinition
         {
             get => _indicatorDefinition.StripHTML();
@@ -58,7 +60,7 @@ namespace DataCreator
 
         public bool HasInequalities { get; set; }
 
-        // //indicators 337 and 92708 are population indicators and we don't them to appear in search results
+        // indicators 337 and 92708 are population indicators and we don't them to appear in search results
         public bool HideInSearch => IndicatorID == 337 || IndicatorID == 92708;
     }
 
