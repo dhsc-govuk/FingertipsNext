@@ -39,7 +39,7 @@ public class DataManagementRepositoryTests : IDisposable
         var act = () => _dataManagementRepository = new DataManagementRepository(null!);
 
         act.ShouldThrow<ArgumentNullException>()
-            .Message.ShouldBe("Value cannot be null. (Parameter 'healthDataDbContext')");
+            .Message.ShouldBe("Value cannot be null. (Parameter 'dataManagementDbContext')");
     }
 
     [Fact]
