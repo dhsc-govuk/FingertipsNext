@@ -408,16 +408,6 @@ export default class ResultsPage extends AreaFilter {
     }
   }
 
-  async verifyUrlExcludesAllIndicators() {
-    await expect(this.page).not.toHaveURL(/&is=/);
-  }
-
-  async verifyUrlUpdatedAfterDeselection(deselectedIndicator: string) {
-    await expect(this.page).not.toHaveURL(
-      new RegExp(`&is=${deselectedIndicator}`)
-    );
-  }
-
   async clickViewBackgroundInformationLinkForIndicator(
     indicator: RawIndicatorDocument
   ) {

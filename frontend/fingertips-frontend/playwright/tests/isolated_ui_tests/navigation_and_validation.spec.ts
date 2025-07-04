@@ -105,6 +105,43 @@ test.describe('Home Page Tests', () => {
       );
     });
   });
+
+  test('clear all areas from home page should correctly clear selected areas', async ({
+    homePage,
+    resultsPage,
+  }) => {
+    await test.step('Navigate to results page with areas', async () => {
+      await resultsPage.navigateToResults(
+        subjectSearchTerm,
+        [
+          allNHSRegionAreas[0].areaCode,
+          allNHSRegionAreas[1].areaCode,
+          allNHSRegionAreas[2].areaCode,
+        ],
+        'nhs-regions'
+      );
+
+      await resultsPage.checkSearchResultsTitleBasedOnSearchMode(
+        searchMode,
+        subjectSearchTerm
+      );
+    });
+
+    await test.step('click back and assert on homepage with areas', async () => {
+      await resultsPage.clickBackLink();
+
+      await homePage.checkOnHomePage();
+    });
+
+    await test.step('click clear all and assert behaviour', async () => {
+      await homePage.clearAllSelectedAreasHomePage();
+
+      await test
+        .expect(homePage.page)
+        .not.toHaveURL(allNHSRegionAreas[0].areaCode);
+      await homePage.verifyUrlExcludesAllIndicators();
+    });
+  });
 });
 
 test.describe('Results Page Tests', () => {
@@ -270,8 +307,7 @@ test.describe('Area Filter Tests', () => {
       sortAlphabetically(expectedPillTexts);
       test.expect(filterPillNames).toEqual(expectedPillTexts);
 
-      // Verify all area filter comboboxes are disabled when an area/areas are selected
-      await test.expect(resultsPage.areaFilterCombobox()).toBeDisabled();
+      await resultsPage.assertAreaFiltersDisabled();
     });
 
     await test.step('Remove one pill and verify remaining pills', async () => {
@@ -307,13 +343,12 @@ test.describe('Area Filter Tests', () => {
         .not.toHaveURL(allNHSRegionAreas[2].areaCode);
 
       await resultsPage.closeAreaFilterPill(0);
+
       await test
         .expect(resultsPage.page)
         .not.toHaveURL(allNHSRegionAreas[0].areaCode);
       await resultsPage.verifyUrlExcludesAllIndicators();
-
-      // Verify area filter combobox is enabled when no areas are selected
-      await test.expect(resultsPage.areaFilterCombobox()).toBeEnabled();
+      await resultsPage.assertAreaFiltersEnabled();
     });
   });
 
@@ -335,7 +370,7 @@ test.describe('Area Filter Tests', () => {
       await resultsPage.selectGroupTypeAndAssertURLUpdated(groupType);
       await resultsPage.selectGroupAndAssertURLUpdated(group);
       await resultsPage.selectAreaAndAssertURLUpdated(area, areaCode);
-      await resultsPage.assertFiltersDisabled();
+      await resultsPage.assertAreaFiltersDisabled();
     });
 
     await test.step('change to different GP area', async () => {
@@ -347,7 +382,7 @@ test.describe('Area Filter Tests', () => {
 
       await resultsPage.selectGroupAndAssertURLUpdated(newGroup);
       await resultsPage.selectAreaAndAssertURLUpdated(newArea, newAreaCode);
-      await resultsPage.assertFiltersDisabled();
+      await resultsPage.assertAreaFiltersDisabled();
     });
 
     await test.step('filter by England', async () => {
@@ -362,7 +397,7 @@ test.describe('Area Filter Tests', () => {
         englandAreaType,
         areaCodeForEngland
       );
-      await resultsPage.assertFiltersDisabled();
+      await resultsPage.assertAreaFiltersDisabled();
     });
 
     await test.step('filter by NHS regions', async () => {
@@ -379,7 +414,7 @@ test.describe('Area Filter Tests', () => {
         northWestNhsRegion,
         northWestNhsRegionCode
       );
-      await resultsPage.assertFiltersDisabled();
+      await resultsPage.assertAreaFiltersDisabled();
     });
 
     await test.step('filter by counties and unitary authorities', async () => {
@@ -401,7 +436,17 @@ test.describe('Area Filter Tests', () => {
       await resultsPage.selectGroupTypeAndAssertURLUpdated(groupType);
       await resultsPage.assertGroupFilterContainsOnly('');
       await resultsPage.selectAreaAndAssertURLUpdated(area, areaCode);
-      await resultsPage.assertFiltersDisabled();
+      await resultsPage.assertAreaFiltersDisabled();
+    });
+
+    await test.step('click clear all and assert behaviour', async () => {
+      await resultsPage.clearAllSelectedAreasResultsPage();
+
+      await test
+        .expect(resultsPage.page)
+        .not.toHaveURL(allNHSRegionAreas[0].areaCode);
+      await resultsPage.verifyUrlExcludesAllIndicators();
+      await resultsPage.assertAreaFiltersEnabled();
     });
   });
 });
