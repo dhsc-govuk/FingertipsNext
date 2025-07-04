@@ -248,8 +248,23 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         return quartileData == null ? null : healthDataMapper.Map(quartileData.ToList());
     }
 
-    public Task<ServiceResponse<string>> DeleteUnpublishedData(int indicatorId, string batchId)
+    public async Task<ServiceResponse<string>> DeleteUnpublishedDataAsync(int indicatorId, string batchId)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var result = await healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(indicatorId, batchId);
+            return new ServiceResponse<string>()
+            {
+                Status = result ? ResponseStatus.Success : ResponseStatus.BatchNotFound,
+            };
+        }
+        catch (InvalidOperationException exception)
+        {
+            return new ServiceResponse<string>()
+            {
+                Status = ResponseStatus.ErrorDeletingPublishedBatch,
+                Content = exception.Message
+            };
+        }
     }
 }

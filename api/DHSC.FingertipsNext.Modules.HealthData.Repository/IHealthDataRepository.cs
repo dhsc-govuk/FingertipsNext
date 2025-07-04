@@ -23,5 +23,5 @@ public interface IHealthDataRepository
     Task<IEnumerable<QuartileDataModel>> GetQuartileDataAsync(IEnumerable<int> indicatorIds, string areaCode, string areaTypeKey, string ancestorCode, string benchmarkAreaCode);
 
     Task<IEnumerable<AreaDimensionModel>> GetAreasAsync(string[] areaCodes);
-    Task DeleteAllHealthMeasureByBatchIdAsync(int indicatorId, string batchId);
+    Task<bool> DeleteAllHealthMeasureByBatchIdAsync(int indicatorId, string batchId);
 }

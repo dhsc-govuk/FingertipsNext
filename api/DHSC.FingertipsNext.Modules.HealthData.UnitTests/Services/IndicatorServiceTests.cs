@@ -8,6 +8,7 @@ using NSubstitute;
 using NSubstitute.Core.Arguments;
 using Shouldly;
 using System.Globalization;
+using NSubstitute.ExceptionExtensions;
 using BenchmarkComparison = DHSC.FingertipsNext.Modules.HealthData.Schemas.BenchmarkComparison;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Services;
@@ -1242,5 +1243,51 @@ public class IndicatorServiceTests
                     BenchmarkValue = 5,
                 }
             );
+    }
+
+    [Fact]
+    public async Task DeleteUnpublishedDataAsyncShouldReturnSuccess()
+    {
+        // Arrange
+        var stubBatchId = "batch1";
+        var stubIndicatorId = 1;
+        _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(stubIndicatorId, stubBatchId).Returns(true);
+
+        // Act
+        var result = await _indicatorService.DeleteUnpublishedDataAsync(stubIndicatorId, stubBatchId);
+
+        // Assert
+        result.Status.ShouldBe(ResponseStatus.Success);
+    }
+
+    [Fact]
+    public async Task DeleteUnpublishedDataAsyncShouldReturnNotFound()
+    {
+        // Arrange
+        var stubBatchId = "batch1";
+        var stubIndicatorId = 1;
+        _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(stubIndicatorId, stubBatchId).Returns(false);
+
+        // Act
+        var result = await _indicatorService.DeleteUnpublishedDataAsync(stubIndicatorId, stubBatchId);
+
+        // Assert
+        result.Status.ShouldBe(ResponseStatus.BatchNotFound);
+    }
+
+    [Fact]
+    public async Task DeleteUnpublishedDataAsyncShouldReturnError()
+    {
+        // Arrange
+        var stubBatchId = "batch1";
+        var stubIndicatorId = 1;
+        _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(stubIndicatorId, stubBatchId)
+            .Throws(new InvalidOperationException());
+
+        // Act
+        var result = await _indicatorService.DeleteUnpublishedDataAsync(stubIndicatorId, stubBatchId);
+
+        // Assert
+        result.Status.ShouldBe(ResponseStatus.ErrorDeletingPublishedBatch);
     }
 }

@@ -7,12 +7,12 @@ public class BatchHealthDataDbContext : DbContext
 {
     public BatchHealthDataDbContext()
     {
-    } 
+    }
 
     public BatchHealthDataDbContext(DbContextOptions options) : base(options)
     {
     }
-    
+
     public DbSet<HealthMeasureModel> HealthMeasure { get; set; }
     public DbSet<IndicatorDimensionModel> IndicatorDimension { get; set; }
 }

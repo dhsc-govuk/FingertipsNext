@@ -43,7 +43,7 @@ public class HealthDataRepositoryTests : IDisposable
         {
             _dbContext.Dispose();
             _batchContext.Dispose();
-            
+
         }
     }
 

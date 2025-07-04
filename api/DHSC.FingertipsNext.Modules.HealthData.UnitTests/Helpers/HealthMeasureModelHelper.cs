@@ -247,7 +247,7 @@ internal sealed class HealthMeasureModelHelper(
         var deprivationDimension = _deprivationDimension ?? DefaultDeprivationDimension();
         var publishedAt = isPublished ? DateTime.UtcNow : DateTime.UtcNow.AddYears(1);
         var batchId = _batchId ?? "12345_20250101120000";
-        
+
 
         return new HealthMeasureModel
         {
