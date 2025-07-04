@@ -9,7 +9,7 @@
       <EmbeddedResource Remove="Services\**" />
       <None Remove="Services\**" />
     </ItemGroup>
-
+  
     <ItemGroup>
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Common.Schemas\DHSC.FingertipsNext.Modules.Common.Schemas.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.HealthData.Repository\DHSC.FingertipsNext.Modules.HealthData.Repository.csproj" />

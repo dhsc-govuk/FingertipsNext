@@ -5,7 +5,7 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Service;
 /// <summary>
 ///     Given two HealthDataPoints determines the benchmark comparison
 /// </summary>
-public static class BenchmarkComparisonEngine
+internal static class BenchmarkComparisonEngine
 {
     /// <summary>
     ///     Loops over the area data applying benchmark comparisons
@@ -25,14 +25,12 @@ public static class BenchmarkComparisonEngine
     /// <returns>
     ///     An enumerable of <c>HealthDataForArea</c>
     /// </returns>
-    public static IEnumerable<HealthDataForArea> PerformAreaBenchmarking(
+    internal static IEnumerable<HealthDataForArea> PerformAreaBenchmarking(
     IEnumerable<HealthDataForArea> healthDataForAreasOfInterest,
     HealthDataForArea benchmarkHealthData,
     IndicatorPolarity polarity
 )
     {
-        ArgumentNullException.ThrowIfNull(healthDataForAreasOfInterest);
-        ArgumentNullException.ThrowIfNull(benchmarkHealthData);
         var result = new List<HealthDataForArea>();
         foreach (var healthAreaData in healthDataForAreasOfInterest)
         {
@@ -45,12 +43,11 @@ public static class BenchmarkComparisonEngine
         return result;
     }
 
-    public static IEnumerable<HealthDataForArea> PerformInequalityBenchmarking(
+    internal static IEnumerable<HealthDataForArea> PerformInequalityBenchmarking(
         IEnumerable<HealthDataForArea> healthDataForAreasOfInterest,
         IndicatorPolarity polarity
     )
     {
-        ArgumentNullException.ThrowIfNull(healthDataForAreasOfInterest);
         var result = new List<HealthDataForArea>();
 
         foreach (var areaHealthData in healthDataForAreasOfInterest)

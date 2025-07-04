@@ -9,4 +9,10 @@
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.HealthData.Schemas\DHSC.FingertipsNext.Modules.HealthData.Schemas.csproj" />
     </ItemGroup>
 
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>DHSC.FingertipsNext.Modules.HealthData.UnitTests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>  
+
 </Project>
