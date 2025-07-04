@@ -1,7 +1,7 @@
 'use server';
 
 import { signIn, signOut } from '@/lib/auth';
-import { AuthProvidersFactory } from '@/lib/auth/config';
+import { AuthProvidersFactory } from '@/lib/auth/providers/providerFactory';
 
 export async function signInHandler() {
   const providers = AuthProvidersFactory.getProviders();

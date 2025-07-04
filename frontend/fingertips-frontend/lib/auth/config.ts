@@ -1,46 +1,40 @@
-import {
-  FingertipsAuthProvider,
-  FingertipsProfile,
-  getFTAProviderConfig,
-} from '@/lib/auth/providers/fingertipsAuthProvider';
-import { MockAuthProvider } from '@/lib/auth/providers/mockProvider';
+import { UserInfoType } from '@/generated-sources/ft-api-client';
+import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import { AuthProvidersFactory } from '@/lib/auth/providers/providerFactory';
 import { NextAuthConfig } from 'next-auth';
-import { CredentialsConfig, OIDCConfig } from 'next-auth/providers';
+import 'next-auth/jwt';
 
-export class AuthProvidersFactory {
-  private static providers:
-    | (CredentialsConfig | OIDCConfig<FingertipsProfile>)[]
-    | null;
-
-  public static getProviders() {
-    this.providers ??= this.buildProviders();
-
-    return this.providers;
+declare module 'next-auth' {
+  interface Session {
+    accessToken?: string;
   }
+}
 
-  public static reset() {
-    this.providers = null;
-  }
-
-  private static buildProviders() {
-    const providers = [];
-
-    const ftaProviderConfig = getFTAProviderConfig();
-    if (ftaProviderConfig) {
-      providers.push(FingertipsAuthProvider(ftaProviderConfig));
-    }
-
-    if (process.env.AUTH_USE_PASSWORD_MOCK === 'true') {
-      providers.push(MockAuthProvider);
-    }
-
-    return providers;
+declare module 'next-auth/jwt' {
+  interface JWT {
+    accessToken?: string;
   }
 }
 
 export function buildAuthConfig(): NextAuthConfig {
   const config: NextAuthConfig = {
     providers: AuthProvidersFactory.getProviders(),
+    callbacks: {
+      jwt: async ({ token, user: _, account }) => {
+        if (account && account.access_token) {
+          if (await validateAccessToken(account.access_token)) {
+            return { ...token, accessToken: account?.access_token };
+          }
+        }
+        return token;
+      },
+
+      session: ({ session, token }) => {
+        session.accessToken = token.accessToken;
+
+        return session;
+      },
+    },
   };
 
   if (!process.env.AUTH_SECRET) {
@@ -51,4 +45,31 @@ export function buildAuthConfig(): NextAuthConfig {
   }
 
   return config;
+}
+
+const validateAccessToken = async (accessToken: string): Promise<boolean> => {
+  const userResponse = await getUser(accessToken);
+  if (userResponse) {
+    console.log(`JH userId: ${userResponse.externalId}`);
+    return true;
+  }
+  console.log(`JH invalid access token`);
+  return false;
+};
+
+async function getUser(accessToken: string) {
+  const userApi = ApiClientFactory.getUserApiClient();
+  let userInfoResponse: UserInfoType;
+
+  try {
+    userInfoResponse = await userApi.getUserInfo({
+      headers: { Authorization: `bearer ${accessToken}` },
+    });
+  } catch (error) {
+    // JH TODO
+    console.log(error);
+    return undefined;
+  }
+
+  return userInfoResponse;
 }
