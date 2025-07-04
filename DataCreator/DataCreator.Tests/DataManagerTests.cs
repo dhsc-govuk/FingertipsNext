@@ -56,6 +56,7 @@ public class DataManagerTests
     [TestCase("Yearly", "20090000", "01/11/2009","31/10/2011")]
     [TestCase("Financial", "20090000", "01/04/2009", "31/03/2011")]
     [TestCase("Financial multi-year", "20090000", "01/04/2009", "31/03/2011")]
+    [TestCase("Financial year end point", "20090000", "31/03/2009", "31/03/2010")]
     [TestCase("Academic", "20090000", "01/09/2009", "31/08/2011")]
     public void CreateHealthMeasurePeriodDates_ShouldCreateTheCorrectFromDateAndToDate_For2YearlyPeriod(
         string indicatorPeriodType,
@@ -98,6 +99,7 @@ public class DataManagerTests
     [TestCase("Yearly", "20090000", "01/11/2009","31/10/2012")]
     [TestCase("Financial", "20090000", "01/04/2009", "31/03/2012")]
     [TestCase("Financial multi-year", "20090000", "01/04/2009", "31/03/2012")]
+    [TestCase("Financial year end point", "20090000", "31/03/2009", "31/03/2011")]
     [TestCase("Academic", "20090000", "01/09/2009", "31/08/2012")]
     public void CreateHealthMeasurePeriodDates_ShouldCreateTheCorrectFromDateAndToDate_For3YearlyPeriod(
         string indicatorPeriodType,
@@ -137,8 +139,10 @@ public class DataManagerTests
 
     [Theory]
     [TestCase("Calendar", "20090000", "01/01/2009", "31/12/2013")]
-    [TestCase("Financial", "20080000", "01/04/2008", "31/03/2013")]
-    [TestCase("Financial multi-year", "20080000", "01/04/2008", "31/03/2013")]
+    [TestCase("Yearly", "20090000", "01/11/2009","31/10/2014")]
+    [TestCase("Financial", "20090000", "01/04/2009", "31/03/2014")]
+    [TestCase("Financial multi-year", "20090000", "01/04/2009", "31/03/2014")]
+    [TestCase("Financial year end point", "20090000", "31/03/2009", "31/03/2013")]
     [TestCase("Academic", "20080000", "01/09/2008", "31/08/2013")]
     public void CreateHealthMeasurePeriodDates_ShouldCreateTheCorrectFromDateAndToDate_For5YearlyPeriod(
         string indicatorPeriodType,
@@ -217,13 +221,14 @@ public class DataManagerTests
     }
     
     [Theory]
-    [TestCase("20090100", "01/04/2009")]
-    [TestCase("20090200", "01/07/2009")]
-    [TestCase("20090300", "01/10/2009")]
-    [TestCase("20090400", "01/01/2010")]
+    [TestCase("20090100", "01/04/2009", "30/06/2009")]
+    [TestCase("20090200", "01/07/2009", "30/09/2009")]
+    [TestCase("20090300", "01/10/2009", "31/12/2009")]
+    [TestCase("20090400", "01/01/2010", "31/03/2010")]
     public void CreateHealthMeasurePeriodDates_ShouldCreateTheCorrectFromDate_ForFinancialQuarterly(
         string timePeriodSortable,
-        string expectedFromDate
+        string expectedFromDate,
+        string expectedToDate
     )
     {
         const string reportingPeriod = "quarterly";
@@ -252,16 +257,18 @@ public class DataManagerTests
 
         // Assert
         actualFromDates.ShouldBeEquivalentTo(expectedFromDate);
+        actualToDates.ShouldBeEquivalentTo(expectedToDate);
     }
     
     [Theory]
-    [TestCase("20090100", "01/04/2009")]
-    [TestCase("20090200", "01/07/2009")]
-    [TestCase("20090300", "01/10/2009")]
-    [TestCase("20090400", "01/01/2010")]
+    [TestCase("20090100", "01/04/2009", "30/06/2009")]
+    [TestCase("20090200", "01/07/2009", "30/09/2009")]
+    [TestCase("20090300", "01/10/2009", "31/12/2009")]
+    [TestCase("20090400", "01/01/2010", "31/03/2010")]
     public void CreateHealthMeasurePeriodDates_ShouldCreateTheCorrectFromDate_ForFinancialMultiYearQuarterly(
         string timePeriodSortable,
-        string expectedFromDate
+        string expectedFromDate,
+        string expectedToDate
     )
     {
         const string reportingPeriod = "quarterly";
@@ -290,24 +297,26 @@ public class DataManagerTests
 
         // Assert
         actualFromDates.ShouldBeEquivalentTo(expectedFromDate);
+        actualToDates.ShouldBeEquivalentTo(expectedToDate);
     }
 
     [Theory]
-    [TestCase("20090001", "01/01/2009")]
-    [TestCase("20090002", "01/02/2009")]
-    [TestCase("20090003", "01/03/2009")]
-    [TestCase("20090004", "01/04/2009")]
-    [TestCase("20090005", "01/05/2009")]
-    [TestCase("20090006", "01/06/2009")]
-    [TestCase("20090007", "01/07/2009")]
-    [TestCase("20090008", "01/08/2009")]
-    [TestCase("20090009", "01/09/2009")]
-    [TestCase("20090010", "01/10/2009")]
-    [TestCase("20090011", "01/11/2009")]
-    [TestCase("20090012", "01/12/2009")]
+    [TestCase("20090001", "01/01/2009", "31/01/2009")]
+    [TestCase("20090002", "01/02/2009", "28/02/2009")]
+    [TestCase("20090003", "01/03/2009", "31/03/2009")]
+    [TestCase("20090004", "01/04/2009", "30/04/2009")]
+    [TestCase("20090005", "01/05/2009", "31/05/2009")]
+    [TestCase("20090006", "01/06/2009", "30/06/2009")]
+    [TestCase("20090007", "01/07/2009", "31/07/2009")]
+    [TestCase("20090008", "01/08/2009", "31/08/2009")]
+    [TestCase("20090009", "01/09/2009", "30/09/2009")]
+    [TestCase("20090010", "01/10/2009", "31/10/2009")]
+    [TestCase("20090011", "01/11/2009", "30/11/2009")]
+    [TestCase("20090012", "01/12/2009", "31/12/2009")]
     public void CreateHealthMeasurePeriodDates_ShouldCreateTheCorrectFromDate_ForCalendarMonthly(
         string timePeriodSortable,
-        string expectedFromDate
+        string expectedFromDate,
+        string expectedToDate
     )
     {
         const string reportingPeriod = "monthly";
@@ -336,24 +345,26 @@ public class DataManagerTests
 
         // Assert
         actualFromDates.ShouldBeEquivalentTo(expectedFromDate);
+        actualToDates.ShouldBeEquivalentTo(expectedToDate);
     }
-
+    
     [Theory]
-    [TestCase("20090001", "01/04/2009")]
-    [TestCase("20090002", "01/05/2009")]
-    [TestCase("20090003", "01/06/2009")]
-    [TestCase("20090004", "01/07/2009")]
-    [TestCase("20090005", "01/08/2009")]
-    [TestCase("20090006", "01/09/2009")]
-    [TestCase("20090007", "01/10/2009")]
-    [TestCase("20090008", "01/11/2009")]
-    [TestCase("20090009", "01/12/2009")]
-    [TestCase("20090010", "01/01/2010")]
-    [TestCase("20090011", "01/02/2010")]
-    [TestCase("20090012", "01/03/2010")]
+    [TestCase("20090001", "01/04/2009", "30/04/2009")]
+    [TestCase("20090002", "01/05/2009", "31/05/2009")]
+    [TestCase("20090003", "01/06/2009", "30/06/2009")]
+    [TestCase("20090004", "01/07/2009", "31/07/2009")]
+    [TestCase("20090005", "01/08/2009", "31/08/2009")]
+    [TestCase("20090006", "01/09/2009", "30/09/2009")]
+    [TestCase("20090007", "01/10/2009", "31/10/2009")]
+    [TestCase("20090008", "01/11/2009", "30/11/2009")]
+    [TestCase("20090009", "01/12/2009", "31/12/2009")]
+    [TestCase("20090010", "01/01/2010", "31/01/2010")]
+    [TestCase("20090011", "01/02/2010", "28/02/2010")]
+    [TestCase("20090012", "01/03/2010", "31/03/2010")]
     public void CreateHealthMeasurePeriodDates_ShouldCreateTheCorrectFromDate_ForFinancialMonthly(
         string timePeriodSortable,
-        string expectedFromDate
+        string expectedFromDate,
+        string expectedToDate
     )
     {
         const string reportingPeriod = "monthly";
@@ -382,18 +393,20 @@ public class DataManagerTests
 
         // Assert
         actualFromDates.ShouldBeEquivalentTo(expectedFromDate);
+        actualToDates.ShouldBeEquivalentTo(expectedToDate);
     }
 
     [Theory]
-    [TestCase("20090001", "01/09/2009")]
-    [TestCase("20090002", "01/10/2009")]
-    [TestCase("20090003", "01/11/2009")]
-    [TestCase("20090004", "01/12/2009")]
-    [TestCase("20090005", "01/01/2010")]
-    [TestCase("20090012", "01/08/2010")]
+    [TestCase("20090001", "01/09/2009", "30/09/2009")]
+    [TestCase("20090002", "01/10/2009", "31/10/2009")]
+    [TestCase("20090003", "01/11/2009", "30/11/2009")]
+    [TestCase("20090004", "01/12/2009", "31/12/2009")]
+    [TestCase("20090005", "01/01/2010", "31/01/2010")]
+    [TestCase("20090012", "01/08/2010", "31/08/2010")]
     public void CreateHealthMeasurePeriodDates_ShouldCreateTheCorrectFromDate_ForAcademicMonthly(
         string timePeriodSortable,
-        string expectedFromDate
+        string expectedFromDate,
+        string expectedToDate
     )
     {
         const string reportingPeriod = "monthly";
@@ -422,5 +435,6 @@ public class DataManagerTests
 
         // Assert
         actualFromDates.ShouldBeEquivalentTo(expectedFromDate);
+        actualToDates.ShouldBeEquivalentTo(expectedToDate);
     }
 }

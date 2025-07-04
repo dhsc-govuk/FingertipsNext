@@ -45,6 +45,10 @@ public static class HealthMeasureDateCalculator
         {
             toDate = toDate.AddYears(yearIncrement).AddMonths(monthIncrement).AddDays(-1);
         }
+        else
+        {
+            toDate = toDate.AddYears(yearIncrement-1);
+        }
 
         healthMeasure.ToDate = toDate.ToShortDateString();
     }
