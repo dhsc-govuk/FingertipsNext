@@ -1,6 +1,8 @@
 import { test } from '../../page-objects/pageFactory';
 import { ErrorAreaCode, ErrorIndicatorId } from '@/mock/ErrorTriggeringIds';
 
+const errorChartPageURL = `chart?si=Alzheimer&is=${ErrorIndicatorId}&ats=england&gts=england&gs=${ErrorAreaCode}`;
+
 // we are intentionally setting failOnUnhandledError to false as we are testing error handling in this file
 test.use({ failOnUnhandledError: false });
 
@@ -21,14 +23,12 @@ test.describe('Error page tests', () => {
     chartPage,
     axeBuilder,
   }) => {
-    await chartPage.page.goto(`/chart?is=`);
+    await chartPage.page.goto(errorChartPageURL);
 
     await test
       .expect(chartPage.errorPageTitle())
       .toContainText('Sorry, there is a problem with the service');
-    await chartPage.expectNoAccessibilityViolations(axeBuilder, [
-      'document-title',
-    ]);
+    await chartPage.expectNoAccessibilityViolations(axeBuilder);
   });
 
   test('Indicator page displays ErrorPage when API returns unexpected error', async ({
