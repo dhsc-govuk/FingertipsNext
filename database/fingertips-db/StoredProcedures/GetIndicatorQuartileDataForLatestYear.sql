@@ -190,4 +190,6 @@ FROM @RequestedIndicatorIds AS rii
     LEFT JOIN ComparisonAreaValue AS ca ON ca.IndicatorKey = ri.IndicatorKey
     LEFT JOIN ComparisonAncestor AS ancestor ON ancestor.IndicatorKey = ri.IndicatorKey
     LEFT JOIN EnglandValue AS england ON england.IndicatorKey = ri.IndicatorKey
+ORDER BY 
+    rii.IndicatorId
 END
