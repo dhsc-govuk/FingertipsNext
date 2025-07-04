@@ -18,7 +18,7 @@ public class IndicatorSegment
     ///     Is the segment the aggregate for the indicator
     /// </summary>
     [JsonPropertyName("isAggregate")]
-    public bool IsAggregate { get; set; }
+    public bool IsAggregate { get; init; }
 
     /// <summary>
     ///     The health data points for the area and indicator

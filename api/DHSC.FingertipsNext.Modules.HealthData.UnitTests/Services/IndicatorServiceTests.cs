@@ -76,7 +76,7 @@ public class IndicatorServiceTests
             AreaCode = expectedAreaCode,
             AreaName = expectedAreaName,
             HealthData = expectedHealthData,
-            IndicatorSegments = new List<IndicatorSegment>(),
+            IndicatorSegments = ToIndicatorSegments(expectedHealthData.ToArray())
         };
 
         _healthDataRepository
@@ -96,7 +96,6 @@ public class IndicatorServiceTests
             []
         );
         var areaHealthData = result.Content.AreaHealthData.ToList();
-        areaHealthData[0].IndicatorSegments = new List<IndicatorSegment>();
         areaHealthData.ShouldNotBeEmpty();
         areaHealthData.Count.ShouldBe(1);
         areaHealthData.ElementAt(0).ShouldBeEquivalentTo(expected);
@@ -112,14 +111,16 @@ public class IndicatorServiceTests
             .WithAreaDimension(expectedAreaCode2, expectedAreaName2)
             .Build();
 
+        var expectedHealthDataPoints = new List<HealthDataPoint> { _healthDataMapper.Map(healthMeasure2) };
+
         var expected = new List<HealthDataForArea>
         {
             new()
             {
                 AreaCode = expectedAreaCode2,
                 AreaName = expectedAreaName2,
-                HealthData = new List<HealthDataPoint> { _healthDataMapper.Map(healthMeasure2) },
-                IndicatorSegments = new List<IndicatorSegment>()
+                HealthData = expectedHealthDataPoints,
+                IndicatorSegments = ToIndicatorSegments(expectedHealthDataPoints.ToArray())
             },
         };
         _healthDataRepository
@@ -139,10 +140,6 @@ public class IndicatorServiceTests
             [],
             latestOnly: true
         );
-        foreach (var area in result.Content.AreaHealthData)
-        {
-            area.IndicatorSegments = new List<IndicatorSegment>();
-        }
         result.Content.AreaHealthData.ShouldNotBeEmpty();
         result.Content.AreaHealthData.Count().ShouldBe(1);
         result.Content.AreaHealthData.ShouldBeEquivalentTo(expected);
@@ -163,25 +160,33 @@ public class IndicatorServiceTests
         var healthMeasure3 = new HealthMeasureModelHelper(year: 2020)
             .WithAreaDimension(expectedAreaCode, expectedAreaName)
             .Build();
+
+        var expectedHealthDataPoints1 = new List<HealthDataPoint>
+        {
+            _healthDataMapper.Map(healthMeasure1),
+            _healthDataMapper.Map(healthMeasure3)
+        }.OrderBy(hm => hm.DatePeriod.From).ToList();
+
+        var expectedHealthDataPoints2 = new List<HealthDataPoint>
+        {
+            _healthDataMapper.Map(healthMeasure2)
+        };
+
         var expected = new List<HealthDataForArea>
         {
             new()
             {
                 AreaCode = expectedAreaCode,
                 AreaName = expectedAreaName,
-                HealthData = new List<HealthDataPoint>
-                {
-                    _healthDataMapper.Map(healthMeasure1),
-                    _healthDataMapper.Map(healthMeasure3),
-                }.OrderBy(hm => hm.DatePeriod.From ).ToList(),
-                IndicatorSegments = new List<IndicatorSegment>()
+                HealthData = expectedHealthDataPoints1,
+                IndicatorSegments = ToIndicatorSegments(expectedHealthDataPoints1.ToArray())
             },
             new()
             {
                 AreaCode = expectedAreaCode2,
                 AreaName = expectedAreaName2,
-                HealthData = new List<HealthDataPoint> { _healthDataMapper.Map(healthMeasure2) },
-                IndicatorSegments = new List<IndicatorSegment>()
+                HealthData = expectedHealthDataPoints2,
+                IndicatorSegments = ToIndicatorSegments(expectedHealthDataPoints2.ToArray())
             },
         };
         _healthDataRepository
@@ -202,10 +207,6 @@ public class IndicatorServiceTests
             [],
             []
         );
-        foreach (var item in result.Content.AreaHealthData)
-        {
-            item.IndicatorSegments = new List<IndicatorSegment>();
-        }
         result.Content.AreaHealthData.ShouldNotBeEmpty();
         result.Content.AreaHealthData.Count().ShouldBe(2);
         result.Content.AreaHealthData.ShouldBeEquivalentTo(expected);
@@ -1248,5 +1249,27 @@ public class IndicatorServiceTests
                     BenchmarkValue = 5,
                 }
             );
+    }
+    private List<IndicatorSegment> ToIndicatorSegments(HealthDataPoint[] healthDataPoints)
+    {
+        if (healthDataPoints == null || healthDataPoints.Length == 0)
+            return new List<IndicatorSegment>();
+
+        // Group by all properties of Sex and IsAggregate
+        var segments = healthDataPoints
+            .GroupBy(hdp => new
+            {
+                SexValue = hdp.Sex?.Value,
+                SexIsAggregate = hdp.Sex?.IsAggregate ?? false,
+            })
+            .Select(g => new IndicatorSegment
+            {
+                Sex = g.First().Sex,
+                IsAggregate = g.Key.SexIsAggregate,
+                HealthData = g.ToList()
+            })
+            .ToList();
+
+        return segments;
     }
 }

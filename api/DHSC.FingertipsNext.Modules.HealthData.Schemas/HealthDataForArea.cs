@@ -24,7 +24,7 @@ public class HealthDataForArea
     ///     Segments of the indicator
     /// </summary>
     [JsonPropertyName("indicatorSegments")]
-    public IEnumerable<IndicatorSegment> IndicatorSegments { get; set; } = [];
+    public IEnumerable<IndicatorSegment> IndicatorSegments { get; init; } = [];
 
     /// <summary>
     ///     The health data points for the area and indicator
