@@ -22,12 +22,15 @@ public class HealthDataRepositoryTests : IDisposable
 
     public HealthDataRepositoryTests()
     {
-        DbContextOptionsBuilder dbOptions = new DbContextOptionsBuilder().UseInMemoryDatabase(
-            Guid.NewGuid().ToString()
+        var memoryId = Guid.NewGuid().ToString();
+        var healthDbContextOptions = new DbContextOptionsBuilder<HealthDataDbContext>().UseInMemoryDatabase(
+            memoryId
         );
+        var batchDbContextOptions = new DbContextOptionsBuilder<BatchHealthDataDbContext>().UseInMemoryDatabase(
+            memoryId);
 
-        _dbContext = new HealthDataDbContext(dbOptions.Options);
-        _batchContext = new BatchHealthDataDbContext(dbOptions.Options);
+        _dbContext = new HealthDataDbContext(healthDbContextOptions.Options);
+        _batchContext = new BatchHealthDataDbContext(batchDbContextOptions.Options);
         _healthDataRepository = new HealthDataRepository(_dbContext, _batchContext);
     }
 

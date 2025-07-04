@@ -9,7 +9,7 @@ public class BatchHealthDataDbContext : DbContext
     {
     }
 
-    public BatchHealthDataDbContext(DbContextOptions options) : base(options)
+    public BatchHealthDataDbContext(DbContextOptions<BatchHealthDataDbContext> options) : base(options)
     {
     }
 
