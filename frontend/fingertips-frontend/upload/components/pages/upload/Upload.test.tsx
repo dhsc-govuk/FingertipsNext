@@ -1,35 +1,16 @@
-import { ApiResponse } from '@/upload/components/forms/IndicatorUploadForm/uploadActions';
+import { IndicatorsApi } from '@/generated-sources/ft-api-client';
+import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { render, screen } from '@testing-library/react';
-import { useActionState } from 'react';
-import { Mock } from 'vitest';
+import userEvent from '@testing-library/user-event';
+import { mockDeep } from 'vitest-mock-extended';
 import { Upload } from '.';
 
-vi.mock('react', async () => {
-  const originalModule = await vi.importActual('react');
-
-  return {
-    ...originalModule,
-    useActionState: vi.fn(),
-  };
-});
-
-function setupMockUseActionState<T>(state: T | undefined = undefined) {
-  (useActionState as Mock).mockImplementation(
-    (_: (formState: T, formData: FormData) => Promise<T>, _initialState: T) => [
-      state,
-      vi.fn(),
-      false,
-    ]
-  );
-}
+const mockIndicatorsApi = mockDeep<IndicatorsApi>();
+ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 
 const apiResponsePanelTestId = 'api-response-panel';
 
 describe('Upload page component', () => {
-  beforeEach(() => {
-    setupMockUseActionState<ApiResponse>();
-  });
-
   it('should render the warning text', () => {
     render(<Upload />);
 
@@ -40,9 +21,7 @@ describe('Upload page component', () => {
     ).toBeInTheDocument();
   });
 
-  it('should not render the API response panel when there is no response', () => {
-    setupMockUseActionState<ApiResponse>(undefined);
-
+  it('should not render the API response panel before the submit button has not been clicked', () => {
     render(<Upload />);
 
     expect(
@@ -50,10 +29,17 @@ describe('Upload page component', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('should render the API response panel when there is a response', () => {
-    setupMockUseActionState<ApiResponse>({ message: 'A message from the API' });
+  it('should render the API response panel when the submit button has been clicked', async () => {
+    mockIndicatorsApi.indicatorsIndicatorIdDataPostRaw.mockResolvedValue({
+      raw: new Response('Body', {
+        status: 202,
+      }),
+      value: vi.fn(),
+    });
+    const user = userEvent.setup();
 
     render(<Upload />);
+    await user.click(screen.getByRole('button'));
 
     expect(screen.getByTestId(apiResponsePanelTestId)).toBeInTheDocument();
   });
