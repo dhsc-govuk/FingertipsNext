@@ -41,14 +41,9 @@ public static class HealthMeasureDateCalculator
 
         var toDate = DateTime.Parse(healthMeasure.FromDate, new CultureInfo("en-GB"));
         var (yearIncrement, monthIncrement) = incrementsMap[healthMeasure.Period];
-        if (indicatorPeriodType != "Financial year end point")
-        {
-            toDate = toDate.AddYears(yearIncrement).AddMonths(monthIncrement).AddDays(-1);
-        }
-        else
-        {
-            toDate = toDate.AddYears(yearIncrement-1);
-        }
+        toDate = indicatorPeriodType != "Financial year end point" ?
+            toDate.AddYears(yearIncrement).AddMonths(monthIncrement)
+                .AddDays(-1) : toDate.AddYears(yearIncrement - 1);
 
         healthMeasure.ToDate = toDate.ToShortDateString();
     }

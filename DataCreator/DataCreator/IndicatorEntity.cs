@@ -24,7 +24,7 @@ namespace DataCreator
         public string CIMethod { get; set; }
         public string UnitLabel { get; set; }
         public string UnitValue { get; set; }
-        
+
         [JsonIgnore]
         public string YearType { get; init; }
         public string IndicatorDefinition
@@ -83,7 +83,7 @@ namespace DataCreator
 
         [CsvColumn(FieldIndex = 6)]
         public string PeriodType { get; set; }
-        
+
         [CsvColumn(FieldIndex = 7)]
         public string Frequency { get; set; }
 

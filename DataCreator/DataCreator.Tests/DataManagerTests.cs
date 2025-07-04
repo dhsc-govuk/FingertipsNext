@@ -11,7 +11,7 @@ public class DataManagerTests
 {
     [Theory]
     [TestCase("Calendar", "20090000", "01/01/2009", "31/12/2009")]
-    [TestCase("Yearly", "20090000", "01/11/2009","31/10/2010")]
+    [TestCase("Yearly", "20090000", "01/11/2009", "31/10/2010")]
     [TestCase("Financial", "20090000", "01/04/2009", "31/03/2010")]
     [TestCase("Financial multi-year", "20090000", "01/04/2009", "31/03/2010")]
     [TestCase("Financial year end point", "20090000", "31/03/2009", "31/03/2009")]
@@ -53,7 +53,7 @@ public class DataManagerTests
 
     [Theory]
     [TestCase("Calendar", "20090000", "01/01/2009", "31/12/2010")]
-    [TestCase("Yearly", "20090000", "01/11/2009","31/10/2011")]
+    [TestCase("Yearly", "20090000", "01/11/2009", "31/10/2011")]
     [TestCase("Financial", "20090000", "01/04/2009", "31/03/2011")]
     [TestCase("Financial multi-year", "20090000", "01/04/2009", "31/03/2011")]
     [TestCase("Financial year end point", "20090000", "31/03/2009", "31/03/2010")]
@@ -96,7 +96,7 @@ public class DataManagerTests
 
     [Theory]
     [TestCase("Calendar", "20090000", "01/01/2009", "31/12/2011")]
-    [TestCase("Yearly", "20090000", "01/11/2009","31/10/2012")]
+    [TestCase("Yearly", "20090000", "01/11/2009", "31/10/2012")]
     [TestCase("Financial", "20090000", "01/04/2009", "31/03/2012")]
     [TestCase("Financial multi-year", "20090000", "01/04/2009", "31/03/2012")]
     [TestCase("Financial year end point", "20090000", "31/03/2009", "31/03/2011")]
@@ -139,7 +139,7 @@ public class DataManagerTests
 
     [Theory]
     [TestCase("Calendar", "20090000", "01/01/2009", "31/12/2013")]
-    [TestCase("Yearly", "20090000", "01/11/2009","31/10/2014")]
+    [TestCase("Yearly", "20090000", "01/11/2009", "31/10/2014")]
     [TestCase("Financial", "20090000", "01/04/2009", "31/03/2014")]
     [TestCase("Financial multi-year", "20090000", "01/04/2009", "31/03/2014")]
     [TestCase("Financial year end point", "20090000", "31/03/2009", "31/03/2013")]
@@ -219,7 +219,7 @@ public class DataManagerTests
         actualFromDates.ShouldBeEquivalentTo(expectedFromDate);
         actualToDates.ShouldBeEquivalentTo(expectedToDate);
     }
-    
+
     [Theory]
     [TestCase("20090100", "01/04/2009", "30/06/2009")]
     [TestCase("20090200", "01/07/2009", "30/09/2009")]
@@ -259,7 +259,7 @@ public class DataManagerTests
         actualFromDates.ShouldBeEquivalentTo(expectedFromDate);
         actualToDates.ShouldBeEquivalentTo(expectedToDate);
     }
-    
+
     [Theory]
     [TestCase("20090100", "01/04/2009", "30/06/2009")]
     [TestCase("20090200", "01/07/2009", "30/09/2009")]
@@ -347,7 +347,7 @@ public class DataManagerTests
         actualFromDates.ShouldBeEquivalentTo(expectedFromDate);
         actualToDates.ShouldBeEquivalentTo(expectedToDate);
     }
-    
+
     [Theory]
     [TestCase("20090001", "01/04/2009", "30/04/2009")]
     [TestCase("20090002", "01/05/2009", "31/05/2009")]

@@ -353,18 +353,19 @@ FROM
         /// <parm name="indicators"/>
         private static void CleanFrequencies(List<IndicatorEntity> indicators)
         {
+            const string annualFrequency = "annually";
             var frequencyMap = new Dictionary<string, string>()
             {
-                {"Annual", "annually"},
-                {"Annual.", "annually"},
+                {"Annual", annualFrequency},
+                {"Annual.", annualFrequency},
                 {
                     "Annual (for NHS Digital data release, COVER data collected for every quarter by UKHSA).",
-                    "annually"
+                    annualFrequency
                 },
-                { "Annual. The source data is released in February or March, approximately 14 months after the end of the year in which the conceptions occurred. The indicator will usually be updated in Fingertips in May.", "annually" },
-                { "The data will be updated annually", "annually" },
-                { "The data will be updated annually.", "annually" },
-                { "Annual measurements during academic year. Data published in the final quarter of the calendar year.", "annually" },
+                { "Annual. The source data is released in February or March, approximately 14 months after the end of the year in which the conceptions occurred. The indicator will usually be updated in Fingertips in May.", annualFrequency },
+                { "The data will be updated annually", annualFrequency },
+                { "The data will be updated annually.", annualFrequency },
+                { "Annual measurements during academic year. Data published in the final quarter of the calendar year.", annualFrequency },
                 { "Quarterly", "quarterly" }
             };
             foreach (var indicator in indicators)
@@ -372,7 +373,7 @@ FROM
                 var originalFrequency = indicator.Frequency;
                 if (originalFrequency == null)
                 {
-                    indicator.Frequency = "annually";
+                    indicator.Frequency = annualFrequency;
                 }
                 else if (frequencyMap.TryGetValue(originalFrequency, out var mappedValue))
                 {
@@ -386,7 +387,7 @@ FROM
                 }
             }
         }
-        
+
         /// <summary>
         /// Change YearType to agreed options
         /// </summary>
