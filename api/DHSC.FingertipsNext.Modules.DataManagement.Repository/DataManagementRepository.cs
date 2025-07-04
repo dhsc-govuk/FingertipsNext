@@ -1,9 +1,27 @@
-﻿namespace DHSC.FingertipsNext.Modules.DataManagement.Repository;
+﻿using DHSC.FingertipsNext.Modules.DataManagement.Repository.Models;
 
-public class DataManagementRepository : IDataManagementRepository
+namespace DHSC.FingertipsNext.Modules.DataManagement.Repository;
+
+public class DataManagementRepository(DataManagementDbContext dataManagementDbContext) : IDataManagementRepository
 {
-    public string SayHello()
+
+
+    private readonly DataManagementDbContext _dbContext =
+        dataManagementDbContext ?? throw new ArgumentNullException(nameof(dataManagementDbContext));
+
+    /// <summary>
+    ///     Will add the given batch to the batch table
+    /// </summary>
+    /// <param name="batch"></param>
+    /// <returns>TODO: Return the batch?</returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public async Task<BatchModel> AddBatchAsync(BatchModel batch)
     {
-        return "I'm a Repository";
+        var model = _dbContext.Batch
+            .AddAsync(batch);
+
+        await _dbContext.SaveChangesAsync();
+
+        return batch;
     }
 }
