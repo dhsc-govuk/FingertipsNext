@@ -7,9 +7,467 @@
     {
       "areaCode": "A84022",
       "areaName": "Coquet Medical Group",
+      "indicatorSegments": [
+        {
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
+          "isAggregate": true,
+          "healthData": [
+            {
+              "year": 2012,
+              "datePeriod": {
+                "type": "Calendar",
+                "from": "2012-01-01",
+                "to": "2012-12-31"
+              },
+              "count": 0,
+              "value": 0,
+              "lowerCi": null,
+              "upperCi": null,
+              "ageBand": {
+                "value": "16+ yrs",
+                "isAggregate": true
+              },
+              "deprivation": {
+                "sequence": 11,
+                "value": "Persons",
+                "type": "Persons",
+                "isAggregate": true
+              },
+              "sex": {
+                "value": "Persons",
+                "isAggregate": true
+              },
+              "trend": "Not yet calculated",
+              "benchmarkComparison": {
+                "outcome": "Low",
+                "benchmarkAreaCode": "E92000001",
+                "benchmarkAreaName": "England",
+                "benchmarkValue": null
+              },
+              "isAggregate": true
+            },
+            {
+              "year": 2013,
+              "datePeriod": {
+                "type": "Calendar",
+                "from": "2013-01-01",
+                "to": "2013-12-31"
+              },
+              "count": 0,
+              "value": 0,
+              "lowerCi": null,
+              "upperCi": null,
+              "ageBand": {
+                "value": "16+ yrs",
+                "isAggregate": true
+              },
+              "deprivation": {
+                "sequence": 11,
+                "value": "Persons",
+                "type": "Persons",
+                "isAggregate": true
+              },
+              "sex": {
+                "value": "Persons",
+                "isAggregate": true
+              },
+              "trend": "Not yet calculated",
+              "benchmarkComparison": {
+                "outcome": "Lowest",
+                "benchmarkAreaCode": "E92000001",
+                "benchmarkAreaName": "England",
+                "benchmarkValue": null
+              },
+              "isAggregate": true
+            },
+            {
+              "year": 2014,
+              "datePeriod": {
+                "type": "Calendar",
+                "from": "2014-01-01",
+                "to": "2014-12-31"
+              },
+              "count": 0.908316257,
+              "value": 0.542277333841737,
+              "lowerCi": null,
+              "upperCi": null,
+              "ageBand": {
+                "value": "16+ yrs",
+                "isAggregate": true
+              },
+              "deprivation": {
+                "sequence": 11,
+                "value": "Persons",
+                "type": "Persons",
+                "isAggregate": true
+              },
+              "sex": {
+                "value": "Persons",
+                "isAggregate": true
+              },
+              "trend": "Not yet calculated",
+              "benchmarkComparison": {
+                "outcome": "Middle",
+                "benchmarkAreaCode": "E92000001",
+                "benchmarkAreaName": "England",
+                "benchmarkValue": null
+              },
+              "isAggregate": true
+            },
+            {
+              "year": 2015,
+              "datePeriod": {
+                "type": "Calendar",
+                "from": "2015-01-01",
+                "to": "2015-12-31"
+              },
+              "count": 1.35277561921028,
+              "value": 0.790615336373565,
+              "lowerCi": null,
+              "upperCi": null,
+              "ageBand": {
+                "value": "16+ yrs",
+                "isAggregate": true
+              },
+              "deprivation": {
+                "sequence": 11,
+                "value": "Persons",
+                "type": "Persons",
+                "isAggregate": true
+              },
+              "sex": {
+                "value": "Persons",
+                "isAggregate": true
+              },
+              "trend": "Not yet calculated",
+              "benchmarkComparison": {
+                "outcome": "Middle",
+                "benchmarkAreaCode": "E92000001",
+                "benchmarkAreaName": "England",
+                "benchmarkValue": null
+              },
+              "isAggregate": true
+            },
+            {
+              "year": 2016,
+              "datePeriod": {
+                "type": "Calendar",
+                "from": "2016-01-01",
+                "to": "2016-12-31"
+              },
+              "count": 0.92594294,
+              "value": 0.558384621347332,
+              "lowerCi": null,
+              "upperCi": null,
+              "ageBand": {
+                "value": "16+ yrs",
+                "isAggregate": true
+              },
+              "deprivation": {
+                "sequence": 11,
+                "value": "Persons",
+                "type": "Persons",
+                "isAggregate": true
+              },
+              "sex": {
+                "value": "Persons",
+                "isAggregate": true
+              },
+              "trend": "Not yet calculated",
+              "benchmarkComparison": {
+                "outcome": "Middle",
+                "benchmarkAreaCode": "E92000001",
+                "benchmarkAreaName": "England",
+                "benchmarkValue": null
+              },
+              "isAggregate": true
+            },
+            {
+              "year": 2017,
+              "datePeriod": {
+                "type": "Calendar",
+                "from": "2017-01-01",
+                "to": "2017-12-31"
+              },
+              "count": 1.81185364723206,
+              "value": 1.10260693934818,
+              "lowerCi": null,
+              "upperCi": null,
+              "ageBand": {
+                "value": "16+ yrs",
+                "isAggregate": true
+              },
+              "deprivation": {
+                "sequence": 11,
+                "value": "Persons",
+                "type": "Persons",
+                "isAggregate": true
+              },
+              "sex": {
+                "value": "Persons",
+                "isAggregate": true
+              },
+              "trend": "Not yet calculated",
+              "benchmarkComparison": {
+                "outcome": "High",
+                "benchmarkAreaCode": "E92000001",
+                "benchmarkAreaName": "England",
+                "benchmarkValue": null
+              },
+              "isAggregate": true
+            },
+            {
+              "year": 2018,
+              "datePeriod": {
+                "type": "Calendar",
+                "from": "2018-01-01",
+                "to": "2018-12-31"
+              },
+              "count": 0.755621737,
+              "value": 0.524681174653614,
+              "lowerCi": null,
+              "upperCi": null,
+              "ageBand": {
+                "value": "16+ yrs",
+                "isAggregate": true
+              },
+              "deprivation": {
+                "sequence": 11,
+                "value": "Persons",
+                "type": "Persons",
+                "isAggregate": true
+              },
+              "sex": {
+                "value": "Persons",
+                "isAggregate": true
+              },
+              "trend": "Not yet calculated",
+              "benchmarkComparison": {
+                "outcome": "Middle",
+                "benchmarkAreaCode": "E92000001",
+                "benchmarkAreaName": "England",
+                "benchmarkValue": null
+              },
+              "isAggregate": true
+            },
+            {
+              "year": 2019,
+              "datePeriod": {
+                "type": "Calendar",
+                "from": "2019-01-01",
+                "to": "2019-12-31"
+              },
+              "count": 1.6188695706162,
+              "value": 1.06816337733625,
+              "lowerCi": null,
+              "upperCi": null,
+              "ageBand": {
+                "value": "16+ yrs",
+                "isAggregate": true
+              },
+              "deprivation": {
+                "sequence": 11,
+                "value": "Persons",
+                "type": "Persons",
+                "isAggregate": true
+              },
+              "sex": {
+                "value": "Persons",
+                "isAggregate": true
+              },
+              "trend": "Not yet calculated",
+              "benchmarkComparison": {
+                "outcome": "High",
+                "benchmarkAreaCode": "E92000001",
+                "benchmarkAreaName": "England",
+                "benchmarkValue": null
+              },
+              "isAggregate": true
+            },
+            {
+              "year": 2020,
+              "datePeriod": {
+                "type": "Calendar",
+                "from": "2020-01-01",
+                "to": "2020-12-31"
+              },
+              "count": 0.797289589,
+              "value": 0.618588810413559,
+              "lowerCi": null,
+              "upperCi": null,
+              "ageBand": {
+                "value": "16+ yrs",
+                "isAggregate": true
+              },
+              "deprivation": {
+                "sequence": 11,
+                "value": "Persons",
+                "type": "Persons",
+                "isAggregate": true
+              },
+              "sex": {
+                "value": "Persons",
+                "isAggregate": true
+              },
+              "trend": "Not yet calculated",
+              "benchmarkComparison": {
+                "outcome": "Middle",
+                "benchmarkAreaCode": "E92000001",
+                "benchmarkAreaName": "England",
+                "benchmarkValue": null
+              },
+              "isAggregate": true
+            },
+            {
+              "year": 2021,
+              "datePeriod": {
+                "type": "Calendar",
+                "from": "2021-01-01",
+                "to": "2021-12-31"
+              },
+              "count": 0.865667227,
+              "value": 0.535168011112628,
+              "lowerCi": null,
+              "upperCi": null,
+              "ageBand": {
+                "value": "16+ yrs",
+                "isAggregate": true
+              },
+              "deprivation": {
+                "sequence": 11,
+                "value": "Persons",
+                "type": "Persons",
+                "isAggregate": true
+              },
+              "sex": {
+                "value": "Persons",
+                "isAggregate": true
+              },
+              "trend": "Not yet calculated",
+              "benchmarkComparison": {
+                "outcome": "Middle",
+                "benchmarkAreaCode": "E92000001",
+                "benchmarkAreaName": "England",
+                "benchmarkValue": null
+              },
+              "isAggregate": true
+            },
+            {
+              "year": 2022,
+              "datePeriod": {
+                "type": "Calendar",
+                "from": "2022-01-01",
+                "to": "2022-12-31"
+              },
+              "count": 1.61820722444581,
+              "value": 1.18225812367487,
+              "lowerCi": null,
+              "upperCi": null,
+              "ageBand": {
+                "value": "16+ yrs",
+                "isAggregate": true
+              },
+              "deprivation": {
+                "sequence": 11,
+                "value": "Persons",
+                "type": "Persons",
+                "isAggregate": true
+              },
+              "sex": {
+                "value": "Persons",
+                "isAggregate": true
+              },
+              "trend": "Not yet calculated",
+              "benchmarkComparison": {
+                "outcome": "Highest",
+                "benchmarkAreaCode": "E92000001",
+                "benchmarkAreaName": "England",
+                "benchmarkValue": null
+              },
+              "isAggregate": true
+            },
+            {
+              "year": 2023,
+              "datePeriod": {
+                "type": "Calendar",
+                "from": "2023-01-01",
+                "to": "2023-12-31"
+              },
+              "count": 1.680328178,
+              "value": 1.2014,
+              "lowerCi": null,
+              "upperCi": null,
+              "ageBand": {
+                "value": "16+ yrs",
+                "isAggregate": true
+              },
+              "deprivation": {
+                "sequence": 11,
+                "value": "Persons",
+                "type": "Persons",
+                "isAggregate": true
+              },
+              "sex": {
+                "value": "Persons",
+                "isAggregate": true
+              },
+              "trend": "Not yet calculated",
+              "benchmarkComparison": {
+                "outcome": "Highest",
+                "benchmarkAreaCode": "E92000001",
+                "benchmarkAreaName": "England",
+                "benchmarkValue": null
+              },
+              "isAggregate": true
+            },
+            {
+              "year": 2024,
+              "datePeriod": {
+                "type": "Calendar",
+                "from": "2024-01-01",
+                "to": "2024-12-31"
+              },
+              "count": 0.97068,
+              "value": 0.72082,
+              "lowerCi": null,
+              "upperCi": null,
+              "ageBand": {
+                "value": "16+ yrs",
+                "isAggregate": true
+              },
+              "deprivation": {
+                "sequence": 11,
+                "value": "Persons",
+                "type": "Persons",
+                "isAggregate": true
+              },
+              "sex": {
+                "value": "Persons",
+                "isAggregate": true
+              },
+              "trend": "No significant change",
+              "benchmarkComparison": {
+                "outcome": "High",
+                "benchmarkAreaCode": "E92000001",
+                "benchmarkAreaName": "England",
+                "benchmarkValue": null
+              },
+              "isAggregate": true
+            }
+          ]
+        }
+      ],
       "healthData": [
         {
           "year": 2012,
+          "datePeriod": {
+            "type": "Calendar",
+            "from": "2012-01-01",
+            "to": "2012-12-31"
+          },
           "count": 0,
           "value": 0,
           "lowerCi": null,
@@ -19,9 +477,43 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
+          "trend": "Not yet calculated",
+          "benchmarkComparison": {
+            "outcome": "Low",
+            "benchmarkAreaCode": "E92000001",
+            "benchmarkAreaName": "England",
+            "benchmarkValue": null
+          },
+          "isAggregate": true
+        },
+        {
+          "year": 2013,
+          "datePeriod": {
+            "type": "Calendar",
+            "from": "2013-01-01",
+            "to": "2013-12-31"
+          },
+          "count": 0,
+          "value": 0,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": {
+            "value": "16+ yrs",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -38,38 +530,14 @@
           "isAggregate": true
         },
         {
-          "year": 2013,
-          "count": 0,
-          "value": 0,
-          "lowerCi": null,
-          "upperCi": null,
-          "ageBand": {
-            "value": "16+ yrs",
-            "isAggregate": true
-          },
-          "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
-            "isAggregate": true
-          },
-          "sex": {
-            "value": "Persons",
-            "isAggregate": true
-          },
-          "trend": "Not yet calculated",
-          "benchmarkComparison": {
-            "outcome": "Middle",
-            "benchmarkAreaCode": "E92000001",
-            "benchmarkAreaName": "England",
-            "benchmarkValue": null
-          },
-          "isAggregate": true
-        },
-        {
           "year": 2014,
-          "count": 0.90831625,
-          "value": 0.54227734,
+          "datePeriod": {
+            "type": "Calendar",
+            "from": "2014-01-01",
+            "to": "2014-12-31"
+          },
+          "count": 0.908316257,
+          "value": 0.542277333841737,
           "lowerCi": null,
           "upperCi": null,
           "ageBand": {
@@ -77,9 +545,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -97,8 +565,13 @@
         },
         {
           "year": 2015,
-          "count": 1.3527756,
-          "value": 0.7906153,
+          "datePeriod": {
+            "type": "Calendar",
+            "from": "2015-01-01",
+            "to": "2015-12-31"
+          },
+          "count": 1.35277561921028,
+          "value": 0.790615336373565,
           "lowerCi": null,
           "upperCi": null,
           "ageBand": {
@@ -106,9 +579,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -126,8 +599,13 @@
         },
         {
           "year": 2016,
-          "count": 0.92594296,
-          "value": 0.5583846,
+          "datePeriod": {
+            "type": "Calendar",
+            "from": "2016-01-01",
+            "to": "2016-12-31"
+          },
+          "count": 0.92594294,
+          "value": 0.558384621347332,
           "lowerCi": null,
           "upperCi": null,
           "ageBand": {
@@ -135,9 +613,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -155,8 +633,13 @@
         },
         {
           "year": 2017,
-          "count": 1.8118536,
-          "value": 1.1026069,
+          "datePeriod": {
+            "type": "Calendar",
+            "from": "2017-01-01",
+            "to": "2017-12-31"
+          },
+          "count": 1.81185364723206,
+          "value": 1.10260693934818,
           "lowerCi": null,
           "upperCi": null,
           "ageBand": {
@@ -164,9 +647,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -184,8 +667,13 @@
         },
         {
           "year": 2018,
-          "count": 0.75562173,
-          "value": 0.52468115,
+          "datePeriod": {
+            "type": "Calendar",
+            "from": "2018-01-01",
+            "to": "2018-12-31"
+          },
+          "count": 0.755621737,
+          "value": 0.524681174653614,
           "lowerCi": null,
           "upperCi": null,
           "ageBand": {
@@ -193,9 +681,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -213,8 +701,13 @@
         },
         {
           "year": 2019,
-          "count": 1.6188695,
-          "value": 1.0681634,
+          "datePeriod": {
+            "type": "Calendar",
+            "from": "2019-01-01",
+            "to": "2019-12-31"
+          },
+          "count": 1.6188695706162,
+          "value": 1.06816337733625,
           "lowerCi": null,
           "upperCi": null,
           "ageBand": {
@@ -222,9 +715,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -242,8 +735,13 @@
         },
         {
           "year": 2020,
-          "count": 0.7972896,
-          "value": 0.6185888,
+          "datePeriod": {
+            "type": "Calendar",
+            "from": "2020-01-01",
+            "to": "2020-12-31"
+          },
+          "count": 0.797289589,
+          "value": 0.618588810413559,
           "lowerCi": null,
           "upperCi": null,
           "ageBand": {
@@ -251,9 +749,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -271,8 +769,13 @@
         },
         {
           "year": 2021,
-          "count": 0.8656672,
-          "value": 0.535168,
+          "datePeriod": {
+            "type": "Calendar",
+            "from": "2021-01-01",
+            "to": "2021-12-31"
+          },
+          "count": 0.865667227,
+          "value": 0.535168011112628,
           "lowerCi": null,
           "upperCi": null,
           "ageBand": {
@@ -280,9 +783,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -300,8 +803,13 @@
         },
         {
           "year": 2022,
-          "count": 1.6182072,
-          "value": 1.1822581,
+          "datePeriod": {
+            "type": "Calendar",
+            "from": "2022-01-01",
+            "to": "2022-12-31"
+          },
+          "count": 1.61820722444581,
+          "value": 1.18225812367487,
           "lowerCi": null,
           "upperCi": null,
           "ageBand": {
@@ -309,9 +817,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -329,7 +837,12 @@
         },
         {
           "year": 2023,
-          "count": 1.6803281,
+          "datePeriod": {
+            "type": "Calendar",
+            "from": "2023-01-01",
+            "to": "2023-12-31"
+          },
+          "count": 1.680328178,
           "value": 1.2014,
           "lowerCi": null,
           "upperCi": null,
@@ -338,9 +851,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {
@@ -358,6 +871,11 @@
         },
         {
           "year": 2024,
+          "datePeriod": {
+            "type": "Calendar",
+            "from": "2024-01-01",
+            "to": "2024-12-31"
+          },
           "count": 0.97068,
           "value": 0.72082,
           "lowerCi": null,
@@ -367,9 +885,9 @@
             "isAggregate": true
           },
           "deprivation": {
-            "sequence": 10,
-            "value": "All",
-            "type": "All",
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
             "isAggregate": true
           },
           "sex": {

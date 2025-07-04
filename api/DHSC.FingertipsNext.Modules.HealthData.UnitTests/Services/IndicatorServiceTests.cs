@@ -140,6 +140,7 @@ public class IndicatorServiceTests
             [],
             latestOnly: true
         );
+
         result.Content.AreaHealthData.ShouldNotBeEmpty();
         result.Content.AreaHealthData.Count().ShouldBe(1);
         result.Content.AreaHealthData.ShouldBeEquivalentTo(expected);
@@ -207,6 +208,7 @@ public class IndicatorServiceTests
             [],
             []
         );
+
         result.Content.AreaHealthData.ShouldNotBeEmpty();
         result.Content.AreaHealthData.Count().ShouldBe(2);
         result.Content.AreaHealthData.ShouldBeEquivalentTo(expected);
