@@ -14,8 +14,9 @@ export const mockHealthDataPoint = (
     isAggregate: true,
   },
   sex: {
-    value: 'Persons',
-    isAggregate: true,
+    // deprecated
+    value: 'deprecated',
+    isAggregate: false,
   },
   trend: 'Cannot be calculated',
   isAggregate: true,

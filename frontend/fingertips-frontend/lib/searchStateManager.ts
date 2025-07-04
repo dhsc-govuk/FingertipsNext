@@ -1,4 +1,4 @@
-import { asArray } from './pageHelpers';
+import { asArray } from './asArray';
 
 export enum SearchParams {
   SearchedIndicator = 'si',
@@ -17,6 +17,9 @@ export enum SearchParams {
   SearchedOrder = 'so',
   PageNumber = 'pn',
   BenchmarkAreaSelected = 'bas',
+  SegmentationSex = 'segs',
+  SegmentationAge = 'sega',
+  SegmentationFrequency = 'segf',
 }
 
 export type SearchStateParams = {
@@ -36,6 +39,9 @@ export type SearchStateParams = {
   [SearchParams.SearchedOrder]?: string;
   [SearchParams.PageNumber]?: string;
   [SearchParams.BenchmarkAreaSelected]?: string;
+  [SearchParams.SegmentationSex]?: string;
+  [SearchParams.SegmentationAge]?: string;
+  [SearchParams.SegmentationFrequency]?: string;
 };
 
 export type SearchParamKeys = `${SearchParams}`;

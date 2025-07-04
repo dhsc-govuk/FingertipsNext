@@ -7,14 +7,19 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { findAndRemoveByAreaCode } from '@/lib/healthDataHelpers/findAndRemoveByAreaCode';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 
 export const lineChartOverTimeData = (
   indicatorMetaData: IndicatorDocument,
   healthData: IndicatorWithHealthDataForArea,
-  areasSelected: string[],
-  selectedGroupCode?: string,
-  benchmarkAreaSelected?: string
+  searchState: SearchStateParams
 ) => {
+  const {
+    [SearchParams.GroupSelected]: selectedGroupCode,
+    [SearchParams.BenchmarkAreaSelected]: benchmarkAreaSelected,
+    [SearchParams.AreasSelected]: areasSelected = [],
+  } = searchState;
+
   const benchmarkComparisonMethod = healthData?.benchmarkMethod;
   const polarity = healthData?.polarity;
 
