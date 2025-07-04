@@ -12,7 +12,7 @@ export const ApiResponsePanel = ({ apiResponse }: ApiResponsePanelProps) => {
       <Table data-testid="api-response-panel">
         {apiResponse.status ? (
           <Table.Row>
-            <Table.CellHeader>Status</Table.CellHeader>
+            <Table.CellHeader>HTTP status code</Table.CellHeader>
             <Table.Cell>{apiResponse.status}</Table.Cell>
           </Table.Row>
         ) : null}

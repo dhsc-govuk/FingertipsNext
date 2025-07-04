@@ -29,7 +29,7 @@ describe('ApiResponsePanel', () => {
 
     render(<ApiResponsePanel apiResponse={apiResponse} />);
 
-    expect(screen.getByText('Status')).toBeInTheDocument();
+    expect(screen.getByText('HTTP status code')).toBeInTheDocument();
     expect(screen.getByText(expectedStatus)).toBeInTheDocument();
   });
 });
