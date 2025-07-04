@@ -109,17 +109,22 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
         client.assert(response.status === 200, "Response status is not 200");
             const expectedResults = [ 
                 {areaName:"Trinity & Bowthorpe Medical Practice", from:"2022-04-01", value:65.0943396226415},  
-                {areaName:"Roundwell Medical Centre", from:"2022-04-01", value: 72.7626459143969},  
+                {areaName:"Trinity & Bowthorpe Medical Practice", from:"2023-04-01", value:65.4205607476636},  
+                {areaName:"Roundwell Medical Centre", from:"2022-04-01", value: 72.7626459143969},
+                {areaName:"Roundwell Medical Centre", from:"2023-04-01", value: 71.7557251908397},
                 {areaName:"Taverham Surgery", from:"2022-04-01", value: 77.2277227722772},  
+                {areaName:"Taverham Surgery", from:"2023-04-01", value: 79.7101449275362},  
                 {areaName:"Wensum Valley Medical Practice", from:"2022-04-01", value: 58.7677725118483},  
+                {areaName:"Wensum Valley Medical Practice", from:"2023-04-01", value: 57.6923076923077},  
                 {areaName:"Bacon Road Medical Centre", from:"2022-04-01", value: 63.0434782608696},  
+                {areaName:"Bacon Road Medical Centre", from:"2023-04-01", value: 68.0851063829787},  
                 ];
 
         var numHealthDataPoints = response.body.areaHealthData.map(area => area.healthData.length).reduce((partialSum, b) => partialSum + b, 0);
-        // TODO: client.assert(
-        //     numHealthDataPoints === expectedResults.length,
-        //     `Expected ${expectedResults.length} area health data items, but got ${numHealthDataPoints}`
-        // );
+        client.assert(
+            numHealthDataPoints === expectedResults.length,
+            `Expected ${expectedResults.length} area health data items, but got ${numHealthDataPoints}`
+        );
 
         expectedResults.forEach((expected) => {
             client.assert(
@@ -169,17 +174,17 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
 %}
 
 ### Check both to-date and from-date work together excluding everything
-GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82023&area_codes=D82024&area_codes=D82040&area_codes=D82060&from_date=2022-04-07&to_date=2024-04-04
+GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82023&area_codes=D82024&area_codes=D82040&area_codes=D82060&from_date=2022-04-02&to_date=2024-03-30
 > {%
     client.test("Check both to-date and from-date work together excluding everything", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
             const expectedResults = [  ];
 
         var numHealthDataPoints = response.body.areaHealthData.map(area => area.healthData.length).reduce((partialSum, b) => partialSum + b, 0);
-        // TODO: client.assert(
-        //     numHealthDataPoints === expectedResults.length,
-        //     `Expected ${expectedResults.length} area health data items, but got ${numHealthDataPoints}`
-        // );
+        client.assert(
+            numHealthDataPoints === expectedResults.length,
+            `Expected ${expectedResults.length} area health data items, but got ${numHealthDataPoints}`
+        );
 
         expectedResults.forEach((expected) => {
             client.assert(
@@ -193,17 +198,17 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
 %}
 
 ### Check both Dates work together excluding everything
-GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82023&area_codes=D82024&area_codes=D82040&area_codes=D82060&from_date=2022-04-07&to_date=2024-04-04
+GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82023&area_codes=D82024&area_codes=D82040&area_codes=D82060&from_date=2022-04-02&to_date=2024-03-30
 > {%
     client.test("Check both Dates work together excluding everything", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
             const expectedResults = [  ];
 
         var numHealthDataPoints = response.body.areaHealthData.map(area => area.healthData.length).reduce((partialSum, b) => partialSum + b, 0);
-        // TODO: client.assert(
-        //     numHealthDataPoints === expectedResults.length,
-        //     `Expected ${expectedResults.length} area health data items, but got ${numHealthDataPoints}`
-        // );
+        client.assert(
+            numHealthDataPoints === expectedResults.length,
+            `Expected ${expectedResults.length} area health data items, but got ${numHealthDataPoints}`
+        );
 
         expectedResults.forEach((expected) => {
             client.assert(

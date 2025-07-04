@@ -8,7 +8,7 @@ GET http://localhost:5144/indicators/41101/data?area_codes=E12000007
     client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
         client.assert(response.body.length === expected.length, "Response length does not match");
-        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match"); // TODO: Fails, but I can't see any diff
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
     });
 %}
 
@@ -31,7 +31,6 @@ GET http://localhost:5144/indicators/41101/data?area_codes=E12000007&inequalitie
             area.healthData.forEach((dataPoint)=> {
                 const responseDataPoint = responseArea.healthData.find((rspData) => ((rspData.year === dataPoint.year) && (rspData.sex.value === dataPoint.sex.value)));
                 client.assert(responseDataPoint, `Could not find matching data point ${area.areaCode} : ${dataPoint.year} : ${dataPoint.sex}`);
-                debugger;
                 client.assert(JSON.stringify(dataPoint) === JSON.stringify(responseDataPoint), `${JSON.stringify(dataPoint)} ${JSON.stringify(responseDataPoint)}`);
             })
         })
