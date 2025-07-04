@@ -1,6 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import { FTHeader } from '.';
 
+vi.mock('@/lib/auth/handlers', () => {
+  return {
+    signInHandler: vi.fn(),
+    signOutHandler: vi.fn(),
+  };
+});
+
 describe('Header', () => {
   it('should match snapshot', () => {
     const container = render(<FTHeader />);

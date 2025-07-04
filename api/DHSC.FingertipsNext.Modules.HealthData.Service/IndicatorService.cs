@@ -51,18 +51,19 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         IEnumerable<string> inequalities,
         bool latestOnly = false,
         DateOnly? fromDate = null,
-        DateOnly? toDate = null
+        DateOnly? toDate = null,
+        bool includeUnpublished = false
         )
     {
-        var indicatorData = await healthDataRepository.GetIndicatorDimensionAsync(indicatorId, [.. areaCodes]);
-        if (indicatorData == null)
+        var indicator = await healthDataRepository.GetIndicatorDimensionAsync(indicatorId, [.. areaCodes], includeUnpublished);
+        if (indicator == null)
             return new ServiceResponse<IndicatorWithHealthDataForAreas>(ResponseStatus.IndicatorDoesNotExist);
 
-        var method = healthDataMapper.MapBenchmarkComparisonMethod(indicatorData.BenchmarkComparisonMethod);
-        var polarity = healthDataMapper.MapIndicatorPolarity(indicatorData.Polarity);
+        var method = healthDataMapper.MapBenchmarkComparisonMethod(indicator.BenchmarkComparisonMethod);
+        var polarity = healthDataMapper.MapIndicatorPolarity(indicator.Polarity);
 
         if (latestOnly)
-            years = [indicatorData.LatestYear];
+            years = [indicator.LatestYear];
 
         var areaHealthData = ((await GetIndicatorAreaDataAsync(
             indicatorId,
@@ -75,7 +76,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
             method,
             polarity,
             fromDate,
-            toDate
+            toDate,
+            includeUnpublished
         )) ?? [])
         .ToList();
 
@@ -86,8 +88,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
             Status = areaHealthData.Count != 0 ? ResponseStatus.Success : ResponseStatus.NoDataForIndicator,
             Content = new IndicatorWithHealthDataForAreas()
             {
-                IndicatorId = indicatorData.IndicatorId,
-                Name = indicatorData.Name,
+                IndicatorId = indicator.IndicatorId,
+                Name = indicator.Name,
                 Polarity = polarity,
                 BenchmarkMethod = method,
                 AreaHealthData = areaHealthData
@@ -122,7 +124,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         BenchmarkComparisonMethod comparisonMethod,
         IndicatorPolarity polarity,
         DateOnly? fromDate = null,
-        DateOnly? toDate = null
+        DateOnly? toDate = null,
+        bool includeUnpublished = false
         )
     {
         IEnumerable<HealthMeasureModel> healthMeasureData;
@@ -134,16 +137,17 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         if (comparisonMethod == BenchmarkComparisonMethod.Quintiles)
         {
             // get the data from the database
-            var denormalisedHealthMeasureData = await healthDataRepository.GetIndicatorDataWithQuintileBenchmarkComparisonAsync(
+            var denormalisedHealthMeasureData = await healthDataRepository.GetIndicatorDataWithQuintileBenchmarkComparisonAsync
+            (
                 indicatorId,
                 areaCodesForSearch.ToArray(),
                 years.Distinct().ToArray(),
                 areaType,
                 benchmarkAreaCode,
                 fromDate,
-                toDate
-                );
-
+                toDate,
+                includeUnpublished
+            );
 
             return denormalisedHealthMeasureData
                 .GroupBy(denormalisedHealthMeasure => new
@@ -185,7 +189,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
             years.Distinct().ToArray(),
             inequalitiesList.Distinct().ToArray(),
             fromDate,
-            toDate);
+            toDate,
+            includeUnpublished);
 
         var healthDataForAreas = healthMeasureData
             .GroupBy(healthMeasure => new
