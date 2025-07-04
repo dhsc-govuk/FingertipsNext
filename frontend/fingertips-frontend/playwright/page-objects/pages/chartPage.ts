@@ -53,15 +53,16 @@ export default class ChartPage extends AreaFilter {
   static readonly inequalitiesForSingleTimePeriodComponent =
     'inequalitiesForSingleTimePeriod-component';
   static readonly inequalitiesTrendComponent = 'inequalitiesTrend-component';
-  static readonly timePeriodDropDownComponent = 'timePeriod-dropDown-component';
-  static readonly inequalitiesTypesDropDownComponentBC =
+  readonly timePeriodDropDownComponent = 'timePeriod-dropDown-component';
+  readonly inequalitiesTypesDropDownComponentBC =
     'inequalitiesTypes-dropDown-component-bc';
-  static readonly inequalitiesTypesDropDownComponentLC =
+  readonly inequalitiesTypesDropDownComponentLC =
     'inequalitiesTypes-dropDown-component-lc';
   static readonly basicTableComponent = 'basicTable-component';
-  static readonly benchmarkDropDownComponent = `${SearchParams.BenchmarkAreaSelected}-dropDown-benchmark-component`;
-  static readonly exportModalPaneComponent = 'modalPane';
-  static readonly exportDomContainer = 'domContainer';
+  readonly benchmarkDropDownComponent = `${SearchParams.BenchmarkAreaSelected}-dropDown-benchmark-component`;
+  readonly exportModalPaneComponent = 'modalPane';
+  readonly exportDomContainer = 'domContainer';
+  readonly trendTagContainer = 'trendTag-container';
 
   async checkOnChartPage() {
     await expect(this.page.getByText(this.chartPageTitle)).toBeVisible();
@@ -229,14 +230,14 @@ export default class ChartPage extends AreaFilter {
 
   // clicks on the tab if the component is a table
   private async selectTabForComponent(chartComponentLocator: string) {
-    const tabTestId = `tabTitle-${chartComponentLocator.replace('-component', '')}`;
+    const tabTestId = `tabTitle-${this.replaceComponentSuffix(chartComponentLocator)}`;
     await this.clickAndAwaitLoadingComplete(this.page.getByTestId(tabTestId));
   }
 
   // selects last time period option in the dropdown
   private async selectLastTimePeriodOption() {
     const combobox = this.page
-      .getByTestId(ChartPage.timePeriodDropDownComponent)
+      .getByTestId(this.timePeriodDropDownComponent)
       .getByRole('combobox');
 
     const options = await this.getSelectOptions(combobox);
@@ -263,8 +264,8 @@ export default class ChartPage extends AreaFilter {
     const dropdownComponent =
       chartComponentLocator ===
       ChartPage.inequalitiesForSingleTimePeriodComponent
-        ? ChartPage.inequalitiesTypesDropDownComponentBC
-        : ChartPage.inequalitiesTypesDropDownComponentLC;
+        ? this.inequalitiesTypesDropDownComponentBC
+        : this.inequalitiesTypesDropDownComponentLC;
 
     const combobox = this.page
       .getByTestId(dropdownComponent)
@@ -332,7 +333,7 @@ export default class ChartPage extends AreaFilter {
 
     const ciComponent =
       mapping[chartComponentLocator] || ChartPage.lineChartComponent;
-    const testId = `confidence-interval-checkbox-${ciComponent.replace('-component', '')}`;
+    const testId = `confidence-interval-checkbox-${this.replaceComponentSuffix(ciComponent)}`;
 
     await this.checkAndAwaitLoadingComplete(this.page.getByTestId(testId));
   }
@@ -393,10 +394,10 @@ export default class ChartPage extends AreaFilter {
     const chartComponentLocator = visibleComponent.chartComponentLocator;
     const trendTagLocator = this.page
       .getByTestId(chartComponentLocator)
-      .getByTestId('trendTag-container');
+      .getByTestId(this.trendTagContainer);
 
     if (
-      chartComponentLocator === 'spineChartTable-component' &&
+      chartComponentLocator === ChartPage.spineChartTableComponent &&
       areaMode !== AreaMode.ONE_AREA
     ) {
       // Verify no trend container is present for spine chart in non-ONE_AREA modes
@@ -458,7 +459,7 @@ export default class ChartPage extends AreaFilter {
     component: ChartComponentDefinition,
     selectedAreaFilters: AreaFilters
   ) {
-    const dropdownComponent = ChartPage.benchmarkDropDownComponent;
+    const dropdownComponent = this.benchmarkDropDownComponent;
     const combobox = this.page
       .getByTestId(dropdownComponent)
       .getByRole('combobox');
@@ -569,14 +570,13 @@ export default class ChartPage extends AreaFilter {
     const locatorToUse =
       chartComponentLocator !== ChartPage.populationPyramidChartComponent
         ? chartComponentLocator
-        : `tabContent-${chartComponentLocator.replace('-component', '')}`;
+        : `tabContent-${this.replaceComponentSuffix(chartComponentLocator)}`;
 
     await expect(this.page.getByTestId(locatorToUse)).toBeVisible({
       visible: true,
     });
 
-    await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).toHaveCount(0);
+    await this.waitForLoadingToFinish();
     await this.page.evaluate(() => window.scrollTo(0, 0));
     await this.page.waitForFunction('window.scrollY === 0');
     await this.page.waitForTimeout(1000);
@@ -595,7 +595,7 @@ export default class ChartPage extends AreaFilter {
   }
 
   private async openExportModal(chartDataTestId: string): Promise<void> {
-    const exportButtonDataTestId = `${chartDataTestId.replace('-component', '-export-button')}`;
+    const exportButtonDataTestId = `${this.replaceComponentSuffix(chartDataTestId, '-export-button')}`;
 
     await this.clickAndAwaitLoadingComplete(
       this.page.getByTestId(exportButtonDataTestId)
@@ -606,7 +606,7 @@ export default class ChartPage extends AreaFilter {
     const downloadPromise = this.page.waitForEvent('download');
     await this.clickAndAwaitLoadingComplete(
       this.page
-        .getByTestId(ChartPage.exportModalPaneComponent)
+        .getByTestId(this.exportModalPaneComponent)
         .getByRole('button')
         .getByText('Export')
     );
@@ -623,7 +623,7 @@ export default class ChartPage extends AreaFilter {
     this.page.waitForTimeout(250); // wait for modal to open and render
     expect(
       this.page
-        .getByTestId(ChartPage.exportModalPaneComponent)
+        .getByTestId(this.exportModalPaneComponent)
         .getByRole('radio', { name: String(ExportType.PNG) })
     ).toBeChecked();
   }
@@ -680,13 +680,13 @@ export default class ChartPage extends AreaFilter {
 
     // click the SVG radio option
     await this.clickAndAwaitLoadingComplete(
-      this.page.getByRole('radio', { name: 'SVG' })
+      this.page.getByRole('radio', { name: String(ExportType.SVG) })
     );
 
     // check the SVG is visible in the preview
     const exportModalPreview = this.page
-      .getByTestId(ChartPage.exportModalPaneComponent)
-      .getByTestId(ChartPage.exportDomContainer);
+      .getByTestId(this.exportModalPaneComponent)
+      .getByTestId(this.exportDomContainer);
     expect(exportModalPreview).toBeAttached();
 
     await this.checkSVGPreview(component, exportModalPreview, benchmarkConfig);
@@ -776,11 +776,11 @@ export default class ChartPage extends AreaFilter {
 
     // click the CSV radio option
     await this.clickAndAwaitLoadingComplete(
-      this.page.getByRole('radio', { name: 'CSV' })
+      this.page.getByRole('radio', { name: String(ExportType.CSV) })
     );
 
     const exportModalPreview = this.page
-      .getByTestId(ChartPage.exportModalPaneComponent)
+      .getByTestId(this.exportModalPaneComponent)
       .locator('div')
       .last();
     expect(exportModalPreview).toBeAttached();
@@ -807,5 +807,12 @@ export default class ChartPage extends AreaFilter {
     verifyCSVDownloadMatchesPreview(downloadPath, exportModalPreview);
 
     await this.closeExportModal();
+  }
+
+  private replaceComponentSuffix(
+    inputString: string,
+    replaceWith: string = ''
+  ): string {
+    return inputString.replaceAll('-component', replaceWith);
   }
 }

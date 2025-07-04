@@ -54,34 +54,30 @@ export interface GetHealthDataForAnIndicatorRequest {
     latestOnly?: boolean;
 }
 
+export interface GetHealthDataForAnIndicatorIncludingUnpublishedDataRequest {
+    indicatorId: number;
+    areaCodes?: Array<string>;
+    areaType?: string;
+    ancestorCode?: string;
+    benchmarkRefType?: BenchmarkReferenceType;
+    years?: Array<number>;
+    toDate?: string;
+    fromDate?: string;
+    inequalities?: Array<GetHealthDataForAnIndicatorIncludingUnpublishedDataInequalitiesEnum>;
+    latestOnly?: boolean;
+}
+
 export interface GetIndicatorRequest {
     indicatorId: number;
 }
 
 export interface IndicatorsIndicatorIdDataDeleteRequest {
     indicatorId: number;
-    areaCodes?: Array<string>;
-    areaType?: string;
-    ancestorCode?: string;
-    benchmarkRefType?: BenchmarkReferenceType;
-    years?: Array<number>;
-    toDate?: string;
-    fromDate?: string;
-    inequalities?: Array<IndicatorsIndicatorIdDataDeleteInequalitiesEnum>;
-    latestOnly?: boolean;
 }
 
 export interface IndicatorsIndicatorIdDataPostRequest {
     indicatorId: number;
-    areaCodes?: Array<string>;
-    areaType?: string;
-    ancestorCode?: string;
-    benchmarkRefType?: BenchmarkReferenceType;
-    years?: Array<number>;
-    toDate?: string;
-    fromDate?: string;
-    inequalities?: Array<IndicatorsIndicatorIdDataPostInequalitiesEnum>;
-    latestOnly?: boolean;
+    file?: Blob;
 }
 
 export interface IndicatorsQuartilesGetRequest {
@@ -116,8 +112,8 @@ export interface IndicatorsApiInterface {
     filterIndicators(requestParameters: FilterIndicatorsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<IndicatorSummary>>;
 
     /**
-     * Get data for a public health indicator. This will return all data for all requested areas and all time periods for the specified indicator. The returned data will include a benchmark comparison against either England or an ancestor area group, depending on the benchmark_ref_type and ancestor_code parameters. Data can be provided disagregated by various categories such as age and sex using the inequalities query parameter.
-     * @summary Get health data for an indicator
+     * Get data for a public health indicator. This will return all published data for all requested areas and all time periods for the specified indicator. The returned data will include a benchmark comparison against either England or an ancestor area group, depending on the benchmark_ref_type and ancestor_code parameters. Data can be provided disagregated by various categories such as age and sex using the inequalities query parameter.
+     * @summary Get published health data for an indicator
      * @param {number} indicatorId The unique identifier of the indicator
      * @param {Array<string>} [areaCodes] A list of area codes, up to 300 area codes can be requested
      * @param {string} [areaType] The area type which the areas belong to
@@ -135,10 +131,35 @@ export interface IndicatorsApiInterface {
     getHealthDataForAnIndicatorRaw(requestParameters: GetHealthDataForAnIndicatorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<IndicatorWithHealthDataForArea>>;
 
     /**
-     * Get data for a public health indicator. This will return all data for all requested areas and all time periods for the specified indicator. The returned data will include a benchmark comparison against either England or an ancestor area group, depending on the benchmark_ref_type and ancestor_code parameters. Data can be provided disagregated by various categories such as age and sex using the inequalities query parameter.
-     * Get health data for an indicator
+     * Get data for a public health indicator. This will return all published data for all requested areas and all time periods for the specified indicator. The returned data will include a benchmark comparison against either England or an ancestor area group, depending on the benchmark_ref_type and ancestor_code parameters. Data can be provided disagregated by various categories such as age and sex using the inequalities query parameter.
+     * Get published health data for an indicator
      */
     getHealthDataForAnIndicator(requestParameters: GetHealthDataForAnIndicatorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<IndicatorWithHealthDataForArea>;
+
+    /**
+     * Get data for a public health indicator. This will return all data for all requested areas and all time periods for the specified indicator. The returned data will include a benchmark comparison against either England or an ancestor area group, depending on the benchmark_ref_type and ancestor_code parameters. Data can be provided disaggregated by various categories such as age and sex using the inequalities query parameter.
+     * @summary Get published and unpublished health data for an indicator
+     * @param {number} indicatorId The unique identifier of the indicator
+     * @param {Array<string>} [areaCodes] A list of area codes, up to 300 area codes can be requested
+     * @param {string} [areaType] The area type which the areas belong to
+     * @param {string} [ancestorCode] An ancestor area which the area_codes belong to
+     * @param {BenchmarkReferenceType} [benchmarkRefType] The benchmark reference type
+     * @param {Array<number>} [years] A list of years, up to 20 years can be requested
+     * @param {string} [toDate] The latest date, in ISO 8601 format (YYYY-MM-DD), for which data should be returned, if not specified then the latest date for the indicator will be used.
+     * @param {string} [fromDate] The earliest date, in ISO 8601 format (YYYY-MM-DD), for which data should be returned, if not specified then the earliest date for the indicator will be used.
+     * @param {Array<'age' | 'sex' | 'deprivation'>} [inequalities] Determines the kind of inequality data that should be returned if an option is specified
+     * @param {boolean} [latestOnly] Set to true to get data for the latest date period only, default is false. This overrides the years parameter if set to true.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof IndicatorsApiInterface
+     */
+    getHealthDataForAnIndicatorIncludingUnpublishedDataRaw(requestParameters: GetHealthDataForAnIndicatorIncludingUnpublishedDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<IndicatorWithHealthDataForArea>>;
+
+    /**
+     * Get data for a public health indicator. This will return all data for all requested areas and all time periods for the specified indicator. The returned data will include a benchmark comparison against either England or an ancestor area group, depending on the benchmark_ref_type and ancestor_code parameters. Data can be provided disaggregated by various categories such as age and sex using the inequalities query parameter.
+     * Get published and unpublished health data for an indicator
+     */
+    getHealthDataForAnIndicatorIncludingUnpublishedData(requestParameters: GetHealthDataForAnIndicatorIncludingUnpublishedDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<IndicatorWithHealthDataForArea>;
 
     /**
      * Fetches details of a specific indicator by its unique identifier. The response includes the indicator\'s metadata 
@@ -160,15 +181,6 @@ export interface IndicatorsApiInterface {
      * Not Yet Implemented - Deletes ALL unpublished data for that indicator
      * @summary delete a batch of unpublished data for an indicator
      * @param {number} indicatorId The unique identifier of the indicator
-     * @param {Array<string>} [areaCodes] A list of area codes, up to 300 area codes can be requested
-     * @param {string} [areaType] The area type which the areas belong to
-     * @param {string} [ancestorCode] An ancestor area which the area_codes belong to
-     * @param {BenchmarkReferenceType} [benchmarkRefType] The benchmark reference type
-     * @param {Array<number>} [years] A list of years, up to 20 years can be requested
-     * @param {string} [toDate] The latest date, in ISO 8601 format (YYYY-MM-DD), for which data should be returned, if not specified then the latest date for the indicator will be used.
-     * @param {string} [fromDate] The earliest date, in ISO 8601 format (YYYY-MM-DD), for which data should be returned, if not specified then the earliest date for the indicator will be used.
-     * @param {Array<'age' | 'sex' | 'deprivation'>} [inequalities] Determines the kind of inequality data that should be returned if an option is specified
-     * @param {boolean} [latestOnly] Set to true to get data for the latest date period only, default is false. This overrides the years parameter if set to true.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof IndicatorsApiInterface
@@ -182,29 +194,21 @@ export interface IndicatorsApiInterface {
     indicatorsIndicatorIdDataDelete(requestParameters: IndicatorsIndicatorIdDataDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
     /**
-     * Not Yet Implemented - Creates new data for the indicator. The data is always created in an unpublished and unapproved state.
+     * Creates new data for the indicator. The data is always created in an unpublished and unapproved state.
      * @summary add a batch of new data for an indicator
      * @param {number} indicatorId The unique identifier of the indicator
-     * @param {Array<string>} [areaCodes] A list of area codes, up to 300 area codes can be requested
-     * @param {string} [areaType] The area type which the areas belong to
-     * @param {string} [ancestorCode] An ancestor area which the area_codes belong to
-     * @param {BenchmarkReferenceType} [benchmarkRefType] The benchmark reference type
-     * @param {Array<number>} [years] A list of years, up to 20 years can be requested
-     * @param {string} [toDate] The latest date, in ISO 8601 format (YYYY-MM-DD), for which data should be returned, if not specified then the latest date for the indicator will be used.
-     * @param {string} [fromDate] The earliest date, in ISO 8601 format (YYYY-MM-DD), for which data should be returned, if not specified then the earliest date for the indicator will be used.
-     * @param {Array<'age' | 'sex' | 'deprivation'>} [inequalities] Determines the kind of inequality data that should be returned if an option is specified
-     * @param {boolean} [latestOnly] Set to true to get data for the latest date period only, default is false. This overrides the years parameter if set to true.
+     * @param {Blob} [file] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof IndicatorsApiInterface
      */
-    indicatorsIndicatorIdDataPostRaw(requestParameters: IndicatorsIndicatorIdDataPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+    indicatorsIndicatorIdDataPostRaw(requestParameters: IndicatorsIndicatorIdDataPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>>;
 
     /**
-     * Not Yet Implemented - Creates new data for the indicator. The data is always created in an unpublished and unapproved state.
+     * Creates new data for the indicator. The data is always created in an unpublished and unapproved state.
      * add a batch of new data for an indicator
      */
-    indicatorsIndicatorIdDataPost(requestParameters: IndicatorsIndicatorIdDataPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+    indicatorsIndicatorIdDataPost(requestParameters: IndicatorsIndicatorIdDataPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string>;
 
     /**
      * Get quartile information for many indicators for one area. This will calculate the quartile based on all areas of the specified type within either England or a sub-national area, depending on the benchmark_ref_type parameter. It will use the latest data available for the area group requested. If the indicator has data for more than one time period type then the API will return data for each data period type separately.
@@ -266,8 +270,8 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
     }
 
     /**
-     * Get data for a public health indicator. This will return all data for all requested areas and all time periods for the specified indicator. The returned data will include a benchmark comparison against either England or an ancestor area group, depending on the benchmark_ref_type and ancestor_code parameters. Data can be provided disagregated by various categories such as age and sex using the inequalities query parameter.
-     * Get health data for an indicator
+     * Get data for a public health indicator. This will return all published data for all requested areas and all time periods for the specified indicator. The returned data will include a benchmark comparison against either England or an ancestor area group, depending on the benchmark_ref_type and ancestor_code parameters. Data can be provided disagregated by various categories such as age and sex using the inequalities query parameter.
+     * Get published health data for an indicator
      */
     async getHealthDataForAnIndicatorRaw(requestParameters: GetHealthDataForAnIndicatorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<IndicatorWithHealthDataForArea>> {
         if (requestParameters['indicatorId'] == null) {
@@ -328,11 +332,82 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
     }
 
     /**
-     * Get data for a public health indicator. This will return all data for all requested areas and all time periods for the specified indicator. The returned data will include a benchmark comparison against either England or an ancestor area group, depending on the benchmark_ref_type and ancestor_code parameters. Data can be provided disagregated by various categories such as age and sex using the inequalities query parameter.
-     * Get health data for an indicator
+     * Get data for a public health indicator. This will return all published data for all requested areas and all time periods for the specified indicator. The returned data will include a benchmark comparison against either England or an ancestor area group, depending on the benchmark_ref_type and ancestor_code parameters. Data can be provided disagregated by various categories such as age and sex using the inequalities query parameter.
+     * Get published health data for an indicator
      */
     async getHealthDataForAnIndicator(requestParameters: GetHealthDataForAnIndicatorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<IndicatorWithHealthDataForArea> {
         const response = await this.getHealthDataForAnIndicatorRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get data for a public health indicator. This will return all data for all requested areas and all time periods for the specified indicator. The returned data will include a benchmark comparison against either England or an ancestor area group, depending on the benchmark_ref_type and ancestor_code parameters. Data can be provided disaggregated by various categories such as age and sex using the inequalities query parameter.
+     * Get published and unpublished health data for an indicator
+     */
+    async getHealthDataForAnIndicatorIncludingUnpublishedDataRaw(requestParameters: GetHealthDataForAnIndicatorIncludingUnpublishedDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<IndicatorWithHealthDataForArea>> {
+        if (requestParameters['indicatorId'] == null) {
+            throw new runtime.RequiredError(
+                'indicatorId',
+                'Required parameter "indicatorId" was null or undefined when calling getHealthDataForAnIndicatorIncludingUnpublishedData().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['areaCodes'] != null) {
+            queryParameters['area_codes'] = requestParameters['areaCodes'];
+        }
+
+        if (requestParameters['areaType'] != null) {
+            queryParameters['area_type'] = requestParameters['areaType'];
+        }
+
+        if (requestParameters['ancestorCode'] != null) {
+            queryParameters['ancestor_code'] = requestParameters['ancestorCode'];
+        }
+
+        if (requestParameters['benchmarkRefType'] != null) {
+            queryParameters['benchmark_ref_type'] = requestParameters['benchmarkRefType'];
+        }
+
+        if (requestParameters['years'] != null) {
+            queryParameters['years'] = requestParameters['years'];
+        }
+
+        if (requestParameters['toDate'] != null) {
+            queryParameters['to_date'] = requestParameters['toDate'];
+        }
+
+        if (requestParameters['fromDate'] != null) {
+            queryParameters['from_date'] = requestParameters['fromDate'];
+        }
+
+        if (requestParameters['inequalities'] != null) {
+            queryParameters['inequalities'] = requestParameters['inequalities'];
+        }
+
+        if (requestParameters['latestOnly'] != null) {
+            queryParameters['latest_only'] = requestParameters['latestOnly'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/indicators/{indicator_id}/data/all`.replace(`{${"indicator_id"}}`, encodeURIComponent(String(requestParameters['indicatorId']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => IndicatorWithHealthDataForAreaFromJSON(jsonValue));
+    }
+
+    /**
+     * Get data for a public health indicator. This will return all data for all requested areas and all time periods for the specified indicator. The returned data will include a benchmark comparison against either England or an ancestor area group, depending on the benchmark_ref_type and ancestor_code parameters. Data can be provided disaggregated by various categories such as age and sex using the inequalities query parameter.
+     * Get published and unpublished health data for an indicator
+     */
+    async getHealthDataForAnIndicatorIncludingUnpublishedData(requestParameters: GetHealthDataForAnIndicatorIncludingUnpublishedDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<IndicatorWithHealthDataForArea> {
+        const response = await this.getHealthDataForAnIndicatorIncludingUnpublishedDataRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -385,42 +460,6 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
 
         const queryParameters: any = {};
 
-        if (requestParameters['areaCodes'] != null) {
-            queryParameters['area_codes'] = requestParameters['areaCodes'];
-        }
-
-        if (requestParameters['areaType'] != null) {
-            queryParameters['area_type'] = requestParameters['areaType'];
-        }
-
-        if (requestParameters['ancestorCode'] != null) {
-            queryParameters['ancestor_code'] = requestParameters['ancestorCode'];
-        }
-
-        if (requestParameters['benchmarkRefType'] != null) {
-            queryParameters['benchmark_ref_type'] = requestParameters['benchmarkRefType'];
-        }
-
-        if (requestParameters['years'] != null) {
-            queryParameters['years'] = requestParameters['years'];
-        }
-
-        if (requestParameters['toDate'] != null) {
-            queryParameters['to_date'] = requestParameters['toDate'];
-        }
-
-        if (requestParameters['fromDate'] != null) {
-            queryParameters['from_date'] = requestParameters['fromDate'];
-        }
-
-        if (requestParameters['inequalities'] != null) {
-            queryParameters['inequalities'] = requestParameters['inequalities'];
-        }
-
-        if (requestParameters['latestOnly'] != null) {
-            queryParameters['latest_only'] = requestParameters['latestOnly'];
-        }
-
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
@@ -442,10 +481,10 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
     }
 
     /**
-     * Not Yet Implemented - Creates new data for the indicator. The data is always created in an unpublished and unapproved state.
+     * Creates new data for the indicator. The data is always created in an unpublished and unapproved state.
      * add a batch of new data for an indicator
      */
-    async indicatorsIndicatorIdDataPostRaw(requestParameters: IndicatorsIndicatorIdDataPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async indicatorsIndicatorIdDataPostRaw(requestParameters: IndicatorsIndicatorIdDataPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
         if (requestParameters['indicatorId'] == null) {
             throw new runtime.RequiredError(
                 'indicatorId',
@@ -455,60 +494,50 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
 
         const queryParameters: any = {};
 
-        if (requestParameters['areaCodes'] != null) {
-            queryParameters['area_codes'] = requestParameters['areaCodes'];
-        }
-
-        if (requestParameters['areaType'] != null) {
-            queryParameters['area_type'] = requestParameters['areaType'];
-        }
-
-        if (requestParameters['ancestorCode'] != null) {
-            queryParameters['ancestor_code'] = requestParameters['ancestorCode'];
-        }
-
-        if (requestParameters['benchmarkRefType'] != null) {
-            queryParameters['benchmark_ref_type'] = requestParameters['benchmarkRefType'];
-        }
-
-        if (requestParameters['years'] != null) {
-            queryParameters['years'] = requestParameters['years'];
-        }
-
-        if (requestParameters['toDate'] != null) {
-            queryParameters['to_date'] = requestParameters['toDate'];
-        }
-
-        if (requestParameters['fromDate'] != null) {
-            queryParameters['from_date'] = requestParameters['fromDate'];
-        }
-
-        if (requestParameters['inequalities'] != null) {
-            queryParameters['inequalities'] = requestParameters['inequalities'];
-        }
-
-        if (requestParameters['latestOnly'] != null) {
-            queryParameters['latest_only'] = requestParameters['latestOnly'];
-        }
-
         const headerParameters: runtime.HTTPHeaders = {};
+
+        const consumes: runtime.Consume[] = [
+            { contentType: 'multipart/form-data' },
+        ];
+        // @ts-ignore: canConsumeForm may be unused
+        const canConsumeForm = runtime.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any };
+        let useForm = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new URLSearchParams();
+        }
+
+        if (requestParameters['file'] != null) {
+            formParams.append('file', requestParameters['file'] as any);
+        }
 
         const response = await this.request({
             path: `/indicators/{indicator_id}/data`.replace(`{${"indicator_id"}}`, encodeURIComponent(String(requestParameters['indicatorId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
+            body: formParams,
         }, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<string>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
     }
 
     /**
-     * Not Yet Implemented - Creates new data for the indicator. The data is always created in an unpublished and unapproved state.
+     * Creates new data for the indicator. The data is always created in an unpublished and unapproved state.
      * add a batch of new data for an indicator
      */
-    async indicatorsIndicatorIdDataPost(requestParameters: IndicatorsIndicatorIdDataPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.indicatorsIndicatorIdDataPostRaw(requestParameters, initOverrides);
+    async indicatorsIndicatorIdDataPost(requestParameters: IndicatorsIndicatorIdDataPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+        const response = await this.indicatorsIndicatorIdDataPostRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**
@@ -573,18 +602,9 @@ export type GetHealthDataForAnIndicatorInequalitiesEnum = typeof GetHealthDataFo
 /**
  * @export
  */
-export const IndicatorsIndicatorIdDataDeleteInequalitiesEnum = {
+export const GetHealthDataForAnIndicatorIncludingUnpublishedDataInequalitiesEnum = {
     Age: 'age',
     Sex: 'sex',
     Deprivation: 'deprivation'
 } as const;
-export type IndicatorsIndicatorIdDataDeleteInequalitiesEnum = typeof IndicatorsIndicatorIdDataDeleteInequalitiesEnum[keyof typeof IndicatorsIndicatorIdDataDeleteInequalitiesEnum];
-/**
- * @export
- */
-export const IndicatorsIndicatorIdDataPostInequalitiesEnum = {
-    Age: 'age',
-    Sex: 'sex',
-    Deprivation: 'deprivation'
-} as const;
-export type IndicatorsIndicatorIdDataPostInequalitiesEnum = typeof IndicatorsIndicatorIdDataPostInequalitiesEnum[keyof typeof IndicatorsIndicatorIdDataPostInequalitiesEnum];
+export type GetHealthDataForAnIndicatorIncludingUnpublishedDataInequalitiesEnum = typeof GetHealthDataForAnIndicatorIncludingUnpublishedDataInequalitiesEnum[keyof typeof GetHealthDataForAnIndicatorIncludingUnpublishedDataInequalitiesEnum];

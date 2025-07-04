@@ -145,7 +145,7 @@ To make our isolated ui testing and fully integrated e2e testing as close to rea
 
 ### Accessibility Testing
 
-Performed in the ui tests, libraries used: @axe-core/playwright and axe-playwright. 
+Performed in the ui tests, library used: @axe-core/playwright. 
 
 Configured to the WCAG2.2 AA standard in the following file playwright/page-objects/pageFactory.ts. Any violations of this standard cause a test failure unless the rule violated has been accepted in pageFactory.ts.
 
@@ -186,7 +186,7 @@ CAUTION: Running these scripts will overwrite previously generated code. This sh
 ### Generating the API Client
 
 The following script will autogenerate the api client code from an openapi spec.
-NOTE: this will require Java configured on your path in order for this to work. See https://www.npmjs.com/package/@openapitools/openapi-generator-cli for details.
+NOTE: this will require Java configured on your path in order for this to work. See https://www.npmjs.com/package/@openapitools/openapi-generator-cli for details. This requires installing the latest version of Java and ensuring JAVA_HOME is set.
 
 ```bash
 npm run generate:api-client

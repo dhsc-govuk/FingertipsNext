@@ -486,9 +486,8 @@ test.describe('Navigation Tests', () => {
         throw new Error(`Indicator with ID ${validIndicatorIDs[0]} not found`);
       }
 
-      await resultsPage.clickViewBackgroundInformationLinkForIndicator(
-        indicator
-      );
+      await chartPage.clickViewBackgroundInformationLinkForIndicator(indicator);
+
       await indicatorPage.waitForURLToContain('indicator');
       await indicatorPage.checkIndicatorNameTitle(indicator);
       await indicatorPage.expectNoAccessibilityViolations(axeBuilder);

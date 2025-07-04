@@ -56,3 +56,26 @@ GET http://localhost:5144/indicators/41101/data?area_codes=E38000101&area_type=g
         client.assert(yearList.length == 4)
     });
 %}
+
+### Ensure unpublished and published data is returned for a non-quintiles indicator
+GET http://localhost:5144/indicators/41101/data/all?area_codes=E38000101&area_type=gps&years=2025&years=2024&years=2023&years=2022&years=2021&years=2020&ancestor_code=E38000136&area_codes=E38000136&area_codes=E92000001&benchmark_ref_type=SubNational
+> {%
+    client.test("Ensure unpublished and published data is returned - non-quintile", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+
+        client.assert(response.body.benchmarkMethod =="CIOverlappingReferenceValue95", "benchmarkMethod not as expected");
+
+        healthData = response.body.areaHealthData[0].healthData;
+        yearList = [];
+        healthData.forEach(item => {
+            yearList.push(item.year);
+        });
+
+        expectedYears = [2020, 2021, 2022, 2023, 2024];
+
+        containsAllExpectedYears = expectedYears.every(r => yearList.includes(r))
+        client.assert(containsAllExpectedYears == true)
+        client.assert(yearList.length == 5)
+    });
+%}
+

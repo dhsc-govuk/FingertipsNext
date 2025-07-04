@@ -1,12 +1,14 @@
 import { SearchMode } from '@/playwright/testHelpers/genericTestUtilities';
 import AreaFilter from '../components/areaFilter';
 import { expect } from '../pageFactory';
+import { siteTitle } from '@/lib/constants';
 
 export default class HomePage extends AreaFilter {
   readonly subjectSearchField = 'indicator-search-form-input';
   readonly searchButton = 'search-form-button-submit';
   readonly validationSummary = 'search-form-error-summary';
   readonly indicatorSearchButton = 'indicator-search-form-submit';
+  readonly pillContainer = 'pill-container';
 
   async searchForIndicators(
     searchMode: SearchMode,
@@ -54,7 +56,7 @@ export default class HomePage extends AreaFilter {
         this.page.getByText(areaSearchTerm!)
       );
 
-      await expect(this.page.getByTestId('pill-container')).toContainText(
+      await expect(this.page.getByTestId(this.pillContainer)).toContainText(
         areaSearchTerm!,
         {
           ignoreCase: true,
@@ -85,9 +87,7 @@ export default class HomePage extends AreaFilter {
 
   async checkOnHomePage() {
     await expect(
-      this.page
-        .getByRole('heading', { name: 'Find public health data' })
-        .first()
+      this.page.getByRole('heading', { name: siteTitle }).first()
     ).toBeVisible();
   }
 

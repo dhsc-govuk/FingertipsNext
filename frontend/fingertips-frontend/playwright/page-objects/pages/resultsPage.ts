@@ -36,6 +36,8 @@ export default class ResultsPage extends AreaFilter {
   readonly removeIcon = 'x-icon';
   readonly viewBackgroundInfoLink = 'view-background-info-link';
   readonly searchResultsPagination = 'search-results-pagination';
+  readonly trendTitle = 'Recent trend for selected area';
+  readonly trendComponent = 'trend-tag-component';
 
   async navigateToResults(
     searchIndicator: string,
@@ -91,9 +93,9 @@ export default class ResultsPage extends AreaFilter {
       areaMode === AreaMode.ALL_AREAS_IN_A_GROUP ||
       areaMode === AreaMode.ENGLAND_AREA;
 
-    await expect(
-      this.page.getByText('Recent trend for selected area')
-    ).toBeVisible({ visible: trendsShouldBeVisible });
+    await expect(this.page.getByText(this.trendTitle)).toBeVisible({
+      visible: trendsShouldBeVisible,
+    });
 
     // currently, the trend text on each indicator is only visible on the results page in the deployed CD environment so checkTrends will be set to false in local and CI environments via the npm script
     if (trendsShouldBeVisible && checkTrends) {
@@ -110,7 +112,7 @@ export default class ResultsPage extends AreaFilter {
         });
 
         const trendText = searchResultItem
-          .getByTestId('trend-tag-component')
+          .getByTestId(this.trendComponent)
           .allInnerTexts();
 
         // Trim each text value before comparison
@@ -408,18 +410,13 @@ export default class ResultsPage extends AreaFilter {
     }
   }
 
-  async clickViewBackgroundInformationLinkForIndicator(
-    indicator: RawIndicatorDocument
-  ) {
-    if (!indicator) {
-      throw new Error(`Indicator not found`);
-    }
+  async verifyUrlExcludesAllIndicators() {
+    await expect(this.page).not.toHaveURL(/&is=/);
+  }
 
-    await this.clickAndAwaitLoadingComplete(
-      this.page
-        .getByTestId(this.pillContainer)
-        .getByText(indicator.indicatorName)
-        .getByRole('link', { name: 'View background information' })
+  async verifyUrlUpdatedAfterDeselection(deselectedIndicator: string) {
+    await expect(this.page).not.toHaveURL(
+      new RegExp(`&is=${deselectedIndicator}`)
     );
   }
 
