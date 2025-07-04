@@ -17,12 +17,12 @@ public class HealthDataWebApplicationFactory<T> : WebApplicationFactory<T> where
         builder.ConfigureServices(services =>
         {
             var healthDbContextDescriptor = services.SingleOrDefault(
-                d => d.ServiceType == 
+                d => d.ServiceType ==
                      typeof(IDbContextOptionsConfiguration<HealthDataDbContext>));
             if (healthDbContextDescriptor != null) services.Remove(healthDbContextDescriptor);
-            
+
             var batchDbContextDescriptor = services.SingleOrDefault(
-                d => d.ServiceType == 
+                d => d.ServiceType ==
                      typeof(IDbContextOptionsConfiguration<BatchHealthDataDbContext>));
             if (batchDbContextDescriptor != null) services.Remove(batchDbContextDescriptor);
 
@@ -46,7 +46,7 @@ public class HealthDataWebApplicationFactory<T> : WebApplicationFactory<T> where
                 var connection = container.GetRequiredService<DbConnection>();
                 options.UseSqlite(connection);
             });
-            
+
             services.AddDbContext<BatchHealthDataDbContext>((container, options) =>
             {
                 var connection = container.GetRequiredService<DbConnection>();

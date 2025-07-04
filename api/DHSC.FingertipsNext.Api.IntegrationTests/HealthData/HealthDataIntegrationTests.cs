@@ -21,7 +21,7 @@ public class HealthDataIntegrationTests : IClassFixture<HealthDataWebApplication
         _factory = factory;
         using var scope = _factory.Services.CreateScope();
         var healthDbContext = scope.ServiceProvider.GetRequiredService<HealthDataDbContext>();
-        
+
         ReInitialiseDb(healthDbContext);
     }
 
@@ -32,11 +32,11 @@ public class HealthDataIntegrationTests : IClassFixture<HealthDataWebApplication
         var client = _factory.CreateClient();
 
         await AssertExpectedHealthDataCount(client, 3);
-        
+
         // Act
         var response = await client.DeleteAsync(new Uri($"/indicators/1/batch/batchId1", UriKind.Relative));
         response.EnsureSuccessStatusCode();
-        
+
         // Assert
         await AssertExpectedHealthDataCount(client, 1);
     }
@@ -97,7 +97,7 @@ public class HealthDataIntegrationTests : IClassFixture<HealthDataWebApplication
             .WithIndicatorDimension(indicatorId: 2)
             .WithAreaDimension("a1", "area1")
             .Build();
-        
+
         return new Collection<HealthMeasureModel>
         {
             unPublishedHealthMeasure1,
