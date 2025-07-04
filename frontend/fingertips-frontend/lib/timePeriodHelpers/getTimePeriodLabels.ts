@@ -206,12 +206,11 @@ const labelFormatters: {
     [Frequency.CumulativeQuarters]: {
       periodLabelText: 'Financial multi-year, cumulative quarters',
       datePointLabel: (datePeriod, reportingPeriod) => {
-        if (reportingPeriod === 1) {
-          const fromMonthYear = format(datePeriod.from, 'MMM yyyy');
-          const toMonthYear = format(datePeriod.to, 'MMM yyyy');
-          return `${fromMonthYear} to ${toMonthYear}`;
-        }
-        return '';
+        if (reportingPeriod !== 1) return '';
+
+        const fromMonthYear = format(datePeriod.from, 'MMM yyyy');
+        const toMonthYear = format(datePeriod.to, 'MMM yyyy');
+        return `${fromMonthYear} to ${toMonthYear}`;
       },
     },
   },
@@ -223,11 +222,11 @@ export const getTimePeriodLabels = (
   reportingPeriod: ReportingPeriod
 ): TimePeriodLabels => {
   const formatter = labelFormatters[datePeriod.type]?.[collectionFrequency];
-  if (formatter) {
-    return {
-      periodLabelText: formatter.periodLabelText,
-      datePointLabel: formatter.datePointLabel(datePeriod, reportingPeriod),
-    };
-  }
-  return { periodLabelText: '', datePointLabel: 'X' };
+
+  if (!formatter) return { periodLabelText: '', datePointLabel: 'X' };
+
+  return {
+    periodLabelText: formatter.periodLabelText,
+    datePointLabel: formatter.datePointLabel(datePeriod, reportingPeriod),
+  };
 };
