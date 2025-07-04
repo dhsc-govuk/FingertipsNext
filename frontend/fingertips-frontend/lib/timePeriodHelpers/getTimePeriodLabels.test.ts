@@ -237,6 +237,22 @@ describe('getTimePeriodLabels', () => {
       expect(datePointLabel).toEqual('Apr 2023');
     });
 
+    it('should return the correct datePointLabel when periodType is Calendar and collectionFrequency is Monthly (Leap year)', () => {
+      const datePeriod: DatePeriod = {
+        type: PeriodType.Calendar,
+        from: new Date('2024-02-01'),
+        to: new Date('2024-02-29'),
+      };
+
+      const { datePointLabel } = getTimePeriodLabels(
+        datePeriod,
+        Frequency.Monthly,
+        1
+      );
+
+      expect(datePointLabel).toEqual('Feb 2024');
+    });
+
     it('should return the correct datePointLabel when periodType is Academic and collectionFrequency is Annually', () => {
       const datePeriod: DatePeriod = {
         type: PeriodType.Academic,
@@ -415,6 +431,22 @@ describe('getTimePeriodLabels', () => {
       expect(datePointLabel).toEqual('Apr 2023 to Mar 2025');
     });
 
+    it('should return the correct datePointLabel when periodType is Calendar and collectionFrequency is Monthly (Leap year)', () => {
+      const datePeriod: DatePeriod = {
+        type: PeriodType.Calendar,
+        from: new Date('2024-02-01'),
+        to: new Date('2024-02-29'),
+      };
+
+      const { datePointLabel } = getTimePeriodLabels(
+        datePeriod,
+        Frequency.Monthly,
+        3
+      );
+
+      expect(datePointLabel).toEqual('Feb 2024 to Jan 2026');
+    });
+
     it('should return the correct datePointLabel when periodType is Academic and collectionFrequency is Annually', () => {
       const datePeriod: DatePeriod = {
         type: PeriodType.Academic,
@@ -591,6 +623,22 @@ describe('getTimePeriodLabels', () => {
       );
 
       expect(datePointLabel).toEqual('Apr 2023 to Mar 2027');
+    });
+
+    it('should return the correct datePointLabel when periodType is Calendar and collectionFrequency is Monthly (Leap year)', () => {
+      const datePeriod: DatePeriod = {
+        type: PeriodType.Calendar,
+        from: new Date('2024-02-01'),
+        to: new Date('2024-02-29'),
+      };
+
+      const { datePointLabel } = getTimePeriodLabels(
+        datePeriod,
+        Frequency.Monthly,
+        5
+      );
+
+      expect(datePointLabel).toEqual('Feb 2024 to Jan 2028');
     });
 
     it('should return the correct datePointLabel when periodType is Academic and collectionFrequency is Annually', () => {
