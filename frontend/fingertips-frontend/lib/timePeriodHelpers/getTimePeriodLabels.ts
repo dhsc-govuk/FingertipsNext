@@ -37,7 +37,7 @@ type TimePeriodLabels = {
 
 function getRollingYears(date: Date) {
   const year = date.getFullYear();
-  const endYearShort = (year + 1).toString().slice(-2);
+  const endYearShort = format(addYears(date, 1), 'yy');
   return `${year}/${endYearShort}`;
 }
 
