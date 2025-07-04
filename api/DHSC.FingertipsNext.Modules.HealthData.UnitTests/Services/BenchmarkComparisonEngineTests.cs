@@ -23,10 +23,10 @@ public class BenchmarkComparisonEngineTests
         HealthDataForArea benchmarkHealthData = HealthDataForAreaBuilder.WithSexSegments(areaCode: "E92000001", spread: 1.1, persons: [1, 2, 3, 4], null, null);
         HealthDataForArea targetArea = HealthDataForAreaBuilder.WithSexSegments(areaCode: "TARGET", spread: 1.1, persons: [4, 3, 2, 1], null, null);
 
-        BenchmarkComparisonEngine.ProcessBenchmarkComparisons(
+        var results = BenchmarkComparisonEngine.PerformAreaBenchmarking(
             [targetArea], benchmarkHealthData, IndicatorPolarity.HighIsGood
-            );
-        var comparisons = targetArea.IndicatorSegments.First().HealthData.ToList()
+            ).ToList();
+        var comparisons = results[0].IndicatorSegments.First().HealthData.ToList()
             .Select(hd => hd.BenchmarkComparison)
             .ToList();
 
@@ -44,10 +44,11 @@ public class BenchmarkComparisonEngineTests
         HealthDataForArea benchmarkHealthData = HealthDataForAreaBuilder.WithSexSegments(areaCode: "E92000001", spread: 1.1, persons: [1, 2, 3, 4], null, null);
         HealthDataForArea targetArea = HealthDataForAreaBuilder.WithSexSegments(areaCode: "TARGET", spread: 1.1, persons: [4, 3, 2, 1], null, null);
 
-        BenchmarkComparisonEngine.ProcessBenchmarkComparisons(
+        var results = BenchmarkComparisonEngine.PerformAreaBenchmarking(
             [targetArea], benchmarkHealthData, IndicatorPolarity.LowIsGood
-            );
-        var outcomes = targetArea.IndicatorSegments.First().HealthData.ToList()
+            ).ToList();
+
+        var outcomes = results[0].IndicatorSegments.First().HealthData.ToList()
             .Select(hd => hd.BenchmarkComparison.Outcome)
             .ToList();
 
@@ -63,10 +64,10 @@ public class BenchmarkComparisonEngineTests
         HealthDataForArea benchmarkHealthData = HealthDataForAreaBuilder.WithSexSegments(areaCode: "E92000001", spread: 1.1, persons: [1, 2, 3, 4], null, null);
         HealthDataForArea targetArea = HealthDataForAreaBuilder.WithSexSegments(areaCode: "TARGET", spread: 1.1, persons: [4, 3, 2, 1], null, null);
 
-        BenchmarkComparisonEngine.ProcessBenchmarkComparisons(
+        var results = BenchmarkComparisonEngine.PerformAreaBenchmarking(
             [targetArea], benchmarkHealthData, IndicatorPolarity.NoJudgement
-            );
-        var outcomes = targetArea.IndicatorSegments.First().HealthData.ToList()
+            ).ToList();
+        var outcomes = results[0].IndicatorSegments.First().HealthData.ToList()
             .Select(hd => hd.BenchmarkComparison.Outcome)
             .ToList();
 
@@ -81,11 +82,11 @@ public class BenchmarkComparisonEngineTests
     {
         HealthDataForArea targetArea = HealthDataForAreaBuilder.WithSexSegments(areaCode: "TARGET", spread: 1.1, persons: [4, 3, 2, 1], male: [1, 2, 3, 4], female: [2, 3, 4, 5]);
 
-        BenchmarkComparisonEngine.ProcessBenchmarkComparisons(
-            [targetArea], null, IndicatorPolarity.NoJudgement
-            );
+        var results = BenchmarkComparisonEngine.PerformInequalityBenchmarking(
+            [targetArea], IndicatorPolarity.NoJudgement
+            ).ToList();
 
-        var benchmarks = targetArea.IndicatorSegments
+        var benchmarks = results[0].IndicatorSegments
             .First(seg => seg.Sex.Value == "Persons")
             .HealthData.ToList()
             .Select(hd => hd.BenchmarkComparison)
@@ -97,7 +98,7 @@ public class BenchmarkComparisonEngineTests
         benchmarks[3].ShouldBe(null);
 
 
-        benchmarks = targetArea.IndicatorSegments
+        benchmarks = results[0].IndicatorSegments
             .First(seg => seg.Sex.Value == "Female")
             .HealthData.ToList()
             .Select(hd => hd.BenchmarkComparison)
@@ -113,7 +114,7 @@ public class BenchmarkComparisonEngineTests
 
 
 
-        benchmarks = targetArea.IndicatorSegments
+        benchmarks = results[0].IndicatorSegments
             .First(seg => seg.Sex.Value == "Male")
             .HealthData.ToList()
             .Select(hd => hd.BenchmarkComparison)

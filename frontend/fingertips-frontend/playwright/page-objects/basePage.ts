@@ -168,4 +168,14 @@ export default class BasePage {
   async pressKey(key: string) {
     await this.page.keyboard.press(key);
   }
+
+  async verifyUrlExcludesAllIndicators() {
+    await expect(this.page).not.toHaveURL(/&is=/);
+  }
+
+  async verifyUrlUpdatedAfterDeselection(deselectedIndicator: string) {
+    await expect(this.page).not.toHaveURL(
+      new RegExp(`&is=${deselectedIndicator}`)
+    );
+  }
 }

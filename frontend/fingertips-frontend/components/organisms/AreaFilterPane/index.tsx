@@ -97,6 +97,7 @@ export function AreaFilterPane({
           key={`selected-area-panel-${JSON.stringify(searchState)}`}
           selectedAreasData={selectedAreasData}
           areaFilterData={areaFilterData}
+          showClearAllLink={true}
         />
 
         <SelectAreasFilterPanel

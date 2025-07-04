@@ -1081,7 +1081,8 @@ public class HealthDataRepositoryTests : IDisposable
                     1,
                     [expectedAreaCode],
                     [],
-                    []
+                    [],
+                    includeUnpublished: false
                 );
 
         // Assert

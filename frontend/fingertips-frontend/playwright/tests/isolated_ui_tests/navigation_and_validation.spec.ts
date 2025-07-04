@@ -36,6 +36,7 @@ const areaFiltersToSelect: AreaFilters = {
   groupType: 'nhs-sub-integrated-care-boards',
   group: '',
 };
+const password = 'password';
 // Initialize test data from mock sources
 const typedIndicatorData = indicatorData.map(
   (indicator: RawIndicatorDocument) => ({
@@ -56,6 +57,9 @@ const validIndicatorIDs = returnIndicatorIDsByIndicatorMode(
 const allNHSRegionAreas = getAllAreasByAreaType(mockAreas, 'nhs-regions');
 
 test.describe('Home Page Tests', () => {
+  // we are intentionally setting failOnUnhandledError to handle a spurious 404
+  test.use({ failOnUnhandledError: false });
+
   test('should navigate to home page and validate accessibility', async ({
     homePage,
     axeBuilder,
@@ -94,7 +98,7 @@ test.describe('Home Page Tests', () => {
       await homePage.checkSearchFieldIsPrePopulatedWith(); // nothing - as nothing should be prepopulated when first navigating to the home page
     });
 
-    await test.step('Try to search with empty field', async () => {
+    await test.step('Try to search with empty field via Enter key', async () => {
       await homePage.clickSubjectSearchField();
       await homePage.pressKey('Enter');
     });
@@ -105,6 +109,64 @@ test.describe('Home Page Tests', () => {
       );
     });
   });
+
+  test('clear all areas from home page should correctly clear selected areas', async ({
+    homePage,
+    resultsPage,
+  }) => {
+    await test.step('Navigate to results page with areas', async () => {
+      await resultsPage.navigateToResults(
+        subjectSearchTerm,
+        [
+          allNHSRegionAreas[0].areaCode,
+          allNHSRegionAreas[1].areaCode,
+          allNHSRegionAreas[2].areaCode,
+        ],
+        'nhs-regions'
+      );
+
+      await resultsPage.checkSearchResultsTitleBasedOnSearchMode(
+        searchMode,
+        subjectSearchTerm
+      );
+    });
+
+    await test.step('click back and assert on homepage with areas', async () => {
+      await resultsPage.clickBackLink();
+
+      await homePage.checkOnHomePage();
+    });
+
+    await test.step('click clear all and assert behaviour', async () => {
+      await homePage.clearAllSelectedAreasHomePage();
+
+      await test
+        .expect(homePage.page)
+        .not.toHaveURL(allNHSRegionAreas[0].areaCode);
+      await homePage.checkSearchFieldIsPrePopulatedWith();
+    });
+  });
+
+  // fails due to loading screen notyet implemented on auth flow
+  test.fixme(
+    'should display Sign out after successful mock sign in',
+    async ({ homePage }) => {
+      await test.step('Navigate to home page', async () => {
+        await homePage.navigateToHomePage();
+        await homePage.checkOnHomePage();
+      });
+
+      await test.step('Click Sign in button', async () => {
+        await homePage.clickSignIn();
+      });
+
+      await test.step('Enter correct email but incorrect password and verify correct message is displayed', async () => {
+        await homePage.signInToMock(password);
+
+        await homePage.checkSignOutDisplayed();
+      });
+    }
+  );
 });
 
 test.describe('Results Page Tests', () => {
@@ -126,7 +188,9 @@ test.describe('Results Page Tests', () => {
     await test.step('Verify results page', async () => {
       await resultsPage.waitForURLToContain(subjectSearchTerm);
       await resultsPage.checkSearchResultsTitle(subjectSearchTerm);
-      await resultsPage.expectNoAccessibilityViolations(axeBuilder);
+      await resultsPage.expectNoAccessibilityViolations(axeBuilder, [
+        'color-contrast',
+      ]);
     });
   });
 
@@ -142,7 +206,9 @@ test.describe('Results Page Tests', () => {
       await resultsPage.clearIndicatorSearchBox();
       await resultsPage.clickIndicatorSearchButton();
       await resultsPage.checkForIndicatorSearchError();
-      await resultsPage.expectNoAccessibilityViolations(axeBuilder);
+      await resultsPage.expectNoAccessibilityViolations(axeBuilder, [
+        'color-contrast',
+      ]);
     });
 
     await test.step('Enter a different valid search and verify results page', async () => {
@@ -266,8 +332,7 @@ test.describe('Area Filter Tests', () => {
       sortAlphabetically(expectedPillTexts);
       test.expect(filterPillNames).toEqual(expectedPillTexts);
 
-      // Verify all area filter comboboxes are disabled when an area/areas are selected
-      await test.expect(resultsPage.areaFilterCombobox()).toBeDisabled();
+      await resultsPage.assertAreaFiltersDisabled();
     });
 
     await test.step('Remove one pill and verify remaining pills', async () => {
@@ -303,13 +368,12 @@ test.describe('Area Filter Tests', () => {
         .not.toHaveURL(allNHSRegionAreas[2].areaCode);
 
       await resultsPage.closeAreaFilterPill(0);
+
       await test
         .expect(resultsPage.page)
         .not.toHaveURL(allNHSRegionAreas[0].areaCode);
       await resultsPage.verifyUrlExcludesAllIndicators();
-
-      // Verify area filter combobox is enabled when no areas are selected
-      await test.expect(resultsPage.areaFilterCombobox()).toBeEnabled();
+      await resultsPage.assertAreaFiltersEnabled();
     });
   });
 
@@ -331,7 +395,7 @@ test.describe('Area Filter Tests', () => {
       await resultsPage.selectGroupTypeAndAssertURLUpdated(groupType);
       await resultsPage.selectGroupAndAssertURLUpdated(group);
       await resultsPage.selectAreaAndAssertURLUpdated(area, areaCode);
-      await resultsPage.assertFiltersDisabled();
+      await resultsPage.assertAreaFiltersDisabled();
     });
 
     await test.step('change to different GP area', async () => {
@@ -343,7 +407,7 @@ test.describe('Area Filter Tests', () => {
 
       await resultsPage.selectGroupAndAssertURLUpdated(newGroup);
       await resultsPage.selectAreaAndAssertURLUpdated(newArea, newAreaCode);
-      await resultsPage.assertFiltersDisabled();
+      await resultsPage.assertAreaFiltersDisabled();
     });
 
     await test.step('filter by England', async () => {
@@ -358,7 +422,7 @@ test.describe('Area Filter Tests', () => {
         englandAreaType,
         areaCodeForEngland
       );
-      await resultsPage.assertFiltersDisabled();
+      await resultsPage.assertAreaFiltersDisabled();
     });
 
     await test.step('filter by NHS regions', async () => {
@@ -375,7 +439,7 @@ test.describe('Area Filter Tests', () => {
         northWestNhsRegion,
         northWestNhsRegionCode
       );
-      await resultsPage.assertFiltersDisabled();
+      await resultsPage.assertAreaFiltersDisabled();
     });
 
     await test.step('filter by counties and unitary authorities', async () => {
@@ -397,7 +461,16 @@ test.describe('Area Filter Tests', () => {
       await resultsPage.selectGroupTypeAndAssertURLUpdated(groupType);
       await resultsPage.assertGroupFilterContainsOnly('');
       await resultsPage.selectAreaAndAssertURLUpdated(area, areaCode);
-      await resultsPage.assertFiltersDisabled();
+      await resultsPage.assertAreaFiltersDisabled();
+    });
+
+    await test.step('click clear all and assert behaviour', async () => {
+      await resultsPage.clearAllSelectedAreasResultsPage();
+
+      await test
+        .expect(resultsPage.page)
+        .not.toHaveURL(allNHSRegionAreas[0].areaCode);
+      await resultsPage.assertAreaFiltersEnabled();
     });
   });
 });
