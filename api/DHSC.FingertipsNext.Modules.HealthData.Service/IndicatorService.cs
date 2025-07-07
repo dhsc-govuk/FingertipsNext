@@ -164,18 +164,25 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
                 .ToList();
         }
 
-        var wasBenchmarkAreaCodeRequested = areaCodesForSearch.Contains(benchmarkAreaCode);
+        var inequalitiesList = inequalities.ToList();
 
-        var hasBenchmarkDataBeenRequested = comparisonMethod is
+        // This controls whether Benchmark Comparisons are required based on the indicator comparison method.
+        bool benchmarkingRequired = comparisonMethod is
              BenchmarkComparisonMethod.CIOverlappingReferenceValue95 or
              BenchmarkComparisonMethod.CIOverlappingReferenceValue998;
 
+        // Benchmarking can be against a reference area BUT Not if you are using inequalities
+        bool benchmarkAgainstRefArea = benchmarkingRequired && inequalitiesList.Count == 0;
+
+        // We may need to add the benchmark area to the list of areas to be fetched (we later remove it from returned dat)
+        bool addBenchmarkAreaToList = benchmarkAgainstRefArea && !areaCodesForSearch.Contains(benchmarkAreaCode);
+
+
         //if benchmark data has been requested and the benchmark area wasn't already in the requested area collection add it now
-        if (hasBenchmarkDataBeenRequested && !wasBenchmarkAreaCodeRequested)
+        if (addBenchmarkAreaToList)
             areaCodesForSearch.Add(benchmarkAreaCode);
 
         // get the data from the database
-        var inequalitiesList = inequalities.ToList();
         healthMeasureData = await healthDataRepository.GetIndicatorDataAsync(
             indicatorId,
             areaCodesForSearch.ToArray(),
@@ -192,35 +199,61 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
                 name = healthMeasure.AreaDimension.Name,
                 periodType = healthMeasure.PeriodDimension.Period
             })
-            .Select(group => new HealthDataForArea
+            .Select(areaGroup => new HealthDataForArea
             {
-                AreaCode = group.Key.code,
-                AreaName = group.Key.name,
-                HealthData = healthDataMapper.Map(group.ToList())
+                AreaCode = areaGroup.Key.code,
+                AreaName = areaGroup.Key.name,
+                HealthData = healthDataMapper.Map(areaGroup.ToList())
+                    .Where(hdp => hdp.Sex.IsAggregate || inequalitiesList.Contains("sex"))
                     .OrderBy(dataPoint => dataPoint.DatePeriod.From)
-                    .ToList()
+                    .ToList(),
+                IndicatorSegments = areaGroup.GroupBy(healthMeasure => new
+                {
+                    sexName = healthMeasure.SexDimension.Name,
+                    isAggregate = healthMeasure.SexDimension.IsAggregate
+                })
+                .Select(segmentGroup => new IndicatorSegment
+                {
+                    Sex = new Sex { Value = segmentGroup.Key.sexName, IsAggregate = segmentGroup.Key.isAggregate },
+                    IsAggregate = segmentGroup.Key.isAggregate,
+                    HealthData = healthDataMapper.Map(segmentGroup.ToList())
+                      .OrderBy(dataPoint => dataPoint.DatePeriod.From)
+                      .ToList()
+                })
+                .OrderBy(segment => segment.Sex.Value)
+                .ToList()
             })
             .ToList();
 
-        if (!hasBenchmarkDataBeenRequested)
+        if (!benchmarkingRequired)
             return healthDataForAreas;
 
         // separate the data for results and data for performing benchmarks
-        var benchmarkHealthData = healthDataForAreas.FirstOrDefault(data => data.AreaCode == benchmarkAreaCode);
-        if (benchmarkHealthData == null && inequalitiesList.Count == 0)
+        var benchmarkHealthData = benchmarkAgainstRefArea ? healthDataForAreas.FirstOrDefault(data => data.AreaCode == benchmarkAreaCode) : null;
+        if (benchmarkAgainstRefArea && benchmarkHealthData == null)
             return healthDataForAreas;
 
         //if the benchmark area was not in the original request then remove the benchmark data
-        if (!wasBenchmarkAreaCodeRequested)
+        if (addBenchmarkAreaToList)
             healthDataForAreas.RemoveAll(data => data.AreaCode == benchmarkAreaCode);
 
-        // enrich the data with benchmark comparison
-        return BenchmarkComparisonEngine.ProcessBenchmarkComparisons
-        (
-            healthDataForAreas,
-            benchmarkHealthData,
-            polarity
-        );
+        if (benchmarkAgainstRefArea)
+        {
+            return BenchmarkComparisonEngine.PerformAreaBenchmarking
+            (
+                healthDataForAreas,
+                benchmarkHealthData!,
+                polarity
+            );
+        }
+        else
+        {
+            return BenchmarkComparisonEngine.PerformInequalityBenchmarking
+            (
+               healthDataForAreas,
+               polarity
+            );
+        }
     }
 
     /// <summary>

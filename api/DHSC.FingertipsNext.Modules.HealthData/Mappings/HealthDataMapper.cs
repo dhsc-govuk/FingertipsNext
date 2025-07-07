@@ -87,12 +87,7 @@ public class HealthDataMapper : IHealthDataMapper
                 HasValue = source.AgeDimensionHasValue,
                 IsAggregate = source.AgeDimensionIsAggregate,
             }),
-            Sex = Map(new SexDimensionModel()
-            {
-                Name = source.SexDimensionName,
-                HasValue = source.SexDimensionHasValue,
-                IsAggregate = source.SexDimensionIsAggregate
-            }),
+            Sex = new Sex { Value = source.SexDimensionName, IsAggregate = source.SexDimensionIsAggregate },
             Trend = source.TrendDimensionName ?? string.Empty,
             Deprivation = Map(new DeprivationDimensionModel()
             {
@@ -103,6 +98,12 @@ public class HealthDataMapper : IHealthDataMapper
                 IsAggregate = source.DeprivationDimensionIsAggregate,
             })
         };
+    }
+
+    public Sex Map(SexDimensionModel source)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        return new Sex { Value = source.Name, IsAggregate = source.IsAggregate };
     }
 
     public IList<HealthDataPoint> Map(IList<HealthMeasureModel> source)
@@ -174,11 +175,6 @@ public class HealthDataMapper : IHealthDataMapper
     private static Age Map(AgeDimensionModel source)
     {
         return new Age { Value = source.Name, IsAggregate = source.IsAggregate };
-    }
-
-    private static Sex Map(SexDimensionModel source)
-    {
-        return new Sex { Value = source.Name, IsAggregate = source.IsAggregate };
     }
 
     private IndicatorQuartileData Map(QuartileDataModel source)

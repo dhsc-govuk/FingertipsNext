@@ -6,29 +6,24 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Schemas;
 ///     Associates a list of health data points with the relevant
 ///     geographical area (represented by its unique code).
 /// </summary>
-public class HealthDataForArea
+public class IndicatorSegment
 {
     /// <summary>
-    ///     The unique area code that the health data is for
+    ///     Sex which the data are for.
     /// </summary>
-    [JsonPropertyName("areaCode")]
-    public string AreaCode { get; init; } = string.Empty;
+    [JsonPropertyName("sex")]
+    public required Sex Sex { get; init; }
 
     /// <summary>
-    ///     The name of the geographical area
+    ///     Is the segment the aggregate for the indicator
     /// </summary>
-    [JsonPropertyName("areaName")]
-    public string AreaName { get; init; } = string.Empty;
-
-    /// <summary>
-    ///     Segments of the indicator
-    /// </summary>
-    [JsonPropertyName("indicatorSegments")]
-    public IEnumerable<IndicatorSegment> IndicatorSegments { get; init; } = [];
+    [JsonPropertyName("isAggregate")]
+    public bool IsAggregate { get; init; }
 
     /// <summary>
     ///     The health data points for the area and indicator
     /// </summary>
     [JsonPropertyName("healthData")]
     public IEnumerable<HealthDataPoint> HealthData { get; init; } = [];
+
 }
