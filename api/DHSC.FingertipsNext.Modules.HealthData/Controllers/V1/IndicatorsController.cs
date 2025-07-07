@@ -18,7 +18,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     private readonly IIndicatorsService _indicatorsService = indicatorsService;
 
     /// <summary>
-    /// Get data for a public health indicator. Returns all data for all
+    /// Get published data for a public health indicator. Returns all data for all
     /// areas and all years for the indicators. Optionally filter the results by
     /// supplying one or more area codes and one or more years in the query string.
     /// </summary>
@@ -42,7 +42,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     [ProducesResponseType(typeof(IndicatorWithHealthDataForAreas), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(SimpleError), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetIndicatorDataAsync(
+    public async Task<IActionResult> GetPublishedIndicatorDataAsync(
         [FromRoute] int indicatorId,
         [FromQuery(Name = "area_codes")] string[]? areaCodes = null,
         [FromQuery(Name = "area_type")] string areaType = "",
@@ -54,6 +54,131 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
         [FromQuery(Name = "to_date")] string? toDateStr = null,
         [FromQuery] string[]? inequalities = null,
         [FromQuery(Name = "latest_only")] bool latestOnly = false
+    ) => await GetIndicatorDataInternalAsync(
+            indicatorId,
+            areaCodes,
+            areaType,
+            ancestorCode,
+            benchmarkRefType,
+            years,
+            fromDateStr,
+            toDateStr,
+            inequalities,
+            latestOnly,
+            false);
+
+    /// <summary>
+    /// Get published and unpublished data for a public health indicator. Returns all data for all
+    /// areas and all years for the indicators. Optionally filter the results by
+    /// supplying one or more area codes and one or more years in the query string.
+    /// </summary>
+    /// <param name="indicatorId">The unique identifier of the indicator.</param>
+    /// <param name="areaCodes">A list of area codes. Up to 100 distinct area codes can be requested.</param>
+    /// <param name="areaType">The area type the area codes belong to.</param>
+    /// <param name="ancestorCode">Optional Ancestor Code used for benchmarking.</param>
+    /// <param name="benchmarkRefType">Optional benchmark reference type.</param>
+    /// <param name="years">A list of years. Up to 20 distinct years can be requested.</param>
+    /// <param name="fromDate">The earliest date data can be for, inclusive.</param>
+    /// <param name="toDate">The latest date data can be for, inclusive.</param>
+    /// <param name="inequalities">A list of desired inequalities.</param>
+    /// <param name="latestOnly">Set to true to get data for the latest date period only, default is false. This overrides the years parameter if set to true</param>
+    /// <returns></returns>
+    /// <remarks>
+    /// If more than 20 years are supplied the request will fail.
+    /// If more than 100 area codes are supplied the request will fail.
+    /// </remarks>
+    [HttpGet]
+    [Route("{indicatorId:int}/data/all")]
+    [ProducesResponseType(typeof(IndicatorWithHealthDataForAreas), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(SimpleError), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetPublishedAndUnpublishedIndicatorDataAsync(
+        [FromRoute] int indicatorId,
+        [FromQuery(Name = "area_codes")] string[]? areaCodes = null,
+        [FromQuery(Name = "area_type")] string areaType = "",
+        [FromQuery(Name = "ancestor_code")] string ancestorCode = "",
+        [FromQuery(Name = "benchmark_ref_type")]
+            BenchmarkReferenceType benchmarkRefType = BenchmarkReferenceType.Unknown,
+        [FromQuery] int[]? years = null,
+        [FromQuery(Name = "from_date")] string? fromDateStr = null,
+        [FromQuery(Name = "to_date")] string? toDateStr = null,
+        [FromQuery] string[]? inequalities = null,
+        [FromQuery(Name = "latest_only")] bool latestOnly = false
+    ) => await GetIndicatorDataInternalAsync(
+            indicatorId,
+            areaCodes,
+            areaType,
+            ancestorCode,
+            benchmarkRefType,
+            years,
+            fromDateStr,
+            toDateStr,
+            inequalities,
+            latestOnly,
+            true);
+
+    /// <summary>
+    /// Get data for a public health indicator. Returns all data for all
+    /// areas and all years for the indicators. Optionally filter the results by
+    /// supplying one or more area codes and one or more years in the query string.
+    /// </summary>
+    /// <param name="areaCode">A list of area codes.</param>
+    /// <param name="areaType">The area type the area codes belong to.</param>
+    /// <param name="ancestorCode">The area group for calculating quartiles within.</param>
+    /// <param name="benchmarkRefType">Whether to benchmark against England or SubNational.</param>
+    /// <param name="indicatorIds">The unique identifier of the indicator.</param>
+    /// <returns></returns>
+    /// <remarks>
+    /// If more than 50 indicators are supplied the request will fail.
+    /// </remarks>
+    [HttpGet]
+    [Route("quartiles")]
+    [ProducesResponseType(typeof(List<Schemas.IndicatorQuartileData>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(SimpleError), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetQuartileDataAsync(
+        [FromQuery(Name = "indicator_ids")] int[]? indicatorIds = null,
+        [FromQuery(Name = "area_code")] string areaCode = "",
+        [FromQuery(Name = "area_type")] string? areaType = null,
+        [FromQuery(Name = "ancestor_code")] string ancestorCode = "",
+        [FromQuery(Name = "benchmark_ref_type")] BenchmarkReferenceType benchmarkRefType = BenchmarkReferenceType.England
+        )
+    {
+        if (indicatorIds is null)
+            return new BadRequestObjectResult(new SimpleError { Message = $"Parameter indicator_ids must be supplied." });
+
+        if (indicatorIds is { Length: > MaxNumberIndicators })
+            return new BadRequestObjectResult(new SimpleError { Message = $"Too many values supplied for parameter indicator_ids. The maximum is {MaxNumberIndicators} but {indicatorIds.Length} supplied." });
+
+        if (areaType is null)
+            return new BadRequestObjectResult(new SimpleError { Message = $"Parameter area_type must be supplied." });
+
+        if ((benchmarkRefType == BenchmarkReferenceType.SubNational) && string.IsNullOrEmpty(ancestorCode))
+            return new BadRequestObjectResult(new SimpleError { Message = $"Parameter ancestor_code must be supplied if benchmark_ref_type is set to SubNational." });
+
+        var quartileData = await _indicatorsService.GetQuartileDataAsync(
+            indicatorIds,
+            areaCode,
+            areaType,
+            ancestorCode,
+            benchmarkRefType == BenchmarkReferenceType.SubNational ? ancestorCode : "E92000001"
+        );
+
+        return quartileData == null ? NotFound() : Ok(quartileData);
+    }
+
+    private async Task<IActionResult> GetIndicatorDataInternalAsync(
+        int indicatorId,
+        string[]? areaCodes = null,
+        string areaType = "",
+        string ancestorCode = "",
+        BenchmarkReferenceType benchmarkRefType = BenchmarkReferenceType.Unknown,
+        int[]? years = null,
+        string? fromDateStr = null,
+        string? toDateStr = null,
+        string[]? inequalities = null,
+        bool latestOnly = false,
+        bool includeUnpublished = false
     )
     {
         if (areaCodes is { Length: > MaxNumberAreas })
@@ -129,7 +254,8 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
             inequalities ?? [],
             latestOnly,
             fromDate,
-            toDate
+            toDate,
+            includeUnpublished
         );
 
         return indicatorData?.Status switch
@@ -139,55 +265,5 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
             ResponseStatus.IndicatorDoesNotExist => NotFound(),
             _ => StatusCode(500),
         };
-    }
-
-    /// <summary>
-    /// Get data for a public health indicator. Returns all data for all
-    /// areas and all years for the indicators. Optionally filter the results by
-    /// supplying one or more area codes and one or more years in the query string.
-    /// </summary>
-    /// <param name="areaCode">A list of area codes.</param>
-    /// <param name="areaType">The area type the area codes belong to.</param>
-    /// <param name="ancestorCode">The area group for calculating quartiles within.</param>
-    /// <param name="benchmarkRefType">Whether to benchmark against England or SubNational.</param>
-    /// <param name="indicatorIds">The unique identifier of the indicator.</param>
-    /// <returns></returns>
-    /// <remarks>
-    /// If more than 50 indicators are supplied the request will fail.
-    /// </remarks>
-    [HttpGet]
-    [Route("quartiles")]
-    [ProducesResponseType(typeof(List<Schemas.IndicatorQuartileData>), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(SimpleError), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetQuartileDataAsync(
-        [FromQuery(Name = "indicator_ids")] int[]? indicatorIds = null,
-        [FromQuery(Name = "area_code")] string areaCode = "",
-        [FromQuery(Name = "area_type")] string? areaType = null,
-        [FromQuery(Name = "ancestor_code")] string ancestorCode = "",
-        [FromQuery(Name = "benchmark_ref_type")] BenchmarkReferenceType benchmarkRefType = BenchmarkReferenceType.England
-        )
-    {
-        if (indicatorIds is null)
-            return new BadRequestObjectResult(new SimpleError { Message = $"Parameter indicator_ids must be supplied." });
-
-        if (indicatorIds is { Length: > MaxNumberIndicators })
-            return new BadRequestObjectResult(new SimpleError { Message = $"Too many values supplied for parameter indicator_ids. The maximum is {MaxNumberIndicators} but {indicatorIds.Length} supplied." });
-
-        if (areaType is null)
-            return new BadRequestObjectResult(new SimpleError { Message = $"Parameter area_type must be supplied." });
-
-        if ((benchmarkRefType == BenchmarkReferenceType.SubNational) && string.IsNullOrEmpty(ancestorCode))
-            return new BadRequestObjectResult(new SimpleError { Message = $"Parameter ancestor_code must be supplied if benchmark_ref_type is set to SubNational." });
-
-        var quartileData = await _indicatorsService.GetQuartileDataAsync(
-            indicatorIds,
-            areaCode,
-            areaType,
-            ancestorCode,
-            benchmarkRefType == BenchmarkReferenceType.SubNational ? ancestorCode : "E92000001"
-        );
-
-        return quartileData == null ? NotFound() : Ok(quartileData);
     }
 }
