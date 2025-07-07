@@ -47,12 +47,12 @@ public class HealthDataIntegrationTests : IClassFixture<HealthDataWebApplication
         // Arrange
         var publisedBatchId = "publishedBatch1";
         var client = _factory.CreateClient();
-        
+
         await AssertExpectedHealthDataCount(client, 3);
-        
+
         // Act
         var response = await client.DeleteAsync(new Uri($"/indicators/{IndicatorId1}/batch/{publisedBatchId}", UriKind.Relative));
-        
+
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
         await AssertExpectedHealthDataCount(client, 3);
@@ -64,12 +64,12 @@ public class HealthDataIntegrationTests : IClassFixture<HealthDataWebApplication
         // Arrange
         var nonExistentBatch = "nonExistentBatch";
         var client = _factory.CreateClient();
-        
+
         await AssertExpectedHealthDataCount(client, 3);
-        
+
         // Act
         var response = await client.DeleteAsync(new Uri($"/indicators/{IndicatorId1}/batch/{nonExistentBatch}", UriKind.Relative));
-        
+
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
         await AssertExpectedHealthDataCount(client, 3);
@@ -81,12 +81,12 @@ public class HealthDataIntegrationTests : IClassFixture<HealthDataWebApplication
         // Arrange
         var nonExistentIndicatorId = 3;
         var client = _factory.CreateClient();
-        
+
         await AssertExpectedHealthDataCount(client, 3);
-        
+
         // Act
         var response = await client.DeleteAsync(new Uri($"/indicators/{nonExistentIndicatorId}/batch/{UnpublishedBatch1}", UriKind.Relative));
-        
+
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
         await AssertExpectedHealthDataCount(client, 3);

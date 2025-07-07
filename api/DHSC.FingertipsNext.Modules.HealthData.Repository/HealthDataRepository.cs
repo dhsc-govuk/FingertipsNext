@@ -15,7 +15,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext, Batch
 
     private readonly HealthDataDbContext _dbContext =
         healthDataDbContext ?? throw new ArgumentNullException(nameof(healthDataDbContext));
-    private readonly BatchHealthDataDbContext _batchDbContext = 
+    private readonly BatchHealthDataDbContext _batchDbContext =
         batchHealthDataDbContext ?? throw new ArgumentNullException(nameof(batchHealthDataDbContext));
 
     /// <summary>

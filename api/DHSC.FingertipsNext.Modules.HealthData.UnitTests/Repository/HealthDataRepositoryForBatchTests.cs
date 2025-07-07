@@ -147,11 +147,11 @@ public class HealthDataRepositoryForBatchTests : IDisposable
             .WithBatchId("batchId1")
             .WithIndicatorDimension(indicatorId: 1)
             .Build());
-        
+
         // Act
         var result = await _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(1, nonExistentBatchId);
         var populatedIndicator = await _dbContext.HealthMeasure.Where(hm => hm.IndicatorDimension.IndicatorId == 1).ToListAsync();
-        
+
         // Assert
         result.ShouldBe(false);
         populatedIndicator.Count.ShouldBe(1);
