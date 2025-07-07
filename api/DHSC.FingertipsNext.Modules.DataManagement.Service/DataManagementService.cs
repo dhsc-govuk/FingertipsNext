@@ -86,7 +86,7 @@ public class DataManagementService : IDataManagementService
             PublishedAt = publishedAt,
             UserId = Guid.Empty, //Can only properly set this when the auth is implemented
             Status = BatchStatus.Received,
-            Created = DateTime.UtcNow
+            CreatedAt = DateTime.UtcNow
         };
         await _repository.AddBatchAsync(model);
     }
