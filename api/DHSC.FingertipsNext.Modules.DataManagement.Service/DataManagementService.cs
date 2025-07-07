@@ -90,7 +90,8 @@ public class DataManagementService : IDataManagementService
             IndicatorId = indicatorId,
             PublishedAt = publishedAt,
             UserId = Guid.Empty, //Can only properly set this when the auth is implemented
-            Status = BatchStatus.Received
+            Status = BatchStatus.Received,
+            Created = DateTime.UtcNow
         };
         await _repository.AddBatchAsync(model);
     }
