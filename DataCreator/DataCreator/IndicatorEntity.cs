@@ -1,8 +1,9 @@
-﻿using LINQtoCSV;
+﻿using System.Text.Json.Serialization;
+using LINQtoCSV;
 
 namespace DataCreator
 {
-    public record IndicatorEntity: SimpleIndicator
+    public record IndicatorEntity : SimpleIndicator
     {
         private string _indicatorDefinition;
         private string rationale;
@@ -24,10 +25,11 @@ namespace DataCreator
         public string UnitLabel { get; set; }
         public string UnitValue { get; set; }
 
-        
+        [JsonIgnore]
+        public string YearType { get; init; }
         public string IndicatorDefinition
         {
-            get => _indicatorDefinition.StripHTML(); 
+            get => _indicatorDefinition.StripHTML();
             set { _indicatorDefinition = value; }
         }
 
@@ -45,7 +47,6 @@ namespace DataCreator
         public string Copyright { get => copyright.StripHTML(); set => copyright = value; }
         public string Reuse { get; set; }
         public string Notes { get => notes.StripHTML(); set => notes = value; }
-        public string Frequency { get; set; }
         public string Rounding { get; set; }
 
         public List<string> AssociatedAreaCodes { get; set; } = [];
@@ -59,7 +60,7 @@ namespace DataCreator
 
         public bool HasInequalities { get; set; }
 
-        //indicators 337 and 92708 are population indicators and we don't them to appear in search results
+        // indicators 337 and 92708 are population indicators and we don't them to appear in search results
         public bool HideInSearch => IndicatorID == 337 || IndicatorID == 92708;
     }
 
@@ -79,10 +80,13 @@ namespace DataCreator
 
         [CsvColumn(FieldIndex = 5)]
         public string IndicatorName { get; set; }
-        
+
         [CsvColumn(FieldIndex = 6)]
-        public string YearType { get; set; }
-        
+        public string PeriodType { get; set; }
+
+        [CsvColumn(FieldIndex = 7)]
+        public string Frequency { get; set; }
+
         public bool HasMultipleSexes { get; set; }
 
         public bool HasMultipleAges { get; set; }
@@ -104,12 +108,21 @@ namespace DataCreator
 
         public bool HasMultipleSexes { get; set; }
 
-        public bool HasMultipleAges{ get; set; }
+        public bool HasMultipleAges { get; set; }
 
         public bool HasMultipleDeprivation { get; set; }
     }
-}
 
-    
+    public static class PeriodTypeConstants
+    {
+        public const string Calendar = "Calendar";
+        public const string Yearly = "Yearly";
+        public const string Financial = "Financial";
+        public const string FinancialMultiYear = "Financial multi-year";
+        public const string FinancialYearEndPoint = "Financial year end point";
+        public const string Academic = "Academic";
+    }
+
+}
 
 

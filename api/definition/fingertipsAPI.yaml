@@ -777,9 +777,13 @@ components:
       example: Calendar
       description: a type of date period e.g. Calendar or Financial year.
       enum:
+        - Academic
         - Calendar
         - Financial
-        - NovemberNovember
+        - FinancialMultiYear
+        - FinancialYearEndPoint
+        - Yearly
+        - Unknown
       x-enum-varnames:
         - Calendar
         - Financial
