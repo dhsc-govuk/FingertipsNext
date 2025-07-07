@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.IO;
-using DataCreator;
 using NUnit.Framework;
 
 namespace DataCreator.Tests;

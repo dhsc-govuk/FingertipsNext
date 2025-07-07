@@ -3,21 +3,21 @@ using LINQtoCSV;
 
 namespace DataCreator
 {
-    public record AreaEntity :SimpleArea
+    public record AreaEntity : SimpleArea
     {
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
         public string AddressLine3 { get; set; }
         public string AddressLine4 { get; set; }
         public string Postcode { get; set; }
-        public List<AreaRelation> ChildAreas { get; set; }= [];
+        public List<AreaRelation> ChildAreas { get; set; } = [];
     }
 
     public record SimpleArea
     {
         [CsvColumn(FieldIndex = 2)]
         public string AreaCode { get; set; }
-        
+
         [CsvColumn(FieldIndex = 3)]
         public string AreaName { get; set; }
 
@@ -47,4 +47,4 @@ namespace DataCreator
         [JsonIgnore]
         public bool IsDirect { get; set; }
     }
- }
+}
