@@ -9,6 +9,7 @@ import { renderHook } from '@testing-library/react';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { MockedFunction } from 'vitest';
+import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
 
 vi.mock('@/components/hooks/useSearchStateParams');
 vi.mock(
@@ -113,14 +114,16 @@ describe('useLineChartOverTimeData', () => {
       expectedChartData as unknown as ReturnType<typeof lineChartOverTimeData>
     );
 
+    const withChosenSegmentOnly = mockIndicatorWithHealthDataForArea({
+      areaHealthData: [mockHealthDataForArea({ indicatorSegments: undefined })],
+    });
+
     const { result } = renderHook(() => useLineChartOverTimeData());
     expect(result.current).toEqual(expectedChartData);
     expect(mockLineChartOverTimeData).toHaveBeenCalledWith(
       mockMetaQuery.indicatorMetaData,
-      mockHealthQuery.healthData,
-      ['A001'],
-      'G001',
-      'BA001'
+      withChosenSegmentOnly,
+      mockSearchState
     );
   });
 });
