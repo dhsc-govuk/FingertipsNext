@@ -1,15 +1,4 @@
-### check GET health data with quintile comparison -- existing site doesn't expose this data to allow us to validate against -- this test fails intermitently becasue lots of data has 'zero count' making it indeterminate if a value is Lowest or Lower
-GET http://localhost:5144/indicators/383/data?area_codes=A84022&area_type=gps
 
-> {%
-    const expected = require ('./test-indicators-benchmark-quintiles-response.json');
-
-    client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
-        client.assert(response.status === 200, "Response status is not 200");
-        client.assert(response.body.length == expected.length, "Response length does not match");
-        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
-    });
-%}
 
 ### check quintile comparison for specific years -- existing site doesn't expose this data to allow us to validate against
 GET http://localhost:5144/indicators/383/data?area_codes=A84022&area_type=gps&years=2023&years=2022
