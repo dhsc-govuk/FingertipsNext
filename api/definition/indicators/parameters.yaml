@@ -83,13 +83,3 @@ inequalities:
         - sex
         - deprivation
   description: Determines the kind of inequality data that should be returned if an option is specified
-publishedAt:
-  in: query
-  name: publishedAt
-  style: form
-  schema:
-    type: string
-    format: date-time
-    example: '2023-01-01T00:00:00.000'
-  description: The date, in ISO 8601 format (YYYY-MM-DDTHH:mm:ss.fff), for when uploaded indicator data will be published 
-    

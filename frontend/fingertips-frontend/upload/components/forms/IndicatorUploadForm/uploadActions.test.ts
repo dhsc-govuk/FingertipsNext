@@ -5,6 +5,7 @@ import {
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { mockDeep } from 'vitest-mock-extended';
 import { uploadFile } from './uploadActions';
+import { UTCDateMini } from '@date-fns/utc';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
@@ -65,6 +66,7 @@ describe('uploadActions', () => {
     ).toHaveBeenCalledWith({
       indicatorId: expectedIndicatorId,
       file: expectedFile,
+      publishedAt: new UTCDateMini(2017, 5, 30),
     });
   });
 

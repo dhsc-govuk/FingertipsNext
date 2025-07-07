@@ -3,17 +3,45 @@ POST http://localhost:5144/indicators/123/data
 Content-Type: multipart/form-data; boundary=WebAppBoundary
 
 --WebAppBoundary
-Content-Disposition: form-data; name="file"; filename="StubHealthdataUpload.csv"
+Content-Disposition: form-data; name="file"; filename="valid.csv"
 Content-Type: text/csv
 
-< ../../DHSC.FingertipsNext.Modules.DataManagement.UnitTests/TestData/StubHealthdataUpload.csv
+< ../../DHSC.FingertipsNext.Modules.DataManagement.UnitTests/TestData/valid.csv
+--WebAppBoundary
+Content-Disposition: form-data; name="publishedAt"
+Content-Type: text/plain
+
+2025-01-01T00:00:00.000
 --WebAppBoundary--
 
 > {%
     client.test("CSV upload accepted", () => {
         client.assert(response.status === 202, "Expected 202 Accepted");
-        client.assert(response.body.includes("StubHealthdataUpload.csv"), "Response does not contain filename");
+        client.assert(response.body.includes("valid.csv"), "Response does not contain filename");
         client.assert(response.body.includes("123"), "Response does not contain indicatorId");
+    });
+%}
+
+### Upload invalid CSV to indicator endpoint
+POST http://localhost:5144/indicators/123/data
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="invalid.csv"
+Content-Type: text/csv
+
+< ../../DHSC.FingertipsNext.Modules.DataManagement.UnitTests/TestData/invalid.csv
+--WebAppBoundary
+Content-Disposition: form-data; name="publishedAt"
+Content-Type: text/plain
+
+2025-01-01T00:00:00.000
+--WebAppBoundary--
+
+> {%
+    client.test("CSV upload failed", () => {
+        client.assert(response.status === 400, "Expected 400 Accepted");
+        client.assert(response.body.includes("No records found"), "Response does not contain error");
     });
 %}
 

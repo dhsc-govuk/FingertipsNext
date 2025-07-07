@@ -252,7 +252,6 @@ paths:
       operationId: getHealthDataForAnIndicator
     post:
       parameters:
-        - $ref: '#/components/parameters/publishedAt'
         - $ref: '#/components/parameters/indicator_id'
       tags:
         - indicators
@@ -270,7 +269,9 @@ paths:
                   format: binary
                 publishedAt:
                   type: string
-                  format: '2025-01-01T00:00:00.000'
+                  format: date-time
+                  example: '2023-01-01T00:00:00.000'
+                  description: The date, in ISO 8601 format (YYYY-MM-DDTHH:mm:ss.fff), for when uploaded indicator data will be published
       responses:
         '202':
           description: The file has been accepted by the API and further processing will be conducted.
@@ -625,15 +626,6 @@ components:
       description: Set to true to get data for the latest date period only, default is false. This overrides the years parameter if set to true.
       schema:
         type: boolean
-    publishedAt:
-      in: query
-      name: publishedAt
-      style: form
-      schema:
-        type: string
-        format: date-time
-        example: '2023-01-01T00:00:00.000'
-      description: The date, in ISO 8601 format (YYYY-MM-DDTHH:mm:ss.fff), for when uploaded indicator data will be published
   schemas:
     AreaType:
       title: Area Type

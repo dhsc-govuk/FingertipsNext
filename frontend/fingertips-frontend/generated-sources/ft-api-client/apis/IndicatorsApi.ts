@@ -78,6 +78,7 @@ export interface IndicatorsIndicatorIdDataDeleteRequest {
 export interface IndicatorsIndicatorIdDataPostRequest {
     indicatorId: number;
     file?: Blob;
+    publishedAt?: Date;
 }
 
 export interface IndicatorsQuartilesGetRequest {
@@ -198,6 +199,7 @@ export interface IndicatorsApiInterface {
      * @summary add a batch of new data for an indicator
      * @param {number} indicatorId The unique identifier of the indicator
      * @param {Blob} [file] 
+     * @param {Date} [publishedAt] The date, in ISO 8601 format (YYYY-MM-DDTHH:mm:ss.fff), for when uploaded indicator data will be published
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof IndicatorsApiInterface
@@ -514,6 +516,10 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
 
         if (requestParameters['file'] != null) {
             formParams.append('file', requestParameters['file'] as any);
+        }
+
+        if (requestParameters['publishedAt'] != null) {
+            formParams.append('publishedAt', (requestParameters['publishedAt'] as any).toISOString());
         }
 
         const response = await this.request({

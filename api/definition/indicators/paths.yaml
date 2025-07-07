@@ -86,7 +86,6 @@ indicators_by_indicator_id_data:
     operationId: getHealthDataForAnIndicator
   post:
     parameters:
-      - $ref: "./parameters.yaml#/publishedAt"
       - $ref: "./parameters.yaml#/indicator_id"
     tags:
       - indicators
@@ -105,6 +104,8 @@ indicators_by_indicator_id_data:
               publishedAt:
                 type: string
                 format: date-time
+                example: '2023-01-01T00:00:00.000'
+                description: The date, in ISO 8601 format (YYYY-MM-DDTHH:mm:ss.fff), for when uploaded indicator data will be published 
     responses:
       "202":
         description: The file has been accepted by the API and further processing will be conducted.
