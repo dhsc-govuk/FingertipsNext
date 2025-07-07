@@ -332,7 +332,63 @@ paths:
       tags:
         - indicators
       summary: Get quartile values for indicators
-      description: Get quartile information for many indicators for one area. This will calculate the quartile based on all areas of the specified type within either England or a sub-national area, depending on the benchmark_ref_type parameter. It will use the latest data available for the area group requested. If the indicator has data for more than one time period type then the API will return data for each data period type separately.
+      description: Get quartile information for many indicators for one area. This will calculate the quartile based on all areas of the specified type within either England or a sub-national area, depending on the benchmark_ref_type parameter. It will use the latest data available for the area group requested. If the indicator has data for more than one time period type then the API will return data for each data period type separately. The /all endpoint can return unpublished data, otherwise the data is published.
+      parameters:
+        - name: ancestor_code
+          in: query
+          style: simple
+          schema:
+            type: string
+            example: E12000001
+          explode: false
+          description: The area code of an ancestor area
+        - name: area_code
+          in: query
+          style: simple
+          schema:
+            type: string
+            example: G82109
+          explode: false
+          description: The area code of the area/ geography
+        - name: area_type
+          in: query
+          description: The area type which the areas belong to
+          schema:
+            type: string
+        - name: indicator_ids
+          in: query
+          description: A list of indicator_ids, up to 10 can be requested
+          style: form
+          schema:
+            type: array
+            items:
+              type: integer
+              example: 1234
+            maxItems: 10
+        - name: benchmark_ref_type
+          in: query
+          description: The benchmark reference type
+          schema:
+            $ref: '#/components/schemas/BenchmarkReferenceType'
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/QuartileData'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /indicators/quartiles/all:
+    get:
+      tags:
+        - indicators
+      summary: Get quartile values for indicators
+      description: Get quartile information for many indicators for one area. This will calculate the quartile based on all areas of the specified type within either England or a sub-national area, depending on the benchmark_ref_type parameter. It will use the latest data available for the area group requested. If the indicator has data for more than one time period type then the API will return data for each data period type separately. The /all endpoint can return unpublished data, otherwise the data is published.
       parameters:
         - name: ancestor_code
           in: query
@@ -728,9 +784,13 @@ components:
       example: Calendar
       description: a type of date period e.g. Calendar or Financial year.
       enum:
+        - Academic
         - Calendar
         - Financial
-        - NovemberNovember
+        - FinancialMultiYear
+        - FinancialYearEndPoint
+        - Yearly
+        - Unknown
       x-enum-varnames:
         - Calendar
         - Financial

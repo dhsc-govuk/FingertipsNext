@@ -22,7 +22,7 @@ public interface IHealthDataRepository
                                                                  bool includeUnpublished = false);
 
     Task<IndicatorDimensionModel?> GetIndicatorDimensionAsync(int indicatorId, string[] areaCodes, bool includeUnpublished = false);
-    Task<IEnumerable<QuartileDataModel>> GetQuartileDataAsync(IEnumerable<int> indicatorIds, string areaCode, string areaTypeKey, string ancestorCode, string benchmarkAreaCode);
+    Task<IEnumerable<QuartileDataModel>> GetQuartileDataAsync(IEnumerable<int> indicatorIds, string areaCode, string areaTypeKey, string ancestorCode, string benchmarkAreaCode, bool includeUnpublished = false);
 
     Task<IEnumerable<AreaDimensionModel>> GetAreasAsync(string[] areaCodes);
 }
