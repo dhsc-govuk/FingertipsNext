@@ -1,6 +1,8 @@
 ﻿using DHSC.FingertipsNext.Modules.HealthData.Repository;
 using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using DHSC.FingertipsNext.Modules.HealthData.Schemas;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Service;
 
@@ -10,9 +12,21 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Service;
 /// <remarks>
 ///     Does not include anything specific to the hosting technology being used.
 /// </remarks>
-public class IndicatorService(IHealthDataRepository healthDataRepository, IHealthDataMapper healthDataMapper) : IIndicatorsService
+public class IndicatorService(IHealthDataRepository healthDataRepository, IHealthDataMapper healthDataMapper, ILogger<IIndicatorsService> logger) : IIndicatorsService
 {
     public const string AreaCodeEngland = "E92000001";
+
+    private static readonly Action<ILogger, string, int, string, Exception?> DbErrorLog =
+        LoggerMessage.Define<string, int, string>(
+            LogLevel.Error,
+            new EventId(1, "DbError"),
+        "Delete operation on batchId {BatchId} and indicatorId {IndicatorId} failed in DB with exception: {ErrorMessage}");
+
+    private static readonly Action<ILogger, string, int, Exception?> DeleteSuccessLog =
+        LoggerMessage.Define<string, int>(
+            LogLevel.Information,
+            new EventId(1, "DeleteSuccess"),
+            "Deletion of batch with id: {BatchId} for indicator {IndicatorId} successful");
 
     /// <summary>
     ///     Obtain health point data for a single indicator.
@@ -286,15 +300,21 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         return quartileData == null ? null : healthDataMapper.Map(quartileData.ToList());
     }
 
+    /// <summary>
+    ///     Deletes all unpublished health measure data for a given indicator and batch ID.
+    /// </summary>
+    /// <param name="indicatorId">The ID of the indicator whose unpublished data should be deleted.</param>
+    /// <param name="batchId">The batch ID associated with the unpublished data to delete.</param>
+    /// <returns>
+    ///     <c>ServiceResponse</c> indicating the result of the delete operation.
+    ///     The response status will indicate success, batch not found, or an error if the batch is published or a database error occurs.
+    /// </returns>
     public async Task<ServiceResponse<string>> DeleteUnpublishedDataAsync(int indicatorId, string batchId)
     {
+        bool result;
         try
         {
-            var result = await healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(indicatorId, batchId);
-            return new ServiceResponse<string>()
-            {
-                Status = result ? ResponseStatus.Success : ResponseStatus.BatchNotFound,
-            };
+            result = await healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(indicatorId, batchId);
         }
         catch (InvalidOperationException exception)
         {
@@ -304,5 +324,19 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
                 Content = exception.Message
             };
         }
+        catch (DbUpdateException exception)
+        {
+            DbErrorLog(logger, batchId, indicatorId, exception.Message, exception);
+            return new ServiceResponse<string>()
+            {
+                Status = ResponseStatus.Unknown
+            };
+        }
+
+        DeleteSuccessLog(logger, batchId, indicatorId, null);
+        return new ServiceResponse<string>()
+        {
+            Status = result ? ResponseStatus.Success : ResponseStatus.BatchNotFound,
+        };
     }
 }

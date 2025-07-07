@@ -6,6 +6,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace DHSC.FingertipsNext.Modules.HealthData;
 
@@ -50,7 +51,8 @@ public class HealthDataModule : AbstractMonolithModule, IMonolithModule
         };
 
         services.AddDbContext<HealthDataDbContext>(options => options.UseSqlServer(builder.ConnectionString));
-        services.AddDbContext<BatchHealthDataDbContext>(options => options.UseSqlServer(builder.ConnectionString));
+        services.AddDbContext<BatchHealthDataDbContext>(options =>
+            options.UseSqlServer(builder.ConnectionString).LogTo(Console.WriteLine, LogLevel.Information));
     }
 
     private static string GetEnvironmentValue(IConfiguration configuration, string name) =>

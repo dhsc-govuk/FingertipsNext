@@ -11,7 +11,6 @@ public class HealthDataRepositoryForBatchTests : IDisposable
 {
     private readonly HealthDataDbContext _dbContext;
     private readonly BatchHealthDataDbContext _batchHealthDataDbContext;
-    private readonly DbContextOptions<BatchHealthDataDbContext> _batchDbContextOptions;
     private readonly SqliteConnection _connection;
     private HealthDataRepository _healthDataRepository;
 
@@ -24,12 +23,12 @@ public class HealthDataRepositoryForBatchTests : IDisposable
             .UseSqlite(_connection)
             .Options;
 
-        _batchDbContextOptions = new DbContextOptionsBuilder<BatchHealthDataDbContext>()
+        var batchDbContextOptions = new DbContextOptionsBuilder<BatchHealthDataDbContext>()
             .UseSqlite(_connection)
             .Options;
 
         _dbContext = new HealthDataDbContext(healthDbContextOptions);
-        _batchHealthDataDbContext = new BatchHealthDataDbContext(_batchDbContextOptions);
+        _batchHealthDataDbContext = new BatchHealthDataDbContext(batchDbContextOptions);
 
         _dbContext.Database.EnsureCreated();
 
@@ -57,10 +56,10 @@ public class HealthDataRepositoryForBatchTests : IDisposable
     [Fact]
     public void RepositoryInitialisationShouldThrowErrorIfNullDBContextIsProvided()
     {
-        var act = () => _healthDataRepository = new HealthDataRepository(null!, null!);
+        var act = () => _healthDataRepository = new HealthDataRepository(_dbContext, null!);
 
         act.ShouldThrow<ArgumentNullException>()
-            .Message.ShouldBe("Value cannot be null. (Parameter 'healthDataDbContext')");
+            .Message.ShouldBe("Value cannot be null. (Parameter 'batchHealthDataDbContext')");
     }
 
 
@@ -98,35 +97,61 @@ public class HealthDataRepositoryForBatchTests : IDisposable
     }
 
     [Fact]
-    public void DeleteAllHealthMeasureByBatchIdAsyncShouldThrowErrorIfThereIsAttemptToDeletePublishedData()
+    public async Task DeleteAllHealthMeasureByBatchIdAsyncShouldThrowErrorIfThereIsAttemptToDeletePublishedData()
     {
         // Arrange
         PopulateDatabase(new HealthMeasureModelHelper(key: 100, isPublished: true)
+            .WithBatchId("batchId1")
+            .WithIndicatorDimension(indicatorId: 1)
+            .Build());
+        PopulateDatabase(new HealthMeasureModelHelper(key: 101, isPublished: false)
             .WithBatchId("batchId1")
             .WithIndicatorDimension(indicatorId: 1)
             .Build());
 
         // Act
         var act = async () => await _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(1, "batchId1");
+        var dbContent = await _dbContext.HealthMeasure.Where(hm => hm.IndicatorDimension.IndicatorId == 1).ToListAsync();
 
         // Assert
         act.ShouldThrow<InvalidOperationException>()
             .Message.ShouldBe("Error attempting to delete published batch.");
+        dbContent.Count.ShouldBe(2);
     }
 
     [Fact]
-    public async Task DeleteAllHealthMeasureByBatchIdAsyncShouldReturnFalseWhenBatchNotFound()
+    public async Task DeleteAllHealthMeasureByBatchIdAsyncShouldReturnFalseWhenIndicatorIdNotFound()
     {
         // Arrange
-        PopulateDatabase(new HealthMeasureModelHelper(key: 100, isPublished: true)
+        var nonExistentIndicatorId = 2;
+        PopulateDatabase(new HealthMeasureModelHelper(key: 100, isPublished: false)
             .WithBatchId("batchId1")
             .WithIndicatorDimension(indicatorId: 1)
             .Build());
 
         // Act
-        var result = await _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(2, "batchId1");
+        var result = await _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(nonExistentIndicatorId, "batchId1");
         var populatedIndicator = await _dbContext.HealthMeasure.Where(hm => hm.IndicatorDimension.IndicatorId == 1).ToListAsync();
 
+        // Assert
+        result.ShouldBe(false);
+        populatedIndicator.Count.ShouldBe(1);
+    }
+
+    [Fact]
+    public async Task DeleteAllHealthMeasureByBatchIdAsyncShouldReturnFalseWhenBatchIdNotFound()
+    {
+        // Arrange
+        var nonExistentBatchId = "nonExistentBatchId";
+        PopulateDatabase(new HealthMeasureModelHelper(key: 100, isPublished: false)
+            .WithBatchId("batchId1")
+            .WithIndicatorDimension(indicatorId: 1)
+            .Build());
+        
+        // Act
+        var result = await _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(1, nonExistentBatchId);
+        var populatedIndicator = await _dbContext.HealthMeasure.Where(hm => hm.IndicatorDimension.IndicatorId == 1).ToListAsync();
+        
         // Assert
         result.ShouldBe(false);
         populatedIndicator.Count.ShouldBe(1);

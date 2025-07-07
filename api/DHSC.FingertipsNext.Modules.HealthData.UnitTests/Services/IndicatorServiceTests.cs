@@ -9,6 +9,7 @@ using NSubstitute;
 using NSubstitute.Core.Arguments;
 using Shouldly;
 using System.Globalization;
+using Microsoft.Extensions.Logging;
 using NSubstitute.ExceptionExtensions;
 using BenchmarkComparison = DHSC.FingertipsNext.Modules.HealthData.Schemas.BenchmarkComparison;
 
@@ -36,9 +37,10 @@ public class IndicatorServiceTests
 
     public IndicatorServiceTests()
     {
+        var logger = Substitute.For<ILogger<IIndicatorsService>>();
         _healthDataMapper = new Mappings.HealthDataMapper();
         _healthDataRepository = Substitute.For<IHealthDataRepository>();
-        _indicatorService = new IndicatorService(_healthDataRepository, _healthDataMapper);
+        _indicatorService = new IndicatorService(_healthDataRepository, _healthDataMapper, logger);
     }
 
     public static IEnumerable<object[]> BenchmarkTestData =>

@@ -15,6 +15,8 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext, Batch
 
     private readonly HealthDataDbContext _dbContext =
         healthDataDbContext ?? throw new ArgumentNullException(nameof(healthDataDbContext));
+    private readonly BatchHealthDataDbContext _batchDbContext = 
+        batchHealthDataDbContext ?? throw new ArgumentNullException(nameof(batchHealthDataDbContext));
 
     /// <summary>
     ///     Will retrieve the indicator dimension data for the requested indicator ID while also
@@ -125,24 +127,20 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext, Batch
 
     public async Task<bool> DeleteAllHealthMeasureByBatchIdAsync(int indicatorId, string batchId)
     {
-        var batchToDelete = batchHealthDataDbContext.HealthMeasure
+        var batchToDelete = _batchDbContext.HealthMeasure
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
             .Where(healthMeasure => healthMeasure.BatchId == batchId);
 
-        var batchToDeleteList = await batchToDelete.ToListAsync();
+        var batchToDeleteFirstEntry = await batchToDelete.FirstOrDefaultAsync();
+        if (batchToDeleteFirstEntry == null) return false;
 
-        if (batchToDeleteList.Count == 0)
-        {
-            return false;
-        }
-
-        if (batchToDeleteList.Any(healthMeasure => healthMeasure.PublishedAt <= DateTime.UtcNow))
+        if (batchToDeleteFirstEntry.PublishedAt <= DateTime.UtcNow)
         {
             throw new InvalidOperationException("Error attempting to delete published batch.");
         }
 
-        await batchToDelete.ExecuteDeleteAsync();
-        return true;
+        var deletedRows = await batchToDelete.ExecuteDeleteAsync();
+        return deletedRows > 0;
     }
 
     public async Task<IEnumerable<DenormalisedHealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync
