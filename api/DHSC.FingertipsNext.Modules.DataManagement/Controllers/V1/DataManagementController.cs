@@ -34,13 +34,19 @@ public class DataManagementController(IDataManagementService dataManagementServi
             });
         }
 
-        await using var fileStream = file.OpenReadStream();
-        var validationErrors = dataManagementService.ValidateCsv(fileStream);
-        if (validationErrors.Count != 0)
-            return StatusCode(StatusCodes.Status400BadRequest,
-                string.Join(", ", validationErrors!));
+        UploadHealthDataResponse? response = null;
+        await using (var fileStream = file.OpenReadStream())
+        {
+            var validationErrors = dataManagementService.ValidateCsv(fileStream);
+            if (validationErrors.Count != 0)
+                return StatusCode(StatusCodes.Status400BadRequest,
+                    string.Join(", ", validationErrors!));
+        }
 
-        var response = await dataManagementService.UploadFileAsync(fileStream, indicatorId, parsedPublishedAt);
+        await using (var fileStream = file.OpenReadStream())
+        {
+            response = await dataManagementService.UploadFileAsync(fileStream, indicatorId, parsedPublishedAt);
+        }
         return (response.Outcome) switch
         {
             OutcomeType.Ok => new AcceptedResult

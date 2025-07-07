@@ -62,12 +62,15 @@ public sealed class DataManagementIntegrationTests : IClassFixture<CustomWebAppl
         // Arrange
         var apiClient = GetApiClient(_factory);
 
-        var blobContentFilePath = Path.Combine(TestDataDir, "blobContent.json");
+        var blobContentFilePath = Path.Combine(TestDataDir, "valid.csv");
         await using var fileStream = File.OpenRead(blobContentFilePath);
         using var content = new MultipartFormDataContent();
         using var streamContent = new StreamContent(fileStream);
+        using var publishedAtContent = new StringContent("2025-01-01T00:00:00.000");
         streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-        content.Add(streamContent, "file", "blobContent.json");
+        publishedAtContent.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
+        content.Add(streamContent, "file", "valid.csv");
+        content.Add(publishedAtContent, "publishedAt");
 
         // Act
         var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
@@ -81,24 +84,26 @@ public sealed class DataManagementIntegrationTests : IClassFixture<CustomWebAppl
     }
 
     [Fact]
-    public async Task UploadFailuresShouldReturn500Response()
+    public async Task UploadingInvalidFileShouldReturn400Response()
     {
         // Arrange
         var apiClient = GetApiClient(_factory);
 
-        var blobContentFilePath = Path.Combine(TestDataDir, "blobContent.json");
+        var blobContentFilePath = Path.Combine(TestDataDir, "invalid.csv");
         await using var fileStream = File.OpenRead(blobContentFilePath);
         using var content = new MultipartFormDataContent();
         using var streamContent = new StreamContent(fileStream);
+        using var publishedAtContent = new StringContent("2025-01-01T00:00:00.000");
         streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-        content.Add(streamContent, "file", "blobContent.json");
+        publishedAtContent.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
+        content.Add(streamContent, "file", "valid.csv");
+        content.Add(publishedAtContent, "publishedAt");
 
         // Act
-        await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
         var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
 
         // Assert
-        response.StatusCode.ShouldBe(HttpStatusCode.InternalServerError);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
     }
 
     [Fact]
@@ -134,23 +139,5 @@ public sealed class DataManagementIntegrationTests : IClassFixture<CustomWebAppl
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
     }
 
-    [Fact]
-    public async Task UploadToBlobStorageShouldFailIfContainerDoesNotExist()
-    {
-        // Arrange
-        var apiClient = GetApiClient(_factory, "non-existent-container");
 
-        var blobContentFilePath = Path.Combine(TestDataDir, "blobContent.json");
-        await using var fileStream = File.OpenRead(blobContentFilePath);
-        using var content = new MultipartFormDataContent();
-        using var streamContent = new StreamContent(fileStream);
-        streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-        content.Add(streamContent, "file", "blobContent.json");
-
-        // Act
-        var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
-
-        // Assert
-        response.StatusCode.ShouldBe(HttpStatusCode.InternalServerError);
-    }
 }

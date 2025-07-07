@@ -9,7 +9,7 @@ public class DataManagementDbContext : DbContext
     {
     }
 
-    public DataManagementDbContext(DbContextOptions options) : base(options)
+    public DataManagementDbContext(DbContextOptions<DataManagementDbContext> options) : base(options)
     {
     }
 

@@ -86,7 +86,7 @@ indicators_by_indicator_id_data:
     operationId: getHealthDataForAnIndicator
   post:
     parameters:
-      - $ref: "../parameters.yaml#/publishedAt"
+      - $ref: "./parameters.yaml#/publishedAt"
       - $ref: "./parameters.yaml#/indicator_id"
     tags:
       - indicators
@@ -102,6 +102,9 @@ indicators_by_indicator_id_data:
               file:
                 type: string
                 format: binary
+              publishedAt:
+                type: string
+                format: date-time
     responses:
       "202":
         description: The file has been accepted by the API and further processing will be conducted.

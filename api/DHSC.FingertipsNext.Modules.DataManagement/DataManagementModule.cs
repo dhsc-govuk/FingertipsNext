@@ -22,6 +22,7 @@ public class DataManagementModule : AbstractMonolithModule, IMonolithModule
         services.AddTransient<IDataManagementService, DataManagementService>();
         services.AddTransient<IDataManagementRepository, DataManagementRepository>();
         RegisterAzureClients(services, configuration);
+        RegisterDbContext(services, configuration);
     }
 
     private static void RegisterAzureClients(IServiceCollection services, IConfiguration configuration)
@@ -78,9 +79,9 @@ public class DataManagementModule : AbstractMonolithModule, IMonolithModule
         var dbName = GetEnvironmentValue(configuration, dbNameEnvironmentVariable);
         var dbUser = GetEnvironmentValue(configuration, dbUserEnvironmentVariable);
         var dbPassword = GetEnvironmentValue(configuration, dbPasswordEnvironmentVariable);
-        
+
         var trustServerCertificate = configuration.GetValue<bool>("TRUST_CERT");
-        
+
         if (trustServerCertificate)
         {
             Console.WriteLine("Server certificate validation has been disabled (by setting the TRUST_CERT environment variable). This should only be done for local development!");
@@ -96,7 +97,7 @@ public class DataManagementModule : AbstractMonolithModule, IMonolithModule
         };
         services.AddDbContext<DataManagementDbContext>(options => options.UseSqlServer(builder.ConnectionString));
     }
-    
+
     private static string GetEnvironmentValue(IConfiguration configuration, string name) =>
         configuration.GetValue<string>(name) ?? throw new ArgumentException($"Invalid environment variables provided. Check {name} has been set appropriately");
 }

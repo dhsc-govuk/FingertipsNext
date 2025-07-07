@@ -12,7 +12,7 @@ public class DataManagementRepositoryTests : IDisposable
 
     public DataManagementRepositoryTests()
     {
-        DbContextOptionsBuilder dbOptions = new DbContextOptionsBuilder().UseInMemoryDatabase(
+        DbContextOptionsBuilder<DataManagementDbContext> dbOptions = new DbContextOptionsBuilder<DataManagementDbContext>().UseInMemoryDatabase(
             Guid.NewGuid().ToString()
         );
 

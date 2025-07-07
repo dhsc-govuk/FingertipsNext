@@ -1,7 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DHSC.FingertipsNext.Modules.DataManagement.Repository.Models;
 
+[Table("Batch", Schema = "DataManagement")]
 public class BatchModel
 {
     [Key]

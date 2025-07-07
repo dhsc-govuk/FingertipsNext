@@ -7,9 +7,7 @@ CREATE TABLE [DataManagement].[Batch]
     [Created] [datetime2](7) NOT NULL DEFAULT GETUTCDATE(),  -- The date and time the batch was created
     [PublishedAt] [datetime2] NOT NULL,
     [UserId] [uniqueidentifier] NOT NULL,
-    [OriginalFileName] [nvarchar](200) NOT NULL,
-    [GeneratedFileName] [nvarchar](200) NOT NULL,
-    [Status] [tinyint] NOT NULL
+    [Status] [nvarchar](50) NOT NULL
 CONSTRAINT [PK_Batch] PRIMARY KEY CLUSTERED
 (
     [BatchKey] ASC
