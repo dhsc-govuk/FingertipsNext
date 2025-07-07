@@ -65,7 +65,8 @@ const mockSearchStateWithNoSelectedAreas = {
 
 describe('SelectAreasFilterPanel', () => {
   describe('Area type', () => {
-    const areaTypeDropDownLabel = 'Select a type of health or administrative area';
+    const areaTypeDropDownLabel =
+      'Select a type of health or administrative area';
 
     it('should disable the select area type drop down when there are areas selected', () => {
       mockSearchState = mockSearchStateWithSelectedAreas;
@@ -219,7 +220,7 @@ describe('SelectAreasFilterPanel', () => {
         scroll: false,
       });
     });
-    
+
     it('should show helper text when areas are selected', () => {
       mockSearchState = mockSearchStateWithSelectedAreas;
 
