@@ -78,7 +78,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   return (
     <section data-testid="oneIndicatorTwoOrMoreAreasViewPlots-component">
       <BenchmarkSelectArea availableAreas={availableAreasForBenchmarking} />
-      <OneIndicatorSegmentationOptions />q
+      <OneIndicatorSegmentationOptions />
       {showLineChartOverTime ? <LineChartAndTableOverTime /> : null}
       {selectedGroupArea === ALL_AREAS_SELECTED && (
         <StyleChartWrapper>
