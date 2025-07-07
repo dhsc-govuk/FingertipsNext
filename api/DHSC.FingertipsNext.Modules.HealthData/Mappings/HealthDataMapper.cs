@@ -14,7 +14,18 @@ public class HealthDataMapper : IHealthDataMapper
             "High is good" => IndicatorPolarity.HighIsGood,
             "Low is good" => IndicatorPolarity.LowIsGood,
             "No judgement" => IndicatorPolarity.NoJudgement,
-            _ => IndicatorPolarity.Unknown,
+            _ => IndicatorPolarity.Unknown
+        };
+    }
+
+    public CollectionFrequency MapCollectionFrequency(string? source)
+    {
+        return source switch
+        {
+            "annually" => CollectionFrequency.Annually,
+            "monthly" => CollectionFrequency.Monthly,
+            "quarterly" => CollectionFrequency.Quarterly,
+            _ => CollectionFrequency.Annually
         };
     }
 

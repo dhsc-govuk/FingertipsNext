@@ -14,6 +14,10 @@ public class IndicatorWithHealthDataForAreas
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public IndicatorPolarity Polarity { get; set; }
 
+    [JsonPropertyName("frequency")]
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public CollectionFrequency CollectionFrequency { get; init; }
+
     [JsonPropertyName("benchmarkMethod")]
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public BenchmarkComparisonMethod BenchmarkMethod { get; set; }
