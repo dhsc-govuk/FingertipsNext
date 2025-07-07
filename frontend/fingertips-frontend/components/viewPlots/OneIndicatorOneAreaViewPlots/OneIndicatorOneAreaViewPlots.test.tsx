@@ -1,8 +1,11 @@
+// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
+import { mockUsePathname } from '@/mock/utils/mockNextNavigation';
+import { mockSetIsLoading } from '@/mock/utils/mockUseLoadingState';
+//
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { OneIndicatorOneAreaViewPlots } from '.';
 import { act, render, screen, waitFor, within } from '@testing-library/react';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
-import { LoaderContext } from '@/context/LoaderContext';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { QueryClient } from '@tanstack/query-core';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
@@ -19,32 +22,21 @@ import {
 } from '@/mock/data/mockHealthDataForArea';
 import { mockHealthDataPoints } from '@/mock/data/mockHealthDataPoint';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { mockIndicatorSegment } from '@/mock/data/mockIndicatorSegment';
 
-vi.mock('next/navigation', async () => {
-  const originalModule = await vi.importActual('next/navigation');
-
-  return {
-    ...originalModule,
-    usePathname: () => 'some-mock-path',
-    useRouter: vi.fn().mockImplementation(() => ({})),
-  };
-});
-
-const mockLoaderContext: LoaderContext = {
-  getIsLoading: vi.fn(),
-  setIsLoading: vi.fn(),
-};
-vi.mock('@/context/LoaderContext', () => {
-  return {
-    useLoadingState: () => mockLoaderContext,
-  };
-});
+mockUsePathname.mockReturnValue('some-mock-path');
+mockSetIsLoading.mockReturnValue(false);
 
 const testMetaData = mockIndicatorDocument();
 const testHealthData = mockIndicatorWithHealthDataForArea({
   areaHealthData: [
     mockHealthDataForArea({
-      healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2022 }]),
+      healthData: [],
+      indicatorSegments: [
+        mockIndicatorSegment({
+          healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2022 }]),
+        }),
+      ],
     }),
   ],
 });
@@ -127,6 +119,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
       await screen.findByTestId('standardLineChart-component')
     ).toBeInTheDocument();
 
+    expect(screen.getByTestId('segmentation-options')).toBeInTheDocument();
     expect(screen.getByTestId('lineChartTable-component')).toBeInTheDocument();
   });
 
@@ -139,7 +132,15 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     const testHealthDataOnlyEngland = mockIndicatorWithHealthDataForArea({
       areaHealthData: [
         mockHealthDataForArea_England({
-          healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2022 }]),
+          healthData: [],
+          indicatorSegments: [
+            mockIndicatorSegment({
+              healthData: mockHealthDataPoints([
+                { year: 2023 },
+                { year: 2022 },
+              ]),
+            }),
+          ],
         }),
       ],
     });
