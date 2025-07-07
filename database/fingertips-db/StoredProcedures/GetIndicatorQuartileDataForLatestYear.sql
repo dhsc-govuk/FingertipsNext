@@ -8,7 +8,7 @@ CREATE PROCEDURE [dbo].[GetIndicatorQuartileDataForLatestYear] @RequestedAreaTyp
 AS BEGIN
 DECLARE @DateBefore AS DATETIME2;
 
---IF we don't want to include unpblished data we want data that has a published date in the past
+--IF we don't want to include unpublished data we want data that has a published date in the past
 --IF we do want unpublished data we want data older than 10 years in the future - same as all dates
 IF @IncludeUnpublishedData = 0
 	SET @DateBefore = GETUTCDATE();

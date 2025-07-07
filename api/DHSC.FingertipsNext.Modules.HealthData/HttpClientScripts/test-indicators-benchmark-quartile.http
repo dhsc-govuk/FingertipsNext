@@ -61,24 +61,6 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids
     client.test("Calculate Quartile for two indicators", function (callbackfn, thisArg) {
         const expected = [
         {
-            "indicatorId": 94063,
-            "polarity": "NoJudgement",
-            "year": 2023,
-            "datePeriod": {
-                "type": "Financial",
-                "from": "2023-04-01",
-                "to": "2024-03-31"
-            },
-            "q0Value": 15.7894736842105,
-            "q1Value": 64.9253731343284,
-            "q2Value": 71.830985915493,
-            "q3Value": 76.9005847953216,
-            "q4Value": 88.6435331230284,
-            "areaValue": 76.1904761904762,
-            "ancestorValue": 76.4550264550265,
-            "englandValue": 69.8972433785404
-        },
-        {
             "indicatorId": 90453,
             "polarity": "NoJudgement",
             "year": 2024,
@@ -95,6 +77,24 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids
             "areaValue": 28.93029,
             "ancestorValue": 29.8274473053626,
             "englandValue": 27.15399
+        },
+        {
+            "indicatorId": 94063,
+            "polarity": "NoJudgement",
+            "year": 2023,
+            "datePeriod": {
+            "type": "Financial",
+            "from": "2023-04-01",
+            "to": "2024-03-31"
+            },
+            "q0Value": 15.7894736842105,
+            "q1Value": 64.9253731343284,
+            "q2Value": 71.830985915493,
+            "q3Value": 76.9005847953216,
+            "q4Value": 88.6435331230284,
+            "areaValue": 76.1904761904762,
+            "ancestorValue": 76.4550264550265,
+            "englandValue": 69.8972433785404
         }
         ];
         client.assert(response.status === 200, "Response status is not 200");
@@ -106,24 +106,6 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids
 > {%
     client.test("Calculate Quartile for two indicators", function (callbackfn, thisArg) {
         const expected = [
-            {
-            "indicatorId": 94063,
-            "polarity": "NoJudgement",
-            "year": 2023,
-            "datePeriod": {
-                "type": "Financial",
-                "from": "2023-04-01",
-                "to": "2024-03-31"
-            },
-            "q0Value": 70.0729927007299,
-            "q1Value": 73.8372093023256,
-            "q2Value": 76.1904761904762,
-            "q3Value": 79.0476190476191,
-            "q4Value": 80.1242236024845,
-            "areaValue": 76.1904761904762,
-            "ancestorValue": 76.4550264550265,
-            "englandValue": 69.8972433785404
-        },
         {
             "indicatorId": 90453,
             "polarity": "NoJudgement",
@@ -141,6 +123,24 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids
             "areaValue": 28.93029,
             "ancestorValue": 29.8274473053626,
             "englandValue": 27.15399
+        },
+        {
+            "indicatorId": 94063,
+            "polarity": "NoJudgement",
+            "year": 2023,
+            "datePeriod": {
+                "type": "Financial",
+                "from": "2023-04-01",
+                "to": "2024-03-31"
+            },
+            "q0Value": 70.0729927007299,
+            "q1Value": 73.8372093023256,
+            "q2Value": 76.1904761904762,
+            "q3Value": 79.0476190476191,
+            "q4Value": 80.1242236024845,
+            "areaValue": 76.1904761904762,
+            "ancestorValue": 76.4550264550265,
+            "englandValue": 69.8972433785404
         }
         ];
         client.assert(response.status === 200, "Response status is not 200");
