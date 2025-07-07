@@ -1,4 +1,3 @@
-import path from 'path';
 import BasePage from '../basePage';
 import { expect } from '../pageFactory';
 
@@ -14,40 +13,38 @@ export default class UploadPage extends BasePage {
   private readonly fileUploadLabel = 'Upload a file';
   private readonly uploadButtonText = 'Submit';
 
-  private readonly csvFileName = 'playwright_indicator_data.csv';
-  private readonly pathToExampleCsv = path.join(
-    __dirname,
-    '..',
-    '..',
-    'resources',
-    this.csvFileName
-  );
-
-  private readonly indicatorId = '41101';
-
-  async fillInUploadForm() {
+  async fillInUploadForm({
+    indicatorId,
+    publishedAtYear,
+    publishedAtMonth,
+    publishedAtDay,
+    pathToCsv,
+  }: {
+    indicatorId: string;
+    publishedAtYear: string;
+    publishedAtMonth: string;
+    publishedAtDay: string;
+    pathToCsv: string;
+  }) {
     await this.fillAndAwaitLoadingComplete(
       this.page.getByLabel(this.indicatorIdFieldLabel),
-      this.indicatorId
+      indicatorId
     );
 
     await this.fillAndAwaitLoadingComplete(
       this.page.getByLabel(this.dayFieldLabel),
-      '7'
+      publishedAtDay
     );
     await this.fillAndAwaitLoadingComplete(
       this.page.getByLabel(this.monthFieldLabel),
-      '3'
+      publishedAtMonth
     );
-    const currentYear = new Date().getFullYear();
     await this.fillAndAwaitLoadingComplete(
       this.page.getByLabel(this.yearFieldLabel),
-      String(currentYear + 10)
+      publishedAtYear
     );
 
-    await this.page
-      .getByLabel(this.fileUploadLabel)
-      .setInputFiles(this.pathToExampleCsv);
+    await this.page.getByLabel(this.fileUploadLabel).setInputFiles(pathToCsv);
   }
 
   async clickUploadButton() {
@@ -66,15 +63,11 @@ export default class UploadPage extends BasePage {
     ).toBeVisible();
   }
 
-  async checkApiResponsePanelContainsASuccessMessage() {
+  async checkApiResponsePanelContains(status: string, message: string) {
     await expect(
       this.page.getByTestId(this.apiResponsePanelTestId)
     ).toBeVisible();
-    await expect(this.page.getByText('202')).toBeVisible();
-    await expect(
-      this.page.getByText(
-        `File ${this.csvFileName} has been accepted for indicator ${this.indicatorId}.`
-      )
-    ).toBeVisible();
+    await expect(this.page.getByText(status)).toBeVisible();
+    await expect(this.page.getByText(message)).toBeVisible();
   }
 }
