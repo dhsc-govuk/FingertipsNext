@@ -4,7 +4,7 @@ import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 import { determineBenchmarkRefType } from '@/lib/ViewsHelpers';
-import { lineChartOverTimeRequestParams } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeRequestParams';
+import { oneIndicatorRequestParams } from '@/components/charts/helpers/oneIndicatorRequestParams';
 import { MockedFunction } from 'vitest';
 
 vi.mock('@/lib/chartHelpers/chartHelpers');
@@ -35,7 +35,7 @@ describe('lineChartOverTimeRequestParams', () => {
       [SearchParams.BenchmarkAreaSelected]: 'some-area',
     };
 
-    const result = lineChartOverTimeRequestParams(searchState);
+    const result = oneIndicatorRequestParams(searchState, []);
 
     expect(result).toEqual({
       indicatorId: 123,
@@ -60,7 +60,7 @@ describe('lineChartOverTimeRequestParams', () => {
       [SearchParams.BenchmarkAreaSelected]: 'eng-benchmark',
     };
 
-    const result = lineChartOverTimeRequestParams(searchState);
+    const result = oneIndicatorRequestParams(searchState, []);
 
     expect(result.areaType).toBe(englandAreaType.key);
   });
@@ -79,7 +79,7 @@ describe('lineChartOverTimeRequestParams', () => {
       [SearchParams.BenchmarkAreaSelected]: 'bench-subnat',
     };
 
-    const result = lineChartOverTimeRequestParams(searchState);
+    const result = oneIndicatorRequestParams(searchState, []);
 
     expect(result.ancestorCode).toBe('E10000012');
   });
@@ -97,7 +97,7 @@ describe('lineChartOverTimeRequestParams', () => {
       [SearchParams.BenchmarkAreaSelected]: 'nat-benchmark',
     };
 
-    const result = lineChartOverTimeRequestParams(searchState);
+    const result = oneIndicatorRequestParams(searchState, []);
 
     expect(result.areaCodes).toContain(areaCodeForEngland);
     expect(result.ancestorCode).toBeUndefined();

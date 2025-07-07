@@ -1,10 +1,9 @@
+// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
+import { mockUseSearchStateParams } from '@/mock/utils/mockUseSearchStateParams';
+import { mockUseApiGetHealthDataForAnIndicator } from '@/mock/utils/mockUseApiGetHealthData';
+//
 import { renderHook } from '@testing-library/react';
-
 import { useCompareAreasTableData } from '@/components/charts/CompareAreasTable/hooks/useCompareAreasTableData';
-
-import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
-import { useCompareAreasTableRequestParams } from '@/components/charts/CompareAreasTable/hooks/useCompareAreasTableRequestParams';
-import { useApiGetHealthDataForAnIndicator } from '@/components/charts/hooks/useApiGetHealthDataForAnIndicator';
 import { useApiGetIndicatorMetaData } from '@/components/charts/hooks/useApiGetIndicatorMetaData';
 import { compareAreasTableData } from '@/components/charts/CompareAreasTable/helpers/compareAreasTableData';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
@@ -20,26 +19,18 @@ import {
   mockHealthDataForArea_England,
 } from '@/mock/data/mockHealthDataForArea';
 import { MockedFunction } from 'vitest';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { useOneIndicatorRequestParams } from '@/components/charts/hooks/useOneIndicatorRequestParams';
 
-vi.mock('@/components/hooks/useSearchStateParams');
-vi.mock(
-  '@/components/charts/CompareAreasTable/hooks/useCompareAreasTableRequestParams'
-);
-vi.mock('@/components/charts/hooks/useApiGetHealthDataForAnIndicator');
+vi.mock('@/components/charts/hooks/useOneIndicatorRequestParams');
 vi.mock('@/components/charts/hooks/useApiGetIndicatorMetaData');
 vi.mock('@/components/charts/CompareAreasTable/helpers/compareAreasTableData');
 
-const mockUseSearchStateParams = useSearchStateParams as MockedFunction<
-  typeof useSearchStateParams
->;
-const mockUseCompareAreasTableRequestParams =
-  useCompareAreasTableRequestParams as MockedFunction<
-    typeof useCompareAreasTableRequestParams
+const mockUseOneIndicatorRequestParams =
+  useOneIndicatorRequestParams as MockedFunction<
+    typeof useOneIndicatorRequestParams
   >;
-const mockUseApiGetHealthDataForAnIndicator =
-  useApiGetHealthDataForAnIndicator as MockedFunction<
-    typeof useApiGetHealthDataForAnIndicator
-  >;
+
 const mockUseApiGetIndicatorMetaData =
   useApiGetIndicatorMetaData as MockedFunction<
     typeof useApiGetIndicatorMetaData
@@ -59,7 +50,7 @@ describe('useCompareAreasTableData', () => {
       [SearchParams.BenchmarkAreaSelected]: 'E92000001',
     });
 
-    mockUseCompareAreasTableRequestParams.mockReturnValue({
+    mockUseOneIndicatorRequestParams.mockReturnValue({
       indicatorId: 100,
     });
 
@@ -99,7 +90,7 @@ describe('useCompareAreasTableData', () => {
     };
 
     mockUseSearchStateParams.mockReturnValue(mockSearchState);
-    mockUseCompareAreasTableRequestParams.mockReturnValue(mockRequestParams);
+    mockUseOneIndicatorRequestParams.mockReturnValue(mockRequestParams);
     mockUseApiGetHealthDataForAnIndicator.mockReturnValue({
       healthData: mockHealthData,
       healthDataLoading: false,
@@ -119,10 +110,17 @@ describe('useCompareAreasTableData', () => {
       ...mockProcessedData,
     });
 
-    expect(mockCompareAreasTableData).toHaveBeenCalledWith(
-      mockHealthData,
-      'G123',
-      'E92000001'
-    );
+    const lastCall = mockCompareAreasTableData.mock.lastCall;
+    expect(lastCall?.at(0)).toEqual({
+      ...mockHealthData,
+      areaHealthData: [
+        {
+          ...mockHealthData.areaHealthData?.at(0),
+          indicatorSegments: undefined,
+        },
+      ],
+    });
+    expect(lastCall?.at(1)).toEqual('G123');
+    expect(lastCall?.at(2)).toEqual(areaCodeForEngland);
   });
 });

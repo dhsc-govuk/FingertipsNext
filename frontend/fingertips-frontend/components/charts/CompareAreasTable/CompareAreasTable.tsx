@@ -3,6 +3,7 @@ import { H3 } from 'govuk-react';
 
 import { useCompareAreasTableData } from '@/components/charts/CompareAreasTable/hooks/useCompareAreasTableData';
 import { BarChartEmbeddedTable } from '@/components/charts/CompareAreasTable/BarChartEmbeddedTable/BarChartEmbeddedTable';
+import { SegmentationDropDowns } from '@/components/forms/SegmentationOptions/SegmentationDropDowns';
 
 export function CompareAreasTable() {
   const data = useCompareAreasTableData();

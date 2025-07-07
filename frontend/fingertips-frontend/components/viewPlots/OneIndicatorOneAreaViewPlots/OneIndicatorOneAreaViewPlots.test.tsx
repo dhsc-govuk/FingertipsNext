@@ -11,7 +11,7 @@ import { QueryClient } from '@tanstack/query-core';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
-import { lineChartOverTimeRequestParams } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeRequestParams';
+import { oneIndicatorRequestParams } from '@/components/charts/helpers/oneIndicatorRequestParams';
 import {
   EndPoints,
   queryKeyFromRequestParams,
@@ -60,7 +60,7 @@ const testRender = async (
 ) => {
   mockUseSearchStateParams.mockReturnValue(searchState);
   const client = new QueryClient();
-  const lineChartApiParams = lineChartOverTimeRequestParams(searchState);
+  const lineChartApiParams = oneIndicatorRequestParams(searchState, []);
   const lineChartQueryKey = queryKeyFromRequestParams(
     EndPoints.HealthDataForAnIndicator,
     lineChartApiParams

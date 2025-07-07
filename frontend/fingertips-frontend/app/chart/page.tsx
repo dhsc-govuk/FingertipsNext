@@ -14,7 +14,7 @@ import { SeedData } from '@/components/atoms/SeedQueryCache/seedQueryCache.types
 import { SeedQueryCache } from '@/components/atoms/SeedQueryCache/SeedQueryCache';
 import { lineChartOverTimeIsRequired } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeIsRequired';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
-import { lineChartOverTimeRequestParams } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeRequestParams';
+import { oneIndicatorRequestParams } from '@/components/charts/helpers/oneIndicatorRequestParams';
 import {
   API_CACHE_CONFIG,
   ApiClientFactory,
@@ -23,7 +23,6 @@ import {
   EndPoints,
   queryKeyFromRequestParams,
 } from '@/components/charts/helpers/queryKeyFromRequestParams';
-import { compareAreasTableRequestParams } from '@/components/charts/CompareAreasTable/helpers/compareAreasTableRequestParams';
 import { compareAreasTableIsRequired } from '@/components/charts/CompareAreasTable/helpers/compareAreasTableIsRequired';
 import { inequalitiesIsRequired } from '@/components/charts/Inequalities/helpers/inequalitiesIsRequired';
 import { inequalitiesRequestParams } from '@/components/charts/Inequalities/helpers/inequalitiesRequestParams';
@@ -67,15 +66,37 @@ export default async function ChartPage(
       seedData[`/indicator/${indicator.indicatorID}`] = indicator;
     });
 
+    const selectedAreasData = await getSelectedAreasDataByAreaType(
+      areasSelected,
+      areaTypeSelected as AreaTypeKeys
+    );
+
+    const {
+      availableAreaTypes,
+      availableAreas,
+      availableGroupTypes,
+      availableGroups,
+      updatedSearchState,
+    } = await getAreaFilterData(
+      stateManager.getSearchState(),
+      selectedAreasData
+    );
+
     const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
     // if we want to show the line chart data then load that now server side
     // and seed the cache - this will help with progressive enhancement and
     // coping with devices that do not have javascript enabled by seeding
     // the data react query can still proceed with data loaded on the server
-    if (lineChartOverTimeIsRequired(searchState)) {
+    if (
+      lineChartOverTimeIsRequired(searchState) ||
+      compareAreasTableIsRequired(searchState)
+    ) {
       let healthData: IndicatorWithHealthDataForArea | undefined;
-      const apiRequestParams = lineChartOverTimeRequestParams(searchState);
+      const apiRequestParams = oneIndicatorRequestParams(
+        searchState,
+        availableAreas ?? []
+      );
       try {
         healthData = await indicatorApi.getHealthDataForAnIndicator(
           apiRequestParams,
@@ -93,54 +114,10 @@ export default async function ChartPage(
       }
     }
 
-    const selectedAreasData = await getSelectedAreasDataByAreaType(
-      areasSelected,
-      areaTypeSelected as AreaTypeKeys
-    );
-
-    const {
-      availableAreaTypes,
-      availableAreas,
-      availableGroupTypes,
-      availableGroups,
-      updatedSearchState,
-    } = await getAreaFilterData(
-      stateManager.getSearchState(),
-      selectedAreasData
-    );
-
     seedData[`availableAreas`] = availableAreas ?? [];
 
     if (updatedSearchState) {
       stateManager.setState(updatedSearchState);
-    }
-
-    const compareAreasQueryParams = compareAreasTableRequestParams(
-      searchState,
-      availableAreas ?? []
-    );
-    const compareAreasQueryKey = queryKeyFromRequestParams(
-      EndPoints.HealthDataForAnIndicator,
-      compareAreasQueryParams
-    );
-
-    if (
-      compareAreasTableIsRequired(searchState) &&
-      !Object.keys(seedData).includes(compareAreasQueryKey)
-    ) {
-      try {
-        const compareAreasHealthData =
-          await indicatorApi.getHealthDataForAnIndicator(
-            compareAreasQueryParams,
-            API_CACHE_CONFIG
-          );
-        seedData[compareAreasQueryKey] = compareAreasHealthData;
-      } catch (e) {
-        console.error(
-          'error getting health indicator data for compare areas',
-          e
-        );
-      }
     }
 
     const inequalitiesQueryParams = inequalitiesRequestParams(searchState);
