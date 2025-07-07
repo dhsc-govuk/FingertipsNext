@@ -179,8 +179,15 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         return denormalisedHealthData.OrderBy(a => a.Year);
     }
 
-    public async Task<IEnumerable<QuartileDataModel>> GetQuartileDataAsync(IEnumerable<int> indicatorIds,
-        string areaCode, string areaTypeKey, string ancestorCode, string benchmarkAreaCode)
+    public async Task<IEnumerable<QuartileDataModel>> GetQuartileDataAsync
+    (
+        IEnumerable<int> indicatorIds,
+        string areaCode,
+        string areaTypeKey,
+        string ancestorCode,
+        string benchmarkAreaCode,
+        bool includeUnpublished = false
+    )
     {
         SqlParameter requestedIndicators;
         // Convert the array parameters into DataTables for presentation to the Stored Procedure.
@@ -201,10 +208,11 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         var areaCodeSqlParam = new SqlParameter("@RequestedArea", areaCode);
         var ancestorCodeSqlParam = new SqlParameter("@RequestedAncestorCode", ancestorCode);
         var benchmarkAreaCodeSqlParam = new SqlParameter("@RequestedBenchmarkCode", benchmarkAreaCode);
+        var includeUnpublishedData = new SqlParameter("@IncludeUnpublishedData", includeUnpublished);
 
         var retVal = await _dbContext.QuartileData.FromSql
         (@$"
-              EXEC dbo.GetIndicatorQuartileDataForLatestYear @RequestedAreaType={areaType}, @RequestedIndicatorIds={requestedIndicators}, @RequestedArea={areaCodeSqlParam}, @RequestedAncestorCode={ancestorCodeSqlParam}, @RequestedBenchmarkCode={benchmarkAreaCodeSqlParam}
+              EXEC dbo.GetIndicatorQuartileDataForLatestYear @RequestedAreaType={areaType}, @RequestedIndicatorIds={requestedIndicators}, @RequestedArea={areaCodeSqlParam}, @RequestedAncestorCode={ancestorCodeSqlParam}, @RequestedBenchmarkCode={benchmarkAreaCodeSqlParam}, @IncludeUnpublishedData={includeUnpublishedData}
               "
         ).ToListAsync();
 
