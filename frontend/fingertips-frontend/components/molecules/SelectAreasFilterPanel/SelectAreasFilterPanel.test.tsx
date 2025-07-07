@@ -65,7 +65,7 @@ const mockSearchStateWithNoSelectedAreas = {
 
 describe('SelectAreasFilterPanel', () => {
   describe('Area type', () => {
-    const areaTypeDropDownLabel = 'Select an area type';
+    const areaTypeDropDownLabel = 'Select a type of health or administrative area';
 
     it('should disable the select area type drop down when there are areas selected', () => {
       mockSearchState = mockSearchStateWithSelectedAreas;
@@ -219,6 +219,16 @@ describe('SelectAreasFilterPanel', () => {
         scroll: false,
       });
     });
+    
+    it('should show helper text when areas are selected', () => {
+      mockSearchState = mockSearchStateWithSelectedAreas;
+
+      render(<SelectAreasFilterPanel />);
+
+      expect(
+        screen.getByText('To change, delete your selected areas')
+      ).toBeInTheDocument();
+    });
   });
 
   describe('Group type', () => {
@@ -228,7 +238,7 @@ describe('SelectAreasFilterPanel', () => {
       nhsIntegratedCareBoardsAreaType,
     ];
 
-    const groupTypeDropDownLabel = 'Select a group type';
+    const groupTypeDropDownLabel = 'Select a type of group to compare with';
 
     it('should disable the select group type drop down when there are areas selected', () => {
       mockSearchState = mockSearchStateWithSelectedAreas;
