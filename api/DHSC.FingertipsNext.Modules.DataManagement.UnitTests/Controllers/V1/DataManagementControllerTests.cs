@@ -59,7 +59,6 @@ public class DataManagementControllerTests
         // Arrange
         var publishedAtFormatted = "2025-01-01T00:00:00.000";
 
-
         // Act
         var result = await _controller.UploadHealthData(null, publishedAtFormatted, StubIndicatorId) as BadRequestObjectResult;
 

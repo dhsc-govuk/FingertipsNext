@@ -13,15 +13,11 @@ public class DataManagementRepository(DataManagementDbContext dataManagementDbCo
     ///     Will add the given batch to the batch table
     /// </summary>
     /// <param name="batch"></param>
-    /// <returns>TODO: Return the batch?</returns>
     /// <exception cref="NotImplementedException"></exception>
     public async Task<BatchModel> AddBatchAsync(BatchModel batch)
     {
-        var model = _dbContext.Batch
-            .AddAsync(batch);
-
+        await _dbContext.Batch.AddAsync(batch);
         await _dbContext.SaveChangesAsync();
-
         return batch;
     }
 }

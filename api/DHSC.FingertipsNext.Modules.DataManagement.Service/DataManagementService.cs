@@ -26,11 +26,6 @@ public class DataManagementService : IDataManagementService
         new EventId(3, nameof(UploadFileAsync)),
         "Upload successful");
 
-    // private static readonly Action<ILogger, string?, Exception?> InvalidConfigLog = LoggerMessage.Define<string?>(
-    //     LogLevel.Debug,
-    //     new EventId(4, "InvalidConfigLog"),
-    //     "Config variable 'STORAGE_CONTAINER_NAME' is invalid: {ContainerName}");
-
     private readonly BlobServiceClient _blobServiceClient;
     private readonly ILogger<DataManagementService> _logger;
     private readonly TimeProvider _timeProvider;

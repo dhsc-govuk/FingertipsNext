@@ -49,7 +49,6 @@ public class DataManagementServiceTests
         UploadHealthDataResponse result;
         var publishedAt = new DateTime(2025, 1, 1, 0, 0, 0);
 
-
         // Act
         await using (FileStream stream = File.Open(path, FileMode.Open))
         {
@@ -71,7 +70,6 @@ public class DataManagementServiceTests
         ICollection<string> result;
         var publishedAt = new DateTime(2025, 1, 1, 0, 0, 0);
 
-
         // Act
         using (FileStream stream = File.Open(path, FileMode.Open))
         {
@@ -92,7 +90,6 @@ public class DataManagementServiceTests
             .When(x => x.UploadAsync(Arg.Any<Stream>()))
             .Do(x => throw new RequestFailedException("failed"));
         var publishedAt = new DateTime(2025, 1, 1, 0, 0, 0);
-
 
         // Act
         var result = await _service.UploadFileAsync(Stream.Null, StubIndicatorId, publishedAt);
