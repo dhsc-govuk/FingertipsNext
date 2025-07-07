@@ -7,12 +7,14 @@ import { test as baseTest, Page } from '@playwright/test';
 import IndicatorPage from '@/playwright/page-objects/pages/indicatorPage';
 import type { Result } from 'axe-core';
 import { ACCESSIBILITY_TAGS } from '../testHelpers/testDefinitions';
+import EntraPage from './pages/entraPage';
 
 interface PageObjects {
   homePage: HomePage;
   resultsPage: ResultsPage;
   chartPage: ChartPage;
   indicatorPage: IndicatorPage;
+  entraPage: EntraPage;
 }
 
 interface TestOptions {
@@ -94,6 +96,9 @@ export const test = testBase.extend<PageObjects>({
   },
   indicatorPage: async ({ page }, use) => {
     await use(new IndicatorPage(page));
+  },
+  entraPage: async ({ page }, use) => {
+    await use(new EntraPage(page));
   },
 });
 

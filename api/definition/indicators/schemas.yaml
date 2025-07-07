@@ -247,9 +247,13 @@ PeriodType:
     ]
   x-enum-varnames:
     [
+      Academic,
       Calendar,
       Financial,
-      NovemberNovember
+      FinancialMultiYear,
+      FinancialYearEndPoint,
+      Yearly,
+      Unknown
     ]
 DatePeriod:
   title: Date Period
