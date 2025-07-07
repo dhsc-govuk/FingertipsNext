@@ -52,7 +52,7 @@ describe('findHealthPointsBySegmentation', () => {
     ).toEqual(testSegmentMale.healthData);
   });
 
-  it('should return the male segment when search param for sex is female', () => {
+  it('should return the female segment when search param for sex is female', () => {
     expect(
       findHealthPointsBySegmentation(testData, {
         [SearchParams.SegmentationSex]: 'female',

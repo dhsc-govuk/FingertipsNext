@@ -24,6 +24,10 @@ export function SegmentationDropDown({
 
   const hasOptions = options.length > 0;
 
+  const optionsToUse = hasOptions
+    ? options
+    : [{ value: '', label: 'No options available' }];
+
   return (
     <StyledFilterSelect
       label={label}
@@ -36,8 +40,7 @@ export function SegmentationDropDown({
         disabled: !hasOptions,
       }}
     >
-      {!hasOptions ? <option>No options available</option> : null}
-      {options.map((option) => (
+      {optionsToUse.map((option) => (
         <option key={`seg-${segmentId}-${option.value}`} value={option.value}>
           {option.label}
         </option>

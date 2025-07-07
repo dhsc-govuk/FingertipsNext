@@ -79,4 +79,13 @@ describe('flattenSegment', () => {
     expect(result.areaHealthData?.at(1)?.indicatorSegments).toBeUndefined();
     expect(result.areaHealthData?.at(2)?.indicatorSegments).toBeUndefined();
   });
+
+  it('should default the area healthData to empty array if input is foobar', () => {
+    const result = flattenSegment(
+      mockIndicatorWithHealthDataForArea({ areaHealthData: undefined }),
+      {}
+    );
+
+    expect(result.areaHealthData).toEqual([]);
+  });
 });

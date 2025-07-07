@@ -47,7 +47,7 @@ export function SegmentationDropDowns({
   const freqValue = valueOrDefault(freqOptions, selectedSegFreq);
 
   return (
-    <div>
+    <div data-testid="segmentation-options">
       <StyledLabel htmlFor={`seg-segs`}>
         Select segmentation options for the charts below
       </StyledLabel>

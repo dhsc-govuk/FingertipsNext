@@ -18,9 +18,13 @@ const mockData = mockIndicatorWithHealthDataForArea({
 });
 
 describe('segmentDropDownOptions', () => {
-  it('should find the segmentation options available for sex and reverse the order', () => {
-    const result = segmentValues(mockData);
+  it(
+    'should find the segmentation options available for sex and reverse' +
+      'the order except the aggregate point which must be first',
+    () => {
+      const result = segmentValues(mockData);
 
-    expect(result.sex).toEqual(['Agg', 'D', 'C', 'B', 'A']);
-  });
+      expect(result.sex).toEqual(['Agg', 'D', 'C', 'B', 'A']);
+    }
+  );
 });

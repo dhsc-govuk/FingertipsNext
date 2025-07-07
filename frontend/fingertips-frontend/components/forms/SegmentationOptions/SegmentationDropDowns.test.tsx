@@ -52,6 +52,20 @@ const testRender = (options: Record<SegmentationId, string[]>) => {
 describe('SegmentationDropDowns', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+
+    mockUseSearchStateParams.mockReturnValue({
+      [SearchParams.SegmentationSex]: 'female',
+      [SearchParams.SegmentationAge]: 'old',
+      [SearchParams.SegmentationFrequency]: 'quarterly',
+    });
+  });
+
+  it('should default to the correct selections if no SearchParams exist', () => {
+    mockUseSearchStateParams.mockReturnValue({});
+    const { selectSex, selectAge, selectFreq } = testRender(options);
+    expect(selectSex).toHaveValue('persons');
+    expect(selectAge).toHaveValue('all');
+    expect(selectFreq).toHaveValue('annual');
   });
 
   it('renders the three dropdowns', () => {
@@ -77,7 +91,7 @@ describe('SegmentationDropDowns', () => {
     expect(valuesFreq).toEqual(['annual', 'quarterly']);
   });
 
-  it('should select the appropriate values from the search state', async () => {
+  it('should select the appropriate values from the search state', () => {
     const { selectSex, selectAge, selectFreq } = testRender(options);
 
     expect(selectSex).toHaveValue('female');
@@ -112,6 +126,7 @@ describe('SegmentationDropDowns', () => {
   it('should not call history push state when attempting to select the same thing', async () => {
     const { selectSex } = testRender(options);
     await userEvent.selectOptions(selectSex, 'female');
+
     expect(urlChangeSpy).not.toHaveBeenCalled();
   });
 

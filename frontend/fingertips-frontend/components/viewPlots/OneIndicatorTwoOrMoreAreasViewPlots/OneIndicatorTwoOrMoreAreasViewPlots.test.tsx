@@ -1,3 +1,4 @@
+// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
 import { mockUsePathname } from '@/mock/utils/mockNextNavigation';
 import { mockSetIsLoading } from '@/mock/utils/mockUseLoadingState';
 //
@@ -31,11 +32,13 @@ const lineChartTableTestId = 'lineChartTable-component';
 const lineChartContainerTestId = 'tabContainer-lineChartAndTable';
 const lineChartContainerTitle = 'Indicator data over time';
 const barChartEmbeddedTable = 'barChartEmbeddedTable-component';
+const lineChartSegmentationOptions = 'segmentation-options';
 
 const assertLineChartAndTableInDocument = async () => {
   expect(await screen.findByTestId(lineChartTestId)).toBeInTheDocument();
   expect(screen.getByTestId(lineChartTableTestId)).toBeInTheDocument();
   expect(screen.getByTestId(lineChartContainerTestId)).toBeInTheDocument();
+  expect(screen.getByTestId(lineChartSegmentationOptions)).toBeInTheDocument();
 
   expect(
     screen.getByRole('heading', {

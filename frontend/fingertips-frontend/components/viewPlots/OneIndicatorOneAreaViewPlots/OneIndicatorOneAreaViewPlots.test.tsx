@@ -1,3 +1,4 @@
+// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
 import { mockUsePathname } from '@/mock/utils/mockNextNavigation';
 import { mockSetIsLoading } from '@/mock/utils/mockUseLoadingState';
 //
@@ -118,6 +119,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
       await screen.findByTestId('standardLineChart-component')
     ).toBeInTheDocument();
 
+    expect(screen.getByTestId('segmentation-options')).toBeInTheDocument();
     expect(screen.getByTestId('lineChartTable-component')).toBeInTheDocument();
   });
 

@@ -16,15 +16,6 @@ const mockUseLineChartOverTimeData = useLineChartOverTimeData as MockedFunction<
   typeof useLineChartOverTimeData
 >;
 
-vi.mock(
-  '@/components/charts/LineChartOverTime/LineChartOverTimeSegmentationOptions',
-  () => ({
-    LineChartOverTimeSegmentationOptions: () => (
-      <div data-testid="mock-segmentation-options" />
-    ),
-  })
-);
-
 describe('LineChartAndTableOverTime', () => {
   it('returns null when useLineChartOverTimeData returns null', () => {
     mockUseLineChartOverTimeData.mockReturnValue(null);
@@ -42,7 +33,6 @@ describe('LineChartAndTableOverTime', () => {
     expect(
       screen.getByRole('heading', { name: /indicator data over time/i })
     ).toBeInTheDocument();
-    expect(screen.getByTestId('mock-segmentation-options')).toBeInTheDocument();
     expect(screen.getByTestId('mock-line-chart')).toBeInTheDocument();
     expect(screen.getByTestId('mock-line-chart-table')).toBeInTheDocument();
     expect(
