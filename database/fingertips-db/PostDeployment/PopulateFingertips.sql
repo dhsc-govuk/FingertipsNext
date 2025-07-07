@@ -659,9 +659,9 @@ JOIN
 JOIN
 	[dbo].[DeprivationDimension] depdim  ON depdim.[Name] = LTRIM(RTRIM(temp.Category)) AND depdim.[Type]=LTRIM(RTRIM(temp.CategoryType))
 JOIN
-	[dbo].[DateDimension] datedim_from ON datedim_from.[Date] = (CONVERT(DATETIME, temp.FromDate, 103)) 
+	[dbo].[DateDimension] datedim_from ON datedim_from.[Date] = DATEADD(year, 1, (CONVERT(DATETIME, temp.FromDate, 103))) 
 JOIN
-    [dbo].[DateDimension] datedim_to ON datedim_to.[Date] = (CONVERT(DATETIME, temp.ToDate, 103))
+    [dbo].[DateDimension] datedim_to ON datedim_to.[Date] = DATEADD(year, 1, (CONVERT(DATETIME, temp.ToDate, 103)))
 JOIN   
     [dbo].[PeriodDimension] perioddim ON perioddim.[Period] = temp.Period
 WHERE 
@@ -724,9 +724,9 @@ JOIN
 JOIN
 	[dbo].[DeprivationDimension] depdim  ON depdim.[Name] = LTRIM(RTRIM(temp.Category)) AND depdim.[Type]=LTRIM(RTRIM(temp.CategoryType))
 JOIN
-	[dbo].[DateDimension] datedim_from ON datedim_from.[Date] = (CONVERT(DATETIME, temp.FromDate, 103)) 
+	[dbo].[DateDimension] datedim_from ON datedim_from.[Date] = DATEADD(year, 1, (CONVERT(DATETIME, temp.FromDate, 103)))
 JOIN
-    [dbo].[DateDimension] datedim_to ON datedim_to.[Date] = (CONVERT(DATETIME, temp.ToDate, 103))
+    [dbo].[DateDimension] datedim_to ON datedim_to.[Date] = DATEADD(year, 1, (CONVERT(DATETIME, temp.ToDate, 103)))
 JOIN   
     [dbo].[PeriodDimension] perioddim ON perioddim.[Period] = temp.Period
 WHERE 
