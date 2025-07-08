@@ -9,11 +9,7 @@ describe('determineLatestDataPeriod', () => {
     const areasHealthData: HealthDataForArea[] = [
       mockHealthDataForArea({
         areaCode: 'A1',
-        healthData: [
-          mockHealthDataPoint({ year: 2020 }),
-          mockHealthDataPoint({ year: 2021 }),
-          mockHealthDataPoint({ year: 2022 }),
-        ],
+        healthData: mockHealthDataPoints([{ year: 2020 }, { year: 2021 }, { year: 2022 }]),
       }),
     ];
     const englandData = null;
