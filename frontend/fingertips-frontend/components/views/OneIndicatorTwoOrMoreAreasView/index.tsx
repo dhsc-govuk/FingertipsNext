@@ -63,6 +63,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
         areaCodes={areaCodes}
         indicatorData={indicatorData}
         indicatorMetadata={indicatorMetadata}
+        session={null}
       />
     </ViewsWrapper>
   );

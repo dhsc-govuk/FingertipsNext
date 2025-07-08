@@ -19,7 +19,7 @@ type UseApiGetHealthDataForAnIndicatorResult = Readonly<{
 }>;
 
 export const queryFnHealthDataForAnIndicator =
-  (options: GetHealthDataForAnIndicatorRequest, session: Session | null) =>
+  (options: GetHealthDataForAnIndicatorRequest, session?: Session | null) =>
   async () => {
     const apiUrl = process.env.NEXT_PUBLIC_FINGERTIPS_API_URL;
     const config: Configuration = new Configuration({
@@ -37,7 +37,7 @@ export const queryFnHealthDataForAnIndicator =
 
 export const useApiGetHealthDataForAnIndicator = (
   options: GetHealthDataForAnIndicatorRequest,
-  session: Session | null
+  session?: Session | null
 ) => {
   const queryKey = session
     ? [
@@ -60,5 +60,5 @@ export const useApiGetHealthDataForAnIndicator = (
       healthDataLoading: query.isLoading,
       healthDataError: query.error,
     };
-  }, [query.data, query.error, query.isLoading, session]);
+  }, [query.data, query.error, query.isLoading]);
 };

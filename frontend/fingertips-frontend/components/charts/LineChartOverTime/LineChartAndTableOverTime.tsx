@@ -33,7 +33,7 @@ export function LineChartAndTableOverTime({
           {
             id: 'lineChartTable',
             title: 'Table',
-            content: <LineChartTableOverTime />,
+            content: <LineChartTableOverTime session={session} />,
           },
         ]}
         footer={<DataSource dataSource={indicatorMetaData?.dataSource} />}
