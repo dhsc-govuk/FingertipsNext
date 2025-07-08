@@ -30,7 +30,7 @@ mockSetIsLoading(false);
 const lineChartTestId = 'standardLineChart-component';
 const lineChartTableTestId = 'lineChartTable-component';
 const lineChartContainerTestId = 'tabContainer-lineChartAndTable';
-const lineChartContainerTitle = 'Indicator data over time';
+const lineChartContainerTitle = 'Indicator trends over time';
 const barChartEmbeddedTable = 'barChartEmbeddedTable-component';
 const lineChartSegmentationOptions = 'segmentation-options';
 
