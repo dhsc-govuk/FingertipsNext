@@ -19,7 +19,7 @@ const mockUseLineChartOverTimeData = useLineChartOverTimeData as MockedFunction<
 describe('LineChartAndTableOverTime', () => {
   it('returns null when useLineChartOverTimeData returns null', () => {
     mockUseLineChartOverTimeData.mockReturnValue(null);
-    const { container } = render(<LineChartAndTableOverTime />);
+    const { container } = render(<LineChartAndTableOverTime session={null} />);
     expect(container.firstChild).toBeNull();
   });
 
@@ -28,7 +28,7 @@ describe('LineChartAndTableOverTime', () => {
       indicatorMetaData: { dataSource: 'Public Health England' },
     } as unknown as never);
 
-    render(<LineChartAndTableOverTime />);
+    render(<LineChartAndTableOverTime session={null} />);
 
     expect(
       screen.getByRole('heading', { name: /indicator data over time/i })
@@ -45,7 +45,7 @@ describe('LineChartAndTableOverTime', () => {
       indicatorMetaData: {},
     } as unknown as never);
 
-    render(<LineChartAndTableOverTime />);
+    render(<LineChartAndTableOverTime session={null} />);
     expect(screen.queryByTestId('data-source')).not.toBeInTheDocument();
   });
 });

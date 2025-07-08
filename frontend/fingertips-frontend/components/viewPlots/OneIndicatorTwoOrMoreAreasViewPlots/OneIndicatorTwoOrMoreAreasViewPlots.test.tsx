@@ -156,6 +156,7 @@ const testRender = async (
           indicatorData={healthData}
           indicatorMetadata={indicatorMetadata}
           areaCodes={areaCodes}
+          session={null}
         />
       </QueryClientProvider>
     )

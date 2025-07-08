@@ -35,7 +35,7 @@ describe('LineChartTableOverTime', () => {
 
   it('returns null if lineChartOverTimeData is null', () => {
     mockUseLineChartOverTimeData.mockReturnValue(null);
-    const { container } = render(<LineChartTableOverTime />);
+    const { container } = render(<LineChartTableOverTime session={null} />);
     expect(container.firstChild).toBeNull();
   });
 
@@ -51,7 +51,7 @@ describe('LineChartTableOverTime', () => {
       benchmarkToUse: 'England',
     });
 
-    render(<LineChartTableOverTime />);
+    render(<LineChartTableOverTime session={null} />);
 
     expect(screen.getByTestId('mock-line-chart-table')).toBeInTheDocument();
     expect(screen.getByTestId('title')).toHaveTextContent('Test Chart Title');
@@ -73,7 +73,7 @@ describe('LineChartTableOverTime', () => {
       benchmarkToUse: 'None',
     });
 
-    render(<LineChartTableOverTime />);
+    render(<LineChartTableOverTime session={null} />);
     expect(screen.getByTestId('title')).toHaveTextContent('');
   });
 });

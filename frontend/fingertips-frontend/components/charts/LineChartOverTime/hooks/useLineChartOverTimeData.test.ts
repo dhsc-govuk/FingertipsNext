@@ -78,7 +78,7 @@ describe('useLineChartOverTimeData', () => {
     mockUseApiGetIndicatorMetaData.mockReturnValue(mockMetaQuery);
     mockLineChartOverTimeIsRequired.mockReturnValue(true);
 
-    const { result } = renderHook(() => useLineChartOverTimeData());
+    const { result } = renderHook(() => useLineChartOverTimeData(null));
     expect(result.current).toBeNull();
   });
 
@@ -90,7 +90,7 @@ describe('useLineChartOverTimeData', () => {
     });
     mockLineChartOverTimeIsRequired.mockReturnValue(true);
 
-    const { result } = renderHook(() => useLineChartOverTimeData());
+    const { result } = renderHook(() => useLineChartOverTimeData(null));
     expect(result.current).toBeNull();
   });
 
@@ -99,7 +99,7 @@ describe('useLineChartOverTimeData', () => {
     mockUseApiGetIndicatorMetaData.mockReturnValue(mockMetaQuery);
     mockLineChartOverTimeIsRequired.mockReturnValue(false);
 
-    const { result } = renderHook(() => useLineChartOverTimeData());
+    const { result } = renderHook(() => useLineChartOverTimeData(null));
     expect(result.current).toBeNull();
   });
 
@@ -113,7 +113,7 @@ describe('useLineChartOverTimeData', () => {
       expectedChartData as unknown as ReturnType<typeof lineChartOverTimeData>
     );
 
-    const { result } = renderHook(() => useLineChartOverTimeData());
+    const { result } = renderHook(() => useLineChartOverTimeData(null));
     expect(result.current).toEqual(expectedChartData);
     expect(mockLineChartOverTimeData).toHaveBeenCalledWith(
       mockMetaQuery.indicatorMetaData,
