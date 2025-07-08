@@ -892,7 +892,8 @@ public class IndicatorServiceTests
                 Year = 2024,
                 FromDate = new DateTime(2024, 1, 1),
                 ToDate = new DateTime(2024, 12, 31),
-                Period = "Calendar",
+                PeriodType = "Calendar",
+                ReportingPeriod = "Yearly",
                 BenchmarkComparisonIndicatorPolarity = "High is good",
                 BenchmarkComparisonAreaCode = "E92000001",
                 BenchmarkComparisonAreaName = "England"

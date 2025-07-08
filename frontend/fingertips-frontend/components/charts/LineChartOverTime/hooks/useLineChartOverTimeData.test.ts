@@ -1,5 +1,8 @@
+// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
+import { mockUseSearchStateParams } from '@/mock/utils/mockUseSearchStateParams';
+import { mockUseApiGetHealthDataForAnIndicator } from '@/mock/utils/mockUseApiGetHealthData';
+//
 import { useLineChartOverTimeData } from '@/components/charts/LineChartOverTime/hooks/useLineChartOverTimeData';
-import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 import { useApiGetHealthDataForAnIndicator } from '@/components/charts/hooks/useApiGetHealthDataForAnIndicator';
 import { useApiGetIndicatorMetaData } from '@/components/charts/hooks/useApiGetIndicatorMetaData';
 import { lineChartOverTimeIsRequired } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeIsRequired';
@@ -9,27 +12,15 @@ import { renderHook } from '@testing-library/react';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { MockedFunction } from 'vitest';
+import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
 
-vi.mock('@/components/hooks/useSearchStateParams');
-vi.mock(
-  '@/components/charts/LineChartOverTime/hooks/useLineChartOverTimeRequestParams'
-);
-vi.mock('@/components/charts/hooks/useApiGetHealthDataForAnIndicator');
+vi.mock('@/components/charts/hooks/useOneIndicatorRequestParams');
 vi.mock('@/components/charts/hooks/useApiGetIndicatorMetaData');
 vi.mock(
   '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeIsRequired'
 );
 vi.mock('@/components/charts/LineChartOverTime/helpers/lineChartOverTimeData');
 
-vi.mock('@/components/hooks/useSearchStateParams');
-const mockUseSearchStateParams = useSearchStateParams as MockedFunction<
-  typeof useSearchStateParams
->;
-
-const mockUseApiGetHealthDataForAnIndicator =
-  useApiGetHealthDataForAnIndicator as MockedFunction<
-    typeof useApiGetHealthDataForAnIndicator
-  >;
 const mockUseApiGetIndicatorMetaData =
   useApiGetIndicatorMetaData as MockedFunction<
     typeof useApiGetIndicatorMetaData
@@ -113,14 +104,16 @@ describe('useLineChartOverTimeData', () => {
       expectedChartData as unknown as ReturnType<typeof lineChartOverTimeData>
     );
 
+    const withChosenSegmentOnly = mockIndicatorWithHealthDataForArea({
+      areaHealthData: [mockHealthDataForArea({ indicatorSegments: undefined })],
+    });
+
     const { result } = renderHook(() => useLineChartOverTimeData());
     expect(result.current).toEqual(expectedChartData);
     expect(mockLineChartOverTimeData).toHaveBeenCalledWith(
       mockMetaQuery.indicatorMetaData,
-      mockHealthQuery.healthData,
-      ['A001'],
-      'G001',
-      'BA001'
+      withChosenSegmentOnly,
+      mockSearchState
     );
   });
 });
