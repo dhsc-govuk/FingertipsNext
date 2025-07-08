@@ -1322,7 +1322,7 @@ public class IndicatorServiceTests
         // Assert
         result.Status.ShouldBe(ResponseStatus.ErrorDeletingPublishedBatch);
     }
-    
+
     [Fact]
     public async Task DeleteUnpublishedDataAsyncShouldReturnUnknownStatus()
     {

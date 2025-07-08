@@ -71,8 +71,9 @@ export interface GetIndicatorRequest {
     indicatorId: number;
 }
 
-export interface IndicatorsIndicatorIdDataDeleteRequest {
+export interface IndicatorsIndicatorIdDataBatchIdDeleteRequest {
     indicatorId: number;
+    batchId: string;
 }
 
 export interface IndicatorsIndicatorIdDataPostRequest {
@@ -186,20 +187,21 @@ export interface IndicatorsApiInterface {
     getIndicator(requestParameters: GetIndicatorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Indicator>;
 
     /**
-     * Not Yet Implemented - Deletes ALL unpublished data for that indicator
-     * @summary delete a batch of unpublished data for an indicator
+     * Deletes all unpublished data for the specified indicator and batch.
+     * @summary Delete a batch of unpublished data for an indicator
      * @param {number} indicatorId The unique identifier of the indicator
+     * @param {string} batchId The unique identifier of the batch of data
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof IndicatorsApiInterface
      */
-    indicatorsIndicatorIdDataDeleteRaw(requestParameters: IndicatorsIndicatorIdDataDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+    indicatorsIndicatorIdDataBatchIdDeleteRaw(requestParameters: IndicatorsIndicatorIdDataBatchIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
 
     /**
-     * Not Yet Implemented - Deletes ALL unpublished data for that indicator
-     * delete a batch of unpublished data for an indicator
+     * Deletes all unpublished data for the specified indicator and batch.
+     * Delete a batch of unpublished data for an indicator
      */
-    indicatorsIndicatorIdDataDelete(requestParameters: IndicatorsIndicatorIdDataDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+    indicatorsIndicatorIdDataBatchIdDelete(requestParameters: IndicatorsIndicatorIdDataBatchIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
     /**
      * Creates new data for the indicator. The data is always created in an unpublished and unapproved state.
@@ -475,14 +477,21 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
     }
 
     /**
-     * Not Yet Implemented - Deletes ALL unpublished data for that indicator
-     * delete a batch of unpublished data for an indicator
+     * Deletes all unpublished data for the specified indicator and batch.
+     * Delete a batch of unpublished data for an indicator
      */
-    async indicatorsIndicatorIdDataDeleteRaw(requestParameters: IndicatorsIndicatorIdDataDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async indicatorsIndicatorIdDataBatchIdDeleteRaw(requestParameters: IndicatorsIndicatorIdDataBatchIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['indicatorId'] == null) {
             throw new runtime.RequiredError(
                 'indicatorId',
-                'Required parameter "indicatorId" was null or undefined when calling indicatorsIndicatorIdDataDelete().'
+                'Required parameter "indicatorId" was null or undefined when calling indicatorsIndicatorIdDataBatchIdDelete().'
+            );
+        }
+
+        if (requestParameters['batchId'] == null) {
+            throw new runtime.RequiredError(
+                'batchId',
+                'Required parameter "batchId" was null or undefined when calling indicatorsIndicatorIdDataBatchIdDelete().'
             );
         }
 
@@ -491,7 +500,7 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/indicators/{indicator_id}/data`.replace(`{${"indicator_id"}}`, encodeURIComponent(String(requestParameters['indicatorId']))),
+            path: `/indicators/{indicator_id}/data/{batch_id}`.replace(`{${"indicator_id"}}`, encodeURIComponent(String(requestParameters['indicatorId']))).replace(`{${"batchId"}}`, encodeURIComponent(String(requestParameters['batchId']))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -501,11 +510,11 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
     }
 
     /**
-     * Not Yet Implemented - Deletes ALL unpublished data for that indicator
-     * delete a batch of unpublished data for an indicator
+     * Deletes all unpublished data for the specified indicator and batch.
+     * Delete a batch of unpublished data for an indicator
      */
-    async indicatorsIndicatorIdDataDelete(requestParameters: IndicatorsIndicatorIdDataDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.indicatorsIndicatorIdDataDeleteRaw(requestParameters, initOverrides);
+    async indicatorsIndicatorIdDataBatchIdDelete(requestParameters: IndicatorsIndicatorIdDataBatchIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.indicatorsIndicatorIdDataBatchIdDeleteRaw(requestParameters, initOverrides);
     }
 
     /**
