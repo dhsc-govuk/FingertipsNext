@@ -17,6 +17,8 @@ type UseApiGetHealthDataForAnIndicatorResult = Readonly<{
   healthDataError: unknown;
 }>;
 
+const userIsLoggedIn = true;
+
 export const queryFnHealthDataForAnIndicator =
   (options: GetHealthDataForAnIndicatorRequest) => async () => {
     const apiUrl = process.env.NEXT_PUBLIC_FINGERTIPS_API_URL;
@@ -26,15 +28,24 @@ export const queryFnHealthDataForAnIndicator =
     });
 
     const indicatorsApiInstance = new IndicatorsApi(config);
-    return indicatorsApiInstance.getHealthDataForAnIndicator(options);
+    return userIsLoggedIn
+      ? indicatorsApiInstance.getHealthDataForAnIndicatorIncludingUnpublishedData(
+          options
+        )
+      : indicatorsApiInstance.getHealthDataForAnIndicator(options);
   };
 
 export const useApiGetHealthDataForAnIndicator = (
   options: GetHealthDataForAnIndicatorRequest
 ) => {
-  const queryKey = [
-    queryKeyFromRequestParams(EndPoints.HealthDataForAnIndicator, options),
-  ];
+  const queryKey = userIsLoggedIn
+    ? [
+        queryKeyFromRequestParams(
+          EndPoints.HealthDataForAnIndicatorIncludingUnpublished,
+          options
+        ),
+      ]
+    : [queryKeyFromRequestParams(EndPoints.HealthDataForAnIndicator, options)];
 
   const query = useQuery<IndicatorWithHealthDataForArea>({
     queryKey,

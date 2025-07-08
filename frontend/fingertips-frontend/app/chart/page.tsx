@@ -73,6 +73,7 @@ export default async function ChartPage(
     // and seed the cache - this will help with progressive enhancement and
     // coping with devices that do not have javascript enabled by seeding
     // the data react query can still proceed with data loaded on the server
+    // TODO: 1039 - change seed for unpublished
     if (lineChartOverTimeIsRequired(searchState)) {
       let healthData: IndicatorWithHealthDataForArea | undefined;
       const apiRequestParams = lineChartOverTimeRequestParams(searchState);
