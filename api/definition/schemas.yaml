@@ -3,7 +3,13 @@ Batch:
   type: object
   description: Details of a health data upload batch.
   required:
-    - batch_id
+    - batchId
+    - indicatorId
+    - originalFilename
+    - createdAt
+    - publishedAt
+    - userId
+    - status
   properties:
     batchId:
       type: string
