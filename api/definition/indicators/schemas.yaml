@@ -111,17 +111,17 @@ HealthDataForArea:
       type: array
       items:
         $ref: "#/IndicatorSegment"
-      description: An array of indicator segments
+      description: An array of indicator segments.
     healthData:
       type: array
       items:
         $ref: "#/HealthDataPoint"
-      description: The health data points for the area and indicator
+      description: The health data points for the area and indicator.
       deprecated: true
 IndicatorSegment:
   title: IndicatorSegment
   type: object
-  description: Represents a segment of an Indicator health data point for a public health indicator .
+  description: Represents a segment of an Indicator health data point for a public health indicator.
   required:
     - sex
   properties:
@@ -129,7 +129,7 @@ IndicatorSegment:
       $ref: "#/SexData"
     isAggregate:
       type: boolean
-      description: Indicates if the segment is the aggregate
+      description: Indicates if the segment is the aggregate.
     healthData:
       type: array
       items:
@@ -381,7 +381,7 @@ QuartileData:
       $ref: "#/SexData"
     isAggregate:
       type: boolean
-      description: Indicates if the segment is the aggregate
+      description: Indicates if the segment is the aggregate.
     year:
       type: integer
       format: int32

@@ -18,7 +18,7 @@ Batch:
     indicatorId:
       type: integer
       example: 21404
-      description: Unique ID of the indicator
+      description: Unique ID of the indicator.
     originalFilename:
       type: string
       description: The name of the file originally uploaded in order to create the batch.

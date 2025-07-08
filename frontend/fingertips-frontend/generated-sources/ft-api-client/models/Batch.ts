@@ -26,7 +26,7 @@ export interface Batch {
      */
     batchId: string;
     /**
-     * Unique ID of the indicator
+     * Unique ID of the indicator.
      * @type {number}
      * @memberof Batch
      */

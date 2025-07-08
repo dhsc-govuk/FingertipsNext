@@ -54,7 +54,7 @@ export interface QuartileData {
      */
     sex?: SexData;
     /**
-     * Indicates if the segment is the aggregate
+     * Indicates if the segment is the aggregate.
      * @type {boolean}
      * @memberof QuartileData
      */
