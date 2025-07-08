@@ -6,8 +6,9 @@ import { useApiGetIndicatorMetaData } from '@/components/charts/hooks/useApiGetI
 import { lineChartOverTimeData } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeData';
 import { useMemo } from 'react';
 import { lineChartOverTimeIsRequired } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeIsRequired';
+import { Session } from 'next-auth';
 
-export const useLineChartOverTimeData = () => {
+export const useLineChartOverTimeData = (session: Session | null) => {
   const searchState = useSearchStateParams();
   const {
     [SearchParams.IndicatorsSelected]: indicatorIds,
@@ -20,7 +21,10 @@ export const useLineChartOverTimeData = () => {
 
   const apiReqParams = useLineChartOverTimeRequestParams();
 
-  const { healthData } = useApiGetHealthDataForAnIndicator(apiReqParams);
+  const { healthData } = useApiGetHealthDataForAnIndicator(
+    apiReqParams,
+    session
+  );
 
   const { indicatorMetaData } = useApiGetIndicatorMetaData(indicatorId);
 

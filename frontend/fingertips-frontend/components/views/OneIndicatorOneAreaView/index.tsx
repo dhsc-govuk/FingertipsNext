@@ -16,10 +16,12 @@ import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 import { determineBenchmarkRefType } from '@/lib/ViewsHelpers';
+import { auth } from '@/lib/auth';
 
 export default async function OneIndicatorOneAreaView({
   searchState,
 }: Readonly<ViewProps>) {
+  const session = await auth();
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.AreasSelected]: areasSelected,
@@ -87,6 +89,7 @@ export default async function OneIndicatorOneAreaView({
       <OneIndicatorOneAreaViewPlots
         key={`OneIndicatorOneAreaViewPlots-${JSON.stringify(searchState)}`}
         indicatorData={indicatorData}
+        session={session}
       />
     </ViewsWrapper>
   );

@@ -1,9 +1,16 @@
 import { LineChartVariant } from '@/components/organisms/LineChart/helpers/generateStandardLineChartOptions';
 import { LineChart } from '@/components/organisms/LineChart';
 import { useLineChartOverTimeData } from '@/components/charts/LineChartOverTime/hooks/useLineChartOverTimeData';
+import { Session } from 'next-auth';
 
-export function LineChartOverTime() {
-  const lineChartOverTimeData = useLineChartOverTimeData();
+type LineChartOverTimeProps = {
+  session: Session | null;
+};
+
+export function LineChartOverTime({
+  session,
+}: Readonly<LineChartOverTimeProps>) {
+  const lineChartOverTimeData = useLineChartOverTimeData(session);
   if (!lineChartOverTimeData) return null;
   const { chartOptions } = lineChartOverTimeData;
 

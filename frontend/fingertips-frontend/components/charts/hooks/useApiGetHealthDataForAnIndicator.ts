@@ -10,6 +10,7 @@ import {
   queryKeyFromRequestParams,
 } from '@/components/charts/helpers/queryKeyFromRequestParams';
 import { useMemo } from 'react';
+import { Session } from 'next-auth';
 
 type UseApiGetHealthDataForAnIndicatorResult = Readonly<{
   healthData: IndicatorWithHealthDataForArea | undefined;
@@ -17,10 +18,9 @@ type UseApiGetHealthDataForAnIndicatorResult = Readonly<{
   healthDataError: unknown;
 }>;
 
-const userIsLoggedIn = true;
-
 export const queryFnHealthDataForAnIndicator =
-  (options: GetHealthDataForAnIndicatorRequest) => async () => {
+  (options: GetHealthDataForAnIndicatorRequest, session: Session | null) =>
+  async () => {
     const apiUrl = process.env.NEXT_PUBLIC_FINGERTIPS_API_URL;
     const config: Configuration = new Configuration({
       basePath: apiUrl,
@@ -28,7 +28,7 @@ export const queryFnHealthDataForAnIndicator =
     });
 
     const indicatorsApiInstance = new IndicatorsApi(config);
-    return userIsLoggedIn
+    return session
       ? indicatorsApiInstance.getHealthDataForAnIndicatorIncludingUnpublishedData(
           options
         )
@@ -36,9 +36,10 @@ export const queryFnHealthDataForAnIndicator =
   };
 
 export const useApiGetHealthDataForAnIndicator = (
-  options: GetHealthDataForAnIndicatorRequest
+  options: GetHealthDataForAnIndicatorRequest,
+  session: Session | null
 ) => {
-  const queryKey = userIsLoggedIn
+  const queryKey = session
     ? [
         queryKeyFromRequestParams(
           EndPoints.HealthDataForAnIndicatorIncludingUnpublished,
@@ -49,7 +50,7 @@ export const useApiGetHealthDataForAnIndicator = (
 
   const query = useQuery<IndicatorWithHealthDataForArea>({
     queryKey,
-    queryFn: queryFnHealthDataForAnIndicator(options),
+    queryFn: queryFnHealthDataForAnIndicator(options, session),
     enabled: !!options.indicatorId,
   });
 
@@ -59,5 +60,5 @@ export const useApiGetHealthDataForAnIndicator = (
       healthDataLoading: query.isLoading,
       healthDataError: query.error,
     };
-  }, [query.data, query.error, query.isLoading]);
+  }, [query.data, query.error, query.isLoading, session]);
 };
