@@ -84,10 +84,11 @@ export default async function ChartPage(
 
     const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
-    // if we want to show the line chart data then load that now server side
-    // and seed the cache - this will help with progressive enhancement and
-    // coping with devices that do not have javascript enabled by seeding
-    // the data react query can still proceed with data loaded on the server
+    // if we want to show the line chart or compare areas bar chart data then
+    // load that now server side and seed the cache - this will help with
+    // progressive enhancement and coping with devices that do not have
+    // javascript enabled by seeding the data react query can still proceed
+    // with data loaded on the server
     if (
       lineChartOverTimeIsRequired(searchState) ||
       compareAreasTableIsRequired(searchState)

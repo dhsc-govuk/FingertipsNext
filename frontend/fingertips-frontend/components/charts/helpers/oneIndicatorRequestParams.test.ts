@@ -68,7 +68,7 @@ describe('lineChartOverTimeRequestParams', () => {
     expect(result.ancestorCode).toBeUndefined();
   });
 
-  it('returns all available areas if GroupTypeSelected is ALL', () => {
+  it('returns all available areas if GroupAreaSelected is ALL', () => {
     const searchState = {
       [SearchParams.AreasSelected]: [],
       [SearchParams.IndicatorsSelected]: ['123'],
