@@ -11,31 +11,33 @@ namespace DHSC.FingertipsNext.Modules.DataManagement.UnitTests.Services;
 
 public class DataManagementServiceTests
 {
-    private DataManagementService _service;
-    private readonly BlobContainerClient _containerClient = Substitute.For<BlobContainerClient>();
-    private readonly BlobServiceClient _blobServiceClient = Substitute.For<BlobServiceClient>();
-    private readonly BlobClient _blobClient = Substitute.For<BlobClient>();
-    private readonly ILogger<DataManagementService> _logger = Substitute.For<ILogger<DataManagementService>>();
-    private readonly TimeProvider _timeProvider = Substitute.For<TimeProvider>();
-    private IConfiguration _configuration;
-
     private const string ContainerName = "TestContainer";
     private const int StubIndicatorId = 1;
+    private readonly BlobClient _blobClient = Substitute.For<BlobClient>();
+    private readonly BlobServiceClient _blobServiceClient = Substitute.For<BlobServiceClient>();
+    private readonly BlobContainerClient _containerClient = Substitute.For<BlobContainerClient>();
+    private readonly ILogger<DataManagementService> _logger = Substitute.For<ILogger<DataManagementService>>();
+    private readonly IDataManagementRepository _repository = Substitute.For<IDataManagementRepository>();
+    private readonly TimeProvider _timeProvider = Substitute.For<TimeProvider>();
+    private IConfiguration _configuration;
+    private DataManagementService _service;
 
     public DataManagementServiceTests()
     {
-        var inMemorySettings = new Dictionary<string, string?> {
-            {"UPLOAD_STORAGE_CONTAINER_NAME", ContainerName},
+        var inMemorySettings = new Dictionary<string, string?>
+        {
+            { "UPLOAD_STORAGE_CONTAINER_NAME", ContainerName }
         };
         _configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(inMemorySettings)
             .Build();
-        _service = new DataManagementService(_blobServiceClient, _configuration, _logger, _timeProvider);
+        _service = new DataManagementService(_blobServiceClient, _configuration, _logger, _timeProvider, _repository);
 
         var mockDate = new DateTime(2024, 6, 15, 10, 30, 45, 123, DateTimeKind.Utc);
         _timeProvider.GetUtcNow().Returns(mockDate);
         _blobServiceClient.GetBlobContainerClient(ContainerName).Returns(_containerClient);
-        _containerClient.GetBlobClient($"{StubIndicatorId}_{mockDate:yyyy-MM-ddTHH:mm:ss.fff}.csv").Returns(_blobClient);
+        _containerClient.GetBlobClient($"{StubIndicatorId}_{mockDate:yyyy-MM-ddTHH:mm:ss.fff}.csv")
+            .Returns(_blobClient);
     }
 
     [Fact]
@@ -73,7 +75,7 @@ public class DataManagementServiceTests
             .AddInMemoryCollection(new Dictionary<string, string?> { { "UPLOAD_STORAGE_CONTAINER_NAME", "" } })
             .Build();
 
-        _service = new DataManagementService(_blobServiceClient, _configuration, _logger, _timeProvider);
+        _service = new DataManagementService(_blobServiceClient, _configuration, _logger, _timeProvider, _repository);
 
         // Act
         var result = await _service.UploadFileAsync(Stream.Null, StubIndicatorId);

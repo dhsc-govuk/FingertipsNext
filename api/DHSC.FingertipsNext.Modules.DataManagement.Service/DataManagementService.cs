@@ -1,8 +1,8 @@
 ﻿using Azure;
 using Azure.Storage.Blobs;
+using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 
 namespace DHSC.FingertipsNext.Modules.DataManagement.Service;
 
@@ -13,10 +13,11 @@ public class DataManagementService : IDataManagementService
         new EventId(1, "UploadErrorLog"),
         "Upload to Blob Storage failed: {ErrorMessage}");
 
-    private static readonly Action<ILogger, string, string, Exception?> UploadDebugLog = LoggerMessage.Define<string, string>(
-        LogLevel.Debug,
-        new EventId(2, "UploadDebugLog"),
-        "Uploading file with batchId {BatchId} to container: {ContainerName}");
+    private static readonly Action<ILogger, string, string, Exception?> UploadDebugLog =
+        LoggerMessage.Define<string, string>(
+            LogLevel.Debug,
+            new EventId(2, "UploadDebugLog"),
+            "Uploading file with batchId {BatchId} to container: {ContainerName}");
 
     private static readonly Action<ILogger, Exception?> UploadSuccessfulLog = LoggerMessage.Define(
         LogLevel.Information,
@@ -29,16 +30,19 @@ public class DataManagementService : IDataManagementService
         "Config variable 'STORAGE_CONTAINER_NAME' is invalid: {ContainerName}");
 
     private readonly BlobServiceClient _blobServiceClient;
-    private readonly ILogger<DataManagementService> _logger;
-    private readonly TimeProvider _timeProvider;
     private readonly string? _containerName;
+    private readonly ILogger<DataManagementService> _logger;
+    private readonly IDataManagementRepository _repository;
+    private readonly TimeProvider _timeProvider;
 
-    public DataManagementService(BlobServiceClient blobServiceClient, IConfiguration configuration, ILogger<DataManagementService> logger, TimeProvider timeProvider)
+    public DataManagementService(BlobServiceClient blobServiceClient, IConfiguration configuration,
+        ILogger<DataManagementService> logger, TimeProvider timeProvider, IDataManagementRepository repository)
     {
         ArgumentNullException.ThrowIfNull(configuration);
         _blobServiceClient = blobServiceClient;
         _logger = logger;
         _timeProvider = timeProvider;
+        _repository = repository;
         _containerName = configuration["UPLOAD_STORAGE_CONTAINER_NAME"];
     }
 
