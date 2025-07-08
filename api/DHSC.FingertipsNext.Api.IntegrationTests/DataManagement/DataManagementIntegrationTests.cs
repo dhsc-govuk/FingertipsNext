@@ -39,7 +39,6 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
     public void Dispose()
     {
         _azureStorageBlobClient.DeleteBlob(_blobName);
-        _factory.Dispose();
     }
 
     private static HttpClient GetApiClient(DataManagementWebApplicationFactory<Program> factory, string blobContainerName = FingertipsStorageContainerName)

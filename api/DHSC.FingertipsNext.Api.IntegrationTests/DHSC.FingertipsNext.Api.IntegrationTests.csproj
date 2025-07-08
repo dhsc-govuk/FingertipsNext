@@ -33,8 +33,19 @@
     </ItemGroup>
 
     <ItemGroup>
+        <None Update="setup.sql">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+    
+    <ItemGroup>
+        <None Update="cleanup.sql">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
         <ProjectReference Include="..\DHSC.FingertipsNext.Api\DHSC.FingertipsNext.Api.csproj" />
-        <ProjectReference Include="..\DHSC.FingertipsNext.Modules.HealthData.UnitTests\DHSC.FingertipsNext.Modules.HealthData.UnitTests.csproj" />
     </ItemGroup>
 
     <ItemGroup>

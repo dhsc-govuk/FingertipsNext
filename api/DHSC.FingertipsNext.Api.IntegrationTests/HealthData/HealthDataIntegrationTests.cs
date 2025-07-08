@@ -1,28 +1,36 @@
-using System.Collections.ObjectModel;
 using System.Net;
 using System.Text.Json;
 using DHSC.FingertipsNext.Modules.HealthData.Repository;
-using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using DHSC.FingertipsNext.Modules.HealthData.Schemas;
-using DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
+using DotNetEnv;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 
 namespace DHSC.FingertipsNext.Api.IntegrationTests.HealthData;
 
-public class HealthDataIntegrationTests : IClassFixture<HealthDataWebApplicationFactory<Program>>
+public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFactory<Program>>, IDisposable
 {
-    private readonly HealthDataWebApplicationFactory<Program> _factory;
-    private static int IndicatorId1 = 1;
+    private readonly WebApplicationFactory<Program> _factory;
+    private SqlConnection _sqlConnection;
+    private static int IndicatorId1 = 41101;
     private static string UnpublishedBatch1 = "unpublishedBatch1";
+    private static string PublishedBatch1 = "publishedBatch1";
 
-    public HealthDataIntegrationTests(HealthDataWebApplicationFactory<Program> factory)
+    public HealthDataIntegrationTests(WebApplicationFactory<Program> factory)
     {
+        Env.Load(string.Empty, new LoadOptions(true, true, false));
+
         _factory = factory;
+
         using var scope = _factory.Services.CreateScope();
         var healthDbContext = scope.ServiceProvider.GetRequiredService<HealthDataDbContext>();
+        var connectionString = healthDbContext.Database.GetDbConnection().ConnectionString;
+        _sqlConnection = new SqlConnection(connectionString);
 
-        ReInitialiseDb(healthDbContext);
+        ReInitialiseDb(_sqlConnection);
     }
 
     [Fact]
@@ -45,13 +53,12 @@ public class HealthDataIntegrationTests : IClassFixture<HealthDataWebApplication
     public async Task DeleteUnpublishedEndpointShouldRespondWith400WhenAttemptingToDeletePublishedBatch()
     {
         // Arrange
-        var publisedBatchId = "publishedBatch1";
         var client = _factory.CreateClient();
 
         await AssertExpectedHealthDataCount(client, 3);
 
         // Act
-        var response = await client.DeleteAsync(new Uri($"/indicators/{IndicatorId1}/batch/{publisedBatchId}", UriKind.Relative));
+        var response = await client.DeleteAsync(new Uri($"/indicators/{IndicatorId1}/batch/{PublishedBatch1}", UriKind.Relative));
 
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
@@ -94,7 +101,7 @@ public class HealthDataIntegrationTests : IClassFixture<HealthDataWebApplication
 
     private static async Task AssertExpectedHealthDataCount(HttpClient client, int count)
     {
-        var availableHealthDataResponse = await client.GetAsync(new Uri("/indicators/1/data/all?area_codes=a1&years=2025", UriKind.Relative));
+        var availableHealthDataResponse = await client.GetAsync(new Uri($"/indicators/{IndicatorId1}/data/all?area_codes=E12000002", UriKind.Relative));
         availableHealthDataResponse.EnsureSuccessStatusCode();
 
         var indicatorDataBeforeDeletion = await GetSerialisedResponse(availableHealthDataResponse);
@@ -108,42 +115,30 @@ public class HealthDataIntegrationTests : IClassFixture<HealthDataWebApplication
                 availableDataResponseStream);
     }
 
-    private static void InitialiseDb(HealthDataDbContext db)
+    private static void InitialiseDb(SqlConnection sqlConnection)
     {
-        db.Database.EnsureCreated();
-        db.HealthMeasure.AddRange(GetHealthMeasureModels());
-        db.SaveChanges();
+        var setupPath = Path.Combine(AppContext.BaseDirectory, "setup.sql");
+        RunSqlScript(setupPath, sqlConnection);
     }
 
-    private static void ReInitialiseDb(HealthDataDbContext db)
+    private static void ReInitialiseDb(SqlConnection sqlConnection)
     {
-        db.Database.EnsureDeleted();
-        InitialiseDb(db);
+        sqlConnection.Open();
+        var cleanupPath = Path.Combine(AppContext.BaseDirectory, "cleanup.sql");
+        RunSqlScript(cleanupPath, sqlConnection);
+        InitialiseDb(sqlConnection);
     }
 
-    private static Collection<HealthMeasureModel> GetHealthMeasureModels()
+    private static void RunSqlScript(string path, SqlConnection connection)
     {
-        var unPublishedHealthMeasure1 = new HealthMeasureModelHelper(key: 100, isPublished: false)
-            .WithBatchId($"{UnpublishedBatch1}")
-            .WithIndicatorDimension(indicatorId: 1)
-            .WithAreaDimension("a1", "area1")
-            .Build();
-        var unPublishedHealthMeasure2 = new HealthMeasureModelHelper(key: 101, isPublished: false)
-            .WithBatchId($"{UnpublishedBatch1}")
-            .WithIndicatorDimension(indicatorId: 1)
-            .WithAreaDimension("a1", "area1")
-            .Build();
-        var publishedHealthMeasureForIndicatorId1 = new HealthMeasureModelHelper(key: 102, isPublished: true)
-            .WithBatchId("publishedBatch1")
-            .WithIndicatorDimension(indicatorId: 1)
-            .WithAreaDimension("a1", "area1")
-            .Build();
+        var sql = File.ReadAllText(path);
+        using var sqlCommand = new SqlCommand(sql, connection);
+        sqlCommand.ExecuteNonQuery();
+    }
 
-        return new Collection<HealthMeasureModel>
-        {
-            unPublishedHealthMeasure1,
-            unPublishedHealthMeasure2,
-            publishedHealthMeasureForIndicatorId1,
-        };
+    public void Dispose()
+    {
+        _sqlConnection.Close();
+        _sqlConnection.Dispose();
     }
 }
