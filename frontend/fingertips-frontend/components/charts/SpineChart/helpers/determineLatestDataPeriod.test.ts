@@ -20,6 +20,7 @@ describe('determineLatestDataPeriod', () => {
       }),
     ];
     const englandData = null;
+
     expect(determineLatestDataPeriod(areasHealthData, englandData)).toBe(2022);
   });
 
@@ -32,6 +33,7 @@ describe('determineLatestDataPeriod', () => {
         mockHealthDataPoint({ year: 2018 }),
       ],
     });
+
     expect(determineLatestDataPeriod(areasHealthData, englandData)).toBe(2019);
   });
 
@@ -49,6 +51,7 @@ describe('determineLatestDataPeriod', () => {
         mockHealthDataPoint({ year: 2016 }),
       ],
     });
+
     expect(determineLatestDataPeriod(areasHealthData, englandData)).toBe(2017);
   });
 
@@ -63,6 +66,7 @@ describe('determineLatestDataPeriod', () => {
       areaCode: areaCodeForEngland,
       healthData: [],
     });
+
     expect(
       determineLatestDataPeriod(areasHealthData, englandData)
     ).toBeUndefined();
