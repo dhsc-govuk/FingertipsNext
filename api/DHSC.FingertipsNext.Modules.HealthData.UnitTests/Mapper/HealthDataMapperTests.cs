@@ -121,8 +121,7 @@ public class HealthDataMapperTests
     }
 
     [Fact]
-    public void ShouldMapQuarterlyCollectionFrequency() => 
-        _healthDataMapper.MapCollectionFrequency("Quarterly").ShouldBeEquivalentTo(CollectionFrequency.Quarterly);
+    public void ShouldMapQuarterlyCollectionFrequency() => _healthDataMapper.MapCollectionFrequency("Quarterly").ShouldBeEquivalentTo(CollectionFrequency.Quarterly);
 
     [Fact]
     public void ShouldMapAnnualCollectionFrequency() =>
@@ -145,7 +144,7 @@ public class HealthDataMapperTests
     {
         // Arrange
         var mockQuartileData = new List<QuartileDataModel>
-        { 
+        {
             new()
             {
                 IndicatorId = 0,
