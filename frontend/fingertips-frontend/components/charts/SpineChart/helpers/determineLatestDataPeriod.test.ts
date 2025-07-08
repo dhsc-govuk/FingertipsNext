@@ -1,7 +1,10 @@
 import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
 import { determineLatestDataPeriod } from './determineLatestDataPeriod';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import { mockHealthDataPoint } from '@/mock/data/mockHealthDataPoint';
+import {
+  mockHealthDataPoint,
+  mockHealthDataPoints,
+} from '@/mock/data/mockHealthDataPoint';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 describe('determineLatestDataPeriod', () => {
@@ -9,7 +12,11 @@ describe('determineLatestDataPeriod', () => {
     const areasHealthData: HealthDataForArea[] = [
       mockHealthDataForArea({
         areaCode: 'A1',
-        healthData: mockHealthDataPoints([{ year: 2020 }, { year: 2021 }, { year: 2022 }]),
+        healthData: mockHealthDataPoints([
+          { year: 2020 },
+          { year: 2021 },
+          { year: 2022 },
+        ]),
       }),
     ];
     const englandData = null;
