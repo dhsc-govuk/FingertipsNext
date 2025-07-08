@@ -317,7 +317,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     }
 
     [HttpDelete]
-    [Route("{indicatorId:int}/batch/{batchId}")]
+    [Route("{indicatorId:int}/data/{batchId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -327,7 +327,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
         var result = await _indicatorsService.DeleteUnpublishedDataAsync(indicatorId, batchId);
         return result.Status switch
         {
-            ResponseStatus.Success => Ok(),
+            ResponseStatus.Success => NoContent(),
             ResponseStatus.BatchNotFound => new NotFoundObjectResult(
                 new SimpleError
                 {

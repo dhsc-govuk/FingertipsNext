@@ -320,24 +320,6 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
       operationId: getHealthDataForAnIndicatorIncludingUnpublishedData
-  /indicators/{indicatorId}/batch/{batchId}:
-    parameters:
-      - $ref: "#/components/parameters/indicator_id"
-      - $ref: "#/components/parameters/batch_id"
-    delete:
-      tags:
-        - indicators
-      summary: Delete a batch of unpublished data for an indicator
-      description: Deletes all unpublished data for the specified indicator and batch.
-      responses:
-        "200":
-          description: The batch of unpublished data has been deleted successfully.
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "500":
-          $ref: "#/components/responses/InternalServerError"
   /indicators/quartiles:
     get:
       tags:
@@ -630,16 +612,6 @@ components:
       explode: false
       required: true
       description: The unique identifier of the indicator
-    batch_id:
-      in: path
-      name: batchId
-      style: simple
-      schema:
-        type: string
-        example: "12345_20250101120000"
-      explode: false
-      required: true
-      description: The unique identifier of the batch of data
     area_type:
       in: query
       name: area_type

@@ -183,10 +183,10 @@ public class IndicatorControllerTests
         _indicatorService.DeleteUnpublishedDataAsync(indicatorId, batchId).Returns(new ServiceResponse<string> { Status = ResponseStatus.Success });
 
         // Act
-        var response = await _controller.DeleteUnpublishedData(indicatorId, batchId) as OkResult;
+        var response = await _controller.DeleteUnpublishedData(indicatorId, batchId) as NoContentResult;
 
         // Assert
-        response.StatusCode.ShouldBe(StatusCodes.Status200OK);
+        response.StatusCode.ShouldBe(StatusCodes.Status204NoContent);
     }
 
     [Fact]

@@ -9,6 +9,7 @@ using NSubstitute;
 using NSubstitute.Core.Arguments;
 using Shouldly;
 using System.Globalization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NSubstitute.ExceptionExtensions;
 using BenchmarkComparison = DHSC.FingertipsNext.Modules.HealthData.Schemas.BenchmarkComparison;
@@ -1307,7 +1308,7 @@ public class IndicatorServiceTests
     }
 
     [Fact]
-    public async Task DeleteUnpublishedDataAsyncShouldReturnError()
+    public async Task DeleteUnpublishedDataAsyncShouldReturnErrorStatus()
     {
         // Arrange
         var stubBatchId = "batch1";
@@ -1320,5 +1321,21 @@ public class IndicatorServiceTests
 
         // Assert
         result.Status.ShouldBe(ResponseStatus.ErrorDeletingPublishedBatch);
+    }
+    
+    [Fact]
+    public async Task DeleteUnpublishedDataAsyncShouldReturnUnknownStatus()
+    {
+        // Arrange
+        var stubBatchId = "batch1";
+        var stubIndicatorId = 1;
+        _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(stubIndicatorId, stubBatchId)
+            .Throws(new DbUpdateException());
+
+        // Act
+        var result = await _indicatorService.DeleteUnpublishedDataAsync(stubIndicatorId, stubBatchId);
+
+        // Assert
+        result.Status.ShouldBe(ResponseStatus.Unknown);
     }
 }

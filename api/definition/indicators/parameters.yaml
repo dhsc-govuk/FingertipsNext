@@ -20,6 +20,16 @@ indicator_id:
   explode: false
   required: true
   description: The unique identifier of the indicator
+batch_id:
+  in: path
+  name: batchId
+  style: simple
+  schema:
+    type: string
+    example: "12345_20250101120000"
+  explode: false
+  required: true
+  description: The unique identifier of the batch of data
 area_type:
   in: query
   name: area_type

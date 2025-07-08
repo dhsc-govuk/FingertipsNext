@@ -15,9 +15,9 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
 {
     private readonly WebApplicationFactory<Program> _factory;
     private SqlConnection _sqlConnection;
-    private static int IndicatorId1 = 41101;
-    private static string UnpublishedBatch1 = "unpublishedBatch1";
-    private static string PublishedBatch1 = "publishedBatch1";
+    private static int IndicatorId = 41101;
+    private static string UnpublishedBatch = "unpublishedBatch1";
+    private static string PublishedBatch = "publishedBatch1";
 
     public HealthDataIntegrationTests(WebApplicationFactory<Program> factory)
     {
@@ -42,7 +42,7 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
         await AssertExpectedHealthDataCount(client, 3);
 
         // Act
-        var response = await client.DeleteAsync(new Uri($"/indicators/{IndicatorId1}/batch/{UnpublishedBatch1}", UriKind.Relative));
+        var response = await client.DeleteAsync(new Uri($"/indicators/{IndicatorId}/data/{UnpublishedBatch}", UriKind.Relative));
 
         // Assert
         response.EnsureSuccessStatusCode();
@@ -58,7 +58,7 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
         await AssertExpectedHealthDataCount(client, 3);
 
         // Act
-        var response = await client.DeleteAsync(new Uri($"/indicators/{IndicatorId1}/batch/{PublishedBatch1}", UriKind.Relative));
+        var response = await client.DeleteAsync(new Uri($"/indicators/{IndicatorId}/data/{PublishedBatch}", UriKind.Relative));
 
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
@@ -75,7 +75,7 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
         await AssertExpectedHealthDataCount(client, 3);
 
         // Act
-        var response = await client.DeleteAsync(new Uri($"/indicators/{IndicatorId1}/batch/{nonExistentBatch}", UriKind.Relative));
+        var response = await client.DeleteAsync(new Uri($"/indicators/{IndicatorId}/data/{nonExistentBatch}", UriKind.Relative));
 
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
@@ -92,7 +92,7 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
         await AssertExpectedHealthDataCount(client, 3);
 
         // Act
-        var response = await client.DeleteAsync(new Uri($"/indicators/{nonExistentIndicatorId}/batch/{UnpublishedBatch1}", UriKind.Relative));
+        var response = await client.DeleteAsync(new Uri($"/indicators/{nonExistentIndicatorId}/data/{UnpublishedBatch}", UriKind.Relative));
 
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
@@ -101,7 +101,7 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
 
     private static async Task AssertExpectedHealthDataCount(HttpClient client, int count)
     {
-        var availableHealthDataResponse = await client.GetAsync(new Uri($"/indicators/{IndicatorId1}/data/all?area_codes=E12000002", UriKind.Relative));
+        var availableHealthDataResponse = await client.GetAsync(new Uri($"/indicators/{IndicatorId}/data/all?area_codes=E12000002", UriKind.Relative));
         availableHealthDataResponse.EnsureSuccessStatusCode();
 
         var indicatorDataBeforeDeletion = await GetSerialisedResponse(availableHealthDataResponse);
