@@ -785,9 +785,13 @@ components:
         - Yearly
         - Unknown
       x-enum-varnames:
+        - Academic
         - Calendar
         - Financial
-        - NovemberNovember
+        - FinancialMultiYear
+        - FinancialYearEndPoint
+        - Yearly
+        - Unknown
     Indicator:
       title: Indicator
       type: object
@@ -854,22 +858,19 @@ components:
         - Quintiles
         - CIOverlappingReferenceValue95
         - CIOverlappingReferenceValue99_8
-    SexData:
-      title: Sex Data
-      type: object
-      description: Details of the sex category that this data point belongs to.
-      required:
-        - value
-        - isAggregate
-      properties:
-        value:
-          type: string
-          example: Female
-          description: Sex which the data are for.
-        isAggregate:
-          type: boolean
-          example: false
-          description: Indicates if the datapoint is an aggregated value for the sex dimension.
+    Frequency:
+      title: Indicator Collection Frequency
+      type: string
+      example: Annually
+      description: How often data is collected
+      enum:
+        - Annually
+        - Quarterly
+        - Monthly
+      x-enum-varnames:
+        - Annually
+        - Quarterly
+        - Monthly
     Date:
       type: string
       format: date
@@ -909,6 +910,22 @@ components:
           type: boolean
           example: false
           description: Indicates if the datapoint is an aggregated value for the age dimension.
+    SexData:
+      title: Sex Data
+      type: object
+      description: Details of the sex category that this data point belongs to.
+      required:
+        - value
+        - isAggregate
+      properties:
+        value:
+          type: string
+          example: Female
+          description: Sex which the data are for.
+        isAggregate:
+          type: boolean
+          example: false
+          description: Indicates if the datapoint is an aggregated value for the sex dimension.
     BenchmarkOutcome:
       title: Benchmark Outcome
       type: string
@@ -975,9 +992,9 @@ components:
       description: Represents a health data point for a public health indicator with a count, value, upper confidence interval, lower confidence interval, year, age band and sex.
       required:
         - year
-        - trend
-        - sex
         - ageBand
+        - sex
+        - trend
         - deprivation
       properties:
         year:
@@ -1008,7 +1025,6 @@ components:
           $ref: '#/components/schemas/AgeData'
         sex:
           $ref: '#/components/schemas/SexData'
-          deprecated: true
         trend:
           type: string
           example: Increasing
@@ -1045,23 +1061,6 @@ components:
               description: The value used in the comparison
         deprivation:
           $ref: '#/components/schemas/DeprivationData'
-    IndicatorSegment:
-      title: IndicatorSegment
-      type: object
-      description: Represents a segment of an Indicator health data point for a public health indicator .
-      required:
-        - sex
-      properties:
-        sex:
-          $ref: '#/components/schemas/SexData'
-        isAggregate:
-          type: boolean
-          description: Indicates if the segment is the aggregate
-        healthData:
-          type: array
-          items:
-            $ref: '#/components/schemas/HealthDataPoint'
-          description: The health data points for the area and indicator
     HealthDataForArea:
       title: Health Data For Area
       type: object
@@ -1079,17 +1078,11 @@ components:
           type: string
           example: England
           description: The name of the area that the health data are for
-        indicatorSegments:
-          type: array
-          items:
-            $ref: '#/components/schemas/IndicatorSegment'
-          description: An array of indicator segments
         healthData:
           type: array
           items:
             $ref: '#/components/schemas/HealthDataPoint'
           description: The health data points for the area and indicator
-          deprecated: true
     IndicatorWithHealthDataForArea:
       title: Indicator With Health Data For Area
       type: object
@@ -1107,6 +1100,8 @@ components:
           $ref: '#/components/schemas/IndicatorPolarity'
         benchmarkMethod:
           $ref: '#/components/schemas/BenchmarkComparisonMethod'
+        frequency:
+          $ref: '#/components/schemas/Frequency'
         areaHealthData:
           type: array
           items:
@@ -1120,11 +1115,6 @@ components:
           type: integer
           example: 21404
           description: Unique ID of the indicator
-        sex:
-          $ref: '#/components/schemas/SexData'
-        isAggregate:
-          type: boolean
-          description: Indicates if the segment is the aggregate
         year:
           type: integer
           format: int32
@@ -1135,6 +1125,8 @@ components:
           description: The date period that the data point is for.
         polarity:
           $ref: '#/components/schemas/IndicatorPolarity'
+        frequency:
+          $ref: '#/components/schemas/Frequency'
         q0Value:
           type: number
           description: Quartile Q0 value - the minimum value
