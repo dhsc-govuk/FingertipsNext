@@ -43,7 +43,7 @@ Indicator:
       type: array
       items:
         $ref: "#/PeriodType"
-      description: The period types that the indicator holds data for      
+      description: The period types that the indicator holds data for
 IndicatorWithHealthDataForArea:
   title: Indicator With Health Data For Area
   type: object
