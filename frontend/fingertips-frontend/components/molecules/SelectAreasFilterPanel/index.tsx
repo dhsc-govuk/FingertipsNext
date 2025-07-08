@@ -226,7 +226,7 @@ export function SelectAreasFilterPanel({
       </StyledFilterSelect>
       {hasAreasSelected ? (
         <StyledHelperText>
-          To change, delete your selected areas
+          To change, clear your selected areas
         </StyledHelperText>
       ) : null}
 

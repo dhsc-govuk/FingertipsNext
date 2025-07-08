@@ -10,7 +10,7 @@ exports[`SelectedAreasPanel > When there are areas selected > snapshot test 1`] 
       data-testid="standard-selected-areas-panel"
     >
       <div
-        class="sc-jXbUNg kZFtxe"
+        class="sc-jXbUNg hBAgjp"
       >
         <span
           class="src__LabelText-sc-1lbxenh-0 sc-kpDqfm bKqlAx kATRGH"
@@ -148,7 +148,7 @@ exports[`SelectedAreasPanel > When there is a group area selected > snapshot tes
       data-testid="group-selected-areas-panel"
     >
       <div
-        class="sc-jXbUNg kZFtxe"
+        class="sc-jXbUNg hBAgjp"
       >
         <span
           class="src__LabelText-sc-1lbxenh-0 sc-kpDqfm bKqlAx kATRGH"

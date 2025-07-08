@@ -63,6 +63,8 @@ const mockSearchStateWithNoSelectedAreas = {
   [SearchParams.AreasSelected]: [],
 };
 
+const helperText = 'To change, clear your selected areas';
+
 describe('SelectAreasFilterPanel', () => {
   describe('Area type', () => {
     const areaTypeDropDownLabel =
@@ -226,9 +228,7 @@ describe('SelectAreasFilterPanel', () => {
 
       render(<SelectAreasFilterPanel />);
 
-      expect(
-        screen.getByText('To change, delete your selected areas')
-      ).toBeInTheDocument();
+      expect(screen.getByText(helperText)).toBeInTheDocument();
     });
   });
 
