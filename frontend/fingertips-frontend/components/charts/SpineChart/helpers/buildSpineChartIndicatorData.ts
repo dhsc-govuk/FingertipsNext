@@ -6,6 +6,7 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { determineLatestDataPeriod } from './determineLatestDataPeriod';
 
 export const spineChartIndicatorTitleColumnMinWidth = 240;
 
@@ -99,13 +100,10 @@ export const buildSpineChartIndicatorData = (
         areaCodeForEngland
       );
 
-      const hasAreaHealthData = areasHealthData[0]?.healthData.length > 0;
-
-      const latestDataPeriod = hasAreaHealthData
-        ? areasHealthData[0]?.healthData[
-            areasHealthData[0]?.healthData.length - 1
-          ]?.year
-        : englandData?.healthData[0].year;
+      const latestDataPeriod = determineLatestDataPeriod(
+        areasHealthData,
+        englandData
+      );
 
       return {
         indicatorId,
