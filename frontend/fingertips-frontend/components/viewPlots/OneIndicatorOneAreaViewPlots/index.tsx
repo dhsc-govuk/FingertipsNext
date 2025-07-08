@@ -8,7 +8,7 @@ import { BenchmarkSelectArea } from '@/components/molecules/BenchmarkSelectArea'
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 import { LineChartAndTableOverTime } from '@/components/charts/LineChartOverTime/LineChartAndTableOverTime';
 import { lineChartOverTimeIsRequired } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeIsRequired';
-import { LineChartOverTimeSegmentationOptions } from '@/components/charts/LineChartOverTime/LineChartOverTimeSegmentationOptions';
+import { OneIndicatorSegmentationOptions } from '@/components/viewPlots/OneIndicatorSegmentationOptions';
 
 export function OneIndicatorOneAreaViewPlots({
   indicatorData,
@@ -34,7 +34,7 @@ export function OneIndicatorOneAreaViewPlots({
       <BenchmarkSelectArea availableAreas={availableAreasForBenchmarking} />
       {showLineChartOverTime ? (
         <>
-          <LineChartOverTimeSegmentationOptions />
+          <OneIndicatorSegmentationOptions />
           <LineChartAndTableOverTime />
         </>
       ) : null}

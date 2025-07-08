@@ -1,6 +1,6 @@
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 import { SearchParams } from '@/lib/searchStateManager';
-import { useLineChartOverTimeRequestParams } from '@/components/charts/LineChartOverTime/hooks/useLineChartOverTimeRequestParams';
+import { useOneIndicatorRequestParams } from '@/components/charts/hooks/useOneIndicatorRequestParams';
 import { useApiGetHealthDataForAnIndicator } from '@/components/charts/hooks/useApiGetHealthDataForAnIndicator';
 import { useApiGetIndicatorMetaData } from '@/components/charts/hooks/useApiGetIndicatorMetaData';
 import { lineChartOverTimeData } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeData';
@@ -15,7 +15,7 @@ export const useLineChartOverTimeData = () => {
 
   const indicatorId = indicatorIds?.at(0) ?? '';
 
-  const apiReqParams = useLineChartOverTimeRequestParams();
+  const apiReqParams = useOneIndicatorRequestParams();
 
   const { healthData } = useApiGetHealthDataForAnIndicator(apiReqParams);
 
