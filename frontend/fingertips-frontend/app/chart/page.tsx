@@ -13,7 +13,10 @@ import { ErrorPage } from '@/components/pages/error';
 import { SeedData } from '@/components/atoms/SeedQueryCache/seedQueryCache.types';
 import { SeedQueryCache } from '@/components/atoms/SeedQueryCache/SeedQueryCache';
 import { lineChartOverTimeIsRequired } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeIsRequired';
-import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  GetHealthDataForAnIndicatorRequest,
+  IndicatorWithHealthDataForArea,
+} from '@/generated-sources/ft-api-client';
 import { oneIndicatorRequestParams } from '@/components/charts/helpers/oneIndicatorRequestParams';
 import {
   API_CACHE_CONFIG,
@@ -96,31 +99,32 @@ export default async function ChartPage(
       compareAreasTableIsRequired(searchState)
     ) {
       let healthData: IndicatorWithHealthDataForArea | undefined;
+      let queryKeyLineChart;
       const apiRequestParams = oneIndicatorRequestParams(
         searchState,
         availableAreas ?? []
       );
       try {
-        healthData = session
-          ? await indicatorApi.getHealthDataForAnIndicatorIncludingUnpublishedData(
-              apiRequestParams,
-              API_CACHE_CONFIG
-            )
-          : await indicatorApi.getHealthDataForAnIndicator(
+        if (session) {
+          healthData =
+            await indicatorApi.getHealthDataForAnIndicatorIncludingUnpublishedData(
               apiRequestParams,
               API_CACHE_CONFIG
             );
-
-        // store data in query cache
-        const queryKeyLineChart = session
-          ? queryKeyFromRequestParams(
-              EndPoints.HealthDataForAnIndicatorIncludingUnpublished,
-              apiRequestParams
-            )
-          : queryKeyFromRequestParams(
-              EndPoints.HealthDataForAnIndicator,
-              apiRequestParams
-            );
+          queryKeyLineChart = queryKeyFromRequestParams(
+            EndPoints.HealthDataForAnIndicatorIncludingUnpublished,
+            apiRequestParams
+          );
+        } else {
+          healthData = await indicatorApi.getHealthDataForAnIndicator(
+            apiRequestParams,
+            API_CACHE_CONFIG
+          );
+          queryKeyLineChart = queryKeyFromRequestParams(
+            EndPoints.HealthDataForAnIndicator,
+            apiRequestParams
+          );
+        }
         seedData[queryKeyLineChart] = healthData;
       } catch (error) {
         console.error('error getting health indicator data for area', error);
