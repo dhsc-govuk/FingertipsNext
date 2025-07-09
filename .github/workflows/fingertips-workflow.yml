@@ -720,18 +720,23 @@ jobs:
             secret_name = null
             value       = "${{ needs.extract-git-info.outputs.git_tag }}"
           },
+          # {
+          #   name        = "AUTH_SECRET"
+          #   secret_name = "fingertips-webserver-local-secret"
+          #   value       = null
+          # },
           {
-            name        = "AUTH_FTA_SECRET"
+            name        = "AUTH_CLIENT_SECRET"
             secret_name = "fingertips-externalid-client-secret"
             value       = null
           },
           {
-            name        = "AUTH_FTA_ID"
+            name        = "AUTH_CLIENT_ID"
             secret_name = null
             value       = "${{ vars.DEVELOPMENT_ENTRA_CLIENT_ID }}"
           },
           {
-            name        = "AUTH_FTA_ISSUER"
+            name        = "AUTH_TENANT_ID"
             secret_name = null
             value       = "${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}"
           }
