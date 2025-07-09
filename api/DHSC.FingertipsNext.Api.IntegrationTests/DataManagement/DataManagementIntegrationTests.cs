@@ -1,7 +1,11 @@
 ﻿using System.Net;
 using System.Net.Http.Headers;
+using DHSC.FingertipsNext.Modules.HealthData.Repository;
 using DotNetEnv;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 
 namespace DHSC.FingertipsNext.Api.IntegrationTests.DataManagement;
@@ -9,6 +13,7 @@ namespace DHSC.FingertipsNext.Api.IntegrationTests.DataManagement;
 public sealed class DataManagementIntegrationTests : IClassFixture<CustomWebApplicationFactory<Program>>, IDisposable
 {
     private CustomWebApplicationFactory<Program> _factory;
+    private SqlConnection _sqlConnection;
     private const string TestDataDir = "TestData";
     private readonly string _blobName;
     private const int IndicatorId = 9000;
@@ -18,6 +23,13 @@ public sealed class DataManagementIntegrationTests : IClassFixture<CustomWebAppl
     public DataManagementIntegrationTests(CustomWebApplicationFactory<Program> factory)
     {
         _factory = factory;
+        
+        using var scope = _factory.Services.CreateScope();
+        var healthDbContext = scope.ServiceProvider.GetRequiredService<HealthDataDbContext>();
+        var connectionString = healthDbContext.Database.GetDbConnection().ConnectionString;
+        _sqlConnection = new SqlConnection(connectionString);
+        
+        InitialiseDb(_sqlConnection);
 
         // Load environment variables from the .env file
         Env.Load(string.Empty, new LoadOptions(true, true, false));
@@ -39,7 +51,11 @@ public sealed class DataManagementIntegrationTests : IClassFixture<CustomWebAppl
     public void Dispose()
     {
         _azureStorageBlobClient.DeleteBlob(_blobName);
-        _factory.Dispose();
+        
+        var cleanupPath = Path.Combine(AppContext.BaseDirectory, "DataManagement/cleanup.sql");
+        RunSqlScript(cleanupPath, _sqlConnection);
+        _sqlConnection.Close();
+        _sqlConnection.Dispose();
     }
 
     private static HttpClient GetApiClient(CustomWebApplicationFactory<Program> factory, string blobContainerName = FingertipsStorageContainerName)
@@ -190,5 +206,17 @@ public sealed class DataManagementIntegrationTests : IClassFixture<CustomWebAppl
 
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.InternalServerError);
+    }
+    
+    private static void InitialiseDb(SqlConnection sqlConnection)
+    {
+        sqlConnection.Open();
+    }
+
+    private static void RunSqlScript(string path, SqlConnection connection)
+    {
+        var sql = File.ReadAllText(path);
+        using var sqlCommand = new SqlCommand(sql, connection);
+        sqlCommand.ExecuteNonQuery();
     }
 }

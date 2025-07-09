@@ -15,21 +15,15 @@ public class DataManagementControllerTests
 {
     private const int StubIndicatorId = 123;
     private const string ValidFileName = "valid.csv";
-    //private const string InvalidFileName = "invalid.csv";
 
     private readonly IDataManagementService _dataManagementService;
     private DataManagementController _controller;
 
     private static readonly string FilePath = Path.Combine("TestData", ValidFileName);
-    //private static readonly string InvalidFilePath = Path.Combine("TestData", InvalidFileName);
     private static readonly byte[] Bytes = File.ReadAllBytes(FilePath);
-    //private static readonly byte[] InvalidBytes = File.ReadAllBytes(InvalidFilePath);
     private static readonly MemoryStream Stream = new(Bytes);
-    //private static readonly MemoryStream InvalidStream = new(InvalidBytes);
     private readonly FormFile _formFile = new(Stream, 0, Bytes.Length,
         "file", ValidFileName);
-    // private readonly FormFile _invalidFormFile = new(InvalidStream, 0, InvalidBytes.Length,
-    //     "file", InvalidFileName);
 
     public DataManagementControllerTests()
     {

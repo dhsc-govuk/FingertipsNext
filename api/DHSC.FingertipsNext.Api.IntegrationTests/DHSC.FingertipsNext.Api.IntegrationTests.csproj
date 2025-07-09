@@ -47,6 +47,9 @@
         <None Update="TestData\invalid.csv">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Update="DataManagement\cleanup.sql">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>
