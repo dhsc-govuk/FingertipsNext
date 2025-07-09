@@ -15,6 +15,7 @@ models/BenchmarkOutcome.ts
 models/BenchmarkReferenceType.ts
 models/DatePeriod.ts
 models/DeprivationData.ts
+models/Frequency.ts
 models/GetAreaHierarchies500Response.ts
 models/GetHealthcheck200Response.ts
 models/GetHealthcheck500Response.ts

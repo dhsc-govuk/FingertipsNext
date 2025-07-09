@@ -61,6 +61,8 @@ IndicatorWithHealthDataForArea:
       $ref: "#/IndicatorPolarity"
     benchmarkMethod:
       $ref: "#/BenchmarkComparisonMethod"
+    frequency:
+      $ref: "#/Frequency"
     areaHealthData:
       type: array
       items:
@@ -88,6 +90,23 @@ BenchmarkComparisonMethod:
       Quintiles,
       CIOverlappingReferenceValue95,
       CIOverlappingReferenceValue99_8,
+    ]
+Frequency:
+  title: Indicator Collection Frequency
+  type: string
+  example: Annually
+  description: How often data is collected
+  enum:
+    [
+      Annually,
+      Quarterly,
+      Monthly
+    ]
+  x-enum-varnames:
+    [
+      Annually,
+      Quarterly,
+      Monthly
     ]
 HealthDataForArea:
   title: Health Data For Area
@@ -392,6 +411,8 @@ QuartileData:
       description: The date period that the data point is for.
     polarity:
       $ref: "./schemas.yaml#/IndicatorPolarity"
+    frequency:
+      $ref: "#/Frequency"
     q0Value:
       type: number
       description: Quartile Q0 value - the minimum value
