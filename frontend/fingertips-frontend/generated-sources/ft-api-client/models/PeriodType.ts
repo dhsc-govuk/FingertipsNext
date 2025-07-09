@@ -18,9 +18,9 @@
  * @export
  */
 export const PeriodType = {
-    Calendar: 'Academic',
-    Financial: 'Calendar',
-    NovemberNovember: 'Financial',
+    Academic: 'Academic',
+    Calendar: 'Calendar',
+    Financial: 'Financial',
     FinancialMultiYear: 'FinancialMultiYear',
     FinancialYearEndPoint: 'FinancialYearEndPoint',
     Yearly: 'Yearly',
