@@ -1,14 +1,14 @@
 import { GetHealthDataForAnIndicatorRequest } from '@/generated-sources/ft-api-client';
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 import { useMemo } from 'react';
-import { compareAreasTableRequestParams } from '@/components/charts/CompareAreasTable/helpers/compareAreasTableRequestParams';
+import { oneIndicatorRequestParams } from '@/components/charts/helpers/oneIndicatorRequestParams';
 import { useApiAvailableAreas } from '@/components/charts/hooks/useApiAvailableAreas';
 
-export const useCompareAreasTableRequestParams =
+export const useOneIndicatorRequestParams =
   (): GetHealthDataForAnIndicatorRequest => {
     const searchState = useSearchStateParams();
     const { availableAreas } = useApiAvailableAreas();
     return useMemo(() => {
-      return compareAreasTableRequestParams(searchState, availableAreas ?? []);
-    }, [searchState, availableAreas]);
+      return oneIndicatorRequestParams(searchState, availableAreas ?? []);
+    }, [availableAreas, searchState]);
   };

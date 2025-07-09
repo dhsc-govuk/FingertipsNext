@@ -1,3 +1,7 @@
+// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
+import { mockUsePathname } from '@/mock/utils/mockNextNavigation';
+import { mockSetIsLoading } from '@/mock/utils/mockUseLoadingState';
+//
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { OneIndicatorTwoOrMoreAreasViewPlots } from '.';
 import { act, render, screen, waitFor, within } from '@testing-library/react';
@@ -5,55 +9,35 @@ import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-clien
 import regionsMap from '@/components/organisms/ThematicMap/regions.json';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { QueryClientProvider } from '@tanstack/react-query';
-import { LoaderContext } from '@/context/LoaderContext';
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
 import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
 import { mockHealthDataPoints } from '@/mock/data/mockHealthDataPoint';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { QueryClient } from '@tanstack/query-core';
-import { lineChartOverTimeRequestParams } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeRequestParams';
+import { oneIndicatorRequestParams } from '@/components/charts/helpers/oneIndicatorRequestParams';
 import {
   EndPoints,
   queryKeyFromRequestParams,
 } from '@/components/charts/helpers/queryKeyFromRequestParams';
-import { compareAreasTableRequestParams } from '@/components/charts/CompareAreasTable/helpers/compareAreasTableRequestParams';
+import { mockIndicatorSegment } from '@/mock/data/mockIndicatorSegment';
 
 const mockPath = 'some-mock-path';
-const mockReplace = vi.fn();
-vi.mock('next/navigation', async () => {
-  const originalModule = await vi.importActual('next/navigation');
-
-  return {
-    ...originalModule,
-    usePathname: () => mockPath,
-    useSearchParams: () => {},
-    useRouter: vi.fn().mockImplementation(() => ({
-      replace: mockReplace,
-    })),
-  };
-});
-
-const mockLoaderContext: LoaderContext = {
-  getIsLoading: vi.fn(),
-  setIsLoading: vi.fn(),
-};
-vi.mock('@/context/LoaderContext', () => {
-  return {
-    useLoadingState: () => mockLoaderContext,
-  };
-});
+mockUsePathname.mockReturnValue(mockPath);
+mockSetIsLoading(false);
 
 const lineChartTestId = 'standardLineChart-component';
 const lineChartTableTestId = 'lineChartTable-component';
 const lineChartContainerTestId = 'tabContainer-lineChartAndTable';
 const lineChartContainerTitle = 'Indicator data over time';
 const barChartEmbeddedTable = 'barChartEmbeddedTable-component';
+const lineChartSegmentationOptions = 'segmentation-options';
 
 const assertLineChartAndTableInDocument = async () => {
   expect(await screen.findByTestId(lineChartTestId)).toBeInTheDocument();
   expect(screen.getByTestId(lineChartTableTestId)).toBeInTheDocument();
   expect(screen.getByTestId(lineChartContainerTestId)).toBeInTheDocument();
+  expect(screen.getByTestId(lineChartSegmentationOptions)).toBeInTheDocument();
 
   expect(
     screen.getByRole('heading', {
@@ -83,11 +67,21 @@ const testHealthData = mockIndicatorWithHealthDataForArea({
       areaCode: 'E12000004',
       areaName: 'Area1',
       healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2022 }]),
+      indicatorSegments: [
+        mockIndicatorSegment({
+          healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2022 }]),
+        }),
+      ],
     }),
     mockHealthDataForArea({
       areaCode: 'E12000006',
       areaName: 'Area2',
       healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2022 }]),
+      indicatorSegments: [
+        mockIndicatorSegment({
+          healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2022 }]),
+        }),
+      ],
     }),
   ],
 });
@@ -115,7 +109,7 @@ const testRender = async (
   const client = new QueryClient();
 
   // seed line chart over time data
-  const lineChartApiParams = lineChartOverTimeRequestParams(searchState);
+  const lineChartApiParams = oneIndicatorRequestParams(searchState, []);
   const lineChartQueryKey = queryKeyFromRequestParams(
     EndPoints.HealthDataForAnIndicator,
     lineChartApiParams
@@ -129,17 +123,6 @@ const testRender = async (
       indicatorMetadata
     );
   }
-
-  // seed the same data for compare areas
-  const compareAreasTableApiParams = compareAreasTableRequestParams(
-    searchState,
-    []
-  );
-  const compareAreasTableQueryKey = queryKeyFromRequestParams(
-    EndPoints.HealthDataForAnIndicator,
-    compareAreasTableApiParams
-  );
-  client.setQueryData([compareAreasTableQueryKey], healthData);
 
   // seed geoJson for regions map
   client.setQueryData(['map-geo-json/regions'], regionsMap);

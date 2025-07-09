@@ -40,7 +40,13 @@ export interface HealthDataForArea {
      */
     areaName: string;
     /**
-     * The health data points for the area and indicator
+     * An array of indicator segments.
+     * @type {Array<IndicatorSegment>}
+     * @memberof HealthDataForArea
+     */
+    indicatorSegments?: Array<IndicatorSegment>;
+    /**
+     * The health data points for the area and indicator.
      * @type {Array<HealthDataPoint>}
      * @memberof HealthDataForArea
      */

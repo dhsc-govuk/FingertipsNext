@@ -48,6 +48,18 @@ export interface QuartileData {
      */
     indicatorId?: number;
     /**
+     * 
+     * @type {SexData}
+     * @memberof QuartileData
+     */
+    sex?: SexData;
+    /**
+     * Indicates if the segment is the aggregate.
+     * @type {boolean}
+     * @memberof QuartileData
+     */
+    isAggregate?: boolean;
+    /**
      * The year that the data point is for
      * @type {number}
      * @memberof QuartileData

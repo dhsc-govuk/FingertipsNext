@@ -1,23 +1,20 @@
 // MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
 import { mockUseSearchStateParams } from '@/mock/utils/mockUseSearchStateParams';
 //
-import { useLineChartOverTimeRequestParams } from '@/components/charts/LineChartOverTime/hooks/useLineChartOverTimeRequestParams';
-import { lineChartOverTimeRequestParams } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeRequestParams';
+import { useOneIndicatorRequestParams } from '@/components/charts/hooks/useOneIndicatorRequestParams';
+import { oneIndicatorRequestParams } from '@/components/charts/helpers/oneIndicatorRequestParams';
 import { renderHook } from '@testing-library/react';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
-import { GetHealthDataForAnIndicatorRequest } from '@/generated-sources/ft-api-client';
 import { MockedFunction } from 'vitest';
+import { testRenderWrapper } from '@/mock/utils/testRenderQueryClient';
+import { GetHealthDataForAnIndicatorRequest } from '@/generated-sources/ft-api-client';
 
-vi.mock(
-  '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeRequestParams'
-);
+vi.mock('@/components/charts/helpers/oneIndicatorRequestParams');
 
-const mockLineChartOverTimeRequestParams =
-  lineChartOverTimeRequestParams as MockedFunction<
-    typeof lineChartOverTimeRequestParams
-  >;
+const mockOneIndicatorRequestParams =
+  oneIndicatorRequestParams as MockedFunction<typeof oneIndicatorRequestParams>;
 
-describe('useLineChartOverTimeRequestParams', () => {
+describe('useOneIndicatorRequestParams', () => {
   it('returns request params from helper using search state', () => {
     const mockSearchState: SearchStateParams = {
       [SearchParams.AreasSelected]: ['A1'],
@@ -36,13 +33,16 @@ describe('useLineChartOverTimeRequestParams', () => {
     };
 
     mockUseSearchStateParams.mockReturnValue(mockSearchState);
-    mockLineChartOverTimeRequestParams.mockReturnValue(mockRequest);
+    mockOneIndicatorRequestParams.mockReturnValue(mockRequest);
 
-    const { result } = renderHook(() => useLineChartOverTimeRequestParams());
+    const { result } = renderHook(() => useOneIndicatorRequestParams(), {
+      wrapper: testRenderWrapper({ availableAreas: [] }),
+    });
 
     expect(result.current).toEqual(mockRequest);
-    expect(mockLineChartOverTimeRequestParams).toHaveBeenCalledWith(
-      mockSearchState
+    expect(mockOneIndicatorRequestParams).toHaveBeenCalledWith(
+      mockSearchState,
+      []
     );
   });
 });
