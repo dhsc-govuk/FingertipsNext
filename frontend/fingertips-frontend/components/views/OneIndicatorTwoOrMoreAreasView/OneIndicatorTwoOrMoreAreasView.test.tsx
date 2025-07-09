@@ -14,7 +14,6 @@ import {
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
 import { mockHealthData } from '@/mock/data/healthdata';
-import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 import { regionsAreaType } from '@/lib/areaFilterHelpers/areaType';
 import OneIndicatorTwoOrMoreAreasView from '@/components/views/OneIndicatorTwoOrMoreAreasView/index';
 
