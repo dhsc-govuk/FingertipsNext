@@ -104,7 +104,7 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
     );
 
     const benchmarkAreaDropDown = screen.getByRole('combobox', {
-      name: 'Select a benchmark',
+      name: 'Select a benchmark for all charts',
     });
     const benchmarkAreaDropDownOptions = within(
       benchmarkAreaDropDown
@@ -186,9 +186,8 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
       screen.queryByTestId('spineChartTable-component')
     ).not.toBeInTheDocument();
   });
-  
-  it('should render the heatmap title', () => {
 
+  it('should render the heatmap title', () => {
     render(
       <TwoOrMoreIndicatorsAreasViewPlot
         indicatorData={mockIndicatorData}
@@ -198,7 +197,7 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
     );
 
     expect(
-      screen.getByRole('heading',{name: 'Overview of indicators and areas'})
+      screen.getByRole('heading', { name: 'Overview of indicators and areas' })
     ).toBeInTheDocument();
   });
 });
@@ -257,5 +256,4 @@ describe('extractHeatmapIndicatorData', () => {
 
     expect(heatmapData).toEqual(expectedHeatmapIndicatorData);
   });
-
 });

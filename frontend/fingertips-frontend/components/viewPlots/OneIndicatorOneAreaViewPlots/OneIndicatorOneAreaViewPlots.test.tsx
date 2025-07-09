@@ -89,7 +89,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     await testRender(mockSearchState, testHealthData, testMetaData);
 
     const benchmarkAreaDropDown = screen.getByRole('combobox', {
-      name: 'Select a benchmark',
+      name: 'Select a benchmark for all charts',
     });
     const benchmarkAreaDropDownOptions = within(
       benchmarkAreaDropDown

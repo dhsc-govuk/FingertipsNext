@@ -96,6 +96,8 @@ describe('Inequalities', () => {
     expect(
       screen.getByText(/Inequalities comparison for one time period/)
     ).toBeInTheDocument();
-    expect(screen.getByText(/Inequalities trends over time/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Inequalities trends over time/)
+    ).toBeInTheDocument();
   });
 });

@@ -171,7 +171,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
 
     await waitFor(async () => {
       const benchmarkAreaDropDown = screen.getByRole('combobox', {
-        name: 'Select a benchmark',
+        name: 'Select a benchmark for all charts',
       });
       const benchmarkAreaDropDownOptions = within(
         benchmarkAreaDropDown
@@ -251,10 +251,10 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         expect(
           await screen.findByTestId('thematicMap-component')
         ).toBeInTheDocument();
-        // The compare areas table and thematic map use the same title
+
         expect(
           await screen.findAllByText('Compare an indicator by areas')
-        ).toHaveLength(2);
+        ).toHaveLength(1);
       });
     });
 
