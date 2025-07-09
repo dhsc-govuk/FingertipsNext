@@ -3,16 +3,18 @@ import { Link } from 'govuk-react';
 
 export const StyledRightClearAllLink = styled(Link)<{ $enabled: boolean }>(
   ({ $enabled }) => ({
-    display: 'flex',
-    justifyContent: 'flex-end',
     fontSize: '19px',
     pointerEvents: $enabled ? 'none' : 'auto',
+    whiteSpace: 'nowrap',
   })
 );
 
-export const StyledFilterWithClearAllLink = styled('div')({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  whiteSpace: 'nowrap',
-});
+export const StyledFilterWithClearAllLink = styled('div')`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  @media (min-width: 641px) and (max-width: 807px) {
+    display: block;
+  }
+`;

@@ -86,10 +86,11 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         return new ServiceResponse<IndicatorWithHealthDataForAreas>()
         {
             Status = areaHealthData.Count != 0 ? ResponseStatus.Success : ResponseStatus.NoDataForIndicator,
-            Content = new IndicatorWithHealthDataForAreas()
+            Content = new IndicatorWithHealthDataForAreas
             {
                 IndicatorId = indicator.IndicatorId,
                 Name = indicator.Name,
+                CollectionFrequency = healthDataMapper.MapCollectionFrequency(indicator.CollectionFrequency),
                 Polarity = polarity,
                 BenchmarkMethod = method,
                 AreaHealthData = areaHealthData

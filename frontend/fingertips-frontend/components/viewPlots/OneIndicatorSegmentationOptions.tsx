@@ -1,10 +1,10 @@
-import { useLineChartOverTimeRequestParams } from '@/components/charts/LineChartOverTime/hooks/useLineChartOverTimeRequestParams';
+import { useOneIndicatorRequestParams } from '@/components/charts/hooks/useOneIndicatorRequestParams';
 import { useApiGetHealthDataForAnIndicator } from '@/components/charts/hooks/useApiGetHealthDataForAnIndicator';
 import { segmentValues } from '@/lib/healthDataHelpers/segmentValues';
 import { SegmentationDropDowns } from '@/components/forms/SegmentationOptions/SegmentationDropDowns';
 
-export function LineChartOverTimeSegmentationOptions() {
-  const apiReqParams = useLineChartOverTimeRequestParams();
+export function OneIndicatorSegmentationOptions() {
+  const apiReqParams = useOneIndicatorRequestParams();
   const { healthData } = useApiGetHealthDataForAnIndicator(apiReqParams);
 
   if (!healthData) return null;

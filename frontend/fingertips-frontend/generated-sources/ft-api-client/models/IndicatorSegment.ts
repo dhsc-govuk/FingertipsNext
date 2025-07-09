@@ -29,7 +29,7 @@ import {
 } from './SexData';
 
 /**
- * Represents a segment of an Indicator health data point for a public health indicator .
+ * Represents a segment of an Indicator health data point for a public health indicator.
  * @export
  * @interface IndicatorSegment
  */
@@ -41,7 +41,7 @@ export interface IndicatorSegment {
      */
     sex: SexData;
     /**
-     * Indicates if the segment is the aggregate
+     * Indicates if the segment is the aggregate.
      * @type {boolean}
      * @memberof IndicatorSegment
      */

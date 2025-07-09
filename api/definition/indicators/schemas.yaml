@@ -43,7 +43,7 @@ Indicator:
       type: array
       items:
         $ref: "#/PeriodType"
-      description: The period types that the indicator holds data for      
+      description: The period types that the indicator holds data for
 IndicatorWithHealthDataForArea:
   title: Indicator With Health Data For Area
   type: object
@@ -61,6 +61,8 @@ IndicatorWithHealthDataForArea:
       $ref: "#/IndicatorPolarity"
     benchmarkMethod:
       $ref: "#/BenchmarkComparisonMethod"
+    frequency:
+      $ref: "#/Frequency"
     areaHealthData:
       type: array
       items:
@@ -89,6 +91,23 @@ BenchmarkComparisonMethod:
       CIOverlappingReferenceValue95,
       CIOverlappingReferenceValue99_8,
     ]
+Frequency:
+  title: Indicator Collection Frequency
+  type: string
+  example: Annually
+  description: How often data is collected
+  enum:
+    [
+      Annually,
+      Quarterly,
+      Monthly
+    ]
+  x-enum-varnames:
+    [
+      Annually,
+      Quarterly,
+      Monthly
+    ]
 HealthDataForArea:
   title: Health Data For Area
   type: object
@@ -107,6 +126,29 @@ HealthDataForArea:
       type: string
       example: England
       description: The name of the area that the health data are for
+    indicatorSegments:
+      type: array
+      items:
+        $ref: "#/IndicatorSegment"
+      description: An array of indicator segments.
+    healthData:
+      type: array
+      items:
+        $ref: "#/HealthDataPoint"
+      description: The health data points for the area and indicator.
+      deprecated: true
+IndicatorSegment:
+  title: IndicatorSegment
+  type: object
+  description: Represents a segment of an Indicator health data point for a public health indicator.
+  required:
+    - sex
+  properties:
+    sex:
+      $ref: "#/SexData"
+    isAggregate:
+      type: boolean
+      description: Indicates if the segment is the aggregate.
     healthData:
       type: array
       items:
@@ -121,9 +163,9 @@ HealthDataPoint:
     year, age band and sex.
   required:
     - year
-    - ageBand
-    - sex
     - trend
+    - sex
+    - ageBand
     - deprivation
   properties:
     year:
@@ -154,6 +196,7 @@ HealthDataPoint:
       $ref: "#/AgeData"
     sex:
       $ref: "#/SexData"
+      deprecated: true
     trend:
       type: string
       example: Increasing
@@ -235,7 +278,7 @@ PeriodType:
   type: string
   example: Calendar
   description: a type of date period e.g. Calendar or Financial year.
-  enum: 
+  enum:
     [
       Academic,
       Calendar,
@@ -353,6 +396,11 @@ QuartileData:
       type: integer
       example: 21404
       description: Unique ID of the indicator
+    sex:
+      $ref: "#/SexData"
+    isAggregate:
+      type: boolean
+      description: Indicates if the segment is the aggregate.
     year:
       type: integer
       format: int32
@@ -363,6 +411,8 @@ QuartileData:
       description: The date period that the data point is for.
     polarity:
       $ref: "./schemas.yaml#/IndicatorPolarity"
+    frequency:
+      $ref: "#/Frequency"
     q0Value:
       type: number
       description: Quartile Q0 value - the minimum value

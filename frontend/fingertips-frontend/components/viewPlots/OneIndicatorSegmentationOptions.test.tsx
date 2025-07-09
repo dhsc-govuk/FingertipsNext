@@ -1,7 +1,7 @@
 import { mockUseApiGetHealthDataForAnIndicator } from '@/mock/utils/mockUseApiGetHealthData';
 import { testRenderQueryClient } from '@/mock/utils/testRenderQueryClient';
 //
-import { LineChartOverTimeSegmentationOptions } from '@/components/charts/LineChartOverTime/LineChartOverTimeSegmentationOptions';
+import { OneIndicatorSegmentationOptions } from '@/components/viewPlots/OneIndicatorSegmentationOptions';
 
 mockUseApiGetHealthDataForAnIndicator.mockReturnValue({
   healthData: undefined,
@@ -9,10 +9,10 @@ mockUseApiGetHealthDataForAnIndicator.mockReturnValue({
   healthDataError: null,
 });
 
-describe('LineChartOverTimeSegmentationOptions', () => {
+describe('OneIndicatorSegmentationOptions', () => {
   it('should return null if there is no data', async () => {
     const { htmlContainer } = await testRenderQueryClient(
-      <LineChartOverTimeSegmentationOptions />
+      <OneIndicatorSegmentationOptions />
     );
 
     expect(htmlContainer?.firstChild).toBeNull();

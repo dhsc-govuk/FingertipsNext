@@ -1,0 +1,50 @@
+Batch:
+  title: Batch details
+  type: object
+  description: Details of a health data upload batch.
+  required:
+    - batchId
+    - indicatorId
+    - originalFilename
+    - createdAt
+    - publishedAt
+    - userId
+    - status
+  properties:
+    batchId:
+      type: string
+      example: "41101_2025-03-07T14:22:37.123"
+      description: The unique identifier of the batch.
+    indicatorId:
+      type: integer
+      example: 21404
+      description: Unique ID of the indicator.
+    originalFilename:
+      type: string
+      description: The name of the file originally uploaded in order to create the batch.
+      example: upload.csv
+    createdAt:
+      type: string
+      format: date-time
+      description: When the batch was created.
+      example: "2025-06-30T14:44:53.643Z"
+    publishedAt:
+      type: string
+      format: date-time
+      description: When the data in the batch will be published.
+      example: "2025-07-30T00:00:00.000Z"
+    userId:
+      type: string
+      format: guid
+      description: The ID of the user who uploaded the batch.
+      example: e14dae4e-4c3c-4e13-979a-4aa6566e06a7
+    status:
+      type: string
+      description: The current status of the batch.
+      enum:
+        - Received
+        - Deleted
+      x-enum-varnames:
+        - Received
+        - Deleted
+      example: Received
