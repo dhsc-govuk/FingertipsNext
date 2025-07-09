@@ -5,7 +5,7 @@ import {
   exportCopyrightText,
 } from '@/components/molecules/Export/ExportCopyright';
 import { CustomOptions } from '@/components/molecules/Export/export.types';
-import { mapSourceForType } from '@/components/organisms/ThematicMap/thematicMapHelpers';
+import { mapSourceForType } from '@/components/charts/ThematicMap/helpers/thematicMapHelpers';
 
 describe('chartOptionsAddFooter', () => {
   it('modifies chart options and attaches a load event', () => {

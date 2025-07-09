@@ -1,7 +1,7 @@
 import {
   AreaTypeKeysForMapMeta,
   mapMetaDataEncoder,
-} from '@/components/organisms/ThematicMap/thematicMapHelpers';
+} from '@/components/charts/ThematicMap/helpers/thematicMapHelpers';
 import { Paragraph } from 'govuk-react';
 import styled from 'styled-components';
 import { ExcludeFromExport } from '@/components/molecules/Export/exportHelpers';

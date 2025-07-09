@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import {
   AreaTypeKeysForMapMeta,
   mapMetaDataEncoder,
-} from '@/components/organisms/ThematicMap/thematicMapHelpers';
+} from '@/components/charts/ThematicMap/helpers/thematicMapHelpers';
 
 export const useApiMapGeographyGet = (areaType?: AreaTypeKeysForMapMeta) => {
   const { mapFile } = areaType ? mapMetaDataEncoder[areaType] : {};

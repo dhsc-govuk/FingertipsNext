@@ -6,13 +6,12 @@ import {
   AreaTypeKeysForMapMeta,
   createThematicMapChartOptions,
   thematicMapTitle,
-} from '@/components/organisms/ThematicMap/thematicMapHelpers';
+} from '@/components/charts/ThematicMap/helpers/thematicMapHelpers';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
 import { IndicatorPolarity } from '@/generated-sources/ft-api-client/models/IndicatorPolarity';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { ThematicMapCredits } from '../../molecules/ThematicMapCredits';
-import { ThematicMapTooltip } from '@/components/molecules/ThematicMapTooltip';
-import { useMapGeographyData } from '@/components/organisms/ThematicMap/useMapGeographyData';
+import { ThematicMapCredits } from './ThematicMapCredits';
+import { useMapGeographyData } from '@/components/charts/ThematicMap/hooks/useMapGeographyData';
 import { H3 } from 'govuk-react';
 import { HighChartsWrapper } from '@/components/molecules/HighChartsWrapper/HighChartsWrapper';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
@@ -22,6 +21,7 @@ import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
 import { ContainerWithOutline } from '@/components/atoms/ContainerWithOutline/ContainerWithOutline';
 import { BenchmarkLegends } from '@/components/organisms/BenchmarkLegend/BenchmarkLegends';
 import { getMethodsAndOutcomes } from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
+import { ThematicMapTooltip } from '@/components/charts/ThematicMap/ThematicMapTooltip';
 
 interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];

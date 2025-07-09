@@ -29,13 +29,13 @@ describe('inequalitiesIsRequired', () => {
     expect(inequalitiesIsRequired(searchState)).toBe(true);
   });
 
-  it('returns true when one indicator and no areas are selected', () => {
+  it('returns false when one indicator and no areas are selected', () => {
     const searchState = {
       [SearchParams.IndicatorsSelected]: ['789'],
       [SearchParams.AreasSelected]: [],
     };
 
-    expect(inequalitiesIsRequired(searchState)).toBe(true);
+    expect(inequalitiesIsRequired(searchState)).toBe(false);
   });
 
   it('returns false when neither indicators nor areas are provided', () => {
