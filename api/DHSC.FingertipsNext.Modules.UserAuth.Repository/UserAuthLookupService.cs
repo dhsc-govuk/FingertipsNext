@@ -7,6 +7,6 @@ public class UserAuthLookupService(UserAuthDbContext dbContext) : IIndicatorPerm
 {
     public async Task<IEnumerable<int>> GetIndicatorsForRoles(IEnumerable<Guid> roleIds)
     {
-        return await dbContext.IndicatorRoles.Where(ir => roleIds.Contains(ir.RoleId)).Select(ir => (int)ir.Indicator.IndicatorId).ToListAsync();
+        return await dbContext.IndicatorRoles.Where(ir => roleIds.Contains(ir.RoleId)).Select(ir => ir.Indicator.IndicatorId).ToListAsync();
     }
 }

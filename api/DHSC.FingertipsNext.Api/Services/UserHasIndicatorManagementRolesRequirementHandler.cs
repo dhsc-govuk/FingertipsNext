@@ -51,12 +51,9 @@ internal sealed class UserHasIndicatorManagementRolesRequirementHandler(IIndicat
 
     private static bool TryGetIndicatorFromRoute(RouteData route, out int indicator)
     {
-        if (route.Values[IndicatorIdParameterName] is string param)
+        if (route.Values[IndicatorIdParameterName] is string param && int.TryParse(param, out indicator))
         {
-            if (int.TryParse(param, out indicator))
-            {
-                return true;
-            }
+            return true;
         }
 
         indicator = 0;
@@ -74,23 +71,24 @@ internal sealed class UserHasIndicatorManagementRolesRequirementHandler(IIndicat
 
         var values = collection.GetValues(IndicatorIdCollectionParameterName);
 
-        if (values != null)
+        if (values == null)
         {
-            foreach (var queryParam in values)
-            {
-                var elements = queryParam.Split(",");
-                foreach (var elem in elements)
-                {
-                    if (int.TryParse(elem, out var id))
-                    {
-                        indicators.Add(id);
-                    }
-                }
-            }
-
-            return true;
+            return false;
         }
 
-        return false;
+        foreach (var queryParam in values)
+        {
+            var elements = queryParam.Split(",");
+            foreach (var elem in elements)
+            {
+                if (int.TryParse(elem, out var id))
+                {
+                    indicators.Add(id);
+                }
+            }
+        }
+
+        return true;
+
     }
 }
