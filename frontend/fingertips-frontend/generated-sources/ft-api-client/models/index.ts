@@ -19,6 +19,7 @@ export * from './HealthDataPoint';
 export * from './HealthDataPointBenchmarkComparison';
 export * from './Indicator';
 export * from './IndicatorPolarity';
+export * from './IndicatorSegment';
 export * from './IndicatorSummary';
 export * from './IndicatorWithHealthDataForArea';
 export * from './PeriodType';
