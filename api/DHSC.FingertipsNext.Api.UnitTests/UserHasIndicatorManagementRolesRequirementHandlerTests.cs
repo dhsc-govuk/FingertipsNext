@@ -41,7 +41,7 @@ namespace DHSC.FingertipsNext.Api.UnitTests
             yield return [123, null, new[] { 123 }, true]; // Path ID matches complete users permissions
             yield return [123, null, new[] { 123, 456 }, true]; //Path ID matches one of users permissions
 
-            //Indicators in query Parameters
+            // Indicators in query Parameters
             yield return [null, new[] { 123 }, Array.Empty<int>(), false]; // Query ID, user has no permissions
             yield return [null, new[] { 123 }, new[] { 456 }, false]; //Query ID doesnt match users permissions
             yield return [null, new[] { 123, 456 }, new[] { 123 }, false]; // Query ID not completely matched by users permissions
@@ -49,7 +49,7 @@ namespace DHSC.FingertipsNext.Api.UnitTests
             yield return [null, new[] { 123 }, new[] { 123, 456 }, true]; // Query ID matches one of users permissions
             yield return [null, new[] { 123, 456 }, new[] { 123, 456 }, true]; //Multiple Query IDs matched by all users permissions
 
-            //Combined path and query parameters.
+            // Combined path and query parameters.
             yield return [123, new[] { 456 }, new[] { 456 }, false]; // Path ID doesnt match user permissions, Query ID does
             yield return [123, new[] { 456 }, new[] { 123 }, false]; // Path ID matches user permissions, Query ID does not
             yield return [123, new[] { 123 }, new[] { 123 }, true]; // Same Path ID and Query ID match user permissions
