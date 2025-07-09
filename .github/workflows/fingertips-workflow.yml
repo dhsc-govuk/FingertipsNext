@@ -720,11 +720,11 @@ jobs:
             secret_name = null
             value       = "${{ needs.extract-git-info.outputs.git_tag }}"
           },
-          # {
-          #   name        = "AUTH_SECRET"
-          #   secret_name = "fingertips-webserver-local-secret"
-          #   value       = null
-          # },
+          {
+            name        = "AUTH_SECRET"
+            secret_name = "fingertips-webserver-local-secret"
+            value       = null
+          },
           {
             name        = "AUTH_CLIENT_SECRET"
             secret_name = "fingertips-externalid-client-secret"
