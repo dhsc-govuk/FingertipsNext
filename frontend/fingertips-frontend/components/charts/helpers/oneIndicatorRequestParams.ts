@@ -1,4 +1,5 @@
 import {
+  Area,
   BenchmarkReferenceType,
   GetHealthDataForAnIndicatorRequest,
 } from '@/generated-sources/ft-api-client';
@@ -8,18 +9,23 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 import { determineBenchmarkRefType } from '@/lib/ViewsHelpers';
 
-export const lineChartOverTimeRequestParams = (
-  searchState: SearchStateParams
+export const oneIndicatorRequestParams = (
+  searchState: SearchStateParams,
+  availableAreas: Area[]
 ): GetHealthDataForAnIndicatorRequest => {
   const {
     [SearchParams.AreasSelected]: areasSelected,
-    [SearchParams.IndicatorsSelected]: indicatorsSelected = [],
+    [SearchParams.IndicatorsSelected]: indicatorIds,
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreaTypeSelected]: areaTypeSelected,
     [SearchParams.BenchmarkAreaSelected]: benchmarkAreaSelected,
+    [SearchParams.GroupAreaSelected]: selectedGroupArea,
   } = searchState;
 
-  const areaCodes = determineAreaCodes(areasSelected);
+  const indicatorId = indicatorIds?.at(0) ?? '';
+  const areaCodes = [
+    ...determineAreaCodes(areasSelected, selectedGroupArea, availableAreas),
+  ];
 
   const areaCodesToRequest = [...areaCodes];
   if (!areaCodesToRequest.includes(areaCodeForEngland)) {
@@ -41,7 +47,7 @@ export const lineChartOverTimeRequestParams = (
       : undefined;
 
   return {
-    indicatorId: Number(indicatorsSelected[0]),
+    indicatorId: Number(indicatorId),
     areaCodes: areaCodesToRequest,
     areaType: areaTypeToUse,
     benchmarkRefType,

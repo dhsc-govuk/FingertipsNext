@@ -1,25 +1,22 @@
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 import { SearchParams } from '@/lib/searchStateManager';
-import { useLineChartOverTimeRequestParams } from '@/components/charts/LineChartOverTime/hooks/useLineChartOverTimeRequestParams';
+import { useOneIndicatorRequestParams } from '@/components/charts/hooks/useOneIndicatorRequestParams';
 import { useApiGetHealthDataForAnIndicator } from '@/components/charts/hooks/useApiGetHealthDataForAnIndicator';
 import { useApiGetIndicatorMetaData } from '@/components/charts/hooks/useApiGetIndicatorMetaData';
 import { lineChartOverTimeData } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeData';
 import { useMemo } from 'react';
 import { lineChartOverTimeIsRequired } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeIsRequired';
+import { flattenSegment } from '@/lib/healthDataHelpers/flattenSegment';
+import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client';
 import { Session } from 'next-auth';
 
 export const useLineChartOverTimeData = (session: Session | null) => {
   const searchState = useSearchStateParams();
-  const {
-    [SearchParams.IndicatorsSelected]: indicatorIds,
-    [SearchParams.GroupSelected]: selectedGroupCode,
-    [SearchParams.BenchmarkAreaSelected]: benchmarkAreaSelected,
-    [SearchParams.AreasSelected]: areasSelected,
-  } = searchState;
+  const { [SearchParams.IndicatorsSelected]: indicatorIds } = searchState;
 
   const indicatorId = indicatorIds?.at(0) ?? '';
 
-  const apiReqParams = useLineChartOverTimeRequestParams();
+  const apiReqParams = useOneIndicatorRequestParams();
 
   const { healthData } = useApiGetHealthDataForAnIndicator(
     apiReqParams,
@@ -32,19 +29,15 @@ export const useLineChartOverTimeData = (session: Session | null) => {
 
   return useMemo(() => {
     if (!healthData || !indicatorMetaData || !isRequired) return null;
-    return lineChartOverTimeData(
-      indicatorMetaData,
-      healthData,
-      areasSelected ?? [],
-      selectedGroupCode,
-      benchmarkAreaSelected
-    );
-  }, [
-    areasSelected,
-    benchmarkAreaSelected,
-    healthData,
-    indicatorMetaData,
-    isRequired,
-    selectedGroupCode,
-  ]);
+
+    // the api work to allow segmentation for quintiles is not ready yet
+    // so we need to handle it in the old way for now.
+    const isNotQuintiles =
+      healthData.benchmarkMethod !== BenchmarkComparisonMethod.Quintiles;
+
+    const segmentedData = isNotQuintiles
+      ? flattenSegment(healthData, searchState)
+      : healthData;
+    return lineChartOverTimeData(indicatorMetaData, segmentedData, searchState);
+  }, [healthData, indicatorMetaData, isRequired, searchState]);
 };
