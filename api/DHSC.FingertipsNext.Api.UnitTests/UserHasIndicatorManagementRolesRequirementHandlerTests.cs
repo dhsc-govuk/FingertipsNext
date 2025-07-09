@@ -34,12 +34,12 @@ namespace DHSC.FingertipsNext.Api.UnitTests
         {
             // ID in route parameter, array of IDs in query string, array of IDs user is permitted to see, expected result
             yield return [123, null, Array.Empty<int>(), false];
-            
+
             // Indicator supplied in path
             yield return [123, null, new[] { 456 }, false];
             yield return [123, null, new[] { 123 }, true];
             yield return [123, null, new[] { 123, 456 }, true];
-            
+
             //Indicators in query Parameters
             yield return [null, new[] { 123 }, Array.Empty<int>(), false];
             yield return [null, new[] { 123 }, new[] { 456 }, false];
@@ -47,7 +47,7 @@ namespace DHSC.FingertipsNext.Api.UnitTests
             yield return [null, new[] { 123 }, new[] { 123 }, true];
             yield return [null, new[] { 123 }, new[] { 123, 456 }, true];
             yield return [null, new[] { 123, 456 }, new[] { 123, 456 }, true];
-            
+
             //Combined path and query parameters.
             yield return [123, new[] { 456 }, new[] { 456 }, false];
             yield return [123, new[] { 456 }, new[] { 123 }, false];
