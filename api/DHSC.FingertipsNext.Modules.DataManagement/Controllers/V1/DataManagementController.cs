@@ -25,12 +25,22 @@ public class DataManagementController(IDataManagementService dataManagementServi
             });
         var untrustedFileName = Path.GetFileName(file.FileName);
         var encodedUntrustedFileName = HttpUtility.HtmlEncode(untrustedFileName);
-        if (!DateTime.TryParseExact(publishedAt, "yyyy-MM-ddThh:mm:ss.fff", CultureInfo.InvariantCulture,
-                DateTimeStyles.None, out var parsedPublishedAt))
+        
+        if (!DateTime.TryParse(publishedAt, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out DateTime parsedPublishedAt))
         {
             return new BadRequestObjectResult(new SimpleError
             {
-                Message = "publishedAt is invalid"
+                Message = "publishedAt is invalid. Must be in the format dd-MM-yyyyTHH:mm:ss.fff"
+            });
+        }
+
+        parsedPublishedAt = parsedPublishedAt.ToUniversalTime();
+
+        if (parsedPublishedAt <= DateTime.UtcNow)
+        {
+            return new BadRequestObjectResult(new SimpleError
+            {
+                Message = "publishedAt cannot be in the past"
             });
         }
 
@@ -39,13 +49,17 @@ public class DataManagementController(IDataManagementService dataManagementServi
         {
             var validationErrors = dataManagementService.ValidateCsv(fileStream);
             if (validationErrors.Count != 0)
-                return StatusCode(StatusCodes.Status400BadRequest,
-                    string.Join(", ", validationErrors!));
+                return new BadRequestObjectResult(new ErrorWithDetail
+                {
+                    Message = "The CSV file provided was invalid.",
+                    Errors = validationErrors
+                });
         }
 
+        // Will need to re-initialise fileStream as it will have been disposed during ValidateCsv
         await using (var fileStream = file.OpenReadStream())
         {
-            response = await dataManagementService.UploadFileAsync(fileStream, indicatorId, parsedPublishedAt);
+            response = await dataManagementService.UploadFileAsync(fileStream, indicatorId, parsedPublishedAt, encodedUntrustedFileName);
         }
         return (response.Outcome) switch
         {

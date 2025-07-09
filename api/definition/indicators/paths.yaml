@@ -85,8 +85,6 @@ indicators_by_indicator_id_data:
         $ref: "../responses.yaml#/InternalServerError"
     operationId: getHealthDataForAnIndicator
   post:
-    parameters:
-      - $ref: "./parameters.yaml#/indicator_id"
     tags:
       - indicators
     summary: add a batch of new data for an indicator
@@ -97,6 +95,9 @@ indicators_by_indicator_id_data:
         multipart/form-data:
           schema:
             type: object
+            required:
+              - file
+              - publishedAt
             properties:
               file:
                 type: string

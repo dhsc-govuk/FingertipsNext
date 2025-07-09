@@ -29,21 +29,30 @@ public class DataManagementService : IDataManagementService
     private readonly BlobServiceClient _blobServiceClient;
     private readonly ILogger<DataManagementService> _logger;
     private readonly TimeProvider _timeProvider;
-    private readonly string? _containerName;
+    private readonly string _containerName;
     private readonly IDataManagementRepository _repository;
 
     public DataManagementService(BlobServiceClient blobServiceClient, IConfiguration configuration, ILogger<DataManagementService> logger, TimeProvider timeProvider, IDataManagementRepository repository)
     {
+
+        
         ArgumentNullException.ThrowIfNull(configuration);
         ArgumentException.ThrowIfNullOrWhiteSpace(configuration["UPLOAD_STORAGE_CONTAINER_NAME"]);
+        var containerName = configuration["UPLOAD_STORAGE_CONTAINER_NAME"];
+        ArgumentException.ThrowIfNullOrWhiteSpace(containerName);
         _blobServiceClient = blobServiceClient;
         _logger = logger;
         _timeProvider = timeProvider;
         _repository = repository;
-        _containerName = configuration["UPLOAD_STORAGE_CONTAINER_NAME"];
+        _containerName = containerName;
+        
+        _blobServiceClient = blobServiceClient;
+        _logger = logger;
+        _timeProvider = timeProvider;
+        _repository = repository;
     }
 
-    public async Task<UploadHealthDataResponse> UploadFileAsync(Stream fileStream, int indicatorId, DateTime publishedAt)
+    public async Task<UploadHealthDataResponse> UploadFileAsync(Stream fileStream, int indicatorId, DateTime publishedAt, string originalFileName)
     {
         var containerClient = _blobServiceClient.GetBlobContainerClient(_containerName);
         var batchId = $"{indicatorId}_{_timeProvider.GetUtcNow():yyyy-MM-ddTHH:mm:ss.fff}";
@@ -52,11 +61,11 @@ public class DataManagementService : IDataManagementService
 
         try
         {
-            UploadDebugLog(_logger, batchId, _containerName!, null);
+            UploadDebugLog(_logger, batchId, _containerName, null);
             await blobClient.UploadAsync(fileStream);
             UploadSuccessfulLog(_logger, null);
-
-            await CreateAndInsertBatchDetails(indicatorId, publishedAt, batchId);
+            
+            await CreateAndInsertBatchDetails(indicatorId, publishedAt, batchId, originalFileName);
         }
         catch (Exception exception) when (exception is RequestFailedException or AggregateException)
         {
@@ -77,13 +86,14 @@ public class DataManagementService : IDataManagementService
         return [];
     }
 
-    private async Task CreateAndInsertBatchDetails(int indicatorId, DateTime publishedAt, string batchId)
+    private async Task CreateAndInsertBatchDetails(int indicatorId, DateTime publishedAt, string batchId, string originalFileName)
     {
         BatchModel model = new BatchModel
         {
             BatchId = batchId,
             IndicatorId = indicatorId,
-            PublishedAt = publishedAt,
+            OriginalFileName = originalFileName,
+            PublishedAt = publishedAt.ToUniversalTime(),
             UserId = Guid.Empty, //Can only properly set this when the auth is implemented
             Status = BatchStatus.Received,
             CreatedAt = DateTime.UtcNow

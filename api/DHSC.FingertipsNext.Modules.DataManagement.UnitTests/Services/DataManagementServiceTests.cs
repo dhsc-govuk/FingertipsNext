@@ -1,6 +1,7 @@
 using Azure;
 using Azure.Storage.Blobs;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository;
+using DHSC.FingertipsNext.Modules.DataManagement.Repository.Models;
 using DHSC.FingertipsNext.Modules.DataManagement.Service;
 using DHSC.FingertipsNext.Modules.DataManagement.Service.Models;
 using Microsoft.Extensions.Configuration;
@@ -53,33 +54,55 @@ public class DataManagementServiceTests
         await using (FileStream stream = File.Open(path, FileMode.Open))
         {
 
-            result = await _service.UploadFileAsync(stream, StubIndicatorId, publishedAt);
+            result = await _service.UploadFileAsync(stream, StubIndicatorId, publishedAt, "ValidHeadersAndValidDataRows.csv");
         }
 
         // Assert
         await _blobClient.Received(1).UploadAsync(Arg.Any<Stream>());
         result.Outcome.ShouldBe(OutcomeType.Ok);
+        
+        var parameter =  _repository.ReceivedCalls().First().GetArguments().First() as BatchModel;
+        parameter.IndicatorId.ShouldBe(1);
+        parameter.CreatedAt.Date.ShouldBe(DateTime.Today);
+        parameter.PublishedAt.ShouldBe(publishedAt);
+        result.Outcome.ShouldBe(OutcomeType.Ok);
     }
 
     [Fact]
-    public void UploadShouldFailWhenCsvIsInvalid()
+    public void ValidateCsvShouldFailWhenCsvIsInvalid()
     {
         // Act
         var validCsvPath = @"Services/Validation/CSVs/ValidHeadersAndNoDataRows.csv";
         string path = Path.Combine(Directory.GetCurrentDirectory(), validCsvPath);
         ICollection<string> result;
-        var publishedAt = new DateTime(2025, 1, 1, 0, 0, 0);
 
         // Act
         using (FileStream stream = File.Open(path, FileMode.Open))
         {
-
             result = _service.ValidateCsv(stream);
         }
 
         // Assert
         result.ShouldHaveSingleItem();
         result.First().ShouldBe("No records found");
+    }
+    
+    [Fact]
+    public void ValidateCsvShouldSucceedWhenCsvIsValid()
+    {
+        // Act
+        var validCsvPath = @"Services/Validation/CSVs/ValidHeadersAndValidDataRows.csv";
+        string path = Path.Combine(Directory.GetCurrentDirectory(), validCsvPath);
+        ICollection<string> result;
+
+        // Act
+        using (FileStream stream = File.Open(path, FileMode.Open))
+        {
+            result = _service.ValidateCsv(stream);
+        }
+
+        // Assert
+        result.ShouldBeEmpty();
     }
 
     [Fact]
@@ -92,7 +115,7 @@ public class DataManagementServiceTests
         var publishedAt = new DateTime(2025, 1, 1, 0, 0, 0);
 
         // Act
-        var result = await _service.UploadFileAsync(Stream.Null, StubIndicatorId, publishedAt);
+        var result = await _service.UploadFileAsync(Stream.Null, StubIndicatorId, publishedAt, "upload.csv");
 
         // Assert
         await _blobClient.Received(1).UploadAsync(Arg.Any<Stream>());
@@ -101,7 +124,7 @@ public class DataManagementServiceTests
     }
 
     [Fact]
-    public void UploadShouldFailWhenConfigVariableIsNullOrEmpty()
+    public void DataManagementServiceInitialisationShouldFailWhenConfigVariableIsNullOrEmpty()
     {
         // Arrange
         _configuration = new ConfigurationBuilder()

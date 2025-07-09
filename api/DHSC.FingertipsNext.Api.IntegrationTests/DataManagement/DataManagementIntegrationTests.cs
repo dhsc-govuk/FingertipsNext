@@ -66,8 +66,10 @@ public sealed class DataManagementIntegrationTests : IClassFixture<CustomWebAppl
         await using var fileStream = File.OpenRead(blobContentFilePath);
         using var content = new MultipartFormDataContent();
         using var streamContent = new StreamContent(fileStream);
-        using var publishedAtContent = new StringContent("2025-01-01T00:00:00.000");
         streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+        var publishedAt = DateTime.UtcNow.AddMonths(1);
+        var publishedAtFormatted = publishedAt.ToString("o");
+        using var publishedAtContent = new StringContent(publishedAtFormatted);
         publishedAtContent.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
         content.Add(streamContent, "file", "valid.csv");
         content.Add(publishedAtContent, "publishedAt");
@@ -82,6 +84,31 @@ public sealed class DataManagementIntegrationTests : IClassFixture<CustomWebAppl
         var localFileContent = await File.ReadAllBytesAsync(blobContentFilePath);
         blobContent.ShouldBeEquivalentTo(localFileContent);
     }
+    
+    [Fact]
+    public async Task UploadFailuresShouldReturn500Response()
+    {
+        // Arrange
+        var apiClient = GetApiClient(_factory);
+
+        var blobContentFilePath = Path.Combine(TestDataDir, "valid.csv");
+        await using var fileStream = File.OpenRead(blobContentFilePath);
+        using var content = new MultipartFormDataContent();
+        using var streamContent = new StreamContent(fileStream);
+        streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+        var publishedAt = DateTime.UtcNow.AddMonths(1);
+        var publishedAtFormatted = publishedAt.ToString("o");
+        using var publishedAtContent = new StringContent(publishedAtFormatted);
+        content.Add(streamContent, "file", "valid.csv");
+        content.Add(publishedAtContent, "publishedAt");
+
+        // Act
+        await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
+        var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.InternalServerError);
+    }
 
     [Fact]
     public async Task UploadingInvalidFileShouldReturn400Response()
@@ -93,7 +120,9 @@ public sealed class DataManagementIntegrationTests : IClassFixture<CustomWebAppl
         await using var fileStream = File.OpenRead(blobContentFilePath);
         using var content = new MultipartFormDataContent();
         using var streamContent = new StreamContent(fileStream);
-        using var publishedAtContent = new StringContent("2025-01-01T00:00:00.000");
+        var publishedAt = DateTime.UtcNow.AddMonths(1);
+        var publishedAtFormatted = publishedAt.ToString("o");
+        using var publishedAtContent = new StringContent(publishedAtFormatted);
         streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
         publishedAtContent.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
         content.Add(streamContent, "file", "valid.csv");
@@ -139,5 +168,27 @@ public sealed class DataManagementIntegrationTests : IClassFixture<CustomWebAppl
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
     }
 
+    [Fact]
+    public async Task UploadToBlobStorageShouldFailIfContainerDoesNotExist()
+    {
+        // Arrange
+        var apiClient = GetApiClient(_factory, "non-existent-container");
 
+        var blobContentFilePath = Path.Combine(TestDataDir, "valid.csv");
+        await using var fileStream = File.OpenRead(blobContentFilePath);
+        using var content = new MultipartFormDataContent();
+        using var streamContent = new StreamContent(fileStream);
+        var publishedAt = DateTime.UtcNow.AddMonths(1);
+        var publishedAtFormatted = publishedAt.ToString("o");
+        using var publishedAtContent = new StringContent(publishedAtFormatted);
+        streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+        content.Add(streamContent, "file", "valid.csv");
+        content.Add(publishedAtContent, "publishedAt");
+
+        // Act
+        var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.InternalServerError);
+    }
 }

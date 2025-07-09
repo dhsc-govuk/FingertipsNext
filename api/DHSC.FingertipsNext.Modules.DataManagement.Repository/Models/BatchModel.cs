@@ -11,6 +11,9 @@ public class BatchModel
     [MaxLength(50)]
     public required string BatchId { get; init; }
     public required int IndicatorId { get; init; }
+    
+    [MaxLength(260)]
+    public required string OriginalFileName { get; init; }
     public required DateTime CreatedAt { get; init; }
     public required DateTime PublishedAt { get; init; }
     public required Guid UserId { get; init; }
