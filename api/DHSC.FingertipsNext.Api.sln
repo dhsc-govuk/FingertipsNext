@@ -66,6 +66,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Api.UnitTests", "DHSC.FingertipsNext.Api.UnitTests\DHSC.FingertipsNext.Api.UnitTests.csproj", "{1DD2E62F-7A4C-4AA7-AE33-B8955EC14BB8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules.DataManagement.Schemas", "DHSC.FingertipsNext.Modules.DataManagement.Schemas\DHSC.FingertipsNext.Modules.DataManagement.Schemas.csproj", "{E9C39F39-77CC-4549-9916-E1917E847245}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -164,6 +166,10 @@ Global
 		{1DD2E62F-7A4C-4AA7-AE33-B8955EC14BB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DD2E62F-7A4C-4AA7-AE33-B8955EC14BB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DD2E62F-7A4C-4AA7-AE33-B8955EC14BB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9C39F39-77CC-4549-9916-E1917E847245}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9C39F39-77CC-4549-9916-E1917E847245}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9C39F39-77CC-4549-9916-E1917E847245}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9C39F39-77CC-4549-9916-E1917E847245}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -193,6 +199,7 @@ Global
 		{CD6A9191-FB5B-4285-961E-F7A0D085FE33} = {9C6B7E19-57C0-4617-BDE5-36ABE3A984DE}
 		{09C2CF94-1821-4598-92CA-4D6CEA283A6A} = {9C6B7E19-57C0-4617-BDE5-36ABE3A984DE}
 		{1DD2E62F-7A4C-4AA7-AE33-B8955EC14BB8} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{E9C39F39-77CC-4549-9916-E1917E847245} = {594379C5-606C-468B-8F91-1D30757E4681}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {745A1299-79AE-4D97-8156-A825611994C6}

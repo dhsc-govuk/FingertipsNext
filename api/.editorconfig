@@ -36,8 +36,10 @@ dotnet_diagnostic.CA1822.severity = none
 [*{Test,Tests}.cs]
 # Ignore Resolve nullable warnings for test files
 dotnet_diagnostic.CS8602.severity = none
+# CA2100: Ignore Review SQL queries
+dotnet_diagnostic.CA2100.severity = none
 
-[*DbContext.cs] 
+[*DbContext.cs]
 # Suppresses CS8618 in a dbcontext to allow dbsets to remain undefined
 dotnet_diagnostic.CS8618.severity = none
 

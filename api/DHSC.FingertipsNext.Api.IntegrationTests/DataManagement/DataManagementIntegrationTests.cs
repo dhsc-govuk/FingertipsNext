@@ -1,23 +1,37 @@
-﻿using System.Net;
+﻿using System.Globalization;
+using System.Net;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using DHSC.FingertipsNext.Modules.DataManagement.Repository;
+using DHSC.FingertipsNext.Modules.DataManagement.Repository.Models;
+using DHSC.FingertipsNext.Modules.DataManagement.Schemas;
 using DotNetEnv;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 
 namespace DHSC.FingertipsNext.Api.IntegrationTests.DataManagement;
 
 public sealed class DataManagementIntegrationTests : IClassFixture<CustomWebApplicationFactory<Program>>, IDisposable
 {
-    private CustomWebApplicationFactory<Program> _factory;
     private const string TestDataDir = "TestData";
-    private readonly string _blobName;
     private const int IndicatorId = 9000;
     private const string FingertipsStorageContainerName = "fingertips-upload-container";
     private readonly AzureStorageBlobClient _azureStorageBlobClient;
+    private readonly string _blobName;
+    private readonly CustomWebApplicationFactory<Program> _factory;
+    private readonly SqlConnection _sqlConnection;
 
     public DataManagementIntegrationTests(CustomWebApplicationFactory<Program> factory)
     {
         _factory = factory;
+
+        using var scope = _factory.Services.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<DataManagementDbContext>();
+        var connectionString = dbContext.Database.GetDbConnection().ConnectionString;
+        _sqlConnection = new SqlConnection(connectionString);
 
         // Load environment variables from the .env file
         Env.Load(string.Empty, new LoadOptions(true, true, false));
@@ -34,15 +48,22 @@ public sealed class DataManagementIntegrationTests : IClassFixture<CustomWebAppl
         _factory.MockTime.SetUtcNow(mockTime);
 
         _azureStorageBlobClient = new AzureStorageBlobClient(configuration);
+
+        InitialiseDb(_sqlConnection);
     }
 
     public void Dispose()
     {
         _azureStorageBlobClient.DeleteBlob(_blobName);
-        _factory.Dispose();
+
+        var cleanupPath = Path.Combine(AppContext.BaseDirectory, "DataManagement/cleanup.sql");
+        RunSqlScript(cleanupPath, _sqlConnection);
+        _sqlConnection.Close();
+        _sqlConnection.Dispose();
     }
 
-    private static HttpClient GetApiClient(CustomWebApplicationFactory<Program> factory, string blobContainerName = FingertipsStorageContainerName)
+    private static HttpClient GetApiClient(CustomWebApplicationFactory<Program> factory,
+        string blobContainerName = FingertipsStorageContainerName)
     {
         return factory.WithWebHostBuilder(builder =>
         {
@@ -152,5 +173,66 @@ public sealed class DataManagementIntegrationTests : IClassFixture<CustomWebAppl
 
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.InternalServerError);
+    }
+
+    [Fact]
+    public async Task ListBatchesEndpointShouldListAllBatches()
+    {
+        // Arrange
+        Batch[] expectedResult =
+        [
+            new()
+            {
+                BatchId = "41101_2020-03-07T14:22:37.123Z",
+                CreatedAt = DateTime.Parse("2025-07-09T16:15:00.000Z", CultureInfo.InvariantCulture),
+                IndicatorId = 41101,
+                PublishedAt = DateTime.Parse("2025-08-09T00:00:00.000Z", CultureInfo.InvariantCulture),
+                Status = BatchStatus.Received,
+                UserId = new Guid("fd89acd7-c91f-49c0-89ab-c46d3b25b4f0"),
+                OriginalFilename = "integration-test.csv"
+            },
+            new()
+            {
+                BatchId = "383_2017-06-30T14:22:37.123Z",
+                CreatedAt = DateTime.Parse("2025-07-09T16:15:00.000Z", CultureInfo.InvariantCulture),
+                IndicatorId = 383,
+                PublishedAt = DateTime.Parse("2025-09-09T00:00:00.000Z", CultureInfo.InvariantCulture),
+                Status = BatchStatus.Deleted,
+                UserId = new Guid("833347c4-4f1d-425e-a66c-fa701d1bbd53"),
+                OriginalFilename = "integration-test.csv"
+            },
+            new()
+            {
+                BatchId = "22401_2017-06-30T14:22:37.123Z",
+                CreatedAt = DateTime.Parse("2025-07-09T16:15:00.000Z", CultureInfo.InvariantCulture),
+                IndicatorId = 22401,
+                PublishedAt = DateTime.Parse("2025-10-09T00:00:00.000Z", CultureInfo.InvariantCulture),
+                Status = BatchStatus.Received,
+                UserId = new Guid("10cefea6-5b2e-43bb-9cbc-bcaec8b27e0d"),
+                OriginalFilename = "integration-test.csv"
+            }
+        ];
+
+        var apiClient = GetApiClient(_factory);
+
+        // Act
+        var response = await apiClient.GetFromJsonAsync<Batch[]>(new Uri("/batches", UriKind.Relative));
+
+        // Assert
+        response.ShouldBeEquivalentTo(expectedResult);
+    }
+
+    private static void InitialiseDb(SqlConnection sqlConnection)
+    {
+        sqlConnection.Open();
+        var setupPath = Path.Combine(AppContext.BaseDirectory, "DataManagement/setup.sql");
+        RunSqlScript(setupPath, sqlConnection);
+    }
+
+    private static void RunSqlScript(string path, SqlConnection connection)
+    {
+        var sql = File.ReadAllText(path);
+        using var sqlCommand = new SqlCommand(sql, connection);
+        sqlCommand.ExecuteNonQuery();
     }
 }

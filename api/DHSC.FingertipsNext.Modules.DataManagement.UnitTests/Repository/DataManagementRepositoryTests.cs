@@ -12,7 +12,7 @@ public class DataManagementRepositoryTests : IDisposable
 
     public DataManagementRepositoryTests()
     {
-        DbContextOptionsBuilder<DataManagementDbContext> dbOptions =
+        var dbOptions =
             new DbContextOptionsBuilder<DataManagementDbContext>().UseInMemoryDatabase(
                 Guid.NewGuid().ToString()
             );
@@ -53,7 +53,8 @@ public class DataManagementRepositoryTests : IDisposable
             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0),
             PublishedAt = new DateTime(2025, 1, 1, 0, 0, 0),
             UserId = Guid.Parse("5d4a9f8c-582c-42a7-9447-0d568466806e"),
-            Status = BatchStatus.Received
+            Status = BatchStatus.Received,
+            OriginalFilename = "upload.csv"
         };
 
         // Act
