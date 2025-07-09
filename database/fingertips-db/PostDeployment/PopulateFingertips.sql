@@ -402,10 +402,14 @@ INSERT INTO [User].[IndicatorRole]
     IndicatorKey
 )
 SELECT 
-    RoleId,
-    (SELECT TOP 1 IndicatorKey FROM [dbo].[IndicatorDimension] WHERE [IndicatorId]=IndicatorId)
+    tr.RoleId,
+    (
+        SELECT TOP 1 [dbo].[IndicatorDimension].[IndicatorKey] 
+        FROM [dbo].[IndicatorDimension] 
+        WHERE [dbo].[IndicatorDimension].[IndicatorId]=tr.IndicatorId
+    )
 FROM 
-    #TempIndicatorRole;
+    #TempIndicatorRole tr;
 
 DROP TABLE #TempIndicatorRole;
 

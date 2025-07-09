@@ -16,10 +16,10 @@ public class UserAuthenticationIntegrationTests : IClassFixture<WebApplicationFa
     private const string JwtStubAudience = "TestAudience";
 
     /// <summary>
-    /// The entra group ID for the dev database for indicator 41101.
+    /// The entra group ID for the dev database for indicator 108.
     /// If this value in the db changes, then this needs to be updated accordingly.
     /// </summary>
-    private const string Indicator41101GroupRoleId = "6a953232-afad-4406-a457-9960eec316ac";
+    private const string Indicator108GroupRoleId = "6a953232-afad-4406-a457-9960eec316ac";
 
     private readonly WebApplicationFactory<Program> _appFactory;
 
@@ -49,7 +49,6 @@ public class UserAuthenticationIntegrationTests : IClassFixture<WebApplicationFa
                     });
             });
         });
-
     }
 
     [Fact]
@@ -105,7 +104,7 @@ public class UserAuthenticationIntegrationTests : IClassFixture<WebApplicationFa
 
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken());
 
-        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator/41101", UriKind.Relative));
+        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator/108", UriKind.Relative));
         var response = await client.SendAsync(req);
 
         response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
@@ -119,7 +118,7 @@ public class UserAuthenticationIntegrationTests : IClassFixture<WebApplicationFa
 
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken([adminRoleGuid]));
 
-        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator/41101", UriKind.Relative));
+        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator/108", UriKind.Relative));
         var response = await client.SendAsync(req);
 
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
@@ -130,9 +129,9 @@ public class UserAuthenticationIntegrationTests : IClassFixture<WebApplicationFa
     {
         var client = _appFactory.CreateClient();
 
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken([Indicator41101GroupRoleId]));
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken([Indicator108GroupRoleId]));
 
-        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator/41101", UriKind.Relative));
+        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator/108", UriKind.Relative));
         var response = await client.SendAsync(req);
 
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
@@ -147,7 +146,7 @@ public class UserAuthenticationIntegrationTests : IClassFixture<WebApplicationFa
 
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken([unknownRoleId]));
 
-        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator/41101", UriKind.Relative));
+        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator/108", UriKind.Relative));
 
         var response = await client.SendAsync(req);
 
@@ -161,7 +160,7 @@ public class UserAuthenticationIntegrationTests : IClassFixture<WebApplicationFa
 
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken());
 
-        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator?indicator_ids=41101", UriKind.Relative));
+        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator?indicator_ids=108", UriKind.Relative));
         var response = await client.SendAsync(req);
 
         response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
@@ -175,7 +174,7 @@ public class UserAuthenticationIntegrationTests : IClassFixture<WebApplicationFa
 
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken([adminRoleGuid]));
 
-        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator?indicator_ids=41101", UriKind.Relative));
+        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator?indicator_ids=108", UriKind.Relative));
         var response = await client.SendAsync(req);
 
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
@@ -186,9 +185,9 @@ public class UserAuthenticationIntegrationTests : IClassFixture<WebApplicationFa
     {
         var client = _appFactory.CreateClient();
 
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken([Indicator41101GroupRoleId]));
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken([Indicator108GroupRoleId]));
 
-        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator?indicator_ids=41101", UriKind.Relative));
+        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator?indicator_ids=108", UriKind.Relative));
         var response = await client.SendAsync(req);
 
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
@@ -203,7 +202,7 @@ public class UserAuthenticationIntegrationTests : IClassFixture<WebApplicationFa
 
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken([unknownRoleId]));
 
-        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator?indicator_ids=41101", UriKind.Relative));
+        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator?indicator_ids=108", UriKind.Relative));
 
         var response = await client.SendAsync(req);
 
@@ -216,9 +215,9 @@ public class UserAuthenticationIntegrationTests : IClassFixture<WebApplicationFa
         var adminRoleGuid = "a6f09d79-e3de-48ae-b0ce-c48d5d8e5353";
         var client = _appFactory.WithWebHostBuilder(b => b.UseSetting("AdminRole", adminRoleGuid)).CreateClient();
 
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken([adminRoleGuid, Indicator41101GroupRoleId]));
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken([adminRoleGuid, Indicator108GroupRoleId]));
 
-        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator/41101", UriKind.Relative));
+        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator/108", UriKind.Relative));
         var response = await client.SendAsync(req);
 
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
@@ -230,9 +229,9 @@ public class UserAuthenticationIntegrationTests : IClassFixture<WebApplicationFa
         var adminRoleGuid = "a6f09d79-e3de-48ae-b0ce-c48d5d8e5353";
         var client = _appFactory.WithWebHostBuilder(b => b.UseSetting("AdminRole", adminRoleGuid)).CreateClient();
 
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken([adminRoleGuid, Indicator41101GroupRoleId]));
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken([adminRoleGuid, Indicator108GroupRoleId]));
 
-        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator?indicator_ids=41101", UriKind.Relative));
+        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator?indicator_ids=108", UriKind.Relative));
         var response = await client.SendAsync(req);
 
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
@@ -243,7 +242,7 @@ public class UserAuthenticationIntegrationTests : IClassFixture<WebApplicationFa
     {
         var client = _appFactory.CreateClient();
 
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken([Indicator41101GroupRoleId]));
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken([Indicator108GroupRoleId]));
 
         using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator/9999999", UriKind.Relative));
         var response = await client.SendAsync(req);
@@ -271,7 +270,7 @@ public class UserAuthenticationIntegrationTests : IClassFixture<WebApplicationFa
     {
         var client = _appFactory.CreateClient();
 
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken([Indicator41101GroupRoleId]));
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken([Indicator108GroupRoleId]));
 
         using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator?indicator_ids=9999999", UriKind.Relative));
         var response = await client.SendAsync(req);
@@ -288,33 +287,6 @@ public class UserAuthenticationIntegrationTests : IClassFixture<WebApplicationFa
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken([adminRoleGuid]));
 
         using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator?indicator_ids=9999999", UriKind.Relative));
-        var response = await client.SendAsync(req);
-
-        response.StatusCode.ShouldBe(HttpStatusCode.OK);
-    }
-
-    [Fact]
-    public async Task IndicatorPermissionsEndpointRejectsNonAdminAuthenticatedUsersFromViewingProtectedIndicators()
-    {
-        var client = _appFactory.CreateClient();
-
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken());
-
-        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator/123", UriKind.Relative));
-        var response = await client.SendAsync(req);
-
-        response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
-    }
-
-    [Fact]
-    public async Task IndicatorPermissionsEndpointPermitsAdminAuthenticatedUsersToViewProtectedIndicators()
-    {
-        var adminRoleGuid = "a6f09d79-e3de-48ae-b0ce-c48d5d8e5353";
-        var client = _appFactory.WithWebHostBuilder(b => b.UseSetting("AdminRole", adminRoleGuid)).CreateClient();
-
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken(includeRoleClaims: [adminRoleGuid]));
-
-        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator/123", UriKind.Relative));
         var response = await client.SendAsync(req);
 
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
