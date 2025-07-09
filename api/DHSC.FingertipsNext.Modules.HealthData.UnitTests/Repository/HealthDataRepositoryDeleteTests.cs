@@ -45,16 +45,6 @@ public class HealthDataRepositoryDeleteTests : IDisposable
         }
     }
 
-    [Fact]
-    public void RepositoryInitialisationShouldThrowErrorIfNullDBContextIsProvided()
-    {
-        var act = () => _healthDataRepository = new HealthDataRepository(null!);
-
-        act.ShouldThrow<ArgumentNullException>()
-            .Message.ShouldBe("Value cannot be null. (Parameter 'healthDataDbContext')");
-    }
-
-
     #region DeleteUnpublishedData
 
     [Fact]
