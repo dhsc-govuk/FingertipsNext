@@ -30,6 +30,14 @@ import { MockedFunction } from 'vitest';
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 
+vi.mock('@lib/auth', () => {
+  return {
+    auth: () => {
+      return null;
+    },
+  };
+});
+
 vi.mock('@/components/organisms/ThematicMap/thematicMapHelpers.ts', () => ({
   getMapGeographyData: vi.fn(),
 }));

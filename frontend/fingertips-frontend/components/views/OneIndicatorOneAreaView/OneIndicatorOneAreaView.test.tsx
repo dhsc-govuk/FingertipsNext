@@ -27,6 +27,14 @@ ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 const mockAreasApi = mockDeep<AreasApi>();
 ApiClientFactory.getAreasApiClient = () => mockAreasApi;
 
+vi.mock('@/lib/auth', async () => {
+  const actual = await vi.importActual('@/lib/auth');
+  return {
+    ...actual,
+    auth: vi.fn().mockResolvedValue(null),
+  };
+});
+
 describe('OneIndicatorOneAreaView', () => {
   afterEach(() => {
     vi.resetAllMocks();
