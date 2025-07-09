@@ -10,7 +10,6 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Repository;
 public class HealthDataRepositoryForBatchTests : IDisposable
 {
     private readonly HealthDataDbContext _dbContext;
-    private readonly BatchHealthDataDbContext _batchHealthDataDbContext;
     private readonly SqliteConnection _connection;
     private HealthDataRepository _healthDataRepository;
 
@@ -23,16 +22,10 @@ public class HealthDataRepositoryForBatchTests : IDisposable
             .UseSqlite(_connection)
             .Options;
 
-        var batchDbContextOptions = new DbContextOptionsBuilder<BatchHealthDataDbContext>()
-            .UseSqlite(_connection)
-            .Options;
-
         _dbContext = new HealthDataDbContext(healthDbContextOptions);
-        _batchHealthDataDbContext = new BatchHealthDataDbContext(batchDbContextOptions);
-
         _dbContext.Database.EnsureCreated();
 
-        _healthDataRepository = new HealthDataRepository(_dbContext, _batchHealthDataDbContext);
+        _healthDataRepository = new HealthDataRepository(_dbContext);
     }
 
     public void Dispose()
@@ -47,7 +40,6 @@ public class HealthDataRepositoryForBatchTests : IDisposable
         {
             _dbContext.Database.EnsureDeleted();
             _dbContext.Dispose();
-            _batchHealthDataDbContext.Dispose();
             _connection.Close();
             _connection.Dispose();
         }
@@ -56,7 +48,7 @@ public class HealthDataRepositoryForBatchTests : IDisposable
     [Fact]
     public void RepositoryInitialisationShouldThrowErrorIfNullDBContextIsProvided()
     {
-        var act = () => _healthDataRepository = new HealthDataRepository(_dbContext, null!);
+        var act = () => _healthDataRepository = new HealthDataRepository(null!);
 
         act.ShouldThrow<ArgumentNullException>()
             .Message.ShouldBe("Value cannot be null. (Parameter 'batchHealthDataDbContext')");
