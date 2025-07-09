@@ -107,7 +107,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
 
     expect(
       screen.getByRole('heading', {
-        name: 'Indicator data over time',
+        name: 'Indicator trends over time',
       })
     ).toBeInTheDocument();
 
@@ -157,7 +157,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     expect(highcharts[0]).not.toHaveTextContent('Benchmark');
     expect(
       screen.getByRole('heading', {
-        name: 'Indicator data over time',
+        name: 'Indicator trends over time',
       })
     ).toBeInTheDocument();
     expect(
@@ -190,7 +190,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     expect(
       await waitFor(() =>
         screen.queryByRole('heading', {
-          name: 'Indicator data over time',
+          name: 'Indicator trends over time',
         })
       )
     ).not.toBeInTheDocument();

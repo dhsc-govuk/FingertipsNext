@@ -32,7 +32,7 @@ export function InequalitiesTrendChartAndTable() {
 
   return (
     <StyleChartWrapper data-testid="inequalitiesTrend-component">
-      <H3>Inequalities data over time</H3>
+      <H3>Inequalities trends over time</H3>
       <InequalitiesTypesDropDown
         inequalitiesOptions={inequalityCategories}
         inequalityTypeSelectedSearchParam={
