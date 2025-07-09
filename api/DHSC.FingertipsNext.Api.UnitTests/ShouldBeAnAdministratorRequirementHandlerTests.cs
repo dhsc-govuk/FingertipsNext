@@ -10,8 +10,8 @@ namespace DHSC.FingertipsNext.Api.UnitTests;
 
 public class ShouldBeAnAdministratorRequirementHandlerTests
 {
-    private ShouldBeAnAdministratorRequirementHandler _authHandler;
-    private IConfiguration _mockConfig;
+    private readonly ShouldBeAnAdministratorRequirementHandler _authHandler;
+    private readonly IConfiguration _mockConfig;
 
     public ShouldBeAnAdministratorRequirementHandlerTests()
     {
@@ -23,7 +23,20 @@ public class ShouldBeAnAdministratorRequirementHandlerTests
     [Fact]
     public async Task AuthHandlerReturnsUnauthorizedWhenAdminRoleUndefined()
     {
-        AuthorizationHandlerContext authContext = new AuthorizationHandlerContext([new CanAdministerIndicatorRequirement()],
+        var authContext = new AuthorizationHandlerContext([new CanAdministerIndicatorRequirement()],
+            GenerateClaimsPrincipal(), null);
+
+        await _authHandler.HandleAsync(authContext);
+
+        authContext.HasSucceeded.ShouldBeFalse();
+    }
+
+    [Fact]
+    public async Task AuthHandlerReturnsUnauthorizedWhenAdminRoleBlank()
+    {
+        _mockConfig["AdminRole"].Returns(string.Empty);
+
+        var authContext = new AuthorizationHandlerContext([new CanAdministerIndicatorRequirement()],
             GenerateClaimsPrincipal(), null);
 
         await _authHandler.HandleAsync(authContext);
@@ -36,7 +49,7 @@ public class ShouldBeAnAdministratorRequirementHandlerTests
     {
         _mockConfig["AdminRole"].Returns("8c3441bf-a2a6-415a-be6e-5467c9237671");
 
-        AuthorizationHandlerContext authContext = new AuthorizationHandlerContext([new CanAdministerIndicatorRequirement()],
+        var authContext = new AuthorizationHandlerContext([new CanAdministerIndicatorRequirement()],
             GenerateClaimsPrincipal(), null);
 
         await _authHandler.HandleAsync(authContext);
@@ -47,10 +60,10 @@ public class ShouldBeAnAdministratorRequirementHandlerTests
     [Fact]
     public async Task AuthHandlerReturnsAuthorizedWhenHasAdminRole()
     {
-        string adminRoleId = "8c3441bf-a2a6-415a-be6e-5467c9237671";
+        var adminRoleId = "8c3441bf-a2a6-415a-be6e-5467c9237671";
         _mockConfig["AdminRole"].Returns(adminRoleId);
 
-        AuthorizationHandlerContext authContext = new AuthorizationHandlerContext([new CanAdministerIndicatorRequirement()],
+        var authContext = new AuthorizationHandlerContext([new CanAdministerIndicatorRequirement()],
             GenerateClaimsPrincipal(adminRoleId), null);
 
         await _authHandler.HandleAsync(authContext);
