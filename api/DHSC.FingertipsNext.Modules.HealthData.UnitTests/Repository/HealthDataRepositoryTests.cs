@@ -10,7 +10,6 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Repository;
 public class HealthDataRepositoryTests : IDisposable
 {
     private readonly HealthDataDbContext _dbContext;
-    private readonly BatchHealthDataDbContext _batchContext;
 
     private readonly IndicatorDimensionModel _indicatorDimension = new()
     {
@@ -27,12 +26,9 @@ public class HealthDataRepositoryTests : IDisposable
         var healthDbContextOptions = new DbContextOptionsBuilder<HealthDataDbContext>().UseInMemoryDatabase(
             memoryId
         );
-        var batchDbContextOptions = new DbContextOptionsBuilder<BatchHealthDataDbContext>().UseInMemoryDatabase(
-            memoryId);
 
         _dbContext = new HealthDataDbContext(healthDbContextOptions.Options);
-        _batchContext = new BatchHealthDataDbContext(batchDbContextOptions.Options);
-        _healthDataRepository = new HealthDataRepository(_dbContext, _batchContext);
+        _healthDataRepository = new HealthDataRepository(_dbContext);
     }
 
     public void Dispose()
@@ -46,15 +42,13 @@ public class HealthDataRepositoryTests : IDisposable
         if (disposing)
         {
             _dbContext.Dispose();
-            _batchContext.Dispose();
-
         }
     }
 
     [Fact]
     public void RepositoryInitialisationShouldThrowErrorIfNullDBContextIsProvided()
     {
-        var act = () => _healthDataRepository = new HealthDataRepository(null!, null!);
+        var act = () => _healthDataRepository = new HealthDataRepository(null!);
 
         act.ShouldThrow<ArgumentNullException>()
             .Message.ShouldBe("Value cannot be null. (Parameter 'healthDataDbContext')");

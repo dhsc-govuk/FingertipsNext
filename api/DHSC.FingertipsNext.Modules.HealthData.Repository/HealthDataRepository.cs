@@ -8,15 +8,13 @@ using Microsoft.EntityFrameworkCore;
 namespace DHSC.FingertipsNext.Modules.HealthData.Repository;
 
 [SuppressMessage("ReSharper", "SimplifyConditionalTernaryExpression")]
-public class HealthDataRepository(HealthDataDbContext healthDataDbContext, BatchHealthDataDbContext batchHealthDataDbContext) : IHealthDataRepository
+public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHealthDataRepository
 {
     private const string AGE = "age";
     private const string DEPRIVATION = "deprivation";
 
     private readonly HealthDataDbContext _dbContext =
         healthDataDbContext ?? throw new ArgumentNullException(nameof(healthDataDbContext));
-    private readonly BatchHealthDataDbContext _batchDbContext =
-        batchHealthDataDbContext ?? throw new ArgumentNullException(nameof(batchHealthDataDbContext));
 
     /// <summary>
     ///     Will retrieve the indicator dimension data for the requested indicator ID while also
@@ -127,7 +125,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext, Batch
 
     public async Task<bool> DeleteAllHealthMeasureByBatchIdAsync(int indicatorId, string batchId)
     {
-        var batchToDelete = _batchDbContext.HealthMeasure
+        var batchToDelete = _dbContext.HealthMeasure
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
             .Where(healthMeasure => healthMeasure.BatchId == batchId);
 

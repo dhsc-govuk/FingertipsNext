@@ -7,13 +7,13 @@ using Shouldly;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Repository;
 
-public class HealthDataRepositoryForBatchTests : IDisposable
+public class HealthDataRepositoryDeleteTests : IDisposable
 {
     private readonly HealthDataDbContext _dbContext;
     private readonly SqliteConnection _connection;
     private HealthDataRepository _healthDataRepository;
 
-    public HealthDataRepositoryForBatchTests()
+    public HealthDataRepositoryDeleteTests()
     {
         _connection = new SqliteConnection($"Filename=:memory:");
         _connection.Open();
@@ -51,7 +51,7 @@ public class HealthDataRepositoryForBatchTests : IDisposable
         var act = () => _healthDataRepository = new HealthDataRepository(null!);
 
         act.ShouldThrow<ArgumentNullException>()
-            .Message.ShouldBe("Value cannot be null. (Parameter 'batchHealthDataDbContext')");
+            .Message.ShouldBe("Value cannot be null. (Parameter 'healthDataDbContext')");
     }
 
 
