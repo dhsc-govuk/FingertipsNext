@@ -4,6 +4,7 @@ export * from './AgeData';
 export * from './Area';
 export * from './AreaType';
 export * from './AreaWithRelations';
+export * from './Batch';
 export * from './BenchmarkComparisonMethod';
 export * from './BenchmarkOutcome';
 export * from './BenchmarkReferenceType';
