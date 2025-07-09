@@ -30,7 +30,7 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
         var connectionString = healthDbContext.Database.GetDbConnection().ConnectionString;
         _sqlConnection = new SqlConnection(connectionString);
 
-        ReInitialiseDb(_sqlConnection);
+        InitialiseDb(_sqlConnection);
     }
 
     [Fact]
@@ -117,16 +117,9 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
 
     private static void InitialiseDb(SqlConnection sqlConnection)
     {
+        sqlConnection.Open();
         var setupPath = Path.Combine(AppContext.BaseDirectory, "setup.sql");
         RunSqlScript(setupPath, sqlConnection);
-    }
-
-    private static void ReInitialiseDb(SqlConnection sqlConnection)
-    {
-        sqlConnection.Open();
-        var cleanupPath = Path.Combine(AppContext.BaseDirectory, "cleanup.sql");
-        RunSqlScript(cleanupPath, sqlConnection);
-        InitialiseDb(sqlConnection);
     }
 
     private static void RunSqlScript(string path, SqlConnection connection)
@@ -138,6 +131,8 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
 
     public void Dispose()
     {
+        var cleanupPath = Path.Combine(AppContext.BaseDirectory, "cleanup.sql");
+        RunSqlScript(cleanupPath, _sqlConnection);
         _sqlConnection.Close();
         _sqlConnection.Dispose();
     }
