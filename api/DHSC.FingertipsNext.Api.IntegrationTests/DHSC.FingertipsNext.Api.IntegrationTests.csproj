@@ -33,14 +33,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Update="setup.sql">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <None Update="HealthData\cleanup.sql">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-    </ItemGroup>
-    
-    <ItemGroup>
-        <None Update="cleanup.sql">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <None Update="HealthData\setup.sql">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
 
