@@ -150,7 +150,7 @@ describe('InequalitiesBarChartAndTable', () => {
     await testRender(testDataWithoutInequalities);
 
     expect(
-      screen.queryByTestId('inequalitiesForSingleTimePeriod-component')
+      screen.queryByTestId('inequalitiesComparisonForOneTimePeriod-component')
     ).not.toBeInTheDocument();
   });
 });
