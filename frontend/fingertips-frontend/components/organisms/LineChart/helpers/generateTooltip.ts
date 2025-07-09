@@ -82,7 +82,7 @@ function generateTooltipPointForSelectedAreas(
       `
       <div style="padding-right: 25px" class="tooltip-point-selector">
         <span style="display: block; font-weight: bold">${point.series.name}</span>
-        <span style="display: block;>${point.x}</span>
+        <span style="display: block;">${point.x}</span>
         <div style="display: flex; margin-top: 15px; align-items: center;">
           <div style="margin-right: 10px;"><span style="color: ${point.series.color}; font-weight: bold;">${symbol}</span></div>
           <div style="padding-right: 10px;">

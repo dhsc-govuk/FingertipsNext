@@ -20,6 +20,13 @@ import {
     DatePeriodToJSON,
     DatePeriodToJSONTyped,
 } from './DatePeriod';
+import type { Frequency } from './Frequency';
+import {
+    FrequencyFromJSON,
+    FrequencyFromJSONTyped,
+    FrequencyToJSON,
+    FrequencyToJSONTyped,
+} from './Frequency';
 import type { SexData } from './SexData';
 import {
     SexDataFromJSON,
@@ -54,7 +61,7 @@ export interface QuartileData {
      */
     sex?: SexData;
     /**
-     * Indicates if the segment is the aggregate
+     * Indicates if the segment is the aggregate.
      * @type {boolean}
      * @memberof QuartileData
      */
@@ -77,6 +84,12 @@ export interface QuartileData {
      * @memberof QuartileData
      */
     polarity?: IndicatorPolarity;
+    /**
+     * 
+     * @type {Frequency}
+     * @memberof QuartileData
+     */
+    frequency?: Frequency;
     /**
      * Quartile Q0 value - the minimum value
      * @type {number}
@@ -152,6 +165,7 @@ export function QuartileDataFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'year': json['year'] == null ? undefined : json['year'],
         'datePeriod': json['datePeriod'] == null ? undefined : DatePeriodFromJSON(json['datePeriod']),
         'polarity': json['polarity'] == null ? undefined : IndicatorPolarityFromJSON(json['polarity']),
+        'frequency': json['frequency'] == null ? undefined : FrequencyFromJSON(json['frequency']),
         'q0Value': json['q0Value'] == null ? undefined : json['q0Value'],
         'q1Value': json['q1Value'] == null ? undefined : json['q1Value'],
         'q2Value': json['q2Value'] == null ? undefined : json['q2Value'],
@@ -180,6 +194,7 @@ export function QuartileDataToJSONTyped(value?: QuartileData | null, ignoreDiscr
         'year': value['year'],
         'datePeriod': DatePeriodToJSON(value['datePeriod']),
         'polarity': IndicatorPolarityToJSON(value['polarity']),
+        'frequency': FrequencyToJSON(value['frequency']),
         'q0Value': value['q0Value'],
         'q1Value': value['q1Value'],
         'q2Value': value['q2Value'],

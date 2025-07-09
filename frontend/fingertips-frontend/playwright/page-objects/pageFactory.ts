@@ -3,6 +3,7 @@ import AxeBuilder from '@axe-core/playwright';
 import HomePage from './pages/homePage';
 import ResultsPage from './pages/resultsPage';
 import ChartPage from './pages/chartPage';
+import UploadPage from './pages/uploadPage';
 import { test as baseTest, Page } from '@playwright/test';
 import IndicatorPage from '@/playwright/page-objects/pages/indicatorPage';
 import type { Result } from 'axe-core';
@@ -15,6 +16,7 @@ interface PageObjects {
   chartPage: ChartPage;
   indicatorPage: IndicatorPage;
   entraPage: EntraPage;
+  uploadPage: UploadPage;
 }
 
 interface TestOptions {
@@ -99,6 +101,9 @@ export const test = testBase.extend<PageObjects>({
   },
   entraPage: async ({ page }, use) => {
     await use(new EntraPage(page));
+  },
+  uploadPage: async ({ page }, use) => {
+    await use(new UploadPage(page));
   },
 });
 

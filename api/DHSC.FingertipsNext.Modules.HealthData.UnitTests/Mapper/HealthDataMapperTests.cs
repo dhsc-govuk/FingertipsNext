@@ -99,15 +99,8 @@ public class HealthDataMapperTests
 
     public void MapperShouldMapAnIndicatorDimensionModelPolarityToAnIndicatorPolarity(string? modelPolarity, IndicatorPolarity expectedPolarity)
     {
-        // Arrange
-        var indicator = new IndicatorDimensionModel
-        {
-            Name = "",
-            Polarity = modelPolarity
-        };
-
         // Act
-        var actual = _healthDataMapper.MapIndicatorPolarity(indicator.Polarity);
+        var actual = _healthDataMapper.MapIndicatorPolarity(modelPolarity);
 
         // Assert
         actual.ShouldBeEquivalentTo(expectedPolarity);
@@ -120,33 +113,48 @@ public class HealthDataMapperTests
     [InlineData(null, BenchmarkComparisonMethod.Unknown)]
     public void MapperShouldMapAnIndicatorDimensionModelBenchmarkComparisonMethodToABenchmarkComparisonMethod(string? modelBenchmarkComparisonMethod, BenchmarkComparisonMethod expectedBenchmarkComparisonMethod)
     {
-        // Arrange
-        var indicator = new IndicatorDimensionModel
-        {
-            Name = string.Empty,
-            BenchmarkComparisonMethod = modelBenchmarkComparisonMethod
-        };
-
         // Act
-        var actual = _healthDataMapper.MapBenchmarkComparisonMethod(indicator.BenchmarkComparisonMethod);
+        var actual = _healthDataMapper.MapBenchmarkComparisonMethod(modelBenchmarkComparisonMethod);
 
         // Assert
         actual.ShouldBeEquivalentTo(expectedBenchmarkComparisonMethod);
     }
 
     [Fact]
+    public void ShouldMapQuarterlyCollectionFrequency() => _healthDataMapper.MapCollectionFrequency("Quarterly").ShouldBeEquivalentTo(CollectionFrequency.Quarterly);
+
+    [Fact]
+    public void ShouldMapAnnualCollectionFrequency() =>
+        _healthDataMapper.MapCollectionFrequency("annually").ShouldBeEquivalentTo(CollectionFrequency.Annually);
+
+    [Fact]
+    public void ShouldMapAnnualCollectionFrequencyAsDefault() =>
+        _healthDataMapper.MapCollectionFrequency("blah").ShouldBeEquivalentTo(CollectionFrequency.Annually);
+
+    [Fact]
+    public void ShouldMapAnnualCollectionFrequencyAsDefaultForNull() =>
+        _healthDataMapper.MapCollectionFrequency(null).ShouldBeEquivalentTo(CollectionFrequency.Annually);
+
+    [Fact]
+    public void ShouldMapMonthlyCollectionFrequency() =>
+        _healthDataMapper.MapCollectionFrequency("MONTHLY").ShouldBeEquivalentTo(CollectionFrequency.Monthly);
+
+    [Fact]
     public void MapperShouldMapQuartileDataModelToIndicatorQuartileData()
     {
         // Arrange
         var mockQuartileData = new List<QuartileDataModel>
-        { new()
+        {
+            new()
             {
                 IndicatorId = 0,
                 Polarity = "High is good",
                 Year = 2024,
                 FromDate = new DateTime(2024, 1, 1),
                 ToDate = new DateTime(2024, 12, 31),
-                Period = "Calendar",
+                PeriodType = "Calendar",
+                CollectionFrequency = "Yearly",
+                ReportingPeriod = "Yearly",
                 Q0Value = 10,
                 Q1Value = 20,
                 Q2Value = 30,

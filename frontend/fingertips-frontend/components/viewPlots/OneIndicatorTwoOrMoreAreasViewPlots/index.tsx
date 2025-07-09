@@ -20,6 +20,7 @@ import { LineChartAndTableOverTime } from '@/components/charts/LineChartOverTime
 import { CompareAreasTable } from '@/components/charts/CompareAreasTable/CompareAreasTable';
 import { compareAreasTableIsRequired } from '@/components/charts/CompareAreasTable/helpers/compareAreasTableIsRequired';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { OneIndicatorSegmentationOptions } from '@/components/viewPlots/OneIndicatorSegmentationOptions';
 
 interface OneIndicatorTwoOrMoreAreasViewPlotsProps
   extends OneIndicatorViewPlotProps {
@@ -77,6 +78,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   return (
     <section data-testid="oneIndicatorTwoOrMoreAreasViewPlots-component">
       <BenchmarkSelectArea availableAreas={availableAreasForBenchmarking} />
+      <OneIndicatorSegmentationOptions />
       {showLineChartOverTime ? <LineChartAndTableOverTime /> : null}
       {selectedGroupArea === ALL_AREAS_SELECTED && (
         <StyleChartWrapper>

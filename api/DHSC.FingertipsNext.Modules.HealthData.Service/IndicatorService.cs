@@ -86,10 +86,11 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         return new ServiceResponse<IndicatorWithHealthDataForAreas>()
         {
             Status = areaHealthData.Count != 0 ? ResponseStatus.Success : ResponseStatus.NoDataForIndicator,
-            Content = new IndicatorWithHealthDataForAreas()
+            Content = new IndicatorWithHealthDataForAreas
             {
                 IndicatorId = indicator.IndicatorId,
                 Name = indicator.Name,
+                CollectionFrequency = healthDataMapper.MapCollectionFrequency(indicator.CollectionFrequency),
                 Polarity = polarity,
                 BenchmarkMethod = method,
                 AreaHealthData = areaHealthData
@@ -297,10 +298,19 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         string areaCode,
         string areaType,
         string ancestorCode,
-        string benchmarkAreaCode
+        string benchmarkAreaCode,
+        bool includeUnpublished = false
         )
     {
-        var quartileData = await healthDataRepository.GetQuartileDataAsync(indicatorIds, areaCode, areaType, ancestorCode, benchmarkAreaCode);
+        var quartileData = await healthDataRepository.GetQuartileDataAsync
+        (
+            indicatorIds,
+            areaCode,
+            areaType,
+            ancestorCode,
+            benchmarkAreaCode,
+            includeUnpublished
+        );
 
         return quartileData == null ? null : healthDataMapper.Map(quartileData.ToList());
     }

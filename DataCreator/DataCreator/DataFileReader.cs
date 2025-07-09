@@ -6,7 +6,7 @@ namespace DataCreator
     public static class DataFileReader
     {
         private const string Persons = "Persons";
-        private static readonly string InFilePath = Path.Join("..","..","..","data","in");
+        private static readonly string InFilePath = Path.Join("..", "..", "..", "data", "in");
         private static readonly string TempDirPath = Path.Join(InFilePath, "temp");
 
         public static List<SimpleIndicator> GetPocIndicators()
@@ -32,8 +32,7 @@ namespace DataCreator
         /// Get health data from csv files that have been downloaded from the fingertips API
         /// </summary>
         /// <param name="indicatorId"></param>
-        /// <param name="yearFrom"></param>
-        /// <param name="areasWeWant"></param>
+        /// <param name="areasDict"></param>
         /// <returns></returns>
         public static List<HealthMeasureEntity> GetHealthDataForIndicator(int indicatorId, Dictionary<string, string> areasDict)
         {
@@ -96,6 +95,7 @@ namespace DataCreator
                     Category = category.Trim(),
                     CategoryType = categoryType.Trim(),
                     TimePeriodSortable = split[23],
+                    Period = split[26],
                 };
                 allData.Add(indicatorData);
             }
