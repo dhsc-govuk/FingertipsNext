@@ -45,8 +45,6 @@ public class HealthDataRepositoryDeleteTests : IDisposable
         }
     }
 
-    #region DeleteUnpublishedData
-
     [Fact]
     public async Task DeleteAllHealthMeasureByBatchIdAsyncShouldDeleteUnpublishedDataForBatchIdBelongingToSpecifiedIndicator()
     {
@@ -138,8 +136,6 @@ public class HealthDataRepositoryDeleteTests : IDisposable
         result.ShouldBe(false);
         populatedIndicator.Count.ShouldBe(1);
     }
-
-    #endregion
 
     private void PopulateDatabase(HealthMeasureModel healthMeasure)
     {
