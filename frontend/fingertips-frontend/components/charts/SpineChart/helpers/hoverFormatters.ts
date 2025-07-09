@@ -30,7 +30,7 @@ function formatUnits(units: string): string {
 }
 
 interface FormatBarHoverProps {
-  period: number;
+  period?: number;
   lowerName: string;
   lowerValue: number;
   upperName: string;
@@ -43,7 +43,7 @@ interface FormatBarHoverProps {
 
 interface FormatSymbolHoverProps {
   title: string;
-  period: number;
+  period?: number;
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
   value: number;
   units: string;
@@ -92,8 +92,8 @@ function hoverTemplate(
 
 function formatTitleBlock(
   title: string,
-  period: number,
-  indicatorName: string
+  indicatorName: string,
+  period?: number
 ) {
   return `<div>
             <h4 style="margin:0px; padding:0px;">${title}</h4>
@@ -111,8 +111,8 @@ export function formatBarHover(props: FormatBarHoverProps) {
   return hoverTemplate(
     formatTitleBlock(
       `Benchmark: ${props.benchmarkName}`,
-      props.period,
-      props.indicatorName
+      props.indicatorName,
+      props.period
     ),
     formatSymbol(props.colour, SymbolsEnum.Square),
     mainContent
@@ -125,7 +125,7 @@ export function formatSymbolHover(props: FormatSymbolHoverProps) {
                       <div>${benchmarkComparisonMethodToString(props.benchmarkComparisonMethod)}</div>`;
 
   return hoverTemplate(
-    formatTitleBlock(props.title, props.period, props.indicatorName),
+    formatTitleBlock(props.title, props.indicatorName, props.period),
     formatSymbol(props.colour, props.shape),
     mainContent
   );
