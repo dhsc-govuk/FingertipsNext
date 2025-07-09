@@ -163,7 +163,7 @@ export const handlers = [
 
   http.delete(`${baseURL}/indicators/:indicatorId/batch/:batchId`, async () => {
     const resultArray = [
-      [deleteUnpublishedData200Response(), { status: 200 }],
+      [deleteUnpublishedData204Response(), { status: 204 }],
       [getGetIndicator404Response(), { status: 404 }],
       [getPostIndicatorsIndicatorIdData400Response(), { status: 400 }],
       [getGetIndicator500Response(), { status: 500 }],
@@ -302,8 +302,8 @@ export function getDeleteIndicatorsIndicatorIdData501Response() {
   return null;
 }
 
-export function deleteUnpublishedData200Response() {
-  return { status: 200 };
+export function deleteUnpublishedData204Response() {
+  return { status: 204 };
 }
 
 function getMockSelectedAreaData(areaCodes: string[]) {

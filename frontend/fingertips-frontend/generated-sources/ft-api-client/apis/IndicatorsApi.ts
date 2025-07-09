@@ -500,7 +500,7 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/indicators/{indicator_id}/data/{batch_id}`.replace(`{${"indicator_id"}}`, encodeURIComponent(String(requestParameters['indicatorId']))).replace(`{${"batchId"}}`, encodeURIComponent(String(requestParameters['batchId']))),
+            path: `/indicators/{indicator_id}/data/{batch_id}`.replace(`{${"indicator_id"}}`, encodeURIComponent(String(requestParameters['indicatorId']))).replace(`{${"batch_id"}}`, encodeURIComponent(String(requestParameters['batchId']))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,

@@ -158,7 +158,7 @@ indicator_data_by_batch_id:
     summary: Delete a batch of unpublished data for an indicator
     description: Deletes all unpublished data for the specified indicator and batch.
     responses:
-      "200":
+      "204":
         description: The batch of unpublished data has been deleted successfully.
       "400":
         $ref: "../responses.yaml#/BadRequest"

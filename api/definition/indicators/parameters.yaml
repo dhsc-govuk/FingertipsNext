@@ -22,7 +22,7 @@ indicator_id:
   description: The unique identifier of the indicator
 batch_id:
   in: path
-  name: batchId
+  name: batch_id
   style: simple
   schema:
     type: string
