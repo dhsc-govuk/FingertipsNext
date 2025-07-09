@@ -8,7 +8,7 @@ CREATE TABLE [DataManagement].[Batch]
     [PublishedAt] [datetime2] NOT NULL,
     [UserId] [uniqueidentifier] NOT NULL,
     [Status] [nvarchar](50) NOT NULL,
-    [OriginalFilename] [nvarchar](255) NOT NULL
+    [OriginalFilename] [nvarchar](260) NOT NULL
 CONSTRAINT [PK_Batch] PRIMARY KEY CLUSTERED
 (
     [BatchKey] ASC

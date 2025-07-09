@@ -15,6 +15,8 @@ public class BatchModel
     public required DateTime PublishedAt { get; init; }
     public required Guid UserId { get; init; }
     public required BatchStatus Status { get; init; }
+
+    [MaxLength(260)] public required string OriginalFilename { get; init; }
 }
 
 public enum BatchStatus
