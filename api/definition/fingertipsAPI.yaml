@@ -894,6 +894,19 @@ components:
         - Quintiles
         - CIOverlappingReferenceValue95
         - CIOverlappingReferenceValue99_8
+    Frequency:
+      title: Indicator Collection Frequency
+      type: string
+      example: Annually
+      description: How often data is collected
+      enum:
+        - Annually
+        - Quarterly
+        - Monthly
+      x-enum-varnames:
+        - Annually
+        - Quarterly
+        - Monthly
     SexData:
       title: Sex Data
       type: object
@@ -1147,6 +1160,8 @@ components:
           $ref: '#/components/schemas/IndicatorPolarity'
         benchmarkMethod:
           $ref: '#/components/schemas/BenchmarkComparisonMethod'
+        frequency:
+          $ref: '#/components/schemas/Frequency'
         areaHealthData:
           type: array
           items:
@@ -1175,6 +1190,8 @@ components:
           description: The date period that the data point is for.
         polarity:
           $ref: '#/components/schemas/IndicatorPolarity'
+        frequency:
+          $ref: '#/components/schemas/Frequency'
         q0Value:
           type: number
           description: Quartile Q0 value - the minimum value

@@ -42,7 +42,8 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
                 Name = healthMeasure.IndicatorDimension.Name,
                 Polarity = healthMeasure.IndicatorDimension.Polarity,
                 BenchmarkComparisonMethod = healthMeasure.IndicatorDimension.BenchmarkComparisonMethod,
-                LatestYear = healthMeasure.Year
+                LatestYear = healthMeasure.Year,
+                CollectionFrequency = healthMeasure.IndicatorDimension.CollectionFrequency
             })
             .Take(1)
             .FirstOrDefaultAsync();
@@ -61,7 +62,8 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
                 Name = healthMeasure.IndicatorDimension.Name,
                 Polarity = healthMeasure.IndicatorDimension.Polarity,
                 BenchmarkComparisonMethod = healthMeasure.IndicatorDimension.BenchmarkComparisonMethod,
-                LatestYear = healthMeasure.Year
+                LatestYear = healthMeasure.Year,
+                CollectionFrequency = healthMeasure.IndicatorDimension.CollectionFrequency
             })
             .Take(1)
             .FirstOrDefaultAsync();
