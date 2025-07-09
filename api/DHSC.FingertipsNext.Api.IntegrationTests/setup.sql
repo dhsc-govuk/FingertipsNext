@@ -37,7 +37,6 @@ SELECT
     1,   
     1,   
     1,   
-                                                                                                                                                                                                                                                               -- FromDateKey: use a valid date key
     (SELECT TOP 1 DateKey FROM [dbo].[DateDimension]),
     (SELECT TOP 1 DateKey FROM [dbo].[DateDimension] ORDER BY DateKey DESC),
     (SELECT TOP 1 PeriodKey FROM [dbo].[PeriodDimension]),

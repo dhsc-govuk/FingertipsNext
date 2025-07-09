@@ -24,10 +24,6 @@ dotnet_diagnostic.CA1052.severity = none
 # Consider making public types internal
 dotnet_diagnostic.CA1515.severity = none
 
-[HealthMeasureModelHelper.cs]
-# Consider making public types internal
-dotnet_diagnostic.CA1515.severity = none
-
 [*{Controller,Tests}.cs]
 # Consider making public types internal
 dotnet_diagnostic.CA1515.severity = none
