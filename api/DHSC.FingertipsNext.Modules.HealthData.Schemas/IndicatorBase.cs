@@ -2,7 +2,7 @@
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Schemas
 {
-    public abstract class IndicatorDataBase
+    public abstract class IndicatorBase
     {
         [JsonPropertyName("indicatorId")]
         public int IndicatorId { get; init; }

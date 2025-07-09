@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
-public class IndicatorQuartileData : IndicatorDataBase
+public class IndicatorQuartileData : IndicatorBase
 {
     [JsonPropertyName("year")]
     public short? Year { get; init; }

@@ -892,6 +892,22 @@ components:
         - Annually
         - Quarterly
         - Monthly
+    SexData:
+      title: Sex Data
+      type: object
+      description: Details of the sex category that this data point belongs to.
+      required:
+        - value
+        - isAggregate
+      properties:
+        value:
+          type: string
+          example: Female
+          description: Sex which the data are for.
+        isAggregate:
+          type: boolean
+          example: false
+          description: Indicates if the datapoint is an aggregated value for the sex dimension.
     Date:
       type: string
       format: date
@@ -931,22 +947,6 @@ components:
           type: boolean
           example: false
           description: Indicates if the datapoint is an aggregated value for the age dimension.
-    SexData:
-      title: Sex Data
-      type: object
-      description: Details of the sex category that this data point belongs to.
-      required:
-        - value
-        - isAggregate
-      properties:
-        value:
-          type: string
-          example: Female
-          description: Sex which the data are for.
-        isAggregate:
-          type: boolean
-          example: false
-          description: Indicates if the datapoint is an aggregated value for the sex dimension.
     BenchmarkOutcome:
       title: Benchmark Outcome
       type: string
@@ -1013,9 +1013,9 @@ components:
       description: Represents a health data point for a public health indicator with a count, value, upper confidence interval, lower confidence interval, year, age band and sex.
       required:
         - year
-        - ageBand
-        - sex
         - trend
+        - sex
+        - ageBand
         - deprivation
       properties:
         year:
@@ -1046,6 +1046,7 @@ components:
           $ref: '#/components/schemas/AgeData'
         sex:
           $ref: '#/components/schemas/SexData'
+          deprecated: true
         trend:
           type: string
           example: Increasing

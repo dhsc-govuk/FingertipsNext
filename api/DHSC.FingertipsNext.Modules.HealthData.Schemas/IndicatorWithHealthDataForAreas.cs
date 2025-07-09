@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
-public class IndicatorWithHealthDataForAreas : IndicatorDataBase
+public class IndicatorWithHealthDataForAreas : IndicatorBase
 {
     [JsonPropertyName("name")]
     public string Name { get; init; } = string.Empty;
