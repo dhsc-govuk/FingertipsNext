@@ -45,7 +45,9 @@ public class DataManagementControllerTests
             IndicatorId = StubIndicatorId,
             Status = BatchStatus.Received,
             OriginalFileName = ValidFileName,
-            UserId = Guid.Empty.ToString()
+            UserId = Guid.Empty.ToString(),
+            CreatedAt = DateTime.UtcNow,
+            PublishedAt = publishedAt
         };
 
         _dataManagementService.ValidateCsv(Arg.Any<Stream>()).Returns([]);
@@ -168,7 +170,9 @@ public class DataManagementControllerTests
             IndicatorId = StubIndicatorId,
             Status = BatchStatus.Received,
             OriginalFileName = ValidFileName,
-            UserId = Guid.Empty.ToString()
+            UserId = Guid.Empty.ToString(),
+            CreatedAt = DateTime.UtcNow,
+            PublishedAt = publishedAt
         };
 
         _dataManagementService.UploadFileAsync(Arg.Any<Stream>(), StubIndicatorId, publishedAt, "valid.csv")

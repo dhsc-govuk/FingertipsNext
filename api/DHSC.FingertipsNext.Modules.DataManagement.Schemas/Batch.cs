@@ -18,7 +18,7 @@ public class Batch
     /// Unique ID of the indicator.
     /// </summary>
     [JsonPropertyName("indicatorId")]
-    public int IndicatorId { get; init; }
+    public required int IndicatorId { get; init; }
 
     /// <summary>
     /// The name of the file originally uploaded in order to create the batch.
@@ -30,13 +30,13 @@ public class Batch
     /// When the batch was created.
     /// </summary>
     [JsonPropertyName("createdAt")]
-    public DateTime CreatedAt { get; init; }
+    public required DateTime CreatedAt { get; init; }
 
     /// <summary>
     /// When the data in the batch will be published.
     /// </summary>
     [JsonPropertyName("publishedAt")]
-    public DateTime PublishedAt { get; init; }
+    public required DateTime PublishedAt { get; init; }
 
     /// <summary>
     /// The ID of the user who uploaded the batch.
@@ -49,5 +49,5 @@ public class Batch
     /// </summary>
     [JsonPropertyName("status")]
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public BatchStatus Status { get; init; }
+    public required BatchStatus Status { get; init; }
 }
