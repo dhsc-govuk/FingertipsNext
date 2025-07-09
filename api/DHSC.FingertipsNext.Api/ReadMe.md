@@ -44,17 +44,17 @@ Fingertips has been configured to run in a development authentication mode suppo
 
 There are 2 preconditions to enable this when running the api:
 
-1. The environment hasn't been configured to use AzureAd as the auth provider (a matching AzureAd configuration item can't be found) as this will take precedence.
+1. The environment hasn't been configured to use an AzureAd compatible auth provider such as Entra (a matching AzureAd configuration item can't be found) as this will take precedence.
 2. The api is compiled with the `DEBUG` symbol.
 
-To setup the app for the first run, from the `DHSC.FingertipsNext.Api` directory run
+To setup the app for the first run, from the `DHSC.FingertipsNext.Api` directory run:
 
 ```
 dotnet user-jwts create
 ```
 
 This will do 3 things:
-1. Configure appsettings.Development.json with the minimum audience and issuer values needed to validate the locally generated JWT. 
+1. Configure `appsettings.Development.json` with the minimum audience and issuer values needed to validate the locally generated JWT. 
 2. Add the necessary signing keys into the project secrets in order for the JWT to pass validation.
 3. Output a token that can be used as a bearer token in the authorization header when calling the API endpoints.
 
