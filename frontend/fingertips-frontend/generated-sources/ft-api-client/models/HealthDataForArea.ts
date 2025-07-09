@@ -20,6 +20,13 @@ import {
     HealthDataPointToJSON,
     HealthDataPointToJSONTyped,
 } from './HealthDataPoint';
+import type { IndicatorSegment } from './IndicatorSegment';
+import {
+    IndicatorSegmentFromJSON,
+    IndicatorSegmentFromJSONTyped,
+    IndicatorSegmentToJSON,
+    IndicatorSegmentToJSONTyped,
+} from './IndicatorSegment';
 
 /**
  * Associates a list of health data points with the relevant geographical area (represented by it's unique code).
@@ -40,9 +47,16 @@ export interface HealthDataForArea {
      */
     areaName: string;
     /**
-     * The health data points for the area and indicator
+     * An array of indicator segments.
+     * @type {Array<IndicatorSegment>}
+     * @memberof HealthDataForArea
+     */
+    indicatorSegments?: Array<IndicatorSegment>;
+    /**
+     * The health data points for the area and indicator.
      * @type {Array<HealthDataPoint>}
      * @memberof HealthDataForArea
+     * @deprecated
      */
     healthData: Array<HealthDataPoint>;
 }
@@ -69,6 +83,7 @@ export function HealthDataForAreaFromJSONTyped(json: any, ignoreDiscriminator: b
         
         'areaCode': json['areaCode'],
         'areaName': json['areaName'],
+        'indicatorSegments': json['indicatorSegments'] == null ? undefined : ((json['indicatorSegments'] as Array<any>).map(IndicatorSegmentFromJSON)),
         'healthData': ((json['healthData'] as Array<any>).map(HealthDataPointFromJSON)),
     };
 }
@@ -86,6 +101,7 @@ export function HealthDataForAreaToJSONTyped(value?: HealthDataForArea | null, i
         
         'areaCode': value['areaCode'],
         'areaName': value['areaName'],
+        'indicatorSegments': value['indicatorSegments'] == null ? undefined : ((value['indicatorSegments'] as Array<any>).map(IndicatorSegmentToJSON)),
         'healthData': ((value['healthData'] as Array<any>).map(HealthDataPointToJSON)),
     };
 }

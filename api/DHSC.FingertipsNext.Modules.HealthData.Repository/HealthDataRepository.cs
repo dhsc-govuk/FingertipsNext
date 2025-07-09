@@ -10,7 +10,6 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Repository;
 [SuppressMessage("ReSharper", "SimplifyConditionalTernaryExpression")]
 public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHealthDataRepository
 {
-    private const string SEX = "sex";
     private const string AGE = "age";
     private const string DEPRIVATION = "deprivation";
 
@@ -79,7 +78,6 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         bool includeUnpublished = false
     )
     {
-        var excludeDisaggregatedSexValues = !inequalities.Contains(SEX);
         var excludeDisaggregatedAgeValues = !inequalities.Contains(AGE);
         var excludeDisaggregatedDeprivationValues = !inequalities.Contains(DEPRIVATION);
 
@@ -91,7 +89,6 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .Where(healthMeasure => years.Length == 0 || EF.Constant(years).Contains(healthMeasure.Year))
             .Where(healthMeasure => fromDate == null || healthMeasure.FromDateDimension.Date >= fromDateTime)
             .Where(healthMeasure => toDate == null || healthMeasure.ToDateDimension.Date <= toDateTime)
-            .Where(healthMeasure => !excludeDisaggregatedSexValues || healthMeasure.IsSexAggregatedOrSingle)
             .Where(healthMeasure => !excludeDisaggregatedAgeValues || healthMeasure.IsAgeAggregatedOrSingle)
             .Where(healthMeasure =>
                 !excludeDisaggregatedDeprivationValues || healthMeasure.IsDeprivationAggregatedOrSingle)
@@ -104,6 +101,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .Include(healthMeasure => healthMeasure.IndicatorDimension)
             .Include(healthMeasure => healthMeasure.DeprivationDimension)
             .Include(healthMeasure => healthMeasure.TrendDimension)
+            .OrderBy(healthMeasure => healthMeasure.FromDateDimension.Date)
             .AsNoTracking()
             .ToListAsync();
 
@@ -181,8 +179,15 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         return denormalisedHealthData.OrderBy(a => a.Year);
     }
 
-    public async Task<IEnumerable<QuartileDataModel>> GetQuartileDataAsync(IEnumerable<int> indicatorIds,
-        string areaCode, string areaTypeKey, string ancestorCode, string benchmarkAreaCode)
+    public async Task<IEnumerable<QuartileDataModel>> GetQuartileDataAsync
+    (
+        IEnumerable<int> indicatorIds,
+        string areaCode,
+        string areaTypeKey,
+        string ancestorCode,
+        string benchmarkAreaCode,
+        bool includeUnpublished = false
+    )
     {
         SqlParameter requestedIndicators;
         // Convert the array parameters into DataTables for presentation to the Stored Procedure.
@@ -203,10 +208,11 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         var areaCodeSqlParam = new SqlParameter("@RequestedArea", areaCode);
         var ancestorCodeSqlParam = new SqlParameter("@RequestedAncestorCode", ancestorCode);
         var benchmarkAreaCodeSqlParam = new SqlParameter("@RequestedBenchmarkCode", benchmarkAreaCode);
+        var includeUnpublishedData = new SqlParameter("@IncludeUnpublishedData", includeUnpublished);
 
         var retVal = await _dbContext.QuartileData.FromSql
         (@$"
-              EXEC dbo.GetIndicatorQuartileDataForLatestYear @RequestedAreaType={areaType}, @RequestedIndicatorIds={requestedIndicators}, @RequestedArea={areaCodeSqlParam}, @RequestedAncestorCode={ancestorCodeSqlParam}, @RequestedBenchmarkCode={benchmarkAreaCodeSqlParam}
+              EXEC dbo.GetIndicatorQuartileDataForLatestYear @RequestedAreaType={areaType}, @RequestedIndicatorIds={requestedIndicators}, @RequestedArea={areaCodeSqlParam}, @RequestedAncestorCode={ancestorCodeSqlParam}, @RequestedBenchmarkCode={benchmarkAreaCodeSqlParam}, @IncludeUnpublishedData={includeUnpublishedData}
               "
         ).ToListAsync();
 

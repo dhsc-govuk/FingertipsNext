@@ -9,6 +9,11 @@ import styled from 'styled-components';
 import { AreaFilterPaneCheckboxes } from '@/components/organisms/AreaFilterPane/AreaFilterPaneCheckboxes';
 import { StyledFilterSelect } from '@/components/styles/StyledFilterSelect';
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
+import {
+  StyledFilterWithClearAllLink,
+  StyledRightClearAllLink,
+} from '@/lib/styleHelpers/filterPanelClearAllLinkStyle';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 export type AreaFilterData = {
   availableAreaTypes?: AreaType[];
@@ -36,6 +41,13 @@ const StyledSectionBreak = styled(SectionBreak)({
 
 const StyledSelectAllCheckBox = styled(Checkbox)({
   marginBottom: '0em',
+});
+
+const StyledHelperText = styled('span')({
+  display: 'inline-block',
+  marginBottom: '30px',
+  fontSize: '16px',
+  color: GovukColours.Orange,
 });
 
 export function SelectAreasFilterPanel({
@@ -187,10 +199,16 @@ export function SelectAreasFilterPanel({
 
   const rows = areaFilterData?.availableAreas ?? [];
 
+  const clearAllAreas = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    if (!hasAreasSelected) return;
+    handleSelectAllAreasSelected(false);
+  };
+
   return (
     <div data-testid="select-areas-filter-panel">
       <StyledFilterSelect
-        label="Select an area type"
+        label="Select a type of health or administrative area"
         data-testid="area-type-selector-container"
         input={{
           onChange: (e) => areaTypeSelected(e.target.value),
@@ -206,9 +224,14 @@ export function SelectAreasFilterPanel({
           </option>
         ))}
       </StyledFilterSelect>
+      {hasAreasSelected ? (
+        <StyledHelperText>
+          To change, clear your selected areas
+        </StyledHelperText>
+      ) : null}
 
       <StyledFilterSelect
-        label="Select a group type"
+        label="Select a type of group to compare with"
         data-testid="group-type-selector-container"
         input={{
           onChange: (e) => groupTypeSelected(e.target.value),
@@ -245,17 +268,28 @@ export function SelectAreasFilterPanel({
 
       <FormGroup>
         <StyledFilterLabel>Select one or more areas</StyledFilterLabel>
-        <StyledSelectAllCheckBox
-          value={searchState?.[SearchParams.GroupSelected]}
-          sizeVariant="SMALL"
-          defaultChecked={
-            searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED
-          }
-          onChange={(e) => handleSelectAllAreasSelected(e.target.checked)}
-          id={'area-select-all'}
-        >
-          Select all areas
-        </StyledSelectAllCheckBox>
+        <StyledFilterWithClearAllLink>
+          <StyledSelectAllCheckBox
+            value={searchState?.[SearchParams.GroupSelected]}
+            sizeVariant="SMALL"
+            defaultChecked={
+              searchState?.[SearchParams.GroupAreaSelected] ===
+              ALL_AREAS_SELECTED
+            }
+            onChange={(e) => handleSelectAllAreasSelected(e.target.checked)}
+            id={'area-select-all'}
+          >
+            Select all areas
+          </StyledSelectAllCheckBox>
+          <StyledRightClearAllLink
+            href=""
+            onClick={clearAllAreas}
+            data-testid="clear-all-selected-areas-link"
+            $enabled={!hasAreasSelected}
+          >
+            Clear all
+          </StyledRightClearAllLink>
+        </StyledFilterWithClearAllLink>
         <StyledSectionBreak visible />
         <AreaFilterPaneCheckboxes
           rows={rows}

@@ -2,7 +2,7 @@ openapi: 3.0.0
 
 components:
   securitySchemes:
-    bearerAuth: 
+    bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT # optional, arbitrary value for documentation purposes
@@ -20,6 +20,8 @@ info:
 tags:
   - name: indicators
     description: Endpoints dealing with public health indicators
+  - name: batches
+    description: Endpoints dealing with batches of public health data that have been uploaded.
   - name: areas
     description: Endpoints dealing with areas / geography
   - name: system
@@ -51,6 +53,10 @@ paths:
     $ref: "./indicators/paths.yaml#/indicators_by_indicator_id_all_data"
   /indicators/quartiles:
     $ref: "./indicators/paths.yaml#/quartiles"
+  /indicators/quartiles/all:
+    $ref: "./indicators/paths.yaml#/quartiles"
+  /batches:
+    $ref: "./batches/paths.yaml#/batches"
   /user/info:
     $ref: "./user/paths.yaml#/user_info"
   /user/indicator/{indicator_id}:

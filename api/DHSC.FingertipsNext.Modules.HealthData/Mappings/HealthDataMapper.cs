@@ -1,6 +1,7 @@
 ﻿using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 using DHSC.FingertipsNext.Modules.HealthData.Service;
+using System.Drawing;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Mappings;
 
@@ -30,13 +31,16 @@ public class HealthDataMapper : IHealthDataMapper
         };
     }
 
-    private static DatePeriodType MapDatePeriodType(string periodType)
+    private static DatePeriodType MapDatePeriodType(string? periodType)
     {
         return periodType switch
         {
+            "Academic" => DatePeriodType.Academic,
             "Calendar" => DatePeriodType.Calendar,
             "Financial" => DatePeriodType.Financial,
-            "November-November" => DatePeriodType.NovemberNovember,
+            "Financial multi-year" => DatePeriodType.FinancialMultiYear,
+            "Financial year end point" => DatePeriodType.FinancialYearEndPoint,
+            "Yearly" => DatePeriodType.Yearly,
             _ => DatePeriodType.Unknown,
         };
     }
@@ -49,7 +53,7 @@ public class HealthDataMapper : IHealthDataMapper
             Count = source.Count,
             Value = source.Value,
             Year = source.Year,
-            DatePeriod = Map(source.FromDate, source.ToDate, source.PeriodDimension.Period),
+            DatePeriod = Map(source.FromDate, source.ToDate, source.IndicatorDimension.PeriodType),
             BenchmarkComparison = Map(source.BenchmarkComparison),
             IsAggregate = source.IsAggregate,
             LowerConfidenceInterval = source.LowerCi,
@@ -69,7 +73,7 @@ public class HealthDataMapper : IHealthDataMapper
             Count = source.Count,
             Value = source.Value,
             Year = source.Year,
-            DatePeriod = Map(source.FromDate, source.ToDate, source.Period),
+            DatePeriod = Map(source.FromDate, source.ToDate, source.PeriodType),
             BenchmarkComparison = Map(source.BenchmarkComparisonOutcome == null
             ? null
             : new BenchmarkComparisonModel
@@ -87,12 +91,7 @@ public class HealthDataMapper : IHealthDataMapper
                 HasValue = source.AgeDimensionHasValue,
                 IsAggregate = source.AgeDimensionIsAggregate,
             }),
-            Sex = Map(new SexDimensionModel()
-            {
-                Name = source.SexDimensionName,
-                HasValue = source.SexDimensionHasValue,
-                IsAggregate = source.SexDimensionIsAggregate
-            }),
+            Sex = new Sex { Value = source.SexDimensionName, IsAggregate = source.SexDimensionIsAggregate },
             Trend = source.TrendDimensionName ?? string.Empty,
             Deprivation = Map(new DeprivationDimensionModel()
             {
@@ -103,6 +102,12 @@ public class HealthDataMapper : IHealthDataMapper
                 IsAggregate = source.DeprivationDimensionIsAggregate,
             })
         };
+    }
+
+    public Sex Map(SexDimensionModel source)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        return new Sex { Value = source.Name, IsAggregate = source.IsAggregate };
     }
 
     public IList<HealthDataPoint> Map(IList<HealthMeasureModel> source)
@@ -150,7 +155,7 @@ public class HealthDataMapper : IHealthDataMapper
         };
     }
 
-    private static DatePeriod Map(DateTime fromDate, DateTime toDate, string periodStr)
+    private static DatePeriod Map(DateTime fromDate, DateTime toDate, string? periodStr)
     {
         return new DatePeriod
         {
@@ -176,11 +181,6 @@ public class HealthDataMapper : IHealthDataMapper
         return new Age { Value = source.Name, IsAggregate = source.IsAggregate };
     }
 
-    private static Sex Map(SexDimensionModel source)
-    {
-        return new Sex { Value = source.Name, IsAggregate = source.IsAggregate };
-    }
-
     private IndicatorQuartileData Map(QuartileDataModel source)
     {
         return new IndicatorQuartileData
@@ -188,8 +188,8 @@ public class HealthDataMapper : IHealthDataMapper
             IndicatorId = source.IndicatorId,
             Polarity = source.Polarity == null ? null : MapIndicatorPolarity(source.Polarity),
             Year = source.Year,
-            DatePeriod = (source.FromDate.HasValue && source.ToDate.HasValue && source.Period != null)
-                ? Map(source.FromDate.Value, source.ToDate.Value, source.Period)
+            DatePeriod = (source.FromDate.HasValue && source.ToDate.HasValue && source.PeriodType != null)
+                ? Map(source.FromDate.Value, source.ToDate.Value, source.PeriodType)
                 : null!,
             Q0Value = source.Q0Value,
             Q1Value = source.Q1Value,

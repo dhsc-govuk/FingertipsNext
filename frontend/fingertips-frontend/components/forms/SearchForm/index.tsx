@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, ErrorText, FormGroup, H3, SearchBox } from 'govuk-react';
+import { Button, ErrorText, FormGroup, H3, Link, SearchBox } from 'govuk-react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { AreaAutoCompleteInputField } from '@/components/molecules/AreaAutoCompleteInputField';
 import { SearchParams } from '@/lib/searchStateManager';
@@ -39,6 +39,17 @@ const SpacedTitle = styled(H3)({
   marginTop: '40px',
 });
 
+const StyledClearAllLinkHeight = styled(Link)({
+  height: '40px',
+  fontSize: '19px',
+});
+
+const StyledSearchWithClearAllLink = styled('div')({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '20px',
+});
+
 export const SearchForm = ({
   formState,
   selectedAreasData,
@@ -67,11 +78,13 @@ export const SearchForm = ({
         borderColor: GovukColours.Red,
         borderWidth: '4px',
         borderStyle: 'solid',
+        fontSize: '19px',
       }
     : {
         borderColor: GovukColours.Black,
         borderWidth: '2px',
         borderStyle: 'solid',
+        fontSize: '19px',
       };
 
   return (
@@ -134,17 +147,20 @@ export const SearchForm = ({
           areaFilterData={areaFilterData}
           selectedAreasData={selectedAreasData}
           isFullWidth={false}
+          showClearAllLink={false}
         />
       ) : null}
-
-      <Button
-        type="submit"
-        data-testid="search-form-button-submit"
-        style={{ marginTop: 10 }}
-        onClick={() => setIsLoading(true)}
-      >
-        Search
-      </Button>
+      <StyledSearchWithClearAllLink>
+        <Button
+          type="submit"
+          data-testid="search-form-button-submit"
+          style={{ marginTop: 10 }}
+          onClick={() => setIsLoading(true)}
+        >
+          Search
+        </Button>
+        <StyledClearAllLinkHeight href="/">Clear all</StyledClearAllLinkHeight>
+      </StyledSearchWithClearAllLink>
 
       <ArrowExpander
         openTitle="Open area filter"

@@ -6,7 +6,7 @@ exports[`SearchForm > snapshot test - renders the form 1`] = `
     data-testid="search-form"
   >
     <h3
-      class="heading__StyledHeading-sc-1dsobun-0 bRbIzR sc-jsJBEP duAQxZ"
+      class="heading__StyledHeading-sc-1dsobun-0 bRbIzR sc-bmzYkS goknBJ"
     >
       Find public health data
     </h3>
@@ -20,28 +20,28 @@ exports[`SearchForm > snapshot test - renders the form 1`] = `
       class="src__FormGroup-sc-1m4431t-0 gMksRW"
     >
       <div
-        class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-fUnMCh sc-hzhJZQ iBmoNX gxxULH"
+        class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-hmdomO sc-bXCLTC kRzZMI izFtzy"
       >
         <p>
           Search by subject
         </p>
       </div>
       <div
-        class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-fHjqPf sc-hmdomO kLkQUB cWHvxw"
+        class="src__StyledParagraph-sc-sgc9po-0 qWnWb sc-jsJBEP sc-eeDRCY cAGDQC bllSxM"
       >
         <p>
           For example, smoking, diabetes prevalence, or a specific indicator ID
         </p>
       </div>
       <div
-        class="src__StyledSearchBox-sc-bgtefr-2 oulCC sc-bXCLTC cNlubM"
+        class="src__StyledSearchBox-sc-bgtefr-2 oulCC sc-koXPp IVKWK"
       >
         <input
           class="src__Input-sc-bgtefr-0 fcebrZ"
           data-testid="indicator-search-form-input"
           id="indicator"
           name="indicator"
-          style="border-color: rgb(11, 12, 12); border-width: 2px; border-style: solid;"
+          style="border-color: rgb(11, 12, 12); border-width: 2px; border-style: solid; font-size: 19px;"
           title="indicator"
           type="search"
           value="indicator"
@@ -103,19 +103,29 @@ exports[`SearchForm > snapshot test - renders the form 1`] = `
         </label>
       </div>
     </div>
-    <button
-      class="src__StyledButton-sc-19ocyxv-0 eEShVH"
-      data-testid="search-form-button-submit"
-      style="margin-top: 10px;"
-      type="submit"
+    <div
+      class="sc-dtBdUo fABuRa"
     >
-      Search
-    </button>
+      <button
+        class="src__StyledButton-sc-19ocyxv-0 eEShVH"
+        data-testid="search-form-button-submit"
+        style="margin-top: 10px;"
+        type="submit"
+      >
+        Search
+      </button>
+      <a
+        class="src__Link-sc-1loawqx-0 sc-iHGNWf jjZtWC rkHog"
+        href="/"
+      >
+        Clear all
+      </a>
+    </div>
     <span
-      class="sc-dAbbOL eyuXGu"
+      class="sc-hzhJZQ kasnJT"
     >
       <svg
-        class="sc-ikkxIA fIoiNQ"
+        class="sc-fUnMCh gHgVTG"
         data-testid="arrow-toggle-button"
         height="30"
         viewBox="0 0 25 25"
@@ -139,7 +149,7 @@ exports[`SearchForm > snapshot test - renders the form 1`] = `
         />
       </svg>
       <label
-        class="src__Label-sc-iqzvxn-0 sc-feUZmu cjKMYe jcuaii"
+        class="src__Label-sc-iqzvxn-0 sc-fHjqPf cjKMYe cTUWLB"
         fill="#1D70B8"
       >
         Open area filter

@@ -20,6 +20,13 @@ import {
     DatePeriodToJSON,
     DatePeriodToJSONTyped,
 } from './DatePeriod';
+import type { SexData } from './SexData';
+import {
+    SexDataFromJSON,
+    SexDataFromJSONTyped,
+    SexDataToJSON,
+    SexDataToJSONTyped,
+} from './SexData';
 import type { IndicatorPolarity } from './IndicatorPolarity';
 import {
     IndicatorPolarityFromJSON,
@@ -40,6 +47,18 @@ export interface QuartileData {
      * @memberof QuartileData
      */
     indicatorId?: number;
+    /**
+     * 
+     * @type {SexData}
+     * @memberof QuartileData
+     */
+    sex?: SexData;
+    /**
+     * Indicates if the segment is the aggregate.
+     * @type {boolean}
+     * @memberof QuartileData
+     */
+    isAggregate?: boolean;
     /**
      * The year that the data point is for
      * @type {number}
@@ -128,6 +147,8 @@ export function QuartileDataFromJSONTyped(json: any, ignoreDiscriminator: boolea
     return {
         
         'indicatorId': json['indicatorId'] == null ? undefined : json['indicatorId'],
+        'sex': json['sex'] == null ? undefined : SexDataFromJSON(json['sex']),
+        'isAggregate': json['isAggregate'] == null ? undefined : json['isAggregate'],
         'year': json['year'] == null ? undefined : json['year'],
         'datePeriod': json['datePeriod'] == null ? undefined : DatePeriodFromJSON(json['datePeriod']),
         'polarity': json['polarity'] == null ? undefined : IndicatorPolarityFromJSON(json['polarity']),
@@ -154,6 +175,8 @@ export function QuartileDataToJSONTyped(value?: QuartileData | null, ignoreDiscr
     return {
         
         'indicatorId': value['indicatorId'],
+        'sex': SexDataToJSON(value['sex']),
+        'isAggregate': value['isAggregate'],
         'year': value['year'],
         'datePeriod': DatePeriodToJSON(value['datePeriod']),
         'polarity': IndicatorPolarityToJSON(value['polarity']),

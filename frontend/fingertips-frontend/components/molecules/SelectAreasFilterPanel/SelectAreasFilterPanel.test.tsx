@@ -63,9 +63,12 @@ const mockSearchStateWithNoSelectedAreas = {
   [SearchParams.AreasSelected]: [],
 };
 
+const helperText = 'To change, clear your selected areas';
+
 describe('SelectAreasFilterPanel', () => {
   describe('Area type', () => {
-    const areaTypeDropDownLabel = 'Select an area type';
+    const areaTypeDropDownLabel =
+      'Select a type of health or administrative area';
 
     it('should disable the select area type drop down when there are areas selected', () => {
       mockSearchState = mockSearchStateWithSelectedAreas;
@@ -219,6 +222,14 @@ describe('SelectAreasFilterPanel', () => {
         scroll: false,
       });
     });
+
+    it('should show helper text when areas are selected', () => {
+      mockSearchState = mockSearchStateWithSelectedAreas;
+
+      render(<SelectAreasFilterPanel />);
+
+      expect(screen.getByText(helperText)).toBeInTheDocument();
+    });
   });
 
   describe('Group type', () => {
@@ -228,7 +239,7 @@ describe('SelectAreasFilterPanel', () => {
       nhsIntegratedCareBoardsAreaType,
     ];
 
-    const groupTypeDropDownLabel = 'Select a group type';
+    const groupTypeDropDownLabel = 'Select a type of group to compare with';
 
     it('should disable the select group type drop down when there are areas selected', () => {
       mockSearchState = mockSearchStateWithSelectedAreas;
@@ -1077,6 +1088,38 @@ describe('SelectAreasFilterPanel', () => {
       expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
         scroll: false,
       });
+    });
+  });
+
+  describe('StyledRightClearAllLink', () => {
+    it('should clear all selected areas when the clear all link is clicked', async () => {
+      mockSearchState = {
+        [SearchParams.AreaTypeSelected]: 'nhs-regions',
+        [SearchParams.AreasSelected]: ['E40000007', 'E40000012'],
+      };
+
+      render(
+        <SelectAreasFilterPanel
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableAreas: mockAvailableAreas['nhs-regions'],
+          }}
+        />
+      );
+
+      const user = userEvent.setup();
+
+      const link = screen.getByTestId('clear-all-selected-areas-link');
+
+      await user.click(link);
+
+      expect(mockSetIsLoading).toHaveBeenCalledWith(true);
+      expect(mockReplace).toHaveBeenCalledWith(
+        `${mockPath}` + `?${SearchParams.AreaTypeSelected}=nhs-regions`,
+        {
+          scroll: false,
+        }
+      );
     });
   });
 });

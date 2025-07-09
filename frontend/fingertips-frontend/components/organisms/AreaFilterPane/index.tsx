@@ -40,6 +40,7 @@ const FocusAnchor = styled('button')(
   {
     'cursor': 'pointer',
     'textDecoration': 'underline',
+    'textDecorationColor': GovukColours.Blue,
     'border': 'none',
     'backgroundColor': 'transparent',
     '&:focus-visible': {
@@ -49,6 +50,11 @@ const FocusAnchor = styled('button')(
     },
   }
 );
+
+const StyledHideFilterText = styled('span')({
+  fontSize: '19px',
+  color: GovukColours.Blue,
+});
 
 function HideFiltersSpan({
   hideFilters,
@@ -62,7 +68,7 @@ function HideFiltersSpan({
         hideFilters();
       }}
     >
-      Hide filter
+      <StyledHideFilterText>Hide filter</StyledHideFilterText>
     </FocusAnchor>
   );
 }
@@ -97,6 +103,7 @@ export function AreaFilterPane({
           key={`selected-area-panel-${JSON.stringify(searchState)}`}
           selectedAreasData={selectedAreasData}
           areaFilterData={areaFilterData}
+          showClearAllLink={true}
         />
 
         <SelectAreasFilterPanel

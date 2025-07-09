@@ -18,9 +18,13 @@
  * @export
  */
 export const PeriodType = {
+    Academic: 'Academic',
     Calendar: 'Calendar',
     Financial: 'Financial',
-    NovemberNovember: 'NovemberNovember'
+    FinancialMultiYear: 'FinancialMultiYear',
+    FinancialYearEndPoint: 'FinancialYearEndPoint',
+    Yearly: 'Yearly',
+    Unknown: 'Unknown'
 } as const;
 export type PeriodType = typeof PeriodType[keyof typeof PeriodType];
 
