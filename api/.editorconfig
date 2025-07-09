@@ -20,10 +20,9 @@ dotnet_diagnostic.CA1515.severity = none
 # Static holder types should be Static or NotInheritable
 dotnet_diagnostic.CA1052.severity = none
 
-[CustomWebApplicationFactory.cs]
+[*WebApplicationFactory.cs]
 # Consider making public types internal
 dotnet_diagnostic.CA1515.severity = none
-
 
 [*{Controller,Tests}.cs]
 # Consider making public types internal
@@ -32,6 +31,8 @@ dotnet_diagnostic.CA1515.severity = none
 dotnet_diagnostic.CA1812.severity = none
 # CA1822: Mark members as static - Routing doesnt work with static routes
 dotnet_diagnostic.CA1822.severity = none
+# CA2100: Ignore Review SQL queries
+dotnet_diagnostic.CA2100.severity = none
 
 [*{Test,Tests}.cs]
 # Ignore Resolve nullable warnings for test files

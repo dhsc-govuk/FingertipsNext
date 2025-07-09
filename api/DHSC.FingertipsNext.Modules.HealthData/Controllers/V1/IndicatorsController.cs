@@ -315,4 +315,30 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
             _ => StatusCode(500),
         };
     }
+
+    [HttpDelete]
+    [Route("{indicatorId:int}/data/{batchId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> DeleteUnpublishedData([FromRoute] int indicatorId, [FromRoute] string batchId)
+    {
+        var result = await _indicatorsService.DeleteUnpublishedDataAsync(indicatorId, batchId);
+        return result.Status switch
+        {
+            ResponseStatus.Success => NoContent(),
+            ResponseStatus.BatchNotFound => new NotFoundObjectResult(
+                new SimpleError
+                {
+                    Message = $"Batch with id {batchId} not found."
+                }),
+            ResponseStatus.ErrorDeletingPublishedBatch => new BadRequestObjectResult(
+                new SimpleError
+                {
+                    Message = result.Content ?? "Deletion failed"
+                }),
+            _ => StatusCode(StatusCodes.Status500InternalServerError, "Failed to delete batch"),
+        };
+    }
 }
