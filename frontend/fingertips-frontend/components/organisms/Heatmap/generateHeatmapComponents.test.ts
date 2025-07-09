@@ -2,7 +2,8 @@ import {
   BenchmarkComparisonMethod,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
-import { generateHeaders, generateRows } from './generateHeatmapComponents';
+import { generateRows } from './generateHeatmapRows';
+import { generateHeaders } from './generateHeatmapHeaders';
 import { HeaderType } from './heatmapTypes';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
@@ -103,7 +104,7 @@ describe('generate headers and rows - benchmark area is England', () => {
     expect(headers[4].content).toEqual('Group: Group Area');
   });
 
-  it('should set the header corresponding to an area) to area header type', () => {
+  it('should set the header corresponding to an area to area header type', () => {
     expect(headers[5].type).toEqual(HeaderType.Area);
     expect(headers[5].content).toEqual('Generic Area');
   });

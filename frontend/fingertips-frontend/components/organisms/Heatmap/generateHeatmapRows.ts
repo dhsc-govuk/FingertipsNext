@@ -4,19 +4,18 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { formatNumber } from '@/lib/numberFormatter';
 import {
   Area,
   CellType,
   DataPoint,
-  HeaderType,
   Cell,
   Row,
   Indicator,
-  Header,
 } from './heatmapTypes';
+
+export const DEFAULT_BACKGROUND_COLOUR = GovukColours.White;
 
 export const generateRows = (
   areas: Area[],
@@ -91,7 +90,7 @@ export const generateRows = (
   return rows;
 };
 
-const generateDataBackgroundColour = (
+export const generateDataBackgroundColour = (
   dataPoint: DataPoint,
   benchmarkAreaCode: string
 ): string => {
@@ -100,7 +99,7 @@ const generateDataBackgroundColour = (
     !dataPoint.benchmark?.benchmarkMethod ||
     !dataPoint.benchmark?.polarity
   ) {
-    return GovukColours.White;
+    return DEFAULT_BACKGROUND_COLOUR;
   }
 
   if (dataPoint.benchmark.outcome === 'Baseline') {
@@ -115,10 +114,10 @@ const generateDataBackgroundColour = (
     dataPoint.benchmark.polarity
   );
 
-  return colour ?? GovukColours.White;
+  return colour ?? DEFAULT_BACKGROUND_COLOUR;
 };
 
-const getHoverAreaName = (
+export const getHoverAreaName = (
   area: Area,
   groupAreaCode: string,
   benchmarkAreaCode: string
@@ -132,104 +131,4 @@ const getHoverAreaName = (
   }
 
   return area.name;
-};
-
-export const generateHeaders = (
-  areas: Area[],
-  groupAreaCode: string,
-  benchmarkAreaCode: string
-): Header[] => {
-  const getHeaderType = (pos: number, areaCode?: string): HeaderType => {
-    if (pos === 0) {
-      return HeaderType.IndicatorTitle;
-    }
-
-    if (pos === 1) {
-      return HeaderType.Period;
-    }
-
-    if (pos === 2) {
-      return HeaderType.ValueUnit;
-    }
-
-    if (areaCode === areaCodeForEngland) {
-      return benchmarkAreaCode === areaCodeForEngland
-        ? HeaderType.BenchmarkGroupArea
-        : HeaderType.NonBenchmarkGroupArea;
-    }
-
-    if (groupAreaCode && areaCode === groupAreaCode) {
-      return benchmarkAreaCode === areaCodeForEngland
-        ? HeaderType.NonBenchmarkGroupArea
-        : HeaderType.BenchmarkGroupArea;
-    }
-
-    return HeaderType.Area;
-  };
-
-  const generateHeaderKey = (pos: number, areaCode?: string) => {
-    const prefix = 'header';
-    switch (pos) {
-      case 0: {
-        return `${prefix}-indicator`;
-      }
-      case 1: {
-        return `${prefix}-period`;
-      }
-      case 2: {
-        return `${prefix}-unitlabel`;
-      }
-      default: {
-        return `${prefix}-${areaCode}`;
-      }
-    }
-  };
-
-  const generateHeaderTitle = (
-    areaCode: string,
-    areaName: string,
-    groupAreaCode: string,
-    benchmarkAreaCode: string
-  ) => {
-    if (areaCode !== areaCodeForEngland && areaCode !== groupAreaCode) {
-      return areaName;
-    }
-
-    if (areaCode === areaCodeForEngland) {
-      return benchmarkAreaCode === areaCodeForEngland
-        ? `Benchmark: ${areaName}`
-        : areaName;
-    }
-
-    return benchmarkAreaCode === groupAreaCode
-      ? `Benchmark: ${areaName}`
-      : `Group: ${areaName}`;
-  };
-
-  const constantHeaderTitles = ['Indicators', 'Period', 'Value unit'];
-  return constantHeaderTitles
-    .map((title, index) => {
-      return {
-        key: generateHeaderKey(index),
-        type: getHeaderType(index),
-        content: title,
-      };
-    })
-    .concat(
-      areas.map((area, index) => {
-        return {
-          key: generateHeaderKey(
-            index + constantHeaderTitles.length,
-            area.code
-          ),
-          content: generateHeaderTitle(
-            area.code,
-            area.name,
-            groupAreaCode,
-            benchmarkAreaCode
-          ),
-          type: getHeaderType(index + constantHeaderTitles.length, area.code),
-        };
-      })
-    );
 };

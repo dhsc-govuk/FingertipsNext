@@ -4,7 +4,8 @@ import { CsvData } from '@/lib/downloadHelpers/convertToCsv';
 import { convertHeatmapToCsv } from '@/components/organisms/Heatmap/convertHeatmapToCsv';
 import { Header, HeatmapIndicatorData, Row } from './heatmapTypes';
 import { extractSortedAreasIndicatorsAndDataPoints } from './prepareHeatmapData';
-import { generateHeaders, generateRows } from './generateHeatmapComponents';
+import { generateRows } from './generateHeatmapRows';
+import { generateHeaders } from './generateHeatmapHeaders';
 
 interface MemoDataPrep {
   headers: Header[];
