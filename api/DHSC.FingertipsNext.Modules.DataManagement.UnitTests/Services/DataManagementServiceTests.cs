@@ -20,6 +20,7 @@ public class DataManagementServiceTests
     private readonly ILogger<DataManagementService> _logger = Substitute.For<ILogger<DataManagementService>>();
     private readonly TimeProvider _timeProvider = Substitute.For<TimeProvider>();
     private readonly IDataManagementRepository _repository = Substitute.For<IDataManagementRepository>();
+    private readonly IDataManagementMapper _mapper = Substitute.For<IDataManagementMapper>();
     private IConfiguration _configuration;
 
     private const string ContainerName = "TestContainer";
@@ -33,7 +34,7 @@ public class DataManagementServiceTests
         _configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(inMemorySettings)
             .Build();
-        _service = new DataManagementService(_blobServiceClient, _configuration, _logger, _timeProvider, _repository);
+        _service = new DataManagementService(_blobServiceClient, _configuration, _logger, _timeProvider, _repository, _mapper);
 
         var mockDate = new DateTime(2024, 6, 15, 10, 30, 45, 123, DateTimeKind.Utc);
         _timeProvider.GetUtcNow().Returns(mockDate);
@@ -60,12 +61,11 @@ public class DataManagementServiceTests
         // Assert
         await _blobClient.Received(1).UploadAsync(Arg.Any<Stream>());
         result.Outcome.ShouldBe(OutcomeType.Ok);
-        
-        var parameter =  _repository.ReceivedCalls().First().GetArguments().First() as BatchModel;
-        parameter.IndicatorId.ShouldBe(1);
+
+        var parameter = _repository.ReceivedCalls().First().GetArguments().First() as BatchModel;
+        parameter.IndicatorId.ShouldBe(StubIndicatorId);
         parameter.CreatedAt.Date.ShouldBe(DateTime.Today);
         parameter.PublishedAt.ShouldBe(publishedAt);
-        result.Outcome.ShouldBe(OutcomeType.Ok);
     }
 
     [Fact]
@@ -86,7 +86,7 @@ public class DataManagementServiceTests
         result.ShouldHaveSingleItem();
         result.First().ShouldBe("No records found");
     }
-    
+
     [Fact]
     public void ValidateCsvShouldSucceedWhenCsvIsValid()
     {
@@ -133,6 +133,6 @@ public class DataManagementServiceTests
 
         // Act/Assert
         Should.Throw<ArgumentException>(() => _service = new DataManagementService(_blobServiceClient, _configuration, _logger, _timeProvider,
-            _repository));
+            _repository, _mapper));
     }
 }

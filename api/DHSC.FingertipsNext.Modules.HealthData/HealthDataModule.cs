@@ -21,7 +21,7 @@ public class HealthDataModule : AbstractMonolithModule, IMonolithModule
         RegisterDbContext(services, configuration);
     }
 
-    private static void RegisterDbContext(IServiceCollection services, IConfiguration configuration) 
+    private static void RegisterDbContext(IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<HealthDataDbContext>(options => options.UseSqlServer(BuildConnectionString(configuration)));
     }

@@ -1,6 +1,8 @@
 using System.Web;
 using DHSC.FingertipsNext.Modules.Common.Schemas;
 using DHSC.FingertipsNext.Modules.DataManagement.Controllers.V1;
+using DHSC.FingertipsNext.Modules.DataManagement.Repository.Models;
+using DHSC.FingertipsNext.Modules.DataManagement.Schemas;
 using DHSC.FingertipsNext.Modules.DataManagement.Service;
 using DHSC.FingertipsNext.Modules.DataManagement.Service.Models;
 using Microsoft.AspNetCore.Http;
@@ -37,22 +39,33 @@ public class DataManagementControllerTests
         // Arrange
         var publishedAt = DateTime.UtcNow.AddMonths(1);
         var publishedAtFormatted = publishedAt.ToString("o");
+        var expectedModel = new Batch
+        {
+            BatchId = $"{StubIndicatorId}_{publishedAt:yyyy-MM-ddTHH:mm:ss.fff}",
+            IndicatorId = StubIndicatorId,
+            Status = BatchStatus.Received,
+            OriginalFileName = ValidFileName,
+            UserId = Guid.Empty.ToString()
+        };
 
         _dataManagementService.ValidateCsv(Arg.Any<Stream>()).Returns([]);
 
         _dataManagementService.UploadFileAsync(Arg.Any<Stream>(), StubIndicatorId, publishedAt, ValidFileName)
-            .Returns(new UploadHealthDataResponse(OutcomeType.Ok));
-        var expected = $"File {ValidFileName} has been accepted for indicator {StubIndicatorId}.";
+            .Returns(new UploadHealthDataResponse(OutcomeType.Ok, expectedModel));
 
         // Act
-        var response = await _controller.UploadHealthData(_formFile, publishedAtFormatted, StubIndicatorId) as AcceptedResult;
+        var response =
+            await _controller.UploadHealthData(_formFile, publishedAtFormatted, StubIndicatorId) as AcceptedResult;
 
         // Assert
-        await _dataManagementService.Received(1).UploadFileAsync(Arg.Any<Stream>(), StubIndicatorId, publishedAt, ValidFileName);
+        await _dataManagementService.Received(1)
+            .UploadFileAsync(Arg.Any<Stream>(), StubIndicatorId, publishedAt, ValidFileName);
         response?.StatusCode.ShouldBe(StatusCodes.Status202Accepted);
-        response?.Value.ToString().ShouldBe(expected);
+        var model = response?.Value as Batch;
+        model.ShouldBeEquivalentTo(expectedModel);
     }
-    
+
+
     [Fact]
     public async Task PostReturnsExpectedErrorResponseWhenGivenAnInvalidFile()
     {
@@ -87,7 +100,7 @@ public class DataManagementControllerTests
         var error = result.Value as SimpleError;
         error.Message.ShouldBe("File is empty");
     }
-    
+
     [Theory]
     [InlineData("1234", "publishedAt is invalid. Must be in the format dd-MM-yyyyTHH:mm:ss.fff")]
     [InlineData("2025-01-01T00:00:00.000", "publishedAt cannot be in the past")]
@@ -149,9 +162,17 @@ public class DataManagementControllerTests
         // Arrange
         var publishedAt = DateTime.UtcNow.AddMonths(1);
         var publishedAtFormatted = publishedAt.ToString("o");
+        var expectedModel = new Batch
+        {
+            BatchId = $"{StubIndicatorId}_{publishedAt:yyyy-MM-ddTHH:mm:ss.fff}",
+            IndicatorId = StubIndicatorId,
+            Status = BatchStatus.Received,
+            OriginalFileName = ValidFileName,
+            UserId = Guid.Empty.ToString()
+        };
 
-        _dataManagementService.UploadFileAsync(Arg.Any<Stream>(), StubIndicatorId, publishedAt, Arg.Any<string>())
-            .Returns(new UploadHealthDataResponse(OutcomeType.ServerError, new List<string>() { "File upload was unsuccessful." }));
+        _dataManagementService.UploadFileAsync(Arg.Any<Stream>(), StubIndicatorId, publishedAt, "valid.csv")
+            .Returns(new UploadHealthDataResponse(OutcomeType.ServerError, expectedModel, new List<string>() { "File upload was unsuccessful." }));
 
         // Act
         var response = await _controller.UploadHealthData(_formFile, publishedAtFormatted, StubIndicatorId) as ObjectResult;
@@ -160,20 +181,5 @@ public class DataManagementControllerTests
         await _dataManagementService.Received(1).UploadFileAsync(Arg.Any<Stream>(), StubIndicatorId, publishedAt, Arg.Any<string>());
         response?.StatusCode.ShouldBe(StatusCodes.Status500InternalServerError);
         response?.Value?.ToString()?.ShouldContain("File upload was unsuccessful.");
-    }
-
-    [Fact]
-    public async Task PostReturns400IfPublishedDateIsInvalid()
-    {
-        // Arrange
-        var publishedAtIncorrect = "12345678";
-
-        // Act
-        var response = await _controller.UploadHealthData(_formFile, publishedAtIncorrect, StubIndicatorId) as ObjectResult;
-
-        // Assert
-        response?.StatusCode.ShouldBe(StatusCodes.Status400BadRequest);
-        var error = response?.Value as SimpleError;
-        error.Message.ShouldBe("publishedAt is invalid. Must be in the format dd-MM-yyyyTHH:mm:ss.fff");
     }
 }

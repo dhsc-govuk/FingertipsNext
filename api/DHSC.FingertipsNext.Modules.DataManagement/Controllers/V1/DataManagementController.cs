@@ -25,7 +25,7 @@ public class DataManagementController(IDataManagementService dataManagementServi
             });
         var untrustedFileName = Path.GetFileName(file.FileName);
         var encodedUntrustedFileName = HttpUtility.HtmlEncode(untrustedFileName);
-        
+
         if (!DateTime.TryParse(publishedAt, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out DateTime parsedPublishedAt))
         {
             return new BadRequestObjectResult(new SimpleError
@@ -66,7 +66,7 @@ public class DataManagementController(IDataManagementService dataManagementServi
             OutcomeType.Ok => new AcceptedResult
             {
                 StatusCode = StatusCodes.Status202Accepted,
-                Value = $"File {encodedUntrustedFileName} has been accepted for indicator {indicatorId}."
+                Value = response.Model
             },
             _ => StatusCode(StatusCodes.Status500InternalServerError, "File upload was unsuccessful.")
         };

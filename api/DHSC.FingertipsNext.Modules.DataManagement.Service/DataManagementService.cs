@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository.Models;
+using DHSC.FingertipsNext.Modules.DataManagement.Schemas;
 using DHSC.FingertipsNext.Modules.DataManagement.Service.Models;
 using DHSC.FingertipsNext.Modules.DataManagement.Service.Validation;
 
@@ -31,11 +32,10 @@ public class DataManagementService : IDataManagementService
     private readonly TimeProvider _timeProvider;
     private readonly string _containerName;
     private readonly IDataManagementRepository _repository;
+    private readonly IDataManagementMapper _mapper;
 
-    public DataManagementService(BlobServiceClient blobServiceClient, IConfiguration configuration, ILogger<DataManagementService> logger, TimeProvider timeProvider, IDataManagementRepository repository)
+    public DataManagementService(BlobServiceClient blobServiceClient, IConfiguration configuration, ILogger<DataManagementService> logger, TimeProvider timeProvider, IDataManagementRepository repository, IDataManagementMapper mapper)
     {
-
-        
         ArgumentNullException.ThrowIfNull(configuration);
         ArgumentException.ThrowIfNullOrWhiteSpace(configuration["UPLOAD_STORAGE_CONTAINER_NAME"]);
         var containerName = configuration["UPLOAD_STORAGE_CONTAINER_NAME"];
@@ -45,11 +45,7 @@ public class DataManagementService : IDataManagementService
         _timeProvider = timeProvider;
         _repository = repository;
         _containerName = containerName;
-        
-        _blobServiceClient = blobServiceClient;
-        _logger = logger;
-        _timeProvider = timeProvider;
-        _repository = repository;
+        _mapper = mapper;
     }
 
     public async Task<UploadHealthDataResponse> UploadFileAsync(Stream fileStream, int indicatorId, DateTime publishedAt, string originalFileName)
@@ -58,23 +54,24 @@ public class DataManagementService : IDataManagementService
         var batchId = $"{indicatorId}_{_timeProvider.GetUtcNow():yyyy-MM-ddTHH:mm:ss.fff}";
 
         var blobClient = containerClient.GetBlobClient($"{batchId}.csv");
+        Batch? model = null;
 
         try
         {
             UploadDebugLog(_logger, batchId, _containerName, null);
             await blobClient.UploadAsync(fileStream);
             UploadSuccessfulLog(_logger, null);
-            
-            await CreateAndInsertBatchDetails(indicatorId, publishedAt, batchId, originalFileName);
+
+            model = await CreateAndInsertBatchDetails(indicatorId, publishedAt, batchId, originalFileName);
         }
         catch (Exception exception) when (exception is RequestFailedException or AggregateException)
         {
             UploadErrorLog(_logger, exception.Message, exception);
-            return new UploadHealthDataResponse(OutcomeType.ServerError,
+            return new UploadHealthDataResponse(OutcomeType.ServerError, null,
                 new List<string>() { "An unexpected error occurred" });
         }
 
-        return new UploadHealthDataResponse(OutcomeType.Ok);
+        return new UploadHealthDataResponse(OutcomeType.Ok, model);
     }
 
     public ICollection<string> ValidateCsv(Stream fileStream)
@@ -86,7 +83,7 @@ public class DataManagementService : IDataManagementService
         return [];
     }
 
-    private async Task CreateAndInsertBatchDetails(int indicatorId, DateTime publishedAt, string batchId, string originalFileName)
+    private async Task<Batch> CreateAndInsertBatchDetails(int indicatorId, DateTime publishedAt, string batchId, string originalFileName)
     {
         BatchModel model = new BatchModel
         {
@@ -99,5 +96,6 @@ public class DataManagementService : IDataManagementService
             CreatedAt = DateTime.UtcNow
         };
         await _repository.AddBatchAsync(model);
+        return _mapper.Map(model);
     }
 }

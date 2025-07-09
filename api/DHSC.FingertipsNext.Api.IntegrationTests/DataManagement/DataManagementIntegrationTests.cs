@@ -1,5 +1,8 @@
 ﻿using System.Net;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using DHSC.FingertipsNext.Modules.DataManagement.Repository.Models;
+using DHSC.FingertipsNext.Modules.DataManagement.Schemas;
 using DHSC.FingertipsNext.Modules.HealthData.Repository;
 using DotNetEnv;
 using Microsoft.Data.SqlClient;
@@ -23,12 +26,12 @@ public sealed class DataManagementIntegrationTests : IClassFixture<CustomWebAppl
     public DataManagementIntegrationTests(CustomWebApplicationFactory<Program> factory)
     {
         _factory = factory;
-        
+
         using var scope = _factory.Services.CreateScope();
         var healthDbContext = scope.ServiceProvider.GetRequiredService<HealthDataDbContext>();
         var connectionString = healthDbContext.Database.GetDbConnection().ConnectionString;
         _sqlConnection = new SqlConnection(connectionString);
-        
+
         InitialiseDb(_sqlConnection);
 
         // Load environment variables from the .env file
@@ -51,7 +54,7 @@ public sealed class DataManagementIntegrationTests : IClassFixture<CustomWebAppl
     public void Dispose()
     {
         _azureStorageBlobClient.DeleteBlob(_blobName);
-        
+
         var cleanupPath = Path.Combine(AppContext.BaseDirectory, "DataManagement/cleanup.sql");
         RunSqlScript(cleanupPath, _sqlConnection);
         _sqlConnection.Close();
@@ -96,11 +99,17 @@ public sealed class DataManagementIntegrationTests : IClassFixture<CustomWebAppl
         // Assert
         response.EnsureSuccessStatusCode();
 
+        var model = await response.Content.ReadFromJsonAsync<Batch>();
+
+        model.IndicatorId.ShouldBe(IndicatorId);
+        model.Status.ShouldBe(BatchStatus.Received);
+        model.OriginalFileName.ShouldBe("valid.csv");
+        model.UserId.ShouldBe(Guid.Empty.ToString());
         var blobContent = await _azureStorageBlobClient.DownloadBlob(_blobName);
         var localFileContent = await File.ReadAllBytesAsync(blobContentFilePath);
         blobContent.ShouldBeEquivalentTo(localFileContent);
     }
-    
+
     [Fact]
     public async Task UploadFailuresShouldReturn500Response()
     {
@@ -207,7 +216,7 @@ public sealed class DataManagementIntegrationTests : IClassFixture<CustomWebAppl
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.InternalServerError);
     }
-    
+
     private static void InitialiseDb(SqlConnection sqlConnection)
     {
         sqlConnection.Open();

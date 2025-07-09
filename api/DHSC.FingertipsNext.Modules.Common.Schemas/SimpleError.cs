@@ -6,12 +6,12 @@ public class SimpleError
 {
     [JsonPropertyName("message")]
     public required string Message { get; init; }
-    
+
 
 }
 
 public class ErrorWithDetail : SimpleError
 {
-    [JsonPropertyName("errors")] 
+    [JsonPropertyName("errors")]
     public ICollection<string>? Errors { get; init; }
 }
