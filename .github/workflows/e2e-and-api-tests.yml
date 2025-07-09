@@ -42,6 +42,11 @@ jobs:
       DB_USER: sa
       DB_PASSWORD: ${{ secrets.fingertips_e2e_db_password }}
       UPLOAD_STORAGE_CONTAINER_NAME: fingertips-upload-container
+      # AUTH_SECRET: random-string-for-testing-123
+      AUTH_CLIENT_SECRET: ${{ secrets.DEVELOPMENT_ENTRA_CLIENT_SECRET }}
+      AUTH_CLIENT_ID: ${{ vars.DEVELOPMENT_ENTRA_CLIENT_ID }}
+      AUTH_TENANT_ID: ${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}
+
     defaults:
       run:
         working-directory: ${{ env.frontend-directory }}

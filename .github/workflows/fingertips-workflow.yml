@@ -722,7 +722,7 @@ jobs:
           },
           {
             name        = "AUTH_SECRET"
-            secret_name = "fingertips-webserver-local-secret"
+            secret_name = "fingertips-webserver-auth-secret"
             value       = null
           },
           {
