@@ -19,7 +19,7 @@ public class Batch(string batchId = "", string originalFileName = "", string use
     /// </summary>
     [JsonPropertyName("indicatorId")]
     public int IndicatorId { get; init; }
-    
+
     /// <summary>
     /// The name of the file originally uploaded in order to create the batch.
     /// </summary>
@@ -31,13 +31,13 @@ public class Batch(string batchId = "", string originalFileName = "", string use
     /// </summary>
     [JsonPropertyName("createdAt")]
     public DateTime CreatedAt { get; init; }
-    
+
     /// <summary>
     /// When the data in the batch will be published.
     /// </summary>
     [JsonPropertyName("publishedAt")]
     public DateTime PublishedAt { get; init; }
-    
+
     /// <summary>
     /// The ID of the user who uploaded the batch.
     /// </summary>
