@@ -227,7 +227,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     it('should render the title for BarChartEmbeddedTable', async () => {
       await testRender(mockSearchState, testHealthData, testMetaData);
       expect(
-        await screen.findByText('Compare an indicator by areas')
+        await screen.findByText('Compare areas for one time period')
       ).toBeInTheDocument();
     });
   });
