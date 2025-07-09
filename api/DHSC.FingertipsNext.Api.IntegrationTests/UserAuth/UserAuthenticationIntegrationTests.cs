@@ -12,8 +12,14 @@ namespace DHSC.FingertipsNext.Api.IntegrationTests.UserAuth;
 
 public class UserAuthenticationIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
 {
-    private const string JWT_STUB_ISSUER = "TestIssuer";
-    private const string JWT_STUB_AUDIENCE = "TestAudience";
+    private const string JwtStubIssuer = "TestIssuer";
+    private const string JwtStubAudience = "TestAudience";
+
+    /// <summary>
+    /// The entra group ID for the dev database for indicator 41101.
+    /// If this value in the db changes, then this needs to be updated accordingly.
+    /// </summary>
+    private const string Indicator41101GroupRoleId = "6a953232-afad-4406-a457-9960eec316ac";
 
     private readonly WebApplicationFactory<Program> _appFactory;
 
@@ -35,14 +41,15 @@ public class UserAuthenticationIntegrationTests : IClassFixture<WebApplicationFa
                             ValidateAudience = true,
                             ValidateLifetime = true,
                             ValidateIssuerSigningKey = true,
-                            ValidIssuer = JWT_STUB_ISSUER,
-                            ValidAudience = JWT_STUB_AUDIENCE,
+                            ValidIssuer = JwtStubIssuer,
+                            ValidAudience = JwtStubAudience,
                             IssuerSigningKey = new SymmetricSecurityKey(new byte[256]),
                             ClockSkew = TimeSpan.Zero
                         };
                     });
             });
         });
+
     }
 
     [Fact]
@@ -92,6 +99,201 @@ public class UserAuthenticationIntegrationTests : IClassFixture<WebApplicationFa
     }
 
     [Fact]
+    public async Task IndicatorPermissionsEndpointRejectsNonAdminUsersFromViewingProtectedIndicators()
+    {
+        var client = _appFactory.CreateClient();
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken());
+
+        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator/41101", UriKind.Relative));
+        var response = await client.SendAsync(req);
+
+        response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
+    }
+
+    [Fact]
+    public async Task IndicatorPermissionsEndpointPermitsAdminUsersToViewProtectedIndicators()
+    {
+        var adminRoleGuid = "a6f09d79-e3de-48ae-b0ce-c48d5d8e5353";
+        var client = _appFactory.WithWebHostBuilder(b => b.UseSetting("AdminRole", adminRoleGuid)).CreateClient();
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken([adminRoleGuid]));
+
+        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator/41101", UriKind.Relative));
+        var response = await client.SendAsync(req);
+
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task IndicatorPermissionsEndpointPermitsUsersWithIndicatorPermissionsToViewProtectedIndicator()
+    {
+        var client = _appFactory.CreateClient();
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken([Indicator41101GroupRoleId]));
+
+        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator/41101", UriKind.Relative));
+        var response = await client.SendAsync(req);
+
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task IndicatorPermissionsEndpointBlocksUsersWithDifferentRolePermissionFromViewingProtectedIndicator()
+    {
+        var unknownRoleId = "7b353232-afad-4406-a457-9960eec314cd";
+
+        var client = _appFactory.CreateClient();
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken([unknownRoleId]));
+
+        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator/41101", UriKind.Relative));
+
+        var response = await client.SendAsync(req);
+
+        response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
+    }
+
+    [Fact]
+    public async Task IndicatorPermissionsEndpointRejectsNonAdminUsersFromViewingProtectedIndicatorsViaQueryString()
+    {
+        var client = _appFactory.CreateClient();
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken());
+
+        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator?indicator_ids=41101", UriKind.Relative));
+        var response = await client.SendAsync(req);
+
+        response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
+    }
+
+    [Fact]
+    public async Task IndicatorPermissionsEndpointPermitsAdminUsersToViewProtectedIndicatorsViaQueryString()
+    {
+        var adminRoleGuid = "a6f09d79-e3de-48ae-b0ce-c48d5d8e5353";
+        var client = _appFactory.WithWebHostBuilder(b => b.UseSetting("AdminRole", adminRoleGuid)).CreateClient();
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken([adminRoleGuid]));
+
+        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator?indicator_ids=41101", UriKind.Relative));
+        var response = await client.SendAsync(req);
+
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task IndicatorPermissionsEndpointPermitsUsersWithIndicatorPermissionsToViewProtectedIndicatorViaQueryString()
+    {
+        var client = _appFactory.CreateClient();
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken([Indicator41101GroupRoleId]));
+
+        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator?indicator_ids=41101", UriKind.Relative));
+        var response = await client.SendAsync(req);
+
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task IndicatorPermissionsEndpointBlocksUsersWithDifferentRolePermissionFromViewingProtectedIndicatorViaQueryString()
+    {
+        var unknownRoleId = "7b353232-afad-4406-a457-9960eec314cd";
+
+        var client = _appFactory.CreateClient();
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken([unknownRoleId]));
+
+        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator?indicator_ids=41101", UriKind.Relative));
+
+        var response = await client.SendAsync(req);
+
+        response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
+    }
+
+    [Fact]
+    public async Task IndicatorPermissionsEndpointPermitsUsersWithBothAdminAndIndicatorPermissionsToViewProtectedIndicators()
+    {
+        var adminRoleGuid = "a6f09d79-e3de-48ae-b0ce-c48d5d8e5353";
+        var client = _appFactory.WithWebHostBuilder(b => b.UseSetting("AdminRole", adminRoleGuid)).CreateClient();
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken([adminRoleGuid, Indicator41101GroupRoleId]));
+
+        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator/41101", UriKind.Relative));
+        var response = await client.SendAsync(req);
+
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task IndicatorPermissionsEndpointPermitsUsersWithBothAdminAndIndicatorPermissionsToViewProtectedIndicatorsViaQueryString()
+    {
+        var adminRoleGuid = "a6f09d79-e3de-48ae-b0ce-c48d5d8e5353";
+        var client = _appFactory.WithWebHostBuilder(b => b.UseSetting("AdminRole", adminRoleGuid)).CreateClient();
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken([adminRoleGuid, Indicator41101GroupRoleId]));
+
+        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator?indicator_ids=41101", UriKind.Relative));
+        var response = await client.SendAsync(req);
+
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task IndicatorPermissionsEndpointHandlesIndicatorManagerAttemptingToViewUnknownIndicatorId()
+    {
+        var client = _appFactory.CreateClient();
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken([Indicator41101GroupRoleId]));
+
+        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator/9999999", UriKind.Relative));
+        var response = await client.SendAsync(req);
+
+        response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
+    }
+
+    [Fact]
+    public async Task IndicatorPermissionsEndpointHandlesAdministratorAttemptingToViewUnknownIndicatorId()
+    {
+        var adminRoleGuid = "a6f09d79-e3de-48ae-b0ce-c48d5d8e5353";
+        var client = _appFactory.WithWebHostBuilder(b => b.UseSetting("AdminRole", adminRoleGuid)).CreateClient();
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken([adminRoleGuid]));
+
+        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator/9999999", UriKind.Relative));
+        var response = await client.SendAsync(req);
+
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+    }
+
+
+    [Fact]
+    public async Task IndicatorPermissionsEndpointHandlesIndicatorManagerAttemptingToViewUnknownIndicatorIdViaQueryString()
+    {
+        var client = _appFactory.CreateClient();
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken([Indicator41101GroupRoleId]));
+
+        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator?indicator_ids=9999999", UriKind.Relative));
+        var response = await client.SendAsync(req);
+
+        response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
+    }
+
+    [Fact]
+    public async Task IndicatorPermissionsEndpointHandlesAdministratorAttemptingToViewUnknownIndicatorIdViaQueryString()
+    {
+        var adminRoleGuid = "a6f09d79-e3de-48ae-b0ce-c48d5d8e5353";
+        var client = _appFactory.WithWebHostBuilder(b => b.UseSetting("AdminRole", adminRoleGuid)).CreateClient();
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken([adminRoleGuid]));
+
+        using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator?indicator_ids=9999999", UriKind.Relative));
+        var response = await client.SendAsync(req);
+
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+    }
+
+    [Fact]
     public async Task IndicatorPermissionsEndpointRejectsNonAdminAuthenticatedUsersFromViewingProtectedIndicators()
     {
         var client = _appFactory.CreateClient();
@@ -110,7 +312,7 @@ public class UserAuthenticationIntegrationTests : IClassFixture<WebApplicationFa
         var adminRoleGuid = "a6f09d79-e3de-48ae-b0ce-c48d5d8e5353";
         var client = _appFactory.WithWebHostBuilder(b => b.UseSetting("AdminRole", adminRoleGuid)).CreateClient();
 
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken(adminRoleGuid));
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTestToken(includeRoleClaims: [adminRoleGuid]));
 
         using var req = new HttpRequestMessage(HttpMethod.Head, new Uri("/user/indicator/123", UriKind.Relative));
         var response = await client.SendAsync(req);
@@ -118,20 +320,21 @@ public class UserAuthenticationIntegrationTests : IClassFixture<WebApplicationFa
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
     }
 
-    private static string GenerateTestToken(string? includeRoleClaim = null, bool tokenIsExpired = false, bool tokenContainsSubClaim = true)
+    private static string GenerateTestToken(string[]? includeRoleClaims = null, bool tokenIsExpired = false, bool tokenContainsSubClaim = true)
     {
-        var claims = new List<Claim>()
-        {
-        };
+        var claims = new List<Claim>();
 
         if (tokenContainsSubClaim)
         {
             claims.Add(new Claim(JwtRegisteredClaimNames.Sub, "test-user"));
         }
 
-        if (includeRoleClaim != null)
+        if (includeRoleClaims != null)
         {
-            claims.Add(new Claim(ClaimTypes.Role, includeRoleClaim));
+            foreach (var claim in includeRoleClaims)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, claim));
+            }
         }
 
         DateTime tokenExpiry = DateTime.UtcNow.AddMinutes(30);
@@ -145,8 +348,8 @@ public class UserAuthenticationIntegrationTests : IClassFixture<WebApplicationFa
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
-            issuer: JWT_STUB_ISSUER,
-            audience: JWT_STUB_AUDIENCE,
+            issuer: JwtStubIssuer,
+            audience: JwtStubAudience,
             claims: claims,
             expires: tokenExpiry,
             signingCredentials: creds
