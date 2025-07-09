@@ -6,6 +6,8 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 [Serializable]
 public class IndicatorDimensionModel
 {
+    private string? collectionFrequency;
+
     [Key]
     public short IndicatorKey { get; set; }
 
@@ -22,4 +24,15 @@ public class IndicatorDimensionModel
     public int LatestYear { get; set; }
 
     public string? PeriodType { get; set; }
+
+    public string? CollectionFrequency
+    {
+        get
+        {
+            return collectionFrequency != null ? collectionFrequency.Trim() : null;
+        }
+        set => collectionFrequency = value;
+    }
 }
+
+

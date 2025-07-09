@@ -8,7 +8,7 @@ GET http://localhost:5144/indicators/41101/data?area_codes=E12000007
     client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
         client.assert(response.body.length === expected.length, "Response length does not match");
-        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), `${ JSON.stringify(response.body)}-${JSON.stringify(expected)}`);
     });
 %}
 
