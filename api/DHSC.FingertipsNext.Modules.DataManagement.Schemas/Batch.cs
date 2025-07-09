@@ -6,13 +6,13 @@ namespace DHSC.FingertipsNext.Modules.DataManagement.Schemas;
 /// <summary>
 /// Details of a health data upload batch.
 /// </summary>
-public class Batch(string batchId = "", string originalFileName = "", string userId = "")
+public class Batch
 {
     /// <summary>
     /// The unique identifier of the batch.
     /// </summary>
     [JsonPropertyName("batchId")]
-    public string BatchId { get; init; } = batchId;
+    public required string BatchId { get; init; }
 
     /// <summary>
     /// Unique ID of the indicator.
@@ -24,7 +24,7 @@ public class Batch(string batchId = "", string originalFileName = "", string use
     /// The name of the file originally uploaded in order to create the batch.
     /// </summary>
     [JsonPropertyName("originalFilename")]
-    public string OriginalFileName { get; init; } = originalFileName;
+    public required string OriginalFileName { get; init; }
 
     /// <summary>
     /// When the batch was created.
@@ -42,7 +42,7 @@ public class Batch(string batchId = "", string originalFileName = "", string use
     /// The ID of the user who uploaded the batch.
     /// </summary>
     [JsonPropertyName("userId")]
-    public string UserId { get; init; } = userId;
+    public required string UserId { get; init; }
 
     /// <summary>
     /// The current status of the batch.

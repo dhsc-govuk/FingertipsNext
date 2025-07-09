@@ -1,7 +1,9 @@
 using Azure;
 using Azure.Storage.Blobs;
+using DHSC.FingertipsNext.Modules.DataManagement.Mappings;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository.Models;
+using DHSC.FingertipsNext.Modules.DataManagement.Schemas;
 using DHSC.FingertipsNext.Modules.DataManagement.Service;
 using DHSC.FingertipsNext.Modules.DataManagement.Service.Models;
 using Microsoft.Extensions.Configuration;
@@ -20,7 +22,7 @@ public class DataManagementServiceTests
     private readonly ILogger<DataManagementService> _logger = Substitute.For<ILogger<DataManagementService>>();
     private readonly TimeProvider _timeProvider = Substitute.For<TimeProvider>();
     private readonly IDataManagementRepository _repository = Substitute.For<IDataManagementRepository>();
-    private readonly IDataManagementMapper _mapper = Substitute.For<IDataManagementMapper>();
+    private readonly IDataManagementMapper _mapper = Substitute.For<DataManagementMapper>();
     private IConfiguration _configuration;
 
     private const string ContainerName = "TestContainer";
@@ -45,9 +47,10 @@ public class DataManagementServiceTests
     [Fact]
     public async Task UploadShouldSucceed()
     {
-        // Act
+        // Arrange
         var validCsvPath = @"Services/Validation/CSVs/ValidHeadersAndValidDataRows.csv";
         string path = Path.Combine(Directory.GetCurrentDirectory(), validCsvPath);
+        //_repository.
         UploadHealthDataResponse result;
         var publishedAt = new DateTime(2025, 1, 1, 0, 0, 0);
 
@@ -66,6 +69,13 @@ public class DataManagementServiceTests
         parameter.IndicatorId.ShouldBe(StubIndicatorId);
         parameter.CreatedAt.Date.ShouldBe(DateTime.Today);
         parameter.PublishedAt.ShouldBe(publishedAt);
+
+        var model = result.Model;
+        model.IndicatorId.ShouldBe(StubIndicatorId);
+        model.Status.ShouldBe(BatchStatus.Received);
+        model.OriginalFileName.ShouldBe("ValidHeadersAndValidDataRows.csv");
+        model.UserId.ShouldBe(Guid.Empty.ToString());
+        model.PublishedAt.ShouldBe(publishedAt);
     }
 
     [Fact]

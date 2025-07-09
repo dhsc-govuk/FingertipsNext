@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository.Models;
 using DHSC.FingertipsNext.Modules.DataManagement.Schemas;
 using DHSC.FingertipsNext.Modules.HealthData.Repository;
@@ -28,8 +29,8 @@ public sealed class DataManagementIntegrationTests : IClassFixture<CustomWebAppl
         _factory = factory;
 
         using var scope = _factory.Services.CreateScope();
-        var healthDbContext = scope.ServiceProvider.GetRequiredService<HealthDataDbContext>();
-        var connectionString = healthDbContext.Database.GetDbConnection().ConnectionString;
+        var dbContext = scope.ServiceProvider.GetRequiredService<DataManagementDbContext>();
+        var connectionString = dbContext.Database.GetDbConnection().ConnectionString;
         _sqlConnection = new SqlConnection(connectionString);
 
         InitialiseDb(_sqlConnection);
@@ -100,11 +101,12 @@ public sealed class DataManagementIntegrationTests : IClassFixture<CustomWebAppl
         response.EnsureSuccessStatusCode();
 
         var model = await response.Content.ReadFromJsonAsync<Batch>();
-
         model.IndicatorId.ShouldBe(IndicatorId);
         model.Status.ShouldBe(BatchStatus.Received);
         model.OriginalFileName.ShouldBe("valid.csv");
         model.UserId.ShouldBe(Guid.Empty.ToString());
+        model.PublishedAt.ShouldBe(publishedAt);
+
         var blobContent = await _azureStorageBlobClient.DownloadBlob(_blobName);
         var localFileContent = await File.ReadAllBytesAsync(blobContentFilePath);
         blobContent.ShouldBeEquivalentTo(localFileContent);
