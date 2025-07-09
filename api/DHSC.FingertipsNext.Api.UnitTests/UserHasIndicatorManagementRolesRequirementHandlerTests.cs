@@ -15,12 +15,12 @@ namespace DHSC.FingertipsNext.Api.UnitTests
     {
         private readonly UserHasIndicatorManagementRolesRequirementHandler _authHandler;
         private readonly IHttpContextAccessor _mockContextAccessor;
-        private readonly IIndicatorPermssionsLookupService _mockLookupService;
+        private readonly IIndicatorPermissionsLookupService _mockLookupService;
 
         public UserHasIndicatorManagementRolesRequirementHandlerTests()
         {
             _mockContextAccessor = Substitute.For<IHttpContextAccessor>();
-            _mockLookupService = Substitute.For<IIndicatorPermssionsLookupService>();
+            _mockLookupService = Substitute.For<IIndicatorPermissionsLookupService>();
 
             _mockContextAccessor.HttpContext = new DefaultHttpContext()
             {

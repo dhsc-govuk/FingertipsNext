@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DHSC.FingertipsNext.Modules.UserAuth.Repository;
 
-public class UserAuthLookupService(UserAuthDbContext dbContext) : IIndicatorPermssionsLookupService
+public class UserAuthLookupService(UserAuthDbContext dbContext) : IIndicatorPermissionsLookupService
 {
     public async Task<IEnumerable<int>> GetIndicatorsForRoles(IEnumerable<Guid> roleIds)
     {

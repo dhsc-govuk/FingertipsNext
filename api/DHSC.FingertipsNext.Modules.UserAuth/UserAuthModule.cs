@@ -14,7 +14,7 @@ public class UserAuthModule : AbstractMonolithModule, IMonolithModule
 
     public override void RegisterModule(IServiceCollection services, IConfiguration configuration)
     {
-        services.AddTransient<IIndicatorPermssionsLookupService, UserAuthLookupService>();
+        services.AddTransient<IIndicatorPermissionsLookupService, UserAuthLookupService>();
         RegisterDbContext(services, configuration);
     }
 

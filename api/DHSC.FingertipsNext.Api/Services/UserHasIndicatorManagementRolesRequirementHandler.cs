@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace DHSC.FingertipsNext.Api.Services;
 
-internal sealed class UserHasIndicatorManagementRolesRequirementHandler(IIndicatorPermssionsLookupService lookupService, IHttpContextAccessor contextAccessor) : AuthorizationHandler<CanAdministerIndicatorRequirement>
+internal sealed class UserHasIndicatorManagementRolesRequirementHandler(IIndicatorPermissionsLookupService lookupService, IHttpContextAccessor contextAccessor) : AuthorizationHandler<CanAdministerIndicatorRequirement>
 {
     public const string IndicatorIdParameterName = "indicatorId";
     public const string IndicatorIdCollectionParameterName = "indicator_ids";
