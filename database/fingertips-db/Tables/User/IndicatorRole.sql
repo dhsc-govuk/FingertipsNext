@@ -1,4 +1,4 @@
--- Comment
+-- Table linking Entra Group IDs (the role) with indicator dimensions to apply RBAC.
 CREATE TABLE [User].[IndicatorRole]
 (
     [Id] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY, 
