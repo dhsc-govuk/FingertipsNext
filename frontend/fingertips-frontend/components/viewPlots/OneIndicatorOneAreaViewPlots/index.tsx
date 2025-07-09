@@ -36,8 +36,7 @@ export function OneIndicatorOneAreaViewPlots({
       {showLineChartOverTime ? (
         <>
           <OneIndicatorSegmentationOptions />
-          (
-          <LineChartAndTableOverTime session={session} />)
+          <LineChartAndTableOverTime session={session} />
         </>
       ) : null}
 
