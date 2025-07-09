@@ -2,6 +2,7 @@
   "indicatorId": 41101,
   "name": "Emergency readmissions within 30 days of discharge from hospital",
   "polarity": "LowIsGood",
+  "frequency": "Annually",
   "benchmarkMethod": "CIOverlappingReferenceValue95",
   "areaHealthData": [
     {

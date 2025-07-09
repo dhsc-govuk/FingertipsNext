@@ -7,43 +7,48 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Mappings;
 
 public class HealthDataMapper : IHealthDataMapper
 {
-    public IndicatorPolarity MapIndicatorPolarity(string? source)
+    public IndicatorPolarity MapIndicatorPolarity(string? source) => source switch
     {
+        "High is good" => IndicatorPolarity.HighIsGood,
+        "Low is good" => IndicatorPolarity.LowIsGood,
+        "No judgement" => IndicatorPolarity.NoJudgement,
+        _ => IndicatorPolarity.Unknown
+    };
+
+    public CollectionFrequency MapCollectionFrequency(string? source)
+    {
+        if (source == null)
+            return CollectionFrequency.Annually;
+        source = source.Trim().ToUpperInvariant();
         return source switch
         {
-            "High is good" => IndicatorPolarity.HighIsGood,
-            "Low is good" => IndicatorPolarity.LowIsGood,
-            "No judgement" => IndicatorPolarity.NoJudgement,
-            _ => IndicatorPolarity.Unknown,
+            "ANNUALLY" => CollectionFrequency.Annually,
+            "MONTHLY" => CollectionFrequency.Monthly,
+            "QUARTERLY" => CollectionFrequency.Quarterly,
+            _ => CollectionFrequency.Annually
         };
     }
 
-    public BenchmarkComparisonMethod MapBenchmarkComparisonMethod(string? source)
+    public BenchmarkComparisonMethod MapBenchmarkComparisonMethod(string? source) => source switch
     {
-        return source switch
-        {
-            "Confidence intervals overlapping reference value (95.0)" =>
-                BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-            "Confidence intervals overlapping reference value (99.8)" =>
-                BenchmarkComparisonMethod.CIOverlappingReferenceValue998,
-            "Quintiles" => BenchmarkComparisonMethod.Quintiles,
-            _ => BenchmarkComparisonMethod.Unknown,
-        };
-    }
+        "Confidence intervals overlapping reference value (95.0)" =>
+            BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+        "Confidence intervals overlapping reference value (99.8)" =>
+            BenchmarkComparisonMethod.CIOverlappingReferenceValue998,
+        "Quintiles" => BenchmarkComparisonMethod.Quintiles,
+        _ => BenchmarkComparisonMethod.Unknown,
+    };
 
-    private static DatePeriodType MapDatePeriodType(string? periodType)
+    private static DatePeriodType MapDatePeriodType(string? periodType) => periodType switch
     {
-        return periodType switch
-        {
-            "Academic" => DatePeriodType.Academic,
-            "Calendar" => DatePeriodType.Calendar,
-            "Financial" => DatePeriodType.Financial,
-            "Financial multi-year" => DatePeriodType.FinancialMultiYear,
-            "Financial year end point" => DatePeriodType.FinancialYearEndPoint,
-            "Yearly" => DatePeriodType.Yearly,
-            _ => DatePeriodType.Unknown,
-        };
-    }
+        "Academic" => DatePeriodType.Academic,
+        "Calendar" => DatePeriodType.Calendar,
+        "Financial" => DatePeriodType.Financial,
+        "Financial multi-year" => DatePeriodType.FinancialMultiYear,
+        "Financial year end point" => DatePeriodType.FinancialYearEndPoint,
+        "Yearly" => DatePeriodType.Yearly,
+        _ => DatePeriodType.Unknown,
+    };
 
     public HealthDataPoint Map(HealthMeasureModel source)
     {
@@ -110,19 +115,11 @@ public class HealthDataMapper : IHealthDataMapper
         return new Sex { Value = source.Name, IsAggregate = source.IsAggregate };
     }
 
-    public IList<HealthDataPoint> Map(IList<HealthMeasureModel> source)
-    {
-        return source.Select(Map).ToList();
-    }
-    public IList<HealthDataPoint> Map(IList<DenormalisedHealthMeasureModel> source)
-    {
-        return source.Select(Map).ToList();
-    }
+    public IList<HealthDataPoint> Map(IList<HealthMeasureModel> source) => source.Select(Map).ToList();
 
-    public IList<IndicatorQuartileData> Map(IList<QuartileDataModel> source)
-    {
-        return source.Select(Map).ToList();
-    }
+    public IList<HealthDataPoint> Map(IList<DenormalisedHealthMeasureModel> source) => source.Select(Map).ToList();
+
+    public IList<IndicatorQuartileData> Map(IList<QuartileDataModel> source) => source.Select(Map).ToList();
 
     private static BenchmarkComparison? Map(BenchmarkComparisonModel? source)
     {
@@ -155,50 +152,39 @@ public class HealthDataMapper : IHealthDataMapper
         };
     }
 
-    private static DatePeriod Map(DateTime fromDate, DateTime toDate, string? periodStr)
+    private static DatePeriod Map(DateTime fromDate, DateTime toDate, string? periodStr) => new DatePeriod
     {
-        return new DatePeriod
-        {
-            PeriodType = MapDatePeriodType(periodStr),
-            From = DateOnly.FromDateTime(fromDate),
-            To = DateOnly.FromDateTime(toDate),
-        };
-    }
+        PeriodType = MapDatePeriodType(periodStr),
+        From = DateOnly.FromDateTime(fromDate),
+        To = DateOnly.FromDateTime(toDate),
+    };
 
-    private static Deprivation Map(DeprivationDimensionModel source)
+    private static Deprivation Map(DeprivationDimensionModel source) => new Deprivation
     {
-        return new Deprivation
-        {
-            Value = source.Name,
-            Sequence = source.Sequence,
-            Type = source.Type,
-            IsAggregate = source.IsAggregate,
-        };
-    }
+        Value = source.Name,
+        Sequence = source.Sequence,
+        Type = source.Type,
+        IsAggregate = source.IsAggregate,
+    };
 
-    private static Age Map(AgeDimensionModel source)
-    {
-        return new Age { Value = source.Name, IsAggregate = source.IsAggregate };
-    }
+    private static Age Map(AgeDimensionModel source) => new Age { Value = source.Name, IsAggregate = source.IsAggregate };
 
-    private IndicatorQuartileData Map(QuartileDataModel source)
+    private IndicatorQuartileData Map(QuartileDataModel source) => new IndicatorQuartileData
     {
-        return new IndicatorQuartileData
-        {
-            IndicatorId = source.IndicatorId,
-            Polarity = source.Polarity == null ? null : MapIndicatorPolarity(source.Polarity),
-            Year = source.Year,
-            DatePeriod = (source.FromDate.HasValue && source.ToDate.HasValue && source.PeriodType != null)
+        IndicatorId = source.IndicatorId,
+        Polarity = source.Polarity == null ? null : MapIndicatorPolarity(source.Polarity),
+        Year = source.Year,
+        DatePeriod = (source.FromDate.HasValue && source.ToDate.HasValue && source.PeriodType != null)
                 ? Map(source.FromDate.Value, source.ToDate.Value, source.PeriodType)
                 : null!,
-            Q0Value = source.Q0Value,
-            Q1Value = source.Q1Value,
-            Q2Value = source.Q2Value,
-            Q3Value = source.Q3Value,
-            Q4Value = source.Q4Value,
-            AreaValue = source.AreaValue,
-            AncestorValue = source.AncestorValue,
-            EnglandValue = source.EnglandValue,
-        };
-    }
+        CollectionFrequency = MapCollectionFrequency(source.CollectionFrequency),
+        Q0Value = source.Q0Value,
+        Q1Value = source.Q1Value,
+        Q2Value = source.Q2Value,
+        Q3Value = source.Q3Value,
+        Q4Value = source.Q4Value,
+        AreaValue = source.AreaValue,
+        AncestorValue = source.AncestorValue,
+        EnglandValue = source.EnglandValue,
+    };
 }

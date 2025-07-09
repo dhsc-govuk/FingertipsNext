@@ -2,15 +2,8 @@ using System.Text.Json.Serialization;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
-public class IndicatorQuartileData
+public class IndicatorQuartileData : IndicatorBase
 {
-    [JsonPropertyName("indicatorId")]
-    public int IndicatorId { get; init; }
-
-    [JsonPropertyName("polarity")]
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public IndicatorPolarity? Polarity { get; set; }
-
     [JsonPropertyName("year")]
     public short? Year { get; init; }
 

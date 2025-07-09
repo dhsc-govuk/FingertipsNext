@@ -10,6 +10,7 @@ export * from './BenchmarkOutcome';
 export * from './BenchmarkReferenceType';
 export * from './DatePeriod';
 export * from './DeprivationData';
+export * from './Frequency';
 export * from './GetAreaHierarchies500Response';
 export * from './GetHealthcheck200Response';
 export * from './GetHealthcheck500Response';

@@ -12,6 +12,7 @@ public class QuartileDataModel
     public required DateTime? ToDate { get; set; }
     public required string? PeriodType { get; set; }
     public required string? ReportingPeriod { get; set; }
+    public required string? CollectionFrequency { get; set; }
     public required double? Q0Value { get; set; }
     public required double? Q1Value { get; set; }
     public required double? Q2Value { get; set; }
