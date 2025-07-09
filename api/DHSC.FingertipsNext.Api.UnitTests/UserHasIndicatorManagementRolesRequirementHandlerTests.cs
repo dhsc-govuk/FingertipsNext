@@ -117,6 +117,21 @@ namespace DHSC.FingertipsNext.Api.UnitTests
             authContext.HasSucceeded.ShouldBe(false);
         }
 
+        [Fact]
+        public async Task AuthHandlerThrowsExceptionIfRequestContextIsNull()
+        {
+            var roleId = new Guid("340580b2-e9f9-4ba9-99ab-610965d02c22");
+
+            _mockLookupService.GetIndicatorsForRoles([]).ReturnsForAnyArgs([123]);
+
+            _mockContextAccessor.HttpContext = null;
+
+            var authContext = new AuthorizationHandlerContext([new CanAdministerIndicatorRequirement()],
+                GenerateClaimsPrincipal(roleId.ToString()), null);
+
+            await Should.ThrowAsync<InvalidOperationException>(() => _authHandler.HandleAsync(authContext));
+        }
+
 
         private static DefaultHttpContext BuildHttpContext(int[]? indicatorIdsInQueryString = null, int? indicatorIdInPath = null)
         {
