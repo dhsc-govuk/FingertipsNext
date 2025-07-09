@@ -186,6 +186,21 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
       screen.queryByTestId('spineChartTable-component')
     ).not.toBeInTheDocument();
   });
+  
+  it('should render the heatmap title', () => {
+
+    render(
+      <TwoOrMoreIndicatorsAreasViewPlot
+        indicatorData={mockIndicatorData}
+        indicatorMetadata={mockMetaData}
+        benchmarkStatistics={mockQuartiles}
+      />
+    );
+
+    expect(
+      screen.getByRole('heading',{name: 'Overview of indicators and areas'})
+    ).toBeInTheDocument();
+  });
 });
 
 describe('extractHeatmapIndicatorData', () => {
@@ -242,4 +257,5 @@ describe('extractHeatmapIndicatorData', () => {
 
     expect(heatmapData).toEqual(expectedHeatmapIndicatorData);
   });
+
 });
