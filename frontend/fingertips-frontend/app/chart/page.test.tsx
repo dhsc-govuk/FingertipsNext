@@ -30,11 +30,11 @@ import { MockedFunction } from 'vitest';
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 
-vi.mock('@lib/auth', () => {
+vi.mock('@/lib/auth', async () => {
+  const actual = await vi.importActual('@/lib/auth');
   return {
-    auth: () => {
-      return null;
-    },
+    ...actual,
+    auth: vi.fn().mockResolvedValue(null),
   };
 });
 
