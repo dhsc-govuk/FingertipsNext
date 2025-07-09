@@ -103,6 +103,21 @@ namespace DHSC.FingertipsNext.Api.UnitTests
             await Should.ThrowAsync<InvalidOperationException>(() => _authHandler.HandleAsync(authContext));
         }
 
+        [Fact]
+        public async Task AuthHandlerDoesntCrashIfRolesContainInvalidRoleGuid()
+        {
+            _mockLookupService.GetIndicatorsForRoles([]).ReturnsForAnyArgs([123]);
+
+            _mockContextAccessor.HttpContext = BuildHttpContext(indicatorIdInPath: 123);
+            var authContext = new AuthorizationHandlerContext([new CanAdministerIndicatorRequirement()],
+                GenerateClaimsPrincipal("Not a guid"), null);
+
+            await _authHandler.HandleAsync(authContext);
+
+            authContext.HasSucceeded.ShouldBe(false);
+        }
+
+
         private static DefaultHttpContext BuildHttpContext(int[]? indicatorIdsInQueryString = null, int? indicatorIdInPath = null)
         {
             var dictionary = new RouteValueDictionary();

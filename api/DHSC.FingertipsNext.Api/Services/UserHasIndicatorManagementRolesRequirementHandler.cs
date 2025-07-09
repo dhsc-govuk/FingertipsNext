@@ -34,10 +34,18 @@ internal sealed class UserHasIndicatorManagementRolesRequirementHandler(IIndicat
             throw new InvalidOperationException("Indicator management policy applied to a route that does not contain a valid indicator id route or query parameter.");
         }
 
-        //Crashes if not a guid
-        var userRoles = context.User.FindAll(ClaimTypes.Role).Select(c => Guid.Parse(c.Value)).ToArray();
+        var roleIds = context.User.FindAll(ClaimTypes.Role).Select(c => c.Value).ToArray();
+        var userRoles = new List<Guid>();
 
-        if (userRoles.Length == 0)
+        foreach (var id in roleIds)
+        {
+            if (Guid.TryParse(id, out var roleGuid))
+            {
+                userRoles.Add(roleGuid);
+            }
+        }
+
+        if (userRoles.Count == 0)
         {
             return;
         }
