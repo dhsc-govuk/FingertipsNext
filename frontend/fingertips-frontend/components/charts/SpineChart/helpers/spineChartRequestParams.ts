@@ -6,6 +6,7 @@ import {
   GetHealthDataForAnIndicatorRequest,
 } from '@/generated-sources/ft-api-client';
 import { chunkArray } from '@/lib/chunkArray';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 export const spineChartRequestParams = (searchState: SearchStateParams) => {
   const {
@@ -26,15 +27,20 @@ export const spineChartRequestParams = (searchState: SearchStateParams) => {
   return indicatorIds.flatMap((id) =>
     areasToRequest.flatMap((requestAreas) =>
       chunkArray(requestAreas.areaCodes).map(
-        (areaCodes): GetHealthDataForAnIndicatorRequest => ({
-          indicatorId: Number(id),
-          areaCodes: areaCodes,
-          areaType: requestAreas.areaType,
-          inequalities: requestAreas.inequalities,
-          latestOnly: true,
-          benchmarkRefType,
-          ancestorCode: areaGroup,
-        })
+        (areaCodes): GetHealthDataForAnIndicatorRequest => {
+          const latestOnly = !(areaCodes.length === 1 && areaCodes[0] === areaCodeForEngland);
+
+          return ({
+            indicatorId: Number(id),
+            areaCodes: areaCodes,
+            areaType: requestAreas.areaType,
+            inequalities: requestAreas.inequalities,
+            latestOnly,
+            // latestOnly: true,
+            benchmarkRefType,
+            ancestorCode: areaGroup,
+          })
+        }
       )
     )
   );

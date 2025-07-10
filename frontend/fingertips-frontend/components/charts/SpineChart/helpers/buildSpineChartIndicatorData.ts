@@ -105,6 +105,17 @@ export const buildSpineChartIndicatorData = (
         englandData
       );
 
+      // const validEnglandHealthDataPeriod = englandData?.healthData.find((healthData) =>
+      //   healthData.year === latestDataPeriod);
+
+      // let englandDataWithCorrectPeriod = englandData;
+      // if (englandData) {
+      //   englandDataWithCorrectPeriod = {
+      //     ...englandData,
+      //     healthData: validEnglandHealthDataPeriod ? [validEnglandHealthDataPeriod] : []
+      //   }
+      // }
+
       return {
         indicatorId,
         indicatorName: indicatorData.name as string,
@@ -113,6 +124,7 @@ export const buildSpineChartIndicatorData = (
         latestDataPeriod,
         areasHealthData,
         groupData,
+        // englandData: englandDataWithCorrectPeriod,
         englandData,
         quartileData: matchedQuartileData,
       };
