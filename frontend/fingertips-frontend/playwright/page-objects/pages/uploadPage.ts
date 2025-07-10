@@ -3,6 +3,8 @@ import { expect } from '../pageFactory';
 
 export default class UploadPage extends BasePage {
   private readonly apiResponsePanelTestId = 'api-response-panel';
+  private readonly apiResponsePanelStatusTestId = 'api-response-panel-status';
+  private readonly apiResponsePanelMessageTestId = 'api-response-panel-message';
 
   private readonly pageHeadingText = 'Indicator data portal';
 
@@ -63,11 +65,11 @@ export default class UploadPage extends BasePage {
     ).toBeVisible();
   }
 
-  async checkApiResponsePanelContains(status: string, message: string) {
+  async checkApiResponsePanelContains(status: string) {
     await expect(
       this.page.getByTestId(this.apiResponsePanelTestId)
     ).toBeVisible();
-    await expect(this.page.getByText(status)).toBeVisible();
-    await expect(this.page.getByText(message)).toBeVisible();
+    await expect(this.page.getByTestId(this.apiResponsePanelStatusTestId)).toContainText(status);
+    await expect(this.page.getByTestId(this.apiResponsePanelMessageTestId)).toBeVisible();
   }
 }

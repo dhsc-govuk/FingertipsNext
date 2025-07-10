@@ -13,13 +13,13 @@ export const ApiResponsePanel = ({ apiResponse }: ApiResponsePanelProps) => {
         {apiResponse.status ? (
           <Table.Row>
             <Table.CellHeader>HTTP status code</Table.CellHeader>
-            <Table.Cell>{apiResponse.status}</Table.Cell>
+            <Table.Cell data-testid="api-response-panel-status">{apiResponse.status}</Table.Cell>
           </Table.Row>
         ) : null}
 
         <Table.Row>
           <Table.CellHeader>Message</Table.CellHeader>
-          <Table.Cell>{apiResponse.message}</Table.Cell>
+          <Table.Cell data-testid="api-response-panel-message">{apiResponse.message}</Table.Cell>
         </Table.Row>
       </Table>
     </ResponsePanel>
