@@ -7,6 +7,32 @@ namespace DHSC.FingertipsNext.Modules.DataManagement.UnitTests.Repository;
 
 public class DataManagementRepositoryTests : IDisposable
 {
+    private const string OriginalFilename = "upload.csv";
+    private static readonly DateTime CreatedAt = new(2025, 1, 1, 0, 0, 0);
+    private static readonly DateTime PublishedAt = new(2025, 2, 1, 0, 0, 0);
+    private static readonly Guid UserId = Guid.NewGuid();
+
+    private readonly BatchModel _batchFor22401 = new()
+    {
+        BatchKey = 3, BatchId = "22401_2017-06-30T14:22:37.123Z", IndicatorId = 22401, CreatedAt = CreatedAt,
+        OriginalFilename = OriginalFilename, PublishedAt = PublishedAt, UserId = UserId,
+        Status = BatchStatus.Received
+    };
+
+    private readonly BatchModel _batchFor383 = new()
+    {
+        BatchKey = 2, BatchId = "383_2017-06-30T14:22:37.123Z", IndicatorId = 383, CreatedAt = CreatedAt,
+        OriginalFilename = OriginalFilename, PublishedAt = PublishedAt, UserId = UserId,
+        Status = BatchStatus.Deleted
+    };
+
+    private readonly BatchModel _batchFor41101 = new()
+    {
+        BatchKey = 1, BatchId = "41101_2020-03-07T14:22:37.123Z", IndicatorId = 41101, CreatedAt = CreatedAt,
+        OriginalFilename = OriginalFilename, PublishedAt = PublishedAt, UserId = UserId,
+        Status = BatchStatus.Received
+    };
+
     private readonly DataManagementDbContext _dbContext;
     private DataManagementRepository _dataManagementRepository;
 
@@ -33,7 +59,7 @@ public class DataManagementRepositoryTests : IDisposable
     }
 
     [Fact]
-    public void RepositoryInitialisationShouldThrowErrorIfNullDBContextIsProvided()
+    public void RepositoryInitialisationShouldThrowErrorIfNullDbContextIsProvided()
     {
         var act = () => _dataManagementRepository = new DataManagementRepository(null!);
 
@@ -44,25 +70,68 @@ public class DataManagementRepositoryTests : IDisposable
     [Fact]
     public async Task RepositoryAddBatch()
     {
-        // Arrange
-        var batchId = "1234_2025-01-01T00:00:00.000";
-        var model = new BatchModel
-        {
-            BatchId = batchId,
-            IndicatorId = 1234,
-            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0),
-            PublishedAt = new DateTime(2025, 1, 1, 0, 0, 0),
-            UserId = Guid.Parse("5d4a9f8c-582c-42a7-9447-0d568466806e"),
-            Status = BatchStatus.Received,
-            OriginalFilename = "upload.csv"
-        };
-
         // Act
-        await _dataManagementRepository.AddBatchAsync(model);
+        await _dataManagementRepository.AddBatchAsync(_batchFor41101);
 
         // Assert
-        var batch = await _dbContext.Batch.Where(b => b.BatchId == batchId).FirstOrDefaultAsync();
+        var batch = await _dbContext.Batch.Where(b => b.BatchId == _batchFor41101.BatchId).FirstOrDefaultAsync();
         batch.ShouldNotBeNull();
-        batch.ShouldBeEquivalentTo(model);
+        batch.ShouldBeEquivalentTo(_batchFor41101);
+    }
+
+    [Fact]
+    public async Task GetBatchesAsyncShouldReturnAllBatchesForSpecifiedIndicators()
+    {
+        // Arrange
+        await _dbContext.Batch.AddRangeAsync(_batchFor41101, _batchFor383, _batchFor22401);
+        await _dbContext.SaveChangesAsync();
+
+        // Act
+        var batches = await _dataManagementRepository.GetBatchesAsync([41101, 383]);
+
+        // Assert
+        var batchModels = batches.ToList();
+        batchModels.Count.ShouldBe(2);
+        batchModels.ShouldContain(_batchFor41101);
+        batchModels.ShouldContain(_batchFor383);
+    }
+
+    [Fact]
+    public async Task GetBatchesAsyncShouldReturnNoBatchesIfNoDataForSpecifiedIndicators()
+    {
+        // Arrange
+        await _dbContext.Batch.AddRangeAsync(_batchFor41101, _batchFor383, _batchFor22401);
+        await _dbContext.SaveChangesAsync();
+
+        // Act
+        var batches = await _dataManagementRepository.GetBatchesAsync([1234, 5678]);
+
+        // Assert
+        var batchModels = batches.ToList();
+        batchModels.ShouldBeEmpty();
+    }
+
+    [Fact]
+    public async Task GetBatchesAsyncShouldReturnAllBatchesIfNoIndicatorsSpecified()
+    {
+        // Arrange
+        await _dbContext.Batch.AddRangeAsync(_batchFor41101, _batchFor383, _batchFor22401);
+        await _dbContext.SaveChangesAsync();
+
+        // Act
+        var batches = await _dataManagementRepository.GetBatchesAsync([]);
+
+        // Assert
+        var batchModels = batches.ToList();
+        batchModels.Count.ShouldBe(3);
+        batchModels.ShouldContain(_batchFor41101);
+        batchModels.ShouldContain(_batchFor383);
+        batchModels.ShouldContain(_batchFor22401);
+    }
+
+    [Fact]
+    public async Task GetBatchesAsyncShouldThrowAnExceptionIfANullListOfIndicatorsSpecified()
+    {
+        await _dataManagementRepository.GetBatchesAsync(null!).ShouldThrowAsync(typeof(ArgumentNullException));
     }
 }
