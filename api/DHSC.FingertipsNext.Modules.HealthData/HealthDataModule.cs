@@ -39,7 +39,7 @@ public class HealthDataModule : AbstractMonolithModule, IMonolithModule
         if (trustServerCertificate)
         {
             Console.WriteLine("Server certificate validation has been disabled (by setting the TRUST_CERT environment variable). This should only be done for local development!");
-        } 
+        }
 
         var builder = new SqlConnectionStringBuilder
         {

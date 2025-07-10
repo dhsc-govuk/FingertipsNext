@@ -69,7 +69,11 @@ export default class UploadPage extends BasePage {
     await expect(
       this.page.getByTestId(this.apiResponsePanelTestId)
     ).toBeVisible();
-    await expect(this.page.getByTestId(this.apiResponsePanelStatusTestId)).toContainText(status);
-    await expect(this.page.getByTestId(this.apiResponsePanelMessageTestId)).toBeVisible();
+    await expect(
+      this.page.getByTestId(this.apiResponsePanelStatusTestId)
+    ).toContainText(status);
+    await expect(
+      this.page.getByTestId(this.apiResponsePanelMessageTestId)
+    ).toBeVisible();
   }
 }
