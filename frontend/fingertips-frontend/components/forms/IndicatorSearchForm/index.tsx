@@ -81,8 +81,9 @@ export const IndicatorSearchForm = ({
                     borderColor: GovukColours.Red,
                     borderWidth: govukErrorBorderWidth,
                     borderStyle: 'solid',
+                    fontSize: '19px',
                   }
-                : {}
+                : { fontSize: '19px' }
             }
           />
         )}

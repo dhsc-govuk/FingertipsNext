@@ -33,7 +33,7 @@ mockSetIsLoading(false);
 const lineChartTestId = 'standardLineChart-component';
 const lineChartTableTestId = 'lineChartTable-component';
 const lineChartContainerTestId = 'tabContainer-lineChartAndTable';
-const lineChartContainerTitle = 'Indicator data over time';
+const lineChartContainerTitle = 'Indicator trends over time';
 const barChartEmbeddedTable = 'barChartEmbeddedTable-component';
 const lineChartSegmentationOptions = 'segmentation-options';
 
@@ -153,7 +153,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
 
     await waitFor(async () => {
       const benchmarkAreaDropDown = screen.getByRole('combobox', {
-        name: 'Select a benchmark',
+        name: 'Select a benchmark for all charts',
       });
       const benchmarkAreaDropDownOptions = within(
         benchmarkAreaDropDown
@@ -209,7 +209,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     it('should render the title for BarChartEmbeddedTable', async () => {
       await testRender(mockSearchState, testHealthData, testMetaData);
       expect(
-        await screen.findByText('Compare an indicator by areas')
+        await screen.findByText('Compare areas for one time period')
       ).toBeInTheDocument();
     });
   });
@@ -233,10 +233,10 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         expect(
           await screen.findByTestId('thematicMap-component')
         ).toBeInTheDocument();
-        // The compare areas table and thematic map use the same title
+
         expect(
           await screen.findAllByText('Compare an indicator by areas')
-        ).toHaveLength(2);
+        ).toHaveLength(1);
       });
     });
 
