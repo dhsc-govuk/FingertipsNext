@@ -11,24 +11,24 @@ on:
   workflow_call:
     inputs:
       environment:
-        description: 'Deployment environment'
+        description: "Deployment environment"
         required: true
         type: string
       playwright-mode:
-        description: 'Mode from which tests are run - either run inside docker or against the azure stack'
+        description: "Mode from which tests are run - either run inside docker or against the azure stack"
         required: true
         type: string
       update_screenshots:
-        description: 'Whether to update baseline screenshots'
+        description: "Whether to update baseline screenshots"
         required: false
         default: false
         type: boolean
     secrets:
       slack-webhook-url:
-        description: 'URL of the slack webhook'
+        description: "URL of the slack webhook"
         required: false
       fingertips_e2e_db_password:
-        description: 'Password for the database'
+        description: "Password for the database"
         required: false
 jobs:
   execute-e2e-tests-docker:
@@ -42,7 +42,7 @@ jobs:
       DB_USER: sa
       DB_PASSWORD: ${{ secrets.fingertips_e2e_db_password }}
       UPLOAD_STORAGE_CONTAINER_NAME: fingertips-upload-container
-      AUTH_SECRET: random-string-for-testing-123
+      AUTH_SECRET: "random-string-for-testing-123"
       AUTH_CLIENT_SECRET: ${{ secrets.DEVELOPMENT_ENTRA_CLIENT_SECRET }}
       AUTH_CLIENT_ID: ${{ vars.DEVELOPMENT_ENTRA_CLIENT_ID }}
       AUTH_TENANT_ID: ${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}
@@ -62,7 +62,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
           cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
       - name: Cache playwright dependencies - for CI test execution
@@ -189,7 +189,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
           cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
       - name: Install dependencies
