@@ -1,6 +1,5 @@
-import { UserInfoType } from '@/generated-sources/ft-api-client';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { AuthProvidersFactory } from '@/lib/auth/providers/providerFactory';
+import { validateAccessToken } from '@/lib/auth/validation';
 import { NextAuthConfig } from 'next-auth';
 import 'next-auth/jwt';
 
@@ -17,6 +16,10 @@ declare module 'next-auth/jwt' {
 }
 
 export function buildAuthConfig(): NextAuthConfig {
+  if (!process.env.AUTH_SECRET) {
+    throw new Error('AUTH_SECRET not found in environment');
+  }
+
   const config: NextAuthConfig = {
     providers: AuthProvidersFactory.getProviders(),
     callbacks: {
@@ -37,39 +40,5 @@ export function buildAuthConfig(): NextAuthConfig {
     },
   };
 
-  if (!process.env.AUTH_SECRET) {
-    // this will be removed when auth is integrated and AUTH_SECRET is provided from build
-    // for now it is here to keep e2e and ui tests from breaking
-    console.log('WARNING - AUTH_SECRET NOT PROVIDED');
-    config.secret = 'insecure';
-  }
-
   return config;
-}
-
-const validateAccessToken = async (accessToken: string): Promise<boolean> => {
-  const userResponse = await getUser(accessToken);
-  if (userResponse) {
-    console.log(`JH userId: ${userResponse.externalId}`);
-    return true;
-  }
-  console.log(`JH invalid access token`);
-  return false;
-};
-
-async function getUser(accessToken: string) {
-  const userApi = ApiClientFactory.getUserApiClient();
-  let userInfoResponse: UserInfoType;
-
-  try {
-    userInfoResponse = await userApi.getUserInfo({
-      headers: { Authorization: `bearer ${accessToken}` },
-    });
-  } catch (error) {
-    // JH TODO
-    console.log(error);
-    return undefined;
-  }
-
-  return userInfoResponse;
 }
