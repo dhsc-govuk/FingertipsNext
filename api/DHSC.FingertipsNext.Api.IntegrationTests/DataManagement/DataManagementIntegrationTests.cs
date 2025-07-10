@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository;
@@ -230,9 +229,9 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
             new()
             {
                 BatchId = "41101_2020-03-07T14:22:37.123Z",
-                CreatedAt = DateTime.Parse("2025-07-09T16:15:00.000Z", CultureInfo.InvariantCulture),
+                CreatedAt = new DateTime(2025, 7, 9, 16, 15, 0, 0),
                 IndicatorId = 41101,
-                PublishedAt = DateTime.Parse("2025-08-09T00:00:00.000Z", CultureInfo.InvariantCulture),
+                PublishedAt = new DateTime(2025, 8, 9, 0, 0, 0, 0),
                 Status = BatchStatus.Received,
                 UserId = "fd89acd7-c91f-49c0-89ab-c46d3b25b4f0",
                 OriginalFileName = "integration-test.csv"
@@ -240,9 +239,9 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
             new()
             {
                 BatchId = "383_2017-06-30T14:22:37.123Z",
-                CreatedAt = DateTime.Parse("2025-07-09T16:15:00.000Z", CultureInfo.InvariantCulture),
+                CreatedAt = new DateTime(2025, 7, 9, 16, 15, 0, 0),
                 IndicatorId = 383,
-                PublishedAt = DateTime.Parse("2025-09-09T00:00:00.000Z", CultureInfo.InvariantCulture),
+                PublishedAt = new DateTime(2025, 9, 9, 0, 0, 0, 0),
                 Status = BatchStatus.Deleted,
                 UserId = "833347c4-4f1d-425e-a66c-fa701d1bbd53",
                 OriginalFileName = "integration-test.csv"
@@ -250,9 +249,9 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
             new()
             {
                 BatchId = "22401_2017-06-30T14:22:37.123Z",
-                CreatedAt = DateTime.Parse("2025-07-09T16:15:00.000Z", CultureInfo.InvariantCulture),
+                CreatedAt = new DateTime(2025, 7, 9, 16, 15, 0, 0),
                 IndicatorId = 22401,
-                PublishedAt = DateTime.Parse("2025-10-09T00:00:00.000Z", CultureInfo.InvariantCulture),
+                PublishedAt = new DateTime(2025, 10, 9, 0, 0, 0, 0),
                 Status = BatchStatus.Received,
                 UserId = "10cefea6-5b2e-43bb-9cbc-bcaec8b27e0d",
                 OriginalFileName = "integration-test.csv"
