@@ -48,8 +48,9 @@ public class DataManagementRepositoryTests : IDisposable
         Status = BatchStatus.Received
     };
 
-    private readonly DataManagementDbContext _dbContext;
     private readonly DataManagementRepository _dataManagementRepository;
+
+    private readonly DataManagementDbContext _dbContext;
 
     public DataManagementRepositoryTests()
     {
@@ -71,6 +72,24 @@ public class DataManagementRepositoryTests : IDisposable
     protected virtual void Dispose(bool disposing)
     {
         if (disposing) _dbContext.Dispose();
+    }
+
+    [Fact]
+    public async Task GetBatchesAsyncShouldReturnBatcheForSpecifiedIndicators()
+    {
+        // Arrange
+        await _dbContext.Batch.AddRangeAsync(_batchFor41101, _batchFor383, _batchFor22401);
+        await _dbContext.SaveChangesAsync();
+
+        // Act
+        var batches = await _dataManagementRepository.GetBatchesAsync([41101, 383, 22401]);
+
+        // Assert
+        var batchModels = batches.ToList();
+        batchModels.Count.ShouldBe(3);
+        batchModels.ShouldContain(_batchFor41101);
+        batchModels.ShouldContain(_batchFor383);
+        batchModels.ShouldContain(_batchFor22401);
     }
 
     [Fact]
