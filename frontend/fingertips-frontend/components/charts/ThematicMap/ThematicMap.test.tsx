@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { mockHealthData } from '@/mock/data/healthdata';
-import { ThematicMap } from '.';
+import { ThematicMap } from './ThematicMap';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
-import regionsMap from '@/components/organisms/ThematicMap/regions.json';
+import regionsMap from '@/components/charts/ThematicMap/regions.json';
 import { reactQueryClient } from '@/lib/reactQueryClient';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';

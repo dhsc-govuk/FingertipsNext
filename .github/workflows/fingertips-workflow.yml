@@ -691,6 +691,11 @@ jobs:
             value       = "${{ vars.DEVELOPMENT_FINGERTIPS_API_URL }}"
           },
           {
+            name        = "NEXT_PUBLIC_FINGERTIPS_API_URL"
+            secret_name = null
+            value       = "/api"
+          },
+          {
             name        = "DHSC_AI_SEARCH_USE_MOCK_SERVICE"
             secret_name = null
             value       = false

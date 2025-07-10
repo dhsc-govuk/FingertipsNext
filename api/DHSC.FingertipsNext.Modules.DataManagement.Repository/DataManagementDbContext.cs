@@ -13,8 +13,6 @@ public class DataManagementDbContext : DbContext
     {
     }
 
-    public DbSet<BatchModel> Batch { get; set; }
-
     #region Required
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -26,4 +24,7 @@ public class DataManagementDbContext : DbContext
     }
 
     #endregion
+
+    public DbSet<BatchModel> Batch { get; set; }
+
 }

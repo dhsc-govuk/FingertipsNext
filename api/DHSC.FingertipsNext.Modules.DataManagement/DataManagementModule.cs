@@ -1,5 +1,6 @@
 ﻿using Azure.Identity;
 using Azure.Storage;
+using DHSC.FingertipsNext.Modules.DataManagement.Mappings;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using DHSC.FingertipsNext.Modules.DataManagement.Service;
 using DHSC.FingertipsNext.Monolith;
@@ -21,6 +22,7 @@ public class DataManagementModule : AbstractMonolithModule, IMonolithModule
         services.AddSingleton(TimeProvider.System);
         services.AddTransient<IDataManagementService, DataManagementService>();
         services.AddTransient<IDataManagementRepository, DataManagementRepository>();
+        services.AddSingleton<IDataManagementMapper, DataManagementMapper>();
         RegisterAzureClients(services, configuration);
         RegisterDbContext(services, configuration);
     }
@@ -41,18 +43,24 @@ public class DataManagementModule : AbstractMonolithModule, IMonolithModule
             if (!string.IsNullOrEmpty(userAssignedManagedIdentityClientId))
             {
                 clientBuilder.AddBlobServiceClient(new Uri(storageUri))
-                    .ConfigureOptions(options => { options.Retry.MaxRetries = 2; });
+                    .ConfigureOptions(options =>
+                    {
+                        options.Retry.MaxRetries = 2;
+                    });
 
                 var credential = new DefaultAzureCredential(
                     new DefaultAzureCredentialOptions { ManagedIdentityClientId = userAssignedManagedIdentityClientId }
-                );
+                    );
                 clientBuilder.UseCredential(credential);
             }
             else if (!string.IsNullOrEmpty(storageAccountName) && !string.IsNullOrEmpty(storageAccountKey))
             {
                 clientBuilder.AddBlobServiceClient(new Uri(storageUri),
                         new StorageSharedKeyCredential(storageAccountName, storageAccountKey))
-                    .ConfigureOptions(options => { options.Retry.MaxRetries = 2; });
+                    .ConfigureOptions(options =>
+                    {
+                        options.Retry.MaxRetries = 2;
+                    });
             }
             else
             {
@@ -77,8 +85,9 @@ public class DataManagementModule : AbstractMonolithModule, IMonolithModule
         var trustServerCertificate = configuration.GetValue<bool>("TRUST_CERT");
 
         if (trustServerCertificate)
-            Console.WriteLine(
-                "Server certificate validation has been disabled (by setting the TRUST_CERT environment variable). This should only be done for local development!");
+        {
+            Console.WriteLine("Server certificate validation has been disabled (by setting the TRUST_CERT environment variable). This should only be done for local development!");
+        }
 
         var builder = new SqlConnectionStringBuilder
         {
@@ -91,10 +100,6 @@ public class DataManagementModule : AbstractMonolithModule, IMonolithModule
         services.AddDbContext<DataManagementDbContext>(options => options.UseSqlServer(builder.ConnectionString));
     }
 
-    private static string GetEnvironmentValue(IConfiguration configuration, string name)
-    {
-        return configuration.GetValue<string>(name) ??
-               throw new ArgumentException(
-                   $"Invalid environment variables provided. Check {name} has been set appropriately");
-    }
+    private static string GetEnvironmentValue(IConfiguration configuration, string name) =>
+        configuration.GetValue<string>(name) ?? throw new ArgumentException($"Invalid environment variables provided. Check {name} has been set appropriately");
 }

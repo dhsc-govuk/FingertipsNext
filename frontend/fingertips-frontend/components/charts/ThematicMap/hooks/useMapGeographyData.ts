@@ -1,8 +1,8 @@
-import { useApiMapGeographyGet } from '@/components/organisms/ThematicMap/useApiMapGeographyGet';
+import { useApiMapGeographyGet } from '@/components/charts/ThematicMap/hooks/useApiMapGeographyGet';
 import {
   AreaTypeKeysForMapMeta,
   getMapGeographyData,
-} from '@/components/organisms/ThematicMap/thematicMapHelpers';
+} from '@/components/charts/ThematicMap/helpers/thematicMapHelpers';
 import { useMemo } from 'react';
 
 export const useMapGeographyData = (

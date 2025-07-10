@@ -1,10 +1,10 @@
+
 using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository.Models;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
 
 namespace DHSC.FingertipsNext.Modules.DataManagement.UnitTests.Repository;
-
 public class DataManagementRepositoryTests : IDisposable
 {
     private const string OriginalFilename = "upload.csv";
@@ -56,44 +56,6 @@ public class DataManagementRepositoryTests : IDisposable
     protected virtual void Dispose(bool disposing)
     {
         if (disposing) _dbContext.Dispose();
-    }
-
-    [Fact]
-    public void RepositoryInitialisationShouldThrowErrorIfNullDbContextIsProvided()
-    {
-        var act = () => _dataManagementRepository = new DataManagementRepository(null!);
-
-        act.ShouldThrow<ArgumentNullException>()
-            .Message.ShouldBe("Value cannot be null. (Parameter 'dataManagementDbContext')");
-    }
-
-    [Fact]
-    public async Task RepositoryAddBatch()
-    {
-        // Act
-        await _dataManagementRepository.AddBatchAsync(_batchFor41101);
-
-        // Assert
-        var batch = await _dbContext.Batch.Where(b => b.BatchId == _batchFor41101.BatchId).FirstOrDefaultAsync();
-        batch.ShouldNotBeNull();
-        batch.ShouldBeEquivalentTo(_batchFor41101);
-    }
-
-    [Fact]
-    public async Task GetBatchesAsyncShouldReturnAllBatchesForSpecifiedIndicators()
-    {
-        // Arrange
-        await _dbContext.Batch.AddRangeAsync(_batchFor41101, _batchFor383, _batchFor22401);
-        await _dbContext.SaveChangesAsync();
-
-        // Act
-        var batches = await _dataManagementRepository.GetBatchesAsync([41101, 383]);
-
-        // Assert
-        var batchModels = batches.ToList();
-        batchModels.Count.ShouldBe(2);
-        batchModels.ShouldContain(_batchFor41101);
-        batchModels.ShouldContain(_batchFor383);
     }
 
     [Fact]

@@ -10,7 +10,6 @@ import {
 } from '@/lib/ViewsHelpers';
 
 export default async function OneIndicatorTwoOrMoreAreasView({
-  selectedIndicatorsData,
   searchState,
   availableAreas,
 }: Readonly<ViewProps>) {
@@ -53,17 +52,12 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     areaCodes.length > 2
   );
 
-  const indicatorMetadata = selectedIndicatorsData?.[0];
   return (
     <ViewsWrapper
       areaCodes={areaCodes}
       indicatorsDataForAreas={[indicatorData]}
     >
-      <OneIndicatorTwoOrMoreAreasViewPlots
-        areaCodes={areaCodes}
-        indicatorData={indicatorData}
-        indicatorMetadata={indicatorMetadata}
-      />
+      <OneIndicatorTwoOrMoreAreasViewPlots indicatorData={indicatorData} />
     </ViewsWrapper>
   );
 }
