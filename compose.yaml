@@ -15,7 +15,9 @@ services:
       AUTH_CLIENT_SECRET: ${AUTH_CLIENT_SECRET}
       AUTH_CLIENT_ID: ${AUTH_CLIENT_ID}
       AUTH_TENANT_ID: ${AUTH_TENANT_ID}
-
+      AUTH_TRUST_HOST: true
+      AUTH_URL: "http://frontend:3000/auth"
+      
     ports:
       - 3000:3000
 
