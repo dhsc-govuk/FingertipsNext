@@ -222,7 +222,7 @@ describe('Chart Page', () => {
       ).toBe(false);
     });
 
-    it('should seed without unpublished data if there is a session', async () => {
+    it('should seed with unpublished data if there is a session', async () => {
       (auth as Mock).mockImplementation(
         vi.fn().mockResolvedValue({ expires: 'some string' })
       );

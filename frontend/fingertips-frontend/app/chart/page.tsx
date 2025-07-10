@@ -125,7 +125,7 @@ export default async function ChartPage(
             apiRequestParams
           );
         }
-        // seedData[queryKeyLineChart] = healthData;
+        seedData[queryKeyLineChart] = healthData;
       } catch (error) {
         console.error('error getting health indicator data for area', error);
       }
