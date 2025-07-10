@@ -155,7 +155,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
                 {
                     code = denormalisedHealthMeasure.AreaDimensionCode,
                     name = denormalisedHealthMeasure.AreaDimensionName,
-                    periodType = denormalisedHealthMeasure.Period,
+                    periodType = denormalisedHealthMeasure.PeriodType,
                 })
                 .Select(areaGroup => new HealthDataForArea
                 {

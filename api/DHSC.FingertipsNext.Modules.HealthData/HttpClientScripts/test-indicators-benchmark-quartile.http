@@ -88,9 +88,9 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids
         {
             "year": 2023,
             "datePeriod": {
-              "type": "Financial",
-              "from": "2023-04-06",
-              "to": "2024-04-05"
+            "type": "Financial",
+            "from": "2023-04-01",
+            "to": "2024-03-31"
             },
             "q0Value": 15.7894736842105,
             "q1Value": 64.9253731343284,
