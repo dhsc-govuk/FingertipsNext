@@ -1,10 +1,10 @@
-
 using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository.Models;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
 
 namespace DHSC.FingertipsNext.Modules.DataManagement.UnitTests.Repository;
+
 public class DataManagementRepositoryTests : IDisposable
 {
     private const string OriginalFilename = "upload.csv";
@@ -15,26 +15,26 @@ public class DataManagementRepositoryTests : IDisposable
     private readonly BatchModel _batchFor22401 = new()
     {
         BatchKey = 3, BatchId = "22401_2017-06-30T14:22:37.123Z", IndicatorId = 22401, CreatedAt = CreatedAt,
-        OriginalFilename = OriginalFilename, PublishedAt = PublishedAt, UserId = UserId,
+        OriginalFileName = OriginalFilename, PublishedAt = PublishedAt, UserId = UserId,
         Status = BatchStatus.Received
     };
 
     private readonly BatchModel _batchFor383 = new()
     {
         BatchKey = 2, BatchId = "383_2017-06-30T14:22:37.123Z", IndicatorId = 383, CreatedAt = CreatedAt,
-        OriginalFilename = OriginalFilename, PublishedAt = PublishedAt, UserId = UserId,
+        OriginalFileName = OriginalFilename, PublishedAt = PublishedAt, UserId = UserId,
         Status = BatchStatus.Deleted
     };
 
     private readonly BatchModel _batchFor41101 = new()
     {
         BatchKey = 1, BatchId = "41101_2020-03-07T14:22:37.123Z", IndicatorId = 41101, CreatedAt = CreatedAt,
-        OriginalFilename = OriginalFilename, PublishedAt = PublishedAt, UserId = UserId,
+        OriginalFileName = OriginalFilename, PublishedAt = PublishedAt, UserId = UserId,
         Status = BatchStatus.Received
     };
 
     private readonly DataManagementDbContext _dbContext;
-    private DataManagementRepository _dataManagementRepository;
+    private readonly DataManagementRepository _dataManagementRepository;
 
     public DataManagementRepositoryTests()
     {

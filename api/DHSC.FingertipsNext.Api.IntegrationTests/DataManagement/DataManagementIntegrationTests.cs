@@ -5,7 +5,6 @@ using System.Net.Http.Json;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository.Models;
 using DHSC.FingertipsNext.Modules.DataManagement.Schemas;
-using DHSC.FingertipsNext.Modules.HealthData.Repository;
 using DotNetEnv;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -15,15 +14,16 @@ using Shouldly;
 
 namespace DHSC.FingertipsNext.Api.IntegrationTests.DataManagement;
 
-public sealed class DataManagementIntegrationTests : IClassFixture<DataManagementWebApplicationFactory<Program>>, IDisposable
+public sealed class DataManagementIntegrationTests : IClassFixture<DataManagementWebApplicationFactory<Program>>,
+    IDisposable
 {
-    private SqlConnection _sqlConnection;
-    private DataManagementWebApplicationFactory<Program> _factory;
     private const string TestDataDir = "TestData";
-    private readonly string _blobName;
     private const int IndicatorId = 9000;
     private const string FingertipsStorageContainerName = "fingertips-upload-container";
     private readonly AzureStorageBlobClient _azureStorageBlobClient;
+    private readonly string _blobName;
+    private readonly DataManagementWebApplicationFactory<Program> _factory;
+    private readonly SqlConnection _sqlConnection;
 
     public DataManagementIntegrationTests(DataManagementWebApplicationFactory<Program> factory)
     {
@@ -63,7 +63,8 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         _sqlConnection.Dispose();
     }
 
-    private static HttpClient GetApiClient(DataManagementWebApplicationFactory<Program> factory, string blobContainerName = FingertipsStorageContainerName)
+    private static HttpClient GetApiClient(DataManagementWebApplicationFactory<Program> factory,
+        string blobContainerName = FingertipsStorageContainerName)
     {
         return factory.WithWebHostBuilder(builder =>
         {
@@ -233,8 +234,8 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
                 IndicatorId = 41101,
                 PublishedAt = DateTime.Parse("2025-08-09T00:00:00.000Z", CultureInfo.InvariantCulture),
                 Status = BatchStatus.Received,
-                UserId = new Guid("fd89acd7-c91f-49c0-89ab-c46d3b25b4f0"),
-                OriginalFilename = "integration-test.csv"
+                UserId = "fd89acd7-c91f-49c0-89ab-c46d3b25b4f0",
+                OriginalFileName = "integration-test.csv"
             },
             new()
             {
@@ -243,8 +244,8 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
                 IndicatorId = 383,
                 PublishedAt = DateTime.Parse("2025-09-09T00:00:00.000Z", CultureInfo.InvariantCulture),
                 Status = BatchStatus.Deleted,
-                UserId = new Guid("833347c4-4f1d-425e-a66c-fa701d1bbd53"),
-                OriginalFilename = "integration-test.csv"
+                UserId = "833347c4-4f1d-425e-a66c-fa701d1bbd53",
+                OriginalFileName = "integration-test.csv"
             },
             new()
             {
@@ -253,8 +254,8 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
                 IndicatorId = 22401,
                 PublishedAt = DateTime.Parse("2025-10-09T00:00:00.000Z", CultureInfo.InvariantCulture),
                 Status = BatchStatus.Received,
-                UserId = new Guid("10cefea6-5b2e-43bb-9cbc-bcaec8b27e0d"),
-                OriginalFilename = "integration-test.csv"
+                UserId = "10cefea6-5b2e-43bb-9cbc-bcaec8b27e0d",
+                OriginalFileName = "integration-test.csv"
             }
         ];
 
