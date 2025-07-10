@@ -24,7 +24,7 @@ export function buildAuthConfig(): NextAuthConfig {
     providers: AuthProvidersFactory.getProviders(),
     callbacks: {
       jwt: async ({ token, user: _, account }) => {
-        if (account && account.access_token) {
+        if (account?.access_token) {
           if (await validateAccessToken(account.access_token)) {
             return { ...token, accessToken: account?.access_token };
           }
