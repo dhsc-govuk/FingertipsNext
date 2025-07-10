@@ -75,7 +75,7 @@ public class DataManagementRepositoryTests : IDisposable
     }
 
     [Fact]
-    public async Task GetBatchesAsyncShouldReturnBatcheForSpecifiedIndicators()
+    public async Task GetBatchesAsyncShouldReturnBatchesForSpecifiedIndicators()
     {
         // Arrange
         await _dbContext.Batch.AddRangeAsync(_batchFor41101, _batchFor383, _batchFor22401);
