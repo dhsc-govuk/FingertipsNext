@@ -5,7 +5,7 @@ using Microsoft.Extensions.Time.Testing;
 
 namespace DHSC.FingertipsNext.Api.IntegrationTests;
 
-public class CustomWebApplicationFactory<T> : WebApplicationFactory<T> where T : class
+public class DataManagementWebApplicationFactory<T> : WebApplicationFactory<T> where T : class
 {
     public FakeTimeProvider MockTime { get; } = new();
 

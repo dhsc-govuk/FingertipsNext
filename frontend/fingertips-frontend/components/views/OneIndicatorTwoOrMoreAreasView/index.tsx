@@ -11,7 +11,6 @@ import {
 import { auth } from '@/lib/auth';
 
 export default async function OneIndicatorTwoOrMoreAreasView({
-  selectedIndicatorsData,
   searchState,
   availableAreas,
 }: Readonly<ViewProps>) {
@@ -55,16 +54,13 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     areaCodes.length > 2
   );
 
-  const indicatorMetadata = selectedIndicatorsData?.[0];
   return (
     <ViewsWrapper
       areaCodes={areaCodes}
       indicatorsDataForAreas={[indicatorData]}
     >
       <OneIndicatorTwoOrMoreAreasViewPlots
-        areaCodes={areaCodes}
         indicatorData={indicatorData}
-        indicatorMetadata={indicatorMetadata}
         session={session}
       />
     </ViewsWrapper>

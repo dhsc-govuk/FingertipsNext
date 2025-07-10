@@ -7,5 +7,6 @@ export const inequalitiesIsRequired = (searchState: SearchStateParams) => {
   } = searchState;
 
   if (indicatorIds.length === 0) return false;
+
   return selectedAreas.length <= 1;
 };

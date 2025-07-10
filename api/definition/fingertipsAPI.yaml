@@ -11,6 +11,8 @@ servers:
 tags:
   - name: indicators
     description: Endpoints dealing with public health indicators
+  - name: batches
+    description: Endpoints dealing with batches of public health data that have been uploaded.
   - name: areas
     description: Endpoints dealing with areas / geography
   - name: system
@@ -261,33 +263,27 @@ paths:
           multipart/form-data:
             schema:
               type: object
+              required:
+                - file
+                - publishedAt
               properties:
                 file:
                   type: string
                   format: binary
+                publishedAt:
+                  type: string
+                  format: date-time
+                  example: '2023-01-01T00:00:00.000'
+                  description: The date, in ISO 8601 format (YYYY-MM-DDTHH:mm:ss.fff), for when uploaded indicator data will be published
       responses:
         '202':
           description: The file has been accepted by the API and further processing will be conducted.
           content:
-            text/plain:
+            application/json:
               schema:
-                type: string
-                example: The file has been accepted.
+                $ref: '#/components/schemas/Batch'
         '400':
           $ref: '#/components/responses/BadRequest'
-    delete:
-      tags:
-        - indicators
-      summary: delete a batch of unpublished data for an indicator
-      description: Not Yet Implemented - Deletes ALL unpublished data for that indicator
-      responses:
-        '501':
-          description: Not Implemented
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: Not Implemented
   /indicators/{indicator_id}/data/all:
     parameters:
       - $ref: '#/components/parameters/indicator_id'
@@ -320,6 +316,24 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
       operationId: getHealthDataForAnIndicatorIncludingUnpublishedData
+  /indicators/{indicator_id}/data/{batch_id}:
+    parameters:
+      - $ref: '#/components/parameters/indicator_id'
+      - $ref: '#/components/parameters/batch_id'
+    delete:
+      tags:
+        - indicators
+      summary: Delete a batch of unpublished data for an indicator
+      description: Deletes all unpublished data for the specified indicator and batch.
+      responses:
+        '204':
+          description: The batch of unpublished data has been deleted successfully.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /indicators/quartiles:
     get:
       tags:
@@ -430,6 +444,25 @@ paths:
                   $ref: '#/components/schemas/QuartileData'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /batches:
+    get:
+      tags:
+        - batches
+      summary: Get all batches
+      operationId: getBatches
+      description: |
+        Get details of all health data upload batches that are for indicators that you have permissions to modify.
+      responses:
+        '200':
+          description: Batches for indicators you have permissions to modify.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Batch'
         '500':
           $ref: '#/components/responses/InternalServerError'
   /user/info:
@@ -675,6 +708,16 @@ components:
       description: Set to true to get data for the latest date period only, default is false. This overrides the years parameter if set to true.
       schema:
         type: boolean
+    batch_id:
+      in: path
+      name: batch_id
+      style: simple
+      schema:
+        type: string
+        example: '12345_20250101120000'
+      explode: false
+      required: true
+      description: The unique identifier of the batch of data
   schemas:
     AreaType:
       title: Area Type
@@ -785,9 +828,13 @@ components:
         - Yearly
         - Unknown
       x-enum-varnames:
+        - Academic
         - Calendar
         - Financial
-        - NovemberNovember
+        - FinancialMultiYear
+        - FinancialYearEndPoint
+        - Yearly
+        - Unknown
     Indicator:
       title: Indicator
       type: object
@@ -854,6 +901,19 @@ components:
         - Quintiles
         - CIOverlappingReferenceValue95
         - CIOverlappingReferenceValue99_8
+    Frequency:
+      title: Indicator Collection Frequency
+      type: string
+      example: Annually
+      description: How often data is collected
+      enum:
+        - Annually
+        - Quarterly
+        - Monthly
+      x-enum-varnames:
+        - Annually
+        - Quarterly
+        - Monthly
     SexData:
       title: Sex Data
       type: object
@@ -1048,7 +1108,7 @@ components:
     IndicatorSegment:
       title: IndicatorSegment
       type: object
-      description: Represents a segment of an Indicator health data point for a public health indicator .
+      description: Represents a segment of an Indicator health data point for a public health indicator.
       required:
         - sex
       properties:
@@ -1056,7 +1116,7 @@ components:
           $ref: '#/components/schemas/SexData'
         isAggregate:
           type: boolean
-          description: Indicates if the segment is the aggregate
+          description: Indicates if the segment is the aggregate.
         healthData:
           type: array
           items:
@@ -1083,12 +1143,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/IndicatorSegment'
-          description: An array of indicator segments
+          description: An array of indicator segments.
         healthData:
           type: array
           items:
             $ref: '#/components/schemas/HealthDataPoint'
-          description: The health data points for the area and indicator
+          description: The health data points for the area and indicator.
           deprecated: true
     IndicatorWithHealthDataForArea:
       title: Indicator With Health Data For Area
@@ -1107,10 +1167,62 @@ components:
           $ref: '#/components/schemas/IndicatorPolarity'
         benchmarkMethod:
           $ref: '#/components/schemas/BenchmarkComparisonMethod'
+        frequency:
+          $ref: '#/components/schemas/Frequency'
         areaHealthData:
           type: array
           items:
             $ref: '#/components/schemas/HealthDataForArea'
+    Batch:
+      title: Batch details
+      type: object
+      description: Details of a health data upload batch.
+      required:
+        - batchId
+        - indicatorId
+        - originalFilename
+        - createdAt
+        - publishedAt
+        - userId
+        - status
+      properties:
+        batchId:
+          type: string
+          example: 41101_2025-03-07T14:22:37.123
+          description: The unique identifier of the batch.
+        indicatorId:
+          type: integer
+          example: 21404
+          description: Unique ID of the indicator.
+        originalFilename:
+          type: string
+          description: The name of the file originally uploaded in order to create the batch.
+          example: upload.csv
+        createdAt:
+          type: string
+          format: date-time
+          description: When the batch was created.
+          example: '2025-06-30T14:44:53.643Z'
+        publishedAt:
+          type: string
+          format: date-time
+          description: When the data in the batch will be published.
+          example: '2025-07-30T00:00:00.000Z'
+        userId:
+          type: string
+          format: guid
+          description: The ID of the user who uploaded the batch.
+          example: e14dae4e-4c3c-4e13-979a-4aa6566e06a7
+        status:
+          type: string
+          description: The current status of the batch.
+          enum:
+            - Received
+            - Deleted
+          x-enum-varnames:
+            - Received
+            - Deleted
+          example: Received
     QuartileData:
       title: Quartile Data
       type: object
@@ -1124,7 +1236,7 @@ components:
           $ref: '#/components/schemas/SexData'
         isAggregate:
           type: boolean
-          description: Indicates if the segment is the aggregate
+          description: Indicates if the segment is the aggregate.
         year:
           type: integer
           format: int32
@@ -1135,6 +1247,8 @@ components:
           description: The date period that the data point is for.
         polarity:
           $ref: '#/components/schemas/IndicatorPolarity'
+        frequency:
+          $ref: '#/components/schemas/Frequency'
         q0Value:
           type: number
           description: Quartile Q0 value - the minimum value

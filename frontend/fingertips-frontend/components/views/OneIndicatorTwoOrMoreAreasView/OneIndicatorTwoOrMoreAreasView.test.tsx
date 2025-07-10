@@ -14,7 +14,6 @@ import {
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
 import { mockHealthData } from '@/mock/data/healthdata';
-import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 import { regionsAreaType } from '@/lib/areaFilterHelpers/areaType';
 import OneIndicatorTwoOrMoreAreasView from '@/components/views/OneIndicatorTwoOrMoreAreasView/index';
 
@@ -56,33 +55,6 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       }).rejects.toThrow('Invalid parameters provided to view');
     }
   );
-
-  it('should pass the first indicatorDocument from selectedIndicatorData as indicatorMetadata prop', async () => {
-    const firstIndicatorDocument = generateIndicatorDocument('1');
-
-    const searchParams: SearchStateParams = {
-      [SearchParams.SearchedIndicator]: 'testing',
-      [SearchParams.IndicatorsSelected]: ['1'],
-      [SearchParams.AreasSelected]: ['E12000001', 'E12000003'],
-      [SearchParams.AreaTypeSelected]: 'regions',
-    };
-
-    const mockIndicatorData = {
-      areaHealthData: [mockHealthData['108'][1], mockHealthData['108'][2]],
-    };
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
-      mockIndicatorData
-    );
-
-    const page = await OneIndicatorTwoOrMoreAreasView({
-      selectedIndicatorsData: [firstIndicatorDocument],
-      searchState: searchParams,
-    });
-
-    expect(page.props.children.props.indicatorMetadata).toEqual(
-      firstIndicatorDocument
-    );
-  });
 
   it('should call OneIndicatorTwoOrMoreAreasViewPlot with the correct props', async () => {
     const searchState: SearchStateParams = {

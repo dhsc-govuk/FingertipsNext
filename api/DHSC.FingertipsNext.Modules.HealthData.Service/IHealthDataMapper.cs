@@ -6,6 +6,7 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Service;
 public interface IHealthDataMapper
 {
     IndicatorPolarity MapIndicatorPolarity(string? source);
+    CollectionFrequency MapCollectionFrequency(string? source);
     BenchmarkComparisonMethod MapBenchmarkComparisonMethod(string? source);
     HealthDataPoint Map(HealthMeasureModel source);
     Sex Map(SexDimensionModel source);

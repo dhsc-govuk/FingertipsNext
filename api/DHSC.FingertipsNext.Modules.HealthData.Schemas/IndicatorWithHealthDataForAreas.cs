@@ -2,17 +2,10 @@ using System.Text.Json.Serialization;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
-public class IndicatorWithHealthDataForAreas
+public class IndicatorWithHealthDataForAreas : IndicatorBase
 {
-    [JsonPropertyName("indicatorId")]
-    public int IndicatorId { get; init; }
-
     [JsonPropertyName("name")]
     public string Name { get; init; } = string.Empty;
-
-    [JsonPropertyName("polarity")]
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public IndicatorPolarity Polarity { get; set; }
 
     [JsonPropertyName("benchmarkMethod")]
     [JsonConverter(typeof(JsonStringEnumConverter))]

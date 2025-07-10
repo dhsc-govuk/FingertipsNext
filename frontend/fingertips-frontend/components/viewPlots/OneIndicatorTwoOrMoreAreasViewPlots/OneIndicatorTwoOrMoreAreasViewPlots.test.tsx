@@ -1,26 +1,30 @@
 // MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
 import { mockUsePathname } from '@/mock/utils/mockNextNavigation';
 import { mockSetIsLoading } from '@/mock/utils/mockUseLoadingState';
+import { mockUseSearchStateParams } from '@/mock/utils/mockUseSearchStateParams';
 //
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { OneIndicatorTwoOrMoreAreasViewPlots } from '.';
-import { act, render, screen, waitFor, within } from '@testing-library/react';
-import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
-import regionsMap from '@/components/organisms/ThematicMap/regions.json';
+import { screen, waitFor, within } from '@testing-library/react';
+import {
+  Area,
+  IndicatorWithHealthDataForArea,
+} from '@/generated-sources/ft-api-client';
+import regionsMap from '@/components/charts/ThematicMap/regions.json';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
-import { QueryClientProvider } from '@tanstack/react-query';
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
 import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
 import { mockHealthDataPoints } from '@/mock/data/mockHealthDataPoint';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { QueryClient } from '@tanstack/query-core';
 import { oneIndicatorRequestParams } from '@/components/charts/helpers/oneIndicatorRequestParams';
 import {
   EndPoints,
   queryKeyFromRequestParams,
 } from '@/components/charts/helpers/queryKeyFromRequestParams';
 import { mockIndicatorSegment } from '@/mock/data/mockIndicatorSegment';
+import { testRenderQueryClient } from '@/mock/utils/testRenderQueryClient';
+import { SeedData } from '@/components/atoms/SeedQueryCache/seedQueryCache.types';
 
 const mockPath = 'some-mock-path';
 mockUsePathname.mockReturnValue(mockPath);
@@ -95,10 +99,6 @@ const mockSearchState = {
   [SearchParams.IndicatorsSelected]: [testMetaData.indicatorID],
   [SearchParams.AreasSelected]: mockAreas,
 };
-const mockUseSearchStateParams = vi.fn();
-vi.mock('@/components/hooks/useSearchStateParams', () => ({
-  useSearchStateParams: () => mockUseSearchStateParams(),
-}));
 
 const testRender = async (
   searchState: SearchStateParams,
@@ -106,43 +106,39 @@ const testRender = async (
   indicatorMetadata?: IndicatorDocument
 ) => {
   mockUseSearchStateParams.mockReturnValue(searchState);
-  const client = new QueryClient();
+
+  // available areas
+  const availableAreas: Area[] =
+    healthData.areaHealthData?.map(
+      (area) => ({ code: area.areaCode, name: area.areaName }) as Area
+    ) ?? [];
 
   // seed line chart over time data
-  const lineChartApiParams = oneIndicatorRequestParams(searchState, []);
-  const lineChartQueryKey = queryKeyFromRequestParams(
-    EndPoints.HealthDataForAnIndicator,
-    lineChartApiParams
+  const oneIndicatorParams = oneIndicatorRequestParams(
+    searchState,
+    availableAreas
   );
-  client.setQueryData([lineChartQueryKey], healthData);
+  const oneIndicatorQueryKey = queryKeyFromRequestParams(
+    EndPoints.HealthDataForAnIndicator,
+    oneIndicatorParams
+  );
 
-  // seed indicatorMetadata
+  const seedData: SeedData = {
+    availableAreas,
+    'map-geo-json/regions': regionsMap,
+    [oneIndicatorQueryKey]: healthData,
+  };
+
   if (indicatorMetadata) {
-    client.setQueryData(
-      [`/indicator/${indicatorMetadata.indicatorID}`],
-      indicatorMetadata
-    );
+    seedData[`/indicator/${indicatorMetadata.indicatorID}`] = indicatorMetadata;
   }
 
-  // seed geoJson for regions map
-  client.setQueryData(['map-geo-json/regions'], regionsMap);
-
-  let areaCodes = undefined;
-  if (searchState[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED) {
-    areaCodes = healthData.areaHealthData?.map((area) => area.areaCode);
-  }
-
-  await act(() =>
-    render(
-      <QueryClientProvider client={client}>
-        <OneIndicatorTwoOrMoreAreasViewPlots
-          indicatorData={healthData}
-          indicatorMetadata={indicatorMetadata}
-          areaCodes={areaCodes}
-          session={null}
-        />
-      </QueryClientProvider>
-    )
+  await testRenderQueryClient(
+    <OneIndicatorTwoOrMoreAreasViewPlots
+      indicatorData={healthData}
+      session={null}
+    />,
+    seedData
   );
 };
 

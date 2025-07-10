@@ -9,6 +9,9 @@ using NSubstitute;
 using NSubstitute.Core.Arguments;
 using Shouldly;
 using System.Globalization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using NSubstitute.ExceptionExtensions;
 using BenchmarkComparison = DHSC.FingertipsNext.Modules.HealthData.Schemas.BenchmarkComparison;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Services;
@@ -35,9 +38,10 @@ public class IndicatorServiceTests
 
     public IndicatorServiceTests()
     {
+        var logger = Substitute.For<ILogger<IIndicatorsService>>();
         _healthDataMapper = new Mappings.HealthDataMapper();
         _healthDataRepository = Substitute.For<IHealthDataRepository>();
-        _indicatorService = new IndicatorService(_healthDataRepository, _healthDataMapper);
+        _indicatorService = new IndicatorService(_healthDataRepository, _healthDataMapper, logger);
     }
 
     public static IEnumerable<object[]> BenchmarkTestData =>
@@ -140,6 +144,7 @@ public class IndicatorServiceTests
             [],
             latestOnly: true
         );
+
         result.Content.AreaHealthData.ShouldNotBeEmpty();
         result.Content.AreaHealthData.Count().ShouldBe(1);
         result.Content.AreaHealthData.ShouldBeEquivalentTo(expected);
@@ -207,6 +212,7 @@ public class IndicatorServiceTests
             [],
             []
         );
+
         result.Content.AreaHealthData.ShouldNotBeEmpty();
         result.Content.AreaHealthData.Count().ShouldBe(2);
         result.Content.AreaHealthData.ShouldBeEquivalentTo(expected);
@@ -1272,5 +1278,67 @@ public class IndicatorServiceTests
             .ToList();
 
         return segments;
+    }
+
+    [Fact]
+    public async Task DeleteUnpublishedDataAsyncShouldReturnSuccess()
+    {
+        // Arrange
+        var stubBatchId = "batch1";
+        var stubIndicatorId = 1;
+        _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(stubIndicatorId, stubBatchId).Returns(true);
+
+        // Act
+        var result = await _indicatorService.DeleteUnpublishedDataAsync(stubIndicatorId, stubBatchId);
+
+        // Assert
+        result.Status.ShouldBe(ResponseStatus.Success);
+    }
+
+    [Fact]
+    public async Task DeleteUnpublishedDataAsyncShouldReturnNotFound()
+    {
+        // Arrange
+        var stubBatchId = "batch1";
+        var stubIndicatorId = 1;
+        _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(stubIndicatorId, stubBatchId).Returns(false);
+
+        // Act
+        var result = await _indicatorService.DeleteUnpublishedDataAsync(stubIndicatorId, stubBatchId);
+
+        // Assert
+        result.Status.ShouldBe(ResponseStatus.BatchNotFound);
+    }
+
+    [Fact]
+    public async Task DeleteUnpublishedDataAsyncShouldReturnErrorStatus()
+    {
+        // Arrange
+        var stubBatchId = "batch1";
+        var stubIndicatorId = 1;
+        _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(stubIndicatorId, stubBatchId)
+            .Throws(new InvalidOperationException());
+
+        // Act
+        var result = await _indicatorService.DeleteUnpublishedDataAsync(stubIndicatorId, stubBatchId);
+
+        // Assert
+        result.Status.ShouldBe(ResponseStatus.ErrorDeletingPublishedBatch);
+    }
+
+    [Fact]
+    public async Task DeleteUnpublishedDataAsyncShouldReturnUnknownStatus()
+    {
+        // Arrange
+        var stubBatchId = "batch1";
+        var stubIndicatorId = 1;
+        _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(stubIndicatorId, stubBatchId)
+            .Throws(new DbUpdateException());
+
+        // Act
+        var result = await _indicatorService.DeleteUnpublishedDataAsync(stubIndicatorId, stubBatchId);
+
+        // Assert
+        result.Status.ShouldBe(ResponseStatus.Unknown);
     }
 }

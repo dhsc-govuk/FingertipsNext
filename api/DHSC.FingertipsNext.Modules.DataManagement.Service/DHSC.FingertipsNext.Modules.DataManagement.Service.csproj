@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.DataManagement.Repository\DHSC.FingertipsNext.Modules.DataManagement.Repository.csproj" />
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.DataManagement.Schemas\DHSC.FingertipsNext.Modules.DataManagement.Schemas.csproj" />
     </ItemGroup>
 
     <ItemGroup>

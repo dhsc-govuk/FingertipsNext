@@ -7,7 +7,7 @@ import {
   mapCopyright,
   mapLicense,
   mapSourceForType,
-} from '@/components/organisms/ThematicMap/thematicMapHelpers';
+} from '@/components/charts/ThematicMap/helpers/thematicMapHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 
 export const chartOptionsAddFooter = (options: CustomOptions) => {
