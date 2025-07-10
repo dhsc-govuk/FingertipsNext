@@ -1,6 +1,7 @@
 // FingertipsAuthProvider is a generic OIDC provider
 // with the aud and scope embedding stage added to the auth flow
 
+import { readEnvVar } from '@/lib/envUtils';
 import { OIDCConfig } from 'next-auth/providers';
 
 export interface FingertipsProfile {
@@ -14,9 +15,9 @@ interface FTAProviderConfig {
 }
 
 export function getFTAProviderConfig(): FTAProviderConfig | undefined {
-  const clientId = process.env.AUTH_CLIENT_ID;
-  const clientSecret = process.env.AUTH_CLIENT_SECRET;
-  const tenantId = process.env.AUTH_TENANT_ID;
+  const clientId = readEnvVar('AUTH_CLIENT_ID');
+  const clientSecret = readEnvVar('AUTH_CLIENT_SECRET');
+  const tenantId = readEnvVar('AUTH_TENANT_ID');
 
   return clientId && clientSecret && tenantId
     ? { clientId, clientSecret, tenantId }

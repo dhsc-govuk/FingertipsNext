@@ -4,6 +4,7 @@ import {
   getFTAProviderConfig,
 } from '@/lib/auth/providers/fingertipsAuthProvider';
 import { MockAuthProvider } from '@/lib/auth/providers/mockProvider';
+import { tryReadEnvVar } from '@/lib/envUtils';
 import { CredentialsConfig, OIDCConfig } from 'next-auth/providers';
 
 export class AuthProvidersFactory {
@@ -29,7 +30,7 @@ export class AuthProvidersFactory {
       providers.push(FingertipsAuthProvider(ftaProviderConfig));
     }
 
-    if (process.env.AUTH_USE_PASSWORD_MOCK === 'true') {
+    if (tryReadEnvVar('AUTH_USE_PASSWORD_MOCK') === 'true') {
       providers.push(MockAuthProvider);
     }
 
