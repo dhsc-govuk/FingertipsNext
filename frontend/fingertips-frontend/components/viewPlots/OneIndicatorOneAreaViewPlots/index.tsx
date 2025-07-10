@@ -29,10 +29,10 @@ export function OneIndicatorOneAreaViewPlots({
   );
 
   const showLineChartOverTime = lineChartOverTimeIsRequired(searchState);
-
+  const availableChartLinks: string[] = []
   return (
     <section data-testid="oneIndicatorOneAreaViewPlot-component">
-      <AvailableChartLinks></AvailableChartLinks>
+      <AvailableChartLinks availableCharts={availableChartLinks}></AvailableChartLinks>
       <BenchmarkSelectArea availableAreas={availableAreasForBenchmarking} />
       {showLineChartOverTime ? (
         <>

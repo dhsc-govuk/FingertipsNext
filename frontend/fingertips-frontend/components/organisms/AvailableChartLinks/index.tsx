@@ -2,7 +2,15 @@ import { Link, ListItem, UnorderedList } from 'govuk-react';
 import { ChartTitlesEnum } from '@/lib/chartTitleEnums';
 import { ZeroMarginParagraph } from '@/components/pages/home';
 
-export const AvailableChartLinks = ({}) => {
+interface AvailableChartLinksProps {
+  availableCharts: string[];
+}
+
+export const AvailableChartLinks = ({availableCharts} : Readonly<AvailableChartLinksProps>) => {
+  
+  const availableCharts = ['line-chart', 'bar-chart-embedded-table-chart', 'heatmap-chart', 'spine-chart', 'inequalities-bar-chart', 'inequalities-line-chart', 'thematic-map-chart', 'population-pyramid-chart'];
+  
+  
   return (
     <section data-testid="availableChartLinks-component">
       <ZeroMarginParagraph>Available charts</ZeroMarginParagraph>
