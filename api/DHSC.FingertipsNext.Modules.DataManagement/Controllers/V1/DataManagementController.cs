@@ -1,9 +1,10 @@
+using System.Globalization;
 using System.Web;
 using DHSC.FingertipsNext.Modules.Common.Schemas;
 using DHSC.FingertipsNext.Modules.DataManagement.Service;
+using DHSC.FingertipsNext.Modules.DataManagement.Service.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 
 namespace DHSC.FingertipsNext.Modules.DataManagement.Controllers.V1;
 
@@ -15,7 +16,7 @@ namespace DHSC.FingertipsNext.Modules.DataManagement.Controllers.V1;
 public class DataManagementController(IDataManagementService dataManagementService) : ControllerBase
 {
     [HttpPost]
-    public async Task<IActionResult> UploadHealthData([FromForm] IFormFile? file, [FromRoute] int indicatorId)
+    public async Task<IActionResult> UploadHealthData([FromForm] IFormFile? file, [FromForm] string publishedAt, [FromRoute] int indicatorId)
     {
         if (file == null || file.Length == 0)
             return new BadRequestObjectResult(new SimpleError
@@ -25,16 +26,47 @@ public class DataManagementController(IDataManagementService dataManagementServi
         var untrustedFileName = Path.GetFileName(file.FileName);
         var encodedUntrustedFileName = HttpUtility.HtmlEncode(untrustedFileName);
 
-        await using var fileStream = file.OpenReadStream();
-
-        var isSuccess = await dataManagementService.UploadFileAsync(fileStream, indicatorId);
-
-        return isSuccess switch
+        if (!DateTime.TryParse(publishedAt, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out DateTime parsedPublishedAt))
         {
-            true => new AcceptedResult
+            return new BadRequestObjectResult(new SimpleError
+            {
+                Message = "publishedAt is invalid. Must be in the format dd-MM-yyyyTHH:mm:ss.fff"
+            });
+        }
+
+        parsedPublishedAt = parsedPublishedAt.ToUniversalTime();
+
+        if (parsedPublishedAt <= DateTime.UtcNow)
+        {
+            return new BadRequestObjectResult(new SimpleError
+            {
+                Message = "publishedAt cannot be in the past"
+            });
+        }
+
+        UploadHealthDataResponse? response = null;
+        await using (var fileStream = file.OpenReadStream())
+        {
+            var validationErrors = dataManagementService.ValidateCsv(fileStream);
+            if (validationErrors.Count != 0)
+                return new BadRequestObjectResult(new ErrorWithDetail
+                {
+                    Message = "The CSV file provided was invalid.",
+                    Errors = validationErrors
+                });
+        }
+
+        // Will need to re-initialise fileStream as it will have been disposed during ValidateCsv
+        await using (var fileStream = file.OpenReadStream())
+        {
+            response = await dataManagementService.UploadFileAsync(fileStream, indicatorId, parsedPublishedAt, encodedUntrustedFileName);
+        }
+        return (response.Outcome) switch
+        {
+            OutcomeType.Ok => new AcceptedResult
             {
                 StatusCode = StatusCodes.Status202Accepted,
-                Value = $"File {encodedUntrustedFileName} has been accepted for indicator {indicatorId}."
+                Value = response.Model
             },
             _ => StatusCode(StatusCodes.Status500InternalServerError, "File upload was unsuccessful.")
         };

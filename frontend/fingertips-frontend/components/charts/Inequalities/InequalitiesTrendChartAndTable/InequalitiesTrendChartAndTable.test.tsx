@@ -112,7 +112,7 @@ describe('InequalitiesTrendChart', () => {
       screen.getByTestId('tabContainer-inequalitiesLineChartAndTable')
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/Inequalities data over time/i)
+      screen.getByText(/Inequalities trends over time/i)
     ).toBeInTheDocument();
 
     expect(inequalitiesTypesDropDown).toBeInTheDocument();

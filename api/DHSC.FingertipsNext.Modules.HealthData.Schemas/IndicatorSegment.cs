@@ -25,5 +25,4 @@ public class IndicatorSegment
     /// </summary>
     [JsonPropertyName("healthData")]
     public IEnumerable<HealthDataPoint> HealthData { get; init; } = [];
-
 }

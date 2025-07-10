@@ -31,7 +31,7 @@ describe('LineChartAndTableOverTime', () => {
     render(<LineChartAndTableOverTime />);
 
     expect(
-      screen.getByRole('heading', { name: /indicator data over time/i })
+      screen.getByRole('heading', { name: /Indicator trends over time/i })
     ).toBeInTheDocument();
     expect(screen.getByTestId('mock-line-chart')).toBeInTheDocument();
     expect(screen.getByTestId('mock-line-chart-table')).toBeInTheDocument();

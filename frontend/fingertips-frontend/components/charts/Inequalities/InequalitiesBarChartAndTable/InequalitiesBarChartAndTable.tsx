@@ -33,7 +33,7 @@ export function InequalitiesBarChartAndTable() {
   } = data;
 
   return (
-    <StyleChartWrapper data-testid="inequalitiesForSingleTimePeriod-component">
+    <StyleChartWrapper data-testid="inequalitiesComparisonForOneTimePeriod-component">
       <H3 id="inequalities-bar-chart">
         {ChartTitlesEnum.InequalitiesBarChart}
       </H3>
