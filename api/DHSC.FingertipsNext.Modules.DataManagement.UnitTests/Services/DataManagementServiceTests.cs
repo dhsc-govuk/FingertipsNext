@@ -183,13 +183,23 @@ public class DataManagementServiceTests
         batchList.Count.ShouldBe(2);
         batchList.ShouldContain(new Batch
         {
-            BatchId = batchId, IndicatorId = 1234, OriginalFileName = originalFileName, CreatedAt = createdAt,
-            PublishedAt = publishedAt, UserId = userId.ToString(), Status = BatchStatus.Received
+            BatchId = batchId,
+            IndicatorId = 1234,
+            OriginalFileName = originalFileName,
+            CreatedAt = createdAt,
+            PublishedAt = publishedAt,
+            UserId = userId.ToString(),
+            Status = BatchStatus.Received
         });
         batchList.ShouldContain(new Batch
         {
-            BatchId = batchId, IndicatorId = 5678, OriginalFileName = originalFileName, CreatedAt = createdAt,
-            PublishedAt = publishedAt, UserId = userId.ToString(), Status = BatchStatus.Deleted
+            BatchId = batchId,
+            IndicatorId = 5678,
+            OriginalFileName = originalFileName,
+            CreatedAt = createdAt,
+            PublishedAt = publishedAt,
+            UserId = userId.ToString(),
+            Status = BatchStatus.Deleted
         });
     }
 }
