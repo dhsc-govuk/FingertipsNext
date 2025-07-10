@@ -226,13 +226,13 @@ describe('Chart Page', () => {
       (auth as Mock).mockImplementation(
         vi.fn().mockResolvedValue({ expires: 'some string' })
       );
-
       const mockAreaCode = 'E06000047';
       const searchParams: SearchStateParams = {
         [SearchParams.SearchedIndicator]: 'testing',
         [SearchParams.IndicatorsSelected]: ['333'],
         [SearchParams.AreasSelected]: [mockAreaCode],
       };
+
       const page = await ChartPage({
         searchParams: generateSearchParams(searchParams),
       });

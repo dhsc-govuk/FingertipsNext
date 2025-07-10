@@ -23,11 +23,14 @@ export const testRenderQueryClient = async (
   };
 };
 
-export const testRenderWrapper = (seedData: SeedData) => {
+export const testRenderWrapper = (
+  seedData: SeedData,
+  queryClient?: QueryClient
+) => {
   const Wrapper = ({ children }: { children: ReactNode }) => {
-    const queryClient = new QueryClient();
+    const _queryClient = queryClient ?? new QueryClient();
     return (
-      <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={_queryClient}>
         <SeedQueryCache seedData={seedData} />
         {children}
       </QueryClientProvider>
