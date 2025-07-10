@@ -6,6 +6,7 @@ import '../global.css';
 import { siteDescription, siteTitle } from '@/lib/constants';
 import { HeaderFooterWrapper } from '@/components/molecules/HeaderFooterWrapper';
 import { auth } from '@/lib/auth';
+import { SessionProvider } from 'next-auth/react';
 
 export const metadata: Metadata = {
   title: siteTitle,
@@ -26,15 +27,17 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body style={{ margin: 0 }}>
-        <StyledComponentsRegistry>
-          <HeaderFooterWrapper
-            tag={tag}
-            hash={hash}
-            session={session ?? undefined}
-          >
-            <FTContainer>{children}</FTContainer>
-          </HeaderFooterWrapper>
-        </StyledComponentsRegistry>
+        <SessionProvider>
+          <StyledComponentsRegistry>
+            <HeaderFooterWrapper
+              tag={tag}
+              hash={hash}
+              session={session ?? undefined}
+            >
+              <FTContainer>{children}</FTContainer>
+            </HeaderFooterWrapper>
+          </StyledComponentsRegistry>
+        </SessionProvider>
       </body>
     </html>
   );

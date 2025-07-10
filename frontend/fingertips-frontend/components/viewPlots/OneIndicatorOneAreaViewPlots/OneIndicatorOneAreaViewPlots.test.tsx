@@ -74,10 +74,7 @@ const testRender = async (
   await act(() =>
     render(
       <QueryClientProvider client={client}>
-        <OneIndicatorOneAreaViewPlots
-          indicatorData={healthData}
-          session={null}
-        />
+        <OneIndicatorOneAreaViewPlots indicatorData={healthData} />
       </QueryClientProvider>
     )
   );

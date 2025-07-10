@@ -12,7 +12,6 @@ import { OneIndicatorSegmentationOptions } from '@/components/viewPlots/OneIndic
 
 export function OneIndicatorOneAreaViewPlots({
   indicatorData,
-  session,
 }: Readonly<OneIndicatorViewPlotProps>) {
   const searchState = useSearchStateParams();
   const {
@@ -36,7 +35,7 @@ export function OneIndicatorOneAreaViewPlots({
       {showLineChartOverTime ? (
         <>
           <OneIndicatorSegmentationOptions />
-          <LineChartAndTableOverTime session={session} />
+          <LineChartAndTableOverTime />
         </>
       ) : null}
 

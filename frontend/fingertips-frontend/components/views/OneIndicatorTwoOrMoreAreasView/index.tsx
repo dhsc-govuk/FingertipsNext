@@ -8,13 +8,11 @@ import {
   determineBenchmarkRefType,
   getIndicatorData,
 } from '@/lib/ViewsHelpers';
-import { auth } from '@/lib/auth';
 
 export default async function OneIndicatorTwoOrMoreAreasView({
   searchState,
   availableAreas,
 }: Readonly<ViewProps>) {
-  const session = await auth();
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.IndicatorsSelected]: indicatorSelected,
@@ -59,10 +57,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
       areaCodes={areaCodes}
       indicatorsDataForAreas={[indicatorData]}
     >
-      <OneIndicatorTwoOrMoreAreasViewPlots
-        indicatorData={indicatorData}
-        session={session}
-      />
+      <OneIndicatorTwoOrMoreAreasViewPlots indicatorData={indicatorData} />
     </ViewsWrapper>
   );
 }

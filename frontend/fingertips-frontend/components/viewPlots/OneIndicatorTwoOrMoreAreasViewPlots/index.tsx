@@ -15,7 +15,6 @@ import { ThematicMapWrapper } from '@/components/charts/ThematicMap/ThematicMapW
 
 export function OneIndicatorTwoOrMoreAreasViewPlots({
   indicatorData,
-  session,
 }: Readonly<OneIndicatorViewPlotProps>) {
   const searchState = useSearchStateParams();
 
@@ -42,9 +41,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     <section data-testid="oneIndicatorTwoOrMoreAreasViewPlots-component">
       <BenchmarkSelectArea availableAreas={availableAreasForBenchmarking} />
       <OneIndicatorSegmentationOptions />
-      {showLineChartOverTime ? (
-        <LineChartAndTableOverTime session={session} />
-      ) : null}
+      {showLineChartOverTime ? <LineChartAndTableOverTime /> : null}
       {showThematicMap ? <ThematicMapWrapper /> : null}
       {showCompareAreasTable ? <CompareAreasTable session={session} /> : null}
     </section>

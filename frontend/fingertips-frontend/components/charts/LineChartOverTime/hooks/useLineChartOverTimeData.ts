@@ -8,9 +8,8 @@ import { useMemo } from 'react';
 import { lineChartOverTimeIsRequired } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeIsRequired';
 import { flattenSegment } from '@/lib/healthDataHelpers/flattenSegment';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client';
-import { Session } from 'next-auth';
 
-export const useLineChartOverTimeData = (session: Session | null) => {
+export const useLineChartOverTimeData = () => {
   const searchState = useSearchStateParams();
   const { [SearchParams.IndicatorsSelected]: indicatorIds } = searchState;
 
@@ -18,10 +17,7 @@ export const useLineChartOverTimeData = (session: Session | null) => {
 
   const apiReqParams = useOneIndicatorRequestParams();
 
-  const { healthData } = useApiGetHealthDataForAnIndicator(
-    apiReqParams,
-    session
-  );
+  const { healthData } = useApiGetHealthDataForAnIndicator(apiReqParams);
 
   const { indicatorMetaData } = useApiGetIndicatorMetaData(indicatorId);
 

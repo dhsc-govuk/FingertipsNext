@@ -134,10 +134,7 @@ const testRender = async (
   }
 
   await testRenderQueryClient(
-    <OneIndicatorTwoOrMoreAreasViewPlots
-      indicatorData={healthData}
-      session={null}
-    />,
+    <OneIndicatorTwoOrMoreAreasViewPlots indicatorData={healthData} />,
     seedData
   );
 };

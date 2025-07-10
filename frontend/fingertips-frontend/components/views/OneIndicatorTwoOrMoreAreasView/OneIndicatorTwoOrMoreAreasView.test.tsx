@@ -20,12 +20,6 @@ import OneIndicatorTwoOrMoreAreasView from '@/components/views/OneIndicatorTwoOr
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 
-vi.mock('@/lib/auth', async () => {
-  return {
-    auth: vi.fn().mockResolvedValue(null),
-  };
-});
-
 describe('OneIndicatorTwoOrMoreAreasView', () => {
   afterEach(() => {
     vi.resetAllMocks();

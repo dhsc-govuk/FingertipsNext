@@ -3,16 +3,9 @@ import { H3 } from 'govuk-react';
 
 import { useCompareAreasTableData } from '@/components/charts/CompareAreasTable/hooks/useCompareAreasTableData';
 import { BarChartEmbeddedTable } from '@/components/charts/CompareAreasTable/BarChartEmbeddedTable/BarChartEmbeddedTable';
-import { Session } from 'next-auth';
 
-interface CompareAreasTableProps {
-  session: Session | null;
-}
-
-export function CompareAreasTable({
-  session,
-}: Readonly<CompareAreasTableProps>) {
-  const data = useCompareAreasTableData(session);
+export function CompareAreasTable() {
+  const data = useCompareAreasTableData();
   if (!data) return null;
   const {
     benchmarkToUse,

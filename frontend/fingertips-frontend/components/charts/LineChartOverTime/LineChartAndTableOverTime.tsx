@@ -5,16 +5,9 @@ import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChart
 import { useLineChartOverTimeData } from '@/components/charts/LineChartOverTime/hooks/useLineChartOverTimeData';
 import { LineChartOverTime } from '@/components/charts/LineChartOverTime/LineChartOverTime';
 import { LineChartTableOverTime } from '@/components/charts/LineChartOverTime/LineChartTableOverTime';
-import { Session } from 'next-auth';
 
-type LineChartAndTableOverTimeProps = {
-  session: Session | null;
-};
-
-export function LineChartAndTableOverTime({
-  session,
-}: Readonly<LineChartAndTableOverTimeProps>) {
-  const lineChartOverTimeData = useLineChartOverTimeData(session);
+export function LineChartAndTableOverTime() {
+  const lineChartOverTimeData = useLineChartOverTimeData();
   if (!lineChartOverTimeData) return null;
 
   const { indicatorMetaData } = lineChartOverTimeData;
@@ -28,12 +21,12 @@ export function LineChartAndTableOverTime({
           {
             id: 'lineChart',
             title: 'Line chart',
-            content: <LineChartOverTime session={session} />,
+            content: <LineChartOverTime />,
           },
           {
             id: 'lineChartTable',
             title: 'Table',
-            content: <LineChartTableOverTime session={session} />,
+            content: <LineChartTableOverTime />,
           },
         ]}
         footer={<DataSource dataSource={indicatorMetaData?.dataSource} />}

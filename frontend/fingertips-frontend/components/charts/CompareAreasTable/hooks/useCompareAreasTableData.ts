@@ -7,9 +7,8 @@ import { useApiGetIndicatorMetaData } from '@/components/charts/hooks/useApiGetI
 import { flattenSegment } from '@/lib/healthDataHelpers/flattenSegment';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client';
 import { useOneIndicatorRequestParams } from '@/components/charts/hooks/useOneIndicatorRequestParams';
-import { Session } from 'next-auth';
 
-export const useCompareAreasTableData = (session: Session | null) => {
+export const useCompareAreasTableData = () => {
   const searchState = useSearchStateParams();
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
@@ -22,10 +21,7 @@ export const useCompareAreasTableData = (session: Session | null) => {
     String(requestParams.indicatorId)
   );
 
-  const { healthData } = useApiGetHealthDataForAnIndicator(
-    requestParams,
-    session
-  );
+  const { healthData } = useApiGetHealthDataForAnIndicator(requestParams);
 
   return useMemo(() => {
     if (!healthData) return null;

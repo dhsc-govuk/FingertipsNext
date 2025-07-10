@@ -1,15 +1,8 @@
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { useLineChartOverTimeData } from '@/components/charts/LineChartOverTime/hooks/useLineChartOverTimeData';
-import { Session } from 'next-auth';
 
-type LineChartTableOverTimeProps = {
-  session: Session | null;
-};
-
-export function LineChartTableOverTime({
-  session,
-}: Readonly<LineChartTableOverTimeProps>) {
-  const lineChartOverTimeData = useLineChartOverTimeData(session);
+export function LineChartTableOverTime() {
+  const lineChartOverTimeData = useLineChartOverTimeData();
   if (!lineChartOverTimeData) return null;
 
   const {

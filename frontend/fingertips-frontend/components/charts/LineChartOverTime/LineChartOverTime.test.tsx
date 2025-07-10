@@ -20,7 +20,7 @@ describe('LineChartOverTime', () => {
   it('returns null when useLineChartOverTimeData returns null', () => {
     mockUseLineChartOverTimeData.mockReturnValue(null);
 
-    const { container } = render(<LineChartOverTime session={null} />);
+    const { container } = render(<LineChartOverTime />);
     expect(container.firstChild).toBeNull();
   });
 
@@ -36,7 +36,7 @@ describe('LineChartOverTime', () => {
       chartOptions: mockChartOptions,
     } as unknown as ReturnType<typeof lineChartOverTimeData>);
 
-    render(<LineChartOverTime session={null} />);
+    render(<LineChartOverTime />);
 
     const chart = screen.getByTestId('mock-line-chart');
     expect(chart).toBeInTheDocument();
@@ -48,7 +48,7 @@ describe('LineChartOverTime', () => {
       chartOptions: { title: undefined },
     } as unknown as ReturnType<typeof lineChartOverTimeData>);
 
-    render(<LineChartOverTime session={null} />);
+    render(<LineChartOverTime />);
 
     const chart = screen.getByTestId('mock-line-chart');
     expect(chart).toBeInTheDocument();

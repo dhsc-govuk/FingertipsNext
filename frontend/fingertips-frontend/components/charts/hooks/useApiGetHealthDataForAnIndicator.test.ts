@@ -45,7 +45,7 @@ describe('useApiGetHealthDataForAnIndicator', () => {
     const queryClient = new QueryClient();
     const session = await auth();
     // act
-    renderHook(() => useApiGetHealthDataForAnIndicator(params, session), {
+    renderHook(() => useApiGetHealthDataForAnIndicator(params), {
       wrapper: testRenderWrapper({}, queryClient),
     });
 
@@ -80,7 +80,7 @@ describe('useApiGetHealthDataForAnIndicator', () => {
     const queryClient = new QueryClient();
     const session = await auth();
     // act
-    renderHook(() => useApiGetHealthDataForAnIndicator(params, session), {
+    renderHook(() => useApiGetHealthDataForAnIndicator(params), {
       wrapper: testRenderWrapper({}, queryClient),
     });
 
