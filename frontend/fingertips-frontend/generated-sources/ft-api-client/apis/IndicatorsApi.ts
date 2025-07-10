@@ -15,6 +15,7 @@
 
 import * as runtime from '../runtime';
 import type {
+  Batch,
   BenchmarkReferenceType,
   GetAreaHierarchies500Response,
   Indicator,
@@ -23,6 +24,8 @@ import type {
   QuartileData,
 } from '../models/index';
 import {
+    BatchFromJSON,
+    BatchToJSON,
     BenchmarkReferenceTypeFromJSON,
     BenchmarkReferenceTypeToJSON,
     GetAreaHierarchies500ResponseFromJSON,
@@ -78,7 +81,8 @@ export interface IndicatorsIndicatorIdDataBatchIdDeleteRequest {
 
 export interface IndicatorsIndicatorIdDataPostRequest {
     indicatorId: number;
-    file?: Blob;
+    file: Blob;
+    publishedAt: Date;
 }
 
 export interface IndicatorsQuartilesAllGetRequest {
@@ -207,18 +211,19 @@ export interface IndicatorsApiInterface {
      * Creates new data for the indicator. The data is always created in an unpublished and unapproved state.
      * @summary add a batch of new data for an indicator
      * @param {number} indicatorId The unique identifier of the indicator
-     * @param {Blob} [file] 
+     * @param {Blob} file 
+     * @param {Date} publishedAt The date, in ISO 8601 format (YYYY-MM-DDTHH:mm:ss.fff), for when uploaded indicator data will be published
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof IndicatorsApiInterface
      */
-    indicatorsIndicatorIdDataPostRaw(requestParameters: IndicatorsIndicatorIdDataPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>>;
+    indicatorsIndicatorIdDataPostRaw(requestParameters: IndicatorsIndicatorIdDataPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Batch>>;
 
     /**
      * Creates new data for the indicator. The data is always created in an unpublished and unapproved state.
      * add a batch of new data for an indicator
      */
-    indicatorsIndicatorIdDataPost(requestParameters: IndicatorsIndicatorIdDataPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string>;
+    indicatorsIndicatorIdDataPost(requestParameters: IndicatorsIndicatorIdDataPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Batch>;
 
     /**
      * Get quartile information for many indicators for one area. This will calculate the quartile based on all areas of the specified type within either England or a sub-national area, depending on the benchmark_ref_type parameter. It will use the latest data available for the area group requested. If the indicator has data for more than one time period type then the API will return data for each data period type separately. The /all endpoint can return unpublished data, otherwise the data is published.
@@ -521,11 +526,25 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
      * Creates new data for the indicator. The data is always created in an unpublished and unapproved state.
      * add a batch of new data for an indicator
      */
-    async indicatorsIndicatorIdDataPostRaw(requestParameters: IndicatorsIndicatorIdDataPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+    async indicatorsIndicatorIdDataPostRaw(requestParameters: IndicatorsIndicatorIdDataPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Batch>> {
         if (requestParameters['indicatorId'] == null) {
             throw new runtime.RequiredError(
                 'indicatorId',
                 'Required parameter "indicatorId" was null or undefined when calling indicatorsIndicatorIdDataPost().'
+            );
+        }
+
+        if (requestParameters['file'] == null) {
+            throw new runtime.RequiredError(
+                'file',
+                'Required parameter "file" was null or undefined when calling indicatorsIndicatorIdDataPost().'
+            );
+        }
+
+        if (requestParameters['publishedAt'] == null) {
+            throw new runtime.RequiredError(
+                'publishedAt',
+                'Required parameter "publishedAt" was null or undefined when calling indicatorsIndicatorIdDataPost().'
             );
         }
 
@@ -553,6 +572,10 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
             formParams.append('file', requestParameters['file'] as any);
         }
 
+        if (requestParameters['publishedAt'] != null) {
+            formParams.append('publishedAt', (requestParameters['publishedAt'] as any).toISOString());
+        }
+
         const response = await this.request({
             path: `/indicators/{indicator_id}/data`.replace(`{${"indicator_id"}}`, encodeURIComponent(String(requestParameters['indicatorId']))),
             method: 'POST',
@@ -561,18 +584,14 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
             body: formParams,
         }, initOverrides);
 
-        if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<string>(response);
-        } else {
-            return new runtime.TextApiResponse(response) as any;
-        }
+        return new runtime.JSONApiResponse(response, (jsonValue) => BatchFromJSON(jsonValue));
     }
 
     /**
      * Creates new data for the indicator. The data is always created in an unpublished and unapproved state.
      * add a batch of new data for an indicator
      */
-    async indicatorsIndicatorIdDataPost(requestParameters: IndicatorsIndicatorIdDataPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+    async indicatorsIndicatorIdDataPost(requestParameters: IndicatorsIndicatorIdDataPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Batch> {
         const response = await this.indicatorsIndicatorIdDataPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
