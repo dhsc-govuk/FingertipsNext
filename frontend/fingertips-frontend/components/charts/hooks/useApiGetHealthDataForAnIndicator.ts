@@ -11,7 +11,6 @@ import {
 } from '@/components/charts/helpers/queryKeyFromRequestParams';
 import { useMemo } from 'react';
 import { Session } from 'next-auth';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 
 type UseApiGetHealthDataForAnIndicatorResult = Readonly<{
   healthData: IndicatorWithHealthDataForArea | undefined;
