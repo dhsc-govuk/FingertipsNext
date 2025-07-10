@@ -15,33 +15,35 @@ namespace DHSC.FingertipsNext.Modules.DataManagement.UnitTests.Services;
 
 public class DataManagementServiceTests
 {
-    private DataManagementService _service;
-    private readonly BlobContainerClient _containerClient = Substitute.For<BlobContainerClient>();
-    private readonly BlobServiceClient _blobServiceClient = Substitute.For<BlobServiceClient>();
-    private readonly BlobClient _blobClient = Substitute.For<BlobClient>();
-    private readonly ILogger<DataManagementService> _logger = Substitute.For<ILogger<DataManagementService>>();
-    private readonly TimeProvider _timeProvider = Substitute.For<TimeProvider>();
-    private readonly IDataManagementRepository _repository = Substitute.For<IDataManagementRepository>();
-    private readonly IDataManagementMapper _mapper = Substitute.For<DataManagementMapper>();
-    private IConfiguration _configuration;
-
     private const string ContainerName = "TestContainer";
     private const int StubIndicatorId = 1;
+    private readonly BlobClient _blobClient = Substitute.For<BlobClient>();
+    private readonly BlobServiceClient _blobServiceClient = Substitute.For<BlobServiceClient>();
+    private readonly BlobContainerClient _containerClient = Substitute.For<BlobContainerClient>();
+    private readonly ILogger<DataManagementService> _logger = Substitute.For<ILogger<DataManagementService>>();
+    private readonly IDataManagementMapper _mapper = Substitute.For<DataManagementMapper>();
+    private readonly IDataManagementRepository _repository = Substitute.For<IDataManagementRepository>();
+    private readonly TimeProvider _timeProvider = Substitute.For<TimeProvider>();
+    private IConfiguration _configuration;
+    private DataManagementService _service;
 
     public DataManagementServiceTests()
     {
-        var inMemorySettings = new Dictionary<string, string?> {
-            {"UPLOAD_STORAGE_CONTAINER_NAME", ContainerName},
+        var inMemorySettings = new Dictionary<string, string?>
+        {
+            { "UPLOAD_STORAGE_CONTAINER_NAME", ContainerName }
         };
         _configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(inMemorySettings)
             .Build();
-        _service = new DataManagementService(_blobServiceClient, _configuration, _logger, _timeProvider, _repository, _mapper);
+        _service = new DataManagementService(_blobServiceClient, _configuration, _logger, _timeProvider, _repository,
+            _mapper);
 
         var mockDate = new DateTime(2024, 6, 15, 10, 30, 45, 123, DateTimeKind.Utc);
         _timeProvider.GetUtcNow().Returns(mockDate);
         _blobServiceClient.GetBlobContainerClient(ContainerName).Returns(_containerClient);
-        _containerClient.GetBlobClient($"{StubIndicatorId}_{mockDate:yyyy-MM-ddTHH:mm:ss.fff}.csv").Returns(_blobClient);
+        _containerClient.GetBlobClient($"{StubIndicatorId}_{mockDate:yyyy-MM-ddTHH:mm:ss.fff}.csv")
+            .Returns(_blobClient);
     }
 
     [Fact]
@@ -49,15 +51,15 @@ public class DataManagementServiceTests
     {
         // Arrange
         var validCsvPath = @"Services/Validation/CSVs/ValidHeadersAndValidDataRows.csv";
-        string path = Path.Combine(Directory.GetCurrentDirectory(), validCsvPath);
+        var path = Path.Combine(Directory.GetCurrentDirectory(), validCsvPath);
         UploadHealthDataResponse result;
         var publishedAt = new DateTime(2025, 1, 1, 0, 0, 0);
 
         // Act
-        await using (FileStream stream = File.Open(path, FileMode.Open))
+        await using (var stream = File.Open(path, FileMode.Open))
         {
-
-            result = await _service.UploadFileAsync(stream, StubIndicatorId, publishedAt, "ValidHeadersAndValidDataRows.csv");
+            result = await _service.UploadFileAsync(stream, StubIndicatorId, publishedAt,
+                "ValidHeadersAndValidDataRows.csv");
         }
 
         // Assert
@@ -82,11 +84,11 @@ public class DataManagementServiceTests
     {
         // Act
         var validCsvPath = @"Services/Validation/CSVs/ValidHeadersAndNoDataRows.csv";
-        string path = Path.Combine(Directory.GetCurrentDirectory(), validCsvPath);
+        var path = Path.Combine(Directory.GetCurrentDirectory(), validCsvPath);
         ICollection<string> result;
 
         // Act
-        using (FileStream stream = File.Open(path, FileMode.Open))
+        using (var stream = File.Open(path, FileMode.Open))
         {
             result = _service.ValidateCsv(stream);
         }
@@ -101,11 +103,11 @@ public class DataManagementServiceTests
     {
         // Act
         var validCsvPath = @"Services/Validation/CSVs/ValidHeadersAndValidDataRows.csv";
-        string path = Path.Combine(Directory.GetCurrentDirectory(), validCsvPath);
+        var path = Path.Combine(Directory.GetCurrentDirectory(), validCsvPath);
         ICollection<string> result;
 
         // Act
-        using (FileStream stream = File.Open(path, FileMode.Open))
+        using (var stream = File.Open(path, FileMode.Open))
         {
             result = _service.ValidateCsv(stream);
         }
@@ -141,7 +143,53 @@ public class DataManagementServiceTests
             .Build();
 
         // Act/Assert
-        Should.Throw<ArgumentException>(() => _service = new DataManagementService(_blobServiceClient, _configuration, _logger, _timeProvider,
+        Should.Throw<ArgumentException>(() => _service = new DataManagementService(_blobServiceClient, _configuration,
+            _logger, _timeProvider,
             _repository, _mapper));
+    }
+
+    [Fact]
+    public async Task ListBatchesShouldReturnBatches()
+    {
+        // Arrange
+        var indicatorIds = new[] { 1234, 5678 };
+
+        const string batchId = "batch_id";
+        const string originalFileName = "upload.csv";
+        var createdAt = new DateTime(2017, 6, 30);
+        var publishedAt = new DateTime(2020, 3, 7);
+        var userId = Guid.NewGuid();
+
+        var batchesInDb = new[]
+        {
+            new BatchModel
+            {
+                BatchId = batchId, IndicatorId = 1234, OriginalFileName = originalFileName,
+                CreatedAt = createdAt, PublishedAt = publishedAt, UserId = userId, Status = BatchStatus.Received
+            },
+            new BatchModel
+            {
+                BatchId = batchId, IndicatorId = 5678, OriginalFileName = originalFileName,
+                CreatedAt = createdAt, PublishedAt = publishedAt, UserId = userId, Status = BatchStatus.Deleted
+            }
+        };
+        _repository.GetBatchesAsync(indicatorIds).Returns(batchesInDb);
+
+        // Act
+        var batches = await _service.ListBatches(indicatorIds);
+
+        // Assert
+        var batchList = batches.ToList();
+        batchList.Count.ShouldBe(2);
+        batchList.ShouldContain(new Batch
+        {
+            BatchId = batchId, IndicatorId = 1234, OriginalFileName = originalFileName, CreatedAt = createdAt,
+            PublishedAt = publishedAt, UserId = userId.ToString(), Status = BatchStatus.Received
+        });
+        batchList.ShouldContain(new Batch
+        {
+            BatchId = batchId, IndicatorId = 5678, OriginalFileName = originalFileName, CreatedAt = createdAt,
+            PublishedAt = publishedAt, UserId = userId.ToString(), Status = BatchStatus.Deleted
+        });
     }
 }

@@ -31,8 +31,6 @@ dotnet_diagnostic.CA1515.severity = none
 dotnet_diagnostic.CA1812.severity = none
 # CA1822: Mark members as static - Routing doesnt work with static routes
 dotnet_diagnostic.CA1822.severity = none
-# CA2100: Ignore Review SQL queries
-dotnet_diagnostic.CA2100.severity = none
 
 [*{Test,Tests}.cs]
 # Ignore Resolve nullable warnings for test files
