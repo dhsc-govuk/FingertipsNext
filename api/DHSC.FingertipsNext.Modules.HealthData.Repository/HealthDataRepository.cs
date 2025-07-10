@@ -125,6 +125,24 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .ToListAsync();
     }
 
+    public async Task<bool> DeleteAllHealthMeasureByBatchIdAsync(int indicatorId, string batchId)
+    {
+        var batchToDelete = _dbContext.HealthMeasure
+            .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
+            .Where(healthMeasure => healthMeasure.BatchId == batchId);
+
+        var batchToDeleteFirstEntry = await batchToDelete.FirstOrDefaultAsync();
+        if (batchToDeleteFirstEntry == null) return false;
+
+        if (batchToDeleteFirstEntry.PublishedAt <= DateTime.UtcNow)
+        {
+            throw new InvalidOperationException("Error attempting to delete published batch.");
+        }
+
+        var deletedRows = await batchToDelete.ExecuteDeleteAsync();
+        return deletedRows > 0;
+    }
+
     public async Task<IEnumerable<DenormalisedHealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync
     (
         int indicatorId,

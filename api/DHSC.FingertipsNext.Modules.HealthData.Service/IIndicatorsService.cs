@@ -57,4 +57,6 @@ public interface IIndicatorsService
         string benchmarkAreaCode,
         bool includeUnpublished = false
         );
+
+    Task<ServiceResponse<string>> DeleteUnpublishedDataAsync(int indicatorId, string batchId);
 }

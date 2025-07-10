@@ -277,19 +277,6 @@ paths:
                 example: The file has been accepted.
         '400':
           $ref: '#/components/responses/BadRequest'
-    delete:
-      tags:
-        - indicators
-      summary: delete a batch of unpublished data for an indicator
-      description: Not Yet Implemented - Deletes ALL unpublished data for that indicator
-      responses:
-        '501':
-          description: Not Implemented
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: Not Implemented
   /indicators/{indicator_id}/data/all:
     parameters:
       - $ref: '#/components/parameters/indicator_id'
@@ -322,6 +309,24 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
       operationId: getHealthDataForAnIndicatorIncludingUnpublishedData
+  /indicators/{indicator_id}/data/{batch_id}:
+    parameters:
+      - $ref: '#/components/parameters/indicator_id'
+      - $ref: '#/components/parameters/batch_id'
+    delete:
+      tags:
+        - indicators
+      summary: Delete a batch of unpublished data for an indicator
+      description: Deletes all unpublished data for the specified indicator and batch.
+      responses:
+        '204':
+          description: The batch of unpublished data has been deleted successfully.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /indicators/quartiles:
     get:
       tags:
@@ -696,6 +701,16 @@ components:
       description: Set to true to get data for the latest date period only, default is false. This overrides the years parameter if set to true.
       schema:
         type: boolean
+    batch_id:
+      in: path
+      name: batch_id
+      style: simple
+      schema:
+        type: string
+        example: '12345_20250101120000'
+      explode: false
+      required: true
+      description: The unique identifier of the batch of data
   schemas:
     AreaType:
       title: Area Type

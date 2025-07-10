@@ -6,16 +6,16 @@ using Shouldly;
 
 namespace DHSC.FingertipsNext.Api.IntegrationTests.DataManagement;
 
-public sealed class DataManagementIntegrationTests : IClassFixture<CustomWebApplicationFactory<Program>>, IDisposable
+public sealed class DataManagementIntegrationTests : IClassFixture<DataManagementWebApplicationFactory<Program>>, IDisposable
 {
-    private CustomWebApplicationFactory<Program> _factory;
+    private DataManagementWebApplicationFactory<Program> _factory;
     private const string TestDataDir = "TestData";
     private readonly string _blobName;
     private const int IndicatorId = 9000;
     private const string FingertipsStorageContainerName = "fingertips-upload-container";
     private readonly AzureStorageBlobClient _azureStorageBlobClient;
 
-    public DataManagementIntegrationTests(CustomWebApplicationFactory<Program> factory)
+    public DataManagementIntegrationTests(DataManagementWebApplicationFactory<Program> factory)
     {
         _factory = factory;
 
@@ -39,10 +39,9 @@ public sealed class DataManagementIntegrationTests : IClassFixture<CustomWebAppl
     public void Dispose()
     {
         _azureStorageBlobClient.DeleteBlob(_blobName);
-        _factory.Dispose();
     }
 
-    private static HttpClient GetApiClient(CustomWebApplicationFactory<Program> factory, string blobContainerName = FingertipsStorageContainerName)
+    private static HttpClient GetApiClient(DataManagementWebApplicationFactory<Program> factory, string blobContainerName = FingertipsStorageContainerName)
     {
         return factory.WithWebHostBuilder(builder =>
         {
