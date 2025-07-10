@@ -32,6 +32,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   indicatorData,
   indicatorMetadata,
   areaCodes = [],
+  session,
 }: Readonly<OneIndicatorTwoOrMoreAreasViewPlotsProps>) {
   const searchState = useSearchStateParams();
 
@@ -80,7 +81,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
       <BenchmarkSelectArea availableAreas={availableAreasForBenchmarking} />
       <OneIndicatorSegmentationOptions />
       {showLineChartOverTime ? (
-        <LineChartAndTableOverTime session={null} />
+        <LineChartAndTableOverTime session={session} />
       ) : null}
       {selectedGroupArea === ALL_AREAS_SELECTED && (
         <StyleChartWrapper>
@@ -99,7 +100,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
           />
         </StyleChartWrapper>
       )}
-      {showCompareAreasTable ? <CompareAreasTable /> : null}
+      {showCompareAreasTable ? <CompareAreasTable session={session} /> : null}
     </section>
   );
 }

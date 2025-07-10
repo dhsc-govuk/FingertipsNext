@@ -65,7 +65,7 @@ describe('useCompareAreasTableData', () => {
       indicatorMetaDataError: null,
     });
 
-    const { result } = renderHook(() => useCompareAreasTableData());
+    const { result } = renderHook(() => useCompareAreasTableData(null));
     expect(result.current).toBeNull();
   });
 
@@ -103,7 +103,7 @@ describe('useCompareAreasTableData', () => {
     });
     mockCompareAreasTableData.mockReturnValue(mockProcessedData);
 
-    const { result } = renderHook(() => useCompareAreasTableData());
+    const { result } = renderHook(() => useCompareAreasTableData(null));
 
     expect(result.current).toEqual({
       indicatorMetaData: mockMetaData,
