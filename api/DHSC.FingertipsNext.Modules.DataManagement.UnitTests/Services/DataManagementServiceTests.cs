@@ -50,7 +50,6 @@ public class DataManagementServiceTests
         // Arrange
         var validCsvPath = @"Services/Validation/CSVs/ValidHeadersAndValidDataRows.csv";
         string path = Path.Combine(Directory.GetCurrentDirectory(), validCsvPath);
-        //_repository.
         UploadHealthDataResponse result;
         var publishedAt = new DateTime(2025, 1, 1, 0, 0, 0);
 

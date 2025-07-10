@@ -82,12 +82,16 @@ public class DataManagementModule : AbstractMonolithModule, IMonolithModule
         var dbUser = GetEnvironmentValue(configuration, dbUserEnvironmentVariable);
         var dbPassword = GetEnvironmentValue(configuration, dbPasswordEnvironmentVariable);
 
-        var trustServerCertificate = configuration.GetValue<bool>("TRUST_CERT");
+        var trustServerCertificate = false;
+
+#if DEBUG
+        trustServerCertificate = configuration.GetValue<bool>("TRUST_CERT");
 
         if (trustServerCertificate)
         {
             Console.WriteLine("Server certificate validation has been disabled (by setting the TRUST_CERT environment variable). This should only be done for local development!");
         }
+#endif
 
         var builder = new SqlConnectionStringBuilder
         {
