@@ -6,5 +6,5 @@ export enum ChartTitlesEnum {
   InequalitiesBarChart = 'Inequalities comparison for one time period',
   InequalitiesLineChart = 'Inequalities trends over time',
   ThematicMap = 'Compare an indicator by areas',
-  PopulationPyramid = 'Population pyramid',
+  PopulationPyramid = 'Related population data',
 }

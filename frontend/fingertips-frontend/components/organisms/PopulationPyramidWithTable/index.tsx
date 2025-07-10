@@ -24,6 +24,7 @@ import {
   determineYear,
 } from './populationPyramidHelpers';
 import { AreaWithoutAreaType } from '@/lib/common-types';
+import { ChartTitlesEnum } from '@/lib/chartTitleEnums';
 
 interface PyramidPopulationChartViewProps {
   healthDataForAreas: HealthDataForArea[];
@@ -108,7 +109,7 @@ export const PopulationPyramidWithTable = ({
   return (
     <div data-testid="populationPyramidWithTable-component">
       <StyleChartWrapper>
-        <H3 style={{ fontSize: '24px' }}>Related population data</H3>
+        <H3 style={{ fontSize: '24px' }} id='population-pyramid-chart'>{ChartTitlesEnum.PopulationPyramid}</H3>
         <ArrowExpander
           openTitle="Show population data"
           closeTitle="Hide population data"

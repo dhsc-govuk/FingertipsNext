@@ -31,7 +31,7 @@ describe('AvailableChartLinks', () => {
     ).toHaveAttribute('href', '#inequalities-line-chart');
     expect(
       screen.getByRole('link', { name: ChartTitlesEnum.ThematicMap })
-    ).toHaveAttribute('href', '#thematic-chart');
+    ).toHaveAttribute('href', '#thematic-map-chart');
     expect(
       screen.getByRole('link', { name: ChartTitlesEnum.PopulationPyramid })
     ).toHaveAttribute('href', '#population-pyramid-chart');

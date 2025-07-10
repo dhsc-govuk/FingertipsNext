@@ -32,7 +32,7 @@ export const AvailableChartLinks = ({}) => {
           </Link>
         </ListItem>
         <ListItem>
-          <Link href="#thematic-chart">{ChartTitlesEnum.ThematicMap}</Link>
+          <Link href="#thematic-map-chart">{ChartTitlesEnum.ThematicMap}</Link>
         </ListItem>
         <ListItem>
           <Link href="#population-pyramid-chart">

@@ -22,6 +22,7 @@ import { ContainerWithOutline } from '@/components/atoms/ContainerWithOutline/Co
 import { BenchmarkLegends } from '@/components/organisms/BenchmarkLegend/BenchmarkLegends';
 import { getMethodsAndOutcomes } from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
 import { ThematicMapTooltip } from '@/components/charts/ThematicMap/ThematicMapTooltip';
+import { ChartTitlesEnum } from '@/lib/chartTitleEnums';
 
 interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];
@@ -95,7 +96,7 @@ export function ThematicMap({
 
   return (
     <>
-      <H3>Compare an indicator by areas</H3>
+      <H3 id='thematic-map-chart'>{ChartTitlesEnum.ThematicMap}</H3>
       <ContainerWithOutline>
         <div id={'thematicMap'} data-testid="thematicMap-component">
           <ChartTitle>{title}</ChartTitle>
