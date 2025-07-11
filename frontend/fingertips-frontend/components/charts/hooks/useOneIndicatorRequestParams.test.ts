@@ -5,10 +5,9 @@ import { useOneIndicatorRequestParams } from '@/components/charts/hooks/useOneIn
 import { oneIndicatorRequestParams } from '@/components/charts/helpers/oneIndicatorRequestParams';
 import { renderHook } from '@testing-library/react';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
-import { Mock, MockedFunction } from 'vitest';
+import { MockedFunction } from 'vitest';
 import { testRenderWrapper } from '@/mock/utils/testRenderQueryClient';
 import { GetHealthDataForAnIndicatorRequest } from '@/generated-sources/ft-api-client';
-import { auth } from '@/lib/auth';
 
 vi.mock('@/components/charts/helpers/oneIndicatorRequestParams');
 

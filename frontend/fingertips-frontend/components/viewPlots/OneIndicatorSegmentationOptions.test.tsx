@@ -2,9 +2,6 @@ import { mockUseApiGetHealthDataForAnIndicator } from '@/mock/utils/mockUseApiGe
 import { testRenderQueryClient } from '@/mock/utils/testRenderQueryClient';
 //
 import { OneIndicatorSegmentationOptions } from '@/components/viewPlots/OneIndicatorSegmentationOptions';
-import { SessionProvider } from 'next-auth/react';
-import { auth } from '@/lib/auth';
-import { Mock } from 'vitest';
 
 mockUseApiGetHealthDataForAnIndicator.mockReturnValue({
   healthData: undefined,
