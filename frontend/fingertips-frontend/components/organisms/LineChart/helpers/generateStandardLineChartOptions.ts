@@ -135,7 +135,7 @@ export function generateStandardLineChartOptions(
 
   const { minXAxisEntries, maxXAxisEntries } = getMinAndMaxXAxisEntries(series);
 
-  const fromTo = `from ${minXAxisEntries} to ${maxXAxisEntries}`;
+  const fromTo = `from ${new Date(minXAxisEntries).getFullYear()} to ${new Date(maxXAxisEntries).getFullYear()}`;
   const titleText = optionalParams?.indicatorName
     ? `${optionalParams?.indicatorName} ${fromTo}`
     : fromTo;

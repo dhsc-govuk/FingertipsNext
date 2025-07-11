@@ -1,9 +1,9 @@
 import {
   DatePeriod,
   Frequency,
-  getTimePeriodLabels,
   PeriodType,
-} from './getTimePeriodLabels';
+} from '@/generated-sources/ft-api-client';
+import { getTimePeriodLabels } from './getTimePeriodLabels';
 
 describe('getTimePeriodLabels', () => {
   describe('periodLabelText', () => {
@@ -11,12 +11,12 @@ describe('getTimePeriodLabels', () => {
       const datePeriod: DatePeriod = {
         type: PeriodType.Calendar,
         from: new Date('2023-04-01'),
-        to: new Date('2023-06-30'),
+        to: new Date('2024-03-31'),
       };
 
       const { periodLabelText } = getTimePeriodLabels(
         datePeriod,
-        Frequency.Annual,
+        Frequency.Annually,
         1
       );
 
@@ -64,7 +64,7 @@ describe('getTimePeriodLabels', () => {
 
       const { periodLabelText } = getTimePeriodLabels(
         datePeriod,
-        Frequency.Annual,
+        Frequency.Annually,
         1
       );
 
@@ -80,7 +80,7 @@ describe('getTimePeriodLabels', () => {
 
       const { periodLabelText } = getTimePeriodLabels(
         datePeriod,
-        Frequency.Annual,
+        Frequency.Annually,
         1
       );
 
@@ -98,7 +98,7 @@ describe('getTimePeriodLabels', () => {
 
       const { periodLabelText } = getTimePeriodLabels(
         datePeriod,
-        Frequency.Annual,
+        Frequency.Annually,
         1
       );
 
@@ -146,7 +146,7 @@ describe('getTimePeriodLabels', () => {
 
       const { periodLabelText } = getTimePeriodLabels(
         datePeriod,
-        Frequency.Annual,
+        Frequency.Annually,
         1
       );
 
@@ -162,7 +162,7 @@ describe('getTimePeriodLabels', () => {
 
       const { periodLabelText } = getTimePeriodLabels(
         datePeriod,
-        Frequency.CumulativeQuarters,
+        Frequency.Quarterly,
         1
       );
 
@@ -173,14 +173,14 @@ describe('getTimePeriodLabels', () => {
 
     it('should return "" when periodType and collectionFrequency is combination is not mapped', () => {
       const datePeriod: DatePeriod = {
-        type: PeriodType.Calendar,
+        type: PeriodType.Unknown,
         from: new Date('2022-04-01'),
         to: new Date('2023-03-31'),
       };
 
       const { periodLabelText } = getTimePeriodLabels(
         datePeriod,
-        Frequency.CumulativeQuarters,
+        Frequency.Quarterly,
         1
       );
 
@@ -198,7 +198,7 @@ describe('getTimePeriodLabels', () => {
 
       const { datePointLabel } = getTimePeriodLabels(
         datePeriod,
-        Frequency.Annual,
+        Frequency.Annually,
         1
       );
 
@@ -262,7 +262,7 @@ describe('getTimePeriodLabels', () => {
 
       const { datePointLabel } = getTimePeriodLabels(
         datePeriod,
-        Frequency.Annual,
+        Frequency.Annually,
         1
       );
 
@@ -278,7 +278,7 @@ describe('getTimePeriodLabels', () => {
 
       const { datePointLabel } = getTimePeriodLabels(
         datePeriod,
-        Frequency.Annual,
+        Frequency.Annually,
         1
       );
 
@@ -294,7 +294,7 @@ describe('getTimePeriodLabels', () => {
 
       const { datePointLabel } = getTimePeriodLabels(
         datePeriod,
-        Frequency.Annual,
+        Frequency.Annually,
         1
       );
 
@@ -342,7 +342,7 @@ describe('getTimePeriodLabels', () => {
 
       const { datePointLabel } = getTimePeriodLabels(
         datePeriod,
-        Frequency.Annual,
+        Frequency.Annually,
         1
       );
 
@@ -358,7 +358,7 @@ describe('getTimePeriodLabels', () => {
 
       const { datePointLabel } = getTimePeriodLabels(
         datePeriod,
-        Frequency.CumulativeQuarters,
+        Frequency.Quarterly,
         1
       );
 
@@ -374,7 +374,7 @@ describe('getTimePeriodLabels', () => {
 
       const { datePointLabel } = getTimePeriodLabels(
         datePeriod,
-        Frequency.Annual,
+        Frequency.Annually,
         1
       );
 
@@ -392,7 +392,7 @@ describe('getTimePeriodLabels', () => {
 
       const { datePointLabel } = getTimePeriodLabels(
         datePeriod,
-        Frequency.Annual,
+        Frequency.Annually,
         3
       );
 
@@ -456,7 +456,7 @@ describe('getTimePeriodLabels', () => {
 
       const { datePointLabel } = getTimePeriodLabels(
         datePeriod,
-        Frequency.Annual,
+        Frequency.Annually,
         3
       );
 
@@ -472,7 +472,7 @@ describe('getTimePeriodLabels', () => {
 
       const { datePointLabel } = getTimePeriodLabels(
         datePeriod,
-        Frequency.Annual,
+        Frequency.Annually,
         3
       );
 
@@ -488,7 +488,7 @@ describe('getTimePeriodLabels', () => {
 
       const { datePointLabel } = getTimePeriodLabels(
         datePeriod,
-        Frequency.Annual,
+        Frequency.Annually,
         3
       );
 
@@ -536,7 +536,7 @@ describe('getTimePeriodLabels', () => {
 
       const { datePointLabel } = getTimePeriodLabels(
         datePeriod,
-        Frequency.Annual,
+        Frequency.Annually,
         3
       );
 
@@ -552,7 +552,7 @@ describe('getTimePeriodLabels', () => {
 
       const { datePointLabel } = getTimePeriodLabels(
         datePeriod,
-        Frequency.CumulativeQuarters,
+        Frequency.Quarterly,
         3
       );
 
@@ -568,7 +568,7 @@ describe('getTimePeriodLabels', () => {
 
       const { datePointLabel } = getTimePeriodLabels(
         datePeriod,
-        Frequency.Annual,
+        Frequency.Annually,
         3
       );
 
@@ -586,7 +586,7 @@ describe('getTimePeriodLabels', () => {
 
       const { datePointLabel } = getTimePeriodLabels(
         datePeriod,
-        Frequency.Annual,
+        Frequency.Annually,
         5
       );
 
@@ -650,7 +650,7 @@ describe('getTimePeriodLabels', () => {
 
       const { datePointLabel } = getTimePeriodLabels(
         datePeriod,
-        Frequency.Annual,
+        Frequency.Annually,
         5
       );
 
@@ -666,7 +666,7 @@ describe('getTimePeriodLabels', () => {
 
       const { datePointLabel } = getTimePeriodLabels(
         datePeriod,
-        Frequency.Annual,
+        Frequency.Annually,
         5
       );
 
@@ -682,7 +682,7 @@ describe('getTimePeriodLabels', () => {
 
       const { datePointLabel } = getTimePeriodLabels(
         datePeriod,
-        Frequency.Annual,
+        Frequency.Annually,
         5
       );
 
@@ -730,7 +730,7 @@ describe('getTimePeriodLabels', () => {
 
       const { datePointLabel } = getTimePeriodLabels(
         datePeriod,
-        Frequency.Annual,
+        Frequency.Annually,
         5
       );
 
@@ -746,7 +746,7 @@ describe('getTimePeriodLabels', () => {
 
       const { datePointLabel } = getTimePeriodLabels(
         datePeriod,
-        Frequency.CumulativeQuarters,
+        Frequency.Quarterly,
         3
       );
 
@@ -762,7 +762,7 @@ describe('getTimePeriodLabels', () => {
 
       const { datePointLabel } = getTimePeriodLabels(
         datePeriod,
-        Frequency.Annual,
+        Frequency.Annually,
         3
       );
 

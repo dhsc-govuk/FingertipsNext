@@ -3,11 +3,15 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { generateStandardLineChartOptions } from '@/components/organisms/LineChart/helpers/generateStandardLineChartOptions';
 import {
   BenchmarkComparisonMethod,
+  Frequency,
   IndicatorWithHealthDataForArea,
+  PeriodType,
 } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { findAndRemoveByAreaCode } from '@/lib/healthDataHelpers/findAndRemoveByAreaCode';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { AxisLabelsFormatterContextObject } from 'highcharts';
+import { formatterXAxisLabel } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 export const lineChartOverTimeData = (
   indicatorMetaData: IndicatorDocument,
@@ -51,6 +55,11 @@ export const lineChartOverTimeData = (
 
   const benchmarkToUse = determineBenchmarkToUse(benchmarkAreaSelected);
 
+  const periodType =
+    healthData.areaHealthData?.[0].healthData?.[0].datePeriod?.type ??
+    PeriodType.Calendar;
+  const frequency = healthData.frequency ?? Frequency.Annually;
+
   const chartOptions = generateStandardLineChartOptions(
     withoutEnglandOrGroup,
     true,
@@ -62,6 +71,17 @@ export const lineChartOverTimeData = (
       groupIndicatorData: groupData,
       yAxisTitle,
       xAxisTitle: 'Period',
+      xAxisLabelFormatter: function (
+        this: AxisLabelsFormatterContextObject
+      ): string {
+        const xAxisLabel = formatterXAxisLabel(
+          periodType,
+          this.value as number,
+          frequency,
+          1
+        );
+        return xAxisLabel;
+      },
       measurementUnit: indicatorMetaData?.unitLabel,
       accessibilityLabel: 'A line chart showing healthcare data',
     }

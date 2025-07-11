@@ -37,11 +37,11 @@ exports[`generateStandardLineChartOptions > should generate standard line chart 
       },
       "data": [
         [
-          2004,
+          1080777600000,
           703.420759,
         ],
         [
-          2006,
+          1143849600000,
           278.29134,
         ],
       ],
@@ -137,11 +137,11 @@ exports[`generateStandardLineChartOptions > should generate standard line chart 
       },
       "data": [
         [
-          2004,
+          1080777600000,
           703.420759,
         ],
         [
-          2006,
+          1143849600000,
           278.29134,
         ],
       ],
@@ -158,11 +158,11 @@ exports[`generateStandardLineChartOptions > should generate standard line chart 
       },
       "data": [
         [
-          2004,
+          1080777600000,
           301,
         ],
         [
-          2006,
+          1143849600000,
           300,
         ],
       ],
@@ -179,11 +179,11 @@ exports[`generateStandardLineChartOptions > should generate standard line chart 
       },
       "data": [
         [
-          2004,
+          1080777600000,
           703.420759,
         ],
         [
-          2006,
+          1143849600000,
           278.29134,
         ],
       ],
@@ -279,11 +279,11 @@ exports[`generateStandardLineChartOptions > should not include benchmark or grou
       },
       "data": [
         [
-          2004,
+          1080777600000,
           703.420759,
         ],
         [
-          2006,
+          1143849600000,
           278.29134,
         ],
       ],
@@ -300,11 +300,11 @@ exports[`generateStandardLineChartOptions > should not include benchmark or grou
       },
       "data": [
         [
-          2004,
+          1080777600000,
           301,
         ],
         [
-          2006,
+          1143849600000,
           300,
         ],
       ],
@@ -321,11 +321,11 @@ exports[`generateStandardLineChartOptions > should not include benchmark or grou
       },
       "data": [
         [
-          2004,
+          1080777600000,
           703.420759,
         ],
         [
-          2006,
+          1143849600000,
           278.29134,
         ],
       ],

@@ -1,34 +1,15 @@
+import {
+  DatePeriod,
+  Frequency,
+  PeriodType,
+} from '@/generated-sources/ft-api-client';
 import { format, addYears, subMonths } from 'date-fns';
 
 /**
  * The following types are temporary.
  * Once the swagger has been updated then these types will come from the generated code.
  */
-export const Frequency = {
-  Annual: 'Annual',
-  Monthly: 'Monthly',
-  Quarterly: 'Quarterly',
-  CumulativeQuarters: 'CumulativeQuarters',
-} as const;
-export type Frequency = (typeof Frequency)[keyof typeof Frequency];
-
-export const PeriodType = {
-  Calendar: 'Calendar',
-  Academic: 'Academic',
-  Yearly: 'Yearly',
-  Financial: 'Financial',
-  FinancialYearEndPoint: 'FinancialYearEndPoint',
-  FinancialMultiYear: 'FinancialMultiYear',
-} as const;
-export type PeriodType = (typeof PeriodType)[keyof typeof PeriodType];
-
 export type ReportingPeriod = 1 | 3 | 5;
-
-export interface DatePeriod {
-  type: PeriodType;
-  from: Date;
-  to: Date;
-}
 
 type TimePeriodLabels = {
   periodLabelText: string;
@@ -53,7 +34,7 @@ const labelFormatters: {
   };
 } = {
   [PeriodType.Calendar]: {
-    [Frequency.Annual]: {
+    [Frequency.Annually]: {
       periodLabelText: '',
       datePointLabel: (datePeriod, reportingPeriod) => {
         if (reportingPeriod === 1) {
@@ -103,7 +84,7 @@ const labelFormatters: {
     },
   },
   [PeriodType.Academic]: {
-    [Frequency.Annual]: {
+    [Frequency.Annually]: {
       periodLabelText: 'Academic year',
       datePointLabel: (datePeriod, reportingPeriod) => {
         if (reportingPeriod === 1) {
@@ -118,7 +99,7 @@ const labelFormatters: {
     },
   },
   [PeriodType.Yearly]: {
-    [Frequency.Annual]: {
+    [Frequency.Annually]: {
       periodLabelText: 'Yearly (month to month e.g. November to October)',
       datePointLabel: (datePeriod, reportingPeriod) => {
         if (reportingPeriod === 1) {
@@ -133,7 +114,7 @@ const labelFormatters: {
     },
   },
   [PeriodType.Financial]: {
-    [Frequency.Annual]: {
+    [Frequency.Annually]: {
       periodLabelText: 'Financial year',
       datePointLabel: (datePeriod, reportingPeriod) => {
         if (reportingPeriod === 1) {
@@ -184,7 +165,7 @@ const labelFormatters: {
     },
   },
   [PeriodType.FinancialYearEndPoint]: {
-    [Frequency.Annual]: {
+    [Frequency.Annually]: {
       periodLabelText: 'Financial year end point',
       datePointLabel: (datePeriod, reportingPeriod) => {
         const fromDate = new Date(datePeriod.from);
@@ -203,7 +184,7 @@ const labelFormatters: {
     },
   },
   [PeriodType.FinancialMultiYear]: {
-    [Frequency.CumulativeQuarters]: {
+    [Frequency.Quarterly]: {
       periodLabelText: 'Financial multi-year, cumulative quarters',
       datePointLabel: (datePeriod, reportingPeriod) => {
         if (reportingPeriod !== 1) return '';
@@ -217,10 +198,12 @@ const labelFormatters: {
 };
 
 export const getTimePeriodLabels = (
-  datePeriod: DatePeriod,
+  datePeriod: DatePeriod | undefined,
   collectionFrequency: Frequency,
   reportingPeriod: ReportingPeriod
 ): TimePeriodLabels => {
+  if (!datePeriod) return { periodLabelText: '', datePointLabel: '' };
+
   const formatter = labelFormatters[datePeriod.type]?.[collectionFrequency];
 
   if (!formatter) return { periodLabelText: '', datePointLabel: 'X' };
@@ -229,4 +212,23 @@ export const getTimePeriodLabels = (
     periodLabelText: formatter.periodLabelText,
     datePointLabel: formatter.datePointLabel(datePeriod, reportingPeriod),
   };
+};
+
+export const formatterXAxisLabel = (
+  periodType: PeriodType,
+  fromDate: number,
+  collectionFrequency: Frequency,
+  reportingPeriod: ReportingPeriod
+): string => {
+  const formatter = labelFormatters[periodType]?.[collectionFrequency];
+
+  if (!formatter) return '';
+
+  const datePeriod: DatePeriod = {
+    type: periodType,
+    from: new Date(fromDate),
+    to: new Date(fromDate),
+  };
+
+  return formatter.datePointLabel(datePeriod, reportingPeriod);
 };

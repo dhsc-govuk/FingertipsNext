@@ -22,7 +22,10 @@ function generateSeries(
   return {
     type: 'line',
     name: namePrefix ? `${namePrefix}: ${data.areaName}` : data.areaName,
-    data: data.healthData.map((point) => [point.year, point.value]),
+    data: data.healthData.map((point) => [
+      point.datePeriod?.from.getTime(),
+      point.value,
+    ]),
     marker: {
       symbol,
     },
@@ -44,7 +47,7 @@ export function generateSeriesData(
       generateConfidenceIntervalSeries(
         englandData.areaName,
         englandData.healthData.map((point) => [
-          point.year,
+          point.datePeriod?.from.getTime(),
           point.lowerCi,
           point.upperCi,
         ]),
@@ -66,7 +69,7 @@ export function generateSeriesData(
         generateConfidenceIntervalSeries(
           item.areaName,
           item.healthData.map((point) => [
-            point.year,
+            point.datePeriod?.from.getTime(),
             point.lowerCi,
             point.upperCi,
           ]),
