@@ -1,6 +1,7 @@
 import { Link, ListItem, UnorderedList } from 'govuk-react';
-import { ChartTitlesEnum } from '@/lib/chartTitleEnums';
+import { ChartTitlesEnum } from '@/lib/ChartTitles/chartTitleEnums';
 import { ZeroMarginParagraph } from '@/components/pages/home';
+import { chartLinks } from '@/lib/ChartTitles/chartTitleLinksKey';
 
 interface AvailableChartLinksProps {
   availableCharts: string[];
@@ -8,8 +9,13 @@ interface AvailableChartLinksProps {
 
 export const AvailableChartLinks = ({availableCharts} : Readonly<AvailableChartLinksProps>) => {
   
-  const availableCharts = ['line-chart', 'bar-chart-embedded-table-chart', 'heatmap-chart', 'spine-chart', 'inequalities-bar-chart', 'inequalities-line-chart', 'thematic-map-chart', 'population-pyramid-chart'];
+ const charts = ['line-chart', 'bar-chart-embedded-table-chart', 'heatmap-chart', 'spine-chart', 'inequalities-bar-chart', 'inequalities-line-chart', 'thematic-map-chart', 'population-pyramid-chart'];
+
+  const filterCharts = charts.filter(chart => availableCharts.includes(chart));
   
+  const filteredChartLinks = Object.keys(chartLinks).filter(chart => availableCharts.includes(chart));
+
+  console.log('filtered charts:', filterCharts);
   
   return (
     <section data-testid="availableChartLinks-component">

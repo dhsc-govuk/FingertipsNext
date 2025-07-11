@@ -29,7 +29,7 @@ export function OneIndicatorOneAreaViewPlots({
   );
 
   const showLineChartOverTime = lineChartOverTimeIsRequired(searchState);
-  const availableChartLinks: string[] = []
+  const availableChartLinks: string[] = [showLineChartOverTime ? 'line-chart' : '', 'inequalities-bar-chart', 'inequalities-line-chart'];
   return (
     <section data-testid="oneIndicatorOneAreaViewPlot-component">
       <AvailableChartLinks availableCharts={availableChartLinks}></AvailableChartLinks>
