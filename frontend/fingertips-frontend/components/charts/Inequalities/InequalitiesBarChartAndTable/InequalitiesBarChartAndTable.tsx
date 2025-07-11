@@ -32,8 +32,8 @@ export function InequalitiesBarChartAndTable() {
   } = data;
 
   return (
-    <StyleChartWrapper data-testid="inequalitiesForSingleTimePeriod-component">
-      <H3>Inequalities data for a single time period</H3>
+    <StyleChartWrapper data-testid="inequalitiesComparisonForOneTimePeriod-component">
+      <H3>Inequalities comparison for one time period </H3>
       <TimePeriodDropDown years={yearsDesc} />
       <InequalitiesTypesDropDown
         inequalitiesOptions={inequalityCategories}

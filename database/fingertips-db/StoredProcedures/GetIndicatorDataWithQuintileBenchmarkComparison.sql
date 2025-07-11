@@ -1,5 +1,6 @@
-﻿--- This stored procedure gets HealthData and performs Quintile calculations
-CREATE PROCEDURE [dbo].[GetIndicatorDetailsWithQuintileBenchmarkComparison] --- The Areas we want data for
+﻿--- This stored procedure Gets HealthData and performs Quintile calculations
+CREATE PROCEDURE [dbo].[GetIndicatorDetailsWithQuintileBenchmarkComparison] 
+--- The Areas we want data for
 @RequestedAreas AreaCodeList READONLY,
 --- The AreaType we are comparing against - this needs to be passed in because the AreaCodes can be ambiguous for districts and counties
 @RequestedAreaType varchar(50),
@@ -12,6 +13,7 @@ CREATE PROCEDURE [dbo].[GetIndicatorDetailsWithQuintileBenchmarkComparison] --- 
 --- The inclusive date range we are interested in - can be empty
 @RequestedFromDate DATE,
 @RequestedToDate DATE,
+--- Controls whether unpublished data is included in the response
 @IncludeUnpublishedData BIT
 AS BEGIN
 DECLARE @DateBefore AS DATETIME2;
@@ -76,14 +78,17 @@ AreasWithIsBenchmarkAreaFlag (AreaCode, IsBenchmarkArea) AS (
 				BenchmarkDescendants
 		)
 ),
+--- Fetches all the required data and performs quintile calculation.
 HealthData AS (
 	SELECT 
 		hm.HealthMeasureKey,
 		CASE
 			WHEN benchmarkAreas.IsBenchmarkArea = 1 THEN NTILE(5) OVER(
-				PARTITION BY benchmarkAreas.IsBenchmarkArea,
+				PARTITION BY 
+				benchmarkAreas.IsBenchmarkArea,
 				fromDate.Date,
-				toDate.Date
+				toDate.Date,
+				hm.SexKey
 				ORDER BY Value
 			)
 			ELSE NULL
@@ -123,9 +128,8 @@ HealthData AS (
 		JOIN dbo.DateDimension AS toDate ON hm.ToDateKey = toDate.DateKey
 		JOIN dbo.PeriodDimension AS reportingPeriod ON hm.PeriodKey = reportingPeriod.PeriodKey
 	WHERE (
-			--- This ensures we are only dealing with Aggregate data
-			hm.IsSexAggregatedOrSingle = 1
-			AND hm.IsAgeAggregatedOrSingle = 1
+			--- This ensures we are only dealing with Aggregate data OR Sex Segments
+			hm.IsAgeAggregatedOrSingle = 1
 			AND hm.IsDeprivationAggregatedOrSingle = 1
 		)
 		AND (
@@ -152,16 +156,18 @@ HealthData AS (
 		)
 		AND hm.PublishedAt <= @DateBefore
 ),
+--- Calculates the number of data points in each Quintile group - if this is too low then we don't use it
 HealthDataNTileGroupCount AS (
-	SELECT
+	SELECT 
 		ToDate,
 		FromDate,
+		SexDimensionName,
 		COUNT(*) AS COUNT
-	FROM
-		HealthData AS hd
-	GROUP BY
+	FROM HealthData AS hd
+	GROUP BY 
 		ToDate,
-		FromDate
+		FromDate,
+		SexDimensionName
 ) --- The final select now filters based on the requested areas and calculates the Benchmark outcome
 SELECT
 	hd.HealthMeasureKey,
@@ -230,7 +236,7 @@ SELECT
 FROM
 	HealthData AS hd
 	JOIN @RequestedAreas AS areas ON hd.AreaDimensionCode = areas.AreaCode
-	JOIN HealthDataNTileGroupCount AS nc ON hd.FromDate = nc.FromDate
+	JOIN HealthDataNTileGroupCount AS nc ON hd.FromDate = nc.FromDate AND hd.ToDate = nc.ToDate AND hd.SexDimensionName = nc.SexDimensionName
 	AND hd.ToDate = nc.ToDate
 	CROSS JOIN RequestedIndicator ind
 	CROSS JOIN BenchmarkAreaGroup bag

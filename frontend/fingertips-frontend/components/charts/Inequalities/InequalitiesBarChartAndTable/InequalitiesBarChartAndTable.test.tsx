@@ -116,7 +116,7 @@ describe('InequalitiesBarChartAndTable', () => {
       screen.getByTestId('tabContainer-inequalitiesBarChartAndTable')
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/Inequalities data for a single time period/)
+      screen.getByText(/Inequalities comparison for one time period/)
     ).toBeInTheDocument();
 
     expect(timePeriodDropDown).toBeInTheDocument();
@@ -150,7 +150,7 @@ describe('InequalitiesBarChartAndTable', () => {
     await testRender(testDataWithoutInequalities);
 
     expect(
-      screen.queryByTestId('inequalitiesForSingleTimePeriod-component')
+      screen.queryByTestId('inequalitiesComparisonForOneTimePeriod-component')
     ).not.toBeInTheDocument();
   });
 });

@@ -81,7 +81,7 @@ describe('Inequalities', () => {
     'inequalitiesBarChart-component',
     'tabContainer-inequalitiesLineChartAndTable',
     'tabContainer-inequalitiesBarChartAndTable',
-    'inequalitiesForSingleTimePeriod-component',
+    'inequalitiesComparisonForOneTimePeriod-component',
     'inequalitiesTrend-component',
     'inequalitiesTypes-dropDown-component-bc',
     'inequalitiesTypes-dropDown-component-lc',
@@ -94,8 +94,10 @@ describe('Inequalities', () => {
     await testRender(testData);
 
     expect(
-      screen.getByText(/Inequalities data for a single time period/)
+      screen.getByText(/Inequalities comparison for one time period/)
     ).toBeInTheDocument();
-    expect(screen.getByText(/Inequalities data over time/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Inequalities trends over time/)
+    ).toBeInTheDocument();
   });
 });

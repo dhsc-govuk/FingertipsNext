@@ -14,7 +14,7 @@ export function LineChartAndTableOverTime() {
 
   return (
     <StyleChartWrapper>
-      <H3>Indicator data over time</H3>
+      <H3>Indicator trends over time</H3>
       <TabContainer
         id="lineChartAndTable"
         items={[

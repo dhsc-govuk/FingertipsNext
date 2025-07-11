@@ -55,7 +55,7 @@ export function SpineChartTable({
 
   return (
     <>
-      <SubTitle>Compare indicators by areas</SubTitle>
+      <SubTitle>Area profile by indicators</SubTitle>
       <ContainerWithOutline>
         <div id={'spineChartTable'} data-testid="spineChartTable-component">
           <ChartTitle>{title}</ChartTitle>

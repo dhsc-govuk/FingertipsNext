@@ -1,4 +1,4 @@
-import regionsMap from '@/components/organisms/ThematicMap/regions.json';
+import regionsMap from '@/components/charts/ThematicMap/regions.json';
 import {
   getMapGeographyData,
   prepareThematicMapSeriesData,

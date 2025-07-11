@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
-import { ThematicMapCredits } from '.';
-import { mapMetaDataEncoder } from '@/components/organisms/ThematicMap/thematicMapHelpers';
+import { ThematicMapCredits } from './index';
+import { mapMetaDataEncoder } from '@/components/charts/ThematicMap/helpers/thematicMapHelpers';
 
 const mockDataSource = 'Mock Data Provider';
 const mockAreaType = 'regions';
