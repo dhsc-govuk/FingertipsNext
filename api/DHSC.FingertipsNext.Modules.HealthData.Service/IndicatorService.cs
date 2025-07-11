@@ -168,13 +168,32 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
                 .GroupBy(denormalisedHealthMeasure => new
                 {
                     code = denormalisedHealthMeasure.AreaDimensionCode,
-                    name = denormalisedHealthMeasure.AreaDimensionName
+                    name = denormalisedHealthMeasure.AreaDimensionName,
+                    periodType = denormalisedHealthMeasure.PeriodType,
                 })
-                .Select(group => new HealthDataForArea
+                .Select(areaGroup => new HealthDataForArea
                 {
-                    AreaCode = group.Key.code,
-                    AreaName = group.Key.name,
-                    HealthData = healthDataMapper.Map(group.ToList())
+                    AreaCode = areaGroup.Key.code,
+                    AreaName = areaGroup.Key.name,
+                    HealthData = healthDataMapper.Map(areaGroup.ToList())
+                    .Where(dataPoint => dataPoint.Sex.IsAggregate)
+                    .OrderBy(dataPoint => dataPoint.DatePeriod.From)
+                    .ToList(),
+                    IndicatorSegments = areaGroup.GroupBy(healthMeasure => new
+                    {
+                        sexName = healthMeasure.SexDimensionName,
+                        isAggregate = healthMeasure.SexDimensionIsAggregate
+                    })
+                .Select(segmentGroup => new IndicatorSegment
+                {
+                    Sex = new Sex { Value = segmentGroup.Key.sexName, IsAggregate = segmentGroup.Key.isAggregate },
+                    IsAggregate = segmentGroup.Key.isAggregate,
+                    HealthData = healthDataMapper.Map(segmentGroup.ToList())
+                      .OrderBy(dataPoint => dataPoint.DatePeriod.From)
+                      .ToList()
+                })
+                .OrderBy(segment => segment.Sex.Value)
+                .ToList()
                 })
                 .ToList();
         }

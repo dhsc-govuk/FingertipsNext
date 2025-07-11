@@ -1,5 +1,5 @@
 import { Options } from 'highcharts';
-import { AreaTypeKeysForMapMeta } from '@/components/organisms/ThematicMap/thematicMapHelpers';
+import { AreaTypeKeysForMapMeta } from '@/components/charts/ThematicMap/helpers/thematicMapHelpers';
 
 export enum ExportType {
   PNG = 'png',

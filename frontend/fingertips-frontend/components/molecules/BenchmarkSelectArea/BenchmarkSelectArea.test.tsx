@@ -51,7 +51,7 @@ describe('BenchmarkSelectArea', () => {
     vi.clearAllMocks();
   });
 
-  const areaDropDownLabel = 'Select a benchmark';
+  const areaDropDownLabel = 'Select a benchmark for all charts';
 
   it('should render all the available areas', () => {
     render(<BenchmarkSelectArea availableAreas={mockAvailableAreas} />);
