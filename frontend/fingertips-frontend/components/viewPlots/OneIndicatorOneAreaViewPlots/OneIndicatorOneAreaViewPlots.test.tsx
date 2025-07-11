@@ -212,4 +212,24 @@ describe('OneIndicatorOneAreaViewPlots', () => {
       await screen.findByTestId('inequalities-component')
     ).toBeInTheDocument();
   });
+  
+  it('should render the available chart links', async () => {
+    await testRender(mockSearchState, testHealthData, testMetaData);
+    
+    expect(
+      screen.getByRole('link', { name: 'Indicator trends over time' })
+    ).toHaveAttribute('href', '#line-chart');
+    
+    expect(
+      screen.getByRole('link', { name: 'Inequalities comparison for one time period' })
+    ).toHaveAttribute('href', '#inequalities-bar-chart');
+    
+    expect(
+      screen.getByRole('link', { name: 'Inequalities trends over time' })
+    ).toHaveAttribute('href', '#inequalities-line-chart');
+    
+    expect(
+      screen.getByRole('link', { name: 'Related population data' })
+    ).toHaveAttribute('href', '#population-pyramid-chart');
+  })
 });

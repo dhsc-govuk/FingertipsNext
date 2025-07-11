@@ -1,5 +1,4 @@
 import { Link, ListItem, UnorderedList } from 'govuk-react';
-import { ChartTitlesEnum } from '@/lib/ChartTitles/chartTitleEnums';
 import { ZeroMarginParagraph } from '@/components/pages/home';
 import { chartLinks } from '@/lib/ChartTitles/chartTitleLinksKey';
 
@@ -22,38 +21,13 @@ export const AvailableChartLinks = ({availableCharts} : Readonly<AvailableChartL
     <section data-testid="availableChartLinks-component">
       <ZeroMarginParagraph>Available charts</ZeroMarginParagraph>
       <UnorderedList listStyleType='"— "'>
-        <ListItem>
-          <Link href="#line-chart">{ChartTitlesEnum.LineChart}</Link>
-        </ListItem>
-        <ListItem>
-          <Link href="#bar-chart-embedded-table-chart">
-            {ChartTitlesEnum.BarChartEmbeddedTable}
-          </Link>
-        </ListItem>
-        <ListItem>
-          <Link href="#heatmap-chart">{ChartTitlesEnum.Heatmap}</Link>
-        </ListItem>
-        <ListItem>
-          <Link href="#spine-chart">{ChartTitlesEnum.SpineChart}</Link>
-        </ListItem>
-        <ListItem>
-          <Link href="#inequalities-bar-chart">
-            {ChartTitlesEnum.InequalitiesBarChart}
-          </Link>
-        </ListItem>
-        <ListItem>
-          <Link href="#inequalities-line-chart">
-            {ChartTitlesEnum.InequalitiesLineChart}
-          </Link>
-        </ListItem>
-        <ListItem>
-          <Link href="#thematic-map-chart">{ChartTitlesEnum.ThematicMap}</Link>
-        </ListItem>
-        <ListItem>
-          <Link href="#population-pyramid-chart">
-            {ChartTitlesEnum.PopulationPyramid}
-          </Link>
-        </ListItem>
+        {chartLinks
+          .filter(link => availableCharts.includes(link.key))
+          .map(link => (
+            <ListItem key={link.key}>
+              <Link href={link.href}>{link.title}</Link>
+            </ListItem>
+          ))}
       </UnorderedList>
     </section>
   );

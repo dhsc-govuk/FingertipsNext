@@ -10,6 +10,7 @@ import { LineChartAndTableOverTime } from '@/components/charts/LineChartOverTime
 import { lineChartOverTimeIsRequired } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeIsRequired';
 import { OneIndicatorSegmentationOptions } from '@/components/viewPlots/OneIndicatorSegmentationOptions';
 import { AvailableChartLinks } from '@/components/organisms/AvailableChartLinks';
+import { ChartTitleKeysEnum } from '@/lib/ChartTitles/chartTitleEnums';
 
 export function OneIndicatorOneAreaViewPlots({
   indicatorData,
@@ -29,7 +30,10 @@ export function OneIndicatorOneAreaViewPlots({
   );
 
   const showLineChartOverTime = lineChartOverTimeIsRequired(searchState);
-  const availableChartLinks: string[] = [showLineChartOverTime ? 'line-chart' : '', 'inequalities-bar-chart', 'inequalities-line-chart'];
+  
+  const availableChartLinks: string[] = [showLineChartOverTime ? ChartTitleKeysEnum.LineChart : '', ChartTitleKeysEnum.InequalitiesBarChart, ChartTitleKeysEnum.InequalitiesLineChart, ChartTitleKeysEnum.PopulationPyramid];
+  console.log('availableChartLinks',availableChartLinks)
+  
   return (
     <section data-testid="oneIndicatorOneAreaViewPlot-component">
       <AvailableChartLinks availableCharts={availableChartLinks}></AvailableChartLinks>
