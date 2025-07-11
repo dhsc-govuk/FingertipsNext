@@ -23,6 +23,8 @@ import {
 import { mockHealthDataPoints } from '@/mock/data/mockHealthDataPoint';
 import { SeedData } from '@/components/atoms/SeedQueryCache/seedQueryCache.types';
 import { testRenderQueryClient } from '@/mock/utils/testRenderQueryClient';
+import { auth } from '@/lib/auth';
+import { Mock } from 'vitest';
 
 mockGetIsLoading.mockReturnValue(false);
 mockUsePathname.mockReturnValue('some-mock-path');

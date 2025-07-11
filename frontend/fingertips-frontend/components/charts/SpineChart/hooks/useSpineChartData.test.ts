@@ -51,13 +51,13 @@ mockUseApiGetQuartiles.mockReturnValue({
 });
 
 describe('useSpineChartData', () => {
-  it('calls buildSpineChartIndicatorData with correct arguments and returns its output', () => {
+  it('calls buildSpineChartIndicatorData with correct arguments and returns its output', async () => {
     const seedData: SeedData = {};
     seedData['/indicator/41101'] = indicator1;
     seedData['/indicator/22401'] = indicator2;
 
     const { result } = renderHook(() => useSpineChartData(), {
-      wrapper: testRenderWrapper(seedData),
+      wrapper: await testRenderWrapper(seedData),
     });
 
     expect(mockUseApiGetQuartiles).toHaveBeenCalled();
@@ -80,13 +80,13 @@ describe('useSpineChartData', () => {
     expect(selectedGroupCode).toEqual('E12000007');
   });
 
-  it('returns undefined if insufficient data is available', () => {
+  it('returns undefined if insufficient data is available', async () => {
     const seedData: SeedData = {};
     seedData['/indicator/1234'] = indicator1;
     seedData['/indicator/5678'] = indicator2;
 
     const { result } = renderHook(() => useSpineChartData(), {
-      wrapper: testRenderWrapper(seedData),
+      wrapper: await testRenderWrapper(seedData),
     });
 
     expect(result.current).toBe(undefined);

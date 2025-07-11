@@ -5,9 +5,10 @@ import { useOneIndicatorRequestParams } from '@/components/charts/hooks/useOneIn
 import { oneIndicatorRequestParams } from '@/components/charts/helpers/oneIndicatorRequestParams';
 import { renderHook } from '@testing-library/react';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
-import { MockedFunction } from 'vitest';
+import { Mock, MockedFunction } from 'vitest';
 import { testRenderWrapper } from '@/mock/utils/testRenderQueryClient';
 import { GetHealthDataForAnIndicatorRequest } from '@/generated-sources/ft-api-client';
+import { auth } from '@/lib/auth';
 
 vi.mock('@/components/charts/helpers/oneIndicatorRequestParams');
 
@@ -15,7 +16,7 @@ const mockOneIndicatorRequestParams =
   oneIndicatorRequestParams as MockedFunction<typeof oneIndicatorRequestParams>;
 
 describe('useOneIndicatorRequestParams', () => {
-  it('returns request params from helper using search state', () => {
+  it('returns request params from helper using search state', async () => {
     const mockSearchState: SearchStateParams = {
       [SearchParams.AreasSelected]: ['A1'],
       [SearchParams.IndicatorsSelected]: ['123'],
@@ -36,7 +37,7 @@ describe('useOneIndicatorRequestParams', () => {
     mockOneIndicatorRequestParams.mockReturnValue(mockRequest);
 
     const { result } = renderHook(() => useOneIndicatorRequestParams(), {
-      wrapper: testRenderWrapper({ availableAreas: [] }),
+      wrapper: await testRenderWrapper({ availableAreas: [] }),
     });
 
     expect(result.current).toEqual(mockRequest);

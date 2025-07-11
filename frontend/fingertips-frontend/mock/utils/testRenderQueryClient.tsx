@@ -6,6 +6,14 @@ import { SeedData } from '@/components/atoms/SeedQueryCache/seedQueryCache.types
 import { SeedQueryCache } from '@/components/atoms/SeedQueryCache/SeedQueryCache';
 import { SessionProvider } from 'next-auth/react';
 import { auth } from '@/lib/auth';
+import { Mock } from 'vitest';
+
+vi.mock('@/lib/auth', async () => {
+  return {
+    auth: vi.fn(),
+  };
+});
+(auth as Mock).mockImplementation(vi.fn().mockResolvedValue(null));
 
 export const testRenderQueryClient = async (
   children: ReactNode,
