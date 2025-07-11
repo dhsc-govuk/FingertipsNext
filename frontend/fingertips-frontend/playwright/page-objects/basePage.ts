@@ -6,6 +6,7 @@ import { spaceSeparatedPattern } from '@/lib/constants';
 
 export default class BasePage {
   readonly errorPageTitleHeaderId = 'error-page-title';
+  readonly headerHomeLinkId = 'header-home-nav';
 
   constructor(public readonly page: PlaywrightPage) {}
 
@@ -176,6 +177,12 @@ export default class BasePage {
   async verifyUrlUpdatedAfterDeselection(deselectedIndicator: string) {
     await expect(this.page).not.toHaveURL(
       new RegExp(`&is=${deselectedIndicator}`)
+    );
+  }
+
+  async clickHeaderHomeNavigation() {
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByTestId(this.headerHomeLinkId)
     );
   }
 }

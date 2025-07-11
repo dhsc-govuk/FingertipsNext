@@ -167,6 +167,20 @@ test.describe('Home Page Tests', () => {
       });
     }
   );
+
+  test('header nav link should return user to home page', async ({
+    homePage,
+    resultsPage,
+  }) => {
+    await test.step('Navigate directly to results page', async () => {
+      await resultsPage.navigateToResults(subjectSearchTerm, []);
+    });
+
+    await test.step('Navigate to home page', async () => {
+      await resultsPage.clickHeaderHomeNavigation();
+      await homePage.checkOnHomePage();
+    });
+  });
 });
 
 test.describe('Results Page Tests', () => {
