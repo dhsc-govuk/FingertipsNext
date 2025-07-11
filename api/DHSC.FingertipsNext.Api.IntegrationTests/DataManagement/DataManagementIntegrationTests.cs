@@ -228,7 +228,7 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         [
             new()
             {
-                BatchId = "41101_2020-03-07T14:22:37.123Z",
+                BatchId = "41101_2020-03-07T14:22:37.123",
                 CreatedAt = new DateTime(2025, 7, 9, 16, 15, 0, 0),
                 IndicatorId = 41101,
                 PublishedAt = new DateTime(2025, 8, 9, 0, 0, 0, 0),
@@ -238,7 +238,7 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
             },
             new()
             {
-                BatchId = "383_2017-06-30T14:22:37.123Z",
+                BatchId = "383_2017-06-30T14:22:37.123",
                 CreatedAt = new DateTime(2025, 7, 9, 16, 15, 0, 0),
                 IndicatorId = 383,
                 PublishedAt = new DateTime(2025, 9, 9, 0, 0, 0, 0),
@@ -248,7 +248,7 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
             },
             new()
             {
-                BatchId = "22401_2017-06-30T14:22:37.123Z",
+                BatchId = "22401_2017-06-30T14:22:37.123",
                 CreatedAt = new DateTime(2025, 7, 9, 16, 15, 0, 0),
                 IndicatorId = 22401,
                 PublishedAt = new DateTime(2025, 10, 9, 0, 0, 0, 0),
