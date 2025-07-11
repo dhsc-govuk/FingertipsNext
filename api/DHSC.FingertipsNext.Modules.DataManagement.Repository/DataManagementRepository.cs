@@ -21,10 +21,9 @@ public class DataManagementRepository(DataManagementDbContext dataManagementDbCo
     }
 
     /// <summary>
-    ///     Get all batches which are for the specified indicators.
+    ///     Get all batches.
     /// </summary>
-    /// <param name="indicators"></param>
-    /// <returns></returns>
+    /// <returns>All batches in the database.</returns>
     public async Task<IEnumerable<BatchModel>> GetAllBatchesAsync()
     {
         return await _dbContext.Batch.ToListAsync();
@@ -34,7 +33,7 @@ public class DataManagementRepository(DataManagementDbContext dataManagementDbCo
     ///     Get all batches which are for the specified indicators.
     /// </summary>
     /// <param name="indicators"></param>
-    /// <returns></returns>
+    /// <returns>All batches in the database which are for the specified indicators.</returns>
     public async Task<IEnumerable<BatchModel>> GetBatchesByIdsAsync(int[] indicators)
     {
         ArgumentNullException.ThrowIfNull(indicators);
