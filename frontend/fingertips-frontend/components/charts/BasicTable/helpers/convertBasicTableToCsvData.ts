@@ -1,11 +1,10 @@
 import { CsvData, CsvRow } from '@/lib/downloadHelpers/convertToCsv';
-import { BasicTableData } from '.';
 import { CsvHeader } from '@/components/molecules/Export/export.types';
 import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { BasicTableData } from '@/components/charts/BasicTable/basicTable.types';
 
 export const convertBasicTableToCsvData = (
-  indicatorData: BasicTableData[]
+  rowData: BasicTableData[]
 ): CsvData => {
   const header: CsvRow = [
     CsvHeader.IndicatorId,
@@ -21,18 +20,17 @@ export const convertBasicTableToCsvData = (
 
   const csvData: CsvData = [header];
 
-  indicatorData.forEach((indicator) => {
+  rowData.forEach((row) => {
     const csvRow: CsvRow = [
-      indicator.indicatorId,
-      indicator.indicatorName,
-      indicator.period,
-      'England',
-      areaCodeForEngland,
-      indicator.latestEnglandHealthData?.trend ??
-        HealthDataPointTrendEnum.CannotBeCalculated,
-      indicator.latestEnglandHealthData?.count,
-      indicator.unitLabel,
-      indicator.latestEnglandHealthData?.value,
+      row.indicatorId,
+      row.indicatorName,
+      row.period,
+      row.areaName,
+      row.areaCode,
+      row?.trend ?? HealthDataPointTrendEnum.CannotBeCalculated,
+      row?.count,
+      row.unitLabel,
+      row?.value,
     ];
 
     csvData.push(csvRow);

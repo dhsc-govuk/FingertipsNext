@@ -1,28 +1,25 @@
 import { render, screen } from '@testing-library/react';
-import { healthDataPoint } from '@/lib/mocks';
-import {
-  BasicTableData,
-  BasicTable,
-} from '@/components/organisms/BasicTable/index';
+import { BasicTable } from '@/components/charts/BasicTable/BasicTable';
+import { BasicTableData } from '@/components/charts/BasicTable/basicTable.types';
+import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 
-const mockIndicatorData: BasicTableData[] = [
+const mockTableData: BasicTableData[] = [
   {
     indicatorId: 1,
     indicatorName: ' ',
     period: '2008',
-    latestEnglandHealthData: healthDataPoint,
+    count: 389,
+    value: 278.29134,
+    trend: HealthDataPointTrendEnum.NotYetCalculated,
     unitLabel: '',
   },
   {
     indicatorId: 2,
     indicatorName: 'no data indicator',
     period: '',
-    latestEnglandHealthData: undefined,
     unitLabel: '',
   },
 ];
-
-const mockAreaName = 'mockName';
 
 describe('BasicTable', () => {
   beforeAll(() => {
@@ -35,33 +32,25 @@ describe('BasicTable', () => {
   });
 
   it('should include a title', () => {
-    render(
-      <BasicTable areaName={mockAreaName} indicatorData={mockIndicatorData} />
-    );
+    render(<BasicTable tableData={mockTableData} />);
     const title = screen.getByRole('heading', { level: 4 });
     expect(title).toHaveTextContent('Overview of selected indicators');
   });
 
   it('should match snapshot', () => {
-    render(
-      <BasicTable areaName={mockAreaName} indicatorData={mockIndicatorData} />
-    );
+    render(<BasicTable tableData={mockTableData} />);
     const table = screen.getByRole('table');
     expect(table).toMatchSnapshot();
   });
 
   it('should render BasicTable component', () => {
-    render(
-      <BasicTable areaName={mockAreaName} indicatorData={mockIndicatorData} />
-    );
+    render(<BasicTable tableData={mockTableData} />);
     expect(screen.getByRole('table')).toBeInTheDocument();
     expect(screen.getByTestId('basicTable-component')).toBeInTheDocument();
   });
 
   it('should always display indicator name when no health data for the indicator is present', () => {
-    render(
-      <BasicTable areaName={mockAreaName} indicatorData={mockIndicatorData} />
-    );
+    render(<BasicTable tableData={mockTableData} />);
 
     expect(screen.getAllByRole('row')[3]).toHaveTextContent(
       'no data indicator'
@@ -70,27 +59,21 @@ describe('BasicTable', () => {
   });
 
   it('should display X in the table cell if there is no value', () => {
-    render(
-      <BasicTable areaName={mockAreaName} indicatorData={mockIndicatorData} />
-    );
+    render(<BasicTable tableData={mockTableData} />);
 
     const noValueCells = screen.getAllByText('X');
     expect(noValueCells).toHaveLength(5);
   });
 
   it('should display the correct aria label when then is no value', () => {
-    render(
-      <BasicTable areaName={mockAreaName} indicatorData={mockIndicatorData} />
-    );
+    render(<BasicTable tableData={mockTableData} />);
 
     const noValueCells = screen.getAllByLabelText('Not compared');
     expect(noValueCells).toHaveLength(5);
   });
 
   it('should render the correct trend label for the data in the table', () => {
-    render(
-      <BasicTable areaName={mockAreaName} indicatorData={mockIndicatorData} />
-    );
+    render(<BasicTable tableData={mockTableData} />);
 
     const trendTags = screen.getAllByTestId('trend-tag-component');
     expect(trendTags).toHaveLength(2);
