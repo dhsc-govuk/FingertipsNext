@@ -173,7 +173,7 @@ public class DataManagementServiceTests
                 CreatedAt = createdAt, PublishedAt = publishedAt, UserId = userId, Status = BatchStatus.Deleted
             }
         };
-        _repository.GetBatchesAsync(indicatorIds).Returns(batchesInDb);
+        _repository.GetBatchesByIdsAsync(indicatorIds).Returns(batchesInDb);
 
         // Act
         var batches = await _service.ListBatches(indicatorIds);
@@ -201,5 +201,65 @@ public class DataManagementServiceTests
             UserId = userId.ToString(),
             Status = BatchStatus.Deleted
         });
+    }
+
+    [Fact]
+    public async Task ListBatchesShouldReturnAllBatchesIfNoIndicatorsSpecified()
+    {
+        // Arrange
+        // TODO: Create BatchModel example
+        const string batchId = "batch_id";
+        const string originalFileName = "upload.csv";
+        var createdAt = new DateTime(2017, 6, 30);
+        var publishedAt = new DateTime(2020, 3, 7);
+        var userId = Guid.NewGuid();
+
+        var batchesInDb = new[]
+        {
+            new BatchModel
+            {
+                BatchId = batchId, IndicatorId = 1234, OriginalFileName = originalFileName,
+                CreatedAt = createdAt, PublishedAt = publishedAt, UserId = userId, Status = BatchStatus.Received
+            },
+            new BatchModel
+            {
+                BatchId = batchId, IndicatorId = 5678, OriginalFileName = originalFileName,
+                CreatedAt = createdAt, PublishedAt = publishedAt, UserId = userId, Status = BatchStatus.Deleted
+            }
+        };
+        _repository.GetAllBatchesAsync().Returns(batchesInDb);
+
+        // Act
+        var batches = await _service.ListBatches([]);
+
+        // Assert
+        var batchList = batches.ToList();
+        batchList.Count.ShouldBe(2);
+        batchList.ShouldContain(new Batch
+        {
+            BatchId = batchId,
+            IndicatorId = 1234,
+            OriginalFileName = originalFileName,
+            CreatedAt = createdAt,
+            PublishedAt = publishedAt,
+            UserId = userId.ToString(),
+            Status = BatchStatus.Received
+        });
+        batchList.ShouldContain(new Batch
+        {
+            BatchId = batchId,
+            IndicatorId = 5678,
+            OriginalFileName = originalFileName,
+            CreatedAt = createdAt,
+            PublishedAt = publishedAt,
+            UserId = userId.ToString(),
+            Status = BatchStatus.Deleted
+        });
+    }
+
+    [Fact]
+    public async Task ListBatchesShouldThrowAnExceptionIfANullListOfIndicatorsIsSpecified()
+    {
+        await _service.ListBatches(null!).ShouldThrowAsync(typeof(ArgumentNullException));
     }
 }

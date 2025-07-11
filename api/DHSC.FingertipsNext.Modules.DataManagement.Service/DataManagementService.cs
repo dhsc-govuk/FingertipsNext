@@ -89,7 +89,14 @@ public class DataManagementService : IDataManagementService
 
     public async Task<IEnumerable<Batch>> ListBatches(int[] indicatorIds)
     {
-        var batches = await _repository.GetBatchesAsync(indicatorIds);
+        ArgumentNullException.ThrowIfNull(indicatorIds);
+
+        IEnumerable<BatchModel> batches;
+        if (indicatorIds.Length > 0)
+            batches = await _repository.GetBatchesByIdsAsync(indicatorIds);
+        else
+            batches = await _repository.GetAllBatchesAsync();
+
 
         return batches.Select(batch => _mapper.Map(batch));
     }

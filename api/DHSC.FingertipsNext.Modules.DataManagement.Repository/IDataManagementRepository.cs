@@ -5,5 +5,6 @@ namespace DHSC.FingertipsNext.Modules.DataManagement.Repository;
 public interface IDataManagementRepository
 {
     Task<BatchModel> AddBatchAsync(BatchModel batch);
-    Task<IEnumerable<BatchModel>> GetBatchesAsync(int[] indicators);
+    Task<IEnumerable<BatchModel>> GetAllBatchesAsync();
+    Task<IEnumerable<BatchModel>> GetBatchesByIdsAsync(int[] indicators);
 }

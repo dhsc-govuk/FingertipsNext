@@ -75,14 +75,14 @@ public class DataManagementRepositoryTests : IDisposable
     }
 
     [Fact]
-    public async Task GetBatchesAsyncShouldReturnBatchesForSpecifiedIndicators()
+    public async Task GetBatchesByIdsAsyncShouldReturnBatchesForSpecifiedIndicators()
     {
         // Arrange
         await _dbContext.Batch.AddRangeAsync(_batchFor41101, _batchFor383, _batchFor22401);
         await _dbContext.SaveChangesAsync();
 
         // Act
-        var batches = await _dataManagementRepository.GetBatchesAsync([41101, 383, 22401]);
+        var batches = await _dataManagementRepository.GetBatchesByIdsAsync([41101, 383, 22401]);
 
         // Assert
         var batchModels = batches.ToList();
@@ -93,14 +93,14 @@ public class DataManagementRepositoryTests : IDisposable
     }
 
     [Fact]
-    public async Task GetBatchesAsyncShouldReturnNoBatchesIfNoDataForSpecifiedIndicators()
+    public async Task GetBatchesByIdsAsyncShouldReturnNoBatchesIfNoDataForSpecifiedIndicators()
     {
         // Arrange
         await _dbContext.Batch.AddRangeAsync(_batchFor41101, _batchFor383, _batchFor22401);
         await _dbContext.SaveChangesAsync();
 
         // Act
-        var batches = await _dataManagementRepository.GetBatchesAsync([1234, 5678]);
+        var batches = await _dataManagementRepository.GetBatchesByIdsAsync([1234, 5678]);
 
         // Assert
         var batchModels = batches.ToList();
@@ -108,14 +108,36 @@ public class DataManagementRepositoryTests : IDisposable
     }
 
     [Fact]
-    public async Task GetBatchesAsyncShouldReturnAllBatchesIfNoIndicatorsSpecified()
+    public async Task GetBatchesAsyncShouldReturnNoBatchesIfNoIndicatorsSpecified()
     {
         // Arrange
         await _dbContext.Batch.AddRangeAsync(_batchFor41101, _batchFor383, _batchFor22401);
         await _dbContext.SaveChangesAsync();
 
         // Act
-        var batches = await _dataManagementRepository.GetBatchesAsync([]);
+        var batches = await _dataManagementRepository.GetBatchesByIdsAsync([]);
+
+        // Assert
+        var batchModels = batches.ToList();
+        batchModels.ShouldBeEmpty();
+    }
+
+    [Fact]
+    public async Task GetBatchesByIdsAsyncShouldThrowAnExceptionIfANullListOfIndicatorsIsSpecified()
+    {
+        await _dataManagementRepository.GetBatchesByIdsAsync(null!).ShouldThrowAsync(typeof(ArgumentNullException));
+    }
+
+
+    [Fact]
+    public async Task GetAllBatchesAsyncShouldReturnAllBatches()
+    {
+        // Arrange
+        await _dbContext.Batch.AddRangeAsync(_batchFor41101, _batchFor383, _batchFor22401);
+        await _dbContext.SaveChangesAsync();
+
+        // Act
+        var batches = await _dataManagementRepository.GetAllBatchesAsync();
 
         // Assert
         var batchModels = batches.ToList();
@@ -123,11 +145,5 @@ public class DataManagementRepositoryTests : IDisposable
         batchModels.ShouldContain(_batchFor41101);
         batchModels.ShouldContain(_batchFor383);
         batchModels.ShouldContain(_batchFor22401);
-    }
-
-    [Fact]
-    public async Task GetBatchesAsyncShouldThrowAnExceptionIfANullListOfIndicatorsSpecified()
-    {
-        await _dataManagementRepository.GetBatchesAsync(null!).ShouldThrowAsync(typeof(ArgumentNullException));
     }
 }
