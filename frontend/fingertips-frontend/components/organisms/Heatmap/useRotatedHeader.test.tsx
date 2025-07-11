@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { useRotatedHeaders } from './useRotatedHeaders';
-import { HeaderType } from './heatmapUtil';
+import { HeaderType } from './heatmap.types';
 
 const headers = [
   { key: 'key', type: HeaderType.BenchmarkGroupArea, content: 'content' },

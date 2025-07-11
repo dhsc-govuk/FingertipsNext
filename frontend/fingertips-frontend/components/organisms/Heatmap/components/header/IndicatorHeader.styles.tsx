@@ -1,6 +1,6 @@
 import { H4, Table } from 'govuk-react';
 import styled from 'styled-components';
-import { heatmapIndicatorTitleColumnWidth } from '../../heatmapUtil';
+import { heatmapIndicatorTitleColumnWidth } from '../../heatmapConstants';
 
 export const IndicatorInfoText = styled(H4)({
   height: '50px',

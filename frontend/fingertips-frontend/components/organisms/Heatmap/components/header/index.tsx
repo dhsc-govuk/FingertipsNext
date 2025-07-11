@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { HeaderType } from '../../heatmapUtil';
+import { HeaderType } from '../../heatmap.types';
 import { IndicatorTitleHeader } from './IndicatorTitleHeader';
 import { IndicatorPeriodHeader } from './IndicatorPeriodHeader';
 import { IndicatorValueUnitHeader } from './IndicatorValueUnitHeader';

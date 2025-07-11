@@ -9,7 +9,7 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { SearchParams } from '@/lib/searchStateManager';
-import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmapUtil';
+import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmap.types';
 import {
   determineAreaCodes,
   determineAreasForBenchmarking,
