@@ -2,10 +2,10 @@ import {
   mockGetHealthDataForAnIndicator,
   mockGetHealthDataForAnIndicatorIncludingUnpublishedData,
 } from '@/mock/utils/mockApiClient';
-
+//
+import { testRenderWrapper } from '@/mock/utils/testRenderQueryClient';
 import { useApiGetHealthDataForAnIndicator } from './useApiGetHealthDataForAnIndicator';
 import { renderHook, waitFor } from '@testing-library/react';
-import { testRenderWrapper } from '@/mock/utils/testRenderQueryClient';
 import { oneIndicatorRequestParams } from '../helpers/oneIndicatorRequestParams';
 import { SearchParams } from '@/lib/searchStateManager';
 import { QueryClient } from '@tanstack/query-core';
@@ -13,17 +13,8 @@ import {
   EndPoints,
   queryKeyFromRequestParams,
 } from '../helpers/queryKeyFromRequestParams';
-import { auth } from '@/lib/auth';
-import { Mock } from 'vitest';
 
-vi.mock('@/lib/auth', async () => {
-  return {
-    auth: vi.fn(),
-  };
-});
-(auth as Mock).mockImplementation(vi.fn().mockResolvedValue(null));
-
-describe.skip('useApiGetHealthDataForAnIndicator', () => {
+describe('useApiGetHealthDataForAnIndicator', () => {
   afterEach(() => {
     vi.clearAllMocks();
   });
@@ -41,20 +32,22 @@ describe.skip('useApiGetHealthDataForAnIndicator', () => {
   );
 
   it('should call the published healthdata endpoint when there is no session', async () => {
-    // arragnge
+    // arrange
     const queryClient = new QueryClient();
     // act
     renderHook(() => useApiGetHealthDataForAnIndicator(params), {
-      wrapper: await testRenderWrapper({}, queryClient),
+      wrapper: testRenderWrapper({}, queryClient, null),
     });
 
     // assert
-    expect(mockGetHealthDataForAnIndicator).toHaveBeenCalledWith({
-      ancestorCode: undefined,
-      areaCodes: ['E92000001'],
-      areaType: 'england',
-      benchmarkRefType: 'England',
-      indicatorId: 123,
+    await waitFor(() => {
+      expect(mockGetHealthDataForAnIndicator).toHaveBeenCalledWith({
+        ancestorCode: undefined,
+        areaCodes: ['E92000001'],
+        areaType: 'england',
+        benchmarkRefType: 'England',
+        indicatorId: 123,
+      });
     });
     await waitFor(() => {
       const actualData = queryClient.getQueryData([queryKeyForHealthData]);
@@ -73,13 +66,12 @@ describe.skip('useApiGetHealthDataForAnIndicator', () => {
   });
   it('should call the unpublished healthdata data endpoint if there is a session', async () => {
     // arrange
-    (auth as Mock).mockImplementation(
-      vi.fn().mockResolvedValue({ expires: 'some string' })
-    );
     const queryClient = new QueryClient();
     // act
     renderHook(() => useApiGetHealthDataForAnIndicator(params), {
-      wrapper: await testRenderWrapper({}, queryClient),
+      wrapper: await testRenderWrapper({}, queryClient, {
+        expires: 'some string',
+      }),
     });
 
     // assert

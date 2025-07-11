@@ -5,15 +5,7 @@ import { ReactNode } from 'react';
 import { SeedData } from '@/components/atoms/SeedQueryCache/seedQueryCache.types';
 import { SeedQueryCache } from '@/components/atoms/SeedQueryCache/SeedQueryCache';
 import { SessionProvider } from 'next-auth/react';
-import { auth } from '@/lib/auth';
-import { Mock } from 'vitest';
-
-vi.mock('@/lib/auth', async () => {
-  return {
-    auth: vi.fn(),
-  };
-});
-(auth as Mock).mockImplementation(vi.fn().mockResolvedValue(null));
+import { Session } from 'next-auth';
 
 export const testRenderQueryClient = async (
   children: ReactNode,
@@ -21,7 +13,7 @@ export const testRenderQueryClient = async (
 ) => {
   let htmlContainer: HTMLElement | undefined;
 
-  const Wrapper = await testRenderWrapper(seedData);
+  const Wrapper = testRenderWrapper(seedData);
 
   await act(async () => {
     const { container } = render(<Wrapper>{children}</Wrapper>);
@@ -33,12 +25,11 @@ export const testRenderQueryClient = async (
   };
 };
 
-export const testRenderWrapper = async (
+export const testRenderWrapper = (
   seedData: SeedData,
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
+  session: Session | null = null
 ) => {
-  const session = await auth();
-
   const Wrapper = ({ children }: { children: ReactNode }) => {
     const _queryClient = queryClient ?? new QueryClient();
     return (

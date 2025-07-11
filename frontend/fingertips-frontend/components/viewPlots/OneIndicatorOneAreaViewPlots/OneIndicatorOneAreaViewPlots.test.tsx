@@ -72,7 +72,6 @@ const testRender = async (
     indicatorMetadata
   );
 
-  // DHSCFT-1039: can this be replaced with custom hook?
   await act(() =>
     render(
       <SessionProvider>

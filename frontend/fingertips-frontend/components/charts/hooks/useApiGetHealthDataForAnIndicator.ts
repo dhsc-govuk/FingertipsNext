@@ -11,6 +11,7 @@ import {
 } from '@/components/charts/helpers/queryKeyFromRequestParams';
 import { useMemo } from 'react';
 import { useSession } from 'next-auth/react';
+import { Session } from 'next-auth';
 
 type UseApiGetHealthDataForAnIndicatorResult = Readonly<{
   healthData: IndicatorWithHealthDataForArea | undefined;
@@ -19,8 +20,8 @@ type UseApiGetHealthDataForAnIndicatorResult = Readonly<{
 }>;
 
 export const queryFnHealthDataForAnIndicator =
-  (options: GetHealthDataForAnIndicatorRequest) => async () => {
-    const { data: session } = useSession();
+  (options: GetHealthDataForAnIndicatorRequest, session?: Session | null) =>
+  async () => {
     const apiUrl = process.env.NEXT_PUBLIC_FINGERTIPS_API_URL;
     const config: Configuration = new Configuration({
       basePath: apiUrl,
@@ -50,7 +51,7 @@ export const useApiGetHealthDataForAnIndicator = (
 
   const query = useQuery<IndicatorWithHealthDataForArea>({
     queryKey,
-    queryFn: queryFnHealthDataForAnIndicator(options),
+    queryFn: queryFnHealthDataForAnIndicator(options, session),
     enabled: !!options.indicatorId,
   });
 

@@ -46,7 +46,6 @@ const testRender = async (testHealthData: IndicatorWithHealthDataForArea) => {
   queryClient.setQueryData(['/indicator/41101'], mockIndicatorDocument());
   await act(() =>
     render(
-      // TODO: DHSCFT-1039 can this be replaced with testRenderQueryClient
       <SessionProvider>
         <QueryClientProvider client={queryClient}>
           <InequalitiesBarChartAndTable />

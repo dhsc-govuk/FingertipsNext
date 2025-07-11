@@ -15,7 +15,7 @@ const mockOneIndicatorRequestParams =
   oneIndicatorRequestParams as MockedFunction<typeof oneIndicatorRequestParams>;
 
 describe('useOneIndicatorRequestParams', () => {
-  it('returns request params from helper using search state', async () => {
+  it('returns request params from helper using search state', () => {
     const mockSearchState: SearchStateParams = {
       [SearchParams.AreasSelected]: ['A1'],
       [SearchParams.IndicatorsSelected]: ['123'],
@@ -36,7 +36,7 @@ describe('useOneIndicatorRequestParams', () => {
     mockOneIndicatorRequestParams.mockReturnValue(mockRequest);
 
     const { result } = renderHook(() => useOneIndicatorRequestParams(), {
-      wrapper: await testRenderWrapper({ availableAreas: [] }),
+      wrapper: testRenderWrapper({ availableAreas: [] }),
     });
 
     expect(result.current).toEqual(mockRequest);
