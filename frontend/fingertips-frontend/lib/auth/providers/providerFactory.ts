@@ -27,10 +27,12 @@ export class AuthProvidersFactory {
 
     const ftaProviderConfig = getFTAProviderConfig();
     if (ftaProviderConfig) {
+      console.log('using OIDC auth provider');
       providers.push(FingertipsAuthProvider(ftaProviderConfig));
     }
 
     if (tryReadEnvVar('AUTH_USE_PASSWORD_MOCK') === 'true') {
+      console.log('using stub password auth provider');
       providers.push(MockAuthProvider);
     }
 
