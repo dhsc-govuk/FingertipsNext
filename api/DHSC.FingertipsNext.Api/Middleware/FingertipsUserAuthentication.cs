@@ -12,7 +12,7 @@ namespace DHSC.FingertipsNext.Api.Middleware
         {
             // If config doesnt have the AzureAD config setting, this stops the authentication middleware from loading and crashing at startup
             // Temporary until we have a more robust solution.
-            if (config.GetSection("AzureAD").Value != null)
+            if (config.GetSection("AzureAD:Instance").Value != null)
             {
                 collection.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddMicrosoftIdentityWebApi(config)

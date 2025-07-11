@@ -118,7 +118,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
             true);
 
     /// <summary>
-    /// Get data for a public health indicator. Returns all data for all
+    /// Get published data for a public health indicator. Returns all published data for all
     /// areas and all years for the indicators. Optionally filter the results by
     /// supplying one or more area codes and one or more years in the query string.
     /// </summary>
@@ -136,12 +136,60 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     [ProducesResponseType(typeof(List<Schemas.IndicatorQuartileData>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(SimpleError), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetQuartileDataAsync(
+    public async Task<IActionResult> GetPublishedQuartileDataAsync(
         [FromQuery(Name = "indicator_ids")] int[]? indicatorIds = null,
         [FromQuery(Name = "area_code")] string areaCode = "",
         [FromQuery(Name = "area_type")] string? areaType = null,
         [FromQuery(Name = "ancestor_code")] string ancestorCode = "",
         [FromQuery(Name = "benchmark_ref_type")] BenchmarkReferenceType benchmarkRefType = BenchmarkReferenceType.England
+        ) => await GetQuartileDataInternalAsync(
+            indicatorIds,
+            areaCode,
+            areaType,
+            ancestorCode,
+            benchmarkRefType,
+            false);
+
+    /// <summary>
+    /// Get published and unpublished data for a public health indicator. Returns all published and unpublished data for all
+    /// areas and all years for the indicators. Optionally filter the results by
+    /// supplying one or more area codes and one or more years in the query string.
+    /// </summary>
+    /// <param name="areaCode">A list of area codes.</param>
+    /// <param name="areaType">The area type the area codes belong to.</param>
+    /// <param name="ancestorCode">The area group for calculating quartiles within.</param>
+    /// <param name="benchmarkRefType">Whether to benchmark against England or SubNational.</param>
+    /// <param name="indicatorIds">The unique identifier of the indicator.</param>
+    /// <returns></returns>
+    /// <remarks>
+    /// If more than 50 indicators are supplied the request will fail.
+    /// </remarks>
+    [HttpGet]
+    [Route("quartiles/all")]
+    [ProducesResponseType(typeof(List<Schemas.IndicatorQuartileData>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(SimpleError), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetPublishedAndUnpublishedQuartileDataAsync(
+        [FromQuery(Name = "indicator_ids")] int[]? indicatorIds = null,
+        [FromQuery(Name = "area_code")] string areaCode = "",
+        [FromQuery(Name = "area_type")] string? areaType = null,
+        [FromQuery(Name = "ancestor_code")] string ancestorCode = "",
+        [FromQuery(Name = "benchmark_ref_type")] BenchmarkReferenceType benchmarkRefType = BenchmarkReferenceType.England
+        ) => await GetQuartileDataInternalAsync(
+            indicatorIds,
+            areaCode,
+            areaType,
+            ancestorCode,
+            benchmarkRefType,
+            true);
+
+    private async Task<IActionResult> GetQuartileDataInternalAsync(
+        int[]? indicatorIds = null,
+        string areaCode = "",
+        string? areaType = null,
+        string ancestorCode = "",
+        BenchmarkReferenceType benchmarkRefType = BenchmarkReferenceType.England,
+        bool includeUnpublished = false
         )
     {
         if (indicatorIds is null)
@@ -161,7 +209,8 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
             areaCode,
             areaType,
             ancestorCode,
-            benchmarkRefType == BenchmarkReferenceType.SubNational ? ancestorCode : "E92000001"
+            benchmarkRefType == BenchmarkReferenceType.SubNational ? ancestorCode : "E92000001",
+            includeUnpublished
         );
 
         return quartileData == null ? NotFound() : Ok(quartileData);
@@ -264,6 +313,32 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
             ResponseStatus.NoDataForIndicator => Ok(indicatorData?.Content),
             ResponseStatus.IndicatorDoesNotExist => NotFound(),
             _ => StatusCode(500),
+        };
+    }
+
+    [HttpDelete]
+    [Route("{indicatorId:int}/data/{batchId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> DeleteUnpublishedData([FromRoute] int indicatorId, [FromRoute] string batchId)
+    {
+        var result = await _indicatorsService.DeleteUnpublishedDataAsync(indicatorId, batchId);
+        return result.Status switch
+        {
+            ResponseStatus.Success => NoContent(),
+            ResponseStatus.BatchNotFound => new NotFoundObjectResult(
+                new SimpleError
+                {
+                    Message = $"Batch with id {batchId} not found."
+                }),
+            ResponseStatus.ErrorDeletingPublishedBatch => new BadRequestObjectResult(
+                new SimpleError
+                {
+                    Message = result.Content ?? "Deletion failed"
+                }),
+            _ => StatusCode(StatusCodes.Status500InternalServerError, "Failed to delete batch"),
         };
     }
 }

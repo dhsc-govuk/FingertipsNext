@@ -95,33 +95,28 @@ indicators_by_indicator_id_data:
         multipart/form-data:
           schema:
             type: object
+            required:
+              - file
+              - publishedAt
             properties:
               file:
                 type: string
                 format: binary
+              publishedAt:
+                type: string
+                format: date-time
+                example: '2023-01-01T00:00:00.000'
+                description: The date, in ISO 8601 format (YYYY-MM-DDTHH:mm:ss.fff), for when uploaded indicator data will be published 
     responses:
       "202":
         description: The file has been accepted by the API and further processing will be conducted.
         content:
-          text/plain:
+          application/json:
             schema:
-              type: string
-              example: The file has been accepted.
+              $ref: "../schemas.yaml#/Batch"
+              
       "400":
         $ref: "../responses.yaml#/BadRequest"
-  delete:
-    tags:
-      - indicators
-    summary: delete a batch of unpublished data for an indicator
-    description: Not Yet Implemented - Deletes ALL unpublished data for that indicator
-    responses:
-      "501":
-        description: Not Implemented
-        content:
-          text/plain:
-            schema:
-              type: string
-              example: Not Implemented
 indicators_by_indicator_id_all_data:
   parameters:
     - $ref: "./parameters.yaml#/indicator_id"
@@ -161,6 +156,24 @@ indicators_by_indicator_id_all_data:
       "500":
         $ref: "../responses.yaml#/InternalServerError"
     operationId: getHealthDataForAnIndicatorIncludingUnpublishedData
+indicator_data_by_batch_id:
+  parameters:
+    - $ref: "./parameters.yaml#/indicator_id"
+    - $ref: "./parameters.yaml#/batch_id"
+  delete:
+    tags:
+      - indicators
+    summary: Delete a batch of unpublished data for an indicator
+    description: Deletes all unpublished data for the specified indicator and batch.
+    responses:
+      "204":
+        description: The batch of unpublished data has been deleted successfully.
+      "400":
+        $ref: "../responses.yaml#/BadRequest"
+      "404":
+        $ref: "../responses.yaml#/NotFound"
+      "500":
+        $ref: "../responses.yaml#/InternalServerError"
 quartiles:
   get:
     tags:
@@ -173,7 +186,7 @@ quartiles:
       benchmark_ref_type parameter. It will use the latest data available
       for the area group requested. If the indicator has data for
       more than one time period type then the API will return data for each
-      data period type separately.
+      data period type separately. The /all endpoint can return unpublished data, otherwise the data is published. 
     parameters:
       - name: ancestor_code
         in: query

@@ -161,6 +161,17 @@ export const handlers = [
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
 
+  http.delete(`${baseURL}/indicators/:indicatorId/batch/:batchId`, async () => {
+    const resultArray = [
+      [deleteUnpublishedData204Response(), { status: 204 }],
+      [getGetIndicator404Response(), { status: 404 }],
+      [getPostIndicatorsIndicatorIdData400Response(), { status: 400 }],
+      [getGetIndicator500Response(), { status: 500 }],
+    ];
+
+    return HttpResponse.json(...resultArray[next() % resultArray.length]);
+  }),
+
   http.get(`${baseURL}/healthcheck`, async () => {
     const resultArray = [[getGetHealthcheck200Response(), { status: 200 }]];
 
@@ -289,6 +300,10 @@ export function getPostIndicatorsIndicatorIdData400Response() {
 
 export function getDeleteIndicatorsIndicatorIdData501Response() {
   return null;
+}
+
+export function deleteUnpublishedData204Response() {
+  return { status: 204 };
 }
 
 function getMockSelectedAreaData(areaCodes: string[]) {

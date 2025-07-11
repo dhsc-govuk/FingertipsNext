@@ -6,13 +6,14 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { determineLatestDataPeriod } from './determineLatestDataPeriod';
 
 export const spineChartIndicatorTitleColumnMinWidth = 240;
 
 export interface SpineChartIndicatorData {
   indicatorId: string;
   indicatorName: string;
-  latestDataPeriod: number;
+  latestDataPeriod?: number;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   valueUnit: string;
   areasHealthData: (HealthDataForArea | null)[];
@@ -99,16 +100,17 @@ export const buildSpineChartIndicatorData = (
         areaCodeForEngland
       );
 
+      const latestDataPeriod = determineLatestDataPeriod(
+        areasHealthData,
+        englandData
+      );
+
       return {
         indicatorId,
         indicatorName: indicatorData.name as string,
         valueUnit: relevantIndicatorMeta?.unitLabel ?? '',
         benchmarkComparisonMethod: indicatorData.benchmarkMethod,
-        // The latest period for the first area's data (health data is sorted be year ASC)
-        latestDataPeriod:
-          areasHealthData[0]?.healthData[
-            areasHealthData[0]?.healthData.length - 1
-          ]?.year,
+        latestDataPeriod,
         areasHealthData,
         groupData,
         englandData,

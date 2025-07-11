@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
+import type { Frequency } from './Frequency';
+import {
+    FrequencyFromJSON,
+    FrequencyFromJSONTyped,
+    FrequencyToJSON,
+    FrequencyToJSONTyped,
+} from './Frequency';
 import type { HealthDataForArea } from './HealthDataForArea';
 import {
     HealthDataForAreaFromJSON,
@@ -67,6 +74,12 @@ export interface IndicatorWithHealthDataForArea {
     benchmarkMethod?: BenchmarkComparisonMethod;
     /**
      * 
+     * @type {Frequency}
+     * @memberof IndicatorWithHealthDataForArea
+     */
+    frequency?: Frequency;
+    /**
+     * 
      * @type {Array<HealthDataForArea>}
      * @memberof IndicatorWithHealthDataForArea
      */
@@ -96,6 +109,7 @@ export function IndicatorWithHealthDataForAreaFromJSONTyped(json: any, ignoreDis
         'name': json['name'] == null ? undefined : json['name'],
         'polarity': json['polarity'] == null ? undefined : IndicatorPolarityFromJSON(json['polarity']),
         'benchmarkMethod': json['benchmarkMethod'] == null ? undefined : BenchmarkComparisonMethodFromJSON(json['benchmarkMethod']),
+        'frequency': json['frequency'] == null ? undefined : FrequencyFromJSON(json['frequency']),
         'areaHealthData': json['areaHealthData'] == null ? undefined : ((json['areaHealthData'] as Array<any>).map(HealthDataForAreaFromJSON)),
     };
 }
@@ -115,6 +129,7 @@ export function IndicatorWithHealthDataForAreaToJSONTyped(value?: IndicatorWithH
         'name': value['name'],
         'polarity': IndicatorPolarityToJSON(value['polarity']),
         'benchmarkMethod': BenchmarkComparisonMethodToJSON(value['benchmarkMethod']),
+        'frequency': FrequencyToJSON(value['frequency']),
         'areaHealthData': value['areaHealthData'] == null ? undefined : ((value['areaHealthData'] as Array<any>).map(HealthDataForAreaToJSON)),
     };
 }

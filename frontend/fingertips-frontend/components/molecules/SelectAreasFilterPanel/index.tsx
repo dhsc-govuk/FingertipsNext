@@ -13,6 +13,7 @@ import {
   StyledFilterWithClearAllLink,
   StyledRightClearAllLink,
 } from '@/lib/styleHelpers/filterPanelClearAllLinkStyle';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 export type AreaFilterData = {
   availableAreaTypes?: AreaType[];
@@ -40,6 +41,13 @@ const StyledSectionBreak = styled(SectionBreak)({
 
 const StyledSelectAllCheckBox = styled(Checkbox)({
   marginBottom: '0em',
+});
+
+const StyledHelperText = styled('span')({
+  display: 'inline-block',
+  marginBottom: '30px',
+  fontSize: '16px',
+  color: GovukColours.Orange,
 });
 
 export function SelectAreasFilterPanel({
@@ -200,7 +208,7 @@ export function SelectAreasFilterPanel({
   return (
     <div data-testid="select-areas-filter-panel">
       <StyledFilterSelect
-        label="Select an area type"
+        label="Select a type of health or administrative area"
         data-testid="area-type-selector-container"
         input={{
           onChange: (e) => areaTypeSelected(e.target.value),
@@ -216,9 +224,14 @@ export function SelectAreasFilterPanel({
           </option>
         ))}
       </StyledFilterSelect>
+      {hasAreasSelected ? (
+        <StyledHelperText>
+          To change, clear your selected areas
+        </StyledHelperText>
+      ) : null}
 
       <StyledFilterSelect
-        label="Select a group type"
+        label="Select a type of group to compare with"
         data-testid="group-type-selector-container"
         input={{
           onChange: (e) => groupTypeSelected(e.target.value),

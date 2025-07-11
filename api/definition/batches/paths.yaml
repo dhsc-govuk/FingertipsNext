@@ -1,0 +1,19 @@
+batches:
+  get:
+    tags:
+      - batches
+    summary: Get all batches
+    operationId: getBatches
+    description: |
+      Get details of all health data upload batches that are for indicators that you have permissions to modify.
+    responses:
+      "200":
+        description: Batches for indicators you have permissions to modify.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "../schemas.yaml#/Batch"
+      "500":
+        $ref: "../responses.yaml#/InternalServerError"

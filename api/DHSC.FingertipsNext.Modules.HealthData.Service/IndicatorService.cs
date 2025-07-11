@@ -1,6 +1,8 @@
 ﻿using DHSC.FingertipsNext.Modules.HealthData.Repository;
 using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using DHSC.FingertipsNext.Modules.HealthData.Schemas;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Service;
 
@@ -10,9 +12,21 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Service;
 /// <remarks>
 ///     Does not include anything specific to the hosting technology being used.
 /// </remarks>
-public class IndicatorService(IHealthDataRepository healthDataRepository, IHealthDataMapper healthDataMapper) : IIndicatorsService
+public class IndicatorService(IHealthDataRepository healthDataRepository, IHealthDataMapper healthDataMapper, ILogger<IIndicatorsService> logger) : IIndicatorsService
 {
     public const string AreaCodeEngland = "E92000001";
+
+    private static readonly Action<ILogger, string, int, string, Exception?> DbErrorLog =
+        LoggerMessage.Define<string, int, string>(
+            LogLevel.Error,
+            new EventId(1, "DbError"),
+        "Delete operation on batchId {BatchId} and indicatorId {IndicatorId} failed in DB with exception: {ErrorMessage}");
+
+    private static readonly Action<ILogger, string, int, Exception?> DeleteSuccessLog =
+        LoggerMessage.Define<string, int>(
+            LogLevel.Information,
+            new EventId(1, "DeleteSuccess"),
+            "Deletion of batch with id: {BatchId} for indicator {IndicatorId} successful");
 
     /// <summary>
     ///     Obtain health point data for a single indicator.
@@ -86,10 +100,11 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         return new ServiceResponse<IndicatorWithHealthDataForAreas>()
         {
             Status = areaHealthData.Count != 0 ? ResponseStatus.Success : ResponseStatus.NoDataForIndicator,
-            Content = new IndicatorWithHealthDataForAreas()
+            Content = new IndicatorWithHealthDataForAreas
             {
                 IndicatorId = indicator.IndicatorId,
                 Name = indicator.Name,
+                CollectionFrequency = healthDataMapper.MapCollectionFrequency(indicator.CollectionFrequency),
                 Polarity = polarity,
                 BenchmarkMethod = method,
                 AreaHealthData = areaHealthData
@@ -153,29 +168,55 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
                 .GroupBy(denormalisedHealthMeasure => new
                 {
                     code = denormalisedHealthMeasure.AreaDimensionCode,
-                    name = denormalisedHealthMeasure.AreaDimensionName
+                    name = denormalisedHealthMeasure.AreaDimensionName,
+                    periodType = denormalisedHealthMeasure.PeriodType,
                 })
-                .Select(group => new HealthDataForArea
+                .Select(areaGroup => new HealthDataForArea
                 {
-                    AreaCode = group.Key.code,
-                    AreaName = group.Key.name,
-                    HealthData = healthDataMapper.Map(group.ToList())
+                    AreaCode = areaGroup.Key.code,
+                    AreaName = areaGroup.Key.name,
+                    HealthData = healthDataMapper.Map(areaGroup.ToList())
+                    .Where(dataPoint => dataPoint.Sex.IsAggregate)
+                    .OrderBy(dataPoint => dataPoint.DatePeriod.From)
+                    .ToList(),
+                    IndicatorSegments = areaGroup.GroupBy(healthMeasure => new
+                    {
+                        sexName = healthMeasure.SexDimensionName,
+                        isAggregate = healthMeasure.SexDimensionIsAggregate
+                    })
+                .Select(segmentGroup => new IndicatorSegment
+                {
+                    Sex = new Sex { Value = segmentGroup.Key.sexName, IsAggregate = segmentGroup.Key.isAggregate },
+                    IsAggregate = segmentGroup.Key.isAggregate,
+                    HealthData = healthDataMapper.Map(segmentGroup.ToList())
+                      .OrderBy(dataPoint => dataPoint.DatePeriod.From)
+                      .ToList()
+                })
+                .OrderBy(segment => segment.Sex.Value)
+                .ToList()
                 })
                 .ToList();
         }
 
-        var wasBenchmarkAreaCodeRequested = areaCodesForSearch.Contains(benchmarkAreaCode);
+        var inequalitiesList = inequalities.ToList();
 
-        var hasBenchmarkDataBeenRequested = comparisonMethod is
+        // This controls whether Benchmark Comparisons are required based on the indicator comparison method.
+        bool benchmarkingRequired = comparisonMethod is
              BenchmarkComparisonMethod.CIOverlappingReferenceValue95 or
              BenchmarkComparisonMethod.CIOverlappingReferenceValue998;
 
+        // Benchmarking can be against a reference area BUT Not if you are using inequalities
+        bool benchmarkAgainstRefArea = benchmarkingRequired && inequalitiesList.Count == 0;
+
+        // We may need to add the benchmark area to the list of areas to be fetched (we later remove it from returned dat)
+        bool addBenchmarkAreaToList = benchmarkAgainstRefArea && !areaCodesForSearch.Contains(benchmarkAreaCode);
+
+
         //if benchmark data has been requested and the benchmark area wasn't already in the requested area collection add it now
-        if (hasBenchmarkDataBeenRequested && !wasBenchmarkAreaCodeRequested)
+        if (addBenchmarkAreaToList)
             areaCodesForSearch.Add(benchmarkAreaCode);
 
         // get the data from the database
-        var inequalitiesList = inequalities.ToList();
         healthMeasureData = await healthDataRepository.GetIndicatorDataAsync(
             indicatorId,
             areaCodesForSearch.ToArray(),
@@ -192,35 +233,61 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
                 name = healthMeasure.AreaDimension.Name,
                 periodType = healthMeasure.PeriodDimension.Period
             })
-            .Select(group => new HealthDataForArea
+            .Select(areaGroup => new HealthDataForArea
             {
-                AreaCode = group.Key.code,
-                AreaName = group.Key.name,
-                HealthData = healthDataMapper.Map(group.ToList())
+                AreaCode = areaGroup.Key.code,
+                AreaName = areaGroup.Key.name,
+                HealthData = healthDataMapper.Map(areaGroup.ToList())
+                    .Where(hdp => hdp.Sex.IsAggregate || inequalitiesList.Contains("sex"))
                     .OrderBy(dataPoint => dataPoint.DatePeriod.From)
-                    .ToList()
+                    .ToList(),
+                IndicatorSegments = areaGroup.GroupBy(healthMeasure => new
+                {
+                    sexName = healthMeasure.SexDimension.Name,
+                    isAggregate = healthMeasure.SexDimension.IsAggregate
+                })
+                .Select(segmentGroup => new IndicatorSegment
+                {
+                    Sex = new Sex { Value = segmentGroup.Key.sexName, IsAggregate = segmentGroup.Key.isAggregate },
+                    IsAggregate = segmentGroup.Key.isAggregate,
+                    HealthData = healthDataMapper.Map(segmentGroup.ToList())
+                      .OrderBy(dataPoint => dataPoint.DatePeriod.From)
+                      .ToList()
+                })
+                .OrderBy(segment => segment.Sex.Value)
+                .ToList()
             })
             .ToList();
 
-        if (!hasBenchmarkDataBeenRequested)
+        if (!benchmarkingRequired)
             return healthDataForAreas;
 
         // separate the data for results and data for performing benchmarks
-        var benchmarkHealthData = healthDataForAreas.FirstOrDefault(data => data.AreaCode == benchmarkAreaCode);
-        if (benchmarkHealthData == null && inequalitiesList.Count == 0)
+        var benchmarkHealthData = benchmarkAgainstRefArea ? healthDataForAreas.FirstOrDefault(data => data.AreaCode == benchmarkAreaCode) : null;
+        if (benchmarkAgainstRefArea && benchmarkHealthData == null)
             return healthDataForAreas;
 
         //if the benchmark area was not in the original request then remove the benchmark data
-        if (!wasBenchmarkAreaCodeRequested)
+        if (addBenchmarkAreaToList)
             healthDataForAreas.RemoveAll(data => data.AreaCode == benchmarkAreaCode);
 
-        // enrich the data with benchmark comparison
-        return BenchmarkComparisonEngine.ProcessBenchmarkComparisons
-        (
-            healthDataForAreas,
-            benchmarkHealthData,
-            polarity
-        );
+        if (benchmarkAgainstRefArea)
+        {
+            return BenchmarkComparisonEngine.PerformAreaBenchmarking
+            (
+                healthDataForAreas,
+                benchmarkHealthData!,
+                polarity
+            );
+        }
+        else
+        {
+            return BenchmarkComparisonEngine.PerformInequalityBenchmarking
+            (
+               healthDataForAreas,
+               polarity
+            );
+        }
     }
 
     /// <summary>
@@ -245,11 +312,60 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         string areaCode,
         string areaType,
         string ancestorCode,
-        string benchmarkAreaCode
+        string benchmarkAreaCode,
+        bool includeUnpublished = false
         )
     {
-        var quartileData = await healthDataRepository.GetQuartileDataAsync(indicatorIds, areaCode, areaType, ancestorCode, benchmarkAreaCode);
+        var quartileData = await healthDataRepository.GetQuartileDataAsync
+        (
+            indicatorIds,
+            areaCode,
+            areaType,
+            ancestorCode,
+            benchmarkAreaCode,
+            includeUnpublished
+        );
 
         return quartileData == null ? null : healthDataMapper.Map(quartileData.ToList());
+    }
+
+    /// <summary>
+    ///     Deletes all unpublished health measure data for a given indicator and batch ID.
+    /// </summary>
+    /// <param name="indicatorId">The ID of the indicator whose unpublished data should be deleted.</param>
+    /// <param name="batchId">The batch ID associated with the unpublished data to delete.</param>
+    /// <returns>
+    ///     <c>ServiceResponse</c> indicating the result of the delete operation.
+    ///     The response status will indicate success, batch not found, or an error if the batch is published or a database error occurs.
+    /// </returns>
+    public async Task<ServiceResponse<string>> DeleteUnpublishedDataAsync(int indicatorId, string batchId)
+    {
+        bool result;
+        try
+        {
+            result = await healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(indicatorId, batchId);
+        }
+        catch (InvalidOperationException exception)
+        {
+            return new ServiceResponse<string>()
+            {
+                Status = ResponseStatus.ErrorDeletingPublishedBatch,
+                Content = exception.Message
+            };
+        }
+        catch (DbUpdateException exception)
+        {
+            DbErrorLog(logger, batchId, indicatorId, exception.Message, exception);
+            return new ServiceResponse<string>()
+            {
+                Status = ResponseStatus.Unknown
+            };
+        }
+
+        DeleteSuccessLog(logger, batchId, indicatorId, null);
+        return new ServiceResponse<string>()
+        {
+            Status = result ? ResponseStatus.Success : ResponseStatus.BatchNotFound,
+        };
     }
 }

@@ -9,7 +9,7 @@ namespace DataCreator
 
         [CsvColumn(FieldIndex = 2)]
         public string Age { get; set; }
-        
+
         [CsvColumn(FieldIndex = 3)]
         public int MinYears { get; set; }
 

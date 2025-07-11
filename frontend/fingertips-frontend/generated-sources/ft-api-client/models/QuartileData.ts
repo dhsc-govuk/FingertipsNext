@@ -20,6 +20,20 @@ import {
     DatePeriodToJSON,
     DatePeriodToJSONTyped,
 } from './DatePeriod';
+import type { Frequency } from './Frequency';
+import {
+    FrequencyFromJSON,
+    FrequencyFromJSONTyped,
+    FrequencyToJSON,
+    FrequencyToJSONTyped,
+} from './Frequency';
+import type { SexData } from './SexData';
+import {
+    SexDataFromJSON,
+    SexDataFromJSONTyped,
+    SexDataToJSON,
+    SexDataToJSONTyped,
+} from './SexData';
 import type { IndicatorPolarity } from './IndicatorPolarity';
 import {
     IndicatorPolarityFromJSON,
@@ -41,6 +55,18 @@ export interface QuartileData {
      */
     indicatorId?: number;
     /**
+     * 
+     * @type {SexData}
+     * @memberof QuartileData
+     */
+    sex?: SexData;
+    /**
+     * Indicates if the segment is the aggregate.
+     * @type {boolean}
+     * @memberof QuartileData
+     */
+    isAggregate?: boolean;
+    /**
      * The year that the data point is for
      * @type {number}
      * @memberof QuartileData
@@ -58,6 +84,12 @@ export interface QuartileData {
      * @memberof QuartileData
      */
     polarity?: IndicatorPolarity;
+    /**
+     * 
+     * @type {Frequency}
+     * @memberof QuartileData
+     */
+    frequency?: Frequency;
     /**
      * Quartile Q0 value - the minimum value
      * @type {number}
@@ -128,9 +160,12 @@ export function QuartileDataFromJSONTyped(json: any, ignoreDiscriminator: boolea
     return {
         
         'indicatorId': json['indicatorId'] == null ? undefined : json['indicatorId'],
+        'sex': json['sex'] == null ? undefined : SexDataFromJSON(json['sex']),
+        'isAggregate': json['isAggregate'] == null ? undefined : json['isAggregate'],
         'year': json['year'] == null ? undefined : json['year'],
         'datePeriod': json['datePeriod'] == null ? undefined : DatePeriodFromJSON(json['datePeriod']),
         'polarity': json['polarity'] == null ? undefined : IndicatorPolarityFromJSON(json['polarity']),
+        'frequency': json['frequency'] == null ? undefined : FrequencyFromJSON(json['frequency']),
         'q0Value': json['q0Value'] == null ? undefined : json['q0Value'],
         'q1Value': json['q1Value'] == null ? undefined : json['q1Value'],
         'q2Value': json['q2Value'] == null ? undefined : json['q2Value'],
@@ -154,9 +189,12 @@ export function QuartileDataToJSONTyped(value?: QuartileData | null, ignoreDiscr
     return {
         
         'indicatorId': value['indicatorId'],
+        'sex': SexDataToJSON(value['sex']),
+        'isAggregate': value['isAggregate'],
         'year': value['year'],
         'datePeriod': DatePeriodToJSON(value['datePeriod']),
         'polarity': IndicatorPolarityToJSON(value['polarity']),
+        'frequency': FrequencyToJSON(value['frequency']),
         'q0Value': value['q0Value'],
         'q1Value': value['q1Value'],
         'q2Value': value['q2Value'],

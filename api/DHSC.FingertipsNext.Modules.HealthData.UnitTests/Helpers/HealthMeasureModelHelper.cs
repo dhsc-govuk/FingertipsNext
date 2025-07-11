@@ -9,7 +9,6 @@ internal sealed class HealthMeasureModelHelper(
     double? value = 1.0,
     double? lowerCi = 1.0,
     double? upperCi = 1.0,
-    string batchId = "12345_20250101120000",
     bool isPublished = true
 )
 {
@@ -19,6 +18,7 @@ internal sealed class HealthMeasureModelHelper(
     private SexDimensionModel? _sexDimension;
     private DeprivationDimensionModel? _deprivationDimension;
     private TrendDimensionModel? _trendDimension;
+    private string? _batchId;
     private DateDimensionModel _fromDateDimension = new DateDimensionModel { DateKey = key, Date = new DateTime(year, 01, 01) };
     private DateDimensionModel _toDateDimension = new DateDimensionModel { DateKey = key, Date = new DateTime(year, 12, 31) };
     private PeriodDimensionModel _periodDimension = new PeriodDimensionModel { PeriodKey = (byte)key, Period = "Calendar" };
@@ -94,14 +94,16 @@ internal sealed class HealthMeasureModelHelper(
 
     public HealthMeasureModelHelper WithIndicatorDimension(
         string name = "indicator name",
-        short indicatorId = 1
+        short indicatorId = 1,
+        string periodType = "Calendar"
     )
     {
         return WithIndicatorDimension(new IndicatorDimensionModel
         {
             IndicatorKey = (short)key,
             Name = name,
-            IndicatorId = indicatorId
+            IndicatorId = indicatorId,
+            PeriodType = periodType
         });
     }
 
@@ -111,7 +113,8 @@ internal sealed class HealthMeasureModelHelper(
         {
             IndicatorKey = (short)key,
             Name = "indicator name",
-            IndicatorId = 1
+            IndicatorId = 1,
+            PeriodType = "Calendar"
         };
     }
 
@@ -231,6 +234,12 @@ internal sealed class HealthMeasureModelHelper(
         return this;
     }
 
+    public HealthMeasureModelHelper WithBatchId(string batchId)
+    {
+        _batchId = batchId;
+        return this;
+    }
+
     public HealthMeasureModel Build()
     {
         var areaDimension = _areaDimension ?? DefaultAreaDimension();
@@ -240,6 +249,8 @@ internal sealed class HealthMeasureModelHelper(
         var trendDimension = _trendDimension ?? DefaultTrendDimension();
         var deprivationDimension = _deprivationDimension ?? DefaultDeprivationDimension();
         var publishedAt = isPublished ? DateTime.UtcNow : DateTime.UtcNow.AddYears(1);
+        var batchId = _batchId ?? "12345_20250101120000";
+
 
         return new HealthMeasureModel
         {

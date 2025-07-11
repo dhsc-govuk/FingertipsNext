@@ -1,4 +1,5 @@
 apis/AreasApi.ts
+apis/BatchesApi.ts
 apis/IndicatorsApi.ts
 apis/SystemApi.ts
 apis/UserApi.ts
@@ -8,11 +9,13 @@ models/AgeData.ts
 models/Area.ts
 models/AreaType.ts
 models/AreaWithRelations.ts
+models/Batch.ts
 models/BenchmarkComparisonMethod.ts
 models/BenchmarkOutcome.ts
 models/BenchmarkReferenceType.ts
 models/DatePeriod.ts
 models/DeprivationData.ts
+models/Frequency.ts
 models/GetAreaHierarchies500Response.ts
 models/GetHealthcheck200Response.ts
 models/GetHealthcheck500Response.ts
@@ -21,6 +24,7 @@ models/HealthDataPoint.ts
 models/HealthDataPointBenchmarkComparison.ts
 models/Indicator.ts
 models/IndicatorPolarity.ts
+models/IndicatorSegment.ts
 models/IndicatorSummary.ts
 models/IndicatorWithHealthDataForArea.ts
 models/PeriodType.ts

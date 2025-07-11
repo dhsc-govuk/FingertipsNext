@@ -598,6 +598,26 @@ jobs:
             name        = "USER_ASSIGNED_MANAGED_IDENTITY_CLIENT_ID"
             secret_name = "fingertips-container-uai-client-id"
             value       = null
+          },
+          {
+            name        = "AZUREAD__INSTANCE"
+            secret_name = null
+            value       = "${{ vars.DEVELOPMENT_ENTRA_INSTANCE_URI }}"
+          },
+          {
+            name        = "AZUREAD__TENANTID"
+            secret_name = null
+            value       = "${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}"
+          },
+          {
+            name        = "AZUREAD__CLIENTID"
+            secret_name = null
+            value       = "${{ vars.DEVELOPMENT_ENTRA_CLIENT_ID }}"
+          },
+          {
+            name        = "ADMINROLE"
+            secret_name = null
+            value       = "${{ vars.DEVELOPMENT_ADMINISTRATOR_GROUP_ID }}"
           }
         ]
       container_liveness_probe: |
@@ -671,6 +691,11 @@ jobs:
             value       = "${{ vars.DEVELOPMENT_FINGERTIPS_API_URL }}"
           },
           {
+            name        = "NEXT_PUBLIC_FINGERTIPS_API_URL"
+            secret_name = null
+            value       = "/api"
+          },
+          {
             name        = "DHSC_AI_SEARCH_USE_MOCK_SERVICE"
             secret_name = null
             value       = false
@@ -699,6 +724,26 @@ jobs:
             name        = "NEXT_PUBLIC_FINGERTIPS_GIT_TAG"
             secret_name = null
             value       = "${{ needs.extract-git-info.outputs.git_tag }}"
+          },
+          {
+            name        = "AUTH_SECRET"
+            secret_name = "fingertips-webserver-auth-secret"
+            value       = null
+          },
+          {
+            name        = "AUTH_CLIENT_SECRET"
+            secret_name = "fingertips-externalid-client-secret"
+            value       = null
+          },
+          {
+            name        = "AUTH_CLIENT_ID"
+            secret_name = null
+            value       = "${{ vars.DEVELOPMENT_ENTRA_CLIENT_ID }}"
+          },
+          {
+            name        = "AUTH_TENANT_ID"
+            secret_name = null
+            value       = "${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}"
           }
         ]
       container_liveness_probe: |
