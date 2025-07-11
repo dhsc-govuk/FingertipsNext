@@ -101,6 +101,7 @@ services:
       - 1433:1433
     volumes:
       - ./DataCreator/DataCreator/data/out:/var/opt/mssql/csv/
+      - ./DataCreator/DataCreator/data/environment/dev/indicatorroles.csv:/var/opt/mssql/csv/indicatorroles.csv
 
   storage:
     profiles:

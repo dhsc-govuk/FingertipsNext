@@ -88,6 +88,12 @@ BEGIN TRY
 END TRY
 BEGIN CATCH
 END CATCH;
+
+BEGIN TRY 
+    DELETE FROM [User].[IndicatorRole];
+END TRY
+BEGIN CATCH
+END CATCH;
 GO
 
 
@@ -103,6 +109,7 @@ DBCC CHECKIDENT ('[DateDimension]', RESEED, 0);
 DBCC CHECKIDENT ('[PeriodDimension]', RESEED, 0);
 DBCC CHECKIDENT ('[Areas].[Areas]', RESEED, 0);
 DBCC CHECKIDENT ('[DataManagement].[Batch]', RESEED, 0);
+DBCC CHECKIDENT ('[User].[IndicatorRole]', RESEED, 0);
 
 --create some sex dimension data
 INSERT INTO [dbo].[SexDimension] 
@@ -369,6 +376,43 @@ FROM
     #TempIndicatorData;
 
 DROP TABLE #TempIndicatorData;
+
+-- Indicator Permissions
+
+CREATE TABLE #TempIndicatorRole
+(
+    IndicatorId INT,
+    RoleId UNIQUEIDENTIFIER,
+);
+DECLARE @sqlRoles NVARCHAR(4000), @filePathIndRole NVARCHAR(500);
+IF @UseAzureBlob = '1'
+    SET @filePathIndRole = 'indicatorroles.csv';
+ELSE
+    SET @filePathIndRole = '$(LocalFilePath)indicatorroles.csv';
+SET @sqlRoles = 'BULK INSERT #TempIndicatorRole FROM ''' + @filePathIndRole + ''' WITH (' +
+              CASE WHEN @UseAzureBlob = '1'
+                   THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FORMAT = ''CSV'', FIRSTROW = 2, ROWTERMINATOR = ''0x0A'''
+                   ELSE 'DATAFILETYPE = ''char'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2'
+              END + ')';
+EXEC sp_executesql @sqlRoles;
+
+INSERT INTO [User].[IndicatorRole] 
+(
+    RoleId,
+    IndicatorKey
+)
+SELECT 
+    tr.RoleId,
+    (
+        SELECT TOP 1 [dbo].[IndicatorDimension].[IndicatorKey] 
+        FROM [dbo].[IndicatorDimension] 
+        WHERE [dbo].[IndicatorDimension].[IndicatorId]=tr.IndicatorId
+    )
+FROM 
+    #TempIndicatorRole tr;
+
+DROP TABLE #TempIndicatorRole;
+
 
 -- Area Data
 CREATE TABLE #TempAreaData
