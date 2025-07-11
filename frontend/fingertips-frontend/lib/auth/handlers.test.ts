@@ -1,6 +1,6 @@
 import { signIn, signOut } from '@/lib/auth';
 import { signInHandler, signOutHandler } from '@/lib/auth/handlers';
-import { AuthProvidersFactory } from '@/lib/auth/config';
+import { AuthProvidersFactory } from '@/lib/auth/providers/providerFactory';
 
 vi.mock('@/lib/auth', () => {
   return {

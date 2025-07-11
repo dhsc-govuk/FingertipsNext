@@ -1,4 +1,6 @@
-import { buildAuthConfig } from '@/lib/auth/config';
+import { AuthConfigFactory } from '@/lib/auth/config';
 import NextAuth from 'next-auth';
 
-export const { handlers, signIn, signOut, auth } = NextAuth(buildAuthConfig());
+export const { handlers, signIn, signOut, auth } = NextAuth(
+  AuthConfigFactory.getConfig()
+);

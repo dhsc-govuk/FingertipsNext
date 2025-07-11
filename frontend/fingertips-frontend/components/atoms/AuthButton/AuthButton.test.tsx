@@ -21,17 +21,6 @@ describe('auth button', () => {
     expect(screen.getByRole('button')).toHaveTextContent('Sign in');
   });
 
-  it.skip('should display a button labelled "Sign in" when past expires session is provided', () => {
-    const pastTime = Date.now() - 60 * 60 * 1000; // 1 hour ago
-    const screen = render(
-      <AuthButton session={{ expires: String(pastTime) }} />
-    );
-
-    expect(screen.getByRole('button')).toBeInTheDocument();
-    expect(screen.getByTestId('sign-in-button')).toBeInTheDocument();
-    expect(screen.getByRole('button')).toHaveTextContent('Sign in');
-  });
-
   it('should display a button labelled "Sign out" when a session is provided', () => {
     const screen = render(<AuthButton session={{ expires: '' }} />);
 
